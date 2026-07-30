@@ -1,11 +1,19 @@
-const buttons=document.querySelectorAll("button");
+const leagueContainer = document.getElementById("leagueContainer");
 
-buttons.forEach(button=>{
+leagues.forEach(league=>{
 
-button.addEventListener("click",()=>{
+const button=document.createElement("button");
 
-alert(button.innerText+" coming soon.");
+button.className="leagueButton";
 
-});
+button.innerText=league.name;
+
+button.onclick=()=>{
+
+alert("Selected "+league.name);
+
+}
+
+leagueContainer.appendChild(button);
 
 });
