@@ -1,107 +1,366 @@
 /* =====================================================
-   Layout
+   FIFA 17 Career Mode Showdown
+   Version 0.2.0
+   Layout System
 ===================================================== */
+
+
+/* ===============================
+   Application Container
+================================ */
+
 
 #app{
 
+
     min-height:100vh;
+
 
     display:flex;
 
     flex-direction:column;
 
+
 }
 
-/* ---------- Main ---------- */
+
+
+.hidden{
+
+
+    display:none !important;
+
+
+}
+
+
+
+
+/* ===============================
+   Main Area
+================================ */
+
 
 main{
 
+
     flex:1;
 
+
     display:flex;
+
 
     justify-content:center;
 
+
     align-items:center;
 
-}
-
-/* ---------- Main Menu ---------- */
-
-#mainMenu{
-
-    width:min(520px,90vw);
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:22px;
 
 }
 
-/* ---------- Menu Buttons ---------- */
 
-.menuButton{
+
+/* ===============================
+   Screen System
+================================ */
+
+
+.screen{
+
 
     width:100%;
 
-    padding:22px;
 
-    font-size:26px;
+    animation:screenEnter .5s ease;
 
-    letter-spacing:1px;
+
+}
+
+
+
+/* ===============================
+   Main Menu
+================================ */
+
+
+#mainMenu{
+
+
+    width:min(520px,90vw);
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:20px;
+
+
+}
+
+
+
+
+/* ===============================
+   FIFA Style Buttons
+================================ */
+
+
+.menuButton{
+
+
+    height:75px;
+
+
+    width:100%;
+
+
+    font-size:25px;
+
+
+    letter-spacing:2px;
+
+
+    font-weight:bold;
+
 
     color:white;
 
-    background:rgba(255,255,255,.08);
 
-    border:2px solid rgba(255,255,255,.18);
 
-    border-radius:12px;
+    background:
+
+
+    linear-gradient(
+
+    90deg,
+
+    rgba(255,255,255,.12),
+
+    rgba(255,255,255,.05)
+
+    );
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    border-radius:10px;
+
+
 
     cursor:pointer;
 
-    transition:.25s;
 
-    backdrop-filter:blur(6px);
+
+    transition:.3s;
+
+
 
 }
+
+
 
 .menuButton:hover{
 
-    transform:translateY(-4px);
 
     background:#f7d700;
 
-    color:#0b2d63;
 
-    border-color:#f7d700;
+    color:#071936;
+
+
+
+    transform:
+
+    translateX(12px);
+
 
 }
 
-/* ---------- Mobile ---------- */
 
-@media(max-width:700px){
 
-    h1{
 
-        font-size:48px;
+
+/* ===============================
+   Dashboard
+================================ */
+
+
+#dashboard{
+
+
+    width:min(1100px,90vw);
+
+
+    text-align:center;
+
+
+}
+
+
+
+#dashboard h2{
+
+
+    font-size:40px;
+
+
+    color:#f7d700;
+
+
+    margin-bottom:40px;
+
+
+}
+
+
+
+
+.playerCards{
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    gap:40px;
+
+
+}
+
+
+
+
+.playerCard{
+
+
+    width:320px;
+
+
+    min-height:250px;
+
+
+
+    background:
+
+
+    rgba(255,255,255,.08);
+
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+    border-radius:15px;
+
+
+
+    padding:35px;
+
+
+
+    backdrop-filter:blur(10px);
+
+
+}
+
+
+
+.playerCard h3{
+
+
+    font-size:30px;
+
+
+    color:#f7d700;
+
+
+    margin-bottom:30px;
+
+
+}
+
+
+
+.playerCard p{
+
+
+    font-size:20px;
+
+
+    margin:15px;
+
+
+    color:#e8efff;
+
+
+}
+
+
+
+
+
+/* ===============================
+   Mobile
+================================ */
+
+
+@media(max-width:800px){
+
+
+
+    #topHeader{
+
+
+        padding:25px;
+
 
     }
 
-    header p{
 
-        font-size:20px;
+
+    .brand h1{
+
+
+        font-size:32px;
+
+
+    }
+
+
+
+    .playerCards{
+
+
+        flex-direction:column;
+
+        align-items:center;
+
 
     }
 
-    .menuButton{
 
-        font-size:20px;
 
-        padding:18px;
+    .playerCard{
+
+
+        width:90%;
+
 
     }
+
+
 
 }
