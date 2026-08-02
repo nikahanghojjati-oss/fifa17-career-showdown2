@@ -1,1 +1,298 @@
+/* =====================================================
+   FIFA 17 Career Mode Showdown
+   Milestone 3
+   Screen Styles
+===================================================== */
 
+
+/* ===============================
+   General Screen Titles
+================================ */
+
+
+.screen h2{
+
+    text-align:center;
+
+    font-size:45px;
+
+    letter-spacing:3px;
+
+    color:#f7d700;
+
+    margin-bottom:40px;
+
+}
+
+
+
+/* ===============================
+   Create Showdown
+================================ */
+
+
+.setupBox{
+
+
+    width:min(500px,90vw);
+
+
+    margin:auto;
+
+
+    display:flex;
+
+    flex-direction:column;
+
+
+    gap:18px;
+
+
+    padding:35px;
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+    border-radius:15px;
+
+
+    backdrop-filter:blur(10px);
+
+
+}
+
+
+
+.setupBox label{
+
+
+    font-size:18px;
+
+    letter-spacing:1px;
+
+    color:#dbe7ff;
+
+
+}
+
+
+
+.setupBox input,
+.setupBox select{
+
+
+    height:50px;
+
+
+    padding:0 15px;
+
+
+    font-size:18px;
+
+
+    color:white;
+
+
+    background:
+
+    rgba(0,0,0,.35);
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+    border-radius:8px;
+
+
+}
+
+
+
+.setupBox input::placeholder{
+
+
+    color:#aebbd8;
+
+
+}
+
+
+
+.setupBox select option{
+
+
+    color:black;
+
+
+}
+
+
+
+
+
+/* ===============================
+   Wheel Screens
+================================ */
+
+
+.wheelPlaceholder{
+
+
+    width:350px;
+
+
+    height:350px;
+
+
+    margin:auto;
+
+
+    border-radius:50%;
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+
+    font-size:28px;
+
+
+    letter-spacing:2px;
+
+
+
+    background:
+
+
+    radial-gradient(
+
+    circle,
+
+    #285aa8,
+
+    #071936
+
+    );
+
+
+
+    border:
+
+    4px solid rgba(255,255,255,.25);
+
+
+
+    box-shadow:
+
+    0 0 40px rgba(0,0,0,.5);
+
+
+
+}
+
+
+
+
+
+/* ===============================
+   Legacy
+================================ */
+
+
+.legacyBox{
+
+
+    width:min(600px,90vw);
+
+
+    margin:auto;
+
+
+    padding:35px;
+
+
+
+    text-align:center;
+
+
+
+    background:
+
+    rgba(255,255,255,.08);
+
+
+
+    border-radius:15px;
+
+
+    border:
+
+    1px solid rgba(255,255,255,.25);
+
+
+
+}
+
+
+
+.legacyBox p{
+
+
+    font-size:24px;
+
+
+    margin:20px;
+
+
+    color:#e8efff;
+
+
+}
+
+
+
+
+
+/* ===============================
+   Dashboard Improvements
+================================ */
+
+
+#dashboard .playerCard{
+
+
+    min-height:300px;
+
+
+}
+
+
+
+#dashboard .playerCard p{
+
+
+    padding:8px;
+
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.1);
+
+
+}
