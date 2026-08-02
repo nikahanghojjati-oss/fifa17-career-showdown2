@@ -1,82 +1,85 @@
-/*
-=====================================================
- FIFA 17 Career Mode Showdown
- Version 0.1.0
-=====================================================
-*/
+/* =====================================================
+   FIFA 17 Career Mode Showdown
+   Milestone 3
+   Application Controller
+===================================================== */
 
-const APP = {
 
-    version: "0.1.0",
 
-    title: "FIFA 17 Career Mode Showdown"
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-};
 
-document.addEventListener("DOMContentLoaded", () => {
+        startApplication();
 
-    console.log(APP.title + " loaded.");
 
-    initializeMenu();
+    }
+);
 
-});
 
-function initializeMenu() {
 
-    document
-        .getElementById("newShowdown")
-        .addEventListener("click", newShowdown);
 
-    document
-        .getElementById("continueShowdown")
-        .addEventListener("click", continueShowdown);
 
-    document
-        .getElementById("statistics")
-        .addEventListener("click", statistics);
 
-    document
-        .getElementById("rules")
-        .addEventListener("click", rules);
 
-    document
-        .getElementById("settings")
-        .addEventListener("click", settings);
+function startApplication(){
 
-}
 
-function newShowdown() {
 
-    showMessage("New Showdown will be available in Version 0.2");
+    const loadingScreen = document.getElementById(
+        "loadingScreen"
+    );
 
-}
 
-function continueShowdown() {
+    const app = document.getElementById(
+        "app"
+    );
 
-    showMessage("Continue Showdown will be available soon.");
 
-}
 
-function statistics() {
+    setTimeout(
+        () => {
 
-    showMessage("Statistics page is under construction.");
 
-}
 
-function rules() {
+            if(loadingScreen){
 
-    showMessage("Rules page is under construction.");
 
-}
+                loadingScreen.classList.add(
+                    "hidden"
+                );
 
-function settings() {
 
-    showMessage("Settings page is under construction.");
+            }
 
-}
 
-function showMessage(message) {
 
-    alert(message);
+            if(app){
+
+
+                app.classList.remove(
+                    "hidden"
+                );
+
+
+            }
+
+
+
+            initializeScreens();
+
+
+
+            showScreen(
+                "mainMenu"
+            );
+
+
+
+        },
+        2500
+    );
+
 
 }
