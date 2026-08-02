@@ -20,6 +20,8 @@ Career Mode Showdown
 
 <link rel="stylesheet" href="css/screens.css">
 
+<link rel="stylesheet" href="css/wheel.css">
+
 
 </head>
 
@@ -32,8 +34,6 @@ Career Mode Showdown
 <div id="overlay"></div>
 
 
-
-<!-- Loading Screen -->
 
 <section id="loadingScreen">
 
@@ -63,9 +63,6 @@ Preparing Career Mode...
 
 
 
-
-
-<!-- Application -->
 
 
 <div id="app" class="hidden">
@@ -108,8 +105,6 @@ Season 1
 <main>
 
 
-
-<!-- MAIN MENU -->
 
 <section id="mainMenu" class="screen">
 
@@ -156,8 +151,6 @@ RULE BOOK
 
 
 
-
-<!-- CREATE SHOWDOWN -->
 
 <section id="createShowdown" class="screen hidden">
 
@@ -260,9 +253,6 @@ START SHOWDOWN
 
 
 
-<!-- LEAGUE WHEEL -->
-
-
 <section 
 id="leagueWheelScreen"
 class="screen hidden">
@@ -277,11 +267,11 @@ SELECT LEAGUE
 <div class="wheelContainer">
 
 
-<div id="leagueWheel" class="wheelPlaceholder">
-
+<div 
+id="leagueWheel"
+class="wheelPlaceholder">
 
 LEAGUE WHEEL
-
 
 </div>
 
@@ -289,9 +279,7 @@ LEAGUE WHEEL
 
 <div id="selectedLeague">
 
-
 No League Selected
-
 
 </div>
 
@@ -301,9 +289,7 @@ No League Selected
 class="menuButton"
 id="spinLeague">
 
-
 SPIN WHEEL
-
 
 </button>
 
@@ -319,9 +305,6 @@ SPIN WHEEL
 
 
 
-
-
-<!-- CLUB WHEEL -->
 
 
 <section 
@@ -349,9 +332,6 @@ CLUB WHEEL
 
 
 
-
-
-<!-- DASHBOARD -->
 
 
 <section 
@@ -435,9 +415,6 @@ Points
 
 
 
-<!-- LEGACY -->
-
-
 <section 
 id="legacy"
 class="screen hidden">
@@ -499,13 +476,8 @@ Milestone 4 Development
 
 
 
-<!-- DATA -->
-
 <script src="data/leagues.js"></script>
 
-
-
-<!-- CORE SYSTEMS -->
 
 <script src="js/dataEngine.js"></script>
 
