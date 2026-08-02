@@ -8,8 +8,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-FIFA 17 Career Mode Showdown
+Career Mode Showdown
 </title>
+
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -33,27 +34,36 @@ FIFA 17 Career Mode Showdown
 
 <section id="loadingScreen">
 
+
 <div class="loadingContent">
+
 
 <h1>
 CAREER MODE
 </h1>
 
+
 <h2>
 SHOWDOWN
 </h2>
+
 
 <p id="loadingText">
 Preparing Career Mode...
 </p>
 
+
 </div>
+
 
 </section>
 
 
 
-<!-- Main Application -->
+
+
+<!-- Application -->
+
 
 <div id="app" class="hidden">
 
@@ -61,17 +71,22 @@ Preparing Career Mode...
 
 <header id="topHeader">
 
+
 <div class="brand">
+
 
 <h1>
 CAREER MODE
 </h1>
 
+
 <p>
 SHOWDOWN
 </p>
 
+
 </div>
+
 
 
 <div class="seasonIndicator">
@@ -91,7 +106,7 @@ Season 1
 
 
 
-<!-- Main Menu Screen -->
+<!-- MAIN MENU -->
 
 <section id="mainMenu" class="screen">
 
@@ -103,32 +118,28 @@ NEW SHOWDOWN
 </button>
 
 
-
-<button class="menuButton" id="continueShowdown">
+<button class="menuButton">
 
 CONTINUE CAREER
 
 </button>
 
 
+<button class="menuButton">
 
-<button class="menuButton" id="statistics">
-
-STATISTICS
+LEGACY
 
 </button>
 
 
-
-<button class="menuButton" id="trophyRoom">
+<button class="menuButton">
 
 TROPHY ROOM
 
 </button>
 
 
-
-<button class="menuButton" id="rules">
+<button class="menuButton">
 
 RULE BOOK
 
@@ -141,63 +152,91 @@ RULE BOOK
 
 
 
-<!-- Future screens will appear here -->
 
-<section id="dashboard" class="screen hidden">
+
+<!-- CREATE SHOWDOWN -->
+
+<section id="createShowdown" class="screen hidden">
 
 
 <h2>
-CAREER DASHBOARD
+CREATE SHOWDOWN
 </h2>
 
 
-<div class="playerCards">
+
+<div class="setupBox">
 
 
-<div class="playerCard">
+<label>
+SHOWDOWN NAME
+</label>
 
-<h3>
-PLAYER 1
-</h3>
-
-<p>
-Club
-</p>
-
-<p>
-League
-</p>
-
-<p>
-Points
-</p>
-
-
-</div>
+<input id="showdownName"
+type="text"
+placeholder="The Ultimate Rivalry">
 
 
 
-<div class="playerCard">
+<label>
+MANAGER 1
+</label>
+
+<input id="managerOne"
+type="text"
+placeholder="Your Name">
 
 
-<h3>
-PLAYER 2
-</h3>
 
-<p>
-Club
-</p>
+<label>
+MANAGER 2
+</label>
 
-<p>
-League
-</p>
-
-<p>
-Points
-</p>
+<input id="managerTwo"
+type="text"
+placeholder="Opponent Name">
 
 
-</div>
+
+
+
+<label>
+NUMBER OF ROUNDS
+</label>
+
+
+<select id="roundAmount">
+
+<option value="1">
+1 Round
+</option>
+
+
+<option value="3">
+3 Rounds
+</option>
+
+
+<option value="5">
+5 Rounds
+</option>
+
+
+<option value="10">
+10 Rounds
+</option>
+
+
+</select>
+
+
+
+<button class="menuButton" id="startShowdown">
+
+START SHOWDOWN
+
+</button>
+
 
 
 </div>
@@ -208,7 +247,194 @@ Points
 
 
 
+
+
+
+<!-- LEAGUE WHEEL SCREEN -->
+
+
+<section id="leagueWheelScreen" class="screen hidden">
+
+
+<h2>
+SELECT LEAGUE
+</h2>
+
+
+
+<div class="wheelPlaceholder">
+
+LEAGUE WHEEL
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- CLUB WHEEL SCREEN -->
+
+
+<section id="clubWheelScreen" class="screen hidden">
+
+
+<h2>
+SELECT CLUB
+</h2>
+
+
+
+<div class="wheelPlaceholder">
+
+CLUB WHEEL
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- DASHBOARD -->
+
+
+<section id="dashboard" class="screen hidden">
+
+
+<h2>
+CAREER DASHBOARD
+</h2>
+
+
+
+<div class="playerCards">
+
+
+
+<div class="playerCard">
+
+
+<h3>
+MANAGER 1
+</h3>
+
+
+<p>
+Club
+</p>
+
+
+<p>
+League Position
+</p>
+
+
+<p>
+Points
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="playerCard">
+
+
+<h3>
+MANAGER 2
+</h3>
+
+
+<p>
+Club
+</p>
+
+
+<p>
+League Position
+</p>
+
+
+<p>
+Points
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- LEGACY -->
+
+
+<section id="legacy" class="screen hidden">
+
+
+<h2>
+LEGACY
+</h2>
+
+
+<div class="legacyBox">
+
+
+<p>
+Showdowns Played
+</p>
+
+
+<p>
+Trophies Won
+</p>
+
+
+<p>
+Total Points
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
 </main>
+
+
 
 
 
@@ -218,13 +444,14 @@ FIFA 17 Career Mode Showdown
 
 <br>
 
-Version 0.2.0
+Milestone 3 Development
 
 </footer>
 
 
 
 </div>
+
 
 
 
