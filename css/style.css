@@ -1,1 +1,109 @@
+/* =====================================================
+   FIFA 17 Career Mode Showdown
+   Version 0.1
+===================================================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+}
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:#0b2d63;
+
+    color:white;
+
+    overflow-x:hidden;
+
+}
+
+/* ---------- Background ---------- */
+
+#background{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    radial-gradient(circle at top left,#2d5ebf 0%,transparent 35%),
+    radial-gradient(circle at bottom right,#17418d 0%,transparent 30%),
+    linear-gradient(135deg,#0a2349,#133f87,#0d2959);
+
+    z-index:-3;
+
+}
+
+/* ---------- Dark Overlay ---------- */
+
+#overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.20);
+
+    z-index:-2;
+
+}
+
+/* ---------- Header ---------- */
+
+header{
+
+    text-align:center;
+
+    padding-top:60px;
+
+}
+
+h1{
+
+    font-size:70px;
+
+    letter-spacing:4px;
+
+    color:#f7d700;
+
+    text-transform:uppercase;
+
+}
+
+header p{
+
+    margin-top:12px;
+
+    font-size:28px;
+
+    color:white;
+
+    letter-spacing:2px;
+
+}
+
+/* ---------- Footer ---------- */
+
+footer{
+
+    width:100%;
+
+    text-align:center;
+
+    color:#cfd7e8;
+
+    padding:25px;
+
+    font-size:14px;
+
+}
