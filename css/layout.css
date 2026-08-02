@@ -1,1 +1,107 @@
+/* =====================================================
+   Layout
+===================================================== */
 
+#app{
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+/* ---------- Main ---------- */
+
+main{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+/* ---------- Main Menu ---------- */
+
+#mainMenu{
+
+    width:min(520px,90vw);
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+/* ---------- Menu Buttons ---------- */
+
+.menuButton{
+
+    width:100%;
+
+    padding:22px;
+
+    font-size:26px;
+
+    letter-spacing:1px;
+
+    color:white;
+
+    background:rgba(255,255,255,.08);
+
+    border:2px solid rgba(255,255,255,.18);
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    backdrop-filter:blur(6px);
+
+}
+
+.menuButton:hover{
+
+    transform:translateY(-4px);
+
+    background:#f7d700;
+
+    color:#0b2d63;
+
+    border-color:#f7d700;
+
+}
+
+/* ---------- Mobile ---------- */
+
+@media(max-width:700px){
+
+    h1{
+
+        font-size:48px;
+
+    }
+
+    header p{
+
+        font-size:20px;
+
+    }
+
+    .menuButton{
+
+        font-size:20px;
+
+        padding:18px;
+
+    }
+
+}
