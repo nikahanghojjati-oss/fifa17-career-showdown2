@@ -1,6 +1,6 @@
 /* =====================================================
    Career Mode Showdown
-   v0.15.0
+   v0.15.1
    FIFA 17 Era Menu Atmosphere + Lightweight Media Controller
 ===================================================== */
 
@@ -90,14 +90,19 @@ const MARCO_REUS_IMAGE = Object.freeze({
     license: "https://creativecommons.org/licenses/by-sa/3.0/"
 });
 
+const MAX_REUS_IMAGE_ATTEMPTS = 2;
+const MENU_MEDIA_LOAD_TIMEOUT_MS = 12000;
+
 let selectedMenuMediaKey = "music";
 let menuMediaIframe = null;
 let loadedMenuMediaKey = null;
 let menuMediaPlaying = false;
 let menuMediaMuted = false;
+let menuMediaLoadTimer = null;
 let menuExperienceInitialized = false;
 let menuExperienceUI = null;
 let reusImageLoadScheduled = false;
+let reusImageAttempts = 0;
 
 function setTextIfChanged(element, value){
     if(!element){ return; }
@@ -182,7 +187,15 @@ function getSavedShowdownMenuMeta(){
 function scheduleMarcoReusImageLoad(){
     const ui = getMenuExperienceUI();
     const image = ui.reusImage;
-    if(!image || image.dataset.loaded === "true" || image.dataset.loaded === "loading" || reusImageLoadScheduled){ return; }
+    if(
+        !image
+        || image.dataset.loaded === "true"
+        || image.dataset.loaded === "loading"
+        || reusImageLoadScheduled
+        || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS
+    ){
+        return;
+    }
 
     reusImageLoadScheduled = true;
     const load = () => {
@@ -190,7 +203,15 @@ function scheduleMarcoReusImageLoad(){
         if(typeof getActiveScreenName === "function" && getActiveScreenName() !== "mainMenu"){
             return;
         }
-        if(image.dataset.loaded === "true" || image.dataset.loaded === "loading"){ return; }
+        if(
+            image.dataset.loaded === "true"
+            || image.dataset.loaded === "loading"
+            || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS
+        ){
+            return;
+        }
+
+        reusImageAttempts += 1;
         image.dataset.loaded = "loading";
         image.src = image.dataset.src;
     };
@@ -295,9 +316,20 @@ function sendMenuMediaCommand(command){
     }), "https://www.youtube-nocookie.com");
 }
 
+function clearMenuMediaLoadTimer(){
+    if(menuMediaLoadTimer){
+        window.clearTimeout(menuMediaLoadTimer);
+        menuMediaLoadTimer = null;
+    }
+}
+
 function renderMenuMediaPlaceholder(){
     const host = getMenuExperienceUI().mediaHost;
     if(!host || menuMediaIframe){ return; }
+
+    if(host.querySelector(".menuMusicPlaceholder")){
+        return;
+    }
 
     host.replaceChildren();
     const placeholder = document.createElement("p");
@@ -308,23 +340,26 @@ function renderMenuMediaPlaceholder(){
 
 function destroyMenuMediaIframe(){
     const ui = getMenuExperienceUI();
+    clearMenuMediaLoadTimer();
+
     if(menuMediaIframe){
         try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ /* iframe may already be detached */ }
         menuMediaIframe.remove();
     }
+
     menuMediaIframe = null;
     loadedMenuMediaKey = null;
     if(ui.mediaTile){ delete ui.mediaTile.dataset.mediaLoaded; }
     renderMenuMediaPlaceholder();
 }
 
-function handleMenuMediaLoadError(iframe){
+function handleMenuMediaLoadError(iframe, message = "The selected YouTube media could not be loaded. Choose another track or try again."){
     if(menuMediaIframe !== iframe){ return; }
     menuMediaPlaying = false;
     destroyMenuMediaIframe();
     updateMenuMediaControls();
     if(typeof window.showAppNotice === "function"){
-        window.showAppNotice("The selected YouTube media could not be loaded. Choose another track or try again.", "error", 7000);
+        window.showAppNotice(message, "error", 7000);
     }
 }
 
@@ -335,14 +370,18 @@ function updateMenuMediaHeader(){
     setTextIfChanged(ui.mediaCategory, media.category);
     setTextIfChanged(ui.mediaTitle, media.title);
     setTextIfChanged(ui.mediaSubtitle, media.subtitle);
-    if(ui.mediaTile){ ui.mediaTile.dataset.mediaKind = media.type; }
+    if(ui.mediaTile && ui.mediaTile.dataset.mediaKind !== media.type){
+        ui.mediaTile.dataset.mediaKind = media.type;
+    }
 
     ui.sourceButtons.forEach((button, key) => {
         const selected = key === media.key;
         if(button.classList.contains("selected") !== selected){
             button.classList.toggle("selected", selected);
         }
-        button.setAttribute("aria-pressed", String(selected));
+        if(button.getAttribute("aria-pressed") !== String(selected)){
+            button.setAttribute("aria-pressed", String(selected));
+        }
     });
 }
 
@@ -435,8 +474,16 @@ function createMenuMediaIframe(){
     menuMediaIframe = iframe;
     if(ui.mediaTile){ ui.mediaTile.dataset.mediaLoaded = "true"; }
 
+    menuMediaLoadTimer = window.setTimeout(() => {
+        handleMenuMediaLoadError(
+            iframe,
+            "The selected YouTube media took too long to load and was released. Press Play to try again."
+        );
+    }, MENU_MEDIA_LOAD_TIMEOUT_MS);
+
     iframe.addEventListener("load", () => {
         if(menuMediaIframe !== iframe || loadedMenuMediaKey !== selectedMenuMediaKey){ return; }
+        clearMenuMediaLoadTimer();
         if(menuMediaPlaying){ sendMenuMediaCommand("playVideo"); }
         if(menuMediaMuted){ sendMenuMediaCommand("mute"); }
     }, { once: true });
