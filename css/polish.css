@@ -29,7 +29,7 @@ summary:focus-visible{
 .menuButton,
 .backButton,
 .compactButton{
-    transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease, border-color .12s ease;
+    transition:transform .12s ease, opacity .12s ease, border-color .12s ease;
 }
 
 .menuButton:not(:disabled):hover,
@@ -97,13 +97,6 @@ select:focus{
 .showdownOverview,
 .showdownScoreboard{
     contain:layout paint;
-}
-
-.signingRow input,
-.guessRow input,
-.guessRow select,
-.seasonResultCard input[type="number"]{
-    transform:translateZ(0);
 }
 
 .dashboardActions{
