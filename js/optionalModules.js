@@ -1,10 +1,11 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.0
-   On-Demand View Module Loader
+   v0.15.1
+   Resilient On-Demand View Module Loader
 ===================================================== */
 
-const OPTIONAL_ASSET_REVISION = "0.15.0-r2";
+const OPTIONAL_ASSET_REVISION = "0.15.1-r1";
+const OPTIONAL_LOAD_TIMEOUT_MS = 12000;
 const optionalScriptPromises = new Map();
 const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
@@ -27,6 +28,7 @@ function loadOptionalStyle(key, path){
 
     const promise = new Promise((resolve, reject) => {
         const link = existing || document.createElement("link");
+        let settled = false;
 
         if(!existing){
             link.rel = "stylesheet";
@@ -34,12 +36,35 @@ function loadOptionalStyle(key, path){
             link.dataset.optionalStyle = key;
         }
 
-        const handleLoad = () => resolve(link);
-        const handleError = () => {
+        const cleanup = () => {
+            link.removeEventListener("load", handleLoad);
+            link.removeEventListener("error", handleError);
+            window.clearTimeout(timeoutId);
+        };
+
+        const finish = callback => value => {
+            if(settled){ return; }
+            settled = true;
+            cleanup();
+            callback(value);
+        };
+
+        const handleLoad = finish(resolve);
+        const handleError = finish(() => {
             link.remove();
             optionalStylePromises.delete(key);
             reject(new Error(`Unable to load ${path}.`));
-        };
+        });
+
+        const timeoutId = window.setTimeout(() => {
+            if(settled){ return; }
+            settled = true;
+            link.removeEventListener("load", handleLoad);
+            link.removeEventListener("error", handleError);
+            link.remove();
+            optionalStylePromises.delete(key);
+            reject(new Error(`${path} timed out while loading.`));
+        }, OPTIONAL_LOAD_TIMEOUT_MS);
 
         link.addEventListener("load", handleLoad, { once: true });
         link.addEventListener("error", handleError, { once: true });
@@ -69,23 +94,45 @@ function loadOptionalScript(key, path, readinessCheck){
 
     const promise = new Promise((resolve, reject) => {
         const script = document.createElement("script");
+        let settled = false;
         script.src = optionalAssetUrl(path);
         script.async = false;
         script.dataset.optionalScript = key;
-        script.addEventListener("load", () => {
-            if(typeof readinessCheck === "function" && !readinessCheck()){
-                script.remove();
-                optionalScriptPromises.delete(key);
-                reject(new Error(`${path} loaded without its expected API.`));
-                return;
-            }
-            resolve(true);
-        }, { once: true });
-        script.addEventListener("error", () => {
+
+        const cleanup = () => {
+            script.removeEventListener("load", handleLoad);
+            script.removeEventListener("error", handleError);
+            window.clearTimeout(timeoutId);
+        };
+
+        const fail = message => {
+            if(settled){ return; }
+            settled = true;
+            cleanup();
             script.remove();
             optionalScriptPromises.delete(key);
-            reject(new Error(`Unable to load ${path}.`));
-        }, { once: true });
+            reject(new Error(message));
+        };
+
+        const handleLoad = () => {
+            if(settled){ return; }
+            if(typeof readinessCheck === "function" && !readinessCheck()){
+                fail(`${path} loaded without its expected API.`);
+                return;
+            }
+            settled = true;
+            cleanup();
+            resolve(true);
+        };
+
+        const handleError = () => fail(`Unable to load ${path}.`);
+        const timeoutId = window.setTimeout(
+            () => fail(`${path} timed out while loading.`),
+            OPTIONAL_LOAD_TIMEOUT_MS
+        );
+
+        script.addEventListener("load", handleLoad, { once: true });
+        script.addEventListener("error", handleError, { once: true });
         document.head.appendChild(script);
     });
 
@@ -196,15 +243,33 @@ async function ensureOptionalModule(name){
     }
 }
 
+function isOptionalOpenContextCurrent(originScreen, originRevision){
+    const currentScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : originScreen;
+    const currentRevision = typeof window.getNavigationRevision === "function"
+        ? window.getNavigationRevision()
+        : originRevision;
+
+    return currentScreen === originScreen && currentRevision === originRevision;
+}
+
 function openOptionalModule(name){
     if(optionalOpenPromises.has(name)){
         return optionalOpenPromises.get(name);
     }
 
+    const originScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : null;
+    const originRevision = typeof window.getNavigationRevision === "function"
+        ? window.getNavigationRevision()
+        : 0;
+
     const openPromise = (async () => {
         setOptionalModuleBusy(name, true);
         try{
             await ensureOptionalModule(name);
+
+            if(!isOptionalOpenContextCurrent(originScreen, originRevision)){
+                return false;
+            }
 
             if(name === "statistics"){
                 if(!currentShowdown){
