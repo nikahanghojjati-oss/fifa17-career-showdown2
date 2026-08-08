@@ -12,6 +12,7 @@ function saveCurrentShowdown(){
         return false;
     }
 
+    currentShowdown.updatedAt = new Date().toISOString();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(currentShowdown));
     return true;
 }
