@@ -4,7 +4,7 @@
    On-Demand View Module Loader
 ===================================================== */
 
-const OPTIONAL_ASSET_REVISION = "0.15.0-r1";
+const OPTIONAL_ASSET_REVISION = "0.15.0-r2";
 const optionalScriptPromises = new Map();
 const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
