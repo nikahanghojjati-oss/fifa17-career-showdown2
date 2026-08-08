@@ -80,15 +80,12 @@ function renderScreenBeforeEnter(screenName){
     if(screenName === "dashboard" && currentShowdown && typeof updateShowdownUI === "function"){
         updateShowdownUI();
     }
-
     if(screenName === "leagueWheelScreen" && typeof renderLeagueWheelState === "function"){
         renderLeagueWheelState();
     }
-
     if(screenName === "clubWheelScreen" && typeof renderClubAssignmentState === "function"){
         renderClubAssignmentState();
     }
-
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
     }
@@ -107,7 +104,6 @@ function showScreen(screenName, addToHistory = true){
     }
 
     const current = getActiveScreenName();
-
     if(!flushScreenBeforeLeave(current, screenName)){
         return false;
     }
@@ -159,7 +155,6 @@ function goBack(){
             break;
         }
     }
-
     showScreen("mainMenu", false);
 }
 
@@ -168,7 +163,6 @@ function openLegacy(){
         reportRouteError("Legacy module is unavailable");
         return;
     }
-
     showScreen("legacy");
 }
 
@@ -189,14 +183,37 @@ function surfaceIntegrityWarnings(showdown){
 function resumeSavedShowdown(){
     try{
         const saved = loadSavedShowdown();
-
         if(!saved){
             showScreen("createShowdown");
             return;
         }
 
+        let serializedBeforeNormalization = null;
+        try{
+            serializedBeforeNormalization = JSON.stringify(saved);
+        }catch(error){
+            serializedBeforeNormalization = null;
+        }
+
         currentShowdown = normalizeShowdown(saved);
         surfaceIntegrityWarnings(currentShowdown);
+
+        let normalizationChangedState = true;
+        if(serializedBeforeNormalization !== null){
+            try{
+                normalizationChangedState = JSON.stringify(currentShowdown) !== serializedBeforeNormalization;
+            }catch(error){
+                normalizationChangedState = true;
+            }
+        }
+
+        if(normalizationChangedState && !saveCurrentShowdown() && typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                "The saved showdown was loaded, but its repaired state could not be written back to browser storage.",
+                "error",
+                10000
+            );
+        }
 
         if(currentShowdown.status === "Completed"){
             if(!archiveShowdown(currentShowdown) && typeof window.showAppNotice === "function"){
@@ -206,14 +223,6 @@ function resumeSavedShowdown(){
                     9000
                 );
             }
-        }
-
-        if(!saveCurrentShowdown() && typeof window.showAppNotice === "function"){
-            window.showAppNotice(
-                "The saved showdown was loaded, but its repaired state could not be written back to browser storage.",
-                "error",
-                10000
-            );
         }
 
         updateShowdownUI();
@@ -250,7 +259,6 @@ function bindNavigationButton(button, handler, marker){
     if(!button || button.dataset[marker] === "true"){
         return;
     }
-
     button.dataset[marker] = "true";
     button.addEventListener("click", handler);
 }
@@ -267,11 +275,8 @@ function initializeScreens(){
     document.querySelectorAll("[data-back]").forEach(button => {
         bindNavigationButton(button, () => {
             const target = button.dataset.back;
-            if(target){
-                showScreen(target, false);
-            }else{
-                goBack();
-            }
+            if(target){ showScreen(target, false); }
+            else { goBack(); }
         }, "backBound");
     });
 }
