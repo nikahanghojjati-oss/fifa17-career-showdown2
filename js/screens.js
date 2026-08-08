@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.7.0
+   v0.8.0
    Screen and Navigation Engine
 ===================================================== */
 
@@ -10,6 +10,7 @@ const screens = [
     "leagueWheelScreen",
     "clubWheelScreen",
     "dashboard",
+    "transferChallenge",
     "seasonEntry",
     "seasonSummary",
     "legacy"
@@ -64,6 +65,7 @@ function resumeSavedShowdown(){
     }
 
     currentShowdown = normalizeShowdown(saved);
+    saveCurrentShowdown();
     updateShowdownUI();
 
     if(!currentShowdown.selectedLeague){
@@ -74,6 +76,14 @@ function resumeSavedShowdown(){
     if(!currentShowdown.clubs.playerOne || !currentShowdown.clubs.playerTwo){
         prepareClubAssignment();
         return;
+    }
+
+    if(currentShowdown.status !== "Completed"){
+        const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+        if(challenge && (challenge.status === "active" || challenge.status === "recording")){
+            openTransferChallenge();
+            return;
+        }
     }
 
     showScreen("dashboard");
