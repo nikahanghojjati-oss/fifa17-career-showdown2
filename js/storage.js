@@ -15,7 +15,6 @@ let legacyStorageRevision = 0;
 
 function reportStorageError(context, error){
     console.error(`[Career Mode Showdown] ${context}:`, error);
-
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(`${context}. Your browser may not have saved the latest change.`, "error", 10000);
     }
@@ -51,13 +50,8 @@ function removeStorageValue(key){
 }
 
 function normalizeBeforeStorage(showdown){
-    if(!showdown){
-        return null;
-    }
-
-    return typeof normalizeShowdown === "function"
-        ? normalizeShowdown(showdown)
-        : showdown;
+    if(!showdown){ return null; }
+    return typeof normalizeShowdown === "function" ? normalizeShowdown(showdown) : showdown;
 }
 
 function cancelScheduledCurrentShowdownSave(){
@@ -68,12 +62,8 @@ function cancelScheduledCurrentShowdownSave(){
 }
 
 function saveCurrentShowdown(){
-    if(!currentShowdown){
-        return false;
-    }
-
+    if(!currentShowdown){ return false; }
     cancelScheduledCurrentShowdownSave();
-
     try{
         currentShowdown.updatedAt = new Date().toISOString();
         return writeStorageValue(STORAGE_KEY, JSON.stringify(currentShowdown));
@@ -84,10 +74,7 @@ function saveCurrentShowdown(){
 }
 
 function scheduleCurrentShowdownSave(delay = DEFAULT_DRAFT_SAVE_DELAY){
-    if(!currentShowdown){
-        return false;
-    }
-
+    if(!currentShowdown){ return false; }
     cancelScheduledCurrentShowdownSave();
     pendingCurrentSaveTimer = window.setTimeout(() => {
         pendingCurrentSaveTimer = null;
@@ -97,30 +84,21 @@ function scheduleCurrentShowdownSave(delay = DEFAULT_DRAFT_SAVE_DELAY){
 }
 
 function flushScheduledCurrentShowdownSave(){
-    if(!pendingCurrentSaveTimer){
-        return true;
-    }
-
+    if(!pendingCurrentSaveTimer){ return true; }
     cancelScheduledCurrentShowdownSave();
     return saveCurrentShowdown();
 }
 
 function flushPendingApplicationWrites(){
-    let transferFlushed = true;
-
-    if(typeof window.flushTransferDraftSave === "function"){
-        transferFlushed = window.flushTransferDraftSave();
-    }
-
+    const transferFlushed = typeof window.flushTransferDraftSave === "function"
+        ? window.flushTransferDraftSave()
+        : true;
     const storageFlushed = flushScheduledCurrentShowdownSave();
     return transferFlushed !== false && storageFlushed !== false;
 }
 
 function initializeStorageLifecycle(){
-    if(storageLifecycleBound){
-        return;
-    }
-
+    if(storageLifecycleBound){ return; }
     storageLifecycleBound = true;
     window.addEventListener("pagehide", flushPendingApplicationWrites);
     document.addEventListener("visibilitychange", () => {
@@ -132,10 +110,7 @@ function initializeStorageLifecycle(){
 
 function loadSavedShowdown(){
     const raw = readStorageValue(STORAGE_KEY);
-    if(!raw){
-        return null;
-    }
-
+    if(!raw){ return null; }
     try{
         const parsed = JSON.parse(raw);
         if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
@@ -192,10 +167,8 @@ function loadLegacyShowdowns(){
 
 function saveLegacyShowdowns(showdowns){
     const safeShowdowns = Array.isArray(showdowns) ? showdowns : [];
-
     try{
-        const serialized = JSON.stringify(safeShowdowns);
-        if(!writeStorageValue(LEGACY_STORAGE_KEY, serialized)){
+        if(!writeStorageValue(LEGACY_STORAGE_KEY, JSON.stringify(safeShowdowns))){
             return false;
         }
         legacyCache = safeShowdowns.slice();
@@ -218,17 +191,23 @@ function archiveShowdown(showdown){
 
     try{
         const history = loadLegacyShowdowns();
+        const existingIndex = history.findIndex(item => String(item.id) === String(showdown.id));
+
+        if(existingIndex >= 0){
+            const existing = history[existingIndex];
+            const sameRevision = String(existing.updatedAt || "") === String(showdown.updatedAt || "")
+                && String(existing.completedAt || "") === String(showdown.completedAt || "");
+            if(sameRevision){
+                return true;
+            }
+        }
+
         let snapshot = cloneForStorage(showdown);
         snapshot = normalizeBeforeStorage(snapshot);
         snapshot.archivedAt = snapshot.archivedAt || new Date().toISOString();
 
-        const existingIndex = history.findIndex(
-            item => String(item.id) === String(snapshot.id)
-        );
-
         if(existingIndex >= 0){
-            const originalArchivedAt = history[existingIndex].archivedAt;
-            snapshot.archivedAt = originalArchivedAt || snapshot.archivedAt;
+            snapshot.archivedAt = history[existingIndex].archivedAt || snapshot.archivedAt;
             history[existingIndex] = snapshot;
         }else{
             history.unshift(snapshot);
@@ -244,11 +223,7 @@ function archiveShowdown(showdown){
 function deleteLegacyShowdown(showdownId){
     const history = loadLegacyShowdowns();
     const nextHistory = history.filter(item => String(item.id) !== String(showdownId));
-
-    if(nextHistory.length === history.length){
-        return false;
-    }
-
+    if(nextHistory.length === history.length){ return false; }
     return saveLegacyShowdowns(nextHistory);
 }
 
