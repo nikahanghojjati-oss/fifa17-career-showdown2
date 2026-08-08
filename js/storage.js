@@ -10,8 +10,8 @@ const DEFAULT_DRAFT_SAVE_DELAY = 420;
 
 let pendingCurrentSaveTimer = null;
 let storageLifecycleBound = false;
-let activeShowdownCache = null;
-let activeShowdownCacheKnown = false;
+let activeSavePresenceKnown = false;
+let activeSavePresent = false;
 let legacyCache = null;
 let legacyStorageRevision = 0;
 
@@ -63,9 +63,9 @@ function cancelScheduledCurrentShowdownSave(){
     }
 }
 
-function invalidateActiveShowdownCache(){
-    activeShowdownCache = null;
-    activeShowdownCacheKnown = false;
+function invalidateActiveSavePresence(){
+    activeSavePresenceKnown = false;
+    activeSavePresent = false;
 }
 
 function saveCurrentShowdown(){
@@ -78,8 +78,8 @@ function saveCurrentShowdown(){
         if(!writeStorageValue(STORAGE_KEY, serialized)){
             return false;
         }
-        activeShowdownCache = currentShowdown;
-        activeShowdownCacheKnown = true;
+        activeSavePresenceKnown = true;
+        activeSavePresent = true;
         return true;
     }catch(error){
         reportStorageError("Unable to serialize the active showdown", error);
@@ -124,7 +124,7 @@ function initializeStorageLifecycle(){
 
     window.addEventListener("storage", event => {
         if(event.key === STORAGE_KEY){
-            invalidateActiveShowdownCache();
+            invalidateActiveSavePresence();
         }
         if(event.key === LEGACY_STORAGE_KEY){
             invalidateLegacyCache();
@@ -133,14 +133,10 @@ function initializeStorageLifecycle(){
 }
 
 function loadSavedShowdown(){
-    if(activeShowdownCacheKnown){
-        return activeShowdownCache;
-    }
-
     const raw = readStorageValue(STORAGE_KEY);
     if(!raw){
-        activeShowdownCache = null;
-        activeShowdownCacheKnown = true;
+        activeSavePresenceKnown = true;
+        activeSavePresent = false;
         return null;
     }
 
@@ -149,11 +145,11 @@ function loadSavedShowdown(){
         if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
             throw new Error("Active save data is not a valid showdown object.");
         }
-        activeShowdownCache = parsed;
-        activeShowdownCacheKnown = true;
+        activeSavePresenceKnown = true;
+        activeSavePresent = true;
         return parsed;
     }catch(error){
-        invalidateActiveShowdownCache();
+        invalidateActiveSavePresence();
         reportStorageError("Unable to parse the active showdown", error);
         return null;
     }
@@ -163,17 +159,21 @@ function clearSavedShowdown(){
     cancelScheduledCurrentShowdownSave();
     const removed = removeStorageValue(STORAGE_KEY);
     if(removed){
-        activeShowdownCache = null;
-        activeShowdownCacheKnown = true;
+        activeSavePresenceKnown = true;
+        activeSavePresent = false;
     }
     return removed;
 }
 
 function hasSavedShowdown(){
-    if(activeShowdownCacheKnown){
-        return Boolean(activeShowdownCache);
+    if(activeSavePresenceKnown){
+        return activeSavePresent;
     }
-    return Boolean(readStorageValue(STORAGE_KEY));
+
+    const present = Boolean(readStorageValue(STORAGE_KEY));
+    activeSavePresenceKnown = true;
+    activeSavePresent = present;
+    return present;
 }
 
 function invalidateLegacyCache(){
