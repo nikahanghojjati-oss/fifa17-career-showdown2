@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.13.1
+   v0.14.0
    High-Performance Showdown Interface Controller
 ===================================================== */
 
@@ -33,6 +33,14 @@ function getDashboardUI(){
     return dashboardUI || cacheDashboardUI();
 }
 
+function setDashboardTextIfChanged(element, value){
+    if(!element){ return; }
+    const next = String(value ?? "");
+    if(element.textContent !== next){
+        element.textContent = next;
+    }
+}
+
 function initializeShowdownUI(){
     const startButton = document.getElementById("startShowdown");
     if(startButton && startButton.dataset.showdownUiBound !== "true"){
@@ -49,8 +57,8 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.13.1";
-        footer.innerHTML = `FIFA 17 Career Mode Showdown<br>v${version} Menu Media & Lighting`;
+        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.14.0";
+        footer.innerHTML = `FIFA 17 Career Mode Showdown<br>v${version} FIFA 17 Atmosphere & Performance`;
     }
 }
 
@@ -101,8 +109,7 @@ function deleteCurrentShowdownFromDashboard(){
 
     currentShowdown = null;
     screenHistory = [];
-    const ui = getDashboardUI();
-    if(ui.indicator){ ui.indicator.textContent = "No Active Showdown"; }
+    setDashboardTextIfChanged(getDashboardUI().indicator, "No Active Showdown");
     showScreen("mainMenu", false);
 }
 
@@ -124,13 +131,13 @@ function renderDashboardIntegrityStatus(){
         : [];
 
     if(!warnings.length){
-        note.textContent = "";
+        setDashboardTextIfChanged(note, "");
         note.classList.add("hidden");
         note.classList.remove("locked");
         return;
     }
 
-    note.textContent = `SAVE WARNING: ${warnings.join(" ")}`;
+    setDashboardTextIfChanged(note, `SAVE WARNING: ${warnings.join(" ")}`);
     note.classList.remove("hidden");
     note.classList.add("locked");
 }
@@ -143,61 +150,60 @@ function updateShowdownUI(){
     const leagueName = currentShowdown.selectedLeague
         ? currentShowdown.selectedLeague.name
         : null;
-
-    if(ui.indicator){
-        ui.indicator.textContent = completed
-            ? "Showdown Complete"
-            : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`;
-    }
-    if(ui.selectedLeague){ ui.selectedLeague.textContent = leagueName || "Spin to select league"; }
-    if(ui.showdownName){ ui.showdownName.textContent = currentShowdown.name; }
-    if(ui.league){ ui.league.textContent = leagueName || "League not selected"; }
-    if(ui.round){
-        ui.round.textContent = completed
-            ? `${currentShowdown.rounds.length} seasons completed`
-            : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
-    }
-    if(ui.status){ ui.status.textContent = currentShowdown.status; }
-    if(ui.transferStatus){ ui.transferStatus.textContent = getCurrentTransferStatusLabel(); }
-    if(ui.managerOne){ ui.managerOne.textContent = currentShowdown.managers.playerOne; }
-    if(ui.managerTwo){ ui.managerTwo.textContent = currentShowdown.managers.playerTwo; }
-    if(ui.clubOne){ ui.clubOne.textContent = currentShowdown.clubs.playerOne || "Club not assigned"; }
-    if(ui.clubTwo){ ui.clubTwo.textContent = currentShowdown.clubs.playerTwo || "Club not assigned"; }
-    if(ui.scoreOne){ ui.scoreOne.textContent = currentShowdown.score.playerOne; }
-    if(ui.scoreTwo){ ui.scoreTwo.textContent = currentShowdown.score.playerTwo; }
-
+    const roundLabel = completed
+        ? `${currentShowdown.rounds.length} seasons completed`
+        : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
     const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
-    if(ui.lastPositionOne){
-        ui.lastPositionOne.textContent = latestRound
-            ? `Last league finish: ${latestRound.playerOne.leaguePosition}`
-            : "No season completed";
-    }
-    if(ui.lastPositionTwo){
-        ui.lastPositionTwo.textContent = latestRound
-            ? `Last league finish: ${latestRound.playerTwo.leaguePosition}`
-            : "No season completed";
-    }
+
+    setDashboardTextIfChanged(
+        ui.indicator,
+        completed ? "Showdown Complete" : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`
+    );
+    setDashboardTextIfChanged(ui.selectedLeague, leagueName || "Spin to select league");
+    setDashboardTextIfChanged(ui.showdownName, currentShowdown.name);
+    setDashboardTextIfChanged(ui.league, leagueName || "League not selected");
+    setDashboardTextIfChanged(ui.round, roundLabel);
+    setDashboardTextIfChanged(ui.status, currentShowdown.status);
+    setDashboardTextIfChanged(ui.transferStatus, getCurrentTransferStatusLabel());
+    setDashboardTextIfChanged(ui.managerOne, currentShowdown.managers.playerOne);
+    setDashboardTextIfChanged(ui.managerTwo, currentShowdown.managers.playerTwo);
+    setDashboardTextIfChanged(ui.clubOne, currentShowdown.clubs.playerOne || "Club not assigned");
+    setDashboardTextIfChanged(ui.clubTwo, currentShowdown.clubs.playerTwo || "Club not assigned");
+    setDashboardTextIfChanged(ui.scoreOne, currentShowdown.score.playerOne);
+    setDashboardTextIfChanged(ui.scoreTwo, currentShowdown.score.playerTwo);
+    setDashboardTextIfChanged(
+        ui.lastPositionOne,
+        latestRound ? `Last league finish: ${latestRound.playerOne.leaguePosition}` : "No season completed"
+    );
+    setDashboardTextIfChanged(
+        ui.lastPositionTwo,
+        latestRound ? `Last league finish: ${latestRound.playerTwo.leaguePosition}` : "No season completed"
+    );
 
     renderDashboardIntegrityStatus();
 
     if(!ui.primaryButton){ return; }
     if(completed){
-        ui.primaryButton.disabled = true;
-        ui.primaryButton.textContent = "SHOWDOWN COMPLETE — SAVED TO LEGACY";
+        if(!ui.primaryButton.disabled){ ui.primaryButton.disabled = true; }
+        setDashboardTextIfChanged(ui.primaryButton, "SHOWDOWN COMPLETE — SAVED TO LEGACY");
         return;
     }
 
-    ui.primaryButton.disabled = false;
+    if(ui.primaryButton.disabled){ ui.primaryButton.disabled = false; }
     const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+    let primaryLabel;
+
     if(!challenge || challenge.status === "not_started"){
-        ui.primaryButton.textContent = `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
+        primaryLabel = `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
     }else if(challenge.status === "active"){
-        ui.primaryButton.textContent = `RESUME SEASON ${currentShowdown.currentRound} TRANSFER WINDOW`;
+        primaryLabel = `RESUME SEASON ${currentShowdown.currentRound} TRANSFER WINDOW`;
     }else if(challenge.status === "recording"){
-        ui.primaryButton.textContent = `FINISH SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
+        primaryLabel = `FINISH SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
     }else{
-        ui.primaryButton.textContent = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
+        primaryLabel = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
     }
+
+    setDashboardTextIfChanged(ui.primaryButton, primaryLabel);
 }
 
 window.initializeShowdownUI = initializeShowdownUI;
