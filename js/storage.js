@@ -1,11 +1,48 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.9.0
-   Local Storage and Legacy Persistence
+   v0.10.1
+   Hardened Local Storage and Legacy Persistence
 ===================================================== */
 
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
 const LEGACY_STORAGE_KEY = "careerModeShowdown.legacyShowdowns";
+
+function reportStorageError(context, error){
+    console.error(`[Career Mode Showdown] ${context}:`, error);
+
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(`${context}. Your browser may not have saved the latest change.`, "error", 10000);
+    }
+}
+
+function readStorageValue(key){
+    try{
+        return localStorage.getItem(key);
+    }catch(error){
+        reportStorageError("Unable to read local save data", error);
+        return null;
+    }
+}
+
+function writeStorageValue(key, value){
+    try{
+        localStorage.setItem(key, value);
+        return true;
+    }catch(error){
+        reportStorageError("Unable to write local save data", error);
+        return false;
+    }
+}
+
+function removeStorageValue(key){
+    try{
+        localStorage.removeItem(key);
+        return true;
+    }catch(error){
+        reportStorageError("Unable to remove local save data", error);
+        return false;
+    }
+}
 
 function saveCurrentShowdown(){
     if(!currentShowdown){
@@ -13,12 +50,17 @@ function saveCurrentShowdown(){
     }
 
     currentShowdown.updatedAt = new Date().toISOString();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(currentShowdown));
-    return true;
+
+    try{
+        return writeStorageValue(STORAGE_KEY, JSON.stringify(currentShowdown));
+    }catch(error){
+        reportStorageError("Unable to serialize the active showdown", error);
+        return false;
+    }
 }
 
 function loadSavedShowdown(){
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = readStorageValue(STORAGE_KEY);
 
     if(!raw){
         return null;
@@ -27,21 +69,21 @@ function loadSavedShowdown(){
     try{
         return JSON.parse(raw);
     }catch(error){
-        console.error("Unable to load saved showdown:", error);
+        reportStorageError("Unable to parse the active showdown", error);
         return null;
     }
 }
 
 function clearSavedShowdown(){
-    localStorage.removeItem(STORAGE_KEY);
+    return removeStorageValue(STORAGE_KEY);
 }
 
 function hasSavedShowdown(){
-    return Boolean(localStorage.getItem(STORAGE_KEY));
+    return Boolean(readStorageValue(STORAGE_KEY));
 }
 
 function loadLegacyShowdowns(){
-    const raw = localStorage.getItem(LEGACY_STORAGE_KEY);
+    const raw = readStorageValue(LEGACY_STORAGE_KEY);
 
     if(!raw){
         return [];
@@ -51,15 +93,20 @@ function loadLegacyShowdowns(){
         const parsed = JSON.parse(raw);
         return Array.isArray(parsed) ? parsed : [];
     }catch(error){
-        console.error("Unable to load Legacy history:", error);
+        reportStorageError("Unable to parse Legacy history", error);
         return [];
     }
 }
 
 function saveLegacyShowdowns(showdowns){
     const safeShowdowns = Array.isArray(showdowns) ? showdowns : [];
-    localStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(safeShowdowns));
-    return true;
+
+    try{
+        return writeStorageValue(LEGACY_STORAGE_KEY, JSON.stringify(safeShowdowns));
+    }catch(error){
+        reportStorageError("Unable to serialize Legacy history", error);
+        return false;
+    }
 }
 
 function cloneForStorage(value){
@@ -71,24 +118,28 @@ function archiveShowdown(showdown){
         return false;
     }
 
-    const history = loadLegacyShowdowns();
-    const snapshot = cloneForStorage(showdown);
-    snapshot.archivedAt = snapshot.archivedAt || new Date().toISOString();
+    try{
+        const history = loadLegacyShowdowns();
+        const snapshot = cloneForStorage(showdown);
+        snapshot.archivedAt = snapshot.archivedAt || new Date().toISOString();
 
-    const existingIndex = history.findIndex(
-        item => String(item.id) === String(snapshot.id)
-    );
+        const existingIndex = history.findIndex(
+            item => String(item.id) === String(snapshot.id)
+        );
 
-    if(existingIndex >= 0){
-        const originalArchivedAt = history[existingIndex].archivedAt;
-        snapshot.archivedAt = originalArchivedAt || snapshot.archivedAt;
-        history[existingIndex] = snapshot;
-    }else{
-        history.unshift(snapshot);
+        if(existingIndex >= 0){
+            const originalArchivedAt = history[existingIndex].archivedAt;
+            snapshot.archivedAt = originalArchivedAt || snapshot.archivedAt;
+            history[existingIndex] = snapshot;
+        }else{
+            history.unshift(snapshot);
+        }
+
+        return saveLegacyShowdowns(history);
+    }catch(error){
+        reportStorageError("Unable to archive the completed showdown", error);
+        return false;
     }
-
-    saveLegacyShowdowns(history);
-    return true;
 }
 
 function deleteLegacyShowdown(showdownId){
@@ -101,15 +152,15 @@ function deleteLegacyShowdown(showdownId){
         return false;
     }
 
-    saveLegacyShowdowns(nextHistory);
-    return true;
+    return saveLegacyShowdowns(nextHistory);
 }
 
 function clearLegacyHistory(){
-    localStorage.removeItem(LEGACY_STORAGE_KEY);
+    return removeStorageValue(LEGACY_STORAGE_KEY);
 }
 
 function clearAllCareerModeData(){
-    clearSavedShowdown();
-    clearLegacyHistory();
+    const activeCleared = clearSavedShowdown();
+    const legacyCleared = clearLegacyHistory();
+    return activeCleared && legacyCleared;
 }
