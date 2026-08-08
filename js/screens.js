@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.1
-   Stabilized Screen and Navigation Engine
+   v0.11.0
+   Screen and Navigation Engine
 ===================================================== */
 
 const screens = [
@@ -15,7 +15,8 @@ const screens = [
     "seasonSummary",
     "statistics",
     "trophyRoom",
-    "legacy"
+    "legacy",
+    "ruleBook"
 ];
 
 let screenHistory = [];
@@ -38,6 +39,14 @@ function getActiveScreenName(){
 function renderScreenBeforeEnter(screenName){
     if(screenName === "dashboard" && currentShowdown && typeof updateShowdownUI === "function"){
         updateShowdownUI();
+    }
+
+    if(screenName === "leagueWheelScreen" && typeof renderLeagueWheelState === "function"){
+        renderLeagueWheelState();
+    }
+
+    if(screenName === "clubWheelScreen" && typeof renderClubAssignmentState === "function"){
+        renderClubAssignmentState();
     }
 
     if(screenName === "statistics" && currentShowdown && typeof window.renderRivalryStatistics === "function"){
@@ -117,6 +126,20 @@ function openLegacy(){
     showScreen("legacy");
 }
 
+function surfaceIntegrityWarnings(showdown){
+    if(!showdown || !Array.isArray(showdown.integrityWarnings) || !showdown.integrityWarnings.length){
+        return;
+    }
+
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(
+            `Saved showdown warning: ${showdown.integrityWarnings.join(" ")}`,
+            "error",
+            12000
+        );
+    }
+}
+
 function resumeSavedShowdown(){
     try{
         const saved = loadSavedShowdown();
@@ -127,12 +150,26 @@ function resumeSavedShowdown(){
         }
 
         currentShowdown = normalizeShowdown(saved);
+        surfaceIntegrityWarnings(currentShowdown);
 
         if(currentShowdown.status === "Completed"){
-            archiveShowdown(currentShowdown);
+            if(!archiveShowdown(currentShowdown) && typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "The completed showdown is loaded, but its Legacy copy could not be refreshed.",
+                    "error",
+                    9000
+                );
+            }
         }
 
-        saveCurrentShowdown();
+        if(!saveCurrentShowdown() && typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                "The saved showdown was loaded, but its repaired state could not be written back to browser storage.",
+                "error",
+                10000
+            );
+        }
+
         updateShowdownUI();
 
         if(!currentShowdown.selectedLeague){
@@ -140,7 +177,11 @@ function resumeSavedShowdown(){
             return;
         }
 
-        if(!currentShowdown.clubs.playerOne || !currentShowdown.clubs.playerTwo){
+        const clubIntegrity = typeof getClubPairIntegrity === "function"
+            ? getClubPairIntegrity(currentShowdown)
+            : { valid: Boolean(currentShowdown.clubs.playerOne && currentShowdown.clubs.playerTwo) };
+
+        if(!clubIntegrity.valid){
             prepareClubAssignment();
             return;
         }
