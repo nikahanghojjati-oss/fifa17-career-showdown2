@@ -1,32 +1,16 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.0
-   Performance-Stabilized Application Controller
+   v0.15.1
+   Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.15.0";
+const APP_VERSION = "0.15.1";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
 let performanceLifecycleInstalled = false;
 let runtimeNoticeElement = null;
 let runtimeNoticeTextElement = null;
-
-function clearRuntimeNoticeTimer(){
-    if(runtimeNoticeTimer){
-        window.clearTimeout(runtimeNoticeTimer);
-        runtimeNoticeTimer = null;
-    }
-}
-
-function releaseRuntimeNotice(notice){
-    clearRuntimeNoticeTimer();
-    if(notice && notice.isConnected){
-        notice.remove();
-    }
-    runtimeNoticeElement = null;
-    runtimeNoticeTextElement = null;
-}
 
 function getRuntimeNotice(){
     if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
@@ -52,7 +36,15 @@ function getRuntimeNotice(){
     close.type = "button";
     close.setAttribute("aria-label", "Dismiss message");
     close.textContent = "×";
-    close.addEventListener("click", () => releaseRuntimeNotice(notice));
+    close.addEventListener("click", () => {
+        if(runtimeNoticeTimer){
+            window.clearTimeout(runtimeNoticeTimer);
+            runtimeNoticeTimer = null;
+        }
+        notice.remove();
+        runtimeNoticeElement = null;
+        runtimeNoticeTextElement = null;
+    });
 
     notice.append(text, close);
     document.body.appendChild(notice);
@@ -63,7 +55,7 @@ function getRuntimeNotice(){
 
 function showAppNotice(message, type = "error", duration = 7000){
     const notice = getRuntimeNotice();
-    notice.className = type;
+    if(notice.className !== type){ notice.className = type; }
 
     if(runtimeNoticeTextElement){
         const nextMessage = String(message || "");
@@ -72,11 +64,19 @@ function showAppNotice(message, type = "error", duration = 7000){
         }
     }
 
-    clearRuntimeNoticeTimer();
+    if(runtimeNoticeTimer){
+        window.clearTimeout(runtimeNoticeTimer);
+        runtimeNoticeTimer = null;
+    }
 
     if(duration > 0){
         runtimeNoticeTimer = window.setTimeout(() => {
-            releaseRuntimeNotice(runtimeNoticeElement);
+            if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
+                runtimeNoticeElement.remove();
+            }
+            runtimeNoticeElement = null;
+            runtimeNoticeTextElement = null;
+            runtimeNoticeTimer = null;
         }, duration);
     }
 }
@@ -126,14 +126,14 @@ function resumeVisibleTransferTimer(){
         return;
     }
 
-    if(typeof synchronizeTransferDeadline === "function"){
-        synchronizeTransferDeadline(challenge);
+    if(typeof window.synchronizeTransferDeadline === "function"){
+        window.synchronizeTransferDeadline(challenge);
     }
 
-    if(challenge.status === "active" && typeof startTransferTimerLoop === "function"){
-        startTransferTimerLoop();
-    }else if(typeof renderTransferChallenge === "function"){
-        renderTransferChallenge(challenge);
+    if(challenge.status === "active" && typeof window.startTransferTimerLoop === "function"){
+        window.startTransferTimerLoop();
+    }else if(typeof window.renderTransferChallenge === "function"){
+        window.renderTransferChallenge(challenge);
     }
 }
 
@@ -145,8 +145,8 @@ function initializePerformanceLifecycle(){
     performanceLifecycleInstalled = true;
     document.addEventListener("visibilitychange", () => {
         if(document.visibilityState === "hidden"){
-            if(typeof stopTransferTimerLoop === "function"){
-                stopTransferTimerLoop();
+            if(typeof window.stopTransferTimerLoop === "function"){
+                window.stopTransferTimerLoop();
             }
             return;
         }
@@ -192,7 +192,7 @@ function runInitializer(name, initializer){
 }
 
 function initializeApplicationModules(){
-    [
+    const initializers = [
         ["initializeStorageLifecycle", initializeStorageLifecycle],
         ["initializeShowdownUI", initializeShowdownUI],
         ["initializeLeagueWheel", initializeLeagueWheel],
@@ -203,7 +203,9 @@ function initializeApplicationModules(){
         ["initializeMenuExperience", initializeMenuExperience],
         ["initializeOptionalModules", initializeOptionalModules],
         ["initializePerformanceLifecycle", initializePerformanceLifecycle]
-    ].forEach(([name, initializer]) => runInitializer(name, initializer));
+    ];
+
+    initializers.forEach(([name, initializer]) => runInitializer(name, initializer));
 }
 
 function startApplication(){
