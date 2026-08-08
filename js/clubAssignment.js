@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.6.1
+   v0.7.0
    Club Assignment / FUT Style Reveal
 ===================================================== */
 
@@ -14,6 +14,8 @@ function prepareClubAssignment(){
         showScreen("leagueWheelScreen");
         return;
     }
+
+    currentShowdown = normalizeShowdown(currentShowdown);
 
     const league = currentShowdown.selectedLeague;
     const title = document.getElementById("clubAssignmentLeague");
@@ -35,6 +37,8 @@ function prepareClubAssignment(){
 
 function assignClubs(){
     if(!currentShowdown || !currentShowdown.selectedLeague){ return; }
+
+    currentShowdown = normalizeShowdown(currentShowdown);
 
     if(currentShowdown.clubs.playerOne && currentShowdown.clubs.playerTwo){
         renderClubResults();
@@ -76,7 +80,11 @@ function renderClubResults(){
 
 function continueToShowdownHome(){
     if(!currentShowdown || !currentShowdown.clubs.playerOne || !currentShowdown.clubs.playerTwo){ return; }
-    currentShowdown.status = "Ready";
+
+    if(currentShowdown.status !== "Completed"){
+        currentShowdown.status = "Ready";
+    }
+
     saveCurrentShowdown();
     updateShowdownUI();
     showScreen("dashboard");
