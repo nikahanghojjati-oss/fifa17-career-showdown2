@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.0
+   v0.11.0
    Current Rivalry Statistics
 ===================================================== */
 
@@ -350,6 +350,6 @@ function initializeStatistics(){
     ensureStatisticsDashboardButton();
 }
 
-initializeStatistics();
+window.initializeStatistics = initializeStatistics;
 window.renderRivalryStatistics = renderRivalryStatistics;
 window.openRivalryStatistics = openRivalryStatistics;
