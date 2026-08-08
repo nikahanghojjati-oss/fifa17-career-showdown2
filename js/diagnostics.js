@@ -50,7 +50,7 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "openSeasonEntry",
     "completeCurrentSeason",
     "calculatePlayerSeasonScore",
-    "renderLegacy",
+    "openLegacy",
     "initializeMenuExperience",
     "refreshMainMenuExperience",
     "selectMenuMedia",
@@ -166,7 +166,7 @@ function runApplicationDiagnostics(){
         missingFunctions,
         bindingProblems,
         versionProblems,
-        lazyScreens: ["statistics", "trophyRoom", "ruleBook"],
+        lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook"],
         optionalModules: typeof window.getOptionalModuleState === "function"
             ? window.getOptionalModuleState()
             : null,
