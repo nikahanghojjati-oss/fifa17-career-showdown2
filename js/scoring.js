@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.8.0
+   v0.10.0
    Scoring Engine
 ===================================================== */
 
@@ -31,6 +31,9 @@ function calculatePlayerSeasonScore(result){
             topAssist
         }
     };
+
+    /* Compatibility alias for v0.9.0 Legacy snapshots. */
+    breakdown.awardsBonus = breakdown.individualAwardsBonus;
 
     breakdown.total =
         breakdown.championsLeague +
@@ -104,7 +107,7 @@ function getScoringBreakdownLines(scoring){
         ["League Title", scoring.leagueTitle || 0],
         ["Domestic Cup", scoring.domesticCup || 0],
         [buildPerformanceBonusLabel(scoring), scoring.performanceBonus || 0],
-        [buildAwardsBonusLabel(scoring), scoring.individualAwardsBonus || 0]
+        [buildAwardsBonusLabel(scoring), scoring.individualAwardsBonus || scoring.awardsBonus || 0]
     ];
 }
 
