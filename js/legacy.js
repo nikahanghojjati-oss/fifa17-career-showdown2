@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
-   Lightweight Legacy Archive Engine
+   v0.15.1
+   Transaction-Safe Lightweight Legacy Archive Engine
 ===================================================== */
 
 const legacyDateFormatter = new Intl.DateTimeFormat("en-US", {
@@ -9,6 +9,8 @@ const legacyDateFormatter = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric"
 });
+
+let lastLegacyRenderedRevision = null;
 
 function archiveCompletedSaveBeforeLegacy(){
     const candidate = currentShowdown || loadSavedShowdown();
@@ -163,30 +165,24 @@ function createLegacySeasonRow(showdown, round, challengeMap){
     return row;
 }
 
-function removeMatchingCompletedActiveShowdown(showdownId){
+function getMatchingCompletedActiveShowdown(showdownId){
     const active = currentShowdown || loadSavedShowdown();
     if(!active || active.status !== "Completed" || String(active.id) !== String(showdownId)){
-        return false;
+        return null;
     }
-
-    clearSavedShowdown();
-    currentShowdown = null;
-    const indicator = document.getElementById("seasonIndicator");
-    if(indicator){ indicator.textContent = "No Active Showdown"; }
-    return true;
+    return active;
 }
 
-function removeCompletedActiveShowdownIfArchived(history){
-    const active = currentShowdown || loadSavedShowdown();
-    if(!active || active.status !== "Completed"){
+function clearMatchingCompletedActiveShowdown(showdownId){
+    const active = getMatchingCompletedActiveShowdown(showdownId);
+    if(!active){
+        return true;
+    }
+
+    if(!clearSavedShowdown()){
         return false;
     }
 
-    if(!history.some(item => String(item.id) === String(active.id))){
-        return false;
-    }
-
-    clearSavedShowdown();
     currentShowdown = null;
     const indicator = document.getElementById("seasonIndicator");
     if(indicator){ indicator.textContent = "No Active Showdown"; }
@@ -205,6 +201,34 @@ function populateLegacySeasonHistory(showdown, seasonList){
         fragment.appendChild(createLegacySeasonRow(showdown, round, challengeMap));
     });
     seasonList.appendChild(fragment);
+}
+
+function deleteLegacyShowdownTransaction(showdown){
+    const historyBefore = loadLegacyShowdowns();
+    const activeMatches = Boolean(getMatchingCompletedActiveShowdown(showdown.id));
+
+    if(!deleteLegacyShowdown(showdown.id)){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("The Legacy showdown could not be deleted from browser storage.", "error", 9000);
+        }
+        return false;
+    }
+
+    if(activeMatches && !clearMatchingCompletedActiveShowdown(showdown.id)){
+        const restored = saveLegacyShowdowns(historyBefore);
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                restored
+                    ? "The active completed copy could not be removed, so the Legacy deletion was rolled back."
+                    : "The active completed copy could not be removed and the Legacy rollback also failed. Refresh before making more data changes.",
+                "error",
+                12000
+            );
+        }
+        return false;
+    }
+
+    return true;
 }
 
 function createLegacyShowdownCard(showdown){
@@ -262,21 +286,51 @@ function createLegacyShowdownCard(showdown){
     deleteButton.className = "compactButton dangerButton";
     deleteButton.textContent = "DELETE SHOWDOWN";
     deleteButton.addEventListener("click", () => {
-        const active = currentShowdown || loadSavedShowdown();
-        const alsoDeletesActive = Boolean(active && active.status === "Completed" && String(active.id) === String(showdown.id));
+        const alsoDeletesActive = Boolean(getMatchingCompletedActiveShowdown(showdown.id));
         const warning = alsoDeletesActive
             ? `Delete "${showdown.name}" from Legacy and remove its active completed copy? This cannot be undone.`
             : `Delete "${showdown.name}" from Legacy? This cannot be undone.`;
 
         if(!window.confirm(warning)){ return; }
-        deleteLegacyShowdown(showdown.id);
-        removeMatchingCompletedActiveShowdown(showdown.id);
-        renderLegacy();
+        if(deleteLegacyShowdownTransaction(showdown)){
+            lastLegacyRenderedRevision = null;
+            renderLegacy();
+        }
     });
 
     actions.appendChild(deleteButton);
     card.append(top, details, actions);
     return card;
+}
+
+function deleteAllLegacyHistoryTransaction(history){
+    const completedActive = (currentShowdown || loadSavedShowdown());
+    const matchingActive = completedActive
+        && completedActive.status === "Completed"
+        && history.some(item => String(item.id) === String(completedActive.id));
+
+    if(!clearLegacyHistory()){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("Legacy history could not be cleared from browser storage.", "error", 9000);
+        }
+        return false;
+    }
+
+    if(matchingActive && !clearMatchingCompletedActiveShowdown(completedActive.id)){
+        const restored = saveLegacyShowdowns(history);
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                restored
+                    ? "The completed active copy could not be removed, so Legacy history was restored."
+                    : "Legacy was cleared but the active completed copy could not be removed, and rollback failed. Refresh before continuing.",
+                "error",
+                12000
+            );
+        }
+        return false;
+    }
+
+    return true;
 }
 
 function createLegacyDataControls(history){
@@ -303,9 +357,10 @@ function createLegacyDataControls(history){
             : "Delete every archived showdown from Legacy? Your unfinished active showdown, if any, will remain. This cannot be undone.";
 
         if(!window.confirm(warning)){ return; }
-        removeCompletedActiveShowdownIfArchived(history);
-        clearLegacyHistory();
-        renderLegacy();
+        if(deleteAllLegacyHistoryTransaction(history)){
+            lastLegacyRenderedRevision = null;
+            renderLegacy();
+        }
     });
 
     const resetAll = document.createElement("button");
@@ -317,11 +372,25 @@ function createLegacyDataControls(history){
             return;
         }
 
-        clearAllCareerModeData();
+        if(!clearAllCareerModeData()){
+            currentShowdown = loadSavedShowdown();
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "The full reset did not complete. The interface has reloaded the data that is still available; refresh before trying again.",
+                    "error",
+                    12000
+                );
+            }
+            lastLegacyRenderedRevision = null;
+            renderLegacy();
+            return;
+        }
+
         currentShowdown = null;
         screenHistory = [];
         const indicator = document.getElementById("seasonIndicator");
         if(indicator){ indicator.textContent = "No Active Showdown"; }
+        lastLegacyRenderedRevision = null;
         showScreen("mainMenu", false);
     });
 
@@ -335,6 +404,14 @@ function renderLegacy(){
 
     const container = document.querySelector("#legacy .legacyBox");
     if(!container){ return; }
+
+    const revision = typeof window.getLegacyStorageRevision === "function"
+        ? window.getLegacyStorageRevision()
+        : null;
+
+    if(revision !== null && lastLegacyRenderedRevision === revision && container.childElementCount > 0){
+        return;
+    }
 
     const history = loadLegacyShowdowns().sort((a, b) => {
         const aTime = new Date(a.completedAt || a.archivedAt || 0).getTime();
@@ -375,6 +452,7 @@ function renderLegacy(){
 
     fragment.appendChild(createLegacyDataControls(history));
     container.replaceChildren(fragment);
+    lastLegacyRenderedRevision = revision;
 }
 
 window.renderLegacy = renderLegacy;
