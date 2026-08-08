@@ -13,13 +13,19 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "transferChallenge",
     "seasonEntry",
     "seasonSummary",
+    "statistics",
+    "trophyRoom",
     "legacy",
+    "ruleBook",
     "newShowdown",
     "continueCareer",
     "legacyButton",
+    "trophyRoomButton",
+    "ruleBookButton",
     "startShowdown",
     "spinLeague",
     "openClubPack",
+    "continueClubAssignment",
     "seasonPrimaryAction",
     "completeTransferChallenge",
     "completeSeason"
@@ -29,6 +35,7 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "showScreen",
     "createShowdown",
     "normalizeShowdown",
+    "getClubPairIntegrity",
     "saveCurrentShowdown",
     "spinLeagueWheel",
     "prepareClubAssignment",
@@ -37,7 +44,11 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "completeTransferChallenge",
     "openSeasonEntry",
     "completeCurrentSeason",
-    "calculatePlayerSeasonScore"
+    "calculatePlayerSeasonScore",
+    "renderRivalryStatistics",
+    "renderTrophyRoom",
+    "renderLegacy",
+    "openRuleBook"
 ];
 
 function testLocalStorageAvailability(){
@@ -53,6 +64,30 @@ function testLocalStorageAvailability(){
     }
 }
 
+function getControlBindingProblems(){
+    const checks = [
+        ["newShowdown", "navigationBound"],
+        ["continueCareer", "navigationBound"],
+        ["legacyButton", "navigationBound"],
+        ["startShowdown", "showdownUiBound"],
+        ["spinLeague", "leagueWheelBound"],
+        ["openClubPack", "clubAssignmentBound"],
+        ["continueClubAssignment", "clubAssignmentBound"],
+        ["seasonPrimaryAction", "transferPrimaryBound"],
+        ["completeTransferChallenge", "transferCompleteBound"],
+        ["completeSeason", "seasonEngineBound"],
+        ["ruleBookButton", "ruleBookBound"]
+    ];
+
+    return checks.reduce((problems, [id, marker]) => {
+        const element = document.getElementById(id);
+        if(element && element.dataset[marker] !== "true"){
+            problems.push(`${id} is not bound`);
+        }
+        return problems;
+    }, []);
+}
+
 function runApplicationDiagnostics(){
     const missingElements = DIAGNOSTIC_REQUIRED_ELEMENTS.filter(
         id => !document.getElementById(id)
@@ -62,9 +97,11 @@ function runApplicationDiagnostics(){
         name => typeof window[name] !== "function"
     );
 
+    const bindingProblems = getControlBindingProblems();
     const storageAvailable = testLocalStorageAvailability();
     const healthy = missingElements.length === 0
         && missingFunctions.length === 0
+        && bindingProblems.length === 0
         && storageAvailable;
 
     const result = {
@@ -73,6 +110,7 @@ function runApplicationDiagnostics(){
         storageAvailable,
         missingElements,
         missingFunctions,
+        bindingProblems,
         checkedAt: new Date().toISOString()
     };
 
@@ -82,6 +120,7 @@ function runApplicationDiagnostics(){
         const problems = [];
         if(missingElements.length){ problems.push(`missing UI: ${missingElements.join(", ")}`); }
         if(missingFunctions.length){ problems.push(`missing code: ${missingFunctions.join(", ")}`); }
+        if(bindingProblems.length){ problems.push(`unbound controls: ${bindingProblems.join(", ")}`); }
         if(!storageAvailable){ problems.push("browser storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
