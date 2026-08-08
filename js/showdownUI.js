@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.1
+   v0.15.0
    High-Performance Showdown Interface Controller
 ===================================================== */
 
@@ -57,8 +57,8 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.14.1";
-        footer.innerHTML = `FIFA 17 Career Mode Showdown<br>v${version} Performance Polish`;
+        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.15.0";
+        footer.innerHTML = `Career Mode Showdown<br>v${version} · Original FIFA 17-era inspired visual system`;
     }
 }
 
@@ -179,6 +179,10 @@ function updateShowdownUI(){
         ui.lastPositionTwo,
         latestRound ? `Last league finish: ${latestRound.playerTwo.leaguePosition}` : "No season completed"
     );
+
+    if(typeof window.refreshClubVisualIdentity === "function"){
+        window.refreshClubVisualIdentity(currentShowdown);
+    }
 
     renderDashboardIntegrityStatus();
 
