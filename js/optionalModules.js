@@ -9,7 +9,6 @@ const OPTIONAL_LOAD_TIMEOUT_MS = 12000;
 const optionalScriptPromises = new Map();
 const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
-const optionalOpenPromises = new Map();
 let optionalModulesInitialized = false;
 let optionalOpenRequestId = 0;
 
@@ -257,61 +256,47 @@ function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
         && currentRevision === originRevision;
 }
 
-function openOptionalModule(name){
-    if(optionalOpenPromises.has(name)){
-        return optionalOpenPromises.get(name);
-    }
-
+async function openOptionalModule(name){
     const requestId = ++optionalOpenRequestId;
     const originScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : null;
     const originRevision = typeof window.getNavigationRevision === "function"
         ? window.getNavigationRevision()
         : 0;
 
-    const openPromise = (async () => {
-        setOptionalModuleBusy(name, true);
-        try{
-            await ensureOptionalModule(name);
+    setOptionalModuleBusy(name, true);
+    try{
+        await ensureOptionalModule(name);
 
-            if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){
+        if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){
+            return false;
+        }
+
+        if(name === "statistics"){
+            if(!currentShowdown){
+                if(typeof window.showAppNotice === "function"){
+                    window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
+                }
                 return false;
             }
-
-            if(name === "statistics"){
-                if(!currentShowdown){
-                    if(typeof window.showAppNotice === "function"){
-                        window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
-                    }
-                    return false;
-                }
-                window.openRivalryStatistics();
-            }else if(name === "trophyRoom"){
-                window.openTrophyRoom();
-            }else if(name === "legacy"){
-                showScreen("legacy");
-            }else if(name === "ruleBook"){
-                window.openRuleBook();
-            }
-            return true;
-        }catch(error){
-            if(typeof window.reportApplicationError === "function"){
-                window.reportApplicationError(`Unable to open ${name}`, error);
-            }else{
-                console.error(error);
-            }
-            return false;
-        }finally{
-            setOptionalModuleBusy(name, false);
+            window.openRivalryStatistics();
+        }else if(name === "trophyRoom"){
+            window.openTrophyRoom();
+        }else if(name === "legacy"){
+            showScreen("legacy");
+        }else if(name === "ruleBook"){
+            window.openRuleBook();
         }
-    })();
-
-    optionalOpenPromises.set(name, openPromise);
-    openPromise.finally(() => {
-        if(optionalOpenPromises.get(name) === openPromise){
-            optionalOpenPromises.delete(name);
+        return true;
+    }catch(error){
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError(`Unable to open ${name}`, error);
+        }else{
+            console.error(error);
         }
-    });
-    return openPromise;
+        return false;
+    }finally{
+        setOptionalModuleBusy(name, false);
+    }
 }
 
 function ensureStatisticsDashboardButtonShell(){
