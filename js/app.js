@@ -1,73 +1,116 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.0
-   Application Controller
+   v0.10.1
+   Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.10.0";
+const APP_VERSION = "0.10.1";
+let applicationStarted = false;
+let runtimeNoticeTimer = null;
 
-document.addEventListener("DOMContentLoaded", bootstrapApplication);
+function showAppNotice(message, type = "error", duration = 7000){
+    let notice = document.getElementById("appRuntimeNotice");
 
-function ensureFeatureStylesheet(){
-    if(document.getElementById("analyticsStylesheet")){
-        return;
+    if(!notice){
+        notice = document.createElement("div");
+        notice.id = "appRuntimeNotice";
+        notice.setAttribute("role", "status");
+        notice.setAttribute("aria-live", "polite");
+
+        const text = document.createElement("span");
+        text.className = "runtimeNoticeText";
+
+        const close = document.createElement("button");
+        close.type = "button";
+        close.setAttribute("aria-label", "Dismiss message");
+        close.textContent = "×";
+        close.addEventListener("click", () => notice.remove());
+
+        notice.append(text, close);
+        document.body.appendChild(notice);
     }
 
-    const stylesheet = document.createElement("link");
-    stylesheet.id = "analyticsStylesheet";
-    stylesheet.rel = "stylesheet";
-    stylesheet.href = `css/analytics.css?v=${APP_VERSION}`;
-    document.head.appendChild(stylesheet);
+    notice.className = type;
+    const text = notice.querySelector(".runtimeNoticeText");
+    if(text){
+        text.textContent = message;
+    }
+
+    if(runtimeNoticeTimer){
+        window.clearTimeout(runtimeNoticeTimer);
+        runtimeNoticeTimer = null;
+    }
+
+    if(duration > 0){
+        runtimeNoticeTimer = window.setTimeout(() => {
+            const activeNotice = document.getElementById("appRuntimeNotice");
+            if(activeNotice){ activeNotice.remove(); }
+            runtimeNoticeTimer = null;
+        }, duration);
+    }
 }
 
-function loadFeatureScript(id, source){
-    const existing = document.getElementById(id);
-    if(existing){
-        return Promise.resolve();
-    }
+window.showAppNotice = showAppNotice;
 
-    return new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.id = id;
-        script.src = `${source}?v=${APP_VERSION}`;
-        script.onload = resolve;
-        script.onerror = () => reject(new Error(`Unable to load ${source}`));
-        document.body.appendChild(script);
+function reportApplicationError(context, error){
+    const detail = error && error.message ? error.message : String(error || "Unknown error");
+    console.error(`[Career Mode Showdown] ${context}:`, error);
+    showAppNotice(`${context}. ${detail}`, "error", 10000);
+}
+
+window.reportApplicationError = reportApplicationError;
+
+function installRuntimeErrorBoundary(){
+    window.addEventListener("error", event => {
+        if(!event || !event.error){
+            return;
+        }
+
+        reportApplicationError("A runtime error was detected", event.error);
+    });
+
+    window.addEventListener("unhandledrejection", event => {
+        reportApplicationError("An unexpected application error was detected", event.reason);
     });
 }
 
-async function loadVersionFeatures(){
-    ensureFeatureStylesheet();
-
-    await loadFeatureScript("analyticsEngineScript", "js/analytics.js");
-    await loadFeatureScript("statisticsFeatureScript", "js/statistics.js");
-    await loadFeatureScript("trophyRoomFeatureScript", "js/trophyRoom.js");
-}
-
-async function bootstrapApplication(){
-    try{
-        await loadVersionFeatures();
-    }catch(error){
-        console.error("Optional v0.10.0 features could not be loaded:", error);
-    }
-
-    startApplication();
-}
-
-function startApplication(){
+function revealApplication(){
     const loadingScreen = document.getElementById("loadingScreen");
     const app = document.getElementById("app");
 
-    setTimeout(() => {
-        if(loadingScreen){
-            loadingScreen.classList.add("hidden");
-        }
+    if(loadingScreen){
+        loadingScreen.classList.add("hidden");
+    }
 
-        if(app){
-            app.classList.remove("hidden");
-        }
+    if(app){
+        app.classList.remove("hidden");
+    }
+}
 
+function startApplication(){
+    if(applicationStarted){
+        return;
+    }
+
+    applicationStarted = true;
+    installRuntimeErrorBoundary();
+
+    try{
         initializeScreens();
-        showScreen("mainMenu");
-    }, 2500);
+        showScreen("mainMenu", false);
+    }catch(error){
+        reportApplicationError("The application could not finish initializing", error);
+    }
+
+    window.setTimeout(revealApplication, 700);
+}
+
+function bootstrapApplication(){
+    startApplication();
+}
+
+if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", bootstrapApplication, { once: true });
+}else{
+    bootstrapApplication();
 }
