@@ -1,16 +1,19 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.15.1
    Showdown State Manager and Integrity Repair
 ===================================================== */
 
 let currentShowdown = null;
 
+const CURRENT_SHOWDOWN_SCHEMA_VERSION = 2;
 const ALLOWED_SHOWDOWN_ROUNDS = Object.freeze([1, 3, 5, 10]);
 
 function createShowdown(){
+    let existing = null;
+
     if(hasSavedShowdown()){
-        const existing = loadSavedShowdown();
+        existing = loadSavedShowdown();
         const existingName = existing && existing.name ? existing.name : "your current showdown";
         const proceed = window.confirm(
             `Start a new showdown and replace the active save "${existingName}"? Completed showdowns already stored in Legacy will not be deleted.`
@@ -42,9 +45,10 @@ function createShowdown(){
     const requestedRounds = Number(roundAmountInput.value);
     const roundAmount = ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds) ? requestedRounds : 1;
     const now = new Date().toISOString();
+    const previousCurrent = currentShowdown || existing || null;
 
-    currentShowdown = {
-        schemaVersion: 2,
+    const candidate = {
+        schemaVersion: CURRENT_SHOWDOWN_SCHEMA_VERSION,
         id: Date.now(),
         name: showdownName || "Unnamed Showdown",
         managers: {
@@ -72,15 +76,22 @@ function createShowdown(){
         archivedAt: null
     };
 
+    currentShowdown = candidate;
+
     if(!saveCurrentShowdown()){
+        currentShowdown = previousCurrent;
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice(
-                "The new showdown could not be saved. Check browser storage before continuing.",
+                "The new showdown could not be saved. Your previous active save was left unchanged.",
                 "error",
                 10000
             );
         }
         return;
+    }
+
+    if(typeof window.resetTransientSelectionOperations === "function"){
+        window.resetTransientSelectionOperations();
     }
 
     showScreen("leagueWheelScreen");
@@ -272,9 +283,37 @@ function normalizeShowdown(showdown){
     }
 
     repairShowdownIntegrity(showdown);
-    showdown.schemaVersion = 2;
+    showdown.schemaVersion = CURRENT_SHOWDOWN_SCHEMA_VERSION;
 
     return showdown;
+}
+
+function needsShowdownNormalization(showdown){
+    if(!showdown || typeof showdown !== "object" || Array.isArray(showdown)){
+        return true;
+    }
+
+    if(Number(showdown.schemaVersion) !== CURRENT_SHOWDOWN_SCHEMA_VERSION){ return true; }
+    if(!showdown.managers || !showdown.clubs || !showdown.score){ return true; }
+    if(!Array.isArray(showdown.transferChallenges) || !Array.isArray(showdown.rounds)){ return true; }
+    if(!ALLOWED_SHOWDOWN_ROUNDS.includes(Number(showdown.totalRounds))){ return true; }
+
+    const round = Number(showdown.currentRound);
+    if(!Number.isInteger(round) || round < 1 || round > Number(showdown.totalRounds)){ return true; }
+
+    return false;
+}
+
+function ensureCurrentShowdownNormalized(force = false){
+    if(!currentShowdown){
+        return null;
+    }
+
+    if(force || needsShowdownNormalization(currentShowdown)){
+        currentShowdown = normalizeShowdown(currentShowdown);
+    }
+
+    return currentShowdown;
 }
 
 function touchCurrentShowdown(){
@@ -321,3 +360,6 @@ function isTransferChallengeComplete(seasonNumber){
     const challenge = getTransferChallengeForSeason(seasonNumber);
     return Boolean(challenge && challenge.status === "completed");
 }
+
+window.ensureCurrentShowdownNormalized = ensureCurrentShowdownNormalized;
+window.needsShowdownNormalization = needsShowdownNormalization;
