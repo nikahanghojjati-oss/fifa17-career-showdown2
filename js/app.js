@@ -93,6 +93,20 @@ function revealApplication(){
     }
 }
 
+function scheduleApplicationDiagnostics(){
+    if(typeof window.runApplicationDiagnostics !== "function"){
+        return;
+    }
+
+    const run = () => window.runApplicationDiagnostics();
+
+    if(typeof window.requestIdleCallback === "function"){
+        window.requestIdleCallback(run, { timeout: 1000 });
+    }else{
+        window.setTimeout(run, 0);
+    }
+}
+
 function runInitializer(name, initializer){
     if(typeof initializer !== "function"){
         throw new Error(`Required initializer is unavailable: ${name}`);
@@ -133,15 +147,14 @@ function startApplication(){
         if(!showScreen("mainMenu", false)){
             throw new Error("Main Menu could not be opened.");
         }
-
-        if(typeof window.runApplicationDiagnostics === "function"){
-            window.runApplicationDiagnostics();
-        }
     }catch(error){
         reportApplicationError("The application could not finish initializing", error);
     }
 
-    window.setTimeout(revealApplication, 350);
+    window.requestAnimationFrame(() => {
+        revealApplication();
+        scheduleApplicationDiagnostics();
+    });
 }
 
 function bootstrapApplication(){
