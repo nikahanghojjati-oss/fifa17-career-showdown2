@@ -1,12 +1,17 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Transfer Challenge Engine
+   v0.12.0
+   High-Performance Transfer Challenge Engine
 ===================================================== */
 
 const TRANSFER_WINDOW_SECONDS = 15 * 60;
+const TRANSFER_DRAFT_DELAY_MS = 320;
+
 let transferTimerInterval = null;
 let transferCompletionInProgress = false;
+let transferDraftTimer = null;
+let transferDraftDirty = false;
+let lastRenderedTimerSecond = null;
 
 function bindTransferControl(element, eventName, handler, marker){
     if(!element || element.dataset[marker] === "true"){
@@ -15,6 +20,18 @@ function bindTransferControl(element, eventName, handler, marker){
 
     element.dataset[marker] = "true";
     element.addEventListener(eventName, handler);
+}
+
+function prepareTransferInputForFastEntry(field){
+    if(!field){
+        return;
+    }
+
+    field.setAttribute("autocomplete", "off");
+    if(field.tagName === "INPUT"){
+        field.setAttribute("spellcheck", "false");
+        field.setAttribute("autocapitalize", "words");
+    }
 }
 
 function initializeTransferChallenge(){
@@ -54,9 +71,11 @@ function initializeTransferChallenge(){
     );
 
     document.querySelectorAll("[data-transfer-field]").forEach(field => {
-        bindTransferControl(field, "change", saveTransferDraft, "transferChangeBound");
+        prepareTransferInputForFastEntry(field);
+        bindTransferControl(field, "change", flushTransferDraftSave, "transferChangeBound");
+
         if(field.tagName === "INPUT"){
-            bindTransferControl(field, "input", saveTransferDraft, "transferInputBound");
+            bindTransferControl(field, "input", scheduleTransferDraftSave, "transferInputBound");
         }
     });
 }
@@ -152,6 +171,8 @@ function openTransferChallenge(){
         const challenge = getOrCreateTransferChallenge(currentShowdown.currentRound);
         synchronizeTransferDeadline(challenge);
         restoreTransferForm(challenge);
+        transferDraftDirty = false;
+        cancelTransferDraftTimer();
         renderTransferChallenge(challenge);
 
         if(showScreen("transferChallenge") && challenge.status === "active"){
@@ -209,6 +230,7 @@ function startTransferWindow(){
 
 function startTransferTimerLoop(){
     stopTransferTimerLoop();
+    lastRenderedTimerSecond = null;
     updateTransferTimer();
     transferTimerInterval = window.setInterval(updateTransferTimer, 1000);
 }
@@ -250,11 +272,14 @@ function renderTransferTimer(seconds){
         return;
     }
 
-    const safeSeconds = Math.max(0, Number(seconds) || 0);
-    const minutes = Math.floor(safeSeconds / 60).toString().padStart(2, "0");
-    const remaining = Math.floor(safeSeconds % 60).toString().padStart(2, "0");
+    const safeSeconds = Math.max(0, Math.floor(Number(seconds) || 0));
+    if(lastRenderedTimerSecond === safeSeconds && timer.textContent){
+        return;
+    }
 
-    timer.setAttribute("aria-live", "polite");
+    lastRenderedTimerSecond = safeSeconds;
+    const minutes = Math.floor(safeSeconds / 60).toString().padStart(2, "0");
+    const remaining = (safeSeconds % 60).toString().padStart(2, "0");
     timer.textContent = `${minutes}:${remaining}`;
 }
 
@@ -378,7 +403,14 @@ function captureTransferForm(challenge){
     challenge.guesses.againstPlayerTwo = getGuessRows("p2");
 }
 
-function saveTransferDraft(){
+function cancelTransferDraftTimer(){
+    if(transferDraftTimer){
+        window.clearTimeout(transferDraftTimer);
+        transferDraftTimer = null;
+    }
+}
+
+function scheduleTransferDraftSave(){
     if(!currentShowdown){
         return;
     }
@@ -388,8 +420,44 @@ function saveTransferDraft(){
         return;
     }
 
+    transferDraftDirty = true;
+    cancelTransferDraftTimer();
+
+    transferDraftTimer = window.setTimeout(() => {
+        transferDraftTimer = null;
+        flushTransferDraftSave();
+    }, TRANSFER_DRAFT_DELAY_MS);
+}
+
+function flushTransferDraftSave(){
+    cancelTransferDraftTimer();
+
+    if(!transferDraftDirty){
+        return true;
+    }
+
+    if(!currentShowdown){
+        transferDraftDirty = false;
+        return true;
+    }
+
+    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+    if(!challenge || challenge.status !== "recording"){
+        transferDraftDirty = false;
+        return true;
+    }
+
     captureTransferForm(challenge);
-    saveCurrentShowdown();
+    const saved = saveCurrentShowdown();
+
+    if(saved){
+        transferDraftDirty = false;
+        setTransferError("");
+    }else{
+        setTransferError("Your latest transfer entry could not be saved. Keep this page open and try another edit.");
+    }
+
+    return saved;
 }
 
 function setTransferError(message = ""){
@@ -400,7 +468,9 @@ function setTransferError(message = ""){
 }
 
 function validateTransferForm(challenge){
+    cancelTransferDraftTimer();
     captureTransferForm(challenge);
+    transferDraftDirty = false;
 
     const allSignings = [
         ...challenge.signings.playerOne,
@@ -623,6 +693,7 @@ function renderTransferChallenge(challenge){
     setTransferFieldsDisabled(challenge.status !== "recording");
 
     if(challenge.status === "not_started"){
+        lastRenderedTimerSecond = null;
         renderTransferTimer(TRANSFER_WINDOW_SECONDS);
     }else if(challenge.status === "active"){
         const deadline = Number(challenge.deadlineAt);
@@ -631,6 +702,7 @@ function renderTransferChallenge(challenge){
             : 0;
         renderTransferTimer(remainingSeconds);
     }else{
+        lastRenderedTimerSecond = null;
         renderTransferTimer(0);
     }
 
@@ -700,6 +772,7 @@ function continueFromTransferChallenge(){
         return;
     }
 
+    flushTransferDraftSave();
     stopTransferTimerLoop();
     openSeasonEntry();
 }
@@ -708,3 +781,4 @@ window.initializeTransferChallenge = initializeTransferChallenge;
 window.openTransferChallenge = openTransferChallenge;
 window.completeTransferChallenge = completeTransferChallenge;
 window.handleSeasonPrimaryAction = handleSeasonPrimaryAction;
+window.flushTransferDraftSave = flushTransferDraftSave;
