@@ -1,205 +1,58 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   Version 0.2.0
-   Animations
+   v0.12.0
+   Performance-Safe Animation Primitives
 ===================================================== */
 
-/* ---------- Loading Screen ---------- */
+/*
+   The prototype used delayed global animations and an infinite full-screen
+   background scale. Those effects caused permanent compositor work, delayed
+   first interaction, and conflicted with the application-controlled loader.
+   v0.12.0 keeps animation opt-in: feature-specific wheel/reveal effects remain
+   in their own stylesheets, while the global shell stays idle when idle.
+*/
 
 #loadingScreen{
-
-    animation:fadeOutLoading .8s ease forwards;
-
-    animation-delay:2s;
-
+    opacity:1;
 }
-
-/* ---------- App ---------- */
 
 #app{
-
-    animation:fadeInApp .8s ease forwards;
-
-    animation-delay:2s;
-
-    opacity:0;
-
+    opacity:1;
 }
-
-/* ---------- Menu ---------- */
 
 .menuButton{
-
-    opacity:0;
-
-    animation:menuSlide .6s ease forwards;
-
+    opacity:1;
 }
-
-.menuButton:nth-child(1){
-
-    animation-delay:2.10s;
-
-}
-
-.menuButton:nth-child(2){
-
-    animation-delay:2.20s;
-
-}
-
-.menuButton:nth-child(3){
-
-    animation-delay:2.30s;
-
-}
-
-.menuButton:nth-child(4){
-
-    animation-delay:2.40s;
-
-}
-
-.menuButton:nth-child(5){
-
-    animation-delay:2.50s;
-
-}
-
-/* ---------- Dashboard ---------- */
-
-.playerCard{
-
-    animation:cardFade .7s ease;
-
-}
-
-/* ---------- Background ---------- */
 
 #background{
-
-    animation:backgroundMove 16s ease-in-out infinite alternate;
-
+    transform:none;
 }
 
-/* =====================================================
-   Keyframes
-===================================================== */
+.playerCard{
+    animation:none;
+}
 
 @keyframes fadeOutLoading{
-
-    0%{
-
-        opacity:1;
-
-    }
-
-    99%{
-
-        opacity:0;
-
-    }
-
-    100%{
-
-        opacity:0;
-
-        visibility:hidden;
-
-        pointer-events:none;
-
-    }
-
+    from{opacity:1;}
+    to{opacity:0;}
 }
 
 @keyframes fadeInApp{
-
-    from{
-
-        opacity:0;
-
-    }
-
-    to{
-
-        opacity:1;
-
-    }
-
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
 @keyframes menuSlide{
-
-    from{
-
-        opacity:0;
-
-        transform:translateX(-40px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateX(0);
-
-    }
-
+    from{opacity:0;transform:translateX(-20px);}
+    to{opacity:1;transform:translateX(0);}
 }
 
 @keyframes cardFade{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(20px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-@keyframes backgroundMove{
-
-    from{
-
-        transform:scale(1);
-
-    }
-
-    to{
-
-        transform:scale(1.08);
-
-    }
-
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
 }
 
 @keyframes screenEnter{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(15px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
+    from{opacity:0;transform:translateY(6px);}
+    to{opacity:1;transform:translateY(0);}
 }
