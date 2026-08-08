@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.8.0
+   v0.9.0
    Season Entry and Progression Engine
 ===================================================== */
 
@@ -152,12 +152,19 @@ function completeCurrentSeason(){
 
     if(seasonNumber >= currentShowdown.totalRounds){
         currentShowdown.status = "Completed";
+        currentShowdown.completedAt = new Date().toISOString();
     }else{
         currentShowdown.currentRound = seasonNumber + 1;
         currentShowdown.status = "Ready";
     }
 
+    touchCurrentShowdown();
     saveCurrentShowdown();
+
+    if(currentShowdown.status === "Completed"){
+        archiveShowdown(currentShowdown);
+    }
+
     updateShowdownUI();
     renderSeasonSummary(roundRecord);
     showScreen("seasonSummary");
@@ -207,7 +214,7 @@ function renderSeasonSummary(roundRecord){
 
     if(nextButton){
         nextButton.textContent = currentShowdown.status === "Completed"
-            ? "RETURN TO SHOWDOWN HOME"
+            ? "VIEW COMPLETED SHOWDOWN"
             : `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
     }
 }
