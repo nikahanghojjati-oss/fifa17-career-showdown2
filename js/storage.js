@@ -302,11 +302,41 @@ function clearLegacyHistory(){
     return removed;
 }
 
+function restoreStorageSnapshot(key, value){
+    if(value === null){
+        return removeStorageValue(key);
+    }
+    return writeStorageValue(key, value);
+}
+
 function clearAllCareerModeData(){
     cancelScheduledCurrentShowdownSave();
-    const activeCleared = clearSavedShowdown();
-    const legacyCleared = clearLegacyHistory();
-    return activeCleared && legacyCleared;
+
+    const activeSnapshot = readStorageValue(STORAGE_KEY);
+    const legacySnapshot = readStorageValue(LEGACY_STORAGE_KEY);
+
+    if(!removeStorageValue(STORAGE_KEY)){
+        return false;
+    }
+
+    if(!removeStorageValue(LEGACY_STORAGE_KEY)){
+        const activeRestored = restoreStorageSnapshot(STORAGE_KEY, activeSnapshot);
+        activeSavePresenceKnown = activeRestored;
+        activeSavePresent = activeRestored && activeSnapshot !== null;
+        if(!activeRestored){
+            invalidateActiveSavePresence();
+        }
+        return false;
+    }
+
+    activeSavePresenceKnown = true;
+    activeSavePresent = false;
+    invalidateLegacyCache();
+    legacyCache = [];
+
+    /* Keep the snapshot variable intentional: it documents both keys in the transaction. */
+    void legacySnapshot;
+    return true;
 }
 
 window.initializeStorageLifecycle = initializeStorageLifecycle;
