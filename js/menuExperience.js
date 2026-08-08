@@ -1,13 +1,37 @@
 /* =====================================================
    Career Mode Showdown
-   v0.13.0
-   Main Menu Experience + Official YouTube Music Embed
+   v0.13.1
+   Lightweight Main Menu Media Experience
 ===================================================== */
 
-const MENU_MUSIC_VIDEO_ID = "RrJZJtY6u7o";
-let menuMusicIframe = null;
-let menuMusicPlaying = false;
-let menuMusicMuted = false;
+const MENU_MEDIA_SOURCES = Object.freeze({
+    music: Object.freeze({
+        key: "music",
+        videoId: "RrJZJtY6u7o",
+        category: "MENU MUSIC",
+        title: "ARE WE READY? (WRECK)",
+        subtitle: "Two Door Cinema Club",
+        playLabel: "PLAY MUSIC",
+        pauseLabel: "PAUSE MUSIC",
+        iframeTitle: "Two Door Cinema Club - Are We Ready? (Wreck) — YouTube player"
+    }),
+    trailer: Object.freeze({
+        key: "trailer",
+        videoId: "-3fjoe5Njpc",
+        category: "FIFA 17 VIDEO",
+        title: "FIFA 17 GAMEPLAY TRAILER",
+        subtitle: "EA SPORTS FIFA 17",
+        playLabel: "PLAY TRAILER",
+        pauseLabel: "PAUSE TRAILER",
+        iframeTitle: "FIFA 17 gameplay trailer — YouTube player"
+    })
+});
+
+let selectedMenuMediaKey = "music";
+let menuMediaIframe = null;
+let loadedMenuMediaKey = null;
+let menuMediaPlaying = false;
+let menuMediaMuted = false;
 let menuExperienceInitialized = false;
 
 function createTileContent(button, code, label, meta){
@@ -29,19 +53,13 @@ function createTileContent(button, code, label, meta){
 }
 
 function updateExistingTileText(button, label, meta){
-    if(!button){
-        return;
-    }
+    if(!button){ return; }
 
     const labelElement = button.querySelector(".menuTileLabel");
     const metaElement = button.querySelector(".menuTileMeta");
 
-    if(labelElement && labelElement.textContent !== label){
-        labelElement.textContent = label;
-    }
-    if(metaElement && metaElement.textContent !== meta){
-        metaElement.textContent = meta;
-    }
+    if(labelElement && labelElement.textContent !== label){ labelElement.textContent = label; }
+    if(metaElement && metaElement.textContent !== meta){ metaElement.textContent = meta; }
 }
 
 function getSavedShowdownMenuMeta(){
@@ -50,11 +68,7 @@ function getSavedShowdownMenuMeta(){
         : (typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null);
 
     if(!saved){
-        return {
-            hasSave: false,
-            label: "CONTINUE CAREER",
-            meta: "No active showdown saved"
-        };
+        return { hasSave: false, label: "CONTINUE CAREER", meta: "No active showdown saved" };
     }
 
     const managerOne = saved.managers && saved.managers.playerOne ? saved.managers.playerOne : "Manager 1";
@@ -72,9 +86,7 @@ function getSavedShowdownMenuMeta(){
 
 function refreshMainMenuExperience(){
     const continueButton = document.getElementById("continueCareer");
-    if(!continueButton){
-        return;
-    }
+    if(!continueButton){ return; }
 
     const saveMeta = getSavedShowdownMenuMeta();
     updateExistingTileText(continueButton, saveMeta.label, saveMeta.meta);
@@ -82,103 +94,195 @@ function refreshMainMenuExperience(){
     continueButton.setAttribute("aria-disabled", String(!saveMeta.hasSave));
 }
 
-function sendMenuMusicCommand(command){
-    if(!menuMusicIframe || !menuMusicIframe.contentWindow){
-        return;
-    }
+function getSelectedMenuMedia(){
+    return MENU_MEDIA_SOURCES[selectedMenuMediaKey] || MENU_MEDIA_SOURCES.music;
+}
 
-    menuMusicIframe.contentWindow.postMessage(JSON.stringify({
+function sendMenuMediaCommand(command){
+    if(!menuMediaIframe || !menuMediaIframe.contentWindow){ return; }
+
+    menuMediaIframe.contentWindow.postMessage(JSON.stringify({
         event: "command",
         func: command,
         args: []
     }), "https://www.youtube-nocookie.com");
 }
 
-function updateMusicControls(){
+function renderMenuMediaPlaceholder(){
+    const host = document.getElementById("menuMusicPlayer");
+    if(!host || menuMediaIframe){ return; }
+
+    host.replaceChildren();
+    const placeholder = document.createElement("p");
+    placeholder.className = "menuMusicPlaceholder";
+    placeholder.textContent = "Selected YouTube media stays unloaded until Play, keeping startup fast.";
+    host.appendChild(placeholder);
+}
+
+function destroyMenuMediaIframe(){
+    if(menuMediaIframe){
+        try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ /* iframe may already be detached */ }
+        menuMediaIframe.remove();
+    }
+
+    menuMediaIframe = null;
+    loadedMenuMediaKey = null;
+    renderMenuMediaPlaceholder();
+}
+
+function updateMenuMediaHeader(){
+    const media = getSelectedMenuMedia();
+    const tile = document.querySelector(".menuMusicTile");
+    const category = document.querySelector(".menuMusicHeader span");
+    const title = document.querySelector(".menuMusicHeader strong");
+    const subtitle = document.querySelector(".menuMusicArtist");
+
+    if(category){ category.textContent = media.category; }
+    if(title){ title.textContent = media.title; }
+    if(subtitle){ subtitle.textContent = media.subtitle; }
+    if(tile){ tile.dataset.mediaKind = media.key; }
+
+    document.querySelectorAll("[data-menu-media-source]").forEach(button => {
+        const selected = button.dataset.menuMediaSource === media.key;
+        button.classList.toggle("selected", selected);
+        button.setAttribute("aria-pressed", String(selected));
+    });
+}
+
+function updateMenuMediaControls(){
+    const media = getSelectedMenuMedia();
     const toggle = document.getElementById("menuMusicToggle");
     const mute = document.getElementById("menuMusicMute");
     const status = document.getElementById("menuMusicStatus");
 
-    if(toggle){
-        toggle.textContent = menuMusicPlaying ? "PAUSE MUSIC" : "PLAY MUSIC";
-    }
+    if(toggle){ toggle.textContent = menuMediaPlaying ? media.pauseLabel : media.playLabel; }
 
     if(mute){
-        mute.disabled = !menuMusicIframe;
-        mute.textContent = menuMusicMuted ? "UNMUTE" : "MUTE";
+        mute.disabled = !menuMediaIframe;
+        mute.textContent = menuMediaMuted ? "UNMUTE" : "MUTE";
     }
 
     if(status){
-        if(!menuMusicIframe){
-            status.textContent = "OFFICIAL YOUTUBE PLAYER · LOADS ONLY WHEN YOU PRESS PLAY";
-        }else if(menuMusicPlaying){
-            status.textContent = menuMusicMuted ? "PLAYING · MUTED" : "PLAYING";
+        if(!menuMediaIframe){
+            status.textContent = `${media.title} · LOADS ONLY WHEN YOU PRESS PLAY`;
+        }else if(menuMediaPlaying){
+            status.textContent = menuMediaMuted ? "PLAYING · MUTED" : "PLAYING";
         }else{
             status.textContent = "PAUSED";
         }
     }
 }
 
-function createMenuMusicIframe(){
-    if(menuMusicIframe){
-        return menuMusicIframe;
-    }
+function ensureMenuMediaSelector(){
+    if(document.getElementById("menuMediaSelector")){ return; }
 
     const host = document.getElementById("menuMusicPlayer");
-    if(!host){
-        return null;
+    if(!host){ return; }
+
+    const selector = document.createElement("div");
+    selector.id = "menuMediaSelector";
+    selector.className = "menuMediaSelector";
+    selector.setAttribute("role", "group");
+    selector.setAttribute("aria-label", "Choose menu media");
+
+    [
+        ["music", "TWO DOOR CINEMA CLUB"],
+        ["trailer", "FIFA 17 TRAILER"]
+    ].forEach(([key, label]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "menuMediaChoice";
+        button.dataset.menuMediaSource = key;
+        button.textContent = label;
+        button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", () => selectMenuMedia(key));
+        selector.appendChild(button);
+    });
+
+    host.parentNode.insertBefore(selector, host);
+}
+
+function createMenuMediaIframe(){
+    if(menuMediaIframe && loadedMenuMediaKey === selectedMenuMediaKey){
+        return menuMediaIframe;
     }
 
+    if(menuMediaIframe){ destroyMenuMediaIframe(); }
+
+    const host = document.getElementById("menuMusicPlayer");
+    if(!host){ return null; }
+
+    const media = getSelectedMenuMedia();
     host.replaceChildren();
 
     const iframe = document.createElement("iframe");
     const origin = encodeURIComponent(window.location.origin);
-    iframe.title = "Two Door Cinema Club - Are We Ready? (Wreck) — official YouTube player";
-    iframe.src = `https://www.youtube-nocookie.com/embed/${MENU_MUSIC_VIDEO_ID}?autoplay=1&enablejsapi=1&playsinline=1&rel=0&modestbranding=1&origin=${origin}`;
+    iframe.title = media.iframeTitle;
+    iframe.src = `https://www.youtube-nocookie.com/embed/${media.videoId}?autoplay=1&enablejsapi=1&playsinline=1&rel=0&modestbranding=1&origin=${origin}`;
     iframe.allow = "autoplay; encrypted-media; picture-in-picture";
     iframe.referrerPolicy = "strict-origin-when-cross-origin";
     iframe.allowFullscreen = true;
 
+    loadedMenuMediaKey = selectedMenuMediaKey;
+    menuMediaIframe = iframe;
+
     iframe.addEventListener("load", () => {
-        if(menuMusicPlaying){
-            sendMenuMusicCommand("playVideo");
-        }
-        if(menuMusicMuted){
-            sendMenuMusicCommand("mute");
-        }
+        if(menuMediaIframe !== iframe || loadedMenuMediaKey !== selectedMenuMediaKey){ return; }
+        if(menuMediaPlaying){ sendMenuMediaCommand("playVideo"); }
+        if(menuMediaMuted){ sendMenuMediaCommand("mute"); }
     }, { once: true });
 
     host.appendChild(iframe);
-    menuMusicIframe = iframe;
     return iframe;
 }
 
+function selectMenuMedia(key){
+    if(!MENU_MEDIA_SOURCES[key] || key === selectedMenuMediaKey){ return; }
+
+    const resumePlayback = menuMediaPlaying;
+    destroyMenuMediaIframe();
+    selectedMenuMediaKey = key;
+    menuMediaPlaying = false;
+    updateMenuMediaHeader();
+
+    if(resumePlayback){
+        menuMediaPlaying = true;
+        if(!createMenuMediaIframe()){
+            menuMediaPlaying = false;
+        }
+    }
+
+    updateMenuMediaControls();
+}
+
 function toggleMenuMusic(){
-    if(!menuMusicIframe){
-        menuMusicPlaying = true;
-        createMenuMusicIframe();
-        updateMusicControls();
+    if(!menuMediaIframe){
+        menuMediaPlaying = true;
+        if(!createMenuMediaIframe()){
+            menuMediaPlaying = false;
+        }
+        updateMenuMediaControls();
         return;
     }
 
-    menuMusicPlaying = !menuMusicPlaying;
-    sendMenuMusicCommand(menuMusicPlaying ? "playVideo" : "pauseVideo");
-    updateMusicControls();
+    menuMediaPlaying = !menuMediaPlaying;
+    sendMenuMediaCommand(menuMediaPlaying ? "playVideo" : "pauseVideo");
+    updateMenuMediaControls();
 }
 
 function toggleMenuMusicMute(){
-    if(!menuMusicIframe){
-        return;
-    }
+    if(!menuMediaIframe){ return; }
 
-    menuMusicMuted = !menuMusicMuted;
-    sendMenuMusicCommand(menuMusicMuted ? "mute" : "unMute");
-    updateMusicControls();
+    menuMediaMuted = !menuMediaMuted;
+    sendMenuMediaCommand(menuMediaMuted ? "mute" : "unMute");
+    updateMenuMediaControls();
 }
 
 function initializeMenuExperience(){
     if(menuExperienceInitialized){
         refreshMainMenuExperience();
+        updateMenuMediaHeader();
+        updateMenuMediaControls();
         return;
     }
 
@@ -187,12 +291,10 @@ function initializeMenuExperience(){
     const legacy = document.getElementById("legacyButton");
     const trophyRoom = document.getElementById("trophyRoomButton");
     const ruleBook = document.getElementById("ruleBookButton");
-    const musicToggle = document.getElementById("menuMusicToggle");
-    const musicMute = document.getElementById("menuMusicMute");
+    const mediaToggle = document.getElementById("menuMusicToggle");
+    const mediaMute = document.getElementById("menuMusicMute");
 
-    if(!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook){
-        return;
-    }
+    if(!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook){ return; }
 
     createTileContent(newShowdown, "02", "NEW SHOWDOWN", "Create a new rivalry and draw your league");
     createTileContent(legacy, "03", "LEGACY", "Completed rivalries and season history");
@@ -200,19 +302,24 @@ function initializeMenuExperience(){
     createTileContent(ruleBook, "05", "RULE BOOK", "Competition rules, scoring and transfer challenge");
     refreshMainMenuExperience();
 
-    if(musicToggle && musicToggle.dataset.musicBound !== "true"){
-        musicToggle.dataset.musicBound = "true";
-        musicToggle.addEventListener("click", toggleMenuMusic);
+    ensureMenuMediaSelector();
+    renderMenuMediaPlaceholder();
+    updateMenuMediaHeader();
+
+    if(mediaToggle && mediaToggle.dataset.musicBound !== "true"){
+        mediaToggle.dataset.musicBound = "true";
+        mediaToggle.addEventListener("click", toggleMenuMusic);
     }
 
-    if(musicMute && musicMute.dataset.musicBound !== "true"){
-        musicMute.dataset.musicBound = "true";
-        musicMute.addEventListener("click", toggleMenuMusicMute);
+    if(mediaMute && mediaMute.dataset.musicBound !== "true"){
+        mediaMute.dataset.musicBound = "true";
+        mediaMute.addEventListener("click", toggleMenuMusicMute);
     }
 
-    updateMusicControls();
+    updateMenuMediaControls();
     menuExperienceInitialized = true;
 }
 
 window.initializeMenuExperience = initializeMenuExperience;
 window.refreshMainMenuExperience = refreshMainMenuExperience;
+window.selectMenuMedia = selectMenuMedia;
