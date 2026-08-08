@@ -49,14 +49,6 @@ function renderScreenBeforeEnter(screenName){
         renderClubAssignmentState();
     }
 
-    if(screenName === "statistics" && currentShowdown && typeof window.renderRivalryStatistics === "function"){
-        window.renderRivalryStatistics();
-    }
-
-    if(screenName === "trophyRoom" && typeof window.renderTrophyRoom === "function"){
-        window.renderTrophyRoom();
-    }
-
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
     }
