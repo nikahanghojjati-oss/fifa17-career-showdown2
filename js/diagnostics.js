@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.1
-   Runtime Diagnostics and Performance Integrity
+   v0.15.0
+   Runtime Diagnostics, Visual Integrity and Performance
 ===================================================== */
 
 const DIAGNOSTIC_REQUIRED_ELEMENTS = [
@@ -59,7 +59,9 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "ensureOptionalModule",
     "openOptionalModule",
     "getOptionalModuleState",
-    "initializePerformanceLifecycle"
+    "initializePerformanceLifecycle",
+    "applyClubIdentity",
+    "refreshClubVisualIdentity"
 ];
 
 function testLocalStorageAvailability(){
@@ -136,9 +138,26 @@ function getOptionalModuleProblems(){
         .map(([name]) => `${name} optional module previously failed to load`);
 }
 
+function getVisualSystemProblems(){
+    const problems = [];
+    const theme = document.getElementById("fifa17Theme");
+
+    if(!theme){
+        problems.push("FIFA 17-era visual theme stylesheet is missing");
+    }else if(!String(theme.getAttribute("href") || "").includes("0.15.0")){
+        problems.push("visual theme cache revision is stale");
+    }
+
+    if(typeof window.applyClubIdentity !== "function" || typeof window.refreshClubVisualIdentity !== "function"){
+        problems.push("original club identity renderer is unavailable");
+    }
+
+    return problems;
+}
+
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.14.1" ? [] : [`runtime version is ${version}`];
+    return version === "0.15.0" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
@@ -148,7 +167,8 @@ function runApplicationDiagnostics(){
         ...getControlBindingProblems(),
         ...getTransferInputBindingProblems(),
         ...getMenuMediaProblems(),
-        ...getOptionalModuleProblems()
+        ...getOptionalModuleProblems(),
+        ...getVisualSystemProblems()
     ];
     const versionProblems = getVersionProblems();
     const storageAvailable = testLocalStorageAvailability();
@@ -166,6 +186,7 @@ function runApplicationDiagnostics(){
         missingFunctions,
         bindingProblems,
         versionProblems,
+        visualThemeLoaded: Boolean(document.getElementById("fifa17Theme")),
         lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook"],
         optionalModules: typeof window.getOptionalModuleState === "function"
             ? window.getOptionalModuleState()
@@ -181,7 +202,7 @@ function runApplicationDiagnostics(){
         const problems = [];
         if(missingElements.length){ problems.push(`missing UI: ${missingElements.join(", ")}`); }
         if(missingFunctions.length){ problems.push(`missing code: ${missingFunctions.join(", ")}`); }
-        if(bindingProblems.length){ problems.push(`unbound controls: ${bindingProblems.join(", ")}`); }
+        if(bindingProblems.length){ problems.push(`integrity problems: ${bindingProblems.join(", ")}`); }
         if(versionProblems.length){ problems.push(`version mismatch: ${versionProblems.join(", ")}`); }
         if(!storageAvailable){ problems.push("browser storage unavailable"); }
 
