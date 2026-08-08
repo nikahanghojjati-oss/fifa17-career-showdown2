@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Career Mode Showdown</title>
-<link rel="stylesheet" href="css/style.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/layout.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/animations.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/screens.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/wheel.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/legacy.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/analytics.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/stability.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/rulebook.css?v=0.12.0-r4">
-<link rel="stylesheet" href="css/polish.css?v=0.12.0-r4">
+<link rel="stylesheet" href="css/style.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/layout.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/animations.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/screens.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/wheel.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/legacy.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/analytics.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/stability.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/rulebook.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/polish.css?v=0.13.0-r1">
+<link rel="stylesheet" href="css/menu.css?v=0.13.0-r1">
 </head>
 <body>
 <div id="background"></div>
@@ -35,11 +36,57 @@
 
 <main>
 <section id="mainMenu" class="screen">
-<button class="menuButton" id="newShowdown">NEW SHOWDOWN</button>
-<button class="menuButton" id="continueCareer">CONTINUE CAREER</button>
-<button class="menuButton" id="legacyButton">LEGACY</button>
-<button class="menuButton" id="trophyRoomButton">TROPHY ROOM</button>
-<button class="menuButton" id="ruleBookButton">RULE BOOK</button>
+<div class="fifaMenuShell">
+<div class="fifaMenuHeading">
+<div class="fifaMenuHeadingText">
+<span class="fifaMenuEyebrow">CAREER MODE SHOWDOWN</span>
+<h2>HOME</h2>
+</div>
+<p class="fifaMenuHeadingMeta">Build the rivalry, play the seasons, and carry every trophy into your Legacy.</p>
+</div>
+
+<div class="fifaMenuGrid">
+<button class="menuTile menuTilePrimary" id="continueCareer" type="button">
+<span class="menuTileCode">01</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
+</button>
+<button class="menuTile menuTileNew" id="newShowdown" type="button">
+<span class="menuTileCode">02</span><span class="menuTileLabel">NEW SHOWDOWN</span><span class="menuTileMeta">Create a new rivalry</span>
+</button>
+<button class="menuTile menuTileLegacy" id="legacyButton" type="button">
+<span class="menuTileCode">03</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
+</button>
+<button class="menuTile menuTileTrophy" id="trophyRoomButton" type="button">
+<span class="menuTileCode">04</span><span class="menuTileLabel">TROPHY ROOM</span><span class="menuTileMeta">Career trophies, records and standings</span>
+</button>
+<button class="menuTile menuTileRules" id="ruleBookButton" type="button">
+<span class="menuTileCode">05</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
+</button>
+
+<section class="menuMusicTile" aria-label="Menu music">
+<div class="menuMusicHeader">
+<div>
+<span>MENU MUSIC</span>
+<strong>ARE WE READY? (WRECK)</strong>
+<p class="menuMusicArtist">Two Door Cinema Club</p>
+</div>
+<small class="menuMusicSource">YOUTUBE</small>
+</div>
+<div id="menuMusicPlayer" class="menuMusicPlayer">
+<p class="menuMusicPlaceholder">Official YouTube player stays unloaded until you press Play, keeping startup light.</p>
+</div>
+<p id="menuMusicStatus" class="menuMusicStatus">OFFICIAL YOUTUBE PLAYER · LOADS ONLY WHEN YOU PRESS PLAY</p>
+<div class="menuMusicControls">
+<button id="menuMusicToggle" class="menuMusicControl" type="button">PLAY MUSIC</button>
+<button id="menuMusicMute" class="menuMusicControl" type="button" disabled>MUTE</button>
+</div>
+</section>
+</div>
+
+<div class="menuBottomStrip">
+<span>FIFA 17-inspired interface · original visual treatment</span>
+<strong>LOCAL SAVE ENABLED</strong>
+</div>
+</div>
 </section>
 
 <section id="createShowdown" class="screen hidden">
@@ -274,27 +321,28 @@
 </section>
 </main>
 
-<footer>FIFA 17 Career Mode Showdown<br>v0.12.0 Performance & Stability</footer>
+<footer>FIFA 17 Career Mode Showdown<br>v0.13.0 Menu Experience</footer>
 </div>
 
-<script defer src="data/leagues.js?v=0.12.0-r4"></script>
-<script defer src="data/clubs.js?v=0.12.0-r4"></script>
-<script defer src="js/dataEngine.js?v=0.12.0-r4"></script>
-<script defer src="js/storage.js?v=0.12.0-r4"></script>
-<script defer src="js/screens.js?v=0.12.0-r4"></script>
-<script defer src="js/showdown.js?v=0.12.0-r4"></script>
-<script defer src="js/scoring.js?v=0.12.0-r4"></script>
-<script defer src="js/showdownUI.js?v=0.12.0-r4"></script>
-<script defer src="js/leagueWheel.js?v=0.12.0-r4"></script>
-<script defer src="js/clubAssignment.js?v=0.12.0-r4"></script>
-<script defer src="js/transferChallenge.js?v=0.12.0-r4"></script>
-<script defer src="js/seasonEngine.js?v=0.12.0-r4"></script>
-<script defer src="js/analytics.js?v=0.12.0-r4"></script>
-<script defer src="js/statistics.js?v=0.12.0-r4"></script>
-<script defer src="js/trophyRoom.js?v=0.12.0-r4"></script>
-<script defer src="js/legacy.js?v=0.12.0-r4"></script>
-<script defer src="js/ruleBook.js?v=0.12.0-r4"></script>
-<script defer src="js/diagnostics.js?v=0.12.0-r4"></script>
-<script defer src="js/app.js?v=0.12.0-r4"></script>
+<script defer src="data/leagues.js?v=0.13.0-r1"></script>
+<script defer src="data/clubs.js?v=0.13.0-r1"></script>
+<script defer src="js/dataEngine.js?v=0.13.0-r1"></script>
+<script defer src="js/storage.js?v=0.13.0-r1"></script>
+<script defer src="js/screens.js?v=0.13.0-r1"></script>
+<script defer src="js/showdown.js?v=0.13.0-r1"></script>
+<script defer src="js/scoring.js?v=0.13.0-r1"></script>
+<script defer src="js/showdownUI.js?v=0.13.0-r1"></script>
+<script defer src="js/leagueWheel.js?v=0.13.0-r1"></script>
+<script defer src="js/clubAssignment.js?v=0.13.0-r1"></script>
+<script defer src="js/transferChallenge.js?v=0.13.0-r1"></script>
+<script defer src="js/seasonEngine.js?v=0.13.0-r1"></script>
+<script defer src="js/analytics.js?v=0.13.0-r1"></script>
+<script defer src="js/statistics.js?v=0.13.0-r1"></script>
+<script defer src="js/trophyRoom.js?v=0.13.0-r1"></script>
+<script defer src="js/legacy.js?v=0.13.0-r1"></script>
+<script defer src="js/ruleBook.js?v=0.13.0-r1"></script>
+<script defer src="js/menuExperience.js?v=0.13.0-r1"></script>
+<script defer src="js/diagnostics.js?v=0.13.0-r1"></script>
+<script defer src="js/app.js?v=0.13.0-r1"></script>
 </body>
 </html>
