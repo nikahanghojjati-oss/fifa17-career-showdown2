@@ -1,10 +1,13 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
-   League Wheel System
+   v0.15.1
+   Race-Safe League Wheel System
 ===================================================== */
 
 let leagueWheelSpinInProgress = false;
+let leagueWheelOperationId = 0;
+let leagueWheelSpinTimer = null;
+let leagueWheelAdvanceTimer = null;
 
 function initializeLeagueWheel(){
     const spinButton = document.getElementById("spinLeague");
@@ -38,16 +41,68 @@ function hasLockedClubAssignment(){
     return Boolean(integrity.valid);
 }
 
+function getLeagueBackButton(){
+    return document.querySelector("#leagueWheelScreen .backButton");
+}
+
+function setLeagueWheelBusy(busy){
+    leagueWheelSpinInProgress = Boolean(busy);
+    const backButton = getLeagueBackButton();
+    if(backButton){
+        backButton.disabled = leagueWheelSpinInProgress;
+        backButton.setAttribute("aria-disabled", String(leagueWheelSpinInProgress));
+    }
+}
+
+function clearLeagueWheelTimers(){
+    if(leagueWheelSpinTimer){
+        window.clearTimeout(leagueWheelSpinTimer);
+        leagueWheelSpinTimer = null;
+    }
+    if(leagueWheelAdvanceTimer){
+        window.clearTimeout(leagueWheelAdvanceTimer);
+        leagueWheelAdvanceTimer = null;
+    }
+}
+
+function cancelLeagueAutoAdvance(){
+    if(leagueWheelAdvanceTimer){
+        window.clearTimeout(leagueWheelAdvanceTimer);
+        leagueWheelAdvanceTimer = null;
+    }
+}
+
+function cancelLeagueWheelOperation(){
+    clearLeagueWheelTimers();
+    leagueWheelOperationId += 1;
+    setLeagueWheelBusy(false);
+}
+
+function isLeagueWheelOperationCurrent(operationId, showdownId){
+    return operationId === leagueWheelOperationId
+        && Boolean(currentShowdown)
+        && String(currentShowdown.id) === String(showdownId);
+}
+
 function setWheelRotationWithoutAnimation(track, rotation){
     if(!track){
         return;
     }
 
+    const nextTransform = `rotate(${rotation}deg)`;
+    if(track.style.transform === nextTransform){
+        return;
+    }
+
     const previousTransition = track.style.transition;
     track.style.transition = "none";
-    track.style.transform = `rotate(${rotation}deg)`;
-    void track.offsetWidth;
-    track.style.transition = previousTransition;
+    track.style.transform = nextTransform;
+
+    window.requestAnimationFrame(() => {
+        if(track.style.transition === "none"){
+            track.style.transition = previousTransition;
+        }
+    });
 }
 
 function renderLeagueWheelState(){
@@ -62,12 +117,15 @@ function renderLeagueWheelState(){
     }
 
     if(!currentShowdown || !currentShowdown.selectedLeague){
-        setWheelRotationWithoutAnimation(track, 0);
-        result.textContent = "Spin to select league";
-        spinButton.textContent = "SPIN WHEEL";
+        if(!leagueWheelSpinInProgress){
+            setWheelRotationWithoutAnimation(track, 0);
+            if(result.textContent !== "Spin to select league"){ result.textContent = "Spin to select league"; }
+            if(spinButton.textContent !== "SPIN WHEEL"){ spinButton.textContent = "SPIN WHEEL"; }
+        }
         spinButton.disabled = leagueWheelSpinInProgress;
+
         if(note){
-            note.textContent = "";
+            if(note.textContent){ note.textContent = ""; }
             note.classList.add("hidden");
             note.classList.remove("locked");
         }
@@ -75,22 +133,26 @@ function renderLeagueWheelState(){
     }
 
     const selected = currentShowdown.selectedLeague;
-    result.textContent = selected.name;
+    if(result.textContent !== selected.name){ result.textContent = selected.name; }
     setWheelRotationWithoutAnimation(track, getLeagueRotation(selected.id));
 
     if(hasLockedClubAssignment()){
-        spinButton.textContent = "LEAGUE LOCKED";
+        if(spinButton.textContent !== "LEAGUE LOCKED"){ spinButton.textContent = "LEAGUE LOCKED"; }
         spinButton.disabled = true;
         if(note){
-            note.textContent = "League and clubs are permanent for this showdown.";
+            const message = "League and clubs are permanent for this showdown.";
+            if(note.textContent !== message){ note.textContent = message; }
             note.classList.remove("hidden");
             note.classList.add("locked");
         }
     }else{
-        spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
+        if(spinButton.textContent !== "CONTINUE TO CLUB ASSIGNMENT"){
+            spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
+        }
         spinButton.disabled = false;
         if(note){
-            note.textContent = `${selected.name} has been selected. The league cannot be re-spun; continue to assign the two permanent clubs.`;
+            const message = `${selected.name} has been selected. The league cannot be re-spun; continue to assign the two permanent clubs.`;
+            if(note.textContent !== message){ note.textContent = message; }
             note.classList.remove("hidden", "locked");
         }
     }
@@ -102,6 +164,8 @@ function handleLeagueWheelAction(){
     }
 
     if(currentShowdown.selectedLeague){
+        cancelLeagueAutoAdvance();
+
         if(hasLockedClubAssignment()){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
@@ -145,14 +209,24 @@ function spinLeagueWheel(){
         return;
     }
 
-    leagueWheelSpinInProgress = true;
+    clearLeagueWheelTimers();
+    const operationId = ++leagueWheelOperationId;
+    const showdownId = currentShowdown.id;
+
+    setLeagueWheelBusy(true);
     spinButton.disabled = true;
     spinButton.textContent = "SPINNING...";
     result.textContent = "SPINNING...";
     if(note){ note.classList.add("hidden"); }
     track.style.transform = `rotate(${getLeagueRotation(selected.id, 5)}deg)`;
 
-    window.setTimeout(() => {
+    leagueWheelSpinTimer = window.setTimeout(() => {
+        leagueWheelSpinTimer = null;
+
+        if(!isLeagueWheelOperationCurrent(operationId, showdownId)){
+            return;
+        }
+
         const previousLeague = currentShowdown.selectedLeague;
         const previousStatus = currentShowdown.status;
 
@@ -162,7 +236,7 @@ function spinLeagueWheel(){
         if(!saveCurrentShowdown()){
             currentShowdown.selectedLeague = previousLeague;
             currentShowdown.status = previousStatus;
-            leagueWheelSpinInProgress = false;
+            setLeagueWheelBusy(false);
             renderLeagueWheelState();
 
             if(typeof window.showAppNotice === "function"){
@@ -175,19 +249,19 @@ function spinLeagueWheel(){
             return;
         }
 
-        leagueWheelSpinInProgress = false;
+        setLeagueWheelBusy(false);
         updateShowdownUI();
-        result.textContent = selected.name;
-        spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
-        spinButton.disabled = false;
+        renderLeagueWheelState();
 
-        if(note){
-            note.textContent = `${selected.name} has been selected. The league cannot be re-spun; continue to assign the two permanent clubs.`;
-            note.classList.remove("hidden", "locked");
-        }
-
-        window.setTimeout(() => {
-            if(currentShowdown && currentShowdown.selectedLeague && currentShowdown.selectedLeague.id === selected.id){
+        leagueWheelAdvanceTimer = window.setTimeout(() => {
+            leagueWheelAdvanceTimer = null;
+            if(
+                isLeagueWheelOperationCurrent(operationId, showdownId)
+                && currentShowdown.selectedLeague
+                && currentShowdown.selectedLeague.id === selected.id
+                && typeof getActiveScreenName === "function"
+                && getActiveScreenName() === "leagueWheelScreen"
+            ){
                 prepareClubAssignment();
             }
         }, 700);
@@ -197,3 +271,4 @@ function spinLeagueWheel(){
 window.initializeLeagueWheel = initializeLeagueWheel;
 window.renderLeagueWheelState = renderLeagueWheelState;
 window.spinLeagueWheel = spinLeagueWheel;
+window.cancelLeagueWheelOperation = cancelLeagueWheelOperation;
