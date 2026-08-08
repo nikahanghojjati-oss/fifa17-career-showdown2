@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
+   v0.12.0
    Showdown State Manager and Integrity Repair
 ===================================================== */
 
@@ -301,15 +301,19 @@ function getShowdownWinner(showdown = currentShowdown){
     return "draw";
 }
 
+/*
+   This accessor is intentionally hot-path safe. State is normalized at creation,
+   resume, and major route boundaries; timer ticks and keystrokes must not trigger
+   score recalculation or integrity repair.
+*/
 function getTransferChallengeForSeason(seasonNumber){
-    if(!currentShowdown){
+    if(!currentShowdown || !Array.isArray(currentShowdown.transferChallenges)){
         return null;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
-
+    const targetSeason = Number(seasonNumber);
     return currentShowdown.transferChallenges.find(
-        challenge => Number(challenge.seasonNumber) === Number(seasonNumber)
+        challenge => challenge && Number(challenge.seasonNumber) === targetSeason
     ) || null;
 }
 
