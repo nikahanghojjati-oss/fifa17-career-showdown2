@@ -1,12 +1,13 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.1
-   Stabilized Application Controller
+   v0.11.0
+   Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.10.1";
+const APP_VERSION = "0.11.0";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
+let runtimeBoundaryInstalled = false;
 
 function showAppNotice(message, type = "error", duration = 7000){
     let notice = document.getElementById("appRuntimeNotice");
@@ -61,29 +62,22 @@ function reportApplicationError(context, error){
 window.reportApplicationError = reportApplicationError;
 
 function installRuntimeErrorBoundary(){
+    if(runtimeBoundaryInstalled){
+        return;
+    }
+
+    runtimeBoundaryInstalled = true;
+
     window.addEventListener("error", event => {
         if(!event || !event.error){
             return;
         }
-
         reportApplicationError("A runtime error was detected", event.error);
     });
 
     window.addEventListener("unhandledrejection", event => {
         reportApplicationError("An unexpected application error was detected", event.reason);
     });
-}
-
-function disableUnimplementedMenuControls(){
-    const ruleBookButton = Array.from(document.querySelectorAll("#mainMenu .menuButton")).find(button =>
-        button.textContent.trim().toUpperCase() === "RULE BOOK"
-    );
-
-    if(ruleBookButton){
-        ruleBookButton.disabled = true;
-        ruleBookButton.setAttribute("aria-disabled", "true");
-        ruleBookButton.title = "Rule Book is not implemented in the current build.";
-    }
 }
 
 function revealApplication(){
@@ -99,6 +93,32 @@ function revealApplication(){
     }
 }
 
+function requireInitializer(name){
+    const initializer = window[name];
+    if(typeof initializer !== "function"){
+        throw new Error(`Required initializer is unavailable: ${name}`);
+    }
+    initializer();
+}
+
+function initializeApplicationModules(){
+    /*
+       Core order is intentional. State/UI engines bind first; feature screens
+       are created before the router is asked to expose the main menu.
+    */
+    [
+        "initializeShowdownUI",
+        "initializeLeagueWheel",
+        "initializeClubAssignment",
+        "initializeTransferChallenge",
+        "initializeSeasonEngine",
+        "initializeStatistics",
+        "initializeTrophyRoom",
+        "initializeRuleBook",
+        "initializeScreens"
+    ].forEach(requireInitializer);
+}
+
 function startApplication(){
     if(applicationStarted){
         return;
@@ -106,16 +126,22 @@ function startApplication(){
 
     applicationStarted = true;
     installRuntimeErrorBoundary();
-    disableUnimplementedMenuControls();
 
     try{
-        initializeScreens();
-        showScreen("mainMenu", false);
+        initializeApplicationModules();
+
+        if(!showScreen("mainMenu", false)){
+            throw new Error("Main Menu could not be opened.");
+        }
+
+        if(typeof window.runApplicationDiagnostics === "function"){
+            window.runApplicationDiagnostics();
+        }
     }catch(error){
         reportApplicationError("The application could not finish initializing", error);
     }
 
-    window.setTimeout(revealApplication, 700);
+    window.setTimeout(revealApplication, 500);
 }
 
 function bootstrapApplication(){
