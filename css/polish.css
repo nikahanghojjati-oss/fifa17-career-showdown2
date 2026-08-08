@@ -1,13 +1,13 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Interface Polish and State Feedback
+   v0.12.0
+   Fast Interface Polish and State Feedback
 ===================================================== */
 
 :root{
     --cms-accent:#f7d700;
     --cms-deep:#071936;
-    --cms-panel:rgba(5,22,48,.86);
+    --cms-panel:rgba(5,22,48,.92);
     --cms-border:rgba(255,255,255,.16);
     --cms-muted:#a9bad7;
 }
@@ -29,7 +29,7 @@ summary:focus-visible{
 .menuButton,
 .backButton,
 .compactButton{
-    transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease, border-color .18s ease;
+    transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease, border-color .12s ease;
 }
 
 .menuButton:not(:disabled):hover,
@@ -60,7 +60,7 @@ summary:focus-visible{
     background:var(--cms-accent);
     transform:scaleX(0);
     transform-origin:left;
-    transition:transform .2s ease;
+    transition:transform .14s ease;
 }
 
 #mainMenu .menuButton:not(:disabled):hover::after,
@@ -68,16 +68,42 @@ summary:focus-visible{
     transform:scaleX(1);
 }
 
+/* Data-entry controls stay responsive: no long paint-heavy transitions. */
 input,
 select{
-    transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    transition:border-color .1s ease, background-color .1s ease;
+    caret-color:var(--cms-accent);
 }
 
 input:focus,
 select:focus{
-    border-color:rgba(247,215,0,.65)!important;
-    box-shadow:0 0 0 3px rgba(247,215,0,.1);
-    background:rgba(0,0,0,.42)!important;
+    border-color:rgba(247,215,0,.7)!important;
+    background:rgba(0,0,0,.46)!important;
+}
+
+/* Blur is expensive on integrated/mobile GPUs and adds no gameplay value here. */
+.setupBox,
+.playerCard{
+    -webkit-backdrop-filter:none!important;
+    backdrop-filter:none!important;
+    background:rgba(8,28,60,.94)!important;
+}
+
+.transferManagerCard,
+.transferGuessCard,
+.transferResultsCard,
+.seasonResultCard,
+.seasonSummaryCard,
+.showdownOverview,
+.showdownScoreboard{
+    contain:layout paint;
+}
+
+.signingRow input,
+.guessRow input,
+.guessRow select,
+.seasonResultCard input[type="number"]{
+    transform:translateZ(0);
 }
 
 .dashboardActions{
@@ -131,21 +157,35 @@ select:focus{
     border-radius:8px;
 }
 
-.transferTimer[aria-live="polite"]{
+.transferTimer{
     font-variant-numeric:tabular-nums;
 }
 
+/* Kill the old global screen animation and run one short route transition only. */
+.screen{
+    animation:none!important;
+}
+
 .screen[data-route-state="entering"]{
-    animation:cmsRouteIn .16s ease-out;
+    animation:cmsRouteIn .12s ease-out!important;
 }
 
 @keyframes cmsRouteIn{
-    from{opacity:.6;transform:translateY(5px)}
+    from{opacity:.72;transform:translateY(3px)}
     to{opacity:1;transform:translateY(0)}
 }
 
 footer{
     opacity:.72;
+}
+
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        scroll-behavior:auto!important;
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+    }
 }
 
 @media(max-width:700px){
