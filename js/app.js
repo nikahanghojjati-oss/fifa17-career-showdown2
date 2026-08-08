@@ -1,10 +1,10 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.13.0
+   v0.13.1
    Performance-Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.13.0";
+const APP_VERSION = "0.13.1";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
@@ -33,9 +33,7 @@ function showAppNotice(message, type = "error", duration = 7000){
 
     notice.className = type;
     const text = notice.querySelector(".runtimeNoticeText");
-    if(text){
-        text.textContent = message;
-    }
+    if(text){ text.textContent = message; }
 
     if(runtimeNoticeTimer){
         window.clearTimeout(runtimeNoticeTimer);
@@ -62,16 +60,11 @@ function reportApplicationError(context, error){
 window.reportApplicationError = reportApplicationError;
 
 function installRuntimeErrorBoundary(){
-    if(runtimeBoundaryInstalled){
-        return;
-    }
-
+    if(runtimeBoundaryInstalled){ return; }
     runtimeBoundaryInstalled = true;
 
     window.addEventListener("error", event => {
-        if(!event || !event.error){
-            return;
-        }
+        if(!event || !event.error){ return; }
         reportApplicationError("A runtime error was detected", event.error);
     });
 
@@ -83,23 +76,13 @@ function installRuntimeErrorBoundary(){
 function revealApplication(){
     const loadingScreen = document.getElementById("loadingScreen");
     const app = document.getElementById("app");
-
-    if(loadingScreen){
-        loadingScreen.classList.add("hidden");
-    }
-
-    if(app){
-        app.classList.remove("hidden");
-    }
+    if(loadingScreen){ loadingScreen.classList.add("hidden"); }
+    if(app){ app.classList.remove("hidden"); }
 }
 
 function scheduleApplicationDiagnostics(){
-    if(typeof window.runApplicationDiagnostics !== "function"){
-        return;
-    }
-
+    if(typeof window.runApplicationDiagnostics !== "function"){ return; }
     const run = () => window.runApplicationDiagnostics();
-
     if(typeof window.requestIdleCallback === "function"){
         window.requestIdleCallback(run, { timeout: 1000 });
     }else{
@@ -131,16 +114,13 @@ function initializeApplicationModules(){
 }
 
 function startApplication(){
-    if(applicationStarted){
-        return;
-    }
+    if(applicationStarted){ return; }
 
     applicationStarted = true;
     installRuntimeErrorBoundary();
 
     try{
         initializeApplicationModules();
-
         if(!showScreen("mainMenu", false)){
             throw new Error("Main Menu could not be opened.");
         }
@@ -154,9 +134,7 @@ function startApplication(){
     });
 }
 
-function bootstrapApplication(){
-    startApplication();
-}
+function bootstrapApplication(){ startApplication(); }
 
 if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded", bootstrapApplication, { once: true });
