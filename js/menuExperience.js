@@ -28,8 +28,26 @@ function createTileContent(button, code, label, meta){
     button.append(codeElement, labelElement, metaElement);
 }
 
+function updateExistingTileText(button, label, meta){
+    if(!button){
+        return;
+    }
+
+    const labelElement = button.querySelector(".menuTileLabel");
+    const metaElement = button.querySelector(".menuTileMeta");
+
+    if(labelElement && labelElement.textContent !== label){
+        labelElement.textContent = label;
+    }
+    if(metaElement && metaElement.textContent !== meta){
+        metaElement.textContent = meta;
+    }
+}
+
 function getSavedShowdownMenuMeta(){
-    const saved = typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null;
+    const saved = (typeof currentShowdown !== "undefined" && currentShowdown)
+        ? currentShowdown
+        : (typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null);
 
     if(!saved){
         return {
@@ -59,7 +77,7 @@ function refreshMainMenuExperience(){
     }
 
     const saveMeta = getSavedShowdownMenuMeta();
-    createTileContent(continueButton, "01", saveMeta.label, saveMeta.meta);
+    updateExistingTileText(continueButton, saveMeta.label, saveMeta.meta);
     continueButton.disabled = !saveMeta.hasSave;
     continueButton.setAttribute("aria-disabled", String(!saveMeta.hasSave));
 }
@@ -82,7 +100,7 @@ function updateMusicControls(){
     const status = document.getElementById("menuMusicStatus");
 
     if(toggle){
-        toggle.textContent = menuMusicPlaying ? "PAUSE MUSIC" : (menuMusicIframe ? "PLAY MUSIC" : "PLAY MUSIC");
+        toggle.textContent = menuMusicPlaying ? "PAUSE MUSIC" : "PLAY MUSIC";
     }
 
     if(mute){
