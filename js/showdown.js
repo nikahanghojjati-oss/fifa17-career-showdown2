@@ -1,8 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.6.1
-
-   Showdown Manager
+   v0.7.0
+   Showdown State Manager
 ===================================================== */
 
 let currentShowdown = null;
@@ -39,18 +38,23 @@ function createShowdown(){
     showScreen("leagueWheelScreen");
 }
 
-function updateShowdownUI(){
-    if(!currentShowdown){
-        return;
+function normalizeShowdown(showdown){
+    if(!showdown){
+        return null;
     }
 
-    const indicator = document.getElementById("seasonIndicator");
-    if(indicator){
-        indicator.textContent = `Season ${currentShowdown.currentRound || 1}`;
-    }
+    showdown.name = showdown.name || "Unnamed Showdown";
+    showdown.managers = showdown.managers || { playerOne: "Manager 1", playerTwo: "Manager 2" };
+    showdown.managers.playerOne = showdown.managers.playerOne || "Manager 1";
+    showdown.managers.playerTwo = showdown.managers.playerTwo || "Manager 2";
+    showdown.totalRounds = Number(showdown.totalRounds) || 1;
+    showdown.currentRound = Number(showdown.currentRound) || 1;
+    showdown.status = showdown.status || "Created";
+    showdown.clubs = showdown.clubs || { playerOne: null, playerTwo: null };
+    showdown.score = showdown.score || { playerOne: 0, playerTwo: 0 };
+    showdown.score.playerOne = Number(showdown.score.playerOne) || 0;
+    showdown.score.playerTwo = Number(showdown.score.playerTwo) || 0;
+    showdown.rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
 
-    const selectedLeague = document.getElementById("selectedLeague");
-    if(selectedLeague && currentShowdown.selectedLeague){
-        selectedLeague.textContent = currentShowdown.selectedLeague.name;
-    }
+    return showdown;
 }
