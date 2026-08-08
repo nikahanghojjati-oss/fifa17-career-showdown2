@@ -297,8 +297,19 @@ function finishTransferWindow(challenge, endedEarly){
         currentShowdown.status = previousShowdownStatus;
         renderTransferChallenge(challenge);
 
-        if(challenge.status === "active"){
+        const restoredDeadline = Number(challenge.deadlineAt);
+        const stillHasTime = challenge.status === "active"
+            && Number.isFinite(restoredDeadline)
+            && restoredDeadline > Date.now();
+
+        if(stillHasTime){
             startTransferTimerLoop();
+        }else if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                "The transfer window reached zero, but its closed state could not be saved. Refresh after browser storage is available; the timer will not repeatedly retry in the background.",
+                "error",
+                12000
+            );
         }
         return false;
     }
