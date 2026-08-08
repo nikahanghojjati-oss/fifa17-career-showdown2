@@ -1,24 +1,59 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.9.0
-   Season Entry and Progression Engine
+   v0.10.1
+   Stabilized Season Entry and Progression Engine
 ===================================================== */
+
+let seasonCompletionInProgress = false;
 
 function initializeSeasonEngine(){
     const completeButton = document.getElementById("completeSeason");
     const nextButton = document.getElementById("nextSeasonAction");
 
-    if(completeButton){
+    if(completeButton && completeButton.dataset.seasonEngineBound !== "true"){
+        completeButton.dataset.seasonEngineBound = "true";
         completeButton.addEventListener("click", completeCurrentSeason);
     }
 
-    if(nextButton){
+    if(nextButton && nextButton.dataset.seasonEngineBound !== "true"){
+        nextButton.dataset.seasonEngineBound = "true";
         nextButton.addEventListener("click", handleSeasonSummaryAction);
+    }
+}
+
+function setSeasonEntryError(message = ""){
+    const error = document.getElementById("seasonEntryError");
+    if(error){
+        error.textContent = message;
+    }
+}
+
+function setSeasonCompletionBusy(isBusy){
+    const button = document.getElementById("completeSeason");
+    if(!button){
+        return;
+    }
+
+    button.disabled = isBusy;
+    button.classList.toggle("isBusy", isBusy);
+    button.setAttribute("aria-busy", isBusy ? "true" : "false");
+    button.textContent = isBusy ? "SAVING SEASON..." : "COMPLETE SEASON";
+}
+
+function reportSeasonError(message, error){
+    console.error(`[Career Mode Showdown] ${message}:`, error);
+    setSeasonEntryError(`${message}. ${error && error.message ? error.message : "Please try again."}`);
+
+    if(typeof window.reportApplicationError === "function"){
+        window.reportApplicationError(message, error);
     }
 }
 
 function openSeasonEntry(){
     if(!currentShowdown){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("No active showdown is available.", "error");
+        }
         return;
     }
 
@@ -43,7 +78,6 @@ function openSeasonEntry(){
     const managerTwo = document.getElementById("seasonManagerTwo");
     const clubOne = document.getElementById("seasonClubOne");
     const clubTwo = document.getElementById("seasonClubTwo");
-    const error = document.getElementById("seasonEntryError");
 
     if(title){
         title.textContent = `SEASON ${currentShowdown.currentRound} RESULTS`;
@@ -53,8 +87,8 @@ function openSeasonEntry(){
     if(managerTwo){ managerTwo.textContent = currentShowdown.managers.playerTwo; }
     if(clubOne){ clubOne.textContent = currentShowdown.clubs.playerOne; }
     if(clubTwo){ clubTwo.textContent = currentShowdown.clubs.playerTwo; }
-    if(error){ error.textContent = ""; }
 
+    setSeasonEntryError("");
     resetSeasonEntryFields();
     showScreen("seasonEntry");
 }
@@ -73,24 +107,44 @@ function resetSeasonEntryFields(){
     });
 }
 
+function getSeasonInput(prefix, field){
+    return document.getElementById(`${prefix}${field}`);
+}
+
 function readSeasonResult(prefix){
+    const position = getSeasonInput(prefix, "LeaguePosition");
+    const points = getSeasonInput(prefix, "LeaguePoints");
+    const goals = getSeasonInput(prefix, "LeagueGoals");
+    const domesticCup = getSeasonInput(prefix, "DomesticCup");
+    const championsLeague = getSeasonInput(prefix, "ChampionsLeague");
+    const topScorer = getSeasonInput(prefix, "TopScorer");
+    const topAssist = getSeasonInput(prefix, "TopAssist");
+
+    if(!position || !points || !goals || !domesticCup || !championsLeague || !topScorer || !topAssist){
+        throw new Error(`Season form controls are missing for ${prefix}.`);
+    }
+
     return {
-        leaguePosition: Number(document.getElementById(`${prefix}LeaguePosition`).value),
-        leaguePoints: Number(document.getElementById(`${prefix}LeaguePoints`).value),
-        leagueGoals: Number(document.getElementById(`${prefix}LeagueGoals`).value),
-        domesticCup: document.getElementById(`${prefix}DomesticCup`).checked,
-        championsLeague: document.getElementById(`${prefix}ChampionsLeague`).checked,
-        topScorer: document.getElementById(`${prefix}TopScorer`).checked,
-        topAssist: document.getElementById(`${prefix}TopAssist`).checked
+        leaguePosition: Number(position.value),
+        leaguePoints: Number(points.value),
+        leagueGoals: Number(goals.value),
+        domesticCup: domesticCup.checked,
+        championsLeague: championsLeague.checked,
+        topScorer: topScorer.checked,
+        topAssist: topAssist.checked
     };
 }
 
 function validateSeasonEntry(prefix){
-    const positionInput = document.getElementById(`${prefix}LeaguePosition`);
-    const pointsInput = document.getElementById(`${prefix}LeaguePoints`);
-    const goalsInput = document.getElementById(`${prefix}LeagueGoals`);
+    const positionInput = getSeasonInput(prefix, "LeaguePosition");
+    const pointsInput = getSeasonInput(prefix, "LeaguePoints");
+    const goalsInput = getSeasonInput(prefix, "LeagueGoals");
 
-    if(!positionInput.value || !pointsInput.value || !goalsInput.value){
+    if(!positionInput || !pointsInput || !goalsInput){
+        return false;
+    }
+
+    if(positionInput.value === "" || pointsInput.value === "" || goalsInput.value === ""){
         return false;
     }
 
@@ -98,47 +152,19 @@ function validateSeasonEntry(prefix){
     const points = Number(pointsInput.value);
     const goals = Number(goalsInput.value);
 
-    return Number.isInteger(position) && position >= 1 && Number.isFinite(points) && points >= 0 && Number.isFinite(goals) && goals >= 0;
+    return Number.isInteger(position)
+        && position >= 1
+        && Number.isFinite(points)
+        && points >= 0
+        && Number.isFinite(goals)
+        && goals >= 0;
 }
 
-function completeCurrentSeason(){
-    if(!currentShowdown || currentShowdown.status === "Completed"){
-        return;
-    }
-
-    if(!isTransferChallengeComplete(currentShowdown.currentRound)){
-        openTransferChallenge();
-        return;
-    }
-
-    const error = document.getElementById("seasonEntryError");
-
-    if(!validateSeasonEntry("p1") || !validateSeasonEntry("p2")){
-        if(error){
-            error.textContent = "Enter league position, league points and league goals for both managers.";
-        }
-        return;
-    }
-
-    currentShowdown = normalizeShowdown(currentShowdown);
-
-    const seasonNumber = currentShowdown.currentRound;
-    const alreadyCompleted = currentShowdown.rounds.some(round => round.roundNumber === seasonNumber);
-
-    if(alreadyCompleted){
-        if(error){
-            error.textContent = "This season has already been completed.";
-        }
-        return;
-    }
-
-    const playerOne = readSeasonResult("p1");
-    const playerTwo = readSeasonResult("p2");
-
+function buildSeasonRecord(seasonNumber, playerOne, playerTwo){
     playerOne.scoring = calculatePlayerSeasonScore(playerOne);
     playerTwo.scoring = calculatePlayerSeasonScore(playerTwo);
 
-    const roundRecord = {
+    return {
         roundNumber: seasonNumber,
         completedAt: new Date().toISOString(),
         transferChallengeSeason: seasonNumber,
@@ -146,7 +172,9 @@ function completeCurrentSeason(){
         playerTwo,
         winner: determineSeasonWinner(playerOne, playerTwo)
     };
+}
 
+function persistCompletedSeason(roundRecord, seasonNumber){
     currentShowdown.rounds.push(roundRecord);
     recalculateShowdownScores(currentShowdown);
 
@@ -159,15 +187,111 @@ function completeCurrentSeason(){
     }
 
     touchCurrentShowdown();
-    saveCurrentShowdown();
 
-    if(currentShowdown.status === "Completed"){
-        archiveShowdown(currentShowdown);
+    if(!saveCurrentShowdown()){
+        currentShowdown.rounds = currentShowdown.rounds.filter(
+            round => Number(round.roundNumber) !== Number(seasonNumber)
+        );
+        currentShowdown.currentRound = seasonNumber;
+        currentShowdown.status = "Ready";
+        currentShowdown.completedAt = null;
+        recalculateShowdownScores(currentShowdown);
+        throw new Error("The season could not be saved to browser storage.");
     }
 
-    updateShowdownUI();
-    renderSeasonSummary(roundRecord);
-    showScreen("seasonSummary");
+    if(currentShowdown.status === "Completed"){
+        const archived = archiveShowdown(currentShowdown);
+        if(!archived && typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                "Season saved, but the completed showdown could not be copied to Legacy. The active save is safe and can be archived again later.",
+                "error",
+                10000
+            );
+        }
+    }
+}
+
+function completeCurrentSeason(){
+    if(seasonCompletionInProgress){
+        return;
+    }
+
+    if(!currentShowdown){
+        setSeasonEntryError("No active showdown is available.");
+        return;
+    }
+
+    currentShowdown = normalizeShowdown(currentShowdown);
+
+    if(currentShowdown.status === "Completed"){
+        const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
+        if(latestRound){
+            renderSeasonSummary(latestRound);
+            showScreen("seasonSummary");
+        }
+        return;
+    }
+
+    if(!isTransferChallengeComplete(currentShowdown.currentRound)){
+        setSeasonEntryError("Complete the current season's Transfer Challenge before submitting results.");
+        return;
+    }
+
+    if(!validateSeasonEntry("p1") || !validateSeasonEntry("p2")){
+        setSeasonEntryError("Enter a valid league position, league points and league goals for both managers.");
+        return;
+    }
+
+    const seasonNumber = Number(currentShowdown.currentRound);
+    const alreadyCompleted = currentShowdown.rounds.some(
+        round => Number(round.roundNumber) === seasonNumber
+    );
+
+    if(alreadyCompleted){
+        setSeasonEntryError("This season has already been completed. Return to Showdown Home to continue.");
+        return;
+    }
+
+    seasonCompletionInProgress = true;
+    setSeasonCompletionBusy(true);
+    setSeasonEntryError("");
+
+    let roundRecord = null;
+
+    try{
+        const playerOne = readSeasonResult("p1");
+        const playerTwo = readSeasonResult("p2");
+        roundRecord = buildSeasonRecord(seasonNumber, playerOne, playerTwo);
+        persistCompletedSeason(roundRecord, seasonNumber);
+    }catch(error){
+        reportSeasonError("Season completion failed", error);
+        seasonCompletionInProgress = false;
+        setSeasonCompletionBusy(false);
+        return;
+    }
+
+    try{
+        updateShowdownUI();
+        renderSeasonSummary(roundRecord);
+
+        if(!showScreen("seasonSummary")){
+            throw new Error("The Season Summary screen could not be opened.");
+        }
+
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(`Season ${seasonNumber} saved successfully.`, "success", 3500);
+        }
+    }catch(error){
+        console.error("Season was saved but the summary screen failed to render:", error);
+        setSeasonEntryError("Season saved successfully, but the summary screen could not be displayed. Return to Showdown Home or refresh to continue.");
+
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError("Season saved, but the summary screen failed", error);
+        }
+    }finally{
+        seasonCompletionInProgress = false;
+        setSeasonCompletionBusy(false);
+    }
 }
 
 function renderSeasonSummary(roundRecord){
@@ -220,7 +344,7 @@ function renderSeasonSummary(roundRecord){
 }
 
 function renderManagerSeasonSummary(container, managerName, clubName, playerRecord){
-    if(!container){
+    if(!container || !playerRecord){
         return;
     }
 
@@ -280,4 +404,8 @@ function handleSeasonSummaryAction(){
     openTransferChallenge();
 }
 
-document.addEventListener("DOMContentLoaded", initializeSeasonEngine);
+if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", initializeSeasonEngine, { once: true });
+}else{
+    initializeSeasonEngine();
+}
