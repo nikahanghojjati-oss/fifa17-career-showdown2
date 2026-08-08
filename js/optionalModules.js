@@ -4,7 +4,7 @@
    On-Demand View Module Loader
 ===================================================== */
 
-const OPTIONAL_ASSET_REVISION = "0.14.1-r1";
+const OPTIONAL_ASSET_REVISION = "0.14.1-r2";
 const optionalScriptPromises = new Map();
 const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
@@ -111,6 +111,16 @@ async function ensureTrophyRoomModule(){
     await stylePromise;
 }
 
+async function ensureLegacyModule(){
+    const stylePromise = loadOptionalStyle("legacy-ui", "css/legacy.css");
+    await loadOptionalScript(
+        "legacy-ui",
+        "js/legacy.js",
+        () => typeof window.renderLegacy === "function"
+    );
+    await stylePromise;
+}
+
 async function ensureRuleBookModule(){
     const stylePromise = loadOptionalStyle("rule-book-ui", "css/rulebook.css");
     await loadOptionalScript(
@@ -127,6 +137,9 @@ function getOptionalModuleButton(name){
     }
     if(name === "trophyRoom"){
         return document.getElementById("trophyRoomButton");
+    }
+    if(name === "legacy"){
+        return document.getElementById("legacyButton");
     }
     if(name === "ruleBook"){
         return document.getElementById("ruleBookButton");
@@ -152,6 +165,8 @@ async function ensureOptionalModule(name){
             await ensureStatisticsModule();
         }else if(name === "trophyRoom"){
             await ensureTrophyRoomModule();
+        }else if(name === "legacy"){
+            await ensureLegacyModule();
         }else if(name === "ruleBook"){
             await ensureRuleBookModule();
         }else{
@@ -180,6 +195,8 @@ async function openOptionalModule(name){
             window.openRivalryStatistics();
         }else if(name === "trophyRoom"){
             window.openTrophyRoom();
+        }else if(name === "legacy"){
+            showScreen("legacy");
         }else if(name === "ruleBook"){
             window.openRuleBook();
         }
@@ -246,6 +263,7 @@ function getOptionalModuleState(){
     return {
         statistics: optionalModuleStates.get("statistics") || "idle",
         trophyRoom: optionalModuleStates.get("trophyRoom") || "idle",
+        legacy: optionalModuleStates.get("legacy") || "idle",
         ruleBook: optionalModuleStates.get("ruleBook") || "idle"
     };
 }
