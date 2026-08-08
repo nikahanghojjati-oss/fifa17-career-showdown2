@@ -62,6 +62,7 @@ function renderLeagueWheelState(){
     }
 
     if(!currentShowdown || !currentShowdown.selectedLeague){
+        setWheelRotationWithoutAnimation(track, 0);
         result.textContent = "Spin to select league";
         spinButton.textContent = "SPIN WHEEL";
         spinButton.disabled = leagueWheelSpinInProgress;
