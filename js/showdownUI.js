@@ -144,8 +144,6 @@ function updateShowdownUI(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
-
     const indicator = document.getElementById("seasonIndicator");
     const selectedLeague = document.getElementById("selectedLeague");
     const showdownName = document.getElementById("dashboardShowdownName");
