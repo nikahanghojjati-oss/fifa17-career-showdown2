@@ -85,20 +85,24 @@ async function ensureAnalyticsEngine(){
     );
 }
 
-async function ensureStatisticsModule(){
-    const stylePromise = loadOptionalStyle("analytics-ui", "css/analytics.css");
+async function ensureStatisticsScript(){
     await ensureAnalyticsEngine();
     await loadOptionalScript(
         "statistics-ui",
         "js/statistics.js",
-        () => typeof window.openRivalryStatistics === "function"
+        () => typeof window.openRivalryStatistics === "function" && typeof window.createAnalyticsStat === "function"
     );
+}
+
+async function ensureStatisticsModule(){
+    const stylePromise = loadOptionalStyle("analytics-ui", "css/analytics.css");
+    await ensureStatisticsScript();
     await stylePromise;
 }
 
 async function ensureTrophyRoomModule(){
     const stylePromise = loadOptionalStyle("analytics-ui", "css/analytics.css");
-    await ensureAnalyticsEngine();
+    await ensureStatisticsScript();
     await loadOptionalScript(
         "trophy-room-ui",
         "js/trophyRoom.js",
