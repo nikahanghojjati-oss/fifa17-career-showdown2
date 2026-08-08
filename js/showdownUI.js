@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.9.0
+   v0.10.0
    Showdown Interface Controller
 ===================================================== */
 
@@ -25,14 +25,14 @@ function ensureLegacyStylesheet(){
     const stylesheet = document.createElement("link");
     stylesheet.id = "legacyStylesheet";
     stylesheet.rel = "stylesheet";
-    stylesheet.href = "css/legacy.css?v=0.9.0";
+    stylesheet.href = "css/legacy.css?v=0.10.0";
     document.head.appendChild(stylesheet);
 }
 
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.9.0 Legacy Development";
+        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.10.0 Statistics & Trophy Room";
     }
 }
 
