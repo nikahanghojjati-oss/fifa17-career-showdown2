@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
+   v0.12.0
    League Wheel System
 ===================================================== */
 
@@ -101,8 +101,6 @@ function handleLeagueWheelAction(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
-
     if(currentShowdown.selectedLeague){
         if(hasLockedClubAssignment()){
             if(typeof window.showAppNotice === "function"){
@@ -133,8 +131,6 @@ function spinLeagueWheel(){
     if(!wheel || !track || !result || !spinButton || !currentShowdown || leagueWheelSpinInProgress){
         return;
     }
-
-    currentShowdown = normalizeShowdown(currentShowdown);
 
     if(currentShowdown.selectedLeague){
         handleLeagueWheelAction();
