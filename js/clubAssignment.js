@@ -1,24 +1,69 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.0
-   Club Assignment / FUT Style Reveal
+   v0.15.1
+   Race-Safe Club Assignment / FUT Style Reveal
 ===================================================== */
 
 let clubAssignmentInProgress = false;
+let clubAssignmentOperationId = 0;
+let clubAssignmentTimer = null;
+let clubAssignmentUI = null;
+
+function cacheClubAssignmentUI(){
+    clubAssignmentUI = {
+        title: document.getElementById("clubAssignmentLeague"),
+        status: document.getElementById("clubPackStatus"),
+        playerOne: document.getElementById("clubPlayerOne"),
+        playerTwo: document.getElementById("clubPlayerTwo"),
+        clubOne: document.getElementById("clubNameOne"),
+        clubTwo: document.getElementById("clubNameTwo"),
+        revealButton: document.getElementById("openClubPack"),
+        continueButton: document.getElementById("continueClubAssignment"),
+        backButton: document.getElementById("clubAssignmentBack"),
+        cards: Array.from(document.querySelectorAll(".clubRevealCard"))
+    };
+    return clubAssignmentUI;
+}
+
+function getClubAssignmentUI(){
+    return clubAssignmentUI || cacheClubAssignmentUI();
+}
+
+function setClubText(element, value){
+    if(!element){ return; }
+    const next = String(value ?? "");
+    if(element.textContent !== next){ element.textContent = next; }
+}
 
 function initializeClubAssignment(){
-    const revealButton = document.getElementById("openClubPack");
-    const continueButton = document.getElementById("continueClubAssignment");
+    const ui = cacheClubAssignmentUI();
 
-    if(revealButton && revealButton.dataset.clubAssignmentBound !== "true"){
-        revealButton.dataset.clubAssignmentBound = "true";
-        revealButton.addEventListener("click", assignClubs);
+    if(ui.revealButton && ui.revealButton.dataset.clubAssignmentBound !== "true"){
+        ui.revealButton.dataset.clubAssignmentBound = "true";
+        ui.revealButton.addEventListener("click", assignClubs);
     }
 
-    if(continueButton && continueButton.dataset.clubAssignmentBound !== "true"){
-        continueButton.dataset.clubAssignmentBound = "true";
-        continueButton.addEventListener("click", continueToShowdownHome);
+    if(ui.continueButton && ui.continueButton.dataset.clubAssignmentBound !== "true"){
+        ui.continueButton.dataset.clubAssignmentBound = "true";
+        ui.continueButton.addEventListener("click", continueToShowdownHome);
     }
+}
+
+function cancelClubAssignmentOperation(){
+    if(clubAssignmentTimer){
+        window.clearTimeout(clubAssignmentTimer);
+        clubAssignmentTimer = null;
+    }
+    clubAssignmentOperationId += 1;
+    clubAssignmentInProgress = false;
+}
+
+function isClubAssignmentOperationCurrent(operationId, showdownId, leagueId){
+    return operationId === clubAssignmentOperationId
+        && Boolean(currentShowdown)
+        && String(currentShowdown.id) === String(showdownId)
+        && Boolean(currentShowdown.selectedLeague)
+        && String(currentShowdown.selectedLeague.id) === String(leagueId);
 }
 
 function prepareClubAssignment(){
@@ -31,19 +76,18 @@ function prepareClubAssignment(){
 }
 
 function resetClubRevealCards(){
-    const clubOne = document.getElementById("clubNameOne");
-    const clubTwo = document.getElementById("clubNameTwo");
+    const ui = getClubAssignmentUI();
 
-    if(clubOne){
-        clubOne.textContent = "?";
-        if(typeof window.applyClubIdentity === "function"){ window.applyClubIdentity(clubOne, null); }
+    if(ui.clubOne){
+        setClubText(ui.clubOne, "?");
+        if(typeof window.applyClubIdentity === "function"){ window.applyClubIdentity(ui.clubOne, null); }
     }
-    if(clubTwo){
-        clubTwo.textContent = "?";
-        if(typeof window.applyClubIdentity === "function"){ window.applyClubIdentity(clubTwo, null); }
+    if(ui.clubTwo){
+        setClubText(ui.clubTwo, "?");
+        if(typeof window.applyClubIdentity === "function"){ window.applyClubIdentity(ui.clubTwo, null); }
     }
 
-    document.querySelectorAll(".clubRevealCard").forEach(card => {
+    ui.cards.forEach(card => {
         card.classList.remove("revealed");
     });
 }
@@ -53,18 +97,12 @@ function renderClubAssignmentState(){
         return;
     }
 
+    const ui = getClubAssignmentUI();
     const league = currentShowdown.selectedLeague;
-    const title = document.getElementById("clubAssignmentLeague");
-    const status = document.getElementById("clubPackStatus");
-    const playerOne = document.getElementById("clubPlayerOne");
-    const playerTwo = document.getElementById("clubPlayerTwo");
-    const revealButton = document.getElementById("openClubPack");
-    const continueButton = document.getElementById("continueClubAssignment");
-    const backButton = document.getElementById("clubAssignmentBack");
 
-    if(title){ title.textContent = league.name; }
-    if(playerOne){ playerOne.textContent = currentShowdown.managers.playerOne; }
-    if(playerTwo){ playerTwo.textContent = currentShowdown.managers.playerTwo; }
+    setClubText(ui.title, league.name);
+    setClubText(ui.playerOne, currentShowdown.managers.playerOne);
+    setClubText(ui.playerTwo, currentShowdown.managers.playerTwo);
 
     const integrity = typeof getClubPairIntegrity === "function"
         ? getClubPairIntegrity(currentShowdown)
@@ -72,35 +110,38 @@ function renderClubAssignmentState(){
 
     if(integrity.valid){
         renderClubResults();
-        if(status){ status.textContent = "CLUBS LOCKED FOR THIS SHOWDOWN"; }
-        if(revealButton){
-            revealButton.textContent = "CLUBS LOCKED";
-            revealButton.disabled = true;
+        setClubText(ui.status, "CLUBS LOCKED FOR THIS SHOWDOWN");
+
+        if(ui.revealButton){
+            setClubText(ui.revealButton, "CLUBS LOCKED");
+            ui.revealButton.disabled = true;
         }
-        if(continueButton){
-            continueButton.disabled = false;
-            continueButton.textContent = "SHOWDOWN HOME";
+        if(ui.continueButton){
+            ui.continueButton.disabled = false;
+            setClubText(ui.continueButton, "SHOWDOWN HOME");
         }
-        if(backButton){
-            backButton.classList.add("hidden");
-            backButton.disabled = true;
+        if(ui.backButton){
+            ui.backButton.classList.add("hidden");
+            ui.backButton.disabled = true;
         }
         return;
     }
 
     resetClubRevealCards();
-    if(status){ status.textContent = clubAssignmentInProgress ? "OPENING PACK..." : "READY FOR REVEAL"; }
-    if(revealButton){
-        revealButton.textContent = clubAssignmentInProgress ? "OPENING PACK..." : "OPEN CLUB PACK";
-        revealButton.disabled = clubAssignmentInProgress;
+    setClubText(ui.status, clubAssignmentInProgress ? "OPENING PACK..." : "READY FOR REVEAL");
+
+    if(ui.revealButton){
+        setClubText(ui.revealButton, clubAssignmentInProgress ? "OPENING PACK..." : "OPEN CLUB PACK");
+        ui.revealButton.disabled = clubAssignmentInProgress;
     }
-    if(continueButton){
-        continueButton.disabled = true;
-        continueButton.textContent = "ASSIGN CLUBS TO CONTINUE";
+    if(ui.continueButton){
+        ui.continueButton.disabled = true;
+        setClubText(ui.continueButton, "ASSIGN CLUBS TO CONTINUE");
     }
-    if(backButton){
-        backButton.classList.remove("hidden");
-        backButton.disabled = false;
+    if(ui.backButton){
+        ui.backButton.classList.remove("hidden");
+        ui.backButton.disabled = clubAssignmentInProgress;
+        ui.backButton.setAttribute("aria-disabled", String(clubAssignmentInProgress));
     }
 }
 
@@ -118,21 +159,32 @@ function assignClubs(){
         return;
     }
 
-    const pair = getRandomClubPair(currentShowdown.selectedLeague.id);
-    const status = document.getElementById("clubPackStatus");
+    const leagueId = currentShowdown.selectedLeague.id;
+    const pair = getRandomClubPair(leagueId);
+    const ui = getClubAssignmentUI();
 
     if(!pair){
-        if(status){ status.textContent = "NO CLUB DATA AVAILABLE"; }
+        setClubText(ui.status, "NO CLUB DATA AVAILABLE");
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice("Club assignment data is unavailable for the selected league.", "error");
         }
         return;
     }
 
+    cancelClubAssignmentOperation();
+    const operationId = ++clubAssignmentOperationId;
+    const showdownId = currentShowdown.id;
+
     clubAssignmentInProgress = true;
     renderClubAssignmentState();
 
-    window.setTimeout(() => {
+    clubAssignmentTimer = window.setTimeout(() => {
+        clubAssignmentTimer = null;
+
+        if(!isClubAssignmentOperationCurrent(operationId, showdownId, leagueId)){
+            return;
+        }
+
         const previousClubs = {
             playerOne: currentShowdown.clubs.playerOne,
             playerTwo: currentShowdown.clubs.playerTwo
@@ -173,23 +225,21 @@ function renderClubResults(){
         return;
     }
 
-    const clubOne = document.getElementById("clubNameOne");
-    const clubTwo = document.getElementById("clubNameTwo");
-
-    if(clubOne){ clubOne.textContent = currentShowdown.clubs.playerOne || "?"; }
-    if(clubTwo){ clubTwo.textContent = currentShowdown.clubs.playerTwo || "?"; }
+    const ui = getClubAssignmentUI();
+    setClubText(ui.clubOne, currentShowdown.clubs.playerOne || "?");
+    setClubText(ui.clubTwo, currentShowdown.clubs.playerTwo || "?");
 
     if(typeof window.refreshClubVisualIdentity === "function"){
         window.refreshClubVisualIdentity(currentShowdown);
     }
 
-    document.querySelectorAll(".clubRevealCard").forEach(card => {
+    ui.cards.forEach(card => {
         card.classList.add("revealed");
     });
 }
 
 function continueToShowdownHome(){
-    if(!currentShowdown){
+    if(!currentShowdown || clubAssignmentInProgress){
         return;
     }
 
@@ -205,11 +255,13 @@ function continueToShowdownHome(){
         return;
     }
 
+    const previousStatus = currentShowdown.status;
     if(currentShowdown.status !== "Completed"){
         currentShowdown.status = "Ready";
     }
 
     if(!saveCurrentShowdown()){
+        currentShowdown.status = previousStatus;
         if(typeof window.showAppNotice === "function"){
             window.showAppNotice("The showdown could not be saved before opening Showdown Home.", "error");
         }
@@ -224,3 +276,4 @@ window.initializeClubAssignment = initializeClubAssignment;
 window.renderClubAssignmentState = renderClubAssignmentState;
 window.prepareClubAssignment = prepareClubAssignment;
 window.assignClubs = assignClubs;
+window.cancelClubAssignmentOperation = cancelClubAssignmentOperation;
