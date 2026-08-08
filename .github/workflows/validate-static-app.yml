@@ -1,0 +1,85 @@
+name: Validate Static App
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          find js data -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Validate release shell
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+
+          const expectedVersion = '0.15.1';
+          const expectedRevision = '0.15.1-r1';
+          const html = fs.readFileSync('index.html', 'utf8');
+          const app = fs.readFileSync('js/app.js', 'utf8');
+          const optionalModules = fs.readFileSync('js/optionalModules.js', 'utf8');
+
+          const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
+            .map(match => ({ path: match[1], revision: match[2] || '' }));
+
+          if (!refs.length) {
+            throw new Error('No local JS/CSS/data asset references were found in index.html.');
+          }
+
+          const stale = refs.filter(ref => ref.revision !== expectedRevision);
+          if (stale.length) {
+            throw new Error(`Mixed cache revisions: ${stale.map(ref => `${ref.path}=${ref.revision || 'none'}`).join(', ')}`);
+          }
+
+          if (!app.includes(`const APP_VERSION = "${expectedVersion}"`)) {
+            throw new Error(`js/app.js does not declare APP_VERSION ${expectedVersion}.`);
+          }
+
+          if (!optionalModules.includes(`const OPTIONAL_ASSET_REVISION = "${expectedRevision}"`)) {
+            throw new Error(`js/optionalModules.js does not use ${expectedRevision}.`);
+          }
+
+          const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+          const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
+          if (duplicateIds.length) {
+            throw new Error(`Duplicate HTML ids: ${duplicateIds.join(', ')}`);
+          }
+
+          const requiredIds = [
+            'mainMenu', 'createShowdown', 'leagueWheelScreen', 'clubWheelScreen',
+            'dashboard', 'transferChallenge', 'seasonEntry', 'seasonSummary', 'legacy',
+            'newShowdown', 'continueCareer', 'legacyButton', 'trophyRoomButton',
+            'ruleBookButton', 'startShowdown', 'spinLeague', 'openClubPack',
+            'continueClubAssignment', 'seasonPrimaryAction', 'completeTransferChallenge',
+            'completeSeason'
+          ];
+
+          const missingIds = requiredIds.filter(id => !ids.includes(id));
+          if (missingIds.length) {
+            throw new Error(`Missing critical HTML ids: ${missingIds.join(', ')}`);
+          }
+
+          console.log(`Validated ${refs.length} local assets, ${ids.length} unique HTML ids, and v${expectedVersion} release coherence.`);
+          NODE
