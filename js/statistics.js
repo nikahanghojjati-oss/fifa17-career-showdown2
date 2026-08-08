@@ -1,53 +1,38 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Current Rivalry Statistics
+   v0.12.0
+   Lightweight Current Rivalry Statistics
 ===================================================== */
 
 function createStatisticsScreen(){
-    if(document.getElementById("statistics")){
-        return;
-    }
-
+    if(document.getElementById("statistics")){ return; }
     const main = document.querySelector("main");
-    if(!main){
-        return;
-    }
+    if(!main){ return; }
 
     const section = document.createElement("section");
     section.id = "statistics";
     section.className = "screen hidden analyticsScreen";
-
     const heading = document.createElement("h2");
     heading.textContent = "RIVALRY STATISTICS";
-
     const content = document.createElement("div");
     content.id = "rivalryStatisticsContent";
     content.className = "analyticsContent";
-
     const actions = document.createElement("div");
     actions.className = "analyticsActions";
-
     const back = document.createElement("button");
     back.type = "button";
     back.className = "backButton";
     back.textContent = "BACK TO SHOWDOWN HOME";
     back.addEventListener("click", () => showScreen("dashboard"));
-
     actions.appendChild(back);
     section.append(heading, content, actions);
     main.appendChild(section);
 }
 
 function ensureStatisticsDashboardButton(){
-    if(document.getElementById("rivalryStatisticsButton")){
-        return;
-    }
-
+    if(document.getElementById("rivalryStatisticsButton")){ return; }
     const actions = document.querySelector("#dashboard .dashboardActions");
-    if(!actions){
-        return;
-    }
+    if(!actions){ return; }
 
     const button = document.createElement("button");
     button.type = "button";
@@ -57,31 +42,23 @@ function ensureStatisticsDashboardButton(){
     button.addEventListener("click", openRivalryStatistics);
 
     const deleteButton = document.getElementById("deleteActiveShowdown");
-    if(deleteButton){
-        actions.insertBefore(button, deleteButton);
-    }else{
-        actions.appendChild(button);
-    }
+    if(deleteButton){ actions.insertBefore(button, deleteButton); }
+    else { actions.appendChild(button); }
 }
 
 function createAnalyticsStat(label, value, subtext = ""){
     const card = document.createElement("div");
     card.className = "analyticsStatCard";
-
     const labelElement = document.createElement("span");
     labelElement.textContent = label;
-
     const valueElement = document.createElement("strong");
     valueElement.textContent = value;
-
     card.append(labelElement, valueElement);
-
     if(subtext){
         const note = document.createElement("small");
         note.textContent = subtext;
         card.appendChild(note);
     }
-
     return card;
 }
 
@@ -93,21 +70,16 @@ function formatAnalyticsNumber(value, digits = 1){
 function createRivalryManagerHero(stats, clubName, showdownScore){
     const card = document.createElement("div");
     card.className = "rivalryManagerHero";
-
     const name = document.createElement("h3");
     name.textContent = stats.name;
-
     const club = document.createElement("p");
     club.className = "analyticsClubName";
     club.textContent = clubName || "Club";
-
     const score = document.createElement("strong");
     score.className = "rivalryHeroScore";
     score.textContent = showdownScore;
-
     const scoreLabel = document.createElement("span");
     scoreLabel.textContent = "SHOWDOWN POINTS";
-
     card.append(name, club, score, scoreLabel);
     return card;
 }
@@ -115,24 +87,19 @@ function createRivalryManagerHero(stats, clubName, showdownScore){
 function createComparisonRow(label, playerOneValue, playerTwoValue, higherIsBetter = true){
     const row = document.createElement("div");
     row.className = "comparisonRow";
-
     const one = document.createElement("strong");
     one.textContent = playerOneValue;
-
     const title = document.createElement("span");
     title.textContent = label;
-
     const two = document.createElement("strong");
     two.textContent = playerTwoValue;
 
     const oneNumber = Number(playerOneValue);
     const twoNumber = Number(playerTwoValue);
-
     if(Number.isFinite(oneNumber) && Number.isFinite(twoNumber) && oneNumber !== twoNumber){
         const oneLeads = higherIsBetter ? oneNumber > twoNumber : oneNumber < twoNumber;
         (oneLeads ? one : two).classList.add("comparisonLeader");
     }
-
     row.append(one, title, two);
     return row;
 }
@@ -141,13 +108,10 @@ function renderRivalryComparison(container, analytics){
     const heading = document.createElement("h3");
     heading.className = "analyticsSectionHeading";
     heading.textContent = "HEAD-TO-HEAD";
-
     const table = document.createElement("div");
     table.className = "comparisonTable";
-
     const one = analytics.playerOne;
     const two = analytics.playerTwo;
-
     const rows = [
         ["Showdown Points", one.totalPoints, two.totalPoints],
         ["Season Wins", one.seasonWins, two.seasonWins],
@@ -170,51 +134,35 @@ function renderRivalryComparison(container, analytics){
         ["Transfer Signings", one.signings, two.signings],
         ["Signings Released", one.releasedSignings, two.releasedSignings, false]
     ];
-
+    const fragment = document.createDocumentFragment();
     rows.forEach(([label, valueOne, valueTwo, higherIsBetter]) => {
-        table.appendChild(createComparisonRow(
-            label,
-            valueOne,
-            valueTwo,
-            higherIsBetter === undefined ? true : higherIsBetter
-        ));
+        fragment.appendChild(createComparisonRow(label, valueOne, valueTwo, higherIsBetter === undefined ? true : higherIsBetter));
     });
-
+    table.appendChild(fragment);
     container.append(heading, table);
 }
 
 function getSeasonWinnerText(analytics, row){
-    if(row.winner === "playerOne"){
-        return `${analytics.playerOne.name} won`;
-    }
-    if(row.winner === "playerTwo"){
-        return `${analytics.playerTwo.name} won`;
-    }
+    if(row.winner === "playerOne"){ return `${analytics.playerOne.name} won`; }
+    if(row.winner === "playerTwo"){ return `${analytics.playerTwo.name} won`; }
     return "Draw";
 }
 
 function createSeasonBar(name, score, alignRight = false){
     const wrap = document.createElement("div");
     wrap.className = `seasonStatSide${alignRight ? " right" : ""}`;
-
     const top = document.createElement("div");
     top.className = "seasonStatTop";
-
     const manager = document.createElement("span");
     manager.textContent = name;
-
     const value = document.createElement("strong");
     value.textContent = score;
-
     top.append(manager, value);
-
     const track = document.createElement("div");
     track.className = "seasonPointTrack";
-
     const fill = document.createElement("div");
     fill.className = "seasonPointFill";
     fill.style.width = `${Math.min(100, Math.max(0, (Number(score) / 11) * 100))}%`;
-
     track.appendChild(fill);
     wrap.append(top, track);
     return wrap;
@@ -236,43 +184,36 @@ function renderSeasonProgression(container, analytics){
 
     const list = document.createElement("div");
     list.className = "seasonProgressionList";
-
+    const fragment = document.createDocumentFragment();
     analytics.seasonRows.forEach(row => {
         const season = document.createElement("div");
         season.className = "seasonProgressionRow";
-
         const label = document.createElement("div");
         label.className = "seasonProgressionLabel";
-
         const number = document.createElement("strong");
         number.textContent = `SEASON ${row.season}`;
-
         const winner = document.createElement("span");
         winner.textContent = getSeasonWinnerText(analytics, row);
-
         label.append(number, winner);
-
-        const one = createSeasonBar(analytics.playerOne.name, row.playerOneScore);
-        const two = createSeasonBar(analytics.playerTwo.name, row.playerTwoScore, true);
-
-        season.append(label, one, two);
-        list.appendChild(season);
+        season.append(
+            label,
+            createSeasonBar(analytics.playerOne.name, row.playerOneScore),
+            createSeasonBar(analytics.playerTwo.name, row.playerTwoScore, true)
+        );
+        fragment.appendChild(season);
     });
-
+    list.appendChild(fragment);
     container.appendChild(list);
 }
 
 function renderRivalryHighlights(container, analytics){
     const one = analytics.playerOne;
     const two = analytics.playerTwo;
-
     const heading = document.createElement("h3");
     heading.className = "analyticsSectionHeading";
     heading.textContent = "RIVALRY TOTALS";
-
     const grid = document.createElement("div");
     grid.className = "analyticsStatsGrid";
-
     grid.append(
         createAnalyticsStat("SEASONS COMPLETED", analytics.seasonRows.length, `of ${analytics.showdown.totalRounds}`),
         createAnalyticsStat("TROPHIES WON", one.totalTrophies + two.totalTrophies),
@@ -281,16 +222,12 @@ function renderRivalryHighlights(container, analytics){
         createAnalyticsStat("RELEASED SIGNINGS", one.releasedSignings + two.releasedSignings),
         createAnalyticsStat("PERFECT SEASONS", one.perfectSeasons + two.perfectSeasons, "11-point seasons")
     );
-
     container.append(heading, grid);
 }
 
 function renderRivalryStatistics(){
     const content = document.getElementById("rivalryStatisticsContent");
-    if(!content){
-        return;
-    }
-
+    if(!content){ return; }
     content.replaceChildren();
 
     if(!currentShowdown){
@@ -302,34 +239,28 @@ function renderRivalryStatistics(){
     }
 
     const analytics = buildRivalryAnalytics(currentShowdown);
-    if(!analytics){
-        return;
-    }
+    if(!analytics){ return; }
+    const fragment = document.createDocumentFragment();
 
     const hero = document.createElement("div");
     hero.className = "rivalryStatisticsHero";
-
     const overview = document.createElement("div");
     overview.className = "rivalryStatisticsOverview";
-
     const title = document.createElement("strong");
     title.textContent = analytics.showdown.name;
-
     const meta = document.createElement("span");
     const league = analytics.showdown.selectedLeague ? analytics.showdown.selectedLeague.name : "League not selected";
     meta.textContent = `${league} · ${analytics.showdown.status}`;
-
     overview.append(title, meta);
-
     const matchup = document.createElement("div");
     matchup.className = "rivalryStatisticsMatchup";
     matchup.append(
         createRivalryManagerHero(analytics.playerOne, analytics.showdown.clubs.playerOne, analytics.playerOne.totalPoints),
         createRivalryManagerHero(analytics.playerTwo, analytics.showdown.clubs.playerTwo, analytics.playerTwo.totalPoints)
     );
-
     hero.append(overview, matchup);
-    content.appendChild(hero);
+    fragment.appendChild(hero);
+    content.appendChild(fragment);
 
     renderRivalryHighlights(content, analytics);
     renderRivalryComparison(content, analytics);
@@ -337,16 +268,13 @@ function renderRivalryStatistics(){
 }
 
 function openRivalryStatistics(){
-    if(!currentShowdown){
-        return;
-    }
-
+    if(!currentShowdown){ return; }
+    createStatisticsScreen();
     renderRivalryStatistics();
     showScreen("statistics");
 }
 
 function initializeStatistics(){
-    createStatisticsScreen();
     ensureStatisticsDashboardButton();
 }
 
