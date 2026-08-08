@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.1
-   Stabilized Showdown Interface Controller
+   v0.11.0
+   Showdown Interface Controller
 ===================================================== */
 
 function initializeShowdownUI(){
@@ -12,14 +12,31 @@ function initializeShowdownUI(){
     }
 
     ensureActiveShowdownDeleteControl();
+    ensureDashboardIntegrityStatus();
     updateVersionLabel();
 }
 
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.10.1 Stabilization";
+        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.11.0 Rule Book & Core Integrity";
     }
+}
+
+function ensureDashboardIntegrityStatus(){
+    if(document.getElementById("dashboardIntegrityStatus")){
+        return;
+    }
+
+    const overview = document.querySelector("#dashboard .showdownOverview");
+    if(!overview){
+        return;
+    }
+
+    const note = document.createElement("p");
+    note.id = "dashboardIntegrityStatus";
+    note.className = "stateNote hidden";
+    overview.appendChild(note);
 }
 
 function ensureActiveShowdownDeleteControl(){
@@ -64,6 +81,10 @@ function deleteCurrentShowdownFromDashboard(){
         return;
     }
 
+    if(typeof stopTransferTimerLoop === "function"){
+        stopTransferTimerLoop();
+    }
+
     currentShowdown = null;
     screenHistory = [];
 
@@ -97,16 +118,33 @@ function getCurrentTransferStatusLabel(){
     return "Transfer challenge: complete";
 }
 
+function renderDashboardIntegrityStatus(){
+    const note = document.getElementById("dashboardIntegrityStatus");
+    if(!note || !currentShowdown){
+        return;
+    }
+
+    const warnings = Array.isArray(currentShowdown.integrityWarnings)
+        ? currentShowdown.integrityWarnings
+        : [];
+
+    if(!warnings.length){
+        note.textContent = "";
+        note.classList.add("hidden");
+        return;
+    }
+
+    note.textContent = `SAVE WARNING: ${warnings.join(" ")}`;
+    note.classList.remove("hidden");
+    note.classList.add("locked");
+}
+
 function updateShowdownUI(){
     if(!currentShowdown){
         return;
     }
 
     currentShowdown = normalizeShowdown(currentShowdown);
-
-    if(currentShowdown.status === "Completed"){
-        archiveShowdown(currentShowdown);
-    }
 
     const indicator = document.getElementById("seasonIndicator");
     const selectedLeague = document.getElementById("selectedLeague");
@@ -131,15 +169,17 @@ function updateShowdownUI(){
             : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`;
     }
 
-    if(selectedLeague && currentShowdown.selectedLeague){
-        selectedLeague.textContent = currentShowdown.selectedLeague.name;
+    if(selectedLeague){
+        selectedLeague.textContent = currentShowdown.selectedLeague
+            ? currentShowdown.selectedLeague.name
+            : "Spin to select league";
     }
 
     if(showdownName){ showdownName.textContent = currentShowdown.name; }
     if(league){ league.textContent = currentShowdown.selectedLeague ? currentShowdown.selectedLeague.name : "League not selected"; }
     if(round){
         round.textContent = currentShowdown.status === "Completed"
-            ? `${currentShowdown.totalRounds} seasons completed`
+            ? `${currentShowdown.rounds.length} seasons completed`
             : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
     }
     if(status){ status.textContent = currentShowdown.status; }
@@ -159,6 +199,8 @@ function updateShowdownUI(){
     if(lastPositionTwo){
         lastPositionTwo.textContent = latestRound ? `Last league finish: ${latestRound.playerTwo.leaguePosition}` : "No season completed";
     }
+
+    renderDashboardIntegrityStatus();
 
     if(primaryButton){
         if(currentShowdown.status === "Completed"){
@@ -182,8 +224,5 @@ function updateShowdownUI(){
     }
 }
 
-if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", initializeShowdownUI, { once: true });
-}else{
-    initializeShowdownUI();
-}
+window.initializeShowdownUI = initializeShowdownUI;
+window.updateShowdownUI = updateShowdownUI;
