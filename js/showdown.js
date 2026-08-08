@@ -87,7 +87,7 @@ function createShowdown(){
 }
 
 function getCanonicalLeague(league){
-    if(!league || !league.id || !Array.isArray(leagues)){
+    if(!league || !league.id || typeof leagues === "undefined" || !Array.isArray(leagues)){
         return null;
     }
 
@@ -177,16 +177,20 @@ function repairShowdownIntegrity(showdown){
     if(showdown.selectedLeague && canonicalLeague){
         showdown.selectedLeague = canonicalLeague;
     }else if(showdown.selectedLeague && !canonicalLeague){
-        addIntegrityWarning(showdown, "The saved league is not recognized by the current FIFA 17 league database.");
+        if(canSafelyResetClubAssignment(showdown)){
+            showdown.selectedLeague = null;
+            showdown.clubs = { playerOne: null, playerTwo: null };
+            showdown.status = "Created";
+        }else{
+            addIntegrityWarning(showdown, "The saved league is not recognized by the current FIFA 17 league database.");
+        }
     }
 
     const clubIntegrity = getClubPairIntegrity(showdown);
     if((showdown.clubs.playerOne || showdown.clubs.playerTwo) && !clubIntegrity.valid){
         if(canSafelyResetClubAssignment(showdown)){
             showdown.clubs = { playerOne: null, playerTwo: null };
-            if(showdown.selectedLeague){
-                showdown.status = "League Selected";
-            }
+            showdown.status = showdown.selectedLeague ? "League Selected" : "Created";
         }else{
             addIntegrityWarning(showdown, clubIntegrity.reason);
         }
