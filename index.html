@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Career Mode Showdown</title>
-<link rel="stylesheet" href="css/style.css?v=0.11.0">
-<link rel="stylesheet" href="css/layout.css?v=0.11.0">
-<link rel="stylesheet" href="css/animations.css?v=0.11.0">
-<link rel="stylesheet" href="css/screens.css?v=0.11.0">
-<link rel="stylesheet" href="css/wheel.css?v=0.11.0">
-<link rel="stylesheet" href="css/legacy.css?v=0.11.0">
-<link rel="stylesheet" href="css/analytics.css?v=0.11.0">
-<link rel="stylesheet" href="css/stability.css?v=0.11.0">
-<link rel="stylesheet" href="css/rulebook.css?v=0.11.0">
-<link rel="stylesheet" href="css/polish.css?v=0.11.0">
+<link rel="stylesheet" href="css/style.css?v=0.12.0">
+<link rel="stylesheet" href="css/layout.css?v=0.12.0">
+<link rel="stylesheet" href="css/animations.css?v=0.12.0">
+<link rel="stylesheet" href="css/screens.css?v=0.12.0">
+<link rel="stylesheet" href="css/wheel.css?v=0.12.0">
+<link rel="stylesheet" href="css/legacy.css?v=0.12.0">
+<link rel="stylesheet" href="css/analytics.css?v=0.12.0">
+<link rel="stylesheet" href="css/stability.css?v=0.12.0">
+<link rel="stylesheet" href="css/rulebook.css?v=0.12.0">
+<link rel="stylesheet" href="css/polish.css?v=0.12.0">
 </head>
 <body>
 <div id="background"></div>
@@ -46,11 +46,11 @@
 <h2>CREATE SHOWDOWN</h2>
 <div class="setupBox">
 <label>SHOWDOWN NAME</label>
-<input id="showdownName" type="text" placeholder="The Ultimate Rivalry">
+<input id="showdownName" type="text" placeholder="The Ultimate Rivalry" autocomplete="off">
 <label>MANAGER 1</label>
-<input id="managerOne" type="text" placeholder="Your Name">
+<input id="managerOne" type="text" placeholder="Your Name" autocomplete="off">
 <label>MANAGER 2</label>
-<input id="managerTwo" type="text" placeholder="Opponent Name">
+<input id="managerTwo" type="text" placeholder="Opponent Name" autocomplete="off">
 <label>NUMBER OF ROUNDS</label>
 <select id="roundAmount">
 <option value="1">1 Round</option>
@@ -219,9 +219,9 @@
 <div class="seasonEntryGrid">
 <div class="seasonResultCard">
 <div class="seasonManagerHeader"><h3 id="seasonManagerOne">MANAGER 1</h3><p id="seasonClubOne">Club</p></div>
-<label>LEAGUE POSITION<input id="p1LeaguePosition" type="number" min="1" step="1" placeholder="1"></label>
-<label>LEAGUE POINTS<input id="p1LeaguePoints" type="number" min="0" step="1" placeholder="86"></label>
-<label>LEAGUE GOALS<input id="p1LeagueGoals" type="number" min="0" step="1" placeholder="92"></label>
+<label>LEAGUE POSITION<input id="p1LeaguePosition" type="number" inputmode="numeric" min="1" step="1" placeholder="1"></label>
+<label>LEAGUE POINTS<input id="p1LeaguePoints" type="number" inputmode="numeric" min="0" step="1" placeholder="86"></label>
+<label>LEAGUE GOALS<input id="p1LeagueGoals" type="number" inputmode="numeric" min="0" step="1" placeholder="92"></label>
 <div class="achievementChecks">
 <label><input id="p1DomesticCup" type="checkbox"> Domestic Cup Winner</label>
 <label><input id="p1ChampionsLeague" type="checkbox"> Champions League Winner</label>
@@ -232,9 +232,9 @@
 
 <div class="seasonResultCard">
 <div class="seasonManagerHeader"><h3 id="seasonManagerTwo">MANAGER 2</h3><p id="seasonClubTwo">Club</p></div>
-<label>LEAGUE POSITION<input id="p2LeaguePosition" type="number" min="1" step="1" placeholder="2"></label>
-<label>LEAGUE POINTS<input id="p2LeaguePoints" type="number" min="0" step="1" placeholder="82"></label>
-<label>LEAGUE GOALS<input id="p2LeagueGoals" type="number" min="0" step="1" placeholder="85"></label>
+<label>LEAGUE POSITION<input id="p2LeaguePosition" type="number" inputmode="numeric" min="1" step="1" placeholder="2"></label>
+<label>LEAGUE POINTS<input id="p2LeaguePoints" type="number" inputmode="numeric" min="0" step="1" placeholder="82"></label>
+<label>LEAGUE GOALS<input id="p2LeagueGoals" type="number" inputmode="numeric" min="0" step="1" placeholder="85"></label>
 <div class="achievementChecks">
 <label><input id="p2DomesticCup" type="checkbox"> Domestic Cup Winner</label>
 <label><input id="p2ChampionsLeague" type="checkbox"> Champions League Winner</label>
@@ -274,27 +274,27 @@
 </section>
 </main>
 
-<footer>FIFA 17 Career Mode Showdown<br>v0.11.0 Rule Book & Core Integrity</footer>
+<footer>FIFA 17 Career Mode Showdown<br>v0.12.0 Performance & Stability</footer>
 </div>
 
-<script src="data/leagues.js?v=0.11.0"></script>
-<script src="data/clubs.js?v=0.11.0"></script>
-<script src="js/dataEngine.js?v=0.11.0"></script>
-<script src="js/storage.js?v=0.11.0"></script>
-<script src="js/screens.js?v=0.11.0"></script>
-<script src="js/showdown.js?v=0.11.0"></script>
-<script src="js/scoring.js?v=0.11.0"></script>
-<script src="js/showdownUI.js?v=0.11.0"></script>
-<script src="js/leagueWheel.js?v=0.11.0"></script>
-<script src="js/clubAssignment.js?v=0.11.0"></script>
-<script src="js/transferChallenge.js?v=0.11.0"></script>
-<script src="js/seasonEngine.js?v=0.11.0"></script>
-<script src="js/analytics.js?v=0.11.0"></script>
-<script src="js/statistics.js?v=0.11.0"></script>
-<script src="js/trophyRoom.js?v=0.11.0"></script>
-<script src="js/legacy.js?v=0.11.0"></script>
-<script src="js/ruleBook.js?v=0.11.0"></script>
-<script src="js/diagnostics.js?v=0.11.0"></script>
-<script src="js/app.js?v=0.11.0"></script>
+<script src="data/leagues.js?v=0.12.0"></script>
+<script src="data/clubs.js?v=0.12.0"></script>
+<script src="js/dataEngine.js?v=0.12.0"></script>
+<script src="js/storage.js?v=0.12.0"></script>
+<script src="js/screens.js?v=0.12.0"></script>
+<script src="js/showdown.js?v=0.12.0"></script>
+<script src="js/scoring.js?v=0.12.0"></script>
+<script src="js/showdownUI.js?v=0.12.0"></script>
+<script src="js/leagueWheel.js?v=0.12.0"></script>
+<script src="js/clubAssignment.js?v=0.12.0"></script>
+<script src="js/transferChallenge.js?v=0.12.0"></script>
+<script src="js/seasonEngine.js?v=0.12.0"></script>
+<script src="js/analytics.js?v=0.12.0"></script>
+<script src="js/statistics.js?v=0.12.0"></script>
+<script src="js/trophyRoom.js?v=0.12.0"></script>
+<script src="js/legacy.js?v=0.12.0"></script>
+<script src="js/ruleBook.js?v=0.12.0"></script>
+<script src="js/diagnostics.js?v=0.12.0"></script>
+<script src="js/app.js?v=0.12.0"></script>
 </body>
 </html>
