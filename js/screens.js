@@ -1,7 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.6.1
-
+   v0.7.0
    Screen and Navigation Engine
 ===================================================== */
 
@@ -11,6 +10,8 @@ const screens = [
     "leagueWheelScreen",
     "clubWheelScreen",
     "dashboard",
+    "seasonEntry",
+    "seasonSummary",
     "legacy"
 ];
 
@@ -54,6 +55,30 @@ function goBack(){
     showScreen("mainMenu", false);
 }
 
+function resumeSavedShowdown(){
+    const saved = loadSavedShowdown();
+
+    if(!saved){
+        showScreen("createShowdown");
+        return;
+    }
+
+    currentShowdown = normalizeShowdown(saved);
+    updateShowdownUI();
+
+    if(!currentShowdown.selectedLeague){
+        showScreen("leagueWheelScreen");
+        return;
+    }
+
+    if(!currentShowdown.clubs.playerOne || !currentShowdown.clubs.playerTwo){
+        prepareClubAssignment();
+        return;
+    }
+
+    showScreen("dashboard");
+}
+
 function initializeScreens(){
     const newShowdownButton = document.getElementById("newShowdown");
     const continueButton = document.getElementById("continueCareer");
@@ -66,15 +91,7 @@ function initializeScreens(){
     }
 
     if(continueButton){
-        continueButton.addEventListener("click", () => {
-            if(hasSavedShowdown()){
-                currentShowdown = loadSavedShowdown();
-                updateShowdownUI();
-                showScreen("dashboard");
-            }else{
-                showScreen("createShowdown");
-            }
-        });
+        continueButton.addEventListener("click", resumeSavedShowdown);
     }
 
     if(legacyButton){
