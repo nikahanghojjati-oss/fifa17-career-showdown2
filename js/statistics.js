@@ -4,6 +4,8 @@
    Lightweight Current Rivalry Statistics
 ===================================================== */
 
+let rivalryStatisticsRenderKey = null;
+
 function createStatisticsScreen(){
     if(document.getElementById("statistics")){ return; }
     const main = document.querySelector("main");
@@ -44,6 +46,16 @@ function ensureStatisticsDashboardButton(){
     const deleteButton = document.getElementById("deleteActiveShowdown");
     if(deleteButton){ actions.insertBefore(button, deleteButton); }
     else { actions.appendChild(button); }
+}
+
+function getRivalryStatisticsRenderKey(){
+    if(!currentShowdown){ return "none"; }
+    return [
+        currentShowdown.id,
+        currentShowdown.updatedAt || "",
+        currentShowdown.status || "",
+        Array.isArray(currentShowdown.rounds) ? currentShowdown.rounds.length : 0
+    ].join("|");
 }
 
 function createAnalyticsStat(label, value, subtext = ""){
@@ -225,16 +237,21 @@ function renderRivalryHighlights(container, analytics){
     container.append(heading, grid);
 }
 
-function renderRivalryStatistics(){
+function renderRivalryStatistics(force = false){
     const content = document.getElementById("rivalryStatisticsContent");
     if(!content){ return; }
-    content.replaceChildren();
+
+    const nextKey = getRivalryStatisticsRenderKey();
+    if(!force && rivalryStatisticsRenderKey === nextKey && content.childElementCount){
+        return;
+    }
 
     if(!currentShowdown){
         const empty = document.createElement("div");
         empty.className = "analyticsEmpty";
         empty.textContent = "No active showdown is available.";
-        content.appendChild(empty);
+        content.replaceChildren(empty);
+        rivalryStatisticsRenderKey = nextKey;
         return;
     }
 
@@ -260,11 +277,15 @@ function renderRivalryStatistics(){
     );
     hero.append(overview, matchup);
     fragment.appendChild(hero);
-    content.appendChild(fragment);
 
-    renderRivalryHighlights(content, analytics);
-    renderRivalryComparison(content, analytics);
-    renderSeasonProgression(content, analytics);
+    const host = document.createElement("div");
+    renderRivalryHighlights(host, analytics);
+    renderRivalryComparison(host, analytics);
+    renderSeasonProgression(host, analytics);
+    while(host.firstChild){ fragment.appendChild(host.firstChild); }
+
+    content.replaceChildren(fragment);
+    rivalryStatisticsRenderKey = nextKey;
 }
 
 function openRivalryStatistics(){
