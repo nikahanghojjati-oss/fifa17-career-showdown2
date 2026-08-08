@@ -93,8 +93,7 @@ function revealApplication(){
     }
 }
 
-function requireInitializer(name){
-    const initializer = window[name];
+function runInitializer(name, initializer){
     if(typeof initializer !== "function"){
         throw new Error(`Required initializer is unavailable: ${name}`);
     }
@@ -104,19 +103,19 @@ function requireInitializer(name){
 function initializeApplicationModules(){
     /*
        Core order is intentional. State/UI engines bind first; feature screens
-       are created before the router is asked to expose the main menu.
+       are created before navigation is exposed to the user.
     */
     [
-        "initializeShowdownUI",
-        "initializeLeagueWheel",
-        "initializeClubAssignment",
-        "initializeTransferChallenge",
-        "initializeSeasonEngine",
-        "initializeStatistics",
-        "initializeTrophyRoom",
-        "initializeRuleBook",
-        "initializeScreens"
-    ].forEach(requireInitializer);
+        ["initializeShowdownUI", initializeShowdownUI],
+        ["initializeLeagueWheel", initializeLeagueWheel],
+        ["initializeClubAssignment", initializeClubAssignment],
+        ["initializeTransferChallenge", initializeTransferChallenge],
+        ["initializeSeasonEngine", initializeSeasonEngine],
+        ["initializeStatistics", initializeStatistics],
+        ["initializeTrophyRoom", initializeTrophyRoom],
+        ["initializeRuleBook", initializeRuleBook],
+        ["initializeScreens", initializeScreens]
+    ].forEach(([name, initializer]) => runInitializer(name, initializer));
 }
 
 function startApplication(){
