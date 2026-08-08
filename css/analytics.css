@@ -1,0 +1,554 @@
+/* =====================================================
+   FIFA 17 Career Mode Showdown
+   v0.10.0
+   Statistics and Trophy Room Presentation
+===================================================== */
+
+.analyticsScreen{
+    width:min(1220px,96vw);
+    margin:0 auto;
+}
+
+.analyticsContent{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:26px;
+}
+
+.analyticsActions{
+    width:min(650px,92vw);
+    margin:30px auto 0;
+    display:flex;
+    justify-content:center;
+}
+
+.analyticsSectionHeading{
+    margin:10px 0 0;
+    color:#f7d700;
+    font-size:18px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+}
+
+.analyticsStatsGrid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:14px;
+}
+
+.analyticsStatCard{
+    min-height:112px;
+    padding:18px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:6px;
+    background:linear-gradient(145deg,rgba(19,62,120,.72),rgba(5,23,50,.9));
+    border:1px solid rgba(255,255,255,.17);
+    border-radius:12px;
+    box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+
+.analyticsStatCard span{
+    color:#a9bddf;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.5px;
+}
+
+.analyticsStatCard strong{
+    color:#fff;
+    font-size:30px;
+    line-height:1.05;
+}
+
+.analyticsStatCard small{
+    color:#f7d700;
+    font-size:11px;
+}
+
+.analyticsEmpty{
+    padding:36px 30px;
+    text-align:center;
+    color:#c7d6ef;
+    line-height:1.65;
+    background:rgba(5,22,48,.75);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:14px;
+}
+
+/* Rivalry statistics */
+
+.rivalryStatisticsHero{
+    overflow:hidden;
+    background:linear-gradient(115deg,rgba(22,74,142,.9),rgba(5,20,45,.95));
+    border:1px solid rgba(247,215,0,.32);
+    border-radius:16px;
+    box-shadow:0 18px 45px rgba(0,0,0,.3);
+}
+
+.rivalryStatisticsOverview{
+    padding:18px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+.rivalryStatisticsOverview strong{
+    color:#fff;
+    font-size:25px;
+}
+
+.rivalryStatisticsOverview span{
+    color:#b8c9e6;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.rivalryStatisticsMatchup{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+.rivalryManagerHero{
+    min-height:190px;
+    padding:28px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.rivalryManagerHero + .rivalryManagerHero{
+    border-left:1px solid rgba(255,255,255,.14);
+}
+
+.rivalryManagerHero h3{
+    color:#f7d700;
+    font-size:28px;
+}
+
+.analyticsClubName{
+    margin-top:5px;
+    color:#eaf1ff;
+    font-size:18px;
+}
+
+.rivalryHeroScore{
+    margin-top:20px;
+    color:#fff;
+    font-size:52px;
+    line-height:1;
+}
+
+.rivalryManagerHero > span{
+    margin-top:7px;
+    color:#9eb3d5;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.comparisonTable{
+    overflow:hidden;
+    background:rgba(5,22,48,.82);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:14px;
+}
+
+.comparisonRow{
+    min-height:52px;
+    display:grid;
+    grid-template-columns:1fr 1.5fr 1fr;
+    align-items:center;
+    gap:14px;
+    padding:10px 22px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.comparisonRow:last-child{border-bottom:0;}
+
+.comparisonRow > span{
+    text-align:center;
+    color:#aebfdc;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.comparisonRow > strong{
+    color:#fff;
+    font-size:18px;
+}
+
+.comparisonRow > strong:first-child{text-align:right;}
+.comparisonRow > strong:last-child{text-align:left;}
+.comparisonRow .comparisonLeader{color:#f7d700;}
+
+.seasonProgressionList{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+.seasonProgressionRow{
+    display:grid;
+    grid-template-columns:140px 1fr 1fr;
+    gap:18px;
+    align-items:center;
+    padding:16px 18px;
+    background:rgba(5,22,48,.82);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:11px;
+}
+
+.seasonProgressionLabel{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.seasonProgressionLabel strong{
+    color:#f7d700;
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+.seasonProgressionLabel span{
+    color:#aebfdc;
+    font-size:11px;
+}
+
+.seasonStatSide{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.seasonStatTop{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    color:#dbe6f8;
+    font-size:12px;
+}
+
+.seasonStatTop strong{color:#fff;}
+.seasonStatSide.right .seasonStatTop{flex-direction:row-reverse;}
+
+.seasonPointTrack{
+    height:8px;
+    overflow:hidden;
+    background:rgba(255,255,255,.08);
+    border-radius:50px;
+}
+
+.seasonStatSide.right .seasonPointTrack{
+    transform:scaleX(-1);
+}
+
+.seasonPointFill{
+    height:100%;
+    min-width:0;
+    background:linear-gradient(90deg,#f7d700,#fff3a5);
+    border-radius:50px;
+}
+
+/* Trophy Room */
+
+.trophyRoomSummary{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.careerStandings{
+    overflow:hidden;
+    background:rgba(5,22,48,.82);
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:14px;
+}
+
+.careerStandingsRow{
+    min-height:54px;
+    display:grid;
+    grid-template-columns:45px 1.5fr 1fr 1fr .7fr .7fr;
+    gap:12px;
+    align-items:center;
+    padding:10px 18px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.careerStandingsRow:last-child{border-bottom:0;}
+
+.careerStandingsRow.header{
+    min-height:42px;
+    color:#94aad0;
+    background:rgba(255,255,255,.04);
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.careerStandingsRow strong{color:#f7d700;}
+.careerStandingsRow:not(.header) span{color:#e6eefc;}
+
+.managerCabinetList{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.managerCabinet{
+    overflow:hidden;
+    background:linear-gradient(135deg,rgba(12,48,96,.9),rgba(4,19,42,.96));
+    border:1px solid rgba(247,215,0,.25);
+    border-radius:16px;
+    box-shadow:0 17px 42px rgba(0,0,0,.28);
+}
+
+.managerCabinetHeader{
+    padding:22px 24px;
+    display:grid;
+    grid-template-columns:52px 1fr auto;
+    gap:18px;
+    align-items:center;
+    border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.managerRank{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#071936;
+    font-weight:800;
+    background:#f7d700;
+    border-radius:50%;
+}
+
+.managerCabinetHeader h3{
+    color:#fff;
+    font-size:25px;
+}
+
+.managerCabinetHeader p{
+    margin-top:4px;
+    color:#aebfdc;
+    font-size:12px;
+}
+
+.managerCareerPoints{
+    min-width:110px;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+}
+
+.managerCareerPoints strong{
+    color:#f7d700;
+    font-size:34px;
+}
+
+.managerCareerPoints span{
+    color:#aebfdc;
+    font-size:9px;
+    letter-spacing:1.5px;
+}
+
+.trophyShelf{
+    padding:22px 24px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    background:rgba(0,0,0,.13);
+}
+
+.trophyCount{
+    min-height:100px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:11px;
+}
+
+.trophyGlyph{
+    width:52px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#071936;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+    background:linear-gradient(145deg,#fff2a0,#f7d700);
+    clip-path:polygon(15% 0,85% 0,100% 24%,76% 66%,62% 66%,62% 82%,83% 90%,83% 100%,17% 100%,17% 90%,38% 82%,38% 66%,24% 66%,0 24%);
+}
+
+.trophyCount strong{
+    display:block;
+    color:#fff;
+    font-size:31px;
+    line-height:1;
+}
+
+.trophyCount span{
+    display:block;
+    margin-top:6px;
+    color:#aebfdc;
+    font-size:11px;
+}
+
+.cabinetSupportingStats{
+    padding:0 24px 22px;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+}
+
+.cabinetSupportingStats .analyticsStatCard{
+    min-height:90px;
+    box-shadow:none;
+}
+
+.cabinetSupportingStats .analyticsStatCard strong{font-size:24px;}
+
+.cabinetAchievementStrip{
+    padding:15px 24px;
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    color:#9fb3d4;
+    font-size:11px;
+    line-height:1.5;
+    background:rgba(255,255,255,.035);
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.recordsGrid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:14px;
+}
+
+.recordCard{
+    min-height:145px;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:linear-gradient(145deg,rgba(18,60,117,.7),rgba(5,22,48,.9));
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:12px;
+}
+
+.recordCard > span{
+    color:#9fb3d4;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1.4px;
+}
+
+.recordCard > strong{
+    margin-top:9px;
+    color:#f7d700;
+    font-size:27px;
+}
+
+.recordCard > small{
+    margin-top:8px;
+    color:#e1eaf8;
+    font-size:11px;
+    line-height:1.45;
+}
+
+@media(max-width:900px){
+    .analyticsStatsGrid,
+    .trophyRoomSummary,
+    .cabinetSupportingStats,
+    .recordsGrid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .careerStandingsRow{
+        grid-template-columns:38px 1.4fr .9fr .8fr;
+    }
+
+    .careerStandingsRow > :nth-child(4){display:none;}
+    .careerStandingsRow > :nth-child(6){display:none;}
+
+    .seasonProgressionRow{
+        grid-template-columns:120px 1fr;
+    }
+
+    .seasonStatSide.right{
+        grid-column:2;
+    }
+}
+
+@media(max-width:650px){
+    .analyticsScreen{width:94vw;}
+    .analyticsStatsGrid,
+    .trophyRoomSummary,
+    .cabinetSupportingStats,
+    .recordsGrid,
+    .trophyShelf{
+        grid-template-columns:1fr;
+    }
+
+    .rivalryStatisticsOverview{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .rivalryStatisticsMatchup{
+        grid-template-columns:1fr;
+    }
+
+    .rivalryManagerHero + .rivalryManagerHero{
+        border-left:0;
+        border-top:1px solid rgba(255,255,255,.14);
+    }
+
+    .comparisonRow{
+        grid-template-columns:.8fr 1.3fr .8fr;
+        padding:10px 12px;
+    }
+
+    .comparisonRow > span{font-size:9px;}
+    .comparisonRow > strong{font-size:15px;}
+
+    .seasonProgressionRow{
+        grid-template-columns:1fr;
+    }
+
+    .seasonStatSide.right{
+        grid-column:auto;
+    }
+
+    .managerCabinetHeader{
+        grid-template-columns:45px 1fr;
+    }
+
+    .managerCareerPoints{
+        grid-column:1/-1;
+        align-items:flex-start;
+    }
+
+    .cabinetAchievementStrip{
+        flex-direction:column;
+    }
+
+    .careerStandingsRow{
+        grid-template-columns:32px 1.3fr .8fr .7fr;
+        padding:9px 10px;
+        font-size:12px;
+    }
+}
