@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.0
+   v0.14.1
    High-Performance Showdown Interface Controller
 ===================================================== */
 
@@ -57,8 +57,8 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.14.0";
-        footer.innerHTML = `FIFA 17 Career Mode Showdown<br>v${version} FIFA 17 Atmosphere & Performance`;
+        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.14.1";
+        footer.innerHTML = `FIFA 17 Career Mode Showdown<br>v${version} Performance Polish`;
     }
 }
 
