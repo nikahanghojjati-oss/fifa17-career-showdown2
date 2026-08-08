@@ -1,14 +1,101 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.6.1
+   v0.11.0
    League Wheel System
 ===================================================== */
 
-document.addEventListener("DOMContentLoaded", initializeLeagueWheel);
+let leagueWheelSpinInProgress = false;
 
 function initializeLeagueWheel(){
     const spinButton = document.getElementById("spinLeague");
-    if(spinButton){ spinButton.addEventListener("click", spinLeagueWheel); }
+    if(!spinButton || spinButton.dataset.leagueWheelBound === "true"){
+        return;
+    }
+
+    spinButton.dataset.leagueWheelBound = "true";
+    spinButton.addEventListener("click", handleLeagueWheelAction);
+}
+
+function getLeagueRotation(leagueId, revolutions = 0){
+    const selectedIndex = leagues.findIndex(league => league.id === leagueId);
+    if(selectedIndex < 0){
+        return 0;
+    }
+
+    const itemStep = 360 / leagues.length;
+    return (revolutions * 360) - (selectedIndex * itemStep);
+}
+
+function hasLockedClubAssignment(){
+    if(!currentShowdown){
+        return false;
+    }
+
+    const integrity = typeof getClubPairIntegrity === "function"
+        ? getClubPairIntegrity(currentShowdown)
+        : { valid: Boolean(currentShowdown.clubs.playerOne && currentShowdown.clubs.playerTwo) };
+
+    return Boolean(integrity.valid);
+}
+
+function renderLeagueWheelState(){
+    const wheel = document.getElementById("leagueWheel");
+    const track = wheel ? wheel.querySelector(".wheelTrack") : null;
+    const result = document.getElementById("selectedLeague");
+    const spinButton = document.getElementById("spinLeague");
+
+    if(!result || !spinButton){
+        return;
+    }
+
+    if(!currentShowdown || !currentShowdown.selectedLeague){
+        result.textContent = "Spin to select league";
+        spinButton.textContent = "SPIN WHEEL";
+        spinButton.disabled = leagueWheelSpinInProgress;
+        return;
+    }
+
+    const selected = currentShowdown.selectedLeague;
+    result.textContent = selected.name;
+
+    if(track){
+        track.style.transform = `rotate(${getLeagueRotation(selected.id)}deg)`;
+    }
+
+    if(hasLockedClubAssignment()){
+        spinButton.textContent = "LEAGUE LOCKED";
+        spinButton.disabled = true;
+    }else{
+        spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
+        spinButton.disabled = false;
+    }
+}
+
+function handleLeagueWheelAction(){
+    if(!currentShowdown || leagueWheelSpinInProgress){
+        return;
+    }
+
+    currentShowdown = normalizeShowdown(currentShowdown);
+
+    if(currentShowdown.selectedLeague){
+        if(hasLockedClubAssignment()){
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "The league is locked because clubs have already been assigned for this showdown.",
+                    "error",
+                    6000
+                );
+            }
+            renderLeagueWheelState();
+            return;
+        }
+
+        prepareClubAssignment();
+        return;
+    }
+
+    spinLeagueWheel();
 }
 
 function spinLeagueWheel(){
@@ -17,27 +104,67 @@ function spinLeagueWheel(){
     const result = document.getElementById("selectedLeague");
     const spinButton = document.getElementById("spinLeague");
 
-    if(!wheel || !track || !result || !currentShowdown){ return; }
+    if(!wheel || !track || !result || !spinButton || !currentShowdown || leagueWheelSpinInProgress){
+        return;
+    }
+
+    currentShowdown = normalizeShowdown(currentShowdown);
+
+    if(currentShowdown.selectedLeague){
+        handleLeagueWheelAction();
+        return;
+    }
 
     const selected = getRandomLeague();
-    const selectedIndex = leagues.findIndex(league => league.id === selected.id);
-    const itemStep = 360 / leagues.length;
-    const targetRotation = (5 * 360) - (selectedIndex * itemStep);
+    if(!selected){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("No league could be selected. Refresh the page and try again.", "error");
+        }
+        return;
+    }
 
-    track.style.transform = `rotate(${targetRotation}deg)`;
-    if(spinButton){ spinButton.disabled = true; }
+    leagueWheelSpinInProgress = true;
+    spinButton.disabled = true;
+    spinButton.textContent = "SPINNING...";
     result.textContent = "SPINNING...";
+    track.style.transform = `rotate(${getLeagueRotation(selected.id, 5)}deg)`;
 
-    setTimeout(() => {
+    window.setTimeout(() => {
+        const previousLeague = currentShowdown.selectedLeague;
+        const previousStatus = currentShowdown.status;
+
         currentShowdown.selectedLeague = selected;
         currentShowdown.status = "League Selected";
-        saveCurrentShowdown();
+
+        if(!saveCurrentShowdown()){
+            currentShowdown.selectedLeague = previousLeague;
+            currentShowdown.status = previousStatus;
+            leagueWheelSpinInProgress = false;
+            renderLeagueWheelState();
+
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "The selected league could not be saved. The selection was not locked.",
+                    "error",
+                    9000
+                );
+            }
+            return;
+        }
+
+        leagueWheelSpinInProgress = false;
         updateShowdownUI();
         result.textContent = selected.name;
-        if(spinButton){ spinButton.disabled = false; }
+        spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
+        spinButton.disabled = false;
 
-        setTimeout(() => {
-            prepareClubAssignment();
-        }, 900);
+        window.setTimeout(() => {
+            if(currentShowdown && currentShowdown.selectedLeague && currentShowdown.selectedLeague.id === selected.id){
+                prepareClubAssignment();
+            }
+        }, 700);
     }, 4000);
 }
+
+window.initializeLeagueWheel = initializeLeagueWheel;
+window.renderLeagueWheelState = renderLeagueWheelState;
