@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.0
-   Performance-Stabilized Screen and Navigation Engine
+   v0.15.1
+   Lifecycle-Safe Screen and Navigation Engine
 ===================================================== */
 
 const screens = [
@@ -19,8 +19,10 @@ const screens = [
     "ruleBook"
 ];
 
+const MAX_SCREEN_HISTORY = 24;
 let screenHistory = [];
 let activeScreenName = null;
+let navigationRevision = 0;
 
 function reportRouteError(message, error = null){
     if(typeof window.reportApplicationError === "function"){
@@ -47,22 +49,41 @@ function getActiveScreenName(){
     return activeScreenName;
 }
 
+function getNavigationRevision(){
+    return navigationRevision;
+}
+
+function resetTransientSelectionOperations(){
+    if(typeof window.cancelLeagueWheelOperation === "function"){
+        window.cancelLeagueWheelOperation();
+    }
+    if(typeof window.cancelClubAssignmentOperation === "function"){
+        window.cancelClubAssignmentOperation();
+    }
+}
+
 function flushScreenBeforeLeave(currentScreen, nextScreen){
     if(!currentScreen || currentScreen === nextScreen){
         return true;
     }
 
-    if(currentScreen === "transferChallenge" && typeof window.flushTransferDraftSave === "function"){
-        const flushed = window.flushTransferDraftSave();
-        if(flushed === false){
-            if(typeof window.showAppNotice === "function"){
-                window.showAppNotice(
-                    "Your latest transfer entry could not be saved, so navigation was paused. Try again after browser storage becomes available.",
-                    "error",
-                    9000
-                );
+    if(currentScreen === "transferChallenge"){
+        if(typeof window.flushTransferDraftSave === "function"){
+            const flushed = window.flushTransferDraftSave();
+            if(flushed === false){
+                if(typeof window.showAppNotice === "function"){
+                    window.showAppNotice(
+                        "Your latest transfer entry could not be saved, so navigation was paused. Try again after browser storage becomes available.",
+                        "error",
+                        9000
+                    );
+                }
+                return false;
             }
-            return false;
+        }
+
+        if(typeof stopTransferTimerLoop === "function"){
+            stopTransferTimerLoop();
         }
     }
 
@@ -71,6 +92,14 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
         if(flushed === false){
             return false;
         }
+    }
+
+    if(currentScreen === "leagueWheelScreen" && typeof window.cancelLeagueWheelOperation === "function"){
+        window.cancelLeagueWheelOperation();
+    }
+
+    if(currentScreen === "clubWheelScreen" && typeof window.cancelClubAssignmentOperation === "function"){
+        window.cancelClubAssignmentOperation();
     }
 
     if(currentScreen === "mainMenu" && typeof window.handleMainMenuExit === "function"){
@@ -106,6 +135,26 @@ function renderScreenBeforeEnter(screenName){
     }
 }
 
+function pushScreenHistory(screenName){
+    if(!screenName || screenHistory[screenHistory.length - 1] === screenName){
+        return;
+    }
+
+    screenHistory.push(screenName);
+    if(screenHistory.length > MAX_SCREEN_HISTORY){
+        screenHistory.splice(0, screenHistory.length - MAX_SCREEN_HISTORY);
+    }
+}
+
+function pruneHistoryForExplicitBack(target){
+    if(!target){ return; }
+
+    const targetIndex = screenHistory.lastIndexOf(target);
+    screenHistory = targetIndex >= 0
+        ? screenHistory.slice(0, targetIndex)
+        : [];
+}
+
 function showScreen(screenName, addToHistory = true){
     if(!screens.includes(screenName)){
         reportRouteError(`Unknown screen requested: ${screenName}`);
@@ -136,7 +185,7 @@ function showScreen(screenName, addToHistory = true){
     }
 
     if(addToHistory && current){
-        screenHistory.push(current);
+        pushScreenHistory(current);
     }
 
     if(current){
@@ -150,6 +199,7 @@ function showScreen(screenName, addToHistory = true){
     target.classList.remove("hidden");
     target.setAttribute("data-route-state", "entering");
     activeScreenName = screenName;
+    navigationRevision += 1;
 
     window.requestAnimationFrame(() => {
         if(activeScreenName === screenName){
@@ -158,6 +208,16 @@ function showScreen(screenName, addToHistory = true){
     });
 
     return true;
+}
+
+function navigateBackTo(target){
+    if(!target){
+        goBack();
+        return;
+    }
+
+    pruneHistoryForExplicitBack(target);
+    showScreen(target, false);
 }
 
 function goBack(){
@@ -208,24 +268,24 @@ function resumeSavedShowdown(){
             return;
         }
 
-        let serializedBeforeNormalization = null;
-        try{
-            serializedBeforeNormalization = JSON.stringify(saved);
-        }catch(error){
-            serializedBeforeNormalization = null;
-        }
+        const previousSchemaVersion = Number(saved.schemaVersion) || 1;
+        const previousLeagueId = saved.selectedLeague && saved.selectedLeague.id;
+        const previousClubOne = saved.clubs && saved.clubs.playerOne;
+        const previousClubTwo = saved.clubs && saved.clubs.playerTwo;
+        const previousWarnings = Array.isArray(saved.integrityWarnings) ? saved.integrityWarnings.join("|") : "";
+        const previousScoreOne = Number(saved.score && saved.score.playerOne) || 0;
+        const previousScoreTwo = Number(saved.score && saved.score.playerTwo) || 0;
 
         currentShowdown = normalizeShowdown(saved);
         surfaceIntegrityWarnings(currentShowdown);
 
-        let normalizationChangedState = true;
-        if(serializedBeforeNormalization !== null){
-            try{
-                normalizationChangedState = JSON.stringify(currentShowdown) !== serializedBeforeNormalization;
-            }catch(error){
-                normalizationChangedState = true;
-            }
-        }
+        const normalizationChangedState = previousSchemaVersion !== Number(currentShowdown.schemaVersion)
+            || String(previousLeagueId || "") !== String(currentShowdown.selectedLeague && currentShowdown.selectedLeague.id || "")
+            || String(previousClubOne || "") !== String(currentShowdown.clubs.playerOne || "")
+            || String(previousClubTwo || "") !== String(currentShowdown.clubs.playerTwo || "")
+            || previousWarnings !== currentShowdown.integrityWarnings.join("|")
+            || previousScoreOne !== Number(currentShowdown.score.playerOne)
+            || previousScoreTwo !== Number(currentShowdown.score.playerTwo);
 
         if(normalizationChangedState && !saveCurrentShowdown() && typeof window.showAppNotice === "function"){
             window.showAppNotice(
@@ -295,8 +355,11 @@ function initializeScreens(){
     document.querySelectorAll("[data-back]").forEach(button => {
         bindNavigationButton(button, () => {
             const target = button.dataset.back;
-            if(target){ showScreen(target, false); }
-            else { goBack(); }
+            navigateBackTo(target || null);
         }, "backBound");
     });
 }
+
+window.getNavigationRevision = getNavigationRevision;
+window.resetTransientSelectionOperations = resetTransientSelectionOperations;
+window.navigateBackTo = navigateBackTo;
