@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
+   v0.12.0
    Showdown Interface Controller
 ===================================================== */
 
@@ -19,7 +19,7 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.11.0 Rule Book & Core Integrity";
+        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.12.0 Performance & Stability";
     }
 }
 
