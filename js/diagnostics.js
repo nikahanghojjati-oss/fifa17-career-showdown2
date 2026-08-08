@@ -69,14 +69,15 @@ function getControlBindingProblems(){
         ["newShowdown", "navigationBound"],
         ["continueCareer", "navigationBound"],
         ["legacyButton", "navigationBound"],
+        ["trophyRoomButton", "trophyRoomReady"],
+        ["ruleBookButton", "ruleBookBound"],
         ["startShowdown", "showdownUiBound"],
         ["spinLeague", "leagueWheelBound"],
         ["openClubPack", "clubAssignmentBound"],
         ["continueClubAssignment", "clubAssignmentBound"],
         ["seasonPrimaryAction", "transferPrimaryBound"],
         ["completeTransferChallenge", "transferCompleteBound"],
-        ["completeSeason", "seasonEngineBound"],
-        ["ruleBookButton", "ruleBookBound"]
+        ["completeSeason", "seasonEngineBound"]
     ];
 
     return checks.reduce((problems, [id, marker]) => {
