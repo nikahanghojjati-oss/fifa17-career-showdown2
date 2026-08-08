@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.8.0
+   v0.9.0
    Showdown Interface Controller
 ===================================================== */
 
@@ -11,6 +11,76 @@ function initializeShowdownUI(){
     if(startButton){
         startButton.addEventListener("click", createShowdown);
     }
+
+    ensureLegacyStylesheet();
+    ensureActiveShowdownDeleteControl();
+    updateVersionLabel();
+}
+
+function ensureLegacyStylesheet(){
+    if(document.getElementById("legacyStylesheet")){
+        return;
+    }
+
+    const stylesheet = document.createElement("link");
+    stylesheet.id = "legacyStylesheet";
+    stylesheet.rel = "stylesheet";
+    stylesheet.href = "css/legacy.css?v=0.9.0";
+    document.head.appendChild(stylesheet);
+}
+
+function updateVersionLabel(){
+    const footer = document.querySelector("footer");
+    if(footer){
+        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.9.0 Legacy Development";
+    }
+}
+
+function ensureActiveShowdownDeleteControl(){
+    if(document.getElementById("deleteActiveShowdown")){
+        return;
+    }
+
+    const actions = document.querySelector("#dashboard .dashboardActions");
+    if(!actions){
+        return;
+    }
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.id = "deleteActiveShowdown";
+    button.className = "backButton dangerButton";
+    button.textContent = "DELETE CURRENT SHOWDOWN";
+    button.addEventListener("click", deleteCurrentShowdownFromDashboard);
+    actions.appendChild(button);
+}
+
+function deleteCurrentShowdownFromDashboard(){
+    if(!currentShowdown && !hasSavedShowdown()){
+        return;
+    }
+
+    const saved = currentShowdown || loadSavedShowdown();
+    const name = saved && saved.name ? saved.name : "the current showdown";
+    const isCompleted = saved && saved.status === "Completed";
+    const message = isCompleted
+        ? `Delete the active copy of "${name}"? Its completed Legacy record will remain available.`
+        : `Delete "${name}" and all of its unfinished progress? This cannot be undone.`;
+
+    if(!window.confirm(message)){
+        return;
+    }
+
+    clearSavedShowdown();
+    currentShowdown = null;
+    screenHistory = [];
+
+    const indicator = document.getElementById("seasonIndicator");
+    if(indicator){
+        indicator.textContent = "No Active Showdown";
+    }
+
+    showScreen("mainMenu", false);
 }
 
 function getCurrentTransferStatusLabel(){
@@ -41,6 +111,10 @@ function updateShowdownUI(){
     }
 
     currentShowdown = normalizeShowdown(currentShowdown);
+
+    if(currentShowdown.status === "Completed"){
+        archiveShowdown(currentShowdown);
+    }
 
     const indicator = document.getElementById("seasonIndicator");
     const selectedLeague = document.getElementById("selectedLeague");
@@ -97,7 +171,7 @@ function updateShowdownUI(){
     if(primaryButton){
         if(currentShowdown.status === "Completed"){
             primaryButton.disabled = true;
-            primaryButton.textContent = "SHOWDOWN COMPLETE";
+            primaryButton.textContent = "SHOWDOWN COMPLETE — SAVED TO LEGACY";
             return;
         }
 
