@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Runtime Diagnostics
+   v0.12.0
+   Runtime Diagnostics and Performance Integrity
 ===================================================== */
 
 const DIAGNOSTIC_REQUIRED_ELEMENTS = [
@@ -37,6 +37,9 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "normalizeShowdown",
     "getClubPairIntegrity",
     "saveCurrentShowdown",
+    "initializeStorageLifecycle",
+    "flushPendingApplicationWrites",
+    "flushTransferDraftSave",
     "spinLeagueWheel",
     "prepareClubAssignment",
     "assignClubs",
@@ -89,6 +92,28 @@ function getControlBindingProblems(){
     }, []);
 }
 
+function getTransferInputBindingProblems(){
+    return Array.from(document.querySelectorAll("[data-transfer-field]")).reduce((problems, field) => {
+        if(field.dataset.transferChangeBound !== "true"){
+            problems.push(`${field.id || "transfer field"} change handler missing`);
+        }
+
+        if(field.tagName === "INPUT" && field.dataset.transferInputBound !== "true"){
+            problems.push(`${field.id || "transfer input"} input handler missing`);
+        }
+
+        return problems;
+    }, []);
+}
+
+function getVersionProblems(){
+    const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
+    if(version !== "0.12.0"){
+        return [`runtime version is ${version}`];
+    }
+    return [];
+}
+
 function runApplicationDiagnostics(){
     const missingElements = DIAGNOSTIC_REQUIRED_ELEMENTS.filter(
         id => !document.getElementById(id)
@@ -98,11 +123,16 @@ function runApplicationDiagnostics(){
         name => typeof window[name] !== "function"
     );
 
-    const bindingProblems = getControlBindingProblems();
+    const bindingProblems = [
+        ...getControlBindingProblems(),
+        ...getTransferInputBindingProblems()
+    ];
+    const versionProblems = getVersionProblems();
     const storageAvailable = testLocalStorageAvailability();
     const healthy = missingElements.length === 0
         && missingFunctions.length === 0
         && bindingProblems.length === 0
+        && versionProblems.length === 0
         && storageAvailable;
 
     const result = {
@@ -112,6 +142,8 @@ function runApplicationDiagnostics(){
         missingElements,
         missingFunctions,
         bindingProblems,
+        versionProblems,
+        transferFieldsChecked: document.querySelectorAll("[data-transfer-field]").length,
         checkedAt: new Date().toISOString()
     };
 
@@ -122,6 +154,7 @@ function runApplicationDiagnostics(){
         if(missingElements.length){ problems.push(`missing UI: ${missingElements.join(", ")}`); }
         if(missingFunctions.length){ problems.push(`missing code: ${missingFunctions.join(", ")}`); }
         if(bindingProblems.length){ problems.push(`unbound controls: ${bindingProblems.join(", ")}`); }
+        if(versionProblems.length){ problems.push(`version mismatch: ${versionProblems.join(", ")}`); }
         if(!storageAvailable){ problems.push("browser storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
