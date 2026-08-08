@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.1
-   High-Performance Local Storage and Legacy Persistence
+   v0.15.1
+   Transaction-Safe Local Storage and Legacy Persistence
 ===================================================== */
 
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
@@ -72,16 +72,22 @@ function saveCurrentShowdown(){
     if(!currentShowdown){ return false; }
     cancelScheduledCurrentShowdownSave();
 
+    const previousUpdatedAt = currentShowdown.updatedAt || null;
+
     try{
         currentShowdown.updatedAt = new Date().toISOString();
         const serialized = JSON.stringify(currentShowdown);
+
         if(!writeStorageValue(STORAGE_KEY, serialized)){
+            currentShowdown.updatedAt = previousUpdatedAt;
             return false;
         }
+
         activeSavePresenceKnown = true;
         activeSavePresent = true;
         return true;
     }catch(error){
+        currentShowdown.updatedAt = previousUpdatedAt;
         reportStorageError("Unable to serialize the active showdown", error);
         return false;
     }
@@ -90,10 +96,12 @@ function saveCurrentShowdown(){
 function scheduleCurrentShowdownSave(delay = DEFAULT_DRAFT_SAVE_DELAY){
     if(!currentShowdown){ return false; }
     cancelScheduledCurrentShowdownSave();
+
     pendingCurrentSaveTimer = window.setTimeout(() => {
         pendingCurrentSaveTimer = null;
         saveCurrentShowdown();
     }, Math.max(0, Number(delay) || 0));
+
     return true;
 }
 
@@ -145,6 +153,7 @@ function loadSavedShowdown(){
         if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
             throw new Error("Active save data is not a valid showdown object.");
         }
+
         activeSavePresenceKnown = true;
         activeSavePresent = true;
         return parsed;
@@ -158,10 +167,12 @@ function loadSavedShowdown(){
 function clearSavedShowdown(){
     cancelScheduledCurrentShowdownSave();
     const removed = removeStorageValue(STORAGE_KEY);
+
     if(removed){
         activeSavePresenceKnown = true;
         activeSavePresent = false;
     }
+
     return removed;
 }
 
@@ -211,10 +222,13 @@ function loadLegacyShowdowns(){
 
 function saveLegacyShowdowns(showdowns){
     const safeShowdowns = Array.isArray(showdowns) ? showdowns : [];
+
     try{
-        if(!writeStorageValue(LEGACY_STORAGE_KEY, JSON.stringify(safeShowdowns))){
+        const serialized = JSON.stringify(safeShowdowns);
+        if(!writeStorageValue(LEGACY_STORAGE_KEY, serialized)){
             return false;
         }
+
         legacyCache = safeShowdowns.slice();
         legacyStorageRevision += 1;
         return true;
@@ -225,6 +239,14 @@ function saveLegacyShowdowns(showdowns){
 }
 
 function cloneForStorage(value){
+    if(typeof structuredClone === "function"){
+        try{
+            return structuredClone(value);
+        }catch(error){
+            /* JSON fallback preserves compatibility with older browsers/data. */
+        }
+    }
+
     return JSON.parse(JSON.stringify(value));
 }
 
