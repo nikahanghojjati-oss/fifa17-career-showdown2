@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.13.0
    Runtime Diagnostics and Performance Integrity
 ===================================================== */
 
@@ -19,6 +19,9 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "legacyButton",
     "trophyRoomButton",
     "ruleBookButton",
+    "menuMusicToggle",
+    "menuMusicMute",
+    "menuMusicPlayer",
     "startShowdown",
     "spinLeague",
     "openClubPack",
@@ -48,7 +51,9 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "renderRivalryStatistics",
     "renderTrophyRoom",
     "renderLegacy",
-    "openRuleBook"
+    "openRuleBook",
+    "initializeMenuExperience",
+    "refreshMainMenuExperience"
 ];
 
 function testLocalStorageAvailability(){
@@ -70,6 +75,8 @@ function getControlBindingProblems(){
         ["legacyButton", "navigationBound"],
         ["trophyRoomButton", "trophyRoomReady"],
         ["ruleBookButton", "ruleBookBound"],
+        ["menuMusicToggle", "musicBound"],
+        ["menuMusicMute", "musicBound"],
         ["startShowdown", "showdownUiBound"],
         ["spinLeague", "leagueWheelBound"],
         ["openClubPack", "clubAssignmentBound"],
@@ -102,7 +109,7 @@ function getTransferInputBindingProblems(){
 
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.12.0" ? [] : [`runtime version is ${version}`];
+    return version === "0.13.0" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
