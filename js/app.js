@@ -74,6 +74,18 @@ function installRuntimeErrorBoundary(){
     });
 }
 
+function disableUnimplementedMenuControls(){
+    const ruleBookButton = Array.from(document.querySelectorAll("#mainMenu .menuButton")).find(button =>
+        button.textContent.trim().toUpperCase() === "RULE BOOK"
+    );
+
+    if(ruleBookButton){
+        ruleBookButton.disabled = true;
+        ruleBookButton.setAttribute("aria-disabled", "true");
+        ruleBookButton.title = "Rule Book is not implemented in the current build.";
+    }
+}
+
 function revealApplication(){
     const loadingScreen = document.getElementById("loadingScreen");
     const app = document.getElementById("app");
@@ -94,6 +106,7 @@ function startApplication(){
 
     applicationStarted = true;
     installRuntimeErrorBoundary();
+    disableUnimplementedMenuControls();
 
     try{
         initializeScreens();
