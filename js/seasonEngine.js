@@ -6,6 +6,7 @@
 
 let seasonCompletionInProgress = false;
 let seasonEntryRenderedRound = null;
+let seasonEntryRenderedShowdownId = null;
 let seasonUI = null;
 
 function cacheSeasonUI(){
@@ -104,6 +105,7 @@ function openSeasonEntry(){
 
     const ui = getSeasonUI();
     const currentRound = Number(currentShowdown.currentRound);
+    const currentShowdownId = String(currentShowdown.id);
 
     setSeasonText(ui.entryTitle, `SEASON ${currentRound} RESULTS`);
     setSeasonText(ui.managerOne, currentShowdown.managers.playerOne);
@@ -111,9 +113,13 @@ function openSeasonEntry(){
     setSeasonText(ui.clubOne, currentShowdown.clubs.playerOne);
     setSeasonText(ui.clubTwo, currentShowdown.clubs.playerTwo);
 
-    if(seasonEntryRenderedRound !== currentRound){
+    if(
+        seasonEntryRenderedRound !== currentRound
+        || String(seasonEntryRenderedShowdownId) !== currentShowdownId
+    ){
         resetSeasonEntryFields();
         seasonEntryRenderedRound = currentRound;
+        seasonEntryRenderedShowdownId = currentShowdownId;
     }
 
     setSeasonEntryError("");
@@ -343,6 +349,7 @@ function completeCurrentSeason(){
         roundRecord = buildSeasonRecord(seasonNumber, playerOne, playerTwo);
         persistCompletedSeason(roundRecord, seasonNumber);
         seasonEntryRenderedRound = null;
+        seasonEntryRenderedShowdownId = null;
     }catch(error){
         reportSeasonError("Season completion failed", error);
         seasonCompletionInProgress = false;
