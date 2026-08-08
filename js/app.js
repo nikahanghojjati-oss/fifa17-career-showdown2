@@ -1,10 +1,10 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Application Controller
+   v0.12.0
+   Performance-Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.11.0";
+const APP_VERSION = "0.12.0";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
@@ -102,10 +102,11 @@ function runInitializer(name, initializer){
 
 function initializeApplicationModules(){
     /*
-       Core order is intentional. State/UI engines bind first; feature screens
-       are created before navigation is exposed to the user.
+       Persistence lifecycle is first so pending input is protected before any
+       screen becomes interactive. The rest of the order remains deterministic.
     */
     [
+        ["initializeStorageLifecycle", initializeStorageLifecycle],
         ["initializeShowdownUI", initializeShowdownUI],
         ["initializeLeagueWheel", initializeLeagueWheel],
         ["initializeClubAssignment", initializeClubAssignment],
@@ -140,7 +141,7 @@ function startApplication(){
         reportApplicationError("The application could not finish initializing", error);
     }
 
-    window.setTimeout(revealApplication, 500);
+    window.setTimeout(revealApplication, 350);
 }
 
 function bootstrapApplication(){
