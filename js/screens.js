@@ -39,6 +39,10 @@ function showScreen(screenName, addToHistory = true){
         }
     });
 
+    if(screenName === "dashboard" && currentShowdown && typeof updateShowdownUI === "function"){
+        updateShowdownUI();
+    }
+
     const activeScreen = document.getElementById(screenName);
     if(activeScreen){
         activeScreen.classList.remove("hidden");
