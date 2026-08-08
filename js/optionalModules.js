@@ -8,6 +8,7 @@ const OPTIONAL_ASSET_REVISION = "0.14.1-r2";
 const optionalScriptPromises = new Map();
 const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
+const optionalOpenPromises = new Map();
 let optionalModulesInitialized = false;
 
 function optionalAssetUrl(path){
@@ -180,35 +181,51 @@ async function ensureOptionalModule(name){
     }
 }
 
-async function openOptionalModule(name){
-    setOptionalModuleBusy(name, true);
-    try{
-        await ensureOptionalModule(name);
-
-        if(name === "statistics"){
-            if(!currentShowdown){
-                if(typeof window.showAppNotice === "function"){
-                    window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
-                }
-                return;
-            }
-            window.openRivalryStatistics();
-        }else if(name === "trophyRoom"){
-            window.openTrophyRoom();
-        }else if(name === "legacy"){
-            showScreen("legacy");
-        }else if(name === "ruleBook"){
-            window.openRuleBook();
-        }
-    }catch(error){
-        if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError(`Unable to open ${name}`, error);
-        }else{
-            console.error(error);
-        }
-    }finally{
-        setOptionalModuleBusy(name, false);
+function openOptionalModule(name){
+    if(optionalOpenPromises.has(name)){
+        return optionalOpenPromises.get(name);
     }
+
+    const openPromise = (async () => {
+        setOptionalModuleBusy(name, true);
+        try{
+            await ensureOptionalModule(name);
+
+            if(name === "statistics"){
+                if(!currentShowdown){
+                    if(typeof window.showAppNotice === "function"){
+                        window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
+                    }
+                    return false;
+                }
+                window.openRivalryStatistics();
+            }else if(name === "trophyRoom"){
+                window.openTrophyRoom();
+            }else if(name === "legacy"){
+                showScreen("legacy");
+            }else if(name === "ruleBook"){
+                window.openRuleBook();
+            }
+            return true;
+        }catch(error){
+            if(typeof window.reportApplicationError === "function"){
+                window.reportApplicationError(`Unable to open ${name}`, error);
+            }else{
+                console.error(error);
+            }
+            return false;
+        }finally{
+            setOptionalModuleBusy(name, false);
+        }
+    })();
+
+    optionalOpenPromises.set(name, openPromise);
+    openPromise.finally(() => {
+        if(optionalOpenPromises.get(name) === openPromise){
+            optionalOpenPromises.delete(name);
+        }
+    });
+    return openPromise;
 }
 
 function ensureStatisticsDashboardButtonShell(){
