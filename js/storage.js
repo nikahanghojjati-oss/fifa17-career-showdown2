@@ -1,11 +1,15 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Local Storage and Legacy Persistence
+   v0.12.0
+   High-Performance Local Storage and Legacy Persistence
 ===================================================== */
 
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
 const LEGACY_STORAGE_KEY = "careerModeShowdown.legacyShowdowns";
+const DEFAULT_DRAFT_SAVE_DELAY = 420;
+
+let pendingCurrentSaveTimer = null;
+let storageLifecycleBound = false;
 
 function reportStorageError(context, error){
     console.error(`[Career Mode Showdown] ${context}:`, error);
@@ -44,6 +48,11 @@ function removeStorageValue(key){
     }
 }
 
+/*
+   Full normalization is intentionally reserved for migration/archive boundaries.
+   Running it on every save caused scoring recalculation and integrity repair while
+   the user was typing. Runtime state is already normalized when created/resumed.
+*/
 function normalizeBeforeStorage(showdown){
     if(!showdown){
         return null;
@@ -56,19 +65,77 @@ function normalizeBeforeStorage(showdown){
     return showdown;
 }
 
+function cancelScheduledCurrentShowdownSave(){
+    if(pendingCurrentSaveTimer){
+        window.clearTimeout(pendingCurrentSaveTimer);
+        pendingCurrentSaveTimer = null;
+    }
+}
+
 function saveCurrentShowdown(){
     if(!currentShowdown){
         return false;
     }
 
+    cancelScheduledCurrentShowdownSave();
+
     try{
-        currentShowdown = normalizeBeforeStorage(currentShowdown);
         currentShowdown.updatedAt = new Date().toISOString();
         return writeStorageValue(STORAGE_KEY, JSON.stringify(currentShowdown));
     }catch(error){
         reportStorageError("Unable to serialize the active showdown", error);
         return false;
     }
+}
+
+function scheduleCurrentShowdownSave(delay = DEFAULT_DRAFT_SAVE_DELAY){
+    if(!currentShowdown){
+        return false;
+    }
+
+    cancelScheduledCurrentShowdownSave();
+
+    pendingCurrentSaveTimer = window.setTimeout(() => {
+        pendingCurrentSaveTimer = null;
+        saveCurrentShowdown();
+    }, Math.max(0, Number(delay) || 0));
+
+    return true;
+}
+
+function flushScheduledCurrentShowdownSave(){
+    if(!pendingCurrentSaveTimer){
+        return true;
+    }
+
+    cancelScheduledCurrentShowdownSave();
+    return saveCurrentShowdown();
+}
+
+function flushPendingApplicationWrites(){
+    let transferFlushed = true;
+
+    if(typeof window.flushTransferDraftSave === "function"){
+        transferFlushed = window.flushTransferDraftSave();
+    }
+
+    const storageFlushed = flushScheduledCurrentShowdownSave();
+    return transferFlushed !== false && storageFlushed !== false;
+}
+
+function initializeStorageLifecycle(){
+    if(storageLifecycleBound){
+        return;
+    }
+
+    storageLifecycleBound = true;
+
+    window.addEventListener("pagehide", flushPendingApplicationWrites);
+    document.addEventListener("visibilitychange", () => {
+        if(document.visibilityState === "hidden"){
+            flushPendingApplicationWrites();
+        }
+    });
 }
 
 function loadSavedShowdown(){
@@ -91,6 +158,7 @@ function loadSavedShowdown(){
 }
 
 function clearSavedShowdown(){
+    cancelScheduledCurrentShowdownSave();
     return removeStorageValue(STORAGE_KEY);
 }
 
@@ -179,7 +247,13 @@ function clearLegacyHistory(){
 }
 
 function clearAllCareerModeData(){
+    cancelScheduledCurrentShowdownSave();
     const activeCleared = clearSavedShowdown();
     const legacyCleared = clearLegacyHistory();
     return activeCleared && legacyCleared;
 }
+
+window.initializeStorageLifecycle = initializeStorageLifecycle;
+window.scheduleCurrentShowdownSave = scheduleCurrentShowdownSave;
+window.flushScheduledCurrentShowdownSave = flushScheduledCurrentShowdownSave;
+window.flushPendingApplicationWrites = flushPendingApplicationWrites;
