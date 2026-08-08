@@ -10,6 +10,8 @@ const DEFAULT_DRAFT_SAVE_DELAY = 420;
 
 let pendingCurrentSaveTimer = null;
 let storageLifecycleBound = false;
+let legacyCache = null;
+let legacyStorageRevision = 0;
 
 function reportStorageError(context, error){
     console.error(`[Career Mode Showdown] ${context}:`, error);
@@ -48,21 +50,14 @@ function removeStorageValue(key){
     }
 }
 
-/*
-   Full normalization is intentionally reserved for migration/archive boundaries.
-   Running it on every save caused scoring recalculation and integrity repair while
-   the user was typing. Runtime state is already normalized when created/resumed.
-*/
 function normalizeBeforeStorage(showdown){
     if(!showdown){
         return null;
     }
 
-    if(typeof normalizeShowdown === "function"){
-        return normalizeShowdown(showdown);
-    }
-
-    return showdown;
+    return typeof normalizeShowdown === "function"
+        ? normalizeShowdown(showdown)
+        : showdown;
 }
 
 function cancelScheduledCurrentShowdownSave(){
@@ -94,12 +89,10 @@ function scheduleCurrentShowdownSave(delay = DEFAULT_DRAFT_SAVE_DELAY){
     }
 
     cancelScheduledCurrentShowdownSave();
-
     pendingCurrentSaveTimer = window.setTimeout(() => {
         pendingCurrentSaveTimer = null;
         saveCurrentShowdown();
     }, Math.max(0, Number(delay) || 0));
-
     return true;
 }
 
@@ -129,7 +122,6 @@ function initializeStorageLifecycle(){
     }
 
     storageLifecycleBound = true;
-
     window.addEventListener("pagehide", flushPendingApplicationWrites);
     document.addEventListener("visibilitychange", () => {
         if(document.visibilityState === "hidden"){
@@ -140,7 +132,6 @@ function initializeStorageLifecycle(){
 
 function loadSavedShowdown(){
     const raw = readStorageValue(STORAGE_KEY);
-
     if(!raw){
         return null;
     }
@@ -166,20 +157,35 @@ function hasSavedShowdown(){
     return Boolean(readStorageValue(STORAGE_KEY));
 }
 
-function loadLegacyShowdowns(){
-    const raw = readStorageValue(LEGACY_STORAGE_KEY);
+function invalidateLegacyCache(){
+    legacyCache = null;
+    legacyStorageRevision += 1;
+}
 
+function getLegacyStorageRevision(){
+    return legacyStorageRevision;
+}
+
+function loadLegacyShowdowns(){
+    if(legacyCache){
+        return legacyCache.slice();
+    }
+
+    const raw = readStorageValue(LEGACY_STORAGE_KEY);
     if(!raw){
+        legacyCache = [];
         return [];
     }
 
     try{
         const parsed = JSON.parse(raw);
-        return Array.isArray(parsed)
+        legacyCache = Array.isArray(parsed)
             ? parsed.filter(item => item && typeof item === "object" && !Array.isArray(item))
             : [];
+        return legacyCache.slice();
     }catch(error){
         reportStorageError("Unable to parse Legacy history", error);
+        legacyCache = [];
         return [];
     }
 }
@@ -188,7 +194,13 @@ function saveLegacyShowdowns(showdowns){
     const safeShowdowns = Array.isArray(showdowns) ? showdowns : [];
 
     try{
-        return writeStorageValue(LEGACY_STORAGE_KEY, JSON.stringify(safeShowdowns));
+        const serialized = JSON.stringify(safeShowdowns);
+        if(!writeStorageValue(LEGACY_STORAGE_KEY, serialized)){
+            return false;
+        }
+        legacyCache = safeShowdowns.slice();
+        legacyStorageRevision += 1;
+        return true;
     }catch(error){
         reportStorageError("Unable to serialize Legacy history", error);
         return false;
@@ -231,9 +243,7 @@ function archiveShowdown(showdown){
 
 function deleteLegacyShowdown(showdownId){
     const history = loadLegacyShowdowns();
-    const nextHistory = history.filter(
-        item => String(item.id) !== String(showdownId)
-    );
+    const nextHistory = history.filter(item => String(item.id) !== String(showdownId));
 
     if(nextHistory.length === history.length){
         return false;
@@ -243,7 +253,12 @@ function deleteLegacyShowdown(showdownId){
 }
 
 function clearLegacyHistory(){
-    return removeStorageValue(LEGACY_STORAGE_KEY);
+    const removed = removeStorageValue(LEGACY_STORAGE_KEY);
+    if(removed){
+        invalidateLegacyCache();
+        legacyCache = [];
+    }
+    return removed;
 }
 
 function clearAllCareerModeData(){
@@ -257,3 +272,4 @@ window.initializeStorageLifecycle = initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave = scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave = flushScheduledCurrentShowdownSave;
 window.flushPendingApplicationWrites = flushPendingApplicationWrites;
+window.getLegacyStorageRevision = getLegacyStorageRevision;
