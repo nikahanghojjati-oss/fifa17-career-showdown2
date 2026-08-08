@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.15.0
    Club Assignment / FUT Style Reveal
 ===================================================== */
 
@@ -34,8 +34,14 @@ function resetClubRevealCards(){
     const clubOne = document.getElementById("clubNameOne");
     const clubTwo = document.getElementById("clubNameTwo");
 
-    if(clubOne){ clubOne.textContent = "?"; }
-    if(clubTwo){ clubTwo.textContent = "?"; }
+    if(clubOne){
+        clubOne.textContent = "?";
+        if(typeof window.applyClubIdentity === "function"){ window.applyClubIdentity(clubOne, null); }
+    }
+    if(clubTwo){
+        clubTwo.textContent = "?";
+        if(typeof window.applyClubIdentity === "function"){ window.applyClubIdentity(clubTwo, null); }
+    }
 
     document.querySelectorAll(".clubRevealCard").forEach(card => {
         card.classList.remove("revealed");
@@ -172,6 +178,10 @@ function renderClubResults(){
 
     if(clubOne){ clubOne.textContent = currentShowdown.clubs.playerOne || "?"; }
     if(clubTwo){ clubTwo.textContent = currentShowdown.clubs.playerTwo || "?"; }
+
+    if(typeof window.refreshClubVisualIdentity === "function"){
+        window.refreshClubVisualIdentity(currentShowdown);
+    }
 
     document.querySelectorAll(".clubRevealCard").forEach(card => {
         card.classList.add("revealed");
