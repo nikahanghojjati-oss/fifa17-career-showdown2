@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.9.0
+   v0.10.0
    Screen and Navigation Engine
 ===================================================== */
 
@@ -13,6 +13,8 @@ const screens = [
     "transferChallenge",
     "seasonEntry",
     "seasonSummary",
+    "statistics",
+    "trophyRoom",
     "legacy"
 ];
 
@@ -44,6 +46,14 @@ function showScreen(screenName, addToHistory = true){
         updateShowdownUI();
     }
 
+    if(screenName === "statistics" && currentShowdown && typeof window.renderRivalryStatistics === "function"){
+        window.renderRivalryStatistics();
+    }
+
+    if(screenName === "trophyRoom" && typeof window.renderTrophyRoom === "function"){
+        window.renderTrophyRoom();
+    }
+
     const activeScreen = document.getElementById(screenName);
     if(activeScreen){
         activeScreen.classList.remove("hidden");
@@ -72,7 +82,7 @@ function ensureLegacyModule(){
 
     legacyModulePromise = new Promise((resolve, reject) => {
         const script = document.createElement("script");
-        script.src = "js/legacy.js?v=0.9.0";
+        script.src = "js/legacy.js?v=0.10.0";
         script.onload = resolve;
         script.onerror = () => {
             legacyModulePromise = null;
