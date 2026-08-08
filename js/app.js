@@ -1,40 +1,63 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.0
+   v0.14.1
    Performance-Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.14.0";
+const APP_VERSION = "0.14.1";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
+let performanceLifecycleInstalled = false;
+let runtimeNoticeElement = null;
+let runtimeNoticeTextElement = null;
 
-function showAppNotice(message, type = "error", duration = 7000){
-    let notice = document.getElementById("appRuntimeNotice");
-
-    if(!notice){
-        notice = document.createElement("div");
-        notice.id = "appRuntimeNotice";
-        notice.setAttribute("role", "status");
-        notice.setAttribute("aria-live", "polite");
-
-        const text = document.createElement("span");
-        text.className = "runtimeNoticeText";
-
-        const close = document.createElement("button");
-        close.type = "button";
-        close.setAttribute("aria-label", "Dismiss message");
-        close.textContent = "×";
-        close.addEventListener("click", () => notice.remove());
-
-        notice.append(text, close);
-        document.body.appendChild(notice);
+function getRuntimeNotice(){
+    if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
+        return runtimeNoticeElement;
     }
 
+    const existing = document.getElementById("appRuntimeNotice");
+    if(existing){
+        runtimeNoticeElement = existing;
+        runtimeNoticeTextElement = existing.querySelector(".runtimeNoticeText");
+        return existing;
+    }
+
+    const notice = document.createElement("div");
+    notice.id = "appRuntimeNotice";
+    notice.setAttribute("role", "status");
+    notice.setAttribute("aria-live", "polite");
+
+    const text = document.createElement("span");
+    text.className = "runtimeNoticeText";
+
+    const close = document.createElement("button");
+    close.type = "button";
+    close.setAttribute("aria-label", "Dismiss message");
+    close.textContent = "×";
+    close.addEventListener("click", () => {
+        notice.remove();
+        runtimeNoticeElement = null;
+        runtimeNoticeTextElement = null;
+    });
+
+    notice.append(text, close);
+    document.body.appendChild(notice);
+    runtimeNoticeElement = notice;
+    runtimeNoticeTextElement = text;
+    return notice;
+}
+
+function showAppNotice(message, type = "error", duration = 7000){
+    const notice = getRuntimeNotice();
     notice.className = type;
-    const text = notice.querySelector(".runtimeNoticeText");
-    if(text){
-        text.textContent = message;
+
+    if(runtimeNoticeTextElement){
+        const nextMessage = String(message || "");
+        if(runtimeNoticeTextElement.textContent !== nextMessage){
+            runtimeNoticeTextElement.textContent = nextMessage;
+        }
     }
 
     if(runtimeNoticeTimer){
@@ -44,8 +67,11 @@ function showAppNotice(message, type = "error", duration = 7000){
 
     if(duration > 0){
         runtimeNoticeTimer = window.setTimeout(() => {
-            const activeNotice = document.getElementById("appRuntimeNotice");
-            if(activeNotice){ activeNotice.remove(); }
+            if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
+                runtimeNoticeElement.remove();
+            }
+            runtimeNoticeElement = null;
+            runtimeNoticeTextElement = null;
             runtimeNoticeTimer = null;
         }, duration);
     }
@@ -80,6 +106,53 @@ function installRuntimeErrorBoundary(){
     });
 }
 
+function resumeVisibleTransferTimer(){
+    if(typeof currentShowdown === "undefined" || !currentShowdown){
+        return;
+    }
+    if(typeof getActiveScreenName !== "function" || getActiveScreenName() !== "transferChallenge"){
+        return;
+    }
+    if(typeof getTransferChallengeForSeason !== "function"){
+        return;
+    }
+
+    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+    if(!challenge || challenge.status !== "active"){
+        return;
+    }
+
+    if(typeof synchronizeTransferDeadline === "function"){
+        synchronizeTransferDeadline(challenge);
+    }
+
+    if(challenge.status === "active" && typeof startTransferTimerLoop === "function"){
+        startTransferTimerLoop();
+    }else if(typeof renderTransferChallenge === "function"){
+        renderTransferChallenge(challenge);
+    }
+}
+
+function initializePerformanceLifecycle(){
+    if(performanceLifecycleInstalled){
+        return;
+    }
+
+    performanceLifecycleInstalled = true;
+    document.addEventListener("visibilitychange", () => {
+        if(document.visibilityState === "hidden"){
+            if(typeof stopTransferTimerLoop === "function"){
+                stopTransferTimerLoop();
+            }
+            return;
+        }
+
+        resumeVisibleTransferTimer();
+    });
+}
+
+window.initializePerformanceLifecycle = initializePerformanceLifecycle;
+
 function revealApplication(){
     const loadingScreen = document.getElementById("loadingScreen");
     const app = document.getElementById("app");
@@ -101,9 +174,9 @@ function scheduleApplicationDiagnostics(){
     const run = () => window.runApplicationDiagnostics();
 
     if(typeof window.requestIdleCallback === "function"){
-        window.requestIdleCallback(run, { timeout: 1000 });
+        window.requestIdleCallback(run, { timeout: 1400 });
     }else{
-        window.setTimeout(run, 0);
+        window.setTimeout(run, 120);
     }
 }
 
@@ -122,11 +195,10 @@ function initializeApplicationModules(){
         ["initializeClubAssignment", initializeClubAssignment],
         ["initializeTransferChallenge", initializeTransferChallenge],
         ["initializeSeasonEngine", initializeSeasonEngine],
-        ["initializeStatistics", initializeStatistics],
-        ["initializeTrophyRoom", initializeTrophyRoom],
-        ["initializeRuleBook", initializeRuleBook],
         ["initializeScreens", initializeScreens],
-        ["initializeMenuExperience", initializeMenuExperience]
+        ["initializeMenuExperience", initializeMenuExperience],
+        ["initializeOptionalModules", initializeOptionalModules],
+        ["initializePerformanceLifecycle", initializePerformanceLifecycle]
     ].forEach(([name, initializer]) => runInitializer(name, initializer));
 }
 
