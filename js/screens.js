@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.8.0
+   v0.9.0
    Screen and Navigation Engine
 ===================================================== */
 
@@ -17,6 +17,7 @@ const screens = [
 ];
 
 let screenHistory = [];
+let legacyModulePromise = null;
 
 function showScreen(screenName, addToHistory = true){
     if(!screens.includes(screenName)){
@@ -60,6 +61,48 @@ function goBack(){
     showScreen("mainMenu", false);
 }
 
+function ensureLegacyModule(){
+    if(typeof window.renderLegacy === "function"){
+        return Promise.resolve();
+    }
+
+    if(legacyModulePromise){
+        return legacyModulePromise;
+    }
+
+    legacyModulePromise = new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "js/legacy.js?v=0.9.0";
+        script.onload = resolve;
+        script.onerror = () => {
+            legacyModulePromise = null;
+            reject(new Error("Unable to load Legacy module."));
+        };
+        document.body.appendChild(script);
+    });
+
+    return legacyModulePromise;
+}
+
+async function openLegacy(){
+    showScreen("legacy");
+
+    const container = document.querySelector("#legacy .legacyBox");
+    if(container){
+        container.textContent = "Loading Legacy...";
+    }
+
+    try{
+        await ensureLegacyModule();
+        window.renderLegacy();
+    }catch(error){
+        console.error(error);
+        if(container){
+            container.textContent = "Legacy could not be loaded. Refresh the page and try again.";
+        }
+    }
+}
+
 function resumeSavedShowdown(){
     const saved = loadSavedShowdown();
 
@@ -69,6 +112,11 @@ function resumeSavedShowdown(){
     }
 
     currentShowdown = normalizeShowdown(saved);
+
+    if(currentShowdown.status === "Completed"){
+        archiveShowdown(currentShowdown);
+    }
+
     saveCurrentShowdown();
     updateShowdownUI();
 
@@ -109,9 +157,7 @@ function initializeScreens(){
     }
 
     if(legacyButton){
-        legacyButton.addEventListener("click", () => {
-            showScreen("legacy");
-        });
+        legacyButton.addEventListener("click", openLegacy);
     }
 
     document.querySelectorAll("[data-back]").forEach(button => {
