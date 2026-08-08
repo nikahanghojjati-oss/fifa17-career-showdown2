@@ -82,8 +82,8 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
             }
         }
 
-        if(typeof stopTransferTimerLoop === "function"){
-            stopTransferTimerLoop();
+        if(typeof window.stopTransferTimerLoop === "function"){
+            window.stopTransferTimerLoop();
         }
     }
 
@@ -216,20 +216,25 @@ function navigateBackTo(target){
         return;
     }
 
-    pruneHistoryForExplicitBack(target);
-    showScreen(target, false);
+    if(showScreen(target, false)){
+        pruneHistoryForExplicitBack(target);
+    }
 }
 
 function goBack(){
     while(screenHistory.length){
-        const previous = screenHistory.pop();
-        if(previous && document.getElementById(previous)){
-            if(showScreen(previous, false)){
-                return;
-            }
-            break;
+        const previous = screenHistory[screenHistory.length - 1];
+        if(!previous || !document.getElementById(previous)){
+            screenHistory.pop();
+            continue;
         }
+
+        if(showScreen(previous, false)){
+            screenHistory.pop();
+        }
+        return;
     }
+
     showScreen("mainMenu", false);
 }
 
@@ -269,6 +274,11 @@ function resumeSavedShowdown(){
         }
 
         const previousSchemaVersion = Number(saved.schemaVersion) || 1;
+        const previousTotalRounds = Number(saved.totalRounds) || 1;
+        const previousCurrentRound = Number(saved.currentRound) || 1;
+        const previousStatus = saved.status || "";
+        const previousManagerOne = saved.managers && saved.managers.playerOne || "";
+        const previousManagerTwo = saved.managers && saved.managers.playerTwo || "";
         const previousLeagueId = saved.selectedLeague && saved.selectedLeague.id;
         const previousClubOne = saved.clubs && saved.clubs.playerOne;
         const previousClubTwo = saved.clubs && saved.clubs.playerTwo;
@@ -280,6 +290,11 @@ function resumeSavedShowdown(){
         surfaceIntegrityWarnings(currentShowdown);
 
         const normalizationChangedState = previousSchemaVersion !== Number(currentShowdown.schemaVersion)
+            || previousTotalRounds !== Number(currentShowdown.totalRounds)
+            || previousCurrentRound !== Number(currentShowdown.currentRound)
+            || previousStatus !== String(currentShowdown.status || "")
+            || previousManagerOne !== String(currentShowdown.managers.playerOne || "")
+            || previousManagerTwo !== String(currentShowdown.managers.playerTwo || "")
             || String(previousLeagueId || "") !== String(currentShowdown.selectedLeague && currentShowdown.selectedLeague.id || "")
             || String(previousClubOne || "") !== String(currentShowdown.clubs.playerOne || "")
             || String(previousClubTwo || "") !== String(currentShowdown.clubs.playerTwo || "")
