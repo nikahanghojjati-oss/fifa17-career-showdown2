@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.13.0
    High-Performance Showdown Interface Controller
 ===================================================== */
 
@@ -49,7 +49,7 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.12.0 Performance & Stability";
+        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.13.0 Menu Experience";
     }
 }
 
