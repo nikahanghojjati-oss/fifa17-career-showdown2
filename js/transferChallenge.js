@@ -5,13 +5,15 @@
 ===================================================== */
 
 const TRANSFER_WINDOW_SECONDS = 15 * 60;
-const TRANSFER_DRAFT_DELAY_MS = 320;
+const TRANSFER_DRAFT_DELAY_MS = 500;
 
 let transferTimerInterval = null;
 let transferCompletionInProgress = false;
 let transferDraftTimer = null;
 let transferDraftDirty = false;
 let lastRenderedTimerSecond = null;
+let transferFieldElements = [];
+let transferFieldById = new Map();
 
 function bindTransferControl(element, eventName, handler, marker){
     if(!element || element.dataset[marker] === "true"){
@@ -20,6 +22,24 @@ function bindTransferControl(element, eventName, handler, marker){
 
     element.dataset[marker] = "true";
     element.addEventListener(eventName, handler);
+}
+
+function cacheTransferFields(){
+    transferFieldElements = Array.from(document.querySelectorAll("[data-transfer-field]"));
+    transferFieldById = new Map();
+
+    transferFieldElements.forEach(field => {
+        if(field.id){
+            transferFieldById.set(field.id, field);
+        }
+    });
+}
+
+function getTransferFields(){
+    if(!transferFieldElements.length){
+        cacheTransferFields();
+    }
+    return transferFieldElements;
 }
 
 function prepareTransferInputForFastEntry(field){
@@ -70,7 +90,8 @@ function initializeTransferChallenge(){
         "transferContinueBound"
     );
 
-    document.querySelectorAll("[data-transfer-field]").forEach(field => {
+    cacheTransferFields();
+    getTransferFields().forEach(field => {
         prepareTransferInputForFastEntry(field);
         bindTransferControl(field, "change", saveTransferFieldChange, "transferChangeBound");
 
@@ -344,7 +365,7 @@ function finishTransferWindow(challenge, endedEarly){
 }
 
 function getTransferElement(id){
-    return document.getElementById(id);
+    return transferFieldById.get(id) || document.getElementById(id);
 }
 
 function getSigningRows(prefix){
@@ -429,7 +450,7 @@ function scheduleTransferDraftSave(){
     }, TRANSFER_DRAFT_DELAY_MS);
 }
 
-function saveTransferFieldChange(){
+function saveTransferFieldChange(event){
     if(!currentShowdown){
         return true;
     }
@@ -439,7 +460,11 @@ function saveTransferFieldChange(){
         return true;
     }
 
-    transferDraftDirty = true;
+    const field = event && event.currentTarget ? event.currentTarget : null;
+    if(field && field.tagName === "SELECT"){
+        transferDraftDirty = true;
+    }
+
     return flushTransferDraftSave();
 }
 
@@ -624,13 +649,13 @@ function restoreTransferForm(challenge){
 }
 
 function clearTransferForm(){
-    document.querySelectorAll("[data-transfer-field]").forEach(field => {
+    getTransferFields().forEach(field => {
         field.value = "";
     });
 }
 
 function setTransferFieldValue(id, value){
-    const field = document.getElementById(id);
+    const field = getTransferElement(id);
     if(field){
         field.value = value || "";
     }
@@ -658,8 +683,10 @@ function restoreGuessRows(targetPrefix, guesses){
 }
 
 function setTransferFieldsDisabled(disabled){
-    document.querySelectorAll("[data-transfer-field]").forEach(field => {
-        field.disabled = disabled;
+    getTransferFields().forEach(field => {
+        if(field.disabled !== disabled){
+            field.disabled = disabled;
+        }
     });
 }
 
