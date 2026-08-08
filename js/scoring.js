@@ -51,6 +51,10 @@ function determineSeasonWinner(playerOne, playerTwo){
         return "playerTwo";
     }
 
+    if(playerOne.scoring.total !== 0 || playerTwo.scoring.total !== 0){
+        return "draw";
+    }
+
     if(playerOne.leaguePosition < playerTwo.leaguePosition){
         return "playerOne";
     }
