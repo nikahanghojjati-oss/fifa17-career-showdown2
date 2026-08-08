@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.0
-   Runtime Diagnostics, Visual Integrity and Performance
+   v0.15.1
+   Runtime Diagnostics, Lifecycle Integrity and Performance
 ===================================================== */
 
 const DIAGNOSTIC_REQUIRED_ELEMENTS = [
@@ -37,16 +37,21 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "showScreen",
     "createShowdown",
     "normalizeShowdown",
+    "ensureCurrentShowdownNormalized",
     "getClubPairIntegrity",
     "saveCurrentShowdown",
     "initializeStorageLifecycle",
     "flushPendingApplicationWrites",
     "flushTransferDraftSave",
     "spinLeagueWheel",
+    "cancelLeagueWheelOperation",
     "prepareClubAssignment",
     "assignClubs",
+    "cancelClubAssignmentOperation",
     "openTransferChallenge",
     "completeTransferChallenge",
+    "startTransferTimerLoop",
+    "stopTransferTimerLoop",
     "openSeasonEntry",
     "completeCurrentSeason",
     "calculatePlayerSeasonScore",
@@ -60,6 +65,8 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "openOptionalModule",
     "getOptionalModuleState",
     "initializePerformanceLifecycle",
+    "getNavigationRevision",
+    "resetTransientSelectionOperations",
     "applyClubIdentity",
     "refreshClubVisualIdentity"
 ];
@@ -132,10 +139,22 @@ function getOptionalModuleProblems(){
         return ["optional module state is unavailable"];
     }
 
+    const problems = [];
     const state = window.getOptionalModuleState();
-    return Object.entries(state)
+    Object.entries(state)
         .filter(([, value]) => value === "error")
-        .map(([name]) => `${name} optional module previously failed to load`);
+        .forEach(([name]) => problems.push(`${name} optional module previously failed to load`));
+
+    const styleCounts = new Map();
+    document.querySelectorAll("link[data-optional-style]").forEach(link => {
+        const key = link.dataset.optionalStyle;
+        styleCounts.set(key, (styleCounts.get(key) || 0) + 1);
+    });
+    styleCounts.forEach((count, key) => {
+        if(count > 1){ problems.push(`${key} optional stylesheet is duplicated ${count} times`); }
+    });
+
+    return problems;
 }
 
 function getVisualSystemProblems(){
@@ -144,7 +163,7 @@ function getVisualSystemProblems(){
 
     if(!theme){
         problems.push("FIFA 17-era visual theme stylesheet is missing");
-    }else if(!String(theme.getAttribute("href") || "").includes("0.15.0")){
+    }else if(!String(theme.getAttribute("href") || "").includes("0.15.1-r1")){
         problems.push("visual theme cache revision is stale");
     }
 
@@ -155,9 +174,67 @@ function getVisualSystemProblems(){
     return problems;
 }
 
+function getLifecycleProblems(){
+    const problems = [];
+    const activeScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : null;
+
+    if(
+        typeof transferTimerInterval !== "undefined"
+        && transferTimerInterval
+        && activeScreen !== "transferChallenge"
+    ){
+        problems.push("transfer timer is running outside Transfer Challenge");
+    }
+
+    if(
+        typeof leagueWheelSpinInProgress !== "undefined"
+        && leagueWheelSpinInProgress
+        && activeScreen !== "leagueWheelScreen"
+    ){
+        problems.push("league wheel operation is active off-screen");
+    }
+
+    if(
+        typeof clubAssignmentInProgress !== "undefined"
+        && clubAssignmentInProgress
+        && activeScreen !== "clubWheelScreen"
+    ){
+        problems.push("club reveal operation is active off-screen");
+    }
+
+    if(
+        typeof screenHistory !== "undefined"
+        && typeof MAX_SCREEN_HISTORY !== "undefined"
+        && screenHistory.length > MAX_SCREEN_HISTORY
+    ){
+        problems.push(`route history exceeded its ${MAX_SCREEN_HISTORY}-entry bound`);
+    }
+
+    return problems;
+}
+
+function getBundleProblems(){
+    const expected = "0.15.1-r1";
+    const localAssets = [
+        ...document.querySelectorAll("script[src]"),
+        ...document.querySelectorAll("link[rel='stylesheet'][href]")
+    ];
+
+    return localAssets.reduce((problems, element) => {
+        const value = element.getAttribute("src") || element.getAttribute("href") || "";
+        if(!/^(?:js|css|data)\//.test(value)){
+            return problems;
+        }
+        if(!value.includes(`v=${expected}`)){
+            problems.push(`stale local asset: ${value.split("?")[0]}`);
+        }
+        return problems;
+    }, []);
+}
+
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.15.0" ? [] : [`runtime version is ${version}`];
+    return version === "0.15.1" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
@@ -168,7 +245,9 @@ function runApplicationDiagnostics(){
         ...getTransferInputBindingProblems(),
         ...getMenuMediaProblems(),
         ...getOptionalModuleProblems(),
-        ...getVisualSystemProblems()
+        ...getVisualSystemProblems(),
+        ...getLifecycleProblems(),
+        ...getBundleProblems()
     ];
     const versionProblems = getVersionProblems();
     const storageAvailable = testLocalStorageAvailability();
@@ -187,6 +266,8 @@ function runApplicationDiagnostics(){
         bindingProblems,
         versionProblems,
         visualThemeLoaded: Boolean(document.getElementById("fifa17Theme")),
+        activeScreen: typeof getActiveScreenName === "function" ? getActiveScreenName() : null,
+        routeHistoryDepth: typeof screenHistory !== "undefined" ? screenHistory.length : null,
         lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook"],
         optionalModules: typeof window.getOptionalModuleState === "function"
             ? window.getOptionalModuleState()
