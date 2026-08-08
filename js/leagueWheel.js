@@ -38,11 +38,24 @@ function hasLockedClubAssignment(){
     return Boolean(integrity.valid);
 }
 
+function setWheelRotationWithoutAnimation(track, rotation){
+    if(!track){
+        return;
+    }
+
+    const previousTransition = track.style.transition;
+    track.style.transition = "none";
+    track.style.transform = `rotate(${rotation}deg)`;
+    void track.offsetWidth;
+    track.style.transition = previousTransition;
+}
+
 function renderLeagueWheelState(){
     const wheel = document.getElementById("leagueWheel");
     const track = wheel ? wheel.querySelector(".wheelTrack") : null;
     const result = document.getElementById("selectedLeague");
     const spinButton = document.getElementById("spinLeague");
+    const note = document.getElementById("leagueStateNote");
 
     if(!result || !spinButton){
         return;
@@ -52,22 +65,33 @@ function renderLeagueWheelState(){
         result.textContent = "Spin to select league";
         spinButton.textContent = "SPIN WHEEL";
         spinButton.disabled = leagueWheelSpinInProgress;
+        if(note){
+            note.textContent = "";
+            note.classList.add("hidden");
+            note.classList.remove("locked");
+        }
         return;
     }
 
     const selected = currentShowdown.selectedLeague;
     result.textContent = selected.name;
-
-    if(track){
-        track.style.transform = `rotate(${getLeagueRotation(selected.id)}deg)`;
-    }
+    setWheelRotationWithoutAnimation(track, getLeagueRotation(selected.id));
 
     if(hasLockedClubAssignment()){
         spinButton.textContent = "LEAGUE LOCKED";
         spinButton.disabled = true;
+        if(note){
+            note.textContent = "League and clubs are permanent for this showdown.";
+            note.classList.remove("hidden");
+            note.classList.add("locked");
+        }
     }else{
         spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
         spinButton.disabled = false;
+        if(note){
+            note.textContent = `${selected.name} has been selected. The league cannot be re-spun; continue to assign the two permanent clubs.`;
+            note.classList.remove("hidden", "locked");
+        }
     }
 }
 
@@ -103,6 +127,7 @@ function spinLeagueWheel(){
     const track = wheel ? wheel.querySelector(".wheelTrack") : null;
     const result = document.getElementById("selectedLeague");
     const spinButton = document.getElementById("spinLeague");
+    const note = document.getElementById("leagueStateNote");
 
     if(!wheel || !track || !result || !spinButton || !currentShowdown || leagueWheelSpinInProgress){
         return;
@@ -127,6 +152,7 @@ function spinLeagueWheel(){
     spinButton.disabled = true;
     spinButton.textContent = "SPINNING...";
     result.textContent = "SPINNING...";
+    if(note){ note.classList.add("hidden"); }
     track.style.transform = `rotate(${getLeagueRotation(selected.id, 5)}deg)`;
 
     window.setTimeout(() => {
@@ -158,6 +184,11 @@ function spinLeagueWheel(){
         spinButton.textContent = "CONTINUE TO CLUB ASSIGNMENT";
         spinButton.disabled = false;
 
+        if(note){
+            note.textContent = `${selected.name} has been selected. The league cannot be re-spun; continue to assign the two permanent clubs.`;
+            note.classList.remove("hidden", "locked");
+        }
+
         window.setTimeout(() => {
             if(currentShowdown && currentShowdown.selectedLeague && currentShowdown.selectedLeague.id === selected.id){
                 prepareClubAssignment();
@@ -168,3 +199,4 @@ function spinLeagueWheel(){
 
 window.initializeLeagueWheel = initializeLeagueWheel;
 window.renderLeagueWheelState = renderLeagueWheelState;
+window.spinLeagueWheel = spinLeagueWheel;
