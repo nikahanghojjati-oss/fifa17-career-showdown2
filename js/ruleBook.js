@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Rule Book
+   v0.12.0
+   Rule Book — Lazy UI Construction
 ===================================================== */
 
 function createRuleBookScreen(){
@@ -98,11 +98,13 @@ function createRuleSection(number, title, rules){
     header.append(numberElement, heading);
 
     const list = document.createElement("ul");
+    const fragment = document.createDocumentFragment();
     rules.forEach(rule => {
         const item = document.createElement("li");
         item.textContent = rule;
-        list.appendChild(item);
+        fragment.appendChild(item);
     });
+    list.appendChild(fragment);
 
     article.append(header, list);
     return article;
@@ -125,6 +127,7 @@ function createScoringRuleSection(){
 
     const scoring = document.createElement("div");
     scoring.className = "ruleScoreTable";
+    const fragment = document.createDocumentFragment();
 
     [
         ["Champions League winner", "+5"],
@@ -139,8 +142,9 @@ function createScoringRuleSection(){
         labelElement.textContent = label;
         valueElement.textContent = value;
         row.append(labelElement, valueElement);
-        scoring.appendChild(row);
+        fragment.appendChild(row);
     });
+    scoring.appendChild(fragment);
 
     const maximum = document.createElement("div");
     maximum.className = "ruleScoreMaximum";
@@ -157,12 +161,11 @@ function findRuleBookMenuButton(){
 }
 
 function openRuleBook(){
+    createRuleBookScreen();
     showScreen("ruleBook");
 }
 
 function initializeRuleBook(){
-    createRuleBookScreen();
-
     const button = findRuleBookMenuButton();
     if(!button || button.dataset.ruleBookBound === "true"){
         return;
