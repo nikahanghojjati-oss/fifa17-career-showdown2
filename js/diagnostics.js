@@ -13,10 +13,7 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "transferChallenge",
     "seasonEntry",
     "seasonSummary",
-    "statistics",
-    "trophyRoom",
     "legacy",
-    "ruleBook",
     "newShowdown",
     "continueCareer",
     "legacyButton",
@@ -56,7 +53,6 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
 
 function testLocalStorageAvailability(){
     const key = "careerModeShowdown.diagnostic";
-
     try{
         localStorage.setItem(key, "ok");
         const value = localStorage.getItem(key);
@@ -97,32 +93,21 @@ function getTransferInputBindingProblems(){
         if(field.dataset.transferChangeBound !== "true"){
             problems.push(`${field.id || "transfer field"} change handler missing`);
         }
-
         if(field.tagName === "INPUT" && field.dataset.transferInputBound !== "true"){
             problems.push(`${field.id || "transfer input"} input handler missing`);
         }
-
         return problems;
     }, []);
 }
 
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    if(version !== "0.12.0"){
-        return [`runtime version is ${version}`];
-    }
-    return [];
+    return version === "0.12.0" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
-    const missingElements = DIAGNOSTIC_REQUIRED_ELEMENTS.filter(
-        id => !document.getElementById(id)
-    );
-
-    const missingFunctions = DIAGNOSTIC_REQUIRED_FUNCTIONS.filter(
-        name => typeof window[name] !== "function"
-    );
-
+    const missingElements = DIAGNOSTIC_REQUIRED_ELEMENTS.filter(id => !document.getElementById(id));
+    const missingFunctions = DIAGNOSTIC_REQUIRED_FUNCTIONS.filter(name => typeof window[name] !== "function");
     const bindingProblems = [
         ...getControlBindingProblems(),
         ...getTransferInputBindingProblems()
@@ -143,6 +128,7 @@ function runApplicationDiagnostics(){
         missingFunctions,
         bindingProblems,
         versionProblems,
+        lazyScreens: ["statistics", "trophyRoom", "ruleBook"],
         transferFieldsChecked: document.querySelectorAll("[data-transfer-field]").length,
         checkedAt: new Date().toISOString()
     };
@@ -158,10 +144,7 @@ function runApplicationDiagnostics(){
         if(!storageAvailable){ problems.push("browser storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
-            window.reportApplicationError(
-                "Application integrity check failed",
-                new Error(problems.join("; "))
-            );
+            window.reportApplicationError("Application integrity check failed", new Error(problems.join("; ")));
         }else{
             console.error("Application integrity check failed:", problems.join("; "));
         }
