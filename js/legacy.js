@@ -21,26 +21,16 @@ function getArchivedShowdownWinner(showdown){
     const playerOneScore = Number(showdown.score && showdown.score.playerOne) || 0;
     const playerTwoScore = Number(showdown.score && showdown.score.playerTwo) || 0;
 
-    if(playerOneScore > playerTwoScore){
-        return "playerOne";
-    }
-
-    if(playerTwoScore > playerOneScore){
-        return "playerTwo";
-    }
-
+    if(playerOneScore > playerTwoScore){ return "playerOne"; }
+    if(playerTwoScore > playerOneScore){ return "playerTwo"; }
     return "draw";
 }
 
 function formatLegacyDate(value){
-    if(!value){
-        return "Date unavailable";
-    }
+    if(!value){ return "Date unavailable"; }
 
     const date = new Date(value);
-    if(Number.isNaN(date.getTime())){
-        return "Date unavailable";
-    }
+    if(Number.isNaN(date.getTime())){ return "Date unavailable"; }
 
     return new Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -56,9 +46,7 @@ function countShowdownTrophies(showdown){
 }
 
 function countPlayerTrophies(player){
-    if(!player){
-        return 0;
-    }
+    if(!player){ return 0; }
 
     return (player.leaguePosition === 1 ? 1 : 0)
         + (player.domesticCup ? 1 : 0)
@@ -104,9 +92,7 @@ function getWinnerLabel(showdown){
 }
 
 function getPlayerHonours(player){
-    if(!player){
-        return "No honours";
-    }
+    if(!player){ return "No honours"; }
 
     const honours = [];
 
@@ -114,7 +100,7 @@ function getPlayerHonours(player){
     if(player.leaguePosition === 1){ honours.push("League"); }
     if(player.domesticCup){ honours.push("Domestic Cup"); }
     if(player.scoring && player.scoring.performanceBonus){ honours.push("Performance Bonus"); }
-    if(player.scoring && player.scoring.awardsBonus){ honours.push("Awards Bonus"); }
+    if(player.scoring && player.scoring.individualAwardsBonus){ honours.push("Awards Bonus"); }
 
     return honours.length ? honours.join(" · ") : "No honours";
 }
@@ -124,9 +110,7 @@ function getSeasonTransferReleases(showdown, seasonNumber, playerKey){
         item => Number(item.seasonNumber) === Number(seasonNumber)
     );
 
-    if(!challenge || !challenge.signings){
-        return 0;
-    }
+    if(!challenge || !challenge.signings){ return 0; }
 
     const signings = Array.isArray(challenge.signings[playerKey])
         ? challenge.signings[playerKey]
@@ -173,6 +157,43 @@ function createLegacySeasonRow(showdown, round){
 
     row.append(season, playerOne, score, playerTwo);
     return row;
+}
+
+function removeMatchingCompletedActiveShowdown(showdownId){
+    const active = currentShowdown || loadSavedShowdown();
+
+    if(!active || active.status !== "Completed" || String(active.id) !== String(showdownId)){
+        return false;
+    }
+
+    clearSavedShowdown();
+    currentShowdown = null;
+
+    const indicator = document.getElementById("seasonIndicator");
+    if(indicator){ indicator.textContent = "No Active Showdown"; }
+
+    return true;
+}
+
+function removeCompletedActiveShowdownIfArchived(history){
+    const active = currentShowdown || loadSavedShowdown();
+
+    if(!active || active.status !== "Completed"){
+        return false;
+    }
+
+    const isArchived = history.some(item => String(item.id) === String(active.id));
+    if(!isArchived){
+        return false;
+    }
+
+    clearSavedShowdown();
+    currentShowdown = null;
+
+    const indicator = document.getElementById("seasonIndicator");
+    if(indicator){ indicator.textContent = "No Active Showdown"; }
+
+    return true;
 }
 
 function createLegacyShowdownCard(showdown){
@@ -242,15 +263,23 @@ function createLegacyShowdownCard(showdown){
     deleteButton.className = "compactButton dangerButton";
     deleteButton.textContent = "DELETE SHOWDOWN";
     deleteButton.addEventListener("click", () => {
-        const confirmed = window.confirm(
-            `Delete "${showdown.name}" from Legacy? This cannot be undone.`
+        const active = currentShowdown || loadSavedShowdown();
+        const alsoDeletesActive = Boolean(
+            active &&
+            active.status === "Completed" &&
+            String(active.id) === String(showdown.id)
         );
 
-        if(!confirmed){
+        const warning = alsoDeletesActive
+            ? `Delete "${showdown.name}" from Legacy and remove its active completed copy? This cannot be undone.`
+            : `Delete "${showdown.name}" from Legacy? This cannot be undone.`;
+
+        if(!window.confirm(warning)){
             return;
         }
 
         deleteLegacyShowdown(showdown.id);
+        removeMatchingCompletedActiveShowdown(showdown.id);
         renderLegacy();
     });
 
@@ -259,7 +288,7 @@ function createLegacyShowdownCard(showdown){
     return card;
 }
 
-function createLegacyDataControls(){
+function createLegacyDataControls(history){
     const controls = document.createElement("section");
     controls.className = "legacyDataControls";
 
@@ -267,7 +296,7 @@ function createLegacyDataControls(){
     heading.textContent = "DATA MANAGEMENT";
 
     const description = document.createElement("p");
-    description.textContent = "Delete archived test history without touching the active showdown, or reset all local Career Mode Showdown data for a completely fresh start.";
+    description.textContent = "Delete archived test history, or reset all local Career Mode Showdown data for a completely fresh start. Unfinished active showdowns are preserved by the Legacy-history delete control.";
 
     const buttons = document.createElement("div");
     buttons.className = "legacyControlButtons";
@@ -277,14 +306,22 @@ function createLegacyDataControls(){
     deleteHistory.className = "compactButton dangerButton";
     deleteHistory.textContent = "DELETE ALL LEGACY HISTORY";
     deleteHistory.addEventListener("click", () => {
-        const confirmed = window.confirm(
-            "Delete every archived showdown from Legacy? Your current active showdown will remain. This cannot be undone."
+        const active = currentShowdown || loadSavedShowdown();
+        const completedActiveWillBeRemoved = Boolean(
+            active &&
+            active.status === "Completed" &&
+            history.some(item => String(item.id) === String(active.id))
         );
 
-        if(!confirmed){
+        const warning = completedActiveWillBeRemoved
+            ? "Delete every archived showdown from Legacy? The active copy of the completed showdown will also be removed so it cannot immediately re-archive. Unfinished active saves are not affected. This cannot be undone."
+            : "Delete every archived showdown from Legacy? Your unfinished active showdown, if any, will remain. This cannot be undone.";
+
+        if(!window.confirm(warning)){
             return;
         }
 
+        removeCompletedActiveShowdownIfArchived(history);
         clearLegacyHistory();
         renderLegacy();
     });
@@ -298,9 +335,7 @@ function createLegacyDataControls(){
             "Reset ALL Career Mode Showdown data? This deletes the active showdown and every Legacy record. This cannot be undone."
         );
 
-        if(!confirmed){
-            return;
-        }
+        if(!confirmed){ return; }
 
         clearAllCareerModeData();
         currentShowdown = null;
@@ -321,9 +356,7 @@ function renderLegacy(){
     archiveCompletedSaveBeforeLegacy();
 
     const container = document.querySelector("#legacy .legacyBox");
-    if(!container){
-        return;
-    }
+    if(!container){ return; }
 
     const history = loadLegacyShowdowns()
         .map(showdown => normalizeShowdown(showdown))
@@ -362,7 +395,7 @@ function renderLegacy(){
         container.appendChild(list);
     }
 
-    container.appendChild(createLegacyDataControls());
+    container.appendChild(createLegacyDataControls(history));
 }
 
 window.renderLegacy = renderLegacy;
