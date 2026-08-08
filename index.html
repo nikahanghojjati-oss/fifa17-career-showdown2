@@ -106,6 +106,7 @@
 <p id="dashboardLeague">League</p>
 <p id="dashboardRound">Season 1 of 1</p>
 <p class="overviewStatus" id="dashboardStatus">Ready</p>
+<p class="transferOverviewStatus" id="dashboardTransferStatus">Transfer challenge: not started</p>
 </div>
 
 <div class="showdownScoreboard">
@@ -128,14 +129,87 @@
 </div>
 
 <div class="dashboardActions">
-<button class="menuButton" id="enterSeasonResults">ENTER SEASON 1 RESULTS</button>
+<button class="menuButton" id="seasonPrimaryAction">START SEASON 1 TRANSFER CHALLENGE</button>
 <button class="backButton" data-back="mainMenu">BACK</button>
+</div>
+</section>
+
+<section id="transferChallenge" class="screen hidden">
+<h2 id="transferChallengeTitle">SEASON 1 TRANSFER CHALLENGE</h2>
+<div class="transferHero">
+<p class="transferRulesLine">15 MINUTES · MAX 3 SIGNINGS EACH · 3 OPPONENT GUESSES</p>
+<p id="transferPhaseStatus">READY</p>
+<div id="transferTimerDisplay" class="transferTimer">15:00</div>
+<p class="transferRuleNote">A guess is either a league or nationality. Any signing matching a correct guess must be released before the season begins.</p>
+</div>
+
+<div class="transferTimerActions">
+<button class="menuButton" id="startTransferTimer">START 15-MINUTE WINDOW</button>
+<button class="menuButton hidden" id="endTransferTimer">END WINDOW EARLY</button>
+</div>
+
+<div class="transferManagersGrid">
+<div class="transferManagerCard">
+<div class="seasonManagerHeader"><h3 id="transferManagerOne">MANAGER 1</h3><p id="transferClubOne">Club</p></div>
+<p class="transferSectionLabel">SIGNINGS</p>
+<div class="signingRows">
+<div class="signingRow"><span>1</span><input data-transfer-field id="p1Signing1Name" placeholder="Player name"><input data-transfer-field id="p1Signing1League" placeholder="Previous league"><input data-transfer-field id="p1Signing1Nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>2</span><input data-transfer-field id="p1Signing2Name" placeholder="Player name"><input data-transfer-field id="p1Signing2League" placeholder="Previous league"><input data-transfer-field id="p1Signing2Nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>3</span><input data-transfer-field id="p1Signing3Name" placeholder="Player name"><input data-transfer-field id="p1Signing3League" placeholder="Previous league"><input data-transfer-field id="p1Signing3Nationality" placeholder="Nationality"></div>
+</div>
+</div>
+
+<div class="transferManagerCard">
+<div class="seasonManagerHeader"><h3 id="transferManagerTwo">MANAGER 2</h3><p id="transferClubTwo">Club</p></div>
+<p class="transferSectionLabel">SIGNINGS</p>
+<div class="signingRows">
+<div class="signingRow"><span>1</span><input data-transfer-field id="p2Signing1Name" placeholder="Player name"><input data-transfer-field id="p2Signing1League" placeholder="Previous league"><input data-transfer-field id="p2Signing1Nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>2</span><input data-transfer-field id="p2Signing2Name" placeholder="Player name"><input data-transfer-field id="p2Signing2League" placeholder="Previous league"><input data-transfer-field id="p2Signing2Nationality" placeholder="Nationality"></div>
+<div class="signingRow"><span>3</span><input data-transfer-field id="p2Signing3Name" placeholder="Player name"><input data-transfer-field id="p2Signing3League" placeholder="Previous league"><input data-transfer-field id="p2Signing3Nationality" placeholder="Nationality"></div>
+</div>
+</div>
+</div>
+
+<div class="transferGuessesGrid">
+<div class="transferGuessCard">
+<h3 id="guessAgainstOneHeading">Manager 2 guesses Manager 1's signings</h3>
+<div class="guessRows">
+<div class="guessRow"><span>1</span><select data-transfer-field id="p1Guess1Type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess1Value" placeholder="Guess"></div>
+<div class="guessRow"><span>2</span><select data-transfer-field id="p1Guess2Type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess2Value" placeholder="Guess"></div>
+<div class="guessRow"><span>3</span><select data-transfer-field id="p1Guess3Type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p1Guess3Value" placeholder="Guess"></div>
+</div>
+</div>
+
+<div class="transferGuessCard">
+<h3 id="guessAgainstTwoHeading">Manager 1 guesses Manager 2's signings</h3>
+<div class="guessRows">
+<div class="guessRow"><span>1</span><select data-transfer-field id="p2Guess1Type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess1Value" placeholder="Guess"></div>
+<div class="guessRow"><span>2</span><select data-transfer-field id="p2Guess2Type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess2Value" placeholder="Guess"></div>
+<div class="guessRow"><span>3</span><select data-transfer-field id="p2Guess3Type"><option value="">Guess type</option><option value="league">League</option><option value="nationality">Nationality</option></select><input data-transfer-field id="p2Guess3Value" placeholder="Guess"></div>
+</div>
+</div>
+</div>
+
+<p id="transferChallengeError" class="formError" aria-live="polite"></p>
+<button class="menuButton hidden" id="completeTransferChallenge">LOCK TRANSFER CHALLENGE RESULTS</button>
+
+<div id="transferChallengeResults" class="transferChallengeResults hidden">
+<h3>TRANSFER VERDICTS</h3>
+<div class="transferResultsGrid">
+<div class="transferResultsCard" id="transferResultsOne"></div>
+<div class="transferResultsCard" id="transferResultsTwo"></div>
+</div>
+</div>
+
+<div class="seasonEntryActions">
+<button class="menuButton hidden" id="continueFromTransfers">CONTINUE TO SEASON RESULTS</button>
+<button class="backButton" data-back="dashboard">BACK TO SHOWDOWN HOME</button>
 </div>
 </section>
 
 <section id="seasonEntry" class="screen hidden">
 <h2 id="seasonEntryTitle">SEASON RESULTS</h2>
-<p class="seasonEntryHint">League title points are automatic for finishing 1st. 100 league points and 100 league goals are also detected automatically.</p>
+<p class="seasonEntryHint">Scoring: Champions League +5, league title +3, domestic cup +1. 100 league points and/or 100 league goals share one +1 performance bonus. Top Scorer and/or Top Assist share one +1 awards bonus. Maximum season score: 11.</p>
 <div class="seasonEntryGrid">
 <div class="seasonResultCard">
 <div class="seasonManagerHeader"><h3 id="seasonManagerOne">MANAGER 1</h3><p id="seasonClubOne">Club</p></div>
@@ -182,7 +256,7 @@
 <strong id="seasonOverallScore">0 • 0</strong>
 </div>
 <div class="seasonEntryActions">
-<button class="menuButton" id="nextSeasonAction">START NEXT SEASON</button>
+<button class="menuButton" id="nextSeasonAction">START NEXT SEASON TRANSFER CHALLENGE</button>
 <button class="backButton" data-back="dashboard">SHOWDOWN HOME</button>
 </div>
 </section>
@@ -194,7 +268,7 @@
 </section>
 </main>
 
-<footer>FIFA 17 Career Mode Showdown<br>v0.7.0 Season Engine Development</footer>
+<footer>FIFA 17 Career Mode Showdown<br>v0.8.0 Transfer Challenge Development</footer>
 </div>
 
 <script src="data/leagues.js"></script>
@@ -207,6 +281,7 @@
 <script src="js/showdownUI.js"></script>
 <script src="js/leagueWheel.js"></script>
 <script src="js/clubAssignment.js"></script>
+<script src="js/transferChallenge.js"></script>
 <script src="js/seasonEngine.js"></script>
 <script src="js/app.js"></script>
 </body>
