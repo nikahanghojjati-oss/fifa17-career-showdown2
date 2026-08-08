@@ -1,10 +1,10 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.1
+   v0.15.0
    On-Demand View Module Loader
 ===================================================== */
 
-const OPTIONAL_ASSET_REVISION = "0.14.1-r2";
+const OPTIONAL_ASSET_REVISION = "0.15.0-r1";
 const optionalScriptPromises = new Map();
 const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
@@ -16,27 +16,42 @@ function optionalAssetUrl(path){
 }
 
 function loadOptionalStyle(key, path){
-    const existing = document.querySelector(`link[data-optional-style="${key}"]`);
-    if(existing){
-        return Promise.resolve(existing);
-    }
-
     if(optionalStylePromises.has(key)){
         return optionalStylePromises.get(key);
     }
 
+    const existing = document.querySelector(`link[data-optional-style="${key}"]`);
+    if(existing && existing.sheet){
+        return Promise.resolve(existing);
+    }
+
     const promise = new Promise((resolve, reject) => {
-        const link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.href = optionalAssetUrl(path);
-        link.dataset.optionalStyle = key;
-        link.addEventListener("load", () => resolve(link), { once: true });
-        link.addEventListener("error", () => {
+        const link = existing || document.createElement("link");
+
+        if(!existing){
+            link.rel = "stylesheet";
+            link.href = optionalAssetUrl(path);
+            link.dataset.optionalStyle = key;
+        }
+
+        const handleLoad = () => resolve(link);
+        const handleError = () => {
             link.remove();
             optionalStylePromises.delete(key);
             reject(new Error(`Unable to load ${path}.`));
-        }, { once: true });
-        document.head.appendChild(link);
+        };
+
+        link.addEventListener("load", handleLoad, { once: true });
+        link.addEventListener("error", handleError, { once: true });
+
+        if(!existing){
+            const theme = document.getElementById("fifa17Theme");
+            if(theme && theme.parentNode === document.head){
+                document.head.insertBefore(link, theme);
+            }else{
+                document.head.appendChild(link);
+            }
+        }
     });
 
     optionalStylePromises.set(key, promise);
