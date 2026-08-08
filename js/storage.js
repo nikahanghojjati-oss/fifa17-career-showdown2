@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.1
-   Hardened Local Storage and Legacy Persistence
+   v0.11.0
+   Local Storage and Legacy Persistence
 ===================================================== */
 
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
@@ -44,14 +44,26 @@ function removeStorageValue(key){
     }
 }
 
+function normalizeBeforeStorage(showdown){
+    if(!showdown){
+        return null;
+    }
+
+    if(typeof normalizeShowdown === "function"){
+        return normalizeShowdown(showdown);
+    }
+
+    return showdown;
+}
+
 function saveCurrentShowdown(){
     if(!currentShowdown){
         return false;
     }
 
-    currentShowdown.updatedAt = new Date().toISOString();
-
     try{
+        currentShowdown = normalizeBeforeStorage(currentShowdown);
+        currentShowdown.updatedAt = new Date().toISOString();
         return writeStorageValue(STORAGE_KEY, JSON.stringify(currentShowdown));
     }catch(error){
         reportStorageError("Unable to serialize the active showdown", error);
@@ -67,7 +79,11 @@ function loadSavedShowdown(){
     }
 
     try{
-        return JSON.parse(raw);
+        const parsed = JSON.parse(raw);
+        if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
+            throw new Error("Active save data is not a valid showdown object.");
+        }
+        return parsed;
     }catch(error){
         reportStorageError("Unable to parse the active showdown", error);
         return null;
@@ -91,7 +107,9 @@ function loadLegacyShowdowns(){
 
     try{
         const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
+        return Array.isArray(parsed)
+            ? parsed.filter(item => item && typeof item === "object" && !Array.isArray(item))
+            : [];
     }catch(error){
         reportStorageError("Unable to parse Legacy history", error);
         return [];
@@ -120,7 +138,8 @@ function archiveShowdown(showdown){
 
     try{
         const history = loadLegacyShowdowns();
-        const snapshot = cloneForStorage(showdown);
+        let snapshot = cloneForStorage(showdown);
+        snapshot = normalizeBeforeStorage(snapshot);
         snapshot.archivedAt = snapshot.archivedAt || new Date().toISOString();
 
         const existingIndex = history.findIndex(
