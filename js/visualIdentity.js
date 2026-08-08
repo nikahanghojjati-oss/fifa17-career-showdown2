@@ -1,7 +1,7 @@
 /* =====================================================
    Career Mode Showdown
-   v0.15.0
-   Original Club Identity / Crest Presentation
+   v0.15.1
+   Cached Original Club Identity / Crest Presentation
 ===================================================== */
 
 const CLUB_IDENTITY_PALETTES = Object.freeze([
@@ -14,6 +14,8 @@ const CLUB_IDENTITY_PALETTES = Object.freeze([
     ["#69458f", "#d8cae7"],
     ["#a45c21", "#efd1a8"]
 ]);
+
+const clubIdentityCache = new Map();
 
 function getClubIdentityHash(value){
     let hash = 2166136261;
@@ -45,21 +47,30 @@ function getClubIdentityInitials(clubName){
 
 function getClubIdentity(clubName){
     const name = String(clubName || "").trim();
+    if(clubIdentityCache.has(name)){
+        return clubIdentityCache.get(name);
+    }
+
     const hash = getClubIdentityHash(name);
     const palette = CLUB_IDENTITY_PALETTES[hash % CLUB_IDENTITY_PALETTES.length];
-
-    return {
+    const identity = Object.freeze({
         initials: getClubIdentityInitials(name),
         primary: palette[0],
         secondary: palette[1],
         angle: `${32 + (hash % 26)}deg`
-    };
+    });
+
+    clubIdentityCache.set(name, identity);
+    return identity;
 }
 
 function clearClubIdentity(element){
     if(!element){ return; }
+    if(!element.dataset.clubIdentity && !element.dataset.clubName){ return; }
+
     delete element.dataset.clubIdentity;
     delete element.dataset.clubInitials;
+    delete element.dataset.clubName;
     element.style.removeProperty("--club-primary");
     element.style.removeProperty("--club-secondary");
     element.style.removeProperty("--club-angle");
@@ -74,8 +85,13 @@ function applyClubIdentity(element, clubName){
         return;
     }
 
+    if(element.dataset.clubIdentity === "true" && element.dataset.clubName === name){
+        return;
+    }
+
     const identity = getClubIdentity(name);
     element.dataset.clubIdentity = "true";
+    element.dataset.clubName = name;
     element.dataset.clubInitials = identity.initials;
     element.style.setProperty("--club-primary", identity.primary);
     element.style.setProperty("--club-secondary", identity.secondary);
