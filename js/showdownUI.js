@@ -1,38 +1,24 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.0
-   Showdown Interface Controller
+   v0.10.1
+   Stabilized Showdown Interface Controller
 ===================================================== */
-
-document.addEventListener("DOMContentLoaded", initializeShowdownUI);
 
 function initializeShowdownUI(){
     const startButton = document.getElementById("startShowdown");
-    if(startButton){
+    if(startButton && startButton.dataset.showdownUiBound !== "true"){
+        startButton.dataset.showdownUiBound = "true";
         startButton.addEventListener("click", createShowdown);
     }
 
-    ensureLegacyStylesheet();
     ensureActiveShowdownDeleteControl();
     updateVersionLabel();
-}
-
-function ensureLegacyStylesheet(){
-    if(document.getElementById("legacyStylesheet")){
-        return;
-    }
-
-    const stylesheet = document.createElement("link");
-    stylesheet.id = "legacyStylesheet";
-    stylesheet.rel = "stylesheet";
-    stylesheet.href = "css/legacy.css?v=0.10.0";
-    document.head.appendChild(stylesheet);
 }
 
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.10.0 Statistics & Trophy Room";
+        footer.innerHTML = "FIFA 17 Career Mode Showdown<br>v0.10.1 Stabilization";
     }
 }
 
@@ -71,7 +57,13 @@ function deleteCurrentShowdownFromDashboard(){
         return;
     }
 
-    clearSavedShowdown();
+    if(!clearSavedShowdown()){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("The active showdown could not be deleted from browser storage.", "error");
+        }
+        return;
+    }
+
     currentShowdown = null;
     screenHistory = [];
 
@@ -188,4 +180,10 @@ function updateShowdownUI(){
             primaryButton.textContent = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
         }
     }
+}
+
+if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", initializeShowdownUI, { once: true });
+}else{
+    initializeShowdownUI();
 }
