@@ -1,10 +1,12 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.9.0
-   Showdown State Manager
+   v0.11.0
+   Showdown State Manager and Integrity Repair
 ===================================================== */
 
 let currentShowdown = null;
+
+const ALLOWED_SHOWDOWN_ROUNDS = Object.freeze([1, 3, 5, 10]);
 
 function createShowdown(){
     if(hasSavedShowdown()){
@@ -19,13 +21,30 @@ function createShowdown(){
         }
     }
 
-    const showdownName = document.getElementById("showdownName").value.trim();
-    const managerOne = document.getElementById("managerOne").value.trim();
-    const managerTwo = document.getElementById("managerTwo").value.trim();
-    const roundAmount = Number(document.getElementById("roundAmount").value);
+    const showdownNameInput = document.getElementById("showdownName");
+    const managerOneInput = document.getElementById("managerOne");
+    const managerTwoInput = document.getElementById("managerTwo");
+    const roundAmountInput = document.getElementById("roundAmount");
+
+    if(!showdownNameInput || !managerOneInput || !managerTwoInput || !roundAmountInput){
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError(
+                "Showdown creation form is incomplete",
+                new Error("Required setup fields are missing from the page.")
+            );
+        }
+        return;
+    }
+
+    const showdownName = showdownNameInput.value.trim();
+    const managerOne = managerOneInput.value.trim();
+    const managerTwo = managerTwoInput.value.trim();
+    const requestedRounds = Number(roundAmountInput.value);
+    const roundAmount = ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds) ? requestedRounds : 1;
     const now = new Date().toISOString();
 
     currentShowdown = {
+        schemaVersion: 2,
         id: Date.now(),
         name: showdownName || "Unnamed Showdown",
         managers: {
@@ -46,14 +65,142 @@ function createShowdown(){
         },
         transferChallenges: [],
         rounds: [],
+        integrityWarnings: [],
         createdAt: now,
         updatedAt: now,
         completedAt: null,
         archivedAt: null
     };
 
-    saveCurrentShowdown();
+    if(!saveCurrentShowdown()){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice(
+                "The new showdown could not be saved. Check browser storage before continuing.",
+                "error",
+                10000
+            );
+        }
+        return;
+    }
+
     showScreen("leagueWheelScreen");
+}
+
+function getCanonicalLeague(league){
+    if(!league || !league.id || !Array.isArray(leagues)){
+        return null;
+    }
+
+    return leagues.find(item => item.id === league.id) || null;
+}
+
+function getClubPairIntegrity(showdown){
+    const result = {
+        complete: false,
+        valid: false,
+        reason: ""
+    };
+
+    if(!showdown || !showdown.clubs){
+        result.reason = "Club assignment is missing.";
+        return result;
+    }
+
+    const one = showdown.clubs.playerOne;
+    const two = showdown.clubs.playerTwo;
+
+    if(!one && !two){
+        result.reason = "Clubs have not been assigned yet.";
+        return result;
+    }
+
+    if(!one || !two){
+        result.reason = "Only one manager has an assigned club.";
+        return result;
+    }
+
+    result.complete = true;
+
+    if(one === two){
+        result.reason = "Both managers cannot use the same club.";
+        return result;
+    }
+
+    if(!showdown.selectedLeague || !showdown.selectedLeague.id){
+        result.reason = "Assigned clubs do not have a selected league.";
+        return result;
+    }
+
+    const eligible = typeof getClubsForLeague === "function"
+        ? getClubsForLeague(showdown.selectedLeague.id)
+        : [];
+
+    if(!eligible.includes(one) || !eligible.includes(two)){
+        result.reason = "Assigned clubs do not belong to the selected league.";
+        return result;
+    }
+
+    result.valid = true;
+    return result;
+}
+
+function canSafelyResetClubAssignment(showdown){
+    const hasRounds = Array.isArray(showdown.rounds) && showdown.rounds.length > 0;
+    const hasTransferHistory = Array.isArray(showdown.transferChallenges)
+        && showdown.transferChallenges.some(challenge => challenge && challenge.status !== "not_started");
+
+    return !hasRounds && !hasTransferHistory;
+}
+
+function addIntegrityWarning(showdown, message){
+    if(!message){
+        return;
+    }
+
+    showdown.integrityWarnings = Array.isArray(showdown.integrityWarnings)
+        ? showdown.integrityWarnings
+        : [];
+
+    if(!showdown.integrityWarnings.includes(message)){
+        showdown.integrityWarnings.push(message);
+    }
+}
+
+function repairShowdownIntegrity(showdown){
+    if(!showdown){
+        return null;
+    }
+
+    showdown.integrityWarnings = [];
+
+    const canonicalLeague = getCanonicalLeague(showdown.selectedLeague);
+    if(showdown.selectedLeague && canonicalLeague){
+        showdown.selectedLeague = canonicalLeague;
+    }else if(showdown.selectedLeague && !canonicalLeague){
+        addIntegrityWarning(showdown, "The saved league is not recognized by the current FIFA 17 league database.");
+    }
+
+    const clubIntegrity = getClubPairIntegrity(showdown);
+    if((showdown.clubs.playerOne || showdown.clubs.playerTwo) && !clubIntegrity.valid){
+        if(canSafelyResetClubAssignment(showdown)){
+            showdown.clubs = { playerOne: null, playerTwo: null };
+            if(showdown.selectedLeague){
+                showdown.status = "League Selected";
+            }
+        }else{
+            addIntegrityWarning(showdown, clubIntegrity.reason);
+        }
+    }
+
+    if(showdown.rounds.length > showdown.totalRounds){
+        addIntegrityWarning(showdown, "Saved season history contains more seasons than the showdown length.");
+    }
+
+    if(showdown.status === "Completed" && showdown.rounds.length < showdown.totalRounds){
+        addIntegrityWarning(showdown, "The showdown is marked complete but not every configured season has a result.");
+    }
+
+    return showdown;
 }
 
 function normalizeShowdown(showdown){
@@ -61,21 +208,30 @@ function normalizeShowdown(showdown){
         return null;
     }
 
+    showdown.schemaVersion = Number(showdown.schemaVersion) || 1;
     showdown.name = showdown.name || "Unnamed Showdown";
     showdown.managers = showdown.managers || { playerOne: "Manager 1", playerTwo: "Manager 2" };
     showdown.managers.playerOne = showdown.managers.playerOne || "Manager 1";
     showdown.managers.playerTwo = showdown.managers.playerTwo || "Manager 2";
-    showdown.totalRounds = Number(showdown.totalRounds) || 1;
-    showdown.currentRound = Number(showdown.currentRound) || 1;
+
+    const requestedRounds = Number(showdown.totalRounds) || 1;
+    showdown.totalRounds = ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds) ? requestedRounds : 1;
+    showdown.currentRound = Math.max(1, Math.min(Number(showdown.currentRound) || 1, showdown.totalRounds));
     showdown.status = showdown.status || "Created";
+    showdown.selectedLeague = showdown.selectedLeague || null;
+
     showdown.clubs = showdown.clubs || { playerOne: null, playerTwo: null };
     showdown.clubs.playerOne = showdown.clubs.playerOne || null;
     showdown.clubs.playerTwo = showdown.clubs.playerTwo || null;
+
     showdown.score = showdown.score || { playerOne: 0, playerTwo: 0 };
     showdown.score.playerOne = Number(showdown.score.playerOne) || 0;
     showdown.score.playerTwo = Number(showdown.score.playerTwo) || 0;
+
     showdown.transferChallenges = Array.isArray(showdown.transferChallenges) ? showdown.transferChallenges : [];
     showdown.rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
+    showdown.integrityWarnings = Array.isArray(showdown.integrityWarnings) ? showdown.integrityWarnings : [];
+
     showdown.createdAt = showdown.createdAt || null;
     showdown.updatedAt = showdown.updatedAt || null;
     showdown.completedAt = showdown.completedAt || null;
@@ -83,23 +239,36 @@ function normalizeShowdown(showdown){
 
     showdown.transferChallenges.forEach(challenge => {
         if(!challenge){ return; }
-        challenge.seasonNumber = Number(challenge.seasonNumber) || 1;
+
+        challenge.seasonNumber = Math.max(1, Number(challenge.seasonNumber) || 1);
         challenge.status = challenge.status || "not_started";
         challenge.durationSeconds = Number(challenge.durationSeconds) || 900;
         challenge.startedAt = challenge.startedAt || null;
         challenge.deadlineAt = challenge.deadlineAt || null;
         challenge.endedAt = challenge.endedAt || null;
+        challenge.completedAt = challenge.completedAt || null;
+        challenge.endedEarly = Boolean(challenge.endedEarly);
+
         challenge.signings = challenge.signings || { playerOne: [], playerTwo: [] };
         challenge.signings.playerOne = Array.isArray(challenge.signings.playerOne) ? challenge.signings.playerOne : [];
         challenge.signings.playerTwo = Array.isArray(challenge.signings.playerTwo) ? challenge.signings.playerTwo : [];
+
         challenge.guesses = challenge.guesses || { againstPlayerOne: [], againstPlayerTwo: [] };
         challenge.guesses.againstPlayerOne = Array.isArray(challenge.guesses.againstPlayerOne) ? challenge.guesses.againstPlayerOne : [];
         challenge.guesses.againstPlayerTwo = Array.isArray(challenge.guesses.againstPlayerTwo) ? challenge.guesses.againstPlayerTwo : [];
     });
 
+    showdown.rounds.forEach((round, index) => {
+        if(!round){ return; }
+        round.roundNumber = Number(round.roundNumber) || (index + 1);
+    });
+
     if(typeof recalculateShowdownScores === "function"){
         recalculateShowdownScores(showdown);
     }
+
+    repairShowdownIntegrity(showdown);
+    showdown.schemaVersion = 2;
 
     return showdown;
 }
