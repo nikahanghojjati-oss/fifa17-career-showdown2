@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.0
+   v0.12.0
    Statistics and Trophy Room Presentation
 ===================================================== */
 
@@ -44,6 +44,8 @@
     flex-direction:column;
     justify-content:center;
     gap:6px;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 112px;
     background:linear-gradient(145deg,rgba(19,62,120,.72),rgba(5,23,50,.9));
     border:1px solid rgba(255,255,255,.17);
     border-radius:12px;
@@ -201,6 +203,8 @@
     gap:18px;
     align-items:center;
     padding:16px 18px;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 92px;
     background:rgba(5,22,48,.82);
     border:1px solid rgba(255,255,255,.14);
     border-radius:11px;
@@ -303,6 +307,8 @@
 
 .managerCabinet{
     overflow:hidden;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 420px;
     background:linear-gradient(135deg,rgba(12,48,96,.9),rgba(4,19,42,.96));
     border:1px solid rgba(247,215,0,.25);
     border-radius:16px;
@@ -444,6 +450,8 @@
     display:flex;
     flex-direction:column;
     justify-content:center;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 145px;
     background:linear-gradient(145deg,rgba(18,60,117,.7),rgba(5,22,48,.9));
     border:1px solid rgba(255,255,255,.15);
     border-radius:12px;
