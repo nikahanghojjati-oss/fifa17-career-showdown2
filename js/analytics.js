@@ -1,8 +1,11 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.0
-   Shared Statistics and Records Engine
+   v0.12.0
+   Lightweight Read-Only Statistics and Records Engine
 ===================================================== */
+
+let careerAnalyticsCacheKey = null;
+let careerAnalyticsCacheValue = null;
 
 function analyticsNormalizeName(value){
     return String(value || "Unknown Manager")
@@ -11,44 +14,18 @@ function analyticsNormalizeName(value){
         .toLowerCase();
 }
 
-function cloneAndNormalizeForAnalytics(showdown){
-    if(!showdown){
-        return null;
-    }
-
-    let clone;
-
-    try{
-        clone = typeof cloneForStorage === "function"
-            ? cloneForStorage(showdown)
-            : JSON.parse(JSON.stringify(showdown));
-    }catch(error){
-        console.error("Unable to clone showdown for analytics:", error);
-        return null;
-    }
-
-    return typeof normalizeShowdown === "function"
-        ? normalizeShowdown(clone)
-        : clone;
-}
-
 function getCompletedShowdownsForAnalytics(){
     const byId = new Map();
 
     loadLegacyShowdowns().forEach(showdown => {
-        const normalized = cloneAndNormalizeForAnalytics(showdown);
-        if(!normalized || normalized.status !== "Completed"){
-            return;
+        if(showdown && showdown.status === "Completed"){
+            byId.set(String(showdown.id), showdown);
         }
-        byId.set(String(normalized.id), normalized);
     });
 
     const active = currentShowdown || loadSavedShowdown();
     if(active && active.status === "Completed"){
-        const normalized = cloneAndNormalizeForAnalytics(active);
-        if(normalized){
-            byId.set(String(normalized.id), normalized);
-        }
+        byId.set(String(active.id), active);
     }
 
     return Array.from(byId.values()).sort((a, b) => {
@@ -56,6 +33,17 @@ function getCompletedShowdownsForAnalytics(){
         const bTime = new Date(b.completedAt || b.archivedAt || b.updatedAt || 0).getTime();
         return aTime - bTime;
     });
+}
+
+function getCareerAnalyticsCacheKey(){
+    const revision = typeof window.getLegacyStorageRevision === "function"
+        ? window.getLegacyStorageRevision()
+        : 0;
+    const active = currentShowdown;
+    const activeSignature = active && active.status === "Completed"
+        ? `${active.id}:${active.updatedAt || active.completedAt || ""}`
+        : "none";
+    return `${revision}|${activeSignature}`;
 }
 
 function getShowdownWinnerKey(showdown){
@@ -75,6 +63,15 @@ function getTransferChallengeFromShowdown(showdown, seasonNumber){
     return showdown.transferChallenges.find(
         challenge => Number(challenge.seasonNumber) === Number(seasonNumber)
     ) || null;
+}
+
+function getAnalyticsScoring(player){
+    if(player && player.scoring && Number.isFinite(Number(player.scoring.total))){
+        return player.scoring;
+    }
+    return typeof calculatePlayerSeasonScore === "function"
+        ? calculatePlayerSeasonScore(player || {})
+        : { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
 }
 
 function createManagerCareerStats(name){
@@ -137,7 +134,6 @@ function accumulateTransferStats(stats, challenge, playerKey){
         : [];
 
     stats.signings += signings.length;
-
     signings.forEach(signing => {
         if(signing && signing.release){
             stats.releasedSignings += 1;
@@ -153,7 +149,7 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
         return;
     }
 
-    const scoring = player.scoring || calculatePlayerSeasonScore(player);
+    const scoring = getAnalyticsScoring(player);
     const score = Number(scoring.total) || 0;
     const leaguePosition = Number(player.leaguePosition);
     const leaguePoints = Number(player.leaguePoints) || 0;
@@ -164,13 +160,9 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
     stats.totalLeaguePoints += leaguePoints;
     stats.totalLeagueGoals += leagueGoals;
 
-    if(round.winner === playerKey){
-        stats.seasonWins += 1;
-    }else if(round.winner === "draw"){
-        stats.seasonDraws += 1;
-    }else{
-        stats.seasonLosses += 1;
-    }
+    if(round.winner === playerKey){ stats.seasonWins += 1; }
+    else if(round.winner === "draw"){ stats.seasonDraws += 1; }
+    else { stats.seasonLosses += 1; }
 
     if(leaguePosition === 1){ stats.leagueTitles += 1; }
     if(player.domesticCup){ stats.domesticCups += 1; }
@@ -189,20 +181,15 @@ function accumulateRoundStats(stats, showdown, round, playerKey){
             : Math.min(stats.bestLeaguePosition, leaguePosition);
     }
 
-    stats.bestLeaguePoints = stats.bestLeaguePoints === null
-        ? leaguePoints
-        : Math.max(stats.bestLeaguePoints, leaguePoints);
+    stats.bestLeaguePoints = stats.bestLeaguePoints === null ? leaguePoints : Math.max(stats.bestLeaguePoints, leaguePoints);
+    stats.bestLeagueGoals = stats.bestLeagueGoals === null ? leagueGoals : Math.max(stats.bestLeagueGoals, leagueGoals);
+    stats.bestSeasonScore = stats.bestSeasonScore === null ? score : Math.max(stats.bestSeasonScore, score);
 
-    stats.bestLeagueGoals = stats.bestLeagueGoals === null
-        ? leagueGoals
-        : Math.max(stats.bestLeagueGoals, leagueGoals);
-
-    stats.bestSeasonScore = stats.bestSeasonScore === null
-        ? score
-        : Math.max(stats.bestSeasonScore, score);
-
-    const challenge = getTransferChallengeFromShowdown(showdown, round.roundNumber);
-    accumulateTransferStats(stats, challenge, playerKey);
+    accumulateTransferStats(
+        stats,
+        getTransferChallengeFromShowdown(showdown, round.roundNumber),
+        playerKey
+    );
 }
 
 function finalizeManagerCareerStats(stats){
@@ -216,7 +203,7 @@ function finalizeManagerCareerStats(stats){
     return stats;
 }
 
-function buildCareerAnalytics(history = getCompletedShowdownsForAnalytics()){
+function calculateCareerAnalytics(history){
     const managerMap = new Map();
     let totalSeasons = 0;
     let totalPoints = 0;
@@ -228,6 +215,7 @@ function buildCareerAnalytics(history = getCompletedShowdownsForAnalytics()){
         }
 
         const winner = getShowdownWinnerKey(showdown);
+        const rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
 
         ["playerOne", "playerTwo"].forEach(playerKey => {
             const managerName = showdown.managers[playerKey];
@@ -235,32 +223,25 @@ function buildCareerAnalytics(history = getCompletedShowdownsForAnalytics()){
             stats.name = managerName || stats.name;
             stats.showdowns += 1;
 
-            if(winner === playerKey){
-                stats.showdownWins += 1;
-            }else if(winner === "draw"){
-                stats.showdownDraws += 1;
-            }else{
-                stats.showdownLosses += 1;
-            }
+            if(winner === playerKey){ stats.showdownWins += 1; }
+            else if(winner === "draw"){ stats.showdownDraws += 1; }
+            else { stats.showdownLosses += 1; }
 
             if(showdown.clubs && showdown.clubs[playerKey]){
                 stats.clubs.add(showdown.clubs[playerKey]);
             }
-
             if(showdown.selectedLeague && showdown.selectedLeague.name){
                 stats.leagues.add(showdown.selectedLeague.name);
             }
 
-            (showdown.rounds || []).forEach(round => {
-                accumulateRoundStats(stats, showdown, round, playerKey);
-            });
+            rounds.forEach(round => accumulateRoundStats(stats, showdown, round, playerKey));
         });
 
-        totalSeasons += Array.isArray(showdown.rounds) ? showdown.rounds.length : 0;
+        totalSeasons += rounds.length;
         totalPoints += (Number(showdown.score && showdown.score.playerOne) || 0)
             + (Number(showdown.score && showdown.score.playerTwo) || 0);
 
-        (showdown.rounds || []).forEach(round => {
+        rounds.forEach(round => {
             [round.playerOne, round.playerTwo].forEach(player => {
                 if(!player){ return; }
                 if(Number(player.leaguePosition) === 1){ totalTrophies += 1; }
@@ -291,11 +272,26 @@ function buildCareerAnalytics(history = getCompletedShowdownsForAnalytics()){
     };
 }
 
+function buildCareerAnalytics(history = null){
+    if(history){
+        return calculateCareerAnalytics(history);
+    }
+
+    const cacheKey = getCareerAnalyticsCacheKey();
+    if(careerAnalyticsCacheValue && careerAnalyticsCacheKey === cacheKey){
+        return careerAnalyticsCacheValue;
+    }
+
+    careerAnalyticsCacheValue = calculateCareerAnalytics(getCompletedShowdownsForAnalytics());
+    careerAnalyticsCacheKey = cacheKey;
+    return careerAnalyticsCacheValue;
+}
+
 function createRecordCandidate(showdown, round, playerKey, value){
     return {
         value,
         manager: showdown.managers[playerKey],
-        club: showdown.clubs[playerKey],
+        club: showdown.clubs && showdown.clubs[playerKey],
         showdown: showdown.name,
         season: round.roundNumber
     };
@@ -312,9 +308,7 @@ function findSeasonRecord(history, valueGetter){
                 if(!player){ return; }
 
                 const value = Number(valueGetter(player, round, showdown, playerKey));
-                if(!Number.isFinite(value)){
-                    return;
-                }
+                if(!Number.isFinite(value)){ return; }
 
                 if(bestValue === null || value > bestValue){
                     bestValue = value;
@@ -350,10 +344,7 @@ function findBiggestShowdownMargin(history){
         const margin = Math.abs(playerOne - playerTwo);
 
         if(!best || margin > best.value){
-            const winnerKey = playerOne === playerTwo
-                ? "draw"
-                : (playerOne > playerTwo ? "playerOne" : "playerTwo");
-
+            const winnerKey = playerOne === playerTwo ? "draw" : (playerOne > playerTwo ? "playerOne" : "playerTwo");
             best = {
                 value: margin,
                 showdown: showdown.name,
@@ -375,7 +366,7 @@ function buildCareerRecords(history, managers){
         leagueTitles: findManagerLeaders(managers, "leagueTitles"),
         domesticCups: findManagerLeaders(managers, "domesticCups"),
         perfectSeasons: findManagerLeaders(managers, "perfectSeasons"),
-        highestSeasonScore: findSeasonRecord(history, player => player.scoring && player.scoring.total),
+        highestSeasonScore: findSeasonRecord(history, player => getAnalyticsScoring(player).total),
         highestLeaguePoints: findSeasonRecord(history, player => player.leaguePoints),
         highestLeagueGoals: findSeasonRecord(history, player => player.leagueGoals),
         biggestShowdownMargin: findBiggestShowdownMargin(history)
@@ -383,9 +374,13 @@ function buildCareerRecords(history, managers){
 }
 
 function buildRivalryManagerStats(showdown, playerKey){
-    const stats = createManagerCareerStats(showdown.managers[playerKey]);
+    const managers = showdown.managers || {};
+    const stats = createManagerCareerStats(managers[playerKey]);
     stats.showdowns = 1;
-    stats.clubs.add(showdown.clubs[playerKey]);
+
+    if(showdown.clubs && showdown.clubs[playerKey]){
+        stats.clubs.add(showdown.clubs[playerKey]);
+    }
     if(showdown.selectedLeague && showdown.selectedLeague.name){
         stats.leagues.add(showdown.selectedLeague.name);
     }
@@ -397,31 +392,27 @@ function buildRivalryManagerStats(showdown, playerKey){
         else { stats.showdownLosses = 1; }
     }
 
-    (showdown.rounds || []).forEach(round => {
-        accumulateRoundStats(stats, showdown, round, playerKey);
-    });
-
+    (showdown.rounds || []).forEach(round => accumulateRoundStats(stats, showdown, round, playerKey));
     return finalizeManagerCareerStats(stats);
 }
 
 function buildRivalryAnalytics(showdown){
-    const normalized = cloneAndNormalizeForAnalytics(showdown);
-    if(!normalized){
+    if(!showdown){
         return null;
     }
 
-    const playerOne = buildRivalryManagerStats(normalized, "playerOne");
-    const playerTwo = buildRivalryManagerStats(normalized, "playerTwo");
+    const playerOne = buildRivalryManagerStats(showdown, "playerOne");
+    const playerTwo = buildRivalryManagerStats(showdown, "playerTwo");
 
     return {
-        showdown: normalized,
+        showdown,
         playerOne,
         playerTwo,
-        seasonRows: (normalized.rounds || []).map(round => ({
+        seasonRows: (showdown.rounds || []).map(round => ({
             season: round.roundNumber,
             winner: round.winner,
-            playerOneScore: Number(round.playerOne && round.playerOne.scoring && round.playerOne.scoring.total) || 0,
-            playerTwoScore: Number(round.playerTwo && round.playerTwo.scoring && round.playerTwo.scoring.total) || 0,
+            playerOneScore: Number(getAnalyticsScoring(round.playerOne).total) || 0,
+            playerTwoScore: Number(getAnalyticsScoring(round.playerTwo).total) || 0,
             playerOneLeaguePoints: Number(round.playerOne && round.playerOne.leaguePoints) || 0,
             playerTwoLeaguePoints: Number(round.playerTwo && round.playerTwo.leaguePoints) || 0,
             playerOneLeagueGoals: Number(round.playerOne && round.playerOne.leagueGoals) || 0,
