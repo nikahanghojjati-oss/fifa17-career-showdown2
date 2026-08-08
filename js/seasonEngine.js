@@ -1,35 +1,62 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Season Entry and Progression Engine
+   v0.15.1
+   Stabilized Season Entry and Progression Engine
 ===================================================== */
 
 let seasonCompletionInProgress = false;
+let seasonEntryRenderedRound = null;
+let seasonUI = null;
+
+function cacheSeasonUI(){
+    seasonUI = {
+        completeButton: document.getElementById("completeSeason"),
+        nextButton: document.getElementById("nextSeasonAction"),
+        entryError: document.getElementById("seasonEntryError"),
+        entryTitle: document.getElementById("seasonEntryTitle"),
+        managerOne: document.getElementById("seasonManagerOne"),
+        managerTwo: document.getElementById("seasonManagerTwo"),
+        clubOne: document.getElementById("seasonClubOne"),
+        clubTwo: document.getElementById("seasonClubTwo"),
+        summaryTitle: document.getElementById("seasonSummaryTitle"),
+        summaryResult: document.getElementById("seasonSummaryResult"),
+        overall: document.getElementById("seasonOverallScore"),
+        summaryOne: document.getElementById("seasonSummaryOne"),
+        summaryTwo: document.getElementById("seasonSummaryTwo")
+    };
+    return seasonUI;
+}
+
+function getSeasonUI(){
+    return seasonUI || cacheSeasonUI();
+}
+
+function setSeasonText(element, value){
+    if(!element){ return; }
+    const next = String(value ?? "");
+    if(element.textContent !== next){ element.textContent = next; }
+}
 
 function initializeSeasonEngine(){
-    const completeButton = document.getElementById("completeSeason");
-    const nextButton = document.getElementById("nextSeasonAction");
+    const ui = cacheSeasonUI();
 
-    if(completeButton && completeButton.dataset.seasonEngineBound !== "true"){
-        completeButton.dataset.seasonEngineBound = "true";
-        completeButton.addEventListener("click", completeCurrentSeason);
+    if(ui.completeButton && ui.completeButton.dataset.seasonEngineBound !== "true"){
+        ui.completeButton.dataset.seasonEngineBound = "true";
+        ui.completeButton.addEventListener("click", completeCurrentSeason);
     }
 
-    if(nextButton && nextButton.dataset.seasonEngineBound !== "true"){
-        nextButton.dataset.seasonEngineBound = "true";
-        nextButton.addEventListener("click", handleSeasonSummaryAction);
+    if(ui.nextButton && ui.nextButton.dataset.seasonEngineBound !== "true"){
+        ui.nextButton.dataset.seasonEngineBound = "true";
+        ui.nextButton.addEventListener("click", handleSeasonSummaryAction);
     }
 }
 
 function setSeasonEntryError(message = ""){
-    const error = document.getElementById("seasonEntryError");
-    if(error){
-        error.textContent = message;
-    }
+    setSeasonText(getSeasonUI().entryError, message);
 }
 
 function setSeasonCompletionBusy(isBusy){
-    const button = document.getElementById("completeSeason");
+    const button = getSeasonUI().completeButton;
     if(!button){
         return;
     }
@@ -37,7 +64,7 @@ function setSeasonCompletionBusy(isBusy){
     button.disabled = isBusy;
     button.classList.toggle("isBusy", isBusy);
     button.setAttribute("aria-busy", isBusy ? "true" : "false");
-    button.textContent = isBusy ? "SAVING SEASON..." : "COMPLETE SEASON";
+    setSeasonText(button, isBusy ? "SAVING SEASON..." : "COMPLETE SEASON");
 }
 
 function reportSeasonError(message, error){
@@ -57,7 +84,9 @@ function openSeasonEntry(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
+    if(typeof window.ensureCurrentShowdownNormalized === "function"){
+        window.ensureCurrentShowdownNormalized();
+    }
 
     if(currentShowdown.status === "Completed"){
         const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
@@ -73,36 +102,38 @@ function openSeasonEntry(){
         return;
     }
 
-    const title = document.getElementById("seasonEntryTitle");
-    const managerOne = document.getElementById("seasonManagerOne");
-    const managerTwo = document.getElementById("seasonManagerTwo");
-    const clubOne = document.getElementById("seasonClubOne");
-    const clubTwo = document.getElementById("seasonClubTwo");
+    const ui = getSeasonUI();
+    const currentRound = Number(currentShowdown.currentRound);
 
-    if(title){
-        title.textContent = `SEASON ${currentShowdown.currentRound} RESULTS`;
+    setSeasonText(ui.entryTitle, `SEASON ${currentRound} RESULTS`);
+    setSeasonText(ui.managerOne, currentShowdown.managers.playerOne);
+    setSeasonText(ui.managerTwo, currentShowdown.managers.playerTwo);
+    setSeasonText(ui.clubOne, currentShowdown.clubs.playerOne);
+    setSeasonText(ui.clubTwo, currentShowdown.clubs.playerTwo);
+
+    if(seasonEntryRenderedRound !== currentRound){
+        resetSeasonEntryFields();
+        seasonEntryRenderedRound = currentRound;
     }
 
-    if(managerOne){ managerOne.textContent = currentShowdown.managers.playerOne; }
-    if(managerTwo){ managerTwo.textContent = currentShowdown.managers.playerTwo; }
-    if(clubOne){ clubOne.textContent = currentShowdown.clubs.playerOne; }
-    if(clubTwo){ clubTwo.textContent = currentShowdown.clubs.playerTwo; }
-
     setSeasonEntryError("");
-    resetSeasonEntryFields();
     showScreen("seasonEntry");
+
+    if(typeof window.refreshClubVisualIdentity === "function"){
+        window.refreshClubVisualIdentity(currentShowdown);
+    }
 }
 
 function resetSeasonEntryFields(){
     ["p1", "p2"].forEach(prefix => {
         ["LeaguePosition", "LeaguePoints", "LeagueGoals"].forEach(field => {
             const input = document.getElementById(`${prefix}${field}`);
-            if(input){ input.value = ""; }
+            if(input && input.value !== ""){ input.value = ""; }
         });
 
         ["DomesticCup", "ChampionsLeague", "TopScorer", "TopAssist"].forEach(field => {
             const checkbox = document.getElementById(`${prefix}${field}`);
-            if(checkbox){ checkbox.checked = false; }
+            if(checkbox && checkbox.checked){ checkbox.checked = false; }
         });
     });
 }
@@ -204,27 +235,31 @@ function buildSeasonRecord(seasonNumber, playerOne, playerTwo){
 }
 
 function persistCompletedSeason(roundRecord, seasonNumber){
+    const previousState = {
+        roundsLength: currentShowdown.rounds.length,
+        currentRound: currentShowdown.currentRound,
+        status: currentShowdown.status,
+        completedAt: currentShowdown.completedAt,
+        score: cloneForStorage(currentShowdown.score)
+    };
+
     currentShowdown.rounds.push(roundRecord);
     recalculateShowdownScores(currentShowdown);
 
     if(seasonNumber >= currentShowdown.totalRounds){
         currentShowdown.status = "Completed";
-        currentShowdown.completedAt = new Date().toISOString();
+        currentShowdown.completedAt = currentShowdown.completedAt || new Date().toISOString();
     }else{
         currentShowdown.currentRound = seasonNumber + 1;
         currentShowdown.status = "Ready";
     }
 
-    touchCurrentShowdown();
-
     if(!saveCurrentShowdown()){
-        currentShowdown.rounds = currentShowdown.rounds.filter(
-            round => Number(round.roundNumber) !== Number(seasonNumber)
-        );
-        currentShowdown.currentRound = seasonNumber;
-        currentShowdown.status = "Ready";
-        currentShowdown.completedAt = null;
-        recalculateShowdownScores(currentShowdown);
+        currentShowdown.rounds.length = previousState.roundsLength;
+        currentShowdown.currentRound = previousState.currentRound;
+        currentShowdown.status = previousState.status;
+        currentShowdown.completedAt = previousState.completedAt;
+        currentShowdown.score = previousState.score;
         throw new Error("The season could not be saved to browser storage.");
     }
 
@@ -250,7 +285,9 @@ function completeCurrentSeason(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
+    if(typeof window.ensureCurrentShowdownNormalized === "function"){
+        window.ensureCurrentShowdownNormalized();
+    }
 
     if(currentShowdown.status === "Completed"){
         const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
@@ -305,6 +342,7 @@ function completeCurrentSeason(){
         const playerTwo = readSeasonResult("p2");
         roundRecord = buildSeasonRecord(seasonNumber, playerOne, playerTwo);
         persistCompletedSeason(roundRecord, seasonNumber);
+        seasonEntryRenderedRound = null;
     }catch(error){
         reportSeasonError("Season completion failed", error);
         seasonCompletionInProgress = false;
@@ -341,47 +379,47 @@ function renderSeasonSummary(roundRecord){
         return;
     }
 
-    const title = document.getElementById("seasonSummaryTitle");
-    const result = document.getElementById("seasonSummaryResult");
-    const overall = document.getElementById("seasonOverallScore");
-    const nextButton = document.getElementById("nextSeasonAction");
+    const ui = getSeasonUI();
+    setSeasonText(ui.summaryTitle, `SEASON ${roundRecord.roundNumber} SUMMARY`);
 
-    if(title){
-        title.textContent = `SEASON ${roundRecord.roundNumber} SUMMARY`;
-    }
-
-    if(result){
-        if(roundRecord.winner === "playerOne"){
-            result.textContent = `${currentShowdown.managers.playerOne} wins the season`;
-        }else if(roundRecord.winner === "playerTwo"){
-            result.textContent = `${currentShowdown.managers.playerTwo} wins the season`;
-        }else{
-            result.textContent = "Season finishes level";
-        }
+    if(roundRecord.winner === "playerOne"){
+        setSeasonText(ui.summaryResult, `${currentShowdown.managers.playerOne} wins the season`);
+    }else if(roundRecord.winner === "playerTwo"){
+        setSeasonText(ui.summaryResult, `${currentShowdown.managers.playerTwo} wins the season`);
+    }else{
+        setSeasonText(ui.summaryResult, "Season finishes level");
     }
 
     renderManagerSeasonSummary(
-        document.getElementById("seasonSummaryOne"),
+        ui.summaryOne,
         currentShowdown.managers.playerOne,
         currentShowdown.clubs.playerOne,
         roundRecord.playerOne
     );
 
     renderManagerSeasonSummary(
-        document.getElementById("seasonSummaryTwo"),
+        ui.summaryTwo,
         currentShowdown.managers.playerTwo,
         currentShowdown.clubs.playerTwo,
         roundRecord.playerTwo
     );
 
-    if(overall){
-        overall.textContent = `${currentShowdown.managers.playerOne} ${currentShowdown.score.playerOne}  •  ${currentShowdown.score.playerTwo} ${currentShowdown.managers.playerTwo}`;
+    setSeasonText(
+        ui.overall,
+        `${currentShowdown.managers.playerOne} ${currentShowdown.score.playerOne}  •  ${currentShowdown.score.playerTwo} ${currentShowdown.managers.playerTwo}`
+    );
+
+    if(ui.nextButton){
+        setSeasonText(
+            ui.nextButton,
+            currentShowdown.status === "Completed"
+                ? "VIEW COMPLETED SHOWDOWN"
+                : `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`
+        );
     }
 
-    if(nextButton){
-        nextButton.textContent = currentShowdown.status === "Completed"
-            ? "VIEW COMPLETED SHOWDOWN"
-            : `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
+    if(typeof window.refreshClubVisualIdentity === "function"){
+        window.refreshClubVisualIdentity(currentShowdown);
     }
 }
 
@@ -390,31 +428,33 @@ function renderManagerSeasonSummary(container, managerName, clubName, playerReco
         return;
     }
 
-    container.replaceChildren();
+    const fragment = document.createDocumentFragment();
 
     const heading = document.createElement("h3");
     heading.textContent = managerName;
-    container.appendChild(heading);
+    fragment.appendChild(heading);
 
     const club = document.createElement("p");
     club.className = "summaryClub";
     club.textContent = clubName;
-    container.appendChild(club);
+    fragment.appendChild(club);
 
-    appendSummaryLine(container, "League Position", playerRecord.leaguePosition);
-    appendSummaryLine(container, "League Points", playerRecord.leaguePoints);
-    appendSummaryLine(container, "League Goals", playerRecord.leagueGoals);
+    appendSummaryLine(fragment, "League Position", playerRecord.leaguePosition);
+    appendSummaryLine(fragment, "League Points", playerRecord.leaguePoints);
+    appendSummaryLine(fragment, "League Goals", playerRecord.leagueGoals);
 
     getScoringBreakdownLines(playerRecord.scoring).forEach(([label, points]) => {
         if(points > 0){
-            appendSummaryLine(container, label, `+${points}`);
+            appendSummaryLine(fragment, label, `+${points}`);
         }
     });
 
     const total = document.createElement("div");
     total.className = "summaryTotal";
     total.textContent = `SEASON SCORE  ${playerRecord.scoring.total}`;
-    container.appendChild(total);
+    fragment.appendChild(total);
+
+    container.replaceChildren(fragment);
 }
 
 function appendSummaryLine(container, label, value){
