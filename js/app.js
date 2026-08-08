@@ -1,10 +1,10 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.13.1
+   v0.14.0
    Performance-Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.13.1";
+const APP_VERSION = "0.14.0";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
