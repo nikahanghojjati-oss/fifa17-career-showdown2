@@ -1,16 +1,32 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.1
+   v0.15.0
    Performance-Stabilized Application Controller
 ===================================================== */
 
-const APP_VERSION = "0.14.1";
+const APP_VERSION = "0.15.0";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
 let performanceLifecycleInstalled = false;
 let runtimeNoticeElement = null;
 let runtimeNoticeTextElement = null;
+
+function clearRuntimeNoticeTimer(){
+    if(runtimeNoticeTimer){
+        window.clearTimeout(runtimeNoticeTimer);
+        runtimeNoticeTimer = null;
+    }
+}
+
+function releaseRuntimeNotice(notice){
+    clearRuntimeNoticeTimer();
+    if(notice && notice.isConnected){
+        notice.remove();
+    }
+    runtimeNoticeElement = null;
+    runtimeNoticeTextElement = null;
+}
 
 function getRuntimeNotice(){
     if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
@@ -36,11 +52,7 @@ function getRuntimeNotice(){
     close.type = "button";
     close.setAttribute("aria-label", "Dismiss message");
     close.textContent = "×";
-    close.addEventListener("click", () => {
-        notice.remove();
-        runtimeNoticeElement = null;
-        runtimeNoticeTextElement = null;
-    });
+    close.addEventListener("click", () => releaseRuntimeNotice(notice));
 
     notice.append(text, close);
     document.body.appendChild(notice);
@@ -60,19 +72,11 @@ function showAppNotice(message, type = "error", duration = 7000){
         }
     }
 
-    if(runtimeNoticeTimer){
-        window.clearTimeout(runtimeNoticeTimer);
-        runtimeNoticeTimer = null;
-    }
+    clearRuntimeNoticeTimer();
 
     if(duration > 0){
         runtimeNoticeTimer = window.setTimeout(() => {
-            if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
-                runtimeNoticeElement.remove();
-            }
-            runtimeNoticeElement = null;
-            runtimeNoticeTextElement = null;
-            runtimeNoticeTimer = null;
+            releaseRuntimeNotice(runtimeNoticeElement);
         }, duration);
     }
 }
