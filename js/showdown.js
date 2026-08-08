@@ -1,16 +1,29 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.8.0
+   v0.9.0
    Showdown State Manager
 ===================================================== */
 
 let currentShowdown = null;
 
 function createShowdown(){
+    if(hasSavedShowdown()){
+        const existing = loadSavedShowdown();
+        const existingName = existing && existing.name ? existing.name : "your current showdown";
+        const proceed = window.confirm(
+            `Start a new showdown and replace the active save "${existingName}"? Completed showdowns already stored in Legacy will not be deleted.`
+        );
+
+        if(!proceed){
+            return;
+        }
+    }
+
     const showdownName = document.getElementById("showdownName").value.trim();
     const managerOne = document.getElementById("managerOne").value.trim();
     const managerTwo = document.getElementById("managerTwo").value.trim();
     const roundAmount = Number(document.getElementById("roundAmount").value);
+    const now = new Date().toISOString();
 
     currentShowdown = {
         id: Date.now(),
@@ -32,7 +45,11 @@ function createShowdown(){
             playerTwo: 0
         },
         transferChallenges: [],
-        rounds: []
+        rounds: [],
+        createdAt: now,
+        updatedAt: now,
+        completedAt: null,
+        archivedAt: null
     };
 
     saveCurrentShowdown();
@@ -59,6 +76,10 @@ function normalizeShowdown(showdown){
     showdown.score.playerTwo = Number(showdown.score.playerTwo) || 0;
     showdown.transferChallenges = Array.isArray(showdown.transferChallenges) ? showdown.transferChallenges : [];
     showdown.rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
+    showdown.createdAt = showdown.createdAt || null;
+    showdown.updatedAt = showdown.updatedAt || null;
+    showdown.completedAt = showdown.completedAt || null;
+    showdown.archivedAt = showdown.archivedAt || null;
 
     showdown.transferChallenges.forEach(challenge => {
         if(!challenge){ return; }
@@ -81,6 +102,30 @@ function normalizeShowdown(showdown){
     }
 
     return showdown;
+}
+
+function touchCurrentShowdown(){
+    if(!currentShowdown){
+        return;
+    }
+
+    currentShowdown.updatedAt = new Date().toISOString();
+}
+
+function getShowdownWinner(showdown = currentShowdown){
+    if(!showdown){
+        return "draw";
+    }
+
+    if(Number(showdown.score.playerOne) > Number(showdown.score.playerTwo)){
+        return "playerOne";
+    }
+
+    if(Number(showdown.score.playerTwo) > Number(showdown.score.playerOne)){
+        return "playerTwo";
+    }
+
+    return "draw";
 }
 
 function getTransferChallengeForSeason(seasonNumber){
