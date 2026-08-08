@@ -52,10 +52,6 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
         return true;
     }
 
-    if(currentScreen === "mainMenu" && typeof window.handleMainMenuExit === "function"){
-        window.handleMainMenuExit();
-    }
-
     if(currentScreen === "transferChallenge" && typeof window.flushTransferDraftSave === "function"){
         const flushed = window.flushTransferDraftSave();
         if(flushed === false){
@@ -75,6 +71,10 @@ function flushScreenBeforeLeave(currentScreen, nextScreen){
         if(flushed === false){
             return false;
         }
+    }
+
+    if(currentScreen === "mainMenu" && typeof window.handleMainMenuExit === "function"){
+        window.handleMainMenuExit();
     }
 
     return true;
