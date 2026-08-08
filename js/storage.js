@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.14.1
    High-Performance Local Storage and Legacy Persistence
 ===================================================== */
 
@@ -10,6 +10,8 @@ const DEFAULT_DRAFT_SAVE_DELAY = 420;
 
 let pendingCurrentSaveTimer = null;
 let storageLifecycleBound = false;
+let activeShowdownCache = null;
+let activeShowdownCacheKnown = false;
 let legacyCache = null;
 let legacyStorageRevision = 0;
 
@@ -61,12 +63,24 @@ function cancelScheduledCurrentShowdownSave(){
     }
 }
 
+function invalidateActiveShowdownCache(){
+    activeShowdownCache = null;
+    activeShowdownCacheKnown = false;
+}
+
 function saveCurrentShowdown(){
     if(!currentShowdown){ return false; }
     cancelScheduledCurrentShowdownSave();
+
     try{
         currentShowdown.updatedAt = new Date().toISOString();
-        return writeStorageValue(STORAGE_KEY, JSON.stringify(currentShowdown));
+        const serialized = JSON.stringify(currentShowdown);
+        if(!writeStorageValue(STORAGE_KEY, serialized)){
+            return false;
+        }
+        activeShowdownCache = currentShowdown;
+        activeShowdownCacheKnown = true;
+        return true;
     }catch(error){
         reportStorageError("Unable to serialize the active showdown", error);
         return false;
@@ -100,24 +114,46 @@ function flushPendingApplicationWrites(){
 function initializeStorageLifecycle(){
     if(storageLifecycleBound){ return; }
     storageLifecycleBound = true;
+
     window.addEventListener("pagehide", flushPendingApplicationWrites);
     document.addEventListener("visibilitychange", () => {
         if(document.visibilityState === "hidden"){
             flushPendingApplicationWrites();
         }
     });
+
+    window.addEventListener("storage", event => {
+        if(event.key === STORAGE_KEY){
+            invalidateActiveShowdownCache();
+        }
+        if(event.key === LEGACY_STORAGE_KEY){
+            invalidateLegacyCache();
+        }
+    });
 }
 
 function loadSavedShowdown(){
+    if(activeShowdownCacheKnown){
+        return activeShowdownCache;
+    }
+
     const raw = readStorageValue(STORAGE_KEY);
-    if(!raw){ return null; }
+    if(!raw){
+        activeShowdownCache = null;
+        activeShowdownCacheKnown = true;
+        return null;
+    }
+
     try{
         const parsed = JSON.parse(raw);
         if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
             throw new Error("Active save data is not a valid showdown object.");
         }
+        activeShowdownCache = parsed;
+        activeShowdownCacheKnown = true;
         return parsed;
     }catch(error){
+        invalidateActiveShowdownCache();
         reportStorageError("Unable to parse the active showdown", error);
         return null;
     }
@@ -125,10 +161,18 @@ function loadSavedShowdown(){
 
 function clearSavedShowdown(){
     cancelScheduledCurrentShowdownSave();
-    return removeStorageValue(STORAGE_KEY);
+    const removed = removeStorageValue(STORAGE_KEY);
+    if(removed){
+        activeShowdownCache = null;
+        activeShowdownCacheKnown = true;
+    }
+    return removed;
 }
 
 function hasSavedShowdown(){
+    if(activeShowdownCacheKnown){
+        return Boolean(activeShowdownCache);
+    }
     return Boolean(readStorageValue(STORAGE_KEY));
 }
 
