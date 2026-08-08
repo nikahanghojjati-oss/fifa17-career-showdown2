@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.0
+   v0.15.1
    High-Performance Showdown Interface Controller
 ===================================================== */
 
@@ -57,8 +57,8 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.15.0";
-        footer.innerHTML = `Career Mode Showdown<br>v${version} · Original FIFA 17-era inspired visual system`;
+        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.15.1";
+        footer.innerHTML = `Career Mode Showdown<br>v${version} · Core Stabilization & Performance`;
     }
 }
 
@@ -103,8 +103,11 @@ function deleteCurrentShowdownFromDashboard(){
         return;
     }
 
-    if(typeof stopTransferTimerLoop === "function"){
-        stopTransferTimerLoop();
+    if(typeof window.stopTransferTimerLoop === "function"){
+        window.stopTransferTimerLoop();
+    }
+    if(typeof window.resetTransientSelectionOperations === "function"){
+        window.resetTransientSelectionOperations();
     }
 
     currentShowdown = null;
