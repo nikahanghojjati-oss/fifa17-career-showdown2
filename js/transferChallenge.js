@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.15.1
    High-Performance Transfer Challenge Engine
 ===================================================== */
 
@@ -11,9 +11,11 @@ let transferTimerInterval = null;
 let transferCompletionInProgress = false;
 let transferDraftTimer = null;
 let transferDraftDirty = false;
+let lastPersistedTransferDraftSignature = null;
 let lastRenderedTimerSecond = null;
 let transferFieldElements = [];
 let transferFieldById = new Map();
+let transferUI = null;
 
 function bindTransferControl(element, eventName, handler, marker){
     if(!element || element.dataset[marker] === "true"){
@@ -33,6 +35,46 @@ function cacheTransferFields(){
             transferFieldById.set(field.id, field);
         }
     });
+}
+
+function cacheTransferUI(){
+    transferUI = {
+        title: document.getElementById("transferChallengeTitle"),
+        managerOne: document.getElementById("transferManagerOne"),
+        managerTwo: document.getElementById("transferManagerTwo"),
+        clubOne: document.getElementById("transferClubOne"),
+        clubTwo: document.getElementById("transferClubTwo"),
+        guessOneHeading: document.getElementById("guessAgainstOneHeading"),
+        guessTwoHeading: document.getElementById("guessAgainstTwoHeading"),
+        phase: document.getElementById("transferPhaseStatus"),
+        timer: document.getElementById("transferTimerDisplay"),
+        startButton: document.getElementById("startTransferTimer"),
+        endButton: document.getElementById("endTransferTimer"),
+        completeButton: document.getElementById("completeTransferChallenge"),
+        continueButton: document.getElementById("continueFromTransfers"),
+        results: document.getElementById("transferChallengeResults"),
+        resultsOne: document.getElementById("transferResultsOne"),
+        resultsTwo: document.getElementById("transferResultsTwo"),
+        error: document.getElementById("transferChallengeError")
+    };
+    return transferUI;
+}
+
+function getTransferUI(){
+    return transferUI || cacheTransferUI();
+}
+
+function setTransferText(element, value){
+    if(!element){ return; }
+    const next = String(value ?? "");
+    if(element.textContent !== next){ element.textContent = next; }
+}
+
+function setTransferHidden(element, hidden){
+    if(!element){ return; }
+    if(element.classList.contains("hidden") !== Boolean(hidden)){
+        element.classList.toggle("hidden", Boolean(hidden));
+    }
 }
 
 function getTransferFields(){
@@ -91,6 +133,8 @@ function initializeTransferChallenge(){
     );
 
     cacheTransferFields();
+    cacheTransferUI();
+
     getTransferFields().forEach(field => {
         prepareTransferInputForFastEntry(field);
         bindTransferControl(field, "change", saveTransferFieldChange, "transferChangeBound");
@@ -109,7 +153,9 @@ function handleSeasonPrimaryAction(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
+    if(typeof window.ensureCurrentShowdownNormalized === "function"){
+        window.ensureCurrentShowdownNormalized();
+    }
 
     if(currentShowdown.status === "Completed"){
         const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
@@ -188,11 +234,15 @@ function openTransferChallenge(){
     }
 
     try{
-        currentShowdown = normalizeShowdown(currentShowdown);
+        if(typeof window.ensureCurrentShowdownNormalized === "function"){
+            window.ensureCurrentShowdownNormalized();
+        }
+
         const challenge = getOrCreateTransferChallenge(currentShowdown.currentRound);
         synchronizeTransferDeadline(challenge);
         restoreTransferForm(challenge);
         transferDraftDirty = false;
+        lastPersistedTransferDraftSignature = getTransferDraftSignature(challenge);
         cancelTransferDraftTimer();
         renderTransferChallenge(challenge);
 
@@ -228,6 +278,7 @@ function startTransferWindow(){
     }
 
     const previous = cloneForStorage(challenge);
+    const previousShowdownStatus = currentShowdown.status;
     const now = Date.now();
 
     challenge.status = "active";
@@ -240,7 +291,7 @@ function startTransferWindow(){
 
     if(!saveCurrentShowdown()){
         restoreChallengeSnapshot(challenge, previous);
-        currentShowdown.status = "Ready";
+        currentShowdown.status = previousShowdownStatus;
         renderTransferChallenge(challenge);
         return;
     }
@@ -253,6 +304,14 @@ function startTransferTimerLoop(){
     stopTransferTimerLoop();
     lastRenderedTimerSecond = null;
     updateTransferTimer();
+
+    if(document.visibilityState === "hidden"){
+        return;
+    }
+    if(typeof getActiveScreenName === "function" && getActiveScreenName() !== "transferChallenge"){
+        return;
+    }
+
     transferTimerInterval = window.setInterval(updateTransferTimer, 1000);
 }
 
@@ -265,6 +324,16 @@ function stopTransferTimerLoop(){
 
 function updateTransferTimer(){
     if(!currentShowdown){
+        stopTransferTimerLoop();
+        return;
+    }
+
+    if(document.visibilityState === "hidden"){
+        stopTransferTimerLoop();
+        return;
+    }
+
+    if(typeof getActiveScreenName === "function" && getActiveScreenName() !== "transferChallenge"){
         stopTransferTimerLoop();
         return;
     }
@@ -288,7 +357,7 @@ function updateTransferTimer(){
 }
 
 function renderTransferTimer(seconds){
-    const timer = document.getElementById("transferTimerDisplay");
+    const timer = getTransferUI().timer;
     if(!timer){
         return;
     }
@@ -360,6 +429,7 @@ function finishTransferWindow(challenge, endedEarly){
         return false;
     }
 
+    lastPersistedTransferDraftSignature = getTransferDraftSignature(challenge);
     renderTransferChallenge(challenge);
     return true;
 }
@@ -424,6 +494,18 @@ function captureTransferForm(challenge){
     challenge.guesses.againstPlayerTwo = getGuessRows("p2");
 }
 
+function getTransferDraftSignature(challenge){
+    if(!challenge){ return ""; }
+    try{
+        return JSON.stringify({
+            signings: challenge.signings,
+            guesses: challenge.guesses
+        });
+    }catch(error){
+        return `${Date.now()}:${Math.random()}`;
+    }
+}
+
 function cancelTransferDraftTimer(){
     if(transferDraftTimer){
         window.clearTimeout(transferDraftTimer);
@@ -450,7 +532,7 @@ function scheduleTransferDraftSave(){
     }, TRANSFER_DRAFT_DELAY_MS);
 }
 
-function saveTransferFieldChange(event){
+function saveTransferFieldChange(){
     if(!currentShowdown){
         return true;
     }
@@ -460,11 +542,7 @@ function saveTransferFieldChange(event){
         return true;
     }
 
-    const field = event && event.currentTarget ? event.currentTarget : null;
-    if(field && field.tagName === "SELECT"){
-        transferDraftDirty = true;
-    }
-
+    transferDraftDirty = true;
     return flushTransferDraftSave();
 }
 
@@ -477,22 +555,34 @@ function flushTransferDraftSave(){
 
     if(!currentShowdown){
         transferDraftDirty = false;
+        lastPersistedTransferDraftSignature = null;
         return true;
     }
 
     const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
     if(!challenge || challenge.status !== "recording"){
         transferDraftDirty = false;
+        lastPersistedTransferDraftSignature = null;
         return true;
     }
 
     captureTransferForm(challenge);
+    const signature = getTransferDraftSignature(challenge);
+
+    if(signature === lastPersistedTransferDraftSignature){
+        transferDraftDirty = false;
+        setTransferError("");
+        return true;
+    }
+
     const saved = saveCurrentShowdown();
 
     if(saved){
         transferDraftDirty = false;
+        lastPersistedTransferDraftSignature = signature;
         setTransferError("");
     }else{
+        transferDraftDirty = true;
         setTransferError("Your latest transfer entry could not be saved. Keep this page open and try another edit.");
     }
 
@@ -500,17 +590,10 @@ function flushTransferDraftSave(){
 }
 
 function setTransferError(message = ""){
-    const error = document.getElementById("transferChallengeError");
-    if(error){
-        error.textContent = message;
-    }
+    setTransferText(getTransferUI().error, message);
 }
 
-function validateTransferForm(challenge){
-    cancelTransferDraftTimer();
-    captureTransferForm(challenge);
-    transferDraftDirty = false;
-
+function getTransferValidationMessage(challenge){
     const allSignings = [
         ...challenge.signings.playerOne,
         ...challenge.signings.playerTwo
@@ -521,8 +604,7 @@ function validateTransferForm(challenge){
     );
 
     if(incompleteSigning){
-        setTransferError("Every recorded signing needs a player name, previous league and nationality.");
-        return false;
+        return "Every recorded signing needs a player name, previous league and nationality.";
     }
 
     const allGuesses = [
@@ -531,9 +613,26 @@ function validateTransferForm(challenge){
     ];
 
     const incompleteGuess = allGuesses.find(guess => !guess.type || !guess.value);
-
     if(incompleteGuess){
-        setTransferError("Every recorded guess needs both a guess type and a value.");
+        return "Every recorded guess needs both a guess type and a value.";
+    }
+
+    return "";
+}
+
+function validateTransferForm(challenge){
+    cancelTransferDraftTimer();
+    captureTransferForm(challenge);
+
+    const signature = getTransferDraftSignature(challenge);
+    transferDraftDirty = signature !== lastPersistedTransferDraftSignature;
+    const validationMessage = getTransferValidationMessage(challenge);
+
+    if(validationMessage){
+        if(transferDraftDirty && !flushTransferDraftSave()){
+            return false;
+        }
+        setTransferError(validationMessage);
         return false;
     }
 
@@ -570,14 +669,14 @@ function evaluateSignings(signings, guesses){
 }
 
 function setTransferCompletionBusy(isBusy){
-    const button = document.getElementById("completeTransferChallenge");
+    const button = getTransferUI().completeButton;
     if(!button){
         return;
     }
 
     button.disabled = isBusy;
     button.setAttribute("aria-busy", isBusy ? "true" : "false");
-    button.textContent = isBusy ? "LOCKING RESULTS..." : "LOCK TRANSFER CHALLENGE RESULTS";
+    setTransferText(button, isBusy ? "LOCKING RESULTS..." : "LOCK TRANSFER CHALLENGE RESULTS");
 }
 
 function completeTransferChallenge(){
@@ -619,6 +718,8 @@ function completeTransferChallenge(){
             throw new Error("The transfer challenge results could not be saved.");
         }
 
+        transferDraftDirty = false;
+        lastPersistedTransferDraftSignature = getTransferDraftSignature(challenge);
         updateShowdownUI();
         renderTransferChallenge(challenge);
 
@@ -628,6 +729,7 @@ function completeTransferChallenge(){
     }catch(error){
         restoreChallengeSnapshot(challenge, previous);
         currentShowdown.status = previousShowdownStatus;
+        transferDraftDirty = getTransferDraftSignature(challenge) !== lastPersistedTransferDraftSignature;
         setTransferError(error.message || "The Transfer Challenge could not be completed.");
         renderTransferChallenge(challenge);
 
@@ -650,14 +752,15 @@ function restoreTransferForm(challenge){
 
 function clearTransferForm(){
     getTransferFields().forEach(field => {
-        field.value = "";
+        if(field.value !== ""){ field.value = ""; }
     });
 }
 
 function setTransferFieldValue(id, value){
     const field = getTransferElement(id);
     if(field){
-        field.value = value || "";
+        const next = value || "";
+        if(field.value !== next){ field.value = next; }
     }
 }
 
@@ -695,27 +798,14 @@ function renderTransferChallenge(challenge){
         return;
     }
 
-    const title = document.getElementById("transferChallengeTitle");
-    const managerOne = document.getElementById("transferManagerOne");
-    const managerTwo = document.getElementById("transferManagerTwo");
-    const clubOne = document.getElementById("transferClubOne");
-    const clubTwo = document.getElementById("transferClubTwo");
-    const guessOneHeading = document.getElementById("guessAgainstOneHeading");
-    const guessTwoHeading = document.getElementById("guessAgainstTwoHeading");
-    const phase = document.getElementById("transferPhaseStatus");
-    const startButton = document.getElementById("startTransferTimer");
-    const endButton = document.getElementById("endTransferTimer");
-    const completeButton = document.getElementById("completeTransferChallenge");
-    const continueButton = document.getElementById("continueFromTransfers");
-    const results = document.getElementById("transferChallengeResults");
-
-    if(title){ title.textContent = `SEASON ${challenge.seasonNumber} TRANSFER CHALLENGE`; }
-    if(managerOne){ managerOne.textContent = currentShowdown.managers.playerOne; }
-    if(managerTwo){ managerTwo.textContent = currentShowdown.managers.playerTwo; }
-    if(clubOne){ clubOne.textContent = currentShowdown.clubs.playerOne; }
-    if(clubTwo){ clubTwo.textContent = currentShowdown.clubs.playerTwo; }
-    if(guessOneHeading){ guessOneHeading.textContent = `${currentShowdown.managers.playerTwo} guesses ${currentShowdown.managers.playerOne}'s signings`; }
-    if(guessTwoHeading){ guessTwoHeading.textContent = `${currentShowdown.managers.playerOne} guesses ${currentShowdown.managers.playerTwo}'s signings`; }
+    const ui = getTransferUI();
+    setTransferText(ui.title, `SEASON ${challenge.seasonNumber} TRANSFER CHALLENGE`);
+    setTransferText(ui.managerOne, currentShowdown.managers.playerOne);
+    setTransferText(ui.managerTwo, currentShowdown.managers.playerTwo);
+    setTransferText(ui.clubOne, currentShowdown.clubs.playerOne);
+    setTransferText(ui.clubTwo, currentShowdown.clubs.playerTwo);
+    setTransferText(ui.guessOneHeading, `${currentShowdown.managers.playerTwo} guesses ${currentShowdown.managers.playerOne}'s signings`);
+    setTransferText(ui.guessTwoHeading, `${currentShowdown.managers.playerOne} guesses ${currentShowdown.managers.playerTwo}'s signings`);
 
     const statusLabels = {
         not_started: "READY — 15 MINUTES · MAX 3 SIGNINGS EACH",
@@ -724,12 +814,11 @@ function renderTransferChallenge(challenge){
         completed: "TRANSFER CHALLENGE COMPLETE"
     };
 
-    if(phase){ phase.textContent = statusLabels[challenge.status] || "TRANSFER CHALLENGE"; }
-
-    if(startButton){ startButton.classList.toggle("hidden", challenge.status !== "not_started"); }
-    if(endButton){ endButton.classList.toggle("hidden", challenge.status !== "active"); }
-    if(completeButton){ completeButton.classList.toggle("hidden", challenge.status !== "recording"); }
-    if(continueButton){ continueButton.classList.toggle("hidden", challenge.status !== "completed"); }
+    setTransferText(ui.phase, statusLabels[challenge.status] || "TRANSFER CHALLENGE");
+    setTransferHidden(ui.startButton, challenge.status !== "not_started");
+    setTransferHidden(ui.endButton, challenge.status !== "active");
+    setTransferHidden(ui.completeButton, challenge.status !== "recording");
+    setTransferHidden(ui.continueButton, challenge.status !== "completed");
 
     setTransferFieldsDisabled(challenge.status !== "recording");
 
@@ -747,24 +836,27 @@ function renderTransferChallenge(challenge){
         renderTransferTimer(0);
     }
 
-    if(results){
-        results.classList.toggle("hidden", challenge.status !== "completed");
-    }
+    setTransferHidden(ui.results, challenge.status !== "completed");
 
     if(challenge.status === "completed"){
         renderTransferResults(challenge);
     }
+
+    if(typeof window.refreshClubVisualIdentity === "function"){
+        window.refreshClubVisualIdentity(currentShowdown);
+    }
 }
 
 function renderTransferResults(challenge){
+    const ui = getTransferUI();
     renderManagerTransferResults(
-        document.getElementById("transferResultsOne"),
+        ui.resultsOne,
         currentShowdown.managers.playerOne,
         challenge.signings.playerOne
     );
 
     renderManagerTransferResults(
-        document.getElementById("transferResultsTwo"),
+        ui.resultsTwo,
         currentShowdown.managers.playerTwo,
         challenge.signings.playerTwo
     );
@@ -775,17 +867,17 @@ function renderManagerTransferResults(container, managerName, signings){
         return;
     }
 
-    container.replaceChildren();
-
+    const fragment = document.createDocumentFragment();
     const heading = document.createElement("h3");
     heading.textContent = managerName;
-    container.appendChild(heading);
+    fragment.appendChild(heading);
 
     if(!signings.length){
         const empty = document.createElement("p");
         empty.className = "transferEmpty";
         empty.textContent = "No signings recorded";
-        container.appendChild(empty);
+        fragment.appendChild(empty);
+        container.replaceChildren(fragment);
         return;
     }
 
@@ -804,8 +896,10 @@ function renderManagerTransferResults(container, managerName, signings){
         verdict.textContent = signing.release ? "RELEASE" : "SAFE";
 
         row.append(details, verdict);
-        container.appendChild(row);
+        fragment.appendChild(row);
     });
+
+    container.replaceChildren(fragment);
 }
 
 function continueFromTransferChallenge(){
@@ -813,7 +907,10 @@ function continueFromTransferChallenge(){
         return;
     }
 
-    flushTransferDraftSave();
+    if(!flushTransferDraftSave()){
+        return;
+    }
+
     stopTransferTimerLoop();
     openSeasonEntry();
 }
@@ -823,3 +920,7 @@ window.openTransferChallenge = openTransferChallenge;
 window.completeTransferChallenge = completeTransferChallenge;
 window.handleSeasonPrimaryAction = handleSeasonPrimaryAction;
 window.flushTransferDraftSave = flushTransferDraftSave;
+window.startTransferTimerLoop = startTransferTimerLoop;
+window.stopTransferTimerLoop = stopTransferTimerLoop;
+window.synchronizeTransferDeadline = synchronizeTransferDeadline;
+window.renderTransferChallenge = renderTransferChallenge;
