@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Screen and Navigation Engine
+   v0.12.0
+   Performance-Stabilized Screen and Navigation Engine
 ===================================================== */
 
 const screens = [
@@ -36,6 +36,35 @@ function getActiveScreenName(){
     }) || null;
 }
 
+function flushScreenBeforeLeave(currentScreen, nextScreen){
+    if(!currentScreen || currentScreen === nextScreen){
+        return true;
+    }
+
+    if(currentScreen === "transferChallenge" && typeof window.flushTransferDraftSave === "function"){
+        const flushed = window.flushTransferDraftSave();
+        if(flushed === false){
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "Your latest transfer entry could not be saved, so navigation was paused. Try again after browser storage becomes available.",
+                    "error",
+                    9000
+                );
+            }
+            return false;
+        }
+    }
+
+    if(typeof window.flushScheduledCurrentShowdownSave === "function"){
+        const flushed = window.flushScheduledCurrentShowdownSave();
+        if(flushed === false){
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function renderScreenBeforeEnter(screenName){
     if(screenName === "dashboard" && currentShowdown && typeof updateShowdownUI === "function"){
         updateShowdownUI();
@@ -67,6 +96,10 @@ function showScreen(screenName, addToHistory = true){
     }
 
     const current = getActiveScreenName();
+
+    if(!flushScreenBeforeLeave(current, screenName)){
+        return false;
+    }
 
     try{
         renderScreenBeforeEnter(screenName);
@@ -101,8 +134,10 @@ function goBack(){
     while(screenHistory.length){
         const previous = screenHistory.pop();
         if(previous && document.getElementById(previous)){
-            showScreen(previous, false);
-            return;
+            if(showScreen(previous, false)){
+                return;
+            }
+            break;
         }
     }
 
