@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.0
+   v0.14.1
    Runtime Diagnostics and Performance Integrity
 ===================================================== */
 
@@ -19,6 +19,7 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "legacyButton",
     "trophyRoomButton",
     "ruleBookButton",
+    "rivalryStatisticsButton",
     "menuMediaSelector",
     "menuMusicToggle",
     "menuMusicMute",
@@ -49,14 +50,16 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "openSeasonEntry",
     "completeCurrentSeason",
     "calculatePlayerSeasonScore",
-    "renderRivalryStatistics",
-    "renderTrophyRoom",
     "renderLegacy",
-    "openRuleBook",
     "initializeMenuExperience",
     "refreshMainMenuExperience",
     "selectMenuMedia",
-    "handleMainMenuExit"
+    "handleMainMenuExit",
+    "initializeOptionalModules",
+    "ensureOptionalModule",
+    "openOptionalModule",
+    "getOptionalModuleState",
+    "initializePerformanceLifecycle"
 ];
 
 function testLocalStorageAvailability(){
@@ -78,6 +81,7 @@ function getControlBindingProblems(){
         ["legacyButton", "navigationBound"],
         ["trophyRoomButton", "trophyRoomReady"],
         ["ruleBookButton", "ruleBookBound"],
+        ["rivalryStatisticsButton", "statisticsLazyBound"],
         ["menuMusicToggle", "musicBound"],
         ["menuMusicMute", "musicBound"],
         ["startShowdown", "showdownUiBound"],
@@ -121,9 +125,20 @@ function getMenuMediaProblems(){
     return keys.join(",") === expected.join(",") ? [] : ["menu media choices are invalid"];
 }
 
+function getOptionalModuleProblems(){
+    if(typeof window.getOptionalModuleState !== "function"){
+        return ["optional module state is unavailable"];
+    }
+
+    const state = window.getOptionalModuleState();
+    return Object.entries(state)
+        .filter(([, value]) => value === "error")
+        .map(([name]) => `${name} optional module previously failed to load`);
+}
+
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.14.0" ? [] : [`runtime version is ${version}`];
+    return version === "0.14.1" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
@@ -132,7 +147,8 @@ function runApplicationDiagnostics(){
     const bindingProblems = [
         ...getControlBindingProblems(),
         ...getTransferInputBindingProblems(),
-        ...getMenuMediaProblems()
+        ...getMenuMediaProblems(),
+        ...getOptionalModuleProblems()
     ];
     const versionProblems = getVersionProblems();
     const storageAvailable = testLocalStorageAvailability();
@@ -151,6 +167,9 @@ function runApplicationDiagnostics(){
         bindingProblems,
         versionProblems,
         lazyScreens: ["statistics", "trophyRoom", "ruleBook"],
+        optionalModules: typeof window.getOptionalModuleState === "function"
+            ? window.getOptionalModuleState()
+            : null,
         transferFieldsChecked: document.querySelectorAll("[data-transfer-field]").length,
         menuMediaChoicesChecked: document.querySelectorAll("[data-menu-media-source]").length,
         checkedAt: new Date().toISOString()
