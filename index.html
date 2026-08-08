@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Career Mode Showdown</title>
-<link rel="stylesheet" href="css/style.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/layout.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/animations.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/screens.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/wheel.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/stability.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/polish.css?v=0.14.1-r2">
-<link rel="stylesheet" href="css/menu.css?v=0.14.1-r2">
+<link rel="stylesheet" href="css/style.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/layout.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/animations.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/screens.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/wheel.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/stability.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/polish.css?v=0.15.0-r2">
+<link rel="stylesheet" href="css/menu.css?v=0.15.0-r2">
+<link rel="stylesheet" id="fifa17Theme" href="css/fifa17-theme.css?v=0.15.0-r2">
 </head>
 <body>
 <div id="background"></div>
@@ -27,7 +28,7 @@
 
 <div id="app" class="hidden">
 <header id="topHeader">
-<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN</p></div>
+<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
 <div class="seasonIndicator" id="seasonIndicator">No Active Showdown</div>
 </header>
 
@@ -44,19 +45,19 @@
 
 <div class="fifaMenuGrid">
 <button class="menuTile menuTilePrimary" id="continueCareer" type="button">
-<span class="menuTileCode">01</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
+<span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
 </button>
 <button class="menuTile menuTileNew" id="newShowdown" type="button">
-<span class="menuTileCode">02</span><span class="menuTileLabel">NEW SHOWDOWN</span><span class="menuTileMeta">Create a new rivalry</span>
+<span class="menuTileCode">NEW</span><span class="menuTileLabel">NEW SHOWDOWN</span><span class="menuTileMeta">Create a new rivalry</span>
 </button>
 <button class="menuTile menuTileLegacy" id="legacyButton" type="button">
-<span class="menuTileCode">03</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
+<span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
 </button>
 <button class="menuTile menuTileTrophy" id="trophyRoomButton" type="button">
-<span class="menuTileCode">04</span><span class="menuTileLabel">TROPHY ROOM</span><span class="menuTileMeta">Career trophies, records and standings</span>
+<span class="menuTileCode">HONOURS</span><span class="menuTileLabel">TROPHY ROOM</span><span class="menuTileMeta">Career trophies, records and standings</span>
 </button>
 <button class="menuTile menuTileRules" id="ruleBookButton" type="button">
-<span class="menuTileCode">05</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
+<span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
 </button>
 
 <section class="menuMusicTile" aria-label="Menu media">
@@ -80,7 +81,7 @@
 </div>
 
 <div class="menuBottomStrip">
-<span>FIFA 17-inspired interface · original visual treatment</span>
+<span>Original FIFA 17-era inspired interface · no copied game UI assets</span>
 <strong>LOCAL SAVE ENABLED</strong>
 </div>
 </div>
@@ -318,24 +319,25 @@
 </section>
 </main>
 
-<footer>FIFA 17 Career Mode Showdown<br>v0.14.1 Performance Polish</footer>
+<footer>Career Mode Showdown<br>v0.15.0 · Original FIFA 17-era inspired visual system</footer>
 </div>
 
-<script defer src="data/leagues.js?v=0.14.1-r2"></script>
-<script defer src="data/clubs.js?v=0.14.1-r2"></script>
-<script defer src="js/dataEngine.js?v=0.14.1-r2"></script>
-<script defer src="js/storage.js?v=0.14.1-r2"></script>
-<script defer src="js/screens.js?v=0.14.1-r2"></script>
-<script defer src="js/showdown.js?v=0.14.1-r2"></script>
-<script defer src="js/scoring.js?v=0.14.1-r2"></script>
-<script defer src="js/showdownUI.js?v=0.14.1-r2"></script>
-<script defer src="js/leagueWheel.js?v=0.14.1-r2"></script>
-<script defer src="js/clubAssignment.js?v=0.14.1-r2"></script>
-<script defer src="js/transferChallenge.js?v=0.14.1-r2"></script>
-<script defer src="js/seasonEngine.js?v=0.14.1-r2"></script>
-<script defer src="js/menuExperience.js?v=0.14.1-r2"></script>
-<script defer src="js/optionalModules.js?v=0.14.1-r2"></script>
-<script defer src="js/diagnostics.js?v=0.14.1-r2"></script>
-<script defer src="js/app.js?v=0.14.1-r2"></script>
+<script defer src="data/leagues.js?v=0.15.0-r2"></script>
+<script defer src="data/clubs.js?v=0.15.0-r2"></script>
+<script defer src="js/dataEngine.js?v=0.15.0-r2"></script>
+<script defer src="js/storage.js?v=0.15.0-r2"></script>
+<script defer src="js/screens.js?v=0.15.0-r2"></script>
+<script defer src="js/showdown.js?v=0.15.0-r2"></script>
+<script defer src="js/scoring.js?v=0.15.0-r2"></script>
+<script defer src="js/visualIdentity.js?v=0.15.0-r2"></script>
+<script defer src="js/showdownUI.js?v=0.15.0-r2"></script>
+<script defer src="js/leagueWheel.js?v=0.15.0-r2"></script>
+<script defer src="js/clubAssignment.js?v=0.15.0-r2"></script>
+<script defer src="js/transferChallenge.js?v=0.15.0-r2"></script>
+<script defer src="js/seasonEngine.js?v=0.15.0-r2"></script>
+<script defer src="js/menuExperience.js?v=0.15.0-r2"></script>
+<script defer src="js/optionalModules.js?v=0.15.0-r2"></script>
+<script defer src="js/diagnostics.js?v=0.15.0-r2"></script>
+<script defer src="js/app.js?v=0.15.0-r2"></script>
 </body>
 </html>
