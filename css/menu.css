@@ -1,6 +1,6 @@
 /* =====================================================
    Career Mode Showdown
-   v0.13.0
+   v0.13.1
    Lightweight FIFA 17-inspired Main Menu
 ===================================================== */
 
@@ -9,6 +9,21 @@
     margin:0 auto;
     padding:6px 0 26px;
     display:block;
+    position:relative;
+    isolation:isolate;
+}
+
+#mainMenu::before{
+    content:"";
+    position:absolute;
+    inset:-34px -28px auto;
+    height:360px;
+    z-index:-1;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 16% 22%,rgba(77,190,255,.20),transparent 34%),
+        radial-gradient(circle at 78% 18%,rgba(247,215,0,.08),transparent 24%);
+    contain:strict;
 }
 
 .fifaMenuShell{
@@ -25,17 +40,15 @@
     padding:2px 2px 4px;
 }
 
-.fifaMenuHeadingText{
-    display:grid;
-    gap:2px;
-}
+.fifaMenuHeadingText{ display:grid; gap:2px; }
 
 .fifaMenuEyebrow{
-    color:#6ed7ff;
+    color:#78ddff;
     font-size:12px;
     font-weight:800;
     letter-spacing:3px;
     text-transform:uppercase;
+    text-shadow:0 0 18px rgba(120,221,255,.24);
 }
 
 .fifaMenuHeading h2{
@@ -45,11 +58,12 @@
     line-height:.95;
     letter-spacing:1px;
     text-align:left;
+    text-shadow:0 4px 24px rgba(0,0,0,.28);
 }
 
 .fifaMenuHeadingMeta{
     max-width:360px;
-    color:#c8d9f3;
+    color:#d3e1f4;
     font-size:13px;
     line-height:1.45;
     text-align:right;
@@ -69,7 +83,7 @@
     border:0;
     border-radius:2px;
     contain:layout paint;
-    box-shadow:0 8px 18px rgba(0,0,0,.18);
+    box-shadow:0 7px 16px rgba(0,0,0,.17);
 }
 
 .menuTile{
@@ -84,7 +98,7 @@
     text-align:left;
     cursor:pointer;
     background:#174f96;
-    transition:transform 120ms ease,filter 120ms ease,box-shadow 120ms ease;
+    transition:transform 110ms ease,box-shadow 110ms ease;
 }
 
 .menuTile::before{
@@ -93,8 +107,8 @@
     inset:0;
     pointer-events:none;
     background:
-        linear-gradient(125deg,rgba(255,255,255,.12),transparent 36%),
-        linear-gradient(315deg,rgba(0,0,0,.18),transparent 45%);
+        linear-gradient(125deg,rgba(255,255,255,.16),transparent 34%),
+        linear-gradient(315deg,rgba(0,0,0,.16),transparent 48%);
 }
 
 .menuTile::after{
@@ -105,26 +119,18 @@
     width:5px;
     height:100%;
     background:#7dd7ff;
-    opacity:.92;
+    opacity:.96;
 }
 
 .menuTile:hover:not(:disabled),
 .menuTile:focus-visible{
     transform:translateY(-2px);
-    filter:brightness(1.08);
-    box-shadow:0 12px 24px rgba(0,0,0,.24);
+    box-shadow:0 11px 22px rgba(0,0,0,.23);
     outline:none;
 }
 
-.menuTile:focus-visible{
-    box-shadow:0 0 0 3px #f7d700,0 12px 24px rgba(0,0,0,.24);
-}
-
-.menuTile:disabled{
-    opacity:.48;
-    cursor:not-allowed;
-    filter:saturate(.55);
-}
+.menuTile:focus-visible{ box-shadow:0 0 0 3px #f7d700,0 11px 22px rgba(0,0,0,.23); }
+.menuTile:disabled{ opacity:.48; cursor:not-allowed; }
 
 .menuTileLabel,
 .menuTileMeta,
@@ -141,7 +147,7 @@
 }
 
 .menuTileMeta{
-    color:rgba(255,255,255,.82);
+    color:rgba(255,255,255,.84);
     font-size:12px;
     line-height:1.35;
     letter-spacing:.3px;
@@ -161,7 +167,9 @@
     grid-column:span 7;
     grid-row:span 2;
     min-height:246px;
-    background:linear-gradient(135deg,#1769b8 0%,#0e3e7c 100%);
+    background:
+        radial-gradient(circle at 18% 14%,rgba(91,202,255,.28),transparent 34%),
+        linear-gradient(135deg,#1972c5 0%,#0d3c79 100%);
 }
 
 .menuTilePrimary::after{ background:#f7d700; }
@@ -169,34 +177,43 @@
 
 .menuTileNew{
     grid-column:span 5;
-    background:linear-gradient(135deg,#287fc4,#15538e);
+    background:linear-gradient(135deg,#2b86cc,#16528c);
 }
 
 .menuTileLegacy{
     grid-column:span 5;
-    background:linear-gradient(135deg,#137f95,#0d566a);
+    background:linear-gradient(135deg,#15879d,#0c5568);
 }
 
 .menuTileTrophy{
     grid-column:span 4;
-    background:linear-gradient(135deg,#6a4ea0,#3f3370);
+    background:linear-gradient(135deg,#7354ad,#40336f);
 }
 
 .menuTileRules{
     grid-column:span 4;
-    background:linear-gradient(135deg,#34699f,#244c78);
+    background:linear-gradient(135deg,#3972aa,#234b76);
 }
 
 .menuMusicTile{
     grid-column:span 4;
-    min-height:226px;
+    min-height:246px;
     padding:16px;
     display:grid;
-    grid-template-rows:auto auto minmax(0,1fr) auto;
-    gap:10px;
-    background:linear-gradient(145deg,#151c29,#24354f);
+    grid-template-rows:auto auto auto minmax(0,1fr) auto;
+    gap:9px;
+    background:
+        radial-gradient(circle at 80% 0,rgba(247,215,0,.10),transparent 34%),
+        linear-gradient(145deg,#151c29,#24354f);
     border-left:5px solid #f7d700;
     color:#fff;
+}
+
+.menuMusicTile[data-media-kind="trailer"]{
+    border-left-color:#69d9ff;
+    background:
+        radial-gradient(circle at 82% 0,rgba(105,217,255,.14),transparent 36%),
+        linear-gradient(145deg,#142237,#203f64);
 }
 
 .menuMusicHeader{
@@ -233,6 +250,42 @@
     white-space:nowrap;
 }
 
+.menuMediaSelector{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+}
+
+.menuMediaChoice{
+    min-height:28px;
+    padding:5px 7px;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(4,13,25,.36);
+    color:#aebfd4;
+    font:800 9px/1.2 Arial,Helvetica,sans-serif;
+    letter-spacing:.7px;
+    cursor:pointer;
+    transition:background 100ms ease,color 100ms ease,border-color 100ms ease;
+}
+
+.menuMediaChoice:hover,
+.menuMediaChoice:focus-visible{
+    border-color:rgba(125,215,255,.65);
+    color:#fff;
+    outline:none;
+}
+
+.menuMediaChoice.selected{
+    background:#f7d700;
+    border-color:#f7d700;
+    color:#071936;
+}
+
+.menuMusicTile[data-media-kind="trailer"] .menuMediaChoice.selected{
+    background:#7dd7ff;
+    border-color:#7dd7ff;
+}
+
 .menuMusicPlayer{
     min-height:86px;
     background:#0b111b;
@@ -240,6 +293,7 @@
     display:grid;
     place-items:center;
     overflow:hidden;
+    contain:layout paint;
 }
 
 .menuMusicPlayer iframe{
@@ -263,6 +317,7 @@
     color:#b9cae0;
     font-size:10px;
     letter-spacing:.7px;
+    overflow-wrap:anywhere;
 }
 
 .menuMusicControls{
@@ -281,7 +336,7 @@
     font-weight:900;
     letter-spacing:1px;
     cursor:pointer;
-    transition:background 120ms ease,color 120ms ease;
+    transition:background 100ms ease,color 100ms ease;
 }
 
 .menuMusicControl:hover:not(:disabled),
@@ -291,10 +346,12 @@
     outline:none;
 }
 
-.menuMusicControl:disabled{
-    opacity:.4;
-    cursor:not-allowed;
+.menuMusicTile[data-media-kind="trailer"] .menuMusicControl:hover:not(:disabled),
+.menuMusicTile[data-media-kind="trailer"] .menuMusicControl:focus-visible{
+    background:#7dd7ff;
 }
+
+.menuMusicControl:disabled{ opacity:.4; cursor:not-allowed; }
 
 .menuBottomStrip{
     display:flex;
@@ -309,9 +366,7 @@
     text-transform:uppercase;
 }
 
-.menuBottomStrip strong{
-    color:#f7d700;
-}
+.menuBottomStrip strong{ color:#f7d700; }
 
 @media(max-width:900px){
     #mainMenu{ width:min(760px,94vw); }
@@ -327,11 +382,12 @@
         min-height:150px;
     }
     .menuTilePrimary{ min-height:210px; }
-    .menuMusicTile{ min-height:260px; }
+    .menuMusicTile{ min-height:282px; }
 }
 
 @media(max-width:620px){
     #mainMenu{ width:92vw; padding-top:0; }
+    #mainMenu::before{ inset:-20px -10px auto; height:300px; }
     .fifaMenuHeading{ align-items:flex-start; flex-direction:column; }
     .fifaMenuHeadingMeta{ text-align:left; max-width:none; }
     .fifaMenuGrid{ grid-template-columns:1fr; }
@@ -345,13 +401,14 @@
         min-height:120px;
     }
     .menuTilePrimary{ min-height:170px; }
-    .menuMusicTile{ min-height:270px; }
+    .menuMusicTile{ min-height:288px; }
     .menuBottomStrip{ align-items:flex-start; flex-direction:column; gap:4px; }
 }
 
 @media(prefers-reduced-motion:reduce){
     .menuTile,
-    .menuMusicControl{
+    .menuMusicControl,
+    .menuMediaChoice{
         transition:none;
     }
 }
