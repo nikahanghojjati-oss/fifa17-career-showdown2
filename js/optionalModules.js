@@ -11,6 +11,7 @@ const optionalStylePromises = new Map();
 const optionalModuleStates = new Map();
 const optionalOpenPromises = new Map();
 let optionalModulesInitialized = false;
+let optionalOpenRequestId = 0;
 
 function optionalAssetUrl(path){
     return `${path}?v=${OPTIONAL_ASSET_REVISION}`;
@@ -42,19 +43,21 @@ function loadOptionalStyle(key, path){
             window.clearTimeout(timeoutId);
         };
 
-        const finish = callback => value => {
+        const handleLoad = () => {
             if(settled){ return; }
             settled = true;
             cleanup();
-            callback(value);
+            resolve(link);
         };
 
-        const handleLoad = finish(resolve);
-        const handleError = finish(() => {
+        const handleError = () => {
+            if(settled){ return; }
+            settled = true;
+            cleanup();
             link.remove();
             optionalStylePromises.delete(key);
             reject(new Error(`Unable to load ${path}.`));
-        });
+        };
 
         const timeoutId = window.setTimeout(() => {
             if(settled){ return; }
@@ -243,13 +246,15 @@ async function ensureOptionalModule(name){
     }
 }
 
-function isOptionalOpenContextCurrent(originScreen, originRevision){
+function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
     const currentScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : originScreen;
     const currentRevision = typeof window.getNavigationRevision === "function"
         ? window.getNavigationRevision()
         : originRevision;
 
-    return currentScreen === originScreen && currentRevision === originRevision;
+    return requestId === optionalOpenRequestId
+        && currentScreen === originScreen
+        && currentRevision === originRevision;
 }
 
 function openOptionalModule(name){
@@ -257,6 +262,7 @@ function openOptionalModule(name){
         return optionalOpenPromises.get(name);
     }
 
+    const requestId = ++optionalOpenRequestId;
     const originScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : null;
     const originRevision = typeof window.getNavigationRevision === "function"
         ? window.getNavigationRevision()
@@ -267,7 +273,7 @@ function openOptionalModule(name){
         try{
             await ensureOptionalModule(name);
 
-            if(!isOptionalOpenContextCurrent(originScreen, originRevision)){
+            if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){
                 return false;
             }
 
