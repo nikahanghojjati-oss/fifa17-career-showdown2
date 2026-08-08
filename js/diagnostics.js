@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.13.0
+   v0.13.1
    Runtime Diagnostics and Performance Integrity
 ===================================================== */
 
@@ -19,6 +19,7 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "legacyButton",
     "trophyRoomButton",
     "ruleBookButton",
+    "menuMediaSelector",
     "menuMusicToggle",
     "menuMusicMute",
     "menuMusicPlayer",
@@ -53,7 +54,8 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "renderLegacy",
     "openRuleBook",
     "initializeMenuExperience",
-    "refreshMainMenuExperience"
+    "refreshMainMenuExperience",
+    "selectMenuMedia"
 ];
 
 function testLocalStorageAvailability(){
@@ -107,9 +109,17 @@ function getTransferInputBindingProblems(){
     }, []);
 }
 
+function getMenuMediaProblems(){
+    const choices = Array.from(document.querySelectorAll("[data-menu-media-source]"));
+    if(choices.length !== 2){ return ["menu media selector does not contain two choices"]; }
+
+    const keys = choices.map(button => button.dataset.menuMediaSource).sort().join(",");
+    return keys === "music,trailer" ? [] : ["menu media choices are invalid"];
+}
+
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.13.0" ? [] : [`runtime version is ${version}`];
+    return version === "0.13.1" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
@@ -117,7 +127,8 @@ function runApplicationDiagnostics(){
     const missingFunctions = DIAGNOSTIC_REQUIRED_FUNCTIONS.filter(name => typeof window[name] !== "function");
     const bindingProblems = [
         ...getControlBindingProblems(),
-        ...getTransferInputBindingProblems()
+        ...getTransferInputBindingProblems(),
+        ...getMenuMediaProblems()
     ];
     const versionProblems = getVersionProblems();
     const storageAvailable = testLocalStorageAvailability();
