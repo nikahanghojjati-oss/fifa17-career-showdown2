@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.0
+   v0.11.0
    Trophy Room and All-Time Records
 ===================================================== */
 
@@ -40,9 +40,9 @@ function createTrophyRoomScreen(){
 }
 
 function findTrophyRoomMenuButton(){
-    return Array.from(document.querySelectorAll("#mainMenu .menuButton")).find(button =>
-        button.textContent.trim().toUpperCase() === "TROPHY ROOM"
-    ) || null;
+    return document.getElementById("trophyRoomButton") || Array.from(
+        document.querySelectorAll("#mainMenu .menuButton")
+    ).find(button => button.textContent.trim().toUpperCase() === "TROPHY ROOM") || null;
 }
 
 function wireTrophyRoomButton(){
@@ -318,6 +318,6 @@ function initializeTrophyRoom(){
     wireTrophyRoomButton();
 }
 
-initializeTrophyRoom();
+window.initializeTrophyRoom = initializeTrophyRoom;
 window.renderTrophyRoom = renderTrophyRoom;
 window.openTrophyRoom = openTrophyRoom;
