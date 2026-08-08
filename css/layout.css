@@ -1,366 +1,126 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   Version 0.2.0
+   v0.6.1
    Layout System
 ===================================================== */
 
-
-/* ===============================
-   Application Container
-================================ */
-
-
 #app{
-
-
     min-height:100vh;
-
-
     display:flex;
-
     flex-direction:column;
-
-
 }
-
-
 
 .hidden{
-
-
     display:none !important;
-
-
 }
-
-
-
-
-/* ===============================
-   Main Area
-================================ */
-
 
 main{
-
-
     flex:1;
-
-
     display:flex;
-
-
     justify-content:center;
-
-
     align-items:center;
-
-
 }
-
-
-
-/* ===============================
-   Screen System
-================================ */
-
 
 .screen{
-
-
     width:100%;
-
-
     animation:screenEnter .5s ease;
-
-
 }
-
-
-
-/* ===============================
-   Main Menu
-================================ */
-
 
 #mainMenu{
-
-
     width:min(520px,90vw);
-
-
     display:flex;
-
-
     flex-direction:column;
-
-
     gap:20px;
-
-
 }
-
-
-
-
-/* ===============================
-   FIFA Style Buttons
-================================ */
-
 
 .menuButton{
-
-
     height:75px;
-
-
     width:100%;
-
-
     font-size:25px;
-
-
     letter-spacing:2px;
-
-
     font-weight:bold;
-
-
     color:white;
-
-
-
-    background:
-
-
-    linear-gradient(
-
-    90deg,
-
-    rgba(255,255,255,.12),
-
-    rgba(255,255,255,.05)
-
-    );
-
-
-
-    border:
-
-    1px solid rgba(255,255,255,.25);
-
-
-
+    background:linear-gradient(90deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.25);
     border-radius:10px;
-
-
-
     cursor:pointer;
-
-
-
     transition:.3s;
-
-
-
 }
 
-
-
-.menuButton:hover{
-
-
+.menuButton:hover:not(:disabled){
     background:#f7d700;
-
-
     color:#071936;
-
-
-
-    transform:
-
-    translateX(12px);
-
-
+    transform:translateX(12px);
 }
 
+.menuButton:disabled{
+    cursor:not-allowed;
+    opacity:.55;
+}
 
+.backButton{
+    margin-top:20px;
+    min-width:150px;
+    min-height:48px;
+    padding:0 24px;
+    font-size:16px;
+    font-weight:bold;
+    letter-spacing:2px;
+    color:#e8efff;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:8px;
+    cursor:pointer;
+    transition:.25s ease;
+}
 
-
-
-/* ===============================
-   Dashboard
-================================ */
-
+.backButton:hover{
+    background:rgba(255,255,255,.18);
+    transform:translateX(-5px);
+}
 
 #dashboard{
-
-
     width:min(1100px,90vw);
-
-
     text-align:center;
-
-
 }
-
-
 
 #dashboard h2{
-
-
     font-size:40px;
-
-
     color:#f7d700;
-
-
     margin-bottom:40px;
-
-
 }
-
-
-
 
 .playerCards{
-
-
     display:flex;
-
-
     justify-content:center;
-
-
     gap:40px;
-
-
 }
-
-
-
 
 .playerCard{
-
-
     width:320px;
-
-
     min-height:250px;
-
-
-
-    background:
-
-
-    rgba(255,255,255,.08);
-
-
-
-    border:
-
-    1px solid rgba(255,255,255,.25);
-
-
-
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.25);
     border-radius:15px;
-
-
-
     padding:35px;
-
-
-
     backdrop-filter:blur(10px);
-
-
 }
-
-
 
 .playerCard h3{
-
-
     font-size:30px;
-
-
     color:#f7d700;
-
-
     margin-bottom:30px;
-
-
 }
-
-
 
 .playerCard p{
-
-
     font-size:20px;
-
-
     margin:15px;
-
-
     color:#e8efff;
-
-
 }
 
-
-
-
-
-/* ===============================
-   Mobile
-================================ */
-
-
 @media(max-width:800px){
-
-
-
-    #topHeader{
-
-
-        padding:25px;
-
-
-    }
-
-
-
-    .brand h1{
-
-
-        font-size:32px;
-
-
-    }
-
-
-
-    .playerCards{
-
-
-        flex-direction:column;
-
-        align-items:center;
-
-
-    }
-
-
-
-    .playerCard{
-
-
-        width:90%;
-
-
-    }
-
-
-
+    #topHeader{padding:25px;}
+    .brand h1{font-size:32px;}
+    .playerCards{flex-direction:column;align-items:center;}
+    .playerCard{width:90%;}
 }
