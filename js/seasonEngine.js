@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.10.1
-   Stabilized Season Entry and Progression Engine
+   v0.11.0
+   Season Entry and Progression Engine
 ===================================================== */
 
 let seasonCompletionInProgress = false;
@@ -135,29 +135,58 @@ function readSeasonResult(prefix){
     };
 }
 
-function validateSeasonEntry(prefix){
+function getCurrentLeagueTeamCount(){
+    if(!currentShowdown || !currentShowdown.selectedLeague || typeof getClubsForLeague !== "function"){
+        return null;
+    }
+
+    const clubs = getClubsForLeague(currentShowdown.selectedLeague.id);
+    return Array.isArray(clubs) && clubs.length ? clubs.length : null;
+}
+
+function getSeasonEntryValidationMessage(prefix, managerLabel){
     const positionInput = getSeasonInput(prefix, "LeaguePosition");
     const pointsInput = getSeasonInput(prefix, "LeaguePoints");
     const goalsInput = getSeasonInput(prefix, "LeagueGoals");
 
     if(!positionInput || !pointsInput || !goalsInput){
-        return false;
+        return `${managerLabel}'s season form is incomplete.`;
     }
 
     if(positionInput.value === "" || pointsInput.value === "" || goalsInput.value === ""){
-        return false;
+        return `Enter league position, league points and league goals for ${managerLabel}.`;
     }
 
     const position = Number(positionInput.value);
     const points = Number(pointsInput.value);
     const goals = Number(goalsInput.value);
+    const teamCount = getCurrentLeagueTeamCount();
 
-    return Number.isInteger(position)
-        && position >= 1
-        && Number.isFinite(points)
-        && points >= 0
-        && Number.isFinite(goals)
-        && goals >= 0;
+    if(!Number.isInteger(position) || position < 1){
+        return `${managerLabel}'s league position must be a whole number of 1 or higher.`;
+    }
+
+    if(teamCount && position > teamCount){
+        return `${managerLabel}'s league position cannot be lower than ${teamCount}th in this league.`;
+    }
+
+    if(!Number.isInteger(points) || points < 0){
+        return `${managerLabel}'s league points must be a non-negative whole number.`;
+    }
+
+    if(!Number.isInteger(goals) || goals < 0){
+        return `${managerLabel}'s league goals must be a non-negative whole number.`;
+    }
+
+    return "";
+}
+
+function validateSeasonEntry(prefix){
+    const label = prefix === "p1"
+        ? (currentShowdown ? currentShowdown.managers.playerOne : "Manager 1")
+        : (currentShowdown ? currentShowdown.managers.playerTwo : "Manager 2");
+
+    return getSeasonEntryValidationMessage(prefix, label) === "";
 }
 
 function buildSeasonRecord(seasonNumber, playerOne, playerTwo){
@@ -237,8 +266,21 @@ function completeCurrentSeason(){
         return;
     }
 
-    if(!validateSeasonEntry("p1") || !validateSeasonEntry("p2")){
-        setSeasonEntryError("Enter a valid league position, league points and league goals for both managers.");
+    const playerOneValidation = getSeasonEntryValidationMessage(
+        "p1",
+        currentShowdown.managers.playerOne
+    );
+    if(playerOneValidation){
+        setSeasonEntryError(playerOneValidation);
+        return;
+    }
+
+    const playerTwoValidation = getSeasonEntryValidationMessage(
+        "p2",
+        currentShowdown.managers.playerTwo
+    );
+    if(playerTwoValidation){
+        setSeasonEntryError(playerTwoValidation);
         return;
     }
 
@@ -404,8 +446,7 @@ function handleSeasonSummaryAction(){
     openTransferChallenge();
 }
 
-if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", initializeSeasonEngine, { once: true });
-}else{
-    initializeSeasonEngine();
-}
+window.initializeSeasonEngine = initializeSeasonEngine;
+window.openSeasonEntry = openSeasonEntry;
+window.completeCurrentSeason = completeCurrentSeason;
+window.renderSeasonSummary = renderSeasonSummary;
