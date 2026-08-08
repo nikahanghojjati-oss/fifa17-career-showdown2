@@ -1,17 +1,12 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.7.0
+   v0.8.0
    Season Entry and Progression Engine
 ===================================================== */
 
 function initializeSeasonEngine(){
-    const enterButton = document.getElementById("enterSeasonResults");
     const completeButton = document.getElementById("completeSeason");
     const nextButton = document.getElementById("nextSeasonAction");
-
-    if(enterButton){
-        enterButton.addEventListener("click", openSeasonEntry);
-    }
 
     if(completeButton){
         completeButton.addEventListener("click", completeCurrentSeason);
@@ -35,6 +30,11 @@ function openSeasonEntry(){
             renderSeasonSummary(latestRound);
             showScreen("seasonSummary");
         }
+        return;
+    }
+
+    if(!isTransferChallengeComplete(currentShowdown.currentRound)){
+        openTransferChallenge();
         return;
     }
 
@@ -106,6 +106,11 @@ function completeCurrentSeason(){
         return;
     }
 
+    if(!isTransferChallengeComplete(currentShowdown.currentRound)){
+        openTransferChallenge();
+        return;
+    }
+
     const error = document.getElementById("seasonEntryError");
 
     if(!validateSeasonEntry("p1") || !validateSeasonEntry("p2")){
@@ -136,14 +141,14 @@ function completeCurrentSeason(){
     const roundRecord = {
         roundNumber: seasonNumber,
         completedAt: new Date().toISOString(),
+        transferChallengeSeason: seasonNumber,
         playerOne,
         playerTwo,
         winner: determineSeasonWinner(playerOne, playerTwo)
     };
 
     currentShowdown.rounds.push(roundRecord);
-    currentShowdown.score.playerOne += playerOne.scoring.total;
-    currentShowdown.score.playerTwo += playerTwo.scoring.total;
+    recalculateShowdownScores(currentShowdown);
 
     if(seasonNumber >= currentShowdown.totalRounds){
         currentShowdown.status = "Completed";
@@ -203,7 +208,7 @@ function renderSeasonSummary(roundRecord){
     if(nextButton){
         nextButton.textContent = currentShowdown.status === "Completed"
             ? "RETURN TO SHOWDOWN HOME"
-            : `START SEASON ${currentShowdown.currentRound}`;
+            : `START SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
     }
 }
 
@@ -265,7 +270,7 @@ function handleSeasonSummaryAction(){
         return;
     }
 
-    openSeasonEntry();
+    openTransferChallenge();
 }
 
 document.addEventListener("DOMContentLoaded", initializeSeasonEngine);
