@@ -87,18 +87,20 @@ function refreshClubVisualIdentity(showdown = null){
     if(!active || !active.clubs){ return; }
 
     const mappings = [
-        ["clubNameOne", active.clubs.playerOne],
-        ["clubNameTwo", active.clubs.playerTwo],
-        ["dashboardClubOne", active.clubs.playerOne],
-        ["dashboardClubTwo", active.clubs.playerTwo],
-        ["transferClubOne", active.clubs.playerOne],
-        ["transferClubTwo", active.clubs.playerTwo],
-        ["seasonClubOne", active.clubs.playerOne],
-        ["seasonClubTwo", active.clubs.playerTwo]
+        [document.getElementById("clubNameOne"), active.clubs.playerOne],
+        [document.getElementById("clubNameTwo"), active.clubs.playerTwo],
+        [document.getElementById("dashboardClubOne"), active.clubs.playerOne],
+        [document.getElementById("dashboardClubTwo"), active.clubs.playerTwo],
+        [document.getElementById("transferClubOne"), active.clubs.playerOne],
+        [document.getElementById("transferClubTwo"), active.clubs.playerTwo],
+        [document.getElementById("seasonClubOne"), active.clubs.playerOne],
+        [document.getElementById("seasonClubTwo"), active.clubs.playerTwo],
+        [document.querySelector("#seasonSummaryOne .summaryClub"), active.clubs.playerOne],
+        [document.querySelector("#seasonSummaryTwo .summaryClub"), active.clubs.playerTwo]
     ];
 
-    mappings.forEach(([id, clubName]) => {
-        applyClubIdentity(document.getElementById(id), clubName);
+    mappings.forEach(([element, clubName]) => {
+        applyClubIdentity(element, clubName);
     });
 }
 
