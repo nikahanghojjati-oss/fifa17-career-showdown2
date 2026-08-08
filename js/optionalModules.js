@@ -107,7 +107,7 @@ function loadOptionalScript(key, path, readinessCheck){
             window.clearTimeout(timeoutId);
         };
 
-        const fail = message => {
+        const failRetryable = message => {
             if(settled){ return; }
             settled = true;
             cleanup();
@@ -116,10 +116,17 @@ function loadOptionalScript(key, path, readinessCheck){
             reject(new Error(message));
         };
 
+        const failExecuted = message => {
+            if(settled){ return; }
+            settled = true;
+            cleanup();
+            reject(new Error(message));
+        };
+
         const handleLoad = () => {
             if(settled){ return; }
             if(typeof readinessCheck === "function" && !readinessCheck()){
-                fail(`${path} loaded without its expected API.`);
+                failExecuted(`${path} loaded but did not expose its expected API. Refresh before retrying this view.`);
                 return;
             }
             settled = true;
@@ -127,9 +134,9 @@ function loadOptionalScript(key, path, readinessCheck){
             resolve(true);
         };
 
-        const handleError = () => fail(`Unable to load ${path}.`);
+        const handleError = () => failRetryable(`Unable to load ${path}.`);
         const timeoutId = window.setTimeout(
-            () => fail(`${path} timed out while loading.`),
+            () => failRetryable(`${path} timed out while loading.`),
             OPTIONAL_LOAD_TIMEOUT_MS
         );
 
