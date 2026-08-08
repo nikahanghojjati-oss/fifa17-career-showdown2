@@ -1,7 +1,7 @@
 /* =====================================================
    Career Mode Showdown
-   v0.14.0
-   FIFA 17 Menu Atmosphere + Lightweight Media Controller
+   v0.15.0
+   FIFA 17 Era Menu Atmosphere + Lightweight Media Controller
 ===================================================== */
 
 const MENU_MEDIA_SOURCES = Object.freeze({
@@ -182,7 +182,7 @@ function getSavedShowdownMenuMeta(){
 function scheduleMarcoReusImageLoad(){
     const ui = getMenuExperienceUI();
     const image = ui.reusImage;
-    if(!image || image.dataset.loaded === "true" || reusImageLoadScheduled){ return; }
+    if(!image || image.dataset.loaded === "true" || image.dataset.loaded === "loading" || reusImageLoadScheduled){ return; }
 
     reusImageLoadScheduled = true;
     const load = () => {
@@ -190,8 +190,8 @@ function scheduleMarcoReusImageLoad(){
         if(typeof getActiveScreenName === "function" && getActiveScreenName() !== "mainMenu"){
             return;
         }
-        if(image.dataset.loaded === "true"){ return; }
-        image.dataset.loaded = "true";
+        if(image.dataset.loaded === "true" || image.dataset.loaded === "loading"){ return; }
+        image.dataset.loaded = "loading";
         image.src = image.dataset.src;
     };
 
@@ -218,8 +218,17 @@ function ensureMarcoReusTreatment(){
         image.loading = "lazy";
         image.fetchPriority = "low";
         image.dataset.src = MARCO_REUS_IMAGE.thumbnail;
-        image.addEventListener("load", () => athlete.classList.add("imageLoaded"), { once: true });
-        image.addEventListener("error", () => athlete.classList.add("imageFailed"), { once: true });
+        image.addEventListener("load", () => {
+            image.dataset.loaded = "true";
+            athlete.classList.remove("imageFailed");
+            athlete.classList.add("imageLoaded");
+        });
+        image.addEventListener("error", () => {
+            delete image.dataset.loaded;
+            image.removeAttribute("src");
+            athlete.classList.remove("imageLoaded");
+            athlete.classList.add("imageFailed");
+        });
 
         const number = document.createElement("span");
         number.className = "menuCoverNumber";
@@ -298,13 +307,25 @@ function renderMenuMediaPlaceholder(){
 }
 
 function destroyMenuMediaIframe(){
+    const ui = getMenuExperienceUI();
     if(menuMediaIframe){
         try{ sendMenuMediaCommand("pauseVideo"); }catch(error){ /* iframe may already be detached */ }
         menuMediaIframe.remove();
     }
     menuMediaIframe = null;
     loadedMenuMediaKey = null;
+    if(ui.mediaTile){ delete ui.mediaTile.dataset.mediaLoaded; }
     renderMenuMediaPlaceholder();
+}
+
+function handleMenuMediaLoadError(iframe){
+    if(menuMediaIframe !== iframe){ return; }
+    menuMediaPlaying = false;
+    destroyMenuMediaIframe();
+    updateMenuMediaControls();
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice("The selected YouTube media could not be loaded. Choose another track or try again.", "error", 7000);
+    }
 }
 
 function updateMenuMediaHeader(){
@@ -395,7 +416,8 @@ function createMenuMediaIframe(){
     }
     if(menuMediaIframe){ destroyMenuMediaIframe(); }
 
-    const host = getMenuExperienceUI().mediaHost;
+    const ui = getMenuExperienceUI();
+    const host = ui.mediaHost;
     if(!host){ return null; }
 
     const media = getSelectedMenuMedia();
@@ -411,12 +433,14 @@ function createMenuMediaIframe(){
 
     loadedMenuMediaKey = selectedMenuMediaKey;
     menuMediaIframe = iframe;
+    if(ui.mediaTile){ ui.mediaTile.dataset.mediaLoaded = "true"; }
 
     iframe.addEventListener("load", () => {
         if(menuMediaIframe !== iframe || loadedMenuMediaKey !== selectedMenuMediaKey){ return; }
         if(menuMediaPlaying){ sendMenuMediaCommand("playVideo"); }
         if(menuMediaMuted){ sendMenuMediaCommand("mute"); }
     }, { once: true });
+    iframe.addEventListener("error", () => handleMenuMediaLoadError(iframe), { once: true });
 
     host.appendChild(iframe);
     return iframe;
@@ -485,10 +509,10 @@ function initializeMenuExperience(){
 
     if(!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook){ return; }
 
-    createTileContent(newShowdown, "02", "NEW SHOWDOWN", "Create a new rivalry and draw your league");
-    createTileContent(legacy, "03", "LEGACY", "Completed rivalries and season history");
-    createTileContent(trophyRoom, "04", "TROPHY ROOM", "Career trophies, records and manager standings");
-    createTileContent(ruleBook, "05", "RULE BOOK", "Competition rules, scoring and transfer challenge");
+    createTileContent(newShowdown, "NEW", "NEW SHOWDOWN", "Create a new rivalry and draw your league");
+    createTileContent(legacy, "HISTORY", "LEGACY", "Completed rivalries and season history");
+    createTileContent(trophyRoom, "HONOURS", "TROPHY ROOM", "Career trophies, records and manager standings");
+    createTileContent(ruleBook, "RULES", "RULE BOOK", "Competition rules, scoring and transfer challenge");
 
     ensureMenuMediaSelector();
     ensureMarcoReusTreatment();
