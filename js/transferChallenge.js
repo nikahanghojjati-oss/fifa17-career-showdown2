@@ -1,35 +1,71 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.8.0
+   v0.11.0
    Transfer Challenge Engine
 ===================================================== */
 
 const TRANSFER_WINDOW_SECONDS = 15 * 60;
 let transferTimerInterval = null;
+let transferCompletionInProgress = false;
+
+function bindTransferControl(element, eventName, handler, marker){
+    if(!element || element.dataset[marker] === "true"){
+        return;
+    }
+
+    element.dataset[marker] = "true";
+    element.addEventListener(eventName, handler);
+}
 
 function initializeTransferChallenge(){
-    const primaryButton = document.getElementById("seasonPrimaryAction");
-    const startButton = document.getElementById("startTransferTimer");
-    const endButton = document.getElementById("endTransferTimer");
-    const completeButton = document.getElementById("completeTransferChallenge");
-    const continueButton = document.getElementById("continueFromTransfers");
+    bindTransferControl(
+        document.getElementById("seasonPrimaryAction"),
+        "click",
+        handleSeasonPrimaryAction,
+        "transferPrimaryBound"
+    );
 
-    if(primaryButton){ primaryButton.addEventListener("click", handleSeasonPrimaryAction); }
-    if(startButton){ startButton.addEventListener("click", startTransferWindow); }
-    if(endButton){ endButton.addEventListener("click", endTransferWindowEarly); }
-    if(completeButton){ completeButton.addEventListener("click", completeTransferChallenge); }
-    if(continueButton){ continueButton.addEventListener("click", continueFromTransferChallenge); }
+    bindTransferControl(
+        document.getElementById("startTransferTimer"),
+        "click",
+        startTransferWindow,
+        "transferStartBound"
+    );
+
+    bindTransferControl(
+        document.getElementById("endTransferTimer"),
+        "click",
+        endTransferWindowEarly,
+        "transferEndBound"
+    );
+
+    bindTransferControl(
+        document.getElementById("completeTransferChallenge"),
+        "click",
+        completeTransferChallenge,
+        "transferCompleteBound"
+    );
+
+    bindTransferControl(
+        document.getElementById("continueFromTransfers"),
+        "click",
+        continueFromTransferChallenge,
+        "transferContinueBound"
+    );
 
     document.querySelectorAll("[data-transfer-field]").forEach(field => {
-        field.addEventListener("change", saveTransferDraft);
+        bindTransferControl(field, "change", saveTransferDraft, "transferChangeBound");
         if(field.tagName === "INPUT"){
-            field.addEventListener("input", saveTransferDraft);
+            bindTransferControl(field, "input", saveTransferDraft, "transferInputBound");
         }
     });
 }
 
 function handleSeasonPrimaryAction(){
     if(!currentShowdown){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("No active showdown is available.", "error");
+        }
         return;
     }
 
@@ -60,6 +96,8 @@ function createTransferChallenge(seasonNumber){
         startedAt: null,
         deadlineAt: null,
         endedAt: null,
+        endedEarly: false,
+        completedAt: null,
         signings: {
             playerOne: [],
             playerTwo: []
@@ -74,10 +112,31 @@ function createTransferChallenge(seasonNumber){
 function getOrCreateTransferChallenge(seasonNumber){
     let challenge = getTransferChallengeForSeason(seasonNumber);
 
-    if(!challenge){
-        challenge = createTransferChallenge(seasonNumber);
-        currentShowdown.transferChallenges.push(challenge);
-        saveCurrentShowdown();
+    if(challenge){
+        return challenge;
+    }
+
+    challenge = createTransferChallenge(seasonNumber);
+    currentShowdown.transferChallenges.push(challenge);
+
+    if(!saveCurrentShowdown()){
+        currentShowdown.transferChallenges = currentShowdown.transferChallenges.filter(
+            item => item !== challenge
+        );
+        throw new Error("The season transfer challenge could not be created in browser storage.");
+    }
+
+    return challenge;
+}
+
+function synchronizeTransferDeadline(challenge){
+    if(!challenge || challenge.status !== "active"){
+        return challenge;
+    }
+
+    const deadline = Number(challenge.deadlineAt);
+    if(!Number.isFinite(deadline) || deadline <= Date.now()){
+        finishTransferWindow(challenge, false);
     }
 
     return challenge;
@@ -88,15 +147,22 @@ function openTransferChallenge(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
-    const challenge = getOrCreateTransferChallenge(currentShowdown.currentRound);
+    try{
+        currentShowdown = normalizeShowdown(currentShowdown);
+        const challenge = getOrCreateTransferChallenge(currentShowdown.currentRound);
+        synchronizeTransferDeadline(challenge);
+        restoreTransferForm(challenge);
+        renderTransferChallenge(challenge);
 
-    restoreTransferForm(challenge);
-    renderTransferChallenge(challenge);
-    showScreen("transferChallenge");
-
-    if(challenge.status === "active"){
-        startTransferTimerLoop();
+        if(showScreen("transferChallenge") && challenge.status === "active"){
+            startTransferTimerLoop();
+        }
+    }catch(error){
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError("Unable to open the Transfer Challenge", error);
+        }else{
+            console.error(error);
+        }
     }
 }
 
@@ -105,20 +171,38 @@ function startTransferWindow(){
         return;
     }
 
-    const challenge = getOrCreateTransferChallenge(currentShowdown.currentRound);
+    let challenge;
+    try{
+        challenge = getOrCreateTransferChallenge(currentShowdown.currentRound);
+    }catch(error){
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError("Unable to start the transfer window", error);
+        }
+        return;
+    }
 
     if(challenge.status !== "not_started"){
         return;
     }
 
+    const previous = cloneForStorage(challenge);
     const now = Date.now();
+
     challenge.status = "active";
     challenge.startedAt = now;
     challenge.deadlineAt = now + (TRANSFER_WINDOW_SECONDS * 1000);
     challenge.endedAt = null;
-
+    challenge.endedEarly = false;
+    challenge.completedAt = null;
     currentShowdown.status = "Transfer Window Active";
-    saveCurrentShowdown();
+
+    if(!saveCurrentShowdown()){
+        restoreChallengeSnapshot(challenge, previous);
+        currentShowdown.status = "Ready";
+        renderTransferChallenge(challenge);
+        return;
+    }
+
     renderTransferChallenge(challenge);
     startTransferTimerLoop();
 }
@@ -148,10 +232,10 @@ function updateTransferTimer(){
         return;
     }
 
-    const remainingSeconds = Math.max(
-        0,
-        Math.ceil((Number(challenge.deadlineAt) - Date.now()) / 1000)
-    );
+    const deadline = Number(challenge.deadlineAt);
+    const remainingSeconds = Number.isFinite(deadline)
+        ? Math.max(0, Math.ceil((deadline - Date.now()) / 1000))
+        : 0;
 
     renderTransferTimer(remainingSeconds);
 
@@ -166,8 +250,11 @@ function renderTransferTimer(seconds){
         return;
     }
 
-    const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
-    const remaining = (seconds % 60).toString().padStart(2, "0");
+    const safeSeconds = Math.max(0, Number(seconds) || 0);
+    const minutes = Math.floor(safeSeconds / 60).toString().padStart(2, "0");
+    const remaining = Math.floor(safeSeconds % 60).toString().padStart(2, "0");
+
+    timer.setAttribute("aria-live", "polite");
     timer.textContent = `${minutes}:${remaining}`;
 }
 
@@ -184,23 +271,57 @@ function endTransferWindowEarly(){
     finishTransferWindow(challenge, true);
 }
 
+function restoreChallengeSnapshot(challenge, snapshot){
+    Object.keys(challenge).forEach(key => {
+        delete challenge[key];
+    });
+    Object.assign(challenge, cloneForStorage(snapshot));
+}
+
 function finishTransferWindow(challenge, endedEarly){
+    if(!currentShowdown || !challenge || challenge.status !== "active"){
+        return false;
+    }
+
+    const previous = cloneForStorage(challenge);
+    const previousShowdownStatus = currentShowdown.status;
+
     stopTransferTimerLoop();
     challenge.status = "recording";
     challenge.endedAt = Date.now();
     challenge.endedEarly = Boolean(endedEarly);
     currentShowdown.status = "Transfer Challenge Recording";
-    saveCurrentShowdown();
+
+    if(!saveCurrentShowdown()){
+        restoreChallengeSnapshot(challenge, previous);
+        currentShowdown.status = previousShowdownStatus;
+        renderTransferChallenge(challenge);
+
+        if(challenge.status === "active"){
+            startTransferTimerLoop();
+        }
+        return false;
+    }
+
     renderTransferChallenge(challenge);
+    return true;
+}
+
+function getTransferElement(id){
+    return document.getElementById(id);
 }
 
 function getSigningRows(prefix){
     const rows = [];
 
     for(let index = 1; index <= 3; index += 1){
-        const name = document.getElementById(`${prefix}Signing${index}Name`).value.trim();
-        const league = document.getElementById(`${prefix}Signing${index}League`).value.trim();
-        const nationality = document.getElementById(`${prefix}Signing${index}Nationality`).value.trim();
+        const nameElement = getTransferElement(`${prefix}Signing${index}Name`);
+        const leagueElement = getTransferElement(`${prefix}Signing${index}League`);
+        const nationalityElement = getTransferElement(`${prefix}Signing${index}Nationality`);
+
+        const name = nameElement ? nameElement.value.trim() : "";
+        const league = leagueElement ? leagueElement.value.trim() : "";
+        const nationality = nationalityElement ? nationalityElement.value.trim() : "";
 
         if(name || league || nationality){
             rows.push({
@@ -221,8 +342,11 @@ function getGuessRows(targetPrefix){
     const rows = [];
 
     for(let index = 1; index <= 3; index += 1){
-        const type = document.getElementById(`${targetPrefix}Guess${index}Type`).value;
-        const value = document.getElementById(`${targetPrefix}Guess${index}Value`).value.trim();
+        const typeElement = getTransferElement(`${targetPrefix}Guess${index}Type`);
+        const valueElement = getTransferElement(`${targetPrefix}Guess${index}Value`);
+
+        const type = typeElement ? typeElement.value : "";
+        const value = valueElement ? valueElement.value.trim() : "";
 
         if(type || value){
             rows.push({
@@ -257,8 +381,14 @@ function saveTransferDraft(){
     saveCurrentShowdown();
 }
 
-function validateTransferForm(challenge){
+function setTransferError(message = ""){
     const error = document.getElementById("transferChallengeError");
+    if(error){
+        error.textContent = message;
+    }
+}
+
+function validateTransferForm(challenge){
     captureTransferForm(challenge);
 
     const allSignings = [
@@ -271,9 +401,7 @@ function validateTransferForm(challenge){
     );
 
     if(incompleteSigning){
-        if(error){
-            error.textContent = "Every recorded signing needs a player name, previous league and nationality.";
-        }
+        setTransferError("Every recorded signing needs a player name, previous league and nationality.");
         return false;
     }
 
@@ -285,13 +413,11 @@ function validateTransferForm(challenge){
     const incompleteGuess = allGuesses.find(guess => !guess.type || !guess.value);
 
     if(incompleteGuess){
-        if(error){
-            error.textContent = "Every recorded guess needs both a guess type and a value.";
-        }
+        setTransferError("Every recorded guess needs both a guess type and a value.");
         return false;
     }
 
-    if(error){ error.textContent = ""; }
+    setTransferError("");
     return true;
 }
 
@@ -323,8 +449,19 @@ function evaluateSignings(signings, guesses){
     });
 }
 
+function setTransferCompletionBusy(isBusy){
+    const button = document.getElementById("completeTransferChallenge");
+    if(!button){
+        return;
+    }
+
+    button.disabled = isBusy;
+    button.setAttribute("aria-busy", isBusy ? "true" : "false");
+    button.textContent = isBusy ? "LOCKING RESULTS..." : "LOCK TRANSFER CHALLENGE RESULTS";
+}
+
 function completeTransferChallenge(){
-    if(!currentShowdown){
+    if(!currentShowdown || transferCompletionInProgress){
         return;
     }
 
@@ -337,28 +474,54 @@ function completeTransferChallenge(){
         return;
     }
 
-    challenge.signings.playerOne = evaluateSignings(
-        challenge.signings.playerOne,
-        challenge.guesses.againstPlayerOne
-    );
+    const previous = cloneForStorage(challenge);
+    const previousShowdownStatus = currentShowdown.status;
 
-    challenge.signings.playerTwo = evaluateSignings(
-        challenge.signings.playerTwo,
-        challenge.guesses.againstPlayerTwo
-    );
+    transferCompletionInProgress = true;
+    setTransferCompletionBusy(true);
 
-    challenge.status = "completed";
-    challenge.completedAt = Date.now();
-    currentShowdown.status = "Ready";
+    try{
+        challenge.signings.playerOne = evaluateSignings(
+            challenge.signings.playerOne,
+            challenge.guesses.againstPlayerOne
+        );
 
-    saveCurrentShowdown();
-    updateShowdownUI();
-    renderTransferChallenge(challenge);
+        challenge.signings.playerTwo = evaluateSignings(
+            challenge.signings.playerTwo,
+            challenge.guesses.againstPlayerTwo
+        );
+
+        challenge.status = "completed";
+        challenge.completedAt = Date.now();
+        currentShowdown.status = "Ready";
+
+        if(!saveCurrentShowdown()){
+            throw new Error("The transfer challenge results could not be saved.");
+        }
+
+        updateShowdownUI();
+        renderTransferChallenge(challenge);
+
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("Transfer Challenge locked successfully.", "success", 3500);
+        }
+    }catch(error){
+        restoreChallengeSnapshot(challenge, previous);
+        currentShowdown.status = previousShowdownStatus;
+        setTransferError(error.message || "The Transfer Challenge could not be completed.");
+        renderTransferChallenge(challenge);
+
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError("Transfer Challenge completion failed", error);
+        }
+    }finally{
+        transferCompletionInProgress = false;
+        setTransferCompletionBusy(false);
+    }
 }
 
 function restoreTransferForm(challenge){
     clearTransferForm();
-
     restoreSigningRows("p1", challenge.signings.playerOne || []);
     restoreSigningRows("p2", challenge.signings.playerTwo || []);
     restoreGuessRows("p1", challenge.guesses.againstPlayerOne || []);
@@ -367,12 +530,15 @@ function restoreTransferForm(challenge){
 
 function clearTransferForm(){
     document.querySelectorAll("[data-transfer-field]").forEach(field => {
-        if(field.tagName === "SELECT"){
-            field.value = "";
-        }else{
-            field.value = "";
-        }
+        field.value = "";
     });
+}
+
+function setTransferFieldValue(id, value){
+    const field = document.getElementById(id);
+    if(field){
+        field.value = value || "";
+    }
 }
 
 function restoreSigningRows(prefix, signings){
@@ -380,9 +546,9 @@ function restoreSigningRows(prefix, signings){
         const slot = Number(signing.slot) || (arrayIndex + 1);
         if(slot < 1 || slot > 3){ return; }
 
-        document.getElementById(`${prefix}Signing${slot}Name`).value = signing.name || "";
-        document.getElementById(`${prefix}Signing${slot}League`).value = signing.league || "";
-        document.getElementById(`${prefix}Signing${slot}Nationality`).value = signing.nationality || "";
+        setTransferFieldValue(`${prefix}Signing${slot}Name`, signing.name);
+        setTransferFieldValue(`${prefix}Signing${slot}League`, signing.league);
+        setTransferFieldValue(`${prefix}Signing${slot}Nationality`, signing.nationality);
     });
 }
 
@@ -391,8 +557,8 @@ function restoreGuessRows(targetPrefix, guesses){
         const slot = Number(guess.slot) || (arrayIndex + 1);
         if(slot < 1 || slot > 3){ return; }
 
-        document.getElementById(`${targetPrefix}Guess${slot}Type`).value = guess.type || "";
-        document.getElementById(`${targetPrefix}Guess${slot}Value`).value = guess.value || "";
+        setTransferFieldValue(`${targetPrefix}Guess${slot}Type`, guess.type);
+        setTransferFieldValue(`${targetPrefix}Guess${slot}Value`, guess.value);
     });
 }
 
@@ -448,7 +614,10 @@ function renderTransferChallenge(challenge){
     if(challenge.status === "not_started"){
         renderTransferTimer(TRANSFER_WINDOW_SECONDS);
     }else if(challenge.status === "active"){
-        const remainingSeconds = Math.max(0, Math.ceil((Number(challenge.deadlineAt) - Date.now()) / 1000));
+        const deadline = Number(challenge.deadlineAt);
+        const remainingSeconds = Number.isFinite(deadline)
+            ? Math.max(0, Math.ceil((deadline - Date.now()) / 1000))
+            : 0;
         renderTransferTimer(remainingSeconds);
     }else{
         renderTransferTimer(0);
@@ -505,14 +674,12 @@ function renderManagerTransferResults(container, managerName, signings){
         name.textContent = signing.name;
         const meta = document.createElement("span");
         meta.textContent = `${signing.league} · ${signing.nationality}`;
-        details.appendChild(name);
-        details.appendChild(meta);
+        details.append(name, meta);
 
         const verdict = document.createElement("b");
         verdict.textContent = signing.release ? "RELEASE" : "SAFE";
 
-        row.appendChild(details);
-        row.appendChild(verdict);
+        row.append(details, verdict);
         container.appendChild(row);
     });
 }
@@ -526,4 +693,7 @@ function continueFromTransferChallenge(){
     openSeasonEntry();
 }
 
-document.addEventListener("DOMContentLoaded", initializeTransferChallenge);
+window.initializeTransferChallenge = initializeTransferChallenge;
+window.openTransferChallenge = openTransferChallenge;
+window.completeTransferChallenge = completeTransferChallenge;
+window.handleSeasonPrimaryAction = handleSeasonPrimaryAction;
