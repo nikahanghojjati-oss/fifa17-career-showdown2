@@ -1,544 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
-Career Mode Showdown
-</title>
-
-
+<title>Career Mode Showdown</title>
 <link rel="stylesheet" href="css/style.css">
-
 <link rel="stylesheet" href="css/layout.css">
-
 <link rel="stylesheet" href="css/animations.css">
-
 <link rel="stylesheet" href="css/screens.css">
-
 <link rel="stylesheet" href="css/wheel.css">
-
-
 </head>
-
-
 <body>
-
-
 <div id="background"></div>
-
 <div id="overlay"></div>
-
-
-
 <section id="loadingScreen">
-
-
 <div class="loadingContent">
-
-
-<h1>
-CAREER MODE
-</h1>
-
-
-<h2>
-SHOWDOWN
-</h2>
-
-
-<p id="loadingText">
-Preparing Career Mode...
-</p>
-
-
+<h1>CAREER MODE</h1>
+<h2>SHOWDOWN</h2>
+<p id="loadingText">Preparing Career Mode...</p>
 </div>
-
-
 </section>
-
-
-
-
-
 <div id="app" class="hidden">
-
-
-
 <header id="topHeader">
-
-
-<div class="brand">
-
-
-<h1>
-CAREER MODE
-</h1>
-
-
-<p>
-SHOWDOWN
-</p>
-
-
-</div>
-
-
-
-<div class="seasonIndicator">
-
-Season 1
-
-</div>
-
-
+<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN</p></div>
+<div class="seasonIndicator" id="seasonIndicator">Season 1</div>
 </header>
-
-
-
-
-
 <main>
-
-
-
 <section id="mainMenu" class="screen">
-
-
-<button class="menuButton" id="newShowdown">
-
-NEW SHOWDOWN
-
-</button>
-
-
-<button class="menuButton">
-
-CONTINUE CAREER
-
-</button>
-
-
-<button class="menuButton" id="legacyButton">
-
-LEGACY
-
-</button>
-
-
-<button class="menuButton">
-
-TROPHY ROOM
-
-</button>
-
-
-<button class="menuButton">
-
-RULE BOOK
-
-</button>
-
-
+<button class="menuButton" id="newShowdown">NEW SHOWDOWN</button>
+<button class="menuButton" id="continueCareer">CONTINUE CAREER</button>
+<button class="menuButton" id="legacyButton">LEGACY</button>
+<button class="menuButton">TROPHY ROOM</button>
+<button class="menuButton">RULE BOOK</button>
 </section>
-
-
-
-
-
-
-
 <section id="createShowdown" class="screen hidden">
-
-
-<h2>
-CREATE SHOWDOWN
-</h2>
-
-
-
+<h2>CREATE SHOWDOWN</h2>
 <div class="setupBox">
-
-
-<label>
-SHOWDOWN NAME
-</label>
-
-
-<input 
-id="showdownName"
-type="text"
-placeholder="The Ultimate Rivalry">
-
-
-
-<label>
-MANAGER 1
-</label>
-
-
-<input 
-id="managerOne"
-type="text"
-placeholder="Your Name">
-
-
-
-<label>
-MANAGER 2
-</label>
-
-
-<input 
-id="managerTwo"
-type="text"
-placeholder="Opponent Name">
-
-
-
-<label>
-NUMBER OF ROUNDS
-</label>
-
-
-<select id="roundAmount">
-
-
-<option value="1">
-1 Round
-</option>
-
-
-<option value="3">
-3 Rounds
-</option>
-
-
-<option value="5">
-5 Rounds
-</option>
-
-
-<option value="10">
-10 Rounds
-</option>
-
-
-</select>
-
-
-
-<button 
-class="menuButton"
-id="startShowdown">
-
-START SHOWDOWN
-
-</button>
-
-
-
+<label>SHOWDOWN NAME</label>
+<input id="showdownName" type="text" placeholder="The Ultimate Rivalry">
+<label>MANAGER 1</label>
+<input id="managerOne" type="text" placeholder="Your Name">
+<label>MANAGER 2</label>
+<input id="managerTwo" type="text" placeholder="Opponent Name">
+<label>NUMBER OF ROUNDS</label>
+<select id="roundAmount"><option value="1">1 Round</option><option value="3">3 Rounds</option><option value="5">5 Rounds</option><option value="10">10 Rounds</option></select>
+<button class="menuButton" id="startShowdown">START SHOWDOWN</button>
+<button class="backButton" data-back="mainMenu">BACK</button>
 </div>
-
-
 </section>
-
-
-
-
-
-
-
-<section 
-id="leagueWheelScreen"
-class="screen hidden">
-
-
-<h2>
-SELECT LEAGUE
-</h2>
-
-
-
+<section id="leagueWheelScreen" class="screen hidden">
+<h2>SELECT LEAGUE</h2>
 <div class="wheelContainer">
-
-
-<div class="wheelPointer">
-
-▼
-
+<div class="wheelPointer">▼</div>
+<div id="leagueWheel" class="leagueWheel"><div class="wheelTrack"><div class="wheelItem">Premier League</div><div class="wheelItem">LaLiga</div><div class="wheelItem">Bundesliga</div><div class="wheelItem">Serie A</div><div class="wheelItem">Ligue 1</div></div></div>
+<div id="selectedLeague">Spin to select league</div>
+<button class="menuButton" id="spinLeague">SPIN WHEEL</button>
+<button class="backButton" data-back="createShowdown">BACK</button>
 </div>
-
-
-
-<div 
-id="leagueWheel"
-class="leagueWheel">
-
-
-<div class="wheelTrack">
-
-
-<div class="wheelItem">
-
-Premier League
-
-</div>
-
-
-<div class="wheelItem">
-
-LaLiga
-
-</div>
-
-
-<div class="wheelItem">
-
-Bundesliga
-
-</div>
-
-
-<div class="wheelItem">
-
-Serie A
-
-</div>
-
-
-<div class="wheelItem">
-
-Ligue 1
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<div id="selectedLeague">
-
-Spin to select league
-
-</div>
-
-
-
-<button 
-class="menuButton"
-id="spinLeague">
-
-SPIN WHEEL
-
-</button>
-
-
-
-</div>
-
-
 </section>
-
-
-
-
-
-
-
-
-<section 
-id="clubWheelScreen"
-class="screen hidden">
-
-
-<h2>
-SELECT CLUB
-</h2>
-
-
-
-<div class="wheelPlaceholder">
-
-CLUB WHEEL
-
-</div>
-
-
+<section id="clubWheelScreen" class="screen hidden">
+<h2>SELECT CLUB</h2>
+<div class="wheelPlaceholder">CLUB WHEEL</div>
+<button class="backButton" data-back="leagueWheelScreen">BACK</button>
 </section>
-
-
-
-
-
-
-
-
-<section 
-id="dashboard"
-class="screen hidden">
-
-
-<h2>
-CAREER DASHBOARD
-</h2>
-
-
-<div class="playerCards">
-
-
-
-<div class="playerCard">
-
-
-<h3>
-MANAGER 1
-</h3>
-
-
-<p>
-Club
-</p>
-
-
-<p>
-League Position
-</p>
-
-
-<p>
-Points
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="playerCard">
-
-
-<h3>
-MANAGER 2
-</h3>
-
-
-<p>
-Club
-</p>
-
-
-<p>
-League Position
-</p>
-
-
-<p>
-Points
-</p>
-
-
-</div>
-
-
-</div>
-
-
+<section id="dashboard" class="screen hidden">
+<h2>CAREER DASHBOARD</h2>
+<div class="playerCards"><div class="playerCard"><h3>MANAGER 1</h3><p>Club</p><p>League Position</p><p>Points</p></div><div class="playerCard"><h3>MANAGER 2</h3><p>Club</p><p>League Position</p><p>Points</p></div></div>
+<button class="backButton" data-back="mainMenu">BACK</button>
 </section>
-
-
-
-
-
-
-
-
-<section 
-id="legacy"
-class="screen hidden">
-
-
-<h2>
-LEGACY
-</h2>
-
-
-<div class="legacyBox">
-
-
-<p>
-Showdowns Played
-</p>
-
-
-<p>
-Trophies Won
-</p>
-
-
-<p>
-Total Points
-</p>
-
-
-</div>
-
-
+<section id="legacy" class="screen hidden">
+<h2>LEGACY</h2><div class="legacyBox"><p>Showdowns Played</p><p>Trophies Won</p><p>Total Points</p></div>
+<button class="backButton" data-back="mainMenu">BACK</button>
 </section>
-
-
-
-
-
 </main>
-
-
-
-
-
-<footer>
-
-FIFA 17 Career Mode Showdown
-
-<br>
-
-Milestone 4 Development
-
-</footer>
-
-
-
+<footer>FIFA 17 Career Mode Showdown<br>v0.6.1 Development</footer>
 </div>
-
-
-
-
-
 <script src="data/leagues.js"></script>
-
 <script src="js/dataEngine.js"></script>
-
+<script src="js/storage.js"></script>
 <script src="js/screens.js"></script>
-
 <script src="js/showdown.js"></script>
-
 <script src="js/showdownUI.js"></script>
-
 <script src="js/leagueWheel.js"></script>
-
 <script src="js/app.js"></script>
-
-
 </body>
-
 </html>
