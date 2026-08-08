@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.13.1
+   v0.14.0
    Runtime Diagnostics and Performance Integrity
 ===================================================== */
 
@@ -55,7 +55,8 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "openRuleBook",
     "initializeMenuExperience",
     "refreshMainMenuExperience",
-    "selectMenuMedia"
+    "selectMenuMedia",
+    "handleMainMenuExit"
 ];
 
 function testLocalStorageAvailability(){
@@ -111,15 +112,18 @@ function getTransferInputBindingProblems(){
 
 function getMenuMediaProblems(){
     const choices = Array.from(document.querySelectorAll("[data-menu-media-source]"));
-    if(choices.length !== 2){ return ["menu media selector does not contain two choices"]; }
+    if(choices.length !== 7){
+        return [`menu media selector contains ${choices.length} choices instead of 7`];
+    }
 
-    const keys = choices.map(button => button.dataset.menuMediaSource).sort().join(",");
-    return keys === "music,trailer" ? [] : ["menu media choices are invalid"];
+    const expected = ["bastille", "highlow", "move", "music", "shelter", "trailer", "youth"];
+    const keys = choices.map(button => button.dataset.menuMediaSource).sort();
+    return keys.join(",") === expected.join(",") ? [] : ["menu media choices are invalid"];
 }
 
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.13.1" ? [] : [`runtime version is ${version}`];
+    return version === "0.14.0" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
@@ -148,6 +152,7 @@ function runApplicationDiagnostics(){
         versionProblems,
         lazyScreens: ["statistics", "trophyRoom", "ruleBook"],
         transferFieldsChecked: document.querySelectorAll("[data-transfer-field]").length,
+        menuMediaChoicesChecked: document.querySelectorAll("[data-menu-media-source]").length,
         checkedAt: new Date().toISOString()
     };
 
