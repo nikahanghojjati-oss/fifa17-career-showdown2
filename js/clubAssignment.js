@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
+   v0.12.0
    Club Assignment / FUT Style Reveal
 ===================================================== */
 
@@ -27,7 +27,6 @@ function prepareClubAssignment(){
         return;
     }
 
-    currentShowdown = normalizeShowdown(currentShowdown);
     showScreen("clubWheelScreen");
 }
 
@@ -103,8 +102,6 @@ function assignClubs(){
     if(!currentShowdown || !currentShowdown.selectedLeague || clubAssignmentInProgress){
         return;
     }
-
-    currentShowdown = normalizeShowdown(currentShowdown);
 
     const existingIntegrity = typeof getClubPairIntegrity === "function"
         ? getClubPairIntegrity(currentShowdown)
@@ -185,8 +182,6 @@ function continueToShowdownHome(){
     if(!currentShowdown){
         return;
     }
-
-    currentShowdown = normalizeShowdown(currentShowdown);
 
     const integrity = typeof getClubPairIntegrity === "function"
         ? getClubPairIntegrity(currentShowdown)
