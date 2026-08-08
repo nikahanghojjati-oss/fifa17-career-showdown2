@@ -20,6 +20,7 @@ const screens = [
 ];
 
 let screenHistory = [];
+let activeScreenName = null;
 
 function reportRouteError(message, error = null){
     if(typeof window.reportApplicationError === "function"){
@@ -30,10 +31,20 @@ function reportRouteError(message, error = null){
 }
 
 function getActiveScreenName(){
-    return screens.find(name => {
+    if(activeScreenName){
+        const cached = document.getElementById(activeScreenName);
+        if(cached && !cached.classList.contains("hidden")){
+            return activeScreenName;
+        }
+        activeScreenName = null;
+    }
+
+    activeScreenName = screens.find(name => {
         const element = document.getElementById(name);
         return element && !element.classList.contains("hidden");
     }) || null;
+
+    return activeScreenName;
 }
 
 function flushScreenBeforeLeave(currentScreen, nextScreen){
@@ -108,23 +119,31 @@ function showScreen(screenName, addToHistory = true){
         return false;
     }
 
-    if(addToHistory && current && current !== screenName){
+    if(current === screenName){
+        activeScreenName = screenName;
+        return true;
+    }
+
+    if(addToHistory && current){
         screenHistory.push(current);
     }
 
-    screens.forEach(name => {
-        const element = document.getElementById(name);
-        if(element){
-            element.classList.add("hidden");
-            element.removeAttribute("data-route-state");
+    if(current){
+        const currentElement = document.getElementById(current);
+        if(currentElement){
+            currentElement.classList.add("hidden");
+            currentElement.removeAttribute("data-route-state");
         }
-    });
+    }
 
     target.classList.remove("hidden");
     target.setAttribute("data-route-state", "entering");
+    activeScreenName = screenName;
 
     window.requestAnimationFrame(() => {
-        target.removeAttribute("data-route-state");
+        if(activeScreenName === screenName){
+            target.removeAttribute("data-route-state");
+        }
     });
 
     return true;
