@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.14.0
+   v0.14.1
    Performance-Stabilized Screen and Navigation Engine
 ===================================================== */
 
@@ -166,6 +166,11 @@ function goBack(){
 }
 
 function openLegacy(){
+    if(typeof window.openOptionalModule === "function"){
+        window.openOptionalModule("legacy");
+        return;
+    }
+
     if(typeof window.renderLegacy !== "function"){
         reportRouteError("Legacy module is unavailable");
         return;
