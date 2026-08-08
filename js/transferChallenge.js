@@ -72,7 +72,7 @@ function initializeTransferChallenge(){
 
     document.querySelectorAll("[data-transfer-field]").forEach(field => {
         prepareTransferInputForFastEntry(field);
-        bindTransferControl(field, "change", flushTransferDraftSave, "transferChangeBound");
+        bindTransferControl(field, "change", saveTransferFieldChange, "transferChangeBound");
 
         if(field.tagName === "INPUT"){
             bindTransferControl(field, "input", scheduleTransferDraftSave, "transferInputBound");
@@ -427,6 +427,20 @@ function scheduleTransferDraftSave(){
         transferDraftTimer = null;
         flushTransferDraftSave();
     }, TRANSFER_DRAFT_DELAY_MS);
+}
+
+function saveTransferFieldChange(){
+    if(!currentShowdown){
+        return true;
+    }
+
+    const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
+    if(!challenge || challenge.status !== "recording"){
+        return true;
+    }
+
+    transferDraftDirty = true;
+    return flushTransferDraftSave();
 }
 
 function flushTransferDraftSave(){
