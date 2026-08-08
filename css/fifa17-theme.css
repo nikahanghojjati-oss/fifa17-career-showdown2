@@ -1,0 +1,841 @@
+/* =====================================================
+   Career Mode Showdown v0.15.0
+   Original FIFA-17-era Inspired Visual System
+   No EA/FIFA UI assets or proprietary fonts are bundled.
+===================================================== */
+
+:root{
+    --f17-yellow:#f1d807;
+    --f17-yellow-deep:#d5bd00;
+    --f17-cyan:#45b8df;
+    --f17-blue:#2c72aa;
+    --f17-blue-deep:#244e74;
+    --f17-ink:#252b32;
+    --f17-ink-2:#343b43;
+    --f17-ink-3:#454d56;
+    --f17-paper:#edf1f2;
+    --f17-paper-2:#dce3e7;
+    --f17-white:#f9fbfb;
+    --f17-muted:#7f8a94;
+    --f17-line:rgba(34,43,51,.2);
+    --f17-shadow:0 9px 24px rgba(20,35,48,.2);
+    --f17-display:"Arial Narrow","Bahnschrift Condensed","Roboto Condensed","Helvetica Neue Condensed",Arial,sans-serif;
+    --f17-ui:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+
+html{background:#8fb5ca;}
+
+body{
+    font-family:var(--f17-ui);
+    color:var(--f17-ink);
+    background:#8fb5ca;
+    text-rendering:optimizeLegibility;
+    -webkit-font-smoothing:antialiased;
+}
+
+button,input,select,textarea{
+    font-family:var(--f17-display);
+}
+
+/* ---------- Stadium / sky environment ---------- */
+#background{
+    background:
+        radial-gradient(ellipse at 25% 5%,rgba(255,255,255,.92) 0 5%,rgba(255,255,255,.2) 22%,transparent 39%),
+        radial-gradient(ellipse at 73% 12%,rgba(255,255,255,.78) 0 4%,rgba(255,255,255,.12) 21%,transparent 38%),
+        linear-gradient(180deg,#6ea8cf 0%,#a9ccdd 43%,#cbd9d8 44%,#69868a 45%,#43585b 57%,#57766a 58%,#66896f 100%);
+}
+
+#background::before{
+    content:"";
+    position:absolute;
+    left:-3%;
+    right:-3%;
+    top:41%;
+    height:22%;
+    pointer-events:none;
+    background:
+        repeating-linear-gradient(90deg,rgba(18,31,39,.3) 0 34px,rgba(238,214,7,.42) 35px 48px,rgba(18,31,39,.28) 49px 81px),
+        linear-gradient(180deg,rgba(28,39,46,.62),rgba(15,24,28,.73));
+    clip-path:polygon(0 18%,8% 8%,23% 3%,42% 9%,58% 2%,78% 8%,92% 4%,100% 14%,100% 100%,0 100%);
+    opacity:.44;
+}
+
+#background::after{
+    content:"";
+    position:absolute;
+    left:-8%;
+    right:-8%;
+    bottom:-7%;
+    height:47%;
+    pointer-events:none;
+    background:
+        linear-gradient(90deg,transparent 49.86%,rgba(255,255,255,.32) 49.9% 50.1%,transparent 50.14%),
+        repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 9%,rgba(21,69,43,.045) 9% 18%),
+        linear-gradient(180deg,#5d8966,#376443);
+    transform:perspective(500px) rotateX(18deg);
+    transform-origin:bottom;
+    opacity:.74;
+}
+
+#overlay{
+    background:linear-gradient(90deg,rgba(232,239,242,.18),rgba(22,39,52,.04) 54%,rgba(11,25,35,.18));
+}
+
+/* ---------- Loading ---------- */
+#loadingScreen{
+    color:var(--f17-ink);
+    background:
+        linear-gradient(118deg,rgba(241,216,7,.96) 0 8px,transparent 8px),
+        linear-gradient(135deg,#eef2f3 0 62%,#6fb5d8 62% 100%);
+}
+
+.loadingContent{
+    min-width:min(560px,88vw);
+    padding:30px 36px;
+    text-align:left;
+    border-left:8px solid var(--f17-yellow);
+    background:rgba(249,251,251,.84);
+    box-shadow:var(--f17-shadow);
+}
+
+.loadingContent h1,.loadingContent h2,
+.brand h1,.brand p,.screen h2,.fifaMenuHeading h2,
+.menuTileLabel,.menuMusicHeader strong{
+    font-family:var(--f17-display);
+    font-stretch:condensed;
+    text-transform:uppercase;
+}
+
+.loadingContent h1{
+    color:var(--f17-ink);
+    font-size:clamp(42px,7vw,74px);
+    font-weight:900;
+    letter-spacing:-1.5px;
+    line-height:.8;
+}
+
+.loadingContent h2{
+    margin-top:10px;
+    color:var(--f17-blue);
+    font-size:clamp(24px,4vw,38px);
+    font-weight:700;
+    letter-spacing:5px;
+}
+
+#loadingText{
+    margin-top:28px;
+    color:#66727c;
+    font:700 13px/1.3 var(--f17-display);
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+/* ---------- Header / original wordmark ---------- */
+#topHeader{
+    position:relative;
+    min-height:78px;
+    padding:13px clamp(22px,4vw,58px);
+    color:var(--f17-ink);
+    background:linear-gradient(90deg,rgba(246,248,248,.96) 0 68%,rgba(220,228,231,.93) 68% 100%);
+    border-bottom:1px solid rgba(40,49,57,.16);
+    box-shadow:0 4px 12px rgba(22,37,49,.12);
+    z-index:3;
+}
+
+#topHeader::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-4px;
+    width:34%;
+    height:4px;
+    background:linear-gradient(90deg,var(--f17-yellow) 0 72%,var(--f17-cyan) 72% 100%);
+}
+
+.brand{
+    position:relative;
+    display:grid;
+    grid-template-columns:auto auto;
+    align-items:end;
+    gap:10px;
+    padding-left:14px;
+}
+
+.brand::before{
+    content:"17";
+    position:absolute;
+    left:-4px;
+    top:-4px;
+    color:var(--f17-yellow-deep);
+    font:900 12px/1 var(--f17-display);
+    letter-spacing:0;
+}
+
+.brand h1{
+    color:var(--f17-ink);
+    font-size:clamp(24px,3vw,38px);
+    font-weight:900;
+    letter-spacing:-1px;
+    line-height:.88;
+}
+
+.brand p{
+    color:var(--f17-blue);
+    font-size:clamp(13px,1.7vw,20px);
+    font-weight:800;
+    letter-spacing:2.5px;
+    line-height:1;
+}
+
+.seasonIndicator{
+    position:relative;
+    max-width:42vw;
+    padding:10px 18px 9px 24px;
+    color:var(--f17-white);
+    background:var(--f17-ink-2);
+    border:0;
+    border-radius:0;
+    font:800 13px/1 var(--f17-display);
+    letter-spacing:1.4px;
+    text-transform:uppercase;
+    clip-path:polygon(11px 0,100% 0,calc(100% - 11px) 100%,0 100%);
+}
+
+.seasonIndicator::before{
+    content:"";
+    position:absolute;
+    left:6px;
+    top:0;
+    width:4px;
+    height:100%;
+    background:var(--f17-yellow);
+    transform:skewX(-14deg);
+}
+
+/* ---------- Page rhythm ---------- */
+main{
+    padding-top:20px;
+    scrollbar-color:var(--f17-blue) rgba(255,255,255,.22);
+}
+
+.screen:not(#mainMenu){
+    width:min(1180px,96vw);
+    margin:0 auto;
+    padding:0 10px 42px;
+}
+
+.screen:not(#mainMenu) > h2{
+    width:min(1040px,94vw);
+    margin:0 auto 18px;
+    padding:11px 18px 10px 25px;
+    color:var(--f17-ink);
+    background:linear-gradient(90deg,rgba(247,249,249,.95),rgba(233,238,240,.88));
+    border-left:7px solid var(--f17-yellow);
+    box-shadow:0 5px 14px rgba(22,35,46,.12);
+    font-size:clamp(26px,3.2vw,40px);
+    font-weight:800;
+    letter-spacing:-.3px;
+    line-height:1;
+    text-align:left;
+}
+
+/* ---------- Main menu ---------- */
+#mainMenu{
+    width:min(1180px,95vw);
+    margin:0 auto;
+    padding:0 0 28px;
+}
+
+#mainMenu::before,#mainMenu::after{display:none;}
+
+.fifaMenuShell{gap:9px;}
+
+.fifaMenuHeading{
+    min-height:56px;
+    padding:0 3px 8px;
+    align-items:end;
+    border-bottom:1px solid rgba(34,43,51,.23);
+}
+
+.fifaMenuEyebrow{
+    color:var(--f17-blue-deep);
+    font:800 10px/1 var(--f17-display);
+    letter-spacing:2.4px;
+}
+
+.fifaMenuHeading h2{
+    color:var(--f17-ink);
+    font-size:clamp(35px,5vw,58px);
+    font-weight:900;
+    letter-spacing:-2px;
+}
+
+.fifaMenuHeadingMeta{
+    color:#46545f;
+    font-size:11px;
+    font-weight:600;
+}
+
+.fifaMenuGrid{
+    grid-template-columns:repeat(12,minmax(0,1fr));
+    grid-auto-rows:112px;
+    gap:6px;
+}
+
+.menuTile,.menuMusicTile{
+    border:0;
+    border-radius:0;
+    box-shadow:0 5px 12px rgba(21,35,45,.16);
+}
+
+.menuTile{
+    padding:14px 17px;
+    color:var(--f17-white);
+    background:var(--f17-ink-2);
+    transition:transform 80ms ease,filter 80ms ease;
+}
+
+.menuTile::before{
+    background:linear-gradient(145deg,rgba(255,255,255,.08),transparent 40%);
+}
+
+.menuTile::after{
+    top:auto;
+    bottom:0;
+    width:100%;
+    height:4px;
+    background:var(--f17-cyan);
+}
+
+.menuTile:hover:not(:disabled),.menuTile:focus-visible{
+    transform:translateY(-2px);
+    filter:brightness(1.04);
+    box-shadow:0 7px 15px rgba(21,35,45,.22);
+}
+
+.menuTile:focus-visible{
+    outline:0;
+    box-shadow:inset 0 0 0 3px var(--f17-yellow),0 7px 15px rgba(21,35,45,.22);
+}
+
+.menuTileLabel{
+    font-size:clamp(20px,2.2vw,29px);
+    font-weight:800;
+    letter-spacing:-.5px;
+}
+
+.menuTileMeta{
+    max-width:92%;
+    color:rgba(248,250,250,.75);
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.1px;
+}
+
+.menuTileCode{
+    top:10px;
+    right:12px;
+    color:rgba(255,255,255,.66);
+    font:800 9px/1 var(--f17-display);
+    letter-spacing:1.5px;
+}
+
+.menuMusicTile{
+    grid-column:1/-1;
+    grid-row:1;
+    min-height:112px;
+    padding:10px 12px;
+    display:grid;
+    grid-template-columns:minmax(160px,.8fr) minmax(420px,2.4fr) minmax(180px,.8fr);
+    grid-template-areas:
+        "mediaHead mediaSelect mediaControls"
+        "mediaStatus mediaSelect mediaPlayer";
+    grid-template-rows:auto 1fr;
+    gap:5px 10px;
+    color:var(--f17-white);
+    background:linear-gradient(100deg,#242b32,#343c45 64%,#244d71);
+    border-left:0;
+    border-top:4px solid var(--f17-yellow);
+    transition:min-height 120ms ease;
+}
+
+.menuMusicTile[data-media-kind="video"]{
+    background:linear-gradient(100deg,#252c33,#34434d 64%,#28698a);
+    border-top-color:var(--f17-cyan);
+}
+
+.menuMusicTile[data-media-loaded="true"]{min-height:172px;}
+.menuMusicHeader{grid-area:mediaHead;align-self:start;}
+.menuMusicHeader span{color:var(--f17-yellow);font:800 8px/1 var(--f17-display);letter-spacing:1.7px;}
+.menuMusicTile[data-media-kind="video"] .menuMusicHeader span{color:#7edcf0;}
+.menuMusicHeader strong{margin-top:4px;font-size:17px;font-weight:800;letter-spacing:-.25px;}
+.menuMusicArtist{color:#b8c2cb;font-size:9px;}
+.menuMusicSource{color:#73808c;font-size:7px;}
+
+.menuMediaSelector{
+    grid-area:mediaSelect;
+    display:flex;
+    align-items:stretch;
+    gap:3px;
+    max-height:none;
+    min-width:0;
+    padding:0 0 2px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:thin;
+    scrollbar-color:var(--f17-yellow) rgba(255,255,255,.08);
+}
+
+.menuMediaChoice{
+    flex:0 0 132px;
+    min-height:43px;
+    padding:5px 7px;
+    border:0;
+    border-bottom:3px solid rgba(255,255,255,.14);
+    color:#c1cad2;
+    background:rgba(4,11,17,.27);
+}
+
+.menuMediaChoice strong{font:800 9px/1 var(--f17-display);letter-spacing:.25px;}
+.menuMediaChoice small{color:#89949e;font-size:7px;}
+.menuMediaChoice:hover,.menuMediaChoice:focus-visible{background:rgba(255,255,255,.08);border-color:var(--f17-cyan);}
+.menuMediaChoice.selected{color:var(--f17-ink);background:var(--f17-yellow);border-color:#fff;}
+.menuMediaChoice.selected small{color:#4f5357;}
+.menuMusicTile[data-media-kind="video"] .menuMediaChoice.selected{background:var(--f17-cyan);}
+
+.menuMusicPlayer{
+    grid-area:mediaPlayer;
+    min-height:38px;
+    background:rgba(6,12,17,.55);
+    border:0;
+    border-left:3px solid rgba(255,255,255,.14);
+}
+.menuMusicTile[data-media-loaded="true"] .menuMusicPlayer{min-height:92px;}
+.menuMusicPlayer iframe{min-height:92px;}
+.menuMusicPlaceholder{padding:7px;color:#9faab3;font-size:8px;}
+.menuMusicStatus{grid-area:mediaStatus;align-self:end;color:#98a4ae;font-size:8px;letter-spacing:.7px;}
+.menuMusicControls{grid-area:mediaControls;align-self:start;grid-template-columns:1fr auto;gap:4px;}
+.menuMusicControl{
+    min-height:31px;
+    padding:0 10px;
+    border:0;
+    color:#f5f7f7;
+    background:#1b2025;
+    font-size:9px;
+    letter-spacing:.8px;
+}
+.menuMusicControl:hover:not(:disabled),.menuMusicControl:focus-visible{color:var(--f17-ink);background:var(--f17-yellow);}
+
+.menuTilePrimary{
+    grid-column:1/span 7;
+    grid-row:2/span 2;
+    min-height:230px;
+    padding:21px 43% 20px 21px;
+    color:var(--f17-ink);
+    background:linear-gradient(108deg,#f6f8f8 0 58%,#d8e2e6 58% 100%);
+}
+.menuTilePrimary::after{height:6px;background:var(--f17-yellow);}
+.menuTilePrimary::before{background:linear-gradient(135deg,rgba(255,255,255,.8),transparent 42%);}
+.menuTilePrimary .menuTileLabel{color:var(--f17-ink);font-size:clamp(31px,4.2vw,50px);letter-spacing:-1.5px;}
+.menuTilePrimary .menuTileMeta{color:#52606b;font-size:11px;}
+.menuTilePrimary .menuTileCode{left:21px;right:auto;color:var(--f17-blue);}
+.menuTilePrimary:disabled .menuTileLabel,.menuTilePrimary:disabled .menuTileMeta{opacity:.46;}
+
+.menuTileNew{grid-column:8/span 5;grid-row:2;background:#2e77ad;}
+.menuTileLegacy{grid-column:8/span 5;grid-row:3;background:#303840;}
+.menuTileTrophy{grid-column:1/span 6;grid-row:4;background:#e8edef;color:var(--f17-ink);}
+.menuTileRules{grid-column:7/span 6;grid-row:4;background:#dce4e7;color:var(--f17-ink);}
+.menuTileTrophy .menuTileMeta,.menuTileRules .menuTileMeta{color:#596670;}
+.menuTileTrophy .menuTileCode,.menuTileRules .menuTileCode{color:#61717e;}
+.menuTileTrophy::after{background:var(--f17-blue);}.menuTileRules::after{background:var(--f17-yellow);}
+
+.menuTile:not(:disabled):hover{background:var(--f17-yellow);color:var(--f17-ink);}
+.menuTile:not(:disabled):hover .menuTileMeta,.menuTile:not(:disabled):hover .menuTileCode{color:#57564d;}
+.menuTilePrimary:not(:disabled):hover{background:linear-gradient(108deg,#f1d807 0 58%,#e1c900 58% 100%);}
+
+.menuCoverAthlete{
+    width:43%;
+    clip-path:polygon(22% 0,100% 0,100% 100%,0 100%);
+    background:linear-gradient(155deg,#54bfe5,#2c6fa5);
+}
+.menuCoverAthlete::before{background:linear-gradient(90deg,#eef2f2 0%,rgba(238,242,242,.72) 14%,transparent 41%),linear-gradient(0deg,rgba(28,41,51,.8),transparent 48%);}
+.menuCoverAthlete img{filter:saturate(.85) contrast(1.03);}
+.menuCoverNumber{color:rgba(255,255,255,.13);font-family:var(--f17-display);font-style:italic;}
+.menuCoverTag{right:10px;bottom:10px;padding:5px 8px;color:var(--f17-ink);background:var(--f17-yellow);font:900 11px/1 var(--f17-display);}
+.menuCoverTag small{font-family:var(--f17-ui);font-size:6px;}
+.menuAthleteCredit{margin:2px 3px 0;color:#44515b;font-size:7px;}
+.menuAthleteCredit a{color:#315f80;}
+.menuBottomStrip{min-height:28px;color:#3f4d57;font-size:8px;}
+.menuBottomStrip strong{color:#504800;background:rgba(241,216,7,.64);padding:3px 6px;}
+
+/* ---------- Forms / generic controls ---------- */
+.setupBox,
+.transferManagerCard,.transferGuessCard,.transferResultsCard,
+.seasonResultCard,.seasonSummaryCard,.showdownOverview,.overallScoreBox,
+.playerCard,.legacyBox{
+    color:var(--f17-ink);
+    background:rgba(244,247,247,.94)!important;
+    border:0;
+    border-radius:0;
+    box-shadow:var(--f17-shadow);
+}
+
+.setupBox{
+    width:min(600px,92vw);
+    gap:13px;
+    padding:25px 28px 28px;
+    border-top:5px solid var(--f17-blue);
+}
+.setupBox label,.seasonResultCard > label{
+    color:#4f5c66;
+    font:800 11px/1.2 var(--f17-display);
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+}
+
+.setupBox input,.setupBox select,
+.signingRow input,.guessRow input,.guessRow select,
+.seasonResultCard input[type="number"]{
+    height:43px;
+    color:var(--f17-ink);
+    background:#fff!important;
+    border:1px solid #b8c3c9;
+    border-bottom:3px solid #82939e;
+    border-radius:0;
+    font-family:var(--f17-ui);
+    font-size:15px;
+    transition:border-color 70ms ease,box-shadow 70ms ease!important;
+}
+
+.setupBox input:focus,.setupBox select:focus,
+.signingRow input:focus,.guessRow input:focus,.guessRow select:focus,
+.seasonResultCard input[type="number"]:focus{
+    color:var(--f17-ink);
+    background:#fff!important;
+    border-color:var(--f17-blue)!important;
+    border-bottom-color:var(--f17-yellow)!important;
+    box-shadow:0 0 0 2px rgba(44,114,170,.12);
+}
+
+.setupBox input::placeholder,.signingRow input::placeholder,.guessRow input::placeholder{color:#9ba5ac;}
+.setupBox select option,.guessRow select option{color:var(--f17-ink);}
+
+.menuButton,.backButton,.compactButton{
+    border-radius:0;
+    font-family:var(--f17-display);
+    font-weight:800;
+    text-transform:uppercase;
+}
+
+.menuButton{
+    position:relative;
+    min-height:50px;
+    color:var(--f17-white);
+    background:var(--f17-ink-2);
+    border:0;
+    border-left:5px solid var(--f17-cyan);
+    font-size:17px;
+    letter-spacing:.7px;
+    transition:transform 75ms ease,background-color 75ms ease,color 75ms ease!important;
+}
+.menuButton:hover:not(:disabled),.menuButton:focus-visible{
+    color:var(--f17-ink);
+    background:var(--f17-yellow);
+    border-left-color:#fff;
+    transform:translateX(4px);
+}
+.menuButton:focus-visible,.backButton:focus-visible,.compactButton:focus-visible,
+input:focus-visible,select:focus-visible,summary:focus-visible{
+    outline:2px solid var(--f17-yellow)!important;
+    outline-offset:2px;
+}
+.menuButton:disabled{filter:saturate(.25);}
+
+.backButton{
+    min-height:42px;
+    margin-top:14px;
+    color:var(--f17-white);
+    background:#555f68;
+    border:0;
+    border-left:4px solid #7e8992;
+    font-size:13px;
+    letter-spacing:1px;
+}
+.backButton:hover:not(:disabled),.backButton:focus-visible{color:var(--f17-ink);background:#cfd7da;transform:translateX(-3px);}
+.dangerButton{background:#653e43;border-left-color:#c9686f;}
+
+/* ---------- League wheel ---------- */
+.wheelContainer{
+    width:min(720px,94vw);
+    margin:0 auto;
+    padding:25px 24px 28px;
+    gap:18px;
+    background:rgba(241,245,246,.93);
+    box-shadow:var(--f17-shadow);
+}
+.wheelPointer{height:30px;color:var(--f17-yellow-deep);font-size:34px;}
+.leagueWheel{
+    width:min(350px,76vw);
+    height:min(350px,76vw);
+    background:radial-gradient(circle,#397eae 0 24%,#2c5c82 25% 54%,#2b3239 55% 100%);
+    border:7px solid #f5f7f7;
+    outline:4px solid #2e363e;
+    box-shadow:0 7px 20px rgba(22,35,45,.24);
+}
+.wheelItem{
+    color:#fff;
+    background:rgba(35,42,49,.86);
+    border:0;
+    border-left:4px solid var(--f17-yellow);
+    border-radius:0;
+    font-family:var(--f17-display);
+    font-weight:800;
+    text-transform:uppercase;
+}
+#selectedLeague{color:var(--f17-ink);font:900 25px/1 var(--f17-display);text-transform:uppercase;}
+
+/* ---------- Club assignment / original crests ---------- */
+.clubAssignmentHeader{
+    margin-bottom:15px;
+    padding:11px 16px;
+    color:var(--f17-ink);
+    background:rgba(245,248,248,.93);
+    border-left:6px solid var(--f17-cyan);
+    box-shadow:0 4px 12px rgba(22,35,45,.12);
+}
+#clubAssignmentLeague{color:var(--f17-ink);font:900 25px/1 var(--f17-display);}
+#clubPackStatus{color:#69600b;font:800 11px/1 var(--f17-display);}
+.clubRevealArea{gap:12px;}
+.clubRevealCard{
+    min-height:290px;
+    padding:10px;
+    color:var(--f17-ink);
+    background:#e8edef;
+    border:0;
+    border-top:6px solid var(--f17-yellow);
+    border-radius:0;
+    box-shadow:var(--f17-shadow);
+}
+.clubManager{color:#54616a;font:800 11px/1 var(--f17-display);}
+.clubCardFace{
+    min-height:235px;
+    border-radius:0;
+    color:var(--f17-white);
+    background:linear-gradient(145deg,#343c44,#23292f);
+}
+.clubCardLabel{color:#aeb9c2;font:800 9px/1 var(--f17-display);}
+.clubCardFace strong{color:#fff;font:900 clamp(23px,3vw,31px)/1.05 var(--f17-display);}
+.clubVs{color:var(--f17-ink);font:900 23px/1 var(--f17-display);}
+
+[data-club-identity="true"]{position:relative;}
+[data-club-identity="true"]::before{
+    content:attr(data-club-initials);
+    display:inline-grid;
+    place-items:center;
+    width:38px;
+    height:43px;
+    margin-right:9px;
+    vertical-align:middle;
+    color:#fff;
+    background:linear-gradient(var(--club-angle,40deg),var(--club-primary,#2c72aa) 0 58%,var(--club-secondary,#45b8df) 58% 100%);
+    border:2px solid rgba(255,255,255,.8);
+    clip-path:polygon(12% 0,88% 0,100% 16%,88% 79%,50% 100%,12% 79%,0 16%);
+    font:900 11px/1 var(--f17-display);
+    letter-spacing:-.3px;
+    text-shadow:0 1px 1px rgba(0,0,0,.35);
+    box-shadow:0 2px 5px rgba(0,0,0,.18);
+}
+.clubCardFace [data-club-identity="true"]{display:grid;justify-items:center;gap:8px;padding:0 12px;}
+.clubCardFace [data-club-identity="true"]::before{width:70px;height:80px;margin:0;font-size:18px;}
+
+/* ---------- Dashboard ---------- */
+.showdownOverview{
+    grid-template-columns:2fr 1fr 1fr;
+    padding:15px 19px;
+    border-left:7px solid var(--f17-blue);
+}
+.overviewName{color:var(--f17-ink);font:900 23px/1 var(--f17-display);text-transform:uppercase;}
+.overviewStatus{color:#6a6007;font-weight:800;}
+.transferOverviewStatus{color:#416c8c;font-weight:700;}
+.showdownScoreboard{
+    color:#fff!important;
+    background:linear-gradient(100deg,#252c32,#3c464f)!important;
+    border:0;
+    border-bottom:5px solid var(--f17-yellow);
+    border-radius:0;
+    box-shadow:var(--f17-shadow);
+}
+.showdownScoreboard span{color:var(--f17-yellow);font:900 54px/.9 var(--f17-display);font-variant-numeric:tabular-nums;}
+.showdownScoreboard small,.scoreDivider{color:#c6ced4;}
+.playerCards{gap:8px;}
+.playerCard{
+    width:330px;
+    min-height:185px!important;
+    padding:21px;
+    border-top:5px solid var(--f17-cyan)!important;
+}
+.playerCard:nth-child(2){border-top-color:var(--f17-yellow)!important;}
+.playerCard h3{color:var(--f17-ink);font:900 25px/1 var(--f17-display);}
+#dashboard .playerCard p{color:#5b6872;border-bottom:1px solid #cbd2d6;}
+#dashboard .playerCard .clubName{color:var(--f17-ink);font:800 19px/1.15 var(--f17-display);}
+
+/* ---------- Transfer challenge ---------- */
+.transferHero{
+    padding:17px 23px;
+    color:#fff;
+    background:linear-gradient(105deg,#2e353c,#37546a);
+    border:0;
+    border-left:7px solid var(--f17-yellow);
+    border-radius:0;
+    box-shadow:var(--f17-shadow);
+}
+.transferRulesLine{font-family:var(--f17-display);font-size:12px;}
+#transferPhaseStatus{color:var(--f17-yellow);font:800 11px/1 var(--f17-display);}
+.transferTimer{color:#fff;font:900 58px/1 var(--f17-display);text-shadow:none;}
+.transferRuleNote{color:#c8d1d7;}
+.transferManagersGrid,.transferGuessesGrid,.transferResultsGrid{gap:8px;}
+.transferManagerCard,.transferGuessCard,.transferResultsCard{padding:20px;border-top:5px solid var(--f17-blue);}
+.transferManagerCard:nth-child(2),.transferGuessCard:nth-child(2),.transferResultsCard:nth-child(2){border-top-color:var(--f17-yellow);}
+.transferSectionLabel{color:#47799c;font:800 10px/1 var(--f17-display);}
+.signingRow > span,.guessRow > span{
+    color:var(--f17-ink);
+    background:var(--f17-yellow);
+    border-radius:0;
+    clip-path:polygon(0 0,100% 0,82% 100%,0 100%);
+    font-family:var(--f17-display);
+}
+.transferGuessCard h3,.transferChallengeResults > h3{color:var(--f17-ink);font-family:var(--f17-display);}
+.transferResultRow{border-radius:0;}
+.transferResultRow.safe{background:#dfeee5;border:0;border-left:4px solid #3c9761;}
+.transferResultRow.release{background:#f1dede;border:0;border-left:4px solid #b95055;}
+
+/* ---------- Season entry / summary ---------- */
+.seasonEntryHint{
+    margin-top:-5px;
+    padding:10px 15px;
+    color:#485761;
+    background:rgba(242,246,247,.88);
+    border-left:5px solid var(--f17-cyan);
+    text-align:left;
+}
+.seasonEntryGrid,.seasonSummaryGrid{gap:8px;}
+.seasonResultCard,.seasonSummaryCard{padding:21px;border-top:5px solid var(--f17-blue);}
+.seasonResultCard:nth-child(2),.seasonSummaryCard:nth-child(2){border-top-color:var(--f17-yellow);}
+.seasonManagerHeader{border-bottom:1px solid #cbd2d6;}
+.seasonManagerHeader h3,.seasonSummaryCard h3{color:var(--f17-ink);font:900 24px/1 var(--f17-display);}
+.seasonManagerHeader p,.summaryClub{color:#596771;font-weight:700;}
+.achievementChecks{gap:5px;}
+.achievementChecks label{
+    color:#3d4850;
+    background:#e8edef;
+    border:0;
+    border-left:3px solid #9aa8b1;
+    border-radius:0;
+    font-size:12px;
+}
+.achievementChecks label:has(input:checked){background:#f5e96e;border-left-color:#837500;}
+.achievementChecks input{accent-color:#2e73a8;}
+.summaryResult{color:var(--f17-ink);font:800 19px/1 var(--f17-display);text-transform:uppercase;}
+.summaryLine{color:#596670;border-color:#ccd3d7;}
+.summaryLine strong{color:var(--f17-ink);}
+.summaryTotal{color:var(--f17-ink);background:var(--f17-yellow);border-radius:0;font-family:var(--f17-display);}
+.overallScoreBox{border-left:6px solid var(--f17-yellow);}
+.overallScoreBox span{color:#66737d;}
+.overallScoreBox strong{color:var(--f17-ink);font:900 25px/1 var(--f17-display);}
+
+/* ---------- Lazy views ---------- */
+#legacy,.analyticsScreen,.ruleBookScreen{color:var(--f17-ink);}
+.legacyStat,.legacyShowdownCard,.analyticsStatCard,.managerCabinet,.recordCard,.ruleSection,.ruleBookHero,.careerStandings,.comparisonTable,.seasonProgressionRow{
+    border-radius:0!important;
+    box-shadow:var(--f17-shadow)!important;
+}
+.legacyStat,.analyticsStatCard,.recordCard,.managerCabinet,.ruleSection,.careerStandings,.comparisonTable,.seasonProgressionRow{
+    color:var(--f17-ink)!important;
+    background:rgba(244,247,247,.95)!important;
+    border:0!important;
+}
+.legacyStat{border-top:4px solid var(--f17-blue)!important;}
+.legacyStat span,.analyticsStatCard span,.recordCard span{color:#65727c!important;}
+.legacyStat strong,.analyticsStatCard strong,.recordCard strong{color:var(--f17-ink)!important;font-family:var(--f17-display);}
+.legacySectionHeading,.analyticsSectionHeading{color:var(--f17-ink)!important;font-family:var(--f17-display);border-left:5px solid var(--f17-yellow);padding-left:10px;}
+.ruleBookHero{color:#fff!important;background:linear-gradient(105deg,#2b3239,#3b586d)!important;border:0!important;border-left:7px solid var(--f17-yellow)!important;}
+.ruleBookHero strong,.ruleBookHero p{color:#fff!important;}
+.ruleBookHero > span{color:#8ed9ef!important;}
+
+/* ---------- Runtime feedback ---------- */
+#appRuntimeNotice{
+    color:#fff;
+    background:#303840;
+    border:0;
+    border-left:6px solid var(--f17-yellow);
+    border-radius:0;
+    box-shadow:var(--f17-shadow);
+    font-size:13px;
+}
+#appRuntimeNotice.error{border-left-color:#cf5961;}
+#appRuntimeNotice.success{border-left-color:#55a879;}
+.formError:not(:empty),#seasonEntryError:not(:empty),#transferChallengeError:not(:empty){
+    color:#7e3036;
+    background:#f3e3e4;
+    border:0;
+    border-left:5px solid #bb4b52;
+    border-radius:0;
+}
+.stateNote{color:#495965;background:rgba(240,244,245,.94);border:0;border-left:4px solid var(--f17-cyan);border-radius:0;}
+.stateNote.locked{color:#5a530d;background:#f4edb8;border-left-color:var(--f17-yellow-deep);}
+
+footer{
+    position:relative;
+    bottom:auto;
+    flex:0 0 auto;
+    min-height:32px;
+    padding:7px 18px;
+    color:#d5dde2;
+    background:rgba(36,43,50,.88);
+    border-top:2px solid rgba(241,216,7,.72);
+    font:600 9px/1.2 var(--f17-ui);
+    letter-spacing:.4px;
+    opacity:1;
+}
+
+/* ---------- Responsive ---------- */
+@media(max-width:900px){
+    #topHeader{min-height:66px;padding:10px 20px;}
+    .fifaMenuGrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;}
+    .menuMusicTile{grid-column:1/-1;grid-row:auto;grid-template-columns:1fr 1.6fr;grid-template-areas:"mediaHead mediaControls" "mediaSelect mediaSelect" "mediaStatus mediaPlayer";min-height:150px;}
+    .menuTilePrimary,.menuTileNew,.menuTileLegacy,.menuTileTrophy,.menuTileRules{grid-column:span 1;grid-row:auto;min-height:145px;}
+    .menuTilePrimary{min-height:210px;padding-right:42%;}
+    .screen:not(#mainMenu){width:98vw;}
+}
+
+@media(max-width:700px){
+    #topHeader{align-items:flex-start;gap:10px;}
+    .brand{grid-template-columns:1fr;gap:2px;}
+    .brand h1{font-size:25px}.brand p{font-size:12px}.seasonIndicator{max-width:46vw;font-size:10px;padding:8px 12px 8px 18px;}
+    main{padding:12px 0 54px;}
+    .screen:not(#mainMenu)>h2{font-size:26px;padding:9px 13px 8px 17px;}
+    .fifaMenuHeading{align-items:flex-start;}.fifaMenuHeadingMeta{text-align:left;}
+    .fifaMenuGrid{grid-template-columns:1fr;}
+    .menuMusicTile{grid-column:1;grid-template-columns:1fr;grid-template-areas:"mediaHead" "mediaSelect" "mediaControls" "mediaStatus" "mediaPlayer";min-height:190px;}
+    .menuMediaSelector{max-width:100%;}.menuMediaChoice{flex-basis:120px;}
+    .menuTilePrimary,.menuTileNew,.menuTileLegacy,.menuTileTrophy,.menuTileRules{grid-column:1;min-height:112px;}
+    .menuTilePrimary{min-height:190px;padding-right:39%;}.menuCoverTag{font-size:8px;}.menuCoverTag small{font-size:5px;}
+    .setupBox,.transferManagerCard,.transferGuessCard,.transferResultsCard,.seasonResultCard,.seasonSummaryCard{padding:16px;}
+    .showdownOverview{grid-template-columns:1fr;text-align:left;}
+    .playerCards{gap:7px;}.playerCard{width:94%;}
+    .showdownScoreboard{gap:12px;padding:14px 17px;}.showdownScoreboard span{font-size:43px;}
+    [data-club-identity="true"]::before{width:32px;height:37px;font-size:9px;}
+    .clubCardFace [data-club-identity="true"]::before{width:58px;height:67px;font-size:15px;}
+}
+
+@media(max-width:480px){
+    #topHeader{padding:9px 12px;}.seasonIndicator{max-width:50vw;}
+    #mainMenu{width:95vw;}.fifaMenuHeading h2{font-size:38px;}
+    .menuTilePrimary{padding-right:35%;}.menuCoverAthlete{width:40%;}.menuCoverTag{display:none;}
+    .menuMusicControls{grid-template-columns:1fr 1fr;}
+    .wheelContainer{padding:19px 10px 23px;}
+}
+
+@media(prefers-reduced-motion:reduce){
+    .menuTile,.menuMusicTile,.menuButton,.backButton,.menuCoverAthlete img{transition:none!important;}
+}
