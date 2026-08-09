@@ -7,6 +7,8 @@
 #transferChallenge[data-transfer-phase="guess_entry"]{--transfer-accent:var(--f17-cyan);}
 #transferChallenge[data-transfer-phase="signing_entry"]{--transfer-accent:var(--f17-yellow);}
 #transferChallenge[data-transfer-phase="completed"]{--transfer-accent:#68b77b;}
+#transferChallenge:not([data-transfer-phase="window"]) .transferHero,
+#transferChallenge:not([data-transfer-phase="window"]) .transferTimerActions{display:none;}
 
 .transferPhaseNavigator{
     width:min(1000px,94vw);margin:0 auto 12px;display:grid;
