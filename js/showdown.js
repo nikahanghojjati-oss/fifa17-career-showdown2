@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
+   v0.16.0
    Showdown State Manager and Integrity Repair
 ===================================================== */
 
@@ -97,9 +97,21 @@ function createShowdown(){
     showScreen("leagueWheelScreen");
 }
 
+function isLeagueDatabaseReady(){
+    return typeof leagues !== "undefined" && Array.isArray(leagues);
+}
+
 function getCanonicalLeague(league){
-    if(!league || !league.id || typeof leagues === "undefined" || !Array.isArray(leagues)){
+    if(!league || !league.id){
         return null;
+    }
+
+    /*
+       The gameplay database is lazy in v0.16. A persisted league is not invalid
+       merely because the league data package has not been requested yet.
+    */
+    if(!isLeagueDatabaseReady()){
+        return league;
     }
 
     return leagues.find(item => item.id === league.id) || null;
@@ -109,6 +121,7 @@ function getClubPairIntegrity(showdown){
     const result = {
         complete: false,
         valid: false,
+        verified: false,
         reason: ""
     };
 
@@ -142,9 +155,13 @@ function getClubPairIntegrity(showdown){
         return result;
     }
 
-    const eligible = typeof getClubsForLeague === "function"
-        ? getClubsForLeague(showdown.selectedLeague.id)
-        : [];
+    if(typeof getClubsForLeague !== "function"){
+        result.valid = true;
+        return result;
+    }
+
+    const eligible = getClubsForLeague(showdown.selectedLeague.id);
+    result.verified = true;
 
     if(!eligible.includes(one) || !eligible.includes(two)){
         result.reason = "Assigned clubs do not belong to the selected league.";
@@ -340,11 +357,6 @@ function getShowdownWinner(showdown = currentShowdown){
     return "draw";
 }
 
-/*
-   This accessor is intentionally hot-path safe. State is normalized at creation,
-   resume, and major route boundaries; timer ticks and keystrokes must not trigger
-   score recalculation or integrity repair.
-*/
 function getTransferChallengeForSeason(seasonNumber){
     if(!currentShowdown || !Array.isArray(currentShowdown.transferChallenges)){
         return null;
@@ -361,5 +373,6 @@ function isTransferChallengeComplete(seasonNumber){
     return Boolean(challenge && challenge.status === "completed");
 }
 
+window.isLeagueDatabaseReady = isLeagueDatabaseReady;
 window.ensureCurrentShowdownNormalized = ensureCurrentShowdownNormalized;
 window.needsShowdownNormalization = needsShowdownNormalization;
