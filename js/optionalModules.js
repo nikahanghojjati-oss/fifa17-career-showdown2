@@ -7,7 +7,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "0.95.0-r5";
+    return revision || "0.95.0-r6";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -340,11 +340,23 @@ async function ensureRuleBookModule(){
     await stylePromise;
 }
 
+async function ensureSettingsModule(){
+    const stylePromise = loadRuntimeStyle("settings-ui", "css/settings.css");
+    await loadRuntimeScript(
+        "settings-ui",
+        "js/settings.js",
+        () => typeof window.initializeSettings === "function" && typeof window.openSettings === "function"
+    );
+    await stylePromise;
+    window.initializeSettings();
+}
+
 function getOptionalModuleButton(name){
     if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
     if(name === "trophyRoom"){ return document.getElementById("trophyRoomButton"); }
     if(name === "legacy"){ return document.getElementById("legacyButton"); }
     if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
+    if(name === "settings"){ return document.getElementById("settingsButton"); }
     return null;
 }
 
@@ -368,6 +380,8 @@ async function ensureOptionalModule(name){
             await ensureLegacyModule();
         }else if(name === "ruleBook"){
             await ensureRuleBookModule();
+        }else if(name === "settings"){
+            await ensureSettingsModule();
         }else{
             throw new Error(`Unknown optional module: ${name}`);
         }
@@ -420,6 +434,8 @@ async function openOptionalModule(name){
             showScreen("legacy");
         }else if(name === "ruleBook"){
             window.openRuleBook();
+        }else if(name === "settings"){
+            window.openSettings();
         }
         return true;
     }catch(error){
@@ -461,6 +477,7 @@ function initializeOptionalModules(){
     bindOptionalModuleButton(document.getElementById("rivalryStatisticsButton"), "statistics", "statisticsLazyBound");
     bindOptionalModuleButton(document.getElementById("trophyRoomButton"), "trophyRoom", "trophyRoomReady");
     bindOptionalModuleButton(document.getElementById("ruleBookButton"), "ruleBook", "ruleBookBound");
+    bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", "settingsBound");
 
     optionalModulesInitialized = true;
 }
@@ -470,7 +487,8 @@ function getOptionalModuleState(){
         statistics: optionalModuleStates.get("statistics") || "idle",
         trophyRoom: optionalModuleStates.get("trophyRoom") || "idle",
         legacy: optionalModuleStates.get("legacy") || "idle",
-        ruleBook: optionalModuleStates.get("ruleBook") || "idle"
+        ruleBook: optionalModuleStates.get("ruleBook") || "idle",
+        settings: optionalModuleStates.get("settings") || "idle"
     };
 }
 
