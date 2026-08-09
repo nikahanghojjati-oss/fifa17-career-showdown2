@@ -46,11 +46,15 @@ const SAFE_BACK_TARGETS = Object.freeze({
 });
 
 const MAX_SCREEN_HISTORY = 18;
+const ROUTE_TRANSITION_FALLBACK_MS = 260;
 let screenHistory = [];
 let activeScreenName = null;
 let navigationRevision = 0;
 let navigationBusy = false;
 let smartBackDelegationBound = false;
+let routeTransitionElement = null;
+let routeTransitionCleanupTimer = null;
+let routeTransitionEndHandler = null;
 
 function reportRouteError(message, error = null){
     if(typeof window.reportApplicationError === "function"){
@@ -81,7 +85,84 @@ function getNavigationRevision(){
     return navigationRevision;
 }
 
+function isRouteMotionReduced(){
+    return typeof window.isReducedMotionPreferred === "function"
+        && window.isReducedMotionPreferred();
+}
+
+function clearRouteTransition(){
+    if(routeTransitionCleanupTimer){
+        window.clearTimeout(routeTransitionCleanupTimer);
+        routeTransitionCleanupTimer = null;
+    }
+    if(routeTransitionElement){
+        if(routeTransitionEndHandler){
+            routeTransitionElement.removeEventListener("animationend", routeTransitionEndHandler);
+        }
+        routeTransitionElement.removeAttribute("data-route-state");
+        routeTransitionElement.removeAttribute("data-route-direction");
+    }
+    routeTransitionElement = null;
+    routeTransitionEndHandler = null;
+}
+
+function beginRouteTransition(target, direction, revision){
+    clearRouteTransition();
+    if(!target || isRouteMotionReduced()){
+        return;
+    }
+
+    target.setAttribute("data-route-state", "entering");
+    target.setAttribute("data-route-direction", direction === "back" ? "back" : "forward");
+    routeTransitionElement = target;
+
+    const finish = event => {
+        if(event && event.target !== target){ return; }
+        if(navigationRevision === revision && routeTransitionElement === target){
+            clearRouteTransition();
+        }
+    };
+    routeTransitionEndHandler = finish;
+    target.addEventListener("animationend", finish);
+    routeTransitionCleanupTimer = window.setTimeout(finish, ROUTE_TRANSITION_FALLBACK_MS);
+}
+
+function prepareScreenAccessibility(screenName, target){
+    if(!target){ return null; }
+    target.setAttribute("aria-hidden", target.classList.contains("hidden") ? "true" : "false");
+    const heading = target.querySelector("h2");
+    if(!heading){ return null; }
+    if(!heading.id){ heading.id = `${screenName}ScreenTitle`; }
+    heading.setAttribute("tabindex", "-1");
+    heading.dataset.routeFocusTarget = "true";
+    target.setAttribute("aria-labelledby", heading.id);
+    return heading;
+}
+
+function synchronizeScreenAccessibility(){
+    screens.forEach(screenName => {
+        const screen = document.getElementById(screenName);
+        if(screen){ prepareScreenAccessibility(screenName, screen); }
+    });
+}
+
+function focusScreenAfterNavigation(screenName, target, revision){
+    const heading = prepareScreenAccessibility(screenName, target);
+    if(!heading){ return; }
+
+    window.requestAnimationFrame(() => {
+        if(navigationRevision !== revision || activeScreenName !== screenName || target.classList.contains("hidden")){
+            return;
+        }
+        const main = document.querySelector("main");
+        if(main){ main.scrollTop = 0; }
+        try{ heading.focus({ preventScroll: true }); }
+        catch(error){ heading.focus(); }
+    });
+}
+
 function resetNavigationState(){
+    clearRouteTransition();
     screenHistory.length = 0;
     navigationRevision += 1;
 }
@@ -325,7 +406,7 @@ function pushScreenHistory(screenName){
     }
 }
 
-function showScreen(screenName, addToHistory = true){
+function showScreen(screenName, addToHistory = true, options = {}){
     if(!screens.includes(screenName)){
         reportRouteError(`Unknown screen requested: ${screenName}`);
         return false;
@@ -355,6 +436,8 @@ function showScreen(screenName, addToHistory = true){
 
     if(current === screenName){
         activeScreenName = screenName;
+        target.setAttribute("aria-hidden", "false");
+        prepareScreenAccessibility(screenName, target);
         return true;
     }
 
@@ -366,20 +449,28 @@ function showScreen(screenName, addToHistory = true){
         const currentElement = document.getElementById(current);
         if(currentElement){
             currentElement.classList.add("hidden");
-            currentElement.removeAttribute("data-route-state");
+            currentElement.setAttribute("aria-hidden", "true");
         }
     }
 
     target.classList.remove("hidden");
-    target.setAttribute("data-route-state", "entering");
+    target.setAttribute("aria-hidden", "false");
     activeScreenName = screenName;
     navigationRevision += 1;
+    const revision = navigationRevision;
+    const main = document.querySelector("main");
+    if(main){ main.scrollTop = 0; }
 
-    window.requestAnimationFrame(() => {
-        if(activeScreenName === screenName){
-            target.removeAttribute("data-route-state");
-        }
-    });
+    beginRouteTransition(target, options.direction, revision);
+    if(options.manageFocus !== false && current){
+        focusScreenAfterNavigation(screenName, target, revision);
+    }else{
+        prepareScreenAccessibility(screenName, target);
+    }
+    if(typeof window.consumeMenuFeedbackCue === "function"){
+        try{ window.consumeMenuFeedbackCue(); }
+        catch(error){ /* Optional audio feedback never changes navigation success. */ }
+    }
 
     return true;
 }
@@ -401,16 +492,16 @@ async function navigateTo(screenName, options = {}){
             }
         }
 
-        if(showScreen(target, addToHistory)){
+        if(showScreen(target, addToHistory, options)){
             return true;
         }
 
         if(allowCanonicalFallback && target !== "mainMenu"){
             const canonical = resolveCanonicalShowdownRoute();
-            if(canonical !== target && showScreen(canonical, addToHistory)){
+            if(canonical !== target && showScreen(canonical, addToHistory, options)){
                 return true;
             }
-            return showScreen("mainMenu", addToHistory);
+            return showScreen("mainMenu", addToHistory, options);
         }
     }catch(error){
         reportRouteError(`Unable to navigate to ${screenName}`, error);
@@ -448,7 +539,7 @@ async function navigateBackSmart(){
                 && document.getElementById(candidate)
                 && isRouteStateValid(candidate)
             ){
-                if(await navigateTo(candidate, { addToHistory: false, allowCanonicalFallback: false })){
+                if(await navigateTo(candidate, { addToHistory: false, allowCanonicalFallback: false, direction: "back" })){
                     consumeHistoryTo(candidate);
                     return true;
                 }
@@ -457,7 +548,7 @@ async function navigateBackSmart(){
 
         for(const fallback of legalTargets){
             if(document.getElementById(fallback) && isRouteStateValid(fallback)){
-                if(await navigateTo(fallback, { addToHistory: false, allowCanonicalFallback: false })){
+                if(await navigateTo(fallback, { addToHistory: false, allowCanonicalFallback: false, direction: "back" })){
                     screenHistory.length = 0;
                     return true;
                 }
@@ -465,13 +556,13 @@ async function navigateBackSmart(){
         }
 
         const canonical = resolveCanonicalShowdownRoute();
-        if(await navigateTo(canonical, { addToHistory: false, allowCanonicalFallback: false })){
+        if(await navigateTo(canonical, { addToHistory: false, allowCanonicalFallback: false, direction: "back" })){
             screenHistory.length = 0;
             return true;
         }
 
         screenHistory.length = 0;
-        return showScreen("mainMenu", false);
+        return showScreen("mainMenu", false, { direction: "back" });
     }finally{
         navigationBusy = false;
     }
@@ -667,6 +758,7 @@ function initializeScreens(){
     bindNavigationButton(continueButton, resumeSavedShowdown, "navigationBound");
     bindNavigationButton(legacyButton, openLegacy, "navigationBound");
     bindNavigationButton(startButton, startShowdownFromSetup, "navigationBound");
+    synchronizeScreenAccessibility();
 
     [continueButton, startButton].forEach(button => {
         if(!button || button.dataset.gameplayWarmBound === "true"){ return; }
@@ -685,6 +777,10 @@ function getNavigationDiagnostics(){
         historyLength: screenHistory.length,
         history: screenHistory.slice(),
         busy: navigationBusy,
+        transitionActive: Boolean(routeTransitionElement),
+        transitionDirection: routeTransitionElement
+            ? routeTransitionElement.getAttribute("data-route-direction")
+            : null,
         backAuthority: smartBackDelegationBound ? "centralized" : "unbound"
     };
 }

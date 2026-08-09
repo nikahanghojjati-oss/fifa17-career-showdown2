@@ -7,12 +7,8 @@
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
 const LEGACY_STORAGE_KEY = "careerModeShowdown.legacyShowdowns";
 const APPLICATION_PREFERENCES_KEY = "careerModeShowdown.preferences";
-const APPLICATION_PREFERENCES_SCHEMA_VERSION = 1;
+const APPLICATION_PREFERENCES_SCHEMA_VERSION = 2;
 const DEFAULT_DRAFT_SAVE_DELAY = 420;
-const DEFAULT_APPLICATION_PREFERENCES = Object.freeze({
-    schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
-    reducedMotion: false
-});
 
 let pendingCurrentSaveTimer = null;
 let storageLifecycleBound = false;
@@ -63,14 +59,16 @@ function removeStorageValue(key){
 function createDefaultApplicationPreferences(){
     return {
         schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
-        reducedMotion: false
+        reducedMotion: false,
+        menuFeedback: true
     };
 }
 
 function normalizeApplicationPreferences(value){
     return {
         schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
-        reducedMotion: Boolean(value && value.reducedMotion)
+        reducedMotion: Boolean(value && value.reducedMotion),
+        menuFeedback: !value || value.menuFeedback !== false
     };
 }
 
@@ -186,6 +184,26 @@ function setApplicationReducedMotionPreference(enabled){
 
     applyApplicationMotionPreference();
     notifyApplicationPreferencesChanged("user");
+    return true;
+}
+
+function isMenuFeedbackEnabled(){
+    return loadApplicationPreferences().menuFeedback !== false;
+}
+
+function setApplicationMenuFeedbackPreference(enabled){
+    const current = loadApplicationPreferences();
+    const nextValue = Boolean(enabled);
+
+    if(current.menuFeedback === nextValue){
+        return true;
+    }
+
+    if(!saveApplicationPreferences({ ...current, menuFeedback: nextValue })){
+        return false;
+    }
+
+    notifyApplicationPreferencesChanged("menu-feedback");
     return true;
 }
 
@@ -518,6 +536,8 @@ window.getLegacyStorageRevision = getLegacyStorageRevision;
 window.loadApplicationPreferences = loadApplicationPreferences;
 window.getApplicationMotionPreferenceState = getApplicationMotionPreferenceState;
 window.setApplicationReducedMotionPreference = setApplicationReducedMotionPreference;
+window.isMenuFeedbackEnabled = isMenuFeedbackEnabled;
+window.setApplicationMenuFeedbackPreference = setApplicationMenuFeedbackPreference;
 window.isSystemReducedMotionPreferred = isSystemReducedMotionPreferred;
 window.isReducedMotionPreferred = isReducedMotionPreferred;
 window.applyApplicationMotionPreference = applyApplicationMotionPreference;

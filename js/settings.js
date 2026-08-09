@@ -78,16 +78,20 @@ function getSettingsMotionState(){
     };
 }
 
-function focusSelectedSettingsMotionChoice(){
+function focusSettingsControl(selector){
     window.requestAnimationFrame(() => {
         if(!settingsOverlay || settingsOverlay.classList.contains("hidden") || !settingsContent){
             return;
         }
-        const selected = settingsContent.querySelector(".settingsMotionChoice.selected");
+        const selected = settingsContent.querySelector(selector);
         if(selected){
             selected.focus({ preventScroll: true });
         }
     });
+}
+
+function focusSelectedSettingsMotionChoice(){
+    focusSettingsControl(".settingsMotionChoice.selected");
 }
 
 function setSettingsMotionPreference(reduced){
@@ -105,6 +109,27 @@ function setSettingsMotionPreference(reduced){
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(
             reduced ? "Reduced motion is enabled." : "Motion now follows your device preference.",
+            "success",
+            3000
+        );
+    }
+}
+
+function setSettingsMenuFeedbackPreference(enabled){
+    if(typeof window.setApplicationMenuFeedbackPreference !== "function"){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("Menu feedback preferences are unavailable in this browser session.", "error");
+        }
+        return;
+    }
+
+    if(!window.setApplicationMenuFeedbackPreference(Boolean(enabled))){
+        return;
+    }
+
+    if(typeof window.showAppNotice === "function"){
+        window.showAppNotice(
+            enabled ? "Menu click feedback is enabled." : "Menu click feedback is muted.",
             "success",
             3000
         );
@@ -158,6 +183,35 @@ function createMotionChoice(label, description, selected, reduced){
     return button;
 }
 
+function createMenuFeedbackControl(){
+    const enabled = typeof window.isMenuFeedbackEnabled === "function"
+        ? window.isMenuFeedbackEnabled()
+        : true;
+    const row = createSettingsElement("div", "settingsAudioRow");
+    const copy = createSettingsElement("div", "settingsAudioCopy");
+    copy.append(
+        createSettingsElement("strong", "", "MENU CLICK FEEDBACK"),
+        createSettingsElement(
+            "small",
+            "",
+            "A short original confirmation cue. It stays silent while Home media is playing and never blocks navigation."
+        )
+    );
+
+    const toggle = createSettingsElement("button", `settingsAudioToggle ${enabled ? "enabled" : "muted"}`);
+    toggle.type = "button";
+    toggle.setAttribute("role", "switch");
+    toggle.setAttribute("aria-checked", String(enabled));
+    toggle.setAttribute("aria-label", `Menu click feedback ${enabled ? "on" : "off"}`);
+    toggle.append(
+        createSettingsElement("span", "settingsAudioToggleTrack"),
+        createSettingsElement("strong", "", enabled ? "ON" : "OFF")
+    );
+    toggle.addEventListener("click", () => setSettingsMenuFeedbackPreference(!enabled));
+    row.append(copy, toggle);
+    return row;
+}
+
 function createApplicationPanel(){
     const panel = createSettingsPanel(
         "APPLICATION",
@@ -179,8 +233,8 @@ function createMotionPanel(){
     const state = getSettingsMotionState();
     const panel = createSettingsPanel(
         "ACCESSIBILITY",
-        "MOTION",
-        "Follow the device by default, or force non-essential motion to be minimized. A device reduced-motion request is always respected."
+        "MOTION & FEEDBACK",
+        "Follow the device by default, force non-essential motion to be minimized, and control the optional menu confirmation cue."
     );
 
     const summary = createSettingsElement("div", "settingsMotionSummary");
@@ -213,7 +267,7 @@ function createMotionPanel(){
         )
     );
 
-    panel.append(summary, choices);
+    panel.append(summary, choices, createMenuFeedbackControl());
     return panel;
 }
 
@@ -262,7 +316,7 @@ function createDataPanel(){
     const note = createSettingsElement(
         "p",
         "settingsDataNote",
-        "Reset All Showdown Data removes active and Legacy competition data but intentionally keeps this motion preference. Destructive actions always require confirmation."
+        "Reset All Showdown Data removes active and Legacy competition data but intentionally keeps application preferences. Destructive actions always require confirmation."
     );
 
     panel.append(info, action, note);
@@ -431,6 +485,8 @@ function initializeSettings(){
             renderSettings();
             if(event && event.detail && event.detail.source === "user"){
                 focusSelectedSettingsMotionChoice();
+            }else if(event && event.detail && event.detail.source === "menu-feedback"){
+                focusSettingsControl(".settingsAudioToggle");
             }
         }
     });

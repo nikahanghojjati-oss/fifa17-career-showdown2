@@ -306,13 +306,13 @@ Settings blueprint alignment and persistent reduced-motion accessibility are imp
 
 Main Menu Career Statistics alignment, Rivalry Statistics and Trophy Room integration are implemented and owner accepted after r8 Home-bootstrap stabilization.
 
-## Current — v0.95 Workstream 5
+## Completed — v0.95 Workstream 5
 
-Season pre-commit review/confirmation.
+Season pre-commit review/confirmation is implemented and owner accepted.
 
-## Then — v0.95 Workstream 6
+## Current — v0.95 Workstream 6
 
-Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression, including the **quality-gated FIFA-era navigation transition and original micro click-feedback experiment** above.
+Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression, including the **quality-gated FIFA-era navigation transition and original micro click-feedback experiment** above, is implemented in `0.95.0-r11` and awaiting owner Chromebook/mobile acceptance.
 
 ## v1.0
 

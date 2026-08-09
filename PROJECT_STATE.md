@@ -20,18 +20,18 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Runtime asset revision:** `0.95.0-r10`  
-**Hosting:** GitHub Pages  
-**Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage  
-**Product mode:** exactly two managers, one device/browser, one active showdown  
-**Current milestone:** original v0.95 Polish / Blueprint Alignment  
-**Current activity:** r10 League Confirmation stabilization before Workstream 6  
-**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`  
-**Owner acceptance pending:** `0.95.0-r10` League Wheel explicit-Continue bugfix  
-**Next after r10 acceptance:** Workstream 6 final v0.95 polish/regression → v1.0
+**Application version:** v0.95.0 — Polish & Blueprint Alignment
+**Runtime asset revision:** `0.95.0-r11`
+**Hosting:** GitHub Pages
+**Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
+**Product mode:** exactly two managers, one device/browser, one active showdown
+**Current milestone:** original v0.95 Polish / Blueprint Alignment
+**Current activity:** Workstream 6 final v0.95 polish / regression candidate
+**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
+**Owner acceptance pending:** `0.95.0-r11` final polish candidate
+**Next after r11 acceptance:** v1.0 Complete Release Candidate / Final Release
 
-r10 is a stabilization/cache revision inside v0.95, not a new roadmap branch.
+r11 completes the planned Workstream 6 implementation inside v0.95. It does not create a new roadmap branch.
 
 ---
 
@@ -59,7 +59,61 @@ Main Menu
 
 ---
 
-# r10 — League confirmation stabilization — current gate
+# r11 — Workstream 6 final polish / regression — current gate
+
+## Route presentation
+
+`js/screens.js` remains the sole router and now owns a bounded presentation lifecycle around successful route commits.
+
+Preserve:
+
+- legality checks and critical-write flush before presentation;
+- immediate destination commit with no artificial transition wait;
+- 180 ms forward/back `transform` + `opacity` entrance;
+- one original CSS route rail using existing yellow/cyan tokens;
+- animation-end cleanup plus 260 ms fallback;
+- stale transition cancellation and navigation-revision protection;
+- reduced-motion path with no theatrical route state;
+- destination heading focus and scroll reset;
+- `aria-hidden` / `aria-labelledby` screen synchronization;
+- optional feedback failure isolated from navigation success.
+
+The older entry marker was removed on the next animation frame and could cancel the intended 130 ms animation. Do not restore frame-immediate cleanup.
+
+## Original micro feedback
+
+`js/menuFeedback.js` is a lazy original Web Audio synthesizer.
+
+Preserve:
+
+- no recorded/bundled/fetched interface audio;
+- no EA/FIFA waveform imitation or proprietary asset;
+- explicit eligible user interaction before feedback;
+- consumption only after successful route commit;
+- Home media playback suppression;
+- 110 ms repeat cooldown;
+- no audio context at startup;
+- hidden-page suspension;
+- silent failure when Web Audio is unavailable/blocked.
+
+Application preference schema is now version 2:
+
+- `reducedMotion: boolean`;
+- `menuFeedback: boolean`, default `true`.
+
+Existing version-1 preference records migrate in memory with `menuFeedback: true`. Settings exposes the feedback preference as a compact accessible switch inside Motion & Feedback. Showdown-data reset still preserves the whole preference record.
+
+## Accessibility / performance
+
+Preserve contextual Transfer-field accessible names through combobox enhancement, setup-label associations, explicit button types, League/Transfer live status, loading-shell isolation and explicit focus-visible styles.
+
+Initial shell remains one local stylesheet plus seven local scripts. The raw startup ceiling is 155 KB and the more meaningful gzip-compressed ceiling is 35 KB. `js/menuFeedback.js` remains lazy and capped at 5.5 KB.
+
+Dedicated **Validate Final Polish** is mandatory alongside the seven accepted workflows. Current total: 21 deterministic validation blocks across eight workflows.
+
+---
+
+# r10 — League confirmation stabilization — owner accepted
 
 ## Reported regression
 
@@ -182,7 +236,7 @@ Settings remains a lazy modal. Preference key:
 
 `careerModeShowdown.preferences`
 
-System/browser reduced motion always wins. User Reduce Motion also forces reduced non-essential motion. Showdown data reset preserves app motion preference.
+System/browser reduced motion always wins. User Reduce Motion also forces reduced non-essential motion. Workstream 6 extends the same preference record with the independent `menuFeedback` switch. Showdown data reset preserves application preferences.
 
 ## r8 — Career Statistics / Trophy Room / Home bootstrap
 
@@ -263,6 +317,8 @@ Keys:
 
 Critical transitions save immediately with rollback. Drafts remain debounced/deduplicated. Completed active save remains safe even if Legacy synchronization fails. Statistics remain derived and Season Review remains ephemeral.
 
+Preference schema version 2 stores `reducedMotion` and `menuFeedback`. Older records normalize without losing the existing motion choice.
+
 ## Initial shell
 
 Exactly one local stylesheet plus seven local scripts:
@@ -291,20 +347,22 @@ Exactly one local stylesheet plus seven local scripts:
 
 Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy secondary modules.
 
+`js/menuFeedback.js` is a lazy non-critical polish module and must never become a startup or navigation dependency.
+
 ## Cache identity
 
 `index.html` owns deployed runtime revision:
 
-`0.95.0-r10`
+`0.95.0-r11`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 
 ---
 
-# Workstream 6 — next only after r10 browser acceptance
+# Workstream 6 — implemented; owner acceptance pending
 
-Final v0.95 polish/regression includes accessibility/focus, responsive consistency, typography/contrast, performance, persistence/navigation/gameplay regression and the owner-approved **quality-gated FIFA-era navigation transition + original micro click-feedback experiment** in `ROADMAP_AMENDMENTS.md`.
+Final v0.95 polish/regression now includes accessibility/focus, responsive consistency, performance, persistence/navigation/gameplay regression and the owner-approved **quality-gated FIFA-era navigation transition + original micro click-feedback experiment** in `ROADMAP_AMENDMENTS.md`.
 
-That experiment must not create a second router, delay failed/blocked critical navigation, copy EA/FIFA assets/audio, or reduce Chromebook/mobile fluidity. Reduced Motion must simplify/remove theatrical delay. If the experience is not release-quality, keep the immediate transition rather than ship a compromised imitation.
+The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA assets/audio. Reduced Motion removes theatrical route state. Owner Chromebook/mobile testing remains the final quality decision; simplify or omit an effect if it lowers perceived quality.
 
-After Workstream 6 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
+After r11 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
