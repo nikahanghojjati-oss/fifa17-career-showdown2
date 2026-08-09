@@ -102,6 +102,9 @@ function isClubAssignmentOperationCurrent(operationId, showdownId, leagueId){
 }
 
 function isReducedClubMotionPreferred(){
+    if(typeof window.isReducedMotionPreferred === "function"){
+        return window.isReducedMotionPreferred();
+    }
     return typeof window.matchMedia === "function"
         && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
