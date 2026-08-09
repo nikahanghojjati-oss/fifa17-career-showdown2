@@ -26,8 +26,7 @@ const GAMEPLAY_SCREENS = new Set([
     "dashboard",
     "transferChallenge",
     "seasonEntry",
-    "seasonSummary",
-    "statistics"
+    "seasonSummary"
 ]);
 
 const SAFE_BACK_TARGETS = Object.freeze({
@@ -41,7 +40,7 @@ const SAFE_BACK_TARGETS = Object.freeze({
     seasonSummary: ["dashboard", "mainMenu"],
     statistics: ["dashboard", "mainMenu"],
     careerStatistics: ["mainMenu"],
-    trophyRoom: ["careerStatistics", "dashboard", "mainMenu"],
+    trophyRoom: ["dashboard", "careerStatistics", "mainMenu"],
     legacy: ["dashboard", "mainMenu"],
     ruleBook: ["mainMenu"]
 });
