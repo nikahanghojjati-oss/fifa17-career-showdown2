@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
+   v0.16.0
    Transaction-Safe Lightweight Legacy Archive Engine
 ===================================================== */
 
@@ -387,7 +387,9 @@ function createLegacyDataControls(history){
         }
 
         currentShowdown = null;
-        screenHistory = [];
+        if(typeof window.resetNavigationState === "function"){
+            window.resetNavigationState();
+        }
         const indicator = document.getElementById("seasonIndicator");
         if(indicator){ indicator.textContent = "No Active Showdown"; }
         lastLegacyRenderedRevision = null;
