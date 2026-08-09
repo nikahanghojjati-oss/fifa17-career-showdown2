@@ -1,309 +1,312 @@
 # CHANGELOG — Career Mode Showdown
 
-This file records meaningful project progression so future development can continue without reconstructing history from old conversations or commit fragments.
+This file preserves project continuity so later development does not reconstruct the project from old chats or mistake temporary implementation builds for a replacement roadmap.
 
-Two forms of versioning appear in project history:
+Two forms of versioning exist in project history:
 
-1. **Original Project Bible milestones** — the planned path toward v1.0 (`v0.6.1 → v0.7 → v0.8 → v0.9 → v0.95 → v1.0`).
-2. **Implementation builds** — additional versions created while the functional core was implemented, corrected, stabilized and optimized between the original milestones.
+1. **Original Project Bible milestones:** `v0.6.1 → v0.7 → v0.8 → v0.9 → v0.95 → v1.0`.
+2. **Implementation/stabilization builds:** later numbers introduced while the functional product was being corrected, hardened, optimized and polished.
 
-Implementation build numbers do not replace the original release destination. The current project should converge back into the original `v0.95` polish milestone and then `v1.0`.
-
----
-
-## v0.16.0-r2 — Stabilization / Blueprint Re-anchor
-
-Status: **Current stabilization candidate**
-
-### Reliability fixes
-
-- Fixed contextual Back policy for screens opened from Completed Showdown Home.
-- Legacy opened from Completed Showdown Home can return to that hub.
-- Trophy Room opened from Completed Showdown Home can return to that hub.
-- New Showdown opened from Completed Showdown Home can return to that hub.
-- The same screens still return to Main Menu when Main Menu is their actual origin.
-- Expanded automated navigation regression cases for these contextual-parent routes.
-
-### Cache/deployment integrity
-
-- Advanced the deployed asset revision from `0.16.0-r1` to `0.16.0-r2` because v0.16 source bytes changed after the original r1 key had been introduced.
-- Added one shell-owned `<meta name="app-asset-revision">` value.
-- Initial CSS/JavaScript asset URLs use that revision.
-- Lazy gameplay/history module URLs now derive their revision from the shell instead of maintaining an independent hard-coded release key.
-- Runtime diagnostics derive the expected revision from the same shell value.
-- CI derives its expected revision from the same shell value and rejects mixed revisions.
-
-### Project continuity
-
-- Rebuilt `PROJECT_STATE.md` around current source plus the original Project Bible roadmap.
-- Explicitly separated current implementation reality from historical/superseded Bible text.
-- Recorded the later max-11 scoring amendment and Transfer Challenge as authoritative current rules.
-- Re-established the original `v0.95 → v1.0` destination.
-- Identified finite blueprint-alignment work remaining after current regression: Settings surface, Main Menu Statistics alignment, and pre-final season review/confirmation inspection.
-- Rewrote `NEXT_TASK.md` as a stabilization gate followed by finite v0.95 alignment, rather than another open-ended build sequence.
-- Restored this Changelog as required by the original development workflow.
+The implementation builds are real history, but they do not replace the original long-term destination. After current stabilization, the project returns to **v0.95**, then **v1.0**.
 
 ---
 
-## v0.16.0-r1 — Smart Navigation & Lightweight Runtime
+# v0.16.0-r3 — Chromebook / Responsive Home Stabilization
 
-Status: **Implemented; superseded by r2 asset revision**
+Status: **current stabilization candidate**
 
-### Runtime / performance
+## Problem reported
 
-- Replaced the accumulated multi-generation core CSS stack with one unified `css/app.css`.
-- Reduced the initial application shell to seven JavaScript files and one stylesheet.
-- Moved league/club data and gameplay engines behind an on-demand gameplay package.
-- Kept Legacy, analytics, Statistics, Trophy Room and Rule Book lazy-loaded.
+Mobile presentation was clean, but the desktop/laptop Home layout looked poor on ChromeOS/Chromebook:
+
+- some Home sections could visually overlap;
+- soundtrack/trailer placement felt disconnected from the main Career navigation;
+- media expansion could collide with later rows;
+- short Chromebook browser viewports had too much vertical pressure.
+
+## Root cause
+
+The desktop Home CSS grid used fixed `108px` tracks.
+
+The soundtrack/trailer tile occupied one of those fixed rows, but after a YouTube iframe loaded the tile raised its own minimum height to roughly `165px`. The grid track itself remained fixed, so the media item could overflow its row and visually cover the following Career/menu row.
+
+The mobile layout did not show the same defect because the mobile breakpoint already used auto-sized rows.
+
+## Fix
+
+- Replaced the desktop Home grid's fixed row model with content-sized tracks.
+- Moved core Career/navigation tiles into the first two rows.
+- Moved soundtrack/trailer media into the third row below primary navigation.
+- Media row now grows naturally when an iframe is loaded.
+- Converted the desktop media selector from a long horizontal strip to a compact four-column grid.
+- Added a low-height desktop/laptop breakpoint for typical Chromebook-style browser heights.
+- Reduced header/menu/footer vertical pressure at low desktop heights while keeping `main` vertically scrollable.
+- Kept the existing tablet/mobile flow intact.
+- Preserved user-initiated-only YouTube loading and one-iframe behavior.
+
+## Cache integrity
+
+- Advanced deployed local-asset revision to `0.16.0-r3`.
+- Updated `index.html` initial asset URLs.
+- Updated lazy-module fallback revision while retaining the shell-owned revision architecture.
+
+## Project continuity
+
+- Updated `PROJECT_STATE.md` to record r3 as a stabilization fix, not a new milestone.
+- Updated `NEXT_TASK.md` to make Chromebook/mobile verification the current release gate.
+- Updated `README.md` while retaining the original `v0.95 → v1.0` direction.
+
+---
+
+# v0.16.0-r2 — Back / Cache / Blueprint Re-anchor
+
+Status: **implemented; superseded as deployed revision by r3**
+
+## Navigation
+
+- Fixed contextual Back behavior from Completed Showdown Home.
+- Legacy, Trophy Room and New Showdown can return to the completed hub when opened from there.
+- The same screens still return to Main Menu when Main Menu was their origin.
+- Added deterministic navigation regression cases.
+
+## Cache architecture
+
+- Fixed the possibility of newer source reusing an older `r1` cache identity.
+- Added a single shell-owned `<meta name="app-asset-revision">` value.
+- Initial assets use it.
+- Lazy assets derive from it.
+- Diagnostics validate against it.
+- CI derives the expected value from it.
+
+## Roadmap continuity
+
+- Rebuilt Project State around current source + original Project Bible.
+- Separated original blueprint from later owner-approved amendments.
+- Restored the original `v0.95 → v1.0` release destination.
+- Identified finite remaining blueprint gaps instead of opening another feature sequence.
+- Restored this Changelog as a permanent continuity artifact.
+
+---
+
+# v0.16.0-r1 — Smart Navigation & Lightweight Runtime
+
+Status: **implemented foundation retained in r3**
+
+## Performance
+
+- Replaced accumulated multi-generation core styles with unified `css/app.css`.
+- Reduced startup to seven JavaScript files and one stylesheet.
+- Moved gameplay engines/data behind an on-demand gameplay package.
+- Kept Legacy/analytics/Statistics/Trophy Room/Rule Book lazy.
 - Kept diagnostics off the critical startup path.
-- Added a startup local-byte budget to CI.
-- Removed obsolete prototype stubs and superseded CSS files.
+- Added startup byte-budget validation.
+- Removed obsolete prototype files and superseded core CSS layers.
 
-### Navigation
+## Navigation
 
-- Replaced competing hard-coded Back destinations/history behavior with a single state-aware route authority in `js/screens.js`.
-- Centralized ordinary `.backButton` interception.
-- Made route history advisory and bounded.
-- Added legal route validation from actual showdown state.
-- Prevented locked club assignments from reopening obsolete League/Club setup.
-- Prevented completed Transfer Challenges from reopening obsolete transfer state.
-- Prevented completed showdowns from returning to setup/transfer/results-entry screens.
-- Completed showdowns resume to Completed Showdown Home.
+- Established `js/screens.js` as single route/history authority.
+- Replaced competing hard-coded Back behavior with state-aware routing.
+- Bounded route history.
+- Added route legality checks based on actual showdown state.
+- Prevented locked clubs from reopening setup.
+- Prevented completed Transfer Challenge from reopening obsolete transfer state.
+- Prevented completed showdowns from reopening setup/transfer/results-entry state.
 
-### Completion recovery
+## Completed-showdown recovery
 
-- Replaced the old terminal completed dashboard state with a completion hub.
-- Added valid routes to Final Summary, Legacy, Trophy Room, Rivalry Statistics, New Showdown and Main Menu.
-- Distinguished successful Legacy synchronization from `Legacy sync pending` while retaining the safe active completed save.
+- Introduced Completed Showdown Home instead of a terminal completed page.
+- Preserved valid onward routes to Final Summary, Legacy, Trophy Room, Rivalry Statistics, New Showdown and Main Menu.
+- Added accurate `Legacy sync pending` state if archiving fails while active completed save remains safe.
 
-### Validation
+## Validation
 
-- Added GitHub Actions validation for every JavaScript/data source file using `node --check`.
+- Added GitHub Actions `node --check` across JavaScript/data source.
 - Added executable scoring regression cases.
-- Added executable canonical-route regression cases.
-- Added checks for cache revision, initial asset budget, required IDs, centralized Back authority and history encapsulation.
+- Added canonical route/state regression tests.
+- Added release shell / startup budget / route-history architecture checks.
 
 ---
 
-## v0.15.x — Pre-v0.16 stability / performance consolidation
+# v0.15.x — Stability / Performance Consolidation
 
-Status: **Implemented foundation carried into v0.16**
+Status: **implemented foundation retained**
 
-Current source headers and surviving systems show the major stabilization direction completed before the v0.16 shell rewrite:
+Major surviving systems from this phase include:
 
-- transaction-safe localStorage persistence and Legacy operations;
-- race-safe League Wheel delayed operations;
-- race-safe Club Assignment reveal operations;
-- high-performance Transfer Challenge behavior;
-- real persisted transfer deadline rather than timer-state dependence;
+- transaction-aware localStorage operations;
+- failure-aware Legacy/reset operations;
+- race-safe League Wheel callbacks;
+- race-safe Club Assignment reveal callbacks;
+- persisted real transfer deadline;
 - debounced/deduplicated transfer drafts;
 - hidden/off-screen timer shutdown;
-- stabilized Season Entry / progression logic;
+- stabilized Season Entry and progression;
 - lazy secondary modules;
-- lightweight menu media behavior;
+- lightweight menu media controller;
 - runtime diagnostics.
 
-These systems remain part of the current implementation. Do not revert to older synchronous/eager or unguarded behavior.
+Do not revert to eager, unguarded or duplicated versions of these systems.
 
 ---
 
-## v0.10.1 — Season / Routing / Persistence Stabilization
+# v0.10.1 — Season / Routing / Persistence Stabilization
 
-Status: **Implemented**
+Status: **implemented**
 
-This stabilization pass followed a reported failure where pressing Complete Season could appear to do nothing.
+This followed the reported failure where Complete Season could appear to do nothing.
 
-Major corrections included:
+Major fixes:
 
 - deterministic/cache-versioned asset loading;
-- stronger Complete Season persistence and rollback handling;
-- visible error/success feedback instead of silent failure;
-- safer routing that did not hide the current screen before a target was known to be valid;
-- hardened browser-storage error handling;
-- improved application runtime error reporting;
-- removal/disablement of dead-looking controls until their actual module behavior was available.
+- atomic Complete Season behavior;
+- persistence rollback on save failure;
+- visible runtime error/success feedback;
+- safer screen routing;
+- hardened localStorage handling;
+- stronger runtime error boundary.
 
-This pass established the principle that a season must either save successfully or preserve/restore its previous valid state.
+It established the rule that a critical season transition must either save successfully or preserve/restore the previous valid state.
 
 ---
 
-## v0.10 — Statistics / Trophy Room expansion
+# v0.10 — Statistics / Trophy Room Expansion
 
-Status: **Implemented; subsequently stabilized**
+Status: **implemented and preserved**
 
-Added current historical/analytics capabilities including:
+Added:
 
 - read-only rivalry analytics;
-- cumulative manager statistics;
-- career records;
-- Trophy Room presentation;
+- cumulative manager analytics;
+- records;
+- Trophy Room;
 - statistics UI;
-- analytics styling.
+- analytics presentation.
 
-The analytics system derives results from saved showdowns rather than allowing manual statistic editing.
-
-These additions went beyond the minimum original v0.9 history surface but are now established current features and should be preserved.
+The data remains derived from saved showdowns rather than manually editable.
 
 ---
 
-## v0.9 — Legacy / Data Management
+# v0.9 — Legacy / Data Management
 
-Status: **Implemented and owner-tested during development**
+Status: **implemented and owner-tested during development**
 
-Implemented the persistent completed-rivalry history layer:
+Implemented:
 
-- completed showdown archive;
+- completed-showdown archive;
 - season-by-season Legacy history;
-- final scores and rivalry outcomes;
-- individual completed-showdown deletion;
-- delete-all Legacy history;
-- local data-management protections.
+- final scores/outcomes;
+- individual Legacy deletion;
+- delete-all Legacy;
+- data-management protections.
 
-This fulfilled the core original v0.9 requirement that a full showdown could finish and remain visible as history.
+This fulfilled the original v0.9 requirement that a complete rivalry remain available as history.
 
 ---
 
-## v0.8 — Transfer Challenge / Corrected Competitive Rules
+# v0.8 — Transfer Challenge / Finalized Competitive Rules
 
-Status: **Implemented and owner-tested during development**
+Status: **implemented and owner-tested during development**
 
-Established the owner-approved Transfer Challenge season phase:
+Established the later owner-approved Transfer Challenge:
 
 - 15-minute window;
 - maximum three signings per manager;
 - three opponent guesses;
-- guess type league or nationality;
-- correct match means signing must be released.
+- guess is league or nationality;
+- correctly guessed signing must be released.
 
-Also established the later authoritative scoring correction:
+Also established the authoritative scoring amendment:
 
-- 100 league points and/or 100 league goals share one +1 bonus;
-- Top Scorer and/or Top Assist share one +1 bonus;
-- maximum season score is 11;
-- equal non-zero scoring totals are a draw;
-- only 0-0 uses league-position/league-points fallback.
+- 100 points and/or 100 goals share one +1;
+- Top Scorer and/or Top Assist share one +1;
+- maximum season score = 11;
+- equal non-zero totals = draw;
+- only 0-0 uses league position then league points.
 
-This supersedes older Project Bible text that can be read as four separate +1 bonus awards.
+This supersedes older Project Bible wording that can be read as four independent bonus points.
 
 ---
 
-## v0.7 — Working Season / Showdown Progression
+# v0.7 — Working Showdown / Season Progression
 
-Status: **Implemented and owner-tested during development**
+Status: **implemented**
 
-During implementation, build numbering no longer mapped one-to-one to the original roadmap headings. By this stage the working application had moved beyond the original setup-only definition and included the usable season flow required to continue the rivalry.
-
-Established working pieces included:
+By this phase the application contained the usable rivalry flow required to move through seasons:
 
 - Showdown Home;
-- season result entry;
+- result entry;
 - scoring integration;
 - Season Summary;
-- progression between configured seasons;
-- saved active showdown continuity.
+- configured-season progression;
+- active-save continuity.
 
-The original roadmap's v0.7 showdown-creation requirements were also already implemented across the setup/league/club flow.
+The original v0.7 setup requirements—new showdown, league setup and permanent club assignment—were also already implemented across the setup flow.
 
 ---
 
-# Original roadmap history
-
-The following entries describe the original Project Bible milestones and early project development direction.
+# Original roadmap foundations
 
 ## v0.6.1 — Application Framework
 
-Status: **Complete in current implementation**
-
-Original goals:
+Original goals now fulfilled/hardened:
 
 - application shell;
-- header/footer;
-- main content container;
-- router/navigation;
+- navigation;
 - Back behavior;
-- storage foundation;
+- storage;
 - reusable UI behavior.
 
-The exact implementation architecture evolved later, especially with route authority living in `js/screens.js` rather than a separate `router.js`.
-
----
+The implementation responsibility evolved into current modules such as `screens.js`; obsolete filenames should not be recreated merely for historical symmetry.
 
 ## v0.6 — Wheel System
 
-Status: **Complete**
+- League Wheel
+- selection animation
+- league result
+- visual presentation
 
-- league wheel concept;
-- wheel rotation;
-- league selection;
-- league labels during selection;
-- styling improvements.
-
-Later builds added persistence locks, identity-safe callbacks and race protection.
-
----
+Later builds added persistence locking and operation-identity protection.
 
 ## v0.5 — Data Foundation
 
-Status: **Complete**
-
-- league database;
-- club data structure;
-- data-engine foundation.
-
----
+- league database
+- club database
+- data engine
 
 ## v0.4 — Functional Prototype
 
-Status: **Complete historically**
-
-- initial HTML structure;
-- first working website prototype;
-- basic styling and navigation.
-
----
+- first functional HTML/CSS/JS website
+- basic navigation and presentation
 
 ## v0.3 — UI Direction
 
-Status: **Complete historically**
-
-- FIFA-17-inspired visual direction;
-- tile-based presentation;
-- game-menu navigation philosophy;
-- animation/presentation focus;
-- FUT-inspired club reveal direction.
-
----
+- FIFA-17-era-inspired menu direction
+- tile navigation
+- game-like UX
+- FUT-inspired club reveal concept
 
 ## v0.2 — Experience Design
 
-Status: **Complete historically**
-
-Defined the overall rivalry experience:
-
-- Showdown concept;
-- league selection;
-- permanent club pairing;
-- season progression;
-- Legacy/history concept.
-
----
+Defined the shared rivalry concept, league selection, permanent clubs, season flow and history.
 
 ## v0.1 — Project Foundation
 
-Status: **Complete historically**
-
-Established the project objective: turn two separate FIFA Career Mode saves into one persistent competitive rivalry that tracks seasons, trophies, points and long-term history.
+Established the product objective: turn two separate FIFA Career Mode saves into one persistent competitive rivalry.
 
 ---
 
-# Planned next roadmap milestone
+# Next planned original milestone
 
 ## v0.95 — Polish / Blueprint Alignment Release Candidate
 
-Status: **Pending v0.16.0-r2 owner regression acceptance**
+Status: **pending successful v0.16.0-r3 owner regression**
 
-The original roadmap defines v0.95 as the polish/experience milestone. Current v0.16 work has already implemented a large part of that objective.
+Finite remaining alignment work:
 
-Remaining finite alignment work is recorded in `PROJECT_STATE.md` and `NEXT_TASK.md` and must not expand into unrelated features.
+- Settings blueprint surface;
+- Main Menu cumulative Statistics alignment using existing analytics/Trophy Room/Rivalry Statistics systems;
+- pre-final Season review/confirmation safety if the browser experience still lacks an equivalent step;
+- final Chromebook/laptop/mobile/accessibility/performance polish;
+- complete persistence/navigation/gameplay regression.
 
-After v0.95 acceptance, the project moves to **v1.0 Complete Release Candidate / Final Release**.
+After v0.95 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
