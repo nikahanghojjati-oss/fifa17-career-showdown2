@@ -91,7 +91,7 @@ jobs:
 
           const navigation = loadFunctions(
             'js/screens.js',
-            '{ resolveCanonicalShowdownRoute, isRouteStateValid, getLegalBackTargets }',
+            '{ resolveCanonicalShowdownRoute, isRouteStateValid, isLeagueConfirmationPending, getLegalBackTargets }',
             { currentShowdown: null }
           );
           const { context, api } = navigation;
@@ -115,11 +115,22 @@ jobs:
           context.currentShowdown = noLeague;
           assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'leagueWheelScreen', 'Created save must go to League Wheel.');
 
-          const noClubs = baseShowdown();
-          noClubs.selectedLeague = { id: 'premier-league', name: 'Premier League' };
-          noClubs.status = 'League Selected';
-          context.currentShowdown = noClubs;
-          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Selected league without clubs must go to Club Assignment.');
+          const leagueSelected = baseShowdown();
+          leagueSelected.selectedLeague = { id: 'premier-league', name: 'Premier League' };
+          leagueSelected.status = 'League Selected';
+          context.currentShowdown = leagueSelected;
+          assert.strictEqual(api.isLeagueConfirmationPending(), true, 'A spun league must remain confirmation-pending.');
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'leagueWheelScreen', 'Selected league must stay on League Wheel until Continue is pressed.');
+          assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), true, 'League Wheel must remain legal before explicit Continue.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Unconfirmed league must not enter Club Assignment.');
+
+          const leagueConfirmed = baseShowdown();
+          leagueConfirmed.selectedLeague = { id: 'premier-league', name: 'Premier League' };
+          leagueConfirmed.status = 'League Confirmed';
+          context.currentShowdown = leagueConfirmed;
+          assert.strictEqual(api.isLeagueConfirmationPending(), false, 'Explicit Continue must clear league confirmation pending state.');
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Confirmed league without clubs must go to Club Assignment.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), true, 'Club Assignment becomes legal only after league confirmation.');
 
           const confirmationPending = baseShowdown();
           confirmationPending.selectedLeague = { id: 'premier-league', name: 'Premier League' };
@@ -184,7 +195,7 @@ jobs:
             'Trophy Room must support completed-showdown and Career Statistics parents.'
           );
 
-          console.log('Navigation state matrix, analytics routes, club confirmation, and locked scoring regression cases passed.');
+          console.log('Navigation state matrix, explicit league/club confirmation, analytics routes, and locked scoring regression cases passed.');
           NODE
 
       - name: Validate club identity and reveal contracts
@@ -321,6 +332,7 @@ jobs:
           assert.ok(screens.includes('const SAFE_BACK_TARGETS'), 'Central Back route policy is missing.');
           assert.ok(screens.includes('smartBackDelegationBound') && screens.includes('stopImmediatePropagation'), 'Central Back interception is missing.');
           assert.ok(screens.includes('status === "Clubs Assigned"') && screens.includes('isClubConfirmationPending'), 'Club confirmation route checkpoint is missing.');
+          assert.ok(screens.includes('isLeagueConfirmationPending') && screens.includes('"League Confirmed"'), 'Explicit league confirmation route checkpoint is missing.');
 
           const routeLeaks = fs.readdirSync('js')
             .filter(file => file.endsWith('.js') && file !== 'screens.js')
