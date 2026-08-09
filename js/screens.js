@@ -14,6 +14,7 @@ const screens = [
     "seasonEntry",
     "seasonSummary",
     "statistics",
+    "careerStatistics",
     "trophyRoom",
     "legacy",
     "ruleBook"
@@ -39,7 +40,8 @@ const SAFE_BACK_TARGETS = Object.freeze({
     seasonEntry: ["dashboard", "mainMenu"],
     seasonSummary: ["dashboard", "mainMenu"],
     statistics: ["dashboard", "mainMenu"],
-    trophyRoom: ["dashboard", "mainMenu"],
+    careerStatistics: ["mainMenu"],
+    trophyRoom: ["careerStatistics", "dashboard", "mainMenu"],
     legacy: ["dashboard", "mainMenu"],
     ruleBook: ["mainMenu"]
 });
@@ -134,7 +136,7 @@ function getCurrentChallengeRouteState(showdown = currentShowdown){
 function isRouteStateValid(screenName){
     const showdown = typeof currentShowdown !== "undefined" ? currentShowdown : null;
 
-    if(["mainMenu", "createShowdown", "trophyRoom", "legacy", "ruleBook"].includes(screenName)){
+    if(["mainMenu", "createShowdown", "careerStatistics", "trophyRoom", "legacy", "ruleBook"].includes(screenName)){
         return true;
     }
 
@@ -278,6 +280,9 @@ function renderScreenBeforeEnter(screenName){
     }
     if(screenName === "clubWheelScreen" && typeof window.renderClubAssignmentState === "function"){
         window.renderClubAssignmentState();
+    }
+    if(screenName === "careerStatistics" && typeof window.renderCareerStatistics === "function"){
+        window.renderCareerStatistics();
     }
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
