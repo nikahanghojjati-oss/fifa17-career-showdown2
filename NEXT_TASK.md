@@ -1,374 +1,335 @@
 # NEXT TASK
 
-## Current gate: v0.16.0-r2 stabilization regression
+## Current gate: v0.16.0-r3 Chromebook / responsive stabilization regression
 
-Do **not** begin another feature/build-number sequence.
+Do **not** begin another feature/build-number sequence yet.
 
-The immediate task is to validate the current `v0.16.0-r2` stabilization build in the real browser and fix any regression discovered while preserving current architecture, current features and locked gameplay rules.
+The immediate task is to validate the current `v0.16.0-r3` build in the real browser, especially on the owner's Chromebook, and fix any remaining regression while preserving current architecture, all working patches and locked gameplay rules.
 
-The source has now been re-anchored to the original Project Bible roadmap. When this regression gate passes, the next milestone is the original **v0.95 Polish / Blueprint Alignment Release Candidate**, followed by **v1.0**.
+After this gate passes, development rejoins the original Project Bible roadmap at **v0.95 Polish / Blueprint Alignment Release Candidate**, followed directly by **v1.0**.
 
 ---
 
-# Part A — v0.16.0-r2 owner regression
+# Part A — Chromebook Home layout verification
 
-Use disposable test data where destructive actions are involved.
+Hard refresh once so the browser loads asset revision `0.16.0-r3`.
 
-## 1. Startup / Home
+At normal Chrome zoom on the Chromebook confirm:
 
-- Hard refresh the GitHub Pages site once so the `0.16.0-r2` asset revision is loaded.
-- Confirm Home appears normally.
-- Confirm Home remains responsive before gameplay is entered.
-- Confirm Continue reflects whether an active save exists.
-- Confirm menu media does not create a YouTube iframe before Play.
+1. Home renders without overlapping sections.
+2. Continue Career remains the large primary tile.
+3. New Showdown, Legacy, Trophy Room and Rule Book occupy a clean two-row navigation block beside it.
+4. The soundtrack/trailer area appears **below** the core navigation rather than above it.
+5. All seven media choices are arranged cleanly and remain readable.
+6. The media selector itself does not create an awkward horizontal strip on desktop/laptop.
+7. Press Play on a soundtrack.
+8. The media/player row may grow vertically, but it must push later content downward instead of covering another tile.
+9. Pause and Mute remain usable.
+10. Select the gameplay trailer and Play it.
+11. The iframe must remain contained inside the media row.
+12. The bottom information strip remains below the media area.
+13. The Home content may scroll vertically on a short Chromebook viewport; nothing should overlap merely to avoid scrolling.
+14. Header, Home heading, tiles and footer should look proportionate at typical Chromebook viewport heights.
 
-## 2. New Showdown / Back
+Also resize the Chrome window shorter while keeping desktop width. The low-height laptop rules should compact spacing rather than causing collisions.
 
-- Open New Showdown from Main Menu.
-- Press Back: it should return to Main Menu.
+---
+
+# Part B — mobile preservation check
+
+The mobile layout was already working well and must not regress.
+
+At a narrow/mobile viewport confirm:
+
+- single-column Home flow remains intact;
+- Career/menu tiles remain readable;
+- media area remains below the navigation tiles;
+- selector remains horizontally usable at the tablet/mobile breakpoint;
+- Play does not cause overlap;
+- header and season indicator remain usable;
+- no desktop compact rule leaks into the mobile layout.
+
+The r3 fix is intentionally desktop/laptop-focused. Do not redesign the mobile layout unless an actual regression is found.
+
+---
+
+# Part C — core rivalry regression
+
+After the Home layout is accepted, run a disposable rivalry through the existing stabilization path.
+
+## New Showdown
+
+- Main Menu → New Showdown.
+- Back returns to Main Menu.
 - Reopen New Showdown.
-- Enter showdown name, both manager names and a season count.
+- Enter showdown name, two manager names and 1/3/5/10 season count.
 - Start Showdown.
 
-## 3. League Wheel
+## League Wheel
 
-- Spin the League Wheel.
-- During the spin, Back should be unavailable.
-- The league should save before progression.
-- The wheel must not re-spin after a league has been selected.
-- Leaving/re-entering should show the selected league, not reset it.
+- Spin once.
+- Back is unavailable while the delayed spin is active.
+- Selected league persists.
+- League cannot be re-spun after it is locked.
+- Leaving/re-entering preserves the selected league.
 
-## 4. Club Assignment
+## Club Assignment
 
 Before reveal:
 
-- Back should return logically to League Selection without erasing the selected league.
+- Back may return to League without clearing/changing the selected league.
 
 During reveal:
 
-- Back should be unavailable while the delayed reveal is active.
+- stale Back/reveal callbacks must not mutate a replacement state.
 
 After reveal:
 
-- clubs must be different;
-- both clubs must belong to the selected league;
-- clubs must remain permanent;
-- club reveal cannot be repeated;
-- Back to League/Club setup must no longer be available after club lock.
+- clubs are different;
+- both belong to the selected league;
+- club pair is permanent;
+- reveal cannot be repeated;
+- obsolete setup routes are unavailable.
 
-Continue to Showdown Home.
+## Showdown Home
 
-## 5. Showdown Home
+Verify:
 
-Confirm:
+- showdown name;
+- selected league;
+- manager names;
+- locked clubs;
+- season number;
+- score;
+- Transfer Challenge status.
 
-- showdown name
-- selected league
-- both manager names
-- both locked clubs
-- season number
-- current overall score
-- Transfer Challenge status
+## Transfer Challenge
 
-all represent the saved showdown accurately.
+- Start the 15-minute window.
+- Leave to Showdown Home and resume.
+- Timer must derive from the persisted deadline, not restart.
+- No duplicate interval behavior.
+- Hide/restore browser tab and confirm timer resynchronizes.
+- Enter partial signing/guess data.
+- Back to Home.
+- Reopen; draft data must persist.
+- Complete valid transfer data.
+- Lock results.
+- Correct league/nationality guesses mark affected signings for release.
+- Completed transfer state cannot be resurrected through stale Back history.
 
-## 6. Transfer Challenge lifecycle
+## Season Results
 
-- Start the Transfer Challenge.
-- Start the 15-minute timer.
-- Navigate to Showdown Home and reopen Transfer Challenge.
-- Timer must continue from the persisted real deadline, not restart at 15:00.
-- Only one interval should effectively be running.
-- Hide/restore the browser tab; timer display should resynchronize from the deadline.
-- End the window early or allow the test timer state to reach recording.
-- Enter partial signing/guess information.
-- Back to Showdown Home.
-- Reopen Transfer Challenge.
-- Draft information should persist.
-- Finish valid signing/guess data.
-- Lock Transfer Challenge.
-- Correctly matched league/nationality guesses must mark corresponding signings for release.
-- Once locked, Back/history must not resurrect the obsolete active Transfer Challenge state.
-
-## 7. Season Results
-
-- Continue to Season Results.
-- Enter partial results.
-- Back to Showdown Home.
-- Reopen Season Results during the same showdown/season.
-- The in-session form should remain appropriate for the same season.
-- Complete required fields.
-- Confirm league-position validation respects the selected league's team count.
-- Submit Complete Season.
+- Enter partial season results.
+- Back to Home and reopen during the same season.
+- Form state should remain appropriate for that same in-session season.
+- Complete the required fields.
+- League-position validation must respect selected league size.
+- Complete Season.
 
 Expected:
 
-- button enters saving state;
+- saving/busy state appears;
 - no duplicate round is created;
-- score uses max-11 rules;
+- max-11 scoring remains correct;
 - Season Summary opens;
-- cumulative rivalry score updates;
-- refresh/Continue retains the saved season.
+- cumulative score updates;
+- refresh/Continue preserves the saved season.
 
-## 8. Multi-season progression
+## Multi-season progression
 
 For a multi-season disposable showdown:
 
-- finish one season;
-- start next season;
-- confirm the same clubs remain locked;
-- confirm new season number;
-- confirm a fresh Transfer Challenge exists for that season;
-- complete at least one next-season transition.
+- complete one season;
+- start the next season;
+- clubs remain unchanged;
+- season number increments correctly;
+- fresh Transfer Challenge exists for the new season;
+- complete at least one transition into the next season.
 
-## 9. Final season / completed showdown
+## Final completion
 
 Complete the final season.
 
-Expected:
+Verify:
 
-- final Season Summary opens;
-- showdown becomes Completed;
+- final Season Summary;
+- Completed status;
 - active completed save remains available;
 - Legacy copy is created;
-- next action opens Completed Showdown Home;
-- no setup/transfer/results-entry screen can be revived through stale Back history.
-
-## 10. Completed Showdown Home
-
-Verify every available route:
-
-- View Final Season Summary
-- Legacy
-- Trophy Room
-- Rivalry Statistics
-- New Showdown
-- Main Menu
-
-None may lead to a blank, frozen or contextually wrong page.
-
-### Contextual Back regression added in r2
-
-From **Completed Showdown Home**:
-
-- open Legacy → Back must return to Completed Showdown Home;
-- open Trophy Room → Back must return to Completed Showdown Home;
-- open New Showdown → Back must return to Completed Showdown Home.
-
-From **Main Menu**:
-
-- open Legacy → Back must return to Main Menu;
-- open Trophy Room → Back must return to Main Menu;
-- open New Showdown → Back must return to Main Menu.
-
-The route history must choose the actual legal origin rather than a hard-coded destination.
-
-## 11. Refresh / resume matrix
-
-Refresh and use Continue at several states when practical:
-
-- league selected, before club assignment
-- clubs assigned / Showdown Home
-- transfer window active
-- transfer recording state
-- transfer complete / before season submission
-- after a completed season in a multi-season showdown
-- after final showdown completion
-
-Continue must derive the canonical safe destination from saved state.
-
-## 12. Secondary screens
-
-Exercise:
-
-- Rivalry Statistics
-- Trophy Room
-- Legacy
-- Rule Book
-
-Confirm they render, remain responsive and Back returns to the logical origin.
-
-## 13. Menu media
-
-Test:
-
-- selecting different soundtrack entries
-- Play / Pause
-- Mute / Unmute
-- trailer
-- leaving Home while trailer is loaded
-
-Expected:
-
-- no iframe before Play;
-- at most one iframe at a time;
-- trailer iframe is released when leaving Home;
-- media failure does not break navigation.
-
-## 14. Destructive data controls
-
-With disposable data:
-
-- delete a specific Legacy showdown;
-- delete all Legacy history;
-- delete current active showdown;
-- reset all application data.
-
-Every destructive action requires confirmation. Failure must not silently claim success.
-
-## 15. Visual / responsive regression
-
-Inspect at normal desktop/laptop width and a narrow/mobile width:
-
-- Home tiles
-- League Wheel labels
-- club reveal cards
-- Showdown Home
-- Transfer Challenge inputs
-- Season Results
-- Season Summary
-- Legacy
-- Statistics
-- Trophy Room
-- Rule Book
-- runtime notices
-
-No overlap, hidden primary action, unreadable text or unusable control should remain.
+- Completed Showdown Home opens;
+- setup/transfer/results-entry routes cannot be revived.
 
 ---
 
-# Part B — if a v0.16 regression is found
+# Part D — completed-hub contextual Back
 
-Remain in stabilization mode.
+From **Completed Showdown Home**:
+
+- Legacy → Back returns to Completed Showdown Home;
+- Trophy Room → Back returns to Completed Showdown Home;
+- New Showdown → Back returns to Completed Showdown Home;
+- Rivalry Statistics → Back returns safely;
+- Final Summary → Back returns safely.
+
+From **Main Menu**:
+
+- Legacy → Back returns to Main Menu;
+- Trophy Room → Back returns to Main Menu;
+- New Showdown → Back returns to Main Menu;
+- Rule Book → Back returns to Main Menu.
+
+History must select the actual legal origin rather than an obsolete hard-coded parent.
+
+---
+
+# Part E — refresh / resume matrix
+
+When practical, refresh and use Continue in these states:
+
+- league selected, before clubs;
+- clubs assigned / Showdown Home;
+- Transfer Challenge active;
+- Transfer Challenge recording;
+- transfers completed before season submission;
+- after a completed season in a multi-season showdown;
+- after final completion.
+
+Continue must derive the safe canonical route from persisted state.
+
+---
+
+# Part F — secondary and destructive systems
+
+Exercise:
+
+- Rivalry Statistics;
+- Trophy Room;
+- Legacy;
+- Rule Book;
+- soundtrack selector;
+- trailer;
+- specific Legacy delete;
+- Delete All Legacy;
+- delete current showdown;
+- full reset.
+
+Use disposable data for destructive tests.
+
+Every destructive action must require confirmation and must not report success when storage actually failed.
+
+---
+
+# If an r3 regression is found
+
+Remain in v0.16 stabilization mode.
 
 Process:
 
 1. inspect current `main`;
-2. reproduce from source/state;
-3. identify the root cause;
-4. make the smallest architectural fix consistent with current systems;
-5. preserve locked gameplay and all current features;
-6. add/extend automated regression coverage when the bug can be expressed deterministically;
-7. inspect the exact-head GitHub Actions result;
+2. identify the root cause;
+3. preserve current architecture and locked rules;
+4. make the smallest coherent fix;
+5. advance the asset revision if deployed local bytes changed;
+6. add deterministic regression coverage where practical;
+7. inspect exact-head GitHub Actions;
 8. confirm GitHub Pages deployed that exact head;
-9. update Project State / Changelog only when reality changed.
+9. update Project State / Next Task / Changelog / README when reality changes.
 
-Do not use a bug as justification for unrelated feature development.
+Do not use a regression as justification for unrelated feature work.
 
 ---
 
-# Part C — after v0.16.0-r2 regression passes
+# After v0.16.0-r3 passes
 
-The next development milestone is **not v0.17**.
+The next milestone is **not v0.17**.
 
 Resume the original Project Bible roadmap at:
 
 # v0.95 — Polish / Blueprint Alignment Release Candidate
 
-This is a finite release-convergence milestone.
+Finite workstreams:
 
-## v0.95 objective
+## 1. Settings blueprint alignment
 
-Close the remaining original Version 1.0 blueprint gaps while preserving all current working functionality and the v0.16 stability/performance architecture.
+Implement the small Settings surface present in the original screen plan without changing gameplay rules or creating a second architecture.
 
-## Required v0.95 workstreams
-
-### 1. Settings blueprint alignment
-
-The original screen specification includes Settings. Current source does not.
-
-Implement a small, focused Settings surface that does not alter gameplay rules.
-
-Use the original scope as the boundary:
+Appropriate scope:
 
 - application information;
-- animation/preference control where useful;
-- safe access to existing reset/data-management behavior;
-- theme preference only if it can be added without creating a second visual system or destabilizing the unified CSS architecture.
+- animation/reduced-motion preference where useful;
+- access to existing safe data-management/reset behavior;
+- theme preference only if it can coexist cleanly with the unified visual system.
 
-Do not add accounts, cloud settings, online settings or unrelated configuration.
+No account/cloud/online settings.
 
-Do not duplicate storage-reset logic already implemented safely elsewhere.
+## 2. Main Menu Statistics alignment
 
-### 2. Main Menu Statistics alignment
+The original blueprint expects cumulative Statistics from Main Menu.
 
-The original blueprint exposes cumulative Statistics from Main Menu.
+Current source already has:
 
-Current source already contains:
+- cumulative analytics engine;
+- Trophy Room;
+- active/completed Rivalry Statistics.
 
-- analytics engine;
-- Rivalry Statistics for an active/completed showdown;
-- Trophy Room / career records from Main Menu.
+Resolve the navigation/presentation gap by reusing those systems. Do not duplicate analytics and do not remove Trophy Room.
 
-Inspect the current output before changing it.
+## 3. Season pre-commit review
 
-Resolve the original Statistics navigation requirement by reusing the existing analytics architecture. Do not create a second statistics engine and do not remove Trophy Room.
+Inspect the actual Complete Season flow against the original Season Engine requirement to review entered results/points before permanent completion.
 
-### 3. Season pre-commit review / confirmation
+If no equivalent safety step exists, add a lightweight pre-commit review/confirmation.
 
-The original Season Engine says entered results and points should be reviewed before the season becomes permanently completed.
+Completed historical seasons stay read-only.
 
-Current source commits when `COMPLETE SEASON` is pressed and shows the Summary afterward.
+## 4. Final v0.95 polish
 
-Inspect the exact current browser flow. If there is no equivalent pre-commit safety step, implement a lightweight review/confirmation experience before the irreversible season write.
+Only work that serves the original milestone:
 
-Completed historical seasons remain read-only.
-
-### 4. Experience polish
-
-Only polish that helps the original v0.95 goal:
-
+- responsive consistency;
+- Chromebook/laptop/mobile quality;
+- focus/accessibility usability;
 - clear feedback;
-- responsive behavior;
 - coherent transitions;
-- obvious navigation;
-- accessibility/focus usability;
 - performance;
-- consistency.
+- full persistence/navigation regression.
 
-Do not add visual complexity for its own sake.
+No unrelated feature expansion.
 
-### 5. Full release regression
+## 5. Documentation synchronization
 
-Repeat the complete rivalry flow and all persistence/navigation/destructive cases after v0.95 work.
+After implementation/testing changes reality, update:
 
-### 6. Documentation synchronization
-
-Update:
-
-- `PROJECT_STATE.md`
-- `NEXT_TASK.md`
-- `CHANGELOG.md`
-- `README.md`
-
-Only after implementation/testing changes reality.
+- `PROJECT_STATE.md`;
+- `NEXT_TASK.md`;
+- `CHANGELOG.md`;
+- `README.md`.
 
 ---
 
-# Part D — after v0.95 acceptance
+# After v0.95 acceptance
 
 Move directly to:
 
 # v1.0 — Complete Release Candidate / Final Release
 
-The purpose of v1.0 is to **finish**, not expand.
+v1.0 is for finishing, not expanding.
 
-Required final gate:
+Final gate:
 
-- end-to-end showdown works;
+- full rivalry can be created and completed;
 - multi-season progression works;
-- save/resume works;
-- permanent clubs/league invariants hold;
-- Transfer Challenge works each season;
+- persistence/resume works;
+- league/club invariants hold;
+- Transfer Challenge works every season;
 - scoring remains correct;
-- final winner/completion works;
-- Legacy/history remains accurate;
-- statistics remain derived/read-only;
-- deletion/reset is safe;
-- Back never strands the user;
-- no major responsive/performance regression;
+- completed history is safe;
+- statistics/history are coherent;
+- destructive actions are explicit and safe;
+- navigation never strands the user;
+- Chromebook/laptop/mobile layout is coherent;
+- performance remains within established architecture;
 - automated validation passes;
 - owner browser regression passes;
-- documentation describes the shipped application accurately.
-
-Do not add post-v1.0 ideas before this gate is satisfied.
+- documentation accurately describes the shipped application.
