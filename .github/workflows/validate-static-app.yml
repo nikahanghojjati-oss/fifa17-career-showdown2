@@ -159,10 +159,26 @@ jobs:
           assert.strictEqual(api.isRouteStateValid('transferChallenge'), false, 'Completed showdown cannot return to Transfer Challenge.');
           assert.strictEqual(api.isRouteStateValid('seasonEntry'), false, 'Completed showdown cannot return to Season Results entry.');
           assert.strictEqual(api.isRouteStateValid('seasonSummary'), true, 'Completed showdown may still view final Season Summary.');
+
           assert.deepStrictEqual(
             Array.from(api.getLegalBackTargets('seasonSummary')),
             ['dashboard', 'mainMenu'],
             'Season Summary Back must have deterministic safe parents.'
+          );
+          assert.deepStrictEqual(
+            Array.from(api.getLegalBackTargets('createShowdown')),
+            ['dashboard', 'mainMenu'],
+            'New Showdown opened from completed hub must be able to return to Showdown Home.'
+          );
+          assert.deepStrictEqual(
+            Array.from(api.getLegalBackTargets('legacy')),
+            ['dashboard', 'mainMenu'],
+            'Legacy opened from completed hub must be able to return to Showdown Home.'
+          );
+          assert.deepStrictEqual(
+            Array.from(api.getLegalBackTargets('trophyRoom')),
+            ['dashboard', 'mainMenu'],
+            'Trophy Room opened from completed hub must be able to return to Showdown Home.'
           );
 
           console.log('Navigation state matrix and locked scoring regression cases passed.');
@@ -177,13 +193,18 @@ jobs:
           const path = require('path');
 
           const expectedVersion = '0.16.0';
-          const expectedRevision = '0.16.0-r1';
           const maximumInitialAssetBytes = 145000;
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const optionalModules = fs.readFileSync('js/optionalModules.js', 'utf8');
           const screens = fs.readFileSync('js/screens.js', 'utf8');
           const showdownUI = fs.readFileSync('js/showdownUI.js', 'utf8');
+
+          const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
+          if (!revisionMatch || !revisionMatch[1].trim()) {
+            throw new Error('index.html must define one app-asset-revision meta value.');
+          }
+          const expectedRevision = revisionMatch[1].trim();
 
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
@@ -201,8 +222,11 @@ jobs:
             throw new Error(`js/app.js does not declare APP_VERSION ${expectedVersion}.`);
           }
 
-          if (!optionalModules.includes(`const OPTIONAL_ASSET_REVISION = "${expectedRevision}"`)) {
-            throw new Error(`js/optionalModules.js does not use ${expectedRevision}.`);
+          if (!optionalModules.includes('meta[name="app-asset-revision"]')) {
+            throw new Error('js/optionalModules.js must derive its lazy-asset revision from the application shell.');
+          }
+          if (!optionalModules.includes('const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision()')) {
+            throw new Error('js/optionalModules.js is not using the shell-owned asset revision.');
           }
 
           const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
@@ -300,7 +324,7 @@ jobs:
           }
 
           console.log(
-            `Validated v${expectedVersion}: ${initialScripts.length} initial scripts, ` +
+            `Validated v${expectedVersion} / ${expectedRevision}: ${initialScripts.length} initial scripts, ` +
             `${styleRefs.length} initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
             `${ids.length} unique HTML ids, centralized Back authority.`
           );
