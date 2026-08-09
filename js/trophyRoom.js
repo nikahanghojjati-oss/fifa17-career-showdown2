@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
+   v0.95.0
    Lightweight Trophy Room and All-Time Records
 ===================================================== */
 
@@ -24,17 +24,14 @@ function createTrophyRoomScreen(){
     const back = document.createElement("button");
     back.type = "button";
     back.className = "backButton";
-    back.textContent = "BACK TO MAIN MENU";
-    back.addEventListener("click", () => showScreen("mainMenu"));
+    back.textContent = "BACK";
     actions.appendChild(back);
     section.append(heading, content, actions);
     main.appendChild(section);
 }
 
 function findTrophyRoomMenuButton(){
-    return document.getElementById("trophyRoomButton") || Array.from(
-        document.querySelectorAll("#mainMenu .menuButton")
-    ).find(button => button.textContent.trim().toUpperCase() === "TROPHY ROOM") || null;
+    return document.getElementById("trophyRoomButton") || null;
 }
 
 function wireTrophyRoomButton(){
@@ -124,41 +121,6 @@ function createManagerCabinet(manager, rank){
     achievements.append(bonusText, clubText);
     cabinet.append(header, shelf, supporting, achievements);
     return cabinet;
-}
-
-function createCareerStandingsTable(managers){
-    const wrapper = document.createElement("div");
-    wrapper.className = "careerStandings";
-    const fragment = document.createDocumentFragment();
-    const header = document.createElement("div");
-    header.className = "careerStandingsRow header";
-    ["#", "Manager", "Showdowns", "Season W-D-L", "Points", "Trophies"].forEach(text => {
-        const cell = document.createElement("span");
-        cell.textContent = text;
-        header.appendChild(cell);
-    });
-    fragment.appendChild(header);
-
-    managers.forEach((manager, index) => {
-        const row = document.createElement("div");
-        row.className = "careerStandingsRow";
-        [
-            index + 1,
-            manager.name,
-            `${manager.showdownWins}-${manager.showdownDraws}-${manager.showdownLosses}`,
-            `${manager.seasonWins}-${manager.seasonDraws}-${manager.seasonLosses}`,
-            manager.totalPoints,
-            manager.totalTrophies
-        ].forEach((value, cellIndex) => {
-            const cell = document.createElement(cellIndex === 1 ? "strong" : "span");
-            cell.textContent = value;
-            row.appendChild(cell);
-        });
-        fragment.appendChild(row);
-    });
-
-    wrapper.appendChild(fragment);
-    return wrapper;
 }
 
 function managerLeaderText(record, suffix = ""){
