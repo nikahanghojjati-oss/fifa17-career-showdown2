@@ -7,7 +7,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "0.95.0-r9";
+    return revision || "0.95.0-r11";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -291,6 +291,15 @@ async function ensureDiagnosticsModule(){
     return true;
 }
 
+function ensureMenuFeedbackModule(){
+    return loadRuntimeScript(
+        "menu-feedback",
+        "js/menuFeedback.js",
+        () => typeof window.playMenuFeedbackCue === "function"
+            && typeof window.getMenuFeedbackDiagnostics === "function"
+    );
+}
+
 async function ensureAnalyticsEngine(){
     await loadRuntimeScript(
         "analytics-engine",
@@ -510,6 +519,7 @@ window.initializeOptionalModules = initializeOptionalModules;
 window.ensureGameplayModules = ensureGameplayModules;
 window.getGameplayModuleState = getGameplayModuleState;
 window.ensureDiagnosticsModule = ensureDiagnosticsModule;
+window.ensureMenuFeedbackModule = ensureMenuFeedbackModule;
 window.ensureOptionalModule = ensureOptionalModule;
 window.openOptionalModule = openOptionalModule;
 window.getOptionalModuleState = getOptionalModuleState;

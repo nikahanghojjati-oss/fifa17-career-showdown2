@@ -67,6 +67,7 @@ jobs:
           assert.ok(decorator.includes('careerStatisticsButton'), 'Home decorator must understand the current Statistics tile id.');
           assert.ok(initializer.includes('ensureMenuMediaSelector()'), 'Home initializer must create the media selector.');
           assert.ok(initializer.includes('bindMenuMediaControls()'), 'Home initializer must bind Play/Mute controls.');
+          assert.ok(initializer.includes('bindMenuFeedbackInteraction()'), 'Home initializer must bind successful-navigation feedback delegation.');
           assert.ok(initializer.includes('getMenuExperienceIntegrity()'), 'Home initializer must verify its own completed state.');
           assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
 
@@ -74,7 +75,7 @@ jobs:
           assert.ok(selector.includes('selector.id = "menuMediaSelector"'), 'Media selector must expose the diagnostics-required id.');
           assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute'), 'Both Play and Mute controls must be bound by the same media subsystem.');
           assert.ok(binder.includes('dataset.musicBound = "true"'), 'Media bindings must retain their idempotent diagnostics marker.');
-          assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound'), 'Home integrity check must cover choices and both media bindings.');
+          assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound') && integrity.includes('feedbackBound'), 'Home integrity check must cover media and menu-feedback bindings.');
 
           console.log('Home shell/menu initializer contract and seven-choice media bootstrap regression passed.');
           NODE

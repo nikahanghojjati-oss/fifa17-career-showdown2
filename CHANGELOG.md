@@ -10,9 +10,54 @@ The project remains inside the original **v0.95** convergence milestone.
 
 ---
 
-# v0.95.0-r10 — Explicit League Confirmation Stabilization
+# v0.95.0-r11 — Workstream 6 Final Polish / Regression
 
 Status: **implemented; owner browser acceptance pending**
+
+## Central route presentation
+
+- replaced the frame-cancelled 130 ms route marker with an animation-end lifecycle and bounded fallback cleanup;
+- added 180 ms forward/back transform-and-opacity entrances plus an original yellow/cyan route rail;
+- kept legality checks, destination rendering and critical-write flush ahead of presentation;
+- added revision-guarded stale transition cancellation;
+- preserved immediate destination commits with no transition delay;
+- completely skips theatrical route state for effective reduced motion;
+- moves focus to the destination heading and resets screen scroll position;
+- synchronizes route `aria-hidden` and `aria-labelledby` state.
+
+## Original click feedback
+
+- added lazy `js/menuFeedback.js` Web Audio synthesis with no recorded/bundled/fetched sound;
+- uses a restrained 64 ms project-original two-voice cue;
+- arms only from eligible explicit interaction and plays only after successful route commit;
+- suppresses playback while Home soundtrack/trailer media is playing;
+- adds a 110 ms repeat cooldown and hidden-page suspension;
+- keeps missing/blocked audio completely non-blocking;
+- added a persistent Settings **MENU CLICK FEEDBACK** switch;
+- upgraded application preferences to schema 2 with safe version-1 migration.
+
+## Accessibility / responsive / performance
+
+- associated Create Showdown labels and declared all shell button types;
+- added League/Transfer live status semantics;
+- added contextual accessible names to every compact Transfer field and preserved them through enhanced comboboxes;
+- added focus-visible treatments to Back, compact and Home media controls;
+- made the loading shell leave the accessibility tree after startup;
+- retained seven initial scripts and one stylesheet;
+- established 155 KB raw and 35 KB gzip startup ceilings;
+- keeps the 4.8 KB synthesizer lazy.
+
+## Regression protection
+
+Added **Validate Final Polish** for route ordering/races, reduced motion, focus, preference migration, original synthesis, media suppression, cooldown, labels and bundle budgets.
+
+All 21 deterministic blocks across eight workflows pass locally. Runtime DOM simulation passes Home, Create, League confirmation, Club Reveal, Dashboard, Transfer Challenge, Career Statistics, Rule Book, Legacy and Settings with zero automated accessibility violations on the audited screens.
+
+---
+
+# v0.95.0-r10 — Explicit League Confirmation Stabilization
+
+Status: **owner browser accepted**
 
 ## Reported bug
 
@@ -209,9 +254,9 @@ Application framework/navigation/storage, League Wheel, league/club data, functi
 
 ## Current gate
 
-Owner browser acceptance of **`0.95.0-r10` explicit League Confirmation stabilization**.
+Owner Chromebook/mobile acceptance of **`0.95.0-r11` final polish / regression candidate**.
 
-## Workstream 6 — final v0.95 regression/polish
+## Workstream 6 — implemented
 
 Accessibility/focus, responsive consistency, typography/contrast, performance and full gameplay/persistence/navigation regression.
 
@@ -222,4 +267,4 @@ Owner-approved quality-gated addition:
 - reduced-motion-safe and non-blocking;
 - ship only if real Chromebook/mobile testing demonstrates a clear quality improvement with no lag, choppiness or route/audio race.
 
-Then move directly to **v1.0 Complete Release Candidate / Final Release**.
+After r11 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.

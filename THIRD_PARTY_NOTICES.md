@@ -40,3 +40,11 @@ Current club emblems shown by Career Mode Showdown are original procedural SVG c
 - Broad club-associated colours are used as factual visual cues.
 - Shield/roundel geometry, stripe/half/chevron patterns and abstract motifs are generated from project-owned templates.
 - The system is intended to create differentiated fan-project identities, not replicas of official club marks.
+
+## Menu click feedback
+
+The optional menu-confirmation cue is synthesized at runtime by `js/menuFeedback.js` with the browser Web Audio API.
+
+- No recorded sound file is bundled or downloaded.
+- No EA/FIFA waveform or proprietary interface sound is copied.
+- The cue uses a short project-original two-oscillator envelope and remains muted while Home media is playing.

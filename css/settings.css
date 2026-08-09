@@ -97,6 +97,22 @@
 .settingsMotionCopy strong{font:800 13px/1 var(--f17-display);letter-spacing:.6px;}
 .settingsMotionCopy small{color:#5f6c75;font-size:9px;line-height:1.35;}
 
+.settingsAudioRow{
+    min-height:66px;margin-top:10px;padding:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:#e7edef;border-left:4px solid var(--f17-cyan);
+}
+.settingsAudioCopy{min-width:0;display:flex;flex-direction:column;gap:5px;}
+.settingsAudioCopy strong{font:800 13px/1 var(--f17-display);letter-spacing:.6px;}
+.settingsAudioCopy small{max-width:390px;color:#5f6c75;font-size:9px;line-height:1.35;}
+.settingsAudioToggle{
+    flex:0 0 86px;min-height:42px;padding:7px 9px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    color:#fff;background:#5e6870;border:1px solid #4e5961;cursor:pointer;
+}
+.settingsAudioToggle:hover,.settingsAudioToggle:focus-visible{outline:2px solid var(--f17-yellow);outline-offset:2px;}
+.settingsAudioToggle.enabled{color:var(--f17-ink);background:var(--f17-yellow);border-color:#b5a400;}
+.settingsAudioToggleTrack{width:20px;height:12px;background:currentColor;clip-path:polygon(0 0,100% 0,72% 100%,0 100%);opacity:.76;}
+.settingsAudioToggle strong{font:800 11px/1 var(--f17-display);letter-spacing:.8px;}
+
 .settingsDataButton{margin-top:11px;}
 .settingsDataNote{margin-top:8px;color:#68757e;font-size:9px;line-height:1.4;}
 .settingsFooter{
@@ -138,6 +154,8 @@
     .settingsHeading h2{font-size:31px;}
     .settingsClose{width:40px;height:40px;flex-basis:40px;}
     .settingsPanel{padding:12px;}
+    .settingsAudioRow{align-items:flex-start;flex-direction:column;}
+    .settingsAudioToggle{width:100%;flex-basis:auto;}
 }
 
 html[data-motion-reduced="true"] .settingsDialog{animation:none!important;}

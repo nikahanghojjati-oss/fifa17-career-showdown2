@@ -47,13 +47,18 @@ const CORE_REQUIRED_FUNCTIONS = [
     "loadApplicationPreferences",
     "getApplicationMotionPreferenceState",
     "setApplicationReducedMotionPreference",
+    "isMenuFeedbackEnabled",
+    "setApplicationMenuFeedbackPreference",
     "isReducedMotionPreferred",
     "initializeMenuExperience",
     "refreshMainMenuExperience",
     "selectMenuMedia",
     "handleMainMenuExit",
+    "isMenuMediaPlaying",
+    "consumeMenuFeedbackCue",
     "initializeOptionalModules",
     "ensureGameplayModules",
+    "ensureMenuFeedbackModule",
     "getGameplayModuleState",
     "ensureOptionalModule",
     "openOptionalModule",
@@ -190,6 +195,23 @@ function getMenuMediaProblems(){
     const expected = ["bastille", "highlow", "move", "music", "shelter", "trailer", "youth"];
     const keys = choices.map(button => button.dataset.menuMediaSource).sort();
     return keys.join(",") === expected.join(",") ? [] : ["menu media choices are invalid"];
+}
+
+function getMenuFeedbackProblems(){
+    const problems = [];
+    const integrity = typeof window.getMenuExperienceIntegrity === "function"
+        ? window.getMenuExperienceIntegrity()
+        : null;
+    if(!integrity || !integrity.feedbackBound){
+        problems.push("menu feedback interaction delegation is unavailable");
+    }
+    if(typeof window.getMenuFeedbackDiagnostics === "function"){
+        const feedback = window.getMenuFeedbackDiagnostics();
+        if(feedback.synthesis !== "original-web-audio"){
+            problems.push("menu feedback synthesis identity is invalid");
+        }
+    }
+    return problems;
 }
 
 function getOptionalModuleProblems(){
@@ -353,6 +375,7 @@ function runApplicationDiagnostics(){
         ...getTransferInputBindingProblems(gameplayReady),
         ...getSeasonReviewProblems(gameplayReady),
         ...getMenuMediaProblems(),
+        ...getMenuFeedbackProblems(),
         ...getOptionalModuleProblems(),
         ...getVisualSystemProblems(),
         ...getMotionPreferenceProblems(),
@@ -387,6 +410,9 @@ function runApplicationDiagnostics(){
         motion: typeof window.getApplicationMotionPreferenceState === "function"
             ? window.getApplicationMotionPreferenceState()
             : null,
+        menuFeedback: typeof window.getMenuFeedbackDiagnostics === "function"
+            ? window.getMenuFeedbackDiagnostics()
+            : { synthesis: "lazy", contextState: "not-loaded" },
         seasonReview: gameplayReady && typeof window.getSeasonReviewIntegrity === "function"
             ? window.getSeasonReviewIntegrity()
             : null,

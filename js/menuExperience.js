@@ -92,6 +92,7 @@ const MARCO_REUS_IMAGE = Object.freeze({
 
 const MAX_REUS_IMAGE_ATTEMPTS = 2;
 const MENU_MEDIA_LOAD_TIMEOUT_MS = 12000;
+const MENU_FEEDBACK_INTERACTION_WINDOW_MS = 1800;
 
 let selectedMenuMediaKey = "music";
 let menuMediaIframe = null;
@@ -99,10 +100,13 @@ let loadedMenuMediaKey = null;
 let menuMediaPlaying = false;
 let menuMediaMuted = false;
 let menuMediaLoadTimer = null;
-let menuExperienceInitialized = false;
 let menuExperienceUI = null;
 let reusImageLoadScheduled = false;
 let reusImageAttempts = 0;
+let menuFeedbackInteractionBound = false;
+let menuFeedbackInteractionPending = false;
+let menuFeedbackInteractionAt = -Infinity;
+let menuFeedbackWarmPromise = null;
 
 function setTextIfChanged(element, value){
     if(!element){ return; }
@@ -541,6 +545,94 @@ function handleMainMenuExit(){
     updateMenuMediaControls();
 }
 
+function isMenuMediaPlaying(){
+    return Boolean(menuMediaPlaying);
+}
+
+function getMenuFeedbackClock(){
+    return typeof performance !== "undefined" && typeof performance.now === "function"
+        ? performance.now()
+        : Date.now();
+}
+
+function isMenuFeedbackInteractionTarget(target){
+    const button = target instanceof Element ? target.closest("button") : null;
+    if(
+        !button
+        || button.disabled
+        || button.getAttribute("aria-disabled") === "true"
+        || !button.matches(".menuTile,.menuButton,.backButton,.compactButton")
+    ){
+        return false;
+    }
+    return !button.matches(".dangerButton,#menuMusicToggle,#menuMusicMute,[data-menu-media-source]");
+}
+
+function warmMenuFeedbackModule(){
+    if(menuFeedbackWarmPromise || typeof window.ensureMenuFeedbackModule !== "function"){
+        return menuFeedbackWarmPromise;
+    }
+    menuFeedbackWarmPromise = window.ensureMenuFeedbackModule().catch(() => {
+        menuFeedbackWarmPromise = null;
+        /* Optional audio support never blocks or surfaces over navigation. */
+    });
+    return menuFeedbackWarmPromise;
+}
+
+function warmMenuFeedbackFromIntent(event){
+    if(
+        !isMenuFeedbackInteractionTarget(event.target)
+        || menuMediaPlaying
+        || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
+    ){
+        return;
+    }
+    warmMenuFeedbackModule();
+}
+
+function recordMenuFeedbackInteraction(event){
+    if(
+        !isMenuFeedbackInteractionTarget(event.target)
+        || menuMediaPlaying
+        || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
+    ){
+        return;
+    }
+    menuFeedbackInteractionPending = true;
+    menuFeedbackInteractionAt = getMenuFeedbackClock();
+    warmMenuFeedbackModule();
+}
+
+function consumeMenuFeedbackCue(){
+    if(!menuFeedbackInteractionPending){
+        return false;
+    }
+    menuFeedbackInteractionPending = false;
+    if(
+        getMenuFeedbackClock() - menuFeedbackInteractionAt > MENU_FEEDBACK_INTERACTION_WINDOW_MS
+        || menuMediaPlaying
+        || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
+    ){
+        return false;
+    }
+    if(typeof window.playMenuFeedbackCue === "function"){
+        return window.playMenuFeedbackCue();
+    }
+    warmMenuFeedbackModule();
+    return false;
+}
+
+function bindMenuFeedbackInteraction(){
+    if(menuFeedbackInteractionBound){
+        return;
+    }
+    menuFeedbackInteractionBound = true;
+    window.addEventListener("pointerover", warmMenuFeedbackFromIntent, true);
+    window.addEventListener("pointerdown", warmMenuFeedbackFromIntent, true);
+    window.addEventListener("focusin", warmMenuFeedbackFromIntent, true);
+    window.addEventListener("click", recordMenuFeedbackInteraction, true);
+}
+
 function bindMenuMediaControls(){
     const mediaToggle = document.getElementById("menuMusicToggle");
     const mediaMute = document.getElementById("menuMusicMute");
@@ -593,7 +685,8 @@ function getMenuExperienceIntegrity(){
         selectorReady: Boolean(document.getElementById("menuMediaSelector")),
         mediaChoicesReady: actualKeys.join("|") === expectedKeys.join("|"),
         toggleBound: Boolean(toggle && toggle.dataset.musicBound === "true"),
-        muteBound: Boolean(mute && mute.dataset.musicBound === "true")
+        muteBound: Boolean(mute && mute.dataset.musicBound === "true"),
+        feedbackBound: menuFeedbackInteractionBound
     };
 }
 
@@ -606,10 +699,11 @@ function initializeMenuExperience(){
     renderMenuMediaPlaceholder();
     updateMenuMediaHeader();
     bindMenuMediaControls();
+    bindMenuFeedbackInteraction();
     updateMenuMediaControls();
 
     const integrity = getMenuExperienceIntegrity();
-    if(!integrity.selectorReady || !integrity.mediaChoicesReady || !integrity.toggleBound || !integrity.muteBound){
+    if(!integrity.selectorReady || !integrity.mediaChoicesReady || !integrity.toggleBound || !integrity.muteBound || !integrity.feedbackBound){
         const missing = Object.entries(integrity)
             .filter(([, ready]) => !ready)
             .map(([name]) => name)
@@ -617,11 +711,12 @@ function initializeMenuExperience(){
         throw new Error(`Main Menu experience initialization incomplete: ${missing}`);
     }
 
-    menuExperienceInitialized = true;
 }
 
 window.initializeMenuExperience = initializeMenuExperience;
 window.refreshMainMenuExperience = refreshMainMenuExperience;
 window.selectMenuMedia = selectMenuMedia;
 window.handleMainMenuExit = handleMainMenuExit;
+window.isMenuMediaPlaying = isMenuMediaPlaying;
+window.consumeMenuFeedbackCue = consumeMenuFeedbackCue;
 window.getMenuExperienceIntegrity = getMenuExperienceIntegrity;

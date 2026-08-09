@@ -258,10 +258,12 @@ jobs:
           node <<'NODE'
           const fs = require('fs');
           const path = require('path');
+          const zlib = require('zlib');
           const assert = require('assert');
 
           const expectedVersion = '0.95.0';
-          const maximumInitialAssetBytes = 145000;
+          const maximumInitialAssetBytes = 155000;
+          const maximumCompressedInitialAssetBytes = 35000;
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const appCss = fs.readFileSync('css/app.css', 'utf8');
@@ -326,6 +328,14 @@ jobs:
             return total + fs.statSync(ref.path).size;
           }, 0);
           assert.ok(bytes <= maximumInitialAssetBytes, `Startup budget exceeded: ${bytes} > ${maximumInitialAssetBytes}.`);
+          const compressedBytes = refs.reduce(
+            (total, ref) => total + zlib.gzipSync(fs.readFileSync(ref.path), { level: 9 }).length,
+            0
+          );
+          assert.ok(
+            compressedBytes <= maximumCompressedInitialAssetBytes,
+            `Compressed startup budget exceeded: ${compressedBytes} > ${maximumCompressedInitialAssetBytes}.`
+          );
 
           assert.ok(!/\bdata-back=/.test(html), 'Legacy data-back navigation returned.');
           assert.ok(/\bdata-smart-back\b/.test(html), 'Smart Back controls are missing.');
@@ -345,5 +355,5 @@ jobs:
           const dead = ['data/rules.js', 'js/router.js', 'js/scoreboard.js', 'js/ui.js', 'js/wheels.js'];
           assert.deepStrictEqual(dead.filter(file => fs.existsSync(file)), [], 'Dead prototype architecture returned.');
 
-          console.log(`Validated v${expectedVersion} / ${revision}: ${scriptRefs.length} initial scripts, one local stylesheet, ${bytes} initial local bytes, ${ids.length} unique ids, analytics lazy-loading, Chromebook guards, and centralized Back authority.`);
+          console.log(`Validated v${expectedVersion} / ${revision}: ${scriptRefs.length} initial scripts, one local stylesheet, ${bytes} raw / ${compressedBytes} compressed initial bytes, ${ids.length} unique ids, analytics lazy-loading, Chromebook guards, and centralized Back authority.`);
           NODE

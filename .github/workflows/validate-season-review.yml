@@ -112,7 +112,7 @@ jobs:
           const diagnostics = fs.readFileSync('js/diagnostics.js', 'utf8');
           const seasonCss = fs.readFileSync('css/season.css', 'utf8');
 
-          assert.ok(html.includes('id="completeSeason">REVIEW SEASON</button>'), 'Season Results must enter review instead of committing immediately.');
+          assert.ok(/id="completeSeason"[^>]*>REVIEW SEASON<\/button>/.test(html), 'Season Results must enter review instead of committing immediately.');
 
           const reviewEntry = season.slice(
             season.indexOf('function completeCurrentSeason()'),
