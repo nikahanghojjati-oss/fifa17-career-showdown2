@@ -260,7 +260,7 @@ function enhanceTransferSelector(input, kind){
     input.setAttribute("autocomplete", "off");
     input.setAttribute("spellcheck", "false");
 
-    const state = { input, list, kind, filteredOptions: [], activeIndex: -1 };
+    const state = { input, list, kind: null, filteredOptions: [], activeIndex: -1 };
     transferSelectorStates.set(input, state);
 
     input.addEventListener("input", handleTransferSelectorInput);
@@ -286,6 +286,7 @@ function updateTransferSelectorKind(input, kind){
 
     state.kind = normalizedKind;
     input.dataset.selectorKind = normalizedKind;
+    input.setAttribute("aria-label", normalizedKind === "league" ? "Search FIFA 17 previous league" : "Search player nationality");
     delete input.dataset.canonicalId;
     delete input.dataset.canonicalLabel;
     input.value = "";
