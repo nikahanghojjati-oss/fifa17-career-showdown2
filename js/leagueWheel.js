@@ -5,14 +5,11 @@
 ===================================================== */
 
 const LEAGUE_WHEEL_SPIN_MS = 4000;
-const LEAGUE_WHEEL_ADVANCE_MS = 700;
 const LEAGUE_WHEEL_REDUCED_SPIN_MS = 80;
-const LEAGUE_WHEEL_REDUCED_ADVANCE_MS = 120;
 
 let leagueWheelSpinInProgress = false;
 let leagueWheelOperationId = 0;
 let leagueWheelSpinTimer = null;
-let leagueWheelAdvanceTimer = null;
 
 function initializeLeagueWheel(){
     const spinButton = document.getElementById("spinLeague");
@@ -43,9 +40,11 @@ function isReducedLeagueWheelMotionPreferred(){
 }
 
 function getLeagueWheelTiming(){
-    return isReducedLeagueWheelMotionPreferred()
-        ? { spin: LEAGUE_WHEEL_REDUCED_SPIN_MS, advance: LEAGUE_WHEEL_REDUCED_ADVANCE_MS }
-        : { spin: LEAGUE_WHEEL_SPIN_MS, advance: LEAGUE_WHEEL_ADVANCE_MS };
+    return {
+        spin: isReducedLeagueWheelMotionPreferred()
+            ? LEAGUE_WHEEL_REDUCED_SPIN_MS
+            : LEAGUE_WHEEL_SPIN_MS
+    };
 }
 
 function hasLockedClubAssignment(){
@@ -58,6 +57,14 @@ function hasLockedClubAssignment(){
         : { valid: Boolean(currentShowdown.clubs.playerOne && currentShowdown.clubs.playerTwo) };
 
     return Boolean(integrity.valid);
+}
+
+function isLeagueSelectionConfirmed(){
+    return Boolean(
+        currentShowdown
+        && currentShowdown.selectedLeague
+        && currentShowdown.status === "League Confirmed"
+    );
 }
 
 function getLeagueBackButton(){
@@ -77,17 +84,6 @@ function clearLeagueWheelTimers(){
     if(leagueWheelSpinTimer){
         window.clearTimeout(leagueWheelSpinTimer);
         leagueWheelSpinTimer = null;
-    }
-    if(leagueWheelAdvanceTimer){
-        window.clearTimeout(leagueWheelAdvanceTimer);
-        leagueWheelAdvanceTimer = null;
-    }
-}
-
-function cancelLeagueAutoAdvance(){
-    if(leagueWheelAdvanceTimer){
-        window.clearTimeout(leagueWheelAdvanceTimer);
-        leagueWheelAdvanceTimer = null;
     }
 }
 
@@ -170,11 +166,45 @@ function renderLeagueWheelState(){
         }
         spinButton.disabled = false;
         if(note){
-            const message = `${selected.name} has been selected. The league cannot be re-spun; continue to assign the two permanent clubs.`;
+            const message = isLeagueSelectionConfirmed()
+                ? `${selected.name} is confirmed. Continue when you are ready to open Club Assignment.`
+                : `${selected.name} has been selected and locked. Press Continue to confirm the league and open Club Assignment.`;
             if(note.textContent !== message){ note.textContent = message; }
             note.classList.remove("hidden", "locked");
         }
     }
+}
+
+function confirmLeagueSelectionAndContinue(){
+    if(!currentShowdown || !currentShowdown.selectedLeague || hasLockedClubAssignment()){
+        return false;
+    }
+
+    if(currentShowdown.status !== "League Confirmed"){
+        const previousStatus = currentShowdown.status;
+        currentShowdown.status = "League Confirmed";
+
+        if(!saveCurrentShowdown()){
+            currentShowdown.status = previousStatus;
+            renderLeagueWheelState();
+
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "The league confirmation could not be saved, so Club Assignment was not opened.",
+                    "error",
+                    9000
+                );
+            }
+            return false;
+        }
+
+        if(typeof window.updateShowdownUI === "function"){
+            window.updateShowdownUI();
+        }
+    }
+
+    prepareClubAssignment();
+    return true;
 }
 
 function handleLeagueWheelAction(){
@@ -183,8 +213,6 @@ function handleLeagueWheelAction(){
     }
 
     if(currentShowdown.selectedLeague){
-        cancelLeagueAutoAdvance();
-
         if(hasLockedClubAssignment()){
             if(typeof window.showAppNotice === "function"){
                 window.showAppNotice(
@@ -197,7 +225,7 @@ function handleLeagueWheelAction(){
             return;
         }
 
-        prepareClubAssignment();
+        confirmLeagueSelectionAndContinue();
         return;
     }
 
@@ -272,19 +300,6 @@ function spinLeagueWheel(){
         setLeagueWheelBusy(false);
         updateShowdownUI();
         renderLeagueWheelState();
-
-        leagueWheelAdvanceTimer = window.setTimeout(() => {
-            leagueWheelAdvanceTimer = null;
-            if(
-                isLeagueWheelOperationCurrent(operationId, showdownId)
-                && currentShowdown.selectedLeague
-                && currentShowdown.selectedLeague.id === selected.id
-                && typeof getActiveScreenName === "function"
-                && getActiveScreenName() === "leagueWheelScreen"
-            ){
-                prepareClubAssignment();
-            }
-        }, timing.advance);
     }, timing.spin);
 }
 
