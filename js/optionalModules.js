@@ -7,7 +7,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "0.95.0-r6";
+    return revision || "0.95.0-r7";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -298,12 +298,13 @@ async function ensureStatisticsScript(){
     await loadRuntimeScript(
         "statistics-ui",
         "js/statistics.js",
-        () => typeof window.openRivalryStatistics === "function" && typeof window.createAnalyticsStat === "function"
+        () => typeof window.openRivalryStatistics === "function"
+            && typeof window.openCareerStatistics === "function"
+            && typeof window.createAnalyticsStat === "function"
     );
 }
 
 async function ensureStatisticsModule(){
-    await ensureGameplayModules();
     const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
     await ensureStatisticsScript();
     await stylePromise;
@@ -352,8 +353,12 @@ async function ensureSettingsModule(){
 }
 
 function getOptionalModuleButton(name){
+    if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
     if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
-    if(name === "trophyRoom"){ return document.getElementById("trophyRoomButton"); }
+    if(name === "trophyRoom"){
+        return document.getElementById("careerStatisticsTrophyButton")
+            || document.getElementById("trophyRoomButton");
+    }
     if(name === "legacy"){ return document.getElementById("legacyButton"); }
     if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
     if(name === "settings"){ return document.getElementById("settingsButton"); }
@@ -372,7 +377,7 @@ async function ensureOptionalModule(name){
 
     optionalModuleStates.set(name, "loading");
     try{
-        if(name === "statistics"){
+        if(name === "careerStatistics" || name === "statistics"){
             await ensureStatisticsModule();
         }else if(name === "trophyRoom"){
             await ensureTrophyRoomModule();
@@ -420,7 +425,9 @@ async function openOptionalModule(name){
         await ensureOptionalModule(name);
         if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){ return false; }
 
-        if(name === "statistics"){
+        if(name === "careerStatistics"){
+            window.openCareerStatistics();
+        }else if(name === "statistics"){
             if(!currentShowdown){
                 if(typeof window.showAppNotice === "function"){
                     window.showAppNotice("No active showdown is available for Rivalry Statistics.", "error");
@@ -474,8 +481,8 @@ function initializeOptionalModules(){
     if(optionalModulesInitialized){ return; }
 
     ensureStatisticsDashboardButtonShell();
+    bindOptionalModuleButton(document.getElementById("careerStatisticsButton"), "careerStatistics", "careerStatisticsBound");
     bindOptionalModuleButton(document.getElementById("rivalryStatisticsButton"), "statistics", "statisticsLazyBound");
-    bindOptionalModuleButton(document.getElementById("trophyRoomButton"), "trophyRoom", "trophyRoomReady");
     bindOptionalModuleButton(document.getElementById("ruleBookButton"), "ruleBook", "ruleBookBound");
     bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", "settingsBound");
 
@@ -484,6 +491,7 @@ function initializeOptionalModules(){
 
 function getOptionalModuleState(){
     return {
+        careerStatistics: optionalModuleStates.get("careerStatistics") || "idle",
         statistics: optionalModuleStates.get("statistics") || "idle",
         trophyRoom: optionalModuleStates.get("trophyRoom") || "idle",
         legacy: optionalModuleStates.get("legacy") || "idle",
