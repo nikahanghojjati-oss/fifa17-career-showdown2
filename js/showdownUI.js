@@ -40,9 +40,7 @@ function getDashboardUI(){
 function setDashboardTextIfChanged(element, value){
     if(!element){ return; }
     const next = String(value ?? "");
-    if(element.textContent !== next){
-        element.textContent = next;
-    }
+    if(element.textContent !== next){ element.textContent = next; }
 }
 
 function createCompletionAction(label, handler, className = "menuButton"){
@@ -55,16 +53,12 @@ function createCompletionAction(label, handler, className = "menuButton"){
 }
 
 function ensureCompletionHub(){
-    if(document.getElementById("completedShowdownHub")){
-        return;
-    }
+    if(document.getElementById("completedShowdownHub")){ return; }
 
     const dashboard = document.getElementById("dashboard");
     const playerCards = dashboard ? dashboard.querySelector(".playerCards") : null;
     const actions = dashboard ? dashboard.querySelector(".dashboardActions") : null;
-    if(!dashboard || !playerCards || !actions){
-        return;
-    }
+    if(!dashboard || !playerCards || !actions){ return; }
 
     const hub = document.createElement("section");
     hub.id = "completedShowdownHub";
@@ -76,7 +70,6 @@ function ensureCompletionHub(){
 
     const result = document.createElement("p");
     result.id = "completedShowdownResult";
-
     const meta = document.createElement("p");
     meta.id = "completedShowdownMeta";
 
@@ -136,7 +129,6 @@ function ensureActiveShowdownDeleteControl(){
 
 function deleteCurrentShowdownFromDashboard(){
     if(!currentShowdown && !hasSavedShowdown()){ return; }
-
     const saved = currentShowdown || loadSavedShowdown();
     const name = saved && saved.name ? saved.name : "the current showdown";
     const isCompleted = saved && saved.status === "Completed";
@@ -152,19 +144,24 @@ function deleteCurrentShowdownFromDashboard(){
         return;
     }
 
-    if(typeof window.stopTransferTimerLoop === "function"){
-        window.stopTransferTimerLoop();
-    }
-    if(typeof window.resetTransientSelectionOperations === "function"){
-        window.resetTransientSelectionOperations();
-    }
-    if(typeof window.resetNavigationState === "function"){
-        window.resetNavigationState();
-    }
+    if(typeof window.stopTransferTimerLoop === "function"){ window.stopTransferTimerLoop(); }
+    if(typeof window.resetTransientSelectionOperations === "function"){ window.resetTransientSelectionOperations(); }
+    if(typeof window.resetNavigationState === "function"){ window.resetNavigationState(); }
 
     currentShowdown = null;
     setDashboardTextIfChanged(getDashboardUI().indicator, "No Active Showdown");
     showScreen("mainMenu", false);
+}
+
+function getTransferPhaseForDashboard(challenge){
+    if(!challenge){ return "window"; }
+    if(typeof window.normalizeTransferChallengePhase === "function"){
+        return window.normalizeTransferChallengePhase(challenge);
+    }
+    if(challenge.status === "completed"){ return "completed"; }
+    if(challenge.status === "recording" && challenge.phase === "signing_entry"){ return "signing_entry"; }
+    if(challenge.status === "recording"){ return "guess_entry"; }
+    return "window";
 }
 
 function getCurrentTransferStatusLabel(){
@@ -172,17 +169,18 @@ function getCurrentTransferStatusLabel(){
     const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
     if(!challenge || challenge.status === "not_started"){ return "Transfer challenge: not started"; }
     if(challenge.status === "active"){ return "Transfer challenge: window live"; }
-    if(challenge.status === "recording"){ return "Transfer challenge: record signings and guesses"; }
+    if(challenge.status === "recording"){
+        return getTransferPhaseForDashboard(challenge) === "signing_entry"
+            ? "Transfer challenge: signing entry"
+            : "Transfer challenge: guess entry";
+    }
     return "Transfer challenge: complete";
 }
 
 function renderDashboardIntegrityStatus(){
     const note = getDashboardUI().integrity;
     if(!note || !currentShowdown){ return; }
-
-    const warnings = Array.isArray(currentShowdown.integrityWarnings)
-        ? currentShowdown.integrityWarnings
-        : [];
+    const warnings = Array.isArray(currentShowdown.integrityWarnings) ? currentShowdown.integrityWarnings : [];
 
     if(!warnings.length){
         setDashboardTextIfChanged(note, "");
@@ -198,12 +196,8 @@ function renderDashboardIntegrityStatus(){
 
 function getCompletedShowdownResultText(){
     const winner = typeof getShowdownWinner === "function" ? getShowdownWinner(currentShowdown) : "draw";
-    if(winner === "playerOne"){
-        return `${currentShowdown.managers.playerOne} wins the showdown`;
-    }
-    if(winner === "playerTwo"){
-        return `${currentShowdown.managers.playerTwo} wins the showdown`;
-    }
+    if(winner === "playerOne"){ return `${currentShowdown.managers.playerOne} wins the showdown`; }
+    if(winner === "playerTwo"){ return `${currentShowdown.managers.playerTwo} wins the showdown`; }
     return "The showdown finishes level";
 }
 
@@ -211,20 +205,14 @@ function isCurrentShowdownArchived(){
     if(!currentShowdown || currentShowdown.status !== "Completed" || typeof loadLegacyShowdowns !== "function"){
         return false;
     }
-
     try{
-        return loadLegacyShowdowns().some(
-            showdown => showdown && String(showdown.id) === String(currentShowdown.id)
-        );
-    }catch(error){
-        return false;
-    }
+        return loadLegacyShowdowns().some(showdown => showdown && String(showdown.id) === String(currentShowdown.id));
+    }catch(error){ return false; }
 }
 
 function renderCompletionHub(completed){
     const ui = getDashboardUI();
     if(!ui.completionHub){ return; }
-
     ui.completionHub.classList.toggle("hidden", !completed);
     if(!completed){ return; }
 
@@ -245,18 +233,13 @@ function updateShowdownUI(){
 
     const ui = getDashboardUI();
     const completed = currentShowdown.status === "Completed";
-    const leagueName = currentShowdown.selectedLeague
-        ? currentShowdown.selectedLeague.name
-        : null;
+    const leagueName = currentShowdown.selectedLeague ? currentShowdown.selectedLeague.name : null;
     const roundLabel = completed
         ? `${currentShowdown.rounds.length} seasons completed`
         : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
     const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
 
-    setDashboardTextIfChanged(
-        ui.indicator,
-        completed ? "Showdown Complete" : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`
-    );
+    setDashboardTextIfChanged(ui.indicator, completed ? "Showdown Complete" : `Season ${currentShowdown.currentRound} / ${currentShowdown.totalRounds}`);
     setDashboardTextIfChanged(ui.selectedLeague, leagueName || "Spin to select league");
     setDashboardTextIfChanged(ui.showdownName, currentShowdown.name);
     setDashboardTextIfChanged(ui.league, leagueName || "League not selected");
@@ -269,14 +252,8 @@ function updateShowdownUI(){
     setDashboardTextIfChanged(ui.clubTwo, currentShowdown.clubs.playerTwo || "Club not assigned");
     setDashboardTextIfChanged(ui.scoreOne, currentShowdown.score.playerOne);
     setDashboardTextIfChanged(ui.scoreTwo, currentShowdown.score.playerTwo);
-    setDashboardTextIfChanged(
-        ui.lastPositionOne,
-        latestRound ? `Last league finish: ${latestRound.playerOne.leaguePosition}` : "No season completed"
-    );
-    setDashboardTextIfChanged(
-        ui.lastPositionTwo,
-        latestRound ? `Last league finish: ${latestRound.playerTwo.leaguePosition}` : "No season completed"
-    );
+    setDashboardTextIfChanged(ui.lastPositionOne, latestRound ? `Last league finish: ${latestRound.playerOne.leaguePosition}` : "No season completed");
+    setDashboardTextIfChanged(ui.lastPositionTwo, latestRound ? `Last league finish: ${latestRound.playerTwo.leaguePosition}` : "No season completed");
 
     if(typeof window.refreshClubVisualIdentity === "function"){
         window.refreshClubVisualIdentity(currentShowdown);
@@ -301,7 +278,9 @@ function updateShowdownUI(){
     }else if(challenge.status === "active"){
         primaryLabel = `RESUME SEASON ${currentShowdown.currentRound} TRANSFER WINDOW`;
     }else if(challenge.status === "recording"){
-        primaryLabel = `FINISH SEASON ${currentShowdown.currentRound} TRANSFER CHALLENGE`;
+        primaryLabel = getTransferPhaseForDashboard(challenge) === "signing_entry"
+            ? `ENTER SEASON ${currentShowdown.currentRound} SIGNINGS`
+            : `ENTER SEASON ${currentShowdown.currentRound} GUESSES`;
     }else{
         primaryLabel = `ENTER SEASON ${currentShowdown.currentRound} RESULTS`;
     }
