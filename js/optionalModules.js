@@ -1,13 +1,13 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.16.0
+   v0.95.0
    Unified On-Demand Runtime Module Loader
 ===================================================== */
 
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "0.16.0-r3";
+    return revision || "0.95.0-r1";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
