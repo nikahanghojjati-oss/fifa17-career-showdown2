@@ -1,12 +1,18 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
-   Transaction-Safe Local Storage and Legacy Persistence
+   v0.95.0
+   Transaction-Safe Local Storage and Application Preferences
 ===================================================== */
 
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
 const LEGACY_STORAGE_KEY = "careerModeShowdown.legacyShowdowns";
+const APPLICATION_PREFERENCES_KEY = "careerModeShowdown.preferences";
+const APPLICATION_PREFERENCES_SCHEMA_VERSION = 1;
 const DEFAULT_DRAFT_SAVE_DELAY = 420;
+const DEFAULT_APPLICATION_PREFERENCES = Object.freeze({
+    schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
+    reducedMotion: false
+});
 
 let pendingCurrentSaveTimer = null;
 let storageLifecycleBound = false;
@@ -14,6 +20,9 @@ let activeSavePresenceKnown = false;
 let activeSavePresent = false;
 let legacyCache = null;
 let legacyStorageRevision = 0;
+let applicationPreferencesCache = null;
+let motionPreferenceMediaQuery = null;
+let motionPreferenceMediaBound = false;
 
 function reportStorageError(context, error){
     console.error(`[Career Mode Showdown] ${context}:`, error);
@@ -49,6 +58,161 @@ function removeStorageValue(key){
         reportStorageError("Unable to remove local save data", error);
         return false;
     }
+}
+
+function createDefaultApplicationPreferences(){
+    return {
+        schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
+        reducedMotion: false
+    };
+}
+
+function normalizeApplicationPreferences(value){
+    return {
+        schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
+        reducedMotion: Boolean(value && value.reducedMotion)
+    };
+}
+
+function loadApplicationPreferences(){
+    if(applicationPreferencesCache){
+        return { ...applicationPreferencesCache };
+    }
+
+    const raw = readStorageValue(APPLICATION_PREFERENCES_KEY);
+    if(!raw){
+        applicationPreferencesCache = createDefaultApplicationPreferences();
+        return { ...applicationPreferencesCache };
+    }
+
+    try{
+        const parsed = JSON.parse(raw);
+        if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
+            throw new Error("Application preferences are not a valid object.");
+        }
+        applicationPreferencesCache = normalizeApplicationPreferences(parsed);
+    }catch(error){
+        reportStorageError("Unable to parse application preferences", error);
+        applicationPreferencesCache = createDefaultApplicationPreferences();
+    }
+
+    return { ...applicationPreferencesCache };
+}
+
+function saveApplicationPreferences(preferences){
+    const normalized = normalizeApplicationPreferences(preferences);
+
+    try{
+        const serialized = JSON.stringify(normalized);
+        if(!writeStorageValue(APPLICATION_PREFERENCES_KEY, serialized)){
+            return false;
+        }
+        applicationPreferencesCache = normalized;
+        return true;
+    }catch(error){
+        reportStorageError("Unable to serialize application preferences", error);
+        return false;
+    }
+}
+
+function getMotionPreferenceMediaQuery(){
+    if(motionPreferenceMediaQuery){
+        return motionPreferenceMediaQuery;
+    }
+    if(typeof window.matchMedia !== "function"){
+        return null;
+    }
+    motionPreferenceMediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    return motionPreferenceMediaQuery;
+}
+
+function isSystemReducedMotionPreferred(){
+    const query = getMotionPreferenceMediaQuery();
+    return Boolean(query && query.matches);
+}
+
+function isReducedMotionPreferred(){
+    const preferences = loadApplicationPreferences();
+    return Boolean(preferences.reducedMotion || isSystemReducedMotionPreferred());
+}
+
+function getApplicationMotionPreferenceState(){
+    const preferences = loadApplicationPreferences();
+    const systemReduced = isSystemReducedMotionPreferred();
+    return {
+        reducedMotionOverride: Boolean(preferences.reducedMotion),
+        systemReduced,
+        effectiveReduced: Boolean(preferences.reducedMotion || systemReduced)
+    };
+}
+
+function applyApplicationMotionPreference(){
+    const root = document.documentElement;
+    if(!root){
+        return getApplicationMotionPreferenceState();
+    }
+
+    const state = getApplicationMotionPreferenceState();
+    root.dataset.motionPreference = state.reducedMotionOverride ? "reduced" : "system";
+    root.dataset.motionReduced = state.effectiveReduced ? "true" : "false";
+    return state;
+}
+
+function notifyApplicationPreferencesChanged(source = "application"){
+    if(typeof window.CustomEvent !== "function"){
+        return;
+    }
+    window.dispatchEvent(new CustomEvent("career-mode-preferences-change", {
+        detail: {
+            source,
+            preferences: loadApplicationPreferences(),
+            motion: getApplicationMotionPreferenceState()
+        }
+    }));
+}
+
+function setApplicationReducedMotionPreference(enabled){
+    const current = loadApplicationPreferences();
+    const nextValue = Boolean(enabled);
+
+    if(current.reducedMotion === nextValue){
+        applyApplicationMotionPreference();
+        return true;
+    }
+
+    if(!saveApplicationPreferences({ ...current, reducedMotion: nextValue })){
+        return false;
+    }
+
+    applyApplicationMotionPreference();
+    notifyApplicationPreferencesChanged("user");
+    return true;
+}
+
+function initializeMotionPreferenceLifecycle(){
+    applyApplicationMotionPreference();
+
+    if(motionPreferenceMediaBound){
+        return;
+    }
+
+    const query = getMotionPreferenceMediaQuery();
+    if(!query){
+        return;
+    }
+
+    const handleChange = () => {
+        applyApplicationMotionPreference();
+        notifyApplicationPreferencesChanged("system");
+    };
+
+    if(typeof query.addEventListener === "function"){
+        query.addEventListener("change", handleChange);
+    }else if(typeof query.addListener === "function"){
+        query.addListener(handleChange);
+    }
+
+    motionPreferenceMediaBound = true;
 }
 
 function normalizeBeforeStorage(showdown){
@@ -123,6 +287,8 @@ function initializeStorageLifecycle(){
     if(storageLifecycleBound){ return; }
     storageLifecycleBound = true;
 
+    initializeMotionPreferenceLifecycle();
+
     window.addEventListener("pagehide", flushPendingApplicationWrites);
     document.addEventListener("visibilitychange", () => {
         if(document.visibilityState === "hidden"){
@@ -136,6 +302,11 @@ function initializeStorageLifecycle(){
         }
         if(event.key === LEGACY_STORAGE_KEY){
             invalidateLegacyCache();
+        }
+        if(event.key === APPLICATION_PREFERENCES_KEY){
+            applicationPreferencesCache = null;
+            applyApplicationMotionPreference();
+            notifyApplicationPreferencesChanged("storage");
         }
     });
 }
@@ -334,7 +505,7 @@ function clearAllCareerModeData(){
     invalidateLegacyCache();
     legacyCache = [];
 
-    /* Keep the snapshot variable intentional: it documents both keys in the transaction. */
+    /* Application preferences intentionally survive a Showdown-data reset. */
     void legacySnapshot;
     return true;
 }
@@ -344,3 +515,9 @@ window.scheduleCurrentShowdownSave = scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave = flushScheduledCurrentShowdownSave;
 window.flushPendingApplicationWrites = flushPendingApplicationWrites;
 window.getLegacyStorageRevision = getLegacyStorageRevision;
+window.loadApplicationPreferences = loadApplicationPreferences;
+window.getApplicationMotionPreferenceState = getApplicationMotionPreferenceState;
+window.setApplicationReducedMotionPreference = setApplicationReducedMotionPreference;
+window.isSystemReducedMotionPreferred = isSystemReducedMotionPreferred;
+window.isReducedMotionPreferred = isReducedMotionPreferred;
+window.applyApplicationMotionPreference = applyApplicationMotionPreference;
