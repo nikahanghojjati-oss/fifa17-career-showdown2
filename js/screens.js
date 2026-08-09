@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
-   Lifecycle-Safe Screen and Navigation Engine
+   v0.16.0
+   Smart State-Aware Navigation Engine
 ===================================================== */
 
 const screens = [
@@ -19,10 +19,36 @@ const screens = [
     "ruleBook"
 ];
 
-const MAX_SCREEN_HISTORY = 24;
+const GAMEPLAY_SCREENS = new Set([
+    "leagueWheelScreen",
+    "clubWheelScreen",
+    "dashboard",
+    "transferChallenge",
+    "seasonEntry",
+    "seasonSummary",
+    "statistics"
+]);
+
+const SAFE_BACK_TARGETS = Object.freeze({
+    mainMenu: [],
+    createShowdown: ["mainMenu"],
+    leagueWheelScreen: ["createShowdown", "mainMenu"],
+    clubWheelScreen: ["leagueWheelScreen", "mainMenu"],
+    dashboard: ["mainMenu"],
+    transferChallenge: ["dashboard", "mainMenu"],
+    seasonEntry: ["dashboard", "mainMenu"],
+    seasonSummary: ["dashboard", "mainMenu"],
+    statistics: ["dashboard", "mainMenu"],
+    trophyRoom: ["mainMenu"],
+    legacy: ["mainMenu"],
+    ruleBook: ["mainMenu"]
+});
+
+const MAX_SCREEN_HISTORY = 18;
 let screenHistory = [];
 let activeScreenName = null;
 let navigationRevision = 0;
+let navigationBusy = false;
 
 function reportRouteError(message, error = null){
     if(typeof window.reportApplicationError === "function"){
@@ -53,6 +79,11 @@ function getNavigationRevision(){
     return navigationRevision;
 }
 
+function resetNavigationState(){
+    screenHistory.length = 0;
+    navigationRevision += 1;
+}
+
 function resetTransientSelectionOperations(){
     if(typeof window.cancelLeagueWheelOperation === "function"){
         window.cancelLeagueWheelOperation();
@@ -60,6 +91,122 @@ function resetTransientSelectionOperations(){
     if(typeof window.cancelClubAssignmentOperation === "function"){
         window.cancelClubAssignmentOperation();
     }
+}
+
+function getClubPairRouteState(showdown = currentShowdown){
+    if(!showdown || !showdown.selectedLeague || !showdown.clubs){
+        return false;
+    }
+
+    if(typeof getClubPairIntegrity === "function"){
+        return Boolean(getClubPairIntegrity(showdown).valid);
+    }
+
+    const one = showdown.clubs.playerOne;
+    const two = showdown.clubs.playerTwo;
+    return Boolean(one && two && one !== two);
+}
+
+function getCurrentChallengeRouteState(showdown = currentShowdown){
+    if(!showdown){ return null; }
+
+    if(typeof getTransferChallengeForSeason === "function"){
+        return getTransferChallengeForSeason(showdown.currentRound);
+    }
+
+    const challenges = Array.isArray(showdown.transferChallenges)
+        ? showdown.transferChallenges
+        : [];
+    return challenges.find(
+        challenge => challenge && Number(challenge.seasonNumber) === Number(showdown.currentRound)
+    ) || null;
+}
+
+function isRouteStateValid(screenName){
+    const showdown = typeof currentShowdown !== "undefined" ? currentShowdown : null;
+
+    if(["mainMenu", "createShowdown", "trophyRoom", "legacy", "ruleBook"].includes(screenName)){
+        return true;
+    }
+
+    if(screenName === "statistics"){
+        return Boolean(showdown);
+    }
+
+    if(!showdown){
+        return false;
+    }
+
+    if(screenName === "dashboard"){
+        return true;
+    }
+
+    if(showdown.status === "Completed"){
+        return screenName === "seasonSummary" && Array.isArray(showdown.rounds) && showdown.rounds.length > 0;
+    }
+
+    const clubsValid = getClubPairRouteState(showdown);
+
+    if(screenName === "leagueWheelScreen"){
+        return !clubsValid;
+    }
+
+    if(screenName === "clubWheelScreen"){
+        return Boolean(showdown.selectedLeague) && !clubsValid;
+    }
+
+    if(!clubsValid){
+        return false;
+    }
+
+    const challenge = getCurrentChallengeRouteState(showdown);
+
+    if(screenName === "transferChallenge"){
+        return !challenge || challenge.status !== "completed";
+    }
+
+    if(screenName === "seasonEntry"){
+        return Boolean(challenge && challenge.status === "completed");
+    }
+
+    if(screenName === "seasonSummary"){
+        return Array.isArray(showdown.rounds) && showdown.rounds.length > 0;
+    }
+
+    return true;
+}
+
+function resolveCanonicalShowdownRoute(){
+    const showdown = typeof currentShowdown !== "undefined" ? currentShowdown : null;
+    if(!showdown){
+        return "mainMenu";
+    }
+
+    if(showdown.status === "Completed"){
+        return "dashboard";
+    }
+
+    if(!showdown.selectedLeague){
+        return "leagueWheelScreen";
+    }
+
+    if(!getClubPairRouteState(showdown)){
+        return "clubWheelScreen";
+    }
+
+    const challenge = getCurrentChallengeRouteState(showdown);
+    if(challenge && (challenge.status === "active" || challenge.status === "recording")){
+        return "transferChallenge";
+    }
+
+    return "dashboard";
+}
+
+async function ensureGameplayRuntime(){
+    if(typeof window.ensureGameplayModules !== "function"){
+        throw new Error("The gameplay runtime loader is unavailable.");
+    }
+    return window.ensureGameplayModules();
 }
 
 function flushScreenBeforeLeave(currentScreen, nextScreen){
@@ -113,14 +260,14 @@ function renderScreenBeforeEnter(screenName){
     if(screenName === "mainMenu" && typeof window.refreshMainMenuExperience === "function"){
         window.refreshMainMenuExperience();
     }
-    if(screenName === "dashboard" && currentShowdown && typeof updateShowdownUI === "function"){
-        updateShowdownUI();
+    if(screenName === "dashboard" && currentShowdown && typeof window.updateShowdownUI === "function"){
+        window.updateShowdownUI();
     }
-    if(screenName === "leagueWheelScreen" && typeof renderLeagueWheelState === "function"){
-        renderLeagueWheelState();
+    if(screenName === "leagueWheelScreen" && typeof window.renderLeagueWheelState === "function"){
+        window.renderLeagueWheelState();
     }
-    if(screenName === "clubWheelScreen" && typeof renderClubAssignmentState === "function"){
-        renderClubAssignmentState();
+    if(screenName === "clubWheelScreen" && typeof window.renderClubAssignmentState === "function"){
+        window.renderClubAssignmentState();
     }
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
@@ -146,15 +293,6 @@ function pushScreenHistory(screenName){
     }
 }
 
-function pruneHistoryForExplicitBack(target){
-    if(!target){ return; }
-
-    const targetIndex = screenHistory.lastIndexOf(target);
-    screenHistory = targetIndex >= 0
-        ? screenHistory.slice(0, targetIndex)
-        : [];
-}
-
 function showScreen(screenName, addToHistory = true){
     if(!screens.includes(screenName)){
         reportRouteError(`Unknown screen requested: ${screenName}`);
@@ -164,6 +302,10 @@ function showScreen(screenName, addToHistory = true){
     const target = document.getElementById(screenName);
     if(!target){
         reportRouteError(`Screen is not available: ${screenName}`);
+        return false;
+    }
+
+    if(!isRouteStateValid(screenName)){
         return false;
     }
 
@@ -210,45 +352,110 @@ function showScreen(screenName, addToHistory = true){
     return true;
 }
 
-function navigateBackTo(target){
-    if(!target){
-        goBack();
-        return;
+async function navigateTo(screenName, options = {}){
+    const addToHistory = options.addToHistory !== false;
+    const allowCanonicalFallback = options.allowCanonicalFallback !== false;
+    let target = screenName;
+
+    try{
+        if(GAMEPLAY_SCREENS.has(target)){
+            await ensureGameplayRuntime();
+        }
+
+        if(!isRouteStateValid(target) && allowCanonicalFallback){
+            target = resolveCanonicalShowdownRoute();
+            if(GAMEPLAY_SCREENS.has(target)){
+                await ensureGameplayRuntime();
+            }
+        }
+
+        if(showScreen(target, addToHistory)){
+            return true;
+        }
+
+        if(allowCanonicalFallback && target !== "mainMenu"){
+            const canonical = resolveCanonicalShowdownRoute();
+            if(canonical !== target && showScreen(canonical, addToHistory)){
+                return true;
+            }
+            return showScreen("mainMenu", addToHistory);
+        }
+    }catch(error){
+        reportRouteError(`Unable to navigate to ${screenName}`, error);
     }
 
-    if(showScreen(target, false)){
-        pruneHistoryForExplicitBack(target);
+    return false;
+}
+
+function getLegalBackTargets(screenName){
+    return SAFE_BACK_TARGETS[screenName] || ["mainMenu"];
+}
+
+function consumeHistoryTo(target){
+    const index = screenHistory.lastIndexOf(target);
+    if(index >= 0){
+        screenHistory.splice(index);
+    }else{
+        screenHistory.length = 0;
+    }
+}
+
+async function navigateBackSmart(){
+    if(navigationBusy){ return false; }
+    navigationBusy = true;
+
+    try{
+        const current = getActiveScreenName() || resolveCanonicalShowdownRoute();
+        const legalTargets = getLegalBackTargets(current);
+
+        for(let index = screenHistory.length - 1; index >= 0; index -= 1){
+            const candidate = screenHistory[index];
+            if(
+                legalTargets.includes(candidate)
+                && candidate !== current
+                && document.getElementById(candidate)
+                && isRouteStateValid(candidate)
+            ){
+                if(await navigateTo(candidate, { addToHistory: false, allowCanonicalFallback: false })){
+                    consumeHistoryTo(candidate);
+                    return true;
+                }
+            }
+        }
+
+        for(const fallback of legalTargets){
+            if(document.getElementById(fallback) && isRouteStateValid(fallback)){
+                if(await navigateTo(fallback, { addToHistory: false, allowCanonicalFallback: false })){
+                    screenHistory.length = 0;
+                    return true;
+                }
+            }
+        }
+
+        const canonical = resolveCanonicalShowdownRoute();
+        if(await navigateTo(canonical, { addToHistory: false, allowCanonicalFallback: false })){
+            screenHistory.length = 0;
+            return true;
+        }
+
+        screenHistory.length = 0;
+        return showScreen("mainMenu", false);
+    }finally{
+        navigationBusy = false;
     }
 }
 
 function goBack(){
-    while(screenHistory.length){
-        const previous = screenHistory[screenHistory.length - 1];
-        if(!previous || !document.getElementById(previous)){
-            screenHistory.pop();
-            continue;
-        }
-
-        if(showScreen(previous, false)){
-            screenHistory.pop();
-        }
-        return;
-    }
-
-    showScreen("mainMenu", false);
+    return navigateBackSmart();
 }
 
 function openLegacy(){
     if(typeof window.openOptionalModule === "function"){
-        window.openOptionalModule("legacy");
-        return;
+        return window.openOptionalModule("legacy");
     }
 
-    if(typeof window.renderLegacy !== "function"){
-        reportRouteError("Legacy module is unavailable");
-        return;
-    }
-    showScreen("legacy");
+    reportRouteError("Legacy module loader is unavailable");
+    return false;
 }
 
 function surfaceIntegrityWarnings(showdown){
@@ -265,49 +472,61 @@ function surfaceIntegrityWarnings(showdown){
     }
 }
 
-function resumeSavedShowdown(){
+function didNormalizationChange(saved, normalized){
+    const before = {
+        schema: Number(saved.schemaVersion) || 1,
+        rounds: Number(saved.totalRounds) || 1,
+        current: Number(saved.currentRound) || 1,
+        status: String(saved.status || ""),
+        one: String(saved.managers && saved.managers.playerOne || ""),
+        two: String(saved.managers && saved.managers.playerTwo || ""),
+        league: String(saved.selectedLeague && saved.selectedLeague.id || ""),
+        clubOne: String(saved.clubs && saved.clubs.playerOne || ""),
+        clubTwo: String(saved.clubs && saved.clubs.playerTwo || ""),
+        scoreOne: Number(saved.score && saved.score.playerOne) || 0,
+        scoreTwo: Number(saved.score && saved.score.playerTwo) || 0,
+        warnings: Array.isArray(saved.integrityWarnings) ? saved.integrityWarnings.join("|") : ""
+    };
+
+    return before.schema !== Number(normalized.schemaVersion)
+        || before.rounds !== Number(normalized.totalRounds)
+        || before.current !== Number(normalized.currentRound)
+        || before.status !== String(normalized.status || "")
+        || before.one !== String(normalized.managers.playerOne || "")
+        || before.two !== String(normalized.managers.playerTwo || "")
+        || before.league !== String(normalized.selectedLeague && normalized.selectedLeague.id || "")
+        || before.clubOne !== String(normalized.clubs.playerOne || "")
+        || before.clubTwo !== String(normalized.clubs.playerTwo || "")
+        || before.scoreOne !== Number(normalized.score.playerOne)
+        || before.scoreTwo !== Number(normalized.score.playerTwo)
+        || before.warnings !== normalized.integrityWarnings.join("|");
+}
+
+async function resumeSavedShowdown(){
+    if(navigationBusy){ return; }
+    navigationBusy = true;
+
     try{
         const saved = loadSavedShowdown();
         if(!saved){
+            currentShowdown = null;
+            resetNavigationState();
             showScreen("createShowdown");
             return;
         }
 
-        const previousSchemaVersion = Number(saved.schemaVersion) || 1;
-        const previousTotalRounds = Number(saved.totalRounds) || 1;
-        const previousCurrentRound = Number(saved.currentRound) || 1;
-        const previousStatus = saved.status || "";
-        const previousManagerOne = saved.managers && saved.managers.playerOne || "";
-        const previousManagerTwo = saved.managers && saved.managers.playerTwo || "";
-        const previousLeagueId = saved.selectedLeague && saved.selectedLeague.id;
-        const previousClubOne = saved.clubs && saved.clubs.playerOne;
-        const previousClubTwo = saved.clubs && saved.clubs.playerTwo;
-        const previousWarnings = Array.isArray(saved.integrityWarnings) ? saved.integrityWarnings.join("|") : "";
-        const previousScoreOne = Number(saved.score && saved.score.playerOne) || 0;
-        const previousScoreTwo = Number(saved.score && saved.score.playerTwo) || 0;
-
+        await ensureGameplayRuntime();
         currentShowdown = normalizeShowdown(saved);
         surfaceIntegrityWarnings(currentShowdown);
 
-        const normalizationChangedState = previousSchemaVersion !== Number(currentShowdown.schemaVersion)
-            || previousTotalRounds !== Number(currentShowdown.totalRounds)
-            || previousCurrentRound !== Number(currentShowdown.currentRound)
-            || previousStatus !== String(currentShowdown.status || "")
-            || previousManagerOne !== String(currentShowdown.managers.playerOne || "")
-            || previousManagerTwo !== String(currentShowdown.managers.playerTwo || "")
-            || String(previousLeagueId || "") !== String(currentShowdown.selectedLeague && currentShowdown.selectedLeague.id || "")
-            || String(previousClubOne || "") !== String(currentShowdown.clubs.playerOne || "")
-            || String(previousClubTwo || "") !== String(currentShowdown.clubs.playerTwo || "")
-            || previousWarnings !== currentShowdown.integrityWarnings.join("|")
-            || previousScoreOne !== Number(currentShowdown.score.playerOne)
-            || previousScoreTwo !== Number(currentShowdown.score.playerTwo);
-
-        if(normalizationChangedState && !saveCurrentShowdown() && typeof window.showAppNotice === "function"){
-            window.showAppNotice(
-                "The saved showdown was loaded, but its repaired state could not be written back to browser storage.",
-                "error",
-                10000
-            );
+        if(didNormalizationChange(saved, currentShowdown) && !saveCurrentShowdown()){
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(
+                    "The saved showdown was loaded, but its repaired state could not be written back to browser storage.",
+                    "error",
+                    10000
+                );
+            }
         }
 
         if(currentShowdown.status === "Completed"){
@@ -320,33 +539,27 @@ function resumeSavedShowdown(){
             }
         }
 
+        resetNavigationState();
         updateShowdownUI();
 
-        if(!currentShowdown.selectedLeague){
-            showScreen("leagueWheelScreen");
+        const canonical = resolveCanonicalShowdownRoute();
+        if(canonical === "transferChallenge" && typeof window.openTransferChallenge === "function"){
+            window.openTransferChallenge();
+            return;
+        }
+        if(canonical === "clubWheelScreen" && typeof window.prepareClubAssignment === "function"){
+            window.prepareClubAssignment();
             return;
         }
 
-        const clubIntegrity = typeof getClubPairIntegrity === "function"
-            ? getClubPairIntegrity(currentShowdown)
-            : { valid: Boolean(currentShowdown.clubs.playerOne && currentShowdown.clubs.playerTwo) };
-
-        if(!clubIntegrity.valid){
-            prepareClubAssignment();
-            return;
+        if(!showScreen(canonical, false)){
+            throw new Error(`The saved showdown could not open its safe route (${canonical}).`);
         }
-
-        if(currentShowdown.status !== "Completed"){
-            const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
-            if(challenge && (challenge.status === "active" || challenge.status === "recording")){
-                openTransferChallenge();
-                return;
-            }
-        }
-
-        showScreen("dashboard");
     }catch(error){
         reportRouteError("Unable to resume the saved showdown", error);
+        await navigateTo("mainMenu", { addToHistory: false });
+    }finally{
+        navigationBusy = false;
     }
 }
 
@@ -358,23 +571,78 @@ function bindNavigationButton(button, handler, marker){
     button.addEventListener("click", handler);
 }
 
+function setNavigationBusyState(button, busy){
+    if(!button){ return; }
+    button.classList.toggle("isBusy", busy);
+    button.setAttribute("aria-busy", String(Boolean(busy)));
+    button.disabled = Boolean(busy);
+}
+
+async function startShowdownFromSetup(){
+    const button = document.getElementById("startShowdown");
+    if(navigationBusy){ return; }
+    navigationBusy = true;
+    setNavigationBusyState(button, true);
+
+    try{
+        await ensureGameplayRuntime();
+        createShowdown();
+    }catch(error){
+        reportRouteError("Unable to start the showdown", error);
+    }finally{
+        setNavigationBusyState(button, false);
+        navigationBusy = false;
+    }
+}
+
+function warmGameplayRuntime(){
+    if(typeof window.ensureGameplayModules !== "function"){
+        return;
+    }
+    window.ensureGameplayModules().catch(() => {
+        /* Predictive warm-up failures are surfaced only if the user actually navigates into gameplay. */
+    });
+}
+
 function initializeScreens(){
     const newShowdownButton = document.getElementById("newShowdown");
     const continueButton = document.getElementById("continueCareer");
     const legacyButton = document.getElementById("legacyButton");
+    const startButton = document.getElementById("startShowdown");
 
-    bindNavigationButton(newShowdownButton, () => showScreen("createShowdown"), "navigationBound");
+    bindNavigationButton(newShowdownButton, () => navigateTo("createShowdown"), "navigationBound");
     bindNavigationButton(continueButton, resumeSavedShowdown, "navigationBound");
     bindNavigationButton(legacyButton, openLegacy, "navigationBound");
+    bindNavigationButton(startButton, startShowdownFromSetup, "navigationBound");
 
-    document.querySelectorAll("[data-back]").forEach(button => {
-        bindNavigationButton(button, () => {
-            const target = button.dataset.back;
-            navigateBackTo(target || null);
-        }, "backBound");
+    [continueButton, startButton].forEach(button => {
+        if(!button || button.dataset.gameplayWarmBound === "true"){ return; }
+        button.dataset.gameplayWarmBound = "true";
+        button.addEventListener("pointerenter", warmGameplayRuntime, { passive: true });
+        button.addEventListener("focus", warmGameplayRuntime, { passive: true });
+    });
+
+    document.querySelectorAll("[data-smart-back]").forEach(button => {
+        bindNavigationButton(button, navigateBackSmart, "smartBackBound");
     });
 }
 
+function getNavigationDiagnostics(){
+    return {
+        activeScreen: getActiveScreenName(),
+        canonicalScreen: resolveCanonicalShowdownRoute(),
+        historyLength: screenHistory.length,
+        history: screenHistory.slice(),
+        busy: navigationBusy
+    };
+}
+
+window.getActiveScreenName = getActiveScreenName;
 window.getNavigationRevision = getNavigationRevision;
+window.resetNavigationState = resetNavigationState;
 window.resetTransientSelectionOperations = resetTransientSelectionOperations;
-window.navigateBackTo = navigateBackTo;
+window.resolveCanonicalShowdownRoute = resolveCanonicalShowdownRoute;
+window.navigateTo = navigateTo;
+window.navigateBackSmart = navigateBackSmart;
+window.getNavigationDiagnostics = getNavigationDiagnostics;
+window.resumeSavedShowdown = resumeSavedShowdown;
