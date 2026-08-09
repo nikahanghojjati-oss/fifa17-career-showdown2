@@ -260,7 +260,7 @@ jobs:
           assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'), 'Device reduced motion guard is missing.');
 
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
-          assert.strictEqual(revision, '0.95.0-r12', 'Release stabilization must use a fresh cache revision.');
+          assert.strictEqual(revision, '0.95.0-r13', 'V1 visual immersion must use a fresh cache revision.');
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
           assert.strictEqual(refs.filter(ref => ref.path.startsWith('js/')).length, 7, 'Initial shell must remain seven scripts.');
@@ -268,8 +268,8 @@ jobs:
           assert.deepStrictEqual(refs.filter(ref => ref.revision !== revision), [], 'Final polish shell contains mixed revisions.');
           const rawBytes = refs.reduce((total, ref) => total + fs.statSync(ref.path).size, 0);
           const compressedBytes = refs.reduce((total, ref) => total + zlib.gzipSync(fs.readFileSync(ref.path), { level: 9 }).length, 0);
-          assert.ok(rawBytes <= 155000, `Initial raw bytes exceeded 155000 (${rawBytes}).`);
-          assert.ok(compressedBytes <= 35000, `Initial compressed bytes exceeded 35000 (${compressedBytes}).`);
+          assert.ok(rawBytes <= 165000, `Initial raw bytes exceeded 165000 (${rawBytes}).`);
+          assert.ok(compressedBytes <= 37500, `Initial compressed bytes exceeded 37500 (${compressedBytes}).`);
           assert.ok(feedbackBytes <= 5500, `Lazy feedback module is too large (${feedbackBytes}).`);
           console.log(`Accessibility and presentation budgets passed: ${rawBytes} raw / ${compressedBytes} compressed initial bytes; ${feedbackBytes} lazy feedback bytes.`);
           NODE

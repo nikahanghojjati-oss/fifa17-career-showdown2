@@ -3,23 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="0.95.0-r12">
+<meta name="app-asset-revision" content="0.95.0-r13">
 <title>Career Mode Showdown</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=0.95.0-r12">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=0.95.0-r13">
 </head>
 <body>
 <div id="background"></div>
 <div id="overlay"></div>
 
-<section id="loadingScreen" role="status" aria-live="polite" aria-busy="true">
-<div class="loadingContent">
-<h1>CAREER MODE</h1>
-<h2>SHOWDOWN</h2>
-<p id="loadingText">Preparing Career Mode...</p>
+<section id="loadingScreen" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
+<div class="startupScene" aria-hidden="true">
+<span class="startupShard startupShardOne"></span>
+<span class="startupShard startupShardTwo"></span>
+<span class="startupGrid"></span>
+<div class="startupAthleteFrame">
+<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=0.95.0-r13" alt="" decoding="async" fetchpriority="high">
 </div>
+</div>
+<div class="startupIdentity" aria-hidden="true">
+<div class="startupRoundel"><span>CM</span><strong>17</strong></div>
+<p class="startupKicker">THE RIVALRY STARTS HERE</p>
+<h1><span>CAREER MODE</span><strong>SHOWDOWN <em>17</em></strong></h1>
+<p class="startupEdition">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE LEGACY</p>
+</div>
+<div class="startupStatus">
+<div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
+</div>
+<p class="startupSaveNote" aria-hidden="true">LOCAL SAVE SYSTEM&nbsp;&nbsp;·&nbsp;&nbsp;YOUR CAREER REMAINS ON THIS DEVICE</p>
+<p class="startupPhotoCredit" aria-hidden="true">Marco Reus photo: Tim Reckmann · CC BY 2.0 · Display crop</p>
 </section>
 
 <div id="app" class="hidden" aria-hidden="true">
@@ -33,10 +48,10 @@
 <div class="fifaMenuShell">
 <div class="fifaMenuHeading">
 <div class="fifaMenuHeadingText">
-<span class="fifaMenuEyebrow">CAREER MODE SHOWDOWN</span>
+<span class="fifaMenuEyebrow">CAREER MODE // SHOWDOWN 17</span>
 <h2>HOME</h2>
 </div>
-<p class="fifaMenuHeadingMeta">Build the rivalry, play the seasons, and carry every trophy into your Legacy.</p>
+<p class="fifaMenuHeadingMeta"><span>RIVALRY HEADQUARTERS</span>Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
 </div>
 
 <div class="fifaMenuGrid">
@@ -80,8 +95,9 @@
 </div>
 
 <div class="menuBottomStrip">
-<span>Original FIFA 17-era inspired interface · no copied game UI assets</span>
-<strong>LOCAL SAVE ENABLED</strong>
+<span><b>01</b> TWO MANAGER CAREER COMPETITION</span>
+<span><b>02</b> FIFA 17 ERA RULESET</span>
+<strong>LOCAL SAVE READY</strong>
 </div>
 </div>
 </section>
@@ -377,15 +393,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v0.95.0 · Release Stabilization Candidate</footer>
+<footer>Career Mode Showdown<br>v0.95.0 · V1 Visual Immersion Candidate</footer>
 </div>
 
-<script defer src="js/storage.js?v=0.95.0-r12"></script>
-<script defer src="js/showdown.js?v=0.95.0-r12"></script>
-<script defer src="js/scoring.js?v=0.95.0-r12"></script>
-<script defer src="js/screens.js?v=0.95.0-r12"></script>
-<script defer src="js/menuExperience.js?v=0.95.0-r12"></script>
-<script defer src="js/optionalModules.js?v=0.95.0-r12"></script>
-<script defer src="js/app.js?v=0.95.0-r12"></script>
+<script defer src="js/storage.js?v=0.95.0-r13"></script>
+<script defer src="js/showdown.js?v=0.95.0-r13"></script>
+<script defer src="js/scoring.js?v=0.95.0-r13"></script>
+<script defer src="js/screens.js?v=0.95.0-r13"></script>
+<script defer src="js/menuExperience.js?v=0.95.0-r13"></script>
+<script defer src="js/optionalModules.js?v=0.95.0-r13"></script>
+<script defer src="js/app.js?v=0.95.0-r13"></script>
 </body>
 </html>
