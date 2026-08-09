@@ -21,18 +21,18 @@ Current source is implementation authority. Browser acceptance remains required 
 # Current implementation
 
 **Application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Current runtime asset revision:** `0.95.0-r7`  
+**Current runtime asset revision:** `0.95.0-r8`  
 **Hosting:** GitHub Pages  
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage  
 **Product mode:** two managers, one device/browser, one active showdown  
 **Current milestone:** original v0.95 Polish / Blueprint Alignment  
-**Current workstream:** Workstream 4 — Main Menu Statistics alignment  
+**Current workstream:** Workstream 4 — Main Menu Statistics alignment / stabilization  
 **Source status:** implemented and machine-validated  
-**Owner/browser status:** r7 acceptance pending  
+**Owner/browser status:** r8 acceptance pending while owner continues Workstream 4/r7 feature testing  
 **Owner-accepted gates:** `0.95.0-r4`, `0.95.0-r5`, `0.95.0-r6`  
-**Next after r7 acceptance:** Workstream 5 — Season pre-commit review
+**Next after Workstream 4 acceptance:** Workstream 5 — Season pre-commit review
 
-`0.95.0-r7` is a v0.95 implementation/cache revision, not a replacement roadmap.
+`0.95.0-r8` is a v0.95 stabilization/cache revision, not a replacement roadmap.
 
 ---
 
@@ -227,11 +227,11 @@ Preserve:
 
 ---
 
-# r7 Career Statistics architecture — current gate
+# r7 Career Statistics architecture — Workstream 4 baseline
 
 ## Information architecture
 
-The Main Menu now has one blueprint-aligned **STATISTICS** tile instead of a competing top-level Trophy Room tile.
+The Main Menu has one blueprint-aligned **STATISTICS** tile instead of a competing top-level Trophy Room tile.
 
 Analytics surfaces have three distinct jobs:
 
@@ -324,6 +324,40 @@ Preserve:
 - advisory history returning Trophy Room to Career Statistics when it was opened there;
 - completed-showdown Trophy Room returning to Showdown Home;
 - no direct `screenHistory` use outside `screens.js`.
+
+---
+
+# r8 Home bootstrap stabilization — current gate
+
+During r7 owner browser acceptance, startup diagnostics reported that `menuMediaSelector` was missing, Play/Mute were unbound, and zero of seven media choices existed.
+
+Root cause was a stale coupling in `js/menuExperience.js`: r7 replaced the Home `#trophyRoomButton` with `#careerStatisticsButton`, but `initializeMenuExperience()` still required the removed Trophy Room id in an all-or-nothing navigation-tile guard. The initializer therefore returned before media selector creation, media bindings and the rest of the Home enhancement pass.
+
+This was a deterministic source bug, not a browser race, YouTube failure, localStorage failure or Chromebook-specific behavior.
+
+## Permanent prevention contract
+
+Preserve these r8 rules:
+
+- Home navigation tile decoration is independent per tile; an unrelated missing/renamed optional tile must not abort the media subsystem.
+- `#careerStatisticsButton` is the current Statistics Home id; do not restore `#trophyRoomButton` as a competing Home tile.
+- Media selector creation and Play/Mute binding are their own required initialization steps.
+- `getMenuExperienceIntegrity()` verifies selector existence, the exact seven accepted media keys, and both `musicBound` control markers immediately after initialization.
+- Incomplete required Home initialization throws a concrete error instead of silently returning with a partial interface.
+- The dedicated `Validate Home Bootstrap` workflow couples current Home ids to `initializeMenuExperience()` so future tile renames/removals cannot strand the media system unnoticed.
+- Feature/workstream validation must not hard-code one cache revision when it is intended to protect behavior across later stabilization revisions; cache identity belongs to shell/release validation.
+
+Accepted media catalog remains exactly:
+
+- Two Door Cinema Club — Are We Ready? (Wreck)
+- Bastille — Send Them Off!
+- Glass Animals — Youth
+- Porter Robinson & Madeon — Shelter
+- Saint Motel — Move
+- Empire Of The Sun — High And Low
+- FIFA 17 Gameplay Trailer
+
+No YouTube iframe may exist before explicit Play.
 
 ---
 
@@ -464,7 +498,7 @@ Runtime discipline:
 
 `index.html` owns deployed runtime identity:
 
-`<meta name="app-asset-revision" content="0.95.0-r7">`
+`<meta name="app-asset-revision" content="0.95.0-r8">`
 
 All local shell asset references use that revision. Lazy assets derive the same revision through `getApplicationAssetRevision()`.
 
@@ -474,7 +508,7 @@ Never reuse a deployed revision after changing local runtime bytes.
 
 # Automated validation
 
-Four exact-head GitHub Actions gates protect current r7:
+Five exact-head GitHub Actions gates protect current r8:
 
 ## Validate Static App
 
@@ -490,6 +524,19 @@ Protects:
 - Chromebook/mobile Home guards;
 - completed-showdown recovery.
 
+## Validate Home Bootstrap
+
+Protects the r8 startup root-cause boundary:
+
+- current `careerStatisticsButton` Home contract;
+- deprecated top-level `trophyRoomButton` absence;
+- removal of the stale all-or-nothing navigation-tile prerequisite;
+- exact seven-choice media catalog;
+- selector creation;
+- Play/Mute binding markers;
+- immediate Home integrity verification;
+- coherent shell cache revision.
+
 ## Validate Transfer Workstream
 
 Protects accepted r5 Transfer dataset/state/selector/persistence contracts.
@@ -500,7 +547,7 @@ Protects accepted r6 preference/accessibility/reset-isolation contracts.
 
 ## Validate Statistics Workstream
 
-Protects r7 with executable history fixtures plus architecture assertions:
+Protects Workstream 4 with executable history fixtures plus architecture assertions:
 
 - completed Showdown/Season totals;
 - Career points/trophies;
@@ -515,19 +562,19 @@ Protects r7 with executable history fixtures plus architecture assertions:
 - shared Career Table renderer;
 - central route ownership.
 
-Machine validation does not prove visual quality. r7 requires owner Chromebook/mobile acceptance.
+Machine validation does not prove visual quality. r8/Workstream 4 still requires owner Chromebook/mobile acceptance.
 
 ---
 
 # Remaining v0.95 roadmap
 
-## Workstream 4 — current r7 browser gate
+## Workstream 4 — current r8 browser gate
 
-Use `NEXT_TASK.md` for the exact acceptance sequence. Fix any real r7 defect in Workstream 4 before advancing.
+Use `NEXT_TASK.md` for the exact acceptance sequence. Fix any real Workstream 4 defect before advancing.
 
 ## Workstream 5 — Season pre-commit review
 
-After r7 owner acceptance, inspect Complete Season and add a lightweight review/confirmation before irreversible Season completion if an equivalent safeguard is absent.
+After Workstream 4 owner acceptance, inspect Complete Season and add a lightweight review/confirmation before irreversible Season completion if an equivalent safeguard is absent.
 
 Preserve draft data on cancel/edit and preserve existing transactional save/rollback on final confirmation.
 
