@@ -5,6 +5,9 @@
 ===================================================== */
 
 const APP_VERSION = "0.95.0";
+const STARTUP_SPLASH_MINIMUM_MS = 1900;
+const STARTUP_SPLASH_REDUCED_MS = 220;
+const STARTUP_SPLASH_EXIT_MS = 240;
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
@@ -157,21 +160,62 @@ function initializePerformanceLifecycle(){
 
 window.initializePerformanceLifecycle = initializePerformanceLifecycle;
 
+function isStartupMotionReduced(){
+    if(typeof window.isReducedMotionPreferred === "function"){
+        return window.isReducedMotionPreferred();
+    }
+    return Boolean(
+        typeof window.matchMedia === "function"
+        && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+}
+
+function finishStartupPresentation(loadingScreen, app, reducedMotion){
+    if(loadingScreen){
+        loadingScreen.setAttribute("aria-hidden", "true");
+        loadingScreen.setAttribute("aria-busy", "false");
+        loadingScreen.classList.add("is-exiting");
+    }
+
+    if(app){
+        app.inert = false;
+        app.removeAttribute("aria-hidden");
+    }
+    const removeSplash = () => {
+        if(!loadingScreen){ return; }
+        loadingScreen.hidden = true;
+        loadingScreen.classList.add("hidden");
+    };
+    if(reducedMotion){
+        removeSplash();
+    }else{
+        window.setTimeout(removeSplash, STARTUP_SPLASH_EXIT_MS);
+    }
+}
+
 function revealApplication(){
     const loadingScreen = document.getElementById("loadingScreen");
     const app = document.getElementById("app");
 
-    if(loadingScreen){
-        loadingScreen.classList.add("hidden");
-        loadingScreen.hidden = true;
-        loadingScreen.setAttribute("aria-hidden", "true");
-        loadingScreen.setAttribute("aria-busy", "false");
-    }
-
     if(app){
         app.classList.remove("hidden");
-        app.removeAttribute("aria-hidden");
+        app.inert = true;
     }
+
+    const reducedMotion = isStartupMotionReduced();
+    const minimumDuration = reducedMotion
+        ? STARTUP_SPLASH_REDUCED_MS
+        : STARTUP_SPLASH_MINIMUM_MS;
+    const elapsed = typeof performance !== "undefined" && typeof performance.now === "function"
+        ? performance.now()
+        : minimumDuration;
+    const remaining = Math.max(0, minimumDuration - elapsed);
+
+    if(loadingScreen){ loadingScreen.classList.add("is-ready"); }
+    window.setTimeout(
+        () => finishStartupPresentation(loadingScreen, app, reducedMotion),
+        remaining
+    );
 }
 
 function scheduleApplicationDiagnostics(){

@@ -6,7 +6,50 @@ These are **approved roadmap requirements**, not proof that the features are alr
 
 The additions must be integrated into the existing finite `v0.95 → v1.0` roadmap without restarting architecture or creating planning loops.
 
-Current r12 release maintenance preserves that finite roadmap: no feature scope, gameplay rule, persistence schema or route was added. Duplicate global timing helpers, obsolete optional-module bindings and repeated shell-state writes were removed, and regression validation now rejects their return.
+The deployed r12 maintenance build preserves that finite roadmap. The owner subsequently made the visual requirements below mandatory before v1.0.0; r13 implements them without adding gameplay scope, persistence schema or routes.
+
+---
+
+# 0. V1 Home + startup visual immersion — mandatory r13 gate
+
+## Owner request
+
+The deployed r12 Home/Main Menu looked too small, flat and unappealing in the owner's 1920 × 1080 Chromebook screenshot. The owner also required the earlier pre-menu loading presentation to return as a much stronger, football-game-style startup with a large Marco Reus image.
+
+These are not post-v1 ideas. They are explicit v1 stable-release blockers.
+
+## Home requirements
+
+- materially increase useful desktop scale and height while remaining responsive on other devices;
+- use a classy original metallic palette influenced by FIFA 17-era menus without copying the reference byte-for-byte;
+- strengthen tile hierarchy, type scale, spacing, bevel/detail and active/hover/focus feedback;
+- optimize for the supplied Chromebook viewport without introducing device-specific breakage;
+- preserve every existing tile, route, lazy module, media choice and persistence behavior;
+- reject horizontal overflow, clipped labels and unreadable low-contrast metallic text.
+
+## Startup requirements
+
+- restore a cosmetic loading presentation before Home;
+- use a large, correctly cropped, royalty-compatible Marco Reus photograph;
+- create an original project mark/title and composition heavily influenced by the reference's cinematic balance but not its official logos, artwork or exact layout;
+- require no user action and introduce no gameplay function;
+- remain brief, finite, accessible and substantially shortened under reduced motion;
+- keep the application inert and out of the accessibility tree until the presentation exits;
+- license, attribute and locally optimize the photo so startup does not depend on a remote image service.
+
+## Implemented r13 interpretation
+
+- 1510 px proportional desktop canvas with low-height, tablet, mobile and small-mobile breakpoints;
+- metallic blue / brushed silver / graphite Home hierarchy with original yellow/cyan project accents;
+- 1900 ms normal-motion and 220 ms reduced-motion startup minimums, plus a bounded 240 ms exit;
+- original `CM17` roundel and Career Mode Showdown title treatment;
+- locally bundled 900 × 1520 WebP derived from Tim Reckmann's CC BY 2.0 Wikimedia Commons photograph;
+- same cached portrait reused on the Home career tile;
+- exact r13 static, full-flow, accessibility and four-viewport browser gates.
+
+## Acceptance
+
+The owner must inspect the deployed exact candidate on the target Chromebook. If accepted, seal the same behavior as v1.0.0 without opening another pre-v1 feature branch.
 
 ---
 
@@ -317,9 +360,13 @@ Season pre-commit review/confirmation is implemented and owner accepted.
 
 Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression, including the **quality-gated FIFA-era navigation transition and original micro click-feedback experiment** above, is implemented in `0.95.0-r11`.
 
-## Current — v0.95 release stabilization
+## Completed — v0.95 release stabilization
 
-The full r11 browser flow exposed a Smart Back integration conflict on Season Review **EDIT RESULTS** plus stale shell save-indicator state. `0.95.0-r12` corrects those release blockers, adds regression protection and requires exact-head Chromebook/mobile acceptance before v1.0. This is stabilization of the completed roadmap, not a new feature workstream.
+The full r11 browser flow exposed a Smart Back integration conflict on Season Review **EDIT RESULTS** plus stale shell save-indicator state. Deployed `0.95.0-r12` corrects those release blockers and adds regression protection.
+
+## Current — V1 visual immersion acceptance
+
+`0.95.0-r13` implements the two owner-mandated Home/startup requirements recorded in amendment 0. Exact deployment and target-Chromebook acceptance are the final gates before v1.0.0.
 
 ## v1.0
 
