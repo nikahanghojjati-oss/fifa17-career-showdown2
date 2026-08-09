@@ -1,6 +1,6 @@
 /* =====================================================
    Career Mode Showdown
-   v0.15.1
+   v0.95.0
    FIFA 17 Era Menu Atmosphere + Lightweight Media Controller
 ===================================================== */
 
@@ -111,6 +111,7 @@ function setTextIfChanged(element, value){
 }
 
 function createTileContent(button, code, label, meta){
+    if(!button){ return; }
     button.replaceChildren();
 
     const codeElement = document.createElement("span");
@@ -414,7 +415,7 @@ function ensureMenuMediaSelector(){
     if(document.getElementById("menuMediaSelector")){ return; }
 
     const host = document.getElementById("menuMusicPlayer");
-    if(!host){ return; }
+    if(!host || !host.parentNode){ return; }
 
     const selector = document.createElement("div");
     selector.id = "menuMediaSelector";
@@ -438,7 +439,9 @@ function ensureMenuMediaSelector(){
     });
 
     selector.addEventListener("click", event => {
-        const button = event.target.closest("[data-menu-media-source]");
+        const button = event.target instanceof Element
+            ? event.target.closest("[data-menu-media-source]")
+            : null;
         if(button && selector.contains(button)){
             selectMenuMedia(button.dataset.menuMediaSource);
         }
@@ -538,35 +541,9 @@ function handleMainMenuExit(){
     updateMenuMediaControls();
 }
 
-function initializeMenuExperience(){
-    if(menuExperienceInitialized){
-        refreshMainMenuExperience();
-        updateMenuMediaHeader();
-        updateMenuMediaControls();
-        return;
-    }
-
-    const newShowdown = document.getElementById("newShowdown");
-    const continueCareer = document.getElementById("continueCareer");
-    const legacy = document.getElementById("legacyButton");
-    const trophyRoom = document.getElementById("trophyRoomButton");
-    const ruleBook = document.getElementById("ruleBookButton");
+function bindMenuMediaControls(){
     const mediaToggle = document.getElementById("menuMusicToggle");
     const mediaMute = document.getElementById("menuMusicMute");
-
-    if(!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook){ return; }
-
-    createTileContent(newShowdown, "NEW", "NEW SHOWDOWN", "Create a new rivalry and draw your league");
-    createTileContent(legacy, "HISTORY", "LEGACY", "Completed rivalries and season history");
-    createTileContent(trophyRoom, "HONOURS", "TROPHY ROOM", "Career trophies, records and manager standings");
-    createTileContent(ruleBook, "RULES", "RULE BOOK", "Competition rules, scoring and transfer challenge");
-
-    ensureMenuMediaSelector();
-    ensureMarcoReusTreatment();
-    cacheMenuExperienceUI();
-    refreshMainMenuExperience();
-    renderMenuMediaPlaceholder();
-    updateMenuMediaHeader();
 
     if(mediaToggle && mediaToggle.dataset.musicBound !== "true"){
         mediaToggle.dataset.musicBound = "true";
@@ -576,8 +553,70 @@ function initializeMenuExperience(){
         mediaMute.dataset.musicBound = "true";
         mediaMute.addEventListener("click", toggleMenuMusicMute);
     }
+}
 
+function decorateMainMenuTiles(){
+    createTileContent(
+        document.getElementById("newShowdown"),
+        "NEW",
+        "NEW SHOWDOWN",
+        "Create a new rivalry and draw your league"
+    );
+    createTileContent(
+        document.getElementById("legacyButton"),
+        "HISTORY",
+        "LEGACY",
+        "Completed rivalries and season history"
+    );
+    createTileContent(
+        document.getElementById("careerStatisticsButton"),
+        "DATA",
+        "STATISTICS",
+        "Career totals, manager comparison and honours"
+    );
+    createTileContent(
+        document.getElementById("ruleBookButton"),
+        "RULES",
+        "RULE BOOK",
+        "Competition rules, scoring and transfer challenge"
+    );
+}
+
+function getMenuExperienceIntegrity(){
+    const choices = Array.from(document.querySelectorAll("[data-menu-media-source]"));
+    const expectedKeys = Object.keys(MENU_MEDIA_SOURCES).sort();
+    const actualKeys = choices.map(button => button.dataset.menuMediaSource).sort();
+    const toggle = document.getElementById("menuMusicToggle");
+    const mute = document.getElementById("menuMusicMute");
+
+    return {
+        selectorReady: Boolean(document.getElementById("menuMediaSelector")),
+        mediaChoicesReady: actualKeys.join("|") === expectedKeys.join("|"),
+        toggleBound: Boolean(toggle && toggle.dataset.musicBound === "true"),
+        muteBound: Boolean(mute && mute.dataset.musicBound === "true")
+    };
+}
+
+function initializeMenuExperience(){
+    decorateMainMenuTiles();
+    ensureMenuMediaSelector();
+    ensureMarcoReusTreatment();
+    cacheMenuExperienceUI();
+    refreshMainMenuExperience();
+    renderMenuMediaPlaceholder();
+    updateMenuMediaHeader();
+    bindMenuMediaControls();
     updateMenuMediaControls();
+
+    const integrity = getMenuExperienceIntegrity();
+    if(!integrity.selectorReady || !integrity.mediaChoicesReady || !integrity.toggleBound || !integrity.muteBound){
+        const missing = Object.entries(integrity)
+            .filter(([, ready]) => !ready)
+            .map(([name]) => name)
+            .join(", ");
+        throw new Error(`Main Menu experience initialization incomplete: ${missing}`);
+    }
+
     menuExperienceInitialized = true;
 }
 
@@ -585,3 +624,4 @@ window.initializeMenuExperience = initializeMenuExperience;
 window.refreshMainMenuExperience = refreshMainMenuExperience;
 window.selectMenuMedia = selectMenuMedia;
 window.handleMainMenuExit = handleMainMenuExit;
+window.getMenuExperienceIntegrity = getMenuExperienceIntegrity;
