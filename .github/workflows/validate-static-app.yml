@@ -28,6 +28,146 @@ jobs:
           set -euo pipefail
           find js data -type f -name '*.js' -print0 | xargs -0 -n1 node --check
 
+      - name: Validate navigation and scoring state matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          function loadFunctions(filePath, exportExpression, initial = {}) {
+            const context = { console, ...initial };
+            context.window = context;
+            vm.createContext(context);
+            const source = fs.readFileSync(filePath, 'utf8');
+            vm.runInContext(`${source}\n;globalThis.__testExports = ${exportExpression};`, context, { filename: filePath });
+            return { context, api: context.__testExports };
+          }
+
+          const scoring = loadFunctions(
+            'js/scoring.js',
+            '{ calculatePlayerSeasonScore, determineSeasonWinner }'
+          ).api;
+
+          const perfect = scoring.calculatePlayerSeasonScore({
+            leaguePosition: 1,
+            leaguePoints: 100,
+            leagueGoals: 100,
+            championsLeague: true,
+            domesticCup: true,
+            topScorer: true,
+            topAssist: true
+          });
+
+          assert.strictEqual(perfect.total, 11, 'Perfect season must remain capped at 11.');
+          assert.strictEqual(perfect.performanceBonus, 1, '100 points + 100 goals must share one point.');
+          assert.strictEqual(perfect.individualAwardsBonus, 1, 'Top Scorer + Top Assist must share one point.');
+
+          assert.strictEqual(
+            scoring.determineSeasonWinner(
+              { scoring: { total: 5 }, leaguePosition: 1, leaguePoints: 100 },
+              { scoring: { total: 5 }, leaguePosition: 20, leaguePoints: 1 }
+            ),
+            'draw',
+            'Equal non-zero season scores must remain a draw.'
+          );
+          assert.strictEqual(
+            scoring.determineSeasonWinner(
+              { scoring: { total: 0 }, leaguePosition: 2, leaguePoints: 90 },
+              { scoring: { total: 0 }, leaguePosition: 1, leaguePoints: 10 }
+            ),
+            'playerTwo',
+            '0-0 must use league position first.'
+          );
+          assert.strictEqual(
+            scoring.determineSeasonWinner(
+              { scoring: { total: 0 }, leaguePosition: 3, leaguePoints: 84 },
+              { scoring: { total: 0 }, leaguePosition: 3, leaguePoints: 80 }
+            ),
+            'playerOne',
+            '0-0 with equal position must use league points.'
+          );
+
+          const navigation = loadFunctions(
+            'js/screens.js',
+            '{ resolveCanonicalShowdownRoute, isRouteStateValid, getLegalBackTargets }',
+            { currentShowdown: null }
+          );
+
+          const { context, api } = navigation;
+          const baseShowdown = () => ({
+            id: 1,
+            status: 'Created',
+            currentRound: 1,
+            totalRounds: 1,
+            selectedLeague: null,
+            clubs: { playerOne: null, playerTwo: null },
+            transferChallenges: [],
+            rounds: []
+          });
+
+          context.currentShowdown = null;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'mainMenu', 'No save must canonicalize to Home.');
+
+          const noLeague = baseShowdown();
+          context.currentShowdown = noLeague;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'leagueWheelScreen', 'Created save must go to League Wheel.');
+
+          const noClubs = baseShowdown();
+          noClubs.selectedLeague = { id: 'premier-league', name: 'Premier League' };
+          noClubs.status = 'League Selected';
+          context.currentShowdown = noClubs;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Selected league without clubs must go to Club Assignment.');
+
+          const ready = baseShowdown();
+          ready.selectedLeague = { id: 'premier-league', name: 'Premier League' };
+          ready.clubs = { playerOne: 'Arsenal', playerTwo: 'Chelsea' };
+          ready.status = 'Ready';
+          context.currentShowdown = ready;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Ready showdown must resolve to Showdown Home.');
+          assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Locked clubs must invalidate League Wheel.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Locked clubs must invalidate Club Assignment.');
+
+          const transfer = structuredClone(ready);
+          transfer.status = 'Transfer Window Active';
+          transfer.transferChallenges = [{ seasonNumber: 1, status: 'active' }];
+          context.currentShowdown = transfer;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'transferChallenge', 'Active transfer window must resume Transfer Challenge.');
+
+          const recording = structuredClone(ready);
+          recording.status = 'Transfer Challenge Recording';
+          recording.transferChallenges = [{ seasonNumber: 1, status: 'recording' }];
+          context.currentShowdown = recording;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'transferChallenge', 'Recording transfer state must resume Transfer Challenge.');
+
+          const transferComplete = structuredClone(ready);
+          transferComplete.transferChallenges = [{ seasonNumber: 1, status: 'completed' }];
+          context.currentShowdown = transferComplete;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Completed transfers must not revive Transfer Challenge.');
+          assert.strictEqual(api.isRouteStateValid('transferChallenge'), false, 'Completed transfer route must be invalid.');
+          assert.strictEqual(api.isRouteStateValid('seasonEntry'), true, 'Completed transfers must allow Season Results entry.');
+
+          const completed = structuredClone(ready);
+          completed.status = 'Completed';
+          completed.rounds = [{ roundNumber: 1 }];
+          context.currentShowdown = completed;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Completed showdown must always resume Showdown Home.');
+          assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Completed showdown cannot return to League Wheel.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Completed showdown cannot return to Club Assignment.');
+          assert.strictEqual(api.isRouteStateValid('transferChallenge'), false, 'Completed showdown cannot return to Transfer Challenge.');
+          assert.strictEqual(api.isRouteStateValid('seasonEntry'), false, 'Completed showdown cannot return to Season Results entry.');
+          assert.strictEqual(api.isRouteStateValid('seasonSummary'), true, 'Completed showdown may still view final Season Summary.');
+          assert.deepStrictEqual(
+            Array.from(api.getLegalBackTargets('seasonSummary')),
+            ['dashboard', 'mainMenu'],
+            'Season Summary Back must have deterministic safe parents.'
+          );
+
+          console.log('Navigation state matrix and locked scoring regression cases passed.');
+          NODE
+
       - name: Validate release shell and startup budget
         shell: bash
         run: |
