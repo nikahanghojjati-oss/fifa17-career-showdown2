@@ -121,14 +121,25 @@ jobs:
           context.currentShowdown = noClubs;
           assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Selected league without clubs must go to Club Assignment.');
 
+          const confirmationPending = baseShowdown();
+          confirmationPending.selectedLeague = { id: 'premier-league', name: 'Premier League' };
+          confirmationPending.clubs = { playerOne: 'Arsenal', playerTwo: 'Chelsea' };
+          confirmationPending.status = 'Clubs Assigned';
+          context.currentShowdown = confirmationPending;
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Saved clubs awaiting confirmation must resume Club Assignment.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), true, 'Confirmation-pending Club Assignment must remain legal.');
+          assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Saved clubs must permanently invalidate League Wheel.');
+          assert.strictEqual(api.isRouteStateValid('dashboard'), false, 'Unconfirmed rivalry must not skip directly to Showdown Home.');
+          assert.strictEqual(api.isRouteStateValid('transferChallenge'), false, 'Unconfirmed rivalry must not enter Transfer Challenge.');
+
           const ready = baseShowdown();
           ready.selectedLeague = { id: 'premier-league', name: 'Premier League' };
           ready.clubs = { playerOne: 'Arsenal', playerTwo: 'Chelsea' };
           ready.status = 'Ready';
           context.currentShowdown = ready;
-          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Ready showdown must resolve to Showdown Home.');
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Confirmed showdown must resolve to Showdown Home.');
           assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Locked clubs must invalidate League Wheel.');
-          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Locked clubs must invalidate Club Assignment.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Confirmed locked clubs must invalidate Club Assignment.');
 
           const transfer = structuredClone(ready);
           transfer.status = 'Transfer Window Active';
@@ -181,7 +192,7 @@ jobs:
             'Trophy Room opened from completed hub must be able to return to Showdown Home.'
           );
 
-          console.log('Navigation state matrix and locked scoring regression cases passed.');
+          console.log('Navigation state matrix, club-confirmation recovery, and locked scoring regression cases passed.');
           NODE
 
       - name: Validate release shell and startup budget
@@ -192,7 +203,7 @@ jobs:
           const fs = require('fs');
           const path = require('path');
 
-          const expectedVersion = '0.16.0';
+          const expectedVersion = '0.95.0';
           const maximumInitialAssetBytes = 145000;
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
@@ -200,6 +211,7 @@ jobs:
           const optionalModules = fs.readFileSync('js/optionalModules.js', 'utf8');
           const screens = fs.readFileSync('js/screens.js', 'utf8');
           const showdownUI = fs.readFileSync('js/showdownUI.js', 'utf8');
+          const clubAssignment = fs.readFileSync('js/clubAssignment.js', 'utf8');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
           if (!revisionMatch || !revisionMatch[1].trim()) {
@@ -266,8 +278,11 @@ jobs:
             'dashboard', 'transferChallenge', 'seasonEntry', 'seasonSummary', 'legacy',
             'newShowdown', 'continueCareer', 'legacyButton', 'trophyRoomButton',
             'ruleBookButton', 'startShowdown', 'spinLeague', 'openClubPack',
-            'continueClubAssignment', 'seasonPrimaryAction', 'completeTransferChallenge',
-            'completeSeason'
+            'continueClubAssignment', 'clubCardStateOne', 'clubCardStateTwo',
+            'clubRivalryConfirmation', 'clubConfirmationShowdown', 'clubConfirmationMeta',
+            'clubConfirmationManagerOne', 'clubConfirmationClubOne',
+            'clubConfirmationManagerTwo', 'clubConfirmationClubTwo',
+            'seasonPrimaryAction', 'completeTransferChallenge', 'completeSeason'
           ];
 
           const missingIds = requiredIds.filter(id => !ids.includes(id));
@@ -322,6 +337,25 @@ jobs:
           if (!screens.includes('smartBackDelegationBound') || !screens.includes('stopImmediatePropagation')) {
             throw new Error('Centralized Back interception is missing from js/screens.js.');
           }
+          if (!screens.includes('status === "Clubs Assigned"') || !screens.includes('isClubConfirmationPending')) {
+            throw new Error('Club confirmation must remain a persisted canonical navigation state.');
+          }
+
+          if (!clubAssignment.includes('const CLUB_REVEAL_STAGES')) {
+            throw new Error('Staged Club Assignment state machine is missing.');
+          }
+          if (!clubAssignment.includes('CLUB_REVEAL_TIMINGS')) {
+            throw new Error('Finite staged reveal timings are missing.');
+          }
+          if (!clubAssignment.includes('prefers-reduced-motion: reduce')) {
+            throw new Error('Club reveal must expose a reduced-motion path.');
+          }
+          if (!clubAssignment.includes('currentShowdown.status = "Clubs Assigned"')) {
+            throw new Error('Club pair must persist in the confirmation-pending state before reveal.');
+          }
+          if (!clubAssignment.includes('currentShowdown.status = "Ready"')) {
+            throw new Error('Explicit rivalry confirmation must advance the showdown to Ready.');
+          }
 
           const routeHistoryLeaks = fs.readdirSync('js')
             .filter(file => file.endsWith('.js') && file !== 'screens.js')
@@ -352,6 +386,7 @@ jobs:
           console.log(
             `Validated v${expectedVersion} / ${expectedRevision}: ${initialScripts.length} initial scripts, ` +
             `${styleRefs.length} initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
-            `${ids.length} unique HTML ids, centralized Back authority, Chromebook layout guards active.`
+            `${ids.length} unique HTML ids, staged club confirmation recovery, centralized Back authority, ` +
+            `Chromebook layout guards active.`
           );
           NODE
