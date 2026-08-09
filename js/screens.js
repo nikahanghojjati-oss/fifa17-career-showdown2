@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.16.0
+   v0.95.0
    Smart State-Aware Navigation Engine
 ===================================================== */
 
@@ -108,6 +108,14 @@ function getClubPairRouteState(showdown = currentShowdown){
     return Boolean(one && two && one !== two);
 }
 
+function isClubConfirmationPending(showdown = currentShowdown){
+    return Boolean(
+        showdown
+        && showdown.status === "Clubs Assigned"
+        && getClubPairRouteState(showdown)
+    );
+}
+
 function getCurrentChallengeRouteState(showdown = currentShowdown){
     if(!showdown){ return null; }
 
@@ -139,7 +147,7 @@ function isRouteStateValid(screenName){
     }
 
     if(screenName === "dashboard"){
-        return true;
+        return !isClubConfirmationPending(showdown);
     }
 
     if(showdown.status === "Completed"){
@@ -147,16 +155,17 @@ function isRouteStateValid(screenName){
     }
 
     const clubsValid = getClubPairRouteState(showdown);
+    const confirmationPending = clubsValid && isClubConfirmationPending(showdown);
 
     if(screenName === "leagueWheelScreen"){
         return !clubsValid;
     }
 
     if(screenName === "clubWheelScreen"){
-        return Boolean(showdown.selectedLeague) && !clubsValid;
+        return Boolean(showdown.selectedLeague) && (!clubsValid || confirmationPending);
     }
 
-    if(!clubsValid){
+    if(!clubsValid || confirmationPending){
         return false;
     }
 
@@ -191,7 +200,7 @@ function resolveCanonicalShowdownRoute(){
         return "leagueWheelScreen";
     }
 
-    if(!getClubPairRouteState(showdown)){
+    if(!getClubPairRouteState(showdown) || isClubConfirmationPending(showdown)){
         return "clubWheelScreen";
     }
 
