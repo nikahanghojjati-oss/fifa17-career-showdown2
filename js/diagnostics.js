@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
-   Runtime Diagnostics, Lifecycle Integrity and Performance
+   v0.16.0
+   Lazy-Runtime Diagnostics and Navigation Integrity
 ===================================================== */
 
 const DIAGNOSTIC_REQUIRED_ELEMENTS = [
@@ -33,15 +33,31 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "completeSeason"
 ];
 
-const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
+const CORE_REQUIRED_FUNCTIONS = [
     "showScreen",
-    "createShowdown",
+    "navigateTo",
+    "navigateBackSmart",
+    "resolveCanonicalShowdownRoute",
+    "getNavigationDiagnostics",
     "normalizeShowdown",
-    "ensureCurrentShowdownNormalized",
-    "getClubPairIntegrity",
     "saveCurrentShowdown",
     "initializeStorageLifecycle",
     "flushPendingApplicationWrites",
+    "initializeMenuExperience",
+    "refreshMainMenuExperience",
+    "selectMenuMedia",
+    "handleMainMenuExit",
+    "initializeOptionalModules",
+    "ensureGameplayModules",
+    "getGameplayModuleState",
+    "ensureOptionalModule",
+    "openOptionalModule",
+    "getOptionalModuleState",
+    "initializePerformanceLifecycle"
+];
+
+const GAMEPLAY_REQUIRED_FUNCTIONS = [
+    "getClubPairIntegrity",
     "flushTransferDraftSave",
     "spinLeagueWheel",
     "cancelLeagueWheelOperation",
@@ -55,20 +71,9 @@ const DIAGNOSTIC_REQUIRED_FUNCTIONS = [
     "openSeasonEntry",
     "completeCurrentSeason",
     "calculatePlayerSeasonScore",
-    "openLegacy",
-    "initializeMenuExperience",
-    "refreshMainMenuExperience",
-    "selectMenuMedia",
-    "handleMainMenuExit",
-    "initializeOptionalModules",
-    "ensureOptionalModule",
-    "openOptionalModule",
-    "getOptionalModuleState",
-    "initializePerformanceLifecycle",
-    "getNavigationRevision",
-    "resetTransientSelectionOperations",
     "applyClubIdentity",
-    "refreshClubVisualIdentity"
+    "refreshClubVisualIdentity",
+    "updateShowdownUI"
 ];
 
 function testLocalStorageAvailability(){
@@ -83,7 +88,13 @@ function testLocalStorageAvailability(){
     }
 }
 
-function getControlBindingProblems(){
+function getGameplayState(){
+    return typeof window.getGameplayModuleState === "function"
+        ? window.getGameplayModuleState()
+        : "unavailable";
+}
+
+function getControlBindingProblems(gameplayReady){
     const checks = [
         ["newShowdown", "navigationBound"],
         ["continueCareer", "navigationBound"],
@@ -93,14 +104,19 @@ function getControlBindingProblems(){
         ["rivalryStatisticsButton", "statisticsLazyBound"],
         ["menuMusicToggle", "musicBound"],
         ["menuMusicMute", "musicBound"],
-        ["startShowdown", "showdownUiBound"],
-        ["spinLeague", "leagueWheelBound"],
-        ["openClubPack", "clubAssignmentBound"],
-        ["continueClubAssignment", "clubAssignmentBound"],
-        ["seasonPrimaryAction", "transferPrimaryBound"],
-        ["completeTransferChallenge", "transferCompleteBound"],
-        ["completeSeason", "seasonEngineBound"]
+        ["startShowdown", "navigationBound"]
     ];
+
+    if(gameplayReady){
+        checks.push(
+            ["spinLeague", "leagueWheelBound"],
+            ["openClubPack", "clubAssignmentBound"],
+            ["continueClubAssignment", "clubAssignmentBound"],
+            ["seasonPrimaryAction", "transferPrimaryBound"],
+            ["completeTransferChallenge", "transferCompleteBound"],
+            ["completeSeason", "seasonEngineBound"]
+        );
+    }
 
     return checks.reduce((problems, [id, marker]) => {
         const element = document.getElementById(id);
@@ -111,7 +127,9 @@ function getControlBindingProblems(){
     }, []);
 }
 
-function getTransferInputBindingProblems(){
+function getTransferInputBindingProblems(gameplayReady){
+    if(!gameplayReady){ return []; }
+
     return Array.from(document.querySelectorAll("[data-transfer-field]")).reduce((problems, field) => {
         if(field.dataset.transferChangeBound !== "true"){
             problems.push(`${field.id || "transfer field"} change handler missing`);
@@ -158,25 +176,24 @@ function getOptionalModuleProblems(){
 }
 
 function getVisualSystemProblems(){
-    const problems = [];
-    const theme = document.getElementById("fifa17Theme");
-
-    if(!theme){
-        problems.push("FIFA 17-era visual theme stylesheet is missing");
-    }else if(!String(theme.getAttribute("href") || "").includes("0.15.1-r1")){
-        problems.push("visual theme cache revision is stale");
+    const styles = document.getElementById("appStyles");
+    if(!styles){
+        return ["unified application stylesheet is missing"];
     }
 
-    if(typeof window.applyClubIdentity !== "function" || typeof window.refreshClubVisualIdentity !== "function"){
-        problems.push("original club identity renderer is unavailable");
-    }
-
-    return problems;
+    const href = String(styles.getAttribute("href") || "");
+    return href.includes("css/app.css") && href.includes("0.16.0-r1")
+        ? []
+        : ["unified application stylesheet revision is stale"];
 }
 
-function getLifecycleProblems(){
+function getLifecycleProblems(gameplayReady){
+    if(!gameplayReady){ return []; }
+
     const problems = [];
-    const activeScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : null;
+    const activeScreen = typeof window.getActiveScreenName === "function"
+        ? window.getActiveScreenName()
+        : null;
 
     if(
         typeof transferTimerInterval !== "undefined"
@@ -202,19 +219,27 @@ function getLifecycleProblems(){
         problems.push("club reveal operation is active off-screen");
     }
 
-    if(
-        typeof screenHistory !== "undefined"
-        && typeof MAX_SCREEN_HISTORY !== "undefined"
-        && screenHistory.length > MAX_SCREEN_HISTORY
-    ){
-        problems.push(`route history exceeded its ${MAX_SCREEN_HISTORY}-entry bound`);
+    return problems;
+}
+
+function getNavigationProblems(){
+    if(typeof window.getNavigationDiagnostics !== "function"){
+        return ["smart navigation diagnostics are unavailable"];
     }
 
+    const navigation = window.getNavigationDiagnostics();
+    const problems = [];
+    if(Number(navigation.historyLength) > 18){
+        problems.push(`route history exceeded its 18-entry bound (${navigation.historyLength})`);
+    }
+    if(!navigation.activeScreen){
+        problems.push("no active application screen is visible");
+    }
     return problems;
 }
 
 function getBundleProblems(){
-    const expected = "0.15.1-r1";
+    const expected = "0.16.0-r1";
     const localAssets = [
         ...document.querySelectorAll("script[src]"),
         ...document.querySelectorAll("link[rel='stylesheet'][href]")
@@ -234,19 +259,26 @@ function getBundleProblems(){
 
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.15.1" ? [] : [`runtime version is ${version}`];
+    return version === "0.16.0" ? [] : [`runtime version is ${version}`];
 }
 
 function runApplicationDiagnostics(){
+    const gameplayState = getGameplayState();
+    const gameplayReady = gameplayState === "ready";
+    const requiredFunctions = gameplayReady
+        ? CORE_REQUIRED_FUNCTIONS.concat(GAMEPLAY_REQUIRED_FUNCTIONS)
+        : CORE_REQUIRED_FUNCTIONS;
+
     const missingElements = DIAGNOSTIC_REQUIRED_ELEMENTS.filter(id => !document.getElementById(id));
-    const missingFunctions = DIAGNOSTIC_REQUIRED_FUNCTIONS.filter(name => typeof window[name] !== "function");
+    const missingFunctions = requiredFunctions.filter(name => typeof window[name] !== "function");
     const bindingProblems = [
-        ...getControlBindingProblems(),
-        ...getTransferInputBindingProblems(),
+        ...getControlBindingProblems(gameplayReady),
+        ...getTransferInputBindingProblems(gameplayReady),
         ...getMenuMediaProblems(),
         ...getOptionalModuleProblems(),
         ...getVisualSystemProblems(),
-        ...getLifecycleProblems(),
+        ...getLifecycleProblems(gameplayReady),
+        ...getNavigationProblems(),
         ...getBundleProblems()
     ];
     const versionProblems = getVersionProblems();
@@ -255,24 +287,29 @@ function runApplicationDiagnostics(){
         && missingFunctions.length === 0
         && bindingProblems.length === 0
         && versionProblems.length === 0
-        && storageAvailable;
+        && storageAvailable
+        && gameplayState !== "error";
 
     const result = {
         version: typeof APP_VERSION === "string" ? APP_VERSION : "unknown",
         healthy,
         storageAvailable,
+        gameplayState,
         missingElements,
         missingFunctions,
         bindingProblems,
         versionProblems,
-        visualThemeLoaded: Boolean(document.getElementById("fifa17Theme")),
-        activeScreen: typeof getActiveScreenName === "function" ? getActiveScreenName() : null,
-        routeHistoryDepth: typeof screenHistory !== "undefined" ? screenHistory.length : null,
+        unifiedStylesLoaded: Boolean(document.getElementById("appStyles")),
+        navigation: typeof window.getNavigationDiagnostics === "function"
+            ? window.getNavigationDiagnostics()
+            : null,
         lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook"],
         optionalModules: typeof window.getOptionalModuleState === "function"
             ? window.getOptionalModuleState()
             : null,
-        transferFieldsChecked: document.querySelectorAll("[data-transfer-field]").length,
+        transferFieldsChecked: gameplayReady
+            ? document.querySelectorAll("[data-transfer-field]").length
+            : 0,
         menuMediaChoicesChecked: document.querySelectorAll("[data-menu-media-source]").length,
         checkedAt: new Date().toISOString()
     };
@@ -285,6 +322,7 @@ function runApplicationDiagnostics(){
         if(missingFunctions.length){ problems.push(`missing code: ${missingFunctions.join(", ")}`); }
         if(bindingProblems.length){ problems.push(`integrity problems: ${bindingProblems.join(", ")}`); }
         if(versionProblems.length){ problems.push(`version mismatch: ${versionProblems.join(", ")}`); }
+        if(gameplayState === "error"){ problems.push("gameplay runtime previously failed to load"); }
         if(!storageAvailable){ problems.push("browser storage unavailable"); }
 
         if(typeof window.reportApplicationError === "function"){
