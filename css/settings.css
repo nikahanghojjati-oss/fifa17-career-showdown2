@@ -1,0 +1,152 @@
+/* =====================================================
+   Career Mode Showdown v0.95.0
+   Workstream 3 — lazy Settings presentation
+===================================================== */
+
+.settingsOverlay{
+    position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:18px;
+    background:rgba(19,29,36,.68);backdrop-filter:blur(3px);
+}
+.settingsDialog{
+    width:min(900px,94vw);max-height:min(92vh,820px);display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden;
+    color:var(--f17-ink);background:#e7ecee;border-left:8px solid var(--f17-yellow);
+    box-shadow:0 24px 60px rgba(9,18,24,.38);outline:none;
+    animation:settingsDialogIn 130ms ease-out both;
+}
+.settingsHeader{
+    min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:14px 17px 12px 20px;color:#fff;background:var(--f17-panel-dark);
+    border-bottom:4px solid var(--f17-cyan);
+}
+.settingsHeading{min-width:0;}
+.settingsEyebrow{
+    display:block;margin-bottom:5px;color:#9fdef0;
+    font:700 9px/1 var(--f17-display);letter-spacing:2.2px;text-transform:uppercase;
+}
+.settingsHeading h2{
+    font:800 clamp(31px,4vw,44px)/.82 var(--f17-display);
+    letter-spacing:-.4px;text-transform:uppercase;
+}
+.settingsClose{
+    flex:0 0 44px;width:44px;height:44px;border:1px solid rgba(255,255,255,.2);
+    color:#fff;background:#252d33;font:700 27px/1 var(--f17-ui);cursor:pointer;
+}
+.settingsClose:hover,.settingsClose:focus-visible{
+    color:var(--f17-ink);background:var(--f17-yellow);border-color:var(--f17-yellow);
+    outline:2px solid #fff;outline-offset:2px;
+}
+
+.settingsContent{
+    min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:13px;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+    scrollbar-color:var(--f17-blue) #d7dfe2;
+}
+.settingsPanel{
+    min-width:0;padding:16px;background:var(--f17-panel);border-top:5px solid var(--f17-blue);
+    box-shadow:var(--f17-shadow-soft);
+}
+.settingsPanel:first-child{grid-column:1/-1;border-top-color:var(--f17-yellow);}
+.settingsPanel:nth-child(3){border-top-color:var(--f17-yellow);}
+.settingsPanelHeading{padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid #d2dbdf;}
+.settingsPanelEyebrow{
+    display:block;margin-bottom:4px;color:var(--f17-blue-deep);
+    font:800 9px/1 var(--f17-display);letter-spacing:1.7px;text-transform:uppercase;
+}
+.settingsPanelHeading h3{
+    font:800 24px/.9 var(--f17-display);letter-spacing:.2px;text-transform:uppercase;
+}
+.settingsPanelHeading p{margin-top:7px;color:#5d6b75;font-size:11px;line-height:1.45;}
+
+.settingsInfoGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;}
+.settingsInfoRow{
+    min-width:0;min-height:46px;padding:8px 10px;display:flex;flex-direction:column;justify-content:center;
+    background:#e8edef;border-left:3px solid #a9b5bc;
+}
+.settingsInfoRow span{
+    color:#66747d;font:700 8px/1 var(--f17-display);letter-spacing:1.15px;text-transform:uppercase;
+}
+.settingsInfoRow strong{
+    margin-top:5px;min-width:0;overflow-wrap:anywhere;color:var(--f17-ink);
+    font:800 13px/1.05 var(--f17-display);letter-spacing:.25px;
+}
+
+.settingsMotionSummary{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:5px;padding-top:31px;}
+.settingsStatus{
+    position:absolute;top:0;left:0;padding:5px 8px;color:#fff;background:var(--f17-blue);
+    font:800 9px/1 var(--f17-display);letter-spacing:1px;text-transform:uppercase;
+}
+.settingsStatus.reduced{background:#5e6870;}
+.settingsStatus.standard{background:#3b8a62;}
+.settingsMotionChoices{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+.settingsMotionChoice{
+    min-width:0;min-height:78px;padding:10px;display:grid;grid-template-columns:22px 1fr;align-items:start;gap:9px;
+    color:var(--f17-ink);background:#e7edef;border:1px solid #bdc8cd;border-left:4px solid #9caab1;
+    text-align:left;cursor:pointer;
+}
+.settingsMotionChoice:hover,.settingsMotionChoice:focus-visible{
+    background:#fff;border-color:var(--f17-blue);outline:2px solid var(--f17-yellow);outline-offset:2px;
+}
+.settingsMotionChoice.selected{background:#f4ec78;border-color:#b5a400;border-left-color:var(--f17-yellow-deep);}
+.settingsMotionMarker{
+    width:18px;height:18px;margin-top:1px;border:2px solid #6f7c84;background:#fff;
+    box-shadow:inset 0 0 0 4px #fff;
+}
+.settingsMotionChoice.selected .settingsMotionMarker{background:var(--f17-blue);border-color:var(--f17-blue);}
+.settingsMotionCopy{min-width:0;display:flex;flex-direction:column;gap:5px;}
+.settingsMotionCopy strong{font:800 13px/1 var(--f17-display);letter-spacing:.6px;}
+.settingsMotionCopy small{color:#5f6c75;font-size:9px;line-height:1.35;}
+
+.settingsDataButton{margin-top:11px;}
+.settingsDataNote{margin-top:8px;color:#68757e;font-size:9px;line-height:1.4;}
+.settingsFooter{
+    min-height:62px;padding:8px 13px!important;display:flex!important;align-items:center;justify-content:flex-end;
+    color:inherit!important;background:#d5dde0!important;border:0!important;border-top:1px solid #bdc8cd!important;
+    font-size:inherit!important;letter-spacing:normal!important;
+}
+.settingsFooter .menuButton{width:min(260px,100%);}
+
+@media(min-width:901px) and (max-height:800px){
+    .settingsOverlay{padding:9px;}
+    .settingsDialog{max-height:95vh;}
+    .settingsHeader{min-height:60px;padding:9px 13px 8px 16px;}
+    .settingsHeading h2{font-size:34px;}
+    .settingsContent{padding:9px;gap:6px;}
+    .settingsPanel{padding:11px;}
+    .settingsPanelHeading{padding-bottom:8px;margin-bottom:8px;}
+    .settingsPanelHeading h3{font-size:20px;}
+    .settingsPanelHeading p{margin-top:5px;font-size:10px;}
+    .settingsInfoRow{min-height:40px;padding:6px 8px;}
+    .settingsMotionChoice{min-height:66px;padding:8px;}
+    .settingsFooter{min-height:52px;}
+}
+
+@media(max-width:700px){
+    .settingsOverlay{padding:0;place-items:stretch;}
+    .settingsDialog{width:100%;max-width:none;max-height:none;height:100%;border-left:0;border-top:6px solid var(--f17-yellow);}
+    .settingsHeader{padding:11px 12px;}
+    .settingsContent{grid-template-columns:1fr;padding:9px;}
+    .settingsPanel:first-child{grid-column:1;}
+    .settingsInfoGrid,.settingsMotionSummary,.settingsMotionChoices{grid-template-columns:1fr;}
+    .settingsMotionSummary{padding-top:31px;}
+    .settingsFooter{padding:8px 9px!important;}
+    .settingsFooter .menuButton{width:100%;}
+}
+
+@media(max-width:430px){
+    .settingsHeader{min-height:62px;}
+    .settingsHeading h2{font-size:31px;}
+    .settingsClose{width:40px;height:40px;flex-basis:40px;}
+    .settingsPanel{padding:12px;}
+}
+
+html[data-motion-reduced="true"] .settingsDialog{animation:none!important;}
+
+@media(prefers-reduced-motion:reduce){
+    .settingsDialog{animation:none!important;}
+}
+
+@keyframes settingsDialogIn{
+    from{opacity:.35;transform:translateY(6px) scale(.995)}
+    to{opacity:1;transform:none}
+}
