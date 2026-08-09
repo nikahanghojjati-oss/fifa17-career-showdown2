@@ -117,6 +117,15 @@ function isClubConfirmationPending(showdown = currentShowdown){
     );
 }
 
+function isLeagueConfirmationPending(showdown = currentShowdown){
+    return Boolean(
+        showdown
+        && showdown.selectedLeague
+        && !getClubPairRouteState(showdown)
+        && showdown.status !== "League Confirmed"
+    );
+}
+
 function getCurrentChallengeRouteState(showdown = currentShowdown){
     if(!showdown){ return null; }
 
@@ -157,13 +166,15 @@ function isRouteStateValid(screenName){
 
     const clubsValid = getClubPairRouteState(showdown);
     const confirmationPending = clubsValid && isClubConfirmationPending(showdown);
+    const leagueConfirmationPending = !clubsValid && isLeagueConfirmationPending(showdown);
 
     if(screenName === "leagueWheelScreen"){
         return !clubsValid;
     }
 
     if(screenName === "clubWheelScreen"){
-        return Boolean(showdown.selectedLeague) && (!clubsValid || confirmationPending);
+        return Boolean(showdown.selectedLeague)
+            && ((clubsValid && confirmationPending) || (!clubsValid && !leagueConfirmationPending));
     }
 
     if(!clubsValid || confirmationPending){
@@ -201,7 +212,14 @@ function resolveCanonicalShowdownRoute(){
         return "leagueWheelScreen";
     }
 
-    if(!getClubPairRouteState(showdown) || isClubConfirmationPending(showdown)){
+    const clubsValid = getClubPairRouteState(showdown);
+    if(!clubsValid){
+        return isLeagueConfirmationPending(showdown)
+            ? "leagueWheelScreen"
+            : "clubWheelScreen";
+    }
+
+    if(isClubConfirmationPending(showdown)){
         return "clubWheelScreen";
     }
 
