@@ -78,6 +78,18 @@ function getSettingsMotionState(){
     };
 }
 
+function focusSelectedSettingsMotionChoice(){
+    window.requestAnimationFrame(() => {
+        if(!settingsOverlay || settingsOverlay.classList.contains("hidden") || !settingsContent){
+            return;
+        }
+        const selected = settingsContent.querySelector(".settingsMotionChoice.selected");
+        if(selected){
+            selected.focus({ preventScroll: true });
+        }
+    });
+}
+
 function setSettingsMotionPreference(reduced){
     if(typeof window.setApplicationReducedMotionPreference !== "function"){
         if(typeof window.showAppNotice === "function"){
@@ -90,7 +102,6 @@ function setSettingsMotionPreference(reduced){
         return;
     }
 
-    renderSettings();
     if(typeof window.showAppNotice === "function"){
         window.showAppNotice(
             reduced ? "Reduced motion is enabled." : "Motion now follows your device preference.",
@@ -100,11 +111,38 @@ function setSettingsMotionPreference(reduced){
     }
 }
 
+function handleMotionChoiceKeydown(event){
+    if(!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)){
+        return;
+    }
+
+    const group = event.currentTarget.closest("[role='radiogroup']");
+    if(!group){ return; }
+    const choices = Array.from(group.querySelectorAll(".settingsMotionChoice"));
+    if(!choices.length){ return; }
+
+    event.preventDefault();
+    const currentIndex = Math.max(0, choices.indexOf(event.currentTarget));
+    let nextIndex = currentIndex;
+    if(event.key === "Home"){
+        nextIndex = 0;
+    }else if(event.key === "End"){
+        nextIndex = choices.length - 1;
+    }else{
+        const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
+        nextIndex = (currentIndex + direction + choices.length) % choices.length;
+    }
+
+    choices[nextIndex].click();
+}
+
 function createMotionChoice(label, description, selected, reduced){
     const button = createSettingsElement("button", "settingsMotionChoice");
     button.type = "button";
     button.setAttribute("role", "radio");
     button.setAttribute("aria-checked", selected ? "true" : "false");
+    button.tabIndex = selected ? 0 : -1;
+    button.dataset.motionReduced = reduced ? "true" : "false";
     button.classList.toggle("selected", selected);
 
     const marker = createSettingsElement("span", "settingsMotionMarker");
@@ -116,6 +154,7 @@ function createMotionChoice(label, description, selected, reduced){
     );
     button.append(marker, copy);
     button.addEventListener("click", () => setSettingsMotionPreference(reduced));
+    button.addEventListener("keydown", handleMotionChoiceKeydown);
     return button;
 }
 
@@ -247,7 +286,7 @@ function getSettingsFocusableElements(){
     if(!settingsDialog){ return []; }
     return Array.from(settingsDialog.querySelectorAll(
         'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'
-    )).filter(element => !element.classList.contains("hidden"));
+    )).filter(element => !element.classList.contains("hidden") && element.tabIndex !== -1);
 }
 
 function handleSettingsKeydown(event){
@@ -387,9 +426,12 @@ function initializeSettings(){
     ensureSettingsDialog();
     if(settingsPreferenceListenerBound){ return; }
     settingsPreferenceListenerBound = true;
-    window.addEventListener("career-mode-preferences-change", () => {
+    window.addEventListener("career-mode-preferences-change", event => {
         if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
             renderSettings();
+            if(event && event.detail && event.detail.source === "user"){
+                focusSelectedSettingsMotionChoice();
+            }
         }
     });
 }
