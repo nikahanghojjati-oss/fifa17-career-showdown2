@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Validate JavaScript syntax
         shell: bash
@@ -34,6 +34,7 @@ jobs:
           set -euo pipefail
           node <<'NODE'
           const fs = require('fs');
+          const path = require('path');
 
           const expectedVersion = '0.16.0';
           const expectedRevision = '0.16.0-r1';
@@ -128,8 +129,22 @@ jobs:
           if (!screens.includes('const SAFE_BACK_TARGETS')) {
             throw new Error('Smart route policy is missing from js/screens.js.');
           }
+          if (!screens.includes('smartBackDelegationBound') || !screens.includes('stopImmediatePropagation')) {
+            throw new Error('Centralized Back interception is missing from js/screens.js.');
+          }
+
+          const routeHistoryLeaks = fs.readdirSync('js')
+            .filter(file => file.endsWith('.js') && file !== 'screens.js')
+            .filter(file => /\bscreenHistory\b/.test(fs.readFileSync(path.join('js', file), 'utf8')));
+          if (routeHistoryLeaks.length) {
+            throw new Error(`Route history is being manipulated outside screens.js: ${routeHistoryLeaks.join(', ')}`);
+          }
+
           if (!showdownUI.includes('VIEW FINAL SEASON SUMMARY')) {
             throw new Error('Completed showdown recovery action is missing from js/showdownUI.js.');
+          }
+          if (!showdownUI.includes('Active save retained · Legacy sync pending')) {
+            throw new Error('Completed-showdown Legacy failure state is not surfaced accurately.');
           }
 
           const deadPrototypeFiles = [
@@ -139,7 +154,7 @@ jobs:
             'js/ui.js',
             'js/wheels.js'
           ];
-          const returnedDeadFiles = deadPrototypeFiles.filter(path => fs.existsSync(path));
+          const returnedDeadFiles = deadPrototypeFiles.filter(filePath => fs.existsSync(filePath));
           if (returnedDeadFiles.length) {
             throw new Error(`Dead prototype files must be removed: ${returnedDeadFiles.join(', ')}`);
           }
@@ -147,6 +162,6 @@ jobs:
           console.log(
             `Validated v${expectedVersion}: ${initialScripts.length} initial scripts, ` +
             `${styleRefs.length} initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
-            `${ids.length} unique HTML ids.`
+            `${ids.length} unique HTML ids, centralized Back authority.`
           );
           NODE
