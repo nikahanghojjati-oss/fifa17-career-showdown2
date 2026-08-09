@@ -21,18 +21,18 @@ Current source is the implementation authority. Browser acceptance remains requi
 # Current implementation
 
 **Application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Current runtime asset revision:** `0.95.0-r5`  
+**Current runtime asset revision:** `0.95.0-r6`  
 **Hosting:** GitHub Pages  
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage  
 **Product mode:** two managers, one device, one browser, one active showdown  
 **Current milestone:** original v0.95 Polish / Blueprint Alignment  
-**Current workstream:** Workstream 2 — phased Transfer Challenge + canonical FIFA 17 transfer metadata/selectors  
+**Current workstream:** Workstream 3 — Settings / application motion preference  
 **Source status:** implemented and machine-validated  
-**Owner/browser status:** r5 acceptance pending  
-**Previous gate:** Workstream 1B / `0.95.0-r4` owner accepted  
-**Next workstream after r5 acceptance:** Workstream 3 — Settings blueprint alignment
+**Owner/browser status:** r6 acceptance pending  
+**Accepted gates:** `0.95.0-r4` Workstream 1B and `0.95.0-r5` Workstream 2  
+**Next after r6 acceptance:** Workstream 4 — Main Menu Statistics alignment
 
-`0.95.0-r5` is a v0.95 implementation/cache revision, not a replacement roadmap.
+`0.95.0-r6` is a v0.95 implementation/cache revision, not a replacement roadmap.
 
 ---
 
@@ -106,7 +106,7 @@ Per manager per season:
    - if position is equal, more league points wins;
    - otherwise draw.
 
-## Transfer Challenge rules
+## Transfer Challenge
 
 Each season:
 
@@ -116,7 +116,7 @@ Each season:
 - each guess is League or Nationality;
 - a signing matching a correct guess must be released.
 
-r5 changes the **entry/state sequence**, not these gameplay rules.
+r5 changed the entry/state sequence, not these gameplay rules.
 
 ## Match-play rule
 
@@ -139,9 +139,9 @@ r5 changes the **entry/state sequence**, not these gameplay rules.
 - two sealed-pack sequential Club Reveal;
 - explicit Rivalry Confirmation;
 - Showdown Home and cumulative scoreboard;
-- per-season Transfer Challenge;
+- per-season phased Transfer Challenge;
 - persisted transfer deadline and hidden-tab timer optimization;
-- **r5 phased Transfer Challenge:** Window → Guess Entry → Signing Entry → Verdicts;
+- Window → Guess Entry → Signing Entry → Verdicts state sequence;
 - old transfer-record compatibility/migration;
 - canonical FIFA 17 transfer League and player-nationality options;
 - searchable accessible controlled League/Nationality selectors;
@@ -151,22 +151,23 @@ r5 changes the **entry/state sequence**, not these gameplay rules.
 - Season Results and automatic scoring;
 - Season Summary and multi-season progression;
 - completed showdown recovery hub;
-- Legacy archive/history;
+- Legacy archive/history and data controls;
 - Rivalry Statistics/cumulative analytics;
 - Trophy Room;
 - Rule Book;
+- **r6 lazy Settings modal**;
+- **r6 persistent Follow Device / Reduce Motion preference**;
 - safe delete/reset behavior;
 - centralized smart Back navigation;
 - release-cache coherence;
 - runtime diagnostics;
-- reduced-motion support;
 - Chromebook/laptop/mobile responsive layouts.
 
 ---
 
-# Club assignment integrity — permanent lock
+# Club Assignment integrity — accepted r4 baseline
 
-The accepted r4 transaction remains unchanged:
+The r4 transaction remains locked:
 
 1. one valid same-league/different-club pair is generated;
 2. pair placed in memory;
@@ -177,17 +178,15 @@ The accepted r4 transaction remains unchanged:
 
 Reveal animation never writes to localStorage.
 
-`Clubs Assigned` means a valid permanent pair exists but rivalry confirmation is still pending. Refresh/Continue restores that same pair. Only explicit successful confirmation changes status to `Ready`.
+`Clubs Assigned` means a valid permanent pair exists but Rivalry Confirmation is still pending. Refresh/Continue restores that same pair. Only explicit successful confirmation changes status to `Ready`.
 
-r4 owner acceptance is complete. Do not reopen the old generic-card/reveal architecture unless a real regression is reported.
+r6 only changes how quickly the theatrical reveal proceeds when effective reduced motion is active. It does not change generation, persistence, pair identity, no-reroll behavior or explicit confirmation.
 
 ---
 
-# r5 Transfer Challenge architecture
+# Transfer Challenge architecture — accepted r5 baseline
 
-## Persistent record
-
-The existing per-season Transfer Challenge record remains authoritative. r5 did **not** create duplicate records.
+The existing per-season Transfer Challenge record remains authoritative. No duplicate record or second route was created.
 
 Challenge status remains routing-compatible:
 
@@ -196,72 +195,124 @@ Challenge status remains routing-compatible:
 - `recording`
 - `completed`
 
-New persistent `phase` adds sub-state:
+Persistent `phase` provides sub-state:
 
 - `window`
 - `guess_entry`
 - `signing_entry`
 - `completed`
 
-Both post-window data-entry phases intentionally keep `status: recording`. `js/screens.js` therefore remains the sole route/history authority and canonical route remains `transferChallenge` while either phase is active.
+Both post-window entry phases intentionally keep `status: recording`. `js/screens.js` remains the sole route/history authority and canonical route remains `transferChallenge` while either phase is active.
 
-## Flow
+Flow:
 
-**Transfer Window  
-→ Guess Entry  
-→ critical guess lock  
-→ Signing Entry  
-→ critical signing lock  
-→ canonical evaluation  
-→ Verdicts  
-→ Season Results**
+**Transfer Window → Guess Entry → critical guess lock → Signing Entry → critical signing lock → canonical evaluation → Verdicts → Season Results**
 
-Guesses are locked before completed signings are entered. This gives a clean future private/two-device boundary without changing v1 into a two-device product.
+Critical phase transitions use immediate persistence with challenge/status snapshots and rollback/block on failure. Draft editing remains debounced/deduplicated. Signing Entry cannot rewrite already locked guesses.
 
-## Critical persistence
+Old `status: recording` records without `phase` resolve to Guess Entry. Existing old drafts survive. Known historical aliases are mapped to canonical IDs; unknown values remain visible and require valid re-selection.
 
-Critical phase transitions use immediate persistence with challenge/status snapshots and rollback/block on failure:
+Transfer metadata remains lazy and separate from the five-league Showdown Wheel:
 
-- active window → Guess Entry;
-- Guess Entry → Signing Entry;
-- Signing Entry → Completed.
-
-Draft editing remains debounced/deduplicated. Only the active phase's form is captured, so Signing Entry cannot rewrite already locked guesses.
-
-## Legacy transfer compatibility
-
-Old `status: recording` records without `phase` resolve to `guess_entry`.
-
-Existing old signing and guess drafts remain in the record. Recognized historical free-text values are mapped to canonical IDs. Unknown values remain visible and require a valid controlled re-selection before locking rather than being silently guessed.
-
-## Canonical transfer data
-
-`data/transferOptions.js` is lazy transfer metadata, separate from `data/leagues.js` Showdown selection data.
-
-Current deterministic dataset:
-
-- 36 Transfer League options: 35 FIFA 17 domestic league competitions + Rest of World fallback;
+- 36 Transfer League options: 35 FIFA 17 domestic competitions + Rest of World;
 - 164 FIFA 17 player nationalities.
 
-It includes FIFA 17 lower divisions represented historically, including England's four tiers and second tiers in France, Germany, Italy and Spain.
+Release evaluation compares canonical IDs, not arbitrary free text.
 
-Canonical option entries provide IDs plus historical aliases. Release evaluation compares IDs, not arbitrary normalized text.
+---
 
-## Searchable selectors
+# Settings / motion architecture — current r6
 
-`js/transferSelector.js` provides lightweight framework-free comboboxes with:
+## UI architecture
 
-- type-to-filter;
-- bounded results;
-- League country/tier context;
-- keyboard navigation and Escape;
-- ARIA combobox/listbox/active-descendant wiring;
-- canonical value separate from label;
-- mobile viewport-constrained list;
-- visible focus;
-- low-height Chromebook behavior.
+Settings is a lazy optional module:
 
-Guess Value switches between League/Nationality datasets based on Guess Type.
+- `js/settings.js`
+- `css/settings.css`
+
+The Home shell contains only `#settingsButton`. Opening Settings loads the optional assets through `js/optionalModules.js`.
+
+Settings is a modal over the current screen, not a new `screens.js` route. This intentionally leaves central route/history behavior unchanged.
+
+Settings contains only:
+
+- application/build information;
+- motion/accessibility preference;
+- a gateway to the existing Legacy Data Management surface.
+
+No account/cloud/backend/theme/notification preference system was added.
+
+## Application preference storage
+
+Storage authority remains `js/storage.js`.
+
+Keys are now:
+
+- `careerModeShowdown.activeShowdown`
+- `careerModeShowdown.legacyShowdowns`
+- `careerModeShowdown.preferences`
+
+The preferences object currently has schema version 1 and one user preference:
+
+`reducedMotion: boolean`
+
+Default `false` means **Follow Device**, not “force full motion.”
+
+Effective reduced motion is:
+
+**user Reduce Motion override OR operating-system/browser reduced-motion request**.
+
+There is deliberately no user setting that can force full motion against a device accessibility request.
+
+`initializeStorageLifecycle()` applies the effective motion state during core bootstrap and watches system/cross-tab preference changes.
+
+The document receives:
+
+- `data-motion-preference="system" | "reduced"`
+- `data-motion-reduced="true" | "false"`
+
+## Reset semantics
+
+`clearAllCareerModeData()` still resets Showdown competition data only:
+
+- active showdown;
+- Legacy history.
+
+It intentionally preserves application preferences. The Settings UI does not duplicate destructive storage primitives and instead opens the established Legacy Data Management controls.
+
+## Motion consumers
+
+### Club Assignment
+
+`isReducedClubMotionPreferred()` consumes the shared effective preference. Reduced motion skips theatrical stage timers and moves the already-saved pair directly to confirmation.
+
+### League Wheel
+
+Standard timing remains 4000 ms spin + 700 ms advance.
+
+Effective reduced motion uses 80 ms spin resolution + 120 ms advance, preventing the previous hidden four-second delay while retaining the exact same random selection/persistence/rollback transaction.
+
+### CSS
+
+`css/app.css` minimizes animations/transitions for both:
+
+- `html[data-motion-reduced="true"]`;
+- `@media(prefers-reduced-motion: reduce)`.
+
+## Settings accessibility
+
+Preserve:
+
+- modal dialog semantics;
+- background `inert` while open;
+- Escape/backdrop close;
+- Tab containment;
+- focus restoration to opener;
+- motion radiogroup/radio semantics;
+- roving tab stop;
+- Arrow/Home/End choice navigation;
+- focus retention after dynamic preference rerender;
+- low-height Chromebook and mobile viewport guards.
 
 ---
 
@@ -279,25 +330,20 @@ Preserve:
 - saved clubs invalidating League Wheel;
 - `Clubs Assigned` preserving Club Assignment only until confirmation;
 - confirmed clubs invalidating Club Assignment;
-- `active`/`recording` transfer state canonicalizing to Transfer Challenge;
+- active/recording transfer state canonicalizing to Transfer Challenge;
 - completed Transfer Challenge invalidating obsolete transfer route;
 - completed showdown canonicalizing to Showdown Home;
 - contextual optional-screen Back behavior.
 
 No other module may manipulate `screenHistory` directly.
 
-Resume path explicitly calls `openTransferChallenge()` when canonical route is Transfer Challenge, so r5 migration/render executes after refresh in both Guess and Signing phases.
+Settings does not enter route history.
 
 ---
 
 # Persistence architecture — locked
 
 Storage authority: `js/storage.js`.
-
-Keys:
-
-- `careerModeShowdown.activeShowdown`
-- `careerModeShowdown.legacyShowdowns`
 
 Preserve:
 
@@ -309,9 +355,10 @@ Preserve:
 - idempotent completed-showdown archiving;
 - failure-aware destructive actions;
 - active completed save retained if Legacy sync fails;
-- accurate failure messaging.
+- accurate failure messaging;
+- isolated application preference persistence.
 
-r5 extends data inside existing Transfer Challenge records; it does not replace localStorage architecture.
+Do not move user preferences into active Showdown records or Legacy history.
 
 ---
 
@@ -330,11 +377,9 @@ Initial local assets remain exactly one local stylesheet plus seven scripts:
 - `js/optionalModules.js`
 - `js/app.js`
 
-CI still enforces the initial script/style/byte budget.
+Settings JS/CSS remains lazy and does not change that startup count.
 
 ## Lazy gameplay package
-
-Existing lazy gameplay assets plus r5 Transfer assets:
 
 - `data/leagues.js`
 - `data/clubs.js`
@@ -349,18 +394,23 @@ Existing lazy gameplay assets plus r5 Transfer assets:
 - `js/transferChallenge.js`
 - `js/seasonEngine.js`
 
-Transfer option data does not load on initial Home startup.
+## Lazy optional modules
 
-## Runtime discipline
+- Legacy
+- analytics / Rivalry Statistics
+- Trophy Room
+- Rule Book
+- Settings
+- diagnostics
+
+Runtime discipline remains:
 
 - one transfer timer interval maximum;
-- no hidden/off-screen timer loop;
+- no hidden/off-screen transfer timer loop;
 - one YouTube iframe maximum;
 - no media iframe before user Play;
 - no localStorage write per keypress;
-- transfer selectors bounded/no framework;
-- phase transitions finite and explicit;
-- avoid unnecessary DOM replacement;
+- bounded transfer selectors/no framework;
 - no core gameplay data fetch from third-party APIs at runtime.
 
 ---
@@ -369,7 +419,7 @@ Transfer option data does not load on initial Home startup.
 
 `index.html` owns deployed runtime identity:
 
-`<meta name="app-asset-revision" content="0.95.0-r5">`
+`<meta name="app-asset-revision" content="0.95.0-r6">`
 
 Lazy assets derive their revision from this shell value. Never reuse a deployed asset revision after local CSS/JS/data bytes change.
 
@@ -377,7 +427,7 @@ Lazy assets derive their revision from this shell value. Never reuse a deployed 
 
 # Automated validation
 
-Two exact-head GitHub Actions gates now exist.
+Three exact-head GitHub Actions gates now exist.
 
 ## Validate Static App
 
@@ -389,50 +439,60 @@ Protects established:
 - canonical route matrix;
 - Club Assignment no-reroll/confirmation recovery;
 - original 98-club procedural crest coverage;
-- finite two-pack reveal/reduced-motion;
+- finite two-pack reveal;
 - startup asset limits;
 - centralized Back authority;
 - optional-screen/Chromebook guards.
 
 ## Validate Transfer Workstream
 
-Protects r5:
+Protects accepted r5:
 
-- exactly 36 transfer competition options;
-- exactly 164 player nationalities;
+- 36 transfer competition options;
+- 164 player nationalities;
 - unique canonical IDs;
-- historical lower-division coverage;
+- historical lower-division coverage and aliases;
 - Showdown Wheel remaining five leagues;
-- historical alias resolution;
-- old recording-save migration to Guess Entry;
-- old signing-draft preservation;
+- old recording-save migration;
 - Guess → Signing ordering;
-- canonical ID release/non-release matching;
-- critical save/rollback markers;
-- selector ARIA and keyboard behavior contracts;
-- bounded desktop/mobile selector presentation;
-- Chromebook and reduced-motion transfer styling;
-- transfer option/selector/style files absent from the initial shell.
+- canonical RELEASE/SAFE matching;
+- selector accessibility/responsiveness;
+- transfer assets remaining lazy.
 
-Machine validation does not prove visual quality. Owner Chromebook/mobile acceptance is still required for r5.
+## Validate Settings Workstream
+
+Protects r6:
+
+- Follow Device default;
+- persistent Reduce Motion override;
+- OS/browser reduced-motion precedence;
+- preference survival across Showdown-data reset;
+- lazy Settings architecture;
+- Settings Home binding;
+- modal/radio/focus keyboard contracts;
+- no direct localStorage use in Settings UI;
+- no duplicated destructive storage logic;
+- Legacy Data Management reuse;
+- Club Reveal/League Wheel shared motion-consumer contract;
+- materially shortened reduced League Wheel timing;
+- user-forced reduced-motion CSS;
+- Chromebook/mobile Settings viewport structure.
+
+Machine validation does not prove visual quality. Owner Chromebook/mobile acceptance is still required for r6.
 
 ---
 
-# Current gate / remaining v0.95 roadmap
+# Remaining v0.95 roadmap
 
-## Workstream 2 — current gate
+## Workstream 3 — current gate
 
-`0.95.0-r5` is implemented and machine-validated. Owner browser acceptance is pending. The exact browser checklist is in `NEXT_TASK.md`.
+`0.95.0-r6` is implemented and machine-validated. Owner browser acceptance is pending. Use `NEXT_TASK.md` for the exact browser checklist.
 
-Do not begin Settings while a real r5 defect remains unresolved.
-
-## Workstream 3 — Settings
-
-After r5 acceptance, implement the small original-blueprint Settings surface using current architecture: application information, useful animation/reduced-motion preference if valuable, and safe existing data-management access. No accounts/cloud/online systems.
+Do not advance while a real r6 defect remains unresolved.
 
 ## Workstream 4 — Main Menu Statistics alignment
 
-Reuse existing analytics/Trophy Room/Rivalry Statistics. Do not create a second analytics engine.
+After r6 acceptance, align the original Main Menu Statistics blueprint with the already-existing Rivalry Statistics / Trophy Room / analytics architecture. Do not create a second analytics engine.
 
 ## Workstream 5 — Season pre-commit review
 
