@@ -27,7 +27,7 @@ Current source is implementation authority. Browser acceptance remains required 
 **Product mode:** two managers, one device/browser, one active showdown  
 **Current milestone:** original v0.95 Polish / Blueprint Alignment  
 **Current workstream:** Workstream 5 — Season pre-commit review  
-**Source status:** implemented; exact-head machine validation required after documentation sync  
+**Source status:** implemented and exact-head machine-validated  
 **Owner/browser status:** r9 acceptance pending  
 **Owner-accepted gates:** `0.95.0-r4`, `0.95.0-r5`, `0.95.0-r6`, `0.95.0-r8`  
 **Next after r9 acceptance:** Workstream 6 — final v0.95 polish/regression, then v1.0
