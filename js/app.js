@@ -1,10 +1,10 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.16.0
+   v0.95.0
    Lightweight Application Bootstrap
 ===================================================== */
 
-const APP_VERSION = "0.16.0";
+const APP_VERSION = "0.95.0";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
