@@ -76,6 +76,11 @@ const GAMEPLAY_REQUIRED_FUNCTIONS = [
     "updateShowdownUI"
 ];
 
+function getExpectedAssetRevision(){
+    const meta = document.querySelector('meta[name="app-asset-revision"]');
+    return meta && meta.content ? meta.content.trim() : "";
+}
+
 function testLocalStorageAvailability(){
     const key = "careerModeShowdown.diagnostic";
     try{
@@ -181,8 +186,13 @@ function getVisualSystemProblems(){
         return ["unified application stylesheet is missing"];
     }
 
+    const expected = getExpectedAssetRevision();
+    if(!expected){
+        return ["application asset revision metadata is missing"];
+    }
+
     const href = String(styles.getAttribute("href") || "");
-    return href.includes("css/app.css") && href.includes("0.16.0-r1")
+    return href.includes("css/app.css") && href.includes(`v=${expected}`)
         ? []
         : ["unified application stylesheet revision is stale"];
 }
@@ -235,11 +245,18 @@ function getNavigationProblems(){
     if(!navigation.activeScreen){
         problems.push("no active application screen is visible");
     }
+    if(navigation.backAuthority !== "centralized"){
+        problems.push("Back navigation authority is not centralized");
+    }
     return problems;
 }
 
 function getBundleProblems(){
-    const expected = "0.16.0-r1";
+    const expected = getExpectedAssetRevision();
+    if(!expected){
+        return ["application asset revision metadata is missing"];
+    }
+
     const localAssets = [
         ...document.querySelectorAll("script[src]"),
         ...document.querySelectorAll("link[rel='stylesheet'][href]")
@@ -292,6 +309,7 @@ function runApplicationDiagnostics(){
 
     const result = {
         version: typeof APP_VERSION === "string" ? APP_VERSION : "unknown",
+        assetRevision: getExpectedAssetRevision() || "missing",
         healthy,
         storageAvailable,
         gameplayState,
