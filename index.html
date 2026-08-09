@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="0.95.0-r3">
+<meta name="app-asset-revision" content="0.95.0-r4">
 <title>Career Mode Showdown</title>
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=0.95.0-r3">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
+<link rel="stylesheet" id="appStyles" href="css/app.css?v=0.95.0-r4">
 </head>
 <body>
 <div id="background"></div>
@@ -127,13 +130,13 @@
 <div class="clubAssignmentHeader">
 <span class="clubAssignmentEyebrow">LEAGUE CONFIRMED</span>
 <div id="clubAssignmentLeague">League</div>
-<div id="clubPackStatus" aria-live="polite">READY FOR REVEAL</div>
+<div id="clubPackStatus" aria-live="polite">TWO SEALED CLUB PACKS READY</div>
 </div>
 
 <div class="clubRevealProgress" aria-hidden="true">
-<span data-reveal-step="opening">01 OPEN</span>
-<span data-reveal-step="manager-one">02 M1</span>
-<span data-reveal-step="manager-two">03 M2</span>
+<span data-reveal-step="opening">01 DRAW</span>
+<span data-reveal-step="manager-one">02 PACK 1</span>
+<span data-reveal-step="manager-two">03 PACK 2</span>
 <span data-reveal-step="versus">04 VS</span>
 <span data-reveal-step="confirmation">05 LOCK</span>
 </div>
@@ -143,22 +146,36 @@
 <div class="clubRevealCard" id="clubCardOne" data-reveal-code="01">
 <span class="clubRevealIndex">01</span>
 <div class="clubManager" id="clubPlayerOne">Manager 1</div>
+<div class="clubPackStage">
+<div class="clubPackDoor" aria-hidden="true">
+<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
+<span class="clubPackSeal">17</span>
+<span class="clubPackSerial">PACK 01 · SEALED</span>
+</div>
 <div class="clubCardFace">
 <span class="clubCardEyebrow">CAREER DRAW</span>
-<span class="clubCardLabel">CLUB</span>
+<span class="clubCardLabel">ASSIGNED CLUB</span>
 <strong id="clubNameOne">?</strong>
 <small id="clubCardStateOne" class="clubCardState">SEALED</small>
+</div>
 </div>
 </div>
 <div class="clubVs"><span>RIVALRY</span><strong>VS</strong></div>
 <div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02">
 <span class="clubRevealIndex">02</span>
 <div class="clubManager" id="clubPlayerTwo">Manager 2</div>
+<div class="clubPackStage">
+<div class="clubPackDoor" aria-hidden="true">
+<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
+<span class="clubPackSeal">17</span>
+<span class="clubPackSerial">PACK 02 · SEALED</span>
+</div>
 <div class="clubCardFace">
 <span class="clubCardEyebrow">CAREER DRAW</span>
-<span class="clubCardLabel">CLUB</span>
+<span class="clubCardLabel">ASSIGNED CLUB</span>
 <strong id="clubNameTwo">?</strong>
 <small id="clubCardStateTwo" class="clubCardState">SEALED</small>
+</div>
 </div>
 </div>
 </div>
@@ -184,7 +201,7 @@
 <p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
 </div>
 
-<button class="menuButton" id="openClubPack">OPEN SHOWDOWN PACK</button>
+<button class="menuButton" id="openClubPack">OPEN SHOWDOWN PACKS</button>
 <button class="menuButton hidden" id="continueClubAssignment" disabled>CONFIRM RIVALRY & START SHOWDOWN</button>
 <button class="backButton" id="clubAssignmentBack" data-smart-back>BACK</button>
 </div>
@@ -360,12 +377,12 @@
 <footer>Career Mode Showdown<br>v0.95.0 · Polish & Blueprint Alignment</footer>
 </div>
 
-<script defer src="js/storage.js?v=0.95.0-r3"></script>
-<script defer src="js/showdown.js?v=0.95.0-r3"></script>
-<script defer src="js/scoring.js?v=0.95.0-r3"></script>
-<script defer src="js/screens.js?v=0.95.0-r3"></script>
-<script defer src="js/menuExperience.js?v=0.95.0-r3"></script>
-<script defer src="js/optionalModules.js?v=0.95.0-r3"></script>
-<script defer src="js/app.js?v=0.95.0-r3"></script>
+<script defer src="js/storage.js?v=0.95.0-r4"></script>
+<script defer src="js/showdown.js?v=0.95.0-r4"></script>
+<script defer src="js/scoring.js?v=0.95.0-r4"></script>
+<script defer src="js/screens.js?v=0.95.0-r4"></script>
+<script defer src="js/menuExperience.js?v=0.95.0-r4"></script>
+<script defer src="js/optionalModules.js?v=0.95.0-r4"></script>
+<script defer src="js/app.js?v=0.95.0-r4"></script>
 </body>
 </html>
