@@ -195,6 +195,69 @@ jobs:
           console.log('Navigation state matrix, club-confirmation recovery, and locked scoring regression cases passed.');
           NODE
 
+      - name: Validate club identity and reveal contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          function loadClassicScript(filePath, exportExpression) {
+            const context = { console };
+            context.window = context;
+            vm.createContext(context);
+            const source = fs.readFileSync(filePath, 'utf8');
+            vm.runInContext(`${source}\n;globalThis.__testExports = ${exportExpression};`, context, { filename: filePath });
+            return context.__testExports;
+          }
+
+          const clubData = loadClassicScript('data/clubs.js', '{ clubsByLeague }');
+          const identity = loadClassicScript(
+            'js/visualIdentity.js',
+            '{ getClubIdentity, CLUB_IDENTITY_PALETTES }'
+          );
+
+          const clubs = Object.values(clubData.clubsByLeague).flat();
+          assert.strictEqual(clubs.length, 98, 'The locked five-league Showdown pool should contain 98 clubs.');
+          assert.strictEqual(new Set(clubs).size, clubs.length, 'Club database must not contain duplicate club names.');
+
+          const missingPalettes = clubs.filter(name => !identity.CLUB_IDENTITY_PALETTES[name]);
+          assert.deepStrictEqual(missingPalettes, [], `Every Showdown club requires an explicit original identity palette: ${missingPalettes.join(', ')}`);
+
+          const crests = clubs.map(name => {
+            const current = identity.getClubIdentity(name);
+            assert.ok(current.primary && current.secondary && current.accent, `${name} identity is missing palette data.`);
+            assert.ok(current.crest.startsWith('url("data:image/svg+xml,'), `${name} crest is not an inline original SVG data image.`);
+            assert.ok(current.initials.length >= 1, `${name} identity is missing its supporting monogram.`);
+            return current.crest;
+          });
+
+          assert.strictEqual(new Set(crests).size, clubs.length, 'Each Showdown club must render a distinct deterministic crest.');
+          clubs.forEach(name => {
+            assert.strictEqual(identity.getClubIdentity(name).crest, identity.getClubIdentity(name).crest, `${name} crest must be deterministic.`);
+          });
+
+          const identitySource = fs.readFileSync('js/visualIdentity.js', 'utf8');
+          assert.ok(!/<image\b/i.test(identitySource), 'Custom crest SVG must not embed external badge images.');
+          assert.ok(!/assets\/logos\//i.test(identitySource), 'Visual identity engine must not fall back to official badge assets.');
+
+          const clubAssignmentSource = fs.readFileSync('js/clubAssignment.js', 'utf8');
+          const timingMatch = clubAssignmentSource.match(/managerOne:\s*(\d+)[\s\S]*?managerTwo:\s*(\d+)[\s\S]*?versus:\s*(\d+)[\s\S]*?confirmation:\s*(\d+)/);
+          assert.ok(timingMatch, 'Club reveal timing contract is missing.');
+          const timings = timingMatch.slice(1).map(Number);
+          assert.ok(timings[0] < timings[1] && timings[1] < timings[2] && timings[2] < timings[3], 'Club reveal stages must remain sequential.');
+          assert.ok(timings[3] <= 4500, 'Club reveal should remain finite and not become frustratingly long.');
+          assert.ok(clubAssignmentSource.includes('isReducedClubMotionPreferred'), 'Club reveal must retain a reduced-motion fast path.');
+          assert.ok(!clubAssignmentSource.includes('createElement("style")'), 'Club Assignment must not inject presentation CSS from JavaScript.');
+          assert.ok(!clubAssignmentSource.includes('CLUB_REVEAL_STYLE_ID'), 'Deprecated runtime reveal stylesheet architecture returned.');
+          assert.ok(clubAssignmentSource.includes('currentShowdown.status = "Clubs Assigned"'), 'Pair must persist before theatrical reveal.');
+          assert.ok(clubAssignmentSource.includes('currentShowdown.status = "Ready"'), 'Explicit confirmation must still advance the showdown to Ready.');
+
+          console.log(`Validated ${clubs.length} original deterministic club crests and finite two-pack reveal contracts.`);
+          NODE
+
       - name: Validate release shell and startup budget
         shell: bash
         run: |
@@ -260,6 +323,25 @@ jobs:
             }
           });
 
+          if (!html.includes('family=Barlow+Condensed:wght@600;700;800&display=swap')) {
+            throw new Error('Workstream 1B display font must remain fallback-safe with display=swap.');
+          }
+          if (!appCss.includes('--f17-display:"Barlow Condensed"')) {
+            throw new Error('Barlow Condensed is not wired into the FIFA-era display stack.');
+          }
+          if (!html.includes('class="clubPackDoor"') || (html.match(/class="clubPackDoor"/g) || []).length !== 2) {
+            throw new Error('Club Assignment must render exactly two sealed Showdown pack doors.');
+          }
+          if (!appCss.includes('.clubPackDoor{') || !appCss.includes('.clubRevealCard.is-revealed .clubPackDoor{')) {
+            throw new Error('Two-pack opening presentation is missing from the authoritative stylesheet.');
+          }
+          if (!appCss.includes('--club-crest-image')) {
+            throw new Error('Original procedural crest presentation is missing from app.css.');
+          }
+          if (!appCss.includes('@media(prefers-reduced-motion:reduce)')) {
+            throw new Error('Global reduced-motion visual contract is missing.');
+          }
+
           if (!appCss.includes('grid-template-rows:repeat(2,minmax(108px,auto)) auto;grid-auto-rows:auto')) {
             throw new Error('Desktop Home grid must keep content-sized rows so media expansion cannot overlap navigation.');
           }
@@ -304,7 +386,7 @@ jobs:
 
           const styleRefs = refs.filter(ref => ref.path.startsWith('css/'));
           if (styleRefs.length !== 1 || styleRefs[0].path !== 'css/app.css') {
-            throw new Error(`Initial shell must load exactly css/app.css; found: ${styleRefs.map(ref => ref.path).join(', ')}`);
+            throw new Error(`Initial shell must load exactly one local stylesheet css/app.css; found: ${styleRefs.map(ref => ref.path).join(', ')}`);
           }
 
           const initialScripts = refs.filter(ref => ref.path.startsWith('js/'));
@@ -359,8 +441,8 @@ jobs:
           if (!clubAssignment.includes('CLUB_REVEAL_TIMINGS')) {
             throw new Error('Finite staged reveal timings are missing.');
           }
-          if (!clubAssignment.includes('prefers-reduced-motion: reduce')) {
-            throw new Error('Club reveal must expose a reduced-motion path.');
+          if (!clubAssignment.includes('isReducedClubMotionPreferred')) {
+            throw new Error('Club reveal reduced-motion controller is missing.');
           }
           if (!clubAssignment.includes('currentShowdown.status = "Clubs Assigned"')) {
             throw new Error('Club pair must persist in the confirmation-pending state before reveal.');
@@ -397,8 +479,7 @@ jobs:
 
           console.log(
             `Validated v${expectedVersion} / ${expectedRevision}: ${initialScripts.length} initial scripts, ` +
-            `${styleRefs.length} initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
-            `${ids.length} unique HTML ids, staged club confirmation recovery, centralized Back authority, ` +
-            `Chromebook layout and optional CSS guards active.`
+            `${styleRefs.length} local initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
+            `${ids.length} unique HTML ids, original club crests, two-pack reveal, Chromebook guards, and centralized Back authority.`
           );
           NODE
