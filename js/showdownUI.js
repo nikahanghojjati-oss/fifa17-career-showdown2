@@ -100,7 +100,7 @@ function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
         const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.95.0";
-        footer.innerHTML = `Career Mode Showdown<br>v${version} · Polish & Blueprint Alignment`;
+        footer.innerHTML = `Career Mode Showdown<br>v${version} · Release Stabilization Candidate`;
     }
 }
 
@@ -149,7 +149,9 @@ function deleteCurrentShowdownFromDashboard(){
     if(typeof window.resetNavigationState === "function"){ window.resetNavigationState(); }
 
     currentShowdown = null;
-    setDashboardTextIfChanged(getDashboardUI().indicator, "No Active Showdown");
+    if(typeof window.refreshMainMenuExperience === "function"){
+        window.refreshMainMenuExperience();
+    }
     showScreen("mainMenu", false);
 }
 
@@ -234,8 +236,9 @@ function updateShowdownUI(){
     const ui = getDashboardUI();
     const completed = currentShowdown.status === "Completed";
     const leagueName = currentShowdown.selectedLeague ? currentShowdown.selectedLeague.name : null;
+    const completedSeasonCount = Array.isArray(currentShowdown.rounds) ? currentShowdown.rounds.length : 0;
     const roundLabel = completed
-        ? `${currentShowdown.rounds.length} seasons completed`
+        ? `${completedSeasonCount} ${completedSeasonCount === 1 ? "season" : "seasons"} completed`
         : `Season ${currentShowdown.currentRound} of ${currentShowdown.totalRounds}`;
     const latestRound = currentShowdown.rounds[currentShowdown.rounds.length - 1];
 

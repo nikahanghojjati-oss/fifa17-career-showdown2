@@ -7,7 +7,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "0.95.0-r11";
+    return revision || "0.95.0-r12";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -371,8 +371,7 @@ function getOptionalModuleButton(name){
     if(name === "careerStatistics"){ return document.getElementById("careerStatisticsButton"); }
     if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
     if(name === "trophyRoom"){
-        return document.getElementById("careerStatisticsTrophyButton")
-            || document.getElementById("trophyRoomButton");
+        return document.getElementById("careerStatisticsTrophyButton");
     }
     if(name === "legacy"){ return document.getElementById("legacyButton"); }
     if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
