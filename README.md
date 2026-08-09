@@ -3,10 +3,10 @@
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
 **Current application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Current runtime asset revision:** `0.95.0-r5`  
-**Current phase:** Workstream 2 browser acceptance  
-**Previous gate:** `0.95.0-r4` FIFA-era presentation / original club identities / two-pack reveal — owner accepted  
-**Next after r5 acceptance:** Workstream 3 — Settings blueprint alignment
+**Current runtime asset revision:** `0.95.0-r6`  
+**Current phase:** Workstream 3 Settings browser acceptance  
+**Accepted gates:** `0.95.0-r4` presentation/club reveal and `0.95.0-r5` phased Transfer Challenge  
+**Next after r6 acceptance:** Workstream 4 — Main Menu Statistics alignment
 
 ## Development entry point
 
@@ -24,79 +24,87 @@ Read in this order:
 
 Historical v0.10–v0.16 builds were implementation/stabilization work. The release path remains the original **v0.95 → v1.0** convergence roadmap.
 
-## Current r5 Transfer Challenge
+## Current r6 Settings
 
-The competition rules are unchanged, but data entry is now split into explicit persistent phases:
+Workstream 3 adds a small lazy Settings surface without creating a second route system or changing competition rules.
 
-**15-minute Transfer Window  
-→ Guess Entry  
-→ lock/persist guesses  
-→ Signing Entry  
-→ lock/persist signings  
-→ canonical release verdicts  
-→ Season Results**
+Settings provides only:
 
-### State / persistence
+- application/build information;
+- a persistent accessibility motion preference;
+- a gateway to the existing Legacy Data Management controls.
 
-The existing Transfer Challenge record remains authoritative. r5 does not create a second record or router.
+There are no accounts, cloud saves, backend settings, themes, notifications or online systems.
 
-Challenge status remains compatible with central routing:
+### Lazy Settings architecture
 
-- `not_started`
-- `active`
-- `recording`
-- `completed`
+The Home shell contains the Settings tile, while these assets load only when Settings is opened:
 
-Persistent `phase` adds:
+- `js/settings.js`
+- `css/settings.css`
 
-- `window`
-- `guess_entry`
-- `signing_entry`
-- `completed`
+Settings is a modal over Home/current screen rather than a new `screens.js` route. Central route/history authority remains unchanged.
 
-Both Guess Entry and Signing Entry intentionally use `status: recording`, keeping `js/screens.js` as the sole route/history authority.
+### Motion preference
 
-Critical phase transitions save immediately with snapshot/rollback. Ordinary field drafts remain debounced/deduplicated. Only the currently editable phase is captured, so Signing Entry cannot silently rewrite locked guesses.
+Application preferences use a separate localStorage key:
 
-### Backward compatibility
+`careerModeShowdown.preferences`
 
-Old combined-form `recording` saves without a phase migrate to Guess Entry. Existing old signing/guess drafts remain present. Known historical values are mapped to canonical FIFA 17 options; unknown values remain visible and must be reselected rather than being silently guessed into the wrong option.
+Current choices:
 
-### FIFA 17 Transfer metadata
+- **Follow Device** — default; follows operating-system/browser `prefers-reduced-motion`.
+- **Reduce Motion** — forces non-essential motion to be minimized.
 
-`data/transferOptions.js` is a lazy metadata module separate from the five-league Showdown Wheel.
+A device accessibility request always wins. There is intentionally no “force full motion” option.
 
-It currently provides:
+The effective state is applied during core storage initialization, before lazy Settings code loads.
 
-- **36 Transfer League options** — 35 historical FIFA 17 domestic league competitions plus Rest of World fallback;
-- **164 FIFA 17 player nationalities**;
-- stable canonical IDs;
-- historical aliases for common naming variants.
+With effective reduced motion:
+
+- CSS transitions/animations are minimized;
+- the accepted r4 Club Reveal skips theatrical stage delays after the permanent pair is safely saved;
+- League Wheel removes its former hidden four-second JavaScript wait and resolves/advances near-immediately while preserving the same random selection/save/rollback transaction.
+
+### Settings accessibility
+
+The modal includes dialog semantics, inert background content, Escape/backdrop close, focus containment/restoration, a keyboard-operable radio group, visible focus, and low-height Chromebook/mobile viewport guards.
+
+### Data Management reuse
+
+Settings does not duplicate destructive storage logic. **Open Legacy & Data Management** opens the existing Legacy module, where established confirmation/rollback protections remain authoritative.
+
+Reset All Showdown Data removes active/Legacy competition data but intentionally preserves the application motion preference.
+
+## Accepted r5 Transfer Challenge
+
+The competition rules are unchanged, but post-window entry uses explicit persistent phases:
+
+**15-minute Transfer Window → Guess Entry → lock guesses → Signing Entry → lock signings → canonical release verdicts → Season Results**
+
+The existing Transfer Challenge record remains authoritative; no second router or record was created.
+
+r5 includes:
+
+- backward-compatible old `recording` save migration;
+- 36 historical FIFA 17 Transfer League options;
+- 164 FIFA 17 player nationalities;
+- canonical IDs and historical aliases;
+- framework-free searchable League/Nationality selectors;
+- canonical RELEASE/SAFE evaluation;
+- immediate rollback-protected critical phase transitions;
+- debounced/deduplicated active-phase drafts.
 
 The Showdown League Wheel remains exactly five leagues.
 
-### Searchable controlled selectors
-
-`js/transferSelector.js` provides framework-free comboboxes for:
-
-- Previous League;
-- player Nationality;
-- Guess Value after League/Nationality Guess Type selection.
-
-Behavior includes type-to-filter, bounded results, League country/tier context, Arrow-key navigation, Enter selection, Escape close, ARIA combobox/listbox wiring, visible focus and viewport-contained mobile results.
-
-Release evaluation compares canonical IDs rather than arbitrary free-text strings.
-
 ## Accepted r4 presentation foundation
 
-r5 preserves the accepted Workstream 1B presentation:
-
-- Barlow Condensed selectively for display roles with `display=swap` and system fallbacks;
+- fallback-safe Barlow Condensed display hierarchy;
 - original deterministic procedural crest identities for all 98 Showdown clubs;
 - two sealed packs revealing the permanent club pair sequentially;
-- save-before-reveal / rollback / no-reroll Club Assignment transaction;
+- save-before-reveal / rollback / no-reroll transaction;
 - refresh/Continue recovery at explicit Rivalry Confirmation;
-- responsive Chromebook/mobile geometry and reduced-motion behavior.
+- responsive Chromebook/mobile presentation.
 
 Official club badge images/vector paths and proprietary FIFA/EA font files are not bundled.
 
@@ -134,6 +142,7 @@ Official club badge images/vector paths and proprietary FIFA/EA font files are n
 - Rivalry Statistics / cumulative analytics
 - Trophy Room
 - Rule Book
+- lazy Settings / persistent motion preference
 - safe reset/deletion controls
 - lazy FIFA 17 soundtrack/trailer media
 - responsive Chromebook/laptop/mobile presentation
@@ -155,14 +164,7 @@ Initial local runtime remains limited to:
 
 CI enforces one initial local stylesheet, maximum seven initial JavaScript files, no eager gameplay package and a 145 KB local startup-asset ceiling.
 
-Workstream 2 assets remain lazy:
-
-- `css/transfer.css`
-- `data/transferOptions.js`
-- `js/transferSelector.js`
-- `js/transferChallenge.js`
-
-The crest generator, Rule Book, Legacy, Analytics and Trophy modules also remain lazy. Menu media still creates no iframe until Play.
+Settings, Transfer metadata/selectors, crests, Rule Book, Legacy, Analytics and Trophy modules remain lazy. Menu media still creates no iframe until Play.
 
 ## Reliability contract
 
@@ -180,14 +182,15 @@ Preserve:
 - persisted Transfer deadline and one timer interval maximum;
 - centralized state-aware Back routing;
 - completed-showdown recovery;
+- isolated application preferences;
+- OS reduced-motion precedence;
 - shell-owned asset revision;
 - stale async-operation identity guards;
-- reduced-motion behavior;
 - Chromebook/mobile viewport guards.
 
 ## Automated validation
 
-Two GitHub Actions gates protect the current implementation.
+Three GitHub Actions gates protect the current implementation.
 
 ### Validate Static App
 
@@ -195,32 +198,35 @@ Protects JavaScript syntax, scoring, route/state matrix, Club Assignment recover
 
 ### Validate Transfer Workstream
 
+Protects the accepted r5 datasets, old-save migration, Guess → Signing ordering, canonical matching, selector keyboard/ARIA behavior and lazy-loading boundaries.
+
+### Validate Settings Workstream
+
 Protects:
 
-- 36 Transfer competition options;
-- 164 player nationalities;
-- unique canonical IDs;
-- important lower-division FIFA 17 coverage;
-- the Showdown Wheel remaining five leagues;
-- historical alias resolution;
-- old `recording` save migration and draft preservation;
-- Guess → Signing phase order;
-- canonical RELEASE / SAFE evaluation;
-- critical save/rollback markers;
-- selector keyboard/ARIA contracts;
-- bounded Chromebook/mobile popovers;
-- transfer assets remaining outside the initial shell.
+- Follow Device default;
+- persistent Reduce Motion override;
+- operating-system reduced-motion precedence;
+- preference survival across Showdown-data reset;
+- lazy Settings assets;
+- Home Settings binding;
+- modal/focus/radio keyboard accessibility contracts;
+- Settings avoiding direct localStorage/destructive primitives;
+- Legacy Data Management reuse;
+- Club Reveal/League Wheel shared effective motion preference;
+- materially shortened reduced-motion League Wheel timing;
+- forced reduced-motion CSS state;
+- Chromebook/mobile Settings layout guards.
 
-Automated checks do not prove visual quality; r5 still requires owner testing on the real Chromebook/mobile browser.
+Automated checks do not prove visual quality; r6 still requires owner testing on the real Chromebook/mobile browser.
 
 ## Remaining v0.95 path
 
-1. **Workstream 2 — current r5 browser acceptance**
-2. **Workstream 3 — Settings blueprint alignment**
-3. **Workstream 4 — Main Menu Statistics alignment using existing analytics**
-4. **Workstream 5 — Season pre-commit review**
-5. **Workstream 6 — final v0.95 accessibility/responsive/performance/regression pass**
-6. **v1.0 Complete Release Candidate / Final Release**
+1. **Workstream 3 — current r6 browser acceptance**
+2. **Workstream 4 — Main Menu Statistics alignment using existing analytics**
+3. **Workstream 5 — Season pre-commit review**
+4. **Workstream 6 — final v0.95 accessibility/responsive/performance/regression pass**
+5. **v1.0 Complete Release Candidate / Final Release**
 
 ## Fan-project / legal presentation
 
