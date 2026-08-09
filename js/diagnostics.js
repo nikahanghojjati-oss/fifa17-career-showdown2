@@ -17,7 +17,7 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "newShowdown",
     "continueCareer",
     "legacyButton",
-    "trophyRoomButton",
+    "careerStatisticsButton",
     "ruleBookButton",
     "settingsButton",
     "rivalryStatisticsButton",
@@ -116,7 +116,7 @@ function getControlBindingProblems(gameplayReady){
         ["newShowdown", "navigationBound"],
         ["continueCareer", "navigationBound"],
         ["legacyButton", "navigationBound"],
-        ["trophyRoomButton", "trophyRoomReady"],
+        ["careerStatisticsButton", "careerStatisticsBound"],
         ["ruleBookButton", "ruleBookBound"],
         ["settingsButton", "settingsBound"],
         ["rivalryStatisticsButton", "statisticsLazyBound"],
@@ -364,7 +364,7 @@ function runApplicationDiagnostics(){
         motion: typeof window.getApplicationMotionPreferenceState === "function"
             ? window.getApplicationMotionPreferenceState()
             : null,
-        lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook", "settings"],
+        lazyScreens: ["careerStatistics", "statistics", "trophyRoom", "legacy", "ruleBook", "settings"],
         optionalModules: typeof window.getOptionalModuleState === "function"
             ? window.getOptionalModuleState()
             : null,
