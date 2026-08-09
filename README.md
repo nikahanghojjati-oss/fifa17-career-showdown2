@@ -2,118 +2,161 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Current application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Current runtime asset revision:** `0.95.0-r6`  
-**Current phase:** Workstream 3 Settings browser acceptance  
-**Accepted gates:** `0.95.0-r4` presentation/club reveal and `0.95.0-r5` phased Transfer Challenge  
-**Next after r6 acceptance:** Workstream 4 — Main Menu Statistics alignment
+**Application version:** v0.95.0 — Polish & Blueprint Alignment  
+**Runtime asset revision:** `0.95.0-r7`  
+**Current phase:** Workstream 4 Career Statistics browser acceptance  
+**Owner-accepted gates:** `0.95.0-r4`, `0.95.0-r5`, `0.95.0-r6`  
+**Next after r7 acceptance:** Workstream 5 — Season pre-commit review
 
 ## Development entry point
 
-The project design phase is complete. Do not restart planning or replace the established architecture.
+The project design phase is complete. Do not restart planning or replace established architecture.
 
 Read in this order:
 
 1. `PROJECT_STATE.md` — exact implementation, locked rules, architecture and roadmap status.
-2. `ROADMAP_AMENDMENTS.md` — later owner-approved requirements and their acceptance intent.
+2. `ROADMAP_AMENDMENTS.md` — later owner-approved requirements.
 3. `NEXT_TASK.md` — current browser gate and exact next workstream.
 4. `CHANGELOG.md` — implementation/stabilization history.
 5. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
-6. Current source code — highest authority for actual implemented behavior.
-7. Original Project Bible — long-term blueprint where later decisions/current source have not intentionally superseded it.
+6. current source — highest authority for implemented behavior.
+7. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-Historical v0.10–v0.16 builds were implementation/stabilization work. The release path remains the original **v0.95 → v1.0** convergence roadmap.
+The release path remains **v0.95 → v1.0**.
 
-## Current r6 Settings
+---
 
-Workstream 3 adds a small lazy Settings surface without creating a second route system or changing competition rules.
+## Current r7 — Main Menu Statistics alignment
 
-Settings provides only:
+The Home information architecture now matches the intended blueprint without adding another analytics engine or another Home row.
+
+The former top-level Trophy Room tile is now **STATISTICS**.
+
+The analytics surfaces have clear responsibilities:
+
+- **Career Statistics** — permanent all-time career data from completed showdowns; Home destination.
+- **Rivalry Statistics** — statistics for the currently loaded showdown only; contextual Showdown Home destination.
+- **Trophy Room** — detailed honours cabinets and all-time records; accessible from Career Statistics and completed Showdown Home.
+
+All three use the established `js/analytics.js` calculation engine.
+
+### Career Statistics content
+
+Career Statistics currently renders:
+
+- Completed Showdowns;
+- Seasons Played;
+- Career Points;
+- Trophies Won;
+- Career Table;
+- two-manager comparison when completed history contains exactly two manager identities;
+- Career Leaders;
+- Current Rivalry bridge when a showdown is loaded;
+- Trophy Room bridge;
+- clean empty state before any completed showdown exists.
+
+Career statistics are derived from completed history at read time. No statistics storage key was introduced.
+
+### Lightweight analytics loading
+
+The Home Statistics tile does not wake the gameplay runtime.
+
+Opening Career Statistics lazy-loads:
+
+- `css/analytics.css`
+- `js/analytics.js`
+- `js/statistics.js`
+
+Opening Trophy Room then adds only:
+
+- `js/trophyRoom.js`
+
+Analytics/Statistics/Trophy assets remain outside the initial Home bundle.
+
+### Navigation
+
+Central routing remains owned by `js/screens.js`.
+
+- Career Statistics → Back → Home.
+- Rivalry Statistics → Back → Showdown Home / Home.
+- Trophy Room opened from Career Statistics → Back returns to Career Statistics through route history.
+- Trophy Room opened from completed Showdown Home → Back returns to Showdown Home.
+
+Read-only analytics routes are not gameplay-runtime routes.
+
+---
+
+## Accepted r6 — Settings / motion accessibility
+
+Settings remains a lazy modal rather than a new route.
+
+It provides:
 
 - application/build information;
-- a persistent accessibility motion preference;
-- a gateway to the existing Legacy Data Management controls.
+- **Follow Device** / **Reduce Motion** preference;
+- safe access to existing Legacy Data Management.
 
-There are no accounts, cloud saves, backend settings, themes, notifications or online systems.
-
-### Lazy Settings architecture
-
-The Home shell contains the Settings tile, while these assets load only when Settings is opened:
-
-- `js/settings.js`
-- `css/settings.css`
-
-Settings is a modal over Home/current screen rather than a new `screens.js` route. Central route/history authority remains unchanged.
-
-### Motion preference
-
-Application preferences use a separate localStorage key:
+Application preferences use:
 
 `careerModeShowdown.preferences`
 
-Current choices:
+A system/browser reduced-motion request always wins. The preference survives Showdown-data reset.
 
-- **Follow Device** — default; follows operating-system/browser `prefers-reduced-motion`.
-- **Reduce Motion** — forces non-essential motion to be minimized.
+Effective reduced motion also controls JavaScript timing:
 
-A device accessibility request always wins. There is intentionally no “force full motion” option.
+- League Wheel standard: 4000 ms + 700 ms advance;
+- League Wheel reduced: 80 ms + 120 ms advance;
+- Club Reveal skips theatrical stage waits after the permanent pair is safely persisted.
 
-The effective state is applied during core storage initialization, before lazy Settings code loads.
+No gameplay transaction changes under reduced motion.
 
-With effective reduced motion:
+---
 
-- CSS transitions/animations are minimized;
-- the accepted r4 Club Reveal skips theatrical stage delays after the permanent pair is safely saved;
-- League Wheel removes its former hidden four-second JavaScript wait and resolves/advances near-immediately while preserving the same random selection/save/rollback transaction.
+## Accepted r5 — phased Transfer Challenge
 
-### Settings accessibility
+Competition rules remain unchanged:
 
-The modal includes dialog semantics, inert background content, Escape/backdrop close, focus containment/restoration, a keyboard-operable radio group, visible focus, and low-height Chromebook/mobile viewport guards.
+**15-minute Transfer Window → Guess Entry → lock guesses → Signing Entry → lock signings → canonical verdicts → Season Results**
 
-### Data Management reuse
+Accepted r5 includes:
 
-Settings does not duplicate destructive storage logic. **Open Legacy & Data Management** opens the existing Legacy module, where established confirmation/rollback protections remain authoritative.
-
-Reset All Showdown Data removes active/Legacy competition data but intentionally preserves the application motion preference.
-
-## Accepted r5 Transfer Challenge
-
-The competition rules are unchanged, but post-window entry uses explicit persistent phases:
-
-**15-minute Transfer Window → Guess Entry → lock guesses → Signing Entry → lock signings → canonical release verdicts → Season Results**
-
-The existing Transfer Challenge record remains authoritative; no second router or record was created.
-
-r5 includes:
-
-- backward-compatible old `recording` save migration;
+- persistent Transfer sub-phases;
+- save/rollback at critical transitions;
+- debounced active-phase drafts;
+- old-save migration;
 - 36 historical FIFA 17 Transfer League options;
 - 164 FIFA 17 player nationalities;
-- canonical IDs and historical aliases;
-- framework-free searchable League/Nationality selectors;
-- canonical RELEASE/SAFE evaluation;
-- immediate rollback-protected critical phase transitions;
-- debounced/deduplicated active-phase drafts.
+- searchable controlled selectors;
+- canonical-ID RELEASE/SAFE evaluation;
+- one persisted deadline / one visible timer loop maximum.
 
-The Showdown League Wheel remains exactly five leagues.
+Transfer metadata remains separate from the five-league Showdown Wheel.
 
-## Accepted r4 presentation foundation
+---
+
+## Accepted r4 — FIFA-era presentation / Club Reveal
+
+Preserve:
 
 - fallback-safe Barlow Condensed display hierarchy;
 - original deterministic procedural crest identities for all 98 Showdown clubs;
-- two sealed packs revealing the permanent club pair sequentially;
-- save-before-reveal / rollback / no-reroll transaction;
-- refresh/Continue recovery at explicit Rivalry Confirmation;
-- responsive Chromebook/mobile presentation.
+- exactly two sealed Showdown packs;
+- save-before-reveal and rollback;
+- permanent no-reroll club pair;
+- `Clubs Assigned` confirmation checkpoint;
+- explicit Rivalry Confirmation;
+- Chromebook/mobile presentation.
 
-Official club badge images/vector paths and proprietary FIFA/EA font files are not bundled.
+No official club badge images/vector paths or proprietary FIFA/EA font files are bundled.
+
+---
 
 ## Locked competition rules
 
-- Exactly two managers, one device/browser in Version 1.0.
-- Both clubs come from the same selected league and remain permanent for the showdown.
+- Exactly two managers, one device/browser in v1.
+- Same selected league, two different permanent clubs.
 - Showdown length: 1 / 3 / 5 / 10 seasons.
-- Transfer Challenge: 15 minutes, maximum three signings, three opponent guesses, League or Nationality, correctly guessed signing must be released.
+- Transfer Challenge: 15 minutes, maximum three signings each, three opponent guesses, League or Nationality, correctly guessed signing must be released.
 - Champions League winner: +5.
 - League winner: +3.
 - Main domestic cup winner: +1.
@@ -123,35 +166,37 @@ Official club badge images/vector paths and proprietary FIFA/EA font files are n
 - Equal non-zero scores are a draw.
 - Only 0-0 uses league position, then league points.
 
+---
+
 ## Current feature set
 
 - New/resumable showdowns
 - five-league League Wheel
-- one-pair permanent club assignment
-- original 98-club procedural crest identities
+- permanent same-league Club Assignment
+- 98 original procedural club identities
 - two-pack Club Reveal / Rivalry Confirmation
 - Showdown Home
-- phased per-season Transfer Challenge
-- historical FIFA 17 transfer League/Nationality metadata
-- searchable controlled Transfer selectors
-- canonical RELEASE / SAFE verdicts
+- phased Transfer Challenge
+- canonical FIFA 17 Transfer selectors
 - Season Results / automatic scoring
 - Season Summary / multi-season progression
 - completed-showdown recovery hub
-- Legacy archive/history and data controls
-- Rivalry Statistics / cumulative analytics
+- Legacy history / Data Management
+- Career Statistics
+- current Rivalry Statistics
 - Trophy Room
 - Rule Book
-- lazy Settings / persistent motion preference
-- safe reset/deletion controls
-- lazy FIFA 17 soundtrack/trailer media
-- responsive Chromebook/laptop/mobile presentation
+- Settings / persistent motion accessibility
+- lazy soundtrack/trailer media
 - centralized state-aware Back navigation
-- runtime diagnostics and exact-head GitHub Actions validation
+- runtime diagnostics
+- Chromebook/laptop/mobile responsive presentation
+
+---
 
 ## Performance contract
 
-Initial local runtime remains limited to:
+Initial local runtime remains exactly:
 
 - `css/app.css`
 - `js/storage.js`
@@ -162,76 +207,62 @@ Initial local runtime remains limited to:
 - `js/optionalModules.js`
 - `js/app.js`
 
-CI enforces one initial local stylesheet, maximum seven initial JavaScript files, no eager gameplay package and a 145 KB local startup-asset ceiling.
+CI enforces one initial local stylesheet, seven initial JavaScript files, no eager gameplay/analytics/Settings package and a 145 KB local startup-asset ceiling.
 
-Settings, Transfer metadata/selectors, crests, Rule Book, Legacy, Analytics and Trophy modules remain lazy. Menu media still creates no iframe until Play.
+Menu media still creates no iframe until the user presses Play.
+
+---
 
 ## Reliability contract
 
 Preserve:
 
 - one-pair/no-reroll Club Assignment;
-- save-before-reveal transaction and rollback;
-- persisted `Clubs Assigned` confirmation checkpoint;
+- save-before-reveal rollback;
 - refresh/Continue same-pair recovery;
 - explicit Transfer Window → Guess → Signing → Completed phases;
-- old transfer-save migration;
-- canonical-ID guess evaluation;
-- critical Transfer phase save/rollback;
-- debounced/deduplicated active-phase drafts;
-- persisted Transfer deadline and one timer interval maximum;
+- canonical Transfer values and verdicts;
+- critical Transfer save/rollback;
+- debounced/deduplicated drafts;
+- persisted Transfer deadline;
 - centralized state-aware Back routing;
 - completed-showdown recovery;
-- isolated application preferences;
-- OS reduced-motion precedence;
+- isolated Settings preferences;
+- one analytics engine;
+- derived/read-only career analytics;
 - shell-owned asset revision;
 - stale async-operation identity guards;
+- reduced-motion behavior;
 - Chromebook/mobile viewport guards.
+
+---
 
 ## Automated validation
 
-Three GitHub Actions gates protect the current implementation.
+Four GitHub Actions gates protect r7:
 
-### Validate Static App
+- **Validate Static App** — syntax, scoring, route matrix, Club Assignment, original crests, startup budget, Back authority and responsive shell.
+- **Validate Transfer Workstream** — accepted r5 Transfer state/data/selectors.
+- **Validate Settings Workstream** — accepted r6 preference/accessibility/reset isolation.
+- **Validate Statistics Workstream** — executable completed-history analytics fixtures plus r7 lazy/shared-analytics/navigation architecture.
 
-Protects JavaScript syntax, scoring, route/state matrix, Club Assignment recovery/no-reroll, cache/startup budgets, central Back authority, responsive layout guards, all 98 procedural crest identities and finite two-pack reveal contracts.
+Automated checks do not replace owner Chromebook/mobile acceptance. See `NEXT_TASK.md` for the r7 browser checklist.
 
-### Validate Transfer Workstream
+---
 
-Protects the accepted r5 datasets, old-save migration, Guess → Signing ordering, canonical matching, selector keyboard/ARIA behavior and lazy-loading boundaries.
+## Remaining release path
 
-### Validate Settings Workstream
+1. **Workstream 4 — current r7 Career Statistics browser acceptance**
+2. **Workstream 5 — Season pre-commit review**
+3. **Workstream 6 — final v0.95 accessibility/responsive/performance/regression pass**
+4. **v1.0 Complete Release Candidate / Final Release**
 
-Protects:
-
-- Follow Device default;
-- persistent Reduce Motion override;
-- operating-system reduced-motion precedence;
-- preference survival across Showdown-data reset;
-- lazy Settings assets;
-- Home Settings binding;
-- modal/focus/radio keyboard accessibility contracts;
-- Settings avoiding direct localStorage/destructive primitives;
-- Legacy Data Management reuse;
-- Club Reveal/League Wheel shared effective motion preference;
-- materially shortened reduced-motion League Wheel timing;
-- forced reduced-motion CSS state;
-- Chromebook/mobile Settings layout guards.
-
-Automated checks do not prove visual quality; r6 still requires owner testing on the real Chromebook/mobile browser.
-
-## Remaining v0.95 path
-
-1. **Workstream 3 — current r6 browser acceptance**
-2. **Workstream 4 — Main Menu Statistics alignment using existing analytics**
-3. **Workstream 5 — Season pre-commit review**
-4. **Workstream 6 — final v0.95 accessibility/responsive/performance/regression pass**
-5. **v1.0 Complete Release Candidate / Final Release**
+---
 
 ## Fan-project / legal presentation
 
 Career Mode Showdown is a personal fan project and is not affiliated with or endorsed by EA SPORTS, FIFA, football leagues, clubs, artists or rights holders.
 
-The interface uses original design work inspired by mid-2010s football-game presentation. Official club badges, proprietary FIFA fonts and copied FUT/menu artwork are not bundled. Barlow is separately licensed under the SIL Open Font License 1.1 and requested externally with system fallbacks. Club crests are original procedural SVG compositions. Menu songs/trailer are user-initiated YouTube embeds rather than copied media files.
+The interface uses original design work inspired by mid-2010s football-game presentation. Official club badges, proprietary FIFA fonts and copied FUT/menu artwork are not bundled. Barlow is separately licensed under SIL Open Font License 1.1 and requested externally with system fallbacks. Club crests are original procedural SVG compositions. Menu songs/trailer are user-initiated YouTube embeds rather than copied media files.
 
 See `THIRD_PARTY_NOTICES.md` for source/license notes.
