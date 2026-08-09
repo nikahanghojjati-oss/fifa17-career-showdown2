@@ -1,0 +1,149 @@
+name: Validate League Confirmation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  league-confirmation-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate explicit Continue transaction
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const source = fs.readFileSync('js/leagueWheel.js', 'utf8');
+          assert.ok(!source.includes('LEAGUE_WHEEL_ADVANCE_MS'), 'Automatic post-spin advance timing must not return.');
+          assert.ok(!source.includes('LEAGUE_WHEEL_REDUCED_ADVANCE_MS'), 'Reduced-motion automatic advance timing must not return.');
+          assert.ok(!source.includes('leagueWheelAdvanceTimer'), 'Automatic Club Assignment timer must not return.');
+
+          const state = { saves: 0, prepares: 0, updates: 0, notices: 0, saveResult: true };
+          const context = {
+            console,
+            document: { getElementById: () => null, querySelector: () => null },
+            requestAnimationFrame: callback => callback(),
+            clearTimeout: () => {},
+            setTimeout: () => 1,
+            matchMedia: () => ({ matches: false }),
+            currentShowdown: null,
+            saveCurrentShowdown: () => { state.saves += 1; return state.saveResult; },
+            prepareClubAssignment: () => { state.prepares += 1; },
+            updateShowdownUI: () => { state.updates += 1; },
+            showAppNotice: () => { state.notices += 1; }
+          };
+          context.window = context;
+          vm.createContext(context);
+          vm.runInContext(
+            `${source}\n;globalThis.__league = { spinLeagueWheel, handleLeagueWheelAction, confirmLeagueSelectionAndContinue };`,
+            context,
+            { filename: 'js/leagueWheel.js' }
+          );
+
+          const spinSource = context.__league.spinLeagueWheel.toString();
+          const confirmSource = context.__league.confirmLeagueSelectionAndContinue.toString();
+          assert.ok(!spinSource.includes('prepareClubAssignment'), 'Spin completion must never open Club Assignment.');
+          assert.ok(confirmSource.includes('currentShowdown.status = "League Confirmed"'), 'Continue must create an explicit confirmed-league state.');
+          assert.ok(confirmSource.includes('saveCurrentShowdown()'), 'League confirmation must be persisted before navigation.');
+          assert.ok(confirmSource.includes('prepareClubAssignment()'), 'Club Assignment must open from the explicit Continue action.');
+          assert.ok(
+            confirmSource.indexOf('saveCurrentShowdown()') < confirmSource.indexOf('prepareClubAssignment()'),
+            'League confirmation must save before Club Assignment opens.'
+          );
+
+          context.currentShowdown = {
+            id: 1,
+            status: 'League Selected',
+            selectedLeague: { id: 'premier-league', name: 'Premier League' },
+            clubs: { playerOne: null, playerTwo: null }
+          };
+          assert.strictEqual(context.__league.confirmLeagueSelectionAndContinue(), true);
+          assert.strictEqual(context.currentShowdown.status, 'League Confirmed');
+          assert.strictEqual(state.saves, 1, 'Continue must perform exactly one critical confirmation save.');
+          assert.strictEqual(state.prepares, 1, 'Successful Continue must open Club Assignment exactly once.');
+
+          state.saves = 0;
+          state.prepares = 0;
+          state.updates = 0;
+          state.notices = 0;
+          state.saveResult = false;
+          context.currentShowdown = {
+            id: 2,
+            status: 'League Selected',
+            selectedLeague: { id: 'la-liga', name: 'LaLiga' },
+            clubs: { playerOne: null, playerTwo: null }
+          };
+          assert.strictEqual(context.__league.confirmLeagueSelectionAndContinue(), false);
+          assert.strictEqual(context.currentShowdown.status, 'League Selected', 'Failed confirmation save must roll status back.');
+          assert.strictEqual(state.saves, 1);
+          assert.strictEqual(state.prepares, 0, 'Club Assignment must never open after a failed confirmation save.');
+          assert.strictEqual(state.notices, 1, 'Failed confirmation save must be surfaced to the user.');
+
+          console.log('Explicit League Wheel Continue transaction and rollback contracts passed.');
+          NODE
+
+      - name: Validate refresh and route boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const source = fs.readFileSync('js/screens.js', 'utf8');
+          const context = { console, currentShowdown: null };
+          context.window = context;
+          vm.createContext(context);
+          vm.runInContext(
+            `${source}\n;globalThis.__routes = { isLeagueConfirmationPending, isRouteStateValid, resolveCanonicalShowdownRoute };`,
+            context,
+            { filename: 'js/screens.js' }
+          );
+
+          const base = status => ({
+            id: 1,
+            status,
+            currentRound: 1,
+            totalRounds: 1,
+            selectedLeague: { id: 'premier-league', name: 'Premier League' },
+            clubs: { playerOne: null, playerTwo: null },
+            transferChallenges: [],
+            rounds: []
+          });
+
+          context.currentShowdown = base('League Selected');
+          assert.strictEqual(context.__routes.isLeagueConfirmationPending(), true);
+          assert.strictEqual(context.__routes.resolveCanonicalShowdownRoute(), 'leagueWheelScreen', 'Refresh before Continue must return to League Wheel.');
+          assert.strictEqual(context.__routes.isRouteStateValid('leagueWheelScreen'), true);
+          assert.strictEqual(context.__routes.isRouteStateValid('clubWheelScreen'), false, 'Unconfirmed league must not enter Club Assignment by any route.');
+
+          context.currentShowdown = base('League Confirmed');
+          assert.strictEqual(context.__routes.isLeagueConfirmationPending(), false);
+          assert.strictEqual(context.__routes.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Confirmed league must resume Club Assignment.');
+          assert.strictEqual(context.__routes.isRouteStateValid('clubWheelScreen'), true);
+
+          context.currentShowdown.clubs = { playerOne: 'Arsenal', playerTwo: 'Chelsea' };
+          context.currentShowdown.status = 'Clubs Assigned';
+          assert.strictEqual(context.__routes.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Existing club-reveal confirmation flow must remain intact.');
+
+          console.log('League Selected/Confirmed refresh and route boundary contracts passed.');
+          NODE
