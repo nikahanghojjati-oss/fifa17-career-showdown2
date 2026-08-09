@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.16.0
+   v0.95.0
    Lazy-Runtime Diagnostics and Navigation Integrity
 ===================================================== */
 
@@ -79,6 +79,13 @@ const GAMEPLAY_REQUIRED_FUNCTIONS = [
 function getExpectedAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     return meta && meta.content ? meta.content.trim() : "";
+}
+
+function getExpectedRuntimeVersion(){
+    const revision = getExpectedAssetRevision();
+    if(!revision){ return ""; }
+    const separatorIndex = revision.indexOf("-");
+    return separatorIndex >= 0 ? revision.slice(0, separatorIndex) : revision;
 }
 
 function testLocalStorageAvailability(){
@@ -276,7 +283,11 @@ function getBundleProblems(){
 
 function getVersionProblems(){
     const version = typeof APP_VERSION === "string" ? APP_VERSION : "unknown";
-    return version === "0.16.0" ? [] : [`runtime version is ${version}`];
+    const expected = getExpectedRuntimeVersion();
+    if(!expected){
+        return ["runtime version expectation is unavailable"];
+    }
+    return version === expected ? [] : [`runtime version is ${version}; expected ${expected}`];
 }
 
 function runApplicationDiagnostics(){
@@ -310,6 +321,7 @@ function runApplicationDiagnostics(){
     const result = {
         version: typeof APP_VERSION === "string" ? APP_VERSION : "unknown",
         assetRevision: getExpectedAssetRevision() || "missing",
+        expectedVersion: getExpectedRuntimeVersion() || "missing",
         healthy,
         storageAvailable,
         gameplayState,
