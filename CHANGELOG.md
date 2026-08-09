@@ -10,127 +10,210 @@ The project is currently inside the original **v0.95** convergence milestone.
 
 ---
 
-# v0.95.0-r4 — FIFA-Era Typography / Original Club Crests / Two-Pack Reveal
+# v0.95.0-r5 — Phased Transfer Challenge / Canonical FIFA 17 Transfer Data
 
 Status: **implemented and machine-validated; owner browser acceptance pending**
 
-Workstream 1B implements the owner-approved presentation amendments without changing competition rules, scoring, storage schema, Transfer Challenge gameplay, season progression or central navigation architecture.
+Workstream 2 replaces the old combined post-window signing/guess form with an explicit persistent sequence while preserving every locked competition rule.
 
-## Typography
+## Transfer phase model
 
-- Added Barlow Condensed as the preferred display face for selected headings, Home tiles, navigation, scores and Club Reveal presentation.
-- Uses an external Google Fonts stylesheet request with `display=swap`.
-- Existing local/system condensed fonts remain fallback-first so text stays visible if the external request fails.
-- Body copy/forms remain on the existing readable UI stack where condensed typography would reduce usability.
-- Main Menu weight, tracking, casing and line-height were retuned rather than applying one font mechanically everywhere.
-- License/source details are recorded in `THIRD_PARTY_NOTICES.md`.
+The existing Transfer Challenge record remains authoritative. No duplicate challenge record or second router was introduced.
 
-## Original club crest identity
+Status remains:
 
-Replaced the old generic two-color/initial identity block with an original deterministic procedural crest system.
+- `not_started`
+- `active`
+- `recording`
+- `completed`
 
-- All 98 current Showdown clubs have explicit club-associated palette data.
-- Five original base crest geometries.
-- Six original pattern families.
-- Seven original abstract motif families.
-- Monograms remain a supporting detail rather than the whole identity.
-- Crests are generated as inline SVG data and cached deterministically by club name.
-- The same identity is reused across reveal, confirmation, dashboard, Transfer, Season and Summary surfaces where club identity appears.
-- Official club badge images/vector paths are not used by the identity engine.
+New persistent `phase` adds:
 
-CI verifies all 98 clubs are covered and generate 98 distinct deterministic crest data strings.
+- `window`
+- `guess_entry`
+- `signing_entry`
+- `completed`
 
-## Two-pack Club Reveal
+Both Guess Entry and Signing Entry intentionally remain `status: recording`, allowing `js/screens.js` to remain the single route/history authority.
 
-Club Assignment presentation now uses two closed Showdown packs rather than the previous generic sealed cards.
+Current flow:
 
-Sequence:
+**15-minute window → Guess Entry → locked guesses → Signing Entry → locked signings → canonical verdicts → Season Results**
 
-**pair saved → Pack 01 opens → Manager 1 club → Pack 02 opens → Manager 2 club → VS → rivalry confirmation**
+## Persistence / recovery
 
-Current finite timing:
+- Window → Guess, Guess → Signing and Signing → Completed are critical immediate saves.
+- Each critical transition snapshots challenge/showdown state first.
+- Failed persistence restores the prior state and blocks progression.
+- Ordinary transfer draft entry remains debounced/deduplicated.
+- Only the active phase form is captured, preventing Signing Entry edits from rewriting locked guesses.
+- Continue Career still canonicalizes active/recording transfer state to Transfer Challenge and calls `openTransferChallenge()` so the exact phase/form is restored after refresh.
 
-- M1 ~650 ms
-- M2 ~1750 ms
-- VS ~2850 ms
-- confirmation ~3300 ms
+## Old-save compatibility
 
-The correct transaction remains unchanged:
+Old pre-r5 `recording` challenge records without a `phase` migrate safely to `guess_entry`.
 
-- pair generated once;
-- pair persisted before theatrical reveal;
-- save failure rolls back;
-- reveal phases perform no storage writes;
-- no reroll path;
-- `Clubs Assigned` remains confirmation-pending checkpoint;
-- refresh/Continue restores the same pair;
-- explicit confirmation is still required before status becomes `Ready`.
+- existing signing drafts remain present;
+- existing guesses remain present;
+- recognized historical free-text values are mapped to canonical IDs;
+- unknown values remain visible and must be reselected rather than silently converted to the wrong option.
 
-## Architecture cleanup
+Regression coverage includes historical aliases such as Calcio A, Liga BBVA, EFL Championship, Czechia, North Macedonia, Türkiye and South Korea.
 
-- Removed the large Club Reveal CSS injection from `clubAssignment.js`.
-- Club Assignment JS now owns state/persistence/timing.
-- `css/app.css` is again the authoritative core presentation layer for the reveal.
-- Preserved low-height Chromebook and stacked mobile geometry.
-- Preserved reduced-motion fast path.
+## FIFA 17 transfer metadata
+
+Added lazy `data/transferOptions.js`, deliberately separate from the five-league Showdown Wheel.
+
+- 36 Transfer League options: 35 historical FIFA 17 domestic competitions plus Rest of World fallback;
+- 164 FIFA 17 player nationalities;
+- stable canonical IDs;
+- historical aliases;
+- lower divisions represented in FIFA 17, including England's four tiers and second divisions in France, Germany, Italy and Spain.
+
+The Showdown League Wheel remains exactly five leagues.
+
+## Searchable controlled selectors
+
+Added lazy `js/transferSelector.js` and `css/transfer.css`.
+
+Signing Entry uses:
+
+- free-text Player Name;
+- controlled searchable Previous League;
+- controlled searchable Nationality.
+
+Guess Entry uses:
+
+- League/Nationality Guess Type;
+- controlled searchable Guess Value from the corresponding dataset.
+
+Selector behavior includes:
+
+- type-to-filter;
+- bounded results;
+- country/tier League context;
+- Arrow-key navigation;
+- Enter select / Escape close;
+- ARIA combobox/listbox/active-descendant wiring;
+- explicit accessible input labels;
+- canonical ID separate from display label;
+- mobile viewport-constrained results;
+- low-height Chromebook handling;
+- no component framework.
+
+## Canonical release evaluation
+
+Release matching now compares canonical League/Nationality IDs rather than arbitrary normalized strings. Historical display aliases can resolve to the same canonical value without creating false matches between genuinely different options.
+
+## Presentation
+
+- Four-step Transfer progress strip: Window / Guess / Signing / Verdicts.
+- Guess Entry and Signing Entry render as distinct phase states rather than one combined form.
+- Dead `00:00` timer/hero is hidden after the Transfer Window closes.
+- Locked-guess summary is rendered with safe text nodes rather than interpolating manager names through HTML.
+- r4 visual/club identity treatment remains active across Transfer screens.
+
+## Performance
+
+New assets stay inside the lazy gameplay package:
+
+- `css/transfer.css`
+- `data/transferOptions.js`
+- `js/transferSelector.js`
+
+No Transfer metadata or selector code was added to initial Home startup. The one-transfer-timer and hidden-tab shutdown contracts remain.
 
 ## Validation
 
-Expanded exact-head GitHub Actions checks for:
+Added a separate `Validate Transfer Workstream` exact-head workflow covering:
 
-- 98-club identity coverage;
-- distinct deterministic procedural crests;
-- no external badge-image embedding;
-- finite sequential reveal timing;
-- persistence-before-reveal contract;
-- no runtime reveal stylesheet injection;
-- Barlow `display=swap` / fallback stack;
-- all pre-existing scoring/navigation/startup/layout invariants.
+- 36 competitions and 164 nationalities;
+- unique canonical IDs;
+- historical lower-division coverage;
+- five-league Showdown Wheel isolation;
+- historical alias resolution;
+- old-save migration/draft preservation;
+- Guess → Signing order;
+- canonical RELEASE / SAFE matching;
+- critical save/rollback markers;
+- selector keyboard/ARIA contracts;
+- bounded Chromebook/mobile selector presentation;
+- reduced-motion styling;
+- lazy-loading isolation from startup.
+
+The established `Validate Static App` gate remains in parallel to protect scoring, routing, startup, Club Assignment and r4 presentation contracts.
+
+---
+
+# v0.95.0-r4 — FIFA-Era Typography / Original Club Crests / Two-Pack Reveal
+
+Status: **owner browser accepted; retained by r5**
+
+Workstream 1B implemented the owner-approved presentation amendments without changing competition rules, scoring, storage architecture, season progression or central navigation.
+
+## Typography
+
+- Barlow Condensed preferred for selected display roles via external `display=swap` request.
+- local/system condensed fonts remain immediate fallbacks;
+- body/forms retain readable UI typography;
+- no proprietary FIFA/EA font file bundled.
+
+## Original club identity
+
+- all 98 Showdown clubs have explicit club-associated palettes;
+- five original base crest geometries;
+- six original pattern families;
+- seven abstract motif families;
+- deterministic inline SVG generation/caching;
+- same identity reused across reveal, confirmation, Home, Transfer, Season and Summary surfaces;
+- no official club badge image/vector path used by the identity engine.
+
+CI verifies 98 distinct deterministic generated crest strings.
+
+## Two-pack Club Reveal
+
+**pair saved → Pack 01 → Manager 1 club → Pack 02 → Manager 2 club → VS → explicit rivalry confirmation**
+
+Finite presentation remains around 3.3 seconds total, with reduced-motion fast path.
+
+The permanent transaction remains:
+
+- pair generated once;
+- pair persisted before reveal;
+- save failure rolls back;
+- reveal phases write nothing to localStorage;
+- no reroll path;
+- `Clubs Assigned` is the confirmation-pending checkpoint;
+- refresh/Continue restores the same pair;
+- explicit confirmation changes status to `Ready`.
+
+Club Reveal presentation was consolidated back into `css/app.css`; `clubAssignment.js` no longer injects a second visual stylesheet.
 
 ---
 
 # v0.95.0-r3 — Optional-Screen Visual Consistency / Contrast Polish
 
-Status: **implemented; retained by r4**
+Status: **implemented; retained**
 
-Normalized Rule Book, Statistics/Trophy Room and Legacy after older dark-theme child colors conflicted with newer light application panels.
-
-- Rule Book: dark hero, readable light rule cards, stronger scoring hierarchy.
-- Statistics/Trophy: readable light data cards, intentional dark rivalry hero, safer tables and long-name wrapping.
-- Legacy: readable light summaries/data-management panel, intentional dark history cards.
-- Optional styles remain lazy-loaded.
-- CI validates balanced structure across all current visual stylesheets.
+- normalized Rule Book light/dark hierarchy;
+- corrected Statistics/Trophy Room light-panel contrast;
+- corrected Legacy summary/data-management contrast while retaining intentional dark history cards;
+- kept optional styles lazy-loaded;
+- added visual stylesheet structural validation.
 
 ---
 
 # v0.95.0-r2 — Reveal / Diagnostics Browser Hotfix
 
-Status: **implemented; retained by r4**
+Status: **implemented; retained**
 
-Owner testing of r1 found:
-
-1. false startup integrity warning because diagnostics still expected runtime `0.16.0`;
-2. misaligned/skewed Club Reveal geometry on Chromebook;
-3. unsatisfactory sweeping reveal effect.
-
-Corrections retained:
-
-- expected runtime derived from shell revision;
-- equal Club Reveal geometry;
-- no active angled card clip-path;
-- dedicated low-height Chromebook rules;
-- no rejected white sweep;
-- finite reveal motion.
+Corrected the r1 false runtime-version warning, Chromebook Club Reveal geometry and rejected white sweep effect. Established equal reveal geometry, low-height Chromebook rules and finite reveal motion.
 
 ---
 
 # v0.95.0-r1 — Staged Club Reveal / Rivalry Confirmation
 
-Established the original v0.7 acceptance requirement as a real persisted state flow:
-
-**Selected League → first club → second club → VS → explicit confirmation → Showdown Home**
-
-`Clubs Assigned` became the persisted checkpoint for a permanent pair waiting for confirmation. The pair is saved before animation and refresh/Continue restores the same pair.
+Established `Clubs Assigned` as the persisted permanent-pair/confirmation checkpoint and implemented the original staged reveal/confirmation flow around save-before-animation integrity.
 
 ---
 
@@ -138,73 +221,53 @@ Established the original v0.7 acceptance requirement as a real persisted state f
 
 Status: **owner accepted**
 
-- replaced fixed Home row behavior with content-sized tracks;
-- moved soundtrack/trailer rail below Career tiles;
-- desktop media choices became a four-column selector;
-- added low-height Chromebook density handling;
-- preserved successful mobile layout;
-- added CI guards against the original overlap pattern.
-
----
+- content-sized Home rows;
+- soundtrack/trailer rail below Career tiles;
+- compact desktop media selector;
+- low-height Chromebook density handling;
+- mobile layout preserved;
+- CI guard against fixed-row overlap regression.
 
 # v0.16.0-r2 — Navigation / Cache / Roadmap Re-anchor
 
 - fixed contextual Back from Completed Showdown Home;
-- consolidated cache revision ownership into the shell;
+- centralized cache revision ownership;
 - re-established original `v0.95 → v1.0` roadmap authority;
-- restored project-state/changelog continuity.
-
----
+- restored continuation documentation.
 
 # v0.16.0-r1 — Smart Navigation & Lightweight Runtime
 
-- one unified initial `css/app.css`;
-- seven-script initial runtime;
-- lazy gameplay package;
-- lazy optional/history/analytics modules;
+- unified initial `css/app.css`;
+- seven-script startup;
+- lazy gameplay and optional modules;
 - centralized state-aware Back authority;
-- Completed Showdown recovery hub;
-- exact-head GitHub Actions validation;
-- startup local-byte budget;
+- completed-showdown recovery hub;
+- exact-head CI/startup budget;
 - obsolete prototype removal.
-
----
 
 # v0.15.x — Stability / Performance Consolidation
 
-Established the reliability foundation retained today:
-
-- transaction-safe persistence/Legacy operations;
-- race-safe League Wheel / Club Assignment async operations;
-- persisted Transfer deadline;
-- debounced/deduplicated Transfer drafts;
-- hidden/off-screen timer shutdown;
-- stabilized Season progression;
-- lazy secondary modules;
-- lightweight menu media;
-- runtime diagnostics.
-
----
+Established transaction-safe persistence, race-safe delayed operations, persisted Transfer deadline, debounced Transfer drafts, hidden timer shutdown, stabilized Seasons, lazy secondary modules, lightweight media and diagnostics.
 
 # v0.10.1 — Season / Routing / Persistence Stabilization
 
-Established safe season persistence/rollback, visible runtime errors, route validation before screen exit and hardened localStorage failure behavior after a Complete Season failure report.
+Established safe season persistence/rollback, visible errors, route validation and hardened localStorage failure behavior.
 
 # v0.10 — Statistics / Trophy Room Expansion
 
-Added rivalry analytics, cumulative manager statistics, career records, Trophy Room and Statistics UI. Analytics remains derived/read-only.
+Added rivalry analytics, cumulative manager statistics, records, Trophy Room and Statistics UI.
 
 # v0.9 — Legacy / Data Management
 
-Added completed-showdown archive, season history, final rivalry outcomes, individual history deletion, delete-all and data-management protections.
+Added completed-showdown archive/history and protected deletion/data-management flows.
 
 # v0.8 — Transfer Challenge / Corrected Competitive Rules
 
-Established current Transfer Challenge and final scoring amendments: 15 minutes, max three signings, three league/nationality guesses, correct guess releases signing, grouped bonuses, max 11, nonzero ties draw, only 0-0 uses league-position/points fallback.
+Established 15-minute Transfer Challenge and authoritative max-11 grouped-bonus scoring/tiebreak rules.
 
 # v0.7 — Working Showdown / Season Progression
 
-Established Showdown creation/Home, Season Results, scoring integration, Season Summary, multi-season progression and active-save continuity. The original reveal/confirmation experience was completed later during v0.95 and is now represented by r4.
+Established Showdown Home, Season Results, scoring, Season Summary, multi-season progression and active-save continuity.
 
 # v0.6.1 and earlier — Foundation
 
@@ -212,7 +275,7 @@ Established Showdown creation/Home, Season Results, scoring integration, Season 
 - v0.6: League Wheel.
 - v0.5: league/club/data foundation.
 - v0.4: functional HTML/CSS/JS prototype.
-- v0.3: FIFA-17-era UI direction and FUT-inspired reveal philosophy.
+- v0.3: FIFA-17-era UI direction.
 - v0.2: rivalry experience design.
 - v0.1: project foundation.
 
@@ -222,23 +285,11 @@ Established Showdown creation/Home, Season Results, scoring integration, Season 
 
 ## Current gate
 
-Owner browser acceptance of **`0.95.0-r4` Workstream 1B**.
-
-## Workstream 2 — Transfer Challenge phase/data redesign
-
-- Guess Entry first;
-- Signing Entry second;
-- explicit persisted Transfer sub-phases;
-- backward compatibility for existing saves;
-- complete historical FIFA 17 former-league metadata;
-- complete FIFA 17 player-nationality metadata;
-- responsive searchable canonical selectors;
-- canonical guess evaluation;
-- route/persistence/data regression coverage.
+Owner browser acceptance of **`0.95.0-r5` Workstream 2**.
 
 ## Workstream 3 — Settings
 
-Original small Settings surface using current architecture.
+Small original-blueprint Settings surface using current architecture.
 
 ## Workstream 4 — Main Menu Statistics alignment
 
@@ -246,10 +297,10 @@ Reuse current analytics/Trophy/Rivalry engines.
 
 ## Workstream 5 — Season pre-commit review
 
-Add/confirm review before irreversible completion.
+Add/confirm review before irreversible season completion.
 
 ## Workstream 6 — final v0.95 regression/polish
 
-Accessibility, responsive consistency, typography/contrast, feedback, performance and complete gameplay/persistence/navigation regression.
+Accessibility, responsive consistency, typography/contrast, feedback, performance and full gameplay/persistence/navigation regression.
 
 Then move directly to **v1.0 Complete Release Candidate / Final Release**.
