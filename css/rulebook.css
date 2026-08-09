@@ -1,41 +1,44 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.11.0
-   Rule Book Presentation
+   v0.95.0
+   Rule Book — Unified High-Contrast Presentation
 ===================================================== */
 
 .ruleBookScreen{
-    padding-bottom:70px;
+    padding-bottom:64px;
 }
 
 .ruleBookHero{
     width:min(980px,94vw);
-    margin:0 auto 28px;
-    padding:28px 32px;
+    margin:0 auto 18px;
+    padding:23px 28px;
     display:grid;
-    gap:8px;
-    text-align:center;
-    background:linear-gradient(115deg,rgba(29,74,139,.92),rgba(5,20,43,.94));
-    border:1px solid rgba(247,215,0,.34);
-    border-radius:18px;
-    box-shadow:0 18px 48px rgba(0,0,0,.34);
+    gap:7px;
+    text-align:left;
+    color:#fff;
+    background:linear-gradient(110deg,#303840 0 66%,#255173 100%);
+    border:0;
+    border-left:7px solid var(--f17-yellow);
+    border-radius:0;
+    box-shadow:var(--f17-shadow-soft);
 }
 
 .ruleBookHero > span{
-    color:#a9c5f4;
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:3px;
+    color:#92daf0;
+    font:800 10px/1 var(--f17-display);
+    letter-spacing:2.4px;
 }
 
 .ruleBookHero > strong{
     color:#fff;
-    font-size:30px;
-    letter-spacing:1px;
+    font:900 clamp(24px,3vw,31px)/1 var(--f17-display);
+    letter-spacing:.2px;
 }
 
 .ruleBookHero > p{
-    color:#d6e2f6;
+    max-width:760px;
+    color:#dbe5ea;
+    font-size:13px;
     line-height:1.55;
 }
 
@@ -44,49 +47,72 @@
     margin:0 auto;
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:20px;
+    gap:10px;
 }
 
 .ruleSection{
+    --rule-accent:var(--f17-blue);
+    --rule-accent-text:#fff;
+    position:relative;
     min-width:0;
-    padding:24px;
-    background:linear-gradient(155deg,rgba(9,32,67,.9),rgba(4,17,37,.92));
-    border:1px solid rgba(255,255,255,.15);
-    border-radius:15px;
-    box-shadow:0 14px 35px rgba(0,0,0,.24);
+    padding:20px 21px 21px;
+    overflow:hidden;
+    color:var(--f17-ink);
+    background:var(--f17-panel);
+    border:0;
+    border-radius:0;
+    box-shadow:var(--f17-shadow-soft);
 }
+
+.ruleSection::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:var(--rule-accent);
+}
+
+.ruleSection:nth-child(1){--rule-accent:var(--f17-cyan);--rule-accent-text:var(--f17-ink);}
+.ruleSection:nth-child(2){--rule-accent:var(--f17-blue);--rule-accent-text:#fff;}
+.ruleSection:nth-child(3){--rule-accent:var(--f17-yellow-deep);--rule-accent-text:var(--f17-ink);}
+.ruleSection:nth-child(4){--rule-accent:var(--f17-yellow);--rule-accent-text:var(--f17-ink);}
+.ruleSection:nth-child(5){--rule-accent:#62bed8;--rule-accent-text:var(--f17-ink);}
+.ruleSection:nth-child(6){--rule-accent:#546b7b;--rule-accent-text:#fff;}
 
 .ruleSectionHeader{
     display:flex;
     align-items:center;
-    gap:13px;
-    margin-bottom:18px;
-    padding-bottom:14px;
-    border-bottom:1px solid rgba(255,255,255,.12);
+    gap:12px;
+    margin-bottom:15px;
+    padding-bottom:12px;
+    border-bottom:1px solid #d5dde1;
 }
 
 .ruleSectionHeader > span{
     display:grid;
     place-items:center;
     width:38px;
-    height:38px;
+    height:34px;
     flex:0 0 auto;
-    color:#071936;
-    font-size:12px;
-    font-weight:900;
-    background:#f7d700;
-    border-radius:10px;
+    color:var(--rule-accent-text);
+    background:var(--rule-accent);
+    border-radius:0;
+    font:900 11px/1 var(--f17-display);
+    letter-spacing:.6px;
 }
 
 .ruleSectionHeader h3{
-    color:#fff;
-    font-size:20px;
-    letter-spacing:1.3px;
+    min-width:0;
+    color:var(--f17-ink);
+    font:900 19px/1 var(--f17-display);
+    letter-spacing:.8px;
 }
 
 .ruleSection ul{
     display:grid;
-    gap:11px;
+    gap:10px;
     margin:0;
     padding:0;
     list-style:none;
@@ -94,30 +120,31 @@
 
 .ruleSection li{
     position:relative;
-    padding-left:20px;
-    color:#d8e4f7;
-    line-height:1.5;
+    padding-left:18px;
+    color:#46545e;
+    font-size:13px;
+    line-height:1.52;
 }
 
 .ruleSection li::before{
     content:"";
     position:absolute;
     left:0;
-    top:.65em;
+    top:.66em;
     width:7px;
     height:7px;
-    background:#f7d700;
-    border-radius:50%;
-    box-shadow:0 0 12px rgba(247,215,0,.35);
+    background:var(--rule-accent);
+    border-radius:0;
+    box-shadow:none;
 }
 
 .scoringRuleSection{
-    border-color:rgba(247,215,0,.3);
+    background:#fbfcfc;
 }
 
 .ruleScoreTable{
     display:grid;
-    gap:8px;
+    gap:6px;
 }
 
 .ruleScoreTable > div{
@@ -126,48 +153,74 @@
     align-items:center;
     justify-content:space-between;
     gap:18px;
-    padding:10px 12px;
-    background:rgba(255,255,255,.055);
-    border-radius:8px;
+    padding:9px 11px;
+    background:#e8edef;
+    border-left:3px solid #a9b8c1;
+    border-radius:0;
 }
 
+.ruleScoreTable > div:nth-child(1){border-left-color:var(--f17-blue);}
+.ruleScoreTable > div:nth-child(2){border-left-color:var(--f17-cyan);}
+.ruleScoreTable > div:nth-child(3){border-left-color:#7f919c;}
+.ruleScoreTable > div:nth-child(4),
+.ruleScoreTable > div:nth-child(5){border-left-color:var(--f17-yellow-deep);}
+
 .ruleScoreTable span{
-    color:#d8e4f7;
+    min-width:0;
+    color:#3f4d56;
+    font-size:12px;
     line-height:1.35;
 }
 
 .ruleScoreTable strong{
     flex:0 0 auto;
-    color:#f7d700;
-    font-size:16px;
+    color:var(--f17-blue-deep);
+    font:900 16px/1 var(--f17-display);
 }
 
 .ruleScoreMaximum{
-    margin-top:16px;
-    padding:15px 18px;
+    margin-top:12px;
+    padding:13px 15px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:20px;
-    color:#071936;
-    background:#f7d700;
-    border-radius:10px;
+    color:var(--f17-ink);
+    background:var(--f17-yellow);
+    border-radius:0;
 }
 
 .ruleScoreMaximum span{
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:1.5px;
+    color:#3e3b17;
+    font:900 11px/1.2 var(--f17-display);
+    letter-spacing:1.2px;
 }
 
 .ruleScoreMaximum strong{
-    font-size:30px;
-    line-height:1;
+    color:var(--f17-ink);
+    font:900 30px/1 var(--f17-display);
 }
 
 .ruleBookActions{
     width:min(600px,90vw);
-    margin:28px auto 0;
+    margin:20px auto 0;
+}
+
+.ruleBookActions .backButton{
+    width:100%;
+}
+
+@media(min-width:901px) and (max-height:800px){
+    .ruleBookScreen{padding-bottom:34px;}
+    .ruleBookHero{margin-bottom:12px;padding:16px 21px;}
+    .ruleBookHero > strong{font-size:24px;}
+    .ruleBookHero > p{font-size:11px;}
+    .ruleBookGrid{gap:7px;}
+    .ruleSection{padding:15px 17px 16px;}
+    .ruleSectionHeader{margin-bottom:10px;padding-bottom:9px;}
+    .ruleSection li{font-size:11.5px;line-height:1.4;}
+    .ruleScoreTable > div{min-height:38px;padding:7px 9px;}
+    .ruleBookActions{margin-top:14px;}
 }
 
 @media(max-width:760px){
@@ -176,10 +229,24 @@
     }
 
     .ruleBookHero{
-        padding:23px 20px;
+        padding:19px 18px;
     }
 
     .ruleBookHero > strong{
-        font-size:24px;
+        font-size:23px;
     }
+
+    .ruleSection{
+        padding:18px;
+    }
+}
+
+@media(max-width:480px){
+    .ruleBookHero > span{font-size:8px;letter-spacing:1.8px;}
+    .ruleBookHero > strong{font-size:20px;}
+    .ruleSectionHeader h3{font-size:17px;}
+    .ruleScoreTable > div{gap:10px;}
+    .ruleScoreTable span{font-size:11px;}
+    .ruleScoreTable strong{font-size:14px;}
+    .ruleScoreMaximum{gap:12px;}
 }
