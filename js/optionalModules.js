@@ -215,10 +215,29 @@ async function loadGameplayRuntimeFiles(){
         "js/clubAssignment.js",
         () => typeof window.initializeClubAssignment === "function" && typeof window.prepareClubAssignment === "function"
     );
+
+    const transferStylePromise = loadRuntimeStyle("transfer-ui", "css/transfer.css");
+    await loadRuntimeScript(
+        "transfer-options",
+        "data/transferOptions.js",
+        () => Array.isArray(window.FIFA17_TRANSFER_LEAGUES)
+            && window.FIFA17_TRANSFER_LEAGUES.length === 36
+            && Array.isArray(window.FIFA17_TRANSFER_NATIONALITIES)
+            && window.FIFA17_TRANSFER_NATIONALITIES.length === 164
+    );
+    await loadRuntimeScript(
+        "transfer-selector",
+        "js/transferSelector.js",
+        () => typeof window.enhanceTransferSelector === "function"
+            && typeof window.getTransferSelectorCanonicalValue === "function"
+    );
+    await transferStylePromise;
     await loadRuntimeScript(
         "transfer-challenge",
         "js/transferChallenge.js",
-        () => typeof window.initializeTransferChallenge === "function" && typeof window.openTransferChallenge === "function"
+        () => typeof window.initializeTransferChallenge === "function"
+            && typeof window.openTransferChallenge === "function"
+            && typeof window.normalizeTransferChallengePhase === "function"
     );
     await loadRuntimeScript(
         "season-engine",
@@ -322,18 +341,10 @@ async function ensureRuleBookModule(){
 }
 
 function getOptionalModuleButton(name){
-    if(name === "statistics"){
-        return document.getElementById("rivalryStatisticsButton");
-    }
-    if(name === "trophyRoom"){
-        return document.getElementById("trophyRoomButton");
-    }
-    if(name === "legacy"){
-        return document.getElementById("legacyButton");
-    }
-    if(name === "ruleBook"){
-        return document.getElementById("ruleBookButton");
-    }
+    if(name === "statistics"){ return document.getElementById("rivalryStatisticsButton"); }
+    if(name === "trophyRoom"){ return document.getElementById("trophyRoomButton"); }
+    if(name === "legacy"){ return document.getElementById("legacyButton"); }
+    if(name === "ruleBook"){ return document.getElementById("ruleBookButton"); }
     return null;
 }
 
@@ -345,9 +356,7 @@ function setOptionalModuleBusy(name, busy){
 }
 
 async function ensureOptionalModule(name){
-    if(optionalModuleStates.get(name) === "ready"){
-        return true;
-    }
+    if(optionalModuleStates.get(name) === "ready"){ return true; }
 
     optionalModuleStates.set(name, "loading");
     try{
@@ -395,10 +404,7 @@ async function openOptionalModule(name){
     setOptionalModuleBusy(name, true);
     try{
         await ensureOptionalModule(name);
-
-        if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){
-            return false;
-        }
+        if(!isOptionalOpenContextCurrent(originScreen, originRevision, requestId)){ return false; }
 
         if(name === "statistics"){
             if(!currentShowdown){
@@ -419,9 +425,7 @@ async function openOptionalModule(name){
     }catch(error){
         if(typeof window.reportApplicationError === "function"){
             window.reportApplicationError(`Unable to open ${name}`, error);
-        }else{
-            console.error(error);
-        }
+        }else{ console.error(error); }
         return false;
     }finally{
         setOptionalModuleBusy(name, false);
@@ -445,10 +449,7 @@ function ensureStatisticsDashboardButtonShell(){
 }
 
 function bindOptionalModuleButton(button, moduleName, marker){
-    if(!button || button.dataset[marker] === "true"){
-        return;
-    }
-
+    if(!button || button.dataset[marker] === "true"){ return; }
     button.dataset[marker] = "true";
     button.addEventListener("click", () => openOptionalModule(moduleName));
 }
@@ -457,21 +458,9 @@ function initializeOptionalModules(){
     if(optionalModulesInitialized){ return; }
 
     ensureStatisticsDashboardButtonShell();
-    bindOptionalModuleButton(
-        document.getElementById("rivalryStatisticsButton"),
-        "statistics",
-        "statisticsLazyBound"
-    );
-    bindOptionalModuleButton(
-        document.getElementById("trophyRoomButton"),
-        "trophyRoom",
-        "trophyRoomReady"
-    );
-    bindOptionalModuleButton(
-        document.getElementById("ruleBookButton"),
-        "ruleBook",
-        "ruleBookBound"
-    );
+    bindOptionalModuleButton(document.getElementById("rivalryStatisticsButton"), "statistics", "statisticsLazyBound");
+    bindOptionalModuleButton(document.getElementById("trophyRoomButton"), "trophyRoom", "trophyRoomReady");
+    bindOptionalModuleButton(document.getElementById("ruleBookButton"), "ruleBook", "ruleBookBound");
 
     optionalModulesInitialized = true;
 }
