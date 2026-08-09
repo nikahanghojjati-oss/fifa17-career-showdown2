@@ -31,7 +31,7 @@ const GAMEPLAY_SCREENS = new Set([
 
 const SAFE_BACK_TARGETS = Object.freeze({
     mainMenu: [],
-    createShowdown: ["mainMenu"],
+    createShowdown: ["dashboard", "mainMenu"],
     leagueWheelScreen: ["createShowdown", "mainMenu"],
     clubWheelScreen: ["leagueWheelScreen", "mainMenu"],
     dashboard: ["mainMenu"],
@@ -39,8 +39,8 @@ const SAFE_BACK_TARGETS = Object.freeze({
     seasonEntry: ["dashboard", "mainMenu"],
     seasonSummary: ["dashboard", "mainMenu"],
     statistics: ["dashboard", "mainMenu"],
-    trophyRoom: ["mainMenu"],
-    legacy: ["mainMenu"],
+    trophyRoom: ["dashboard", "mainMenu"],
+    legacy: ["dashboard", "mainMenu"],
     ruleBook: ["mainMenu"]
 });
 
