@@ -3,10 +3,10 @@
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
 **Application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Runtime asset revision:** `0.95.0-r7`  
-**Current phase:** Workstream 4 Career Statistics browser acceptance  
-**Owner-accepted gates:** `0.95.0-r4`, `0.95.0-r5`, `0.95.0-r6`  
-**Next after r7 acceptance:** Workstream 5 — Season pre-commit review
+**Runtime asset revision:** `0.95.0-r9`  
+**Current phase:** Workstream 5 — Season pre-commit review browser acceptance  
+**Owner-accepted gates:** `0.95.0-r4`, `0.95.0-r5`, `0.95.0-r6`, `0.95.0-r8`  
+**Next after r9 acceptance:** Workstream 6 — final v0.95 polish/regression, then v1.0
 
 ## Development entry point
 
@@ -19,133 +19,113 @@ Read in this order:
 3. `NEXT_TASK.md` — current browser gate and exact next workstream.
 4. `CHANGELOG.md` — implementation/stabilization history.
 5. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
-6. current source — highest authority for implemented behavior.
+6. current source — highest implementation authority.
 7. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
 The release path remains **v0.95 → v1.0**.
 
 ---
 
-## Current r7 — Main Menu Statistics alignment
+## Current r9 — Season pre-commit review
 
-The Home information architecture now matches the intended blueprint without adding another analytics engine or another Home row.
+The previous Season Results flow validated the form and immediately wrote a completed Season. r9 inserts an explicit, non-persistent review checkpoint before the irreversible transaction.
 
-The former top-level Trophy Room tile is now **STATISTICS**.
+Current flow:
 
-The analytics surfaces have clear responsibilities:
+**Season Results → Review Season → Edit Results OR Confirm & Save Season → Season Summary**
 
-- **Career Statistics** — permanent all-time career data from completed showdowns; Home destination.
-- **Rivalry Statistics** — statistics for the currently loaded showdown only; contextual Showdown Home destination.
-- **Trophy Room** — detailed honours cabinets and all-time records; accessible from Career Statistics and completed Showdown Home.
+### Review contract
 
-All three use the established `js/analytics.js` calculation engine.
+Pressing **REVIEW SEASON**:
 
-### Career Statistics content
+- validates both managers' required numeric fields;
+- captures the current form into an isolated memory-only snapshot;
+- calculates the existing locked scoring model and Season winner;
+- displays position, points, goals, achievement states, all score components, Season score, projected winner and projected overall Showdown score;
+- does not save to localStorage;
+- does not append a round;
+- does not change Showdown status/currentRound/score;
+- creates no new persistence key.
 
-Career Statistics currently renders:
+**EDIT RESULTS** returns to the same form with values intact and invalidates the old review snapshot.
 
-- Completed Showdowns;
-- Seasons Played;
-- Career Points;
-- Trophies Won;
-- Career Table;
-- two-manager comparison when completed history contains exactly two manager identities;
-- Career Leaders;
-- Current Rivalry bridge when a showdown is loaded;
-- Trophy Room bridge;
-- clean empty state before any completed showdown exists.
+### Confirmation contract
 
-Career statistics are derived from completed history at read time. No statistics storage key was introduced.
+**CONFIRM & SAVE SEASON** is the only new Season persistence boundary.
 
-### Lightweight analytics loading
+Before saving it:
 
-The Home Statistics tile does not wake the gameplay runtime.
+- verifies Showdown identity and Season number;
+- verifies the Transfer Challenge is still complete;
+- rejects an already-completed Season;
+- recomputes canonical scoring/winner data from reviewed raw values;
+- checks the deterministic review fingerprint;
+- blocks a changed/tampered review snapshot;
+- creates the completion timestamp only at final confirmation.
 
-Opening Career Statistics lazy-loads:
+It then uses the existing rollback-protected `persistCompletedSeason()` transaction. If browser storage rejects the critical write, rounds/currentRound/status/completedAt/score are restored and the Review remains available to retry or edit.
 
-- `css/analytics.css`
-- `js/analytics.js`
-- `js/statistics.js`
+Completed Seasons remain read-only.
 
-Opening Trophy Room then adds only:
+### Lightweight presentation
 
-- `js/trophyRoom.js`
+`css/season.css` is lazy-loaded with gameplay. Home startup remains exactly one local stylesheet and seven local scripts.
 
-Analytics/Statistics/Trophy assets remain outside the initial Home bundle.
+Season Review remains inside the existing `seasonEntry` route, so `js/screens.js` is still the sole route/history authority.
 
-### Navigation
+Responsive guards cover Chromebook low-height layouts, mobile and small phones.
 
-Central routing remains owned by `js/screens.js`.
+### Regression protection
 
-- Career Statistics → Back → Home.
-- Rivalry Statistics → Back → Showdown Home / Home.
-- Trophy Room opened from Career Statistics → Back returns to Career Statistics through route history.
-- Trophy Room opened from completed Showdown Home → Back returns to Showdown Home.
+Dedicated GitHub Actions workflow: **Validate Season Review**.
 
-Read-only analytics routes are not gameplay-runtime routes.
+It protects canonical scoring/winner behavior, the non-persistent Review boundary, deterministic snapshot integrity, tamper blocking, final-confirmation-only persistence, rollback preservation, lazy loading and responsive guards.
+
+Runtime diagnostics also verify Review/Confirm/Edit APIs and binding markers once gameplay is loaded.
+
+---
+
+## Accepted r8 — Career Statistics + Home bootstrap stabilization
+
+Workstream 4 is owner accepted.
+
+The Home Statistics architecture remains:
+
+- **Career Statistics** — permanent all-time completed-career data from Home.
+- **Rivalry Statistics** — current loaded showdown only, contextual to Showdown Home.
+- **Trophy Room** — detailed honours cabinets/all-time records, opened contextually.
+
+All use the established `js/analytics.js` engine; no second analytics model/storage layer exists.
+
+r8 permanently fixed the r7 Home bootstrap bug where a removed Trophy Room Home ID could abort media initialization. Home tile decoration is independent, media bootstrap self-validates, and **Validate Home Bootstrap** protects the current seven-choice media/startup contract across later cache revisions.
 
 ---
 
 ## Accepted r6 — Settings / motion accessibility
 
-Settings remains a lazy modal rather than a new route.
+Settings remains a lazy modal rather than a route. It provides application/build information, **Follow Device / Reduce Motion**, and safe access to existing Legacy Data Management.
 
-It provides:
+Application preferences use `careerModeShowdown.preferences`. System/browser reduced-motion always wins and the preference survives Showdown-data reset.
 
-- application/build information;
-- **Follow Device** / **Reduce Motion** preference;
-- safe access to existing Legacy Data Management.
-
-Application preferences use:
-
-`careerModeShowdown.preferences`
-
-A system/browser reduced-motion request always wins. The preference survives Showdown-data reset.
-
-Effective reduced motion also controls JavaScript timing:
-
-- League Wheel standard: 4000 ms + 700 ms advance;
-- League Wheel reduced: 80 ms + 120 ms advance;
-- Club Reveal skips theatrical stage waits after the permanent pair is safely persisted.
-
-No gameplay transaction changes under reduced motion.
+League Wheel and Club Reveal consume the same effective reduced-motion contract.
 
 ---
 
 ## Accepted r5 — phased Transfer Challenge
 
-Competition rules remain unchanged:
+Locked flow:
 
 **15-minute Transfer Window → Guess Entry → lock guesses → Signing Entry → lock signings → canonical verdicts → Season Results**
 
-Accepted r5 includes:
+Accepted r5 includes persistent Transfer sub-phases, critical save/rollback, debounced drafts, old-save migration, 36 FIFA 17 Transfer League options, 164 FIFA 17 player nationalities, searchable canonical selectors and one persisted deadline/visible timer loop maximum.
 
-- persistent Transfer sub-phases;
-- save/rollback at critical transitions;
-- debounced active-phase drafts;
-- old-save migration;
-- 36 historical FIFA 17 Transfer League options;
-- 164 FIFA 17 player nationalities;
-- searchable controlled selectors;
-- canonical-ID RELEASE/SAFE evaluation;
-- one persisted deadline / one visible timer loop maximum.
-
-Transfer metadata remains separate from the five-league Showdown Wheel.
+The Showdown League Wheel remains exactly five leagues.
 
 ---
 
 ## Accepted r4 — FIFA-era presentation / Club Reveal
 
-Preserve:
-
-- fallback-safe Barlow Condensed display hierarchy;
-- original deterministic procedural crest identities for all 98 Showdown clubs;
-- exactly two sealed Showdown packs;
-- save-before-reveal and rollback;
-- permanent no-reroll club pair;
-- `Clubs Assigned` confirmation checkpoint;
-- explicit Rivalry Confirmation;
-- Chromebook/mobile presentation.
+Preserve fallback-safe Barlow Condensed display hierarchy, original deterministic procedural identities for all 98 clubs, two sealed Showdown packs, save-before-reveal rollback, permanent no-reroll club pair, explicit Rivalry Confirmation and Chromebook/mobile presentation.
 
 No official club badge images/vector paths or proprietary FIFA/EA font files are bundled.
 
@@ -178,7 +158,9 @@ No official club badge images/vector paths or proprietary FIFA/EA font files are
 - Showdown Home
 - phased Transfer Challenge
 - canonical FIFA 17 Transfer selectors
-- Season Results / automatic scoring
+- Season Results
+- **Season pre-commit Review / Confirm safeguard**
+- automatic locked scoring
 - Season Summary / multi-season progression
 - completed-showdown recovery hub
 - Legacy history / Data Management
@@ -207,9 +189,9 @@ Initial local runtime remains exactly:
 - `js/optionalModules.js`
 - `js/app.js`
 
-CI enforces one initial local stylesheet, seven initial JavaScript files, no eager gameplay/analytics/Settings package and a 145 KB local startup-asset ceiling.
+Gameplay/feature assets remain lazy, including `css/season.css`. CI enforces one initial local stylesheet, seven initial JavaScript files and the established startup byte ceiling.
 
-Menu media still creates no iframe until the user presses Play.
+Menu media creates no iframe until explicit Play.
 
 ---
 
@@ -221,10 +203,13 @@ Preserve:
 - save-before-reveal rollback;
 - refresh/Continue same-pair recovery;
 - explicit Transfer Window → Guess → Signing → Completed phases;
-- canonical Transfer values and verdicts;
+- canonical Transfer values/verdicts;
 - critical Transfer save/rollback;
 - debounced/deduplicated drafts;
 - persisted Transfer deadline;
+- Season Review with no persistence before final confirmation;
+- reviewed-snapshot fingerprint verification;
+- Season completion rollback;
 - centralized state-aware Back routing;
 - completed-showdown recovery;
 - isolated Settings preferences;
@@ -239,30 +224,25 @@ Preserve:
 
 ## Automated validation
 
-Four GitHub Actions gates protect r7:
+Six GitHub Actions gates now protect v0.95:
 
 - **Validate Static App** — syntax, scoring, route matrix, Club Assignment, original crests, startup budget, Back authority and responsive shell.
+- **Validate Home Bootstrap** — current Home IDs, seven media choices, Play/Mute initialization and revision coherence.
 - **Validate Transfer Workstream** — accepted r5 Transfer state/data/selectors.
 - **Validate Settings Workstream** — accepted r6 preference/accessibility/reset isolation.
-- **Validate Statistics Workstream** — executable completed-history analytics fixtures plus r7 lazy/shared-analytics/navigation architecture.
+- **Validate Statistics Workstream** — completed-history analytics fixtures and shared/lazy analytics architecture.
+- **Validate Season Review** — r9 pre-commit snapshot/persistence/rollback boundary and responsive review presentation.
 
-Automated checks do not replace owner Chromebook/mobile acceptance. See `NEXT_TASK.md` for the r7 browser checklist.
+Automated checks do not replace owner Chromebook/mobile acceptance. See `NEXT_TASK.md` for the r9 browser checklist.
 
 ---
 
 ## Remaining release path
 
-1. **Workstream 4 — current r7 Career Statistics browser acceptance**
-2. **Workstream 5 — Season pre-commit review**
-3. **Workstream 6 — final v0.95 accessibility/responsive/performance/regression pass**
-4. **v1.0 Complete Release Candidate / Final Release**
+1. **Workstream 5 — current r9 Season Review browser acceptance**
+2. **Workstream 6 — final v0.95 polish/regression**
+   - includes the owner-requested quality-gated FIFA-era navigation transition and original micro click-feedback experiment;
+   - ship it only if it is smoother than the current behavior on real Chromebook/mobile devices and fully respects reduced-motion/central routing.
+3. **v1.0 Complete Release Candidate / Final Release**
 
----
-
-## Fan-project / legal presentation
-
-Career Mode Showdown is a personal fan project and is not affiliated with or endorsed by EA SPORTS, FIFA, football leagues, clubs, artists or rights holders.
-
-The interface uses original design work inspired by mid-2010s football-game presentation. Official club badges, proprietary FIFA fonts and copied FUT/menu artwork are not bundled. Barlow is separately licensed under SIL Open Font License 1.1 and requested externally with system fallbacks. Club crests are original procedural SVG compositions. Menu songs/trailer are user-initiated YouTube embeds rather than copied media files.
-
-See `THIRD_PARTY_NOTICES.md` for source/license notes.
+No v0.17/v0.18 replacement roadmap is planned.
