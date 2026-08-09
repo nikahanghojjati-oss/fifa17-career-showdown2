@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.16.0
+   v0.95.0
    Lightweight Showdown Home and Completion Hub
 ===================================================== */
 
@@ -106,8 +106,8 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.16.0";
-        footer.innerHTML = `Career Mode Showdown<br>v${version} · Smart Navigation & Lightweight Runtime`;
+        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.95.0";
+        footer.innerHTML = `Career Mode Showdown<br>v${version} · Polish & Blueprint Alignment`;
     }
 }
 
