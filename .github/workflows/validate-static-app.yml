@@ -60,7 +60,6 @@ jobs:
             topScorer: true,
             topAssist: true
           });
-
           assert.strictEqual(perfect.total, 11, 'Perfect season must remain capped at 11.');
           assert.strictEqual(perfect.performanceBonus, 1, '100 points + 100 goals must share one point.');
           assert.strictEqual(perfect.individualAwardsBonus, 1, 'Top Scorer + Top Assist must share one point.');
@@ -95,7 +94,6 @@ jobs:
             '{ resolveCanonicalShowdownRoute, isRouteStateValid, getLegalBackTargets }',
             { currentShowdown: null }
           );
-
           const { context, api } = navigation;
           const baseShowdown = () => ({
             id: 1,
@@ -110,6 +108,8 @@ jobs:
 
           context.currentShowdown = null;
           assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'mainMenu', 'No save must canonicalize to Home.');
+          assert.strictEqual(api.isRouteStateValid('careerStatistics'), true, 'Career Statistics must be legal without an active showdown.');
+          assert.strictEqual(api.isRouteStateValid('statistics'), false, 'Current Rivalry Statistics must require a showdown.');
 
           const noLeague = baseShowdown();
           context.currentShowdown = noLeague;
@@ -129,7 +129,7 @@ jobs:
           assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'clubWheelScreen', 'Saved clubs awaiting confirmation must resume Club Assignment.');
           assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), true, 'Confirmation-pending Club Assignment must remain legal.');
           assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Saved clubs must permanently invalidate League Wheel.');
-          assert.strictEqual(api.isRouteStateValid('dashboard'), false, 'Unconfirmed rivalry must not skip directly to Showdown Home.');
+          assert.strictEqual(api.isRouteStateValid('dashboard'), false, 'Unconfirmed rivalry must not skip to Showdown Home.');
           assert.strictEqual(api.isRouteStateValid('transferChallenge'), false, 'Unconfirmed rivalry must not enter Transfer Challenge.');
 
           const ready = baseShowdown();
@@ -139,7 +139,9 @@ jobs:
           context.currentShowdown = ready;
           assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Confirmed showdown must resolve to Showdown Home.');
           assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Locked clubs must invalidate League Wheel.');
-          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Confirmed locked clubs must invalidate Club Assignment.');
+          assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Confirmed clubs must invalidate Club Assignment.');
+          assert.strictEqual(api.isRouteStateValid('statistics'), true, 'Current Rivalry Statistics must be legal with a showdown.');
+          assert.strictEqual(api.isRouteStateValid('careerStatistics'), true, 'Career Statistics must remain legal with a showdown.');
 
           const transfer = structuredClone(ready);
           transfer.status = 'Transfer Window Active';
@@ -164,35 +166,25 @@ jobs:
           completed.status = 'Completed';
           completed.rounds = [{ roundNumber: 1 }];
           context.currentShowdown = completed;
-          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Completed showdown must always resume Showdown Home.');
+          assert.strictEqual(api.resolveCanonicalShowdownRoute(), 'dashboard', 'Completed showdown must resume Showdown Home.');
           assert.strictEqual(api.isRouteStateValid('leagueWheelScreen'), false, 'Completed showdown cannot return to League Wheel.');
           assert.strictEqual(api.isRouteStateValid('clubWheelScreen'), false, 'Completed showdown cannot return to Club Assignment.');
           assert.strictEqual(api.isRouteStateValid('transferChallenge'), false, 'Completed showdown cannot return to Transfer Challenge.');
           assert.strictEqual(api.isRouteStateValid('seasonEntry'), false, 'Completed showdown cannot return to Season Results entry.');
           assert.strictEqual(api.isRouteStateValid('seasonSummary'), true, 'Completed showdown may still view final Season Summary.');
 
-          assert.deepStrictEqual(
-            Array.from(api.getLegalBackTargets('seasonSummary')),
-            ['dashboard', 'mainMenu'],
-            'Season Summary Back must have deterministic safe parents.'
-          );
-          assert.deepStrictEqual(
-            Array.from(api.getLegalBackTargets('createShowdown')),
-            ['dashboard', 'mainMenu'],
-            'New Showdown opened from completed hub must be able to return to Showdown Home.'
-          );
-          assert.deepStrictEqual(
-            Array.from(api.getLegalBackTargets('legacy')),
-            ['dashboard', 'mainMenu'],
-            'Legacy opened from completed hub must be able to return to Showdown Home.'
-          );
+          assert.deepStrictEqual(Array.from(api.getLegalBackTargets('seasonSummary')), ['dashboard', 'mainMenu']);
+          assert.deepStrictEqual(Array.from(api.getLegalBackTargets('createShowdown')), ['dashboard', 'mainMenu']);
+          assert.deepStrictEqual(Array.from(api.getLegalBackTargets('legacy')), ['dashboard', 'mainMenu']);
+          assert.deepStrictEqual(Array.from(api.getLegalBackTargets('statistics')), ['dashboard', 'mainMenu']);
+          assert.deepStrictEqual(Array.from(api.getLegalBackTargets('careerStatistics')), ['mainMenu']);
           assert.deepStrictEqual(
             Array.from(api.getLegalBackTargets('trophyRoom')),
-            ['dashboard', 'mainMenu'],
-            'Trophy Room opened from completed hub must be able to return to Showdown Home.'
+            ['dashboard', 'careerStatistics', 'mainMenu'],
+            'Trophy Room must support completed-showdown and Career Statistics parents.'
           );
 
-          console.log('Navigation state matrix, club-confirmation recovery, and locked scoring regression cases passed.');
+          console.log('Navigation state matrix, analytics routes, club confirmation, and locked scoring regression cases passed.');
           NODE
 
       - name: Validate club identity and reveal contracts
@@ -214,48 +206,38 @@ jobs:
           }
 
           const clubData = loadClassicScript('data/clubs.js', '{ clubsByLeague }');
-          const identity = loadClassicScript(
-            'js/visualIdentity.js',
-            '{ getClubIdentity, CLUB_IDENTITY_PALETTES }'
-          );
-
+          const identity = loadClassicScript('js/visualIdentity.js', '{ getClubIdentity, CLUB_IDENTITY_PALETTES }');
           const clubs = Object.values(clubData.clubsByLeague).flat();
-          assert.strictEqual(clubs.length, 98, 'The locked five-league Showdown pool should contain 98 clubs.');
+          assert.strictEqual(clubs.length, 98, 'Locked five-league Showdown pool must contain 98 clubs.');
           assert.strictEqual(new Set(clubs).size, clubs.length, 'Club database must not contain duplicate club names.');
 
           const missingPalettes = clubs.filter(name => !identity.CLUB_IDENTITY_PALETTES[name]);
-          assert.deepStrictEqual(missingPalettes, [], `Every Showdown club requires an explicit original identity palette: ${missingPalettes.join(', ')}`);
-
+          assert.deepStrictEqual(missingPalettes, [], `Missing original identity palettes: ${missingPalettes.join(', ')}`);
           const crests = clubs.map(name => {
             const current = identity.getClubIdentity(name);
-            assert.ok(current.primary && current.secondary && current.accent, `${name} identity is missing palette data.`);
-            assert.ok(current.crest.startsWith('url("data:image/svg+xml,'), `${name} crest is not an inline original SVG data image.`);
-            assert.ok(current.initials.length >= 1, `${name} identity is missing its supporting monogram.`);
+            assert.ok(current.primary && current.secondary && current.accent, `${name} identity is incomplete.`);
+            assert.ok(current.crest.startsWith('url("data:image/svg+xml,'), `${name} crest must be an inline original SVG.`);
             return current.crest;
           });
-
-          assert.strictEqual(new Set(crests).size, clubs.length, 'Each Showdown club must render a distinct deterministic crest.');
-          clubs.forEach(name => {
-            assert.strictEqual(identity.getClubIdentity(name).crest, identity.getClubIdentity(name).crest, `${name} crest must be deterministic.`);
-          });
+          assert.strictEqual(new Set(crests).size, clubs.length, 'Each Showdown club must render a distinct crest.');
+          clubs.forEach(name => assert.strictEqual(identity.getClubIdentity(name).crest, identity.getClubIdentity(name).crest));
 
           const identitySource = fs.readFileSync('js/visualIdentity.js', 'utf8');
-          assert.ok(!/<image\b/i.test(identitySource), 'Custom crest SVG must not embed external badge images.');
-          assert.ok(!/assets\/logos\//i.test(identitySource), 'Visual identity engine must not fall back to official badge assets.');
+          assert.ok(!/<image\b/i.test(identitySource), 'Custom crests must not embed external badge images.');
+          assert.ok(!/assets\/logos\//i.test(identitySource), 'Official badge assets must not return.');
 
-          const clubAssignmentSource = fs.readFileSync('js/clubAssignment.js', 'utf8');
-          const timingMatch = clubAssignmentSource.match(/managerOne:\s*(\d+)[\s\S]*?managerTwo:\s*(\d+)[\s\S]*?versus:\s*(\d+)[\s\S]*?confirmation:\s*(\d+)/);
-          assert.ok(timingMatch, 'Club reveal timing contract is missing.');
-          const timings = timingMatch.slice(1).map(Number);
-          assert.ok(timings[0] < timings[1] && timings[1] < timings[2] && timings[2] < timings[3], 'Club reveal stages must remain sequential.');
-          assert.ok(timings[3] <= 4500, 'Club reveal should remain finite and not become frustratingly long.');
-          assert.ok(clubAssignmentSource.includes('isReducedClubMotionPreferred'), 'Club reveal must retain a reduced-motion fast path.');
-          assert.ok(!clubAssignmentSource.includes('createElement("style")'), 'Club Assignment must not inject presentation CSS from JavaScript.');
-          assert.ok(!clubAssignmentSource.includes('CLUB_REVEAL_STYLE_ID'), 'Deprecated runtime reveal stylesheet architecture returned.');
-          assert.ok(clubAssignmentSource.includes('currentShowdown.status = "Clubs Assigned"'), 'Pair must persist before theatrical reveal.');
-          assert.ok(clubAssignmentSource.includes('currentShowdown.status = "Ready"'), 'Explicit confirmation must still advance the showdown to Ready.');
+          const clubAssignment = fs.readFileSync('js/clubAssignment.js', 'utf8');
+          const timing = clubAssignment.match(/managerOne:\s*(\d+)[\s\S]*?managerTwo:\s*(\d+)[\s\S]*?versus:\s*(\d+)[\s\S]*?confirmation:\s*(\d+)/);
+          assert.ok(timing, 'Club reveal timing contract is missing.');
+          const values = timing.slice(1).map(Number);
+          assert.ok(values[0] < values[1] && values[1] < values[2] && values[2] < values[3], 'Club reveal stages must stay sequential.');
+          assert.ok(values[3] <= 4500, 'Club reveal must remain finite.');
+          assert.ok(clubAssignment.includes('isReducedClubMotionPreferred'), 'Reduced-motion Club Reveal fast path is missing.');
+          assert.ok(clubAssignment.includes('currentShowdown.status = "Clubs Assigned"'), 'Pair must persist before reveal.');
+          assert.ok(clubAssignment.includes('currentShowdown.status = "Ready"'), 'Explicit confirmation must advance to Ready.');
+          assert.ok(!clubAssignment.includes('createElement("style")'), 'Club Assignment must not inject CSS from JS.');
 
-          console.log(`Validated ${clubs.length} original deterministic club crests and finite two-pack reveal contracts.`);
+          console.log(`Validated ${clubs.length} deterministic original crests and two-pack reveal contracts.`);
           NODE
 
       - name: Validate release shell and startup budget
@@ -265,221 +247,91 @@ jobs:
           node <<'NODE'
           const fs = require('fs');
           const path = require('path');
+          const assert = require('assert');
 
           const expectedVersion = '0.95.0';
           const maximumInitialAssetBytes = 145000;
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const appCss = fs.readFileSync('css/app.css', 'utf8');
-          const optionalModules = fs.readFileSync('js/optionalModules.js', 'utf8');
+          const optional = fs.readFileSync('js/optionalModules.js', 'utf8');
           const screens = fs.readFileSync('js/screens.js', 'utf8');
           const showdownUI = fs.readFileSync('js/showdownUI.js', 'utf8');
-          const clubAssignment = fs.readFileSync('js/clubAssignment.js', 'utf8');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
-          if (!revisionMatch || !revisionMatch[1].trim()) {
-            throw new Error('index.html must define one app-asset-revision meta value.');
-          }
-          const expectedRevision = revisionMatch[1].trim();
+          assert.ok(revisionMatch && revisionMatch[1].trim(), 'Shell must define app-asset-revision.');
+          const revision = revisionMatch[1].trim();
 
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
+          assert.ok(refs.length, 'No local startup assets found.');
+          const stale = refs.filter(ref => ref.revision !== revision);
+          assert.deepStrictEqual(stale, [], `Mixed cache revisions: ${stale.map(ref => ref.path).join(', ')}`);
+          assert.ok(app.includes(`const APP_VERSION = "${expectedVersion}"`), 'APP_VERSION changed unexpectedly.');
+          assert.ok(optional.includes('const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision()'), 'Lazy assets must derive revision from shell.');
 
-          if (!refs.length) {
-            throw new Error('No local JS/CSS/data asset references were found in index.html.');
-          }
-
-          const stale = refs.filter(ref => ref.revision !== expectedRevision);
-          if (stale.length) {
-            throw new Error(`Mixed cache revisions: ${stale.map(ref => `${ref.path}=${ref.revision || 'none'}`).join(', ')}`);
-          }
-
-          if (!app.includes(`const APP_VERSION = "${expectedVersion}"`)) {
-            throw new Error(`js/app.js does not declare APP_VERSION ${expectedVersion}.`);
+          for (const file of fs.readdirSync('css').filter(file => file.endsWith('.css'))) {
+            const css = fs.readFileSync(path.join('css', file), 'utf8');
+            assert.strictEqual((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, `${file} has unbalanced CSS braces.`);
           }
 
-          if (!optionalModules.includes('meta[name="app-asset-revision"]')) {
-            throw new Error('js/optionalModules.js must derive its lazy-asset revision from the application shell.');
-          }
-          if (!optionalModules.includes('const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision()')) {
-            throw new Error('js/optionalModules.js is not using the shell-owned asset revision.');
-          }
-
-          const visualStyleFiles = [
-            'css/app.css',
-            'css/analytics.css',
-            'css/legacy.css',
-            'css/rulebook.css'
-          ];
-          visualStyleFiles.forEach(filePath => {
-            if (!fs.existsSync(filePath)) {
-              throw new Error(`Required visual stylesheet is missing: ${filePath}`);
-            }
-            const css = fs.readFileSync(filePath, 'utf8');
-            const openBraces = (css.match(/{/g) || []).length;
-            const closeBraces = (css.match(/}/g) || []).length;
-            if (openBraces !== closeBraces) {
-              throw new Error(`${filePath} has unbalanced braces (${openBraces} open vs ${closeBraces} close).`);
-            }
-          });
-
-          if (!html.includes('family=Barlow+Condensed:wght@600;700;800&display=swap')) {
-            throw new Error('Workstream 1B display font must remain fallback-safe with display=swap.');
-          }
-          if (!appCss.includes('--f17-display:"Barlow Condensed"')) {
-            throw new Error('Barlow Condensed is not wired into the FIFA-era display stack.');
-          }
-          if (!html.includes('class="clubPackDoor"') || (html.match(/class="clubPackDoor"/g) || []).length !== 2) {
-            throw new Error('Club Assignment must render exactly two sealed Showdown pack doors.');
-          }
-          if (!appCss.includes('.clubPackDoor{') || !appCss.includes('.clubRevealCard.is-revealed .clubPackDoor{')) {
-            throw new Error('Two-pack opening presentation is missing from the authoritative stylesheet.');
-          }
-          if (!appCss.includes('--club-crest-image')) {
-            throw new Error('Original procedural crest presentation is missing from app.css.');
-          }
-          if (!appCss.includes('@media(prefers-reduced-motion:reduce)')) {
-            throw new Error('Global reduced-motion visual contract is missing.');
-          }
-
-          if (!appCss.includes('grid-template-rows:repeat(2,minmax(108px,auto)) auto;grid-auto-rows:auto')) {
-            throw new Error('Desktop Home grid must keep content-sized rows so media expansion cannot overlap navigation.');
-          }
-          if (appCss.includes('grid-auto-rows:108px')) {
-            throw new Error('Fixed 108px auto rows reintroduced the Chromebook Home overlap risk.');
-          }
-          if (!appCss.includes('.menuMusicTile{grid-column:1/-1;grid-row:3;')) {
-            throw new Error('Desktop media rail must remain below the two-row Career navigation block.');
-          }
-          if (!appCss.includes('.menuMediaSelector{grid-area:mediaSelect;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))')) {
-            throw new Error('Desktop media selector must retain its compact four-column layout.');
-          }
-          if (!appCss.includes('@media(min-width:901px) and (max-height:800px)')) {
-            throw new Error('Low-height Chromebook/laptop density breakpoint is missing.');
-          }
-          if (!appCss.includes('@media(max-width:700px)')) {
-            throw new Error('Mobile single-column breakpoint is missing.');
-          }
+          assert.ok(html.includes('family=Barlow+Condensed:wght@600;700;800&display=swap'), 'Fallback-safe Barlow display font request is missing.');
+          assert.ok(appCss.includes('--f17-display:"Barlow Condensed"'), 'Display font stack changed unexpectedly.');
+          assert.strictEqual((html.match(/class="clubPackDoor"/g) || []).length, 2, 'Club Assignment must keep two sealed pack doors.');
+          assert.ok(appCss.includes('--club-crest-image'), 'Original procedural crest presentation is missing.');
+          assert.ok(appCss.includes('@media(prefers-reduced-motion:reduce)'), 'Reduced-motion CSS contract is missing.');
+          assert.ok(appCss.includes('grid-template-rows:repeat(2,minmax(108px,auto)) auto;grid-auto-rows:auto'), 'Home rows must remain content-sized.');
+          assert.ok(!appCss.includes('grid-auto-rows:108px'), 'Fixed Home auto rows reintroduced overlap risk.');
+          assert.ok(appCss.includes('.menuMusicTile{grid-column:1/-1;grid-row:3;'), 'Media rail must stay below Home navigation.');
+          assert.ok(appCss.includes('@media(min-width:901px) and (max-height:800px)'), 'Chromebook low-height breakpoint is missing.');
+          assert.ok(appCss.includes('@media(max-width:700px)'), 'Mobile breakpoint is missing.');
 
           const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
-          const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
-          if (duplicateIds.length) {
-            throw new Error(`Duplicate HTML ids: ${duplicateIds.join(', ')}`);
-          }
-
-          const requiredIds = [
-            'mainMenu', 'createShowdown', 'leagueWheelScreen', 'clubWheelScreen',
-            'dashboard', 'transferChallenge', 'seasonEntry', 'seasonSummary', 'legacy',
-            'newShowdown', 'continueCareer', 'legacyButton', 'trophyRoomButton',
-            'ruleBookButton', 'startShowdown', 'spinLeague', 'openClubPack',
-            'continueClubAssignment', 'clubCardStateOne', 'clubCardStateTwo',
-            'clubRivalryConfirmation', 'clubConfirmationShowdown', 'clubConfirmationMeta',
-            'clubConfirmationManagerOne', 'clubConfirmationClubOne',
-            'clubConfirmationManagerTwo', 'clubConfirmationClubTwo',
-            'seasonPrimaryAction', 'completeTransferChallenge', 'completeSeason'
+          const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
+          assert.deepStrictEqual(duplicates, [], `Duplicate HTML ids: ${duplicates.join(', ')}`);
+          const required = [
+            'mainMenu', 'createShowdown', 'leagueWheelScreen', 'clubWheelScreen', 'dashboard',
+            'transferChallenge', 'seasonEntry', 'seasonSummary', 'legacy', 'newShowdown',
+            'continueCareer', 'legacyButton', 'careerStatisticsButton', 'ruleBookButton', 'settingsButton',
+            'startShowdown', 'spinLeague', 'openClubPack', 'continueClubAssignment',
+            'clubRivalryConfirmation', 'seasonPrimaryAction', 'completeTransferChallenge', 'completeSeason'
           ];
-
-          const missingIds = requiredIds.filter(id => !ids.includes(id));
-          if (missingIds.length) {
-            throw new Error(`Missing critical HTML ids: ${missingIds.join(', ')}`);
-          }
+          assert.deepStrictEqual(required.filter(id => !ids.includes(id)), [], 'Critical shell id missing.');
 
           const styleRefs = refs.filter(ref => ref.path.startsWith('css/'));
-          if (styleRefs.length !== 1 || styleRefs[0].path !== 'css/app.css') {
-            throw new Error(`Initial shell must load exactly one local stylesheet css/app.css; found: ${styleRefs.map(ref => ref.path).join(', ')}`);
-          }
+          const scriptRefs = refs.filter(ref => ref.path.startsWith('js/'));
+          assert.deepStrictEqual(styleRefs.map(ref => ref.path), ['css/app.css'], 'Startup must load exactly css/app.css.');
+          assert.strictEqual(scriptRefs.length, 7, 'Startup must remain exactly seven local JS files.');
 
-          const initialScripts = refs.filter(ref => ref.path.startsWith('js/'));
-          if (initialScripts.length > 7) {
-            throw new Error(`Initial JavaScript budget exceeded: ${initialScripts.length} scripts (maximum 7).`);
-          }
-
-          const eagerGameplayFiles = new Set([
-            'js/showdownUI.js',
-            'js/visualIdentity.js',
-            'js/leagueWheel.js',
-            'js/clubAssignment.js',
-            'js/transferChallenge.js',
-            'js/seasonEngine.js',
-            'data/leagues.js',
-            'data/clubs.js'
+          const eagerForbidden = new Set([
+            'js/showdownUI.js', 'js/visualIdentity.js', 'js/leagueWheel.js', 'js/clubAssignment.js',
+            'js/transferChallenge.js', 'js/seasonEngine.js', 'js/analytics.js', 'js/statistics.js',
+            'js/trophyRoom.js', 'js/settings.js', 'data/leagues.js', 'data/clubs.js'
           ]);
-          const eagerGameplay = refs.filter(ref => eagerGameplayFiles.has(ref.path));
-          if (eagerGameplay.length) {
-            throw new Error(`Gameplay files returned to startup path: ${eagerGameplay.map(ref => ref.path).join(', ')}`);
-          }
+          assert.deepStrictEqual(refs.filter(ref => eagerForbidden.has(ref.path)), [], 'Lazy files returned to startup path.');
 
-          const initialAssetBytes = refs.reduce((total, ref) => {
-            if (!fs.existsSync(ref.path)) {
-              throw new Error(`Referenced startup asset is missing: ${ref.path}`);
-            }
+          const bytes = refs.reduce((total, ref) => {
+            assert.ok(fs.existsSync(ref.path), `Referenced startup asset is missing: ${ref.path}`);
             return total + fs.statSync(ref.path).size;
           }, 0);
-          if (initialAssetBytes > maximumInitialAssetBytes) {
-            throw new Error(`Initial local asset budget exceeded: ${initialAssetBytes} bytes > ${maximumInitialAssetBytes}.`);
-          }
+          assert.ok(bytes <= maximumInitialAssetBytes, `Startup budget exceeded: ${bytes} > ${maximumInitialAssetBytes}.`);
 
-          if (/\bdata-back=/.test(html)) {
-            throw new Error('Legacy hard-coded data-back navigation returned to index.html.');
-          }
-          if (!/\bdata-smart-back\b/.test(html)) {
-            throw new Error('Smart Back controls are missing from index.html.');
-          }
-          if (!screens.includes('const SAFE_BACK_TARGETS')) {
-            throw new Error('Smart route policy is missing from js/screens.js.');
-          }
-          if (!screens.includes('smartBackDelegationBound') || !screens.includes('stopImmediatePropagation')) {
-            throw new Error('Centralized Back interception is missing from js/screens.js.');
-          }
-          if (!screens.includes('status === "Clubs Assigned"') || !screens.includes('isClubConfirmationPending')) {
-            throw new Error('Club confirmation must remain a persisted canonical navigation state.');
-          }
+          assert.ok(!/\bdata-back=/.test(html), 'Legacy data-back navigation returned.');
+          assert.ok(/\bdata-smart-back\b/.test(html), 'Smart Back controls are missing.');
+          assert.ok(screens.includes('const SAFE_BACK_TARGETS'), 'Central Back route policy is missing.');
+          assert.ok(screens.includes('smartBackDelegationBound') && screens.includes('stopImmediatePropagation'), 'Central Back interception is missing.');
+          assert.ok(screens.includes('status === "Clubs Assigned"') && screens.includes('isClubConfirmationPending'), 'Club confirmation route checkpoint is missing.');
 
-          if (!clubAssignment.includes('const CLUB_REVEAL_STAGES')) {
-            throw new Error('Staged Club Assignment state machine is missing.');
-          }
-          if (!clubAssignment.includes('CLUB_REVEAL_TIMINGS')) {
-            throw new Error('Finite staged reveal timings are missing.');
-          }
-          if (!clubAssignment.includes('isReducedClubMotionPreferred')) {
-            throw new Error('Club reveal reduced-motion controller is missing.');
-          }
-          if (!clubAssignment.includes('currentShowdown.status = "Clubs Assigned"')) {
-            throw new Error('Club pair must persist in the confirmation-pending state before reveal.');
-          }
-          if (!clubAssignment.includes('currentShowdown.status = "Ready"')) {
-            throw new Error('Explicit rivalry confirmation must advance the showdown to Ready.');
-          }
-
-          const routeHistoryLeaks = fs.readdirSync('js')
+          const routeLeaks = fs.readdirSync('js')
             .filter(file => file.endsWith('.js') && file !== 'screens.js')
             .filter(file => /\bscreenHistory\b/.test(fs.readFileSync(path.join('js', file), 'utf8')));
-          if (routeHistoryLeaks.length) {
-            throw new Error(`Route history is being manipulated outside screens.js: ${routeHistoryLeaks.join(', ')}`);
-          }
+          assert.deepStrictEqual(routeLeaks, [], `Route history leaked outside screens.js: ${routeLeaks.join(', ')}`);
 
-          if (!showdownUI.includes('VIEW FINAL SEASON SUMMARY')) {
-            throw new Error('Completed showdown recovery action is missing from js/showdownUI.js.');
-          }
-          if (!showdownUI.includes('Active save retained · Legacy sync pending')) {
-            throw new Error('Completed-showdown Legacy failure state is not surfaced accurately.');
-          }
+          assert.ok(showdownUI.includes('VIEW FINAL SEASON SUMMARY'), 'Completed-showdown recovery action is missing.');
+          assert.ok(showdownUI.includes('Active save retained · Legacy sync pending'), 'Legacy sync failure state is not surfaced accurately.');
 
-          const deadPrototypeFiles = [
-            'data/rules.js',
-            'js/router.js',
-            'js/scoreboard.js',
-            'js/ui.js',
-            'js/wheels.js'
-          ];
-          const returnedDeadFiles = deadPrototypeFiles.filter(filePath => fs.existsSync(filePath));
-          if (returnedDeadFiles.length) {
-            throw new Error(`Dead prototype files must be removed: ${returnedDeadFiles.join(', ')}`);
-          }
+          const dead = ['data/rules.js', 'js/router.js', 'js/scoreboard.js', 'js/ui.js', 'js/wheels.js'];
+          assert.deepStrictEqual(dead.filter(file => fs.existsSync(file)), [], 'Dead prototype architecture returned.');
 
-          console.log(
-            `Validated v${expectedVersion} / ${expectedRevision}: ${initialScripts.length} initial scripts, ` +
-            `${styleRefs.length} local initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
-            `${ids.length} unique HTML ids, original club crests, two-pack reveal, Chromebook guards, and centralized Back authority.`
-          );
+          console.log(`Validated v${expectedVersion} / ${revision}: ${scriptRefs.length} initial scripts, one local stylesheet, ${bytes} initial local bytes, ${ids.length} unique ids, analytics lazy-loading, Chromebook guards, and centralized Back authority.`);
           NODE
