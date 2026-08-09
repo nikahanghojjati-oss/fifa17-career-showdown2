@@ -1,56 +1,57 @@
 # Career Mode Showdown
 
-A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
+A two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
 **Current application version:** v0.16.0 — Smart Navigation & Lightweight Runtime  
-**Current deployed asset revision:** `0.16.0-r2`  
-**Current phase:** stabilization / owner regression before the original v0.95 polish milestone
+**Current deployed asset revision:** `0.16.0-r3`  
+**Current phase:** Chromebook/responsive stabilization before the original v0.95 polish milestone
 
-## Start here before development
+## Development entry point
 
-The project design phase is complete. Do not restart planning or create a replacement architecture.
+The design phase is complete. Do not restart planning or replace the architecture.
 
 Read in this order:
 
-1. `PROJECT_STATE.md` — exact current implementation, locked amendments, original-roadmap alignment and remaining gaps.
-2. `NEXT_TASK.md` — immediate regression gate and the finite next milestone.
-3. `CHANGELOG.md` — historical continuity and explanation of roadmap milestones versus implementation builds.
-4. Current source code — highest authority for what is actually implemented.
-5. Original Project Bible — authoritative design blueprint where it has not been explicitly superseded by later owner decisions/current state.
+1. `PROJECT_STATE.md` — exact current implementation, locked amendments, architecture and original-roadmap alignment.
+2. `NEXT_TASK.md` — current browser regression gate and the finite next milestone.
+3. `CHANGELOG.md` — implementation history and why later build numbers do not replace the original roadmap.
+4. Current source code — highest authority for implemented behavior.
+5. Original Project Bible — long-term product blueprint where later owner decisions/current source have not superseded it.
 
-The project is not heading toward an open-ended v0.17/v0.18 feature sequence. After the current v0.16 regression is accepted, development rejoins the original roadmap at **v0.95 Polish / Blueprint Alignment**, then moves to **v1.0 Complete Release**.
+After v0.16 stabilization passes, development returns to the original roadmap at **v0.95 Polish / Blueprint Alignment**, then moves directly to **v1.0**. Do not create an open-ended v0.17/v0.18 feature sequence.
 
-## Product scope
+## Version 1.0 scope
 
-Career Mode Showdown is designed for two friends playing separate FIFA 17 Career Mode saves while tracking one shared rivalry on a single device.
+Career Mode Showdown is for two friends playing separate FIFA 17 Career Mode saves while tracking one shared rivalry on one device.
 
-The current app provides:
+Current capabilities include:
 
 - New and resumable showdowns
-- FIFA 17-era league selection
-- Permanent randomized club assignment
-- Per-season Transfer Challenge
-- Season results and automatic scoring
-- Season summaries and cumulative rivalry score
-- Completed-showdown recovery hub
+- FIFA-17-era league selection
+- permanent randomized club assignment
+- per-season Transfer Challenge
+- Season Results and automatic scoring
+- Season Summary and cumulative rivalry score
+- multi-season progression
+- completed-showdown recovery hub
 - Legacy archive and season history
 - Rivalry Statistics
 - cumulative analytics / manager records
 - Trophy Room
 - Rule Book
 - safe deletion/reset controls
-- FIFA 17 soundtrack/trailer menu media through lazy YouTube embeds
-- original FIFA-17-era-inspired interface and generated club identities
+- user-initiated FIFA 17 soundtrack/trailer media
+- original FIFA-17-era-inspired responsive interface
 
 ## Locked competition rules
 
-- Exactly two managers in Version 1.0.
+- Exactly two managers.
 - One device / one browser / one active showdown.
 - Both clubs come from the same selected league.
-- League selection happens once per showdown.
-- Club assignment happens once and stays fixed for the full showdown.
+- League is selected once.
+- Club assignment happens once and remains fixed for the full showdown.
 - Showdowns contain 1, 3, 5 or 10 seasons.
-- Transfer Challenge: 15 minutes, maximum three signings per manager, three opponent guesses, each guess is a league or nationality; correctly guessed signings must be released.
+- Transfer Challenge: 15 minutes, maximum three signings per manager, three opponent guesses, each guess league or nationality; correctly guessed signings must be released.
 - Champions League winner: +5.
 - League winner: +3.
 - Main domestic cup winner: +1.
@@ -58,13 +59,13 @@ The current app provides:
 - Top Scorer and/or Top Assist: +1 maximum for the pair.
 - Maximum score per manager per season: **11**.
 - Equal non-zero season scores are a draw.
-- Only a 0-0 scoring tie falls back to league position, then league points.
+- Only a 0-0 scoring tie uses league position, then league points.
 
-These scoring rules are later owner-approved amendments and supersede conflicting older Project Bible wording.
+These later owner-approved scoring rules supersede conflicting older Project Bible wording.
 
-## Original roadmap alignment
+## Original roadmap
 
-The original Project Bible roadmap remains the release destination:
+The original Project Bible milestones remain the release destination:
 
 - v0.6.1 — Application Framework
 - v0.7 — Showdown Creation
@@ -73,25 +74,36 @@ The original Project Bible roadmap remains the release destination:
 - v0.95 — Polish and Experience
 - v1.0 — Complete Release
 
-Current source functionally covers the v0.7, v0.8 and v0.9 core and already implements a substantial amount of v0.95 performance/navigation/presentation work.
+Current source functionally covers the v0.7, v0.8 and v0.9 core and already includes substantial v0.95 stability/performance/presentation work.
 
-The remaining v0.95 blueprint-alignment areas are intentionally finite and documented in `PROJECT_STATE.md` / `NEXT_TASK.md`:
+Remaining finite v0.95 alignment work is documented in `PROJECT_STATE.md` and `NEXT_TASK.md`:
 
-- Settings surface from the original screen specification;
-- resolve the original Main Menu Statistics surface against the existing Trophy Room/Rivalry Statistics analytics architecture;
-- inspect/close the original pre-final season review/confirmation safety requirement;
-- complete owner-found regression, responsive, accessibility and polish issues.
+- Settings surface from the original screen plan;
+- Main Menu Statistics alignment using the existing analytics/Trophy Room/Rivalry Statistics systems;
+- pre-final Season review/confirmation safety if the current browser flow still lacks an equivalent step;
+- final responsive/accessibility/performance/regression polish.
 
-No post-v1.0 features should interrupt this path.
+## Current responsive design architecture
 
-## v0.16 architecture
+The Home screen uses one unified stylesheet: `css/app.css`.
 
-The application remains framework-free, backend-free and static-hosting friendly.
+`v0.16.0-r3` specifically fixes the Chromebook/laptop Home layout without redesigning the mobile experience:
 
-### Initial runtime
+- core Career/navigation tiles occupy the first two desktop rows;
+- soundtrack/trailer media sits below the primary navigation;
+- desktop rows size to their content instead of remaining hard-fixed at 108px;
+- loading a YouTube iframe expands the media row instead of overlapping another tile;
+- desktop media choices use a compact four-column selector grid;
+- low-height desktop/laptop viewports receive denser spacing while remaining vertically scrollable;
+- tablet/mobile breakpoints retain their established auto-flow/single-column behavior.
 
-Home intentionally starts with only seven JavaScript files and one stylesheet:
+## Runtime architecture
 
+### Initial shell
+
+Only seven JavaScript files and one stylesheet load initially:
+
+- `css/app.css`
 - `js/storage.js`
 - `js/showdown.js`
 - `js/scoring.js`
@@ -99,13 +111,10 @@ Home intentionally starts with only seven JavaScript files and one stylesheet:
 - `js/menuExperience.js`
 - `js/optionalModules.js`
 - `js/app.js`
-- `css/app.css`
 
-The CI budget prevents gameplay engines from silently returning to the startup bundle.
+### Lazy gameplay package
 
-### On-demand gameplay runtime
-
-Gameplay code is loaded together only when the user starts or resumes a showdown:
+Loaded only when gameplay is started/resumed:
 
 - `data/leagues.js`
 - `data/clubs.js`
@@ -117,132 +126,75 @@ Gameplay code is loaded together only when the user starts or resumes a showdown
 - `js/transferChallenge.js`
 - `js/seasonEngine.js`
 
-Hovering/focusing Continue or Start may predictively warm this package, but Home does not parse it during ordinary startup.
+### Lazy secondary modules
 
-### On-demand history and analytics
+- Legacy
+- analytics
+- Rivalry Statistics
+- Trophy Room
+- Rule Book
+- diagnostics
+- optional screen styles
 
-These remain lazy and load only when requested:
+## Cache contract
 
-- `js/legacy.js` + `css/legacy.css`
-- `js/analytics.js`
-- `js/statistics.js`
-- `js/trophyRoom.js`
-- `js/ruleBook.js` + `css/rulebook.css`
-- `css/analytics.css`
-- `js/diagnostics.js`
-
-`js/optionalModules.js` owns dependency order, deduplication, timeout/retry behavior, gameplay loading and stale-navigation protection.
-
-## Release cache contract
-
-`index.html` owns the deployed local-asset revision through one:
+`index.html` owns one deployment asset revision through:
 
 `<meta name="app-asset-revision" ...>`
 
-Initial assets, dynamically loaded assets, diagnostics and CI all derive/validate against that shell-owned revision.
+Initial and dynamically loaded local assets use that value. Diagnostics and CI validate against the same value. Do not reuse an asset revision after deployed CSS/JS/data bytes change.
 
-This prevents the browser from combining newer source with an older cached gameplay/style generation under a reused revision key.
+## Navigation contract
 
-## Smart navigation contract
+`js/screens.js` is the only route/history authority.
 
-`js/screens.js` is the single navigation authority.
+- Back history is advisory and state-aware.
+- illegal/stale routes are rejected.
+- locked clubs invalidate setup routes.
+- completed Transfer Challenge invalidates obsolete transfer state.
+- completed showdown resumes to Completed Showdown Home.
+- pending writes flush before route changes.
+- no other module manipulates `screenHistory`.
 
-- Every ordinary `.backButton`, including buttons created later by lazy modules, is intercepted centrally before local module handlers can run.
-- Destructive `.dangerButton` controls are excluded from Back interception.
-- Back history is advisory, not authoritative.
-- Each screen has a finite legal set of logical parents.
-- A history destination must also be valid for the current showdown state.
-- If history is stale/impossible, the router derives a canonical safe route from the active showdown.
-- Club assignment permanently invalidates obsolete League/Club setup routes.
-- A completed Transfer Challenge cannot be revived as an active transfer route.
-- A completed showdown cannot return to league, club, transfer or results-entry setup.
-- Completed-showdown resume resolves to Completed Showdown Home.
-- Completed Showdown Home exposes Final Summary, Legacy, Trophy Room, Rivalry Statistics, New Showdown and Main Menu instead of becoming a dead-end page.
-- Legacy/Trophy/New Showdown opened from the completed hub can Back to that hub; when opened from Main Menu, Back returns to Main Menu.
-- Pending transfer/storage writes are flushed before navigation. A failed critical flush blocks the route rather than silently losing data.
+## Persistence contract
 
-No other module may read or mutate `screenHistory` directly. CI enforces this rule.
-
-## Persistence
-
-The application uses two browser-local keys:
+Browser keys:
 
 - `careerModeShowdown.activeShowdown`
 - `careerModeShowdown.legacyShowdowns`
 
-There is no account, cloud database, server process or cross-device synchronization in Version 1.0.
+Critical transitions save immediately. Transfer drafts are debounced/deduplicated. Failed critical writes use rollback paths where practical. Completed active save remains safe even if Legacy synchronization temporarily fails.
 
-Persistence guarantees:
+## Automated validation
 
-- critical transitions save immediately;
-- transfer text entry is debounced and deduplicated;
-- pending drafts flush before navigation/page hiding;
-- failed critical writes roll in-memory mutations back where possible;
-- League/Club delayed operations use showdown/operation identity guards;
-- destructive Legacy operations check storage success and use rollback paths where possible;
-- completed showdowns archive idempotently by showdown ID/revision;
-- if final-season Legacy sync fails, the completed active save remains safe and the UI reports `Legacy sync pending` rather than claiming success.
+GitHub Actions validates the exact repository head on every push/PR, including:
 
-## Performance and stability contract
-
-Future development must preserve these constraints unless an explicit architecture change is approved:
-
-1. Exactly one core stylesheet at initial load: `css/app.css`.
-2. Maximum seven initial JavaScript files; gameplay engines remain on demand.
-3. Initial local CSS/JS stays below the CI budget.
-4. Do not normalize/recalculate the full showdown on keystrokes or timer ticks.
-5. Do not write localStorage on every keypress.
-6. Only one transfer timer interval may run, and it stops off-screen/hidden.
-7. Only one YouTube iframe may exist and media remains unloaded until Play.
-8. Heavy gameplay/history/analytics modules remain lazy-loaded.
-9. Async League/Club operations remain showdown/operation identity-safe.
-10. `js/screens.js` remains the Back/history authority.
-11. Navigation flushes pending writes before leaving data-entry screens.
-12. Rendering avoids unnecessary DOM writes.
-13. All local deployed assets share the shell-owned cache revision.
-14. No proprietary FIFA fonts, copied EA UI graphics, official club badges or downloaded soundtrack files are bundled.
-
-## Runtime diagnostics and automated validation
-
-`js/diagnostics.js` is lazy-loaded during browser idle time. It understands gameplay runtime `idle/loading/ready/error` states and does not mistake intentionally unloaded gameplay code for missing code.
-
-`.github/workflows/validate-static-app.yml` runs on every push/PR and checks, among other invariants:
-
-- every `js/` and `data/` file with `node --check`;
+- `node --check` for JavaScript/data sources;
 - locked scoring regression cases;
-- canonical showdown-route matrix;
+- navigation state matrix;
 - completed-showdown restrictions;
-- contextual Back parents;
-- one shell-owned cache revision;
-- required / duplicate HTML IDs;
-- exactly one initial stylesheet;
-- maximum seven initial JavaScript files;
-- no eager gameplay modules in `index.html`;
-- startup local-byte budget;
-- no legacy `data-back` routing;
-- centralized Back authority;
-- no `screenHistory` manipulation outside `screens.js`;
-- completed-showdown recovery UI;
-- absence of dead prototype files.
+- contextual Back behavior;
+- release/cache coherence;
+- initial script/stylesheet/startup-byte limits;
+- centralized route-history authority;
+- required HTML IDs;
+- absence of obsolete prototype files.
 
-The assistant runtime has previously been unable to clone GitHub locally because of its network/DNS environment. Do not claim a local repository `node --check` unless it actually runs. Exact-head GitHub Actions validation is the repository-backed machine check used for this project.
+The assistant runtime may not be able to clone GitHub locally due network/DNS restrictions. Do not claim a local repository syntax run unless it actually occurred; use the exact-head GitHub Actions result for repository-backed machine validation.
 
 ## Development philosophy
 
-- Current working source is the implementation source of truth.
-- The original Project Bible remains the product/release blueprint where not explicitly superseded.
-- Preserve locked competition rules and completed features.
+- Current source is the implementation source of truth.
+- Original Project Bible is the long-term product blueprint where not superseded.
+- Preserve locked rules and working stability/performance fixes.
 - Do not restart planning.
-- Do not create a new architecture to match historical filenames.
-- Inspect current implementation before changing it.
+- Do not redesign working architecture to match obsolete filenames.
 - Fix root causes rather than stacking patches.
-- Add deterministic regression coverage when practical.
-- Regression-test old systems before advancing.
-- Keep optional/history work off the critical startup path.
-- Finish v0.95 and v1.0 before entertaining post-v1.0 expansion.
+- Regression-test previously working behavior before advancing.
+- Finish original v0.95 and v1.0 before post-v1.0 expansion.
 
 ## Legal / fan-project presentation
 
 This is a personal fan-project tracker and is not affiliated with or endorsed by EA SPORTS, FIFA, football leagues, clubs, artists or rights holders.
 
-The interface uses an original visual system inspired by mid-2010s football-game menu design. Club identities are generated locally from text rather than official club badges. No proprietary FIFA font or copied EA menu artwork is bundled. Menu songs and the gameplay trailer are played through user-initiated YouTube embeds rather than copied audio/video files. The Marco Reus photograph used by the menu treatment is sourced separately from Wikimedia Commons with its attribution/license link displayed in the application.
+The interface uses an original visual system inspired by mid-2010s football-game menus. It does not bundle proprietary FIFA fonts, copied EA menu artwork, official club badges or downloaded soundtrack files. Menu songs/trailer use user-initiated YouTube embeds, and the Marco Reus image treatment uses separately licensed Wikimedia imagery with attribution in the application.
