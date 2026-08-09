@@ -19,6 +19,7 @@ const DIAGNOSTIC_REQUIRED_ELEMENTS = [
     "legacyButton",
     "trophyRoomButton",
     "ruleBookButton",
+    "settingsButton",
     "rivalryStatisticsButton",
     "menuMediaSelector",
     "menuMusicToggle",
@@ -43,6 +44,10 @@ const CORE_REQUIRED_FUNCTIONS = [
     "saveCurrentShowdown",
     "initializeStorageLifecycle",
     "flushPendingApplicationWrites",
+    "loadApplicationPreferences",
+    "getApplicationMotionPreferenceState",
+    "setApplicationReducedMotionPreference",
+    "isReducedMotionPreferred",
     "initializeMenuExperience",
     "refreshMainMenuExperience",
     "selectMenuMedia",
@@ -113,6 +118,7 @@ function getControlBindingProblems(gameplayReady){
         ["legacyButton", "navigationBound"],
         ["trophyRoomButton", "trophyRoomReady"],
         ["ruleBookButton", "ruleBookBound"],
+        ["settingsButton", "settingsBound"],
         ["rivalryStatisticsButton", "statisticsLazyBound"],
         ["menuMusicToggle", "musicBound"],
         ["menuMusicMute", "musicBound"],
@@ -202,6 +208,27 @@ function getVisualSystemProblems(){
     return href.includes("css/app.css") && href.includes(`v=${expected}`)
         ? []
         : ["unified application stylesheet revision is stale"];
+}
+
+function getMotionPreferenceProblems(){
+    if(typeof window.getApplicationMotionPreferenceState !== "function"){
+        return ["application motion state is unavailable"];
+    }
+
+    const state = window.getApplicationMotionPreferenceState();
+    const root = document.documentElement;
+    const expectedPreference = state.reducedMotionOverride ? "reduced" : "system";
+    const expectedReduced = state.effectiveReduced ? "true" : "false";
+    const problems = [];
+
+    if(root.dataset.motionPreference !== expectedPreference){
+        problems.push(`motion preference DOM state is ${root.dataset.motionPreference || "missing"}; expected ${expectedPreference}`);
+    }
+    if(root.dataset.motionReduced !== expectedReduced){
+        problems.push(`effective motion DOM state is ${root.dataset.motionReduced || "missing"}; expected ${expectedReduced}`);
+    }
+
+    return problems;
 }
 
 function getLifecycleProblems(gameplayReady){
@@ -305,6 +332,7 @@ function runApplicationDiagnostics(){
         ...getMenuMediaProblems(),
         ...getOptionalModuleProblems(),
         ...getVisualSystemProblems(),
+        ...getMotionPreferenceProblems(),
         ...getLifecycleProblems(gameplayReady),
         ...getNavigationProblems(),
         ...getBundleProblems()
@@ -333,7 +361,10 @@ function runApplicationDiagnostics(){
         navigation: typeof window.getNavigationDiagnostics === "function"
             ? window.getNavigationDiagnostics()
             : null,
-        lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook"],
+        motion: typeof window.getApplicationMotionPreferenceState === "function"
+            ? window.getApplicationMotionPreferenceState()
+            : null,
+        lazyScreens: ["statistics", "trophyRoom", "legacy", "ruleBook", "settings"],
         optionalModules: typeof window.getOptionalModuleState === "function"
             ? window.getOptionalModuleState()
             : null,
