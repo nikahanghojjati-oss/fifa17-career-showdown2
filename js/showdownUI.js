@@ -1,7 +1,7 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
-   High-Performance Showdown Interface Controller
+   v0.16.0
+   Lightweight Showdown Home and Completion Hub
 ===================================================== */
 
 let dashboardUI = null;
@@ -24,7 +24,11 @@ function cacheDashboardUI(){
         lastPositionOne: document.getElementById("dashboardPositionOne"),
         lastPositionTwo: document.getElementById("dashboardPositionTwo"),
         primaryButton: document.getElementById("seasonPrimaryAction"),
-        integrity: document.getElementById("dashboardIntegrityStatus")
+        integrity: document.getElementById("dashboardIntegrityStatus"),
+        completionHub: document.getElementById("completedShowdownHub"),
+        completionTitle: document.getElementById("completedShowdownTitle"),
+        completionResult: document.getElementById("completedShowdownResult"),
+        completionMeta: document.getElementById("completedShowdownMeta")
     };
     return dashboardUI;
 }
@@ -41,15 +45,60 @@ function setDashboardTextIfChanged(element, value){
     }
 }
 
-function initializeShowdownUI(){
-    const startButton = document.getElementById("startShowdown");
-    if(startButton && startButton.dataset.showdownUiBound !== "true"){
-        startButton.dataset.showdownUiBound = "true";
-        startButton.addEventListener("click", createShowdown);
+function createCompletionAction(label, handler, className = "menuButton"){
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = className;
+    button.textContent = label;
+    button.addEventListener("click", handler);
+    return button;
+}
+
+function ensureCompletionHub(){
+    if(document.getElementById("completedShowdownHub")){
+        return;
     }
 
+    const dashboard = document.getElementById("dashboard");
+    const playerCards = dashboard ? dashboard.querySelector(".playerCards") : null;
+    const actions = dashboard ? dashboard.querySelector(".dashboardActions") : null;
+    if(!dashboard || !playerCards || !actions){
+        return;
+    }
+
+    const hub = document.createElement("section");
+    hub.id = "completedShowdownHub";
+    hub.className = "completionHub hidden";
+
+    const title = document.createElement("h3");
+    title.id = "completedShowdownTitle";
+    title.textContent = "SHOWDOWN COMPLETE";
+
+    const result = document.createElement("p");
+    result.id = "completedShowdownResult";
+
+    const meta = document.createElement("p");
+    meta.id = "completedShowdownMeta";
+
+    const hubActions = document.createElement("div");
+    hubActions.className = "completionHubActions";
+    hubActions.append(
+        createCompletionAction("VIEW LEGACY", () => window.openOptionalModule && window.openOptionalModule("legacy")),
+        createCompletionAction("TROPHY ROOM", () => window.openOptionalModule && window.openOptionalModule("trophyRoom")),
+        createCompletionAction("RIVALRY STATISTICS", () => window.openOptionalModule && window.openOptionalModule("statistics")),
+        createCompletionAction("NEW SHOWDOWN", () => window.navigateTo && window.navigateTo("createShowdown")),
+        createCompletionAction("MAIN MENU", () => window.navigateTo && window.navigateTo("mainMenu", { addToHistory: false }), "backButton")
+    );
+
+    hub.append(title, result, meta, hubActions);
+    dashboard.insertBefore(hub, actions);
+    dashboardUI = null;
+}
+
+function initializeShowdownUI(){
     ensureActiveShowdownDeleteControl();
     ensureDashboardIntegrityStatus();
+    ensureCompletionHub();
     cacheDashboardUI();
     updateVersionLabel();
 }
@@ -57,8 +106,8 @@ function initializeShowdownUI(){
 function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
-        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.15.1";
-        footer.innerHTML = `Career Mode Showdown<br>v${version} · Core Stabilization & Performance`;
+        const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.16.0";
+        footer.innerHTML = `Career Mode Showdown<br>v${version} · Smart Navigation & Lightweight Runtime`;
     }
 }
 
@@ -109,9 +158,11 @@ function deleteCurrentShowdownFromDashboard(){
     if(typeof window.resetTransientSelectionOperations === "function"){
         window.resetTransientSelectionOperations();
     }
+    if(typeof window.resetNavigationState === "function"){
+        window.resetNavigationState();
+    }
 
     currentShowdown = null;
-    screenHistory = [];
     setDashboardTextIfChanged(getDashboardUI().indicator, "No Active Showdown");
     showScreen("mainMenu", false);
 }
@@ -143,6 +194,32 @@ function renderDashboardIntegrityStatus(){
     setDashboardTextIfChanged(note, `SAVE WARNING: ${warnings.join(" ")}`);
     note.classList.remove("hidden");
     note.classList.add("locked");
+}
+
+function getCompletedShowdownResultText(){
+    const winner = typeof getShowdownWinner === "function" ? getShowdownWinner(currentShowdown) : "draw";
+    if(winner === "playerOne"){
+        return `${currentShowdown.managers.playerOne} wins the showdown`;
+    }
+    if(winner === "playerTwo"){
+        return `${currentShowdown.managers.playerTwo} wins the showdown`;
+    }
+    return "The showdown finishes level";
+}
+
+function renderCompletionHub(completed){
+    const ui = getDashboardUI();
+    if(!ui.completionHub){ return; }
+
+    ui.completionHub.classList.toggle("hidden", !completed);
+    if(!completed){ return; }
+
+    setDashboardTextIfChanged(ui.completionTitle, "SHOWDOWN COMPLETE");
+    setDashboardTextIfChanged(ui.completionResult, getCompletedShowdownResultText());
+    setDashboardTextIfChanged(
+        ui.completionMeta,
+        `${currentShowdown.rounds.length} season${currentShowdown.rounds.length === 1 ? "" : "s"} completed · Final score ${currentShowdown.score.playerOne} - ${currentShowdown.score.playerTwo} · Saved to Legacy`
+    );
 }
 
 function updateShowdownUI(){
@@ -188,11 +265,12 @@ function updateShowdownUI(){
     }
 
     renderDashboardIntegrityStatus();
+    renderCompletionHub(completed);
 
     if(!ui.primaryButton){ return; }
     if(completed){
-        if(!ui.primaryButton.disabled){ ui.primaryButton.disabled = true; }
-        setDashboardTextIfChanged(ui.primaryButton, "SHOWDOWN COMPLETE — SAVED TO LEGACY");
+        if(ui.primaryButton.disabled){ ui.primaryButton.disabled = false; }
+        setDashboardTextIfChanged(ui.primaryButton, "VIEW FINAL SEASON SUMMARY");
         return;
     }
 
