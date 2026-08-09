@@ -207,6 +207,20 @@ function getCompletedShowdownResultText(){
     return "The showdown finishes level";
 }
 
+function isCurrentShowdownArchived(){
+    if(!currentShowdown || currentShowdown.status !== "Completed" || typeof loadLegacyShowdowns !== "function"){
+        return false;
+    }
+
+    try{
+        return loadLegacyShowdowns().some(
+            showdown => showdown && String(showdown.id) === String(currentShowdown.id)
+        );
+    }catch(error){
+        return false;
+    }
+}
+
 function renderCompletionHub(completed){
     const ui = getDashboardUI();
     if(!ui.completionHub){ return; }
@@ -214,11 +228,15 @@ function renderCompletionHub(completed){
     ui.completionHub.classList.toggle("hidden", !completed);
     if(!completed){ return; }
 
+    const archiveStatus = isCurrentShowdownArchived()
+        ? "Saved to Legacy"
+        : "Active save retained · Legacy sync pending";
+
     setDashboardTextIfChanged(ui.completionTitle, "SHOWDOWN COMPLETE");
     setDashboardTextIfChanged(ui.completionResult, getCompletedShowdownResultText());
     setDashboardTextIfChanged(
         ui.completionMeta,
-        `${currentShowdown.rounds.length} season${currentShowdown.rounds.length === 1 ? "" : "s"} completed · Final score ${currentShowdown.score.playerOne} - ${currentShowdown.score.playerTwo} · Saved to Legacy`
+        `${currentShowdown.rounds.length} season${currentShowdown.rounds.length === 1 ? "" : "s"} completed · Final score ${currentShowdown.score.playerOne} - ${currentShowdown.score.playerTwo} · ${archiveStatus}`
     );
 }
 
