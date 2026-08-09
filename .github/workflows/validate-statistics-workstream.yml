@@ -1,0 +1,255 @@
+name: Validate Statistics Workstream
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  statistics-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate career and rivalry analytics fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const context = { console };
+          context.window = context;
+          context.currentShowdown = null;
+          context.loadLegacyShowdowns = () => [];
+          context.loadSavedShowdown = () => null;
+          context.getLegacyStorageRevision = () => 0;
+          vm.createContext(context);
+
+          const scoringSource = fs.readFileSync('js/scoring.js', 'utf8');
+          vm.runInContext(scoringSource, context, { filename: 'js/scoring.js' });
+          const analyticsSource = fs.readFileSync('js/analytics.js', 'utf8');
+          vm.runInContext(`${analyticsSource}\n;globalThis.__analyticsTest = { buildCareerAnalytics, buildRivalryAnalytics };`, context, { filename: 'js/analytics.js' });
+          const api = context.__analyticsTest;
+
+          const history = [
+            {
+              id: 's1',
+              name: 'First Rivalry',
+              status: 'Completed',
+              managers: { playerOne: 'Alex', playerTwo: 'Jordan' },
+              clubs: { playerOne: 'Arsenal', playerTwo: 'Chelsea' },
+              selectedLeague: { id: 'premier-league', name: 'Premier League' },
+              score: { playerOne: 6, playerTwo: 5 },
+              transferChallenges: [{
+                seasonNumber: 1,
+                status: 'completed',
+                signings: {
+                  playerOne: [{ name: 'A', release: false }, { name: 'B', release: true }],
+                  playerTwo: [{ name: 'C', release: false }]
+                }
+              }],
+              rounds: [{
+                roundNumber: 1,
+                winner: 'playerOne',
+                playerOne: {
+                  leaguePosition: 1,
+                  leaguePoints: 100,
+                  leagueGoals: 95,
+                  domesticCup: true,
+                  championsLeague: false,
+                  topScorer: true,
+                  topAssist: false,
+                  scoring: { total: 6, performanceBonus: 1, individualAwardsBonus: 1 }
+                },
+                playerTwo: {
+                  leaguePosition: 2,
+                  leaguePoints: 90,
+                  leagueGoals: 85,
+                  domesticCup: false,
+                  championsLeague: true,
+                  topScorer: false,
+                  topAssist: false,
+                  scoring: { total: 5, performanceBonus: 0, individualAwardsBonus: 0 }
+                }
+              }]
+            },
+            {
+              id: 's2',
+              name: 'Second Rivalry',
+              status: 'Completed',
+              managers: { playerOne: 'Alex', playerTwo: 'Jordan' },
+              clubs: { playerOne: 'Liverpool', playerTwo: 'Manchester City' },
+              selectedLeague: { id: 'premier-league', name: 'Premier League' },
+              score: { playerOne: 6, playerTwo: 10 },
+              transferChallenges: [],
+              rounds: [
+                {
+                  roundNumber: 1,
+                  winner: 'playerTwo',
+                  playerOne: {
+                    leaguePosition: 3,
+                    leaguePoints: 80,
+                    leagueGoals: 80,
+                    domesticCup: true,
+                    championsLeague: false,
+                    topScorer: false,
+                    topAssist: false,
+                    scoring: { total: 1, performanceBonus: 0, individualAwardsBonus: 0 }
+                  },
+                  playerTwo: {
+                    leaguePosition: 1,
+                    leaguePoints: 95,
+                    leagueGoals: 100,
+                    domesticCup: false,
+                    championsLeague: false,
+                    topScorer: false,
+                    topAssist: true,
+                    scoring: { total: 5, performanceBonus: 1, individualAwardsBonus: 1 }
+                  }
+                },
+                {
+                  roundNumber: 2,
+                  winner: 'draw',
+                  playerOne: {
+                    leaguePosition: 2,
+                    leaguePoints: 88,
+                    leagueGoals: 91,
+                    domesticCup: false,
+                    championsLeague: true,
+                    topScorer: false,
+                    topAssist: false,
+                    scoring: { total: 5, performanceBonus: 0, individualAwardsBonus: 0 }
+                  },
+                  playerTwo: {
+                    leaguePosition: 2,
+                    leaguePoints: 88,
+                    leagueGoals: 92,
+                    domesticCup: false,
+                    championsLeague: true,
+                    topScorer: false,
+                    topAssist: false,
+                    scoring: { total: 5, performanceBonus: 0, individualAwardsBonus: 0 }
+                  }
+                }
+              ]
+            }
+          ];
+
+          const career = api.buildCareerAnalytics(history);
+          assert.strictEqual(career.totals.showdowns, 2, 'Career totals must count completed showdowns once.');
+          assert.strictEqual(career.totals.seasons, 3, 'Career totals must count showdown seasons once, not once per manager.');
+          assert.strictEqual(career.totals.points, 27, 'Career points total must equal both managers final showdown points.');
+          assert.strictEqual(career.totals.trophies, 7, 'Career trophy total must include league, domestic-cup and Champions League wins.');
+          assert.strictEqual(career.managers.length, 2, 'Two stable manager identities should produce two career rows.');
+
+          const alex = career.managers.find(manager => manager.name === 'Alex');
+          const jordan = career.managers.find(manager => manager.name === 'Jordan');
+          assert.ok(alex && jordan, 'Both managers must exist in Career Statistics.');
+          assert.strictEqual(alex.showdowns, 2, 'Alex showdown count is incorrect.');
+          assert.strictEqual(jordan.showdowns, 2, 'Jordan showdown count is incorrect.');
+          assert.strictEqual(alex.showdownWins, 1, 'Alex showdown-win count is incorrect.');
+          assert.strictEqual(jordan.showdownWins, 1, 'Jordan showdown-win count is incorrect.');
+          assert.strictEqual(alex.totalPoints, 12, 'Alex career points are incorrect.');
+          assert.strictEqual(jordan.totalPoints, 15, 'Jordan career points are incorrect.');
+          assert.strictEqual(alex.totalTrophies, 4, 'Alex trophy total is incorrect.');
+          assert.strictEqual(jordan.totalTrophies, 3, 'Jordan trophy total is incorrect.');
+          assert.strictEqual(alex.signings, 2, 'Alex transfer signing accumulation is incorrect.');
+          assert.strictEqual(alex.releasedSignings, 1, 'Alex release accumulation is incorrect.');
+          assert.strictEqual(jordan.signings, 1, 'Jordan transfer signing accumulation is incorrect.');
+          assert.strictEqual(career.records.highestLeaguePoints.value, 100, 'Highest league-points record is incorrect.');
+          assert.strictEqual(career.records.highestLeagueGoals.value, 100, 'Highest league-goals record is incorrect.');
+          assert.strictEqual(career.records.highestSeasonScore.value, 6, 'Highest season-score record is incorrect.');
+          assert.strictEqual(career.managers[0].name, 'Alex', 'Career table tie-break should keep the manager with more trophies first.');
+
+          const rivalry = api.buildRivalryAnalytics(history[0]);
+          assert.strictEqual(rivalry.playerOne.name, 'Alex', 'Rivalry manager identity changed.');
+          assert.strictEqual(rivalry.playerOne.totalPoints, 6, 'Rivalry points are incorrect.');
+          assert.strictEqual(rivalry.playerTwo.totalPoints, 5, 'Rivalry points are incorrect.');
+          assert.strictEqual(rivalry.seasonRows.length, 1, 'Rivalry season progression is incorrect.');
+          assert.strictEqual(rivalry.seasonRows[0].winner, 'playerOne', 'Rivalry season winner is incorrect.');
+
+          console.log('Career totals, manager records, trophy accumulation, transfer totals, and Rivalry Statistics fixtures passed.');
+          NODE
+
+      - name: Validate Main Menu Statistics architecture
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const optional = fs.readFileSync('js/optionalModules.js', 'utf8');
+          const screens = fs.readFileSync('js/screens.js', 'utf8');
+          const statistics = fs.readFileSync('js/statistics.js', 'utf8');
+          const trophy = fs.readFileSync('js/trophyRoom.js', 'utf8');
+          const diagnostics = fs.readFileSync('js/diagnostics.js', 'utf8');
+
+          assert.ok(html.includes('id="careerStatisticsButton"'), 'Home Statistics tile is missing.');
+          assert.ok(html.includes('<span class="menuTileLabel">STATISTICS</span>'), 'Home tile is not labelled Statistics.');
+          assert.ok(!html.includes('id="trophyRoomButton"'), 'Trophy Room must not remain a competing top-level Home tile.');
+          assert.ok(html.includes('content="0.95.0-r7"'), 'r7 asset revision is missing from the shell.');
+
+          const localRefs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)/g)].map(match => match[1]);
+          const initialJs = localRefs.filter(ref => ref.startsWith('js/'));
+          const initialCss = localRefs.filter(ref => ref.startsWith('css/'));
+          assert.strictEqual(initialJs.length, 7, 'Statistics alignment must not add startup JavaScript.');
+          assert.deepStrictEqual(initialCss, ['css/app.css'], 'Statistics alignment must not add startup CSS.');
+          ['js/analytics.js', 'js/statistics.js', 'js/trophyRoom.js', 'css/analytics.css'].forEach(asset => {
+            assert.ok(!localRefs.includes(asset), `${asset} must remain lazy.`);
+          });
+
+          assert.ok(optional.includes('document.getElementById("careerStatisticsButton"), "careerStatistics", "careerStatisticsBound"'), 'Home Statistics tile is not owned by the optional-module loader.');
+          assert.ok(optional.includes('window.openCareerStatistics()'), 'Career Statistics open path is missing.');
+          assert.ok(optional.includes('window.openTrophyRoom()'), 'Trophy Room destination was lost.');
+          const statisticsLoader = optional.slice(
+            optional.indexOf('async function ensureStatisticsModule'),
+            optional.indexOf('async function ensureTrophyRoomModule')
+          );
+          assert.ok(statisticsLoader && !statisticsLoader.includes('ensureGameplayModules'), 'Career Statistics must not wake the full gameplay runtime.');
+
+          assert.ok(statistics.includes('section.id = "careerStatistics"'), 'Career Statistics screen is missing.');
+          assert.ok(statistics.includes('buildCareerAnalytics()'), 'Career Statistics must reuse the established analytics engine.');
+          assert.ok(statistics.includes('createCareerStandingsTable'), 'Career Statistics career table is missing.');
+          assert.ok(statistics.includes('MANAGER COMPARISON'), 'Career manager comparison is missing.');
+          assert.ok(statistics.includes('CAREER LEADERS'), 'Career leader summary is missing.');
+          assert.ok(statistics.includes('CURRENT RIVALRY STATISTICS'), 'Current-rivalry bridge is missing.');
+          assert.ok(statistics.includes('OPEN TROPHY ROOM'), 'Trophy Room bridge is missing.');
+          assert.ok(statistics.includes('window.openCareerStatistics = openCareerStatistics'), 'Career Statistics API export is missing.');
+          assert.ok(statistics.includes('window.openRivalryStatistics = openRivalryStatistics'), 'Existing Rivalry Statistics API was lost.');
+
+          assert.ok(trophy.includes('createCareerStandingsTable(analytics.managers)'), 'Trophy Room must reuse the shared career-table renderer.');
+          assert.ok(!trophy.includes('function createCareerStandingsTable('), 'Trophy Room must not duplicate the career-table renderer.');
+          assert.ok(trophy.includes('MANAGER CABINETS'), 'Trophy Room cabinets were lost.');
+          assert.ok(trophy.includes('ALL-TIME RECORDS'), 'Trophy Room records were lost.');
+
+          assert.ok(screens.includes('"careerStatistics"'), 'Career Statistics is not registered with central navigation.');
+          assert.ok(screens.includes('careerStatistics: ["mainMenu"]'), 'Career Statistics Back policy must return to Home.');
+          assert.ok(screens.includes('trophyRoom: ["dashboard", "careerStatistics", "mainMenu"]'), 'Trophy Room contextual Back policy is missing.');
+          const gameplaySet = screens.slice(screens.indexOf('const GAMEPLAY_SCREENS'), screens.indexOf('const SAFE_BACK_TARGETS'));
+          assert.ok(!gameplaySet.includes('"statistics"'), 'Read-only analytics screens must not be classified as gameplay-runtime routes.');
+          assert.ok(!gameplaySet.includes('"careerStatistics"'), 'Career Statistics must remain a lightweight non-gameplay route.');
+
+          assert.ok(diagnostics.includes('"careerStatisticsButton"'), 'Runtime diagnostics do not verify the Home Statistics entry.');
+          assert.ok(diagnostics.includes('["careerStatisticsButton", "careerStatisticsBound"]'), 'Runtime diagnostics do not verify Statistics binding.');
+
+          const analyticsNamedFiles = fs.readdirSync('js').filter(file => /analytics/i.test(file)).sort();
+          assert.deepStrictEqual(analyticsNamedFiles, ['analytics.js'], 'Workstream 4 must not create a second analytics engine.');
+
+          console.log('Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, and route contracts passed.');
+          NODE
