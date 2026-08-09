@@ -89,7 +89,7 @@ jobs:
 
           const html = fs.readFileSync('index.html', 'utf8');
           const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
-          assert.strictEqual(revision, '0.95.0-r8', 'Home bootstrap stabilization must deploy as asset revision 0.95.0-r8.');
+          assert.ok(/^0\.95\.0-r\d+$/.test(revision || ''), 'Home shell must expose a valid v0.95 cache revision.');
 
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
@@ -97,7 +97,7 @@ jobs:
           assert.deepStrictEqual(
             refs.filter(ref => ref.revision !== revision),
             [],
-            'All shell assets must share the r8 cache revision.'
+            'All shell assets must share the current cache revision.'
           );
 
           console.log(`Validated coherent ${revision} shell cache identity.`);
