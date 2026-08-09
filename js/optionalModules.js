@@ -1,24 +1,27 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
-   Resilient On-Demand View Module Loader
+   v0.16.0
+   Unified On-Demand Runtime Module Loader
 ===================================================== */
 
-const OPTIONAL_ASSET_REVISION = "0.15.1-r1";
+const OPTIONAL_ASSET_REVISION = "0.16.0-r1";
 const OPTIONAL_LOAD_TIMEOUT_MS = 12000;
-const optionalScriptPromises = new Map();
-const optionalStylePromises = new Map();
+const runtimeScriptPromises = new Map();
+const runtimeStylePromises = new Map();
 const optionalModuleStates = new Map();
 let optionalModulesInitialized = false;
 let optionalOpenRequestId = 0;
+let gameplayRuntimeState = "idle";
+let gameplayRuntimePromise = null;
+let gameplayRuntimeInitialized = false;
 
 function optionalAssetUrl(path){
     return `${path}?v=${OPTIONAL_ASSET_REVISION}`;
 }
 
-function loadOptionalStyle(key, path){
-    if(optionalStylePromises.has(key)){
-        return optionalStylePromises.get(key);
+function loadRuntimeStyle(key, path){
+    if(runtimeStylePromises.has(key)){
+        return runtimeStylePromises.get(key);
     }
 
     const existing = document.querySelector(`link[data-optional-style="${key}"]`);
@@ -54,7 +57,7 @@ function loadOptionalStyle(key, path){
             settled = true;
             cleanup();
             link.remove();
-            optionalStylePromises.delete(key);
+            runtimeStylePromises.delete(key);
             reject(new Error(`Unable to load ${path}.`));
         };
 
@@ -64,7 +67,7 @@ function loadOptionalStyle(key, path){
             link.removeEventListener("load", handleLoad);
             link.removeEventListener("error", handleError);
             link.remove();
-            optionalStylePromises.delete(key);
+            runtimeStylePromises.delete(key);
             reject(new Error(`${path} timed out while loading.`));
         }, OPTIONAL_LOAD_TIMEOUT_MS);
 
@@ -72,26 +75,26 @@ function loadOptionalStyle(key, path){
         link.addEventListener("error", handleError, { once: true });
 
         if(!existing){
-            const theme = document.getElementById("fifa17Theme");
-            if(theme && theme.parentNode === document.head){
-                document.head.insertBefore(link, theme);
+            const appStyles = document.getElementById("appStyles");
+            if(appStyles && appStyles.parentNode === document.head){
+                document.head.insertBefore(link, appStyles);
             }else{
                 document.head.appendChild(link);
             }
         }
     });
 
-    optionalStylePromises.set(key, promise);
+    runtimeStylePromises.set(key, promise);
     return promise;
 }
 
-function loadOptionalScript(key, path, readinessCheck){
+function loadRuntimeScript(key, path, readinessCheck){
     if(typeof readinessCheck === "function" && readinessCheck()){
         return Promise.resolve(true);
     }
 
-    if(optionalScriptPromises.has(key)){
-        return optionalScriptPromises.get(key);
+    if(runtimeScriptPromises.has(key)){
+        return runtimeScriptPromises.get(key);
     }
 
     const promise = new Promise((resolve, reject) => {
@@ -99,7 +102,7 @@ function loadOptionalScript(key, path, readinessCheck){
         let settled = false;
         script.src = optionalAssetUrl(path);
         script.async = false;
-        script.dataset.optionalScript = key;
+        script.dataset.runtimeScript = key;
 
         const cleanup = () => {
             script.removeEventListener("load", handleLoad);
@@ -112,7 +115,7 @@ function loadOptionalScript(key, path, readinessCheck){
             settled = true;
             cleanup();
             script.remove();
-            optionalScriptPromises.delete(key);
+            runtimeScriptPromises.delete(key);
             reject(new Error(message));
         };
 
@@ -126,7 +129,7 @@ function loadOptionalScript(key, path, readinessCheck){
         const handleLoad = () => {
             if(settled){ return; }
             if(typeof readinessCheck === "function" && !readinessCheck()){
-                failExecuted(`${path} loaded but did not expose its expected API. Refresh before retrying this view.`);
+                failExecuted(`${path} loaded but did not expose its expected API. Refresh before retrying this module.`);
                 return;
             }
             settled = true;
@@ -145,12 +148,120 @@ function loadOptionalScript(key, path, readinessCheck){
         document.head.appendChild(script);
     });
 
-    optionalScriptPromises.set(key, promise);
+    runtimeScriptPromises.set(key, promise);
     return promise;
 }
 
+function initializeGameplayRuntime(){
+    if(gameplayRuntimeInitialized){ return; }
+
+    const initializers = [
+        ["initializeShowdownUI", window.initializeShowdownUI],
+        ["initializeLeagueWheel", window.initializeLeagueWheel],
+        ["initializeClubAssignment", window.initializeClubAssignment],
+        ["initializeTransferChallenge", window.initializeTransferChallenge],
+        ["initializeSeasonEngine", window.initializeSeasonEngine]
+    ];
+
+    initializers.forEach(([name, initializer]) => {
+        if(typeof initializer !== "function"){
+            throw new Error(`Gameplay initializer is unavailable: ${name}`);
+        }
+        initializer();
+    });
+
+    gameplayRuntimeInitialized = true;
+}
+
+async function loadGameplayRuntimeFiles(){
+    await loadRuntimeScript(
+        "league-data",
+        "data/leagues.js",
+        () => typeof leagues !== "undefined" && Array.isArray(leagues)
+    );
+    await loadRuntimeScript(
+        "club-data",
+        "data/clubs.js",
+        () => typeof window.getClubsForLeague === "function" && typeof window.getRandomClubPair === "function"
+    );
+    await loadRuntimeScript(
+        "data-engine",
+        "js/dataEngine.js",
+        () => typeof window.getRandomLeague === "function"
+    );
+    await loadRuntimeScript(
+        "visual-identity",
+        "js/visualIdentity.js",
+        () => typeof window.applyClubIdentity === "function" && typeof window.refreshClubVisualIdentity === "function"
+    );
+    await loadRuntimeScript(
+        "showdown-ui",
+        "js/showdownUI.js",
+        () => typeof window.initializeShowdownUI === "function" && typeof window.updateShowdownUI === "function"
+    );
+    await loadRuntimeScript(
+        "league-wheel",
+        "js/leagueWheel.js",
+        () => typeof window.initializeLeagueWheel === "function" && typeof window.spinLeagueWheel === "function"
+    );
+    await loadRuntimeScript(
+        "club-assignment",
+        "js/clubAssignment.js",
+        () => typeof window.initializeClubAssignment === "function" && typeof window.prepareClubAssignment === "function"
+    );
+    await loadRuntimeScript(
+        "transfer-challenge",
+        "js/transferChallenge.js",
+        () => typeof window.initializeTransferChallenge === "function" && typeof window.openTransferChallenge === "function"
+    );
+    await loadRuntimeScript(
+        "season-engine",
+        "js/seasonEngine.js",
+        () => typeof window.initializeSeasonEngine === "function" && typeof window.openSeasonEntry === "function"
+    );
+}
+
+function ensureGameplayModules(){
+    if(gameplayRuntimeState === "ready"){
+        return Promise.resolve(true);
+    }
+    if(gameplayRuntimePromise){
+        return gameplayRuntimePromise;
+    }
+
+    gameplayRuntimeState = "loading";
+    gameplayRuntimePromise = (async () => {
+        try{
+            await loadGameplayRuntimeFiles();
+            initializeGameplayRuntime();
+            gameplayRuntimeState = "ready";
+            return true;
+        }catch(error){
+            gameplayRuntimeState = "error";
+            throw error;
+        }finally{
+            gameplayRuntimePromise = null;
+        }
+    })();
+
+    return gameplayRuntimePromise;
+}
+
+function getGameplayModuleState(){
+    return gameplayRuntimeState;
+}
+
+async function ensureDiagnosticsModule(){
+    await loadRuntimeScript(
+        "diagnostics",
+        "js/diagnostics.js",
+        () => typeof window.runApplicationDiagnostics === "function"
+    );
+    return true;
+}
+
 async function ensureAnalyticsEngine(){
-    await loadOptionalScript(
+    await loadRuntimeScript(
         "analytics-engine",
         "js/analytics.js",
         () => typeof window.buildRivalryAnalytics === "function" && typeof window.buildCareerAnalytics === "function"
@@ -159,7 +270,7 @@ async function ensureAnalyticsEngine(){
 
 async function ensureStatisticsScript(){
     await ensureAnalyticsEngine();
-    await loadOptionalScript(
+    await loadRuntimeScript(
         "statistics-ui",
         "js/statistics.js",
         () => typeof window.openRivalryStatistics === "function" && typeof window.createAnalyticsStat === "function"
@@ -167,15 +278,16 @@ async function ensureStatisticsScript(){
 }
 
 async function ensureStatisticsModule(){
-    const stylePromise = loadOptionalStyle("analytics-ui", "css/analytics.css");
+    await ensureGameplayModules();
+    const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
     await ensureStatisticsScript();
     await stylePromise;
 }
 
 async function ensureTrophyRoomModule(){
-    const stylePromise = loadOptionalStyle("analytics-ui", "css/analytics.css");
+    const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
     await ensureStatisticsScript();
-    await loadOptionalScript(
+    await loadRuntimeScript(
         "trophy-room-ui",
         "js/trophyRoom.js",
         () => typeof window.openTrophyRoom === "function"
@@ -184,8 +296,8 @@ async function ensureTrophyRoomModule(){
 }
 
 async function ensureLegacyModule(){
-    const stylePromise = loadOptionalStyle("legacy-ui", "css/legacy.css");
-    await loadOptionalScript(
+    const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
+    await loadRuntimeScript(
         "legacy-ui",
         "js/legacy.js",
         () => typeof window.renderLegacy === "function"
@@ -194,8 +306,8 @@ async function ensureLegacyModule(){
 }
 
 async function ensureRuleBookModule(){
-    const stylePromise = loadOptionalStyle("rule-book-ui", "css/rulebook.css");
-    await loadOptionalScript(
+    const stylePromise = loadRuntimeStyle("rule-book-ui", "css/rulebook.css");
+    await loadRuntimeScript(
         "rule-book-ui",
         "js/ruleBook.js",
         () => typeof window.openRuleBook === "function"
@@ -253,7 +365,9 @@ async function ensureOptionalModule(name){
 }
 
 function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
-    const currentScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : originScreen;
+    const currentScreen = typeof window.getActiveScreenName === "function"
+        ? window.getActiveScreenName()
+        : originScreen;
     const currentRevision = typeof window.getNavigationRevision === "function"
         ? window.getNavigationRevision()
         : originRevision;
@@ -265,7 +379,9 @@ function isOptionalOpenContextCurrent(originScreen, originRevision, requestId){
 
 async function openOptionalModule(name){
     const requestId = ++optionalOpenRequestId;
-    const originScreen = typeof getActiveScreenName === "function" ? getActiveScreenName() : null;
+    const originScreen = typeof window.getActiveScreenName === "function"
+        ? window.getActiveScreenName()
+        : null;
     const originRevision = typeof window.getNavigationRevision === "function"
         ? window.getNavigationRevision()
         : 0;
@@ -364,6 +480,9 @@ function getOptionalModuleState(){
 }
 
 window.initializeOptionalModules = initializeOptionalModules;
+window.ensureGameplayModules = ensureGameplayModules;
+window.getGameplayModuleState = getGameplayModuleState;
+window.ensureDiagnosticsModule = ensureDiagnosticsModule;
 window.ensureOptionalModule = ensureOptionalModule;
 window.openOptionalModule = openOptionalModule;
 window.getOptionalModuleState = getOptionalModuleState;
