@@ -3,10 +3,10 @@
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
 **Application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Runtime asset revision:** `0.95.0-r9`  
-**Current phase:** Workstream 5 — Season pre-commit review browser acceptance  
-**Owner-accepted gates:** `0.95.0-r4`, `0.95.0-r5`, `0.95.0-r6`, `0.95.0-r8`  
-**Next after r9 acceptance:** Workstream 6 — final v0.95 polish/regression, then v1.0
+**Runtime asset revision:** `0.95.0-r10`  
+**Current phase:** League Confirmation stabilization / owner browser acceptance  
+**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`  
+**Next after r10 acceptance:** Workstream 6 final v0.95 polish/regression → v1.0
 
 ## Development entry point
 
@@ -26,108 +26,91 @@ The release path remains **v0.95 → v1.0**.
 
 ---
 
-## Current r9 — Season pre-commit review
+## Current r10 — explicit League Wheel confirmation
 
-The previous Season Results flow validated the form and immediately wrote a completed Season. r9 inserts an explicit, non-persistent review checkpoint before the irreversible transaction.
+r10 fixes the reported auto-navigation bug after League selection.
 
-Current flow:
+Previous behavior:
 
-**Season Results → Review Season → Edit Results OR Confirm & Save Season → Season Summary**
+**Spin → selected league → automatic Club Assignment after a short delay**
 
-### Review contract
+Correct behavior now:
 
-Pressing **REVIEW SEASON**:
+**Spin → League Selected → stay on League Wheel → CONTINUE TO CLUB ASSIGNMENT → League Confirmed → Club Assignment**
 
-- validates both managers' required numeric fields;
-- captures the current form into an isolated memory-only snapshot;
-- calculates the existing locked scoring model and Season winner;
-- displays position, points, goals, achievement states, all score components, Season score, projected winner and projected overall Showdown score;
-- does not save to localStorage;
-- does not append a round;
-- does not change Showdown status/currentRound/score;
-- creates no new persistence key.
+The old post-spin advance timer has been removed.
 
-**EDIT RESULTS** returns to the same form with values intact and invalidates the old review snapshot.
+### Reliability contract
 
-### Confirmation contract
+After the spin:
 
-**CONFIRM & SAVE SEASON** is the only new Season persistence boundary.
+- the selected league is persisted and cannot be rerolled;
+- the application remains on the League Wheel indefinitely;
+- refresh / Continue Career returns to the League Wheel with the same league;
+- Club Assignment is not a legal route until explicit confirmation.
 
-Before saving it:
+On Continue:
 
-- verifies Showdown identity and Season number;
-- verifies the Transfer Challenge is still complete;
-- rejects an already-completed Season;
-- recomputes canonical scoring/winner data from reviewed raw values;
-- checks the deterministic review fingerprint;
-- blocks a changed/tampered review snapshot;
-- creates the completion timestamp only at final confirmation.
+- status changes from `League Selected` to `League Confirmed`;
+- confirmation is critically saved before navigation;
+- failed storage rolls status back and blocks Club Assignment;
+- successful confirmation opens Club Assignment exactly once.
 
-It then uses the existing rollback-protected `persistCompletedSeason()` transaction. If browser storage rejects the critical write, rounds/currentRound/status/completedAt/score are restored and the Review remains available to retry or edit.
+`js/screens.js` independently protects the same route boundary, so refresh/resume/fallback navigation cannot bypass the Continue checkpoint.
 
-Completed Seasons remain read-only.
-
-### Lightweight presentation
-
-`css/season.css` is lazy-loaded with gameplay. Home startup remains exactly one local stylesheet and seven local scripts.
-
-Season Review remains inside the existing `seasonEntry` route, so `js/screens.js` is still the sole route/history authority.
-
-Responsive guards cover Chromebook low-height layouts, mobile and small phones.
-
-### Regression protection
-
-Dedicated GitHub Actions workflow: **Validate Season Review**.
-
-It protects canonical scoring/winner behavior, the non-persistent Review boundary, deterministic snapshot integrity, tamper blocking, final-confirmation-only persistence, rollback preservation, lazy loading and responsive guards.
-
-Runtime diagnostics also verify Review/Confirm/Edit APIs and binding markers once gameplay is loaded.
+Dedicated **Validate League Confirmation** and the Static App route matrix protect this behavior.
 
 ---
 
-## Accepted r8 — Career Statistics + Home bootstrap stabilization
+## Accepted r9 — Season pre-commit review
 
-Workstream 4 is owner accepted.
-
-The Home Statistics architecture remains:
-
-- **Career Statistics** — permanent all-time completed-career data from Home.
-- **Rivalry Statistics** — current loaded showdown only, contextual to Showdown Home.
-- **Trophy Room** — detailed honours cabinets/all-time records, opened contextually.
-
-All use the established `js/analytics.js` engine; no second analytics model/storage layer exists.
-
-r8 permanently fixed the r7 Home bootstrap bug where a removed Trophy Room Home ID could abort media initialization. Home tile decoration is independent, media bootstrap self-validates, and **Validate Home Bootstrap** protects the current seven-choice media/startup contract across later cache revisions.
-
----
-
-## Accepted r6 — Settings / motion accessibility
-
-Settings remains a lazy modal rather than a route. It provides application/build information, **Follow Device / Reduce Motion**, and safe access to existing Legacy Data Management.
-
-Application preferences use `careerModeShowdown.preferences`. System/browser reduced-motion always wins and the preference survives Showdown-data reset.
-
-League Wheel and Club Reveal consume the same effective reduced-motion contract.
-
----
-
-## Accepted r5 — phased Transfer Challenge
+Owner browser testing accepted the Review / Edit / Confirm engine.
 
 Locked flow:
 
-**15-minute Transfer Window → Guess Entry → lock guesses → Signing Entry → lock signings → canonical verdicts → Season Results**
+**Season Results → Review Season → Edit Results OR Confirm & Save Season → Season Summary**
 
-Accepted r5 includes persistent Transfer sub-phases, critical save/rollback, debounced drafts, old-save migration, 36 FIFA 17 Transfer League options, 164 FIFA 17 player nationalities, searchable canonical selectors and one persisted deadline/visible timer loop maximum.
+Preserve:
 
-The Showdown League Wheel remains exactly five leagues.
+- Review is memory-only and does not persist;
+- canonical max-11 scoring and winner logic;
+- deterministic review fingerprint/tamper detection;
+- Edit preserves entered form values and invalidates the old snapshot;
+- Confirm revalidates Showdown/Season/Transfer context and recomputes canonical score/winner;
+- completion timestamp only at confirmation;
+- existing critical save/rollback transaction;
+- double-submit protection;
+- lazy `css/season.css`;
+- no Review route or storage key.
 
 ---
 
-## Accepted r4 — FIFA-era presentation / Club Reveal
+## Other accepted v0.95 baselines
 
-Preserve fallback-safe Barlow Condensed display hierarchy, original deterministic procedural identities for all 98 clubs, two sealed Showdown packs, save-before-reveal rollback, permanent no-reroll club pair, explicit Rivalry Confirmation and Chromebook/mobile presentation.
+### r8 — Career Statistics / Home bootstrap
 
-No official club badge images/vector paths or proprietary FIFA/EA font files are bundled.
+- Home **STATISTICS** opens all-time Career Statistics.
+- Rivalry Statistics remains current-showdown only.
+- Trophy Room remains honours/all-time-record detail.
+- `js/analytics.js` remains the single analytics calculation engine.
+- Home media bootstrap is self-validating and keeps exactly seven accepted choices.
+- no media iframe before explicit Play.
+
+### r6 — Settings / motion accessibility
+
+Settings remains a lazy modal. `careerModeShowdown.preferences` stores the Reduce Motion preference; device/browser reduced motion always wins. Showdown-data reset preserves this app preference.
+
+### r5 — phased Transfer Challenge
+
+**15-minute Transfer Window → Guess Entry → lock guesses → Signing Entry → lock signings → canonical verdicts → Season Results**
+
+Preserve maximum three signings each, three opponent guesses, League/Nationality guess types, correctly guessed signing released, canonical FIFA-17-era metadata/selectors, critical save rollback and debounced drafts.
+
+### r4 — FIFA-era presentation / Club Reveal
+
+Preserve original procedural identities for all 98 clubs, exactly two sealed Showdown packs, one permanent same-league/different-club pair, save-before-reveal rollback, no reroll, explicit Rivalry Confirmation, refresh recovery and reduced-motion support.
+
+No official club badges, copied EA/FIFA UI art, proprietary FIFA fonts or copied interface audio are bundled.
 
 ---
 
@@ -136,49 +119,21 @@ No official club badge images/vector paths or proprietary FIFA/EA font files are
 - Exactly two managers, one device/browser in v1.
 - Same selected league, two different permanent clubs.
 - Showdown length: 1 / 3 / 5 / 10 seasons.
-- Transfer Challenge: 15 minutes, maximum three signings each, three opponent guesses, League or Nationality, correctly guessed signing must be released.
+- Transfer Challenge: 15 minutes, maximum three signings each, three opponent guesses, League or Nationality, correctly guessed signing released.
 - Champions League winner: +5.
 - League winner: +3.
 - Main domestic cup winner: +1.
 - 100 league points and/or 100 league goals: +1 maximum for the pair.
 - Top Scorer and/or Top Assist: +1 maximum for the pair.
-- Maximum score per manager per season: **11**.
+- Maximum per manager per Season: **11**.
 - Equal non-zero scores are a draw.
-- Only 0-0 uses league position, then league points.
+- Only 0–0 uses league position, then league points.
 
 ---
 
-## Current feature set
+## Performance / architecture
 
-- New/resumable showdowns
-- five-league League Wheel
-- permanent same-league Club Assignment
-- 98 original procedural club identities
-- two-pack Club Reveal / Rivalry Confirmation
-- Showdown Home
-- phased Transfer Challenge
-- canonical FIFA 17 Transfer selectors
-- Season Results
-- **Season pre-commit Review / Confirm safeguard**
-- automatic locked scoring
-- Season Summary / multi-season progression
-- completed-showdown recovery hub
-- Legacy history / Data Management
-- Career Statistics
-- current Rivalry Statistics
-- Trophy Room
-- Rule Book
-- Settings / persistent motion accessibility
-- lazy soundtrack/trailer media
-- centralized state-aware Back navigation
-- runtime diagnostics
-- Chromebook/laptop/mobile responsive presentation
-
----
-
-## Performance contract
-
-Initial local runtime remains exactly:
+Initial local runtime remains exactly one local stylesheet plus seven scripts:
 
 - `css/app.css`
 - `js/storage.js`
@@ -189,60 +144,34 @@ Initial local runtime remains exactly:
 - `js/optionalModules.js`
 - `js/app.js`
 
-Gameplay/feature assets remain lazy, including `css/season.css`. CI enforces one initial local stylesheet, seven initial JavaScript files and the established startup byte ceiling.
+Gameplay, Transfer data/selectors, Season Review CSS, analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy.
 
-Menu media creates no iframe until explicit Play.
-
----
-
-## Reliability contract
-
-Preserve:
-
-- one-pair/no-reroll Club Assignment;
-- save-before-reveal rollback;
-- refresh/Continue same-pair recovery;
-- explicit Transfer Window → Guess → Signing → Completed phases;
-- canonical Transfer values/verdicts;
-- critical Transfer save/rollback;
-- debounced/deduplicated drafts;
-- persisted Transfer deadline;
-- Season Review with no persistence before final confirmation;
-- reviewed-snapshot fingerprint verification;
-- Season completion rollback;
-- centralized state-aware Back routing;
-- completed-showdown recovery;
-- isolated Settings preferences;
-- one analytics engine;
-- derived/read-only career analytics;
-- shell-owned asset revision;
-- stale async-operation identity guards;
-- reduced-motion behavior;
-- Chromebook/mobile viewport guards.
+`js/screens.js` is the sole route/history authority. `js/storage.js` remains persistence authority. Statistics remain derived; Season Review remains ephemeral.
 
 ---
 
 ## Automated validation
 
-Six GitHub Actions gates now protect v0.95:
+Seven GitHub Actions gates protect the current v0.95 build:
 
-- **Validate Static App** — syntax, scoring, route matrix, Club Assignment, original crests, startup budget, Back authority and responsive shell.
-- **Validate Home Bootstrap** — current Home IDs, seven media choices, Play/Mute initialization and revision coherence.
-- **Validate Transfer Workstream** — accepted r5 Transfer state/data/selectors.
-- **Validate Settings Workstream** — accepted r6 preference/accessibility/reset isolation.
-- **Validate Statistics Workstream** — completed-history analytics fixtures and shared/lazy analytics architecture.
-- **Validate Season Review** — r9 pre-commit snapshot/persistence/rollback boundary and responsive review presentation.
+- **Validate Static App** — syntax, scoring, route matrix, Club Assignment, procedural crests, startup budget, Smart Back and responsive shell.
+- **Validate Home Bootstrap** — Home IDs/media bootstrap/revision coherence.
+- **Validate Transfer Workstream** — accepted Transfer state/data/selectors.
+- **Validate Settings Workstream** — preference/accessibility/reset isolation.
+- **Validate Statistics Workstream** — analytics fixtures and shared/lazy architecture.
+- **Validate Season Review** — non-persistent Review and confirmation-only transaction boundary.
+- **Validate League Confirmation** — explicit Continue, save-before-navigation, rollback and refresh/resume route boundary.
 
-Automated checks do not replace owner Chromebook/mobile acceptance. See `NEXT_TASK.md` for the r9 browser checklist.
+Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r10 checklist.
 
 ---
 
 ## Remaining release path
 
-1. **Workstream 5 — current r9 Season Review browser acceptance**
+1. **r10 League Confirmation browser acceptance**
 2. **Workstream 6 — final v0.95 polish/regression**
    - includes the owner-requested quality-gated FIFA-era navigation transition and original micro click-feedback experiment;
-   - ship it only if it is smoother than the current behavior on real Chromebook/mobile devices and fully respects reduced-motion/central routing.
+   - ship only if it stays exceptionally smooth, central-router-safe and reduced-motion-safe on Chromebook/mobile.
 3. **v1.0 Complete Release Candidate / Final Release**
 
-No v0.17/v0.18 replacement roadmap is planned.
+No replacement v0.17/v0.18 roadmap is planned.
