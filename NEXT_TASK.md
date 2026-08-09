@@ -1,267 +1,224 @@
 # NEXT TASK
 
-## Current gate: v0.95.0-r1 FUT-style Club Reveal / Rivalry Confirmation acceptance
+## Current gate: v0.95.0-r2 Club Reveal hotfix acceptance
 
-The owner accepted the previous **v0.16.0-r3** Chromebook/responsive stabilization build.
-
-Development has therefore rejoined the original Project Bible roadmap at **v0.95 — Polish / Blueprint Alignment**. The first carried-forward obligation from original v0.7 has now been implemented in source as **v0.95.0-r1**.
+Stay on **v0.95 Workstream 1**. Do not begin Settings or another blueprint-alignment workstream until the owner accepts this repair in the real browser.
 
 **Application version:** v0.95.0  
-**Asset revision:** `0.95.0-r1`
-
-Do not start Settings or another v0.95 workstream until this reveal build passes the real-browser acceptance below. If a defect is found, stay on this workstream and fix the root cause without changing gameplay rules or weakening the established architecture.
+**Deployed asset revision:** `0.95.0-r2`
 
 ---
 
-# What v0.95.0-r1 implements
+# Why r2 exists
 
-Club Assignment now follows the original experiential sequence:
+Owner testing of `0.95.0-r1` found two concrete defects:
 
-**Selected League Confirmed  
-→ Reveal Begins  
-→ Manager 1 Club Revealed  
-→ Manager 2 Club Revealed  
-→ Final VS Rivalry Presentation  
-→ User Confirms Rivalry  
-→ Showdown Home**
+1. startup displayed a false integrity error:
+   `Application integrity check failed. version mismatch: runtime version is 0.95.0`
+2. Club Assignment presentation was visually poor on Chromebook:
+   - reveal cards/boxes appeared misaligned;
+   - angled card geometry made alignment worse;
+   - reveal animation did not feel clean or polished.
 
-The implementation preserves the hardened assignment contract:
+These defects must be resolved before Workstream 1 can be accepted.
 
-- exactly one random pair;
+---
+
+# r2 implementation
+
+## Diagnostics repair
+
+`js/diagnostics.js` no longer hard-codes an old release version.
+
+The expected runtime version is now derived from the shell-owned `app-asset-revision` value, so a valid release such as `0.95.0-r2` expects runtime version `0.95.0` automatically.
+
+This prevents the previous false-positive integrity warning from recurring merely because the release milestone changes.
+
+## Chromebook reveal geometry repair
+
+Club Reveal now installs its responsive presentation rules only when the lazy Club Assignment module is initialized.
+
+The repair:
+
+- removes the angled `clip-path` card geometry;
+- forces both manager cards into the same equal-width/equal-height grid tracks;
+- constrains long manager/club names safely;
+- gives both generated club identities identical measured space;
+- uses a dedicated low-height desktop breakpoint for Chromebook/laptop viewports;
+- reduces unnecessary vertical pressure;
+- keeps confirmation matchup sides equal in size;
+- preserves the mobile stacked layout;
+- does not add another initial stylesheet or startup script.
+
+## Reveal motion repair
+
+The old sweeping-light presentation is disabled.
+
+The finite sequence remains:
+
+**Opening → Manager 1 → Manager 2 → VS → Confirmation**
+
+but presentation is now shorter and cleaner:
+
+- sealed card opens vertically;
+- revealed card settles once;
+- second card reveals separately;
+- VS receives one short impact animation;
+- confirmation panel enters once;
+- no continuous animation loop;
+- no animation-phase storage writes;
+- reduced-motion behavior is still supported.
+
+Timings are now approximately:
+
+- Manager 1: 360 ms
+- Manager 2: 860 ms
+- VS: 1360 ms
+- confirmation ready: 1680 ms
+
+The random club pair is still persisted before theatrical stages begin.
+
+---
+
+# Integrity contract that must remain unchanged
+
+- exactly one random pair per showdown;
 - same selected league;
 - two different clubs;
-- pair persisted atomically before theatrical reveal begins;
-- failed save rolls the assignment back;
-- no storage writes for individual animation phases;
-- no reroll after a pair is saved;
-- finite/cancellable reveal timers;
-- stale callbacks are operation/showdown/league identity-safe;
-- `Clubs Assigned` is the persisted confirmation-pending state;
-- refresh/resume while confirmation is pending returns to Club Assignment with the same pair;
-- League Wheel remains invalid after a pair is saved;
-- Dashboard/Transfer routes remain invalid until explicit rivalry confirmation;
+- pair saved atomically before reveal;
+- failed assignment save rolls back;
+- no reroll after save;
+- stale reveal callbacks cannot mutate a replacement showdown;
+- `Clubs Assigned` remains confirmation-pending persistence state;
+- refresh/resume before confirmation restores the same pair;
+- League Wheel remains locked after assignment;
+- Dashboard/Transfer routes remain unavailable until confirmation;
 - confirmation changes status to `Ready` only after its save succeeds;
-- reduced-motion path skips/shortens theatrics while retaining all information;
-- reveal remains inside the lazy gameplay package;
-- one-stylesheet / maximum-seven-initial-script startup architecture is unchanged;
-- original generated club identities remain the copyright-safe visual foundation.
-
-GitHub Actions now validates the confirmation-pending route state in addition to the existing scoring/navigation/cache/startup contracts.
+- scoring and Transfer Challenge rules are untouched.
 
 ---
 
-# Part A — load the exact build
+# Required owner test
 
-Hard refresh once and confirm the footer reports:
+Hard refresh once so the browser receives **asset revision `0.95.0-r2`**.
 
-**v0.95.0 · Polish & Blueprint Alignment**
+## 1 — startup integrity
 
-The browser must receive asset revision `0.95.0-r1`.
+Open the site normally.
 
-If the old two-card screen is still visible after a hard refresh, treat that as a deployment/cache issue rather than judging the new reveal.
+Expected:
 
----
+- no red integrity notice reporting `runtime version is 0.95.0`;
+- Main Menu loads normally;
+- existing save/Continue behavior remains unchanged.
 
-# Part B — complete one fresh reveal
+If an integrity notice still appears, report its exact wording.
 
-Use a disposable new showdown.
+## 2 — Chromebook Club Assignment geometry
 
-1. Main Menu → New Showdown.
-2. Enter showdown name, both manager names and any 1 / 3 / 5 / 10 season count.
-3. Start Showdown.
-4. Spin the League Wheel once.
-5. Enter Club Assignment.
+Create a disposable showdown and reach Club Assignment.
 
-Before opening:
+Before reveal:
 
-- selected league is clearly confirmed;
-- both club cards are sealed;
-- progress display is visible;
-- Open Showdown Pack is available;
-- Back is available only before clubs are assigned.
+- left and right cards must be the same width;
+- left and right cards must be the same height;
+- manager labels must align;
+- inner card faces must align;
+- VS must sit centered between cards;
+- no card should appear skewed or visually lower than the other;
+- no horizontal overflow.
+
+On a low-height Chromebook/laptop viewport, the screen should remain compact and scroll naturally if necessary rather than overlap.
+
+## 3 — reveal quality
 
 Press **OPEN SHOWDOWN PACK**.
 
-Expected staged experience:
+Expected:
 
-1. opening state begins;
-2. Manager 1 club reveals first;
-3. Manager 2 club reveals separately afterward;
-4. central VS presentation becomes the focus;
-5. final rivalry confirmation panel appears.
+1. brief opening state;
+2. Manager 1 card opens/reveals cleanly;
+3. Manager 2 card opens/reveals separately;
+4. VS receives one short emphasis hit;
+5. final rivalry confirmation appears;
+6. motion ends completely.
 
-The final panel must show accurately:
+Look specifically for:
 
-- showdown name;
-- selected league;
-- season count;
-- Manager 1 name + assigned club;
-- Manager 2 name + assigned club;
-- central VS treatment;
-- explicit **CONFIRM RIVALRY & START SHOWDOWN** action.
+- no sweeping white bar;
+- no jerky card jumps;
+- no cards shifting to different sizes during reveal;
+- no long dead pauses;
+- no repeated/pulsing animation after confirmation.
 
-The two clubs must be different and both must belong to the selected league.
+## 4 — long-name resilience
 
----
-
-# Part C — permanence / no-reroll check
-
-Before pressing final confirmation:
-
-- there must be no Open/Reroll button;
-- Back must not reopen League Selection;
-- the displayed pair is already permanent;
-- clicking around must not generate another pair.
-
-Press **CONFIRM RIVALRY & START SHOWDOWN**.
+If practical, repeat until a relatively long club name appears.
 
 Expected:
 
-- Showdown Home opens;
-- exact same manager/club pairing is displayed;
-- selected league is unchanged;
-- season count is unchanged;
-- status has advanced from confirmation pending to normal Ready state.
+- name wraps inside the card rather than forcing the card wider/taller;
+- generated identity stays centered;
+- opposing card remains aligned.
 
-The confirmation action accepts the pair; it never randomizes or modifies the pair.
+## 5 — persistence/no-reroll regression
 
----
+After reveal, before confirmation:
 
-# Part D — refresh/resume recovery test
-
-This is a critical regression test.
-
-Create another disposable showdown and reveal the clubs, but **do not press final confirmation**.
-
-Once the final VS confirmation panel is visible:
-
-1. refresh the page;
-2. return to Main Menu if needed;
-3. press Continue Career.
+1. note both clubs;
+2. refresh;
+3. Continue Career.
 
 Expected:
 
-- Continue returns to **Club Assignment**, not Showdown Home;
-- the same two clubs remain assigned;
-- the final confirmation presentation is restored;
-- there is no second draw;
-- League Wheel cannot be reopened;
-- Transfer Challenge cannot be entered;
-- confirming the rivalry then opens Showdown Home normally.
+- same exact pair;
+- final confirmation restored;
+- no second random draw;
+- no return to League Wheel.
 
-This verifies that `Clubs Assigned` works as a persisted confirmation checkpoint rather than a reroll opportunity.
+Then confirm the rivalry and verify Showdown Home keeps the same clubs.
 
----
+## 6 — core smoke regression
 
-# Part E — responsive presentation
+After confirmation, verify:
 
-## Chromebook / desktop
-
-Confirm:
-
-- reveal shell fits naturally without overlapping header/footer;
-- both cards, central VS and confirmation panel remain readable;
-- the page scrolls if viewport height is short rather than overlapping content;
-- no regression to the previously accepted Home/media layout;
-- reveal animation does not make the page visibly stutter.
-
-## Mobile / narrow window
-
-Confirm:
-
-- club cards stack cleanly;
-- VS remains understandable between them;
-- final confirmation matchup stacks cleanly;
-- buttons remain fully reachable;
-- no horizontal page overflow;
-- text and generated club identities remain readable.
+- Transfer Challenge opens;
+- Season Results still open after completed transfer challenge;
+- existing scoring remains unchanged;
+- Back/Continue navigation still behaves normally.
 
 ---
 
-# Part F — reduced-motion behavior
+# Automated state
 
-When practical, enable the operating-system/browser reduced-motion preference and repeat Club Assignment.
+The exact `0.95.0-r2` code passed the existing **Validate Static App** workflow, including:
 
-Expected:
+- JavaScript syntax;
+- max-11 scoring regression cases;
+- confirmation-pending routing;
+- no-reroll setup-route lock;
+- cache-revision consistency;
+- one initial stylesheet;
+- maximum seven initial scripts;
+- no eager gameplay package;
+- startup byte budget;
+- Chromebook Home layout guards.
 
-- clubs are still assigned exactly once;
-- theatrical staging is skipped or effectively immediate;
-- both clubs and full final confirmation remain visible;
-- explicit confirmation is still required;
-- no information is lost.
+GitHub Pages also deployed the r2 commit successfully.
 
-Reduced motion changes presentation only, never persistence or gameplay.
-
----
-
-# Part G — core regression after confirmation
-
-After confirming a disposable rivalry, verify the previously accepted systems still work:
-
-- Showdown Home values are correct;
-- Transfer Challenge starts/resumes with its persisted 15-minute deadline;
-- transfer drafts persist;
-- transfer result locking works;
-- Season Results accepts valid data;
-- max-11 scoring remains correct;
-- Season Summary works;
-- multi-season progression retains the same clubs;
-- refresh/Continue routes safely;
-- final completion reaches Completed Showdown Home;
-- Legacy / Trophy Room / Rivalry Statistics / Rule Book still open safely;
-- destructive controls still confirm and report storage failures accurately.
-
-Use disposable data for destructive tests.
+Browser visual acceptance is still required because static CI cannot judge visual alignment/animation quality.
 
 ---
 
-# If a v0.95.0-r1 defect is found
+# After owner acceptance
 
-Remain on **v0.95 Workstream 1**.
+Only after the owner confirms:
 
-Process:
+- false integrity warning is gone;
+- Chromebook cards are aligned;
+- reveal motion is acceptable;
+- persistence/no-reroll still works;
 
-1. inspect current `main`;
-2. reproduce from persisted state and current route behavior;
-3. identify root cause;
-4. preserve one-pair/no-reroll assignment integrity;
-5. preserve locked gameplay/scoring/Transfer rules;
-6. preserve lazy-loading/startup budget/Chromebook fixes;
-7. make the smallest coherent fix;
-8. advance asset revision if deployed app bytes change;
-9. extend deterministic regression coverage when practical;
-10. inspect exact-head GitHub Actions;
-11. synchronize continuation documents when reality changes.
+mark **v0.95 Workstream 1 — FUT-style reveal/rivalry confirmation** accepted and proceed to **Workstream 2 — Settings blueprint alignment**.
 
-Do not use a reveal defect as justification for unrelated feature expansion.
-
----
-
-# After owner acceptance of v0.95.0-r1
-
-Mark the original v0.7 FUT-style reveal / rivalry-confirmation acceptance requirement complete.
-
-Then continue the finite v0.95 roadmap in this order:
-
-## Workstream 2 — Settings blueprint alignment
-
-Implement the small Settings surface from the original screen plan using existing architecture. Appropriate scope may include application information, reduced-motion/animation preference where useful, and safe data-management access. No accounts/cloud/online systems.
-
-## Workstream 3 — Main Menu Statistics alignment
-
-Expose cumulative Statistics appropriately from Main Menu by reusing the existing analytics/Trophy Room/Rivalry Statistics engines. Do not create a duplicate analytics system.
-
-## Workstream 4 — Season pre-commit review
-
-Inspect the current Complete Season flow and add a lightweight review/confirmation before irreversible season completion if no equivalent safety step exists. Historical completed seasons remain read-only.
-
-## Workstream 5 — final v0.95 polish/regression
-
-- responsive consistency;
-- accessibility/focus usability;
-- feedback/transitions;
-- performance;
-- full persistence/navigation/gameplay regression;
-- documentation synchronization.
-
-Then move directly to **v1.0 Complete Release Candidate / Final Release**. Do not create an unrelated v0.96/v0.97/v0.98 feature sequence unless a genuine release-fixing revision is required.
+If any reveal defect remains, stay on r2/r3 stabilization and fix that defect before moving forward.
