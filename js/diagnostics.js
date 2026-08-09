@@ -75,6 +75,9 @@ const GAMEPLAY_REQUIRED_FUNCTIONS = [
     "stopTransferTimerLoop",
     "openSeasonEntry",
     "completeCurrentSeason",
+    "confirmCurrentSeason",
+    "editSeasonResults",
+    "getSeasonReviewIntegrity",
     "calculatePlayerSeasonScore",
     "applyClubIdentity",
     "refreshClubVisualIdentity",
@@ -132,7 +135,9 @@ function getControlBindingProblems(gameplayReady){
             ["continueClubAssignment", "clubAssignmentBound"],
             ["seasonPrimaryAction", "transferPrimaryBound"],
             ["completeTransferChallenge", "transferCompleteBound"],
-            ["completeSeason", "seasonEngineBound"]
+            ["completeSeason", "seasonEngineBound"],
+            ["confirmSeasonCompletion", "seasonConfirmBound"],
+            ["editSeasonResults", "seasonEditBound"]
         );
     }
 
@@ -157,6 +162,23 @@ function getTransferInputBindingProblems(gameplayReady){
         }
         return problems;
     }, []);
+}
+
+function getSeasonReviewProblems(gameplayReady){
+    if(!gameplayReady){ return []; }
+    if(typeof window.getSeasonReviewIntegrity !== "function"){
+        return ["Season Review integrity API is unavailable"];
+    }
+
+    const integrity = window.getSeasonReviewIntegrity();
+    const problems = [];
+    if(Array.isArray(integrity.missing) && integrity.missing.length){
+        problems.push(`Season Review missing UI: ${integrity.missing.join(", ")}`);
+    }
+    if(Array.isArray(integrity.bindingProblems) && integrity.bindingProblems.length){
+        integrity.bindingProblems.forEach(problem => problems.push(`Season Review ${problem}`));
+    }
+    return problems;
 }
 
 function getMenuMediaProblems(){
@@ -329,6 +351,7 @@ function runApplicationDiagnostics(){
     const bindingProblems = [
         ...getControlBindingProblems(gameplayReady),
         ...getTransferInputBindingProblems(gameplayReady),
+        ...getSeasonReviewProblems(gameplayReady),
         ...getMenuMediaProblems(),
         ...getOptionalModuleProblems(),
         ...getVisualSystemProblems(),
@@ -363,6 +386,9 @@ function runApplicationDiagnostics(){
             : null,
         motion: typeof window.getApplicationMotionPreferenceState === "function"
             ? window.getApplicationMotionPreferenceState()
+            : null,
+        seasonReview: gameplayReady && typeof window.getSeasonReviewIntegrity === "function"
+            ? window.getSeasonReviewIntegrity()
             : null,
         lazyScreens: ["careerStatistics", "statistics", "trophyRoom", "legacy", "ruleBook", "settings"],
         optionalModules: typeof window.getOptionalModuleState === "function"
