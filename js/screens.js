@@ -49,6 +49,7 @@ let screenHistory = [];
 let activeScreenName = null;
 let navigationRevision = 0;
 let navigationBusy = false;
+let smartBackDelegationBound = false;
 
 function reportRouteError(message, error = null){
     if(typeof window.reportApplicationError === "function"){
@@ -604,6 +605,27 @@ function warmGameplayRuntime(){
     });
 }
 
+function initializeSmartBackDelegation(){
+    if(smartBackDelegationBound){
+        return;
+    }
+
+    smartBackDelegationBound = true;
+    document.addEventListener("click", event => {
+        const target = event.target instanceof Element
+            ? event.target.closest(".backButton")
+            : null;
+
+        if(!target || target.disabled || target.classList.contains("dangerButton")){
+            return;
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        navigateBackSmart();
+    }, true);
+}
+
 function initializeScreens(){
     const newShowdownButton = document.getElementById("newShowdown");
     const continueButton = document.getElementById("continueCareer");
@@ -622,9 +644,7 @@ function initializeScreens(){
         button.addEventListener("focus", warmGameplayRuntime, { passive: true });
     });
 
-    document.querySelectorAll("[data-smart-back]").forEach(button => {
-        bindNavigationButton(button, navigateBackSmart, "smartBackBound");
-    });
+    initializeSmartBackDelegation();
 }
 
 function getNavigationDiagnostics(){
@@ -633,7 +653,8 @@ function getNavigationDiagnostics(){
         canonicalScreen: resolveCanonicalShowdownRoute(),
         historyLength: screenHistory.length,
         history: screenHistory.slice(),
-        busy: navigationBusy
+        busy: navigationBusy,
+        backAuthority: smartBackDelegationBound ? "centralized" : "unbound"
     };
 }
 
