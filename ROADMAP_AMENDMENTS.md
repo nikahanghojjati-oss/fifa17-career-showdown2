@@ -238,50 +238,81 @@ Guess matching should compare canonical IDs/normalized values rather than arbitr
 
 ---
 
+# 7. FIFA-era navigation transition + micro click feedback — v0.95 Workstream 6
+
+## Goal
+
+Make navigation between menu destinations feel like a polished football-game UI rather than an abrupt web-page swap, while preserving the project's speed, reliability and clean presentation.
+
+This is an **owner-requested, quality-gated polish requirement**. It should ship only if the implementation feels exceptionally smooth on the real Chromebook and mobile browsers. If testing shows visible lag, layout jank, delayed controls, audio annoyance or reduced clarity, the feature must be simplified or omitted rather than lowering overall quality.
+
+## Screen transition requirements
+
+- Use the established FIFA-17-era-inspired visual language rather than copying proprietary EA transition assets.
+- Keep `js/screens.js` as the sole route/history authority; transition presentation must wrap the existing navigation transaction, not create a second router or parallel screen state.
+- Prefer compositor-friendly `transform` and `opacity` animation. Avoid layout-heavy animation of width/height/top/left where it could cause reflow or Chromebook jank.
+- Keep the transition short and responsive; it should provide momentum and polish without making navigation feel slower.
+- Prevent double-navigation, stale callbacks and mismatched route history while an animation is active.
+- Critical pending writes and route validation must complete according to existing rules; animation may never bypass, reorder or disguise a failed save/blocked navigation.
+- No full-screen video, canvas/WebGL requirement or heavy animation library.
+- Preserve focus movement and screen-reader semantics across navigation.
+- The existing reduced-motion preference/device request must suppress or substantially simplify the transition with no artificial delay.
+- Test mouse, keyboard and touch activation on Chromebook and mobile.
+
+## Micro click-feedback requirements
+
+- Add a very short, restrained menu-confirmation sound only if it improves responsiveness and polish.
+- The sound must be **originally synthesized/created for this project or otherwise safely licensed**; do not extract, copy or bundle an EA/FIFA menu sound.
+- Aim for a similar *functional impression* — crisp, minimal, football-game-menu feedback — rather than waveform imitation.
+- Trigger only from an explicit user interaction; no autoplay or surprise startup audio.
+- Do not interfere with soundtrack/trailer playback.
+- Avoid repeated/stacked audio when buttons are clicked rapidly.
+- Provide a clean way to respect user preference if audio feedback proves intrusive; do not bloat Settings merely to justify the feature.
+- Audio initialization/failure must never block navigation.
+
+## Quality gate
+
+Before acceptance, compare the experience with and without the feature on the actual target devices.
+
+Ship only if all are true:
+
+1. navigation feels smoother, not slower;
+2. no visible frame hitch/overlap on Chromebook low-height layouts;
+3. mobile remains fluid;
+4. reduced-motion behavior is immediate and correct;
+5. no route/history/persistence regression;
+6. the click cue sounds intentional and subtle rather than like a generic browser beep;
+7. no copied proprietary sound or transition asset is used.
+
+If these conditions cannot be met at release quality, keep the existing immediate transition rather than shipping a compromised imitation.
+
+---
+
 # Revised finite release order
 
-## Current — v0.95 Workstream 1A
+## Completed — v0.95 Workstream 1A / 1B
 
-`0.95.0-r3` Rule Book / optional-screen visual consistency and existing Club Reveal browser acceptance.
+Rule Book / optional-screen visual consistency, FIFA-era presentation, procedural club identities and two-pack reveal are implemented and owner accepted through the later stabilized builds.
 
-## Next — v0.95 Workstream 1B
+## Completed — v0.95 Workstream 2
 
-**FIFA 17 presentation / Club Reveal identity polish**
+Transfer Challenge phase separation, canonical FIFA 17 transfer data and responsive selectors are implemented and owner accepted.
 
-1. FIFA-17-like copyright-safe typography hierarchy, especially Home/Main Menu.
-2. Original per-club custom crest/identity system.
-3. Two-pack sequential suspense reveal.
-4. Full visual/contrast/responsive regression on Chromebook + mobile.
-5. Exact-head validation and owner acceptance.
+## Completed — v0.95 Workstream 3
 
-## Then — v0.95 Workstream 2
+Settings blueprint alignment and persistent reduced-motion accessibility are implemented and owner accepted.
 
-**Transfer Challenge phase + canonical data foundation**
+## Completed — v0.95 Workstream 4
 
-1. Separate Guess Entry from Signing Entry.
-2. Guesses come first; signings are entered on the next phase/screen.
-3. Add complete FIFA 17 former-league dataset for transfer metadata.
-4. Add complete FIFA 17 player-nationality dataset.
-5. Build responsive searchable selectors for league/nationality.
-6. Canonicalize guess evaluation.
-7. Preserve old saves and current 15-minute/max-3/three-guesses/release rules.
-8. Add deterministic state/routing/persistence tests.
+Main Menu Career Statistics alignment, Rivalry Statistics and Trophy Room integration are implemented and owner accepted after r8 Home-bootstrap stabilization.
 
-## Workstream 3
-
-Settings blueprint alignment.
-
-## Workstream 4
-
-Main Menu Statistics alignment using the existing analytics engines.
-
-## Workstream 5
+## Current — v0.95 Workstream 5
 
 Season pre-commit review/confirmation.
 
-## Workstream 6
+## Then — v0.95 Workstream 6
 
-Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression.
+Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression, including the **quality-gated FIFA-era navigation transition and original micro click-feedback experiment** above.
 
 ## v1.0
 
@@ -301,7 +332,7 @@ Two-device/private-manager architecture may consume the already-separated Transf
 - Do not weaken one-pair/no-reroll club assignment.
 - Do not weaken critical-save rollback or centralized navigation.
 - Do not move lazy gameplay/optional packages into startup without a measured reason.
-- Do not use copied EA/FUT UI graphics or proprietary fonts.
+- Do not use copied EA/FUT UI graphics, proprietary fonts or copied EA/FIFA interface audio.
 - Do not use official club crests by default.
 - Keep mobile and Chromebook support first-class.
 - Future two-device compatibility must build on this architecture rather than forcing a rewrite of the one-device v1.0 flow.
