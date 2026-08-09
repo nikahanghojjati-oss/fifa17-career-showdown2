@@ -1,359 +1,344 @@
 # NEXT TASK
 
-## Current gate: v0.95.0-r6 Workstream 3 browser acceptance
+## Current gate: v0.95.0-r7 Workstream 4 browser acceptance
 
-Workstream 1B / `0.95.0-r4` is **owner accepted**.  
-Workstream 2 / `0.95.0-r5` is **owner accepted**.
+Accepted owner/browser gates:
 
-Stay on **v0.95 Workstream 3** until the owner has tested `0.95.0-r6` on the real Chromebook/mobile browser.
+- Workstream 1B / `0.95.0-r4` — FIFA-era presentation, procedural club identities and two-pack reveal;
+- Workstream 2 / `0.95.0-r5` — phased Transfer Challenge and canonical FIFA 17 transfer metadata/selectors;
+- Workstream 3 / `0.95.0-r6` — Settings and persistent motion accessibility.
 
 **Application version:** v0.95.0  
-**Asset revision:** `0.95.0-r6`  
-**Current workstream:** Settings / application motion preference  
+**Asset revision:** `0.95.0-r7`  
+**Current workstream:** Workstream 4 — Main Menu Statistics alignment  
 **Source status:** implemented and machine-validated  
 **Owner acceptance:** pending
 
-Do not begin Main Menu Statistics alignment / Workstream 4 until this browser gate passes.
+Stay on Workstream 4 until the owner has tested r7 on the real Chromebook/mobile browser. Do not begin Season pre-commit review / Workstream 5 while a real r7 defect remains unresolved.
 
 ---
 
-# What r6 implements
+# What r7 implements
 
-## Lightweight Settings surface
+## Home information architecture
 
-Settings is a lazy optional module opened from a new Home tile.
+The accepted r6 Home geometry is preserved: the same number of navigation tiles, the same dominant Continue Career area and the same media rail position.
 
-It is intentionally **not** a new `screens.js` route. The Settings experience is a modal application surface over the current screen, which preserves the centralized route/history model and avoids adding a second navigation authority for a small configuration feature.
+The former top-level **TROPHY ROOM** Home tile is now the blueprint-aligned **STATISTICS** tile.
 
-Lazy assets:
+The three analytics surfaces now have explicit responsibilities:
 
-- `js/settings.js`
-- `css/settings.css`
+1. **Career Statistics** — permanent all-time career data from completed showdowns; opened from Home.
+2. **Rivalry Statistics** — the currently loaded active/completed showdown only; remains available from Showdown Home.
+3. **Trophy Room** — honours cabinets and detailed all-time records; opened from Career Statistics or the completed-showdown recovery hub.
 
-They are not part of the initial Home startup payload.
+All three reuse the existing `js/analytics.js` engine. r7 does not create a second analytics engine or a second data model.
 
-The Settings surface contains only the owner-approved v1.0 scope:
+## Career Statistics
 
-1. application information;
-2. motion/accessibility preference;
-3. safe access to existing local data management.
+New lazy screen: `careerStatistics`.
 
-There are no accounts, cloud saves, backend services, online settings, themes, notification systems or unrelated preference expansion.
+It includes:
 
-## Application information
+- Completed Showdowns;
+- Seasons Played;
+- Career Points;
+- Trophies Won;
+- Career Table with manager showdown and season records;
+- two-manager Career comparison when the archive contains exactly two manager identities;
+- Career Leaders for Showdown wins, Career points, trophies, Season wins, best average Season score and best single-Season score;
+- an empty state before any showdown has been completed.
 
-Settings shows:
+When an active showdown is already loaded in the current session, Career Statistics also exposes **CURRENT RIVALRY STATISTICS**.
 
-- application version;
-- deployed asset/build revision;
-- local-browser save model;
-- two-manager / one-device product mode.
+Career Statistics exposes **OPEN TROPHY ROOM** for the more detailed honours/cabinet view.
 
-The copy explicitly reflects the existing static/local architecture rather than implying an account or server exists.
+## Existing analytics preserved
 
-## Motion preference
+### Rivalry Statistics
 
-A separate application preference key is now used:
+The existing current-showdown experience remains intact:
 
-`careerModeShowdown.preferences`
+- current Showdown points;
+- season wins/draws;
+- trophies and grouped bonuses;
+- averages/best Season numbers;
+- Transfer signing/release totals;
+- Season-by-Season progression.
 
-It is not stored inside an active showdown or Legacy record.
+### Trophy Room
 
-Two choices are exposed:
+The existing honours experience remains intact:
 
-### FOLLOW DEVICE — default
+- Career summary;
+- Career Table;
+- manager trophy cabinets;
+- supporting achievements;
+- all-time records.
 
-The application follows the browser/operating-system `prefers-reduced-motion` accessibility request.
+Trophy Room now consumes the Career Table renderer shared by `js/statistics.js` rather than maintaining a second copy of the same table UI.
 
-### REDUCE MOTION
+## Lightweight loading
 
-The application forces non-essential motion to be minimized even when the device itself is using standard motion.
+Career Statistics remains completely outside the initial Home bundle.
 
-The application intentionally does **not** provide a “force full motion” option. If the operating system/browser requests reduced motion, that request always wins.
+Home startup is still exactly:
 
-Effective motion state is applied to the document during core storage initialization, before lazy Settings code is requested.
+- one local stylesheet;
+- seven local JavaScript files maximum / currently exactly seven;
+- no eager analytics, Statistics or Trophy Room assets.
 
-## Motion consumers
+Opening Career Statistics lazy-loads:
 
-The shared effective preference now controls more than CSS duration.
+- `css/analytics.css`;
+- `js/analytics.js`;
+- `js/statistics.js`.
 
-### Club Assignment
+It does **not** load the League/Club/Transfer/Season gameplay package merely to read saved career history.
 
-The accepted r4 permanent-pair transaction is unchanged. With effective reduced motion, the pair is still generated/saved once but the theatrical staged reveal is skipped and the same saved pair proceeds directly to confirmation.
+Trophy Room adds only `js/trophyRoom.js` after the shared analytics package is available.
 
-### League Wheel
+## Navigation
 
-The existing random selection/save/rollback operation is unchanged.
+`js/screens.js` remains the only route/history authority.
 
-Standard timing remains approximately:
+New route policy:
 
-- 4000 ms spin;
-- 700 ms automatic advance.
+- Career Statistics → Back → Main Menu;
+- Rivalry Statistics → Back → Showdown Home / Main Menu;
+- Trophy Room opened from Career Statistics → Back returns to Career Statistics through advisory history;
+- Trophy Room opened from completed Showdown Home → Back returns to Showdown Home;
+- fallback order for Trophy Room is Showdown Home → Career Statistics → Main Menu.
 
-Reduced-motion timing is now approximately:
+Read-only Statistics routes are not classified as gameplay-runtime routes.
 
-- 80 ms selection resolution;
-- 120 ms automatic advance.
+---
 
-This fixes the previous accessibility mismatch where CSS could hide the wheel animation but JavaScript still waited four seconds.
+# r7 browser acceptance checklist
 
-### CSS transitions/animations
+Hard-refresh once before starting so Chrome receives `0.95.0-r7` assets.
 
-Both of these continue to minimize CSS motion:
+## A. Home / r4-r6 regression
 
-- OS/browser `prefers-reduced-motion: reduce`;
-- application `data-motion-reduced="true"` state.
+Expected:
 
-## Settings accessibility
-
-The Settings surface includes:
-
-- `role="dialog"`;
-- `aria-modal="true"`;
-- labelled dialog title;
-- inert/hidden background application while open;
-- Escape to close;
-- backdrop close;
-- Tab/Shift+Tab focus containment;
-- focus restoration to the opener;
-- motion choices exposed as a radiogroup/radios;
-- roving radio tab stop;
-- Arrow Up/Down/Left/Right and Home/End selection;
-- selected radio focus preserved after the dynamic preference rerender;
-- visible focus treatment.
-
-## Data Management reuse
-
-Settings does **not** duplicate destructive storage code.
-
-It shows lightweight active-showdown / Legacy counts, then provides:
-
-**OPEN LEGACY & DATA MANAGEMENT**
-
-That action opens the existing lazy Legacy module, where the established transactional/confirmation-protected actions remain authoritative:
-
-- delete individual Legacy entry;
-- delete all Legacy history;
-- reset all Showdown data.
-
-`Reset All Showdown Data` continues to mean competition data: active showdown + Legacy archive. It intentionally does **not** erase the application motion preference.
-
-## Home layout
-
-Home retains the accepted r4 hierarchy:
-
+- no startup integrity warning;
+- Home still fits correctly on the Chromebook;
 - Continue Career remains the dominant tile;
-- New Showdown and Legacy remain the upper supporting tiles;
-- Trophy Room, Rule Book and Settings share the second supporting row;
-- soundtrack/trailer rail remains below the two-row navigation block.
+- New Showdown, Legacy, Rule Book and Settings remain in their accepted positions;
+- the old top-level Trophy Room tile is replaced by **STATISTICS** without creating an extra Home row;
+- soundtrack/trailer rail remains below navigation and does not overlap;
+- r6 Settings and Reduce Motion still work.
 
-Responsive behavior:
+## B. Career Statistics from Home
 
-- desktop: three compact lower tiles;
-- <=900 px: normal two-column tile flow;
-- <=700 px: single-column flow;
-- existing low-height Chromebook media/layout protections remain.
+Open **STATISTICS**.
+
+Expected:
+
+- screen title: **CAREER STATISTICS**;
+- opens without needing to enter/resume gameplay;
+- no loading error or integrity warning;
+- Back returns to Home;
+- scrolling remains smooth on Chromebook/mobile.
+
+If there are no completed showdowns, expected:
+
+- all summary totals are zero;
+- a clear empty-state message appears;
+- Trophy Room remains accessible;
+- no fake manager rows or invented records appear.
+
+If completed showdowns exist, continue with C-F.
+
+## C. Career summary accuracy
+
+Compare Career Statistics with known Legacy history.
+
+Expected:
+
+- **Completed Showdowns** counts archived completed rivalries once;
+- **Seasons Played** counts completed Showdown seasons once, not once per manager;
+- **Career Points** equals both managers' final Showdown points added together across completed showdowns;
+- **Trophies Won** equals all league titles + Champions Leagues + main domestic cups across both managers;
+- a currently active unfinished showdown does not inflate permanent completed-career totals.
+
+## D. Career Table
+
+Expected:
+
+- each manager has one row;
+- rankings are stable and sensible;
+- Showdown W-D-L, Season W-D-L, Career points and trophies reflect completed history;
+- long manager names remain contained;
+- on phone/small width the table scrolls horizontally rather than crushing or overflowing the page.
+
+If your historical archive has exactly two manager identities, the Manager Comparison section should appear. If older test data contains additional manager names, the app intentionally omits the two-person comparison rather than pretending all records belong to only two identities.
+
+## E. Manager comparison / Career Leaders
+
+With exactly two managers in completed history, expected:
+
+- both manager names appear correctly;
+- Showdown wins/win rate, Season wins, Career points, average/best Season scores, league averages, perfect Seasons and Transfer totals agree with the archive;
+- the leading value is visually emphasized where appropriate;
+- RELEASE totals do not incorrectly reward a higher value as a positive performance metric.
+
+Career Leaders expected:
+
+- Most Showdown Wins;
+- Most Career Points;
+- Most Trophies;
+- Most Season Wins;
+- Best Average Season Score;
+- Best Season Score.
+
+Ties should show every tied manager rather than silently picking one.
+
+## F. Trophy Room bridge
+
+From Career Statistics press **OPEN TROPHY ROOM**.
+
+Expected:
+
+- Trophy Room still shows its Career summary, manager cabinets and all-time records;
+- no duplicate or blank Career Table;
+- pressing Back returns to Career Statistics.
+
+Then test the other context if a completed active showdown is available:
+
+1. open completed Showdown Home;
+2. open Trophy Room from the completion hub;
+3. press Back.
+
+Expected: Back returns to Showdown Home, not arbitrarily to Career Statistics.
+
+## G. Current Rivalry bridge
+
+With an active showdown already loaded in the current browser session, open Career Statistics.
+
+Expected:
+
+- **CURRENT RIVALRY STATISTICS** is visible;
+- it opens the same existing current-showdown analytics view used by Showdown Home;
+- it does not create a separate or conflicting statistics record;
+- Rivalry Statistics values still include only that showdown;
+- Back follows the existing Showdown context safely.
+
+If no active showdown is loaded, the Current Rivalry button is intentionally hidden.
+
+## H. History mutation / refresh
+
+Using disposable data if needed:
+
+1. note Career Statistics totals;
+2. delete a completed Legacy showdown through the existing Data Management controls;
+3. return to Home and reopen Statistics.
+
+Expected:
+
+- Career Statistics reflects the new archive state;
+- Trophy Room reflects the same archive state;
+- neither page shows stale deleted totals.
+
+Do not use production/valuable history for destructive testing unless you already intend to delete it.
+
+## I. Responsive / accessibility
+
+Chromebook low-height and phone:
+
+- no Home overlap from the Statistics tile;
+- Career Statistics summary cards remain readable;
+- manager comparison stacks cleanly on phone;
+- Career Table remains horizontally scrollable;
+- records/leader cards collapse to sensible columns;
+- visible keyboard focus remains intact;
+- ordinary Back is still centralized;
+- Reduce Motion does not break any Statistics screen.
+
+## J. r5/r6 smoke regression
+
+Perform a short smoke check only; do not repeat the full already-accepted gates unless something looks wrong:
+
+- Settings opens and preference persists;
+- Transfer Challenge still follows Window → Guess → Signing → Verdicts;
+- a controlled League/Nationality selector still opens correctly;
+- Showdown Home and current Rivalry Statistics still open;
+- scoring maximum remains 11.
 
 ---
 
-# r6 browser acceptance checklist
+# Machine validation protecting r7
 
-Hard refresh once before testing so Chrome receives `0.95.0-r6` shell assets.
-
-## A. Startup / accepted r4+r5 regression
-
-Expected:
-
-- no application-integrity warning;
-- Home loads normally;
-- Continue Career remains dominant;
-- New / Legacy remain aligned;
-- Trophy Room / Rule Book / Settings form a balanced lower row on desktop;
-- soundtrack/trailer rail remains below navigation and never overlaps it;
-- r4 typography/club crests/two-pack reveal remain intact;
-- r5 Transfer Window → Guess → Signing → Verdict flow remains intact.
-
-## B. Settings lazy open / close
-
-From Home press **SETTINGS**.
-
-Expected:
-
-- Settings opens as a polished modal surface;
-- no route/screen disappears underneath it;
-- version reads `v0.95.0`;
-- build reads `0.95.0-r6`;
-- save model says local browser storage;
-- product mode says two managers / one device;
-- Close, Done, Escape and backdrop close all work;
-- focus returns to the Settings tile after closing.
-
-## C. Follow Device default
-
-With the device/browser using standard motion:
-
-- Settings should initially show FOLLOW DEVICE selected;
-- Device Preference should read Standard motion;
-- Effective App Motion should read Standard motion.
-
-Refresh the page. FOLLOW DEVICE should remain the default if no override was chosen.
-
-## D. Reduce Motion persistence
-
-Select **REDUCE MOTION**.
-
-Expected:
-
-- option becomes selected immediately;
-- keyboard focus remains on the selected option;
-- Effective App Motion reads Reduced motion;
-- close Settings, refresh, reopen Settings;
-- REDUCE MOTION remains selected.
-
-## E. Reduced League Wheel behavior
-
-With REDUCE MOTION selected, create a disposable showdown and spin the League Wheel.
-
-Expected:
-
-- exactly one random league is still selected;
-- selection is still persisted before progression;
-- save failure behavior/rollback remains unchanged;
-- no four-second dead wait;
-- wheel resolution/advance is near-immediate;
-- selected league remains permanently locked exactly as before.
-
-## F. Reduced Club Reveal behavior
-
-Continue to Club Assignment with REDUCE MOTION selected.
-
-Expected:
-
-- OPEN SHOWDOWN PACKS generates/saves one permanent pair exactly as r4;
-- no reroll path exists;
-- long theatrical waits are skipped;
-- same clubs appear at Rivalry Confirmation;
-- explicit confirmation is still required;
-- refresh before confirmation still restores the exact same clubs.
-
-## G. Return to Follow Device
-
-Return to Settings and select **FOLLOW DEVICE**.
-
-On a standard-motion device, the normal r4 League Wheel / Club Reveal presentation should return.
-
-If the operating system/browser itself requests reduced motion, the application must stay reduced even while FOLLOW DEVICE is selected.
-
-## H. Data Management
-
-From Settings press **OPEN LEGACY & DATA MANAGEMENT**.
-
-Expected:
-
-- Settings closes;
-- existing Legacy screen opens;
-- current data-management panel is used rather than a duplicate Settings implementation;
-- existing destructive confirmation dialogs remain;
-- deleting/resetting behaves exactly as before.
-
-Optional persistence check:
-
-1. select REDUCE MOTION;
-2. use Reset All Showdown Data from Legacy;
-3. return Home → Settings.
-
-Expected: competition data is gone, but REDUCE MOTION remains selected.
-
-## I. Keyboard accessibility
-
-On desktop/Chromebook:
-
-- Tab enters Settings controls;
-- focus never escapes behind the modal;
-- Shift+Tab wraps correctly;
-- Arrow keys switch between Follow Device / Reduce Motion;
-- Home/End select first/last motion choice;
-- Escape closes;
-- opener receives focus again.
-
-## J. Responsive layout
-
-On Chromebook low-height and phone:
-
-- Settings never extends beyond the usable viewport without an internal scroll region;
-- header/close control remain reachable;
-- no horizontal overflow;
-- panels become one column on phone;
-- Done remains reachable;
-- Home tiles and media rail remain clean after Settings is closed.
-
-## K. core competition smoke
-
-After Settings testing:
-
-- create/resume showdown;
-- League Wheel / Club Assignment work;
-- r5 Transfer Guess → Signing phase persistence works;
-- Season Results / max-11 scoring works;
-- Season Summary works;
-- Back/Continue remains canonical;
-- Legacy/Statistics/Trophy/Rule Book still open normally.
-
----
-
-# Machine validation protecting r6
+Four exact-head GitHub Actions gates are expected on final r7:
 
 ## Validate Static App
 
-Still protects the existing scoring, navigation, startup budget, original crest and two-pack reveal invariants.
+Protects:
+
+- JavaScript syntax;
+- locked max-11 scoring and grouped bonuses;
+- draw / 0-0 tiebreak rules;
+- canonical Showdown route matrix;
+- Career/Rivalry/Trophy route contracts;
+- all 98 deterministic original club identities;
+- two-pack reveal transaction/timing;
+- startup script/style/byte limits;
+- central Back authority and no `screenHistory` leakage;
+- Home Chromebook/mobile guards;
+- completed-showdown recovery.
 
 ## Validate Transfer Workstream
 
-Still protects the accepted r5 FIFA 17 datasets, transfer phase migration, canonical matching, selector accessibility and lazy-loading contracts.
+Protects accepted r5 Transfer state/data/selector behavior.
 
 ## Validate Settings Workstream
 
-Protects:
+Protects accepted r6 preference/accessibility/reset isolation behavior.
 
-- default Follow Device state;
-- persistent Reduce Motion override;
-- OS/browser reduced-motion precedence;
-- preferences surviving Showdown-data reset;
-- Settings remaining lazy;
-- Home Settings binding;
-- dialog/modal semantics;
-- focus containment;
-- keyboard radio semantics;
-- Settings not writing localStorage directly;
-- Settings not duplicating destructive storage primitives;
-- reuse of Legacy Data Management;
-- central motion preference consumption by Club Reveal and League Wheel;
-- materially shortened reduced-motion League Wheel timing;
-- user-forced reduced-motion CSS contract;
-- low-height Chromebook and mobile Settings layout guards;
-- CSS structure and duplicate-ID protection.
+## Validate Statistics Workstream
 
-Automated checks do not replace real Chromebook/mobile visual acceptance.
+Protects r7 with executable completed-history fixtures and architecture checks:
 
----
+- completed Showdown/Season totals;
+- Career points and trophies;
+- manager Showdown records;
+- Transfer signing/release accumulation;
+- highest Season/league records;
+- current Rivalry analytics;
+- Home Statistics entry;
+- analytics staying lazy;
+- Statistics not waking the gameplay runtime;
+- one analytics engine only;
+- Trophy Room shared Career Table;
+- central route/Back ownership.
 
-# If r6 has a defect
-
-Remain in Workstream 3.
-
-Fix the actual Settings/motion/layout/accessibility cause while preserving accepted r4/r5 systems. Do not expand Settings scope. Do not create a second route system or duplicate destructive storage code. Bump the asset revision for deployed runtime changes and extend deterministic regression coverage for any discovered root cause.
+Automated validation does not replace owner visual/browser acceptance.
 
 ---
 
-# After r6 acceptance
+# If r7 has a defect
 
-## Workstream 4 — Main Menu Statistics alignment
+Stay in Workstream 4. Inspect current `main`, fix the actual analytics/render/navigation/layout cause, preserve the existing `js/analytics.js` engine, and extend the Statistics regression gate for the discovered root cause.
 
-Align the original Main Menu Statistics blueprint with the already-existing analytics architecture. Reuse Rivalry Statistics / Trophy Room / current analytics calculation engines; do not create a second statistics engine.
+Do not create a second analytics engine, second storage model, second route history or eager Home analytics bundle.
+
+---
+
+# After r7 acceptance
 
 ## Workstream 5 — Season pre-commit review
 
-Inspect Complete Season UX and add a lightweight review/confirmation before irreversible season completion if an equivalent safeguard is still absent. Completed historical seasons remain read-only.
+Inspect the current Complete Season path and add a lightweight review/confirmation before irreversible Season completion if an equivalent safeguard is still absent.
+
+Requirements:
+
+- preserve scoring/gameplay rules exactly;
+- review the two managers' entered results and calculated score before commit;
+- cancel/edit must return without losing the draft;
+- final confirmation must retain the existing transactional save/rollback behavior;
+- completed historical Seasons remain read-only;
+- no modal/framework bloat if a simple native/lightweight confirmation surface is sufficient.
 
 ## Workstream 6 — final v0.95 polish/regression
 
