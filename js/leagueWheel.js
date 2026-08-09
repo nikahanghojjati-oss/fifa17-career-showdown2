@@ -1,8 +1,13 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
+   v0.95.0
    Race-Safe League Wheel System
 ===================================================== */
+
+const LEAGUE_WHEEL_SPIN_MS = 4000;
+const LEAGUE_WHEEL_ADVANCE_MS = 700;
+const LEAGUE_WHEEL_REDUCED_SPIN_MS = 80;
+const LEAGUE_WHEEL_REDUCED_ADVANCE_MS = 120;
 
 let leagueWheelSpinInProgress = false;
 let leagueWheelOperationId = 0;
@@ -27,6 +32,20 @@ function getLeagueRotation(leagueId, revolutions = 0){
 
     const itemStep = 360 / leagues.length;
     return (revolutions * 360) - (selectedIndex * itemStep);
+}
+
+function isReducedLeagueWheelMotionPreferred(){
+    if(typeof window.isReducedMotionPreferred === "function"){
+        return window.isReducedMotionPreferred();
+    }
+    return typeof window.matchMedia === "function"
+        && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getLeagueWheelTiming(){
+    return isReducedLeagueWheelMotionPreferred()
+        ? { spin: LEAGUE_WHEEL_REDUCED_SPIN_MS, advance: LEAGUE_WHEEL_REDUCED_ADVANCE_MS }
+        : { spin: LEAGUE_WHEEL_SPIN_MS, advance: LEAGUE_WHEEL_ADVANCE_MS };
 }
 
 function hasLockedClubAssignment(){
@@ -212,6 +231,7 @@ function spinLeagueWheel(){
     clearLeagueWheelTimers();
     const operationId = ++leagueWheelOperationId;
     const showdownId = currentShowdown.id;
+    const timing = getLeagueWheelTiming();
 
     setLeagueWheelBusy(true);
     spinButton.disabled = true;
@@ -264,8 +284,8 @@ function spinLeagueWheel(){
             ){
                 prepareClubAssignment();
             }
-        }, 700);
-    }, 4000);
+        }, timing.advance);
+    }, timing.spin);
 }
 
 window.initializeLeagueWheel = initializeLeagueWheel;
