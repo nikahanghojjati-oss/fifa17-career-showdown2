@@ -1,8 +1,8 @@
 # NEXT TASK
 
-## Current gate: v0.95.0-r11 — Final polish / regression candidate
+## Current gate: v0.95.0-r12 — v1.0 release stabilization candidate
 
-Owner/browser accepted:
+Owner/browser accepted baseline:
 
 - Workstream 1B / `0.95.0-r4` — FIFA-era presentation, procedural club identities and two-pack reveal;
 - Workstream 2 / `0.95.0-r5` — phased Transfer Challenge and canonical FIFA 17 transfer metadata/selectors;
@@ -12,128 +12,110 @@ Owner/browser accepted:
 - stabilization / `0.95.0-r10` — explicit League Wheel Continue checkpoint and refresh/resume protection.
 
 **Application version:** v0.95.0
-**Asset revision:** `0.95.0-r11`
-**Current activity:** Workstream 6 final v0.95 polish / regression
-**Source status:** implementation and deterministic validation complete; exact-head deployment candidate
+
+**Asset revision:** `0.95.0-r12`
+
+**Current activity:** final release stabilization after the r11 end-to-end browser audit
+
+**Source status:** fixes implemented; all local deterministic, full-DOM and real-Chromium release validation passed; deployment and owner Chrome/Chromebook acceptance pending
+
 **Owner acceptance:** pending
 
-Do not begin v1.0 release conversion until the r11 browser acceptance below passes.
+Do not declare v1.0 until the r12 browser checklist below passes. If it passes, move directly to the v1.0 Complete Release Candidate / Final Release without creating another feature roadmap.
 
 ---
 
-# r11 implementation
+# r11 browser-audit result
 
-## Centralized FIFA-era route transition
+The r11 presentation work itself passed cloud-browser checks at 1363 × 936:
 
-`js/screens.js` remains the only route/history authority.
+- forward/back route direction, bounded cleanup and destination focus;
+- rapid route replacement leaving one legal visible screen;
+- persisted Menu Click Feedback preference;
+- Reduce Motion removing route theatrics without delaying navigation;
+- Home media remaining lazy and suppressing competing micro feedback while playing;
+- explicit League Wheel Continue and refresh/Continue Career recovery;
+- permanent two-pack club reveal and Rivalry Confirmation;
+- Transfer timer resume, Guess Entry, Signing Entry, draft recovery and canonical verdicts;
+- max-11 scoring, Season Review, final save, completed hub, Legacy and analytics.
 
-Successful screen changes now receive a short FIFA-era-inspired directional entrance:
-
-- forward navigation enters from the right;
-- Smart Back enters from the left;
-- only compositor-friendly `transform` and `opacity` are animated;
-- one short original yellow/cyan route rail reinforces the existing visual language;
-- the destination is committed immediately, so the transition adds no artificial navigation delay.
-
-The previous 130 ms implementation removed its animation marker on the next animation frame and could therefore cancel itself almost immediately. r11 keeps the marker through `animationend`, with a bounded fallback cleanup.
-
-### Race / integrity protection
-
-- route legality is checked before presentation begins;
-- pending Transfer/current-showdown writes flush before the screen swap;
-- destination rendering completes before transition state is applied;
-- a newer navigation cancels the previous transition marker/listener/timer;
-- revision checks prevent a stale animation callback from altering the latest route;
-- blocked/failed navigation does not consume confirmation feedback;
-- audio or animation failure cannot change navigation success;
-- route history remains centralized and bounded.
-
-### Reduced motion
-
-Device reduced motion or the app **Reduce Motion** preference skips the theatrical route state entirely. The destination remains immediate, focus still moves correctly and no delay is inserted.
+The same full flow exposed one release-blocking integration regression and two smaller shell-polish defects. r12 corrects them before the v1.0 conversion.
 
 ---
 
-# Original menu click feedback
+# r12 stabilization fixes
 
-`js/menuFeedback.js` synthesizes a restrained 64 ms two-voice cue with the browser Web Audio API.
+## Season Review Edit routing
 
-- no recorded sound file is bundled or fetched;
-- no EA/FIFA waveform or proprietary interface audio is copied;
-- the synthesizer is lazy and remains outside the seven-script startup shell;
-- no audio context is created at startup;
-- only an eligible explicit user interaction can arm the cue;
-- the cue is consumed only after a successful route commit;
-- a 110 ms cooldown prevents stacked rapid playback;
-- Home soundtrack/trailer playback suppresses the cue;
-- unsupported/blocked audio silently leaves navigation unchanged;
-- hidden-page audio is suspended.
+### Reported runtime behavior
 
-The existing Settings Accessibility panel now contains a compact **MENU CLICK FEEDBACK** switch. Its state is stored in `careerModeShowdown.preferences`; older preference records migrate safely with feedback enabled. Reset All Showdown Data continues to preserve application preferences.
+From Season Review, pressing **EDIT RESULTS** returned to Showdown Home instead of reopening the populated Season Results form.
+
+### Root cause
+
+`js/seasonEngine.js` created the Edit control with the router-reserved `.backButton` class. `js/screens.js` intentionally intercepts every ordinary `.backButton` at document capture phase, so Smart Back stopped the Season engine's own Edit handler before it could run.
+
+### Corrected contract
+
+- Edit Results uses the visually equivalent non-routing `.compactButton` class;
+- centralized Smart Back remains unchanged and authoritative;
+- Edit stays inside Season Results;
+- all entered values and checked achievements remain intact;
+- the previous in-memory review snapshot is invalidated;
+- a fresh Review is required before Confirm & Save;
+- no localStorage write occurs during Review or Edit.
+
+The Season Review workflow now rejects any future Edit control that reuses `.backButton`. Runtime DOM simulation dispatches the real click through centralized capture delegation and proves that entry mode and values are restored.
+
+## Active-save header synchronization
+
+The Home header could display **No Active Showdown** after reload even while Continue Career correctly found an active save. It could also remain stale immediately after creating a Showdown until a later gameplay render.
+
+`refreshMainMenuExperience()` now derives one normalized shell state for both the Continue tile and `#seasonIndicator`:
+
+- no save → **No Active Showdown**;
+- active save → **Season N / Total**;
+- completed save → **Showdown Complete**.
+
+New Showdown creation refreshes the shell only after the critical save succeeds and before League selection opens.
+
+## Completed-season grammar
+
+Completed Showdown Home now renders **1 season completed** and pluralizes only for other counts.
+
+## Release-maintenance hardening
+
+- eager Home feedback timing and lazy synthesis timing use separate module-owned helpers, removing their accidental global function collision;
+- obsolete direct-binding optional-module initializers and the retired Home Trophy Room fallback are removed;
+- active-save deletion/reset paths reuse `refreshMainMenuExperience()` for shell synchronization;
+- Rule Book Back remains exclusively controlled by centralized Smart Back;
+- Static App validation rejects future cross-module named-function collisions and retired optional-module fallbacks.
+
+The exact candidate passes all 21 deterministic workflow blocks and an independent full-DOM audit of the complete one-season flow, refresh/resume checkpoints, every current feature destination, media lifecycle, normal/reduced motion and Settings preference recovery with zero runtime errors, duplicate IDs or automated accessibility violations.
+
+An additional real-Chromium 149 release audit passes 98 desktop/mobile journey checkpoints and 22 accessibility scans at 1366 × 768 and 390 × 844. It also verifies no horizontal viewport escapes, failed local assets, page errors or severe application console errors. Browser findings corrected before the final pass include fallback-content, club-reveal, dashboard-status and Season Summary caption contrast, Transfer phase-label and verdict-detail contrast, analytics/Legacy and Settings contrast, content-bearing route and Settings entrance opacity, and the mobile media selector's containment. This evidence does not replace deployed owner Chrome/Chromebook acceptance.
 
 ---
 
-# Accessibility / responsive / performance polish
+# r12 owner/browser acceptance checklist
 
-r11 also adds:
+Hard-refresh once so Chrome receives `0.95.0-r12`.
 
-- destination-heading focus after route changes, without viewport jumps;
-- per-screen `aria-hidden` and `aria-labelledby` synchronization;
-- loading-shell accessibility isolation after startup;
-- scroll reset when opening a destination;
-- explicit keyboard focus treatment for Back, compact, media-choice and media-control buttons;
-- proper setup-label associations;
-- explicit `type="button"` for all shell buttons;
-- live status semantics for League selection and Transfer phase state;
-- contextual accessible names for all compact Transfer fields;
-- preservation of those contextual names after combobox enhancement;
-- responsive Settings feedback control for Chromebook/mobile.
-
-Performance contract:
-
-- exactly seven initial local scripts;
-- exactly one initial local stylesheet;
-- `153,000–154,000` raw local startup bytes, depending on final documentation-neutral formatting;
-- under `35,000` gzip-compressed local startup bytes;
-- 4.8 KB lazy feedback synthesizer;
-- no new framework, media file, canvas, WebGL or animation library.
-
-Dedicated workflow:
-
-`.github/workflows/validate-final-polish.yml`
-
-It protects transition ordering/stale cleanup, reduced motion, accessible focus, preference migration, original synthesis, media suppression, cooldown, contextual labels and startup/lazy budgets.
-
-All eight workflows now contain 21 deterministic validation blocks.
-
----
-
-# r11 owner/browser acceptance checklist
-
-Hard-refresh once so Chrome receives `0.95.0-r11`.
-
-Use normal motion first:
-
-1. From Home, open New Showdown, then use Back. The short directional transition should feel smooth and immediate, with no white flash, blank frame, overlapping screen or input delay.
-2. Open Legacy, Statistics and Rule Book, then return with Back. Forward movement should feel consistent and Back should reverse direction.
-3. With Home media paused, navigate between destinations and judge the click cue. It should be crisp, subtle and extremely short, not a generic loud beep.
-4. Rapidly press a destination twice and try quick Back/forward actions. Only one legal screen should remain visible; history and focus must stay correct.
-5. Open Settings → Motion & Feedback. Turn **MENU CLICK FEEDBACK** off, close Settings and navigate. The cue must remain muted. Refresh and verify the mute persists. Re-enable it afterward if desired.
-6. Start a Home soundtrack or trailer, then navigate. The micro cue must not compete with playing media.
-7. Enable **Reduce Motion**. Repeat Home → New Showdown → Back and Home → Legacy → Back. Navigation must be immediate with no theatrical slide or artificial pause.
-8. Verify keyboard navigation: activate Home tiles and Back with Enter/Space. The new destination title should receive visible focus and the page should open at the top.
-
-Regression smoke test:
-
-9. Create a disposable Showdown and repeat the r10 League Wheel check: spin, wait at least 10 seconds, refresh before Continue, then explicitly continue. It must never auto-enter Club Assignment.
-10. Complete the two-pack reveal and rivalry confirmation, then reach Showdown Home.
-11. Open Transfer Challenge and verify Guess Entry, Signing Entry and verdict routing still behave normally.
-12. Smoke-check Season Results → Review → Edit → Review → Confirm & Save → Summary.
-13. Open Career Statistics, Rivalry Statistics, Trophy Room and Legacy.
-14. Repeat the key navigation/audio/reduced-motion checks on the target Chromebook and mobile browser.
+1. With no active save, Home must show **No Active Showdown** and Continue Career must be disabled.
+2. Create a disposable one-season Showdown. Immediately after Start Showdown, the header must read **Season 1 / 1** before the League Wheel is spun.
+3. Spin the League Wheel, wait at least ten seconds and confirm the app remains on League selection. Refresh, press Continue Career and confirm the same league still requires explicit Continue.
+4. Continue to Club Assignment, use Back once, return with the same league, open both packs and confirm the permanent rivalry.
+5. Complete Transfer Window → Guess Entry → Signing Entry → Verdicts. Confirm draft signing values survive Back → Showdown Home → reopen.
+6. Enter Season Results and press **REVIEW SEASON**. Verify the calculated max-11 model.
+7. Press **EDIT RESULTS**. This is the critical r12 check: the populated Season Results form must reappear immediately, with no jump to Showdown Home and no lost values.
+8. Change one value, Review again, then Confirm & Save. Summary must use the edited value exactly once.
+9. Open completed Showdown Home. It must say **1 season completed**, not **1 seasons completed**.
+10. Return to Main Menu and refresh. The header must show **Showdown Complete** and Continue Career must reopen the completed hub.
+11. Smoke-check Legacy, Career Statistics, Rivalry Statistics, Trophy Room, Rule Book, Settings, normal motion, Reduce Motion and Menu Click Feedback persistence.
+12. Repeat the critical header, Review → Edit and completed-hub checks on the target Chromebook and mobile browser.
 
 Quality rejection rule:
 
-If the transition feels slower, choppy or visually cheap, or if the cue sounds annoying/generic, report the exact device/browser and behavior. Simplify or omit the compromised effect rather than accepting lower quality.
+Any lost Season value, unexpected Smart Back navigation, stale header, duplicate completion, runtime error, choppy transition or mobile/Chromebook layout regression blocks v1.0.
 
-If r11 passes, move directly to **v1.0 Complete Release Candidate / Final Release**. Do not create another feature roadmap between r11 and v1.0.
+If r12 passes, move directly to **v1.0 Complete Release Candidate / Final Release**.

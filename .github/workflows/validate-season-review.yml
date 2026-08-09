@@ -104,6 +104,7 @@ jobs:
           set -euo pipefail
           node <<'NODE'
           const fs = require('fs');
+          const vm = require('vm');
           const assert = require('assert');
 
           const html = fs.readFileSync('index.html', 'utf8');
@@ -148,6 +149,14 @@ jobs:
           assert.ok(season.includes('seasonReviewDraft = null'), 'Season Review must have an explicit ephemeral-draft clearing path.');
           assert.ok(!season.includes('careerModeShowdown.seasonReview'), 'Season Review must not create a new persistence key.');
 
+          const editControl = season.slice(
+            season.indexOf('const edit = document.createElement("button")'),
+            season.indexOf('actions.append(confirm, edit)')
+          );
+          assert.ok(editControl.includes('edit.className = "compactButton"'), 'Edit Results must use a non-routing secondary control.');
+          assert.ok(!editControl.includes('backButton'), 'Edit Results must never be intercepted by centralized Smart Back.');
+          assert.ok(seasonCss.includes('.seasonReviewActions .compactButton'), 'Edit Results secondary-control styling is missing.');
+
           assert.ok(optional.includes('loadRuntimeStyle("season-review-ui", "css/season.css")'), 'Season Review CSS must remain lazy with gameplay.');
           assert.ok(optional.includes('typeof window.confirmCurrentSeason === "function"'), 'Gameplay readiness must require final-confirmation API.');
           assert.ok(optional.includes('typeof window.getSeasonReviewIntegrity === "function"'), 'Gameplay readiness must require Season Review integrity API.');
@@ -160,6 +169,157 @@ jobs:
           assert.ok(seasonCss.includes('@media(min-width:901px) and (max-height:800px)'), 'Season Review Chromebook low-height guard is missing.');
           assert.ok(!/url\(/i.test(seasonCss), 'Season Review styling must not introduce external image assets.');
 
+          class FakeClassList {
+            constructor(names = []) {
+              this.names = new Set(names);
+            }
+
+            contains(name) {
+              return this.names.has(name);
+            }
+
+            toggle(name, force) {
+              const enabled = force === undefined ? !this.names.has(name) : Boolean(force);
+              if (enabled) {
+                this.names.add(name);
+              } else {
+                this.names.delete(name);
+              }
+              return enabled;
+            }
+          }
+
+          class FakeElement {
+            constructor(className = '') {
+              this.classList = new FakeClassList(className.split(/\s+/).filter(Boolean));
+              this.className = className;
+              this.dataset = {};
+              this.disabled = false;
+              this.listeners = new Map();
+              this.textContent = '';
+              this.value = '';
+              this.checked = false;
+              this.focused = false;
+            }
+
+            closest(selector) {
+              return selector === '.backButton' && this.classList.contains('backButton') ? this : null;
+            }
+
+            addEventListener(type, listener) {
+              if (!this.listeners.has(type)) {
+                this.listeners.set(type, []);
+              }
+              this.listeners.get(type).push(listener);
+            }
+
+            setAttribute(name, value) {
+              this[name] = String(value);
+            }
+
+            focus() {
+              this.focused = true;
+            }
+          }
+
+          const captureListeners = new Map();
+          const runtimeElements = new Map();
+          const runtimeDocument = {
+            addEventListener(type, listener, capture) {
+              if (capture) {
+                captureListeners.set(type, listener);
+              }
+            },
+            getElementById(id) {
+              return runtimeElements.get(id) || null;
+            },
+            querySelector() {
+              return null;
+            }
+          };
+          const runtimeContext = {
+            console,
+            document: runtimeDocument,
+            Element: FakeElement,
+            currentShowdown: { currentRound: 1 },
+            setTimeout,
+            clearTimeout,
+            requestAnimationFrame: callback => callback()
+          };
+          runtimeContext.window = runtimeContext;
+          vm.createContext(runtimeContext);
+
+          const screensSource = fs.readFileSync('js/screens.js', 'utf8');
+          vm.runInContext(
+            `${screensSource}\n;globalThis.__screenHarness = { initializeSmartBackDelegation };`,
+            runtimeContext,
+            { filename: 'js/screens.js' }
+          );
+          vm.runInContext(
+            `${season}\n;globalThis.__seasonHarness = {
+              editSeasonResults,
+              setState(ui, draft) {
+                seasonUI = ui;
+                seasonReviewDraft = draft;
+                seasonReviewActive = true;
+                seasonCompletionInProgress = false;
+              },
+              getState() {
+                return { active: seasonReviewActive, draft: seasonReviewDraft };
+              }
+            };`,
+            runtimeContext,
+            { filename: 'js/seasonEngine.js' }
+          );
+
+          const editClass = (season.match(/edit\.className\s*=\s*"([^"]+)"/) || [])[1];
+          const editButton = new FakeElement(editClass);
+          editButton.addEventListener('click', runtimeContext.__seasonHarness.editSeasonResults);
+
+          const preservedPosition = new FakeElement();
+          preservedPosition.value = '11';
+          runtimeElements.set('p1LeaguePosition', preservedPosition);
+
+          const runtimeUI = {
+            entryScreen: new FakeElement(),
+            entryHint: new FakeElement(),
+            entryGrid: new FakeElement(),
+            entryActions: new FakeElement(),
+            entryError: new FakeElement(),
+            reviewPanel: new FakeElement(),
+            reviewError: new FakeElement(),
+            entryTitle: new FakeElement()
+          };
+          runtimeContext.__seasonHarness.setState(runtimeUI, { fingerprint: 'reviewed-max-11' });
+          runtimeContext.__screenHarness.initializeSmartBackDelegation();
+
+          const clickEvent = {
+            target: editButton,
+            defaultPrevented: false,
+            propagationStopped: false,
+            preventDefault() {
+              this.defaultPrevented = true;
+            },
+            stopImmediatePropagation() {
+              this.propagationStopped = true;
+            }
+          };
+          captureListeners.get('click')(clickEvent);
+          if (!clickEvent.propagationStopped) {
+            for (const listener of editButton.listeners.get('click') || []) {
+              listener(clickEvent);
+            }
+          }
+
+          const runtimeState = runtimeContext.__seasonHarness.getState();
+          assert.strictEqual(clickEvent.defaultPrevented, false, 'Smart Back must not consume Edit Results.');
+          assert.strictEqual(clickEvent.propagationStopped, false, 'Edit Results propagation must reach the Season engine.');
+          assert.strictEqual(runtimeState.active, false, 'Review → Edit must restore entry mode.');
+          assert.strictEqual(runtimeState.draft, null, 'Review → Edit must invalidate the reviewed draft.');
+          assert.strictEqual(runtimeUI.entryScreen.dataset.seasonEntryMode, 'entry', 'Review → Edit must expose the entry form.');
+          assert.strictEqual(preservedPosition.value, '11', 'Review → Edit must preserve populated Season values.');
+          assert.strictEqual(preservedPosition.focused, true, 'Review → Edit must return focus to the first result field.');
+
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
           assert.ok(revisionMatch && /^0\.95\.0-r\d+$/.test(revisionMatch[1]), 'Shell must expose a v0.95 cache revision.');
           const revision = revisionMatch[1];
@@ -167,5 +327,5 @@ jobs:
             .map(match => ({ path: match[1], revision: match[2] || '' }));
           assert.deepStrictEqual(refs.filter(ref => ref.revision !== revision), [], 'Initial shell contains mixed cache revisions.');
 
-          console.log(`Season pre-commit architecture, rollback, lazy-loading and responsive contracts passed for ${revision}.`);
+          console.log(`Season pre-commit architecture, Smart Back integration, value preservation, rollback, lazy-loading and responsive contracts passed for ${revision}.`);
           NODE

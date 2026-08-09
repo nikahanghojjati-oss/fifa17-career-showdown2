@@ -173,19 +173,28 @@ function getSavedShowdownMenuMeta(){
         : (typeof loadSavedShowdown === "function" ? loadSavedShowdown() : null);
 
     if(!saved){
-        return { hasSave: false, label: "CONTINUE CAREER", meta: "No active showdown saved" };
+        return {
+            hasSave: false,
+            label: "CONTINUE CAREER",
+            meta: "No active showdown saved",
+            indicator: "No Active Showdown"
+        };
     }
 
     const managerOne = saved.managers && saved.managers.playerOne ? saved.managers.playerOne : "Manager 1";
     const managerTwo = saved.managers && saved.managers.playerTwo ? saved.managers.playerTwo : "Manager 2";
-    const status = saved.status === "Completed"
+    const completed = saved.status === "Completed";
+    const currentRound = Number(saved.currentRound) || 1;
+    const totalRounds = Number(saved.totalRounds) || 1;
+    const status = completed
         ? "Showdown complete"
-        : `Season ${Number(saved.currentRound) || 1} of ${Number(saved.totalRounds) || 1}`;
+        : `Season ${currentRound} of ${totalRounds}`;
 
     return {
         hasSave: true,
-        label: saved.status === "Completed" ? "VIEW COMPLETED SHOWDOWN" : "CONTINUE CAREER",
-        meta: `${managerOne} vs ${managerTwo} · ${status}`
+        label: completed ? "VIEW COMPLETED SHOWDOWN" : "CONTINUE CAREER",
+        meta: `${managerOne} vs ${managerTwo} · ${status}`,
+        indicator: completed ? "Showdown Complete" : `Season ${currentRound} / ${totalRounds}`
     };
 }
 
@@ -301,6 +310,7 @@ function refreshMainMenuExperience(){
 
     const saveMeta = getSavedShowdownMenuMeta();
     updateExistingTileText(ui.continueButton, saveMeta.label, saveMeta.meta);
+    setTextIfChanged(document.getElementById("seasonIndicator"), saveMeta.indicator);
     if(ui.continueButton.disabled === saveMeta.hasSave){
         ui.continueButton.disabled = !saveMeta.hasSave;
     }
@@ -549,7 +559,7 @@ function isMenuMediaPlaying(){
     return Boolean(menuMediaPlaying);
 }
 
-function getMenuFeedbackClock(){
+function getMenuFeedbackInteractionClock(){
     return typeof performance !== "undefined" && typeof performance.now === "function"
         ? performance.now()
         : Date.now();
@@ -599,7 +609,7 @@ function recordMenuFeedbackInteraction(event){
         return;
     }
     menuFeedbackInteractionPending = true;
-    menuFeedbackInteractionAt = getMenuFeedbackClock();
+    menuFeedbackInteractionAt = getMenuFeedbackInteractionClock();
     warmMenuFeedbackModule();
 }
 
@@ -609,7 +619,7 @@ function consumeMenuFeedbackCue(){
     }
     menuFeedbackInteractionPending = false;
     if(
-        getMenuFeedbackClock() - menuFeedbackInteractionAt > MENU_FEEDBACK_INTERACTION_WINDOW_MS
+        getMenuFeedbackInteractionClock() - menuFeedbackInteractionAt > MENU_FEEDBACK_INTERACTION_WINDOW_MS
         || menuMediaPlaying
         || (typeof window.isMenuFeedbackEnabled === "function" && !window.isMenuFeedbackEnabled())
     ){

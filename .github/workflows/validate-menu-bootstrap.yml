@@ -33,12 +33,14 @@ jobs:
 
           const html = fs.readFileSync('index.html', 'utf8');
           const source = fs.readFileSync('js/menuExperience.js', 'utf8');
+          const showdown = fs.readFileSync('js/showdown.js', 'utf8');
+          const appCss = fs.readFileSync('css/app.css', 'utf8');
 
           const context = { console };
           context.window = context;
           vm.createContext(context);
           vm.runInContext(
-            `${source}\n;globalThis.__menuExports = { MENU_MEDIA_SOURCES, initializeMenuExperience, decorateMainMenuTiles, bindMenuMediaControls, ensureMenuMediaSelector, getMenuExperienceIntegrity };`,
+            `${source}\n;globalThis.__menuExports = { MENU_MEDIA_SOURCES, initializeMenuExperience, decorateMainMenuTiles, bindMenuMediaControls, ensureMenuMediaSelector, getMenuExperienceIntegrity, getSavedShowdownMenuMeta, refreshMainMenuExperience };`,
             context,
             { filename: 'js/menuExperience.js' }
           );
@@ -59,6 +61,8 @@ jobs:
           const binder = api.bindMenuMediaControls.toString();
           const selector = api.ensureMenuMediaSelector.toString();
           const integrity = api.getMenuExperienceIntegrity.toString();
+          const saveMeta = api.getSavedShowdownMenuMeta.toString();
+          const refresh = api.refreshMainMenuExperience.toString();
 
           assert.ok(!initializer.includes('trophyRoomButton'), 'Home initializer still depends on the removed Trophy Room tile.');
           assert.ok(!source.includes('const trophyRoom = document.getElementById("trophyRoomButton")'), 'Stale r7 Trophy Room startup dependency returned.');
@@ -73,11 +77,19 @@ jobs:
 
           assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)'), 'Media selector must be generated from the canonical seven-source catalog.');
           assert.ok(selector.includes('selector.id = "menuMediaSelector"'), 'Media selector must expose the diagnostics-required id.');
+          assert.ok(appCss.includes('@media(max-width:700px){.menuMediaSelector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}'), 'Mobile Home must expose all seven media choices in a contained two-column grid.');
           assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute'), 'Both Play and Mute controls must be bound by the same media subsystem.');
           assert.ok(binder.includes('dataset.musicBound = "true"'), 'Media bindings must retain their idempotent diagnostics marker.');
           assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound') && integrity.includes('feedbackBound'), 'Home integrity check must cover media and menu-feedback bindings.');
+          assert.ok(saveMeta.includes('indicator: "No Active Showdown"'), 'No-save header indicator state is missing.');
+          assert.ok(saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header indicator states are incomplete.');
+          assert.ok(refresh.includes('document.getElementById("seasonIndicator")') && refresh.includes('saveMeta.indicator'), 'Home refresh must synchronize the global save indicator.');
 
-          console.log('Home shell/menu initializer contract and seven-choice media bootstrap regression passed.');
+          const creation = showdown.slice(showdown.indexOf('function createShowdown()'), showdown.indexOf('function isLeagueDatabaseReady()'));
+          assert.ok(creation.indexOf('saveCurrentShowdown()') < creation.indexOf('window.refreshMainMenuExperience()'), 'New Showdown must save before synchronizing shell state.');
+          assert.ok(creation.indexOf('window.refreshMainMenuExperience()') < creation.indexOf('showScreen("leagueWheelScreen")'), 'New Showdown must update the header before entering League selection.');
+
+          console.log('Home shell/menu initializer, save-indicator synchronization and seven-choice media bootstrap regression passed.');
           NODE
 
       - name: Validate deployed revision coherence

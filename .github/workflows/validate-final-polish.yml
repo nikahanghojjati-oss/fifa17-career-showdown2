@@ -245,16 +245,22 @@ jobs:
           assert.ok(screens.includes('heading.focus({ preventScroll: true })'), 'Route focus must avoid viewport jumps.');
           assert.ok(settings.includes('setAttribute("role", "switch")'), 'Feedback preference needs native switch semantics.');
           assert.ok(css.includes('.backButton:focus-visible') && css.includes('.menuMusicControl:focus-visible'), 'Primary non-tile controls need explicit focus visibility.');
+          const clubRevealIndex = (css.match(/\.clubRevealIndex\{[^}]+\}/) || [])[0] || '';
+          assert.ok(clubRevealIndex.includes('color:rgba(255,255,255,.66)'), 'Club reveal sequence indices must retain readable contrast.');
+          assert.ok(css.includes('.transferOverviewStatus{color:#596873;}'), 'Showdown Home transfer status must retain readable contrast.');
+          assert.ok(css.includes('.overallScoreBox span{color:#52616b'), 'Season Summary overall-score caption must retain readable contrast.');
 
           const forward = (css.match(/@keyframes routeForwardIn\{([^}]*(?:\}[^@]*)?)/) || [])[0] || '';
           const back = (css.match(/@keyframes routeBackIn\{([^}]*(?:\}[^@]*)?)/) || [])[0] || '';
           assert.ok(forward.includes('translate3d') && back.includes('translate3d'), 'Route movement must stay compositor-friendly.');
           assert.ok(!/(?:top|left|width|height|margin|padding):/.test(forward + back), 'Route keyframes must not animate layout properties.');
+          assert.ok(!/opacity:/.test(forward + back), 'Content-bearing route surfaces must preserve full opacity throughout entrance motion.');
+          assert.ok(css.includes('.screen[data-route-state="entering"]{will-change:transform;'), 'Route presentation must promote only the transform layer.');
           assert.ok(css.includes('html[data-motion-reduced="true"] .screen[data-route-state="entering"]'), 'User reduced motion must explicitly disable route theatrics.');
           assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'), 'Device reduced motion guard is missing.');
 
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
-          assert.strictEqual(revision, '0.95.0-r11', 'Final polish must use a fresh cache revision.');
+          assert.strictEqual(revision, '0.95.0-r12', 'Release stabilization must use a fresh cache revision.');
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
           assert.strictEqual(refs.filter(ref => ref.path.startsWith('js/')).length, 7, 'Initial shell must remain seven scripts.');

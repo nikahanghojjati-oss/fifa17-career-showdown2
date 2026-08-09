@@ -8,7 +8,7 @@ let menuFeedbackAudioContext = null;
 let lastMenuFeedbackCueAt = -Infinity;
 let menuFeedbackVisibilityBound = false;
 
-function getMenuFeedbackClock(){
+function getMenuFeedbackSynthesisClock(){
     return typeof performance !== "undefined" && typeof performance.now === "function"
         ? performance.now()
         : Date.now();
@@ -85,7 +85,7 @@ function playMenuFeedbackCue(){
         return false;
     }
 
-    const requestedAt = getMenuFeedbackClock();
+    const requestedAt = getMenuFeedbackSynthesisClock();
     if(requestedAt - lastMenuFeedbackCueAt < MENU_FEEDBACK_COOLDOWN_MS){
         return false;
     }
@@ -111,7 +111,7 @@ function playMenuFeedbackCue(){
     if(context.state !== "running"){
         try{
             Promise.resolve(context.resume()).then(() => {
-                if(getMenuFeedbackClock() - requestedAt <= MENU_FEEDBACK_MAX_RESUME_DELAY_MS){
+                if(getMenuFeedbackSynthesisClock() - requestedAt <= MENU_FEEDBACK_MAX_RESUME_DELAY_MS){
                     emit();
                 }
             }).catch(() => {});

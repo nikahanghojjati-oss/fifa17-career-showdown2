@@ -162,6 +162,7 @@ jobs:
           const loader = fs.readFileSync('js/optionalModules.js', 'utf8');
           const selector = fs.readFileSync('js/transferSelector.js', 'utf8');
           const css = fs.readFileSync('css/transfer.css', 'utf8');
+          const appCss = fs.readFileSync('css/app.css', 'utf8');
           const transfer = fs.readFileSync('js/transferChallenge.js', 'utf8');
 
           ['data/transferOptions.js', 'js/transferSelector.js', 'css/transfer.css'].forEach(path => {
@@ -180,6 +181,9 @@ jobs:
           assert.ok(css.includes('@media(max-width:760px)'), 'Transfer UI mobile breakpoint is missing.');
           assert.ok(css.includes('max-height:48vh'), 'Mobile selector popover must remain viewport constrained.');
           assert.ok(css.includes('@media(min-width:901px) and (max-height:800px)'), 'Low-height Chromebook transfer breakpoint is missing.');
+          assert.ok(css.includes('color:#52616b;background:rgba(245,248,248,.92)'), 'Inactive Transfer phase labels must retain readable contrast.');
+          assert.ok(css.includes('color:#fff;background:#596873'), 'Inactive Transfer phase badges must retain readable contrast.');
+          assert.ok(appCss.includes('.transferResultRow span{color:#52616b') && appCss.includes('.transferEmpty{color:#52616b'), 'Transfer verdict metadata and empty states must retain readable contrast.');
           assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'), 'Transfer phase UI reduced-motion contract is missing.');
 
           assert.ok(transfer.includes('LOCK GUESSES & CONTINUE TO SIGNINGS'), 'Guess phase action is missing.');

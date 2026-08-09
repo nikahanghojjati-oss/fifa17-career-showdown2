@@ -184,8 +184,9 @@ function clearMatchingCompletedActiveShowdown(showdownId){
     }
 
     currentShowdown = null;
-    const indicator = document.getElementById("seasonIndicator");
-    if(indicator){ indicator.textContent = "No Active Showdown"; }
+    if(typeof window.refreshMainMenuExperience === "function"){
+        window.refreshMainMenuExperience();
+    }
     return true;
 }
 
@@ -390,8 +391,9 @@ function createLegacyDataControls(history){
         if(typeof window.resetNavigationState === "function"){
             window.resetNavigationState();
         }
-        const indicator = document.getElementById("seasonIndicator");
-        if(indicator){ indicator.textContent = "No Active Showdown"; }
+        if(typeof window.refreshMainMenuExperience === "function"){
+            window.refreshMainMenuExperience();
+        }
         lastLegacyRenderedRevision = null;
         showScreen("mainMenu", false);
     });

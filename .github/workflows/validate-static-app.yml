@@ -260,6 +260,7 @@ jobs:
           const path = require('path');
           const zlib = require('zlib');
           const assert = require('assert');
+          const vm = require('vm');
 
           const expectedVersion = '0.95.0';
           const maximumInitialAssetBytes = 155000;
@@ -270,6 +271,9 @@ jobs:
           const optional = fs.readFileSync('js/optionalModules.js', 'utf8');
           const screens = fs.readFileSync('js/screens.js', 'utf8');
           const showdownUI = fs.readFileSync('js/showdownUI.js', 'utf8');
+          const ruleBook = fs.readFileSync('js/ruleBook.js', 'utf8');
+          const statistics = fs.readFileSync('js/statistics.js', 'utf8');
+          const trophyRoom = fs.readFileSync('js/trophyRoom.js', 'utf8');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
           assert.ok(revisionMatch && revisionMatch[1].trim(), 'Shell must define app-asset-revision.');
@@ -349,8 +353,39 @@ jobs:
             .filter(file => /\bscreenHistory\b/.test(fs.readFileSync(path.join('js', file), 'utf8')));
           assert.deepStrictEqual(routeLeaks, [], `Route history leaked outside screens.js: ${routeLeaks.join(', ')}`);
 
+          const namedFunctions = new Map();
+          const runtimeFiles = fs.readdirSync('js').filter(file => file.endsWith('.js')).sort();
+          const combinedRuntime = [];
+          for (const file of runtimeFiles) {
+            const source = fs.readFileSync(path.join('js', file), 'utf8');
+            combinedRuntime.push(`\n/* ${file} */\n${source}`);
+            for (const match of source.matchAll(/(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(/g)) {
+              const locations = namedFunctions.get(match[1]) || [];
+              locations.push(file);
+              namedFunctions.set(match[1], locations);
+            }
+          }
+          assert.doesNotThrow(
+            () => new vm.Script(combinedRuntime.join('\n'), { filename: 'combined-runtime.js' }),
+            'Combined classic-script runtime has a syntax or top-level lexical collision.'
+          );
+          const globalFunctionCollisions = [...namedFunctions]
+            .filter(([, locations]) => locations.length > 1)
+            .map(([name, locations]) => `${name}: ${locations.join(', ')}`);
+          assert.deepStrictEqual(globalFunctionCollisions, [], `Cross-module global function collisions: ${globalFunctionCollisions.join('; ')}`);
+
+          const storageLeaks = runtimeFiles
+            .filter(file => !['storage.js', 'diagnostics.js'].includes(file))
+            .filter(file => /\blocalStorage\b/.test(fs.readFileSync(path.join('js', file), 'utf8')));
+          assert.deepStrictEqual(storageLeaks, [], `Direct localStorage access leaked outside storage authority: ${storageLeaks.join(', ')}`);
+
+          assert.ok(!optional.includes('trophyRoomButton'), 'Removed Home Trophy Room fallback returned to the optional loader.');
+          assert.ok(!trophyRoom.includes('initializeTrophyRoom') && !statistics.includes('initializeStatistics') && !ruleBook.includes('initializeRuleBook'), 'Dead direct-binding optional-module initializers returned.');
+          assert.ok(!ruleBook.includes('back.addEventListener'), 'Rule Book Back must remain under centralized Smart Back authority.');
+
           assert.ok(showdownUI.includes('VIEW FINAL SEASON SUMMARY'), 'Completed-showdown recovery action is missing.');
           assert.ok(showdownUI.includes('Active save retained · Legacy sync pending'), 'Legacy sync failure state is not surfaced accurately.');
+          assert.ok(showdownUI.includes('completedSeasonCount === 1 ? "season" : "seasons"'), 'Completed Showdown Home must use correct singular/plural season grammar.');
 
           const dead = ['data/rules.js', 'js/router.js', 'js/scoreboard.js', 'js/ui.js', 'js/wheels.js'];
           assert.deepStrictEqual(dead.filter(file => fs.existsSync(file)), [], 'Dead prototype architecture returned.');

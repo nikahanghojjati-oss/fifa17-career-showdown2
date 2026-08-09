@@ -64,7 +64,7 @@
 .analyticsStatCard:nth-child(even){border-top-color:var(--f17-cyan);}
 
 .analyticsStatCard span{
-    color:#65737d;
+    color:#5b6973;
     font:800 10px/1.2 var(--f17-display);
     letter-spacing:1.2px;
 }
@@ -200,7 +200,7 @@
 .comparisonRow > span{
     min-width:0;
     text-align:center;
-    color:#65737d;
+    color:#5b6973;
     font:800 10px/1.25 var(--f17-display);
     letter-spacing:.8px;
     text-transform:uppercase;
@@ -399,7 +399,7 @@
 
 .managerCabinetHeader p{
     margin-top:4px;
-    color:#65737d;
+    color:#5b6973;
     font-size:11px;
     line-height:1.35;
 }
@@ -418,7 +418,7 @@
 
 .managerCareerPoints span{
     margin-top:3px;
-    color:#65737d;
+    color:#5b6973;
     font:800 8px/1 var(--f17-display);
     letter-spacing:1.1px;
 }
@@ -521,7 +521,7 @@
 }
 
 .recordCard > span{
-    color:#65737d;
+    color:#5b6973;
     font:800 9px/1.2 var(--f17-display);
     letter-spacing:1.1px;
 }

@@ -64,7 +64,7 @@
     background:#e8edef;border-left:3px solid #a9b5bc;
 }
 .settingsInfoRow span{
-    color:#66747d;font:700 8px/1 var(--f17-display);letter-spacing:1.15px;text-transform:uppercase;
+    color:#596873;font:700 8px/1 var(--f17-display);letter-spacing:1.15px;text-transform:uppercase;
 }
 .settingsInfoRow strong{
     margin-top:5px;min-width:0;overflow-wrap:anywhere;color:var(--f17-ink);
@@ -77,7 +77,7 @@
     font:800 9px/1 var(--f17-display);letter-spacing:1px;text-transform:uppercase;
 }
 .settingsStatus.reduced{background:#5e6870;}
-.settingsStatus.standard{background:#3b8a62;}
+.settingsStatus.standard{background:#2e7450;}
 .settingsMotionChoices{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
 .settingsMotionChoice{
     min-width:0;min-height:78px;padding:10px;display:grid;grid-template-columns:22px 1fr;align-items:start;gap:9px;
@@ -95,7 +95,7 @@
 .settingsMotionChoice.selected .settingsMotionMarker{background:var(--f17-blue);border-color:var(--f17-blue);}
 .settingsMotionCopy{min-width:0;display:flex;flex-direction:column;gap:5px;}
 .settingsMotionCopy strong{font:800 13px/1 var(--f17-display);letter-spacing:.6px;}
-.settingsMotionCopy small{color:#5f6c75;font-size:9px;line-height:1.35;}
+.settingsMotionCopy small{color:#55636d;font-size:9px;line-height:1.35;}
 
 .settingsAudioRow{
     min-height:66px;margin-top:10px;padding:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;
@@ -114,7 +114,7 @@
 .settingsAudioToggle strong{font:800 11px/1 var(--f17-display);letter-spacing:.8px;}
 
 .settingsDataButton{margin-top:11px;}
-.settingsDataNote{margin-top:8px;color:#68757e;font-size:9px;line-height:1.4;}
+.settingsDataNote{margin-top:8px;color:#5f6c75;font-size:9px;line-height:1.4;}
 .settingsFooter{
     min-height:62px;padding:8px 13px!important;display:flex!important;align-items:center;justify-content:flex-end;
     color:inherit!important;background:#d5dde0!important;border:0!important;border-top:1px solid #bdc8cd!important;
@@ -165,6 +165,6 @@ html[data-motion-reduced="true"] .settingsDialog{animation:none!important;}
 }
 
 @keyframes settingsDialogIn{
-    from{opacity:.35;transform:translateY(6px) scale(.995)}
-    to{opacity:1;transform:none}
+    from{transform:translateY(6px) scale(.995)}
+    to{transform:none}
 }

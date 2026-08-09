@@ -80,23 +80,6 @@ function createCareerStatisticsScreen(){
     main.appendChild(section);
 }
 
-function ensureStatisticsDashboardButton(){
-    if(document.getElementById("rivalryStatisticsButton")){ return; }
-    const actions = document.querySelector("#dashboard .dashboardActions");
-    if(!actions){ return; }
-
-    const button = document.createElement("button");
-    button.type = "button";
-    button.id = "rivalryStatisticsButton";
-    button.className = "menuButton";
-    button.textContent = "RIVALRY STATISTICS";
-    button.addEventListener("click", openRivalryStatistics);
-
-    const deleteButton = document.getElementById("deleteActiveShowdown");
-    if(deleteButton){ actions.insertBefore(button, deleteButton); }
-    else { actions.appendChild(button); }
-}
-
 function getRivalryStatisticsRenderKey(){
     if(!currentShowdown){ return "none"; }
     return [
@@ -546,11 +529,6 @@ function openRivalryStatistics(){
     showScreen("statistics");
 }
 
-function initializeStatistics(){
-    ensureStatisticsDashboardButton();
-}
-
-window.initializeStatistics = initializeStatistics;
 window.renderCareerStatistics = renderCareerStatistics;
 window.openCareerStatistics = openCareerStatistics;
 window.createCareerStandingsTable = createCareerStandingsTable;

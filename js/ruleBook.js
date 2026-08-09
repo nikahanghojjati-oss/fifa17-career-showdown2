@@ -75,7 +75,6 @@ function createRuleBookScreen(){
     back.type = "button";
     back.className = "backButton";
     back.textContent = "BACK TO MAIN MENU";
-    back.addEventListener("click", () => showScreen("mainMenu"));
 
     actions.appendChild(back);
     section.append(heading, intro, grid, actions);
@@ -154,29 +153,9 @@ function createScoringRuleSection(){
     return article;
 }
 
-function findRuleBookMenuButton(){
-    return document.getElementById("ruleBookButton") || Array.from(
-        document.querySelectorAll("#mainMenu .menuButton")
-    ).find(button => button.textContent.trim().toUpperCase() === "RULE BOOK") || null;
-}
-
 function openRuleBook(){
     createRuleBookScreen();
     showScreen("ruleBook");
 }
 
-function initializeRuleBook(){
-    const button = findRuleBookMenuButton();
-    if(!button || button.dataset.ruleBookBound === "true"){
-        return;
-    }
-
-    button.dataset.ruleBookBound = "true";
-    button.disabled = false;
-    button.removeAttribute("aria-disabled");
-    button.removeAttribute("title");
-    button.addEventListener("click", openRuleBook);
-}
-
-window.initializeRuleBook = initializeRuleBook;
 window.openRuleBook = openRuleBook;

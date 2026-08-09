@@ -16,12 +16,12 @@
 }
 .transferPhaseStep{
     min-height:48px;padding:8px 10px;display:flex;align-items:center;gap:9px;
-    color:#73818a;background:rgba(245,248,248,.92);border-bottom:4px solid #b8c3c8;
+    color:#52616b;background:rgba(245,248,248,.92);border-bottom:4px solid #b8c3c8;
     font-family:var(--f17-display);font-weight:800;text-transform:uppercase;
 }
 .transferPhaseStep b{
     flex:0 0 25px;height:25px;display:grid;place-items:center;
-    color:#fff;background:#7b8992;font-size:10px;
+    color:#fff;background:#596873;font-size:10px;
 }
 .transferPhaseStep span{font-size:10px;letter-spacing:.8px;line-height:1.05;}
 .transferPhaseStep.done{color:#31404a;border-color:var(--f17-cyan);}

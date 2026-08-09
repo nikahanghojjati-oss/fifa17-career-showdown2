@@ -30,17 +30,6 @@ function createTrophyRoomScreen(){
     main.appendChild(section);
 }
 
-function findTrophyRoomMenuButton(){
-    return document.getElementById("trophyRoomButton") || null;
-}
-
-function wireTrophyRoomButton(){
-    const button = findTrophyRoomMenuButton();
-    if(!button || button.dataset.trophyRoomReady === "true"){ return; }
-    button.dataset.trophyRoomReady = "true";
-    button.addEventListener("click", openTrophyRoom);
-}
-
 function getTrophyRoomRenderKey(){
     const revision = typeof window.getLegacyStorageRevision === "function"
         ? window.getLegacyStorageRevision()
@@ -252,10 +241,5 @@ function openTrophyRoom(){
     showScreen("trophyRoom");
 }
 
-function initializeTrophyRoom(){
-    wireTrophyRoomButton();
-}
-
-window.initializeTrophyRoom = initializeTrophyRoom;
 window.renderTrophyRoom = renderTrophyRoom;
 window.openTrophyRoom = openTrophyRoom;

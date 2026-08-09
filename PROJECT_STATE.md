@@ -21,17 +21,19 @@ Current source is implementation authority. Browser acceptance remains required 
 # Current implementation
 
 **Application version:** v0.95.0 — Polish & Blueprint Alignment
-**Runtime asset revision:** `0.95.0-r11`
+**Runtime asset revision:** `0.95.0-r12`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
 **Current milestone:** original v0.95 Polish / Blueprint Alignment
-**Current activity:** Workstream 6 final v0.95 polish / regression candidate
+**Current activity:** r12 release candidate validated locally; deployment and owner browser acceptance pending
 **Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
-**Owner acceptance pending:** `0.95.0-r11` final polish candidate
-**Next after r11 acceptance:** v1.0 Complete Release Candidate / Final Release
+**Owner acceptance pending:** `0.95.0-r12` release stabilization candidate
+**Next after r12 acceptance:** v1.0 Complete Release Candidate / Final Release
 
-r11 completes the planned Workstream 6 implementation inside v0.95. It does not create a new roadmap branch.
+r11 completes the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixes those release blockers without adding a feature roadmap branch.
+
+The r12 maintenance audit also removed one duplicate cross-module global timing helper, retired optional-module direct-binding fallbacks, and repeated delete/reset header writes. Static App validation now rejects cross-module named-function collisions. All 21 deterministic blocks, the independent full-DOM journey and a real-Chromium desktop/mobile release audit pass locally; exact deployed owner Chrome/Chromebook acceptance remains required.
 
 ---
 
@@ -59,7 +61,60 @@ Main Menu
 
 ---
 
-# r11 — Workstream 6 final polish / regression — current gate
+# r12 — final release stabilization — current gate
+
+## Season Review Edit integration
+
+The r11 end-to-end browser audit proved that **EDIT RESULTS** was intercepted as Smart Back and returned to Showdown Home.
+
+Root cause:
+
+- `js/seasonEngine.js` gave the Edit control the router-reserved `.backButton` class;
+- `js/screens.js` correctly captures `.backButton` actions before feature-level bubbling handlers;
+- the Edit handler therefore never executed.
+
+Preserve the r12 correction:
+
+- Edit Results uses `.compactButton`, not `.backButton`;
+- centralized Smart Back remains unchanged;
+- Review → Edit stays on `seasonEntry` and restores the populated form;
+- the ephemeral review draft is cleared and a fresh Review is required;
+- no Review/Edit persistence key or write is introduced.
+
+The Season Review workflow statically protects the control classification. Runtime DOM simulation dispatches the real click through centralized capture delegation and verifies mode, draft invalidation and value preservation.
+
+## Shell save indicator
+
+Home bootstrap and successful New Showdown creation now synchronize `#seasonIndicator` from the same saved state used by Continue Career:
+
+- no active save → `No Active Showdown`;
+- active save → `Season N / Total`;
+- completed save → `Showdown Complete`.
+
+The New Showdown path saves first, then refreshes shell state, then opens League selection. A failed save cannot advertise the unsaved candidate.
+
+## Completed-season grammar
+
+Completed Showdown Home uses the singular `1 season completed` and pluralizes other counts.
+
+## Release-maintenance integrity
+
+- `js/menuExperience.js` owns interaction timing and `js/menuFeedback.js` owns synthesis timing under distinct helper names;
+- the removed Home Trophy Room tile has no runtime fallback or dead direct-binding initializer;
+- optional destinations remain bound only through `js/optionalModules.js`;
+- Rule Book Back uses centralized Smart Back only;
+- delete/reset operations refresh global shell state through `refreshMainMenuExperience()`;
+- Static App validation rejects duplicate named functions across runtime modules and the retired fallback architecture.
+
+Local release evidence: all eight workflows / 21 deterministic blocks pass, startup remains below the locked raw and gzip ceilings, and an independent full-DOM one-season audit reaches every current destination with zero runtime errors, duplicate IDs or automated accessibility violations. Real Chromium 149 additionally passes 98 release checkpoints and 22 accessibility scans at 1366 × 768 and 390 × 844 with normal/reduced motion, no horizontal viewport escapes and no failed local assets. Browser findings corrected before the final pass cover content-bearing entrance opacity, Home and gameplay-detail contrast, analytics/Legacy and Settings contrast, Settings entrance opacity, and mobile media-selector containment. This is machine evidence, not deployed owner acceptance.
+
+## r11 browser evidence carried forward
+
+The live r11 audit passed route transitions/focus, Reduce Motion, feedback preference persistence, lazy Home media, League confirmation, two-pack reveal, Transfer phases/draft recovery/verdicts, max-11 Review/confirmation, completed recovery, Legacy and analytics. r12 must repeat the critical header and Review → Edit paths after exact-head deployment before v1.0.
+
+---
+
+# r11 — Workstream 6 final polish / regression — implemented baseline
 
 ## Route presentation
 
@@ -69,7 +124,7 @@ Preserve:
 
 - legality checks and critical-write flush before presentation;
 - immediate destination commit with no artificial transition wait;
-- 180 ms forward/back `transform` + `opacity` entrance;
+- 180 ms forward/back `transform` entrance with full content opacity at every accessible frame;
 - one original CSS route rail using existing yellow/cyan tokens;
 - animation-end cleanup plus 260 ms fallback;
 - stale transition cancellation and navigation-revision protection;
@@ -353,16 +408,16 @@ Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy 
 
 `index.html` owns deployed runtime revision:
 
-`0.95.0-r11`
+`0.95.0-r12`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 
 ---
 
-# Workstream 6 — implemented; owner acceptance pending
+# Workstream 6 — implemented; r12 release stabilization pending
 
 Final v0.95 polish/regression now includes accessibility/focus, responsive consistency, performance, persistence/navigation/gameplay regression and the owner-approved **quality-gated FIFA-era navigation transition + original micro click-feedback experiment** in `ROADMAP_AMENDMENTS.md`.
 
-The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA assets/audio. Reduced Motion removes theatrical route state. Owner Chromebook/mobile testing remains the final quality decision; simplify or omit an effect if it lowers perceived quality.
+The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA assets/audio. Reduced Motion removes theatrical route state. r12 additionally protects Review → Edit from Smart Back interception and synchronizes the active-save shell header. Owner Chromebook/mobile testing remains the final quality decision; simplify or omit an effect if it lowers perceived quality.
 
-After r11 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
+After r12 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.

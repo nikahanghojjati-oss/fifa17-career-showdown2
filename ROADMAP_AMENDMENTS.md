@@ -6,6 +6,8 @@ These are **approved roadmap requirements**, not proof that the features are alr
 
 The additions must be integrated into the existing finite `v0.95 → v1.0` roadmap without restarting architecture or creating planning loops.
 
+Current r12 release maintenance preserves that finite roadmap: no feature scope, gameplay rule, persistence schema or route was added. Duplicate global timing helpers, obsolete optional-module bindings and repeated shell-state writes were removed, and regression validation now rejects their return.
+
 ---
 
 # 1. FIFA 17 typography and text styling — v0.95 Workstream 1B
@@ -251,6 +253,7 @@ This is an **owner-requested, quality-gated polish requirement**. It should ship
 - Use the established FIFA-17-era-inspired visual language rather than copying proprietary EA transition assets.
 - Keep `js/screens.js` as the sole route/history authority; transition presentation must wrap the existing navigation transaction, not create a second router or parallel screen state.
 - Prefer compositor-friendly `transform` and `opacity` animation. Avoid layout-heavy animation of width/height/top/left where it could cause reflow or Chromebook jank.
+- Keep content-bearing route surfaces fully opaque throughout entrance motion; opacity animation is reserved for decorative, non-text route accents so transient frames preserve readable contrast.
 - Keep the transition short and responsive; it should provide momentum and polish without making navigation feel slower.
 - Prevent double-navigation, stale callbacks and mismatched route history while an animation is active.
 - Critical pending writes and route validation must complete according to existing rules; animation may never bypass, reorder or disguise a failed save/blocked navigation.
@@ -310,9 +313,13 @@ Main Menu Career Statistics alignment, Rivalry Statistics and Trophy Room integr
 
 Season pre-commit review/confirmation is implemented and owner accepted.
 
-## Current — v0.95 Workstream 6
+## Implemented — v0.95 Workstream 6
 
-Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression, including the **quality-gated FIFA-era navigation transition and original micro click-feedback experiment** above, is implemented in `0.95.0-r11` and awaiting owner Chromebook/mobile acceptance.
+Final v0.95 accessibility, responsive, performance, persistence, navigation and gameplay regression, including the **quality-gated FIFA-era navigation transition and original micro click-feedback experiment** above, is implemented in `0.95.0-r11`.
+
+## Current — v0.95 release stabilization
+
+The full r11 browser flow exposed a Smart Back integration conflict on Season Review **EDIT RESULTS** plus stale shell save-indicator state. `0.95.0-r12` corrects those release blockers, adds regression protection and requires exact-head Chromebook/mobile acceptance before v1.0. This is stabilization of the completed roadmap, not a new feature workstream.
 
 ## v1.0
 

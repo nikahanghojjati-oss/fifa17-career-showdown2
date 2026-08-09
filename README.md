@@ -3,10 +3,10 @@
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
 **Application version:** v0.95.0 — Polish & Blueprint Alignment
-**Runtime asset revision:** `0.95.0-r11`
-**Current phase:** Workstream 6 final polish / regression candidate
+**Runtime asset revision:** `0.95.0-r12`
+**Current phase:** r12 release candidate validated locally; deployment and owner browser acceptance pending
 **Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
-**Next after r11 acceptance:** v1.0 Complete Release Candidate / Final Release
+**Next after r12 acceptance:** v1.0 Complete Release Candidate / Final Release
 
 ## Development entry point
 
@@ -26,17 +26,21 @@ The release path remains **v0.95 → v1.0**.
 
 ---
 
-## Current r11 — final polish / regression
+## Current r12 — release stabilization
 
-r11 adds a short centralized FIFA-era-inspired forward/back route entrance without delaying navigation or creating a second router. Critical-write flush, route validation and destination rendering still complete before presentation. Stale transition state is cancelled by navigation revision, and effective reduced motion skips the theatrical state entirely.
+The full r11 browser audit validated the final-polish presentation and complete one-season flow, then exposed an integration regression: **EDIT RESULTS** reused the router-reserved `.backButton` class, so centralized Smart Back returned to Showdown Home before the Season engine could restore the form. r12 classifies Edit as a non-routing compact control, preserves every entered value, clears the ephemeral review snapshot and requires a fresh Review.
 
-Successful user-initiated route changes can play a restrained 64 ms original Web Audio cue. The synthesizer is lazy, contains no recorded or copied FIFA sound, never creates an audio context at startup, suppresses itself while Home media is playing and cannot block navigation. Settings → Motion & Feedback provides a persistent mute switch.
+r12 also synchronizes the global save indicator during Home bootstrap and successful New Showdown creation, and corrects the singular **1 season completed** label. A new runtime DOM regression proves the Edit click passes through the real centralized capture layer without losing values.
 
-Accessibility polish includes destination-heading focus, screen accessibility-tree synchronization, explicit focus styles, associated setup labels, contextual Transfer-field names and loading-shell isolation.
+The release-maintenance pass also removes a duplicate global menu-feedback timing helper, obsolete optional-module direct bindings and the retired Home Trophy Room fallback. Active-save deletion/reset paths now reuse the same shell refresh authority. Static validation rejects future cross-module named-function collisions.
 
-The startup shell remains seven local scripts and one local stylesheet, under 35 KB gzip-compressed. **Validate Final Polish** expands the suite to 21 deterministic blocks across eight workflows.
+The browser-validated r11 presentation work remains intact: short directional route transitions, reduced-motion removal of theatrics, destination focus, screen accessibility-tree synchronization and an original optional 64 ms Web Audio cue that remains lazy, media-aware and non-blocking.
 
-See `NEXT_TASK.md` for the Chromebook/mobile quality and regression checklist.
+The startup shell remains seven local scripts and one local stylesheet with a 35 KB gzip ceiling. All eight established workflows remain mandatory. The exact candidate passes all 21 deterministic blocks plus an independent full-DOM journey across every feature destination with zero runtime errors, duplicate IDs or automated accessibility violations.
+
+A real-Chromium 149 release audit also passes 98 checkpoints and 22 accessibility scans at 1366 × 768 and 390 × 844, covering normal/reduced motion, the ten-second League gate, refresh recovery, Back/reopen drafts, Review/Edit/Confirm, optional routes, destructive transactions, responsive containment and preference persistence. Transient and settled contrast plus mobile media-selector findings discovered during that audit are corrected. Exact deployed owner Chrome/Chromebook acceptance is still required.
+
+See `NEXT_TASK.md` for the r12 exact browser checklist.
 
 ---
 
@@ -177,15 +181,16 @@ Eight GitHub Actions gates protect the current v0.95 build:
 - **Validate League Confirmation** — explicit Continue, save-before-navigation, rollback and refresh/resume route boundary.
 - **Validate Final Polish** — transition ordering/stale cleanup, reduced motion, route focus, original feedback synthesis, preference migration, accessibility and bundle budgets.
 
-Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r11 checklist.
+Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r12 checklist.
 
 ---
 
 ## Remaining release path
 
-1. **r11 Workstream 6 browser acceptance**
-   - compare the quality-gated FIFA-era navigation transition and original micro click feedback on Chromebook/mobile;
-   - simplify or omit either effect if it is not exceptionally smooth and intentional.
+1. **r12 release-stabilization browser acceptance**
+   - prove Review → Edit restores the populated Season Results form instead of triggering Smart Back;
+   - prove active/completed save headers synchronize on creation and reload;
+   - repeat the accepted r11 navigation, feedback, Chromebook/mobile and full-flow smoke checks.
 2. **v1.0 Complete Release Candidate / Final Release**
 
 No replacement v0.17/v0.18 roadmap is planned.
