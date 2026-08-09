@@ -1,158 +1,134 @@
 # NEXT TASK
 
-## Current gate: v0.95.0-r9 Workstream 5 — Season pre-commit review
+## Current gate: v0.95.0-r10 — League confirmation stabilization
 
 Owner/browser accepted:
 
 - Workstream 1B / `0.95.0-r4` — FIFA-era presentation, procedural club identities and two-pack reveal;
 - Workstream 2 / `0.95.0-r5` — phased Transfer Challenge and canonical FIFA 17 transfer metadata/selectors;
 - Workstream 3 / `0.95.0-r6` — Settings and persistent motion accessibility;
-- Workstream 4 / `0.95.0-r8` — Career Statistics/Trophy Room/Rivalry Statistics after Home-bootstrap stabilization.
+- Workstream 4 / `0.95.0-r8` — Career Statistics / Trophy Room / Rivalry Statistics after Home-bootstrap stabilization;
+- Workstream 5 / `0.95.0-r9` — Season pre-commit Review / Edit / Confirm & Save flow.
 
 **Application version:** v0.95.0  
-**Asset revision:** `0.95.0-r9`  
-**Current workstream:** Workstream 5 — Season pre-commit review  
-**Source status:** implemented and machine validation in progress/required on exact final head  
+**Asset revision:** `0.95.0-r10`  
+**Current activity:** stabilization bugfix before Workstream 6  
+**Source status:** explicit League Wheel confirmation implemented; exact-head validation required after documentation synchronization  
 **Owner acceptance:** pending
 
-Do not begin Workstream 6 until r9 has passed the real-browser Season Review acceptance below.
+Do not begin Workstream 6 until the r10 browser regression below passes.
 
 ---
 
-# What r9 changes
+# r10 bug fixed
 
-The old Season Results action immediately persisted a completed season after validation. That made an accidental checkbox/value entry irreversible before the user could see the calculated result as a whole.
+## Reported behavior
 
-r9 changes the sequence to:
+After the League Wheel finished selecting a league, the application automatically transitioned into Club Assignment even though the screen displayed a **CONTINUE TO CLUB ASSIGNMENT** button.
 
-**Season Results → Review Season → Edit Results OR Confirm & Save Season → Season Summary**
+## Root cause
 
-The Review step is an in-place state of the existing `seasonEntry` screen, not a new navigation route.
+`js/leagueWheel.js` intentionally scheduled `prepareClubAssignment()` after the spin completed:
 
-## Review is non-persistent
+- normal motion: 700 ms after selection;
+- reduced motion: 120 ms after selection.
 
-Pressing **REVIEW SEASON**:
+The UI therefore displayed an explicit Continue action while the runtime independently auto-advanced behind it.
 
-- validates both managers' required values;
-- reads the current form values;
-- calculates the existing locked scoring model;
-- calculates the existing locked Season winner rule;
-- creates an isolated memory-only snapshot;
-- displays raw results, achievement states, all score components, Season score, projected winner and projected overall Showdown score;
-- does **not** call `saveCurrentShowdown()`;
-- does **not** append a round;
-- does **not** advance `currentRound`;
-- does **not** change Showdown status;
-- does **not** create a new storage key.
+## Corrected contract
 
-## Edit Results is lossless
+The flow is now:
 
-**EDIT RESULTS** returns to the same Season Results form without resetting the entered values. The previous review snapshot is discarded so a changed form must be reviewed again before confirmation.
+**Spin League Wheel → League Selected → stay on League Wheel → CONTINUE TO CLUB ASSIGNMENT → League Confirmed → Club Assignment**
 
-## Final confirmation is the only persistence boundary
+There is no automatic post-spin navigation timer.
 
-**CONFIRM & SAVE SEASON**:
+### League Selected
 
-1. verifies the same Showdown and Season are still active;
-2. verifies the Transfer Challenge is still complete;
-3. rejects a Season that has already been saved;
-4. rebuilds canonical scoring/winner data from the reviewed raw values;
-5. compares it with the deterministic review fingerprint;
-6. blocks confirmation if the reviewed snapshot changed;
-7. creates the completion timestamp only at confirmation;
-8. enters the existing critical `persistCompletedSeason()` transaction;
-9. retains the existing save-failure rollback for rounds/currentRound/status/completedAt/score;
-10. opens the read-only Season Summary only after the critical save succeeds.
+After a successful spin:
 
-Double-submit protection remains active during confirmation.
+- the selected league is persisted immediately;
+- the league remains locked and cannot be rerolled;
+- showdown status becomes `League Selected`;
+- the League Wheel stays visible indefinitely;
+- the action becomes **CONTINUE TO CLUB ASSIGNMENT**.
 
-If browser storage rejects the critical write, the save transaction rolls back and the review remains available to retry or edit.
+Refreshing or resuming at this point returns to the same League Wheel with the same selected league and still requires Continue.
+
+### Explicit Continue
+
+Pressing **CONTINUE TO CLUB ASSIGNMENT**:
+
+1. changes status to `League Confirmed`;
+2. saves that confirmation as a critical write;
+3. rolls back to `League Selected` if the save fails;
+4. opens Club Assignment only after the confirmation save succeeds.
+
+A failed confirmation save therefore cannot silently advance the user.
+
+### Back/resume safety
+
+If the league is already `League Confirmed` but clubs have not yet been assigned, returning to the League Wheel and pressing Continue reopens the same Club Assignment without rerolling or changing the selected league.
+
+`js/screens.js` now treats `League Selected` and `League Confirmed` as separate route states:
+
+- `League Selected` + no clubs → canonical route is League Wheel;
+- `League Confirmed` + no clubs → canonical route is Club Assignment;
+- `Clubs Assigned` → existing Club Reveal confirmation flow;
+- confirmed permanent clubs → Showdown Home / normal progression.
+
+This prevents refresh, Continue Career, fallback routing or another module from bypassing the explicit Continue checkpoint.
 
 ---
 
-# Presentation / loading contract
-
-- `css/season.css` is lazy-loaded with the gameplay package; Home startup remains one local stylesheet + seven local scripts.
-- Season Review stays within `seasonEntry`; `js/screens.js` remains sole route/history authority.
-- Review UI has explicit Chromebook low-height, mobile and small-phone guards.
-- Review does not introduce external imagery or a framework.
-- Existing reduced-motion behavior remains authoritative.
-
----
-
-# Reliability / diagnostics contract
-
-`getSeasonReviewIntegrity()` verifies the dynamically-created Review UI and the Review/Confirm/Edit binding markers.
-
-Runtime diagnostics check the Season Review APIs and controls whenever gameplay is loaded.
+# Regression prevention
 
 Dedicated workflow:
 
-`.github/workflows/validate-season-review.yml`
+`.github/workflows/validate-league-confirmation.yml`
 
 It protects:
 
-- canonical max-11 preview scoring;
-- canonical Season winner;
-- null preview completion timestamp;
-- deterministic review fingerprint;
-- final-confirmation timestamp creation;
-- tamper/change blocking between review and confirmation;
-- Review path forbidden from persistence;
-- Confirm path as the only Season persistence boundary;
-- existing rollback snapshot/restore contract;
-- no new Season Review storage key;
-- lazy Season Review CSS;
-- diagnostic binding checks;
-- Chromebook/mobile presentation guards;
-- revision-independent behavioral validation.
+- removal of the old automatic advance timers;
+- spin completion forbidden from calling `prepareClubAssignment()`;
+- explicit Continue as the only no-club transition into Club Assignment;
+- save-before-navigation ordering;
+- rollback and no-navigation when the confirmation save fails;
+- `League Selected` refresh/resume returning to League Wheel;
+- `League Confirmed` refresh/resume entering Club Assignment;
+- preservation of the existing `Clubs Assigned` reveal/confirmation state.
 
-The r8 Home-bootstrap gate is also revision-independent now; it continues protecting the seven media choices and Home startup contract across r9 and later cache revisions.
+The Static App route matrix also distinguishes the two states so the broader navigation suite cannot regress back to `selectedLeague != null` being enough to enter Club Assignment.
+
+The deployed shell is cache-bumped to `0.95.0-r10` so the browser does not reuse r9 `screens.js` routing code.
 
 ---
 
-# r9 owner/browser acceptance checklist
+# r10 owner/browser acceptance checklist
 
-Hard-refresh once so the browser receives `0.95.0-r9`.
+Hard-refresh once so Chrome receives `0.95.0-r10`.
 
-Use a disposable Showdown if possible and test:
+Use a disposable new Showdown and test:
 
-1. Complete the Transfer Challenge and reach **Season Results**.
-2. Enter valid results for both managers.
-3. Confirm the primary button says **REVIEW SEASON**.
-4. Press it and verify a Review view appears instead of immediately completing the Season.
-5. Verify every entered value is represented correctly: position, points, goals and all four achievement checkboxes for each manager.
-6. Verify calculated scoring matches the locked rules and never exceeds 11.
-7. Verify the projected Season winner and projected overall Showdown score are correct.
-8. Press **EDIT RESULTS** and verify every form value is still present.
-9. Change at least one value/achievement, press **REVIEW SEASON** again and verify the Review updates.
-10. Press **CONFIRM & SAVE SEASON** once. Only now should the Season Summary appear and the Showdown score/round advance.
-11. Refresh after confirmation and verify the saved Season/score survives correctly.
-12. In a multi-season Showdown, verify the next Transfer Challenge begins for the next Season.
-13. On the final Season, verify completion/archive/Completed Showdown Home still behaves correctly.
-14. Try incomplete/invalid numeric input and confirm Review is blocked with the existing validation message.
-15. Quickly double-click/tap final confirmation and verify only one Season is created.
-16. Check Chromebook normal zoom and mobile for no overlap/clipping.
-17. Smoke-check Home media, Career Statistics, Trophy Room, Legacy, Settings and Smart Back.
+1. Reach the League Wheel and press **SPIN WHEEL**.
+2. Let the spin finish. The selected league should appear and the button should become **CONTINUE TO CLUB ASSIGNMENT**.
+3. **Do not press anything for at least 5–10 seconds.** The application must remain on the League Wheel with no automatic transition.
+4. Refresh the page before pressing Continue, then use Continue Career if needed. The same selected league must remain and the application must return to the League Wheel, still requiring Continue.
+5. Press **CONTINUE TO CLUB ASSIGNMENT** once. Club Assignment should now open exactly once.
+6. Verify the league cannot be rerolled or changed.
+7. Before opening the club packs, use Back to return to the League Wheel. The same league should remain; pressing Continue should reopen Club Assignment without a new league selection.
+8. With **Reduce Motion** enabled, repeat the spin. It may finish quickly, but it must still wait indefinitely for the explicit Continue press.
+9. Check the flow on Chromebook and mobile.
+10. Smoke-check Club Reveal, Showdown Home and the already accepted Season Review flow for no regression.
 
-If any real r9 defect appears, remain in Workstream 5, identify the root cause, add deterministic coverage where possible, bump the runtime revision if deployed bytes change, and validate/deploy the same exact head.
+If any r10 defect appears, remain in stabilization, fix the actual cause, add deterministic protection, bump the deployed revision if runtime bytes change, and validate/deploy one exact final head.
 
 ---
 
-# After r9 acceptance — Workstream 6
+# After r10 acceptance — Workstream 6
 
-Workstream 6 is the final v0.95 polish/regression pass.
+Workstream 6 is the final v0.95 polish/regression pass and includes the owner-requested quality-gated FIFA-era navigation transition + original micro click-feedback experiment recorded in `ROADMAP_AMENDMENTS.md`.
 
-It now includes the owner-requested **quality-gated FIFA-era navigation feedback experiment** recorded in `ROADMAP_AMENDMENTS.md`:
-
-- super-smooth football-game-style screen transition integrated with central routing;
-- compositor-friendly animation only if it improves perceived quality;
-- reduced-motion-safe behavior with no artificial delay;
-- original/safely-created very short navigation click cue, never copied EA/FIFA audio;
-- no autoplay, no stacked click sounds and no audio dependency that can block navigation;
-- Chromebook/mobile performance acceptance;
-- reject/simplify the feature if it causes lag, choppiness, route races or lower visual quality.
-
-Workstream 6 also covers final accessibility/focus, responsive consistency, typography/contrast, performance, persistence/navigation/gameplay regression and final documentation synchronization.
+It must remain lightweight, central-router-safe, reduced-motion-safe and fluid on Chromebook/mobile. If the transition or sound reduces perceived quality, introduces lag/choppiness, or creates route/audio races, it is simplified or omitted rather than shipped compromised.
 
 After Workstream 6 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
