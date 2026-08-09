@@ -1,10 +1,10 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.15.1
-   Stabilized Application Controller
+   v0.16.0
+   Lightweight Application Bootstrap
 ===================================================== */
 
-const APP_VERSION = "0.15.1";
+const APP_VERSION = "0.16.0";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
@@ -114,7 +114,7 @@ function resumeVisibleTransferTimer(){
     if(typeof currentShowdown === "undefined" || !currentShowdown){
         return;
     }
-    if(typeof getActiveScreenName !== "function" || getActiveScreenName() !== "transferChallenge"){
+    if(typeof window.getActiveScreenName !== "function" || window.getActiveScreenName() !== "transferChallenge"){
         return;
     }
     if(typeof getTransferChallengeForSeason !== "function"){
@@ -171,16 +171,23 @@ function revealApplication(){
 }
 
 function scheduleApplicationDiagnostics(){
-    if(typeof window.runApplicationDiagnostics !== "function"){
-        return;
-    }
-
-    const run = () => window.runApplicationDiagnostics();
+    const run = async () => {
+        try{
+            if(typeof window.ensureDiagnosticsModule === "function"){
+                await window.ensureDiagnosticsModule();
+            }
+            if(typeof window.runApplicationDiagnostics === "function"){
+                window.runApplicationDiagnostics();
+            }
+        }catch(error){
+            console.warn("[Career Mode Showdown] Diagnostics could not be loaded:", error);
+        }
+    };
 
     if(typeof window.requestIdleCallback === "function"){
-        window.requestIdleCallback(run, { timeout: 1400 });
+        window.requestIdleCallback(() => run(), { timeout: 2200 });
     }else{
-        window.setTimeout(run, 120);
+        window.setTimeout(run, 350);
     }
 }
 
@@ -193,15 +200,10 @@ function runInitializer(name, initializer){
 
 function initializeApplicationModules(){
     const initializers = [
-        ["initializeStorageLifecycle", initializeStorageLifecycle],
-        ["initializeShowdownUI", initializeShowdownUI],
-        ["initializeLeagueWheel", initializeLeagueWheel],
-        ["initializeClubAssignment", initializeClubAssignment],
-        ["initializeTransferChallenge", initializeTransferChallenge],
-        ["initializeSeasonEngine", initializeSeasonEngine],
-        ["initializeScreens", initializeScreens],
-        ["initializeMenuExperience", initializeMenuExperience],
-        ["initializeOptionalModules", initializeOptionalModules],
+        ["initializeStorageLifecycle", window.initializeStorageLifecycle],
+        ["initializeScreens", window.initializeScreens || (typeof initializeScreens === "function" ? initializeScreens : null)],
+        ["initializeMenuExperience", window.initializeMenuExperience || (typeof initializeMenuExperience === "function" ? initializeMenuExperience : null)],
+        ["initializeOptionalModules", window.initializeOptionalModules],
         ["initializePerformanceLifecycle", initializePerformanceLifecycle]
     ];
 
