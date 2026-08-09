@@ -1,10 +1,11 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.12.0
-   Lightweight Current Rivalry Statistics
+   v0.95.0
+   Career + Current Rivalry Statistics Presentation
 ===================================================== */
 
 let rivalryStatisticsRenderKey = null;
+let careerStatisticsRenderKey = null;
 
 function createStatisticsScreen(){
     if(document.getElementById("statistics")){ return; }
@@ -25,8 +26,56 @@ function createStatisticsScreen(){
     back.type = "button";
     back.className = "backButton";
     back.textContent = "BACK TO SHOWDOWN HOME";
-    back.addEventListener("click", () => showScreen("dashboard"));
     actions.appendChild(back);
+    section.append(heading, content, actions);
+    main.appendChild(section);
+}
+
+function createCareerStatisticsScreen(){
+    if(document.getElementById("careerStatistics")){ return; }
+    const main = document.querySelector("main");
+    if(!main){ return; }
+
+    const section = document.createElement("section");
+    section.id = "careerStatistics";
+    section.className = "screen hidden analyticsScreen";
+
+    const heading = document.createElement("h2");
+    heading.textContent = "CAREER STATISTICS";
+
+    const content = document.createElement("div");
+    content.id = "careerStatisticsContent";
+    content.className = "analyticsContent";
+
+    const actions = document.createElement("div");
+    actions.className = "dashboardActions";
+
+    const rivalryButton = document.createElement("button");
+    rivalryButton.type = "button";
+    rivalryButton.id = "careerStatisticsRivalryButton";
+    rivalryButton.className = "menuButton";
+    rivalryButton.textContent = "CURRENT RIVALRY STATISTICS";
+    rivalryButton.addEventListener("click", () => {
+        if(currentShowdown){ openRivalryStatistics(); }
+    });
+
+    const trophyButton = document.createElement("button");
+    trophyButton.type = "button";
+    trophyButton.id = "careerStatisticsTrophyButton";
+    trophyButton.className = "menuButton";
+    trophyButton.textContent = "OPEN TROPHY ROOM";
+    trophyButton.addEventListener("click", () => {
+        if(typeof window.openOptionalModule === "function"){
+            window.openOptionalModule("trophyRoom");
+        }
+    });
+
+    const back = document.createElement("button");
+    back.type = "button";
+    back.className = "backButton";
+    back.textContent = "BACK TO MAIN MENU";
+
+    actions.append(rivalryButton, trophyButton, back);
     section.append(heading, content, actions);
     main.appendChild(section);
 }
@@ -58,6 +107,17 @@ function getRivalryStatisticsRenderKey(){
     ].join("|");
 }
 
+function getCareerStatisticsRenderKey(){
+    const revision = typeof window.getLegacyStorageRevision === "function"
+        ? window.getLegacyStorageRevision()
+        : 0;
+    const active = currentShowdown;
+    const activeKey = active && active.status === "Completed"
+        ? `${active.id}:${active.updatedAt || active.completedAt || ""}`
+        : "none";
+    return `${revision}|${activeKey}`;
+}
+
 function createAnalyticsStat(label, value, subtext = ""){
     const card = document.createElement("div");
     card.className = "analyticsStatCard";
@@ -77,6 +137,11 @@ function createAnalyticsStat(label, value, subtext = ""){
 function formatAnalyticsNumber(value, digits = 1){
     const number = Number(value) || 0;
     return Number.isInteger(number) ? String(number) : number.toFixed(digits);
+}
+
+function formatAnalyticsPercent(value){
+    const number = Number(value) || 0;
+    return `${formatAnalyticsNumber(number, 1)}%`;
 }
 
 function createRivalryManagerHero(stats, clubName, showdownScore){
@@ -106,14 +171,194 @@ function createComparisonRow(label, playerOneValue, playerTwoValue, higherIsBett
     const two = document.createElement("strong");
     two.textContent = playerTwoValue;
 
-    const oneNumber = Number(playerOneValue);
-    const twoNumber = Number(playerTwoValue);
+    const oneNumber = Number(String(playerOneValue).replace("%", ""));
+    const twoNumber = Number(String(playerTwoValue).replace("%", ""));
     if(Number.isFinite(oneNumber) && Number.isFinite(twoNumber) && oneNumber !== twoNumber){
         const oneLeads = higherIsBetter ? oneNumber > twoNumber : oneNumber < twoNumber;
         (oneLeads ? one : two).classList.add("comparisonLeader");
     }
     row.append(one, title, two);
     return row;
+}
+
+function createCareerStandingsTable(managers){
+    const wrapper = document.createElement("div");
+    wrapper.className = "careerStandings";
+    const fragment = document.createDocumentFragment();
+    const header = document.createElement("div");
+    header.className = "careerStandingsRow header";
+    ["#", "Manager", "Showdowns", "Season W-D-L", "Points", "Trophies"].forEach(text => {
+        const cell = document.createElement("span");
+        cell.textContent = text;
+        header.appendChild(cell);
+    });
+    fragment.appendChild(header);
+
+    managers.forEach((manager, index) => {
+        const row = document.createElement("div");
+        row.className = "careerStandingsRow";
+        [
+            index + 1,
+            manager.name,
+            `${manager.showdownWins}-${manager.showdownDraws}-${manager.showdownLosses}`,
+            `${manager.seasonWins}-${manager.seasonDraws}-${manager.seasonLosses}`,
+            manager.totalPoints,
+            manager.totalTrophies
+        ].forEach((value, cellIndex) => {
+            const cell = document.createElement(cellIndex === 1 ? "strong" : "span");
+            cell.textContent = value;
+            row.appendChild(cell);
+        });
+        fragment.appendChild(row);
+    });
+
+    wrapper.appendChild(fragment);
+    return wrapper;
+}
+
+function getManagerFieldLeader(managers, field){
+    if(!managers.length){ return { value: null, holders: [] }; }
+    const bestValue = Math.max(...managers.map(manager => Number(manager[field]) || 0));
+    return {
+        value: bestValue,
+        holders: managers.filter(manager => (Number(manager[field]) || 0) === bestValue)
+    };
+}
+
+function createCareerLeaderCard(label, record, suffix = ""){
+    const card = document.createElement("div");
+    card.className = "recordCard";
+    const heading = document.createElement("span");
+    heading.textContent = label;
+    const value = document.createElement("strong");
+    const detail = document.createElement("small");
+
+    if(!record || record.value === null || !Array.isArray(record.holders) || !record.holders.length){
+        value.textContent = "—";
+        detail.textContent = "No completed record yet";
+    }else{
+        value.textContent = `${formatAnalyticsNumber(record.value)}${suffix}`;
+        detail.textContent = record.holders
+            .map(holder => holder.name || holder.manager || "Unknown Manager")
+            .join(" · ");
+    }
+
+    card.append(heading, value, detail);
+    return card;
+}
+
+function renderCareerLeaders(container, analytics){
+    const heading = document.createElement("h3");
+    heading.className = "analyticsSectionHeading";
+    heading.textContent = "CAREER LEADERS";
+
+    const grid = document.createElement("div");
+    grid.className = "recordsGrid";
+    grid.append(
+        createCareerLeaderCard("MOST SHOWDOWN WINS", analytics.records.showdownWins),
+        createCareerLeaderCard("MOST CAREER POINTS", analytics.records.totalPoints),
+        createCareerLeaderCard("MOST TROPHIES", analytics.records.trophies),
+        createCareerLeaderCard("MOST SEASON WINS", getManagerFieldLeader(analytics.managers, "seasonWins")),
+        createCareerLeaderCard("BEST AVG SEASON SCORE", getManagerFieldLeader(analytics.managers, "averageSeasonScore"), " pts"),
+        createCareerLeaderCard("BEST SEASON SCORE", analytics.records.highestSeasonScore, " pts")
+    );
+    container.append(heading, grid);
+}
+
+function renderCareerManagerComparison(container, analytics){
+    if(analytics.managers.length !== 2){ return; }
+
+    const one = analytics.managers[0];
+    const two = analytics.managers[1];
+    const heading = document.createElement("h3");
+    heading.className = "analyticsSectionHeading";
+    heading.textContent = "MANAGER COMPARISON";
+
+    const hero = document.createElement("div");
+    hero.className = "rivalryStatisticsHero";
+    const overview = document.createElement("div");
+    overview.className = "rivalryStatisticsOverview";
+    const title = document.createElement("strong");
+    title.textContent = `${one.name} vs ${two.name}`;
+    const meta = document.createElement("span");
+    meta.textContent = `${analytics.totals.showdowns} completed showdown${analytics.totals.showdowns === 1 ? "" : "s"}`;
+    overview.append(title, meta);
+
+    const matchup = document.createElement("div");
+    matchup.className = "rivalryStatisticsMatchup";
+    matchup.append(
+        createRivalryManagerHero(one, `${one.showdownWins} showdown win${one.showdownWins === 1 ? "" : "s"}`, one.totalPoints),
+        createRivalryManagerHero(two, `${two.showdownWins} showdown win${two.showdownWins === 1 ? "" : "s"}`, two.totalPoints)
+    );
+    hero.append(overview, matchup);
+
+    const table = document.createElement("div");
+    table.className = "comparisonTable";
+    [
+        ["Showdown Wins", one.showdownWins, two.showdownWins],
+        ["Showdown Win Rate", formatAnalyticsPercent(one.showdownWinRate), formatAnalyticsPercent(two.showdownWinRate)],
+        ["Season Wins", one.seasonWins, two.seasonWins],
+        ["Career Points", one.totalPoints, two.totalPoints],
+        ["Average Season Score", formatAnalyticsNumber(one.averageSeasonScore), formatAnalyticsNumber(two.averageSeasonScore)],
+        ["Best Season Score", one.bestSeasonScore ?? 0, two.bestSeasonScore ?? 0],
+        ["Average League Points", formatAnalyticsNumber(one.averageLeaguePoints), formatAnalyticsNumber(two.averageLeaguePoints)],
+        ["Average League Goals", formatAnalyticsNumber(one.averageLeagueGoals), formatAnalyticsNumber(two.averageLeagueGoals)],
+        ["Perfect 11-Point Seasons", one.perfectSeasons, two.perfectSeasons],
+        ["Transfer Signings", one.signings, two.signings],
+        ["Signings Released", one.releasedSignings, two.releasedSignings, false]
+    ].forEach(([label, valueOne, valueTwo, higherIsBetter]) => {
+        table.appendChild(createComparisonRow(label, valueOne, valueTwo, higherIsBetter === undefined ? true : higherIsBetter));
+    });
+
+    container.append(heading, hero, table);
+}
+
+function renderCareerStatistics(force = false){
+    const content = document.getElementById("careerStatisticsContent");
+    if(!content){ return; }
+
+    const nextKey = getCareerStatisticsRenderKey();
+    if(!force && careerStatisticsRenderKey === nextKey && content.childElementCount){
+        const rivalryButton = document.getElementById("careerStatisticsRivalryButton");
+        if(rivalryButton){ rivalryButton.classList.toggle("hidden", !currentShowdown); }
+        return;
+    }
+
+    const analytics = buildCareerAnalytics();
+    const fragment = document.createDocumentFragment();
+
+    const summary = document.createElement("div");
+    summary.className = "analyticsStatsGrid trophyRoomSummary";
+    summary.append(
+        createAnalyticsStat("COMPLETED SHOWDOWNS", analytics.totals.showdowns),
+        createAnalyticsStat("SEASONS PLAYED", analytics.totals.seasons),
+        createAnalyticsStat("CAREER POINTS", analytics.totals.points),
+        createAnalyticsStat("TROPHIES WON", analytics.totals.trophies)
+    );
+    fragment.appendChild(summary);
+
+    if(!analytics.managers.length){
+        const empty = document.createElement("div");
+        empty.className = "analyticsEmpty";
+        empty.textContent = "Career Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.";
+        fragment.appendChild(empty);
+    }else{
+        const standingsHeading = document.createElement("h3");
+        standingsHeading.className = "analyticsSectionHeading";
+        standingsHeading.textContent = "CAREER TABLE";
+        fragment.append(standingsHeading, createCareerStandingsTable(analytics.managers));
+
+        const host = document.createElement("div");
+        renderCareerManagerComparison(host, analytics);
+        renderCareerLeaders(host, analytics);
+        while(host.firstChild){ fragment.appendChild(host.firstChild); }
+    }
+
+    content.replaceChildren(fragment);
+    careerStatisticsRenderKey = nextKey;
+
+    const rivalryButton = document.getElementById("careerStatisticsRivalryButton");
+    if(rivalryButton){ rivalryButton.classList.toggle("hidden", !currentShowdown); }
 }
 
 function renderRivalryComparison(container, analytics){
@@ -288,6 +533,12 @@ function renderRivalryStatistics(force = false){
     rivalryStatisticsRenderKey = nextKey;
 }
 
+function openCareerStatistics(){
+    createCareerStatisticsScreen();
+    renderCareerStatistics();
+    showScreen("careerStatistics");
+}
+
 function openRivalryStatistics(){
     if(!currentShowdown){ return; }
     createStatisticsScreen();
@@ -300,5 +551,9 @@ function initializeStatistics(){
 }
 
 window.initializeStatistics = initializeStatistics;
+window.renderCareerStatistics = renderCareerStatistics;
+window.openCareerStatistics = openCareerStatistics;
+window.createCareerStandingsTable = createCareerStandingsTable;
 window.renderRivalryStatistics = renderRivalryStatistics;
 window.openRivalryStatistics = openRivalryStatistics;
+window.createAnalyticsStat = createAnalyticsStat;
