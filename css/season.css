@@ -1,0 +1,82 @@
+/* =====================================================
+   Career Mode Showdown v0.95.0
+   Workstream 5 — Season pre-commit review presentation
+===================================================== */
+
+.seasonReviewPanel{
+    width:min(1040px,94vw);margin:0 auto 16px;padding:0 0 14px;
+    background:rgba(247,249,249,.98);border-top:5px solid var(--f17-yellow);
+    box-shadow:var(--f17-shadow);
+}
+.seasonReviewStatus{
+    min-height:38px;padding:8px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    color:#dbe5ea;background:#2d363e;font:800 10px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase;
+}
+.seasonReviewStatus span{color:var(--f17-yellow);}
+.seasonReviewStatus strong{font-size:9px;letter-spacing:.9px;}
+.seasonReviewPanel>h3{
+    margin:18px 18px 6px;color:var(--f17-ink);
+    font:900 clamp(26px,3vw,38px)/.9 var(--f17-display);letter-spacing:-.3px;text-transform:uppercase;
+}
+.seasonReviewPanel>h3:focus{outline:0;}
+.seasonReviewIntro{
+    margin:0 18px 13px;color:#5e6c76;font-size:11px;line-height:1.45;
+}
+.seasonReviewResult{margin:0 18px 14px;}
+.seasonReviewGrid{width:auto;margin:0 18px 12px;}
+.seasonReviewCard{position:relative;overflow:hidden;}
+.seasonReviewCard::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--f17-cyan);}
+.seasonReviewCard:nth-child(2)::before{background:var(--f17-yellow);}
+.seasonReviewLine.isZero{opacity:.48;}
+.seasonReviewLine.isScoring strong{color:var(--f17-blue-deep);}
+.seasonReviewAchievements{
+    margin:11px 0 12px;padding-top:9px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;
+    border-top:1px solid rgba(31,42,50,.13);
+}
+.seasonReviewAchievements span{
+    min-height:31px;padding:7px 8px;display:flex;align-items:center;
+    font:800 9px/1.1 var(--f17-display);letter-spacing:.45px;text-transform:uppercase;
+}
+.seasonReviewAchievements .isEarned{color:#21372a;background:#dcecdf;border-left:4px solid #68a978;}
+.seasonReviewAchievements .isNotEarned{color:#74818a;background:#edf1f2;border-left:4px solid #c5ced2;}
+.seasonReviewScoreHeading{
+    margin:8px 0 5px;color:var(--f17-blue-deep);
+    font:900 11px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase;
+}
+.seasonReviewTotal{margin-top:10px;}
+.seasonReviewOverall{width:auto;margin:0 18px 10px;}
+.seasonReviewWarning{
+    margin:0 18px 10px;padding:9px 11px;color:#66383b;background:#f3e2e3;border-left:5px solid #b95e64;
+    font:800 10px/1.2 var(--f17-display);letter-spacing:.75px;text-transform:uppercase;
+}
+.seasonReviewError{margin:0 18px;}
+.seasonReviewActions{width:auto;margin:12px 18px 0;}
+.seasonReviewActions .menuButton{border-left-color:var(--f17-yellow);}
+.seasonReviewActions .backButton{width:100%;}
+
+@media(min-width:901px) and (max-height:800px){
+    .seasonReviewPanel{margin-bottom:10px;padding-bottom:10px;}
+    .seasonReviewPanel>h3{margin-top:13px;font-size:28px;}
+    .seasonReviewIntro{margin-bottom:9px;}
+    .seasonReviewAchievements{margin:8px 0;}
+    .seasonReviewAchievements span{min-height:27px;padding:5px 7px;}
+}
+
+@media(max-width:700px){
+    .seasonReviewPanel{width:min(100%,94vw);}
+    .seasonReviewStatus{align-items:flex-start;flex-direction:column;gap:4px;}
+    .seasonReviewGrid{grid-template-columns:1fr;}
+    .seasonReviewAchievements{grid-template-columns:1fr 1fr;}
+}
+
+@media(max-width:480px){
+    .seasonReviewPanel>h3,.seasonReviewIntro,.seasonReviewResult,.seasonReviewGrid,
+    .seasonReviewOverall,.seasonReviewWarning,.seasonReviewError,.seasonReviewActions{margin-left:11px;margin-right:11px;}
+    .seasonReviewAchievements{grid-template-columns:1fr;}
+}
+
+@media(prefers-reduced-motion:reduce){
+    .seasonReviewPanel *{scroll-behavior:auto!important;}
+}
+
+html[data-motion-reduced="true"] .seasonReviewPanel *{scroll-behavior:auto!important;}
