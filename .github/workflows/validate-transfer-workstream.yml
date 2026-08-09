@@ -1,0 +1,195 @@
+name: Validate Transfer Workstream
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  transfer-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate FIFA 17 transfer datasets
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const context = { console };
+          context.window = context;
+          vm.createContext(context);
+          const source = fs.readFileSync('data/transferOptions.js', 'utf8');
+          vm.runInContext(source, context, { filename: 'data/transferOptions.js' });
+
+          const leagues = context.FIFA17_TRANSFER_LEAGUES;
+          const nationalities = context.FIFA17_TRANSFER_NATIONALITIES;
+          assert.strictEqual(leagues.length, 36, 'Transfer league dataset must contain 35 domestic competitions plus Rest of World.');
+          assert.strictEqual(nationalities.length, 164, 'FIFA 17 player-nationality dataset must contain 164 nationalities.');
+          assert.strictEqual(new Set(leagues.map(item => item.id)).size, leagues.length, 'Transfer league IDs must be unique.');
+          assert.strictEqual(new Set(nationalities.map(item => item.id)).size, nationalities.length, 'Nationality IDs must be unique.');
+
+          const requiredLeagues = [
+            'england-premier-league', 'england-championship', 'england-league-one', 'england-league-two',
+            'france-ligue-2', 'germany-2-bundesliga', 'italy-serie-b', 'spain-segunda-a', 'rest-of-world'
+          ];
+          requiredLeagues.forEach(id => assert.ok(leagues.some(item => item.id === id), `Missing FIFA 17 transfer league: ${id}`));
+
+          assert.strictEqual(context.resolveFifa17TransferOption('league', 'Calcio A').id, 'italy-serie-a');
+          assert.strictEqual(context.resolveFifa17TransferOption('league', 'Liga BBVA').id, 'spain-primera-division');
+          assert.strictEqual(context.resolveFifa17TransferOption('league', 'EFL Championship').id, 'england-championship');
+          assert.strictEqual(context.resolveFifa17TransferOption('nationality', 'Czechia').id, 'czech-republic');
+          assert.strictEqual(context.resolveFifa17TransferOption('nationality', 'North Macedonia').id, 'fyr-macedonia');
+          assert.strictEqual(context.resolveFifa17TransferOption('nationality', 'Türkiye').id, 'turkey');
+          assert.strictEqual(context.resolveFifa17TransferOption('nationality', 'South Korea').id, 'korea-republic');
+
+          const showdownLeaguesSource = fs.readFileSync('data/leagues.js', 'utf8');
+          const showdownContext = { console };
+          showdownContext.window = showdownContext;
+          vm.createContext(showdownContext);
+          vm.runInContext(`${showdownLeaguesSource}\n;globalThis.__leagueCount = leagues.length;`, showdownContext);
+          assert.strictEqual(showdownContext.__leagueCount, 5, 'Transfer metadata must not expand the five-league Showdown Wheel.');
+
+          console.log(`Validated ${leagues.length} transfer competitions, ${nationalities.length} player nationalities, aliases, and locked five-league Showdown scope.`);
+          NODE
+
+      - name: Validate transfer phase migration and canonical matching
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const context = {
+            console,
+            currentShowdown: {
+              status: 'Transfer Challenge Recording',
+              managers: { playerOne: 'One', playerTwo: 'Two' }
+            }
+          };
+          context.window = context;
+          vm.createContext(context);
+          vm.runInContext(fs.readFileSync('data/transferOptions.js', 'utf8'), context, { filename: 'data/transferOptions.js' });
+          const transferSource = fs.readFileSync('js/transferChallenge.js', 'utf8');
+          vm.runInContext(
+            `${transferSource}\n;globalThis.__transferTest = { normalizeTransferChallengePhase, migrateTransferChallengeRecord, evaluateSignings, TRANSFER_PHASES };`,
+            context,
+            { filename: 'js/transferChallenge.js' }
+          );
+
+          const api = context.__transferTest;
+          assert.strictEqual(api.normalizeTransferChallengePhase({ status: 'recording' }), 'guess_entry', 'Old recording save must migrate to Guess Entry first.');
+          assert.strictEqual(api.normalizeTransferChallengePhase({ status: 'recording', phase: 'signing_entry' }), 'signing_entry');
+          assert.strictEqual(api.normalizeTransferChallengePhase({ status: 'active' }), 'window');
+          assert.strictEqual(api.normalizeTransferChallengePhase({ status: 'completed' }), 'completed');
+
+          const oldChallenge = {
+            seasonNumber: 1,
+            status: 'recording',
+            signings: {
+              playerOne: [{ slot: 1, name: 'Legacy Signing', league: 'Calcio A', nationality: 'Czechia', release: false, matchedBy: [] }],
+              playerTwo: []
+            },
+            guesses: {
+              againstPlayerOne: [{ slot: 1, type: 'league', value: 'EPL' }],
+              againstPlayerTwo: [{ slot: 1, type: 'nationality', value: 'South Korea' }]
+            }
+          };
+
+          assert.strictEqual(api.migrateTransferChallengeRecord(oldChallenge), true, 'Legacy record should require migration.');
+          assert.strictEqual(oldChallenge.phase, 'guess_entry');
+          assert.strictEqual(context.currentShowdown.status, 'Transfer Guess Entry');
+          assert.strictEqual(oldChallenge.signings.playerOne[0].leagueId, 'italy-serie-a');
+          assert.strictEqual(oldChallenge.signings.playerOne[0].nationalityId, 'czech-republic');
+          assert.strictEqual(oldChallenge.guesses.againstPlayerOne[0].valueId, 'england-premier-league');
+          assert.strictEqual(oldChallenge.guesses.againstPlayerTwo[0].valueId, 'korea-republic');
+          assert.strictEqual(oldChallenge.signings.playerOne[0].name, 'Legacy Signing', 'Legacy signing draft must survive migration.');
+
+          const evaluated = api.evaluateSignings(
+            [{ slot: 1, name: 'A', leagueId: 'italy-serie-a', league: 'TIM Serie A', nationalityId: 'czech-republic', nationality: 'Czech Republic' }],
+            [{ slot: 1, type: 'league', valueId: 'italy-serie-a', value: 'TIM Serie A' }]
+          );
+          assert.strictEqual(evaluated[0].release, true, 'Canonical league ID match must trigger RELEASE.');
+          assert.strictEqual(evaluated[0].matchedBy[0].valueId, 'italy-serie-a');
+
+          const accentSafe = api.evaluateSignings(
+            [{ slot: 1, name: 'B', leagueId: 'spain-primera-division', league: 'Primera División', nationalityId: 'turkey', nationality: 'Turkey' }],
+            [{ slot: 1, type: 'nationality', valueId: 'turkey', value: 'Türkiye' }]
+          );
+          assert.strictEqual(accentSafe[0].release, true, 'Alias display labels must still match through canonical IDs.');
+
+          const noFalseMatch = api.evaluateSignings(
+            [{ slot: 1, name: 'C', leagueId: 'spain-primera-division', league: 'Primera División', nationalityId: 'turkey', nationality: 'Turkey' }],
+            [{ slot: 1, type: 'league', valueId: 'italy-serie-a', value: 'TIM Serie A' }]
+          );
+          assert.strictEqual(noFalseMatch[0].release, false, 'Different canonical IDs must not produce false release matches.');
+
+          assert.ok(transferSource.includes('challenge.phase = TRANSFER_PHASES.SIGNING'), 'Guess lock must transition to Signing Entry.');
+          assert.ok(transferSource.includes('challenge.guessesLockedAt = Date.now()'), 'Guess lock timestamp is missing.');
+          assert.ok(transferSource.includes('challenge.signingsLockedAt = Date.now()'), 'Signing lock timestamp is missing.');
+          assert.ok(transferSource.includes('restoreChallengeSnapshot(challenge, previous)'), 'Critical transition rollback guard is missing.');
+          assert.ok(transferSource.includes('saveCurrentShowdown()'), 'Critical transfer transitions must persist immediately.');
+
+          console.log('Validated old-save migration, Guess → Signing phase order, canonical-ID evaluation, and rollback contracts.');
+          NODE
+
+      - name: Validate selector accessibility and lazy-loading contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const loader = fs.readFileSync('js/optionalModules.js', 'utf8');
+          const selector = fs.readFileSync('js/transferSelector.js', 'utf8');
+          const css = fs.readFileSync('css/transfer.css', 'utf8');
+          const transfer = fs.readFileSync('js/transferChallenge.js', 'utf8');
+
+          ['data/transferOptions.js', 'js/transferSelector.js', 'css/transfer.css'].forEach(path => {
+            assert.ok(loader.includes(path), `${path} must be loaded through the lazy gameplay package.`);
+            assert.ok(!html.includes(path), `${path} must not become an initial shell asset.`);
+          });
+          assert.ok(loader.indexOf('data/transferOptions.js') < loader.indexOf('js/transferSelector.js'), 'Transfer option data must load before selector behavior.');
+          assert.ok(loader.indexOf('js/transferSelector.js') < loader.indexOf('js/transferChallenge.js'), 'Selector behavior must load before Transfer Challenge initialization.');
+
+          ['role", "combobox', 'aria-autocomplete', 'aria-controls', 'aria-expanded', 'aria-activedescendant'].forEach(token => {
+            assert.ok(selector.includes(token), `Accessible combobox contract missing: ${token}`);
+          });
+          ['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].forEach(key => assert.ok(selector.includes(key), `Keyboard selector support missing: ${key}`));
+          assert.ok(selector.includes('TRANSFER_SELECTOR_RESULT_LIMIT = 14'), 'Selector result cap must remain bounded.');
+          assert.ok(css.includes('max-height:min(300px,42vh)'), 'Desktop selector viewport cap is missing.');
+          assert.ok(css.includes('@media(max-width:760px)'), 'Transfer UI mobile breakpoint is missing.');
+          assert.ok(css.includes('max-height:48vh'), 'Mobile selector popover must remain viewport constrained.');
+          assert.ok(css.includes('@media(min-width:901px) and (max-height:800px)'), 'Low-height Chromebook transfer breakpoint is missing.');
+          assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'), 'Transfer phase UI reduced-motion contract is missing.');
+
+          assert.ok(transfer.includes('LOCK GUESSES & CONTINUE TO SIGNINGS'), 'Guess phase action is missing.');
+          assert.ok(transfer.includes('LOCK SIGNINGS & REVEAL VERDICTS'), 'Signing phase action is missing.');
+          assert.ok(transfer.includes('getTransferSelectorCanonicalValue'), 'Signing/guess capture must store canonical selector IDs.');
+          assert.ok(!transfer.includes('normalizeTransferValue(guess.value)'), 'Legacy free-text-only guess evaluation must not return.');
+
+          const openBraces = (css.match(/{/g) || []).length;
+          const closeBraces = (css.match(/}/g) || []).length;
+          assert.strictEqual(openBraces, closeBraces, 'css/transfer.css has unbalanced braces.');
+
+          console.log('Validated lazy transfer assets, combobox accessibility, Chromebook/mobile containment, and canonical capture contracts.');
+          NODE
