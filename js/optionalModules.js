@@ -7,7 +7,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "0.95.0-r7";
+    return revision || "0.95.0-r9";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -239,11 +239,17 @@ async function loadGameplayRuntimeFiles(){
             && typeof window.openTransferChallenge === "function"
             && typeof window.normalizeTransferChallengePhase === "function"
     );
+
+    const seasonStylePromise = loadRuntimeStyle("season-review-ui", "css/season.css");
     await loadRuntimeScript(
         "season-engine",
         "js/seasonEngine.js",
-        () => typeof window.initializeSeasonEngine === "function" && typeof window.openSeasonEntry === "function"
+        () => typeof window.initializeSeasonEngine === "function"
+            && typeof window.openSeasonEntry === "function"
+            && typeof window.confirmCurrentSeason === "function"
+            && typeof window.getSeasonReviewIntegrity === "function"
     );
+    await seasonStylePromise;
 }
 
 function ensureGameplayModules(){
