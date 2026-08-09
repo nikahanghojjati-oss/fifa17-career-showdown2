@@ -89,7 +89,9 @@ function ensureTransferPhaseLayout(){
         const note = document.createElement("div");
         note.id = "transferGuessPrivacyNote";
         note.className = "transferGuessPrivacyNote";
-        note.innerHTML = "<strong>Guess phase:</strong> lock the opponent guesses before entering either manager's completed signings. This ordering is permanent for the season once saved.";
+        const heading = document.createElement("strong");
+        heading.textContent = "Guess phase: ";
+        note.append(heading, document.createTextNode("lock the opponent guesses before entering either manager's completed signings. This ordering is permanent for the season once saved."));
         guessGrid.insertAdjacentElement("beforebegin", note);
     }
 
@@ -876,10 +878,17 @@ function getTransferPhaseIntro(challenge){
     return "<strong>Transfer Verdicts</strong><span>The challenge is locked.</span> Any signing matching at least one opponent League or Nationality guess must be released before the season begins.";
 }
 
-function getGuessCountSummary(challenge){
+function renderGuessLockSummary(element, challenge){
+    if(!element || !currentShowdown){ return; }
     const againstOne = challenge.guesses.againstPlayerOne.length;
     const againstTwo = challenge.guesses.againstPlayerTwo.length;
-    return `<strong>Guesses locked:</strong> ${currentShowdown.managers.playerTwo} made ${againstOne} against ${currentShowdown.managers.playerOne}; ${currentShowdown.managers.playerOne} made ${againstTwo} against ${currentShowdown.managers.playerTwo}.`;
+    const heading = document.createElement("strong");
+    heading.textContent = "Guesses locked: ";
+    const message = document.createTextNode(
+        `${currentShowdown.managers.playerTwo} made ${againstOne} against ${currentShowdown.managers.playerOne}; `
+        + `${currentShowdown.managers.playerOne} made ${againstTwo} against ${currentShowdown.managers.playerTwo}.`
+    );
+    element.replaceChildren(heading, message);
 }
 
 function renderTransferChallenge(challenge){
@@ -897,7 +906,7 @@ function renderTransferChallenge(challenge){
     setTransferText(ui.guessOneHeading, `${currentShowdown.managers.playerTwo} guesses ${currentShowdown.managers.playerOne}'s signings`);
     setTransferText(ui.guessTwoHeading, `${currentShowdown.managers.playerOne} guesses ${currentShowdown.managers.playerTwo}'s signings`);
     if(ui.intro){ ui.intro.innerHTML = getTransferPhaseIntro(challenge); }
-    if(ui.lockSummary){ ui.lockSummary.innerHTML = getGuessCountSummary(challenge); }
+    renderGuessLockSummary(ui.lockSummary, challenge);
     renderTransferPhaseNavigator(phase);
 
     const statusLabels = {
