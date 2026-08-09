@@ -52,7 +52,7 @@
 .seasonReviewError{margin:0 18px;}
 .seasonReviewActions{width:auto;margin:12px 18px 0;}
 .seasonReviewActions .menuButton{border-left-color:var(--f17-yellow);}
-.seasonReviewActions .backButton{width:100%;}
+.seasonReviewActions .compactButton{width:100%;}
 
 @media(min-width:901px) and (max-height:800px){
     .seasonReviewPanel{margin-bottom:10px;padding-bottom:10px;}

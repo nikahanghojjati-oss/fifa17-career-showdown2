@@ -92,7 +92,7 @@ function ensureSeasonReviewUI(){
 
     const edit = document.createElement("button");
     edit.id = "editSeasonResults";
-    edit.className = "backButton";
+    edit.className = "compactButton";
     edit.type = "button";
     edit.textContent = "EDIT RESULTS";
 

@@ -10,9 +10,74 @@ The project remains inside the original **v0.95** convergence milestone.
 
 ---
 
+# v0.95.0-r12 — v1.0 Release Stabilization
+
+Status: **implemented; comprehensive local Chromium acceptance passed; deployed owner acceptance pending**
+
+## Browser-audit finding
+
+The complete r11 live flow passed navigation polish, League confirmation, Club Reveal, Transfer phases, scoring, final persistence, completed recovery, Legacy and analytics. It also exposed a release-blocking integration regression: Season Review **EDIT RESULTS** returned to Showdown Home.
+
+Root cause:
+
+- the dynamically created Edit control used `.backButton`;
+- centralized Smart Back correctly intercepts that reserved class at document capture phase;
+- the Season engine's bubbling Edit handler never ran.
+
+## Corrections
+
+- reclassified Edit Results as the visually equivalent non-routing `.compactButton`;
+- preserved populated Season values and review-draft invalidation on Edit;
+- kept `js/screens.js` as the unchanged sole Smart Back authority;
+- synchronized the Home/header save indicator with Continue Career on bootstrap;
+- refreshed shell save state after a successful New Showdown save and before League selection;
+- added active, completed and empty header states;
+- corrected completed-hub grammar to `1 season completed`.
+
+## Regression protection
+
+- Season Review validation now rejects `.backButton` on Edit Results;
+- Home Bootstrap validates save-before-shell-refresh-before-route ordering;
+- Static App protects singular/plural completed-season presentation;
+- runtime DOM simulation dispatches the real Edit click through centralized capture delegation and proves the form mode, draft invalidation and values recover correctly.
+
+## Release-maintenance hardening
+
+- removed the duplicate global menu-feedback clock function shared accidentally by the eager Home module and lazy synthesizer;
+- gave interaction timing and synthesis timing separate module-owned helpers;
+- removed dead direct-binding initializers and the obsolete `trophyRoomButton` fallback left after the top-level Trophy Room tile was retired;
+- kept Rule Book Back under the sole centralized Smart Back capture authority;
+- routed active-save deletion/reset header refreshes through `refreshMainMenuExperience()` instead of repeating shell text writes;
+- added a whole-runtime validation guard that rejects future cross-module named-function collisions and retired optional-module fallbacks.
+
+All 21 deterministic blocks pass after this cleanup. An independent full-DOM audit also passes the complete one-season flow, refresh/resume checkpoints, every current feature destination, normal/reduced motion state, menu media lifecycle and Settings preference recovery with zero runtime errors, duplicate IDs or automated accessibility violations.
+
+## Final local browser audit
+
+The exact r12 source candidate was exercised in real Chromium 149 at 1366 × 768 Chromebook-class and 390 × 844 touch/mobile viewports. The final run passed 98 journey checkpoints and 22 automated accessibility scans, including the 10-second League checkpoint, refresh/Continue recovery, Club Assignment Back/reopen, Transfer signing-draft recovery, max-11 Review, Edit value preservation, edited-value single commit, completed-showdown reload, optional feature routes, destructive data transactions, settings persistence and reduced-motion routing.
+
+The browser pass found and corrected ten presentation issues before release:
+
+- Home fallback text and media-source contrast when external font/photo requests are unavailable;
+- club-reveal sequence-index contrast over the dark assignment cards;
+- Showdown Home transfer-status contrast;
+- inactive Transfer phase-label and sequence-badge contrast;
+- Transfer verdict metadata and empty-state contrast;
+- Season Summary overall-score caption contrast;
+- analytics and Legacy secondary-label contrast;
+- Settings dialog contrast during its entrance animation plus several settled secondary-label/status colors;
+- route-entry contrast during the first accessible animation frame, while retaining directional transform motion and the decorative route rail;
+- clipped mobile media choices, now presented as a contained two-column grid below 700 px.
+
+The final browser run reported no page errors, severe application console errors, failed local assets, horizontal viewport escapes or duplicate IDs. Exact deployed Chrome/Chromebook owner acceptance remains pending.
+
+No gameplay rule, persistence schema, route, startup-asset count or lazy-loading boundary changed.
+
+---
+
 # v0.95.0-r11 — Workstream 6 Final Polish / Regression
 
-Status: **implemented; owner browser acceptance pending**
+Status: **browser-audited; superseded by r12 release stabilization**
 
 ## Central route presentation
 
@@ -254,7 +319,7 @@ Application framework/navigation/storage, League Wheel, league/club data, functi
 
 ## Current gate
 
-Owner Chromebook/mobile acceptance of **`0.95.0-r11` final polish / regression candidate**.
+Owner Chromebook/mobile acceptance of **`0.95.0-r12` release stabilization candidate**.
 
 ## Workstream 6 — implemented
 
@@ -267,4 +332,4 @@ Owner-approved quality-gated addition:
 - reduced-motion-safe and non-blocking;
 - ship only if real Chromebook/mobile testing demonstrates a clear quality improvement with no lag, choppiness or route/audio race.
 
-After r11 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
+After r12 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.

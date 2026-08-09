@@ -193,6 +193,8 @@ jobs:
           assert.ok(settingsCss.includes('max-height:min(92vh,820px)'), 'Desktop Settings dialog needs a bounded viewport height.');
           assert.ok(settingsCss.includes('overflow-y:auto'), 'Settings content must remain scrollable in constrained viewports.');
           assert.ok(settingsCss.includes('.settingsDialog{width:100%;max-width:none;max-height:none;height:100%'), 'Mobile Settings must use the full available viewport.');
+          assert.ok(settingsCss.includes('from{transform:translateY(6px) scale(.995)}'), 'Settings entrance must preserve full text opacity during automated and visual accessibility checks.');
+          assert.ok(!settingsCss.includes('from{opacity:'), 'Settings entrance must not temporarily lower the contrast of the entire dialog.');
 
           console.log('Settings CSS structure and responsive viewport contracts passed.');
           NODE

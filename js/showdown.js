@@ -93,6 +93,9 @@ function createShowdown(){
     if(typeof window.resetTransientSelectionOperations === "function"){
         window.resetTransientSelectionOperations();
     }
+    if(typeof window.refreshMainMenuExperience === "function"){
+        window.refreshMainMenuExperience();
+    }
 
     showScreen("leagueWheelScreen");
 }
