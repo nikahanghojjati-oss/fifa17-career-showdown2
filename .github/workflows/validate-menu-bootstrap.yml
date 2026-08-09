@@ -35,6 +35,8 @@ jobs:
           const source = fs.readFileSync('js/menuExperience.js', 'utf8');
           const showdown = fs.readFileSync('js/showdown.js', 'utf8');
           const appCss = fs.readFileSync('css/app.css', 'utf8');
+          const app = fs.readFileSync('js/app.js', 'utf8');
+          const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md', 'utf8');
 
           const context = { console };
           context.window = context;
@@ -55,6 +57,10 @@ jobs:
 
           assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
           assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
+          assert.ok(html.includes('id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=0.95.0-r13"'), 'The local versioned startup portrait is missing.');
+          assert.ok(source.includes('thumbnail: "assets/marco-reus-2015-cc-by.webp?v=0.95.0-r13"'), 'Home and startup must reuse one cached portrait.');
+          assert.ok(notices.includes('CC BY 2.0') && notices.includes('Tim Reckmann'), 'The bundled portrait attribution is incomplete.');
+          assert.ok(app.includes('finishStartupPresentation') && app.includes('STARTUP_SPLASH_EXIT_MS'), 'The finite startup presentation lifecycle is missing.');
 
           const initializer = api.initializeMenuExperience.toString();
           const decorator = api.decorateMainMenuTiles.toString();

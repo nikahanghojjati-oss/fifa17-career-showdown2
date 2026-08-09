@@ -263,8 +263,9 @@ jobs:
           const vm = require('vm');
 
           const expectedVersion = '0.95.0';
-          const maximumInitialAssetBytes = 155000;
-          const maximumCompressedInitialAssetBytes = 35000;
+          const maximumInitialAssetBytes = 165000;
+          const maximumCompressedInitialAssetBytes = 37500;
+          const maximumStartupPortraitBytes = 95000;
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const appCss = fs.readFileSync('css/app.css', 'utf8');
@@ -278,6 +279,13 @@ jobs:
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
           assert.ok(revisionMatch && revisionMatch[1].trim(), 'Shell must define app-asset-revision.');
           const revision = revisionMatch[1].trim();
+
+          const startupPortraitMatch = html.match(/id="startupAthlete"[^>]+src="(assets\/[^"?]+)\?v=([^"]+)"/i);
+          assert.ok(startupPortraitMatch, 'The startup Marco Reus portrait must be a versioned local asset.');
+          const startupPortraitPath = startupPortraitMatch[1];
+          assert.strictEqual(startupPortraitMatch[2], revision, 'The startup portrait cache revision is stale.');
+          assert.ok(fs.existsSync(startupPortraitPath), 'The startup portrait file is missing.');
+          assert.ok(fs.statSync(startupPortraitPath).size <= maximumStartupPortraitBytes, 'The startup portrait exceeds its 95 KB ceiling.');
 
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
@@ -297,11 +305,15 @@ jobs:
           assert.strictEqual((html.match(/class="clubPackDoor"/g) || []).length, 2, 'Club Assignment must keep two sealed pack doors.');
           assert.ok(appCss.includes('--club-crest-image'), 'Original procedural crest presentation is missing.');
           assert.ok(appCss.includes('@media(prefers-reduced-motion:reduce)'), 'Reduced-motion CSS contract is missing.');
-          assert.ok(appCss.includes('grid-template-rows:repeat(2,minmax(108px,auto)) auto;grid-auto-rows:auto'), 'Home rows must remain content-sized.');
+          assert.ok(appCss.includes('grid-template-rows:repeat(2,minmax(132px,1fr)) minmax(118px,auto);grid-auto-rows:auto'), 'Desktop Home rows must retain the v1 proportional layout.');
           assert.ok(!appCss.includes('grid-auto-rows:108px'), 'Fixed Home auto rows reintroduced overlap risk.');
           assert.ok(appCss.includes('.menuMusicTile{grid-column:1/-1;grid-row:3;'), 'Media rail must stay below Home navigation.');
           assert.ok(appCss.includes('@media(min-width:901px) and (max-height:800px)'), 'Chromebook low-height breakpoint is missing.');
           assert.ok(appCss.includes('@media(max-width:700px)'), 'Mobile breakpoint is missing.');
+          assert.ok(appCss.includes('--safe-width:1510px'), 'The approved wide-screen Home canvas is missing.');
+          assert.ok(appCss.includes('.startupAthleteFrame') && appCss.includes('.startupIdentity'), 'The v1 split startup composition is missing.');
+          assert.ok(app.includes('STARTUP_SPLASH_MINIMUM_MS = 1900') && app.includes('STARTUP_SPLASH_REDUCED_MS = 220'), 'Bounded normal/reduced startup timing is missing.');
+          assert.ok(app.includes('app.inert = true') && app.includes('app.inert = false'), 'The startup overlay must isolate the application until presentation completes.');
 
           const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
           const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
@@ -390,5 +402,7 @@ jobs:
           const dead = ['data/rules.js', 'js/router.js', 'js/scoreboard.js', 'js/ui.js', 'js/wheels.js'];
           assert.deepStrictEqual(dead.filter(file => fs.existsSync(file)), [], 'Dead prototype architecture returned.');
 
-          console.log(`Validated v${expectedVersion} / ${revision}: ${scriptRefs.length} initial scripts, one local stylesheet, ${bytes} raw / ${compressedBytes} compressed initial bytes, ${ids.length} unique ids, analytics lazy-loading, Chromebook guards, and centralized Back authority.`);
+          const startupPortraitBytes = fs.statSync(startupPortraitPath).size;
+          assert.ok(bytes + startupPortraitBytes <= 260000, 'Combined first-party startup payload exceeds 260 KB.');
+          console.log(`Validated v${expectedVersion} / ${revision}: ${scriptRefs.length} initial scripts, one local stylesheet, ${bytes} raw / ${compressedBytes} compressed code bytes, ${startupPortraitBytes} portrait bytes, ${ids.length} unique ids, analytics lazy-loading, Chromebook guards, and centralized Back authority.`);
           NODE

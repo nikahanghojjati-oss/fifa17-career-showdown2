@@ -20,20 +20,21 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v0.95.0 — Polish & Blueprint Alignment
-**Runtime asset revision:** `0.95.0-r12`
+**Application version:** v0.95.0 — V1 Visual Immersion Candidate
+**Runtime asset revision:** `0.95.0-r13`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
 **Current milestone:** original v0.95 Polish / Blueprint Alignment
-**Current activity:** r12 release candidate validated locally; deployment and owner browser acceptance pending
-**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
-**Owner acceptance pending:** `0.95.0-r12` release stabilization candidate
-**Next after r12 acceptance:** v1.0 Complete Release Candidate / Final Release
+**Current activity:** both owner-required v1 visual blockers are implemented; exact r13 deployment and target-Chromebook acceptance remain
+**Preserved owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
+**Deployed stabilization baseline:** `0.95.0-r12`
+**Owner acceptance pending:** `0.95.0-r13` V1 Visual Immersion Candidate
+**Next after r13 acceptance:** seal v1.0.0 without adding another feature workstream
 
-r11 completes the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixes those release blockers without adding a feature roadmap branch.
+r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
-The r12 maintenance audit also removed one duplicate cross-module global timing helper, retired optional-module direct-binding fallbacks, and repeated delete/reset header writes. Static App validation now rejects cross-module named-function collisions. All 21 deterministic blocks, the independent full-DOM journey and a real-Chromium desktop/mobile release audit pass locally; exact deployed owner Chrome/Chromebook acceptance remains required.
+The owner's deployed-r12 Chromebook review then made two visual requirements mandatory for v1: materially improve the undersized/flat Home layout and restore a cinematic pre-menu presentation with a large, properly licensed Marco Reus image. r13 implements both while preserving all r12 behavior.
 
 ---
 
@@ -61,7 +62,37 @@ Main Menu
 
 ---
 
-# r12 — final release stabilization — current gate
+# r13 — V1 visual immersion — current gate
+
+## Owner-required blockers
+
+The target screenshot is a 1920 × 1080 Chromebook window with an effective page viewport near 1920 × 912. In r12 the 1180 px Home canvas used only about 61% of that width and left most of the usable height as a flat blue field. The owner also required the earlier loading presentation to return before Home.
+
+Preserve the r13 response:
+
+- Home uses a proportional safe width capped at 1510 px and a flexible height rather than a fixed Chromebook-only composition;
+- breakpoints cover desktop, low-height laptop/Chromebook, tablet and small mobile layouts;
+- tile hierarchy uses original metallic blue, brushed-silver and graphite treatments with restrained yellow/cyan accents;
+- the main career tile remains dominant and reuses the locally cached athlete photo;
+- startup is cosmetic, silent and finite; it does not become a new route or persistence checkpoint;
+- startup keeps `#app` inert and `aria-hidden` until dismissal, then removes both states exactly once;
+- normal startup minimum is 1900 ms, reduced-motion startup is 220 ms and exit cleanup is bounded at 240 ms;
+- startup and Home use `assets/marco-reus-2015-cc-by.webp`, a 900 × 1520 / 89,008-byte local WebP transformed from Tim Reckmann's CC BY 2.0 Wikimedia photograph;
+- attribution, source, license, transformations and non-endorsement are recorded in `THIRD_PARTY_NOTICES.md`.
+
+No EA/FIFA logo, official loading-screen art, proprietary game font, club badge or copied interface bytes are bundled. The composition is deliberately influenced by mid-2010s football-game menus but remains an original project treatment.
+
+## r13 performance and regression evidence
+
+The dependency count remains exactly one eager local stylesheet and seven eager local scripts. Updated bounded ceilings are 165,000 raw code bytes, 37,500 gzip code bytes, 95,000 portrait bytes and 260,000 combined first-party startup bytes. Exact r13 measurements are 163,887 raw, 36,681 gzip and 89,008 portrait bytes.
+
+All nine workflows / 22 deterministic blocks pass. Real Chromium passes 98 complete-flow checkpoints and 23 automated WCAG scans, including startup isolation, active/completed Home, explicit League confirmation, two-pack reveal, Transfer phases/verdicts, max-11 Review/Edit/Confirm, reload recovery, optional destinations and Settings. Separate visual checks cover 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 under normal and reduced motion with no horizontal viewport escape, duplicate ID, failed local asset or JavaScript runtime error.
+
+Exact deployed owner inspection on the target Chromebook remains the final visual gate before the v1.0.0 identity is sealed.
+
+---
+
+# r12 — final release stabilization — deployed baseline
 
 ## Season Review Edit integration
 
@@ -106,11 +137,11 @@ Completed Showdown Home uses the singular `1 season completed` and pluralizes ot
 - delete/reset operations refresh global shell state through `refreshMainMenuExperience()`;
 - Static App validation rejects duplicate named functions across runtime modules and the retired fallback architecture.
 
-Local release evidence: all eight workflows / 21 deterministic blocks pass, startup remains below the locked raw and gzip ceilings, and an independent full-DOM one-season audit reaches every current destination with zero runtime errors, duplicate IDs or automated accessibility violations. Real Chromium 149 additionally passes 98 release checkpoints and 22 accessibility scans at 1366 × 768 and 390 × 844 with normal/reduced motion, no horizontal viewport escapes and no failed local assets. Browser findings corrected before the final pass cover content-bearing entrance opacity, Home and gameplay-detail contrast, analytics/Legacy and Settings contrast, Settings entrance opacity, and mobile media-selector containment. This is machine evidence, not deployed owner acceptance.
+Release evidence for r12: all eight workflows / 21 deterministic blocks passed, and Real Chromium 149 passed 98 release checkpoints and 22 accessibility scans. Those functional fixes are deployed and must remain intact beneath the r13 visual layer.
 
 ## r11 browser evidence carried forward
 
-The live r11 audit passed route transitions/focus, Reduce Motion, feedback preference persistence, lazy Home media, League confirmation, two-pack reveal, Transfer phases/draft recovery/verdicts, max-11 Review/confirmation, completed recovery, Legacy and analytics. r12 must repeat the critical header and Review → Edit paths after exact-head deployment before v1.0.
+The live r11 audit passed route transitions/focus, Reduce Motion, feedback preference persistence, lazy Home media, League confirmation, two-pack reveal, Transfer phases/draft recovery/verdicts, max-11 Review/confirmation, completed recovery, Legacy and analytics. r12 repeated and corrected its critical header and Review → Edit paths; r13 repeats them again as part of the complete-flow visual regression.
 
 ---
 
@@ -162,7 +193,7 @@ Existing version-1 preference records migrate in memory with `menuFeedback: true
 
 Preserve contextual Transfer-field accessible names through combobox enhancement, setup-label associations, explicit button types, League/Transfer live status, loading-shell isolation and explicit focus-visible styles.
 
-Initial shell remains one local stylesheet plus seven local scripts. The raw startup ceiling is 155 KB and the more meaningful gzip-compressed ceiling is 35 KB. `js/menuFeedback.js` remains lazy and capped at 5.5 KB.
+At r11 the initial-shell ceilings were 155 KB raw and 35 KB gzip. r13 deliberately supersedes those code ceilings with 165 KB raw / 37.5 KB gzip plus separate 95 KB portrait and 260 KB combined first-party startup ceilings. The dependency count is unchanged and `js/menuFeedback.js` remains lazy and capped at 5.5 KB.
 
 Dedicated **Validate Final Polish** is mandatory alongside the seven accepted workflows. Current total: 21 deterministic validation blocks across eight workflows.
 
@@ -408,16 +439,16 @@ Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy 
 
 `index.html` owns deployed runtime revision:
 
-`0.95.0-r12`
+`0.95.0-r13`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 
 ---
 
-# Workstream 6 — implemented; r12 release stabilization pending
+# V1 release convergence — r13 visual acceptance pending
 
-Final v0.95 polish/regression now includes accessibility/focus, responsive consistency, performance, persistence/navigation/gameplay regression and the owner-approved **quality-gated FIFA-era navigation transition + original micro click-feedback experiment** in `ROADMAP_AMENDMENTS.md`.
+Final v0.95 convergence includes accessibility/focus, responsive consistency, performance, persistence/navigation/gameplay regression, the owner-approved quality-gated navigation/click-feedback experiment and the mandatory r13 visual-immersion requirements in `ROADMAP_AMENDMENTS.md`.
 
-The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA assets/audio. Reduced Motion removes theatrical route state. r12 additionally protects Review → Edit from Smart Back interception and synchronizes the active-save shell header. Owner Chromebook/mobile testing remains the final quality decision; simplify or omit an effect if it lowers perceived quality.
+The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA interface assets/audio. Reduced Motion removes theatrical route state and shortens startup. r12 protects Review → Edit and shell synchronization; r13 preserves both while expanding the original responsive presentation. Owner Chromebook/mobile testing remains the final quality decision.
 
-After r12 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
+After r13 visual acceptance, seal **v1.0.0** without creating another pre-v1 feature branch.

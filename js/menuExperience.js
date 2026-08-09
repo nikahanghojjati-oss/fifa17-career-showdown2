@@ -85,9 +85,9 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marco_Reus_2014.jpg?width=520",
-    source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_2014.jpg",
-    license: "https://creativecommons.org/licenses/by-sa/3.0/"
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=0.95.0-r13",
+    source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
+    license: "https://creativecommons.org/licenses/by/2.0/"
 });
 
 const MAX_REUS_IMAGE_ATTEMPTS = 2;
@@ -293,9 +293,9 @@ function ensureMarcoReusTreatment(){
         licenseLink.href = MARCO_REUS_IMAGE.license;
         licenseLink.target = "_blank";
         licenseLink.rel = "noopener noreferrer";
-        licenseLink.textContent = "CC BY-SA 3.0";
+        licenseLink.textContent = "CC BY 2.0";
 
-        credit.append(sourceLink, " · ", licenseLink);
+        credit.append(sourceLink, " · ", licenseLink, " · Display crop");
         grid.insertAdjacentElement("afterend", credit);
     }
 

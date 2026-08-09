@@ -2,11 +2,11 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v0.95.0 — Polish & Blueprint Alignment
-**Runtime asset revision:** `0.95.0-r12`
-**Current phase:** r12 release candidate validated locally; deployment and owner browser acceptance pending
-**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
-**Next after r12 acceptance:** v1.0 Complete Release Candidate / Final Release
+**Application version:** v0.95.0 — V1 Visual Immersion Candidate
+**Runtime asset revision:** `0.95.0-r13`
+**Current phase:** both owner-required v1 visual blockers are implemented and comprehensively validated; exact deployment and target-Chromebook acceptance remain
+**Preserved accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`, plus the deployed r12 release-stabilization fixes
+**Next after r13 acceptance:** seal v1.0.0 without opening another feature roadmap
 
 ## Development entry point
 
@@ -26,21 +26,23 @@ The release path remains **v0.95 → v1.0**.
 
 ---
 
-## Current r12 — release stabilization
+## Current r13 — V1 visual immersion candidate
 
-The full r11 browser audit validated the final-polish presentation and complete one-season flow, then exposed an integration regression: **EDIT RESULTS** reused the router-reserved `.backButton` class, so centralized Smart Back returned to Showdown Home before the Season engine could restore the form. r12 classifies Edit as a non-routing compact control, preserves every entered value, clears the ephemeral review snapshot and requires a fresh Review.
+r12 is deployed and its release-stabilization fixes remain locked. The owner's target-Chromebook review then identified two final v1 blockers: the Home shell was too small and visually flat at a 1920 × 1080 Chromebook window, and the earlier pre-menu loading presentation had disappeared.
 
-r12 also synchronizes the global save indicator during Home bootstrap and successful New Showdown creation, and corrects the singular **1 season completed** label. A new runtime DOM regression proves the Edit click passes through the real centralized capture layer without losing values.
+r13 implements both requirements without changing gameplay, routes or storage:
 
-The release-maintenance pass also removes a duplicate global menu-feedback timing helper, obsolete optional-module direct bindings and the retired Home Trophy Room fallback. Active-save deletion/reset paths now reuse the same shell refresh authority. Static validation rejects future cross-module named-function collisions.
+- a wider proportional Home shell that uses a 1510 px safe desktop canvas while retaining tablet, mobile and low-height breakpoints;
+- a clearer hierarchy of blue, brushed-silver and graphite tiles, stronger type scale, restrained bevels and FIFA-17-era yellow/cyan accents using original project CSS;
+- a cinematic, cosmetic startup scene with an original `CM17` identity, split composition, finite progress treatment and a large locally optimized Marco Reus photograph;
+- a properly attributed Tim Reckmann photograph from Wikimedia Commons under CC BY 2.0, reused from local cache on Home with no runtime image-host dependency;
+- bounded startup timing of about 1.9 seconds in normal motion and 220 ms for reduced motion, with the app inert and hidden from assistive technology until the startup exits.
 
-The browser-validated r11 presentation work remains intact: short directional route transitions, reduced-motion removal of theatrics, destination focus, screen accessibility-tree synchronization and an original optional 64 ms Web Audio cue that remains lazy, media-aware and non-blocking.
+The initial dependency shape remains one eager local stylesheet and seven eager local scripts. The deliberate visual-release budgets are now 165 KB raw / 37.5 KB gzip for code, 95 KB for the portrait and 260 KB combined first-party startup; the exact candidate measures 163,887 bytes raw, 36,681 bytes gzip and 89,008 bytes for the portrait. Optional gameplay, analytics, Settings and media resources remain lazy.
 
-The startup shell remains seven local scripts and one local stylesheet with a 35 KB gzip ceiling. All eight established workflows remain mandatory. The exact candidate passes all 21 deterministic blocks plus an independent full-DOM journey across every feature destination with zero runtime errors, duplicate IDs or automated accessibility violations.
+All 22 deterministic blocks across nine workflows pass. Real Chromium passes 98 complete-flow checkpoints and 23 WCAG scans, plus dedicated startup/Home checks at 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 with normal and reduced motion, no horizontal escape, duplicate ID, failed local asset or JavaScript runtime error.
 
-A real-Chromium 149 release audit also passes 98 checkpoints and 22 accessibility scans at 1366 × 768 and 390 × 844, covering normal/reduced motion, the ten-second League gate, refresh recovery, Back/reopen drafts, Review/Edit/Confirm, optional routes, destructive transactions, responsive containment and preference persistence. Transient and settled contrast plus mobile media-selector findings discovered during that audit are corrected. Exact deployed owner Chrome/Chromebook acceptance is still required.
-
-See `NEXT_TASK.md` for the r12 exact browser checklist.
+See `NEXT_TASK.md` for the exact r13 owner acceptance and v1 sealing checklist.
 
 ---
 
@@ -164,13 +166,15 @@ Initial local runtime remains exactly one local stylesheet plus seven scripts:
 
 Gameplay, Transfer data/selectors, Season Review CSS, analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy.
 
+`assets/marco-reus-2015-cc-by.webp` is the only new first-party startup image. It is a locally transformed 900 × 1520 WebP and remains below the dedicated 95 KB ceiling.
+
 `js/screens.js` is the sole route/history authority. `js/storage.js` remains persistence authority. Statistics remain derived; Season Review remains ephemeral.
 
 ---
 
 ## Automated validation
 
-Eight GitHub Actions gates protect the current v0.95 build:
+Nine GitHub Actions gates protect the current v0.95 build:
 
 - **Validate Static App** — syntax, scoring, route matrix, Club Assignment, procedural crests, startup budget, Smart Back and responsive shell.
 - **Validate Home Bootstrap** — Home IDs/media bootstrap/revision coherence.
@@ -180,17 +184,16 @@ Eight GitHub Actions gates protect the current v0.95 build:
 - **Validate Season Review** — non-persistent Review and confirmation-only transaction boundary.
 - **Validate League Confirmation** — explicit Continue, save-before-navigation, rollback and refresh/resume route boundary.
 - **Validate Final Polish** — transition ordering/stale cleanup, reduced motion, route focus, original feedback synthesis, preference migration, accessibility and bundle budgets.
+- **Validate V1 Visual Immersion** — exact r13 cache identity, local portrait integrity/licensing, responsive metallic shell, finite startup lifecycle, reduced motion and updated startup budgets.
 
-Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r12 checklist.
+Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r13 checklist.
 
 ---
 
 ## Remaining release path
 
-1. **r12 release-stabilization browser acceptance**
-   - prove Review → Edit restores the populated Season Results form instead of triggering Smart Back;
-   - prove active/completed save headers synchronize on creation and reload;
-   - repeat the accepted r11 navigation, feedback, Chromebook/mobile and full-flow smoke checks.
-2. **v1.0 Complete Release Candidate / Final Release**
+1. Deploy the exact `0.95.0-r13` candidate and verify deployed bytes/cache identity.
+2. Complete the target-Chromebook visual acceptance checklist, including startup and active/completed Home states.
+3. If accepted, seal the same behavior as v1.0.0; only the release identity and documentation should change.
 
 No replacement v0.17/v0.18 roadmap is planned.

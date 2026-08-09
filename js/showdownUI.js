@@ -100,7 +100,7 @@ function updateVersionLabel(){
     const footer = document.querySelector("footer");
     if(footer){
         const version = typeof APP_VERSION === "string" ? APP_VERSION : "0.95.0";
-        footer.innerHTML = `Career Mode Showdown<br>v${version} · Release Stabilization Candidate`;
+        footer.innerHTML = `Career Mode Showdown<br>v${version} · V1 Visual Immersion Candidate`;
     }
 }
 

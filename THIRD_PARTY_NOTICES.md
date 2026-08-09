@@ -16,13 +16,15 @@ The application does not claim Barlow is the FIFA 17 proprietary typeface. It is
 
 ## Marco Reus photograph
 
-- File: `Marco_Reus_2014.jpg`
-- Author/credit shown by the application: Tim Reckmann
-- Source: Wikimedia Commons
-- License link shown by the application: CC BY-SA 3.0
-- Application use: lazily loaded decorative Home-menu treatment.
+- Repository file: `assets/marco-reus-2015-cc-by.webp`
+- Source file: `Marco Reus (16204330530) (cropped).jpg`
+- Photographer: Tim Reckmann
+- Source page: `https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg`
+- License: Creative Commons Attribution 2.0 Generic (CC BY 2.0), `https://creativecommons.org/licenses/by/2.0/`
+- Application use: decorative startup-screen athlete treatment and Home-menu cover treatment.
+- Local transformation: the Wikimedia derivative was resized to 900 × 1520 pixels, encoded as WebP, stripped of embedded metadata, and is cropped further at display time through responsive CSS.
 
-The application links to the source and license from the Home experience rather than bundling the photograph into the repository.
+The application displays the photographer, source, license and display-crop notice on Home, with a compact photographer/license credit on the startup screen. The local copy prevents the portrait from becoming a third-party availability or privacy dependency and does not imply that Marco Reus, Borussia Dortmund, the photographer or Wikimedia Commons endorses this fan project.
 
 ## YouTube soundtrack / trailer embeds
 

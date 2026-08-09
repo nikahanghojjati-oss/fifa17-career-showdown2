@@ -10,9 +10,62 @@ The project remains inside the original **v0.95** convergence milestone.
 
 ---
 
+# v0.95.0-r13 — V1 Visual Immersion Candidate
+
+Status: **implemented; all local deterministic and real-browser acceptance passed; exact deployment and owner Chromebook acceptance pending**
+
+## Owner-required v1 blockers
+
+The deployed r12 Chromebook screenshot showed that the 1180 px Home canvas occupied only about 61% of the 1920 px page width and left most usable height visually empty. The owner also required the former pre-menu loading presentation to return with a much stronger football-game-style composition and a large, properly licensed Marco Reus image.
+
+## Home visual rebuild
+
+- expanded the safe desktop canvas to 1510 px with proportional scaling and flexible useful height;
+- added low-height Chromebook/laptop, tablet, mobile and small-mobile layouts;
+- rebuilt the Home hierarchy with original metallic blue, brushed-silver and graphite surfaces;
+- strengthened display scale, spacing, bevels, scanline detail and yellow/cyan interaction accents;
+- retained the dominant Continue Career tile, all six destinations, seven lazy media choices and no iframe before explicit Play;
+- reused the startup-cached portrait on the Home tile to avoid a second image dependency.
+
+## Cinematic startup
+
+- restored a full-viewport cosmetic startup before Home;
+- introduced an original `CM17` roundel, Career Mode Showdown identity, diagonal split and finite progress treatment;
+- keeps the application inert and `aria-hidden` until dismissal, then releases both states exactly once;
+- uses a 1900 ms normal-motion minimum, 220 ms reduced-motion minimum and 240 ms bounded exit;
+- requires no click, route, persistence write, audio context or gameplay dependency;
+- fixes mobile identity animation and desktop athlete object positioning so the face/title remain visible.
+
+## Licensed portrait
+
+- added `assets/marco-reus-2015-cc-by.webp` at 900 × 1520 / 89,008 bytes;
+- derived it from Tim Reckmann's Wikimedia Commons photograph under CC BY 2.0;
+- stripped metadata, transformed to WebP and documented the display crop, source, author, license and non-endorsement;
+- removed the Home portrait's remote image-host availability/privacy dependency.
+
+## Performance and cache identity
+
+- advanced every eager and lazy runtime request to `0.95.0-r13`;
+- preserved exactly one eager local stylesheet and seven eager local scripts;
+- set explicit ceilings of 165,000 raw code bytes, 37,500 gzip code bytes, 95,000 portrait bytes and 260,000 combined first-party startup bytes;
+- exact candidate measures 163,887 raw, 36,681 gzip and 89,008 portrait bytes;
+- optional gameplay, Transfer, Season Review, analytics, Settings, Legacy, Rule Book, Trophy Room, diagnostics and menu-feedback modules remain lazy.
+
+## Regression protection and browser evidence
+
+- added **Validate V1 Visual Immersion** and expanded the established Static, Bootstrap and Final Polish gates;
+- all 22 executable workflow blocks across nine workflows pass;
+- Real Chromium passes 98 complete-flow checkpoints and 23 WCAG scans with no failed local asset, JavaScript runtime failure, duplicate ID or horizontal escape;
+- dedicated visual checks pass at 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 with normal/reduced motion;
+- the full season journey again proves explicit League confirmation, permanent Club Reveal, Transfer phases/verdicts, max-11 scoring, Review/Edit value preservation, single confirmation, completed reload, optional routes and Settings isolation.
+
+No gameplay rule, storage schema or route changed.
+
+---
+
 # v0.95.0-r12 — v1.0 Release Stabilization
 
-Status: **implemented; comprehensive local Chromium acceptance passed; deployed owner acceptance pending**
+Status: **deployed functional baseline; comprehensive Chromium acceptance passed; visual candidacy superseded by the owner's r13 requirements**
 
 ## Browser-audit finding
 
@@ -319,7 +372,7 @@ Application framework/navigation/storage, League Wheel, league/club data, functi
 
 ## Current gate
 
-Owner Chromebook/mobile acceptance of **`0.95.0-r12` release stabilization candidate**.
+Exact deployment and owner Chromebook/mobile acceptance of **`0.95.0-r13` V1 Visual Immersion Candidate**.
 
 ## Workstream 6 — implemented
 
@@ -332,4 +385,4 @@ Owner-approved quality-gated addition:
 - reduced-motion-safe and non-blocking;
 - ship only if real Chromebook/mobile testing demonstrates a clear quality improvement with no lag, choppiness or route/audio race.
 
-After r12 acceptance, move directly to **v1.0 Complete Release Candidate / Final Release**.
+After r13 acceptance, seal the exact behavior as **v1.0.0 Stable** without adding another pre-v1 feature scope.
