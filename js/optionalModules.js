@@ -4,7 +4,13 @@
    Unified On-Demand Runtime Module Loader
 ===================================================== */
 
-const OPTIONAL_ASSET_REVISION = "0.16.0-r1";
+function getApplicationAssetRevision(){
+    const meta = document.querySelector('meta[name="app-asset-revision"]');
+    const revision = meta && meta.content ? meta.content.trim() : "";
+    return revision || "0.16.0-r2";
+}
+
+const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
 const OPTIONAL_LOAD_TIMEOUT_MS = 12000;
 const runtimeScriptPromises = new Map();
 const runtimeStylePromises = new Map();
