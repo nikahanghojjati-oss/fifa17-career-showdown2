@@ -1,23 +1,113 @@
 # CHANGELOG — Career Mode Showdown
 
-This file preserves project continuity so later development does not reconstruct the project from old chats or mistake temporary implementation builds for a replacement roadmap.
+This file preserves project continuity so later development does not reconstruct the project from old chats or mistake temporary implementation revisions for a replacement roadmap.
 
 Two forms of versioning exist in project history:
 
 1. **Original Project Bible milestones:** `v0.6.1 → v0.7 → v0.8 → v0.9 → v0.95 → v1.0`.
 2. **Implementation/stabilization revisions:** builds introduced while the product was being corrected, hardened, optimized and polished.
 
-The project has now returned to the original **v0.95** milestone. v0.95 is a finite convergence phase, followed directly by v1.0.
+The project is currently inside the original **v0.95** milestone. v0.95 is a finite convergence phase followed directly by v1.0.
+
+---
+
+# v0.95.0-r3 — Optional-Screen Visual Consistency / Contrast Polish
+
+Status: **implemented and deployed candidate; owner browser acceptance pending**
+
+Owner requested stronger Rule Book font distinction and a wider visual audit before moving to the next v0.95 workstream.
+
+## Root cause found
+
+The current unified `css/app.css` had evolved to normalize several optional module containers into light FIFA-style panels, while the older lazy stylesheets still contained child colors authored for dark cards.
+
+Because optional styles load before `app.css`, container backgrounds could become light while their child text stayed white or pale blue. This created inconsistent hierarchy and poor contrast in Rule Book, Trophy Room/Statistics and parts of Legacy.
+
+## Rule Book
+
+Rebuilt `css/rulebook.css` around the current visual language:
+
+- compact dark hero with yellow left accent;
+- cyan hero eyebrow and white hero title/body;
+- light rule cards with dark headings/body copy;
+- distinct section accents;
+- dark scoring labels with blue values;
+- yellow high-contrast maximum-11 callout;
+- Chromebook low-height density rules;
+- single-column mobile behavior.
+
+## Statistics / Trophy Room
+
+Normalized `css/analytics.css`:
+
+- light summary/stat cards with dark values;
+- intentional dark rivalry hero retained;
+- light comparison tables and season progression;
+- readable manager cabinets and trophy counts;
+- horizontally contained career standings;
+- long name/record wrapping safeguards;
+- Chromebook/mobile density improvements.
+
+## Legacy
+
+Normalized `css/legacy.css`:
+
+- light summary cards;
+- intentional dark completed-showdown history cards;
+- safer long-name/history wrapping;
+- readable light Data Management panel;
+- current-theme compact/danger controls;
+- Chromebook/mobile refinements.
+
+## Performance / validation
+
+- Optional visual styles remain lazy-loaded; no new startup asset was added.
+- Deployment revision advanced to `0.95.0-r3` so browsers cannot reuse old optional CSS.
+- CI now validates balanced brace structure for `app.css`, `analytics.css`, `legacy.css`, and `rulebook.css`.
+- Existing startup, scoring, navigation and reveal integrity checks remain.
+
+---
+
+# v0.95.0-r2 — Reveal / Diagnostics Browser Hotfix
+
+Status: **implemented; retained by r3**
+
+Owner testing of r1 found two defects:
+
+1. startup displayed a false integrity warning claiming runtime `0.95.0` was a version mismatch;
+2. the staged Club Reveal looked misaligned and awkward on Chromebook.
+
+## Diagnostics repair
+
+The diagnostics module had retained a hard-coded `0.16.0` expectation. It now derives expected runtime version from the shell-owned asset revision, preventing a valid `0.95.0` runtime from being reported as corrupt after release-number changes.
+
+## Reveal geometry repair
+
+The active lazy Club Assignment presentation was changed to:
+
+- equal-width/equal-height cards;
+- no active angled card `clip-path`;
+- constrained manager/club-name geometry;
+- equal generated-identity space;
+- dedicated low-height Chromebook/laptop rules;
+- clean stacked mobile layout.
+
+## Reveal motion repair
+
+The r1 sweep was removed from the active runtime presentation. Reveal became a shorter finite sequence:
+
+- Manager 1 around 360 ms;
+- Manager 2 around 860 ms;
+- VS around 1360 ms;
+- confirmation around 1680 ms.
+
+The one-pair/no-reroll persistence contract remained unchanged.
 
 ---
 
 # v0.95.0-r1 — Staged Club Reveal / Rivalry Confirmation
 
-Status: **implemented in source; owner browser acceptance pending**
-
-The owner accepted `v0.16.0-r3`, closing the Chromebook/responsive stabilization gate and authorizing the next original-roadmap milestone.
-
-## Roadmap obligation completed in source
+Status: **source implementation established; browser defects corrected by r2/r3**
 
 The original v0.7 Club Assignment specification required more than random club selection. It required:
 
@@ -29,306 +119,185 @@ The original v0.7 Club Assignment specification required more than random club s
 → User Confirmation  
 → Showdown Begins**
 
-The previous implementation had reliable permanent club assignment but only a basic delayed two-card name reveal. v0.95.0-r1 replaces that presentation with a staged reveal while retaining all hardened assignment rules.
+The previous implementation had reliable permanent club assignment but only a basic delayed two-card name reveal. r1 introduced the staged reveal around the existing hardened assignment transaction.
 
-## New reveal presentation
+## Assignment integrity introduced
 
-Added:
-
-- League Confirmed header;
-- five-stage reveal-progress strip;
-- sealed Manager 1 and Manager 2 club cards;
-- separate Manager 1 reveal;
-- separate Manager 2 reveal;
-- finite reveal sweep;
-- generated club identity colors/initials;
-- central rivalry VS stage;
-- final rivalry confirmation tableau;
-- showdown name in final tableau;
-- selected league in final tableau;
-- season count in final tableau;
-- manager + club pairing on both sides;
-- explicit `CONFIRM RIVALRY & START SHOWDOWN` action.
-
-The presentation remains original/copyright-safe: no official badges, copied FUT card artwork, proprietary FIFA fonts, canvas/WebGL engine or downloaded reveal media.
-
-## Assignment integrity
-
-The random pair is now persisted **before** theatrical reveal begins.
-
-Transaction:
+The pair is persisted **before** theatrical reveal begins:
 
 1. generate one same-league/different-club pair;
 2. set status to `Clubs Assigned`;
 3. save immediately;
 4. roll back pair/status if save fails;
-5. begin the staged reveal only after persistence succeeds.
+5. begin staged reveal only after persistence succeeds.
 
 There are no localStorage writes for individual reveal phases.
 
-## Confirmation-pending recovery
-
-`Clubs Assigned` is now the explicit persisted checkpoint for a valid permanent pair awaiting owner confirmation.
-
-While pending:
-
-- canonical route is Club Assignment;
-- League Wheel is invalid;
-- Dashboard is invalid;
-- Transfer Challenge is invalid;
-- pair cannot reroll;
-- refresh + Continue restores the same pair and final confirmation.
-
-Successful final confirmation changes status to `Ready` only after persistence succeeds. A failed confirmation save restores the previous status and keeps the user at confirmation.
-
-## Async safety
-
-Reveal uses finite timers guarded by:
-
-- operation identity;
-- showdown identity;
-- selected-league identity.
-
-Cancel/reset/navigation clears pending reveal timers so stale callbacks cannot mutate replacement state.
-
-## Accessibility / reduced motion
-
-`prefers-reduced-motion: reduce` retains all assignment information and explicit final confirmation while effectively skipping theatrical staging.
-
-## Responsive presentation
-
-- desktop/laptop: two-card VS composition;
-- narrow/mobile: cards and final matchup stack cleanly;
-- prior accepted Chromebook Home/media layout rules remain intact;
-- short viewports continue to scroll instead of overlapping.
-
-## Runtime/performance preservation
-
-- reveal remains in lazy `js/clubAssignment.js` gameplay package;
-- no additional initial JavaScript file;
-- still one initial stylesheet;
-- maximum seven initial scripts remains enforced;
-- 145,000-byte initial local-asset ceiling remains unchanged;
-- no continuous reveal animation loop;
-- no new external reveal assets.
-
-## Cache/version
-
-- application version advanced to `v0.95.0`;
-- shell-owned asset revision advanced to `0.95.0-r1`;
-- initial CSS/JS references use the new revision;
-- lazy modules derive the same revision from the shell;
-- footer/version labels updated to `Polish & Blueprint Alignment`.
-
-## Validation
-
-GitHub Actions was expanded to cover:
-
-- confirmation-pending canonical route;
-- Club Assignment legal while confirmation pending;
-- League Wheel invalid after saved clubs;
-- Dashboard and Transfer blocked until confirmation;
-- Ready state returning to normal Dashboard behavior;
-- required reveal/confirmation DOM IDs;
-- staged reveal source contract;
-- reduced-motion source contract;
-- existing max-11 scoring and tie rules;
-- existing navigation, startup-budget, cache, Chromebook and route-history guards.
-
-Exact-head validation for implementation commit `704e8420743991c921b982149d5b331fe9ce833d` completed successfully.
-
-Owner real-browser acceptance remains required before original v0.7 reveal/confirmation acceptance is marked fully complete.
+`Clubs Assigned` became the explicit persisted checkpoint for a valid permanent pair awaiting final rivalry confirmation. Refresh/Continue restores that same pair rather than drawing again.
 
 ---
 
-# Roadmap Audit Correction — FUT-style Club Reveal
+# v0.16.0-r3 — Chromebook Home Layout Stabilization
 
-Before v0.95.0-r1, the roadmap was corrected after direct comparison of the Project Bible, current HTML and `clubAssignment.js`.
+Status: **owner accepted**
 
-The correction established:
+Fixed the desktop/laptop Home layout after owner testing showed overlapping sections and poor media placement on Chromebook.
 
-**v0.7 club-assignment mechanics: COMPLETE**  
-**v0.7 FUT-style reveal / rivalry-confirmation acceptance: INCOMPLETE**
+- replaced fixed Home grid row behavior with content-sized rows;
+- moved soundtrack/trailer rail below the primary Career tiles;
+- converted desktop media choices to a four-column selector;
+- added a low-height Chromebook/laptop density breakpoint;
+- preserved successful mobile behavior;
+- advanced cache identity and added CI guards against reintroducing the fixed-row overlap pattern.
 
-This prevented the project from incorrectly reaching v1.0 while the original experience requirement was still represented only by a basic delayed two-card reveal.
-
-v0.95.0-r1 is the implementation response to that audit.
-
----
-
-# v0.16.0-r3 — Chromebook / Responsive Home Stabilization
-
-Status: **owner accepted; foundation preserved in v0.95**
-
-Fixed a desktop/ChromeOS layout defect where fixed Home grid rows could allow expanded YouTube media to overlap later navigation content.
-
-Changes retained:
-
-- content-sized desktop Home rows;
-- Career/navigation tiles before media;
-- media row grows naturally;
-- desktop media selector grid;
-- low-height laptop/Chromebook density breakpoint;
-- preserved tablet/mobile flow;
-- user-initiated one-iframe media architecture.
+This closed the pre-v0.95 responsive stabilization gate.
 
 ---
 
-# v0.16.0-r2 — Back / Cache / Blueprint Re-anchor
+# v0.16.0-r2 — Navigation / Cache / Roadmap Re-anchor
 
-Retained foundations:
+Status: **implemented; superseded by r3 presentation revision**
 
-- contextual Back from Completed Showdown Home;
-- Legacy/Trophy Room/New Showdown return to actual legal origin;
-- shell-owned asset revision in `index.html`;
-- lazy modules/diagnostics/CI derive deployment identity from shell;
-- original `v0.95 → v1.0` roadmap restored as long-term destination;
-- Project State / Next Task / Changelog continuity discipline.
+- fixed contextual Back from Completed Showdown Home into Legacy/Trophy/New Showdown;
+- consolidated cache revision ownership into the application shell;
+- re-established exact project-state documentation and original `v0.95 → v1.0` destination;
+- restored project Changelog continuity.
 
 ---
 
 # v0.16.0-r1 — Smart Navigation & Lightweight Runtime
 
-Retained foundations:
+Status: **implemented foundation**
 
-- unified `css/app.css` core visual system;
-- seven-script / one-stylesheet initial shell;
-- lazy gameplay package;
-- lazy Legacy/analytics/Statistics/Trophy Room/Rule Book;
-- `js/screens.js` as sole state-aware route/history authority;
-- obsolete routes rejected from persisted state;
-- Completed Showdown Home recovery hub;
-- GitHub Actions syntax/scoring/navigation/shell validation.
+- unified initial `css/app.css`;
+- seven-script initial runtime;
+- gameplay package lazy loading;
+- optional history/analytics modules lazy loading;
+- centralized state-aware Back authority in `js/screens.js`;
+- completed-showdown recovery hub;
+- exact-head GitHub Actions validation;
+- startup local-byte budget;
+- removal of obsolete prototype files.
 
 ---
 
 # v0.15.x — Stability / Performance Consolidation
 
-Retained foundations:
+Established the reliability foundation carried into current source:
 
-- transaction-aware localStorage operations;
-- failure-aware Legacy/reset behavior;
-- race-safe League Wheel callbacks;
-- race-safe Club Assignment operations;
-- persisted real transfer deadline;
+- transaction-safe persistence and Legacy operations;
+- race-safe League Wheel and Club Assignment delayed operations;
+- persisted Transfer Challenge deadline;
 - debounced/deduplicated transfer drafts;
-- hidden/off-screen transfer timer shutdown;
-- stabilized Season Entry/progression;
+- off-screen timer shutdown;
+- stabilized Season progression;
 - lazy secondary modules;
-- lightweight menu media controller;
+- lightweight menu media;
 - runtime diagnostics.
-
-Do not revert to eager, unguarded or duplicated variants of these systems.
 
 ---
 
 # v0.10.1 — Season / Routing / Persistence Stabilization
 
-Established the rule that critical transitions must save successfully or preserve/restore the previous valid state.
+Followed a reported failure where Complete Season could appear to do nothing.
 
-Major retained fixes:
+Key principles established:
 
-- deterministic/cache-versioned asset loading;
-- atomic Complete Season behavior;
-- persistence rollback on save failure;
-- visible runtime errors/success feedback;
-- safer routing;
-- hardened localStorage handling;
-- runtime error boundary.
+- deterministic cache-versioned loading;
+- safe season persistence/rollback;
+- visible errors instead of silent failures;
+- route validation before hiding current screens;
+- hardened localStorage failure handling.
 
 ---
 
 # v0.10 — Statistics / Trophy Room Expansion
 
-Added and retained:
+Added the established current historical/analytics capabilities:
 
-- read-only rivalry analytics;
-- cumulative manager analytics;
-- records;
+- rivalry analytics;
+- cumulative manager statistics;
+- career records;
 - Trophy Room;
-- statistics UI.
+- Statistics UI.
 
-Analytics remain derived from saved showdowns rather than manually editable.
+Analytics remains derived from saved showdowns rather than manually editable.
 
 ---
 
 # v0.9 — Legacy / Data Management
 
-Implemented and retained:
-
-- completed-showdown archive;
-- season-by-season Legacy history;
-- final scores/outcomes;
-- individual Legacy deletion;
-- delete-all Legacy;
-- data-management protections.
+Implemented completed-showdown archive, season history, final scores/outcomes, individual history deletion, delete-all history and local data-management protections.
 
 ---
 
-# v0.8 — Transfer Challenge / Finalized Competitive Rules
+# v0.8 — Transfer Challenge / Corrected Competitive Rules
 
-Established and retained:
+Established the approved Transfer Challenge and later authoritative scoring correction:
 
-- 15-minute window;
-- max three signings per manager;
-- three opponent guesses;
-- guess type league or nationality;
-- correctly guessed signing must be released.
-
-Authoritative scoring amendment retained:
-
-- 100 points and/or 100 goals share one +1;
-- Top Scorer and/or Top Assist share one +1;
-- maximum season score 11;
-- equal non-zero total is a draw;
-- only 0-0 uses league position then league points.
+- 15-minute transfer phase;
+- max three signings;
+- three league/nationality guesses;
+- correctly guessed signing released;
+- grouped performance bonus;
+- grouped awards bonus;
+- maximum 11;
+- equal nonzero totals draw;
+- only 0-0 uses league position/league points.
 
 ---
 
-# Original roadmap foundations
+# v0.7 — Working Showdown / Season Progression
 
-## v0.7 — Showdown Creation
+Working application had advanced beyond setup-only behavior and included Showdown Home, Season Results, scoring integration, Season Summary, multi-season progression and active save continuity.
 
-Club-assignment mechanics were implemented historically. Its original staged reveal/final confirmation acceptance requirement is now implemented in source by v0.95.0-r1 and awaits owner browser acceptance.
+The original v0.7 club-reveal experiential acceptance requirement was later completed in source during v0.95 and refined through r2/r3 browser polish.
+
+---
+
+# Original foundation milestones
 
 ## v0.6.1 — Application Framework
 
-Navigation/storage/framework requirements are implemented and hardened in the current architecture. Obsolete filenames must not be recreated merely for historical symmetry.
+Framework/navigation/storage foundation. Current architecture later evolved to `js/screens.js` route authority rather than a separate router file.
 
-## v0.6 — League Wheel
+## v0.6 — Wheel System
 
-League selection/wheel behavior is implemented and later hardened with persistence locking and race-safe operation identity.
+League wheel selection and presentation foundation.
 
 ## v0.5 — Data Foundation
 
-League/club database and data engine implemented.
+League/club data and data-engine foundation.
 
 ## v0.4 — Functional Prototype
 
-Initial functional HTML/CSS/JavaScript application.
+First working HTML/CSS/JS application.
 
 ## v0.3 — UI Direction
 
-Established FIFA-17-era-inspired tile/game-like UI and FUT-inspired club reveal concept.
+FIFA-17-era-inspired tile presentation and FUT-inspired reveal direction.
 
 ## v0.2 — Experience Design
 
-Defined two-manager rivalry, league selection, permanent clubs, season flow and history.
+Showdown, league selection, permanent club pairing, season progression and Legacy concepts.
 
 ## v0.1 — Project Foundation
 
-Established the product objective: turn two separate FIFA Career Mode saves into one persistent competitive rivalry.
+Established the objective: turn two separate Career Mode saves into one persistent competitive rivalry.
 
 ---
 
-# Remaining v0.95 roadmap after reveal acceptance
+# Remaining original roadmap
 
-After owner acceptance of v0.95.0-r1:
+## v0.95 — Active
 
-1. **Settings blueprint alignment** — small settings surface using existing architecture; no accounts/cloud/online expansion.
-2. **Main Menu Statistics alignment** — reuse existing analytics/Trophy Room/Rivalry Statistics.
-3. **Season pre-commit review** — add lightweight review/confirmation if current irreversible Complete Season flow lacks an equivalent safeguard.
-4. **Final v0.95 polish/regression** — responsive/accessibility/feedback/performance/persistence/navigation regression.
-5. Move directly to **v1.0 Complete Release Candidate / Final Release**.
+After current r3 owner acceptance:
 
-Do not create an open-ended feature sequence before Version 1.0.
+1. Settings blueprint alignment;
+2. Main Menu Statistics alignment using existing analytics;
+3. Season pre-commit review/confirmation inspection;
+4. final responsive/accessibility/performance/regression pass.
+
+## v1.0 — Final destination
+
+A complete, reliable local two-manager rivalry from creation through multi-season play and permanent history.
