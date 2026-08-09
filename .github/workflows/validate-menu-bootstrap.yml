@@ -1,0 +1,104 @@
+name: Validate Home Bootstrap
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  home-bootstrap-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Validate Home initializer against shell contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const source = fs.readFileSync('js/menuExperience.js', 'utf8');
+
+          const context = { console };
+          context.window = context;
+          vm.createContext(context);
+          vm.runInContext(
+            `${source}\n;globalThis.__menuExports = { MENU_MEDIA_SOURCES, initializeMenuExperience, decorateMainMenuTiles, bindMenuMediaControls, ensureMenuMediaSelector, getMenuExperienceIntegrity };`,
+            context,
+            { filename: 'js/menuExperience.js' }
+          );
+
+          const api = context.__menuExports;
+          const expectedMediaKeys = ['bastille', 'highlow', 'move', 'music', 'shelter', 'trailer', 'youth'];
+          assert.deepStrictEqual(
+            Object.keys(api.MENU_MEDIA_SOURCES).sort(),
+            expectedMediaKeys,
+            'Home media catalog must remain the seven accepted FIFA 17 choices.'
+          );
+
+          assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
+          assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
+
+          const initializer = api.initializeMenuExperience.toString();
+          const decorator = api.decorateMainMenuTiles.toString();
+          const binder = api.bindMenuMediaControls.toString();
+          const selector = api.ensureMenuMediaSelector.toString();
+          const integrity = api.getMenuExperienceIntegrity.toString();
+
+          assert.ok(!initializer.includes('trophyRoomButton'), 'Home initializer still depends on the removed Trophy Room tile.');
+          assert.ok(!source.includes('const trophyRoom = document.getElementById("trophyRoomButton")'), 'Stale r7 Trophy Room startup dependency returned.');
+          assert.ok(!source.includes('!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook'), 'All-or-nothing navigation-tile startup gate returned.');
+
+          assert.ok(decorator.includes('careerStatisticsButton'), 'Home decorator must understand the current Statistics tile id.');
+          assert.ok(initializer.includes('ensureMenuMediaSelector()'), 'Home initializer must create the media selector.');
+          assert.ok(initializer.includes('bindMenuMediaControls()'), 'Home initializer must bind Play/Mute controls.');
+          assert.ok(initializer.includes('getMenuExperienceIntegrity()'), 'Home initializer must verify its own completed state.');
+          assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
+
+          assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)'), 'Media selector must be generated from the canonical seven-source catalog.');
+          assert.ok(selector.includes('selector.id = "menuMediaSelector"'), 'Media selector must expose the diagnostics-required id.');
+          assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute'), 'Both Play and Mute controls must be bound by the same media subsystem.');
+          assert.ok(binder.includes('dataset.musicBound = "true"'), 'Media bindings must retain their idempotent diagnostics marker.');
+          assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound'), 'Home integrity check must cover choices and both media bindings.');
+
+          console.log('Home shell/menu initializer contract and seven-choice media bootstrap regression passed.');
+          NODE
+
+      - name: Validate deployed revision coherence
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
+          assert.strictEqual(revision, '0.95.0-r8', 'Home bootstrap stabilization must deploy as asset revision 0.95.0-r8.');
+
+          const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
+            .map(match => ({ path: match[1], revision: match[2] || '' }));
+          assert.ok(refs.length > 0, 'No local shell assets were found.');
+          assert.deepStrictEqual(
+            refs.filter(ref => ref.revision !== revision),
+            [],
+            'All shell assets must share the r8 cache revision.'
+          );
+
+          console.log(`Validated coherent ${revision} shell cache identity.`);
+          NODE
