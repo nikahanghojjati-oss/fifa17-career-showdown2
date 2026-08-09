@@ -203,7 +203,8 @@ jobs:
           assert.ok(html.includes('id="careerStatisticsButton"'), 'Home Statistics tile is missing.');
           assert.ok(html.includes('<span class="menuTileLabel">STATISTICS</span>'), 'Home tile is not labelled Statistics.');
           assert.ok(!html.includes('id="trophyRoomButton"'), 'Trophy Room must not remain a competing top-level Home tile.');
-          assert.ok(html.includes('content="0.95.0-r7"'), 'r7 asset revision is missing from the shell.');
+          const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1] || '';
+          assert.ok(/^0\.95\.0-r\d+$/.test(revision), 'A valid v0.95 deployment asset revision is missing from the shell.');
 
           const localRefs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)/g)].map(match => match[1]);
           const initialJs = localRefs.filter(ref => ref.startsWith('js/'));
@@ -251,5 +252,5 @@ jobs:
           const analyticsNamedFiles = fs.readdirSync('js').filter(file => /analytics/i.test(file)).sort();
           assert.deepStrictEqual(analyticsNamedFiles, ['analytics.js'], 'Workstream 4 must not create a second analytics engine.');
 
-          console.log('Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, and route contracts passed.');
+          console.log(`Main Menu Statistics alignment, lazy loading, shared analytics, Trophy Room reuse, route contracts, and ${revision} shell identity passed.`);
           NODE
