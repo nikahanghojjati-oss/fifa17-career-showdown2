@@ -1,224 +1,252 @@
 # NEXT TASK
 
-## Current gate: v0.95.0-r2 Club Reveal hotfix acceptance
+## Current gate: v0.95.0-r3 visual consistency + Club Reveal acceptance
 
-Stay on **v0.95 Workstream 1**. Do not begin Settings or another blueprint-alignment workstream until the owner accepts this repair in the real browser.
+Stay on **v0.95 Workstream 1** until this browser gate passes.
 
 **Application version:** v0.95.0  
-**Deployed asset revision:** `0.95.0-r2`
+**Deployed asset revision:** `0.95.0-r3`
+
+Do not begin Settings, Main Menu Statistics alignment, or Season pre-commit review until the owner accepts this revision.
 
 ---
 
-# Why r2 exists
+# Why r3 exists
 
-Owner testing of `0.95.0-r1` found two concrete defects:
+The owner requested better Rule Book font distinction plus a repository-wide visual inspection before advancing.
 
-1. startup displayed a false integrity error:
-   `Application integrity check failed. version mismatch: runtime version is 0.95.0`
-2. Club Assignment presentation was visually poor on Chromebook:
-   - reveal cards/boxes appeared misaligned;
-   - angled card geometry made alignment worse;
-   - reveal animation did not feel clean or polished.
+The inspection found a shared cascade problem across optional screens:
 
-These defects must be resolved before Workstream 1 can be accepted.
+- the modern `css/app.css` visual system converts several optional module containers to light FIFA-style panels;
+- older `rulebook.css`, `analytics.css`, and `legacy.css` still contained child colors designed for dark cards;
+- some pale/white child text therefore appeared on light panels;
+- the same split visual language made Rule Book, Trophy Room, Statistics and parts of Legacy look less polished than the Home/gameplay shell.
 
----
-
-# r2 implementation
-
-## Diagnostics repair
-
-`js/diagnostics.js` no longer hard-codes an old release version.
-
-The expected runtime version is now derived from the shell-owned `app-asset-revision` value, so a valid release such as `0.95.0-r2` expects runtime version `0.95.0` automatically.
-
-This prevents the previous false-positive integrity warning from recurring merely because the release milestone changes.
-
-## Chromebook reveal geometry repair
-
-Club Reveal now installs its responsive presentation rules only when the lazy Club Assignment module is initialized.
-
-The repair:
-
-- removes the angled `clip-path` card geometry;
-- forces both manager cards into the same equal-width/equal-height grid tracks;
-- constrains long manager/club names safely;
-- gives both generated club identities identical measured space;
-- uses a dedicated low-height desktop breakpoint for Chromebook/laptop viewports;
-- reduces unnecessary vertical pressure;
-- keeps confirmation matchup sides equal in size;
-- preserves the mobile stacked layout;
-- does not add another initial stylesheet or startup script.
-
-## Reveal motion repair
-
-The old sweeping-light presentation is disabled.
-
-The finite sequence remains:
-
-**Opening → Manager 1 → Manager 2 → VS → Confirmation**
-
-but presentation is now shorter and cleaner:
-
-- sealed card opens vertically;
-- revealed card settles once;
-- second card reveals separately;
-- VS receives one short impact animation;
-- confirmation panel enters once;
-- no continuous animation loop;
-- no animation-phase storage writes;
-- reduced-motion behavior is still supported.
-
-Timings are now approximately:
-
-- Manager 1: 360 ms
-- Manager 2: 860 ms
-- VS: 1360 ms
-- confirmation ready: 1680 ms
-
-The random club pair is still persisted before theatrical stages begin.
+`0.95.0-r3` fixes the component system rather than adding isolated font-color patches.
 
 ---
 
-# Integrity contract that must remain unchanged
+# r3 changes
 
-- exactly one random pair per showdown;
-- same selected league;
-- two different clubs;
-- pair saved atomically before reveal;
-- failed assignment save rolls back;
+## Rule Book
+
+- dark, compact hero with yellow/cyan hierarchy;
+- light rule cards with dark readable headings/body text;
+- six visually differentiated section accents;
+- dark scoring labels and blue scoring values;
+- high-contrast yellow maximum-11 callout;
+- tighter Chromebook low-height spacing;
+- retained single-column mobile layout.
+
+## Rivalry Statistics / Trophy Room
+
+- light statistics cards with dark text and blue/cyan accents;
+- intentional dark rivalry hero retained;
+- comparison and season-progression tables normalized to light/readable presentation;
+- career standings made horizontally safe when narrow;
+- manager cabinets, trophy counts and record cards corrected for light-panel contrast;
+- long names/records constrained and allowed to wrap safely;
+- Chromebook/mobile density improved.
+
+## Legacy
+
+- high-contrast light summary cards;
+- historical showdown cards remain intentionally dark;
+- season-history rows and long names made safer;
+- Data Management panel corrected from pale/white-on-light text to dark readable copy;
+- compact and destructive controls aligned with the current visual system.
+
+## Validation
+
+CI now checks balanced CSS structure for:
+
+- `css/app.css`
+- `css/analytics.css`
+- `css/legacy.css`
+- `css/rulebook.css`
+
+The optional visual modules remain lazy. They were not added to the initial startup bundle.
+
+---
+
+# Contracts that must remain unchanged
+
+## Club assignment
+
+- exactly one random pair;
+- both clubs from selected league;
+- clubs different;
+- pair persisted before reveal;
+- failed save rolls back;
 - no reroll after save;
-- stale reveal callbacks cannot mutate a replacement showdown;
-- `Clubs Assigned` remains confirmation-pending persistence state;
-- refresh/resume before confirmation restores the same pair;
-- League Wheel remains locked after assignment;
-- Dashboard/Transfer routes remain unavailable until confirmation;
-- confirmation changes status to `Ready` only after its save succeeds;
-- scoring and Transfer Challenge rules are untouched.
+- `Clubs Assigned` remains confirmation-pending state;
+- refresh/Continue before confirmation restores the same pair;
+- League Wheel cannot reopen after assignment;
+- Dashboard/Transfer cannot bypass confirmation;
+- confirmation changes status to `Ready` only after successful save.
+
+## Competition rules
+
+- Champions League +5;
+- league title +3;
+- domestic cup +1;
+- 100 points and/or 100 goals +1 maximum;
+- Top Scorer and/or Top Assist +1 maximum;
+- maximum 11;
+- equal non-zero totals draw;
+- only 0-0 uses league position then league points.
+
+## Performance
+
+- one initial stylesheet;
+- maximum seven initial scripts;
+- gameplay package lazy;
+- optional history/analytics/Rule Book lazy;
+- one YouTube iframe maximum and only after Play;
+- no per-keypress storage writes;
+- no hidden transfer timer loop;
+- Chromebook Home/media layout guards remain intact.
 
 ---
 
-# Required owner test
+# Owner browser acceptance — r3
 
-Hard refresh once so the browser receives **asset revision `0.95.0-r2`**.
+Hard refresh once before testing so the browser receives `0.95.0-r3` lazy styles.
 
-## 1 — startup integrity
-
-Open the site normally.
+## A. Startup
 
 Expected:
 
-- no red integrity notice reporting `runtime version is 0.95.0`;
-- Main Menu loads normally;
-- existing save/Continue behavior remains unchanged.
+- no red application-integrity warning;
+- Home looks the same or cleaner than accepted responsive build;
+- Continue/New Showdown/media controls still work.
 
-If an integrity notice still appears, report its exact wording.
+## B. Rule Book — primary r3 check
 
-## 2 — Chromebook Club Assignment geometry
+Open Rule Book on Chromebook.
+
+Expected:
+
+- hero is dark and clearly separated from the rule cards;
+- hero eyebrow is cyan and title/body are readable white;
+- each rule card is light;
+- section numbers use visibly different accent colors;
+- section headings are dark and strong;
+- rule body text is dark grey, not pale blue/white;
+- bullet accents clearly identify each section;
+- Scoring rows are easy to scan;
+- +5 / +3 / +1 values are clearly readable;
+- maximum `11` is unmistakable in the yellow callout;
+- no text disappears into its background;
+- two-column desktop layout stays aligned;
+- short Chromebook height scrolls naturally rather than overlapping;
+- narrow/mobile view becomes one clean column.
+
+## C. Trophy Room
+
+Open Trophy Room.
+
+Expected:
+
+- summary cards are light with readable dark values;
+- manager cabinet names/records are readable on light cards;
+- career points are clearly emphasized;
+- trophy counts are dark/readable instead of white on light;
+- all-time record cards remain legible with long details;
+- career standings do not force the whole page wider; the table may scroll horizontally inside its own region when required.
+
+## D. Rivalry Statistics
+
+With an active showdown, open Rivalry Statistics.
+
+Expected:
+
+- rivalry hero remains intentionally dark and readable;
+- comparison table below it is light with dark manager values;
+- season progression rows are light/readable;
+- point tracks remain visible;
+- long manager/club names wrap rather than breaking the layout.
+
+## E. Legacy
+
+Open Legacy.
+
+Expected:
+
+- summary cards are light and readable;
+- historical showdown cards remain dark and distinct;
+- season history remains readable;
+- Data Management heading/body are dark on the light panel;
+- destructive buttons remain visually distinct;
+- no horizontal overflow from long names or history text.
+
+## F. Club Reveal r2 regression
 
 Create a disposable showdown and reach Club Assignment.
 
-Before reveal:
-
-- left and right cards must be the same width;
-- left and right cards must be the same height;
-- manager labels must align;
-- inner card faces must align;
-- VS must sit centered between cards;
-- no card should appear skewed or visually lower than the other;
-- no horizontal overflow.
-
-On a low-height Chromebook/laptop viewport, the screen should remain compact and scroll naturally if necessary rather than overlap.
-
-## 3 — reveal quality
-
-Press **OPEN SHOWDOWN PACK**.
-
 Expected:
 
-1. brief opening state;
-2. Manager 1 card opens/reveals cleanly;
-3. Manager 2 card opens/reveals separately;
-4. VS receives one short emphasis hit;
-5. final rivalry confirmation appears;
-6. motion ends completely.
-
-Look specifically for:
-
+- both reveal cards remain equal width/height on Chromebook;
+- reveal remains the shorter finite sequence;
 - no sweeping white bar;
-- no jerky card jumps;
-- no cards shifting to different sizes during reveal;
-- no long dead pauses;
-- no repeated/pulsing animation after confirmation.
+- no jerky resize during reveal;
+- M1 then M2 then VS then confirmation;
+- same pair survives refresh + Continue before confirmation;
+- no reroll or return to League Wheel;
+- confirmation opens Showdown Home with the same pair.
 
-## 4 — long-name resilience
+## G. Core smoke regression
 
-If practical, repeat until a relatively long club name appears.
+After confirming a disposable rivalry:
 
-Expected:
-
-- name wraps inside the card rather than forcing the card wider/taller;
-- generated identity stays centered;
-- opposing card remains aligned.
-
-## 5 — persistence/no-reroll regression
-
-After reveal, before confirmation:
-
-1. note both clubs;
-2. refresh;
-3. Continue Career.
-
-Expected:
-
-- same exact pair;
-- final confirmation restored;
-- no second random draw;
-- no return to League Wheel.
-
-Then confirm the rivalry and verify Showdown Home keeps the same clubs.
-
-## 6 — core smoke regression
-
-After confirmation, verify:
-
-- Transfer Challenge opens;
-- Season Results still open after completed transfer challenge;
-- existing scoring remains unchanged;
-- Back/Continue navigation still behaves normally.
+- Transfer Challenge opens/resumes;
+- transfer drafts still persist;
+- Season Results still open after transfer completion;
+- scoring remains max-11;
+- Season Summary works;
+- Back and Continue remain state-safe;
+- Legacy/Trophy/Rule Book still return through legal navigation paths.
 
 ---
 
-# Automated state
+# If a defect is found
 
-The exact `0.95.0-r2` code passed the existing **Validate Static App** workflow, including:
+Remain on **v0.95 Workstream 1 / visual acceptance**.
 
-- JavaScript syntax;
-- max-11 scoring regression cases;
-- confirmation-pending routing;
-- no-reroll setup-route lock;
-- cache-revision consistency;
-- one initial stylesheet;
-- maximum seven initial scripts;
-- no eager gameplay package;
-- startup byte budget;
-- Chromebook Home layout guards.
+Process:
 
-GitHub Pages also deployed the r2 commit successfully.
+1. inspect exact current `main`;
+2. identify the actual cascade/layout/state root cause;
+3. preserve all locked gameplay and persistence behavior;
+4. preserve lazy-loading and startup limits;
+5. fix the smallest coherent visual/component system;
+6. bump the asset revision if deployed CSS/JS/data changes;
+7. extend deterministic checks where practical;
+8. verify exact-head GitHub Actions and Pages deployment;
+9. update continuation documents.
 
-Browser visual acceptance is still required because static CI cannot judge visual alignment/animation quality.
+Do not use a visual defect to introduce unrelated features.
 
 ---
 
-# After owner acceptance
+# After r3 owner acceptance
 
-Only after the owner confirms:
+Mark v0.95 Workstream 1 accepted and continue the original finite roadmap:
 
-- false integrity warning is gone;
-- Chromebook cards are aligned;
-- reveal motion is acceptable;
-- persistence/no-reroll still works;
+## Workstream 2 — Settings blueprint alignment
 
-mark **v0.95 Workstream 1 — FUT-style reveal/rivalry confirmation** accepted and proceed to **Workstream 2 — Settings blueprint alignment**.
+Implement the small Settings surface from the original screen plan using current architecture. Appropriate scope: application information, animation/reduced-motion preference if useful, and existing safe data-management access. No accounts/cloud/online systems.
 
-If any reveal defect remains, stay on r2/r3 stabilization and fix that defect before moving forward.
+## Workstream 3 — Main Menu Statistics alignment
+
+Expose cumulative Statistics appropriately from Main Menu by reusing existing analytics/Trophy Room/Rivalry Statistics engines. Do not create duplicate analytics.
+
+## Workstream 4 — Season pre-commit review
+
+Inspect Complete Season UX and add a lightweight review/confirmation before irreversible season completion if no equivalent safeguard exists. Completed seasons remain read-only.
+
+## Workstream 5 — final v0.95 release polish
+
+Responsive consistency, accessibility/focus, feedback, performance, and full persistence/navigation/gameplay regression.
+
+Then move directly to **v1.0 Complete Release Candidate / Final Release**.
