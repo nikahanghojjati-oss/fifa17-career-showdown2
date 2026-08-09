@@ -28,18 +28,21 @@ jobs:
           set -euo pipefail
           find js data -type f -name '*.js' -print0 | xargs -0 -n1 node --check
 
-      - name: Validate release shell
+      - name: Validate release shell and startup budget
         shell: bash
         run: |
           set -euo pipefail
           node <<'NODE'
           const fs = require('fs');
 
-          const expectedVersion = '0.15.1';
-          const expectedRevision = '0.15.1-r1';
+          const expectedVersion = '0.16.0';
+          const expectedRevision = '0.16.0-r1';
+          const maximumInitialAssetBytes = 145000;
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const optionalModules = fs.readFileSync('js/optionalModules.js', 'utf8');
+          const screens = fs.readFileSync('js/screens.js', 'utf8');
+          const showdownUI = fs.readFileSync('js/showdownUI.js', 'utf8');
 
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
@@ -81,5 +84,69 @@ jobs:
             throw new Error(`Missing critical HTML ids: ${missingIds.join(', ')}`);
           }
 
-          console.log(`Validated ${refs.length} local assets, ${ids.length} unique HTML ids, and v${expectedVersion} release coherence.`);
+          const styleRefs = refs.filter(ref => ref.path.startsWith('css/'));
+          if (styleRefs.length !== 1 || styleRefs[0].path !== 'css/app.css') {
+            throw new Error(`Initial shell must load exactly css/app.css; found: ${styleRefs.map(ref => ref.path).join(', ')}`);
+          }
+
+          const initialScripts = refs.filter(ref => ref.path.startsWith('js/'));
+          if (initialScripts.length > 7) {
+            throw new Error(`Initial JavaScript budget exceeded: ${initialScripts.length} scripts (maximum 7).`);
+          }
+
+          const eagerGameplayFiles = new Set([
+            'js/showdownUI.js',
+            'js/visualIdentity.js',
+            'js/leagueWheel.js',
+            'js/clubAssignment.js',
+            'js/transferChallenge.js',
+            'js/seasonEngine.js',
+            'data/leagues.js',
+            'data/clubs.js'
+          ]);
+          const eagerGameplay = refs.filter(ref => eagerGameplayFiles.has(ref.path));
+          if (eagerGameplay.length) {
+            throw new Error(`Gameplay files returned to startup path: ${eagerGameplay.map(ref => ref.path).join(', ')}`);
+          }
+
+          const initialAssetBytes = refs.reduce((total, ref) => {
+            if (!fs.existsSync(ref.path)) {
+              throw new Error(`Referenced startup asset is missing: ${ref.path}`);
+            }
+            return total + fs.statSync(ref.path).size;
+          }, 0);
+          if (initialAssetBytes > maximumInitialAssetBytes) {
+            throw new Error(`Initial local asset budget exceeded: ${initialAssetBytes} bytes > ${maximumInitialAssetBytes}.`);
+          }
+
+          if (/\bdata-back=/.test(html)) {
+            throw new Error('Legacy hard-coded data-back navigation returned to index.html.');
+          }
+          if (!/\bdata-smart-back\b/.test(html)) {
+            throw new Error('Smart Back controls are missing from index.html.');
+          }
+          if (!screens.includes('const SAFE_BACK_TARGETS')) {
+            throw new Error('Smart route policy is missing from js/screens.js.');
+          }
+          if (!showdownUI.includes('VIEW FINAL SEASON SUMMARY')) {
+            throw new Error('Completed showdown recovery action is missing from js/showdownUI.js.');
+          }
+
+          const deadPrototypeFiles = [
+            'data/rules.js',
+            'js/router.js',
+            'js/scoreboard.js',
+            'js/ui.js',
+            'js/wheels.js'
+          ];
+          const returnedDeadFiles = deadPrototypeFiles.filter(path => fs.existsSync(path));
+          if (returnedDeadFiles.length) {
+            throw new Error(`Dead prototype files must be removed: ${returnedDeadFiles.join(', ')}`);
+          }
+
+          console.log(
+            `Validated v${expectedVersion}: ${initialScripts.length} initial scripts, ` +
+            `${styleRefs.length} initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
+            `${ids.length} unique HTML ids.`
+          );
           NODE
