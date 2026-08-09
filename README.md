@@ -4,7 +4,8 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Current application version:** v0.95.0 — Polish & Blueprint Alignment  
 **Current deployed asset revision:** `0.95.0-r3`  
-**Current phase:** v0.95 Workstream 1 final browser/visual acceptance
+**Current phase:** v0.95 Workstream 1A browser/visual acceptance  
+**Approved next work:** FIFA 17 typography + custom club identity + two-pack reveal, followed by Transfer Challenge phase/data redesign
 
 ## Development entry point
 
@@ -12,13 +13,14 @@ The design phase is complete. Do not restart planning or replace the architectur
 
 Read in this order:
 
-1. `PROJECT_STATE.md` — exact current implementation, locked rules, architecture and roadmap status.
-2. `NEXT_TASK.md` — current `0.95.0-r3` browser acceptance gate.
-3. `CHANGELOG.md` — implementation and stabilization history.
-4. Current source code — highest authority for implemented behavior.
-5. Original Project Bible — long-term blueprint where later owner decisions/current source have not intentionally superseded it.
+1. `PROJECT_STATE.md` — exact current implementation, locked rules and architecture.
+2. `ROADMAP_AMENDMENTS.md` — explicit later owner-approved additions and revised v0.95 order.
+3. `NEXT_TASK.md` — exact current gate and implementation sequence.
+4. `CHANGELOG.md` — implemented/stabilization history; planned work is not complete merely because it is mentioned elsewhere.
+5. Current source code — highest authority for implemented behavior.
+6. Original Project Bible — long-term blueprint where later owner decisions/current source have not intentionally superseded it.
 
-The historical v0.10–v0.16 builds were implementation/stabilization work. The release path remains the original **v0.95 → v1.0** roadmap.
+The historical v0.10–v0.16 builds were implementation/stabilization work. The release path remains the original **v0.95 → v1.0** roadmap, now with owner-approved v0.95 workstreams inserted before final release.
 
 ## Current v0.95 focus
 
@@ -30,7 +32,37 @@ The assignment transaction remains permanent and no-reroll: the pair is generate
 
 `0.95.0-r2` repaired the first browser-tested reveal implementation by fixing a stale diagnostics version check and replacing misaligned/skewed Chromebook reveal geometry with equal cards and shorter finite motion.
 
-`0.95.0-r3` performs a wider v0.95 visual-consistency pass. Repository inspection found that older optional Rule Book/Analytics/Legacy child colors were still designed for dark cards while the current unified shell had converted several containers to light panels. r3 normalizes those lazy screens to one coherent, high-contrast visual language without moving them into startup.
+`0.95.0-r3` performs a wider visual-consistency pass. Repository inspection found that older optional Rule Book/Analytics/Legacy child colors were still designed for dark cards while the current unified shell had converted several containers to light panels. r3 normalizes those lazy screens to one coherent, high-contrast visual language without moving them into startup.
+
+## Approved visual direction after r3
+
+The next visual pass is no longer limited to generic cleanup. It must deliberately move closer to the FIFA 17 era while remaining original and copyright-safe.
+
+Approved requirements:
+
+- improve Home/Main Menu typography, weights, spacing and hierarchy using a safely licensed FIFA-17-like display face where appropriate;
+- do not replace every body/form font if readability would be worse;
+- replace the current generic two-color/initials club identity with deterministic original custom crest/emblem treatment for every club in the existing top-five Showdown pool;
+- upgrade Club Assignment to two closed packs/parcels that open sequentially with a few seconds of finite suspense before VS/confirmation;
+- preserve persistence-before-reveal, no-reroll, equal-card geometry, reduced-motion and Chromebook/mobile safety;
+- do not bundle official club badges, copied EA/FUT graphics or proprietary FIFA fonts by default.
+
+## Approved Transfer Challenge redesign after visual acceptance
+
+The current Transfer Challenge stores signings and guesses separately but records both on one post-window screen. Before Settings work, v0.95 will split that into distinct phases:
+
+**15-minute transfer window → Guess Entry → Signing Entry → Transfer Results → Season Results**
+
+Guesses come before signing details are entered. This creates a clean future privacy boundary for two-device play without adding two-device/backend scope to Version 1.0.
+
+Transfer metadata will gain separate canonical FIFA 17 datasets:
+
+- complete historical FIFA 17 domestic league options for a signing's former league;
+- every nationality represented by FIFA 17 players;
+- responsive searchable League/Nationality controls instead of free typing;
+- canonical values for reliable guess matching regardless of accents/spelling variants.
+
+This **does not** expand the Showdown League Wheel. Rivalry club assignment remains the locked top-five European league pool.
 
 ## Current visual architecture
 
@@ -39,14 +71,14 @@ The assignment transaction remains permanent and no-reroll: the pair is generate
 - Main application uses original FIFA-17-era-inspired blue/cyan/yellow/ink/paper design tokens.
 - Dark heroes are used intentionally for major rivalry/presentation moments.
 - Light data/rule cards use dark text and clear accent bars.
-- Generated club identities replace official badges.
+- Current generated club identities are an interim copyright-safe system scheduled for Workstream 1B replacement.
 - No proprietary FIFA font or copied EA menu/FUT card artwork is bundled.
 - Soundtrack/trailer media stays user-initiated through YouTube embeds.
 - Chromebook low-height and mobile breakpoints are preserved.
 
 ## Locked competition rules
 
-- Exactly two managers, one device/browser.
+- Exactly two managers, one device/browser in Version 1.0.
 - Both clubs come from the same selected league and remain permanent for the showdown.
 - Showdown length: 1 / 3 / 5 / 10 seasons.
 - Transfer Challenge: 15 minutes, maximum three signings, three opponent guesses, league or nationality, correctly guessed signing must be released.
@@ -59,7 +91,7 @@ The assignment transaction remains permanent and no-reroll: the pair is generate
 - Equal non-zero scores are a draw.
 - Only 0-0 uses league position, then league points.
 
-## Current feature set
+## Current implemented feature set
 
 - New/resumable showdowns
 - League Wheel
@@ -76,7 +108,9 @@ The assignment transaction remains permanent and no-reroll: the pair is generate
 - Rule Book
 - safe reset/deletion controls
 - lazy FIFA 17 soundtrack/trailer media
-- generated club visual identities
+- generated interim club visual identities
+
+Do not list the newly approved typography, custom crests, two-pack reveal, split Transfer screens or complete FIFA 17 transfer metadata as implemented until source and acceptance prove they are complete.
 
 ## Performance contract
 
@@ -93,7 +127,7 @@ Initial Home remains limited to:
 
 CI enforces one initial stylesheet, maximum seven initial scripts, no eager gameplay package, and a 145 KB local startup-asset ceiling.
 
-Gameplay engines and Rule Book/Legacy/Analytics/Trophy modules remain on demand. Do not solve optional-screen styling by moving those assets into startup.
+Gameplay engines and Rule Book/Legacy/Analytics/Trophy modules remain on demand. New typography/crest/selector work must respect this performance discipline and must not casually pull large libraries/assets into startup.
 
 ## Reliability contract
 
@@ -115,26 +149,26 @@ Preserve:
 
 GitHub Actions validates JavaScript syntax, locked scoring cases, navigation states, confirmation-pending recovery, cache identity, startup budget, required IDs, centralized Back authority, Chromebook Home invariants and balanced structure of all current visual stylesheets (`app.css`, `analytics.css`, `legacy.css`, `rulebook.css`).
 
+Future work should extend deterministic coverage for crest determinism, reveal order, Transfer Challenge sub-phases, canonical data lists and selector/value coupling.
+
 Automated checks supplement browser visual testing; they do not prove visual quality.
 
-## Original roadmap
+## Original roadmap + owner-approved v0.95 insertion
 
 - v0.6.1 — Application Framework
 - v0.7 — Showdown Creation / Club Reveal
 - v0.8 — Season Management
 - v0.9 — Scoring / Statistics / Legacy
 - **v0.95 — Polish / Experience / Blueprint Alignment (current)**
-- v1.0 — Complete Release
-
-After the current r3 browser acceptance, the finite remaining v0.95 work is:
-
-1. Settings blueprint alignment.
-2. Main Menu Statistics alignment using existing analytics.
-3. Season pre-commit review/confirmation inspection.
-4. Final accessibility/responsive/performance/regression pass.
-5. v1.0.
-
-No post-v1.0 ideas should interrupt that sequence.
+  1. Workstream 1A — current r3 visual/Club Reveal browser acceptance
+  2. Workstream 1B — FIFA 17 typography + original club crests + two-pack suspense reveal
+  3. Workstream 2 — split Guess/Signing Transfer phases + complete FIFA 17 league/nationality metadata/selectors
+  4. Workstream 3 — Settings blueprint alignment
+  5. Workstream 4 — Main Menu Statistics alignment
+  6. Workstream 5 — Season pre-commit review/confirmation
+  7. Workstream 6 — final accessibility/responsive/performance/regression pass
+- v1.0 — Complete reliable one-device local release
+- post-v1.0 — two-device/private-manager architecture may build on the already separated Transfer Challenge phases
 
 ## Fan-project / legal presentation
 
