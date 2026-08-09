@@ -1,264 +1,402 @@
 # NEXT TASK
 
-## Current gate: v0.95.0-r4 Workstream 1B browser acceptance
+## Current gate: v0.95.0-r5 Workstream 2 browser acceptance
 
-Stay on **v0.95 Workstream 1B** until the owner has tested `0.95.0-r4` on the real Chromebook/mobile browser.
+Workstream 1B / `0.95.0-r4` is **owner accepted**.
+
+Stay on **v0.95 Workstream 2** until the owner has tested `0.95.0-r5` on the real Chromebook/mobile browser.
 
 **Application version:** v0.95.0  
-**Asset revision:** `0.95.0-r4`  
+**Asset revision:** `0.95.0-r5`  
 **Source status:** implemented and machine-validated  
 **Owner acceptance:** pending
 
-Do not begin the Transfer Challenge phase/data redesign until this browser gate passes.
+Do not begin Settings / Workstream 3 until this browser gate passes.
 
 ---
 
-# What r4 implements
+# What r5 implements
 
-## FIFA-era typography hierarchy
+## Transfer Challenge state model
 
-- Barlow Condensed is requested for selected display roles with `display=swap`.
-- Existing condensed/system fonts remain immediate fallbacks.
-- Home tile labels, major headings, scores, navigation and reveal typography were retuned for a stronger FIFA-17-era feel.
-- Body copy/forms remain on the readable UI font where condensed display type would hurt usability.
-- Font files are not stored in the repository; source/license information is in `THIRD_PARTY_NOTICES.md`.
+The competition rules are unchanged:
 
-## Original club crest identities
+- 15-minute transfer window;
+- maximum three signings per manager;
+- three opponent guesses;
+- each guess is League or Nationality;
+- a signing matching a correct guess must be released.
 
-- All 98 clubs in the locked five-league Showdown pool have explicit club-associated palettes.
-- `js/visualIdentity.js` generates original deterministic SVG crests from project-owned shapes, patterns and motifs.
-- Official club badge images/vector paths are not used by the identity engine.
-- The same club identity is reused across reveal/confirmation/dashboard/transfer/season/summary surfaces where club identity appears.
-- Automated checks verify all 98 identities are covered, deterministic and distinct.
+The existing challenge record is retained. No parallel transfer record or second router was created.
 
-## Two-pack reveal
+Persistent transfer phases are now:
 
-Current sequence:
+1. `window`
+2. `guess_entry`
+3. `signing_entry`
+4. `completed`
 
-**saved club pair  
-→ two sealed packs  
-→ Pack 01 / Manager 1 reveal  
-→ suspense beat  
-→ Pack 02 / Manager 2 reveal  
-→ VS  
-→ Rivalry Confirmation**
+The existing status values remain compatible with central routing:
 
-Presentation is now owned by `css/app.css`; Club Assignment JavaScript no longer injects a second stylesheet.
+- `not_started`
+- `active`
+- `recording`
+- `completed`
 
-Finite timing target:
+Both Guess Entry and Signing Entry intentionally remain `status: recording`; the explicit `phase` determines which UI/state is active. This preserves `js/screens.js` as the sole route/history authority.
 
-- M1 ~650 ms
-- M2 ~1750 ms
-- VS ~2850 ms
-- confirmation ~3300 ms
-
-The pair remains persisted before theatrical reveal and can never reroll because of animation/refresh.
-
----
-
-# r4 browser acceptance checklist
-
-Hard refresh once before testing so Chrome receives `0.95.0-r4` local assets.
-
-## A. Startup / Home typography
-
-Expected:
-
-- no application-integrity warning;
-- Home loads normally even if the external font service is unavailable;
-- Main Menu typography looks materially closer to a FIFA-era football-game menu;
-- Continue Career remains the dominant tile;
-- New Showdown / Legacy / Trophy Room / Rule Book remain readable and visually balanced;
-- small tile metadata remains readable and does not clip;
-- soundtrack/trailer rail remains below the Career tiles;
-- playing media expands vertically without overlap;
-- Chromebook short-height layout remains clean and scrollable;
-- mobile remains clean and single-column where intended.
-
-Optional fallback check: temporarily block/offline-reload the Google Fonts request if convenient. Text should remain visible immediately using the local/system fallback stack.
-
-## B. Club Assignment — sealed packs
-
-Create a disposable showdown and reach Club Assignment.
-
-Before opening:
-
-- exactly two equal-size sealed Showdown packs are visible;
-- Manager 1 / Manager 2 labels are aligned;
-- pack 01 / pack 02 look balanced;
-- no skewed geometry or white sweep appears;
-- Back remains available only before the permanent pair is drawn.
-
-Press **OPEN SHOWDOWN PACKS**.
-
-Expected:
-
-1. draw becomes permanently locked/saved;
-2. Pack 01 opens first;
-3. Manager 1 club/crest appears;
-4. short suspense pause;
-5. Pack 02 opens;
-6. Manager 2 club/crest appears;
-7. VS receives one short emphasis;
-8. confirmation panel appears;
-9. Confirm Rivalry becomes available.
-
-No pack should loop, jitter, resize or overlap the other pack.
-
-## C. Original club crests
-
-Test several disposable draws if practical, especially clubs with different visual traditions and long names.
-
-Expected:
-
-- clubs show crest-like original graphics rather than the old simple two-color initials block;
-- two clubs should be distinguishable before reading the names;
-- crests remain crisp on Chromebook and mobile;
-- crest does not cover club name;
-- long club names wrap inside the available area rather than resizing/misaligning the card;
-- confirmation panel uses the same crest identity;
-- after confirmation, Showdown Home uses the same club identity.
-
-The crest may use a small monogram, but the monogram should no longer be the entire visual identity.
-
-## D. Reveal integrity / refresh
-
-Critical test:
-
-1. create a disposable showdown;
-2. open the packs;
-3. stop at final confirmation;
-4. refresh browser;
-5. press Continue Career.
-
-Expected:
-
-- exact same league;
-- exact same two clubs;
-- exact same club identities;
-- return to Club Assignment confirmation;
-- no new random draw;
-- League Wheel remains unavailable;
-- Showdown Home/Transfer cannot be entered until explicit confirmation.
-
-Then confirm rivalry and verify Showdown Home contains the exact same clubs.
-
-## E. Reduced motion
-
-If OS/browser reduced motion can be enabled conveniently:
-
-- the pair still saves once;
-- the same clubs appear;
-- theatrical delay is skipped/minimized;
-- confirmation still required;
-- no different gameplay/persistence behavior.
-
-## F. r3 visual regression
-
-Open:
-
-- Rule Book
-- Trophy Room
-- Rivalry Statistics
-- Legacy
-
-Expected:
-
-- r3 contrast corrections remain intact;
-- no pale/white text on light panels;
-- long names remain contained;
-- Chromebook/mobile layouts remain readable.
-
-## G. core gameplay smoke test
-
-After confirming a disposable rivalry:
-
-- Showdown Home works;
-- Transfer Challenge opens;
-- timer starts/resumes;
-- current combined signing/guess screen still works for this build;
-- drafts persist;
-- Transfer Challenge can complete;
-- Season Results opens;
-- scoring remains max 11;
-- Season Summary works;
-- Back and Continue remain state-safe.
-
-Do **not** expect Guess/Signing separation yet. That is Workstream 2 and must only begin after r4 visual acceptance.
-
----
-
-# If r4 has a defect
-
-Remain in Workstream 1B.
-
-1. inspect exact `main`;
-2. identify real typography/crest/pack/layout root cause;
-3. preserve all locked gameplay/state/persistence rules;
-4. preserve startup/lazy-loading limits;
-5. fix the component rather than stacking a device-specific hack where avoidable;
-6. bump asset revision if deployed local CSS/JS/data changes;
-7. extend deterministic regression coverage where practical;
-8. verify exact-head GitHub Actions;
-9. verify Pages deployed the exact head;
-10. update continuation documentation.
-
-Do not use a visual defect to begin Transfer Workstream 2 early.
-
----
-
-# After r4 acceptance — Workstream 2
-
-Implement the owner-approved Transfer Challenge foundation **before Settings**.
-
-Target flow:
+## New transfer flow
 
 **15-minute transfer window  
 → Guess Entry  
 → lock/persist guesses  
 → Signing Entry  
 → lock/persist signings  
-→ evaluate matches / release verdicts  
-→ Transfer Results  
+→ canonical guess evaluation  
+→ Transfer Verdicts  
 → Season Results**
 
-Required Workstream 2 scope:
+The post-window timer UI is removed from Guess/Signing/Verdict phases so each phase reads as a distinct screen state rather than the old combined form with a dead `00:00` timer.
 
-1. explicit Transfer sub-phase/state with safe old-save compatibility;
-2. Guess Entry and Signing Entry become separate UI phases/screens;
-3. guesses occur first;
-4. complete historical FIFA 17 former-league metadata dataset, separate from Showdown wheel;
-5. complete FIFA 17 player-nationality dataset;
-6. responsive searchable controlled selectors for league/nationality;
-7. guess value options change with League/Nationality type;
-8. canonical IDs stored/evaluated instead of arbitrary free text;
-9. draft persistence remains debounced/deduplicated;
-10. critical phase transitions save immediately and roll back/block on failure;
-11. central route/Back/Continue logic understands transfer sub-phases;
-12. mobile/Chromebook accessibility and viewport behavior;
-13. expanded deterministic data/state regression tests;
-14. owner browser acceptance.
+## Persistence / rollback
 
-The competition rules do not change: 15 minutes, max three signings each, three guesses each, league or nationality, matched signing released.
+Critical transitions are immediate saved transitions:
+
+- transfer window → Guess Entry;
+- Guess Entry → Signing Entry;
+- Signing Entry → Completed/Verdicts.
+
+Before each critical transition the challenge is snapshotted. Failed persistence restores the previous challenge/state and blocks progression.
+
+Ordinary field editing remains debounced/deduplicated rather than writing localStorage on every keypress.
+
+Only the currently editable phase is captured:
+
+- Guess Entry draft saves guesses;
+- Signing Entry draft saves signings;
+- locked guesses are not rewritten by later signing edits.
+
+## Old-save compatibility
+
+An old v0.95/r4 `status: recording` challenge with no `phase` safely migrates to `guess_entry`.
+
+Existing old signing/guess drafts are retained. Historical free-text League/Nationality values are canonicalized when a known FIFA 17 alias can be resolved.
+
+Examples protected by tests include:
+
+- `Calcio A` → canonical Italian Serie A option;
+- `Liga BBVA` → canonical Spanish Primera División option;
+- `Czechia` → canonical Czech Republic nationality;
+- `North Macedonia` → canonical FYR Macedonia option;
+- `Türkiye` → canonical Turkey option;
+- `South Korea` → canonical Korea Republic option.
+
+If an old value cannot be safely resolved, the value remains visible and must be reselected before the phase can be locked. Existing data is not silently guessed into the wrong canonical option.
+
+## FIFA 17 transfer metadata
+
+New lazy data module: `data/transferOptions.js`.
+
+Transfer metadata is separate from the locked five-league Showdown Wheel.
+
+Current canonical dataset:
+
+- **36 Transfer League options** — 35 historical FIFA 17 domestic league competitions plus `Rest of World` fallback;
+- **164 FIFA 17 player nationalities**.
+
+This includes historical lower divisions represented in FIFA 17, including England's four tiers and the second divisions in France, Germany, Italy and Spain.
+
+The Showdown League Wheel remains exactly five leagues.
+
+## Controlled searchable selectors
+
+New lazy selector module: `js/transferSelector.js`.
+
+Signing Entry:
+
+- Player Name — normal text input;
+- Previous League — searchable controlled FIFA 17 selector;
+- Nationality — searchable controlled FIFA 17 selector.
+
+Guess Entry:
+
+- Guess Type — League / Nationality;
+- Guess Value — searchable controlled selector whose dataset follows the selected type.
+
+Selector behavior:
+
+- type-to-filter;
+- bounded result list;
+- League country/tier context;
+- Arrow Up / Arrow Down;
+- Enter to select;
+- Escape to close;
+- visible focus;
+- `role=combobox` / listbox / active-descendant ARIA wiring;
+- canonical ID stored separately from display label;
+- invalid arbitrary text cannot be locked as a valid option;
+- mobile popover constrained to the viewport;
+- low-height Chromebook breakpoint;
+- no UI framework.
+
+## Canonical release evaluation
+
+Release matching now compares canonical IDs, not normalized arbitrary strings.
+
+Examples:
+
+- `TIM Serie A` signing and a historical `Calcio A` alias resolve to the same League ID;
+- `Turkey` / `Türkiye` resolve to the same nationality ID;
+- different canonical IDs cannot accidentally match because of formatting/accents.
+
+## Lazy/performance architecture
+
+The initial shell remains unchanged:
+
+- one local initial stylesheet;
+- seven initial JavaScript files maximum;
+- no Transfer option data at Home startup.
+
+New Workstream 2 assets are loaded through the existing lazy gameplay package:
+
+- `css/transfer.css`
+- `data/transferOptions.js`
+- `js/transferSelector.js`
+
+The existing one-transfer-timer / hidden-tab shutdown / debounced-draft contracts remain.
 
 ---
 
-# Remaining original v0.95 path after Workstream 2
+# r5 browser acceptance checklist
+
+Hard refresh once before testing so Chrome receives `0.95.0-r5` assets.
+
+## A. Startup / r4 regression
+
+Expected:
+
+- no startup integrity warning;
+- r4 Home typography remains intact;
+- r4 custom club crests remain intact;
+- r4 two-pack reveal remains intact;
+- media rail remains stable;
+- Rule Book / Statistics / Trophy Room / Legacy contrast remains correct.
+
+## B. Transfer Window
+
+Create or use a disposable confirmed showdown and open the season Transfer Challenge.
+
+Expected:
+
+- four-step progress strip is visible: Transfer Window → Guess Entry → Signing Entry → Verdicts;
+- Transfer Window is active;
+- 15:00 timer starts normally;
+- only one timer runs;
+- hiding the tab stops the interval but the persisted deadline continues correctly;
+- returning calculates the correct remaining time;
+- End Window Early still works;
+- the competition rule text is unchanged.
+
+## C. Guess Entry — must happen first
+
+End/expire the Transfer Window.
+
+Expected:
+
+- Transfer Window timer/hero disappears;
+- Guess Entry becomes the active progress step;
+- Signing Entry fields are not shown/editable yet;
+- both managers have three Guess rows;
+- Guess Type offers League / Nationality;
+- Guess Value is disabled until a type is selected;
+- selecting League searches the FIFA 17 League dataset;
+- selecting Nationality searches the FIFA 17 player-nationality dataset;
+- arbitrary invalid text cannot be locked;
+- League result rows show useful country/tier context where applicable;
+- keyboard Arrow/Enter/Escape works;
+- no dropdown escapes the screen on Chromebook/mobile.
+
+Enter several guesses and press:
+
+**LOCK GUESSES & CONTINUE TO SIGNINGS**
+
+Expected:
+
+- transition only occurs after successful persistence;
+- success message appears;
+- Guess Entry is marked complete;
+- Signing Entry becomes active;
+- Showdown Home/refresh now identifies Signing Entry correctly.
+
+## D. Guess-lock refresh test
+
+Immediately after locking guesses:
+
+1. refresh browser;
+2. press Continue Career.
+
+Expected:
+
+- exact same showdown/season;
+- Transfer Challenge opens directly in Signing Entry;
+- exact locked guesses are retained;
+- user is not returned to Transfer Window;
+- guesses cannot be casually rewritten by Signing Entry edits.
+
+This is the most important new persistence test in r5.
+
+## E. Signing Entry
+
+Expected:
+
+- only Signing Entry form is active;
+- each manager has maximum three signing rows;
+- Player Name remains normal text;
+- Previous League uses searchable historical FIFA 17 competitions;
+- Nationality uses searchable FIFA 17 player nationalities;
+- invalid arbitrary League/Nationality text blocks completion;
+- old historical aliases can be found/resolved through the controlled options;
+- long values stay contained on Chromebook/mobile.
+
+Test searches such as:
+
+- Championship
+- League One
+- Serie B
+- Segunda
+- J1
+- MLS
+- Czech
+- Korea
+- Côte / Ivory
+- Turkey / Türkiye
+
+Then press:
+
+**LOCK SIGNINGS & REVEAL VERDICTS**
+
+## F. Canonical verdicts
+
+Use at least one deliberate matching test.
+
+Example:
+
+- Guess Type: League
+- Guess: Italian Serie A option
+- Signing Previous League: same Italian Serie A option
+
+Expected: signing = **RELEASE**.
+
+Then use a non-match and expect **SAFE**.
+
+Also test a Nationality match.
+
+Verdict rows should display the signing metadata and, for a release, the matching guess label.
+
+## G. Completed transfer / Season Results
+
+Expected:
+
+- Verdicts step active/completed correctly;
+- Continue to Season Results works;
+- dashboard now reports Transfer Challenge complete;
+- obsolete Transfer Challenge route is no longer canonical after completion;
+- Season Results/scoring remains unchanged;
+- maximum season score remains 11.
+
+## H. Old-save compatibility
+
+If a pre-r5 disposable save exists in the old combined `recording` state, test Continue Career.
+
+Expected:
+
+- it opens safely at Guess Entry;
+- old guess/signing drafts are not erased;
+- recognizable historical strings are canonicalized;
+- any unknown free-text value remains visible rather than being silently converted to the wrong option;
+- once guesses are locked, preserved old signing drafts appear in Signing Entry.
+
+## I. Back / Continue / destructive actions
+
+From Guess Entry and Signing Entry:
+
+- Back to Showdown Home remains safe;
+- draft flush occurs before leaving;
+- Continue Career returns to the same transfer phase;
+- deleting/resetting the active showdown still clears obsolete transfer state;
+- no route history is manipulated outside `screens.js`.
+
+## J. Responsive / accessibility
+
+Chromebook low-height and phone:
+
+- progress strip is readable;
+- forms do not overlap;
+- selector popup is viewport-contained;
+- touch targets are usable;
+- keyboard focus remains visible;
+- no horizontal overflow from long League/Nationality names;
+- reduced-motion preference does not break transfer behavior.
+
+---
+
+# Machine validation currently protecting r5
+
+`Validate Static App` still protects all prior scoring/navigation/startup/club-reveal contracts.
+
+New `Validate Transfer Workstream` protects:
+
+- 36 transfer competition options;
+- 164 player nationalities;
+- unique canonical IDs;
+- important historical lower-division coverage;
+- transfer dataset not expanding the five-league Showdown Wheel;
+- historical alias resolution;
+- old `recording` → Guess Entry migration;
+- old signing draft preservation;
+- Guess → Signing ordering;
+- canonical-ID RELEASE/SAFE matching;
+- critical transition save/rollback markers;
+- selector ARIA/keyboard contracts;
+- bounded desktop/mobile selector popovers;
+- Chromebook breakpoint;
+- reduced-motion rule;
+- transfer assets remaining out of the initial shell.
+
+Automated checks do not replace the owner Chromebook/mobile visual test.
+
+---
+
+# If r5 has a defect
+
+Remain in Workstream 2.
+
+Fix the actual transfer state/data/selector/layout cause without changing competition rules or building a second router/storage model. Bump the asset revision for any deployed local runtime change and extend regression coverage for every discovered root cause.
+
+---
+
+# After r5 acceptance
 
 ## Workstream 3 — Settings
 
-Small original-blueprint Settings surface: app information, useful animation/reduced-motion preference, safe existing data-management access. No accounts/cloud/online systems.
+Implement the small original-blueprint Settings surface using current architecture:
+
+- application information;
+- useful animation/reduced-motion preference if still valuable;
+- safe existing data-management access.
+
+No accounts, backend, cloud or online systems.
 
 ## Workstream 4 — Main Menu Statistics alignment
 
-Reuse the existing analytics/Trophy Room/Rivalry Statistics architecture. Do not duplicate calculation engines.
+Reuse existing analytics/Trophy Room/Rivalry Statistics. Do not create a second analytics engine.
 
 ## Workstream 5 — Season pre-commit review
 
-Add/confirm a lightweight review before irreversible season completion. Completed historical seasons remain read-only.
+Inspect Complete Season UX and add a lightweight review/confirmation before irreversible season completion if an equivalent safeguard is still absent.
 
-## Workstream 6 — final v0.95 release polish
+## Workstream 6 — final v0.95 polish/regression
 
-Accessibility/focus, responsive consistency, typography/contrast, feedback/transitions, performance and complete persistence/navigation/gameplay regression.
+Accessibility/focus, responsive consistency, typography/contrast, feedback/transitions, performance, persistence/navigation/gameplay regression and final documentation synchronization.
 
 Then move directly to **v1.0 Complete Release Candidate / Final Release**.
