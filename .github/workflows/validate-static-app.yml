@@ -242,11 +242,23 @@ jobs:
             throw new Error('js/optionalModules.js is not using the shell-owned asset revision.');
           }
 
-          const openCssBraces = (appCss.match(/{/g) || []).length;
-          const closeCssBraces = (appCss.match(/}/g) || []).length;
-          if (openCssBraces !== closeCssBraces) {
-            throw new Error(`css/app.css has unbalanced braces (${openCssBraces} open vs ${closeCssBraces} close).`);
-          }
+          const visualStyleFiles = [
+            'css/app.css',
+            'css/analytics.css',
+            'css/legacy.css',
+            'css/rulebook.css'
+          ];
+          visualStyleFiles.forEach(filePath => {
+            if (!fs.existsSync(filePath)) {
+              throw new Error(`Required visual stylesheet is missing: ${filePath}`);
+            }
+            const css = fs.readFileSync(filePath, 'utf8');
+            const openBraces = (css.match(/{/g) || []).length;
+            const closeBraces = (css.match(/}/g) || []).length;
+            if (openBraces !== closeBraces) {
+              throw new Error(`${filePath} has unbalanced braces (${openBraces} open vs ${closeBraces} close).`);
+            }
+          });
 
           if (!appCss.includes('grid-template-rows:repeat(2,minmax(108px,auto)) auto;grid-auto-rows:auto')) {
             throw new Error('Desktop Home grid must keep content-sized rows so media expansion cannot overlap navigation.');
@@ -387,6 +399,6 @@ jobs:
             `Validated v${expectedVersion} / ${expectedRevision}: ${initialScripts.length} initial scripts, ` +
             `${styleRefs.length} initial stylesheet, ${initialAssetBytes} initial local bytes, ` +
             `${ids.length} unique HTML ids, staged club confirmation recovery, centralized Back authority, ` +
-            `Chromebook layout guards active.`
+            `Chromebook layout and optional CSS guards active.`
           );
           NODE
