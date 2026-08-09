@@ -2,11 +2,11 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v0.95.0 — Polish & Blueprint Alignment  
-**Runtime asset revision:** `0.95.0-r10`  
-**Current phase:** League Confirmation stabilization / owner browser acceptance  
-**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`  
-**Next after r10 acceptance:** Workstream 6 final v0.95 polish/regression → v1.0
+**Application version:** v0.95.0 — Polish & Blueprint Alignment
+**Runtime asset revision:** `0.95.0-r11`
+**Current phase:** Workstream 6 final polish / regression candidate
+**Owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
+**Next after r11 acceptance:** v1.0 Complete Release Candidate / Final Release
 
 ## Development entry point
 
@@ -26,7 +26,21 @@ The release path remains **v0.95 → v1.0**.
 
 ---
 
-## Current r10 — explicit League Wheel confirmation
+## Current r11 — final polish / regression
+
+r11 adds a short centralized FIFA-era-inspired forward/back route entrance without delaying navigation or creating a second router. Critical-write flush, route validation and destination rendering still complete before presentation. Stale transition state is cancelled by navigation revision, and effective reduced motion skips the theatrical state entirely.
+
+Successful user-initiated route changes can play a restrained 64 ms original Web Audio cue. The synthesizer is lazy, contains no recorded or copied FIFA sound, never creates an audio context at startup, suppresses itself while Home media is playing and cannot block navigation. Settings → Motion & Feedback provides a persistent mute switch.
+
+Accessibility polish includes destination-heading focus, screen accessibility-tree synchronization, explicit focus styles, associated setup labels, contextual Transfer-field names and loading-shell isolation.
+
+The startup shell remains seven local scripts and one local stylesheet, under 35 KB gzip-compressed. **Validate Final Polish** expands the suite to 21 deterministic blocks across eight workflows.
+
+See `NEXT_TASK.md` for the Chromebook/mobile quality and regression checklist.
+
+---
+
+## Accepted r10 — explicit League Wheel confirmation
 
 r10 fixes the reported auto-navigation bug after League selection.
 
@@ -98,7 +112,7 @@ Preserve:
 
 ### r6 — Settings / motion accessibility
 
-Settings remains a lazy modal. `careerModeShowdown.preferences` stores the Reduce Motion preference; device/browser reduced motion always wins. Showdown-data reset preserves this app preference.
+Settings remains a lazy modal. `careerModeShowdown.preferences` schema 2 stores Reduce Motion and Menu Click Feedback preferences; device/browser reduced motion always wins. Showdown-data reset preserves application preferences.
 
 ### r5 — phased Transfer Challenge
 
@@ -152,7 +166,7 @@ Gameplay, Transfer data/selectors, Season Review CSS, analytics, Trophy Room, Le
 
 ## Automated validation
 
-Seven GitHub Actions gates protect the current v0.95 build:
+Eight GitHub Actions gates protect the current v0.95 build:
 
 - **Validate Static App** — syntax, scoring, route matrix, Club Assignment, procedural crests, startup budget, Smart Back and responsive shell.
 - **Validate Home Bootstrap** — Home IDs/media bootstrap/revision coherence.
@@ -161,17 +175,17 @@ Seven GitHub Actions gates protect the current v0.95 build:
 - **Validate Statistics Workstream** — analytics fixtures and shared/lazy architecture.
 - **Validate Season Review** — non-persistent Review and confirmation-only transaction boundary.
 - **Validate League Confirmation** — explicit Continue, save-before-navigation, rollback and refresh/resume route boundary.
+- **Validate Final Polish** — transition ordering/stale cleanup, reduced motion, route focus, original feedback synthesis, preference migration, accessibility and bundle budgets.
 
-Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r10 checklist.
+Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r11 checklist.
 
 ---
 
 ## Remaining release path
 
-1. **r10 League Confirmation browser acceptance**
-2. **Workstream 6 — final v0.95 polish/regression**
-   - includes the owner-requested quality-gated FIFA-era navigation transition and original micro click-feedback experiment;
-   - ship only if it stays exceptionally smooth, central-router-safe and reduced-motion-safe on Chromebook/mobile.
-3. **v1.0 Complete Release Candidate / Final Release**
+1. **r11 Workstream 6 browser acceptance**
+   - compare the quality-gated FIFA-era navigation transition and original micro click feedback on Chromebook/mobile;
+   - simplify or omit either effect if it is not exceptionally smooth and intentional.
+2. **v1.0 Complete Release Candidate / Final Release**
 
 No replacement v0.17/v0.18 roadmap is planned.

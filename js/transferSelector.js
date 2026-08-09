@@ -253,6 +253,7 @@ function enhanceTransferSelector(input, kind){
     wrapper.appendChild(list);
 
     input.dataset.transferCombobox = "true";
+    input.dataset.selectorContextLabel = input.getAttribute("aria-label") || "";
     input.setAttribute("role", "combobox");
     input.setAttribute("aria-autocomplete", "list");
     input.setAttribute("aria-controls", list.id);
@@ -286,7 +287,11 @@ function updateTransferSelectorKind(input, kind){
 
     state.kind = normalizedKind;
     input.dataset.selectorKind = normalizedKind;
-    input.setAttribute("aria-label", normalizedKind === "league" ? "Search FIFA 17 previous league" : "Search player nationality");
+    const actionLabel = normalizedKind === "league"
+        ? "Search FIFA 17 previous league"
+        : "Search player nationality";
+    const contextLabel = input.dataset.selectorContextLabel;
+    input.setAttribute("aria-label", contextLabel ? `${contextLabel}. ${actionLabel}` : actionLabel);
     delete input.dataset.canonicalId;
     delete input.dataset.canonicalLabel;
     input.value = "";

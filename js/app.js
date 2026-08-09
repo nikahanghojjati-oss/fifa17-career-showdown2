@@ -163,10 +163,14 @@ function revealApplication(){
 
     if(loadingScreen){
         loadingScreen.classList.add("hidden");
+        loadingScreen.hidden = true;
+        loadingScreen.setAttribute("aria-hidden", "true");
+        loadingScreen.setAttribute("aria-busy", "false");
     }
 
     if(app){
         app.classList.remove("hidden");
+        app.removeAttribute("aria-hidden");
     }
 }
 
