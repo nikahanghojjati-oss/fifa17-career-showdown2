@@ -13,7 +13,7 @@ Owner/browser accepted:
 **Application version:** v0.95.0  
 **Asset revision:** `0.95.0-r10`  
 **Current activity:** stabilization bugfix before Workstream 6  
-**Source status:** explicit League Wheel confirmation implemented; exact-head validation required after documentation synchronization  
+**Source status:** r10 implementation/documentation synchronized; deployment candidate awaiting exact-head proof  
 **Owner acceptance:** pending
 
 Do not begin Workstream 6 until the r10 browser regression below passes.
