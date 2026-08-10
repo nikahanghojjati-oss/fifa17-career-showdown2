@@ -5,7 +5,7 @@
 ===================================================== */
 
 .footballVisualStage{
-    width:min(1040px,94vw);
+    width:min(1040px,100%);
     margin:0 auto;
 }
 
@@ -176,7 +176,7 @@
 }
 
 .footballVisualHeroTransfer{
-    width:min(1040px,94vw);
+    width:min(1040px,100%);
     min-height:188px;
     margin:0 auto 9px;
     display:grid;
