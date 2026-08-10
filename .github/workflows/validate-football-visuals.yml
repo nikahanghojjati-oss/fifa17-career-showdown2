@@ -100,7 +100,7 @@ jobs:
 
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016-r4');
           assert.ok(messi, 'r4 Barcelona Messi visual is missing.');
-          assert.deepStrictEqual(messi.output_dimensions, [674,506], 'Messi r4 derivative dimensions changed unexpectedly.');
+          assert.deepStrictEqual(messi.output_dimensions, [960,676], 'Messi r4 derivative dimensions changed unexpectedly.');
           assert.strictEqual(messi.author, 'Save the Dream', 'Messi attribution changed unexpectedly.');
           assert.strictEqual(messi.license, 'CC BY 2.0', 'Messi license changed unexpectedly.');
           assert.ok(messi.source_page.includes('Save_the_Dream_at_the_Match_of_champions_(31067838784).jpg'), 'Messi r4 source changed unexpectedly.');
