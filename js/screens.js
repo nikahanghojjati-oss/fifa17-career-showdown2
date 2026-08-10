@@ -23,8 +23,6 @@ const GAMEPLAY_SCREENS = new Set([
     "seasonSummary"
 ]);
 
-const REQUIRED_FOOTBALL_VISUAL_SCREENS = new Set(["createShowdown","transferChallenge","careerStatistics","trophyRoom"]);
-
 const SAFE_BACK_TARGETS = Object.freeze({
     mainMenu: [],
     createShowdown: ["dashboard", "mainMenu"],
@@ -40,6 +38,8 @@ const SAFE_BACK_TARGETS = Object.freeze({
     legacy: ["dashboard", "mainMenu"],
     ruleBook: ["mainMenu"]
 });
+
+const REQUIRED_FOOTBALL_VISUAL_SCREENS = new Set(["createShowdown","transferChallenge","careerStatistics","trophyRoom"]);
 
 const MAX_SCREEN_HISTORY = 18;
 const ROUTE_TRANSITION_FALLBACK_MS = 260;
@@ -382,8 +382,13 @@ function renderScreenBeforeEnter(screenName){
         window.renderLegacy();
     }
     if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(screenName)){
-        if(typeof window.prepareFootballVisualScreen !== "function" || !window.prepareFootballVisualScreen(screenName)){
-            throw new Error(`Required football presentation could not mount for ${screenName}.`);
+        const runtimeOwnsRequiredVisuals = typeof window.ensureRequiredFootballVisualExperience === "function";
+        if(typeof window.prepareFootballVisualScreen === "function"){
+            if(!window.prepareFootballVisualScreen(screenName)){
+                throw new Error(`Required football presentation could not mount for ${screenName}.`);
+            }
+        }else if(runtimeOwnsRequiredVisuals){
+            throw new Error(`Required football presentation is unavailable for ${screenName}.`);
         }
     }
 
