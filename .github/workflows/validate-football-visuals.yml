@@ -45,7 +45,7 @@ jobs:
           assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved candidate derivatives.');
           const expected = new Set([
             'james-rodriguez-real-madrid-2016.webp',
-            'marcus-rashford-man-utd-2016.webp',
+            'marcus-rashford-september-2016-cropped.webp',
             'anthony-martial-man-utd-2015.webp',
             'lionel-messi-barcelona-2016.webp',
             'philipp-lahm-world-cup-2014.webp'
@@ -68,6 +68,11 @@ jobs:
           assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB lazy ceiling (${total}).`);
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
           assert.ok(messi.output_dimensions[0] >= 1000, 'Messi derivative must preserve enough width for the desktop Statistics hero.');
+          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-september-2016');
+          assert.ok(rashford, 'Recovered Work-selected Rashford asset is missing.');
+          assert.deepStrictEqual(rashford.source_dimensions, [594,661], 'Recovered Rashford source dimensions changed unexpectedly.');
+          assert.strictEqual(rashford.author, 'Ardfern', 'Recovered Rashford attribution changed unexpectedly.');
+          assert.ok(rashford.source_page.includes('Marcus_Rashford_September_2016_(cropped).jpg'), 'Recovered Rashford source file changed unexpectedly.');
 
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
           assert.ok(renderer.includes('loading = "lazy"') && renderer.includes('fetchPriority = "low"'), 'Screen photography must remain low-priority and lazy.');
@@ -103,3 +108,11 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN=licensed-visual-gate npm run test:football-visual
           CMS_AUDIT_RUN=licensed-visual-gate npm run test:home-visual
+      - name: Upload rendered visual audit screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: licensed-football-visual-${{ github.sha }}
+          path: test-results/*.png
+          if-no-files-found: warn
+          retention-days: 7
