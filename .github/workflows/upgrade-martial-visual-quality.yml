@@ -51,7 +51,7 @@ jobs:
               image = image.resize((1200, 800), Image.Resampling.LANCZOS)
               output_path = Path('assets/football/anthony-martial-man-utd-2017.webp')
               selected_quality = None
-              for quality in (92,90,88,86,84,82,80):
+              for quality in (90,88,86,84,82,80):
                   image.save(output_path, 'WEBP', quality=quality, method=6)
                   if output_path.stat().st_size <= 280_000:
                       selected_quality = quality
