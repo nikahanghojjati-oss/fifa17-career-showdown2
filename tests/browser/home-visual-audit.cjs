@@ -172,20 +172,26 @@ async function runCase(browser, config){
 
 (async () => {
     const runtime = await resolveChromiumRuntime();
-    const browser = await chromium.launch({
-        executablePath: runtime.executablePath,
-        headless: true,
-        args: runtime.args
-    });
+    let browserVersion = "";
 
-    try{
-        process.stdout.write(`Chromium ${await browser.version()} · ${runLabel}\n`);
-        for(const config of cases){
-            await runCase(browser, config);
+    for(const config of cases){
+        const browser = await chromium.launch({
+            executablePath: runtime.executablePath,
+            headless: true,
+            args: runtime.args
+        });
+
+        if(!browserVersion){
+            browserVersion = await browser.version();
+            process.stdout.write(`Chromium ${browserVersion} · ${runLabel}\n`);
         }
-    }finally{
-        if(browser.isConnected()){
-            await browser.close();
+
+        try{
+            await runCase(browser, config);
+        }finally{
+            if(browser.isConnected()){
+                await browser.close();
+            }
         }
     }
 })().catch(error => {
