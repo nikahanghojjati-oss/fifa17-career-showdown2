@@ -192,45 +192,6 @@ function getSavedShowdownMenuMeta(){
     };
 }
 
-function scheduleMarcoReusImageLoad(){
-    const ui = getMenuExperienceUI();
-    const image = ui.reusImage;
-    if(
-        !image
-        || image.dataset.loaded === "true"
-        || image.dataset.loaded === "loading"
-        || reusImageLoadScheduled
-        || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS
-    ){
-        return;
-    }
-
-    reusImageLoadScheduled = true;
-    const load = () => {
-        reusImageLoadScheduled = false;
-        if(typeof getActiveScreenName === "function" && getActiveScreenName() !== "mainMenu"){
-            return;
-        }
-        if(
-            image.dataset.loaded === "true"
-            || image.dataset.loaded === "loading"
-            || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS
-        ){
-            return;
-        }
-
-        reusImageAttempts += 1;
-        image.dataset.loaded = "loading";
-        image.src = image.dataset.src;
-    };
-
-    if(typeof window.requestIdleCallback === "function"){
-        window.requestIdleCallback(load, { timeout: 1800 });
-    }else{
-        window.setTimeout(load, 500);
-    }
-}
-
 function ensureMarcoReusTreatment(){
     const primaryTile = document.getElementById("continueCareer");
     const grid = document.querySelector(".fifaMenuGrid");
@@ -244,9 +205,9 @@ function ensureMarcoReusTreatment(){
         const image = document.createElement("img");
         image.alt = "";
         image.decoding = "async";
-        image.loading = "lazy";
-        image.fetchPriority = "low";
-        image.dataset.src = MARCO_REUS_IMAGE.thumbnail;
+        image.loading = "eager";
+        image.fetchPriority = "high";
+        image.src = MARCO_REUS_IMAGE.thumbnail;
         image.addEventListener("load", () => {
             image.dataset.loaded = "true";
             athlete.classList.remove("imageFailed");
@@ -295,7 +256,6 @@ function ensureMarcoReusTreatment(){
 
     menuExperienceUI = null;
     cacheMenuExperienceUI();
-    scheduleMarcoReusImageLoad();
 }
 
 function refreshMainMenuExperience(){
@@ -309,7 +269,6 @@ function refreshMainMenuExperience(){
         ui.continueButton.disabled = !saveMeta.hasSave;
     }
     ui.continueButton.setAttribute("aria-disabled", String(!saveMeta.hasSave));
-    scheduleMarcoReusImageLoad();
 }
 
 function getSelectedMenuMedia(){

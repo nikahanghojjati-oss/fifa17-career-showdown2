@@ -23,6 +23,8 @@ const GAMEPLAY_SCREENS = new Set([
     "seasonSummary"
 ]);
 
+const REQUIRED_FOOTBALL_VISUAL_SCREENS = new Set(["createShowdown","transferChallenge","careerStatistics","trophyRoom"]);
+
 const SAFE_BACK_TARGETS = Object.freeze({
     mainMenu: [],
     createShowdown: ["dashboard", "mainMenu"],
@@ -379,8 +381,10 @@ function renderScreenBeforeEnter(screenName){
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
     }
-    if(typeof window.prepareFootballVisualScreen === "function"){
-        window.prepareFootballVisualScreen(screenName);
+    if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(screenName)){
+        if(typeof window.prepareFootballVisualScreen !== "function" || !window.prepareFootballVisualScreen(screenName)){
+            throw new Error(`Required football presentation could not mount for ${screenName}.`);
+        }
     }
 
     if(
@@ -434,10 +438,6 @@ function showScreen(screenName, addToHistory = true, options = {}){
     if(current === screenName){
         activeScreenName = screenName;
         target.setAttribute("aria-hidden", "false");
-        if(typeof window.activateFootballVisualScreen === "function"){
-            try{ window.activateFootballVisualScreen(screenName); }
-            catch(error){ console.warn(`[Career Mode Showdown] Optional football visual activation failed for ${screenName}:`, error); }
-        }
         prepareScreenAccessibility(screenName, target);
         return true;
     }
@@ -457,10 +457,6 @@ function showScreen(screenName, addToHistory = true, options = {}){
     target.classList.remove("hidden");
     target.setAttribute("aria-hidden", "false");
     activeScreenName = screenName;
-    if(typeof window.activateFootballVisualScreen === "function"){
-        try{ window.activateFootballVisualScreen(screenName); }
-        catch(error){ console.warn(`[Career Mode Showdown] Optional football visual activation failed for ${screenName}:`, error); }
-    }
     navigationRevision += 1;
     const revision = navigationRevision;
     const main = document.querySelector("main");
@@ -486,8 +482,11 @@ async function navigateTo(screenName, options = {}){
     let target = screenName;
 
     try{
-        if(target === "createShowdown" && typeof window.ensureFootballVisualModule === "function"){
-            await window.ensureFootballVisualModule();
+        if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(target)){
+            if(typeof window.ensureRequiredFootballVisualExperience !== "function"){
+                throw new Error("Required football presentation loader is unavailable.");
+            }
+            await window.ensureRequiredFootballVisualExperience();
         }
         if(GAMEPLAY_SCREENS.has(target)){
             await ensureGameplayRuntime();
@@ -642,6 +641,10 @@ async function resumeSavedShowdown(){
         if(!saved){
             currentShowdown = null;
             resetNavigationState();
+            if(typeof window.ensureRequiredFootballVisualExperience !== "function"){
+                throw new Error("Required football presentation loader is unavailable.");
+            }
+            await window.ensureRequiredFootballVisualExperience();
             showScreen("createShowdown");
             return;
         }

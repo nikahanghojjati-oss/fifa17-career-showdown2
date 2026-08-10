@@ -28,7 +28,7 @@ The application displays the photographer, source, license and display-crop noti
 
 ## Licensed football photography visual set
 
-The following images are optional screen-level presentation assets. They are stored locally, loaded only when their relevant screen is opened, and never form part of gameplay logic or the initial application shell. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. Responsive CSS may crop the displayed frame further. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and SHA-256 fingerprints.
+The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. Responsive CSS may crop the displayed frame further. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and SHA-256 fingerprints.
 
 ### James Rodríguez — Real Madrid era
 
