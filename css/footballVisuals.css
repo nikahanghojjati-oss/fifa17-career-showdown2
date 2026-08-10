@@ -190,8 +190,11 @@
     min-height:430px;
 }
 
+/* James is a portrait source. Let the frame own the full visual column on
+   desktop/tablet so contain preserves him without shrinking the photograph
+   into a narrow inset. The copy gradient remains above the photograph. */
 .footballVisualHeroSetup .footballVisualMediaFrame{
-    width:68%;
+    width:100%;
     align-items:flex-end;
 }
 
@@ -229,6 +232,13 @@
     width:61%;
 }
 
+/* The selected 2016 Rashford source is a tight portrait crop. A narrower
+   dedicated frame makes him the dominant readable subject while retaining
+   the complete licensed source. */
+.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+    width:50%;
+}
+
 .footballVisualHeroTransfer .footballVisualCopy{
     left:13px;
     bottom:13px;
@@ -239,17 +249,20 @@
     font-size:clamp(20px,2.4vw,31px);
 }
 
+/* Messi's subject-isolated source is portrait geometry. The taller analytics
+   hero and bounded media column keep the player large instead of stretching a
+   portrait into an ultrawide strip. */
 .footballVisualAnalytics{
-    min-height:230px;
+    min-height:340px;
     margin-bottom:4px;
 }
 
 .footballVisualAnalytics .footballVisualMediaFrame{
-    width:40%;
+    width:28%;
 }
 
 .footballVisualAnalytics .footballVisualCopy{
-    width:53%;
+    width:60%;
 }
 
 .footballVisualAnalytics::before{
@@ -286,12 +299,12 @@
         grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
     }
     .footballVisualHeroSetup{min-height:400px;}
-    .footballVisualHeroSetup .footballVisualMediaFrame{width:72%;}
+    .footballVisualHeroSetup .footballVisualMediaFrame{width:100%;}
     .footballVisualHeroSetup .footballVisualCopy{width:51%;}
     .footballVisualHeroTransfer{min-height:198px;}
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
-    .footballVisualAnalytics .footballVisualMediaFrame{width:42%;}
-    .footballVisualAnalytics .footballVisualCopy{width:52%;}
+    .footballVisualAnalytics .footballVisualMediaFrame{width:30%;}
+    .footballVisualAnalytics .footballVisualCopy{width:58%;}
     .footballVisualTrophy .footballVisualMediaFrame{width:60%;}
     .footballVisualName{font-size:clamp(22px,3.1vw,32px);}
 }
@@ -320,19 +333,22 @@
     .footballVisualHeroTransfer .footballVisualPanel{
         min-height:184px;
     }
-    .footballVisualHeroTransfer .footballVisualMediaFrame{
+    .footballVisualHeroTransfer .footballVisualMediaFrame,
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
         width:58%;
     }
 
-    .footballVisualAnalytics,
+    .footballVisualAnalytics{
+        min-height:320px;
+    }
     .footballVisualTrophy{
         min-height:210px;
     }
     .footballVisualAnalytics .footballVisualMediaFrame{
-        width:60%;
+        width:52%;
     }
     .footballVisualAnalytics .footballVisualCopy{
-        width:44%;
+        width:47%;
         left:12px;
         bottom:12px;
     }
@@ -378,7 +394,8 @@
     .footballVisualHeroTransfer .footballVisualPanel{
         min-height:182px;
     }
-    .footballVisualHeroTransfer .footballVisualMediaFrame{
+    .footballVisualHeroTransfer .footballVisualMediaFrame,
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
         width:58%;
     }
     .footballVisualHeroTransfer .footballVisualCopy{
@@ -388,13 +405,13 @@
     }
 
     .footballVisualAnalytics{
-        min-height:205px;
+        min-height:310px;
     }
     .footballVisualAnalytics .footballVisualMediaFrame{
-        width:61%;
+        width:50%;
     }
     .footballVisualAnalytics .footballVisualCopy{
-        width:43%;
+        width:48%;
     }
 
     .footballVisualTrophy{
