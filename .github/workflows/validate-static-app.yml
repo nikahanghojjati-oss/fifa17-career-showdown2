@@ -264,7 +264,7 @@ jobs:
 
           const expectedVersion = '1.0.1';
           const expectedRevision = '1.0.1-r3';
-          const maximumInitialAssetBytes = 166000; // r3 measured amendment; gzip 37.5 KB and combined 260 KB remain unchanged.
+          const maximumInitialAssetBytes = 165000;
           const maximumCompressedInitialAssetBytes = 37500;
           const maximumStartupPortraitBytes = 95000;
           const html = fs.readFileSync('index.html', 'utf8');
