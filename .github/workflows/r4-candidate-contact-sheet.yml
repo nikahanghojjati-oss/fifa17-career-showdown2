@@ -14,19 +14,20 @@ permissions:
 jobs:
   import-selected-visuals:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Check out corrective branch
         uses: actions/checkout@v5
         with:
           ref: agent/r4-visual-recovery-and-error-provenance
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
-      - name: Install Pillow
-        run: python -m pip install --disable-pip-version-check pillow
-      - name: Download and convert selected licensed sources
+      - name: Install image tooling
+        run: python -m pip install --disable-pip-version-check pillow opencv-python-headless
+      - name: Build licensed subject-dominant derivatives
         shell: bash
         run: |
           set -euo pipefail
@@ -35,49 +36,71 @@ jobs:
           from urllib.parse import quote
           from urllib.request import Request, urlopen
           from PIL import Image, ImageOps
-          import io, time
+          import cv2, io, numpy as np, time
 
-          assets = [
-              {
-                  'file': 'Marcus Rashford September 2016 (cropped).jpg',
-                  'output': 'assets/football/marcus-rashford-man-utd-2016-r4.webp',
-                  'max': (594, 661),
-                  'quality': 94,
-              },
-              {
-                  'file': 'Leo Messi 2016.PNG',
-                  'output': 'assets/football/lionel-messi-barcelona-2016-subject-r4.webp',
-                  'max': (469, 779),
-                  'quality': 94,
-              },
-          ]
+          headers = {'User-Agent': 'CareerModeShowdown/1.0.1-r4 subject-dominant-import'}
 
-          headers = {'User-Agent': 'CareerModeShowdown/1.0.1-r4 selected-visual-import'}
-          for index, asset in enumerate(assets):
-              if index:
-                  time.sleep(4)
-              url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(asset['file'], safe='')
-              last_error = None
-              for attempt in range(5):
+          def download(filename, attempts=6):
+              url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(filename, safe='')
+              error = None
+              for attempt in range(attempts):
                   try:
-                      request = Request(url, headers=headers)
-                      with urlopen(request, timeout=45) as response:
-                          payload = response.read()
-                      image = Image.open(io.BytesIO(payload))
-                      image = ImageOps.exif_transpose(image).convert('RGB')
-                      image.thumbnail(asset['max'], Image.Resampling.LANCZOS)
-                      destination = Path(asset['output'])
-                      destination.parent.mkdir(parents=True, exist_ok=True)
-                      image.save(destination, 'WEBP', quality=asset['quality'], method=6)
-                      print(f"Imported {asset['file']} -> {destination} {image.width}x{image.height}")
-                      break
+                      req = Request(url, headers=headers)
+                      with urlopen(req, timeout=60) as response:
+                          return response.read()
                   except Exception as exc:
-                      last_error = exc
-                      if attempt == 4:
+                      error = exc
+                      if attempt == attempts - 1:
                           raise
                       time.sleep(8 * (attempt + 1))
-              else:
-                  raise last_error
+              raise error
+
+          def save_bounded_webp(image, path, preferred_quality=92, max_bytes=360000):
+              path = Path(path)
+              path.parent.mkdir(parents=True, exist_ok=True)
+              for quality in range(preferred_quality, 69, -2):
+                  buffer = io.BytesIO()
+                  image.save(buffer, 'WEBP', quality=quality, method=6)
+                  if len(buffer.getvalue()) <= max_bytes:
+                      path.write_bytes(buffer.getvalue())
+                      print(f'{path}: {image.width}x{image.height} q={quality} bytes={path.stat().st_size}')
+                      return quality
+              raise RuntimeError(f'Could not encode {path} below {max_bytes} bytes without dropping below quality 70')
+
+          # Rashford: the 594x661 Commons portrait is only used to locate Rashford
+          # inside its 4896x3672 parent photograph. The runtime derivative is a
+          # new wider 4:3 action-context crop from the high-resolution parent.
+          full_payload = download('Manchester United v Zorya Luhansk, September 2016 (10).JPG')
+          time.sleep(6)
+          locator_payload = download('Marcus Rashford September 2016 (cropped).jpg')
+          full_pil = ImageOps.exif_transpose(Image.open(io.BytesIO(full_payload))).convert('RGB')
+          locator_pil = ImageOps.exif_transpose(Image.open(io.BytesIO(locator_payload))).convert('RGB')
+
+          full = cv2.cvtColor(np.asarray(full_pil), cv2.COLOR_RGB2BGR)
+          locator = cv2.cvtColor(np.asarray(locator_pil), cv2.COLOR_RGB2BGR)
+          result = cv2.matchTemplate(full, locator, cv2.TM_CCOEFF_NORMED)
+          _, score, _, location = cv2.minMaxLoc(result)
+          if score < 0.72:
+              raise RuntimeError(f'Rashford locator confidence too low: {score:.4f}')
+
+          lx, ly = location
+          center_x = lx + locator.shape[1] / 2
+          center_y = ly + locator.shape[0] / 2
+          crop_w, crop_h = 1500, 1125
+          x0 = int(round(center_x - crop_w * 0.50))
+          y0 = int(round(center_y - crop_h * 0.48))
+          x0 = max(0, min(x0, full_pil.width - crop_w))
+          y0 = max(0, min(y0, full_pil.height - crop_h))
+          rashford = full_pil.crop((x0, y0, x0 + crop_w, y0 + crop_h))
+          save_bounded_webp(rashford, 'assets/football/marcus-rashford-man-utd-action-2016-r4.webp', 92)
+          print(f'Rashford locator score={score:.4f}, locator=({lx},{ly},{locator.width},{locator.height}), crop=({x0},{y0},{crop_w},{crop_h})')
+
+          time.sleep(6)
+          # Messi: a separate 2016 Match of Champions source whose Commons
+          # structured data explicitly depicts Lionel Messi. This is not the r3 source.
+          messi_payload = download('Save the Dream at the Match of Champions (31791512511).jpg')
+          messi = ImageOps.exif_transpose(Image.open(io.BytesIO(messi_payload))).convert('RGB')
+          save_bounded_webp(messi, 'assets/football/lionel-messi-barcelona-2016-r4b.webp', 94)
           PY
       - name: Commit selected binary assets
         shell: bash
@@ -85,10 +108,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/football/marcus-rashford-man-utd-2016-r4.webp assets/football/lionel-messi-barcelona-2016-subject-r4.webp
+          git add assets/football/marcus-rashford-man-utd-action-2016-r4.webp assets/football/lionel-messi-barcelona-2016-r4b.webp
           if git diff --cached --quiet; then
             echo "Selected assets already match branch."
             exit 0
           fi
-          git commit -m "Import subject-dominant r4 Rashford and Messi assets"
+          git commit -m "Import subject-dominant r4 Rashford action and Messi assets"
           git push origin HEAD:agent/r4-visual-recovery-and-error-provenance
