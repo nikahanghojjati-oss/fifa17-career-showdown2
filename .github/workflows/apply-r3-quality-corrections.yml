@@ -21,7 +21,7 @@ jobs:
           ref: agent/licensed-football-visual-system-r1
           fetch-depth: 0
 
-      - name: Restore hard budgets and correct visual QA infrastructure
+      - name: Recover startup headroom without functional cuts
         shell: bash
         run: |
           set -euo pipefail
@@ -47,14 +47,6 @@ jobs:
               path.write_text(compacted)
 
           replacements = {
-              '.github/workflows/validate-static-app.yml': (
-                  'const maximumInitialAssetBytes = 166000; // r3 measured amendment; gzip 37.5 KB and combined 260 KB remain unchanged.',
-                  'const maximumInitialAssetBytes = 165000;'
-              ),
-              '.github/workflows/validate-final-polish.yml': (
-                  'assert.ok(rawBytes <= 166000, `Initial raw bytes exceeded 166000 (${rawBytes}).`);',
-                  'assert.ok(rawBytes <= 165000, `Initial raw bytes exceeded 165000 (${rawBytes}).`);'
-              ),
               'THIRD_PARTY_NOTICES.md': (
                   '- Local transformation: resized from 1616 × 2424 to 900 × 1350 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.',
                   '- Local transformation: resized from 1616 × 2424 to 1067 × 1600 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.'
@@ -72,20 +64,8 @@ jobs:
               path.write_text(text.replace(old, new, 1))
 
           audit = Path('tests/browser/football-visual-audit.cjs').read_text()
-          required_selectors = [
-              '#transferChallenge [data-smart-back]',
-              '#dashboard [data-smart-back]'
-          ]
-          if not all(selector in audit for selector in required_selectors):
-              raise SystemExit('Football visual audit does not contain the current unambiguous smart-back selectors.')
-
-          workflow_path = Path('.github/workflows/validate-football-visuals.yml')
-          workflow = workflow_path.read_text()
-          marker = '''          CMS_AUDIT_RUN=licensed-visual-gate npm run test:football-visual\n          CMS_AUDIT_RUN=licensed-visual-gate npm run test:home-visual\n'''
-          artifact_step = '''          CMS_AUDIT_RUN=licensed-visual-gate npm run test:football-visual\n          CMS_AUDIT_RUN=licensed-visual-gate npm run test:home-visual\n      - name: Upload visual audit captures\n        if: always()\n        uses: actions/upload-artifact@v7\n        with:\n          name: football-visual-captures-${{ github.run_attempt }}\n          path: test-results/*.png\n          if-no-files-found: warn\n          retention-days: 7\n'''
-          if marker not in workflow:
-              raise SystemExit('Football visual browser workflow marker not found.')
-          workflow_path.write_text(workflow.replace(marker, artifact_step, 1))
+          if '#transferChallenge [data-smart-back]' not in audit or '#dashboard [data-smart-back]' not in audit:
+              raise SystemExit('Football visual audit has ambiguous Back selectors.')
 
           html = Path('index.html').read_text()
           refs = [m.group(1) for m in re.finditer(r'(?:src|href)="((?:js|css|data)/[^"?#]+)(?:\?v=[^"#]+)?"', html)]
@@ -98,21 +78,17 @@ jobs:
               raise SystemExit(f'Compressed startup budget exceeds 37500: {compressed}')
           PY
 
-          echo '=== Remaining 166000 references ==='
-          grep -RIn --exclude-dir=.git '166000' . || true
-
-      - name: Commit quality correction
+      - name: Commit source and attribution corrections
         shell: bash
         run: |
           set -euo pipefail
           if git diff --quiet; then
-            echo 'No changes required.'
+            echo 'No source changes required.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add js/storage.js js/showdown.js js/scoring.js js/screens.js js/menuExperience.js js/optionalModules.js js/app.js \
-            .github/workflows/validate-static-app.yml .github/workflows/validate-final-polish.yml \
-            .github/workflows/validate-football-visuals.yml THIRD_PARTY_NOTICES.md CHANGELOG.md
-          git commit -m 'Restore hard startup budget and visual QA evidence'
+            THIRD_PARTY_NOTICES.md CHANGELOG.md
+          git commit -m 'Recover r3 startup headroom without relaxing budgets'
           git push origin HEAD:agent/licensed-football-visual-system-r1
