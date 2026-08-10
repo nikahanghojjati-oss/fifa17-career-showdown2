@@ -1,5 +1,3 @@
-/* Career Mode Showdown v1.0.1 */
-
 const screens = [
     "mainMenu",
     "createShowdown",
