@@ -69,13 +69,15 @@ jobs:
           assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
 
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
-          assert.deepStrictEqual(messi.output_dimensions, [1440,2160], 'Messi derivative must retain the high-resolution portrait source for the split Statistics hero.');
-          assert.deepStrictEqual(messi.source_dimensions, [1616,2424], 'Messi portrait source dimensions changed unexpectedly.');
-          assert.strictEqual(messi.author, 'cchana', 'Messi attribution changed unexpectedly.');
-          assert.ok(messi.source_page.endsWith('File:Messi_%26_Suarez.jpg'), 'Messi Statistics source file changed unexpectedly.');
-          assert.ok(data.includes('source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg"'), 'Messi runtime manifest does not use the approved portrait source.');
-          assert.ok(visualCss.includes('.footballVisualAnalytics .footballVisualMedia') && visualCss.includes('width:40%'), 'Desktop Statistics must use the dedicated Messi photographic slice instead of stretching the portrait across the full hero.');
-          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('object-position:50% 40%'), 'Mobile Statistics must preserve the accepted full-width Messi focal treatment.');
+          assert.deepStrictEqual(messi.output_dimensions, [960,810], 'Messi Statistics derivative must retain the approved native 960x810 close-up composition.');
+          assert.deepStrictEqual(messi.source_dimensions, [960,810], 'Messi close-up source dimensions changed unexpectedly.');
+          assert.strictEqual(messi.author, 'Save the Dream', 'Messi attribution changed unexpectedly.');
+          assert.strictEqual(messi.license, 'CC BY 2.0', 'Messi license changed unexpectedly.');
+          assert.ok(messi.source_page.includes('Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg'), 'Messi Statistics source file changed unexpectedly.');
+          assert.ok(data.includes('Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg'), 'Messi runtime manifest does not use the approved 2016 Barcelona close-up source.');
+          assert.ok(renderer.includes('footballVisualMediaFrame'), 'Required photography renderer must use the dedicated media-frame layer.');
+          assert.ok(visualCss.includes('.footballVisualAnalytics .footballVisualMediaFrame') && visualCss.includes('width:40%'), 'Desktop Statistics must use the dedicated Messi photographic frame instead of stretching the image across the full hero.');
+          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('width:100%'), 'Mobile Statistics must expand the Messi photographic frame to the full hero width.');
 
           const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016');
           assert.ok(rashford, '2016 Manchester United Rashford visual is missing.');
