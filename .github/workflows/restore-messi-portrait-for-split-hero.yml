@@ -1,0 +1,125 @@
+name: Restore Messi Portrait For Split Statistics Hero
+
+on:
+  push:
+    branches:
+      - agent/licensed-football-visual-system-r1
+    paths:
+      - .github/workflows/restore-messi-portrait-for-split-hero.yml
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out visual branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/licensed-football-visual-system-r1
+          fetch-depth: 0
+
+      - name: Install deterministic image tooling
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Restore high-resolution 2016 Messi portrait derivative
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from PIL import Image, ImageOps
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+          import hashlib, io, json
+
+          source_file = 'Messi & Suarez.jpg'
+          source_page = 'https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg'
+          source_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(source_file, safe='')
+          request = Request(source_url, headers={
+              'User-Agent':'CareerModeShowdownAssetBuilder/1.0 (+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)'
+          })
+          with urlopen(request, timeout=60) as response:
+              raw = response.read()
+
+          with Image.open(io.BytesIO(raw)) as opened:
+              image = ImageOps.exif_transpose(opened).convert('RGB')
+              if image.size != (1616, 2424):
+                  raise SystemExit(f'Unexpected Messi & Suarez source dimensions: {image.size}')
+              image = image.resize((1440, 2160), Image.Resampling.LANCZOS)
+              output_path = Path('assets/football/lionel-messi-barcelona-2016.webp')
+              selected_quality = None
+              for quality in (82,80,78,76,74,72,70):
+                  image.save(output_path, 'WEBP', quality=quality, method=6)
+                  if output_path.stat().st_size <= 360_000:
+                      selected_quality = quality
+                      break
+              if selected_quality is None:
+                  raise SystemExit(f'Portrait Messi derivative exceeds 360 KB ceiling ({output_path.stat().st_size})')
+
+          output = output_path.read_bytes()
+          manifest_path = Path('assets/football/asset-manifest.json')
+          manifest = json.loads(manifest_path.read_text())
+          target = next(item for item in manifest['assets'] if item['id'] == 'lionel-messi-barcelona-2016')
+          target.update({
+              'source_file':source_file,
+              'output':'lionel-messi-barcelona-2016.webp',
+              'max_size':[1440,2160],
+              'quality':selected_quality,
+              'author':'cchana',
+              'license':'CC BY-SA 2.0',
+              'license_url':'https://creativecommons.org/licenses/by-sa/2.0/',
+              'source_page':source_page,
+              'context':'Lionel Messi and Luis Suárez for FC Barcelona, 6 August 2016.',
+              'special_redirect_url':source_url,
+              'source_dimensions':[1616,2424],
+              'source_sha256':hashlib.sha256(raw).hexdigest(),
+              'output_dimensions':[1440,2160],
+              'output_bytes':len(output),
+              'output_sha256':hashlib.sha256(output).hexdigest()
+          })
+          total = sum(item['output_bytes'] for item in manifest['assets'])
+          if total > 1_100_000:
+              raise SystemExit(f'Required football presentation exceeds 1.1 MB aggregate ceiling ({total})')
+          manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
+
+          data_path = Path('data/footballVisuals.js')
+          data = data_path.read_text()
+          data = data.replace('source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Can.jpg"', f'source: "{source_page}"')
+          data = data.replace('position: "50% 48%"', 'position: "50% 40%"')
+          data = data.replace('alt: "Lionel Messi playing for FC Barcelona against Liverpool at Wembley in 2016"', 'alt: "Lionel Messi and Luis Suárez playing for FC Barcelona in 2016"')
+          data_path.write_text(data)
+
+          notices_path = Path('THIRD_PARTY_NOTICES.md')
+          notices = notices_path.read_text()
+          start = notices.index('### Lionel Messi — FC Barcelona')
+          end = notices.index('\n### Philipp Lahm — 2014 World Cup', start)
+          replacement = f'''### Lionel Messi — FC Barcelona
+
+          - Repository file: `assets/football/lionel-messi-barcelona-2016.webp`
+          - Source file: `Messi & Suarez.jpg`
+          - Author: cchana
+          - Source page: `{source_page}`
+          - License: Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0), `https://creativecommons.org/licenses/by-sa/2.0/`
+          - Source context: Lionel Messi and Luis Suárez for FC Barcelona on 6 August 2016.
+          - Application use: Career Statistics presentation.
+          - Local transformation: resized from 1616 × 2424 to 1440 × 2160 with Lanczos and encoded as WebP at quality {selected_quality}. Desktop/windowed presentation uses a dedicated photographic slice so the portrait source remains recognisable instead of being forced across the full ultra-wide Statistics hero. This local derivative remains available under CC BY-SA 2.0.
+          '''
+          notices = notices[:start] + replacement + notices[end:]
+          notices_path.write_text(notices)
+
+          print(f'Portrait Messi derivative restored: 1440x2160 q{selected_quality}, {len(output)} bytes; aggregate {total}')
+          PY
+
+      - name: Remove one-shot workflow and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/restore-messi-portrait-for-split-hero.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Restore portrait Messi source for split Statistics hero'
+          git push origin HEAD:agent/licensed-football-visual-system-r1
