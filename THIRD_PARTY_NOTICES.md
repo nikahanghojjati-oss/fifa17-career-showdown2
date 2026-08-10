@@ -66,13 +66,13 @@ The following images are required screen-level presentation assets. They are sto
 ### Lionel Messi — FC Barcelona
 
 - Repository file: `assets/football/lionel-messi-barcelona-2016.webp`
-- Source file: `Messi & Suarez.jpg`
-- Author: cchana
-- Source page: `https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg`
-- License: Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0), `https://creativecommons.org/licenses/by-sa/2.0/`
-- Source context: Lionel Messi and Luis Suárez for FC Barcelona on 6 August 2016.
+- Source file: `Save the Dream at the Match of Champions (31791513341).jpg`
+- Author: Save the Dream
+- Source page: `https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg`
+- License: Creative Commons Attribution 2.0 Generic (CC BY 2.0), `https://creativecommons.org/licenses/by/2.0/`
+- Source context: Lionel Messi with FC Barcelona at Al-Ahli v Barcelona on 16 December 2016.
 - Application use: Career Statistics presentation.
-- Local transformation: resized from 1616 × 2424 to 1440 × 2160 with Lanczos and encoded as WebP at quality 74. Desktop/windowed presentation uses a dedicated photographic slice so the portrait source remains recognisable instead of being forced across the full ultra-wide Statistics hero. This local derivative remains available under CC BY-SA 2.0.
+- Local transformation: retained at the native 960 × 810 dimensions and encoded as WebP at quality 94. The source was selected because Messi is the dominant close-up subject and remains recognisable across desktop, near-breakpoint and high-DPR mobile Statistics layouts. The local derivative remains available under CC BY 2.0.
 
 ### Philipp Lahm — 2014 World Cup
 
