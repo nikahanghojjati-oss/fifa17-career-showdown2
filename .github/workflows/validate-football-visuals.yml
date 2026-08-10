@@ -40,6 +40,7 @@ jobs:
           const loader = fs.readFileSync('js/optionalModules.js','utf8');
           const screens = fs.readFileSync('js/screens.js','utf8');
           const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md','utf8');
+          const visualCss = fs.readFileSync('css/footballVisuals.css','utf8');
           const html = fs.readFileSync('index.html','utf8');
 
           assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved derivatives.');
@@ -68,11 +69,13 @@ jobs:
           assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
 
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
-          assert.deepStrictEqual(messi.output_dimensions, [1600,1066], 'Messi Statistics derivative must retain the approved 1600px landscape composition.');
-          assert.deepStrictEqual(messi.source_dimensions, [3883,2587], 'Messi landscape source dimensions changed unexpectedly.');
+          assert.deepStrictEqual(messi.output_dimensions, [1440,2160], 'Messi derivative must retain the high-resolution portrait source for the split Statistics hero.');
+          assert.deepStrictEqual(messi.source_dimensions, [1616,2424], 'Messi portrait source dimensions changed unexpectedly.');
           assert.strictEqual(messi.author, 'cchana', 'Messi attribution changed unexpectedly.');
-          assert.ok(messi.source_page.endsWith('File:Messi_%26_Can.jpg'), 'Messi Statistics source file changed unexpectedly.');
-          assert.ok(data.includes('source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Can.jpg"'), 'Messi runtime manifest does not use the approved landscape source.');
+          assert.ok(messi.source_page.endsWith('File:Messi_%26_Suarez.jpg'), 'Messi Statistics source file changed unexpectedly.');
+          assert.ok(data.includes('source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg"'), 'Messi runtime manifest does not use the approved portrait source.');
+          assert.ok(visualCss.includes('.footballVisualAnalytics .footballVisualMedia') && visualCss.includes('width:40%'), 'Desktop Statistics must use the dedicated Messi photographic slice instead of stretching the portrait across the full hero.');
+          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('object-position:50% 40%'), 'Mobile Statistics must preserve the accepted full-width Messi focal treatment.');
 
           const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016');
           assert.ok(rashford, '2016 Manchester United Rashford visual is missing.');
