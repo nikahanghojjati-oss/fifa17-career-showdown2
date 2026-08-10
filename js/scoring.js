@@ -1,5 +1,3 @@
-/* Career Mode Showdown v1.0.1 */
-
 const SCORING_RULES = Object.freeze({
     championsLeague: 5,
     leagueTitle: 3,

@@ -1,5 +1,3 @@
-/* Career Mode Showdown v1.0.1 */
-
 let currentShowdown = null;
 
 const CURRENT_SHOWDOWN_SCHEMA_VERSION = 2;

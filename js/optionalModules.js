@@ -1,5 +1,3 @@
-/* Career Mode Showdown v1.0.1 */
-
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";

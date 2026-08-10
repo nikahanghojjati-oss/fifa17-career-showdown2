@@ -1,5 +1,3 @@
-/* Career Mode Showdown v1.0.1 */
-
 const MENU_MEDIA_SOURCES = Object.freeze({
     music: Object.freeze({
         key: "music",
