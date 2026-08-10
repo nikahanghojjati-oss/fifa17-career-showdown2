@@ -436,6 +436,10 @@ function showScreen(screenName, addToHistory = true, options = {}){
     if(current === screenName){
         activeScreenName = screenName;
         target.setAttribute("aria-hidden", "false");
+        if(typeof window.activateFootballVisualScreen === "function"){
+            try{ window.activateFootballVisualScreen(screenName); }
+            catch(error){ console.warn(`[Career Mode Showdown] Optional football visual activation failed for ${screenName}:`, error); }
+        }
         prepareScreenAccessibility(screenName, target);
         return true;
     }
@@ -455,6 +459,10 @@ function showScreen(screenName, addToHistory = true, options = {}){
     target.classList.remove("hidden");
     target.setAttribute("aria-hidden", "false");
     activeScreenName = screenName;
+    if(typeof window.activateFootballVisualScreen === "function"){
+        try{ window.activateFootballVisualScreen(screenName); }
+        catch(error){ console.warn(`[Career Mode Showdown] Optional football visual activation failed for ${screenName}:`, error); }
+    }
     navigationRevision += 1;
     const revision = navigationRevision;
     const main = document.querySelector("main");
