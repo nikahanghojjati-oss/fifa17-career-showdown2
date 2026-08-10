@@ -385,6 +385,9 @@ function renderScreenBeforeEnter(screenName){
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
     }
+    if(typeof window.prepareFootballVisualScreen === "function"){
+        window.prepareFootballVisualScreen(screenName);
+    }
 
     if(
         currentShowdown
@@ -481,6 +484,9 @@ async function navigateTo(screenName, options = {}){
     let target = screenName;
 
     try{
+        if(target === "createShowdown" && typeof window.ensureFootballVisualModule === "function"){
+            await window.ensureFootballVisualModule();
+        }
         if(GAMEPLAY_SCREENS.has(target)){
             await ensureGameplayRuntime();
         }

@@ -200,6 +200,7 @@ async function loadGameplayRuntimeFiles(){
         "js/visualIdentity.js",
         () => typeof window.applyClubIdentity === "function" && typeof window.refreshClubVisualIdentity === "function"
     );
+    await ensureFootballVisualModule();
     await loadRuntimeScript(
         "showdown-ui",
         "js/showdownUI.js",
@@ -300,6 +301,24 @@ function ensureMenuFeedbackModule(){
     );
 }
 
+async function ensureFootballVisualModule(){
+    const stylePromise = loadRuntimeStyle("football-visual-ui", "css/footballVisuals.css");
+    await loadRuntimeScript(
+        "football-visual-data",
+        "data/footballVisuals.js",
+        () => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN)
+    );
+    await loadRuntimeScript(
+        "football-visual-ui",
+        "js/footballVisuals.js",
+        () => typeof window.initializeFootballVisuals === "function"
+            && typeof window.prepareFootballVisualScreen === "function"
+    );
+    await stylePromise;
+    window.initializeFootballVisuals();
+    return true;
+}
+
 async function ensureAnalyticsEngine(){
     await loadRuntimeScript(
         "analytics-engine",
@@ -321,19 +340,21 @@ async function ensureStatisticsScript(){
 
 async function ensureStatisticsModule(){
     const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
+    const visualPromise = ensureFootballVisualModule();
     await ensureStatisticsScript();
-    await stylePromise;
+    await Promise.all([stylePromise, visualPromise]);
 }
 
 async function ensureTrophyRoomModule(){
     const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
+    const visualPromise = ensureFootballVisualModule();
     await ensureStatisticsScript();
     await loadRuntimeScript(
         "trophy-room-ui",
         "js/trophyRoom.js",
         () => typeof window.openTrophyRoom === "function"
     );
-    await stylePromise;
+    await Promise.all([stylePromise, visualPromise]);
 }
 
 async function ensureLegacyModule(){
@@ -519,6 +540,7 @@ window.ensureGameplayModules = ensureGameplayModules;
 window.getGameplayModuleState = getGameplayModuleState;
 window.ensureDiagnosticsModule = ensureDiagnosticsModule;
 window.ensureMenuFeedbackModule = ensureMenuFeedbackModule;
+window.ensureFootballVisualModule = ensureFootballVisualModule;
 window.ensureOptionalModule = ensureOptionalModule;
 window.openOptionalModule = openOptionalModule;
 window.getOptionalModuleState = getOptionalModuleState;
