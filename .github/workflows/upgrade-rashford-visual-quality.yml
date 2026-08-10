@@ -1,0 +1,130 @@
+name: Upgrade Rashford Visual Quality
+
+on:
+  push:
+    branches:
+      - agent/licensed-football-visual-system-r1
+    paths:
+      - .github/workflows/upgrade-rashford-visual-quality.yml
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out visual branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/licensed-football-visual-system-r1
+          fetch-depth: 0
+
+      - name: Install deterministic image tooling
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Build higher-resolution 2016 Manchester United Rashford derivative
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from PIL import Image, ImageOps
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+          import hashlib, io, json
+
+          source_file = 'Marcus Rashford.jpg'
+          source_page = 'https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg'
+          source_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(source_file, safe='')
+          request = Request(source_url, headers={
+              'User-Agent':'CareerModeShowdownAssetBuilder/1.0 (+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)'
+          })
+          with urlopen(request, timeout=60) as response:
+              raw = response.read()
+
+          with Image.open(io.BytesIO(raw)) as opened:
+              image = ImageOps.exif_transpose(opened).convert('RGB')
+              source_dimensions = image.size
+              if source_dimensions != (742, 888):
+                  raise SystemExit(f'Unexpected Rashford source dimensions: {source_dimensions}')
+              output_path = Path('assets/football/marcus-rashford-man-utd-2016.webp')
+              image.save(output_path, 'WEBP', quality=94, method=6)
+              output_dimensions = image.size
+
+          output = output_path.read_bytes()
+          if len(output) > 220_000:
+              raise SystemExit(f'Rashford derivative exceeds 220 KB ceiling: {len(output)}')
+
+          old_path = Path('assets/football/marcus-rashford-september-2016-cropped.webp')
+          if old_path.exists(): old_path.unlink()
+
+          manifest_path = Path('assets/football/asset-manifest.json')
+          manifest = json.loads(manifest_path.read_text())
+          target = next(item for item in manifest['assets'] if item['id'] == 'marcus-rashford-man-utd-september-2016')
+          target.update({
+              'id':'marcus-rashford-man-utd-2016',
+              'source_file':source_file,
+              'output':output_path.name,
+              'max_size':[742,888],
+              'quality':94,
+              'author':'Egghead06',
+              'license':'CC BY-SA 4.0',
+              'license_url':'https://creativecommons.org/licenses/by-sa/4.0/',
+              'source_page':source_page,
+              'context':'Marcus Rashford warming up for Manchester United before West Ham United vs Manchester United at the Boleyn Ground, 10 May 2016.',
+              'special_redirect_url':source_url,
+              'source_dimensions':list(source_dimensions),
+              'source_sha256':hashlib.sha256(raw).hexdigest(),
+              'output_dimensions':list(output_dimensions),
+              'output_bytes':len(output),
+              'output_sha256':hashlib.sha256(output).hexdigest()
+          })
+          manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
+
+          data_path = Path('data/footballVisuals.js')
+          data = data_path.read_text()
+          data = data.replace('id: "marcus-rashford-man-utd-september-2016"', 'id: "marcus-rashford-man-utd-2016"')
+          data = data.replace('src: "assets/football/marcus-rashford-september-2016-cropped.webp"', 'src: "assets/football/marcus-rashford-man-utd-2016.webp"')
+          data = data.replace('alt: "Marcus Rashford playing for Manchester United at Old Trafford in September 2016"', 'alt: "Marcus Rashford warming up for Manchester United in 2016"')
+          data = data.replace('author: "Ardfern"', 'author: "Egghead06"', 1)
+          data = data.replace('source: "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg"', f'source: "{source_page}"')
+          data = data.replace('position: "50% 24%"', 'position: "50% 18%"', 1)
+          data_path.write_text(data)
+
+          notices_path = Path('THIRD_PARTY_NOTICES.md')
+          notices = notices_path.read_text()
+          start = notices.index('### Marcus Rashford — Manchester United')
+          end = notices.index('\n### Anthony Martial — Manchester United', start)
+          replacement = '''### Marcus Rashford — Manchester United
+
+          - Repository file: `assets/football/marcus-rashford-man-utd-2016.webp`
+          - Source file: `Marcus Rashford.jpg`
+          - Author: Egghead06
+          - Source page: `https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg`
+          - License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
+          - Source context: Marcus Rashford warming up for Manchester United before West Ham United vs Manchester United at the Boleyn Ground on 10 May 2016.
+          - Application use: Transfer Challenge presentation.
+          - Local transformation: retained at 742 × 888 and encoded as WebP. This local derivative remains available under CC BY-SA 4.0.
+          '''
+          notices = notices[:start] + replacement + notices[end:]
+          notices_path.write_text(notices)
+
+          browser_path = Path('tests/browser/football-visual-audit.cjs')
+          browser = browser_path.read_text().replace('marcus-rashford-september-2016-cropped.webp', 'marcus-rashford-man-utd-2016.webp')
+          browser_path.write_text(browser)
+
+          print(f'Rashford quality upgrade: {source_dimensions} -> {output_dimensions}, {len(output)} bytes')
+          PY
+
+      - name: Remove one-shot workflow and commit quality upgrade
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/upgrade-rashford-visual-quality.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Upgrade 2016 Manchester United Rashford visual quality'
+          git push origin HEAD:agent/licensed-football-visual-system-r1
