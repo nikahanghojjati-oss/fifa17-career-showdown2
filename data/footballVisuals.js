@@ -18,19 +18,19 @@ const FOOTBALL_VISUALS = Object.freeze({
         })
     }),
     rashford: Object.freeze({
-        id: "marcus-rashford-man-utd-feyenoord-2016",
-        src: "assets/football/marcus-rashford-man-utd-feyenoord-2016.webp",
+        id: "marcus-rashford-man-utd-2016-r4",
+        src: "assets/football/marcus-rashford-man-utd-2016-r4.webp",
         subject: "Marcus Rashford",
         context: "Manchester United · 2016",
-        alt: "Marcus Rashford playing for Manchester United against Feyenoord at Old Trafford in November 2016",
+        alt: "Marcus Rashford playing for Manchester United against Zorya Luhansk at Old Trafford in September 2016",
         author: "Ardfern",
         license: "CC BY-SA 4.0",
-        source: "https://commons.wikimedia.org/wiki/File:Manchester_United_v_Feyenoord,_November_2016_(23).JPG",
+        source: "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg",
         licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
         framing: Object.freeze({
             mode: "subject-safe",
             fit: "contain",
-            position: "70% 50%",
+            position: "50% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
@@ -54,19 +54,19 @@ const FOOTBALL_VISUALS = Object.freeze({
         })
     }),
     messi: Object.freeze({
-        id: "lionel-messi-barcelona-2016-r4",
-        src: "assets/football/lionel-messi-barcelona-2016-r4.webp",
+        id: "lionel-messi-barcelona-2016-subject-r4",
+        src: "assets/football/lionel-messi-barcelona-2016-subject-r4.webp",
         subject: "Lionel Messi",
         context: "FC Barcelona · 2016",
-        alt: "Lionel Messi playing for FC Barcelona at Al-Ahli v Barcelona in December 2016",
-        author: "Save the Dream",
+        alt: "Lionel Messi with FC Barcelona before Al-Ahli v Barcelona in December 2016",
+        author: "Save the Dream / derivative by SdHb",
         license: "CC BY 2.0",
-        source: "https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_champions_(31067838784).jpg",
+        source: "https://commons.wikimedia.org/wiki/File:Leo_Messi_2016.PNG",
         licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
         framing: Object.freeze({
             mode: "subject-safe",
             fit: "contain",
-            position: "68% 50%",
+            position: "50% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
