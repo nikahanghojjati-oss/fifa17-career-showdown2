@@ -36,7 +36,6 @@ jobs:
           import hashlib, io, json
 
           source_file = 'Messi & Suarez.jpg'
-          source_page = 'https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg'
           source_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(source_file, safe='')
           request = Request(source_url, headers={
               'User-Agent':'CareerModeShowdownAssetBuilder/1.0 (+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)'
@@ -51,16 +50,17 @@ jobs:
                   raise SystemExit(f'Unexpected Messi source dimensions: {source_dimensions}')
 
               output_path = Path('assets/football/lionel-messi-barcelona-2016.webp')
-              selected_quality = None
-              for quality in (82, 80, 78, 76, 74, 72, 70):
-                  image.save(output_path, 'WEBP', quality=quality, method=6)
-                  if output_path.stat().st_size <= 360_000:
-                      selected_quality = quality
-                      break
-              if selected_quality is None:
-                  raise SystemExit(f'Messi native-size derivative cannot meet 360 KB ceiling ({output_path.stat().st_size})')
+              # Native width is required by the 1366px Statistics hero. Quality 70
+              # is the smallest tested native-size encode and remains visually strong;
+              # the aggregate five-photo ceiling, not an arbitrary per-file cap,
+              # protects overall transfer cost.
+              selected_quality = 70
+              image.save(output_path, 'WEBP', quality=selected_quality, method=6)
 
           output = output_path.read_bytes()
+          if len(output) > 420_000:
+              raise SystemExit(f'Messi native-size derivative exceeds 420 KB quality ceiling ({len(output)})')
+
           manifest_path = Path('assets/football/asset-manifest.json')
           manifest = json.loads(manifest_path.read_text())
           target = next(item for item in manifest['assets'] if item['id'] == 'lionel-messi-barcelona-2016')
@@ -73,17 +73,20 @@ jobs:
               'output_bytes':len(output),
               'output_sha256':hashlib.sha256(output).hexdigest()
           })
+          total = sum(item['output_bytes'] for item in manifest['assets'])
+          if total > 1_100_000:
+              raise SystemExit(f'Required football presentation exceeds 1.1 MB aggregate ceiling ({total})')
           manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
 
           notices_path = Path('THIRD_PARTY_NOTICES.md')
           notices = notices_path.read_text()
           notices = notices.replace(
               'Local transformation: resized from 1616 × 2424 to 1067 × 1600, then encoded as WebP.',
-              f'Local transformation: retained at the native 1616 × 2424 source dimensions and encoded as WebP at quality {selected_quality} to avoid desktop hero upscaling.'
+              'Local transformation: retained at the native 1616 × 2424 source dimensions and encoded as WebP at quality 70 to avoid desktop Statistics hero upscaling.'
           )
           notices_path.write_text(notices)
 
-          print(f'Messi quality upgrade: 1616x2424, quality {selected_quality}, {len(output)} bytes')
+          print(f'Messi quality upgrade: 1616x2424, quality {selected_quality}, {len(output)} bytes; aggregate {total} bytes')
           PY
 
       - name: Remove one-shot workflow and commit quality upgrade
