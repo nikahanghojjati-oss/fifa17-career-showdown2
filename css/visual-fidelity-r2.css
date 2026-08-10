@@ -99,47 +99,59 @@
 .menuTilePrimary:disabled .menuTileCode{
     opacity:.82;
 }
+
+/*
+   Reus must read as a solid photograph, not as a background texture.
+   The previous revision correctly set the image itself to opacity:1, but then
+   painted a pale 92% white gradient over almost half the photo. That produced
+   the same visual symptom as reduced image opacity, especially across his left
+   arm, torso edge, pitch and touchline. Keep the FIFA diagonal separation in
+   the container geometry and keep all decorative paint behind the photograph.
+*/
 .menuCoverAthlete{
     width:47%;
+    isolation:isolate;
     background:
-        linear-gradient(135deg,#b8d0d9 0,#7ea8bb 50%,#3b6376 100%);
+        linear-gradient(132deg,#dfe9ec 0 10%,#9abcca 10% 24%,#5b8aa0 24% 100%);
     clip-path:polygon(13% 0,100% 0,100% 100%,0 100%);
 }
 .menuCoverAthlete::before{
     content:"";
     position:absolute;
-    z-index:1;
+    z-index:0;
     inset:0;
     pointer-events:none;
     background:
-        linear-gradient(120deg,transparent 0 72%,rgba(240,217,0,.2) 72% 73.2%,transparent 73.2%),
-        linear-gradient(120deg,transparent 0 80%,rgba(66,185,218,.2) 80% 82%,transparent 82%);
+        linear-gradient(120deg,transparent 0 71%,rgba(240,217,0,.24) 71% 72.2%,transparent 72.2%),
+        linear-gradient(120deg,transparent 0 79%,rgba(66,185,218,.24) 79% 81%,transparent 81%);
 }
 .menuCoverAthlete::after{
-    z-index:2;
-    background:
-        linear-gradient(90deg,rgba(229,237,239,.92) 0,rgba(229,237,239,.34) 21%,transparent 48% 82%,rgba(26,48,60,.14)),
-        linear-gradient(0deg,rgba(23,37,45,.13),transparent 42%);
+    z-index:3;
+    background:none;
+    box-shadow:inset 0 -1px rgba(16,36,47,.08);
+    pointer-events:none;
 }
 .menuCoverAthlete img{
-    z-index:0;
+    z-index:2;
     object-position:50% 7%;
-    filter:saturate(.98) contrast(1.025) brightness(1.035);
+    opacity:1;
+    filter:saturate(1.035) contrast(1.065) brightness(1.005);
+    mix-blend-mode:normal;
 }
 .menuCoverAthlete.imageLoaded img{
-    opacity:1;
+    opacity:1!important;
 }
 .menuCoverAthlete.imageFailed{
     background:
         linear-gradient(132deg,#dce7ea 0 37%,#9fc1cd 37% 60%,#49758a 60% 100%);
 }
 .menuCoverNumber{
-    z-index:3;
+    z-index:4;
     color:rgba(255,255,255,.3);
     text-shadow:0 1px 5px rgba(19,39,50,.16);
 }
 .menuCoverTag{
-    z-index:4;
+    z-index:5;
     background:rgba(27,37,43,.84);
     box-shadow:0 2px 7px rgba(12,23,29,.16);
 }
