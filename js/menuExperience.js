@@ -1,8 +1,4 @@
-/* =====================================================
-   Career Mode Showdown
-   v1.0.1
-   FIFA 17 Era Menu Atmosphere + Lightweight Media Controller
-===================================================== */
+/* Career Mode Showdown v1.0.1 */
 
 const MENU_MEDIA_SOURCES = Object.freeze({
     music: Object.freeze({

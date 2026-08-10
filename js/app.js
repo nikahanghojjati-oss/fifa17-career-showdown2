@@ -1,8 +1,4 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v1.0.1
-   Lightweight Application Bootstrap
-===================================================== */
+/* Career Mode Showdown v1.0.1 */
 
 const APP_VERSION = "1.0.1";
 const STARTUP_SPLASH_MINIMUM_MS = 2700;

@@ -72,7 +72,7 @@ The following images are optional screen-level presentation assets. They are sto
 - License: Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0), `https://creativecommons.org/licenses/by-sa/2.0/`
 - Source context: FC Barcelona on 6 August 2016.
 - Application use: Career Statistics presentation.
-- Local transformation: resized from 1616 × 2424 to 900 × 1350 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.
+- Local transformation: resized from 1616 × 2424 to 1067 × 1600 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.
 
 ### Philipp Lahm — 2014 World Cup
 
