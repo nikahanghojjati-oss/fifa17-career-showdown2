@@ -46,12 +46,12 @@ const FOOTBALL_VISUALS = Object.freeze({
         src: "assets/football/lionel-messi-barcelona-2016.webp",
         subject: "Lionel Messi",
         context: "FC Barcelona · 2016",
-        alt: "Lionel Messi playing for FC Barcelona in 2016",
+        alt: "Lionel Messi playing for FC Barcelona against Liverpool at Wembley in 2016",
         author: "cchana",
         license: "CC BY-SA 2.0",
-        source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg",
+        source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Can.jpg",
         licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/",
-        position: "44% 40%"
+        position: "50% 48%"
     }),
     lahm: Object.freeze({
         id: "philipp-lahm-world-cup-2014",
