@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.95.0 Workstream 2
+   v1.0.0 Transfer Challenge
    Phased Transfer Challenge Engine
 ===================================================== */
 

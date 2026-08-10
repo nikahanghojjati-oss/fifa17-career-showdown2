@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.95.0
+   v1.0.0
    Lazy-Runtime Diagnostics and Navigation Integrity
 ===================================================== */
 
