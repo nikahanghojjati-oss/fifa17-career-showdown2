@@ -14,19 +14,22 @@ const cases = [
         viewport: { width: 940, height: 700 },
         deviceScaleFactor: 1,
         mobileReference: false,
-        minimumPhysicalWidth: 360
+        minimumPhysicalWidth: 360,
+        desktopCrop: /^53%\s+0%$/
     },
     {
         name: "windowed-desktop-dpr1",
         viewport: { width: 1100, height: 720 },
         deviceScaleFactor: 1,
-        mobileReference: false
+        mobileReference: false,
+        desktopCrop: /^53%\s+(15|18)%$/
     },
     {
         name: "chromebook-dpr1",
         viewport: { width: 1366, height: 768 },
         deviceScaleFactor: 1,
-        mobileReference: false
+        mobileReference: false,
+        desktopCrop: /^53%\s+(15|18)%$/
     },
     {
         name: "mobile-reference-dpr2",
@@ -156,7 +159,7 @@ async function runCase(browser, config){
             );
             assert.match(
                 result.image.objectPosition,
-                /^53%\s+(15|18)%$/,
+                config.desktopCrop,
                 `${config.name}: desktop Reus crop is outside the accepted natural-framing range.`
             );
         }
