@@ -40,7 +40,7 @@ jobs:
           const portrait = fs.readFileSync(portraitPath);
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 
-          assert.strictEqual(revision, '1.0.1-r3', 'The accepted visual correction must use the fresh v1.0.1 r3 cache identity.');
+          assert.strictEqual(revision, '1.0.1-r4', 'The owner-recovery visual correction must use the fresh v1.0.1 r4 cache identity.');
           assert.ok(html.includes('v1.0.1 · Stable'), 'The user-facing stable release identity is missing.');
           assert.ok(app.includes('const APP_VERSION = "1.0.1"'), 'The application version is not sealed at v1.0.1.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
@@ -62,7 +62,7 @@ jobs:
           assert.ok(css.includes('.startupAthleteFrame') && css.includes('.startupIdentity') && css.includes('.startupStatus'), 'Startup composition is incomplete.');
           assert.ok(css.includes('html[data-motion-reduced="true"] *') && css.includes('@media(prefers-reduced-motion:reduce)'), 'Startup and Home motion need both preference guards.');
 
-          assert.ok(app.includes('css/visual-fidelity-r2.css?v=1.0.1-r3'), 'The bounded Reus visual fidelity layer is not aligned with the r3 runtime revision.');
+          assert.ok(app.includes('css/visual-fidelity-r2.css?v=1.0.1-r4'), 'The bounded Reus visual fidelity layer is not aligned with the r4 runtime revision.');
           assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
           assert.ok(visualCss.includes('#startupAthlete') && visualCss.includes('object-fit:contain'), 'Startup Reus portrait must use contained composition.');
           assert.ok(visualCss.includes('.startupAthleteFrame') && visualCss.includes('inset:0 auto 0 0'), 'Startup portrait frame must remain inside the viewport.');
