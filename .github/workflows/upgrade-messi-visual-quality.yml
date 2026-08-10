@@ -1,0 +1,98 @@
+name: Upgrade Messi Visual Quality
+
+on:
+  push:
+    branches:
+      - agent/licensed-football-visual-system-r1
+    paths:
+      - .github/workflows/upgrade-messi-visual-quality.yml
+
+permissions:
+  contents: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out visual branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/licensed-football-visual-system-r1
+          fetch-depth: 0
+
+      - name: Install deterministic image tooling
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Rebuild Messi derivative at native source dimensions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from PIL import Image, ImageOps
+          from pathlib import Path
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+          import hashlib, io, json
+
+          source_file = 'Messi & Suarez.jpg'
+          source_page = 'https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg'
+          source_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(source_file, safe='')
+          request = Request(source_url, headers={
+              'User-Agent':'CareerModeShowdownAssetBuilder/1.0 (+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)'
+          })
+          with urlopen(request, timeout=60) as response:
+              raw = response.read()
+
+          with Image.open(io.BytesIO(raw)) as opened:
+              image = ImageOps.exif_transpose(opened).convert('RGB')
+              source_dimensions = image.size
+              if source_dimensions != (1616, 2424):
+                  raise SystemExit(f'Unexpected Messi source dimensions: {source_dimensions}')
+
+              output_path = Path('assets/football/lionel-messi-barcelona-2016.webp')
+              selected_quality = None
+              for quality in (82, 80, 78, 76, 74, 72, 70):
+                  image.save(output_path, 'WEBP', quality=quality, method=6)
+                  if output_path.stat().st_size <= 360_000:
+                      selected_quality = quality
+                      break
+              if selected_quality is None:
+                  raise SystemExit(f'Messi native-size derivative cannot meet 360 KB ceiling ({output_path.stat().st_size})')
+
+          output = output_path.read_bytes()
+          manifest_path = Path('assets/football/asset-manifest.json')
+          manifest = json.loads(manifest_path.read_text())
+          target = next(item for item in manifest['assets'] if item['id'] == 'lionel-messi-barcelona-2016')
+          target.update({
+              'max_size':[1616,2424],
+              'quality':selected_quality,
+              'source_dimensions':[1616,2424],
+              'source_sha256':hashlib.sha256(raw).hexdigest(),
+              'output_dimensions':[1616,2424],
+              'output_bytes':len(output),
+              'output_sha256':hashlib.sha256(output).hexdigest()
+          })
+          manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
+
+          notices_path = Path('THIRD_PARTY_NOTICES.md')
+          notices = notices_path.read_text()
+          notices = notices.replace(
+              'Local transformation: resized from 1616 × 2424 to 1067 × 1600, then encoded as WebP.',
+              f'Local transformation: retained at the native 1616 × 2424 source dimensions and encoded as WebP at quality {selected_quality} to avoid desktop hero upscaling.'
+          )
+          notices_path.write_text(notices)
+
+          print(f'Messi quality upgrade: 1616x2424, quality {selected_quality}, {len(output)} bytes')
+          PY
+
+      - name: Remove one-shot workflow and commit quality upgrade
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/upgrade-messi-visual-quality.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Preserve native 2016 Messi resolution for Statistics hero'
+          git push origin HEAD:agent/licensed-football-visual-system-r1
