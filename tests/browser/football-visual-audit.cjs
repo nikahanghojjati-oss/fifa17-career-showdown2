@@ -170,7 +170,7 @@ async function runCase(config){
         await page.locator("#startShowdown").click();
         await page.locator("#leagueWheelScreen").waitFor({ state: "visible", timeout: 12000 });
         await page.evaluate(() => {
-            currentShowdown.selectedLeague = { id: "premier-league", name: "Premier League" };
+            currentShowdown.selectedLeague = { id: "premier_league", name: "Premier League" };
             currentShowdown.status = "League Confirmed";
             currentShowdown.clubs = { playerOne: "Arsenal", playerTwo: "Chelsea" };
             currentShowdown.status = "Ready";
