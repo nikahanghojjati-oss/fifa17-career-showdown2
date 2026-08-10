@@ -66,7 +66,10 @@ jobs:
           assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
           assert.ok(visualCss.includes('#startupAthlete') && visualCss.includes('object-fit:contain'), 'Startup Reus portrait must use contained composition.');
           assert.ok(visualCss.includes('.startupAthleteFrame') && visualCss.includes('inset:0 auto 0 0'), 'Startup portrait frame must remain inside the viewport.');
-          assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1'), 'Loaded Home Reus portrait must render at full opacity.');
+          assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1!important'), 'Loaded Home Reus portrait must render at guaranteed full opacity.');
+          assert.ok(visualCss.includes('.menuCoverAthlete::after') && visualCss.includes('background:none'), 'Home Reus must not have a pale post-render wash overlay.');
+          assert.ok(visualCss.includes('mix-blend-mode:normal'), 'Home Reus photograph must use normal compositing.');
+          assert.ok(!visualCss.includes('rgba(229,237,239,.92)'), 'The old 92% white Reus wash must not return.');
           assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('@media(max-width:480px)'), 'Reus fidelity layer must preserve small-screen treatment.');
 
           const normalDuration = Number((app.match(/STARTUP_SPLASH_MINIMUM_MS\s*=\s*(\d+)/) || [])[1]);
@@ -84,5 +87,5 @@ jobs:
           assert.strictEqual(localShell.filter(match => match[1].startsWith('js/')).length, 7, 'Visual immersion added an eager script.');
           assert.deepStrictEqual(localShell.filter(match => match[2] !== revision), [], 'Visual candidate contains mixed shell revisions.');
 
-          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, 2.7 s normal hold, brief reduced-motion path, bounded Reus fidelity layer, and four responsive tiers.`);
+          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, 2.7 s normal hold, solid Reus photo compositing, brief reduced-motion path, and four responsive tiers.`);
           NODE
