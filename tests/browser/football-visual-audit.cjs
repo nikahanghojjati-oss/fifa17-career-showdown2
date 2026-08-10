@@ -179,7 +179,7 @@ async function runCase(config){
             showScreen("dashboard", false);
         });
         await page.locator("#dashboard").waitFor({ state: "visible", timeout: 12000 });
-        await page.locator("#seasonPrimaryAction").click();
+        await page.evaluate(() => openTransferChallenge());
         await page.locator("#transferChallenge").waitFor({ state: "visible", timeout: 12000 });
         await waitForVisual(page, "transferChallenge", 2);
         const transferResult = await inspectVisibleVisual(page, "transferChallenge");
