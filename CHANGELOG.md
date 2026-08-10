@@ -14,7 +14,16 @@ The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 begins the finit
 
 Date: **August 10, 2026**
 
-Runtime asset revision: **`1.0.1-r2`**
+Runtime asset revision: **`1.0.1-r3`**
+
+## Owner-directed visual immersion correction — r3
+
+- Preserves the deployed r2 Reus desktop/windowed correction and the owner-accepted mobile Reus treatment.
+- Adds five local, explicitly licensed FIFA-era football photographs through a lazy screen-level visual system; no football photograph is added to the eager HTML shell.
+- Adds a 940 × 700 DPR1 near-breakpoint Reus regression case plus 1366 × 768 DPR1 and 390 × 844 DPR2 licensed-photo browser coverage.
+- Keeps the compressed startup ceiling at 37,500 bytes and combined first-party startup ceiling at 260,000 bytes.
+- Applies a measured raw-code ceiling amendment from 165,000 to 166,000 bytes: accepted r2 measured 164,700 raw bytes; the pre-seal visual candidate measured 165,918 raw bytes, a 1,218-byte integration increase while all five photographs remain lazy.
+- Exact historical Work-selected photo filenames remain pending the owner's ChatGPT export; current Commons derivatives are documented, reversible candidates and do not change gameplay/storage/navigation architecture.
 
 ## External review disposition
 
