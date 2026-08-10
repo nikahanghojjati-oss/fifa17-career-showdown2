@@ -6,7 +6,44 @@ Original release path:
 
 `v0.6.1 → v0.7 → v0.8 → v0.9 → v0.95 → v1.0`
 
-The project reached **v1.0.0 Stable** on August 9, 2026.
+The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 begins the finite Stability Lane on August 10, 2026.
+
+---
+
+# v1.0.1 — Stability Hardening
+
+Date: **August 10, 2026**
+
+Runtime asset revision: **`1.0.1-r1`**
+
+## External review disposition
+
+- rejected a framework rewrite and generic claims of inferior structure because no source-specific authority conflict, bottleneck or maintainability defect supports them;
+- accepted the useful risk categories around edge cases, accessibility and future data-model growth;
+- converted those categories into the finite, dependency-preserving plan in `STABILITY_PLAN_V1.0.X.md`.
+
+## Stability infrastructure
+
+- added pinned Playwright, axe-core and registry-distributed Chromium tooling without adding a served runtime dependency;
+- added a repository-owned 70-checkpoint / 36-scan complete journey for Chromebook and reduced-motion touch/mobile;
+- added corrupt active-save, Legacy and preference fixtures that fail closed without erasing original bytes;
+- added quota rejection, rapid Start, rapid Transfer draft, reload, Smart Back, browser leave/return and double Season confirmation fixtures;
+- added two consecutive browser runs to every PR/main validation;
+- added public Pages revision polling, byte comparison of every runtime file, and a complete deployed-site journey after main;
+- upgraded checkout and setup-node workflow actions to their Node 24 generations;
+- added release/document/cache coherence checks for v1.0.1.
+
+## Reproduced correction
+
+- expanded mobile Season Review accessibility testing exposed four unawarded achievement labels at 3.51:1 contrast;
+- changed only their foreground token from `#74818a` to `#52616b`, producing 5.63:1 on the existing background;
+- added deterministic and real-browser protection for the corrected state.
+
+## Scope protection
+
+- no gameplay, scoring, tiebreak, assignment, Transfer, navigation, storage schema, media, startup timing, portrait, or accepted layout change;
+- v1.0.0 remains the immediate rollback tag;
+- v1.0.2 remains defect-only; a clean stability exit advances to staged v1.1.0 Data Safety and Recovery.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Authority / continuation rule
 
-This project is already designed and implemented through the v1.0.0 stable release. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
+This project is already designed and implemented through the v1.0.1 stability-hardening patch. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
 
 Authority when sources disagree:
 
@@ -20,21 +20,45 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.0.0 — Stable
-**Runtime asset revision:** `1.0.0-r1`
+**Application version:** v1.0.1 — Stable
+**Runtime asset revision:** `1.0.1-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** Version 1 stable release seal
-**Current activity:** v1.0.0 stable baseline; bounded v1.0.x stability work is next
+**Current milestone:** v1.0.x Stability Lane
+**Current activity:** v1.0.1 stability hardening and finite soak exit
 **Preserved owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`, `r12`, `r13`
 **Accepted deployed baseline:** r13 merge `1bae3e1fd0f5ab213846629d328024b9be2d244c`
 **Owner acceptance:** r13 accepted on August 9, 2026
-**Release seal:** the accepted r13 behavior under `v1.0.0` / `1.0.0-r1`; no new feature workstream
+**Release seal:** accepted r13 behavior preserved under `v1.0.1` / `1.0.1-r1`; no new feature workstream
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
 The owner's deployed-r12 Chromebook review then made two visual requirements mandatory for v1: materially improve the undersized/flat Home layout and restore a cinematic pre-menu presentation with a large, properly licensed Marco Reus image. r13 implements both while preserving all r12 behavior.
+
+An external review then raised generic maintainability, edge-case, accessibility, and future-scaling concerns. Source inspection rejected an unsupported rewrite or framework migration, while the valid risk categories became the finite v1.0.1 Stability Lane implementation in `STABILITY_PLAN_V1.0.X.md`.
+
+---
+
+# v1.0.1 — stability hardening
+
+## Reproducible evidence
+
+v1.0.1 adds the tenth GitHub Actions workflow and moves the broad browser evidence into repository-owned scripts with pinned Node 24 compatible tooling.
+
+Each complete run covers 70 functional/responsive checkpoints and 36 axe scans across a 1366 × 768 Chromebook journey and 390 × 844 reduced-motion touch/mobile journey. Pull requests and main run the journey twice consecutively. Main additionally waits for Pages revision convergence, compares every runtime file byte for byte, and repeats the complete journey on the public URL.
+
+Failure fixtures cover corrupt active/Legacy/preference bytes, quota rejection, rapid Start activation, rapid Transfer draft replacement, reload, Smart Back, browser leave/return, and double Season confirmation. Corrupt bytes fail closed and remain available rather than being silently erased; quota rejection blocks navigation and rolls back unsaved state.
+
+## Reproduced fix
+
+The expanded mobile Season Review scan found four unawarded achievement labels at 3.51:1 contrast. `css/season.css` now uses `#52616b` on `#edf1f2`, producing 5.63:1. A deterministic Season Review assertion and the browser scan protect the fix.
+
+No storage schema, gameplay rule, route, state-machine phase, media selection, startup timing, portrait asset or accepted layout changes.
+
+## Lane exit
+
+If candidate, PR, post-merge, byte-parity, deployed-browser and owner-soak gates remain clean, v1.0.x exits without a planned v1.0.2. A v1.0.2 build is allowed only for a reproduced release defect. The next feature milestone remains staged v1.1.0 Data Safety and Recovery.
 
 ---
 
@@ -439,7 +463,7 @@ Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy 
 
 `index.html` owns deployed runtime revision:
 
-`1.0.0-r1`
+`1.0.1-r1`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 
@@ -451,4 +475,4 @@ Version 1 includes the completed v0.95 accessibility, responsive, performance, p
 
 The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA interface assets/audio. Reduced Motion removes theatrical route state and shortens startup. r12 protects Review → Edit and shell synchronization; accepted r13 preserves both while expanding the original responsive presentation.
 
-The exact behavior is sealed as **v1.0.0 Stable**. The next allowed work is the bounded v1.0.x Stability Lane; feature expansion starts only after that lane exits.
+The exact behavior remains the **Version 1 Stable** contract. v1.0.1 hardens its evidence and fixes one reproduced contrast defect. Feature expansion starts only after the finite stability-lane exit.

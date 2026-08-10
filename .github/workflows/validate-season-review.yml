@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 24
 
@@ -167,6 +167,7 @@ jobs:
 
           assert.ok(seasonCss.includes('@media(max-width:700px)'), 'Season Review mobile guard is missing.');
           assert.ok(seasonCss.includes('@media(min-width:901px) and (max-height:800px)'), 'Season Review Chromebook low-height guard is missing.');
+          assert.ok(seasonCss.includes('.isNotEarned{color:#52616b;background:#edf1f2'), 'Unawarded mobile achievement labels must retain WCAG AA contrast.');
           assert.ok(!/url\(/i.test(seasonCss), 'Season Review styling must not introduce external image assets.');
 
           class FakeClassList {
@@ -321,7 +322,7 @@ jobs:
           assert.strictEqual(preservedPosition.focused, true, 'Review → Edit must return focus to the first result field.');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
-          assert.ok(revisionMatch && /^1\.0\.0-r\d+$/.test(revisionMatch[1]), 'Shell must expose a v1.0 cache revision.');
+          assert.ok(revisionMatch && /^1\.0\.1-r\d+$/.test(revisionMatch[1]), 'Shell must expose the v1.0.1 cache revision.');
           const revision = revisionMatch[1];
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
