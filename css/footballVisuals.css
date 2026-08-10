@@ -186,7 +186,6 @@
     text-underline-offset:2px;
 }
 
-/* Create Showdown: portrait photography is displayed intact, never forced into a wide cover crop. */
 .footballVisualHeroSetup{
     min-height:430px;
 }
@@ -204,7 +203,6 @@
     width:49%;
 }
 
-/* Transfer: each player owns a dedicated photographic side, keeping the complete source visible. */
 .footballVisualHeroTransfer{
     width:min(1040px,100%);
     min-height:206px;
@@ -241,18 +239,17 @@
     font-size:clamp(20px,2.4vw,31px);
 }
 
-/* Statistics: Messi is a recognisable dedicated athlete panel rather than an ultra-wide crop. */
 .footballVisualAnalytics{
     min-height:230px;
     margin-bottom:4px;
 }
 
 .footballVisualAnalytics .footballVisualMediaFrame{
-    width:62%;
+    width:45%;
 }
 
 .footballVisualAnalytics .footballVisualCopy{
-    width:40%;
+    width:48%;
 }
 
 .footballVisualAnalytics::before{
@@ -261,7 +258,6 @@
         linear-gradient(0deg,rgba(13,25,32,.44) 0,transparent 54%);
 }
 
-/* Trophy art is the only intentional full-bleed cover because the source is a wide celebration photograph. */
 .footballVisualTrophy{
     min-height:250px;
     margin-bottom:4px;
@@ -299,7 +295,8 @@
     .footballVisualHeroSetup .footballVisualCopy{width:51%;}
     .footballVisualHeroTransfer{min-height:198px;}
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
-    .footballVisualAnalytics .footballVisualMediaFrame{width:64%;}
+    .footballVisualAnalytics .footballVisualMediaFrame{width:48%;}
+    .footballVisualAnalytics .footballVisualCopy{width:47%;}
     .footballVisualName{font-size:clamp(22px,3.1vw,32px);}
 }
 
