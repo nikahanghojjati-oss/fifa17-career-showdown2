@@ -268,7 +268,7 @@ jobs:
           assert.deepStrictEqual(refs.filter(ref => ref.revision !== revision), [], 'Final polish shell contains mixed revisions.');
           const rawBytes = refs.reduce((total, ref) => total + fs.statSync(ref.path).size, 0);
           const compressedBytes = refs.reduce((total, ref) => total + zlib.gzipSync(fs.readFileSync(ref.path), { level: 9 }).length, 0);
-          assert.ok(rawBytes <= 166000, `Initial raw bytes exceeded 166000 (${rawBytes}).`);
+          assert.ok(rawBytes <= 165000, `Initial raw bytes exceeded 165000 (${rawBytes}).`);
           assert.ok(compressedBytes <= 37500, `Initial compressed bytes exceeded 37500 (${compressedBytes}).`);
           assert.ok(feedbackBytes <= 5500, `Lazy feedback module is too large (${feedbackBytes}).`);
           console.log(`Accessibility and presentation budgets passed: ${rawBytes} raw / ${compressedBytes} compressed initial bytes; ${feedbackBytes} lazy feedback bytes.`);
