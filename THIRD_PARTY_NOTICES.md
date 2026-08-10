@@ -66,13 +66,13 @@ The following images are required screen-level presentation assets. They are sto
 ### Lionel Messi — FC Barcelona
 
 - Repository file: `assets/football/lionel-messi-barcelona-2016.webp`
-- Source file: `Messi & Suarez.jpg`
+- Source file: `Messi & Can.jpg`
 - Author: cchana
-- Source page: `https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg`
+- Source page: `https://commons.wikimedia.org/wiki/File:Messi_%26_Can.jpg`
 - License: Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0), `https://creativecommons.org/licenses/by-sa/2.0/`
-- Source context: FC Barcelona on 6 August 2016.
+- Source context: Lionel Messi for FC Barcelona against Liverpool at Wembley on 6 August 2016.
 - Application use: Career Statistics presentation.
-- Local transformation: resized from 1616 × 2424 to 1067 × 1600 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.
+- Local transformation: resized from 3883 × 2587 to 1600 × 1066 with Lanczos and encoded as WebP at quality 80. The landscape source was selected because it preserves a recognisable Messi composition across desktop, near-breakpoint and mobile Statistics hero aspect ratios. This local derivative remains available under CC BY-SA 2.0.
 
 ### Philipp Lahm — 2014 World Cup
 

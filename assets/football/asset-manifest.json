@@ -85,30 +85,30 @@
     },
     {
       "id": "lionel-messi-barcelona-2016",
-      "source_file": "Messi & Suarez.jpg",
+      "source_file": "Messi & Can.jpg",
       "output": "lionel-messi-barcelona-2016.webp",
       "max_size": [
-        1440,
-        2160
+        1600,
+        1066
       ],
-      "quality": 74,
+      "quality": 80,
       "author": "cchana",
       "license": "CC BY-SA 2.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg",
-      "context": "Lionel Messi and Luis Suárez for FC Barcelona, 6 August 2016.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Messi%20%26%20Suarez.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Messi_%26_Can.jpg",
+      "context": "Lionel Messi for FC Barcelona against Liverpool at Wembley, 6 August 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Messi%20%26%20Can.jpg",
       "source_dimensions": [
-        1616,
-        2424
+        3883,
+        2587
       ],
-      "source_sha256": "094a9598b85a80e0de8d893f1282d16fe2d0d8b639f5a85ccafcb45a3de23aa9",
+      "source_sha256": "db6d783d837d0b7dff9d83e5107a23608c2475aece5c80302ed6f9eff3c8a5fa",
       "output_dimensions": [
-        1440,
-        2160
+        1600,
+        1066
       ],
-      "output_bytes": 347430,
-      "output_sha256": "8e6b23501110a6a4ecace0b4ee72947d139394eaa1da76e331937635ae1260a9"
+      "output_bytes": 326218,
+      "output_sha256": "f69eb94c532d89619c07e16cefb33ff55e20ba245a0b8e0cf065d14c9f283de1"
     },
     {
       "id": "philipp-lahm-world-cup-2014",
