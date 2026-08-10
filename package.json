@@ -10,6 +10,7 @@
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
     "test:browser": "node tests/browser/stability-audit.cjs",
     "test:home-visual": "node tests/browser/home-visual-audit.cjs",
+    "test:football-visual": "node tests/browser/football-visual-audit.cjs",
     "verify:deployment": "node scripts/verify-deployment.mjs"
   },
   "devDependencies": {
