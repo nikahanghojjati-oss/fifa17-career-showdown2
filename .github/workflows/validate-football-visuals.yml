@@ -68,7 +68,12 @@ jobs:
           assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
 
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
-          assert.deepStrictEqual(messi.output_dimensions, [1440,2160], 'Messi derivative must retain 1440px width for the desktop Statistics hero.');
+          assert.deepStrictEqual(messi.output_dimensions, [1600,1066], 'Messi Statistics derivative must retain the approved 1600px landscape composition.');
+          assert.deepStrictEqual(messi.source_dimensions, [3883,2587], 'Messi landscape source dimensions changed unexpectedly.');
+          assert.strictEqual(messi.author, 'cchana', 'Messi attribution changed unexpectedly.');
+          assert.ok(messi.source_page.endsWith('File:Messi_%26_Can.jpg'), 'Messi Statistics source file changed unexpectedly.');
+          assert.ok(data.includes('source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Can.jpg"'), 'Messi runtime manifest does not use the approved landscape source.');
+
           const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016');
           assert.ok(rashford, '2016 Manchester United Rashford visual is missing.');
           assert.deepStrictEqual(rashford.source_dimensions, [742,888], 'Rashford source dimensions changed unexpectedly.');
