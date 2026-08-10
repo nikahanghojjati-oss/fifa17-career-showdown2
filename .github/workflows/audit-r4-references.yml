@@ -1,0 +1,25 @@
+name: Audit R4 References
+
+on:
+  push:
+    branches:
+      - agent/r4-visual-recovery-and-error-provenance
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    if: contains(github.event.head_commit.message, 'Run r4 reference audit')
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v5
+      - name: List current r3 references
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== 1.0.1-r3 REFERENCES ==='
+          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r3' . || true
+          echo '=== END ==='
