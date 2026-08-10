@@ -32,6 +32,7 @@ jobs:
 
           const html = fs.readFileSync('index.html', 'utf8');
           const css = fs.readFileSync('css/app.css', 'utf8');
+          const visualCss = fs.readFileSync('css/visual-fidelity-r2.css', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const menu = fs.readFileSync('js/menuExperience.js', 'utf8');
           const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md', 'utf8');
@@ -61,10 +62,17 @@ jobs:
           assert.ok(css.includes('.startupAthleteFrame') && css.includes('.startupIdentity') && css.includes('.startupStatus'), 'Startup composition is incomplete.');
           assert.ok(css.includes('html[data-motion-reduced="true"] *') && css.includes('@media(prefers-reduced-motion:reduce)'), 'Startup and Home motion need both preference guards.');
 
+          assert.ok(app.includes('css/visual-fidelity-r2.css?v=1.0.1-r1'), 'The bounded Reus visual fidelity layer is not aligned with the stable runtime revision.');
+          assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
+          assert.ok(visualCss.includes('#startupAthlete') && visualCss.includes('object-fit:contain'), 'Startup Reus portrait must use contained composition.');
+          assert.ok(visualCss.includes('.startupAthleteFrame') && visualCss.includes('inset:0 auto 0 0'), 'Startup portrait frame must remain inside the viewport.');
+          assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1'), 'Loaded Home Reus portrait must render at full opacity.');
+          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('@media(max-width:480px)'), 'Reus fidelity layer must preserve small-screen treatment.');
+
           const normalDuration = Number((app.match(/STARTUP_SPLASH_MINIMUM_MS\s*=\s*(\d+)/) || [])[1]);
           const reducedDuration = Number((app.match(/STARTUP_SPLASH_REDUCED_MS\s*=\s*(\d+)/) || [])[1]);
           const exitDuration = Number((app.match(/STARTUP_SPLASH_EXIT_MS\s*=\s*(\d+)/) || [])[1]);
-          assert.ok(normalDuration >= 1500 && normalDuration <= 2400, 'Normal startup presentation must stay immersive and finite.');
+          assert.ok(normalDuration >= 2600 && normalDuration <= 3000, 'Normal startup presentation must preserve the deliberate 2.7 second immersion hold while remaining finite.');
           assert.ok(reducedDuration >= 0 && reducedDuration <= 300, 'Reduced-motion startup must remain brief.');
           assert.ok(exitDuration >= 0 && exitDuration <= 300, 'Startup exit must remain bounded.');
           assert.ok(app.includes('app.inert = true') && app.includes('app.inert = false'), 'The covered application is not interaction-isolated.');
@@ -76,5 +84,5 @@ jobs:
           assert.strictEqual(localShell.filter(match => match[1].startsWith('js/')).length, 7, 'Visual immersion added an eager script.');
           assert.deepStrictEqual(localShell.filter(match => match[2] !== revision), [], 'Visual candidate contains mixed shell revisions.');
 
-          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, finite normal/reduced presentation, and four responsive tiers.`);
+          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, 2.7 s normal hold, brief reduced-motion path, bounded Reus fidelity layer, and four responsive tiers.`);
           NODE

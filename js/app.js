@@ -5,15 +5,34 @@
 ===================================================== */
 
 const APP_VERSION = "1.0.1";
-const STARTUP_SPLASH_MINIMUM_MS = 1900;
+const STARTUP_SPLASH_MINIMUM_MS = 2700;
+// Historical sealed baseline: STARTUP_SPLASH_MINIMUM_MS = 1900. The owner-requested Reus presentation now deliberately holds for 2700 ms.
 const STARTUP_SPLASH_REDUCED_MS = 220;
 const STARTUP_SPLASH_EXIT_MS = 240;
+const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r2.css?v=1.0.1-r1";
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
 let performanceLifecycleInstalled = false;
 let runtimeNoticeElement = null;
 let runtimeNoticeTextElement = null;
+
+function installVisualFidelityStyles(){
+    if(document.querySelector('link[data-visual-fidelity="reus-r2"]')){
+        return;
+    }
+
+    const stylesheet = document.createElement("link");
+    stylesheet.rel = "stylesheet";
+    stylesheet.href = VISUAL_FIDELITY_STYLESHEET;
+    stylesheet.dataset.visualFidelity = "reus-r2";
+    stylesheet.addEventListener("error", () => {
+        console.warn("[Career Mode Showdown] Reus visual fidelity stylesheet could not be loaded. Base visuals remain available.");
+    }, { once: true });
+    document.head.appendChild(stylesheet);
+}
+
+installVisualFidelityStyles();
 
 function getRuntimeNotice(){
     if(runtimeNoticeElement && runtimeNoticeElement.isConnected){
