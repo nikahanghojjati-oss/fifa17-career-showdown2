@@ -28,7 +28,7 @@ The application displays the photographer, source, license and display-crop noti
 
 ## Licensed football photography visual set — r4 corrective sources
 
-The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. The r4 corrective presentation deliberately avoids blind portrait-to-wide `object-fit: cover` crops for James Rodríguez, Marcus Rashford, Anthony Martial and Lionel Messi: those subjects use contained, subject-safe photographic frames. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and SHA-256 fingerprints.
+The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. The r4 corrective presentation deliberately avoids blind `object-fit: cover` cropping for every required football visual: all five subjects use bounded, contained, subject-safe photographic frames. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and SHA-256 fingerprints.
 
 The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed after real-device owner review showed unacceptable crops. Their historical provenance and the regression itself remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`.
 
@@ -90,7 +90,7 @@ The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed aft
 - Source context: Germany captain Philipp Lahm lifting the FIFA World Cup on 13 July 2014.
 - Application use: Trophy Room presentation.
 - Local transformation: resized from 4256 × 2204 to 1600 × 829 and encoded as WebP.
-- Display policy: the only intentional full-bleed `cover` treatment in this set because the source is already a wide celebration photograph; its declared crop budget remains tested.
+- Display policy: dedicated contained Trophy Room photographic frame; the complete World Cup celebration source remains visible instead of being cropped to fill an ultra-wide hero.
 
 These photographic uses are decorative editorial references to historical football subjects. They do not imply endorsement by the photographed players, clubs, competitions, photographers, source organizations or Wikimedia Commons.
 
