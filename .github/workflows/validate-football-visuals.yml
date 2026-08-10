@@ -27,7 +27,7 @@ jobs:
           cache: npm
       - name: Install locked browser dependencies
         run: npm ci
-      - name: Validate licensed asset manifest and lazy architecture
+      - name: Validate licensed asset manifest and required presentation architecture
         shell: bash
         run: |
           set -euo pipefail
@@ -42,10 +42,10 @@ jobs:
           const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md','utf8');
           const html = fs.readFileSync('index.html','utf8');
 
-          assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved candidate derivatives.');
+          assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved derivatives.');
           const expected = new Set([
             'james-rodriguez-real-madrid-2016.webp',
-            'marcus-rashford-september-2016-cropped.webp',
+            'marcus-rashford-man-utd-2016.webp',
             'anthony-martial-man-utd-2015.webp',
             'lionel-messi-barcelona-2016.webp',
             'philipp-lahm-world-cup-2014.webp'
@@ -65,26 +65,36 @@ jobs:
             assert.ok(notices.includes(asset.output) && notices.includes(asset.author) && notices.includes(asset.license), `${asset.output} attribution is incomplete in THIRD_PARTY_NOTICES.md.`);
             total += bytes;
           }
-          assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB lazy ceiling (${total}).`);
+          assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
+
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
           assert.ok(messi.output_dimensions[0] >= 1000, 'Messi derivative must preserve enough width for the desktop Statistics hero.');
-          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-september-2016');
-          assert.ok(rashford, 'Recovered Work-selected Rashford asset is missing.');
-          assert.deepStrictEqual(rashford.source_dimensions, [594,661], 'Recovered Rashford source dimensions changed unexpectedly.');
-          assert.strictEqual(rashford.author, 'Ardfern', 'Recovered Rashford attribution changed unexpectedly.');
-          assert.ok(rashford.source_page.includes('Marcus_Rashford_September_2016_(cropped).jpg'), 'Recovered Rashford source file changed unexpectedly.');
+          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016');
+          assert.ok(rashford, '2016 Manchester United Rashford visual is missing.');
+          assert.deepStrictEqual(rashford.source_dimensions, [742,888], 'Rashford source dimensions changed unexpectedly.');
+          assert.strictEqual(rashford.author, 'Egghead06', 'Rashford attribution changed unexpectedly.');
+          assert.ok(rashford.source_page.endsWith('File:Marcus_Rashford.jpg'), 'Rashford source file changed unexpectedly.');
 
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
-          assert.ok(renderer.includes('loading = "lazy"') && renderer.includes('fetchPriority = "low"'), 'Screen photography must remain low-priority and lazy.');
-          assert.ok(renderer.includes('image.dataset.src = `${asset.src}?v=${getFootballVisualRevision()}`'), 'Licensed visual URL must remain inert until the target screen is visible.');
-          assert.ok(renderer.includes('function activateFootballVisualScreen'), 'Licensed visual renderer must expose deterministic post-visibility activation.');
-          assert.ok(loader.includes('ensureFootballVisualModule'), 'Licensed visual loader is missing.');
-          assert.ok(loader.includes('css/footballVisuals.css') && loader.includes('data/footballVisuals.js') && loader.includes('js/footballVisuals.js'), 'Licensed visual runtime files are not owned by the lazy loader.');
-          assert.ok(screens.includes('prepareFootballVisualScreen(screenName)'), 'Central navigation must prepare screen photography before entry.');
-          assert.ok(screens.includes('activateFootballVisualScreen(screenName)'), 'Central navigation must activate photography only after the target screen is visible.');
-          assert.ok(!html.includes('assets/football/'), 'Licensed screen photography must not enter the eager HTML shell.');
-          assert.ok(!html.includes('footballVisuals.css') && !html.includes('footballVisuals.js'), 'Licensed visual runtime must remain lazy, not eagerly linked from index.html.');
-          console.log(`Licensed visual contracts passed: ${manifest.assets.length} images / ${total} lazy bytes.`);
+          assert.ok(renderer.includes('loading = "eager"'), 'Required screen photography must not remain browser-lazy.');
+          assert.ok(renderer.includes('function preloadFootballVisualAssets'), 'Required photography must expose proactive preload ownership.');
+          assert.ok(renderer.includes('await preloadFootballVisualAssets()'), 'Required photography initialization must await the visual set.');
+          assert.ok(!renderer.includes('activateFootballVisualScreen'), 'Old route-visible lazy activation must not return.');
+          assert.ok(loader.includes('ensureRequiredFootballVisualExperience'), 'Required football presentation loader is missing.');
+          assert.ok(loader.includes('Required football presentation could not be prepared'), 'Required visual warm-up failure must be surfaced.');
+          assert.ok(loader.includes('css/footballVisuals.css') && loader.includes('data/footballVisuals.js') && loader.includes('js/footballVisuals.js'), 'Required visual runtime files are not owned by the staged loader.');
+          assert.ok(screens.includes('REQUIRED_FOOTBALL_VISUAL_SCREENS'), 'Navigation does not identify required visual destinations.');
+          assert.ok(screens.includes('Required football presentation could not mount'), 'Navigation must fail visibly if required photography cannot mount.');
+          assert.ok(screens.includes('ensureRequiredFootballVisualExperience'), 'Navigation must await the required visual experience for destination screens.');
+          assert.ok(!screens.includes('activateFootballVisualScreen'), 'Central navigation still contains old post-visibility activation.');
+
+          // The renderer/data/CSS stay outside the critical seven-script startup budget, but are
+          // started proactively by initializeOptionalModules. This is staging, not optional UI.
+          assert.ok(!html.includes('assets/football/'), 'Large football photographs must not be hard-wired into the critical HTML parse path.');
+          assert.ok(!html.includes('footballVisuals.css') && !html.includes('footballVisuals.js'), 'Required visual runtime should remain staged outside the critical shell budget.');
+          assert.ok(notices.includes('required screen-level presentation assets'), 'Third-party notices still describe the imagery as optional.');
+
+          console.log(`Required licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
           NODE
 
   licensed-visual-browser:
@@ -101,7 +111,7 @@ jobs:
           cache: npm
       - name: Install locked browser dependencies
         run: npm ci
-      - name: Exercise Home and licensed football visuals at desktop, near-breakpoint and mobile viewports
+      - name: Exercise Home and required football visuals at desktop, near-breakpoint and mobile viewports
         shell: bash
         run: |
           set -euo pipefail
