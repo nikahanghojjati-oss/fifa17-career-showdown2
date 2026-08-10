@@ -101,19 +101,19 @@
 }
 
 /*
-   Reus must read as a solid photograph, not as a background texture.
-   The previous revision correctly set the image itself to opacity:1, but then
-   painted a pale 92% white gradient over almost half the photo. That produced
-   the same visual symptom as reduced image opacity, especially across his left
-   arm, torso edge, pitch and touchline. Keep the FIFA diagonal separation in
-   the container geometry and keep all decorative paint behind the photograph.
+   Desktop and mobile are intentionally treated as two rendering classes.
+   The owner's mobile Safari capture is the accepted reference: the existing
+   colour treatment is preserved at <=700px. Desktop Chromium/Edge was the
+   reproduced weak path. Avoid forcing that DPR1 desktop photograph through a
+   CSS colour filter/compositing pass; render the source photograph naturally
+   and use the original r13-style crop instead. This keeps the player solid and
+   photographic while preserving the FIFA diagonal container treatment.
 */
 .menuCoverAthlete{
     width:47%;
-    isolation:isolate;
     background:
         linear-gradient(132deg,#dfe9ec 0 10%,#9abcca 10% 24%,#5b8aa0 24% 100%);
-    clip-path:polygon(13% 0,100% 0,100% 100%,0 100%);
+    clip-path:polygon(10% 0,100% 0,100% 100%,0 100%);
 }
 .menuCoverAthlete::before{
     content:"";
@@ -133,9 +133,11 @@
 }
 .menuCoverAthlete img{
     z-index:2;
-    object-position:50% 7%;
+    object-fit:cover;
+    object-position:53% 18%;
     opacity:1;
-    filter:saturate(1.035) contrast(1.065) brightness(1.005);
+    filter:none;
+    image-rendering:auto;
     mix-blend-mode:normal;
 }
 .menuCoverAthlete.imageLoaded img{
@@ -178,8 +180,9 @@
 }
 
 @media(min-width:901px) and (max-height:800px){
-    .menuTilePrimary{padding-right:44%;}
-    .menuCoverAthlete{width:46%;}
+    .menuTilePrimary{padding-right:45%;}
+    .menuCoverAthlete{width:47%;}
+    .menuCoverAthlete img{object-position:53% 15%;}
     #startupAthlete{object-position:70% 100%;}
 }
 
@@ -198,6 +201,11 @@
     .menuCoverAthlete{
         width:44%;
         clip-path:polygon(10% 0,100% 0,100% 100%,0 100%);
+    }
+    /* Preserve the exact mobile photo treatment shown in the owner's accepted phone capture. */
+    .menuCoverAthlete img{
+        object-position:50% 7%;
+        filter:saturate(1.035) contrast(1.065) brightness(1.005);
     }
     .startupAthleteFrame{
         inset:0;

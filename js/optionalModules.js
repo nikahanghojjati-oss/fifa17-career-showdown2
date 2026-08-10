@@ -7,7 +7,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "1.0.1-r1";
+    return revision || "1.0.1-r2";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
