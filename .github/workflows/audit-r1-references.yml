@@ -1,0 +1,25 @@
+name: Audit R1 References
+
+on:
+  push:
+    branches:
+      - agent/visual-fidelity-correction-r3
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - name: List remaining r1 references
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== CURRENT 1.0.1-r1 REFERENCES ==='
+          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r1' . || true
+          echo '=== END REFERENCES ==='
