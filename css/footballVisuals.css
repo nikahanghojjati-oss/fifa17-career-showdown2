@@ -1,0 +1,365 @@
+/* =====================================================
+   Career Mode Showdown v1.0.1
+   Licensed Football Visual System
+   Required screen photography with FIFA-17-era geometry.
+===================================================== */
+
+.footballVisualStage{
+    width:min(1040px,100%);
+    margin:0 auto;
+}
+
+#createShowdown.hasFootballVisual .footballVisualStage{
+    display:grid;
+    grid-template-columns:minmax(280px,.82fr) minmax(420px,1.18fr);
+    align-items:stretch;
+    gap:8px;
+}
+
+#createShowdown.hasFootballVisual .setupBox{
+    width:100%;
+    height:100%;
+    margin:0;
+}
+
+.footballVisualPanel{
+    position:relative;
+    isolation:isolate;
+    min-width:0;
+    overflow:hidden;
+    color:#fff;
+    background:#27323a;
+    border-bottom:5px solid var(--f17-yellow);
+    box-shadow:var(--f17-shadow-soft);
+}
+
+.footballVisualPanel::before{
+    content:"";
+    position:absolute;
+    z-index:2;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(112deg,rgba(27,43,54,.12) 0 46%,transparent 46% 68%,rgba(15,25,31,.28) 68%),
+        linear-gradient(0deg,rgba(14,23,29,.68) 0,transparent 46%);
+}
+
+.footballVisualPanel::after{
+    content:"";
+    position:absolute;
+    z-index:3;
+    top:0;
+    right:13%;
+    width:28%;
+    height:100%;
+    pointer-events:none;
+    opacity:.42;
+    background:linear-gradient(126deg,transparent 0 42%,rgba(66,185,218,.7) 42% 46%,transparent 46% 56%,rgba(240,217,0,.62) 56% 58%,transparent 58%);
+}
+
+.footballVisualPanel[data-tone="light"]{
+    color:var(--f17-ink);
+    background:#dce6e9;
+}
+
+.footballVisualPanel[data-tone="light"]::before{
+    background:
+        linear-gradient(112deg,rgba(246,249,249,.08) 0 44%,transparent 44% 64%,rgba(31,65,83,.13) 64%),
+        linear-gradient(0deg,rgba(233,240,242,.96) 0,rgba(233,240,242,.18) 40%,transparent 62%);
+}
+
+.footballVisualPanel[data-tone="blue"]{
+    background:#225e7e;
+}
+
+.footballVisualMediaFrame{
+    position:absolute;
+    z-index:1;
+    inset:0;
+    overflow:hidden;
+}
+
+.footballVisualMedia{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    object-position:var(--football-visual-position,50% 30%);
+    opacity:0;
+    filter:none;
+    image-rendering:auto;
+    mix-blend-mode:normal;
+    transition:opacity 180ms ease;
+}
+
+.footballVisualPanel.imageLoaded .footballVisualMedia{
+    opacity:1;
+}
+
+.footballVisualPanel.imageFailed .footballVisualMedia{
+    display:none;
+}
+
+.footballVisualPanel.imageFailed{
+    background:
+        linear-gradient(132deg,#31434e 0 48%,#266b8c 48% 72%,#26323a 72% 100%);
+}
+
+.footballVisualCopy{
+    position:absolute;
+    z-index:4;
+    left:18px;
+    right:18px;
+    bottom:16px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    pointer-events:none;
+}
+
+.footballVisualIdentity{
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    gap:3px;
+    text-shadow:0 2px 7px rgba(9,18,23,.46);
+}
+
+[data-tone="light"] .footballVisualIdentity{
+    text-shadow:0 1px 2px rgba(255,255,255,.68);
+}
+
+.footballVisualKicker{
+    color:var(--f17-yellow);
+    font:800 9px/1 var(--f17-display);
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+[data-tone="light"] .footballVisualKicker{
+    color:var(--f17-blue-deep);
+}
+
+.footballVisualName{
+    max-width:100%;
+    font:900 clamp(24px,2.9vw,38px)/.88 var(--f17-display);
+    letter-spacing:-.35px;
+    text-transform:uppercase;
+    overflow-wrap:anywhere;
+}
+
+.footballVisualContext{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.35px;
+}
+
+.footballVisualCredit{
+    flex:0 0 auto;
+    max-width:44%;
+    padding:5px 7px;
+    color:#e4ecef;
+    background:rgba(20,29,35,.82);
+    border-left:3px solid var(--f17-cyan);
+    font-size:7px;
+    line-height:1.25;
+    text-align:right;
+    pointer-events:auto;
+}
+
+.footballVisualCredit a{
+    color:#fff;
+    text-decoration:underline;
+    text-decoration-thickness:1px;
+    text-underline-offset:2px;
+}
+
+.footballVisualHeroSetup{
+    min-height:430px;
+}
+
+.footballVisualHeroTransfer{
+    width:min(1040px,100%);
+    min-height:188px;
+    margin:0 auto 9px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px;
+    overflow:visible;
+    background:transparent;
+    border:0;
+    box-shadow:none;
+}
+
+.footballVisualHeroTransfer .footballVisualPanel{
+    min-height:188px;
+    border-bottom-color:var(--f17-cyan);
+}
+
+.footballVisualHeroTransfer .footballVisualPanel:first-child{
+    border-bottom-color:var(--f17-yellow);
+}
+
+.footballVisualHeroTransfer .footballVisualPanel:first-child .footballVisualCopy{
+    right:12px;
+}
+
+.footballVisualHeroTransfer .footballVisualPanel:last-child .footballVisualCopy{
+    left:12px;
+}
+
+.footballVisualAnalytics{
+    min-height:220px;
+    margin-bottom:4px;
+    background:
+        linear-gradient(128deg,#2f8db8 0 34%,#246d91 34% 53%,#245b77 53% 100%);
+}
+
+/* The portrait source is rendered inside a dedicated frame rather than
+   forcing the replaced image itself into a partial-width absolute box. */
+.footballVisualAnalytics .footballVisualMediaFrame{
+    right:auto;
+    width:40%;
+}
+
+.footballVisualAnalytics .footballVisualMedia{
+    object-position:50% 30%;
+}
+
+.footballVisualAnalytics::before{
+    background:
+        linear-gradient(90deg,rgba(28,58,73,.02) 0 27%,rgba(35,95,124,.18) 34%,rgba(34,94,126,.82) 43%,rgba(32,77,101,.9) 100%),
+        linear-gradient(0deg,rgba(13,25,32,.44) 0,transparent 54%);
+}
+
+.footballVisualAnalytics .footballVisualCopy{
+    left:43%;
+}
+
+.footballVisualTrophy{
+    min-height:250px;
+    margin-bottom:4px;
+}
+
+.footballVisualTrophy .footballVisualMedia{
+    object-position:var(--football-visual-position,50% 42%);
+}
+
+.footballVisualTrophy .footballVisualName{
+    font-size:clamp(30px,4vw,52px);
+}
+
+.footballVisualTrophy::before{
+    background:
+        linear-gradient(90deg,rgba(18,26,31,.06) 0 43%,rgba(18,26,31,.25) 67%,rgba(18,26,31,.66) 100%),
+        linear-gradient(0deg,rgba(15,22,27,.78) 0,transparent 50%);
+}
+
+@media(min-width:701px) and (max-width:1020px){
+    #createShowdown.hasFootballVisual .footballVisualStage{
+        grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
+    }
+    .footballVisualHeroSetup{
+        min-height:400px;
+    }
+    .footballVisualAnalytics .footballVisualMediaFrame{
+        width:46%;
+    }
+    .footballVisualAnalytics .footballVisualMedia{
+        object-position:50% 31%;
+    }
+    .footballVisualAnalytics .footballVisualCopy{
+        left:49%;
+    }
+    .footballVisualName{
+        font-size:clamp(22px,3.1vw,32px);
+    }
+    .footballVisualCredit{
+        max-width:50%;
+    }
+}
+
+@media(max-width:700px){
+    #createShowdown.hasFootballVisual .footballVisualStage{
+        grid-template-columns:1fr;
+    }
+    .footballVisualHeroSetup{
+        min-height:205px;
+    }
+    .footballVisualHeroTransfer{
+        grid-template-columns:1fr 1fr;
+        min-height:164px;
+    }
+    .footballVisualHeroTransfer .footballVisualPanel{
+        min-height:164px;
+    }
+    .footballVisualAnalytics,
+    .footballVisualTrophy{
+        min-height:190px;
+    }
+    .footballVisualAnalytics .footballVisualMediaFrame{
+        right:0;
+        width:100%;
+    }
+    .footballVisualAnalytics .footballVisualMedia{
+        object-position:50% 40%;
+    }
+    .footballVisualAnalytics::before{
+        background:
+            linear-gradient(90deg,rgba(27,43,54,.08) 0 48%,rgba(27,64,83,.28) 72%,rgba(15,25,31,.42) 100%),
+            linear-gradient(0deg,rgba(14,23,29,.66) 0,transparent 48%);
+    }
+    .footballVisualAnalytics .footballVisualCopy{
+        left:11px;
+        right:11px;
+    }
+    .footballVisualCopy{
+        left:11px;
+        right:11px;
+        bottom:10px;
+        align-items:flex-start;
+        flex-direction:column;
+        gap:6px;
+    }
+    .footballVisualHeroTransfer .footballVisualCopy{
+        left:9px!important;
+        right:9px!important;
+    }
+    .footballVisualName{
+        font-size:clamp(20px,6.8vw,29px);
+    }
+    .footballVisualHeroTransfer .footballVisualName{
+        font-size:clamp(17px,5.6vw,24px);
+    }
+    .footballVisualContext{
+        font-size:8px;
+    }
+    .footballVisualCredit{
+        display:none;
+    }
+}
+
+@media(max-width:480px){
+    .footballVisualHeroTransfer{
+        grid-template-columns:1fr;
+    }
+    .footballVisualHeroTransfer .footballVisualPanel{
+        min-height:142px;
+    }
+    .footballVisualHeroSetup,
+    .footballVisualAnalytics,
+    .footballVisualTrophy{
+        min-height:175px;
+    }
+}
+
+html[data-motion-reduced="true"] .footballVisualMedia{
+    transition:none;
+}
+
+@media(prefers-reduced-motion:reduce){
+    .footballVisualMedia{transition:none;}
+}

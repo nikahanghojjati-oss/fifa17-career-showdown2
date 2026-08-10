@@ -1,9 +1,3 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v1.0.1
-   Transaction-Safe Local Storage and Application Preferences
-===================================================== */
-
 const STORAGE_KEY = "careerModeShowdown.activeShowdown";
 const LEGACY_STORAGE_KEY = "careerModeShowdown.legacyShowdowns";
 const APPLICATION_PREFERENCES_KEY = "careerModeShowdown.preferences";

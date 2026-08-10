@@ -1,0 +1,145 @@
+name: Validate Licensed Football Visuals
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: football-visuals-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  licensed-visual-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked browser dependencies
+        run: npm ci
+      - name: Validate licensed asset manifest and required presentation architecture
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert');
+          const manifest = JSON.parse(fs.readFileSync('assets/football/asset-manifest.json','utf8'));
+          const data = fs.readFileSync('data/footballVisuals.js','utf8');
+          const renderer = fs.readFileSync('js/footballVisuals.js','utf8');
+          const loader = fs.readFileSync('js/optionalModules.js','utf8');
+          const screens = fs.readFileSync('js/screens.js','utf8');
+          const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md','utf8');
+          const visualCss = fs.readFileSync('css/footballVisuals.css','utf8');
+          const html = fs.readFileSync('index.html','utf8');
+
+          assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved derivatives.');
+          const expected = new Set([
+            'james-rodriguez-real-madrid-2016.webp',
+            'marcus-rashford-man-utd-2016.webp',
+            'anthony-martial-man-utd-2017.webp',
+            'lionel-messi-barcelona-2016.webp',
+            'philipp-lahm-world-cup-2014.webp'
+          ]);
+          let total = 0;
+          for(const asset of manifest.assets){
+            assert.ok(expected.has(asset.output), `Unexpected licensed visual derivative: ${asset.output}`);
+            const path = `assets/football/${asset.output}`;
+            assert.ok(fs.existsSync(path), `Missing licensed visual derivative: ${path}`);
+            const bytes = fs.statSync(path).size;
+            assert.strictEqual(bytes, asset.output_bytes, `${asset.output} manifest byte count is stale.`);
+            assert.ok(bytes <= 360000, `${asset.output} exceeds the 360 KB per-image ceiling (${bytes}).`);
+            assert.ok(asset.output_dimensions[0] <= asset.source_dimensions[0] && asset.output_dimensions[1] <= asset.source_dimensions[1], `${asset.output} must never be upscaled during import.`);
+            assert.ok(asset.output_sha256 && asset.source_sha256, `${asset.output} is missing source/derivative fingerprints.`);
+            assert.ok(asset.source_page.startsWith('https://commons.wikimedia.org/'), `${asset.output} must retain a Commons source page.`);
+            assert.ok(/CC BY/.test(asset.license), `${asset.output} must retain an explicit Creative Commons license.`);
+            assert.ok(notices.includes(asset.output) && notices.includes(asset.author) && notices.includes(asset.license), `${asset.output} attribution is incomplete in THIRD_PARTY_NOTICES.md.`);
+            total += bytes;
+          }
+          assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
+
+          const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
+          assert.deepStrictEqual(messi.output_dimensions, [960,810], 'Messi Statistics derivative must retain the approved native 960x810 close-up composition.');
+          assert.deepStrictEqual(messi.source_dimensions, [960,810], 'Messi close-up source dimensions changed unexpectedly.');
+          assert.strictEqual(messi.author, 'Save the Dream', 'Messi attribution changed unexpectedly.');
+          assert.strictEqual(messi.license, 'CC BY 2.0', 'Messi license changed unexpectedly.');
+          assert.ok(messi.source_page.includes('Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg'), 'Messi Statistics source file changed unexpectedly.');
+          assert.ok(data.includes('Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg'), 'Messi runtime manifest does not use the approved 2016 Barcelona close-up source.');
+          assert.ok(renderer.includes('footballVisualMediaFrame'), 'Required photography renderer must use the dedicated media-frame layer.');
+          assert.ok(visualCss.includes('.footballVisualAnalytics .footballVisualMediaFrame') && visualCss.includes('width:40%'), 'Desktop Statistics must use the dedicated Messi photographic frame instead of stretching the image across the full hero.');
+          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('width:100%'), 'Mobile Statistics must expand the Messi photographic frame to the full hero width.');
+
+          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016');
+          assert.ok(rashford, '2016 Manchester United Rashford visual is missing.');
+          assert.deepStrictEqual(rashford.source_dimensions, [742,888], 'Rashford source dimensions changed unexpectedly.');
+          assert.strictEqual(rashford.author, 'Egghead06', 'Rashford attribution changed unexpectedly.');
+          assert.ok(rashford.source_page.endsWith('File:Marcus_Rashford.jpg'), 'Rashford source file changed unexpectedly.');
+          const martial = manifest.assets.find(asset => asset.id === 'anthony-martial-man-utd-2017');
+          assert.ok(martial, 'Higher-resolution Manchester United Martial visual is missing.');
+          assert.deepStrictEqual(martial.output_dimensions, [1200,800], 'Martial derivative must retain enough resolution for the DPR2 Transfer presentation.');
+          assert.strictEqual(martial.author, 'Dmitry Golubovich', 'Martial attribution changed unexpectedly.');
+          assert.ok(martial.source_page.endsWith('File:Anthony_Martial_27_September_2017.jpg'), 'Martial source file changed unexpectedly.');
+
+          assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
+          assert.ok(renderer.includes('loading = "eager"'), 'Required screen photography must not remain browser-lazy.');
+          assert.ok(renderer.includes('function preloadFootballVisualAssets'), 'Required photography must expose proactive preload ownership.');
+          assert.ok(renderer.includes('await preloadFootballVisualAssets()'), 'Required photography initialization must await the visual set.');
+          assert.ok(!renderer.includes('activateFootballVisualScreen'), 'Old route-visible lazy activation must not return.');
+          assert.ok(loader.includes('ensureRequiredFootballVisualExperience'), 'Required football presentation loader is missing.');
+          assert.ok(loader.includes('Required football presentation could not be prepared'), 'Required visual warm-up failure must be surfaced.');
+          assert.ok(loader.includes('css/footballVisuals.css') && loader.includes('data/footballVisuals.js') && loader.includes('js/footballVisuals.js'), 'Required visual runtime files are not owned by the staged loader.');
+          assert.ok(screens.includes('REQUIRED_FOOTBALL_VISUAL_SCREENS'), 'Navigation does not identify required visual destinations.');
+          assert.ok(screens.includes('Required football presentation could not mount'), 'Navigation must fail visibly if required photography cannot mount.');
+          assert.ok(screens.includes('ensureRequiredFootballVisualExperience'), 'Navigation must await the required visual experience for destination screens.');
+          assert.ok(!screens.includes('activateFootballVisualScreen'), 'Central navigation still contains old post-visibility activation.');
+
+          // The renderer/data/CSS stay outside the critical seven-script startup budget, but are
+          // started proactively by initializeOptionalModules. This is staging, not optional UI.
+          assert.ok(!html.includes('assets/football/'), 'Large football photographs must not be hard-wired into the critical HTML parse path.');
+          assert.ok(!html.includes('footballVisuals.css') && !html.includes('footballVisuals.js'), 'Required visual runtime should remain staged outside the critical shell budget.');
+          assert.ok(notices.includes('required screen-level presentation assets'), 'Third-party notices still describe the imagery as optional.');
+
+          console.log(`Required licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
+          NODE
+
+  licensed-visual-browser:
+    needs: licensed-visual-contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked browser dependencies
+        run: npm ci
+      - name: Exercise Home and required football visuals at desktop, near-breakpoint and mobile viewports
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-visual-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          CMS_AUDIT_RUN=licensed-visual-gate npm run test:home-visual
+          CMS_AUDIT_RUN=licensed-visual-gate npm run test:football-visual
+      - name: Upload rendered visual audit screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: licensed-football-visual-${{ github.sha }}
+          path: test-results/*.png
+          if-no-files-found: warn
+          retention-days: 7

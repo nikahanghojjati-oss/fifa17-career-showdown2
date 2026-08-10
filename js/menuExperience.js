@@ -1,9 +1,3 @@
-/* =====================================================
-   Career Mode Showdown
-   v1.0.1
-   FIFA 17 Era Menu Atmosphere + Lightweight Media Controller
-===================================================== */
-
 const MENU_MEDIA_SOURCES = Object.freeze({
     music: Object.freeze({
         key: "music",
@@ -85,7 +79,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.0.1-r2",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.0.1-r3",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
@@ -198,45 +192,6 @@ function getSavedShowdownMenuMeta(){
     };
 }
 
-function scheduleMarcoReusImageLoad(){
-    const ui = getMenuExperienceUI();
-    const image = ui.reusImage;
-    if(
-        !image
-        || image.dataset.loaded === "true"
-        || image.dataset.loaded === "loading"
-        || reusImageLoadScheduled
-        || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS
-    ){
-        return;
-    }
-
-    reusImageLoadScheduled = true;
-    const load = () => {
-        reusImageLoadScheduled = false;
-        if(typeof getActiveScreenName === "function" && getActiveScreenName() !== "mainMenu"){
-            return;
-        }
-        if(
-            image.dataset.loaded === "true"
-            || image.dataset.loaded === "loading"
-            || reusImageAttempts >= MAX_REUS_IMAGE_ATTEMPTS
-        ){
-            return;
-        }
-
-        reusImageAttempts += 1;
-        image.dataset.loaded = "loading";
-        image.src = image.dataset.src;
-    };
-
-    if(typeof window.requestIdleCallback === "function"){
-        window.requestIdleCallback(load, { timeout: 1800 });
-    }else{
-        window.setTimeout(load, 500);
-    }
-}
-
 function ensureMarcoReusTreatment(){
     const primaryTile = document.getElementById("continueCareer");
     const grid = document.querySelector(".fifaMenuGrid");
@@ -250,9 +205,9 @@ function ensureMarcoReusTreatment(){
         const image = document.createElement("img");
         image.alt = "";
         image.decoding = "async";
-        image.loading = "lazy";
-        image.fetchPriority = "low";
-        image.dataset.src = MARCO_REUS_IMAGE.thumbnail;
+        image.loading = "eager";
+        image.fetchPriority = "high";
+        image.src = MARCO_REUS_IMAGE.thumbnail;
         image.addEventListener("load", () => {
             image.dataset.loaded = "true";
             athlete.classList.remove("imageFailed");
@@ -301,7 +256,6 @@ function ensureMarcoReusTreatment(){
 
     menuExperienceUI = null;
     cacheMenuExperienceUI();
-    scheduleMarcoReusImageLoad();
 }
 
 function refreshMainMenuExperience(){
@@ -315,7 +269,6 @@ function refreshMainMenuExperience(){
         ui.continueButton.disabled = !saveMeta.hasSave;
     }
     ui.continueButton.setAttribute("aria-disabled", String(!saveMeta.hasSave));
-    scheduleMarcoReusImageLoad();
 }
 
 function getSelectedMenuMedia(){

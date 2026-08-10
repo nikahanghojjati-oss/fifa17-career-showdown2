@@ -10,16 +10,26 @@ const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-resu
 
 const cases = [
     {
+        name: "windowed-near-breakpoint-dpr1",
+        viewport: { width: 940, height: 700 },
+        deviceScaleFactor: 1,
+        mobileReference: false,
+        minimumPhysicalWidth: 360,
+        desktopCrop: /^53%\s+0%$/
+    },
+    {
         name: "windowed-desktop-dpr1",
         viewport: { width: 1100, height: 720 },
         deviceScaleFactor: 1,
-        mobileReference: false
+        mobileReference: false,
+        desktopCrop: /^53%\s+(15|18)%$/
     },
     {
         name: "chromebook-dpr1",
         viewport: { width: 1366, height: 768 },
         deviceScaleFactor: 1,
-        mobileReference: false
+        mobileReference: false,
+        desktopCrop: /^53%\s+(15|18)%$/
     },
     {
         name: "mobile-reference-dpr2",
@@ -149,8 +159,16 @@ async function runCase(browser, config){
             );
             assert.match(
                 result.image.objectPosition,
-                /^53%\s+(15|18)%$/,
+                config.desktopCrop,
                 `${config.name}: desktop Reus crop is outside the accepted natural-framing range.`
+            );
+        }
+
+        const physicalWidth = result.image.renderedWidth * result.dpr;
+        if(config.minimumPhysicalWidth){
+            assert.ok(
+                physicalWidth >= config.minimumPhysicalWidth,
+                `${config.name}: Reus physical raster width ${physicalWidth.toFixed(1)}px is below the ${config.minimumPhysicalWidth}px windowed-desktop quality floor.`
             );
         }
 
@@ -162,8 +180,8 @@ async function runCase(browser, config){
         await page.screenshot({ path: screenshotPath, fullPage: true });
         process.stdout.write(
             `PASS ${config.name} :: ${result.viewport.width}x${result.viewport.height} @${result.dpr}x :: ` +
-            `Reus ${Math.round(result.image.renderedWidth)}x${Math.round(result.image.renderedHeight)} :: ` +
-            `filter=${result.image.filter} :: crop=${result.image.objectPosition}\n`
+            `Reus ${Math.round(result.image.renderedWidth)}x${Math.round(result.image.renderedHeight)} CSS / ` +
+            `${Math.round(physicalWidth)}px physical width :: filter=${result.image.filter} :: crop=${result.image.objectPosition}\n`
         );
     }finally{
         await context.close();

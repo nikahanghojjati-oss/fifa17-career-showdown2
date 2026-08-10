@@ -1,9 +1,3 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v1.0.1
-   Smart State-Aware Navigation Engine
-===================================================== */
-
 const screens = [
     "mainMenu",
     "createShowdown",
@@ -44,6 +38,8 @@ const SAFE_BACK_TARGETS = Object.freeze({
     legacy: ["dashboard", "mainMenu"],
     ruleBook: ["mainMenu"]
 });
+
+const REQUIRED_FOOTBALL_VISUAL_SCREENS = new Set(["createShowdown","transferChallenge","careerStatistics","trophyRoom"]);
 
 const MAX_SCREEN_HISTORY = 18;
 const ROUTE_TRANSITION_FALLBACK_MS = 260;
@@ -385,6 +381,16 @@ function renderScreenBeforeEnter(screenName){
     if(screenName === "legacy" && typeof window.renderLegacy === "function"){
         window.renderLegacy();
     }
+    if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(screenName)){
+        const runtimeOwnsRequiredVisuals = typeof window.ensureRequiredFootballVisualExperience === "function";
+        if(typeof window.prepareFootballVisualScreen === "function"){
+            if(!window.prepareFootballVisualScreen(screenName)){
+                throw new Error(`Required football presentation could not mount for ${screenName}.`);
+            }
+        }else if(runtimeOwnsRequiredVisuals){
+            throw new Error(`Required football presentation is unavailable for ${screenName}.`);
+        }
+    }
 
     if(
         currentShowdown
@@ -481,6 +487,12 @@ async function navigateTo(screenName, options = {}){
     let target = screenName;
 
     try{
+        if(REQUIRED_FOOTBALL_VISUAL_SCREENS.has(target)){
+            if(typeof window.ensureRequiredFootballVisualExperience !== "function"){
+                throw new Error("Required football presentation loader is unavailable.");
+            }
+            await window.ensureRequiredFootballVisualExperience();
+        }
         if(GAMEPLAY_SCREENS.has(target)){
             await ensureGameplayRuntime();
         }
@@ -634,6 +646,10 @@ async function resumeSavedShowdown(){
         if(!saved){
             currentShowdown = null;
             resetNavigationState();
+            if(typeof window.ensureRequiredFootballVisualExperience !== "function"){
+                throw new Error("Required football presentation loader is unavailable.");
+            }
+            await window.ensureRequiredFootballVisualExperience();
             showScreen("createShowdown");
             return;
         }

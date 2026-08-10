@@ -26,6 +26,67 @@ The application does not claim Barlow is the FIFA 17 proprietary typeface. It is
 
 The application displays the photographer, source, license and display-crop notice on Home, with a compact photographer/license credit on the startup screen. The local copy prevents the portrait from becoming a third-party availability or privacy dependency and does not imply that Marco Reus, Borussia Dortmund, the photographer or Wikimedia Commons endorses this fan project.
 
+## Licensed football photography visual set
+
+The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. Responsive CSS may crop the displayed frame further. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and SHA-256 fingerprints.
+
+### James Rodríguez — Real Madrid era
+
+- Repository file: `assets/football/james-rodriguez-real-madrid-2016.webp`
+- Source file: `James Rodríguez in September 2016 - 02.jpg`
+- Author/source account: Real Madrid
+- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_02.jpg`
+- License: Creative Commons Attribution 3.0 Unported (CC BY 3.0), `https://creativecommons.org/licenses/by/3.0/`
+- Source context: photographed after Borussia Dortmund vs Real Madrid on 28 September 2016.
+- Application use: Create Showdown presentation.
+- Local transformation: retained at 863 × 1080 and encoded as WebP.
+
+### Marcus Rashford — Manchester United
+
+- Repository file: `assets/football/marcus-rashford-man-utd-2016.webp`
+- Source file: `Marcus Rashford.jpg`
+- Author: Egghead06
+- Source page: `https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg`
+- License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
+- Source context: Marcus Rashford warming up for Manchester United before West Ham United vs Manchester United at the Boleyn Ground on 10 May 2016.
+- Application use: Transfer Challenge presentation.
+- Local transformation: retained at 742 × 888 and encoded as WebP. This local derivative remains available under CC BY-SA 4.0.
+
+### Anthony Martial — Manchester United
+
+- Repository file: `assets/football/anthony-martial-man-utd-2017.webp`
+- Source file: `Anthony Martial 27 September 2017.jpg`
+- Author: Dmitry Golubovich
+- Source page: `https://commons.wikimedia.org/wiki/File:Anthony_Martial_27_September_2017.jpg`
+- License: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0), `https://creativecommons.org/licenses/by-sa/3.0/`
+- Source context: Anthony Martial playing for Manchester United against CSKA Moscow on 27 September 2017.
+- Application use: Transfer Challenge presentation.
+- Local transformation: resized from 1500 × 1000 to 1200 × 800 with Lanczos and encoded as WebP at quality 90; selected to eliminate high-DPR mobile upscaling while retaining a clearly Manchester United-specific Martial image. This local derivative remains available under CC BY-SA 3.0.
+
+### Lionel Messi — FC Barcelona
+
+- Repository file: `assets/football/lionel-messi-barcelona-2016.webp`
+- Source file: `Save the Dream at the Match of Champions (31791513341).jpg`
+- Author: Save the Dream
+- Source page: `https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg`
+- License: Creative Commons Attribution 2.0 Generic (CC BY 2.0), `https://creativecommons.org/licenses/by/2.0/`
+- Source context: Lionel Messi with FC Barcelona at Al-Ahli v Barcelona on 16 December 2016.
+- Application use: Career Statistics presentation.
+- Local transformation: retained at the native 960 × 810 dimensions and encoded as WebP at quality 94. The source was selected because Messi is the dominant close-up subject and remains recognisable across desktop, near-breakpoint and high-DPR mobile Statistics layouts. The local derivative remains available under CC BY 2.0.
+
+### Philipp Lahm — 2014 World Cup
+
+- Repository file: `assets/football/philipp-lahm-world-cup-2014.webp`
+- Source file: `Philipp Lahm lifts the 2014 FIFA World Cup.jpg`
+- Author: Agência Brasil
+- Source page: `https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg`
+- License: Creative Commons Attribution 3.0 Brazil (CC BY 3.0 BR), `https://creativecommons.org/licenses/by/3.0/br/deed.en`
+- Source context: Germany captain Philipp Lahm lifting the FIFA World Cup on 13 July 2014.
+- Application use: Trophy Room presentation.
+- Local transformation: resized from 4256 × 2204 to 1600 × 829 and encoded as WebP.
+
+These photographic uses are decorative editorial references to historical football subjects. They do not imply endorsement by the photographed players, clubs, competitions, photographers, source organizations or Wikimedia Commons.
+
 ## YouTube soundtrack / trailer embeds
 
 The application references selected FIFA 17-era soundtrack tracks and a FIFA 17 gameplay trailer through user-initiated `youtube-nocookie.com` embeds.

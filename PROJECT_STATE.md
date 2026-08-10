@@ -21,12 +21,12 @@ Current source is implementation authority. Browser acceptance remains required 
 # Current implementation
 
 **Application version:** v1.0.1 — Stable
-**Runtime asset revision:** `1.0.1-r2`
+**Runtime asset revision:** `1.0.1-r3`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
 **Current milestone:** v1.0.x Stability Lane
-**Current activity:** v1.0.1 stability hardening and finite soak exit
+**Current activity:** owner-directed finite visual immersion correction inside the v1.0.x Stability Lane
 **Preserved owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`, `r12`, `r13`
 **Accepted deployed baseline:** r13 merge `1bae3e1fd0f5ab213846629d328024b9be2d244c`
 **Owner acceptance:** r13 accepted on August 9, 2026
@@ -463,7 +463,7 @@ Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy 
 
 `index.html` owns deployed runtime revision:
 
-`1.0.1-r2`
+`1.0.1-r3`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 

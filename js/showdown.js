@@ -1,9 +1,3 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v0.16.0
-   Showdown State Manager and Integrity Repair
-===================================================== */
-
 let currentShowdown = null;
 
 const CURRENT_SHOWDOWN_SCHEMA_VERSION = 2;

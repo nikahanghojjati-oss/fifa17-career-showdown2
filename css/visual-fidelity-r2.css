@@ -186,6 +186,62 @@
     #startupAthlete{object-position:70% 100%;}
 }
 
+/*
+   Windowed DPR1 desktop correction.
+   A 940px Chromium window previously squeezed Reus to roughly 203 physical
+   pixels wide. The full-width hero restores raster detail, while a 42% photo
+   panel and taller 300px frame retain a portrait-biased composition so the
+   head is not sacrificed to a very wide cover crop. Mobile remains untouched.
+*/
+@media(min-width:901px) and (max-width:1024px){
+    .fifaMenuGrid{
+        grid-template-columns:repeat(6,minmax(0,1fr));
+        grid-template-rows:none;
+        grid-auto-rows:auto;
+    }
+    .menuTilePrimary{
+        grid-column:1/-1;
+        grid-row:auto;
+        min-height:300px;
+        padding-right:40%;
+    }
+    .menuCoverAthlete{
+        width:42%;
+    }
+    .menuCoverAthlete img{
+        object-position:53% 0%;
+    }
+    .menuTileNew{
+        grid-column:1/4;
+        grid-row:auto;
+        min-height:136px;
+    }
+    .menuTileLegacy{
+        grid-column:4/7;
+        grid-row:auto;
+        min-height:136px;
+    }
+    .menuTileTrophy{
+        grid-column:1/3;
+        grid-row:auto;
+        min-height:126px;
+    }
+    .menuTileRules{
+        grid-column:3/5;
+        grid-row:auto;
+        min-height:126px;
+    }
+    .menuTileSettings{
+        grid-column:5/7;
+        grid-row:auto;
+        min-height:126px;
+    }
+    .menuMusicTile{
+        grid-column:1/-1;
+        grid-row:auto;
+    }
+}
+
 @media(max-width:900px){
     .menuTilePrimary{padding-right:43%;}
     .menuCoverAthlete{width:45%;}
