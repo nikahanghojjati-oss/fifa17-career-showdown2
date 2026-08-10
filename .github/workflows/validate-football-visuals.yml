@@ -110,7 +110,7 @@ jobs:
           CMS_AUDIT_RUN=licensed-visual-gate npm run test:home-visual
       - name: Upload rendered visual audit screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: licensed-football-visual-${{ github.sha }}
           path: test-results/*.png
