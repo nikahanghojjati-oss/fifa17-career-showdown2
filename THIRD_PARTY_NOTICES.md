@@ -72,6 +72,7 @@ The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed aft
 
 - Repository file: `assets/football/lionel-messi-barcelona-2016-subject-r4.webp`
 - Source file: `Leo Messi 2016.PNG`
+- Attribution: Save the Dream / derivative by SdHb
 - Original source account: Save the Dream
 - Commons derivative author: SdHb
 - Source page: `https://commons.wikimedia.org/wiki/File:Leo_Messi_2016.PNG`
