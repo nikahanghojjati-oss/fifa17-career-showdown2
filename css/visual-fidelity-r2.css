@@ -186,6 +186,61 @@
     #startupAthlete{object-position:70% 100%;}
 }
 
+/*
+   Windowed DPR1 desktop correction.
+   Between the desktop and tablet breakpoints the old 12-column grid left the
+   Reus photograph only about 203 physical pixels wide at 940px. A high-DPR
+   phone renders the accepted reference with roughly 296 physical pixels of
+   width despite a smaller CSS frame. Give this narrow-desktop class a proper
+   full-width hero so the photograph receives enough real raster area without
+   filters, sharpening tricks or any change to the <=700px mobile reference.
+*/
+@media(min-width:901px) and (max-width:1024px){
+    .fifaMenuGrid{
+        grid-template-columns:repeat(6,minmax(0,1fr));
+        grid-template-rows:none;
+        grid-auto-rows:auto;
+    }
+    .menuTilePrimary{
+        grid-column:1/-1;
+        grid-row:auto;
+        min-height:270px;
+        padding-right:47%;
+    }
+    .menuCoverAthlete{
+        width:50%;
+    }
+    .menuTileNew{
+        grid-column:1/4;
+        grid-row:auto;
+        min-height:136px;
+    }
+    .menuTileLegacy{
+        grid-column:4/7;
+        grid-row:auto;
+        min-height:136px;
+    }
+    .menuTileTrophy{
+        grid-column:1/3;
+        grid-row:auto;
+        min-height:126px;
+    }
+    .menuTileRules{
+        grid-column:3/5;
+        grid-row:auto;
+        min-height:126px;
+    }
+    .menuTileSettings{
+        grid-column:5/7;
+        grid-row:auto;
+        min-height:126px;
+    }
+    .menuMusicTile{
+        grid-column:1/-1;
+        grid-row:auto;
+    }
+}
+
 @media(max-width:900px){
     .menuTilePrimary{padding-right:43%;}
     .menuCoverAthlete{width:45%;}
