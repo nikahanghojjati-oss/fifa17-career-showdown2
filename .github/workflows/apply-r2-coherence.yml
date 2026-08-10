@@ -20,7 +20,7 @@ jobs:
           ref: agent/visual-fidelity-correction-r3
           fetch-depth: 0
 
-      - name: Synchronize current r2 references without rewriting historical release evidence
+      - name: Synchronize current non-workflow r2 references
         shell: bash
         run: |
           set -euo pipefail
@@ -44,7 +44,6 @@ jobs:
               'return revision || "1.0.1-r1";',
               'return revision || "1.0.1-r2";'
           )
-
           replace('CHANGELOG.md', 'Runtime asset revision: **`1.0.1-r1`**', 'Runtime asset revision: **`1.0.1-r2`**', 1)
           replace('README.md', '**Runtime asset revision:** `1.0.1-r1`', '**Runtime asset revision:** `1.0.1-r2`', 1)
 
@@ -67,50 +66,18 @@ jobs:
               1
           )
           project.write_text(project_text)
-
-          for workflow in [
-              '.github/workflows/validate-v1-visual-immersion.yml',
-              '.github/workflows/validate-final-polish.yml',
-              '.github/workflows/validate-menu-bootstrap.yml'
-          ]:
-              p = Path(workflow)
-              text = p.read_text()
-              if '1.0.1-r1' not in text:
-                  raise SystemExit(f"No r1 reference found in {workflow}")
-              p.write_text(text.replace('1.0.1-r1', '1.0.1-r2'))
-
-          static_path = Path('.github/workflows/validate-static-app.yml')
-          static = static_path.read_text()
-          static = static.replace("const expectedRevision = '1.0.1-r1';", "const expectedRevision = '1.0.1-r2';", 1)
-          static = static.replace(
-              "assert.ok(projectState.includes('**Runtime asset revision:** `1.0.1-r1`'), 'PROJECT_STATE runtime revision is stale.');",
-              "assert.ok(projectState.includes('**Runtime asset revision:** `1.0.1-r2`'), 'PROJECT_STATE runtime revision is stale.');",
-              1
-          )
-          old_block = """[projectState, nextTask, readme, changelog, releaseRecord].forEach((document, index) => {\n            assert.ok(document.includes('1.0.1-r1'), `Authority document ${index + 1} is missing the stable runtime identity.`);\n          });"""
-          new_block = """[projectState, nextTask, readme, changelog].forEach((document, index) => {\n            assert.ok(document.includes('1.0.1-r2'), `Current authority document ${index + 1} is missing the r2 runtime identity.`);\n          });\n          assert.ok(releaseRecord.includes('1.0.1-r1'), 'The immutable v1.0.1 release record must retain its original r1 evidence.');"""
-          if old_block not in static:
-              raise SystemExit('Static authority-document block did not match expected source.')
-          static_path.write_text(static.replace(old_block, new_block, 1))
-
-          print('Targeted r2 coherence changes prepared.')
           PY
 
-          echo '=== Remaining r1 references after targeted update ==='
-          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r1' . || true
-          echo '=== Current r2 references ==='
-          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r2' . | head -80
-
-      - name: Commit synchronized authority and cache references
+      - name: Commit non-workflow coherence changes
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet; then
-            echo 'No coherence changes required.'
-            exit 0
-          fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add js/menuExperience.js js/optionalModules.js CHANGELOG.md README.md NEXT_TASK.md PROJECT_STATE.md .github/workflows/validate-v1-visual-immersion.yml .github/workflows/validate-final-polish.yml .github/workflows/validate-menu-bootstrap.yml .github/workflows/validate-static-app.yml
+          git add js/menuExperience.js js/optionalModules.js CHANGELOG.md README.md NEXT_TASK.md PROJECT_STATE.md
+          if git diff --cached --quiet; then
+            echo 'No non-workflow coherence changes required.'
+            exit 0
+          fi
           git commit -m 'Synchronize v1.0.1-r2 runtime identity'
           git push origin HEAD:agent/visual-fidelity-correction-r3
