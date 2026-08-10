@@ -157,21 +157,34 @@ async function runCase(runtime, config){
         assert.ok(!footballRequests.some(url => /rashford|martial|messi|lahm/.test(url)), `${config.name}: unrelated football photography loaded with Create Showdown.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-create-${config.name}-${runLabel}.png`), fullPage: true });
 
-        await page.evaluate(async () => {
-            await window.ensureGameplayModules();
-            window.prepareFootballVisualScreen("transferChallenge");
-        });
+        await page.locator("#showdownName").fill(`${config.name} Visual Audit`);
+        await page.locator("#managerOne").fill("Manager One");
+        await page.locator("#managerTwo").fill("Manager Two");
+        await page.locator("#roundAmount").selectOption("1");
+        await page.locator("#startShowdown").click();
+        await page.locator("#leagueWheelScreen").waitFor({ state: "visible", timeout: 12000 });
+
+        await page.locator("#spinLeague").click();
+        await page.locator("#spinLeague").filter({ hasText: /CONTINUE TO CLUB ASSIGNMENT/i }).waitFor({ state: "visible", timeout: 8000 });
+        await page.locator("#spinLeague").click();
+        await page.locator("#clubWheelScreen").waitFor({ state: "visible", timeout: 12000 });
+        await page.locator("#openClubPack").click();
+        await page.locator("#continueClubAssignment").waitFor({ state: "visible", timeout: 7000 });
+        await page.locator("#continueClubAssignment").click();
+        await page.locator("#dashboard").waitFor({ state: "visible", timeout: 12000 });
+        await page.locator("#seasonPrimaryAction").click();
+        await page.locator("#transferChallenge").waitFor({ state: "visible", timeout: 12000 });
         await waitForVisual(page, "transferChallenge", 2);
-        const transferNatural = await page.evaluate(() => [...document.querySelectorAll(
-            '[data-football-visual-screen="transferChallenge"] .footballVisualMedia'
-        )].map(image => ({ width: image.naturalWidth, height: image.naturalHeight })));
-        assert.equal(transferNatural.length, 2, `${config.name}: Transfer visual pair is incomplete.`);
-        transferNatural.forEach(size => assert.ok(size.width > 0 && size.height > 0, `${config.name}: a Transfer visual failed to decode.`));
+        const transferResult = await inspectVisibleVisual(page, "transferChallenge");
+        assertRenderedVisual(transferResult, "transferChallenge");
         assert.ok(footballRequests.some(url => url.includes("marcus-rashford-man-utd-2016.webp")), `${config.name}: Rashford visual was not requested.`);
         assert.ok(footballRequests.some(url => url.includes("anthony-martial-man-utd-2015.webp")), `${config.name}: Martial visual was not requested.`);
+        await page.screenshot({ path: path.join(resultsDirectory, `football-transfer-${config.name}-${runLabel}.png`), fullPage: true });
 
-        await page.locator("#createShowdown .backButton").click();
-        await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
+        await page.locator("#transferChallenge .backButton").click();
+        await page.locator("#dashboard").waitFor({ state: "visible", timeout: 12000 });
+        await page.locator("#dashboard .backButton").click();
+        await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 12000 });
 
         await page.locator("#careerStatisticsButton").click();
         await page.locator("#careerStatistics").waitFor({ state: "visible", timeout: 12000 });
