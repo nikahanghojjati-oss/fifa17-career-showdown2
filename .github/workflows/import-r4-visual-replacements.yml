@@ -11,9 +11,9 @@ permissions:
 
 jobs:
   import:
-    if: github.actor != 'github-actions[bot]'
+    if: github.actor != 'github-actions[bot]' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, 'Run r4 visual import'))
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 16
     steps:
       - name: Check out corrective branch
         uses: actions/checkout@v5
@@ -37,7 +37,8 @@ jobs:
           from pathlib import Path
           from PIL import Image, ImageOps
           from urllib.request import Request, urlopen
-          import hashlib, json, io
+          from urllib.error import HTTPError, URLError
+          import hashlib, json, io, time
 
           root = Path('.')
           out_dir = root / 'assets' / 'football'
@@ -98,16 +99,33 @@ jobs:
               }
           ]
 
-          headers = {'User-Agent': 'CareerModeShowdown/1.0 visual-import (+GitHub Actions)'}
-          generated = []
-          for item in assets:
-              print(f"Downloading {item['source_file']}...")
-              req = Request(item['download'], headers=headers)
-              with urlopen(req, timeout=60) as response:
-                  source_bytes = response.read()
-              if len(source_bytes) < 10000:
-                  raise RuntimeError(f"Source unexpectedly small: {item['source_file']} ({len(source_bytes)} bytes)")
+          headers = {'User-Agent': 'CareerModeShowdown/1.0 visual-import (+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)'}
 
+          def download_with_backoff(item):
+              last_error = None
+              for attempt in range(1, 7):
+                  try:
+                      req = Request(item['download'], headers=headers)
+                      with urlopen(req, timeout=90) as response:
+                          data = response.read()
+                      if len(data) < 10000:
+                          raise RuntimeError(f"Source unexpectedly small: {item['source_file']} ({len(data)} bytes)")
+                      return data
+                  except (HTTPError, URLError, TimeoutError, RuntimeError) as error:
+                      last_error = error
+                      if attempt == 6:
+                          break
+                      wait = attempt * 7
+                      print(f"Attempt {attempt} failed for {item['source_file']}: {error}; sleeping {wait}s")
+                      time.sleep(wait)
+              raise last_error
+
+          generated = []
+          for index, item in enumerate(assets):
+              if index:
+                  time.sleep(6)
+              print(f"Downloading {item['source_file']}...")
+              source_bytes = download_with_backoff(item)
               source_sha = hashlib.sha256(source_bytes).hexdigest()
               with Image.open(io.BytesIO(source_bytes)) as opened:
                   image = ImageOps.exif_transpose(opened).convert('RGB')
@@ -118,6 +136,7 @@ jobs:
                       image = image.resize((round(image.width * scale), round(image.height * scale)), Image.Resampling.LANCZOS)
                   output_path = out_dir / item['output']
                   image.save(output_path, 'WEBP', quality=item['quality'], method=6)
+                  output_dimensions = image.size
 
               output_bytes = output_path.read_bytes()
               if len(output_bytes) > 360000:
@@ -136,7 +155,7 @@ jobs:
                   'special_redirect_url': item['download'],
                   'source_dimensions': list(source_dimensions),
                   'source_sha256': source_sha,
-                  'output_dimensions': list(Image.open(output_path).size),
+                  'output_dimensions': list(output_dimensions),
                   'output_bytes': len(output_bytes),
                   'output_sha256': hashlib.sha256(output_bytes).hexdigest()
               })
@@ -156,13 +175,12 @@ jobs:
           }
           (out_dir / 'asset-manifest.json').write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
 
-          old = [
+          for filename in [
               'james-rodriguez-real-madrid-2016.webp',
               'marcus-rashford-man-utd-2016.webp',
               'anthony-martial-man-utd-2017.webp',
               'lionel-messi-barcelona-2016.webp'
-          ]
-          for filename in old:
+          ]:
               candidate = out_dir / filename
               if candidate.exists():
                   candidate.unlink()
@@ -182,4 +200,5 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/football
           git commit -m 'Import clean r4 football visual sources'
+          git pull --rebase origin agent/r4-visual-recovery-and-error-provenance
           git push origin HEAD:agent/r4-visual-recovery-and-error-provenance
