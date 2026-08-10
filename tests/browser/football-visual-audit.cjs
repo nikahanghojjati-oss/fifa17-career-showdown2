@@ -8,6 +8,7 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "football-visual";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
 const manifest = JSON.parse(fs.readFileSync(path.resolve("assets/football/asset-manifest.json"), "utf8"));
+const MAX_PHYSICAL_COVER_SCALE = 1.02;
 
 const cases = [
     { name: "desktop", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },
@@ -39,6 +40,22 @@ async function waitForApp(page){
     await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
 }
 
+async function waitForRequiredFootballWarmup(page){
+    await page.waitForFunction(
+        expectedCount => {
+            if(typeof window.getFootballVisualDiagnostics !== "function"){
+                return false;
+            }
+            const diagnostics = window.getFootballVisualDiagnostics();
+            return diagnostics.initialized === true
+                && diagnostics.assetCount === expectedCount
+                && diagnostics.preloadCount === expectedCount;
+        },
+        expectedAssets.size,
+        { timeout: 15000 }
+    );
+}
+
 async function waitForVisual(page, screenName, expectedCount = 1){
     const selector = footballVisualPanelSelector(screenName, true);
     const locator = page.locator(selector);
@@ -67,6 +84,7 @@ async function inspectVisibleVisual(page, screenName){
             ? [host]
             : [...host.querySelectorAll(".footballVisualPanel")];
         return {
+            deviceScaleFactor: window.devicePixelRatio || 1,
             hostRect: host.getBoundingClientRect().toJSON(),
             panels: panels.map(panel => {
                 const image = panel.querySelector(".footballVisualMedia");
@@ -97,11 +115,24 @@ function assertRenderedVisual(result, screenName){
     assert.ok(result.hostRect.right <= result.clientWidth + 1, `${screenName}: visual escapes right viewport edge.`);
     assert.equal(result.documentWidth, result.clientWidth, `${screenName}: page has horizontal overflow.`);
     assert.ok(result.panels.length > 0, `${screenName}: no visual panels were rendered.`);
+
     result.panels.forEach(panel => {
-        assert.ok(panel.naturalWidth >= 688, `${screenName}/${panel.asset}: source derivative is unexpectedly narrow.`);
-        assert.ok(panel.naturalHeight >= 560, `${screenName}/${panel.asset}: source derivative is unexpectedly short.`);
+        assert.ok(panel.naturalWidth > 0 && panel.naturalHeight > 0, `${screenName}/${panel.asset}: photograph did not decode.`);
         assert.ok(panel.renderedWidth >= 180, `${screenName}/${panel.asset}: rendered panel is too narrow.`);
         assert.ok(panel.renderedHeight >= 120, `${screenName}/${panel.asset}: rendered panel is too short.`);
+
+        const physicalWidth = panel.renderedWidth * result.deviceScaleFactor;
+        const physicalHeight = panel.renderedHeight * result.deviceScaleFactor;
+        const coverScale = Math.max(
+            physicalWidth / panel.naturalWidth,
+            physicalHeight / panel.naturalHeight
+        );
+        assert.ok(
+            coverScale <= MAX_PHYSICAL_COVER_SCALE,
+            `${screenName}/${panel.asset}: photograph would be materially upscaled at ${coverScale.toFixed(3)}x ` +
+            `(${Math.round(physicalWidth)}x${Math.round(physicalHeight)} physical px from ${panel.naturalWidth}x${panel.naturalHeight}).`
+        );
+
         assert.ok(Number.parseFloat(panel.opacity) >= .9999, `${screenName}/${panel.asset}: photography did not finish at full opacity.`);
         assert.equal(panel.objectFit, "cover", `${screenName}/${panel.asset}: object-fit must remain cover.`);
         assert.ok(panel.imageRendering === "auto" || panel.imageRendering === "-webkit-optimize-contrast", `${screenName}/${panel.asset}: browser-native resampling is not active.`);
@@ -155,13 +186,19 @@ async function runCase(config){
         });
 
         await waitForApp(page);
-        assert.equal(footballRequests.length, 0, `${config.name}: licensed football imagery must not load on Home startup.`);
+        await waitForRequiredFootballWarmup(page);
+
+        expectedAssets.forEach(file => {
+            assert.ok(
+                footballRequests.some(url => url.includes(file)),
+                `${config.name}: required football photograph was not proactively warmed on startup: ${file}`
+            );
+        });
 
         await seedShowdown(page);
         await waitForVisual(page, "createShowdown", 1);
         const createResult = await inspectVisibleVisual(page, "createShowdown");
         assertRenderedVisual(createResult, "createShowdown");
-        assert.ok(footballRequests.some(url => url.includes("james-rodriguez-real-madrid-2016.webp")), `${config.name}: James visual was not requested.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-create-${config.name}-${runLabel}.png`), fullPage: true });
 
         await page.locator("#showdownName").fill("Visual QA");
@@ -184,8 +221,6 @@ async function runCase(config){
         await waitForVisual(page, "transferChallenge", 2);
         const transferResult = await inspectVisibleVisual(page, "transferChallenge");
         assertRenderedVisual(transferResult, "transferChallenge");
-        assert.ok(footballRequests.some(url => url.includes("marcus-rashford-man-utd-2016.webp")), `${config.name}: Rashford visual was not requested.`);
-        assert.ok(footballRequests.some(url => url.includes("anthony-martial-man-utd-2015.webp")), `${config.name}: Martial visual was not requested.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-transfer-${config.name}-${runLabel}.png`), fullPage: true });
 
         await page.locator("#transferChallenge [data-smart-back]").click();
@@ -198,7 +233,6 @@ async function runCase(config){
         await waitForVisual(page, "careerStatistics", 1);
         const statsResult = await inspectVisibleVisual(page, "careerStatistics");
         assertRenderedVisual(statsResult, "careerStatistics");
-        assert.ok(footballRequests.some(url => url.includes("lionel-messi-barcelona-2016.webp")), `${config.name}: Messi visual was not requested.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-career-stats-${config.name}-${runLabel}.png`), fullPage: true });
 
         await page.locator("#careerStatisticsTrophyButton").click();
@@ -206,7 +240,6 @@ async function runCase(config){
         await waitForVisual(page, "trophyRoom", 1);
         const trophyResult = await inspectVisibleVisual(page, "trophyRoom");
         assertRenderedVisual(trophyResult, "trophyRoom");
-        assert.ok(footballRequests.some(url => url.includes("philipp-lahm-world-cup-2014.webp")), `${config.name}: Lahm visual was not requested.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-trophy-${config.name}-${runLabel}.png`), fullPage: true });
 
         const unexpectedFootballRequests = footballRequests.filter(url => ![...expectedAssets].some(file => url.includes(file)));
@@ -217,7 +250,7 @@ async function runCase(config){
 
         await context.close();
         process.stdout.write(
-            `${config.name}: licensed visual journey passed (${footballRequests.length} football image requests; DPR ${config.deviceScaleFactor}).\n`
+            `${config.name}: required licensed visual journey passed (${footballRequests.length} image requests; DPR ${config.deviceScaleFactor}).\n`
         );
     }finally{
         await browser.close();
@@ -228,7 +261,7 @@ async function runCase(config){
     for(const config of cases){
         await runCase(config);
     }
-    process.stdout.write("Licensed football visual audit passed at desktop, near-breakpoint and mobile-reference viewports.\n");
+    process.stdout.write("Required football visual audit passed at desktop, near-breakpoint and mobile-reference viewports.\n");
 })().catch(error => {
     console.error("FOOTBALL VISUAL AUDIT FAILED");
     console.error(error && error.stack ? error.stack : error);
