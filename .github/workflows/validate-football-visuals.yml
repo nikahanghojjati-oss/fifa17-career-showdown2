@@ -47,9 +47,9 @@ jobs:
           assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved derivatives.');
           const expected = new Set([
             'james-rodriguez-real-madrid-2016-r4.webp',
-            'marcus-rashford-man-utd-feyenoord-2016.webp',
+            'marcus-rashford-man-utd-2016-r4.webp',
             'anthony-martial-man-utd-2015-r4.webp',
-            'lionel-messi-barcelona-2016-r4.webp',
+            'lionel-messi-barcelona-2016-subject-r4.webp',
             'philipp-lahm-world-cup-2014.webp'
           ]);
           const rejectedR3 = [
@@ -67,7 +67,8 @@ jobs:
             assert.strictEqual(bytes, asset.output_bytes, `${asset.output} manifest byte count is stale.`);
             assert.ok(bytes <= 360000, `${asset.output} exceeds the 360 KB per-image ceiling (${bytes}).`);
             assert.ok(asset.output_dimensions[0] <= asset.source_dimensions[0] && asset.output_dimensions[1] <= asset.source_dimensions[1], `${asset.output} must never be upscaled during import.`);
-            assert.ok(asset.output_sha256 && asset.source_sha256, `${asset.output} is missing source/derivative fingerprints.`);
+            assert.ok(/^[a-f0-9]{64}$/.test(asset.output_sha256 || ''), `${asset.output} is missing its exact derivative SHA-256 fingerprint.`);
+            assert.ok(asset.source_sha256, `${asset.output} is missing its source fingerprint/import record.`);
             assert.ok(asset.source_page.startsWith('https://commons.wikimedia.org/'), `${asset.output} must retain a Commons source page.`);
             assert.ok(/CC BY/.test(asset.license), `${asset.output} must retain an explicit Creative Commons license.`);
             assert.ok(notices.includes(asset.output) && notices.includes(asset.author) && notices.includes(asset.license), `${asset.output} attribution is incomplete in THIRD_PARTY_NOTICES.md.`);
@@ -85,11 +86,12 @@ jobs:
           assert.strictEqual(james.license, 'CC BY 3.0', 'James license changed unexpectedly.');
           assert.ok(james.source_page.includes('James_Rodr%C3%ADguez_in_September_2016_-_01.jpg'), 'James r4 source changed unexpectedly.');
 
-          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-feyenoord-2016');
+          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016-r4');
           assert.ok(rashford, 'r4 Manchester United Rashford visual is missing.');
-          assert.deepStrictEqual(rashford.output_dimensions, [1600,1200], 'Rashford r4 derivative must retain the high-resolution landscape source geometry.');
+          assert.deepStrictEqual(rashford.output_dimensions, [594,661], 'Rashford r4 derivative must retain the subject-dominant portrait geometry.');
           assert.strictEqual(rashford.author, 'Ardfern', 'Rashford attribution changed unexpectedly.');
-          assert.ok(rashford.source_page.includes('Manchester_United_v_Feyenoord'), 'Rashford r4 source changed unexpectedly.');
+          assert.strictEqual(rashford.license, 'CC BY-SA 4.0', 'Rashford license changed unexpectedly.');
+          assert.ok(rashford.source_page.includes('Marcus_Rashford_September_2016_(cropped).jpg'), 'Rashford r4 subject source changed unexpectedly.');
 
           const martial = manifest.assets.find(asset => asset.id === 'anthony-martial-man-utd-2015-r4');
           assert.ok(martial, 'r4 Manchester United Martial visual is missing.');
@@ -98,12 +100,12 @@ jobs:
           assert.strictEqual(martial.license, 'CC BY-SA 2.5', 'Martial license changed unexpectedly.');
           assert.ok(martial.source_page.endsWith('File:Anthony_Martial_2015.jpg'), 'Martial r4 source changed unexpectedly.');
 
-          const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016-r4');
+          const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016-subject-r4');
           assert.ok(messi, 'r4 Barcelona Messi visual is missing.');
-          assert.deepStrictEqual(messi.output_dimensions, [960,676], 'Messi r4 derivative dimensions changed unexpectedly.');
-          assert.strictEqual(messi.author, 'Save the Dream', 'Messi attribution changed unexpectedly.');
+          assert.deepStrictEqual(messi.output_dimensions, [469,779], 'Messi r4 derivative must retain its subject-isolated portrait geometry.');
+          assert.strictEqual(messi.author, 'Save the Dream / derivative by SdHb', 'Messi attribution changed unexpectedly.');
           assert.strictEqual(messi.license, 'CC BY 2.0', 'Messi license changed unexpectedly.');
-          assert.ok(messi.source_page.includes('Save_the_Dream_at_the_Match_of_champions_(31067838784).jpg'), 'Messi r4 source changed unexpectedly.');
+          assert.ok(messi.source_page.endsWith('File:Leo_Messi_2016.PNG'), 'Messi r4 subject-isolated source changed unexpectedly.');
 
           assert.ok(data.includes('framing: Object.freeze') && data.includes('mode: "subject-safe"'), 'r4 asset data must explicitly own subject-safe framing metadata.');
           assert.ok(data.includes('fit: "contain"'), 'Required player photography must use contained subject-safe framing.');
@@ -111,6 +113,8 @@ jobs:
           assert.ok(data.includes('layout: "trophy-subject-safe"'), 'Lahm Trophy Room must use the same crop-safe composition policy.');
           assert.ok(data.includes('rejectPortraitCover: true'), 'Portrait-to-wide cover regression guard is missing from visual data.');
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
+          assert.ok(data.includes('marcus-rashford-man-utd-2016-r4.webp'), 'Runtime data must activate the selected subject-dominant Rashford derivative.');
+          assert.ok(data.includes('lionel-messi-barcelona-2016-subject-r4.webp'), 'Runtime data must activate the selected subject-isolated Messi derivative.');
 
           assert.ok(renderer.includes('footballVisualMediaFrame'), 'Required photography renderer must use dedicated media-frame layers.');
           assert.ok(renderer.includes('getFootballVisualFraming') && renderer.includes('applyFootballVisualFraming'), 'Renderer must apply per-asset crop-safety metadata.');
@@ -122,6 +126,9 @@ jobs:
 
           assert.ok(visualCss.includes('object-fit:var(--football-visual-fit,contain)'), 'Required football photography must default to subject-safe contain framing.');
           assert.ok(!visualCss.includes('object-fit:cover'), 'The r4 corrective stylesheet must not reintroduce a blind full-bleed cover exception.');
+          assert.ok(visualCss.includes('.footballVisualHeroSetup .footballVisualMediaFrame') && visualCss.includes('width:100%'), 'James desktop/tablet portrait frame must use the full visual column instead of a tiny inset.');
+          assert.ok(visualCss.includes('marcus-rashford-man-utd-2016-r4') && visualCss.includes('width:50%'), 'Rashford desktop Transfer frame must be shaped for the selected portrait source.');
+          assert.ok(visualCss.includes('.footballVisualAnalytics') && visualCss.includes('min-height:340px'), 'Messi Statistics composition must retain a portrait-aware desktop height.');
           assert.ok(visualCss.includes('.footballVisualTrophy .footballVisualMediaFrame') && visualCss.includes('width:58%'), 'Trophy Room must use a bounded crop-safe photo frame.');
           assert.ok(visualCss.includes('@media(max-width:480px)') && visualCss.includes('grid-template-columns:1fr'), 'Small-phone Transfer visuals must stack vertically instead of compressing two subjects into tiny wide slots.');
 
