@@ -54,14 +54,14 @@ The following images are required screen-level presentation assets. They are sto
 
 ### Anthony Martial — Manchester United
 
-- Repository file: `assets/football/anthony-martial-man-utd-2015.webp`
-- Source file: `Anthony Martial 2015.jpg`
+- Repository file: `assets/football/anthony-martial-man-utd-2017.webp`
+- Source file: `Anthony Martial 27 September 2017.jpg`
 - Author: Dmitry Golubovich
-- Source page: `https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg`
-- License: Creative Commons Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5), `https://creativecommons.org/licenses/by-sa/2.5/`
-- Source context: Manchester United vs CSKA Moscow on 21 October 2015.
-- Application use: Transfer Challenge presentation alongside the Rashford visual.
-- Local transformation: retained at 688 × 560 and encoded as WebP. This local derivative remains available under CC BY-SA 2.5.
+- Source page: `https://commons.wikimedia.org/wiki/File:Anthony_Martial_27_September_2017.jpg`
+- License: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0), `https://creativecommons.org/licenses/by-sa/3.0/`
+- Source context: Anthony Martial playing for Manchester United against CSKA Moscow on 27 September 2017.
+- Application use: Transfer Challenge presentation.
+- Local transformation: resized from 1500 × 1000 to 1200 × 800 with Lanczos and encoded as WebP at quality 90; selected to eliminate high-DPR mobile upscaling while retaining a clearly Manchester United-specific Martial image. This local derivative remains available under CC BY-SA 3.0.
 
 ### Lionel Messi — FC Barcelona
 
