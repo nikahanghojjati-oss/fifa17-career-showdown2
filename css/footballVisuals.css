@@ -264,16 +264,11 @@
 }
 
 .footballVisualTrophy .footballVisualMediaFrame{
-    width:100%;
-}
-
-.footballVisualTrophy .footballVisualMedia{
-    object-fit:cover;
-    object-position:var(--football-visual-position,50% 42%);
+    width:58%;
 }
 
 .footballVisualTrophy .footballVisualCopy{
-    width:48%;
+    width:43%;
 }
 
 .footballVisualTrophy .footballVisualName{
@@ -282,8 +277,8 @@
 
 .footballVisualTrophy::before{
     background:
-        linear-gradient(90deg,rgba(18,26,31,.08) 0 43%,rgba(18,26,31,.25) 67%,rgba(18,26,31,.66) 100%),
-        linear-gradient(0deg,rgba(15,22,27,.78) 0,transparent 50%);
+        linear-gradient(96deg,rgba(18,26,31,.82) 0 31%,rgba(18,26,31,.42) 43%,rgba(18,26,31,.08) 61%,transparent 76%),
+        linear-gradient(0deg,rgba(15,22,27,.58) 0,transparent 50%);
 }
 
 @media(min-width:701px) and (max-width:1020px){
@@ -297,6 +292,7 @@
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
     .footballVisualAnalytics .footballVisualMediaFrame{width:42%;}
     .footballVisualAnalytics .footballVisualCopy{width:52%;}
+    .footballVisualTrophy .footballVisualMediaFrame{width:60%;}
     .footballVisualName{font-size:clamp(22px,3.1vw,32px);}
 }
 
@@ -337,6 +333,14 @@
     }
     .footballVisualAnalytics .footballVisualCopy{
         width:44%;
+        left:12px;
+        bottom:12px;
+    }
+    .footballVisualTrophy .footballVisualMediaFrame{
+        width:72%;
+    }
+    .footballVisualTrophy .footballVisualCopy{
+        width:42%;
         left:12px;
         bottom:12px;
     }
@@ -394,7 +398,10 @@
     }
 
     .footballVisualTrophy{
-        min-height:205px;
+        min-height:185px;
+    }
+    .footballVisualTrophy .footballVisualMediaFrame{
+        width:75%;
     }
 }
 
