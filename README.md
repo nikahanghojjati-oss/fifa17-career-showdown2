@@ -4,7 +4,7 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Application version:** v1.0.1 — Stable
 **Runtime asset revision:** `1.0.1-r3`
-**Current phase:** bounded Version 1 stability hardening
+**Current phase:** finite owner-directed visual immersion correction inside the Version 1 stability lane
 **Accepted foundation:** deployed r13 visual immersion plus r12 release stabilization
 **Next lane:** v1.0.x soak exit, then staged v1.1.0 data safety
 
