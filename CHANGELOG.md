@@ -22,7 +22,8 @@ Runtime asset revision: **`1.0.1-r3`**
 - Adds five local, explicitly licensed FIFA-era football photographs as required screen presentation: James Rodríguez for Create Showdown, Marcus Rashford and Anthony Martial for Transfer Challenge, Lionel Messi for Career Statistics, and Philipp Lahm lifting the 2014 World Cup for Trophy Room.
 - The football photography is proactively warmed immediately after the critical application shell starts and is required by its destination screens. Large photographs remain staged outside the initial HTML parse path only to preserve startup responsiveness; this is a performance boundary, not optional presentation.
 - Upgrades the Manchester United Rashford source to a 742 × 888 2016 Creative Commons portrait after physical-pixel QA showed the earlier 594 × 661 crop was too close to high-DPR upscaling.
-- Preserves the 2016 Messi Statistics visual at 1440 × 2160 / WebP quality 74 after browser QA proved the former 1067-pixel-wide derivative was being upscaled on desktop. The final derivative remains below the existing 360 KB image ceiling while the full five-photo presentation stays below the 1.1 MB aggregate ceiling.
+- Upgrades Martial to a 1200 × 800 Manchester United derivative after the earlier source required about 5.3% DPR2 mobile upscaling; the replacement remains within the existing image and aggregate presentation budgets.
+- Uses a native 960 × 810 December 2016 Barcelona Messi close-up for Career Statistics after manual screenshot review rejected both a portrait forced across the ultra-wide hero and a landscape alternative where Messi was too small. Desktop/windowed presentation uses a dedicated photographic frame while mobile expands the same image to the full hero width.
 - Adds a physical-pixel image-quality gate that compares each source derivative with its actual cover-rendered size at desktop, 940 × 700 DPR1 near-breakpoint, and 390 × 844 DPR2 mobile-reference layouts instead of relying on arbitrary source-width thresholds.
 - Adds a 940 × 700 DPR1 near-breakpoint Reus regression case plus 1366 × 768 DPR1 and 390 × 844 DPR2 licensed-photo browser coverage.
 - Retains the existing 165,000-byte raw startup ceiling, 37,500-byte compressed ceiling and 260,000-byte combined first-party startup ceiling; r3 integration recovers headroom by removing non-runtime decorative banner bytes rather than increasing the limits.
@@ -53,7 +54,8 @@ Runtime asset revision: **`1.0.1-r3`**
 
 ## Scope protection
 
-- no gameplay, scoring, tiebreak, assignment, Transfer, navigation, storage schema, media, startup timing, portrait, or accepted layout change;
+- intentionally changes presentation imagery and responsive visual composition only;
+- no gameplay, scoring, tiebreak, club assignment, Transfer rules, saved-data schema, local persistence semantics, media catalog, startup timing or core route architecture change;
 - v1.0.0 remains the immediate rollback tag;
 - v1.0.2 remains defect-only; a clean stability exit advances to staged v1.1.0 Data Safety and Recovery.
 
