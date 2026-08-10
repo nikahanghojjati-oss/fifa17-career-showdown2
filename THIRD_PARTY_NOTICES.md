@@ -28,7 +28,7 @@ The application displays the photographer, source, license and display-crop noti
 
 ## Licensed football photography visual set — r4 corrective sources
 
-The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. The r4 corrective presentation explicitly rejects the blind portrait-to-wide `object-fit: cover` failure class seen in r3 and extends that protection to any blind ultra-wide cover crop: all five subjects use bounded, contained, subject-safe photographic frames. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and SHA-256 fingerprints.
+The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. The r4 corrective presentation explicitly rejects the blind portrait-to-wide `object-fit: cover` failure class seen in r3 and extends that protection to any blind ultra-wide cover crop: all five subjects use bounded, contained, subject-safe photographic frames. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and import fingerprints.
 
 The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed after real-device owner review showed unacceptable crops. Their historical provenance and the regression itself remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`.
 
@@ -41,20 +41,20 @@ The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed aft
 - License: Creative Commons Attribution 3.0 Unported (CC BY 3.0), `https://creativecommons.org/licenses/by/3.0/`
 - Source context: photographed after Borussia Dortmund vs Real Madrid on 28 September 2016.
 - Application use: Create Showdown presentation.
-- Local transformation: retained at 415 × 480 and encoded as WebP at quality 92.
-- Display policy: subject-safe contained frame; the complete source remains visible rather than being force-cropped into the wide Create Showdown slot.
+- Local transformation: retained at 863 × 1080 and encoded as WebP at quality 92.
+- Display policy: portrait-aware subject-safe contained frame; the complete source remains visible rather than being force-cropped into the wide Create Showdown slot.
 
 ### Marcus Rashford — Manchester United
 
-- Repository file: `assets/football/marcus-rashford-man-utd-feyenoord-2016.webp`
-- Source file: `Manchester United v Feyenoord, November 2016 (23).JPG`
+- Repository file: `assets/football/marcus-rashford-man-utd-2016-r4.webp`
+- Source file: `Marcus Rashford September 2016 (cropped).jpg`
 - Author: Ardfern
-- Source page: `https://commons.wikimedia.org/wiki/File:Manchester_United_v_Feyenoord,_November_2016_(23).JPG`
+- Source page: `https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg`
 - License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
-- Source context: Marcus Rashford playing for Manchester United against Feyenoord at Old Trafford on 24 November 2016.
+- Source context: Marcus Rashford for Manchester United against Zorya Luhansk at Old Trafford on 29 September 2016; the Commons source is an extracted crop from the photographer's match photograph.
 - Application use: Transfer Challenge presentation.
-- Local transformation: resized from 4896 × 3672 to 1600 × 1200 with Lanczos and encoded as WebP at quality 86. This local derivative remains available under CC BY-SA 4.0.
-- Display policy: subject-safe contained frame; portrait/warm-up-style blind cover cropping is explicitly prohibited by the visual gate.
+- Local transformation: retained at 594 × 661 and encoded as WebP at quality 94. This local derivative remains available under CC BY-SA 4.0.
+- Display policy: subject-dominant contained frame; the complete source remains visible and the previous distant/official-dominated Transfer composition is no longer active.
 
 ### Anthony Martial — Manchester United
 
@@ -70,15 +70,16 @@ The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed aft
 
 ### Lionel Messi — FC Barcelona
 
-- Repository file: `assets/football/lionel-messi-barcelona-2016-r4.webp`
-- Source file: `Save the Dream at the Match of champions (31067838784).jpg`
-- Author: Save the Dream
-- Source page: `https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_champions_(31067838784).jpg`
+- Repository file: `assets/football/lionel-messi-barcelona-2016-subject-r4.webp`
+- Source file: `Leo Messi 2016.PNG`
+- Original source account: Save the Dream
+- Commons derivative author: SdHb
+- Source page: `https://commons.wikimedia.org/wiki/File:Leo_Messi_2016.PNG`
 - License: Creative Commons Attribution 2.0 Generic (CC BY 2.0), `https://creativecommons.org/licenses/by/2.0/`
-- Source context: Lionel Messi playing for FC Barcelona at Al-Ahli v Barcelona on 16 December 2016.
+- Source context: subject-isolated derivative of Lionel Messi with FC Barcelona before Al-Ahli v Barcelona in December 2016, derived on Commons from `Save the Dream at the Match of Champions (31791513341).jpg`.
 - Application use: Career Statistics presentation.
-- Local transformation: retained at 960 × 676 and encoded as WebP at quality 94. The local derivative remains available under CC BY 2.0.
-- Display policy: dedicated contained Statistics photographic frame; the complete source is protected from the previous ultra-wide cover-crop failure class.
+- Local transformation: retained at 469 × 779 and encoded as WebP at quality 94. The local derivative remains available under CC BY 2.0.
+- Display policy: tall portrait-aware Statistics frame keeps Messi as the dominant readable subject while the complete source remains protected from ultra-wide cover cropping.
 
 ### Philipp Lahm — 2014 World Cup
 
