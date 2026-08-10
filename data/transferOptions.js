@@ -1,4 +1,4 @@
-/* Career Mode Showdown v0.95.0 — canonical FIFA 17 Transfer Challenge options.
+/* Career Mode Showdown v1.0.0 — canonical FIFA 17 Transfer Challenge options.
 Historical cross-check: FIFA Index leagues/nations, FIFPlay leagues/teams, FIFA U Team historical list.
 Showdown League Wheel remains the locked top-five pool; these options are Transfer metadata only. */
 

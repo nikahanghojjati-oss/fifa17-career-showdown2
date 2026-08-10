@@ -2,11 +2,11 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v0.95.0 — V1 Visual Immersion Candidate
-**Runtime asset revision:** `0.95.0-r13`
-**Current phase:** both owner-required v1 visual blockers are implemented and comprehensively validated; exact deployment and target-Chromebook acceptance remain
-**Preserved accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`, plus the deployed r12 release-stabilization fixes
-**Next after r13 acceptance:** seal v1.0.0 without opening another feature roadmap
+**Application version:** v1.0.0 — Stable
+**Runtime asset revision:** `1.0.0-r1`
+**Current phase:** complete one-device local Version 1 release
+**Accepted foundation:** deployed r13 visual immersion plus r12 release stabilization
+**Next lane:** bounded v1.0.x stability work before any feature expansion
 
 ## Development entry point
 
@@ -18,19 +18,20 @@ Read in this order:
 2. `ROADMAP_AMENDMENTS.md` — later owner-approved requirements.
 3. `NEXT_TASK.md` — current browser gate and exact next workstream.
 4. `CHANGELOG.md` — implementation/stabilization history.
-5. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
-6. current source — highest implementation authority.
-7. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
+5. `RELEASE_V1.0.0.md` — stable features, limits, storage/recovery and browser evidence.
+6. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
+7. current source — highest implementation authority.
+8. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-The release path remains **v0.95 → v1.0**.
+The original release path **v0.95 → v1.0** is complete.
 
 ---
 
-## Current r13 — V1 visual immersion candidate
+## Version 1 stable — sealed from accepted r13
 
-r12 is deployed and its release-stabilization fixes remain locked. The owner's target-Chromebook review then identified two final v1 blockers: the Home shell was too small and visually flat at a 1920 × 1080 Chromebook window, and the earlier pre-menu loading presentation had disappeared.
+r12 deployed the final functional stabilization. The owner's target-Chromebook review then identified two visual release blockers: the Home shell was too small and visually flat at a 1920 × 1080 Chromebook window, and the earlier pre-menu loading presentation had disappeared.
 
-r13 implements both requirements without changing gameplay, routes or storage:
+Accepted r13 resolved both requirements without changing gameplay, routes or storage:
 
 - a wider proportional Home shell that uses a 1510 px safe desktop canvas while retaining tablet, mobile and low-height breakpoints;
 - a clearer hierarchy of blue, brushed-silver and graphite tiles, stronger type scale, restrained bevels and FIFA-17-era yellow/cyan accents using original project CSS;
@@ -42,7 +43,7 @@ The initial dependency shape remains one eager local stylesheet and seven eager 
 
 All 22 deterministic blocks across nine workflows pass. Real Chromium passes 98 complete-flow checkpoints and 23 WCAG scans, plus dedicated startup/Home checks at 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 with normal and reduced motion, no horizontal escape, duplicate ID, failed local asset or JavaScript runtime error.
 
-See `NEXT_TASK.md` for the exact r13 owner acceptance and v1 sealing checklist.
+Version 1 seals that accepted behavior under `v1.0.0` / `1.0.0-r1`. See `RELEASE_V1.0.0.md` for the stable release record and `NEXT_TASK.md` for the bounded stability lane.
 
 ---
 
@@ -174,7 +175,7 @@ Gameplay, Transfer data/selectors, Season Review CSS, analytics, Trophy Room, Le
 
 ## Automated validation
 
-Nine GitHub Actions gates protect the current v0.95 build:
+Nine GitHub Actions gates protect the stable v1.0 build:
 
 - **Validate Static App** — syntax, scoring, route matrix, Club Assignment, procedural crests, startup budget, Smart Back and responsive shell.
 - **Validate Home Bootstrap** — Home IDs/media bootstrap/revision coherence.
@@ -184,16 +185,14 @@ Nine GitHub Actions gates protect the current v0.95 build:
 - **Validate Season Review** — non-persistent Review and confirmation-only transaction boundary.
 - **Validate League Confirmation** — explicit Continue, save-before-navigation, rollback and refresh/resume route boundary.
 - **Validate Final Polish** — transition ordering/stale cleanup, reduced motion, route focus, original feedback synthesis, preference migration, accessibility and bundle budgets.
-- **Validate V1 Visual Immersion** — exact r13 cache identity, local portrait integrity/licensing, responsive metallic shell, finite startup lifecycle, reduced motion and updated startup budgets.
+- **Validate V1 Visual Immersion** — exact stable cache identity, local portrait integrity/licensing, responsive metallic shell, finite startup lifecycle, reduced motion and startup budgets.
 
-Automated checks do not replace Chromebook/mobile owner acceptance. See `NEXT_TASK.md` for the r13 checklist.
+The owner accepted the deployed r13 visual baseline. Automated checks and deployed-byte verification continue to protect that decision.
 
 ---
 
-## Remaining release path
+## Stable baseline and next lane
 
-1. Deploy the exact `0.95.0-r13` candidate and verify deployed bytes/cache identity.
-2. Complete the target-Chromebook visual acceptance checklist, including startup and active/completed Home states.
-3. If accepted, seal the same behavior as v1.0.0; only the release identity and documentation should change.
+Version 1 is the accepted one-device local baseline. The v1.0.x Stability Lane may add browser CI, public-deployment smoke checks, failure fixtures and reproducible fixes, but it does not add product features or change the stable competition contract.
 
-No replacement v0.17/v0.18 roadmap is planned.
+Version 1.1 data-safety and backup work begins only after the bounded stability lane exits cleanly. No replacement v0.17/v0.18 roadmap is planned.

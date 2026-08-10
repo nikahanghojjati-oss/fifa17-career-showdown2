@@ -2,17 +2,46 @@
 
 This file preserves implementation continuity without replacing the original roadmap.
 
-Release destination remains:
+Original release path:
 
 `v0.6.1 → v0.7 → v0.8 → v0.9 → v0.95 → v1.0`
 
-The project remains inside the original **v0.95** convergence milestone.
+The project reached **v1.0.0 Stable** on August 9, 2026.
+
+---
+
+# v1.0.0 — Stable
+
+Release date: **August 9, 2026**
+
+Runtime asset revision: **`1.0.0-r1`**
+
+Status: **owner accepted; stable identity and release record sealed from deployed r13**
+
+## Release seal
+
+- accepted the deployed r13 Chromebook/Home and cinematic-startup presentation as the Version 1 visual baseline;
+- advanced the user-facing application identity from `v0.95.0` to `v1.0.0 · Stable`;
+- assigned the fresh `1.0.0-r1` cache identity to every eager and lazy runtime asset;
+- synchronized source headers, runtime fallbacks and all version-sensitive validation assertions;
+- added `RELEASE_V1.0.0.md` with the permanent feature, limitation, storage, recovery, browser and external-media record;
+- updated `PROJECT_STATE.md`, `NEXT_TASK.md`, `README.md` and `ROADMAP_AMENDMENTS.md` from pending acceptance to the stable baseline;
+- retained the r12 merge as the pre-r13 functional rollback point.
+
+The seal adds no gameplay behavior, route, data field, storage key, dependency, media choice or presentation redesign.
+
+## Stable evidence
+
+- all 22 executable blocks across nine workflows protect the exact Version 1 candidate;
+- the accepted behavior passed 98 real-Chromium journey checkpoints and 23 WCAG scans;
+- layout evidence covers Chromebook, desktop, tablet, mobile and edge viewports under normal and reduced motion;
+- the release gate requires passing PR and post-merge checks, an exact `v1.0.0` tag, successful Pages deployment and byte-for-byte public-runtime parity.
 
 ---
 
 # v0.95.0-r13 — V1 Visual Immersion Candidate
 
-Status: **implemented; all local deterministic and real-browser acceptance passed; exact deployment and owner Chromebook acceptance pending**
+Status: **deployed and owner accepted; sealed as the v1.0.0 stable presentation baseline**
 
 ## Owner-required v1 blockers
 
@@ -368,11 +397,11 @@ Application framework/navigation/storage, League Wheel, league/club data, functi
 
 ---
 
-# Remaining v0.95 roadmap
+# Completed v0.95 convergence
 
-## Current gate
+## Final gate
 
-Exact deployment and owner Chromebook/mobile acceptance of **`0.95.0-r13` V1 Visual Immersion Candidate**.
+Exact deployment and owner Chromebook/mobile acceptance of **`0.95.0-r13` V1 Visual Immersion Candidate** completed on August 9, 2026.
 
 ## Workstream 6 — implemented
 
@@ -385,4 +414,4 @@ Owner-approved quality-gated addition:
 - reduced-motion-safe and non-blocking;
 - ship only if real Chromebook/mobile testing demonstrates a clear quality improvement with no lag, choppiness or route/audio race.
 
-After r13 acceptance, seal the exact behavior as **v1.0.0 Stable** without adding another pre-v1 feature scope.
+The accepted behavior is sealed as **v1.0.0 Stable** without another pre-v1 feature scope.

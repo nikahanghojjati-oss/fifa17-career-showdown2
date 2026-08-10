@@ -2,7 +2,7 @@
 
 ## Authority / continuation rule
 
-This project is already designed and implemented through the current v0.95 convergence milestone. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
+This project is already designed and implemented through the v1.0.0 stable release. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
 
 Authority when sources disagree:
 
@@ -20,17 +20,17 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v0.95.0 — V1 Visual Immersion Candidate
-**Runtime asset revision:** `0.95.0-r13`
+**Application version:** v1.0.0 — Stable
+**Runtime asset revision:** `1.0.0-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** original v0.95 Polish / Blueprint Alignment
-**Current activity:** both owner-required v1 visual blockers are implemented; exact r13 deployment and target-Chromebook acceptance remain
-**Preserved owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`
-**Deployed stabilization baseline:** `0.95.0-r12`
-**Owner acceptance pending:** `0.95.0-r13` V1 Visual Immersion Candidate
-**Next after r13 acceptance:** seal v1.0.0 without adding another feature workstream
+**Current milestone:** Version 1 stable release seal
+**Current activity:** v1.0.0 stable baseline; bounded v1.0.x stability work is next
+**Preserved owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`, `r12`, `r13`
+**Accepted deployed baseline:** r13 merge `1bae3e1fd0f5ab213846629d328024b9be2d244c`
+**Owner acceptance:** r13 accepted on August 9, 2026
+**Release seal:** the accepted r13 behavior under `v1.0.0` / `1.0.0-r1`; no new feature workstream
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
@@ -62,7 +62,7 @@ Main Menu
 
 ---
 
-# r13 — V1 visual immersion — current gate
+# r13 — V1 visual immersion — accepted stable foundation
 
 ## Owner-required blockers
 
@@ -88,7 +88,7 @@ The dependency count remains exactly one eager local stylesheet and seven eager 
 
 All nine workflows / 22 deterministic blocks pass. Real Chromium passes 98 complete-flow checkpoints and 23 automated WCAG scans, including startup isolation, active/completed Home, explicit League confirmation, two-pack reveal, Transfer phases/verdicts, max-11 Review/Edit/Confirm, reload recovery, optional destinations and Settings. Separate visual checks cover 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 under normal and reduced motion with no horizontal viewport escape, duplicate ID, failed local asset or JavaScript runtime error.
 
-Exact deployed owner inspection on the target Chromebook remains the final visual gate before the v1.0.0 identity is sealed.
+The owner accepted the exact deployed r13 presentation on August 9, 2026. The v1.0.0 seal changes release identity and records only.
 
 ---
 
@@ -439,16 +439,16 @@ Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy 
 
 `index.html` owns deployed runtime revision:
 
-`0.95.0-r13`
+`1.0.0-r1`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 
 ---
 
-# V1 release convergence — r13 visual acceptance pending
+# Version 1 stable release seal
 
-Final v0.95 convergence includes accessibility/focus, responsive consistency, performance, persistence/navigation/gameplay regression, the owner-approved quality-gated navigation/click-feedback experiment and the mandatory r13 visual-immersion requirements in `ROADMAP_AMENDMENTS.md`.
+Version 1 includes the completed v0.95 accessibility, responsive, performance, persistence, navigation and gameplay convergence plus the owner-accepted r13 visual-immersion requirements in `ROADMAP_AMENDMENTS.md`.
 
-The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA interface assets/audio. Reduced Motion removes theatrical route state and shortens startup. r12 protects Review → Edit and shell synchronization; r13 preserves both while expanding the original responsive presentation. Owner Chromebook/mobile testing remains the final quality decision.
+The implementation does not create a second router, delay failed/blocked critical navigation or copy EA/FIFA interface assets/audio. Reduced Motion removes theatrical route state and shortens startup. r12 protects Review → Edit and shell synchronization; accepted r13 preserves both while expanding the original responsive presentation.
 
-After r13 visual acceptance, seal **v1.0.0** without creating another pre-v1 feature branch.
+The exact behavior is sealed as **v1.0.0 Stable**. The next allowed work is the bounded v1.0.x Stability Lane; feature expansion starts only after that lane exits.

@@ -1,6 +1,6 @@
 /* =====================================================
    Career Mode Showdown
-   v0.95.0
+   v1.0.0
    FIFA 17 Era Menu Atmosphere + Lightweight Media Controller
 ===================================================== */
 
@@ -85,7 +85,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=0.95.0-r13",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.0.0-r1",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
