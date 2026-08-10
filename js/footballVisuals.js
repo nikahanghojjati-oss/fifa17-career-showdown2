@@ -58,6 +58,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     image.loading = "lazy";
     image.decoding = "async";
     image.fetchPriority = "low";
+    image.dataset.src = `${asset.src}?v=${getFootballVisualRevision()}`;
     image.addEventListener("load", () => {
         panel.classList.add("imageLoaded");
         panel.classList.remove("imageFailed");
@@ -88,8 +89,6 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     identity.append(kicker, name, context);
     caption.append(identity, createFootballVisualCredit(asset));
     panel.append(image, caption);
-
-    image.src = `${asset.src}?v=${getFootballVisualRevision()}`;
     return panel;
 }
 
@@ -164,6 +163,24 @@ function prepareFootballVisualScreen(screenName){
     return false;
 }
 
+function activateFootballVisualScreen(screenName){
+    const screen = document.getElementById(screenName);
+    if(!screen || screen.classList.contains("hidden")){ return 0; }
+
+    const images = [...screen.querySelectorAll(
+        `[data-football-visual-screen="${screenName}"] .footballVisualMedia[data-src]`
+    )];
+    let activated = 0;
+    images.forEach(image => {
+        if(image.getAttribute("src")){ return; }
+        const source = image.dataset.src;
+        if(!source){ return; }
+        image.src = source;
+        activated += 1;
+    });
+    return activated;
+}
+
 function initializeFootballVisuals(){
     if(footballVisualsInitialized){ return; }
     if(!window.FOOTBALL_VISUALS || !window.FOOTBALL_VISUAL_SCREEN_PLAN){
@@ -186,4 +203,5 @@ function getFootballVisualDiagnostics(){
 
 window.initializeFootballVisuals = initializeFootballVisuals;
 window.prepareFootballVisualScreen = prepareFootballVisualScreen;
+window.activateFootballVisualScreen = activateFootballVisualScreen;
 window.getFootballVisualDiagnostics = getFootballVisualDiagnostics;
