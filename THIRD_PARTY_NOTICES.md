@@ -77,7 +77,7 @@ The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed aft
 - License: Creative Commons Attribution 2.0 Generic (CC BY 2.0), `https://creativecommons.org/licenses/by/2.0/`
 - Source context: Lionel Messi playing for FC Barcelona at Al-Ahli v Barcelona on 16 December 2016.
 - Application use: Career Statistics presentation.
-- Local transformation: retained at 674 × 506 and encoded as WebP at quality 94. The local derivative remains available under CC BY 2.0.
+- Local transformation: retained at 960 × 676 and encoded as WebP at quality 94. The local derivative remains available under CC BY 2.0.
 - Display policy: dedicated contained Statistics photographic frame; the complete source is protected from the previous ultra-wide cover-crop failure class.
 
 ### Philipp Lahm — 2014 World Cup
