@@ -1,20 +1,48 @@
 # NEXT TASK
 
+## Critical owner blocker — 2026-08-10
+
+The football-image presentation merged through PR #9 / runtime `1.0.1-r3` is explicitly rejected by the owner after real-device iPhone review.
+
+Before doing any new feature milestone, read:
+
+`AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`
+
+That public audit records the current-chat chronology, repository actions, image selections, tests that actually ran, the gap in those tests, the assistant's incorrect visual-acceptance claim, and the owner's real-device evidence.
+
+Immediate correction scope:
+
+1. reproduce the owner's bad mobile crops from current `main`;
+2. replace/redesign James Rodríguez, Marcus Rashford, Anthony Martial and Lionel Messi presentation so the player is intentionally framed rather than blindly `object-fit:cover` cropped;
+3. do not solve the structural aspect-ratio problem only by nudging `object-position` values;
+4. preserve all existing gameplay, scoring, storage, routing, Reus and performance behavior;
+5. retain the useful licensing/resolution/runtime gates;
+6. add focal-region / crop-quality contracts that prove the intended player remains visible in every supported viewport;
+7. critically inspect 390x844 DPR2, 940x700 DPR1 and 1366x768 DPR1 screenshots;
+8. obtain owner visual acceptance before calling the visual lane complete;
+9. only after that return to `v1.1.0 Data Safety and Recovery`, unless the owner explicitly chooses to defer this visual blocker.
+
+Important distinction:
+
+The PR #9 browser workflows genuinely ran and were technically green. They were insufficient as art-direction gates. They verified decoding, resolution/upscaling, opacity, containment, browser-native rendering and runtime health, but did not verify subject/facial framing. Green r3 CI is therefore not evidence that the current football-image composition is acceptable.
+
+---
+
 ## Current baseline: v1.0.1 Stable
 
 Version 1.0.0 sealed the accepted r13 product and visual baseline on August 9, 2026. v1.0.1 is the bounded Stability Lane hardening patch derived from source-specific review of maintainability, accessibility, edge-case, and future-scaling risk.
 
-**Application version:** v1.0.1
+Application version: v1.0.1
 
-**Runtime asset revision:** `1.0.1-r3`
+Runtime asset revision: `1.0.1-r3`
 
-**Stable rollback:** v1.0.0 tag `6a4977d0f079cf9ea811ae86a9fb6b4026a418dc`
+Stable rollback: v1.0.0 tag `6a4977d0f079cf9ea811ae86a9fb6b4026a418dc`
 
-**Product status:** Version 1 Stable, stability lane
+Product status: Version 1 Stable, stability lane, with owner-rejected r3 football-image presentation blocker documented above.
 
-**Current gate:** two-run candidate, PR, post-merge, Pages parity, deployed-browser, and owner soak
+Current gate: two-run candidate, PR, post-merge, Pages parity, deployed-browser, owner soak, plus explicit owner visual acceptance for the replacement football presentation.
 
-**Next feature milestone:** staged v1.1.0 Data Safety and Recovery only after this lane exits
+Next feature milestone: staged v1.1.0 Data Safety and Recovery only after this lane exits.
 
 ---
 
@@ -59,7 +87,9 @@ The release adds:
 
 ## Reproduced product fix
 
-The new mobile Season Review scan found the unawarded achievement labels at 3.51:1 contrast. Their text color is now `#52616b` on `#edf1f2`, measured at 5.63:1. This is the only intended product-rendering change.
+The new mobile Season Review scan found the unawarded achievement labels at 3.51:1 contrast. Their text color is now `#52616b` on `#edf1f2`, measured at 5.63:1. This is the only intended product-rendering change in the original v1.0.1 stability patch.
+
+The later owner-directed r2/r3 visual work is separately documented in the public audit file referenced at the top of this document.
 
 ## Explicit exclusions
 
@@ -68,7 +98,7 @@ The new mobile Season Review scan found the unawarded achievement labels at 3.51
 - no export/import, PWA, profiles or save slots;
 - no cloud, accounts, pairing, online play or community feature;
 - no new league, achievement, statistic or media item;
-- no redesign, framework migration or module consolidation.
+- no framework migration or module consolidation.
 
 ---
 
@@ -76,10 +106,10 @@ The new mobile Season Review scan found the unawarded achievement labels at 3.51
 
 The immutable candidate is valid only if all of the following pass:
 
-- all ten GitHub Actions workflows;
+- all GitHub Actions workflows applicable to the candidate;
 - all legacy deterministic product contracts;
 - v1.0.1 release/cache/document coherence;
-- two consecutive 70-checkpoint / 36-scan local Chromium runs;
+- two consecutive complete local Chromium runs;
 - normal-motion Chromebook and reduced-motion touch/mobile journeys;
 - corrupt storage and preference fallbacks without silent byte deletion;
 - quota failure with blocked navigation and rollback;
@@ -88,21 +118,20 @@ The immutable candidate is valid only if all of the following pass:
 - PR checks on the exact candidate SHA;
 - post-merge checks on the exact main SHA;
 - successful GitHub Pages deployment of that main SHA;
-- all runtime files matching merged source byte for byte at revision `1.0.1-r3`;
+- all runtime files matching merged source byte for byte at revision `1.0.1-r3` or its intentional successor;
 - the complete browser journey passing against the public URL;
-- v1.0.0 remaining available as rollback.
+- v1.0.0 remaining available as rollback;
+- for football presentation work, focal-region/crop-quality checks and explicit owner visual acceptance in addition to technical green CI.
 
-A failure blocks release. Diagnose it as application defect, test defect, CI infrastructure defect, or deployment mismatch before changing source.
+A failure blocks release. Diagnose it as application defect, test defect, CI infrastructure defect, deployment mismatch or visual-acceptance defect before changing source.
 
 ---
 
 # Stability lane exit and next milestone
 
-If v1.0.1 clears every release gate and owner soak produces no reproducible defect, the bounded v1.0.x Stability Lane is complete.
+The Stability Lane cannot be considered visually exited while the owner-rejected r3 football presentation remains unresolved, unless the owner explicitly defers it.
 
-v1.0.2 is not scheduled. It may be created only for a reproduced stability defect and may not become another polish loop.
-
-The next feature milestone is v1.1.0 Data Safety and Recovery, split into three bounded candidates in `STABILITY_PLAN_V1.0.X.md`:
+After the correction passes technical gates and owner visual acceptance, the next feature milestone is v1.1.0 Data Safety and Recovery, split into three bounded candidates in `STABILITY_PLAN_V1.0.X.md`:
 
 1. versioned backup envelope and non-mutating export;
 2. isolated import analysis, validation and migration preview;
