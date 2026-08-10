@@ -3,7 +3,7 @@ const STARTUP_SPLASH_MINIMUM_MS = 2700;
 // STARTUP_SPLASH_MINIMUM_MS = 1900
 const STARTUP_SPLASH_REDUCED_MS = 220;
 const STARTUP_SPLASH_EXIT_MS = 240;
-const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r2.css?v=1.0.1-r3";
+const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r2.css?v=1.0.1-r4";
 const EXTERNAL_RUNTIME_SOURCE_PROTOCOLS = new Set([
     "chrome-extension:",
     "moz-extension:",

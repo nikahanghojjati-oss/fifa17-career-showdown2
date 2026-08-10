@@ -14,7 +14,7 @@ The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 begins the finit
 
 Date: **August 10, 2026**
 
-Runtime asset revision: **`1.0.1-r3`**
+Runtime asset revision: **`1.0.1-r4`**
 
 ## Owner-directed visual immersion correction — r3
 
