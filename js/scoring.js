@@ -1,8 +1,4 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v0.10.0
-   Scoring Engine
-===================================================== */
+/* Career Mode Showdown v1.0.1 */
 
 const SCORING_RULES = Object.freeze({
     championsLeague: 5,

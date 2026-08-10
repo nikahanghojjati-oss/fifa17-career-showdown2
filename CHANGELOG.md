@@ -22,7 +22,7 @@ Runtime asset revision: **`1.0.1-r3`**
 - Adds five local, explicitly licensed FIFA-era football photographs through a lazy screen-level visual system; no football photograph is added to the eager HTML shell.
 - Adds a 940 × 700 DPR1 near-breakpoint Reus regression case plus 1366 × 768 DPR1 and 390 × 844 DPR2 licensed-photo browser coverage.
 - Keeps the compressed startup ceiling at 37,500 bytes and combined first-party startup ceiling at 260,000 bytes.
-- Applies a measured raw-code ceiling amendment from 165,000 to 166,000 bytes: accepted r2 measured 164,700 raw bytes; the pre-seal visual candidate measured 165,918 raw bytes, a 1,218-byte integration increase while all five photographs remain lazy.
+- Retains the existing 165,000-byte raw startup ceiling, 37,500-byte compressed ceiling and 260,000-byte combined first-party startup ceiling; r3 integration recovers headroom by removing non-runtime decorative banner bytes while all five photographs remain lazy.
 - Exact historical Work-selected photo filenames remain pending the owner's ChatGPT export; current Commons derivatives are documented, reversible candidates and do not change gameplay/storage/navigation architecture.
 
 ## External review disposition
