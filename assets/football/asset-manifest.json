@@ -88,10 +88,10 @@
       "source_file": "Messi & Suarez.jpg",
       "output": "lionel-messi-barcelona-2016.webp",
       "max_size": [
-        1067,
-        1600
+        1616,
+        2424
       ],
-      "quality": 80,
+      "quality": 70,
       "author": "cchana",
       "license": "CC BY-SA 2.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
@@ -104,11 +104,11 @@
       ],
       "source_sha256": "094a9598b85a80e0de8d893f1282d16fe2d0d8b639f5a85ccafcb45a3de23aa9",
       "output_dimensions": [
-        1067,
-        1600
+        1616,
+        2424
       ],
-      "output_bytes": 282172,
-      "output_sha256": "76e6317188581b5b68419d973fe700f125820381f784588e33f1a68ec5f12013"
+      "output_bytes": 400586,
+      "output_sha256": "54514026454f145c02acf812b119ebfdfed2e52e59d62f9b53a593c7ec9cba82"
     },
     {
       "id": "philipp-lahm-world-cup-2014",
