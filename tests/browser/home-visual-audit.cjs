@@ -10,6 +10,12 @@ const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-resu
 
 const cases = [
     {
+        name: "windowed-near-breakpoint-dpr1",
+        viewport: { width: 940, height: 700 },
+        deviceScaleFactor: 1,
+        mobileReference: false
+    },
+    {
         name: "windowed-desktop-dpr1",
         viewport: { width: 1100, height: 720 },
         deviceScaleFactor: 1,
