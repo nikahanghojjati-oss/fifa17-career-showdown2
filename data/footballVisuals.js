@@ -51,7 +51,7 @@ const FOOTBALL_VISUALS = Object.freeze({
         license: "CC BY-SA 2.0",
         source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg",
         licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/",
-        position: "44% 22%"
+        position: "44% 40%"
     }),
     lahm: Object.freeze({
         id: "philipp-lahm-world-cup-2014",
