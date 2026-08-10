@@ -6,7 +6,7 @@ Version 1.0.0 sealed the accepted r13 product and visual baseline on August 9, 2
 
 **Application version:** v1.0.1
 
-**Runtime asset revision:** `1.0.1-r2`
+**Runtime asset revision:** `1.0.1-r3`
 
 **Stable rollback:** v1.0.0 tag `6a4977d0f079cf9ea811ae86a9fb6b4026a418dc`
 
@@ -88,7 +88,7 @@ The immutable candidate is valid only if all of the following pass:
 - PR checks on the exact candidate SHA;
 - post-merge checks on the exact main SHA;
 - successful GitHub Pages deployment of that main SHA;
-- all runtime files matching merged source byte for byte at revision `1.0.1-r2`;
+- all runtime files matching merged source byte for byte at revision `1.0.1-r3`;
 - the complete browser journey passing against the public URL;
 - v1.0.0 remaining available as rollback.
 
