@@ -98,7 +98,7 @@
 
 .footballVisualPanel.imageFailed{
     background:
-        linear-gradient(132deg,#31434e 0 48%,#266b8c 48% 72%,#26323a 72%);
+        linear-gradient(132deg,#31434e 0 48%,#266b8c 48% 72%,#26323a 72% 100%);
 }
 
 .footballVisualCopy{
@@ -208,6 +208,27 @@
 .footballVisualAnalytics{
     min-height:220px;
     margin-bottom:4px;
+    background:
+        linear-gradient(128deg,#2f8db8 0 34%,#246d91 34% 53%,#245b77 53% 100%);
+}
+
+/* The Statistics hero intentionally treats the portrait source as an athlete
+   panel on desktop/windowed layouts instead of forcing it across a 4–6:1 banner. */
+.footballVisualAnalytics .footballVisualMedia{
+    inset:0 auto 0 0;
+    width:40%;
+    height:100%;
+    object-position:50% 30%;
+}
+
+.footballVisualAnalytics::before{
+    background:
+        linear-gradient(90deg,rgba(28,58,73,.02) 0 27%,rgba(35,95,124,.18) 34%,rgba(34,94,126,.82) 43%,rgba(32,77,101,.9) 100%),
+        linear-gradient(0deg,rgba(13,25,32,.44) 0,transparent 54%);
+}
+
+.footballVisualAnalytics .footballVisualCopy{
+    left:43%;
 }
 
 .footballVisualTrophy{
@@ -236,6 +257,13 @@
     .footballVisualHeroSetup{
         min-height:400px;
     }
+    .footballVisualAnalytics .footballVisualMedia{
+        width:46%;
+        object-position:50% 31%;
+    }
+    .footballVisualAnalytics .footballVisualCopy{
+        left:49%;
+    }
     .footballVisualName{
         font-size:clamp(22px,3.1vw,32px);
     }
@@ -261,6 +289,21 @@
     .footballVisualAnalytics,
     .footballVisualTrophy{
         min-height:190px;
+    }
+    .footballVisualAnalytics .footballVisualMedia{
+        inset:0;
+        width:100%;
+        height:100%;
+        object-position:50% 40%;
+    }
+    .footballVisualAnalytics::before{
+        background:
+            linear-gradient(90deg,rgba(27,43,54,.08) 0 48%,rgba(27,64,83,.28) 72%,rgba(15,25,31,.42) 100%),
+            linear-gradient(0deg,rgba(14,23,29,.66) 0,transparent 48%);
+    }
+    .footballVisualAnalytics .footballVisualCopy{
+        left:11px;
+        right:11px;
     }
     .footballVisualCopy{
         left:11px;
