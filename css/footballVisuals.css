@@ -229,6 +229,15 @@
         linear-gradient(0deg,rgba(15,22,27,.78) 0,transparent 50%);
 }
 
+@media(min-width:701px){
+    /* The 2016 Messi source is portrait-oriented while Statistics is a very wide hero.
+       Desktop/windowed layouts use a higher focal point so Messi's face and upper body
+       remain visible; mobile keeps the 40% crop that fits its taller hero correctly. */
+    .footballVisualAnalytics .footballVisualMedia{
+        object-position:44% 30%;
+    }
+}
+
 @media(min-width:701px) and (max-width:1020px){
     #createShowdown.hasFootballVisual .footballVisualStage{
         grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
