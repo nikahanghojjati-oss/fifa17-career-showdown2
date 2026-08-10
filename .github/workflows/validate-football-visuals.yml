@@ -106,7 +106,9 @@ jobs:
           assert.ok(messi.source_page.includes('Save_the_Dream_at_the_Match_of_champions_(31067838784).jpg'), 'Messi r4 source changed unexpectedly.');
 
           assert.ok(data.includes('framing: Object.freeze') && data.includes('mode: "subject-safe"'), 'r4 asset data must explicitly own subject-safe framing metadata.');
-          assert.ok(data.includes('fit: "contain"'), 'James/Rashford/Martial/Messi must use contained subject-safe framing.');
+          assert.ok(data.includes('fit: "contain"'), 'Required player photography must use contained subject-safe framing.');
+          assert.ok(!data.includes('fit: "cover"'), 'No required football visual may use blind cover framing in the r4 recovery build.');
+          assert.ok(data.includes('layout: "trophy-subject-safe"'), 'Lahm Trophy Room must use the same crop-safe composition policy.');
           assert.ok(data.includes('rejectPortraitCover: true'), 'Portrait-to-wide cover regression guard is missing from visual data.');
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
 
@@ -118,8 +120,9 @@ jobs:
           assert.ok(renderer.includes('await preloadFootballVisualAssets()'), 'Required photography initialization must await the visual set.');
           assert.ok(!renderer.includes('activateFootballVisualScreen'), 'Old route-visible lazy activation must not return.');
 
-          assert.ok(visualCss.includes('object-fit:var(--football-visual-fit,contain)'), 'Generic football photography must default to subject-safe contain framing.');
-          assert.ok(visualCss.includes('.footballVisualTrophy .footballVisualMedia') && visualCss.includes('object-fit:cover'), 'Only the wide Trophy visual may retain intentional cover framing.');
+          assert.ok(visualCss.includes('object-fit:var(--football-visual-fit,contain)'), 'Required football photography must default to subject-safe contain framing.');
+          assert.ok(!visualCss.includes('object-fit:cover'), 'The r4 corrective stylesheet must not reintroduce a blind full-bleed cover exception.');
+          assert.ok(visualCss.includes('.footballVisualTrophy .footballVisualMediaFrame') && visualCss.includes('width:58%'), 'Trophy Room must use a bounded crop-safe photo frame.');
           assert.ok(visualCss.includes('@media(max-width:480px)') && visualCss.includes('grid-template-columns:1fr'), 'Small-phone Transfer visuals must stack vertically instead of compressing two subjects into tiny wide slots.');
 
           assert.ok(browserAudit.includes('MIN_SUBJECT_SAFE_FRAME_COVERAGE'), 'Browser crop-quality gate is missing frame-coverage protection.');
@@ -139,6 +142,7 @@ jobs:
           assert.ok(!html.includes('footballVisuals.css') && !html.includes('footballVisuals.js'), 'Required visual runtime should remain staged outside the critical shell budget.');
           assert.ok(notices.includes('required screen-level presentation assets'), 'Third-party notices still describe the imagery as optional.');
           assert.ok(notices.includes('blind portrait-to-wide'), 'Notices must explain the r4 crop-safety transformation policy.');
+          assert.ok(notices.includes('complete source remains visible') || notices.includes('complete source is protected'), 'Notices must document full-source preservation for crop-safe photography.');
 
           console.log(`r4 crop-safe licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
           NODE
