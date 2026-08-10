@@ -364,13 +364,13 @@ Final v0.95 accessibility, responsive, performance, persistence, navigation and 
 
 The full r11 browser flow exposed a Smart Back integration conflict on Season Review **EDIT RESULTS** plus stale shell save-indicator state. Deployed `0.95.0-r12` corrects those release blockers and adds regression protection.
 
-## Current — V1 visual immersion acceptance
+## Completed — V1 visual immersion and stable release
 
-`0.95.0-r13` implements the two owner-mandated Home/startup requirements recorded in amendment 0. Exact deployment and target-Chromebook acceptance are the final gates before v1.0.0.
+`0.95.0-r13` implemented the two owner-mandated Home/startup requirements recorded in amendment 0. The owner accepted the deployed result on August 9, 2026, and the exact behavior is sealed under `v1.0.0` / `1.0.0-r1`.
 
 ## v1.0
 
-Complete reliable one-device local release.
+Complete reliable one-device local release. Stable identity and release documentation are sealed without changing gameplay, storage or the accepted r13 presentation.
 
 ## Post-v1.0
 
