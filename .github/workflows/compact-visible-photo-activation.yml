@@ -1,0 +1,61 @@
+name: Compact Visible Photo Activation
+
+on:
+  push:
+    branches:
+      - agent/licensed-football-visual-system-r1
+    paths:
+      - .github/workflows/compact-visible-photo-activation.yml
+
+permissions:
+  contents: write
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out visual branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/licensed-football-visual-system-r1
+          fetch-depth: 0
+
+      - name: Remove redundant same-screen activation and compact optional failure isolation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from pathlib import Path
+          path = Path('js/screens.js')
+          source = path.read_text()
+
+          duplicate = '''        if(typeof window.activateFootballVisualScreen === "function"){
+                      try{ window.activateFootballVisualScreen(screenName); }
+                      catch(error){ console.warn(`[Career Mode Showdown] Optional football visual activation failed for ${screenName}:`, error); }
+                  }
+          '''
+          if source.count(duplicate) != 2:
+              raise SystemExit(f'Expected two activation blocks, found {source.count(duplicate)}')
+
+          # Same-screen entries already activated when they first became visible. Removing this copy saves eager bytes.
+          source = source.replace(duplicate, '', 1)
+
+          compact = '''        if(typeof window.activateFootballVisualScreen === "function"){
+                      try{ window.activateFootballVisualScreen(screenName); }catch(error){}
+                  }
+          '''
+          source = source.replace(duplicate, compact, 1)
+          path.write_text(source)
+          PY
+
+      - name: Remove one-shot compactor and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/compact-visible-photo-activation.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add js/screens.js .github/workflows/compact-visible-photo-activation.yml
+          git commit -m 'Keep visible photo activation under original startup ceiling'
+          git push origin HEAD:agent/licensed-football-visual-system-r1
