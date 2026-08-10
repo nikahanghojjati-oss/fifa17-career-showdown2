@@ -27,25 +27,19 @@ jobs:
           set -euo pipefail
           python <<'PY'
           from pathlib import Path
+          import gzip
           import re
 
           eager_scripts = [
-              'js/storage.js',
-              'js/showdown.js',
-              'js/scoring.js',
-              'js/screens.js',
-              'js/menuExperience.js',
-              'js/optionalModules.js',
-              'js/app.js'
+              'js/storage.js', 'js/showdown.js', 'js/scoring.js', 'js/screens.js',
+              'js/menuExperience.js', 'js/optionalModules.js', 'js/app.js'
           ]
-
           for file_name in eager_scripts:
               path = Path(file_name)
-              text = path.read_text()
               compacted, count = re.subn(
                   r'^/\*\s*=+\n[\s\S]*?=+\s*\*/\n\n',
                   '/* Career Mode Showdown v1.0.1 */\n\n',
-                  text,
+                  path.read_text(),
                   count=1
               )
               if count != 1:
@@ -53,38 +47,37 @@ jobs:
               path.write_text(compacted)
 
           replacements = {
-              '.github/workflows/validate-static-app.yml': [
-                  (
-                      'const maximumInitialAssetBytes = 166000; // r3 measured amendment; gzip 37.5 KB and combined 260 KB remain unchanged.',
-                      'const maximumInitialAssetBytes = 165000;'
-                  )
-              ],
-              '.github/workflows/validate-final-polish.yml': [
-                  ('assert.ok(rawBytes <= 166000, `Initial raw bytes exceeded 166000 (${rawBytes}).`);',
-                   'assert.ok(rawBytes <= 165000, `Initial raw bytes exceeded 165000 (${rawBytes}).`);')
-              ],
-              'tests/browser/football-visual-audit.cjs': [
-                  ('await page.locator("#dashboard .backButton").click();',
-                   'await page.getByRole("button", { name: "BACK TO MAIN MENU", exact: true }).click();')
-              ],
-              'THIRD_PARTY_NOTICES.md': [
-                  ('- Local transformation: resized from 1616 × 2424 to 900 × 1350 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.',
-                   '- Local transformation: resized from 1616 × 2424 to 1067 × 1600 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.')
-              ],
-              'CHANGELOG.md': [
-                  ('- Applies a measured raw-code ceiling amendment from 165,000 to 166,000 bytes: accepted r2 measured 164,700 raw bytes; the pre-seal visual candidate measured 165,918 raw bytes, a 1,218-byte integration increase while all five photographs remain lazy.',
-                   '- Retains the existing 165,000-byte raw startup ceiling, 37,500-byte compressed ceiling and 260,000-byte combined first-party startup ceiling; r3 integration recovers headroom by removing non-runtime decorative banner bytes while all five photographs remain lazy.')
-              ]
+              '.github/workflows/validate-static-app.yml': (
+                  'const maximumInitialAssetBytes = 166000; // r3 measured amendment; gzip 37.5 KB and combined 260 KB remain unchanged.',
+                  'const maximumInitialAssetBytes = 165000;'
+              ),
+              '.github/workflows/validate-final-polish.yml': (
+                  'assert.ok(rawBytes <= 166000, `Initial raw bytes exceeded 166000 (${rawBytes}).`);',
+                  'assert.ok(rawBytes <= 165000, `Initial raw bytes exceeded 165000 (${rawBytes}).`);'
+              ),
+              'THIRD_PARTY_NOTICES.md': (
+                  '- Local transformation: resized from 1616 × 2424 to 900 × 1350 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.',
+                  '- Local transformation: resized from 1616 × 2424 to 1067 × 1600 and encoded as WebP. This local derivative remains available under CC BY-SA 2.0.'
+              ),
+              'CHANGELOG.md': (
+                  '- Applies a measured raw-code ceiling amendment from 165,000 to 166,000 bytes: accepted r2 measured 164,700 raw bytes; the pre-seal visual candidate measured 165,918 raw bytes, a 1,218-byte integration increase while all five photographs remain lazy.',
+                  '- Retains the existing 165,000-byte raw startup ceiling, 37,500-byte compressed ceiling and 260,000-byte combined first-party startup ceiling; r3 integration recovers headroom by removing non-runtime decorative banner bytes while all five photographs remain lazy.'
+              )
           }
-
-          for file_name, edits in replacements.items():
+          for file_name, (old, new) in replacements.items():
               path = Path(file_name)
               text = path.read_text()
-              for old, new in edits:
-                  if old not in text:
-                      raise SystemExit(f'Expected text not found in {file_name}: {old}')
-                  text = text.replace(old, new, 1)
-              path.write_text(text)
+              if old not in text:
+                  raise SystemExit(f'Expected text not found in {file_name}: {old}')
+              path.write_text(text.replace(old, new, 1))
+
+          audit = Path('tests/browser/football-visual-audit.cjs').read_text()
+          required_selectors = [
+              '#transferChallenge [data-smart-back]',
+              '#dashboard [data-smart-back]'
+          ]
+          if not all(selector in audit for selector in required_selectors):
+              raise SystemExit('Football visual audit does not contain the current unambiguous smart-back selectors.')
 
           workflow_path = Path('.github/workflows/validate-football-visuals.yml')
           workflow = workflow_path.read_text()
@@ -94,11 +87,8 @@ jobs:
               raise SystemExit('Football visual browser workflow marker not found.')
           workflow_path.write_text(workflow.replace(marker, artifact_step, 1))
 
-          # Prove the correction actually restores the pre-existing hard budget before committing.
-          import gzip
-          import re as regex
           html = Path('index.html').read_text()
-          refs = [m.group(1) for m in regex.finditer(r'(?:src|href)="((?:js|css|data)/[^"?#]+)(?:\?v=[^"#]+)?"', html)]
+          refs = [m.group(1) for m in re.finditer(r'(?:src|href)="((?:js|css|data)/[^"?#]+)(?:\?v=[^"#]+)?"', html)]
           raw = sum(Path(ref).stat().st_size for ref in refs)
           compressed = sum(len(gzip.compress(Path(ref).read_bytes(), compresslevel=9)) for ref in refs)
           print(f'Initial shell after quality correction: {raw} raw / {compressed} gzip bytes')
@@ -123,7 +113,6 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add js/storage.js js/showdown.js js/scoring.js js/screens.js js/menuExperience.js js/optionalModules.js js/app.js \
             .github/workflows/validate-static-app.yml .github/workflows/validate-final-polish.yml \
-            .github/workflows/validate-football-visuals.yml tests/browser/football-visual-audit.cjs \
-            THIRD_PARTY_NOTICES.md CHANGELOG.md
+            .github/workflows/validate-football-visuals.yml THIRD_PARTY_NOTICES.md CHANGELOG.md
           git commit -m 'Restore hard startup budget and visual QA evidence'
           git push origin HEAD:agent/licensed-football-visual-system-r1
