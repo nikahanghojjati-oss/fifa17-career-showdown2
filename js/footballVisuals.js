@@ -96,6 +96,10 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     panel.dataset.tone = plan.tone || "dark";
     panel.style.setProperty("--football-visual-position", asset.position || "50% 30%");
 
+    const mediaFrame = document.createElement("div");
+    mediaFrame.className = "footballVisualMediaFrame";
+    mediaFrame.setAttribute("aria-hidden", "true");
+
     const image = document.createElement("img");
     image.className = "footballVisualMedia";
     image.alt = asset.alt;
@@ -115,6 +119,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     if(image.complete && image.naturalWidth > 0){
         panel.classList.add("imageLoaded");
     }
+    mediaFrame.appendChild(image);
 
     const caption = document.createElement("figcaption");
     caption.className = "footballVisualCopy";
@@ -136,7 +141,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
 
     identity.append(kicker, name, context);
     caption.append(identity, createFootballVisualCredit(asset));
-    panel.append(image, caption);
+    panel.append(mediaFrame, caption);
     return panel;
 }
 
