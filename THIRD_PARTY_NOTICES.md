@@ -43,14 +43,14 @@ The following images are optional screen-level presentation assets. They are sto
 
 ### Marcus Rashford — Manchester United
 
-- Repository file: `assets/football/marcus-rashford-man-utd-2016.webp`
-- Source file: `Marcus Rashford.jpg`
-- Author: Egghead06
-- Source page: `https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg`
+- Repository file: `assets/football/marcus-rashford-september-2016-cropped.webp`
+- Source file: `Marcus Rashford September 2016 (cropped).jpg`
+- Author: Ardfern
+- Source page: `https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg`
 - License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
-- Source context: warming up for Manchester United vs West Ham United on 10 May 2016.
+- Source context: Manchester United vs Zorya Luhansk at Old Trafford on 29 September 2016.
 - Application use: Transfer Challenge presentation.
-- Local transformation: retained at 742 × 888 and encoded as WebP. This local derivative remains available under CC BY-SA 4.0.
+- Local transformation: the recovered 594 × 661 cropped source is retained at native dimensions and encoded as WebP. This local derivative remains available under CC BY-SA 4.0.
 
 ### Anthony Martial — Manchester United
 

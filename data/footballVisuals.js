@@ -18,16 +18,16 @@ const FOOTBALL_VISUALS = Object.freeze({
         position: "50% 18%"
     }),
     rashford: Object.freeze({
-        id: "marcus-rashford-man-utd-2016",
-        src: "assets/football/marcus-rashford-man-utd-2016.webp",
+        id: "marcus-rashford-man-utd-september-2016",
+        src: "assets/football/marcus-rashford-september-2016-cropped.webp",
         subject: "Marcus Rashford",
         context: "Manchester United · 2016",
-        alt: "Marcus Rashford warming up for Manchester United in 2016",
-        author: "Egghead06",
+        alt: "Marcus Rashford playing for Manchester United at Old Trafford in September 2016",
+        author: "Ardfern",
         license: "CC BY-SA 4.0",
-        source: "https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg",
+        source: "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg",
         licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
-        position: "50% 18%"
+        position: "50% 24%"
     }),
     martial: Object.freeze({
         id: "anthony-martial-man-utd-2015",
