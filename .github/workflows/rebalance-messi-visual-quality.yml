@@ -78,13 +78,11 @@ jobs:
 
           notices_path = Path('THIRD_PARTY_NOTICES.md')
           notices = notices_path.read_text()
-          old_lines = [
+          for old in (
               'Local transformation: retained at the native 1616 × 2424 source dimensions and encoded as WebP at quality 70 to avoid desktop Statistics hero upscaling.',
               'Local transformation: resized from 1616 × 2424 to 1067 × 1600, then encoded as WebP.'
-          ]
-          replacement = f'Local transformation: resized from 1616 × 2424 to 1440 × 2160 with Lanczos and encoded as WebP at quality {selected_quality}; this remains above the measured desktop Statistics hero physical width to prevent runtime upscaling.'
-          for old in old_lines:
-              notices = notices.replace(old, replacement)
+          ):
+              notices = notices.replace(old, f'Local transformation: resized from 1616 × 2424 to 1440 × 2160 with Lanczos and encoded as WebP at quality {selected_quality}; this remains above the measured desktop Statistics hero physical width to prevent runtime upscaling.')
           notices_path.write_text(notices)
           print(f'Messi presentation derivative: 1440x2160 q{selected_quality}, {len(output)} bytes; aggregate {total}')
           PY
