@@ -1,4 +1,4 @@
-name: Audit R4 References
+name: Synchronize R4 Runtime Identity
 
 on:
   push:
@@ -6,20 +6,69 @@ on:
       - agent/r4-visual-recovery-and-error-provenance
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  audit:
-    if: contains(github.event.head_commit.message, 'Run r4 reference audit')
+  synchronize:
+    if: github.actor != 'github-actions[bot]' && contains(github.event.head_commit.message, 'Synchronize active runtime identity to r4')
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
       - name: Check out branch
         uses: actions/checkout@v5
-      - name: List current r3 references
+        with:
+          ref: agent/r4-visual-recovery-and-error-provenance
+          fetch-depth: 0
+
+      - name: Advance active non-workflow references only
         shell: bash
         run: |
           set -euo pipefail
-          echo '=== 1.0.1-r3 REFERENCES ==='
-          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r3' . || true
-          echo '=== END ==='
+          python <<'PY'
+          from pathlib import Path
+
+          def replace(path, old, new, count=None):
+              p = Path(path)
+              text = p.read_text()
+              occurrences = text.count(old)
+              if occurrences == 0:
+                  raise SystemExit(f"Expected active r3 reference missing in {path}: {old!r}")
+              if count is not None and occurrences < count:
+                  raise SystemExit(f"Expected at least {count} occurrences in {path}, found {occurrences}")
+              p.write_text(text.replace(old, new, count if count is not None else -1))
+
+          replace('index.html', '1.0.1-r3', '1.0.1-r4')
+          replace('js/menuExperience.js', 'assets/marco-reus-2015-cc-by.webp?v=1.0.1-r3', 'assets/marco-reus-2015-cc-by.webp?v=1.0.1-r4')
+          replace('js/app.js', 'css/visual-fidelity-r2.css?v=1.0.1-r3', 'css/visual-fidelity-r2.css?v=1.0.1-r4')
+          replace('js/footballVisuals.js', 'return meta && meta.content ? meta.content.trim() : "1.0.1-r3";', 'return meta && meta.content ? meta.content.trim() : "1.0.1-r4";')
+          replace('js/optionalModules.js', 'return revision || "1.0.1-r3";', 'return revision || "1.0.1-r4";')
+          replace('README.md', '**Runtime asset revision:** `1.0.1-r3`', '**Runtime asset revision:** `1.0.1-r4`', 1)
+          replace('CHANGELOG.md', 'Runtime asset revision: **`1.0.1-r3`**', 'Runtime asset revision: **`1.0.1-r4`**', 1)
+
+          next_task = Path('NEXT_TASK.md')
+          text = next_task.read_text()
+          historical = 'The football-image presentation merged through PR #9 / runtime `1.0.1-r3` is explicitly rejected by the owner after real-device iPhone review.'
+          if historical not in text:
+              raise SystemExit('Historical r3 rejection line disappeared from NEXT_TASK.md')
+          text = text.replace('Runtime asset revision: `1.0.1-r3`', 'Runtime asset revision: `1.0.1-r4`', 1)
+          text = text.replace('revision `1.0.1-r3` or its intentional successor', 'revision `1.0.1-r4` or its intentional successor', 1)
+          next_task.write_text(text)
+
+          project = Path('PROJECT_STATE.md')
+          text = project.read_text()
+          text = text.replace('**Runtime asset revision:** `1.0.1-r3`', '**Runtime asset revision:** `1.0.1-r4`', 1)
+          marker = '`index.html` owns deployed runtime revision:\n\n`1.0.1-r3`'
+          if marker in text:
+              text = text.replace(marker, '`index.html` owns deployed runtime revision:\n\n`1.0.1-r4`', 1)
+          project.write_text(text)
+
+          print('Active non-workflow r4 references synchronized; historical audit references preserved.')
+          PY
+
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html js/menuExperience.js js/app.js js/footballVisuals.js js/optionalModules.js README.md CHANGELOG.md NEXT_TASK.md PROJECT_STATE.md
+          git commit -m 'Advance active runtime identity to 1.0.1-r4'
+          git pull --rebase origin agent/r4-visual-recovery-and-error-provenance
+          git push origin HEAD:agent/r4-visual-recovery-and-error-provenance
