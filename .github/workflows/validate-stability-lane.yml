@@ -37,7 +37,7 @@ jobs:
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
@@ -52,7 +52,7 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run two consecutive complete browser audits
+      - name: Run two consecutive complete browser and Home visual audits
         shell: bash
         run: |
           set -euo pipefail
@@ -60,6 +60,7 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for attempt in 1 2; do
+            CMS_AUDIT_RUN="ci-${attempt}" npm run test:home-visual
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:browser
           done
 
@@ -67,7 +68,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: chromium-stability
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 22
 
     steps:
       - name: Check out repository
@@ -87,6 +88,12 @@ jobs:
           CMS_DEPLOY_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
           CMS_DEPLOY_TIMEOUT_MS: 480000
         run: npm run verify:deployment
+
+      - name: Run Home visual audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: npm run test:home-visual
 
       - name: Run complete journey against deployed Pages
         env:
