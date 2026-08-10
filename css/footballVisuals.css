@@ -72,9 +72,15 @@
     background:#225e7e;
 }
 
-.footballVisualMedia{
+.footballVisualMediaFrame{
     position:absolute;
     z-index:1;
+    inset:0;
+    overflow:hidden;
+}
+
+.footballVisualMedia{
+    position:absolute;
     inset:0;
     width:100%;
     height:100%;
@@ -212,12 +218,14 @@
         linear-gradient(128deg,#2f8db8 0 34%,#246d91 34% 53%,#245b77 53% 100%);
 }
 
-/* The Statistics hero intentionally treats the portrait source as an athlete
-   panel on desktop/windowed layouts instead of forcing it across a 4–6:1 banner. */
-.footballVisualAnalytics .footballVisualMedia{
-    inset:0 auto 0 0;
+/* The portrait source is rendered inside a dedicated frame rather than
+   forcing the replaced image itself into a partial-width absolute box. */
+.footballVisualAnalytics .footballVisualMediaFrame{
+    right:auto;
     width:40%;
-    height:100%;
+}
+
+.footballVisualAnalytics .footballVisualMedia{
     object-position:50% 30%;
 }
 
@@ -257,8 +265,10 @@
     .footballVisualHeroSetup{
         min-height:400px;
     }
-    .footballVisualAnalytics .footballVisualMedia{
+    .footballVisualAnalytics .footballVisualMediaFrame{
         width:46%;
+    }
+    .footballVisualAnalytics .footballVisualMedia{
         object-position:50% 31%;
     }
     .footballVisualAnalytics .footballVisualCopy{
@@ -290,10 +300,11 @@
     .footballVisualTrophy{
         min-height:190px;
     }
-    .footballVisualAnalytics .footballVisualMedia{
-        inset:0;
+    .footballVisualAnalytics .footballVisualMediaFrame{
+        right:0;
         width:100%;
-        height:100%;
+    }
+    .footballVisualAnalytics .footballVisualMedia{
         object-position:50% 40%;
     }
     .footballVisualAnalytics::before{
