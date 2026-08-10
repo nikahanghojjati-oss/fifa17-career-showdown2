@@ -21,7 +21,7 @@ jobs:
           ref: agent/licensed-football-visual-system-r1
           fetch-depth: 0
 
-      - name: Advance current runtime/docs/contracts to r3 without rewriting history
+      - name: Advance current runtime docs and contracts to r3 without rewriting history
         shell: bash
         run: |
           set -euo pipefail
@@ -43,7 +43,7 @@ jobs:
                   raise SystemExit(f'No current r2 runtime reference found in {path}')
               p.write_text(text.replace('1.0.1-r2', '1.0.1-r3'))
 
-          # Current authority references only. Historical release evidence elsewhere remains untouched.
+          # Current authority references only. Historical release evidence remains untouched.
           replace('README.md', '**Runtime asset revision:** `1.0.1-r2`', '**Runtime asset revision:** `1.0.1-r3`', 1)
 
           project = Path('PROJECT_STATE.md')
@@ -75,9 +75,18 @@ jobs:
               change_text = change_text.replace(anchor, anchor + insertion, 1)
           changelog.write_text(change_text)
 
-          # Current release/gate assertions move to r3. Immutable RELEASE_V1.0.1.md remains r1 history.
+          # Parameterized stability contract uses ${appVersion}-rN instead of a literal full revision.
+          stability = Path('tests/contracts/stability-contracts.cjs')
+          stability_text = stability.read_text()
+          if '`${appVersion}-r2`' not in stability_text:
+              raise SystemExit('Parameterized r2 stability revision marker missing.')
+          stability_text = stability_text.replace('`${appVersion}-r2`', '`${appVersion}-r3`', 1)
+          stability_text = stability_text.replace('r2 cache identity', 'r3 cache identity')
+          stability_text = stability_text.replace('r2 runtime identity', 'r3 runtime identity')
+          stability.write_text(stability_text)
+
+          # Current literal release/gate assertions move to r3. RELEASE_V1.0.1.md remains r1 history.
           for path in [
-              'tests/contracts/stability-contracts.cjs',
               '.github/workflows/validate-static-app.yml',
               '.github/workflows/validate-menu-bootstrap.yml',
               '.github/workflows/validate-v1-visual-immersion.yml',
@@ -99,8 +108,9 @@ jobs:
               raise SystemExit('Static raw startup budget marker missing.')
           static.write_text(static_text.replace(
               'const maximumInitialAssetBytes = 165000;',
-              'const maximumInitialAssetBytes = 166000; // r3 measured amendment; gzip 37.5 KB and combined 260 KB remain unchanged.'
-          , 1))
+              'const maximumInitialAssetBytes = 166000; // r3 measured amendment; gzip 37.5 KB and combined 260 KB remain unchanged.',
+              1
+          ))
 
           polish = Path('.github/workflows/validate-final-polish.yml')
           polish_text = polish.read_text()
@@ -121,8 +131,8 @@ jobs:
         run: |
           set -euo pipefail
           echo '=== current r3 references ==='
-          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r3' index.html js README.md PROJECT_STATE.md NEXT_TASK.md CHANGELOG.md tests .github/workflows | head -120
-          echo '=== remaining r2 references for review ==='
+          grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r3' index.html js README.md PROJECT_STATE.md NEXT_TASK.md CHANGELOG.md tests .github/workflows | head -140
+          echo '=== remaining r2 references for historical review ==='
           grep -RIn --exclude-dir=.git --exclude='package-lock.json' '1\.0\.1-r2' . || true
           echo '=== startup ceilings ==='
           grep -n 'maximumInitialAssetBytes\|maximumCompressedInitialAssetBytes\|260000\|rawBytes <=' .github/workflows/validate-static-app.yml .github/workflows/validate-final-polish.yml
