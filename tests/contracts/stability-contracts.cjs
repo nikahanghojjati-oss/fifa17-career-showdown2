@@ -21,7 +21,7 @@ const footerVersion = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*Stable[\s\S
 assert.equal(packageJson.version, appVersion, "package.json and APP_VERSION must agree.");
 assert.equal(packageJson.devDependencies["@sparticuz/chromium"], "149.0.0", "The registry-distributed Chromium runtime must remain pinned.");
 assert.equal(footerVersion, appVersion, "The user-facing footer version is stale.");
-assert.equal(revision, `${appVersion}-r3`, "The owner-reproduced visual correction must use the r3 cache identity.");
+assert.equal(revision, `${appVersion}-r4`, "The owner-recovery visual/error correction must use the r4 cache identity.");
 assert.ok(projectState.includes(`**Application version:** v${appVersion} — Stable`), "PROJECT_STATE version is stale.");
 assert.ok(projectState.includes(`**Runtime asset revision:** \`${revision}\``), "PROJECT_STATE revision is stale.");
 assert.ok(nextTask.includes(`**Application version:** v${appVersion}`), "NEXT_TASK version is stale.");
@@ -30,6 +30,8 @@ assert.ok(readme.includes(`**Application version:** v${appVersion} — Stable`),
 assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no current release entry.");
 assert.ok(optional.includes("getApplicationAssetRevision()"), "Lazy assets must derive their revision from the shell.");
 assert.ok(app.includes(`css/visual-fidelity-r2.css?v=${revision}`), "The lazy visual fidelity stylesheet must use the shell cache identity.");
+assert.ok(app.includes("contentScriptData\\.init_ts"), "The reproduced injected content-script signature must remain explicitly filtered.");
+assert.ok(app.includes("isFirstPartyRuntimeError") && app.includes("suppressedExternalRuntimeErrors"), "Runtime provenance boundary contract is missing.");
 
 const localShellRefs = Array.from(html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?:\?v=([^"]+))?"/g));
 assert.ok(localShellRefs.length >= 9, "The initial shell asset set is unexpectedly incomplete.");
@@ -109,7 +111,9 @@ localStorage.setItem = originalSetItem;
 
 const workflow = read(".github/workflows/validate-stability-lane.yml");
 assert.ok(workflow.includes("npm run test:contracts"), "Stability workflow must run contract fixtures.");
+assert.ok(workflow.includes("npm run test:runtime-boundary"), "Stability workflow must reproduce runtime error provenance filtering.");
 assert.ok(workflow.includes("npm run test:home-visual"), "Stability workflow must run the desktop/mobile Home visual audit.");
+assert.ok(workflow.includes("npm run test:football-visual"), "Stability workflow must run crop-safe football visual QA.");
 assert.ok(workflow.includes("npm run test:browser"), "Stability workflow must run the real browser audit.");
 assert.ok(workflow.includes("npm run verify:deployment"), "Stability workflow must verify the deployed tree.");
 
@@ -121,5 +125,5 @@ for(const workflowPath of fs.readdirSync(path.join(root, ".github/workflows"))){
 }
 
 process.stdout.write(
-    `Stability contracts passed for v${appVersion} / ${revision}: release coherence, visual gate ownership, corrupt data, quota rollback, CI ownership, and Node 24 actions.\n`
+    `Stability contracts passed for v${appVersion} / ${revision}: release coherence, runtime provenance, crop-safe visual gate ownership, corrupt data, quota rollback, CI ownership, and Node 24 actions.\n`
 );
