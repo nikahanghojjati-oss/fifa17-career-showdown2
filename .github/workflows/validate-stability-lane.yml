@@ -52,7 +52,7 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run two consecutive complete browser and Home visual audits
+      - name: Run two consecutive complete browser, Home and licensed-photo audits
         shell: bash
         run: |
           set -euo pipefail
@@ -61,6 +61,7 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for attempt in 1 2; do
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:home-visual
+            CMS_AUDIT_RUN="ci-${attempt}" npm run test:football-visual
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:browser
           done
 
@@ -94,6 +95,12 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:home-visual
+
+      - name: Run licensed-photo audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: npm run test:football-visual
 
       - name: Run complete journey against deployed Pages
         env:
