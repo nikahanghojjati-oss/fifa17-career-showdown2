@@ -108,8 +108,8 @@ jobs:
           npm run serve:test > /tmp/cms-visual-server.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          CMS_AUDIT_RUN=licensed-visual-gate npm run test:football-visual
           CMS_AUDIT_RUN=licensed-visual-gate npm run test:home-visual
+          CMS_AUDIT_RUN=licensed-visual-gate npm run test:football-visual
       - name: Upload rendered visual audit screenshots
         if: always()
         uses: actions/upload-artifact@v7
