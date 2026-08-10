@@ -82,10 +82,10 @@ const FOOTBALL_VISUALS = Object.freeze({
         source: "https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg",
         licenseUrl: "https://creativecommons.org/licenses/by/3.0/br/deed.en",
         framing: Object.freeze({
-            mode: "trophy-cover",
-            fit: "cover",
-            position: "50% 42%",
-            maxCropFraction: 0.45,
+            mode: "subject-safe",
+            fit: "contain",
+            position: "50% 50%",
+            maxCropFraction: 0,
             rejectPortraitCover: true
         })
     })
@@ -95,7 +95,7 @@ const FOOTBALL_VISUAL_SCREEN_PLAN = Object.freeze({
     createShowdown: Object.freeze({ kind: "single", assets: ["james"], tone: "light", label: "BUILD THE NEXT RIVALRY", layout: "portrait-feature" }),
     transferChallenge: Object.freeze({ kind: "duo", assets: ["rashford", "martial"], tone: "dark", label: "TRANSFER WINDOW", layout: "duo-subject-safe" }),
     careerStatistics: Object.freeze({ kind: "single", assets: ["messi"], tone: "blue", label: "CAREER PERFORMANCE", layout: "analytics-subject-safe" }),
-    trophyRoom: Object.freeze({ kind: "single", assets: ["lahm"], tone: "dark", label: "CHAMPIONS ARE REMEMBERED", layout: "trophy-cover" })
+    trophyRoom: Object.freeze({ kind: "single", assets: ["lahm"], tone: "dark", label: "CHAMPIONS ARE REMEMBERED", layout: "trophy-subject-safe" })
 });
 
 window.FOOTBALL_VISUALS = FOOTBALL_VISUALS;
