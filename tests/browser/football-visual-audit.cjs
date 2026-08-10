@@ -181,9 +181,9 @@ async function runCase(runtime, config){
         assert.ok(footballRequests.some(url => url.includes("anthony-martial-man-utd-2015.webp")), `${config.name}: Martial visual was not requested.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-transfer-${config.name}-${runLabel}.png`), fullPage: true });
 
-        await page.locator("#transferChallenge .backButton").click();
+        await page.locator("#transferChallenge [data-smart-back]").click();
         await page.locator("#dashboard").waitFor({ state: "visible", timeout: 12000 });
-        await page.locator("#dashboard .backButton").click();
+        await page.locator("#dashboard [data-smart-back]").click();
         await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 12000 });
 
         await page.locator("#careerStatisticsButton").click();
