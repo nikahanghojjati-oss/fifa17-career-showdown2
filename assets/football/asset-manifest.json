@@ -57,31 +57,31 @@
       "output_sha256": "e42a4a84b98bad40e2fad9a49131d825b64a4c4c85d6528e63d535130d546097"
     },
     {
-      "id": "anthony-martial-man-utd-2015",
-      "source_file": "Anthony Martial 2015.jpg",
-      "output": "anthony-martial-man-utd-2015.webp",
+      "id": "anthony-martial-man-utd-2017",
+      "source_file": "Anthony Martial 27 September 2017.jpg",
+      "output": "anthony-martial-man-utd-2017.webp",
       "max_size": [
-        688,
-        560
+        1200,
+        800
       ],
-      "quality": 93,
+      "quality": 90,
       "author": "Dmitry Golubovich",
-      "license": "CC BY-SA 2.5",
-      "license_url": "https://creativecommons.org/licenses/by-sa/2.5/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg",
-      "context": "Anthony Martial of Manchester United vs CSKA Moscow, 21 October 2015.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Anthony%20Martial%202015.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Anthony_Martial_27_September_2017.jpg",
+      "context": "Anthony Martial playing for Manchester United against CSKA Moscow, 27 September 2017.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Anthony%20Martial%2027%20September%202017.jpg",
       "source_dimensions": [
-        688,
-        560
+        1500,
+        1000
       ],
-      "source_sha256": "4b63fb995622ebb14a9d65ec88f8a0b8dc37f0574ba51439a869a07ee630ff34",
+      "source_sha256": "8129fb391fb04a30e35aa2430cea6741c686bbd87a5282851cbccef090a7e8cc",
       "output_dimensions": [
-        688,
-        560
+        1200,
+        800
       ],
-      "output_bytes": 43716,
-      "output_sha256": "76275c064bff5e0e83a56a4b2251f8d959362ba655b08b87e5b2833cc77a3bf4"
+      "output_bytes": 148100,
+      "output_sha256": "88821ebd73f7251c0e110286e6d280c793ed83ce3ecaa385b02adb638ccbd180"
     },
     {
       "id": "lionel-messi-barcelona-2016",

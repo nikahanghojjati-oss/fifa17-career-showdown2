@@ -30,16 +30,16 @@ const FOOTBALL_VISUALS = Object.freeze({
         position: "50% 18%"
     }),
     martial: Object.freeze({
-        id: "anthony-martial-man-utd-2015",
-        src: "assets/football/anthony-martial-man-utd-2015.webp",
+        id: "anthony-martial-man-utd-2017",
+        src: "assets/football/anthony-martial-man-utd-2017.webp",
         subject: "Anthony Martial",
-        context: "Manchester United · 2015",
-        alt: "Anthony Martial playing for Manchester United in 2015",
+        context: "Manchester United · 2017",
+        alt: "Anthony Martial playing for Manchester United against CSKA Moscow in 2017",
         author: "Dmitry Golubovich",
-        license: "CC BY-SA 2.5",
-        source: "https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg",
-        licenseUrl: "https://creativecommons.org/licenses/by-sa/2.5/",
-        position: "50% 32%"
+        license: "CC BY-SA 3.0",
+        source: "https://commons.wikimedia.org/wiki/File:Anthony_Martial_27_September_2017.jpg",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+        position: "50% 28%"
     }),
     messi: Object.freeze({
         id: "lionel-messi-barcelona-2016",
