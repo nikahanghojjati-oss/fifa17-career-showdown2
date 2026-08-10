@@ -76,10 +76,12 @@ jobs:
 
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
           assert.ok(renderer.includes('loading = "lazy"') && renderer.includes('fetchPriority = "low"'), 'Screen photography must remain low-priority and lazy.');
-          assert.ok(renderer.includes('image.src = `${asset.src}?v=${getFootballVisualRevision()}`'), 'Licensed visual bytes must receive the shell cache identity.');
+          assert.ok(renderer.includes('image.dataset.src = `${asset.src}?v=${getFootballVisualRevision()}`'), 'Licensed visual URL must remain inert until the target screen is visible.');
+          assert.ok(renderer.includes('function activateFootballVisualScreen'), 'Licensed visual renderer must expose deterministic post-visibility activation.');
           assert.ok(loader.includes('ensureFootballVisualModule'), 'Licensed visual loader is missing.');
           assert.ok(loader.includes('css/footballVisuals.css') && loader.includes('data/footballVisuals.js') && loader.includes('js/footballVisuals.js'), 'Licensed visual runtime files are not owned by the lazy loader.');
-          assert.ok(screens.includes('prepareFootballVisualScreen(screenName)'), 'Central navigation must prepare screen photography after screen rendering.');
+          assert.ok(screens.includes('prepareFootballVisualScreen(screenName)'), 'Central navigation must prepare screen photography before entry.');
+          assert.ok(screens.includes('activateFootballVisualScreen(screenName)'), 'Central navigation must activate photography only after the target screen is visible.');
           assert.ok(!html.includes('assets/football/'), 'Licensed screen photography must not enter the eager HTML shell.');
           assert.ok(!html.includes('footballVisuals.css') && !html.includes('footballVisuals.js'), 'Licensed visual runtime must remain lazy, not eagerly linked from index.html.');
           console.log(`Licensed visual contracts passed: ${manifest.assets.length} images / ${total} lazy bytes.`);
