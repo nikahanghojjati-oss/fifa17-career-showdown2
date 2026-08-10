@@ -4,12 +4,26 @@ const STARTUP_SPLASH_MINIMUM_MS = 2700;
 const STARTUP_SPLASH_REDUCED_MS = 220;
 const STARTUP_SPLASH_EXIT_MS = 240;
 const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r2.css?v=1.0.1-r3";
+const EXTERNAL_RUNTIME_SOURCE_PROTOCOLS = new Set([
+    "chrome-extension:",
+    "moz-extension:",
+    "safari-web-extension:",
+    "webkit-masked-url:"
+]);
+const EXTERNAL_RUNTIME_NOISE_PATTERNS = [
+    /contentScriptData\.init_ts/i,
+    /chrome-extension:\/\//i,
+    /moz-extension:\/\//i,
+    /safari-web-extension:\/\//i,
+    /webkit-masked-url:\/\//i
+];
 let applicationStarted = false;
 let runtimeNoticeTimer = null;
 let runtimeBoundaryInstalled = false;
 let performanceLifecycleInstalled = false;
 let runtimeNoticeElement = null;
 let runtimeNoticeTextElement = null;
+let suppressedExternalRuntimeErrors = 0;
 
 function installVisualFidelityStyles(){
     if(document.querySelector('link[data-visual-fidelity="reus-r2"]')){
@@ -107,6 +121,74 @@ function reportApplicationError(context, error){
 
 window.reportApplicationError = reportApplicationError;
 
+function getRuntimeErrorText(value){
+    return typeof value === "string" ? value : "";
+}
+
+function getRuntimeErrorStack(error){
+    return error && typeof error.stack === "string" ? error.stack : "";
+}
+
+function getRuntimeSourceUrls(filename, stack){
+    const sources = [];
+    if(filename){ sources.push(filename); }
+
+    const matches = getRuntimeErrorText(stack).match(/(?:https?:\/\/|chrome-extension:\/\/|moz-extension:\/\/|safari-web-extension:\/\/|webkit-masked-url:\/\/)[^\s)]+/gi) || [];
+    matches.forEach(source => sources.push(source));
+    return [...new Set(sources)];
+}
+
+function parseRuntimeSourceUrl(source){
+    try{
+        return new URL(source, window.location.href);
+    }catch(error){
+        return null;
+    }
+}
+
+function isExplicitExternalRuntimeNoise(message, filename, stack){
+    const combined = `${getRuntimeErrorText(message)}\n${getRuntimeErrorText(filename)}\n${getRuntimeErrorText(stack)}`;
+    return EXTERNAL_RUNTIME_NOISE_PATTERNS.some(pattern => pattern.test(combined));
+}
+
+function isFirstPartyRuntimeError(message, filename, stack){
+    if(isExplicitExternalRuntimeNoise(message, filename, stack)){
+        return false;
+    }
+
+    const sources = getRuntimeSourceUrls(filename, stack);
+    if(!sources.length){
+        return false;
+    }
+
+    return sources.some(source => {
+        const parsed = parseRuntimeSourceUrl(source);
+        if(!parsed || EXTERNAL_RUNTIME_SOURCE_PROTOCOLS.has(parsed.protocol)){
+            return false;
+        }
+        return parsed.origin === window.location.origin;
+    });
+}
+
+function suppressExternalRuntimeError(kind, message, filename, stack){
+    suppressedExternalRuntimeErrors += 1;
+    console.info(`[Career Mode Showdown] Suppressed non-app ${kind}.`, {
+        message: getRuntimeErrorText(message),
+        filename: getRuntimeErrorText(filename),
+        stack: getRuntimeErrorText(stack)
+    });
+}
+
+function getRuntimeErrorBoundaryDiagnostics(){
+    return {
+        installed: runtimeBoundaryInstalled,
+        suppressedExternalRuntimeErrors
+    };
+}
+
+window.getRuntimeErrorBoundaryDiagnostics = getRuntimeErrorBoundaryDiagnostics;
+window.isFirstPartyRuntimeError = isFirstPartyRuntimeError;
+
 function installRuntimeErrorBoundary(){
     if(runtimeBoundaryInstalled){
         return;
@@ -115,14 +197,34 @@ function installRuntimeErrorBoundary(){
     runtimeBoundaryInstalled = true;
 
     window.addEventListener("error", event => {
-        if(!event || !event.error){
+        if(!event){
             return;
         }
-        reportApplicationError("A runtime error was detected", event.error);
+
+        const error = event.error;
+        const message = getRuntimeErrorText(event.message || (error && error.message));
+        const filename = getRuntimeErrorText(event.filename);
+        const stack = getRuntimeErrorStack(error);
+
+        if(!isFirstPartyRuntimeError(message, filename, stack)){
+            suppressExternalRuntimeError("runtime error", message, filename, stack);
+            return;
+        }
+
+        reportApplicationError("A runtime error was detected", error || new Error(message || "Unknown runtime error"));
     });
 
     window.addEventListener("unhandledrejection", event => {
-        reportApplicationError("An unexpected application error was detected", event.reason);
+        const reason = event ? event.reason : null;
+        const message = reason && reason.message ? String(reason.message) : String(reason || "Unknown promise rejection");
+        const stack = getRuntimeErrorStack(reason);
+
+        if(!isFirstPartyRuntimeError(message, "", stack)){
+            suppressExternalRuntimeError("promise rejection", message, "", stack);
+            return;
+        }
+
+        reportApplicationError("An unexpected application error was detected", reason);
     });
 }
 
