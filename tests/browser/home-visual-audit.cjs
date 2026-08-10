@@ -13,7 +13,8 @@ const cases = [
         name: "windowed-near-breakpoint-dpr1",
         viewport: { width: 940, height: 700 },
         deviceScaleFactor: 1,
-        mobileReference: false
+        mobileReference: false,
+        minimumPhysicalWidth: 360
     },
     {
         name: "windowed-desktop-dpr1",
@@ -160,6 +161,14 @@ async function runCase(browser, config){
             );
         }
 
+        const physicalWidth = result.image.renderedWidth * result.dpr;
+        if(config.minimumPhysicalWidth){
+            assert.ok(
+                physicalWidth >= config.minimumPhysicalWidth,
+                `${config.name}: Reus physical raster width ${physicalWidth.toFixed(1)}px is below the ${config.minimumPhysicalWidth}px windowed-desktop quality floor.`
+            );
+        }
+
         assert.deepEqual(pageErrors, [], `${config.name}: page errors detected.`);
         assert.deepEqual(consoleErrors, [], `${config.name}: unexpected console errors detected.`);
         assert.deepEqual(localFailures, [], `${config.name}: failed first-party requests detected.`);
@@ -168,8 +177,8 @@ async function runCase(browser, config){
         await page.screenshot({ path: screenshotPath, fullPage: true });
         process.stdout.write(
             `PASS ${config.name} :: ${result.viewport.width}x${result.viewport.height} @${result.dpr}x :: ` +
-            `Reus ${Math.round(result.image.renderedWidth)}x${Math.round(result.image.renderedHeight)} :: ` +
-            `filter=${result.image.filter} :: crop=${result.image.objectPosition}\n`
+            `Reus ${Math.round(result.image.renderedWidth)}x${Math.round(result.image.renderedHeight)} CSS / ` +
+            `${Math.round(physicalWidth)}px physical width :: filter=${result.image.filter} :: crop=${result.image.objectPosition}\n`
         );
     }finally{
         await context.close();
