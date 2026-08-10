@@ -1,0 +1,141 @@
+{
+  "generated_by": "import-licensed-football-visuals.yml",
+  "transformation": "EXIF orientation normalized, resized down only with Lanczos, converted to WebP; no generative alteration.",
+  "assets": [
+    {
+      "id": "james-rodriguez-real-madrid-2016",
+      "source_file": "James Rodríguez in September 2016 - 02.jpg",
+      "output": "james-rodriguez-real-madrid-2016.webp",
+      "max_size": [
+        863,
+        1080
+      ],
+      "quality": 91,
+      "author": "Real Madrid",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_02.jpg",
+      "context": "James Rodríguez after Borussia Dortmund vs Real Madrid, 28 September 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%20September%202016%20-%2002.jpg",
+      "source_dimensions": [
+        863,
+        1080
+      ],
+      "source_sha256": "bd29eb5b69468bf7a542f10f3a5c3aebc5d7b5d66beaacc2980c3b987c0b659c",
+      "output_dimensions": [
+        863,
+        1080
+      ],
+      "output_bytes": 79232,
+      "output_sha256": "ae2cbe38b672d6d44d326d2bb6ad387675b653076d5b86f2d43ceb7c82340094"
+    },
+    {
+      "id": "marcus-rashford-man-utd-2016",
+      "source_file": "Marcus Rashford.jpg",
+      "output": "marcus-rashford-man-utd-2016.webp",
+      "max_size": [
+        742,
+        888
+      ],
+      "quality": 92,
+      "author": "Egghead06",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg",
+      "context": "Marcus Rashford warming up for Manchester United vs West Ham United, 10 May 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marcus%20Rashford.jpg",
+      "source_dimensions": [
+        742,
+        888
+      ],
+      "source_sha256": "1b77d38a0720e56a9a22f987de1d6c6691509c7fca84bb42b342edd3a8b803fb",
+      "output_dimensions": [
+        742,
+        888
+      ],
+      "output_bytes": 174602,
+      "output_sha256": "26eb106dc143b7a59265bd88b42d6aa93d398ae9227e2f436d299b0d958a5312"
+    },
+    {
+      "id": "anthony-martial-man-utd-2015",
+      "source_file": "Anthony Martial 2015.jpg",
+      "output": "anthony-martial-man-utd-2015.webp",
+      "max_size": [
+        688,
+        560
+      ],
+      "quality": 93,
+      "author": "Dmitry Golubovich",
+      "license": "CC BY-SA 2.5",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.5/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg",
+      "context": "Anthony Martial of Manchester United vs CSKA Moscow, 21 October 2015.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Anthony%20Martial%202015.jpg",
+      "source_dimensions": [
+        688,
+        560
+      ],
+      "source_sha256": "4b63fb995622ebb14a9d65ec88f8a0b8dc37f0574ba51439a869a07ee630ff34",
+      "output_dimensions": [
+        688,
+        560
+      ],
+      "output_bytes": 43716,
+      "output_sha256": "76275c064bff5e0e83a56a4b2251f8d959362ba655b08b87e5b2833cc77a3bf4"
+    },
+    {
+      "id": "lionel-messi-barcelona-2016",
+      "source_file": "Messi & Suarez.jpg",
+      "output": "lionel-messi-barcelona-2016.webp",
+      "max_size": [
+        900,
+        1350
+      ],
+      "quality": 84,
+      "author": "cchana",
+      "license": "CC BY-SA 2.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg",
+      "context": "Lionel Messi and Luis Suárez for FC Barcelona, 6 August 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Messi%20%26%20Suarez.jpg",
+      "source_dimensions": [
+        1616,
+        2424
+      ],
+      "source_sha256": "094a9598b85a80e0de8d893f1282d16fe2d0d8b639f5a85ccafcb45a3de23aa9",
+      "output_dimensions": [
+        900,
+        1350
+      ],
+      "output_bytes": 262128,
+      "output_sha256": "0a50f542a92e3bf2698b32a9b35a677ba0e74e5dc292dafec064cae2b5dd2b4d"
+    },
+    {
+      "id": "philipp-lahm-world-cup-2014",
+      "source_file": "Philipp Lahm lifts the 2014 FIFA World Cup.jpg",
+      "output": "philipp-lahm-world-cup-2014.webp",
+      "max_size": [
+        1600,
+        829
+      ],
+      "quality": 88,
+      "author": "Agência Brasil",
+      "license": "CC BY 3.0 BR",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/br/deed.en",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg",
+      "context": "Germany captain Philipp Lahm lifts the 2014 FIFA World Cup, 13 July 2014.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Philipp%20Lahm%20lifts%20the%202014%20FIFA%20World%20Cup.jpg",
+      "source_dimensions": [
+        4256,
+        2204
+      ],
+      "source_sha256": "3167b6f09fc6d9b335edece955dc8acd62c8553cdab6b599542a2c2df5d3f5ef",
+      "output_dimensions": [
+        1600,
+        829
+      ],
+      "output_bytes": 311072,
+      "output_sha256": "bcc437e75608124f54241fd17607820ca13fcb70d2fab7f9dc107facb964b8ac"
+    }
+  ]
+}
