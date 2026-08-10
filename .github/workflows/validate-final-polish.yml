@@ -260,7 +260,7 @@ jobs:
           assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'), 'Device reduced motion guard is missing.');
 
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
-          assert.strictEqual(revision, '1.0.1-r3', 'The v1.0.1 stability patch must use its fresh cache revision.');
+          assert.strictEqual(revision, '1.0.1-r4', 'The r4 owner-recovery patch must use its fresh cache revision.');
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
           assert.strictEqual(refs.filter(ref => ref.path.startsWith('js/')).length, 7, 'Initial shell must remain seven scripts.');
