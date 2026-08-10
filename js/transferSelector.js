@@ -1,5 +1,5 @@
 /* =====================================================
-   Career Mode Showdown v1.0.0
+   Career Mode Showdown v1.0.1
    Lightweight accessible Transfer Challenge comboboxes
 ===================================================== */
 

@@ -1,5 +1,5 @@
 /* =====================================================
-   Career Mode Showdown v1.0.0
+   Career Mode Showdown v1.0.1
    Workstream 3 — lightweight application Settings
 ===================================================== */
 
@@ -15,7 +15,7 @@ function getSettingsAssetRevision(){
 }
 
 function getSettingsApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.0.0";
+    return typeof APP_VERSION === "string" ? APP_VERSION : "1.0.1";
 }
 
 function getSettingsActiveShowdown(){

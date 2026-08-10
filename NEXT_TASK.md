@@ -1,91 +1,111 @@
 # NEXT TASK
 
-## Current baseline: v1.0.0 Stable
+## Current baseline: v1.0.1 Stable
 
-The owner accepted the deployed r13 visual-immersion build on August 9, 2026. Version 1 therefore seals that exact behavior and presentation without another feature workstream.
+Version 1.0.0 sealed the accepted r13 product and visual baseline on August 9, 2026. v1.0.1 is the bounded Stability Lane hardening patch derived from source-specific review of maintainability, accessibility, edge-case, and future-scaling risk.
 
-**Application version:** v1.0.0
+**Application version:** v1.0.1
 
-**Runtime asset revision:** `1.0.0-r1`
+**Runtime asset revision:** `1.0.1-r1`
 
-**Accepted behavior baseline:** r13 merge `1bae3e1fd0f5ab213846629d328024b9be2d244c`
+**Stable rollback:** v1.0.0 tag `6a4977d0f079cf9ea811ae86a9fb6b4026a418dc`
 
-**Product status:** Version 1 Stable
+**Product status:** Version 1 Stable, stability lane
 
-**Owner acceptance:** complete
+**Current gate:** two-run candidate, PR, post-merge, Pages parity, deployed-browser, and owner soak
 
-**Next development lane:** bounded v1.0.x stability work; no post-v1 feature is active
+**Next feature milestone:** staged v1.1.0 Data Safety and Recovery only after this lane exits
 
 ---
 
 # Stable Version 1 contract
 
-Preserve all accepted r13 presentation and r12 functional corrections:
+Preserve all accepted behavior:
 
-- responsive 1510 px metallic Home shell with dedicated Chromebook, tablet and mobile treatments;
-- cosmetic, silent and finite startup using the locally bundled CC BY 2.0 Marco Reus portrait;
+- responsive metallic Home and finite Marco Reus startup;
 - exactly two local managers, one browser/device and one active Showdown;
 - same selected league and two different permanent clubs assigned once with no reroll;
-- 1, 3, 5 or 10 Seasons with manual result entry and local browser persistence;
 - explicit League Selected → Continue → League Confirmed checkpoint;
-- Transfer Window → Guess Entry → Signing Entry → Verdicts sequence;
+- Transfer Window → Guess Entry → Signing Entry → Verdicts;
 - canonical maximum-11 scoring and 0–0-only tiebreak;
-- memory-only Season Review with Edit value recovery and one confirmation write;
+- memory-only Season Review with Edit recovery and one confirmation write;
 - centralized Smart Back, save-before-navigation and critical-write rollback;
-- derived analytics, completed Legacy history, Trophy Room, Rule Book and Settings;
-- exactly seven user-initiated Home media choices with no iframe before Play;
-- reduced-motion support, keyboard focus, readable contrast and responsive containment.
+- derived analytics, Legacy, Trophy Room, Rule Book and Settings;
+- seven user-initiated Home media choices with no iframe before Play;
+- reduced motion, keyboard focus, contrast and responsive containment.
 
-Do not change gameplay rules, storage schema, route authority, accepted visual design or licensed asset treatment as part of the release seal.
-
----
-
-# v1.0.0 release seal
-
-The seal changes identity and release records only:
-
-1. user-facing application version is `v1.0.0 · Stable`;
-2. every eager and lazy runtime request resolves through `1.0.0-r1`;
-3. authority documents describe r13 as accepted rather than pending;
-4. `RELEASE_V1.0.0.md` records features, limitations, storage keys, browser evidence, recovery advice and external-media behavior;
-5. the exact passing merge commit is tagged `v1.0.0` and used for the GitHub release;
-6. GitHub Pages must serve the tagged runtime tree byte for byte.
-
-No post-v1 feature belongs in this seal. Specifically excluded:
-
-- export/import and portable backup;
-- PWA installation or service-worker caching;
-- multiple profiles or save slots;
-- additional leagues, achievements, analytics or media;
-- accounts, cloud storage, cross-device synchronization or QR pairing;
-- online multiplayer, community sharing or rankings;
-- another presentation redesign.
+No stability task may change those contracts unless a reproduced release defect requires the smallest compatible correction.
 
 ---
 
-# Required verification
+# v1.0.1 implementation
 
-The release is valid only when all of the following pass on the immutable candidate:
+## Repository-owned stability evidence
 
-- all 22 executable blocks across the nine GitHub Actions workflows;
-- full DOM journey from startup through a completed Showdown and optional destinations;
-- the established 98-checkpoint real-Chromium journey and 23 WCAG scans;
-- 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 viewport checks;
-- normal and reduced-motion startup behavior;
-- active-save, completed-save, reload and Review → Edit recovery;
-- storage failure injection and critical-transition rollback;
-- no JavaScript runtime failure, duplicate ID, missing local asset or horizontal viewport escape;
-- PR checks on the exact candidate and post-merge checks on `main`;
-- successful GitHub Pages deployment of the merge commit;
-- public runtime files matching the tagged source byte for byte;
-- the r12 merge remaining available as the pre-r13 rollback point.
+The release adds:
 
-Machine checks do not authorize feature changes. A failing gate blocks the release and must be diagnosed against the accepted r13 baseline.
+1. pinned Playwright, axe-core and Chromium tooling;
+2. a complete browser audit under `tests/browser/stability-audit.cjs`;
+3. 1366 × 768 Chromebook and 390 × 844 reduced-motion touch/mobile journeys;
+4. 36 accessibility scans per run across critical and optional states;
+5. corrupt active-save, Legacy and preference fixtures;
+6. quota rejection and critical-write rollback verification;
+7. rapid Start, rapid Transfer draft and double Season confirmation protection;
+8. reload, Smart Back and browser Back/Forward leave-and-return recovery;
+9. exact visible-overflow and duplicate-ID checks;
+10. two consecutive complete CI runs;
+11. post-main public revision polling, byte parity and a deployed complete journey;
+12. Node 24 generations of checkout and setup-node actions.
+
+## Reproduced product fix
+
+The new mobile Season Review scan found the unawarded achievement labels at 3.51:1 contrast. Their text color is now `#52616b` on `#edf1f2`, measured at 5.63:1. This is the only intended product-rendering change.
+
+## Explicit exclusions
+
+- no gameplay, scoring or state-machine changes;
+- no storage schema or key change;
+- no export/import, PWA, profiles or save slots;
+- no cloud, accounts, pairing, online play or community feature;
+- no new league, achievement, statistic or media item;
+- no redesign, framework migration or module consolidation.
 
 ---
 
-# Next lane after the seal
+# Required release verification
 
-The next allowed work is the short v1.0.x Stability Lane described in the approved post-v1 roadmap. It is limited to browser CI, deployed-site smoke checks, corrupt-storage and failure fixtures, documentation-freshness protection, and reproducible release defects.
+The immutable candidate is valid only if all of the following pass:
 
-Version 1.1 data-safety work begins only after that lane exits cleanly. Cloud, accounts and two-device play remain much later milestones.
+- all ten GitHub Actions workflows;
+- all legacy deterministic product contracts;
+- v1.0.1 release/cache/document coherence;
+- two consecutive 70-checkpoint / 36-scan local Chromium runs;
+- normal-motion Chromebook and reduced-motion touch/mobile journeys;
+- corrupt storage and preference fallbacks without silent byte deletion;
+- quota failure with blocked navigation and rollback;
+- rapid input, reload, Smart Back, browser leave/return and double-submit fixtures;
+- no unexpected page error, console error, duplicate ID, failed local asset or visible horizontal escape;
+- PR checks on the exact candidate SHA;
+- post-merge checks on the exact main SHA;
+- successful GitHub Pages deployment of that main SHA;
+- all runtime files matching merged source byte for byte at revision `1.0.1-r1`;
+- the complete browser journey passing against the public URL;
+- v1.0.0 remaining available as rollback.
+
+A failure blocks release. Diagnose it as application defect, test defect, CI infrastructure defect, or deployment mismatch before changing source.
+
+---
+
+# Stability lane exit and next milestone
+
+If v1.0.1 clears every release gate and owner soak produces no reproducible defect, the bounded v1.0.x Stability Lane is complete.
+
+v1.0.2 is not scheduled. It may be created only for a reproduced stability defect and may not become another polish loop.
+
+The next feature milestone is v1.1.0 Data Safety and Recovery, split into three bounded candidates in `STABILITY_PLAN_V1.0.X.md`:
+
+1. versioned backup envelope and non-mutating export;
+2. isolated import analysis, validation and migration preview;
+3. atomic restore choices, pre-import snapshot and full rollback.
+
+Profiles, PWA, cloud, accounts and two-device play remain blocked by their existing roadmap dependencies.

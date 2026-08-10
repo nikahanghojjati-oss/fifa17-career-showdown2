@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 24
 
@@ -39,9 +39,9 @@ jobs:
           const portrait = fs.readFileSync(portraitPath);
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 
-          assert.strictEqual(revision, '1.0.0-r1', 'V1 stable must use the first stable cache identity.');
-          assert.ok(html.includes('v1.0.0 · Stable'), 'The user-facing stable release identity is missing.');
-          assert.ok(app.includes('const APP_VERSION = "1.0.0"'), 'The application version is not sealed at v1.0.0.');
+          assert.strictEqual(revision, '1.0.1-r1', 'The accepted visual baseline must use the v1.0.1 cache identity.');
+          assert.ok(html.includes('v1.0.1 · Stable'), 'The user-facing stable release identity is missing.');
+          assert.ok(app.includes('const APP_VERSION = "1.0.1"'), 'The application version is not sealed at v1.0.1.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
           assert.ok(html.includes(`src="${portraitPath}?v=${revision}"`), 'Startup portrait is missing or stale.');
           assert.ok(menu.includes(`thumbnail: "${portraitPath}?v=${revision}"`), 'Home must reuse the same portrait cache entry.');

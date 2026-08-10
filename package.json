@@ -1,0 +1,22 @@
+{
+  "name": "career-mode-showdown",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
+  "scripts": {
+    "check": "npm run test:contracts",
+    "serve:test": "node tests/support/static-server.cjs",
+    "test:contracts": "node tests/contracts/stability-contracts.cjs",
+    "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
+    "test:browser": "node tests/browser/stability-audit.cjs",
+    "verify:deployment": "node scripts/verify-deployment.mjs"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "149.0.0",
+    "axe-core": "4.13.0",
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

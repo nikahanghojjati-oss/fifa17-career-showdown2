@@ -1,5 +1,5 @@
 /* =====================================================
-   Career Mode Showdown v1.0.0
+   Career Mode Showdown v1.0.1
    Workstream 5 — Season pre-commit review presentation
 ===================================================== */
 
@@ -38,7 +38,7 @@
     font:800 9px/1.1 var(--f17-display);letter-spacing:.45px;text-transform:uppercase;
 }
 .seasonReviewAchievements .isEarned{color:#21372a;background:#dcecdf;border-left:4px solid #68a978;}
-.seasonReviewAchievements .isNotEarned{color:#74818a;background:#edf1f2;border-left:4px solid #c5ced2;}
+.seasonReviewAchievements .isNotEarned{color:#52616b;background:#edf1f2;border-left:4px solid #c5ced2;}
 .seasonReviewScoreHeading{
     margin:8px 0 5px;color:var(--f17-blue-deep);
     font:900 11px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase;

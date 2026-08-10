@@ -1,6 +1,6 @@
 /* =====================================================
    Career Mode Showdown
-   v1.0.0
+   v1.0.1
    Original Deterministic Club Crest / Identity System
 
    Club-associated colours are used only as factual visual cues.

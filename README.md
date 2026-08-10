@@ -2,11 +2,11 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v1.0.0 — Stable
-**Runtime asset revision:** `1.0.0-r1`
-**Current phase:** complete one-device local Version 1 release
+**Application version:** v1.0.1 — Stable
+**Runtime asset revision:** `1.0.1-r1`
+**Current phase:** bounded Version 1 stability hardening
 **Accepted foundation:** deployed r13 visual immersion plus r12 release stabilization
-**Next lane:** bounded v1.0.x stability work before any feature expansion
+**Next lane:** v1.0.x soak exit, then staged v1.1.0 data safety
 
 ## Development entry point
 
@@ -18,12 +18,26 @@ Read in this order:
 2. `ROADMAP_AMENDMENTS.md` — later owner-approved requirements.
 3. `NEXT_TASK.md` — current browser gate and exact next workstream.
 4. `CHANGELOG.md` — implementation/stabilization history.
-5. `RELEASE_V1.0.0.md` — stable features, limits, storage/recovery and browser evidence.
-6. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
-7. current source — highest implementation authority.
-8. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
+5. `STABILITY_PLAN_V1.0.X.md` — external-review disposition, finite patch scope and refined v1.1 split.
+6. `RELEASE_V1.0.1.md` — current patch changes, gates, exclusions and rollback.
+7. `RELEASE_V1.0.0.md` — original stable features, limits, storage/recovery and browser evidence.
+8. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
+9. current source — highest implementation authority.
+10. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
 The original release path **v0.95 → v1.0** is complete.
+
+---
+
+## v1.0.1 — Stability hardening
+
+v1.0.1 preserves the exact accepted Version 1 competition and presentation while making the broadest release evidence reproducible inside the repository.
+
+The new Stability Lane workflow owns real Chromium and axe coverage, runs the complete Chromebook/mobile journey twice, exercises corrupt storage, quota rejection, rapid input, reload, browser leave/return and double-submit paths, then verifies every deployed runtime byte and repeats the journey on the public Pages URL after a main update.
+
+The expanded mobile Season Review scan reproduced one serious contrast issue in the four unawarded achievement labels. Their text token changes from `#74818a` to `#52616b`, raising measured contrast on the existing light background from 3.51:1 to 5.63:1. No gameplay, route, storage schema, accepted visual composition or persistent key changes.
+
+See `STABILITY_PLAN_V1.0.X.md` for the review disposition and finite lane exit, and `RELEASE_V1.0.1.md` for the patch record.
 
 ---
 
@@ -193,6 +207,6 @@ The owner accepted the deployed r13 visual baseline. Automated checks and deploy
 
 ## Stable baseline and next lane
 
-Version 1 is the accepted one-device local baseline. The v1.0.x Stability Lane may add browser CI, public-deployment smoke checks, failure fixtures and reproducible fixes, but it does not add product features or change the stable competition contract.
+Version 1 is the accepted one-device local baseline. v1.0.1 implements the bounded browser CI, public-deployment smoke, failure fixtures and one reproduced accessibility fix without changing the competition contract.
 
-Version 1.1 data-safety and backup work begins only after the bounded stability lane exits cleanly. No replacement v0.17/v0.18 roadmap is planned.
+Version 1.1 data-safety and backup work begins only after the v1.0.1 release and soak gates exit cleanly. v1.0.2 remains defect-only. No replacement v0.17/v0.18 roadmap is planned.
