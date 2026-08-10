@@ -51,7 +51,7 @@ async function waitForVisual(page, screenName, expectedCount = 1){
                 return image
                     && image.complete
                     && image.naturalWidth > 0
-                    && Number.parseFloat(getComputedStyle(image).opacity) >= .995;
+                    && Number.parseFloat(getComputedStyle(image).opacity) >= .9999;
             });
         },
         { selector, expectedCount },
@@ -102,7 +102,7 @@ function assertRenderedVisual(result, screenName){
         assert.ok(panel.naturalHeight >= 560, `${screenName}/${panel.asset}: source derivative is unexpectedly short.`);
         assert.ok(panel.renderedWidth >= 180, `${screenName}/${panel.asset}: rendered panel is too narrow.`);
         assert.ok(panel.renderedHeight >= 120, `${screenName}/${panel.asset}: rendered panel is too short.`);
-        assert.equal(panel.opacity, "1", `${screenName}/${panel.asset}: photography must render at full opacity.`);
+        assert.ok(Number.parseFloat(panel.opacity) >= .9999, `${screenName}/${panel.asset}: photography did not finish at full opacity.`);
         assert.equal(panel.objectFit, "cover", `${screenName}/${panel.asset}: object-fit must remain cover.`);
         assert.ok(panel.imageRendering === "auto" || panel.imageRendering === "-webkit-optimize-contrast", `${screenName}/${panel.asset}: browser-native resampling is not active.`);
         assert.equal(panel.mixBlendMode, "normal", `${screenName}/${panel.asset}: blend mode must remain normal.`);
