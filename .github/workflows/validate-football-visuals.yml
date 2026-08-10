@@ -46,7 +46,7 @@ jobs:
           const expected = new Set([
             'james-rodriguez-real-madrid-2016.webp',
             'marcus-rashford-man-utd-2016.webp',
-            'anthony-martial-man-utd-2015.webp',
+            'anthony-martial-man-utd-2017.webp',
             'lionel-messi-barcelona-2016.webp',
             'philipp-lahm-world-cup-2014.webp'
           ]);
@@ -68,12 +68,17 @@ jobs:
           assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
 
           const messi = manifest.assets.find(asset => asset.id === 'lionel-messi-barcelona-2016');
-          assert.ok(messi.output_dimensions[0] >= 1000, 'Messi derivative must preserve enough width for the desktop Statistics hero.');
+          assert.deepStrictEqual(messi.output_dimensions, [1440,2160], 'Messi derivative must retain 1440px width for the desktop Statistics hero.');
           const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016');
           assert.ok(rashford, '2016 Manchester United Rashford visual is missing.');
           assert.deepStrictEqual(rashford.source_dimensions, [742,888], 'Rashford source dimensions changed unexpectedly.');
           assert.strictEqual(rashford.author, 'Egghead06', 'Rashford attribution changed unexpectedly.');
           assert.ok(rashford.source_page.endsWith('File:Marcus_Rashford.jpg'), 'Rashford source file changed unexpectedly.');
+          const martial = manifest.assets.find(asset => asset.id === 'anthony-martial-man-utd-2017');
+          assert.ok(martial, 'Higher-resolution Manchester United Martial visual is missing.');
+          assert.deepStrictEqual(martial.output_dimensions, [1200,800], 'Martial derivative must retain enough resolution for the DPR2 Transfer presentation.');
+          assert.strictEqual(martial.author, 'Dmitry Golubovich', 'Martial attribution changed unexpectedly.');
+          assert.ok(martial.source_page.endsWith('File:Anthony_Martial_27_September_2017.jpg'), 'Martial source file changed unexpectedly.');
 
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
           assert.ok(renderer.includes('loading = "eager"'), 'Required screen photography must not remain browser-lazy.');
