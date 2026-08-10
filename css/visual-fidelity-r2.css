@@ -1,0 +1,214 @@
+/* =====================================================
+   Career Mode Showdown v1.0.1
+   Reus Presentation + FIFA 17 Visual Fidelity Patch
+   Bounded visual override. No gameplay/state changes.
+===================================================== */
+
+/* Loading presentation: keep the full portrait visible and restore a cleaner FIFA 17-era split composition. */
+#loadingScreen{
+    background:#252b31;
+}
+#loadingScreen::before{
+    background:
+        linear-gradient(105deg,rgba(255,255,255,.035) 0 42%,rgba(34,41,47,.12) 47%,#282e34 62%),
+        repeating-linear-gradient(132deg,rgba(255,255,255,.018) 0 2px,transparent 2px 8px);
+}
+.startupScene{
+    background:
+        radial-gradient(circle at 22% 34%,rgba(131,174,191,.32),transparent 34%),
+        linear-gradient(118deg,#d7e3e6 0 13%,#8fb2c0 13% 38%,#405b67 38% 49%,#252b31 49% 100%);
+}
+.startupAthleteFrame{
+    inset:0 auto 0 0;
+    width:54%;
+    overflow:hidden;
+    clip-path:polygon(0 0,89% 0,100% 100%,0 100%);
+    background:
+        linear-gradient(145deg,rgba(241,246,247,.92),rgba(103,145,162,.78) 56%,rgba(37,52,61,.9));
+}
+.startupAthleteFrame::before{
+    content:"";
+    position:absolute;
+    z-index:1;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(125deg,transparent 0 69%,rgba(66,185,218,.17) 69% 72%,transparent 72%),
+        linear-gradient(125deg,transparent 0 76%,rgba(240,217,0,.2) 76% 77.1%,transparent 77.1%);
+}
+.startupAthleteFrame::after{
+    z-index:2;
+    background:
+        linear-gradient(90deg,rgba(29,39,45,.04) 0,transparent 57%,rgba(37,43,49,.72) 91%,#252b31 100%),
+        linear-gradient(0deg,rgba(31,39,44,.18),transparent 38%);
+}
+#startupAthlete{
+    position:relative;
+    z-index:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:72% 100%;
+    filter:saturate(.96) contrast(1.03) brightness(.99);
+}
+
+/* Main menu: stop disabled-state dimming from degrading Reus and move the hero tile toward FIFA 17's pale, crisp visual hierarchy. */
+#mainMenu .fifaMenuHeading{
+    border-bottom-color:rgba(30,77,105,.28);
+}
+.fifaMenuGrid{
+    gap:6px;
+}
+.menuTile{
+    border-bottom-width:4px;
+    box-shadow:0 5px 13px rgba(19,35,45,.14),inset 0 1px rgba(255,255,255,.14);
+}
+.menuTile:hover:not(:disabled),
+.menuTile:focus-visible{
+    transform:translateY(-2px);
+    filter:brightness(1.035);
+    box-shadow:0 11px 22px rgba(15,29,38,.22),inset 0 1px rgba(255,255,255,.18);
+}
+.menuTilePrimary{
+    color:var(--f17-ink);
+    background:
+        linear-gradient(132deg,#f7f9f9 0 45%,#e5edef 45% 57%,#bfd3db 57% 65%,#6d9fb4 65% 100%);
+    border-color:rgba(38,70,88,.18);
+    border-bottom-color:var(--f17-yellow);
+    padding-right:45%;
+}
+.menuTilePrimary::before{
+    background:
+        linear-gradient(111deg,rgba(255,255,255,.44),transparent 27% 58%,rgba(26,76,101,.08) 58%),
+        repeating-linear-gradient(0deg,rgba(30,77,105,.018) 0 1px,transparent 1px 4px);
+}
+.menuTilePrimary .menuTileCode{
+    color:var(--f17-blue-deep);
+}
+.menuTilePrimary .menuTileMeta{
+    color:#475963;
+}
+.menuTilePrimary:disabled{
+    opacity:1;
+    filter:none;
+}
+.menuTilePrimary:disabled .menuTileLabel,
+.menuTilePrimary:disabled .menuTileMeta{
+    opacity:.7;
+}
+.menuTilePrimary:disabled .menuTileCode{
+    opacity:.82;
+}
+.menuCoverAthlete{
+    width:47%;
+    background:
+        linear-gradient(135deg,#b8d0d9 0,#7ea8bb 50%,#3b6376 100%);
+    clip-path:polygon(13% 0,100% 0,100% 100%,0 100%);
+}
+.menuCoverAthlete::before{
+    content:"";
+    position:absolute;
+    z-index:1;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(120deg,transparent 0 72%,rgba(240,217,0,.2) 72% 73.2%,transparent 73.2%),
+        linear-gradient(120deg,transparent 0 80%,rgba(66,185,218,.2) 80% 82%,transparent 82%);
+}
+.menuCoverAthlete::after{
+    z-index:2;
+    background:
+        linear-gradient(90deg,rgba(229,237,239,.92) 0,rgba(229,237,239,.34) 21%,transparent 48% 82%,rgba(26,48,60,.14)),
+        linear-gradient(0deg,rgba(23,37,45,.13),transparent 42%);
+}
+.menuCoverAthlete img{
+    z-index:0;
+    object-position:50% 7%;
+    filter:saturate(.98) contrast(1.025) brightness(1.035);
+}
+.menuCoverAthlete.imageLoaded img{
+    opacity:1;
+}
+.menuCoverAthlete.imageFailed{
+    background:
+        linear-gradient(132deg,#dce7ea 0 37%,#9fc1cd 37% 60%,#49758a 60% 100%);
+}
+.menuCoverNumber{
+    z-index:3;
+    color:rgba(255,255,255,.3);
+    text-shadow:0 1px 5px rgba(19,39,50,.16);
+}
+.menuCoverTag{
+    z-index:4;
+    background:rgba(27,37,43,.84);
+    box-shadow:0 2px 7px rgba(12,23,29,.16);
+}
+
+/* Slightly flatter secondary tiles keep the page closer to FIFA 17's clean rectangular menu language. */
+.menuTileNew{
+    background:linear-gradient(135deg,#f8f9f9 0 50%,#e2e9eb 50% 56%,#cbd9dd 56% 100%);
+}
+.menuTileLegacy{
+    background:linear-gradient(135deg,#39454d,#252e34 70%);
+}
+.menuTileTrophy{
+    background:linear-gradient(135deg,#3382a7,#275d77 70%);
+}
+.menuTileRules{
+    background:linear-gradient(135deg,#e8edef,#becdd2 72%);
+}
+.menuTileSettings{
+    background:linear-gradient(135deg,#4a565e,#30383e 72%);
+}
+.menuBottomStrip{
+    border-left-width:4px;
+    box-shadow:0 2px 7px rgba(18,34,45,.07);
+}
+
+@media(min-width:901px) and (max-height:800px){
+    .menuTilePrimary{padding-right:44%;}
+    .menuCoverAthlete{width:46%;}
+    #startupAthlete{object-position:70% 100%;}
+}
+
+@media(max-width:900px){
+    .menuTilePrimary{padding-right:43%;}
+    .menuCoverAthlete{width:45%;}
+    .startupAthleteFrame{width:56%;}
+    #startupAthlete{object-position:70% 100%;}
+}
+
+@media(max-width:700px){
+    .menuTilePrimary{
+        padding-right:42%;
+        background:linear-gradient(132deg,#f7f9f9 0 47%,#e3ecef 47% 60%,#80adbf 60% 100%);
+    }
+    .menuCoverAthlete{
+        width:44%;
+        clip-path:polygon(10% 0,100% 0,100% 100%,0 100%);
+    }
+    .startupAthleteFrame{
+        inset:0;
+        width:100%;
+        height:100%;
+        clip-path:none;
+        opacity:1;
+        background:linear-gradient(145deg,#a7c2cc,#506f7d 58%,#252b31);
+    }
+    .startupAthleteFrame::after{
+        background:
+            linear-gradient(90deg,rgba(37,43,49,.84) 0,rgba(37,43,49,.46) 46%,rgba(37,43,49,.12) 75%,rgba(37,43,49,.2)),
+            linear-gradient(0deg,#252b31 0,rgba(37,43,49,.72) 15%,transparent 47%);
+    }
+    #startupAthlete{
+        object-fit:contain;
+        object-position:56% 100%;
+        filter:saturate(.96) contrast(1.03) brightness(.98);
+    }
+}
+
+@media(max-width:480px){
+    .menuTilePrimary{padding-right:38%;}
+    .menuCoverAthlete{width:41%;}
+    #startupAthlete{object-position:54% 100%;}
+}
