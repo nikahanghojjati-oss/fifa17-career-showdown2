@@ -30,31 +30,31 @@
       "output_sha256": "ae2cbe38b672d6d44d326d2bb6ad387675b653076d5b86f2d43ceb7c82340094"
     },
     {
-      "id": "marcus-rashford-man-utd-2016",
-      "source_file": "Marcus Rashford.jpg",
-      "output": "marcus-rashford-man-utd-2016.webp",
+      "id": "marcus-rashford-man-utd-september-2016",
+      "source_file": "Marcus Rashford September 2016 (cropped).jpg",
+      "output": "marcus-rashford-september-2016-cropped.webp",
       "max_size": [
-        742,
-        888
+        594,
+        661
       ],
-      "quality": 92,
-      "author": "Egghead06",
+      "quality": 94,
+      "author": "Ardfern",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg",
-      "context": "Marcus Rashford warming up for Manchester United vs West Ham United, 10 May 2016.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marcus%20Rashford.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg",
+      "context": "Marcus Rashford for Manchester United vs Zorya Luhansk at Old Trafford, 29 September 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marcus%20Rashford%20September%202016%20%28cropped%29.jpg",
       "source_dimensions": [
-        742,
-        888
+        594,
+        661
       ],
-      "source_sha256": "1b77d38a0720e56a9a22f987de1d6c6691509c7fca84bb42b342edd3a8b803fb",
+      "source_sha256": "9ba99fc9e62e8abfd5c220d1d2a150f259755414bfba9179d07afdc02cb74fe8",
       "output_dimensions": [
-        742,
-        888
+        594,
+        661
       ],
-      "output_bytes": 174602,
-      "output_sha256": "26eb106dc143b7a59265bd88b42d6aa93d398ae9227e2f436d299b0d958a5312"
+      "output_bytes": 116860,
+      "output_sha256": "400188be2b0f6b9fe61a9aad67d1cbc5bb565ddef299a9d95896f98558db1a57"
     },
     {
       "id": "anthony-martial-man-utd-2015",
