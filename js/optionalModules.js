@@ -14,6 +14,7 @@ let optionalOpenRequestId = 0;
 let gameplayRuntimeState = "idle";
 let gameplayRuntimePromise = null;
 let gameplayRuntimeInitialized = false;
+let requiredFootballVisualPromise = null;
 
 function optionalAssetUrl(path){
     return `${path}?v=${OPTIONAL_ASSET_REVISION}`;
@@ -194,7 +195,7 @@ async function loadGameplayRuntimeFiles(){
         "js/visualIdentity.js",
         () => typeof window.applyClubIdentity === "function" && typeof window.refreshClubVisualIdentity === "function"
     );
-    await ensureFootballVisualModule();
+    await ensureRequiredFootballVisualExperience();
     await loadRuntimeScript(
         "showdown-ui",
         "js/showdownUI.js",
@@ -297,20 +298,25 @@ function ensureMenuFeedbackModule(){
 
 async function ensureFootballVisualModule(){
     const stylePromise = loadRuntimeStyle("football-visual-ui", "css/footballVisuals.css");
+    await loadRuntimeScript("football-visual-data","data/footballVisuals.js",() => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN));
     await loadRuntimeScript(
-        "football-visual-data",
-        "data/footballVisuals.js",
-        () => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN)
-    );
-    await loadRuntimeScript(
-        "football-visual-ui",
-        "js/footballVisuals.js",
+        "football-visual-ui","js/footballVisuals.js",
         () => typeof window.initializeFootballVisuals === "function"
             && typeof window.prepareFootballVisualScreen === "function"
+            && typeof window.preloadFootballVisualAssets === "function"
     );
     await stylePromise;
-    window.initializeFootballVisuals();
+    await window.initializeFootballVisuals();
     return true;
+}
+
+function ensureRequiredFootballVisualExperience(){
+    if(requiredFootballVisualPromise){ return requiredFootballVisualPromise; }
+    requiredFootballVisualPromise = ensureFootballVisualModule().catch(error => {
+        requiredFootballVisualPromise = null;
+        throw error;
+    });
+    return requiredFootballVisualPromise;
 }
 
 async function ensureAnalyticsEngine(){
@@ -334,14 +340,14 @@ async function ensureStatisticsScript(){
 
 async function ensureStatisticsModule(){
     const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
-    const visualPromise = ensureFootballVisualModule();
+    const visualPromise = ensureRequiredFootballVisualExperience();
     await ensureStatisticsScript();
     await Promise.all([stylePromise, visualPromise]);
 }
 
 async function ensureTrophyRoomModule(){
     const stylePromise = loadRuntimeStyle("analytics-ui", "css/analytics.css");
-    const visualPromise = ensureFootballVisualModule();
+    const visualPromise = ensureRequiredFootballVisualExperience();
     await ensureStatisticsScript();
     await loadRuntimeScript(
         "trophy-room-ui",
@@ -515,6 +521,11 @@ function initializeOptionalModules(){
     bindOptionalModuleButton(document.getElementById("ruleBookButton"), "ruleBook", "ruleBookBound");
     bindOptionalModuleButton(document.getElementById("settingsButton"), "settings", "settingsBound");
 
+    ensureRequiredFootballVisualExperience().catch(error => {
+    if(typeof window.reportApplicationError === "function"){
+        window.reportApplicationError("Required football presentation could not be prepared", error);
+    }else{ console.error("Required football presentation could not be prepared", error); }
+});
     optionalModulesInitialized = true;
 }
 
@@ -535,6 +546,7 @@ window.getGameplayModuleState = getGameplayModuleState;
 window.ensureDiagnosticsModule = ensureDiagnosticsModule;
 window.ensureMenuFeedbackModule = ensureMenuFeedbackModule;
 window.ensureFootballVisualModule = ensureFootballVisualModule;
+window.ensureRequiredFootballVisualExperience = ensureRequiredFootballVisualExperience;
 window.ensureOptionalModule = ensureOptionalModule;
 window.openOptionalModule = openOptionalModule;
 window.getOptionalModuleState = getOptionalModuleState;
