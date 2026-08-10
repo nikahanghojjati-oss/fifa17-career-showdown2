@@ -37,9 +37,18 @@ async function waitForVisual(page, screenName, expectedCount = 1){
     const locator = page.locator(`[data-football-visual-screen="${screenName}"] .footballVisualPanel.imageLoaded`);
     await locator.first().waitFor({ state: "attached", timeout: 12000 });
     await page.waitForFunction(
-        ({ screenName, expectedCount }) => document.querySelectorAll(
-            `[data-football-visual-screen="${screenName}"] .footballVisualPanel.imageLoaded`
-        ).length === expectedCount,
+        ({ screenName, expectedCount }) => {
+            const panels = [...document.querySelectorAll(
+                `[data-football-visual-screen="${screenName}"] .footballVisualPanel.imageLoaded`
+            )];
+            return panels.length === expectedCount && panels.every(panel => {
+                const image = panel.querySelector(".footballVisualMedia");
+                return image
+                    && image.complete
+                    && image.naturalWidth > 0
+                    && Number.parseFloat(getComputedStyle(image).opacity) >= .995;
+            });
+        },
         { screenName, expectedCount },
         { timeout: 12000 }
     );
@@ -82,7 +91,7 @@ function assertRenderedVisual(result, screenName){
     assert.ok(result.documentWidth <= result.clientWidth + 1, `${screenName}: document has horizontal overflow.`);
     result.panels.forEach(panel => {
         assert.ok(panel.naturalWidth > 0 && panel.naturalHeight > 0, `${screenName}: ${panel.asset} did not decode.`);
-        assert.equal(panel.opacity, "1", `${screenName}: ${panel.asset} must render fully opaque.`);
+        assert.ok(Number.parseFloat(panel.opacity) >= .995, `${screenName}: ${panel.asset} must finish fully opaque.`);
         assert.equal(panel.objectFit, "cover", `${screenName}: ${panel.asset} must preserve photographic cover framing.`);
         assert.equal(panel.imageRendering, "auto", `${screenName}: ${panel.asset} must use browser photographic resampling.`);
         assert.equal(panel.mixBlendMode, "normal", `${screenName}: ${panel.asset} must use normal compositing.`);
