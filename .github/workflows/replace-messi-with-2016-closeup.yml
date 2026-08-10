@@ -1,0 +1,121 @@
+name: Replace Messi With 2016 Closeup
+
+on:
+  push:
+    branches:
+      - agent/licensed-football-visual-system-r1
+    paths:
+      - .github/workflows/replace-messi-with-2016-closeup.yml
+
+permissions:
+  contents: write
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out visual branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/licensed-football-visual-system-r1
+          fetch-depth: 0
+
+      - name: Install deterministic image tooling
+        run: python -m pip install --disable-pip-version-check pillow==11.3.0
+
+      - name: Build close-up 2016 Barcelona Messi derivative
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          from PIL import Image, ImageOps
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          import hashlib, io, json
+
+          source_page = 'https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg'
+          source_url = 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Save_the_Dream_at_the_Match_of_Champions_%2831791513341%29.jpg'
+          request = Request(source_url, headers={
+              'User-Agent':'CareerModeShowdownAssetBuilder/1.0 (+https://github.com/nikahanghojjati-oss/fifa17-career-showdown2)'
+          })
+          with urlopen(request, timeout=60) as response:
+              raw = response.read()
+
+          with Image.open(io.BytesIO(raw)) as opened:
+              image = ImageOps.exif_transpose(opened).convert('RGB')
+              if image.size != (960, 810):
+                  raise SystemExit(f'Unexpected Messi close-up source dimensions: {image.size}')
+              output_path = Path('assets/football/lionel-messi-barcelona-2016.webp')
+              image.save(output_path, 'WEBP', quality=94, method=6)
+
+          output = output_path.read_bytes()
+          if len(output) > 220_000:
+              raise SystemExit(f'Messi close-up derivative exceeds 220 KB ceiling ({len(output)})')
+
+          manifest_path = Path('assets/football/asset-manifest.json')
+          manifest = json.loads(manifest_path.read_text())
+          target = next(item for item in manifest['assets'] if item['id'] == 'lionel-messi-barcelona-2016')
+          target.update({
+              'source_file':'Save the Dream at the Match of Champions (31791513341).jpg',
+              'output':'lionel-messi-barcelona-2016.webp',
+              'max_size':[960,810],
+              'quality':94,
+              'author':'Save the Dream',
+              'license':'CC BY 2.0',
+              'license_url':'https://creativecommons.org/licenses/by/2.0/',
+              'source_page':source_page,
+              'context':'Lionel Messi with FC Barcelona at Al-Ahli v Barcelona, 16 December 2016.',
+              'special_redirect_url':source_url,
+              'source_dimensions':[960,810],
+              'source_sha256':hashlib.sha256(raw).hexdigest(),
+              'output_dimensions':[960,810],
+              'output_bytes':len(output),
+              'output_sha256':hashlib.sha256(output).hexdigest()
+          })
+          total = sum(item['output_bytes'] for item in manifest['assets'])
+          if total > 1_100_000:
+              raise SystemExit(f'Required football presentation exceeds 1.1 MB aggregate ceiling ({total})')
+          manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n')
+
+          data_path = Path('data/footballVisuals.js')
+          data = data_path.read_text()
+          data = data.replace('author: "cchana"', 'author: "Save the Dream"', 1)
+          data = data.replace('license: "CC BY-SA 2.0"', 'license: "CC BY 2.0"', 1)
+          data = data.replace('source: "https://commons.wikimedia.org/wiki/File:Messi_%26_Suarez.jpg"', f'source: "{source_page}"')
+          data = data.replace('licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/"', 'licenseUrl: "https://creativecommons.org/licenses/by/2.0/"', 1)
+          data = data.replace('alt: "Lionel Messi and Luis Suárez playing for FC Barcelona in 2016"', 'alt: "Lionel Messi with FC Barcelona in December 2016"')
+          data = data.replace('position: "50% 40%"', 'position: "55% 10%"')
+          data_path.write_text(data)
+
+          notices_path = Path('THIRD_PARTY_NOTICES.md')
+          notices = notices_path.read_text()
+          start = notices.index('### Lionel Messi — FC Barcelona')
+          end = notices.index('\n### Philipp Lahm — 2014 World Cup', start)
+          replacement = '''### Lionel Messi — FC Barcelona
+
+          - Repository file: `assets/football/lionel-messi-barcelona-2016.webp`
+          - Source file: `Save the Dream at the Match of Champions (31791513341).jpg`
+          - Author: Save the Dream
+          - Source page: `https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg`
+          - License: Creative Commons Attribution 2.0 Generic (CC BY 2.0), `https://creativecommons.org/licenses/by/2.0/`
+          - Source context: Lionel Messi with FC Barcelona at Al-Ahli v Barcelona on 16 December 2016.
+          - Application use: Career Statistics presentation.
+          - Local transformation: retained at the native 960 × 810 dimensions and encoded as WebP at quality 94. The source was selected because Messi is the dominant close-up subject and remains recognisable across desktop, near-breakpoint and high-DPR mobile Statistics layouts. The local derivative remains available under CC BY 2.0.
+          '''
+          notices = notices[:start] + replacement + notices[end:]
+          notices_path.write_text(notices)
+
+          print(f'Messi close-up derivative: 960x810 q94, {len(output)} bytes; aggregate {total}')
+          PY
+
+      - name: Remove one-shot workflow and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/replace-messi-with-2016-closeup.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Use close-up 2016 Barcelona Messi Statistics source'
+          git push origin HEAD:agent/licensed-football-visual-system-r1
