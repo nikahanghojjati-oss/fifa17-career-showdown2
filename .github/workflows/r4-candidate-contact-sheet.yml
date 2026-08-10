@@ -1,4 +1,4 @@
-name: R4 Candidate Contact Sheet
+name: R4 Subject Dominant Visual Import
 
 on:
   push:
@@ -9,22 +9,24 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  build-contact-sheets:
+  import-selected-visuals:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Check out repository
+      - name: Check out corrective branch
         uses: actions/checkout@v5
+        with:
+          ref: agent/r4-visual-recovery-and-error-provenance
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.13'
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Download licensed candidates and build contact sheets
+      - name: Download and convert selected licensed sources
         shell: bash
         run: |
           set -euo pipefail
@@ -32,80 +34,61 @@ jobs:
           from pathlib import Path
           from urllib.parse import quote
           from urllib.request import Request, urlopen
-          from PIL import Image, ImageOps, ImageDraw, ImageFont
-          import io, textwrap
+          from PIL import Image, ImageOps
+          import io, time
 
-          groups = {
-              'james': [
-                  'James Rodríguez in September 2016 - 01.jpg',
-                  'James Rodríguez in September 2016 - 02.jpg',
-              ],
-              'rashford': [
-                  'Manchester United v Feyenoord, November 2016 (23).JPG',
-                  'Manchester United v Feyenoord, November 2016 (24).JPG',
-                  'Manchester United v Zorya Luhansk, September 2016 (10).JPG',
-                  'Manchester United v Leicester City, September 2016 (19).JPG',
-                  'Man Utd v Everton, August 2016 (22).JPG',
-                  'Manchester United v Zorya Luhansk, September 2016 (21).JPG',
-              ],
-              'martial': [
-                  'Anthony Martial 2015.jpg',
-                  'Anthony-Martial-2015.jpg',
-                  'Manchester United v Middlesbrough, December 2016 (23).JPG',
-                  'Manchester United v Zorya Luhansk, September 2016 (26).JPG',
-              ],
-              'messi': [
-                  'Save the Dream at the Match of champions (31067838784).jpg',
-                  'Save the Dream at the Match of Champions (31760339282).jpg',
-                  'Save the Dream at the Match of Champions (31791513341).jpg',
-                  'Save the Dream at the Match of Champions (31791512961).jpg',
-                  'Save the Dream at the Match of Champions (31760339542).jpg',
-                  'Save the Dream at the Match of Champions (31791512431).jpg',
-              ],
-          }
+          assets = [
+              {
+                  'file': 'Marcus Rashford September 2016 (cropped).jpg',
+                  'output': 'assets/football/marcus-rashford-man-utd-2016-r4.webp',
+                  'max': (594, 661),
+                  'quality': 94,
+              },
+              {
+                  'file': 'Leo Messi 2016.PNG',
+                  'output': 'assets/football/lionel-messi-barcelona-2016-subject-r4.webp',
+                  'max': (469, 779),
+                  'quality': 94,
+              },
+          ]
 
-          out = Path('candidate-review')
-          out.mkdir(exist_ok=True)
-          font = ImageFont.load_default()
-          tile_w, tile_h, label_h = 480, 330, 64
-          headers = {'User-Agent': 'CareerModeShowdown/1.0 visual-source-review'}
-
-          for group, files in groups.items():
-              tiles = []
-              for idx, filename in enumerate(files, 1):
-                  redirect = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(filename, safe='') + '?width=1200'
+          headers = {'User-Agent': 'CareerModeShowdown/1.0.1-r4 selected-visual-import'}
+          for index, asset in enumerate(assets):
+              if index:
+                  time.sleep(4)
+              url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file/' + quote(asset['file'], safe='')
+              last_error = None
+              for attempt in range(5):
                   try:
-                      req = Request(redirect, headers=headers)
-                      with urlopen(req, timeout=30) as response:
-                          data = response.read()
-                      image = Image.open(io.BytesIO(data)).convert('RGB')
-                      original_size = image.size
-                      preview = ImageOps.contain(image, (tile_w, tile_h), Image.Resampling.LANCZOS)
-                      tile = Image.new('RGB', (tile_w, tile_h + label_h), 'white')
-                      tile.paste(preview, ((tile_w-preview.width)//2, (tile_h-preview.height)//2))
-                      draw = ImageDraw.Draw(tile)
-                      label = f'{idx}. {filename}\npreview source {original_size[0]}x{original_size[1]}'
-                      draw.multiline_text((8, tile_h + 7), label, fill='black', font=font, spacing=3)
-                      tiles.append(tile)
-                      image.save(out / f'{group}-{idx}.jpg', quality=88)
+                      request = Request(url, headers=headers)
+                      with urlopen(request, timeout=45) as response:
+                          payload = response.read()
+                      image = Image.open(io.BytesIO(payload))
+                      image = ImageOps.exif_transpose(image).convert('RGB')
+                      image.thumbnail(asset['max'], Image.Resampling.LANCZOS)
+                      destination = Path(asset['output'])
+                      destination.parent.mkdir(parents=True, exist_ok=True)
+                      image.save(destination, 'WEBP', quality=asset['quality'], method=6)
+                      print(f"Imported {asset['file']} -> {destination} {image.width}x{image.height}")
+                      break
                   except Exception as exc:
-                      tile = Image.new('RGB', (tile_w, tile_h + label_h), (245,235,235))
-                      draw = ImageDraw.Draw(tile)
-                      draw.multiline_text((8, 8), f'{idx}. DOWNLOAD FAILED\n{filename}\n{exc}', fill='black', font=font, spacing=4)
-                      tiles.append(tile)
-
-              cols = 2
-              rows = (len(tiles)+cols-1)//cols
-              sheet = Image.new('RGB', (cols*tile_w, rows*(tile_h+label_h)), (220,226,229))
-              for i, tile in enumerate(tiles):
-                  sheet.paste(tile, ((i%cols)*tile_w, (i//cols)*(tile_h+label_h)))
-              sheet.save(out / f'{group}-contact-sheet.jpg', quality=91)
-              print(f'Built {group} contact sheet with {len(files)} candidates')
+                      last_error = exc
+                      if attempt == 4:
+                          raise
+                      time.sleep(8 * (attempt + 1))
+              else:
+                  raise last_error
           PY
-      - name: Upload candidate review sheets
-        uses: actions/upload-artifact@v7
-        with:
-          name: r4-source-candidate-contact-sheets-${{ github.sha }}
-          path: candidate-review/*
-          if-no-files-found: error
-          retention-days: 7
+      - name: Commit selected binary assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/football/marcus-rashford-man-utd-2016-r4.webp assets/football/lionel-messi-barcelona-2016-subject-r4.webp
+          if git diff --cached --quiet; then
+            echo "Selected assets already match branch."
+            exit 0
+          fi
+          git commit -m "Import subject-dominant r4 Rashford and Messi assets"
+          git push origin HEAD:agent/r4-visual-recovery-and-error-provenance
