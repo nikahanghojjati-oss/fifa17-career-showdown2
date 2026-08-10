@@ -184,7 +184,7 @@ async function runCase(config){
         await waitForVisual(page, "transferChallenge", 2);
         const transferResult = await inspectVisibleVisual(page, "transferChallenge");
         assertRenderedVisual(transferResult, "transferChallenge");
-        assert.ok(footballRequests.some(url => url.includes("marcus-rashford-september-2016-cropped.webp")), `${config.name}: Rashford visual was not requested.`);
+        assert.ok(footballRequests.some(url => url.includes("marcus-rashford-man-utd-2016.webp")), `${config.name}: Rashford visual was not requested.`);
         assert.ok(footballRequests.some(url => url.includes("anthony-martial-man-utd-2015.webp")), `${config.name}: Martial visual was not requested.`);
         await page.screenshot({ path: path.join(resultsDirectory, `football-transfer-${config.name}-${runLabel}.png`), fullPage: true });
 
