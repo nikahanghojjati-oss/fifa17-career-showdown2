@@ -24,8 +24,8 @@ assert.equal(footerVersion, appVersion, "The user-facing footer version is stale
 assert.equal(revision, `${appVersion}-r4`, "The owner-recovery visual/error correction must use the r4 cache identity.");
 assert.ok(projectState.includes(`**Application version:** v${appVersion} — Stable`), "PROJECT_STATE version is stale.");
 assert.ok(projectState.includes(`**Runtime asset revision:** \`${revision}\``), "PROJECT_STATE revision is stale.");
-assert.ok(nextTask.includes(`**Application version:** v${appVersion}`), "NEXT_TASK version is stale.");
-assert.ok(nextTask.includes(`**Runtime asset revision:** \`${revision}\``), "NEXT_TASK revision is stale.");
+assert.ok(nextTask.includes(`Application version: v${appVersion}`), "NEXT_TASK version is stale.");
+assert.ok(nextTask.includes(`Runtime asset revision: \`${revision}\``), "NEXT_TASK revision is stale.");
 assert.ok(readme.includes(`**Application version:** v${appVersion} — Stable`), "README version is stale.");
 assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no current release entry.");
 assert.ok(optional.includes("getApplicationAssetRevision()"), "Lazy assets must derive their revision from the shell.");
