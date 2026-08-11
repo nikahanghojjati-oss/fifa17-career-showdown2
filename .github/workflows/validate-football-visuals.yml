@@ -121,6 +121,8 @@ jobs:
           assert.ok(lahm.source_page.endsWith('File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg'), 'Lahm source changed unexpectedly.');
 
           assert.ok(data.includes('framing: Object.freeze') && data.includes('mode: "subject-safe"'), 'r5 asset data must explicitly own subject-safe framing metadata.');
+          assert.ok(data.includes('treatment: "clean-anchor"'), 'James/Rashford/Martial must explicitly own the v1.0.2 clean-anchor treatment.');
+          assert.ok(renderer.includes('panel.dataset.photoTreatment = framing.treatment'), 'Renderer must expose photo-treatment authority to CSS and browser tests.');
           assert.ok(data.includes('fit: "contain"'), 'Required player photography must use contained subject-safe framing.');
           assert.ok(!data.includes('fit: "cover"'), 'No required football visual may use blind cover framing in the r5 smart-crop rebuild.');
           assert.ok(data.includes('layout: "trophy-subject-safe"'), 'Lahm Trophy Room must use the same crop-safe composition policy.');
@@ -140,11 +142,14 @@ jobs:
 
           assert.ok(visualCss.includes('object-fit:var(--football-visual-fit,contain)'), 'Required football photography must default to subject-safe contain framing.');
           assert.ok(!visualCss.includes('object-fit:cover'), 'The r5 corrective stylesheet must not reintroduce a blind full-bleed cover exception.');
-          assert.ok(/\.footballVisualHeroSetup \.footballVisualMediaFrame\{[\s\S]*?width:78%;/.test(visualCss), 'James desktop portrait frame must retain the reviewed 78% crop-safe stage.');
-          assert.ok(/@media\(min-width:701px\) and \(max-width:1020px\)\{[\s\S]*?\.footballVisualHeroSetup \.footballVisualMediaFrame\{width:88%;\}/.test(visualCss), 'James near-breakpoint frame must retain the reviewed 88% crop-safe stage.');
-          assert.ok(/data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"\] \.footballVisualMediaFrame\{\s*width:43%;/.test(visualCss), 'Rashford desktop Transfer frame must retain the browser-proven 43% subject-safe stage.');
-          assert.ok(/data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"\] \.footballVisualMediaFrame\{\s*width:48%;/.test(visualCss), 'Martial desktop Transfer frame must retain the browser-proven 48% subject-safe stage.');
-          assert.ok(/@media\(max-width:700px\)\{[\s\S]*?marcus-rashford-man-utd-2017-smart-r5[\s\S]*?width:52%;[\s\S]*?anthony-martial-man-utd-2016-smart-r5[\s\S]*?width:56%;/.test(visualCss), 'Mobile Transfer portrait stages must retain the browser-proven 52% Rashford / 56% Martial geometry.');
+          assert.ok(visualCss.includes('[data-photo-treatment="clean-anchor"]'), 'The v1.0.2 clean-anchor CSS layer is missing.');
+          assert.ok(/data-photo-treatment="clean-anchor"\]::before\{[\s\S]*?z-index:0;/.test(visualCss), 'Clean-anchor ambience must remain behind the photograph.');
+          assert.ok(/data-photo-treatment="clean-anchor"\]::after\{[\s\S]*?z-index:1;/.test(visualCss), 'Clean-anchor accent rail must remain behind the photograph.');
+          assert.ok(/data-photo-treatment="clean-anchor"\] \.footballVisualMediaFrame\{[\s\S]*?z-index:2;/.test(visualCss), 'Clean-anchor photograph must remain above all decorative geometry.');
+          assert.ok(/footballVisualHeroSetup\[data-photo-treatment="clean-anchor"\] \.footballVisualMediaFrame\{\s*width:66%;/.test(visualCss), 'James desktop clean-anchor photo stage changed unexpectedly.');
+          assert.ok(/data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"\] \.footballVisualMediaFrame\{\s*width:34%;/.test(visualCss), 'Rashford desktop clean-anchor photo stage changed unexpectedly.');
+          assert.ok(/data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"\] \.footballVisualMediaFrame\{\s*width:36%;/.test(visualCss), 'Martial desktop clean-anchor photo stage changed unexpectedly.');
+          assert.ok(/@media\(max-width:560px\)\{[\s\S]*?\.footballVisualHeroTransfer\{[\s\S]*?grid-template-columns:1fr;/.test(visualCss), 'Small-phone Transfer visuals must stack clean-anchor players vertically.');
           assert.ok(/\.footballVisualAnalytics\{[\s\S]*?min-height:400px;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop height.');
           assert.ok(/\.footballVisualAnalytics \.footballVisualMediaFrame\{\s*width:28%;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop media width.');
           assert.ok(/\.footballVisualTrophy\{[\s\S]*?min-height:290px;/.test(visualCss), 'Trophy Room must retain enough desktop height for the focused Lahm portrait.');
@@ -171,7 +176,7 @@ jobs:
           assert.ok(notices.includes('authored derivative') && notices.includes('object-fit: contain'), 'Notices must document complete authored-derivative preservation and contain-only runtime framing.');
           assert.ok(notices.includes('crop box `(624, 41, 1248, 763)`') && notices.includes('no additional responsive crop is allowed'), 'Notices must document the reviewed Lahm source-level crop and no-crop runtime policy.');
 
-          console.log(`r5 smart-crop licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
+          console.log(`v1.0.2 clean-anchor licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
           NODE
 
   licensed-visual-browser:

@@ -29,7 +29,7 @@ assert.ok(nextTask.includes(`Runtime asset revision: \`${revision}\``), "NEXT_TA
 assert.ok(readme.includes(`**Application version:** v${appVersion} — Stable`), "README version is stale.");
 assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no current release entry.");
 assert.ok(optional.includes("getApplicationAssetRevision()"), "Lazy assets must derive their revision from the shell.");
-assert.ok(app.includes(`css/visual-fidelity-r2.css?v=${revision}`), "The lazy visual fidelity stylesheet must use the shell cache identity.");
+assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), "The lazy visual fidelity stylesheet must use the shell cache identity.");
 assert.ok(app.includes("contentScriptData\\.init_ts"), "The reproduced injected content-script signature must remain explicitly filtered.");
 assert.ok(app.includes("isFirstPartyRuntimeError") && app.includes("suppressedExternalRuntimeErrors"), "Runtime provenance boundary contract is missing.");
 
