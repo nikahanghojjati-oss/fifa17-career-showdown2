@@ -45,10 +45,10 @@ write("tests/browser/backup-export-audit.cjs", browser)
 legacy_css = read("css/legacy.css")
 legacy_css = replace_once(
     legacy_css,
-    ".compactButton{\n    min-height:40px;",
-    ".compactButton{\n    min-height:44px;",
-    "44px Data Management touch target floor"
+    ".primaryDataButton{\n    color:#17242c;",
+    ".primaryDataButton{\n    min-height:46px;\n    color:#17242c;",
+    "Export Backup 44px+ rendered touch target"
 )
 write("css/legacy.css", legacy_css)
 
-print("Candidate A Legacy route, browser-runtime and touch-target repair generated")
+print("Candidate A Legacy route, browser-runtime and targeted touch-target repair generated")
