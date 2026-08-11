@@ -292,11 +292,18 @@
 /* James: a clean right-side portrait anchor. The photograph stays untouched by
    white overlays; copy lives in its own left plate instead of over the face. */
 .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
-    width:60%;
+    top:30%;
+    right:0;
+    bottom:0;
+    width:100%;
 }
 
 .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{
-    width:36%;
+    top:14px;
+    left:14px;
+    right:14px;
+    bottom:auto;
+    width:auto;
 }
 
 .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{
@@ -414,8 +421,8 @@
         grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
     }
     .footballVisualHeroSetup{min-height:400px;}
-    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{width:58%;}
-    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:38%;left:11px;top:15px;padding:9px 9px 10px;}
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{top:30%;width:100%;}
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:auto;left:11px;right:11px;top:15px;padding:9px 9px 10px;}
     .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{font-size:clamp(22px,2.4vw,29px);}
     .footballVisualHeroTransfer{min-height:198px;}
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
@@ -435,11 +442,14 @@
         min-height:250px;
     }
     .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+        top:0;
+        bottom:0;
         width:58%;
     }
     .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{
         width:37%;
         left:10px;
+        right:auto;
         top:12px;
         padding:8px 8px 9px;
     }
