@@ -1,0 +1,44 @@
+name: v1.1.0 Legacy Route Repair
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - tools/fix_v110_legacy_route_audit.py
+      - .github/workflows/v110-legacy-route-repair.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+          fetch-depth: 1
+      - name: Generate route/audit repair
+        run: python tools/fix_v110_legacy_route_audit.py
+      - name: Validate syntax and Candidate A browser path
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check js/optionalModules.js
+          node --check tests/browser/backup-export-audit.cjs
+          npm ci
+          npm run serve:test > /tmp/cms-test-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          npm run test:backup-browser
+      - name: Commit permanent repair files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/optionalModules.js tests/browser/backup-export-audit.cjs
+          git commit -m "Harden Candidate A Legacy route and realistic audit seed"
+          git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
