@@ -1,0 +1,158 @@
+name: R5 Smart Crop Candidate QA
+
+on:
+  push:
+    branches: [agent/r5-smart-player-photo-rebuild]
+    paths:
+      - 'assets/football/**'
+      - 'data/footballVisuals.js'
+      - 'css/footballVisuals.css'
+      - 'js/footballVisuals.js'
+      - 'js/optionalModules.js'
+      - 'js/app.js'
+      - 'js/menuExperience.js'
+      - 'index.html'
+      - 'tests/browser/football-visual-audit.cjs'
+      - '.github/workflows/r5-candidate-visual-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smart-crop-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Validate exact r5 source-pixel crop contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+          const crypto = require('node:crypto');
+          const assert = require('node:assert/strict');
+          const manifest = JSON.parse(fs.readFileSync('assets/football/asset-manifest.json','utf8'));
+          const data = fs.readFileSync('data/footballVisuals.js','utf8');
+          const css = fs.readFileSync('css/footballVisuals.css','utf8');
+          const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md','utf8');
+          const html = fs.readFileSync('index.html','utf8');
+
+          assert.equal((html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1], '1.0.1-r5');
+          assert.equal(manifest.assets.length, 5);
+          const expected = new Set([
+            'james-rodriguez-real-madrid-2019-smart-r5.webp',
+            'marcus-rashford-man-utd-2016-smart-r5.webp',
+            'anthony-martial-man-utd-2016-smart-r5.webp',
+            'lionel-messi-barcelona-2016-subject-r4.webp',
+            'philipp-lahm-world-cup-2014-focus-r4.webp'
+          ]);
+          const rejected = [
+            'james-rodriguez-real-madrid-2016.webp',
+            'marcus-rashford-man-utd-2016.webp',
+            'anthony-martial-man-utd-2017.webp',
+            'lionel-messi-barcelona-2016.webp',
+            'james-rodriguez-real-madrid-2016-r4.webp',
+            'marcus-rashford-man-utd-2016-r4.webp',
+            'anthony-martial-man-utd-2015-r4.webp'
+          ];
+
+          let total = 0;
+          for(const asset of manifest.assets){
+            assert.ok(expected.has(asset.output), `Unexpected active football derivative: ${asset.output}`);
+            const path = `assets/football/${asset.output}`;
+            assert.ok(fs.existsSync(path), `Missing derivative: ${path}`);
+            const bytes = fs.readFileSync(path);
+            assert.equal(bytes.length, asset.output_bytes, `${asset.output}: byte count mismatch`);
+            assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'), asset.output_sha256, `${asset.output}: fingerprint mismatch`);
+            assert.ok(bytes.length <= 360000, `${asset.output}: per-image budget exceeded`);
+            total += bytes.length;
+          }
+          assert.ok(total <= 1100000, `aggregate visual budget exceeded: ${total}`);
+          rejected.forEach(file => {
+            assert.ok(!fs.existsSync(`assets/football/${file}`), `Rejected prior derivative still exists: ${file}`);
+            assert.ok(!manifest.assets.some(asset => asset.output === file), `Rejected prior derivative still active: ${file}`);
+          });
+
+          const james = manifest.assets.find(a => a.id === 'james-rodriguez-real-madrid-2019-smart-r5');
+          assert.deepEqual(james.source_dimensions, [540,720]);
+          assert.deepEqual(james.crop_box_on_source, [20,0,540,705]);
+          assert.deepEqual(james.output_dimensions, [520,705]);
+          assert.equal(james.author, 'Real Madrid');
+          assert.equal(james.license, 'CC BY 3.0');
+          assert.ok(james.source_page.endsWith('File:James_Rodríguez_in_2019.jpg'));
+
+          const rashford = manifest.assets.find(a => a.id === 'marcus-rashford-man-utd-2016-smart-r5');
+          assert.deepEqual(rashford.source_dimensions, [4896,3672]);
+          assert.deepEqual(rashford.crop_box_on_source, [0,400,1800,2600]);
+          assert.deepEqual(rashford.output_dimensions, [900,1100]);
+          assert.equal(rashford.author, 'Ardfern');
+          assert.equal(rashford.license, 'CC BY-SA 4.0');
+          assert.ok(rashford.source_page.includes('Man_Utd_v_Everton,_August_2016_(08).JPG'));
+
+          const martial = manifest.assets.find(a => a.id === 'anthony-martial-man-utd-2016-smart-r5');
+          assert.deepEqual(martial.source_dimensions, [4896,3672]);
+          assert.deepEqual(martial.crop_box_on_source, [0,0,1800,2400]);
+          assert.deepEqual(martial.output_dimensions, [825,1100]);
+          assert.equal(martial.author, 'Ardfern');
+          assert.equal(martial.license, 'CC BY-SA 4.0');
+          assert.ok(martial.source_page.includes('Manchester_United_v_Zorya_Luhansk,_September_2016_(26).JPG'));
+
+          for(const asset of [james,rashford,martial]){
+            assert.ok(asset.crop_policy.includes('hand-reviewed source-pixel crop'));
+            assert.match(asset.source_sha256, /^[a-f0-9]{64}$/);
+            assert.match(asset.output_sha256, /^[a-f0-9]{64}$/);
+            assert.ok(notices.includes(asset.output));
+            assert.ok(notices.includes(`\`${asset.crop_box_on_source.join(', ')}\``));
+          }
+
+          for(const output of [james.output,rashford.output,martial.output]) assert.ok(data.includes(output));
+          assert.ok(data.includes('fit: "contain"'));
+          assert.ok(!data.includes('fit: "cover"'));
+          assert.ok(data.includes('maxCropFraction: 0'));
+          assert.ok(data.includes('rejectPortraitCover: true'));
+          assert.ok(css.includes('object-fit:var(--football-visual-fit,contain)'));
+          assert.ok(!css.includes('object-fit:cover'));
+          assert.ok(css.includes('marcus-rashford-man-utd-2016-smart-r5'));
+          assert.ok(notices.includes('source-pixel coordinates'));
+          assert.ok(notices.includes('object-fit: contain'));
+          console.log(`r5 smart-crop contracts passed: ${manifest.assets.length} images / ${total} bytes`);
+          NODE
+
+  smart-crop-browser:
+    needs: smart-crop-contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Validate JavaScript syntax
+        run: find js data -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Render r5 Home and football visual journey
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-r5-visual-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          CMS_AUDIT_RUN=r5-smart-crop npm run test:runtime-boundary
+          CMS_AUDIT_RUN=r5-smart-crop npm run test:home-visual
+          CMS_AUDIT_RUN=r5-smart-crop npm run test:football-visual
+      - name: Upload r5 rendered screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: r5-smart-crop-screens-${{ github.sha }}
+          path: test-results/*.png
+          if-no-files-found: error
+          retention-days: 7
