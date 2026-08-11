@@ -8,7 +8,7 @@ const CAREER_MODE_BACKUP_FORMAT_VERSION = 1;
 const CAREER_MODE_BACKUP_CHECKSUM_ALGORITHM = "SHA-256";
 
 function getBackupApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.0";
+    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.1";
 }
 
 function getBackupRuntimeRevision(){
