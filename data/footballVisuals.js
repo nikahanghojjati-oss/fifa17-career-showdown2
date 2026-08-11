@@ -18,14 +18,14 @@ const FOOTBALL_VISUALS = Object.freeze({
         })
     }),
     rashford: Object.freeze({
-        id: "marcus-rashford-man-utd-2016-smart-r5",
-        src: "assets/football/marcus-rashford-man-utd-2016-smart-r5.webp",
+        id: "marcus-rashford-man-utd-2017-smart-r5",
+        src: "assets/football/marcus-rashford-man-utd-2017-smart-r5.webp",
         subject: "Marcus Rashford",
-        context: "Manchester United · 2016",
-        alt: "Marcus Rashford warming up for Manchester United before the Everton testimonial at Old Trafford in August 2016",
+        context: "Manchester United · 2017",
+        alt: "Marcus Rashford in Manchester United red during the Anderlecht match at Old Trafford in April 2017",
         author: "Ardfern",
         license: "CC BY-SA 4.0",
-        source: "https://commons.wikimedia.org/wiki/File:Man_Utd_v_Everton,_August_2016_(08).JPG",
+        source: "https://commons.wikimedia.org/wiki/File:Manchester_United_v_RSC_Anderlecht,_20_April_2017_(29).jpg",
         licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
         framing: Object.freeze({
             mode: "subject-safe",
