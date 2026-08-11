@@ -26,47 +26,52 @@ The application does not claim Barlow is the FIFA 17 proprietary typeface. It is
 
 The application displays the photographer, source, license and display-crop notice on Home, with a compact photographer/license credit on the startup screen. The local copy prevents the portrait from becoming a third-party availability or privacy dependency and does not imply that Marco Reus, Borussia Dortmund, the photographer or Wikimedia Commons endorses this fan project.
 
-## Licensed football photography visual set — r4 corrective sources
+## Licensed football photography visual set — r5 smart-crop player rebuild
 
-The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each runtime file is a licensed WebP derivative created without generative alteration. The r4 corrective presentation explicitly rejects the blind portrait-to-wide `object-fit: cover` failure class seen in r3 and extends that protection to any blind ultra-wide cover crop: all five runtime photographs use bounded, contained, subject-safe frames. Four retain their full selected source derivative at display time. The Lahm Trophy Room asset uses one separately documented, hand-reviewed local derivative crop before display so the captain and complete trophy remain readable; that selected derivative is then also displayed with `contain` and receives no further responsive crop. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size, fingerprints and the Lahm crop box.
+The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data.
 
-The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed after real-device owner review showed unacceptable crops. Their historical provenance and the regression itself remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`.
+The r5 owner-requested rebuild changes only the James Rodríguez, Marcus Rashford and Anthony Martial photographs. Each of those three now begins from a different licensed source photograph and receives one explicit, hand-reviewed crop in source-pixel coordinates before WebP conversion. The finished derivative is then shown in full with `object-fit: contain`; responsive CSS is not allowed to crop the derivative again. Lionel Messi and Philipp Lahm remain unchanged from r4.
 
-### James Rodríguez — Real Madrid era
+The earlier r3 visual regression and its rejected source/crop decisions remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`. The subsequently replaced r4 James/Rashford/Martial derivatives remain recoverable through Git history but are no longer active runtime assets. The repository manifest `assets/football/asset-manifest.json` records source dimensions, source fingerprints, exact source-pixel crop boxes, derivative dimensions, derivative fingerprints and byte sizes.
 
-- Repository file: `assets/football/james-rodriguez-real-madrid-2016-r4.webp`
-- Source file: `James Rodríguez in September 2016 - 01.jpg`
+### James Rodríguez — Real Madrid
+
+- Repository file: `assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp`
+- Source file: `James Rodríguez in 2019.jpg`
 - Author/source account: Real Madrid
-- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_01.jpg`
+- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg`
 - License: Creative Commons Attribution 3.0 Unported (CC BY 3.0), `https://creativecommons.org/licenses/by/3.0/`
-- Source context: photographed after Borussia Dortmund vs Real Madrid on 28 September 2016.
+- Source dimensions: 540 × 720.
+- Source context: James Rodríguez wearing Real Madrid training apparel, dated 23 October 2019.
 - Application use: Create Showdown presentation.
-- Local transformation: retained at 863 × 1080 and encoded as WebP at quality 92.
-- Display policy: portrait-aware subject-safe contained frame; the complete source remains visible rather than being force-cropped into the wide Create Showdown slot.
+- Local transformation: source-pixel crop `(20, 0, 540, 705)`, producing a 520 × 705 crop that retains his complete head, shoulders, shirt and Real Madrid crest; encoded as WebP at quality 92 with no upscaling.
+- Display policy: the complete 520 × 705 authored derivative is displayed with `object-fit: contain`; runtime layout cannot crop the face or head merely to fill a wide tile.
 
 ### Marcus Rashford — Manchester United
 
-- Repository file: `assets/football/marcus-rashford-man-utd-2016-r4.webp`
-- Source file: `Marcus Rashford September 2016 (cropped).jpg`
+- Repository file: `assets/football/marcus-rashford-man-utd-2016-smart-r5.webp`
+- Source file: `Man Utd v Everton, August 2016 (08).JPG`
 - Author: Ardfern
-- Source page: `https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg`
+- Source page: `https://commons.wikimedia.org/wiki/File:Man_Utd_v_Everton,_August_2016_(08).JPG`
 - License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
-- Source context: Marcus Rashford for Manchester United against Zorya Luhansk at Old Trafford on 29 September 2016; the Commons source is an extracted crop from the photographer's match photograph.
+- Source dimensions: 4896 × 3672.
+- Source context: Manchester United v Everton, Wayne Rooney testimonial at Old Trafford, 3 August 2016; the source belongs to the Commons Marcus Rashford in 2016 set.
 - Application use: Transfer Challenge presentation.
-- Local transformation: retained at 594 × 661 and encoded as WebP at quality 94. This local derivative remains available under CC BY-SA 4.0.
-- Display policy: subject-dominant contained frame; the complete source remains visible and the previous distant/official-dominated Transfer composition is no longer active.
+- Local transformation: source-pixel crop `(0, 400, 1800, 2600)` removes the large unused stadium area and makes Rashford the dominant figure while retaining his complete head and upper body; downscaled only to 900 × 1100 with Lanczos and encoded as WebP at quality 90. This local derivative remains available under CC BY-SA 4.0.
+- Display policy: the complete 900 × 1100 authored derivative is displayed with `object-fit: contain`; there is no secondary responsive crop or zoom.
 
 ### Anthony Martial — Manchester United
 
-- Repository file: `assets/football/anthony-martial-man-utd-2015-r4.webp`
-- Source file: `Anthony Martial 2015.jpg`
-- Author: Dmitry Golubovich
-- Source page: `https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg`
-- License: Creative Commons Attribution-ShareAlike 2.5 Generic (CC BY-SA 2.5), `https://creativecommons.org/licenses/by-sa/2.5/`
-- Source context: Anthony Martial playing for Manchester United against CSKA Moscow on 21 October 2015.
+- Repository file: `assets/football/anthony-martial-man-utd-2016-smart-r5.webp`
+- Source file: `Manchester United v Zorya Luhansk, September 2016 (26).JPG`
+- Author: Ardfern
+- Source page: `https://commons.wikimedia.org/wiki/File:Manchester_United_v_Zorya_Luhansk,_September_2016_(26).JPG`
+- License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
+- Source dimensions: 4896 × 3672.
+- Source context: Manchester United v Zorya Luhansk at Old Trafford, 29 September 2016.
 - Application use: Transfer Challenge presentation.
-- Local transformation: resized from 872 × 710 to 688 × 560 with Lanczos and encoded as WebP at quality 94. This local derivative remains available under CC BY-SA 2.5.
-- Display policy: subject-safe contained frame; the source is not allowed to be enlarged and cropped merely to fill the Transfer banner.
+- Local transformation: source-pixel crop `(0, 0, 1800, 2400)` makes Martial the dominant close subject and trims the adjacent player from the presentation edge as far as possible without cutting Martial; downscaled only to 825 × 1100 with Lanczos and encoded as WebP at quality 90. This local derivative remains available under CC BY-SA 4.0.
+- Display policy: the complete 825 × 1100 authored derivative is displayed with `object-fit: contain`; no wide-banner cover crop is allowed.
 
 ### Lionel Messi — FC Barcelona
 
