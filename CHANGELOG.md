@@ -10,6 +10,20 @@ The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 began the finite
 
 ---
 
+# v1.1.0 — Data Safety and Recovery / Candidate A
+
+Date: **August 11, 2026**
+
+Runtime asset revision: **`1.1.0-r1`**
+
+- adds format-v1 non-mutating local backup export with SHA-256 checksum;
+- captures active Showdown, Legacy and preferences through `js/storage.js`;
+- preserves malformed raw bytes in recovery data;
+- fixes corrupt active-save false positive, malformed Legacy shape handling, stale Settings fallback, destructive-action success feedback and duplicate export activation;
+- restores owner-requested FIFA diagonal accents in bounded face-safe lower-body zones;
+- extends Stability with Candidate A desktop/mobile/reduced-motion/a11y/download/deployed audits;
+- leaves Candidate B/C, PWA, profiles and cloud dependency-blocked.
+
 # v1.0.2 — Clean-Anchor Visual Maintenance
 
 Date: **August 11, 2026**

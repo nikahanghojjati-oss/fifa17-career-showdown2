@@ -6,9 +6,9 @@ Purpose: canonical first-read operating guide for a new ChatGPT, Work, or develo
 
 ## 0. Sixty-second project state
 
-Application: `v1.0.2`
+Application: `v1.1.0`
 
-Runtime asset revision: `1.0.2-r1`
+Runtime asset revision: `1.1.0-r1`
 
 Current runtime implementation merge:
 
