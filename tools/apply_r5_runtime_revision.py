@@ -3,10 +3,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 REVISION_FILES = [
-    ".github/workflows/validate-final-polish.yml",
-    ".github/workflows/validate-menu-bootstrap.yml",
-    ".github/workflows/validate-static-app.yml",
-    ".github/workflows/validate-v1-visual-immersion.yml",
     "CHANGELOG.md",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
