@@ -523,6 +523,9 @@ function renderLegacy(){
 
     fragment.appendChild(createLegacyDataControls(history));
     container.replaceChildren(fragment);
+    if(typeof window.mountCareerModeImportAnalysisPanel === "function"){
+        window.mountCareerModeImportAnalysisPanel();
+    }
     lastLegacyRenderedRevision = revision;
 }
 

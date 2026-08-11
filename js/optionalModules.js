@@ -1,7 +1,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "1.1.1-r1";
+    return revision || "1.1.2-r1";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -366,6 +366,7 @@ async function ensureLegacyModule(){
             && typeof window.verifyCareerModeBackupEnvelopeChecksum === "function"
             && typeof window.exportCareerModeBackup === "function"
     );
+    await loadRuntimeScript("import-analysis","js/importAnalysis.js",()=>typeof window.analyzeCareerModeBackupFile==="function");
     await loadRuntimeScript(
         "legacy-ui",
         "js/legacy.js",

@@ -13,6 +13,7 @@ const projectState = read("PROJECT_STATE.md");
 const nextTask = read("NEXT_TASK.md");
 const readme = read("README.md");
 const changelog = read("CHANGELOG.md");
+const handoffGoldenRule = read("00_HANDOFF_GOLDEN_RULE.md");
 
 const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
@@ -28,6 +29,7 @@ assert.ok(nextTask.includes(`Application version: v${appVersion}`), "NEXT_TASK v
 assert.ok(nextTask.includes(`Runtime asset revision: \`${revision}\``), "NEXT_TASK revision is stale.");
 assert.ok(readme.includes(`**Application version:** v${appVersion} — Maintenance Candidate`), "README version is stale.");
 assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no current release entry.");
+assert.ok(handoffGoldenRule.includes("Every developer or ChatGPT session") && handoffGoldenRule.includes("continuously"), "The owner-mandated continuous public handoff golden rule is missing.");
 assert.ok(optional.includes("getApplicationAssetRevision()"), "Lazy assets must derive their revision from the shell.");
 assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), "The lazy visual fidelity stylesheet must use the shell cache identity.");
 assert.ok(app.includes("contentScriptData\\.init_ts"), "The reproduced injected content-script signature must remain explicitly filtered.");
@@ -115,6 +117,7 @@ assert.ok(workflow.includes("npm run test:runtime-boundary"), "Stability workflo
 assert.ok(workflow.includes("npm run test:home-visual"), "Stability workflow must run the desktop/mobile Home visual audit.");
 assert.ok(workflow.includes("npm run test:football-visual"), "Stability workflow must run crop-safe football visual QA.");
 assert.ok(workflow.includes("npm run test:backup-browser"), "Stability workflow must run Candidate A backup export QA.");
+assert.ok(workflow.includes("npm run test:import-browser"), "Stability workflow must run Candidate B import analysis QA.");
 assert.ok(workflow.includes("npm run test:browser"), "Stability workflow must run the real browser audit.");
 assert.ok(workflow.includes("npm run verify:deployment"), "Stability workflow must verify the deployed tree.");
 

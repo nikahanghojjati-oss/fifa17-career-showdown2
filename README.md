@@ -2,12 +2,12 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v1.1.1 — Maintenance Candidate
-**Runtime asset revision:** `1.1.1-r1`
-**Current phase:** owner-directed James Rodríguez Real Madrid source refresh; Candidate A remains protected and Candidate B remains next after maintenance closure
+**Application version:** v1.1.2 — Maintenance Candidate
+**Runtime asset revision:** `1.1.2-r1`
+**Current phase:** Candidate B — read-only Import Analysis + Migration Preview; Candidate A remains protected and Candidate C restore remains blocked
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
-**Next roadmap candidate after v1.1.1 maintenance closure:** Candidate B — Import Analysis + Migration Preview
+**Next roadmap candidate after Candidate B production proof:** Candidate C — Atomic Restore + Recovery UX
 **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`
 
 ## Development entry point
@@ -16,7 +16,8 @@ The project design phase is complete. Do not restart planning, replace establish
 
 Read in this order:
 
-1. `00_DEVELOPER_START_HERE.md` — canonical fast bootstrap, authority order, current production state, locked systems and exact decision tree.
+1. `00_HANDOFF_GOLDEN_RULE.md` — permanent owner-mandated continuous public handoff protocol.
+2. `00_DEVELOPER_START_HERE.md` — canonical fast bootstrap, authority order, current production state, locked systems and exact decision tree.
 2. `NEXT_TASK.md` — current owner gate and the exact implementation path that becomes legal next.
 3. `POST_V1_ROADMAP_EXECUTION.md` — dependency-ordered post-v1 execution guide and source-grounded milestone boundaries.
 4. current source — highest implementation authority when documentation and implementation differ.
@@ -32,6 +33,14 @@ Read in this order:
 The original release path **v0.95 → v1.0** and the finite v1.0.2 clean-anchor maintenance lane are complete. v1.1.0 Candidate A is also merged, deployed and technically proven. The current clean-stability seal exists to reproduce that production state against every permanent feature/workstream/release gate before further roadmap work. The owner-liked loading screen and clean player-anchor architecture remain protected; owner real-device art-direction acceptance remains separate from automated proof.
 
 ---
+
+## v1.1.2 — Candidate B Import Analysis + Migration Preview
+
+Candidate B adds a preview-only import workflow to the existing lazy Data Management surface. A local backup is size-gated, parsed, checked against the Candidate A format, SHA-256 verified, schema validated and passed through explicit ordered migrations before any conflict preview is shown. Existing Showdown IDs remain strings for comparison. New, exact duplicate, same-effective-revision, different-revision and malformed/unresolvable outcomes are surfaced instead of silently merged.
+
+The feature performs zero canonical localStorage writes/removals and exposes no restore/apply action. Candidate C remains the only future stage allowed to commit imported data. Historical schema fixtures, hostile JSON structure, oversized files, tampering, corrupt local bytes, large imports, keyboard/drop/touch/mobile accessibility and exact deployed-site behavior are permanently gated.
+
+See `RELEASE_V1.1.2.md` and `CAREER_MODE_SHOWDOWN_V1.1.2_CANDIDATE_B_HANDOFF.md`.
 
 ## v1.1.1 — James Rodríguez Real Madrid source refresh
 

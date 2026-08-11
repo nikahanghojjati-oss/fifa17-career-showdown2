@@ -42,13 +42,27 @@ function readRevision(html){
 async function fetchBytes(relativePath, nonce){
     const target = new URL(relativePath, deploymentUrl);
     target.searchParams.set("deployment-check", nonce);
-    const response = await fetch(target, {
-        cache: "no-store",
-        headers: { "cache-control": "no-cache" },
-        signal: AbortSignal.timeout(30000)
-    });
-    assert.equal(response.status, 200, `${relativePath} returned HTTP ${response.status}`);
-    return Buffer.from(await response.arrayBuffer());
+    let lastError = null;
+    for(let attempt = 1; attempt <= 3; attempt += 1){
+        try{
+            const response = await fetch(target, {
+                cache: "no-store",
+                headers: { "cache-control": "no-cache" },
+                signal: AbortSignal.timeout(30000)
+            });
+            if(response.status >= 500 && attempt < 3){
+                await delay(750 * attempt);
+                continue;
+            }
+            assert.equal(response.status, 200, `${relativePath} returned HTTP ${response.status}`);
+            return Buffer.from(await response.arrayBuffer());
+        }catch(error){
+            lastError = error;
+            if(attempt >= 3){ break; }
+            await delay(750 * attempt);
+        }
+    }
+    throw lastError || new Error(`${relativePath} could not be fetched from the deployment.`);
 }
 
 async function waitForRevision(expectedRevision){
