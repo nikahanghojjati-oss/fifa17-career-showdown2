@@ -2,7 +2,7 @@
 
 Last updated: 2026-08-11
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
-Status: closes the owner-requested roadmap/handoff deepening pass after merge and deployed verification.
+Status: closes the owner-requested roadmap/handoff deepening pass after merge, deployed verification, and repository-entry alignment.
 
 ## 1. Read-order rule for the next developer
 
@@ -23,6 +23,8 @@ Only then use the deeper chronology files when needed:
 The creation-time action logs in `00_DEVELOPER_START_HERE.md` and `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_ROADMAP_DEEPENING.md` correctly describe how those documents were built, but their transient phrases such as “open the PR next” are superseded by this post-merge completion record.
 
 Their architecture, roadmap, source-authority and next-milestone guidance remains current unless later source or owner instruction supersedes it.
+
+The repository `README.md` now points directly into this same canonical entry path so a developer arriving through the normal GitHub front page cannot accidentally start from the older historical read order.
 
 ## 2. Owner request completed by this pass
 
@@ -52,7 +54,8 @@ It made project continuation substantially more deterministic by:
 - identifying exact storage keys, schema versions, cache authorities and existing Data Management UI ownership;
 - preventing v1.1 from prematurely absorbing the v1.3 identity/save-registry redesign;
 - preserving the dependency order that blocks PWA/profiles/cloud/two-device work until their foundations exist;
-- creating a future-session read order and handoff maintenance protocol.
+- creating a future-session read order and handoff maintenance protocol;
+- aligning the repository README with the new canonical entry point and current r5/v1.1 gate.
 
 ## 4. New/updated repository authority files
 
@@ -100,9 +103,30 @@ The still-valid heading required by release contracts remains:
 
 Detailed chronology of the roadmap archaeology, source inspection, decisions and implementation actions in this pass.
 
+### `README.md`
+
+After PR #12 was merged and fully verified, the repository front page was also aligned with the new developer-entry architecture.
+
+README now states:
+
+- current app/runtime identity remains `v1.0.1` / `1.0.1-r5`;
+- r5 technical implementation is complete while owner real-device acceptance remains open;
+- `00_DEVELOPER_START_HERE.md` is the developer entry point;
+- `NEXT_TASK.md` is the immediate gate;
+- `POST_V1_ROADMAP_EXECUTION.md` is the post-v1 execution roadmap;
+- current source remains highest implementation authority;
+- next feature after owner acceptance/explicit deferral is v1.1 Candidate A only;
+- the permanent validation set now includes Licensed Football Visuals and Stability Lane rather than only the older nine-workflow historical baseline.
+
+README alignment commit:
+
+`0f4730b674ee34f95c7387a0d60c983e53be2200`
+
+This was documentation-only; no runtime identity/cache bump was required.
+
 ### This file
 
-Post-merge completion record that supersedes only transient pre-merge status lines in the creation-time action logs.
+Post-merge completion record that supersedes only transient pre-merge status lines in the creation-time action logs and records the final README discoverability correction.
 
 ## 5. Source-grounded v1.1 foundation now recorded
 
@@ -366,19 +390,29 @@ Its completed stages included:
 
 No post-merge runtime regression was introduced by the documentation/roadmap work.
 
-## 15. Current production/runtime authority after this pass
+## 15. Post-merge documentation-only continuity commits
+
+After merge verification, two additional documentation-only improvements were made directly on `main` to close the handoff/discoverability loop:
+
+1. `2ae251a7e0311ecf7d09540291f210485ecdff07` — added this post-merge roadmap-deepening continuation file.
+2. `0f4730b674ee34f95c7387a0d60c983e53be2200` — aligned `README.md` with the canonical developer entry point/current r5 and v1.1 gate.
+3. this file was then updated to record the README alignment so the standing continuous-handoff requirement remains satisfied.
+
+All of these changes are documentation-only. No HTML/CSS/JavaScript/data/image/runtime asset bytes were changed.
+
+## 16. Current production/runtime authority after this pass
 
 Current runtime implementation remains the r5 merge:
 
 `8f4f9d2c94e1e1f03f50fb439df34f423cc06d1e`
 
-Current main also includes the later documentation-only continuity/roadmap commits.
+Current `main` also includes later documentation-only continuity/roadmap/discoverability commits.
 
 Do not interpret a later documentation commit SHA as a new runtime build when its diff contains no runtime byte.
 
 Runtime revision remains `1.0.1-r5`.
 
-## 16. Current owner gate after this pass
+## 17. Current owner gate after this pass
 
 Technical r5 state:
 
@@ -407,7 +441,7 @@ Candidate A means:
 
 Do not begin Candidate B/C or later milestones automatically.
 
-## 17. Future-session minimum bootstrap
+## 18. Future-session minimum bootstrap
 
 A fresh developer should be able to continue without access to this chat by doing only this first:
 
@@ -420,9 +454,9 @@ A fresh developer should be able to continue without access to this chat by doin
 7. do not ask the owner to repeat documented decisions unless new evidence is genuinely required;
 8. continue recording meaningful actions in a new dated/phase handoff or a clearly superseding continuation section.
 
-## 18. Completion status for this roadmap/handoff development pass
+## 19. Completion status for this roadmap/handoff development pass
 
-`COMPLETE, MERGED, POST-MERGE VALIDATED`
+`COMPLETE, MERGED, POST-MERGE VALIDATED, REPOSITORY ENTRY ALIGNED`
 
 The project is now significantly easier for the next ChatGPT, Work, or developer session to enter without reconstructing the entire conversation history.
 
