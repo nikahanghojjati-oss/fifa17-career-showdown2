@@ -135,9 +135,11 @@ jobs:
 
           assert.ok(visualCss.includes('object-fit:var(--football-visual-fit,contain)'), 'Required football photography must default to subject-safe contain framing.');
           assert.ok(!visualCss.includes('object-fit:cover'), 'The r4 corrective stylesheet must not reintroduce a blind full-bleed cover exception.');
-          assert.ok(visualCss.includes('.footballVisualHeroSetup .footballVisualMediaFrame') && visualCss.includes('width:100%'), 'James desktop/tablet portrait frame must use the full visual column instead of a tiny inset.');
+          assert.ok(/\.footballVisualHeroSetup \.footballVisualMediaFrame\{[\s\S]*?width:78%;/.test(visualCss), 'James desktop portrait frame must retain the reviewed 78% crop-safe stage.');
+          assert.ok(/@media\(min-width:701px\) and \(max-width:1020px\)\{[\s\S]*?\.footballVisualHeroSetup \.footballVisualMediaFrame\{width:88%;\}/.test(visualCss), 'James near-breakpoint frame must retain the reviewed 88% crop-safe stage.');
           assert.ok(visualCss.includes('marcus-rashford-man-utd-2016-r4') && visualCss.includes('width:50%'), 'Rashford desktop Transfer frame must be shaped for the selected portrait source.');
-          assert.ok(visualCss.includes('.footballVisualAnalytics') && visualCss.includes('min-height:340px'), 'Messi Statistics composition must retain a portrait-aware desktop height.');
+          assert.ok(/\.footballVisualAnalytics\{[\s\S]*?min-height:400px;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop height.');
+          assert.ok(/\.footballVisualAnalytics \.footballVisualMediaFrame\{\s*width:28%;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop media width.');
           assert.ok(/\.footballVisualTrophy\{[\s\S]*?min-height:290px;/.test(visualCss), 'Trophy Room must retain enough desktop height for the focused Lahm portrait.');
           assert.ok(/\.footballVisualTrophy \.footballVisualMediaFrame\{\s*width:38%;/.test(visualCss), 'Trophy Room must use the reviewed portrait-aware desktop media width.');
           assert.ok(visualCss.includes('@media(max-width:480px)') && visualCss.includes('grid-template-columns:1fr'), 'Small-phone Transfer visuals must stack vertically instead of compressing two subjects into tiny wide slots.');
