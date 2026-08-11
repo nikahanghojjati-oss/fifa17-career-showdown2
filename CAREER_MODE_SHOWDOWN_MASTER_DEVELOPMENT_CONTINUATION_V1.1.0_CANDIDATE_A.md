@@ -440,3 +440,61 @@ Licensed Football Visuals passed real Chromium desktop, near-breakpoint, and 390
 ### Release rule after this handoff update
 
 Because recording this evidence changes the branch SHA, `dca22cc3...` is proof of the code immediately before the documentation update, not the merge head. The new clean documentation-inclusive SHA must itself complete another **5/5** permanent burn-in plus the normal PR matrix before PR #14 may merge.
+
+
+## Production deployment proof — v1.1.0
+
+### Merge and production identity
+
+- PR #14 merged from exact validated head `023514b062a1368548952d9eac24e724fd399441`.
+- Merge commit on `main`: `7aba9609130e7f72f256bfb20936441e8beaecaa`.
+- Application/runtime identity: `v1.1.0 / 1.1.0-r1`.
+- Production URL: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`.
+
+### Post-merge five-pass production burn-in
+
+Permanent workflow run `31524214001` executed five independent complete gate comparisons against merge SHA `7aba9609130e7f72f256bfb20936441e8beaecaa`; all five passed:
+
+- Pass 1 job `93888421593` — **SUCCESS**.
+- Pass 2 job `93888421665` — **SUCCESS**.
+- Pass 3 job `93888421751` — **SUCCESS**.
+- Pass 4 job `93888421559` — **SUCCESS**.
+- Pass 5 job `93888421626` — **SUCCESS**.
+
+Each pass included JavaScript syntax, permanent contracts, runtime provenance, Home/Reus visual audit, licensed football visual audit, Candidate A backup/export audit, and the complete browser journey. This is in addition to the 5/5 pre-merge burn-in on the documentation-inclusive PR head.
+
+### Post-merge Stability and deployed GitHub Pages proof
+
+Stability Lane run `31524213948` completed successfully on merge SHA `7aba9609130e7f72f256bfb20936441e8beaecaa`:
+
+- Stability contracts job `93888421154` — **SUCCESS**.
+- Two-cycle Chromium Stability job `93888490607` — **SUCCESS**.
+- Deployed-site smoke job `93889625705` — **SUCCESS**.
+
+The deployed-site smoke verified, in order:
+
+1. GitHub Pages served the expected deployed runtime bytes — **SUCCESS**.
+2. Runtime-error provenance against deployed Pages — **SUCCESS**.
+3. Home/Reus visual audit against deployed Pages — **SUCCESS**.
+4. Crop-safe licensed football-photo audit against deployed Pages — **SUCCESS**.
+5. Candidate A non-mutating backup/export audit against deployed Pages — **SUCCESS**.
+6. Complete deployed gameplay/browser journey — **SUCCESS**.
+
+### Additional deployment-build fixes completed during burn-in
+
+The owner's request for additional bug fixing produced four concrete runtime hardenings in this release cycle:
+
+1. Shared Back/compact controls now enforce a 44px touch-target minimum instead of the previous 42px floor.
+2. Licensed football photographs now settle decode + two paint frames before being marked loaded; evidence capture also waits for paint settlement, eliminating technically green but visually premature screenshots.
+3. Corrupt raw active-save data is distinguished from a usable Continue save: Continue remains disabled for invalid data, but New Showdown must still confirm before overwriting the occupied recovery slot.
+4. The supported corrupt-save validity probe no longer emits a runtime console error merely for discovering malformed JSON; raw bytes remain preserved until explicit replacement.
+
+Related audit hardening includes a 5-second corrupt-save dialog deadline and correct concurrent Playwright click/dialog handling. The startup ceiling remained locked at 165,000 raw bytes; no budget increase was used.
+
+### Rejected proof attempts remain evidence, not passes
+
+The earlier timeout and failure runs documented above remain intentionally excluded from every 5/5 success count. They led directly to the corrupt-slot protection, dialog audit correction, console-clean recovery behavior, and performance headroom recovery. No failed comparison was averaged into a release pass.
+
+### Final repository-state rule
+
+This deployment-proof documentation update itself changes `main`. After its temporary helper is removed, the resulting clean documentation-inclusive `main` SHA must complete one final **5/5** permanent burn-in and a successful Stability deployed-site smoke before this handoff may call v1.1.0 fully closed. Runtime application bytes are not intentionally changed by this final documentation step.
