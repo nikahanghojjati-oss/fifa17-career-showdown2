@@ -379,3 +379,14 @@ The earlier Stability run on `5ea916f7f26418b9964396c030cfeca2d44f8cda` was **ca
 - The new product confirmation appeared, so the prior destructive-overwrite bug was fixed. The remaining failure was Playwright choreography: the test awaited `locator.click()` before dismissing the modal dialog, while the click itself waits for the dialog to be resolved.
 - Audit correction: start click and `waitForEvent("dialog")` concurrently, resolve the dialog immediately, then await click completion. The 5-second fail-fast dialog deadline remains. Runtime source is unchanged by this correction.
 - Release count remains **0/5** until a new clean SHA succeeds in all five independent runs.
+
+
+## Five-pass burn-in attempt 3 — rejected proof
+
+- Clean candidate SHA: `dc2596a702602012b16dbf0440ddf24c3c79a05f`.
+- Burn-in workflow run: `31522639199`; five independent runners all failed consistently after the corrupt-save replacement dialog was successfully exercised. This attempt is **not counted**.
+- Pass 1 again proved contracts, runtime provenance, Home/Reus visuals, licensed football visuals, and Candidate A backup/export before the complete journey reached the corrupt active-save replacement fixture.
+- Root cause: `hasSavedShowdown()` treated malformed JSON correctly as unusable, but its validity probe also called `reportStorageError(...)`. Because New Showdown now intentionally probes validity before presenting the replacement confirmation, the supported recovery path generated an unexpected console error.
+- Product correction: malformed active JSON still produces `hasSavedShowdown() === false`, still remains preserved in the raw slot, and still requires explicit confirmation before replacement, but the validity probe itself is now silent. This prevents an expected recovery condition from masquerading as an application runtime error.
+- A permanent contract forbids `reportStorageError` inside the `hasSavedShowdown()` validity probe.
+- Release count resets to **0/5** on the next clean SHA.

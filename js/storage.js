@@ -384,10 +384,9 @@ function hasSavedShowdown(){
         }
         activeSavePresenceKnown = true;
         activeSavePresent = true;
-    }catch(error){
+    }catch{
         activeSavePresenceKnown = true;
         activeSavePresent = false;
-        reportStorageError("Unable to use the stored active showdown", error);
     }
     return activeSavePresent;
 }
