@@ -2,9 +2,9 @@
 
 Last updated: 2026-08-11
 
-Application version: v1.0.1
+Application version: v1.0.2
 
-Runtime asset revision: `1.0.1-r5`
+Runtime asset revision: `1.0.2-r1`
 
 ## 1. Read this first
 
@@ -15,89 +15,79 @@ Start with:
 3. `POST_V1_ROADMAP_EXECUTION.md`
 4. current source files named by the active path below
 
-Do not restart planning and do not treat the old r3 image rejection as the current implementation baseline.
+Do not restart planning and do not return to rejected r3/r4/r5 presentation treatments merely because historical files describe them.
 
-## Current baseline: v1.0.1 Stable
+## Current baseline: v1.0.2 Stable
 
-The owner-requested James Rodríguez, Marcus Rashford and Anthony Martial rebuild is technically complete.
+v1.0.2 is the finite owner-directed maintenance response to the August 11 Chromebook screenshots.
 
-Final r5 implementation merge:
+Current candidate architecture:
 
-`8f4f9d2c94e1e1f03f50fb439df34f423cc06d1e`
+- James Rodríguez uses a clean-anchor photo with no above-photo white wash;
+- Marcus Rashford and Anthony Martial use clean right-side photo anchors with decorative geometry behind the photographs;
+- desktop Home Marco Reus uses a rectangular right-side player anchor with no diagonal head/neck clipping edge;
+- the owner-liked loading screen remains protected;
+- Messi and Lahm remain on their protected crop-safe presentation;
+- no gameplay, scoring, navigation, storage schema/key, Transfer state-machine, Season Review or analytics behavior is intentionally changed.
 
-Post-merge documentation head before the roadmap-deepening branch:
+## 2. Current technical gate
 
-`bac390abb9c41f6e24df68bf9cafc43e79021830`
+Branch: `agent/v1.0.2-footballer-tile-maintenance`
 
-Current r5 technical state:
+PR: `#13 — v1.0.2: rebuild footballer tiles around clean-anchor photography`
 
-- merged to `main`;
-- GitHub Pages deployment succeeded;
-- all permanent pre-merge workflows passed on the exact candidate SHA;
-- post-merge Licensed Football Visuals passed;
-- post-merge Stability Lane passed;
-- exact deployed runtime-byte verification passed;
-- deployed runtime error provenance passed;
-- deployed Home / Marco Reus audit passed;
-- deployed crop-safe football-photo audit passed;
-- complete deployed gameplay/navigation journey passed.
+The release is not complete merely because source exists.
 
-Do not rebuild the three r5 player photographs again unless the owner supplies new rejection evidence or explicitly requests another visual change.
+Before merge/deploy:
+
+1. all eleven permanent workflows must pass on one frozen head;
+2. Licensed Football Visuals must pass real desktop/near-breakpoint/mobile Chromium checks;
+3. final screenshots must show James readable without washout, Rashford/Martial faces unobstructed, and desktop Reus free of the rejected clipped-head/neck treatment;
+4. the protected loading screen must remain regression-green;
+5. temporary development workflows/scripts must be removed;
+6. exact Pages bytes and the deployed complete journey must pass after merge.
 
 ## 3. Current owner gate
 
-Technical status:
+Technical status while PR #13 is under validation:
 
-`COMPLETE`
+`CANDIDATE IN VALIDATION`
 
 Owner art-direction status:
 
-`PENDING REAL-DEVICE REVIEW`
+`PENDING REAL-DEVICE REVIEW OF DEPLOYED V1.0.2`
 
-The owner should inspect:
+Automated visual success is not owner acceptance.
 
-- Create Showdown — James Rodríguez;
-- Transfer Challenge — Marcus Rashford;
-- Transfer Challenge — Anthony Martial;
-- Home/loading — Marco Reus regression check.
+After deployment the owner should inspect:
 
-Automated green status is not a substitute for owner visual acceptance.
+- Home — desktop Marco Reus clean player anchor;
+- Create Showdown — James Rodríguez facial contrast and identity plate;
+- Transfer Challenge — Marcus Rashford face clarity;
+- Transfer Challenge — Anthony Martial consistency;
+- loading screen — regression check only, not redesign approval.
 
-## 4. Active decision tree
+## 4. Decision after v1.0.2 deployment
 
-### Path A — new r5 rejection evidence arrives
+### Path A — owner supplies new rejection evidence
 
-Remain in the finite `v1.0.x` visual-acceptance lane.
+Stay inside the finite `v1.0.x` maintenance lane.
 
-Required response:
+Reproduce the exact screenshot/device failure, fix only that failure class, strengthen its permanent gate, and preserve all accepted systems.
 
-1. reproduce the exact device/viewport problem;
-2. use the screenshot as the control sample;
-3. identify the real failure class before editing source;
-4. preserve all accepted gameplay, scoring, storage, routing, Reus, Messi, Lahm and performance behavior;
-5. fix only the reproduced visual issue;
-6. add/strengthen a permanent test for that failure class;
-7. validate 1366×768 DPR1, 940×700 DPR1 and 390×844 DPR2 where relevant;
-8. run all permanent workflows on one frozen candidate SHA;
-9. merge with expected-head protection;
-10. verify exact Pages deployment and deployed-site smoke;
-11. keep owner acceptance open until the corrected public build is inspected.
+### Path B — owner accepts v1.0.2 or explicitly defers visual review
 
-Do not return automatically to rejected r3/r4 photographs or the rejected intermediate 2016 r5 Rashford candidate.
+Exit the finite visual-maintenance lane.
 
-### Path B — owner accepts r5 or explicitly defers visual review
-
-Exit the finite Stability Lane.
-
-Current milestone becomes:
+Current feature milestone becomes:
 
 `v1.1.0 Data Safety and Recovery`
 
-First implementation scope is Candidate A only:
+First implementation scope remains Candidate A only:
 
 `Versioned Backup Envelope + Non-Mutating Export`
 
-Do not combine Candidate B/C into the first v1.1 branch unless Candidate A has already passed its gates and the owner explicitly changes scope.
+Do not combine Candidate B/C or jump to PWA/profiles/cloud/two-device work.
 
 ## 5. Candidate A — exact goal
 

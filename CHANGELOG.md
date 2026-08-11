@@ -6,7 +6,53 @@ Original release path:
 
 `v0.6.1 → v0.7 → v0.8 → v0.9 → v0.95 → v1.0`
 
-The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 begins the finite Stability Lane on August 10, 2026.
+The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 began the finite Stability Lane on August 10, 2026. v1.0.2 is the August 11 defect-only visual-maintenance response to owner real-device evidence.
+
+---
+
+# v1.0.2 — Clean-Anchor Visual Maintenance
+
+Date: **August 11, 2026**
+
+Runtime asset revision: **`1.0.2-r1`**
+
+## Owner-reproduced defects
+
+- James Rodríguez's light overlay washed out facial detail on the Create Showdown tile.
+- Marcus Rashford's decorative diagonal lines crossed his face in Transfer Challenge.
+- desktop Home Marco Reus used an unattractive diagonal crop around the head/neck.
+- the owner explicitly likes the cinematic loading screen; it is protected rather than redesigned.
+
+## Maintenance implementation
+
+- introduces a declarative `clean-anchor` treatment for James, Rashford and Martial;
+- moves decorative geometry behind those photographs instead of painting over faces;
+- places copy in a dedicated plate outside the photo anchor;
+- preserves the complete authored r5 derivatives with `object-fit: contain` and no CSS colour filtering;
+- rebuilds desktop Home Reus as a rectangular right-side player-photo anchor with no diagonal head/neck clipping edge;
+- preserves the previously accepted mobile Reus path and the loading-screen composition;
+- advances application/cache identity to `v1.0.2` / `1.0.2-r1`.
+
+## Robustness upgrade
+
+- strengthens Licensed Football Visuals around structural face-safe layering rather than old frame percentages;
+- adds browser assertions that decoration stays below the image and copy stays outside the photo anchor;
+- protects tuned James desktop/near-breakpoint geometry;
+- protects desktop Reus clean-anchor geometry while retaining the bounded mobile path;
+- retains provenance, physical-pixel, crop-safe, accessibility, startup-budget and complete-journey gates;
+- keeps v1.0.1 as historical rollback evidence and adds a dedicated v1.0.2 release record.
+
+## Scope protection
+
+- no gameplay/scoring/tiebreak changes;
+- no route/history changes;
+- no localStorage key/schema/persistence changes;
+- no Transfer Challenge/Season Review/Statistics behavior changes;
+- no source-photo replacement in this maintenance pass;
+- Messi and Lahm remain protected;
+- loading screen remains protected.
+
+Owner real-device visual acceptance remains required after the deployed build passes machine verification.
 
 ---
 

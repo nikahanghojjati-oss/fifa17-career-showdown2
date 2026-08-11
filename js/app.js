@@ -1,15 +1,15 @@
-const APP_VERSION = "1.0.1";
+const APP_VERSION = "1.0.2";
 const STARTUP_SPLASH_MINIMUM_MS = 2700;
 // STARTUP_SPLASH_MINIMUM_MS = 1900
 const STARTUP_SPLASH_REDUCED_MS = 220;
 const STARTUP_SPLASH_EXIT_MS = 240;
-const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r2.css?v=1.0.1-r5";
+const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r3.css?v=1.0.2-r1";
 const EXTERNAL_RUNTIME_ERROR = /contentScriptData\.init_ts|(?:chrome|moz|safari-web)-extension:\/\/|webkit-masked-url:\/\//i;
 let applicationStarted=false,runtimeNoticeTimer=null,runtimeBoundaryInstalled=false,performanceLifecycleInstalled=false,runtimeNoticeElement=null,runtimeNoticeTextElement=null,suppressedExternalRuntimeErrors=0;
 
 function installVisualFidelityStyles(){
- if(document.querySelector('link[data-visual-fidelity="reus-r2"]'))return;
- const s=document.createElement("link");s.rel="stylesheet";s.href=VISUAL_FIDELITY_STYLESHEET;s.dataset.visualFidelity="reus-r2";
+ if(document.querySelector('link[data-visual-fidelity="reus-r3"]'))return;
+ const s=document.createElement("link");s.rel="stylesheet";s.href=VISUAL_FIDELITY_STYLESHEET;s.dataset.visualFidelity="reus-r3";
  s.addEventListener("error",()=>console.warn("[Career Mode Showdown] Reus visual fidelity stylesheet could not be loaded. Base visuals remain available."),{once:true});document.head.appendChild(s);
 }
 installVisualFidelityStyles();

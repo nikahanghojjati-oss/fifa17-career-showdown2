@@ -27,6 +27,11 @@ const rejectedR3Assets = new Set([
     "anthony-martial-man-utd-2017.webp",
     "lionel-messi-barcelona-2016.webp"
 ]);
+const requiredCleanAnchorAssets = new Set([
+    "james-rodriguez-real-madrid-2019-smart-r5",
+    "marcus-rashford-man-utd-2017-smart-r5",
+    "anthony-martial-man-utd-2016-smart-r5"
+]);
 fs.mkdirSync(resultsDirectory, { recursive: true });
 
 rejectedR3Assets.forEach(file => {
@@ -104,12 +109,18 @@ async function inspectVisibleVisual(page, screenName){
                 const image = panel.querySelector(".footballVisualMedia");
                 const frame = panel.querySelector(".footballVisualMediaFrame");
                 const imageStyle = getComputedStyle(image);
+                const frameStyle = getComputedStyle(frame);
+                const beforeStyle = getComputedStyle(panel, "::before");
+                const afterStyle = getComputedStyle(panel, "::after");
+                const copy = panel.querySelector(".footballVisualCopy");
                 const imageRect = image.getBoundingClientRect();
                 const frameRect = frame.getBoundingClientRect();
+                const copyRect = copy.getBoundingClientRect();
                 const panelRect = panel.getBoundingClientRect();
                 return {
                     asset: panel.dataset.footballVisualAsset,
                     framingMode: panel.dataset.framingMode || "",
+                    photoTreatment: panel.dataset.photoTreatment || "",
                     maxCropFraction: Number.parseFloat(panel.dataset.maxCropFraction || "0"),
                     rejectPortraitCover: panel.dataset.rejectPortraitCover === "true",
                     naturalWidth: image.naturalWidth,
@@ -125,7 +136,18 @@ async function inspectVisibleVisual(page, screenName){
                     objectPosition: imageStyle.objectPosition,
                     imageRendering: imageStyle.imageRendering,
                     mixBlendMode: imageStyle.mixBlendMode,
-                    filter: imageStyle.filter
+                    filter: imageStyle.filter,
+                    frameZIndex: Number.parseInt(frameStyle.zIndex || "0", 10) || 0,
+                    beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
+                    afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0,
+                    copyLeft: copyRect.left,
+                    copyRight: copyRect.right,
+                    copyTop: copyRect.top,
+                    copyBottom: copyRect.bottom,
+                    frameLeft: frameRect.left,
+                    frameRight: frameRect.right,
+                    frameTop: frameRect.top,
+                    frameBottom: frameRect.bottom
                 };
             }),
             documentWidth: document.documentElement.scrollWidth,
@@ -193,6 +215,20 @@ function assertRenderedVisual(result, screenName){
         assert.ok(panel.imageRendering === "auto" || panel.imageRendering === "-webkit-optimize-contrast", `${screenName}/${panel.asset}: browser-native resampling is not active.`);
         assert.equal(panel.mixBlendMode, "normal", `${screenName}/${panel.asset}: blend mode must remain normal.`);
         assert.equal(panel.filter, "none", `${screenName}/${panel.asset}: photography must not use CSS colour filters.`);
+
+        if(requiredCleanAnchorAssets.has(panel.asset)){
+            assert.equal(panel.photoTreatment, "clean-anchor", `${screenName}/${panel.asset}: owner-rejected photo must stay on the clean-anchor treatment.`);
+            assert.ok(
+                panel.frameZIndex > panel.beforeZIndex && panel.frameZIndex > panel.afterZIndex,
+                `${screenName}/${panel.asset}: decorative geometry is painted above the photograph; face-safe layering regressed.`
+            );
+            const horizontallySeparated = panel.copyRight <= panel.frameLeft + 2 || panel.copyLeft >= panel.frameRight - 2;
+            const verticallySeparated = panel.copyBottom <= panel.frameTop + 2 || panel.copyTop >= panel.frameBottom - 2;
+            assert.ok(
+                horizontallySeparated || verticallySeparated,
+                `${screenName}/${panel.asset}: text/caption intrudes into the clean photographic anchor.`
+            );
+        }
 
         const maxCrop = Number.isFinite(panel.maxCropFraction) ? panel.maxCropFraction : 0;
         assert.ok(

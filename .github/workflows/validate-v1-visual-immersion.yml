@@ -32,7 +32,7 @@ jobs:
 
           const html = fs.readFileSync('index.html', 'utf8');
           const css = fs.readFileSync('css/app.css', 'utf8');
-          const visualCss = fs.readFileSync('css/visual-fidelity-r2.css', 'utf8');
+          const visualCss = fs.readFileSync('css/visual-fidelity-r3.css', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const menu = fs.readFileSync('js/menuExperience.js', 'utf8');
           const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md', 'utf8');
@@ -40,9 +40,9 @@ jobs:
           const portrait = fs.readFileSync(portraitPath);
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 
-          assert.strictEqual(revision, '1.0.1-r5', 'The owner-recovery visual correction must use the fresh v1.0.1 r4 cache identity.');
-          assert.ok(html.includes('v1.0.1 · Stable'), 'The user-facing stable release identity is missing.');
-          assert.ok(app.includes('const APP_VERSION = "1.0.1"'), 'The application version is not sealed at v1.0.1.');
+          assert.strictEqual(revision, '1.0.2-r1', 'The owner-recovery visual correction must use the fresh v1.0.2 maintenance cache identity.');
+          assert.ok(html.includes('v1.0.2 · Stable'), 'The user-facing stable release identity is missing.');
+          assert.ok(app.includes('const APP_VERSION = "1.0.2"'), 'The application version is not sealed at v1.0.2.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
           assert.ok(html.includes(`src="${portraitPath}?v=${revision}"`), 'Startup portrait is missing or stale.');
           assert.ok(menu.includes(`thumbnail: "${portraitPath}?v=${revision}"`), 'Home must reuse the same portrait cache entry.');
@@ -62,11 +62,13 @@ jobs:
           assert.ok(css.includes('.startupAthleteFrame') && css.includes('.startupIdentity') && css.includes('.startupStatus'), 'Startup composition is incomplete.');
           assert.ok(css.includes('html[data-motion-reduced="true"] *') && css.includes('@media(prefers-reduced-motion:reduce)'), 'Startup and Home motion need both preference guards.');
 
-          assert.ok(app.includes('css/visual-fidelity-r2.css?v=1.0.1-r5'), 'The bounded Reus visual fidelity layer is not aligned with the r4 runtime revision.');
+          assert.ok(app.includes('css/visual-fidelity-r3.css?v=1.0.2-r1'), 'The bounded Reus visual fidelity layer is not aligned with the v1.0.2 runtime revision.');
           assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
           assert.ok(visualCss.includes('#startupAthlete') && visualCss.includes('object-fit:contain'), 'Startup Reus portrait must use contained composition.');
           assert.ok(visualCss.includes('.startupAthleteFrame') && visualCss.includes('inset:0 auto 0 0'), 'Startup portrait frame must remain inside the viewport.');
           assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1!important'), 'Loaded Home Reus portrait must render at guaranteed full opacity.');
+          assert.ok(visualCss.includes('clip-path:none'), 'Desktop Reus must use a clean rectangular photo anchor without the rejected head/neck clipping edge.');
+          assert.ok(visualCss.includes('.menuCoverNumber') && visualCss.includes('display:none'), 'Desktop Reus clean-anchor mode must suppress the competing jersey-number overlay.');
           assert.ok(visualCss.includes('.menuCoverAthlete::after') && visualCss.includes('background:none'), 'Home Reus must not have a pale post-render wash overlay.');
           assert.ok(visualCss.includes('mix-blend-mode:normal'), 'Home Reus photograph must use normal compositing.');
           assert.ok(visualCss.includes('image-rendering:auto'), 'Home Reus must use browser-native photographic resampling.');
