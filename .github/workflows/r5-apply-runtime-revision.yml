@@ -1,0 +1,34 @@
+name: R5 Apply Runtime Revision
+
+on:
+  push:
+    branches: [agent/r5-smart-player-photo-rebuild]
+    paths:
+      - 'tools/apply_r5_runtime_revision.py'
+      - '.github/workflows/r5-apply-runtime-revision.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/r5-smart-player-photo-rebuild
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Apply r5 identity integration
+        run: python tools/apply_r5_runtime_revision.py
+      - name: Commit integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/validate-final-polish.yml .github/workflows/validate-menu-bootstrap.yml .github/workflows/validate-static-app.yml .github/workflows/validate-v1-visual-immersion.yml CHANGELOG.md NEXT_TASK.md PROJECT_STATE.md README.md index.html js/app.js js/footballVisuals.js js/menuExperience.js js/optionalModules.js css/footballVisuals.css
+          git commit -m "Advance r5 smart-crop runtime identity"
+          git push origin HEAD:agent/r5-smart-player-photo-rebuild
