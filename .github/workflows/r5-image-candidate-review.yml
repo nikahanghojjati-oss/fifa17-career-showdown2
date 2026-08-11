@@ -1,0 +1,37 @@
+name: R5 Player Source Review
+
+on:
+  push:
+    branches: [agent/r5-smart-player-photo-rebuild]
+    paths:
+      - 'tools/r5_image_candidate_review.py'
+      - '.github/workflows/r5-image-candidate-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out candidate branch
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install image review dependencies
+        run: python -m pip install --disable-pip-version-check Pillow==11.3.0 requests==2.32.4
+      - name: Build licensed source contact sheet
+        run: python tools/r5_image_candidate_review.py
+      - name: Upload source review artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: r5-player-source-review-${{ github.sha }}
+          path: |
+            test-results/r5-player-source-contact-sheet.jpg
+            test-results/r5-player-source-report.txt
+          if-no-files-found: error
+          retention-days: 3
