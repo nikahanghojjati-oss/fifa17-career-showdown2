@@ -1,0 +1,48 @@
+name: v1.0.2 Maintenance Integration
+
+on:
+  push:
+    branches:
+      - agent/v1.0.2-footballer-tile-maintenance
+    paths:
+      - '.github/workflows/v102-maintenance-integration.yml'
+      - 'tools/apply_v102_maintenance_integration.py'
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out maintenance branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/v1.0.2-footballer-tile-maintenance
+          fetch-depth: 0
+
+      - name: Apply deterministic v1.0.2 integration
+        run: python tools/apply_v102_maintenance_integration.py
+
+      - name: Verify JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in js/*.js data/*.js; do
+            node --check "$file"
+          done
+          node --check tests/browser/football-visual-audit.cjs
+
+      - name: Commit generated integration changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html js data tests/browser/football-visual-audit.cjs
+          if git diff --cached --quiet; then
+            echo "No generated integration changes to commit."
+            exit 0
+          fi
+          git commit -m "Integrate v1.0.2 clean-anchor maintenance runtime"
+          git push origin HEAD:agent/v1.0.2-footballer-tile-maintenance
