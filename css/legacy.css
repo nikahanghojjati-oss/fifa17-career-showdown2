@@ -289,6 +289,10 @@
     gap:7px;
 }
 
+.legacyControlButtons .compactButton{
+    min-height:46px;
+}
+
 
 .legacyBackupSummary{
     display:grid;

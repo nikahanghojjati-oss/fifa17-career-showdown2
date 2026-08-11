@@ -222,15 +222,17 @@ async function assertMobileReducedMotion(browser){
 (async () => {
     await fs.mkdir(resultsDirectory, { recursive: true });
     const runtime = await resolveChromiumRuntime();
-    const browser = await chromium.launch({ executablePath: runtime.executablePath, args: runtime.args, headless: true });
-    try{
-        await assertDesktopScenario(browser);
-        await assertRealKeyboardDownload(browser);
-        await assertMobileReducedMotion(browser);
-        process.stdout.write("PASS  v1.1.0 Candidate A browser backup audit\n");
-    } finally {
-        await browser.close();
+    for(const scenario of [assertDesktopScenario, assertRealKeyboardDownload, assertMobileReducedMotion]){
+        const browser = await chromium.launch({ executablePath: runtime.executablePath, args: runtime.args, headless: true });
+        try{
+            await scenario(browser);
+        }finally{
+            if(browser.isConnected()){
+                await browser.close();
+            }
+        }
     }
+    process.stdout.write("PASS  v1.1.0 Candidate A browser backup audit\n");
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;
