@@ -271,17 +271,20 @@
         linear-gradient(0deg,rgba(13,25,32,.44) 0,transparent 54%);
 }
 
+/* The Trophy Room uses a hand-reviewed, trophy-focused Lahm derivative. Keep
+   the runtime frame close to that portrait geometry so Lahm and the complete
+   cup read clearly without introducing another responsive cover crop. */
 .footballVisualTrophy{
-    min-height:250px;
+    min-height:290px;
     margin-bottom:4px;
 }
 
 .footballVisualTrophy .footballVisualMediaFrame{
-    width:58%;
+    width:38%;
 }
 
 .footballVisualTrophy .footballVisualCopy{
-    width:43%;
+    width:56%;
 }
 
 .footballVisualTrophy .footballVisualName{
@@ -305,7 +308,7 @@
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
     .footballVisualAnalytics .footballVisualMediaFrame{width:30%;}
     .footballVisualAnalytics .footballVisualCopy{width:58%;}
-    .footballVisualTrophy .footballVisualMediaFrame{width:60%;}
+    .footballVisualTrophy .footballVisualMediaFrame{width:38%;}
     .footballVisualName{font-size:clamp(22px,3.1vw,32px);}
 }
 
@@ -342,7 +345,7 @@
         min-height:320px;
     }
     .footballVisualTrophy{
-        min-height:210px;
+        min-height:240px;
     }
     .footballVisualAnalytics .footballVisualMediaFrame{
         width:52%;
@@ -353,10 +356,10 @@
         bottom:12px;
     }
     .footballVisualTrophy .footballVisualMediaFrame{
-        width:72%;
+        width:48%;
     }
     .footballVisualTrophy .footballVisualCopy{
-        width:42%;
+        width:48%;
         left:12px;
         bottom:12px;
     }
@@ -415,10 +418,10 @@
     }
 
     .footballVisualTrophy{
-        min-height:185px;
+        min-height:230px;
     }
     .footballVisualTrophy .footballVisualMediaFrame{
-        width:75%;
+        width:50%;
     }
 }
 
