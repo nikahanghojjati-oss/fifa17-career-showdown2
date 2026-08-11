@@ -426,6 +426,9 @@
     .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{font-size:clamp(22px,2.4vw,29px);}
     .footballVisualHeroTransfer{min-height:198px;}
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:52%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{width:40%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{width:42%;}
     .footballVisualAnalytics{min-height:370px;}
     .footballVisualAnalytics .footballVisualMediaFrame{width:30%;}
     .footballVisualAnalytics .footballVisualCopy{width:58%;}
