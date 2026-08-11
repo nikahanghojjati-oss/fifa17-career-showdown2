@@ -48,4 +48,5 @@ assert.ok(
 );
 assert.ok(showdown.includes("replace the active save${existingName}"), "Destructive active-slot replacement must remain confirmation-gated.");
 assert.ok(stabilityAudit.includes('page.waitForEvent("dialog", { timeout: 5000 })'), "Corrupt-save replacement regression must fail fast instead of hanging CI.");
+assert.ok(stabilityAudit.includes("const dismissedClick = page.locator(\"#startShowdown\").click()") && stabilityAudit.includes("await dismissedClick"), "Dialog audit must resolve the modal concurrently with the triggering click.");
 console.log("Corrupt active-slot replacement protection is permanently gated.");

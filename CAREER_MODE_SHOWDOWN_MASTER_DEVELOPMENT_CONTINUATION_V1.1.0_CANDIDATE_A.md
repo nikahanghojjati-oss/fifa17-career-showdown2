@@ -369,3 +369,13 @@ The earlier Stability run on `5ea916f7f26418b9964396c030cfeca2d44f8cda` was **ca
 - This candidate is **not counted** in the five-pass release proof.
 - The performance budget was not raised and recovery protection was not removed. Headroom was recovered by compacting the new eager expressions and removing non-executable compatibility comments from eager storage/showdown source.
 - The five-pass release count resets to **0/5** on the next clean SHA.
+
+
+## Five-pass burn-in attempt 2 — rejected proof
+
+- Clean candidate SHA: `5d83594188cb8f84a6f963251e308649dd86dedc`.
+- Burn-in workflow run: `31522190691`; five independent runners were launched and all failed quickly at the same corrupt-save fixture. This attempt is **not counted**.
+- Before failure, pass 1 proved contracts, runtime provenance, Home/Reus visual audit, licensed football visual audit, and Candidate A backup/export audit.
+- The new product confirmation appeared, so the prior destructive-overwrite bug was fixed. The remaining failure was Playwright choreography: the test awaited `locator.click()` before dismissing the modal dialog, while the click itself waits for the dialog to be resolved.
+- Audit correction: start click and `waitForEvent("dialog")` concurrently, resolve the dialog immediately, then await click completion. The 5-second fail-fast dialog deadline remains. Runtime source is unchanged by this correction.
+- Release count remains **0/5** until a new clean SHA succeeds in all five independent runs.
