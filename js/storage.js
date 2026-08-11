@@ -367,9 +367,7 @@ function clearSavedShowdown(){
     return removed;
 }
 
-function hasStoredActiveShowdownData(){
-    return readStorageValue(STORAGE_KEY) !== null;
-}
+function hasStoredActiveShowdownData(){return readStorageValue(STORAGE_KEY)!==null;}
 
 function hasSavedShowdown(){
     if(activeSavePresenceKnown){ return activeSavePresent; }
@@ -453,9 +451,7 @@ function cloneForStorage(value){
     if(typeof structuredClone === "function"){
         try{
             return structuredClone(value);
-        }catch(error){
-            /* JSON fallback preserves compatibility with older browsers/data. */
-        }
+        }catch(error){}
     }
 
     return JSON.parse(JSON.stringify(value));

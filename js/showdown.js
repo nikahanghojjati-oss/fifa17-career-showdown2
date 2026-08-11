@@ -5,13 +5,11 @@ const ALLOWED_SHOWDOWN_ROUNDS = Object.freeze([1, 3, 5, 10]);
 
 function createShowdown(){
     let existing = null;
-    const hasUsableActiveSave = hasSavedShowdown();
-    const hasStoredActiveData = hasUsableActiveSave
-        || (typeof hasStoredActiveShowdownData === "function" && hasStoredActiveShowdownData());
+    const hasUsableActiveSave=hasSavedShowdown(),hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData();
 
     if(hasStoredActiveData){
-        existing = hasUsableActiveSave ? loadSavedShowdown() : null;
-        const existingName = existing && existing.name ? ` "${existing.name}"` : " data currently stored in this browser";
+        existing=hasUsableActiveSave?loadSavedShowdown():null;
+        const existingName=existing?.name?` "${existing.name}"`:" data currently stored in this browser";
         const proceed = window.confirm(
             `Start a new showdown and replace the active save${existingName}? Completed showdowns already stored in Legacy will not be deleted.`
         );
@@ -106,10 +104,6 @@ function getCanonicalLeague(league){
         return null;
     }
 
-    /*
-       The gameplay database is lazy in v0.16. A persisted league is not invalid
-       merely because the league data package has not been requested yet.
-    */
     if(!isLeagueDatabaseReady()){
         return league;
     }
