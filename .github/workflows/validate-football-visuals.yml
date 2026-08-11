@@ -43,10 +43,11 @@ jobs:
           const visualCss = fs.readFileSync('css/footballVisuals.css','utf8');
           const html = fs.readFileSync('index.html','utf8');
           const browserAudit = fs.readFileSync('tests/browser/football-visual-audit.cjs','utf8');
+          const builder = fs.readFileSync('tools/build_r5_player_visuals.py','utf8');
 
           assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved derivatives.');
           const expected = new Set([
-            'james-rodriguez-real-madrid-2019-smart-r5.webp',
+            'james-rodriguez-real-madrid-2016-smart-v111.webp',
             'marcus-rashford-man-utd-2017-smart-r5.webp',
             'anthony-martial-man-utd-2016-smart-r5.webp',
             'lionel-messi-barcelona-2016-subject-r4.webp',
@@ -54,6 +55,7 @@ jobs:
           ]);
           const rejectedPrior = [
             'james-rodriguez-real-madrid-2016.webp',
+            'james-rodriguez-real-madrid-2019-smart-r5.webp',
             'marcus-rashford-man-utd-2016.webp',
             'marcus-rashford-man-utd-2016-smart-r5.webp',
             'anthony-martial-man-utd-2017.webp',
@@ -81,12 +83,26 @@ jobs:
             assert.ok(!fs.existsSync(`assets/football/${file}`), `Rejected prior derivative remains in the runtime asset directory: ${file}`);
           });
 
-          const james = manifest.assets.find(asset => asset.id === 'james-rodriguez-real-madrid-2019-smart-r5');
-          assert.ok(james, 'r5 James Rodríguez visual is missing.');
+          const james = manifest.assets.find(asset => asset.id === 'james-rodriguez-real-madrid-2016-smart-v111');
+          assert.ok(james, 'v1.1.1 James Rodríguez Real Madrid visual is missing.');
+          assert.strictEqual(james.output, 'james-rodriguez-real-madrid-2016-smart-v111.webp', 'James runtime filename drifted.');
+          assert.strictEqual(james.source_file, 'James Rodríguez in September 2016 - 02.jpg', 'James source filename drifted.');
           assert.strictEqual(james.author, 'Real Madrid', 'James attribution changed unexpectedly.');
           assert.strictEqual(james.license, 'CC BY 3.0', 'James license changed unexpectedly.');
-          assert.ok(decodeURI(james.source_page).includes('James_Rodríguez_in_2019.jpg'), 'James r5 source changed unexpectedly.');
-          assert.deepStrictEqual(james.crop_box_on_source, [20,0,540,705], 'James r5 authored crop box changed unexpectedly.');
+          assert.ok(decodeURI(james.source_page).includes('James_Rodríguez_in_September_2016_-_02.jpg'), 'James v1.1.1 source changed unexpectedly.');
+          assert.deepStrictEqual(james.source_dimensions, [863,1080], 'James source dimensions changed unexpectedly.');
+          assert.deepStrictEqual(james.crop_box_on_source, [0,0,863,1080], 'James must preserve the complete licensed source frame.');
+          assert.deepStrictEqual(james.output_dimensions, [863,1080], 'James derivative geometry must preserve the complete source frame without upscaling.');
+          assert.strictEqual(james.output_bytes, 85228, 'James derivative byte identity changed unexpectedly.');
+          assert.strictEqual(james.source_sha1_commons, '8f1b085518ab1b36e25cda150afb3ae6900622d7', 'James Commons source fingerprint changed.');
+          assert.strictEqual(james.source_sha256, 'bd29eb5b69468bf7a542f10f3a5c3aebc5d7b5d66beaacc2980c3b987c0b659c', 'James downloaded-source fingerprint changed.');
+          assert.strictEqual(james.output_sha256, '0ed0f578a12f42b19b071488a51fde6b6faac1554ff81b4ffa7a5d810ce73be8', 'James derivative fingerprint changed.');
+          assert.ok(/complete licensed source frame preserved/.test(james.crop_policy || ''), 'James full-frame no-secondary-crop policy is missing.');
+          assert.ok(data.includes('james-rodriguez-real-madrid-2016-smart-v111.webp'), 'Runtime data must activate the new James source derivative.');
+          assert.ok(!data.includes('james-rodriguez-real-madrid-2019-smart-r5.webp'), 'Runtime data must not reference the replaced 2019 James derivative.');
+          assert.ok(notices.includes('James Rodríguez in September 2016 - 02.jpg') && notices.includes('0ed0f578a12f42b19b071488a51fde6b6faac1554ff81b4ffa7a5d810ce73be8'), 'James v1.1.1 notice provenance/fingerprint is incomplete.');
+          assert.ok(builder.includes('James Rodríguez in September 2016 - 02.jpg') && builder.includes('james-rodriguez-real-madrid-2016-smart-v111'), 'Deterministic builder is not aligned with the active James source.');
+          assert.ok(builder.includes('crop_box_on_source') && builder.includes('[0, 0, 863, 1080]') && builder.includes('--only'), 'Builder must preserve the complete James frame and support targeted deterministic rebuilds.');
 
           const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2017-smart-r5');
           assert.ok(rashford, 'Final r5 Manchester United Rashford visual is missing.');
@@ -128,6 +144,7 @@ jobs:
           assert.ok(data.includes('layout: "trophy-subject-safe"'), 'Lahm Trophy Room must use the same crop-safe composition policy.');
           assert.ok(data.includes('rejectPortraitCover: true'), 'Portrait-to-wide cover regression guard is missing from visual data.');
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
+          assert.ok(data.includes('james-rodriguez-real-madrid-2016-smart-v111.webp'), 'Runtime data must activate the new v1.1.1 James derivative.');
           assert.ok(data.includes('marcus-rashford-man-utd-2017-smart-r5.webp'), 'Runtime data must activate the final subject-dominant Rashford derivative.');
           assert.ok(data.includes('lionel-messi-barcelona-2016-subject-r4.webp'), 'Runtime data must activate the selected subject-isolated Messi derivative.');
           assert.ok(data.includes('philipp-lahm-world-cup-2014-focus-r4.webp'), 'Runtime data must activate the reviewed subject-focused Lahm derivative.');
@@ -180,7 +197,7 @@ jobs:
           assert.ok(notices.includes('authored derivative') && notices.includes('object-fit: contain'), 'Notices must document complete authored-derivative preservation and contain-only runtime framing.');
           assert.ok(notices.includes('crop box `(624, 41, 1248, 763)`') && notices.includes('no additional responsive crop is allowed'), 'Notices must document the reviewed Lahm source-level crop and no-crop runtime policy.');
 
-          console.log(`v1.1.0 clean-anchor licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
+          console.log(`v1.1.1 licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes; new James source identity, full-frame policy and protected-player regressions verified.`);
           NODE
 
   licensed-visual-browser:
