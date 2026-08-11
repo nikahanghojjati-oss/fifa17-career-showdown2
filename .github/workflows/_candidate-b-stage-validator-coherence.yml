@@ -1,0 +1,42 @@
+name: Candidate B Stage Validator Coherence
+
+on:
+  push:
+    branches: [agent/v1.1.2-candidate-b-import-analysis]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: candidate-b-stage-validator-coherence
+  cancel-in-progress: false
+
+jobs:
+  stage:
+    if: ${{ !contains(github.event.head_commit.message, '[validator-coherence-staged]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.2-candidate-b-import-analysis
+          fetch-depth: 0
+      - name: Generate exact staged workflow blobs
+        run: python tools/stage_v112_workflow_coherence.py
+      - name: Audit staged current-release pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -R -n '1\.1\.2' _candidate_b_generated_workflows/validate-menu-bootstrap.yml _candidate_b_generated_workflows/validate-season-review.yml _candidate_b_generated_workflows/validate-statistics-workstream.yml _candidate_b_generated_workflows/validate-final-polish.yml _candidate_b_generated_workflows/validate-v1-visual-immersion.yml
+          ! grep -R -n '1\.1\.1-r1\|/\^1\\\.1\\\.1-r' _candidate_b_generated_workflows/validate-menu-bootstrap.yml _candidate_b_generated_workflows/validate-season-review.yml _candidate_b_generated_workflows/validate-statistics-workstream.yml _candidate_b_generated_workflows/validate-final-polish.yml _candidate_b_generated_workflows/validate-v1-visual-immersion.yml
+      - name: Commit staged validator blobs only
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm tools/stage_v112_workflow_coherence.py
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Stage v1.1.2 validator coherence blobs [validator-coherence-staged]'
+          git push origin HEAD:agent/v1.1.2-candidate-b-import-analysis
