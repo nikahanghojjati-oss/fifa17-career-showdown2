@@ -361,3 +361,11 @@ The earlier Stability run on `5ea916f7f26418b9964396c030cfeca2d44f8cda` was **ca
 - Product correction: valid parsed data continues to control **Continue Career**, while a separate raw-slot occupancy check now controls whether **New Showdown** must confirm before overwriting the active storage slot. This preserves recoverable corrupt bytes until the user explicitly approves replacement.
 - Gate correction: corrupt-save dialog expectations now use a 5-second Playwright dialog timeout so a future regression fails fast instead of burning an entire runner timeout.
 - Release policy: the five-pass count resets to **0/5** after this fix. Only a new SHA with five successful independent passes may be merged.
+
+
+## Startup headroom recovery after corrupt-slot fix
+
+- Clean candidate `f4546cb764db7055b6c602a85349fb048a57eb4f` correctly failed Static App and Final Polish because the new corrupt-slot replacement protection raised raw startup to `165,287` bytes against the locked `165,000` ceiling.
+- This candidate is **not counted** in the five-pass release proof.
+- The performance budget was not raised and recovery protection was not removed. Headroom was recovered by compacting the new eager expressions and removing non-executable compatibility comments from eager storage/showdown source.
+- The five-pass release count resets to **0/5** on the next clean SHA.
