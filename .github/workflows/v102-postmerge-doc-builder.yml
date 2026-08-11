@@ -1,0 +1,24 @@
+name: v1.0.2 Post-Merge Documentation Blob Builder
+
+on:
+  push:
+    branches:
+      - agent/v102-postmerge-doc-finalize
+    paths:
+      - '.github/workflows/v102-postmerge-doc-builder.yml'
+      - 'tools/build_v102_postmerge_docs.py'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v102-postmerge-doc-finalize
+      - name: Build final post-merge documentation Git blobs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python tools/build_v102_postmerge_docs.py
