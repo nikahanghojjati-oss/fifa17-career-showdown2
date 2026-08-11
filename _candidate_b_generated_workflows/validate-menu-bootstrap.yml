@@ -1,0 +1,123 @@
+name: Validate Home Bootstrap
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  home-bootstrap-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Validate Home initializer against shell contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const source = fs.readFileSync('js/menuExperience.js', 'utf8');
+          const showdown = fs.readFileSync('js/showdown.js', 'utf8');
+          const appCss = fs.readFileSync('css/app.css', 'utf8');
+          const app = fs.readFileSync('js/app.js', 'utf8');
+          const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md', 'utf8');
+
+          const context = { console };
+          context.window = context;
+          vm.createContext(context);
+          vm.runInContext(
+            `${source}\n;globalThis.__menuExports = { MENU_MEDIA_SOURCES, initializeMenuExperience, decorateMainMenuTiles, bindMenuMediaControls, ensureMenuMediaSelector, getMenuExperienceIntegrity, getSavedShowdownMenuMeta, refreshMainMenuExperience };`,
+            context,
+            { filename: 'js/menuExperience.js' }
+          );
+
+          const api = context.__menuExports;
+          const expectedMediaKeys = ['bastille', 'highlow', 'move', 'music', 'shelter', 'trailer', 'youth'];
+          assert.deepStrictEqual(
+            Object.keys(api.MENU_MEDIA_SOURCES).sort(),
+            expectedMediaKeys,
+            'Home media catalog must remain the seven accepted FIFA 17 choices.'
+          );
+
+          assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
+          assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
+          assert.ok(html.includes('id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.1.2-r1"'), 'The local versioned startup portrait is missing.');
+          assert.ok(source.includes('thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.1.2-r1"'), 'Home and startup must reuse one cached portrait.');
+          assert.ok(notices.includes('CC BY 2.0') && notices.includes('Tim Reckmann'), 'The bundled portrait attribution is incomplete.');
+          assert.ok(app.includes('finishStartupPresentation') && app.includes('STARTUP_SPLASH_EXIT_MS'), 'The finite startup presentation lifecycle is missing.');
+
+          const initializer = api.initializeMenuExperience.toString();
+          const decorator = api.decorateMainMenuTiles.toString();
+          const binder = api.bindMenuMediaControls.toString();
+          const selector = api.ensureMenuMediaSelector.toString();
+          const integrity = api.getMenuExperienceIntegrity.toString();
+          const saveMeta = api.getSavedShowdownMenuMeta.toString();
+          const refresh = api.refreshMainMenuExperience.toString();
+
+          assert.ok(!initializer.includes('trophyRoomButton'), 'Home initializer still depends on the removed Trophy Room tile.');
+          assert.ok(!source.includes('const trophyRoom = document.getElementById("trophyRoomButton")'), 'Stale r7 Trophy Room startup dependency returned.');
+          assert.ok(!source.includes('!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook'), 'All-or-nothing navigation-tile startup gate returned.');
+
+          assert.ok(decorator.includes('careerStatisticsButton'), 'Home decorator must understand the current Statistics tile id.');
+          assert.ok(initializer.includes('ensureMenuMediaSelector()'), 'Home initializer must create the media selector.');
+          assert.ok(initializer.includes('bindMenuMediaControls()'), 'Home initializer must bind Play/Mute controls.');
+          assert.ok(initializer.includes('bindMenuFeedbackInteraction()'), 'Home initializer must bind successful-navigation feedback delegation.');
+          assert.ok(initializer.includes('getMenuExperienceIntegrity()'), 'Home initializer must verify its own completed state.');
+          assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
+
+          assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)'), 'Media selector must be generated from the canonical seven-source catalog.');
+          assert.ok(selector.includes('selector.id = "menuMediaSelector"'), 'Media selector must expose the diagnostics-required id.');
+          assert.ok(appCss.includes('@media(max-width:700px){.menuMediaSelector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}'), 'Mobile Home must expose all seven media choices in a contained two-column grid.');
+          assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute'), 'Both Play and Mute controls must be bound by the same media subsystem.');
+          assert.ok(binder.includes('dataset.musicBound = "true"'), 'Media bindings must retain their idempotent diagnostics marker.');
+          assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound') && integrity.includes('feedbackBound'), 'Home integrity check must cover media and menu-feedback bindings.');
+          assert.ok(saveMeta.includes('indicator: "No Active Showdown"'), 'No-save header indicator state is missing.');
+          assert.ok(saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header indicator states are incomplete.');
+          assert.ok(refresh.includes('document.getElementById("seasonIndicator")') && refresh.includes('saveMeta.indicator'), 'Home refresh must synchronize the global save indicator.');
+
+          const creation = showdown.slice(showdown.indexOf('function createShowdown()'), showdown.indexOf('function isLeagueDatabaseReady()'));
+          assert.ok(creation.indexOf('saveCurrentShowdown()') < creation.indexOf('window.refreshMainMenuExperience()'), 'New Showdown must save before synchronizing shell state.');
+          assert.ok(creation.indexOf('window.refreshMainMenuExperience()') < creation.indexOf('showScreen("leagueWheelScreen")'), 'New Showdown must update the header before entering League selection.');
+
+          console.log('Home shell/menu initializer, save-indicator synchronization and seven-choice media bootstrap regression passed.');
+          NODE
+
+      - name: Validate deployed revision coherence
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
+          assert.ok(/^1\.1\.2-r\d+$/.test(revision || ''), 'Home shell must expose the v1.1.2 cache revision.');
+
+          const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
+            .map(match => ({ path: match[1], revision: match[2] || '' }));
+          assert.ok(refs.length > 0, 'No local shell assets were found.');
+          assert.deepStrictEqual(
+            refs.filter(ref => ref.revision !== revision),
+            [],
+            'All shell assets must share the current cache revision.'
+          );
+
+          console.log(`Validated coherent ${revision} shell cache identity.`);
+          NODE
