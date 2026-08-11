@@ -50,3 +50,8 @@ assert.ok(showdown.includes("replace the active save${existingName}"), "Destruct
 assert.ok(stabilityAudit.includes('page.waitForEvent("dialog", { timeout: 5000 })'), "Corrupt-save replacement regression must fail fast instead of hanging CI.");
 assert.ok(stabilityAudit.includes("const dismissedClick = page.locator(\"#startShowdown\").click()") && stabilityAudit.includes("await dismissedClick"), "Dialog audit must resolve the modal concurrently with the triggering click.");
 console.log("Corrupt active-slot replacement protection is permanently gated.");
+
+const hasSavedSection = storage.match(/function hasSavedShowdown\(\)\{[\s\S]*?function invalidateLegacyCache/)?.[0] || "";
+assert.ok(hasSavedSection, "hasSavedShowdown validity probe is missing.");
+assert.ok(!hasSavedSection.includes("reportStorageError"), "Expected corrupt active-save validity probes must not emit runtime console errors.");
+console.log("Corrupt active-save validity probing is silent while replacement protection remains active.");
