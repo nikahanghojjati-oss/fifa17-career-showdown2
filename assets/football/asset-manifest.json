@@ -38,39 +38,39 @@
       "output_sha256": "88bdd1472f65576c56ede4280d791438754f57ca0e5acbd5630802f2053fa7a8"
     },
     {
-      "id": "marcus-rashford-man-utd-2016-smart-r5",
-      "source_file": "Man Utd v Everton, August 2016 (08).JPG",
-      "output": "marcus-rashford-man-utd-2016-smart-r5.webp",
+      "id": "marcus-rashford-man-utd-2017-smart-r5",
+      "source_file": "Manchester United v RSC Anderlecht, 20 April 2017 (29).jpg",
+      "output": "marcus-rashford-man-utd-2017-smart-r5.webp",
       "max_size": [
-        900,
+        800,
         1100
       ],
-      "quality": 90,
+      "quality": 92,
       "author": "Ardfern",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Man_Utd_v_Everton,_August_2016_(08).JPG",
-      "context": "Marcus Rashford during the Manchester United v Everton Wayne Rooney testimonial at Old Trafford, 3 August 2016; hand-reviewed source-pixel crop removes dead stadium space while retaining his full head and upper body.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Man%20Utd%20v%20Everton%2C%20August%202016%20%2808%29.JPG",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Manchester_United_v_RSC_Anderlecht,_20_April_2017_(29).jpg",
+      "context": "Marcus Rashford for Manchester United v RSC Anderlecht at Old Trafford, 20 April 2017; hand-reviewed upper-body source-pixel crop deliberately prioritizes his face, red shirt and club identity while removing the unused grass and full-leg area.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Manchester%20United%20v%20RSC%20Anderlecht%2C%2020%20April%202017%20%2829%29.jpg",
       "source_dimensions": [
-        4896,
-        3672
+        3672,
+        4896
       ],
-      "source_sha1_commons": "1e2d0118e72fb3d98a20b3abb3def3f36dce21d9",
-      "source_sha256": "3141dc1610b0aec3422d271bf26d061ec64ea37814f04712119a82194906fef2",
+      "source_sha1_commons": "5fdc90dd24300c7c065eb8a0da070bc4dd83364c",
+      "source_sha256": "b8cd53aa991d817a6f3730e97863ca861eac44cb84f7d97e50d68f8adcd5a9fd",
       "crop_box_on_source": [
-        0,
-        400,
-        1800,
-        2600
+        1050,
+        300,
+        2350,
+        2200
       ],
-      "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+      "crop_policy": "hand-reviewed face-and-upper-body source-pixel crop; complete derivative shown at runtime with object-fit: contain",
       "output_dimensions": [
-        900,
+        753,
         1100
       ],
-      "output_bytes": 175782,
-      "output_sha256": "76550fb89ff340b6b1909c4ea8db936e1db58d174163e5ce47cda76a3aa4a36f"
+      "output_bytes": 174996,
+      "output_sha256": "0913282f4c0341475d13773217e261534184043fd4da17d4c27d0763ebc20447"
     },
     {
       "id": "anthony-martial-man-utd-2016-smart-r5",
