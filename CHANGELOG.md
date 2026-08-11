@@ -1,5 +1,9 @@
 # v1.1.2 — Candidate B Import Analysis + Migration Preview
 
+Date: **August 11, 2026**
+
+Runtime asset revision: **`1.1.2-r1`**
+
 - Adds preview-only local backup import analysis to Data Management.
 - Enforces a 5 MiB pre-read File ceiling, strict JSON/format/checksum/schema validation and future-format rejection.
 - Adds ordered schema-1→2 Showdown/preferences migration preview with deterministic/idempotent golden fixtures.
