@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import hashlib
 import html
 import io
@@ -15,32 +16,33 @@ ASSET_DIR = ROOT / "assets" / "football"
 MANIFEST_PATH = ASSET_DIR / "asset-manifest.json"
 API = "https://commons.wikimedia.org/w/api.php"
 HEADERS = {
-    "User-Agent": "CareerModeShowdownAssetBuilder/1.0 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2; contact via repository)",
+    "User-Agent": "CareerModeShowdownAssetBuilder/1.1 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2; contact via repository)",
     "Referer": "https://commons.wikimedia.org/",
 }
 SESSION = requests.Session()
 
 # The crop is authored once in source pixels. Runtime CSS must show the complete
 # resulting derivative with object-fit: contain; it must never re-crop these.
-# replace_ids makes this builder reproducible from either the r4 baseline, an
-# earlier r5 candidate, or the final r5 manifest without deleting its own output.
+# replace_ids makes this builder reproducible from the r4/r5 history or the
+# current v1.1.1 manifest without deleting its own active output.
 SELECTIONS = {
     "james": {
         "replace_ids": [
             "james-rodriguez-real-madrid-2016-r4",
             "james-rodriguez-real-madrid-2019-smart-r5",
+            "james-rodriguez-real-madrid-2016-smart-v111",
         ],
-        "id": "james-rodriguez-real-madrid-2019-smart-r5",
-        "source_file": "James Rodríguez in 2019.jpg",
-        "output": "james-rodriguez-real-madrid-2019-smart-r5.webp",
-        "crop_box_on_source": [20, 0, 540, 705],
-        "max_size": [520, 705],
+        "id": "james-rodriguez-real-madrid-2016-smart-v111",
+        "source_file": "James Rodríguez in September 2016 - 02.jpg",
+        "output": "james-rodriguez-real-madrid-2016-smart-v111.webp",
+        "crop_box_on_source": [0, 0, 863, 1080],
+        "max_size": [863, 1080],
         "quality": 92,
         "author": "Real Madrid",
         "license": "CC BY 3.0",
         "license_url": "https://creativecommons.org/licenses/by/3.0/",
-        "context": "James Rodríguez in Real Madrid training apparel at Real Madrid City, 23 October 2019; hand-reviewed crop retains his complete head, shoulders, shirt and club crest.",
-        "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+        "context": "James Rodríguez during a Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016; the complete licensed source frame is preserved so his full head, face and Real Madrid identity remain available to the clean-anchor layout.",
+        "crop_policy": "complete licensed source frame preserved; complete derivative shown at runtime with object-fit: contain",
     },
     "rashford": {
         "replace_ids": [
@@ -192,59 +194,65 @@ def find_manifest_index(assets: list[dict], selection: dict) -> int:
     )
 
 
-def main() -> None:
+def build_selection(manifest: dict, key: str, selection: dict, old_outputs: set[str]) -> None:
+    meta = metadata(selection["source_file"])
+    validate_source(selection, meta)
+    source_bytes = download(meta["url"])
+    source_image = ImageOps.exif_transpose(Image.open(io.BytesIO(source_bytes)))
+    if [source_image.width, source_image.height] != [meta["width"], meta["height"]]:
+        raise RuntimeError(f"Downloaded source dimensions mismatch for {selection['source_file']}")
+
+    output_bytes, output_dimensions = render(selection, source_bytes)
+    (ASSET_DIR / selection["output"]).write_bytes(output_bytes)
+
+    index = find_manifest_index(manifest["assets"], selection)
+    prior_output = manifest["assets"][index].get("output")
+    if prior_output and prior_output != selection["output"]:
+        old_outputs.add(prior_output)
+
+    manifest["assets"][index] = {
+        "id": selection["id"],
+        "source_file": selection["source_file"],
+        "output": selection["output"],
+        "max_size": selection["max_size"],
+        "quality": selection["quality"],
+        "author": selection["author"],
+        "license": selection["license"],
+        "license_url": selection["license_url"],
+        "source_page": meta["page"],
+        "context": selection["context"],
+        "special_redirect_url": (
+            "https://commons.wikimedia.org/wiki/Special:Redirect/file/"
+            + requests.utils.quote(selection["source_file"], safe="")
+        ),
+        "source_dimensions": [meta["width"], meta["height"]],
+        "source_sha1_commons": meta["sha1"],
+        "source_sha256": sha256(source_bytes),
+        "crop_box_on_source": selection["crop_box_on_source"],
+        "crop_policy": selection["crop_policy"],
+        "output_dimensions": output_dimensions,
+        "output_bytes": len(output_bytes),
+        "output_sha256": sha256(output_bytes),
+    }
+    print(
+        f"Built {key}: {selection['output']} "
+        f"{output_dimensions[0]}x{output_dimensions[1]} {len(output_bytes)} bytes"
+    )
+
+
+def main(only: str | None = None) -> None:
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     old_outputs: set[str] = set()
 
     for key, selection in SELECTIONS.items():
-        meta = metadata(selection["source_file"])
-        validate_source(selection, meta)
-        source_bytes = download(meta["url"])
-        source_image = ImageOps.exif_transpose(Image.open(io.BytesIO(source_bytes)))
-        if [source_image.width, source_image.height] != [meta["width"], meta["height"]]:
-            raise RuntimeError(f"Downloaded source dimensions mismatch for {selection['source_file']}")
-
-        output_bytes, output_dimensions = render(selection, source_bytes)
-        (ASSET_DIR / selection["output"]).write_bytes(output_bytes)
-
-        index = find_manifest_index(manifest["assets"], selection)
-        prior_output = manifest["assets"][index].get("output")
-        if prior_output and prior_output != selection["output"]:
-            old_outputs.add(prior_output)
-
-        manifest["assets"][index] = {
-            "id": selection["id"],
-            "source_file": selection["source_file"],
-            "output": selection["output"],
-            "max_size": selection["max_size"],
-            "quality": selection["quality"],
-            "author": selection["author"],
-            "license": selection["license"],
-            "license_url": selection["license_url"],
-            "source_page": meta["page"],
-            "context": selection["context"],
-            "special_redirect_url": (
-                "https://commons.wikimedia.org/wiki/Special:Redirect/file/"
-                + requests.utils.quote(selection["source_file"], safe="")
-            ),
-            "source_dimensions": [meta["width"], meta["height"]],
-            "source_sha1_commons": meta["sha1"],
-            "source_sha256": sha256(source_bytes),
-            "crop_box_on_source": selection["crop_box_on_source"],
-            "crop_policy": selection["crop_policy"],
-            "output_dimensions": output_dimensions,
-            "output_bytes": len(output_bytes),
-            "output_sha256": sha256(output_bytes),
-        }
-        print(
-            f"Built {key}: {selection['output']} "
-            f"{output_dimensions[0]}x{output_dimensions[1]} {len(output_bytes)} bytes"
-        )
+        if only and key != only:
+            continue
+        build_selection(manifest, key, selection, old_outputs)
         time.sleep(2)
 
-    manifest["generated_by"] = "r5-owner-requested-new-player-source-smart-crop-builder"
+    manifest["generated_by"] = "licensed-player-smart-crop-builder-v1.1.1"
     manifest["transformation"] = (
-        "James Rodríguez, Marcus Rashford and Anthony Martial are rebuilt from new licensed Commons sources using explicit, hand-reviewed source-pixel crop boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Messi and Lahm are unchanged from r4. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration."
+        "James Rodríguez is refreshed from a different Real Madrid-authored CC BY 3.0 Commons source with the complete licensed frame preserved. Marcus Rashford and Anthony Martial retain their reviewed r5 derivatives; Messi and Lahm retain r4. Runtime CSS shows 100% of each finished derivative with contain and keeps face-safe FIFA-style accent geometry outside the protected head zone; no generative alteration."
     )
     MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
@@ -261,5 +269,17 @@ def main() -> None:
             print("Removed rejected prior derivative", output)
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Rebuild licensed Career Mode Showdown player visuals.")
+    parser.add_argument(
+        "--only",
+        choices=sorted(SELECTIONS),
+        default=None,
+        help="Rebuild only one selected player while leaving all other active derivatives untouched.",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    main()
+    args = parse_args()
+    main(args.only)

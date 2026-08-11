@@ -26,26 +26,30 @@ The application does not claim Barlow is the FIFA 17 proprietary typeface. It is
 
 The application displays the photographer, source, license and display-crop notice on Home, with a compact photographer/license credit on the startup screen. The local copy prevents the portrait from becoming a third-party availability or privacy dependency and does not imply that Marco Reus, Borussia Dortmund, the photographer or Wikimedia Commons endorses this fan project.
 
-## Licensed football photography visual set — r5 smart-crop player rebuild
+## Licensed football photography visual set — v1.1.1 source refresh
 
 The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data.
 
-The r5 owner-requested rebuild changes only the James Rodríguez, Marcus Rashford and Anthony Martial photographs. Each of those three now begins from a different licensed source photograph and receives one explicit, hand-reviewed crop in source-pixel coordinates before WebP conversion. The finished derivative is then shown in full with `object-fit: contain`; responsive CSS is not allowed to crop the derivative again. Lionel Messi and Philipp Lahm remain unchanged from r4.
+The v1.1.1 maintenance patch changes only the James Rodríguez source photograph. James now uses a different Real Madrid-authored Wikimedia Commons image from September 2016. The complete licensed source frame is preserved before WebP conversion and the finished derivative is shown in full with `object-fit: contain`; responsive CSS is not allowed to crop the derivative again. Marcus Rashford and Anthony Martial retain their reviewed r5 derivatives. Lionel Messi and Philipp Lahm remain unchanged from r4.
 
-The earlier r3 visual regression and its rejected source/crop decisions remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`. The subsequently replaced r4 James/Rashford/Martial derivatives remain recoverable through Git history but are no longer active runtime assets. During r5 source review, an intermediate 2016 Rashford candidate was also replaced after final browser previews showed that a tighter 2017 Manchester United source made his face, red shirt and club identity substantially more readable at desktop, windowed and mobile Transfer Challenge sizes. The repository manifest `assets/football/asset-manifest.json` records source dimensions, source fingerprints, exact source-pixel crop boxes, derivative dimensions, derivative fingerprints and byte sizes.
+This mixed policy is deliberate: James preserves the complete licensed frame, while Rashford, Martial and Lahm retain an explicit, hand-reviewed crop where source composition required it. In every case the finished derivative is authoritative and responsive presentation is not permitted to introduce a second crop.
+
+The earlier r3 visual regression and its rejected source/crop decisions remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`. The replaced 2019 James derivative and earlier r4 James/Rashford/Martial derivatives remain recoverable through Git history but are not active runtime assets. During r5 source review, an intermediate 2016 Rashford candidate was also replaced after final browser previews showed that a tighter 2017 Manchester United source made his face, red shirt and club identity substantially more readable at desktop, windowed and mobile Transfer Challenge sizes. The repository manifest `assets/football/asset-manifest.json` records source dimensions, source fingerprints, exact source-pixel crop/full-frame policy, derivative dimensions, derivative fingerprints and byte sizes.
 
 ### James Rodríguez — Real Madrid
 
-- Repository file: `assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp`
-- Source file: `James Rodríguez in 2019.jpg`
+- Repository file: `assets/football/james-rodriguez-real-madrid-2016-smart-v111.webp`
+- Source file: `James Rodríguez in September 2016 - 02.jpg`
 - Author/source account: Real Madrid
-- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg`
+- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_September_2016_-_02.jpg`
 - License: Creative Commons Attribution 3.0 Unported (CC BY 3.0), `https://creativecommons.org/licenses/by/3.0/`
-- Source dimensions: 540 × 720.
-- Source context: James Rodríguez wearing Real Madrid training apparel, dated 23 October 2019.
+- Source dimensions: 863 × 1080.
+- Source context: James Rodríguez during a Real Madrid post-match interview after Borussia Dortmund v Real Madrid on 28 September 2016.
 - Application use: Create Showdown presentation.
-- Local transformation: source-pixel crop `(20, 0, 540, 705)`, producing a 520 × 705 crop that retains his complete head, shoulders, shirt and Real Madrid crest; encoded as WebP at quality 92 with no upscaling.
-- Display policy: the complete 520 × 705 authored derivative is displayed with `object-fit: contain`; runtime layout cannot crop the face or head merely to fill a wide tile.
+- Local transformation: the complete source-pixel frame `(0, 0, 863, 1080)` is preserved, producing an 863 × 1080 derivative encoded as WebP at quality 92 with no upscaling. No semantic crop is applied before conversion.
+- Display policy: the complete 863 × 1080 authored derivative is displayed with `object-fit: contain`; runtime layout cannot crop the face or head merely to fill a wide tile.
+- Source fingerprint: Commons SHA-1 `8f1b085518ab1b36e25cda150afb3ae6900622d7`; downloaded source SHA-256 `bd29eb5b69468bf7a542f10f3a5c3aebc5d7b5d66beaacc2980c3b987c0b659c`.
+- Local derivative fingerprint: SHA-256 `0ed0f578a12f42b19b071488a51fde6b6faac1554ff81b4ffa7a5d810ce73be8`, 85,228 bytes.
 
 ### Marcus Rashford — Manchester United
 
