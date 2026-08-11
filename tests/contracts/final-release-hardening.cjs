@@ -41,7 +41,11 @@ assert.ok(
 console.log("v1.1 final hardening contracts passed: 44px controls and decoded football-photo paint settlement are protected.");
 
 assert.ok(storage.includes("function hasStoredActiveShowdownData()"), "Raw active-slot occupancy must remain separately detectable from valid Continue state.");
-assert.ok(showdown.includes("const hasStoredActiveData = hasUsableActiveSave"), "New Showdown must distinguish valid active saves from occupied corrupt raw data.");
+const compactShowdown = showdown.replace(/\s+/g, "");
+assert.ok(
+    compactShowdown.includes("hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData()"),
+    "New Showdown must distinguish valid active saves from occupied corrupt raw data."
+);
 assert.ok(showdown.includes("replace the active save${existingName}"), "Destructive active-slot replacement must remain confirmation-gated.");
 assert.ok(stabilityAudit.includes('page.waitForEvent("dialog", { timeout: 5000 })'), "Corrupt-save replacement regression must fail fast instead of hanging CI.");
 console.log("Corrupt active-slot replacement protection is permanently gated.");
