@@ -19,7 +19,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Inspect Rashford mobile render
+      - name: Inspect Rashford through real Transfer journey
         shell: bash
         run: |
           set -euo pipefail
@@ -30,27 +30,32 @@ jobs:
           const fs=require('fs');
           const {chromium}=require('playwright');
           const {resolveChromiumRuntime}=require('./tests/support/chromium-runtime.cjs');
-          const base='http://127.0.0.1:4173/';
           (async()=>{
             const runtime=await resolveChromiumRuntime();
             const browser=await chromium.launch({executablePath:runtime.executablePath,args:runtime.args,headless:true});
             try{
               const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
               const page=await context.newPage();
-              await page.goto(base,{waitUntil:'domcontentloaded'});
+              await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded'});
               await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
-              await page.waitForFunction(()=>typeof window.ensureFootballVisualsModule==='function',{timeout:12000});
-              await page.evaluate(async()=>{
-                await window.ensureFootballVisualsModule();
-                await window.ensureGameplayModules();
-                currentShowdown={
-                  id:1700000000000,schemaVersion:2,name:'Diagnostic',status:'Ready',currentRound:1,totalRounds:1,
-                  managers:{playerOne:'Alex',playerTwo:'Jordan'},selectedLeague:{id:'premier-league',name:'Premier League'},
-                  clubs:{playerOne:'Arsenal',playerTwo:'Chelsea'},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[]
-                };
-                showScreen('transferChallenge',false);
-                if(typeof renderTransferChallenge==='function') renderTransferChallenge();
+              await page.locator('#mainMenu').waitFor({state:'visible',timeout:5000});
+              await page.locator('#newShowdown').click();
+              await page.locator('#createShowdown').waitFor({state:'visible',timeout:12000});
+              await page.locator('#showdownName').fill('Diagnostic');
+              await page.locator('#managerOne').fill('Alex');
+              await page.locator('#managerTwo').fill('Jordan');
+              await page.locator('#startShowdown').click();
+              await page.locator('#leagueWheelScreen').waitFor({state:'visible',timeout:12000});
+              await page.evaluate(()=>{
+                currentShowdown.selectedLeague={id:'premier_league',name:'Premier League'};
+                currentShowdown.status='League Confirmed';
+                currentShowdown.clubs={playerOne:'Arsenal',playerTwo:'Chelsea'};
+                currentShowdown.status='Ready';
+                saveCurrentShowdown();updateShowdownUI();showScreen('dashboard',false);
               });
+              await page.locator('#dashboard').waitFor({state:'visible',timeout:12000});
+              await page.evaluate(()=>openTransferChallenge());
+              await page.locator('#transferChallenge').waitFor({state:'visible',timeout:12000});
               await page.waitForFunction(()=>{
                 const p=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"]');
                 const i=p?.querySelector('.footballVisualMedia');
@@ -62,18 +67,16 @@ jobs:
                 const i=p.querySelector('.footballVisualMedia');
                 const ps=getComputedStyle(p),fs=getComputedStyle(f),is=getComputedStyle(i);
                 const ir=i.getBoundingClientRect(),fr=f.getBoundingClientRect(),pr=p.getBoundingClientRect();
-                const centerX=fr.left+fr.width*.75, centerY=fr.top+fr.height*.35;
-                const hit=document.elementFromPoint(centerX,centerY);
-                const parents=[]; let n=i;
-                while(n&&n!==document.body){
-                  const s=getComputedStyle(n); parents.push({tag:n.tagName,cls:n.className,display:s.display,visibility:s.visibility,opacity:s.opacity,z:s.zIndex,transform:s.transform,contentVisibility:s.contentVisibility});n=n.parentElement;
-                }
+                const samples=[[.2,.2],[.5,.2],[.8,.2],[.8,.5]].map(([x,y])=>{
+                  const el=document.elementFromPoint(fr.left+fr.width*x,fr.top+fr.height*y);
+                  return {x,y,tag:el?.tagName||'',cls:el?.className||'',id:el?.id||''};
+                });
                 return {
                   panelClass:p.className,panelRect:pr.toJSON(),panelDisplay:ps.display,panelVisibility:ps.visibility,panelOpacity:ps.opacity,
-                  frameRect:fr.toJSON(),frameDisplay:fs.display,frameVisibility:fs.visibility,frameOpacity:fs.opacity,frameZ:fs.zIndex,frameBg:fs.background,
+                  frameRect:fr.toJSON(),frameDisplay:fs.display,frameVisibility:fs.visibility,frameOpacity:fs.opacity,frameZ:fs.zIndex,
                   imageRect:ir.toJSON(),imageDisplay:is.display,imageVisibility:is.visibility,imageOpacity:is.opacity,imageZ:is.zIndex,imagePosition:is.position,
                   imageObjectFit:is.objectFit,imageObjectPosition:is.objectPosition,imageTransform:is.transform,imageClip:is.clipPath,imageSrc:i.currentSrc,
-                  natural:[i.naturalWidth,i.naturalHeight],complete:i.complete,hit:hit?{tag:hit.tagName,cls:hit.className,id:hit.id}:null,parents
+                  natural:[i.naturalWidth,i.naturalHeight],complete:i.complete,samples
                 };
               });
               console.log('RASHFORD_MOBILE_DIAGNOSTIC='+JSON.stringify(info,null,2));
@@ -81,7 +84,7 @@ jobs:
               await page.screenshot({path:'test-results/rashford-mobile-before.png',fullPage:true});
               await page.evaluate(()=>{
                 const i=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMedia');
-                i.style.position='relative';i.style.zIndex='2';i.style.visibility='visible';i.style.display='block';i.style.opacity='1';i.style.transform='translateZ(0)';
+                i.style.position='relative';i.style.zIndex='5';i.style.display='block';i.style.visibility='visible';i.style.opacity='1';i.style.transform='translateZ(0)';
               });
               await page.screenshot({path:'test-results/rashford-mobile-forced-paint.png',fullPage:true});
               await context.close();
