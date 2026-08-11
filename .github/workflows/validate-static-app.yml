@@ -262,8 +262,8 @@ jobs:
           const assert = require('assert');
           const vm = require('vm');
 
-          const expectedVersion = '1.1.1';
-          const expectedRevision = '1.1.1-r1';
+          const expectedVersion = '1.1.2';
+          const expectedRevision = '1.1.2-r1';
           const maximumInitialAssetBytes = 165000;
           const maximumCompressedInitialAssetBytes = 37500;
           const maximumStartupPortraitBytes = 95000;
@@ -280,28 +280,31 @@ jobs:
           const nextTask = fs.readFileSync('NEXT_TASK.md', 'utf8');
           const readme = fs.readFileSync('README.md', 'utf8');
           const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-          const releaseRecord = fs.readFileSync('RELEASE_V1.1.1.md', 'utf8');
-          const previousReleaseRecord = fs.readFileSync('RELEASE_V1.1.0.md', 'utf8');
+          const releaseRecord = fs.readFileSync('RELEASE_V1.1.2.md', 'utf8');
+          const previousReleaseRecord = fs.readFileSync('RELEASE_V1.1.1.md', 'utf8');
+          const candidateAReleaseRecord = fs.readFileSync('RELEASE_V1.1.0.md', 'utf8');
           const visualMaintenanceReleaseRecord = fs.readFileSync('RELEASE_V1.0.2.md', 'utf8');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
           assert.ok(revisionMatch && revisionMatch[1].trim(), 'Shell must define app-asset-revision.');
           const revision = revisionMatch[1].trim();
           assert.strictEqual(revision, expectedRevision, 'Stable runtime revision changed unexpectedly.');
-          assert.ok(html.includes('v1.1.1 · Stable'), 'Stable user-facing footer identity is missing.');
+          assert.ok(html.includes('v1.1.2 · Stable'), 'Stable user-facing footer identity is missing.');
           assert.ok(!html.includes('V1 Visual Immersion Candidate'), 'Candidate text remains in the user-facing shell.');
-          assert.ok(projectState.includes('**Application version:** v1.1.1 — Maintenance Candidate'), 'PROJECT_STATE current version is stale.');
-          assert.ok(projectState.includes('**Runtime asset revision:** `1.1.1-r1`'), 'PROJECT_STATE runtime revision is stale.');
-          assert.ok(nextTask.includes('## Current baseline: v1.1.1 Maintenance Candidate'), 'NEXT_TASK does not identify the stable baseline.');
-          assert.ok(readme.includes('**Application version:** v1.1.1 — Maintenance Candidate'), 'README current version is stale.');
-          assert.ok(changelog.includes('# v1.1.1 — James Rodríguez Real Madrid Source Refresh'), 'CHANGELOG v1.1.1 maintenance entry is missing.');
+          assert.ok(projectState.includes('**Application version:** v1.1.2 — Maintenance Candidate'), 'PROJECT_STATE current version is stale.');
+          assert.ok(projectState.includes('**Runtime asset revision:** `1.1.2-r1`'), 'PROJECT_STATE runtime revision is stale.');
+          assert.ok(nextTask.includes('## Current baseline: v1.1.2 Candidate B'), 'NEXT_TASK does not identify Candidate B as the current baseline.');
+          assert.ok(readme.includes('**Application version:** v1.1.2 — Maintenance Candidate'), 'README current version is stale.');
+          assert.ok(changelog.includes('# v1.1.2 — Candidate B Import Analysis + Migration Preview'), 'CHANGELOG v1.1.2 Candidate B entry is missing.');
+          assert.ok(changelog.includes('# v1.1.1 — James Rodríguez Real Madrid Source Refresh'), 'Historical v1.1.1 maintenance entry is missing.');
           assert.ok(changelog.includes('# v1.1.0 — Data Safety and Recovery / Candidate A'), 'Historical v1.1.0 Candidate A release entry is missing.');
-          assert.ok(releaseRecord.includes('Release tag: `v1.1.1`'), 'Permanent v1.1.1 release record is incomplete.');
+          assert.ok(releaseRecord.includes('Release tag: `v1.1.2`'), 'Permanent v1.1.2 release record is incomplete.');
           [projectState, nextTask, readme, changelog].forEach((document, index) => {
-            assert.ok(document.includes('1.1.1-r1'), `Current authority document ${index + 1} is missing the v1.1.1 runtime identity.`);
+            assert.ok(document.includes('1.1.2-r1'), `Current authority document ${index + 1} is missing the v1.1.2 runtime identity.`);
           });
-          assert.ok(releaseRecord.includes('Runtime asset revision: `1.1.1-r1`'), 'The v1.1.1 release record must contain the current runtime identity.');
-          assert.ok(previousReleaseRecord.includes('1.1.0-r1'), 'The immutable v1.1.0 release record must retain its deployed r1 evidence.');
+          assert.ok(releaseRecord.includes('Runtime asset revision: `1.1.2-r1`'), 'The v1.1.2 release record must contain the current runtime identity.');
+          assert.ok(previousReleaseRecord.includes('1.1.1-r1'), 'The immutable v1.1.1 release record must retain its deployed r1 evidence.');
+          assert.ok(candidateAReleaseRecord.includes('1.1.0-r1'), 'The immutable v1.1.0 Candidate A release record must retain its deployed r1 evidence.');
           assert.ok(visualMaintenanceReleaseRecord.includes('1.0.2-r1'), 'The immutable v1.0.2 release record must retain its deployed r1 evidence.');
 
           const startupPortraitMatch = html.match(/id="startupAthlete"[^>]+src="(assets\/[^"?]+)\?v=([^"]+)"/i);
@@ -359,7 +362,7 @@ jobs:
           const eagerForbidden = new Set([
             'js/showdownUI.js', 'js/visualIdentity.js', 'js/leagueWheel.js', 'js/clubAssignment.js',
             'js/transferChallenge.js', 'js/seasonEngine.js', 'js/analytics.js', 'js/statistics.js',
-            'js/trophyRoom.js', 'js/settings.js', 'data/leagues.js', 'data/clubs.js'
+            'js/trophyRoom.js', 'js/settings.js', 'js/backup.js', 'js/importAnalysis.js', 'js/legacy.js', 'data/leagues.js', 'data/clubs.js'
           ]);
           assert.deepStrictEqual(refs.filter(ref => eagerForbidden.has(ref.path)), [], 'Lazy files returned to startup path.');
 

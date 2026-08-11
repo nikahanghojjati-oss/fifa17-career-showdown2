@@ -52,7 +52,7 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run two consecutive complete browser, backup, provenance, Home and crop-safe photo audits
+      - name: Run two consecutive complete browser, backup, import-preview, provenance, Home and crop-safe photo audits
         shell: bash
         run: |
           set -euo pipefail
@@ -64,15 +64,18 @@ jobs:
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:home-visual
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:football-visual
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:backup-browser
+            CMS_AUDIT_RUN="ci-${attempt}" npm run test:import-browser
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:browser
           done
 
-      - name: Upload Candidate A Data Management screenshots
+      - name: Upload Candidate A/B Data Management screenshots
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: candidate-a-backup-browser-${{ github.run_id }}
-          path: test-results/backup-data-management-*.png
+          name: candidate-ab-data-management-${{ github.run_id }}
+          path: |
+            test-results/backup-data-management-*.png
+            test-results/candidate-b-import-*.png
           if-no-files-found: error
           retention-days: 14
 
@@ -123,6 +126,12 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:backup-browser
+
+      - name: Run Candidate B import analysis against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: npm run test:import-browser
 
       - name: Run complete journey against deployed Pages
         env:
