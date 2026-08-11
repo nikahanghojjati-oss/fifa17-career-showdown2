@@ -23,7 +23,7 @@ async function waitForApp(page){
         if(typeof window.getFootballVisualDiagnostics !== "function") return false;
         const state = window.getFootballVisualDiagnostics();
         return state.initialized && state.preloadCount === state.assetCount && state.assetCount === 5;
-    }, { timeout: 15000 });
+    }, null, { timeout: 15000 });
 }
 
 async function waitForPanels(page, screenName, count){
@@ -68,7 +68,7 @@ async function assertNoSecondaryCrop(page, screenName, expectedCount){
 }
 
 async function showCreate(page){
-    await page.click("#newShowdown");
+    await page.locator("#newShowdown").click();
     await page.locator("#createShowdown").waitFor({ state: "visible", timeout: 5000 });
     await waitForPanels(page, "createShowdown", 1);
     return assertNoSecondaryCrop(page, "createShowdown", 1);
@@ -113,8 +113,12 @@ async function showTransfer(page){
 }
 
 (async () => {
-    const runtime = resolveChromiumRuntime();
-    const browser = await chromium.launch(runtime.launchOptions);
+    const runtime = await resolveChromiumRuntime();
+    const browser = await chromium.launch({
+        executablePath: runtime.executablePath,
+        args: runtime.args,
+        headless: true
+    });
     const evidence = [];
     try{
         for(const testCase of cases){
