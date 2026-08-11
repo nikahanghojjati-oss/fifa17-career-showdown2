@@ -20,20 +20,17 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.1.0 — Stable
-**Runtime asset revision:** `1.1.0-r1`
+**Application version:** v1.1.1 — Maintenance Candidate
+**Runtime asset revision:** `1.1.1-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.1.0 Stable — Clean Stability Seal
-**Current activity:** Candidate A is merged, deployed and proven; the clean-stability pass is revalidating the exact production baseline across every permanent feature/workstream/release gate before the next roadmap step
-**Protected loading-screen status:** owner explicitly likes the loading presentation; v1.0.2 preserves its composition/timing and treats it as a regression-protected surface
-**Runtime change class:** no application-byte change for the clean-stability pass unless a reproduced defect requires a bounded fix; gameplay, scoring, routes, storage schema/keys and state-machine rules remain locked
-**Production v1.1.0 runtime merge:** `7aba9609130e7f72f256bfb20936441e8beaecaa`
-**Production v1.1.0 Pages state:** exact deployed runtime bytes and complete public journey proven by Stability; clean-stability post-merge smoke is required again before closure
-**Clean-build baseline Licensed Football Visuals:** PR #15 run `31526372109` — success
-**Clean-build baseline Stability Lane:** PR #15 run `31526372201` — storage/contracts success and two-cycle Chromium success; deployed-site smoke intentionally waits for `main`
-**Next roadmap candidate after v1.1.0 release proof:** Candidate B — Import Analysis + Migration Preview (read-only)
+**Current milestone:** v1.1.1 — James Rodríguez Real Madrid Source Refresh
+**Current activity:** replace only the Create Showdown James source with a different Real Madrid-authored licensed image, deepen changed-surface gates, and require two independent executions of every permanent gate on one frozen candidate
+**Protected loading-screen status:** owner explicitly likes the loading presentation; its composition/timing remains regression-protected
+**Runtime change class:** licensed James visual/source + coherent v1.1.1 cache/release authority only; gameplay, scoring, routes, storage schema/keys, Candidate A semantics and state-machine rules remain locked
+**Previous production runtime:** v1.1.0 / `1.1.0-r1`, fully sealed before this maintenance branch
+**Next roadmap candidate after v1.1.1 maintenance closure:** Candidate B — Import Analysis + Migration Preview (read-only)
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
@@ -42,6 +39,16 @@ The owner's deployed-r12 Chromebook review then made two visual requirements man
 An external review then raised generic maintainability, edge-case, accessibility, and future-scaling concerns. Source inspection rejected an unsupported rewrite or framework migration, while the valid risk categories became the finite v1.0.1 Stability Lane implementation in `STABILITY_PLAN_V1.0.X.md`.
 
 ---
+
+# v1.1.1 — James Rodríguez Real Madrid source refresh
+
+The owner explicitly requested a different James Rodríguez picture source while keeping the subject in his Real Madrid period. The selected source is the Real Madrid-authored CC BY 3.0 Commons photograph `James Rodríguez in September 2016 - 02.jpg` from 28 September 2016.
+
+The complete 863 × 1080 licensed source frame is preserved as `assets/football/james-rodriguez-real-madrid-2016-smart-v111.webp`, with no source crop and no runtime secondary crop. The clean-anchor/face-safe diagonal system remains the visual architecture. The replaced 2019 James runtime derivative is removed from the active asset set and is guarded against returning.
+
+This is a bounded maintenance patch, not Candidate B. Candidate A backup/export remains unchanged. Candidate B import analysis remains the next substantive roadmap candidate after v1.1.1 is merged, deployed and visually accepted or explicitly deferred.
+
+Release evidence for this patch is intentionally deeper on the changed failure surface and must execute every permanent gate family twice on the exact frozen SHA.
 
 # v1.1.0 — Data Safety and Recovery / Candidate A
 
