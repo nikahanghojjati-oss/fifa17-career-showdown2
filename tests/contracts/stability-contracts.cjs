@@ -21,7 +21,7 @@ const footerVersion = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*Stable[\s\S
 assert.equal(packageJson.version, appVersion, "package.json and APP_VERSION must agree.");
 assert.equal(packageJson.devDependencies["@sparticuz/chromium"], "149.0.0", "The registry-distributed Chromium runtime must remain pinned.");
 assert.equal(footerVersion, appVersion, "The user-facing footer version is stale.");
-assert.equal(revision, `${appVersion}-r1`, "The v1.0.2 maintenance release must use its r1 cache identity.");
+assert.equal(revision, `${appVersion}-r1`, "The v1.1.0 Candidate A release must use its r1 cache identity.");
 assert.ok(projectState.includes(`**Application version:** v${appVersion} — Stable`), "PROJECT_STATE version is stale.");
 assert.ok(projectState.includes(`**Runtime asset revision:** \`${revision}\``), "PROJECT_STATE revision is stale.");
 assert.ok(nextTask.includes(`Application version: v${appVersion}`), "NEXT_TASK version is stale.");
@@ -81,7 +81,7 @@ vm.runInContext(
 const storage = context.__storage;
 storageValues.set(storage.STORAGE_KEY, "{not valid json");
 assert.equal(storage.loadSavedShowdown(), null, "Malformed active data must fail closed.");
-assert.equal(storage.hasSavedShowdown(), true, "Malformed active bytes must remain guarded from silent replacement.");
+assert.equal(storage.hasSavedShowdown(), false, "Malformed active bytes must remain preserved without advertising a usable Continue Career save.");
 assert.equal(storageValues.get(storage.STORAGE_KEY), "{not valid json", "A stability read must not destroy recoverable raw bytes.");
 assert.ok(notices.some(message => /parse the active showdown/i.test(message)), "Malformed active data needs a visible recovery notice.");
 
@@ -114,6 +114,7 @@ assert.ok(workflow.includes("npm run test:contracts"), "Stability workflow must 
 assert.ok(workflow.includes("npm run test:runtime-boundary"), "Stability workflow must reproduce runtime error provenance filtering.");
 assert.ok(workflow.includes("npm run test:home-visual"), "Stability workflow must run the desktop/mobile Home visual audit.");
 assert.ok(workflow.includes("npm run test:football-visual"), "Stability workflow must run crop-safe football visual QA.");
+assert.ok(workflow.includes("npm run test:backup-browser"), "Stability workflow must run Candidate A backup export QA.");
 assert.ok(workflow.includes("npm run test:browser"), "Stability workflow must run the real browser audit.");
 assert.ok(workflow.includes("npm run verify:deployment"), "Stability workflow must verify the deployed tree.");
 
@@ -125,5 +126,5 @@ for(const workflowPath of fs.readdirSync(path.join(root, ".github/workflows"))){
 }
 
 process.stdout.write(
-    `Stability contracts passed for v${appVersion} / ${revision}: release coherence, runtime provenance, crop-safe visual gate ownership, corrupt data, quota rollback, CI ownership, and Node 24 actions.\n`
+    `Stability contracts passed for v${appVersion} / ${revision}: release coherence, Candidate A backup ownership, runtime provenance, crop-safe visual gate ownership, corrupt data, quota rollback, CI ownership, and Node 24 actions.\n`
 );

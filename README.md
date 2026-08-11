@@ -2,12 +2,12 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v1.0.2 — Stable
-**Runtime asset revision:** `1.0.2-r1`
+**Application version:** v1.1.0 — Stable
+**Runtime asset revision:** `1.1.0-r1`
 **Current phase:** v1.0.2 clean-anchor maintenance is technically complete, merged, deployed and post-merge green; owner real-device acceptance remains separate
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
-**Next feature after owner acceptance or explicit deferral:** v1.1.0 Candidate A — Versioned Backup Envelope + Non-Mutating Export
+**Next roadmap candidate after Candidate A release proof:** Candidate B — Import Analysis + Migration Preview
 **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`
 
 ## Development entry point
@@ -32,6 +32,10 @@ Read in this order:
 The original release path **v0.95 → v1.0** is complete. v1.0.2 is the deployed finite maintenance response to the owner's August 11 real-device visual rejection: footballers now use clean player anchors, while the loading screen remains protected. The release is technically complete and post-merge green; owner real-device acceptance remains the only open visual gate before the staged v1.1 data-safety lane becomes Current.
 
 ---
+
+## v1.1.0 — Data Safety and Recovery / Candidate A
+
+v1.1.0 adds a versioned, SHA-256-protected, human-readable local backup export for active Showdown, Legacy and preferences without mutating canonical storage. It also fixes five bounded maintenance defects and restores FIFA-style diagonal accent energy only in face-safe lower-body zones. Candidate B/C remain deferred.
 
 ## v1.0.2 — Clean-anchor footballer photography maintenance
 
