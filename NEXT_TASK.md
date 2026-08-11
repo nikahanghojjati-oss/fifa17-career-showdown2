@@ -30,42 +30,61 @@ Current candidate architecture:
 - Messi and Lahm remain on their protected crop-safe presentation;
 - no gameplay, scoring, navigation, storage schema/key, Transfer state-machine, Season Review or analytics behavior is intentionally changed.
 
-## 2. Current technical gate
+## 2. v1.0.2 technical completion
 
-Branch: `agent/v1.0.2-footballer-tile-maintenance`
+PR #13 is merged.
 
-PR: `#13 — v1.0.2: rebuild footballer tiles around clean-anchor photography`
+Final pre-merge candidate:
 
-The release is not complete merely because source exists.
+`057586128d00812feee8681392a088e8c27a1e75`
 
-Before merge/deploy:
+All eleven permanent PR workflows passed on that exact SHA.
 
-1. all eleven permanent workflows must pass on one frozen head;
-2. Licensed Football Visuals must pass real desktop/near-breakpoint/mobile Chromium checks;
-3. final screenshots must show James readable without washout, Rashford/Martial faces unobstructed, and desktop Reus free of the rejected clipped-head/neck treatment;
-4. the protected loading screen must remain regression-green;
-5. temporary development workflows/scripts must be removed;
-6. exact Pages bytes and the deployed complete journey must pass after merge.
+Runtime merge on `main`:
+
+`7a573ff2691b6143ecbc53df589822d5609f5e05`
+
+GitHub Pages deployment:
+
+`5852810024` — success.
+
+Post-merge Licensed Football Visuals:
+
+run `31503795213` — success, including the real Chromium visual audit.
+
+Post-merge Stability Lane:
+
+run `31503795725` — success, including:
+
+- storage/release/CI contracts;
+- two consecutive complete Chromium/provenance/Home/photo cycles;
+- exact deployed runtime-byte verification;
+- deployed runtime-error provenance;
+- deployed Home / Marco Reus audit;
+- deployed clean-anchor football-photo audit;
+- complete deployed gameplay/navigation journey.
+
+Technical status:
+
+`COMPLETE, MERGED, DEPLOYED, POST-MERGE GREEN`
+
+Do not rerun this evidence merely to rediscover the same state unless source changes or a new defect is reported.
 
 ## 3. Current owner gate
-
-Technical status while PR #13 is under validation:
-
-`CANDIDATE IN VALIDATION`
 
 Owner art-direction status:
 
 `PENDING REAL-DEVICE REVIEW OF DEPLOYED V1.0.2`
 
-Automated visual success is not owner acceptance.
+Automated/browser/deployment success is not owner acceptance.
 
-After deployment the owner should inspect:
+The owner should now inspect the public build for:
 
-- Home — desktop Marco Reus clean player anchor;
-- Create Showdown — James Rodríguez facial contrast and identity plate;
+- Home — desktop Marco Reus clean rectangular player anchor;
+- Create Showdown — James Rodríguez facial contrast and top-identity/full-width-photo composition;
 - Transfer Challenge — Marcus Rashford face clarity;
 - Transfer Challenge — Anthony Martial consistency;
-- loading screen — regression check only, not redesign approval.
+- loading screen — regression check only; its design was intentionally protected.
 
 ## 4. Decision after v1.0.2 deployment
 

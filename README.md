@@ -4,7 +4,7 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Application version:** v1.0.2 — Stable
 **Runtime asset revision:** `1.0.2-r1`
-**Current phase:** finite clean-anchor footballer-photography maintenance; technical validation/deployment gate in progress and owner real-device acceptance remains separate
+**Current phase:** v1.0.2 clean-anchor maintenance is technically complete, merged, deployed and post-merge green; owner real-device acceptance remains separate
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
 **Next feature after owner acceptance or explicit deferral:** v1.1.0 Candidate A — Versioned Backup Envelope + Non-Mutating Export
@@ -29,7 +29,7 @@ Read in this order:
 11. the `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*.md` files — detailed chronology when source/decision archaeology is genuinely required.
 12. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-The original release path **v0.95 → v1.0** is complete. v1.0.2 is the finite maintenance response to the owner's August 11 real-device visual rejection: footballers are being integrated as clean player anchors, while the loading screen remains protected. Owner acceptance still remains separate from automated validation before the staged v1.1 data-safety lane becomes Current.
+The original release path **v0.95 → v1.0** is complete. v1.0.2 is the deployed finite maintenance response to the owner's August 11 real-device visual rejection: footballers now use clean player anchors, while the loading screen remains protected. The release is technically complete and post-merge green; owner real-device acceptance remains the only open visual gate before the staged v1.1 data-safety lane becomes Current.
 
 ---
 
@@ -40,6 +40,8 @@ v1.0.2 does not add a feature workstream. It fixes reproduced real-device presen
 The footballer presentation rule is now **player first**: James, Rashford and Martial use clean photo anchors with decorative geometry behind the photograph and copy outside the image zone. Desktop Home Reus is a rectangular right-side tile photograph instead of a diagonal head/neck cut. The cinematic loading presentation remains protected.
 
 Permanent visual/browser gates enforce the clean-anchor layering, crop safety, responsive geometry, source provenance and Home/loading separation at Chromebook, near-breakpoint and mobile sizes.
+
+Runtime merge `7a573ff2691b6143ecbc53df589822d5609f5e05` and Pages deployment `5852810024` are verified. Post-merge Licensed Football Visuals and Stability Lane both passed, including exact deployed-byte verification and the complete public journey. Owner art-direction acceptance remains open.
 
 See `RELEASE_V1.0.2.md` for the exact maintenance scope and rollback boundary.
 

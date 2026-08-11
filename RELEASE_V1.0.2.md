@@ -36,18 +36,26 @@ Desktop Home Reus is integrated as a rectangular right-side player photograph. T
 
 ## Tuned visual geometry
 
-James:
+James desktop/windowed:
 
-- desktop clean-anchor photo stage: `60%`;
-- desktop copy plate: `36%`;
-- 701–1020 clean-anchor photo stage: `58%`;
-- 701–1020 copy plate: `38%`.
+- full-width identity plate above the photograph;
+- photo frame begins at `top:30%`;
+- photo frame width: `100%`;
+- copy and photograph are vertically separated;
+- mobile explicitly resets to the compact side layout.
 
 Transfer desktop:
 
 - Rashford photo stage: `34%`;
 - Martial photo stage: `36%`;
 - copy remains left of the photo anchor.
+
+Transfer 701–1020 windowed:
+
+- copy plate: `52%`;
+- Rashford photo stage: `40%`;
+- Martial photo stage: `42%`;
+- the larger anchors preserve the permanent 150px photo-frame quality floor.
 
 Home desktop:
 
@@ -91,6 +99,36 @@ The candidate is mergeable only when all permanent workflows pass on one frozen 
 - Stability Lane.
 
 Licensed Football Visuals must verify real desktop, near-breakpoint and mobile presentation. Stability Lane must complete two consecutive browser cycles and, after merge, exact Pages-byte verification plus deployed runtime-error, Home, photo and complete-journey audits.
+
+## Final technical release evidence
+
+Final pre-merge candidate:
+
+`057586128d00812feee8681392a088e8c27a1e75`
+
+All eleven permanent PR workflows passed on that exact SHA.
+
+Runtime merge:
+
+`7a573ff2691b6143ecbc53df589822d5609f5e05`
+
+GitHub Pages deployment:
+
+`5852810024` — success.
+
+Post-merge Licensed Football Visuals:
+
+run `31503795213` — success, including real desktop/near-breakpoint/mobile Chromium presentation.
+
+Post-merge Stability Lane:
+
+run `31503795725` — success, including storage/release contracts, two consecutive Chromium cycles, exact deployed-byte verification, deployed runtime-error provenance, Home/Reus, football-photo and complete public gameplay/navigation journey.
+
+Technical release status:
+
+`COMPLETE, MERGED, DEPLOYED, POST-MERGE GREEN`
+
+Owner art-direction acceptance remains explicitly open.
 
 ## Rollback
 
