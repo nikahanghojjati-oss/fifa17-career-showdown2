@@ -5,7 +5,7 @@ const footballVisualPreloads = new Map();
 
 function getFootballVisualRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
-    return meta && meta.content ? meta.content.trim() : "1.0.1-r5";
+    return meta && meta.content ? meta.content.trim() : "1.0.2-r1";
 }
 
 function getFootballVisualAsset(key){
