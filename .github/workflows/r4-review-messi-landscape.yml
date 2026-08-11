@@ -1,0 +1,96 @@
+name: R4 Review Messi Landscape
+
+on:
+  push:
+    branches:
+      - agent/r4-visual-recovery-and-error-provenance
+    paths:
+      - .github/workflows/r4-review-messi-landscape.yml
+
+permissions:
+  contents: read
+
+jobs:
+  build-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Download licensed Messi landscape candidate
+        run: |
+          set -euo pipefail
+          mkdir -p candidate-review
+          curl --fail --location --retry 6 --retry-all-errors --connect-timeout 20 \
+            --user-agent 'CareerModeShowdownVisualQA/1.0 (GitHub Actions)' \
+            'https://upload.wikimedia.org/wikipedia/commons/c/cc/Save_the_Dream_at_the_Match_of_champions_%2831067838784%29.jpg' \
+            --output candidate-review/messi-landscape-source.jpg
+
+      - name: Build candidate derivative and layout previews
+        run: |
+          python <<'PY'
+          from PIL import Image, ImageOps, ImageDraw
+          from pathlib import Path
+          import hashlib, json
+
+          root = Path('candidate-review')
+          source_path = root / 'messi-landscape-source.jpg'
+          source = ImageOps.exif_transpose(Image.open(source_path)).convert('RGB')
+          original = source.size
+
+          candidate = source.copy()
+          candidate.thumbnail((1280, 900), Image.Resampling.LANCZOS)
+          output_path = root / 'lionel-messi-barcelona-2016-landscape-candidate.webp'
+          candidate.save(output_path, 'WEBP', quality=92, method=6)
+
+          def contain_size(iw, ih, fw, fh):
+              scale = min(fw / iw, fh / ih)
+              return max(1, round(iw * scale)), max(1, round(ih * scale))
+
+          def preview(name, width, height, frame_fraction):
+              canvas = Image.new('RGB', (width, height), (31, 82, 108))
+              draw = ImageDraw.Draw(canvas)
+              # FIFA-style geometric background, intentionally simple: this only reviews image scale/composition.
+              draw.polygon([(0,0),(width*0.42,0),(width*0.25,height),(0,height)], fill=(29,74,98))
+              draw.polygon([(width*0.48,0),(width*0.68,0),(width*0.48,height),(width*0.30,height)], fill=(36,112,148))
+              frame_w = round(width * frame_fraction)
+              frame = (width-frame_w, 0, width, height)
+              draw.rectangle(frame, fill=(27, 67, 87))
+              rw, rh = contain_size(*candidate.size, frame_w, height)
+              rendered = candidate.resize((rw, rh), Image.Resampling.LANCZOS)
+              x = width - frame_w + (frame_w-rw)//2
+              y = (height-rh)//2
+              canvas.paste(rendered, (x,y))
+              draw.text((18, height-72), 'LIONEL MESSI', fill=(255,255,255))
+              draw.text((18, height-48), 'FC Barcelona · 2016', fill=(230,238,242))
+              canvas.save(root / name, quality=92)
+
+          preview('messi-landscape-desktop-preview.jpg', 1290, 340, 0.46)
+          preview('messi-landscape-mobile-preview.jpg', 724, 320, 0.58)
+
+          metadata = {
+              'source_dimensions': original,
+              'candidate_dimensions': candidate.size,
+              'source_sha256': hashlib.sha256(source_path.read_bytes()).hexdigest(),
+              'candidate_bytes': output_path.stat().st_size,
+              'candidate_sha256': hashlib.sha256(output_path.read_bytes()).hexdigest(),
+          }
+          (root / 'metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
+          print(json.dumps(metadata, indent=2))
+          PY
+
+      - name: Upload review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: r4-messi-landscape-review-${{ github.sha }}
+          path: candidate-review/
+          if-no-files-found: error
+          retention-days: 7
