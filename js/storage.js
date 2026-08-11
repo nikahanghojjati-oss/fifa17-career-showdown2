@@ -367,6 +367,10 @@ function clearSavedShowdown(){
     return removed;
 }
 
+function hasStoredActiveShowdownData(){
+    return readStorageValue(STORAGE_KEY) !== null;
+}
+
 function hasSavedShowdown(){
     if(activeSavePresenceKnown){ return activeSavePresent; }
     const raw = readStorageValue(STORAGE_KEY);
