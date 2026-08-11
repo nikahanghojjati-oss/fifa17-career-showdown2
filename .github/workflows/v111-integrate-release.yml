@@ -6,6 +6,7 @@ on:
       - agent/v1.1.1-james-real-madrid-source-refresh
     paths:
       - tools/integrate_v111_release.py
+      - .github/workflows/v111-integrate-release.yml
   workflow_dispatch:
 
 permissions:
