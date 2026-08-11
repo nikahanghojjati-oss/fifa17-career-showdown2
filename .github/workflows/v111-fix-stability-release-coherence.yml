@@ -1,0 +1,57 @@
+name: V111 Fix Stability Release Coherence
+
+on:
+  push:
+    branches:
+      - agent/v1.1.1-james-real-madrid-source-refresh
+    paths:
+      - .github/workflows/v111-fix-stability-release-coherence.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.1-james-real-madrid-source-refresh
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Promote only stale stability release-coherence assertions
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tests/contracts/stability-contracts.cjs')
+          text = path.read_text()
+          replacements = {
+              '"The v1.1.0 Candidate A release must use its r1 cache identity."': '"The current v1.1.x release must use its r1 cache identity."',
+              '`**Application version:** v${appVersion} — Stable`': '`**Application version:** v${appVersion} — Maintenance Candidate`',
+          }
+          for old, new in replacements.items():
+              count = text.count(old)
+              expected = 1 if 'Candidate A release' in old else 2
+              if count != expected:
+                  raise SystemExit(f'Expected {expected} occurrence(s) of {old!r}, found {count}')
+              text = text.replace(old, new)
+          path.write_text(text)
+          PY
+      - name: Run complete permanent contract suite
+        run: npm run test:contracts
+      - name: Commit contract-only repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add tests/contracts/stability-contracts.cjs
+          git commit -m 'Promote stability coherence to v1.1.1'
+          git push origin HEAD:agent/v1.1.1-james-real-madrid-source-refresh
