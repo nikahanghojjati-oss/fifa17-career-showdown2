@@ -11,17 +11,6 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 OUT = Path("test-results")
 OUT.mkdir(parents=True, exist_ok=True)
 
-SOURCES = [
-    ("JAMES · Real Madrid 2019", "James Rodríguez in 2019.jpg"),
-    ("RASHFORD · Man Utd v Feyenoord 2016 (23)", "Manchester United v Feyenoord, November 2016 (23).JPG"),
-    ("MARTIAL A · Man Utd v Chelsea 2019 · 48520614866", "Manchester Utd 4 Chelsea 0 (48520614866).jpg"),
-    ("MARTIAL B · Man Utd v Chelsea 2019 · 48520618321", "Manchester Utd 4 Chelsea 0 (48520618321).jpg"),
-    ("MARTIAL C · Man Utd v Chelsea 2019 · 48520622561", "Manchester Utd 4 Chelsea 0 (48520622561).jpg"),
-    ("MARTIAL D · Man Utd v Chelsea 2019 · 48520788537", "Manchester Utd 4 Chelsea 0 (48520788537).jpg"),
-    ("MARTIAL E · Man Utd v Chelsea 2019 · 48520789097", "Manchester Utd 4 Chelsea 0 (48520789097).jpg"),
-    ("MARTIAL F · Man Utd v Chelsea 2019 · 48520789617", "Manchester Utd 4 Chelsea 0 (48520789617).jpg"),
-]
-
 HEADERS = {
     "User-Agent": "CareerModeShowdownAssetReview/1.0 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2; contact via repository)",
     "Referer": "https://commons.wikimedia.org/",
@@ -34,6 +23,25 @@ SESSION = requests.Session()
 def strip_query(url: str) -> str:
     parts = urlsplit(url)
     return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+
+
+def category_files(category: str) -> list[str]:
+    response = SESSION.get(
+        API,
+        headers=HEADERS,
+        params={
+            "action": "query",
+            "format": "json",
+            "formatversion": "2",
+            "list": "categorymembers",
+            "cmtitle": f"Category:{category}",
+            "cmnamespace": "6",
+            "cmlimit": "100",
+        },
+        timeout=60,
+    )
+    response.raise_for_status()
+    return [item["title"].removeprefix("File:") for item in response.json()["query"]["categorymembers"]]
 
 
 def resolve(filename: str) -> dict:
@@ -52,8 +60,7 @@ def resolve(filename: str) -> dict:
         timeout=60,
     )
     response.raise_for_status()
-    payload = response.json()
-    page = payload["query"]["pages"][0]
+    page = response.json()["query"]["pages"][0]
     if page.get("missing"):
         raise RuntimeError(f"Commons file not found: {filename}")
     info = page["imageinfo"][0]
@@ -63,7 +70,6 @@ def resolve(filename: str) -> dict:
         "thumb_url": strip_query(info.get("thumburl") or info["url"]),
         "source_width": int(info["width"]),
         "source_height": int(info["height"]),
-        "mime": info.get("mime", ""),
     }
 
 
@@ -72,10 +78,6 @@ def fetch_image_bytes(url: str) -> bytes:
     if response.status_code != 429:
         response.raise_for_status()
         return response.content
-
-    # GitHub-hosted runners can share an upload.wikimedia.org rate-limited IP.
-    # wsrv.nl is used only as build-time transport for the same Commons bytes;
-    # runtime remains fully local and provenance continues to point to Commons.
     upstream = strip_query(url).replace("https://", "", 1)
     proxy = f"https://wsrv.nl/?url={quote(upstream, safe='/:()%,-._')}&w=800&we&output=jpg&q=92"
     proxied = SESSION.get(proxy, headers=HEADERS, timeout=90)
@@ -91,7 +93,7 @@ def download_preview(meta: dict) -> Image.Image:
             return ImageOps.exif_transpose(image).convert("RGB")
         except Exception as exc:
             last_error = exc
-            time.sleep(3 + attempt * 3)
+            time.sleep(2 + attempt * 2)
     raise RuntimeError(f"preview download exhausted retries: {last_error}")
 
 
@@ -99,56 +101,61 @@ def fit_into(image: Image.Image, width: int, height: int) -> Image.Image:
     copy = image.copy()
     copy.thumbnail((width, height), Image.Resampling.LANCZOS)
     canvas = Image.new("RGB", (width, height), "#101820")
-    x = (width - copy.width) // 2
-    y = (height - copy.height) // 2
-    canvas.paste(copy, (x, y))
+    canvas.paste(copy, ((width - copy.width) // 2, (height - copy.height) // 2))
     return canvas
 
 
-def main() -> None:
+def make_sheet(slug: str, files: list[str], report: list[str], failures: list[str]) -> None:
     font = ImageFont.load_default()
-    tile_w, image_h, label_h = 640, 430, 74
-    tile_h = image_h + label_h
-    cols = 2
-    rows = (len(SOURCES) + cols - 1) // cols
-    sheet = Image.new("RGB", (tile_w * cols, tile_h * rows), "#20282e")
+    tile_w, image_h, label_h, cols = 420, 300, 80, 3
+    rows = (len(files) + cols - 1) // cols
+    sheet = Image.new("RGB", (tile_w * cols, (image_h + label_h) * rows), "#20282e")
     draw = ImageDraw.Draw(sheet)
 
-    report = []
-    failures = []
-    for index, (label, filename) in enumerate(SOURCES):
+    for index, filename in enumerate(files):
         col = index % cols
         row = index // cols
         x = col * tile_w
-        y = row * tile_h
+        y = row * (image_h + label_h)
         try:
             meta = resolve(filename)
             image = download_preview(meta)
-            preview = fit_into(image, tile_w, image_h)
-            sheet.paste(preview, (x, y))
-            report.append(
-                "\t".join(
-                    [label, filename, f"{meta['source_width']}x{meta['source_height']}", meta["page"], meta["original_url"]]
-                )
-            )
-            detail = f"source {meta['source_width']} × {meta['source_height']} · preview {image.width} × {image.height}"
+            sheet.paste(fit_into(image, tile_w, image_h), (x, y))
+            report.append("\t".join([slug, filename, f"{meta['source_width']}x{meta['source_height']}", meta["page"], meta["original_url"]]))
+            detail = f"{meta['source_width']} × {meta['source_height']}"
         except Exception as exc:
-            failures.append(f"{label}: {type(exc).__name__}: {exc}")
+            failures.append(f"{slug} · {filename}: {type(exc).__name__}: {exc}")
             draw.rectangle((x, y, x + tile_w, y + image_h), fill="#612b2b")
-            detail = f"FAILED: {type(exc).__name__}: {str(exc)[:100]}"
+            detail = f"FAILED: {type(exc).__name__}"
 
-        draw.rectangle((x, y + image_h, x + tile_w, y + tile_h), fill="#eef3f4")
-        draw.text((x + 12, y + image_h + 9), label, fill="#15232b", font=font)
-        draw.text((x + 12, y + image_h + 30), detail, fill="#42545e", font=font)
-        draw.text((x + 12, y + image_h + 51), filename[:88], fill="#42545e", font=font)
-        time.sleep(1)
+        draw.rectangle((x, y + image_h, x + tile_w, y + image_h + label_h), fill="#eef3f4")
+        draw.text((x + 9, y + image_h + 8), f"{index + 1:02d} · {slug.upper()}", fill="#15232b", font=font)
+        draw.text((x + 9, y + image_h + 28), detail, fill="#42545e", font=font)
+        draw.text((x + 9, y + image_h + 49), filename[:62], fill="#42545e", font=font)
+        time.sleep(.6)
 
-    sheet.save(OUT / "r5-player-source-contact-sheet.jpg", quality=93, optimize=True)
+    sheet.save(OUT / f"r5-{slug}-source-contact-sheet.jpg", quality=92, optimize=True)
+
+
+def main() -> None:
+    report: list[str] = []
+    failures: list[str] = []
+
+    james = ["James Rodríguez in 2019.jpg"]
+    rashford = category_files("Marcus Rashford in 2016")
+    martial = category_files("Anthony Martial in 2016")
+
+    # Do not reconsider the two r4 portrait derivatives the owner has just asked to replace.
+    rashford = [name for name in rashford if name not in {"Marcus Rashford September 2016 (cropped).jpg", "Marcus Rashford.jpg"}]
+
+    make_sheet("james", james, report, failures)
+    make_sheet("rashford", rashford, report, failures)
+    make_sheet("martial", martial, report, failures)
+
     (OUT / "r5-player-source-report.txt").write_text("\n".join(report) + "\n", encoding="utf-8")
     (OUT / "r5-player-source-failures.txt").write_text("\n".join(failures) + "\n", encoding="utf-8")
-    print("Generated", OUT / "r5-player-source-contact-sheet.jpg")
+    print(f"Reviewed James={len(james)}, Rashford={len(rashford)}, Martial={len(martial)}")
     if failures:
-        print("Candidate failures:")
         for failure in failures:
             print(" -", failure)
         raise SystemExit(1)
