@@ -1,0 +1,63 @@
+name: v1.1.0 Backup Budget Repair
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - tools/fix_v110_backup_budget.py
+      - .github/workflows/v110-backup-budget-repair.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: v110-backup-budget-repair
+  cancel-in-progress: true
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out Candidate A branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+          fetch-depth: 1
+
+      - name: Generate focused repair
+        run: python tools/fix_v110_backup_budget.py
+
+      - name: Validate repaired runtime and contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check js/storage.js
+          node --check js/backup.js
+          node --check tests/browser/backup-export-audit.cjs
+          node tests/contracts/backup-contracts.cjs
+          node <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=[^"#]+)?"/g)].map(match => match[1]);
+          const bytes = refs.reduce((total, ref) => total + fs.statSync(ref).size, 0);
+          if(bytes > 165000){
+            throw new Error(`Initial raw bytes exceeded 165000 after lazy backup refactor (${bytes}).`);
+          }
+          console.log(`Initial raw startup bytes after Candidate A repair: ${bytes}`);
+          NODE
+
+      - name: Commit permanent non-workflow repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/storage.js js/backup.js tests/browser/backup-export-audit.cjs CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CANDIDATE_A.md
+          if git diff --cached --quiet; then
+            echo "Repair already applied."
+            exit 0
+          fi
+          git commit -m "Restore Candidate A startup budget and stable backup audit"
+          git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
