@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import io
+import time
 from pathlib import Path
+from urllib.parse import urlsplit, urlunsplit
 
 import requests
 from PIL import Image, ImageDraw, ImageFont, ImageOps
@@ -20,12 +22,22 @@ SOURCES = [
     ("MARTIAL F · Man Utd v Chelsea 2019 · 48520789617", "Manchester Utd 4 Chelsea 0 (48520789617).jpg"),
 ]
 
-HEADERS = {"User-Agent": "CareerModeShowdown/1.0 licensed-asset-review"}
+HEADERS = {
+    "User-Agent": "CareerModeShowdownAssetReview/1.0 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2; contact via repository)",
+    "Referer": "https://commons.wikimedia.org/",
+    "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+}
 API = "https://commons.wikimedia.org/w/api.php"
+SESSION = requests.Session()
+
+
+def strip_query(url: str) -> str:
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
 
 
 def resolve(filename: str) -> dict:
-    response = requests.get(
+    response = SESSION.get(
         API,
         headers=HEADERS,
         params={
@@ -34,7 +46,7 @@ def resolve(filename: str) -> dict:
             "formatversion": "2",
             "prop": "imageinfo",
             "iiprop": "url|size|mime",
-            "iiurlwidth": "1600",
+            "iiurlwidth": "800",
             "titles": f"File:{filename}",
         },
         timeout=60,
@@ -47,8 +59,8 @@ def resolve(filename: str) -> dict:
     info = page["imageinfo"][0]
     return {
         "page": f"https://commons.wikimedia.org/wiki/{page['title'].replace(' ', '_')}",
-        "original_url": info["url"],
-        "thumb_url": info.get("thumburl") or info["url"],
+        "original_url": strip_query(info["url"]),
+        "thumb_url": strip_query(info.get("thumburl") or info["url"]),
         "source_width": int(info["width"]),
         "source_height": int(info["height"]),
         "mime": info.get("mime", ""),
@@ -56,10 +68,21 @@ def resolve(filename: str) -> dict:
 
 
 def download_preview(meta: dict) -> Image.Image:
-    response = requests.get(meta["thumb_url"], headers=HEADERS, timeout=60)
-    response.raise_for_status()
-    image = Image.open(io.BytesIO(response.content))
-    return ImageOps.exif_transpose(image).convert("RGB")
+    last_error = None
+    for attempt in range(6):
+        try:
+            response = SESSION.get(meta["thumb_url"], headers=HEADERS, timeout=60)
+            if response.status_code == 429:
+                retry_after = int(response.headers.get("Retry-After", "0") or "0")
+                time.sleep(max(retry_after, 5 + attempt * 5))
+                continue
+            response.raise_for_status()
+            image = Image.open(io.BytesIO(response.content))
+            return ImageOps.exif_transpose(image).convert("RGB")
+        except Exception as exc:
+            last_error = exc
+            time.sleep(3 + attempt * 3)
+    raise RuntimeError(f"preview download exhausted retries: {last_error}")
 
 
 def fit_into(image: Image.Image, width: int, height: int) -> Image.Image:
@@ -95,13 +118,7 @@ def main() -> None:
             sheet.paste(preview, (x, y))
             report.append(
                 "\t".join(
-                    [
-                        label,
-                        filename,
-                        f"{meta['source_width']}x{meta['source_height']}",
-                        meta["page"],
-                        meta["original_url"],
-                    ]
+                    [label, filename, f"{meta['source_width']}x{meta['source_height']}", meta["page"], meta["original_url"]]
                 )
             )
             detail = f"source {meta['source_width']} × {meta['source_height']} · preview {image.width} × {image.height}"
@@ -114,6 +131,7 @@ def main() -> None:
         draw.text((x + 12, y + image_h + 9), label, fill="#15232b", font=font)
         draw.text((x + 12, y + image_h + 30), detail, fill="#42545e", font=font)
         draw.text((x + 12, y + image_h + 51), filename[:88], fill="#42545e", font=font)
+        time.sleep(2)
 
     sheet.save(OUT / "r5-player-source-contact-sheet.jpg", quality=93, optimize=True)
     (OUT / "r5-player-source-report.txt").write_text("\n".join(report) + "\n", encoding="utf-8")
