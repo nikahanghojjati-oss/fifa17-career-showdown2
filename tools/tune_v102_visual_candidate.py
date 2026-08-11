@@ -14,6 +14,16 @@ def exact(path, old, new, count=1):
     print(f"updated {path}: {old!r} -> {new!r}")
 
 
+def replace_first(path, old, new, count):
+    target = ROOT / path
+    text = target.read_text(encoding="utf-8")
+    found = text.count(old)
+    if found < count:
+        raise SystemExit(f"{path}: expected at least {count} occurrences, found {found}: {old!r}")
+    target.write_text(text.replace(old, new, count), encoding="utf-8")
+    print(f"updated {path}: first {count} root occurrence(s) only")
+
+
 exact("css/footballVisuals.css", '.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{\n    width:66%;\n}', '.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{\n    width:60%;\n}')
 exact("css/footballVisuals.css", '.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{\n    width:30%;\n}', '.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{\n    width:36%;\n}')
 exact("css/footballVisuals.css", 'font-size:clamp(26px,2.8vw,37px);', 'font-size:clamp(24px,2.35vw,32px);')
@@ -22,6 +32,6 @@ exact("css/footballVisuals.css", '.footballVisualHeroSetup[data-photo-treatment=
 exact("css/footballVisuals.css", '.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{font-size:clamp(23px,3vw,31px);}', '.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{font-size:clamp(22px,2.4vw,29px);}')
 
 exact("package.json", '"version": "1.0.1"', '"version": "1.0.2"')
-exact("package-lock.json", '"version": "1.0.1"', '"version": "1.0.2"', count=2)
+replace_first("package-lock.json", '"version": "1.0.1"', '"version": "1.0.2"', 2)
 
 print("v1.0.2 visual candidate tuning complete")
