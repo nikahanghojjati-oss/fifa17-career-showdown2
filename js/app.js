@@ -8,8 +8,8 @@ const EXTERNAL_RUNTIME_ERROR = /contentScriptData\.init_ts|(?:chrome|moz|safari-
 let applicationStarted=false,runtimeNoticeTimer=null,runtimeBoundaryInstalled=false,performanceLifecycleInstalled=false,runtimeNoticeElement=null,runtimeNoticeTextElement=null,suppressedExternalRuntimeErrors=0;
 
 function installVisualFidelityStyles(){
- if(document.querySelector('link[data-visual-fidelity="reus-r2"]'))return;
- const s=document.createElement("link");s.rel="stylesheet";s.href=VISUAL_FIDELITY_STYLESHEET;s.dataset.visualFidelity="reus-r2";
+ if(document.querySelector('link[data-visual-fidelity="reus-r3"]'))return;
+ const s=document.createElement("link");s.rel="stylesheet";s.href=VISUAL_FIDELITY_STYLESHEET;s.dataset.visualFidelity="reus-r3";
  s.addEventListener("error",()=>console.warn("[Career Mode Showdown] Reus visual fidelity stylesheet could not be loaded. Base visuals remain available."),{once:true});document.head.appendChild(s);
 }
 installVisualFidelityStyles();
