@@ -99,14 +99,63 @@ Planned changed-surface evidence:
 
 No existing quality, startup, accessibility or performance threshold may be lowered just to obtain green CI.
 
+## Implementation design checkpoint
+
+Candidate B architecture selected before runtime publication:
+
+- `js/importAnalysis.js` is a new lazy, read-only analysis/migration/UI module loaded only with Legacy/Data Management.
+- `js/backup.js` remains Candidate A checksum authority; its canonical object accumulator will use a null-prototype object because Candidate B now verifies user-supplied JSON. Valid checksum bytes remain unchanged.
+- `js/storage.js` remains untouched as persistence authority; Candidate B reads only through `captureCareerModeRawBackupInputs()`.
+- one explicit ordered migration registry owns Showdown schema 1→2 and preferences schema 1→2; no scattered import normalization is allowed.
+- migration functions clone input, are tested non-mutating and idempotent, and fail closed on unsupported future schemas.
+- conflict comparison follows current storage precedent: Showdown IDs are compared as strings and effective revision uses `updatedAt` + `completedAt`.
+- the Data Management UI contains no Restore/Apply action and explicitly states Preview Only / No Restore Writes.
+- file size ceiling is 5 MiB and oversized File objects are rejected before `File.text()`.
+- Candidate B performs no network request.
+- exact deployment verifier hash/length authority remains unchanged; only bounded retry for transient transport is planned after the recorded v1.1.1 one-file `fetch failed` incident.
+
+New permanent evidence is designed to include golden schema fixtures, deterministic import contracts, a dedicated real-browser Candidate B audit, a dedicated permanent workflow, integration into two-cycle Stability, and integration into every five-way Release Burn-In pass.
+
+## First guarded integration attempt
+
+Temporary workflow run:
+
+`31544138146 — Candidate B Guarded Integration`
+
+Result:
+
+`FAILED BEFORE RUNTIME PUBLICATION`
+
+Exact failure classification:
+
+`POST-GENERATION GUARD MATCH FAILURE — GENERATOR SUCCEEDED — NO GENERATED RUNTIME COMMITTED`
+
+Evidence:
+
+- dependency installation succeeded;
+- `tools/apply_v112_candidate_b.py` executed successfully and generated its local candidate tree;
+- the next hardening step intentionally stopped because an indentation-sensitive literal expected for `isPlainImportObject()` did not match the generated indentation;
+- syntax, contracts, browser tests, startup budgets and publication were therefore skipped rather than falsely counted;
+- no generated Candidate B application/runtime file from that run was pushed to the branch;
+- the failed temporary workflow was removed in commit `582960c555a272a2ceba09b83a9a29a9e47d08d8`.
+
+This is an integration-helper defect, not a Candidate B product failure. Recovery is to use a structural/regex post-generation guard rather than whitespace-sensitive source matching, then rerun the complete guarded integration from the generator.
+
 ## Action log
 
 1. Confirmed current main `c86d8d36285295899e8473539c33d6f7b34b4226` and read current `00_DEVELOPER_START_HERE.md`, `NEXT_TASK.md`, and Candidate B/C dependency sections of `POST_V1_ROADMAP_EXECUTION.md`.
 2. Confirmed Candidate B is the next substantive legal milestone and Candidate C remains blocked.
 3. Created branch `agent/v1.1.2-candidate-b-import-analysis` directly from current main.
 4. Created this public handoff before implementation mutation.
-5. Next: make the continuous-handoff golden rule prominent in canonical developer-start authority, then inspect Candidate A/storage/Data Management implementation and build Candidate B within those ownership boundaries.
+5. Added permanent owner policy `00_HANDOFF_GOLDEN_RULE.md` in commit `29514ea777b553fdfcabec764f0d0d25754a9c72` so future developers know continuous public handoff logging is mandatory.
+6. Inspected Candidate A backup, storage, Legacy/Data Management, optional module, browser audit, Stability and Burn-In authorities.
+7. Selected v1.1.2 for Candidate B so roadmap v1.2.0 remains reserved for Installable Offline App.
+8. Staged guarded generator `tools/apply_v112_candidate_b.py` in commit `128505b891a8303dfc86d090b3d1fa86224c1f69`.
+9. Added first temporary guarded integration workflow in commit `d207c0aa3467520b7935d22865be7d1e37e4d027`.
+10. Run `31544138146` stopped safely at the whitespace-sensitive hardening guard; no generated runtime was published and no later gate was counted.
+11. Removed that failed temporary workflow in commit `582960c555a272a2ceba09b83a9a29a9e47d08d8`.
+12. Next: rerun generation with structural guards, then execute deterministic contracts, unchanged startup budgets and complete browser/regression evidence before publishing generated runtime files.
 
 ## Current status
 
-`CANDIDATE B BRANCH OPEN — HANDOFF CREATED — IMPLEMENTATION INSPECTION IN PROGRESS`
+`CANDIDATE B GENERATOR READY — FIRST INTEGRATION HELPER FAILURE RECORDED — STRUCTURAL-GUARD RETRY NEXT`
