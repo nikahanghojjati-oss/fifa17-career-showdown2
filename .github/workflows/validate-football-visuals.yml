@@ -50,7 +50,7 @@ jobs:
             'marcus-rashford-man-utd-2016-r4.webp',
             'anthony-martial-man-utd-2015-r4.webp',
             'lionel-messi-barcelona-2016-subject-r4.webp',
-            'philipp-lahm-world-cup-2014.webp'
+            'philipp-lahm-world-cup-2014-focus-r4.webp'
           ]);
           const rejectedR3 = [
             'james-rodriguez-real-madrid-2016.webp',
@@ -107,6 +107,14 @@ jobs:
           assert.strictEqual(messi.license, 'CC BY 2.0', 'Messi license changed unexpectedly.');
           assert.ok(messi.source_page.endsWith('File:Leo_Messi_2016.PNG'), 'Messi r4 subject-isolated source changed unexpectedly.');
 
+          const lahm = manifest.assets.find(asset => asset.id === 'philipp-lahm-world-cup-2014-focus-r4');
+          assert.ok(lahm, 'Focused r4 Lahm Trophy Room visual is missing.');
+          assert.deepStrictEqual(lahm.output_dimensions, [624,722], 'Lahm focused derivative must retain the reviewed portrait geometry.');
+          assert.deepStrictEqual(lahm.crop_box_on_intermediate, [624,41,1248,763], 'Lahm focused derivative crop provenance changed unexpectedly.');
+          assert.strictEqual(lahm.author, 'Agência Brasil', 'Lahm attribution changed unexpectedly.');
+          assert.strictEqual(lahm.license, 'CC BY 3.0 BR', 'Lahm license changed unexpectedly.');
+          assert.ok(lahm.source_page.endsWith('File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg'), 'Lahm source changed unexpectedly.');
+
           assert.ok(data.includes('framing: Object.freeze') && data.includes('mode: "subject-safe"'), 'r4 asset data must explicitly own subject-safe framing metadata.');
           assert.ok(data.includes('fit: "contain"'), 'Required player photography must use contained subject-safe framing.');
           assert.ok(!data.includes('fit: "cover"'), 'No required football visual may use blind cover framing in the r4 recovery build.');
@@ -115,6 +123,7 @@ jobs:
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
           assert.ok(data.includes('marcus-rashford-man-utd-2016-r4.webp'), 'Runtime data must activate the selected subject-dominant Rashford derivative.');
           assert.ok(data.includes('lionel-messi-barcelona-2016-subject-r4.webp'), 'Runtime data must activate the selected subject-isolated Messi derivative.');
+          assert.ok(data.includes('philipp-lahm-world-cup-2014-focus-r4.webp'), 'Runtime data must activate the reviewed subject-focused Lahm derivative.');
 
           assert.ok(renderer.includes('footballVisualMediaFrame'), 'Required photography renderer must use dedicated media-frame layers.');
           assert.ok(renderer.includes('getFootballVisualFraming') && renderer.includes('applyFootballVisualFraming'), 'Renderer must apply per-asset crop-safety metadata.');
@@ -129,11 +138,12 @@ jobs:
           assert.ok(visualCss.includes('.footballVisualHeroSetup .footballVisualMediaFrame') && visualCss.includes('width:100%'), 'James desktop/tablet portrait frame must use the full visual column instead of a tiny inset.');
           assert.ok(visualCss.includes('marcus-rashford-man-utd-2016-r4') && visualCss.includes('width:50%'), 'Rashford desktop Transfer frame must be shaped for the selected portrait source.');
           assert.ok(visualCss.includes('.footballVisualAnalytics') && visualCss.includes('min-height:340px'), 'Messi Statistics composition must retain a portrait-aware desktop height.');
-          assert.ok(visualCss.includes('.footballVisualTrophy .footballVisualMediaFrame') && visualCss.includes('width:58%'), 'Trophy Room must use a bounded crop-safe photo frame.');
+          assert.ok(/\.footballVisualTrophy\{[\s\S]*?min-height:290px;/.test(visualCss), 'Trophy Room must retain enough desktop height for the focused Lahm portrait.');
+          assert.ok(/\.footballVisualTrophy \.footballVisualMediaFrame\{\s*width:38%;/.test(visualCss), 'Trophy Room must use the reviewed portrait-aware desktop media width.');
           assert.ok(visualCss.includes('@media(max-width:480px)') && visualCss.includes('grid-template-columns:1fr'), 'Small-phone Transfer visuals must stack vertically instead of compressing two subjects into tiny wide slots.');
 
           assert.ok(browserAudit.includes('MIN_SUBJECT_SAFE_FRAME_COVERAGE'), 'Browser crop-quality gate is missing frame-coverage protection.');
-          assert.ok(browserAudit.includes('visibleSourceFraction') && browserAudit.includes('cropFraction'), 'Browser gate must calculate how much of each source remains visible.');
+          assert.ok(browserAudit.includes('visibleSourceFraction') && browserAudit.includes('cropFraction'), 'Browser gate must calculate how much of each runtime derivative remains visible.');
           assert.ok(browserAudit.includes('portrait-to-wide cover crop is forbidden'), 'Browser gate must explicitly reject the previous Rashford/James failure class.');
           assert.ok(browserAudit.includes('Rejected r3 football photograph remains in active manifest'), 'Browser gate must fail if rejected r3 files return.');
 
@@ -149,7 +159,8 @@ jobs:
           assert.ok(!html.includes('footballVisuals.css') && !html.includes('footballVisuals.js'), 'Required visual runtime should remain staged outside the critical shell budget.');
           assert.ok(notices.includes('required screen-level presentation assets'), 'Third-party notices still describe the imagery as optional.');
           assert.ok(notices.includes('blind portrait-to-wide'), 'Notices must explain the r4 crop-safety transformation policy.');
-          assert.ok(notices.includes('complete source remains visible') || notices.includes('complete source is protected'), 'Notices must document full-source preservation for crop-safe photography.');
+          assert.ok(notices.includes('complete source remains visible') || notices.includes('complete source is protected'), 'Notices must document full-source preservation for the uncropped runtime photographs.');
+          assert.ok(notices.includes('crop box `(624, 41, 1248, 763)`') && notices.includes('no additional responsive crop is allowed'), 'Notices must document the reviewed Lahm source-level crop and no-crop runtime policy.');
 
           console.log(`r4 crop-safe licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);
           NODE
