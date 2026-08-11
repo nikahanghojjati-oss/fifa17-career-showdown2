@@ -36,16 +36,17 @@ The earlier r3 visual regression and its rejected source/crop decisions remain d
 
 ### James Rodríguez — Real Madrid
 
-- Repository file: `assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp`
-- Source file: `James Rodríguez in 2019.jpg`
+- Repository file: `assets/football/james-rodriguez-real-madrid-2016-interview-v111.webp`
+- Source file: `James Rodríguez in September 2016 - 02.jpg`
 - Author/source account: Real Madrid
-- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg`
+- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_September_2016_-_02.jpg`
 - License: Creative Commons Attribution 3.0 Unported (CC BY 3.0), `https://creativecommons.org/licenses/by/3.0/`
-- Source dimensions: 540 × 720.
-- Source context: James Rodríguez wearing Real Madrid training apparel, dated 23 October 2019.
+- Source dimensions: 863 × 1080.
+- Source context: James Rodríguez during the Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016.
 - Application use: Create Showdown presentation.
-- Local transformation: source-pixel crop `(20, 0, 540, 705)`, producing a 520 × 705 crop that retains his complete head, shoulders, shirt and Real Madrid crest; encoded as WebP at quality 92 with no upscaling.
-- Display policy: the complete 520 × 705 authored derivative is displayed with `object-fit: contain`; runtime layout cannot crop the face or head merely to fill a wide tile.
+- Local transformation: source-pixel crop `(40, 0, 830, 1040)`, producing a 790 × 1040 derivative that preserves his complete hair/head, face, shoulders and purple Real Madrid training apparel; encoded as WebP at quality 92 with no upscaling.
+- Selection rationale: a January 2017 Real Madrid candidate exposed the club crest more directly but was only 384 × 480 and would require physical upscaling at target DPR2 sizes. The September 2016 source preserves explicit Real Madrid provenance while satisfying native-resolution and face-readability gates.
+- Display policy: the complete authored derivative is displayed with `object-fit: contain`; responsive layout cannot crop the face/head merely to fill a tile. Face-safe diagonal accents remain restricted to the lower image zone.
 
 ### Marcus Rashford — Manchester United
 

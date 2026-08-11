@@ -15,7 +15,7 @@ function getSettingsAssetRevision(){
 }
 
 function getSettingsApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.0";
+    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.1";
 }
 
 function getSettingsActiveShowdown(){

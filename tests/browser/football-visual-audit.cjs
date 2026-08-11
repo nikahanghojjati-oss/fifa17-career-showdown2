@@ -28,7 +28,7 @@ const rejectedR3Assets = new Set([
     "lionel-messi-barcelona-2016.webp"
 ]);
 const requiredCleanAnchorAssets = new Set([
-    "james-rodriguez-real-madrid-2019-smart-r5",
+    "james-rodriguez-real-madrid-2016-interview-v111",
     "marcus-rashford-man-utd-2017-smart-r5",
     "anthony-martial-man-utd-2016-smart-r5"
 ]);

@@ -1,13 +1,13 @@
 const FOOTBALL_VISUALS = Object.freeze({
     james: Object.freeze({
-        id: "james-rodriguez-real-madrid-2019-smart-r5",
-        src: "assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp",
+        id: "james-rodriguez-real-madrid-2016-interview-v111",
+        src: "assets/football/james-rodriguez-real-madrid-2016-interview-v111.webp",
         subject: "James Rodríguez",
-        context: "Real Madrid · 2019",
-        alt: "James Rodríguez wearing Real Madrid training apparel at Real Madrid City in October 2019",
+        context: "Real Madrid · 2016",
+        alt: "James Rodríguez during a Real Madrid post-match interview in September 2016",
         author: "Real Madrid",
         license: "CC BY 3.0",
-        source: "https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg",
+        source: "https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_September_2016_-_02.jpg",
         licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
         framing: Object.freeze({
             mode: "subject-safe",
