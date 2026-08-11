@@ -1,4 +1,4 @@
-/* Career Mode Showdown v1.0.1 — required licensed football presentation */
+/* Career Mode Showdown v1.0.2 — required licensed football presentation */
 
 .footballVisualStage{
     width:min(1040px,100%);
@@ -30,6 +30,7 @@
     box-shadow:var(--f17-shadow-soft);
 }
 
+/* Classic overlay treatment remains the protected behavior for Messi/Lahm. */
 .footballVisualPanel::before{
     content:"";
     position:absolute;
@@ -186,24 +187,120 @@
     text-underline-offset:2px;
 }
 
+/* =====================================================
+   v1.0.2 CLEAN-ANCHOR PHOTO SYSTEM
+   James / Rashford / Martial use player-first composition.
+   Decorative geometry is never painted above the photograph.
+===================================================== */
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"]{
+    --clean-anchor-copy-bg:rgba(25,34,40,.92);
+    --clean-anchor-copy-color:#f7f9fa;
+    --clean-anchor-copy-border:var(--f17-yellow);
+    color:var(--clean-anchor-copy-color);
+    background:
+        linear-gradient(118deg,#303b43 0 47%,#26343d 47% 66%,#202a31 66% 100%);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"][data-tone="light"]{
+    --clean-anchor-copy-bg:rgba(247,249,249,.95);
+    --clean-anchor-copy-color:var(--f17-ink);
+    --clean-anchor-copy-border:var(--f17-yellow);
+    color:var(--f17-ink);
+    background:
+        linear-gradient(118deg,#f3f6f6 0 40%,#dbe5e8 40% 57%,#91b4c2 57% 100%);
+}
+
+/* Keep ambience behind the photo rather than washing over a face. */
+.footballVisualPanel[data-photo-treatment="clean-anchor"]::before{
+    z-index:0;
+    background:
+        linear-gradient(108deg,rgba(255,255,255,.08) 0 26%,transparent 26% 100%),
+        linear-gradient(132deg,transparent 0 48%,rgba(66,185,218,.10) 48% 60%,transparent 60% 100%);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"][data-tone="light"]::before{
+    background:
+        linear-gradient(108deg,rgba(255,255,255,.60) 0 30%,rgba(255,255,255,.16) 30% 42%,transparent 42% 100%),
+        linear-gradient(132deg,transparent 0 52%,rgba(66,185,218,.08) 52% 61%,transparent 61% 100%);
+}
+
+/* A small top rail carries the FIFA-era accent language without crossing the subject. */
+.footballVisualPanel[data-photo-treatment="clean-anchor"]::after{
+    z-index:1;
+    top:0;
+    left:0;
+    right:auto;
+    width:34%;
+    height:4px;
+    opacity:1;
+    background:linear-gradient(90deg,var(--f17-yellow) 0 68%,var(--f17-cyan) 68% 100%);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+    z-index:2;
+    justify-content:flex-end;
+    background:
+        radial-gradient(circle at 80% 42%,rgba(112,157,174,.18),transparent 48%),
+        linear-gradient(135deg,rgba(74,104,118,.15),rgba(25,38,46,.08));
+    border-left:1px solid rgba(255,255,255,.08);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"][data-tone="light"] .footballVisualMediaFrame{
+    background:
+        radial-gradient(circle at 76% 40%,rgba(255,255,255,.34),transparent 42%),
+        linear-gradient(135deg,rgba(208,224,230,.38),rgba(86,132,149,.13));
+    border-left-color:rgba(31,77,102,.10);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+    z-index:4;
+    top:18px;
+    bottom:auto;
+    left:14px;
+    padding:10px 11px 11px;
+    gap:7px;
+    color:var(--clean-anchor-copy-color);
+    background:var(--clean-anchor-copy-bg);
+    border-left:4px solid var(--clean-anchor-copy-border);
+    box-shadow:0 4px 12px rgba(12,22,28,.13);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualIdentity{
+    text-shadow:none;
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCredit{
+    color:#dce6ea;
+    background:rgba(20,29,35,.82);
+    border-left-width:2px;
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"][data-tone="light"] .footballVisualCredit{
+    color:#e7eef0;
+    background:rgba(31,44,52,.88);
+}
+
+.footballVisualPanel[data-photo-treatment="clean-anchor"].imageFailed::before{
+    z-index:0;
+}
+
 .footballVisualHeroSetup{
     min-height:430px;
 }
 
-/* James is a portrait source. On desktop, the photograph now owns a bounded
-   right-side stage instead of the entire tile. This keeps the complete source
-   visible while restoring the FIFA-style geometric breathing room around him. */
-.footballVisualHeroSetup .footballVisualMediaFrame{
-    width:78%;
-    align-items:center;
+/* James: a clean right-side portrait anchor. The photograph stays untouched by
+   white overlays; copy lives in its own left plate instead of over the face. */
+.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+    width:66%;
 }
 
-.footballVisualHeroSetup .footballVisualMedia{
-    object-position:var(--football-visual-position,76% 50%);
+.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+    width:30%;
 }
 
-.footballVisualHeroSetup .footballVisualCopy{
-    width:49%;
+.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{
+    font-size:clamp(26px,2.8vw,37px);
 }
 
 .footballVisualHeroTransfer{
@@ -232,21 +329,32 @@
     width:61%;
 }
 
-/* The final Rashford and Martial assets are already authored portrait crops.
-   Their images are height-bound under contain, so narrower subject-specific
-   stages remove empty side space without zooming or cutting either player. */
+/* Rashford and Martial now follow FIFA 17's clean-player-anchor logic: image on
+   the right, copy on the left, and no decorative layer above the photograph. */
+.footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+    width:36%;
+}
+
 .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
-    width:43%;
+    width:34%;
 }
 
 .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
-    width:48%;
+    width:36%;
 }
 
-.footballVisualHeroTransfer .footballVisualCopy{
+.footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+    width:54%;
+    top:16px;
     left:13px;
-    bottom:13px;
-    width:43%;
+}
+
+.footballVisualHeroTransfer .footballVisualPanel:first-child[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+    --clean-anchor-copy-border:var(--f17-yellow);
+}
+
+.footballVisualHeroTransfer .footballVisualPanel:last-child[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+    --clean-anchor-copy-border:var(--f17-cyan);
 }
 
 .footballVisualHeroTransfer .footballVisualName{
@@ -306,8 +414,9 @@
         grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
     }
     .footballVisualHeroSetup{min-height:400px;}
-    .footballVisualHeroSetup .footballVisualMediaFrame{width:88%;}
-    .footballVisualHeroSetup .footballVisualCopy{width:51%;}
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{width:64%;}
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:33%;left:11px;top:15px;padding:9px 9px 10px;}
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualName{font-size:clamp(23px,3vw,31px);}
     .footballVisualHeroTransfer{min-height:198px;}
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
     .footballVisualAnalytics{min-height:370px;}
@@ -323,15 +432,16 @@
     }
 
     .footballVisualHeroSetup{
-        min-height:230px;
+        min-height:250px;
     }
-    .footballVisualHeroSetup .footballVisualMediaFrame{
-        width:56%;
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+        width:58%;
     }
-    .footballVisualHeroSetup .footballVisualCopy{
-        width:48%;
-        left:12px;
-        bottom:12px;
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+        width:37%;
+        left:10px;
+        top:12px;
+        padding:8px 8px 9px;
     }
 
     .footballVisualHeroTransfer{
@@ -344,11 +454,14 @@
     .footballVisualHeroTransfer .footballVisualMediaFrame{
         width:58%;
     }
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
-        width:52%;
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+        width:58%;
     }
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
-        width:56%;
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+        width:38%;
+        left:8px;
+        top:10px;
+        padding:7px 7px 8px;
     }
 
     .footballVisualAnalytics{
@@ -381,7 +494,7 @@
         font-size:clamp(20px,6.5vw,29px);
     }
     .footballVisualHeroTransfer .footballVisualName{
-        font-size:clamp(17px,5.2vw,23px);
+        font-size:clamp(15px,4.7vw,21px);
     }
     .footballVisualContext{
         font-size:8px;
@@ -391,35 +504,39 @@
     }
 }
 
-@media(max-width:480px){
-    .footballVisualHeroSetup{
-        min-height:220px;
-    }
-    .footballVisualHeroSetup .footballVisualMediaFrame{
-        width:58%;
-    }
-
+@media(max-width:560px){
     .footballVisualHeroTransfer{
         grid-template-columns:1fr;
         min-height:0;
         gap:7px;
     }
     .footballVisualHeroTransfer .footballVisualPanel{
-        min-height:182px;
+        min-height:190px;
     }
-    .footballVisualHeroTransfer .footballVisualMediaFrame{
-        width:58%;
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+        width:48%;
+        min-width:150px;
     }
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
-        width:52%;
-    }
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
-        width:56%;
-    }
-    .footballVisualHeroTransfer .footballVisualCopy{
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{
         width:44%;
-        left:12px;
-        bottom:12px;
+        left:11px;
+        top:12px;
+        padding:8px 8px 9px;
+    }
+    .footballVisualHeroTransfer .footballVisualName{
+        font-size:clamp(18px,5.2vw,24px);
+    }
+}
+
+@media(max-width:480px){
+    .footballVisualHeroSetup{
+        min-height:235px;
+    }
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+        width:57%;
+    }
+    .footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+        width:38%;
     }
 
     .footballVisualAnalytics{
