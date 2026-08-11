@@ -21,7 +21,7 @@ Current source is implementation authority. Browser acceptance remains required 
 # Current implementation
 
 **Application version:** v1.0.1 — Stable
-**Runtime asset revision:** `1.0.1-r3`
+**Runtime asset revision:** `1.0.1-r4`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
@@ -463,7 +463,7 @@ Analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy 
 
 `index.html` owns deployed runtime revision:
 
-`1.0.1-r3`
+`1.0.1-r4`
 
 Every initial local asset uses the same revision. Lazy assets derive it from the shell. Never reuse a deployed revision after changing runtime bytes.
 

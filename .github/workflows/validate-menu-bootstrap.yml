@@ -57,8 +57,8 @@ jobs:
 
           assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
           assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
-          assert.ok(html.includes('id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.0.1-r3"'), 'The local versioned startup portrait is missing.');
-          assert.ok(source.includes('thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.0.1-r3"'), 'Home and startup must reuse one cached portrait.');
+          assert.ok(html.includes('id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.0.1-r4"'), 'The local versioned startup portrait is missing.');
+          assert.ok(source.includes('thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.0.1-r4"'), 'Home and startup must reuse one cached portrait.');
           assert.ok(notices.includes('CC BY 2.0') && notices.includes('Tim Reckmann'), 'The bundled portrait attribution is incomplete.');
           assert.ok(app.includes('finishStartupPresentation') && app.includes('STARTUP_SPLASH_EXIT_MS'), 'The finite startup presentation lifecycle is missing.');
 

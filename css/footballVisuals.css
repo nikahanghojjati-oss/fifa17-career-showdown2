@@ -1,8 +1,4 @@
-/* =====================================================
-   Career Mode Showdown v1.0.1
-   Licensed Football Visual System
-   Required screen photography with FIFA-17-era geometry.
-===================================================== */
+/* Career Mode Showdown v1.0.1 — required licensed football presentation */
 
 .footballVisualStage{
     width:min(1040px,100%);
@@ -28,7 +24,8 @@
     min-width:0;
     overflow:hidden;
     color:#fff;
-    background:#27323a;
+    background:
+        linear-gradient(132deg,#253039 0 42%,#1f566f 42% 63%,#253039 63% 100%);
     border-bottom:5px solid var(--f17-yellow);
     box-shadow:var(--f17-shadow-soft);
 }
@@ -40,8 +37,8 @@
     inset:0;
     pointer-events:none;
     background:
-        linear-gradient(112deg,rgba(27,43,54,.12) 0 46%,transparent 46% 68%,rgba(15,25,31,.28) 68%),
-        linear-gradient(0deg,rgba(14,23,29,.68) 0,transparent 46%);
+        linear-gradient(106deg,rgba(17,26,32,.72) 0 33%,rgba(17,26,32,.25) 48%,transparent 64%),
+        linear-gradient(0deg,rgba(14,23,29,.56) 0,transparent 44%);
 }
 
 .footballVisualPanel::after{
@@ -49,44 +46,53 @@
     position:absolute;
     z-index:3;
     top:0;
-    right:13%;
+    right:12%;
     width:28%;
     height:100%;
     pointer-events:none;
-    opacity:.42;
-    background:linear-gradient(126deg,transparent 0 42%,rgba(66,185,218,.7) 42% 46%,transparent 46% 56%,rgba(240,217,0,.62) 56% 58%,transparent 58%);
+    opacity:.46;
+    background:linear-gradient(126deg,transparent 0 42%,rgba(66,185,218,.74) 42% 46%,transparent 46% 56%,rgba(240,217,0,.68) 56% 58%,transparent 58%);
 }
 
 .footballVisualPanel[data-tone="light"]{
     color:var(--f17-ink);
-    background:#dce6e9;
+    background:
+        linear-gradient(132deg,#eef3f4 0 38%,#d5e2e6 38% 58%,#87afbf 58% 100%);
 }
 
 .footballVisualPanel[data-tone="light"]::before{
     background:
-        linear-gradient(112deg,rgba(246,249,249,.08) 0 44%,transparent 44% 64%,rgba(31,65,83,.13) 64%),
-        linear-gradient(0deg,rgba(233,240,242,.96) 0,rgba(233,240,242,.18) 40%,transparent 62%);
+        linear-gradient(104deg,rgba(246,249,249,.98) 0 36%,rgba(241,246,247,.78) 48%,rgba(229,239,242,.12) 67%,transparent 78%),
+        linear-gradient(0deg,rgba(238,244,245,.64) 0,transparent 42%);
 }
 
 .footballVisualPanel[data-tone="blue"]{
-    background:#225e7e;
+    background:
+        linear-gradient(128deg,#2f8db8 0 33%,#246d91 33% 54%,#204f69 54% 100%);
 }
 
 .footballVisualMediaFrame{
     position:absolute;
     z-index:1;
-    inset:0;
+    top:0;
+    right:0;
+    bottom:0;
+    width:62%;
     overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+        radial-gradient(circle at 68% 48%,rgba(114,161,178,.36),transparent 44%),
+        linear-gradient(135deg,rgba(78,123,143,.32),rgba(25,48,59,.1));
 }
 
 .footballVisualMedia{
-    position:absolute;
-    inset:0;
     width:100%;
     height:100%;
     display:block;
-    object-fit:cover;
-    object-position:var(--football-visual-position,50% 30%);
+    object-fit:var(--football-visual-fit,contain);
+    object-position:var(--football-visual-position,50% 50%);
     opacity:0;
     filter:none;
     image-rendering:auto;
@@ -103,24 +109,24 @@
 }
 
 .footballVisualPanel.imageFailed{
-    background:
-        linear-gradient(132deg,#31434e 0 48%,#266b8c 48% 72%,#26323a 72% 100%);
+    background:linear-gradient(132deg,#31434e 0 48%,#266b8c 48% 72%,#26323a 72% 100%);
 }
 
 .footballVisualCopy{
     position:absolute;
     z-index:4;
     left:18px;
-    right:18px;
-    bottom:16px;
+    bottom:17px;
+    width:44%;
     display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    gap:16px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
     pointer-events:none;
 }
 
 .footballVisualIdentity{
+    width:100%;
     min-width:0;
     display:flex;
     flex-direction:column;
@@ -129,7 +135,7 @@
 }
 
 [data-tone="light"] .footballVisualIdentity{
-    text-shadow:0 1px 2px rgba(255,255,255,.68);
+    text-shadow:0 1px 2px rgba(255,255,255,.72);
 }
 
 .footballVisualKicker{
@@ -158,20 +164,23 @@
 }
 
 .footballVisualCredit{
-    flex:0 0 auto;
-    max-width:44%;
-    padding:5px 7px;
+    max-width:100%;
+    padding:4px 6px;
     color:#e4ecef;
-    background:rgba(20,29,35,.82);
+    background:rgba(20,29,35,.8);
     border-left:3px solid var(--f17-cyan);
     font-size:7px;
     line-height:1.25;
-    text-align:right;
     pointer-events:auto;
 }
 
+[data-tone="light"] .footballVisualCredit{
+    color:#eaf2f4;
+    background:rgba(28,43,51,.84);
+}
+
 .footballVisualCredit a{
-    color:#fff;
+    color:inherit;
     text-decoration:underline;
     text-decoration-thickness:1px;
     text-underline-offset:2px;
@@ -181,13 +190,29 @@
     min-height:430px;
 }
 
+/* James is a portrait source. On desktop, the photograph now owns a bounded
+   right-side stage instead of the entire tile. This keeps the complete source
+   visible while restoring the FIFA-style geometric breathing room around him. */
+.footballVisualHeroSetup .footballVisualMediaFrame{
+    width:78%;
+    align-items:center;
+}
+
+.footballVisualHeroSetup .footballVisualMedia{
+    object-position:var(--football-visual-position,76% 50%);
+}
+
+.footballVisualHeroSetup .footballVisualCopy{
+    width:49%;
+}
+
 .footballVisualHeroTransfer{
     width:min(1040px,100%);
-    min-height:188px;
+    min-height:206px;
     margin:0 auto 9px;
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:4px;
+    gap:6px;
     overflow:visible;
     background:transparent;
     border:0;
@@ -195,7 +220,7 @@
 }
 
 .footballVisualHeroTransfer .footballVisualPanel{
-    min-height:188px;
+    min-height:206px;
     border-bottom-color:var(--f17-cyan);
 }
 
@@ -203,49 +228,63 @@
     border-bottom-color:var(--f17-yellow);
 }
 
-.footballVisualHeroTransfer .footballVisualPanel:first-child .footballVisualCopy{
-    right:12px;
+.footballVisualHeroTransfer .footballVisualMediaFrame{
+    width:61%;
 }
 
-.footballVisualHeroTransfer .footballVisualPanel:last-child .footballVisualCopy{
-    left:12px;
+/* The selected 2016 Rashford source is a tight portrait crop. A narrower
+   dedicated frame makes him the dominant readable subject while retaining
+   the complete licensed source. */
+.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+    width:50%;
 }
 
+.footballVisualHeroTransfer .footballVisualCopy{
+    left:13px;
+    bottom:13px;
+    width:43%;
+}
+
+.footballVisualHeroTransfer .footballVisualName{
+    font-size:clamp(20px,2.4vw,31px);
+}
+
+/* Messi's subject-isolated source is portrait geometry. A taller desktop
+   analytics hero gives the portrait enough physical height to read as a hero
+   rather than a small inset while still preserving the whole photograph. */
 .footballVisualAnalytics{
-    min-height:220px;
+    min-height:400px;
     margin-bottom:4px;
-    background:
-        linear-gradient(128deg,#2f8db8 0 34%,#246d91 34% 53%,#245b77 53% 100%);
 }
 
-/* The portrait source is rendered inside a dedicated frame rather than
-   forcing the replaced image itself into a partial-width absolute box. */
 .footballVisualAnalytics .footballVisualMediaFrame{
-    right:auto;
-    width:40%;
+    width:28%;
 }
 
-.footballVisualAnalytics .footballVisualMedia{
-    object-position:50% 30%;
+.footballVisualAnalytics .footballVisualCopy{
+    width:56%;
 }
 
 .footballVisualAnalytics::before{
     background:
-        linear-gradient(90deg,rgba(28,58,73,.02) 0 27%,rgba(35,95,124,.18) 34%,rgba(34,94,126,.82) 43%,rgba(32,77,101,.9) 100%),
+        linear-gradient(98deg,rgba(25,65,86,.92) 0 34%,rgba(25,65,86,.48) 46%,rgba(25,65,86,.08) 64%,transparent 78%),
         linear-gradient(0deg,rgba(13,25,32,.44) 0,transparent 54%);
 }
 
-.footballVisualAnalytics .footballVisualCopy{
-    left:43%;
-}
-
+/* The Trophy Room uses a hand-reviewed, trophy-focused Lahm derivative. Keep
+   the runtime frame close to that portrait geometry so Lahm and the complete
+   cup read clearly without introducing another responsive cover crop. */
 .footballVisualTrophy{
-    min-height:250px;
+    min-height:290px;
     margin-bottom:4px;
 }
 
-.footballVisualTrophy .footballVisualMedia{
-    object-position:var(--football-visual-position,50% 42%);
+.footballVisualTrophy .footballVisualMediaFrame{
+    width:38%;
+}
+
+.footballVisualTrophy .footballVisualCopy{
+    width:56%;
 }
 
 .footballVisualTrophy .footballVisualName{
@@ -254,85 +293,86 @@
 
 .footballVisualTrophy::before{
     background:
-        linear-gradient(90deg,rgba(18,26,31,.06) 0 43%,rgba(18,26,31,.25) 67%,rgba(18,26,31,.66) 100%),
-        linear-gradient(0deg,rgba(15,22,27,.78) 0,transparent 50%);
+        linear-gradient(96deg,rgba(18,26,31,.82) 0 31%,rgba(18,26,31,.42) 43%,rgba(18,26,31,.08) 61%,transparent 76%),
+        linear-gradient(0deg,rgba(15,22,27,.58) 0,transparent 50%);
 }
 
 @media(min-width:701px) and (max-width:1020px){
     #createShowdown.hasFootballVisual .footballVisualStage{
         grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
     }
-    .footballVisualHeroSetup{
-        min-height:400px;
-    }
-    .footballVisualAnalytics .footballVisualMediaFrame{
-        width:46%;
-    }
-    .footballVisualAnalytics .footballVisualMedia{
-        object-position:50% 31%;
-    }
-    .footballVisualAnalytics .footballVisualCopy{
-        left:49%;
-    }
-    .footballVisualName{
-        font-size:clamp(22px,3.1vw,32px);
-    }
-    .footballVisualCredit{
-        max-width:50%;
-    }
+    .footballVisualHeroSetup{min-height:400px;}
+    .footballVisualHeroSetup .footballVisualMediaFrame{width:88%;}
+    .footballVisualHeroSetup .footballVisualCopy{width:51%;}
+    .footballVisualHeroTransfer{min-height:198px;}
+    .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
+    .footballVisualAnalytics{min-height:370px;}
+    .footballVisualAnalytics .footballVisualMediaFrame{width:30%;}
+    .footballVisualAnalytics .footballVisualCopy{width:58%;}
+    .footballVisualTrophy .footballVisualMediaFrame{width:38%;}
+    .footballVisualName{font-size:clamp(22px,3.1vw,32px);}
 }
 
 @media(max-width:700px){
     #createShowdown.hasFootballVisual .footballVisualStage{
         grid-template-columns:1fr;
     }
+
     .footballVisualHeroSetup{
-        min-height:205px;
+        min-height:230px;
     }
+    .footballVisualHeroSetup .footballVisualMediaFrame{
+        width:56%;
+    }
+    .footballVisualHeroSetup .footballVisualCopy{
+        width:48%;
+        left:12px;
+        bottom:12px;
+    }
+
     .footballVisualHeroTransfer{
         grid-template-columns:1fr 1fr;
-        min-height:164px;
+        min-height:184px;
     }
     .footballVisualHeroTransfer .footballVisualPanel{
-        min-height:164px;
+        min-height:184px;
     }
-    .footballVisualAnalytics,
+    .footballVisualHeroTransfer .footballVisualMediaFrame,
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+        width:58%;
+    }
+
+    .footballVisualAnalytics{
+        min-height:320px;
+    }
     .footballVisualTrophy{
-        min-height:190px;
+        min-height:240px;
     }
     .footballVisualAnalytics .footballVisualMediaFrame{
-        right:0;
-        width:100%;
-    }
-    .footballVisualAnalytics .footballVisualMedia{
-        object-position:50% 40%;
-    }
-    .footballVisualAnalytics::before{
-        background:
-            linear-gradient(90deg,rgba(27,43,54,.08) 0 48%,rgba(27,64,83,.28) 72%,rgba(15,25,31,.42) 100%),
-            linear-gradient(0deg,rgba(14,23,29,.66) 0,transparent 48%);
+        width:52%;
     }
     .footballVisualAnalytics .footballVisualCopy{
-        left:11px;
-        right:11px;
+        width:47%;
+        left:12px;
+        bottom:12px;
     }
+    .footballVisualTrophy .footballVisualMediaFrame{
+        width:48%;
+    }
+    .footballVisualTrophy .footballVisualCopy{
+        width:48%;
+        left:12px;
+        bottom:12px;
+    }
+
     .footballVisualCopy{
-        left:11px;
-        right:11px;
-        bottom:10px;
-        align-items:flex-start;
-        flex-direction:column;
-        gap:6px;
-    }
-    .footballVisualHeroTransfer .footballVisualCopy{
-        left:9px!important;
-        right:9px!important;
+        gap:5px;
     }
     .footballVisualName{
-        font-size:clamp(20px,6.8vw,29px);
+        font-size:clamp(20px,6.5vw,29px);
     }
     .footballVisualHeroTransfer .footballVisualName{
-        font-size:clamp(17px,5.6vw,24px);
+        font-size:clamp(17px,5.2vw,23px);
     }
     .footballVisualContext{
         font-size:8px;
@@ -343,17 +383,54 @@
 }
 
 @media(max-width:480px){
+    .footballVisualHeroSetup{
+        min-height:220px;
+    }
+    .footballVisualHeroSetup .footballVisualMediaFrame{
+        width:58%;
+    }
+
     .footballVisualHeroTransfer{
         grid-template-columns:1fr;
+        min-height:0;
+        gap:7px;
     }
     .footballVisualHeroTransfer .footballVisualPanel{
-        min-height:142px;
+        min-height:182px;
     }
-    .footballVisualHeroSetup,
-    .footballVisualAnalytics,
+    .footballVisualHeroTransfer .footballVisualMediaFrame,
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+        width:58%;
+    }
+    .footballVisualHeroTransfer .footballVisualCopy{
+        width:44%;
+        left:12px;
+        bottom:12px;
+    }
+
+    .footballVisualAnalytics{
+        min-height:310px;
+    }
+    .footballVisualAnalytics .footballVisualMediaFrame{
+        width:50%;
+    }
+    .footballVisualAnalytics .footballVisualCopy{
+        width:48%;
+    }
+
     .footballVisualTrophy{
-        min-height:175px;
+        min-height:230px;
     }
+    .footballVisualTrophy .footballVisualMediaFrame{
+        width:50%;
+    }
+}
+
+/* Desktop Trophy Room needs more physical height than the base/tablet layout.
+   The focused Lahm derivative therefore fills the frame strongly without
+   sacrificing any additional source area to a responsive crop. */
+@media(min-width:1021px){
+    .footballVisualTrophy{min-height:365px;}
 }
 
 html[data-motion-reduced="true"] .footballVisualMedia{

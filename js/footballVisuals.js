@@ -1,9 +1,3 @@
-/* =====================================================
-   Career Mode Showdown v1.0.1
-   Licensed Football Visual Renderer
-   Required presentation layer. No gameplay, navigation or storage ownership.
-===================================================== */
-
 let footballVisualsInitialized = false;
 let footballVisualPreloadPromise = null;
 const footballVisualMounts = new Map();
@@ -11,7 +5,7 @@ const footballVisualPreloads = new Map();
 
 function getFootballVisualRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
-    return meta && meta.content ? meta.content.trim() : "1.0.1-r3";
+    return meta && meta.content ? meta.content.trim() : "1.0.1-r4";
 }
 
 function getFootballVisualAsset(key){
@@ -84,6 +78,27 @@ function createFootballVisualCredit(asset){
     return credit;
 }
 
+function getFootballVisualFraming(asset){
+    const framing = asset && asset.framing ? asset.framing : {};
+    return {
+        mode: framing.mode || "subject-safe",
+        fit: framing.fit || "contain",
+        position: framing.position || "50% 50%",
+        maxCropFraction: Number.isFinite(framing.maxCropFraction) ? framing.maxCropFraction : 0,
+        rejectPortraitCover: framing.rejectPortraitCover !== false
+    };
+}
+
+function applyFootballVisualFraming(panel, asset, plan){
+    const framing = getFootballVisualFraming(asset);
+    panel.dataset.visualLayout = plan.layout || "subject-safe";
+    panel.dataset.framingMode = framing.mode;
+    panel.dataset.maxCropFraction = String(framing.maxCropFraction);
+    panel.dataset.rejectPortraitCover = framing.rejectPortraitCover ? "true" : "false";
+    panel.style.setProperty("--football-visual-fit", framing.fit);
+    panel.style.setProperty("--football-visual-position", framing.position);
+}
+
 function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     const asset = getFootballVisualAsset(assetKey);
     if(!asset){
@@ -94,7 +109,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     panel.className = `footballVisualPanel ${extraClass}`.trim();
     panel.dataset.footballVisualAsset = asset.id;
     panel.dataset.tone = plan.tone || "dark";
-    panel.style.setProperty("--football-visual-position", asset.position || "50% 30%");
+    applyFootballVisualFraming(panel, asset, plan);
 
     const mediaFrame = document.createElement("div");
     mediaFrame.className = "footballVisualMediaFrame";

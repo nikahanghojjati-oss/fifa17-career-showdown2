@@ -8,7 +8,11 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "football-visual";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
 const manifest = JSON.parse(fs.readFileSync(path.resolve("assets/football/asset-manifest.json"), "utf8"));
-const MAX_PHYSICAL_COVER_SCALE = 1.02;
+const MAX_PHYSICAL_SCALE = 1.02;
+const MIN_SUBJECT_SAFE_FRAME_COVERAGE = 0.60;
+const MAX_PORTRAIT_ASPECT_FOR_COVER = 0.92;
+const MIN_WIDE_FRAME_ASPECT = 1.55;
+const CROP_TOLERANCE = 0.015;
 
 const cases = [
     { name: "desktop", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },
@@ -17,7 +21,17 @@ const cases = [
 ];
 
 const expectedAssets = new Set(manifest.assets.map(item => item.output));
+const rejectedR3Assets = new Set([
+    "james-rodriguez-real-madrid-2016.webp",
+    "marcus-rashford-man-utd-2016.webp",
+    "anthony-martial-man-utd-2017.webp",
+    "lionel-messi-barcelona-2016.webp"
+]);
 fs.mkdirSync(resultsDirectory, { recursive: true });
+
+rejectedR3Assets.forEach(file => {
+    assert.ok(!expectedAssets.has(file), `Rejected r3 football photograph remains in active manifest: ${file}`);
+});
 
 function firstPartyFootballRequest(url){
     try{
@@ -88,25 +102,69 @@ async function inspectVisibleVisual(page, screenName){
             hostRect: host.getBoundingClientRect().toJSON(),
             panels: panels.map(panel => {
                 const image = panel.querySelector(".footballVisualMedia");
-                const rect = image.getBoundingClientRect();
-                const style = getComputedStyle(image);
+                const frame = panel.querySelector(".footballVisualMediaFrame");
+                const imageStyle = getComputedStyle(image);
+                const imageRect = image.getBoundingClientRect();
+                const frameRect = frame.getBoundingClientRect();
+                const panelRect = panel.getBoundingClientRect();
                 return {
                     asset: panel.dataset.footballVisualAsset,
+                    framingMode: panel.dataset.framingMode || "",
+                    maxCropFraction: Number.parseFloat(panel.dataset.maxCropFraction || "0"),
+                    rejectPortraitCover: panel.dataset.rejectPortraitCover === "true",
                     naturalWidth: image.naturalWidth,
                     naturalHeight: image.naturalHeight,
-                    renderedWidth: rect.width,
-                    renderedHeight: rect.height,
-                    opacity: style.opacity,
-                    objectFit: style.objectFit,
-                    imageRendering: style.imageRendering,
-                    mixBlendMode: style.mixBlendMode,
-                    filter: style.filter
+                    imageBoxWidth: imageRect.width,
+                    imageBoxHeight: imageRect.height,
+                    frameWidth: frameRect.width,
+                    frameHeight: frameRect.height,
+                    panelWidth: panelRect.width,
+                    panelHeight: panelRect.height,
+                    opacity: imageStyle.opacity,
+                    objectFit: imageStyle.objectFit,
+                    objectPosition: imageStyle.objectPosition,
+                    imageRendering: imageStyle.imageRendering,
+                    mixBlendMode: imageStyle.mixBlendMode,
+                    filter: imageStyle.filter
                 };
             }),
             documentWidth: document.documentElement.scrollWidth,
             clientWidth: document.documentElement.clientWidth
         };
     }, screenName);
+}
+
+function getObjectFitMetrics(panel, dpr){
+    const sourceWidth = panel.naturalWidth;
+    const sourceHeight = panel.naturalHeight;
+    const physicalFrameWidth = panel.frameWidth * dpr;
+    const physicalFrameHeight = panel.frameHeight * dpr;
+    const widthScale = physicalFrameWidth / sourceWidth;
+    const heightScale = physicalFrameHeight / sourceHeight;
+    const objectScale = panel.objectFit === "contain"
+        ? Math.min(widthScale, heightScale)
+        : Math.max(widthScale, heightScale);
+
+    const contentWidth = sourceWidth * objectScale;
+    const contentHeight = sourceHeight * objectScale;
+    const visibleWidth = Math.min(contentWidth, physicalFrameWidth);
+    const visibleHeight = Math.min(contentHeight, physicalFrameHeight);
+    const frameCoverage = (visibleWidth * visibleHeight) / (physicalFrameWidth * physicalFrameHeight);
+
+    const visibleSourceWidth = Math.min(sourceWidth, physicalFrameWidth / objectScale);
+    const visibleSourceHeight = Math.min(sourceHeight, physicalFrameHeight / objectScale);
+    const visibleSourceFraction = (visibleSourceWidth * visibleSourceHeight) / (sourceWidth * sourceHeight);
+
+    return {
+        objectScale,
+        frameCoverage,
+        visibleSourceFraction,
+        cropFraction: 1 - visibleSourceFraction,
+        sourceAspect: sourceWidth / sourceHeight,
+        frameAspect: physicalFrameWidth / physicalFrameHeight,
+        physicalFrameWidth,
+        physicalFrameHeight
+    };
 }
 
 function assertRenderedVisual(result, screenName){
@@ -118,26 +176,48 @@ function assertRenderedVisual(result, screenName){
 
     result.panels.forEach(panel => {
         assert.ok(panel.naturalWidth > 0 && panel.naturalHeight > 0, `${screenName}/${panel.asset}: photograph did not decode.`);
-        assert.ok(panel.renderedWidth >= 180, `${screenName}/${panel.asset}: rendered panel is too narrow.`);
-        assert.ok(panel.renderedHeight >= 120, `${screenName}/${panel.asset}: rendered panel is too short.`);
+        assert.ok(panel.frameWidth >= 150, `${screenName}/${panel.asset}: photographic frame is too narrow.`);
+        assert.ok(panel.frameHeight >= 120, `${screenName}/${panel.asset}: photographic frame is too short.`);
+        assert.ok(panel.frameWidth <= panel.panelWidth + 1, `${screenName}/${panel.asset}: photographic frame exceeds its panel.`);
+        assert.ok(panel.frameHeight <= panel.panelHeight + 1, `${screenName}/${panel.asset}: photographic frame exceeds its panel.`);
 
-        const physicalWidth = panel.renderedWidth * result.deviceScaleFactor;
-        const physicalHeight = panel.renderedHeight * result.deviceScaleFactor;
-        const coverScale = Math.max(
-            physicalWidth / panel.naturalWidth,
-            physicalHeight / panel.naturalHeight
-        );
+        const metrics = getObjectFitMetrics(panel, result.deviceScaleFactor);
         assert.ok(
-            coverScale <= MAX_PHYSICAL_COVER_SCALE,
-            `${screenName}/${panel.asset}: photograph would be materially upscaled at ${coverScale.toFixed(3)}x ` +
-            `(${Math.round(physicalWidth)}x${Math.round(physicalHeight)} physical px from ${panel.naturalWidth}x${panel.naturalHeight}).`
+            metrics.objectScale <= MAX_PHYSICAL_SCALE,
+            `${screenName}/${panel.asset}: photograph would be materially upscaled at ${metrics.objectScale.toFixed(3)}x ` +
+            `(${Math.round(metrics.physicalFrameWidth)}x${Math.round(metrics.physicalFrameHeight)} physical frame px from ${panel.naturalWidth}x${panel.naturalHeight}).`
         );
 
         assert.ok(Number.parseFloat(panel.opacity) >= .9999, `${screenName}/${panel.asset}: photography did not finish at full opacity.`);
-        assert.equal(panel.objectFit, "cover", `${screenName}/${panel.asset}: object-fit must remain cover.`);
+        assert.ok(panel.objectFit === "contain" || panel.objectFit === "cover", `${screenName}/${panel.asset}: unsupported object-fit ${panel.objectFit}.`);
         assert.ok(panel.imageRendering === "auto" || panel.imageRendering === "-webkit-optimize-contrast", `${screenName}/${panel.asset}: browser-native resampling is not active.`);
         assert.equal(panel.mixBlendMode, "normal", `${screenName}/${panel.asset}: blend mode must remain normal.`);
         assert.equal(panel.filter, "none", `${screenName}/${panel.asset}: photography must not use CSS colour filters.`);
+
+        const maxCrop = Number.isFinite(panel.maxCropFraction) ? panel.maxCropFraction : 0;
+        assert.ok(
+            metrics.cropFraction <= maxCrop + CROP_TOLERANCE,
+            `${screenName}/${panel.asset}: crop removes ${(metrics.cropFraction * 100).toFixed(1)}% of the source, exceeding declared ${(maxCrop * 100).toFixed(1)}% budget.`
+        );
+
+        if(panel.framingMode === "subject-safe"){
+            assert.equal(panel.objectFit, "contain", `${screenName}/${panel.asset}: subject-safe photography must use contain, never blind cover.`);
+            assert.ok(
+                metrics.visibleSourceFraction >= 0.985,
+                `${screenName}/${panel.asset}: subject-safe frame must preserve essentially the full photograph.`
+            );
+            assert.ok(
+                metrics.frameCoverage >= MIN_SUBJECT_SAFE_FRAME_COVERAGE,
+                `${screenName}/${panel.asset}: photograph occupies only ${(metrics.frameCoverage * 100).toFixed(1)}% of its frame; art direction would look like a tiny inset.`
+            );
+        }
+
+        if(panel.rejectPortraitCover && panel.objectFit === "cover"){
+            assert.ok(
+                !(metrics.sourceAspect < MAX_PORTRAIT_ASPECT_FOR_COVER && metrics.frameAspect > MIN_WIDE_FRAME_ASPECT),
+                `${screenName}/${panel.asset}: portrait-to-wide cover crop is forbidden; this is the exact class of regression that produced the rejected Rashford/James banners.`
+            );
+        }
     });
 }
 
@@ -250,7 +330,7 @@ async function runCase(config){
 
         await context.close();
         process.stdout.write(
-            `${config.name}: required licensed visual journey passed (${footballRequests.length} image requests; DPR ${config.deviceScaleFactor}).\n`
+            `${config.name}: crop-safe required visual journey passed (${footballRequests.length} image requests; DPR ${config.deviceScaleFactor}).\n`
         );
     }finally{
         await browser.close();
@@ -261,7 +341,7 @@ async function runCase(config){
     for(const config of cases){
         await runCase(config);
     }
-    process.stdout.write("Required football visual audit passed at desktop, near-breakpoint and mobile-reference viewports.\n");
+    process.stdout.write("Crop-safe football visual audit passed at desktop, near-breakpoint and mobile-reference viewports.\n");
 })().catch(error => {
     console.error("FOOTBALL VISUAL AUDIT FAILED");
     console.error(error && error.stack ? error.stack : error);

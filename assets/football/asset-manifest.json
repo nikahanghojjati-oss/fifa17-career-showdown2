@@ -1,141 +1,99 @@
 {
-  "generated_by": "import-licensed-football-visuals.yml",
-  "transformation": "EXIF orientation normalized, resized down only with Lanczos, converted to WebP; no generative alteration.",
+  "generated_by": "r4-subject-dominant-selected-import-and-reviewed-local-derivative",
+  "transformation": "EXIF orientation normalized where applicable, resized down only with Lanczos, converted to WebP; the Lahm Trophy Room asset additionally uses one documented hand-reviewed crop from the licensed local 1600x829 derivative; no generative alteration.",
   "assets": [
     {
-      "id": "james-rodriguez-real-madrid-2016",
-      "source_file": "James Rodríguez in September 2016 - 02.jpg",
-      "output": "james-rodriguez-real-madrid-2016.webp",
-      "max_size": [
-        863,
-        1080
-      ],
-      "quality": 91,
+      "id": "james-rodriguez-real-madrid-2016-r4",
+      "source_file": "James Rodríguez in September 2016 - 01.jpg",
+      "output": "james-rodriguez-real-madrid-2016-r4.webp",
+      "max_size": [863, 1080],
+      "quality": 92,
       "author": "Real Madrid",
       "license": "CC BY 3.0",
       "license_url": "https://creativecommons.org/licenses/by/3.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_02.jpg",
-      "context": "James Rodríguez after Borussia Dortmund vs Real Madrid, 28 September 2016.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%20September%202016%20-%2002.jpg",
-      "source_dimensions": [
-        863,
-        1080
-      ],
-      "source_sha256": "bd29eb5b69468bf7a542f10f3a5c3aebc5d7b5d66beaacc2980c3b987c0b659c",
-      "output_dimensions": [
-        863,
-        1080
-      ],
-      "output_bytes": 79232,
-      "output_sha256": "ae2cbe38b672d6d44d326d2bb6ad387675b653076d5b86f2d43ceb7c82340094"
+      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_01.jpg",
+      "context": "James Rodríguez after Borussia Dortmund v Real Madrid, 28 September 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%20September%202016%20-%2001.jpg",
+      "source_dimensions": [863, 1080],
+      "source_sha256": "89b0ba064638e2c5256f41a96010cd85de85694c396e2edb168d3e99cf27dfd4",
+      "output_dimensions": [863, 1080],
+      "output_bytes": 99788,
+      "output_sha256": "48d0ff9c3cbdc7161de691c62a365fd27b89360e0d08528d8f57340266fcb68b"
     },
     {
-      "id": "marcus-rashford-man-utd-2016",
-      "source_file": "Marcus Rashford.jpg",
-      "output": "marcus-rashford-man-utd-2016.webp",
-      "max_size": [
-        742,
-        888
-      ],
+      "id": "marcus-rashford-man-utd-2016-r4",
+      "source_file": "Marcus Rashford September 2016 (cropped).jpg",
+      "output": "marcus-rashford-man-utd-2016-r4.webp",
+      "max_size": [594, 661],
       "quality": 94,
-      "author": "Egghead06",
+      "author": "Ardfern",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Marcus_Rashford.jpg",
-      "context": "Marcus Rashford warming up for Manchester United before West Ham United vs Manchester United at the Boleyn Ground, 10 May 2016.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marcus%20Rashford.jpg",
-      "source_dimensions": [
-        742,
-        888
-      ],
-      "source_sha256": "1b77d38a0720e56a9a22f987de1d6c6691509c7fca84bb42b342edd3a8b803fb",
-      "output_dimensions": [
-        742,
-        888
-      ],
-      "output_bytes": 198772,
-      "output_sha256": "e42a4a84b98bad40e2fad9a49131d825b64a4c4c85d6528e63d535130d546097"
+      "source_page": "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg",
+      "context": "Marcus Rashford for Manchester United v Zorya Luhansk at Old Trafford, 29 September 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marcus%20Rashford%20September%202016%20%28cropped%29.jpg",
+      "source_dimensions": [594, 661],
+      "source_sha256": "not-recorded-during-selected-r4-source-import",
+      "output_dimensions": [594, 661],
+      "output_bytes": 116860,
+      "output_sha256": "400188be2b0f6b9fe61a9aad67d1cbc5bb565ddef299a9d95896f98558db1a57"
     },
     {
-      "id": "anthony-martial-man-utd-2017",
-      "source_file": "Anthony Martial 27 September 2017.jpg",
-      "output": "anthony-martial-man-utd-2017.webp",
-      "max_size": [
-        1200,
-        800
-      ],
-      "quality": 90,
-      "author": "Dmitry Golubovich",
-      "license": "CC BY-SA 3.0",
-      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Anthony_Martial_27_September_2017.jpg",
-      "context": "Anthony Martial playing for Manchester United against CSKA Moscow, 27 September 2017.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Anthony%20Martial%2027%20September%202017.jpg",
-      "source_dimensions": [
-        1500,
-        1000
-      ],
-      "source_sha256": "8129fb391fb04a30e35aa2430cea6741c686bbd87a5282851cbccef090a7e8cc",
-      "output_dimensions": [
-        1200,
-        800
-      ],
-      "output_bytes": 148100,
-      "output_sha256": "88821ebd73f7251c0e110286e6d280c793ed83ce3ecaa385b02adb638ccbd180"
-    },
-    {
-      "id": "lionel-messi-barcelona-2016",
-      "source_file": "Save the Dream at the Match of Champions (31791513341).jpg",
-      "output": "lionel-messi-barcelona-2016.webp",
-      "max_size": [
-        960,
-        810
-      ],
+      "id": "anthony-martial-man-utd-2015-r4",
+      "source_file": "Anthony Martial 2015.jpg",
+      "output": "anthony-martial-man-utd-2015-r4.webp",
+      "max_size": [688, 560],
       "quality": 94,
-      "author": "Save the Dream",
+      "author": "Dmitry Golubovich",
+      "license": "CC BY-SA 2.5",
+      "license_url": "https://creativecommons.org/licenses/by-sa/2.5/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg",
+      "context": "Anthony Martial of Manchester United v CSKA Moscow, 21 October 2015.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Anthony%20Martial%202015.jpg",
+      "source_dimensions": [688, 560],
+      "source_sha256": "4b63fb995622ebb14a9d65ec88f8a0b8dc37f0574ba51439a869a07ee630ff34",
+      "output_dimensions": [688, 560],
+      "output_bytes": 49102,
+      "output_sha256": "f2eebc5b3d49d749b71172e9a8d35966423f68b6fe2472798279b8e9fc779017"
+    },
+    {
+      "id": "lionel-messi-barcelona-2016-subject-r4",
+      "source_file": "Leo Messi 2016.PNG",
+      "output": "lionel-messi-barcelona-2016-subject-r4.webp",
+      "max_size": [469, 779],
+      "quality": 94,
+      "author": "Save the Dream / derivative by SdHb",
       "license": "CC BY 2.0",
       "license_url": "https://creativecommons.org/licenses/by/2.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Save_the_Dream_at_the_Match_of_Champions_(31791513341).jpg",
-      "context": "Lionel Messi with FC Barcelona at Al-Ahli v Barcelona, 16 December 2016.",
-      "special_redirect_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Save_the_Dream_at_the_Match_of_Champions_%2831791513341%29.jpg",
-      "source_dimensions": [
-        960,
-        810
-      ],
-      "source_sha256": "cf8ccc285de3a37f582df1a3a2cd5b7fa8ca0ca30d350ef73c0e018ace19c959",
-      "output_dimensions": [
-        960,
-        810
-      ],
-      "output_bytes": 103820,
-      "output_sha256": "02f1fe4c78e2b2ee7b7767a1768a451811874c31bb726f29ebe5136113f7fa4f"
+      "source_page": "https://commons.wikimedia.org/wiki/File:Leo_Messi_2016.PNG",
+      "context": "Subject-isolated derivative of Lionel Messi with FC Barcelona before Al-Ahli v Barcelona, December 2016.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Leo%20Messi%202016.PNG",
+      "source_dimensions": [469, 779],
+      "source_sha256": "not-recorded-during-selected-r4-source-import",
+      "output_dimensions": [469, 779],
+      "output_bytes": 63788,
+      "output_sha256": "a84eba9c108bb4237bde989c36dd837114480bd0d1a823eeacf401955995d204"
     },
     {
-      "id": "philipp-lahm-world-cup-2014",
+      "id": "philipp-lahm-world-cup-2014-focus-r4",
       "source_file": "Philipp Lahm lifts the 2014 FIFA World Cup.jpg",
-      "output": "philipp-lahm-world-cup-2014.webp",
-      "max_size": [
-        1600,
-        829
-      ],
-      "quality": 88,
+      "output": "philipp-lahm-world-cup-2014-focus-r4.webp",
+      "max_size": [624, 722],
+      "quality": 94,
       "author": "Agência Brasil",
       "license": "CC BY 3.0 BR",
       "license_url": "https://creativecommons.org/licenses/by/3.0/br/deed.en",
       "source_page": "https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg",
-      "context": "Germany captain Philipp Lahm lifts the 2014 FIFA World Cup, 13 July 2014.",
+      "context": "Germany captain Philipp Lahm lifts the 2014 FIFA World Cup, 13 July 2014; final runtime asset uses a hand-reviewed subject-focused derivative that retains Lahm, his raised arms and the complete trophy.",
       "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Philipp%20Lahm%20lifts%20the%202014%20FIFA%20World%20Cup.jpg",
-      "source_dimensions": [
-        4256,
-        2204
-      ],
+      "source_dimensions": [4256, 2204],
       "source_sha256": "3167b6f09fc6d9b335edece955dc8acd62c8553cdab6b599542a2c2df5d3f5ef",
-      "output_dimensions": [
-        1600,
-        829
-      ],
-      "output_bytes": 311072,
-      "output_sha256": "bcc437e75608124f54241fd17607820ca13fcb70d2fab7f9dc107facb964b8ac"
+      "intermediate_dimensions": [1600, 829],
+      "intermediate_sha256": "bcc437e75608124f54241fd17607820ca13fcb70d2fab7f9dc107facb964b8ac",
+      "crop_box_on_intermediate": [624, 41, 1248, 763],
+      "output_dimensions": [624, 722],
+      "output_bytes": 148134,
+      "output_sha256": "c745c9dfd3619e384604890c6ed183dd4ff92db6cc1d4b93e1ce6edf5ebf6eb5"
     }
   ]
 }
