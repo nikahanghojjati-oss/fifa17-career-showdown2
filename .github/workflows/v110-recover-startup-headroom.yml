@@ -76,3 +76,5 @@ jobs:
           git add js/storage.js js/showdown.js CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CANDIDATE_A.md
           git commit -m 'Recover startup headroom after corrupt-slot protection'
           git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
+
+# Retry after making the hardening contract formatting-independent.
