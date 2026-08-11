@@ -1,4 +1,4 @@
-name: R4 Lahm Crop Review
+name: R4 Final Lahm Derivative Import
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
       - ".github/workflows/r4-final-visual-import.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  build-lahm-crop-review:
+  import-lahm-derivative:
     if: github.ref == 'refs/heads/agent/r4-visual-recovery-and-error-provenance'
     runs-on: ubuntu-latest
     steps:
@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: agent/r4-visual-recovery-and-error-provenance
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -26,60 +27,42 @@ jobs:
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
 
-      - name: Build crop candidates from licensed local Lahm source
+      - name: Create selected crop-safe Lahm derivative
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          from PIL import Image, ImageOps, ImageDraw, ImageFont
+          from PIL import Image
+          import hashlib
 
-          source_path = Path('assets/football/philipp-lahm-world-cup-2014.webp')
-          image = Image.open(source_path).convert('RGB')
-          w, h = image.size
-          print('source', w, h)
+          source = Path('assets/football/philipp-lahm-world-cup-2014.webp')
+          destination = Path('assets/football/philipp-lahm-world-cup-2014-focus-r4.webp')
+          image = Image.open(source).convert('RGB')
+          if image.size != (1600, 829):
+              raise RuntimeError(f'Unexpected source dimensions: {image.size}')
 
-          boxes = [
-              ('A', (0.35, 0.00, 0.76, 1.00)),
-              ('B', (0.40, 0.00, 0.73, 1.00)),
-              ('C', (0.43, 0.00, 0.72, 0.96)),
-              ('D', (0.46, 0.00, 0.74, 0.90)),
-              ('E', (0.39, 0.05, 0.78, 0.92)),
-              ('F', (0.44, 0.04, 0.76, 0.88)),
-          ]
+          # Hand-reviewed crop E from the local licensed source. It keeps Lahm's
+          # head/torso, raised arms and the complete World Cup trophy while
+          # removing distant crowd space that made the original unreadable.
+          crop_box = (624, 41, 1248, 763)
+          derivative = image.crop(crop_box)
+          derivative.save(destination, 'WEBP', quality=94, method=6)
 
-          out = Path('lahm-crop-review')
-          out.mkdir(exist_ok=True)
-          thumbs = []
-          for label, norm in boxes:
-              box = (
-                  round(norm[0] * w), round(norm[1] * h),
-                  round(norm[2] * w), round(norm[3] * h)
-              )
-              crop = image.crop(box)
-              crop_path = out / f'lahm-{label}.jpg'
-              crop.save(crop_path, 'JPEG', quality=94)
-              thumbs.append((label, box, crop))
-              print(label, box, crop.size)
-
-          cell_w, cell_h = 420, 540
-          sheet = Image.new('RGB', (cell_w * 3, cell_h * 2), '#eef2f4')
-          draw = ImageDraw.Draw(sheet)
-          font = ImageFont.load_default()
-          for index, (label, box, crop) in enumerate(thumbs):
-              col, row = index % 3, index // 3
-              x0, y0 = col * cell_w, row * cell_h
-              preview = ImageOps.contain(crop, (cell_w - 24, cell_h - 62), Image.Resampling.LANCZOS)
-              px = x0 + (cell_w - preview.width) // 2
-              py = y0 + 34 + (cell_h - 62 - preview.height) // 2
-              sheet.paste(preview, (px, py))
-              draw.text((x0 + 12, y0 + 10), f'{label}  box={box}  size={crop.size[0]}x{crop.size[1]}', fill='#101820', font=font)
-
-          sheet.save(out / 'lahm-crop-contact-sheet.jpg', 'JPEG', quality=92)
+          print('crop_box', crop_box)
+          print('dimensions', derivative.size)
+          print('sha256', hashlib.sha256(destination.read_bytes()).hexdigest())
+          print('bytes', destination.stat().st_size)
           PY
 
-      - name: Upload Lahm crop review
-        uses: actions/upload-artifact@v4
-        with:
-          name: r4-lahm-crop-review-${{ github.sha }}
-          path: lahm-crop-review/
-          retention-days: 7
+      - name: Commit selected derivative
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/football/philipp-lahm-world-cup-2014-focus-r4.webp
+          if git diff --cached --quiet; then
+            echo "Selected Lahm derivative already matches."
+            exit 0
+          fi
+          git commit -m "Import subject-focused Lahm trophy derivative"
+          git push origin HEAD:agent/r4-visual-recovery-and-error-provenance
