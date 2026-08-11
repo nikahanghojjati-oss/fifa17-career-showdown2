@@ -32,7 +32,7 @@ The following images are required screen-level presentation assets. They are sto
 
 The r5 owner-requested rebuild changes only the James Rodríguez, Marcus Rashford and Anthony Martial photographs. Each of those three now begins from a different licensed source photograph and receives one explicit, hand-reviewed crop in source-pixel coordinates before WebP conversion. The finished derivative is then shown in full with `object-fit: contain`; responsive CSS is not allowed to crop the derivative again. Lionel Messi and Philipp Lahm remain unchanged from r4.
 
-The earlier r3 visual regression and its rejected source/crop decisions remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`. The subsequently replaced r4 James/Rashford/Martial derivatives remain recoverable through Git history but are no longer active runtime assets. The repository manifest `assets/football/asset-manifest.json` records source dimensions, source fingerprints, exact source-pixel crop boxes, derivative dimensions, derivative fingerprints and byte sizes.
+The earlier r3 visual regression and its rejected source/crop decisions remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`. The subsequently replaced r4 James/Rashford/Martial derivatives remain recoverable through Git history but are no longer active runtime assets. During r5 source review, an intermediate 2016 Rashford candidate was also replaced after final browser previews showed that a tighter 2017 Manchester United source made his face, red shirt and club identity substantially more readable at desktop, windowed and mobile Transfer Challenge sizes. The repository manifest `assets/football/asset-manifest.json` records source dimensions, source fingerprints, exact source-pixel crop boxes, derivative dimensions, derivative fingerprints and byte sizes.
 
 ### James Rodríguez — Real Madrid
 
@@ -49,16 +49,16 @@ The earlier r3 visual regression and its rejected source/crop decisions remain d
 
 ### Marcus Rashford — Manchester United
 
-- Repository file: `assets/football/marcus-rashford-man-utd-2016-smart-r5.webp`
-- Source file: `Man Utd v Everton, August 2016 (08).JPG`
+- Repository file: `assets/football/marcus-rashford-man-utd-2017-smart-r5.webp`
+- Source file: `Manchester United v RSC Anderlecht, 20 April 2017 (29).jpg`
 - Author: Ardfern
-- Source page: `https://commons.wikimedia.org/wiki/File:Man_Utd_v_Everton,_August_2016_(08).JPG`
+- Source page: `https://commons.wikimedia.org/wiki/File:Manchester_United_v_RSC_Anderlecht,_20_April_2017_(29).jpg`
 - License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0), `https://creativecommons.org/licenses/by-sa/4.0/`
-- Source dimensions: 4896 × 3672.
-- Source context: Manchester United v Everton, Wayne Rooney testimonial at Old Trafford, 3 August 2016; the source belongs to the Commons Marcus Rashford in 2016 set.
+- Source dimensions: 3672 × 4896.
+- Source context: Marcus Rashford for Manchester United against RSC Anderlecht at Old Trafford, 20 April 2017.
 - Application use: Transfer Challenge presentation.
-- Local transformation: source-pixel crop `(0, 400, 1800, 2600)` removes the large unused stadium area and makes Rashford the dominant figure while retaining his complete head and upper body; downscaled only to 900 × 1100 with Lanczos and encoded as WebP at quality 90. This local derivative remains available under CC BY-SA 4.0.
-- Display policy: the complete 900 × 1100 authored derivative is displayed with `object-fit: contain`; there is no secondary responsive crop or zoom.
+- Local transformation: source-pixel crop `(1050, 300, 2350, 2200)` deliberately prioritizes Rashford's face, red Manchester United shirt and upper body while removing unused grass and full-leg area; downscaled only to 753 × 1100 with Lanczos and encoded as WebP at quality 92. This local derivative remains available under CC BY-SA 4.0.
+- Display policy: the complete 753 × 1100 authored derivative is displayed with `object-fit: contain`; there is no secondary responsive crop or zoom.
 
 ### Anthony Martial — Manchester United
 
