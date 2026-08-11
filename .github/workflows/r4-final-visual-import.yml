@@ -1,0 +1,104 @@
+name: R4 Final Visual Import
+
+on:
+  push:
+    paths:
+      - ".github/workflows/r4-final-visual-import.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import-final-visuals:
+    if: github.ref == 'refs/heads/agent/r4-visual-recovery-and-error-provenance'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out corrective branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/r4-visual-recovery-and-error-provenance
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Import subject-dominant licensed sources
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+          from urllib.error import HTTPError, URLError
+          from PIL import Image, ImageOps
+          import hashlib
+          import io
+          import time
+
+          out_dir = Path('assets/football')
+          out_dir.mkdir(parents=True, exist_ok=True)
+
+          sources = [
+              {
+                  'name': 'Marcus Rashford.jpg',
+                  'url': 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Marcus_Rashford.jpg',
+                  'output': 'marcus-rashford-man-utd-2016-subject-r4.webp',
+                  'quality': 94,
+              },
+              {
+                  'name': 'Philipp Lahm com o troféu de Campeão do Mundo em 2014.jpg',
+                  'url': 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Philipp_Lahm_com_o_trof%C3%A9u_de_Campe%C3%A3o_do_Mundo_em_2014.jpg',
+                  'output': 'philipp-lahm-world-cup-2014-subject-r4.webp',
+                  'quality': 94,
+              },
+          ]
+
+          def download(url):
+              last = None
+              for attempt in range(6):
+                  try:
+                      req = Request(url, headers={
+                          'User-Agent': 'CareerModeShowdown/1.0.1 visual-source-import (GitHub Actions)',
+                          'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+                      })
+                      with urlopen(req, timeout=45) as response:
+                          return response.read()
+                  except (HTTPError, URLError, TimeoutError) as exc:
+                      last = exc
+                      time.sleep(3 * (attempt + 1))
+              raise RuntimeError(f'Unable to download {url}: {last}')
+
+          for source in sources:
+              raw = download(source['url'])
+              source_hash = hashlib.sha256(raw).hexdigest()
+              image = Image.open(io.BytesIO(raw))
+              image = ImageOps.exif_transpose(image).convert('RGB')
+              source_dimensions = image.size
+              destination = out_dir / source['output']
+              image.save(destination, 'WEBP', quality=source['quality'], method=6)
+              output_hash = hashlib.sha256(destination.read_bytes()).hexdigest()
+              print(
+                  source['output'],
+                  f'source={source_dimensions[0]}x{source_dimensions[1]}',
+                  f'source_sha256={source_hash}',
+                  f'output_sha256={output_hash}',
+                  f'bytes={destination.stat().st_size}'
+              )
+          PY
+
+      - name: Commit imported binaries
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/football/marcus-rashford-man-utd-2016-subject-r4.webp assets/football/philipp-lahm-world-cup-2014-subject-r4.webp
+          if git diff --cached --quiet; then
+            echo "Imported files already match."
+            exit 0
+          fi
+          git commit -m "Import stronger subject-dominant Rashford and Lahm visuals"
+          git push origin HEAD:agent/r4-visual-recovery-and-error-provenance
