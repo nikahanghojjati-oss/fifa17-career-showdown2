@@ -590,19 +590,21 @@ async function runCorruptStorageFixture(browser){
         await page.locator("#managerTwo").fill("Recovery Two");
 
         const dismissedPromise = page.waitForEvent("dialog", { timeout: 5000 });
-        await page.locator("#startShowdown").click();
+        const dismissedClick = page.locator("#startShowdown").click();
         const dismissedDialog = await dismissedPromise;
         assert.match(dismissedDialog.message(), /replace the active save/i);
         await dismissedDialog.dismiss();
+        await dismissedClick;
         await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);
         assert.deepEqual(await activeScreens(page), ["createShowdown"]);
         assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");
 
         const acceptedPromise = page.waitForEvent("dialog", { timeout: 5000 });
-        await page.locator("#startShowdown").click();
+        const acceptedClick = page.locator("#startShowdown").click();
         const acceptedDialog = await acceptedPromise;
         assert.match(acceptedDialog.message(), /replace the active save/i);
         await acceptedDialog.accept();
+        await acceptedClick;
         await waitForScreen(page, "leagueWheelScreen");
         assert.equal((await readActiveSave(page)).name, "Recovery Guard Audit");
         monitors.assertClean("Corrupt storage fixture");
