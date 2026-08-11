@@ -72,8 +72,8 @@ const FOOTBALL_VISUALS = Object.freeze({
         })
     }),
     lahm: Object.freeze({
-        id: "philipp-lahm-world-cup-2014",
-        src: "assets/football/philipp-lahm-world-cup-2014.webp",
+        id: "philipp-lahm-world-cup-2014-focus-r4",
+        src: "assets/football/philipp-lahm-world-cup-2014-focus-r4.webp",
         subject: "Philipp Lahm",
         context: "World Champion · 2014",
         alt: "Philipp Lahm lifting the 2014 FIFA World Cup trophy",
