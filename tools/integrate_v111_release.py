@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# Temporary guarded integration helper. Removed before final freeze.
 
 
 def read(path: str) -> str:
@@ -31,10 +32,6 @@ def insert_before(path: str, marker: str, block: str) -> None:
     write(path, text.replace(marker, block.rstrip() + "\n\n" + marker, 1))
 
 
-# ---------------------------------------------------------------------------
-# Current authority documentation. Historical release/handoff records are not
-# rewritten by this helper.
-# ---------------------------------------------------------------------------
 replace("README.md", "**Application version:** v1.1.0 — Stable\n**Runtime asset revision:** `1.1.0-r1`\n**Current phase:** v1.1.0 Candidate A is merged/deployed/proven; a clean-stability seal is revalidating every permanent feature/workstream/release gate without changing runtime bytes unless a real defect reproduces", "**Application version:** v1.1.1 — Maintenance Candidate\n**Runtime asset revision:** `1.1.1-r1`\n**Current phase:** owner-directed James Rodríguez Real Madrid source refresh; Candidate A remains protected and Candidate B remains next after maintenance closure")
 replace("README.md", "**Next roadmap candidate after Candidate A release proof:** Candidate B — Import Analysis + Migration Preview", "**Next roadmap candidate after v1.1.1 maintenance closure:** Candidate B — Import Analysis + Migration Preview")
 insert_before("README.md", "## v1.1.0 — Data Safety and Recovery / Candidate A", """## v1.1.1 — James Rodríguez Real Madrid source refresh
@@ -247,9 +244,6 @@ Runtime asset revision: **`1.1.1-r1`**
 - requires two independent executions of every permanent gate family on the same frozen candidate SHA before promotion;
 - leaves Candidate B import analysis as the next substantive roadmap candidate after maintenance closure.""")
 
-# ---------------------------------------------------------------------------
-# Current release-aware permanent workflow promotion.
-# ---------------------------------------------------------------------------
 replace(".github/workflows/validate-v1-visual-immersion.yml", "1.1.0-r1", "1.1.1-r1", expected=2)
 replace(".github/workflows/validate-v1-visual-immersion.yml", "v1.1.0 · Stable", "v1.1.1 · Stable")
 replace(".github/workflows/validate-v1-visual-immersion.yml", 'const APP_VERSION = "1.1.0"', 'const APP_VERSION = "1.1.1"')
@@ -287,11 +281,6 @@ for old, new, count in [
     static = static.replace(old, new)
 write(static_path, static)
 
-# ---------------------------------------------------------------------------
-# Licensed visual static gate: exact new source identity + cross-authority
-# consistency + old-source exclusion. Existing crop/occupancy/browser floors
-# are preserved rather than relaxed.
-# ---------------------------------------------------------------------------
 visual_path = ".github/workflows/validate-football-visuals.yml"
 visual = read(visual_path)
 visual = visual.replace("const browserAudit = fs.readFileSync('tests/browser/football-visual-audit.cjs','utf8');", "const browserAudit = fs.readFileSync('tests/browser/football-visual-audit.cjs','utf8');\n          const builder = fs.readFileSync('tools/build_r5_player_visuals.py','utf8');")
@@ -330,10 +319,6 @@ visual = visual.replace("assert.ok(data.includes('marcus-rashford-man-utd-2017-s
 visual = visual.replace("console.log(`v1.1.0 clean-anchor licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes.`);", "console.log(`v1.1.1 licensed visual contracts passed: ${manifest.assets.length} images / ${total} staged presentation bytes; new James source identity, full-frame policy and protected-player regressions verified.`);")
 write(visual_path, visual)
 
-# ---------------------------------------------------------------------------
-# Browser gate: new James ID, old-source exclusion, an extra compact-desktop
-# viewport and James-specific density/full-frame/face-safe assertions.
-# ---------------------------------------------------------------------------
 browser_path = "tests/browser/football-visual-audit.cjs"
 browser = read(browser_path)
 browser = browser.replace('    { name: "desktop", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },\n    { name: "windowed-near-breakpoint",', '    { name: "desktop", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },\n    { name: "compact-desktop", viewport: { width: 1100, height: 720 }, deviceScaleFactor: 1 },\n    { name: "windowed-near-breakpoint",')
