@@ -226,7 +226,7 @@ async function assertDropAndMobile(browser){
         const audit = await page.evaluate(() => ({ ...window.__importWriteAudit }));
         assert.deepEqual(audit, { set: 0, remove: 0 });
 
-        for(const selector of [".legacyImportDropZone", "#careerModeImportFile", ".legacyImportActions .primaryDataButton"]){
+        for(const selector of [".legacyImportDropZone", ".legacyImportActions .primaryDataButton", ".legacyImportActions .compactButton:last-child"]){
             const box = await page.locator(selector).boundingBox();
             assert.ok(box && box.height >= 44, `${selector} must retain a >=44px mobile interaction height; got ${box?.height}.`);
         }
