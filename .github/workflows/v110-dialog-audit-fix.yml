@@ -1,0 +1,61 @@
+name: v1.1.0 Dialog Audit Choreography Fix
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - .github/workflows/v110-dialog-audit-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Fix corrupt-save dialog audit choreography
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          audit=Path('tests/browser/stability-audit.cjs')
+          s=audit.read_text()
+          old='''        const dismissedPromise = page.waitForEvent("dialog", { timeout: 5000 });\n        await page.locator("#startShowdown").click();\n        const dismissedDialog = await dismissedPromise;\n        assert.match(dismissedDialog.message(), /replace the active save/i);\n        await dismissedDialog.dismiss();\n        await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);\n        assert.deepEqual(await activeScreens(page), ["createShowdown"]);\n        assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");\n\n        const acceptedPromise = page.waitForEvent("dialog", { timeout: 5000 });\n        await page.locator("#startShowdown").click();\n        const acceptedDialog = await acceptedPromise;\n        assert.match(acceptedDialog.message(), /replace the active save/i);\n        await acceptedDialog.accept();\n'''
+          new='''        const dismissedPromise = page.waitForEvent("dialog", { timeout: 5000 });\n        const dismissedClick = page.locator("#startShowdown").click();\n        const dismissedDialog = await dismissedPromise;\n        assert.match(dismissedDialog.message(), /replace the active save/i);\n        await dismissedDialog.dismiss();\n        await dismissedClick;\n        await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);\n        assert.deepEqual(await activeScreens(page), ["createShowdown"]);\n        assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");\n\n        const acceptedPromise = page.waitForEvent("dialog", { timeout: 5000 });\n        const acceptedClick = page.locator("#startShowdown").click();\n        const acceptedDialog = await acceptedPromise;\n        assert.match(acceptedDialog.message(), /replace the active save/i);\n        await acceptedDialog.accept();\n        await acceptedClick;\n'''
+          if s.count(old)!=1:
+              raise SystemExit(f'Expected one corrupt-dialog audit block, found {s.count(old)}')
+          audit.write_text(s.replace(old,new,1))
+
+          hardening=Path('tests/contracts/final-release-hardening.cjs')
+          h=hardening.read_text()
+          needle='assert.ok(stabilityAudit.includes(\'page.waitForEvent("dialog", { timeout: 5000 })\'), "Corrupt-save replacement regression must fail fast instead of hanging CI.");\n'
+          extra='assert.ok(stabilityAudit.includes("const dismissedClick = page.locator(\\\"#startShowdown\\\").click()") && stabilityAudit.includes("await dismissedClick"), "Dialog audit must resolve the modal concurrently with the triggering click.");\n'
+          if extra not in h:
+              if needle not in h: raise SystemExit('Missing fail-fast dialog contract anchor')
+              h=h.replace(needle,needle+extra,1)
+          hardening.write_text(h)
+
+          handoff=Path('CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CANDIDATE_A.md')
+          marker='## Five-pass burn-in attempt 2 — rejected proof'
+          if marker not in handoff.read_text():
+              with handoff.open('a') as f:
+                  f.write('''\n\n## Five-pass burn-in attempt 2 — rejected proof\n\n- Clean candidate SHA: `5d83594188cb8f84a6f963251e308649dd86dedc`.\n- Burn-in workflow run: `31522190691`; five independent runners were launched and all failed quickly at the same corrupt-save fixture. This attempt is **not counted**.\n- Before failure, pass 1 proved contracts, runtime provenance, Home/Reus visual audit, licensed football visual audit, and Candidate A backup/export audit.\n- The new product confirmation appeared, so the prior destructive-overwrite bug was fixed. The remaining failure was Playwright choreography: the test awaited `locator.click()` before dismissing the modal dialog, while the click itself waits for the dialog to be resolved.\n- Audit correction: start click and `waitForEvent("dialog")` concurrently, resolve the dialog immediately, then await click completion. The 5-second fail-fast dialog deadline remains. Runtime source is unchanged by this correction.\n- Release count remains **0/5** until a new clean SHA succeeds in all five independent runs.\n''')
+          PY
+          node --check tests/browser/stability-audit.cjs
+          node --check tests/contracts/final-release-hardening.cjs
+          npm ci
+          npm run test:contracts
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/browser/stability-audit.cjs tests/contracts/final-release-hardening.cjs CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CANDIDATE_A.md
+          git commit -m 'Fix corrupt-save dialog audit choreography'
+          git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
