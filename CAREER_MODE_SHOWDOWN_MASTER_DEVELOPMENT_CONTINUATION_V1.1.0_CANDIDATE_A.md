@@ -96,64 +96,162 @@ Checksum is corruption detection only. It is not encryption, authentication or t
 
 Current `hasSavedShowdown()` can return true for any non-empty raw active-save string even when `loadSavedShowdown()` cannot parse it. This can advertise Continue Career for unusable data.
 
-Fix target: validate active storage shape before reporting a usable saved Showdown while preserving corrupt raw bytes.
+Fix: active storage shape is now validated before it can advertise a usable saved Showdown. Corrupt raw bytes remain untouched and are reported instead of converted into a false Continue Career state.
 
 ### Bug 2 — malformed Legacy shape can silently look empty
 
-`loadLegacyShowdowns()` currently treats parsed non-array JSON as an empty archive without raising the same corruption signal used for parse errors.
+`loadLegacyShowdowns()` previously treated parsed non-array JSON as an empty archive and filtered invalid record shapes.
 
-Fix target: treat wrong top-level Legacy shape as malformed, report it, keep the raw bytes untouched, and let Candidate A expose them in recovery data.
+Fix: wrong top-level shape or invalid record entries are now treated as malformed Legacy data, reported, and preserved raw for Candidate A recovery export.
 
 ### Bug 3 — stale Settings fallback version
 
-`js/settings.js` still falls back to `1.0.1` when `APP_VERSION` is unavailable even though production is already v1.0.2.
+`js/settings.js` still fell back to `1.0.1` when `APP_VERSION` was unavailable.
 
-Fix target: advance Settings version fallback with the v1.1 release authority and prevent stale build identity in degraded/runtime-isolation cases.
+Fix: the Settings fallback is advanced to the v1.1.0 release authority so degraded/runtime-isolation cases no longer display a stale build identity.
 
 ### Bug 4 — destructive Data Management success is under-signalled
 
-Delete-one, delete-all-Legacy and full-reset paths have strong failure messaging but do not consistently provide an explicit success notice after a committed destructive transaction.
+Delete-one, delete-all-Legacy and full-reset paths had strong failure messaging but inconsistent positive confirmation.
 
-Fix target: add concise success feedback only after the transaction has actually committed.
+Fix: committed destructive transactions now produce concise success notices only after the storage transaction succeeds.
 
 ### Bug 5 — rapid backup activation can duplicate downloads
 
-Candidate A introduces a new download action. Without a single-flight UI guard, rapid double activation can create multiple downloads and ambiguous feedback.
+Candidate A introduces a new download action. Rapid repeated activation could otherwise create multiple downloads.
 
-Fix target: disable/mark the export control busy during envelope/checksum/download generation and restore it in `finally`; repeated activation while busy is ignored.
+Fix: Export Backup has a single-flight guard, disabled/`aria-busy` state, progress copy and `finally` restoration. Repeated activation while busy is ignored.
 
-## Visual retune included with this build
+## Candidate A runtime implemented
 
-The v1.0.2 clean-anchor rule remains: decorative geometry must never be painted over a protected face.
+Generated runtime commit:
 
-The next treatment adds **face-safe accent rails**:
+`f6b58ff11d523dd96b2a2811682d2500bb904307`
 
-- diagonal FIFA-era energy returns;
-- accents remain behind the image or within explicit non-face edge zones;
-- Transfer accents may visually graze outer torso/background edges but cannot enter the protected face/head region;
-- James keeps restored facial contrast and the final top-identity/full-width-photo geometry;
-- Reus keeps the approved rectangular Home anchor and loading-screen separation;
-- Messi/Lahm remain unchanged unless a regression requires a correction.
+Implemented source:
 
-Permanent browser tests must protect the layering rather than simply test that lines do not exist.
+- `js/storage.js` now exposes a read-only `captureCareerModeBackupSnapshot()` authority and storage-key diagnostics;
+- `js/backup.js` is a new lazy helper that builds format-v1 envelopes, canonicalizes checksum input, calculates SHA-256 with WebCrypto, verifies checksums, serializes readable JSON and downloads a timestamped file;
+- `js/optionalModules.js` loads the backup helper only with the existing Legacy/Data Management module;
+- `js/legacy.js` adds the accessible Export Backup workflow/status plus the five maintenance fixes that belong in Data Management;
+- `css/legacy.css` adds a FIFA-17-style backup summary and primary data action without introducing a new top-level route;
+- app/package/cache identity advanced to `v1.1.0 / 1.1.0-r1` in the implementation candidate.
 
-## Planned implementation order
+No Candidate B import parser or Candidate C restore write path has been added.
 
-1. Record owner approval/amendment and Candidate A scope — this file.
-2. Build a read-only storage snapshot API in `js/storage.js`.
-3. Build lazy `js/backup.js` for deterministic envelope/checksum/download behavior.
-4. Load backup helper through the existing Legacy optional-module path.
-5. Add accessible Export Backup controls/status to `js/legacy.js` + `css/legacy.css`.
-6. Implement the five maintenance fixes above.
-7. Retune footballer accent geometry while preserving clean-anchor face safety.
-8. Add Candidate A contract tests and browser coverage.
-9. Advance app/runtime/package/cache identity coherently.
-10. Update roadmap/state/release documentation only after the candidate proves itself.
-11. Open PR, freeze exact head, run all permanent workflows, fix real failures without weakening gates.
-12. Inspect rendered browser screenshots.
-13. Merge with expected-head protection.
-14. Verify exact Pages deployment and post-merge Stability/Licensed Visual runs.
-15. Append exact merge/deployment evidence here and leave the next developer a single clear continuation state.
+## Backup data semantics now implemented
+
+The envelope includes:
+
+- format ID/version;
+- app/runtime diagnostics;
+- export timestamp;
+- SHA-256 algorithm metadata and checksum;
+- record counts;
+- active/Legacy/preferences payloads;
+- active-source and matching completed-active/Legacy relationship metadata;
+- per-record storage state;
+- warnings;
+- raw recovery data for malformed current bytes.
+
+Export performs no flush and no canonical write. It reads through `js/storage.js`, hashes in memory, builds a Blob and triggers a local browser download.
+
+## Visual retune implemented
+
+The v1.0.2 clean-anchor rule remains: broad decoration does not cover a protected face.
+
+The v1.1.0 treatment restores **face-safe diagonal accent rails**:
+
+- James/Rashford/Martial receive bounded diagonal cyan/yellow geometry inside the lower portion of the photo frame;
+- James starts the foreground accent zone at 64% of the photo frame;
+- Transfer clean-anchor panels start it at 58%;
+- the generic clean-anchor floor is 60%;
+- Reus receives a lower 34% accent zone on desktop and 30% on mobile;
+- the loading-screen selectors/composition remain separate and unchanged except for cache identity;
+- the permanent football visual audit now requires the accent rail to exist **and** rejects it if its top edge enters the protected head/face region.
+
+This reflects the owner correction: the line language is retained, but it frames/energizes the player rather than crossing the face.
+
+## Test hardening completed so far
+
+Candidate A contracts now cover:
+
+- empty storage;
+- active-only;
+- Legacy-only;
+- preferences-only;
+- full three-record state;
+- completed active plus matching Legacy ID;
+- unchanged existing IDs/timestamps;
+- zero `setItem` / zero `removeItem` calls;
+- SHA-256 verification;
+- mutated-envelope checksum failure;
+- human-readable newline-terminated JSON;
+- malformed active/Legacy/preferences recovery;
+- byte-for-byte preservation of corrupt raw data;
+- corrupt active-save false-positive fix;
+- 1,000-record Legacy export responsiveness.
+
+Browser audit now covers:
+
+- real JSON download;
+- keyboard activation;
+- exact pre/post storage-byte equality;
+- rapid double activation -> one download;
+- checksum/tamper behavior in Chromium;
+- corrupt recovery behavior;
+- matching completed active/Legacy relationship;
+- axe scan of changed Data Management UI;
+- horizontal-overflow check;
+- live-region semantics;
+- 940×700 windowed/Chromebook path;
+- 390×844 DPR2 mobile touch path;
+- reduced-motion mobile path;
+- Data Management screenshots for both desktop/windowed and mobile.
+
+The permanent Stability Lane now runs `test:backup-browser` in both consecutive Chromium cycles and again against deployed Pages after merge. It uploads the Candidate A Data Management screenshots from the pre-merge browser run.
+
+## Tooling incident and classification
+
+The first one-off builder run failed before changing runtime because `tools/build_v110_candidate_a.py` had a stray trailing triple quote.
+
+Failed run:
+
+`31509278742`
+
+Classification:
+
+`TOOLING FAILURE — NO APP MUTATION`
+
+The workflow was hardened to strip/check the temporary trailer before execution. The second builder run succeeded:
+
+`31509394495`
+
+The generated runtime landed as `f6b58ff1...`.
+
+After generation:
+
+- the temporary builder workflow was removed;
+- the one-off builder script was removed;
+- no temporary development workflow or generator is intended to survive into the PR candidate.
+
+## Planned implementation order / current completion
+
+1. Record owner approval/amendment and Candidate A scope — **done**.
+2. Build a read-only storage snapshot API in `js/storage.js` — **done**.
+3. Build lazy `js/backup.js` for deterministic envelope/checksum/download behavior — **done**.
+4. Load backup helper through the existing Legacy optional-module path — **done**.
+5. Add accessible Export Backup controls/status to `js/legacy.js` + `css/legacy.css` — **done**.
+6. Implement the five maintenance fixes — **implemented; validation pending**.
+7. Retune footballer accent geometry while preserving clean-anchor face safety — **implemented; screenshot validation pending**.
+8. Add Candidate A contract/browser coverage — **done and strengthened; CI execution pending**.
+9. Advance app/runtime/package/cache identity coherently — **runtime candidate done; release/workflow authority pending**.
+10. Update roadmap/state/release documentation only after the candidate proves itself — **pending**.
+11. Open PR, freeze exact head, run all permanent workflows, fix real failures without weakening gates — **next**.
+12. Inspect rendered browser screenshots — **pending**.
+13. Merge with expected-head protection — **pending**.
+14. Verify exact Pages deployment and post-merge Stability/Licensed Visual runs — **pending**.
+15. Append exact merge/deployment evidence here — **pending**.
 
 ## Protected systems
 
@@ -175,6 +273,6 @@ Do not change:
 
 ## Current status
 
-`IMPLEMENTATION STARTED`
+`IMPLEMENTATION BUILT — PERMANENT VALIDATION NEXT`
 
-No claim of completion, merge, deployment or owner acceptance for the new accent retune has been made yet.
+No claim of merge/deployment or owner acceptance for the new accent retune has been made yet.
