@@ -293,8 +293,8 @@ jobs:
           assert.ok(projectState.includes('**Runtime asset revision:** `1.1.0-r1`'), 'PROJECT_STATE runtime revision is stale.');
           assert.ok(nextTask.includes('## Current baseline: v1.1.0 Stable'), 'NEXT_TASK does not identify the stable baseline.');
           assert.ok(readme.includes('**Application version:** v1.1.0 — Stable'), 'README current version is stale.');
-          assert.ok(changelog.includes('# v1.1.0 — Clean-Anchor Visual Maintenance'), 'CHANGELOG stability release entry is missing.');
-          assert.ok(releaseRecord.includes('Release tag: `v1.1.0`'), 'Permanent v1.0.1 release record is incomplete.');
+          assert.ok(changelog.includes('# v1.1.0 — Data Safety and Recovery / Candidate A'), 'CHANGELOG v1.1.0 Candidate A release entry is missing.');
+          assert.ok(releaseRecord.includes('Release tag: `v1.1.0`'), 'Permanent v1.1.0 release record is incomplete.');
           [projectState, nextTask, readme, changelog].forEach((document, index) => {
             assert.ok(document.includes('1.1.0-r1'), `Current authority document ${index + 1} is missing the v1.1.0 runtime identity.`);
           });
