@@ -27,11 +27,13 @@ jobs:
       - name: Build licensed source contact sheet
         run: python tools/r5_image_candidate_review.py
       - name: Upload source review artifact
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: r5-player-source-review-${{ github.sha }}
           path: |
             test-results/r5-player-source-contact-sheet.jpg
             test-results/r5-player-source-report.txt
+            test-results/r5-player-source-failures.txt
           if-no-files-found: error
           retention-days: 3
