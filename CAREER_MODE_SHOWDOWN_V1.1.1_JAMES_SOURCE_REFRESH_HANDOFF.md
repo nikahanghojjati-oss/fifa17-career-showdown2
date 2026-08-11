@@ -204,29 +204,96 @@ Failure classification:
 
 `STALE HISTORICAL NOTICE-WORDING ASSERTION — NEW JAMES SOURCE/ASSET CONTRACTS PASSED`
 
-The log reached and passed the new James assertions for:
+The log reached and passed the new James assertions for exact Real Madrid source identity, license, 863 × 1080 geometry, Commons/source/output fingerprints, full-frame policy, new runtime-data activation, replaced-2019 exclusion, notice provenance, deterministic builder authority, protected-player sources and clean-anchor geometry. The only failure was an older blanket wording assertion requiring `explicit, hand-reviewed crop`, which was no longer globally accurate because James deliberately preserves the full licensed source.
 
-- exact Real Madrid source filename/page;
-- CC BY 3.0 attribution;
-- exact 863 × 1080 source/output geometry;
-- exact Commons/source/output fingerprints;
-- full-frame source policy;
-- new runtime-data activation;
-- absence of the replaced 2019 runtime reference;
-- new notice provenance/fingerprint;
-- deterministic builder source/ID/full-frame/`--only` authority;
-- protected Rashford/Martial/Messi/Lahm source/crop authority;
-- clean-anchor and responsive geometry static contracts.
+The notice was clarified rather than the gate weakened: James preserves the complete licensed frame; Rashford, Martial and Lahm retain an explicit, hand-reviewed crop where required; every completed derivative remains authoritative and may not be cropped again responsively.
 
-The only failure was an older blanket text assertion requiring `THIRD_PARTY_NOTICES.md` to contain the literal phrase `explicit, hand-reviewed crop`. That phrase was no longer globally accurate because v1.1.1 intentionally preserves James's entire licensed frame rather than hand-cropping it.
+That documentation correction reset the double-pass proof to `0/2`.
 
-The gate was not weakened and James was not falsely described as hand-cropped. The notice was clarified to state the true mixed policy:
+## Second diagnostic matrix and Stability coherence repair
 
-- James preserves the complete licensed frame;
-- Rashford, Martial and Lahm retain an explicit, hand-reviewed crop where their source composition requires it;
-- every finished derivative remains authoritative and responsive CSS may not crop it again.
+The documentation-inclusive head after the notice clarification exposed one additional stale release-coherence assertion in Stability.
 
-That documentation correction changed the candidate SHA, so the first diagnostic matrix counts as `0/2` release proof. Every permanent family must run again from the corrected documentation-inclusive head.
+Stability run:
+
+`31538278916`
+
+Failed job:
+
+`93934541727 — stability-contracts`
+
+Exact failure:
+
+`PROJECT_STATE version is stale.`
+
+Root cause:
+
+`PROJECT_STATE.md` and `README.md` correctly identified the current build as `v1.1.1 — Maintenance Candidate`, but `tests/contracts/stability-contracts.cjs` still required the exact v1.1.0-era suffix `— Stable` and still described the cache contract as the v1.1.0 Candidate A release.
+
+Classification:
+
+`STALE RELEASE-COHERENCE ASSERTION — STORAGE/ROLLBACK/GAMEPLAY LOGIC UNCHANGED`
+
+A temporary narrowly scoped repair workflow changed only those release-coherence assertions, then ran the complete permanent contract suite. Repair workflow run:
+
+`31538395136 — SUCCESS`
+
+The repair committed the stability contract as:
+
+`426aee8b7a1856a38fe1408bb5eef37ec97d5767`
+
+The temporary workflow was immediately removed, producing clean diagnostic head:
+
+`fe098ae6f1ad4bdbab20d7fa38d6ae7112691d77`
+
+No storage implementation, scoring, navigation, Transfer/Season logic, Candidate A behavior, visual source or quality threshold changed in this repair.
+
+## Clean diagnostic matrix — all permanent families green
+
+Exact clean diagnostic head:
+
+`fe098ae6f1ad4bdbab20d7fa38d6ae7112691d77`
+
+All twelve permanent workflow families completed successfully on this exact head:
+
+- V1 Visual Immersion `31538451482` — SUCCESS;
+- Statistics Workstream `31538451532` — SUCCESS;
+- League Confirmation `31538451861` — SUCCESS;
+- Transfer Workstream `31538451518` — SUCCESS;
+- Stability Lane `31538451557` — SUCCESS;
+- Season Review `31538451573` — SUCCESS;
+- Final Polish `31538451387` — SUCCESS;
+- v1.1.1 Release Burn-In `31538451553` — SUCCESS;
+- Home Bootstrap `31538451525` — SUCCESS;
+- Static App `31538451480` — SUCCESS;
+- Settings Workstream `31538451338` — SUCCESS;
+- Licensed Football Visuals `31538451290` — SUCCESS.
+
+Stability evidence on the diagnostic head:
+
+- storage/release/backup/CI contracts job `93935099837` — SUCCESS;
+- two consecutive complete Chromium browser/backup/provenance/Home/photo cycles job `93935153365` — SUCCESS;
+- deployed-site smoke skipped by design on a pull request.
+
+Release Burn-In executed five independent complete gate journeys, all successful:
+
+- pass 1 `93935100193`;
+- pass 2 `93935100334`;
+- pass 3 `93935100289`;
+- pass 4 `93935100211`;
+- pass 5 `93935100184`.
+
+Licensed Football Visual evidence:
+
+- static/source/provenance contracts `93935166515` — SUCCESS;
+- real browser visual audit `93935240237` — SUCCESS;
+- screenshot artifact `9119743728`.
+
+The browser audit covered Create Showdown, Transfer, Career Statistics and Trophy Room at 1366 × 768, 1100 × 720, 940 × 700 and 390 × 844 DPR2, plus protected Home/Reus viewports.
+
+The generated Create Showdown screenshots were manually inspected after the machine gate passed. The refreshed James composition retained the complete head and face, maintained readable facial detail, kept Real Madrid-era visual context, avoided identity-copy collision, and kept the FIFA-style diagonal accent in the lower image zone rather than over the face. No recrop or frame relaxation was justified by the evidence.
+
+Because this handoff update itself changes the PR SHA, the fully green diagnostic head above is not counted as pass 1 of the owner-requested final `2/2`. The new handoff-inclusive SHA is the release freeze candidate. From that point no file may change unless a gate finds a real defect; any change resets the count.
 
 ## Protected systems
 
@@ -271,13 +338,19 @@ This build must not intentionally change:
 20. Applied the exact generated permanent validator blobs through the GitHub connector in commit `5c9757e5489ea8231e33fd35f884e93a4420fcf6`.
 21. Removed every temporary v1.1.1 workflow/helper/staging file and opened draft PR #16 from clean head `fdbe6775e53f628cc644f3da10779588bb64275c`.
 22. Ran the first full permanent PR matrix as a diagnostic pass.
-23. Isolated Licensed Football Visuals failure `31537944723` / job `93933461722` to one stale blanket notice-string assertion after all new James exact-source/fingerprint contracts had passed.
-24. Clarified `THIRD_PARTY_NOTICES.md` with the truthful mixed full-frame/authored-crop policy instead of weakening the gate or falsely describing James as hand-cropped.
-25. Reset the owner's double-pass release count to `0/2` because the corrected notice changes the candidate SHA.
-26. Next: run the complete permanent matrix on the corrected documentation-inclusive head, inspect the new James browser evidence, fix only a reproduced real problem if one appears, then freeze the final candidate and produce two independent successful executions of every permanent gate family.
+23. Isolated Licensed Football Visuals failure `31537944723` / `93933461722` to one stale blanket notice wording assertion after all new James exact-source/fingerprint contracts passed.
+24. Clarified the notices with the truthful mixed full-frame/authored-crop policy instead of weakening the gate or falsely describing James as hand-cropped.
+25. Ran the next documentation-inclusive matrix and isolated Stability run `31538278916` / `93934541727` to stale v1.1.0 `— Stable` release-coherence text.
+26. Used temporary repair run `31538395136` to change only the stale Stability release markers and prove the complete contract suite remained green.
+27. Removed the temporary repair workflow, leaving clean head `fe098ae6f1ad4bdbab20d7fa38d6ae7112691d77`.
+28. Ran all twelve permanent families on that clean head; all twelve passed.
+29. Confirmed five independent burn-in jobs passed and Stability completed two consecutive Chromium cycles.
+30. Downloaded and manually inspected Licensed Football Visual artifact `9119743728`; the new James source was visually accepted by developer QA at all four audited Create Showdown viewports without recropping or threshold relaxation.
+31. Updated this handoff before final proof. This commit becomes the final release freeze candidate unless a permanent gate proves a real defect.
+32. Next: execute every permanent gate family twice on the exact new handoff-inclusive SHA, mark PR #16 ready only after `2/2` is proven, merge with expected-head protection, then run production Pages/deployed-site verification and a second production execution for the same gate families.
 
 ## Current status
 
-`FIRST DIAGNOSTIC MATRIX FOUND ONE STALE NOTICE ASSERTION — CORRECTED HEAD REVALIDATION NEXT`
+`ALL DIAGNOSTIC GATES GREEN — FINAL HANDOFF-INCLUSIVE SHA AWAITING OFFICIAL 2/2 GATE PROOF`
 
-No claim of release merge/deployment or owner visual acceptance has been made yet.
+No claim of merge/deployment or owner visual acceptance has been made yet.
