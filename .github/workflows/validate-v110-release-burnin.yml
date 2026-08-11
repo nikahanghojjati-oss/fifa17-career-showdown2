@@ -1,0 +1,44 @@
+name: Validate v1.1.0 Release Burn-In
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: v110-burnin-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  burn-in:
+    name: release-gates-pass-${{ matrix.pass }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    strategy:
+      fail-fast: false
+      matrix:
+        pass: [1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run complete release gate pass
+        env:
+          CMS_BURNIN_PASS: ${{ matrix.pass }}
+        run: bash tests/support/run-release-burnin-pass.sh
+      - name: Upload pass evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: v110-burnin-pass-${{ matrix.pass }}-${{ github.sha }}
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 14
