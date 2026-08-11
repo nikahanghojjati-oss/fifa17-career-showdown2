@@ -20,8 +20,8 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.0.2 — Stable
-**Runtime asset revision:** `1.0.2-r1`
+**Application version:** v1.1.0 — Stable
+**Runtime asset revision:** `1.1.0-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
@@ -33,7 +33,7 @@ Current source is implementation authority. Browser acceptance remains required 
 **GitHub Pages deployment:** `5852810024` — success
 **Post-merge Licensed Football Visuals:** run `31503795213` — success
 **Post-merge Stability Lane:** run `31503795725` — success, including exact deployed bytes and complete public journey
-**Next feature after owner acceptance or explicit deferral:** v1.1.0 Data Safety and Recovery — Candidate A only
+**Next roadmap candidate after v1.1.0 release proof:** Candidate B — Import Analysis + Migration Preview (read-only)
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
@@ -42,6 +42,12 @@ The owner's deployed-r12 Chromebook review then made two visual requirements man
 An external review then raised generic maintainability, edge-case, accessibility, and future-scaling concerns. Source inspection rejected an unsupported rewrite or framework migration, while the valid risk categories became the finite v1.0.1 Stability Lane implementation in `STABILITY_PLAN_V1.0.X.md`.
 
 ---
+
+# v1.1.0 — Data Safety and Recovery / Candidate A
+
+The owner approved v1.0.2 and unlocked the post-v1 roadmap. Candidate A adds a versioned, checksum-protected, human-readable local backup export without introducing restore writes or a second persistence authority. Five maintenance bugs are fixed in the same bounded release. FIFA-style diagonal accents return only in lower-body face-safe zones; the loading screen remains protected.
+
+Candidate B/C remain dependency-blocked until this release is merged, deployed and proven.
 
 # v1.0.2 — clean-anchor footballer photography maintenance
 

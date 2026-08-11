@@ -50,6 +50,14 @@ function removeStorageValue(key){
     }
 }
 
+function captureCareerModeRawBackupInputs(){
+    return {
+        activeShowdown: readStorageValue(STORAGE_KEY),
+        legacyShowdowns: readStorageValue(LEGACY_STORAGE_KEY),
+        preferences: readStorageValue(APPLICATION_PREFERENCES_KEY)
+    };
+}
+
 function createDefaultApplicationPreferences(){
     return {
         schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
@@ -359,15 +367,28 @@ function clearSavedShowdown(){
     return removed;
 }
 
-function hasSavedShowdown(){
-    if(activeSavePresenceKnown){
-        return activeSavePresent;
-    }
+function hasStoredActiveShowdownData(){return readStorageValue(STORAGE_KEY)!==null;}
 
-    const present = Boolean(readStorageValue(STORAGE_KEY));
-    activeSavePresenceKnown = true;
-    activeSavePresent = present;
-    return present;
+function hasSavedShowdown(){
+    if(activeSavePresenceKnown){ return activeSavePresent; }
+    const raw = readStorageValue(STORAGE_KEY);
+    if(!raw){
+        activeSavePresenceKnown = true;
+        activeSavePresent = false;
+        return false;
+    }
+    try{
+        const parsed = JSON.parse(raw);
+        if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
+            throw new Error("Active save data is not a valid showdown object.");
+        }
+        activeSavePresenceKnown = true;
+        activeSavePresent = true;
+    }catch{
+        activeSavePresenceKnown = true;
+        activeSavePresent = false;
+    }
+    return activeSavePresent;
 }
 
 function invalidateLegacyCache(){
@@ -392,9 +413,13 @@ function loadLegacyShowdowns(){
 
     try{
         const parsed = JSON.parse(raw);
-        legacyCache = Array.isArray(parsed)
-            ? parsed.filter(item => item && typeof item === "object" && !Array.isArray(item))
-            : [];
+        if(!Array.isArray(parsed)){
+            throw new Error("Legacy history is not a valid array.");
+        }
+        if(parsed.some(item => !item || typeof item !== "object" || Array.isArray(item))){
+            throw new Error("Legacy history contains an invalid record shape.");
+        }
+        legacyCache = parsed.slice();
         return legacyCache.slice();
     }catch(error){
         reportStorageError("Unable to parse Legacy history", error);
@@ -425,9 +450,7 @@ function cloneForStorage(value){
     if(typeof structuredClone === "function"){
         try{
             return structuredClone(value);
-        }catch(error){
-            /* JSON fallback preserves compatibility with older browsers/data. */
-        }
+        }catch(error){}
     }
 
     return JSON.parse(JSON.stringify(value));
@@ -522,6 +545,12 @@ function clearAllCareerModeData(){
     return true;
 }
 
+window.captureCareerModeRawBackupInputs = captureCareerModeRawBackupInputs;
+window.getCareerModeStorageKeys = () => ({
+    activeShowdown: STORAGE_KEY,
+    legacyShowdowns: LEGACY_STORAGE_KEY,
+    preferences: APPLICATION_PREFERENCES_KEY
+});
 window.initializeStorageLifecycle = initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave = scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave = flushScheduledCurrentShowdownSave;

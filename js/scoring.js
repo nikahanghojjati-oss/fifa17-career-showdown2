@@ -26,7 +26,6 @@ function calculatePlayerSeasonScore(result){
         }
     };
 
-    /* Compatibility alias for v0.9.0 Legacy snapshots. */
     breakdown.awardsBonus = breakdown.individualAwardsBonus;
 
     breakdown.total =

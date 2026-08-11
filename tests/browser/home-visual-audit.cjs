@@ -90,7 +90,8 @@ async function inspectHome(page){
                 clipPath: containerStyle.clipPath,
                 tileFraction: tileRect.width ? containerRect.width / tileRect.width : 0,
                 beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
-                afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0
+                afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0,
+                afterHeight: Number.parseFloat(afterStyle.height || "0") || 0
             },
             numberDisplay: numberStyle.display,
             documentWidth: document.documentElement.scrollWidth,
@@ -114,8 +115,16 @@ function assertCommon(result, label){
         `${label}: Reus container no longer fits the intended hero-tile proportion.`
     );
     assert.ok(
-        result.image.zIndex > result.container.beforeZIndex && result.image.zIndex > result.container.afterZIndex,
-        `${label}: decorative geometry must remain behind the Reus photograph.`
+        result.image.zIndex > result.container.beforeZIndex,
+        `${label}: broad decorative ambience must remain behind the Reus photograph.`
+    );
+    assert.ok(
+        result.container.afterZIndex > result.image.zIndex,
+        `${label}: owner-requested Reus accent rail must render over the lower photo zone.`
+    );
+    assert.ok(
+        result.container.afterHeight > 0 && result.container.afterHeight <= result.container.height * .36,
+        `${label}: Reus foreground accent rail must remain bounded below the protected head/face zone.`
     );
     assert.ok(result.documentWidth <= result.clientWidth + 1, `${label}: Home has horizontal document overflow.`);
 }

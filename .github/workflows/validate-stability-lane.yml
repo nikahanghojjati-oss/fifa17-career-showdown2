@@ -16,7 +16,7 @@ concurrency:
 jobs:
   stability-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 8
 
     steps:
       - name: Check out repository
@@ -31,13 +31,13 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run storage, release, and CI contracts
+      - name: Run storage, backup, release, and CI contracts
         run: npm run test:contracts
 
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 26
 
     steps:
       - name: Check out repository
@@ -52,7 +52,7 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run two consecutive complete browser, provenance, Home and crop-safe photo audits
+      - name: Run two consecutive complete browser, backup, provenance, Home and crop-safe photo audits
         shell: bash
         run: |
           set -euo pipefail
@@ -63,14 +63,24 @@ jobs:
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:runtime-boundary
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:home-visual
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:football-visual
+            CMS_AUDIT_RUN="ci-${attempt}" npm run test:backup-browser
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:browser
           done
+
+      - name: Upload Candidate A Data Management screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: candidate-a-backup-browser-${{ github.run_id }}
+          path: test-results/backup-data-management-*.png
+          if-no-files-found: error
+          retention-days: 14
 
   deployed-site-smoke:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: chromium-stability
     runs-on: ubuntu-latest
-    timeout-minutes: 24
+    timeout-minutes: 28
 
     steps:
       - name: Check out repository
@@ -107,6 +117,12 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:football-visual
+
+      - name: Run Candidate A backup export audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: npm run test:backup-browser
 
       - name: Run complete journey against deployed Pages
         env:

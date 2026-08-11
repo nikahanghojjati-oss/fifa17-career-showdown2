@@ -1,5 +1,5 @@
 /* =====================================================
-   Career Mode Showdown v1.0.1
+   Career Mode Showdown v1.1.0
    Workstream 3 — lightweight application Settings
 ===================================================== */
 
@@ -15,7 +15,7 @@ function getSettingsAssetRevision(){
 }
 
 function getSettingsApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.0.1";
+    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.0";
 }
 
 function getSettingsActiveShowdown(){
@@ -294,7 +294,7 @@ function createDataPanel(){
     const panel = createSettingsPanel(
         "LOCAL STORAGE",
         "DATA MANAGEMENT",
-        "Showdown deletion and full-reset actions stay centralized in Legacy, where the existing confirmations and rollback protections remain authoritative."
+        "Backup export, Showdown deletion and full-reset actions stay centralized in Legacy. Export is read-only; destructive actions keep the existing confirmations and rollback protections."
     );
 
     const info = createSettingsElement("div", "settingsInfoGrid");
@@ -316,7 +316,7 @@ function createDataPanel(){
     const note = createSettingsElement(
         "p",
         "settingsDataNote",
-        "Reset All Showdown Data removes active and Legacy competition data but intentionally keeps application preferences. Destructive actions always require confirmation."
+        "Export Backup downloads active Showdown, Legacy and application preferences without changing local data. Reset All Showdown Data removes active and Legacy competition data but intentionally keeps application preferences."
     );
 
     panel.append(info, action, note);

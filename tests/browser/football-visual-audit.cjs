@@ -93,6 +93,9 @@ async function waitForVisual(page, screenName, expectedCount = 1){
         { selector, expectedCount },
         { timeout: 12000 }
     );
+    await page.evaluate(() => new Promise(resolve => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+    }));
 }
 
 async function inspectVisibleVisual(page, screenName){
@@ -110,6 +113,7 @@ async function inspectVisibleVisual(page, screenName){
                 const frame = panel.querySelector(".footballVisualMediaFrame");
                 const imageStyle = getComputedStyle(image);
                 const frameStyle = getComputedStyle(frame);
+                const frameAccentStyle = getComputedStyle(frame, "::after");
                 const beforeStyle = getComputedStyle(panel, "::before");
                 const afterStyle = getComputedStyle(panel, "::after");
                 const copy = panel.querySelector(".footballVisualCopy");
@@ -138,6 +142,10 @@ async function inspectVisibleVisual(page, screenName){
                     mixBlendMode: imageStyle.mixBlendMode,
                     filter: imageStyle.filter,
                     frameZIndex: Number.parseInt(frameStyle.zIndex || "0", 10) || 0,
+                    accentContent: frameAccentStyle.content,
+                    accentTop: Number.parseFloat(frameAccentStyle.top || "0") || 0,
+                    accentHeight: Number.parseFloat(frameAccentStyle.height || "0") || 0,
+                    accentZIndex: Number.parseInt(frameAccentStyle.zIndex || "0", 10) || 0,
                     beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
                     afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0,
                     copyLeft: copyRect.left,
@@ -220,8 +228,15 @@ function assertRenderedVisual(result, screenName){
             assert.equal(panel.photoTreatment, "clean-anchor", `${screenName}/${panel.asset}: owner-rejected photo must stay on the clean-anchor treatment.`);
             assert.ok(
                 panel.frameZIndex > panel.beforeZIndex && panel.frameZIndex > panel.afterZIndex,
-                `${screenName}/${panel.asset}: decorative geometry is painted above the photograph; face-safe layering regressed.`
+                `${screenName}/${panel.asset}: broad decorative geometry is painted above the photograph; face-safe layering regressed.`
             );
+            assert.notEqual(panel.accentContent, "none", `${screenName}/${panel.asset}: owner-requested FIFA diagonal accent rail is missing.`);
+            assert.ok(panel.accentHeight > 0, `${screenName}/${panel.asset}: accent rail has no rendered height.`);
+            assert.ok(
+                panel.accentTop >= panel.frameHeight * .54,
+                `${screenName}/${panel.asset}: accent rail enters the protected head/face zone.`
+            );
+            assert.ok(panel.accentZIndex >= 3, `${screenName}/${panel.asset}: accent rail is not rendered as the intended bounded photo accent.`);
             const horizontallySeparated = panel.copyRight <= panel.frameLeft + 2 || panel.copyLeft >= panel.frameRight - 2;
             const verticallySeparated = panel.copyBottom <= panel.frameTop + 2 || panel.copyTop >= panel.frameBottom - 2;
             assert.ok(
