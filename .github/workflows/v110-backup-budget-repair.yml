@@ -26,6 +26,23 @@ jobs:
           ref: agent/v1.1.0-candidate-a-maintenance
           fetch-depth: 1
 
+      - name: Align repair guard with current browser audit
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tools/fix_v110_backup_budget.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''    await exportButton.waitFor({ state: "visible" });
+    return exportButton;'''
+          new = '''    await exportButton.waitFor({ state: "visible" });
+    assert.ok(await exportButton.isEnabled(), "Export Backup must be available to keyboard, mouse and touch users.");
+    return exportButton;'''
+          if text.count(old) != 2:
+              raise RuntimeError(f'Expected two browser-helper guard templates, found {text.count(old)}')
+          path.write_text(text.replace(old, new), encoding='utf-8')
+          PY
+
       - name: Generate focused repair
         run: python tools/fix_v110_backup_budget.py
 
