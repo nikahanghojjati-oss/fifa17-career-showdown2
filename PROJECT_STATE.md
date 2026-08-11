@@ -25,14 +25,14 @@ Current source is implementation authority. Browser acceptance remains required 
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.0.x finite owner visual-acceptance gate
-**Current activity:** v1.0.2 clean-anchor footballer photography maintenance is merged, deployed and post-merge green; owner real-device acceptance remains open until the owner inspects the public build
+**Current milestone:** v1.1.0 Stable — Clean Stability Seal
+**Current activity:** Candidate A is merged, deployed and proven; the clean-stability pass is revalidating the exact production baseline across every permanent feature/workstream/release gate before the next roadmap step
 **Protected loading-screen status:** owner explicitly likes the loading presentation; v1.0.2 preserves its composition/timing and treats it as a regression-protected surface
-**Runtime change class:** presentation + cache/release identity only; no gameplay, scoring, route, storage schema/key or state-machine change
-**v1.0.2 runtime merge:** `7a573ff2691b6143ecbc53df589822d5609f5e05`
-**GitHub Pages deployment:** `5852810024` — success
-**Post-merge Licensed Football Visuals:** run `31503795213` — success
-**Post-merge Stability Lane:** run `31503795725` — success, including exact deployed bytes and complete public journey
+**Runtime change class:** no application-byte change for the clean-stability pass unless a reproduced defect requires a bounded fix; gameplay, scoring, routes, storage schema/keys and state-machine rules remain locked
+**Production v1.1.0 runtime merge:** `7aba9609130e7f72f256bfb20936441e8beaecaa`
+**Production v1.1.0 Pages state:** exact deployed runtime bytes and complete public journey proven by Stability; clean-stability post-merge smoke is required again before closure
+**Clean-build baseline Licensed Football Visuals:** PR #15 run `31526372109` — success
+**Clean-build baseline Stability Lane:** PR #15 run `31526372201` — storage/contracts success and two-cycle Chromium success; deployed-site smoke intentionally waits for `main`
 **Next roadmap candidate after v1.1.0 release proof:** Candidate B — Import Analysis + Migration Preview (read-only)
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
@@ -48,6 +48,12 @@ An external review then raised generic maintainability, edge-case, accessibility
 The owner approved v1.0.2 and unlocked the post-v1 roadmap. Candidate A adds a versioned, checksum-protected, human-readable local backup export without introducing restore writes or a second persistence authority. Five maintenance bugs are fixed in the same bounded release. FIFA-style diagonal accents return only in lower-body face-safe zones; the loading screen remains protected.
 
 Candidate B/C remain dependency-blocked until this release is merged, deployed and proven.
+
+## v1.1.0 Clean Stability Seal
+
+A post-release clean-build pass was requested on August 11, 2026. It branches directly from the final deployed/proven `main` baseline and does not invent a new application version when no runtime defect reproduces. The clean-build release condition is stricter than a single CI summary: each permanent feature/workstream workflow must pass independently, the five-run release burn-in must be 5/5, Stability must complete two consecutive Chromium cycles, and after merge GitHub Pages must again pass exact-byte verification plus runtime provenance, Home/Reus, football-photo, Candidate A export and the complete public journey.
+
+The first frozen clean candidate reproduced **zero runtime defects** across all twelve permanent workflows. The only defect found was stale continuation metadata in the highest-authority bootstrap documents, which still described the already-completed v1.0.2/PR #14 path as current. That documentation defect is corrected without changing application bytes.
 
 # v1.0.2 — clean-anchor footballer photography maintenance
 

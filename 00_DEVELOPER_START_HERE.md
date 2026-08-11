@@ -10,50 +10,21 @@ Application: `v1.1.0`
 
 Runtime asset revision: `1.1.0-r1`
 
-Current runtime implementation merge:
+Current production runtime implementation merge:
 
-`7a573ff2691b6143ecbc53df589822d5609f5e05`
+`7aba9609130e7f72f256bfb20936441e8beaecaa`
 
-GitHub Pages deployment:
+Current clean repository baseline before this stabilization pass:
 
-`5852810024` — success.
+`d23cea4d0a8bb3c428265546555a78008269d228`
 
-PR #13 final candidate `057586128d00812feee8681392a088e8c27a1e75` passed all eleven permanent workflows before exact-head merge.
+Application/runtime identity remains `v1.1.0 / 1.1.0-r1`. Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and post-merge proven. The final pre-clean baseline passed five independent release burn-in runners plus Stability exact-byte/public-site smoke.
 
-Post-merge Licensed Football Visuals run `31503795213` and Stability Lane run `31503795725` both passed on the runtime merge.
+The owner-liked loading screen remains protected. James/Rashford/Martial keep the clean-anchor/face-safe presentation and Reus/Messi/Lahm protections remain intact. Automated visual gates do not replace owner real-device art-direction judgment; the v1.1 face-safe accent retune remains open to owner inspection until explicitly accepted.
 
-v1.0.2 exists because the owner supplied new real-device rejection evidence after r5. The current maintenance architecture uses footballers as **clean tile anchors** rather than placing strong geometry over their faces.
+The current maintenance action is a finite **v1.1.0 Clean Stability Build**: reproduce the deployed baseline against every permanent feature/workstream/release gate, fix only reproduced defects, and preserve application bytes when no runtime defect exists.
 
-Current visual targets:
-
-- James Rodríguez: no facial washout; clean photo anchor and separate copy plate;
-- Marcus Rashford: face completely unobstructed by decorative lines;
-- Anthony Martial: same consistent clean-anchor system;
-- desktop Home Marco Reus: rectangular photo anchor with no rejected diagonal head/neck cut;
-- loading screen: explicitly liked by the owner and protected from redesign;
-- Messi/Lahm: protected prior presentation.
-
-Technical v1.0.2 state:
-
-`COMPLETE, MERGED, DEPLOYED, POST-MERGE GREEN`
-
-Owner visual acceptance state:
-
-`PENDING REAL-DEVICE REVIEW OF DEPLOYED V1.0.2`
-
-Do not call v1.0.2 owner-accepted from CI/screenshots alone.
-
-If the owner supplies another rejection after deployment, stay in the finite v1.0.x correction lane and fix only reproduced evidence.
-
-If the owner accepts v1.0.2 or explicitly defers visual review, the next substantive feature milestone becomes:
-
-`v1.1.0 Data Safety and Recovery`
-
-The first implementation branch remains Candidate A only:
-
-`Versioned Backup Envelope + Non-Mutating Export`
-
-Do not start Candidate B, Candidate C, PWA, profiles, cloud, accounts, QR pairing, or two-device work before their dependency gate is reached.
+After that seal, the next substantive roadmap candidate is Candidate B — Import Analysis + Migration Preview — and it remains read-only/dry-run with zero canonical localStorage writes/removals. Candidate C restore remains blocked behind Candidate B evidence. Do not start PWA, profiles, cloud, accounts, QR pairing, or two-device work before their dependency gate is reached.
 
 ## 1. Start every new session in this order
 
