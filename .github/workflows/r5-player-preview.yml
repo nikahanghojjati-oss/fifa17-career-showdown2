@@ -1,0 +1,46 @@
+name: R5 Player Preview
+
+on:
+  push:
+    branches: [agent/r5-smart-player-photo-rebuild]
+    paths:
+      - 'tests/browser/r5-player-preview.cjs'
+      - '.github/workflows/r5-player-preview.yml'
+      - 'assets/football/**'
+      - 'data/footballVisuals.js'
+      - 'css/footballVisuals.css'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Render focused James Rashford Martial preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-r5-preview-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          CMS_AUDIT_RUN=focused-preview node tests/browser/r5-player-preview.cjs
+      - name: Upload focused player preview
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: r5-focused-player-preview-${{ github.sha }}
+          path: |
+            test-results/r5-james-*.png
+            test-results/r5-rashford-martial-*.png
+            test-results/r5-player-preview-metrics-*.json
+          if-no-files-found: error
+          retention-days: 7
