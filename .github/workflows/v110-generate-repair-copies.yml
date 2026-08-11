@@ -24,19 +24,20 @@ jobs:
         run: git fetch origin main --depth=1
       - name: Generate surgical repairs
         run: python tools/fix_v110_candidate_regressions.py
-      - name: Validate repaired Home syntax
-        run: node --check js/menuExperience.js
+      - name: Validate repaired runtime syntax
+        run: node --check js/menuExperience.js && node --check js/footballVisuals.js
       - name: Store generated copies without pushing workflow-path edits
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p tools/generated
           cp js/menuExperience.js tools/generated/menuExperience.js
+          cp js/footballVisuals.js tools/generated/footballVisuals.js
           cp .github/workflows/validate-static-app.yml tools/generated/validate-static-app.yml
           cp .github/workflows/validate-stability-lane.yml tools/generated/validate-stability-lane.yml
-          git restore js/menuExperience.js .github/workflows/validate-static-app.yml .github/workflows/validate-stability-lane.yml
+          git restore js/menuExperience.js js/footballVisuals.js .github/workflows/validate-static-app.yml .github/workflows/validate-stability-lane.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tools/generated/menuExperience.js tools/generated/validate-static-app.yml tools/generated/validate-stability-lane.yml
+          git add tools/generated/menuExperience.js tools/generated/footballVisuals.js tools/generated/validate-static-app.yml tools/generated/validate-stability-lane.yml
           git commit -m "Generate v1.1.0 repair copies"
           git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
