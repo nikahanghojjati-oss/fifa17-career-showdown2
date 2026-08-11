@@ -47,14 +47,15 @@ jobs:
           assert.strictEqual(manifest.assets.length, 5, 'The licensed visual set must contain exactly five approved derivatives.');
           const expected = new Set([
             'james-rodriguez-real-madrid-2019-smart-r5.webp',
-            'marcus-rashford-man-utd-2016-smart-r5.webp',
+            'marcus-rashford-man-utd-2017-smart-r5.webp',
             'anthony-martial-man-utd-2016-smart-r5.webp',
             'lionel-messi-barcelona-2016-subject-r4.webp',
             'philipp-lahm-world-cup-2014-focus-r4.webp'
           ]);
-          const rejectedR3 = [
+          const rejectedPrior = [
             'james-rodriguez-real-madrid-2016.webp',
             'marcus-rashford-man-utd-2016.webp',
+            'marcus-rashford-man-utd-2016-smart-r5.webp',
             'anthony-martial-man-utd-2017.webp',
             'lionel-messi-barcelona-2016.webp'
           ];
@@ -75,9 +76,9 @@ jobs:
             total += bytes;
           }
           assert.ok(total <= 1100000, `Licensed visual payload exceeds the 1.1 MB presentation ceiling (${total}).`);
-          rejectedR3.forEach(file => {
-            assert.ok(!manifest.assets.some(asset => asset.output === file), `Rejected r3 derivative remains active in the manifest: ${file}`);
-            assert.ok(!fs.existsSync(`assets/football/${file}`), `Rejected r3 derivative remains in the runtime asset directory: ${file}`);
+          rejectedPrior.forEach(file => {
+            assert.ok(!manifest.assets.some(asset => asset.output === file), `Rejected prior derivative remains active in the manifest: ${file}`);
+            assert.ok(!fs.existsSync(`assets/football/${file}`), `Rejected prior derivative remains in the runtime asset directory: ${file}`);
           });
 
           const james = manifest.assets.find(asset => asset.id === 'james-rodriguez-real-madrid-2019-smart-r5');
@@ -87,13 +88,14 @@ jobs:
           assert.ok(decodeURI(james.source_page).includes('James_Rodríguez_in_2019.jpg'), 'James r5 source changed unexpectedly.');
           assert.deepStrictEqual(james.crop_box_on_source, [20,0,540,705], 'James r5 authored crop box changed unexpectedly.');
 
-          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016-smart-r5');
-          assert.ok(rashford, 'r5 Manchester United Rashford visual is missing.');
-          assert.deepStrictEqual(rashford.output_dimensions, [900,1100], 'Rashford r5 derivative must retain the subject-dominant portrait geometry.');
+          const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2017-smart-r5');
+          assert.ok(rashford, 'Final r5 Manchester United Rashford visual is missing.');
+          assert.deepStrictEqual(rashford.output_dimensions, [753,1100], 'Rashford final r5 derivative must retain the reviewed portrait geometry.');
           assert.strictEqual(rashford.author, 'Ardfern', 'Rashford attribution changed unexpectedly.');
           assert.strictEqual(rashford.license, 'CC BY-SA 4.0', 'Rashford license changed unexpectedly.');
-          assert.ok(rashford.source_page.includes('Man_Utd_v_Everton,_August_2016_(08).JPG'), 'Rashford r5 source changed unexpectedly.');
-          assert.deepStrictEqual(rashford.crop_box_on_source, [0,400,1800,2600], 'Rashford r5 authored crop box changed unexpectedly.');
+          assert.ok(rashford.source_page.includes('Manchester_United_v_RSC_Anderlecht,_20_April_2017_(29).jpg'), 'Rashford final r5 source changed unexpectedly.');
+          assert.deepStrictEqual(rashford.crop_box_on_source, [1050,300,2350,2200], 'Rashford final r5 authored crop box changed unexpectedly.');
+          assert.ok(/face-and-upper-body/.test(rashford.crop_policy || ''), 'Rashford manifest must retain the final face-and-upper-body crop policy.');
 
           const martial = manifest.assets.find(asset => asset.id === 'anthony-martial-man-utd-2016-smart-r5');
           assert.ok(martial, 'r5 Manchester United Martial visual is missing.');
@@ -124,7 +126,7 @@ jobs:
           assert.ok(data.includes('layout: "trophy-subject-safe"'), 'Lahm Trophy Room must use the same crop-safe composition policy.');
           assert.ok(data.includes('rejectPortraitCover: true'), 'Portrait-to-wide cover regression guard is missing from visual data.');
           assert.ok(data.includes('createShowdown') && data.includes('transferChallenge') && data.includes('careerStatistics') && data.includes('trophyRoom'), 'Screen placement manifest is incomplete.');
-          assert.ok(data.includes('marcus-rashford-man-utd-2016-smart-r5.webp'), 'Runtime data must activate the selected subject-dominant Rashford derivative.');
+          assert.ok(data.includes('marcus-rashford-man-utd-2017-smart-r5.webp'), 'Runtime data must activate the final subject-dominant Rashford derivative.');
           assert.ok(data.includes('lionel-messi-barcelona-2016-subject-r4.webp'), 'Runtime data must activate the selected subject-isolated Messi derivative.');
           assert.ok(data.includes('philipp-lahm-world-cup-2014-focus-r4.webp'), 'Runtime data must activate the reviewed subject-focused Lahm derivative.');
 
@@ -140,7 +142,7 @@ jobs:
           assert.ok(!visualCss.includes('object-fit:cover'), 'The r5 corrective stylesheet must not reintroduce a blind full-bleed cover exception.');
           assert.ok(/\.footballVisualHeroSetup \.footballVisualMediaFrame\{[\s\S]*?width:78%;/.test(visualCss), 'James desktop portrait frame must retain the reviewed 78% crop-safe stage.');
           assert.ok(/@media\(min-width:701px\) and \(max-width:1020px\)\{[\s\S]*?\.footballVisualHeroSetup \.footballVisualMediaFrame\{width:88%;\}/.test(visualCss), 'James near-breakpoint frame must retain the reviewed 88% crop-safe stage.');
-          assert.ok(visualCss.includes('marcus-rashford-man-utd-2016-smart-r5') && visualCss.includes('width:50%'), 'Rashford desktop Transfer frame must be shaped for the selected portrait source.');
+          assert.ok(visualCss.includes('marcus-rashford-man-utd-2017-smart-r5') && visualCss.includes('width:50%'), 'Rashford desktop Transfer frame must target the final portrait source.');
           assert.ok(/\.footballVisualAnalytics\{[\s\S]*?min-height:400px;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop height.');
           assert.ok(/\.footballVisualAnalytics \.footballVisualMediaFrame\{\s*width:28%;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop media width.');
           assert.ok(/\.footballVisualTrophy\{[\s\S]*?min-height:290px;/.test(visualCss), 'Trophy Room must retain enough desktop height for the focused Lahm portrait.');
