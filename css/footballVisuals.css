@@ -232,10 +232,10 @@
     width:61%;
 }
 
-/* The selected 2016 Rashford source is a tight portrait crop. A narrower
-   dedicated frame makes him the dominant readable subject while retaining
-   the complete licensed source. */
-.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+/* The r5 Rashford asset is already an authored subject crop. Keep a narrow
+   dedicated stage so the complete derivative remains dominant without any
+   second responsive crop or zoom. */
+.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
     width:50%;
 }
 
@@ -338,7 +338,7 @@
         min-height:184px;
     }
     .footballVisualHeroTransfer .footballVisualMediaFrame,
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
         width:58%;
     }
 
@@ -399,7 +399,7 @@
         min-height:182px;
     }
     .footballVisualHeroTransfer .footballVisualMediaFrame,
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-r4"] .footballVisualMediaFrame{
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
         width:58%;
     }
     .footballVisualHeroTransfer .footballVisualCopy{
