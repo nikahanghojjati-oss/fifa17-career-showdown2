@@ -1,66 +1,120 @@
 {
-  "generated_by": "r4-subject-dominant-selected-import-and-reviewed-local-derivative",
-  "transformation": "EXIF orientation normalized where applicable, resized down only with Lanczos, converted to WebP; the Lahm Trophy Room asset additionally uses one documented hand-reviewed crop from the licensed local 1600x829 derivative; no generative alteration.",
+  "generated_by": "r5-owner-requested-new-player-source-smart-crop-builder",
+  "transformation": "James Rodríguez, Marcus Rashford and Anthony Martial are rebuilt from new licensed Commons sources using explicit, hand-reviewed source-pixel crop boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Messi and Lahm are unchanged from r4. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration.",
   "assets": [
     {
-      "id": "james-rodriguez-real-madrid-2016-r4",
-      "source_file": "James Rodríguez in September 2016 - 01.jpg",
-      "output": "james-rodriguez-real-madrid-2016-r4.webp",
-      "max_size": [863, 1080],
+      "id": "james-rodriguez-real-madrid-2019-smart-r5",
+      "source_file": "James Rodríguez in 2019.jpg",
+      "output": "james-rodriguez-real-madrid-2019-smart-r5.webp",
+      "max_size": [
+        520,
+        705
+      ],
       "quality": 92,
       "author": "Real Madrid",
       "license": "CC BY 3.0",
       "license_url": "https://creativecommons.org/licenses/by/3.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_01.jpg",
-      "context": "James Rodríguez after Borussia Dortmund v Real Madrid, 28 September 2016.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%20September%202016%20-%2001.jpg",
-      "source_dimensions": [863, 1080],
-      "source_sha256": "89b0ba064638e2c5256f41a96010cd85de85694c396e2edb168d3e99cf27dfd4",
-      "output_dimensions": [863, 1080],
-      "output_bytes": 99788,
-      "output_sha256": "48d0ff9c3cbdc7161de691c62a365fd27b89360e0d08528d8f57340266fcb68b"
+      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg",
+      "context": "James Rodríguez in Real Madrid training apparel at Real Madrid City, 23 October 2019; hand-reviewed crop retains his complete head, shoulders, shirt and club crest.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%202019.jpg",
+      "source_dimensions": [
+        540,
+        720
+      ],
+      "source_sha1_commons": "59a9cdba7aba1f07d2f3df75c80a8a27ff27cd4d",
+      "source_sha256": "57627b596371304b1fb0a9acf844c25441cbf634bc308751048f93e832c35cea",
+      "crop_box_on_source": [
+        20,
+        0,
+        540,
+        705
+      ],
+      "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+      "output_dimensions": [
+        520,
+        705
+      ],
+      "output_bytes": 30648,
+      "output_sha256": "88bdd1472f65576c56ede4280d791438754f57ca0e5acbd5630802f2053fa7a8"
     },
     {
-      "id": "marcus-rashford-man-utd-2016-r4",
-      "source_file": "Marcus Rashford September 2016 (cropped).jpg",
-      "output": "marcus-rashford-man-utd-2016-r4.webp",
-      "max_size": [594, 661],
-      "quality": 94,
+      "id": "marcus-rashford-man-utd-2017-smart-r5",
+      "source_file": "Manchester United v RSC Anderlecht, 20 April 2017 (29).jpg",
+      "output": "marcus-rashford-man-utd-2017-smart-r5.webp",
+      "max_size": [
+        800,
+        1100
+      ],
+      "quality": 92,
       "author": "Ardfern",
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg",
-      "context": "Marcus Rashford for Manchester United v Zorya Luhansk at Old Trafford, 29 September 2016.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Marcus%20Rashford%20September%202016%20%28cropped%29.jpg",
-      "source_dimensions": [594, 661],
-      "source_sha256": "not-recorded-during-selected-r4-source-import",
-      "output_dimensions": [594, 661],
-      "output_bytes": 116860,
-      "output_sha256": "400188be2b0f6b9fe61a9aad67d1cbc5bb565ddef299a9d95896f98558db1a57"
+      "source_page": "https://commons.wikimedia.org/wiki/File:Manchester_United_v_RSC_Anderlecht,_20_April_2017_(29).jpg",
+      "context": "Marcus Rashford for Manchester United v RSC Anderlecht at Old Trafford, 20 April 2017; hand-reviewed upper-body source-pixel crop deliberately prioritizes his face, red shirt and club identity while removing the unused grass and full-leg area.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Manchester%20United%20v%20RSC%20Anderlecht%2C%2020%20April%202017%20%2829%29.jpg",
+      "source_dimensions": [
+        3672,
+        4896
+      ],
+      "source_sha1_commons": "5fdc90dd24300c7c065eb8a0da070bc4dd83364c",
+      "source_sha256": "b8cd53aa991d817a6f3730e97863ca861eac44cb84f7d97e50d68f8adcd5a9fd",
+      "crop_box_on_source": [
+        1050,
+        300,
+        2350,
+        2200
+      ],
+      "crop_policy": "hand-reviewed face-and-upper-body source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+      "output_dimensions": [
+        753,
+        1100
+      ],
+      "output_bytes": 174996,
+      "output_sha256": "0913282f4c0341475d13773217e261534184043fd4da17d4c27d0763ebc20447"
     },
     {
-      "id": "anthony-martial-man-utd-2015-r4",
-      "source_file": "Anthony Martial 2015.jpg",
-      "output": "anthony-martial-man-utd-2015-r4.webp",
-      "max_size": [688, 560],
-      "quality": 94,
-      "author": "Dmitry Golubovich",
-      "license": "CC BY-SA 2.5",
-      "license_url": "https://creativecommons.org/licenses/by-sa/2.5/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg",
-      "context": "Anthony Martial of Manchester United v CSKA Moscow, 21 October 2015.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Anthony%20Martial%202015.jpg",
-      "source_dimensions": [688, 560],
-      "source_sha256": "4b63fb995622ebb14a9d65ec88f8a0b8dc37f0574ba51439a869a07ee630ff34",
-      "output_dimensions": [688, 560],
-      "output_bytes": 49102,
-      "output_sha256": "f2eebc5b3d49d749b71172e9a8d35966423f68b6fe2472798279b8e9fc779017"
+      "id": "anthony-martial-man-utd-2016-smart-r5",
+      "source_file": "Manchester United v Zorya Luhansk, September 2016 (26).JPG",
+      "output": "anthony-martial-man-utd-2016-smart-r5.webp",
+      "max_size": [
+        825,
+        1100
+      ],
+      "quality": 90,
+      "author": "Ardfern",
+      "license": "CC BY-SA 4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Manchester_United_v_Zorya_Luhansk,_September_2016_(26).JPG",
+      "context": "Anthony Martial for Manchester United v Zorya Luhansk at Old Trafford, 29 September 2016; hand-reviewed crop makes Martial the dominant subject while trimming the adjacent player from the presentation edge.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Manchester%20United%20v%20Zorya%20Luhansk%2C%20September%202016%20%2826%29.JPG",
+      "source_dimensions": [
+        4896,
+        3672
+      ],
+      "source_sha1_commons": "8d155ffbd45c5dce41442bd4547d9d929907c88c",
+      "source_sha256": "0a29dfa670966ba283296a77547b0f979cfbcd1d185a491fc9ed07e4d57d4041",
+      "crop_box_on_source": [
+        0,
+        0,
+        1800,
+        2400
+      ],
+      "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+      "output_dimensions": [
+        825,
+        1100
+      ],
+      "output_bytes": 194614,
+      "output_sha256": "7f63ee2f8da34e6fc53b20d86fc5dd7b1b6f9b61625cca2aac615b1ef105803b"
     },
     {
       "id": "lionel-messi-barcelona-2016-subject-r4",
       "source_file": "Leo Messi 2016.PNG",
       "output": "lionel-messi-barcelona-2016-subject-r4.webp",
-      "max_size": [469, 779],
+      "max_size": [
+        469,
+        779
+      ],
       "quality": 94,
       "author": "Save the Dream / derivative by SdHb",
       "license": "CC BY 2.0",
@@ -68,9 +122,15 @@
       "source_page": "https://commons.wikimedia.org/wiki/File:Leo_Messi_2016.PNG",
       "context": "Subject-isolated derivative of Lionel Messi with FC Barcelona before Al-Ahli v Barcelona, December 2016.",
       "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Leo%20Messi%202016.PNG",
-      "source_dimensions": [469, 779],
+      "source_dimensions": [
+        469,
+        779
+      ],
       "source_sha256": "not-recorded-during-selected-r4-source-import",
-      "output_dimensions": [469, 779],
+      "output_dimensions": [
+        469,
+        779
+      ],
       "output_bytes": 63788,
       "output_sha256": "a84eba9c108bb4237bde989c36dd837114480bd0d1a823eeacf401955995d204"
     },
@@ -78,7 +138,10 @@
       "id": "philipp-lahm-world-cup-2014-focus-r4",
       "source_file": "Philipp Lahm lifts the 2014 FIFA World Cup.jpg",
       "output": "philipp-lahm-world-cup-2014-focus-r4.webp",
-      "max_size": [624, 722],
+      "max_size": [
+        624,
+        722
+      ],
       "quality": 94,
       "author": "Agência Brasil",
       "license": "CC BY 3.0 BR",
@@ -86,12 +149,26 @@
       "source_page": "https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg",
       "context": "Germany captain Philipp Lahm lifts the 2014 FIFA World Cup, 13 July 2014; final runtime asset uses a hand-reviewed subject-focused derivative that retains Lahm, his raised arms and the complete trophy.",
       "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Philipp%20Lahm%20lifts%20the%202014%20FIFA%20World%20Cup.jpg",
-      "source_dimensions": [4256, 2204],
+      "source_dimensions": [
+        4256,
+        2204
+      ],
       "source_sha256": "3167b6f09fc6d9b335edece955dc8acd62c8553cdab6b599542a2c2df5d3f5ef",
-      "intermediate_dimensions": [1600, 829],
+      "intermediate_dimensions": [
+        1600,
+        829
+      ],
       "intermediate_sha256": "bcc437e75608124f54241fd17607820ca13fcb70d2fab7f9dc107facb964b8ac",
-      "crop_box_on_intermediate": [624, 41, 1248, 763],
-      "output_dimensions": [624, 722],
+      "crop_box_on_intermediate": [
+        624,
+        41,
+        1248,
+        763
+      ],
+      "output_dimensions": [
+        624,
+        722
+      ],
       "output_bytes": 148134,
       "output_sha256": "c745c9dfd3619e384604890c6ed183dd4ff92db6cc1d4b93e1ce6edf5ebf6eb5"
     }
