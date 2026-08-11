@@ -1,3 +1,19 @@
+# v1.1.2 — Candidate B Import Analysis + Migration Preview
+
+Date: **August 11, 2026**
+
+Runtime asset revision: **`1.1.2-r1`**
+
+- Adds preview-only local backup import analysis to Data Management.
+- Enforces a 5 MiB pre-read File ceiling, strict JSON/format/checksum/schema validation and future-format rejection.
+- Adds ordered schema-1→2 Showdown/preferences migration preview with deterministic/idempotent golden fixtures.
+- Classifies new/exact/same-revision/different-revision/malformed conflicts using persisted Showdown IDs as strings.
+- Preserves corrupt current raw bytes and performs zero canonical localStorage writes/removals.
+- Adds keyboard, drag/drop, touch, DPR2 mobile, axe, overflow, hostile JSON, tamper, large-input and export→analysis round-trip evidence.
+- Adds a permanent Candidate B workflow and integrates import analysis into Stability and five-way Release Burn-In.
+- Hardens deployed-byte verification with bounded transport retries while retaining exact hash/length equality as authority.
+- Makes continuous public handoff logging a permanent owner-mandated repository rule.
+
 # CHANGELOG — Career Mode Showdown
 
 This file preserves implementation continuity without replacing the original roadmap.

@@ -1,4 +1,4 @@
-name: Validate v1.1.1 Release Burn-In
+name: Validate v1.1.2 Release Burn-In
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: v110-burnin-${{ github.ref }}-${{ github.sha }}
+  group: v112-burnin-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: v110-burnin-pass-${{ matrix.pass }}-${{ github.sha }}
+          name: v112-burnin-pass-${{ matrix.pass }}-${{ github.sha }}
           path: test-results/
           if-no-files-found: warn
           retention-days: 14

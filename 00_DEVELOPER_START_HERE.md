@@ -6,23 +6,22 @@ Purpose: canonical first-read operating guide for a new ChatGPT, Work, or develo
 
 ## 0. Sixty-second project state
 
-Application: `v1.1.1`
+Application: `v1.1.2`
 
-Runtime asset revision: `1.1.1-r1`
+Runtime asset revision: `1.1.2-r1`.
 
-Previous sealed production line: `v1.1.0 / 1.1.0-r1`.
+Candidate A backup/export is complete, deployed and protected. Candidate B — Import Analysis + Migration Preview — is the current substantive Data Safety and Recovery build. Candidate C restore remains blocked.
 
-Candidate A — Versioned Backup Envelope + Non-Mutating Export — remains complete, merged, deployed and protected. Candidate B has not started.
+Candidate B is preview-only: local backup file size, JSON, format, checksum, schemas, historical migrations and ID conflicts are analyzed in memory with zero canonical localStorage writes/removals. The existing Legacy/Data Management surface remains the UI owner and the feature stays lazy so startup budgets remain protected.
 
-The current owner-directed maintenance action is a finite **v1.1.1 James Rodríguez Real Madrid Source Refresh**. It replaces only the Create Showdown James source with a different Real Madrid-authored CC BY 3.0 Commons photograph from September 2016, preserves the clean-anchor/face-safe visual architecture, and does not bundle Candidate B.
+The owner-mandated `00_HANDOFF_GOLDEN_RULE.md` is permanent operating policy: every meaningful action/failure/decision/gate/merge/deployment state must be recorded continuously in the active public handoff.
 
-The owner-liked loading screen remains protected. Rashford, Martial, Messi and Lahm remain on their accepted sources. Every permanent release gate must pass twice on one frozen final v1.1.1 SHA; changed-surface visual evidence additionally covers exact source fingerprints, active-asset exclusivity, no-crop geometry, physical-pixel scale, occupancy and face-safe accent placement.
-
-After v1.1.1 is merged/deployed/proven and its art direction is accepted or explicitly deferred, Candidate B — Import Analysis + Migration Preview — remains the next substantive roadmap candidate. It stays read-only/dry-run with zero canonical localStorage writes/removals. Candidate C restore remains blocked behind Candidate B evidence.
+After Candidate B is merged/deployed/proven, Candidate C — Atomic Restore + Recovery UX — becomes the next legal v1.1.x step. v1.2.0 remains reserved for Installable Offline App.
 
 ## 1. Start every new session in this order
 
-1. Fetch current `main` and record its SHA.
+1. Read `00_HANDOFF_GOLDEN_RULE.md` and identify/create the active public handoff.
+2. Fetch current `main` and record its SHA.
 2. Read this file completely.
 3. Read `NEXT_TASK.md` completely.
 4. Read the Current milestone and dependency sections of `POST_V1_ROADMAP_EXECUTION.md`.

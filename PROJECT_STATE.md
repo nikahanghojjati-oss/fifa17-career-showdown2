@@ -20,17 +20,17 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.1.1 — Maintenance Candidate
-**Runtime asset revision:** `1.1.1-r1`
+**Application version:** v1.1.2 — Maintenance Candidate
+**Runtime asset revision:** `1.1.2-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.1.1 — James Rodríguez Real Madrid Source Refresh
-**Current activity:** replace only the Create Showdown James source with a different Real Madrid-authored licensed image, deepen changed-surface gates, and require two independent executions of every permanent gate on one frozen candidate
+**Current milestone:** v1.1.2 — Candidate B Import Analysis + Migration Preview
+**Current activity:** analyze local backup files read-only with checksum/schema/migration/conflict preview and zero canonical storage writes
 **Protected loading-screen status:** owner explicitly likes the loading presentation; its composition/timing remains regression-protected
-**Runtime change class:** licensed James visual/source + coherent v1.1.1 cache/release authority only; gameplay, scoring, routes, storage schema/keys, Candidate A semantics and state-machine rules remain locked
+**Runtime change class:** lazy Data Management import-analysis module + migration/conflict preview + validation gates; gameplay, scoring, routes, storage schema/keys, Candidate A export semantics and state-machine rules remain locked
 **Previous production runtime:** v1.1.0 / `1.1.0-r1`, fully sealed before this maintenance branch
-**Next roadmap candidate after v1.1.1 maintenance closure:** Candidate B — Import Analysis + Migration Preview (read-only)
+**Next roadmap candidate after Candidate B production proof:** Candidate C — Atomic Restore + Recovery UX
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
@@ -39,6 +39,14 @@ The owner's deployed-r12 Chromebook review then made two visual requirements man
 An external review then raised generic maintainability, edge-case, accessibility, and future-scaling concerns. Source inspection rejected an unsupported rewrite or framework migration, while the valid risk categories became the finite v1.0.1 Stability Lane implementation in `STABILITY_PLAN_V1.0.X.md`.
 
 ---
+
+# v1.1.2 — Candidate B Import Analysis + Migration Preview
+
+Candidate B is the read-only second stage of v1.1 Data Safety and Recovery. It verifies a selected Candidate A backup, validates current and supported historical schemas, previews deterministic migrations, classifies duplicate/conflicting Showdown identities, and explains active/Legacy/preference effects without restoring anything.
+
+Candidate B is lazy inside the existing Legacy/Data Management surface. It performs zero canonical localStorage writes/removals and makes no network request. Oversized files are rejected before File.text(), unsupported future formats/schemas fail closed, hostile object keys/depth are rejected, and exact current storage bytes are preserved during preview.
+
+Candidate C remains the first stage allowed to write imported state and stays blocked behind Candidate B release evidence.
 
 # v1.1.1 — James Rodríguez Real Madrid source refresh
 

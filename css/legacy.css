@@ -381,3 +381,134 @@
     .legacySeasonList{padding:0 14px 14px;}
     .legacyDataControls{padding:15px;}
 }
+
+
+/* =====================================================
+   v1.1.2 Candidate B — Import Analysis + Migration Preview
+===================================================== */
+.legacyImportAnalysis{
+    margin-top:18px;
+    padding:16px;
+    color:var(--f17-ink);
+    background:#eef3f5;
+    border-left:5px solid var(--f17-blue);
+}
+.legacyImportEyebrow{
+    display:block;
+    margin-bottom:5px;
+    color:#49606d;
+    font:900 10px/1 var(--f17-display);
+    letter-spacing:1.2px;
+}
+.legacyImportAnalysis h4{
+    margin:0 0 7px;
+    color:var(--f17-ink);
+    font:900 16px/1.05 var(--f17-display);
+    letter-spacing:.7px;
+}
+.legacyImportAnalysis>p{
+    margin:0 0 12px!important;
+}
+.legacyImportDropZone{
+    min-height:72px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:5px;
+    padding:13px 16px;
+    text-align:center;
+    color:#f4f8fa;
+    background:linear-gradient(112deg,#26343e,#255173);
+    border:2px dashed rgba(142,217,239,.72);
+    cursor:pointer;
+}
+.legacyImportDropZone.dragActive,
+.legacyImportDropZone:focus-visible{
+    border-color:var(--f17-yellow);
+    outline:3px solid rgba(255,233,30,.45);
+    outline-offset:2px;
+}
+.legacyImportDropZone strong{
+    color:var(--f17-yellow);
+    font:900 13px/1 var(--f17-display);
+    letter-spacing:1px;
+}
+.legacyImportDropZone span{font-size:11px;color:#d9e5ea;}
+.legacyImportNativeInput{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    clip-path:inset(50%);
+    white-space:nowrap;
+    border:0;
+}
+.legacyImportFileState,.legacyImportStatus{
+    min-height:18px;
+    margin:8px 0 0!important;
+    color:#425762!important;
+    font-size:11px!important;
+    font-weight:700;
+    overflow-wrap:anywhere;
+}
+.legacyImportActions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-top:10px;
+}
+.legacyImportActions .compactButton{min-height:46px;}
+.legacyImportResult{margin-top:12px;}
+.legacyImportVerdict{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:8px 14px;
+    align-items:center;
+    padding:11px 12px;
+    background:#fff;
+    border-left:4px solid #9aa8b1;
+}
+.legacyImportVerdict.ready{border-left-color:#2d7d62;}
+.legacyImportVerdict.blocked{border-left-color:#a3444d;}
+.legacyImportVerdict strong{font:900 12px/1 var(--f17-display);letter-spacing:.8px;}
+.legacyImportVerdict.ready strong{color:#286d58;}
+.legacyImportVerdict.blocked strong{color:#8a3037;}
+.legacyImportVerdict span{font-size:11px;line-height:1.4;color:#52616b;}
+.legacyImportPreviewGrid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin-top:8px;
+}
+.legacyImportPreviewCard{
+    min-width:0;
+    padding:10px 11px;
+    background:#fff;
+    border-top:3px solid #8ed9ef;
+}
+.legacyImportPreviewCard span,.legacyImportPreviewCard small{display:block;color:#5c6b74;font-size:10px;line-height:1.35;overflow-wrap:anywhere;}
+.legacyImportPreviewCard strong{display:block;margin:4px 0;color:#24323b;font:900 13px/1 var(--f17-display);overflow-wrap:anywhere;}
+.legacyImportMigrationSummary,.legacyImportConflictList,.legacyImportMessages{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    margin-top:8px;
+    padding:10px 12px;
+    background:#fff;
+    border-left:3px solid #8ed9ef;
+}
+.legacyImportMigrationSummary strong,.legacyImportConflictList strong,.legacyImportMessages strong{font:900 11px/1 var(--f17-display);letter-spacing:.7px;}
+.legacyImportMigrationSummary span,.legacyImportConflictList span{font-size:10px;line-height:1.4;color:#52616b;overflow-wrap:anywhere;}
+.legacyImportMessages.errors{border-left-color:#a3444d;background:#f8ecee;}
+.legacyImportMessages.warnings{border-left-color:#b59d16;background:#fbf8df;}
+.legacyImportMessages ul{margin:3px 0 0;padding-left:18px;color:#455760;font-size:10px;line-height:1.45;}
+@media(max-width:800px){
+    .legacyImportPreviewGrid{grid-template-columns:1fr;}
+    .legacyImportActions{flex-direction:column;}
+    .legacyImportActions .compactButton{width:100%;}
+    .legacyImportVerdict{grid-template-columns:1fr;}
+}

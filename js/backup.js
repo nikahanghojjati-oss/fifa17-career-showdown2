@@ -8,7 +8,7 @@ const CAREER_MODE_BACKUP_FORMAT_VERSION = 1;
 const CAREER_MODE_BACKUP_CHECKSUM_ALGORITHM = "SHA-256";
 
 function getBackupApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.1";
+    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.2";
 }
 
 function getBackupRuntimeRevision(){
@@ -109,7 +109,7 @@ function canonicalizeBackupValue(value){
         return Object.keys(value).sort().reduce((result, key) => {
             result[key] = canonicalizeBackupValue(value[key]);
             return result;
-        }, {});
+        }, Object.create(null));
     }
     return value;
 }
