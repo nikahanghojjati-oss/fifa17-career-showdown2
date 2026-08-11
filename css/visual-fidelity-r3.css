@@ -1,5 +1,5 @@
 /* =====================================================
-   Career Mode Showdown v1.0.2
+   Career Mode Showdown v1.1.0
    Clean-Anchor Home + Protected Loading Presentation
    Bounded visual override. No gameplay/state changes.
 ===================================================== */
@@ -147,8 +147,11 @@
         linear-gradient(124deg,transparent 0 26%,rgba(240,217,0,.07) 26% 29%,transparent 29% 100%);
 }
 .menuCoverAthlete::after{
-    z-index:1;
-    background:none;
+    z-index:3;
+    inset:auto 0 0 0;
+    height:34%;
+    background:
+        linear-gradient(126deg,transparent 0 62%,rgba(66,185,218,.28) 62% 65%,transparent 65% 73%,rgba(240,217,0,.28) 73% 75%,transparent 75% 100%);
     box-shadow:inset 18px 0 24px -24px rgba(8,17,22,.9),inset 0 -1px rgba(16,36,47,.08);
     pointer-events:none;
 }
@@ -304,6 +307,10 @@
         background:
             linear-gradient(120deg,transparent 0 71%,rgba(240,217,0,.24) 71% 72.2%,transparent 72.2%),
             linear-gradient(120deg,transparent 0 79%,rgba(66,185,218,.24) 79% 81%,transparent 81%);
+    }
+    .menuCoverAthlete::after{
+        inset:auto 0 0 0;
+        height:30%;
     }
     .menuCoverAthlete img{
         object-position:50% 7%;

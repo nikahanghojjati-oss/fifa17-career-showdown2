@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v1.0.1
+   v1.1.0
    Legacy & Data Management — Unified Presentation
 ===================================================== */
 
@@ -289,6 +289,58 @@
     gap:7px;
 }
 
+
+.legacyBackupSummary{
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    gap:10px 14px;
+    align-items:center;
+    margin:0 0 14px;
+    padding:12px 13px;
+    color:#dfe9ed;
+    background:linear-gradient(112deg,#24323b,#20506b);
+    border-left:4px solid var(--f17-cyan);
+}
+
+.legacyBackupSummary strong{
+    color:var(--f17-yellow);
+    font:900 12px/1 var(--f17-display);
+    letter-spacing:1.2px;
+}
+
+.legacyBackupSummary span{
+    min-width:0;
+    font-size:11px;
+    line-height:1.45;
+}
+
+.primaryDataButton{
+    color:#17242c;
+    background:var(--f17-yellow);
+    border-color:#b7a900;
+}
+
+.primaryDataButton:hover,
+.primaryDataButton:focus-visible{
+    color:#101b21;
+    background:#fff238;
+    border-color:var(--f17-blue);
+}
+
+.primaryDataButton[aria-busy="true"],
+.primaryDataButton:disabled{
+    cursor:wait;
+    opacity:.72;
+}
+
+.legacyDataStatus{
+    min-height:18px;
+    margin:12px 0 0!important;
+    color:#425762!important;
+    font-size:11px!important;
+    font-weight:700;
+}
+
 #deleteActiveShowdown{
     margin-top:8px;
 }
@@ -312,7 +364,9 @@
     .legacyCardActions{justify-content:center;}
     .legacyControlButtons{flex-direction:column;}
     .legacyControlButtons .compactButton,
-    .legacyControlButtons .dangerButton{width:100%;}
+    .legacyControlButtons .dangerButton,
+    .legacyControlButtons .primaryDataButton{width:100%;}
+    .legacyBackupSummary{grid-template-columns:1fr;}
 }
 
 @media(max-width:480px){

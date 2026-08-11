@@ -1,7 +1,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "1.0.2-r1";
+    return revision || "1.1.0-r1";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -359,6 +359,13 @@ async function ensureTrophyRoomModule(){
 
 async function ensureLegacyModule(){
     const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
+    await loadRuntimeScript(
+        "backup-engine",
+        "js/backup.js",
+        () => typeof window.createCareerModeBackupEnvelope === "function"
+            && typeof window.verifyCareerModeBackupEnvelopeChecksum === "function"
+            && typeof window.exportCareerModeBackup === "function"
+    );
     await loadRuntimeScript(
         "legacy-ui",
         "js/legacy.js",
