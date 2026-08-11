@@ -232,11 +232,15 @@
     width:61%;
 }
 
-/* The final r5 Rashford asset is a face-and-upper-body authored crop. Its
-   contained image is height-bound, so a 43% desktop stage removes unused side
-   space without zooming or cropping the derivative. */
+/* The final Rashford and Martial assets are already authored portrait crops.
+   Their images are height-bound under contain, so narrower subject-specific
+   stages remove empty side space without zooming or cutting either player. */
 .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
     width:43%;
+}
+
+.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
+    width:48%;
 }
 
 .footballVisualHeroTransfer .footballVisualCopy{
@@ -343,6 +347,9 @@
     .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
         width:52%;
     }
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
+        width:56%;
+    }
 
     .footballVisualAnalytics{
         min-height:320px;
@@ -405,6 +412,9 @@
     }
     .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
         width:52%;
+    }
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"] .footballVisualMediaFrame{
+        width:56%;
     }
     .footballVisualHeroTransfer .footballVisualCopy{
         width:44%;
