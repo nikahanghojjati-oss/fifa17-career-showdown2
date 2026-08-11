@@ -29,17 +29,18 @@ SELECTIONS = {
         "replace_ids": [
             "james-rodriguez-real-madrid-2016-r4",
             "james-rodriguez-real-madrid-2019-smart-r5",
+            "james-rodriguez-real-madrid-2016-interview-v111",
         ],
-        "id": "james-rodriguez-real-madrid-2019-smart-r5",
-        "source_file": "James Rodríguez in 2019.jpg",
-        "output": "james-rodriguez-real-madrid-2019-smart-r5.webp",
-        "crop_box_on_source": [20, 0, 540, 705],
-        "max_size": [520, 705],
+        "id": "james-rodriguez-real-madrid-2016-interview-v111",
+        "source_file": "James Rodríguez in September 2016 - 02.jpg",
+        "output": "james-rodriguez-real-madrid-2016-interview-v111.webp",
+        "crop_box_on_source": [40, 0, 830, 1040],
+        "max_size": [790, 1040],
         "quality": 92,
         "author": "Real Madrid",
         "license": "CC BY 3.0",
         "license_url": "https://creativecommons.org/licenses/by/3.0/",
-        "context": "James Rodríguez in Real Madrid training apparel at Real Madrid City, 23 October 2019; hand-reviewed crop retains his complete head, shoulders, shirt and club crest.",
+        "context": "James Rodríguez in a Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016; hand-reviewed crop retains his complete head, face, shoulders, purple Real Madrid training apparel and UEFA interview context.",
         "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
     },
     "rashford": {
@@ -242,9 +243,9 @@ def main() -> None:
         )
         time.sleep(2)
 
-    manifest["generated_by"] = "r5-owner-requested-new-player-source-smart-crop-builder"
+    manifest["generated_by"] = "v1.1.1-owner-requested-james-real-madrid-source-builder"
     manifest["transformation"] = (
-        "James Rodríguez, Marcus Rashford and Anthony Martial are rebuilt from new licensed Commons sources using explicit, hand-reviewed source-pixel crop boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Messi and Lahm are unchanged from r4. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration."
+        "James Rodríguez is rebuilt for v1.1.1 from the owner-requested alternate Real Madrid-era licensed Commons source; Rashford and Martial retain their approved r5 sources. All authored crops use explicit source-pixel boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration."
     )
     MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",

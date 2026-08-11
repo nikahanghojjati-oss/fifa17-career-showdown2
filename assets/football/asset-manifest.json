@@ -1,41 +1,41 @@
 {
-  "generated_by": "r5-owner-requested-new-player-source-smart-crop-builder",
-  "transformation": "James Rodríguez, Marcus Rashford and Anthony Martial are rebuilt from new licensed Commons sources using explicit, hand-reviewed source-pixel crop boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Messi and Lahm are unchanged from r4. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration.",
+  "generated_by": "v1.1.1-owner-requested-james-real-madrid-source-builder",
+  "transformation": "James Rodríguez is rebuilt for v1.1.1 from the owner-requested alternate Real Madrid-era licensed Commons source; Rashford and Martial retain their approved r5 sources. All authored crops use explicit source-pixel boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration.",
   "assets": [
     {
-      "id": "james-rodriguez-real-madrid-2019-smart-r5",
-      "source_file": "James Rodríguez in 2019.jpg",
-      "output": "james-rodriguez-real-madrid-2019-smart-r5.webp",
+      "id": "james-rodriguez-real-madrid-2016-interview-v111",
+      "source_file": "James Rodríguez in September 2016 - 02.jpg",
+      "output": "james-rodriguez-real-madrid-2016-interview-v111.webp",
       "max_size": [
-        520,
-        705
+        790,
+        1040
       ],
       "quality": 92,
       "author": "Real Madrid",
       "license": "CC BY 3.0",
       "license_url": "https://creativecommons.org/licenses/by/3.0/",
-      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg",
-      "context": "James Rodríguez in Real Madrid training apparel at Real Madrid City, 23 October 2019; hand-reviewed crop retains his complete head, shoulders, shirt and club crest.",
-      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%202019.jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_September_2016_-_02.jpg",
+      "context": "James Rodríguez in a Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016; hand-reviewed crop retains his complete head, face, shoulders, purple Real Madrid training apparel and UEFA interview context.",
+      "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/James%20Rodr%C3%ADguez%20in%20September%202016%20-%2002.jpg",
       "source_dimensions": [
-        540,
-        720
+        863,
+        1080
       ],
-      "source_sha1_commons": "59a9cdba7aba1f07d2f3df75c80a8a27ff27cd4d",
-      "source_sha256": "57627b596371304b1fb0a9acf844c25441cbf634bc308751048f93e832c35cea",
+      "source_sha1_commons": "8f1b085518ab1b36e25cda150afb3ae6900622d7",
+      "source_sha256": "bd29eb5b69468bf7a542f10f3a5c3aebc5d7b5d66beaacc2980c3b987c0b659c",
       "crop_box_on_source": [
-        20,
+        40,
         0,
-        540,
-        705
+        830,
+        1040
       ],
       "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
       "output_dimensions": [
-        520,
-        705
+        790,
+        1040
       ],
-      "output_bytes": 30648,
-      "output_sha256": "88bdd1472f65576c56ede4280d791438754f57ca0e5acbd5630802f2053fa7a8"
+      "output_bytes": 79280,
+      "output_sha256": "07a24347bffac1b104987db38e61524ed90b84f68ec98d8577abcc4eceaf9f9e"
     },
     {
       "id": "marcus-rashford-man-utd-2017-smart-r5",
@@ -50,7 +50,7 @@
       "license": "CC BY-SA 4.0",
       "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
       "source_page": "https://commons.wikimedia.org/wiki/File:Manchester_United_v_RSC_Anderlecht,_20_April_2017_(29).jpg",
-      "context": "Marcus Rashford for Manchester United v RSC Anderlecht at Old Trafford, 20 April 2017; hand-reviewed upper-body source-pixel crop deliberately prioritizes his face, red shirt and club identity while removing the unused grass and full-leg area.",
+      "context": "Marcus Rashford for Manchester United v RSC Anderlecht at Old Trafford, 20 April 2017; hand-reviewed upper-body crop prioritizes his face, red shirt and club identity while removing unused grass and full-leg area.",
       "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Manchester%20United%20v%20RSC%20Anderlecht%2C%2020%20April%202017%20%2829%29.jpg",
       "source_dimensions": [
         3672,
