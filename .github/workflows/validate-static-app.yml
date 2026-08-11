@@ -262,8 +262,8 @@ jobs:
           const assert = require('assert');
           const vm = require('vm');
 
-          const expectedVersion = '1.0.1';
-          const expectedRevision = '1.0.1-r5';
+          const expectedVersion = '1.0.2';
+          const expectedRevision = '1.0.2-r1';
           const maximumInitialAssetBytes = 165000;
           const maximumCompressedInitialAssetBytes = 37500;
           const maximumStartupPortraitBytes = 95000;
@@ -280,24 +280,26 @@ jobs:
           const nextTask = fs.readFileSync('NEXT_TASK.md', 'utf8');
           const readme = fs.readFileSync('README.md', 'utf8');
           const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-          const releaseRecord = fs.readFileSync('RELEASE_V1.0.1.md', 'utf8');
+          const releaseRecord = fs.readFileSync('RELEASE_V1.0.2.md', 'utf8');
+          const previousReleaseRecord = fs.readFileSync('RELEASE_V1.0.1.md', 'utf8');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
           assert.ok(revisionMatch && revisionMatch[1].trim(), 'Shell must define app-asset-revision.');
           const revision = revisionMatch[1].trim();
           assert.strictEqual(revision, expectedRevision, 'Stable runtime revision changed unexpectedly.');
-          assert.ok(html.includes('v1.0.1 · Stable'), 'Stable user-facing footer identity is missing.');
+          assert.ok(html.includes('v1.0.2 · Stable'), 'Stable user-facing footer identity is missing.');
           assert.ok(!html.includes('V1 Visual Immersion Candidate'), 'Candidate text remains in the user-facing shell.');
-          assert.ok(projectState.includes('**Application version:** v1.0.1 — Stable'), 'PROJECT_STATE current version is stale.');
-          assert.ok(projectState.includes('**Runtime asset revision:** `1.0.1-r5`'), 'PROJECT_STATE runtime revision is stale.');
-          assert.ok(nextTask.includes('## Current baseline: v1.0.1 Stable'), 'NEXT_TASK does not identify the stable baseline.');
-          assert.ok(readme.includes('**Application version:** v1.0.1 — Stable'), 'README current version is stale.');
-          assert.ok(changelog.includes('# v1.0.1 — Stability Hardening'), 'CHANGELOG stability release entry is missing.');
-          assert.ok(releaseRecord.includes('Release tag: `v1.0.1`'), 'Permanent v1.0.1 release record is incomplete.');
+          assert.ok(projectState.includes('**Application version:** v1.0.2 — Stable'), 'PROJECT_STATE current version is stale.');
+          assert.ok(projectState.includes('**Runtime asset revision:** `1.0.2-r1`'), 'PROJECT_STATE runtime revision is stale.');
+          assert.ok(nextTask.includes('## Current baseline: v1.0.2 Stable'), 'NEXT_TASK does not identify the stable baseline.');
+          assert.ok(readme.includes('**Application version:** v1.0.2 — Stable'), 'README current version is stale.');
+          assert.ok(changelog.includes('# v1.0.2 — Clean-Anchor Visual Maintenance'), 'CHANGELOG stability release entry is missing.');
+          assert.ok(releaseRecord.includes('Release tag: `v1.0.2`'), 'Permanent v1.0.1 release record is incomplete.');
           [projectState, nextTask, readme, changelog].forEach((document, index) => {
-            assert.ok(document.includes('1.0.1-r5'), `Current authority document ${index + 1} is missing the r4 runtime identity.`);
+            assert.ok(document.includes('1.0.2-r1'), `Current authority document ${index + 1} is missing the v1.0.2 runtime identity.`);
           });
-          assert.ok(releaseRecord.includes('1.0.1-r1'), 'The immutable v1.0.1 release record must retain its original r1 evidence.');
+          assert.ok(releaseRecord.includes('Runtime asset revision: `1.0.2-r1`'), 'The v1.0.2 release record must contain the current runtime identity.');
+          assert.ok(previousReleaseRecord.includes('1.0.1-r1'), 'The immutable v1.0.1 release record must retain its original r1 evidence.');
 
           const startupPortraitMatch = html.match(/id="startupAthlete"[^>]+src="(assets\/[^"?]+)\?v=([^"]+)"/i);
           assert.ok(startupPortraitMatch, 'The startup Marco Reus portrait must be a versioned local asset.');

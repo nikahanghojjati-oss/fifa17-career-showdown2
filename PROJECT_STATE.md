@@ -2,7 +2,7 @@
 
 ## Authority / continuation rule
 
-This project is already designed and implemented through the v1.0.1 stability-hardening patch. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
+This project is already designed and implemented through the v1.0.2 visual-maintenance patch. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
 
 Authority when sources disagree:
 
@@ -20,23 +20,61 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.0.1 — Stable
-**Runtime asset revision:** `1.0.1-r5`
+**Application version:** v1.0.2 — Stable
+**Runtime asset revision:** `1.0.2-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.0.x Stability Lane
-**Current activity:** owner-directed finite visual immersion correction inside the v1.0.x Stability Lane
-**Preserved owner-accepted gates:** `0.95.0-r4`, `r5`, `r6`, `r8`, `r9`, `r10`, `r12`, `r13`
-**Accepted deployed baseline:** r13 merge `1bae3e1fd0f5ab213846629d328024b9be2d244c`
-**Owner acceptance:** r13 accepted on August 9, 2026
-**Release seal:** accepted r13 behavior preserved under `v1.0.1` / `1.0.1-r1`; no new feature workstream
+**Current milestone:** v1.0.x finite visual-maintenance lane
+**Current activity:** v1.0.2 clean-anchor footballer photography maintenance candidate; owner real-device acceptance remains open until the public build is inspected
+**Protected loading-screen status:** owner explicitly likes the loading presentation; v1.0.2 preserves its composition/timing and treats it as a regression-protected surface
+**Runtime change class:** presentation + cache/release identity only; no gameplay, scoring, route, storage schema/key or state-machine change
+**Next feature after owner acceptance or explicit deferral:** v1.1.0 Data Safety and Recovery — Candidate A only
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
 The owner's deployed-r12 Chromebook review then made two visual requirements mandatory for v1: materially improve the undersized/flat Home layout and restore a cinematic pre-menu presentation with a large, properly licensed Marco Reus image. r13 implements both while preserving all r12 behavior.
 
 An external review then raised generic maintainability, edge-case, accessibility, and future-scaling concerns. Source inspection rejected an unsupported rewrite or framework migration, while the valid risk categories became the finite v1.0.1 Stability Lane implementation in `STABILITY_PLAN_V1.0.X.md`.
+
+---
+
+# v1.0.2 — clean-anchor footballer photography maintenance
+
+## Owner-reproduced defects
+
+The owner supplied current Chromebook screenshots showing three real presentation failures after r5:
+
+- James Rodríguez was washed by the light overlay, reducing facial detail;
+- Marcus Rashford's face was crossed by decorative diagonal geometry;
+- desktop Home Marco Reus used a diagonal clipped photo edge that looked unattractive around the head/neck.
+
+The owner explicitly likes the loading screen. That presentation is protected rather than redesigned.
+
+## Maintenance architecture
+
+v1.0.2 changes the footballer-photo rule from **graphics over photograph** to **photograph as clean anchor**.
+
+James/Rashford/Martial now declare `treatment: "clean-anchor"`. Their decorative ambience is behind the photograph, the image frame is above decorative pseudo-elements, and the copy occupies its own plate outside the photo anchor. The underlying licensed r5 derivative files remain unchanged and continue to use `object-fit: contain`.
+
+Desktop Home Reus is integrated as a rectangular right-side player-photo anchor with no diagonal `clip-path` through the head/neck. The accepted mobile Reus treatment stays separately bounded. The startup/loading Reus presentation remains protected.
+
+## Robustness
+
+Permanent browser gates now protect:
+
+- clean-anchor treatment metadata;
+- decorative layers behind required player photographs;
+- copy/photo non-overlap;
+- crop-safe full derivative rendering;
+- James tuned desktop and near-breakpoint geometry;
+- desktop Reus rectangular anchor and protected mobile Reus path;
+- real 1366×768, 940×700 and 390×844 visual journeys;
+- existing source/license/provenance and Messi/Lahm contracts.
+
+v1.0.2 advances application/cache identity to `v1.0.2` / `1.0.2-r1` while preserving all gameplay and persistence contracts.
+
+Owner visual acceptance remains a separate final gate after deployment.
 
 ---
 

@@ -6,38 +6,43 @@ Purpose: canonical first-read operating guide for a new ChatGPT, Work, or develo
 
 ## 0. Sixty-second project state
 
-Application: `v1.0.1`
+Application: `v1.0.2`
 
-Runtime asset revision: `1.0.1-r5`
+Runtime asset revision: `1.0.2-r1`
 
-Runtime implementation baseline:
+Current maintenance branch/PR while candidate validation is active:
 
-`8f4f9d2c94e1e1f03f50fb439df34f423cc06d1e`
+- branch: `agent/v1.0.2-footballer-tile-maintenance`;
+- PR: `#13`.
 
-That runtime contains the final r5 smart-crop rebuild for James Rodríguez, Marcus Rashford, and Anthony Martial.
+v1.0.2 exists because the owner supplied new real-device rejection evidence after r5. The current maintenance architecture uses footballers as **clean tile anchors** rather than placing strong geometry over their faces.
 
-Technical r5 state:
+Current visual targets:
 
-`COMPLETE, MERGED, DEPLOYED, POST-MERGE GREEN`
+- James Rodríguez: no facial washout; clean photo anchor and separate copy plate;
+- Marcus Rashford: face completely unobstructed by decorative lines;
+- Anthony Martial: same consistent clean-anchor system;
+- desktop Home Marco Reus: rectangular photo anchor with no rejected diagonal head/neck cut;
+- loading screen: explicitly liked by the owner and protected from redesign;
+- Messi/Lahm: protected prior presentation.
+
+Technical candidate state:
+
+`IN FULL VALIDATION`
 
 Owner visual acceptance state:
 
-`PENDING REAL-DEVICE REVIEW`
+`PENDING REAL-DEVICE REVIEW AFTER DEPLOYMENT`
 
-The only open v1.0.x product gate is owner art-direction review of:
+Do not call v1.0.2 owner-accepted from CI/screenshots alone.
 
-- Create Showdown — James Rodríguez;
-- Transfer Challenge — Marcus Rashford;
-- Transfer Challenge — Anthony Martial;
-- Home/loading — Marco Reus regression check.
+If the owner supplies another rejection after deployment, stay in the finite v1.0.x correction lane and fix only reproduced evidence.
 
-If the owner supplies new rejection evidence, stay in the finite v1.0.x correction lane and fix only the reproduced issue from current r5.
-
-If the owner accepts r5 or explicitly defers visual review, the next substantive feature milestone becomes:
+If the owner accepts v1.0.2 or explicitly defers visual review, the next substantive feature milestone becomes:
 
 `v1.1.0 Data Safety and Recovery`
 
-The first implementation branch is Candidate A only:
+The first implementation branch remains Candidate A only:
 
 `Versioned Backup Envelope + Non-Mutating Export`
 
@@ -216,7 +221,7 @@ Do not enlarge startup bundles or make external media eager merely because later
 - licensed local photography keeps provenance;
 - mobile, Chromebook, keyboard, touch, and reduced motion remain first-class targets.
 
-## 6. Current r5 visual authority
+## 6. Current v1.0.2 visual authority
 
 James Rodríguez:
 
@@ -249,7 +254,7 @@ Marco Reus remains the Home/loading identity.
 
 Messi and Lahm remain their protected crop-safe assets.
 
-Do not return automatically to rejected r3/r4 photographs or the rejected intermediate 2016 r5 Rashford candidate.
+Do not return automatically to rejected r3/r4 treatments or the rejected intermediate 2016 Rashford candidate. The current source/photo derivatives remain the authority unless new owner evidence requires a source change.
 
 ## 7. r5 proof that does not need to be repeated without new evidence
 
