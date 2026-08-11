@@ -124,18 +124,18 @@ Fix: Export Backup has a single-flight guard, disabled/`aria-busy` state, progre
 
 ## Candidate A runtime implemented
 
-Generated runtime commit:
+Initial generated runtime commit:
 
 `f6b58ff11d523dd96b2a2811682d2500bb904307`
 
-Implemented source:
+The implementation evolved during permanent CI hardening. Current architecture is:
 
-- `js/storage.js` now exposes a read-only `captureCareerModeBackupSnapshot()` authority and storage-key diagnostics;
-- `js/backup.js` is a new lazy helper that builds format-v1 envelopes, canonicalizes checksum input, calculates SHA-256 with WebCrypto, verifies checksums, serializes readable JSON and downloads a timestamped file;
-- `js/optionalModules.js` loads the backup helper only with the existing Legacy/Data Management module;
+- `js/storage.js` remains the only canonical browser-storage reader and exposes a compact, read-only raw backup-input snapshot rather than performing backup-only parsing on the startup path;
+- `js/backup.js` is a lazy helper that parses/validates those raw inputs, builds format-v1 envelopes, canonicalizes checksum input, calculates SHA-256 with WebCrypto, verifies checksums, serializes readable JSON and downloads a timestamped file;
+- `js/optionalModules.js` loads the backup helper only with the existing Legacy/Data Management module and now propagates the real `showScreen("legacy")` result instead of claiming success after a failed Legacy render/navigation;
 - `js/legacy.js` adds the accessible Export Backup workflow/status plus the five maintenance fixes that belong in Data Management;
-- `css/legacy.css` adds a FIFA-17-style backup summary and primary data action without introducing a new top-level route;
-- app/package/cache identity advanced to `v1.1.0 / 1.1.0-r1` in the implementation candidate.
+- `css/legacy.css` adds a FIFA-17-style backup summary and primary data action without introducing a new top-level route, with a cascade-safe 46px minimum Data Management action height to clear the 44px touch-target floor;
+- app/package/cache identity is `v1.1.0 / 1.1.0-r1` in the release candidate.
 
 No Candidate B import parser or Candidate C restore write path has been added.
 
@@ -154,7 +154,7 @@ The envelope includes:
 - warnings;
 - raw recovery data for malformed current bytes.
 
-Export performs no flush and no canonical write. It reads through `js/storage.js`, hashes in memory, builds a Blob and triggers a local browser download.
+Export performs no flush and no canonical write. It reads raw canonical bytes through `js/storage.js`, parses/hashes in the lazy backup module, builds a Blob and triggers a local browser download.
 
 ## Visual retune implemented
 
@@ -172,9 +172,9 @@ The v1.1.0 treatment restores **face-safe diagonal accent rails**:
 
 This reflects the owner correction: the line language is retained, but it frames/energizes the player rather than crossing the face.
 
-## Test hardening completed so far
+## Test hardening completed
 
-Candidate A contracts now cover:
+Candidate A contracts cover:
 
 - empty storage;
 - active-only;
@@ -192,7 +192,7 @@ Candidate A contracts now cover:
 - corrupt active-save false-positive fix;
 - 1,000-record Legacy export responsiveness.
 
-Browser audit now covers:
+Browser audit covers:
 
 - real JSON download;
 - keyboard activation;
@@ -207,9 +207,12 @@ Browser audit now covers:
 - 940×700 windowed/Chromebook path;
 - 390×844 DPR2 mobile touch path;
 - reduced-motion mobile path;
+- minimum 44px mobile action target;
 - Data Management screenshots for both desktop/windowed and mobile.
 
-The permanent Stability Lane now runs `test:backup-browser` in both consecutive Chromium cycles and again against deployed Pages after merge. It uploads the Candidate A Data Management screenshots from the pre-merge browser run.
+The backup browser audit launches a fresh Chromium process for each scenario because the project’s locked Chromium runtime uses `--single-process`; this prevents one closed context from terminating later scenarios while preserving the same browser/runtime authority.
+
+The permanent Stability Lane runs `test:backup-browser` in both consecutive Chromium cycles and again against deployed Pages after merge. It uploads Candidate A Data Management screenshots from the pre-merge browser run.
 
 ## Tooling incident and classification
 
@@ -233,22 +236,82 @@ After generation:
 
 - the temporary builder workflow was removed;
 - the one-off builder script was removed;
-- no temporary development workflow or generator is intended to survive into the PR candidate.
+- later temporary release-migration, startup-budget, lazy-backup and Legacy-route repair workflows/helpers were also removed after their permanent outputs were validated;
+- no temporary development workflow or generator remains intentionally in the release candidate.
+
+## Permanent CI repair checkpoint
+
+The first v1.1.0 PR cycles separated stale release assertions from real Candidate A integration issues rather than weakening gates.
+
+### Release/workflow authority
+
+Older permanent workflows still asserted `v1.0.2 / 1.0.2-r1`. Those active release assertions were migrated to `v1.1.0 / 1.1.0-r1` while `RELEASE_V1.0.2.md` and other historical rollback evidence remained unchanged.
+
+### Startup budget regression
+
+Candidate A initially increased eager startup raw bytes to `168,408`, above the locked `165,000` ceiling.
+
+The ceiling was **not raised**. Backup-only parsing, corruption classification, relationship calculation and cloning were moved out of eager `js/storage.js` into lazy `js/backup.js`. `js/storage.js` remains storage authority and supplies only raw read-only backup inputs.
+
+Validation run:
+
+`31513071238`
+
+Result:
+
+- backup/storage contracts: PASS;
+- syntax: PASS;
+- locked startup raw bytes: **164,994**;
+- original 165 KB ceiling preserved.
+
+### Browser fixture / Legacy route diagnosis
+
+A Stability browser failure originally left `#legacy` hidden. The cause was a test fixture that labelled a skeletal object as a completed Showdown but omitted manager/club/score fields required by the real Legacy card renderer. The browser fixture was corrected to a minimal valid schema-2 completed rivalry; production Legacy rendering was not bypassed.
+
+That investigation also exposed a real optional-module contract bug: `openOptionalModule("legacy")` returned success even when `showScreen("legacy")` failed. The Legacy branch now returns the actual `showScreen` result.
+
+### Chromium runtime hardening
+
+The project runtime uses Chromium `--single-process`. Reusing one browser for three sequential backup scenarios caused a closed first context to terminate the process. The audit now launches one fresh Chromium process per desktop, keyboard-download and mobile/reduced-motion scenario, matching the established Home visual audit hardening.
+
+### Mobile touch target defect
+
+The strengthened mobile audit measured Export Backup at `324.390625 × 42` CSS pixels, below the 44px target floor. The assertion was kept unchanged.
+
+A first `.compactButton` height change was correctly rejected by the browser because optional styles are inserted before eager `#appStyles`; the later global `.backButton,.compactButton{min-height:42px}` won at equal specificity.
+
+The final fix uses the scoped higher-specificity Data Management rule:
+
+`.legacyControlButtons .compactButton { min-height: 46px; }`
+
+Guarded validation run:
+
+`31514853800`
+
+Result:
+
+`PASS  v1.1.0 Candidate A browser backup audit`
+
+The workflow then committed the permanent route-result, browser-runtime and touch-target repairs as:
+
+`a47e80ea8f296b880776718ffb1731a5a6e01733`
+
+Temporary Legacy-route repair workflow/helper were removed immediately afterward.
 
 ## Planned implementation order / current completion
 
 1. Record owner approval/amendment and Candidate A scope — **done**.
-2. Build a read-only storage snapshot API in `js/storage.js` — **done**.
+2. Build a read-only storage snapshot API in `js/storage.js` — **done and startup-budget hardened**.
 3. Build lazy `js/backup.js` for deterministic envelope/checksum/download behavior — **done**.
-4. Load backup helper through the existing Legacy optional-module path — **done**.
-5. Add accessible Export Backup controls/status to `js/legacy.js` + `css/legacy.css` — **done**.
-6. Implement the five maintenance fixes — **implemented; validation pending**.
-7. Retune footballer accent geometry while preserving clean-anchor face safety — **implemented; screenshot validation pending**.
-8. Add Candidate A contract/browser coverage — **done and strengthened; CI execution pending**.
-9. Advance app/runtime/package/cache identity coherently — **runtime candidate done; release/workflow authority pending**.
-10. Update roadmap/state/release documentation only after the candidate proves itself — **pending**.
-11. Open PR, freeze exact head, run all permanent workflows, fix real failures without weakening gates — **next**.
-12. Inspect rendered browser screenshots — **pending**.
+4. Load backup helper through the existing Legacy optional-module path — **done; real route result propagated**.
+5. Add accessible Export Backup controls/status to `js/legacy.js` + `css/legacy.css` — **done; mobile touch floor validated**.
+6. Implement the five maintenance fixes — **done; contract/browser coverage green in focused validation**.
+7. Retune footballer accent geometry while preserving clean-anchor face safety — **implemented; final screenshot inspection still required**.
+8. Add Candidate A contract/browser coverage — **done and strengthened**.
+9. Advance app/runtime/package/cache identity coherently — **done**.
+10. Update roadmap/state/release documentation — **done for v1.1.0 Candidate A authority; this public handoff is current**.
+11. Open PR, freeze exact permanent-source head, run all permanent workflows — **in progress; final clean-head matrix next**.
+12. Inspect rendered browser screenshots — **next after final green matrix**.
 13. Merge with expected-head protection — **pending**.
 14. Verify exact Pages deployment and post-merge Stability/Licensed Visual runs — **pending**.
 15. Append exact merge/deployment evidence here — **pending**.
@@ -273,6 +336,6 @@ Do not change:
 
 ## Current status
 
-`IMPLEMENTATION BUILT — PERMANENT VALIDATION NEXT`
+`CANDIDATE A FOCUSED BROWSER VALIDATION GREEN — FINAL CLEAN PERMANENT CI + SCREENSHOT REVIEW NEXT`
 
-No claim of merge/deployment or owner acceptance for the new accent retune has been made yet.
+No claim of merge/deployment or owner acceptance for the v1.1.0 accent retune has been made yet.
