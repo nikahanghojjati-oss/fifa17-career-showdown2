@@ -1,0 +1,28 @@
+{
+  "id": "schema-two-showdown",
+  "name": "Schema Two Derby",
+  "managers": {
+    "playerOne": "Manager One",
+    "playerTwo": "Manager Two"
+  },
+  "totalRounds": 1,
+  "currentRound": 1,
+  "status": "Created",
+  "selectedLeague": null,
+  "clubs": {
+    "playerOne": null,
+    "playerTwo": null
+  },
+  "score": {
+    "playerOne": 0,
+    "playerTwo": 0
+  },
+  "transferChallenges": [],
+  "rounds": [],
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "updatedAt": "2025-01-01T00:00:00.000Z",
+  "completedAt": null,
+  "archivedAt": null,
+  "schemaVersion": 2,
+  "integrityWarnings": []
+}

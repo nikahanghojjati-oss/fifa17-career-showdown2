@@ -205,3 +205,22 @@ The failed retry workflow was removed in commit `173460676b72960a22b079f3797e448
 ## Current status
 
 `CANDIDATE B GENERATOR READY — TWO PRE-PUBLICATION INTEGRATION FAILURES RECORDED — FIXTURE-CORRECT RETRY NEXT`
+
+## Implementation design checkpoint
+
+Candidate B architecture selected:
+
+- `js/importAnalysis.js` is a new lazy, read-only analysis/migration/UI module loaded only with Legacy/Data Management.
+- `js/backup.js` remains Candidate A checksum authority; its canonical object accumulator is hardened to a null-prototype object because Candidate B now verifies user-supplied JSON. Valid checksum bytes remain unchanged.
+- `js/storage.js` remains untouched as persistence authority; Candidate B reads only through `captureCareerModeRawBackupInputs()`.
+- one explicit ordered migration registry owns Showdown schema 1→2 and preferences schema 1→2; no scattered import normalization is allowed.
+- migration functions clone input, are tested non-mutating and idempotent, and fail closed on unsupported future schemas.
+- conflict comparison follows current storage precedent: Showdown IDs are compared as strings and effective revision uses `updatedAt` + `completedAt`.
+- the Data Management UI contains no Restore/Apply action and explicitly states Preview Only / No Restore Writes.
+- file size ceiling is 5 MiB and oversized File objects are rejected before `File.text()`.
+- Candidate B performs no network request.
+- exact deployment verifier hash/length authority is retained; only bounded retry for transient fetch transport is added after the v1.1.1 recorded transport-noise incident.
+
+New permanent evidence includes golden schema fixtures, deterministic import contracts, dedicated real-browser Candidate B audit, a dedicated permanent workflow, integration into two-cycle Stability, and integration into every five-way Release Burn-In pass.
+
+Current implementation status after generator application: source/test generation pending workflow execution.

@@ -2,117 +2,87 @@
 
 Last updated: 2026-08-11
 
-Application version: v1.1.1
+Application version: v1.1.2
 
-Runtime asset revision: `1.1.1-r1`
+Runtime asset revision: `1.1.2-r1`
 
-## Current baseline: v1.1.1 Maintenance Candidate
+## Current baseline: v1.1.2 Candidate B — Import Analysis + Migration Preview
 
-Candidate A — **Versioned Backup Envelope + Non-Mutating Export** — remains complete, merged, deployed and protected.
+Candidate A — Versioned Backup Envelope + Non-Mutating Export — remains complete, deployed and protected.
 
-The owner-directed v1.1.1 James Rodríguez source-refresh runtime is now technically complete. It was merged from the exact twice-validated PR head, deployed to GitHub Pages, and the permanent release/workstream matrix was executed twice again against the same immutable production runtime.
+Candidate B is the current substantive Data Safety and Recovery build. It reads a selected local backup in isolation, validates it, previews supported migrations and classifies conflicts without changing canonical browser data.
 
-Runtime implementation authority:
+Candidate C — Atomic Restore + Recovery UX — remains blocked and is explicitly out of scope for this build.
 
-`29caae874bf00deba89bdb1ffcfc0654ead3928f`
+## Golden handoff rule
 
-Documentation may advance beyond that SHA without creating a new runtime build when only Markdown authority files change.
+Read `00_HANDOFF_GOLDEN_RULE.md` before implementation. Every meaningful action, decision, failure, correction, gate result, merge, deployment and owner-acceptance state must be recorded continuously in the active public handoff.
 
-## v1.1.1 visual authority
+Current handoff:
 
-The active James derivative remains exactly:
+`CAREER_MODE_SHOWDOWN_V1.1.2_CANDIDATE_B_HANDOFF.md`
 
-- asset: `assets/football/james-rodriguez-real-madrid-2016-smart-v111.webp`;
-- Commons source: `James Rodríguez in September 2016 - 02.jpg`;
-- author/source: Real Madrid;
-- license: CC BY 3.0;
-- source/output geometry: 863 × 1080;
-- source-pixel full-frame policy: `[0, 0, 863, 1080]`;
-- runtime framing: `object-fit: contain`, zero secondary crop;
-- clean-anchor and face-safe diagonal architecture preserved.
+## Candidate B release contract
 
-The replaced `james-rodriguez-real-madrid-2019-smart-r5.webp` must not return to active runtime authority.
+Candidate B must prove all of the following before merge:
 
-Protected Reus, Rashford, Martial, Messi and Lahm visual/source decisions remain unchanged unless the owner supplies new evidence for one of those surfaces.
+- maximum import size is enforced before `File.text()` for oversized File objects;
+- strict JSON parse;
+- exact backup format ID/version validation;
+- SHA-256 checksum verification;
+- dangerous object-key / excessive-depth rejection before checksum canonicalization;
+- current schema validation;
+- supported historical schema migrations through one ordered registry;
+- migration determinism, input non-mutation and idempotence;
+- future backup/data schemas fail closed;
+- duplicate/conflict classification uses current Showdown IDs as strings;
+- exact duplicate, same-ID/same-effective-revision, same-ID/different-revision, new and malformed/unresolvable categories are visible;
+- duplicate IDs inside one backup are surfaced rather than silently deduplicated;
+- active Showdown impact is explicit;
+- Legacy merge impact is previewed only;
+- preference impact is explicit;
+- corrupt current local bytes are preserved and surfaced as warnings;
+- Candidate A export can round-trip directly into Candidate B analysis;
+- analysis performs zero canonical `localStorage.setItem()` and zero canonical `localStorage.removeItem()` operations;
+- no restore/apply control exists;
+- no network request occurs;
+- keyboard, drag/drop, touch, reduced-motion, Chromebook/windowed/mobile and accessibility paths pass;
+- startup budgets remain protected because Candidate B stays inside the lazy Data Management module;
+- existing gameplay, visual, storage and route gates remain green.
 
-## Completed technical release proof
+## Release process
 
-Pre-merge:
+1. implement and test on a focused branch from current `main`;
+2. keep the public handoff current throughout the build;
+3. run Candidate B changed-surface contracts/browser evidence;
+4. run every permanent workstream/release family on one frozen candidate SHA;
+5. do not weaken a threshold to obtain green status;
+6. merge with exact expected-head protection only after the frozen candidate is green;
+7. verify GitHub Pages serves exact merge bytes;
+8. repeat Candidate B analysis and the full deployed Stability journey on the public site;
+9. record all production evidence in the public handoff.
 
-- every permanent feature/workstream/release gate family passed twice on one frozen final PR SHA;
-- the second execution was independent evidence, not a different source candidate;
-- real Chromium visual evidence was inspected manually in addition to machine gates.
+## Protected systems
 
-Production:
+Do not change:
 
-- GitHub Pages deployed the exact runtime merge;
-- every permanent gate family received two successful production executions on the same runtime merge;
-- Release Burn-In completed two successful five-way independent comparison sets;
-- Licensed Football Visuals completed two successful production browser executions;
-- Stability obtained two complete successful production proofs, each including contracts, two Chromium cycles and a public deployed-site smoke;
-- the successful public smokes proved exact runtime-byte parity, runtime-error provenance, Home/Reus, licensed football visuals, Candidate A backup/export and the complete gameplay/navigation journey.
+- max-11 scoring or 0–0-only tiebreak logic;
+- exactly-two-manager model;
+- League/Club assignment semantics;
+- Transfer Challenge state machine;
+- Season Review persistence boundary;
+- Statistics/Legacy/Trophy calculations;
+- current storage keys/schema as a restore target;
+- `js/screens.js` route authority;
+- `js/storage.js` persistence authority;
+- Candidate A export semantics;
+- owner-protected Reus and accepted football-player source authority;
+- the dependency reservation of v1.2.0 for Installable Offline App.
 
-One intermediate second-production Stability attempt is intentionally rejected rather than counted: a GitHub runner returned a single `fetch failed` for `assets/football/asset-manifest.json`. No different hash or byte length was observed. The entire Stability family was restarted from its root and passed completely afterward. See `CAREER_MODE_SHOWDOWN_V1.1.1_POST_MERGE.md` for exact evidence.
+## Next legal task after Candidate B
 
-No release threshold or startup budget was weakened to obtain green status.
+Only after Candidate B is merged, deployed and proven may Candidate C — Atomic Restore + Recovery UX — begin.
 
-## Current owner decision gate
-
-Technical release status:
-
-`COMPLETE, MERGED, DEPLOYED, TWICE-VALIDATED PRE-MERGE AND PRODUCTION`
-
-Owner art-direction acceptance of the refreshed James source:
-
-`PENDING REAL-DEVICE REVIEW`
-
-Do not infer owner visual approval from CI, browser screenshots or developer inspection.
-
-If the owner rejects a reproduced James visual detail:
-
-1. remain inside finite v1.1.x maintenance;
-2. reproduce the exact public/device problem;
-3. change only evidence-driven source/presentation behavior;
-4. preserve gameplay, storage schema, routing, Transfer state, Season scoring, Candidate A semantics and unrelated protected visuals;
-5. rerun the strengthened visual/release gates on the corrected candidate.
-
-If the owner accepts the refreshed James visual or explicitly defers further visual review, Candidate B becomes the current substantive roadmap task.
-
-## Next substantive roadmap candidate
-
-Candidate B — **Import Analysis + Migration Preview**.
-
-Candidate B remains read-only/dry-run. It must perform zero canonical `localStorage.setItem()` and zero canonical `localStorage.removeItem()` operations.
-
-Required Candidate B outcomes:
-
-- bounded backup-file/input size before expensive parsing where browser APIs permit;
-- JSON parsing in isolation;
-- backup `formatId` / `formatVersion` validation;
-- checksum verification;
-- active Showdown, Legacy and preferences schema validation;
-- rejection of unsupported future backup/data formats;
-- ordered, deterministic, non-mutating migrations for supported historical fixtures;
-- duplicate/conflict classification using existing Showdown IDs as strings for v1.1;
-- explicit dry-run summary of active/Legacy/preferences changes;
-- clear warnings/errors for corrupt, unsupported or ambiguous records;
-- zero storage mutation during analysis/preview;
-- Chromebook/mobile/keyboard/touch/accessibility and large-input coverage;
-- no profile/save-registry identity redesign in Candidate B.
-
-Candidate C — **Atomic Restore + Recovery UX** — remains blocked behind Candidate B evidence. Candidate C alone may introduce restore writes and must preserve complete rollback/rollback-verification authority through `js/storage.js`.
+Candidate C alone may write imported canonical state, and all writes must remain behind `js/storage.js` with exact raw snapshots, rollback and rollback verification.
 
 Do not jump to PWA, profiles/save registry, cloud, accounts, QR pairing or two-device work before their dependency gates are reached.
-
-## Required continuation reading
-
-A fresh developer should begin with:
-
-1. `00_DEVELOPER_START_HERE.md`;
-2. this `NEXT_TASK.md`;
-3. `CAREER_MODE_SHOWDOWN_V1.1.1_JAMES_SOURCE_REFRESH_HANDOFF.md`;
-4. `CAREER_MODE_SHOWDOWN_V1.1.1_POST_MERGE.md`;
-5. the Candidate B sections of `POST_V1_ROADMAP_EXECUTION.md`;
-6. the live source files named by Candidate B before deciding implementation boundaries.
-
-Do not restart from r4/r5 visual branches or reconstruct the project from old chat chronology before using current repository authority.
