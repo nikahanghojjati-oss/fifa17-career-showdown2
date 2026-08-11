@@ -54,7 +54,6 @@ The repository contains the following twelve permanent GitHub Actions workflows,
 4. Created branch `agent/v1.1.1-clean-stability` directly from the exact deployed main SHA.
 5. Created this handoff before implementation/validation so all subsequent findings, fixes, run IDs and release proof can be appended here.
 
-
 ## First frozen-baseline proof
 
 Candidate SHA `12c3e428e278243dbe9d6b9750bbbb95f2f154ca` changed only this handoff relative to production, so it served as a clean reproducibility test of the deployed application bytes. All twelve permanent workflow families passed:
@@ -93,3 +92,48 @@ No runtime defect reproduced. The clean audit did reproduce a **continuation-aut
 The correction updates current-state/next-task metadata only. It does not change HTML, CSS, JavaScript, data, assets, storage behavior, gameplay, routing, scoring, source crops, startup timing or application/cache identity.
 
 After these authority corrections and removal of this temporary helper, the new clean SHA must re-earn the entire twelve-workflow matrix plus 5/5 burn-in.
+
+## Corrected clean-candidate proof
+
+After the authority correction and removal of the temporary sync workflow, SHA `18e7a90a800053c760bd211f3ab69601a84ad4ad` contained only five documentation files relative to production: `00_DEVELOPER_START_HERE.md`, `README.md`, `PROJECT_STATE.md`, `NEXT_TASK.md`, and this handoff. `compare_commits` confirmed there were no HTML, CSS, JavaScript, data, media, asset or other runtime-file changes.
+
+Every permanent workflow then re-ran on `18e7a90a800053c760bd211f3ab69601a84ad4ad` and passed:
+
+- Home Bootstrap run `31527067845` — SUCCESS.
+- League Confirmation run `31527067551` — SUCCESS.
+- Transfer Workstream run `31527067535` — SUCCESS.
+- Season Review run `31527067513` — SUCCESS.
+- Statistics Workstream run `31527067557` — SUCCESS.
+- Settings Workstream run `31527067610` — SUCCESS.
+- V1 Visual Immersion run `31527067454` — SUCCESS.
+- Licensed Football Visuals run `31527067489` — SUCCESS.
+- Final Polish run `31527067624` — SUCCESS.
+- Static App run `31527067637` — SUCCESS.
+- Stability Lane run `31527067531` — contracts SUCCESS and two consecutive complete Chromium cycles SUCCESS; deployed-site smoke skipped by design on pull requests.
+- v1.1.0 Release Burn-In run `31527067515` — SUCCESS with all five independent complete release passes green.
+
+Five-pass job evidence for the corrected candidate:
+
+- Pass 1 job `93897888423` — SUCCESS.
+- Pass 2 job `93897888463` — SUCCESS.
+- Pass 3 job `93897888549` — SUCCESS.
+- Pass 4 job `93897888474` — SUCCESS.
+- Pass 5 job `93897888510` — SUCCESS.
+
+Stability job evidence for the corrected candidate:
+
+- contracts job `93897970919` — SUCCESS.
+- two-cycle Chromium job `93898015485` — SUCCESS.
+- deployed-site job `93899156257` — SKIPPED by design on pull requests; mandatory after merge.
+
+### Clean-build disposition before final documentation-inclusive proof
+
+- Runtime defects reproduced: **0**.
+- Documentation/continuation defects reproduced and fixed: **1** (stale current-state authority across four bootstrap files).
+- Runtime application bytes changed: **0**.
+- Performance budgets raised: **no**.
+- Permanent contracts weakened: **no**.
+- Temporary helper present: **no**.
+- Candidate B/C work introduced: **no**.
+
+This handoff append changes the PR SHA, so its resulting documentation-inclusive head must itself pass the complete twelve-workflow matrix and 5/5 burn-in before exact-head merge. Post-merge `main` must additionally pass deployed GitHub Pages exact-byte verification and the full public-site smoke.
