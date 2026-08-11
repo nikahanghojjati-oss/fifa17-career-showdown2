@@ -141,6 +141,49 @@ Evidence:
 
 This is an integration-helper defect, not a Candidate B product failure. Recovery is to use a structural/regex post-generation guard rather than whitespace-sensitive source matching, then rerun the complete guarded integration from the generator.
 
+## Second guarded integration attempt
+
+Temporary workflow run:
+
+`31544312802 — Candidate B Guarded Integration Retry`
+
+Result:
+
+`FAILED DURING NEW DETERMINISTIC CONTRACTS — NO GENERATED RUNTIME COMMITTED`
+
+Successful evidence before failure:
+
+- generator succeeded;
+- structural cross-realm hardening succeeded;
+- compact lazy-loader/startup-budget hardening succeeded;
+- current v1.1.2 Static App validator alignment succeeded locally;
+- generated JavaScript syntax checks succeeded;
+- package lock reinstall succeeded;
+- existing Stability contracts passed for `v1.1.2 / 1.1.2-r1`;
+- Candidate A backup/storage contracts passed unchanged.
+
+Exact failure:
+
+Candidate B contract expected `analysis.preview.preferences.kind === "change"`, but actual was `"no-change"`.
+
+Classification:
+
+`TEST FIXTURE SEMANTIC ERROR — ANALYZER CORRECTLY REPORTED IDENTICAL MIGRATED PREFERENCES — NO PRODUCT DEFECT ESTABLISHED`
+
+Root cause:
+
+- current local preferences in the fixture were `{schemaVersion:2,reducedMotion:false,menuFeedback:true}`;
+- imported schema-1 fixture was deliberately overwritten to `reducedMotion:false` before envelope signing;
+- the schema-1→2 migration correctly produced `{schemaVersion:2,reducedMotion:false,menuFeedback:true}`;
+- therefore Candidate B correctly classified preferences as `no-change`;
+- the test assertion was wrong because the fixture did not actually differ.
+
+Recovery:
+
+Change only the test matrix input so imported schema-1 preferences remain `reducedMotion:true`, creating a real preference delta while preserving the production analyzer. Then rerun generation and the complete integration from the beginning.
+
+The failed retry workflow was removed in commit `173460676b72960a22b079f3797e44864a7dc3f7`. No generated Candidate B runtime was pushed from this attempt.
+
 ## Action log
 
 1. Confirmed current main `c86d8d36285295899e8473539c33d6f7b34b4226` and read current `00_DEVELOPER_START_HERE.md`, `NEXT_TASK.md`, and Candidate B/C dependency sections of `POST_V1_ROADMAP_EXECUTION.md`.
@@ -154,8 +197,11 @@ This is an integration-helper defect, not a Candidate B product failure. Recover
 9. Added first temporary guarded integration workflow in commit `d207c0aa3467520b7935d22865be7d1e37e4d027`.
 10. Run `31544138146` stopped safely at the whitespace-sensitive hardening guard; no generated runtime was published and no later gate was counted.
 11. Removed that failed temporary workflow in commit `582960c555a272a2ceba09b83a9a29a9e47d08d8`.
-12. Next: rerun generation with structural guards, then execute deterministic contracts, unchanged startup budgets and complete browser/regression evidence before publishing generated runtime files.
+12. Added structural-guard retry workflow in commit `bb8f53b1a1adbf90c03ab4d5ddf00923552b4d15`.
+13. Run `31544312802` passed generation/syntax/existing contracts, then correctly exposed a Candidate B preference-delta fixture that was semantically identical to local data while the assertion expected a change.
+14. Removed the second temporary workflow in commit `173460676b72960a22b079f3797e44864a7dc3f7`.
+15. Next: correct only the imported preference fixture delta and rerun the complete guarded integration. No production analyzer change is justified by this failure.
 
 ## Current status
 
-`CANDIDATE B GENERATOR READY — FIRST INTEGRATION HELPER FAILURE RECORDED — STRUCTURAL-GUARD RETRY NEXT`
+`CANDIDATE B GENERATOR READY — TWO PRE-PUBLICATION INTEGRATION FAILURES RECORDED — FIXTURE-CORRECT RETRY NEXT`
