@@ -190,12 +190,12 @@
     min-height:430px;
 }
 
-/* James is a portrait source. Let the frame own the full visual column on
-   desktop/tablet so contain preserves him without shrinking the photograph
-   into a narrow inset. The copy gradient remains above the photograph. */
+/* James is a portrait source. On desktop, the photograph now owns a bounded
+   right-side stage instead of the entire tile. This keeps the complete source
+   visible while restoring the FIFA-style geometric breathing room around him. */
 .footballVisualHeroSetup .footballVisualMediaFrame{
-    width:100%;
-    align-items:flex-end;
+    width:78%;
+    align-items:center;
 }
 
 .footballVisualHeroSetup .footballVisualMedia{
@@ -249,20 +249,20 @@
     font-size:clamp(20px,2.4vw,31px);
 }
 
-/* Messi's subject-isolated source is portrait geometry. The taller analytics
-   hero and bounded media column keep the player large instead of stretching a
-   portrait into an ultrawide strip. */
+/* Messi's subject-isolated source is portrait geometry. A taller desktop
+   analytics hero gives the portrait enough physical height to read as a hero
+   rather than a small inset while still preserving the whole photograph. */
 .footballVisualAnalytics{
-    min-height:340px;
+    min-height:400px;
     margin-bottom:4px;
 }
 
 .footballVisualAnalytics .footballVisualMediaFrame{
-    width:22%;
+    width:28%;
 }
 
 .footballVisualAnalytics .footballVisualCopy{
-    width:60%;
+    width:56%;
 }
 
 .footballVisualAnalytics::before{
@@ -302,10 +302,11 @@
         grid-template-columns:minmax(230px,.72fr) minmax(410px,1.28fr);
     }
     .footballVisualHeroSetup{min-height:400px;}
-    .footballVisualHeroSetup .footballVisualMediaFrame{width:100%;}
+    .footballVisualHeroSetup .footballVisualMediaFrame{width:88%;}
     .footballVisualHeroSetup .footballVisualCopy{width:51%;}
     .footballVisualHeroTransfer{min-height:198px;}
     .footballVisualHeroTransfer .footballVisualPanel{min-height:198px;}
+    .footballVisualAnalytics{min-height:370px;}
     .footballVisualAnalytics .footballVisualMediaFrame{width:30%;}
     .footballVisualAnalytics .footballVisualCopy{width:58%;}
     .footballVisualTrophy .footballVisualMediaFrame{width:38%;}
