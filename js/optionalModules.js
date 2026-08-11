@@ -480,7 +480,7 @@ async function openOptionalModule(name){
         }else if(name === "trophyRoom"){
             window.openTrophyRoom();
         }else if(name === "legacy"){
-            showScreen("legacy");
+            return showScreen("legacy");
         }else if(name === "ruleBook"){
             window.openRuleBook();
         }else if(name === "settings"){
