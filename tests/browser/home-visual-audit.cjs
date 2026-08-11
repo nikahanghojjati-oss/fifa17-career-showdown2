@@ -15,21 +15,21 @@ const cases = [
         deviceScaleFactor: 1,
         mobileReference: false,
         minimumPhysicalWidth: 360,
-        desktopCrop: /^53%\s+0%$/
+        desktopCrop: /^53%\s+2%$/
     },
     {
         name: "windowed-desktop-dpr1",
         viewport: { width: 1100, height: 720 },
         deviceScaleFactor: 1,
         mobileReference: false,
-        desktopCrop: /^53%\s+(15|18)%$/
+        desktopCrop: /^53%\s+12%$/
     },
     {
         name: "chromebook-dpr1",
         viewport: { width: 1366, height: 768 },
         deviceScaleFactor: 1,
         mobileReference: false,
-        desktopCrop: /^53%\s+(15|18)%$/
+        desktopCrop: /^53%\s+12%$/
     },
     {
         name: "mobile-reference-dpr2",
@@ -54,12 +54,16 @@ async function inspectHome(page){
         const image = document.querySelector(".menuCoverAthlete.imageLoaded img");
         const container = document.querySelector(".menuCoverAthlete");
         const tile = document.querySelector(".menuTilePrimary");
-        if(!image || !container || !tile){
+        const number = document.querySelector(".menuCoverNumber");
+        if(!image || !container || !tile || !number){
             throw new Error("Reus Home composition is incomplete.");
         }
 
         const imageStyle = getComputedStyle(image);
         const containerStyle = getComputedStyle(container);
+        const beforeStyle = getComputedStyle(container, "::before");
+        const afterStyle = getComputedStyle(container, "::after");
+        const numberStyle = getComputedStyle(number);
         const imageRect = image.getBoundingClientRect();
         const containerRect = container.getBoundingClientRect();
         const tileRect = tile.getBoundingClientRect();
@@ -77,14 +81,18 @@ async function inspectHome(page){
                 objectFit: imageStyle.objectFit,
                 objectPosition: imageStyle.objectPosition,
                 imageRendering: imageStyle.imageRendering,
-                mixBlendMode: imageStyle.mixBlendMode
+                mixBlendMode: imageStyle.mixBlendMode,
+                zIndex: Number.parseInt(imageStyle.zIndex || "0", 10) || 0
             },
             container: {
                 width: containerRect.width,
                 height: containerRect.height,
                 clipPath: containerStyle.clipPath,
-                tileFraction: tileRect.width ? containerRect.width / tileRect.width : 0
+                tileFraction: tileRect.width ? containerRect.width / tileRect.width : 0,
+                beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
+                afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0
             },
+            numberDisplay: numberStyle.display,
             documentWidth: document.documentElement.scrollWidth,
             clientWidth: document.documentElement.clientWidth
         };
@@ -93,7 +101,7 @@ async function inspectHome(page){
 
 function assertCommon(result, label){
     assert.equal(result.image.opacity, "1", `${label}: Reus must render at full opacity.`);
-    assert.equal(result.image.objectFit, "cover", `${label}: Reus must preserve cover framing.`);
+    assert.equal(result.image.objectFit, "cover", `${label}: Reus must preserve the art-directed photo fill.`);
     assert.equal(result.image.mixBlendMode, "normal", `${label}: Reus must use normal photo compositing.`);
     assert.equal(result.image.imageRendering, "auto", `${label}: browser-native photographic resampling must remain enabled.`);
     assert.ok(result.image.naturalWidth > 0 && result.image.naturalHeight > 0, `${label}: Reus source did not decode.`);
@@ -102,10 +110,13 @@ function assertCommon(result, label){
         `${label}: Reus must never be horizontally upscaled beyond its source pixels.`
     );
     assert.ok(
-        result.container.tileFraction >= 0.39 && result.container.tileFraction <= 0.51,
+        result.container.tileFraction >= 0.40 && result.container.tileFraction <= 0.54,
         `${label}: Reus container no longer fits the intended hero-tile proportion.`
     );
-    assert.ok(result.container.clipPath !== "none", `${label}: FIFA-style diagonal photo geometry is missing.`);
+    assert.ok(
+        result.image.zIndex > result.container.beforeZIndex && result.image.zIndex > result.container.afterZIndex,
+        `${label}: decorative geometry must remain behind the Reus photograph.`
+    );
     assert.ok(result.documentWidth <= result.clientWidth + 1, `${label}: Home has horizontal document overflow.`);
 }
 
@@ -148,20 +159,24 @@ async function runCase(browser, config){
             assert.notEqual(
                 result.image.filter,
                 "none",
-                `${config.name}: the owner-accepted mobile treatment must remain intentionally unchanged.`
+                `${config.name}: the previously accepted mobile treatment must remain intentionally unchanged.`
             );
             assert.match(result.image.objectPosition, /^50%\s+7%$/, `${config.name}: mobile Reus crop changed unexpectedly.`);
+            assert.notEqual(result.container.clipPath, "none", `${config.name}: protected mobile diagonal geometry changed unexpectedly.`);
+            assert.notEqual(result.numberDisplay, "none", `${config.name}: protected mobile Reus number treatment changed unexpectedly.`);
         }else{
             assert.equal(
                 result.image.filter,
                 "none",
-                `${config.name}: desktop Reus must avoid the CSS filter raster/compositing path.`
+                `${config.name}: desktop Reus must avoid CSS colour filtering.`
             );
             assert.match(
                 result.image.objectPosition,
                 config.desktopCrop,
-                `${config.name}: desktop Reus crop is outside the accepted natural-framing range.`
+                `${config.name}: desktop Reus crop is outside the clean-anchor framing range.`
             );
+            assert.equal(result.container.clipPath, "none", `${config.name}: desktop Reus must use a clean rectangular photo anchor with no head/neck cutting clip-path.`);
+            assert.equal(result.numberDisplay, "none", `${config.name}: desktop jersey-number overlay must not compete with the clean player anchor.`);
         }
 
         const physicalWidth = result.image.renderedWidth * result.dpr;
@@ -181,7 +196,7 @@ async function runCase(browser, config){
         process.stdout.write(
             `PASS ${config.name} :: ${result.viewport.width}x${result.viewport.height} @${result.dpr}x :: ` +
             `Reus ${Math.round(result.image.renderedWidth)}x${Math.round(result.image.renderedHeight)} CSS / ` +
-            `${Math.round(physicalWidth)}px physical width :: filter=${result.image.filter} :: crop=${result.image.objectPosition}\n`
+            `${Math.round(physicalWidth)}px physical width :: filter=${result.image.filter} :: crop=${result.image.objectPosition} :: clip=${result.container.clipPath}\n`
         );
     }finally{
         await context.close();
