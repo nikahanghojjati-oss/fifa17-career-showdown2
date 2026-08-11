@@ -349,3 +349,15 @@ Owner requested deployment plus at least two additional fixes and five independe
 2. **Football-photo paint-settlement defect:** visual panels could mark `imageLoaded` from the `load` event before decoded pixels had settled across paint frames. This could produce a technically green but visually blank evidence frame on mobile. `js/footballVisuals.js` now waits for `HTMLImageElement.decode()` when available and commits the loaded state only after two paint frames, with a non-decode fallback. The browser audit also waits through two paint frames before screenshot capture.
 
 The earlier Stability run on `5ea916f7f26418b9964396c030cfeca2d44f8cda` was **cancelled by concurrency** and is explicitly not counted as release proof. A new frozen final SHA will be validated from scratch.
+
+
+## Five-pass burn-in attempt 1 — rejected proof
+
+- Candidate SHA: `22ed7a4cbd752a44fcddf2fc399d7cc5185278a8`.
+- Burn-in workflow run: `31518433196`. Five independent jobs were launched, but the attempt is **not counted** toward release proof.
+- Pass 1 log showed static/contracts, runtime provenance, Home/Reus visual, licensed football visual, and Candidate A backup/export all passing before the complete-journey audit stopped after `Corrupt Legacy fallback accessibility scan`.
+- The jobs then hit the 32-minute workflow timeout; this was deterministic across the five runners.
+- Root cause: `hasSavedShowdown()` correctly changed to reject corrupt JSON for Continue Career, but `createShowdown()` also used that valid-save predicate as its destructive replacement predicate. Corrupt raw active-save bytes therefore no longer triggered the existing replacement confirmation. The browser fixture waited for that confirmation indefinitely.
+- Product correction: valid parsed data continues to control **Continue Career**, while a separate raw-slot occupancy check now controls whether **New Showdown** must confirm before overwriting the active storage slot. This preserves recoverable corrupt bytes until the user explicitly approves replacement.
+- Gate correction: corrupt-save dialog expectations now use a 5-second Playwright dialog timeout so a future regression fails fast instead of burning an entire runner timeout.
+- Release policy: the five-pass count resets to **0/5** after this fix. Only a new SHA with five successful independent passes may be merged.
