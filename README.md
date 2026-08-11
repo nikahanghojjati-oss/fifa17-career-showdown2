@@ -2,12 +2,12 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v1.1.0 — Stable
-**Runtime asset revision:** `1.1.0-r1`
-**Current phase:** v1.1.0 Candidate A is merged/deployed/proven; a clean-stability seal is revalidating every permanent feature/workstream/release gate without changing runtime bytes unless a real defect reproduces
+**Application version:** v1.1.1 — Maintenance Candidate
+**Runtime asset revision:** `1.1.1-r1`
+**Current phase:** owner-directed James Rodríguez Real Madrid source refresh; Candidate A remains protected and Candidate B remains next after maintenance closure
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
-**Next roadmap candidate after Candidate A release proof:** Candidate B — Import Analysis + Migration Preview
+**Next roadmap candidate after v1.1.1 maintenance closure:** Candidate B — Import Analysis + Migration Preview
 **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`
 
 ## Development entry point
@@ -32,6 +32,16 @@ Read in this order:
 The original release path **v0.95 → v1.0** and the finite v1.0.2 clean-anchor maintenance lane are complete. v1.1.0 Candidate A is also merged, deployed and technically proven. The current clean-stability seal exists to reproduce that production state against every permanent feature/workstream/release gate before further roadmap work. The owner-liked loading screen and clean player-anchor architecture remain protected; owner real-device art-direction acceptance remains separate from automated proof.
 
 ---
+
+## v1.1.1 — James Rodríguez Real Madrid source refresh
+
+v1.1.1 is a finite visual maintenance patch requested after the sealed v1.1.0 build. Create Showdown now uses a different Real Madrid-authored James Rodríguez photograph from September 2016, licensed CC BY 3.0 through Wikimedia Commons. The complete 863 × 1080 source frame is preserved and shown with the existing clean-anchor `object-fit: contain` policy, so the new source is not subjected to a second blind responsive crop.
+
+The prior 2019 James runtime derivative is removed from the active asset set. Rashford, Martial, Messi, Lahm and the owner-liked Marco Reus Home/loading surfaces remain protected. Candidate A backup/export behavior, gameplay, routes, storage schema and Transfer/Season state machines are unchanged.
+
+For this build, permanent release evidence is strengthened around exact source fingerprints, active-asset exclusivity, no-crop geometry, physical-pixel scale, frame occupancy, face-safe accent placement and four-viewport browser evidence. The owner additionally requires two independent executions of every permanent gate family on one frozen final SHA. Candidate B remains the next substantive roadmap step after this maintenance patch is closed.
+
+See `RELEASE_V1.1.1.md` and `CAREER_MODE_SHOWDOWN_V1.1.1_JAMES_SOURCE_REFRESH_HANDOFF.md` for exact provenance and release evidence.
 
 ## v1.1.0 — Data Safety and Recovery / Candidate A
 

@@ -13,9 +13,9 @@ Current source remains the implementation authority.
 
 ## 2. Current starting point
 
-Current application: `v1.0.1`
+Current application candidate: `v1.1.1`
 
-Current runtime revision: `1.0.1-r5`
+Current runtime revision: `1.1.1-r1`
 
 Current product model:
 
@@ -27,13 +27,9 @@ Current product model:
 - GitHub Pages deployment;
 - static SPA using HTML/CSS/vanilla JavaScript.
 
-Current r5 visual implementation merge:
+Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and protected. The current finite maintenance patch refreshes only the James Rodríguez Real Madrid source photograph and does not start Candidate B.
 
-`8f4f9d2c94e1e1f03f50fb439df34f423cc06d1e`
-
-Technical r5 state is complete/green. Owner real-device visual acceptance remains open.
-
-The next substantive feature milestone remains `v1.1.0 Data Safety and Recovery` after owner r5 acceptance or explicit deferral.
+After v1.1.1 maintenance is merged/deployed/proven and its owner art-direction gate is accepted or explicitly deferred, Candidate B — Import Analysis + Migration Preview — is the next substantive roadmap candidate. Candidate B remains read-only; Candidate C restore remains dependency-blocked.
 
 ## 3. Permanent rules that every roadmap milestone inherits
 

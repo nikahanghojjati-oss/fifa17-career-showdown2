@@ -6,25 +6,19 @@ Purpose: canonical first-read operating guide for a new ChatGPT, Work, or develo
 
 ## 0. Sixty-second project state
 
-Application: `v1.1.0`
+Application: `v1.1.1`
 
-Runtime asset revision: `1.1.0-r1`
+Runtime asset revision: `1.1.1-r1`
 
-Current production runtime implementation merge:
+Previous sealed production line: `v1.1.0 / 1.1.0-r1`.
 
-`7aba9609130e7f72f256bfb20936441e8beaecaa`
+Candidate A — Versioned Backup Envelope + Non-Mutating Export — remains complete, merged, deployed and protected. Candidate B has not started.
 
-Current clean repository baseline before this stabilization pass:
+The current owner-directed maintenance action is a finite **v1.1.1 James Rodríguez Real Madrid Source Refresh**. It replaces only the Create Showdown James source with a different Real Madrid-authored CC BY 3.0 Commons photograph from September 2016, preserves the clean-anchor/face-safe visual architecture, and does not bundle Candidate B.
 
-`d23cea4d0a8bb3c428265546555a78008269d228`
+The owner-liked loading screen remains protected. Rashford, Martial, Messi and Lahm remain on their accepted sources. Every permanent release gate must pass twice on one frozen final v1.1.1 SHA; changed-surface visual evidence additionally covers exact source fingerprints, active-asset exclusivity, no-crop geometry, physical-pixel scale, occupancy and face-safe accent placement.
 
-Application/runtime identity remains `v1.1.0 / 1.1.0-r1`. Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and post-merge proven. The final pre-clean baseline passed five independent release burn-in runners plus Stability exact-byte/public-site smoke.
-
-The owner-liked loading screen remains protected. James/Rashford/Martial keep the clean-anchor/face-safe presentation and Reus/Messi/Lahm protections remain intact. Automated visual gates do not replace owner real-device art-direction judgment; the v1.1 face-safe accent retune remains open to owner inspection until explicitly accepted.
-
-The current maintenance action is a finite **v1.1.0 Clean Stability Build**: reproduce the deployed baseline against every permanent feature/workstream/release gate, fix only reproduced defects, and preserve application bytes when no runtime defect exists.
-
-After that seal, the next substantive roadmap candidate is Candidate B — Import Analysis + Migration Preview — and it remains read-only/dry-run with zero canonical localStorage writes/removals. Candidate C restore remains blocked behind Candidate B evidence. Do not start PWA, profiles, cloud, accounts, QR pairing, or two-device work before their dependency gate is reached.
+After v1.1.1 is merged/deployed/proven and its art direction is accepted or explicitly deferred, Candidate B — Import Analysis + Migration Preview — remains the next substantive roadmap candidate. It stays read-only/dry-run with zero canonical localStorage writes/removals. Candidate C restore remains blocked behind Candidate B evidence.
 
 ## 1. Start every new session in this order
 
@@ -199,14 +193,18 @@ Do not enlarge startup bundles or make external media eager merely because later
 - licensed local photography keeps provenance;
 - mobile, Chromebook, keyboard, touch, and reduced motion remain first-class targets.
 
-## 6. Current v1.0.2 visual authority
+## 6. Current football visual authority — v1.1.1 maintenance candidate
 
 James Rodríguez:
 
-- asset: `assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp`;
-- authored source crop: `[20, 0, 540, 705]`;
-- output: `520 × 705`;
-- runtime shows the full authored derivative with `object-fit: contain`.
+- asset: `assets/football/james-rodriguez-real-madrid-2016-smart-v111.webp`;
+- source: Real Madrid-authored `James Rodríguez in September 2016 - 02.jpg`;
+- license: CC BY 3.0;
+- source/full-frame policy: `[0, 0, 863, 1080]`;
+- output: `863 × 1080`;
+- source/output SHA-256 fingerprints are locked in `assets/football/asset-manifest.json` and `RELEASE_V1.1.1.md`;
+- runtime shows the complete derivative with `object-fit: contain`, zero declared crop, clean-anchor layering and face-safe lower accent geometry;
+- replaced 2019 James runtime derivative must not return.
 
 Marcus Rashford:
 
@@ -214,8 +212,9 @@ Marcus Rashford:
 - final source: Manchester United v RSC Anderlecht, 20 April 2017;
 - authored source crop: `[1050, 300, 2350, 2200]`;
 - output: `753 × 1100`;
-- desktop Transfer media stage: `43%`;
-- mobile/small-phone media stage: `52%`;
+- desktop Transfer media stage: `34%`;
+- 701–1020 windowed media stage: `40%`;
+- small phones stack Transfer panels vertically;
 - runtime shows the full authored derivative with `object-fit: contain`.
 
 Anthony Martial:
@@ -224,15 +223,14 @@ Anthony Martial:
 - source: Manchester United v Zorya Luhansk, September 2016;
 - authored source crop: `[0, 0, 1800, 2400]`;
 - output: `825 × 1100`;
-- desktop Transfer media stage: `48%`;
-- mobile/small-phone media stage: `56%`;
+- desktop Transfer media stage: `36%`;
+- 701–1020 windowed media stage: `42%`;
+- small phones stack Transfer panels vertically;
 - runtime shows the full authored derivative with `object-fit: contain`.
 
-Marco Reus remains the Home/loading identity.
+Marco Reus remains the protected Home/loading identity. Messi and Lahm remain their protected crop-safe assets.
 
-Messi and Lahm remain their protected crop-safe assets.
-
-Do not return automatically to rejected r3/r4 treatments or the rejected intermediate 2016 Rashford candidate. The current source/photo derivatives remain the authority unless new owner evidence requires a source change.
+Do not return automatically to rejected r3/r4 treatments, the replaced 2019 James runtime source, or the rejected intermediate 2016 Rashford candidate. Current source/photo derivatives remain authority unless new owner evidence requires another source change.
 
 ## 7. r5 proof that does not need to be repeated without new evidence
 

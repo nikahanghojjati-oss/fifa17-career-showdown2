@@ -10,6 +10,22 @@ The project reached **v1.0.0 Stable** on August 9, 2026. v1.0.1 began the finite
 
 ---
 
+# v1.1.1 — James Rodríguez Real Madrid Source Refresh
+
+Date: **August 11, 2026**
+
+Runtime asset revision: **`1.1.1-r1`**
+
+- replaces the Create Showdown James Rodríguez source with Real Madrid-authored `James Rodríguez in September 2016 - 02.jpg` under CC BY 3.0;
+- preserves the complete 863 × 1080 source frame and displays it with clean-anchor `object-fit: contain` rather than a second responsive crop;
+- removes the replaced 2019 James runtime derivative from the active asset set;
+- locks exact Commons/source/output fingerprints and cross-checks manifest, runtime data and notices;
+- expands changed-surface browser evidence to desktop, 1100 × 720 compact desktop, 940 × 700 windowed and 390 × 844 DPR2 mobile;
+- preserves face-safe diagonal accents, Reus Home/loading and the accepted Rashford/Martial/Messi/Lahm sources;
+- changes no gameplay, storage schema, Candidate A behavior, routes or Transfer/Season rules;
+- requires two independent executions of every permanent gate family on the same frozen candidate SHA before promotion;
+- leaves Candidate B import analysis as the next substantive roadmap candidate after maintenance closure.
+
 # v1.1.0 — Data Safety and Recovery / Candidate A
 
 Date: **August 11, 2026**

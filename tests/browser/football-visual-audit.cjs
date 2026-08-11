@@ -16,6 +16,7 @@ const CROP_TOLERANCE = 0.015;
 
 const cases = [
     { name: "desktop", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },
+    { name: "compact-desktop", viewport: { width: 1100, height: 720 }, deviceScaleFactor: 1 },
     { name: "windowed-near-breakpoint", viewport: { width: 940, height: 700 }, deviceScaleFactor: 1 },
     { name: "mobile-reference", viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }
 ];
@@ -23,12 +24,14 @@ const cases = [
 const expectedAssets = new Set(manifest.assets.map(item => item.output));
 const rejectedR3Assets = new Set([
     "james-rodriguez-real-madrid-2016.webp",
+    "james-rodriguez-real-madrid-2019-smart-r5.webp",
     "marcus-rashford-man-utd-2016.webp",
     "anthony-martial-man-utd-2017.webp",
     "lionel-messi-barcelona-2016.webp"
 ]);
+const REQUIRED_JAMES_ASSET = "james-rodriguez-real-madrid-2016-smart-v111";
 const requiredCleanAnchorAssets = new Set([
-    "james-rodriguez-real-madrid-2019-smart-r5",
+    "james-rodriguez-real-madrid-2016-smart-v111",
     "marcus-rashford-man-utd-2017-smart-r5",
     "anthony-martial-man-utd-2016-smart-r5"
 ]);
@@ -212,6 +215,15 @@ function assertRenderedVisual(result, screenName){
         assert.ok(panel.frameHeight <= panel.panelHeight + 1, `${screenName}/${panel.asset}: photographic frame exceeds its panel.`);
 
         const metrics = getObjectFitMetrics(panel, result.deviceScaleFactor);
+        if(panel.asset === REQUIRED_JAMES_ASSET){
+            assert.equal(panel.naturalWidth, 863, `${screenName}/${panel.asset}: James derivative width no longer matches the reviewed source.`);
+            assert.equal(panel.naturalHeight, 1080, `${screenName}/${panel.asset}: James derivative height no longer matches the reviewed source.`);
+            assert.equal(panel.objectFit, "contain", `${screenName}/${panel.asset}: James must remain contain-framed.`);
+            assert.ok(metrics.objectScale <= 1.0, `${screenName}/${panel.asset}: the refreshed James source must never be physically upscaled.`);
+            assert.ok(metrics.visibleSourceFraction >= 0.995, `${screenName}/${panel.asset}: James must preserve essentially the complete 863x1080 derivative.`);
+            assert.ok(metrics.frameCoverage >= MIN_SUBJECT_SAFE_FRAME_COVERAGE, `${screenName}/${panel.asset}: James source is technically present but visually under-occupies its frame.`);
+            assert.ok(panel.accentTop >= panel.frameHeight * .60, `${screenName}/${panel.asset}: James accent rail moved into the protected head/face zone.`);
+        }
         assert.ok(
             metrics.objectScale <= MAX_PHYSICAL_SCALE,
             `${screenName}/${panel.asset}: photograph would be materially upscaled at ${metrics.objectScale.toFixed(3)}x ` +
@@ -325,6 +337,10 @@ async function runCase(config){
                 `${config.name}: required football photograph was not proactively warmed on startup: ${file}`
             );
         });
+        assert.ok(
+            !footballRequests.some(url => url.includes("james-rodriguez-real-madrid-2019-smart-r5.webp")),
+            `${config.name}: replaced 2019 James asset was requested by the runtime.`
+        );
 
         await seedShowdown(page);
         await waitForVisual(page, "createShowdown", 1);
