@@ -1,31 +1,31 @@
 const FOOTBALL_VISUALS = Object.freeze({
     james: Object.freeze({
-        id: "james-rodriguez-real-madrid-2016-r4",
-        src: "assets/football/james-rodriguez-real-madrid-2016-r4.webp",
+        id: "james-rodriguez-real-madrid-2019-smart-r5",
+        src: "assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp",
         subject: "James Rodríguez",
-        context: "Real Madrid · 2016",
-        alt: "James Rodríguez after Real Madrid played Borussia Dortmund in September 2016",
+        context: "Real Madrid · 2019",
+        alt: "James Rodríguez wearing Real Madrid training apparel at Real Madrid City in October 2019",
         author: "Real Madrid",
         license: "CC BY 3.0",
-        source: "https://commons.wikimedia.org/wiki/File:James_Rodr%C3%ADguez_in_September_2016_-_01.jpg",
+        source: "https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg",
         licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
         framing: Object.freeze({
             mode: "subject-safe",
             fit: "contain",
-            position: "76% 50%",
+            position: "50% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
     }),
     rashford: Object.freeze({
-        id: "marcus-rashford-man-utd-2016-r4",
-        src: "assets/football/marcus-rashford-man-utd-2016-r4.webp",
+        id: "marcus-rashford-man-utd-2016-smart-r5",
+        src: "assets/football/marcus-rashford-man-utd-2016-smart-r5.webp",
         subject: "Marcus Rashford",
         context: "Manchester United · 2016",
-        alt: "Marcus Rashford playing for Manchester United against Zorya Luhansk at Old Trafford in September 2016",
+        alt: "Marcus Rashford warming up for Manchester United before the Everton testimonial at Old Trafford in August 2016",
         author: "Ardfern",
         license: "CC BY-SA 4.0",
-        source: "https://commons.wikimedia.org/wiki/File:Marcus_Rashford_September_2016_(cropped).jpg",
+        source: "https://commons.wikimedia.org/wiki/File:Man_Utd_v_Everton,_August_2016_(08).JPG",
         licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
         framing: Object.freeze({
             mode: "subject-safe",
@@ -36,19 +36,19 @@ const FOOTBALL_VISUALS = Object.freeze({
         })
     }),
     martial: Object.freeze({
-        id: "anthony-martial-man-utd-2015-r4",
-        src: "assets/football/anthony-martial-man-utd-2015-r4.webp",
+        id: "anthony-martial-man-utd-2016-smart-r5",
+        src: "assets/football/anthony-martial-man-utd-2016-smart-r5.webp",
         subject: "Anthony Martial",
-        context: "Manchester United · 2015",
-        alt: "Anthony Martial playing for Manchester United against CSKA Moscow in October 2015",
-        author: "Dmitry Golubovich",
-        license: "CC BY-SA 2.5",
-        source: "https://commons.wikimedia.org/wiki/File:Anthony_Martial_2015.jpg",
-        licenseUrl: "https://creativecommons.org/licenses/by-sa/2.5/",
+        context: "Manchester United · 2016",
+        alt: "Anthony Martial with Manchester United during the Zorya Luhansk match at Old Trafford in September 2016",
+        author: "Ardfern",
+        license: "CC BY-SA 4.0",
+        source: "https://commons.wikimedia.org/wiki/File:Manchester_United_v_Zorya_Luhansk,_September_2016_(26).JPG",
+        licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
         framing: Object.freeze({
             mode: "subject-safe",
             fit: "contain",
-            position: "70% 50%",
+            position: "50% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
