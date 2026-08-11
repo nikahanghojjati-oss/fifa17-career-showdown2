@@ -28,7 +28,7 @@ The application displays the photographer, source, license and display-crop noti
 
 ## Licensed football photography visual set — r4 corrective sources
 
-The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each local copy is an EXIF-normalized, down-sized WebP derivative created without generative alteration. The r4 corrective presentation explicitly rejects the blind portrait-to-wide `object-fit: cover` failure class seen in r3 and extends that protection to any blind ultra-wide cover crop: all five subjects use bounded, contained, subject-safe photographic frames. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size and import fingerprints.
+The following images are required screen-level presentation assets. They are stored locally and proactively warmed after the critical application shell starts so the intended football presentation is ready before its destination screens are used. They do not own gameplay logic or saved data. Each runtime file is a licensed WebP derivative created without generative alteration. The r4 corrective presentation explicitly rejects the blind portrait-to-wide `object-fit: cover` failure class seen in r3 and extends that protection to any blind ultra-wide cover crop: all five runtime photographs use bounded, contained, subject-safe frames. Four retain their full selected source derivative at display time. The Lahm Trophy Room asset uses one separately documented, hand-reviewed local derivative crop before display so the captain and complete trophy remain readable; that selected derivative is then also displayed with `contain` and receives no further responsive crop. The repository manifest `assets/football/asset-manifest.json` records source and derivative dimensions, byte size, fingerprints and the Lahm crop box.
 
 The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed after real-device owner review showed unacceptable crops. Their historical provenance and the regression itself remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`.
 
@@ -84,15 +84,15 @@ The earlier r3 James/Rashford/Martial/Messi runtime derivatives were removed aft
 
 ### Philipp Lahm — 2014 World Cup
 
-- Repository file: `assets/football/philipp-lahm-world-cup-2014.webp`
+- Repository file: `assets/football/philipp-lahm-world-cup-2014-focus-r4.webp`
 - Source file: `Philipp Lahm lifts the 2014 FIFA World Cup.jpg`
 - Author: Agência Brasil
 - Source page: `https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg`
 - License: Creative Commons Attribution 3.0 Brazil (CC BY 3.0 BR), `https://creativecommons.org/licenses/by/3.0/br/deed.en`
 - Source context: Germany captain Philipp Lahm lifting the FIFA World Cup on 13 July 2014.
 - Application use: Trophy Room presentation.
-- Local transformation: resized from 4256 × 2204 to 1600 × 829 and encoded as WebP.
-- Display policy: dedicated contained Trophy Room photographic frame; the complete World Cup celebration source remains visible instead of being cropped to fill an ultra-wide hero.
+- Local transformation: the licensed source was first resized from 4256 × 2204 to 1600 × 829. After browser screenshot review showed Lahm and the cup were too small in that full-team composition, a hand-reviewed crop box `(624, 41, 1248, 763)` was taken from the 1600 × 829 local derivative, producing a 624 × 722 WebP at quality 94. The selected crop preserves Lahm's head and torso, his raised arms, the complete World Cup trophy, and surrounding celebration context.
+- Display policy: the 624 × 722 focused derivative is displayed in a portrait-aware Trophy Room frame with `object-fit: contain`; no additional responsive crop is allowed.
 
 These photographic uses are decorative editorial references to historical football subjects. They do not imply endorsement by the photographed players, clubs, competitions, photographers, source organizations or Wikimedia Commons.
 
