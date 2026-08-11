@@ -1,0 +1,37 @@
+name: v1.1.0 Append Pre-Merge Proof
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - .github/workflows/v110-append-premerge-proof.yml
+
+permissions:
+  contents: write
+
+jobs:
+  append:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+      - name: Append exact release proof to public handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          p=Path('CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CANDIDATE_A.md')
+          text=p.read_text()
+          marker='## Pre-merge release proof — 5/5 green'
+          if marker not in text:
+              with p.open('a') as f:
+                  f.write('''\n\n## Pre-merge release proof — 5/5 green\n\n### Clean candidate identity\n\n- Candidate SHA: `dca22cc3cf80d7751d91cd9c798f0018abced0b0`.\n- Application/runtime identity: `v1.1.0 / 1.1.0-r1`.\n- This SHA contains no temporary v1.1 mutation/helper workflow. Only permanent validation workflows remain.\n- Candidate B import analysis and Candidate C restore remain blocked; this release remains Candidate A export-only data safety plus maintenance hardening.\n\n### Five independent complete release comparisons\n\nPermanent burn-in workflow run `31522992393` completed **5/5 successful independent runners** against the same candidate SHA. Every runner executed JavaScript syntax checks, all permanent contracts, runtime provenance, Home/Reus visual audit, licensed football visual audit, Candidate A backup/export browser audit, and the complete Chromebook/mobile journey.\n\n- Pass 1 job `93884439886` — **SUCCESS**. The complete journey reported 70 checkpoints and 36 axe scans.\n- Pass 2 job `93884439981` — **SUCCESS**.\n- Pass 3 job `93884439709` — **SUCCESS**.\n- Pass 4 job `93884439716` — **SUCCESS**.\n- Pass 5 job `93884439753` — **SUCCESS**.\n\nThe earlier rejected burn-in attempts remain part of this handoff and are intentionally not included in the 5/5 count. The count reached 5/5 only after corrupt active-slot replacement protection, dialog choreography, startup-headroom recovery, and silent corrupt-save validity probing were corrected.\n\n### Independent native workflow cross-check\n\nThe repository's normal PR matrix also passed on `dca22cc3cf80d7751d91cd9c798f0018abced0b0`:\n\n- Final Polish — run `31522992330` — **SUCCESS**.\n- Transfer Workstream — `31522992321` — **SUCCESS**.\n- Static App — `31522992339` — **SUCCESS**.\n- V1 Visual Immersion — `31522992322` — **SUCCESS**.\n- Season Review — `31522992323` — **SUCCESS**.\n- Home Bootstrap — `31522992308` — **SUCCESS**.\n- Settings Workstream — `31522992314` — **SUCCESS**.\n- League Confirmation — `31522992340` — **SUCCESS**.\n- Statistics Workstream — `31522992349` — **SUCCESS**.\n- Licensed Football Visuals — `31522992331` — **SUCCESS**.\n- Stability Lane — `31522992315` — **SUCCESS**. Stability contracts job `93884518268` passed and Chromium Stability job `93884606319` passed two consecutive complete runtime/backup/Home/photo/browser cycles. Deployed-site smoke was correctly skipped because this was a pull request, not `main`.\n\n### Locked performance proof\n\nStatic App validated the release without changing any budget: **164,830 raw startup code bytes**, **36,893 gzip-compressed startup code bytes**, and **89,008-byte Reus startup portrait**, with seven eager scripts and one eager stylesheet. The locked raw startup ceiling remains `165,000` bytes.\n\n### Visual evidence status\n\nLicensed Football Visuals passed real Chromium desktop, near-breakpoint, and 390×844 DPR2 mobile audits. The restored FIFA-style cyan/yellow diagonals remain bounded to lower torso/image zones for James, Rashford and Martial rather than entering protected face/head zones. The paint-settlement fix also ensures evidence screenshots wait for decoded pixels and paint frames. This is technical/visual QA evidence, **not a new owner-acceptance claim**.\n\n### Release rule after this handoff update\n\nBecause recording this evidence changes the branch SHA, `dca22cc3...` is proof of the code immediately before the documentation update, not the merge head. The new clean documentation-inclusive SHA must itself complete another **5/5** permanent burn-in plus the normal PR matrix before PR #14 may merge.\n''')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CANDIDATE_A.md
+          git commit -m 'Record pre-merge 5-of-5 release proof'
+          git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
