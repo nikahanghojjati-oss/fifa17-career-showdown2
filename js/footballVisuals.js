@@ -82,6 +82,7 @@ function getFootballVisualFraming(asset){
     const framing = asset && asset.framing ? asset.framing : {};
     return {
         mode: framing.mode || "subject-safe",
+        treatment: framing.treatment || "classic-overlay",
         fit: framing.fit || "contain",
         position: framing.position || "50% 50%",
         maxCropFraction: Number.isFinite(framing.maxCropFraction) ? framing.maxCropFraction : 0,
@@ -93,6 +94,7 @@ function applyFootballVisualFraming(panel, asset, plan){
     const framing = getFootballVisualFraming(asset);
     panel.dataset.visualLayout = plan.layout || "subject-safe";
     panel.dataset.framingMode = framing.mode;
+    panel.dataset.photoTreatment = framing.treatment;
     panel.dataset.maxCropFraction = String(framing.maxCropFraction);
     panel.dataset.rejectPortraitCover = framing.rejectPortraitCover ? "true" : "false";
     panel.style.setProperty("--football-visual-fit", framing.fit);
