@@ -53,6 +53,16 @@ replace_once(
     "preferences: { ...schema1Preferences, reducedMotion: true }",
 )
 
+# A group containing one same-ID/different-content record is intentionally treated
+# as a blocking conflicting-ID group as a whole. The existing blocking/error
+# assertions already prove no silent dedupe. Remove the contradictory expectation
+# that the same group must simultaneously retain an exact-duplicate warning.
+replace_once(
+    "tests/contracts/import-analysis-contracts.cjs",
+    '    assert.ok(duplicateAnalysis.warnings.some(message => /does not silently deduplicate/i.test(message)) || duplicateAnalysis.preview.legacy.duplicateWithinBackup >= 1);\n',
+    '',
+)
+
 # Make the release record structurally consistent with current release validators.
 replace_once(
     "RELEASE_V1.1.2.md",
