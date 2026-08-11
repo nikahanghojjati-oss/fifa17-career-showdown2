@@ -1,0 +1,64 @@
+name: V111 Build James Source
+
+on:
+  push:
+    branches:
+      - agent/v1.1.1-james-real-madrid-source
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: python -m pip install --disable-pip-version-check pillow requests
+      - name: Promote deterministic James selection and build asset
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tools/build_r5_player_visuals.py')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('"james-rodriguez-real-madrid-2019-smart-r5",\n        ],\n        "id": "james-rodriguez-real-madrid-2019-smart-r5",\n        "source_file": "James Rodríguez in 2019.jpg",\n        "output": "james-rodriguez-real-madrid-2019-smart-r5.webp",\n        "crop_box_on_source": [20, 0, 540, 705],\n        "max_size": [520, 705],', '"james-rodriguez-real-madrid-2019-smart-r5",\n            "james-rodriguez-real-madrid-2016-interview-v111",\n        ],\n        "id": "james-rodriguez-real-madrid-2016-interview-v111",\n        "source_file": "James Rodríguez in September 2016 - 02.jpg",\n        "output": "james-rodriguez-real-madrid-2016-interview-v111.webp",\n        "crop_box_on_source": [40, 0, 830, 1040],\n        "max_size": [790, 1040],')
+          s=s.replace('"context": "James Rodríguez in Real Madrid training apparel at Real Madrid City, 23 October 2019; hand-reviewed crop retains his complete head, shoulders, shirt and club crest.",', '"context": "James Rodríguez in a Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016; hand-reviewed crop retains his complete head, face, shoulders, purple Real Madrid training apparel and UEFA interview context.",')
+          s=s.replace('manifest["generated_by"] = "r5-owner-requested-new-player-source-smart-crop-builder"', 'manifest["generated_by"] = "v1.1.1-owner-requested-james-real-madrid-source-builder"')
+          s=s.replace('"James Rodríguez, Marcus Rashford and Anthony Martial are rebuilt from new licensed Commons sources using explicit, hand-reviewed source-pixel crop boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Messi and Lahm are unchanged from r4. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration."', '"James Rodríguez is rebuilt for v1.1.1 from the owner-requested alternate Real Madrid-era licensed Commons source; Rashford and Martial retain their approved r5 sources. All authored crops use explicit source-pixel boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration."')
+          if 'james-rodriguez-real-madrid-2016-interview-v111' not in s:
+              raise SystemExit('James builder promotion failed')
+          p.write_text(s,encoding='utf-8')
+          PY
+          python tools/build_r5_player_visuals.py
+      - name: Verify replacement is genuinely new and Real Madrid-era
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          m=json.loads(pathlib.Path('assets/football/asset-manifest.json').read_text())
+          j=next(a for a in m['assets'] if a['id']=='james-rodriguez-real-madrid-2016-interview-v111')
+          assert j['source_file']=='James Rodríguez in September 2016 - 02.jpg'
+          assert j['source_file']!='James Rodríguez in 2019.jpg'
+          assert j['author']=='Real Madrid'
+          assert j['license']=='CC BY 3.0'
+          assert j['source_dimensions']==[863,1080]
+          assert j['crop_box_on_source']==[40,0,830,1040]
+          assert j['output_dimensions']==[790,1040]
+          assert j['output_dimensions'][0] <= j['source_dimensions'][0]
+          assert j['output_dimensions'][1] <= j['source_dimensions'][1]
+          assert 'Real Madrid' in j['context'] and '2016' in j['context']
+          assert pathlib.Path('assets/football/'+j['output']).exists()
+          assert not pathlib.Path('assets/football/james-rodriguez-real-madrid-2019-smart-r5.webp').exists()
+          print(json.dumps(j, indent=2, ensure_ascii=False))
+          PY
+      - name: Commit deterministic builder, manifest and binary derivative
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add tools/build_r5_player_visuals.py assets/football/asset-manifest.json assets/football/
+          git diff --cached --check
+          git commit -m 'Build alternate James Real Madrid source derivative'
+          git push
