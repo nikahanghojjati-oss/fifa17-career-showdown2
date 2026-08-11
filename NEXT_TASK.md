@@ -17,7 +17,7 @@ Start with:
 
 Do not restart planning and do not treat the old r3 image rejection as the current implementation baseline.
 
-## 2. Current implementation state
+## Current baseline: v1.0.1 Stable
 
 The owner-requested James Rodríguez, Marcus Rashford and Anthony Martial rebuild is technically complete.
 
