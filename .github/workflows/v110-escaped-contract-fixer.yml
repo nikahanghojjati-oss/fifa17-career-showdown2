@@ -1,0 +1,42 @@
+name: v1.1.0 Escaped Contract Fixer
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - tools/fix_v110_escaped_contracts.py
+      - .github/workflows/v110-escaped-contract-fixer.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+          fetch-depth: 1
+      - run: python tools/fix_v110_escaped_contracts.py
+      - name: Export changed workflow blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add .github/workflows/*.yml
+          git diff --cached --name-only > /tmp/files.txt
+          python - <<'PY'
+          import base64,json,os,pathlib,urllib.request
+          repo=os.environ['GITHUB_REPOSITORY']; token=os.environ['GH_TOKEN']
+          files=pathlib.Path('/tmp/files.txt').read_text().splitlines()
+          print(f'V110_FIX_BLOB_COUNT={len(files)}')
+          for filename in files:
+              payload=json.dumps({'content':base64.b64encode(pathlib.Path(filename).read_bytes()).decode(),'encoding':'base64'}).encode()
+              req=urllib.request.Request(f'https://api.github.com/repos/{repo}/git/blobs',data=payload,headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},method='POST')
+              with urllib.request.urlopen(req) as response: result=json.load(response)
+              print(f'V110_FIX_BLOB {filename} {result["sha"]}')
+          PY
