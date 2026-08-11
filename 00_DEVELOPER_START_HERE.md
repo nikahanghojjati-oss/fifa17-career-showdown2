@@ -10,10 +10,17 @@ Application: `v1.0.2`
 
 Runtime asset revision: `1.0.2-r1`
 
-Current maintenance branch/PR while candidate validation is active:
+Current runtime implementation merge:
 
-- branch: `agent/v1.0.2-footballer-tile-maintenance`;
-- PR: `#13`.
+`7a573ff2691b6143ecbc53df589822d5609f5e05`
+
+GitHub Pages deployment:
+
+`5852810024` — success.
+
+PR #13 final candidate `057586128d00812feee8681392a088e8c27a1e75` passed all eleven permanent workflows before exact-head merge.
+
+Post-merge Licensed Football Visuals run `31503795213` and Stability Lane run `31503795725` both passed on the runtime merge.
 
 v1.0.2 exists because the owner supplied new real-device rejection evidence after r5. The current maintenance architecture uses footballers as **clean tile anchors** rather than placing strong geometry over their faces.
 
@@ -26,13 +33,13 @@ Current visual targets:
 - loading screen: explicitly liked by the owner and protected from redesign;
 - Messi/Lahm: protected prior presentation.
 
-Technical candidate state:
+Technical v1.0.2 state:
 
-`IN FULL VALIDATION`
+`COMPLETE, MERGED, DEPLOYED, POST-MERGE GREEN`
 
 Owner visual acceptance state:
 
-`PENDING REAL-DEVICE REVIEW AFTER DEPLOYMENT`
+`PENDING REAL-DEVICE REVIEW OF DEPLOYED V1.0.2`
 
 Do not call v1.0.2 owner-accepted from CI/screenshots alone.
 

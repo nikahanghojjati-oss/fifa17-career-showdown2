@@ -25,10 +25,14 @@ Current source is implementation authority. Browser acceptance remains required 
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.0.x finite visual-maintenance lane
-**Current activity:** v1.0.2 clean-anchor footballer photography maintenance candidate; owner real-device acceptance remains open until the public build is inspected
+**Current milestone:** v1.0.x finite owner visual-acceptance gate
+**Current activity:** v1.0.2 clean-anchor footballer photography maintenance is merged, deployed and post-merge green; owner real-device acceptance remains open until the owner inspects the public build
 **Protected loading-screen status:** owner explicitly likes the loading presentation; v1.0.2 preserves its composition/timing and treats it as a regression-protected surface
 **Runtime change class:** presentation + cache/release identity only; no gameplay, scoring, route, storage schema/key or state-machine change
+**v1.0.2 runtime merge:** `7a573ff2691b6143ecbc53df589822d5609f5e05`
+**GitHub Pages deployment:** `5852810024` — success
+**Post-merge Licensed Football Visuals:** run `31503795213` — success
+**Post-merge Stability Lane:** run `31503795725` — success, including exact deployed bytes and complete public journey
 **Next feature after owner acceptance or explicit deferral:** v1.1.0 Data Safety and Recovery — Candidate A only
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.

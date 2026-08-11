@@ -54,6 +54,8 @@ Runtime asset revision: **`1.0.2-r1`**
 
 Owner real-device visual acceptance remains required after the deployed build passes machine verification.
 
+Final technical release evidence: pre-merge head `057586128d00812feee8681392a088e8c27a1e75` passed all eleven permanent workflows; runtime merge `7a573ff2691b6143ecbc53df589822d5609f5e05` deployed successfully as Pages deployment `5852810024`; post-merge Licensed Football Visuals `31503795213` and Stability Lane `31503795725` both passed, including exact deployed bytes and the complete public journey. Owner visual acceptance remains open.
+
 ---
 
 # v1.0.1 — Stability Hardening
