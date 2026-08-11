@@ -1,0 +1,45 @@
+name: V111 Integrate Release
+
+on:
+  push:
+    branches:
+      - agent/v1.1.1-james-real-madrid-source-refresh
+    paths:
+      - tools/integrate_v111_release.py
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.1-james-real-madrid-source-refresh
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Apply guarded current-authority and gate integration
+        run: python tools/integrate_v111_release.py
+      - name: Verify syntax and exact source exclusion
+        shell: bash
+        run: |
+          set -euo pipefail
+          find js data tests/browser -type f \( -name '*.js' -o -name '*.cjs' \) -print0 | xargs -0 -n1 node --check
+          grep -q 'james-rodriguez-real-madrid-2016-smart-v111' data/footballVisuals.js
+          ! grep -q 'james-rodriguez-real-madrid-2019-smart-r5.webp' data/footballVisuals.js
+          grep -q 'Current baseline: v1.1.1 Maintenance Candidate' NEXT_TASK.md
+          grep -q 'v1.1.1' RELEASE_V1.1.1.md
+      - name: Commit integrated release authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add README.md PROJECT_STATE.md 00_DEVELOPER_START_HERE.md POST_V1_ROADMAP_EXECUTION.md CHANGELOG.md .github/workflows tests/browser/football-visual-audit.cjs
+          git commit -m 'Integrate v1.1.1 source refresh release gates'
+          git push origin HEAD:agent/v1.1.1-james-real-madrid-source-refresh
