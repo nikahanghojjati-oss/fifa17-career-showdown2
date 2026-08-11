@@ -4,28 +4,31 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Application version:** v1.0.1 — Stable
 **Runtime asset revision:** `1.0.1-r5`
-**Current phase:** finite owner-directed visual immersion correction inside the Version 1 stability lane
-**Accepted foundation:** deployed r13 visual immersion plus r12 release stabilization
-**Next lane:** v1.0.x soak exit, then staged v1.1.0 data safety
+**Current phase:** r5 technical implementation complete; final owner real-device visual acceptance gate remains open
+**Current developer entry:** `00_DEVELOPER_START_HERE.md`
+**Next feature after owner acceptance or explicit deferral:** v1.1.0 Candidate A — Versioned Backup Envelope + Non-Mutating Export
+**Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`
 
 ## Development entry point
 
-The project design phase is complete. Do not restart planning or replace established architecture.
+The project design phase is complete. Do not restart planning, replace established architecture, or reconstruct the current state from old chats before reading the repository handoff.
 
 Read in this order:
 
-1. `PROJECT_STATE.md` — exact implementation, locked rules, architecture and roadmap status.
-2. `ROADMAP_AMENDMENTS.md` — later owner-approved requirements.
-3. `NEXT_TASK.md` — current browser gate and exact next workstream.
-4. `CHANGELOG.md` — implementation/stabilization history.
-5. `STABILITY_PLAN_V1.0.X.md` — external-review disposition, finite patch scope and refined v1.1 split.
-6. `RELEASE_V1.0.1.md` — current patch changes, gates, exclusions and rollback.
-7. `RELEASE_V1.0.0.md` — original stable features, limits, storage/recovery and browser evidence.
-8. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
-9. current source — highest implementation authority.
-10. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
+1. `00_DEVELOPER_START_HERE.md` — canonical fast bootstrap, authority order, current production state, locked systems and exact decision tree.
+2. `NEXT_TASK.md` — current owner gate and the exact implementation path that becomes legal next.
+3. `POST_V1_ROADMAP_EXECUTION.md` — dependency-ordered post-v1 execution guide and source-grounded milestone boundaries.
+4. current source — highest implementation authority when documentation and implementation differ.
+5. `PROJECT_STATE.md` — established system contracts, architecture and accepted historical baselines.
+6. `ROADMAP_AMENDMENTS.md` — owner-approved pre-v1 amendments and completed workstreams.
+7. `STABILITY_PLAN_V1.0.X.md` — finite stability-lane philosophy and original v1.1 A/B/C split.
+8. `CHANGELOG.md` — implementation/stabilization history.
+9. `RELEASE_V1.0.1.md` and `RELEASE_V1.0.0.md` — stable release evidence and rollback context.
+10. `THIRD_PARTY_NOTICES.md` — intentional external font/media source/license notes.
+11. the `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*.md` files — detailed chronology when source/decision archaeology is genuinely required.
+12. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-The original release path **v0.95 → v1.0** is complete.
+The original release path **v0.95 → v1.0** is complete. The r5 photography correction is technically merged, deployed and post-merge green; owner real-device acceptance remains the only open visual gate before the staged v1.1 data-safety lane becomes Current.
 
 ---
 
@@ -33,7 +36,7 @@ The original release path **v0.95 → v1.0** is complete.
 
 v1.0.1 preserves the exact accepted Version 1 competition and presentation while making the broadest release evidence reproducible inside the repository.
 
-The new Stability Lane workflow owns real Chromium and axe coverage, runs the complete Chromebook/mobile journey twice, exercises corrupt storage, quota rejection, rapid input, reload, browser leave/return and double-submit paths, then verifies every deployed runtime byte and repeats the journey on the public Pages URL after a main update.
+The Stability Lane workflow owns real Chromium and axe coverage, runs the complete Chromebook/mobile journey twice, exercises corrupt storage, quota rejection, rapid input, reload, browser leave/return and double-submit paths, then verifies every deployed runtime byte and repeats the journey on the public Pages URL after a main update.
 
 The expanded mobile Season Review scan reproduced one serious contrast issue in the four unawarded achievement labels. Their text token changes from `#74818a` to `#52616b`, raising measured contrast on the existing light background from 3.51:1 to 5.63:1. No gameplay, route, storage schema, accepted visual composition or persistent key changes.
 
@@ -55,9 +58,9 @@ Accepted r13 resolved both requirements without changing gameplay, routes or sto
 
 The initial dependency shape remains one eager local stylesheet and seven eager local scripts. The deliberate visual-release budgets are now 165 KB raw / 37.5 KB gzip for code, 95 KB for the portrait and 260 KB combined first-party startup; the exact candidate measures 163,887 bytes raw, 36,681 bytes gzip and 89,008 bytes for the portrait. Optional gameplay, analytics, Settings and media resources remain lazy.
 
-All 22 deterministic blocks across nine workflows pass. Real Chromium passes 98 complete-flow checkpoints and 23 WCAG scans, plus dedicated startup/Home checks at 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 with normal and reduced motion, no horizontal escape, duplicate ID, failed local asset or JavaScript runtime error.
+All 22 deterministic blocks across nine original v1 workflows passed at that accepted baseline. Real Chromium passed 98 complete-flow checkpoints and 23 WCAG scans, plus dedicated startup/Home checks at 1920 × 912, 1366 × 768, 768 × 1024 and 390 × 844 with normal and reduced motion, no horizontal escape, duplicate ID, failed local asset or JavaScript runtime error.
 
-Version 1 seals that accepted behavior under `v1.0.0` / `1.0.0-r1`. See `RELEASE_V1.0.0.md` for the stable release record and `NEXT_TASK.md` for the bounded stability lane.
+Version 1 sealed that accepted behavior under `v1.0.0` / `1.0.0-r1`. Later v1.0.1/r5 work preserved its competition and Home/Reus foundations while strengthening release evidence and correcting owner-rejected football photography. See `NEXT_TASK.md` for the current bounded gate.
 
 ---
 
@@ -181,7 +184,7 @@ Initial local runtime remains exactly one local stylesheet plus seven scripts:
 
 Gameplay, Transfer data/selectors, Season Review CSS, analytics, Trophy Room, Legacy, Rule Book, Settings and diagnostics remain lazy.
 
-`assets/marco-reus-2015-cc-by.webp` is the only new first-party startup image. It is a locally transformed 900 × 1520 WebP and remains below the dedicated 95 KB ceiling.
+`assets/marco-reus-2015-cc-by.webp` remains the first-party startup portrait. It is a locally transformed 900 × 1520 WebP and remains below the dedicated 95 KB ceiling.
 
 `js/screens.js` is the sole route/history authority. `js/storage.js` remains persistence authority. Statistics remain derived; Season Review remains ephemeral.
 
@@ -189,9 +192,9 @@ Gameplay, Transfer data/selectors, Season Review CSS, analytics, Trophy Room, Le
 
 ## Automated validation
 
-Nine GitHub Actions gates protect the stable v1.0 build:
+Eleven permanent GitHub Actions workflows now protect the stable v1.0.1/r5 build:
 
-- **Validate Static App** — syntax, scoring, route matrix, Club Assignment, procedural crests, startup budget, Smart Back and responsive shell.
+- **Validate Static App** — syntax, scoring, route matrix, Club Assignment, procedural crests, startup budget, Smart Back, release/document coherence and responsive shell.
 - **Validate Home Bootstrap** — Home IDs/media bootstrap/revision coherence.
 - **Validate Transfer Workstream** — accepted Transfer state/data/selectors.
 - **Validate Settings Workstream** — preference/accessibility/reset isolation.
@@ -199,14 +202,18 @@ Nine GitHub Actions gates protect the stable v1.0 build:
 - **Validate Season Review** — non-persistent Review and confirmation-only transaction boundary.
 - **Validate League Confirmation** — explicit Continue, save-before-navigation, rollback and refresh/resume route boundary.
 - **Validate Final Polish** — transition ordering/stale cleanup, reduced motion, route focus, original feedback synthesis, preference migration, accessibility and bundle budgets.
-- **Validate V1 Visual Immersion** — exact stable cache identity, local portrait integrity/licensing, responsive metallic shell, finite startup lifecycle, reduced motion and startup budgets.
+- **Validate V1 Visual Immersion** — stable cache identity, local portrait integrity/licensing, responsive metallic shell, finite startup lifecycle, reduced motion and startup budgets.
+- **Validate Licensed Football Visuals** — required player-photo provenance, authored-crop contracts and real desktop/near-breakpoint/mobile browser presentation.
+- **Validate Stability Lane** — storage/release contracts, two consecutive full Chromium/provenance/Home/photo audit cycles, exact Pages byte verification and deployed complete-journey smoke.
 
-The owner accepted the deployed r13 visual baseline. Automated checks and deployed-byte verification continue to protect that decision.
+The earlier Home/Reus visual baseline remains protected. The current r5 James/Rashford/Martial implementation is technically merged/deployed/green, while owner real-device art-direction acceptance remains explicitly open.
 
 ---
 
 ## Stable baseline and next lane
 
-Version 1 is the accepted one-device local baseline. v1.0.1 implements the bounded browser CI, public-deployment smoke, failure fixtures and one reproduced accessibility fix without changing the competition contract.
+Version 1 is the accepted one-device local competition baseline. v1.0.1/r5 preserves that contract while incorporating the latest owner-directed visual correction and the strongest repository/deployment validation lane.
 
-Version 1.1 data-safety and backup work begins only after the v1.0.1 release and soak gates exit cleanly. v1.0.2 remains defect-only. No replacement v0.17/v0.18 roadmap is planned.
+The current finite gate is owner real-device review of the r5 player presentation. If new rejection evidence arrives, fix only the reproduced visual issue from current r5. If the owner accepts r5 or explicitly defers the review, `v1.1.0 Data Safety and Recovery` becomes Current and the first implementation branch is Candidate A only: Versioned Backup Envelope + Non-Mutating Export.
+
+Do not skip ahead to Candidate B/C, PWA, profiles, cloud or two-device work. See `NEXT_TASK.md` and `POST_V1_ROADMAP_EXECUTION.md` for the exact dependency gates.
