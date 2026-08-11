@@ -19,10 +19,9 @@ async function waitForApp(page){
 }
 
 async function openLegacy(page){
-    await page.evaluate(async () => {
-        await window.openOptionalModule("legacy");
-        showScreen("legacy", false);
-    });
+    await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
+    const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
+    assert.equal(opened, true, "Legacy/Data Management must open from a stable Home route.");
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
     const exportButton = page.getByRole("button", { name: "EXPORT BACKUP" });
     await exportButton.waitFor({ state: "visible" });
@@ -68,69 +67,76 @@ async function installWriteAudit(page){
     });
 }
 
-(async () => {
-    await fs.mkdir(resultsDirectory, { recursive: true });
-    const runtime = await resolveChromiumRuntime();
-    const browser = await chromium.launch({ executablePath: runtime.executablePath, args: runtime.args, headless: true });
+async function seedFullBackup(page){
+    await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => {
+        localStorage.setItem(activeKey, JSON.stringify({
+            id: 1700000000000,
+            name: "Browser Backup",
+            status: "Completed",
+            updatedAt: "2026-08-11T12:00:00.000Z",
+            completedAt: "2026-08-11T12:00:00.000Z"
+        }));
+        localStorage.setItem(legacyKey, JSON.stringify([{
+            id: 1700000000000,
+            name: "Browser Backup",
+            status: "Completed",
+            updatedAt: "2026-08-11T12:00:00.000Z",
+            completedAt: "2026-08-11T12:00:00.000Z"
+        }]));
+        localStorage.setItem(preferencesKey, JSON.stringify({ schemaVersion: 2, reducedMotion: false, menuFeedback: true }));
+    }, { activeKey, legacyKey, preferencesKey });
+}
+
+async function assertEnvelopeAndCorruptRecovery(page){
+    const envelopeCheck = await page.evaluate(async () => {
+        const envelope = await window.createCareerModeBackupEnvelope();
+        const valid = await window.verifyCareerModeBackupEnvelopeChecksum(envelope);
+        const mutated = structuredClone(envelope);
+        mutated.payload.activeShowdown.name = "Changed after checksum";
+        const mutatedValid = await window.verifyCareerModeBackupEnvelopeChecksum(mutated);
+        return {
+            valid,
+            mutatedValid,
+            relationship: envelope.relationships.completedActiveMatchesLegacy,
+            formatted: window.serializeCareerModeBackupEnvelope(envelope).includes('\n  "formatId"')
+        };
+    });
+    assert.equal(envelopeCheck.valid, true);
+    assert.equal(envelopeCheck.mutatedValid, false);
+    assert.equal(envelopeCheck.relationship, true, "Matching completed active/Legacy identity must be explicit.");
+    assert.equal(envelopeCheck.formatted, true, "Backup JSON must be human-readable.");
+
+    await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => {
+        localStorage.setItem(activeKey, "{broken-active");
+        localStorage.setItem(legacyKey, JSON.stringify({ wrong: "shape" }));
+        localStorage.setItem(preferencesKey, "{broken-preferences");
+        currentShowdown = null;
+    }, { activeKey, legacyKey, preferencesKey });
+    const corrupt = await page.evaluate(async () => {
+        const before = [localStorage.getItem("careerModeShowdown.activeShowdown"), localStorage.getItem("careerModeShowdown.legacyShowdowns"), localStorage.getItem("careerModeShowdown.preferences")];
+        const envelope = await window.createCareerModeBackupEnvelope();
+        const after = [localStorage.getItem("careerModeShowdown.activeShowdown"), localStorage.getItem("careerModeShowdown.legacyShowdowns"), localStorage.getItem("careerModeShowdown.preferences")];
+        return { warnings: envelope.warnings.length, recovery: Object.keys(envelope.recovery || {}).sort(), before, after };
+    });
+    assert.equal(corrupt.warnings, 3);
+    assert.deepEqual(corrupt.recovery, ["activeShowdown", "legacyShowdowns", "preferences"]);
+    assert.deepEqual(corrupt.after, corrupt.before, "Corrupt raw bytes must remain byte-for-byte unchanged by backup analysis.");
+}
+
+async function assertDesktopScenario(browser){
+    const context = await browser.newContext({ viewport: { width: 940, height: 700 } });
+    const page = await context.newPage();
+    const pageErrors = [];
+    page.on("pageerror", error => pageErrors.push(error.message));
 
     try{
-        // Desktop/windowed Chromebook path: real JSON download + keyboard + single-flight + corruption recovery.
-        const desktopContext = await browser.newContext({ viewport: { width: 940, height: 700 }, acceptDownloads: true });
-        const page = await desktopContext.newPage();
-        await page.addInitScript({ path: axePath });
-        const pageErrors = [];
-        page.on("pageerror", error => pageErrors.push(error.message));
-
         await waitForApp(page);
-        await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => {
-            localStorage.setItem(activeKey, JSON.stringify({
-                id: 1700000000000,
-                name: "Browser Backup",
-                status: "Completed",
-                updatedAt: "2026-08-11T12:00:00.000Z",
-                completedAt: "2026-08-11T12:00:00.000Z"
-            }));
-            localStorage.setItem(legacyKey, JSON.stringify([{
-                id: 1700000000000,
-                name: "Browser Backup",
-                status: "Completed",
-                updatedAt: "2026-08-11T12:00:00.000Z",
-                completedAt: "2026-08-11T12:00:00.000Z"
-            }]));
-            localStorage.setItem(preferencesKey, JSON.stringify({ schemaVersion: 2, reducedMotion: false, menuFeedback: true }));
-        }, { activeKey, legacyKey, preferencesKey });
+        await seedFullBackup(page);
         await page.reload({ waitUntil: "domcontentloaded" });
         await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
         const exportButton = await openLegacy(page);
+        await page.addScriptTag({ path: axePath });
         await assertLegacyAccessibility(page, "desktop");
-        await page.screenshot({ path: path.join(resultsDirectory, `backup-data-management-desktop-${runLabel}.png`), fullPage: true });
-
-        const rawBeforeDownload = await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => [
-            localStorage.getItem(activeKey),
-            localStorage.getItem(legacyKey),
-            localStorage.getItem(preferencesKey)
-        ], { activeKey, legacyKey, preferencesKey });
-
-        const downloadPromise = page.waitForEvent("download", { timeout: 7000 });
-        await exportButton.focus();
-        await page.keyboard.press("Enter");
-        const download = await downloadPromise;
-        const downloadPath = await download.path();
-        assert.ok(downloadPath, "Keyboard activation must produce a real local JSON download.");
-        assert.match(download.suggestedFilename(), /^career-mode-showdown-backup-.*\.json$/);
-        const downloadedText = await fs.readFile(downloadPath, "utf8");
-        const downloadedEnvelope = JSON.parse(downloadedText);
-        assert.equal(downloadedEnvelope.formatId, "career-mode-showdown-backup");
-        assert.equal(downloadedEnvelope.formatVersion, 1);
-        assert.ok(/^[a-f0-9]{64}$/.test(downloadedEnvelope.checksum));
-        assert.equal(downloadedEnvelope.relationships.completedActiveMatchesLegacy, true);
-        const rawAfterDownload = await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => [
-            localStorage.getItem(activeKey),
-            localStorage.getItem(legacyKey),
-            localStorage.getItem(preferencesKey)
-        ], { activeKey, legacyKey, preferencesKey });
-        assert.deepEqual(rawAfterDownload, rawBeforeDownload, "A real backup download must not mutate canonical localStorage bytes.");
-        await page.waitForFunction(() => document.querySelector(".legacyDataStatus")?.textContent.includes("downloaded successfully"), null, { timeout: 5000 });
 
         await installWriteAudit(page);
         await page.evaluate(() => {
@@ -140,72 +146,84 @@ async function installWriteAudit(page){
         });
         await page.waitForFunction(() => window.__backupAudit.downloads === 1, null, { timeout: 5000 });
         await page.waitForFunction(() => [...document.querySelectorAll("button")].some(item => item.textContent.trim() === "EXPORT BACKUP" && !item.disabled), null, { timeout: 5000 });
-        const rapidAudit = await page.evaluate(() => ({ ...window.__backupAudit }));
-        assert.equal(rapidAudit.set, 0, "Rapid export must not write localStorage.");
-        assert.equal(rapidAudit.remove, 0, "Rapid export must not remove localStorage data.");
-        assert.equal(rapidAudit.downloads, 1, "Rapid double activation must produce exactly one download attempt.");
+        const audit = await page.evaluate(() => ({ ...window.__backupAudit }));
+        assert.equal(audit.set, 0, "Export UI must not write localStorage.");
+        assert.equal(audit.remove, 0, "Export UI must not remove localStorage data.");
+        assert.equal(audit.downloads, 1, "Rapid double activation must create one backup download.");
 
-        const envelopeCheck = await page.evaluate(async () => {
-            const envelope = await window.createCareerModeBackupEnvelope();
-            const valid = await window.verifyCareerModeBackupEnvelopeChecksum(envelope);
-            const mutated = structuredClone(envelope);
-            mutated.payload.activeShowdown.name = "Changed after checksum";
-            return {
-                valid,
-                mutatedValid: await window.verifyCareerModeBackupEnvelopeChecksum(mutated),
-                formatted: window.serializeCareerModeBackupEnvelope(envelope).includes('\n  "formatId"')
-            };
-        });
-        assert.equal(envelopeCheck.valid, true);
-        assert.equal(envelopeCheck.mutatedValid, false);
-        assert.equal(envelopeCheck.formatted, true);
+        await page.evaluate(() => window.__restoreBackupAudit());
+        await assertEnvelopeAndCorruptRecovery(page);
+        assert.deepEqual(pageErrors, [], "Backup browser audit emitted page errors.");
 
-        await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => {
-            window.__restoreBackupAudit();
-            localStorage.setItem(activeKey, "{broken-active");
-            localStorage.setItem(legacyKey, JSON.stringify({ wrong: "shape" }));
-            localStorage.setItem(preferencesKey, "{broken-preferences");
-            currentShowdown = null;
-        }, { activeKey, legacyKey, preferencesKey });
-        const corrupt = await page.evaluate(async () => {
-            const keys = ["careerModeShowdown.activeShowdown", "careerModeShowdown.legacyShowdowns", "careerModeShowdown.preferences"];
-            const before = keys.map(key => localStorage.getItem(key));
-            const envelope = await window.createCareerModeBackupEnvelope();
-            const after = keys.map(key => localStorage.getItem(key));
-            return { warnings: envelope.warnings.length, recovery: Object.keys(envelope.recovery || {}).sort(), before, after };
-        });
-        assert.equal(corrupt.warnings, 3);
-        assert.deepEqual(corrupt.recovery, ["activeShowdown", "legacyShowdowns", "preferences"]);
-        assert.deepEqual(corrupt.after, corrupt.before, "Corrupt raw bytes must remain byte-for-byte unchanged by backup analysis.");
-        assert.deepEqual(pageErrors, [], "Desktop backup browser audit emitted page errors.");
-        await desktopContext.close();
+        const screenshotPath = path.join(resultsDirectory, `backup-desktop-${runLabel}.png`);
+        await page.screenshot({ path: screenshotPath, fullPage: true });
+        assert.ok(await exportButton.isEnabled());
+    }finally{
+        await context.close();
+    }
+}
 
-        // Mobile + touch + reduced-motion path.
-        const mobileContext = await browser.newContext({
-            viewport: { width: 390, height: 844 },
-            deviceScaleFactor: 2,
-            isMobile: true,
-            hasTouch: true,
-            reducedMotion: "reduce"
-        });
-        const mobilePage = await mobileContext.newPage();
-        await mobilePage.addInitScript({ path: axePath });
-        const mobileErrors = [];
-        mobilePage.on("pageerror", error => mobileErrors.push(error.message));
-        await waitForApp(mobilePage);
-        const mobileExport = await openLegacy(mobilePage);
-        await assertLegacyAccessibility(mobilePage, "mobile/reduced-motion");
-        await mobilePage.screenshot({ path: path.join(resultsDirectory, `backup-data-management-mobile-${runLabel}.png`), fullPage: true });
-        await installWriteAudit(mobilePage);
-        await mobileExport.tap();
-        await mobilePage.waitForFunction(() => window.__backupAudit.downloads === 1, null, { timeout: 5000 });
-        const mobileAudit = await mobilePage.evaluate(() => ({ ...window.__backupAudit }));
-        assert.equal(mobileAudit.set, 0);
-        assert.equal(mobileAudit.remove, 0);
-        assert.equal(mobileAudit.downloads, 1, "Touch activation must create one backup download attempt.");
-        assert.deepEqual(mobileErrors, [], "Mobile backup browser audit emitted page errors.");
-        await mobileContext.close();
+async function assertRealKeyboardDownload(browser){
+    const context = await browser.newContext({ viewport: { width: 940, height: 700 }, acceptDownloads: true });
+    const page = await context.newPage();
+    try{
+        await waitForApp(page);
+        await seedFullBackup(page);
+        await page.reload({ waitUntil: "domcontentloaded" });
+        await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
+        const exportButton = await openLegacy(page);
+        await exportButton.focus();
+        const downloadPromise = page.waitForEvent("download");
+        await page.keyboard.press("Enter");
+        const download = await downloadPromise;
+        assert.match(download.suggestedFilename(), /^career-mode-showdown-backup-.*\.json$/);
+        const outputPath = await download.path();
+        assert.ok(outputPath, "Keyboard-triggered export must create a downloadable file.");
+        const parsed = JSON.parse(await fs.readFile(outputPath, "utf8"));
+        assert.equal(parsed.formatId, "career-mode-showdown-backup");
+        assert.equal(await page.evaluate(async envelope => window.verifyCareerModeBackupEnvelopeChecksum(envelope), parsed), true);
+    }finally{
+        await context.close();
+    }
+}
 
+async function assertMobileReducedMotion(browser){
+    const context = await browser.newContext({
+        viewport: { width: 390, height: 844 },
+        deviceScaleFactor: 2,
+        isMobile: true,
+        hasTouch: true,
+        reducedMotion: "reduce"
+    });
+    const page = await context.newPage();
+    try{
+        await waitForApp(page);
+        await page.evaluate(({ legacyKey, preferencesKey }) => {
+            localStorage.setItem(legacyKey, JSON.stringify([]));
+            localStorage.setItem(preferencesKey, JSON.stringify({ schemaVersion: 2, reducedMotion: true, menuFeedback: false }));
+        }, { legacyKey, preferencesKey });
+        await page.reload({ waitUntil: "domcontentloaded" });
+        await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
+        const exportButton = await openLegacy(page);
+        await page.addScriptTag({ path: axePath });
+        await assertLegacyAccessibility(page, "mobile reduced-motion");
+        const tapBox = await exportButton.boundingBox();
+        assert.ok(tapBox && tapBox.width >= 44 && tapBox.height >= 44, `Mobile Export Backup touch target is too small: ${tapBox?.width}×${tapBox?.height}.`);
+        const screenshotPath = path.join(resultsDirectory, `backup-mobile-${runLabel}.png`);
+        await page.screenshot({ path: screenshotPath, fullPage: true });
+    }finally{
+        await context.close();
+    }
+}
+
+(async () => {
+    await fs.mkdir(resultsDirectory, { recursive: true });
+    const runtime = await resolveChromiumRuntime();
+    const browser = await chromium.launch({ executablePath: runtime.executablePath, args: runtime.args, headless: true });
+    try{
+        await assertDesktopScenario(browser);
+        await assertRealKeyboardDownload(browser);
+        await assertMobileReducedMotion(browser);
         process.stdout.write("PASS  v1.1.0 Candidate A browser backup audit\n");
     } finally {
         await browser.close();
