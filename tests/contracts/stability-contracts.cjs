@@ -21,7 +21,7 @@ const footerVersion = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*Stable[\s\S
 assert.equal(packageJson.version, appVersion, "package.json and APP_VERSION must agree.");
 assert.equal(packageJson.devDependencies["@sparticuz/chromium"], "149.0.0", "The registry-distributed Chromium runtime must remain pinned.");
 assert.equal(footerVersion, appVersion, "The user-facing footer version is stale.");
-assert.equal(revision, `${appVersion}-r4`, "The owner-recovery visual/error correction must use the r4 cache identity.");
+assert.equal(revision, `${appVersion}-r5`, "The owner-requested smart-crop visual rebuild must use the r5 cache identity.");
 assert.ok(projectState.includes(`**Application version:** v${appVersion} — Stable`), "PROJECT_STATE version is stale.");
 assert.ok(projectState.includes(`**Runtime asset revision:** \`${revision}\``), "PROJECT_STATE revision is stale.");
 assert.ok(nextTask.includes(`Application version: v${appVersion}`), "NEXT_TASK version is stale.");
