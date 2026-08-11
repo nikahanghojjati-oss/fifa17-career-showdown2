@@ -62,8 +62,8 @@
 
 .footballVisualPanel[data-tone="light"]::before{
     background:
-        linear-gradient(104deg,rgba(246,249,249,.98) 0 36%,rgba(241,246,247,.78) 48%,rgba(229,239,242,.12) 67%,transparent 78%),
-        linear-gradient(0deg,rgba(238,244,245,.64) 0,transparent 42%);
+        linear-gradient(104deg,rgba(246,249,249,.94) 0 18%,rgba(241,246,247,.42) 34%,rgba(229,239,242,.08) 52%,transparent 66%),
+        linear-gradient(0deg,rgba(238,244,245,.30) 0,transparent 38%);
 }
 
 .footballVisualPanel[data-tone="blue"]{
