@@ -53,3 +53,43 @@ The repository contains the following twelve permanent GitHub Actions workflows,
 3. Enumerated the current repository tree and confirmed twelve permanent validation workflows, including all feature/workstream gates plus Stability and the five-pass release burn-in.
 4. Created branch `agent/v1.1.1-clean-stability` directly from the exact deployed main SHA.
 5. Created this handoff before implementation/validation so all subsequent findings, fixes, run IDs and release proof can be appended here.
+
+
+## First frozen-baseline proof
+
+Candidate SHA `12c3e428e278243dbe9d6b9750bbbb95f2f154ca` changed only this handoff relative to production, so it served as a clean reproducibility test of the deployed application bytes. All twelve permanent workflow families passed:
+
+- Home Bootstrap run `31526372141` — SUCCESS.
+- League Confirmation run `31526372053` — SUCCESS.
+- Transfer Workstream run `31526372100` — SUCCESS.
+- Season Review run `31526372035` — SUCCESS.
+- Statistics Workstream run `31526372112` — SUCCESS.
+- Settings Workstream run `31526372096` — SUCCESS.
+- V1 Visual Immersion run `31526372021` — SUCCESS.
+- Licensed Football Visuals run `31526372109` — SUCCESS.
+- Final Polish run `31526372033` — SUCCESS.
+- Static App run `31526372210` — SUCCESS.
+- Stability Lane run `31526372201` — storage/contracts SUCCESS and two consecutive complete Chromium cycles SUCCESS; deployed-site smoke correctly skipped because this is a pull request.
+- v1.1.0 Release Burn-In run `31526372058` — SUCCESS, with all five independent complete release passes green.
+
+Five-pass job evidence for run `31526372058`:
+
+- Pass 1 job `93895594147` — SUCCESS.
+- Pass 2 job `93895593890` — SUCCESS.
+- Pass 3 job `93895594099` — SUCCESS.
+- Pass 4 job `93895594066` — SUCCESS.
+- Pass 5 job `93895593998` — SUCCESS.
+
+Stability job evidence:
+
+- contracts job `93895594561` — SUCCESS.
+- two-cycle Chromium job `93895645674` — SUCCESS.
+- deployed-site job `93896772598` — SKIPPED by design on pull requests; mandatory after merge to `main`.
+
+### Defect found during the clean-build audit
+
+No runtime defect reproduced. The clean audit did reproduce a **continuation-authority defect**: `00_DEVELOPER_START_HERE.md`, `PROJECT_STATE.md`, `README.md` and `NEXT_TASK.md` still described v1.0.2 and the pre-merge PR #14 release path as the current operational state even though v1.1.0 Candidate A had already merged, deployed and passed final Pages smoke. A new developer following those highest-authority files could therefore regress the project by reopening completed work or treating Candidate A as unmerged.
+
+The correction updates current-state/next-task metadata only. It does not change HTML, CSS, JavaScript, data, assets, storage behavior, gameplay, routing, scoring, source crops, startup timing or application/cache identity.
+
+After these authority corrections and removal of this temporary helper, the new clean SHA must re-earn the entire twelve-workflow matrix plus 5/5 burn-in.
