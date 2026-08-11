@@ -102,7 +102,7 @@ For v1.1.1 it now:
 - records source/output fingerprints and bytes;
 - removes replaced derivatives only when they are no longer active.
 
-The one-shot build workflow used the permanent builder with `--only james`, then was scheduled for removal before final candidate freeze.
+The one-shot build workflow used the permanent builder with `--only james` and was removed before the PR candidate.
 
 ## Runtime/release identity
 
@@ -182,6 +182,52 @@ Generated permanent workflow blobs applied through the connector include:
 
 No manually reconstructed workflow body was substituted for the generated validator output.
 
+## First PR diagnostic matrix
+
+Draft PR #16 was opened from the cleaned branch after all one-shot build/integration workflows, helper scripts and staged generated copies were removed.
+
+Initial exact PR head:
+
+`fdbe6775e53f628cc644f3da10779588bb64275c`
+
+The first matrix was deliberately treated as diagnostic rather than release proof. It produced one isolated Licensed Football Visuals contract failure while the other short/medium permanent families passed and Stability/Burn-In were still running.
+
+Licensed Football Visuals run:
+
+`31537944723`
+
+Failed job:
+
+`93933461722 — licensed-visual-contracts`
+
+Failure classification:
+
+`STALE HISTORICAL NOTICE-WORDING ASSERTION — NEW JAMES SOURCE/ASSET CONTRACTS PASSED`
+
+The log reached and passed the new James assertions for:
+
+- exact Real Madrid source filename/page;
+- CC BY 3.0 attribution;
+- exact 863 × 1080 source/output geometry;
+- exact Commons/source/output fingerprints;
+- full-frame source policy;
+- new runtime-data activation;
+- absence of the replaced 2019 runtime reference;
+- new notice provenance/fingerprint;
+- deterministic builder source/ID/full-frame/`--only` authority;
+- protected Rashford/Martial/Messi/Lahm source/crop authority;
+- clean-anchor and responsive geometry static contracts.
+
+The only failure was an older blanket text assertion requiring `THIRD_PARTY_NOTICES.md` to contain the literal phrase `explicit, hand-reviewed crop`. That phrase was no longer globally accurate because v1.1.1 intentionally preserves James's entire licensed frame rather than hand-cropping it.
+
+The gate was not weakened and James was not falsely described as hand-cropped. The notice was clarified to state the true mixed policy:
+
+- James preserves the complete licensed frame;
+- Rashford, Martial and Lahm retain an explicit, hand-reviewed crop where their source composition requires it;
+- every finished derivative remains authoritative and responsive CSS may not crop it again.
+
+That documentation correction changed the candidate SHA, so the first diagnostic matrix counts as `0/2` release proof. Every permanent family must run again from the corrected documentation-inclusive head.
+
 ## Protected systems
 
 This build must not intentionally change:
@@ -223,10 +269,15 @@ This build must not intentionally change:
 18. Converted integration publication to the proven staged-blob pattern.
 19. Successfully committed current documentation/browser-audit outputs and generated validator copies.
 20. Applied the exact generated permanent validator blobs through the GitHub connector in commit `5c9757e5489ea8231e33fd35f884e93a4420fcf6`.
-21. Next: remove every temporary workflow/helper/staging file, open a focused PR, run the complete permanent matrix, inspect new James screenshots, fix only real failures, then freeze the exact final SHA and execute every gate family twice.
+21. Removed every temporary v1.1.1 workflow/helper/staging file and opened draft PR #16 from clean head `fdbe6775e53f628cc644f3da10779588bb64275c`.
+22. Ran the first full permanent PR matrix as a diagnostic pass.
+23. Isolated Licensed Football Visuals failure `31537944723` / job `93933461722` to one stale blanket notice-string assertion after all new James exact-source/fingerprint contracts had passed.
+24. Clarified `THIRD_PARTY_NOTICES.md` with the truthful mixed full-frame/authored-crop policy instead of weakening the gate or falsely describing James as hand-cropped.
+25. Reset the owner's double-pass release count to `0/2` because the corrected notice changes the candidate SHA.
+26. Next: run the complete permanent matrix on the corrected documentation-inclusive head, inspect the new James browser evidence, fix only a reproduced real problem if one appears, then freeze the final candidate and produce two independent successful executions of every permanent gate family.
 
 ## Current status
 
-`SOURCE BUILT + RUNTIME/PROVENANCE/DEEPER GATES INTEGRATED — TEMPORARY TOOL CLEANUP AND PR VALIDATION NEXT`
+`FIRST DIAGNOSTIC MATRIX FOUND ONE STALE NOTICE ASSERTION — CORRECTED HEAD REVALIDATION NEXT`
 
 No claim of release merge/deployment or owner visual acceptance has been made yet.
