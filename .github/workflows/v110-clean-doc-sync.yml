@@ -1,0 +1,92 @@
+name: v1.1.0 Clean Stability Authority Sync
+
+on:
+  push:
+    branches: [agent/v1.1.1-clean-stability]
+    paths:
+      - .github/workflows/v110-clean-doc-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.1-clean-stability
+      - name: Correct stale authority documents and append clean-build evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          # Canonical developer bootstrap: replace the stale v1.0.2 current-state block.
+          p = Path('00_DEVELOPER_START_HERE.md')
+          text = p.read_text()
+          pattern = re.compile(r"Current runtime implementation merge:\n\n.*?Do not start Candidate B, Candidate C, PWA, profiles, cloud, accounts, QR pairing, or two-device work before their dependency gate is reached\.\n", re.S)
+          replacement = '''Current production runtime implementation merge:\n\n`7aba9609130e7f72f256bfb20936441e8beaecaa`\n\nCurrent clean repository baseline before this stabilization pass:\n\n`d23cea4d0a8bb3c428265546555a78008269d228`\n\nApplication/runtime identity remains `v1.1.0 / 1.1.0-r1`. Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and post-merge proven. The final pre-clean baseline passed five independent release burn-in runners plus Stability exact-byte/public-site smoke.\n\nThe owner-liked loading screen remains protected. James/Rashford/Martial keep the clean-anchor/face-safe presentation and Reus/Messi/Lahm protections remain intact. Automated visual gates do not replace owner real-device art-direction judgment; the v1.1 face-safe accent retune remains open to owner inspection until explicitly accepted.\n\nThe current maintenance action is a finite **v1.1.0 Clean Stability Build**: reproduce the deployed baseline against every permanent feature/workstream/release gate, fix only reproduced defects, and preserve application bytes when no runtime defect exists.\n\nAfter that seal, the next substantive roadmap candidate is Candidate B — Import Analysis + Migration Preview — and it remains read-only/dry-run with zero canonical localStorage writes/removals. Candidate C restore remains blocked behind Candidate B evidence. Do not start PWA, profiles, cloud, accounts, QR pairing, or two-device work before their dependency gate is reached.\n'''
+          text2, n = pattern.subn(replacement, text, count=1)
+          if n != 1:
+              raise SystemExit(f'00_DEVELOPER_START_HERE current-state replacement count={n}')
+          p.write_text(text2)
+
+          # Project-state current header: remove stale v1.0.2-as-current assertions while preserving history below.
+          p = Path('PROJECT_STATE.md')
+          text = p.read_text()
+          replacements = {
+              '**Current milestone:** v1.0.x finite owner visual-acceptance gate': '**Current milestone:** v1.1.0 Stable — Clean Stability Seal',
+              '**Current activity:** v1.0.2 clean-anchor footballer photography maintenance is merged, deployed and post-merge green; owner real-device acceptance remains open until the owner inspects the public build': '**Current activity:** Candidate A is merged, deployed and proven; the clean-stability pass is revalidating the exact production baseline across every permanent feature/workstream/release gate before the next roadmap step',
+              '**Runtime change class:** presentation + cache/release identity only; no gameplay, scoring, route, storage schema/key or state-machine change': '**Runtime change class:** no application-byte change for the clean-stability pass unless a reproduced defect requires a bounded fix; gameplay, scoring, routes, storage schema/keys and state-machine rules remain locked',
+              '**v1.0.2 runtime merge:** `7a573ff2691b6143ecbc53df589822d5609f5e05`': '**Production v1.1.0 runtime merge:** `7aba9609130e7f72f256bfb20936441e8beaecaa`',
+              '**GitHub Pages deployment:** `5852810024` — success': '**Production v1.1.0 Pages state:** exact deployed runtime bytes and complete public journey proven by Stability; clean-stability post-merge smoke is required again before closure',
+              '**Post-merge Licensed Football Visuals:** run `31503795213` — success': '**Clean-build baseline Licensed Football Visuals:** PR #15 run `31526372109` — success',
+              '**Post-merge Stability Lane:** run `31503795725` — success, including exact deployed bytes and complete public journey': '**Clean-build baseline Stability Lane:** PR #15 run `31526372201` — storage/contracts success and two-cycle Chromium success; deployed-site smoke intentionally waits for `main`',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'PROJECT_STATE missing expected line: {old}')
+              text = text.replace(old, new, 1)
+          marker = 'Candidate B/C remain dependency-blocked until this release is merged, deployed and proven.\n'
+          addition = '''Candidate B/C remain dependency-blocked until this release is merged, deployed and proven.\n\n## v1.1.0 Clean Stability Seal\n\nA post-release clean-build pass was requested on August 11, 2026. It branches directly from the final deployed/proven `main` baseline and does not invent a new application version when no runtime defect reproduces. The clean-build release condition is stricter than a single CI summary: each permanent feature/workstream workflow must pass independently, the five-run release burn-in must be 5/5, Stability must complete two consecutive Chromium cycles, and after merge GitHub Pages must again pass exact-byte verification plus runtime provenance, Home/Reus, football-photo, Candidate A export and the complete public journey.\n\nThe first frozen clean candidate reproduced **zero runtime defects** across all twelve permanent workflows. The only defect found was stale continuation metadata in the highest-authority bootstrap documents, which still described the already-completed v1.0.2/PR #14 path as current. That documentation defect is corrected without changing application bytes.\n'''
+          if '## v1.1.0 Clean Stability Seal' not in text:
+              if marker not in text:
+                  raise SystemExit('PROJECT_STATE Candidate B/C marker missing')
+              text = text.replace(marker, addition, 1)
+          p.write_text(text)
+
+          # README current phase and stale release-transition paragraph.
+          p = Path('README.md')
+          text = p.read_text()
+          old = '**Current phase:** v1.0.2 clean-anchor maintenance is technically complete, merged, deployed and post-merge green; owner real-device acceptance remains separate'
+          new = '**Current phase:** v1.1.0 Candidate A is merged/deployed/proven; a clean-stability seal is revalidating every permanent feature/workstream/release gate without changing runtime bytes unless a real defect reproduces'
+          if old not in text:
+              raise SystemExit('README current phase marker missing')
+          text = text.replace(old, new, 1)
+          old_para = "The original release path **v0.95 → v1.0** is complete. v1.0.2 is the deployed finite maintenance response to the owner's August 11 real-device visual rejection: footballers now use clean player anchors, while the loading screen remains protected. The release is technically complete and post-merge green; owner real-device acceptance remains the only open visual gate before the staged v1.1 data-safety lane becomes Current."
+          new_para = "The original release path **v0.95 → v1.0** and the finite v1.0.2 clean-anchor maintenance lane are complete. v1.1.0 Candidate A is also merged, deployed and technically proven. The current clean-stability seal exists to reproduce that production state against every permanent feature/workstream/release gate before further roadmap work. The owner-liked loading screen and clean player-anchor architecture remain protected; owner real-device art-direction acceptance remains separate from automated proof."
+          if old_para not in text:
+              raise SystemExit('README stale transition paragraph missing')
+          text = text.replace(old_para, new_para, 1)
+          p.write_text(text)
+
+          # NEXT_TASK is deliberately short and current; rewrite it atomically.
+          Path('NEXT_TASK.md').write_text('''# NEXT TASK — Career Mode Showdown\n\nLast updated: 2026-08-11\n\nApplication version: v1.1.0\n\nRuntime asset revision: `1.1.0-r1`\n\n## Current baseline: v1.1.0 Stable\n\nCandidate A — **Versioned Backup Envelope + Non-Mutating Export** — is merged, deployed and technically proven. The production runtime remains the implementation authority. Candidate B import analysis and Candidate C restore are not part of the clean-stability build.\n\n## Immediate clean-stability rule\n\nWhen the owner requests a clean/stable build, branch directly from current `main` and reproduce the existing production state rather than redesigning it. The build is releasable only when every permanent feature/workstream/release workflow passes on one frozen final SHA, including Home Bootstrap, League Confirmation, Transfer, Season Review, Statistics, Settings, V1 Visual Immersion, Licensed Football Visuals, Final Polish, Static App, Stability Lane, and the five-pass release burn-in.\n\nA failed/cancelled/timed-out gate is not a pass. Fix only reproduced defects, do not weaken contracts or raise performance budgets to obtain green CI, and restart final-SHA proof after any source change. Temporary helpers must be removed before merge.\n\nAfter merge, Stability must verify GitHub Pages runtime-byte parity and repeat deployed runtime provenance, Home/Reus, football visuals, Candidate A backup/export and the complete public-site journey.\n\n## Current owner gate\n\nAutomated visual gates do not replace owner art-direction judgment. The v1.1 face-safe diagonal accent retune remains subject to real-device owner inspection until explicitly accepted. The owner-liked loading presentation remains protected.\n\n## Next substantive roadmap candidate\n\nIf the owner asks to advance features after the clean-stability seal, Candidate B — **Import Analysis + Migration Preview** — is the next legal candidate. It must remain read-only/dry-run and perform zero canonical `localStorage` writes/removals. Candidate C restore remains blocked behind Candidate B evidence.\n\nDo not change gameplay, scoring, routing, storage keys/schema, player source crops, loading-screen composition, Messi/Lahm, or the existing save identity model without explicit owner instruction or a reproduced release defect.\n''')
+
+          # Append reproducible first-pass evidence to the public clean-build handoff.
+          p = Path('CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CLEAN_STABILITY_BUILD.md')
+          text = p.read_text()
+          marker = '## First frozen-baseline proof'
+          if marker not in text:
+              text += '''\n\n## First frozen-baseline proof\n\nCandidate SHA `12c3e428e278243dbe9d6b9750bbbb95f2f154ca` changed only this handoff relative to production, so it served as a clean reproducibility test of the deployed application bytes. All twelve permanent workflow families passed:\n\n- Home Bootstrap run `31526372141` — SUCCESS.\n- League Confirmation run `31526372053` — SUCCESS.\n- Transfer Workstream run `31526372100` — SUCCESS.\n- Season Review run `31526372035` — SUCCESS.\n- Statistics Workstream run `31526372112` — SUCCESS.\n- Settings Workstream run `31526372096` — SUCCESS.\n- V1 Visual Immersion run `31526372021` — SUCCESS.\n- Licensed Football Visuals run `31526372109` — SUCCESS.\n- Final Polish run `31526372033` — SUCCESS.\n- Static App run `31526372210` — SUCCESS.\n- Stability Lane run `31526372201` — storage/contracts SUCCESS and two consecutive complete Chromium cycles SUCCESS; deployed-site smoke correctly skipped because this is a pull request.\n- v1.1.0 Release Burn-In run `31526372058` — SUCCESS, with all five independent complete release passes green.\n\nFive-pass job evidence for run `31526372058`:\n\n- Pass 1 job `93895594147` — SUCCESS.\n- Pass 2 job `93895593890` — SUCCESS.\n- Pass 3 job `93895594099` — SUCCESS.\n- Pass 4 job `93895594066` — SUCCESS.\n- Pass 5 job `93895593998` — SUCCESS.\n\nStability job evidence:\n\n- contracts job `93895594561` — SUCCESS.\n- two-cycle Chromium job `93895645674` — SUCCESS.\n- deployed-site job `93896772598` — SKIPPED by design on pull requests; mandatory after merge to `main`.\n\n### Defect found during the clean-build audit\n\nNo runtime defect reproduced. The clean audit did reproduce a **continuation-authority defect**: `00_DEVELOPER_START_HERE.md`, `PROJECT_STATE.md`, `README.md` and `NEXT_TASK.md` still described v1.0.2 and the pre-merge PR #14 release path as the current operational state even though v1.1.0 Candidate A had already merged, deployed and passed final Pages smoke. A new developer following those highest-authority files could therefore regress the project by reopening completed work or treating Candidate A as unmerged.\n\nThe correction updates current-state/next-task metadata only. It does not change HTML, CSS, JavaScript, data, assets, storage behavior, gameplay, routing, scoring, source crops, startup timing or application/cache identity.\n\nAfter these authority corrections and removal of this temporary helper, the new clean SHA must re-earn the entire twelve-workflow matrix plus 5/5 burn-in.\n'''
+              p.write_text(text)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 00_DEVELOPER_START_HERE.md PROJECT_STATE.md README.md NEXT_TASK.md CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION_V1.1.0_CLEAN_STABILITY_BUILD.md
+          git commit -m 'Sync v1.1.0 clean-build authority and evidence'
+          git push origin HEAD:agent/v1.1.1-clean-stability
