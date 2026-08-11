@@ -13,6 +13,13 @@ if count != 1: raise RuntimeError(f'Expected one main Reus cache ref, found {cou
 main_menu=main_menu.replace('assets/marco-reus-2015-cc-by.webp?v=1.0.2-r1','assets/marco-reus-2015-cc-by.webp?v=1.1.0-r1',1)
 write('js/menuExperience.js',main_menu)
 
+football=read('js/footballVisuals.js')
+old_revision='return meta && meta.content ? meta.content.trim() : "1.0.2-r1";'
+new_revision='return meta && meta.content ? meta.content.trim() : "1.1.0-r1";'
+if football.count(old_revision)!=1: raise RuntimeError('Football visual revision fallback not found exactly once')
+football=football.replace(old_revision,new_revision,1)
+write('js/footballVisuals.js',football)
+
 static=read('.github/workflows/validate-static-app.yml')
 old="assert.ok(changelog.includes('# v1.1.0 — Clean-Anchor Visual Maintenance'), 'CHANGELOG stability release entry is missing.');"
 new="assert.ok(changelog.includes('# v1.1.0 — Data Safety and Recovery / Candidate A'), 'CHANGELOG v1.1.0 Candidate A release entry is missing.');"
