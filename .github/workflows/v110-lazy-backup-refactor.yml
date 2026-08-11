@@ -1,0 +1,53 @@
+name: v1.1.0 Lazy Backup Refactor
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - tools/refactor_v110_backup_lazy.py
+      - .github/workflows/v110-lazy-backup-refactor.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+          fetch-depth: 1
+      - name: Generate lazy Candidate A refactor
+        run: python tools/refactor_v110_backup_lazy.py
+      - name: Validate runtime syntax and backup contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check js/storage.js
+          node --check js/backup.js
+          node --check tests/browser/backup-export-audit.cjs
+          node tests/contracts/backup-contracts.cjs
+      - name: Enforce locked startup budget before commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs=require('fs');
+          const html=fs.readFileSync('index.html','utf8');
+          const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)].map(m=>m[1]);
+          const bytes=refs.reduce((n,p)=>n+fs.statSync(p).size,0);
+          console.log(`V110_STARTUP_RAW_BYTES=${bytes}`);
+          if(bytes>165000) throw new Error(`Locked startup budget still exceeded: ${bytes} > 165000`);
+          NODE
+      - name: Commit permanent refactor files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/storage.js js/backup.js tests/browser/backup-export-audit.cjs
+          git commit -m "Move Candidate A backup analysis off startup path"
+          git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
