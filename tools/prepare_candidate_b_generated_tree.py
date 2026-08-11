@@ -30,10 +30,12 @@ if count != 1:
     raise SystemExit(f"Expected exactly one import plain-object helper; replaced {count}.")
 path.write_text(source, encoding="utf-8")
 
-# Keep the new Candidate B hook below the unchanged eager raw/gzip budget.
+# Keep the new Candidate B hook below the unchanged eager raw/gzip budget. The
+# browser and contract suites verify the analyzer/mount exports independently, so
+# the loader only needs one stable sentinel proving the module executed.
 path = Path("js/optionalModules.js")
 source = path.read_text(encoding="utf-8")
-compact_loader = '    await loadRuntimeScript("import-analysis","js/importAnalysis.js",()=>typeof window.analyzeCareerModeBackupFile==="function"&&typeof window.analyzeCareerModeBackupEnvelope==="function"&&typeof window.mountCareerModeImportAnalysisPanel==="function");'
+compact_loader = '    await loadRuntimeScript("import-analysis","js/importAnalysis.js",()=>typeof window.analyzeCareerModeBackupFile==="function");'
 source, count = re.subn(
     r'    await loadRuntimeScript\(\n        "import-analysis",\n        "js/importAnalysis\.js",\n        \(\) => typeof window\.analyzeCareerModeBackupFile === "function"\n            && typeof window\.analyzeCareerModeBackupEnvelope === "function"\n            && typeof window\.mountCareerModeImportAnalysisPanel === "function"\n    \);',
     compact_loader,
