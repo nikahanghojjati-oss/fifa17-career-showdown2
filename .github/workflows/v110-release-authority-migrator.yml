@@ -1,0 +1,50 @@
+name: v1.1.0 Release Authority Migrator
+
+on:
+  push:
+    branches: [agent/v1.1.0-candidate-a-maintenance]
+    paths:
+      - tools/promote_v110_release_authority.py
+      - .github/workflows/v110-release-authority-migrator.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: v110-release-authority-migrator
+  cancel-in-progress: true
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out Candidate A branch
+        uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.0-candidate-a-maintenance
+          fetch-depth: 1
+
+      - name: Promote release authority
+        run: python tools/promote_v110_release_authority.py
+
+      - name: Validate syntax before commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          find js data tests -type f \( -name '*.js' -o -name '*.cjs' \) -print0 | xargs -0 -n1 node --check
+
+      - name: Commit promoted authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html tests/contracts/stability-contracts.cjs tests/browser/home-visual-audit.cjs .github/workflows/*.yml RELEASE_V1.1.0.md PROJECT_STATE.md NEXT_TASK.md README.md 00_DEVELOPER_START_HERE.md CHANGELOG.md POST_V1_ROADMAP_EXECUTION.md
+          if git diff --cached --quiet; then
+            echo "Release authority already current."
+            exit 0
+          fi
+          git commit -m "Promote v1.1.0 Candidate A release authority"
+          git push origin HEAD:agent/v1.1.0-candidate-a-maintenance
