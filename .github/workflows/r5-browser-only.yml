@@ -1,0 +1,48 @@
+name: R5 Browser Visual Audit
+
+on:
+  push:
+    branches: [agent/r5-smart-player-photo-rebuild]
+    paths:
+      - '.github/workflows/r5-browser-only.yml'
+      - 'assets/football/**'
+      - 'data/footballVisuals.js'
+      - 'css/footballVisuals.css'
+      - 'js/footballVisuals.js'
+      - 'index.html'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Validate JavaScript syntax
+        run: find js data -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+      - name: Render Home and all required football visual destinations
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-r5-browser.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          CMS_AUDIT_RUN=r5-smart-crop npm run test:runtime-boundary
+          CMS_AUDIT_RUN=r5-smart-crop npm run test:home-visual
+          CMS_AUDIT_RUN=r5-smart-crop npm run test:football-visual
+      - name: Upload rendered r5 screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: r5-browser-visuals-${{ github.sha }}
+          path: test-results/*.png
+          if-no-files-found: error
+          retention-days: 7
