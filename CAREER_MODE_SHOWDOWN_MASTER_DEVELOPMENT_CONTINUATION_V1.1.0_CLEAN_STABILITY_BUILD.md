@@ -137,3 +137,93 @@ Stability job evidence for the corrected candidate:
 - Candidate B/C work introduced: **no**.
 
 This handoff append changes the PR SHA, so its resulting documentation-inclusive head must itself pass the complete twelve-workflow matrix and 5/5 burn-in before exact-head merge. Post-merge `main` must additionally pass deployed GitHub Pages exact-byte verification and the full public-site smoke.
+
+## Final documentation-inclusive PR head and merge proof
+
+The public handoff append produced final PR head `533560464bfb55cbe482f586c07a488bc8a569fa`. That exact SHA re-earned the complete twelve-workflow pre-merge matrix before PR #15 was allowed to merge:
+
+- Home Bootstrap run `31527594679` — SUCCESS.
+- League Confirmation run `31527594693` — SUCCESS.
+- Transfer Workstream run `31527594676` — SUCCESS.
+- Season Review run `31527594690` — SUCCESS.
+- Statistics Workstream run `31527594686` — SUCCESS.
+- Settings Workstream run `31527594683` — SUCCESS.
+- V1 Visual Immersion run `31527594674` — SUCCESS.
+- Licensed Football Visuals run `31527594698` — SUCCESS.
+- Final Polish run `31527594777` — SUCCESS.
+- Static App run `31527594741` — SUCCESS.
+- Stability Lane run `31527594774` — contracts SUCCESS and two complete Chromium cycles SUCCESS; deployed-site smoke skipped by design on PR.
+- Release Burn-In run `31527594719` — SUCCESS with all five independent passes green.
+
+Five-pass jobs on final PR head:
+
+- Pass 1 `93899638190` — SUCCESS.
+- Pass 2 `93899638070` — SUCCESS.
+- Pass 3 `93899638121` — SUCCESS.
+- Pass 4 `93899638087` — SUCCESS.
+- Pass 5 `93899638102` — SUCCESS.
+
+Stability jobs on final PR head:
+
+- contracts `93899697365` — SUCCESS.
+- two-cycle Chromium `93899697366` — SUCCESS.
+- deployed-site `93900810251` — SKIPPED by design on PR.
+
+PR #15 was then marked ready and merged with exact-head protection. Merge commit: `5002069b2babcc79c9fdb803b5ae3ec7b2266fc6`.
+
+## Production proof on merged clean-stability runtime
+
+GitHub Pages deployment run `31528064977` completed SUCCESS for merge SHA `5002069b2babcc79c9fdb803b5ae3ec7b2266fc6`.
+
+Every permanent feature/workstream/release workflow also ran on that exact merge SHA and succeeded:
+
+- Home Bootstrap `31528065764` — SUCCESS.
+- League Confirmation `31528065893` — SUCCESS.
+- Transfer Workstream `31528065674` — SUCCESS.
+- Season Review `31528065686` — SUCCESS.
+- Statistics Workstream `31528065802` — SUCCESS.
+- Settings Workstream `31528065770` — SUCCESS.
+- V1 Visual Immersion `31528065696` — SUCCESS.
+- Licensed Football Visuals `31528065692` — SUCCESS.
+- Final Polish `31528065715` — SUCCESS.
+- Static App `31528065734` — SUCCESS.
+- Stability Lane `31528065780` — SUCCESS.
+- Release Burn-In `31528065729` — SUCCESS with all five independent passes green.
+
+Production burn-in jobs:
+
+- Pass 1 `93901145514` — SUCCESS.
+- Pass 2 `93901145561` — SUCCESS.
+- Pass 3 `93901145528` — SUCCESS.
+- Pass 4 `93901145566` — SUCCESS.
+- Pass 5 `93901145487` — SUCCESS.
+
+Production Stability jobs:
+
+- contracts `93901146115` — SUCCESS.
+- two-cycle Chromium `93901233977` — SUCCESS.
+- deployed-site smoke `93902341795` — SUCCESS.
+
+The deployed-site smoke against the public GitHub Pages URL succeeded through every required stage:
+
+1. exact deployed runtime-byte parity — SUCCESS;
+2. runtime error provenance — SUCCESS;
+3. Home/Reus visual audit — SUCCESS;
+4. crop-safe licensed football-photo audit — SUCCESS;
+5. Candidate A non-mutating backup/export audit — SUCCESS;
+6. complete public-site gameplay/browser journey — SUCCESS.
+
+## Clean-stability result before repository-state seal
+
+- Runtime defects reproduced across the clean build: **0**.
+- Continuation/authority defect found and fixed: **1**.
+- Runtime application bytes intentionally changed by this build: **0**.
+- Application identity: **v1.1.0 / 1.1.0-r1** (deliberately unchanged because there was no runtime patch).
+- Startup/performance budgets raised: **no**.
+- Permanent gates weakened: **no**.
+- Candidate B import implementation introduced: **no**.
+- Candidate C restore introduced: **no**.
+- Temporary development helper left in repository: **no**.
+- Owner subjective real-device visual acceptance: remains separate from automated technical proof until explicitly given.
+
+This production-proof append itself changes only this handoff document. Therefore the resulting documentation-inclusive `main` SHA must run the complete twelve-workflow matrix one final time, including another 5/5 release burn-in and a successful deployed-site smoke, before the clean-stability build is declared fully sealed.
