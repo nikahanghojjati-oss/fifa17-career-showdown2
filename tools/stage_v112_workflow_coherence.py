@@ -25,7 +25,7 @@ PATCHES = {
     "validate-v1-visual-immersion.yml": [
         ("'1.1.1-r1'", "'1.1.2-r1'"),
         ("v1.1.1 · Stable", "v1.1.2 · Stable"),
-        ('const APP_VERSION = \\"1.1.1\\"', 'const APP_VERSION = \\"1.1.2\\"'),
+        ('const APP_VERSION = "1.1.1"', 'const APP_VERSION = "1.1.2"'),
         ("css/visual-fidelity-r3.css?v=1.1.1-r1", "css/visual-fidelity-r3.css?v=1.1.2-r1"),
         ("v1.1.0 maintenance cache identity", "v1.1.2 Candidate B cache identity"),
         ("application version is not sealed at v1.1.0", "application version is not sealed at v1.1.2"),
