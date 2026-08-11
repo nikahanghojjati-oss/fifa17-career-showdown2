@@ -263,7 +263,7 @@ jobs:
           const vm = require('vm');
 
           const expectedVersion = '1.0.1';
-          const expectedRevision = '1.0.1-r4';
+          const expectedRevision = '1.0.1-r5';
           const maximumInitialAssetBytes = 165000;
           const maximumCompressedInitialAssetBytes = 37500;
           const maximumStartupPortraitBytes = 95000;
@@ -289,13 +289,13 @@ jobs:
           assert.ok(html.includes('v1.0.1 · Stable'), 'Stable user-facing footer identity is missing.');
           assert.ok(!html.includes('V1 Visual Immersion Candidate'), 'Candidate text remains in the user-facing shell.');
           assert.ok(projectState.includes('**Application version:** v1.0.1 — Stable'), 'PROJECT_STATE current version is stale.');
-          assert.ok(projectState.includes('**Runtime asset revision:** `1.0.1-r4`'), 'PROJECT_STATE runtime revision is stale.');
+          assert.ok(projectState.includes('**Runtime asset revision:** `1.0.1-r5`'), 'PROJECT_STATE runtime revision is stale.');
           assert.ok(nextTask.includes('## Current baseline: v1.0.1 Stable'), 'NEXT_TASK does not identify the stable baseline.');
           assert.ok(readme.includes('**Application version:** v1.0.1 — Stable'), 'README current version is stale.');
           assert.ok(changelog.includes('# v1.0.1 — Stability Hardening'), 'CHANGELOG stability release entry is missing.');
           assert.ok(releaseRecord.includes('Release tag: `v1.0.1`'), 'Permanent v1.0.1 release record is incomplete.');
           [projectState, nextTask, readme, changelog].forEach((document, index) => {
-            assert.ok(document.includes('1.0.1-r4'), `Current authority document ${index + 1} is missing the r4 runtime identity.`);
+            assert.ok(document.includes('1.0.1-r5'), `Current authority document ${index + 1} is missing the r4 runtime identity.`);
           });
           assert.ok(releaseRecord.includes('1.0.1-r1'), 'The immutable v1.0.1 release record must retain its original r1 evidence.');
 
