@@ -108,7 +108,7 @@ jobs:
 
           const html = fs.readFileSync('index.html', 'utf8');
           const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
-          assert.ok(/^1\.0\.2-r\d+$/.test(revision || ''), 'Home shell must expose the v1.1.0 cache revision.');
+          assert.ok(/^1\.1\.0-r\d+$/.test(revision || ''), 'Home shell must expose the v1.1.0 cache revision.');
 
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));
