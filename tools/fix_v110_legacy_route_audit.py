@@ -38,7 +38,17 @@ if "schemaVersion: 2," not in browser:
 
 old_runner = '''(async () => {\n    await fs.mkdir(resultsDirectory, { recursive: true });\n    const runtime = await resolveChromiumRuntime();\n    const browser = await chromium.launch({ executablePath: runtime.executablePath, args: runtime.args, headless: true });\n    try{\n        await assertDesktopScenario(browser);\n        await assertRealKeyboardDownload(browser);\n        await assertMobileReducedMotion(browser);\n        process.stdout.write("PASS  v1.1.0 Candidate A browser backup audit\\n");\n    } finally {\n        await browser.close();\n    }\n})().catch(error => {'''
 new_runner = '''(async () => {\n    await fs.mkdir(resultsDirectory, { recursive: true });\n    const runtime = await resolveChromiumRuntime();\n    for(const scenario of [assertDesktopScenario, assertRealKeyboardDownload, assertMobileReducedMotion]){\n        const browser = await chromium.launch({ executablePath: runtime.executablePath, args: runtime.args, headless: true });\n        try{\n            await scenario(browser);\n        }finally{\n            if(browser.isConnected()){\n                await browser.close();\n            }\n        }\n    }\n    process.stdout.write("PASS  v1.1.0 Candidate A browser backup audit\\n");\n})().catch(error => {'''
-browser = replace_once(browser, old_runner, new_runner, "fresh Chromium per backup scenario")
+if old_runner in browser:
+    browser = replace_once(browser, old_runner, new_runner, "fresh Chromium per backup scenario")
 write("tests/browser/backup-export-audit.cjs", browser)
 
-print("Candidate A Legacy route and browser-runtime repair generated")
+legacy_css = read("css/legacy.css")
+legacy_css = replace_once(
+    legacy_css,
+    ".compactButton{\n    min-height:40px;",
+    ".compactButton{\n    min-height:44px;",
+    "44px Data Management touch target floor"
+)
+write("css/legacy.css", legacy_css)
+
+print("Candidate A Legacy route, browser-runtime and touch-target repair generated")
