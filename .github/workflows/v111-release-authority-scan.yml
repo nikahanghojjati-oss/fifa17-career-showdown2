@@ -1,0 +1,28 @@
+name: V111 Release Authority Scan
+
+on:
+  push:
+    branches:
+      - agent/v1.1.1-james-real-madrid-source-refresh
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - name: Scan active release identity references
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== 1.1.0-r1 active references ==='
+          grep -RIn --exclude-dir=.git --exclude='CAREER_MODE_SHOWDOWN_CURRENT_HANDOFF_V1.1.0_CLEAN_STABILITY_FINAL.md' --exclude='CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*' --exclude='RELEASE_V1.1.0.md' --exclude='CHANGELOG.md' '1\.1\.0-r1' . || true
+          echo '=== current version assertions ==='
+          grep -RIn --exclude-dir=.git --exclude='CAREER_MODE_SHOWDOWN_CURRENT_HANDOFF_V1.1.0_CLEAN_STABILITY_FINAL.md' --exclude='CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*' --exclude='RELEASE_V1.1.0.md' --exclude='CHANGELOG.md' "1\.1\.0" .github js tests package.json package-lock.json index.html PROJECT_STATE.md NEXT_TASK.md README.md POST_V1_ROADMAP_EXECUTION.md || true
+          echo '=== old James runtime/source references ==='
+          grep -RIn --exclude-dir=.git 'james-rodriguez-real-madrid-2019-smart-r5\|James Rodríguez in 2019' . || true
