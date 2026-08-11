@@ -22,9 +22,14 @@ SESSION = requests.Session()
 
 # The crop is authored once in source pixels. Runtime CSS must show the complete
 # resulting derivative with object-fit: contain; it must never re-crop these.
+# replace_ids makes this builder reproducible from either the r4 baseline, an
+# earlier r5 candidate, or the final r5 manifest without deleting its own output.
 SELECTIONS = {
     "james": {
-        "old_id": "james-rodriguez-real-madrid-2016-r4",
+        "replace_ids": [
+            "james-rodriguez-real-madrid-2016-r4",
+            "james-rodriguez-real-madrid-2019-smart-r5",
+        ],
         "id": "james-rodriguez-real-madrid-2019-smart-r5",
         "source_file": "James Rodríguez in 2019.jpg",
         "output": "james-rodriguez-real-madrid-2019-smart-r5.webp",
@@ -35,22 +40,31 @@ SELECTIONS = {
         "license": "CC BY 3.0",
         "license_url": "https://creativecommons.org/licenses/by/3.0/",
         "context": "James Rodríguez in Real Madrid training apparel at Real Madrid City, 23 October 2019; hand-reviewed crop retains his complete head, shoulders, shirt and club crest.",
+        "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
     },
     "rashford": {
-        "old_id": "marcus-rashford-man-utd-2016-r4",
-        "id": "marcus-rashford-man-utd-2016-smart-r5",
-        "source_file": "Man Utd v Everton, August 2016 (08).JPG",
-        "output": "marcus-rashford-man-utd-2016-smart-r5.webp",
-        "crop_box_on_source": [0, 400, 1800, 2600],
-        "max_size": [900, 1100],
-        "quality": 90,
+        "replace_ids": [
+            "marcus-rashford-man-utd-2016-r4",
+            "marcus-rashford-man-utd-2016-smart-r5",
+            "marcus-rashford-man-utd-2017-smart-r5",
+        ],
+        "id": "marcus-rashford-man-utd-2017-smart-r5",
+        "source_file": "Manchester United v RSC Anderlecht, 20 April 2017 (29).jpg",
+        "output": "marcus-rashford-man-utd-2017-smart-r5.webp",
+        "crop_box_on_source": [1050, 300, 2350, 2200],
+        "max_size": [800, 1100],
+        "quality": 92,
         "author": "Ardfern",
         "license": "CC BY-SA 4.0",
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-        "context": "Marcus Rashford during the Manchester United v Everton Wayne Rooney testimonial at Old Trafford, 3 August 2016; hand-reviewed source-pixel crop removes dead stadium space while retaining his full head and upper body.",
+        "context": "Marcus Rashford for Manchester United v RSC Anderlecht at Old Trafford, 20 April 2017; hand-reviewed upper-body crop prioritizes his face, red shirt and club identity while removing unused grass and full-leg area.",
+        "crop_policy": "hand-reviewed face-and-upper-body source-pixel crop; complete derivative shown at runtime with object-fit: contain",
     },
     "martial": {
-        "old_id": "anthony-martial-man-utd-2015-r4",
+        "replace_ids": [
+            "anthony-martial-man-utd-2015-r4",
+            "anthony-martial-man-utd-2016-smart-r5",
+        ],
         "id": "anthony-martial-man-utd-2016-smart-r5",
         "source_file": "Manchester United v Zorya Luhansk, September 2016 (26).JPG",
         "output": "anthony-martial-man-utd-2016-smart-r5.webp",
@@ -61,6 +75,7 @@ SELECTIONS = {
         "license": "CC BY-SA 4.0",
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
         "context": "Anthony Martial for Manchester United v Zorya Luhansk at Old Trafford, 29 September 2016; hand-reviewed crop makes Martial the dominant subject while trimming the adjacent player from the presentation edge.",
+        "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
     },
 }
 
@@ -133,13 +148,19 @@ def validate_source(selection: dict, meta: dict) -> None:
         raise RuntimeError("Invalid Commons source dimensions")
     x1, y1, x2, y2 = selection["crop_box_on_source"]
     if not (0 <= x1 < x2 <= meta["width"] and 0 <= y1 < y2 <= meta["height"]):
-        raise RuntimeError(f"Crop outside source for {selection['source_file']}: {selection['crop_box_on_source']} vs {meta['width']}x{meta['height']}")
+        raise RuntimeError(
+            f"Crop outside source for {selection['source_file']}: "
+            f"{selection['crop_box_on_source']} vs {meta['width']}x{meta['height']}"
+        )
     if selection["author"].lower() not in meta["artist"].lower() and meta["artist"]:
         print(f"NOTICE: Commons artist string differs from normalized expected attribution: {meta['artist']!r}")
     expected_license = selection["license"].replace(" ", "").lower()
     actual_license = meta["license"].replace(" ", "").lower()
     if expected_license not in actual_license and actual_license not in expected_license:
-        raise RuntimeError(f"License changed for {selection['source_file']}: expected {selection['license']}, got {meta['license']}")
+        raise RuntimeError(
+            f"License changed for {selection['source_file']}: "
+            f"expected {selection['license']}, got {meta['license']}"
+        )
 
 
 def render(selection: dict, source_bytes: bytes) -> tuple[bytes, list[int]]:
@@ -149,7 +170,10 @@ def render(selection: dict, source_bytes: bytes) -> tuple[bytes, list[int]]:
     max_w, max_h = selection["max_size"]
     scale = min(1.0, max_w / crop.width, max_h / crop.height)
     if scale < 1.0:
-        crop = crop.resize((round(crop.width * scale), round(crop.height * scale)), Image.Resampling.LANCZOS)
+        crop = crop.resize(
+            (round(crop.width * scale), round(crop.height * scale)),
+            Image.Resampling.LANCZOS,
+        )
     buffer = io.BytesIO()
     crop.save(buffer, format="WEBP", quality=selection["quality"], method=6)
     data = buffer.getvalue()
@@ -158,26 +182,37 @@ def render(selection: dict, source_bytes: bytes) -> tuple[bytes, list[int]]:
     return data, [crop.width, crop.height]
 
 
+def find_manifest_index(assets: list[dict], selection: dict) -> int:
+    for index, asset in enumerate(assets):
+        if asset.get("id") in selection["replace_ids"]:
+            return index
+    raise RuntimeError(
+        f"No replaceable manifest entry found for {selection['id']}; "
+        f"expected one of {selection['replace_ids']}"
+    )
+
+
 def main() -> None:
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
-    by_id = {asset["id"]: asset for asset in manifest["assets"]}
+    old_outputs: set[str] = set()
 
-    replacements = {}
-    old_outputs = []
     for key, selection in SELECTIONS.items():
         meta = metadata(selection["source_file"])
         validate_source(selection, meta)
         source_bytes = download(meta["url"])
-        source_image = Image.open(io.BytesIO(source_bytes))
-        source_image = ImageOps.exif_transpose(source_image)
+        source_image = ImageOps.exif_transpose(Image.open(io.BytesIO(source_bytes)))
         if [source_image.width, source_image.height] != [meta["width"], meta["height"]]:
             raise RuntimeError(f"Downloaded source dimensions mismatch for {selection['source_file']}")
+
         output_bytes, output_dimensions = render(selection, source_bytes)
         (ASSET_DIR / selection["output"]).write_bytes(output_bytes)
 
-        old = by_id[selection["old_id"]]
-        old_outputs.append(old["output"])
-        replacements[selection["old_id"]] = {
+        index = find_manifest_index(manifest["assets"], selection)
+        prior_output = manifest["assets"][index].get("output")
+        if prior_output and prior_output != selection["output"]:
+            old_outputs.add(prior_output)
+
+        manifest["assets"][index] = {
             "id": selection["id"],
             "source_file": selection["source_file"],
             "output": selection["output"],
@@ -188,27 +223,38 @@ def main() -> None:
             "license_url": selection["license_url"],
             "source_page": meta["page"],
             "context": selection["context"],
-            "special_redirect_url": f"https://commons.wikimedia.org/wiki/Special:Redirect/file/{requests.utils.quote(selection['source_file'], safe='')}",
+            "special_redirect_url": (
+                "https://commons.wikimedia.org/wiki/Special:Redirect/file/"
+                + requests.utils.quote(selection["source_file"], safe="")
+            ),
             "source_dimensions": [meta["width"], meta["height"]],
             "source_sha1_commons": meta["sha1"],
             "source_sha256": sha256(source_bytes),
             "crop_box_on_source": selection["crop_box_on_source"],
-            "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+            "crop_policy": selection["crop_policy"],
             "output_dimensions": output_dimensions,
             "output_bytes": len(output_bytes),
             "output_sha256": sha256(output_bytes),
         }
-        print(f"Built {key}: {selection['output']} {output_dimensions[0]}x{output_dimensions[1]} {len(output_bytes)} bytes")
+        print(
+            f"Built {key}: {selection['output']} "
+            f"{output_dimensions[0]}x{output_dimensions[1]} {len(output_bytes)} bytes"
+        )
         time.sleep(2)
 
     manifest["generated_by"] = "r5-owner-requested-new-player-source-smart-crop-builder"
     manifest["transformation"] = (
         "James Rodríguez, Marcus Rashford and Anthony Martial are rebuilt from new licensed Commons sources using explicit, hand-reviewed source-pixel crop boxes, EXIF normalization, Lanczos downscaling only and WebP conversion. Messi and Lahm are unchanged from r4. Runtime CSS shows 100% of each finished derivative with contain; no generative alteration."
     )
-    manifest["assets"] = [replacements.get(asset["id"], asset) for asset in manifest["assets"]]
-    MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    MANIFEST_PATH.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
-    for output in old_outputs:
+    active_outputs = {asset.get("output") for asset in manifest["assets"]}
+    for output in sorted(old_outputs):
+        if output in active_outputs:
+            continue
         path = ASSET_DIR / output
         if path.exists():
             path.unlink()
