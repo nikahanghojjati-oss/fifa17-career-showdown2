@@ -22,6 +22,31 @@ jobs:
           fetch-depth: 1
       - name: Generate lazy Candidate A refactor
         run: python tools/refactor_v110_backup_lazy.py
+      - name: Keep the backup audit on the real route transaction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('tests/browser/backup-export-audit.cjs')
+          text=path.read_text(encoding='utf-8')
+          old='''async function openLegacy(page){
+              await page.evaluate(async () => {
+                  await window.openOptionalModule("legacy");
+                  showScreen("legacy", false);
+              });
+              await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
+          '''
+          new='''async function openLegacy(page){
+              await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
+              const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
+              assert.equal(opened, true, "Legacy/Data Management must open from a stable Home route.");
+              await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
+          '''
+          if text.count(old) != 1:
+              raise RuntimeError(f'Expected one generated openLegacy helper, found {text.count(old)}')
+          path.write_text(text.replace(old,new,1),encoding='utf-8')
+          PY
       - name: Validate runtime syntax and backup contracts
         shell: bash
         run: |
