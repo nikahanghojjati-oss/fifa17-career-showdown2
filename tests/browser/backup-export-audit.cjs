@@ -19,7 +19,10 @@ async function waitForApp(page){
 }
 
 async function openLegacy(page){
-    await page.evaluate(() => window.openOptionalModule("legacy"));
+    await page.evaluate(async () => {
+        await window.openOptionalModule("legacy");
+        showScreen("legacy", false);
+    });
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
     const exportButton = page.getByRole("button", { name: "EXPORT BACKUP" });
     await exportButton.waitFor({ state: "visible" });
