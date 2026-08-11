@@ -144,37 +144,84 @@ The branch currently uses runtime asset revision `1.0.1-r5` in `index.html` and 
 
 ## Current branch status
 
-As of this handoff update, the branch is:
+Active branch:
 
 `agent/r5-smart-player-photo-rebuild`
 
-Current observed head before this handoff commit:
+Latest observed implementation head before the handoff update that follows the validator integration:
 
-`e56c2415a19a9ede0c2dfd4798d4cf38bbdd4284`
+`25e496a492e6f94cb335d8008dd261871f857098`
 
-The branch is ahead of `main` and contains the r5 source-review tooling, smart-crop builder, new image assets, manifest changes, runtime data wiring, CSS selector updates, version/cache identity updates, old r4 James/Rashford/Martial asset removals, and third-party notice updates.
+The branch is ahead of `main` and contains the r5 source-review tooling, smart-crop builder, new image assets, manifest changes, runtime data wiring, CSS selector updates, version/cache identity updates, old r4 James/Rashford/Martial asset removals, third-party notice updates, and r5-aware permanent project validators.
 
-## Known integration blocker discovered 2026-08-11
+## Known integration blocker discovered and resolved 2026-08-11
 
-GitHub Action `R5 Apply Runtime Revision`, run `31484862256`, failed only at its `Commit integration` step. Its `Apply r5 identity integration` step succeeded. The generated image build itself had already succeeded.
+Early GitHub Action `R5 Apply Runtime Revision` runs successfully transformed the working tree but failed at the final push step. The exact job log showed the root cause was GitHub refusing to let the Actions app update files under `.github/workflows` without workflow-write authorization. The failure was therefore a repository publication-permission issue, not an image-generation, crop, runtime, or validator-logic failure.
 
-The failure is therefore a publication/integration workflow issue, not a crop-generation failure.
+The temporary integration script was made idempotent so it recognizes both already-current r5 files and old r4 files instead of blindly requiring r4 tokens.
 
-Important observation after inspecting the current branch: the branch already contains the intended r5 runtime identity in files such as `index.html`, `js/footballVisuals.js`, `data/footballVisuals.js`, and `css/footballVisuals.css`. The next developer must not blindly rerun the old one-shot revision script against already-advanced files because it expects `1.0.1-r4` tokens and is not idempotent.
+The temporary integration workflow was then changed from a branch-mutating workflow into a read-only generator that:
 
-The correct next step is to clean up the temporary r5 utility workflow/scripts if appropriate, ensure validators reference `1.0.1-r5` and the new image IDs, create/open the r5 PR, run the existing full PR validation matrix, fix any real validator regressions, then merge only the exact tested head and verify Pages.
+1. checks out the r5 branch,
+2. applies the r5 validator transformations in its workspace,
+3. uploads the exact generated permanent workflow files as an artifact,
+4. does not attempt to push workflow files.
 
-## Validation completed during r5 source work
+Successful generator run:
 
-Completed successfully before this handoff entry:
+`31485412112`
+
+Generated validator artifact:
+
+`r5-generated-validator-files-569034e20acc3e4b17d803ff63ea055dfee58cea`
+
+The five permanent validators were then written through the authenticated GitHub connector, which is authorized to update workflow files.
+
+Permanent validator commits:
+
+- Home bootstrap r5 validator: `4a5bce5d1a94e20386fd2238f2ea81819096b2b7`
+- V1 visual immersion r5 validator: `53096374e6f49105b7070c731a8582a2c2891227`
+- Final polish r5 validator: `1bb0419452ebf69e5b476ef1880be4450e1b3ac1`
+- Licensed football visual r5 smart-crop validator: `9023393feabe6a2c8c89b8d17f787eaf21bd63c5`
+- Static app r5 validator: `25e496a492e6f94cb335d8008dd261871f857098`
+
+The Git blob hashes of all five committed permanent validators were compared against the generated artifact and matched exactly:
+
+- `validate-final-polish.yml` → `d27c1a3d732ab01b8600c6885af7504274720f42`
+- `validate-football-visuals.yml` → `149f6605a19530ba4b6223f887b3d8c555d8d360`
+- `validate-menu-bootstrap.yml` → `e087db1ce51894075cb50469163ef68bb2570fd2`
+- `validate-static-app.yml` → `cc2ef3612dd43ce1bcd591fc2604a7c515caca56`
+- `validate-v1-visual-immersion.yml` → `f63a4f309f3ed693f5fa4560b9523c2679a990f9`
+
+This byte-for-byte verification matters because the two largest validator files were not manually simplified or weakened.
+
+## r5 permanent photo-quality contracts now enforced
+
+The permanent licensed-football-visual validator now expects the three new r5 assets and explicitly rejects the replaced r4/r3 paths from active use.
+
+It additionally asserts the exact authored crop boxes:
+
+- James: `[20, 0, 540, 705]`
+- Rashford: `[0, 400, 1800, 2600]`
+- Martial: `[0, 0, 1800, 2400]`
+
+The permanent browser visual audit remains active. It still requires subject-safe `contain` presentation, essentially full visibility of each authored derivative, no blind portrait-to-wide `cover`, bounded upscaling, useful frame coverage, and rejection of the known bad r3 photo set.
+
+Messi and Lahm remain under their existing r4-specific source/provenance protections. Reus remains protected by the Home/bootstrap/visual immersion gates.
+
+## Validation completed during r5 source and integration work
+
+Completed successfully before the PR validation stage:
 
 - focused licensed source contact-sheet review
 - explicit crop candidate generation
 - deterministic r5 asset build
 - new derivative generation and provenance manifest update
 - stale-reference scan workflow
+- read-only generated-validator workflow
+- byte-for-byte permanent-validator artifact verification
 
-The full normal project PR validation matrix has not yet been completed on the final r5 branch state. Do not call r5 release-ready until those checks pass.
+The full normal project pull-request validation matrix still needs to run on the final r5 branch state. Do not call r5 release-ready until those checks pass.
 
 ## Conversation log
 
@@ -228,6 +275,10 @@ The developer described the three new filenames and stated that source generatio
 
 The developer acknowledged the correction and resumed direct GitHub work. The developer committed to finishing the three image rebuilds, wiring the runtime, removing stale r4 references, running full visual/stability checks, and maintaining this rolling handoff in the repository.
 
+### Developer progress updates after the owner correction
+
+The developer reported that the r5 integration action's transformation succeeded but the commit step failed, diagnosed the failure as a GitHub workflow-file permission restriction, converted the temporary mutating workflow into a read-only validator-artifact generator, and then applied the exact generated permanent validators with the GitHub connector. The developer also informed the owner that the three new image builds and crop contracts were being validated rather than merely described in chat.
+
 ## Action log
 
 ### 2026-08-11 — r5 continuation
@@ -241,7 +292,19 @@ The developer acknowledged the correction and resumed direct GitHub work. The de
 7. Inspected the failed `R5 Apply Runtime Revision` workflow and established that its image/runtime transformation step succeeded and only its git commit step failed.
 8. Established that this failed one-shot integration workflow should not be blindly rerun against already-advanced r5 files.
 9. Created this repository handoff file at the owner's explicit request.
+10. Read the exact failed Actions job log and identified GitHub workflow-write permission as the publication blocker.
+11. Made `tools/apply_r5_runtime_revision.py` idempotent so it safely recognizes already-current r5 state.
+12. Extended that transformer so the permanent licensed-football-visual gate validates the new James, Rashford, and Martial IDs, source pages, output dimensions, licenses, attribution, and authored source-pixel crop boxes without weakening crop-safety rules.
+13. Converted `.github/workflows/r5-apply-runtime-revision.yml` into a read-only generated-validator artifact workflow instead of a branch-mutating workflow.
+14. Successfully generated the five r5 permanent validator files in run `31485412112`.
+15. Applied the generated Home bootstrap validator through the GitHub connector.
+16. Applied the generated V1 visual immersion validator through the GitHub connector.
+17. Applied the generated Final Polish validator through the GitHub connector.
+18. Applied the generated Licensed Football Visual validator through the GitHub connector.
+19. Applied the generated Static App validator through the GitHub connector.
+20. Verified all five committed Git blob hashes exactly match the generated artifact files.
+21. Confirmed there is no existing open PR for `agent/r5-smart-player-photo-rebuild`; the next release-validation step is to open one and run the full normal project validation matrix.
 
 ## Immediate next action
 
-Continue from the current r5 branch, inspect/update the permanent project validators so they accept the new r5 image IDs/revision without weakening the crop-safety contracts, remove or neutralize temporary one-shot r5 workflows that can fail or mutate the branch unexpectedly, create the r5 pull request, run the full existing PR validation matrix, fix any real failures, and merge only after the exact head is green. Then verify the exact merged Pages deployment and leave final aesthetic acceptance to the owner's real-device review.
+Create the r5 pull request from `agent/r5-smart-player-photo-rebuild` into `main`, let the full permanent PR validation matrix run, inspect and fix any real failures without weakening the new smart-crop contracts, then merge only the exact tested head. After merge, verify the exact Pages deployment and post-merge stability/browser gates. Final aesthetic acceptance for James, Rashford, and Martial remains with the owner's real-device review.
