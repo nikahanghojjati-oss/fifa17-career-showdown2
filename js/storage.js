@@ -50,112 +50,11 @@ function removeStorageValue(key){
     }
 }
 
-function isPlainStorageObject(value){
-    return Boolean(value && typeof value === "object" && !Array.isArray(value));
-}
-
-function inspectRawStorageRecord(key, validator, label){
-    const raw = readStorageValue(key);
-    if(raw === null){
-        return { state: "missing", raw: null, value: null, warning: null };
-    }
-
-    try{
-        const value = JSON.parse(raw);
-        if(typeof validator === "function" && !validator(value)){
-            throw new Error(`${label} has an unsupported shape.`);
-        }
-        return { state: "valid", raw, value, warning: null };
-    }catch(error){
-        return {
-            state: "corrupt",
-            raw,
-            value: null,
-            warning: `${label} could not be safely interpreted: ${error.message || String(error)}`
-        };
-    }
-}
-
-function validateActiveShowdownStorage(value){
-    return isPlainStorageObject(value);
-}
-
-function validateLegacyStorage(value){
-    return Array.isArray(value)
-        && value.every(item => isPlainStorageObject(item));
-}
-
-function validatePreferencesStorage(value){
-    return isPlainStorageObject(value);
-}
-
-function captureCareerModeBackupSnapshot(){
-    const activeRecord = inspectRawStorageRecord(STORAGE_KEY, validateActiveShowdownStorage, "Active Showdown storage");
-    const legacyRecord = inspectRawStorageRecord(LEGACY_STORAGE_KEY, validateLegacyStorage, "Legacy storage");
-    const preferencesRecord = inspectRawStorageRecord(APPLICATION_PREFERENCES_KEY, validatePreferencesStorage, "Preferences storage");
-    const warnings = [];
-    const recovery = {};
-
-    [
-        ["activeShowdown", STORAGE_KEY, activeRecord],
-        ["legacyShowdowns", LEGACY_STORAGE_KEY, legacyRecord],
-        ["preferences", APPLICATION_PREFERENCES_KEY, preferencesRecord]
-    ].forEach(([name, storageKey, record]) => {
-        if(record.state === "corrupt"){
-            warnings.push(record.warning);
-            recovery[name] = {
-                storageKey,
-                raw: record.raw,
-                reason: record.warning
-            };
-        }
-    });
-
-    let activeShowdown = activeRecord.state === "valid" ? cloneForStorage(activeRecord.value) : null;
-    let activeSource = activeRecord.state === "valid" ? "storage" : "none";
-
-    if(typeof currentShowdown !== "undefined" && currentShowdown && isPlainStorageObject(currentShowdown)){
-        try{
-            activeShowdown = cloneForStorage(currentShowdown);
-            activeSource = "runtime";
-        }catch(error){
-            warnings.push(`The in-memory active Showdown could not be cloned; persisted storage was used instead: ${error.message || String(error)}`);
-        }
-    }
-
-    const legacyShowdowns = legacyRecord.state === "valid" ? cloneForStorage(legacyRecord.value) : null;
-    const preferences = preferencesRecord.state === "valid" ? cloneForStorage(preferencesRecord.value) : null;
-    const matchingLegacyIndex = activeShowdown && Array.isArray(legacyShowdowns)
-        ? legacyShowdowns.findIndex(item => String(item.id) === String(activeShowdown.id))
-        : -1;
-
+function captureCareerModeRawBackupInputs(){
     return {
-        payload: {
-            activeShowdown,
-            legacyShowdowns,
-            preferences
-        },
-        counts: {
-            activeShowdowns: activeShowdown ? 1 : 0,
-            legacyShowdowns: Array.isArray(legacyShowdowns) ? legacyShowdowns.length : 0,
-            preferenceRecords: preferences ? 1 : 0
-        },
-        relationships: {
-            activeSource,
-            completedActiveMatchesLegacy: Boolean(
-                activeShowdown
-                && activeShowdown.status === "Completed"
-                && matchingLegacyIndex >= 0
-            ),
-            matchingLegacyIndex
-        },
-        storageState: {
-            activeShowdown: activeRecord.state,
-            legacyShowdowns: legacyRecord.state,
-            preferences: preferencesRecord.state
-        },
-        warnings,
-        recovery: Object.keys(recovery).length ? recovery : null
+        activeShowdown: readStorageValue(STORAGE_KEY),
+        legacyShowdowns: readStorageValue(LEGACY_STORAGE_KEY),
+        preferences: readStorageValue(APPLICATION_PREFERENCES_KEY)
     };
 }
 
@@ -469,15 +368,24 @@ function clearSavedShowdown(){
 }
 
 function hasSavedShowdown(){
-    if(activeSavePresenceKnown){
-        return activeSavePresent;
+    if(activeSavePresenceKnown){ return activeSavePresent; }
+    const raw = readStorageValue(STORAGE_KEY);
+    if(!raw){
+        activeSavePresenceKnown = true;
+        activeSavePresent = false;
+        return false;
     }
-
-    const record = inspectRawStorageRecord(STORAGE_KEY, validateActiveShowdownStorage, "Active Showdown storage");
-    activeSavePresenceKnown = true;
-    activeSavePresent = record.state === "valid";
-    if(record.state === "corrupt"){
-        reportStorageError("Unable to use the stored active showdown", new Error(record.warning));
+    try{
+        const parsed = JSON.parse(raw);
+        if(!parsed || typeof parsed !== "object" || Array.isArray(parsed)){
+            throw new Error("Active save data is not a valid showdown object.");
+        }
+        activeSavePresenceKnown = true;
+        activeSavePresent = true;
+    }catch(error){
+        activeSavePresenceKnown = true;
+        activeSavePresent = false;
+        reportStorageError("Unable to use the stored active showdown", error);
     }
     return activeSavePresent;
 }
@@ -507,7 +415,7 @@ function loadLegacyShowdowns(){
         if(!Array.isArray(parsed)){
             throw new Error("Legacy history is not a valid array.");
         }
-        if(parsed.some(item => !isPlainStorageObject(item))){
+        if(parsed.some(item => !item || typeof item !== "object" || Array.isArray(item))){
             throw new Error("Legacy history contains an invalid record shape.");
         }
         legacyCache = parsed.slice();
@@ -638,7 +546,7 @@ function clearAllCareerModeData(){
     return true;
 }
 
-window.captureCareerModeBackupSnapshot = captureCareerModeBackupSnapshot;
+window.captureCareerModeRawBackupInputs = captureCareerModeRawBackupInputs;
 window.getCareerModeStorageKeys = () => ({
     activeShowdown: STORAGE_KEY,
     legacyShowdowns: LEGACY_STORAGE_KEY,

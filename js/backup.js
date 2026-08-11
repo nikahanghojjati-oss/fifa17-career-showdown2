@@ -16,6 +16,91 @@ function getBackupRuntimeRevision(){
     return meta && meta.content ? meta.content.trim() : "unknown";
 }
 
+
+function isBackupObject(value){
+    return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function cloneBackupValue(value){
+    if(value === null || value === undefined){ return value ?? null; }
+    if(typeof structuredClone === "function"){
+        try{ return structuredClone(value); }catch(error){ /* JSON fallback below. */ }
+    }
+    return JSON.parse(JSON.stringify(value));
+}
+
+function inspectBackupRecord(raw, validator, label){
+    if(raw === null){ return { state: "missing", raw: null, value: null, warning: null }; }
+    try{
+        const value = JSON.parse(raw);
+        if(!validator(value)){ throw new Error(`${label} has an unsupported shape.`); }
+        return { state: "valid", raw, value, warning: null };
+    }catch(error){
+        return { state: "corrupt", raw, value: null, warning: `${label} could not be safely interpreted: ${error.message || String(error)}` };
+    }
+}
+
+function buildCareerModeBackupSnapshot(){
+    if(typeof window.captureCareerModeRawBackupInputs !== "function"){
+        throw new Error("The storage snapshot authority is unavailable.");
+    }
+    const raw = window.captureCareerModeRawBackupInputs();
+    const activeRecord = inspectBackupRecord(raw.activeShowdown, isBackupObject, "Active Showdown storage");
+    const legacyRecord = inspectBackupRecord(raw.legacyShowdowns, value => Array.isArray(value) && value.every(isBackupObject), "Legacy storage");
+    const preferencesRecord = inspectBackupRecord(raw.preferences, isBackupObject, "Preferences storage");
+    const keys = typeof window.getCareerModeStorageKeys === "function" ? window.getCareerModeStorageKeys() : {};
+    const warnings = [];
+    const recovery = {};
+
+    [
+        ["activeShowdown", keys.activeShowdown, activeRecord],
+        ["legacyShowdowns", keys.legacyShowdowns, legacyRecord],
+        ["preferences", keys.preferences, preferencesRecord]
+    ].forEach(([name, storageKey, record]) => {
+        if(record.state !== "corrupt"){ return; }
+        warnings.push(record.warning);
+        recovery[name] = { storageKey: storageKey || name, raw: record.raw, reason: record.warning };
+    });
+
+    let activeShowdown = activeRecord.state === "valid" ? cloneBackupValue(activeRecord.value) : null;
+    let activeSource = activeRecord.state === "valid" ? "storage" : "none";
+    if(typeof currentShowdown !== "undefined" && isBackupObject(currentShowdown)){
+        try{
+            activeShowdown = cloneBackupValue(currentShowdown);
+            activeSource = "runtime";
+        }catch(error){
+            warnings.push(`The in-memory active Showdown could not be cloned; persisted storage was used instead: ${error.message || String(error)}`);
+        }
+    }
+
+    const legacyShowdowns = legacyRecord.state === "valid" ? cloneBackupValue(legacyRecord.value) : null;
+    const preferences = preferencesRecord.state === "valid" ? cloneBackupValue(preferencesRecord.value) : null;
+    const matchingLegacyIndex = activeShowdown && Array.isArray(legacyShowdowns)
+        ? legacyShowdowns.findIndex(item => String(item.id) === String(activeShowdown.id))
+        : -1;
+
+    return {
+        payload: { activeShowdown, legacyShowdowns, preferences },
+        counts: {
+            activeShowdowns: activeShowdown ? 1 : 0,
+            legacyShowdowns: Array.isArray(legacyShowdowns) ? legacyShowdowns.length : 0,
+            preferenceRecords: preferences ? 1 : 0
+        },
+        relationships: {
+            activeSource,
+            completedActiveMatchesLegacy: Boolean(activeShowdown && activeShowdown.status === "Completed" && matchingLegacyIndex >= 0),
+            matchingLegacyIndex
+        },
+        storageState: {
+            activeShowdown: activeRecord.state,
+            legacyShowdowns: legacyRecord.state,
+            preferences: preferencesRecord.state
+        },
+        warnings,
+        recovery: Object.keys(recovery).length ? recovery : null
+    };
+}
+
 function canonicalizeBackupValue(value){
     if(Array.isArray(value)){
         return value.map(canonicalizeBackupValue);
@@ -49,11 +134,7 @@ function checksumInputForEnvelope(envelope){
 }
 
 async function createCareerModeBackupEnvelope(){
-    if(typeof window.captureCareerModeBackupSnapshot !== "function"){
-        throw new Error("The storage snapshot authority is unavailable.");
-    }
-
-    const snapshot = window.captureCareerModeBackupSnapshot();
+    const snapshot = buildCareerModeBackupSnapshot();
     const envelope = {
         formatId: CAREER_MODE_BACKUP_FORMAT_ID,
         formatVersion: CAREER_MODE_BACKUP_FORMAT_VERSION,
