@@ -83,7 +83,7 @@ footer{flex:0 0 auto;min-height:33px;padding:7px 22px;color:#d7dfe4;background:l
 .menuButton:hover:not(:disabled),.menuButton:focus-visible{background:#232a30;transform:translateY(-1px);outline:2px solid var(--f17-yellow);outline-offset:2px;}
 .menuButton:disabled,.backButton:disabled,.compactButton:disabled{cursor:not-allowed;opacity:.48;transform:none;}
 .menuButton.isBusy{cursor:progress;}
-.backButton,.compactButton{min-height:42px;padding:8px 16px;color:var(--f17-ink);background:rgba(247,249,249,.96);border:1px solid rgba(39,49,57,.2);letter-spacing:1.2px;font-size:13px;transition:background-color 90ms ease,border-color 90ms ease;}
+.backButton,.compactButton{min-height:44px;padding:8px 16px;color:var(--f17-ink);background:rgba(247,249,249,.96);border:1px solid rgba(39,49,57,.2);letter-spacing:1.2px;font-size:13px;transition:background-color 90ms ease,border-color 90ms ease;}
 .backButton:hover:not(:disabled),.compactButton:hover:not(:disabled),.backButton:focus-visible,.compactButton:focus-visible{background:#fff;border-color:var(--f17-blue);outline:2px solid var(--f17-yellow);outline-offset:2px;}
 .dangerButton{color:#8a3037!important;border-color:#c7777b!important;background:#f5e6e7!important;}
 .dangerButton:hover:not(:disabled){background:#eed4d6!important;}

@@ -339,3 +339,13 @@ Do not change:
 `CANDIDATE A FOCUSED BROWSER VALIDATION GREEN — FINAL CLEAN PERMANENT CI + SCREENSHOT REVIEW NEXT`
 
 No claim of merge/deployment or owner acceptance for the v1.1.0 accent retune has been made yet.
+
+
+## Final deployment hardening — 2026-08-11
+
+Owner requested deployment plus at least two additional fixes and five independent final-gate comparisons. Before merge, two concrete defects were selected rather than changing scope:
+
+1. **Global touch-target defect:** the shared `.backButton,.compactButton` contract still allowed 42 px controls even though the release accessibility floor is 44 px. The global minimum is now 44 px so this protection applies consistently beyond Data Management.
+2. **Football-photo paint-settlement defect:** visual panels could mark `imageLoaded` from the `load` event before decoded pixels had settled across paint frames. This could produce a technically green but visually blank evidence frame on mobile. `js/footballVisuals.js` now waits for `HTMLImageElement.decode()` when available and commits the loaded state only after two paint frames, with a non-decode fallback. The browser audit also waits through two paint frames before screenshot capture.
+
+The earlier Stability run on `5ea916f7f26418b9964396c030cfeca2d44f8cda` was **cancelled by concurrency** and is explicitly not counted as release proof. A new frozen final SHA will be validated from scratch.
