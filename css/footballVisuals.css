@@ -232,11 +232,11 @@
     width:61%;
 }
 
-/* The final r5 Rashford asset is a face-and-upper-body authored crop. Keep a
-   narrow dedicated stage so the complete derivative remains dominant without
-   any second responsive crop or zoom. */
+/* The final r5 Rashford asset is a face-and-upper-body authored crop. Its
+   contained image is height-bound, so a 43% desktop stage removes unused side
+   space without zooming or cropping the derivative. */
 .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
-    width:50%;
+    width:43%;
 }
 
 .footballVisualHeroTransfer .footballVisualCopy{
@@ -337,9 +337,11 @@
     .footballVisualHeroTransfer .footballVisualPanel{
         min-height:184px;
     }
-    .footballVisualHeroTransfer .footballVisualMediaFrame,
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
+    .footballVisualHeroTransfer .footballVisualMediaFrame{
         width:58%;
+    }
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
+        width:52%;
     }
 
     .footballVisualAnalytics{
@@ -398,9 +400,11 @@
     .footballVisualHeroTransfer .footballVisualPanel{
         min-height:182px;
     }
-    .footballVisualHeroTransfer .footballVisualMediaFrame,
-    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
+    .footballVisualHeroTransfer .footballVisualMediaFrame{
         width:58%;
+    }
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMediaFrame{
+        width:52%;
     }
     .footballVisualHeroTransfer .footballVisualCopy{
         width:44%;
