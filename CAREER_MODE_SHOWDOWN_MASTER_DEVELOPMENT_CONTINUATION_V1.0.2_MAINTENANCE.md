@@ -28,25 +28,23 @@ No additional owner access is currently required.
 
 ### Shared footballer panel
 
-`css/footballVisuals.css` currently places decorative pseudo-element gradients above the player photographs:
+`css/footballVisuals.css` originally placed decorative pseudo-element gradients above the player photographs:
 
-- `.footballVisualPanel::before` uses `z-index:2`;
-- `.footballVisualPanel::after` uses `z-index:3`;
-- `.footballVisualMediaFrame` is `z-index:1`.
+- `.footballVisualPanel::before` used `z-index:2`;
+- `.footballVisualPanel::after` used `z-index:3`;
+- `.footballVisualMediaFrame` was `z-index:1`.
 
-This architecture permits accent geometry to cross player faces.
+This architecture permitted accent geometry to cross player faces.
 
-The light-tone James panel adds a strong white wash above the photograph, matching the owner-reported faded face.
+The light-tone James panel added a strong white wash above the photograph, matching the owner-reported faded face.
 
 ### Transfer photos
 
-Rashford and Martial are authored `contain` crops, but the same above-photo diagonal overlay still crosses the image. Rashford is the clearest failure because his face sits in the overlay path.
+Rashford and Martial used authored `contain` crops, but the same above-photo diagonal overlay still crossed the image. Rashford was the clearest failure because his face sat in the overlay path.
 
 ### Home Reus
 
-`css/app.css` currently uses `.menuCoverAthlete img { object-fit: cover; object-position:53% 18%; }` inside a narrow right-side frame. The loading screen uses separate startup art direction and is not the same failure class.
-
-The next Home treatment should preserve the local Reus source but integrate it as a clean anchor instead of aggressively zoom-cropping the photograph.
+The desktop Home treatment used a clipped/diagonal right-side photo treatment that produced the unattractive head/neck edge visible in the owner's Chromebook screenshot. The loading screen is a separate startup composition and is not the same failure class.
 
 ## Maintenance design principle
 
@@ -79,29 +77,151 @@ Do not change unless a reproduced regression requires it:
 - Messi and Lahm photography unless a regression is found;
 - lazy module/media architecture.
 
-## Planned implementation lanes
+## Implemented maintenance architecture
 
-1. Rebuild shared football-photo presentation into a clean-anchor model.
-2. Remove above-face decorative geometry for James/Rashford/Martial.
-3. Tune James tonal treatment to restore face contrast without changing licensed source pixels.
-4. Rebuild Home Reus tile as a clean contained/anchored photograph while preserving the loading screen.
-5. Add declarative presentation metadata/test hooks so future edits cannot regress face-safe behavior silently.
-6. Advance runtime/cache identity to v1.0.2 maintenance revision when runtime bytes change.
-7. Strengthen permanent visual/static/stability gates for the new architecture.
-8. Run full PR matrix on one frozen head.
-9. Inspect browser screenshots, not only test status.
-10. Merge with exact-head protection, verify Pages, run post-merge Stability Lane/deployed smoke.
-11. Update release/state/next-task/handoff only after validated behavior is real.
+### James / Rashford / Martial
 
-## Action log
+`data/footballVisuals.js` now gives these three assets the declarative treatment:
 
-1. Confirmed current `main` at `88fbf11b7f74b6cb69b5dd576af3754e55fc0880`.
-2. Verified GitHub plugin permission is `Allow all actions`.
-3. Created branch `agent/v1.0.2-footballer-tile-maintenance` from current main.
-4. Inspected `css/footballVisuals.css`, `data/footballVisuals.js`, `js/footballVisuals.js`, `css/app.css`, `js/menuExperience.js`, and `index.html`.
-5. Confirmed root causes above from live source.
-6. Created this rolling maintenance handoff before runtime edits.
+`treatment: "clean-anchor"`
+
+The shared presentation contract now keeps:
+
+- decorative ambience at z0/z1;
+- the photograph at z2;
+- text/caption in a separate z4 copy plate outside the image anchor;
+- full authored derivative visibility under `object-fit: contain`;
+- no CSS colour filter on the photographs.
+
+Rashford and Martial use clean right-side player anchors in Transfer Challenge. No decorative line is allowed to paint over their faces.
+
+James uses a clean right-side portrait anchor on Create Showdown with no white wash over his face.
+
+### Home Reus
+
+`css/visual-fidelity-r3.css` introduces the v1.0.2 Home treatment:
+
+- desktop Reus uses a rectangular right-side photo anchor;
+- desktop `clip-path` is removed;
+- the competing desktop jersey-number overlay is removed;
+- decorative layers stay behind the photograph;
+- desktop photo filtering is disabled;
+- the bounded mobile treatment remains separately protected.
+
+The startup/loading composition is intentionally preserved from the previously accepted treatment because the owner explicitly likes it.
+
+## Browser evidence collected before final release promotion
+
+Draft PR #13 was opened early to obtain real browser evidence rather than validating only from CSS/source inspection.
+
+### Home/Reus
+
+The new Home audit passed all tested viewports:
+
+- 940×700 DPR1 — rectangular anchor, crop `53% 2%`, no desktop clip-path;
+- 1100×720 DPR1 — crop `53% 12%`;
+- 1366×768 DPR1 — crop `53% 12%`;
+- 390×844 DPR2 — previously accepted mobile treatment remained intact.
+
+Manual screenshot inspection confirmed the rejected diagonal head/neck cut is gone and Reus reads as a clean FIFA-style tile anchor.
+
+### Transfer Challenge
+
+Manual browser screenshot inspection confirmed:
+
+- Rashford's face is unobstructed;
+- Martial is unobstructed and visually consistent;
+- decorative geometry is behind the photographs rather than crossing them;
+- the left-copy/right-player structure reads closer to the supplied FIFA 17 reference.
+
+### James first candidate
+
+The first clean-anchor James candidate restored facial detail, but the real near-breakpoint audit correctly rejected the composition because the photograph occupied only 54.6% of its frame and the copy plate was too narrow for the surname.
+
+The visibility threshold was not lowered.
+
+The composition was retuned to:
+
+- desktop photo stage: `60%`;
+- desktop copy plate: `36%`;
+- 701–1020 photo stage: `58%`;
+- 701–1020 copy plate: `38%`;
+- smaller name sizing so `RODRÍGUEZ` reads deliberately rather than as an awkward broken word.
+
+## Release/runtime identity
+
+Current candidate identity:
+
+- application: `v1.0.2`;
+- runtime revision: `1.0.2-r1`;
+- visual fidelity layer: `css/visual-fidelity-r3.css`.
+
+`package.json` and the root package entries in `package-lock.json` are now `1.0.2`.
+
+## Permanent gate changes
+
+The permanent visual gates are being strengthened rather than weakened.
+
+Licensed Football Visuals now protects:
+
+- explicit `clean-anchor` metadata for James/Rashford/Martial;
+- photo frame above decorative pseudo-elements;
+- copy plate outside the photo anchor;
+- full derivative crop-safe rendering;
+- tuned James desktop/near-breakpoint geometry;
+- Rashford/Martial clean-anchor geometry;
+- source/license/provenance contracts;
+- Messi/Lahm protected behavior;
+- real desktop/near-breakpoint/mobile screenshot journeys.
+
+Home visual auditing now protects:
+
+- desktop rectangular Reus anchor;
+- no desktop head/neck clipping `clip-path`;
+- photo above decorative layers;
+- protected mobile path;
+- physical-pixel and overflow quality floors.
+
+Static/release/Statistics/Season Review/Stability authorities are being promoted to `v1.0.2 / 1.0.2-r1` while preserving their existing gameplay/accessibility/storage assertions.
+
+`RELEASE_V1.0.1.md` remains immutable historical evidence. `RELEASE_V1.0.2.md` is the new defect-only maintenance record.
+
+## Failure classification so far
+
+1. Initial Licensed Football Visual contract failure — **stale test authority**, because it still demanded old r5 frame percentages.
+2. First Licensed Football Visual browser failure — **real visual composition failure**, James near-breakpoint occupancy 54.6%; fixed by changing composition, not threshold.
+3. Stability contract failure — **release-coherence failure**, `package.json` was still 1.0.1 after `APP_VERSION` moved to 1.0.2; root package/lock identity corrected.
+4. Statistics and Season Review failures — **stale cache-revision assertions** still requiring `1.0.1-rN`; promoted without changing feature behavior.
+5. Static App failure — **expected release-authority drift** while current docs/release record still described v1.0.1; v1.0.2 authority is now promoted coherently.
+6. First package-lock tuning helper stopped deliberately because it found four generic `"version": "1.0.1"` strings; the script was corrected to modify only the two root package version fields rather than blindly editing dependency versions.
+
+## Important implementation commits/checkpoints
+
+- clean-anchor data contract: `a9e4c994ef7c055be6a995f5e0be78f9d68e1dbe`
+- runtime treatment exposure: `4755179ec7ade3f79f43051707e148218e291384`
+- clean-anchor shared CSS: `3acf90105477ea243d9a5550e4c517c762b5f685`
+- Home/loading r3 fidelity layer: `68db8fa1f48b0d2ceb5002645e08780cbba38047`
+- app v1.0.2 identity: `f2cdf94640f4842e0b3ebcb46b672bbeae9f97db`
+- Home browser protection: `87ef631fd6a45506a1a792f9faa27a2f791ab3a0`
+- generated runtime/cache integration: `83ea59e478199387430ffa6eb401520e6bcb676c`
+- permanent clean-anchor visual authority: `19ba022dc72b1bb4148f5bd8c3227a77bae5c01b`
+- tuned James/package release candidate: `de17fa68ff71b4fb6ee57118477457836ce88e1c`
+- v1.0.2 release/document/workflow authority promotion: `36696d5ca7fe66224d2e721c57e7ff0467d3a433`
+
+## Current branch/PR
+
+Branch:
+
+`agent/v1.0.2-footballer-tile-maintenance`
+
+Draft PR:
+
+`#13 — v1.0.2: rebuild footballer tiles around clean-anchor photography`
+
+Base main:
+
+`88fbf11b7f74b6cb69b5dd576af3754e55fc0880`
 
 ## Current next action
 
-Implement the clean-anchor presentation architecture and Reus Home treatment, then update permanent validators and runtime revision before opening a PR.
+Run the complete permanent PR matrix on the promoted v1.0.2 authority, inspect the new James/Transfer/Home browser screenshots, fix any real regression without weakening gates, then remove all temporary v1.0.2 development workflows/scripts before freezing the final merge candidate.
