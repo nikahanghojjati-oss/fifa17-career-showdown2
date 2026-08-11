@@ -50,6 +50,115 @@ function removeStorageValue(key){
     }
 }
 
+function isPlainStorageObject(value){
+    return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function inspectRawStorageRecord(key, validator, label){
+    const raw = readStorageValue(key);
+    if(raw === null){
+        return { state: "missing", raw: null, value: null, warning: null };
+    }
+
+    try{
+        const value = JSON.parse(raw);
+        if(typeof validator === "function" && !validator(value)){
+            throw new Error(`${label} has an unsupported shape.`);
+        }
+        return { state: "valid", raw, value, warning: null };
+    }catch(error){
+        return {
+            state: "corrupt",
+            raw,
+            value: null,
+            warning: `${label} could not be safely interpreted: ${error.message || String(error)}`
+        };
+    }
+}
+
+function validateActiveShowdownStorage(value){
+    return isPlainStorageObject(value);
+}
+
+function validateLegacyStorage(value){
+    return Array.isArray(value)
+        && value.every(item => isPlainStorageObject(item));
+}
+
+function validatePreferencesStorage(value){
+    return isPlainStorageObject(value);
+}
+
+function captureCareerModeBackupSnapshot(){
+    const activeRecord = inspectRawStorageRecord(STORAGE_KEY, validateActiveShowdownStorage, "Active Showdown storage");
+    const legacyRecord = inspectRawStorageRecord(LEGACY_STORAGE_KEY, validateLegacyStorage, "Legacy storage");
+    const preferencesRecord = inspectRawStorageRecord(APPLICATION_PREFERENCES_KEY, validatePreferencesStorage, "Preferences storage");
+    const warnings = [];
+    const recovery = {};
+
+    [
+        ["activeShowdown", STORAGE_KEY, activeRecord],
+        ["legacyShowdowns", LEGACY_STORAGE_KEY, legacyRecord],
+        ["preferences", APPLICATION_PREFERENCES_KEY, preferencesRecord]
+    ].forEach(([name, storageKey, record]) => {
+        if(record.state === "corrupt"){
+            warnings.push(record.warning);
+            recovery[name] = {
+                storageKey,
+                raw: record.raw,
+                reason: record.warning
+            };
+        }
+    });
+
+    let activeShowdown = activeRecord.state === "valid" ? cloneForStorage(activeRecord.value) : null;
+    let activeSource = activeRecord.state === "valid" ? "storage" : "none";
+
+    if(typeof currentShowdown !== "undefined" && currentShowdown && isPlainStorageObject(currentShowdown)){
+        try{
+            activeShowdown = cloneForStorage(currentShowdown);
+            activeSource = "runtime";
+        }catch(error){
+            warnings.push(`The in-memory active Showdown could not be cloned; persisted storage was used instead: ${error.message || String(error)}`);
+        }
+    }
+
+    const legacyShowdowns = legacyRecord.state === "valid" ? cloneForStorage(legacyRecord.value) : null;
+    const preferences = preferencesRecord.state === "valid" ? cloneForStorage(preferencesRecord.value) : null;
+    const matchingLegacyIndex = activeShowdown && Array.isArray(legacyShowdowns)
+        ? legacyShowdowns.findIndex(item => String(item.id) === String(activeShowdown.id))
+        : -1;
+
+    return {
+        payload: {
+            activeShowdown,
+            legacyShowdowns,
+            preferences
+        },
+        counts: {
+            activeShowdowns: activeShowdown ? 1 : 0,
+            legacyShowdowns: Array.isArray(legacyShowdowns) ? legacyShowdowns.length : 0,
+            preferenceRecords: preferences ? 1 : 0
+        },
+        relationships: {
+            activeSource,
+            completedActiveMatchesLegacy: Boolean(
+                activeShowdown
+                && activeShowdown.status === "Completed"
+                && matchingLegacyIndex >= 0
+            ),
+            matchingLegacyIndex
+        },
+        storageState: {
+            activeShowdown: activeRecord.state,
+            legacyShowdowns: legacyRecord.state,
+            preferences: preferencesRecord.state
+        },
+        warnings,
+        recovery: Object.keys(recovery).length ? recovery : null
+    };
+}
+
 function createDefaultApplicationPreferences(){
     return {
         schemaVersion: APPLICATION_PREFERENCES_SCHEMA_VERSION,
@@ -364,10 +473,13 @@ function hasSavedShowdown(){
         return activeSavePresent;
     }
 
-    const present = Boolean(readStorageValue(STORAGE_KEY));
+    const record = inspectRawStorageRecord(STORAGE_KEY, validateActiveShowdownStorage, "Active Showdown storage");
     activeSavePresenceKnown = true;
-    activeSavePresent = present;
-    return present;
+    activeSavePresent = record.state === "valid";
+    if(record.state === "corrupt"){
+        reportStorageError("Unable to use the stored active showdown", new Error(record.warning));
+    }
+    return activeSavePresent;
 }
 
 function invalidateLegacyCache(){
@@ -392,9 +504,13 @@ function loadLegacyShowdowns(){
 
     try{
         const parsed = JSON.parse(raw);
-        legacyCache = Array.isArray(parsed)
-            ? parsed.filter(item => item && typeof item === "object" && !Array.isArray(item))
-            : [];
+        if(!Array.isArray(parsed)){
+            throw new Error("Legacy history is not a valid array.");
+        }
+        if(parsed.some(item => !isPlainStorageObject(item))){
+            throw new Error("Legacy history contains an invalid record shape.");
+        }
+        legacyCache = parsed.slice();
         return legacyCache.slice();
     }catch(error){
         reportStorageError("Unable to parse Legacy history", error);
@@ -522,6 +638,12 @@ function clearAllCareerModeData(){
     return true;
 }
 
+window.captureCareerModeBackupSnapshot = captureCareerModeBackupSnapshot;
+window.getCareerModeStorageKeys = () => ({
+    activeShowdown: STORAGE_KEY,
+    legacyShowdowns: LEGACY_STORAGE_KEY,
+    preferences: APPLICATION_PREFERENCES_KEY
+});
 window.initializeStorageLifecycle = initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave = scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave = flushScheduledCurrentShowdownSave;

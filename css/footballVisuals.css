@@ -1,4 +1,4 @@
-/* Career Mode Showdown v1.0.2 — required licensed football presentation */
+/* Career Mode Showdown v1.1.0 — required licensed football presentation */
 
 .footballVisualStage{
     width:min(1040px,100%);
@@ -264,6 +264,33 @@
     background:var(--clean-anchor-copy-bg);
     border-left:4px solid var(--clean-anchor-copy-border);
     box-shadow:0 4px 12px rgba(12,22,28,.13);
+}
+
+
+/* v1.1 owner retune: the FIFA-era diagonals return, but only inside a bounded
+   lower-body accent zone. They may cross torso/background pixels, never the
+   protected head/face zone. */
+.footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame::after{
+    content:"";
+    position:absolute;
+    z-index:3;
+    left:0;
+    right:0;
+    top:60%;
+    bottom:0;
+    pointer-events:none;
+    background:
+        linear-gradient(126deg,transparent 0 56%,rgba(66,185,218,.36) 56% 59%,transparent 59% 67%,rgba(240,217,0,.32) 67% 69%,transparent 69% 100%);
+}
+
+.footballVisualHeroSetup[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame::after{
+    top:64%;
+    background:
+        linear-gradient(126deg,transparent 0 63%,rgba(66,185,218,.30) 63% 66%,transparent 66% 74%,rgba(240,217,0,.32) 74% 76%,transparent 76% 100%);
+}
+
+.footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame::after{
+    top:58%;
 }
 
 .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualIdentity{

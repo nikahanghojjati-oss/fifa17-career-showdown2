@@ -1,6 +1,6 @@
 /* =====================================================
    FIFA 17 Career Mode Showdown
-   v0.16.0
+   v1.1.0
    Transaction-Safe Lightweight Legacy Archive Engine
 ===================================================== */
 
@@ -11,6 +11,7 @@ const legacyDateFormatter = new Intl.DateTimeFormat("en-US", {
 });
 
 let lastLegacyRenderedRevision = null;
+let backupExportInProgress = false;
 
 function archiveCompletedSaveBeforeLegacy(){
     const candidate = currentShowdown || loadSavedShowdown();
@@ -294,6 +295,9 @@ function createLegacyShowdownCard(showdown){
 
         if(!window.confirm(warning)){ return; }
         if(deleteLegacyShowdownTransaction(showdown)){
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(`Deleted "${showdown.name}" from local Legacy history.`, "success", 4200);
+            }
             lastLegacyRenderedRevision = null;
             renderLegacy();
         }
@@ -340,9 +344,66 @@ function createLegacyDataControls(history){
     const heading = document.createElement("h3");
     heading.textContent = "DATA MANAGEMENT";
     const description = document.createElement("p");
-    description.textContent = "Delete archived test history, or reset all local Career Mode Showdown data for a completely fresh start. Unfinished active showdowns are preserved by the Legacy-history delete control.";
+    description.textContent = "Download a checksum-protected local backup before destructive maintenance. Export is read-only: it does not change your active Showdown, Legacy history or application preferences.";
+
+    const backupSummary = document.createElement("div");
+    backupSummary.className = "legacyBackupSummary";
+    const backupTitle = document.createElement("strong");
+    backupTitle.textContent = "LOCAL BACKUP";
+    const backupText = document.createElement("span");
+    backupText.textContent = "Human-readable JSON · format v1 · SHA-256 corruption check · malformed current bytes preserved in recovery data";
+    backupSummary.append(backupTitle, backupText);
+
     const buttons = document.createElement("div");
     buttons.className = "legacyControlButtons";
+
+    const status = document.createElement("p");
+    status.className = "legacyDataStatus";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    status.textContent = "Backup export is ready.";
+
+    const exportBackup = document.createElement("button");
+    exportBackup.type = "button";
+    exportBackup.className = "compactButton primaryDataButton";
+    exportBackup.textContent = "EXPORT BACKUP";
+    exportBackup.addEventListener("click", async () => {
+        if(backupExportInProgress){ return; }
+        if(typeof window.exportCareerModeBackup !== "function"){
+            status.textContent = "Backup export is unavailable in this browser session.";
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(status.textContent, "error", 9000);
+            }
+            return;
+        }
+
+        backupExportInProgress = true;
+        exportBackup.disabled = true;
+        exportBackup.setAttribute("aria-busy", "true");
+        exportBackup.textContent = "BUILDING BACKUP…";
+        status.textContent = "Building a read-only backup and verifying its checksum…";
+
+        try{
+            const envelope = await window.exportCareerModeBackup();
+            const warningCount = Array.isArray(envelope && envelope.warnings) ? envelope.warnings.length : 0;
+            status.textContent = warningCount
+                ? `Backup downloaded with ${warningCount} recovery warning${warningCount === 1 ? "" : "s"}. Your stored bytes were not changed.`
+                : "Backup downloaded successfully. Your stored bytes were not changed.";
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(status.textContent, "success", warningCount ? 7000 : 4200);
+            }
+        }catch(error){
+            status.textContent = `Backup could not be created: ${error && error.message ? error.message : String(error)}`;
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice(status.textContent, "error", 10000);
+            }
+        }finally{
+            backupExportInProgress = false;
+            exportBackup.disabled = false;
+            exportBackup.removeAttribute("aria-busy");
+            exportBackup.textContent = "EXPORT BACKUP";
+        }
+    });
 
     const deleteHistory = document.createElement("button");
     deleteHistory.type = "button";
@@ -359,6 +420,9 @@ function createLegacyDataControls(history){
 
         if(!window.confirm(warning)){ return; }
         if(deleteAllLegacyHistoryTransaction(history)){
+            if(typeof window.showAppNotice === "function"){
+                window.showAppNotice("Legacy history was deleted successfully.", "success", 4200);
+            }
             lastLegacyRenderedRevision = null;
             renderLegacy();
         }
@@ -394,12 +458,15 @@ function createLegacyDataControls(history){
         if(typeof window.refreshMainMenuExperience === "function"){
             window.refreshMainMenuExperience();
         }
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("All active and Legacy Showdown data was reset successfully. Application preferences were kept.", "success", 5200);
+        }
         lastLegacyRenderedRevision = null;
         showScreen("mainMenu", false);
     });
 
-    buttons.append(deleteHistory, resetAll);
-    controls.append(heading, description, buttons);
+    buttons.append(exportBackup, deleteHistory, resetAll);
+    controls.append(heading, description, backupSummary, buttons, status);
     return controls;
 }
 
