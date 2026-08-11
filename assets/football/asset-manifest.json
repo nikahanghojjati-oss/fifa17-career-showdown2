@@ -1,6 +1,6 @@
 {
-  "generated_by": "r4-subject-dominant-selected-import",
-  "transformation": "EXIF orientation normalized where applicable, resized down only with Lanczos, converted to WebP; no generative alteration.",
+  "generated_by": "r4-subject-dominant-selected-import-and-reviewed-local-derivative",
+  "transformation": "EXIF orientation normalized where applicable, resized down only with Lanczos, converted to WebP; the Lahm Trophy Room asset additionally uses one documented hand-reviewed crop from the licensed local 1600x829 derivative; no generative alteration.",
   "assets": [
     {
       "id": "james-rodriguez-real-madrid-2016-r4",
@@ -75,22 +75,25 @@
       "output_sha256": "a84eba9c108bb4237bde989c36dd837114480bd0d1a823eeacf401955995d204"
     },
     {
-      "id": "philipp-lahm-world-cup-2014",
+      "id": "philipp-lahm-world-cup-2014-focus-r4",
       "source_file": "Philipp Lahm lifts the 2014 FIFA World Cup.jpg",
-      "output": "philipp-lahm-world-cup-2014.webp",
-      "max_size": [1600, 829],
-      "quality": 88,
+      "output": "philipp-lahm-world-cup-2014-focus-r4.webp",
+      "max_size": [624, 722],
+      "quality": 94,
       "author": "Agência Brasil",
       "license": "CC BY 3.0 BR",
       "license_url": "https://creativecommons.org/licenses/by/3.0/br/deed.en",
       "source_page": "https://commons.wikimedia.org/wiki/File:Philipp_Lahm_lifts_the_2014_FIFA_World_Cup.jpg",
-      "context": "Germany captain Philipp Lahm lifts the 2014 FIFA World Cup, 13 July 2014.",
+      "context": "Germany captain Philipp Lahm lifts the 2014 FIFA World Cup, 13 July 2014; final runtime asset uses a hand-reviewed subject-focused derivative that retains Lahm, his raised arms and the complete trophy.",
       "special_redirect_url": "https://commons.wikimedia.org/wiki/Special:Redirect/file/Philipp%20Lahm%20lifts%20the%202014%20FIFA%20World%20Cup.jpg",
       "source_dimensions": [4256, 2204],
       "source_sha256": "3167b6f09fc6d9b335edece955dc8acd62c8553cdab6b599542a2c2df5d3f5ef",
-      "output_dimensions": [1600, 829],
-      "output_bytes": 311072,
-      "output_sha256": "bcc437e75608124f54241fd17607820ca13fcb70d2fab7f9dc107facb964b8ac"
+      "intermediate_dimensions": [1600, 829],
+      "intermediate_sha256": "bcc437e75608124f54241fd17607820ca13fcb70d2fab7f9dc107facb964b8ac",
+      "crop_box_on_intermediate": [624, 41, 1248, 763],
+      "output_dimensions": [624, 722],
+      "output_bytes": 148134,
+      "output_sha256": "c745c9dfd3619e384604890c6ed183dd4ff92db6cc1d4b93e1ce6edf5ebf6eb5"
     }
   ]
 }
