@@ -34,12 +34,28 @@ jobs:
           ! grep -q 'james-rodriguez-real-madrid-2019-smart-r5.webp' data/footballVisuals.js
           grep -q 'Current baseline: v1.1.1 Maintenance Candidate' NEXT_TASK.md
           grep -q 'v1.1.1' RELEASE_V1.1.1.md
-      - name: Commit integrated release authority
+      - name: Stage generated workflow authority outside workflow namespace
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p generated/v111-workflows
+          for file in \
+            validate-v1-visual-immersion.yml \
+            validate-final-polish.yml \
+            validate-menu-bootstrap.yml \
+            validate-season-review.yml \
+            validate-statistics-workstream.yml \
+            validate-v110-release-burnin.yml \
+            validate-static-app.yml \
+            validate-football-visuals.yml; do
+            cp ".github/workflows/$file" "generated/v111-workflows/$file.txt"
+          done
+      - name: Commit ordinary integration outputs and generated validator copies
         shell: bash
         run: |
           set -euo pipefail
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add README.md PROJECT_STATE.md 00_DEVELOPER_START_HERE.md POST_V1_ROADMAP_EXECUTION.md CHANGELOG.md .github/workflows tests/browser/football-visual-audit.cjs
-          git commit -m 'Integrate v1.1.1 source refresh release gates'
+          git add README.md PROJECT_STATE.md 00_DEVELOPER_START_HERE.md POST_V1_ROADMAP_EXECUTION.md CHANGELOG.md tests/browser/football-visual-audit.cjs generated/v111-workflows
+          git commit -m 'Integrate v1.1.1 source refresh authority'
           git push origin HEAD:agent/v1.1.1-james-real-madrid-source-refresh
