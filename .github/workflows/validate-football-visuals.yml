@@ -142,7 +142,9 @@ jobs:
           assert.ok(!visualCss.includes('object-fit:cover'), 'The r5 corrective stylesheet must not reintroduce a blind full-bleed cover exception.');
           assert.ok(/\.footballVisualHeroSetup \.footballVisualMediaFrame\{[\s\S]*?width:78%;/.test(visualCss), 'James desktop portrait frame must retain the reviewed 78% crop-safe stage.');
           assert.ok(/@media\(min-width:701px\) and \(max-width:1020px\)\{[\s\S]*?\.footballVisualHeroSetup \.footballVisualMediaFrame\{width:88%;\}/.test(visualCss), 'James near-breakpoint frame must retain the reviewed 88% crop-safe stage.');
-          assert.ok(visualCss.includes('marcus-rashford-man-utd-2017-smart-r5') && visualCss.includes('width:50%'), 'Rashford desktop Transfer frame must target the final portrait source.');
+          assert.ok(/data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"\] \.footballVisualMediaFrame\{\s*width:43%;/.test(visualCss), 'Rashford desktop Transfer frame must retain the browser-proven 43% subject-safe stage.');
+          assert.ok(/data-football-visual-asset="anthony-martial-man-utd-2016-smart-r5"\] \.footballVisualMediaFrame\{\s*width:48%;/.test(visualCss), 'Martial desktop Transfer frame must retain the browser-proven 48% subject-safe stage.');
+          assert.ok(/@media\(max-width:700px\)\{[\s\S]*?marcus-rashford-man-utd-2017-smart-r5[\s\S]*?width:52%;[\s\S]*?anthony-martial-man-utd-2016-smart-r5[\s\S]*?width:56%;/.test(visualCss), 'Mobile Transfer portrait stages must retain the browser-proven 52% Rashford / 56% Martial geometry.');
           assert.ok(/\.footballVisualAnalytics\{[\s\S]*?min-height:400px;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop height.');
           assert.ok(/\.footballVisualAnalytics \.footballVisualMediaFrame\{\s*width:28%;/.test(visualCss), 'Messi Statistics composition must retain the reviewed portrait-aware desktop media width.');
           assert.ok(/\.footballVisualTrophy\{[\s\S]*?min-height:290px;/.test(visualCss), 'Trophy Room must retain enough desktop height for the focused Lahm portrait.');
