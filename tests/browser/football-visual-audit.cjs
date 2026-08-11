@@ -93,6 +93,9 @@ async function waitForVisual(page, screenName, expectedCount = 1){
         { selector, expectedCount },
         { timeout: 12000 }
     );
+    await page.evaluate(() => new Promise(resolve => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+    }));
 }
 
 async function inspectVisibleVisual(page, screenName){

@@ -90,6 +90,25 @@ function getFootballVisualFraming(asset){
     };
 }
 
+function settleFootballVisualPaint(panel, image){
+    const commitLoadedState = () => {
+        if(!image.complete || image.naturalWidth <= 0){ return; }
+        const schedule = typeof window.requestAnimationFrame === "function"
+            ? window.requestAnimationFrame.bind(window)
+            : callback => window.setTimeout(callback, 0);
+        schedule(() => schedule(() => {
+            panel.classList.add("imageLoaded");
+            panel.classList.remove("imageFailed");
+        }));
+    };
+
+    if(typeof image.decode === "function"){
+        image.decode().then(commitLoadedState).catch(commitLoadedState);
+        return;
+    }
+    commitLoadedState();
+}
+
 function applyFootballVisualFraming(panel, asset, plan){
     const framing = getFootballVisualFraming(asset);
     panel.dataset.visualLayout = plan.layout || "subject-safe";
@@ -125,8 +144,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     image.fetchPriority = "auto";
     image.src = getFootballVisualUrl(asset);
     image.addEventListener("load", () => {
-        panel.classList.add("imageLoaded");
-        panel.classList.remove("imageFailed");
+        settleFootballVisualPaint(panel, image);
     }, { once: true });
     image.addEventListener("error", () => {
         panel.classList.add("imageFailed");
@@ -134,7 +152,7 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     }, { once: true });
 
     if(image.complete && image.naturalWidth > 0){
-        panel.classList.add("imageLoaded");
+        settleFootballVisualPaint(panel, image);
     }
     mediaFrame.appendChild(image);
 
