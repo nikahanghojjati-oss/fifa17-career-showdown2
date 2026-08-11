@@ -4,7 +4,7 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Application version:** v1.1.0 — Stable
 **Runtime asset revision:** `1.1.0-r1`
-**Current phase:** v1.0.2 clean-anchor maintenance is technically complete, merged, deployed and post-merge green; owner real-device acceptance remains separate
+**Current phase:** v1.1.0 Candidate A is merged/deployed/proven; a clean-stability seal is revalidating every permanent feature/workstream/release gate without changing runtime bytes unless a real defect reproduces
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
 **Next roadmap candidate after Candidate A release proof:** Candidate B — Import Analysis + Migration Preview
@@ -29,7 +29,7 @@ Read in this order:
 11. the `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*.md` files — detailed chronology when source/decision archaeology is genuinely required.
 12. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-The original release path **v0.95 → v1.0** is complete. v1.0.2 is the deployed finite maintenance response to the owner's August 11 real-device visual rejection: footballers now use clean player anchors, while the loading screen remains protected. The release is technically complete and post-merge green; owner real-device acceptance remains the only open visual gate before the staged v1.1 data-safety lane becomes Current.
+The original release path **v0.95 → v1.0** and the finite v1.0.2 clean-anchor maintenance lane are complete. v1.1.0 Candidate A is also merged, deployed and technically proven. The current clean-stability seal exists to reproduce that production state against every permanent feature/workstream/release gate before further roadmap work. The owner-liked loading screen and clean player-anchor architecture remain protected; owner real-device art-direction acceptance remains separate from automated proof.
 
 ---
 
