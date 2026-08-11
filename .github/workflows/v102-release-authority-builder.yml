@@ -1,0 +1,24 @@
+name: v1.0.2 Release Authority Blob Builder
+
+on:
+  push:
+    branches:
+      - agent/v1.0.2-footballer-tile-maintenance
+    paths:
+      - '.github/workflows/v102-release-authority-builder.yml'
+      - 'tools/build_v102_release_authority_blobs.py'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.0.2-footballer-tile-maintenance
+      - name: Build Git blobs for current release authority
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python tools/build_v102_release_authority_blobs.py
