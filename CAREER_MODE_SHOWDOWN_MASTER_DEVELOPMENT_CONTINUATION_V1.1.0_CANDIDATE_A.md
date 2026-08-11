@@ -390,3 +390,53 @@ The earlier Stability run on `5ea916f7f26418b9964396c030cfeca2d44f8cda` was **ca
 - Product correction: malformed active JSON still produces `hasSavedShowdown() === false`, still remains preserved in the raw slot, and still requires explicit confirmation before replacement, but the validity probe itself is now silent. This prevents an expected recovery condition from masquerading as an application runtime error.
 - A permanent contract forbids `reportStorageError` inside the `hasSavedShowdown()` validity probe.
 - Release count resets to **0/5** on the next clean SHA.
+
+
+## Pre-merge release proof — 5/5 green
+
+### Clean candidate identity
+
+- Candidate SHA: `dca22cc3cf80d7751d91cd9c798f0018abced0b0`.
+- Application/runtime identity: `v1.1.0 / 1.1.0-r1`.
+- This SHA contains no temporary v1.1 mutation/helper workflow. Only permanent validation workflows remain.
+- Candidate B import analysis and Candidate C restore remain blocked; this release remains Candidate A export-only data safety plus maintenance hardening.
+
+### Five independent complete release comparisons
+
+Permanent burn-in workflow run `31522992393` completed **5/5 successful independent runners** against the same candidate SHA. Every runner executed JavaScript syntax checks, all permanent contracts, runtime provenance, Home/Reus visual audit, licensed football visual audit, Candidate A backup/export browser audit, and the complete Chromebook/mobile journey.
+
+- Pass 1 job `93884439886` — **SUCCESS**. The complete journey reported 70 checkpoints and 36 axe scans.
+- Pass 2 job `93884439981` — **SUCCESS**.
+- Pass 3 job `93884439709` — **SUCCESS**.
+- Pass 4 job `93884439716` — **SUCCESS**.
+- Pass 5 job `93884439753` — **SUCCESS**.
+
+The earlier rejected burn-in attempts remain part of this handoff and are intentionally not included in the 5/5 count. The count reached 5/5 only after corrupt active-slot replacement protection, dialog choreography, startup-headroom recovery, and silent corrupt-save validity probing were corrected.
+
+### Independent native workflow cross-check
+
+The repository's normal PR matrix also passed on `dca22cc3cf80d7751d91cd9c798f0018abced0b0`:
+
+- Final Polish — run `31522992330` — **SUCCESS**.
+- Transfer Workstream — `31522992321` — **SUCCESS**.
+- Static App — `31522992339` — **SUCCESS**.
+- V1 Visual Immersion — `31522992322` — **SUCCESS**.
+- Season Review — `31522992323` — **SUCCESS**.
+- Home Bootstrap — `31522992308` — **SUCCESS**.
+- Settings Workstream — `31522992314` — **SUCCESS**.
+- League Confirmation — `31522992340` — **SUCCESS**.
+- Statistics Workstream — `31522992349` — **SUCCESS**.
+- Licensed Football Visuals — `31522992331` — **SUCCESS**.
+- Stability Lane — `31522992315` — **SUCCESS**. Stability contracts job `93884518268` passed and Chromium Stability job `93884606319` passed two consecutive complete runtime/backup/Home/photo/browser cycles. Deployed-site smoke was correctly skipped because this was a pull request, not `main`.
+
+### Locked performance proof
+
+Static App validated the release without changing any budget: **164,830 raw startup code bytes**, **36,893 gzip-compressed startup code bytes**, and **89,008-byte Reus startup portrait**, with seven eager scripts and one eager stylesheet. The locked raw startup ceiling remains `165,000` bytes.
+
+### Visual evidence status
+
+Licensed Football Visuals passed real Chromium desktop, near-breakpoint, and 390×844 DPR2 mobile audits. The restored FIFA-style cyan/yellow diagonals remain bounded to lower torso/image zones for James, Rashford and Martial rather than entering protected face/head zones. The paint-settlement fix also ensures evidence screenshots wait for decoded pixels and paint frames. This is technical/visual QA evidence, **not a new owner-acceptance claim**.
+
+### Release rule after this handoff update
+
+Because recording this evidence changes the branch SHA, `dca22cc3...` is proof of the code immediately before the documentation update, not the merge head. The new clean documentation-inclusive SHA must itself complete another **5/5** permanent burn-in plus the normal PR matrix before PR #14 may merge.
