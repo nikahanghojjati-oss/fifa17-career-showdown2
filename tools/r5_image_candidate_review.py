@@ -105,23 +105,24 @@ def fit_into(image: Image.Image, width: int, height: int) -> Image.Image:
     return canvas
 
 
-def make_sheet(slug: str, files: list[str], report: list[str], failures: list[str]) -> None:
+def make_sheet(slug: str, files: list[str], report: list[str], failures: list[str], start_index: int = 1) -> None:
     font = ImageFont.load_default()
     tile_w, image_h, label_h, cols = 420, 300, 80, 3
     rows = (len(files) + cols - 1) // cols
     sheet = Image.new("RGB", (tile_w * cols, (image_h + label_h) * rows), "#20282e")
     draw = ImageDraw.Draw(sheet)
 
-    for index, filename in enumerate(files):
-        col = index % cols
-        row = index // cols
+    for local_index, filename in enumerate(files):
+        display_index = start_index + local_index
+        col = local_index % cols
+        row = local_index // cols
         x = col * tile_w
         y = row * (image_h + label_h)
         try:
             meta = resolve(filename)
             image = download_preview(meta)
             sheet.paste(fit_into(image, tile_w, image_h), (x, y))
-            report.append("\t".join([slug, filename, f"{meta['source_width']}x{meta['source_height']}", meta["page"], meta["original_url"]]))
+            report.append("\t".join([str(display_index), slug, filename, f"{meta['source_width']}x{meta['source_height']}", meta["page"], meta["original_url"]]))
             detail = f"{meta['source_width']} × {meta['source_height']}"
         except Exception as exc:
             failures.append(f"{slug} · {filename}: {type(exc).__name__}: {exc}")
@@ -129,10 +130,10 @@ def make_sheet(slug: str, files: list[str], report: list[str], failures: list[st
             detail = f"FAILED: {type(exc).__name__}"
 
         draw.rectangle((x, y + image_h, x + tile_w, y + image_h + label_h), fill="#eef3f4")
-        draw.text((x + 9, y + image_h + 8), f"{index + 1:02d} · {slug.upper()}", fill="#15232b", font=font)
+        draw.text((x + 9, y + image_h + 8), f"{display_index:02d} · RASHFORD 2017", fill="#15232b", font=font)
         draw.text((x + 9, y + image_h + 28), detail, fill="#42545e", font=font)
         draw.text((x + 9, y + image_h + 49), filename[:62], fill="#42545e", font=font)
-        time.sleep(.6)
+        time.sleep(.45)
 
     sheet.save(OUT / f"r5-{slug}-source-contact-sheet.jpg", quality=92, optimize=True)
 
@@ -140,21 +141,17 @@ def make_sheet(slug: str, files: list[str], report: list[str], failures: list[st
 def main() -> None:
     report: list[str] = []
     failures: list[str] = []
+    rashford = category_files("Marcus Rashford in 2017")
 
-    james = ["James Rodríguez in 2019.jpg"]
-    rashford = category_files("Marcus Rashford in 2016")
-    martial = category_files("Anthony Martial in 2016")
-
-    # Do not reconsider the two r4 portrait derivatives the owner has just asked to replace.
-    rashford = [name for name in rashford if name not in {"Marcus Rashford September 2016 (cropped).jpg", "Marcus Rashford.jpg"}]
-
-    make_sheet("james", james, report, failures)
-    make_sheet("rashford", rashford, report, failures)
-    make_sheet("martial", martial, report, failures)
+    # Review genuine source photographs, not tiny pre-cropped derivatives.
+    rashford = [name for name in rashford if "(cropped)" not in name.lower() and not name.startswith("Marcus Rashford 2017-11-05")]
+    midpoint = (len(rashford) + 1) // 2
+    make_sheet("rashford-2017-a", rashford[:midpoint], report, failures, 1)
+    make_sheet("rashford-2017-b", rashford[midpoint:], report, failures, midpoint + 1)
 
     (OUT / "r5-player-source-report.txt").write_text("\n".join(report) + "\n", encoding="utf-8")
     (OUT / "r5-player-source-failures.txt").write_text("\n".join(failures) + "\n", encoding="utf-8")
-    print(f"Reviewed James={len(james)}, Rashford={len(rashford)}, Martial={len(martial)}")
+    print(f"Reviewed Rashford 2017 source photographs={len(rashford)}")
     if failures:
         for failure in failures:
             print(" -", failure)
