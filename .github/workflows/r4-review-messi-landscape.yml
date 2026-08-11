@@ -1,4 +1,4 @@
-name: R4 Review Messi Landscape
+name: R4 Licensed Player Candidate Review
 
 on:
   push:
@@ -25,72 +25,127 @@ jobs:
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
 
-      - name: Download licensed Messi landscape candidate
-        run: |
-          set -euo pipefail
-          mkdir -p candidate-review
-          curl --fail --location --retry 6 --retry-all-errors --connect-timeout 20 \
-            --user-agent 'CareerModeShowdownVisualQA/1.0 (GitHub Actions)' \
-            'https://upload.wikimedia.org/wikipedia/commons/c/cc/Save_the_Dream_at_the_Match_of_champions_%2831067838784%29.jpg' \
-            --output candidate-review/messi-landscape-source.jpg
-
-      - name: Build candidate derivative and layout previews
+      - name: Discover licensed Commons candidates and build contact sheets
         run: |
           python <<'PY'
-          from PIL import Image, ImageOps, ImageDraw
+          from PIL import Image, ImageOps, ImageDraw, ImageFont
           from pathlib import Path
-          import hashlib, json
+          from urllib.parse import urlencode
+          from urllib.request import Request, urlopen
+          import io, json, time
 
           root = Path('candidate-review')
-          source_path = root / 'messi-landscape-source.jpg'
-          source = ImageOps.exif_transpose(Image.open(source_path)).convert('RGB')
-          original = source.size
-
-          candidate = source.copy()
-          candidate.thumbnail((1280, 900), Image.Resampling.LANCZOS)
-          output_path = root / 'lionel-messi-barcelona-2016-landscape-candidate.webp'
-          candidate.save(output_path, 'WEBP', quality=92, method=6)
-
-          def contain_size(iw, ih, fw, fh):
-              scale = min(fw / iw, fh / ih)
-              return max(1, round(iw * scale)), max(1, round(ih * scale))
-
-          def preview(name, width, height, frame_fraction):
-              canvas = Image.new('RGB', (width, height), (31, 82, 108))
-              draw = ImageDraw.Draw(canvas)
-              # FIFA-style geometric background, intentionally simple: this only reviews image scale/composition.
-              draw.polygon([(0,0),(width*0.42,0),(width*0.25,height),(0,height)], fill=(29,74,98))
-              draw.polygon([(width*0.48,0),(width*0.68,0),(width*0.48,height),(width*0.30,height)], fill=(36,112,148))
-              frame_w = round(width * frame_fraction)
-              frame = (width-frame_w, 0, width, height)
-              draw.rectangle(frame, fill=(27, 67, 87))
-              rw, rh = contain_size(*candidate.size, frame_w, height)
-              rendered = candidate.resize((rw, rh), Image.Resampling.LANCZOS)
-              x = width - frame_w + (frame_w-rw)//2
-              y = (height-rh)//2
-              canvas.paste(rendered, (x,y))
-              draw.text((18, height-72), 'LIONEL MESSI', fill=(255,255,255))
-              draw.text((18, height-48), 'FC Barcelona · 2016', fill=(230,238,242))
-              canvas.save(root / name, quality=92)
-
-          preview('messi-landscape-desktop-preview.jpg', 1290, 340, 0.46)
-          preview('messi-landscape-mobile-preview.jpg', 724, 320, 0.58)
-
-          metadata = {
-              'source_dimensions': original,
-              'candidate_dimensions': candidate.size,
-              'source_sha256': hashlib.sha256(source_path.read_bytes()).hexdigest(),
-              'candidate_bytes': output_path.stat().st_size,
-              'candidate_sha256': hashlib.sha256(output_path.read_bytes()).hexdigest(),
+          root.mkdir(exist_ok=True)
+          api = 'https://commons.wikimedia.org/w/api.php'
+          ua = 'CareerModeShowdownVisualQA/1.0 (GitHub Actions; licensed source review)'
+          categories = {
+              'messi': 'Category:Lionel Messi in 2016',
+              'james': 'Category:James Rodríguez in 2016',
           }
-          (root / 'metadata.json').write_text(json.dumps(metadata, indent=2) + '\n')
-          print(json.dumps(metadata, indent=2))
+
+          def get_json(params):
+              url = api + '?' + urlencode(params)
+              req = Request(url, headers={'User-Agent': ua, 'Accept': 'application/json'})
+              with urlopen(req, timeout=45) as response:
+                  return json.loads(response.read().decode('utf-8'))
+
+          def download(url):
+              last = None
+              for attempt in range(6):
+                  try:
+                      req = Request(url, headers={'User-Agent': ua, 'Accept': 'image/*,*/*;q=0.8'})
+                      with urlopen(req, timeout=45) as response:
+                          return response.read()
+                  except Exception as exc:
+                      last = exc
+                      time.sleep(2.5 * (attempt + 1))
+              raise RuntimeError(f'Unable to download {url}: {last}')
+
+          def strip_html(value):
+              import re
+              return re.sub(r'<[^>]+>', '', value or '').replace('&quot;', '"').replace('&#039;', "'").replace('&amp;', '&')
+
+          for group, category in categories.items():
+              payload = get_json({
+                  'action': 'query',
+                  'generator': 'categorymembers',
+                  'gcmtitle': category,
+                  'gcmtype': 'file',
+                  'gcmlimit': '50',
+                  'prop': 'imageinfo',
+                  'iiprop': 'url|size|mime|extmetadata',
+                  'iiurlwidth': '520',
+                  'format': 'json',
+                  'formatversion': '2',
+              })
+              pages = payload.get('query', {}).get('pages', [])
+              records = []
+              cells = []
+              for page in pages:
+                  info = (page.get('imageinfo') or [{}])[0]
+                  mime = info.get('mime', '')
+                  if not mime.startswith('image/'):
+                      continue
+                  thumb = info.get('thumburl') or info.get('url')
+                  if not thumb:
+                      continue
+                  try:
+                      raw = download(thumb)
+                      image = ImageOps.exif_transpose(Image.open(io.BytesIO(raw))).convert('RGB')
+                  except Exception as exc:
+                      print('skip', page.get('title'), exc)
+                      continue
+                  meta = info.get('extmetadata') or {}
+                  license_name = strip_html((meta.get('LicenseShortName') or {}).get('value', ''))
+                  artist = strip_html((meta.get('Artist') or {}).get('value', ''))
+                  description = strip_html((meta.get('ImageDescription') or {}).get('value', ''))
+                  title = page.get('title', '').removeprefix('File:')
+                  record = {
+                      'title': title,
+                      'page_url': info.get('descriptionurl', ''),
+                      'source_url': info.get('url', ''),
+                      'thumb_url': thumb,
+                      'width': info.get('width'),
+                      'height': info.get('height'),
+                      'mime': mime,
+                      'license': license_name,
+                      'artist': artist,
+                      'description': description,
+                  }
+                  records.append(record)
+                  cells.append((record, image))
+                  time.sleep(0.35)
+
+              columns = 4
+              cell_w, cell_h = 320, 350
+              rows = max(1, (len(cells) + columns - 1) // columns)
+              sheet = Image.new('RGB', (columns * cell_w, rows * cell_h), '#eef2f4')
+              draw = ImageDraw.Draw(sheet)
+              font = ImageFont.load_default()
+              for index, (record, image) in enumerate(cells):
+                  col, row = index % columns, index // columns
+                  x0, y0 = col * cell_w, row * cell_h
+                  preview = ImageOps.contain(image, (cell_w - 18, 250), Image.Resampling.LANCZOS)
+                  px = x0 + (cell_w - preview.width) // 2
+                  py = y0 + 8 + (250 - preview.height) // 2
+                  sheet.paste(preview, (px, py))
+                  label = f'{index+1}. {record["title"]}'
+                  if len(label) > 47:
+                      label = label[:44] + '...'
+                  draw.text((x0 + 8, y0 + 268), label, fill='#101820', font=font)
+                  draw.text((x0 + 8, y0 + 287), f'{record["width"]}x{record["height"]} · {record["license"]}', fill='#35444d', font=font)
+                  artist = record['artist'][:48]
+                  draw.text((x0 + 8, y0 + 306), artist, fill='#35444d', font=font)
+
+              sheet.save(root / f'{group}-commons-2016-contact-sheet.jpg', 'JPEG', quality=92)
+              (root / f'{group}-commons-2016-metadata.json').write_text(json.dumps(records, indent=2, ensure_ascii=False) + '\n')
+              print(group, 'candidates', len(records))
           PY
 
       - name: Upload review artifact
         uses: actions/upload-artifact@v4
         with:
-          name: r4-messi-landscape-review-${{ github.sha }}
+          name: r4-licensed-player-candidate-review-${{ github.sha }}
           path: candidate-review/
           if-no-files-found: error
           retention-days: 7
