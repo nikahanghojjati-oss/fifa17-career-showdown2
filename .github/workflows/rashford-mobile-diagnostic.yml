@@ -19,7 +19,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Inspect Rashford through real Transfer journey
+      - name: Compare minimal Rashford paint-layer fixes
         shell: bash
         run: |
           set -euo pipefail
@@ -30,70 +30,51 @@ jobs:
           const fs=require('fs');
           const {chromium}=require('playwright');
           const {resolveChromiumRuntime}=require('./tests/support/chromium-runtime.cjs');
+          async function reachTransfer(page){
+            await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded'});
+            await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
+            await page.locator('#mainMenu').waitFor({state:'visible',timeout:5000});
+            await page.locator('#newShowdown').click();
+            await page.locator('#createShowdown').waitFor({state:'visible',timeout:12000});
+            await page.locator('#showdownName').fill('Diagnostic');
+            await page.locator('#managerOne').fill('Alex');
+            await page.locator('#managerTwo').fill('Jordan');
+            await page.locator('#startShowdown').click();
+            await page.locator('#leagueWheelScreen').waitFor({state:'visible',timeout:12000});
+            await page.evaluate(()=>{
+              currentShowdown.selectedLeague={id:'premier_league',name:'Premier League'};
+              currentShowdown.status='League Confirmed';currentShowdown.clubs={playerOne:'Arsenal',playerTwo:'Chelsea'};
+              currentShowdown.status='Ready';saveCurrentShowdown();updateShowdownUI();showScreen('dashboard',false);
+            });
+            await page.locator('#dashboard').waitFor({state:'visible',timeout:12000});
+            await page.evaluate(()=>openTransferChallenge());
+            await page.locator('#transferChallenge').waitFor({state:'visible',timeout:12000});
+            await page.waitForFunction(()=>{
+              const i=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMedia');
+              return i?.complete&&i.naturalWidth>0&&getComputedStyle(i).opacity==='1';
+            },null,{timeout:12000});
+          }
           (async()=>{
             const runtime=await resolveChromiumRuntime();
             const browser=await chromium.launch({executablePath:runtime.executablePath,args:runtime.args,headless:true});
             try{
               const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
-              const page=await context.newPage();
-              await page.goto('http://127.0.0.1:4173/',{waitUntil:'domcontentloaded'});
-              await page.locator('#loadingScreen').waitFor({state:'hidden',timeout:12000});
-              await page.locator('#mainMenu').waitFor({state:'visible',timeout:5000});
-              await page.locator('#newShowdown').click();
-              await page.locator('#createShowdown').waitFor({state:'visible',timeout:12000});
-              await page.locator('#showdownName').fill('Diagnostic');
-              await page.locator('#managerOne').fill('Alex');
-              await page.locator('#managerTwo').fill('Jordan');
-              await page.locator('#startShowdown').click();
-              await page.locator('#leagueWheelScreen').waitFor({state:'visible',timeout:12000});
-              await page.evaluate(()=>{
-                currentShowdown.selectedLeague={id:'premier_league',name:'Premier League'};
-                currentShowdown.status='League Confirmed';
-                currentShowdown.clubs={playerOne:'Arsenal',playerTwo:'Chelsea'};
-                currentShowdown.status='Ready';
-                saveCurrentShowdown();updateShowdownUI();showScreen('dashboard',false);
-              });
-              await page.locator('#dashboard').waitFor({state:'visible',timeout:12000});
-              await page.evaluate(()=>openTransferChallenge());
-              await page.locator('#transferChallenge').waitFor({state:'visible',timeout:12000});
-              await page.waitForFunction(()=>{
-                const p=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"]');
-                const i=p?.querySelector('.footballVisualMedia');
-                return p?.classList.contains('imageLoaded')&&i?.complete&&i.naturalWidth>0;
-              },null,{timeout:12000});
-              const info=await page.evaluate(()=>{
-                const p=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"]');
-                const f=p.querySelector('.footballVisualMediaFrame');
-                const i=p.querySelector('.footballVisualMedia');
-                const ps=getComputedStyle(p),fs=getComputedStyle(f),is=getComputedStyle(i);
-                const ir=i.getBoundingClientRect(),fr=f.getBoundingClientRect(),pr=p.getBoundingClientRect();
-                const samples=[[.2,.2],[.5,.2],[.8,.2],[.8,.5]].map(([x,y])=>{
-                  const el=document.elementFromPoint(fr.left+fr.width*x,fr.top+fr.height*y);
-                  return {x,y,tag:el?.tagName||'',cls:el?.className||'',id:el?.id||''};
-                });
-                return {
-                  panelClass:p.className,panelRect:pr.toJSON(),panelDisplay:ps.display,panelVisibility:ps.visibility,panelOpacity:ps.opacity,
-                  frameRect:fr.toJSON(),frameDisplay:fs.display,frameVisibility:fs.visibility,frameOpacity:fs.opacity,frameZ:fs.zIndex,
-                  imageRect:ir.toJSON(),imageDisplay:is.display,imageVisibility:is.visibility,imageOpacity:is.opacity,imageZ:is.zIndex,imagePosition:is.position,
-                  imageObjectFit:is.objectFit,imageObjectPosition:is.objectPosition,imageTransform:is.transform,imageClip:is.clipPath,imageSrc:i.currentSrc,
-                  natural:[i.naturalWidth,i.naturalHeight],complete:i.complete,samples
-                };
-              });
-              console.log('RASHFORD_MOBILE_DIAGNOSTIC='+JSON.stringify(info,null,2));
-              fs.mkdirSync('test-results',{recursive:true});
-              await page.screenshot({path:'test-results/rashford-mobile-before.png',fullPage:true});
-              await page.evaluate(()=>{
-                const i=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMedia');
-                i.style.position='relative';i.style.zIndex='5';i.style.display='block';i.style.visibility='visible';i.style.opacity='1';i.style.transform='translateZ(0)';
-              });
-              await page.screenshot({path:'test-results/rashford-mobile-forced-paint.png',fullPage:true});
+              const page=await context.newPage();fs.mkdirSync('test-results',{recursive:true});
+              await reachTransfer(page);
+              await page.screenshot({path:'test-results/00-before.png',fullPage:true});
+              await page.evaluate(()=>{const i=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMedia');i.style.position='relative';i.style.zIndex='1';});
+              await page.screenshot({path:'test-results/01-position-z1.png',fullPage:true});
+              await page.evaluate(()=>{const i=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMedia');i.style.position='';i.style.zIndex='';i.style.transform='translateZ(0)';});
+              await page.screenshot({path:'test-results/02-transform-only.png',fullPage:true});
+              await page.evaluate(()=>{const i=document.querySelector('[data-football-visual-asset="marcus-rashford-man-utd-2017-smart-r5"] .footballVisualMedia');i.style.position='relative';i.style.zIndex='1';i.style.transform='translateZ(0)';});
+              await page.screenshot({path:'test-results/03-position-z1-transform.png',fullPage:true});
               await context.close();
             }finally{if(browser.isConnected())await browser.close();}
           })().catch(e=>{console.error(e);process.exit(1)});
           NODE
       - uses: actions/upload-artifact@v7
         with:
-          name: rashford-mobile-diagnostic-${{ github.sha }}
+          name: rashford-mobile-layer-comparison-${{ github.sha }}
           path: test-results/*.png
           if-no-files-found: error
           retention-days: 2
