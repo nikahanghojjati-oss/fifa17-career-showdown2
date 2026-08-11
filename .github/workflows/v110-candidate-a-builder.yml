@@ -26,6 +26,20 @@ jobs:
           ref: agent/v1.1.0-candidate-a-maintenance
           fetch-depth: 1
 
+      - name: Normalize temporary builder trailer
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('tools/build_v110_candidate_a.py')
+          text = path.read_text(encoding='utf-8')
+          if text.rstrip().endswith("print(\"v1.1.0 Candidate A runtime/test build complete\")\n'''"):
+              text = text.rstrip()[:-3].rstrip() + "\n"
+          path.write_text(text, encoding='utf-8')
+          PY
+          python -m py_compile tools/build_v110_candidate_a.py
+
       - name: Build Candidate A runtime and tests
         run: python tools/build_v110_candidate_a.py
 
