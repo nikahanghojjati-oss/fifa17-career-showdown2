@@ -32,6 +32,8 @@ The following images are required screen-level presentation assets. They are sto
 
 The v1.1.1 maintenance patch changes only the James Rodríguez source photograph. James now uses a different Real Madrid-authored Wikimedia Commons image from September 2016. The complete licensed source frame is preserved before WebP conversion and the finished derivative is shown in full with `object-fit: contain`; responsive CSS is not allowed to crop the derivative again. Marcus Rashford and Anthony Martial retain their reviewed r5 derivatives. Lionel Messi and Philipp Lahm remain unchanged from r4.
 
+This mixed policy is deliberate: James preserves the complete licensed frame, while Rashford, Martial and Lahm retain an explicit, hand-reviewed crop where source composition required it. In every case the finished derivative is authoritative and responsive presentation is not permitted to introduce a second crop.
+
 The earlier r3 visual regression and its rejected source/crop decisions remain documented in `AI_DEVELOPER_AUDIT_2026-08-10_VISUAL_REGRESSION.md`. The replaced 2019 James derivative and earlier r4 James/Rashford/Martial derivatives remain recoverable through Git history but are not active runtime assets. During r5 source review, an intermediate 2016 Rashford candidate was also replaced after final browser previews showed that a tighter 2017 Manchester United source made his face, red shirt and club identity substantially more readable at desktop, windowed and mobile Transfer Challenge sizes. The repository manifest `assets/football/asset-manifest.json` records source dimensions, source fingerprints, exact source-pixel crop/full-frame policy, derivative dimensions, derivative fingerprints and byte sizes.
 
 ### James Rodríguez — Real Madrid
