@@ -426,6 +426,13 @@
     }
 }
 
+/* Desktop Trophy Room needs more physical height than the base/tablet layout.
+   The focused Lahm derivative therefore fills the frame strongly without
+   sacrificing any additional source area to a responsive crop. */
+@media(min-width:1021px){
+    .footballVisualTrophy{min-height:365px;}
+}
+
 html[data-motion-reduced="true"] .footballVisualMedia{
     transition:none;
 }
