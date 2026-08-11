@@ -1,0 +1,64 @@
+name: V111 Integrate Runtime
+
+on:
+  push:
+    branches:
+      - agent/v1.1.1-james-real-madrid-source
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - name: Wire runtime, tests, notices and release identity
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          old_id='james-rodriguez-real-madrid-2019-smart-r5'; new_id='james-rodriguez-real-madrid-2016-interview-v111'
+          old_file=old_id+'.webp'; new_file=new_id+'.webp'
+
+          p=Path('data/footballVisuals.js'); s=p.read_text(encoding='utf-8')
+          s=s.replace(old_id,new_id).replace(old_file,new_file).replace('context: "Real Madrid · 2019"','context: "Real Madrid · 2016"').replace('alt: "James Rodríguez wearing Real Madrid training apparel at Real Madrid City in October 2019"','alt: "James Rodríguez during a Real Madrid post-match interview in September 2016"').replace('https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_2019.jpg','https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_September_2016_-_02.jpg')
+          p.write_text(s,encoding='utf-8')
+          for path in ['css/footballVisuals.css','tests/browser/football-visual-audit.cjs']:
+              p=Path(path); p.write_text(p.read_text(encoding='utf-8').replace(old_id,new_id).replace(old_file,new_file),encoding='utf-8')
+
+          p=Path('THIRD_PARTY_NOTICES.md'); s=p.read_text(encoding='utf-8'); start=s.index('### James Rodríguez — Real Madrid'); end=s.index('### Marcus Rashford — Manchester United')
+          section='''### James Rodríguez — Real Madrid\n\n- Repository file: `assets/football/james-rodriguez-real-madrid-2016-interview-v111.webp`\n- Source file: `James Rodríguez in September 2016 - 02.jpg`\n- Author/source account: Real Madrid\n- Source page: `https://commons.wikimedia.org/wiki/File:James_Rodríguez_in_September_2016_-_02.jpg`\n- License: Creative Commons Attribution 3.0 Unported (CC BY 3.0), `https://creativecommons.org/licenses/by/3.0/`\n- Source dimensions: 863 × 1080.\n- Source context: James Rodríguez during the Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016.\n- Application use: Create Showdown presentation.\n- Local transformation: source-pixel crop `(40, 0, 830, 1040)`, producing a 790 × 1040 derivative that preserves his complete hair/head, face, shoulders and purple Real Madrid training apparel; encoded as WebP at quality 92 with no upscaling.\n- Selection rationale: a January 2017 Real Madrid candidate exposed the club crest more directly but was only 384 × 480 and would require physical upscaling at target DPR2 sizes. The September 2016 source preserves explicit Real Madrid provenance while satisfying native-resolution and face-readability gates.\n- Display policy: the complete authored derivative is displayed with `object-fit: contain`; responsive layout cannot crop the face/head merely to fill a tile. Face-safe diagonal accents remain restricted to the lower image zone.\n\n'''
+          s=s[:start]+section+s[end:]; p.write_text(s,encoding='utf-8')
+
+          for path in ['index.html','js/app.js','js/optionalModules.js','js/menuExperience.js','js/settings.js','js/backup.js']:
+              p=Path(path); p.write_text(p.read_text(encoding='utf-8').replace('1.1.0-r1','1.1.1-r1'),encoding='utf-8')
+          for path in Path('tests').rglob('*.cjs'):
+              p=Path(path); p.write_text(p.read_text(encoding='utf-8').replace('1.1.0-r1','1.1.1-r1').replace('APP_VERSION = "1.1.0"','APP_VERSION = "1.1.1"'),encoding='utf-8')
+          p=Path('js/app.js'); p.write_text(p.read_text(encoding='utf-8').replace('const APP_VERSION = "1.1.0";','const APP_VERSION = "1.1.1";'),encoding='utf-8')
+          for path in ['js/settings.js','js/backup.js']:
+              p=Path(path); p.write_text(p.read_text(encoding='utf-8').replace('"1.1.0"','"1.1.1"'),encoding='utf-8')
+          pkg=json.loads(Path('package.json').read_text()); pkg['version']='1.1.1'; Path('package.json').write_text(json.dumps(pkg,indent=2)+'\n')
+          lock=json.loads(Path('package-lock.json').read_text()); lock['version']='1.1.1'; lock['packages']['']['version']='1.1.1'; Path('package-lock.json').write_text(json.dumps(lock,indent=2)+'\n')
+
+          Path('RELEASE_V1.1.1.md').write_text('''# Career Mode Showdown — v1.1.1 Release Record\n\nDate: 2026-08-11\nApplication version: `v1.1.1`\nRuntime asset revision: `1.1.1-r1`\nRelease class: owner-requested visual-source maintenance and gate hardening\n\n## Scope\n\nv1.1.1 changes the active James Rodríguez Create Showdown photograph to a genuinely different licensed source from his Real Madrid period. Candidate A backup/export remains intact. Candidate B import analysis remains the next substantive roadmap candidate and is not bundled into this maintenance release.\n\n## James source\n\n- source: `James Rodríguez in September 2016 - 02.jpg`;\n- author/source account: Real Madrid;\n- context: Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016;\n- license: CC BY 3.0;\n- source: 863 × 1080;\n- authored crop: `[40, 0, 830, 1040]`;\n- derivative: 790 × 1040 WebP, no upscaling;\n- runtime: complete derivative under `object-fit: contain`, with the approved face-safe accent treatment.\n\nThe superseded 2019 James runtime derivative is removed. Rashford, Martial, Messi, Lahm and the owner-liked Reus loading composition are protected.\n\n## Gate policy\n\nThe final candidate must pass every permanent workflow family twice. Any runtime/source change resets the two-pass count. Gates must not be weakened and performance budgets must not be raised to manufacture a pass. Post-merge Pages must match exact merged runtime bytes and deployed Stability must repeat provenance, visual, Candidate A and complete-journey audits.\n\n## Roadmap\n\nAfter this maintenance release, Candidate B — Import Analysis + Migration Preview — remains the next legal feature candidate. Candidate B stays read-only and Candidate C restore remains blocked behind it.\n''',encoding='utf-8')
+
+          assert old_id not in Path('data/footballVisuals.js').read_text(); assert new_id in Path('data/footballVisuals.js').read_text(); assert '1.1.1-r1' in Path('index.html').read_text(); assert Path('assets/football/'+new_file).exists(); assert not Path('assets/football/'+old_file).exists()
+          PY
+      - name: Sanity and commit
+        run: |
+          node --check js/app.js
+          node --check data/footballVisuals.js
+          node --check js/footballVisuals.js
+          node --check js/backup.js
+          git diff --check
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html js data css tests THIRD_PARTY_NOTICES.md package.json package-lock.json RELEASE_V1.1.1.md
+          git commit -m 'Wire v1.1.1 James source maintenance runtime'
+          git push
