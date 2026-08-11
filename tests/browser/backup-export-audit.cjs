@@ -69,20 +69,23 @@ async function installWriteAudit(page){
 
 async function seedFullBackup(page){
     await page.evaluate(({ activeKey, legacyKey, preferencesKey }) => {
-        localStorage.setItem(activeKey, JSON.stringify({
+        const completed = {
             id: 1700000000000,
             name: "Browser Backup",
             status: "Completed",
+            totalRounds: 1,
+            currentRound: 1,
+            managers: { playerOne: "Alex", playerTwo: "Jordan" },
+            selectedLeague: { id: "premier-league", name: "Premier League" },
+            clubs: { playerOne: "Arsenal", playerTwo: "Chelsea" },
+            score: { playerOne: 6, playerTwo: 5 },
+            transferChallenges: [],
+            rounds: [],
             updatedAt: "2026-08-11T12:00:00.000Z",
             completedAt: "2026-08-11T12:00:00.000Z"
-        }));
-        localStorage.setItem(legacyKey, JSON.stringify([{
-            id: 1700000000000,
-            name: "Browser Backup",
-            status: "Completed",
-            updatedAt: "2026-08-11T12:00:00.000Z",
-            completedAt: "2026-08-11T12:00:00.000Z"
-        }]));
+        };
+        localStorage.setItem(activeKey, JSON.stringify(completed));
+        localStorage.setItem(legacyKey, JSON.stringify([completed]));
         localStorage.setItem(preferencesKey, JSON.stringify({ schemaVersion: 2, reducedMotion: false, menuFeedback: true }));
     }, { activeKey, legacyKey, preferencesKey });
 }
@@ -155,7 +158,7 @@ async function assertDesktopScenario(browser){
         await assertEnvelopeAndCorruptRecovery(page);
         assert.deepEqual(pageErrors, [], "Backup browser audit emitted page errors.");
 
-        const screenshotPath = path.join(resultsDirectory, `backup-desktop-${runLabel}.png`);
+        const screenshotPath = path.join(resultsDirectory, `backup-data-management-desktop-${runLabel}.png`);
         await page.screenshot({ path: screenshotPath, fullPage: true });
         assert.ok(await exportButton.isEnabled());
     }finally{
@@ -209,7 +212,7 @@ async function assertMobileReducedMotion(browser){
         await assertLegacyAccessibility(page, "mobile reduced-motion");
         const tapBox = await exportButton.boundingBox();
         assert.ok(tapBox && tapBox.width >= 44 && tapBox.height >= 44, `Mobile Export Backup touch target is too small: ${tapBox?.width}×${tapBox?.height}.`);
-        const screenshotPath = path.join(resultsDirectory, `backup-mobile-${runLabel}.png`);
+        const screenshotPath = path.join(resultsDirectory, `backup-data-management-mobile-${runLabel}.png`);
         await page.screenshot({ path: screenshotPath, fullPage: true });
     }finally{
         await context.close();
