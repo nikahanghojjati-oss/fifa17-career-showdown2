@@ -11,8 +11,9 @@ const FOOTBALL_VISUALS = Object.freeze({
         licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
         framing: Object.freeze({
             mode: "subject-safe",
+            treatment: "clean-anchor",
             fit: "contain",
-            position: "50% 50%",
+            position: "100% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
@@ -29,8 +30,9 @@ const FOOTBALL_VISUALS = Object.freeze({
         licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
         framing: Object.freeze({
             mode: "subject-safe",
+            treatment: "clean-anchor",
             fit: "contain",
-            position: "50% 50%",
+            position: "100% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
@@ -47,8 +49,9 @@ const FOOTBALL_VISUALS = Object.freeze({
         licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
         framing: Object.freeze({
             mode: "subject-safe",
+            treatment: "clean-anchor",
             fit: "contain",
-            position: "50% 50%",
+            position: "100% 50%",
             maxCropFraction: 0,
             rejectPortraitCover: true
         })
@@ -65,6 +68,7 @@ const FOOTBALL_VISUALS = Object.freeze({
         licenseUrl: "https://creativecommons.org/licenses/by/2.0/",
         framing: Object.freeze({
             mode: "subject-safe",
+            treatment: "classic-overlay",
             fit: "contain",
             position: "50% 50%",
             maxCropFraction: 0,
@@ -83,6 +87,7 @@ const FOOTBALL_VISUALS = Object.freeze({
         licenseUrl: "https://creativecommons.org/licenses/by/3.0/br/deed.en",
         framing: Object.freeze({
             mode: "subject-safe",
+            treatment: "classic-overlay",
             fit: "contain",
             position: "50% 50%",
             maxCropFraction: 0,
