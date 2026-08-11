@@ -140,8 +140,14 @@ async function inspectVisibleVisual(page, screenName){
                     frameZIndex: Number.parseInt(frameStyle.zIndex || "0", 10) || 0,
                     beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
                     afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0,
+                    copyLeft: copyRect.left,
                     copyRight: copyRect.right,
-                    frameLeft: frameRect.left
+                    copyTop: copyRect.top,
+                    copyBottom: copyRect.bottom,
+                    frameLeft: frameRect.left,
+                    frameRight: frameRect.right,
+                    frameTop: frameRect.top,
+                    frameBottom: frameRect.bottom
                 };
             }),
             documentWidth: document.documentElement.scrollWidth,
@@ -216,8 +222,10 @@ function assertRenderedVisual(result, screenName){
                 panel.frameZIndex > panel.beforeZIndex && panel.frameZIndex > panel.afterZIndex,
                 `${screenName}/${panel.asset}: decorative geometry is painted above the photograph; face-safe layering regressed.`
             );
+            const horizontallySeparated = panel.copyRight <= panel.frameLeft + 2 || panel.copyLeft >= panel.frameRight - 2;
+            const verticallySeparated = panel.copyBottom <= panel.frameTop + 2 || panel.copyTop >= panel.frameBottom - 2;
             assert.ok(
-                panel.copyRight <= panel.frameLeft + 2,
+                horizontallySeparated || verticallySeparated,
                 `${screenName}/${panel.asset}: text/caption intrudes into the clean photographic anchor.`
             );
         }
