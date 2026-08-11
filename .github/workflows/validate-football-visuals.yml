@@ -84,7 +84,7 @@ jobs:
           assert.ok(james, 'r5 James Rodríguez visual is missing.');
           assert.strictEqual(james.author, 'Real Madrid', 'James attribution changed unexpectedly.');
           assert.strictEqual(james.license, 'CC BY 3.0', 'James license changed unexpectedly.');
-          assert.ok(james.source_page.includes('James_Rodr%C3%ADguez_in_2019.jpg'), 'James r5 source changed unexpectedly.');
+          assert.ok(decodeURI(james.source_page).includes('James_Rodríguez_in_2019.jpg'), 'James r5 source changed unexpectedly.');
           assert.deepStrictEqual(james.crop_box_on_source, [20,0,540,705], 'James r5 authored crop box changed unexpectedly.');
 
           const rashford = manifest.assets.find(asset => asset.id === 'marcus-rashford-man-utd-2016-smart-r5');
