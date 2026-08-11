@@ -1,0 +1,29 @@
+name: R5 Stale Reference Scan
+
+on:
+  push:
+    branches: [agent/r5-smart-player-photo-rebuild]
+    paths:
+      - 'tools/r5_text_scan.py'
+      - '.github/workflows/r5-text-scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Scan active repository text
+        run: python tools/r5_text_scan.py
+      - name: Upload scan
+        uses: actions/upload-artifact@v7
+        with:
+          name: r5-stale-reference-scan-${{ github.sha }}
+          path: test-results/r5-stale-reference-scan.txt
+          retention-days: 2
