@@ -297,7 +297,8 @@ function ensureMenuFeedbackModule(){
 }
 
 async function ensureFootballVisualModule(){
-    const stylePromise = loadRuntimeStyle("football-visual-ui", "css/footballVisuals.css");
+    const baseStylePromise = loadRuntimeStyle("football-visual-ui", "css/footballVisuals.css");
+    const cinematicStylePromise = baseStylePromise.then(() => loadRuntimeStyle("football-visual-v113-ui", "css/footballVisuals-v113.css"));
     await loadRuntimeScript("football-visual-data","data/footballVisuals.js",() => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN));
     await loadRuntimeScript(
         "football-visual-ui","js/footballVisuals.js",
@@ -305,7 +306,7 @@ async function ensureFootballVisualModule(){
             && typeof window.prepareFootballVisualScreen === "function"
             && typeof window.preloadFootballVisualAssets === "function"
     );
-    await stylePromise;
+    await cinematicStylePromise;
     await window.initializeFootballVisuals();
     return true;
 }

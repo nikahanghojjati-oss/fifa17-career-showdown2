@@ -177,7 +177,8 @@
     }
 }
 
-html[data-motion-reduced="true"] .footballVisualCinematicBand .footballVisualMedia,
+html[data-motion-reduced="true"] .footballVisualCinematicBand .footballVisualMedia{transition:none;}
+
 @media(prefers-reduced-motion:reduce){
     .footballVisualCinematicBand .footballVisualMedia{transition:none;}
 }
