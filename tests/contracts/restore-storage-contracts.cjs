@@ -47,9 +47,7 @@ function createRuntime(){
         querySelector(){ return null; }
     };
     const window = {
-        matchMedia(){
-            return { matches: false, addEventListener(){}, removeEventListener(){}, addListener(){}, removeListener(){} };
-        },
+        matchMedia(){ return { matches: false, addEventListener(){}, removeEventListener(){}, addListener(){}, removeListener(){} }; },
         addEventListener(){},
         dispatchEvent(event){ events.push(event); },
         setTimeout,
@@ -82,7 +80,6 @@ function seed(runtime, keys, raw){
         if(value !== null && value !== undefined) runtime.values.set(key, String(value));
     }
 }
-
 function snapshot(runtime, keys){
     return {
         activeShowdown: runtime.values.has(keys.activeShowdown) ? runtime.values.get(keys.activeShowdown) : null,
@@ -94,8 +91,10 @@ function assertRawState(runtime, keys, expected, message){ assert.deepEqual(snap
 function throwQuota(label){ const error = new Error(label); error.name = "QuotaExceededError"; throw error; }
 
 (() => {
+    assert.ok(storageSource.includes("function captureCareerModeRawRestoreSnapshot"), "Strict restore snapshot authority must stay in js/storage.js.");
     assert.ok(storageSource.includes("function applyCareerModeRawStorageTransaction"), "Canonical transaction entry point must stay in js/storage.js.");
-    assert.ok(transactionSource.includes("window.runCareerModeRawStorageTransaction"), "Lazy transaction state machine export is missing.");
+    assert.ok(transactionSource.includes("rollbackOwnershipConflicts"), "Rollback ownership conflicts must be first-class transaction evidence.");
+    assert.ok(transactionSource.includes('io.read(name,"prewrite")'), "Every commit write must receive a last-moment byte precondition check.");
     assert.ok(!/\blocalStorage\b/.test(transactionSource), "Lazy transaction engine must not become a second browser-storage owner.");
     assert.ok(!/\bcurrentShowdown\b/.test(transactionSource), "Lazy transaction engine must remain independent of live application state.");
 
@@ -113,31 +112,46 @@ function throwQuota(label){ const error = new Error(label); error.name = "QuotaE
     };
 
     seed(runtime, keys, oldRaw);
+    const strict = runtime.window.captureCareerModeRawRestoreSnapshot();
+    assert.equal(strict.ok, true);
+    assert.deepEqual(strict.raw, oldRaw, "Strict restore snapshots must preserve exact strings and absence semantics.");
+    runtime.hooks.get = (key, current) => {
+        if(key === keys.legacyShowdowns) throw new Error("blocked read");
+        return current;
+    };
+    const strictFailure = runtime.window.captureCareerModeRawRestoreSnapshot();
+    assert.equal(strictFailure.ok, false, "Read failure must never be converted into false key absence.");
+    assert.deepEqual(strictFailure.failedKeys, ["legacyShowdowns"]);
+    runtime.hooks.get = null;
+
+    seed(runtime, keys, oldRaw);
     const revisionBefore = runtime.window.getLegacyStorageRevision();
-    const success = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
+    const success = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(success.ok, true);
     assert.equal(success.status, "success");
     assert.deepEqual(Array.from(success.affectedKeys), ["activeShowdown", "legacyShowdowns", "preferences"]);
+    assert.deepEqual(Array.from(success.committedKeys), ["activeShowdown", "legacyShowdowns", "preferences"]);
     assertRawState(runtime, keys, newRaw, "Successful transaction must commit every requested raw value exactly.");
     assert.equal(runtime.window.getLegacyStorageRevision(), revisionBefore + 1, "Legacy cache revision changes only after complete commit success.");
-    assert.equal(
-        runtime.events.filter(event => event.type === "career-mode-preferences-change" && event.detail && event.detail.source === "restore").length,
-        1,
-        "Preferences restore should publish one post-success preference event."
-    );
-    assert.deepEqual(
-        runtime.attempts.slice(0, 3).map(item => item.key),
-        [keys.activeShowdown, keys.legacyShowdowns, keys.preferences],
-        "Candidate C writes must follow deterministic active → Legacy → preferences order."
-    );
+    assert.equal(runtime.window.isCareerModeCriticalRecoveryLocked(), false);
+    assert.equal(runtime.events.filter(event => event.type === "career-mode-preferences-change" && event.detail?.source === "restore").length, 1);
+    assert.deepEqual(runtime.attempts.slice(0, 3).map(item => item.key), [keys.activeShowdown, keys.legacyShowdowns, keys.preferences]);
 
     seed(runtime, keys, newRaw);
-    const noOp = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
+    const noOp = runtime.window.applyCareerModeRawStorageTransaction(newRaw, newRaw);
     assert.equal(noOp.ok, true);
     assert.equal(noOp.status, "no-op");
-    assert.deepEqual(Array.from(noOp.affectedKeys), []);
-    assert.equal(runtime.attempts.length, 0, "Idempotent repeat plans must not rewrite identical raw storage.");
-    assert.equal(runtime.events.length, 0, "No-op restore must not emit preference-change events.");
+    assert.equal(runtime.attempts.length, 0, "Idempotent repeat plans must remain zero-write transactions.");
+
+    seed(runtime, keys, oldRaw);
+    const staleExpected = { ...oldRaw, legacyShowdowns: "[]" };
+    const stale = runtime.window.applyCareerModeRawStorageTransaction(newRaw, staleExpected);
+    assert.equal(stale.ok, false);
+    assert.equal(stale.status, "stale-precondition");
+    assert.equal(stale.failurePhase, "precondition");
+    assert.deepEqual(Array.from(stale.preconditionMismatches), ["legacyShowdowns"]);
+    assert.equal(runtime.attempts.length, 0, "Initial stale precondition must abort before any write.");
+    assertRawState(runtime, keys, oldRaw);
 
     seed(runtime, keys, oldRaw);
     let firstFailureInjected = false;
@@ -148,20 +162,16 @@ function throwQuota(label){ const error = new Error(label); error.name = "QuotaE
         }
         return null;
     };
-    const firstFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
+    const firstFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(firstFailure.ok, false);
-    assert.equal(firstFailure.status, "rolled-back");
-    assert.equal(firstFailure.failurePhase, "write");
+    assert.equal(firstFailure.status, "write-failed-clean");
     assert.equal(firstFailure.failedKey, "activeShowdown");
-    assert.equal(firstFailure.rollbackAttempted, true);
+    assert.equal(firstFailure.rollbackAttempted, false, "A failed first write owns no mutation and must perform no rollback write.");
     assert.equal(firstFailure.rollbackVerified, true);
-    assertRawState(runtime, keys, oldRaw, "First-key failure must restore exact original bytes for every affected key.");
-    assert.equal(runtime.events.length, 0, "Rolled-back transaction must not update runtime preference state.");
-    assert.deepEqual(
-        runtime.attempts.slice(-3).map(item => item.key),
-        [keys.activeShowdown, keys.legacyShowdowns, keys.preferences],
-        "Rollback must attempt the complete affected-key set even when the first write failed."
-    );
+    assert.deepEqual(Array.from(firstFailure.committedKeys), []);
+    assert.deepEqual(Array.from(firstFailure.rollbackKeys), []);
+    assert.equal(runtime.attempts.length, 1, "Only the failed commit attempt itself should be observed.");
+    assertRawState(runtime, keys, oldRaw, "First-key failure must leave exact original bytes untouched.");
 
     seed(runtime, keys, oldRaw);
     let middleFailureInjected = false;
@@ -172,26 +182,24 @@ function throwQuota(label){ const error = new Error(label); error.name = "QuotaE
         }
         return null;
     };
-    const middleFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
-    assert.equal(middleFailure.ok, false);
+    const middleFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(middleFailure.status, "rolled-back");
-    assert.equal(middleFailure.failedKey, "legacyShowdowns");
-    assertRawState(runtime, keys, oldRaw, "Middle-key failure must undo an earlier successful write byte-for-byte.");
+    assert.deepEqual(Array.from(middleFailure.committedKeys), ["activeShowdown"]);
+    assert.deepEqual(Array.from(middleFailure.rollbackKeys), ["activeShowdown"], "Only the successfully changed active key is rollback-owned.");
+    assertRawState(runtime, keys, oldRaw, "Middle failure must restore the one transaction-owned mutation byte-for-byte.");
+    assert.deepEqual(runtime.attempts.map(item => item.key), [keys.activeShowdown, keys.legacyShowdowns, keys.activeShowdown]);
 
     seed(runtime, keys, oldRaw);
     let finalFailureInjected = false;
     runtime.hooks.set = (key, value) => {
-        if(!finalFailureInjected && key === keys.preferences && value === newRaw.preferences){
-            finalFailureInjected = true;
-            throwQuota("final-key failure");
-        }
+        if(!finalFailureInjected && key === keys.preferences && value === newRaw.preferences){ finalFailureInjected = true; throwQuota("final-key failure"); }
         return null;
     };
-    const finalFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
-    assert.equal(finalFailure.ok, false);
+    const finalFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(finalFailure.status, "rolled-back");
-    assert.equal(finalFailure.failedKey, "preferences");
-    assertRawState(runtime, keys, oldRaw, "Final-key failure must undo both earlier successful writes.");
+    assert.deepEqual(Array.from(finalFailure.committedKeys), ["activeShowdown", "legacyShowdowns"]);
+    assert.deepEqual(Array.from(finalFailure.rollbackKeys), ["legacyShowdowns", "activeShowdown"], "Rollback must unwind owned writes in reverse commit order.");
+    assertRawState(runtime, keys, oldRaw);
 
     seed(runtime, keys, oldRaw);
     let verificationMismatchInjected = false;
@@ -202,44 +210,60 @@ function throwQuota(label){ const error = new Error(label); error.name = "QuotaE
         }
         return current;
     };
-    const verificationFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
-    assert.equal(verificationFailure.ok, false);
+    const verificationFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(verificationFailure.status, "rolled-back");
     assert.equal(verificationFailure.failurePhase, "verify");
-    assert.equal(verificationFailure.failedKey, "legacyShowdowns");
     assert.deepEqual(Array.from(verificationFailure.verificationMismatches), ["legacyShowdowns"]);
-    assertRawState(runtime, keys, oldRaw, "Post-write verification mismatch must trigger exact rollback.");
+    assertRawState(runtime, keys, oldRaw, "Post-write verification mismatch must trigger exact reverse rollback.");
 
     seed(runtime, keys, oldRaw);
-    let commitFailureReached = false;
-    runtime.hooks.set = (key, value) => {
-        if(key === keys.legacyShowdowns && value === newRaw.legacyShowdowns && !commitFailureReached){
-            commitFailureReached = true;
-            throwQuota("commit failure before broken rollback");
-        }
-        if(commitFailureReached && key === keys.activeShowdown && value === oldRaw.activeShowdown) throwQuota("rollback write failure");
-        return null;
+    const readCounts = new Map();
+    runtime.hooks.get = (key, current) => {
+        const count = (readCounts.get(key) || 0) + 1;
+        readCounts.set(key, count);
+        if(key === keys.legacyShowdowns && count === 2) return "external-concurrent-legacy";
+        return current;
     };
-    const rollbackFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
-    assert.equal(rollbackFailure.ok, false);
-    assert.equal(rollbackFailure.status, "rollback-failed-critical");
-    assert.equal(rollbackFailure.rollbackAttempted, true);
-    assert.equal(rollbackFailure.rollbackVerified, false);
-    assert.deepEqual(Array.from(rollbackFailure.rollbackFailures), ["activeShowdown"]);
-    assert.ok(Array.from(rollbackFailure.rollbackVerificationMismatches).includes("activeShowdown"), "A failed rollback write must also fail exact rollback verification.");
-    assert.equal(runtime.values.get(keys.activeShowdown), newRaw.activeShowdown, "Critical rollback failure must not be falsely reported as restored.");
-    assert.equal(runtime.values.get(keys.legacyShowdowns), oldRaw.legacyShowdowns, "Rollback must continue attempting later keys after one rollback write fails.");
-    assert.equal(runtime.values.get(keys.preferences), oldRaw.preferences, "Rollback must continue through the final key after a rollback failure.");
-    assert.equal(runtime.events.length, 0, "Critical rollback failure must not synchronize post-success caches/preferences.");
+    const drift = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
+    assert.equal(drift.ok, false);
+    assert.equal(drift.failurePhase, "precondition");
+    assert.deepEqual(Array.from(drift.preconditionMismatches), ["legacyShowdowns"]);
+    assert.deepEqual(Array.from(drift.committedKeys), ["activeShowdown"]);
+    assert.deepEqual(Array.from(drift.rollbackKeys), ["activeShowdown"]);
+    assert.equal(drift.rollbackVerified, true);
+    assertRawState(runtime, keys, oldRaw, "Cross-context drift before a later write must roll back only earlier owned mutations.");
+
+    seed(runtime, keys, oldRaw);
+    let mutatedExternally = false;
+    runtime.hooks.get = (key, current) => {
+        if(!mutatedExternally && key === keys.legacyShowdowns && current === newRaw.legacyShowdowns){
+            mutatedExternally = true;
+            runtime.values.set(keys.activeShowdown, '{"id":"external-newer"}');
+            return `${current}verification-mismatch`;
+        }
+        return current;
+    };
+    const ownershipConflict = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
+    assert.equal(ownershipConflict.status, "rollback-failed-critical");
+    assert.equal(ownershipConflict.rollbackVerified, false);
+    assert.ok(Array.from(ownershipConflict.rollbackOwnershipConflicts).includes("activeShowdown"), "Rollback must refuse to overwrite bytes it can no longer prove belong to this transaction.");
+    assert.equal(runtime.values.get(keys.activeShowdown), '{"id":"external-newer"}', "Newer/unowned bytes must survive critical rollback rather than being clobbered.");
+    assert.equal(runtime.window.isCareerModeCriticalRecoveryLocked(), true, "Critical transaction uncertainty must invalidate runtime authority until refresh.");
 
     seed(runtime, keys, oldRaw);
     const removalPlan = { activeShowdown: null, legacyShowdowns: null, preferences: newRaw.preferences };
-    const removalSuccess = runtime.window.applyCareerModeRawStorageTransaction(removalPlan);
+    const removalSuccess = runtime.window.applyCareerModeRawStorageTransaction(removalPlan, oldRaw);
     assert.equal(removalSuccess.ok, true);
-    assert.equal(removalSuccess.status, "success");
-    assertRawState(runtime, keys, removalPlan, "Transaction must distinguish exact absence from a serialized null string.");
+    assertRawState(runtime, keys, removalPlan, "Transaction must distinguish exact absence from the serialized string null.");
     assert.equal(runtime.attempts[0].type, "remove");
     assert.equal(runtime.attempts[1].type, "remove");
+
+    seed(runtime, keys, { ...oldRaw, activeShowdown: "{broken-active", legacyShowdowns: "{broken-legacy", preferences: "{broken-preferences" });
+    const corruptBefore = snapshot(runtime, keys);
+    const corruptNoOp = runtime.window.applyCareerModeRawStorageTransaction({}, corruptBefore);
+    assert.equal(corruptNoOp.ok, true);
+    assert.equal(runtime.attempts.length, 0);
+    assertRawState(runtime, keys, corruptBefore, "Corrupt bytes remain opaque transaction bytes until explicit replacement is planned.");
 
     seed(runtime, keys, oldRaw);
     let readFailed = false;
@@ -247,29 +271,22 @@ function throwQuota(label){ const error = new Error(label); error.name = "QuotaE
         if(!readFailed && key === keys.legacyShowdowns){ readFailed = true; throw new Error("snapshot read unavailable"); }
         return current;
     };
-    const snapshotFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
-    assert.equal(snapshotFailure.ok, false);
+    const snapshotFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(snapshotFailure.status, "snapshot-failed");
     assert.equal(snapshotFailure.failurePhase, "snapshot");
-    assert.equal(snapshotFailure.failedKey, "legacyShowdowns");
-    assert.equal(runtime.attempts.length, 0, "Snapshot failure must abort before the first canonical write.");
-    assertRawState(runtime, keys, oldRaw, "Snapshot failure must leave canonical storage untouched.");
+    assert.equal(runtime.attempts.length, 0);
+    assertRawState(runtime, keys, oldRaw);
 
     seed(runtime, keys, oldRaw);
-    const invalidValue = runtime.window.applyCareerModeRawStorageTransaction({ activeShowdown: { id: "not-raw" } });
-    assert.equal(invalidValue.ok, false);
+    const invalidValue = runtime.window.applyCareerModeRawStorageTransaction({ activeShowdown: { id: "not-raw" } }, oldRaw);
     assert.equal(invalidValue.status, "invalid-plan");
     assert.equal(runtime.attempts.length, 0);
-    const invalidRoot = runtime.window.applyCareerModeRawStorageTransaction(null);
-    assert.equal(invalidRoot.ok, false);
-    assert.equal(invalidRoot.status, "invalid-plan");
 
     const engine = runtime.window.runCareerModeRawStorageTransaction;
     delete runtime.window.runCareerModeRawStorageTransaction;
-    const unavailable = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
-    assert.equal(unavailable.ok, false);
+    const unavailable = runtime.window.applyCareerModeRawStorageTransaction(newRaw, oldRaw);
     assert.equal(unavailable.status, "engine-unavailable");
     runtime.window.runCareerModeRawStorageTransaction = engine;
 
-    process.stdout.write("PASS  Candidate C lazy atomic storage transaction contracts\n");
+    process.stdout.write("PASS  Candidate C ownership-scoped atomic storage and strict snapshot contracts\n");
 })();
