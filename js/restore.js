@@ -1,5 +1,7 @@
 (function(){
   let restoreInFlight=false;
+  const RAW_NAMES=Object.freeze(["activeShowdown","legacyShowdowns","preferences"]);
+  const own=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
   function canonical(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
     if(Array.isArray(value))return `[${value.map(canonical).join(",")}]`;
@@ -118,7 +120,12 @@
     if(errors.length)return {ok:false,status:conflicts.length?"conflict-choice-required":"choice-blocked",errors,warnings,candidateRaw:{},summary,conflicts};
     return {ok:true,status:"ready",errors,warnings,candidateRaw,summary,conflicts:[]};
   }
-  async function applyCareerModeRestore(file,choices={}){
+  function compareReviewedRawState(expectedRaw,currentRaw){
+    if(!expectedRaw||typeof expectedRaw!=="object"||Array.isArray(expectedRaw))return {checked:false,changedKeys:[]};
+    if(RAW_NAMES.some(name=>!own(expectedRaw,name)))return {checked:false,changedKeys:[]};
+    return {checked:true,changedKeys:RAW_NAMES.filter(name=>expectedRaw[name]!==currentRaw[name])};
+  }
+  async function applyCareerModeRestore(file,choices={},reviewContext={}){
     if(restoreInFlight)return {ok:false,status:"busy",errors:["A restore transaction is already in progress."]};
     restoreInFlight=true;
     try{
@@ -130,14 +137,25 @@
       if(!analysis||analysis.ok!==true)return {ok:false,status:"analysis-blocked",analysis,errors:(analysis&&analysis.errors)||["Fresh backup analysis was blocked."]};
       if(typeof window.captureCareerModeRawBackupInputs!=="function")return {ok:false,status:"snapshot-unavailable",analysis,errors:["Storage snapshot authority is unavailable."]};
       const currentRaw=window.captureCareerModeRawBackupInputs();
+      const reviewState=compareReviewedRawState(reviewContext&&reviewContext.expectedRaw,currentRaw);
+      if(reviewState.checked&&reviewState.changedKeys.length){
+        return {
+          ok:false,
+          status:"stale-state",
+          analysis,
+          currentRaw,
+          changedKeys:reviewState.changedKeys,
+          errors:[`Current browser data changed after review: ${reviewState.changedKeys.join(", ")}. Review the refreshed state before applying.`]
+        };
+      }
       const plan=createCareerModeRestorePlan(analysis,currentRaw,choices);
-      if(!plan.ok)return {ok:false,status:plan.status,analysis,plan,errors:plan.errors,warnings:plan.warnings};
-      if(typeof window.applyCareerModeRawStorageTransaction!=="function")return {ok:false,status:"transaction-unavailable",analysis,plan,errors:["Storage transaction authority is unavailable."]};
+      if(!plan.ok)return {ok:false,status:plan.status,analysis,plan,currentRaw,errors:plan.errors,warnings:plan.warnings};
+      if(typeof window.applyCareerModeRawStorageTransaction!=="function")return {ok:false,status:"transaction-unavailable",analysis,plan,currentRaw,errors:["Storage transaction authority is unavailable."]};
       const transaction=window.applyCareerModeRawStorageTransaction(plan.candidateRaw);
       return {
         ok:Boolean(transaction&&transaction.ok),
         status:transaction&&transaction.ok?"success":(transaction&&transaction.status)||"transaction-failed",
-        analysis,plan,transaction,
+        analysis,plan,currentRaw,transaction,
         errors:transaction&&transaction.ok?[]:["Restore did not commit successfully."],
         warnings:plan.warnings
       };
