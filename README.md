@@ -4,10 +4,10 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Application version:** v1.1.2 — Maintenance Candidate
 **Runtime asset revision:** `1.1.2-r1`
-**Current phase:** Candidate B — read-only Import Analysis + Migration Preview; Candidate A remains protected and Candidate C restore remains blocked
+**Current phase:** Candidate B is complete/deployed/protected; Candidate C — Atomic Restore + Recovery UX — is next
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
-**Next roadmap candidate after Candidate B production proof:** Candidate C — Atomic Restore + Recovery UX
+**Next roadmap candidate:** Candidate C — Atomic Restore + Recovery UX
 **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`
 
 ## Development entry point
@@ -30,7 +30,7 @@ Read in this order:
 11. the `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*.md` files — detailed chronology when source/decision archaeology is genuinely required.
 12. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-The original release path **v0.95 → v1.0** and the finite v1.0.2 clean-anchor maintenance lane are complete. v1.1.0 Candidate A is also merged, deployed and technically proven. The current clean-stability seal exists to reproduce that production state against every permanent feature/workstream/release gate before further roadmap work. The owner-liked loading screen and clean player-anchor architecture remain protected; owner real-device art-direction acceptance remains separate from automated proof.
+The original release path **v0.95 → v1.0**, the finite v1.0.2 clean-anchor maintenance lane, v1.1.0 Candidate A and v1.1.2 Candidate B are complete and deployed. Candidate B passed the full permanent matrix twice before merge and twice again on the exact production runtime, including public Pages import analysis and the complete deployed journey. Candidate C atomic restore is now the next legal v1.1.x build. The owner-liked loading screen and clean player-anchor architecture remain protected.
 
 ---
 
@@ -38,9 +38,9 @@ The original release path **v0.95 → v1.0** and the finite v1.0.2 clean-anchor 
 
 Candidate B adds a preview-only import workflow to the existing lazy Data Management surface. A local backup is size-gated, parsed, checked against the Candidate A format, SHA-256 verified, schema validated and passed through explicit ordered migrations before any conflict preview is shown. Existing Showdown IDs remain strings for comparison. New, exact duplicate, same-effective-revision, different-revision and malformed/unresolvable outcomes are surfaced instead of silently merged.
 
-The feature performs zero canonical localStorage writes/removals and exposes no restore/apply action. Candidate C remains the only future stage allowed to commit imported data. Historical schema fixtures, hostile JSON structure, oversized files, tampering, corrupt local bytes, large imports, keyboard/drop/touch/mobile accessibility and exact deployed-site behavior are permanently gated.
+The feature performs zero canonical localStorage writes/removals and exposes no restore/apply action. Candidate C is now the next stage and remains the first legal stage allowed to commit imported data. Historical schema fixtures, hostile JSON structure, oversized files, tampering, corrupt local bytes, large imports, keyboard/drop/touch/mobile accessibility and exact deployed-site behavior are permanently gated.
 
-See `RELEASE_V1.1.2.md` and `CAREER_MODE_SHOWDOWN_V1.1.2_CANDIDATE_B_HANDOFF.md`.
+See `RELEASE_V1.1.2.md` and `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` for final production evidence.
 
 ## v1.1.1 — James Rodríguez Real Madrid source refresh
 

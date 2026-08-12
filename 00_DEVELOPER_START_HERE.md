@@ -10,27 +10,27 @@ Application: `v1.1.2`
 
 Runtime asset revision: `1.1.2-r1`.
 
-Candidate A backup/export is complete, deployed and protected. Candidate B — Import Analysis + Migration Preview — is the current substantive Data Safety and Recovery build. Candidate C restore remains blocked.
+Candidate A backup/export and Candidate B — Import Analysis + Migration Preview — are complete, merged, deployed and protected. Candidate C — Atomic Restore + Recovery UX — is now the next legal substantive Data Safety and Recovery build.
 
-Candidate B is preview-only: local backup file size, JSON, format, checksum, schemas, historical migrations and ID conflicts are analyzed in memory with zero canonical localStorage writes/removals. The existing Legacy/Data Management surface remains the UI owner and the feature stays lazy so startup budgets remain protected.
+Candidate B remains a preview-only protected dependency: local backup size, JSON, format, checksum, schemas, historical migrations and ID conflicts are analyzed in memory with zero canonical localStorage writes/removals. Candidate C is the first stage allowed to commit imported canonical state and must revalidate Candidate B analysis before apply.
 
 The owner-mandated `00_HANDOFF_GOLDEN_RULE.md` is permanent operating policy: every meaningful action/failure/decision/gate/merge/deployment state must be recorded continuously in the active public handoff.
 
-After Candidate B is merged/deployed/proven, Candidate C — Atomic Restore + Recovery UX — becomes the next legal v1.1.x step. v1.2.0 remains reserved for Installable Offline App.
+The v1.1.2 runtime authority is `6dfea100829016eee4820b342729b8c823426f95`. v1.2.0 remains reserved for Installable Offline App after Candidate C closes v1.1 Data Safety and Recovery.
 
 ## 1. Start every new session in this order
 
 1. Read `00_HANDOFF_GOLDEN_RULE.md` and identify/create the active public handoff.
 2. Fetch current `main` and record its SHA.
-2. Read this file completely.
-3. Read `NEXT_TASK.md` completely.
-4. Read the Current milestone and dependency sections of `POST_V1_ROADMAP_EXECUTION.md`.
-5. Inspect the live source files named by the active task before changing anything.
-6. Use deeper handoff/chronology files only when history or source authority is ambiguous.
-7. Do not ask the owner to repeat decisions already recorded here unless new evidence is genuinely required.
-8. For runtime work, create a focused branch from current `main`.
-9. Keep the owner informed during long development work.
-10. Record every meaningful decision, failure, correction, merge, deployment, and owner-acceptance state in the current handoff.
+3. Read this file completely.
+4. Read `NEXT_TASK.md` completely.
+5. Read the Current milestone and dependency sections of `POST_V1_ROADMAP_EXECUTION.md`.
+6. Inspect the live source files named by the active task before changing anything.
+7. Use deeper handoff/chronology files only when history or source authority is ambiguous.
+8. Do not ask the owner to repeat decisions already recorded here unless new evidence is genuinely required.
+9. For runtime work, create a focused branch from current `main`.
+10. Keep the owner informed during long development work.
+11. Record every meaningful decision, failure, correction, merge, deployment, and owner-acceptance state in the current handoff.
 
 Do not begin by reading every old chat. The repository has already been reorganized so a fresh session can become operational from GitHub alone.
 
