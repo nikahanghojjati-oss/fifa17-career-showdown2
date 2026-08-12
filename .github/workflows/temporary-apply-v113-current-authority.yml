@@ -1,0 +1,61 @@
+name: Temporary v1.1.3 Current Authority Alignment
+
+on:
+  push:
+    branches: [v1.1.3-candidate-c-visual-fixes]
+    paths:
+      - tools/apply_v113_current_authority.py
+      - .github/workflows/temporary-apply-v113-current-authority.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: temporary-v113-current-authority
+  cancel-in-progress: false
+
+jobs:
+  align:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: v1.1.3-candidate-c-visual-fixes
+      - name: Apply exact current-authority alignment
+        run: python tools/apply_v113_current_authority.py
+      - name: Guard protected budgets and historical records
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'const maximumInitialAssetBytes = 165000;' .github/workflows/validate-static-app.yml
+          grep -F 'const maximumCompressedInitialAssetBytes = 37500;' .github/workflows/validate-static-app.yml
+          grep -F 'assert.ok(rawBytes <= 165000' .github/workflows/validate-final-polish.yml
+          grep -F 'assert.ok(compressedBytes <= 37500' .github/workflows/validate-final-polish.yml
+          grep -F 'Runtime asset revision: `1.1.2-r1`' RELEASE_V1.1.2.md
+          grep -F 'Runtime asset revision: `1.1.1-r1`' RELEASE_V1.1.1.md
+          grep -F 'Runtime asset revision: `1.1.0-r1`' RELEASE_V1.1.0.md
+          grep -F '## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate' NEXT_TASK.md
+          grep -F '**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate' PROJECT_STATE.md README.md
+      - name: Commit aligned current validators and authority docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/workflows/validate-season-review.yml \
+                  .github/workflows/validate-v1-visual-immersion.yml \
+                  .github/workflows/validate-final-polish.yml \
+                  .github/workflows/validate-statistics-workstream.yml \
+                  .github/workflows/validate-menu-bootstrap.yml \
+                  .github/workflows/validate-v110-release-burnin.yml \
+                  .github/workflows/validate-static-app.yml \
+                  tests/contracts/backup-contracts.cjs \
+                  tests/contracts/import-analysis-contracts.cjs \
+                  tests/browser/import-analysis-audit.cjs \
+                  tests/support/run-release-burnin-pass.sh \
+                  PROJECT_STATE.md README.md NEXT_TASK.md 00_DEVELOPER_START_HERE.md CHANGELOG.md
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Align v1.1.3 current validators and authority docs [skip ci]'
+          git push origin HEAD:v1.1.3-candidate-c-visual-fixes
