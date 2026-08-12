@@ -13,7 +13,7 @@ def replace_exact(path, old, new, expected=1):
 
 replace_exact('package.json', '"version": "1.1.2"', '"version": "1.1.3"')
 replace_exact('package-lock.json', '"version": "1.1.2"', '"version": "1.1.3"', expected=2)
-replace_exact('index.html', '1.1.2-r1', '1.1.3-r1', expected=9)
+replace_exact('index.html', '1.1.2-r1', '1.1.3-r1', expected=10)
 replace_exact('index.html', 'v1.1.2 · Stable', 'v1.1.3 · Stable')
 replace_exact('js/app.js', 'const APP_VERSION = "1.1.2";', 'const APP_VERSION = "1.1.3";')
 replace_exact('js/app.js', 'css/visual-fidelity-r3.css?v=1.1.2-r1', 'css/visual-fidelity-r3.css?v=1.1.3-r1')
