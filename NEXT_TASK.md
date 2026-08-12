@@ -2,158 +2,141 @@
 
 Last updated: 2026-08-12
 
-Application version: v1.1.3
+Application version: v1.1.4
 
-Runtime asset revision: `1.1.3-r1`
+Runtime asset revision: `1.1.4-r1`
 
-Production runtime authority: `29760bbf33c974267bd1ad64d0839f73ad8051fa`
+Current production runtime authority until Candidate C merges: `29760bbf33c974267bd1ad64d0839f73ad8051fa` (v1.1.3)
 
-## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate
+Current Candidate C PR: #24 — `agent/candidate-c-atomic-restore`
 
-**Release status:** COMPLETE / PROTECTED
+Release preparation branch: `agent/v1.1.4-release-freeze`
 
-v1.1.3 is merged, deployed, twice-proven in production and protected. It fixes the owner-reported League Wheel post-selection visual reroll and replaces/expands licensed football photography with route-scoped loading while changing no gameplay, scoring or persistence semantics. Candidate C may now start from the current `main` production baseline.
+## Current baseline: v1.1.4 Candidate C Atomic Restore + Recovery UX
 
-Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, deployed and protected.
+Release status: PRE-MERGE RELEASE CANDIDATE / VALIDATION IN PROGRESS
 
-Candidate B — Import Analysis + Migration Preview — is complete, merged, deployed and protected. It analyzes a selected local backup in isolation, verifies format/checksum/schemas, previews supported migrations and classifies conflicts while performing zero canonical storage writes/removals.
+Candidate C implementation is complete. Do not restart Candidate C planning and do not add unrelated roadmap features during release closure.
 
-Candidate B technical release proof is closed:
+Candidate A — Versioned Backup Envelope + Non-Mutating Export — remains complete, deployed and protected.
 
-- 13/13 permanent gate families passed twice on one immutable pre-merge candidate;
-- the exact expected-head merge is `6dfea100829016eee4820b342729b8c823426f95`;
-- GitHub Pages deployment `5860457927` serves the runtime;
-- 13/13 permanent gate families passed twice again on the exact production runtime;
-- both production Stability executions passed exact deployed byte parity, runtime provenance, Home/Reus, licensed football visuals, Candidate A export, Candidate B import analysis and the complete public gameplay/navigation journey.
+Candidate B — Import Analysis + Migration Preview — remains complete, deployed and protected. Candidate B is still read-only and never grants permission to write merely because a preview is ready.
 
-See `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` for Candidate B evidence and failure history.
+Candidate C — Atomic Restore + Recovery UX — is implemented and is the first legal stage allowed to commit imported canonical state after fresh revalidation and explicit user decisions.
 
-### v1.1.3 production closure
+The last fully proven pre-release-identity Candidate C head is `cf231ec99399837369a53fc5a703f93aec99dcb6`. On that exact implementation/gate baseline:
 
-v1.1.3 release proof is complete:
+- all permanent feature/workstream families were green;
+- the dedicated Candidate C deterministic + real-browser workflow passed;
+- Candidate C browser recovery ran eight isolated scenarios per pass and passed twice;
+- the Stability Lane passed both consecutive Chromium cycles with Candidate C restore/recovery included;
+- the five-pass Candidate C-inclusive release Burn-In passed 5/5;
+- older protected gameplay, visual, Transfer, Season Review, Statistics, Settings, Candidate A and Candidate B workstreams remained green.
 
-- frozen pre-merge candidate `49fa0496453b3235de0cd87350945fbaedc4291a` passed all 13 permanent gate families twice independently;
-- PR #19 merged with expected-head protection into runtime authority `29760bbf33c974267bd1ad64d0839f73ad8051fa`;
-- GitHub Pages initially hit an external Jekyll/GitHub-metadata SSL certificate failure, then the same-SHA retry built and deployed successfully without a repository correction;
-- the exact production runtime passed all 13 permanent gate families twice;
-- both production Stability executions passed exact deployed byte parity, runtime provenance, Home/Reus, licensed football visuals, Candidate A export, Candidate B analysis and the complete public journey;
-- both production Licensed Visual executions produced 44 responsive screenshots with byte-identical image evidence;
-- protected eager budgets remain 164,965 raw / 37,006 gzip under the unchanged 165,000 / 37,500 ceilings.
+The current release-freeze branch advances only release identity, validators, contracts and authority documentation around that already-proven implementation. Do not weaken a threshold or remove an assertion merely to make the release freeze green.
 
-See `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md` for exact run IDs, diagnostic history, Pages retry evidence and visual-source closure.
+## Candidate C transaction contract — implemented and protected
 
-### 2026-08-12 historical context deep-dive
+The legal restore sequence is now:
 
-The owner supplied the official ChatGPT export needed to recover the relevant long-form development history. A focused reconciliation has now been recorded in:
-
-- `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12.md` — product origin, owner corrections, architecture/gate lineage, historical supersession map and r3/r4/r5 lessons;
-- `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12_ROADMAP_AND_REVIEW_APPENDIX.md` — external Grok critique with pushback, milestone-by-milestone dependency reasoning and a source-grounded Candidate C transaction/release protocol.
-
-These handoff files are historical/deep-context aids, not newer implementation authority than current source. Their purpose is to stop a future developer from repeating already-solved mistakes or reviving superseded assistant suggestions.
-
-## Golden handoff rule
-
-Read `00_HANDOFF_GOLDEN_RULE.md` before implementation.
-
-Every meaningful owner instruction, action, architectural decision, failure, rejected evidence, correction, threshold/budget result, gate result, commit, PR, merge, deployment and next-step decision must be recorded continuously in a public repository handoff while the work is happening.
-
-Do not wait until the end of Candidate C to create its handoff.
-
-## Next substantive roadmap task: Candidate C — Atomic Restore + Recovery UX
-
-Candidate C is now the next legal v1.1.x build.
-
-Candidate C is the first stage allowed to write imported canonical state. It must build on Candidate A export and Candidate B analysis rather than bypassing them.
-
-### Candidate C mandatory transaction sequence
-
-1. flush all pending canonical application writes before restore begins;
-2. revalidate the selected/analyzed backup immediately before apply, including size where applicable, JSON/format, checksum, current/supported schemas, migrations and unresolved conflicts;
-3. snapshot exact raw bytes for every affected canonical storage key before the first mutation;
-4. require explicit user decisions for active Showdown replacement, Legacy merge/conflict handling and application-preference restoration;
-5. compute all final candidate values entirely in memory before the first write;
-6. perform canonical writes only through `js/storage.js` authority;
-7. treat the complete multi-key restore as one atomic transaction boundary;
+1. flush pending canonical application writes before restore begins;
+2. revalidate the selected/analyzed backup immediately before Apply, including size, JSON/format, checksum, schemas, migrations and unresolved conflicts;
+3. snapshot exact raw bytes/absence for every affected canonical key before the first mutation;
+4. require explicit user decisions for active Showdown replacement, Legacy merge/conflicts and preference restoration;
+5. compute all final values entirely in memory before the first write;
+6. keep canonical mutation under the existing storage authority rather than creating a second persistence owner;
+7. commit affected keys in deterministic active → Legacy → preferences order;
 8. verify every committed key/value after writing;
-9. if any write or post-write verification fails, restore every affected key to its exact raw pre-restore bytes;
-10. verify rollback byte-for-byte and surface rollback failure as a critical recovery state rather than pretending recovery succeeded;
-11. invalidate in-memory caches, route-derived state and navigation only after the complete restore transaction succeeds;
-12. make re-import/idempotence behavior deterministic and tested;
-13. retain corrupt raw-data preservation/recovery semantics;
-14. keep explicit recovery/export guidance available before destructive active replacement;
-15. do not introduce a second persistence owner.
+9. if any write or verification fails, restore all affected keys to exact raw pre-restore bytes;
+10. verify rollback byte-for-byte;
+11. if rollback cannot be proven, enter a locked critical recovery state and do not claim success;
+12. synchronize runtime/in-memory state only after the complete restore verifies;
+13. keep repeated import deterministic/idempotent;
+14. preserve corrupt raw bytes instead of silently erasing them;
+15. keep Export Backup/recovery guidance available before destructive replacement.
 
-### Candidate B must remain a protected dependency
+## Candidate C UX contract — implemented and protected
 
-Candidate C must not reinterpret Candidate B `PREVIEW READY` as permission to write.
+Data Management clearly separates:
 
-Before apply, Candidate C must revalidate the backup and user choices. Candidate B remains the read-only analysis/migration/conflict-preview authority.
+- current local state;
+- analyzed backup state;
+- user-selected resolution choices;
+- exact planned active/Legacy/preferences effects;
+- destructive confirmation;
+- restore-in-progress;
+- success;
+- verified rollback/retry;
+- critical rollback failure/locked recovery.
 
-The current Candidate B contract remains protected:
+Keyboard, focus, desktop/Chromebook, mobile 390×844 DPR2, reduced motion, overflow, fixed-footer visibility and a 44 px minimum restore-file touch target are in the permanent Candidate C gate.
 
-- maximum input ceiling;
-- strict JSON/format/checksum/schema validation;
-- hostile-structure/future-schema rejection;
-- ordered deterministic migrations;
-- string Showdown IDs for current v1.1 conflict comparison;
-- explicit active/Legacy/preferences preview;
-- zero canonical writes/removals during analysis;
-- no network request.
+## Deepened failure-injection coverage
 
-### Candidate C required failure-injection evidence
-
-Candidate C gates must deliberately reproduce and prove recovery from at least:
+The permanent Candidate C evidence deliberately exercises:
 
 - first-key write failure;
-- middle-key write failure after one earlier key changed;
+- middle-key write failure after an earlier mutation;
 - final-key write failure;
 - quota/storage exception;
 - post-write verification mismatch;
-- rollback write failure;
-- corrupt pre-existing raw bytes;
+- rollback write failure / unverified rollback;
+- raw key absence;
+- corrupt pre-existing local bytes;
 - same-ID Legacy conflicts;
-- rapid/double Apply activation;
-- page lifecycle interruption boundary where technically reproducible;
-- stale analysis / backup changed between preview and apply;
-- repeated import of the same already-restored backup.
+- stale reviewed state before Apply;
+- rapid/double Apply;
+- lifecycle interruption before the synchronous commit boundary;
+- repeated import/idempotence;
+- responsive/touch/accessibility recovery presentation.
 
-A restore gate is not sufficient if it only proves the happy path.
+The development cycle also found and fixed four real defects: stale-state UI bypass, rollback-message erasure, destructive-browser process contamination, and a 40 px mobile file input that violated the 44 px touch floor. See `RELEASE_V1.1.4.md` and the Candidate C handoff for the detailed defect record.
 
-### Candidate C UX/accessibility requirements
+## Immediate release task — do this next
 
-The restore UI must make irreversible/overwriting consequences explicit before commit and must clearly separate:
+Do not implement a new feature. Finish v1.1.4 release closure in this order:
 
-- current state;
-- analyzed backup state;
-- user-selected resolution choices;
-- what will be replaced/merged/left unchanged;
-- restore-in-progress state;
-- success state;
-- rollback/recovery failure state.
+1. complete package/cache/fallback/workflow/authority-document coherence for v1.1.4 / `1.1.4-r1` on the isolated release-freeze branch;
+2. confirm the release-freeze branch is a fast-forward descendant of the proven Candidate C PR head;
+3. move `agent/candidate-c-atomic-restore` to the single coherent frozen release SHA without force;
+4. keep PR #24 draft while the first full final matrix runs;
+5. correct any reproduced defect without lowering thresholds;
+6. require every permanent workflow family to pass on the same frozen SHA;
+7. obtain the second independent permanent-family proof required by the release protocol on that same SHA;
+8. inspect Candidate C screenshot artifacts manually for desktop/mobile/recovery state correctness;
+9. mark PR #24 ready only after technical release proof is clean;
+10. merge with expected-head SHA protection;
+11. wait for GitHub Pages to serve `1.1.4-r1`;
+12. require Stability production smoke to verify every runtime byte plus runtime provenance, Home/Reus, licensed football visuals, Candidate A export, Candidate B analysis, Candidate C restore/recovery and the complete public journey;
+13. repeat required production proof on the same runtime authority;
+14. seal the release/handoff documents with the immutable runtime merge SHA and Pages evidence without creating a recursive runtime-document loop.
 
-Keyboard, touch, Chromebook/windowed, mobile/DPR2, reduced-motion, focus, axe, overflow and minimum-target coverage remain required.
+A green pre-release branch is not deployment proof. Do not call v1.1.4 DEPLOYED / PROVEN until public Pages exact-byte and browser gates pass.
 
-## Protected systems
+## Protected systems — no unrelated change during release closure
 
-Candidate C must not change unrelated authority:
-
-- max-11 scoring or 0–0-only tiebreak logic;
-- exactly-two-manager model;
-- League/Club assignment semantics;
+- exactly two managers;
+- Showdown lengths `[1,3,5,10]`;
+- same selected league / different permanent clubs;
+- max-11 scoring and 0–0-only tiebreak logic;
+- League selection explicit Continue checkpoint;
+- Club Assignment explicit rivalry confirmation checkpoint;
 - Transfer Challenge state machine;
 - Season Review persistence boundary;
 - Statistics/Legacy/Trophy calculations;
 - `js/screens.js` route/history authority;
-- football-photo source authority and accepted visual presentation;
+- storage canonical key/schema ownership;
 - Candidate A export semantics;
-- Candidate B analysis semantics except evidence-driven compatibility hooks needed for apply revalidation;
-- the roadmap reservation of v1.2.0 for Installable Offline App.
+- Candidate B read-only analysis/migration/conflict-preview semantics;
+- accepted football-photo provenance/crop-safe presentation;
+- accepted Marco Reus Home/loading separation and loading presentation;
+- protected startup budgets: 165,000 raw eager code bytes, 37,500 gzip eager code bytes, 95,000 portrait bytes, 260,000 combined first-party startup bytes.
 
 ## Dependency boundary after Candidate C
 
-Do not jump to PWA, profiles/save registry, cloud, accounts, QR pairing or two-device work before Candidate C is merged, deployed and proven.
+v1.2.0 remains reserved for the Installable Offline App milestone.
 
-After Candidate C closes the v1.1 Data Safety and Recovery milestone, follow the documented dependency order in `POST_V1_ROADMAP_EXECUTION.md`. v1.2.0 remains Installable Offline App.
+Do not begin PWA/offline installation, profiles/save registry, cloud/accounts, QR pairing or two-device work until v1.1.4 is merged, deployed and proven.
 
 ## Required continuation reading
 
@@ -162,11 +145,13 @@ A fresh developer must begin with:
 1. `00_HANDOFF_GOLDEN_RULE.md`;
 2. `00_DEVELOPER_START_HERE.md`;
 3. this `NEXT_TASK.md`;
-4. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12.md`;
-5. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12_ROADMAP_AND_REVIEW_APPENDIX.md`;
-6. `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md`;
-7. `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` and Candidate B release/diagnostic handoffs when deeper history is needed;
-8. Candidate C sections in `POST_V1_ROADMAP_EXECUTION.md`;
-9. live `js/storage.js`, `js/backup.js`, `js/importAnalysis.js`, `js/legacy.js`, `js/optionalModules.js`, `js/screens.js` and Data Management UI source before implementation.
+4. `PROJECT_STATE.md`;
+5. `RELEASE_V1.1.4.md`;
+6. the active Candidate C / v1.1.4 handoff record;
+7. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12.md`;
+8. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12_ROADMAP_AND_REVIEW_APPENDIX.md`;
+9. `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md` for the production baseline;
+10. `POST_V1_ROADMAP_EXECUTION.md` for the dependency-ordered post-v1 roadmap;
+11. live `js/storage.js`, `js/backup.js`, `js/importAnalysis.js`, `js/storageTransaction.js`, `js/restore.js`, `js/restoreUI.js`, `js/legacy.js`, `js/optionalModules.js` and `js/screens.js` before any further implementation.
 
-Start from current `main`; do not resume old Candidate B or visual branches.
+Continue from the current v1.1.4 release candidate. Do not resume old Candidate A/B branches, old visual branches or pre-Candidate-C planning loops.
