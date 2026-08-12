@@ -1,5 +1,5 @@
 /* =====================================================
-   Career Mode Showdown v1.1.2
+   Career Mode Showdown Candidate B — protected read-only analysis
    Candidate B — Import Analysis + Migration Preview
    Read-only. No restore writes are legal in this module.
 ===================================================== */

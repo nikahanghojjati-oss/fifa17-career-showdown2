@@ -64,7 +64,7 @@ function createRuntime(){
     const document = {
         documentElement: { dataset: {} },
         querySelector(selector){
-            if(selector === 'meta[name="app-asset-revision"]'){ return { content: "1.1.3-r1" }; }
+            if(selector === 'meta[name="app-asset-revision"]'){ return { content: "1.1.4-r1" }; }
             return null;
         },
         getElementById(){ return null; },
