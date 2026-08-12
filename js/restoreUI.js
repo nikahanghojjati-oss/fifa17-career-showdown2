@@ -67,7 +67,7 @@
   }
 
   function refreshPlan(){
-    const root=panel();if(!root||!analysis||!analysis.ok)return null;
+    const root=panel();if(!root||root.dataset.criticalRecovery==="true"||!analysis||!analysis.ok)return null;
     const planHost=root.querySelector(".careerRestorePlanHost"),conflictHost=root.querySelector(".careerRestoreConflictHost"),recoveryHost=root.querySelector(".careerRestoreRecoveryHost"),apply=root.querySelector(".careerRestoreApply");
     const raw=typeof window.captureCareerModeRawBackupInputs==="function"?window.captureCareerModeRawBackupInputs():null;
     const plan=window.createCareerModeRestorePlan(analysis,raw,choices);
@@ -132,12 +132,22 @@
     if(typeof window.navigateTo==="function")await window.navigateTo(route,{addToHistory:false,allowCanonicalFallback:true});
   }
 
+  function lockCriticalRecoveryState(root){
+    if(!root)return;
+    root.dataset.criticalRecovery="true";
+    root.querySelectorAll("input,select,button").forEach(control=>{control.disabled=true;});
+  }
+
   async function applyRestore(){
     if(busy||!file||!analysis||!reviewedRaw)return;
+    const root=panel();
+    if(!root||root.dataset.criticalRecovery==="true")return;
     const plan=window.createCareerModeRestorePlan(analysis,reviewedRaw,choices);
     if(!plan||!plan.ok){refreshPlan();return;}
     if(!window.confirm("Apply this restore plan? The backup and current state will be verified again first. Export Backup above now if you want an extra current-state recovery copy."))return;
-    busy=true;const button=panel().querySelector(".careerRestoreApply");button.disabled=true;button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";status("Checking whether current data changed since review, then freshly revalidating the selected backup before any write…");
+    busy=true;const button=root.querySelector(".careerRestoreApply");button.disabled=true;button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";status("Checking whether current data changed since review, then freshly revalidating the selected backup before any write…");
+    let preserveRecovery=false;
+    let criticalRecovery=false;
     try{
       const result=await window.applyCareerModeRestore(file,choices,{expectedRaw:reviewedRaw});
       if(result.ok){status("Restore committed and verified. Refreshing the application from canonical state…");await afterSuccess(result);return;}
@@ -156,17 +166,29 @@
         status("Current data changed or fresh verification found blocking problems. Nothing was written. Review the refreshed analysis before trying again.");
         return;
       }
-      const recovery=panel().querySelector(".careerRestoreRecoveryHost");if(recovery)recovery.replaceChildren();
+      const recovery=root.querySelector(".careerRestoreRecoveryHost");if(recovery)recovery.replaceChildren();
       if(result.status==="rolled-back"){
+        preserveRecovery=true;
         const box=make("div","careerRestoreRecovery");box.append(make("strong","","RESTORE ROLLED BACK"),make("span","","A write or verification failed. Every affected key was restored and rollback was verified byte-for-byte. Nothing from this restore was kept."));if(recovery)recovery.appendChild(box);status("Restore failed safely and previous browser data was verified restored.");return;
       }
       if(result.status==="rollback-failed-critical"){
-        const box=make("div","careerRestoreRecovery critical");box.append(make("strong","","CRITICAL RECOVERY STATE"),make("span","","Rollback could not be proven byte-for-byte. Do not continue changing this save. Export the current recovery state, then refresh before deciding what to restore next."));if(recovery)recovery.appendChild(box);status("Critical recovery state: no navigation was performed.");return;
+        preserveRecovery=true;
+        criticalRecovery=true;
+        const box=make("div","careerRestoreRecovery critical");box.append(make("strong","","CRITICAL RECOVERY STATE"),make("span","","Rollback could not be proven byte-for-byte. Do not continue changing this save. Export the current recovery state above, then refresh before deciding what to restore next."));if(recovery)recovery.appendChild(box);status("Critical recovery state: no navigation was performed and restore controls are locked until refresh.");lockCriticalRecoveryState(root);return;
       }
       renderReview();
       status(`Current data changed or restore verification was blocked before a verified commit. Nothing was written. ${(result.errors&&result.errors[0])||"Review the restore state before trying again."}`);
     }catch(error){status(`Restore failed safely: ${error&&error.message?error.message:String(error)}`);}
-    finally{busy=false;if(document.contains(button)){button.removeAttribute("aria-busy");button.textContent="APPLY RESTORE";refreshPlan();}}
+    finally{
+      busy=false;
+      if(document.contains(button)){
+        button.removeAttribute("aria-busy");
+        button.textContent="APPLY RESTORE";
+        if(criticalRecovery)button.disabled=true;
+        else if(preserveRecovery)button.disabled=false;
+        else refreshPlan();
+      }
+    }
   }
 
   function mountCareerModeRestorePanel(){
