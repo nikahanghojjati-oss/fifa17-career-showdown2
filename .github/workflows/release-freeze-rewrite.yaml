@@ -1,0 +1,115 @@
+name: Temporary v1.1.4 Stale Literal Rewriter
+
+on:
+  push:
+    branches: [agent/v1.1.4-release-freeze]
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite:
+    if: github.event.head_commit.message == 'Add temporary v1.1.4 stale-literal rewriter'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.4-release-freeze
+      - name: Apply exact release-coherence replacements
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_exact(path, old, new, expected=None):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if expected is not None and count != expected:
+                  raise SystemExit(f"{path}: expected {expected} occurrence(s) of {old!r}, found {count}")
+              if count == 0:
+                  raise SystemExit(f"{path}: missing expected text {old!r}")
+              p.write_text(text.replace(old, new))
+              print(f"updated {path}: {count} replacement(s)")
+
+          replace_exact('js/menuExperience.js', 'assets/marco-reus-2015-cc-by.webp?v=1.1.3-r1', 'assets/marco-reus-2015-cc-by.webp?v=1.1.4-r1', 1)
+          replace_exact('js/footballVisuals.js', '"1.1.3-r1"', '"1.1.4-r1"', 1)
+          replace_exact('js/optionalModules.js', '"1.1.3-r1"', '"1.1.4-r1"', 1)
+
+          replace_exact('js/settings.js', 'Career Mode Showdown v1.1.2', 'Career Mode Showdown v1.1.4', 1)
+          replace_exact('js/settings.js', 'return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.2";', 'return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.4";', 1)
+          replace_exact('js/importAnalysis.js', 'Career Mode Showdown v1.1.2', 'Career Mode Showdown Candidate B — protected read-only analysis', 1)
+
+          for path in [
+              '.github/workflows/validate-v1-visual-immersion.yml',
+              '.github/workflows/validate-final-polish.yml',
+              '.github/workflows/validate-football-visuals.yml',
+              '.github/workflows/validate-menu-bootstrap.yml'
+          ]:
+              replace_exact(path, '1.1.3-r1', '1.1.4-r1')
+
+          replace_exact('tests/contracts/backup-contracts.cjs', '1.1.3-r1', '1.1.4-r1')
+          replace_exact('tests/contracts/import-analysis-contracts.cjs', '1.1.3-r1', '1.1.4-r1')
+
+          replace_exact('00_DEVELOPER_START_HERE.md', 'Application version: `v1.1.3`', 'Application version: `v1.1.4`', 1)
+          replace_exact('00_DEVELOPER_START_HERE.md', 'Runtime asset revision: `1.1.3-r1`', 'Runtime asset revision: `1.1.4-r1`', 1)
+          replace_exact(
+              '00_DEVELOPER_START_HERE.md',
+              '- Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task;',
+              '- Candidate C — Atomic Restore + Recovery UX — is implemented; v1.1.4 release closure is the only current task;',
+              1
+          )
+          replace_exact(
+              '00_DEVELOPER_START_HERE.md',
+              '- Candidate C is the first stage allowed to commit imported canonical state;',
+              '- Candidate C is the first implemented stage allowed to commit imported canonical state after fresh revalidation and explicit choices;',
+              1
+          )
+          old_sentence = '`Career Mode Showdown is on protected v1.1.3 / 1.1.3-r1. The immutable application runtime is 29760bbf33c974267bd1ad64d0839f73ad8051fa. Candidate A export and Candidate B read-only import analysis are complete, merged and protected. Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task and the first stage allowed to write imported canonical state. Candidate C must freshly revalidate before Apply, collect explicit restore choices, snapshot exact raw bytes/absence for every affected canonical key, compute the whole result in memory, write only through js/storage.js authority, verify the full multi-key commit, roll back every affected key byte-for-byte on any failure, verify rollback, and update caches/navigation only after complete success. v1.2 PWA, v1.3 profiles/save registry, cloud and two-device work remain dependency-blocked. The v1.1.3 route-scoped football visual archive and protected Marco Reus presentation remain current authority, while rejected older player-photo sources must not return. Continuous public handoff recording remains mandatory.`'
+          new_sentence = '`Career Mode Showdown is on the v1.1.4 / 1.1.4-r1 Candidate C release candidate while v1.1.3 remains the current public production runtime until merge. Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are implemented and protected. The only legal current work is release closure: freeze one coherent PR #24 SHA, pass every permanent family twice as required, merge with expected-head protection, wait for Pages revision convergence, prove exact deployed bytes and rerun Candidate A/B/C plus the complete public journey. v1.2.0 Installable Offline App and all later profiles/cloud/two-device work remain dependency-blocked. The v1.1.3 route-scoped football visual architecture and protected Marco Reus presentation remain current visual authority. Continuous public handoff recording remains mandatory.`'
+          replace_exact('00_DEVELOPER_START_HERE.md', old_sentence, new_sentence, 1)
+          replace_exact(
+              '00_DEVELOPER_START_HERE.md',
+              'they are not ready to begin Candidate C implementation.',
+              'they are not ready to continue Candidate C release closure or begin any later milestone.',
+              1
+          )
+
+          changelog = Path('CHANGELOG.md')
+          text = changelog.read_text()
+          if text.startswith('# v1.1.4'):
+              raise SystemExit('CHANGELOG already contains v1.1.4 at the top; refusing duplicate prepend.')
+          entry = '''# v1.1.4 — Candidate C Atomic Restore + Recovery UX
+
+Date: **August 12, 2026**
+
+Runtime asset revision: **`1.1.4-r1`**
+
+- completes the planned v1.1 Data Safety and Recovery sequence with the first import stage permitted to commit canonical state;
+- keeps Candidate A backup/export non-mutating and Candidate B import analysis strictly read-only;
+- revalidates the selected backup and explicit user choices immediately before Apply;
+- snapshots exact raw active/Legacy/preferences bytes or absence before mutation;
+- computes the complete restore in memory and commits in deterministic active → Legacy → preferences order under existing storage authority;
+- verifies every write, rolls every affected key back to exact raw pre-restore state after any failure and verifies rollback byte-for-byte;
+- surfaces unverified rollback as a locked critical recovery state instead of claiming success;
+- preserves corrupt raw local data and deterministic repeated-import/idempotence behavior;
+- adds explicit current/backup/choice/plan/progress/success/rollback/critical recovery UX inside lazy Legacy / Data Management;
+- expands destructive browser evidence to eight isolated scenarios per pass, twice, including stale state, rollback, critical rollback, corrupt Legacy choice, rapid Apply, lifecycle interruption, mobile DPR2/reduced-motion and fixed-footer/touch-target checks;
+- fixes four defects found by the strengthened gates: stale-state UI bypass, safe-rollback message erasure, destructive-browser process contamination and a 40 px mobile restore file target;
+- promotes Candidate C recovery into both Stability Chromium cycles, deployed-site smoke and every one of the five release Burn-In passes;
+- advances application/cache identity to v1.1.4 / `1.1.4-r1` without changing gameplay, scoring, Transfer, Season Review, Statistics or accepted football presentation;
+- reserves v1.2.0 for Installable Offline App only after v1.1.4 is merged, deployed and proven.
+
+'''
+          changelog.write_text(entry + text)
+          print('prepended CHANGELOG v1.1.4 entry')
+          PY
+
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add js .github/workflows tests/contracts 00_DEVELOPER_START_HERE.md CHANGELOG.md
+          git commit -m '[freeze-rewrite] Align active v1.1.4 literals and changelog'
+          git push origin HEAD:agent/v1.1.4-release-freeze
