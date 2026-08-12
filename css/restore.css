@@ -12,10 +12,10 @@
 .careerRestoreSnapshot span,.careerRestoreSnapshot small{display:block;color:#5c6b74;font-size:10px;line-height:1.35;overflow-wrap:anywhere}
 .careerRestoreSnapshot strong{display:block;margin:4px 0;color:#24323b;font:900 13px/1 var(--f17-display);overflow-wrap:anywhere}
 .careerRestoreChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.careerRestoreChoiceGroup{min-width:0;margin:0;padding:10px 11px;background:#fff;border:1px solid rgba(39,49,57,.16)}
-.careerRestoreChoiceGroup legend{padding:0 4px;color:#31434d;font:900 11px/1 var(--f17-display);letter-spacing:.5px}
-.careerRestoreChoice{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px;align-items:start;margin-top:8px;color:#44545e;font-size:11px;line-height:1.35;cursor:pointer}
-.careerRestoreChoice input{margin-top:2px;accent-color:#2b6d91}
+.careerRestoreChoiceGroup{display:block;min-width:0;margin:0;padding:10px 11px;background:#fff;border:1px solid rgba(39,49,57,.16)}
+.careerRestoreLabel{display:block;margin-bottom:7px;color:#31434d;font:900 11px/1 var(--f17-display);letter-spacing:.5px}
+.careerRestoreSelect{width:100%;min-height:44px;padding:8px 28px 8px 9px;color:#24323b;background:#fff;border:1px solid rgba(39,49,57,.28);font:700 11px/1.3 var(--f17-display)}
+.careerRestoreSelect:focus-visible,.careerRestorePicker input[type=file]:focus-visible{outline:3px solid var(--f17-yellow);outline-offset:2px;border-color:var(--f17-blue)}
 .careerRestorePlan,.careerRestoreConflicts,.careerRestoreRecovery{padding:11px 12px;background:#fff;border-left:4px solid var(--f17-cyan)}
 .careerRestorePlan.ready{border-left-color:#2d7d62}.careerRestorePlan.blocked{border-left-color:#a3444d}
 .careerRestorePlan strong,.careerRestoreConflicts>strong,.careerRestoreRecovery strong{display:block;margin-bottom:5px;font:900 11px/1.1 var(--f17-display);letter-spacing:.6px}
@@ -23,13 +23,12 @@
 .careerRestoreConflicts{display:grid;gap:8px;border-left-color:#d28a2e}
 .careerRestoreConflict{padding:9px 10px;background:#f6f8f9}
 .careerRestoreConflict h5{margin:0 0 4px;font:900 11px/1.1 var(--f17-display);color:#31434d}
-.careerRestoreConflict p{margin:0!important;color:#61727c!important;font-size:10px!important;line-height:1.4}
-.careerRestoreConflictChoices{display:flex;flex-wrap:wrap;gap:10px;margin-top:7px}
+.careerRestoreConflict p{margin:0 0 7px!important;color:#61727c!important;font-size:10px!important;line-height:1.4}
 .careerRestoreRecovery{border-left-color:#d28a2e;background:#fff9e8}
 .careerRestoreRecovery.critical{border-left-color:#a3444d;background:#f8e8e8}
 .careerRestoreActions{display:flex;flex-wrap:wrap;gap:7px}
 .careerRestoreActions .compactButton{min-height:46px}
 .careerRestoreApply[aria-busy=true]{cursor:wait;opacity:.72}
 @media(max-width:800px){.careerRestoreSnapshot,.careerRestoreChoices{grid-template-columns:1fr}.careerRestorePicker{grid-template-columns:1fr}.careerRestoreActions{flex-direction:column}.careerRestoreActions .compactButton{width:100%}}
-@media(max-width:480px){.careerRestorePanel{padding:14px}.careerRestoreConflictChoices{display:grid;grid-template-columns:1fr}}
+@media(max-width:480px){.careerRestorePanel{padding:14px}}
 @media(prefers-reduced-motion:reduce){.careerRestorePanel *{scroll-behavior:auto!important}}
