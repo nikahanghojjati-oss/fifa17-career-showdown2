@@ -50,6 +50,9 @@ assert.deepStrictEqual(refs.filter(ref => ref.path.startsWith('css/')).map(ref =
 assert.deepStrictEqual(refs.filter(ref => ref.revision !== revision), [], 'Final polish shell contains mixed revisions.');
 const rawBytes = refs.reduce((total, ref) => total + fs.statSync(ref.path).size, 0);
 const compressedBytes = refs.reduce((total, ref) => total + zlib.gzipSync(fs.readFileSync(ref.path), { level: 9 }).length, 0);
+if(rawBytes > 165000 || compressedBytes > 37500){
+  console.log(`::error file=index.html,title=Protected startup budget exceeded::${rawBytes} raw / ${compressedBytes} gzip; limits are 165000 / 37500.`);
+}
 assert.ok(rawBytes <= 165000, `Initial raw bytes exceeded 165000 (${rawBytes}).`);
 assert.ok(compressedBytes <= 37500, `Initial compressed bytes exceeded 37500 (${compressedBytes}).`);
 assert.ok(feedbackBytes <= 5500, `Lazy feedback module is too large (${feedbackBytes}).`);
