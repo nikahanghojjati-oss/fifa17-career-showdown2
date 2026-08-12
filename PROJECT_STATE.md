@@ -25,12 +25,12 @@ Current source is implementation authority. Browser acceptance remains required 
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.1.2 — Candidate B Import Analysis + Migration Preview
-**Current activity:** analyze local backup files read-only with checksum/schema/migration/conflict preview and zero canonical storage writes
+**Current milestone:** v1.1.2 — Candidate B complete; Candidate C Atomic Restore + Recovery UX next
+**Current activity:** Candidate B is merged/deployed/proven; next runtime work is Candidate C atomic restore with exact raw snapshots, explicit choices, storage-authority writes and verified rollback
 **Protected loading-screen status:** owner explicitly likes the loading presentation; its composition/timing remains regression-protected
 **Runtime change class:** lazy Data Management import-analysis module + migration/conflict preview + validation gates; gameplay, scoring, routes, storage schema/keys, Candidate A export semantics and state-machine rules remain locked
-**Previous production runtime:** v1.1.0 / `1.1.0-r1`, fully sealed before this maintenance branch
-**Next roadmap candidate after Candidate B production proof:** Candidate C — Atomic Restore + Recovery UX
+**Current runtime authority:** v1.1.2 / `1.1.2-r1` at merge `6dfea100829016eee4820b342729b8c823426f95`
+**Next roadmap candidate:** Candidate C — Atomic Restore + Recovery UX
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
 
@@ -46,7 +46,7 @@ Candidate B is the read-only second stage of v1.1 Data Safety and Recovery. It v
 
 Candidate B is lazy inside the existing Legacy/Data Management surface. It performs zero canonical localStorage writes/removals and makes no network request. Oversized files are rejected before File.text(), unsupported future formats/schemas fail closed, hostile object keys/depth are rejected, and exact current storage bytes are preserved during preview.
 
-Candidate C remains the first stage allowed to write imported state and stays blocked behind Candidate B release evidence.
+Candidate B release evidence is complete. Candidate C is now the first legal stage allowed to write imported state and must preserve Candidate B as the read-only analysis boundary.
 
 # v1.1.1 — James Rodríguez Real Madrid source refresh
 
