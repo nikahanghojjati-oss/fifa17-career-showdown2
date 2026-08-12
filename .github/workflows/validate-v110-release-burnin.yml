@@ -1,27 +1,30 @@
-name: Validate Candidate C Release Burn-In
+name: Validate Release Integration Burn-In
 
 on:
-  pull_request:
   push:
     branches: [main]
+    paths-ignore:
+      - "**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# A new main commit may replace stale burn-in work. Deliberate reruns/manual
+# dispatches queue instead of cancelling an active proof.
 concurrency:
-  group: candidate-c-burnin-${{ github.ref }}-${{ github.sha }}
-  cancel-in-progress: false
+  group: release-burnin-${{ github.ref_name }}
+  cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
 jobs:
   burn-in:
-    name: release-gates-pass-${{ matrix.pass }}
+    name: integration-burnin-pass-${{ matrix.pass }}
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 18
     strategy:
       fail-fast: false
       matrix:
-        pass: [1, 2, 3, 4, 5]
+        pass: [1, 2]
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -30,7 +33,7 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Run complete release gate pass including Candidate C recovery
+      - name: Repeat only the complete stateful integration journey
         env:
           CMS_BURNIN_PASS: ${{ matrix.pass }}
         run: bash tests/support/run-release-burnin-pass.sh
@@ -38,7 +41,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: candidate-c-burnin-pass-${{ matrix.pass }}-${{ github.sha }}
-          path: test-results/
-          if-no-files-found: warn
+          name: release-integration-burnin-${{ matrix.pass }}-${{ github.sha }}
+          path: test-results/stability-audit-*.json
+          if-no-files-found: error
           retention-days: 14

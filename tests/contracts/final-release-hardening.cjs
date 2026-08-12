@@ -13,6 +13,7 @@ const restoreCss = fs.readFileSync("css/restore.css", "utf8");
 const restoreAudit = fs.readFileSync("tests/browser/restore-audit.cjs", "utf8");
 const maintenanceAudit = fs.readFileSync("tests/browser/restore-maintenance-audit.cjs", "utf8");
 const stabilityWorkflow = fs.readFileSync(".github/workflows/validate-stability-lane.yml", "utf8");
+const candidateCWorkflow = fs.readFileSync(".github/workflows/validate-atomic-restore.yml", "utf8");
 const burninScript = fs.readFileSync("tests/support/run-release-burnin-pass.sh", "utf8");
 
 assert.ok(
@@ -137,11 +138,17 @@ assert.ok(
     "v1.1.5 browser audit must permanently protect immutable confirmed intent and zero-rollback first-write failure semantics."
 );
 assert.ok(
-    stabilityWorkflow.includes('npm run test:restore-browser'),
-    "Candidate C destructive browser recovery proof must remain inside the permanent Stability Lane."
+    candidateCWorkflow.includes('npm run test:restore-browser')
+        && candidateCWorkflow.includes("candidate-c-atomic-restore-")
+        && candidateCWorkflow.includes("candidate-c-restore-*.png"),
+    "Candidate C destructive recovery must retain one dedicated authoritative browser gate and evidence artifact."
 );
 assert.ok(
-    burninScript.includes('npm run test:restore-browser'),
-    "Every release Burn-In pass must exercise Candidate C restore/recovery."
+    stabilityWorkflow.includes('npm run test:restore-browser'),
+    "Candidate C destructive recovery must remain inside the exhaustive deployed-site Stability smoke."
 );
-console.log("Candidate C hardening is permanent: immutable confirmed intent, strict snapshots, byte preconditions, ownership-scoped rollback, differentiated recovery UX, 44px file input, deep browser scenarios, Stability and Burn-In coverage are protected.");
+assert.ok(
+    !burninScript.includes('npm run test:restore-browser') && burninScript.includes('npm run test:browser'),
+    "Burn-In must repeat the complete stateful integration journey without duplicating Candidate C's dedicated proof."
+);
+console.log("Candidate C hardening is permanent: immutable confirmed intent, strict snapshots, byte preconditions, ownership-scoped rollback, differentiated recovery UX, 44px file input, deep dedicated browser evidence, exhaustive deployed smoke, and non-duplicative integration Burn-In are protected.");
