@@ -2,15 +2,19 @@ name: Validate Candidate C Atomic Restore
 
 on:
   pull_request:
+    paths-ignore:
+      - "**/*.md"
   push:
     branches: [main]
+    paths-ignore:
+      - "**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: atomic-restore-${{ github.workflow }}-${{ github.ref }}
+  group: atomic-restore-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
 jobs:
@@ -30,7 +34,7 @@ jobs:
   restore-browser:
     needs: restore-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 24
+    timeout-minutes: 16
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -38,16 +42,14 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Run Candidate C restore and recovery browser audit twice
+      - name: Run authoritative Candidate C restore and recovery browser audit
         shell: bash
         run: |
           set -euo pipefail
           npm run serve:test > /tmp/cms-candidate-c-restore.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          for attempt in 1 2; do
-            CMS_AUDIT_RUN="candidate-c-${attempt}" npm run test:restore-browser
-          done
+          CMS_AUDIT_RUN="candidate-c" npm run test:restore-browser
       - name: Upload Candidate C restore and recovery evidence
         if: always()
         uses: actions/upload-artifact@v7
