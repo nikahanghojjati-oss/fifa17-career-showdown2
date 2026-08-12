@@ -6,11 +6,13 @@ Application version: v1.1.3
 
 Runtime asset revision: `1.1.3-r1`
 
-Production runtime authority until v1.1.3 merge: `6dfea100829016eee4820b342729b8c823426f95`
+Production runtime authority: `29760bbf33c974267bd1ad64d0839f73ad8051fa`
 
 ## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate
 
-The active v1.1.3 maintenance candidate fixes the owner-reported League Wheel post-selection visual reroll and replaces/expands licensed football photography with route-scoped loading. It changes no gameplay, scoring or persistence semantics. It must be merged/deployed/proven before Candidate C starts.
+**Release status:** COMPLETE / PROTECTED
+
+v1.1.3 is merged, deployed, twice-proven in production and protected. It fixes the owner-reported League Wheel post-selection visual reroll and replaces/expands licensed football photography with route-scoped loading while changing no gameplay, scoring or persistence semantics. Candidate C may now start from the current `main` production baseline.
 
 Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, deployed and protected.
 
@@ -24,7 +26,21 @@ Candidate B technical release proof is closed:
 - 13/13 permanent gate families passed twice again on the exact production runtime;
 - both production Stability executions passed exact deployed byte parity, runtime provenance, Home/Reus, licensed football visuals, Candidate A export, Candidate B import analysis and the complete public gameplay/navigation journey.
 
-See `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` for complete evidence and failure history.
+See `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` for Candidate B evidence and failure history.
+
+### v1.1.3 production closure
+
+v1.1.3 release proof is complete:
+
+- frozen pre-merge candidate `49fa0496453b3235de0cd87350945fbaedc4291a` passed all 13 permanent gate families twice independently;
+- PR #19 merged with expected-head protection into runtime authority `29760bbf33c974267bd1ad64d0839f73ad8051fa`;
+- GitHub Pages initially hit an external Jekyll/GitHub-metadata SSL certificate failure, then the same-SHA retry built and deployed successfully without a repository correction;
+- the exact production runtime passed all 13 permanent gate families twice;
+- both production Stability executions passed exact deployed byte parity, runtime provenance, Home/Reus, licensed football visuals, Candidate A export, Candidate B analysis and the complete public journey;
+- both production Licensed Visual executions produced 44 responsive screenshots with byte-identical image evidence;
+- protected eager budgets remain 164,965 raw / 37,006 gzip under the unchanged 165,000 / 37,500 ceilings.
+
+See `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md` for exact run IDs, diagnostic history, Pages retry evidence and visual-source closure.
 
 ## Golden handoff rule
 
@@ -137,8 +153,8 @@ A fresh developer must begin with:
 1. `00_HANDOFF_GOLDEN_RULE.md`;
 2. `00_DEVELOPER_START_HERE.md`;
 3. this `NEXT_TASK.md`;
-4. `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md`;
-5. the Candidate B release/diagnostic handoffs when deeper history is needed;
+4. `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md`;
+5. `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` and Candidate B release/diagnostic handoffs when deeper history is needed;
 6. Candidate C sections in `POST_V1_ROADMAP_EXECUTION.md`;
 7. live `js/storage.js`, `js/backup.js`, `js/importAnalysis.js`, `js/optionalModules.js` and Data Management UI source before implementation.
 
