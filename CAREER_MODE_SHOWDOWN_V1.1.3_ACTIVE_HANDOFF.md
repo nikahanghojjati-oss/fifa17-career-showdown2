@@ -29,12 +29,85 @@ The owner asked to move toward the next build while prioritizing the following n
 - Existing startup budgets may not be raised merely to accommodate new visuals; added photos should remain lazy/non-eager where possible.
 - Every third-party photo must have explicit provenance/license authority recorded before publication.
 
+## League Wheel defect investigation
+
+### Reproduction-class root cause identified
+
+The reported behavior is consistent with the current transform/transition architecture rather than a second random league draw.
+
+Current source behavior before the fix:
+
+- `.wheelTrack` owns a permanent CSS `transition: transform 4s ...` even when no spin is active;
+- a real spin writes a transform containing five full revolutions plus the selected-league angle;
+- when the 4-second timer completes, the league is persisted and `renderLeagueWheelState()` normalizes the transform to the mathematically equivalent base selected angle;
+- `setWheelRotationWithoutAnimation()` temporarily writes `transition:none`, changes the transform, then restores the prior transition in the next animation frame.
+
+At the exact end-of-spin style boundary browsers are allowed to coalesce style changes. That makes the normalized transform capable of being seen as another transition from the five-revolution value back to the equivalent selected angle. Visually this looks exactly like a fresh reroll that ultimately stops on the same league, even though `getRandomLeague()` was not called a second time.
+
+### Fix contract
+
+The wheel transition will become operation-scoped:
+
+1. settled/default wheel state has no transform transition;
+2. only an explicit active spin receives the 4-second transform transition;
+3. the spin class/inline transition is removed before the final selected rotation is normalized;
+4. cancel/route-boundary cleanup also removes spin-transition state;
+5. reduced-motion timing uses the same operation-scoped contract;
+6. League Selection still persists once and still requires the explicit Continue action before Club Assignment;
+7. permanent League Confirmation tests will add an assertion that a settled selected wheel cannot retain an active transform transition or trigger a second visual spin.
+
+No league-selection semantics or random-selection rules need to change.
+
+## Visual source research checkpoint
+
+### Rejected source classes
+
+- Getty/editorial photographs were visually attractive but rejected because the repository requires explicit reusable licensing.
+- Current James interview source (`James Rodríguez in September 2016 - 02.jpg`) is rejected by the owner for insufficient drama/cinematic value and will not remain active.
+- Previous James 2019 Real Madrid derivative/source is also forbidden from return by explicit owner instruction/history.
+- Low-resolution or soft alternatives are being rejected even when licensed if they do not meet the new photogenic/cinematic quality target.
+
+### High-value licensed research direction
+
+The source review is prioritizing Wikimedia Commons originals with explicit Creative Commons provenance and materially higher native resolution.
+
+Current strongest James still candidate under review is `1 James Rodríguez.jpg`: James at the 2014 World Cup round of 16 against Uruguay, 2629×1817, own work by Chensiyuan. It is a historically important James moment and materially stronger photographic source than the current interview still. Before activation its exact license metadata, authored crop and visual quality will be validated in the build pipeline.
+
+For Marcus Rashford, the 16 April 2017 Manchester United v Chelsea set is particularly valuable: Commons provides 4896×3672 Ardfern originals, and the Marcus Rashford category identifies `(11).jpg` as depicting Rashford. The match itself is a strong historical United/Rashford context, but the exact frame will be inspected after local derivative generation before it can become source authority.
+
+For Anthony Martial, high-resolution Ardfern Manchester United match sets from 2017 are available (including West Ham and Manchester City). Exact frame selection remains evidence-driven; no source is activated merely because its metadata names Martial.
+
+### Additional-image principle
+
+The requested seven-plus new visuals will not be random wallpaper. Each must satisfy all of:
+
+- explicit reusable license/provenance;
+- good native resolution for its intended slot;
+- a football moment or expression with real emotional/historical value;
+- a declared screen purpose;
+- face-safe clean-anchor or cinematic-band composition;
+- lazy/non-startup loading where possible;
+- responsive control at desktop, windowed Chromebook and mobile DPR2 sizes;
+- readable UI/copy contrast without painting decorative lines over faces.
+
+The likely placement set is being evaluated against the existing screen architecture before source locking (Showdown Home, League/Club progression, Season Results/Review/Summary, Legacy and Rule Book are higher-value candidates than adding imagery to Settings/Data Management).
+
+## Builder/asset architecture checkpoint
+
+`tools/build_r5_player_visuals.py` remains the existing reproducible licensed-photo builder. It retrieves Commons metadata/downloads, validates author/license/crop bounds, prevents upscaling, writes optimized WebP derivatives, fingerprints sources/outputs and updates `assets/football/asset-manifest.json`.
+
+The new work should extend this reproducible local-asset architecture rather than hotlinking third-party images at runtime. This also preserves the future v1.2 offline-app direction.
+
 ## Current execution checkpoint
 
 - Verified current `main` is exactly `9c9ff5fe8a3361b91400e5b37b310fa7bb42f5de`.
 - Read `00_HANDOFF_GOLDEN_RULE.md`, `00_DEVELOPER_START_HERE.md`, and `NEXT_TASK.md` from that SHA.
 - Created focused branch `v1.1.3-candidate-c-visual-fixes` from exact current main.
-- Next: reproduce/trace the League Wheel timer/state defect from live source and tests; inspect current visual source authority and screen placement; research replacement licensed photos and at least seven additional high-value cinematic visuals; then implement with regression gates before Candidate C work proceeds.
+- Created this handoff before runtime mutation.
+- Traced League Wheel source/CSS and identified the post-spin transform-normalization transition race above.
+- Inspected current visual data authority and the permanent player-photo builder.
+- Began license/resolution/history-based source research; rejected editorial/Getty and weak/low-resolution candidates.
+- Next: implement and gate the wheel transition fix; lock/generate replacement player derivatives; define and generate at least seven additional licensed visuals; integrate them through the lazy football-visual subsystem; then run deep browser/visual/performance gates before deciding the safe Candidate C integration boundary.
 
 ## Acceptance state
 
