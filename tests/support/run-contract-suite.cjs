@@ -17,6 +17,7 @@ const files = [
   "tests/contracts/restore-stale-state-contracts.cjs",
   "tests/contracts/restore-maintenance-contracts.cjs",
   "tests/contracts/cloud-foundation-contracts.cjs",
+  "tests/contracts/release-authority-coherence.cjs",
   "tests/contracts/final-release-hardening.cjs"
 ];
 function escape(value){
