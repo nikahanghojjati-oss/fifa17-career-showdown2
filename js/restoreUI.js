@@ -150,7 +150,8 @@
       if(result.status==="rollback-failed-critical"){
         const box=make("div","careerRestoreRecovery critical");box.append(make("strong","","CRITICAL RECOVERY STATE"),make("span","","Rollback could not be proven byte-for-byte. Do not continue changing this save. Export the current recovery state, then refresh before deciding what to restore next."));if(recovery)recovery.appendChild(box);status("Critical recovery state: no navigation was performed.");return;
       }
-      renderReview();status((result.errors&&result.errors[0])||"Restore was blocked safely before a verified commit.");
+      renderReview();
+      status(`Current data changed or restore verification was blocked before a verified commit. Nothing was written. ${(result.errors&&result.errors[0])||"Review the restore state before trying again."}`);
     }catch(error){status(`Restore failed safely: ${error&&error.message?error.message:String(error)}`);}
     finally{busy=false;if(document.contains(button)){button.removeAttribute("aria-busy");button.textContent="APPLY RESTORE";refreshPlan();}}
   }
