@@ -114,5 +114,5 @@
     .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:34%;}
 }
 
-html[data-motion-reduced="true"] .footballVisualCinematicBand .footballVisualMedia{transition:none;}
-@media(prefers-reduced-motion:reduce){.footballVisualCinematicBand .footballVisualMedia{transition:none;}}
+html[data-motion-reduced="true"] .footballVisualMedia{transition:none;}
+@media(prefers-reduced-motion:reduce){.footballVisualMedia{transition:none;}}

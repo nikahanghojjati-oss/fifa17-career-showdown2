@@ -20,7 +20,7 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate
+**Application version:** v1.1.3 — Maintenance Candidate
 **Runtime asset revision:** `1.1.3-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage

@@ -106,6 +106,9 @@ async function waitForVisual(page, screenName, expectedCount){
                 && Number.parseFloat(getComputedStyle(image).opacity) >= .999;
         });
     }, { screenName, expectedCount }, { timeout: 15000 });
+    await page.evaluate(() => new Promise(resolve => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+    }));
 }
 
 async function inspectScreen(page, screenName){
@@ -154,6 +157,7 @@ async function inspectScreen(page, screenName){
                     objectFit: getComputedStyle(image).objectFit,
                     opacity: Number.parseFloat(getComputedStyle(image).opacity),
                     transitionDuration: getComputedStyle(image).transitionDuration,
+                    transitionProperty: getComputedStyle(image).transitionProperty,
                     accentTop: Number.parseFloat(accent.top || "0") || 0
                 };
             })
@@ -177,8 +181,17 @@ function assertScreen(result, screenName, expectedCount, reducedMotion){
         assert.ok(panel.panel.left >= -1 && panel.panel.right <= result.clientWidth + 1,
             `${screenName}/${panel.asset}: panel escapes viewport`);
         if(reducedMotion){
-            assert.ok(panel.transitionDuration === "0s" || panel.transitionDuration === "0ms",
-                `${screenName}/${panel.asset}: reduced-motion image transition remained active`);
+            const transitionDurations = panel.transitionDuration.split(",").map(value => {
+                const normalized = value.trim();
+                return normalized.endsWith("ms")
+                    ? Number.parseFloat(normalized) / 1000
+                    : Number.parseFloat(normalized);
+            });
+            assert.ok(
+                panel.transitionProperty === "none"
+                    && transitionDurations.every(value => Number.isFinite(value) && value <= .000001),
+                `${screenName}/${panel.asset}: reduced-motion image transition remained active (${panel.transitionProperty} / ${panel.transitionDuration})`
+            );
         }
         if(panel.treatment === "clean-anchor"){
             const horizontalGap = panel.copy.right <= panel.frame.left + 2

@@ -2,7 +2,7 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate
+**Application version:** v1.1.3 — Maintenance Candidate
 **Runtime asset revision:** `1.1.3-r1`
 **Current phase:** v1.1.3 owner-priority maintenance is in release validation; Candidate C — Atomic Restore + Recovery UX — remains next
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
