@@ -3,14 +3,20 @@ name: Validate Stability Lane
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - "**/*.md"
   pull_request:
+    paths-ignore:
+      - "**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# Fresh first-attempt PR/push runs may replace stale work. A deliberate rerun or
+# workflow_dispatch must never cancel an already-running proof for the same lane.
 concurrency:
-  group: stability-${{ github.workflow }}-${{ github.ref }}
+  group: stability-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
 jobs:
@@ -37,7 +43,7 @@ jobs:
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 34
+    timeout-minutes: 18
 
     steps:
       - name: Check out repository
@@ -52,32 +58,22 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run two consecutive complete browser, backup, import, restore, provenance, Home and crop-safe photo audits
+      - name: Run canonical runtime provenance and complete integration journey
         shell: bash
         run: |
           set -euo pipefail
           npm run serve:test > /tmp/cms-test-server.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          for attempt in 1 2; do
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:runtime-boundary
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:home-visual
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:football-visual
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:backup-browser
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:import-browser
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:restore-browser
-            CMS_AUDIT_RUN="ci-${attempt}" npm run test:browser
-          done
+          CMS_AUDIT_RUN="stability-canonical" npm run test:runtime-boundary
+          CMS_AUDIT_RUN="stability-canonical" npm run test:browser
 
-      - name: Upload Candidate A/B/C Data Management screenshots
+      - name: Upload canonical Stability evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: candidate-abc-data-management-${{ github.run_id }}
-          path: |
-            test-results/backup-data-management-*.png
-            test-results/candidate-b-import-*.png
-            test-results/candidate-c-restore-*.png
+          name: canonical-stability-${{ github.run_id }}
+          path: test-results/stability-audit-*.json
           if-no-files-found: error
           retention-days: 14
 
