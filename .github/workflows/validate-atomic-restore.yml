@@ -1,0 +1,58 @@
+name: Validate Candidate C Atomic Restore
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atomic-restore-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  restore-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Run Candidate C atomic transaction, planning and failure contracts
+        run: npm run test:restore-contracts
+
+  restore-browser:
+    needs: restore-contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Run Candidate C restore and recovery browser audit twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-candidate-c-restore.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in 1 2; do
+            CMS_AUDIT_RUN="candidate-c-${attempt}" npm run test:restore-browser
+          done
+      - name: Upload Candidate C restore and recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: candidate-c-atomic-restore-${{ github.sha }}
+          path: test-results/candidate-c-restore-*.png
+          if-no-files-found: error
+          retention-days: 14

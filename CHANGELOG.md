@@ -1,3 +1,25 @@
+# v1.1.4 — Candidate C Atomic Restore + Recovery UX
+
+Date: **August 12, 2026**
+
+Runtime asset revision: **`1.1.4-r1`**
+
+- completes the planned v1.1 Data Safety and Recovery sequence with the first import stage permitted to commit canonical state;
+- keeps Candidate A backup/export non-mutating and Candidate B import analysis strictly read-only;
+- revalidates the selected backup and explicit user choices immediately before Apply;
+- snapshots exact raw active/Legacy/preferences bytes or absence before mutation;
+- computes the complete restore in memory and commits in deterministic active → Legacy → preferences order under existing storage authority;
+- verifies every write, rolls every affected key back to exact raw pre-restore state after any failure and verifies rollback byte-for-byte;
+- surfaces unverified rollback as a locked critical recovery state instead of claiming success;
+- preserves corrupt raw local data and deterministic repeated-import/idempotence behavior;
+- adds explicit current/backup/choice/plan/progress/success/rollback/critical recovery UX inside lazy Legacy / Data Management;
+- expands destructive browser evidence to eight isolated scenarios per pass, twice, including stale state, rollback, critical rollback, corrupt Legacy choice, rapid Apply, lifecycle interruption, mobile DPR2/reduced-motion and fixed-footer/touch-target checks;
+- fixes four defects found by strengthened gates: stale-state UI bypass, safe-rollback message erasure, destructive-browser process contamination and a 40 px mobile restore file target;
+- promotes Candidate C recovery into both Stability Chromium cycles, deployed-site smoke and every one of the five release Burn-In passes;
+- moves version-fragile release assertions into repository-owned dynamic contracts while preserving permanent workflow topology and unique focus/audio/visual provenance coverage;
+- advances application/cache identity to v1.1.4 / `1.1.4-r1` without changing gameplay, scoring, Transfer, Season Review, Statistics or accepted football presentation;
+- reserves v1.2.0 for Installable Offline App only after v1.1.4 is merged, deployed and proven.
+
 # v1.1.3 — League Wheel Stability + Cinematic Football Visual Expansion
 
 Date: **August 12, 2026**
