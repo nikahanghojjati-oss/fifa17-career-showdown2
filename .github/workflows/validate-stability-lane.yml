@@ -9,9 +9,13 @@ on:
 permissions:
   contents: read
 
+# Fresh first-attempt push/PR runs may cancel stale work from an older commit.
+# A rerun (github.run_attempt > 1) or manual dispatch must never cancel an
+# already-running proof for the same ref. This prevents evidence reruns from
+# interrupting a newer Stability cycle, while preserving stale-commit cleanup.
 concurrency:
   group: stability-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.run_attempt == 1 && (github.event_name == 'push' || github.event_name == 'pull_request') }}
 
 jobs:
   stability-contracts:
