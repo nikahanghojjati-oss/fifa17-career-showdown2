@@ -3,12 +3,17 @@
   const has=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
   function base(status,extra={}){
     return Object.assign({
-      ok:false,status,affectedKeys:[],failedKey:null,failurePhase:null,
-      rollbackAttempted:false,rollbackVerified:null,rollbackFailures:[],
-      rollbackVerificationMismatches:[],verificationMismatches:[]
+      ok:false,status,affectedKeys:[],committedKeys:[],failedKey:null,failurePhase:null,
+      preconditionMismatches:[],verificationMismatches:[],
+      rollbackAttempted:false,rollbackVerified:null,rollbackKeys:[],rollbackFailures:[],
+      rollbackOwnershipConflicts:[],rollbackVerificationMismatches:[]
     },extra);
   }
-  function runCareerModeRawStorageTransaction(candidateRaw,io){
+  function readValue(io,name,phase){
+    const result=io.read(name,phase);
+    return result&&result.ok===true?result:null;
+  }
+  function runCareerModeRawStorageTransaction(candidateRaw,io,expectedRaw=null){
     if(!candidateRaw||typeof candidateRaw!=="object"||Array.isArray(candidateRaw)||!io||typeof io.read!=="function"||typeof io.write!=="function"){
       return base("invalid-plan",{failurePhase:"plan"});
     }
@@ -19,31 +24,57 @@
         return base("invalid-plan",{affectedKeys:requested.slice(),failedKey:name,failurePhase:"plan"});
       }
     }
-    if(!requested.length){return Object.assign(base("no-op"),{ok:true});}
+    if(!requested.length)return Object.assign(base("no-op"),{ok:true});
+
     const snapshot=Object.create(null);
     for(const name of requested){
-      const read=io.read(name,"snapshot");
-      if(!read||read.ok!==true){
+      const read=readValue(io,name,"snapshot");
+      if(!read){
         return base("snapshot-failed",{affectedKeys:requested.slice(),failedKey:name,failurePhase:"snapshot"});
       }
       snapshot[name]=read.value;
     }
+
+    const expectedProvided=expectedRaw&&typeof expectedRaw==="object"&&!Array.isArray(expectedRaw);
+    const initialPreconditionMismatches=expectedProvided
+      ? requested.filter(name=>has(expectedRaw,name)&&snapshot[name]!==expectedRaw[name])
+      : [];
+    if(initialPreconditionMismatches.length){
+      return base("stale-precondition",{
+        affectedKeys:requested.slice(),failedKey:initialPreconditionMismatches[0],failurePhase:"precondition",
+        preconditionMismatches:initialPreconditionMismatches
+      });
+    }
+
     const affected=requested.filter(name=>snapshot[name]!==candidateRaw[name]);
-    if(!affected.length){return Object.assign(base("no-op"),{ok:true});}
+    if(!affected.length)return Object.assign(base("no-op"),{ok:true});
+
+    const committedKeys=[];
+    const preconditionMismatches=[];
+    const verificationMismatches=[];
     let failedKey=null;
     let failurePhase=null;
-    const verificationMismatches=[];
+
     for(const name of affected){
+      const prewrite=readValue(io,name,"prewrite");
+      if(!prewrite||prewrite.value!==snapshot[name]){
+        failedKey=name;
+        failurePhase="precondition";
+        preconditionMismatches.push(name);
+        break;
+      }
       if(io.write(name,candidateRaw[name],"commit")!==true){
         failedKey=name;
         failurePhase="write";
         break;
       }
+      committedKeys.push(name);
     }
+
     if(!failurePhase){
       for(const name of affected){
-        const read=io.read(name,"verify");
-        if(!read||read.ok!==true||read.value!==candidateRaw[name]){
+        const read=readValue(io,name,"verify");
+        if(!read||read.value!==candidateRaw[name]){
           failedKey=name;
           failurePhase="verify";
           verificationMismatches.push(name);
@@ -51,23 +82,48 @@
         }
       }
     }
-    if(failurePhase){
-      const rollbackFailures=[];
-      const rollbackVerificationMismatches=[];
-      for(const name of affected){
-        if(io.write(name,snapshot[name],"rollback")!==true){rollbackFailures.push(name);}
-      }
-      for(const name of affected){
-        const read=io.read(name,"rollback-verify");
-        if(!read||read.ok!==true||read.value!==snapshot[name]){rollbackVerificationMismatches.push(name);}
-      }
-      const rollbackVerified=!rollbackFailures.length&&!rollbackVerificationMismatches.length;
-      return base(rollbackVerified?"rolled-back":"rollback-failed-critical",{
-        affectedKeys:affected.slice(),failedKey,failurePhase,rollbackAttempted:true,rollbackVerified,
-        rollbackFailures,rollbackVerificationMismatches,verificationMismatches
+
+    if(!failurePhase){
+      return Object.assign(base("success",{affectedKeys:affected.slice(),committedKeys:committedKeys.slice()}),{ok:true});
+    }
+
+    const rollbackKeys=committedKeys.slice().reverse();
+    if(!rollbackKeys.length){
+      const status=failurePhase==="precondition"?"stale-precondition":"write-failed-clean";
+      return base(status,{
+        affectedKeys:affected.slice(),committedKeys:[],failedKey,failurePhase,
+        preconditionMismatches,verificationMismatches,
+        rollbackAttempted:false,rollbackVerified:true,rollbackKeys:[]
       });
     }
-    return Object.assign(base("success",{affectedKeys:affected.slice()}),{ok:true});
+
+    const rollbackFailures=[];
+    const rollbackOwnershipConflicts=[];
+    const rollbackVerificationMismatches=[];
+    for(const name of rollbackKeys){
+      const ownership=readValue(io,name,"rollback-owner-check");
+      if(!ownership){
+        rollbackOwnershipConflicts.push(name);
+        continue;
+      }
+      if(ownership.value===snapshot[name])continue;
+      if(ownership.value!==candidateRaw[name]){
+        rollbackOwnershipConflicts.push(name);
+        continue;
+      }
+      if(io.write(name,snapshot[name],"rollback")!==true)rollbackFailures.push(name);
+    }
+    for(const name of rollbackKeys){
+      const read=readValue(io,name,"rollback-verify");
+      if(!read||read.value!==snapshot[name])rollbackVerificationMismatches.push(name);
+    }
+    const rollbackVerified=!rollbackFailures.length&&!rollbackOwnershipConflicts.length&&!rollbackVerificationMismatches.length;
+    return base(rollbackVerified?"rolled-back":"rollback-failed-critical",{
+      affectedKeys:affected.slice(),committedKeys:committedKeys.slice(),failedKey,failurePhase,
+      preconditionMismatches,verificationMismatches,
+      rollbackAttempted:true,rollbackVerified,rollbackKeys,
+      rollbackFailures,rollbackOwnershipConflicts,rollbackVerificationMismatches
+    });
   }
   window.runCareerModeRawStorageTransaction=runCareerModeRawStorageTransaction;
 })();
