@@ -27,9 +27,10 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
 (async () => {
     assert.ok(!/\blocalStorage\b/.test(source), "Restore planner/orchestrator must not own browser storage.");
     assert.ok(!/\bfetch\s*\(/.test(source), "Candidate C restore must remain local and network-free.");
-    assert.ok(source.includes("window.analyzeCareerModeBackupFile(file)"), "Apply must freshly re-run Candidate B analysis from the selected File.");
-    assert.ok(source.indexOf("flushPendingApplicationWrites") < source.indexOf("analyzeCareerModeBackupFile(file)"), "Pending writes must flush before fresh Apply-time analysis.");
-    assert.ok(source.indexOf("captureCareerModeRawBackupInputs") < source.indexOf("applyCareerModeRawStorageTransaction"), "Fresh raw state must be captured before the storage transaction begins.");
+    assert.ok(source.includes("window.analyzeCareerModeBackupFile(confirmedFile)"), "Apply must freshly re-run Candidate B analysis from the immutable confirmed File.");
+    assert.ok(source.indexOf("flushPendingApplicationWrites") < source.indexOf("analyzeCareerModeBackupFile(confirmedFile)"), "Pending writes must flush before fresh Apply-time analysis.");
+    assert.ok(source.includes("captureCareerModeRawRestoreSnapshot"), "Apply must prefer the exact restore snapshot authority.");
+    assert.ok(source.indexOf("captureStrictRaw") < source.indexOf("applyCareerModeRawStorageTransaction"), "Fresh raw state must be captured before the storage transaction begins.");
 
     const runtime = createRuntime();
     const createPlan = runtime.window.createCareerModeRestorePlan;
