@@ -58,7 +58,7 @@ function quota(message){ const error = new Error(message); error.name = "QuotaEx
 
 (() => {
     assert.ok(storageSource.includes("captureCareerModeRawRestoreSnapshot"));
-    assert.ok(transactionSource.includes('io.read(name,"prewrite")'));
+    assert.ok(transactionSource.includes('readValue(io,name,"prewrite")'), "Every commit write must retain the normalized last-moment byte precondition read.");
     assert.ok(transactionSource.includes("rollbackOwnershipConflicts"));
     assert.ok(!/\blocalStorage\b/.test(transactionSource), "Transaction engine must not become a second browser-storage owner.");
 
