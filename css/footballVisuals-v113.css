@@ -1,0 +1,118 @@
+/* Career Mode Showdown v1.1.3 — cinematic screen photography layer
+   This file extends the protected clean-anchor system. It never places
+   decorative geometry above a face and never introduces responsive cover crop. */
+
+.footballVisualCinematicBand{
+    width:min(1040px,100%);
+    min-height:188px;
+    margin:0 auto 10px;
+    border-bottom-width:4px;
+    background:linear-gradient(118deg,#27323a 0 48%,#21333d 48% 66%,#1e282f 66% 100%);
+}
+
+.footballVisualCinematicBand[data-tone="blue"]{
+    background:linear-gradient(118deg,#246d91 0 43%,#205b78 43% 63%,#23343e 63% 100%);
+}
+
+.footballVisualCinematicBand[data-tone="light"]{
+    background:linear-gradient(118deg,#eef3f4 0 43%,#d8e4e7 43% 62%,#8eb3c1 62% 100%);
+}
+
+.footballVisualCinematicBand[data-photo-treatment="clean-anchor"]::after{width:31%;}
+
+.footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame{
+    top:0;
+    right:0;
+    bottom:0;
+    width:48%;
+    border-left:1px solid rgba(255,255,255,.08);
+}
+
+.footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame::after{
+    top:72%;
+    background:linear-gradient(126deg,transparent 0 57%,rgba(66,185,218,.30) 57% 60%,transparent 60% 69%,rgba(240,217,0,.28) 69% 71%,transparent 71% 100%);
+}
+
+.footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualCopy{
+    top:50%;
+    left:16px;
+    bottom:auto;
+    width:45%;
+    max-width:440px;
+    padding:10px 12px 11px;
+    transform:translateY(-50%);
+}
+
+.footballVisualCinematicBand .footballVisualName{font-size:clamp(26px,3.3vw,42px);line-height:.88;}
+.footballVisualCinematicBand .footballVisualContext{font-size:9px;line-height:1.25;}
+
+/* The new World Cup James portrait is deliberately taller and more iconic
+   than the rejected interview frame. Preserve the full authored portrait. */
+.footballVisualHeroSetup[data-football-visual-asset="james-rodriguez-world-cup-2014-v113"] .footballVisualMediaFrame{
+    top:27%;
+    width:100%;
+}
+.footballVisualHeroSetup[data-football-visual-asset="james-rodriguez-world-cup-2014-v113"] .footballVisualMedia{object-position:50% 42%;}
+
+/* New Transfer sources replace the prior Anderlecht/Zorya derivatives. The
+   larger photo stages are kept, while copy plates are narrowed so identity
+   never intrudes into the protected photograph. */
+.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-chelsea-2017-v113"] .footballVisualMediaFrame{width:46%;}
+.footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-cska-2017-v113"] .footballVisualMediaFrame{width:39%;}
+.footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:48%;}
+
+/* Screen-specific photographic weighting. Portraits get more physical width;
+   landscape match/celebration frames get enough width to remain readable. */
+#leagueWheelScreen .footballVisualCinematicBand .footballVisualMediaFrame,
+#dashboard .footballVisualCinematicBand .footballVisualMediaFrame,
+#legacy .footballVisualCinematicBand .footballVisualMediaFrame{width:42%;}
+#clubWheelScreen .footballVisualCinematicBand .footballVisualMediaFrame{width:44%;}
+#seasonEntry .footballVisualCinematicBand .footballVisualMediaFrame,
+#seasonSummary .footballVisualCinematicBand .footballVisualMediaFrame,
+#ruleBook .footballVisualCinematicBand .footballVisualMediaFrame{width:52%;}
+
+@media(min-width:701px) and (max-width:1020px){
+    .footballVisualCinematicBand{min-height:174px;}
+    .footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:46%;left:12px;padding:9px 10px 10px;}
+    .footballVisualCinematicBand .footballVisualName{font-size:clamp(24px,3.4vw,34px);}
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-chelsea-2017-v113"] .footballVisualMediaFrame{width:50%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-cska-2017-v113"] .footballVisualMediaFrame{width:43%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:43%;}
+}
+
+@media(max-width:700px){
+    .footballVisualCinematicBand{min-height:176px;margin-bottom:8px;}
+    .footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame,
+    #leagueWheelScreen .footballVisualCinematicBand .footballVisualMediaFrame,
+    #clubWheelScreen .footballVisualCinematicBand .footballVisualMediaFrame,
+    #dashboard .footballVisualCinematicBand .footballVisualMediaFrame,
+    #seasonEntry .footballVisualCinematicBand .footballVisualMediaFrame,
+    #seasonSummary .footballVisualCinematicBand .footballVisualMediaFrame,
+    #legacy .footballVisualCinematicBand .footballVisualMediaFrame,
+    #ruleBook .footballVisualCinematicBand .footballVisualMediaFrame{width:51%;}
+    .footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualCopy{top:50%;left:9px;width:43%;padding:8px 8px 9px;}
+    .footballVisualCinematicBand .footballVisualName{font-size:clamp(19px,6vw,27px);}
+    .footballVisualCinematicBand .footballVisualContext{font-size:8px;}
+    .footballVisualHeroSetup[data-football-visual-asset="james-rodriguez-world-cup-2014-v113"] .footballVisualMediaFrame{top:0;width:58%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="marcus-rashford-chelsea-2017-v113"] .footballVisualMediaFrame{width:58%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-football-visual-asset="anthony-martial-cska-2017-v113"] .footballVisualMediaFrame{width:55%;}
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:36%;}
+}
+
+@media(max-width:480px){
+    .footballVisualCinematicBand{min-height:166px;}
+    .footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualMediaFrame,
+    #leagueWheelScreen .footballVisualCinematicBand .footballVisualMediaFrame,
+    #clubWheelScreen .footballVisualCinematicBand .footballVisualMediaFrame,
+    #dashboard .footballVisualCinematicBand .footballVisualMediaFrame,
+    #seasonEntry .footballVisualCinematicBand .footballVisualMediaFrame,
+    #seasonSummary .footballVisualCinematicBand .footballVisualMediaFrame,
+    #legacy .footballVisualCinematicBand .footballVisualMediaFrame,
+    #ruleBook .footballVisualCinematicBand .footballVisualMediaFrame{width:53%;}
+    .footballVisualCinematicBand[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:42%;}
+    .footballVisualCinematicBand .footballVisualName{font-size:clamp(18px,6vw,24px);}
+    .footballVisualHeroTransfer .footballVisualPanel[data-photo-treatment="clean-anchor"] .footballVisualCopy{width:34%;}
+}
+
+html[data-motion-reduced="true"] .footballVisualMedia{transition:none;}
+@media(prefers-reduced-motion:reduce){.footballVisualMedia{transition:none;}}

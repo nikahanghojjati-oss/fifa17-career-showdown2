@@ -1,7 +1,7 @@
 function getApplicationAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     const revision = meta && meta.content ? meta.content.trim() : "";
-    return revision || "1.1.2-r1";
+    return revision || "1.1.3-r1";
 }
 
 const OPTIONAL_ASSET_REVISION = getApplicationAssetRevision();
@@ -297,13 +297,11 @@ function ensureMenuFeedbackModule(){
 }
 
 async function ensureFootballVisualModule(){
-    const stylePromise = loadRuntimeStyle("football-visual-ui", "css/footballVisuals.css");
+    const stylePromise=loadRuntimeStyle("football-visual-ui","css/footballVisuals.css").then(()=>loadRuntimeStyle("football-visual-v113-ui","css/footballVisuals-v113.css"));
     await loadRuntimeScript("football-visual-data","data/footballVisuals.js",() => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN));
     await loadRuntimeScript(
         "football-visual-ui","js/footballVisuals.js",
-        () => typeof window.initializeFootballVisuals === "function"
-            && typeof window.prepareFootballVisualScreen === "function"
-            && typeof window.preloadFootballVisualAssets === "function"
+        ()=>["initializeFootballVisuals","prepareFootballVisualScreen","preloadFootballVisualAssets"].every(name=>typeof window[name]==="function")
     );
     await stylePromise;
     await window.initializeFootballVisuals();

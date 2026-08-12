@@ -322,7 +322,7 @@ jobs:
           assert.strictEqual(preservedPosition.focused, true, 'Review → Edit must return focus to the first result field.');
 
           const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
-          assert.ok(revisionMatch && /^1\.1\.2-r\d+$/.test(revisionMatch[1]), 'Shell must expose the v1.1.2 cache revision.');
+          assert.ok(revisionMatch && /^1\.1\.3-r\d+$/.test(revisionMatch[1]), 'Shell must expose the v1.1.3 cache revision.');
           const revision = revisionMatch[1];
           const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
             .map(match => ({ path: match[1], revision: match[2] || '' }));

@@ -19,7 +19,7 @@ function createRuntime(){
     const document = {
         documentElement: { dataset: {} },
         querySelector(selector){
-            return selector === 'meta[name="app-asset-revision"]' ? { content: "1.1.2-r1" } : null;
+            return selector === 'meta[name="app-asset-revision"]' ? { content: "1.1.3-r1" } : null;
         },
         addEventListener(){},
         createElement(){ throw new Error("Download DOM should not be used by contract-only envelope tests."); }
@@ -103,8 +103,8 @@ async function assertScenario(runtime, keys, name, input, expected){
     const full = await assertScenario(runtime, keys, "full", { active, legacy, preferences }, { active: 1, legacy: 1, preferences: 1 });
     assert.equal(full.formatId, "career-mode-showdown-backup");
     assert.equal(full.formatVersion, 1);
-    assert.equal(full.appVersion, "1.1.2");
-    assert.equal(full.runtimeRevision, "1.1.2-r1");
+    assert.equal(full.appVersion, "1.1.3");
+    assert.equal(full.runtimeRevision, "1.1.3-r1");
     assert.equal(full.checksumAlgorithm, "SHA-256");
     assert.ok(/^[a-f0-9]{64}$/.test(full.checksum), "Backup checksum must be a SHA-256 hex digest.");
 

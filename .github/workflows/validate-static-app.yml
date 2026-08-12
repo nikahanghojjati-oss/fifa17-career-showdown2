@@ -262,8 +262,8 @@ jobs:
           const assert = require('assert');
           const vm = require('vm');
 
-          const expectedVersion = '1.1.2';
-          const expectedRevision = '1.1.2-r1';
+          const expectedVersion = '1.1.3';
+          const expectedRevision = '1.1.3-r1';
           const maximumInitialAssetBytes = 165000;
           const maximumCompressedInitialAssetBytes = 37500;
           const maximumStartupPortraitBytes = 95000;
@@ -280,8 +280,9 @@ jobs:
           const nextTask = fs.readFileSync('NEXT_TASK.md', 'utf8');
           const readme = fs.readFileSync('README.md', 'utf8');
           const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-          const releaseRecord = fs.readFileSync('RELEASE_V1.1.2.md', 'utf8');
-          const previousReleaseRecord = fs.readFileSync('RELEASE_V1.1.1.md', 'utf8');
+          const releaseRecord = fs.readFileSync('RELEASE_V1.1.3.md', 'utf8');
+          const previousReleaseRecord = fs.readFileSync('RELEASE_V1.1.2.md', 'utf8');
+          const jamesMaintenanceReleaseRecord = fs.readFileSync('RELEASE_V1.1.1.md', 'utf8');
           const candidateAReleaseRecord = fs.readFileSync('RELEASE_V1.1.0.md', 'utf8');
           const visualMaintenanceReleaseRecord = fs.readFileSync('RELEASE_V1.0.2.md', 'utf8');
 
@@ -289,21 +290,23 @@ jobs:
           assert.ok(revisionMatch && revisionMatch[1].trim(), 'Shell must define app-asset-revision.');
           const revision = revisionMatch[1].trim();
           assert.strictEqual(revision, expectedRevision, 'Stable runtime revision changed unexpectedly.');
-          assert.ok(html.includes('v1.1.2 · Stable'), 'Stable user-facing footer identity is missing.');
+          assert.ok(html.includes('v1.1.3 · Stable'), 'Stable user-facing footer identity is missing.');
           assert.ok(!html.includes('V1 Visual Immersion Candidate'), 'Candidate text remains in the user-facing shell.');
-          assert.ok(projectState.includes('**Application version:** v1.1.2 — Maintenance Candidate'), 'PROJECT_STATE current version is stale.');
-          assert.ok(projectState.includes('**Runtime asset revision:** `1.1.2-r1`'), 'PROJECT_STATE runtime revision is stale.');
-          assert.ok(nextTask.includes('## Current baseline: v1.1.2 Candidate B'), 'NEXT_TASK does not identify Candidate B as the current baseline.');
-          assert.ok(readme.includes('**Application version:** v1.1.2 — Maintenance Candidate'), 'README current version is stale.');
-          assert.ok(changelog.includes('# v1.1.2 — Candidate B Import Analysis + Migration Preview'), 'CHANGELOG v1.1.2 Candidate B entry is missing.');
+          assert.ok(projectState.includes('**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate'), 'PROJECT_STATE current version is stale.');
+          assert.ok(projectState.includes('**Runtime asset revision:** `1.1.3-r1`'), 'PROJECT_STATE runtime revision is stale.');
+          assert.ok(nextTask.includes('## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate'), 'NEXT_TASK does not identify the current v1.1.3 maintenance baseline.');
+          assert.ok(readme.includes('**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate'), 'README current version is stale.');
+          assert.ok(changelog.includes('# v1.1.3 — League Wheel Stability + Cinematic Football Visual Expansion'), 'CHANGELOG v1.1.3 maintenance entry is missing.');
+          assert.ok(changelog.includes('# v1.1.2 — Candidate B Import Analysis + Migration Preview'), 'Historical v1.1.2 Candidate B entry is missing.');
           assert.ok(changelog.includes('# v1.1.1 — James Rodríguez Real Madrid Source Refresh'), 'Historical v1.1.1 maintenance entry is missing.');
           assert.ok(changelog.includes('# v1.1.0 — Data Safety and Recovery / Candidate A'), 'Historical v1.1.0 Candidate A release entry is missing.');
-          assert.ok(releaseRecord.includes('Release tag: `v1.1.2`'), 'Permanent v1.1.2 release record is incomplete.');
+          assert.ok(releaseRecord.includes('Release tag: `v1.1.3`'), 'Permanent v1.1.3 release record is incomplete.');
           [projectState, nextTask, readme, changelog].forEach((document, index) => {
-            assert.ok(document.includes('1.1.2-r1'), `Current authority document ${index + 1} is missing the v1.1.2 runtime identity.`);
+            assert.ok(document.includes('1.1.3-r1'), `Current authority document ${index + 1} is missing the v1.1.3 runtime identity.`);
           });
-          assert.ok(releaseRecord.includes('Runtime asset revision: `1.1.2-r1`'), 'The v1.1.2 release record must contain the current runtime identity.');
-          assert.ok(previousReleaseRecord.includes('1.1.1-r1'), 'The immutable v1.1.1 release record must retain its deployed r1 evidence.');
+          assert.ok(releaseRecord.includes('Runtime asset revision: `1.1.3-r1`'), 'The v1.1.3 release record must contain the current runtime identity.');
+          assert.ok(previousReleaseRecord.includes('1.1.2-r1'), 'The immutable v1.1.2 release record must retain its deployed r1 evidence.');
+          assert.ok(jamesMaintenanceReleaseRecord.includes('1.1.1-r1'), 'The immutable v1.1.1 release record must retain its deployed r1 evidence.');
           assert.ok(candidateAReleaseRecord.includes('1.1.0-r1'), 'The immutable v1.1.0 Candidate A release record must retain its deployed r1 evidence.');
           assert.ok(visualMaintenanceReleaseRecord.includes('1.0.2-r1'), 'The immutable v1.0.2 release record must retain its deployed r1 evidence.');
 

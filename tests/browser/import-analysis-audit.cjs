@@ -245,7 +245,7 @@ async function assertDropAndMobile(browser){
         try{ await scenario(browser); }
         finally{ if(browser.isConnected()){ await browser.close(); } }
     }
-    process.stdout.write("PASS  v1.1.2 Candidate B import-analysis browser audit\n");
+    process.stdout.write("PASS  Candidate B import-analysis browser audit on v1.1.3\n");
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;

@@ -1,11 +1,10 @@
 let footballVisualsInitialized = false;
-let footballVisualPreloadPromise = null;
 const footballVisualMounts = new Map();
 const footballVisualPreloads = new Map();
 
 function getFootballVisualRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
-    return meta && meta.content ? meta.content.trim() : "1.1.2-r1";
+    return meta && meta.content ? meta.content.trim() : "1.1.3-r1";
 }
 
 function getFootballVisualAsset(key){
@@ -40,20 +39,21 @@ function preloadFootballVisualAsset(asset){
     return promise;
 }
 
-function preloadFootballVisualAssets(){
-    if(footballVisualPreloadPromise){
-        return footballVisualPreloadPromise;
+function preloadFootballVisualAssets(assetKeys = []){
+    const keys = Array.isArray(assetKeys) ? [...new Set(assetKeys)] : [];
+    if(!keys.length){
+        return Promise.resolve([]);
     }
 
-    const assets = window.FOOTBALL_VISUALS
-        ? Object.values(window.FOOTBALL_VISUALS)
-        : [];
-    if(!assets.length){
-        return Promise.reject(new Error("Required football visual manifest is empty."));
-    }
+    const assets = keys.map(key => {
+        const asset = getFootballVisualAsset(key);
+        if(!asset){
+            throw new Error(`Required football visual asset is unavailable: ${key}`);
+        }
+        return asset;
+    });
 
-    footballVisualPreloadPromise = Promise.all(assets.map(preloadFootballVisualAsset));
-    return footballVisualPreloadPromise;
+    return Promise.all(assets.map(preloadFootballVisualAsset));
 }
 
 function createFootballVisualCredit(asset){
@@ -139,6 +139,8 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     const image = document.createElement("img");
     image.className = "footballVisualMedia";
     image.alt = asset.alt;
+    // Panels are created only when their destination screen is entered. Eager
+    // loading here means eager-for-the-visible-route, not eager-at-startup.
     image.loading = "eager";
     image.decoding = "async";
     image.fetchPriority = "auto";
@@ -178,6 +180,16 @@ function createFootballVisualPanel(assetKey, plan, extraClass = ""){
     caption.append(identity, createFootballVisualCredit(asset));
     panel.append(mediaFrame, caption);
     return panel;
+}
+
+function warmFootballVisualPlan(plan){
+    preloadFootballVisualAssets(plan.assets).catch(error => {
+        if(typeof window.reportApplicationError === "function"){
+            window.reportApplicationError("Required football photograph could not be prepared", error);
+        }else{
+            console.error(error);
+        }
+    });
 }
 
 function mountCreateShowdownVisual(plan){
@@ -228,10 +240,29 @@ function mountAnalyticsVisual(screenName, plan, hostId, className){
     return panel;
 }
 
+function mountCinematicBandVisual(screenName, plan){
+    const screen = document.getElementById(screenName);
+    if(!screen){ return null; }
+
+    const existing = screen.querySelector(`[data-football-visual-screen="${screenName}"]`);
+    if(existing){ return existing; }
+
+    const heading = screen.querySelector("h2");
+    if(!heading || !heading.parentNode){ return null; }
+
+    const panel = createFootballVisualPanel(plan.assets[0], plan, "footballVisualCinematicBand");
+    panel.dataset.footballVisualScreen = screenName;
+    heading.insertAdjacentElement("afterend", panel);
+    screen.classList.add("hasCinematicFootballVisual");
+    return panel;
+}
+
 function prepareFootballVisualScreen(screenName){
     const plans = window.FOOTBALL_VISUAL_SCREEN_PLAN;
     const plan = plans && plans[screenName];
     if(!plan){ return false; }
+
+    warmFootballVisualPlan(plan);
 
     let mount = null;
     if(screenName === "createShowdown"){
@@ -242,6 +273,8 @@ function prepareFootballVisualScreen(screenName){
         mount = mountAnalyticsVisual(screenName, plan, "careerStatisticsContent", "footballVisualAnalytics");
     }else if(screenName === "trophyRoom"){
         mount = mountAnalyticsVisual(screenName, plan, "trophyRoomContent", "footballVisualTrophy");
+    }else{
+        mount = mountCinematicBandVisual(screenName, plan);
     }
 
     if(mount){
@@ -251,12 +284,13 @@ function prepareFootballVisualScreen(screenName){
     return false;
 }
 
-async function initializeFootballVisuals(){
+function initializeFootballVisuals(){
     if(!window.FOOTBALL_VISUALS || !window.FOOTBALL_VISUAL_SCREEN_PLAN){
         throw new Error("Required licensed football visual manifest is unavailable.");
     }
     footballVisualsInitialized = true;
-    await preloadFootballVisualAssets();
+    // Deliberately do not preload the entire visual archive. Routes own their
+    // images so adding historic/cinematic screens does not inflate Home startup.
     return true;
 }
 
@@ -268,6 +302,7 @@ function getFootballVisualDiagnostics(){
     return {
         initialized: footballVisualsInitialized,
         mounted,
+        preloadedIds: [...footballVisualPreloads.keys()],
         preloadCount: footballVisualPreloads.size,
         assetCount: window.FOOTBALL_VISUALS ? Object.keys(window.FOOTBALL_VISUALS).length : 0
     };

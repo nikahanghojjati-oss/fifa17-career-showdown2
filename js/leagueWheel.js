@@ -1,11 +1,8 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v1.0.1
-   Race-Safe League Wheel System
-===================================================== */
+/* FIFA 17 Career Mode Showdown · v1.1.3 · Race-Safe League Wheel */
 
 const LEAGUE_WHEEL_SPIN_MS = 4000;
 const LEAGUE_WHEEL_REDUCED_SPIN_MS = 80;
+const LEAGUE_WHEEL_TRANSITION_EASING = "cubic-bezier(.16,.76,.16,1)";
 
 let leagueWheelSpinInProgress = false;
 let leagueWheelOperationId = 0;
@@ -71,6 +68,11 @@ function getLeagueBackButton(){
     return document.querySelector("#leagueWheelScreen .backButton");
 }
 
+function getLeagueWheelTrack(){
+    const wheel = document.getElementById("leagueWheel");
+    return wheel ? wheel.querySelector(".wheelTrack") : null;
+}
+
 function setLeagueWheelBusy(busy){
     leagueWheelSpinInProgress = Boolean(busy);
     const backButton = getLeagueBackButton();
@@ -78,6 +80,18 @@ function setLeagueWheelBusy(busy){
         backButton.disabled = leagueWheelSpinInProgress;
         backButton.setAttribute("aria-disabled", String(leagueWheelSpinInProgress));
     }
+}
+
+function setLeagueWheelTransition(track, durationMs = 0){
+    if(!track){
+        return;
+    }
+
+    const duration = Math.max(0, Number(durationMs) || 0);
+    track.style.transition = duration > 0
+        ? `transform ${duration}ms ${LEAGUE_WHEEL_TRANSITION_EASING}`
+        : "none";
+    track.dataset.leagueWheelAnimating = duration > 0 ? "true" : "false";
 }
 
 function clearLeagueWheelTimers(){
@@ -90,6 +104,7 @@ function clearLeagueWheelTimers(){
 function cancelLeagueWheelOperation(){
     clearLeagueWheelTimers();
     leagueWheelOperationId += 1;
+    setLeagueWheelTransition(getLeagueWheelTrack(), 0);
     setLeagueWheelBusy(false);
 }
 
@@ -104,20 +119,11 @@ function setWheelRotationWithoutAnimation(track, rotation){
         return;
     }
 
+    setLeagueWheelTransition(track, 0);
     const nextTransform = `rotate(${rotation}deg)`;
-    if(track.style.transform === nextTransform){
-        return;
+    if(track.style.transform !== nextTransform){
+        track.style.transform = nextTransform;
     }
-
-    const previousTransition = track.style.transition;
-    track.style.transition = "none";
-    track.style.transform = nextTransform;
-
-    window.requestAnimationFrame(() => {
-        if(track.style.transition === "none"){
-            track.style.transition = previousTransition;
-        }
-    });
 }
 
 function renderLeagueWheelState(){
@@ -266,14 +272,23 @@ function spinLeagueWheel(){
     spinButton.textContent = "SPINNING...";
     result.textContent = "SPINNING...";
     if(note){ note.classList.add("hidden"); }
+
+    // Arm animation only for this explicit spin.
+    setLeagueWheelTransition(track, 0);
+    void track.offsetWidth;
+    setLeagueWheelTransition(track, timing.spin);
     track.style.transform = `rotate(${getLeagueRotation(selected.id, 5)}deg)`;
 
     leagueWheelSpinTimer = window.setTimeout(() => {
         leagueWheelSpinTimer = null;
 
         if(!isLeagueWheelOperationCurrent(operationId, showdownId)){
+            setLeagueWheelTransition(track, 0);
             return;
         }
+
+        // Normalize the selected angle only after animation is disarmed.
+        setLeagueWheelTransition(track, 0);
 
         const previousLeague = currentShowdown.selectedLeague;
         const previousStatus = currentShowdown.status;
