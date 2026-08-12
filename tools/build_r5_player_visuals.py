@@ -16,68 +16,169 @@ ASSET_DIR = ROOT / "assets" / "football"
 MANIFEST_PATH = ASSET_DIR / "asset-manifest.json"
 API = "https://commons.wikimedia.org/w/api.php"
 HEADERS = {
-    "User-Agent": "CareerModeShowdownAssetBuilder/1.1 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2; contact via repository)",
+    "User-Agent": "CareerModeShowdownAssetBuilder/1.1.3 (https://github.com/nikahanghojjati-oss/fifa17-career-showdown2; contact via repository)",
     "Referer": "https://commons.wikimedia.org/",
 }
 SESSION = requests.Session()
 
-# The crop is authored once in source pixels. Runtime CSS must show the complete
-# resulting derivative with object-fit: contain; it must never re-crop these.
-# replace_ids makes this builder reproducible from the r4/r5 history or the
-# current v1.1.1 manifest without deleting its own active output.
+# Every crop is authored once in licensed source pixels. Runtime CSS must show
+# the complete resulting derivative with object-fit: contain; it must never
+# create a second semantic crop. For already-isolated Commons derivatives, the
+# complete source frame is deliberately preserved.
 SELECTIONS = {
     "james": {
         "replace_ids": [
             "james-rodriguez-real-madrid-2016-r4",
             "james-rodriguez-real-madrid-2019-smart-r5",
             "james-rodriguez-real-madrid-2016-smart-v111",
+            "james-rodriguez-world-cup-2014-v113",
         ],
-        "id": "james-rodriguez-real-madrid-2016-smart-v111",
-        "source_file": "James Rodríguez in September 2016 - 02.jpg",
-        "output": "james-rodriguez-real-madrid-2016-smart-v111.webp",
-        "crop_box_on_source": [0, 0, 863, 1080],
-        "max_size": [863, 1080],
+        "id": "james-rodriguez-world-cup-2014-v113",
+        "source_file": "James Rodríguez (cropped).jpg",
+        "output": "james-rodriguez-world-cup-2014-v113.webp",
+        "crop_box_on_source": [0, 0, 1415, 3062],
+        "max_size": [508, 1100],
         "quality": 92,
-        "author": "Real Madrid",
-        "license": "CC BY 3.0",
-        "license_url": "https://creativecommons.org/licenses/by/3.0/",
-        "context": "James Rodríguez during a Real Madrid post-match interview after Borussia Dortmund v Real Madrid, 28 September 2016; the complete licensed source frame is preserved so his full head, face and Real Madrid identity remain available to the clean-anchor layout.",
-        "crop_policy": "complete licensed source frame preserved; complete derivative shown at runtime with object-fit: contain",
+        "author": "Copa2014.gov.br",
+        "license": "CC BY 3.0 BR",
+        "license_url": "https://creativecommons.org/licenses/by/3.0/br/deed.en",
+        "context": "James Rodríguez at the 2014 FIFA World Cup in Brazil, 19 June 2014; a tall match-day portrait from the tournament that made him a global football star.",
+        "crop_policy": "complete licensed Commons derivative preserved; complete derivative shown at runtime with object-fit: contain",
     },
     "rashford": {
         "replace_ids": [
             "marcus-rashford-man-utd-2016-r4",
             "marcus-rashford-man-utd-2016-smart-r5",
             "marcus-rashford-man-utd-2017-smart-r5",
+            "marcus-rashford-chelsea-2017-v113",
         ],
-        "id": "marcus-rashford-man-utd-2017-smart-r5",
-        "source_file": "Manchester United v RSC Anderlecht, 20 April 2017 (29).jpg",
-        "output": "marcus-rashford-man-utd-2017-smart-r5.webp",
-        "crop_box_on_source": [1050, 300, 2350, 2200],
-        "max_size": [800, 1100],
-        "quality": 92,
+        "id": "marcus-rashford-chelsea-2017-v113",
+        "source_file": "Manchester United v Chelsea, 16 April 2017 (11).jpg",
+        "output": "marcus-rashford-chelsea-2017-v113.webp",
+        "crop_box_on_source": [0, 0, 4896, 3672],
+        "max_size": [1120, 840],
+        "quality": 90,
         "author": "Ardfern",
         "license": "CC BY-SA 4.0",
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-        "context": "Marcus Rashford for Manchester United v RSC Anderlecht at Old Trafford, 20 April 2017; hand-reviewed upper-body crop prioritizes his face, red shirt and club identity while removing unused grass and full-leg area.",
-        "crop_policy": "hand-reviewed face-and-upper-body source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+        "context": "Marcus Rashford in Manchester United's 2–0 Premier League win over Chelsea at Old Trafford, 16 April 2017.",
+        "crop_policy": "complete high-resolution match frame preserved for first-pass authored review; complete derivative shown at runtime with object-fit: contain",
     },
     "martial": {
         "replace_ids": [
             "anthony-martial-man-utd-2015-r4",
             "anthony-martial-man-utd-2016-smart-r5",
+            "anthony-martial-cska-2017-v113",
         ],
-        "id": "anthony-martial-man-utd-2016-smart-r5",
-        "source_file": "Manchester United v Zorya Luhansk, September 2016 (26).JPG",
-        "output": "anthony-martial-man-utd-2016-smart-r5.webp",
-        "crop_box_on_source": [0, 0, 1800, 2400],
-        "max_size": [825, 1100],
+        "id": "anthony-martial-cska-2017-v113",
+        "source_file": "Anthony Martial 27 September 2017 cropped.jpg",
+        "output": "anthony-martial-cska-2017-v113.webp",
+        "crop_box_on_source": [0, 0, 521, 999],
+        "max_size": [521, 999],
+        "quality": 92,
+        "author": "Дмитрий Голубович",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "context": "Anthony Martial with Manchester United against CSKA Moscow in the UEFA Champions League, 27 September 2017.",
+        "crop_policy": "complete player-isolated Commons derivative preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "ronaldo": {
+        "replace_ids": ["cristiano-ronaldo-euro-2016-v113"],
+        "id": "cristiano-ronaldo-euro-2016-v113",
+        "source_file": "Euro 2016 Cristiano Ronaldo.jpg",
+        "output": "cristiano-ronaldo-euro-2016-v113.webp",
+        "crop_box_on_source": [0, 0, 1550, 2434],
+        "max_size": [700, 1100],
         "quality": 90,
-        "author": "Ardfern",
+        "author": "Chensiyuan",
         "license": "CC BY-SA 4.0",
         "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
-        "context": "Anthony Martial for Manchester United v Zorya Luhansk at Old Trafford, 29 September 2016; hand-reviewed crop makes Martial the dominant subject while trimming the adjacent player from the presentation edge.",
-        "crop_policy": "hand-reviewed source-pixel crop; complete derivative shown at runtime with object-fit: contain",
+        "context": "Cristiano Ronaldo for Portugal against Poland in the UEFA Euro 2016 quarter-final, 1 July 2016.",
+        "crop_policy": "complete extracted tournament portrait preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "pogba": {
+        "replace_ids": ["paul-pogba-man-utd-2016-v113"],
+        "id": "paul-pogba-man-utd-2016-v113",
+        "source_file": "Manchester United v Zorya Luhansk, September 2016 (07) - Paul Pogba (edited).jpg",
+        "output": "paul-pogba-man-utd-2016-v113.webp",
+        "crop_box_on_source": [0, 0, 2715, 3345],
+        "max_size": [893, 1100],
+        "quality": 90,
+        "author": "Ardfern / derivative by Danyele",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "context": "Paul Pogba with Manchester United at Old Trafford in the Europa League against Zorya Luhansk, 29 September 2016.",
+        "crop_policy": "complete player-focused Commons derivative preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "zlatan": {
+        "replace_ids": ["zlatan-ibrahimovic-man-utd-2016-v113"],
+        "id": "zlatan-ibrahimovic-man-utd-2016-v113",
+        "source_file": "Manchester United v Zorya Luhansk, September 2016 (08) - Zlatan Ibrahimović (edited).jpg",
+        "output": "zlatan-ibrahimovic-man-utd-2016-v113.webp",
+        "crop_box_on_source": [0, 0, 1870, 3160],
+        "max_size": [651, 1100],
+        "quality": 90,
+        "author": "Ardfern / derivative by Danyele",
+        "license": "CC BY-SA 4.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "context": "Zlatan Ibrahimović with Manchester United at Old Trafford against Zorya Luhansk, 29 September 2016.",
+        "crop_policy": "complete player-focused Commons derivative preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "griezmann": {
+        "replace_ids": ["antoine-griezmann-atletico-2016-v113"],
+        "id": "antoine-griezmann-atletico-2016-v113",
+        "source_file": "Antoine Griezmann 2016.jpg",
+        "output": "antoine-griezmann-atletico-2016-v113.webp",
+        "crop_box_on_source": [0, 0, 1600, 1189],
+        "max_size": [1120, 832],
+        "quality": 90,
+        "author": "Светлана Бекетова",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "context": "Antoine Griezmann during Rostov v Atlético Madrid in the UEFA Champions League, 19 October 2016.",
+        "crop_policy": "complete licensed match frame preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "neymar": {
+        "replace_ids": ["neymar-brazil-olympic-gold-2016-v113"],
+        "id": "neymar-brazil-olympic-gold-2016-v113",
+        "source_file": "Brasil conquista primeiro ouro olímpico no futebol 1039247-20082016- mg 3424.jpg",
+        "output": "neymar-brazil-olympic-gold-2016-v113.webp",
+        "crop_box_on_source": [0, 0, 3800, 2533],
+        "max_size": [1120, 747],
+        "quality": 90,
+        "author": "Fernando Frazão/Agência Brasil",
+        "license": "CC BY 3.0 BR",
+        "license_url": "https://creativecommons.org/licenses/by/3.0/br/deed.en",
+        "context": "Neymar in Brazil's first Olympic men's football gold-medal final against Germany at Rio 2016, 20 August 2016.",
+        "crop_policy": "complete historic final frame preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "balotelli": {
+        "replace_ids": ["mario-balotelli-euro-2012-celebration-v113"],
+        "id": "mario-balotelli-euro-2012-celebration-v113",
+        "source_file": "Balotelli 2nd goal celebration - Euro 2012.jpg",
+        "output": "mario-balotelli-euro-2012-celebration-v113.webp",
+        "crop_box_on_source": [0, 0, 4608, 2592],
+        "max_size": [1200, 675],
+        "quality": 90,
+        "author": "Joern Fehrmann",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "context": "Italy celebrate Mario Balotelli's second goal against Germany in the UEFA Euro 2012 semi-final, 28 June 2012.",
+        "crop_policy": "complete historic celebration frame preserved; complete derivative shown at runtime with object-fit: contain",
+    },
+    "falcao": {
+        "replace_ids": ["radamel-falcao-europa-league-2012-v113"],
+        "id": "radamel-falcao-europa-league-2012-v113",
+        "source_file": "Falcao Celebración Europa League 2012.JPG",
+        "output": "radamel-falcao-europa-league-2012-v113.webp",
+        "crop_box_on_source": [0, 0, 1452, 2256],
+        "max_size": [708, 1100],
+        "quality": 90,
+        "author": "Juanca Parce",
+        "license": "CC BY-SA 3.0",
+        "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "context": "Radamel Falcao celebrating Atlético Madrid's 2012 Europa League title in Madrid's Puerta del Sol, 10 May 2012.",
+        "crop_policy": "complete title-celebration frame preserved; complete derivative shown at runtime with object-fit: contain",
     },
 }
 
@@ -184,14 +285,11 @@ def render(selection: dict, source_bytes: bytes) -> tuple[bytes, list[int]]:
     return data, [crop.width, crop.height]
 
 
-def find_manifest_index(assets: list[dict], selection: dict) -> int:
+def find_manifest_index(assets: list[dict], selection: dict) -> int | None:
     for index, asset in enumerate(assets):
         if asset.get("id") in selection["replace_ids"]:
             return index
-    raise RuntimeError(
-        f"No replaceable manifest entry found for {selection['id']}; "
-        f"expected one of {selection['replace_ids']}"
-    )
+    return None
 
 
 def build_selection(manifest: dict, key: str, selection: dict, old_outputs: set[str]) -> None:
@@ -206,11 +304,7 @@ def build_selection(manifest: dict, key: str, selection: dict, old_outputs: set[
     (ASSET_DIR / selection["output"]).write_bytes(output_bytes)
 
     index = find_manifest_index(manifest["assets"], selection)
-    prior_output = manifest["assets"][index].get("output")
-    if prior_output and prior_output != selection["output"]:
-        old_outputs.add(prior_output)
-
-    manifest["assets"][index] = {
+    entry = {
         "id": selection["id"],
         "source_file": selection["source_file"],
         "output": selection["output"],
@@ -234,6 +328,15 @@ def build_selection(manifest: dict, key: str, selection: dict, old_outputs: set[
         "output_bytes": len(output_bytes),
         "output_sha256": sha256(output_bytes),
     }
+
+    if index is None:
+        manifest["assets"].append(entry)
+    else:
+        prior_output = manifest["assets"][index].get("output")
+        if prior_output and prior_output != selection["output"]:
+            old_outputs.add(prior_output)
+        manifest["assets"][index] = entry
+
     print(
         f"Built {key}: {selection['output']} "
         f"{output_dimensions[0]}x{output_dimensions[1]} {len(output_bytes)} bytes"
@@ -250,9 +353,9 @@ def main(only: str | None = None) -> None:
         build_selection(manifest, key, selection, old_outputs)
         time.sleep(2)
 
-    manifest["generated_by"] = "licensed-player-smart-crop-builder-v1.1.1"
+    manifest["generated_by"] = "licensed-football-visual-builder-v1.1.3"
     manifest["transformation"] = (
-        "James Rodríguez is refreshed from a different Real Madrid-authored CC BY 3.0 Commons source with the complete licensed frame preserved. Marcus Rashford and Anthony Martial retain their reviewed r5 derivatives; Messi and Lahm retain r4. Runtime CSS shows 100% of each finished derivative with contain and keeps face-safe FIFA-style accent geometry outside the protected head zone; no generative alteration."
+        "v1.1.3 replaces James Rodríguez, Marcus Rashford and Anthony Martial with new licensed source photographs and adds seven new licensed screen-level football visuals. Finished authored derivatives are shown with object-fit: contain and face-safe geometry; no generative alteration and no runtime network image dependency."
     )
     MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
@@ -270,12 +373,12 @@ def main(only: str | None = None) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Rebuild licensed Career Mode Showdown player visuals.")
+    parser = argparse.ArgumentParser(description="Rebuild licensed Career Mode Showdown visual derivatives.")
     parser.add_argument(
         "--only",
         choices=sorted(SELECTIONS),
         default=None,
-        help="Rebuild only one selected player while leaving all other active derivatives untouched.",
+        help="Rebuild only one selected visual while leaving other active derivatives untouched.",
     )
     return parser.parse_args()
 
