@@ -7,15 +7,16 @@ const CAREER_MODE_BACKUP_FORMAT_ID = "career-mode-showdown-backup";
 const CAREER_MODE_BACKUP_FORMAT_VERSION = 1;
 const CAREER_MODE_BACKUP_CHECKSUM_ALGORITHM = "SHA-256";
 
-function getBackupApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.3";
-}
-
 function getBackupRuntimeRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
     return meta && meta.content ? meta.content.trim() : "unknown";
 }
 
+function getBackupApplicationVersion(){
+    if(typeof APP_VERSION === "string" && APP_VERSION.trim()){ return APP_VERSION.trim(); }
+    const match = getBackupRuntimeRevision().match(/^(\d+\.\d+\.\d+)-r\d+$/);
+    return match ? match[1] : "unknown";
+}
 
 function isBackupObject(value){
     return Boolean(value && typeof value === "object" && !Array.isArray(value));
