@@ -331,3 +331,31 @@ Start future work from current `main`, not old Candidate B branches.
 Read `00_HANDOFF_GOLDEN_RULE.md` first. Then read `00_DEVELOPER_START_HERE.md`, `NEXT_TASK.md`, this post-merge handoff and the Candidate C roadmap sections before coding.
 
 Do not reinterpret Candidate B's `PREVIEW READY` state as permission to write. Candidate B intentionally has `readyForRestore:false`; Candidate C must revalidate and obtain explicit user decisions before any commit.
+
+## Interruption-resume closure and final documentation-head proof
+
+The development session was interrupted after the final documentation alignment had been committed and while the documentation-head Stability Lane was still running. On explicit owner instruction to retry from the interruption point, work resumed from the exact unfinished validation state rather than restarting or inventing a new build.
+
+Final documentation head before this handoff append:
+
+`c7b28e5448b9d18fff25477112b9a35310abe999`
+
+Compared with runtime authority `6dfea100829016eee4820b342729b8c823426f95`, that head changed only five Markdown continuity files:
+
+- `00_DEVELOPER_START_HERE.md`;
+- `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md`;
+- `NEXT_TASK.md`;
+- `PROJECT_STATE.md`;
+- `README.md`.
+
+No HTML, CSS, JavaScript, data, asset, package, test or permanent workflow byte changed after the sealed runtime merge.
+
+The interrupted final documentation-head Stability run was `31548694306`. It completed fully green after resume:
+
+- stability contracts `93966503033` — SUCCESS;
+- two-cycle Chromium stability `93966581689` — SUCCESS;
+- deployed-site smoke `93967436007` — SUCCESS.
+
+The deployed smoke again passed exact runtime byte parity, runtime-error provenance, Home/Reus, licensed football photos, Candidate A export, Candidate B import analysis and the complete deployed gameplay/navigation journey.
+
+This closure is recorded because final gate evidence is part of the owner's permanent public-handoff golden rule, not an optional after-action summary.
