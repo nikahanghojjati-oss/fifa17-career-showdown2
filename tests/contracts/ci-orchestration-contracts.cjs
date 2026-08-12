@@ -15,11 +15,18 @@ function assertRerunSafeConcurrency(text, label){
   assert.match(text, /github\.event_name\s*!=\s*'workflow_dispatch'/, `${label} manual dispatch must queue rather than cancel active proof.`);
   assert.doesNotMatch(text, /group:[^\n]*(github\.sha|github\.run_id)/, `${label} concurrency group must not isolate every SHA/run and leave obsolete work consuming runners.`);
 }
+function assertMarkdownOnlySkip(text, label){
+  assert.match(text, /paths-ignore:\s*\n\s*-\s*["']\*\*\/\*\.md["']/, `${label} must ignore Markdown-only changes so documentation sealing cannot launch a heavy browser proof.`);
+}
 
 assertRerunSafeConcurrency(stability, "Stability");
 assertRerunSafeConcurrency(candidateB, "Candidate B");
 assertRerunSafeConcurrency(candidateC, "Candidate C");
 assertRerunSafeConcurrency(burnin, "Burn-In");
+assertMarkdownOnlySkip(stability, "Stability");
+assertMarkdownOnlySkip(candidateB, "Candidate B");
+assertMarkdownOnlySkip(candidateC, "Candidate C");
+assertMarkdownOnlySkip(burnin, "Burn-In");
 
 const localStability = stability.split(/\n\s{2}deployed-site-smoke:/)[0];
 assert.equal(occurrences(localStability, "npm run test:runtime-boundary"), 1, "Local Stability must run runtime provenance exactly once.");
@@ -73,4 +80,4 @@ for(const redundant of [
 // Normal PR after this contract: Stability 2 + Candidate B 1 + Candidate C 1 + Burn-In 0 = 4.
 assert.ok(4 <= Math.floor(53 * 0.1), "PR orchestration must preserve at least a 90% reduction in duplicated long-suite command invocations.");
 
-process.stdout.write("PASS  smart CI orchestration, rerun safety, deduplication, and full deployed release boundary\n");
+process.stdout.write("PASS  smart CI orchestration, rerun safety, Markdown-only skip, deduplication, and full deployed release boundary\n");
