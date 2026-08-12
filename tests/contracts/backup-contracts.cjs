@@ -6,6 +6,10 @@ const { webcrypto } = require("node:crypto");
 
 const storageSource = fs.readFileSync("js/storage.js", "utf8");
 const backupSource = fs.readFileSync("js/backup.js", "utf8");
+const appSource = fs.readFileSync("js/app.js", "utf8");
+const appVersion = (appSource.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
+assert.ok(appVersion, "Current APP_VERSION must be discoverable for Candidate A provenance tests.");
+const runtimeRevision = `${appVersion}-r1`;
 
 function createRuntime(){
     const values = new Map();
@@ -19,7 +23,7 @@ function createRuntime(){
     const document = {
         documentElement: { dataset: {} },
         querySelector(selector){
-            return selector === 'meta[name="app-asset-revision"]' ? { content: "1.1.4-r1" } : null;
+            return selector === 'meta[name="app-asset-revision"]' ? { content: runtimeRevision } : null;
         },
         addEventListener(){},
         createElement(){ throw new Error("Download DOM should not be used by contract-only envelope tests."); }
@@ -78,6 +82,9 @@ async function assertScenario(runtime, keys, name, input, expected){
 }
 
 (async () => {
+    assert.ok(!backupSource.includes('APP_VERSION === "string" ? APP_VERSION : "1.1.3"'), "Candidate A must not retain a stale release-specific provenance fallback.");
+    assert.ok(backupSource.includes('return match ? match[1] : "unknown"'), "Candidate A must derive isolated provenance from the shell revision or explicitly admit it is unknown.");
+
     const runtime = createRuntime();
     const keys = runtime.window.getCareerModeStorageKeys();
     const active = { id: 1700000000000, name: "Backup Audit", status: "Active", updatedAt: "2026-08-11T12:00:00.000Z" };
@@ -103,8 +110,8 @@ async function assertScenario(runtime, keys, name, input, expected){
     const full = await assertScenario(runtime, keys, "full", { active, legacy, preferences }, { active: 1, legacy: 1, preferences: 1 });
     assert.equal(full.formatId, "career-mode-showdown-backup");
     assert.equal(full.formatVersion, 1);
-    assert.equal(full.appVersion, "1.1.3");
-    assert.equal(full.runtimeRevision, "1.1.4-r1");
+    assert.equal(full.appVersion, appVersion, "Isolated Candidate A provenance must follow the current release identity rather than a historical fallback.");
+    assert.equal(full.runtimeRevision, runtimeRevision);
     assert.equal(full.checksumAlgorithm, "SHA-256");
     assert.ok(/^[a-f0-9]{64}$/.test(full.checksum), "Backup checksum must be a SHA-256 hex digest.");
 
@@ -129,7 +136,6 @@ async function assertScenario(runtime, keys, name, input, expected){
     assert.match(readable, /\n  "formatId":/);
     assert.ok(readable.endsWith("\n"), "Serialized backup should be human-readable and newline terminated.");
 
-    // Large-history responsiveness: preserve 1,000 records without mutating storage.
     const largeLegacy = Array.from({ length: 1000 }, (_, index) => ({
         id: 1800000000000 + index,
         name: `Historical Showdown ${index + 1}`,
@@ -146,7 +152,6 @@ async function assertScenario(runtime, keys, name, input, expected){
     assert.equal(runtime.counters.set, largeBefore.set);
     assert.equal(runtime.counters.remove, largeBefore.remove);
 
-    // Recovery representation: malformed bytes stay present and byte-for-byte untouched.
     runtime.values.clear();
     runtime.context.currentShowdown = null;
     runtime.values.set(keys.activeShowdown, "{broken-active");
@@ -163,11 +168,9 @@ async function assertScenario(runtime, keys, name, input, expected){
     assert.equal(corruptEnvelope.recovery.preferences.raw, "{broken-preferences");
     assert.deepEqual([...runtime.values.entries()], [...corruptBefore.entries()], "Corrupt storage bytes must remain untouched.");
     assert.equal(await runtime.window.verifyCareerModeBackupEnvelopeChecksum(corruptEnvelope), true);
-
-    // Bug 1: corrupt non-empty active data must not advertise a usable save.
     assert.equal(runtime.context.hasSavedShowdown(), false, "Corrupt raw active data must not produce a Continue Career false positive.");
 
-    process.stdout.write("PASS  v1.1.0 Candidate A backup/storage contracts\n");
+    process.stdout.write(`PASS  Candidate A backup/storage contracts with dynamic ${appVersion} provenance\n`);
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;
