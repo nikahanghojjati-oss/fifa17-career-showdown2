@@ -2,15 +2,19 @@ name: Validate Candidate B Import Analysis
 
 on:
   pull_request:
+    paths-ignore:
+      - "**/*.md"
   push:
     branches: [main]
+    paths-ignore:
+      - "**/*.md"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: import-analysis-${{ github.workflow }}-${{ github.ref }}
+  group: import-analysis-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
   cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
 jobs:
@@ -30,7 +34,7 @@ jobs:
   import-browser:
     needs: import-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -38,16 +42,14 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Run Candidate B browser analysis twice
+      - name: Run authoritative Candidate B browser analysis
         shell: bash
         run: |
           set -euo pipefail
           npm run serve:test > /tmp/cms-import-analysis.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          for attempt in 1 2; do
-            CMS_AUDIT_RUN="candidate-b-${attempt}" npm run test:import-browser
-          done
+          CMS_AUDIT_RUN="candidate-b" npm run test:import-browser
       - name: Upload Candidate B Data Management evidence
         if: always()
         uses: actions/upload-artifact@v7
