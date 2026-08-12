@@ -3,24 +3,19 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 
 const storageSource = fs.readFileSync("js/storage.js", "utf8");
+const transactionSource = fs.readFileSync("js/storageTransaction.js", "utf8");
 
 function createRuntime(){
     const values = new Map();
     const attempts = [];
     const events = [];
     const notices = [];
-    const hooks = {
-        get: null,
-        set: null,
-        remove: null
-    };
+    const hooks = { get: null, set: null, remove: null };
 
     const localStorage = {
         getItem(key){
             const current = values.has(key) ? values.get(key) : null;
-            if(typeof hooks.get === "function"){
-                return hooks.get(key, current);
-            }
+            if(typeof hooks.get === "function") return hooks.get(key, current);
             return current;
         },
         setItem(key, value){
@@ -37,36 +32,23 @@ function createRuntime(){
         },
         removeItem(key){
             attempts.push({ type: "remove", key, value: null });
-            if(typeof hooks.remove === "function"){
-                hooks.remove(key);
-            }
+            if(typeof hooks.remove === "function") hooks.remove(key);
             values.delete(key);
         }
     };
 
     const CustomEvent = class CustomEvent {
-        constructor(type, options = {}){
-            this.type = type;
-            this.detail = options.detail;
-        }
+        constructor(type, options = {}){ this.type = type; this.detail = options.detail; }
     };
-
     const document = {
         documentElement: { dataset: {} },
         visibilityState: "visible",
         addEventListener(){},
         querySelector(){ return null; }
     };
-
     const window = {
         matchMedia(){
-            return {
-                matches: false,
-                addEventListener(){},
-                removeEventListener(){},
-                addListener(){},
-                removeListener(){}
-            };
+            return { matches: false, addEventListener(){}, removeEventListener(){}, addListener(){}, removeListener(){} };
         },
         addEventListener(){},
         dispatchEvent(event){ events.push(event); },
@@ -78,28 +60,12 @@ function createRuntime(){
     window.window = window;
 
     const context = vm.createContext({
-        console,
-        localStorage,
-        window,
-        document,
-        currentShowdown: null,
-        structuredClone,
-        CustomEvent,
-        JSON,
-        Date,
-        Object,
-        Array,
-        Map,
-        Set,
-        Number,
-        String,
-        Boolean,
-        Error,
-        setTimeout,
-        clearTimeout
+        console, localStorage, window, document, currentShowdown: null,
+        structuredClone, CustomEvent, JSON, Date, Object, Array, Map, Set,
+        Number, String, Boolean, Error, setTimeout, clearTimeout
     });
-
     vm.runInContext(storageSource, context, { filename: "js/storage.js" });
+    vm.runInContext(transactionSource, context, { filename: "js/storageTransaction.js" });
     return { context, window, values, attempts, events, notices, hooks };
 }
 
@@ -111,12 +77,9 @@ function seed(runtime, keys, raw){
     runtime.hooks.get = null;
     runtime.hooks.set = null;
     runtime.hooks.remove = null;
-
     for(const [name, value] of Object.entries(raw)){
         const key = keys[name];
-        if(value !== null && value !== undefined){
-            runtime.values.set(key, String(value));
-        }
+        if(value !== null && value !== undefined) runtime.values.set(key, String(value));
     }
 }
 
@@ -127,26 +90,17 @@ function snapshot(runtime, keys){
         preferences: runtime.values.has(keys.preferences) ? runtime.values.get(keys.preferences) : null
     };
 }
-
-function assertRawState(runtime, keys, expected, message){
-    assert.deepEqual(snapshot(runtime, keys), expected, message);
-}
-
-function throwQuota(label){
-    const error = new Error(label);
-    error.name = "QuotaExceededError";
-    throw error;
-}
+function assertRawState(runtime, keys, expected, message){ assert.deepEqual(snapshot(runtime, keys), expected, message); }
+function throwQuota(label){ const error = new Error(label); error.name = "QuotaExceededError"; throw error; }
 
 (() => {
-    assert.ok(
-        storageSource.includes("function applyCareerModeRawStorageTransaction"),
-        "Candidate C storage transaction authority must live in js/storage.js."
-    );
+    assert.ok(storageSource.includes("function applyCareerModeRawStorageTransaction"), "Canonical transaction entry point must stay in js/storage.js.");
+    assert.ok(transactionSource.includes("window.runCareerModeRawStorageTransaction"), "Lazy transaction state machine export is missing.");
+    assert.ok(!/\blocalStorage\b/.test(transactionSource), "Lazy transaction engine must not become a second browser-storage owner.");
+    assert.ok(!/\bcurrentShowdown\b/.test(transactionSource), "Lazy transaction engine must remain independent of live application state.");
 
     const runtime = createRuntime();
     const keys = runtime.window.getCareerModeStorageKeys();
-
     const oldRaw = {
         activeShowdown: '{"id":"active-old","name":"Old Active"}',
         legacyShowdowns: '[{"id":"legacy-old","name":"Old Legacy"}]',
@@ -263,9 +217,7 @@ function throwQuota(label){
             commitFailureReached = true;
             throwQuota("commit failure before broken rollback");
         }
-        if(commitFailureReached && key === keys.activeShowdown && value === oldRaw.activeShowdown){
-            throwQuota("rollback write failure");
-        }
+        if(commitFailureReached && key === keys.activeShowdown && value === oldRaw.activeShowdown) throwQuota("rollback write failure");
         return null;
     };
     const rollbackFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
@@ -274,21 +226,14 @@ function throwQuota(label){
     assert.equal(rollbackFailure.rollbackAttempted, true);
     assert.equal(rollbackFailure.rollbackVerified, false);
     assert.deepEqual(Array.from(rollbackFailure.rollbackFailures), ["activeShowdown"]);
-    assert.ok(
-        Array.from(rollbackFailure.rollbackVerificationMismatches).includes("activeShowdown"),
-        "A failed rollback write must also fail exact rollback verification."
-    );
+    assert.ok(Array.from(rollbackFailure.rollbackVerificationMismatches).includes("activeShowdown"), "A failed rollback write must also fail exact rollback verification.");
     assert.equal(runtime.values.get(keys.activeShowdown), newRaw.activeShowdown, "Critical rollback failure must not be falsely reported as restored.");
     assert.equal(runtime.values.get(keys.legacyShowdowns), oldRaw.legacyShowdowns, "Rollback must continue attempting later keys after one rollback write fails.");
     assert.equal(runtime.values.get(keys.preferences), oldRaw.preferences, "Rollback must continue through the final key after a rollback failure.");
     assert.equal(runtime.events.length, 0, "Critical rollback failure must not synchronize post-success caches/preferences.");
 
     seed(runtime, keys, oldRaw);
-    const removalPlan = {
-        activeShowdown: null,
-        legacyShowdowns: null,
-        preferences: newRaw.preferences
-    };
+    const removalPlan = { activeShowdown: null, legacyShowdowns: null, preferences: newRaw.preferences };
     const removalSuccess = runtime.window.applyCareerModeRawStorageTransaction(removalPlan);
     assert.equal(removalSuccess.ok, true);
     assert.equal(removalSuccess.status, "success");
@@ -299,10 +244,7 @@ function throwQuota(label){
     seed(runtime, keys, oldRaw);
     let readFailed = false;
     runtime.hooks.get = (key, current) => {
-        if(!readFailed && key === keys.legacyShowdowns){
-            readFailed = true;
-            throw new Error("snapshot read unavailable");
-        }
+        if(!readFailed && key === keys.legacyShowdowns){ readFailed = true; throw new Error("snapshot read unavailable"); }
         return current;
     };
     const snapshotFailure = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
@@ -318,10 +260,16 @@ function throwQuota(label){
     assert.equal(invalidValue.ok, false);
     assert.equal(invalidValue.status, "invalid-plan");
     assert.equal(runtime.attempts.length, 0);
-
     const invalidRoot = runtime.window.applyCareerModeRawStorageTransaction(null);
     assert.equal(invalidRoot.ok, false);
     assert.equal(invalidRoot.status, "invalid-plan");
 
-    process.stdout.write("PASS  Candidate C atomic raw storage transaction contracts\n");
+    const engine = runtime.window.runCareerModeRawStorageTransaction;
+    delete runtime.window.runCareerModeRawStorageTransaction;
+    const unavailable = runtime.window.applyCareerModeRawStorageTransaction(newRaw);
+    assert.equal(unavailable.ok, false);
+    assert.equal(unavailable.status, "engine-unavailable");
+    runtime.window.runCareerModeRawStorageTransaction = engine;
+
+    process.stdout.write("PASS  Candidate C lazy atomic storage transaction contracts\n");
 })();
