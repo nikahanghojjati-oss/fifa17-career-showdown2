@@ -4,335 +4,191 @@ Last updated: 2026-08-12
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Purpose: canonical current-facing first read for a new developer session.
 
-Historical release archaeology belongs in the release/handoff records. This file should describe what is true now, what is protected, and what work is legally next.
-
 ## 0. Sixty-second state
 
-Release candidate application: `v1.1.5`
+Application version: `v1.1.5`
 Runtime asset revision: `1.1.5-r1`
-Release branch: `agent/v1.1.5-maintenance`
-Draft release PR: #25
+Public status: deployed, protected, and independently production-proven twice
+Immutable application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
+GitHub Pages deployment: `5878930362`
+Current CI/docs main head after runtime: `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62`
 
-Current public production remains v1.1.4 until PR #25 is merged and GitHub Pages proof is complete.
+The later main head is CI/test/documentation maintenance only. It does not redefine the application runtime. The compare from `ff755a9863abc843ae9aac45178428e3a104fc65` to `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` changes only `.github/workflows` and `tests` files.
 
-Immutable v1.1.4 production runtime authority:
+Candidate A export, Candidate B read-only import analysis, and Candidate C Atomic Restore + Recovery are complete and protected. v1.1.5 fixes immutable confirmed restore intent and transaction-owned rollback while preserving strict exact raw snapshots, stale-state detection, deterministic no-op re-import, corrupt-byte preservation, storage authority, post-write verification, and byte-for-byte owned rollback verification.
 
-`1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+`CLOUD_STORAGE_FOUNDATION.md` is future architecture/security contract only. It defines identity, revisions, compare-and-swap conflicts, tombstones, privacy, and security requirements. It does not authorize a cloud backend or network mutation.
 
-Functional v1.1.5 maintenance proof before the identity freeze:
+Next legal substantive milestone: v1.2.0 — Installable Offline App.
 
-`dbcdffaae927163e5a9c8b44466ff2084e814de5`
+## 1. Read order for the next developer
 
-That functional head passed all 14 permanent workflow families, including Candidate C twice-browser recovery, both Stability Chromium cycles and Burn-In 5/5. The later v1.1.5 identity/document freeze must still pass the complete release protocol on one final immutable PR head.
+1. `00_HANDOFF_GOLDEN_RULE.md`.
+2. This file.
+3. `NEXT_TASK.md`.
+4. `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`.
+5. `PROJECT_STATE.md`.
+6. `RELEASE_V1.1.5.md`.
+7. `POST_V1_ROADMAP_EXECUTION.md` before implementing v1.2.
+8. `CLOUD_STORAGE_FOUNDATION.md` only when future identity/sync/security design is relevant.
+9. `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` only for detailed maintenance chronology and defect archaeology.
 
-Current product/recovery state:
-
-- Candidate A — Versioned Backup Envelope + Non-Mutating Export — complete and protected.
-- Candidate B — Import Analysis + Migration Preview — complete, protected and strictly read-only.
-- Candidate C — Atomic Restore + Recovery UX — complete and protected.
-- v1.1.5 maintenance fixes two major Candidate C transaction defects and strengthens strict snapshots, stale-state preconditions and rollback ownership.
-- `CLOUD_STORAGE_FOUNDATION.md` defines future cloud identity/revision/conflict/tombstone/privacy/security requirements only. No cloud backend or network mutation is authorized in v1.1.5.
-- After v1.1.5 is deployed and twice-proven, v1.2.0 Installable Offline App is the next legal substantive milestone.
-
-The owner-mandated `00_HANDOFF_GOLDEN_RULE.md` remains permanent policy: meaningful actions, failures, fixes, gates, merges, deployment evidence and next-step decisions must be recorded in a public repository handoff while work occurs.
-
-## 1. Start every new session in this order
-
-1. Read `00_HANDOFF_GOLDEN_RULE.md`.
-2. Fetch current `main` and the active release branch; record their exact SHAs.
-3. Read this file completely.
-4. Read `NEXT_TASK.md` completely.
-5. Read `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` for the current maintenance chronology.
-6. Read `RELEASE_V1.1.5.md` for the release contract and proof requirements.
-7. Inspect the source and tests named by the active task before changing anything.
-8. Read `CLOUD_STORAGE_FOUNDATION.md` only when work touches future identity/sync design; it does not authorize cloud implementation.
-9. Use `POST_V1_ROADMAP_EXECUTION.md` for dependency order after the current release.
-10. Use old Project Bible/master historical files only when deeper intent or supersession history is materially needed.
-
-Do not restart planning. Do not ask the owner to repeat decisions already encoded in current source/current authority.
+Historical Project Bible/master documents remain valuable for locked intent, but current source and current authority files win when old status text conflicts.
 
 ## 2. Authority order
 
-When evidence conflicts:
-
-1. current source on the active release branch and then `main` after merge;
-2. later explicit owner decisions;
+1. current source on `main`;
+2. explicit later owner decisions;
 3. `PROJECT_STATE.md`;
 4. `NEXT_TASK.md`;
-5. this bootstrap, active release record and active handoff;
+5. this bootstrap and current post-merge/release handoffs;
 6. roadmap/amendments;
-7. older project/historical documents and chats.
+7. older historical records/conversations.
 
 Never revert verified source merely to satisfy stale documentation. Correct the stale document.
 
-A documentation-only `main` head after a release seal is not automatically the immutable application runtime authority. Release handoffs must distinguish those two SHAs explicitly.
+## 3. Product and gameplay locks
 
-## 3. Product identity
+Career Mode Showdown is a two-manager FIFA 17 Career Mode rivalry companion, not a browser football simulator and not yet a cloud/account product.
 
-Career Mode Showdown is a two-manager FIFA 17 Career Mode rivalry companion hosted as a static GitHub Pages app.
-
-Current mode is locked to:
+Locked model:
 
 - exactly two managers;
-- both managers play their own FIFA 17 Career Mode saves outside the website;
-- one local browser/device;
-- one active local Showdown;
-- manual FIFA 17 result entry;
-- browser localStorage persistence;
-- vanilla HTML/CSS/JavaScript;
-- local-first operation.
+- one local browser/device and one active Showdown;
+- both managers play their own FIFA 17 Career Mode saves outside the site;
+- manual FIFA 17 result entry is authoritative;
+- same selected league, different permanent clubs;
+- Showdown lengths `[1,3,5,10]`;
+- default leagues Premier League, LaLiga, Bundesliga, Serie A, Ligue 1;
+- Champions League +5, League +3, main domestic Cup +1;
+- 100 points and/or 100 goals share maximum +1;
+- Top Scorer and/or Top Assist share maximum +1;
+- maximum Season score 11;
+- equal non-zero scores are Draw;
+- only 0–0 uses league position then league points.
 
-The website supplies rivalry structure, rules, ceremony, tracking, history, statistics, recovery and FIFA 17-era presentation. It is not a browser football simulator and is not yet a cloud/account product.
+Do not change scoring/gameplay rules during v1.2 PWA work.
 
-## 4. Locked competition rules
+## 4. Architecture authority
 
-Per manager per Season:
+Navigation/history: `js/screens.js`.
+Persistence and destructive transaction authority: `js/storage.js`.
+Atomic raw transaction engine: `js/storageTransaction.js` behind storage authority.
+Scoring: `js/scoring.js`.
+Canonical Showdown model: `js/showdown.js`.
+Analytics: `js/analytics.js`.
 
-- Champions League winner: `+5`;
-- Domestic League winner: `+3`;
-- Main domestic Cup winner: `+1`;
-- 100 league points and/or 100 league goals: shared maximum `+1`;
-- Top Scorer and/or Top Assist: shared maximum `+1`;
-- maximum Season score: `11`.
-
-Winner logic:
-
-1. higher Season score wins;
-2. equal non-zero scores are a Draw;
-3. only `0–0` uses league position;
-4. equal league position at `0–0` uses league points;
-5. if still tied, Draw.
-
-Other locked rules:
-
-- same selected league for both managers;
-- different clubs;
-- clubs assigned once and permanent for the entire Showdown;
-- no post-assignment club reroll;
-- club reuse across separate Showdowns allowed;
-- 1 / 3 / 5 / 10 Season Showdowns;
-- default leagues remain Premier League, LaLiga, Bundesliga, Serie A and Ligue 1;
-- Transfer Challenge remains maximum three signings each and three opponent guesses;
-- guess type remains League or Nationality;
-- correctly guessed signings are released;
-- manual FIFA 17 results are authoritative.
-
-Future achievements, cloud features, content packs or online play do not alter canonical max-11 scoring without an explicit owner rule change.
-
-## 5. Core architecture ownership
-
-Navigation/history authority: `js/screens.js`
-
-- Smart Back remains centralized.
-- Feature modules do not create parallel route history.
-- Critical data transactions finish or recover before route departure.
-
-Canonical persistence authority: `js/storage.js`
-
-- feature modules do not become independent localStorage owners;
-- exact restore snapshots and canonical restore writes live behind storage authority;
-- malformed raw bytes are preserved unless an explicit replacement transaction owns them;
-- future cloud synchronization may propose validated state, but may not bypass canonical local transaction authority.
-
-Canonical localStorage keys:
+Canonical localStorage keys remain exactly:
 
 1. `careerModeShowdown.activeShowdown`
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
-Current Showdown schema: `2`
-Current preferences schema: `2`
+Current Showdown schema: 2.
+Current preferences schema: 2.
 
-Scoring authority: `js/scoring.js`
-Canonical Showdown model: `js/showdown.js`
-Derived analytics: `js/analytics.js`
+## 5. Candidate A/B/C data-safety contract
 
-Optional features remain lazy when practical. Candidate C remains in the lazy Data Management/Legacy surface.
+Candidate A is non-mutating export. SHA-256 is integrity evidence only, not encryption/authentication/signing.
 
-## 6. Candidate A/B/C recovery architecture
+Candidate B is strictly read-only analysis. A preview never grants write authority.
 
-### Candidate A — export
-
-Candidate A provides a human-readable versioned backup envelope with SHA-256 integrity verification, active Showdown, Legacy, preferences, warnings/recovery data and zero canonical mutation.
-
-SHA-256 here is corruption/integrity evidence only. It is not encryption, signing, authentication or authorization.
-
-v1.1.5 removes the old hardcoded v1.1.3 provenance fallback. Candidate A now uses current `APP_VERSION`, otherwise derives semantic version from the shell revision, otherwise records `unknown` rather than inventing a historical release.
-
-### Candidate B — analysis
-
-Candidate B remains read-only:
-
-- size and JSON validation;
-- backup format/checksum/schema validation;
-- hostile nesting/key guards;
-- supported migrations;
-- current-state comparison;
-- same-ID duplicate/conflict classification;
-- migration/conflict preview;
-- zero canonical writes/removals;
-- no network request.
-
-A preview is evidence. It is never permission to write.
-
-### Candidate C — atomic restore
-
-The protected restore transaction now requires:
+Candidate C is the only import stage allowed to commit canonical state. A legal Apply must preserve this sequence:
 
 1. flush pending canonical writes;
-2. freeze the exact selected File, user choices and reviewed raw precondition before asynchronous revalidation;
-3. freshly rerun Candidate B analysis on that exact confirmed File;
-4. acquire a strict exact raw storage snapshot that differentiates absence from read failure;
-5. detect reviewed-state drift before planning;
+2. freeze the exact confirmed File, choices, and reviewed raw precondition before asynchronous work;
+3. freshly revalidate that exact file;
+4. capture a strict exact raw snapshot that distinguishes absence from read failure;
+5. reject stale reviewed state;
 6. compute the complete final candidate in memory;
 7. require explicit active/Legacy/preferences/conflict choices;
-8. pass the planning snapshot into canonical storage as a transaction precondition;
-9. perform a last-moment exact raw-byte precondition read before each write;
-10. write in deterministic active → Legacy → preferences order;
-11. record mutation ownership only after a write succeeds;
-12. verify committed bytes after writing;
-13. on failure, roll back only transaction-owned mutations in reverse commit order;
-14. refuse to overwrite a third/newer value that the transaction cannot prove it owns;
-15. verify rollback byte-for-byte;
-16. enter locked critical recovery if ownership/rollback cannot be proven;
-17. invalidate uncertain runtime caches after critical recovery;
-18. synchronize runtime/navigation only after complete verified success;
-19. keep repeated identical restore a zero-write no-op;
-20. preserve corrupt raw bytes unless explicit replacement is chosen.
+8. enter storage authority with exact planning bytes as precondition;
+9. recheck exact bytes immediately before each mutation;
+10. write deterministic active → Legacy → preferences order;
+11. grant mutation ownership only after a successful write;
+12. verify every committed byte/value;
+13. on failure roll back only transaction-owned mutations, in reverse order;
+14. refuse to clobber third/newer unowned bytes;
+15. verify owned rollback byte-for-byte;
+16. lock critical recovery and invalidate uncertain caches if ownership/rollback cannot be proven;
+17. synchronize runtime/navigation only after complete verified success;
+18. keep repeated identical restore a zero-write no-op;
+19. preserve corrupt raw bytes unless explicit replacement is chosen;
+20. keep all canonical mutation under `js/storage.js` authority.
 
-## 7. v1.1.5 two major maintenance fixes
+Recovery states are intentionally distinct: `RESTORE NOT STARTED`, `RESTORE ROLLED BACK`, and `CRITICAL RECOVERY STATE`.
 
-Fix 1 — immutable confirmed restore intent
+## 6. v1.1.5 release evidence
 
-v1.1.4 could confirm one plan and then consume changed choices after an asynchronous revalidation boundary. v1.1.5 freezes the confirmed file/choices/raw bytes before the first await, locks the full decision surface while review/apply is in flight and generation-binds async file review results.
+Runtime SHA: `ff755a9863abc843ae9aac45178428e3a104fc65`.
+Pages deployment: `5878930362`.
 
-Fix 2 — transaction-owned rollback
+Production proof 1:
+- Stability run `31650134707`, attempt 1;
+- deployed-site-smoke job `94293855547`;
+- exact runtime bytes, provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C, and complete public journey all green.
 
-v1.1.4 rolled back every planned affected key, including keys that were never successfully mutated. v1.1.5 tracks successful writes, rolls back only those owned mutations in reverse order and refuses to clobber bytes that have become a third/newer value.
+Production proof 2 after CI-only orchestration maintenance:
+- Stability run `31651830554`;
+- deployed-site-smoke job `94297967413`;
+- the same exhaustive public boundary green again;
+- focused Release Integration Burn-In run `31651830507` passed 2/2.
 
-Recovery UX now distinguishes:
+The second proof is valid for the same application runtime because `ff755a9863abc843ae9aac45178428e3a104fc65` → `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` changes no application/runtime/assets/data files.
 
-- `RESTORE NOT STARTED` — no successful canonical mutation, no rollback required;
-- `RESTORE ROLLED BACK` — owned mutations restored and verified;
-- `CRITICAL RECOVERY STATE` — rollback or ownership cannot be proven; restore controls lock until refresh.
+## 7. CI orchestration rule — do not recreate the testing loop
 
-The exact defect/fix chronology and gate findings are in `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md`.
+The old test architecture caused repeated waiting and false backtracking. The application was not failing; orchestration was duplicating long browser work and reruns could cancel newer proofs.
 
-## 8. Visual/performance authority
+Permanent rules now:
 
-The protected Marco Reus loading/Home presentation remains current visual identity.
+- specialized workflow owns specialized evidence exactly once per workflow attempt;
+- Candidate B runs one authoritative browser analysis per attempt;
+- Candidate C runs one authoritative restore/recovery browser audit per attempt;
+- local Stability runs one runtime-provenance audit plus one complete integration journey;
+- deployed Stability remains exhaustive: byte parity + provenance + Home + visuals + A + B + C + full journey;
+- Burn-In is main/manual only and repeats the complete integration journey twice, not five full release matrices;
+- heavy Stability/B/C/Burn-In workflows ignore Markdown-only changes;
+- fresh attempt-1 PR/push runs may cancel stale work;
+- reruns/manual dispatches must queue and must not cancel an active proof;
+- do not rerun all permanent families merely to repeat one public proof;
+- if an independent live proof is needed, repeat the canonical deployed Stability proof rather than every unrelated family;
+- never infer failure merely because GitHub's UI resets after a rerun: inspect `run_attempt` or `/actions/runs/<run>/attempts/<n>/jobs` history;
+- do not poll long jobs every 10–20 seconds. Record the run ID once, do other work, and inspect after realistic wall time or a specific failure signal.
 
-The v1.1.3 licensed route-photo archive remains current visual-source/provenance authority, including the accepted James Rodríguez, Marcus Rashford and Anthony Martial replacements plus the additional route-scoped football images.
+Measured improvement: old local Stability browser work took about 6m47s; canonical Stability took about 1m11s on the optimized PR, roughly 82% less wall time. The permanent orchestration contract records a reduction from 53 duplicated long-suite command invocations to 4 on a normal PR across the affected lanes.
 
-Do not revive rejected older image derivatives merely because historical handoffs mention them.
+## 8. Performance and presentation locks
 
-Startup limits remain unchanged:
+Eager raw code ceiling: 165,000 bytes.
+Eager gzip ceiling: 37,500 bytes.
+Startup Marco Reus portrait ceiling: 95,000 bytes.
+Combined first-party startup ceiling: 260,000 bytes.
+Normal loading minimum: 2700 ms.
+Reduced-motion loading: 220 ms.
 
-- eager raw code: 165,000 bytes;
-- eager gzip code: 37,500 bytes;
-- startup Marco Reus portrait: 95,000 bytes;
-- combined first-party startup bytes: 260,000 bytes.
+Protected Marco Reus Home/loading presentation and accepted licensed route-photo sources remain unchanged.
 
-Normal loading minimum remains 2700 ms; reduced-motion startup remains 220 ms.
+## 9. Future cloud boundary
 
-v1.1.5 briefly exceeded the eager raw limit by 31 bytes (165,031). The limit was not raised. An obsolete eager comment was removed and the original budget returned green with no behavior loss.
+Cloud remains future-only. Before any cloud implementation, preserve:
 
-## 9. Permanent validation topology
+- distinct `accountId`, `profileId`, `saveId`, `deviceId`, `installationId`, and object identity;
+- server-authoritative revision tokens and `baseRevision`/parent semantics;
+- compare-and-swap mutation and explicit conflicts;
+- tombstones/deletion revisions and anti-resurrection;
+- local-first opt-in privacy, minimization, export/delete, and retention;
+- TLS, authentication, server-side authorization, least privilege, secure tokens, replay/idempotency protection, rate/schema/size limits;
+- no admin/service secret in static client JS;
+- no future cloud module calling localStorage directly;
+- all downloaded/conflict-resolved state passing the same local exact-snapshot/precondition/verification/ownership rollback boundary.
 
-Current release validation has 14 permanent workflow families:
-
-1. Home Bootstrap;
-2. League Confirmation;
-3. Transfer Workstream;
-4. Season Review;
-5. Statistics Workstream;
-6. Settings Workstream;
-7. V1 Visual Immersion;
-8. Licensed Football Visuals;
-9. Final Polish;
-10. Static App;
-11. Candidate B Import Analysis;
-12. Candidate C Atomic Restore;
-13. Stability Lane;
-14. Candidate C Release Burn-In.
-
-The permanent `.yml` suite contains 27 protected executable workflow blocks. The topology guard must fail if those blocks are silently added/removed without an intentional contract update.
-
-Candidate C browser recovery runs the original deep recovery audit plus the v1.1.5 maintenance race/failure audit. Stability includes Candidate A/B/C and complete browser journeys across two local cycles. Burn-In runs the complete release gate five times.
-
-Never weaken a threshold or delete an assertion merely because it exposes a defect.
-
-## 10. Functional v1.1.5 proof already achieved
-
-Before changing release identity, functional head:
-
-`dbcdffaae927163e5a9c8b44466ff2084e814de5`
-
-passed all 14 permanent workflow families.
-
-Notable proof:
-
-- Candidate C deterministic contracts green;
-- Candidate C complete destructive/recovery browser command green twice, including immutable-confirmed-intent and clean-first-write-failure scenarios;
-- Stability contracts green and both complete Chromium cycles green;
-- Burn-In 5/5;
-- Candidate A/B green;
-- licensed visuals green;
-- Static App complete repository contracts and 27-block topology green;
-- original startup budgets green.
-
-This proves the maintenance behavior before version/document migration. It is not yet the official v1.1.5 release proof.
-
-## 11. Future cloud storage boundary
-
-Read `CLOUD_STORAGE_FOUNDATION.md` before any future sync work.
-
-The future contract requires separate account/profile/save/device/installation/object identities, server-authoritative revisions, compare-and-swap, explicit conflicts, deletion tombstones/anti-resurrection, privacy minimization/opt-in behavior and server-side authentication/authorization/security controls.
-
-Important anti-shortcuts:
-
-- no Firebase/Supabase/other backend merely because it is easy to connect;
-- no silent last-write-wins gameplay state;
-- no timestamp-as-revision authority;
-- no device ID as authentication;
-- no service/admin secret in static client JS;
-- no direct localStorage writes from a future sync module;
-- no SHA-256 integrity checksum presented as authentication/encryption;
-- no cloud feature before the roadmap dependencies and owner decision are satisfied.
-
-Dependency order remains:
-
-v1.2 Offline/PWA → v1.3 stable local profiles/save identity → later cloud readiness → opt-in cloud backup.
-
-## 12. Current legal task
-
-Do not start v1.2 yet.
-
-Current legal work is only v1.1.5 release closure:
-
-1. reconcile all current authority documents with v1.1.5 candidate identity while preserving v1.1.4 as current public production until merge;
-2. freeze one exact PR #25 head SHA with no temporary helper workflows;
-3. pass all 14 permanent families on that exact SHA;
-4. independently repeat the complete matrix on the same SHA;
-5. merge with expected-head protection;
-6. wait for Pages to serve `1.1.5-r1` from the immutable merge SHA;
-7. pass exact deployed runtime-byte verification, provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C and the full public journey;
-8. pass production Burn-In 5/5;
-9. independently repeat all production proof on the same immutable runtime SHA;
-10. write the v1.1.5 post-merge seal and align current-facing documentation without redefining the immutable runtime authority.
-
-## 13. Next legal substantive milestone after release
+## 10. Next milestone
 
 v1.2.0 — Installable Offline App.
 
-Before implementation, read the v1.2 section of `POST_V1_ROADMAP_EXECUTION.md`. Service-worker/update/recovery behavior must preserve local data safety and must not accidentally cache stale incompatible runtime revisions.
+Start with manifest/service-worker/update/cache recovery design. The service worker must never mix incompatible runtime revisions or make local recovery less reliable. Stable local profiles/save identity are v1.3; cloud readiness comes later.
 
-Cloud/account, profile registry, QR pairing and two-device play remain dependency-blocked.
+A correctly oriented next developer should be able to state:
 
-## 14. Exact continuation sentence
-
-A correctly oriented developer at the current pre-merge point should be able to state:
-
-`Career Mode Showdown v1.1.5 / 1.1.5-r1 is the maintenance release candidate on PR #25, while immutable v1.1.4 runtime 1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7 remains public production until merge. Candidate A export, Candidate B read-only analysis and Candidate C atomic restore are implemented and protected. v1.1.5 fixes mutable confirmed restore intent and over-broad rollback by freezing confirmed file/choices/raw state, adding strict snapshots and last-moment byte preconditions, and rolling back only transaction-owned mutations with anti-clobber ownership checks. Functional head dbcdffaae927163e5a9c8b44466ff2084e814de5 passed all 14 permanent families before the version freeze. Cloud identity/revision/conflict/tombstone/privacy/security work is future-contract-only. The only legal current work is freezing and twice-proving PR #25, deploying and twice-proving the exact Pages runtime, sealing documentation, then beginning v1.2 Installable Offline App.`
-
-If a future developer cannot make that statement confidently after reading current source, this file, `NEXT_TASK.md` and the maintenance handoff, they are not ready to modify the release.
+`v1.1.5 / 1.1.5-r1 is deployed and proven. Immutable application runtime is ff755a9863abc843ae9aac45178428e3a104fc65; later main head 0af73262fcc95fbd76ffe9a2f06d4b0dac911f62 is CI/test maintenance only. Candidate A/B/C are complete. v1.1.5 fixes immutable confirmed restore intent and transaction-owned rollback. The old duplicated test loop has been removed and must not be recreated. Cloud is future-contract-only. The next substantive milestone is v1.2.0 Installable Offline App.`
