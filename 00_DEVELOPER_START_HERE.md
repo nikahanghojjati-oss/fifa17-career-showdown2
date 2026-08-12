@@ -8,9 +8,9 @@ This file is intentionally current-facing. Historical release archaeology belong
 
 ## 0. Sixty-second project state
 
-Application version: `v1.1.3`
+Application version: `v1.1.4`
 
-Runtime asset revision: `1.1.3-r1`
+Runtime asset revision: `1.1.4-r1`
 
 Immutable v1.1.3 application runtime authority:
 
@@ -27,8 +27,8 @@ Current release state:
 - v1.1.3 is complete, merged, deployed, twice-proven in production and protected;
 - Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete and protected;
 - Candidate B — Import Analysis + Migration Preview — is complete, deployed, protected and strictly read-only;
-- Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task;
-- Candidate C is the first stage allowed to commit imported canonical state;
+- Candidate C — Atomic Restore + Recovery UX — is implemented; v1.1.4 release closure is the only current task;
+- Candidate C is the first implemented stage allowed to commit imported canonical state after fresh revalidation and explicit choices;
 - v1.2.0 remains reserved for Installable Offline App after Candidate C closes v1.1 Data Safety and Recovery.
 
 The owner-mandated `00_HANDOFF_GOLDEN_RULE.md` is permanent policy: every meaningful action, failure, correction, gate, merge, deployment and next-step decision must be recorded continuously in a public repository handoff while work is happening.
@@ -627,6 +627,6 @@ Do not:
 
 A correctly oriented fresh developer should be able to state:
 
-`Career Mode Showdown is on protected v1.1.3 / 1.1.3-r1. The immutable application runtime is 29760bbf33c974267bd1ad64d0839f73ad8051fa. Candidate A export and Candidate B read-only import analysis are complete, merged and protected. Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task and the first stage allowed to write imported canonical state. Candidate C must freshly revalidate before Apply, collect explicit restore choices, snapshot exact raw bytes/absence for every affected canonical key, compute the whole result in memory, write only through js/storage.js authority, verify the full multi-key commit, roll back every affected key byte-for-byte on any failure, verify rollback, and update caches/navigation only after complete success. v1.2 PWA, v1.3 profiles/save registry, cloud and two-device work remain dependency-blocked. The v1.1.3 route-scoped football visual archive and protected Marco Reus presentation remain current authority, while rejected older player-photo sources must not return. Continuous public handoff recording remains mandatory.`
+`Career Mode Showdown is on the v1.1.4 / 1.1.4-r1 Candidate C release candidate while v1.1.3 remains the current public production runtime until merge. Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are implemented and protected. The only legal current work is release closure: freeze one coherent PR #24 SHA, pass every permanent family twice as required, merge with expected-head protection, wait for Pages revision convergence, prove exact deployed bytes and rerun Candidate A/B/C plus the complete public journey. v1.2.0 Installable Offline App and all later profiles/cloud/two-device work remain dependency-blocked. The v1.1.3 route-scoped football visual architecture and protected Marco Reus presentation remain current visual authority. Continuous public handoff recording remains mandatory.`
 
-If a future developer cannot confidently make that statement after reading current source, this file and `NEXT_TASK.md`, they are not ready to begin Candidate C implementation.
+If a future developer cannot confidently make that statement after reading current source, this file and `NEXT_TASK.md`, they are not ready to continue Candidate C release closure or begin any later milestone.
