@@ -1,4 +1,4 @@
-name: Validate v1.1.2 Release Burn-In
+name: Validate v1.1.3 Release Burn-In
 
 on:
   pull_request:
