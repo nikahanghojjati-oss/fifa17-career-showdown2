@@ -34,7 +34,7 @@ jobs:
                   ('css/visual-fidelity-r3.css?v=1.1.4-r1', 'css/visual-fidelity-r3.css?v=1.1.5-r1', 1),
               ],
               Path('index.html'): [
-                  ('1.1.4-r1', '1.1.5-r1', 9),
+                  ('1.1.4-r1', '1.1.5-r1', 10),
                   ('v1.1.4 · Stable', 'v1.1.5 · Stable', 1),
               ],
           }
