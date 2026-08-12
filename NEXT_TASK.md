@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 
 Application version: v1.1.3
 
@@ -41,6 +41,15 @@ v1.1.3 release proof is complete:
 - protected eager budgets remain 164,965 raw / 37,006 gzip under the unchanged 165,000 / 37,500 ceilings.
 
 See `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md` for exact run IDs, diagnostic history, Pages retry evidence and visual-source closure.
+
+### 2026-08-12 historical context deep-dive
+
+The owner supplied the official ChatGPT export needed to recover the relevant long-form development history. A focused reconciliation has now been recorded in:
+
+- `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12.md` — product origin, owner corrections, architecture/gate lineage, historical supersession map and r3/r4/r5 lessons;
+- `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12_ROADMAP_AND_REVIEW_APPENDIX.md` — external Grok critique with pushback, milestone-by-milestone dependency reasoning and a source-grounded Candidate C transaction/release protocol.
+
+These handoff files are historical/deep-context aids, not newer implementation authority than current source. Their purpose is to stop a future developer from repeating already-solved mistakes or reviving superseded assistant suggestions.
 
 ## Golden handoff rule
 
@@ -153,9 +162,11 @@ A fresh developer must begin with:
 1. `00_HANDOFF_GOLDEN_RULE.md`;
 2. `00_DEVELOPER_START_HERE.md`;
 3. this `NEXT_TASK.md`;
-4. `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md`;
-5. `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` and Candidate B release/diagnostic handoffs when deeper history is needed;
-6. Candidate C sections in `POST_V1_ROADMAP_EXECUTION.md`;
-7. live `js/storage.js`, `js/backup.js`, `js/importAnalysis.js`, `js/optionalModules.js` and Data Management UI source before implementation.
+4. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12.md`;
+5. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_2026-08-12_ROADMAP_AND_REVIEW_APPENDIX.md`;
+6. `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md`;
+7. `CAREER_MODE_SHOWDOWN_V1.1.2_POST_MERGE.md` and Candidate B release/diagnostic handoffs when deeper history is needed;
+8. Candidate C sections in `POST_V1_ROADMAP_EXECUTION.md`;
+9. live `js/storage.js`, `js/backup.js`, `js/importAnalysis.js`, `js/legacy.js`, `js/optionalModules.js`, `js/screens.js` and Data Management UI source before implementation.
 
 Start from current `main`; do not resume old Candidate B or visual branches.
