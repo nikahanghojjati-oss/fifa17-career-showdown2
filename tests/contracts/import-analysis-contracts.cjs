@@ -64,7 +64,7 @@ function createRuntime(){
     const document = {
         documentElement: { dataset: {} },
         querySelector(selector){
-            if(selector === 'meta[name="app-asset-revision"]'){ return { content: "1.1.2-r1" }; }
+            if(selector === 'meta[name="app-asset-revision"]'){ return { content: "1.1.3-r1" }; }
             return null;
         },
         getElementById(){ return null; },
@@ -269,7 +269,7 @@ function seedLocal(runtime, keys, { active, legacy, preferences }){
     assert.equal(largeAnalysis.preview.legacy.newRecords, 1500);
     assert.ok(largeElapsed < 2500, `1,500-record Candidate B analysis should remain responsive in contracts; took ${largeElapsed.toFixed(1)}ms.`);
 
-    process.stdout.write("PASS  v1.1.2 Candidate B import-analysis contracts\n");
+    process.stdout.write("PASS  Candidate B import-analysis contracts on v1.1.3\n");
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;

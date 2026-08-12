@@ -1,3 +1,20 @@
+# v1.1.3 — League Wheel Stability + Cinematic Football Visual Expansion
+
+Date: **August 12, 2026**
+
+Runtime asset revision: **`1.1.3-r1`**
+
+- fixes the League Wheel post-selection visual reroll by scoping transform animation to the active spin and disarming it before selected-angle normalization;
+- permanently gates settled/cancelled no-transition state, single league draw and stale-operation rejection;
+- replaces James Rodríguez with a different licensed 2014 World Cup source and does not reuse either previously rejected James source;
+- replaces Marcus Rashford and Anthony Martial with new licensed match sources;
+- adds seven more licensed historic/cinematic screen-purpose photographs: Ronaldo, Pogba, Ibrahimović, Griezmann, Neymar, Falcao and Balotelli;
+- expands the football visual plan to 11 destinations / 12 local derivatives while preserving protected Messi, Lahm and Marco Reus assets;
+- changes the football visual loader from global archive preloading to route-owned loading, requiring zero football-photo requests at Home startup;
+- retains `object-fit: contain`, clean-anchor face safety, responsive Chromebook/mobile controls and unchanged 165,000 raw / 37,500 gzip eager-code budgets;
+- changes no scoring, gameplay, storage schema/keys, Candidate A export semantics or Candidate B read-only analysis semantics;
+- leaves Candidate C Atomic Restore + Recovery UX as the next substantive v1.1 task after this maintenance release is merged/deployed/proven.
+
 # v1.1.2 — Candidate B Import Analysis + Migration Preview
 
 Date: **August 11, 2026**

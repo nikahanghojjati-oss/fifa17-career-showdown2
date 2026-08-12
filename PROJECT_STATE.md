@@ -2,7 +2,7 @@
 
 ## Authority / continuation rule
 
-This project is already designed and implemented through the v1.0.2 visual-maintenance patch. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
+This project is already designed and implemented through the v1.1.3 owner-priority maintenance candidate. Do not restart planning, replace accepted architecture, or infer completion from filenames/comments alone.
 
 Authority when sources disagree:
 
@@ -20,16 +20,16 @@ Current source is implementation authority. Browser acceptance remains required 
 
 # Current implementation
 
-**Application version:** v1.1.2 — Maintenance Candidate
-**Runtime asset revision:** `1.1.2-r1`
+**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate
+**Runtime asset revision:** `1.1.3-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active showdown
-**Current milestone:** v1.1.2 — Candidate B complete; Candidate C Atomic Restore + Recovery UX next
-**Current activity:** Candidate B is merged/deployed/proven; next runtime work is Candidate C atomic restore with exact raw snapshots, explicit choices, storage-authority writes and verified rollback
+**Current milestone:** v1.1.3 — League Wheel stability + licensed cinematic visual expansion in release validation; Candidate C next
+**Current activity:** owner-priority v1.1.3 maintenance is being validated for merge/deployment; Candidate C atomic restore begins only after this release is proven
 **Protected loading-screen status:** owner explicitly likes the loading presentation; its composition/timing remains regression-protected
-**Runtime change class:** lazy Data Management import-analysis module + migration/conflict preview + validation gates; gameplay, scoring, routes, storage schema/keys, Candidate A export semantics and state-machine rules remain locked
-**Current runtime authority:** v1.1.2 / `1.1.2-r1` at merge `6dfea100829016eee4820b342729b8c823426f95`
+**Runtime change class:** League Wheel transition-race correction + route-scoped licensed football photography expansion; gameplay, scoring, storage schema/keys, Candidate A/B semantics and state-machine rules remain locked
+**Current candidate identity:** v1.1.3 / `1.1.3-r1`; production runtime authority remains v1.1.2 merge `6dfea100829016eee4820b342729b8c823426f95` until v1.1.3 merges/deploys
 **Next roadmap candidate:** Candidate C — Atomic Restore + Recovery UX
 
 r11 completed the planned Workstream 6 presentation implementation inside v0.95. The end-to-end r11 browser audit then exposed a Season Review integration regression and stale shell state. r12 fixed and deployed those release blockers without adding a feature roadmap branch.
@@ -39,6 +39,14 @@ The owner's deployed-r12 Chromebook review then made two visual requirements man
 An external review then raised generic maintainability, edge-case, accessibility, and future-scaling concerns. Source inspection rejected an unsupported rewrite or framework migration, while the valid risk categories became the finite v1.0.1 Stability Lane implementation in `STABILITY_PLAN_V1.0.X.md`.
 
 ---
+
+# v1.1.3 — League Wheel Stability + Cinematic Football Visual Expansion
+
+The owner reported that a League Wheel could appear to reroll after already stopping on a league, before Continue was pressed. The reproduced class is a transform-transition normalization race, not a second random league draw. v1.1.3 scopes the transform transition to the active spin and disarms it before selected-angle normalization. Permanent League Confirmation gates protect settled/cancelled no-transition state and stale-operation rejection.
+
+The owner also requested stronger James Rodríguez, Marcus Rashford and Anthony Martial source photography and at least seven additional photographs with cinematic/historic value. v1.1.3 activates new licensed Commons sources for those three players and adds Ronaldo, Pogba, Ibrahimović, Griezmann, Neymar, Falcao and Balotelli across seven bounded screen-purpose bands. The visual archive is route-scoped: Home startup requests zero football-photo assets, and each destination loads only its declared photograph(s). Protected Messi/Lahm derivatives and Marco Reus Home/loading presentation remain intact.
+
+The release is still in validation. Candidate C remains the next substantive Data Safety and Recovery task after v1.1.3 is merged, deployed and proven.
 
 # v1.1.2 — Candidate B Import Analysis + Migration Preview
 
