@@ -43,6 +43,8 @@ async function ensureDynamicScreens(page){
                 await window.ensureOptionalModule(name);
             }
         }
+        if(typeof window.createCareerStatisticsScreen === "function"){ window.createCareerStatisticsScreen(); }
+        if(typeof window.createTrophyRoomScreen === "function"){ window.createTrophyRoomScreen(); }
         if(typeof window.createRuleBookScreen === "function"){ window.createRuleBookScreen(); }
     });
 }
@@ -158,9 +160,11 @@ async function run(config){
             await exposeScreenForAudit(page, screenName);
             await waitForVisual(page, screenName, expectedCount);
             const result = await inspectScreen(page, screenName);
+            // Capture evidence before asserting so a failing visual remains
+            // reviewable instead of disappearing behind an assertion stack.
+            await page.screenshot({ path: path.join(resultsDirectory, `v113-${screenName}-${config.name}.png`), fullPage: true });
             assertScreen(result, screenName, expectedCount);
             result.panels.forEach(panel => seenAssets.add(panel.asset));
-            await page.screenshot({ path: path.join(resultsDirectory, `v113-${screenName}-${config.name}.png`), fullPage: true });
         }
 
         assert.equal(seenAssets.size, 12, `${config.name}: all 12 active derivatives must be exercised`);
