@@ -1,6 +1,5 @@
 (function(){
   let restoreInFlight=false;
-  const own=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
   function canonical(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
     if(Array.isArray(value))return `[${value.map(canonical).join(",")}]`;
@@ -42,7 +41,7 @@
     for(const imported of backup.records){
       const id=String(imported.id??"");
       const matches=[];
-      result.forEach((record,index)=>{if(String(record&&record.id??"")===id)matches.push(index);});
+      result.forEach((record,index)=>{if(String((record&&record.id)??"")===id)matches.push(index);});
       if(!matches.length){result.push(imported);added.push(id);continue;}
       const importedSignature=canonical(imported);
       if(matches.some(index=>canonical(result[index])===importedSignature)){skipped.push(id);continue;}
@@ -83,8 +82,14 @@
     const payload=analysis.migratedPayload;
     const candidateRaw={};
     const summary={active:activeChoice,legacy:legacyChoice,preferences:preferencesChoice,legacyAdded:[],legacySkipped:[],legacyReplaced:[]};
-    if(activeChoice==="use-backup")candidateRaw.activeShowdown=payload.activeShowdown===null?null:JSON.stringify(payload.activeShowdown);
-    if(preferencesChoice==="use-backup")candidateRaw.preferences=payload.preferences===null?null:JSON.stringify(payload.preferences);
+    if(activeChoice==="use-backup"){
+      if(parseRaw(currentRaw.activeShowdown,"active").state==="corrupt")warnings.push("Unreadable current active Showdown bytes will be replaced only because backup active state was explicitly selected.");
+      candidateRaw.activeShowdown=payload.activeShowdown===null?null:JSON.stringify(payload.activeShowdown);
+    }
+    if(preferencesChoice==="use-backup"){
+      if(parseRaw(currentRaw.preferences,"preferences").state==="corrupt")warnings.push("Unreadable current preference bytes will be replaced only because backup preferences were explicitly selected.");
+      candidateRaw.preferences=payload.preferences===null?null:JSON.stringify(payload.preferences);
+    }
 
     let conflicts=[];
     if(legacyChoice!=="keep-current"){
@@ -97,12 +102,12 @@
         if(localLegacy.state==="corrupt")warnings.push("Unreadable current Legacy bytes will be replaced only because explicit Legacy replacement was selected.");
       }else if(localLegacy.state==="corrupt"){
         errors.push("Current Legacy bytes are unreadable. Merge is unsafe; keep current bytes or explicitly replace them with the backup Legacy state.");
-      }else{
+      }else if(backupLegacy!==null){
         const merged=mergeLegacy(localLegacy.value,backupLegacy,choices.legacyConflicts||{});
         conflicts=merged.conflicts;
         if(!merged.ok)errors.push(...merged.errors);
         else{
-          candidateRaw.legacyShowdowns=JSON.stringify(merged.records);
+          if(merged.added.length||merged.replaced.length)candidateRaw.legacyShowdowns=JSON.stringify(merged.records);
           summary.legacyAdded=merged.added;
           summary.legacySkipped=merged.skipped;
           summary.legacyReplaced=merged.replaced;
