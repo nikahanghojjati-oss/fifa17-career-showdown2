@@ -24,9 +24,16 @@ async function openDataManagement(page){
     const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
     assert.equal(opened, true);
     await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
-    await page.locator("#legacyImportAnalysis").waitFor({ state: "visible", timeout: 5000 });
-    assert.equal(await page.getByRole("button", { name: "ANALYZE BACKUP" }).isEnabled(), false);
-    assert.equal(await page.getByRole("button", { name: /restore|apply import/i }).count(), 0, "Candidate B must expose no restore/apply action.");
+    const candidateB = page.locator("#legacyImportAnalysis");
+    await candidateB.waitFor({ state: "visible", timeout: 5000 });
+    await page.locator("#careerModeRestorePanel").waitFor({ state: "visible", timeout: 5000 });
+    assert.equal(await candidateB.getByRole("button", { name: "ANALYZE BACKUP" }).isEnabled(), false);
+    assert.equal(
+        await candidateB.getByRole("button", { name: /restore|apply import/i }).count(),
+        0,
+        "Candidate B analysis panel must remain read-only even when Candidate C exists beside it."
+    );
+    assert.equal(await page.locator("#careerModeRestorePanel .careerRestoreApply").count(), 0, "Candidate C Apply must not exist before a restore file has been reviewed.");
 }
 
 async function seedSourceAndCreateEnvelope(page){
@@ -114,9 +121,9 @@ async function runAxe(page, label){
         const result = await window.axe.run(document.getElementById("legacy"), { resultTypes: ["violations"], rules: { region: { enabled: false } } });
         return result.violations.map(item => ({ id: item.id, impact: item.impact, targets: item.nodes.map(node => node.target) }));
     });
-    assert.deepEqual(violations, [], `${label}: Candidate B Data Management accessibility violations.`);
+    assert.deepEqual(violations, [], `${label}: Data Management accessibility violations.`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-    assert.ok(overflow <= 1, `${label}: Candidate B introduced horizontal overflow (${overflow}px).`);
+    assert.ok(overflow <= 1, `${label}: Data Management introduced horizontal overflow (${overflow}px).`);
 }
 
 async function assertDesktopMatrix(browser){
@@ -143,6 +150,7 @@ async function assertDesktopMatrix(browser){
         await analyze.focus();
         await page.keyboard.press("Enter");
         await page.locator(".legacyImportVerdict.ready").waitFor({ state: "visible", timeout: 8000 });
+        await page.locator("#legacyImportAnalysis .legacyImportStatus").filter({ hasText: "Atomic Restore & Recovery" }).waitFor({ state: "visible", timeout: 3000 });
         const after = await storageSnapshot(page);
         const audit = await page.evaluate(() => ({ ...window.__importWriteAudit }));
         assert.deepEqual(after, before, "Candidate B preview must leave all three canonical storage values byte-for-byte unchanged.");
@@ -154,7 +162,8 @@ async function assertDesktopMatrix(browser){
         assert.match(resultText, /REPLACE/);
         assert.match(resultText, /MIGRATION PREVIEW/);
         assert.match(resultText, /EXACT/);
-        assert.match(resultText, /Candidate C restore remains unavailable/i);
+        assert.match(resultText, /Use Atomic Restore & Recovery below/i);
+        assert.equal(await page.locator("#legacyImportAnalysis .careerRestoreApply").count(), 0, "Candidate B result area must never gain an Apply control.");
 
         const tampered = structuredClone(envelope);
         tampered.payload.activeShowdown.name = "Tampered after checksum";
@@ -226,7 +235,7 @@ async function assertDropAndMobile(browser){
         const audit = await page.evaluate(() => ({ ...window.__importWriteAudit }));
         assert.deepEqual(audit, { set: 0, remove: 0 });
 
-        for(const selector of [".legacyImportDropZone", ".legacyImportActions .primaryDataButton", ".legacyImportActions .compactButton:last-child"]){
+        for(const selector of [".legacyImportDropZone", ".legacyImportActions .primaryDataButton", ".legacyImportActions .compactButton:last-child", "#careerModeRestorePanel .careerRestoreReviewButton"]){
             const box = await page.locator(selector).boundingBox();
             assert.ok(box && box.height >= 44, `${selector} must retain a >=44px mobile interaction height; got ${box?.height}.`);
         }
@@ -245,7 +254,7 @@ async function assertDropAndMobile(browser){
         try{ await scenario(browser); }
         finally{ if(browser.isConnected()){ await browser.close(); } }
     }
-    process.stdout.write("PASS  Candidate B import-analysis browser audit on v1.1.3\n");
+    process.stdout.write("PASS  Candidate B read-only import-analysis browser audit with Candidate C coexistence\n");
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;
