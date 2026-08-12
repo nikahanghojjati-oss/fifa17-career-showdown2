@@ -3,6 +3,11 @@ const LEGACY_STORAGE_KEY = "careerModeShowdown.legacyShowdowns";
 const APPLICATION_PREFERENCES_KEY = "careerModeShowdown.preferences";
 const APPLICATION_PREFERENCES_SCHEMA_VERSION = 2;
 const DEFAULT_DRAFT_SAVE_DELAY = 420;
+const CAREER_MODE_STORAGE_TRANSACTION_ORDER = Object.freeze([
+    "activeShowdown",
+    "legacyShowdowns",
+    "preferences"
+]);
 
 let pendingCurrentSaveTimer = null;
 let storageLifecycleBound = false;
@@ -515,6 +520,199 @@ function restoreStorageSnapshot(key, value){
     return writeStorageValue(key, value);
 }
 
+function getCareerModeStorageKey(name){
+    if(name === "activeShowdown"){ return STORAGE_KEY; }
+    if(name === "legacyShowdowns"){ return LEGACY_STORAGE_KEY; }
+    if(name === "preferences"){ return APPLICATION_PREFERENCES_KEY; }
+    return null;
+}
+
+function readStorageValueStrict(key, context){
+    try{
+        return { ok: true, value: localStorage.getItem(key), error: null };
+    }catch(error){
+        reportStorageError(context, error);
+        return { ok: false, value: null, error };
+    }
+}
+
+function synchronizeCareerModeStorageCachesAfterRestore(affectedNames, committedRaw){
+    if(affectedNames.includes("activeShowdown")){
+        activeSavePresenceKnown = true;
+        activeSavePresent = committedRaw.activeShowdown !== null;
+    }
+
+    if(affectedNames.includes("legacyShowdowns")){
+        invalidateLegacyCache();
+    }
+
+    if(affectedNames.includes("preferences")){
+        applicationPreferencesCache = null;
+        applyApplicationMotionPreference();
+        notifyApplicationPreferencesChanged("restore");
+    }
+}
+
+function applyCareerModeRawStorageTransaction(candidateRaw){
+    if(!candidateRaw || typeof candidateRaw !== "object" || Array.isArray(candidateRaw)){
+        return {
+            ok: false,
+            status: "invalid-plan",
+            affectedKeys: [],
+            failedKey: null,
+            failurePhase: "plan",
+            rollbackAttempted: false,
+            rollbackVerified: null,
+            rollbackFailures: [],
+            verificationMismatches: []
+        };
+    }
+
+    const requestedNames = CAREER_MODE_STORAGE_TRANSACTION_ORDER.filter(name =>
+        Object.prototype.hasOwnProperty.call(candidateRaw, name)
+    );
+
+    for(const name of requestedNames){
+        const value = candidateRaw[name];
+        if(value !== null && typeof value !== "string"){
+            return {
+                ok: false,
+                status: "invalid-plan",
+                affectedKeys: requestedNames.slice(),
+                failedKey: name,
+                failurePhase: "plan",
+                rollbackAttempted: false,
+                rollbackVerified: null,
+                rollbackFailures: [],
+                verificationMismatches: []
+            };
+        }
+    }
+
+    if(!requestedNames.length){
+        return {
+            ok: true,
+            status: "no-op",
+            affectedKeys: [],
+            failedKey: null,
+            failurePhase: null,
+            rollbackAttempted: false,
+            rollbackVerified: null,
+            rollbackFailures: [],
+            verificationMismatches: []
+        };
+    }
+
+    const snapshot = Object.create(null);
+    for(const name of requestedNames){
+        const key = getCareerModeStorageKey(name);
+        const read = readStorageValueStrict(key, `Unable to snapshot ${name} before restore`);
+        if(!read.ok){
+            return {
+                ok: false,
+                status: "snapshot-failed",
+                affectedKeys: requestedNames.slice(),
+                failedKey: name,
+                failurePhase: "snapshot",
+                rollbackAttempted: false,
+                rollbackVerified: null,
+                rollbackFailures: [],
+                verificationMismatches: []
+            };
+        }
+        snapshot[name] = read.value;
+    }
+
+    const affectedNames = requestedNames.filter(name => snapshot[name] !== candidateRaw[name]);
+    if(!affectedNames.length){
+        return {
+            ok: true,
+            status: "no-op",
+            affectedKeys: [],
+            failedKey: null,
+            failurePhase: null,
+            rollbackAttempted: false,
+            rollbackVerified: null,
+            rollbackFailures: [],
+            verificationMismatches: []
+        };
+    }
+
+    let failedKey = null;
+    let failurePhase = null;
+    const verificationMismatches = [];
+
+    for(const name of affectedNames){
+        const key = getCareerModeStorageKey(name);
+        if(!restoreStorageSnapshot(key, candidateRaw[name])){
+            failedKey = name;
+            failurePhase = "write";
+            break;
+        }
+    }
+
+    if(!failurePhase){
+        for(const name of affectedNames){
+            const key = getCareerModeStorageKey(name);
+            const read = readStorageValueStrict(key, `Unable to verify ${name} after restore write`);
+            if(!read.ok || read.value !== candidateRaw[name]){
+                failedKey = name;
+                failurePhase = "verify";
+                verificationMismatches.push(name);
+                break;
+            }
+        }
+    }
+
+    if(failurePhase){
+        const rollbackFailures = [];
+        const rollbackVerificationMismatches = [];
+
+        for(const name of affectedNames){
+            const key = getCareerModeStorageKey(name);
+            if(!restoreStorageSnapshot(key, snapshot[name])){
+                rollbackFailures.push(name);
+            }
+        }
+
+        for(const name of affectedNames){
+            const key = getCareerModeStorageKey(name);
+            const read = readStorageValueStrict(key, `Unable to verify ${name} during restore rollback`);
+            if(!read.ok || read.value !== snapshot[name]){
+                rollbackVerificationMismatches.push(name);
+            }
+        }
+
+        const rollbackVerified = rollbackFailures.length === 0 && rollbackVerificationMismatches.length === 0;
+        return {
+            ok: false,
+            status: rollbackVerified ? "rolled-back" : "rollback-failed-critical",
+            affectedKeys: affectedNames.slice(),
+            failedKey,
+            failurePhase,
+            rollbackAttempted: true,
+            rollbackVerified,
+            rollbackFailures,
+            rollbackVerificationMismatches,
+            verificationMismatches
+        };
+    }
+
+    synchronizeCareerModeStorageCachesAfterRestore(affectedNames, candidateRaw);
+    return {
+        ok: true,
+        status: "success",
+        affectedKeys: affectedNames.slice(),
+        failedKey: null,
+        failurePhase: null,
+        rollbackAttempted: false,
+        rollbackVerified: null,
+        rollbackFailures: [],
+        rollbackVerificationMismatches: [],
+        verificationMismatches: []
+    };
+}
+
 function clearAllCareerModeData(){
     cancelScheduledCurrentShowdownSave();
 
@@ -555,6 +753,7 @@ window.initializeStorageLifecycle = initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave = scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave = flushScheduledCurrentShowdownSave;
 window.flushPendingApplicationWrites = flushPendingApplicationWrites;
+window.applyCareerModeRawStorageTransaction = applyCareerModeRawStorageTransaction;
 window.getLegacyStorageRevision = getLegacyStorageRevision;
 window.loadApplicationPreferences = loadApplicationPreferences;
 window.getApplicationMotionPreferenceState = getApplicationMotionPreferenceState;
