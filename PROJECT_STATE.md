@@ -2,7 +2,7 @@
 
 ## Authority / continuation rule
 
-This project is already designed and implemented through v1.1.4 Candidate C Atomic Restore + Recovery UX. v1.1.4 is complete, merged, deployed, twice-proven in production and protected.
+This project is already designed and implemented through Candidate C Atomic Restore + Recovery UX. v1.1.4 is the immutable current public production runtime; v1.1.5 is the focused restore-safety maintenance release candidate on PR #25. Current work is release closure, not a new planning cycle or a cloud/PWA feature jump.
 
 Authority when sources disagree:
 
@@ -19,19 +19,21 @@ Current source is implementation authority. Do not revert working systems becaus
 
 ## Current implementation
 
-**Application version:** v1.1.4 — Stable / Candidate C Complete
-**Runtime asset revision:** `1.1.4-r1`
+**Release candidate:** v1.1.5 — Restore Transaction Safety Maintenance
+**Runtime asset revision:** `1.1.5-r1`
 **Hosting:** GitHub Pages
 **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
 **Product mode:** exactly two managers, one device/browser, one active Showdown
-**Current milestone:** v1.1 Data Safety and Recovery — COMPLETE / PROTECTED
-**Current activity:** v1.1.4 release proof is sealed; do not reopen Candidate C planning
+**Current milestone:** v1.1 maintenance hardening — IMPLEMENTED / PRE-MERGE RELEASE CLOSURE
+**Current activity:** reconcile authority, freeze one PR #25 SHA, prove all 14 families twice, merge with expected-head protection, then prove Pages twice
 **Current public production:** v1.1.4 / `1.1.4-r1`
-**Immutable production runtime authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
-**GitHub Pages deployment:** `5877215224`
-**Frozen pre-merge candidate:** `814c1935824f19144b0b6c41243da71047a3224b`
+**Immutable current production runtime authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+**v1.1.4 GitHub Pages deployment:** `5877215224`
+**v1.1.5 functional proof before identity freeze:** `dbcdffaae927163e5a9c8b44466ff2084e814de5` — 14/14 permanent families green
+**Maintenance PR:** #25 — `agent/v1.1.5-maintenance`
 **Protected loading-screen status:** owner explicitly likes the Marco Reus loading presentation; composition/timing remain regression-protected
-**Next legal roadmap milestone:** v1.2.0 — Installable Offline App
+**Future cloud status:** contract/threat-model groundwork only; no backend/network mutation authorized
+**Next legal substantive milestone after maintenance proof:** v1.2.0 — Installable Offline App
 
 Later documentation-only commits are not new application runtime authorities when the served runtime files remain byte-identical to `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`.
 
