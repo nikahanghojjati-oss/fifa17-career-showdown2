@@ -1,164 +1,393 @@
-# Career Mode Showdown v1.1.5 Maintenance — Rolling Handoff
+# Career Mode Showdown v1.1.5 Maintenance — Master Rolling Handoff
 
 Last updated: 2026-08-12
-Branch: `agent/v1.1.5-maintenance`
+Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
+Authoritative maintenance branch: `agent/v1.1.5-maintenance`
+Draft PR: #25 — `v1.1.5 maintenance: restore transaction hardening`
 Starting documentation head: `4e71e85f3ac03a0def0beb18e99c4dccd6964ac4`
-Immutable v1.1.4 production runtime authority: `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+Immutable current public production runtime: `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7` (v1.1.4)
+Current maintenance candidate identity: v1.1.5 / `1.1.5-r1`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-Draft maintenance PR: #25 — `v1.1.5 maintenance: restore transaction hardening`
 
-## Owner request
+This is the primary v1.1.5 development chronology. Read it with `00_DEVELOPER_START_HERE.md`, `NEXT_TASK.md` and `RELEASE_V1.1.5.md`. Historical v1.1.4 proof remains in `CAREER_MODE_SHOWDOWN_V1.1.4_POST_MERGE.md`.
 
-Prepare a maintenance release after v1.1.4 that strengthens Candidate C restore/recovery, finishes the interrupted documentation seal, deepens future cloud-storage contracts for identity/revisions/conflicts/tombstones/privacy/security, fixes two major defects, passes every permanent gate confidently, deploys, receives two independent production proofs, and leaves the repository in a discrepancy-free state for the next developer.
+## 1. Owner request
 
-## Release discipline
+The owner asked for a stable maintenance release that:
 
-This is a maintenance release, not permission to jump to cloud synchronization or bypass the dependency roadmap. Runtime cloud storage remains blocked. v1.2.0 remains the next legal substantive product milestone after this maintenance release. Cloud work in v1.1.5 is contract/threat-model groundwork only and must not add network mutation or a second persistence authority.
+- finishes the interrupted v1.1.4 documentation seal;
+- improves Candidate C fresh revalidation, exact raw snapshots, in-memory computation, storage authority, post-write verification, byte-for-byte rollback, rollback verification, double-activation protection, stale-preview detection, deterministic repeat imports, corrupt-byte preservation and recovery UX;
+- fixes two major restore bugs rather than making cosmetic maintenance changes;
+- establishes future cloud identity, revision, conflict, tombstone, privacy and security requirements without prematurely adding cloud runtime;
+- passes all permanent gates confidently, deploys and receives duplicate production proof;
+- leaves current handoffs/authority coherent for the next developer;
+- keeps v1.2.0 Installable Offline App as the next substantive milestone after maintenance proof.
 
-No release may be called deployed/proven until one immutable candidate passes the required pre-merge matrices, expected-head merge protection, GitHub Pages revision convergence, exact deployed-byte verification, Candidate A/B/C deployed audits, full public journey and duplicate production proof.
+## 2. Release discipline
 
-## Baseline inherited from v1.1.4
+This maintenance release does not change gameplay/scoring, the exactly-two-manager product, backup format version 1, Candidate B read-only semantics, licensed football-photo authority or the protected Marco Reus loading presentation.
 
-Candidate C already protected fresh Apply-time Candidate B revalidation, exact raw storage comparison against reviewed browser state, complete candidate computation in memory before canonical mutation, `js/storage.js` sole browser-storage mutation authority, deterministic active → Legacy → preferences write order, post-write readback verification, raw byte/absence snapshots, rollback and rollback verification, double-activation rejection, stale-preview detection, deterministic repeat import/zero-write no-op behavior, corrupt byte preservation unless explicit replacement is chosen, and verified/critical rollback recovery UX.
+Cloud remains future contract/threat-model work only. No cloud backend, network write, account requirement or second persistence authority is introduced.
 
-v1.1.5 strengthens those contracts; it does not replace Candidate A/B/C architecture or change backup format version 1.
+A release is not called deployed/proven merely because source is merged. Required proof remains:
 
-## Major defect 1 — confirmed restore intent could mutate during async revalidation
+1. one exact final PR SHA;
+2. complete permanent matrix green;
+3. independent second same-SHA matrix;
+4. expected-head-protected merge;
+5. Pages revision convergence;
+6. exact deployed-byte parity;
+7. public provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C and full journey;
+8. Burn-In 5/5;
+9. independent second production proof on the same immutable runtime SHA;
+10. post-merge docs-only seal that does not redefine runtime authority.
 
-Root cause:
+## 3. Major defect 1 — confirmed restore intent could change after confirmation
 
-- `restoreUI.js` stored active/Legacy/preferences/conflict decisions in one mutable closure object.
-- The user confirmed the visible plan, then `applyCareerModeRestore()` awaited fresh file analysis.
-- The same mutable choices object was consumed after that asynchronous boundary.
-- Apply was disabled, but the decision controls and file picker remained interactive during revalidation.
-- A user could therefore confirm Plan A, change a choice while verification was in flight and cause Plan B to reach transaction planning without Plan B receiving confirmation.
-- A related file-review race allowed a stale analysis completion for file A to become UI authority after the selected file had changed to B.
+### Root cause
 
-Implemented correction:
+v1.1.4 correctly performed fresh Apply-time Candidate B analysis, but `restoreUI.js` held active/Legacy/preferences/conflict choices in one mutable closure object. Apply awaited asynchronous revalidation and then used that same object.
 
-- `restore.js` captures the exact `confirmedFile`, deep-copied `confirmedChoices` and deep-copied reviewed raw precondition before the first await;
-- fresh Candidate B analysis runs from `confirmedFile`, never the mutable later file selection;
-- `restoreUI.js` locks file input, Review, all selects/conflict decisions and Apply while review/apply is in flight;
-- review uses a monotonic `fileGeneration`; stale async review completion is discarded if file identity/generation changed;
-- Apply binds the exact reviewed raw bytes and exact choices that produced the confirmed plan;
-- deterministic contracts prove caller-side mutation after Apply begins cannot change the transaction candidate;
-- real-browser maintenance audit attempts a programmatic decision mutation during delayed revalidation and requires the originally confirmed backup choice to commit.
+The Apply button was disabled, but file/choice controls remained mutable. A user could therefore confirm Plan A, alter a choice while verification was running and allow Plan B to reach commit without Plan B receiving the visible confirmation.
 
-## Major defect 2 — rollback included keys the transaction never successfully mutated
+The same class of race existed during Review: an analysis for selected file A could finish after the user selected file B and become stale UI authority.
 
-Root cause:
+### Correction
 
-- the v1.1.4 transaction engine knew the planned affected-key set but not a distinct mutation-owned set;
-- on any commit failure it attempted rollback for every affected key, including keys whose write failed or was never reached;
-- first-key failure could therefore generate unnecessary writes and could falsely become critical recovery if an untouched-key rewrite failed;
-- the old model also created a future concurrency hazard because rollback could overwrite newer cross-context bytes the restore transaction had never actually owned.
+`js/restore.js` now freezes before the first asynchronous Apply boundary:
 
-Implemented correction:
+- `confirmedFile`;
+- deep-copied `confirmedChoices`;
+- deep-copied `confirmedExpectedRaw`.
 
-- `storageTransaction.js` now records `committedKeys` only after a commit write returns success;
-- every planned write gets a normalized last-moment `prewrite` read and exact snapshot comparison;
-- optional `expectedRaw` establishes an initial full transaction precondition;
-- rollback scope is `committedKeys` only and is unwound in reverse commit order;
+Fresh Candidate B analysis runs only on the exact confirmed File.
+
+`js/restoreUI.js` now:
+
+- locks file picker, Review, all top-level restore selects, Legacy conflict controls and Apply while review/apply is in flight;
+- maintains a monotonic `fileGeneration`;
+- discards stale async Review completion when file identity/generation changed;
+- binds the exact confirmed file/choices/raw snapshot before confirmation-to-Apply transition;
+- refuses to proceed if the file changed between confirmation and transaction start.
+
+### Permanent proof
+
+`tests/contracts/restore-maintenance-contracts.cjs` mutates caller-side choices and reviewed state after Apply begins and requires the original confirmed intent to remain authoritative.
+
+`tests/browser/restore-maintenance-audit.cjs` delays fresh analysis in real Chromium, attempts a programmatic choice mutation while Apply is in flight and requires the originally confirmed backup active state to commit.
+
+## 4. Major defect 2 — rollback scope included keys never successfully mutated
+
+### Root cause
+
+The v1.1.4 transaction planned an affected-key set and rolled that entire set back after a commit failure. A key whose write failed or was never reached could still receive an unnecessary rollback write.
+
+Consequences included:
+
+- a first-key failure could perform needless rollback writes;
+- failure of an unnecessary rollback write could falsely escalate to critical recovery;
+- future cross-context concurrency could allow rollback to overwrite newer bytes for a key this transaction never successfully mutated.
+
+### Correction
+
+`js/storageTransaction.js` now implements transaction ownership:
+
+- optional full `expectedRaw` precondition;
+- exact `prewrite` read immediately before every mutation;
+- `committedKeys` recorded only after a commit write succeeds;
+- rollback scope equals successfully committed/owned keys only;
+- rollback order is reverse commit order;
 - first-write failure with zero successful mutation returns `write-failed-clean`, performs zero rollback writes and is explicitly non-critical;
-- rollback checks ownership before mutation: already-restored snapshot bytes require no write, exact transaction-candidate bytes can be restored, and any third value is an ownership conflict that must not be clobbered;
-- rollback verification runs only over transaction-owned mutations;
-- ownership loss becomes `rollback-failed-critical` with explicit `rollbackOwnershipConflicts` evidence;
-- critical recovery invalidates active-save, Legacy and preference caches and clears `currentShowdown` rather than leaving uncertain in-memory authority.
+- rollback checks current ownership before writing:
+  - current bytes already equal snapshot: already restored, no write;
+  - current bytes equal this transaction's candidate: transaction still owns them and may restore snapshot;
+  - any third/newer value: ownership conflict; Candidate C refuses to clobber it;
+- rollback verification covers transaction-owned mutations byte-for-byte;
+- ownership loss or unverified rollback returns `rollback-failed-critical` with explicit ownership-conflict evidence.
 
-Permanent contract coverage includes success, exact no-op/idempotence, initial stale precondition, first/middle/final write failure, reverse rollback order, cross-context prewrite drift, rollback ownership conflict, exact raw absence and corrupt opaque bytes.
+`js/storage.js` invalidates active-save presence, Legacy cache and preference cache and clears `currentShowdown` when critical recovery means canonical bytes are uncertain.
 
-## Strict raw snapshot hardening
+### Permanent proof
 
-`js/storage.js` now exposes `captureCareerModeRawRestoreSnapshot()` specifically for destructive restore authority. Unlike the older backup snapshot helper, it distinguishes true `null` key absence from `localStorage.getItem()` failure. Any failed exact read produces `snapshot-unavailable`; restore fails closed before planning/writing instead of treating inaccessible storage as missing data.
+The storage contract now covers:
 
-The older Candidate A non-mutating backup snapshot remains compatible and unchanged in format semantics.
+- complete success;
+- repeated identical no-op / zero writes;
+- initial stale precondition;
+- first-key clean failure;
+- middle-key failure with one owned rollback;
+- final-key failure with reverse-order owned rollback;
+- last-moment cross-context drift;
+- post-write verification mismatch;
+- rollback ownership conflict and anti-clobber behavior;
+- exact key absence/removal semantics;
+- corrupt opaque raw-byte preservation.
 
-## Recovery UX hardening
+The real-browser maintenance audit requires a first-write failure to show `RESTORE NOT STARTED`, preserve exact prior bytes and perform no rollback rewrite.
 
-The UI now distinguishes three failure classes instead of presenting every transaction failure as rollback:
+## 5. Strict restore snapshot / stale-state hardening
 
-1. `RESTORE NOT STARTED` — first required write failed before any canonical mutation; no rollback write was necessary.
-2. `RESTORE ROLLED BACK` — one or more transaction-owned mutations occurred and were restored/verified byte-for-byte.
-3. `CRITICAL RECOVERY STATE` — rollback or mutation ownership could not be proven. Controls lock until refresh and copy explicitly warns the user not to continue modifying the save.
+`js/storage.js` now provides destructive restore authority through `captureCareerModeRawRestoreSnapshot()`.
 
-The UI also surfaces stale transaction-boundary preconditions as a refreshed `stale-state` review rather than as a generic write failure.
+It differentiates true key absence from `localStorage.getItem()` failure. A read failure no longer looks like a missing key. Any failed exact read returns a failed snapshot and Candidate C returns `snapshot-unavailable` before planning or mutation.
 
-## Candidate A provenance maintenance
+Candidate C has two stale-state barriers:
 
-Audit found `js/backup.js` still used a historical hardcoded `1.1.3` fallback when global `APP_VERSION` was unavailable. Full public execution normally had `APP_VERSION`, but isolated/error paths could stamp false provenance.
+1. reviewed-state comparison after pending writes are flushed and fresh Candidate B analysis finishes;
+2. exact per-write precondition immediately before each canonical mutation.
 
-Correction:
+A transaction-boundary precondition failure is normalized into explicit stale-state recovery rather than generic storage failure.
 
-- primary authority remains global `APP_VERSION` when available;
-- otherwise Candidate A derives semantic version from the shell runtime revision (`x.y.z-rN`);
-- if neither authority exists, it writes `unknown` rather than inventing an old release;
-- `backup-contracts.cjs` now derives expected app/runtime provenance from current `js/app.js`, so future releases cannot accidentally reintroduce a historical fallback;
-- backup format/checksum/payload semantics are unchanged.
+## 6. Recovery UX hardening
 
-## Future cloud-storage foundation — documentation/contracts only
+The restore surface now distinguishes:
 
-Created `CLOUD_STORAGE_FOUNDATION.md` and permanent `cloud-foundation-contracts.cjs`. No cloud backend/network mutation was added.
+### RESTORE NOT STARTED
 
-The future contract now defines:
+The first required write failed before Candidate C successfully mutated any canonical key. No rollback write is necessary. Existing bytes remain authority.
 
-- separate `accountId`, `profileId`, `saveId`, `deviceId`, `installationId`, object type and object identity lifetimes;
-- server-authoritative revision/base/parent semantics and compare-and-swap mutation;
-- content hashes as integrity evidence only, never authentication;
-- explicit divergent-head conflicts rather than silent last-write-wins gameplay state;
-- tombstones with deletion revision and anti-resurrection rules;
-- deterministic auto-merge only for domains with proven associative/idempotent merge contracts;
-- local-first and opt-in cloud posture, data minimization, export/delete/retention requirements and no implied public sharing;
-- HTTPS/TLS, authenticated ownership, server-side authorization, least privilege, secure session/token handling, CSRF/XSS considerations, replay/idempotency protection, rate limits, input/size limits, secret rotation and no service secrets in the static Pages client;
-- future downloaded/conflict-resolved data must still pass Candidate C-style exact local preconditions, in-memory computation, canonical storage authority, verification and ownership-scoped rollback.
+### RESTORE ROLLED BACK
 
-Cloud remains dependency-blocked: v1.2 Offline → v1.3 stable local profiles/save identity → v1.8 Cloud Readiness → v1.9 opt-in Cloud Backup Beta.
+One or more transaction-owned mutations occurred and were restored/verified byte-for-byte. Deliberate retry remains possible.
 
-## Permanent gate improvements
+### CRITICAL RECOVERY STATE
 
-New tests are not diagnostics-only:
+Rollback or mutation ownership cannot be proven. Candidate C controls lock until refresh, uncertain runtime caches are invalidated and the UI tells the user not to continue modifying the save as if state were known-good.
 
-- `restore-maintenance-contracts.cjs` is in the repository-wide contract suite;
-- `restore-maintenance-audit.cjs` is appended to `test:restore-browser`, so Candidate C dedicated browser audit, Stability and every Burn-In pass inherit the new races/failure checks;
-- `cloud-foundation-contracts.cjs` is in the repository-wide suite;
-- `run-restore-contracts.cjs` runs the four Candidate C contract files and emits exact GitHub annotations when one fails, making future CI failures actionable;
-- Final Polish now emits exact raw/gzip startup measurements as an annotation before enforcing the unchanged ceilings.
+Existing success, conflict choice, stale-state, corrupt-data guidance, deterministic repeat import, double-Apply lock, lifecycle protection, keyboard/focus, reduced motion, Chromebook/windowed desktop, mobile DPR2, footer-safe scrolling and 44 px restore input remain protected.
 
-## Gate findings and corrections so far
+## 7. Candidate A provenance maintenance
 
-### Candidate C contract failure 1
+Audit found `js/backup.js` retained a hardcoded v1.1.3 application-version fallback when global `APP_VERSION` was unavailable.
 
-The first maintenance matrix failed before browser execution because the newly written storage contract compared VM-created values directly to host-realm literals and contained a source-shape check for `io.read(name,"prewrite")`. The runtime used the safer normalized helper `readValue(io,name,"prewrite")`.
+v1.1.5 removes the false historical fallback:
 
-Correction: cross-realm values are normalized/converted before host assertion and the source-shape contract now protects the actual normalized prewrite path. No runtime safety was weakened.
+1. use current global `APP_VERSION` when available;
+2. otherwise parse semantic version from current shell runtime revision;
+3. otherwise record `unknown` rather than inventing an old release.
 
-### Candidate C contract failure 2
+Backup format remains version 1. Payload, checksum and non-mutating export semantics are unchanged.
 
-The old `restore-plan-contracts.cjs` required literal `analyzeCareerModeBackupFile(file)`. v1.1.5 intentionally changed that call to `analyzeCareerModeBackupFile(confirmedFile)` to close the confirmed-intent race.
+`backup-contracts.cjs` derives expected release provenance from current `js/app.js`, so later releases cannot silently reintroduce a historical hardcode.
 
-Correction: the old contract now requires the stronger immutable confirmed-file form and requires exact snapshot authority before transaction. Fresh Candidate B revalidation remains mandatory.
+## 8. Future cloud storage foundation
 
-### Protected startup budget regression
+Created `CLOUD_STORAGE_FOUNDATION.md` and `tests/contracts/cloud-foundation-contracts.cjs`.
 
-Static App and Final Polish caught an eager raw-byte regression after strict snapshot/cache hardening. Diagnostic annotation measured:
+No cloud runtime was added.
+
+The future contract defines:
+
+### Identity
+
+Separate account, profile, save, device, installation and object identities with explicit lifetime/ownership boundaries. Device/installation IDs are metadata, not credentials.
+
+### Revisions
+
+Server-authoritative revision tokens, base/parent revision semantics, compare-and-swap writes, content hashes for integrity only, and no timestamp-based conflict authority.
+
+### Conflicts
+
+No silent last-write-wins for gameplay state. Divergent heads require explicit local/remote/fork resolution unless a domain has a separately proven deterministic associative/idempotent merge contract.
+
+### Tombstones
+
+Deletion revisions, anti-resurrection rules, stale-client rejection, explicit retention/compaction policy and restore-from-trash as a new live revision rather than history erasure.
+
+### Privacy
+
+Local-first/opt-in posture, data minimization, separation of private backup from future sharing, export/delete support, retention clarity and no unnecessary PII/secrets in URLs/logs.
+
+### Security
+
+TLS, authenticated ownership, server-side authorization on every object operation, least privilege, secure session/token handling, CSRF/XSS considerations, replay/idempotency protection, rate limiting, schema/size limits, encryption-at-rest provider controls, secret rotation and no service-role/admin secret in the static client.
+
+Plain backup SHA-256 remains integrity evidence only and must never be described as encryption/authentication.
+
+### Local apply boundary
+
+Future remote/downloaded state must still pass the strengthened local Candidate C sequence: flush, authenticate/validate, exact local snapshot, base compare, full in-memory compute, explicit conflict choices, canonical storage authority, post-write verification, ownership-scoped rollback and critical recovery on uncertainty.
+
+Roadmap dependency remains:
+
+v1.2 Offline/PWA → v1.3 stable local profiles/save identity → later Cloud Readiness → opt-in Cloud Backup Beta.
+
+## 9. Permanent CI/tooling improvements
+
+Added:
+
+- `restore-maintenance-contracts.cjs`;
+- `restore-maintenance-audit.cjs`;
+- `cloud-foundation-contracts.cjs`;
+- `run-restore-contracts.cjs`;
+- `run-contract-suite.cjs`.
+
+The dedicated Candidate C browser command now runs the original deep recovery audit plus the maintenance race/failure audit. Stability and every Burn-In pass inherit it.
+
+The contract runners emit exact failing filenames/assertion text as GitHub annotations, replacing anonymous aggregate `exit code 1` failures.
+
+Final Polish now emits exact raw/gzip startup measurements before enforcing unchanged limits.
+
+No permanent assertion or threshold was removed to make the maintenance green.
+
+## 10. Important gate failures and what they found
+
+### Cross-realm contract harness failure
+
+The first new storage contract compared VM-created values directly with host-realm values and asserted an outdated source shape. Runtime behavior was not the failure. The harness was corrected to normalize values and protect the actual `readValue(io,name,"prewrite")` path.
+
+### Old fresh-analysis source guard
+
+An older contract required literal `analyzeCareerModeBackupFile(file)`. The new safe implementation intentionally uses `analyzeCareerModeBackupFile(confirmedFile)`. The guard was updated to require the stronger immutable confirmed-file form.
+
+### Old stale-state guard
+
+The earlier contract looked for one loose snapshot/comparison source sequence. v1.1.5 uses strict snapshot authority plus a second transaction-boundary precondition. The guard was updated to require both layers.
+
+### Old final-hardening confirmed-choice guard
+
+The earlier final guard expected mutable `choices`/`reviewedRaw`. It was updated to require `confirmedChoices`/`confirmedRaw`, full control locking, strict snapshots and ownership rollback.
+
+### Startup budget regression
+
+Strict eager storage hardening initially measured:
 
 - 165,031 raw bytes;
-- 37,409 gzip bytes;
-- protected ceilings remain 165,000 raw / 37,500 gzip.
+- 37,409 gzip bytes.
 
-The raw budget exceeded by 31 bytes. The threshold was not raised. A stale eager comment in `js/app.js` recorded the superseded `STARTUP_SPLASH_MINIMUM_MS = 1900` value while the real protected minimum is 2700 ms. Removing that obsolete comment recovered more than the 31-byte overage with zero runtime behavior change. Normal startup remains 2700 ms and reduced-motion startup 220 ms.
+Protected ceilings are:
 
-## Documentation closure still required
+- 165,000 raw;
+- 37,500 gzip.
 
-The v1.1.4 runtime itself is already twice-proven. `00_DEVELOPER_START_HERE.md` is still stale and must be rewritten during final release authority reconciliation. README, PROJECT_STATE, NEXT_TASK, roadmap starting point, release record, changelog and this handoff will be aligned only after v1.1.5 release identity is frozen and later after immutable production proof.
+The raw limit correctly failed by 31 bytes. It was not raised. An obsolete eager comment referring to an old 1900 ms loading value was removed, returning the shell under the original ceiling without behavior loss.
 
-Historical release records must remain historical rather than being rewritten merely because they contain older releases.
+Normal loading remains 2700 ms; reduced-motion startup remains 220 ms.
 
-## Accidental branch housekeeping
+## 11. Functional proof before release identity change
 
-During connector discovery, several harmless extra branches were created from the same documentation-only main head: `agent/v1.1.5-maintenance-notes`, `agent/v1.1.5-maintenance-seal`, `agent/v1.1.5-maintenance-docs`, `agent/v1.1.5-maintenance-final`. No files were changed on those branches. The authoritative maintenance branch is only `agent/v1.1.5-maintenance`.
+Functional maintenance head:
 
-## Current release state
+`dbcdffaae927163e5a9c8b44466ff2084e814de5`
 
-Runtime bug fixes and future-cloud contract groundwork are implemented on draft PR #25. Version identity deliberately remains v1.1.4 while the functional maintenance head is being attacked by permanent gates. Do not bump to v1.1.5 merely to make documentation look complete.
+passed all 14 permanent workflow families before the version identity changed.
 
-The next legal action is to make the functional head fully green, including the two new real-browser maintenance scenarios, then perform the coherent v1.1.5 / `1.1.5-r1` identity freeze and full two-pass release protocol. No v1.2 implementation begins until v1.1.5 is deployed and twice-proven.
+That proof included:
+
+- all ordinary workstream families;
+- Static App full repository contracts and protected 27-block topology;
+- Candidate C deterministic contracts;
+- Candidate C complete destructive/recovery browser command twice, including the two new maintenance scenarios;
+- Stability contracts and two full Chromium cycles;
+- Candidate C Release Burn-In 5/5;
+- Candidate A/B;
+- licensed visuals;
+- original startup limits.
+
+This intentionally separated functional correctness from release-number/document migration.
+
+## 12. Release identity freeze chronology
+
+The first temporary exact-identity helper expected nine `1.1.4-r1` shell references and failed before committing anything.
+
+Source inspection proved ten references were correct:
+
+1. runtime-revision meta;
+2. eager app stylesheet;
+3. Reus startup portrait;
+4–10. seven eager scripts.
+
+After correcting only that expected count, the helper successfully committed:
+
+`882be077a1bc0caa4ddee17630a624f7bc934e47` — `Freeze v1.1.5 runtime identity`
+
+It aligned:
+
+- `package.json` → 1.1.5;
+- both root `package-lock.json` version fields → 1.1.5;
+- `APP_VERSION` → 1.1.5;
+- visual-fidelity stylesheet cache → `1.1.5-r1`;
+- shell revision meta → `1.1.5-r1`;
+- eager stylesheet, Reus portrait and all seven startup scripts → `1.1.5-r1`;
+- visible footer → `v1.1.5 · Stable`.
+
+The temporary identity workflow was deleted immediately after verification and is not part of the release candidate.
+
+## 13. Authority/document reconciliation chronology
+
+`00_DEVELOPER_START_HERE.md` was rebuilt as a current-facing v1.1.5 bootstrap.
+
+`NEXT_TASK.md` was rebuilt so the sole legal work is v1.1.5 release closure rather than reimplementing Candidate C.
+
+A guarded temporary docs helper updated only current-facing blocks in:
+
+- README;
+- PROJECT_STATE;
+- POST_V1_ROADMAP_EXECUTION;
+- CHANGELOG.
+
+It preserved historical v1.1.4/v1.1.3 evidence rather than rewriting history and was deleted immediately after success.
+
+An attempted temporary handoff helper had invalid YAML and produced zero jobs/zero handoff mutation. It was deleted instead of being debugged. This consolidated handoff replacement is the corrective path.
+
+## 14. Current release-candidate truth
+
+Application candidate: v1.1.5
+Runtime/cache revision: `1.1.5-r1`
+Draft PR: #25
+Current public production until merge: v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+
+Implemented/protected maintenance:
+
+- immutable confirmed restore file/choices/raw precondition;
+- strict exact destructive snapshots;
+- reviewed-state and transaction-boundary stale detection;
+- complete in-memory candidate computation;
+- sole canonical storage authority;
+- post-write verification;
+- mutation-owned reverse rollback;
+- byte-for-byte rollback verification;
+- anti-clobber rollback ownership conflict detection;
+- double-activation protection;
+- deterministic repeat imports;
+- corrupt-byte preservation;
+- differentiated recovery UX;
+- dynamic Candidate A provenance;
+- future cloud safety contract only.
+
+Next substantive milestone after release proof: v1.2.0 Installable Offline App.
+
+## 15. Remaining release work
+
+No feature implementation is legal before these steps finish:
+
+1. add/execute permanent release-authority coherence checks across current source/docs;
+2. ensure no temporary helper workflow remains;
+3. freeze one exact final PR #25 head SHA;
+4. pass all 14 permanent families on that exact SHA;
+5. independently repeat all 14 on the same SHA;
+6. merge with expected-head protection;
+7. record immutable v1.1.5 runtime merge SHA;
+8. wait for Pages `1.1.5-r1` convergence;
+9. pass production exact-byte parity plus provenance, Home/Reus, licensed visuals, Candidate A/B/C and full journey;
+10. pass production Burn-In 5/5 and all other permanent families;
+11. independently repeat production proof on the same runtime SHA;
+12. create `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`;
+13. seal current-facing docs to deployed/twice-proven while keeping runtime SHA distinct from later docs-only head;
+14. run final docs/coherence CI;
+15. only then hand off to v1.2.
+
+## 16. Continuation for the next developer
+
+Do not restart Candidate C or cloud planning.
+
+Fetch current `main`, PR #25 and its exact head. Read:
+
+1. `00_HANDOFF_GOLDEN_RULE.md`;
+2. `00_DEVELOPER_START_HERE.md`;
+3. `NEXT_TASK.md`;
+4. this handoff;
+5. `RELEASE_V1.1.5.md`;
+6. `CLOUD_STORAGE_FOUNDATION.md` only for future sync constraints.
+
+The two maintenance bugs are already implemented and functionally proven. Continue only the release protocol unless a permanent gate exposes a new concrete defect. Do not weaken a test to preserve a candidate. If release proof becomes fully green, deploy and seal v1.1.5 before beginning v1.2.
