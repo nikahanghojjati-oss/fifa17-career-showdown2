@@ -6,7 +6,7 @@
   "scripts": {
     "check": "npm run test:contracts",
     "serve:test": "node tests/support/static-server.cjs",
-    "test:contracts": "node tests/contracts/stability-contracts.cjs && node tests/contracts/static-app-release-contracts.cjs && node tests/contracts/final-polish-transition.cjs && node tests/contracts/final-polish-feedback.cjs && node tests/contracts/final-polish-presentation.cjs && node tests/contracts/licensed-football-visuals-contract.cjs && node tests/contracts/backup-contracts.cjs && node tests/contracts/import-analysis-contracts.cjs && node tests/contracts/restore-storage-contracts.cjs && node tests/contracts/restore-plan-contracts.cjs && node tests/contracts/restore-stale-state-contracts.cjs && node tests/contracts/final-release-hardening.cjs",
+    "test:contracts": "node tests/contracts/stability-contracts.cjs && node tests/contracts/static-app-release-contracts.cjs && node tests/contracts/final-polish-transition.cjs && node tests/contracts/final-polish-feedback.cjs && node tests/contracts/final-polish-presentation.cjs && node tests/contracts/licensed-football-visuals-contract.cjs && node tests/contracts/season-review-snapshot.cjs && node tests/contracts/season-review-architecture.cjs && node tests/contracts/backup-contracts.cjs && node tests/contracts/import-analysis-contracts.cjs && node tests/contracts/restore-storage-contracts.cjs && node tests/contracts/restore-plan-contracts.cjs && node tests/contracts/restore-stale-state-contracts.cjs && node tests/contracts/final-release-hardening.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
     "test:browser": "node tests/browser/stability-audit.cjs",
     "test:home-visual": "node tests/browser/home-visual-audit.cjs",
