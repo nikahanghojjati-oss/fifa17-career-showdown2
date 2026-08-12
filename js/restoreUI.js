@@ -133,7 +133,9 @@
   }
 
   async function applyRestore(){
-    if(busy||!file||!analysis||!reviewedRaw)return;const plan=refreshPlan();if(!plan||!plan.ok)return;
+    if(busy||!file||!analysis||!reviewedRaw)return;
+    const plan=window.createCareerModeRestorePlan(analysis,reviewedRaw,choices);
+    if(!plan||!plan.ok){refreshPlan();return;}
     if(!window.confirm("Apply this restore plan? The backup and current state will be verified again first. Export Backup above now if you want an extra current-state recovery copy."))return;
     busy=true;const button=panel().querySelector(".careerRestoreApply");button.disabled=true;button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";status("Checking whether current data changed since review, then freshly revalidating the selected backup before any write…");
     try{
