@@ -53,5 +53,5 @@ for(const workflowFile of workflowFiles){
     });
 }
 
-assert.equal(executed, 22, `Expected 22 legacy executable workflow blocks; ran ${executed}.`);
-process.stdout.write(`All ${executed} legacy GitHub workflow blocks passed locally.\n`);
+assert.equal(executed, 27, `Expected 27 permanent executable workflow blocks; ran ${executed}.`);
+process.stdout.write(`All ${executed} permanent GitHub workflow blocks passed locally.\n`);
