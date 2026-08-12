@@ -16,13 +16,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  align:
+  stage-workflow-tree:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v5
         with:
           ref: v1.1.3-candidate-c-visual-fixes
+          fetch-depth: 1
       - name: Apply exact current-authority alignment
         run: python tools/apply_v113_current_authority.py
       - name: Guard protected budgets and historical records
@@ -36,33 +37,29 @@ jobs:
           grep -F 'Runtime asset revision: `1.1.2-r1`' RELEASE_V1.1.2.md
           grep -F 'Runtime asset revision: `1.1.1-r1`' RELEASE_V1.1.1.md
           grep -F 'Runtime asset revision: `1.1.0-r1`' RELEASE_V1.1.0.md
-          grep -F '## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate' NEXT_TASK.md
-          grep -F '**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate' PROJECT_STATE.md README.md
-      - name: Restore workflow YAML before ordinary-file commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          # GITHUB_TOKEN intentionally lacks workflow-file write permission.
-          # Current workflow YAML is updated separately through the GitHub app.
-          git checkout -- \
-            .github/workflows/validate-season-review.yml \
-            .github/workflows/validate-v1-visual-immersion.yml \
-            .github/workflows/validate-final-polish.yml \
-            .github/workflows/validate-statistics-workstream.yml \
-            .github/workflows/validate-menu-bootstrap.yml \
-            .github/workflows/validate-v110-release-burnin.yml \
-            .github/workflows/validate-static-app.yml
-      - name: Commit aligned current ordinary validators and authority docs
+      - name: Stage exact patched workflow tree and expose Git object IDs
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tests/contracts/backup-contracts.cjs \
-                  tests/contracts/import-analysis-contracts.cjs \
-                  tests/browser/import-analysis-audit.cjs \
-                  tests/support/run-release-burnin-pass.sh \
-                  PROJECT_STATE.md README.md NEXT_TASK.md 00_DEVELOPER_START_HERE.md CHANGELOG.md
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Align v1.1.3 current ordinary validators and authority docs [skip ci]'
-          git push origin HEAD:v1.1.3-candidate-c-visual-fixes
+          git add .github/workflows/validate-season-review.yml \
+                  .github/workflows/validate-v1-visual-immersion.yml \
+                  .github/workflows/validate-final-polish.yml \
+                  .github/workflows/validate-statistics-workstream.yml \
+                  .github/workflows/validate-menu-bootstrap.yml \
+                  .github/workflows/validate-v110-release-burnin.yml \
+                  .github/workflows/validate-static-app.yml
+          if git diff --cached --quiet; then
+            echo 'No workflow delta remains.'
+            git rev-parse HEAD
+            git rev-parse HEAD^{tree}
+            exit 0
+          fi
+          git commit -m 'Stage v1.1.3 current workflow identity alignment'
+          echo "STAGED_COMMIT=$(git rev-parse HEAD)"
+          echo "STAGED_TREE=$(git rev-parse HEAD^{tree})"
+          # Expected to be refused because this Actions token intentionally does
+          # not carry workflow-file write permission. The user-authorized GitHub
+          # connector publishes the already-built tree after its ID is exposed.
+          git push origin HEAD:v1.1.3-candidate-c-visual-fixes || echo 'EXPECTED_WORKFLOW_PERMISSION_REFUSAL'
