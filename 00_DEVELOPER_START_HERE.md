@@ -10,13 +10,13 @@ Application: `v1.1.3`
 
 Runtime asset revision: `1.1.3-r1`.
 
-Candidate A backup/export and Candidate B — Import Analysis + Migration Preview — are complete, merged, deployed and protected. The owner-priority v1.1.3 League Wheel/football-visual maintenance candidate is in release validation. Candidate C — Atomic Restore + Recovery UX — remains the next substantive Data Safety and Recovery build after v1.1.3 is deployed/proven.
+Candidate A backup/export, Candidate B — Import Analysis + Migration Preview — and the owner-priority v1.1.3 League Wheel/football-visual maintenance release are complete, merged, deployed and protected. Candidate C — Atomic Restore + Recovery UX — is now the next substantive Data Safety and Recovery build.
 
 Candidate B remains a preview-only protected dependency: local backup size, JSON, format, checksum, schemas, historical migrations and ID conflicts are analyzed in memory with zero canonical localStorage writes/removals. Candidate C is the first stage allowed to commit imported canonical state and must revalidate Candidate B analysis before apply.
 
 The owner-mandated `00_HANDOFF_GOLDEN_RULE.md` is permanent operating policy: every meaningful action/failure/decision/gate/merge/deployment state must be recorded continuously in the active public handoff.
 
-The current candidate identity is v1.1.3 / `1.1.3-r1`; production runtime authority remains v1.1.2 merge `6dfea100829016eee4820b342729b8c823426f95` until the v1.1.3 expected-head merge and Pages deployment complete. v1.2.0 remains reserved for Installable Offline App after Candidate C closes v1.1 Data Safety and Recovery.
+The current production identity is v1.1.3 / `1.1.3-r1`; immutable v1.1.3 runtime authority is `29760bbf33c974267bd1ad64d0839f73ad8051fa`. Candidate C is the next legal build. v1.2.0 remains reserved for Installable Offline App after Candidate C closes v1.1 Data Safety and Recovery.
 
 ## 1. Start every new session in this order
 

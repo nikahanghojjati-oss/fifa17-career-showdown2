@@ -4,7 +4,7 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 **Application version:** v1.1.3 — Owner-Priority Maintenance Candidate
 **Runtime asset revision:** `1.1.3-r1`
-**Current phase:** v1.1.3 owner-priority maintenance is in release validation; Candidate C — Atomic Restore + Recovery UX — remains next
+**Current phase:** v1.1.3 owner-priority maintenance is complete, deployed and protected; Candidate C — Atomic Restore + Recovery UX — is next
 **Protected surface:** the owner-liked cinematic loading screen remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
 **Next roadmap candidate:** Candidate C — Atomic Restore + Recovery UX
@@ -30,7 +30,7 @@ Read in this order:
 11. the `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPMENT_CONTINUATION*.md` files — detailed chronology when source/decision archaeology is genuinely required.
 12. original Project Bible — blueprint where later decisions/current source have not intentionally superseded it.
 
-The original release path **v0.95 → v1.0**, the finite v1.0.2 clean-anchor maintenance lane, v1.1.0 Candidate A and v1.1.2 Candidate B are complete and deployed. Candidate B passed the full permanent matrix twice before merge and twice again on the exact production runtime, including public Pages import analysis and the complete deployed journey. Candidate C atomic restore is now the next legal v1.1.x build. The owner-liked loading screen and clean player-anchor architecture remain protected.
+The original release path **v0.95 → v1.0**, the finite v1.0.2 clean-anchor maintenance lane, v1.1.0 Candidate A, v1.1.2 Candidate B and v1.1.3 owner-priority maintenance are complete and deployed. v1.1.3 passed all 13 permanent families twice before merge and twice again on the exact production runtime, including public Pages byte parity, Candidate A/B and the complete deployed journey. Candidate C atomic restore is now the next legal v1.1.x build. The owner-liked loading screen and accepted football-photo presentation remain protected.
 
 ---
 
@@ -38,7 +38,7 @@ The original release path **v0.95 → v1.0**, the finite v1.0.2 clean-anchor mai
 
 v1.1.3 fixes the post-selection League Wheel visual reroll by making transform animation exist only during a real spin and disarming it before the chosen angle is normalized. It also replaces the active James Rodríguez, Marcus Rashford and Anthony Martial source photographs and adds seven more licensed historic/cinematic football visuals across League Wheel, Club Assignment, Showdown Home, Season Results, Season Summary, Legacy and Rule Book.
 
-The licensed visual archive is route-scoped rather than startup-preloaded: Home startup requests zero football-photo assets. Permanent gates protect the 12-image provenance/byte set, no-upscaling/contain policy, responsive clean-anchor geometry, reduced motion, and the unchanged 165,000 raw / 37,500 gzip eager-code budgets. Candidate C remains next after this maintenance release is deployed/proven.
+The licensed visual archive is route-scoped rather than startup-preloaded: Home startup requests zero football-photo assets. Permanent gates protect the 12-image provenance/byte set, no-upscaling/contain policy, responsive clean-anchor geometry, reduced motion, and the unchanged 165,000 raw / 37,500 gzip eager-code budgets. The release is merged/deployed/twice-proven; Candidate C is now next. See `CAREER_MODE_SHOWDOWN_V1.1.3_POST_MERGE.md` for final proof.
 
 ## v1.1.2 — Candidate B Import Analysis + Migration Preview
 
