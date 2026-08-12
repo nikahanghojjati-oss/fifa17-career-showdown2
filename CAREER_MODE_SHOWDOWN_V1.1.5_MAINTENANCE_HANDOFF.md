@@ -1,5 +1,8 @@
 # Career Mode Showdown v1.1.5 Maintenance — Master Rolling Handoff
 
+> POST-MERGE STATUS NOTICE — This file is the detailed v1.1.5 development chronology. Its pre-merge branch/PR/status statements are historical. Current release authority is `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`. v1.1.5 is deployed and twice-proven; immutable runtime is `ff755a9863abc843ae9aac45178428e3a104fc65`; CI-only main head `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` does not redefine runtime. Do not resume PR #25 or the old five-matrix/twice-browser release protocol.
+
+
 Last updated: 2026-08-12
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Authoritative maintenance branch: `agent/v1.1.5-maintenance`
