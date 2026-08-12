@@ -25,7 +25,7 @@ const startupRefs = [...shell.matchAll(/(?:src|href)="((?:js|css)\/[^"?#]+)(?:\?
   .map(match => ({ file: match[1], revision: match[2] || "" }));
 assert.equal(startupRefs.filter(ref => ref.file.startsWith("js/")).length, 7, "Protected eager shell must remain seven scripts.");
 assert.deepEqual(startupRefs.filter(ref => ref.revision !== revision), [], "Every eager JS/CSS runtime reference must use the current revision.");
-assert.ok(shell.includes(`assets/reus-homescreen-v2.webp?v=${revision}`), "Protected Reus startup portrait must use the current runtime revision.");
+assert.ok(shell.includes(`assets/marco-reus-2015-cc-by.webp?v=${revision}`), "Protected Reus startup portrait must use the current runtime revision.");
 
 const currentDocs = [
   "00_DEVELOPER_START_HERE.md",
@@ -60,11 +60,11 @@ const nextTask = read("NEXT_TASK.md");
 const readme = read("README.md");
 const projectState = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
-const escapedVersion = version.replace(/\./g, "\\.");
-const bootstrapIdentity = new RegExp("(?:Release candidate application|Application version|Release candidate): [`]?v" + escapedVersion + "[`]?");
-const taskIdentity = new RegExp("(?:Release-candidate application|Application version|Current application): [`]?v" + escapedVersion + "[`]?");
-assert.match(startHere, bootstrapIdentity, "Developer bootstrap must begin from the current release identity.");
-assert.match(nextTask, taskIdentity, "NEXT_TASK must begin from the current release identity.");
+
+const startVersionPattern = new RegExp("(?:Release candidate application|Application version|Release candidate): `?v" + version.replace(/\./g, "\\.") + "`?");
+const nextVersionPattern = new RegExp("(?:Release-candidate application|Application version|Current application): `?v" + version.replace(/\./g, "\\.") + "`?");
+assert.match(startHere, startVersionPattern, "Developer bootstrap must begin from the current release identity.");
+assert.match(nextTask, nextVersionPattern, "NEXT_TASK must begin from the current release identity.");
 
 for(const [file, text] of [
   ["00_DEVELOPER_START_HERE.md", startHere],
