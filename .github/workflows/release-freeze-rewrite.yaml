@@ -9,14 +9,14 @@ permissions:
 
 jobs:
   rewrite:
-    if: github.event.head_commit.message == 'Fix temporary v1.1.4 stale-literal rewriter'
+    if: github.event.head_commit.message == 'Limit temporary v1.1.4 rewriter to non-workflow files'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v5
         with:
           ref: agent/v1.1.4-release-freeze
-      - name: Apply exact release-coherence replacements
+      - name: Apply exact non-workflow release-coherence replacements
         shell: bash
         run: |
           set -euo pipefail
@@ -40,46 +40,21 @@ jobs:
           replace_exact('js/settings.js', 'Career Mode Showdown v1.1.2', 'Career Mode Showdown v1.1.4', 1)
           replace_exact('js/settings.js', 'return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.2";', 'return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.4";', 1)
           replace_exact('js/importAnalysis.js', 'Career Mode Showdown v1.1.2', 'Career Mode Showdown Candidate B — protected read-only analysis', 1)
-
-          for path in [
-              '.github/workflows/validate-v1-visual-immersion.yml',
-              '.github/workflows/validate-final-polish.yml',
-              '.github/workflows/validate-football-visuals.yml',
-              '.github/workflows/validate-menu-bootstrap.yml'
-          ]:
-              replace_exact(path, '1.1.3-r1', '1.1.4-r1')
-
           replace_exact('tests/contracts/backup-contracts.cjs', '1.1.3-r1', '1.1.4-r1')
           replace_exact('tests/contracts/import-analysis-contracts.cjs', '1.1.3-r1', '1.1.4-r1')
-
           replace_exact('00_DEVELOPER_START_HERE.md', 'Application version: `v1.1.3`', 'Application version: `v1.1.4`', 1)
           replace_exact('00_DEVELOPER_START_HERE.md', 'Runtime asset revision: `1.1.3-r1`', 'Runtime asset revision: `1.1.4-r1`', 1)
-          replace_exact(
-              '00_DEVELOPER_START_HERE.md',
-              '- Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task;',
-              '- Candidate C — Atomic Restore + Recovery UX — is implemented; v1.1.4 release closure is the only current task;',
-              1
-          )
-          replace_exact(
-              '00_DEVELOPER_START_HERE.md',
-              '- Candidate C is the first stage allowed to commit imported canonical state;',
-              '- Candidate C is the first implemented stage allowed to commit imported canonical state after fresh revalidation and explicit choices;',
-              1
-          )
+          replace_exact('00_DEVELOPER_START_HERE.md', '- Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task;', '- Candidate C — Atomic Restore + Recovery UX — is implemented; v1.1.4 release closure is the only current task;', 1)
+          replace_exact('00_DEVELOPER_START_HERE.md', '- Candidate C is the first stage allowed to commit imported canonical state;', '- Candidate C is the first implemented stage allowed to commit imported canonical state after fresh revalidation and explicit choices;', 1)
           old_sentence = '`Career Mode Showdown is on protected v1.1.3 / 1.1.3-r1. The immutable application runtime is 29760bbf33c974267bd1ad64d0839f73ad8051fa. Candidate A export and Candidate B read-only import analysis are complete, merged and protected. Candidate C — Atomic Restore + Recovery UX — is the only current substantive roadmap task and the first stage allowed to write imported canonical state. Candidate C must freshly revalidate before Apply, collect explicit restore choices, snapshot exact raw bytes/absence for every affected canonical key, compute the whole result in memory, write only through js/storage.js authority, verify the full multi-key commit, roll back every affected key byte-for-byte on any failure, verify rollback, and update caches/navigation only after complete success. v1.2 PWA, v1.3 profiles/save registry, cloud and two-device work remain dependency-blocked. The v1.1.3 route-scoped football visual archive and protected Marco Reus presentation remain current authority, while rejected older player-photo sources must not return. Continuous public handoff recording remains mandatory.`'
           new_sentence = '`Career Mode Showdown is on the v1.1.4 / 1.1.4-r1 Candidate C release candidate while v1.1.3 remains the current public production runtime until merge. Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are implemented and protected. The only legal current work is release closure: freeze one coherent PR #24 SHA, pass every permanent family twice as required, merge with expected-head protection, wait for Pages revision convergence, prove exact deployed bytes and rerun Candidate A/B/C plus the complete public journey. v1.2.0 Installable Offline App and all later profiles/cloud/two-device work remain dependency-blocked. The v1.1.3 route-scoped football visual architecture and protected Marco Reus presentation remain current visual authority. Continuous public handoff recording remains mandatory.`'
           replace_exact('00_DEVELOPER_START_HERE.md', old_sentence, new_sentence, 1)
-          replace_exact(
-              '00_DEVELOPER_START_HERE.md',
-              'they are not ready to begin Candidate C implementation.',
-              'they are not ready to continue Candidate C release closure or begin any later milestone.',
-              1
-          )
+          replace_exact('00_DEVELOPER_START_HERE.md', 'they are not ready to begin Candidate C implementation.', 'they are not ready to continue Candidate C release closure or begin any later milestone.', 1)
           PY
 
           git diff --check
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add js .github/workflows tests/contracts 00_DEVELOPER_START_HERE.md
-          git commit -m '[freeze-rewrite] Align active v1.1.4 literals'
+          git add js tests/contracts 00_DEVELOPER_START_HERE.md
+          git commit -m '[freeze-rewrite] Align active v1.1.4 runtime/test/bootstrap literals'
           git push origin HEAD:agent/v1.1.4-release-freeze
