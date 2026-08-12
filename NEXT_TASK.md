@@ -8,7 +8,9 @@ Runtime asset revision: `1.1.3-r1`
 
 Production runtime authority: `29760bbf33c974267bd1ad64d0839f73ad8051fa`
 
-## Current baseline: v1.1.3 Owner-Priority Maintenance — COMPLETE / PROTECTED
+## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate
+
+**Release status:** COMPLETE / PROTECTED
 
 v1.1.3 is merged, deployed, twice-proven in production and protected. It fixes the owner-reported League Wheel post-selection visual reroll and replaces/expands licensed football photography with route-scoped loading while changing no gameplay, scoring or persistence semantics. Candidate C may now start from the current `main` production baseline.
 
