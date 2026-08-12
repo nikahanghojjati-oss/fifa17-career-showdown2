@@ -112,6 +112,53 @@ This file is append-only in spirit: it records diagnostic and pre-release eviden
 - Result: package/package-lock application version is `1.1.3`; runtime/cache revision is `1.1.3-r1`; footer is `v1.1.3 · Stable`; `APP_VERSION`, optional-module fallback, football-visual fallback and visual-fidelity cache query are coherent.
 - Startup splash duration was not shortened and gameplay/scoring behavior was not modified.
 
+## 2026-08-12 — current validator / authority alignment diagnostics
+
+### Current-release stale-pin audit
+
+- Temporary workflow: `Temporary v1.1.3 Release Validator Audit`.
+- Run ID: `31553085847`.
+- Conclusion: SUCCESS.
+- Purpose: identify executable validation surfaces still asserting the previous v1.1.2 current-envelope identity after runtime identity advanced to v1.1.3.
+- Finding: stale current-envelope pins existed in Season Review, V1 Visual Immersion, Final Polish, Static App, Statistics, Home Bootstrap and Release Burn-In workflows plus Candidate A/B current-envelope contract labels/support scripts.
+- Guard result: the protected eager startup ceilings remained exactly 165,000 raw bytes / 37,500 gzip bytes. The audit did not authorize any increase.
+- Historical v1.1.2/v1.1.1 release evidence was intentionally retained as history rather than globally rewritten.
+
+### First current-authority publication attempt
+
+- Temporary workflow: `Temporary v1.1.3 Current Authority Alignment`.
+- Run ID: `31553283050`.
+- Conclusion: FAILURE at publication boundary.
+- The deterministic alignment helper itself completed successfully and the budget/history guard completed successfully.
+- The workflow then created a local commit containing ordinary files plus workflow YAML, but GitHub rejected the ref update because the Actions `GITHUB_TOKEN` had `contents:write` without the separate workflow-file permission.
+- Classification: TOOLING / GITHUB SECURITY PERMISSION BOUNDARY. The intended patch was validated before GitHub refused publication; the failure did not justify bypassing or weakening repository security.
+- No rejected workflow-YAML ref update reached the branch.
+
+### Split ordinary-file alignment
+
+- Run ID: `31553331317`.
+- Conclusion: SUCCESS.
+- Strategy: rerun the exact helper and guards, restore workflow YAML before commit, and publish only ordinary current-authority docs/tests/support files with the normal Actions token.
+- Generated commit: `4a82447b26249d0602ce6ec1bab9e5bfbf92da75`.
+- Result: `PROJECT_STATE.md`, `README.md`, `NEXT_TASK.md`, `00_DEVELOPER_START_HERE.md`, `CHANGELOG.md`, Candidate A/B current-envelope contracts and release-burn-in support labels are aligned to v1.1.3 while immutable historical release records remain unchanged.
+- Workflow YAML remained intentionally pending for publication through the user-authorized GitHub connector.
+
+### Season Review workflow connector publication
+
+- `validate-season-review.yml` was advanced directly through the GitHub connector after the permission split.
+- Commit: `c270301ca310a61d75524b524d2543e95deff497`.
+- Change class: current release/cache-revision guard only; Season Review gameplay/rollback/Smart Back/a11y/startup contracts remain intact.
+
+### First exact workflow-tree staging attempt
+
+- Run ID: `31553491536`.
+- Head: `0ca7d5c6e4c8d4a5f3f4bb805e492016e491f40c`.
+- Job: `93980981506`.
+- Conclusion: FAILURE before staging.
+- Failure: the original current-authority helper is deliberately fail-closed/non-idempotent and expected at least one `v1.1.2` occurrence in `validate-season-review.yml`; that workflow had already been correctly advanced through the connector, so the helper found zero and stopped.
+- Classification: INTEGRATION-HELPER IDEMPOTENCY / ALREADY-APPLIED-SCOPE FAILURE. No staged commit/tree was created and no workflow files were published by this run.
+- Correction strategy: do not loosen the original broad helper. Create a narrow staging helper for the six remaining stale workflow files only, excluding already-correct Season Review and already-published ordinary docs/tests. That narrow helper will remain exact/fail-closed for its intended one-time scope.
+
 ## Release-proof rule
 
 Diagnostic runs, including corrected failures, are not counted toward the eventual official repeated pre-merge or production proof matrix. The final release candidate must be frozen and tested independently after temporary build/preview helpers are removed.
