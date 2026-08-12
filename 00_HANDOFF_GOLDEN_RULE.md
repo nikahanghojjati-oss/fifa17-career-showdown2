@@ -38,6 +38,19 @@ During implementation, update the handoff at meaningful checkpoints. Record:
 - owner acceptance/rejection state separately from automated/developer QA;
 - exact next legal roadmap action.
 
+## Deep historical context
+
+The normal bootstrap should stay concise and source-first. A developer does not need to reread every historical chat before ordinary work.
+
+When historical intent, superseded decisions, roadmap rationale or prior failure classes matter, read:
+
+1. `00_MASTER_DEVELOPER_CONTEXT.md`;
+2. `CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_FINAL_2026-08-12.md`.
+
+That master handoff was created after a targeted review of the owner’s official ChatGPT account export plus repository-native r4/r5 and later release records. It exists so future developers can recover the reasons behind current rules without depending on inaccessible chat memory.
+
+Historical context never overrides newer verified source or a later owner correction.
+
 ## Never do this
 
 Do not:
