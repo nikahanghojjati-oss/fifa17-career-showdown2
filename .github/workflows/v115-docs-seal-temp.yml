@@ -1,0 +1,711 @@
+name: Temporary v1.1.5 Documentation Seal
+
+on:
+  push:
+    branches: [docs/v115-post-merge-seal]
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: docs/v115-post-merge-seal
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Reconcile current authority and post-merge handoff
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          RUNTIME = "ff755a9863abc843ae9aac45178428e3a104fc65"
+          CI_HEAD = "0af73262fcc95fbd76ffe9a2f06d4b0dac911f62"
+          DEPLOY = "5878930362"
+          FIRST_STABILITY = "31650134707"
+          FIRST_DEPLOY_JOB = "94293855547"
+          SECOND_STABILITY = "31651830554"
+          SECOND_DEPLOY_JOB = "94297967413"
+          BURNIN = "31651830507"
+          CI_PR_HEAD = "36b3157073c999933e45482016e4427c165700ac"
+
+          start_here = f'''# Career Mode Showdown — Developer Start Here
+
+Last updated: 2026-08-12
+Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
+Purpose: canonical current-facing first read for a new developer session.
+
+## 0. Sixty-second state
+
+Application version: `v1.1.5`
+Runtime asset revision: `1.1.5-r1`
+Public status: deployed, protected, and independently production-proven twice
+Immutable application runtime authority: `{RUNTIME}`
+GitHub Pages deployment: `{DEPLOY}`
+Current CI/docs main head after runtime: `{CI_HEAD}`
+
+The commit after the runtime is CI/test/documentation maintenance only. It does not redefine the application runtime. The compare from `{RUNTIME}` to `{CI_HEAD}` changes only `.github/workflows` and `tests` files.
+
+Candidate A export, Candidate B read-only import analysis, and Candidate C Atomic Restore + Recovery are complete and protected. v1.1.5 fixes immutable confirmed restore intent and transaction-owned rollback while preserving strict exact raw snapshots, stale-state detection, deterministic no-op re-import, corrupt-byte preservation, storage authority, post-write verification, and byte-for-byte owned rollback verification.
+
+`CLOUD_STORAGE_FOUNDATION.md` is future architecture/security contract only. It defines identity, revisions, compare-and-swap conflicts, tombstones, privacy and security requirements. It does not authorize a cloud backend or network mutation.
+
+Next legal substantive milestone: v1.2.0 — Installable Offline App.
+
+## 1. Read order for the next developer
+
+1. `00_HANDOFF_GOLDEN_RULE.md`.
+2. This file.
+3. `NEXT_TASK.md`.
+4. `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`.
+5. `PROJECT_STATE.md`.
+6. `RELEASE_V1.1.5.md`.
+7. `CLOUD_STORAGE_FOUNDATION.md` only when identity/sync/security design is relevant.
+8. `POST_V1_ROADMAP_EXECUTION.md` before implementing v1.2.
+9. `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` only for the detailed maintenance chronology and defect archaeology.
+
+Historical Project Bible/master documents remain valuable for locked intent, but current source and current authority files win when old status text conflicts.
+
+## 2. Authority order
+
+1. current source on `main`;
+2. explicit later owner decisions;
+3. `PROJECT_STATE.md`;
+4. `NEXT_TASK.md`;
+5. this bootstrap and the current post-merge/release handoffs;
+6. roadmap/amendments;
+7. older project/history records.
+
+Never revert verified source merely to satisfy stale documentation. Correct the stale document.
+
+## 3. Product and gameplay locks
+
+Career Mode Showdown is a two-manager FIFA 17 Career Mode rivalry companion, not a browser football simulator and not yet a cloud/account product.
+
+Locked model:
+
+- exactly two managers;
+- one local browser/device and one active Showdown;
+- both managers play their own FIFA 17 Career Mode saves outside the site;
+- manual FIFA 17 result entry is authoritative;
+- same selected league, different permanent clubs;
+- Showdown lengths `[1,3,5,10]`;
+- default leagues Premier League, LaLiga, Bundesliga, Serie A, Ligue 1;
+- Champions League +5, League +3, main domestic Cup +1;
+- 100 points and/or 100 goals share maximum +1;
+- Top Scorer and/or Top Assist share maximum +1;
+- maximum Season score 11;
+- equal non-zero scores are Draw;
+- only 0–0 uses league position then league points.
+
+Do not change scoring/gameplay rules during v1.2 PWA work.
+
+## 4. Architecture authority
+
+Navigation/history: `js/screens.js`.
+Persistence and destructive transaction authority: `js/storage.js`.
+Atomic raw transaction engine: `js/storageTransaction.js` behind storage authority.
+Scoring: `js/scoring.js`.
+Canonical Showdown model: `js/showdown.js`.
+Analytics: `js/analytics.js`.
+
+Canonical localStorage keys remain exactly:
+
+1. `careerModeShowdown.activeShowdown`
+2. `careerModeShowdown.legacyShowdowns`
+3. `careerModeShowdown.preferences`
+
+Current Showdown schema: 2.
+Current preferences schema: 2.
+
+## 5. Candidate A/B/C data-safety contract
+
+Candidate A is non-mutating export. SHA-256 is integrity evidence only, not encryption/authentication/signing.
+
+Candidate B is strictly read-only analysis. A preview never grants write authority.
+
+Candidate C is the only import stage allowed to commit canonical state. A legal Apply must preserve this sequence:
+
+1. flush pending canonical writes;
+2. freeze the exact confirmed File, choices, and reviewed raw precondition before asynchronous work;
+3. freshly revalidate that exact file;
+4. capture a strict exact raw snapshot that distinguishes absence from read failure;
+5. reject stale reviewed state;
+6. compute the complete final candidate in memory;
+7. require explicit active/Legacy/preferences/conflict choices;
+8. enter storage authority with exact planning bytes as precondition;
+9. recheck exact bytes immediately before each mutation;
+10. write deterministic active → Legacy → preferences order;
+11. grant mutation ownership only after a successful write;
+12. verify every committed byte/value;
+13. on failure roll back only transaction-owned mutations, in reverse order;
+14. refuse to clobber third/newer unowned bytes;
+15. verify owned rollback byte-for-byte;
+16. lock critical recovery and invalidate uncertain caches if ownership/rollback cannot be proven;
+17. synchronize runtime/navigation only after complete verified success;
+18. keep repeated identical restore a zero-write no-op;
+19. preserve corrupt raw bytes unless explicit replacement is chosen;
+20. keep all canonical mutation under `js/storage.js` authority.
+
+Recovery states are intentionally distinct: `RESTORE NOT STARTED`, `RESTORE ROLLED BACK`, and `CRITICAL RECOVERY STATE`.
+
+## 6. v1.1.5 release evidence
+
+Runtime SHA: `{RUNTIME}`.
+Pages deployment: `{DEPLOY}`.
+
+Production proof 1:
+- Stability run `{FIRST_STABILITY}`, attempt 1;
+- deployed-site-smoke job `{FIRST_DEPLOY_JOB}`;
+- exact runtime bytes, provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C, and complete public journey all green.
+
+Production proof 2 after CI-only orchestration maintenance:
+- Stability run `{SECOND_STABILITY}`;
+- deployed-site-smoke job `{SECOND_DEPLOY_JOB}`;
+- the same exhaustive public boundary green again;
+- focused integration Burn-In run `{BURNIN}` passed 2/2.
+
+The second proof is valid for the same application runtime because `{RUNTIME}` → `{CI_HEAD}` changes no application/runtime/assets/data files.
+
+## 7. CI orchestration rule — do not recreate the testing loop
+
+The old test architecture caused repeated waiting and false backtracking. The application was not failing; the orchestration was duplicating long browser work and reruns could cancel newer proofs.
+
+Permanent rules now:
+
+- specialized workflow owns specialized evidence exactly once per workflow attempt;
+- Candidate B runs one authoritative browser analysis per attempt;
+- Candidate C runs one authoritative restore/recovery browser audit per attempt;
+- local Stability runs one runtime-provenance audit plus one complete integration journey;
+- deployed Stability remains exhaustive: byte parity + provenance + Home + visuals + A + B + C + full journey;
+- Burn-In is main/manual only and repeats the complete integration journey twice, not five full release matrices;
+- heavy Stability/B/C/Burn-In workflows ignore Markdown-only changes;
+- fresh attempt-1 PR/push runs may cancel stale work;
+- reruns/manual dispatches must queue and must not cancel an active proof;
+- do not rerun all permanent families merely to repeat one public proof;
+- if an independent live proof is needed, rerun the canonical deployed-site smoke/stability lane, not every unrelated family;
+- never infer failure just because GitHub's UI resets after a rerun: inspect `run_attempt` or the `/attempts/{{n}}/jobs` history;
+- do not poll long jobs every 10–20 seconds. Record the run ID once, do other work, and inspect when enough wall time has passed or when a specific failure signal appears.
+
+Measured improvement: the old local Stability browser step took about 6m47s; canonical Stability took about 1m11s on the optimized PR, roughly 82% less wall time. The permanent orchestration contract records a reduction from 53 duplicated long-suite command invocations to 4 on a normal PR across the affected lanes.
+
+## 8. Performance and presentation locks
+
+Eager raw code ceiling: 165,000 bytes.
+Eager gzip ceiling: 37,500 bytes.
+Startup Marco Reus portrait ceiling: 95,000 bytes.
+Combined first-party startup ceiling: 260,000 bytes.
+Normal loading minimum: 2700 ms.
+Reduced-motion loading: 220 ms.
+
+Protected Marco Reus Home/loading presentation and accepted licensed route-photo sources remain unchanged.
+
+## 9. Future cloud boundary
+
+Cloud remains future-only. Before any cloud implementation, preserve:
+
+- distinct `accountId`, `profileId`, `saveId`, `deviceId`, `installationId`, and object identity;
+- server-authoritative revision tokens and `baseRevision`/parent semantics;
+- compare-and-swap mutation and explicit conflicts;
+- tombstones/deletion revisions and anti-resurrection;
+- local-first opt-in privacy, minimization, export/delete and retention;
+- TLS, authentication, server-side authorization, least privilege, secure tokens, replay/idempotency protection, rate/schema/size limits;
+- no admin/service secret in static client JS;
+- no future cloud module calling localStorage directly;
+- all downloaded/conflict-resolved state passing the same local exact-snapshot/precondition/verification/ownership rollback boundary.
+
+## 10. Next milestone
+
+v1.2.0 — Installable Offline App.
+
+Start with manifest/service-worker/update/cache recovery design. The service worker must never mix incompatible runtime revisions or make local recovery less reliable. Stable local profiles/save identity are v1.3; cloud readiness comes later.
+
+A correctly oriented next developer should be able to state:
+
+`v1.1.5 / 1.1.5-r1 is deployed and proven. Immutable application runtime is {RUNTIME}; later main head {CI_HEAD} is CI/test maintenance only. Candidate A/B/C are complete. v1.1.5 fixes immutable confirmed restore intent and transaction-owned rollback. The old duplicated test loop has been removed and must not be recreated. Cloud is future-contract-only. The next substantive milestone is v1.2.0 Installable Offline App.`
+'''
+
+          next_task = f'''# NEXT TASK — Career Mode Showdown
+
+Last updated: 2026-08-12
+
+Application version: `v1.1.5`
+Runtime asset revision: `1.1.5-r1`
+Public release status: deployed and independently production-proven twice
+Immutable application runtime authority: `{RUNTIME}`
+Current CI/docs main head: `{CI_HEAD}`
+GitHub Pages deployment: `{DEPLOY}`
+
+## Current status
+
+v1.1.5 Restore Transaction Safety Maintenance is complete. PR #25 is merged. Candidate A, Candidate B and Candidate C are complete and protected. The application runtime is `{RUNTIME}`. The later main head contains CI/test orchestration only and does not redefine runtime authority.
+
+The two v1.1.5 maintenance fixes are closed:
+
+1. immutable confirmed restore intent across asynchronous fresh revalidation;
+2. transaction-owned rollback with strict snapshots, exact preconditions, anti-clobber ownership checks and byte-for-byte owned rollback verification.
+
+Cloud identity/revision/conflict/tombstone/privacy/security work remains future-contract-only in `CLOUD_STORAGE_FOUNDATION.md`.
+
+## Release evidence already satisfied
+
+First exhaustive public proof:
+- Stability run `{FIRST_STABILITY}`, attempt 1;
+- deployed smoke job `{FIRST_DEPLOY_JOB}`;
+- exact byte parity, provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C and complete journey passed.
+
+Second exhaustive public proof:
+- optimized Stability run `{SECOND_STABILITY}`;
+- deployed smoke job `{SECOND_DEPLOY_JOB}`;
+- same public boundary passed again;
+- focused Release Integration Burn-In `{BURNIN}` passed 2/2.
+
+CI-only orchestration merge `{CI_HEAD}` changes no application/runtime/assets/data files compared with runtime `{RUNTIME}`.
+
+## Permanent validation topology
+
+There remain 14 permanent workflow families and 27 protected `.yml` executable blocks. The normal PR surface is intentionally 13 families because Release Integration Burn-In is main/manual only.
+
+Testing ownership is now single-purpose:
+
+- workstream workflows own their specialized contracts/browser evidence;
+- Candidate B owns one authoritative import-analysis browser run per attempt;
+- Candidate C owns one authoritative restore/recovery browser run per attempt;
+- local Stability owns one provenance pass + one full integration journey;
+- deployed Stability owns exact bytes + provenance + Home + visuals + Candidate A/B/C + full journey;
+- Release Integration Burn-In owns two repeated complete stateful journeys on main/manual release use;
+- Markdown-only seals skip the heavy B/C/Stability/Burn-In lanes and rely on Static/release-authority coherence.
+
+Do not restore the old `for attempt in 1 2` browser loops, Candidate C inside every Burn-In pass, five complete Burn-In matrices, or whole-matrix reruns for a single proof. `tests/contracts/ci-orchestration-contracts.cjs` permanently rejects those regressions.
+
+## Immediate legal task
+
+Begin v1.2.0 — Installable Offline App.
+
+Before writing runtime code:
+
+1. read `00_DEVELOPER_START_HERE.md`;
+2. read `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`;
+3. read the v1.2 section of `POST_V1_ROADMAP_EXECUTION.md`;
+4. inspect current startup/cache identity and storage/recovery boundaries;
+5. design service-worker install/activate/update/recovery so incompatible runtime revisions can never mix;
+6. preserve all gameplay/scoring/data-safety rules;
+7. keep cloud/account/profile work dependency-blocked.
+
+v1.2 required direction:
+
+- web app manifest and original install metadata/icons;
+- service worker for versioned first-party shell;
+- atomic cache activation;
+- visible Update Ready flow;
+- offline status and graceful unavailable external media;
+- Chromebook/Android install behavior and browser-appropriate guidance elsewhere;
+- first-load, repeat-load, offline, update, rollback and cache-corruption tests;
+- two consecutive cache-revision upgrade/rollback proofs before release.
+
+## Protected systems v1.2 must not alter
+
+- exactly two managers;
+- Showdown lengths `[1,3,5,10]`;
+- same selected league / different permanent clubs;
+- max-11 scoring and 0–0-only tiebreak;
+- League-confirmation and club-rivalry checkpoints;
+- Transfer Challenge state machine;
+- Season Review persistence boundary;
+- Statistics/Legacy/Trophy calculations;
+- centralized Smart Back/navigation ownership;
+- exactly three canonical current localStorage keys;
+- Candidate A non-mutating backup format v1;
+- Candidate B read-only analysis;
+- Candidate C strict exact raw snapshot + transaction-owned rollback semantics;
+- protected Marco Reus/football-photo presentation;
+- startup budgets;
+- local-first behavior.
+
+## CI operating rule for the next developer
+
+Do not spend development time watching GitHub Actions every few seconds. Start the relevant run, record its run ID, continue independent work, and inspect after an appropriate interval. A rerun changes `run_attempt` and can make the UI look like a completed job restarted; use attempt history rather than calling that a product failure.
+
+When a failure occurs, rerun only the failed/cancelled owner job after diagnosing its cause. Never rerun every permanent workflow merely because one long job was interrupted.
+
+## Exact continuation command
+
+`Load current main. Read 00_HANDOFF_GOLDEN_RULE.md, 00_DEVELOPER_START_HERE.md, NEXT_TASK.md, CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md, PROJECT_STATE.md and RELEASE_V1.1.5.md. Treat {RUNTIME} as immutable v1.1.5 application runtime and {CI_HEAD} as CI/test maintenance only. Do not reopen Candidate C or the v1.1.5 release. Do not recreate the old redundant test loops. Begin only v1.2.0 Installable Offline App design/implementation while preserving local data-safety and cache-revision integrity. Cloud remains future-contract-only.`
+'''
+
+          post_merge = f'''# Career Mode Showdown v1.1.5 — Post-Merge Release and CI Handoff
+
+Last updated: 2026-08-12
+Status: FINAL v1.1.5 RELEASE AUTHORITY AND NEXT-DEVELOPER HANDOFF
+
+## 1. Immutable release identity
+
+Application: `v1.1.5`
+Runtime revision: `1.1.5-r1`
+Immutable application runtime SHA: `{RUNTIME}`
+GitHub Pages deployment: `{DEPLOY}`
+Later CI/test-only main head: `{CI_HEAD}`
+
+Do not confuse the runtime SHA with the later repository head. The comparison from `{RUNTIME}` to `{CI_HEAD}` contains only workflow/test files. No HTML, CSS, JS runtime, data, or asset byte changed. Therefore `{RUNTIME}` remains application authority.
+
+## 2. What v1.1.5 fixed
+
+Major bug 1 — confirmed intent race.
+
+The previous Apply flow could confirm one restore plan but consume later file/choice mutations while asynchronous fresh verification was in progress. v1.1.5 freezes the exact confirmed File, deep-copied choices and reviewed raw precondition before the first await, locks the restore decision surface, generation-binds async review and commits only the confirmed values.
+
+Major bug 2 — rollback ownership.
+
+The previous transaction rolled back every planned affected key rather than only successful mutations. v1.1.5 uses strict exact raw snapshots, entry/per-write byte preconditions, mutation ownership only after successful writes, reverse rollback of owned keys only, anti-clobber ownership checks, byte-for-byte rollback verification and critical cache invalidation when ownership cannot be proven.
+
+Permanent recovery states:
+- `RESTORE NOT STARTED` — zero successful mutation;
+- `RESTORE ROLLED BACK` — owned changes restored and verified;
+- `CRITICAL RECOVERY STATE` — ownership/rollback uncertain; controls lock until refresh.
+
+Repeated identical restore remains zero-write. Corrupt raw bytes remain preserved unless explicit replacement is selected.
+
+## 3. Cloud groundwork delivered without cloud runtime
+
+`CLOUD_STORAGE_FOUNDATION.md` defines future-only identity/revision/conflict/tombstone/privacy/security constraints. The important rules are:
+
+- account/profile/save/device/installation/object identity are distinct;
+- server revisions are authoritative; timestamps/content hashes are not mutation authority;
+- writes use base revision / compare-and-swap;
+- divergent heads become explicit conflicts, not silent last-write-wins gameplay state;
+- deletions use tombstones/deletion revisions and anti-resurrection rules;
+- cloud remains opt-in/local-first with minimization, export/delete and retention;
+- server-side authentication/authorization, TLS, least privilege, secure session/token handling, replay/idempotency protection and rate/schema/size limits are mandatory;
+- no admin/service secret may ship in static client JS;
+- future sync modules may not call localStorage directly;
+- remote/conflict-resolved state must re-enter the same exact local Candidate C transaction boundary.
+
+No cloud backend was added in v1.1.5.
+
+## 4. Pre-merge release evidence
+
+Frozen release-candidate SHA: `97088274e1eac377927476b84c6090e7233e0997`.
+
+The candidate passed the permanent matrix. Candidate C evidence included the original deep recovery scenarios plus v1.1.5 confirmed-intent and first-write-clean maintenance scenarios. Candidate C screenshots were manually reviewed. Burn-In and Stability also passed on the release candidate.
+
+## 5. Production proof 1
+
+Runtime merge SHA `{RUNTIME}` deployed successfully to Pages deployment `{DEPLOY}`.
+
+Stability run `{FIRST_STABILITY}` attempt 1 is the authoritative first production record. Its deployed-site-smoke job `{FIRST_DEPLOY_JOB}` passed:
+
+1. exact deployed runtime-byte verification;
+2. runtime error provenance;
+3. Home/Reus visual audit;
+4. licensed crop-safe football-photo audit;
+5. Candidate A export;
+6. Candidate B read-only import analysis;
+7. Candidate C destructive restore/recovery;
+8. complete public gameplay/navigation journey.
+
+GitHub later reran this workflow, which reset the visible current job list. That rerun did not invalidate attempt 1. The attempt-history endpoint preserves the completed evidence.
+
+## 6. Why testing appeared to “glitch”
+
+This was an orchestration problem, not an application-stability failure.
+
+Root causes:
+
+1. local Stability serialized seven browser suites and then repeated the entire set twice;
+2. Candidate B also repeated its own multi-scenario browser suite twice;
+3. Candidate C also repeated its own deep recovery suite twice;
+4. Burn-In launched five parallel copies of nearly the whole release matrix, including tests already owned elsewhere;
+5. documentation/release-seal commits could start those heavy browser lanes again;
+6. frequent 10–25 second polling created a long stream of waiting/status calls without advancing development;
+7. most importantly, Stability had `cancel-in-progress: true` for the PR concurrency group. Rerunning older Stability run 461 as attempt 2 while newer run 462 was active cancelled the newer Chromium proof. The test did not fail; GitHub cancelled it.
+8. GitHub's commit/run UI shows the latest attempt and can make a completed workflow look as though it restarted. Attempt 1 remains independently queryable.
+
+Exact cancellation lesson: never call a cancelled rerun a product failure until the run/attempt/event/concurrency cause is inspected.
+
+## 7. CI orchestration remedy
+
+CI-only PR #26 was validated and merged as `{CI_HEAD}`. Its validated PR head was `{CI_PR_HEAD}`.
+
+Application runtime did not change.
+
+The new model:
+
+- Candidate B: one authoritative browser analysis per workflow attempt;
+- Candidate C: one authoritative restore/recovery browser suite per workflow attempt;
+- local Stability: one runtime-provenance audit + one complete integration journey;
+- deployed Stability: remains exhaustive with exact bytes + provenance + Home + visuals + A + B + C + full journey;
+- Release Integration Burn-In: main/manual only, two stateful full journeys, not five copies of the full matrix;
+- heavy B/C/Stability/Burn-In workflows ignore Markdown-only changes;
+- fresh attempt-1 PR/push runs may cancel stale work;
+- deliberate reruns and workflow_dispatch queue rather than cancelling an active proof;
+- specialized evidence has one owner instead of being reproduced across multiple workflows;
+- `ci-orchestration-contracts.cjs` fails if the old duplication/concurrency pattern returns.
+
+Measured result:
+
+- old local Stability browser step: about 6m47s;
+- optimized canonical Stability browser step: about 1m11s;
+- approximately 82% lower wall time for that job;
+- affected normal-PR long-suite command invocations: 53 historically → 4 under the protected model, over 90% lower duplication.
+
+## 8. Production proof 2 after CI-only optimization
+
+Optimized main Stability run `{SECOND_STABILITY}` passed canonical local provenance/integration and then the exhaustive deployed-site smoke.
+
+Deployed smoke job `{SECOND_DEPLOY_JOB}` passed the same eight public boundaries as proof 1: exact bytes, provenance, Home, licensed visuals, Candidate A, Candidate B, Candidate C, complete public journey.
+
+Focused Release Integration Burn-In run `{BURNIN}` passed 2/2 stateful integration journeys.
+
+Because the CI-only merge changes no runtime files, this is an independent second production proof of the same v1.1.5 application runtime `{RUNTIME}`.
+
+## 9. How to test without recreating the wait loop
+
+For future developers:
+
+1. choose the workflow that owns the changed behavior;
+2. record the run ID once;
+3. continue independent work instead of polling every few seconds;
+4. inspect the run after a realistic interval or on a real failure signal;
+5. use job logs/annotations to diagnose a failure before rerunning;
+6. rerun only the failed/cancelled owner job when possible;
+7. never rerun the complete permanent matrix merely to obtain a second copy of one proof;
+8. for release repetition, repeat the canonical deployed smoke rather than every specialized lane;
+9. if the GitHub UI appears to go backward after rerun, inspect `run_attempt` and `/actions/runs/<run>/attempts/<n>/jobs`;
+10. do not modify the frozen runtime while evidence is still being collected;
+11. keep docs-only seals Markdown-only so heavy browser lanes remain skipped.
+
+## 10. Current protected validation structure
+
+There are 14 permanent workflow families and 27 protected executable `.yml` blocks. Normal PRs intentionally exercise 13 families because Release Integration Burn-In is main/manual only.
+
+Static App remains the broad deterministic/release-authority/coherence guard. Candidate B and Candidate C own their specialist browser evidence. Stability owns canonical integration and exhaustive deployed smoke. Burn-In owns only repeated stateful integration.
+
+Do not weaken startup limits or delete unique assertions for speed. Speed came from eliminating duplicated ownership, not from removing safety boundaries.
+
+## 11. Documentation authority
+
+`CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` is now historical implementation chronology. This post-merge file is the current v1.1.5 closure handoff.
+
+The final docs-only seal must not redefine `{RUNTIME}` as the application runtime. Later documentation SHAs are evidence heads only.
+
+## 12. Next legal substantive milestone
+
+v1.2.0 — Installable Offline App.
+
+The first design question is not “how do I register a service worker?” It is “how do install/update/rollback/cache corruption preserve the exact v1.1.5 data-safety and runtime-revision guarantees?”
+
+Required v1.2 themes:
+- manifest/install metadata;
+- original icons/theme metadata;
+- versioned first-party service-worker shell cache;
+- atomic cache activation;
+- visible Update Ready flow;
+- offline status and graceful external-media absence;
+- Chromebook/Android install behavior;
+- cache-corruption and update rollback testing;
+- two consecutive revision upgrade/rollback proofs before release.
+
+v1.3 stable local profiles/save identity comes later. Cloud readiness and cloud backup remain later still.
+
+## 13. Exact next-developer orientation
+
+`v1.1.5 / 1.1.5-r1 is closed, deployed and twice production-proven. Immutable application runtime is {RUNTIME}; {CI_HEAD} is CI/test-only orchestration maintenance and does not redefine runtime. Candidate A/B/C are complete. The two maintenance fixes are immutable confirmed restore intent and transaction-owned rollback with strict exact raw snapshots/preconditions/verification. The old duplicated CI loop caused apparent glitches and has been replaced by single-owner evidence, rerun-safe concurrency, Markdown-only skips, canonical Stability and focused two-pass Burn-In. Cloud remains future-contract-only. Begin v1.2.0 Installable Offline App without reopening v1.1.5.`
+'''
+
+          Path("00_DEVELOPER_START_HERE.md").write_text(start_here, encoding="utf-8")
+          Path("NEXT_TASK.md").write_text(next_task, encoding="utf-8")
+          Path("CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md").write_text(post_merge, encoding="utf-8")
+
+          def replace_between(path, start_marker, end_marker, replacement):
+              p = Path(path)
+              text = p.read_text(encoding="utf-8")
+              start = text.find(start_marker)
+              end = text.find(end_marker, start)
+              if start < 0 or end < 0:
+                  raise SystemExit(f"Markers not found in {path}: {start_marker!r} / {end_marker!r}")
+              p.write_text(text[:start] + replacement.rstrip() + "\n\n" + text[end:], encoding="utf-8")
+
+          readme_intro = f'''# Career Mode Showdown
+
+A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
+
+Application version: v1.1.5 — Restore Transaction Safety Maintenance
+Runtime asset revision: `1.1.5-r1`
+Release status: deployed and independently production-proven twice
+Immutable application runtime authority: `{RUNTIME}`
+GitHub Pages deployment: `{DEPLOY}`
+Current CI/docs main head: `{CI_HEAD}` — workflow/test maintenance only; runtime unchanged
+Current developer entry: `00_DEVELOPER_START_HERE.md`
+Current release handoff: `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`
+Future cloud contract: `CLOUD_STORAGE_FOUNDATION.md` — architecture/security groundwork only, no cloud runtime
+Next substantive milestone: v1.2.0 — Installable Offline App
+
+## Development entry point
+
+v1.1.5 is closed. Do not restart Candidate C or release closure. Read `00_DEVELOPER_START_HERE.md`, `NEXT_TASK.md`, `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`, then the v1.2 roadmap section. The maintenance handoff remains detailed history, not current status.
+
+The two v1.1.5 safety fixes are immutable confirmed restore intent and transaction-owned rollback. Candidate C continues to require a strict exact raw snapshot, complete in-memory planning, exact stale/prewrite preconditions, canonical storage authority, post-write verification, byte-for-byte owned rollback verification, deterministic repeat-import no-op behavior, corrupt-byte preservation and explicit recovery UX.
+
+CI after v1.1.5 uses single-owner evidence: Candidate B/C each run once per attempt, local Stability is canonical provenance + full journey, production Stability remains exhaustive, and Burn-In is two focused main/manual journeys. Markdown-only docs seals do not launch the heavy browser lanes.
+
+Read in this order:
+1. `00_HANDOFF_GOLDEN_RULE.md`;
+2. `00_DEVELOPER_START_HERE.md`;
+3. `NEXT_TASK.md`;
+4. `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`;
+5. `PROJECT_STATE.md`;
+6. `RELEASE_V1.1.5.md`;
+7. `POST_V1_ROADMAP_EXECUTION.md`;
+8. `CLOUD_STORAGE_FOUNDATION.md` when future sync/security is relevant.
+'''
+          replace_between("README.md", "# Career Mode Showdown\n", "## Product model and locked rules", readme_intro)
+
+          project_intro = f'''# PROJECT STATE — Career Mode Showdown
+
+Last updated: 2026-08-12
+
+## Authority / continuation rule
+
+v1.1.5 Restore Transaction Safety Maintenance is complete, merged, deployed and independently production-proven twice. Candidate A/B/C are closed and protected. The current legal substantive milestone is v1.2.0 Installable Offline App.
+
+Do not reopen Candidate C, cloud implementation, profiles, or two-device work while beginning v1.2. Cloud remains future-contract-only.
+
+Authority when sources disagree:
+1. current source on `main`;
+2. explicit later owner decisions;
+3. `PROJECT_STATE.md`;
+4. `NEXT_TASK.md`;
+5. current post-merge/release handoffs;
+6. roadmap/amendments;
+7. older historical documents/conversations.
+
+Never redefine the immutable application runtime merely because a later CI/docs-only main commit exists.
+
+## Current implementation
+
+Application version: v1.1.5 — Restore Transaction Safety Maintenance
+Runtime asset revision: `1.1.5-r1`
+Hosting: GitHub Pages
+Technology: static HTML + CSS + vanilla JavaScript + browser localStorage
+Product mode: exactly two managers, one device/browser, one active Showdown
+Immutable application runtime authority: `{RUNTIME}`
+GitHub Pages deployment: `{DEPLOY}`
+Current CI/docs main head: `{CI_HEAD}`
+Production proof 1: Stability `{FIRST_STABILITY}` attempt 1 / deployed smoke `{FIRST_DEPLOY_JOB}`
+Production proof 2: Stability `{SECOND_STABILITY}` / deployed smoke `{SECOND_DEPLOY_JOB}`
+Focused Release Integration Burn-In: `{BURNIN}` — 2/2
+Protected visual surface: Marco Reus Home/loading presentation and accepted route-scoped licensed football visuals
+Future cloud status: future architecture/security contract only; no backend/network mutation authorized
+Next substantive milestone: v1.2.0 — Installable Offline App
+
+The CI/docs head after `{RUNTIME}` changes only workflows/tests. Runtime authority remains `{RUNTIME}`.
+
+## CI/release proof ownership
+
+There remain 14 permanent workflow families and 27 protected executable `.yml` blocks. Normal PRs intentionally run 13 families because Release Integration Burn-In is main/manual only.
+
+The old duplicated validation pattern is retired. Candidate B owns one import browser run per attempt. Candidate C owns one restore browser run per attempt. Local Stability owns one provenance + complete journey pass. Deployed Stability remains exhaustive across exact bytes, provenance, Home, licensed visuals, Candidate A/B/C and full journey. Burn-In repeats the complete stateful journey twice. Heavy B/C/Stability/Burn-In ignore Markdown-only changes.
+
+Rerun/manual attempts queue rather than cancelling active proofs; only fresh attempt-1 PR/push runs may replace stale work. Do not rerun the whole permanent matrix for one interrupted owner job.
+'''
+          replace_between("PROJECT_STATE.md", "# PROJECT STATE — Career Mode Showdown\n", "## v1.1.5 maintenance changes", project_intro)
+
+          release = Path("RELEASE_V1.1.5.md").read_text(encoding="utf-8")
+          release = release.replace("Status: PRE-MERGE RELEASE CANDIDATE\nOwner acceptance: pending final deployed build proof", "Status: RELEASED — DEPLOYED AND INDEPENDENTLY PRODUCTION-PROVEN TWICE\nOwner acceptance: technical release proof complete")
+          release = release.replace("The permanent Candidate C browser command now runs the original deep recovery audit plus the new maintenance audit, so the dedicated Candidate C lane, Stability and every Burn-In pass inherit the new scenarios.", "The permanent Candidate C browser command runs the original deep recovery audit plus the v1.1.5 maintenance audit. Candidate C owns that specialist evidence once per workflow attempt, while exhaustive deployed Stability re-executes Candidate C against public Pages. Focused Burn-In repeats the complete stateful integration journey without duplicating Candidate C's specialist suite.")
+          final_evidence = f'''## Final release evidence
+
+v1.1.5 is released.
+
+Immutable application runtime SHA: `{RUNTIME}`
+Runtime revision: `1.1.5-r1`
+GitHub Pages deployment: `{DEPLOY}`
+CI/test-only main head after runtime: `{CI_HEAD}`
+
+Production proof 1 used Stability run `{FIRST_STABILITY}` attempt 1 and deployed smoke job `{FIRST_DEPLOY_JOB}`. Exact deployed bytes, provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C and the complete public journey passed.
+
+Production proof 2 used optimized Stability run `{SECOND_STABILITY}` and deployed smoke job `{SECOND_DEPLOY_JOB}`. The same exhaustive public boundary passed again. Focused Release Integration Burn-In `{BURNIN}` passed 2/2.
+
+The CI-only merge after the runtime changes no application/runtime/assets/data file, so `{RUNTIME}` remains immutable runtime authority.
+
+### Post-merge CI orchestration maintenance
+
+The release investigation found that apparent Stability “glitches” were orchestration churn rather than application failure. Old local Stability repeated seven browser suites twice; Candidate B/C duplicated their own deep suites; Burn-In repeated nearly the complete matrix five times; and a rerun could cancel a newer proof through the PR concurrency group.
+
+CI-only PR #26 removed that redundancy without removing unique safety coverage. Local Stability is now canonical provenance + one full integration journey; Candidate B/C each own one specialist browser pass per attempt; deployed Stability remains exhaustive; Burn-In is two main/manual stateful journeys; reruns/manual dispatches queue; Markdown-only seals skip heavy lanes. A permanent CI-orchestration contract prevents regression.
+
+Measured local Stability browser wall time fell from about 6m47s to about 1m11s on validation, while the protected model reduces the affected normal-PR long-suite command invocations from 53 to 4.
+'''
+          release = re.sub(r"## Formal release evidence still required[\s\S]*?(?=## Next dependency boundary)", final_evidence + "\n", release)
+          release = release.replace("After v1.1.5 is deployed and twice-proven, v1.2.0 Installable Offline App is the next legal substantive build.", "v1.2.0 Installable Offline App is now the next legal substantive build.")
+          Path("RELEASE_V1.1.5.md").write_text(release, encoding="utf-8")
+
+          changelog = Path("CHANGELOG.md").read_text(encoding="utf-8")
+          changelog = changelog.replace("- Added real-browser maintenance races/failure scenarios to Candidate C, Stability and every Burn-In pass.", "- Added real-browser maintenance race/failure scenarios to the dedicated Candidate C gate and exhaustive deployed Stability proof; post-merge CI orchestration then removed redundant specialist replays from local Stability/Burn-In.")
+          anchor = "- Normal loading remains 2700 ms and reduced-motion startup remains 220 ms."
+          note = "- Post-merge CI maintenance removed duplicate long browser matrices, made reruns cancellation-safe, skipped heavy browser lanes for Markdown-only seals, reduced local Stability browser wall time from about 6m47s to about 1m11s, and kept the full deployed A/B/C release boundary."
+          if note not in changelog:
+              changelog = changelog.replace(anchor, anchor + "\n" + note)
+          Path("CHANGELOG.md").write_text(changelog, encoding="utf-8")
+
+          roadmap = Path("POST_V1_ROADMAP_EXECUTION.md").read_text(encoding="utf-8")
+          roadmap_current = f'''## 2. Current starting point
+
+Current application: `v1.1.5`
+Current runtime revision: `1.1.5-r1`
+Immutable runtime authority: `{RUNTIME}`
+Public status: deployed and independently production-proven twice
+Current CI/docs head: `{CI_HEAD}` — no application runtime change
+
+Current product model remains exactly two managers, one browser/device, one active local Showdown, manual FIFA 17 result entry, localStorage persistence, GitHub Pages and static HTML/CSS/vanilla JavaScript.
+
+Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 permanently adds immutable confirmed restore intent, strict exact raw snapshot/precondition handling and transaction-owned rollback.
+
+`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime.
+
+v1.2.0 Installable Offline App is now the current substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after it.
+'''
+          replace_between("POST_V1_ROADMAP_EXECUTION.md", "## 2. Current starting point", "## 3. Permanent rules", roadmap_current)
+          roadmap = Path("POST_V1_ROADMAP_EXECUTION.md").read_text(encoding="utf-8")
+          section6 = '''## 6. Stability and v1.1 exit state
+
+The original v1.0.x Stability Lane is closed. Its deterministic contracts, browser journeys, corrupt-storage/quota/reload/navigation coverage, exact deployed-byte checks and protected Home/Reus/football-visual gates remain permanent regression infrastructure.
+
+The old r5 James/Rashford/Martial acceptance condition is historical and has been superseded by the accepted v1.1.3 route-scoped visual archive. Do not reopen that visual selection work without new owner evidence.
+
+v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery. v1.1.5 maintenance is merged, deployed and twice-proven. Candidate A/B/C are now complete; it is not the current task list.
+
+v1.2.0 Installable Offline App is the current substantive roadmap milestone.
+
+Validation ownership after v1.1.5 is intentionally non-duplicative: specialist workflows own specialist evidence, local Stability owns one canonical integration pass, deployed Stability remains exhaustive, and Release Integration Burn-In repeats the stateful journey twice on main/manual release use. Do not rebuild the old five-matrix/twice-inside-every-job pattern.
+'''
+          p = Path("POST_V1_ROADMAP_EXECUTION.md")
+          text = p.read_text(encoding="utf-8")
+          s = text.find("## 6. Stability and v1.1 exit state")
+          e = text.find("## 7. v1.1.0", s)
+          if s < 0 or e < 0: raise SystemExit("Roadmap section 6 markers missing")
+          p.write_text(text[:s] + section6 + "\n" + text[e:], encoding="utf-8")
+
+          handoff = Path("CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md")
+          text = handoff.read_text(encoding="utf-8")
+          supersession = f'''\n> POST-MERGE STATUS NOTICE — This file is the detailed v1.1.5 development chronology. Its pre-merge branch/PR/status statements are historical. Current release authority is `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`. v1.1.5 is deployed and twice-proven; immutable runtime is `{RUNTIME}`; CI-only main head is `{CI_HEAD}`. Do not resume PR #25 or rerun the old five-matrix/twice-browser release protocol.\n\n'''
+          if "POST-MERGE STATUS NOTICE" not in text:
+              first_break = text.find("\n") + 1
+              text = text[:first_break] + supersession + text[first_break:]
+          handoff.write_text(text, encoding="utf-8")
+
+          # Ensure the helper never enters the final branch diff.
+          Path(".github/workflows/v115-docs-seal-temp.yml").unlink()
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add 00_DEVELOPER_START_HERE.md NEXT_TASK.md README.md PROJECT_STATE.md RELEASE_V1.1.5.md CHANGELOG.md POST_V1_ROADMAP_EXECUTION.md CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md .github/workflows/v115-docs-seal-temp.yml
+          git commit -m "Seal v1.1.5 post-merge authority and testing handoff"
+          git push origin HEAD:docs/v115-post-merge-seal
