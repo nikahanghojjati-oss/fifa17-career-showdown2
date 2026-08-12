@@ -171,11 +171,21 @@ jobs:
           assert.ok(!/url\(/i.test(seasonCss), 'Season Review styling must not introduce external image assets.');
 
           class FakeClassList {
-            constructor(names = []) { this.names = new Set(names); }
-            contains(name) { return this.names.has(name); }
+            constructor(names = []) {
+              this.names = new Set(names);
+            }
+
+            contains(name) {
+              return this.names.has(name);
+            }
+
             toggle(name, force) {
               const enabled = force === undefined ? !this.names.has(name) : Boolean(force);
-              if(enabled) this.names.add(name); else this.names.delete(name);
+              if (enabled) {
+                this.names.add(name);
+              } else {
+                this.names.delete(name);
+              }
               return enabled;
             }
           }
@@ -192,21 +202,41 @@ jobs:
               this.checked = false;
               this.focused = false;
             }
-            closest(selector) { return selector === '.backButton' && this.classList.contains('backButton') ? this : null; }
+
+            closest(selector) {
+              return selector === '.backButton' && this.classList.contains('backButton') ? this : null;
+            }
+
             addEventListener(type, listener) {
-              if(!this.listeners.has(type)) this.listeners.set(type, []);
+              if (!this.listeners.has(type)) {
+                this.listeners.set(type, []);
+              }
               this.listeners.get(type).push(listener);
             }
-            setAttribute(name, value) { this[name] = String(value); }
-            focus() { this.focused = true; }
+
+            setAttribute(name, value) {
+              this[name] = String(value);
+            }
+
+            focus() {
+              this.focused = true;
+            }
           }
 
           const captureListeners = new Map();
           const runtimeElements = new Map();
           const runtimeDocument = {
-            addEventListener(type, listener, capture) { if(capture) captureListeners.set(type, listener); },
-            getElementById(id) { return runtimeElements.get(id) || null; },
-            querySelector() { return null; }
+            addEventListener(type, listener, capture) {
+              if (capture) {
+                captureListeners.set(type, listener);
+              }
+            },
+            getElementById(id) {
+              return runtimeElements.get(id) || null;
+            },
+            querySelector() {
+              return null;
+            }
           };
           const runtimeContext = {
             console,
@@ -221,7 +251,11 @@ jobs:
           vm.createContext(runtimeContext);
 
           const screensSource = fs.readFileSync('js/screens.js', 'utf8');
-          vm.runInContext(`${screensSource}\n;globalThis.__screenHarness = { initializeSmartBackDelegation };`, runtimeContext, { filename: 'js/screens.js' });
+          vm.runInContext(
+            `${screensSource}\n;globalThis.__screenHarness = { initializeSmartBackDelegation };`,
+            runtimeContext,
+            { filename: 'js/screens.js' }
+          );
           vm.runInContext(
             `${season}\n;globalThis.__seasonHarness = {
               editSeasonResults,
@@ -231,7 +265,9 @@ jobs:
                 seasonReviewActive = true;
                 seasonCompletionInProgress = false;
               },
-              getState() { return { active: seasonReviewActive, draft: seasonReviewDraft }; }
+              getState() {
+                return { active: seasonReviewActive, draft: seasonReviewDraft };
+              }
             };`,
             runtimeContext,
             { filename: 'js/seasonEngine.js' }
@@ -246,9 +282,14 @@ jobs:
           runtimeElements.set('p1LeaguePosition', preservedPosition);
 
           const runtimeUI = {
-            entryScreen: new FakeElement(), entryHint: new FakeElement(), entryGrid: new FakeElement(),
-            entryActions: new FakeElement(), entryError: new FakeElement(), reviewPanel: new FakeElement(),
-            reviewError: new FakeElement(), entryTitle: new FakeElement()
+            entryScreen: new FakeElement(),
+            entryHint: new FakeElement(),
+            entryGrid: new FakeElement(),
+            entryActions: new FakeElement(),
+            entryError: new FakeElement(),
+            reviewPanel: new FakeElement(),
+            reviewError: new FakeElement(),
+            entryTitle: new FakeElement()
           };
           runtimeContext.__seasonHarness.setState(runtimeUI, { fingerprint: 'reviewed-max-11' });
           runtimeContext.__screenHarness.initializeSmartBackDelegation();
@@ -257,12 +298,18 @@ jobs:
             target: editButton,
             defaultPrevented: false,
             propagationStopped: false,
-            preventDefault() { this.defaultPrevented = true; },
-            stopImmediatePropagation() { this.propagationStopped = true; }
+            preventDefault() {
+              this.defaultPrevented = true;
+            },
+            stopImmediatePropagation() {
+              this.propagationStopped = true;
+            }
           };
           captureListeners.get('click')(clickEvent);
-          if(!clickEvent.propagationStopped) {
-            for(const listener of editButton.listeners.get('click') || []) listener(clickEvent);
+          if (!clickEvent.propagationStopped) {
+            for (const listener of editButton.listeners.get('click') || []) {
+              listener(clickEvent);
+            }
           }
 
           const runtimeState = runtimeContext.__seasonHarness.getState();
