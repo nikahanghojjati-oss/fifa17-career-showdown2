@@ -28,8 +28,8 @@ jobs:
             --exclude='temporary-integrate-v113-runtime.yml' \
             --exclude='temporary-v113-visual-preview.yml' \
             --exclude='temporary-apply-v113-current-authority.yml' || true
-          echo '=== escaped-regex stale 1\\.1\\.2 references ==='
-          grep -RInF '1\\.1\\.2' .github/workflows tests scripts \
+          echo '=== escaped-regex stale 1\.1\.2 references ==='
+          grep -RInF '1\.1\.2' .github/workflows tests scripts \
             --exclude='temporary-v113-release-audit.yml' \
             --exclude='temporary-finalize-v113-identity.yml' \
             --exclude='temporary-build-v113-visuals.yml' \
