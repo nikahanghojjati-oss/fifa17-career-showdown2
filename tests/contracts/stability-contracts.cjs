@@ -155,6 +155,14 @@ for(const command of [
     assert.ok(stabilityWorkflow.includes(command), `Stability workflow lost required command: ${command}`);
 }
 assert.ok(/Candidate A\/B\/C Data Management screenshots/.test(stabilityWorkflow), "Stability artifact ownership must include Candidate C evidence.");
+assert.ok(
+    stabilityWorkflow.includes("cancel-in-progress: ${{ github.run_attempt == 1 && (github.event_name == 'push' || github.event_name == 'pull_request') }}"),
+    "Stability must let only fresh first-attempt push/PR runs cancel stale in-progress work."
+);
+assert.ok(
+    !stabilityWorkflow.includes("cancel-in-progress: true"),
+    "Stability reruns/manual proof must not be able to cancel an already-running Stability proof."
+);
 
 const burnInWorkflow = read(".github/workflows/validate-v110-release-burnin.yml");
 const burnInScript = read("tests/support/run-release-burnin-pass.sh");
@@ -170,5 +178,5 @@ for(const workflowPath of fs.readdirSync(path.join(root, ".github/workflows"))){
 }
 
 process.stdout.write(
-    `Stability contracts passed for v${appVersion} / ${revision}: release/package/document coherence, runtime provenance, corrupt raw-data preservation, quota rollback, Candidate A/B/C production gate ownership, five-pass recovery Burn-In, v1.2 dependency reservation, and Node 24 actions.\n`
+    `Stability contracts passed for v${appVersion} / ${revision}: release/package/document coherence, runtime provenance, corrupt raw-data preservation, quota rollback, Candidate A/B/C production gate ownership, rerun-safe Stability concurrency, five-pass recovery Burn-In, v1.2 dependency reservation, and Node 24 actions.\n`
 );
