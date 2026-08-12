@@ -109,7 +109,7 @@ The release preparation branch advanced through these commits before this handof
 - `62614f676a67ddb6a2070fedd7d9226c1217c920` — set `index.html` meta/footer/all eager asset revisions to `1.1.4-r1`;
 - `4faa54da1d22321ceac8b1e9def1ca67ac919daa` — add repository-owned dynamic Static App release contract;
 - `140a594c0e129ca0c5be7d037e208ba61a279ac6` — align top-level/root `package-lock.json` version to 1.1.4;
-- `794888c6c6d2a2b45fda96372f02a6709be639e3` — replace version-fragile inline Static App workflow with four version-agnostic repository-owned validation blocks while preserving the permanent 22-block workflow topology;
+- `794888c6c6d2a2b45fda96372f02a6709be639e3` — replace version-fragile inline Static App workflow with four version-agnostic repository-owned validation blocks while preserving its four-block contribution to the permanent workflow topology;
 - `3343bd179ca0a6a817bc82d3a81173d604b9bbcf` — promote dynamic Static App release contract into `npm run test:contracts`;
 - `c0685b3462bd8bec2fb5e79f614dac147def52e6` — deepen dynamic release contract with lockfile, actual 2700 ms loading minimum, club/route/storage authority, completed-showdown recovery and Candidate C lazy-loading checks;
 - `4b670000f4415de835aacffe6344eda2d9fffeeb` — add `RELEASE_V1.1.4.md`;
@@ -119,11 +119,25 @@ The release preparation branch advanced through these commits before this handof
 - `e544fe2088908fd1fd8f6b4f94b3f696f9cd38d9` — advance PROJECT_STATE to current v1.1.4 release state;
 - `de8ed0d60602755415a18e20b7817d71e6174416` — add a temporary `.yaml` release-freeze preflight workflow so the isolated branch can run stale-literal diagnostics and repository contracts before PR #24 is moved.
 
-The temporary preflight uses `.yaml`, not `.yml`, so it does not alter the project’s permanently protected 22 literal `run: |` block topology. It must be removed before the release branch is promoted into PR #24.
+The temporary preflight uses `.yaml`, not `.yml`, so it does not alter the permanent `.yml` executable-block topology. It must be removed before the release branch is promoted into PR #24.
 
-## Dynamic Static App release contract
+## Dynamic release-contract migration
 
-`tests/contracts/static-app-release-contracts.cjs` now derives current identity from source/package metadata rather than hardcoding the previous release. It protects:
+Version-fragile inline assertions were not simply search/replaced. Unique regression logic was preserved in repository-owned contracts and promoted into `npm run test:contracts` so Stability and Burn-In own it too.
+
+The extracted/dynamic contract families now include:
+
+- Static App release/scoring/navigation/club/startup/authority contracts;
+- Final Polish route transition/focus contracts;
+- Final Polish original WebAudio/preference-migration contracts;
+- Final Polish accessibility/presentation/budget contracts;
+- immutable licensed-football archive provenance plus current app/cache identity;
+- Season Review canonical preview/fingerprint/tamper fixtures;
+- Season Review pre-commit/rollback/Smart Back/value-preservation/responsive architecture;
+- Statistics analytics fixtures;
+- Statistics lazy architecture/Trophy Room reuse/current shell identity.
+
+`tests/contracts/static-app-release-contracts.cjs` derives current identity from source/package metadata rather than hardcoding the previous release. It protects:
 
 - `APP_VERSION`, `package.json`, `package-lock.json`, footer and `app-asset-revision` coherence;
 - current release record existence/tag/revision;
@@ -148,28 +162,37 @@ The temporary preflight uses `.yaml`, not `.yml`, so it does not alter the proje
 - dead prototype architecture absence;
 - Candidate C transaction/planner/UI/CSS lazy loading through Legacy/Data Management.
 
-The original oversized Static App workflow contained four literal run blocks. The replacement also contains exactly four, so `tests/support/run-workflow-blocks.cjs` continues to assert the unchanged project-wide total of 22 permanent executable workflow blocks.
+## Preflight findings beyond Candidate C product defects
+
+The temporary release preflight has also caught release-infrastructure drift that normal feature matrices did not previously exercise:
+
+1. `package.json` had advanced to 1.1.4 while `package-lock.json` still identified 1.1.3. The lockfile was aligned.
+2. active Home/Reus, football-visual, optional-loader, Settings and contract-fixture fallbacks still carried old current-release literals. They were aligned while immutable historical release records were left untouched.
+3. Home Bootstrap, V1 Visual Immersion, Final Polish and Licensed Football Visuals carried current-app release assumptions inline. These were made source-derived/dynamic without dropping unique coverage.
+4. Season Review block 2 contained a hidden `^1.1.3-rN` shell regex that a simple `1.1.3-r1` grep could not see. Its full architecture check was extracted and made dynamic.
+5. Statistics contained the same hidden release-pattern class. Both Statistics blocks were extracted and made dynamic.
+6. the workflow replay/topology guard still expected the historical 22 literal blocks. Current source proves the permanent `.yml` suite now contains 27 literal executable blocks: the replay had already successfully executed 21 current blocks before the stale 22-count assertion fired, with Statistics/Transfer/V1 Visual still remaining. `tests/support/run-workflow-blocks.cjs` and Static App topology protection now lock the real 27-block current suite.
+
+This 27-block correction is not a weakened threshold: it makes the topology guard match the actual current permanent workflow set and continue to fail if a future block is added or removed without an explicit update.
 
 ## Current preflight purpose
 
-The temporary freeze preflight is intended to answer two questions before PR #24 moves:
+The temporary freeze preflight answers two questions before PR #24 moves:
 
 1. which active runtime/workflow/test files still contain stale current-release `1.1.3-r1` or `1.1.2` fallbacks;
-2. whether the complete repository contract suite and the 22 legacy workflow blocks pass on the isolated v1.1.4 identity/document state.
+2. whether the complete repository contract suite and all 27 permanent literal workflow blocks pass on the isolated v1.1.4 identity/document state.
 
-Any stale active literal found in runtime/workflows is to be corrected. Historical v1.1.3/v1.1.2 release records are not stale merely because they retain their immutable historical identities.
+Any stale active literal found in runtime/workflows is corrected. Historical v1.1.3/v1.1.2 release records are not stale merely because they retain immutable historical identities.
 
 ## Remaining pre-PR work
 
 Before moving PR #24:
 
-1. inspect the temporary preflight log;
-2. correct stale active release fallbacks/validators without touching immutable historical release evidence;
-3. add the v1.1.4 CHANGELOG entry;
-4. ensure current README/PROJECT_STATE/NEXT_TASK/RELEASE record agree;
-5. remove the temporary preflight workflow;
-6. confirm release-freeze head is a fast-forward descendant of PR #24 head;
-7. update `agent/candidate-c-atomic-restore` to the final freeze SHA without force.
+1. obtain one clean temporary preflight run on the final release-freeze head;
+2. remove both temporary `.yaml` release-freeze helper workflows;
+3. ensure current README/PROJECT_STATE/NEXT_TASK/RELEASE/CHANGELOG/handoff records agree;
+4. confirm release-freeze head is a fast-forward descendant of PR #24 head;
+5. update `agent/candidate-c-atomic-restore` to the final freeze SHA without force.
 
 ## Final PR proof required
 
