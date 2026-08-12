@@ -159,6 +159,67 @@ This file is append-only in spirit: it records diagnostic and pre-release eviden
 - Classification: INTEGRATION-HELPER IDEMPOTENCY / ALREADY-APPLIED-SCOPE FAILURE. No staged commit/tree was created and no workflow files were published by this run.
 - Correction strategy: do not loosen the original broad helper. Create a narrow staging helper for the six remaining stale workflow files only, excluding already-correct Season Review and already-published ordinary docs/tests. That narrow helper will remain exact/fail-closed for its intended one-time scope.
 
+### Successful six-workflow staged-tree publication
+
+- Narrow staging run: `31553673966`.
+- Job: `93981527724`.
+- Conclusion: SUCCESS through patch construction / expected permission refusal at bot ref update.
+- Staged commit: `a08cdbe0d8782ff6c53e2f25d5c6c6376df4cd99`.
+- Staged tree: `4e57fa0ac474fff5bf5daf37fd0752ebf5216b24`.
+- Scope: the six remaining stale permanent workflows only — V1 Visual Immersion, Final Polish, Statistics, Home Bootstrap, Release Burn-In and Static App.
+- Guard result before staging: startup ceilings remained exactly 165,000 raw / 37,500 gzip; historical v1.1.2/v1.1.1/v1.1.0 release records remained unchanged.
+- The Actions token again received the expected workflow-file permission refusal. The already-built commit object was then fast-forwarded onto the branch through the user-authorized GitHub connector. This preserved the validated tree rather than recreating the workflow edits manually.
+
+### Escaped revision-regex finding and correction
+
+- A subsequent validator audit identified two remaining stale current-envelope regexes that the first plain-string workflow alignment intentionally had not matched: `^1\.1\.2-r\d+$` in Home Bootstrap and Statistics.
+- This was a validator coherence issue only; runtime identity was already `1.1.3-r1`.
+- Exact correction staging run: `31553845893`.
+- Job: `93982043862`.
+- Conclusion: SUCCESS through patch construction / expected bot workflow permission refusal.
+- Staged commit: `6c27f09fab9d3119ec3a8cf23203d2572e918888`.
+- Staged tree: `702ad9666932909d3ceec83816a14a241053efcc`.
+- The user-authorized GitHub connector fast-forwarded that exact staged commit to the branch.
+- No runtime behavior or thresholds changed.
+
+### Final stale-pin audit after workflow publication
+
+- Audit run: `31553906215`.
+- Job: `93982223534`.
+- Conclusion: SUCCESS.
+- Result: zero stale escaped `1\.1\.2` current-envelope regexes remained in permanent executable validation surfaces.
+- Plain `1.1.2` references that remained were intentional historical assertions in Static App validating the immutable previous `RELEASE_V1.1.2.md` record and its `1.1.2-r1` evidence.
+- Protected startup thresholds still reported exactly 165,000 raw / 37,500 gzip.
+- Current runtime identity reported coherently as v1.1.3 / `1.1.3-r1`.
+
+### Temporary build/audit helper removal
+
+- Once permanent gates had absorbed the successful diagnostic logic, all temporary v1.1.3 builder/integration/version/audit workflows and one-off helper scripts were removed before PR freeze.
+- Cleanup tree: `36a2dcad50d0cfcd0503af5d3338249cc01a97cb`.
+- Cleanup commit: `2d3c48350cbff264a29b372eaaed9836627ec98a`.
+- Removed temporary workflows: licensed visual builder, runtime integrator, release identity finalizer, visual preview, release-validator audit and current-authority alignment.
+- Removed one-off alignment/integration/finalization/staging helpers plus the temporary browser preview test.
+- Retained permanent reproducible asset authority: `tools/build_r5_player_visuals.py`.
+- Retained permanent browser evidence authority: `tests/browser/football-visual-audit.cjs`.
+
+### Season Review diff cleanup
+
+- A pre-PR compare against main revealed that the earlier connector publication of `validate-season-review.yml` had preserved behavior but compacted formatting, creating an unnecessary 87-line review diff.
+- That noise was not accepted into the release candidate.
+- The workflow was restored byte-for-byte from current main formatting and only its two current runtime-revision assertions/messages were advanced from v1.1.2 to v1.1.3.
+- Cleanup commit: `8031b8853568170b036d506c46b7abfcc7d9c2ad`.
+- Final compare result for Season Review: exactly 2 additions / 2 deletions; all protected Season Review behavior/rollback/Smart Back/a11y assertions remain intact.
+
+## Pre-PR checkpoint
+
+- Branch: `v1.1.3-candidate-c-visual-fixes`.
+- Head after Season Review cleanup: `8031b8853568170b036d506c46b7abfcc7d9c2ad` before this handoff update.
+- Base main remains `9c9ff5fe8a3361b91400e5b37b310fa7bb42f5de`.
+- Branch is ahead of main and not behind.
+- Temporary build/audit helpers are absent from the release diff.
+- Permanent wheel and licensed-visual gates now carry the new regression/visual evidence.
+- Next: open the diagnostic PR and let all permanent gate families evaluate the integrated candidate. Diagnostic PR failures, if any, must be corrected and recorded before any official two-pass freeze is started.
+
 ## Release-proof rule
 
 Diagnostic runs, including corrected failures, are not counted toward the eventual official repeated pre-merge or production proof matrix. The final release candidate must be frozen and tested independently after temporary build/preview helpers are removed.
