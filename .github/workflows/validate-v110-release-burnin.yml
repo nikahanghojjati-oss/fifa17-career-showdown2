@@ -1,4 +1,4 @@
-name: Validate v1.1.3 Release Burn-In
+name: Validate Candidate C Release Burn-In
 
 on:
   pull_request:
@@ -10,14 +10,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: v112-burnin-${{ github.ref }}-${{ github.sha }}
+  group: candidate-c-burnin-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:
   burn-in:
     name: release-gates-pass-${{ matrix.pass }}
     runs-on: ubuntu-latest
-    timeout-minutes: 32
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
@@ -30,7 +30,7 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Run complete release gate pass
+      - name: Run complete release gate pass including Candidate C recovery
         env:
           CMS_BURNIN_PASS: ${{ matrix.pass }}
         run: bash tests/support/run-release-burnin-pass.sh
@@ -38,7 +38,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: v112-burnin-pass-${{ matrix.pass }}-${{ github.sha }}
+          name: candidate-c-burnin-pass-${{ matrix.pass }}-${{ github.sha }}
           path: test-results/
           if-no-files-found: warn
           retention-days: 14
