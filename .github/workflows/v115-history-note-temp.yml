@@ -1,0 +1,52 @@
+name: Temporary v1.1.5 History Note
+
+on:
+  push:
+    branches: [docs/v115-post-merge-seal]
+
+permissions:
+  contents: write
+
+jobs:
+  note:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: docs/v115-post-merge-seal
+      - name: Mark maintenance handoff historical and update changelog
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          handoff_path = Path("CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md")
+          handoff = handoff_path.read_text(encoding="utf-8")
+          notice = "> POST-MERGE STATUS NOTICE — This file is the detailed v1.1.5 development chronology. Its pre-merge branch/PR/status statements are historical. Current release authority is `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`. v1.1.5 is deployed and twice-proven; immutable runtime is `ff755a9863abc843ae9aac45178428e3a104fc65`; CI-only main head `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` does not redefine runtime. Do not resume PR #25 or the old five-matrix/twice-browser release protocol.\n\n"
+          if "POST-MERGE STATUS NOTICE" not in handoff:
+              line_end = handoff.find("\n") + 1
+              handoff = handoff[:line_end] + "\n" + notice + handoff[line_end:]
+              handoff_path.write_text(handoff, encoding="utf-8")
+
+          changelog_path = Path("CHANGELOG.md")
+          changelog = changelog_path.read_text(encoding="utf-8")
+          old = "- Added real-browser maintenance races/failure scenarios to Candidate C, Stability and every Burn-In pass."
+          new = "- Added real-browser maintenance race/failure scenarios to the dedicated Candidate C gate and exhaustive deployed Stability proof; post-merge CI orchestration then removed redundant specialist replays from local Stability/Burn-In."
+          if old in changelog:
+              changelog = changelog.replace(old, new, 1)
+          anchor = "- Normal loading remains 2700 ms and reduced-motion startup remains 220 ms."
+          note_line = "- Post-merge CI maintenance removed duplicate long browser matrices, made reruns cancellation-safe, skips heavy browser lanes for Markdown-only seals, reduced local Stability browser wall time from about 6m47s to about 1m11s, and retained the full deployed Candidate A/B/C release boundary."
+          if note_line not in changelog:
+              if anchor not in changelog:
+                  raise SystemExit("v1.1.5 changelog anchor missing")
+              changelog = changelog.replace(anchor, anchor + "\n" + note_line, 1)
+          changelog_path.write_text(changelog, encoding="utf-8")
+
+          Path(".github/workflows/v115-history-note-temp.yml").unlink()
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md CHANGELOG.md .github/workflows/v115-history-note-temp.yml
+          git commit -m "Mark v1.1.5 maintenance chronology superseded"
+          git push origin HEAD:docs/v115-post-merge-seal
