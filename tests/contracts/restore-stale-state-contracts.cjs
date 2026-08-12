@@ -32,8 +32,9 @@ function createRuntime(currentRaw, calls){
 }
 
 (async () => {
-    assert.ok(source.includes('status:"stale-state"'), "Candidate C must expose an explicit stale-state result before storage mutation.");
-    assert.ok(source.indexOf("compareReviewedRawState") < source.indexOf("applyCareerModeRawStorageTransaction(plan.candidateRaw)"), "Reviewed-state comparison must occur before the storage transaction boundary.");
+    assert.ok(source.includes('status:"stale-state"'), "Candidate C must expose an explicit stale-state result before unsafe storage mutation.");
+    assert.ok(source.indexOf("compareReviewedRawState") < source.indexOf("applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw)"), "Reviewed-state comparison must occur before the storage transaction boundary.");
+    assert.ok(source.includes("transaction.failurePhase===\"precondition\""), "A last-moment storage precondition failure must also normalize into stale-state recovery.");
 
     const reviewedRaw = {
         activeShowdown: '{"id":"local-active"}',
@@ -75,7 +76,7 @@ function createRuntime(currentRaw, calls){
     assert.equal(compatible.ok, true, "Internal callers without review context remain compatible; the user-facing UI always supplies exact reviewed bytes.");
     assert.deepEqual(missingContextCalls, ["flush", "analyze", "snapshot", "transaction"]);
 
-    process.stdout.write("PASS  Candidate C exact reviewed-state stale Apply contracts\n");
+    process.stdout.write("PASS  Candidate C reviewed-state plus transaction-precondition stale Apply contracts\n");
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;
