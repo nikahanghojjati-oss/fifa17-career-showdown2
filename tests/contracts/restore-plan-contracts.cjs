@@ -110,8 +110,16 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
         legacyConflicts: { conflict: "use-backup" }
     });
     assert.equal(repeated.ok, true);
-    assert.deepEqual(json(repeated.candidateRaw.legacyShowdowns), replacedLegacy, "Repeated restore planning must be deterministic and idempotent.");
-    assert.equal(json(repeated.candidateRaw.legacyShowdowns).filter(record => record.id === "new").length, 1);
+    assert.equal(
+        Object.prototype.hasOwnProperty.call(repeated.candidateRaw, "legacyShowdowns"),
+        false,
+        "Repeated identical Legacy restore planning must emit no Legacy rewrite at all."
+    );
+    assert.deepEqual(Array.from(repeated.summary.legacyAdded), []);
+    assert.deepEqual(Array.from(repeated.summary.legacyReplaced), []);
+    assert.ok(Array.from(repeated.summary.legacySkipped).includes("same"));
+    assert.ok(Array.from(repeated.summary.legacySkipped).includes("new"));
+    assert.ok(Array.from(repeated.summary.legacySkipped).includes("conflict"));
 
     const duplicatePayload = clone(payload);
     duplicatePayload.legacyShowdowns = [
