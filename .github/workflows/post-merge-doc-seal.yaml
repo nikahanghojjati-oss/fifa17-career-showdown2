@@ -1,0 +1,129 @@
+name: Post Merge Documentation Seal
+
+on:
+  push:
+    branches:
+      - agent/v1.1.5-maintenance
+
+permissions:
+  contents: write
+
+jobs:
+  seal:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.5-maintenance
+          fetch-depth: 0
+      - name: Patch bounded current-facing documentation
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f"{path}: expected exactly one bounded block, found {count}")
+              p.write_text(text.replace(old, new, 1))
+
+          roadmap_old = '''Current maintenance release candidate: `v1.1.5`
+
+Current candidate runtime revision: `1.1.5-r1`
+
+Current public production remains immutable v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7` until the maintenance PR is merged and Pages proof is complete.'''
+          roadmap_new = '''Current production release: `v1.1.5`
+
+Current runtime revision: `1.1.5-r1`
+
+Immutable v1.1.5 application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`. GitHub Pages build `1147995655` deployed that exact runtime and the full production matrix passed twice.'''
+          replace_once('POST_V1_ROADMAP_EXECUTION.md', roadmap_old, roadmap_new)
+
+          roadmap_old2 = '''Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 is a finite maintenance release that hardens confirmed restore intent, exact storage preconditions and mutation-owned rollback; it does not reopen Candidate A/B/C design.
+
+`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App is the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.'''
+          roadmap_new2 = '''Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 hardens confirmed restore intent, exact storage preconditions and transaction-owned rollback and is now closed after duplicate pre-merge and production proof.
+
+`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. v1.2.0 Installable Offline App is now the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.'''
+          replace_once('POST_V1_ROADMAP_EXECUTION.md', roadmap_old2, roadmap_new2)
+
+          roadmap_old3 = '''v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery. The only current v1.1 work is the finite v1.1.5 maintenance release closure described in `NEXT_TASK.md` and `RELEASE_V1.1.5.md`.
+
+After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App becomes the next substantive roadmap milestone.'''
+          roadmap_new3 = '''v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery. v1.1.5 maintenance is merged, Pages-deployed, twice-proven and closed; `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` is the release evidence authority.
+
+v1.2.0 Installable Offline App is now the next substantive roadmap milestone.'''
+          replace_once('POST_V1_ROADMAP_EXECUTION.md', roadmap_old3, roadmap_new3)
+
+          changelog_marker = '''Runtime asset revision: **`1.1.5-r1`**\n'''
+          changelog_add = '''Runtime asset revision: **`1.1.5-r1`**
+
+Release status: merged, GitHub Pages deployed and twice-proven. Immutable runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`; Pages build: `1147995655`.
+'''
+          replace_once('CHANGELOG.md', changelog_marker, changelog_add)
+
+          changelog_tail = '''- Normal loading remains 2700 ms and reduced-motion startup remains 220 ms.\n'''
+          changelog_tail_new = '''- Normal loading remains 2700 ms and reduced-motion startup remains 220 ms.
+- Froze pre-merge candidate `97088274e1eac377927476b84c6090e7233e0997`, passed all 14 permanent families twice, and merged PR #25 with expected-head protection.
+- Passed the complete production matrix twice on immutable runtime `ff755a9863abc843ae9aac45178428e3a104fc65`, including exact deployed-byte parity, Candidate A/B/C, two-cycle Stability and Burn-In 5/5.
+- Diagnosed the apparent repeated Stability glitch as a GitHub Actions concurrency cancellation: an older rerun could cancel a newer same-ref proof even though no assertion failed.
+- Hardened Stability, Candidate B and Candidate C so reruns/manual dispatches cannot cancel an active proof; Burn-In remains non-cancelling. Added a permanent CI concurrency contract.
+'''
+          replace_once('CHANGELOG.md', changelog_tail, changelog_tail_new)
+
+          handoff_old = '''Application candidate: v1.1.5
+Runtime/cache revision: `1.1.5-r1`
+Draft PR: #25
+Current public production until merge: v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`'''
+          handoff_new = '''Application production: v1.1.5
+Runtime/cache revision: `1.1.5-r1`
+Merged PR: #25
+Immutable production runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
+GitHub Pages build: `1147995655`
+Production proof: twice complete'''
+          replace_once('CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md', handoff_old, handoff_new)
+
+          start = '## 15. Remaining release work\n'
+          end = '## 16. Continuation for the next developer\n'
+          p = Path('CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md')
+          text = p.read_text()
+          if text.count(start) != 1 or text.count(end) != 1:
+              raise SystemExit('handoff: expected unique release-work/continuation headings')
+          a = text.index(start)
+          b = text.index(end)
+          replacement = '''## 15. Release closure completed
+
+v1.1.5 release work is closed.
+
+Completed evidence:
+
+1. frozen pre-merge SHA `97088274e1eac377927476b84c6090e7233e0997` passed all 14 permanent families twice;
+2. PR #25 merged with expected-head protection;
+3. immutable runtime authority is `ff755a9863abc843ae9aac45178428e3a104fc65`;
+4. Pages build `1147995655` deployed that exact runtime as `1.1.5-r1`;
+5. production attempt 1 passed all 14 families, exact deployed bytes and full live journey;
+6. production attempt 2 independently passed all 14 families on the same runtime, including Candidate C twice-browser recovery, Burn-In 5/5, two-cycle Stability and the complete deployed-site smoke;
+7. the apparent Stability glitch was proven to be GitHub concurrency cancellation, not an assertion failure;
+8. post-release CI hardening prevents reruns/manual proof dispatches from cancelling active Stability/Candidate B/C evidence while preserving Burn-In's non-cancelling five-pass behavior;
+9. `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` is the immutable production evidence record.
+
+The next legal substantive milestone is v1.2.0 Installable Offline App.
+
+'''
+          p.write_text(text[:a] + replacement + text[b:])
+          PY
+      - name: Commit documentation seal
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add POST_V1_ROADMAP_EXECUTION.md CHANGELOG.md CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md
+          git diff --cached --check
+          git commit -m "Seal v1.1.5 roadmap changelog and handoff after production proof"
+          git push origin HEAD:agent/v1.1.5-maintenance
