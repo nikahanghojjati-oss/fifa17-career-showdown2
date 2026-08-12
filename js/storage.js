@@ -12,6 +12,7 @@ let legacyStorageRevision=0;
 let applicationPreferencesCache=null;
 let motionPreferenceMediaQuery=null;
 let motionPreferenceMediaBound=false;
+let criticalRecoveryStorageState=false;
 function reportStorageError(context,error){
   console.error(`[Career Mode Showdown] ${context}:`,error);
   if(typeof window.showAppNotice==="function") window.showAppNotice(`${context}. Your browser may not have saved the latest change.`,"error",10000);
@@ -27,6 +28,15 @@ function removeStorageValue(key){
 }
 function captureCareerModeRawBackupInputs(){
   return {activeShowdown:readStorageValue(STORAGE_KEY),legacyShowdowns:readStorageValue(LEGACY_STORAGE_KEY),preferences:readStorageValue(APPLICATION_PREFERENCES_KEY)};
+}
+function captureCareerModeRawRestoreSnapshot(){
+  const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY};
+  const raw={};
+  const failedKeys=[];
+  for(const [name,key] of Object.entries(keys)){
+    try{raw[name]=localStorage.getItem(key);}catch(error){failedKeys.push(name);reportStorageError(`Unable to read ${name} for an exact restore snapshot`,error);}
+  }
+  return failedKeys.length?{ok:false,raw:null,failedKeys}:{ok:true,raw,failedKeys:[]};
 }
 function createDefaultApplicationPreferences(){return {schemaVersion:APPLICATION_PREFERENCES_SCHEMA_VERSION,reducedMotion:false,menuFeedback:true};}
 function normalizeApplicationPreferences(value){
@@ -188,17 +198,27 @@ function deleteLegacyShowdown(showdownId){
 }
 function clearLegacyHistory(){const removed=removeStorageValue(LEGACY_STORAGE_KEY);if(removed){invalidateLegacyCache();legacyCache=[];}return removed;}
 function restoreStorageSnapshot(key,value){return value===null?removeStorageValue(key):writeStorageValue(key,value);}
-function applyCareerModeRawStorageTransaction(plan){
+function invalidateRuntimeAfterCriticalRecovery(){
+  criticalRecoveryStorageState=true;
+  invalidateActiveSavePresence();
+  invalidateLegacyCache();
+  applicationPreferencesCache=null;
+  if(typeof currentShowdown!=="undefined")currentShowdown=null;
+}
+function applyCareerModeRawStorageTransaction(plan,expectedRaw=null){
   if(typeof window.runCareerModeRawStorageTransaction!=="function")return {ok:false,status:"engine-unavailable"};
   const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY};
   const result=window.runCareerModeRawStorageTransaction(plan,{
     read(name,phase){try{return {ok:true,value:localStorage.getItem(keys[name])};}catch(error){reportStorageError(`Unable to ${phase} ${name} during restore`,error);return {ok:false};}},
     write(name,value){return restoreStorageSnapshot(keys[name],value);}
-  });
-  if(result.ok&&result.status==="success"){
+  },expectedRaw);
+  if(result.ok&&(result.status==="success"||result.status==="no-op")){
+    criticalRecoveryStorageState=false;
     if(result.affectedKeys.includes("activeShowdown")){activeSavePresenceKnown=true;activeSavePresent=plan.activeShowdown!==null;}
     if(result.affectedKeys.includes("legacyShowdowns"))invalidateLegacyCache();
     if(result.affectedKeys.includes("preferences")){applicationPreferencesCache=null;applyApplicationMotionPreference();notifyApplicationPreferencesChanged("restore");}
+  }else if(result.status==="rollback-failed-critical"){
+    invalidateRuntimeAfterCriticalRecovery();
   }
   return result;
 }
@@ -212,12 +232,14 @@ function clearAllCareerModeData(){
   activeSavePresenceKnown=true;activeSavePresent=false;invalidateLegacyCache();legacyCache=[];void legacySnapshot;return true;
 }
 window.captureCareerModeRawBackupInputs=captureCareerModeRawBackupInputs;
+window.captureCareerModeRawRestoreSnapshot=captureCareerModeRawRestoreSnapshot;
 window.getCareerModeStorageKeys=()=>({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});
 window.initializeStorageLifecycle=initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave=scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave=flushScheduledCurrentShowdownSave;
 window.flushPendingApplicationWrites=flushPendingApplicationWrites;
 window.applyCareerModeRawStorageTransaction=applyCareerModeRawStorageTransaction;
+window.isCareerModeCriticalRecoveryLocked=()=>criticalRecoveryStorageState;
 window.getLegacyStorageRevision=getLegacyStorageRevision;
 window.loadApplicationPreferences=loadApplicationPreferences;
 window.getApplicationMotionPreferenceState=getApplicationMotionPreferenceState;
