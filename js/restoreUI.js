@@ -132,12 +132,17 @@
   async function applyRestore(){
     if(busy||!file||!analysis)return;const plan=refreshPlan();if(!plan||!plan.ok)return;
     if(!window.confirm("Apply this restore plan? The backup and current state will be verified again first. Export Backup above now if you want an extra current-state recovery copy."))return;
-    busy=true;const button=panel().querySelector(".careerRestoreApply");button.disabled=true;button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";status("Freshly revalidating the file and current state before the atomic transaction…");
+    busy=true;const button=panel().querySelector(".careerRestoreApply");button.disabled=true;button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";status("Checking whether current data changed since review, then freshly revalidating the selected backup before any write…");
     try{
       const result=await window.applyCareerModeRestore(file,choices);
       if(result.ok){status("Restore committed and verified. Refreshing the application from canonical state…");await afterSuccess(result);return;}
       if(result.analysis)analysis=result.analysis;
       if(["conflict-choice-required","choice-required","choice-blocked"].includes(result.status)){renderReview();status("Current data changed or a conflict needs an explicit choice. Nothing was written. Review the refreshed plan and apply again.");return;}
+      if(result.status==="analysis-blocked"){
+        renderReview();
+        status("Current data changed or fresh verification found blocking problems. Nothing was written. Review the refreshed analysis before trying again.");
+        return;
+      }
       const recovery=panel().querySelector(".careerRestoreRecoveryHost");if(recovery)recovery.replaceChildren();
       if(result.status==="rolled-back"){
         const box=make("div","careerRestoreRecovery");box.append(make("strong","","RESTORE ROLLED BACK"),make("span","","A write or verification failed. Every affected key was restored and rollback was verified byte-for-byte. Nothing from this restore was kept."));if(recovery)recovery.appendChild(box);status("Restore failed safely and previous browser data was verified restored.");return;
