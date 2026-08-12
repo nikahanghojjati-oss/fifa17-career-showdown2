@@ -1,9 +1,9 @@
-const APP_VERSION = "1.1.3";
+const APP_VERSION = "1.1.4";
 const STARTUP_SPLASH_MINIMUM_MS = 2700;
 // STARTUP_SPLASH_MINIMUM_MS = 1900
 const STARTUP_SPLASH_REDUCED_MS = 220;
 const STARTUP_SPLASH_EXIT_MS=240;
-const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r3.css?v=1.1.3-r1";
+const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r3.css?v=1.1.4-r1";
 const EXTERNAL_RUNTIME_ERROR = /contentScriptData\.init_ts|(?:chrome|moz|safari-web)-extension:\/\/|webkit-masked-url:\/\//i;
 let applicationStarted=false,runtimeNoticeTimer=null,runtimeBoundaryInstalled=false,performanceLifecycleInstalled=false,runtimeNoticeElement=null,runtimeNoticeTextElement=null,suppressedExternalRuntimeErrors=0;
 
