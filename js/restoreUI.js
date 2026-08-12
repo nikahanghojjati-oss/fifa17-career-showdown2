@@ -1,6 +1,6 @@
 (function(){
   "use strict";
-  let file=null,analysis=null,busy=false,observer=null;
+  let file=null,analysis=null,reviewedRaw=null,busy=false,observer=null;
   let choices={active:"",legacy:"",preferences:"",legacyConflicts:{}};
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
   const panel=()=>document.getElementById("careerModeRestorePanel");
@@ -114,8 +114,11 @@
 
   async function review(){
     if(busy||!file)return;busy=true;const button=panel().querySelector(".careerRestoreReviewButton");button.disabled=true;button.textContent="VERIFYING…";status("Verifying checksum, schemas, migrations and current-state comparison in memory. Nothing is being changed.");
-    try{analysis=await window.analyzeCareerModeBackupFile(file);resetChoices();renderReview();status(analysis.ok?"Backup verified. Choose how each data area should be resolved.":"Backup cannot be restored because verification found blocking problems.");}
-    catch(error){analysis=null;renderReview();status(`Restore review failed safely: ${error&&error.message?error.message:String(error)}`);}
+    try{
+      analysis=await window.analyzeCareerModeBackupFile(file);
+      reviewedRaw=analysis&&analysis.ok&&typeof window.captureCareerModeRawBackupInputs==="function"?window.captureCareerModeRawBackupInputs():null;
+      resetChoices();renderReview();status(analysis.ok?"Backup verified. Choose how each data area should be resolved.":"Backup cannot be restored because verification found blocking problems.");
+    }catch(error){analysis=null;reviewedRaw=null;renderReview();status(`Restore review failed safely: ${error&&error.message?error.message:String(error)}`);}
     finally{busy=false;button.textContent="REVIEW RESTORE";button.disabled=!file;}
   }
 
@@ -130,15 +133,23 @@
   }
 
   async function applyRestore(){
-    if(busy||!file||!analysis)return;const plan=refreshPlan();if(!plan||!plan.ok)return;
+    if(busy||!file||!analysis||!reviewedRaw)return;const plan=refreshPlan();if(!plan||!plan.ok)return;
     if(!window.confirm("Apply this restore plan? The backup and current state will be verified again first. Export Backup above now if you want an extra current-state recovery copy."))return;
     busy=true;const button=panel().querySelector(".careerRestoreApply");button.disabled=true;button.setAttribute("aria-busy","true");button.textContent="REVALIDATING & APPLYING…";status("Checking whether current data changed since review, then freshly revalidating the selected backup before any write…");
     try{
-      const result=await window.applyCareerModeRestore(file,choices);
+      const result=await window.applyCareerModeRestore(file,choices,{expectedRaw:reviewedRaw});
       if(result.ok){status("Restore committed and verified. Refreshing the application from canonical state…");await afterSuccess(result);return;}
       if(result.analysis)analysis=result.analysis;
+      if(result.status==="stale-state"){
+        reviewedRaw=result.currentRaw||null;
+        resetChoices();
+        renderReview();
+        status(`Current data changed after review (${(result.changedKeys||[]).join(", ")||"canonical storage"}). Nothing was written. Recheck the refreshed state and make new restore choices.`);
+        return;
+      }
       if(["conflict-choice-required","choice-required","choice-blocked"].includes(result.status)){renderReview();status("Current data changed or a conflict needs an explicit choice. Nothing was written. Review the refreshed plan and apply again.");return;}
       if(result.status==="analysis-blocked"){
+        reviewedRaw=null;
         renderReview();
         status("Current data changed or fresh verification found blocking problems. Nothing was written. Review the refreshed analysis before trying again.");
         return;
@@ -162,7 +173,7 @@
     root.append(make("span","careerRestoreEyebrow","CANDIDATE C · VERIFIED APPLY"),make("h4","","ATOMIC RESTORE & RECOVERY"),make("p","careerRestoreIntro","Choose a backup to review restore choices. Apply revalidates the actual file and current browser state, snapshots exact raw bytes, verifies the complete commit and rolls every affected key back if any write or verification fails."));
     const picker=make("div","careerRestorePicker"),input=document.createElement("input"),reviewButton=make("button","compactButton careerRestoreReviewButton","REVIEW RESTORE");
     input.type="file";input.accept=".json,application/json";input.setAttribute("aria-label","Backup file for restore");reviewButton.type="button";reviewButton.disabled=!file;
-    input.addEventListener("change",()=>{file=input.files&&input.files[0]?input.files[0]:null;analysis=null;resetChoices();renderReview();reviewButton.disabled=!file;status(file?`${file.name||"backup.json"} selected. Review is read-only until Apply.`:"No restore file selected.");});
+    input.addEventListener("change",()=>{file=input.files&&input.files[0]?input.files[0]:null;analysis=null;reviewedRaw=null;resetChoices();renderReview();reviewButton.disabled=!file;status(file?`${file.name||"backup.json"} selected. Review is read-only until Apply.`:"No restore file selected.");});
     reviewButton.addEventListener("click",review);picker.append(input,reviewButton);
     const live=make("p","careerRestoreStatus",file?`${file.name||"backup.json"} remains selected. Review again before applying.`:"No restore file selected. Export Backup above first if you want an extra recovery copy.");live.setAttribute("role","status");live.setAttribute("aria-live","polite");
     root.append(picker,live,make("div","careerRestoreReview"));controls.appendChild(root);renderReview();syncCandidateBStatusCopy();return true;
