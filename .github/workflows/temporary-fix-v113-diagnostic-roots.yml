@@ -56,6 +56,18 @@ jobs:
                   '    }, { screenName, expectedCount }, { timeout: 15000 });\n    await page.evaluate(() => new Promise(resolve => {\n        requestAnimationFrame(() => requestAnimationFrame(resolve));\n    }));\n}',
                   'two-frame visual evidence settlement'
               ),
+              (
+                  Path('tests/browser/football-visual-audit.cjs'),
+                  '                    transitionDuration: getComputedStyle(image).transitionDuration,\n                    accentTop:',
+                  '                    transitionDuration: getComputedStyle(image).transitionDuration,\n                    transitionProperty: getComputedStyle(image).transitionProperty,\n                    accentTop:',
+                  'computed transition property evidence'
+              ),
+              (
+                  Path('tests/browser/football-visual-audit.cjs'),
+                  '        if(reducedMotion){\n            assert.ok(panel.transitionDuration === "0s" || panel.transitionDuration === "0ms",\n                `${screenName}/${panel.asset}: reduced-motion image transition remained active`);\n        }',
+                  '        if(reducedMotion){\n            const transitionDurations = panel.transitionDuration.split(",").map(value => {\n                const normalized = value.trim();\n                return normalized.endsWith("ms")\n                    ? Number.parseFloat(normalized) / 1000\n                    : Number.parseFloat(normalized);\n            });\n            assert.ok(\n                panel.transitionProperty === "none"\n                    && transitionDurations.every(value => Number.isFinite(value) && value <= .000001),\n                `${screenName}/${panel.asset}: reduced-motion image transition remained active (${panel.transitionProperty} / ${panel.transitionDuration})`\n            );\n        }',
+                  'semantic reduced-motion transition assertion'
+              ),
           ]
 
           for path, old, new, label in replacements:
@@ -118,6 +130,10 @@ jobs:
           assert '.footballVisualCinematicBand .footballVisualMedia{transition:none;}' not in css
           audit = Path('tests/browser/football-visual-audit.cjs').read_text()
           assert 'requestAnimationFrame(() => requestAnimationFrame(resolve))' in audit
+          assert 'transitionProperty: getComputedStyle(image).transitionProperty' in audit
+          assert 'panel.transitionProperty === "none"' in audit
+          assert 'value <= .000001' in audit
+          assert 'panel.transitionDuration === "0s" || panel.transitionDuration === "0ms"' not in audit
 
           actual = set(subprocess.check_output(['git','diff','--name-only'], text=True).splitlines())
           mandatory = {'PROJECT_STATE.md','README.md','js/backup.js','css/footballVisuals-v113.css','tests/browser/football-visual-audit.cjs'}
