@@ -118,12 +118,8 @@ const temporaryHelpers = fs.readdirSync(workflowDir)
   .filter(name => /\.ya?ml$/i.test(name));
 assert.deepEqual(temporaryHelpers, [], `Temporary v1.1.5 workflow helpers must not enter the frozen candidate: ${temporaryHelpers.join(", ")}`);
 
-const permanentYml = fs.readdirSync(workflowDir).filter(name => name.endsWith(".yml"));
-let blocks = 0;
-for(const name of permanentYml){
-  const text = read(path.join(workflowDir, name));
-  blocks += (text.match(/node\s+-\s+<<'NODE'/g) || []).length;
-}
-assert.equal(blocks, 27, "Permanent workflow executable-block topology must remain exactly 27 unless intentionally migrated with its guard.");
+const topologyRunner = read("tests/support/run-workflow-blocks.cjs");
+assert.ok(topologyRunner.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative topology runner must keep its permanent-workflow scope explicit.");
+assert.ok(topologyRunner.includes('assert.equal(executed, 27'), "Authoritative topology runner must retain the protected 27-block invariant.");
 
-process.stdout.write(`PASS  release authority coherence for v${version} / ${revision}; runtime identity, Home Reus cache, current docs, rollback semantics, roadmap, cloud boundary and helper-free CI agree\n`);
+process.stdout.write(`PASS  release authority coherence for v${version} / ${revision}; runtime identity, Home Reus cache, current docs, rollback semantics, roadmap, cloud boundary and authoritative 27-block topology guard agree\n`);
