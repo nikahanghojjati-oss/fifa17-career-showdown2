@@ -1,0 +1,71 @@
+name: Temporary v1.1.5 Identity Freeze
+
+on:
+  push:
+    branches:
+      - agent/v1.1.5-maintenance
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-identity:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.5-maintenance
+          fetch-depth: 0
+
+      - name: Apply exact release identity migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              Path('package.json'): [('"version": "1.1.4"', '"version": "1.1.5"', 1)],
+              Path('package-lock.json'): [('"version": "1.1.4"', '"version": "1.1.5"', 2)],
+              Path('js/app.js'): [
+                  ('const APP_VERSION = "1.1.4";', 'const APP_VERSION = "1.1.5";', 1),
+                  ('css/visual-fidelity-r3.css?v=1.1.4-r1', 'css/visual-fidelity-r3.css?v=1.1.5-r1', 1),
+              ],
+              Path('index.html'): [
+                  ('1.1.4-r1', '1.1.5-r1', 9),
+                  ('v1.1.4 · Stable', 'v1.1.5 · Stable', 1),
+              ],
+          }
+
+          for path, rules in replacements.items():
+              text = path.read_text()
+              for old, new, expected in rules:
+                  actual = text.count(old)
+                  if actual != expected:
+                      raise SystemExit(f'{path}: expected {expected} occurrences of {old!r}, found {actual}')
+                  text = text.replace(old, new)
+              path.write_text(text)
+
+          package = Path('package.json').read_text()
+          lock = Path('package-lock.json').read_text()
+          app = Path('js/app.js').read_text()
+          shell = Path('index.html').read_text()
+          assert package.count('"version": "1.1.5"') >= 1
+          assert lock.count('"version": "1.1.5"') == 2
+          assert 'const APP_VERSION = "1.1.5";' in app
+          assert '1.1.5-r1' in shell and 'v1.1.5 · Stable' in shell
+          assert '1.1.4-r1' not in shell
+          PY
+
+      - name: Commit release identity only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add package.json package-lock.json js/app.js index.html
+          git diff --cached --check
+          git commit -m "Freeze v1.1.5 runtime identity"
+          git push origin HEAD:agent/v1.1.5-maintenance
