@@ -5,12 +5,15 @@ Use this file when a new ChatGPT/developer session needs deeper historical inten
 ## Normal continuation order
 
 1. `00_HANDOFF_GOLDEN_RULE.md`
-2. `00_DEVELOPER_START_HERE.md`
-3. `NEXT_TASK.md`
-4. current milestone sections of `POST_V1_ROADMAP_EXECUTION.md`
-5. live source files named by the task
+2. fetch current `main` and record its exact SHA
+3. `00_DEVELOPER_START_HERE.md`
+4. `NEXT_TASK.md`
+5. current milestone sections of `POST_V1_ROADMAP_EXECUTION.md`
+6. live source files named by the current task
 
-## Deep historical context
+Do not force every ordinary session to reread the entire historical archive. Current source and the current task remain the fastest path to operational correctness.
+
+## Primary deep historical context
 
 Read:
 
@@ -26,6 +29,23 @@ That consolidated handoff was produced after a targeted review of the owner’s 
 - the owner-supplied external Grok review, with explicit pushback where its claims conflict with current repository evidence.
 
 The master handoff explains why current architecture, performance budgets, visual-source rules, release gates, anti-loop policy and roadmap ordering exist. It also provides the deepened Candidate C Atomic Restore + Recovery UX operating protocol.
+
+## Research audit / precision companion
+
+After the consolidated handoff, use this only when validating the provenance of the deep-dive itself or resolving one of its precision notes:
+
+`CAREER_MODE_SHOWDOWN_MASTER_DEVELOPER_HANDOFF_RESEARCH_COMPLETION_2026-08-12.md`
+
+It records:
+
+- the exact interrupted/resumed research state;
+- a second direct verification of the re-uploaded Aug 10 ChatGPT export;
+- exact relevant-conversation IDs/message counts;
+- confirmation that `Project r4 Visual Fixes` is absent from that export and must be reconstructed from repository evidence;
+- exact current image-inventory category measurements used to correct the external project-size estimate;
+- a live-source observation about the stale Settings fallback string that was intentionally not changed during this documentation-only task.
+
+The rolling research handoff, roadmap/review appendix and historical owner-decision index remain available when source-level chronology is needed, but the consolidated handoff is the preferred single deep-context read.
 
 ## Important authority rule
 
