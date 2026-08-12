@@ -60,9 +60,11 @@ const nextTask = read("NEXT_TASK.md");
 const readme = read("README.md");
 const projectState = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
-
-assert.match(startHere, new RegExp(`(?:Release candidate application|Application version|Release candidate): \\`?v${version}\\`?`), "Developer bootstrap must begin from the current release identity.");
-assert.match(nextTask, new RegExp(`(?:Release-candidate application|Application version|Current application): \\`?v${version}\\`?`), "NEXT_TASK must begin from the current release identity.");
+const escapedVersion = version.replace(/\./g, "\\.");
+const bootstrapIdentity = new RegExp("(?:Release candidate application|Application version|Release candidate): [`]?v" + escapedVersion + "[`]?");
+const taskIdentity = new RegExp("(?:Release-candidate application|Application version|Current application): [`]?v" + escapedVersion + "[`]?");
+assert.match(startHere, bootstrapIdentity, "Developer bootstrap must begin from the current release identity.");
+assert.match(nextTask, taskIdentity, "NEXT_TASK must begin from the current release identity.");
 
 for(const [file, text] of [
   ["00_DEVELOPER_START_HERE.md", startHere],
