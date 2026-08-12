@@ -7,6 +7,11 @@ const footballAudit = fs.readFileSync("tests/browser/football-visual-audit.cjs",
 const storage = fs.readFileSync("js/storage.js", "utf8");
 const showdown = fs.readFileSync("js/showdown.js", "utf8");
 const stabilityAudit = fs.readFileSync("tests/browser/stability-audit.cjs", "utf8");
+const restoreUi = fs.readFileSync("js/restoreUI.js", "utf8");
+const restoreCss = fs.readFileSync("css/restore.css", "utf8");
+const restoreAudit = fs.readFileSync("tests/browser/restore-audit.cjs", "utf8");
+const stabilityWorkflow = fs.readFileSync(".github/workflows/validate-stability-lane.yml", "utf8");
+const burninScript = fs.readFileSync("tests/support/run-release-burnin-pass.sh", "utf8");
 
 assert.ok(
     appCss.includes('.backButton,.compactButton{min-height:44px;'),
@@ -55,3 +60,55 @@ const hasSavedSection = storage.match(/function hasSavedShowdown\(\)\{[\s\S]*?fu
 assert.ok(hasSavedSection, "hasSavedShowdown validity probe is missing.");
 assert.ok(!hasSavedSection.includes("reportStorageError"), "Expected corrupt active-save validity probes must not emit runtime console errors.");
 console.log("Corrupt active-save validity probing is silent while replacement protection remains active.");
+
+assert.ok(
+    restoreUi.includes("window.createCareerModeRestorePlan(analysis,reviewedRaw,choices)"),
+    "Apply must validate the user's choices against the exact reviewed raw snapshot before confirmation."
+);
+assert.ok(
+    restoreUi.includes("window.applyCareerModeRestore(file,choices,{expectedRaw:reviewedRaw})"),
+    "User-facing Apply must carry exact reviewed raw bytes into the post-flush stale-state guard."
+);
+assert.ok(
+    restoreUi.includes('result.status==="stale-state"') && restoreUi.includes("resetChoices();"),
+    "Stale reviewed state must force fresh restore choices instead of silently reusing old decisions."
+);
+assert.ok(
+    restoreUi.includes("function lockCriticalRecoveryState(root)")
+        && restoreUi.includes('root.dataset.criticalRecovery="true"')
+        && restoreUi.includes('root.querySelectorAll("input,select,button")'),
+    "Unverified rollback must visibly lock every Candidate C control until refresh."
+);
+assert.ok(
+    restoreUi.includes('if(result.status==="rolled-back")')
+        && restoreUi.includes("preserveRecovery=true")
+        && restoreUi.includes('if(preserveRecovery)button.disabled=false'),
+    "Verified rollback evidence must persist while still allowing a deliberate retry."
+);
+assert.ok(
+    /careerRestorePicker input\[type=file\]\{[^}]*min-height:44px/.test(restoreCss),
+    "Candidate C file selection must preserve the 44px mobile touch-target floor."
+);
+assert.ok(
+    [
+        "successfulRestoreAndIdempotence",
+        "stalePreviewBlocks",
+        "safeRollback",
+        "criticalRollback",
+        "corruptLegacyRequiresReplace",
+        "doubleApplyLock",
+        "lifecycleInterruptionBeforeCommit",
+        "mobileReducedMotion",
+        "assertFooterSafe"
+    ].every(name => restoreAudit.includes(name)),
+    "Candidate C browser audit must keep success, stale-state, rollback, corrupt-data, concurrency, lifecycle, mobile and footer-visibility scenarios."
+);
+assert.ok(
+    stabilityWorkflow.includes('npm run test:restore-browser'),
+    "Candidate C destructive browser recovery proof must remain inside the permanent Stability Lane."
+);
+assert.ok(
+    burninScript.includes('npm run test:restore-browser'),
+    "Every release Burn-In pass must exercise Candidate C restore/recovery."
+);
+console.log("Candidate C hardening is permanent: reviewed-state binding, persistent rollback UX, critical lockout, 44px file input, deep browser scenarios, Stability and Burn-In coverage are protected.");
