@@ -13,9 +13,11 @@ Current source remains the implementation authority.
 
 ## 2. Current starting point
 
-Current application candidate: `v1.1.1`
+Current maintenance release candidate: `v1.1.5`
 
-Current runtime revision: `1.1.1-r1`
+Current candidate runtime revision: `1.1.5-r1`
+
+Current public production remains immutable v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7` until the maintenance PR is merged and Pages proof is complete.
 
 Current product model:
 
@@ -27,9 +29,9 @@ Current product model:
 - GitHub Pages deployment;
 - static SPA using HTML/CSS/vanilla JavaScript.
 
-Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and protected. The current finite maintenance patch refreshes only the James Rodríguez Real Madrid source photograph and does not start Candidate B.
+Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 is a finite maintenance release that hardens confirmed restore intent, exact storage preconditions and mutation-owned rollback; it does not reopen Candidate A/B/C design.
 
-After v1.1.1 maintenance is merged/deployed/proven and its owner art-direction gate is accepted or explicitly deferred, Candidate B — Import Analysis + Migration Preview — is the next substantive roadmap candidate. Candidate B remains read-only; Candidate C restore remains dependency-blocked.
+`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App is the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.
 
 ## 3. Permanent rules that every roadmap milestone inherits
 

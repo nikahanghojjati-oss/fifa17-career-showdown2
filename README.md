@@ -2,33 +2,36 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript and browser localStorage.
 
-**Application version:** v1.1.4 — Stable / Candidate C Complete
-**Runtime asset revision:** `1.1.4-r1`
-**Current production:** v1.1.4 / `1.1.4-r1`
-**Immutable runtime authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
-**GitHub Pages deployment:** `5877215224`
-**Release status:** merged, deployed, twice-proven in production and protected
+**Release candidate:** v1.1.5 — Restore Transaction Safety Maintenance
+**Runtime asset revision:** `1.1.5-r1`
+**Current public production:** v1.1.4 / `1.1.4-r1`
+**Immutable current production authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+**v1.1.4 GitHub Pages deployment:** `5877215224`
+**Maintenance PR:** #25 — `agent/v1.1.5-maintenance`
+**Maintenance status:** implementation complete; pre-merge release closure and duplicate same-SHA proof required
+**Functional maintenance proof:** `dbcdffaae927163e5a9c8b44466ff2084e814de5` passed all 14 permanent families before identity freeze
 **Protected surface:** the owner-liked cinematic Marco Reus loading presentation remains regression-protected
 **Current developer entry:** `00_DEVELOPER_START_HERE.md`
-**Next legal milestone:** v1.2.0 — Installable Offline App
+**Next substantive milestone after v1.1.5 proof:** v1.2.0 — Installable Offline App
+**Future cloud contract:** `CLOUD_STORAGE_FOUNDATION.md` — architecture/security groundwork only, no cloud runtime
 **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`
 
 ## Development entry point
 
-The project is already designed, architected and implemented through v1.1.4 Candidate C. Do not restart planning, replace established architecture or reconstruct current state from old chats before reading current repository authority.
+The project is already designed, architected and implemented through Candidate C. v1.1.5 is a focused maintenance release, not a planning reset or permission to start v1.2/cloud work before release proof.
 
 Read in this order:
 
 1. `00_HANDOFF_GOLDEN_RULE.md` — permanent continuous public handoff protocol.
-2. `00_DEVELOPER_START_HERE.md` — fast bootstrap and authority order.
-3. `NEXT_TASK.md` — current legal milestone.
-4. current `main` source — highest implementation authority when documentation and implementation differ.
-5. `PROJECT_STATE.md` — locked product/system state.
-6. `CAREER_MODE_SHOWDOWN_V1.1.4_POST_MERGE.md` — final Candidate C release and production proof.
-7. `RELEASE_V1.1.4.md` — stable Candidate C release record.
-8. `POST_V1_ROADMAP_EXECUTION.md` — dependency-ordered post-v1 roadmap.
-9. Candidate C rolling/release handoffs when deeper data-safety archaeology is required.
-10. master historical handoffs, older release records and the original Project Bible only when history is genuinely needed.
+2. `00_DEVELOPER_START_HERE.md` — current bootstrap, authority order and exact continuation sentence.
+3. `NEXT_TASK.md` — v1.1.5 release closure is the sole legal current task.
+4. current source on PR #25 — implementation authority for the maintenance candidate.
+5. `PROJECT_STATE.md` — locked product/system state and production/candidate distinction.
+6. `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` — complete maintenance chronology, failures and corrections.
+7. `RELEASE_V1.1.5.md` — two bug fixes, protected transaction contract and formal proof requirements.
+8. `CLOUD_STORAGE_FOUNDATION.md` — future-only identity/revision/conflict/tombstone/privacy/security contract.
+9. `CAREER_MODE_SHOWDOWN_V1.1.4_POST_MERGE.md` — immutable current production runtime proof until v1.1.5 merges.
+10. `POST_V1_ROADMAP_EXECUTION.md` — dependency-ordered post-v1 roadmap; v1.2 remains next substantive milestone after maintenance proof.
 
 ## v1.1.4 — Candidate C Atomic Restore + Recovery UX
 
