@@ -20,13 +20,22 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo '=== stale 1.1.2 / 1.1.2-r1 references in current executable validation surfaces ==='
-          grep -RInE '1\.1\.2(-r1)?' .github/workflows tests scripts package.json package-lock.json \
+          echo '=== plain stale 1.1.2 references in permanent executable validation surfaces ==='
+          grep -RInF '1.1.2' .github/workflows tests scripts package.json package-lock.json \
             --exclude='temporary-v113-release-audit.yml' \
             --exclude='temporary-finalize-v113-identity.yml' \
             --exclude='temporary-build-v113-visuals.yml' \
             --exclude='temporary-integrate-v113-runtime.yml' \
-            --exclude='temporary-v113-visual-preview.yml' || true
+            --exclude='temporary-v113-visual-preview.yml' \
+            --exclude='temporary-apply-v113-current-authority.yml' || true
+          echo '=== escaped-regex stale 1\\.1\\.2 references ==='
+          grep -RInF '1\\.1\\.2' .github/workflows tests scripts \
+            --exclude='temporary-v113-release-audit.yml' \
+            --exclude='temporary-finalize-v113-identity.yml' \
+            --exclude='temporary-build-v113-visuals.yml' \
+            --exclude='temporary-integrate-v113-runtime.yml' \
+            --exclude='temporary-v113-visual-preview.yml' \
+            --exclude='temporary-apply-v113-current-authority.yml' || true
           echo '=== protected startup thresholds ==='
           grep -RInE '165000|165,000|37500|37,500' .github/workflows tests scripts || true
           echo '=== current identity ==='
