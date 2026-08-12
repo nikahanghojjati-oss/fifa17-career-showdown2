@@ -2,7 +2,6 @@ const { spawnSync } = require("node:child_process");
 
 const files = [
   "tests/contracts/stability-contracts.cjs",
-  "tests/contracts/static-app-release-contracts.cjs",
   "tests/contracts/final-polish-transition.cjs",
   "tests/contracts/final-polish-feedback.cjs",
   "tests/contracts/final-polish-presentation.cjs",
@@ -33,4 +32,4 @@ for(const file of files){
     process.exit(result.status||1);
   }
 }
-process.stdout.write(`PASS  repository contract suite (${files.length} files)\n`);
+process.stdout.write(`PASS  repository contract suite (${files.length} files after explicit static release contract)\n`);
