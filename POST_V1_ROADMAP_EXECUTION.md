@@ -13,11 +13,11 @@ Current source remains the implementation authority.
 
 ## 2. Current starting point
 
-Current maintenance release candidate: `v1.1.5`
+Current production release: `v1.1.5`
 
-Current candidate runtime revision: `1.1.5-r1`
+Current runtime revision: `1.1.5-r1`
 
-Current public production remains immutable v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7` until the maintenance PR is merged and Pages proof is complete.
+Immutable v1.1.5 application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`. GitHub Pages build `1147995655` deployed that exact runtime and the full production matrix passed twice.
 
 Current product model:
 
@@ -29,9 +29,9 @@ Current product model:
 - GitHub Pages deployment;
 - static SPA using HTML/CSS/vanilla JavaScript.
 
-Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 is a finite maintenance release that hardens confirmed restore intent, exact storage preconditions and mutation-owned rollback; it does not reopen Candidate A/B/C design.
+Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 hardens confirmed restore intent, exact storage preconditions and transaction-owned rollback and is now closed after duplicate pre-merge and production proof.
 
-`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App is the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.
+`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. v1.2.0 Installable Offline App is now the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.
 
 ## 3. Permanent rules that every roadmap milestone inherits
 
@@ -112,9 +112,9 @@ The original v1.0.x Stability Lane is closed. Its deterministic contracts, brows
 
 The old r5 James/Rashford/Martial acceptance condition is historical and has been superseded by the accepted v1.1.3 route-scoped visual archive. Do not reopen that visual selection work without new owner evidence.
 
-v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery. The only current v1.1 work is the finite v1.1.5 maintenance release closure described in `NEXT_TASK.md` and `RELEASE_V1.1.5.md`.
+v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery. v1.1.5 maintenance is merged, Pages-deployed, twice-proven and closed; `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` is the release evidence authority.
 
-After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App becomes the next substantive roadmap milestone.
+v1.2.0 Installable Offline App is now the next substantive roadmap milestone.
 
 ## 7. v1.1.0 — Data Safety and Recovery
 

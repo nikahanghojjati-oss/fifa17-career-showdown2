@@ -4,6 +4,8 @@ Date: **August 12, 2026**
 
 Runtime asset revision: **`1.1.5-r1`**
 
+Release status: merged, GitHub Pages deployed and twice-proven. Immutable runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`; Pages build: `1147995655`.
+
 - Fixed a confirmed-intent race where restore file/choice state could change during asynchronous Apply-time revalidation after the visible plan had already been confirmed.
 - Fixed over-broad rollback so Candidate C now rolls back only transaction-owned successful mutations, in reverse order, and refuses to clobber newer/unowned bytes.
 - Added strict destructive-restore snapshots that distinguish true key absence from storage read failure and fail closed before mutation.
@@ -16,6 +18,10 @@ Runtime asset revision: **`1.1.5-r1`**
 - Added `CLOUD_STORAGE_FOUNDATION.md` for future account/save/device identity, revision/CAS, conflicts, tombstones, privacy and security; no cloud backend/network mutation is included.
 - Preserved the original 165,000 raw / 37,500 gzip startup ceilings; a 31-byte raw regression was fixed without raising either budget.
 - Normal loading remains 2700 ms and reduced-motion startup remains 220 ms.
+- Froze pre-merge candidate `97088274e1eac377927476b84c6090e7233e0997`, passed all 14 permanent families twice, and merged PR #25 with expected-head protection.
+- Passed the complete production matrix twice on immutable runtime `ff755a9863abc843ae9aac45178428e3a104fc65`, including exact deployed-byte parity, Candidate A/B/C, two-cycle Stability and Burn-In 5/5.
+- Diagnosed the apparent repeated Stability glitch as a GitHub Actions concurrency cancellation: an older rerun could cancel a newer same-ref proof even though no assertion failed.
+- Hardened Stability, Candidate B and Candidate C so reruns/manual dispatches cannot cancel an active proof; Burn-In remains non-cancelling. Added a permanent CI concurrency contract.
 
 # v1.1.4 — Candidate C Atomic Restore + Recovery UX
 

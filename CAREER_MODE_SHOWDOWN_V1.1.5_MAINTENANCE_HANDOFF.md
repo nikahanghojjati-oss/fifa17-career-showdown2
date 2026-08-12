@@ -332,10 +332,12 @@ An attempted temporary handoff helper had invalid YAML and produced zero jobs/ze
 
 ## 14. Current release-candidate truth
 
-Application candidate: v1.1.5
+Application production: v1.1.5
 Runtime/cache revision: `1.1.5-r1`
-Draft PR: #25
-Current public production until merge: v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+Merged PR: #25
+Immutable production runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
+GitHub Pages build: `1147995655`
+Production proof: twice complete
 
 Implemented/protected maintenance:
 
@@ -357,25 +359,23 @@ Implemented/protected maintenance:
 
 Next substantive milestone after release proof: v1.2.0 Installable Offline App.
 
-## 15. Remaining release work
+## 15. Release closure completed
 
-No feature implementation is legal before these steps finish:
+v1.1.5 release work is closed.
 
-1. add/execute permanent release-authority coherence checks across current source/docs;
-2. ensure no temporary helper workflow remains;
-3. freeze one exact final PR #25 head SHA;
-4. pass all 14 permanent families on that exact SHA;
-5. independently repeat all 14 on the same SHA;
-6. merge with expected-head protection;
-7. record immutable v1.1.5 runtime merge SHA;
-8. wait for Pages `1.1.5-r1` convergence;
-9. pass production exact-byte parity plus provenance, Home/Reus, licensed visuals, Candidate A/B/C and full journey;
-10. pass production Burn-In 5/5 and all other permanent families;
-11. independently repeat production proof on the same runtime SHA;
-12. create `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`;
-13. seal current-facing docs to deployed/twice-proven while keeping runtime SHA distinct from later docs-only head;
-14. run final docs/coherence CI;
-15. only then hand off to v1.2.
+Completed evidence:
+
+1. frozen pre-merge SHA `97088274e1eac377927476b84c6090e7233e0997` passed all 14 permanent families twice;
+2. PR #25 merged with expected-head protection;
+3. immutable runtime authority is `ff755a9863abc843ae9aac45178428e3a104fc65`;
+4. Pages build `1147995655` deployed that exact runtime as `1.1.5-r1`;
+5. production attempt 1 passed all 14 families, exact deployed bytes and full live journey;
+6. production attempt 2 independently passed all 14 families on the same runtime, including Candidate C twice-browser recovery, Burn-In 5/5, two-cycle Stability and the complete deployed-site smoke;
+7. the apparent Stability glitch was proven to be GitHub concurrency cancellation, not an assertion failure;
+8. post-release CI hardening prevents reruns/manual proof dispatches from cancelling active Stability/Candidate B/C evidence while preserving Burn-In's non-cancelling five-pass behavior;
+9. `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` is the immutable production evidence record.
+
+The next legal substantive milestone is v1.2.0 Installable Offline App.
 
 ## 16. Continuation for the next developer
 
