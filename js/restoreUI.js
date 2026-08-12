@@ -8,6 +8,16 @@
   const resetChoices=()=>{choices={active:"",legacy:"",preferences:"",legacyConflicts:{}};};
   const describeActive=value=>value&&value.name?value.name:"No active Showdown in backup";
 
+  function syncCandidateBStatusCopy(){
+    const target=document.querySelector("#legacyImportAnalysis .legacyImportStatus");
+    if(!target)return;
+    if(/Restore is intentionally unavailable in Candidate B\.?/i.test(target.textContent||"")){
+      target.textContent="Analysis is read-only. Use Atomic Restore & Recovery below when you are ready to choose and apply a restore plan.";
+    }else if(/Candidate C restore remains unavailable\.?/i.test(target.textContent||"")){
+      target.textContent="Preview complete. No browser data was changed. Use Atomic Restore & Recovery below when you are ready to choose and apply a restore plan.";
+    }
+  }
+
   function selectControl(key,label,options){
     const wrap=make("label","careerRestoreChoiceGroup");
     wrap.appendChild(make("span","careerRestoreLabel",label));
@@ -141,7 +151,7 @@
   }
 
   function mountCareerModeRestorePanel(){
-    const controls=document.querySelector("#legacy .legacyDataControls");if(!controls||controls.querySelector("#careerModeRestorePanel"))return false;
+    const controls=document.querySelector("#legacy .legacyDataControls");if(!controls||controls.querySelector("#careerModeRestorePanel")){syncCandidateBStatusCopy();return false;}
     const root=make("section","careerRestorePanel");root.id="careerModeRestorePanel";
     root.append(make("span","careerRestoreEyebrow","CANDIDATE C · VERIFIED APPLY"),make("h4","","ATOMIC RESTORE & RECOVERY"),make("p","careerRestoreIntro","Choose a backup to review restore choices. Apply revalidates the actual file and current browser state, snapshots exact raw bytes, verifies the complete commit and rolls every affected key back if any write or verification fails."));
     const picker=make("div","careerRestorePicker"),input=document.createElement("input"),reviewButton=make("button","compactButton careerRestoreReviewButton","REVIEW RESTORE");
@@ -149,14 +159,15 @@
     input.addEventListener("change",()=>{file=input.files&&input.files[0]?input.files[0]:null;analysis=null;resetChoices();renderReview();reviewButton.disabled=!file;status(file?`${file.name||"backup.json"} selected. Review is read-only until Apply.`:"No restore file selected.");});
     reviewButton.addEventListener("click",review);picker.append(input,reviewButton);
     const live=make("p","careerRestoreStatus",file?`${file.name||"backup.json"} remains selected. Review again before applying.`:"No restore file selected. Export Backup above first if you want an extra recovery copy.");live.setAttribute("role","status");live.setAttribute("aria-live","polite");
-    root.append(picker,live,make("div","careerRestoreReview"));controls.appendChild(root);renderReview();return true;
+    root.append(picker,live,make("div","careerRestoreReview"));controls.appendChild(root);renderReview();syncCandidateBStatusCopy();return true;
   }
 
   function initializeCareerModeRestoreUI(){
     mountCareerModeRestorePanel();
     if(observer||typeof MutationObserver!=="function")return;
     const legacy=document.getElementById("legacy");if(!legacy)return;
-    observer=new MutationObserver(()=>mountCareerModeRestorePanel());observer.observe(legacy,{childList:true,subtree:true});
+    observer=new MutationObserver(()=>{mountCareerModeRestorePanel();syncCandidateBStatusCopy();});
+    observer.observe(legacy,{childList:true,subtree:true});
   }
   window.mountCareerModeRestorePanel=mountCareerModeRestorePanel;
   window.initializeCareerModeRestoreUI=initializeCareerModeRestoreUI;
