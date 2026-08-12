@@ -357,6 +357,7 @@ async function ensureTrophyRoomModule(){
 
 async function ensureLegacyModule(){
     const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
+    const restoreStylePromise = loadRuntimeStyle("restore-ui", "css/restore.css");
     await loadRuntimeScript(
         "backup-engine",
         "js/backup.js",
@@ -365,12 +366,24 @@ async function ensureLegacyModule(){
             && typeof window.exportCareerModeBackup === "function"
     );
     await loadRuntimeScript("import-analysis","js/importAnalysis.js",()=>typeof window.analyzeCareerModeBackupFile==="function");
+    await loadRuntimeScript("restore-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function");
+    await loadRuntimeScript(
+        "restore-engine",
+        "js/restore.js",
+        () => typeof window.createCareerModeRestorePlan === "function" && typeof window.applyCareerModeRestore === "function"
+    );
+    await loadRuntimeScript(
+        "restore-ui",
+        "js/restoreUI.js",
+        () => typeof window.initializeCareerModeRestoreUI === "function" && typeof window.mountCareerModeRestorePanel === "function"
+    );
     await loadRuntimeScript(
         "legacy-ui",
         "js/legacy.js",
         () => typeof window.renderLegacy === "function"
     );
-    await stylePromise;
+    await Promise.all([stylePromise, restoreStylePromise]);
+    window.initializeCareerModeRestoreUI();
 }
 
 async function ensureRuleBookModule(){
@@ -479,7 +492,11 @@ async function openOptionalModule(name){
         }else if(name === "trophyRoom"){
             window.openTrophyRoom();
         }else if(name === "legacy"){
-            return showScreen("legacy");
+            const opened = showScreen("legacy");
+            if(opened && typeof window.mountCareerModeRestorePanel === "function"){
+                window.mountCareerModeRestorePanel();
+            }
+            return opened;
         }else if(name === "ruleBook"){
             window.openRuleBook();
         }else if(name === "settings"){
