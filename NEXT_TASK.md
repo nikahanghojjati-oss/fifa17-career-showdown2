@@ -2,13 +2,15 @@
 
 Last updated: 2026-08-11
 
-Application version: v1.1.2
+Application version: v1.1.3
 
-Runtime asset revision: `1.1.2-r1`
+Runtime asset revision: `1.1.3-r1`
 
-Runtime implementation authority: `6dfea100829016eee4820b342729b8c823426f95`
+Production runtime authority until v1.1.3 merge: `6dfea100829016eee4820b342729b8c823426f95`
 
-## Current baseline: v1.1.2 Candidate B — Complete and Protected
+## Current baseline: v1.1.3 Owner-Priority Maintenance Candidate
+
+The active v1.1.3 maintenance candidate fixes the owner-reported League Wheel post-selection visual reroll and replaces/expands licensed football photography with route-scoped loading. It changes no gameplay, scoring or persistence semantics. It must be merged/deployed/proven before Candidate C starts.
 
 Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, deployed and protected.
 
