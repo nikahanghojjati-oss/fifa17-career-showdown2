@@ -25,36 +25,88 @@ assert.equal(startupRefs.filter(ref => ref.file.startsWith("js/")).length, 7, "P
 assert.deepEqual(startupRefs.filter(ref => ref.revision !== revision), [], "Every eager JS/CSS runtime reference must use the current revision.");
 assert.ok(shell.includes(`assets/reus-homescreen-v2.webp?v=${revision}`), "Protected Reus startup portrait must use the current runtime revision.");
 
-const currentAuthority = [
+const currentDocs = [
   "00_DEVELOPER_START_HERE.md",
   "NEXT_TASK.md",
   "README.md",
   "PROJECT_STATE.md",
-  `RELEASE_V${version}.md`,
-  "POST_V1_ROADMAP_EXECUTION.md",
-  `CAREER_MODE_SHOWDOWN_V${version}_MAINTENANCE_HANDOFF.md`
+  "POST_V1_ROADMAP_EXECUTION.md"
 ];
+const releasePath = `RELEASE_V${version}.md`;
+const handoffPath = `CAREER_MODE_SHOWDOWN_V${version}_MAINTENANCE_HANDOFF.md`;
+const currentAuthority = [...currentDocs, releasePath, handoffPath];
+
 for(const file of currentAuthority){
   assert.ok(fs.existsSync(file), `${file} must exist for the current release.`);
   const text = read(file);
-  assert.ok(text.includes(`v${version}`) || text.includes(version), `${file} must acknowledge the current release version ${version}.`);
-  assert.ok(text.includes("v1.2.0") || file === `RELEASE_V${version}.md`, `${file} must preserve or defer to the v1.2 dependency boundary.`);
+  assert.ok(text.includes(`v${version}`) || text.includes(version), `${file} must acknowledge current release version ${version}.`);
 }
+for(const file of currentDocs){
+  assert.ok(read(file).includes(revision), `${file} must acknowledge current runtime revision ${revision}.`);
+}
+
+const release = read(releasePath);
+assert.ok(release.includes(`Release tag: \`v${version}\``), `${releasePath} has a stale release tag.`);
+assert.ok(release.includes(`Runtime asset revision: \`${revision}\``), `${releasePath} has a stale runtime revision.`);
+
+const changelog = read("CHANGELOG.md");
+assert.ok(changelog.trimStart().startsWith(`# v${version} —`), "CHANGELOG must begin with the current top-level release heading.");
+assert.ok(changelog.slice(0, 900).includes(`Runtime asset revision: **\`${revision}\`**`), "CHANGELOG current release revision is stale or missing.");
 
 const startHere = read("00_DEVELOPER_START_HERE.md");
 const nextTask = read("NEXT_TASK.md");
-assert.ok(startHere.includes(`Release candidate application: \`v${version}\``) || startHere.includes(`Application version: \`v${version}\``), "Developer bootstrap must begin from the current release identity.");
-assert.ok(nextTask.includes(`Release-candidate application: \`v${version}\``) || nextTask.includes(`Application version: v${version}`), "NEXT_TASK must begin from the current release identity.");
-assert.ok(!startHere.includes("Current substantive task — Candidate C"), "Bootstrap must not tell a new developer to reimplement completed Candidate C.");
-assert.ok(!nextTask.includes("Current baseline: v1.1.4 Stable / Candidate C Complete"), "NEXT_TASK must not regress to the superseded pre-maintenance baseline.");
+const readme = read("README.md");
+const projectState = read("PROJECT_STATE.md");
+const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 
-const changelog = read("CHANGELOG.md");
-assert.ok(changelog.trimStart().startsWith(`## v${version} —`), "CHANGELOG must begin with the current release entry.");
+assert.match(startHere, new RegExp(`(?:Release candidate application|Application version|Release candidate): \\`?v${version}\\`?`), "Developer bootstrap must begin from the current release identity.");
+assert.match(nextTask, new RegExp(`(?:Release-candidate application|Application version|Current application): \\`?v${version}\\`?`), "NEXT_TASK must begin from the current release identity.");
+
+for(const [file, text] of [
+  ["00_DEVELOPER_START_HERE.md", startHere],
+  ["NEXT_TASK.md", nextTask],
+  ["PROJECT_STATE.md", projectState],
+  ["README.md", readme]
+]){
+  assert.ok(/transaction-owned|mutation-owned/i.test(text), `${file} must describe rollback ownership rather than the old affected-key model.`);
+  assert.ok(/strict exact raw|strict snapshot|exact raw snapshot/i.test(text), `${file} must preserve exact destructive snapshot authority.`);
+  assert.ok(/Installable Offline App/i.test(text), `${file} must preserve the next substantive milestone.`);
+  assert.ok(!/roll(?:s|ed|ing)? every affected key/i.test(text), `${file} reintroduced the v1.1.4 over-broad rollback model.`);
+}
+
+const staleCurrentFacing = [
+  "Current application candidate: `v1.1.1`",
+  "Current remaining nontechnical exit condition:",
+  "Current substantive task — Candidate C",
+  "Candidate C must add dedicated restore contracts/browser evidence",
+  "Version identity deliberately remains v1.1.4",
+  "v1.1.4 / 1.1.4-r1 Candidate C release candidate"
+];
+for(const file of currentDocs){
+  const text = read(file);
+  for(const stale of staleCurrentFacing){
+    assert.ok(!text.includes(stale), `${file} contains stale current-facing phrase: ${stale}`);
+  }
+}
+
+assert.ok(roadmap.includes("v1.1 Data Safety and Recovery is also functionally complete"), "Roadmap must mark v1.1 recovery as functionally complete.");
+assert.ok(!roadmap.includes("Current remaining nontechnical exit condition:"), "Roadmap still exposes the obsolete r5 visual exit condition as current.");
+assert.ok(roadmap.includes("old r5 James/Rashford/Martial acceptance condition is historical"), "Roadmap must explicitly supersede the old r5 visual exit condition.");
+assert.ok(roadmap.includes("Candidate A/B/C are now complete; it is not the current task list."), "Historical v1.1 roadmap section must be clearly marked as history rather than current work.");
 
 const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
+for(const term of ["accountId", "profileId", "saveId", "deviceId", "installationId", "baseRevision", "tombstone", "compare-and-swap"]){
+  assert.ok(cloud.includes(term), `Cloud foundation lost required future contract term: ${term}`);
+}
 assert.ok(cloud.includes("v1.2.0 Installable Offline App"), "Cloud foundation must keep v1.2 ahead of cloud implementation.");
 assert.match(cloud, /future architecture contract only/i, "Cloud foundation must remain explicitly non-runtime at this milestone.");
 assert.match(cloud, /No future cloud module may call localStorage directly/i, "Future sync must remain behind canonical storage authority.");
+assert.ok(/future|no cloud backend|no cloud runtime|does not add/i.test(readme + projectState + nextTask), "Current authority no longer clearly bounds cloud work as future-only.");
+
+assert.ok(startHere.includes("00_HANDOFF_GOLDEN_RULE.md"), "Developer bootstrap lost the continuous handoff rule.");
+assert.ok(startHere.includes("NEXT_TASK.md"), "Developer bootstrap lost NEXT_TASK authority.");
+assert.ok(nextTask.includes("14 permanent workflow families"), "NEXT_TASK lost the protected release-family count.");
+assert.ok(nextTask.includes("27 protected"), "NEXT_TASK lost the protected workflow-block topology.");
 
 const workflowDir = ".github/workflows";
 const temporaryHelpers = fs.readdirSync(workflowDir)
@@ -70,4 +122,4 @@ for(const name of permanentYml){
 }
 assert.equal(blocks, 27, "Permanent workflow executable-block topology must remain exactly 27 unless intentionally migrated with its guard.");
 
-process.stdout.write(`PASS  release authority coherence for v${version} / ${revision}; current docs, lockfile, shell, roadmap and helper-free CI agree\n`);
+process.stdout.write(`PASS  release authority coherence for v${version} / ${revision}; runtime identity, current docs, rollback semantics, roadmap, cloud boundary and helper-free CI agree\n`);
