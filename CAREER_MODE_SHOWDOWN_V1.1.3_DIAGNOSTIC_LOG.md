@@ -61,9 +61,56 @@ This file is append-only in spirit: it records diagnostic and pre-release eviden
 - Failure: temporary audit attempted `careerStatistics` after loading its optional module but had not invoked the module's `createCareerStatisticsScreen()` constructor. The runtime correctly reported `Missing screen careerStatistics`.
 - Classification: TEST-HARNESS LAZY-SCREEN SETUP FAILURE, not a runtime product defect.
 - Artifact: `9124663264`; seven desktop screen captures were preserved, including the corrected Transfer view and both season bands.
-- Manual Transfer review: Martial is clean and prominent in the isolated Champions League frame; Rashford's Chelsea match frame shows a real emotional match moment and now has clear separation from the copy plate. The full-frame Rashford subject occupancy remains under qualitative review; the source may still receive an authored source-pixel crop if it looks too distant after responsive evidence is complete.
+- Manual Transfer review: Martial is clean and prominent in the isolated Champions League frame; Rashford's Chelsea match frame shows a real emotional match moment and now has clear separation from the copy plate. The full-frame Rashford subject occupancy remained under qualitative review pending responsive evidence.
 - Correction commit: `92f45855de122ff572321ad698905e0d5fe6736e`.
 - Correction: construct `careerStatistics`, `trophyRoom` and `ruleBook` through their real lazy-module screen constructors before audit, and capture every destination screenshot before layout assertions so any future failure keeps direct visual evidence.
+
+## 2026-08-12 — fourth 11-screen browser preview / responsive visual acceptance gate
+
+- Run ID: `31552440038`.
+- Head: `92f45855de122ff572321ad698905e0d5fe6736e`.
+- Job: `93977808295`.
+- Conclusion: SUCCESS.
+- Artifact: `9124750493`, digest `sha256:24beaf4b2534312d269ce47ef067c0c2f1103d60a184352eda18c56c066015f2`.
+- Coverage: all 11 visual destinations and all 12 active football derivatives at 1366×768 desktop, 940×700 windowed/Chromebook geometry and 390×844 mobile DPR2 — 33 screenshots total.
+- Runtime assertions passed:
+  - zero football-archive image requests during Home startup;
+  - all 12 active derivatives were requested only after their owning routes were explicitly exercised;
+  - every visual used `object-fit: contain`;
+  - no horizontal overflow;
+  - clean-anchor copy remained outside protected photo stages;
+  - accent geometry stayed in the lower safe zone;
+  - no first-party request or page errors.
+- Manual screenshot review accepted the generated candidates for release-candidate integration:
+  - James World Cup source is a clear cinematic/historic improvement over the rejected interview source;
+  - Rashford's Chelsea 2–0 teammate-embrace moment is readable at desktop/windowed/mobile after the copy-width correction and no longer requires a tighter semantic crop;
+  - Martial remains prominent and clean in the Champions League frame;
+  - Ronaldo, Pogba, Zlatan, Griezmann, Neymar, Falcao and Balotelli each read as a bounded screen-purpose visual rather than decorative wallpaper;
+  - the full responsive set remains visually controlled and does not turn the interface into a photo collage.
+- This is diagnostic visual acceptance evidence, not the official repeated release proof. The successful logic will be promoted into the permanent Licensed Football Visuals gate before candidate freeze.
+
+## 2026-08-12 — release identity finalizer diagnostics
+
+### First exact-count attempt
+
+- Temporary workflow: `Temporary v1.1.3 Release Identity Finalizer`.
+- Run ID: `31552675540`.
+- Head: `c7a9e268985d5abd7acb636726d3981255471a45`.
+- Job: `93978521485`.
+- Conclusion: FAILURE.
+- Failure: exact-count helper expected nine `1.1.2-r1` references in `index.html`; the actual guarded count is ten.
+- Classification: FAIL-CLOSED INTEGRATION-HELPER COUNT ERROR. The helper stopped before commit; no partial version-identity mutation was published by the failed run.
+- No runtime/test threshold or product behavior was changed to address this.
+- Correction commit: `1ec1f2fbddee2d4dfe3db54d39d056c9ff6d4e14`, changing only the expected guarded count from nine to ten.
+
+### Corrected exact-count attempt
+
+- Run ID: `31552781658`.
+- Head: `1ec1f2fbddee2d4dfe3db54d39d056c9ff6d4e14`.
+- Conclusion: SUCCESS.
+- Generated identity commit: `ec202741e40c1972393db5b55d34552e3efe9f1d`.
+- Result: package/package-lock application version is `1.1.3`; runtime/cache revision is `1.1.3-r1`; footer is `v1.1.3 · Stable`; `APP_VERSION`, optional-module fallback, football-visual fallback and visual-fidelity cache query are coherent.
+- Startup splash duration was not shortened and gameplay/scoring behavior was not modified.
 
 ## Release-proof rule
 
