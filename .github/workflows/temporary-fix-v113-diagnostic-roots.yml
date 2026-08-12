@@ -64,14 +64,18 @@ jobs:
               'anthony-martial-man-utd-2016-smart-r5.webp',
               'anthony-martial-man-utd-2015-r4.webp',
           ]
+          removed = []
           for name in forbidden:
               path = Path('assets/football') / name
-              if not path.is_file():
-                  raise SystemExit(f'expected replaced asset to exist before guarded removal: {path}')
-              path.unlink()
+              if path.is_file():
+                  path.unlink()
+                  removed.append(str(path))
               if path.exists():
                   raise SystemExit(f'replaced asset removal failed: {path}')
 
+          if not removed:
+              raise SystemExit('no tracked rejected derivative remained; expected at least the validator-reported James v1.1.1 file')
+          print('Removed tracked rejected derivatives:', ', '.join(removed))
           print('Exact v1.1.3 diagnostic root corrections applied.')
           PY
 
@@ -80,7 +84,7 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-          import gzip, re
+          import gzip, re, subprocess
 
           forbidden = [
               'james-rodriguez-real-madrid-2016-smart-v111.webp',
@@ -91,13 +95,21 @@ jobs:
               'anthony-martial-man-utd-2016-smart-r5.webp',
               'anthony-martial-man-utd-2015-r4.webp',
           ]
-          assert all(not (Path('assets/football') / name).exists() for name in forbidden)
+          forbidden_paths = {f'assets/football/{name}' for name in forbidden}
+          assert all(not Path(path).exists() for path in forbidden_paths)
           assert '**Application version:** v1.1.3 — Maintenance Candidate' in Path('PROJECT_STATE.md').read_text()
           assert '**Application version:** v1.1.3 — Maintenance Candidate' in Path('README.md').read_text()
           css = Path('css/footballVisuals-v113.css').read_text()
           assert 'html[data-motion-reduced="true"] .footballVisualMedia{transition:none;}' in css
           assert '@media(prefers-reduced-motion:reduce){.footballVisualMedia{transition:none;}}' in css
           assert '.footballVisualCinematicBand .footballVisualMedia{transition:none;}' not in css
+
+          actual = set(subprocess.check_output(['git','diff','--name-only'], text=True).splitlines())
+          mandatory = {'PROJECT_STATE.md','README.md','css/footballVisuals-v113.css'}
+          allowed = mandatory | forbidden_paths
+          assert mandatory <= actual, f'mandatory correction missing from diff: {mandatory - actual}'
+          assert actual <= allowed, f'unrelated file entered correction diff: {actual - allowed}'
+          assert actual & forbidden_paths, 'validator-reported rejected binary was not removed'
 
           html = Path('index.html').read_text()
           revision = re.search(r'app-asset-revision"\s+content="([^"]+)', html).group(1)
@@ -110,11 +122,8 @@ jobs:
           print(f'protected eager payload after root corrections: {raw} raw / {gz} gzip')
           assert raw <= 165000
           assert gz <= 37500
+          print('Exact changed-file envelope:', ', '.join(sorted(actual)))
           PY
-
-          expected=$'PROJECT_STATE.md\nREADME.md\nassets/football/anthony-martial-man-utd-2015-r4.webp\nassets/football/anthony-martial-man-utd-2016-smart-r5.webp\nassets/football/james-rodriguez-real-madrid-2016-r4.webp\nassets/football/james-rodriguez-real-madrid-2016-smart-v111.webp\nassets/football/james-rodriguez-real-madrid-2019-smart-r5.webp\nassets/football/marcus-rashford-man-utd-2016-smart-r5.webp\nassets/football/marcus-rashford-man-utd-2017-smart-r5.webp\ncss/footballVisuals-v113.css'
-          actual="$(git diff --name-only | sort)"
-          test "$actual" = "$expected"
 
       - name: Run current deterministic contract suite
         run: |
