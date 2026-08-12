@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -98,6 +99,131 @@ jobs:
           assert.strictEqual(state.notices, 1, 'Failed confirmation save must be surfaced to the user.');
 
           console.log('Explicit League Wheel Continue transaction and rollback contracts passed.');
+          NODE
+
+      - name: Validate settled wheel cannot visually reroll after selection
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('fs');
+          const vm = require('vm');
+          const assert = require('assert');
+
+          const source = fs.readFileSync('js/leagueWheel.js', 'utf8');
+          const state = {
+            saves: 0,
+            randomCalls: 0,
+            timer: null,
+            notices: 0
+          };
+
+          const track = {
+            style: { transition: '', transform: '' },
+            dataset: {},
+            get offsetWidth(){ return 260; }
+          };
+          const wheel = { querySelector: selector => selector === '.wheelTrack' ? track : null };
+          const result = { textContent: '' };
+          const spin = { textContent: '', disabled: false };
+          const note = {
+            textContent: '',
+            classList: {
+              add(){},
+              remove(){}
+            }
+          };
+          const back = {
+            disabled: false,
+            setAttribute(){ }
+          };
+          const elements = {
+            leagueWheel: wheel,
+            selectedLeague: result,
+            spinLeague: spin,
+            leagueStateNote: note
+          };
+
+          const premier = { id: 'premier-league', name: 'Premier League' };
+          const context = {
+            console,
+            leagues: [premier, { id: 'la-liga', name: 'LaLiga' }],
+            document: {
+              getElementById: id => elements[id] || null,
+              querySelector: selector => selector === '#leagueWheelScreen .backButton' ? back : null
+            },
+            matchMedia: () => ({ matches: false }),
+            getRandomLeague: () => { state.randomCalls += 1; return premier; },
+            getClubPairIntegrity: () => ({ valid: false }),
+            saveCurrentShowdown: () => { state.saves += 1; return true; },
+            updateShowdownUI: () => {},
+            prepareClubAssignment: () => {},
+            showAppNotice: () => { state.notices += 1; },
+            setTimeout: callback => { state.timer = callback; return 41; },
+            clearTimeout: () => { state.timer = null; },
+            currentShowdown: {
+              id: 'wheel-regression',
+              status: 'Created',
+              selectedLeague: null,
+              clubs: { playerOne: null, playerTwo: null }
+            }
+          };
+          context.window = context;
+          vm.createContext(context);
+          vm.runInContext(
+            `${source}\n;globalThis.__wheel = { spinLeagueWheel, renderLeagueWheelState, cancelLeagueWheelOperation };`,
+            context,
+            { filename: 'js/leagueWheel.js' }
+          );
+
+          context.__wheel.renderLeagueWheelState();
+          assert.strictEqual(track.style.transition, 'none', 'A settled unspun wheel must not own an active transform transition.');
+          assert.strictEqual(track.dataset.leagueWheelAnimating, 'false');
+
+          context.__wheel.spinLeagueWheel();
+          assert.strictEqual(state.randomCalls, 1, 'One explicit spin must draw exactly one league.');
+          assert.ok(track.style.transition.includes('transform 4000ms'), 'Only the active spin should arm the transform transition.');
+          assert.strictEqual(track.dataset.leagueWheelAnimating, 'true');
+          assert.ok(track.style.transform.includes('rotate('), 'Active spin must write a rotation.');
+          assert.strictEqual(typeof state.timer, 'function', 'Active spin must own one completion timer.');
+
+          const completion = state.timer;
+          completion();
+          assert.strictEqual(state.randomCalls, 1, 'Spin completion must never draw a second league.');
+          assert.strictEqual(state.saves, 1, 'Selected league must persist once at spin completion.');
+          assert.strictEqual(context.currentShowdown.selectedLeague.id, 'premier-league');
+          assert.strictEqual(context.currentShowdown.status, 'League Selected');
+          assert.strictEqual(track.style.transition, 'none', 'Selected wheel must be settled before normalization/render.');
+          assert.strictEqual(track.dataset.leagueWheelAnimating, 'false', 'Selected wheel must not retain animation state.');
+          assert.strictEqual(track.style.transform, 'rotate(0deg)', 'Equivalent selected angle must normalize without a transition.');
+          assert.strictEqual(spin.textContent, 'CONTINUE TO CLUB ASSIGNMENT');
+          assert.strictEqual(spin.disabled, false, 'Selected league remains waiting for explicit Continue.');
+
+          // Route/cancel cleanup must also leave no hidden animation state, and a
+          // stale completion callback cannot commit a selection after cancellation.
+          context.currentShowdown = {
+            id: 'wheel-cancel',
+            status: 'Created',
+            selectedLeague: null,
+            clubs: { playerOne: null, playerTwo: null }
+          };
+          state.timer = null;
+          context.__wheel.spinLeagueWheel();
+          assert.strictEqual(state.randomCalls, 2);
+          const staleCompletion = state.timer;
+          assert.strictEqual(track.dataset.leagueWheelAnimating, 'true');
+          context.__wheel.cancelLeagueWheelOperation();
+          assert.strictEqual(track.style.transition, 'none');
+          assert.strictEqual(track.dataset.leagueWheelAnimating, 'false');
+          const savesBeforeStaleCallback = state.saves;
+          staleCompletion();
+          assert.strictEqual(state.saves, savesBeforeStaleCallback, 'Cancelled stale completion must not persist a league.');
+          assert.strictEqual(context.currentShowdown.selectedLeague, null, 'Cancelled stale completion must not select a league.');
+          assert.strictEqual(track.style.transition, 'none', 'Stale callback must not re-arm animation.');
+
+          assert.ok(source.includes('setLeagueWheelTransition(track, 0);'), 'Operation-scoped transition disarm contract must remain in source.');
+          assert.ok(source.includes('void track.offsetWidth;'), 'Spin baseline style commit guard must remain in source.');
+          console.log('League Wheel settled-transition / stale-operation regression passed.');
           NODE
 
       - name: Validate refresh and route boundary
