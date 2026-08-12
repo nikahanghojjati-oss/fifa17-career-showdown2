@@ -32,11 +32,30 @@ assert.ok(fs.existsSync(path.join(root, releaseRecordPath)), `Current release re
 const releaseRecord = read(releaseRecordPath);
 assert.ok(releaseRecord.includes(`Release tag: \`v${appVersion}\``), "Current release record tag is stale.");
 assert.ok(releaseRecord.includes(`Runtime asset revision: \`${revision}\``), "Current release record revision is stale.");
-assert.ok(projectState.includes(`**Application version:** v${appVersion}`), "PROJECT_STATE version is stale.");
-assert.ok(projectState.includes(`**Runtime asset revision:** \`${revision}\``), "PROJECT_STATE revision is stale.");
-assert.ok(nextTask.includes(`Application version: v${appVersion}`), "NEXT_TASK version is stale.");
+assert.ok(
+    projectState.includes(`**Application version:** v${appVersion}`) ||
+    projectState.includes(`**Release candidate:** v${appVersion}`) ||
+    projectState.includes(`Application version: v${appVersion}`) ||
+    projectState.includes(`Release candidate: v${appVersion}`),
+    "PROJECT_STATE version is stale."
+);
+assert.ok(
+    projectState.includes(`**Runtime asset revision:** \`${revision}\``) ||
+    projectState.includes(`Runtime asset revision: \`${revision}\``),
+    "PROJECT_STATE revision is stale."
+);
+assert.ok(
+    nextTask.includes(`Application version: v${appVersion}`) || nextTask.includes(`Release-candidate application: \`v${appVersion}\``),
+    "NEXT_TASK version is stale."
+);
 assert.ok(nextTask.includes(`Runtime asset revision: \`${revision}\``), "NEXT_TASK revision is stale.");
-assert.ok(readme.includes(`**Application version:** v${appVersion}`), "README version is stale.");
+assert.ok(
+    readme.includes(`**Application version:** v${appVersion}`) ||
+    readme.includes(`**Release candidate:** v${appVersion}`) ||
+    readme.includes(`Application version: v${appVersion}`) ||
+    readme.includes(`Release candidate: v${appVersion}`),
+    "README version is stale."
+);
 assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no current release entry.");
 assert.ok(handoffGoldenRule.includes("Every developer or ChatGPT session") && handoffGoldenRule.includes("continuously"), "The owner-mandated continuous public handoff golden rule is missing.");
 assert.ok(optional.includes("getApplicationAssetRevision()"), "Lazy assets must derive their revision from the shell.");

@@ -1,12 +1,12 @@
 {
   "name": "career-mode-showdown",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "private": true,
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
     "check": "npm run test:contracts",
     "serve:test": "node tests/support/static-server.cjs",
-    "test:contracts": "node tests/contracts/stability-contracts.cjs && node tests/contracts/static-app-release-contracts.cjs && node tests/contracts/final-polish-transition.cjs && node tests/contracts/final-polish-feedback.cjs && node tests/contracts/final-polish-presentation.cjs && node tests/contracts/licensed-football-visuals-contract.cjs && node tests/contracts/season-review-snapshot.cjs && node tests/contracts/season-review-architecture.cjs && node tests/contracts/statistics-fixtures.cjs && node tests/contracts/statistics-architecture.cjs && node tests/contracts/backup-contracts.cjs && node tests/contracts/import-analysis-contracts.cjs && node tests/contracts/restore-storage-contracts.cjs && node tests/contracts/restore-plan-contracts.cjs && node tests/contracts/restore-stale-state-contracts.cjs && node tests/contracts/final-release-hardening.cjs",
+    "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
     "test:browser": "node tests/browser/stability-audit.cjs",
     "test:home-visual": "node tests/browser/home-visual-audit.cjs",
@@ -16,8 +16,8 @@
     "test:backup-browser": "node tests/browser/backup-export-audit.cjs",
     "test:import-contracts": "node tests/contracts/import-analysis-contracts.cjs",
     "test:import-browser": "node tests/browser/import-analysis-audit.cjs",
-    "test:restore-contracts": "node tests/contracts/restore-storage-contracts.cjs && node tests/contracts/restore-plan-contracts.cjs && node tests/contracts/restore-stale-state-contracts.cjs",
-    "test:restore-browser": "node tests/browser/restore-audit.cjs"
+    "test:restore-contracts": "node tests/support/run-restore-contracts.cjs",
+    "test:restore-browser": "node tests/browser/restore-audit.cjs && node tests/browser/restore-maintenance-audit.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",

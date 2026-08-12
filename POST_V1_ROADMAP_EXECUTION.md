@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 Status: repository-native execution companion to the owner-approved August 9 post-v1 roadmap.
 
 ## 1. Purpose
@@ -13,9 +13,11 @@ Current source remains the implementation authority.
 
 ## 2. Current starting point
 
-Current application candidate: `v1.1.1`
+Current maintenance release candidate: `v1.1.5`
 
-Current runtime revision: `1.1.1-r1`
+Current candidate runtime revision: `1.1.5-r1`
+
+Current public production remains immutable v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7` until the maintenance PR is merged and Pages proof is complete.
 
 Current product model:
 
@@ -27,9 +29,9 @@ Current product model:
 - GitHub Pages deployment;
 - static SPA using HTML/CSS/vanilla JavaScript.
 
-Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and protected. The current finite maintenance patch refreshes only the James Rodríguez Real Madrid source photograph and does not start Candidate B.
+Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 is a finite maintenance release that hardens confirmed restore intent, exact storage preconditions and mutation-owned rollback; it does not reopen Candidate A/B/C design.
 
-After v1.1.1 maintenance is merged/deployed/proven and its owner art-direction gate is accepted or explicitly deferred, Candidate B — Import Analysis + Migration Preview — is the next substantive roadmap candidate. Candidate B remains read-only; Candidate C restore remains dependency-blocked.
+`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App is the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.
 
 ## 3. Permanent rules that every roadmap milestone inherits
 
@@ -104,28 +106,19 @@ Cloud and two-device work cannot begin on the present singleton localStorage mod
 | v2.2.0 | private sharing/groups | identity/privacy/backend | public feed/comments |
 | v3.0 gate | decide community/rankings | proven demand/integrity/budget | automatic commitment |
 
-## 6. v1.0.x Stability Lane — current exit state
+## 6. Stability and v1.1 exit state
 
-The planned finite stability work has already built strong release evidence:
+The original v1.0.x Stability Lane is closed. Its deterministic contracts, browser journeys, corrupt-storage/quota/reload/navigation coverage, exact deployed-byte checks and protected Home/Reus/football-visual gates are permanent regression infrastructure, not an open milestone.
 
-- deterministic product contracts;
-- pinned Chromium/Playwright/axe tooling;
-- corrupt active/Legacy/preference fixtures;
-- quota rejection and rollback;
-- rapid activation/drafts/double submit;
-- reload, Smart Back, browser Back/Forward;
-- complete Chromebook and mobile journeys;
-- exact deployed runtime-byte checks;
-- public Pages complete journey;
-- Home/Reus and football-photo visual gates.
+The old r5 James/Rashford/Martial acceptance condition is historical and has been superseded by the accepted v1.1.3 route-scoped visual archive. Do not reopen that visual selection work without new owner evidence.
 
-Current remaining nontechnical exit condition:
+v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis and Candidate C atomic restore/recovery. The only current v1.1 work is the finite v1.1.5 maintenance release closure described in `NEXT_TASK.md` and `RELEASE_V1.1.5.md`.
 
-- owner real-device acceptance of r5 James/Rashford/Martial, or explicit owner deferral.
-
-No planned `v1.0.2` exists. Only a reproduced release defect justifies another stability patch.
+After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App becomes the next substantive roadmap milestone.
 
 ## 7. v1.1.0 — Data Safety and Recovery
+
+> Historical execution contract: this section records how the v1.1 recovery milestone was designed and should be read as implementation history/architecture guidance. Candidate A/B/C are now complete; it is not the current task list.
 
 ### 7.1 Goal
 

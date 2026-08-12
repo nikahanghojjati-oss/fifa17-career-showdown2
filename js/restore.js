@@ -8,6 +8,17 @@
     return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${canonical(value[key])}`).join(",")}}`;
   }
   function clone(value){return value===undefined?undefined:JSON.parse(JSON.stringify(value));}
+  function captureStrictRaw(){
+    if(typeof window.captureCareerModeRawRestoreSnapshot==="function"){
+      const snapshot=window.captureCareerModeRawRestoreSnapshot();
+      if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return snapshot;
+      return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:RAW_NAMES.slice()};
+    }
+    if(typeof window.captureCareerModeRawBackupInputs==="function"){
+      return {ok:true,raw:window.captureCareerModeRawBackupInputs(),failedKeys:[]};
+    }
+    return {ok:false,raw:null,failedKeys:RAW_NAMES.slice()};
+  }
   function parseRaw(raw,kind){
     if(raw===null)return {state:"absent",value:kind==="legacy"?[]:null};
     try{
@@ -127,17 +138,23 @@
   }
   async function applyCareerModeRestore(file,choices={},reviewContext={}){
     if(restoreInFlight)return {ok:false,status:"busy",errors:["A restore transaction is already in progress."]};
+    const confirmedFile=file;
+    const confirmedChoices=clone(choices&&typeof choices==="object"?choices:{})||{};
+    const confirmedExpectedRaw=clone(reviewContext&&reviewContext.expectedRaw);
     restoreInFlight=true;
     try{
       if(typeof window.flushPendingApplicationWrites!=="function"||window.flushPendingApplicationWrites()===false){
         return {ok:false,status:"flush-failed",errors:["Pending application writes could not be flushed safely."]};
       }
       if(typeof window.analyzeCareerModeBackupFile!=="function")return {ok:false,status:"analysis-unavailable",errors:["Candidate B analysis authority is unavailable."]};
-      const analysis=await window.analyzeCareerModeBackupFile(file);
+      const analysis=await window.analyzeCareerModeBackupFile(confirmedFile);
       if(!analysis||analysis.ok!==true)return {ok:false,status:"analysis-blocked",analysis,errors:(analysis&&analysis.errors)||["Fresh backup analysis was blocked."]};
-      if(typeof window.captureCareerModeRawBackupInputs!=="function")return {ok:false,status:"snapshot-unavailable",analysis,errors:["Storage snapshot authority is unavailable."]};
-      const currentRaw=window.captureCareerModeRawBackupInputs();
-      const reviewState=compareReviewedRawState(reviewContext&&reviewContext.expectedRaw,currentRaw);
+      const strictSnapshot=captureStrictRaw();
+      if(!strictSnapshot.ok){
+        return {ok:false,status:"snapshot-unavailable",analysis,failedKeys:strictSnapshot.failedKeys,errors:[`Exact browser storage could not be read safely${strictSnapshot.failedKeys.length?`: ${strictSnapshot.failedKeys.join(", ")}`:""}. Nothing was written.`]};
+      }
+      const currentRaw=strictSnapshot.raw;
+      const reviewState=compareReviewedRawState(confirmedExpectedRaw,currentRaw);
       if(reviewState.checked&&reviewState.changedKeys.length){
         return {
           ok:false,
@@ -148,15 +165,25 @@
           errors:[`Current browser data changed after review: ${reviewState.changedKeys.join(", ")}. Review the refreshed state before applying.`]
         };
       }
-      const plan=createCareerModeRestorePlan(analysis,currentRaw,choices);
+      const plan=createCareerModeRestorePlan(analysis,currentRaw,confirmedChoices);
       if(!plan.ok)return {ok:false,status:plan.status,analysis,plan,currentRaw,errors:plan.errors,warnings:plan.warnings};
       if(typeof window.applyCareerModeRawStorageTransaction!=="function")return {ok:false,status:"transaction-unavailable",analysis,plan,currentRaw,errors:["Storage transaction authority is unavailable."]};
-      const transaction=window.applyCareerModeRawStorageTransaction(plan.candidateRaw);
+      const transaction=window.applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw);
+      if(transaction&&transaction.ok!==true&&transaction.failurePhase==="precondition"&&transaction.rollbackVerified!==false){
+        const refreshed=captureStrictRaw();
+        const latestRaw=refreshed.ok?refreshed.raw:currentRaw;
+        return {
+          ok:false,status:"stale-state",analysis,plan,currentRaw:latestRaw,transaction,
+          changedKeys:Array.isArray(transaction.preconditionMismatches)?transaction.preconditionMismatches:[],
+          errors:["Browser data changed at the transaction boundary. No unverified restore result was accepted. Review the current state again."],
+          warnings:plan.warnings
+        };
+      }
       return {
         ok:Boolean(transaction&&transaction.ok),
         status:transaction&&transaction.ok?"success":(transaction&&transaction.status)||"transaction-failed",
         analysis,plan,currentRaw,transaction,
-        errors:transaction&&transaction.ok?[]:["Restore did not commit successfully."],
+        errors:transaction&&transaction.ok?[]:[transaction&&transaction.status==="write-failed-clean"?"Restore could not start writing. Canonical browser data was left unchanged.":"Restore did not commit successfully."],
         warnings:plan.warnings
       };
     }catch(error){

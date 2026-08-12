@@ -1,3 +1,22 @@
+# v1.1.5 — Restore Transaction Safety Maintenance
+
+Date: **August 12, 2026**
+
+Runtime asset revision: **`1.1.5-r1`**
+
+- Fixed a confirmed-intent race where restore file/choice state could change during asynchronous Apply-time revalidation after the visible plan had already been confirmed.
+- Fixed over-broad rollback so Candidate C now rolls back only transaction-owned successful mutations, in reverse order, and refuses to clobber newer/unowned bytes.
+- Added strict destructive-restore snapshots that distinguish true key absence from storage read failure and fail closed before mutation.
+- Added initial and last-moment raw-byte preconditions, explicit stale-state recovery, post-write verification and byte-for-byte owned rollback verification.
+- Added `RESTORE NOT STARTED`, verified rollback and critical ownership/rollback recovery distinctions; critical uncertainty invalidates runtime caches and locks restore controls.
+- Preserved deterministic repeated imports as zero-write no-ops and corrupt raw bytes unless explicit replacement is selected.
+- Removed the stale Candidate A hardcoded v1.1.3 provenance fallback without changing backup format version 1.
+- Added real-browser maintenance races/failure scenarios to Candidate C, Stability and every Burn-In pass.
+- Added repository-wide per-contract CI annotations while preserving all protected assertions and the 27-block workflow topology.
+- Added `CLOUD_STORAGE_FOUNDATION.md` for future account/save/device identity, revision/CAS, conflicts, tombstones, privacy and security; no cloud backend/network mutation is included.
+- Preserved the original 165,000 raw / 37,500 gzip startup ceilings; a 31-byte raw regression was fixed without raising either budget.
+- Normal loading remains 2700 ms and reduced-motion startup remains 220 ms.
+
 # v1.1.4 — Candidate C Atomic Restore + Recovery UX
 
 Date: **August 12, 2026**
