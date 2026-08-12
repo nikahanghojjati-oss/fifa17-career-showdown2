@@ -7,6 +7,7 @@ function read(file){ return fs.readFileSync(file, "utf8"); }
 const pkg = JSON.parse(read("package.json"));
 const lock = JSON.parse(read("package-lock.json"));
 const app = read("js/app.js");
+const menu = read("js/menuExperience.js");
 const shell = read("index.html");
 const version = pkg.version;
 const revision = `${version}-r1`;
@@ -18,6 +19,7 @@ assert.ok(app.includes(`const APP_VERSION = "${version}";`), "APP_VERSION must m
 assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), "Visual-fidelity cache identity must match current runtime revision.");
 assert.ok(shell.includes(`name="app-asset-revision" content="${revision}"`), "Shell runtime-revision meta must match package identity.");
 assert.ok(shell.includes(`v${version} · Stable`), "Visible footer must show current release identity.");
+assert.ok(menu.includes(`thumbnail: "assets/marco-reus-2015-cc-by.webp?v=${revision}"`), "Home Reus portrait cache identity must match the shell revision.");
 
 const startupRefs = [...shell.matchAll(/(?:src|href)="((?:js|css)\/[^"?#]+)(?:\?v=([^"#]+))?/g)]
   .map(match => ({ file: match[1], revision: match[2] || "" }));
@@ -122,4 +124,4 @@ for(const name of permanentYml){
 }
 assert.equal(blocks, 27, "Permanent workflow executable-block topology must remain exactly 27 unless intentionally migrated with its guard.");
 
-process.stdout.write(`PASS  release authority coherence for v${version} / ${revision}; runtime identity, current docs, rollback semantics, roadmap, cloud boundary and helper-free CI agree\n`);
+process.stdout.write(`PASS  release authority coherence for v${version} / ${revision}; runtime identity, Home Reus cache, current docs, rollback semantics, roadmap, cloud boundary and helper-free CI agree\n`);
