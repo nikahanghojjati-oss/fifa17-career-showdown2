@@ -1,0 +1,139 @@
+name: Temporary v1.1.3 Diagnostic Root Corrections
+
+on:
+  push:
+    branches:
+      - v1.1.3-candidate-c-visual-fixes
+    paths:
+      - .github/workflows/temporary-fix-v113-diagnostic-roots.yml
+
+permissions:
+  contents: write
+
+jobs:
+  correct-diagnostic-roots:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Apply exact documentation, archive and reduced-motion corrections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = [
+              (
+                  Path('PROJECT_STATE.md'),
+                  '**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate',
+                  '**Application version:** v1.1.3 — Maintenance Candidate',
+                  'PROJECT_STATE current release label'
+              ),
+              (
+                  Path('README.md'),
+                  '**Application version:** v1.1.3 — Owner-Priority Maintenance Candidate',
+                  '**Application version:** v1.1.3 — Maintenance Candidate',
+                  'README current release label'
+              ),
+              (
+                  Path('css/footballVisuals-v113.css'),
+                  'html[data-motion-reduced="true"] .footballVisualCinematicBand .footballVisualMedia{transition:none;}\n@media(prefers-reduced-motion:reduce){.footballVisualCinematicBand .footballVisualMedia{transition:none;}}',
+                  'html[data-motion-reduced="true"] .footballVisualMedia{transition:none;}\n@media(prefers-reduced-motion:reduce){.footballVisualMedia{transition:none;}}',
+                  'all licensed visuals reduced-motion transition guard'
+              ),
+          ]
+
+          for path, old, new, label in replacements:
+              text = path.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected exactly one guarded match, got {count}')
+              path.write_text(text.replace(old, new, 1))
+              if path.read_text().count(new) != 1:
+                  raise SystemExit(f'{label}: replacement verification failed')
+
+          forbidden = [
+              'james-rodriguez-real-madrid-2016-smart-v111.webp',
+              'james-rodriguez-real-madrid-2019-smart-r5.webp',
+              'james-rodriguez-real-madrid-2016-r4.webp',
+              'marcus-rashford-man-utd-2017-smart-r5.webp',
+              'marcus-rashford-man-utd-2016-smart-r5.webp',
+              'anthony-martial-man-utd-2016-smart-r5.webp',
+              'anthony-martial-man-utd-2015-r4.webp',
+          ]
+          for name in forbidden:
+              path = Path('assets/football') / name
+              if not path.is_file():
+                  raise SystemExit(f'expected replaced asset to exist before guarded removal: {path}')
+              path.unlink()
+              if path.exists():
+                  raise SystemExit(f'replaced asset removal failed: {path}')
+
+          print('Exact v1.1.3 diagnostic root corrections applied.')
+          PY
+
+      - name: Verify exact change envelope and protected contracts
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import gzip, re
+
+          forbidden = [
+              'james-rodriguez-real-madrid-2016-smart-v111.webp',
+              'james-rodriguez-real-madrid-2019-smart-r5.webp',
+              'james-rodriguez-real-madrid-2016-r4.webp',
+              'marcus-rashford-man-utd-2017-smart-r5.webp',
+              'marcus-rashford-man-utd-2016-smart-r5.webp',
+              'anthony-martial-man-utd-2016-smart-r5.webp',
+              'anthony-martial-man-utd-2015-r4.webp',
+          ]
+          assert all(not (Path('assets/football') / name).exists() for name in forbidden)
+          assert '**Application version:** v1.1.3 — Maintenance Candidate' in Path('PROJECT_STATE.md').read_text()
+          assert '**Application version:** v1.1.3 — Maintenance Candidate' in Path('README.md').read_text()
+          css = Path('css/footballVisuals-v113.css').read_text()
+          assert 'html[data-motion-reduced="true"] .footballVisualMedia{transition:none;}' in css
+          assert '@media(prefers-reduced-motion:reduce){.footballVisualMedia{transition:none;}}' in css
+          assert '.footballVisualCinematicBand .footballVisualMedia{transition:none;}' not in css
+
+          html = Path('index.html').read_text()
+          revision = re.search(r'app-asset-revision"\s+content="([^"]+)', html).group(1)
+          assert revision == '1.1.3-r1'
+          refs = re.findall(r'(?:src|href)="((?:js|css|data)/[^"?#]+)(?:\?v=([^"#]+))?', html)
+          assert len([p for p, _ in refs if p.startswith('js/')]) == 7
+          assert all(r == revision for _, r in refs)
+          raw = sum(Path(p).stat().st_size for p, _ in refs)
+          gz = sum(len(gzip.compress(Path(p).read_bytes(), compresslevel=9, mtime=0)) for p, _ in refs)
+          print(f'protected eager payload after root corrections: {raw} raw / {gz} gzip')
+          assert raw <= 165000
+          assert gz <= 37500
+          PY
+
+          expected=$'PROJECT_STATE.md\nREADME.md\nassets/football/anthony-martial-man-utd-2015-r4.webp\nassets/football/anthony-martial-man-utd-2016-smart-r5.webp\nassets/football/james-rodriguez-real-madrid-2016-r4.webp\nassets/football/james-rodriguez-real-madrid-2016-smart-v111.webp\nassets/football/james-rodriguez-real-madrid-2019-smart-r5.webp\nassets/football/marcus-rashford-man-utd-2016-smart-r5.webp\nassets/football/marcus-rashford-man-utd-2017-smart-r5.webp\ncss/footballVisuals-v113.css'
+          actual="$(git diff --name-only | sort)"
+          test "$actual" = "$expected"
+
+      - name: Run current deterministic contract suite
+        run: |
+          npm ci
+          npm run test:contracts
+
+      - name: Run permanent licensed visual browser audit including reduced motion
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-v113-fix-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          npm run test:football-visual
+
+      - name: Publish only proven root corrections
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PROJECT_STATE.md README.md css/footballVisuals-v113.css assets/football
+          git commit -m "Fix v1.1.3 diagnostic release roots"
+          git push
