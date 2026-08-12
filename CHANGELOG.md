@@ -1,4 +1,8 @@
-## v1.1.5 — Restore Transaction Safety Maintenance
+# v1.1.5 — Restore Transaction Safety Maintenance
+
+Date: **August 12, 2026**
+
+Runtime asset revision: **`1.1.5-r1`**
 
 - Fixed a confirmed-intent race where restore file/choice state could change during asynchronous Apply-time revalidation after the visible plan had already been confirmed.
 - Fixed over-broad rollback so Candidate C now rolls back only transaction-owned successful mutations, in reverse order, and refuses to clobber newer/unowned bytes.
