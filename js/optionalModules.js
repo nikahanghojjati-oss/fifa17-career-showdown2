@@ -297,16 +297,13 @@ function ensureMenuFeedbackModule(){
 }
 
 async function ensureFootballVisualModule(){
-    const baseStylePromise = loadRuntimeStyle("football-visual-ui", "css/footballVisuals.css");
-    const cinematicStylePromise = baseStylePromise.then(() => loadRuntimeStyle("football-visual-v113-ui", "css/footballVisuals-v113.css"));
+    const stylePromise=loadRuntimeStyle("football-visual-ui","css/footballVisuals.css").then(()=>loadRuntimeStyle("football-visual-v113-ui","css/footballVisuals-v113.css"));
     await loadRuntimeScript("football-visual-data","data/footballVisuals.js",() => Boolean(window.FOOTBALL_VISUALS && window.FOOTBALL_VISUAL_SCREEN_PLAN));
     await loadRuntimeScript(
         "football-visual-ui","js/footballVisuals.js",
-        () => typeof window.initializeFootballVisuals === "function"
-            && typeof window.prepareFootballVisualScreen === "function"
-            && typeof window.preloadFootballVisualAssets === "function"
+        ()=>["initializeFootballVisuals","prepareFootballVisualScreen","preloadFootballVisualAssets"].every(name=>typeof window[name]==="function")
     );
-    await cinematicStylePromise;
+    await stylePromise;
     await window.initializeFootballVisuals();
     return true;
 }

@@ -39,7 +39,7 @@ const SAFE_BACK_TARGETS = Object.freeze({
     ruleBook: ["mainMenu"]
 });
 
-const REQUIRED_FOOTBALL_VISUAL_SCREENS = new Set(["createShowdown","leagueWheelScreen","clubWheelScreen","dashboard","transferChallenge","seasonEntry","seasonSummary","careerStatistics","trophyRoom","legacy","ruleBook"]);
+const REQUIRED_FOOTBALL_VISUAL_SCREENS=new Set(screens.filter(name=>name!=="mainMenu"&&name!=="statistics"));
 
 const MAX_SCREEN_HISTORY = 18;
 const ROUTE_TRANSITION_FALLBACK_MS = 260;
