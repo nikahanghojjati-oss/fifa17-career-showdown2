@@ -152,15 +152,26 @@ for(const command of [
     "npm run test:browser",
     "npm run verify:deployment"
 ]){
-    assert.ok(stabilityWorkflow.includes(command), `Stability workflow lost required command: ${command}`);
+    assert.ok(stabilityWorkflow.includes(command), `Stability workflow lost required production/local command: ${command}`);
 }
-assert.ok(/Candidate A\/B\/C Data Management screenshots/.test(stabilityWorkflow), "Stability artifact ownership must include Candidate C evidence.");
+assert.ok(/canonical-stability-/.test(stabilityWorkflow), "Local Stability must own the canonical integration report artifact.");
+assert.ok(/stability-audit-\*\.json/.test(stabilityWorkflow), "Local Stability artifact must retain the integration report.");
+
+const candidateBWorkflow = read(".github/workflows/validate-import-analysis.yml");
+assert.ok(/candidate-b-import-analysis-/.test(candidateBWorkflow), "Candidate B workflow must own its Data Management evidence artifact.");
+assert.ok(/candidate-b-import-\*\.png/.test(candidateBWorkflow), "Candidate B screenshot evidence path is missing.");
+
+const candidateCWorkflow = read(".github/workflows/validate-atomic-restore.yml");
+assert.ok(/candidate-c-atomic-restore-/.test(candidateCWorkflow), "Candidate C workflow must own restore/recovery evidence.");
+assert.ok(/candidate-c-restore-\*\.png/.test(candidateCWorkflow), "Candidate C restore/recovery screenshot evidence path is missing.");
+assert.ok(fs.existsSync(path.join(root, ".github/workflows/validate-atomic-restore.yml")), "Candidate C dedicated permanent workflow is missing.");
 
 const burnInWorkflow = read(".github/workflows/validate-v110-release-burnin.yml");
 const burnInScript = read("tests/support/run-release-burnin-pass.sh");
-assert.ok(/Candidate C Release Burn-In/.test(burnInWorkflow), "Release Burn-In no longer identifies Candidate C coverage.");
-assert.ok(burnInScript.includes("npm run test:restore-browser"), "Every release Burn-In pass must exercise Candidate C recovery.");
-assert.ok(fs.existsSync(path.join(root, ".github/workflows/validate-atomic-restore.yml")), "Candidate C dedicated permanent workflow is missing.");
+assert.ok(/Validate Release Integration Burn-In/.test(burnInWorkflow), "Focused release integration Burn-In workflow is missing.");
+assert.ok(/pass:\s*\[1, 2\]/.test(burnInWorkflow), "Release integration Burn-In must retain two independent journey passes.");
+assert.ok(burnInScript.includes("npm run test:browser"), "Every release integration Burn-In pass must exercise the complete stateful journey.");
+assert.ok(!burnInScript.includes("npm run test:restore-browser"), "Burn-In must not duplicate Candidate C's dedicated browser ownership.");
 
 for(const workflowPath of fs.readdirSync(path.join(root, ".github/workflows"))){
     if(!workflowPath.endsWith(".yml")){ continue; }
@@ -170,5 +181,5 @@ for(const workflowPath of fs.readdirSync(path.join(root, ".github/workflows"))){
 }
 
 process.stdout.write(
-    `Stability contracts passed for v${appVersion} / ${revision}: release/package/document coherence, runtime provenance, corrupt raw-data preservation, quota rollback, Candidate A/B/C production gate ownership, five-pass recovery Burn-In, v1.2 dependency reservation, and Node 24 actions.\n`
+    `Stability contracts passed for v${appVersion} / ${revision}: release/package/document coherence, runtime provenance, corrupt raw-data preservation, quota rollback, single-owner Candidate B/C evidence, exhaustive deployed A/B/C proof, focused two-pass integration Burn-In, v1.2 dependency reservation, and Node 24 actions.\n`
 );
