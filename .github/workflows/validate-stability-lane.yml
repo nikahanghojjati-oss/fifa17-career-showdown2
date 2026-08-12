@@ -31,13 +31,13 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run storage, backup, release, and CI contracts
+      - name: Run storage, backup, restore, release, and CI contracts
         run: npm run test:contracts
 
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 26
+    timeout-minutes: 34
 
     steps:
       - name: Check out repository
@@ -52,7 +52,7 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run two consecutive complete browser, backup, import-preview, provenance, Home and crop-safe photo audits
+      - name: Run two consecutive complete browser, backup, import, restore, provenance, Home and crop-safe photo audits
         shell: bash
         run: |
           set -euo pipefail
@@ -65,17 +65,19 @@ jobs:
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:football-visual
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:backup-browser
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:import-browser
+            CMS_AUDIT_RUN="ci-${attempt}" npm run test:restore-browser
             CMS_AUDIT_RUN="ci-${attempt}" npm run test:browser
           done
 
-      - name: Upload Candidate A/B Data Management screenshots
+      - name: Upload Candidate A/B/C Data Management screenshots
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: candidate-ab-data-management-${{ github.run_id }}
+          name: candidate-abc-data-management-${{ github.run_id }}
           path: |
             test-results/backup-data-management-*.png
             test-results/candidate-b-import-*.png
+            test-results/candidate-c-restore-*.png
           if-no-files-found: error
           retention-days: 14
 
@@ -83,7 +85,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: chromium-stability
     runs-on: ubuntu-latest
-    timeout-minutes: 28
+    timeout-minutes: 36
 
     steps:
       - name: Check out repository
@@ -132,6 +134,12 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:import-browser
+
+      - name: Run Candidate C atomic restore and recovery audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: npm run test:restore-browser
 
       - name: Run complete journey against deployed Pages
         env:
