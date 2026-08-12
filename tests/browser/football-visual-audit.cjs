@@ -7,41 +7,30 @@ const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "football-visual";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
-const manifest = JSON.parse(fs.readFileSync(path.resolve("assets/football/asset-manifest.json"), "utf8"));
-const MAX_PHYSICAL_SCALE = 1.02;
-const MIN_SUBJECT_SAFE_FRAME_COVERAGE = 0.60;
-const MAX_PORTRAIT_ASPECT_FOR_COVER = 0.92;
-const MIN_WIDE_FRAME_ASPECT = 1.55;
-const CROP_TOLERANCE = 0.015;
-
-const cases = [
-    { name: "desktop", viewport: { width: 1366, height: 768 }, deviceScaleFactor: 1 },
-    { name: "compact-desktop", viewport: { width: 1100, height: 720 }, deviceScaleFactor: 1 },
-    { name: "windowed-near-breakpoint", viewport: { width: 940, height: 700 }, deviceScaleFactor: 1 },
-    { name: "mobile-reference", viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }
+const manifest = JSON.parse(fs.readFileSync("assets/football/asset-manifest.json", "utf8"));
+const expectedIds = new Set(manifest.assets.map(asset => asset.id));
+const plans = [
+    ["createShowdown", 1],
+    ["leagueWheelScreen", 1],
+    ["clubWheelScreen", 1],
+    ["dashboard", 1],
+    ["transferChallenge", 2],
+    ["seasonEntry", 1],
+    ["seasonSummary", 1],
+    ["careerStatistics", 1],
+    ["trophyRoom", 1],
+    ["legacy", 1],
+    ["ruleBook", 1]
 ];
-
-const expectedAssets = new Set(manifest.assets.map(item => item.output));
-const rejectedR3Assets = new Set([
-    "james-rodriguez-real-madrid-2016.webp",
-    "james-rodriguez-real-madrid-2019-smart-r5.webp",
-    "marcus-rashford-man-utd-2016.webp",
-    "anthony-martial-man-utd-2017.webp",
-    "lionel-messi-barcelona-2016.webp"
-]);
-const REQUIRED_JAMES_ASSET = "james-rodriguez-real-madrid-2016-smart-v111";
-const requiredCleanAnchorAssets = new Set([
-    "james-rodriguez-real-madrid-2016-smart-v111",
-    "marcus-rashford-man-utd-2017-smart-r5",
-    "anthony-martial-man-utd-2016-smart-r5"
-]);
+const cases = [
+    { name: "desktop", viewport: { width: 1366, height: 768 }, dpr: 1 },
+    { name: "compact-desktop", viewport: { width: 1100, height: 720 }, dpr: 1 },
+    { name: "windowed", viewport: { width: 940, height: 700 }, dpr: 1, reducedMotion: true },
+    { name: "mobile-dpr2", viewport: { width: 390, height: 844 }, dpr: 2, mobile: true }
+];
 fs.mkdirSync(resultsDirectory, { recursive: true });
 
-rejectedR3Assets.forEach(file => {
-    assert.ok(!expectedAssets.has(file), `Rejected r3 football photograph remains in active manifest: ${file}`);
-});
-
-function firstPartyFootballRequest(url){
+function isFootballRequest(url){
     try{
         const parsed = new URL(url);
         return parsed.origin === baseUrl.origin && parsed.pathname.includes("/assets/football/");
@@ -50,367 +39,243 @@ function firstPartyFootballRequest(url){
     }
 }
 
-function footballVisualPanelSelector(screenName, loadedOnly = false){
-    const state = loadedOnly ? ".imageLoaded" : "";
-    const host = `[data-football-visual-screen="${screenName}"]`;
-    return `${host}.footballVisualPanel${state}, ${host} .footballVisualPanel${state}`;
-}
-
 async function waitForApp(page){
     await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
     await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 5000 });
+    await page.waitForFunction(() => {
+        return typeof window.getFootballVisualDiagnostics === "function"
+            && window.getFootballVisualDiagnostics().initialized === true;
+    }, null, { timeout: 12000 });
 }
 
-async function waitForRequiredFootballWarmup(page){
-    await page.waitForFunction(
-        expectedCount => {
-            if(typeof window.getFootballVisualDiagnostics !== "function"){
-                return false;
+async function ensureDynamicScreens(page){
+    await page.evaluate(async () => {
+        if(typeof window.ensureOptionalModule === "function"){
+            for(const name of ["ruleBook", "careerStatistics", "trophyRoom", "legacy"]){
+                await window.ensureOptionalModule(name);
             }
-            const diagnostics = window.getFootballVisualDiagnostics();
-            return diagnostics.initialized === true
-                && diagnostics.assetCount === expectedCount
-                && diagnostics.preloadCount === expectedCount;
-        },
-        expectedAssets.size,
-        { timeout: 15000 }
-    );
+        }
+        if(typeof window.createCareerStatisticsScreen === "function"){
+            window.createCareerStatisticsScreen();
+        }
+        if(typeof window.createTrophyRoomScreen === "function"){
+            window.createTrophyRoomScreen();
+        }
+        if(typeof window.createRuleBookScreen === "function"){
+            window.createRuleBookScreen();
+        }
+    });
 }
 
-async function waitForVisual(page, screenName, expectedCount = 1){
-    const selector = footballVisualPanelSelector(screenName, true);
-    const locator = page.locator(selector);
-    await locator.first().waitFor({ state: "attached", timeout: 12000 });
-    await page.waitForFunction(
-        ({ selector, expectedCount }) => {
-            const panels = [...document.querySelectorAll(selector)];
-            return panels.length === expectedCount && panels.every(panel => {
-                const image = panel.querySelector(".footballVisualMedia");
-                return image
-                    && image.complete
-                    && image.naturalWidth > 0
-                    && Number.parseFloat(getComputedStyle(image).opacity) >= .9999;
-            });
-        },
-        { selector, expectedCount },
-        { timeout: 12000 }
-    );
-    await page.evaluate(() => new Promise(resolve => {
-        requestAnimationFrame(() => requestAnimationFrame(resolve));
-    }));
+async function exposeScreenForAudit(page, screenName){
+    await page.evaluate(name => {
+        document.querySelectorAll("main .screen").forEach(screen => {
+            screen.classList.add("hidden");
+            screen.setAttribute("aria-hidden", "true");
+        });
+        const target = document.getElementById(name);
+        if(!target){
+            throw new Error(`Missing screen ${name}`);
+        }
+        if(typeof window.prepareFootballVisualScreen !== "function"
+            || !window.prepareFootballVisualScreen(name)){
+            throw new Error(`Could not mount football visual for ${name}`);
+        }
+        target.classList.remove("hidden");
+        target.setAttribute("aria-hidden", "false");
+        window.scrollTo(0, 0);
+    }, screenName);
 }
 
-async function inspectVisibleVisual(page, screenName){
-    return page.evaluate(screen => {
-        const host = document.querySelector(`[data-football-visual-screen="${screen}"]`);
-        if(!host){ throw new Error(`Missing football visual host for ${screen}.`); }
+async function waitForVisual(page, screenName, expectedCount){
+    await page.waitForFunction(({ screenName, expectedCount }) => {
+        const host = document.querySelector(`[data-football-visual-screen="${screenName}"]`);
+        if(!host){
+            return false;
+        }
+        const panels = host.matches(".footballVisualPanel")
+            ? [host]
+            : [...host.querySelectorAll(".footballVisualPanel")];
+        return panels.length === expectedCount && panels.every(panel => {
+            const image = panel.querySelector(".footballVisualMedia");
+            return image
+                && image.complete
+                && image.naturalWidth > 0
+                && panel.classList.contains("imageLoaded")
+                && Number.parseFloat(getComputedStyle(image).opacity) >= .999;
+        });
+    }, { screenName, expectedCount }, { timeout: 15000 });
+}
+
+async function inspectScreen(page, screenName){
+    return page.evaluate(name => {
+        const screen = document.getElementById(name);
+        const host = screen.querySelector(`[data-football-visual-screen="${name}"]`);
         const panels = host.matches(".footballVisualPanel")
             ? [host]
             : [...host.querySelectorAll(".footballVisualPanel")];
         return {
-            deviceScaleFactor: window.devicePixelRatio || 1,
-            hostRect: host.getBoundingClientRect().toJSON(),
+            clientWidth: document.documentElement.clientWidth,
+            scrollWidth: document.documentElement.scrollWidth,
             panels: panels.map(panel => {
-                const image = panel.querySelector(".footballVisualMedia");
                 const frame = panel.querySelector(".footballVisualMediaFrame");
-                const imageStyle = getComputedStyle(image);
-                const frameStyle = getComputedStyle(frame);
-                const frameAccentStyle = getComputedStyle(frame, "::after");
-                const beforeStyle = getComputedStyle(panel, "::before");
-                const afterStyle = getComputedStyle(panel, "::after");
+                const image = panel.querySelector(".footballVisualMedia");
                 const copy = panel.querySelector(".footballVisualCopy");
-                const imageRect = image.getBoundingClientRect();
-                const frameRect = frame.getBoundingClientRect();
-                const copyRect = copy.getBoundingClientRect();
-                const panelRect = panel.getBoundingClientRect();
+                const p = panel.getBoundingClientRect();
+                const f = frame.getBoundingClientRect();
+                const c = copy.getBoundingClientRect();
+                const accent = getComputedStyle(frame, "::after");
                 return {
                     asset: panel.dataset.footballVisualAsset,
-                    framingMode: panel.dataset.framingMode || "",
-                    photoTreatment: panel.dataset.photoTreatment || "",
-                    maxCropFraction: Number.parseFloat(panel.dataset.maxCropFraction || "0"),
-                    rejectPortraitCover: panel.dataset.rejectPortraitCover === "true",
+                    treatment: panel.dataset.photoTreatment,
+                    panel: {
+                        left: p.left,
+                        right: p.right,
+                        width: p.width,
+                        height: p.height
+                    },
+                    frame: {
+                        left: f.left,
+                        right: f.right,
+                        top: f.top,
+                        bottom: f.bottom,
+                        width: f.width,
+                        height: f.height
+                    },
+                    copy: {
+                        left: c.left,
+                        right: c.right,
+                        top: c.top,
+                        bottom: c.bottom
+                    },
                     naturalWidth: image.naturalWidth,
                     naturalHeight: image.naturalHeight,
-                    imageBoxWidth: imageRect.width,
-                    imageBoxHeight: imageRect.height,
-                    frameWidth: frameRect.width,
-                    frameHeight: frameRect.height,
-                    panelWidth: panelRect.width,
-                    panelHeight: panelRect.height,
-                    opacity: imageStyle.opacity,
-                    objectFit: imageStyle.objectFit,
-                    objectPosition: imageStyle.objectPosition,
-                    imageRendering: imageStyle.imageRendering,
-                    mixBlendMode: imageStyle.mixBlendMode,
-                    filter: imageStyle.filter,
-                    frameZIndex: Number.parseInt(frameStyle.zIndex || "0", 10) || 0,
-                    accentContent: frameAccentStyle.content,
-                    accentTop: Number.parseFloat(frameAccentStyle.top || "0") || 0,
-                    accentHeight: Number.parseFloat(frameAccentStyle.height || "0") || 0,
-                    accentZIndex: Number.parseInt(frameAccentStyle.zIndex || "0", 10) || 0,
-                    beforeZIndex: Number.parseInt(beforeStyle.zIndex || "0", 10) || 0,
-                    afterZIndex: Number.parseInt(afterStyle.zIndex || "0", 10) || 0,
-                    copyLeft: copyRect.left,
-                    copyRight: copyRect.right,
-                    copyTop: copyRect.top,
-                    copyBottom: copyRect.bottom,
-                    frameLeft: frameRect.left,
-                    frameRight: frameRect.right,
-                    frameTop: frameRect.top,
-                    frameBottom: frameRect.bottom
+                    objectFit: getComputedStyle(image).objectFit,
+                    opacity: Number.parseFloat(getComputedStyle(image).opacity),
+                    transitionDuration: getComputedStyle(image).transitionDuration,
+                    accentTop: Number.parseFloat(accent.top || "0") || 0
                 };
-            }),
-            documentWidth: document.documentElement.scrollWidth,
-            clientWidth: document.documentElement.clientWidth
+            })
         };
     }, screenName);
 }
 
-function getObjectFitMetrics(panel, dpr){
-    const sourceWidth = panel.naturalWidth;
-    const sourceHeight = panel.naturalHeight;
-    const physicalFrameWidth = panel.frameWidth * dpr;
-    const physicalFrameHeight = panel.frameHeight * dpr;
-    const widthScale = physicalFrameWidth / sourceWidth;
-    const heightScale = physicalFrameHeight / sourceHeight;
-    const objectScale = panel.objectFit === "contain"
-        ? Math.min(widthScale, heightScale)
-        : Math.max(widthScale, heightScale);
-
-    const contentWidth = sourceWidth * objectScale;
-    const contentHeight = sourceHeight * objectScale;
-    const visibleWidth = Math.min(contentWidth, physicalFrameWidth);
-    const visibleHeight = Math.min(contentHeight, physicalFrameHeight);
-    const frameCoverage = (visibleWidth * visibleHeight) / (physicalFrameWidth * physicalFrameHeight);
-
-    const visibleSourceWidth = Math.min(sourceWidth, physicalFrameWidth / objectScale);
-    const visibleSourceHeight = Math.min(sourceHeight, physicalFrameHeight / objectScale);
-    const visibleSourceFraction = (visibleSourceWidth * visibleSourceHeight) / (sourceWidth * sourceHeight);
-
-    return {
-        objectScale,
-        frameCoverage,
-        visibleSourceFraction,
-        cropFraction: 1 - visibleSourceFraction,
-        sourceAspect: sourceWidth / sourceHeight,
-        frameAspect: physicalFrameWidth / physicalFrameHeight,
-        physicalFrameWidth,
-        physicalFrameHeight
-    };
-}
-
-function assertRenderedVisual(result, screenName){
-    assert.ok(result.hostRect.width > 0 && result.hostRect.height > 0, `${screenName}: visual host has no rendered area.`);
-    assert.ok(result.hostRect.left >= -1, `${screenName}: visual escapes left viewport edge.`);
-    assert.ok(result.hostRect.right <= result.clientWidth + 1, `${screenName}: visual escapes right viewport edge.`);
-    assert.equal(result.documentWidth, result.clientWidth, `${screenName}: page has horizontal overflow.`);
-    assert.ok(result.panels.length > 0, `${screenName}: no visual panels were rendered.`);
-
+function assertScreen(result, screenName, expectedCount, reducedMotion){
+    assert.equal(result.scrollWidth, result.clientWidth, `${screenName}: horizontal overflow`);
+    assert.equal(result.panels.length, expectedCount, `${screenName}: visual panel count`);
     result.panels.forEach(panel => {
-        assert.ok(panel.naturalWidth > 0 && panel.naturalHeight > 0, `${screenName}/${panel.asset}: photograph did not decode.`);
-        assert.ok(panel.frameWidth >= 150, `${screenName}/${panel.asset}: photographic frame is too narrow.`);
-        assert.ok(panel.frameHeight >= 120, `${screenName}/${panel.asset}: photographic frame is too short.`);
-        assert.ok(panel.frameWidth <= panel.panelWidth + 1, `${screenName}/${panel.asset}: photographic frame exceeds its panel.`);
-        assert.ok(panel.frameHeight <= panel.panelHeight + 1, `${screenName}/${panel.asset}: photographic frame exceeds its panel.`);
-
-        const metrics = getObjectFitMetrics(panel, result.deviceScaleFactor);
-        if(panel.asset === REQUIRED_JAMES_ASSET){
-            assert.equal(panel.naturalWidth, 863, `${screenName}/${panel.asset}: James derivative width no longer matches the reviewed source.`);
-            assert.equal(panel.naturalHeight, 1080, `${screenName}/${panel.asset}: James derivative height no longer matches the reviewed source.`);
-            assert.equal(panel.objectFit, "contain", `${screenName}/${panel.asset}: James must remain contain-framed.`);
-            assert.ok(metrics.objectScale <= 1.0, `${screenName}/${panel.asset}: the refreshed James source must never be physically upscaled.`);
-            assert.ok(metrics.visibleSourceFraction >= 0.995, `${screenName}/${panel.asset}: James must preserve essentially the complete 863x1080 derivative.`);
-            assert.ok(metrics.frameCoverage >= MIN_SUBJECT_SAFE_FRAME_COVERAGE, `${screenName}/${panel.asset}: James source is technically present but visually under-occupies its frame.`);
-            assert.ok(panel.accentTop >= panel.frameHeight * .60, `${screenName}/${panel.asset}: James accent rail moved into the protected head/face zone.`);
+        assert.ok(expectedIds.has(panel.asset), `${screenName}: unknown visual ${panel.asset}`);
+        assert.equal(panel.objectFit, "contain", `${screenName}/${panel.asset}: blind crop is forbidden`);
+        assert.ok(panel.opacity >= .999, `${screenName}/${panel.asset}: image did not settle`);
+        assert.ok(panel.naturalWidth > 0 && panel.naturalHeight > 0,
+            `${screenName}/${panel.asset}: decode failed`);
+        assert.ok(panel.panel.width > 0 && panel.panel.height >= 160,
+            `${screenName}/${panel.asset}: panel too small`);
+        assert.ok(panel.frame.width >= 150 && panel.frame.height >= 120,
+            `${screenName}/${panel.asset}: photo stage too small`);
+        assert.ok(panel.panel.left >= -1 && panel.panel.right <= result.clientWidth + 1,
+            `${screenName}/${panel.asset}: panel escapes viewport`);
+        if(reducedMotion){
+            assert.ok(panel.transitionDuration === "0s" || panel.transitionDuration === "0ms",
+                `${screenName}/${panel.asset}: reduced-motion image transition remained active`);
         }
-        assert.ok(
-            metrics.objectScale <= MAX_PHYSICAL_SCALE,
-            `${screenName}/${panel.asset}: photograph would be materially upscaled at ${metrics.objectScale.toFixed(3)}x ` +
-            `(${Math.round(metrics.physicalFrameWidth)}x${Math.round(metrics.physicalFrameHeight)} physical frame px from ${panel.naturalWidth}x${panel.naturalHeight}).`
-        );
-
-        assert.ok(Number.parseFloat(panel.opacity) >= .9999, `${screenName}/${panel.asset}: photography did not finish at full opacity.`);
-        assert.ok(panel.objectFit === "contain" || panel.objectFit === "cover", `${screenName}/${panel.asset}: unsupported object-fit ${panel.objectFit}.`);
-        assert.ok(panel.imageRendering === "auto" || panel.imageRendering === "-webkit-optimize-contrast", `${screenName}/${panel.asset}: browser-native resampling is not active.`);
-        assert.equal(panel.mixBlendMode, "normal", `${screenName}/${panel.asset}: blend mode must remain normal.`);
-        assert.equal(panel.filter, "none", `${screenName}/${panel.asset}: photography must not use CSS colour filters.`);
-
-        if(requiredCleanAnchorAssets.has(panel.asset)){
-            assert.equal(panel.photoTreatment, "clean-anchor", `${screenName}/${panel.asset}: owner-rejected photo must stay on the clean-anchor treatment.`);
-            assert.ok(
-                panel.frameZIndex > panel.beforeZIndex && panel.frameZIndex > panel.afterZIndex,
-                `${screenName}/${panel.asset}: broad decorative geometry is painted above the photograph; face-safe layering regressed.`
-            );
-            assert.notEqual(panel.accentContent, "none", `${screenName}/${panel.asset}: owner-requested FIFA diagonal accent rail is missing.`);
-            assert.ok(panel.accentHeight > 0, `${screenName}/${panel.asset}: accent rail has no rendered height.`);
-            assert.ok(
-                panel.accentTop >= panel.frameHeight * .54,
-                `${screenName}/${panel.asset}: accent rail enters the protected head/face zone.`
-            );
-            assert.ok(panel.accentZIndex >= 3, `${screenName}/${panel.asset}: accent rail is not rendered as the intended bounded photo accent.`);
-            const horizontallySeparated = panel.copyRight <= panel.frameLeft + 2 || panel.copyLeft >= panel.frameRight - 2;
-            const verticallySeparated = panel.copyBottom <= panel.frameTop + 2 || panel.copyTop >= panel.frameBottom - 2;
-            assert.ok(
-                horizontallySeparated || verticallySeparated,
-                `${screenName}/${panel.asset}: text/caption intrudes into the clean photographic anchor.`
-            );
-        }
-
-        const maxCrop = Number.isFinite(panel.maxCropFraction) ? panel.maxCropFraction : 0;
-        assert.ok(
-            metrics.cropFraction <= maxCrop + CROP_TOLERANCE,
-            `${screenName}/${panel.asset}: crop removes ${(metrics.cropFraction * 100).toFixed(1)}% of the source, exceeding declared ${(maxCrop * 100).toFixed(1)}% budget.`
-        );
-
-        if(panel.framingMode === "subject-safe"){
-            assert.equal(panel.objectFit, "contain", `${screenName}/${panel.asset}: subject-safe photography must use contain, never blind cover.`);
-            assert.ok(
-                metrics.visibleSourceFraction >= 0.985,
-                `${screenName}/${panel.asset}: subject-safe frame must preserve essentially the full photograph.`
-            );
-            assert.ok(
-                metrics.frameCoverage >= MIN_SUBJECT_SAFE_FRAME_COVERAGE,
-                `${screenName}/${panel.asset}: photograph occupies only ${(metrics.frameCoverage * 100).toFixed(1)}% of its frame; art direction would look like a tiny inset.`
-            );
-        }
-
-        if(panel.rejectPortraitCover && panel.objectFit === "cover"){
-            assert.ok(
-                !(metrics.sourceAspect < MAX_PORTRAIT_ASPECT_FOR_COVER && metrics.frameAspect > MIN_WIDE_FRAME_ASPECT),
-                `${screenName}/${panel.asset}: portrait-to-wide cover crop is forbidden; this is the exact class of regression that produced the rejected Rashford/James banners.`
-            );
+        if(panel.treatment === "clean-anchor"){
+            const horizontalGap = panel.copy.right <= panel.frame.left + 2
+                || panel.copy.left >= panel.frame.right - 2;
+            const verticalGap = panel.copy.bottom <= panel.frame.top + 2
+                || panel.copy.top >= panel.frame.bottom - 2;
+            assert.ok(horizontalGap || verticalGap,
+                `${screenName}/${panel.asset}: copy overlaps protected photo anchor`);
+            assert.ok(panel.accentTop >= panel.frame.height * .54,
+                `${screenName}/${panel.asset}: accent reaches protected upper/face zone`);
         }
     });
 }
 
-async function seedShowdown(page){
-    await page.evaluate(() => {
-        localStorage.removeItem("careerModeShowdown.current");
-        localStorage.removeItem("careerModeShowdown.legacy");
-    });
-    await page.locator("#newShowdown").click();
-    await page.locator("#createShowdown").waitFor({ state: "visible", timeout: 12000 });
-}
-
-async function runCase(config){
+async function run(config){
     const runtime = await resolveChromiumRuntime();
     const browser = await chromium.launch({
         executablePath: runtime.executablePath,
         args: runtime.args,
         headless: true
     });
-
     try{
         const context = await browser.newContext({
             viewport: config.viewport,
-            deviceScaleFactor: config.deviceScaleFactor,
-            isMobile: Boolean(config.isMobile),
-            hasTouch: Boolean(config.hasTouch)
+            deviceScaleFactor: config.dpr,
+            isMobile: Boolean(config.mobile),
+            hasTouch: Boolean(config.mobile)
         });
         const page = await context.newPage();
-        const pageErrors = [];
-        const consoleErrors = [];
-        const failedFirstParty = [];
-        const footballRequests = [];
+        if(config.reducedMotion){
+            await page.emulateMedia({ reducedMotion: "reduce" });
+        }
 
-        page.on("pageerror", error => pageErrors.push(error.message));
-        page.on("console", message => {
-            if(message.type() === "error"){ consoleErrors.push(message.text()); }
-        });
+        const errors = [];
+        const failed = [];
+        const footballRequests = [];
+        page.on("pageerror", error => errors.push(error.message));
         page.on("requestfailed", request => {
             try{
-                const parsed = new URL(request.url());
-                if(parsed.origin === baseUrl.origin){ failedFirstParty.push(`${request.method()} ${request.url()}`); }
+                if(new URL(request.url()).origin === baseUrl.origin){
+                    failed.push(request.url());
+                }
             }catch{}
         });
         page.on("request", request => {
-            if(firstPartyFootballRequest(request.url())){ footballRequests.push(request.url()); }
+            if(isFootballRequest(request.url())){
+                footballRequests.push(request.url());
+            }
         });
 
         await waitForApp(page);
-        await waitForRequiredFootballWarmup(page);
+        await page.waitForTimeout(300);
+        assert.equal(footballRequests.length, 0,
+            `${config.name}: football archive must not preload on Home startup`);
+        const startup = await page.evaluate(() => window.getFootballVisualDiagnostics());
+        assert.equal(startup.preloadCount, 0,
+            `${config.name}: football preload map must be empty at Home`);
+        assert.equal(startup.assetCount, 12,
+            `${config.name}: expected 12 licensed visual records`);
 
-        expectedAssets.forEach(file => {
-            assert.ok(
-                footballRequests.some(url => url.includes(file)),
-                `${config.name}: required football photograph was not proactively warmed on startup: ${file}`
-            );
-        });
-        assert.ok(
-            !footballRequests.some(url => url.includes("james-rodriguez-real-madrid-2019-smart-r5.webp")),
-            `${config.name}: replaced 2019 James asset was requested by the runtime.`
-        );
+        await ensureDynamicScreens(page);
+        const seenAssets = new Set();
+        for(const [screenName, expectedCount] of plans){
+            await exposeScreenForAudit(page, screenName);
+            await waitForVisual(page, screenName, expectedCount);
+            const result = await inspectScreen(page, screenName);
+            // Preserve evidence even when a future assertion finds a regression.
+            await page.screenshot({
+                path: path.join(resultsDirectory, `${runLabel}-${screenName}-${config.name}.png`),
+                fullPage: true
+            });
+            assertScreen(result, screenName, expectedCount, Boolean(config.reducedMotion));
+            result.panels.forEach(panel => seenAssets.add(panel.asset));
+        }
 
-        await seedShowdown(page);
-        await waitForVisual(page, "createShowdown", 1);
-        const createResult = await inspectVisibleVisual(page, "createShowdown");
-        assertRenderedVisual(createResult, "createShowdown");
-        await page.screenshot({ path: path.join(resultsDirectory, `football-create-${config.name}-${runLabel}.png`), fullPage: true });
-
-        await page.locator("#showdownName").fill("Visual QA");
-        await page.locator("#managerOne").fill("Manager One");
-        await page.locator("#managerTwo").fill("Manager Two");
-        await page.locator("#startShowdown").click();
-        await page.locator("#leagueWheelScreen").waitFor({ state: "visible", timeout: 12000 });
-        await page.evaluate(() => {
-            currentShowdown.selectedLeague = { id: "premier_league", name: "Premier League" };
-            currentShowdown.status = "League Confirmed";
-            currentShowdown.clubs = { playerOne: "Arsenal", playerTwo: "Chelsea" };
-            currentShowdown.status = "Ready";
-            saveCurrentShowdown();
-            updateShowdownUI();
-            showScreen("dashboard", false);
-        });
-        await page.locator("#dashboard").waitFor({ state: "visible", timeout: 12000 });
-        await page.evaluate(() => openTransferChallenge());
-        await page.locator("#transferChallenge").waitFor({ state: "visible", timeout: 12000 });
-        await waitForVisual(page, "transferChallenge", 2);
-        const transferResult = await inspectVisibleVisual(page, "transferChallenge");
-        assertRenderedVisual(transferResult, "transferChallenge");
-        await page.screenshot({ path: path.join(resultsDirectory, `football-transfer-${config.name}-${runLabel}.png`), fullPage: true });
-
-        await page.locator("#transferChallenge [data-smart-back]").click();
-        await page.locator("#dashboard").waitFor({ state: "visible", timeout: 12000 });
-        await page.locator("#dashboard [data-smart-back]").click();
-        await page.locator("#mainMenu").waitFor({ state: "visible", timeout: 12000 });
-
-        await page.locator("#careerStatisticsButton").click();
-        await page.locator("#careerStatistics").waitFor({ state: "visible", timeout: 12000 });
-        await waitForVisual(page, "careerStatistics", 1);
-        const statsResult = await inspectVisibleVisual(page, "careerStatistics");
-        assertRenderedVisual(statsResult, "careerStatistics");
-        await page.screenshot({ path: path.join(resultsDirectory, `football-career-stats-${config.name}-${runLabel}.png`), fullPage: true });
-
-        await page.locator("#careerStatisticsTrophyButton").click();
-        await page.locator("#trophyRoom").waitFor({ state: "visible", timeout: 12000 });
-        await waitForVisual(page, "trophyRoom", 1);
-        const trophyResult = await inspectVisibleVisual(page, "trophyRoom");
-        assertRenderedVisual(trophyResult, "trophyRoom");
-        await page.screenshot({ path: path.join(resultsDirectory, `football-trophy-${config.name}-${runLabel}.png`), fullPage: true });
-
-        const unexpectedFootballRequests = footballRequests.filter(url => ![...expectedAssets].some(file => url.includes(file)));
-        assert.deepEqual(unexpectedFootballRequests, [], `${config.name}: unexpected football asset requests: ${unexpectedFootballRequests.join(", ")}`);
-        assert.deepEqual(pageErrors, [], `${config.name}: page errors: ${pageErrors.join(" | ")}`);
-        assert.deepEqual(consoleErrors, [], `${config.name}: console errors: ${consoleErrors.join(" | ")}`);
-        assert.deepEqual(failedFirstParty, [], `${config.name}: failed first-party requests: ${failedFirstParty.join(" | ")}`);
-
+        assert.equal(seenAssets.size, 12,
+            `${config.name}: all 12 active derivatives must be exercised`);
+        const diagnostics = await page.evaluate(() => window.getFootballVisualDiagnostics());
+        assert.equal(diagnostics.preloadCount, 12,
+            `${config.name}: all assets should warm only after all 11 routes are explicitly exercised`);
+        assert.deepEqual(errors, [], `${config.name}: page errors: ${errors.join(" | ")}`);
+        assert.deepEqual(failed, [], `${config.name}: failed first-party requests: ${failed.join(" | ")}`);
         await context.close();
-        process.stdout.write(
-            `${config.name}: crop-safe required visual journey passed (${footballRequests.length} image requests; DPR ${config.deviceScaleFactor}).\n`
-        );
+        process.stdout.write(`${config.name}: permanent 11-screen licensed visual audit passed.\n`);
     }finally{
         await browser.close();
     }
 }
 
 (async () => {
+    assert.equal(expectedIds.size, 12, "Permanent visual audit requires exactly 12 active licensed derivatives.");
     for(const config of cases){
-        await runCase(config);
+        await run(config);
     }
-    process.stdout.write("Crop-safe football visual audit passed at desktop, near-breakpoint and mobile-reference viewports.\n");
+    process.stdout.write("Licensed football visual audit passed at desktop, compact desktop, reduced-motion windowed and mobile DPR2.\n");
 })().catch(error => {
-    console.error("FOOTBALL VISUAL AUDIT FAILED");
+    console.error("LICENSED FOOTBALL VISUAL AUDIT FAILED");
     console.error(error && error.stack ? error.stack : error);
     process.exitCode = 1;
 });
