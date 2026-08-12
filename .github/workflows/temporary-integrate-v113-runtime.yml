@@ -1,0 +1,50 @@
+name: Temporary v1.1.3 Runtime Integration
+
+on:
+  push:
+    branches:
+      - v1.1.3-candidate-c-visual-fixes
+    paths:
+      - tools/apply_v113_runtime_integration.py
+      - .github/workflows/temporary-integrate-v113-runtime.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: temporary-v113-runtime-integration
+  cancel-in-progress: false
+
+jobs:
+  integrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out build branch
+        uses: actions/checkout@v5
+        with:
+          ref: v1.1.3-candidate-c-visual-fixes
+      - name: Apply exact runtime integration
+        run: python tools/apply_v113_runtime_integration.py
+      - name: Sanity check integration targets
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F 'leagueWheelScreen","clubWheelScreen","dashboard"' js/screens.js
+          grep -F 'footballVisuals-v113.css' js/optionalModules.js
+          grep -F 'data-photo-treatment="clean-anchor"' css/footballVisuals-v113.css
+          ! grep -F 'html[data-motion-reduced="true"] .footballVisualCinematicBand .footballVisualMedia,' css/footballVisuals-v113.css
+      - name: Commit integrated runtime files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add js/screens.js js/optionalModules.js css/footballVisuals-v113.css
+          if git diff --cached --quiet; then
+            echo 'Runtime integration already matches branch state.'
+            exit 0
+          fi
+          git commit -m 'Integrate v1.1.3 route-scoped cinematic visuals [skip ci]'
+          git push origin HEAD:v1.1.3-candidate-c-visual-fixes
