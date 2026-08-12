@@ -1,8 +1,4 @@
-/* =====================================================
-   FIFA 17 Career Mode Showdown
-   v1.1.3
-   Race-Safe League Wheel System
-===================================================== */
+/* FIFA 17 Career Mode Showdown · v1.1.3 · Race-Safe League Wheel */
 
 const LEAGUE_WHEEL_SPIN_MS = 4000;
 const LEAGUE_WHEEL_REDUCED_SPIN_MS = 80;
@@ -277,14 +273,8 @@ function spinLeagueWheel(){
     result.textContent = "SPINNING...";
     if(note){ note.classList.add("hidden"); }
 
-    // A spin transition is deliberately scoped to this one operation. The base
-    // stylesheet still contains a legacy transition declaration, so the inline
-    // state is authoritative and prevents a settled selection from animating
-    // again when its equivalent five-revolution transform is normalized.
+    // Arm animation only for this explicit spin.
     setLeagueWheelTransition(track, 0);
-    // Force the transition-off baseline to become a committed style before the
-    // real spin transition is armed. This keeps rapid/repeated browser frames
-    // deterministic at the operation boundary.
     void track.offsetWidth;
     setLeagueWheelTransition(track, timing.spin);
     track.style.transform = `rotate(${getLeagueRotation(selected.id, 5)}deg)`;
@@ -297,9 +287,7 @@ function spinLeagueWheel(){
             return;
         }
 
-        // Disarm transform animation before touching selected state. From this
-        // point onward the wheel is settled until a new showdown requests a new
-        // explicit spin; rendering the equivalent base angle cannot re-spin.
+        // Normalize the selected angle only after animation is disarmed.
         setLeagueWheelTransition(track, 0);
 
         const previousLeague = currentShowdown.selectedLeague;
