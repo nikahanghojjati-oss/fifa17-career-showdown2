@@ -1,0 +1,177 @@
+name: Temporary v1.1.5 Authority Reconciliation
+
+on:
+  push:
+    branches:
+      - agent/v1.1.5-maintenance
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.1.5-maintenance
+          fetch-depth: 0
+
+      - name: Reconcile current-facing authority only
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_exact(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              count = text.count(old)
+              if count != 1:
+                  raise SystemExit(f'{path}: expected one exact current-state block, found {count}')
+              p.write_text(text.replace(old, new, 1))
+
+          readme_old = '''**Application version:** v1.1.4 — Stable / Candidate C Complete
+          **Runtime asset revision:** `1.1.4-r1`
+          **Current production:** v1.1.4 / `1.1.4-r1`
+          **Immutable runtime authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+          **GitHub Pages deployment:** `5877215224`
+          **Release status:** merged, deployed, twice-proven in production and protected
+          **Protected surface:** the owner-liked cinematic Marco Reus loading presentation remains regression-protected
+          **Current developer entry:** `00_DEVELOPER_START_HERE.md`
+          **Next legal milestone:** v1.2.0 — Installable Offline App
+          **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`'''.replace('          ','')
+          readme_new = '''**Release candidate:** v1.1.5 — Restore Transaction Safety Maintenance
+          **Runtime asset revision:** `1.1.5-r1`
+          **Current public production:** v1.1.4 / `1.1.4-r1`
+          **Immutable current production authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+          **v1.1.4 GitHub Pages deployment:** `5877215224`
+          **Maintenance PR:** #25 — `agent/v1.1.5-maintenance`
+          **Maintenance status:** implementation complete; pre-merge release closure and duplicate same-SHA proof required
+          **Functional maintenance proof:** `dbcdffaae927163e5a9c8b44466ff2084e814de5` passed all 14 permanent families before identity freeze
+          **Protected surface:** the owner-liked cinematic Marco Reus loading presentation remains regression-protected
+          **Current developer entry:** `00_DEVELOPER_START_HERE.md`
+          **Next substantive milestone after v1.1.5 proof:** v1.2.0 — Installable Offline App
+          **Future cloud contract:** `CLOUD_STORAGE_FOUNDATION.md` — architecture/security groundwork only, no cloud runtime
+          **Post-v1 execution roadmap:** `POST_V1_ROADMAP_EXECUTION.md`'''.replace('          ','')
+          replace_exact('README.md', readme_old, readme_new)
+
+          readme_entry_old = '''The project is already designed, architected and implemented through v1.1.4 Candidate C. Do not restart planning, replace established architecture or reconstruct current state from old chats before reading current repository authority.
+
+          Read in this order:
+
+          1. `00_HANDOFF_GOLDEN_RULE.md` — permanent continuous public handoff protocol.
+          2. `00_DEVELOPER_START_HERE.md` — fast bootstrap and authority order.
+          3. `NEXT_TASK.md` — current legal milestone.
+          4. current `main` source — highest implementation authority when documentation and implementation differ.
+          5. `PROJECT_STATE.md` — locked product/system state.
+          6. `CAREER_MODE_SHOWDOWN_V1.1.4_POST_MERGE.md` — final Candidate C release and production proof.
+          7. `RELEASE_V1.1.4.md` — stable Candidate C release record.
+          8. `POST_V1_ROADMAP_EXECUTION.md` — dependency-ordered post-v1 roadmap.
+          9. Candidate C rolling/release handoffs when deeper data-safety archaeology is required.
+          10. master historical handoffs, older release records and the original Project Bible only when history is genuinely needed.'''.replace('          ','')
+          readme_entry_new = '''The project is already designed, architected and implemented through Candidate C. v1.1.5 is a focused maintenance release, not a planning reset or permission to start v1.2/cloud work before release proof.
+
+          Read in this order:
+
+          1. `00_HANDOFF_GOLDEN_RULE.md` — permanent continuous public handoff protocol.
+          2. `00_DEVELOPER_START_HERE.md` — current bootstrap, authority order and exact continuation sentence.
+          3. `NEXT_TASK.md` — v1.1.5 release closure is the sole legal current task.
+          4. current source on PR #25 — implementation authority for the maintenance candidate.
+          5. `PROJECT_STATE.md` — locked product/system state and production/candidate distinction.
+          6. `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` — complete maintenance chronology, failures and corrections.
+          7. `RELEASE_V1.1.5.md` — two bug fixes, protected transaction contract and formal proof requirements.
+          8. `CLOUD_STORAGE_FOUNDATION.md` — future-only identity/revision/conflict/tombstone/privacy/security contract.
+          9. `CAREER_MODE_SHOWDOWN_V1.1.4_POST_MERGE.md` — immutable current production runtime proof until v1.1.5 merges.
+          10. `POST_V1_ROADMAP_EXECUTION.md` — dependency-ordered post-v1 roadmap; v1.2 remains next substantive milestone after maintenance proof.'''.replace('          ','')
+          replace_exact('README.md', readme_entry_old, readme_entry_new)
+
+          project_intro_old = 'This project is already designed and implemented through v1.1.4 Candidate C Atomic Restore + Recovery UX. v1.1.4 is complete, merged, deployed, twice-proven in production and protected.'
+          project_intro_new = 'This project is already designed and implemented through Candidate C Atomic Restore + Recovery UX. v1.1.4 is the immutable current public production runtime; v1.1.5 is the focused restore-safety maintenance release candidate on PR #25. Current work is release closure, not a new planning cycle or a cloud/PWA feature jump.'
+          replace_exact('PROJECT_STATE.md', project_intro_old, project_intro_new)
+
+          project_block_old = '''**Application version:** v1.1.4 — Stable / Candidate C Complete
+          **Runtime asset revision:** `1.1.4-r1`
+          **Hosting:** GitHub Pages
+          **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
+          **Product mode:** exactly two managers, one device/browser, one active Showdown
+          **Current milestone:** v1.1 Data Safety and Recovery — COMPLETE / PROTECTED
+          **Current activity:** v1.1.4 release proof is sealed; do not reopen Candidate C planning
+          **Current public production:** v1.1.4 / `1.1.4-r1`
+          **Immutable production runtime authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+          **GitHub Pages deployment:** `5877215224`
+          **Frozen pre-merge candidate:** `814c1935824f19144b0b6c41243da71047a3224b`
+          **Protected loading-screen status:** owner explicitly likes the Marco Reus loading presentation; composition/timing remain regression-protected
+          **Next legal roadmap milestone:** v1.2.0 — Installable Offline App'''.replace('          ','')
+          project_block_new = '''**Release candidate:** v1.1.5 — Restore Transaction Safety Maintenance
+          **Runtime asset revision:** `1.1.5-r1`
+          **Hosting:** GitHub Pages
+          **Technology:** static HTML + CSS + vanilla JavaScript + browser localStorage
+          **Product mode:** exactly two managers, one device/browser, one active Showdown
+          **Current milestone:** v1.1 maintenance hardening — IMPLEMENTED / PRE-MERGE RELEASE CLOSURE
+          **Current activity:** reconcile authority, freeze one PR #25 SHA, prove all 14 families twice, merge with expected-head protection, then prove Pages twice
+          **Current public production:** v1.1.4 / `1.1.4-r1`
+          **Immutable current production runtime authority:** `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7`
+          **v1.1.4 GitHub Pages deployment:** `5877215224`
+          **v1.1.5 functional proof before identity freeze:** `dbcdffaae927163e5a9c8b44466ff2084e814de5` — 14/14 permanent families green
+          **Maintenance PR:** #25 — `agent/v1.1.5-maintenance`
+          **Protected loading-screen status:** owner explicitly likes the Marco Reus loading presentation; composition/timing remain regression-protected
+          **Future cloud status:** contract/threat-model groundwork only; no backend/network mutation authorized
+          **Next legal substantive milestone after maintenance proof:** v1.2.0 — Installable Offline App'''.replace('          ','')
+          replace_exact('PROJECT_STATE.md', project_block_old, project_block_new)
+
+          roadmap_old = '''Current application candidate: `v1.1.1`
+
+          Current runtime revision: `1.1.1-r1`'''.replace('          ','')
+          roadmap_new = '''Current maintenance release candidate: `v1.1.5`
+
+          Current candidate runtime revision: `1.1.5-r1`
+
+          Current public production remains immutable v1.1.4 runtime `1a498441a6ccf557aa8b8bc7ced2b3d9cd22cdf7` until the maintenance PR is merged and Pages proof is complete.'''.replace('          ','')
+          replace_exact('POST_V1_ROADMAP_EXECUTION.md', roadmap_old, roadmap_new)
+
+          roadmap_para_old = '''Candidate A — Versioned Backup Envelope + Non-Mutating Export — is complete, merged, deployed and protected. The current finite maintenance patch refreshes only the James Rodríguez Real Madrid source photograph and does not start Candidate B.
+
+          After v1.1.1 maintenance is merged/deployed/proven and its owner art-direction gate is accepted or explicitly deferred, Candidate B — Import Analysis + Migration Preview — is the next substantive roadmap candidate. Candidate B remains read-only; Candidate C restore remains dependency-blocked.'''.replace('          ','')
+          roadmap_para_new = '''Candidate A export, Candidate B read-only import analysis and Candidate C atomic restore/recovery are complete and protected. v1.1.5 is a finite maintenance release that hardens confirmed restore intent, exact storage preconditions and mutation-owned rollback; it does not reopen Candidate A/B/C design.
+
+          `CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy and security requirements without adding cloud runtime. After v1.1.5 is merged, Pages-deployed, twice-proven and documentation-sealed, v1.2.0 Installable Offline App is the next substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after that.'''.replace('          ','')
+          replace_exact('POST_V1_ROADMAP_EXECUTION.md', roadmap_para_old, roadmap_para_new)
+
+          changelog = Path('CHANGELOG.md')
+          text = changelog.read_text()
+          heading = '## v1.1.5 — Restore Transaction Safety Maintenance'
+          if heading in text:
+              raise SystemExit('CHANGELOG.md already contains v1.1.5 heading; refusing duplicate prepend')
+          entry = '''## v1.1.5 — Restore Transaction Safety Maintenance
+
+          - Fixed a confirmed-intent race where restore file/choice state could change during asynchronous Apply-time revalidation after the visible plan had already been confirmed.
+          - Fixed over-broad rollback so Candidate C now rolls back only transaction-owned successful mutations, in reverse order, and refuses to clobber newer/unowned bytes.
+          - Added strict destructive-restore snapshots that distinguish true key absence from storage read failure and fail closed before mutation.
+          - Added initial and last-moment raw-byte preconditions, explicit stale-state recovery, post-write verification and byte-for-byte owned rollback verification.
+          - Added `RESTORE NOT STARTED`, verified rollback and critical ownership/rollback recovery distinctions; critical uncertainty invalidates runtime caches and locks restore controls.
+          - Preserved deterministic repeated imports as zero-write no-ops and corrupt raw bytes unless explicit replacement is selected.
+          - Removed the stale Candidate A hardcoded v1.1.3 provenance fallback without changing backup format version 1.
+          - Added real-browser maintenance races/failure scenarios to Candidate C, Stability and every Burn-In pass.
+          - Added repository-wide per-contract CI annotations while preserving all protected assertions and the 27-block workflow topology.
+          - Added `CLOUD_STORAGE_FOUNDATION.md` for future account/save/device identity, revision/CAS, conflicts, tombstones, privacy and security; no cloud backend/network mutation is included.
+          - Preserved the original 165,000 raw / 37,500 gzip startup ceilings; a 31-byte raw regression was fixed without raising either budget.
+          - Normal loading remains 2700 ms and reduced-motion startup remains 220 ms.
+
+          '''.replace('          ','')
+          changelog.write_text(entry + text)
+          PY
+
+      - name: Commit reconciled authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add README.md PROJECT_STATE.md POST_V1_ROADMAP_EXECUTION.md CHANGELOG.md
+          git diff --cached --check
+          git commit -m "Reconcile v1.1.5 current authority"
+          git push origin HEAD:agent/v1.1.5-maintenance
