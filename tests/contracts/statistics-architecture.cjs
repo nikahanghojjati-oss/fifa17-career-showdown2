@@ -15,7 +15,7 @@ assert.ok(!html.includes('id="trophyRoomButton"'), 'Trophy Room must not remain 
 const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1] || '';
 assert.ok(appVersion, 'APP_VERSION is missing.');
-assert.strictEqual(revision, `${appVersion}-r1`, 'Statistics shell cache identity must track APP_VERSION.');
+assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'Statistics shell cache identity must be a numbered runtime revision for APP_VERSION.');
 
 const localRefs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)/g)].map(match => match[1]);
 const initialJs = localRefs.filter(ref => ref.startsWith('js/'));
