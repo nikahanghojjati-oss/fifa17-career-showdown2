@@ -2,45 +2,39 @@
 
 Last updated: 2026-08-13
 
-Application version: v1.2.0
-Runtime asset revision: `1.2.0-r1`
-Release state: Installable Offline App technically production-proven
-Production runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
-Proven GitHub Pages deployment: `5891182853`
-Production Stability: `31716787806` / deployed smoke `94503946791`
-Release Integration Burn-In: `31716787876` — 2/2
+Application candidate: v1.3.0
+Runtime asset revision: `1.3.0-r1`
+Release state: Recovery & Device Resilience Hardening release candidate; not yet production-proven
+Last production-proven application: v1.2.0 Installable Offline App / `1.2.0-r1`
+Immutable v1.2 runtime merge: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
 
 ## Immediate legal task
 
-Begin v1.3.0 — Recovery & Device Resilience Hardening.
+Finish v1.3.0 Recovery & Device Resilience Hardening release closure only.
 
-The goal is a maintenance-first hardening pass after the new install/offline layer. Investigate reproducible defects, recovery gaps, lifecycle races, stale/mixed information, browser/device failure states, install/update edge cases, cache corruption, storage failure behavior, responsive/accessibility regressions and release-authority drift before adding new product scope.
+Do not begin Local Profiles, cloud, accounts, QR pairing, two-device state transport, gameplay/scoring changes or framework replacement before `1.3.0-r1` is merged and deployed proof passes.
 
-Do not begin cloud, accounts, QR pairing, two-device transport, gameplay changes or a framework rewrite.
+Remaining work:
 
-The older execution-roadmap label that assigns v1.3.0 directly to Local Profiles and Save Library is stale as a current task. Local Profiles / Save Library remains future planned work, but its version assignment must be explicitly reconciled after v1.3 hardening.
-
-## v1.3 hardening priorities
-
-1. preserve the technically proven v1.2.0 / `1.2.0-r1` runtime as rollback authority;
-2. audit Service Worker install/update/activation/recovery for browser close, reload, controller churn, partial cache, stale cache and consecutive-update edge cases;
-3. audit exact preservation of all three canonical raw localStorage values across offline/update/recovery paths;
-4. exercise quota errors, blocked reads/writes, corrupt raw values, interrupted Candidate C recovery and stale reviewed state without weakening transaction-owned rollback or anti-clobber protection;
-5. audit runtime-notice/install/offline UI layering, focus, keyboard, touch, reduced motion, small mobile, Chromebook low-height and high-DPR behavior;
-6. audit Smart Back and route/history ownership for lazy screens with no duplicate listeners or competing router state;
-7. audit external-media failure/recovery and confirmed offline state without converting Cache Storage into a user-data authority;
-8. audit dependency-lock integrity and CI owner topology so infrastructure failures are distinguished from product failures;
-9. audit release/version/revision references, handoffs and historical docs for stale current-facing claims;
-10. implement only defects supported by evidence, then prove each changed surface through its canonical owner workflow.
+1. finish coherent v1.3.0 / `1.3.0-r1` identity across page, package, package-lock root metadata, manifest, Service Worker, dynamic asset queries and release authority;
+2. preserve `1.2.0-r1` as previous known-good whole-runtime shell;
+3. keep Candidate A blocked-read failure, live reconnect restoration, pre-armed update activation, single registration ownership, safe unversioned shell fallthrough, one-shot rollback and truthful activation acceptance under regression proof;
+4. preserve 14 permanent workflow families and 27 protected multiline executable blocks;
+5. obtain one complete green 13-family normal PR matrix on the frozen candidate;
+6. preserve startup ceilings instead of raising them;
+7. merge through the normal protected PR path;
+8. require exact deployed Pages bytes plus deployed Stability and Release Integration Burn-In 2/2;
+9. after deployed proof only, promote README, CHANGELOG, PROJECT_STATE, NEXT_TASK and `RELEASE_V1.3.0.md` to production authority;
+10. then reconcile the explicit version assignment for future Local Profiles and Save Library without silently renumbering the long-term roadmap.
 
 ## Protected systems
 
-Do not alter without explicit owner direction:
+Do not alter without a reproducible defect or explicit owner decision:
 
 - exactly two managers;
 - Showdown lengths `[1,3,5,10]`;
 - same selected league / different permanent clubs;
-- max-11 scoring and 0–0-only tiebreak;
+- max-11 scoring and 0-0-only tiebreak;
 - League and Club confirmation checkpoints;
 - Transfer Challenge and Season Review state machines;
 - Statistics/Legacy/Trophy calculations;
@@ -48,27 +42,21 @@ Do not alter without explicit owner direction:
 - exactly three canonical localStorage keys and `js/storage.js` mutation authority;
 - Candidate A non-mutating backup format v1;
 - Candidate B read-only analysis;
-- Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned rollback, byte-for-byte verification and anti-clobber semantics;
+- Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned rollback and anti-clobber semantics;
 - protected Marco Reus and accepted football-photo presentation;
-- startup budgets and local-first behavior;
-- v1.2 whole-runtime cache-revision integrity.
+- v1.2 Installable Offline App whole-runtime cache architecture;
+- startup budgets and local-first operation.
 
 ## Testing rule
 
-Preserve 14 permanent workflow families and 27 protected multiline executable blocks.
+Keep evidence single-owner. Candidate B owns one import-analysis browser proof. Candidate C owns one restore/recovery proof. Local Stability owns provenance, offline lifecycle and complete journey. Deployed Stability owns exact public bytes and exhaustive public boundary. Release Integration Burn-In owns two complete stateful journeys on main/manual release use.
 
-Keep testing single-owner. Candidate B owns one import browser proof, Candidate C one restore/recovery browser proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete stateful journeys on main/manual release use. Do not duplicate matrices, inflate budgets or weaken assertions to obtain green CI.
+Do not duplicate matrices, weaken gates, or diagnose a dependency-install/test-runtime failure as a product regression before checking evidence.
 
-Maintenance work should normally use a dedicated branch/PR. If a failure is infrastructure-only, fix the infrastructure contract without changing production behavior. If a real product defect is found, fix the product and add the narrow regression proof that would have caught it.
+## Candidate publication rule
 
-## Production baseline
+While `RELEASE_V1.3.0.md` says RELEASE CANDIDATE, README and CHANGELOG must continue identifying v1.2.0 / `1.2.0-r1` as last production-proven. After deployed proof, remove the candidate marker and promote production docs atomically.
 
-v1.2.0 exact-byte production proof:
+## Exact continuation
 
-- merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`;
-- Pages `5891182853`;
-- Stability `31716787806`;
-- deployed smoke `94503946791`;
-- Burn-In `31716787876` 2/2.
-
-This production proof is technical. Do not fabricate a separate owner visual-acceptance statement.
+Load PR #37 / branch `agent/v13-hardening`. Treat v1.2.0 / `1.2.0-r1` at runtime merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b` as the last production-proven baseline and v1.3.0 / `1.3.0-r1` as candidate only. Preserve gameplay, visuals, storage authority, Candidate A/B/C, Smart Back, offline whole-runtime recovery and performance ceilings. Finish frozen candidate gates, merge normally, then require deployed proof before any next feature milestone.
