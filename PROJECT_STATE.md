@@ -18,7 +18,7 @@ Authority when sources disagree:
 6. roadmap/amendments;
 7. older historical documents/conversations.
 
-Never revert verified source merely to satisfy stale documentation. Correct the stale document. Never redefine the immutable application runtime merely because a later CI/docs-only main commit exists.
+Never revert verified source merely to satisfy stale documentation. Correct the document. Never redefine the immutable application runtime merely because a later CI/docs-only `main` commit exists.
 
 ## Current implementation
 
@@ -28,8 +28,7 @@ Hosting: GitHub Pages
 Technology: static HTML + CSS + vanilla JavaScript + browser localStorage
 Product mode: exactly two managers, one local device/browser, one active Showdown
 Immutable application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
-GitHub Pages deployment: `5878930362`
-Current CI/docs main head: `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62`
+Proven runtime Pages deployment: `5878930362`
 Production proof 1: Stability `31650134707` attempt 1 / deployed smoke `94293855547`
 Production proof 2: Stability `31651830554` / deployed smoke `94297967413`
 Focused Release Integration Burn-In: `31651830507` — 2/2
@@ -37,7 +36,7 @@ Protected visual surface: Marco Reus Home/loading presentation and accepted rout
 Future cloud status: future architecture/security contract only; no backend/network mutation authorized
 Next substantive milestone: v1.2.0 — Installable Offline App
 
-The CI/docs head after the runtime changes only workflows/tests. Runtime authority remains `ff755a9863abc843ae9aac45178428e3a104fc65`.
+Mutable repository `main` is intentionally not hardcoded into this authority file. Read GitHub for the current head. CI/test/documentation-only heads after the runtime do not redefine `ff755a9863abc843ae9aac45178428e3a104fc65` as application authority.
 
 ## v1.1.5 maintenance changes
 
@@ -47,21 +46,21 @@ It fixes two major restore defects and hardens Candidate C transaction semantics
 
 ### Major fix 1 — immutable confirmed restore intent
 
-Before v1.1.5, the user could confirm one restore plan and then mutate file/choice state while asynchronous fresh analysis was still running. The transaction could therefore consume decisions different from the ones visibly confirmed.
+Before v1.1.5, a user could confirm one restore plan and then mutate file/choice state while asynchronous fresh analysis was still running. The transaction could consume decisions different from the visible confirmation.
 
 v1.1.5 now:
 
 1. freezes the exact selected File before the first asynchronous Apply boundary;
-2. deep-copies the exact confirmed active/Legacy/preferences/conflict choices;
+2. deep-copies confirmed active/Legacy/preferences/conflict choices;
 3. deep-copies the reviewed raw-state precondition;
 4. reruns Candidate B analysis against the exact confirmed File;
-5. locks the file input, Review, all decision controls, and Apply while review/apply is in flight;
-6. generation-binds file analysis so a stale completion cannot become current authority;
+5. locks file input, Review, all decision controls, and Apply while review/apply is in flight;
+6. generation-binds file analysis so stale completion cannot become current authority;
 7. commits only the plan derived from frozen confirmed values.
 
 ### Major fix 2 — transaction-owned rollback
 
-Before v1.1.5, rollback covered the whole planned affected-key set, including keys whose write never succeeded or was never reached. That created unnecessary writes, false critical recovery after a clean first-write failure, and future cross-context clobber risk.
+Before v1.1.5, rollback covered the whole planned affected-key set, including keys whose write never succeeded or was never reached. That created unnecessary writes, false critical recovery after a clean first-write failure, and cross-context clobber risk.
 
 v1.1.5 now:
 
@@ -69,40 +68,24 @@ v1.1.5 now:
 2. performs an exact last-moment raw `prewrite` check before every mutation;
 3. grants mutation ownership only after a write succeeds;
 4. records `committedKeys` as the exact rollback-owned set;
-5. rolls back only owned mutations, in reverse commit order;
+5. rolls back only owned mutations in reverse commit order;
 6. performs zero rollback writes after a failed first write;
-7. refuses to overwrite a third/newer value that the transaction cannot prove it owns;
+7. refuses to overwrite a third/newer value the transaction cannot prove it owns;
 8. verifies owned rollback byte-for-byte;
 9. enters locked critical recovery and invalidates uncertain runtime caches when rollback/ownership cannot be proven.
 
 ## Candidate A / B / C authority
 
-### Candidate A — Versioned Backup Envelope + Non-Mutating Export
+Candidate A remains non-mutating export with human-readable backup format v1, SHA-256 integrity evidence, malformed raw-byte preservation, and provenance based on current `APP_VERSION`, shell-derived semantic version, or explicit `unknown`.
 
-- human-readable backup format v1;
-- SHA-256 integrity/corruption evidence;
-- active Showdown, Legacy, preferences, and recovery representation;
-- malformed raw-byte preservation;
-- zero canonical mutation;
-- provenance uses current `APP_VERSION`, otherwise shell-derived semantic version, otherwise `unknown`.
+Candidate B remains strictly read-only analysis with size/JSON/format/checksum/schema/hostile-input validation, deterministic migrations, current-state comparison, conflict preview, and zero canonical writes/removals.
 
-### Candidate B — Import Analysis + Migration Preview
-
-- strictly read-only;
-- size/JSON/format/checksum/schema/hostile-input validation;
-- supported deterministic migrations;
-- current-state comparison and conflict preview;
-- zero canonical localStorage writes/removals;
-- preview is evidence, never write authority.
-
-### Candidate C — Atomic Restore + Recovery UX
-
-A legal restore preserves this sequence:
+Candidate C remains the only import stage allowed to commit canonical state. A legal restore preserves:
 
 1. flush pending canonical writes;
 2. freeze confirmed file, choices, and reviewed raw bytes;
 3. freshly revalidate the exact confirmed backup;
-4. capture a strict exact raw snapshot that differentiates key absence from storage read failure;
+4. capture a strict exact raw snapshot differentiating absence from read failure;
 5. detect reviewed-state drift;
 6. compute every final candidate value completely in memory;
 7. require explicit active/Legacy/preferences/conflict decisions;
@@ -110,7 +93,7 @@ A legal restore preserves this sequence:
 9. recheck exact raw bytes immediately before every write;
 10. commit deterministic active → Legacy → preferences order;
 11. verify every committed value;
-12. on failure, roll back only transaction-owned successful mutations in reverse order;
+12. on failure roll back only transaction-owned successful mutations in reverse order;
 13. refuse to clobber newer/unowned bytes;
 14. verify owned rollback byte-for-byte;
 15. enter locked critical recovery if rollback/ownership is uncertain;
@@ -138,11 +121,13 @@ Current preferences schema version: 2.
 ## Release proof
 
 Immutable runtime: `ff755a9863abc843ae9aac45178428e3a104fc65`.
-Pages deployment: `5878930362`.
+Proven runtime Pages deployment: `5878930362`.
 
 Production proof 1 used Stability `31650134707` attempt 1 and deployed smoke job `94293855547`; exact deployed bytes, provenance, Home/Reus, licensed visuals, Candidate A/B/C, and complete public journey all passed.
 
 Production proof 2 used optimized Stability `31651830554` and deployed smoke job `94297967413`; the same exhaustive public boundary passed again. Focused Release Integration Burn-In `31651830507` passed 2/2.
+
+CI-only orchestration checkpoint `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` is historical evidence of test-system optimization, not runtime authority. Later docs-only heads are also not runtime authority.
 
 ## CI/release proof ownership
 
@@ -175,7 +160,7 @@ Protected Marco Reus Home/loading presentation and accepted route-scoped license
 
 ## Future cloud foundation
 
-`CLOUD_STORAGE_FOUNDATION.md` is future architecture/threat-model groundwork only. No cloud runtime is present.
+`CLOUD_STORAGE_FOUNDATION.md` is future architecture contract only. No cloud runtime is present.
 
 Future implementation must preserve:
 
@@ -199,4 +184,4 @@ Stable local profiles/save identity are v1.3. Cloud Readiness and Cloud Backup r
 
 ## Current handoff authority
 
-Read `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` for the final release/CI root-cause and remedy record. `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` remains historical development chronology.
+Read `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` for final release proof and CI root-cause/remedy. `CAREER_MODE_SHOWDOWN_V1.1.5_MAINTENANCE_HANDOFF.md` remains historical development chronology.
