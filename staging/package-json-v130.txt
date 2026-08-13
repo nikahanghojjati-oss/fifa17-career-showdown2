@@ -1,0 +1,31 @@
+{
+  "name": "career-mode-showdown",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
+  "scripts": {
+    "check": "npm run test:contracts",
+    "serve:test": "node tests/support/static-server.cjs",
+    "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs",
+    "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
+    "test:browser": "node tests/browser/stability-audit.cjs",
+    "test:home-visual": "node tests/browser/home-visual-audit.cjs",
+    "test:loading-visual": "node tests/browser/loading-visual-audit.cjs",
+    "test:football-visual": "node tests/browser/football-visual-audit.cjs",
+    "test:runtime-boundary": "node tests/browser/runtime-error-boundary-audit.cjs",
+    "verify:deployment": "node scripts/verify-deployment.mjs",
+    "test:backup-browser": "node tests/browser/backup-export-audit.cjs",
+    "test:import-contracts": "node tests/contracts/import-analysis-contracts.cjs",
+    "test:import-browser": "node tests/browser/import-analysis-audit.cjs",
+    "test:restore-contracts": "node tests/support/run-restore-contracts.cjs",
+    "test:restore-browser": "node tests/browser/restore-audit.cjs && node tests/browser/restore-maintenance-audit.cjs"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "149.0.0",
+    "axe-core": "4.13.0",
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
