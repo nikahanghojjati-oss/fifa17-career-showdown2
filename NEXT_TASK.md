@@ -2,7 +2,7 @@
 
 Last updated: 2026-08-12
 
-Application version: `v1.1.5`
+Application version: v1.1.5
 Runtime asset revision: `1.1.5-r1`
 Public release status: deployed and independently production-proven twice
 Immutable application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
