@@ -25,6 +25,7 @@ jobs:
           encoded="$(sed -n "s/^[[:space:]]*echo '\(.*\)' | base64 -d > \/tmp\/reconcile.py$/\1/p" .github/workflows/reconcile-smart-ci-docs.yaml)"
           test -n "$encoded"
           printf '%s' "$encoded" | tr -d '[:space:]' | base64 -d > /tmp/reconcile.py
+          sed -i 's/cannot an active proof/cannot cancel an active proof/' /tmp/reconcile.py
           python /tmp/reconcile.py
       - name: Commit documentation reconciliation
         shell: bash
