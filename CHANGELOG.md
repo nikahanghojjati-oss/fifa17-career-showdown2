@@ -1,50 +1,45 @@
-# v1.2.0 — Installable Offline App
+# Career Mode Showdown Changelog
 
-Date: **August 13, 2026**
+Last updated: 2026-08-13 ET
 
-Runtime asset revision: **`1.2.0-r1`**
+## v1.2.0 runtime hotfix r2 — production
 
-Status: technically production-proven.
+Current runtime: `1.2.0-r2`
+Previous known-good runtime: `1.2.0-r1`
+Status: merged, deployed, exact-byte verified and technically production-proven.
 
-v1.2.0 adds the installable/offline application shell while preserving gameplay, storage authority, Candidate A/B/C safety, Smart Back, accepted visuals and startup limits.
+Shipped corrections:
 
-Release changes:
-
-- Web App Manifest and original install artwork;
-- version-owned first-party Service Worker shell;
-- atomic cache population and verification;
-- explicit safe-boundary Update Ready activation with no automatic install activation;
-- whole-runtime revision selection and previous-known-good recovery;
-- unrelated-cache preservation;
-- worker-owned network reachability verification;
-- explicit offline degradation for external media;
-- lazy install/offline controller so eager startup remains protected;
-- install, offline, failed-population, activation, corruption and two-cycle recovery browser evidence;
-- exact preservation of all three canonical localStorage raw values;
-- unchanged Candidate A export, Candidate B read-only analysis and Candidate C strict exact raw snapshot plus transaction-owned rollback semantics.
+- iOS standalone loading composition is decoupled from installed-app viewport-height growth. The mobile loading art uses a bounded width-owned top band, stable subject-safe image box and an entrance animation that cannot move protected layout geometry.
+- Global floating install/status presentation is removed. Install/update actions live only inside Settings; Service Worker/cache/connectivity/update/recovery behavior remains intact.
+- Loading visual regression coverage protects desktop, low-height desktop, narrow mobile browser and iOS standalone-height archetypes with relationship-based assertions and screenshots.
+- Tests explicitly protect Settings-only install presentation and reject mixed runtime revisions.
 
 Production evidence:
 
-- runtime merge: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`;
-- Pages deployment: `5891182853`;
-- Stability: `31716787806`;
-- deployed smoke: `94503946791`;
-- Release Integration Burn-In: `31716787876`, 2/2 complete stateful journeys passed.
+- release PR #39;
+- merge `2179b7928602b9579dc6e129c40b8739082de80a`;
+- post-merge visual-test authority `e966a5a44927992e2e33f602434c5311bf7caee7`;
+- Stability `31740111919`;
+- deployed-site-smoke job `94581704562`;
+- V1 Visual Immersion `31740111961`;
+- Release Integration Burn-In `31740111986` — 2/2 complete stateful journeys passed.
 
-Deployed Stability passed exact runtime bytes, provenance, Home visuals, licensed football visuals, Candidate A/B/C, install/offline behavior and the complete public journey.
+See `RELEASE_V1.2.0_R2.md` and `V1.2.0_R2_PRODUCTION_PROOF.md`.
 
-Frozen eager budgets remained 164,563 raw / 37,355 gzip bytes within the protected 165,000 / 37,500 ceilings.
+## v1.2.0 runtime r1 — previous known-good
 
-Technical production proof is separate from owner visual acceptance; no separate owner signoff is invented here.
+`1.2.0-r1` introduced the installable/offline shell and remains immutable previous known-good rollback evidence. Do not rewrite its release records to describe r2.
 
-## Historical changelog
+Immutable r1 details remain in:
 
-The complete pre-v1.2 changelog is preserved byte-for-byte as `CHANGELOG_PRE_V1.2_ARCHIVE.md`. Immutable per-release details also remain in the existing `RELEASE_V*.md` records.
+- `RELEASE_V1.2.0.md`
+- `CAREER_MODE_SHOWDOWN_V1.2.0_MAINTENANCE_HANDOFF.md`
 
-Historical release index: v1.1.5 Restore Transaction Safety Maintenance; v1.1.4 Candidate C Atomic Restore + Recovery UX; v1.1.3 League Wheel Stability + Cinematic Football Visual Expansion; v1.1.2 Candidate B Import Analysis; v1.1.1 James Rodríguez source refresh; v1.1.0 Candidate A Data Safety and Recovery; v1.0.2 Clean-Anchor Visual Maintenance; v1.0.1 Stability Hardening; v1.0.0 Stable.
+The complete pre-v1.2 changelog remains archived in `CHANGELOG_PRE_V1.2_ARCHIVE.md`.
 
 ## Next milestone
 
-v1.3.0 — Recovery & Device Resilience Hardening.
+v1.3.0 — Recovery & Device Resilience Hardening, beginning from current verified `1.2.0-r2` main.
 
-The older roadmap assignment of v1.3.0 directly to Local Profiles and Save Library is stale as a current task. Local Profiles remains future planned work with its new version assignment pending explicit reconciliation after v1.3 hardening.
+PR #37 is an untrusted open draft until re-audited against current main because it contains a known accidental production-shell replacement. See `00_CURRENT_HANDOFF.md` and `NEXT_TASK.md`.
