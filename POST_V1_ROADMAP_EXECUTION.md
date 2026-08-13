@@ -1,50 +1,35 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-12
-Status: repository-native execution companion to the owner-approved post-v1 roadmap.
+Last updated: 2026-08-13
+Status: repository-native execution companion to the owner-approved post-v1 direction.
 
-## 1. Purpose
+## 1. Purpose and authority
 
-This file preserves the approved dependency order and translates it into implementation-oriented milestones against current source. It is not a new roadmap and does not reopen settled product rules.
+This file preserves dependency order and implementation intent. It is not allowed to override current verified source, later explicit owner decisions, `PROJECT_STATE.md` or `NEXT_TASK.md`.
 
-Current source remains implementation authority. `PROJECT_STATE.md` and `NEXT_TASK.md` define current release/task status.
+Current production application: v1.2.0 — Installable Offline App
+Current runtime revision: `1.2.0-r1`
+Immutable runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
+Proven GitHub Pages deployment: `5891182853`
+Technical production proof: Stability `31716787806` / deployed smoke `94503946791`; Burn-In `31716787876` 2/2
 
-## 2. Current starting point
+v1.1 Data Safety and Recovery is also functionally complete. Candidate A/B/C are now complete; it is not the current task list.
 
-Current application: `v1.1.5`
-Current runtime revision: `1.1.5-r1`
-Immutable application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
-Public status: deployed and independently production-proven twice
-Current CI/docs main head: `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` — workflow/test maintenance only; application runtime unchanged
+The old r5 James/Rashford/Martial acceptance condition is historical and was superseded by the later accepted route-scoped visual archive. Do not reopen historical visual selection without new owner evidence.
 
-Current product model remains:
-
-- exactly two managers;
-- one browser/device;
-- one active local Showdown;
-- manual FIFA 17 result entry;
-- localStorage persistence;
-- GitHub Pages deployment;
-- static SPA using HTML/CSS/vanilla JavaScript.
-
-Candidate A export, Candidate B read-only analysis, and Candidate C atomic restore/recovery are complete and protected. v1.1.5 permanently adds immutable confirmed restore intent, strict exact raw snapshot/precondition handling, complete in-memory planning, post-write verification, and transaction-owned rollback with byte-for-byte owned rollback verification.
-
-`CLOUD_STORAGE_FOUNDATION.md` records future identity, revision, conflict, tombstone, privacy, and security requirements without adding cloud runtime.
-
-v1.2.0 Installable Offline App is now the current substantive roadmap milestone. Stable local profiles/save identity and later cloud readiness remain dependency-ordered after it.
-
-## 3. Permanent rules every roadmap milestone inherits
+## 2. Permanent rules every roadmap milestone inherits
 
 ### Gameplay integrity
 
-- maximum Season score remains 11;
-- performance pair bonus remains maximum +1;
-- Top Scorer/Top Assist pair remains maximum +1;
+- exactly two managers;
+- maximum Season score 11;
+- performance pair bonus maximum +1;
+- Top Scorer/Top Assist pair maximum +1;
 - only 0–0 uses league position then league points;
 - equal non-zero scores remain Draw;
-- managers use same selected league and different permanent clubs;
+- same selected league and different permanent clubs;
 - club pair is chosen/saved once, no reroll;
-- default Wheel remains the accepted top five FIFA 17-era leagues;
+- default Wheel remains the accepted five FIFA 17-era leagues;
 - Transfer phase locks/rollback remain authoritative;
 - Season Review remains nonpersistent until confirmation.
 
@@ -55,259 +40,111 @@ v1.2.0 Installable Offline App is now the current substantive roadmap milestone.
 - `js/storageTransaction.js` remains raw transaction engine behind storage authority;
 - `js/analytics.js` remains sole analytics calculation authority;
 - critical transitions save first and rollback/block on failure;
-- draft writes remain debounced/deduplicated;
 - optional/gameplay modules remain lazy unless measurement proves otherwise;
-- every changed runtime byte receives a new cache identity;
+- every changed runtime byte receives a coherent cache identity;
 - no framework rewrite merely for modernization.
 
 ### Data-safety integrity
 
+- exactly three canonical localStorage keys remain legal;
 - Candidate A export stays non-mutating;
 - Candidate B analysis stays read-only;
-- Candidate C keeps strict exact raw snapshot authority, immutable confirmed intent, stale-state barriers, complete in-memory planning, deterministic write order, post-write verification, transaction-owned reverse rollback, anti-clobber ownership checks, byte-for-byte rollback verification, corrupt-byte preservation, and zero-write deterministic repeat import;
-- future service-worker/cache layers may never silently weaken local recovery;
-- future cloud/downloaded state must re-enter the same canonical local storage boundary.
+- Candidate C preserves immutable confirmed intent, strict exact raw snapshot authority, stale-state barriers, complete in-memory planning, last-moment prewrite checks, deterministic write order, post-write verification, transaction-owned reverse rollback, anti-clobber ownership checks, byte-for-byte rollback verification, corrupt-byte preservation and deterministic zero-write re-import;
+- Service Worker/Cache Storage layers may never become canonical user-data authority;
+- future downloaded/cloud state must re-enter the same canonical local storage boundary.
 
-### Presentation/rights integrity
+### Presentation and rights integrity
 
-- FIFA 17-inspired language remains original and rights-safe;
-- no copied EA/FIFA UI artwork, proprietary font, copied menu audio, or official club crests by default;
-- local/appropriately licensed photography keeps provenance;
-- mobile and Chromebook remain first-class;
-- reduced motion remains first-class.
+- FIFA 17-inspired presentation remains original and rights-safe;
+- do not bundle proprietary EA/FIFA artwork, fonts or menu audio without rights;
+- local/appropriately licensed football photography keeps provenance;
+- protected Marco Reus Home/loading presentation remains intact unless new owner evidence requires a defect fix;
+- mobile, Chromebook and reduced motion remain first-class.
 
 ### Validation integrity
 
-- each specialist workflow owns specialist evidence once per workflow attempt;
-- local Stability owns canonical runtime provenance + one complete integration journey;
-- deployed Stability remains exhaustive across exact bytes, Home/visuals, Candidate A/B/C, and full journey;
-- Release Integration Burn-In repeats only the complete stateful integration journey twice on main/manual release use;
-- documentation-only seals must not launch heavy Candidate B/C/Stability/Burn-In lanes;
-- reruns/manual dispatches must not cancel active proofs;
-- do not poll long jobs every few seconds or rerun complete matrices to repeat one owner proof.
+There remain 14 permanent workflow families and 27 protected multiline executable blocks.
 
-## 4. Dependency chain
+- specialists own specialist evidence once;
+- Candidate B owns one import-analysis browser proof;
+- Candidate C owns one restore/recovery browser proof;
+- local Stability owns runtime provenance, offline/cache lifecycle and one complete integration journey;
+- deployed Stability owns exact bytes, provenance, Home, visuals, Candidate A/B/C, install/offline and the complete public journey;
+- Release Integration Burn-In repeats only the complete stateful journey twice on main/manual release use;
+- Markdown-only seals skip heavy browser lanes;
+- reruns/manual dispatches do not cancel useful active proof;
+- never duplicate evidence or weaken a gate just to obtain green CI.
+
+## 3. Completed dependency chain
 
 `v1.0.x Stability Lane`
 → `v1.1.x Data Safety and Recovery`
 → `v1.2.0 Installable Offline App`
-→ `v1.3.0 Local Profiles and Save Library`
-→ `v1.4.0 Legacy 2.0 and Achievements`
-→ `v1.5.0 Analytics 2.0`
-→ `v1.6.0 Optional Content Packs`
-→ `v1.7.0 Challenge Studio`
-→ `v1.8.0 Cloud Readiness`
-→ `v1.9.0 Cloud Backup Beta`
-→ `v2.0.0 Private QR Paired Two-Device Alpha`
-→ `v2.1.0 Connected Rivalry`
-→ `v2.2.0 Private Sharing and Groups`
-→ `v3.0 community/rankings decision gate`
 
-Most important ordering rule:
+All three are technically closed at the current production baseline.
 
-Cloud and two-device work cannot begin on the present singleton localStorage model. Recovery, migrations, stable identities, save registry, and cloud-safe persistence boundary must exist first.
+## 4. v1.2.0 — Installable Offline App — completed
 
-## 5. Release-train matrix
+v1.2.0 / `1.2.0-r1` made the core local tracker installable and bootable without network access while preserving data-recovery and whole-runtime revision guarantees.
 
-| Version | Outcome | Depends on | Explicitly does not include |
-| --- | --- | --- | --- |
-| v1.1.x | validated export/analysis/atomic recovery | stable local schemas | profiles, PWA, cloud |
-| v1.2.0 | installable/offline shell | recovery foundation | profiles/cloud |
-| v1.3.0 | stable local identities + multi-save registry | migrations/export | accounts/cloud |
-| v1.4.0 | richer rivalry history + achievements | stable identities | scoring changes |
-| v1.5.0 | deeper accessible analytics | identity/history model | global leaderboards |
-| v1.6.0 | opt-in content packs | backup + registry | default Wheel replacement |
-| v1.7.0 | optional challenge studio | pack/version rules | canonical score changes |
-| v1.8.0 | async repository/cloud-ready data model | stable local model | cloud UI/network dependency |
-| v1.9.0 | opt-in cloud backup | provider/budget/privacy decision | realtime play |
-| v2.0.0 | private QR two-device alpha | remote reliability/security | matchmaking/public rooms |
-| v2.1.0 | full connected rivalry | paired alpha | public social network |
-| v2.2.0 | private sharing/groups | identity/privacy/backend | public feed/comments |
-| v3.0 gate | decide community/rankings | proven demand/integrity/budget | automatic commitment |
+Completed deliverables include:
 
-## 6. Stability and v1.1 exit state
-
-The original v1.0.x Stability Lane is closed. Its deterministic contracts, browser journeys, corrupt-storage/quota/reload/navigation coverage, exact deployed-byte checks, and protected Home/Reus/football-visual gates remain permanent regression infrastructure.
-
-The old r5 James/Rashford/Martial acceptance condition is historical and has been superseded by the accepted v1.1.3 route-scoped visual archive. Do not reopen that visual selection work without new owner evidence.
-
-v1.1 Data Safety and Recovery is also functionally complete through Candidate A export, Candidate B read-only analysis, and Candidate C atomic restore/recovery. v1.1.5 maintenance is merged, deployed, and twice-proven. Candidate A/B/C are now complete; it is not the current task list.
-
-The old release-validation topology that repeated specialist browser suites inside Stability and five full Burn-In matrices is also historical. It was replaced after v1.1.5 by single-owner evidence, canonical Stability, two focused Burn-In journeys, rerun-safe concurrency, and Markdown-only heavy-lane skips.
-
-v1.2.0 Installable Offline App is the current substantive roadmap milestone.
-
-## 7. v1.1.x — Data Safety and Recovery historical contract
-
-This section is implementation history/architecture guidance, not current work.
-
-Candidate A established deterministic non-mutating export and corruption evidence.
-Candidate B established strict read-only analysis/migration/conflict preview.
-Candidate C established explicit atomic restore/recovery under canonical storage authority.
-v1.1.5 then strengthened Candidate C with immutable confirmed intent and transaction-owned rollback.
-
-Current canonical localStorage keys remain exactly:
-
-1. `careerModeShowdown.activeShowdown`
-2. `careerModeShowdown.legacyShowdowns`
-3. `careerModeShowdown.preferences`
-
-Current Showdown schema: 2.
-Current preferences schema: 2.
-
-Do not introduce a new persistence authority while implementing v1.2.
-
-## 8. v1.2.0 — Installable Offline App
-
-### Goal
-
-Make the core local tracker installable and bootable without network access while preserving the exact v1.1.5 runtime-revision and data-recovery guarantees.
-
-### Depends on
-
-- Candidate A/B/C recovery foundation;
-- v1.1.5 strict storage transaction semantics;
-- current release/cache identity discipline;
-- current startup budgets and responsive/reduced-motion paths.
-
-### Required deliverables
-
-1. web app manifest;
+1. Web App Manifest;
 2. original install icons/theme metadata;
-3. service worker for versioned first-party shell;
-4. atomic cache activation;
-5. explicit cache-version ownership tied to runtime revision;
+3. version-owned first-party Service Worker shell;
+4. atomic cache population and verification;
+5. no automatic install-time activation;
 6. visible Update Ready flow;
-7. offline status;
-8. graceful external-media unavailable state;
-9. Chromebook/Android install behavior;
-10. browser-appropriate install guidance elsewhere;
-11. first-load/repeat-load/offline tests;
-12. update/activation tests;
-13. rollback/cache-corruption tests;
-14. two consecutive cache-revision upgrade/rollback proofs before release.
+7. safe-boundary activation blocked by critical transaction/recovery state;
+8. whole-runtime cache selection and previous-known-good recovery;
+9. verified offline status through a worker-owned network probe;
+10. graceful external-media unavailable state;
+11. Chromebook/Android install behavior and browser guidance;
+12. exact three-key local data preservation;
+13. failed-population and corruption recovery;
+14. unrelated-cache preservation;
+15. two consecutive revision upgrade/recovery cycles.
 
-### Core service-worker safety rule
+Production evidence is recorded in `RELEASE_V1.2.0.md`.
 
-A stale service worker must never mix incompatible HTML/CSS/JS revisions.
+## 5. Current milestone — v1.3.0 Recovery & Device Resilience Hardening
 
-Activation must be atomic from the application's point of view. If the new cache cannot be completely prepared and verified, the old known-good runtime remains authoritative.
+### Why this supersedes the older v1.3 label
 
-Never let a partially populated new cache become active.
+The earlier version of this execution guide assigned v1.3.0 directly to Local Profiles and Save Library. During v1.2 release maintenance, a later current-facing decision reserved v1.3.0 for Recovery & Device Resilience Hardening before changing the persistence model. Under project authority rules, the later `PROJECT_STATE.md`, `NEXT_TASK.md` and v1.2 maintenance handoff win.
 
-### Recommended cache ownership model
-
-Use a cache namespace that contains a semantic app/cache revision, for example conceptually:
-
-`career-mode-showdown-shell-<runtimeRevision>`
-
-The exact string is implementation detail, but it must derive from a release/cache authority and cannot be a mutable timestamp-only identifier.
-
-The service worker should distinguish:
-
-- versioned first-party shell assets;
-- optional route assets;
-- external media/network resources;
-- user data, which must not be moved into Cache Storage as a substitute for canonical persistence.
-
-### Install phase
-
-The install event may prepare the complete new first-party shell, but installation alone must not delete the current good cache.
-
-If required shell acquisition fails:
-
-- fail the new install;
-- keep the active service worker/cache unchanged;
-- preserve all localStorage data;
-- do not redirect or reset the user.
-
-### Activate phase
-
-Activation may remove obsolete application shell caches only after the new shell is complete and the worker is becoming authoritative.
-
-Do not delete unrelated origin caches.
-
-### Update Ready UX
-
-An updated service worker should not silently replace a live runtime mid-transaction.
-
-Preferred direction:
-
-- detect waiting worker;
-- surface Update Ready;
-- allow user-controlled refresh/reload at a safe boundary;
-- do not interrupt Candidate C Apply, Season confirmation, Transfer confirmation, destructive Data Management action, or another persistence-critical transition.
-
-### Offline behavior
-
-Core local tracker functionality should remain available offline once installed/cached.
-
-External YouTube/media or remote licensed sources that cannot legally/reliably be cached should degrade visibly without breaking the core tracker.
-
-Do not imply external media is available offline unless it actually is.
-
-### Data safety across update
-
-Service-worker operations must not mutate the three canonical localStorage keys.
-
-An application update must preserve:
-
-- active Showdown raw bytes;
-- Legacy raw bytes;
-- preferences raw bytes;
-- schema migration authority;
-- Candidate A export compatibility;
-- Candidate B read-only analysis;
-- Candidate C exact rollback/recovery semantics.
-
-If a future runtime requires a data-schema migration, that migration must use the existing explicit migration/recovery discipline; the service worker itself must not perform ad hoc localStorage migration.
-
-### v1.2 test matrix
-
-At minimum prove:
-
-1. first online install;
-2. repeat online load;
-3. installed offline boot;
-4. navigation through core local routes offline;
-5. unavailable external media degrades safely;
-6. update discovers new worker/cache;
-7. active old runtime continues until safe update action;
-8. update activation serves one coherent revision only;
-9. failed new-cache population leaves old runtime usable;
-10. simulated cache corruption does not destroy local data;
-11. rollback to prior known-good shell works when required;
-12. service-worker restart/reload remains deterministic;
-13. reduced-motion behavior remains correct;
-14. mobile/Chromebook installation paths remain usable;
-15. Candidate A/B/C behavior is unchanged before/after update;
-16. two consecutive upgrade/rollback cycles pass on release candidate and production.
-
-### Explicit v1.2 exclusions
-
-Do not add:
-
-- accounts;
-- cloud sync;
-- cloud backup;
-- remote profiles;
-- multi-save registry redesign;
-- QR pairing;
-- two-device state transport;
-- gameplay/scoring changes;
-- framework rewrite.
-
-## 9. v1.3.0 — Local Profiles and Save Library
+Therefore the old v1.3 Local Profiles label is stale current-task information. This correction does not cancel Local Profiles; it prevents a future developer from changing the persistence model before the new installed/offline lifecycle receives a dedicated maintenance pass.
 
 ### Goal
 
-Introduce stable local profile/save identity and a multi-save registry after offline/update safety is proven.
+Reduce risk after the PWA transition and close evidence-backed resilience defects without adding new product scope.
 
-### Why after v1.2
+### Required audit areas
 
-Profiles/save-library migration changes the persistence model. It should happen only after users already have reliable export/recovery and the installed shell can update safely.
+1. browser close/reopen, reload, controller change and update-interruption behavior;
+2. failed Service Worker population and activation recovery;
+3. current/previous cache corruption and deterministic whole-shell selection;
+4. exact preservation of all three canonical raw localStorage values across lifecycle failures;
+5. quota, blocked read/write and corrupt raw storage behavior;
+6. Candidate C interruption, ownership uncertainty, rollback verification and stale-state handling;
+7. runtime-notice/install/offline UI layering, focus and pointer safety;
+8. Smart Back and lazy-screen listener ownership;
+9. Chromebook low-height, mobile, DPR2, touch, keyboard, reduced-motion and axe coverage;
+10. external-media offline/online transitions;
+11. dependency-lock integrity and reproducible `npm ci`;
+12. workflow ownership/cancellation/artifact failure semantics;
+13. release/version/revision and handoff coherence;
+14. performance headroom without increasing protected ceilings.
 
-### Required direction
+### Exclusions
+
+Do not add profiles, accounts, cloud sync, cloud backup, QR pairing, two-device transport, gameplay/scoring changes or a framework rewrite during v1.3 hardening.
+
+## 6. Local Profiles and Save Library — future feature milestone, version assignment pending
+
+The feature remains approved in dependency order but no longer owns the v1.3.0 label.
+
+Required direction remains:
 
 - stable profile identity;
 - stable save identity independent of display names;
@@ -315,69 +152,34 @@ Profiles/save-library migration changes the persistence model. It should happen 
 - migration from the singleton active-save model;
 - explicit active-save selection;
 - Candidate A/B/C compatibility with registry-backed saves;
-- rollback-safe migration fixtures.
+- rollback-safe migration fixtures;
+- cloud excluded.
 
-Cloud remains excluded.
+Do not silently renumber this feature or later releases in this maintenance seal. Assign its version explicitly after v1.3 hardening is closed.
 
-## 10. v1.4.0 — Legacy 2.0 and Achievements
+## 7. Later approved direction
 
-Build richer rivalry history and achievements on stable local identities. Do not change canonical scoring. Historical records must remain attributable after profile/save migration.
+The following product outcomes remain dependency-ordered after stable local identity exists. Their historical numeric labels are planning references and must be revalidated when Local Profiles receives its new explicit version assignment.
 
-## 11. v1.5.0 — Analytics 2.0
+- Legacy 2.0 and Achievements: richer rivalry history/achievements without canonical scoring changes.
+- Analytics 2.0: deeper accessible analytics with `js/analytics.js` remaining calculation authority; no public global leaderboard.
+- Optional Content Packs: opt-in content/league/challenge packs with explicit version/provenance rules; do not replace the accepted default Wheel.
+- Challenge Studio: optional user-defined challenge content without changing canonical scoring authority.
+- Cloud Readiness: asynchronous repository/persistence boundary with no cloud UI/network dependency yet.
+- Cloud Backup Beta: opt-in authenticated remote backup with privacy, revisions, compare-and-swap, explicit conflicts, tombstones, deletion/export/retention, rate/schema/size limits and replay/idempotency protection.
+- Private QR Paired Two-Device Alpha: only after remote persistence/security is reliable; private pairing is not public matchmaking.
+- Connected Rivalry: expand private paired use only after reliability/security proof.
+- Private Sharing and Groups: requires mature identity/privacy/backend controls.
+- Community/rankings: a decision gate only, contingent on demand, integrity, moderation/privacy and sustainable backend cost.
 
-Expand accessible analytics on stable identity/history. `js/analytics.js` remains calculation authority. Do not introduce public/global leaderboards.
+## 8. Cloud foundation boundary
 
-## 12. v1.6.0 — Optional Content Packs
+`CLOUD_STORAGE_FOUNDATION.md` remains future architecture contract only.
 
-Add opt-in content/league/challenge packs under explicit version/provenance rules. Do not replace the accepted default Wheel or silently change canonical rules.
+Before cloud runtime exists preserve distinct `accountId`, `profileId`, `saveId`, `deviceId`, `installationId`, server-authoritative revision tokens and `baseRevision`, compare-and-swap, explicit conflicts, tombstones/anti-resurrection, local-first privacy, export/delete/retention, TLS/authentication/server authorization, least privilege, secure token handling, replay/idempotency protection, rate/schema/size limits, no privileged secret in static JS and no future cloud module calling localStorage directly.
 
-## 13. v1.7.0 — Challenge Studio
+Downloaded state must still pass Candidate C-style local validation and canonical storage authority.
 
-Allow optional user-defined challenge content without changing canonical scoring authority. Export/import/versioning rules must be explicit.
+## 9. Current execution rule
 
-## 14. v1.8.0 — Cloud Readiness
-
-### Goal
-
-Prepare an asynchronous repository/persistence model that can support remote state later without adding a cloud UI/network dependency yet.
-
-### Depends on
-
-- v1.2 installed/update-safe runtime;
-- v1.3 stable profile/save identity;
-- mature export/import/migration fixtures;
-- `CLOUD_STORAGE_FOUNDATION.md` identity/revision/conflict/tombstone/security contract.
-
-### Key rule
-
-No future cloud module may call localStorage directly. Introduce an explicit persistence/repository boundary while preserving current local behavior.
-
-## 15. v1.9.0 — Cloud Backup Beta
-
-Cloud backup is opt-in. It requires provider/budget/privacy decisions, authenticated ownership, server-side authorization, TLS, secure sessions/tokens, compare-and-swap revisions, explicit conflict handling, tombstones, deletion/export/retention controls, rate/schema/size limits, and idempotency/replay protection.
-
-Downloaded state must still pass local Candidate C-style validation and storage authority.
-
-Do not use silent last-write-wins for gameplay state.
-
-## 16. v2.0.0 — Private QR Paired Two-Device Alpha
-
-Only after remote persistence/security is reliable. Private pairing is not public matchmaking. Pairing identity, session authorization, replay protection, disconnect/reconnect, stale revision conflicts, and recovery must be explicit.
-
-## 17. v2.1.0 — Connected Rivalry
-
-Expand the private paired alpha after reliability/security proof. Do not automatically turn the product into a public social network.
-
-## 18. v2.2.0 — Private Sharing and Groups
-
-Requires mature identity/privacy/backend controls. Private groups/sharing remain distinct from a public feed/comments system.
-
-## 19. v3.0 decision gate
-
-Community/rankings are a decision gate, not an automatic commitment. Proceed only with proven demand, integrity controls, moderation/privacy plan, and sustainable backend budget.
-
-## 20. Current execution rule
-
-The next developer must not return to v1.1 Candidate planning. Begin v1.2 by studying current cache/version/startup/data-safety authority, then implement the smallest coherent install/offline slice while continuously recording work under `00_HANDOFF_GOLDEN_RULE.md`.
-
-Do not recreate the old testing loop. Use owner workflows, let long jobs run without rapid polling, and repeat only the canonical proof that a release requirement actually needs.
+Begin v1.3 from the proven v1.2.0 / `1.2.0-r1` production baseline. Audit before changing code. Separate product defects from test/runtime infrastructure defects. Preserve functions and accepted visuals. Add focused regression proof for every real defect fixed. Keep continuous handoff evidence under `00_HANDOFF_GOLDEN_RULE.md`.

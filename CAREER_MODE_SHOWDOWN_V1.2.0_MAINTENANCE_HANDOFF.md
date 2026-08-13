@@ -1,33 +1,35 @@
 # Career Mode Showdown — v1.2.0 Maintenance Handoff
 
 Last updated: 2026-08-13 ET
-Release candidate: `v1.2.0`
+Release: `v1.2.0`
 Runtime asset revision: `1.2.0-r1`
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
-Canonical PR: #34
-Canonical development branch: `agent/v1.2-installable-offline-r1`
-Frozen release-candidate code SHA with complete normal PR proof: `db0fcc49858db5555fa60dbd42d0dd8082069ee2`
-Documentation-only proof-record commit: `b367e019d66a5d754da6a8bac23225a97a529600`
-Last production-proven runtime: v1.1.5 / `1.1.5-r1`
-Immutable v1.1.5 runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
+Canonical implementation PR: #34
+Production runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
+GitHub Pages deployment: `5891182853`
+Production Stability: `31716787806`
+Deployed-site-smoke job: `94503946791`
+Release Integration Burn-In: `31716787876` — 2/2
 
 ## Owner instruction preserved
 
-Continue the existing project deeply rather than restarting or redesigning it. Preserve working gates and functions where they make architectural sense. Investigate testing failures before changing production code. Make testing smarter rather than weaker. Maintain infrastructure/code/site coherence, follow the approved roadmap and prioritize bug-free delivery with maximum attention to detail.
+Continue the existing project deeply rather than restarting or redesigning it. Preserve working functions, accepted visuals, data-safety boundaries and meaningful gates. Investigate testing failures before changing production code. Make testing smarter rather than weaker. Investigate missing, conflicting or erroneous information. Perform substantial maintenance and bug fixing with high attention to coherence, responsiveness, visual quality and maintainability.
 
-This file must be updated by every continuing development session under `00_HANDOFF_GOLDEN_RULE.md`.
+The owner also asked whether development can continue after the browser closes. It cannot. Work does not continue asynchronously or in the background. Continuity must therefore live in repository handoff evidence such as this file.
+
+This file remains a continuous maintenance record under `00_HANDOFF_GOLDEN_RULE.md`.
 
 ## Current release truth
 
-v1.2.0 Installable Offline App is a release candidate only until the protected merge and deployed GitHub Pages proof complete. v1.1.5 remains the last production-proven application at this exact handoff update.
+v1.2.0 Installable Offline App is merged, deployed and technically production-proven.
 
-The frozen v1.2.0 candidate has now passed all 13 normal PR workflow families together on code SHA `db0fcc49858db5555fa60dbd42d0dd8082069ee2`.
+Technical proof does not fabricate a separate owner visual-acceptance statement.
 
-Do not call v1.2.0 production-proven merely because PR tests are green.
+The frozen candidate passed all 13 normal PR workflow families together before merge. After merge, GitHub Pages served exact runtime bytes from `e5acd4ae524f181242df3114b35fd2e812cd8f3b`; deployed Stability then passed provenance, Home visuals, crop-safe licensed football visuals, Candidate A/B/C, install/offline behavior and the complete public journey. Release Integration Burn-In passed two complete stateful journeys.
 
 ## Protected systems
 
-Do not alter without explicit owner direction:
+Do not alter without explicit owner direction or a reproducible defect:
 
 - exactly two managers;
 - Showdown lengths `[1,3,5,10]`;
@@ -40,144 +42,108 @@ Do not alter without explicit owner direction:
 - `js/screens.js` as sole navigation/history/Smart Back authority;
 - exactly three canonical localStorage keys;
 - `js/storage.js` as canonical persistence/destructive authority;
-- `js/storageTransaction.js` as the raw transaction engine;
+- `js/storageTransaction.js` as raw transaction engine;
 - Candidate A non-mutating backup format v1;
 - Candidate B strictly read-only analysis;
-- Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned mutation/rollback and anti-clobber semantics;
+- Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, complete in-memory planning, transaction-owned mutation/rollback, byte-for-byte verification and anti-clobber semantics;
 - protected Marco Reus and accepted football-photo presentation;
 - protected startup budgets;
-- local-first operation.
+- local-first operation;
+- v1.2 whole-runtime cache identity and safe update activation.
 
-## v1.2.0 architecture
+## v1.2 architecture authority
 
-The release candidate adds installability/offline support without accounts, cloud sync, cloud backup, QR pairing, two-device state transport, gameplay changes or a framework rewrite.
+The application shell is owned by `1.2.0-r1`. Service Worker installation fully populates and verifies the required first-party shell. An incomplete new cache is deleted and cannot replace the active known-good runtime. Install does not call `skipWaiting()` automatically.
 
-The application shell is version-owned by `1.2.0-r1`. Service Worker installation fully populates and verifies the required first-party shell. An incomplete new cache is deleted and cannot replace the active known-good runtime. Install does not call `skipWaiting()` automatically.
+A waiting worker surfaces Update Ready. The page may request activation only from Home or Showdown Home and only when Candidate C transaction/recovery busy state and other critical state are clear. The worker verifies the complete candidate cache again before activation. The page reloads only after the requested controller change.
 
-A waiting worker surfaces Update Ready. The page may request activation only from Home or Showdown Home and only when Candidate C transaction/recovery busy state and other critical busy state are clear. The worker verifies the complete candidate cache again before `skipWaiting()`. The page reloads only after a controller change that follows an explicit activation request.
+Navigation selects one whole coherent cache revision. It never borrows individual files from another revision. Current and previous known-good shells are separately verified. Cleanup is restricted to this application's cache namespaces and unrelated caches remain untouched. Cache Storage holds application bytes only and never becomes canonical user-data authority.
 
-Navigation selects one whole coherent cache revision. It never borrows individual files from another revision. Current and previous known-good shells are separately verified. Obsolete cleanup is restricted to this application's own cache namespaces; unrelated origin caches remain untouched. Cache Storage holds application bytes only and never becomes user-data authority.
+Connectivity is not trusted from `navigator.onLine` alone. The active worker performs an uncached same-origin probe and returns the result through `MessageChannel`. Offline mode keeps the local tracker usable and explicitly disables/explains unavailable YouTube media.
 
-Connectivity is not trusted from `navigator.onLine` alone. The page asks the active worker to perform an uncached same-origin network probe and receives the result through `MessageChannel`. Offline mode keeps the local tracker usable and explicitly disables/explains external YouTube media.
+The PWA controller and stylesheet remain lazy so eager startup stays under the protected ceilings.
 
-The PWA controller and stylesheet remain lazy so the eager startup path remains under the locked performance ceilings.
+## Testing architecture and lessons
 
-## Testing investigation and lessons
+There remain 14 permanent workflow families and 27 protected multiline executable blocks.
 
-The historical testing problem was orchestration duplication and misleading evidence, not weak product gates.
-
-Root causes already identified:
-
-- Stability used to repeat specialist browser suites;
-- Candidate B/C duplicated browser evidence;
-- Burn-In repeated near-complete matrices five times;
-- Markdown-only seals launched heavy lanes;
-- broad cancellation could kill useful active proof;
-- frequent polling made long but healthy jobs look stalled;
-- GitHub run-attempt presentation could look like restarts.
-
-Current topology remains protected:
-
-- 14 permanent workflow families;
-- 27 protected multiline executable blocks;
-- specialists own specialist evidence once;
 - Candidate B owns one import-analysis browser proof;
 - Candidate C owns one restore/recovery browser proof;
 - local Stability owns runtime provenance, one offline/cache lifecycle proof and one complete integration journey;
 - deployed Stability owns the exhaustive public boundary;
 - Release Integration Burn-In runs two complete stateful journeys on main/manual release use;
 - Markdown-only release seals skip heavy browser lanes;
-- deliberate reruns/manual dispatches do not cancel useful active proof.
+- reruns/manual dispatches do not cancel useful active proof.
 
-Do not recreate a parallel PWA workflow family.
+Do not recreate a parallel PWA workflow family or duplicate specialist matrices.
 
-## Defects found and learned from during v1.2 development
+Important defects/lessons discovered during v1.2:
 
-1. Initial PWA logic added too much eager code and broke protected startup budgets. The correct fix was architectural: move PWA behavior lazy rather than increase the limit.
-2. The initial 512 install SVG accidentally inherited 192 dimensions. The asset was corrected rather than accepting a superficial manifest pass.
-3. The install rail overlapped the existing runtime-notice dismiss control. Stability correctly caught pointer interception. The new install UI was moved below critical runtime-notice authority.
-4. `navigator.onLine` reported online while the browser was genuinely disconnected. Connectivity was changed to verified same-origin reachability.
-5. The first reachability probe appeared to the generic page request monitor as an expected first-party failure. The probe was moved into the Service Worker so the page-level monitor remains strict.
-6. The offline browser audit initially targeted `data-smart-back` on a lazy Rule Book control even though `.backButton` delegation in `screens.js` is the real authority. The lazy control gained the shared semantic marker without adding a listener or competing state machine.
-7. Sparticuz Chromium's `--single-process` mode exited after the first browser context, preventing the synthetic second lifecycle context. Only the offline lifecycle audit removes that flag through `CMS_CHROMIUM_MULTI_CONTEXT=1`; all other browser suites keep their proven launch profile.
-8. Missing downstream Stability artifacts used to create a second unrelated error after an earlier assertion stopped the journey. Artifact absence now warns instead of masking the original owner failure.
-9. Release identity freeze exposed stale documentation authority after runtime contracts were green. Release authority now distinguishes a PR candidate from promoted production instead of forcing README/CHANGELOG to claim deployment prematurely.
-10. Manual release-version lockfile editing dropped one character from the `bare-path@3.1.1` integrity checksum. Candidate B, Candidate C, Licensed Visuals and Stability all failed at `npm ci` before browser tests. The failure was classified as dependency-install infrastructure, not product regression. The complete previously known-good dependency graph was restored and only the two root package-version fields were changed to `1.2.0`, eliminating hand-copied checksum risk.
+1. Initial PWA logic exceeded eager startup budgets. The correct fix was architectural laziness, not a higher budget.
+2. The initial 512 install SVG inherited 192 dimensions and was corrected.
+3. The install rail overlapped the existing runtime-notice dismiss control; critical runtime notices retain higher interaction authority.
+4. `navigator.onLine` was insufficient for true reachability, so connectivity became worker-verified.
+5. An expected page-level probe failure polluted the generic first-party request monitor, so probing moved into the Service Worker while the monitor stayed strict.
+6. Smart Back evidence initially targeted a marker rather than the real `.backButton` delegation authority; the lazy control gained only the shared semantic marker, not a competing listener.
+7. Sparticuz Chromium `--single-process` prevented the synthetic second lifecycle context; only the offline lifecycle audit removes that flag.
+8. Missing downstream Stability artifacts used to create a second unrelated error after an earlier assertion; artifact absence now warns rather than masking the root failure.
+9. Release-authority contracts initially conflated PR candidate status with deployed production. Candidate-vs-production publication semantics were made explicit.
+10. A manual package-lock version edit dropped one character from the `bare-path@3.1.1` integrity checksum. Four workflows failed at `npm ci` before tests. The known-good dependency graph was restored instead of treating it as a product regression. Future version freezes must not hand-copy integrity hashes.
 
-## Functional offline/cache proof
+## Production evidence
 
-The canonical Stability offline owner proved:
+Pre-merge frozen candidate code SHA: `db0fcc49858db5555fa60dbd42d0dd8082069ee2`.
 
-- first online install creates a complete application shell;
-- manifest fetchability and install-sized artwork;
-- service-worker cache identity matches the loaded page;
-- installed offline boot succeeds;
-- all three canonical raw localStorage values remain byte-for-byte unchanged;
-- external YouTube media degrades explicitly;
-- optional routes and Candidate A/B/C modules load offline without canonical mutation;
-- repeat online load preserves raw bytes;
-- failed new-cache population preserves the active known-good runtime;
-- a complete update waits rather than auto-activates;
-- explicit activation occurs only after complete cache verification;
-- unrelated origin caches survive activation;
-- corruption cycle one rolls the entire offline navigation to a coherent known-good shell;
-- corruption cycle two repeats the same recovery after another upgrade;
-- a fresh offline page deterministically selects the known-good shell.
+All 13 normal PR workflow families passed together before merge.
 
-After the lifecycle proof, the normal complete journey passed 70 checkpoints and 36 axe scans.
+Production merge: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`.
+Pages deployment: `5891182853`.
+Pages run: `31716786499`.
+Stability: `31716787806`, attempt 1.
+Local Chromium Stability job: `94503496610` — canonical runtime, offline lifecycle and complete integration journey passed.
+Deployed smoke: `94503946791` — every runtime byte, runtime provenance, Home visual audit, football crop audit, Candidate A, Candidate B, Candidate C, install/offline audit and complete deployed journey passed.
+Burn-In: `31716787876`.
+Burn-In pass 1: `94503420385` — passed.
+Burn-In pass 2: `94503420339` — passed.
 
-## Release identity freeze
+Dynamic release budgets: 164,563 eager raw bytes / 37,355 eager gzip bytes.
 
-Current release candidate identity:
+## 2026-08-13 continuation chronology
 
-- `package.json`: `1.2.0`;
-- `package-lock.json`: `1.2.0` with the restored known-good dependency graph;
-- `js/app.js`: `APP_VERSION = "1.2.0"`;
-- `index.html`: `1.2.0-r1` meta/footer/eager references;
-- `manifest.webmanifest`: versioned install artwork;
-- `service-worker.js`: `RUNTIME_REVISION = "1.2.0-r1"`;
-- `js/offlineApp.js`: meta-derived revision with `1.2.0-r1` fallback;
-- `js/menuExperience.js`: protected Home Reus query `1.2.0-r1`;
-- `RELEASE_V1.2.0.md`: release-candidate record.
+- Resumed from the interrupted release-freeze stage.
+- Rechecked source of truth and discovered that an earlier assistant conclusion claiming PR #34 had already merged was false: `main` was still the v1.1.5 handoff commit and PR #34 remained open/draft.
+- Reverified the current PR head and confirmed all 13 PR workflow families were green together.
+- Marked PR #34 ready and merged it through the normal GitHub merge endpoint with expected head SHA protection.
+- Verified actual `main` advanced to `e5acd4ae524f181242df3114b35fd2e812cd8f3b`.
+- Verified Pages deployment `5891182853` completed successfully for that exact SHA.
+- Verified both Release Integration Burn-In complete stateful journeys passed.
+- Verified deployed Stability exact-byte matching, provenance, Home, licensed visuals, Candidate A/B/C, install/offline behavior and the complete public journey all passed.
+- Opened production-seal branch `agent/v1.2-production-seal` from the immutable runtime merge so documentation can advance without changing runtime bytes.
+- During staging, two temporary marker files were accidentally created on the isolated seal branch. One was removed immediately; the remaining `NOOP.txt` is scheduled for deletion in the final seal tree and must not enter the PR result.
+- Audited current-facing roadmap authority and found a real conflict: `PROJECT_STATE.md`, `NEXT_TASK.md` and this later maintenance handoff reserve v1.3.0 for Recovery & Device Resilience Hardening, while the older execution roadmap labels v1.3.0 as Local Profiles and Save Library.
+- Applied authority hierarchy: the later current-facing v1.3 hardening decision wins. Local Profiles remains future planned work, but its new version assignment is deliberately left pending instead of silently renumbering future releases.
 
-Dynamic static release contracts accept startup budgets of 164,563 raw bytes / 37,355 gzip bytes.
+## v1.3 maintenance direction
 
-The fast offline static contract passes with 64 version-owned shell resources, three install icons, and one local plus one deployed Stability owner.
+Next legal substantive milestone: v1.3.0 — Recovery & Device Resilience Hardening.
 
-## Complete normal PR proof on frozen candidate
+Perform a maintenance-first audit across:
 
-Code SHA: `db0fcc49858db5555fa60dbd42d0dd8082069ee2`.
+- browser close/reopen and lifecycle interruption;
+- Service Worker install/update/controller churn;
+- failed cache population and corruption recovery;
+- exact three-key localStorage preservation;
+- blocked reads/writes, quota and corrupt raw data;
+- Candidate C interruption, stale state, ownership uncertainty and rollback verification;
+- runtime notice / install / offline UI layering and focus;
+- Smart Back and lazy listener ownership;
+- Chromebook low-height, mobile, DPR2, touch, keyboard and reduced motion;
+- external-media offline/online transitions;
+- dependency-lock integrity;
+- workflow ownership/cancellation/artifact semantics;
+- release/version/revision and handoff coherence;
+- performance headroom without raising protected ceilings.
 
-All 13 normal PR workflow families completed successfully:
+Fix only evidence-backed defects. Preserve working functions and accepted visuals. Add focused regression ownership for every real defect.
 
-- Validate Stability Lane — run `31714235984`;
-- Validate Candidate C Atomic Restore — run `31714235949`;
-- Validate Candidate B Import Analysis — run `31714235906`;
-- Validate Licensed Football Visuals — run `31714235919`;
-- Validate Static App — run `31714235931`;
-- Validate Settings Workstream — run `31714235960`;
-- Validate Season Review — run `31714235907`;
-- Validate Home Bootstrap — run `31714235864`;
-- Validate V1 Visual Immersion — run `31714235933`;
-- Validate League Confirmation — run `31714235865`;
-- Validate Transfer Workstream — run `31714235879`;
-- Validate Final Polish — run `31714235905`;
-- Validate Statistics Workstream — run `31714235869`.
-
-This satisfies the required complete normal PR matrix. Release Integration Burn-In remains main/manual-only by design and is not a PR-family prerequisite.
-
-## Release-process semantics
-
-During PR release-candidate validation, `PROJECT_STATE.md`, `NEXT_TASK.md`, this handoff and `RELEASE_V1.2.0.md` identify v1.2.0 as current candidate. README/CHANGELOG continue to identify v1.1.5 as last production-proven until deployment.
-
-Once `RELEASE_V1.2.0.md` is promoted out of RELEASE CANDIDATE status after deployed proof, release authority requires README/CHANGELOG and all current-facing docs to advance to v1.2.0 / `1.2.0-r1`.
-
-## Immediate legal continuation
-
-1. mark PR #34 ready after the complete green normal PR matrix;
-2. merge through the protected path without bypassing branch protection;
-3. require GitHub Pages exact-byte deployment and exhaustive deployed Stability proof;
-4. require the appropriate main release-integration evidence under the existing Burn-In policy;
-5. only then mark v1.2.0 production-proven and perform the docs-only release seal;
-6. close duplicate PR #35 as superseded;
-7. only then advance to v1.3.0 Recovery & Device Resilience Hardening.
+Cloud, accounts, QR pairing, two-device transport, gameplay changes and a framework rewrite remain out of scope.
