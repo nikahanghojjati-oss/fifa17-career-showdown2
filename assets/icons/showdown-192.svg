@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="Career Mode Showdown 17">
+<rect width="192" height="192" fill="#20272d"/>
+<path d="M16 36h113l38 47-55 73H16z" fill="#42b9da"/>
+<path d="M108 18h40L83 174H43z" fill="#f0d900"/>
+<circle cx="96" cy="96" r="57" fill="#20272d" stroke="#fbfcfc" stroke-width="5"/>
+<path d="M80 70H57v23h23M91 93V70l12 13 12-13v23" fill="none" stroke="#fbfcfc" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"/>
+<path d="M74 109v30M94 109h25l-17 30" fill="none" stroke="#f0d900" stroke-width="7" stroke-linecap="square"/>
+</svg>

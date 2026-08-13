@@ -74,6 +74,7 @@ function createRuleBookScreen(){
     const back = document.createElement("button");
     back.type = "button";
     back.className = "backButton";
+    back.setAttribute("data-smart-back", "");
     back.textContent = "BACK TO MAIN MENU";
 
     actions.appendChild(back);
