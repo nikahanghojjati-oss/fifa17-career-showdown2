@@ -3,39 +3,55 @@
 Last updated: 2026-08-13 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-Current application: v1.2.0 — Installable Offline App
-Runtime revision: `1.2.0-r1`
+Application version: v1.2.0 — Installable Offline App
+Production runtime revision: `1.2.0-r2`
+Previous known-good runtime: `1.2.0-r1`
 Technical status: merged, deployed, exact-byte verified and production-proven
-Immutable runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
-GitHub Pages deployment: `5891182853`
-Production Stability: `31716787806` / deployed smoke `94503946791`
-Release Integration Burn-In: `31716787876` — 2/2
+Release PR: #39
+Hotfix merge commit: `2179b7928602b9579dc6e129c40b8739082de80a`
+Post-merge visual-test runtime authority: `e966a5a44927992e2e33f602434c5311bf7caee7`
+Production proof record: `V1.2.0_R2_PRODUCTION_PROOF.md`
+Production Stability: `31740111919` / deployed-site-smoke job `94581704562`
+Release Integration Burn-In: `31740111986` — 2/2 complete stateful journeys passed
+Dedicated V1 Visual Immersion: `31740111961`
 Next legal milestone: v1.3.0 — Recovery & Device Resilience Hardening
 
-This is the active continuation handoff required by `00_HANDOFF_GOLDEN_RULE.md`. Current verified source, explicit later owner decisions, `PROJECT_STATE.md` and `NEXT_TASK.md` outrank stale historical prose.
+This is the active continuation handoff required by `00_HANDOFF_GOLDEN_RULE.md`. Current verified source on `main`, explicit later owner decisions, this file, `PROJECT_STATE.md` and `NEXT_TASK.md` outrank stale historical prose. Historical release records remain evidence, not current-state authority.
 
-## Owner direction
+## What was just shipped
 
-Continue the existing project deeply. Preserve working functions, accepted visuals, gameplay rules, data safety, navigation and meaningful test gates. Investigate failures before modifying production code. Make testing smarter rather than weaker. Perform substantial maintenance and bug fixing, investigate conflicting/missing/error information, and keep repository handoff evidence current.
+The owner-authorized v1.2.0 runtime hotfix `1.2.0-r2` is closed and production-proven.
 
-Development cannot continue asynchronously after the browser/session closes. Repository handoffs are therefore the continuity mechanism.
+Two production regressions were fixed:
 
-## Current release authority
+1. iOS installed/standalone loading composition. The old mobile loading composition depended on viewport-height growth and a bottom-aligned contained Reus portrait. A taller standalone iOS viewport created unused vertical space above the subject and shifted the intended composition. The fix separates safe-area/viewport handling from the art composition, gives the mobile image a bounded width-owned top band and independent subject-safe image box, and uses an opacity/filter-only mobile entrance animation so animation cannot move the composition geometry.
+2. Install UI hierarchy. The global floating install/status rail and panel were removed from every screen. Install/update actions now live only inside Settings. Service Worker registration, whole-runtime cache verification, connectivity probing, explicit safe update activation, offline media degradation and previous-runtime recovery remain presentation-neutral.
 
-v1.2.0 / `1.2.0-r1` is technically production-proven from runtime merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`.
+Do not reintroduce a persistent floating/sticky install bar, global install overlay, or layout reservation for one unless the owner explicitly authorizes that exact product pattern.
+
+## Production proof
+
+The exact hotfix candidate SHA `dd6af02ffdd0cc3fbb193e7e3c703a8023bb972e` passed all 13 normal PR workflow families twice. The identical release candidate merged through PR #39 at `2179b7928602b9579dc6e129c40b8739082de80a`.
+
+After merge, the Home visual companion browser mode was corrected in test code at `e966a5a44927992e2e33f602434c5311bf7caee7`; this did not change shipped runtime behavior.
 
 Production evidence:
 
-- GitHub Pages deployment `5891182853` / Pages run `31716786499`;
-- Stability run `31716787806`;
-- deployed-site-smoke job `94503946791`;
-- Release Integration Burn-In `31716787876`, both complete stateful journeys passed.
+- Stability `31740111919` passed stability contracts and Chromium stability;
+- deployed-site-smoke job `94581704562` passed exact deployed runtime bytes, runtime-error provenance, Home visual audit, crop-safe football visuals, Candidate A, Candidate B, Candidate C, Settings/offline boundary and the complete public journey;
+- Release Integration Burn-In `31740111986` passed both complete stateful journeys;
+- dedicated V1 Visual Immersion `31740111961` passed the protected loading visual archetypes;
+- `V1.2.0_R2_PRODUCTION_PROOF.md` records the r2 seal.
 
-Deployed Stability verified every runtime byte, runtime-error provenance, Home visual presentation, crop-safe licensed football visuals, Candidate A export, Candidate B analysis, Candidate C atomic restore/recovery, install/offline behavior and the complete public journey.
+Technical production proof is complete. Do not invent a separate owner visual-acceptance statement; treat future owner screenshots or complaints as new evidence.
 
-Technical proof is not a fabricated owner visual acceptance statement.
+## New visual/testing guardrails learned from the hotfix
 
-Historical rollback baseline v1.1.5 / `1.1.5-r1` remains immutable at `ff755a9863abc843ae9aac45178428e3a104fc65`.
+Visual gates must validate composition relationships, not merely element existence, image decode success or pixel density. The loading audit now covers desktop, low-height desktop, narrow mobile browser and iOS standalone-height archetypes. It checks bounded top-band geometry, image anchoring/crop coverage and title/status/lower-copy relationships and captures screenshots.
+
+When animation affects an element, geometry assertions must inspect the intended settled state or use an animation that cannot alter the protected layout box. Never lower a visual threshold merely because a test sampled mid-animation.
+
+Utility actions belong inside the appropriate utility surface. Persistent global overlays are exceptional product decisions, not a default integration pattern.
 
 ## Locked product model
 
@@ -45,7 +61,7 @@ Historical rollback baseline v1.1.5 / `1.1.5-r1` remains immutable at `ff755a986
 - same selected league, different permanent clubs;
 - Showdown lengths `[1,3,5,10]`;
 - Champions League +5, domestic League +3, main domestic Cup +1;
-- 100 League Points and/or Goals share maximum +1;
+- 100 League Points and/or 100 League Goals share maximum +1;
 - Top Scorer and/or Top Assist share maximum +1;
 - maximum Season score 11;
 - equal non-zero scores are Draw;
@@ -53,45 +69,45 @@ Historical rollback baseline v1.1.5 / `1.1.5-r1` remains immutable at `ff755a986
 
 Do not change these rules during v1.3 maintenance hardening.
 
-## Architecture authority
+## Architecture and data authority
 
 - navigation/history/Smart Back: `js/screens.js`;
 - canonical persistence/destructive mutation: `js/storage.js`;
-- raw storage transaction engine: `js/storageTransaction.js`;
+- raw transaction engine: `js/storageTransaction.js`;
 - scoring: `js/scoring.js`;
 - analytics: `js/analytics.js`;
 - Service Worker / Cache Storage: versioned application bytes only, never canonical user data.
 
-Exactly three canonical localStorage keys:
+Exactly three canonical localStorage keys remain legal:
 
 1. `careerModeShowdown.activeShowdown`
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
-Candidate A remains non-mutating export. Candidate B remains strictly read-only analysis. Candidate C preserves immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, complete in-memory planning, transaction-owned mutation/rollback, anti-clobber semantics, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery on uncertainty.
+Candidate A remains non-mutating export. Candidate B remains strictly read-only analysis. Candidate C is the only import stage allowed to commit canonical state and must preserve immutable confirmed intent, strict exact raw snapshot/precondition handling, last-moment prewrite checks, complete in-memory planning, transaction-owned mutation/rollback, anti-clobber ownership checks, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery on uncertainty.
 
-## v1.2 Installable Offline App locks
+## Installable Offline App locks
 
-- `1.2.0-r1` owns one coherent application shell;
-- incomplete cache population cannot replace known-good runtime;
+- `1.2.0-r2` is the current whole-runtime shell;
+- `1.2.0-r1` is the immediate previous known-good runtime and immutable rollback evidence;
+- incomplete cache population cannot replace a known-good runtime;
 - no automatic install-time activation;
 - Update Ready activation is explicit and limited to safe Home / Showdown Home boundaries;
 - Candidate C transaction/recovery busy state blocks unsafe activation;
-- navigation chooses one whole verified cache revision and never mixes files across revisions;
-- previous-known-good recovery is supported;
-- cleanup is limited to this app's cache namespaces;
-- unrelated caches remain intact;
-- worker-owned connectivity verification replaces blind reliance on `navigator.onLine`;
+- select one whole verified cache revision; never mix per-file revisions;
+- cache cleanup is limited to this app's namespaces and unrelated caches remain intact;
+- worker-owned connectivity verification is authoritative over `navigator.onLine` alone;
 - external YouTube media degrades explicitly offline;
-- offline UI/controller remain lazy to preserve startup budgets.
+- PWA/offline controller remains lazy to preserve startup budgets;
+- install/update presentation remains Settings-owned.
 
 ## Permanent validation topology
 
-There remain 14 permanent workflow families and 27 protected multiline executable blocks.
+There remain 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs exercise 13 families because Release Integration Burn-In is main/manual release-only.
 
-Candidate B owns one import-analysis browser proof. Candidate C owns one restore/recovery proof. Local Stability owns provenance, offline lifecycle and one complete journey. Deployed Stability owns exact bytes plus the exhaustive public boundary. Release Integration Burn-In repeats only the complete stateful journey twice. Markdown-only seals skip heavy browser lanes.
+Candidate B owns one import-analysis browser proof. Candidate C owns one restore/recovery proof. Local Stability owns provenance, offline lifecycle and one complete journey. Deployed Stability owns exact bytes plus the exhaustive public boundary. Release Integration Burn-In repeats only the complete stateful journey twice. Keep specialist ownership single and purposeful.
 
-Never weaken a gate or duplicate a matrix merely to obtain green CI.
+Never weaken a gate or duplicate a matrix merely to obtain green CI. Separate product defects from browser/test-runtime/infrastructure failures before touching production code.
 
 ## Performance locks
 
@@ -102,45 +118,61 @@ Never weaken a gate or duplicate a matrix merely to obtain green CI.
 - normal loading minimum: 2700 ms;
 - reduced-motion loading: 220 ms.
 
-v1.2 frozen candidate measured 164,563 raw / 37,355 gzip eager code bytes.
+Do not raise limits to make a change pass.
 
-## Important release/development lessons
+## Critical warning about open PR #37
 
-- classify infrastructure failures before touching product code;
-- never hand-copy package-lock integrity hashes during a version freeze;
-- `navigator.onLine` is not authoritative reachability evidence;
-- expected reachability failures belong behind the worker message boundary, not the generic page request monitor;
-- Service Worker updates must not interrupt Candidate C or another critical state transition;
-- whole-runtime cache recovery is safer than per-file fallback across revisions;
-- critical runtime notices must remain interactable above install/offline chrome;
-- semantic Smart Back markers must not create a second navigation listener;
-- owner visual acceptance remains distinct from decode/license/automated crop gates;
-- current authority documents must distinguish candidate, deployed production and historical rollback states.
+PR #37, branch `agent/v13-hardening`, remains an open draft and must NOT be treated as a safe continuation baseline simply because it is named v1.3.
 
-## Roadmap conflict resolved
+Last inspected PR #37 head: `221212a87cc58712a1ebd9452d7b71cdaa36327d`.
 
-A stale conflict was found during the v1.2 production seal. The older execution roadmap assigns v1.3.0 directly to Local Profiles and Save Library, while later current-facing `PROJECT_STATE.md`, `NEXT_TASK.md` and the v1.2 maintenance handoff reserve v1.3.0 for Recovery & Device Resilience Hardening.
+A pre-existing commit on that branch, `6ce7fe6fab87031b69e3dc5e98587fd3f78b3558` (`Freeze v1.3 shell identity`), replaced large parts of the proven production DOM shell instead of merely freezing version identity. Existing JS/CSS was not migrated to that alternate DOM. Examples of protected structures/IDs that were removed or replaced included the loading `.startupScene/.startupAthleteFrame/#startupAthlete`, `#topHeader`, the `.fifaMenuShell/.fifaMenuGrid` Home structure, `#continueCareer`, `#createShowdown` and canonical route markup. `js/menuExperience.js` and navigation code still expected the production shell, producing menu initialization failures and a hidden main menu. The branch also had incoherent version identity at inspection time.
 
-The later current-facing decision wins. Local Profiles / Save Library remains future planned work but its version assignment is deliberately pending after v1.3. Do not silently renumber the long-term roadmap or start profiles during hardening.
+Therefore:
 
-## Immediate maintenance work
+- start v1.3 reasoning from current production `main` / `1.2.0-r2`, not from PR #37;
+- fetch PR #37 and compare it against current main before reusing any work;
+- preserve useful evidence-backed hardening commits only after isolating them from the shell regression;
+- do not merge, deploy or version-freeze PR #37 in its currently known form;
+- do not solve the regression by migrating the entire app to the accidental alternate shell unless the owner explicitly requests a redesign;
+- the smallest coherent correction is preferred.
 
-v1.3.0 Recovery & Device Resilience Hardening should audit:
+PR #37's useful intended hardening work may still be salvageable, including evidence around blocked Candidate A reads, offline→online media state, update activation races, Service Worker registration reuse and semantic roadmap contracts. Re-audit each change against current r2 source before carrying it forward.
 
-- browser close/reopen, reload and controller-change interruption;
-- cache population/activation/corruption and known-good recovery;
-- exact three-key localStorage preservation;
-- storage quota/read/write/corrupt-data failures;
-- Candidate C stale-state, ownership uncertainty and rollback verification;
-- runtime/install/offline UI layering, focus, keyboard/touch and reduced motion;
-- Smart Back and lazy listener ownership;
-- Chromebook low-height/mobile/DPR2/accessibility behavior;
-- external-media online/offline transitions;
-- dependency-lock integrity;
-- CI cancellation/artifact/owner semantics;
-- version/revision/release/handoff coherence;
-- performance headroom without raising limits.
+## Immediate next task: v1.3.0 Recovery & Device Resilience Hardening
 
-Fix only evidence-backed defects and add focused regression proof. Preserve all working functions and accepted visuals.
+Audit before changing code. Begin from current `main` and establish exact divergence with PR #37. Then investigate evidence-backed defects in:
 
-Cloud, accounts, QR pairing, two-device state transport, gameplay changes and framework rewrites remain out of scope.
+- browser close/reopen, reload, Service Worker controller change and update interruption;
+- failed cache population/activation, cache corruption and deterministic known-good recovery;
+- exact preservation of all three canonical raw localStorage values;
+- storage blocked-read/write/quota/corrupt-data behavior;
+- Candidate C interruption, stale state, ownership uncertainty and rollback verification;
+- Settings/offline/update UI layering, focus, keyboard/touch and reduced motion;
+- Smart Back and lazy-screen/listener ownership;
+- Chromebook low-height, mobile, DPR2 and accessibility behavior;
+- external-media offline/online transitions;
+- dependency-lock and reproducible `npm ci` integrity;
+- workflow cancellation/artifact/single-owner semantics;
+- release/version/revision/handoff coherence;
+- performance headroom without raising protected ceilings.
+
+Fix only evidence-backed defects. Add focused regression proof for every real fix. Preserve working gameplay, persistence, navigation, PWA behavior, performance and accepted visuals.
+
+Cloud, accounts, QR pairing, two-device transport, Local Profiles/Save Library, gameplay/scoring changes and framework rewrites are out of scope unless the owner explicitly changes direction.
+
+## Required developer read order
+
+1. `00_HANDOFF_GOLDEN_RULE.md`
+2. `00_DEVELOPER_START_HERE.md`
+3. this file, `00_CURRENT_HANDOFF.md`
+4. `PROJECT_STATE.md`
+5. `NEXT_TASK.md`
+6. `V1.2.0_R2_PRODUCTION_PROOF.md`
+7. `RELEASE_V1.2.0_R2.md`
+8. `CAREER_MODE_SHOWDOWN_V1.2.0_R2_MAINTENANCE_HANDOFF.md`
+9. `POST_V1_ROADMAP_EXECUTION.md`
+10. immutable r1 records `RELEASE_V1.2.0.md` and `CAREER_MODE_SHOWDOWN_V1.2.0_MAINTENANCE_HANDOFF.md` only for rollback/history
+11. current PR #37 metadata, diff and CI before touching v1.3 work.
+
+At the start of the next development session, verify `main` again because repository head may have advanced after this handoff. Source wins over stale prose.
