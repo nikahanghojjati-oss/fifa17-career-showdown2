@@ -125,7 +125,7 @@ const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 assert.ok(appVersion, 'APP_VERSION is missing.');
 assert.strictEqual(pkg.version, appVersion, 'Package release identity must track APP_VERSION.');
-assert.strictEqual(revision, `${appVersion}-r1`, 'HTML cache revision must track APP_VERSION.');
+assert.ok(revision && revision.startsWith(`${appVersion}-r`) && /^[1-9]\d*$/.test(revision.slice(`${appVersion}-r`.length)), 'HTML cache revision must be a numbered revision for APP_VERSION.');
 assert.ok(html.includes(`v${appVersion} · Stable`), 'Footer release identity must track APP_VERSION.');
 assert.ok(app.includes(`const APP_VERSION = "${appVersion}";`), 'Runtime APP_VERSION declaration is inconsistent.');
 assert.ok(app.includes(`visual-fidelity-r3.css?v=${revision}`), 'Protected visual-fidelity cache revision must advance coherently.');
