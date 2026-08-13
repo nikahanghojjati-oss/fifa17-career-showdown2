@@ -8,11 +8,18 @@ const chromiumBundle = require("@sparticuz/chromium").default;
 const minimumChromiumBytes = 100000000;
 chromiumBundle.setGraphicsMode = false;
 
+function getChromiumArgs(){
+    const args = chromiumBundle.args.slice();
+    return process.env.CMS_CHROMIUM_MULTI_CONTEXT === "1"
+        ? args.filter(argument => argument !== "--single-process")
+        : args;
+}
+
 async function resolveChromiumRuntime(){
     if(process.env.CMS_CHROMIUM_PATH){
         return {
             executablePath: process.env.CMS_CHROMIUM_PATH,
-            args: chromiumBundle.args
+            args: getChromiumArgs()
         };
     }
 
@@ -30,7 +37,7 @@ async function resolveChromiumRuntime(){
     }
     try{
         if(fs.statSync(executablePath).size >= minimumChromiumBytes){
-            return { executablePath, args: chromiumBundle.args };
+            return { executablePath, args: getChromiumArgs() };
         }
     }catch(error){
         if(error.code !== "ENOENT"){ throw error; }
@@ -57,7 +64,7 @@ async function resolveChromiumRuntime(){
     }
 
     assertRuntimeSize(executablePath);
-    return { executablePath, args: chromiumBundle.args };
+    return { executablePath, args: getChromiumArgs() };
 }
 
 async function extractBrotliTar(archivePath, outputDirectory){
