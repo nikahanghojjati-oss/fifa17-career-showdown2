@@ -217,7 +217,11 @@ function runInstalledPresentationCompanions(){
     const commonEnvironment = { ...process.env, CMS_BASE_URL: baseUrl.href, CMS_TEST_RESULTS: resultsDirectory };
     execFileSync(process.execPath, [path.join(__dirname, "loading-visual-audit.cjs")], {
         cwd: path.resolve(__dirname, "../.."),
-        env: { ...commonEnvironment, CMS_AUDIT_RUN: `${runLabel}-installed-loading` },
+        env: {
+            ...commonEnvironment,
+            CMS_CHROMIUM_MULTI_CONTEXT: "1",
+            CMS_AUDIT_RUN: `${runLabel}-installed-loading`
+        },
         stdio: "inherit"
     });
     execFileSync(process.execPath, [path.join(__dirname, "settings-install-audit.cjs")], {
