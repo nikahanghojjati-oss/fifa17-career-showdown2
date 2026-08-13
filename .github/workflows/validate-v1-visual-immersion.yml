@@ -106,7 +106,7 @@ jobs:
           npm run serve:test > /tmp/cms-loading-test-server.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
-          CMS_AUDIT_RUN="visual-immersion" npm run test:loading-visual
+          CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="visual-immersion" npm run test:loading-visual
 
       - name: Upload loading visual evidence
         if: always()
