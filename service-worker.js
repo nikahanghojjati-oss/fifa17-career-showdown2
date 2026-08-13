@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.2.0-r1";
-const PREVIOUS_RUNTIME_REVISION = "";
+const RUNTIME_REVISION = "1.3.0-r1";
+const PREVIOUS_RUNTIME_REVISION = "1.2.0-r1";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -150,8 +150,8 @@ async function chooseNavigationRuntime(){
     const forcedRevision = await readForcedRevision();
     if(forcedRevision){
         const forcedStatus = await verifyCache(forcedRevision);
-        if(forcedStatus.ok){ return forcedStatus; }
         await clearForcedRevision();
+        if(forcedStatus.ok){ return forcedStatus; }
     }
     const currentStatus = await verifyCache(RUNTIME_REVISION);
     if(currentStatus.ok){ return currentStatus; }
@@ -220,8 +220,8 @@ self.addEventListener("message", event => {
                     replyToClient(event, { type: "CMS_ACTIVATION_REJECTED", ok: false, revision: RUNTIME_REVISION, missing: status.missing });
                     return;
                 }
-                replyToClient(event, { type: "CMS_ACTIVATION_ACCEPTED", ok: true, revision: RUNTIME_REVISION });
                 await self.skipWaiting();
+                replyToClient(event, { type: "CMS_ACTIVATION_ACCEPTED", ok: true, revision: RUNTIME_REVISION });
             }catch(error){
                 replyToClient(event, { type: "CMS_ACTIVATION_REJECTED", ok: false, revision: RUNTIME_REVISION, error: error?.message || String(error) });
             }
