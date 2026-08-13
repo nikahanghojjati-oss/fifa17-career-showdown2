@@ -18,7 +18,7 @@ Remaining work:
 
 1. keep page, app, package, manifest, worker, lazy controller, protected asset queries and `RELEASE_V1.2.0.md` coherent at v1.2.0 / `1.2.0-r1`;
 2. keep the fast offline static contract inside the repository-wide suite;
-3. preserve 14 workflow families and 27 protected multiline executable blocks;
+3. preserve 14 permanent workflow families and 27 protected multiline executable blocks;
 4. obtain one complete green normal PR matrix on the frozen candidate;
 5. merge through the protected PR path;
 6. require deployed-byte coherence plus deployed runtime, visual, Candidate A/B/C, install/offline and complete-journey proof;
