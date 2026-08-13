@@ -5,6 +5,7 @@ const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
 const PREVIOUS_CACHE_NAME = PREVIOUS_RUNTIME_REVISION ? `${CACHE_PREFIX}${PREVIOUS_RUNTIME_REVISION}` : "";
 const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
+const NETWORK_PROBE_TIMEOUT_MS = 1800;
 
 const SHELL_PATHS = Object.freeze([
     "index.html",
@@ -167,6 +168,21 @@ async function getStatusBundle(){
     return { current, previous, forcedRevision: await readForcedRevision(), cacheNames: await caches.keys() };
 }
 
+async function probeNetwork(){
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), NETWORK_PROBE_TIMEOUT_MS);
+    const url = scopeUrl("service-worker.js");
+    url.searchParams.set("network-probe", `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    try{
+        const response = await fetch(new Request(url.href, { cache: "no-store", credentials: "same-origin", signal: controller.signal }));
+        return { online: response.ok, status: response.status };
+    }catch(error){
+        return { online: false, status: 0, error: error?.name || error?.message || String(error) };
+    }finally{
+        clearTimeout(timeout);
+    }
+}
+
 function replyToClient(event, payload){
     const port = event.ports && event.ports[0];
     if(port){ port.postMessage(payload); }
@@ -178,6 +194,13 @@ self.addEventListener("install", event => {
 
 self.addEventListener("message", event => {
     const type = event.data && event.data.type;
+    if(type === "CMS_PROBE_NETWORK"){
+        event.waitUntil((async () => {
+            const status = await probeNetwork();
+            replyToClient(event, { type: "CMS_NETWORK_STATUS", ok: true, ...status });
+        })());
+        return;
+    }
     if(type === "CMS_GET_CACHE_STATUS"){
         event.waitUntil((async () => {
             try{
