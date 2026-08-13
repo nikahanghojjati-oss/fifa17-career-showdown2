@@ -66,7 +66,8 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="stability-canonical" npm run test:runtime-boundary
-          CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-app-audit.cjs
+          CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-boundary-audit.cjs
+          CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-cache-lifecycle-v2-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" npm run test:browser
 
       - name: Upload canonical Stability evidence
@@ -138,11 +139,11 @@ jobs:
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:restore-browser
 
-      - name: Run install and offline audit against deployed Pages
+      - name: Run install and offline boundary audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
-        run: node tests/browser/offline-app-audit.cjs
+        run: node tests/browser/offline-boundary-audit.cjs
 
       - name: Run complete journey against deployed Pages
         env:
