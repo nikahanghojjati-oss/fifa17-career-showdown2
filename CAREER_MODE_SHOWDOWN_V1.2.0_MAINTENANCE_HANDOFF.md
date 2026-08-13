@@ -7,6 +7,7 @@ Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Canonical PR: #34
 Canonical development branch: `agent/v1.2-installable-offline-r1`
 Frozen release-candidate code SHA with complete normal PR proof: `db0fcc49858db5555fa60dbd42d0dd8082069ee2`
+Documentation-only proof-record commit: `b367e019d66a5d754da6a8bac23225a97a529600`
 Last production-proven runtime: v1.1.5 / `1.1.5-r1`
 Immutable v1.1.5 runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
 
