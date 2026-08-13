@@ -29,7 +29,8 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
     assert.ok(!/\bfetch\s*\(/.test(source), "Candidate C restore must remain local and network-free.");
     assert.ok(source.includes("window.analyzeCareerModeBackupFile(confirmedFile)"), "Apply must freshly re-run Candidate B analysis from the immutable confirmed File.");
     assert.ok(source.indexOf("flushPendingApplicationWrites") < source.indexOf("analyzeCareerModeBackupFile(confirmedFile)"), "Pending writes must flush before fresh Apply-time analysis.");
-    assert.ok(source.includes("captureCareerModeRawRestoreSnapshot"), "Apply must prefer the exact restore snapshot authority.");
+    assert.ok(source.includes("captureCareerModeRawRestoreSnapshot"), "Apply must require the exact restore snapshot authority.");
+    assert.equal(source.includes("captureCareerModeRawBackupInputs"), false, "Candidate C must not fall back to the lossy backup reader for mutation authority.");
     assert.ok(source.indexOf("captureStrictRaw") < source.indexOf("applyCareerModeRawStorageTransaction"), "Fresh raw state must be captured before the storage transaction begins.");
 
     const runtime = createRuntime();
@@ -176,7 +177,7 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
     const applyRuntime = createRuntime({
         flushPendingApplicationWrites(){ applyCalls.push("flush"); return true; },
         async analyzeCareerModeBackupFile(file){ applyCalls.push(`analyze:${file.name}`); return freshAnalysis; },
-        captureCareerModeRawBackupInputs(){ applyCalls.push("snapshot"); return { activeShowdown: null, legacyShowdowns: "[]", preferences: null }; },
+        captureCareerModeRawRestoreSnapshot(){ applyCalls.push("snapshot"); return { ok: true, raw: { activeShowdown: null, legacyShowdowns: "[]", preferences: null }, failedKeys: [] }; },
         applyCareerModeRawStorageTransaction(candidateRaw){ applyCalls.push("transaction"); return { ok: true, status: "success", affectedKeys: Object.keys(candidateRaw) }; }
     });
     const applied = await applyRuntime.window.applyCareerModeRestore({ name: "fresh.json" }, {
@@ -186,12 +187,28 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
     assert.equal(applied.status, "success");
     assert.deepEqual(applyCalls, ["flush", "analyze:fresh.json", "snapshot", "transaction"], "Apply sequence must flush → fresh analyze → fresh raw snapshot → transaction.");
 
+    let looseSnapshotCalled = false;
+    let missingStrictTransactionCalled = false;
+    const strictMissingRuntime = createRuntime({
+        flushPendingApplicationWrites(){ return true; },
+        async analyzeCareerModeBackupFile(){ return freshAnalysis; },
+        captureCareerModeRawBackupInputs(){ looseSnapshotCalled = true; return { activeShowdown: null, legacyShowdowns: "[]", preferences: null }; },
+        applyCareerModeRawStorageTransaction(){ missingStrictTransactionCalled = true; return { ok: true, status: "success" }; }
+    });
+    const strictMissing = await strictMissingRuntime.window.applyCareerModeRestore({ name: "missing-strict.json" }, {
+        active: "keep-current", legacy: "keep-current", preferences: "keep-current", legacyConflicts: {}
+    });
+    assert.equal(strictMissing.ok, false);
+    assert.equal(strictMissing.status, "snapshot-unavailable");
+    assert.equal(looseSnapshotCalled, false, "Missing strict authority must never consult the loose backup reader.");
+    assert.equal(missingStrictTransactionCalled, false, "Missing strict authority must fail before any storage transaction.");
+
     let releaseAnalysis;
     const pendingAnalysis = new Promise(resolve => { releaseAnalysis = resolve; });
     const busyRuntime = createRuntime({
         flushPendingApplicationWrites(){ return true; },
         analyzeCareerModeBackupFile(){ return pendingAnalysis; },
-        captureCareerModeRawBackupInputs(){ return { activeShowdown: null, legacyShowdowns: "[]", preferences: null }; },
+        captureCareerModeRawRestoreSnapshot(){ return { ok: true, raw: { activeShowdown: null, legacyShowdowns: "[]", preferences: null }, failedKeys: [] }; },
         applyCareerModeRawStorageTransaction(){ return { ok: true, status: "success", affectedKeys: [] }; }
     });
     const firstApply = busyRuntime.window.applyCareerModeRestore({ name: "one.json" }, {
@@ -209,7 +226,7 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
     const txFailRuntime = createRuntime({
         flushPendingApplicationWrites(){ return true; },
         async analyzeCareerModeBackupFile(){ return freshAnalysis; },
-        captureCareerModeRawBackupInputs(){ return { activeShowdown: null, legacyShowdowns: "[]", preferences: null }; },
+        captureCareerModeRawRestoreSnapshot(){ return { ok: true, raw: { activeShowdown: null, legacyShowdowns: "[]", preferences: null }, failedKeys: [] }; },
         applyCareerModeRawStorageTransaction(){ return { ok: false, status: "rollback-failed-critical", rollbackVerified: false }; }
     });
     const txFailed = await txFailRuntime.window.applyCareerModeRestore({ name: "failure.json" }, {
@@ -218,7 +235,7 @@ function json(raw){ return raw === null ? null : JSON.parse(raw); }
     assert.equal(txFailed.ok, false);
     assert.equal(txFailed.status, "rollback-failed-critical", "Critical rollback failure must propagate unchanged to recovery UX.");
 
-    process.stdout.write("PASS  Candidate C restore planning, conflict, freshness, idempotence and double-Apply contracts\n");
+    process.stdout.write("PASS  Candidate C restore planning, conflict, freshness, strict snapshot, idempotence and double-Apply contracts\n");
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;
