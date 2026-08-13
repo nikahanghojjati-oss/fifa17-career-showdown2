@@ -1,4 +1,4 @@
-const OFFLINE_APP_REVISION=(()=>{const meta=document.querySelector('meta[name="app-asset-revision"]');return meta?.content?.trim()||"1.1.5-r1";})();
+const OFFLINE_APP_REVISION=(()=>{const meta=document.querySelector('meta[name="app-asset-revision"]');return meta?.content?.trim()||"1.2.0-r1";})();
 const OFFLINE_MESSAGE_TIMEOUT_MS=4500;
 const SAFE_UPDATE_SCREENS=new Set(["mainMenu","dashboard"]);
 let offlineRegistration=null;
