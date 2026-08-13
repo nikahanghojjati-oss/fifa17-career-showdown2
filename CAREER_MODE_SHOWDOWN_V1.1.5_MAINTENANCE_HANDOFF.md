@@ -372,7 +372,7 @@ Completed evidence:
 5. production attempt 1 passed all 14 families, exact deployed bytes and full live journey;
 6. production attempt 2 independently passed all 14 families on the same runtime, including Candidate C twice-browser recovery, Burn-In 5/5, two-cycle Stability and the complete deployed-site smoke;
 7. the apparent Stability glitch was proven to be GitHub concurrency cancellation, not an assertion failure;
-8. post-release CI hardening prevents reruns/manual proof dispatches from cancelling active Stability/Candidate B/C evidence while preserving Burn-In's non-cancelling five-pass behavior;
+8. post-release smart CI orchestration prevents reruns/manual dispatches from cancelling active evidence, skips Markdown-only heavy runs, removes hidden duplicate browser matrices and uses two focused push/manual Burn-In integration passes;
 9. `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` is the immutable production evidence record.
 
 The next legal substantive milestone is v1.2.0 Installable Offline App.

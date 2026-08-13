@@ -19,7 +19,7 @@ v1.1.5 permanently protects immutable confirmed restore intent, strict exact raw
 
 The release passed all 14 permanent workflow families twice before merge and twice in production on the immutable runtime. The validation topology retains 27 protected executable workflow blocks.
 
-The Stability rerun cancellation issue discovered during release proof was a CI scheduling problem, not an application test failure. The post-release CI hardening prevents reruns/manual dispatches from cancelling an already-active Stability/Candidate B/C proof while preserving stale-run cancellation for fresh first-attempt automatic runs. Burn-In remains non-cancelling and five-pass.
+The Stability rerun cancellation issue discovered during release proof was a CI scheduling problem, not an application test failure. Current main uses smart orchestration: reruns/manual dispatches cannot cancel active proof; Markdown-only changes skip heavy lanes; local Stability, Candidate B and Candidate C each run one authoritative long browser path per workflow attempt; Release Burn-In is push/manual only and runs two focused complete integration passes. Deliberate independent repetition uses GitHub rerun attempts rather than hidden duplicate loops.
 
 ## Sole legal substantive task
 

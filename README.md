@@ -101,9 +101,9 @@ See `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md` for exact chronology and evidenc
 
 A release-proof interruption was traced to GitHub Actions concurrency, not application instability. An older Stability re-run could cancel a newer same-ref proof because cancellation was unconditional.
 
-The post-release CI policy allows fresh automatic first-attempt runs to cancel stale same-ref work but prevents re-runs/manual dispatches from cancelling an active Stability/Candidate B/C proof. Burn-In remains non-cancelling.
+Current main uses smart CI orchestration rather than duplicated full matrices. Fresh first-attempt automatic runs may replace stale same-lane work, but reruns/manual dispatches queue instead of cancelling active proof. Heavy Stability/Candidate B/C/Burn-In lanes ignore Markdown-only changes. Local Stability owns one canonical provenance + complete integration journey per attempt; Candidate B/C each run one authoritative browser audit per attempt; Release Burn-In is push/manual only with two focused complete integration passes.
 
-`tests/contracts/ci-proof-concurrency-contracts.cjs` protects this behavior.
+`tests/contracts/ci-orchestration-contracts.cjs` permanently protects rerun safety, Markdown-only skips, deduplication, bounded timeouts and the full deployed production-smoke boundary.
 
 ## Visual and performance authority
 

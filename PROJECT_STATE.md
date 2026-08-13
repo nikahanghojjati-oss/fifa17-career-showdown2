@@ -146,7 +146,7 @@ This was not an application assertion failure.
 
 The cancelled Stability job alone was retried on the exact same frozen SHA and passed contracts plus both Chromium cycles.
 
-Post-release CI hardening now permits cancellation only for a fresh first-attempt automatic run. Re-runs and manual proof dispatches cannot cancel an already-running Stability/Candidate B/C proof. Burn-In remains non-cancelling. A permanent repository contract protects this policy.
+Post-release smart CI orchestration now permits cancellation only for a fresh first-attempt automatic run; reruns/manual dispatches queue instead of cancelling active proof. Heavy Stability/Candidate B/C/Burn-In lanes ignore Markdown-only changes. Local Stability owns one canonical provenance + complete integration journey per attempt, Candidate B/C each own one authoritative browser audit per attempt, and Release Burn-In is push/manual only with two focused complete integration passes. `tests/contracts/ci-orchestration-contracts.cjs` permanently protects this policy and the full deployed smoke boundary.
 
 ## Visual authority
 

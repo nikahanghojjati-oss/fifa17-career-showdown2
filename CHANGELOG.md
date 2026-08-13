@@ -21,7 +21,7 @@ Release status: merged, GitHub Pages deployed and twice-proven. Immutable runtim
 - Froze pre-merge candidate `97088274e1eac377927476b84c6090e7233e0997`, passed all 14 permanent families twice, and merged PR #25 with expected-head protection.
 - Passed the complete production matrix twice on immutable runtime `ff755a9863abc843ae9aac45178428e3a104fc65`, including exact deployed-byte parity, Candidate A/B/C, two-cycle Stability and Burn-In 5/5.
 - Diagnosed the apparent repeated Stability glitch as a GitHub Actions concurrency cancellation: an older rerun could cancel a newer same-ref proof even though no assertion failed.
-- Hardened Stability, Candidate B and Candidate C so reruns/manual dispatches cannot cancel an active proof; Burn-In remains non-cancelling. Added a permanent CI concurrency contract.
+- Replaced the noisy post-release proof orchestration with rerun-safe lane concurrency, Markdown-only skips and explicit ownership: one canonical local Stability path, one Candidate B/C browser audit per attempt, and push/manual two-pass integration Burn-In. `ci-orchestration-contracts.cjs` protects the deduplicated policy while the historical v1.1.5 5/5 release evidence remains unchanged.
 
 # v1.1.4 — Candidate C Atomic Restore + Recovery UX
 

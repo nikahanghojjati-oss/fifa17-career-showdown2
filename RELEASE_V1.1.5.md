@@ -134,11 +134,11 @@ The release is therefore merged, deployed and twice-proven.
 
 The Stability interruption was a GitHub Actions scheduling defect, not runtime instability.
 
-Stability, Candidate B and Candidate C now use conditional cancellation so only fresh first-attempt automatic runs may cancel stale same-ref work. Re-runs and manual dispatches cannot cancel an already-active proof. Burn-In remains non-cancelling.
+Current main uses smart CI orchestration. Stability, Candidate B, Candidate C and Release Burn-In use rerun-safe concurrency: only fresh first-attempt automatic runs may replace stale same-lane work, while reruns/manual dispatches queue. Heavy lanes ignore Markdown-only changes. Local Stability now performs one canonical provenance + complete integration journey per attempt; Candidate B/C each perform one authoritative browser audit per attempt; Burn-In is push/manual only and repeats two focused complete integration journeys rather than five duplicate full matrices.
 
-`tests/contracts/ci-proof-concurrency-contracts.cjs` protects this policy.
+`tests/contracts/ci-orchestration-contracts.cjs` protects rerun safety, Markdown-only skips, lane ownership, deduplication, bounded timeouts and the full deployed production-smoke boundary.
 
-This is CI-only hardening and does not redefine immutable v1.1.5 runtime authority.
+This is CI-only hardening and does not redefine immutable v1.1.5 runtime authority. Historical v1.1.5 release evidence remains the two-cycle Stability and Burn-In 5/5 proof recorded above.
 
 ## Next dependency boundary
 

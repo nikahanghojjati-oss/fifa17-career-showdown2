@@ -153,7 +153,7 @@ There are 14 permanent workflow families and 27 protected executable workflow bl
 
 The release families include Candidate B, Candidate C, Stability and five-pass Burn-In. Never weaken thresholds or delete assertions merely to make a candidate green.
 
-A v1.1.5 post-release CI hardening fixes a GitHub Actions scheduling race: fresh automatic first-attempt runs may cancel stale same-ref work, but reruns/manual proofs may not cancel an already-active Stability/Candidate B/C proof. Burn-In remains non-cancelling. `tests/contracts/ci-proof-concurrency-contracts.cjs` protects this rule.
+Post-release smart CI orchestration fixes the GitHub Actions scheduling race and removes duplicated long-suite work. Fresh first-attempt automatic runs may replace stale same-lane work, while reruns/manual dispatches queue instead of cancelling active proof. Heavy Stability/Candidate B/C/Burn-In lanes ignore Markdown-only changes. Local Stability now owns one canonical provenance + complete integration journey per attempt; Candidate B/C each own one authoritative browser execution per attempt; Release Burn-In is push/manual only and repeats two focused complete integration journeys. Independent repetition uses GitHub rerun attempts rather than hidden duplicate loops. `tests/contracts/ci-orchestration-contracts.cjs` protects this policy.
 
 ## Current legal task
 

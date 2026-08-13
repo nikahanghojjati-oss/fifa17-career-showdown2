@@ -159,22 +159,26 @@ Root cause:
 - GitHub re-runs retain the same workflow/ref concurrency identity;
 - re-running an older completed Stability run while a newer proof was active therefore gave the re-run authority to cancel the newer proof.
 
-Permanent post-release policy:
+Permanent post-release policy on current main uses rerun-safe, deduplicated orchestration:
 
 `cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}`
 
-This is applied to Stability, Candidate B and Candidate C in the post-release CI hardening branch.
+Stability, Candidate B, Candidate C and Release Burn-In all use this rerun-safe principle with lane/ref concurrency groups.
 
 Effect:
 
-- a fresh automatic first-attempt push/PR run may still replace stale work on the same ref;
-- a GitHub re-run cannot cancel an already-active proof;
-- a manual `workflow_dispatch` proof cannot cancel an already-active proof;
-- competing re-runs/manual proofs queue instead of destroying each other’s evidence.
+- a fresh automatic first-attempt run may replace genuinely stale same-lane work;
+- a GitHub rerun cannot cancel an already-active proof;
+- a manual `workflow_dispatch` cannot cancel an already-active proof;
+- Markdown-only changes skip the heavy proof lanes;
+- local Stability executes one canonical provenance + complete integration journey per attempt instead of hiding a second full matrix;
+- Candidate B and Candidate C each execute one authoritative browser audit per attempt;
+- Release Burn-In is push/manual only and repeats two focused complete integration journeys rather than five duplicate full matrices;
+- deliberate independent repetition is expressed by GitHub rerun attempts, keeping evidence identities explicit.
 
-Release Burn-In intentionally remains `cancel-in-progress: false` and retains all five passes.
+`tests/contracts/ci-orchestration-contracts.cjs` permanently protects rerun safety, Markdown-only skips, deduplication, lane ownership, bounded timeouts and the full deployed production-smoke boundary.
 
-`tests/contracts/ci-proof-concurrency-contracts.cjs` permanently protects this scheduling contract.
+The v1.1.5 release itself was still proved under the historical two-cycle Stability and Burn-In 5/5 protocol; that evidence is immutable release history.
 
 ## 10. Runtime remains unchanged by the CI/documentation seal
 
