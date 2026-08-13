@@ -1,6 +1,6 @@
 /* =====================================================
-   Career Mode Showdown v1.0.1
-   Workstream 3 — lazy Settings presentation
+   Career Mode Showdown v1.2.1
+   Lazy Settings presentation
 ===================================================== */
 
 .settingsOverlay{
@@ -47,7 +47,8 @@
     box-shadow:var(--f17-shadow-soft);
 }
 .settingsPanel:first-child{grid-column:1/-1;border-top-color:var(--f17-yellow);}
-.settingsPanel:nth-child(3){border-top-color:var(--f17-yellow);}
+.settingsDataPanel{border-top-color:var(--f17-yellow);}
+.settingsOfflinePanel{border-top-color:var(--f17-cyan);}
 .settingsPanelHeading{padding-bottom:11px;margin-bottom:11px;border-bottom:1px solid #d2dbdf;}
 .settingsPanelEyebrow{
     display:block;margin-bottom:4px;color:var(--f17-blue-deep);
@@ -113,6 +114,20 @@
 .settingsAudioToggleTrack{width:20px;height:12px;background:currentColor;clip-path:polygon(0 0,100% 0,72% 100%,0 100%);opacity:.76;}
 .settingsAudioToggle strong{font:800 11px/1 var(--f17-display);letter-spacing:.8px;}
 
+.settingsOfflineInfo{grid-template-columns:repeat(3,minmax(0,1fr));}
+.settingsOfflineInfo .settingsInfoRow{border-left-color:var(--f17-cyan);}
+.settingsOfflineActions{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin-top:11px;}
+.settingsOfflineActions:has(.settingsOfflineUpdateButton){grid-template-columns:repeat(2,minmax(0,1fr));}
+.settingsOfflineInstallButton,.settingsOfflineUpdateButton{min-height:48px;}
+.settingsOfflineInstallButton:disabled{
+    opacity:1;color:#44545e;background:#d8e1e4;border-left-color:#9caab1;cursor:default;
+}
+.settingsOfflineUpdateButton{color:var(--f17-ink);background:var(--f17-yellow);border-left-color:var(--f17-blue);}
+.settingsOfflineNote{
+    margin-top:8px;padding:9px 10px;color:#53626c;background:#e8edef;border-left:4px solid var(--f17-yellow);
+    font-size:9px;line-height:1.45;
+}
+
 .settingsDataButton{margin-top:11px;}
 .settingsDataNote{margin-top:8px;color:#5f6c75;font-size:9px;line-height:1.4;}
 .settingsFooter{
@@ -143,7 +158,7 @@
     .settingsHeader{padding:11px 12px;}
     .settingsContent{grid-template-columns:1fr;padding:9px;}
     .settingsPanel:first-child{grid-column:1;}
-    .settingsInfoGrid,.settingsMotionSummary,.settingsMotionChoices{grid-template-columns:1fr;}
+    .settingsInfoGrid,.settingsMotionSummary,.settingsMotionChoices,.settingsOfflineInfo,.settingsOfflineActions,.settingsOfflineActions:has(.settingsOfflineUpdateButton){grid-template-columns:1fr;}
     .settingsMotionSummary{padding-top:31px;}
     .settingsFooter{padding:8px 9px!important;}
     .settingsFooter .menuButton{width:100%;}
