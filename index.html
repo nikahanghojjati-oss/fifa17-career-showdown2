@@ -2,222 +2,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.2.0-r1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#161f2c">
+<meta name="app-asset-revision" content="1.3.0-r1">
 <title>Career Mode Showdown</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap">
-<link rel="stylesheet" id="appStyles" href="css/app.css?v=1.2.0-r1">
+<link rel="stylesheet" href="css/app.css?v=1.3.0-r1">
 </head>
 <body>
-<div id="background"></div>
-<div id="overlay"></div>
-
-<section id="loadingScreen" role="status" aria-live="polite" aria-busy="true" aria-label="Career Mode Showdown is starting">
-<div class="startupScene" aria-hidden="true">
-<span class="startupShard startupShardOne"></span>
-<span class="startupShard startupShardTwo"></span>
-<span class="startupGrid"></span>
-<div class="startupAthleteFrame">
-<img id="startupAthlete" src="assets/marco-reus-2015-cc-by.webp?v=1.2.0-r1" alt="" decoding="async" fetchpriority="high">
+<div id="loadingScreen" class="loadingScreen" role="status" aria-live="polite" aria-busy="true">
+<div class="loadingStage" aria-hidden="true">
+<div class="loadingSlash loadingSlashA"></div><div class="loadingSlash loadingSlashB"></div><div class="loadingSlash loadingSlashC"></div>
+<div class="loadingPortraitFrame"><img src="assets/marco-reus-2015-cc-by.webp?v=1.3.0-r1" alt="" class="loadingPortrait"></div>
+</div>
+<div class="loadingContent">
+<p class="loadingEyebrow">CAREER MODE SHOWDOWN</p>
+<h1>SHOWDOWN 17</h1>
+<p class="loadingStatus">BUILDING MATCHDAY</p>
+<div class="loadingProgress" aria-hidden="true"><span></span></div>
 </div>
 </div>
-<div class="startupIdentity" aria-hidden="true">
-<div class="startupRoundel"><span>CM</span><strong>17</strong></div>
-<p class="startupKicker">THE RIVALRY STARTS HERE</p>
-<h1><span>CAREER MODE</span><strong>SHOWDOWN <em>17</em></strong></h1>
-<p class="startupEdition">TWO MANAGERS&nbsp;&nbsp;·&nbsp;&nbsp;ONE LEGACY</p>
-</div>
-<div class="startupStatus">
-<div class="startupPulse" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-<p id="loadingText">PREPARING CAREER MODE SHOWDOWN</p>
-</div>
-<p class="startupSaveNote" aria-hidden="true">LOCAL SAVE SYSTEM&nbsp;&nbsp;·&nbsp;&nbsp;YOUR CAREER REMAINS ON THIS DEVICE</p>
-<p class="startupPhotoCredit" aria-hidden="true">Marco Reus photo: Tim Reckmann · CC BY 2.0 · Display crop</p>
-</section>
-
-<div id="app" class="hidden" aria-hidden="true">
-<header id="topHeader">
-<div class="brand"><h1>CAREER MODE</h1><p>SHOWDOWN // 17</p></div>
-<div class="seasonIndicator" id="seasonIndicator">No Active Showdown</div>
+<div id="app" class="app hidden" aria-hidden="true">
+<header class="topbar">
+<div class="brand"><span>SHOWDOWN</span><b>17</b></div>
+<div class="topbarRight"><span class="topbarMode">CAREER MODE</span><span class="topbarSeason">RIVALRY TRACKER</span></div>
 </header>
-
-<main>
-<section id="mainMenu" class="screen">
-<div class="fifaMenuShell">
-<div class="fifaMenuHeading">
-<div class="fifaMenuHeadingText">
-<span class="fifaMenuEyebrow">CAREER MODE // SHOWDOWN 17</span>
-<h2>HOME</h2>
+<main class="mainShell">
+<section id="mainMenu" class="screen hidden menuScreen">
+<div class="menuHero" aria-hidden="true">
+<div class="heroSlashes"><span></span><span></span><span></span></div>
+<div class="heroPortrait"><img src="assets/marco-reus-2015-cc-by.webp?v=1.3.0-r1" alt="" decoding="async"></div>
+<div class="heroCopy"><span class="heroKicker">CAREER MODE</span><strong>SHOWDOWN</strong><small>BUILD YOUR LEGACY</small></div>
 </div>
-<p class="fifaMenuHeadingMeta"><span>RIVALRY HEADQUARTERS</span>Build the rivalry, play every season, and carry each trophy into your Legacy.</p>
+<div class="menuIntro"><div><p class="sectionEyebrow">CAREER</p><h1>MAIN MENU</h1><p class="menuLead">Two managers. One league. Different clubs. Every season matters.</p></div><div class="menuMeta"><span>FIFA 17 ERA</span><span>LOCAL RIVALRY</span></div></div>
+<div class="menuLayout">
+<div class="menuPrimary">
+<button class="menuTile menuTileWide" id="startShowdown" type="button"><span class="tileNumber">01</span><span class="tileCopy"><strong>NEW SHOWDOWN</strong><small>Set managers, length and spin a league</small></span><span class="tileArrow">›</span></button>
+<button class="menuTile menuTileWide menuTileContinue" id="continueShowdown" type="button"><span class="tileNumber">02</span><span class="tileCopy"><strong>CONTINUE SHOWDOWN</strong><small id="continueShowdownHint">Resume the active rivalry</small></span><span class="tileArrow">›</span></button>
+<div class="menuSmallGrid">
+<button class="menuTile menuTileSmall" id="openLegacy" type="button"><span class="tileNumber">03</span><span class="tileCopy"><strong>LEGACY</strong><small>History and completed rivalries</small></span></button>
+<button class="menuTile menuTileSmall" id="openRuleBook" type="button"><span class="tileNumber">04</span><span class="tileCopy"><strong>RULE BOOK</strong><small>Scoring, bonuses and tiebreaks</small></span></button>
+<button class="menuTile menuTileSmall" id="openSettings" type="button"><span class="tileNumber">05</span><span class="tileCopy"><strong>SETTINGS</strong><small>Presentation and save controls</small></span></button>
+<button class="menuTile menuTileSmall" id="openStatistics" type="button"><span class="tileNumber">06</span><span class="tileCopy"><strong>STATISTICS</strong><small>Rivalry records and career totals</small></span></button>
 </div>
-
-<div class="fifaMenuGrid">
-<button class="menuTile menuTilePrimary" id="continueCareer" type="button">
-<span class="menuTileCode">CAREER</span><span class="menuTileLabel">CONTINUE CAREER</span><span class="menuTileMeta">Loading active showdown...</span>
-</button>
-<button class="menuTile menuTileNew" id="newShowdown" type="button">
-<span class="menuTileCode">NEW</span><span class="menuTileLabel">NEW SHOWDOWN</span><span class="menuTileMeta">Create a new rivalry</span>
-</button>
-<button class="menuTile menuTileLegacy" id="legacyButton" type="button">
-<span class="menuTileCode">HISTORY</span><span class="menuTileLabel">LEGACY</span><span class="menuTileMeta">Completed rivalries and season history</span>
-</button>
-<button class="menuTile menuTileTrophy" id="careerStatisticsButton" type="button">
-<span class="menuTileCode">DATA</span><span class="menuTileLabel">STATISTICS</span><span class="menuTileMeta">Career totals, manager comparison and honours</span>
-</button>
-<button class="menuTile menuTileRules" id="ruleBookButton" type="button">
-<span class="menuTileCode">RULES</span><span class="menuTileLabel">RULE BOOK</span><span class="menuTileMeta">Scoring and competition rules</span>
-</button>
-<button class="menuTile menuTileSettings" id="settingsButton" type="button">
-<span class="menuTileCode">OPTIONS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Motion, app information and local data</span>
-</button>
-
-<section class="menuMusicTile" aria-label="Menu media">
-<div class="menuMusicHeader">
-<div>
-<span>FIFA 17 SOUNDTRACK</span>
-<strong>ARE WE READY? (WRECK)</strong>
-<p class="menuMusicArtist">Two Door Cinema Club</p>
 </div>
-<small class="menuMusicSource">YOUTUBE</small>
-</div>
-<div id="menuMusicPlayer" class="menuMusicPlayer">
-<p class="menuMusicPlaceholder">Selected FIFA 17 media stays unloaded until you press Play, keeping startup light.</p>
-</div>
-<p id="menuMusicStatus" class="menuMusicStatus" role="status" aria-live="polite">ARE WE READY? (WRECK) · LOADS ONLY WHEN YOU PRESS PLAY</p>
-<div class="menuMusicControls">
-<button id="menuMusicToggle" class="menuMusicControl" type="button">PLAY TRACK</button>
-<button id="menuMusicMute" class="menuMusicControl" type="button" disabled>MUTE</button>
-</div>
-</section>
-</div>
-
-<div class="menuBottomStrip">
-<span><b>01</b> TWO MANAGER CAREER COMPETITION</span>
-<span><b>02</b> FIFA 17 ERA RULESET</span>
-<strong>LOCAL SAVE READY</strong>
-</div>
+<aside class="menuSidebar">
+<div class="menuSidebarCard"><span class="sidebarLabel">SHOWDOWN FORMAT</span><strong>1 · 3 · 5 · 10</strong><small>SEASON RIVALRIES</small></div>
+<div class="menuSidebarCard"><span class="sidebarLabel">MAX SEASON SCORE</span><strong>11</strong><small>POINTS</small></div>
+<div class="menuSidebarCard menuSidebarRules"><span class="sidebarLabel">SCORING</span><p><b>5</b> Champions League</p><p><b>3</b> League Title</p><p><b>1</b> Domestic Cup</p><p><b>+1</b> Performance Pair</p><p><b>+1</b> Awards Pair</p></div>
+</aside>
 </div>
 </section>
 
-<section id="createShowdown" class="screen hidden">
-<h2>CREATE SHOWDOWN</h2>
-<div class="setupBox">
-<label for="showdownName">SHOWDOWN NAME</label>
-<input id="showdownName" type="text" placeholder="The Ultimate Rivalry" autocomplete="off">
-<label for="managerOne">MANAGER 1</label>
-<input id="managerOne" type="text" placeholder="Your Name" autocomplete="off">
-<label for="managerTwo">MANAGER 2</label>
-<input id="managerTwo" type="text" placeholder="Opponent Name" autocomplete="off">
-<label for="roundAmount">NUMBER OF ROUNDS</label>
-<select id="roundAmount">
-<option value="1">1 Round</option>
-<option value="3">3 Rounds</option>
-<option value="5">5 Rounds</option>
-<option value="10">10 Rounds</option>
-</select>
-<button class="menuButton" id="startShowdown" type="button">START SHOWDOWN</button>
-<button class="backButton" data-smart-back type="button">BACK</button>
+<section id="setupShowdown" class="screen hidden setupScreen">
+<div class="sectionHeader"><p class="sectionEyebrow">NEW SHOWDOWN</p><h2>SETUP RIVALRY</h2><p>Choose both managers and the number of seasons before the League Wheel.</p></div>
+<div class="setupGrid">
+<label class="setupField"><span>MANAGER 1</span><input id="managerOneInput" maxlength="30" autocomplete="off" placeholder="Manager 1"></label>
+<label class="setupField"><span>MANAGER 2</span><input id="managerTwoInput" maxlength="30" autocomplete="off" placeholder="Manager 2"></label>
 </div>
+<div class="setupLength"><p>SHOWDOWN LENGTH</p><div class="lengthOptions" role="group" aria-label="Showdown length"><button type="button" data-length="1">1 SEASON</button><button type="button" data-length="3">3 SEASONS</button><button type="button" data-length="5">5 SEASONS</button><button type="button" data-length="10">10 SEASONS</button></div></div>
+<p id="setupError" class="formError" aria-live="polite"></p>
+<div class="setupActions"><button class="menuButton" id="continueSetup" type="button">CONTINUE TO LEAGUE WHEEL</button><button class="backButton" data-smart-back type="button">BACK</button></div>
 </section>
 
-<section id="leagueWheelScreen" class="screen hidden">
-<h2>SELECT LEAGUE</h2>
-<div class="wheelContainer">
-<div class="wheelPointer">▼</div>
-<div id="leagueWheel" class="leagueWheel">
-<div class="wheelTrack">
-<div class="wheelItem">Premier League</div>
-<div class="wheelItem">LaLiga</div>
-<div class="wheelItem">Bundesliga</div>
-<div class="wheelItem">Serie A</div>
-<div class="wheelItem">Ligue 1</div>
+<section id="leagueWheel" class="screen hidden leagueWheelScreen">
+<div class="wheelHeader"><p class="sectionEyebrow">LEAGUE DRAW</p><h2>LEAGUE WHEEL</h2><p>Both managers will play in the selected league for the entire Showdown.</p></div>
+<div class="wheelStage">
+<div class="wheelPointer" aria-hidden="true"></div>
+<div class="leagueWheel" id="leagueWheelGraphic" aria-hidden="true"></div>
+<div class="wheelCenter"><span>SHOWDOWN</span><b>17</b></div>
 </div>
-</div>
-<div id="selectedLeague" role="status" aria-live="polite" aria-atomic="true">Spin to select league</div>
-<div id="leagueStateNote" class="stateNote hidden" role="status" aria-live="polite"></div>
-<button class="menuButton" id="spinLeague" type="button">SPIN WHEEL</button>
-<button class="backButton" data-smart-back type="button">BACK</button>
-</div>
+<div class="wheelResult" id="leagueWheelResult" role="status" aria-live="polite">READY TO SPIN</div>
+<div class="wheelActions"><button class="menuButton" id="spinLeagueWheel" type="button">SPIN LEAGUE WHEEL</button><button class="menuButton hidden" id="continueLeagueSelection" type="button">CONFIRM LEAGUE</button><button class="backButton" data-smart-back type="button">BACK</button></div>
 </section>
 
-<section id="clubWheelScreen" class="screen hidden" data-club-reveal-stage="ready">
-<h2>CLUB ASSIGNMENT</h2>
-<div class="clubAssignmentShell">
-<div class="clubAssignmentHeader">
-<span class="clubAssignmentEyebrow">LEAGUE CONFIRMED</span>
-<div id="clubAssignmentLeague">League</div>
-<div id="clubPackStatus" aria-live="polite">TWO SEALED CLUB PACKS READY</div>
-</div>
+<section id="leagueConfirmation" class="screen hidden leagueConfirmationScreen">
+<div class="confirmationHero"><p class="sectionEyebrow">LEAGUE LOCK</p><h2>CONFIRM LEAGUE</h2><p>Once confirmed, both managers are locked into this league for every season of the Showdown.</p></div>
+<div class="confirmationCard"><span id="confirmationLeagueCode">LEAGUE</span><strong id="confirmationLeagueName">Selected League</strong><small id="confirmationLeagueSubtitle">Showdown League</small></div>
+<div class="confirmationRules"><p>SAME LEAGUE</p><p>DIFFERENT CLUBS</p><p>NO REROLL AFTER CONFIRMATION</p></div>
+<div class="confirmationActions"><button class="menuButton" id="confirmLeagueSelection" type="button">LOCK LEAGUE & CONTINUE</button><button class="backButton" data-smart-back type="button">BACK TO WHEEL</button></div>
+</section>
 
-<div class="clubRevealProgress" aria-hidden="true">
-<span data-reveal-step="opening">01 DRAW</span>
-<span data-reveal-step="manager-one">02 PACK 1</span>
-<span data-reveal-step="manager-two">03 PACK 2</span>
-<span data-reveal-step="versus">04 VS</span>
-<span data-reveal-step="confirmation">05 LOCK</span>
-</div>
-
-<div class="clubRevealArena">
-<div class="clubRevealArea">
-<div class="clubRevealCard" id="clubCardOne" data-reveal-code="01">
-<span class="clubRevealIndex">01</span>
-<div class="clubManager" id="clubPlayerOne">Manager 1</div>
-<div class="clubPackStage">
-<div class="clubPackDoor" aria-hidden="true">
-<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
-<span class="clubPackSeal">17</span>
-<span class="clubPackSerial">PACK 01 · SEALED</span>
-</div>
-<div class="clubCardFace">
-<span class="clubCardEyebrow">CAREER DRAW</span>
-<span class="clubCardLabel">ASSIGNED CLUB</span>
-<strong id="clubNameOne">?</strong>
-<small id="clubCardStateOne" class="clubCardState">SEALED</small>
-</div>
-</div>
-</div>
-<div class="clubVs"><span>RIVALRY</span><strong>VS</strong></div>
-<div class="clubRevealCard" id="clubCardTwo" data-reveal-code="02">
-<span class="clubRevealIndex">02</span>
-<div class="clubManager" id="clubPlayerTwo">Manager 2</div>
-<div class="clubPackStage">
-<div class="clubPackDoor" aria-hidden="true">
-<span class="clubPackBrand">CAREER MODE<small>SHOWDOWN CLUB DRAW</small></span>
-<span class="clubPackSeal">17</span>
-<span class="clubPackSerial">PACK 02 · SEALED</span>
-</div>
-<div class="clubCardFace">
-<span class="clubCardEyebrow">CAREER DRAW</span>
-<span class="clubCardLabel">ASSIGNED CLUB</span>
-<strong id="clubNameTwo">?</strong>
-<small id="clubCardStateTwo" class="clubCardState">SEALED</small>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<div id="clubRivalryConfirmation" class="clubRivalryConfirmation hidden" aria-live="polite">
-<div class="clubRivalryHeadline">
-<span>CLUBS LOCKED</span>
-<strong id="clubConfirmationShowdown">SHOWDOWN</strong>
-<small id="clubConfirmationMeta">League · 1 season</small>
-</div>
-<div class="clubRivalryMatchup">
-<div class="clubConfirmationSide">
-<span id="clubConfirmationManagerOne">Manager 1</span>
-<strong id="clubConfirmationClubOne">Club</strong>
-</div>
-<div class="clubConfirmationVs">VS</div>
-<div class="clubConfirmationSide">
-<span id="clubConfirmationManagerTwo">Manager 2</span>
-<strong id="clubConfirmationClubTwo">Club</strong>
-</div>
-</div>
-<p class="clubRivalryLockNote">These clubs are permanent for the full showdown. Confirmation starts the rivalry and never rerolls either club.</p>
+<section id="clubAssignment" class="screen hidden clubAssignmentScreen">
+<div class="packIntro"><p class="sectionEyebrow">CLUB DRAW</p><h2>SHOWDOWN PACKS</h2><p>Open both club packs. Clubs must be different and stay fixed for the entire Showdown.</p></div>
+<div class="packGrid">
+<div class="packCard" id="packOne"><div class="packFront"><span>SHOWDOWN</span><b>17</b><small>MANAGER 1</small></div><div class="packReveal"><span id="clubOneLeague">LEAGUE</span><strong id="clubOneName">CLUB</strong><small id="clubOneManager">MANAGER 1</small></div></div>
+<div class="packCard" id="packTwo"><div class="packFront"><span>SHOWDOWN</span><b>17</b><small>MANAGER 2</small></div><div class="packReveal"><span id="clubTwoLeague">LEAGUE</span><strong id="clubTwoName">CLUB</strong><small id="clubTwoManager">MANAGER 2</small></div></div>
 </div>
 
 <button class="menuButton" id="openClubPack" type="button">OPEN SHOWDOWN PACKS</button>
@@ -393,15 +262,15 @@
 <button class="backButton" data-smart-back type="button">BACK TO MAIN MENU</button>
 </section>
 </main>
-<footer>Career Mode Showdown<br>v1.2.0 · Stable</footer>
+<footer>Career Mode Showdown<br>v1.3.0 · Stable</footer>
 </div>
 
-<script defer src="js/storage.js?v=1.2.0-r1"></script>
-<script defer src="js/showdown.js?v=1.2.0-r1"></script>
-<script defer src="js/scoring.js?v=1.2.0-r1"></script>
-<script defer src="js/screens.js?v=1.2.0-r1"></script>
-<script defer src="js/menuExperience.js?v=1.2.0-r1"></script>
-<script defer src="js/optionalModules.js?v=1.2.0-r1"></script>
-<script defer src="js/app.js?v=1.2.0-r1"></script>
+<script defer src="js/storage.js?v=1.3.0-r1"></script>
+<script defer src="js/showdown.js?v=1.3.0-r1"></script>
+<script defer src="js/scoring.js?v=1.3.0-r1"></script>
+<script defer src="js/screens.js?v=1.3.0-r1"></script>
+<script defer src="js/menuExperience.js?v=1.3.0-r1"></script>
+<script defer src="js/optionalModules.js?v=1.3.0-r1"></script>
+<script defer src="js/app.js?v=1.3.0-r1"></script>
 </body>
 </html>

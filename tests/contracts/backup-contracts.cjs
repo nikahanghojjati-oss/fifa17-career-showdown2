@@ -13,9 +13,14 @@ const runtimeRevision = `${appVersion}-r1`;
 
 function createRuntime(){
     const values = new Map();
-    const counters = { set: 0, remove: 0 };
+    const counters = { get: 0, set: 0, remove: 0 };
+    const readFailures = new Set();
     const localStorage = {
-        getItem(key){ return values.has(key) ? values.get(key) : null; },
+        getItem(key){
+            counters.get += 1;
+            if(readFailures.has(key)){ throw new Error(`blocked read: ${key}`); }
+            return values.has(key) ? values.get(key) : null;
+        },
         setItem(key, value){ counters.set += 1; values.set(key, String(value)); },
         removeItem(key){ counters.remove += 1; values.delete(key); }
     };
@@ -57,11 +62,12 @@ function createRuntime(){
     });
     vm.runInContext(storageSource, context, { filename: "js/storage.js" });
     vm.runInContext(backupSource, context, { filename: "js/backup.js" });
-    return { context, window, values, counters };
+    return { context, window, values, counters, readFailures };
 }
 
 function setScenario(runtime, keys, { active, legacy, preferences }){
     runtime.values.clear();
+    runtime.readFailures.clear();
     runtime.context.currentShowdown = null;
     if(active !== undefined){ runtime.values.set(keys.activeShowdown, JSON.stringify(active)); }
     if(legacy !== undefined){ runtime.values.set(keys.legacyShowdowns, JSON.stringify(legacy)); }
@@ -84,6 +90,7 @@ async function assertScenario(runtime, keys, name, input, expected){
 (async () => {
     assert.ok(!backupSource.includes('APP_VERSION === "string" ? APP_VERSION : "1.1.3"'), "Candidate A must not retain a stale release-specific provenance fallback.");
     assert.ok(backupSource.includes('return match ? match[1] : "unknown"'), "Candidate A must derive isolated provenance from the shell revision or explicitly admit it is unknown.");
+    assert.ok(backupSource.includes("captureCareerModeRawRestoreSnapshot"), "Candidate A must use the strict exact raw storage snapshot authority rather than a lossy reader.");
 
     const runtime = createRuntime();
     const keys = runtime.window.getCareerModeStorageKeys();
@@ -170,7 +177,20 @@ async function assertScenario(runtime, keys, name, input, expected){
     assert.equal(await runtime.window.verifyCareerModeBackupEnvelopeChecksum(corruptEnvelope), true);
     assert.equal(runtime.context.hasSavedShowdown(), false, "Corrupt raw active data must not produce a Continue Career false positive.");
 
-    process.stdout.write(`PASS  Candidate A backup/storage contracts with dynamic ${appVersion} provenance\n`);
+    setScenario(runtime, keys, { active, legacy, preferences });
+    const blockedBefore = { ...runtime.counters };
+    const blockedBytes = new Map(runtime.values);
+    runtime.readFailures.add(keys.legacyShowdowns);
+    await assert.rejects(
+        () => runtime.window.createCareerModeBackupEnvelope(),
+        /Backup cancelled because canonical storage could not be read exactly.*legacyShowdowns/i,
+        "A blocked canonical read must fail Candidate A closed instead of exporting an apparently valid incomplete backup."
+    );
+    assert.equal(runtime.counters.set, blockedBefore.set, "Blocked-read backup failure must not write storage.");
+    assert.equal(runtime.counters.remove, blockedBefore.remove, "Blocked-read backup failure must not remove storage.");
+    assert.deepEqual([...runtime.values.entries()], [...blockedBytes.entries()], "Blocked-read backup failure must preserve every raw byte.");
+
+    process.stdout.write(`PASS  Candidate A backup/storage contracts with dynamic ${appVersion} provenance and strict blocked-read failure\n`);
 })().catch(error => {
     console.error(error);
     process.exitCode = 1;
