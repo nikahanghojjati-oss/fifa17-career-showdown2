@@ -6,6 +6,23 @@ const VISUAL_FIDELITY_STYLESHEET = "css/visual-fidelity-r3.css?v=1.1.5-r1";
 const EXTERNAL_RUNTIME_ERROR = /contentScriptData\.init_ts|(?:chrome|moz|safari-web)-extension:\/\/|webkit-masked-url:\/\//i;
 let applicationStarted=false,runtimeNoticeTimer=null,runtimeBoundaryInstalled=false,performanceLifecycleInstalled=false,runtimeNoticeElement=null,runtimeNoticeTextElement=null,suppressedExternalRuntimeErrors=0;
 
+function captureDeferredInstallPrompt(event){
+ if(!event)return;event.preventDefault();window.__cmsDeferredInstallPrompt=event;
+}
+window.__cmsInstallPromptCapture=captureDeferredInstallPrompt;
+window.addEventListener("beforeinstallprompt",captureDeferredInstallPrompt);
+
+function ensureInstallableMetadata(){
+ const revision=document.querySelector('meta[name="app-asset-revision"]')?.content?.trim()||"1.1.5-r1";
+ let theme=document.querySelector('meta[name="theme-color"]');
+ if(!theme){theme=document.createElement("meta");theme.name="theme-color";document.head.appendChild(theme);}
+ theme.content="#20272d";
+ let manifest=document.querySelector('link[rel="manifest"]');
+ if(!manifest){manifest=document.createElement("link");manifest.rel="manifest";document.head.appendChild(manifest);}
+ manifest.href=`manifest.webmanifest?v=${revision}`;manifest.dataset.installableManifest="true";
+}
+ensureInstallableMetadata();
+
 function installVisualFidelityStyles(){
  if(document.querySelector('link[data-visual-fidelity="reus-r3"]'))return;
  const s=document.createElement("link");s.rel="stylesheet";s.href=VISUAL_FIDELITY_STYLESHEET;s.dataset.visualFidelity="reus-r3";
@@ -72,12 +89,16 @@ function scheduleApplicationDiagnostics(){
  const run=async()=>{try{if(typeof window.ensureDiagnosticsModule==="function")await window.ensureDiagnosticsModule();if(typeof window.runApplicationDiagnostics==="function")window.runApplicationDiagnostics();}catch(error){console.warn("[Career Mode Showdown] Diagnostics could not be loaded:",error);}};
  typeof requestIdleCallback==="function"?requestIdleCallback(()=>run(),{timeout:2200}):setTimeout(run,350);
 }
+function scheduleOfflineApplication(){
+ const run=()=>{if(document.querySelector('script[data-offline-app="true"]'))return;const revision=document.querySelector('meta[name="app-asset-revision"]')?.content?.trim()||"1.1.5-r1",script=document.createElement("script");script.src=`js/offlineApp.js?v=${revision}`;script.async=true;script.dataset.offlineApp="true";script.addEventListener("error",()=>console.warn("[Career Mode Showdown] Installable offline support could not be loaded. Core local tracking remains available."),{once:true});document.body.appendChild(script);};
+ typeof requestIdleCallback==="function"?requestIdleCallback(()=>run(),{timeout:900}):setTimeout(run,420);
+}
 function runInitializer(name,initializer){if(typeof initializer!=="function")throw new Error(`Required initializer is unavailable: ${name}`);initializer();}
 function initializeApplicationModules(){[["initializeStorageLifecycle",window.initializeStorageLifecycle],["initializeScreens",window.initializeScreens||(typeof initializeScreens==="function"?initializeScreens:null)],["initializeMenuExperience",window.initializeMenuExperience||(typeof initializeMenuExperience==="function"?initializeMenuExperience:null)],["initializeOptionalModules",window.initializeOptionalModules],["initializePerformanceLifecycle",initializePerformanceLifecycle]].forEach(([name,initializer])=>runInitializer(name,initializer));}
 function startApplication(){
  if(applicationStarted)return;applicationStarted=true;installRuntimeErrorBoundary();
  try{initializeApplicationModules();if(!showScreen("mainMenu",false))throw new Error("Main Menu could not be opened.");}catch(error){reportApplicationError("The application could not finish initializing",error);}
- requestAnimationFrame(()=>{revealApplication();scheduleApplicationDiagnostics();});
+ requestAnimationFrame(()=>{revealApplication();scheduleOfflineApplication();scheduleApplicationDiagnostics();});
 }
 function bootstrapApplication(){startApplication();}
 document.readyState==="loading"?document.addEventListener("DOMContentLoaded",bootstrapApplication,{once:true}):bootstrapApplication();
