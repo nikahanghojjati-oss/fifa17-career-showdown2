@@ -22,7 +22,7 @@ function createRuntime(currentRaw, calls){
     const window = {
         flushPendingApplicationWrites(){ calls.push("flush"); return true; },
         async analyzeCareerModeBackupFile(){ calls.push("analyze"); return createAnalysis(); },
-        captureCareerModeRawBackupInputs(){ calls.push("snapshot"); return { ...currentRaw }; },
+        captureCareerModeRawRestoreSnapshot(){ calls.push("snapshot"); return { ok: true, raw: { ...currentRaw }, failedKeys: [] }; },
         applyCareerModeRawStorageTransaction(candidateRaw){ calls.push("transaction"); return { ok: true, status: "success", affectedKeys: Object.keys(candidateRaw) }; }
     };
     window.window = window;
@@ -32,7 +32,7 @@ function createRuntime(currentRaw, calls){
 }
 
 (async () => {
-    assert.ok(source.includes('status:"stale-state"'), "Candidate C must expose an explicit stale-state result before unsafe storage mutation.");
+    assert.ok(source.includes('status:"stale-state"'), "Candidate C must expose an explicit stale-state result before storage commit.");
     assert.ok(source.indexOf("compareReviewedRawState") < source.indexOf("applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw)"), "Reviewed-state comparison must occur before the storage transaction boundary.");
     assert.ok(source.includes("transaction.failurePhase===\"precondition\""), "A last-moment storage precondition failure must also normalize into stale-state recovery.");
 
@@ -52,7 +52,7 @@ function createRuntime(currentRaw, calls){
     assert.equal(blocked.ok, false);
     assert.equal(blocked.status, "stale-state");
     assert.deepEqual(Array.from(blocked.changedKeys), ["legacyShowdowns"]);
-    assert.deepEqual(calls, ["flush", "analyze", "snapshot"], "Stale reviewed bytes must abort before planning/transaction writes.");
+    assert.deepEqual(calls, ["flush", "analyze", "snapshot"], "Stale reviewed bytes must abort before planning or transaction writes.");
     assert.equal(Object.prototype.hasOwnProperty.call(blocked, "transaction"), false);
     assert.equal(blocked.currentRaw.legacyShowdowns, changedRaw.legacyShowdowns);
 
