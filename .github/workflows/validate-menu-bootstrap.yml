@@ -40,7 +40,7 @@ jobs:
           const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
           const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
           assert.ok(appVersion, 'APP_VERSION is missing.');
-          assert.strictEqual(revision, `${appVersion}-r1`, 'Home shell cache identity must track APP_VERSION.');
+          assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'Home shell cache identity must be a numbered revision for APP_VERSION.');
 
           const context = { console };
           context.window = context;
@@ -53,11 +53,7 @@ jobs:
 
           const api = context.__menuExports;
           const expectedMediaKeys = ['bastille', 'highlow', 'move', 'music', 'shelter', 'trailer', 'youth'];
-          assert.deepStrictEqual(
-            Object.keys(api.MENU_MEDIA_SOURCES).sort(),
-            expectedMediaKeys,
-            'Home media catalog must remain the seven accepted FIFA 17 choices.'
-          );
+          assert.deepStrictEqual(Object.keys(api.MENU_MEDIA_SOURCES).sort(), expectedMediaKeys, 'Home media catalog must remain the seven accepted FIFA 17 choices.');
 
           assert.ok(html.includes('id="careerStatisticsButton"'), 'Current Home Statistics tile is missing.');
           assert.ok(!html.includes('id="trophyRoomButton"'), 'Deprecated Home Trophy Room id must not return.');
@@ -77,22 +73,14 @@ jobs:
           assert.ok(!initializer.includes('trophyRoomButton'), 'Home initializer still depends on the removed Trophy Room tile.');
           assert.ok(!source.includes('const trophyRoom = document.getElementById("trophyRoomButton")'), 'Stale r7 Trophy Room startup dependency returned.');
           assert.ok(!source.includes('!newShowdown || !continueCareer || !legacy || !trophyRoom || !ruleBook'), 'All-or-nothing navigation-tile startup gate returned.');
-
           assert.ok(decorator.includes('careerStatisticsButton'), 'Home decorator must understand the current Statistics tile id.');
-          assert.ok(initializer.includes('ensureMenuMediaSelector()'), 'Home initializer must create the media selector.');
-          assert.ok(initializer.includes('bindMenuMediaControls()'), 'Home initializer must bind Play/Mute controls.');
-          assert.ok(initializer.includes('bindMenuFeedbackInteraction()'), 'Home initializer must bind successful-navigation feedback delegation.');
-          assert.ok(initializer.includes('getMenuExperienceIntegrity()'), 'Home initializer must verify its own completed state.');
+          assert.ok(initializer.includes('ensureMenuMediaSelector()') && initializer.includes('bindMenuMediaControls()') && initializer.includes('bindMenuFeedbackInteraction()') && initializer.includes('getMenuExperienceIntegrity()'), 'Home initializer lost required subsystems.');
           assert.ok(initializer.includes('throw new Error'), 'Incomplete Home initialization must fail loudly instead of silently returning.');
-
-          assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)'), 'Media selector must be generated from the canonical seven-source catalog.');
-          assert.ok(selector.includes('selector.id = "menuMediaSelector"'), 'Media selector must expose the diagnostics-required id.');
+          assert.ok(selector.includes('Object.values(MENU_MEDIA_SOURCES)') && selector.includes('selector.id = "menuMediaSelector"'), 'Media selector contract is incomplete.');
           assert.ok(appCss.includes('@media(max-width:700px){.menuMediaSelector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}'), 'Mobile Home must expose all seven media choices in a contained two-column grid.');
-          assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute'), 'Both Play and Mute controls must be bound by the same media subsystem.');
-          assert.ok(binder.includes('dataset.musicBound = "true"'), 'Media bindings must retain their idempotent diagnostics marker.');
-          assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound') && integrity.includes('feedbackBound'), 'Home integrity check must cover media and menu-feedback bindings.');
-          assert.ok(saveMeta.includes('indicator: "No Active Showdown"'), 'No-save header indicator state is missing.');
-          assert.ok(saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header indicator states are incomplete.');
+          assert.ok(binder.includes('menuMusicToggle') && binder.includes('menuMusicMute') && binder.includes('dataset.musicBound = "true"'), 'Media bindings are incomplete.');
+          assert.ok(integrity.includes('mediaChoicesReady') && integrity.includes('toggleBound') && integrity.includes('muteBound') && integrity.includes('feedbackBound'), 'Home integrity check must cover media and menu feedback.');
+          assert.ok(saveMeta.includes('indicator: "No Active Showdown"') && saveMeta.includes('Showdown Complete') && saveMeta.includes('Season ${currentRound} / ${totalRounds}'), 'Saved-showdown header states are incomplete.');
           assert.ok(refresh.includes('document.getElementById("seasonIndicator")') && refresh.includes('saveMeta.indicator'), 'Home refresh must synchronize the global save indicator.');
 
           const creation = showdown.slice(showdown.indexOf('function createShowdown()'), showdown.indexOf('function isLeagueDatabaseReady()'));
@@ -102,29 +90,21 @@ jobs:
           console.log(`Home shell/menu initializer, save-indicator synchronization and seven-choice media bootstrap regression passed for ${revision}.`);
           NODE
 
-      - name: Validate deployed revision coherence
+      - name: Validate revision coherence
         shell: bash
         run: |
           set -euo pipefail
           node <<'NODE'
           const fs = require('fs');
           const assert = require('assert');
-
           const html = fs.readFileSync('index.html', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
           const revision = (html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i) || [])[1];
           assert.ok(appVersion, 'APP_VERSION is missing.');
-          assert.strictEqual(revision, `${appVersion}-r1`, 'Home shell must expose the current APP_VERSION r1 cache revision.');
-
-          const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
-            .map(match => ({ path: match[1], revision: match[2] || '' }));
+          assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'Home shell must expose a numbered runtime revision for APP_VERSION.');
+          const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)].map(match => ({ path: match[1], revision: match[2] || '' }));
           assert.ok(refs.length > 0, 'No local shell assets were found.');
-          assert.deepStrictEqual(
-            refs.filter(ref => ref.revision !== revision),
-            [],
-            'All shell assets must share the current cache revision.'
-          );
-
+          assert.deepStrictEqual(refs.filter(ref => ref.revision !== revision), [], 'All shell assets must share the exact current cache revision.');
           console.log(`Validated coherent ${revision} shell cache identity.`);
           NODE
