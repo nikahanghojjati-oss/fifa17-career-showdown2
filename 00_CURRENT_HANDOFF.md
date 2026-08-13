@@ -3,144 +3,103 @@
 Last updated: 2026-08-13 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-Current application: v1.2.0 — Installable Offline App
-Runtime revision: `1.2.0-r1`
-Technical status: merged, deployed, exact-byte verified and production-proven
-Immutable runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
-GitHub Pages deployment: `5891182853`
-Production Stability: `31716787806` / deployed smoke `94503946791`
-Release Integration Burn-In: `31716787876` — 2/2
-Next legal milestone: v1.3.0 — Recovery & Device Resilience Hardening
+Active PR: #37 — `agent/v13-hardening`
+Current candidate: v1.3.0 Recovery & Device Resilience Hardening / `1.3.0-r1`
+Last production-proven application: v1.2.0 Installable Offline App / `1.2.0-r1`
+Immutable v1.2 runtime merge: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
+Proven v1.2 Pages deployment: `5891182853`
 
 This is the active continuation handoff required by `00_HANDOFF_GOLDEN_RULE.md`. Current verified source, explicit later owner decisions, `PROJECT_STATE.md` and `NEXT_TASK.md` outrank stale historical prose.
 
 ## Owner direction
 
-Continue the existing project deeply. Preserve working functions, accepted visuals, gameplay rules, data safety, navigation and meaningful test gates. Investigate failures before modifying production code. Make testing smarter rather than weaker. Perform substantial maintenance and bug fixing, investigate conflicting/missing/error information, and keep repository handoff evidence current.
+Continue development deeply. Perform substantial maintenance and bug fixing while preserving every proven function, accepted visual, gameplay rule, storage boundary, navigation authority and meaningful test gate. Investigate conflicting/missing/error information before changing product code. Make testing smarter, not weaker.
 
-Development cannot continue asynchronously after the browser/session closes. Repository handoffs are therefore the continuity mechanism.
+Work does not continue asynchronously after the browser/session closes. Repository handoffs are the continuity mechanism.
 
-## Current release authority
+## v1.2 production authority
 
-v1.2.0 / `1.2.0-r1` is technically production-proven from runtime merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`.
+v1.2.0 / `1.2.0-r1` is technically production-proven:
 
-Production evidence:
+- runtime merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`;
+- Pages deployment `5891182853`;
+- Stability `31716787806`;
+- deployed smoke `94503946791`;
+- Release Integration Burn-In `31716787876`, 2/2 complete stateful journeys.
 
-- GitHub Pages deployment `5891182853` / Pages run `31716786499`;
-- Stability run `31716787806`;
-- deployed-site-smoke job `94503946791`;
-- Release Integration Burn-In `31716787876`, both complete stateful journeys passed.
+Deployed Stability proved exact runtime bytes, provenance, Home presentation, licensed football visuals, Candidate A/B/C, install/offline behavior and the complete public journey. Technical proof remains distinct from a separately expressed owner visual acceptance statement.
 
-Deployed Stability verified every runtime byte, runtime-error provenance, Home visual presentation, crop-safe licensed football visuals, Candidate A export, Candidate B analysis, Candidate C atomic restore/recovery, install/offline behavior and the complete public journey.
+The documentation-only v1.2 production seal merged at `fea3f83d93f99968de8d8527e04a9f1ab282d629`; it did not redefine runtime bytes.
 
-Technical proof is not a fabricated owner visual acceptance statement.
+## v1.3 maintenance findings and fixes
 
-Historical rollback baseline v1.1.5 / `1.1.5-r1` remains immutable at `ff755a9863abc843ae9aac45178428e3a104fc65`.
+1. Candidate A blocked-read safety. Backup used a lossy storage reader that could turn a thrown canonical read into apparent absence. `js/backup.js` now uses strict exact raw snapshot authority and fails closed before creating an envelope. Regression blocks Legacy read, expects rejection, zero writes/removals and byte preservation.
 
-## Locked product model
+2. Live reconnect media state. Repeated offline renders could overwrite the true pre-offline YouTube status with the OFFLINE override. Reconnect could re-enable the toggle while leaving stale text. State is now captured once and restored on offline → online. An executable VM contract runs the production function through offline → offline → online.
 
-- exactly two managers;
-- one local browser/device and one active Showdown;
-- manual FIFA 17 result entry;
-- same selected league, different permanent clubs;
-- Showdown lengths `[1,3,5,10]`;
-- Champions League +5, domestic League +3, main domestic Cup +1;
-- 100 League Points and/or Goals share maximum +1;
-- Top Scorer and/or Top Assist share maximum +1;
-- maximum Season score 11;
-- equal non-zero scores are Draw;
-- only 0–0 uses league position then league points.
+3. Update activation race. `activationRequested` was armed after awaiting worker activation response, allowing `controllerchange` to win. It is now armed before `CMS_ACTIVATE_UPDATE` and cleared on rejection.
 
-Do not change these rules during v1.3 maintenance hardening.
+4. Service Worker registration ownership. Existing same-scope registrations were redundantly re-registered. Existing registration now updates in place and returns; registration is created only when absent.
 
-## Architecture authority
+5. Empty previous-revision sentinel. v1.2 had no previous revision, so an unversioned shell request could collide with `PREVIOUS_RUNTIME_REVISION === ""` and be intercepted into `Response.error()`. Unversioned shell requests now fall through and previous matching requires a real revision.
 
-- navigation/history/Smart Back: `js/screens.js`;
-- canonical persistence/destructive mutation: `js/storage.js`;
-- raw storage transaction engine: `js/storageTransaction.js`;
-- scoring: `js/scoring.js`;
-- analytics: `js/analytics.js`;
-- Service Worker / Cache Storage: versioned application bytes only, never canonical user data.
+6. v1.3 previous-runtime semantics. `1.2.0-r1` is now the explicit previous known-good shell. Manual rollback is one-shot so a healthy user is not indefinitely pinned to old code, while ordinary corruption fallback can still choose the verified previous whole runtime.
 
-Exactly three canonical localStorage keys:
+7. Truthful activation acceptance. The worker now awaits `skipWaiting()` before returning `CMS_ACTIVATION_ACCEPTED`; a failed activation is rejected rather than reported as accepted.
 
-1. `careerModeShowdown.activeShowdown`
-2. `careerModeShowdown.legacyShowdowns`
-3. `careerModeShowdown.preferences`
+8. Cloud authority drift. Cloud foundation and tests previously hard-coded obsolete numeric roadmap labels. Current authority protects semantic order: proven offline → v1.3 hardening → stable local identity → Cloud Readiness → Cloud Backup Beta. Required identity, compare-and-swap, conflict, tombstone, privacy/security and no-direct-cloud-localStorage rules remain protected.
 
-Candidate A remains non-mutating export. Candidate B remains strictly read-only analysis. Candidate C preserves immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, complete in-memory planning, transaction-owned mutation/rollback, anti-clobber semantics, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery on uncertainty.
+9. Release-authority drift. Candidate publication logic was hard-coded to v1.1.5-production/v1.2-candidate. `release-authority-v2.cjs` derives the last published production release dynamically from CHANGELOG while preserving all runtime, Candidate C, cloud and CI topology guards.
 
-## v1.2 Installable Offline App locks
+10. Dependency lock integrity. The v1.3 root lock metadata is rebuilt from the known-good v1.2 graph rather than hand-editing integrity hashes. This preserved the known-good `bare-path` checksum and corrected a second one-character optional `fsevents` integrity drift discovered during diff review. `npm ci` must remain the final dependency arbiter.
 
-- `1.2.0-r1` owns one coherent application shell;
-- incomplete cache population cannot replace known-good runtime;
-- no automatic install-time activation;
-- Update Ready activation is explicit and limited to safe Home / Showdown Home boundaries;
-- Candidate C transaction/recovery busy state blocks unsafe activation;
-- navigation chooses one whole verified cache revision and never mixes files across revisions;
-- previous-known-good recovery is supported;
-- cleanup is limited to this app's cache namespaces;
-- unrelated caches remain intact;
-- worker-owned connectivity verification replaces blind reliance on `navigator.onLine`;
-- external YouTube media degrades explicitly offline;
-- offline UI/controller remain lazy to preserve startup budgets.
+## Prototype proof
 
-## Permanent validation topology
+Before changing release identity, the v1.3 functional prototype at `da2e94c581fbd656f253b490c2765a2cdd5a1105` passed all 13 normal PR workflow families together, including Static App, Candidate B, Candidate C, Licensed Visuals and Stability.
 
-There remain 14 permanent workflow families and 27 protected multiline executable blocks.
+Static logs explicitly passed Candidate A blocked-read safety, semantic cloud order, activation/registration/reconnect hardening, Service Worker unversioned fallthrough, executable reconnect behavior and the protected 27-block topology.
 
-Candidate B owns one import-analysis browser proof. Candidate C owns one restore/recovery proof. Local Stability owns provenance, offline lifecycle and one complete journey. Deployed Stability owns exact bytes plus the exhaustive public boundary. Release Integration Burn-In repeats only the complete stateful journey twice. Markdown-only seals skip heavy browser lanes.
+## Candidate identity freeze
 
-Never weaken a gate or duplicate a matrix merely to obtain green CI.
+Current candidate identity is being frozen coherently to v1.3.0 / `1.3.0-r1`:
 
-## Performance locks
+- `js/app.js`: v1.3.0 and current visual stylesheet revision;
+- `index.html`: meta, visible footer, Reus startup query and all seven eager JS/CSS queries use `1.3.0-r1`;
+- `service-worker.js`: current `1.3.0-r1`, previous `1.2.0-r1`;
+- `manifest.webmanifest`: install icon queries `1.3.0-r1`;
+- `js/menuExperience.js`: dynamic Reus query `1.3.0-r1`;
+- `package.json` / package-lock root metadata: v1.3.0;
+- `RELEASE_V1.3.0.md`: RELEASE CANDIDATE;
+- current PROJECT_STATE, NEXT_TASK and developer bootstrap: v1.3 candidate while v1.2 remains production truth.
 
-- eager raw: 165,000 bytes max;
-- eager gzip: 37,500 bytes max;
-- Reus startup portrait: 95,000 bytes max;
-- combined first-party startup: 260,000 bytes max;
-- normal loading minimum: 2700 ms;
-- reduced-motion loading: 220 ms.
+README and CHANGELOG intentionally remain on v1.2 while the v1.3 release record says RELEASE CANDIDATE. Do not promote them before deployed proof.
 
-v1.2 frozen candidate measured 164,563 raw / 37,355 gzip eager code bytes.
+## Protected architecture and product
 
-## Important release/development lessons
+Exactly two managers; Showdown lengths `[1,3,5,10]`; same league/different permanent clubs; max score 11; equal non-zero Draw; only 0-0 tiebreak; League/Club confirmations; Transfer and Season Review state machines are locked.
 
-- classify infrastructure failures before touching product code;
-- never hand-copy package-lock integrity hashes during a version freeze;
-- `navigator.onLine` is not authoritative reachability evidence;
-- expected reachability failures belong behind the worker message boundary, not the generic page request monitor;
-- Service Worker updates must not interrupt Candidate C or another critical state transition;
-- whole-runtime cache recovery is safer than per-file fallback across revisions;
-- critical runtime notices must remain interactable above install/offline chrome;
-- semantic Smart Back markers must not create a second navigation listener;
-- owner visual acceptance remains distinct from decode/license/automated crop gates;
-- current authority documents must distinguish candidate, deployed production and historical rollback states.
+Exactly three canonical localStorage keys remain legal. `js/storage.js` remains sole canonical persistence/destructive mutation authority. `js/storageTransaction.js` remains raw transaction engine. `js/screens.js` remains sole route/history/Smart Back authority. Cache Storage contains application bytes only.
 
-## Roadmap conflict resolved
+Candidate A is non-mutating export. Candidate B is strictly read-only. Candidate C remains the only import commit path and preserves immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned rollback, anti-clobber ownership, post-write verification, byte-for-byte rollback verification and critical recovery on uncertainty.
 
-A stale conflict was found during the v1.2 production seal. The older execution roadmap assigns v1.3.0 directly to Local Profiles and Save Library, while later current-facing `PROJECT_STATE.md`, `NEXT_TASK.md` and the v1.2 maintenance handoff reserve v1.3.0 for Recovery & Device Resilience Hardening.
+Protected Marco Reus and accepted football-photo presentation remain unchanged.
 
-The later current-facing decision wins. Local Profiles / Save Library remains future planned work but its version assignment is deliberately pending after v1.3. Do not silently renumber the long-term roadmap or start profiles during hardening.
+## CI and performance
 
-## Immediate maintenance work
+Keep 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13; Burn-In is main/manual release-only. Keep evidence single-owner.
 
-v1.3.0 Recovery & Device Resilience Hardening should audit:
+Protected ceilings remain 165,000 eager raw, 37,500 eager gzip, 95,000 Reus portrait, 260,000 combined startup, 2700 ms normal loading and 220 ms reduced motion. The pre-freeze prototype inherited 164,563 raw / 37,355 gzip; frozen candidate must re-prove ceilings.
 
-- browser close/reopen, reload and controller-change interruption;
-- cache population/activation/corruption and known-good recovery;
-- exact three-key localStorage preservation;
-- storage quota/read/write/corrupt-data failures;
-- Candidate C stale-state, ownership uncertainty and rollback verification;
-- runtime/install/offline UI layering, focus, keyboard/touch and reduced motion;
-- Smart Back and lazy listener ownership;
-- Chromebook low-height/mobile/DPR2/accessibility behavior;
-- external-media online/offline transitions;
-- dependency-lock integrity;
-- CI cancellation/artifact/owner semantics;
-- version/revision/release/handoff coherence;
-- performance headroom without raising limits.
+## Exact continuation point
 
-Fix only evidence-backed defects and add focused regression proof. Preserve all working functions and accepted visuals.
+1. Inspect PR #37 current frozen-head workflow matrix.
+2. Diagnose Static first if shared contracts fan out.
+3. Confirm `npm ci` with the rebuilt known-good lock graph.
+4. Fix only evidence-backed identity/runtime defects; do not touch gameplay or accepted visuals.
+5. Obtain all 13 normal PR workflow families green together on the frozen `1.3.0-r1` candidate.
+6. Merge through the normal protected PR path.
+7. Require exact GitHub Pages deployed bytes, exhaustive deployed Stability and Release Integration Burn-In 2/2.
+8. Only after deployed proof promote README/CHANGELOG/release authority from v1.2 to v1.3.
+9. Then assign the future Local Profiles and Save Library version explicitly rather than silently renumbering historical roadmap labels.
 
-Cloud, accounts, QR pairing, two-device state transport, gameplay changes and framework rewrites remain out of scope.
+Do not claim work can continue after the browser closes. This handoff exists so the next session can resume from verified repository state.
