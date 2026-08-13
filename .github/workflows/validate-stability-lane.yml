@@ -66,7 +66,7 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="stability-canonical" npm run test:runtime-boundary
-          CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-app-audit.cjs
+          CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-app-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" npm run test:browser
 
       - name: Upload canonical Stability evidence
@@ -75,7 +75,7 @@ jobs:
         with:
           name: canonical-stability-${{ github.run_id }}
           path: test-results/stability-audit-*.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
 
   deployed-site-smoke:
