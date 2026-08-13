@@ -42,10 +42,17 @@ function inspectBackupRecord(raw, validator, label){
 }
 
 function buildCareerModeBackupSnapshot(){
-    if(typeof window.captureCareerModeRawBackupInputs !== "function"){
-        throw new Error("The storage snapshot authority is unavailable.");
+    if(typeof window.captureCareerModeRawRestoreSnapshot !== "function"){
+        throw new Error("The strict storage snapshot authority is unavailable.");
     }
-    const raw = window.captureCareerModeRawBackupInputs();
+    const exactSnapshot = window.captureCareerModeRawRestoreSnapshot();
+    if(!exactSnapshot || exactSnapshot.ok !== true || !exactSnapshot.raw){
+        const failedKeys = Array.isArray(exactSnapshot?.failedKeys) && exactSnapshot.failedKeys.length
+            ? ` (${exactSnapshot.failedKeys.join(", ")})`
+            : "";
+        throw new Error(`Backup cancelled because canonical storage could not be read exactly${failedKeys}. No backup file was created.`);
+    }
+    const raw = exactSnapshot.raw;
     const activeRecord = inspectBackupRecord(raw.activeShowdown, isBackupObject, "Active Showdown storage");
     const legacyRecord = inspectBackupRecord(raw.legacyShowdowns, value => Array.isArray(value) && value.every(isBackupObject), "Legacy storage");
     const preferencesRecord = inspectBackupRecord(raw.preferences, isBackupObject, "Preferences storage");
