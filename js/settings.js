@@ -446,6 +446,25 @@ function renderSettings(){
     settingsContent.replaceChildren(fragment);
 }
 
+function getSettingsFocusRestoreSelector(){
+    const active = document.activeElement;
+    if(!settingsContent || !(active instanceof HTMLElement) || !settingsContent.contains(active)){
+        return "";
+    }
+    if(active.matches(".settingsMotionChoice")){
+        return `.settingsMotionChoice[data-motion-reduced="${active.dataset.motionReduced}"]`;
+    }
+    for(const selector of [
+        ".settingsAudioToggle",
+        ".settingsOfflineInstallButton",
+        ".settingsOfflineUpdateButton",
+        ".settingsDataButton"
+    ]){
+        if(active.matches(selector)){ return selector; }
+    }
+    return "";
+}
+
 function getSettingsFocusableElements(){
     if(!settingsDialog){ return []; }
     return Array.from(settingsDialog.querySelectorAll(
@@ -609,7 +628,9 @@ function initializeSettings(){
         settingsOfflineListenerBound = true;
         window.addEventListener("career-mode-offline-state-change", () => {
             if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
+                const focusSelector = getSettingsFocusRestoreSelector();
                 renderSettings();
+                if(focusSelector){ focusSettingsControl(focusSelector); }
             }
         });
     }

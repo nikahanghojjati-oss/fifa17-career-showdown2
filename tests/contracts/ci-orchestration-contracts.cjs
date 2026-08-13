@@ -18,6 +18,11 @@ function assertRerunSafeConcurrency(text, label){
 function assertMarkdownOnlySkip(text, label){
   assert.match(text, /paths-ignore:\s*\n\s*-\s*["']\*\*\/\*\.md["']/, `${label} must ignore Markdown-only changes so documentation sealing cannot launch a heavy browser proof.`);
 }
+function assertArtifactFollowsSuccessfulBrowser(text, label){
+  assert.match(text, /if:\s*success\(\)/, `${label} evidence upload must run only after a successful browser proof.`);
+  assert.doesNotMatch(text, /if:\s*always\(\)/, `${label} must not create a competing artifact failure after cancellation or browser failure.`);
+  assert.match(text, /if-no-files-found:\s*error/, `${label} successful browser proof must still require its evidence artifact.`);
+}
 
 assertRerunSafeConcurrency(stability, "Stability");
 assertRerunSafeConcurrency(candidateB, "Candidate B");
@@ -27,6 +32,8 @@ assertMarkdownOnlySkip(stability, "Stability");
 assertMarkdownOnlySkip(candidateB, "Candidate B");
 assertMarkdownOnlySkip(candidateC, "Candidate C");
 assertMarkdownOnlySkip(burnin, "Burn-In");
+assertArtifactFollowsSuccessfulBrowser(candidateB, "Candidate B");
+assertArtifactFollowsSuccessfulBrowser(candidateC, "Candidate C");
 
 const localStability = stability.split(/\n\s{2}deployed-site-smoke:/)[0];
 assert.equal(occurrences(localStability, "npm run test:runtime-boundary"), 1, "Local Stability must run runtime provenance exactly once.");
@@ -80,4 +87,4 @@ for(const redundant of [
 // Normal PR after this contract: Stability 2 + Candidate B 1 + Candidate C 1 + Burn-In 0 = 4.
 assert.ok(4 <= Math.floor(53 * 0.1), "PR orchestration must preserve at least a 90% reduction in duplicated long-suite command invocations.");
 
-process.stdout.write("PASS  smart CI orchestration, rerun safety, Markdown-only skip, deduplication, and full deployed release boundary\n");
+process.stdout.write("PASS  smart CI orchestration, rerun safety, specialist artifact semantics, Markdown-only skip, deduplication, and full deployed release boundary\n");

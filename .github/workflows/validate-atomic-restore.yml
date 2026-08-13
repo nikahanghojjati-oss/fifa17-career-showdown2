@@ -51,7 +51,7 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="candidate-c" npm run test:restore-browser
       - name: Upload Candidate C restore and recovery evidence
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v7
         with:
           name: candidate-c-atomic-restore-${{ github.sha }}

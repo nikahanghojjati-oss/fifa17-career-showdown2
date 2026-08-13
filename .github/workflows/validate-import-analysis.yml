@@ -51,7 +51,7 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="candidate-b" npm run test:import-browser
       - name: Upload Candidate B Data Management evidence
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v7
         with:
           name: candidate-b-import-analysis-${{ github.sha }}

@@ -115,6 +115,7 @@ function dispatchOfflineState(){
 function setMenuMediaOfflineState(offline){
     const toggle=document.getElementById("menuMusicToggle");
     const status=document.getElementById("menuMusicStatus");
+    const offlineStatus="OFFLINE · YOUTUBE MEDIA REQUIRES A CONNECTION";
     if(offline){
         try{
             if(window.isMenuMediaPlaying?.()&&toggle&&!toggle.disabled){ toggle.click(); }
@@ -122,10 +123,10 @@ function setMenuMediaOfflineState(offline){
             console.warn("[Career Mode Showdown] External media could not be paused while entering offline mode:",error);
         }
         if(status){
-            if(!/^OFFLINE ·/.test(status.textContent||"")){
+            if(status.textContent!==offlineStatus){
                 menuMediaStatusBeforeOffline=status.textContent||menuMediaStatusBeforeOffline;
             }
-            status.textContent="OFFLINE · YOUTUBE MEDIA REQUIRES A CONNECTION";
+            status.textContent=offlineStatus;
         }
         if(toggle){
             toggle.disabled=true;
@@ -137,7 +138,10 @@ function setMenuMediaOfflineState(offline){
         toggle.disabled=false;
         toggle.removeAttribute("aria-disabled");
     }
-    if(status&&menuMediaStatusBeforeOffline){ status.textContent=menuMediaStatusBeforeOffline; }
+    if(status&&status.textContent===offlineStatus&&menuMediaStatusBeforeOffline){
+        status.textContent=menuMediaStatusBeforeOffline;
+    }
+    menuMediaStatusBeforeOffline="";
 }
 
 function renderConnectivity(){
@@ -276,6 +280,7 @@ async function requestOfflineAppInstall(){
 async function activateWaitingUpdate(){
     const waiting=offlineRegistration?.waiting;
     if(!waiting){
+        activationRequested=false;
         markUpdateReady();
         return false;
     }
@@ -287,6 +292,7 @@ async function activateWaitingUpdate(){
         window.showAppNotice?.(message,"error",8000);
         return false;
     }
+    activationRequested=true;
     try{
         const response=await sendWorkerMessage(waiting,"CMS_ACTIVATE_UPDATE",{
             pageRevision:OFFLINE_APP_REVISION,
@@ -298,10 +304,10 @@ async function activateWaitingUpdate(){
                 : ".";
             throw new Error(response.error||`Cached update is incomplete${missing}`);
         }
-        activationRequested=true;
         dispatchOfflineState();
         return true;
     }catch(error){
+        activationRequested=false;
         dispatchOfflineState();
         window.reportApplicationError?.(
             "The update was not activated because its offline shell could not be verified",
@@ -361,7 +367,15 @@ async function registerOfflineApplication(){
         const readyRegistration=await navigator.serviceWorker.ready;
         offlineRegistration=readyRegistration;
         await verifyOfflineReadiness(readyRegistration.active||navigator.serviceWorker.controller);
-        if(isOffline()){ return existing; }
+        if(!isOffline()){
+            try{ await existing.update(); }
+            catch(error){
+                console.warn("[Career Mode Showdown] Service worker update check could not complete:",error);
+                void verifyNetworkConnectivity();
+            }
+        }
+        markUpdateReady();
+        return existing;
     }
     const workerUrl=new URL("service-worker.js",location.href);
     workerUrl.searchParams.set("v",OFFLINE_APP_REVISION);
@@ -373,13 +387,6 @@ async function registerOfflineApplication(){
     const readyRegistration=await navigator.serviceWorker.ready;
     offlineRegistration=readyRegistration;
     await verifyOfflineReadiness(readyRegistration.active||navigator.serviceWorker.controller);
-    if(!isOffline()){
-        try{ await registration.update(); }
-        catch(error){
-            console.warn("[Career Mode Showdown] Service worker update check could not complete:",error);
-            void verifyNetworkConnectivity();
-        }
-    }
     markUpdateReady();
     return registration;
 }
