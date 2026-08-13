@@ -293,7 +293,8 @@ self.addEventListener("fetch", event => {
     const path = relativeScopePath(url);
     if(!path || !SHELL_PATH_SET.has(path)){ return; }
     const requestedRevision = url.searchParams.get("v") || "";
-    if(requestedRevision !== RUNTIME_REVISION && requestedRevision !== PREVIOUS_RUNTIME_REVISION){ return; }
+    if(!requestedRevision){ return; }
+    if(requestedRevision !== RUNTIME_REVISION && (!PREVIOUS_RUNTIME_REVISION || requestedRevision !== PREVIOUS_RUNTIME_REVISION)){ return; }
     event.respondWith((async () => {
         const cached = await cachedShellResponse(path, requestedRevision);
         return cached || Response.error();
