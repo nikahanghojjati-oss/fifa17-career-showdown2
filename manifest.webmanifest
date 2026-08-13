@@ -1,17 +1,1 @@
-{
-  "id": "./",
-  "name": "Career Mode Showdown 17",
-  "short_name": "Showdown 17",
-  "description": "Two-manager Career Mode rivalry tracker.",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#252b31",
-  "theme_color": "#20272d",
-  "orientation": "any",
-  "icons": [
-    {"src": "assets/icons/showdown-192.svg?v=1.2.0-r1", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any"},
-    {"src": "assets/icons/showdown-512.svg?v=1.2.0-r1", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any"},
-    {"src": "assets/icons/showdown-maskable-512.svg?v=1.2.0-r1", "sizes": "512x512", "type": "image/svg+xml", "purpose": "maskable"}
-  ]
-}
+{"id":"./","name":"Career Mode Showdown 17","short_name":"Showdown 17","description":"Two-manager Career Mode rivalry tracker.","start_url":"./","scope":"./","display":"standalone","background_color":"#252b31","theme_color":"#20272d","orientation":"any","icons":[{"src":"assets/icons/showdown-192.svg","sizes":"192x192","type":"image/svg+xml","purpose":"any"},{"src":"assets/icons/showdown-512.svg","sizes":"512x512","type":"image/svg+xml","purpose":"any"},{"src":"assets/icons/showdown-maskable-512.svg","sizes":"512x512","type":"image/svg+xml","purpose":"maskable"}]}
