@@ -6,6 +6,7 @@ Runtime asset revision: `1.2.0-r1`
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Canonical PR: #34
 Canonical development branch: `agent/v1.2-installable-offline-r1`
+Frozen release-candidate code SHA with complete normal PR proof: `db0fcc49858db5555fa60dbd42d0dd8082069ee2`
 Last production-proven runtime: v1.1.5 / `1.1.5-r1`
 Immutable v1.1.5 runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
 
@@ -17,7 +18,9 @@ This file must be updated by every continuing development session under `00_HAND
 
 ## Current release truth
 
-v1.2.0 Installable Offline App is a release candidate only. v1.1.5 remains the last merged and deployed production-proven application until `main` serves byte-coherent `1.2.0-r1` and the deployed Stability boundary passes.
+v1.2.0 Installable Offline App is a release candidate only until the protected merge and deployed GitHub Pages proof complete. v1.1.5 remains the last production-proven application at this exact handoff update.
+
+The frozen v1.2.0 candidate has now passed all 13 normal PR workflow families together on code SHA `db0fcc49858db5555fa60dbd42d0dd8082069ee2`.
 
 Do not call v1.2.0 production-proven merely because PR tests are green.
 
@@ -39,14 +42,14 @@ Do not alter without explicit owner direction:
 - `js/storageTransaction.js` as the raw transaction engine;
 - Candidate A non-mutating backup format v1;
 - Candidate B strictly read-only analysis;
-- Candidate C immutable confirmed intent, exact raw snapshot, transaction-owned rollback and anti-clobber semantics;
+- Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned mutation/rollback and anti-clobber semantics;
 - protected Marco Reus and accepted football-photo presentation;
 - protected startup budgets;
 - local-first operation.
 
 ## v1.2.0 architecture
 
-The release candidate adds installability/offline support without introducing accounts, cloud sync, cloud backup, QR pairing, two-device state transport, new gameplay rules or a framework rewrite.
+The release candidate adds installability/offline support without accounts, cloud sync, cloud backup, QR pairing, two-device state transport, gameplay changes or a framework rewrite.
 
 The application shell is version-owned by `1.2.0-r1`. Service Worker installation fully populates and verifies the required first-party shell. An incomplete new cache is deleted and cannot replace the active known-good runtime. Install does not call `skipWaiting()` automatically.
 
@@ -95,15 +98,14 @@ Do not recreate a parallel PWA workflow family.
 4. `navigator.onLine` reported online while the browser was genuinely disconnected. Connectivity was changed to verified same-origin reachability.
 5. The first reachability probe appeared to the generic page request monitor as an expected first-party failure. The probe was moved into the Service Worker so the page-level monitor remains strict.
 6. The offline browser audit initially targeted `data-smart-back` on a lazy Rule Book control even though `.backButton` delegation in `screens.js` is the real authority. The lazy control gained the shared semantic marker without adding a listener or competing state machine.
-7. Sparticuz Chromium's `--single-process` mode exited after the first browser context, preventing the synthetic second lifecycle context. Only the offline lifecycle audit now removes that flag through `CMS_CHROMIUM_MULTI_CONTEXT=1`; all other browser suites keep their proven launch profile.
+7. Sparticuz Chromium's `--single-process` mode exited after the first browser context, preventing the synthetic second lifecycle context. Only the offline lifecycle audit removes that flag through `CMS_CHROMIUM_MULTI_CONTEXT=1`; all other browser suites keep their proven launch profile.
 8. Missing downstream Stability artifacts used to create a second unrelated error after an earlier assertion stopped the journey. Artifact absence now warns instead of masking the original owner failure.
-9. Release identity freeze initially exposed stale documentation authority. Runtime contracts passed first; documentation gates are now being aligned without mislabeling a PR candidate as deployed production.
+9. Release identity freeze exposed stale documentation authority after runtime contracts were green. Release authority now distinguishes a PR candidate from promoted production instead of forcing README/CHANGELOG to claim deployment prematurely.
+10. Manual release-version lockfile editing dropped one character from the `bare-path@3.1.1` integrity checksum. Candidate B, Candidate C, Licensed Visuals and Stability all failed at `npm ci` before browser tests. The failure was classified as dependency-install infrastructure, not product regression. The complete previously known-good dependency graph was restored and only the two root package-version fields were changed to `1.2.0`, eliminating hand-copied checksum risk.
 
-## Functional prototype proof
+## Functional offline/cache proof
 
-Before the final v1.2 identity freeze, all 13 normal PR workflow families passed together, including Candidate C and Stability.
-
-The offline lifecycle owner proved:
+The canonical Stability offline owner proved:
 
 - first online install creates a complete application shell;
 - manifest fetchability and install-sized artwork;
@@ -128,7 +130,7 @@ After the lifecycle proof, the normal complete journey passed 70 checkpoints and
 Current release candidate identity:
 
 - `package.json`: `1.2.0`;
-- `package-lock.json`: `1.2.0`;
+- `package-lock.json`: `1.2.0` with the restored known-good dependency graph;
 - `js/app.js`: `APP_VERSION = "1.2.0"`;
 - `index.html`: `1.2.0-r1` meta/footer/eager references;
 - `manifest.webmanifest`: versioned install artwork;
@@ -137,35 +139,44 @@ Current release candidate identity:
 - `js/menuExperience.js`: protected Home Reus query `1.2.0-r1`;
 - `RELEASE_V1.2.0.md`: release-candidate record.
 
-The dynamic static release contract has already accepted v1.2.0 / `1.2.0-r1` and startup budgets of 164,563 raw bytes / 37,355 gzip bytes.
+Dynamic static release contracts accept startup budgets of 164,563 raw bytes / 37,355 gzip bytes.
 
-The new fast offline static contract has already passed with 64 version-owned shell resources, three install icons, and one local plus one deployed Stability owner.
+The fast offline static contract passes with 64 version-owned shell resources, three install icons, and one local plus one deployed Stability owner.
 
-## Current gate state at handoff creation
+## Complete normal PR proof on frozen candidate
 
-The first frozen release-candidate matrix stopped in repository authority coherence because the version-specific maintenance handoff did not yet exist. This file resolves that requirement. The same pass had already shown:
+Code SHA: `db0fcc49858db5555fa60dbd42d0dd8082069ee2`.
 
-- JavaScript syntax green;
-- dynamic static release architecture green;
-- stability contract green after candidate-vs-production publication semantics were introduced;
-- Candidate C storage/planning/stale-state/maintenance contracts green;
-- offline static contract green.
+All 13 normal PR workflow families completed successfully:
 
-A complete final PR matrix is still required after this handoff/release-authority change.
+- Validate Stability Lane — run `31714235984`;
+- Validate Candidate C Atomic Restore — run `31714235949`;
+- Validate Candidate B Import Analysis — run `31714235906`;
+- Validate Licensed Football Visuals — run `31714235919`;
+- Validate Static App — run `31714235931`;
+- Validate Settings Workstream — run `31714235960`;
+- Validate Season Review — run `31714235907`;
+- Validate Home Bootstrap — run `31714235864`;
+- Validate V1 Visual Immersion — run `31714235933`;
+- Validate League Confirmation — run `31714235865`;
+- Validate Transfer Workstream — run `31714235879`;
+- Validate Final Polish — run `31714235905`;
+- Validate Statistics Workstream — run `31714235869`.
+
+This satisfies the required complete normal PR matrix. Release Integration Burn-In remains main/manual-only by design and is not a PR-family prerequisite.
 
 ## Release-process semantics
 
-During PR release-candidate validation, `PROJECT_STATE.md`, `NEXT_TASK.md`, this handoff and `RELEASE_V1.2.0.md` identify v1.2.0 as current candidate. README/CHANGELOG may continue to identify v1.1.5 as last production-proven until deployment, provided they clearly reserve v1.2.0 Installable Offline App as the next/current candidate milestone.
+During PR release-candidate validation, `PROJECT_STATE.md`, `NEXT_TASK.md`, this handoff and `RELEASE_V1.2.0.md` identify v1.2.0 as current candidate. README/CHANGELOG continue to identify v1.1.5 as last production-proven until deployment.
 
-Once `RELEASE_V1.2.0.md` is promoted out of RELEASE CANDIDATE status after deployed proof, release authority must require README/CHANGELOG and all current-facing docs to advance to v1.2.0 / `1.2.0-r1`.
+Once `RELEASE_V1.2.0.md` is promoted out of RELEASE CANDIDATE status after deployed proof, release authority requires README/CHANGELOG and all current-facing docs to advance to v1.2.0 / `1.2.0-r1`.
 
 ## Immediate legal continuation
 
-1. finish release-authority candidate semantics;
-2. run one complete normal PR matrix on the frozen v1.2.0 candidate;
-3. do not change already-green gameplay/storage/visual code to satisfy documentation-only failures;
-4. if all PR gates pass, merge through the protected path;
-5. require deployed GitHub Pages exact-byte and exhaustive Stability proof;
-6. only then mark v1.2.0 production-proven and perform the docs-only release seal;
-7. close duplicate PR #35 as superseded;
-8. only then advance to v1.3.0 Recovery & Device Resilience Hardening.
+1. mark PR #34 ready after the complete green normal PR matrix;
+2. merge through the protected path without bypassing branch protection;
+3. require GitHub Pages exact-byte deployment and exhaustive deployed Stability proof;
+4. require the appropriate main release-integration evidence under the existing Burn-In policy;
+5. only then mark v1.2.0 production-proven and perform the docs-only release seal;
+6. close duplicate PR #35 as superseded;
+7. only then advance to v1.3.0 Recovery & Device Resilience Hardening.
