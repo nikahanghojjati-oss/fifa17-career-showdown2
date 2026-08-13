@@ -2,62 +2,45 @@
 
 Last updated: 2026-08-13 ET
 
-## Current production authority
+## Production authority
 
-Application version: v1.2.0 — Installable Offline App
-Production runtime asset revision: `1.2.0-r2`
-Previous known-good runtime: `1.2.0-r1`
-Technical status: merged, deployed, exact-byte verified and production-proven
-Release PR: #39
-Hotfix merge commit: `2179b7928602b9579dc6e129c40b8739082de80a`
-Post-merge visual-test authority: `e966a5a44927992e2e33f602434c5311bf7caee7`
-Stability run: `31740111919`
-Deployed-site-smoke job: `94581704562`
-Release Integration Burn-In: `31740111986` — 2/2 complete stateful journeys passed
-Dedicated V1 Visual Immersion: `31740111961`
+Application: v1.2.0 — Installable Offline App
+Production runtime: `1.2.0-r2`
+Production previous known-good runtime: `1.2.0-r1`
+Production status: merged, deployed, exact-byte verified and technically production-proven
+Current main at candidate freeze start: `49c72abaea30c9d3ed1a3b2f1247315d6c7656da`
 Production proof: `V1.2.0_R2_PRODUCTION_PROOF.md`
-Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-Technical production proof is complete. Separate owner visual acceptance must never be fabricated; future owner screenshots/issues are new evidence.
+The public production authority remains v1.2.0 / `1.2.0-r2` until the v1.3 candidate is merged, deployed and proven at the public boundary. Owner visual acceptance remains separate from automated technical proof.
 
-## r2 hotfix closed
+## Current candidate authority
 
-The shipped r2 maintenance release fixed two owner-reported defects without changing gameplay, scoring, canonical persistence, Smart Back or accepted football assets:
+Current milestone — v1.3.0 — Recovery & Device Resilience Hardening.
 
-1. iOS standalone loading composition is now independent of raw installed-app viewport-height growth. Mobile Reus uses a bounded width-owned top band, stable subject-safe image box and an opacity/filter-only entrance animation that cannot move the protected composition geometry.
-2. Floating global install/status presentation was removed. Install/update actions live only in Settings. Service Worker registration, whole-runtime cache verification, connectivity probing, safe activation, offline degradation and previous-runtime recovery remain intact.
+Candidate application version: `v1.3.0`
+Candidate runtime revision: `1.3.0-r1`
+Candidate immediate previous known-good whole shell: `1.2.0-r2`
+Development branch: `agent/v13-r2-hardening`
+Draft PR: #40 — `v1.3 audit: salvage r2 resilience hardening safely`
 
-Persistent floating/sticky install UI is not an approved pattern. Utility actions should remain inside the appropriate utility surface unless the owner explicitly approves a global overlay.
+The candidate is a mechanical identity freeze on the proven r2 shell after resilience blockers were closed. It is not production authority and must remain unmerged until exact-head validation is complete.
 
-## Authority when sources disagree
+PR #37 / `agent/v13-hardening` remains an untrusted historical branch. Its alternate shell replacement is not a valid v1.3 baseline and must not be merged or copied.
 
-1. current verified source on `main`;
-2. explicit later owner decisions;
-3. `00_CURRENT_HANDOFF.md`;
-4. this file;
-5. `NEXT_TASK.md`;
-6. current release/maintenance handoff;
-7. roadmap/amendments;
-8. historical records.
+## Closed resilience blockers
 
-Never revert verified source merely to satisfy stale prose.
+- Candidate A fails closed when exact canonical reads cannot be trusted.
+- PWA reconnect rendering preserves true pre-offline external-media status.
+- Activation reload intent is armed before worker activation messaging.
+- Existing Service Worker registration is reused and updated rather than redundantly registered.
+- Settings rerenders preserve focused controls and dialog focus ownership.
+- Candidate B/C screenshot artifact semantics distinguish product/browser failure from missing proof after success.
+- Whole-shell offline lifecycle proof covers repeated upgrade/fallback, browser restart, previous-shell corruption and both-shell-corrupt fail-closed behavior without mixed revisions.
+- PWA lifecycle proof preserves exact opaque raw localStorage bytes under all three canonical keys.
+- `CMS_ACTIVATE_UPDATE` verifies the candidate shell, awaits successful `skipWaiting()`, then emits `CMS_ACTIVATION_ACCEPTED`; rejection cannot follow a premature success acknowledgement.
+- Candidate C Apply requires `captureCareerModeRawRestoreSnapshot()` and returns `snapshot-unavailable` without mutation if strict exact raw snapshot authority is unavailable.
 
-## Protected product rules
-
-- exactly two managers;
-- Showdown lengths `[1,3,5,10]`;
-- same selected league and different permanent clubs;
-- maximum Season score 11;
-- equal non-zero scores remain Draw;
-- only 0–0 uses league position then league points;
-- League and Club confirmation checkpoints remain mandatory;
-- Transfer Challenge and Season Review state machines remain authoritative;
-- Statistics, Legacy and Trophy calculations remain authoritative;
-- protected Home/loading visual intent and accepted route-scoped football photos remain locked except for evidence-backed defect fixes.
-
-Scoring remains Champions League +5, domestic League +3, main domestic Cup +1, one shared +1 for 100 League Points/Goals, and one shared +1 for Top Scorer/Top Assist.
-
-## Data and navigation authority
+## Persistence and navigation authority
 
 Exactly three canonical localStorage keys remain legal:
 
@@ -65,64 +48,54 @@ Exactly three canonical localStorage keys remain legal:
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
-`js/storage.js` remains sole persistence/destructive mutation authority. `js/storageTransaction.js` remains the raw transaction engine. Cache Storage contains application bytes only and is never canonical user-data authority.
+`js/storage.js` remains sole canonical persistence/destructive mutation authority. `js/storageTransaction.js` remains the raw transaction engine. Candidate C remains the only import stage allowed to mutate canonical state and retains immutable confirmed intent, strict exact raw snapshot/precondition handling, last-moment prewrite checks, complete in-memory planning, transaction-owned mutation/rollback, anti-clobber ownership, post-write verification, byte-for-byte rollback verification and critical recovery on uncertainty.
 
-`js/screens.js` remains sole route/history/Smart Back authority.
+`js/screens.js` remains sole navigation/history/Smart Back authority. `js/scoring.js` remains scoring authority. `js/analytics.js` remains analytics authority.
 
-Candidate A remains non-mutating export. Candidate B remains strictly read-only analysis. Candidate C is the only import stage allowed to commit canonical state and preserves immutable confirmed intent, strict exact raw snapshot/precondition handling, last-moment prewrite checks, complete in-memory planning, transaction-owned mutation/rollback, anti-clobber semantics, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery on uncertainty.
+Cache Storage contains application bytes only and is never canonical user-data authority.
 
 ## Installable Offline App authority
 
-- current shell: `1.2.0-r2`;
-- immediate previous known-good shell: immutable `1.2.0-r1`;
-- complete verified cache population before a worker becomes viable;
-- no automatic install-time activation;
-- explicit Update Ready activation only at safe Home / Showdown Home boundaries;
-- Candidate C busy/recovery protection;
-- whole-runtime cache selection, never per-file revision mixing;
-- current/previous known-good verification and corruption recovery;
-- cleanup restricted to this application's cache namespaces;
-- unrelated caches preserved;
-- worker-owned connectivity verification rather than `navigator.onLine` alone;
-- external YouTube media degrades explicitly while the local tracker remains usable;
-- PWA controller remains lazy to preserve startup budgets;
-- install/update presentation is Settings-owned and may not reappear globally by default.
+Candidate current shell: `1.3.0-r1`
+Candidate immediate previous known-good shell: `1.2.0-r2`
 
-## CI / testing authority
+Preserve complete verified cache population, no automatic install-time activation, explicit Update Ready activation only at safe boundaries, Candidate C busy/recovery gating, whole-runtime cache selection, previous-known-good recovery, fail-closed behavior when no coherent shell is usable, cleanup restricted to app cache namespaces, unrelated-cache preservation, Service Worker-owned connectivity probing, nonfatal external-media degradation and lazy PWA loading.
 
-There remain 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs exercise 13 families because Release Integration Burn-In is main/manual release-only.
+Install/update controls remain Settings-only.
 
-Sensitive loading archetypes include desktop, low-height desktop, narrow mobile browser and iOS standalone installed-app height. Composition tests validate relationships and settled geometry, not mere element existence.
+## Protected r2 presentation
 
-Candidate B owns one import browser proof, Candidate C one restore/recovery proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete stateful journeys. Do not duplicate evidence or weaken gates to obtain green CI.
+The iOS standalone loading fix remains protected: bounded mobile top band, independent subject-safe Marco Reus image box, width-owned composition and opacity/filter-only animation. Do not return to viewport-height-driven image sizing, arbitrary object-position changes, random brightness/contrast adjustments or startup DOM replacement.
+
+The proven FIFA 17-inspired menu shell and subject-safe licensed football photography remain locked unless new evidence demonstrates a regression.
+
+## Protected product rules
+
+Exactly two managers. Showdown lengths are 1, 3, 5 or 10. Both managers use different permanent clubs from the same selected FIFA 17-era top-five league. Maximum Season score is 11. Equal non-zero Season scores remain Draw. Only 0–0 uses league position and then league points as tiebreakers.
+
+League confirmation, Club confirmation, Transfer Challenge, Season Entry, Season Review, Statistics, Legacy, Trophy Room, Rule Book, Settings, Home/Continue Career, Create Showdown and Smart Back remain protected.
 
 ## Performance locks
 
-- eager raw code ceiling: 165,000 bytes;
-- eager gzip ceiling: 37,500 bytes;
-- startup Marco Reus portrait ceiling: 95,000 bytes;
-- combined first-party startup ceiling: 260,000 bytes;
-- normal loading minimum: 2700 ms;
-- reduced-motion startup: 220 ms.
+- eager raw code <= 165,000 bytes;
+- eager gzip <= 37,500 bytes;
+- startup Marco Reus portrait <= 95,000 bytes;
+- combined first-party startup <= 260,000 bytes;
+- normal loading minimum 2700 ms;
+- reduced-motion loading 220 ms.
 
-## Open PR #37 warning
+Do not raise limits to make CI pass.
 
-PR #37 / `agent/v13-hardening` is an open draft, not a trusted baseline. Last inspected head: `221212a87cc58712a1ebd9452d7b71cdaa36327d`.
+## Validation topology
 
-Its commit `6ce7fe6fab87031b69e3dc5e98587fd3f78b3558` replaced large portions of the proven production DOM during a supposed shell identity freeze while existing JS/CSS still expected the production structure. That caused menu initialization/visibility failures and version-coherence problems. Do not merge or blindly continue that shell. Re-audit PR #37 against current r2 `main`, isolate useful hardening work, and preserve the proven production DOM unless the owner explicitly requests redesign.
+There are 14 permanent workflow families. Normal PRs run 13; Release Integration Burn-In is main/manual release-only. There are 27 protected multiline executable blocks.
 
-See `00_CURRENT_HANDOFF.md` for the detailed warning and known useful PR #37 hardening ideas.
+Candidate identity must be proven by all 13 normal workflow families at the exact frozen head before merge. Failures must be classified as product, browser/test-runtime, infrastructure, CI ownership/configuration or stale-contract defects before editing source.
 
-## Historical rollback evidence
+## Current legal next action
 
-v1.2.0 / `1.2.0-r1` remains the immediate immutable previous known-good runtime in `RELEASE_V1.2.0.md` and `CAREER_MODE_SHOWDOWN_V1.2.0_MAINTENANCE_HANDOFF.md`.
+Validate the frozen v1.3.0 / `1.3.0-r1` candidate at its exact PR #40 head. First inspect specialist static/release/offline/performance proof, then require all 13 normal workflow families to finish green together. Do not push documentation-only commits during heavy proof generations. Do not merge or deploy until exact-head proof is complete.
 
-v1.1.5 / `1.1.5-r1` remains older immutable historical rollback evidence at runtime SHA `ff755a9863abc843ae9aac45178428e3a104fc65`.
+After merge, require Pages deployment success, exact deployed byte/provenance verification, deployed Stability/public journey and the required Release Integration Burn-In before promoting README/CHANGELOG or calling v1.3.0 technically production-proven.
 
-## Current milestone
-
-Immediate legal task: v1.3.0 — Recovery & Device Resilience Hardening, starting from current production `main` / `1.2.0-r2`.
-
-Audit PR #37 and current source before code changes. Investigate browser/device lifecycle, Service Worker recovery, cache corruption, storage failure behavior, Candidate C interruption/ownership uncertainty, Settings/offline/update layering, Smart Back/lazy ownership, Chromebook/mobile/DPR2/accessibility, external-media transitions, dependency/workflow integrity, release coherence and performance headroom. Fix evidence-backed defects only and add focused regression proof.
-
-Cloud, accounts, QR pairing, two-device transport, Local Profiles/Save Library, gameplay changes and framework rewrites remain out of scope unless explicitly authorized.
+Local Manager Profiles, Save Library registry redesign, cloud, accounts, synchronization, QR pairing, gameplay/scoring changes and framework migration remain future work and are not legal v1.3 hardening scope.
