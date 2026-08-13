@@ -90,7 +90,7 @@ Candidate A remains non-mutating export with backup format v1 and raw-byte prese
 
 Candidate B remains strictly read-only analysis with validation, deterministic migration preview, conflict preview and zero canonical writes/removals.
 
-Candidate C remains the only import stage allowed to commit canonical state. Immutable confirmed intent, exact raw planning/prewrite checks, transaction-owned mutation/rollback, anti-clobber semantics, byte-for-byte rollback verification, critical recovery on uncertainty, idempotent repeated restore and `js/storage.js` authority remain protected.
+Candidate C remains the only import stage allowed to commit canonical state. Immutable confirmed intent, strict exact raw snapshot plus last-moment prewrite checks, transaction-owned mutation/rollback, anti-clobber semantics, byte-for-byte rollback verification, critical recovery on uncertainty, idempotent repeated restore and `js/storage.js` authority remain protected.
 
 ## Persistence and navigation authority
 
