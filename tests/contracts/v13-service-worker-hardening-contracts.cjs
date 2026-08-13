@@ -1,10 +1,12 @@
-const assert = require("node:assert/strict");
-const fs = require("node:fs");
-
-const worker = fs.readFileSync("service-worker.js", "utf8");
-const fetchHandler = (worker.match(/self\.addEventListener\("fetch"[\s\S]*?self\.__CMS_SERVICE_WORKER_DIAGNOSTICS__/) || [""])[0];
-
-assert.ok(fetchHandler.includes('if(!requestedRevision){ return; }'), "Unversioned shell requests must fall through instead of matching an empty previous-revision sentinel.");
-assert.ok(fetchHandler.includes('(!PREVIOUS_RUNTIME_REVISION || requestedRevision !== PREVIOUS_RUNTIME_REVISION)'), "Previous-revision matching must require a real previous revision.");
-
-console.log("PASS  v1.3 service-worker hardening contract: unversioned shell requests fall through safely.");
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+const worker=fs.readFileSync("service-worker.js","utf8");
+const fetchHandler=(worker.match(/self\.addEventListener\("fetch"[\s\S]*?self\.__CMS_SERVICE_WORKER_DIAGNOSTICS__/)||[""])[0];
+assert.ok(fetchHandler.includes('if(!requestedRevision){ return; }'),"Unversioned shell requests must fall through safely.");
+assert.ok(fetchHandler.includes('(!PREVIOUS_RUNTIME_REVISION || requestedRevision !== PREVIOUS_RUNTIME_REVISION)'),"Previous-revision matching must require a real previous revision.");
+assert.ok(worker.includes('const PREVIOUS_RUNTIME_REVISION = "1.2.0-r1";'),"v1.3 must retain v1.2.0-r1 as previous known-good shell.");
+const choose=(worker.match(/async function chooseNavigationRuntime\(\)[\s\S]*?async function getStatusBundle/)||[""])[0];
+assert.match(choose,/forcedStatus[\s\S]*?await clearForcedRevision\(\);[\s\S]*?if\(forcedStatus\.ok\)\{ return forcedStatus; \}/,"Explicit rollback must be consumed once before healthy current-runtime selection resumes.");
+const activation=(worker.match(/if\(type === "CMS_ACTIVATE_UPDATE"\)[\s\S]*?if\(type === "CMS_ROLLBACK_TO_PREVIOUS"\)/)||[""])[0];
+assert.ok(activation.indexOf("await self.skipWaiting()")>=0&&activation.indexOf("CMS_ACTIVATION_ACCEPTED")>activation.indexOf("await self.skipWaiting()"),"Activation acceptance must be sent only after skipWaiting succeeds.");
+console.log("PASS  v1.3 Service Worker hardening: previous shell, one-shot rollback, safe unversioned fallthrough, truthful activation acceptance.");
