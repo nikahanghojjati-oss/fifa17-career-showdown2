@@ -1,7 +1,7 @@
-# Career Mode Showdown — Current Complete Handoff
+# Superseded interrupted branch
 
-This branch is superseded by the already-merged canonical `00_CURRENT_HANDOFF.md` on `main` at repository checkpoint `f25dd248898a79b0fd4a08341343148fc04b793d`.
+Do not merge this branch.
 
-Do not merge this branch. It exists only as an interrupted-session branch artifact. The public canonical handoff is already on `main`, and the immutable v1.1.5 application runtime remains `ff755a9863abc843ae9aac45178428e3a104fc65`.
+The canonical complete public handoff is already merged on `main` as `00_CURRENT_HANDOFF.md` at repository checkpoint `f25dd248898a79b0fd4a08341343148fc04b793d`.
 
-No runtime hotfix is required based on the latest live production gate.
+The immutable v1.1.5 application runtime remains `ff755a9863abc843ae9aac45178428e3a104fc65` and no runtime hotfix is currently required.
