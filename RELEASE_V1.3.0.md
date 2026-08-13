@@ -1,61 +1,55 @@
 # Career Mode Showdown v1.3.0 — Recovery & Device Resilience Hardening
 
-Status: RELEASE CANDIDATE
+Status: PRODUCTION PROVEN
 Application version: `v1.3.0`
 Runtime asset revision: `1.3.0-r1`
 Previous known-good runtime: `1.2.0-r2`
 Release tag: `v1.3.0`
-Release date: pending production proof
+Release date: 2026-08-13 ET
+Release PR: #42
+Runtime merge: `094401b649954656e27e4a92d027e9532e84ccbf`
+Production proof: `V1.3.0_PRODUCTION_PROOF.md`
 
-## Candidate purpose
+## Release purpose
 
-v1.3.0 is the Recovery & Device Resilience Hardening release candidate built on the proven v1.2.0 Installable Offline App architecture. Production remains v1.2.0 / `1.2.0-r2` until this candidate is merged, deployed, exact-byte verified and proven at the public boundary.
+v1.3.0 hardens the existing local-first Installable Offline App after the v1.2 PWA transition. It does not change gameplay, scoring, the proven application shell, navigation ownership, the three-key canonical persistence model, accepted football photography, the protected r2 loading composition or the Settings-only install/update hierarchy.
 
-This candidate does not change gameplay, scoring, the proven application shell, navigation ownership, the three-key canonical persistence model, accepted football photography, or the protected r2 loading composition and Settings-only install/update hierarchy.
+## Shipped resilience work
 
-## Evidence-backed resilience work
-
-- Candidate A export fails closed when a canonical read cannot be trusted and never emits a checksum-valid incomplete backup.
+- Candidate A blocked-read export fails closed.
 - Candidate B remains strictly read-only analysis.
-- Candidate C requires strict exact raw snapshot authority before any destructive plan can proceed; unavailable snapshot authority fails closed without mutation.
-- Candidate C retains freshness rechecks, complete in-memory planning, transaction-owned mutation and rollback, anti-clobber ownership, exact post-write verification and critical recovery on ownership uncertainty.
+- Candidate C requires strict exact raw snapshot authority before destructive Apply and otherwise performs no mutation.
+- Candidate C retains freshness rechecks, complete in-memory planning, transaction-owned mutation and rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification and critical recovery on uncertainty.
 - PWA offline/reconnect rendering preserves the real pre-offline external-media state.
-- Existing Service Worker registration is reused and updated instead of redundantly registered.
+- Existing Service Worker registration is reused and updated.
 - Update reload intent is armed before waiting-worker activation messaging.
-- `CMS_ACTIVATE_UPDATE` verifies the candidate whole shell, awaits successful `skipWaiting()`, and only then emits `CMS_ACTIVATION_ACCEPTED`; a rejected `skipWaiting()` cannot be preceded by a success acknowledgement.
-- Whole-shell cache recovery remains coherent across current and previous known-good runtimes, including browser restart while offline and fail-closed behavior when neither shell is usable.
-- PWA lifecycle proof preserves the exact raw bytes of all three canonical localStorage values and never treats Cache Storage as user-data authority.
+- `CMS_ACTIVATE_UPDATE` verifies the whole shell, awaits successful `skipWaiting()`, then emits `CMS_ACTIVATION_ACCEPTED`; failure cannot be preceded by a success acknowledgement.
+- Whole-shell cache recovery remains coherent across current `1.3.0-r1` and previous `1.2.0-r2` runtimes.
+- PWA lifecycle proof preserves exact raw bytes for all three canonical localStorage keys.
 
-## Protected product and architecture invariants
+## Protected architecture and product model
 
-- exactly two managers;
-- Showdown lengths 1, 3, 5 or 10;
-- same selected league and different permanent clubs for both managers;
-- maximum Season score 11 and only a 0–0 Season uses the defined tiebreakers;
-- League and Club confirmation checkpoints;
-- Transfer Challenge and Season Review state machines;
-- Statistics, Legacy, Trophy Room, Rule Book, Settings, Home/Continue Career, Create Showdown and Smart Back behavior;
-- `js/screens.js` sole navigation/history/Smart Back authority;
-- `js/storage.js` sole canonical persistence/destructive mutation authority;
-- `js/storageTransaction.js` raw transaction engine;
-- exactly three canonical localStorage keys;
-- Settings-only install/update presentation;
-- the r2 iOS installed-app loading composition based on bounded width-owned geometry and subject-safe Marco Reus framing;
-- whole-runtime offline cache selection, never per-file revision mixing;
-- no Service Worker or PWA user-data mutation;
-- current startup performance ceilings.
+`js/screens.js` remains sole navigation/history/Smart Back authority. `js/storage.js` remains sole canonical persistence/destructive mutation authority. `js/storageTransaction.js` remains the raw transaction engine. Candidate C remains the only import stage allowed to mutate canonical state.
 
-## Candidate whole-shell relationship
+Exactly three canonical localStorage keys remain legal. Service Worker/Cache Storage remains application-byte authority only.
 
-Current candidate shell: `1.3.0-r1`
+Exactly two managers, Showdown lengths 1/3/5/10, same selected league, different permanent clubs, existing scoring, the 11-point maximum and 0–0-only tiebreak rules remain unchanged.
+
+## Whole-shell relationship
+
+Current production shell: `1.3.0-r1`
 Immediate previous known-good whole shell: `1.2.0-r2`
 
-The previous target is deliberately r2, not r1. `1.2.0-r2` is the current technically production-proven shell and therefore the only correct immediate recovery predecessor for the first v1.3 runtime.
+The predecessor is deliberately r2 because it was the immediate technically production-proven runtime before v1.3.
 
-## Release boundary
+## Production evidence
 
-This record freezes candidate identity only. It is not merge or deployment authorization.
+Frozen candidate: `b8d92e9a8a9eec2820c439c0dd2699e9d825a91f`
+Pages: `31755135819`
+Stability: `31755136265`
+deployed-site-smoke: `94629478166`
+Release Integration Burn-In: `31755136240` — 2/2
 
-Before merge, all 13 normal PR workflow families must pass together at the exact frozen candidate head, including specialist release, offline lifecycle, Candidate A/B/C, Settings, visual and performance proof. Release Integration Burn-In remains main/manual release-only.
+See `V1.3.0_PRODUCTION_PROOF.md` for the full public-boundary seal.
 
-After merge, GitHub Pages deployment, exact public runtime-byte/provenance verification, deployed Stability/public journey and the required Burn-In must pass before v1.3.0 may be called technically production-proven. README and CHANGELOG production authority must not be promoted before that public proof exists.
+Owner visual acceptance remains separate from automated technical production proof.
