@@ -13,6 +13,7 @@ let offlineUI = null;
 let installPromptCaptured = Boolean(deferredInstallPrompt);
 let installedStandalone = false;
 let offlineReady = false;
+let offlineRecoveryReady = false;
 let lastCacheStatus = null;
 let menuMediaStatusBeforeOffline = "";
 
@@ -23,9 +24,7 @@ function isStandaloneDisplay(){
     );
 }
 
-function isServiceWorkerSupported(){
-    return "serviceWorker" in navigator;
-}
+function isServiceWorkerSupported(){ return "serviceWorker" in navigator; }
 
 function getActiveApplicationScreen(){
     return typeof window.getActiveScreenName === "function"
@@ -37,12 +36,7 @@ function getUpdateBoundaryStatus(){
     const screen = getActiveApplicationScreen();
     const recoveryBusy = Boolean(document.querySelector('[data-transaction-busy="true"],[data-critical-recovery="true"]'));
     const uiBusy = Boolean(document.querySelector('[aria-busy="true"]:not(#loadingScreen):not(#offlineAppRail)'));
-    return {
-        safe: SAFE_UPDATE_SCREENS.has(screen) && !recoveryBusy && !uiBusy,
-        screen,
-        recoveryBusy,
-        uiBusy
-    };
+    return { safe: SAFE_UPDATE_SCREENS.has(screen) && !recoveryBusy && !uiBusy, screen, recoveryBusy, uiBusy };
 }
 
 function versionedLocalUrl(path){
@@ -57,40 +51,33 @@ function ensureOfflineStyles(){
     link.rel = "stylesheet";
     link.href = versionedLocalUrl("css/offline.css");
     link.dataset.offlineAppStyle = "true";
-    link.addEventListener("error", () => {
-        console.warn("[Career Mode Showdown] Offline status styling could not be loaded.");
-    }, { once: true });
+    link.addEventListener("error", () => console.warn("[Career Mode Showdown] Offline status styling could not be loaded."), { once: true });
     document.head.appendChild(link);
 }
 
 function ensureOfflineUI(){
     if(offlineUI){ return offlineUI; }
-
     const rail = document.createElement("div");
     rail.id = "offlineAppRail";
     rail.className = "offlineAppRail";
     rail.setAttribute("role", "region");
     rail.setAttribute("aria-label", "Install and offline application status");
-
     const state = document.createElement("span");
     state.className = "offlineAppState";
     state.id = "offlineAppState";
     state.setAttribute("role", "status");
     state.setAttribute("aria-live", "polite");
-
     const install = document.createElement("button");
     install.type = "button";
     install.className = "offlineAppAction";
     install.id = "offlineInstallAction";
     install.textContent = "INSTALL INFO";
-
     const update = document.createElement("button");
     update.type = "button";
     update.className = "offlineAppAction offlineAppUpdate";
     update.id = "offlineUpdateAction";
     update.textContent = "UPDATE READY";
     update.hidden = true;
-
     rail.append(state, install, update);
 
     const panel = document.createElement("section");
@@ -98,17 +85,13 @@ function ensureOfflineUI(){
     panel.className = "offlineAppPanel";
     panel.hidden = true;
     panel.setAttribute("aria-labelledby", "offlineAppPanelTitle");
-
     const heading = document.createElement("h2");
     heading.id = "offlineAppPanelTitle";
     heading.textContent = "INSTALL SHOWDOWN 17";
-
     const copy = document.createElement("p");
     copy.id = "offlineAppPanelCopy";
-
     const actions = document.createElement("div");
     actions.className = "offlineAppPanelActions";
-
     const close = document.createElement("button");
     close.type = "button";
     close.className = "offlineAppAction";
@@ -117,23 +100,18 @@ function ensureOfflineUI(){
         panel.hidden = true;
         if(!install.hidden){ install.focus(); }
     });
-
     actions.append(close);
     panel.append(heading, copy, actions);
     document.body.append(rail, panel);
-
     install.addEventListener("click", handleInstallAction);
     update.addEventListener("click", activateWaitingUpdate);
-
     offlineUI = { rail, state, install, update, panel, heading, copy, actions, close };
     return offlineUI;
 }
 
 function getInstallGuidance(){
     const ua = navigator.userAgent || "";
-    const isiOS = /iPad|iPhone|iPod/i.test(ua)
-        || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
+    const isiOS = /iPad|iPhone|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
     if(isiOS){
         return "In Safari, use Share, then Add to Home Screen. Your tracker stays on this device and can reopen its cached application shell offline.";
     }
@@ -145,10 +123,7 @@ function getInstallGuidance(){
 
 function refreshRailVisibility(){
     const ui = ensureOfflineUI();
-    const shouldHide = installedStandalone
-        && navigator.onLine !== false
-        && !offlineRegistration?.waiting;
-    ui.rail.hidden = shouldHide;
+    ui.rail.hidden = installedStandalone && navigator.onLine !== false && !offlineRegistration?.waiting;
 }
 
 function refreshInstallAction(){
@@ -179,7 +154,6 @@ async function handleInstallAction(){
         }
         return;
     }
-
     ui.heading.textContent = "INSTALL SHOWDOWN 17";
     ui.copy.textContent = getInstallGuidance();
     ui.panel.hidden = false;
@@ -189,12 +163,9 @@ async function handleInstallAction(){
 function setMenuMediaOfflineState(offline){
     const toggle = document.getElementById("menuMusicToggle");
     const status = document.getElementById("menuMusicStatus");
-
     if(offline){
         try{
-            if(window.isMenuMediaPlaying?.() && toggle && !toggle.disabled){
-                toggle.click();
-            }
+            if(window.isMenuMediaPlaying?.() && toggle && !toggle.disabled){ toggle.click(); }
         }catch(error){
             console.warn("[Career Mode Showdown] External media could not be paused while entering offline mode:", error);
         }
@@ -208,35 +179,26 @@ function setMenuMediaOfflineState(offline){
         }
         return;
     }
-
     if(toggle){
         toggle.disabled = false;
         toggle.removeAttribute("aria-disabled");
     }
-    if(status && menuMediaStatusBeforeOffline){
-        status.textContent = menuMediaStatusBeforeOffline;
-    }
+    if(status && menuMediaStatusBeforeOffline){ status.textContent = menuMediaStatusBeforeOffline; }
 }
 
 function refreshConnectivity(){
     const ui = ensureOfflineUI();
     const offline = navigator.onLine === false;
     ui.rail.dataset.connectivity = offline ? "offline" : "online";
-
     if(!isServiceWorkerSupported()){
-        ui.state.textContent = offline
-            ? "OFFLINE · APP SHELL UNSUPPORTED"
-            : "ONLINE · INSTALL SUPPORT VARIES";
+        ui.state.textContent = offline ? "OFFLINE · APP SHELL UNSUPPORTED" : "ONLINE · INSTALL SUPPORT VARIES";
+    }else if(offlineReady && offlineRecoveryReady){
+        ui.state.textContent = offline ? "OFFLINE · RECOVERY SHELL READY" : "ONLINE · RECOVERY SHELL READY";
     }else if(offlineReady){
-        ui.state.textContent = offline
-            ? "OFFLINE · LOCAL TRACKER READY"
-            : "ONLINE · OFFLINE SHELL READY";
+        ui.state.textContent = offline ? "OFFLINE · LOCAL TRACKER READY" : "ONLINE · OFFLINE SHELL READY";
     }else{
-        ui.state.textContent = offline
-            ? "OFFLINE · SHELL NOT READY"
-            : "ONLINE · PREPARING OFFLINE SHELL";
+        ui.state.textContent = offline ? "OFFLINE · SHELL NOT READY" : "ONLINE · PREPARING OFFLINE SHELL";
     }
-
     setMenuMediaOfflineState(offline);
     refreshInstallAction();
     refreshRailVisibility();
@@ -267,7 +229,6 @@ function sendWorkerMessage(worker, type, payload = {}){
             channel.port1.close();
             reject(new Error(`Service worker message timed out: ${type}`));
         }, OFFLINE_MESSAGE_TIMEOUT_MS);
-
         channel.port1.onmessage = event => {
             window.clearTimeout(timeout);
             channel.port1.close();
@@ -280,18 +241,21 @@ function sendWorkerMessage(worker, type, payload = {}){
 async function verifyOfflineReadiness(worker = offlineRegistration?.active || navigator.serviceWorker?.controller){
     if(!worker){
         offlineReady = false;
+        offlineRecoveryReady = false;
         refreshConnectivity();
         return false;
     }
     try{
         const response = await sendWorkerMessage(worker, "CMS_GET_CACHE_STATUS");
         lastCacheStatus = response;
-        offlineReady = Boolean(response.current?.ok ?? response.ok);
+        const currentReady = Boolean(response.current?.ok ?? response.ok);
+        const previousReady = Boolean(response.previous?.ok);
+        offlineReady = currentReady || previousReady;
+        offlineRecoveryReady = !currentReady && previousReady;
     }catch(error){
         offlineReady = false;
-        if(navigator.onLine !== false){
-            console.warn("[Career Mode Showdown] Offline shell verification could not complete:", error);
-        }
+        offlineRecoveryReady = false;
+        if(navigator.onLine !== false){ console.warn("[Career Mode Showdown] Offline shell verification could not complete:", error); }
     }
     refreshConnectivity();
     return offlineReady;
@@ -299,11 +263,7 @@ async function verifyOfflineReadiness(worker = offlineRegistration?.active || na
 
 async function activateWaitingUpdate(){
     const waiting = offlineRegistration?.waiting;
-    if(!waiting){
-        markUpdateReady();
-        return false;
-    }
-
+    if(!waiting){ markUpdateReady(); return false; }
     const boundary = getUpdateBoundaryStatus();
     if(!boundary.safe){
         const message = boundary.recoveryBusy || boundary.uiBusy
@@ -312,19 +272,13 @@ async function activateWaitingUpdate(){
         window.showAppNotice?.(message, "error", 8000);
         return false;
     }
-
     const ui = ensureOfflineUI();
     ui.update.disabled = true;
     ui.update.textContent = "VERIFYING UPDATE";
     try{
-        const response = await sendWorkerMessage(waiting, "CMS_ACTIVATE_UPDATE", {
-            pageRevision: OFFLINE_APP_REVISION,
-            screen: boundary.screen
-        });
+        const response = await sendWorkerMessage(waiting, "CMS_ACTIVATE_UPDATE", { pageRevision: OFFLINE_APP_REVISION, screen: boundary.screen });
         if(!response.ok || response.type !== "CMS_ACTIVATION_ACCEPTED"){
-            const missing = Array.isArray(response.missing) && response.missing.length
-                ? `: ${response.missing.join(", ")}`
-                : ".";
+            const missing = Array.isArray(response.missing) && response.missing.length ? `: ${response.missing.join(", ")}` : ".";
             throw new Error(response.error || `Cached update is incomplete${missing}`);
         }
         activationRequested = true;
@@ -366,11 +320,8 @@ function observeRegistration(registration){
         if(!installing){ return; }
         installing.addEventListener("statechange", () => {
             if(installing.state === "installed"){
-                if(navigator.serviceWorker.controller){
-                    markUpdateReady();
-                }else{
-                    verifyOfflineReadiness(registration.active || installing);
-                }
+                if(navigator.serviceWorker.controller){ markUpdateReady(); }
+                else{ verifyOfflineReadiness(registration.active || installing); }
             }
         });
     });
@@ -378,18 +329,22 @@ function observeRegistration(registration){
 
 async function registerOfflineApplication(){
     if(!isServiceWorkerSupported()){ return null; }
+    const existing = await navigator.serviceWorker.getRegistration("./");
+    if(existing && navigator.onLine === false){
+        observeRegistration(existing);
+        const readyRegistration = await navigator.serviceWorker.ready;
+        offlineRegistration = readyRegistration;
+        await verifyOfflineReadiness(readyRegistration.active || navigator.serviceWorker.controller);
+        return existing;
+    }
+
     const workerUrl = new URL("service-worker.js", window.location.href);
     workerUrl.searchParams.set("v", OFFLINE_APP_REVISION);
-    const registration = await navigator.serviceWorker.register(workerUrl.href, {
-        scope: "./",
-        updateViaCache: "none"
-    });
+    const registration = await navigator.serviceWorker.register(workerUrl.href, { scope: "./", updateViaCache: "none" });
     observeRegistration(registration);
-
     const readyRegistration = await navigator.serviceWorker.ready;
     offlineRegistration = readyRegistration;
     await verifyOfflineReadiness(readyRegistration.active || navigator.serviceWorker.controller);
-
     if(navigator.onLine !== false){
         try{ await registration.update(); }catch(error){
             console.warn("[Career Mode Showdown] Service worker update check could not complete:", error);
@@ -413,7 +368,6 @@ function initializeOfflineApplication(){
     consumeEarlyInstallPrompt();
     refreshInstallAction();
     refreshConnectivity();
-
     window.addEventListener("online", refreshConnectivity);
     window.addEventListener("offline", refreshConnectivity);
     window.addEventListener("beforeinstallprompt", event => {
@@ -428,12 +382,10 @@ function initializeOfflineApplication(){
         refreshInstallAction();
         window.showAppNotice?.("Career Mode Showdown is installed and ready for local offline use.", "success", 5500);
     });
-
     if(!isServiceWorkerSupported()){
         refreshConnectivity();
         return;
     }
-
     navigator.serviceWorker.addEventListener("controllerchange", () => {
         if(activationRequested && !controllerReloaded){
             controllerReloaded = true;
@@ -442,9 +394,9 @@ function initializeOfflineApplication(){
         }
         verifyOfflineReadiness(navigator.serviceWorker.controller);
     });
-
     registerOfflineApplication().catch(error => {
         offlineReady = false;
+        offlineRecoveryReady = false;
         refreshConnectivity();
         window.reportApplicationError?.("Offline application support could not be prepared", error);
     });
@@ -458,7 +410,9 @@ window.getOfflineAppDiagnostics = () => ({
     connectivity: navigator.onLine === false ? "offline" : "online",
     standalone: isStandaloneDisplay(),
     installPromptCaptured,
+    installGuidance: getInstallGuidance(),
     offlineReady,
+    offlineRecoveryReady,
     cacheStatus: lastCacheStatus,
     safeUpdateBoundary: getUpdateBoundaryStatus()
 });
