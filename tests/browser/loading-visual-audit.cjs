@@ -47,9 +47,6 @@ async function prepareStartup(page, config){
         }, null, { timeout: 12000 });
     }
 
-    // Inspect the settled composition, not an in-flight entrance transform.
-    // Finishing splash animations preserves their final authored geometry while
-    // removing timing-dependent transform offsets from getBoundingClientRect().
     await page.evaluate(() => {
         const loading = document.getElementById("loadingScreen");
         const app = document.getElementById("app");
@@ -61,7 +58,7 @@ async function prepareStartup(page, config){
             for(const animation of document.getAnimations()){
                 const target = animation.effect && animation.effect.target;
                 if(target && (target === loading || loading.contains(target))){
-                    try{ animation.finish(); }catch(error){ /* non-finite animation is irrelevant to settled layout */ }
+                    try{ animation.finish(); }catch(error){ /* finite splash animations settle normally */ }
                 }
             }
         }
@@ -94,13 +91,15 @@ async function inspectStartup(page){
             : Math.min(imageRect.width/image.naturalWidth,imageRect.height/image.naturalHeight);
         const visibleSourceWidth=scale>0?Math.min(image.naturalWidth,imageRect.width/scale):0;
         const visibleSourceHeight=scale>0?Math.min(image.naturalHeight,imageRect.height/scale):0;
+        const bandExpression=loadingStyle.getPropertyValue("--startup-mobile-top-band").trim();
+        const resolvedBand=bandExpression?Math.min(54,Math.max(46,innerWidth*0.12)):0;
         return {
             viewport:{width:innerWidth,height:innerHeight},dpr:devicePixelRatio,
             standalone:navigator.standalone===true||matchMedia("(display-mode: standalone)").matches,
             loading:loadingRect,frame:frameRect,
             image:{...imageRect,naturalWidth:image.naturalWidth,naturalHeight:image.naturalHeight,objectFit:imageStyle.objectFit,objectPosition:imageStyle.objectPosition,position:imageStyle.position,visibleSourceWidthRatio:image.naturalWidth?visibleSourceWidth/image.naturalWidth:0,visibleSourceHeightRatio:image.naturalHeight?visibleSourceHeight/image.naturalHeight:0},
             topBand:imageRect.top-frameRect.top,
-            topBandVariable:Number.parseFloat(loadingStyle.getPropertyValue("--startup-mobile-top-band"))||0,
+            topBandVariable:resolvedBand,
             identity:rect(identity),heading:rect(heading),status:rect(status),saveNote:rect(saveNote),credit:rect(credit),
             documentWidth:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth
         };
