@@ -49,7 +49,7 @@
 }
 
 /*
-   Do not add fixed/sticky install bars, install panels, or global install
-   prompts here. Offline installation belongs inside Settings unless the owner
-   explicitly authorizes a future exception for a specific purpose.
+   Do not add viewport-pinned install bars, global install panels, or app-wide
+   install prompts here. Offline installation belongs inside Settings unless
+   the owner explicitly authorizes a future exception for a specific purpose.
 */
