@@ -27,9 +27,10 @@ assert.equal(packageLock.version, appVersion, "package-lock.json top-level versi
 assert.equal(packageLock.packages?.[""]?.version, appVersion, "package-lock.json root-package version is stale.");
 assert.equal(packageJson.devDependencies["@sparticuz/chromium"], "149.0.0", "The registry-distributed Chromium runtime must remain pinned.");
 assert.equal(footerVersion, appVersion, "The user-facing footer version is stale.");
-assert.equal(revision, `${appVersion}-r1`, "The current v1.1.x release must use its r1 cache identity.");
+assert.equal(revision, `${appVersion}-r1`, "The current release must use its r1 cache identity.");
 assert.ok(fs.existsSync(path.join(root, releaseRecordPath)), `Current release record is missing: ${releaseRecordPath}`);
 const releaseRecord = read(releaseRecordPath);
+const releaseCandidate = /Status:\s*RELEASE CANDIDATE/i.test(releaseRecord);
 assert.ok(releaseRecord.includes(`Release tag: \`v${appVersion}\``), "Current release record tag is stale.");
 assert.ok(releaseRecord.includes(`Runtime asset revision: \`${revision}\``), "Current release record revision is stale.");
 assert.ok(
@@ -49,20 +50,25 @@ assert.ok(
     "NEXT_TASK version is stale."
 );
 assert.ok(nextTask.includes(`Runtime asset revision: \`${revision}\``), "NEXT_TASK revision is stale.");
-assert.ok(
-    readme.includes(`**Application version:** v${appVersion}`) ||
-    readme.includes(`**Release candidate:** v${appVersion}`) ||
-    readme.includes(`Application version: v${appVersion}`) ||
-    readme.includes(`Release candidate: v${appVersion}`),
-    "README version is stale."
-);
-assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no current release entry.");
+if(!releaseCandidate){
+    assert.ok(
+        readme.includes(`**Application version:** v${appVersion}`) ||
+        readme.includes(`**Release candidate:** v${appVersion}`) ||
+        readme.includes(`Application version: v${appVersion}`) ||
+        readme.includes(`Release candidate: v${appVersion}`),
+        "README version is stale after production promotion."
+    );
+    assert.ok(changelog.includes(`# v${appVersion}`), "CHANGELOG has no promoted production release entry.");
+}else{
+    assert.ok(/v1\.1\.5/.test(readme) && /production-proven|production proven/i.test(readme), "During a release candidate, README must continue identifying the last production-proven release.");
+    assert.ok(changelog.includes("# v1.1.5"), "During a release candidate, CHANGELOG must retain the last promoted production release.");
+}
 assert.ok(handoffGoldenRule.includes("Every developer or ChatGPT session") && handoffGoldenRule.includes("continuously"), "The owner-mandated continuous public handoff golden rule is missing.");
 assert.ok(optional.includes("getApplicationAssetRevision()"), "Lazy assets must derive their revision from the shell.");
 assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), "The lazy visual fidelity stylesheet must use the shell cache identity.");
 assert.ok(app.includes("contentScriptData\\.init_ts"), "The reproduced injected content-script signature must remain explicitly filtered.");
 assert.ok(app.includes("isFirstPartyRuntimeError") && app.includes("suppressedExternalRuntimeErrors"), "Runtime provenance boundary contract is missing.");
-assert.ok(nextTask.includes("v1.2.0") && /Installable Offline App/i.test(nextTask), "The v1.2.0 offline-app dependency reservation is missing from NEXT_TASK.");
+assert.ok(nextTask.includes("v1.2.0") && /Installable Offline App/i.test(nextTask), "The v1.2.0 offline-app release task is missing from NEXT_TASK.");
 
 const localShellRefs = Array.from(html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?:\?v=([^"]+))?"/g));
 assert.ok(localShellRefs.length >= 9, "The initial shell asset set is unexpectedly incomplete.");
@@ -181,5 +187,5 @@ for(const workflowPath of fs.readdirSync(path.join(root, ".github/workflows"))){
 }
 
 process.stdout.write(
-    `Stability contracts passed for v${appVersion} / ${revision}: release/package/document coherence, runtime provenance, corrupt raw-data preservation, quota rollback, single-owner Candidate B/C evidence, exhaustive deployed A/B/C proof, focused two-pass integration Burn-In, v1.2 dependency reservation, and Node 24 actions.\n`
+    `Stability contracts passed for v${appVersion} / ${revision}: release/package/document coherence, candidate-vs-production publication semantics, runtime provenance, corrupt raw-data preservation, quota rollback, single-owner Candidate B/C evidence, exhaustive deployed A/B/C proof, focused two-pass integration Burn-In, v1.2 offline release reservation, and Node 24 actions.\n`
 );

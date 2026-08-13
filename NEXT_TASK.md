@@ -1,112 +1,62 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-12
+Last updated: 2026-08-13
 
-Application version: v1.1.5
-Runtime asset revision: `1.1.5-r1`
-Public release status: deployed and independently production-proven twice
-Immutable application runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
-Proven runtime Pages deployment: `5878930362`
-
-Do not hardcode a mutable `main` SHA here. Read GitHub for the current repository head. Later CI/test/documentation-only commits do not redefine the immutable application runtime.
-
-## v1.1.5 status — CLOSED
-
-v1.1.5 Restore Transaction Safety Maintenance is complete. Candidate A, Candidate B, and Candidate C are complete and protected.
-
-The two maintenance fixes are closed:
-
-1. immutable confirmed restore intent across asynchronous fresh revalidation;
-2. transaction-owned rollback with strict exact raw snapshots, exact entry/per-write preconditions, anti-clobber ownership checks, post-write verification, and byte-for-byte owned rollback verification.
-
-Repeated identical restore remains a deterministic zero-write no-op. Corrupt raw bytes remain preserved unless explicit replacement is selected. `js/storage.js` remains sole canonical destructive storage authority.
-
-Cloud identity/revision/conflict/tombstone/privacy/security work remains future-contract-only in `CLOUD_STORAGE_FOUNDATION.md`.
-
-## Immutable release evidence
-
-First exhaustive public proof:
-
-- Stability run `31650134707`, attempt 1;
-- deployed smoke job `94293855547`;
-- exact byte parity, provenance, Home/Reus, licensed visuals, Candidate A, Candidate B, Candidate C, and complete journey passed.
-
-Second exhaustive public proof:
-
-- optimized Stability run `31651830554`;
-- deployed smoke job `94297967413`;
-- the same public boundary passed again;
-- focused Release Integration Burn-In `31651830507` passed 2/2.
-
-The CI-orchestration checkpoint `0af73262fcc95fbd76ffe9a2f06d4b0dac911f62` is historical CI/test maintenance and changes no application/runtime/assets/data bytes relative to the runtime authority.
-
-## Permanent validation topology
-
-There remain 14 permanent workflow families and 27 protected `.yml` executable blocks. Normal PRs intentionally exercise 13 families because Release Integration Burn-In is main/manual only.
-
-Testing ownership is single-purpose:
-
-- workstream workflows own specialized contracts/browser evidence;
-- Candidate B owns one authoritative import-analysis browser run per attempt;
-- Candidate C owns one authoritative restore/recovery browser run per attempt;
-- local Stability owns one provenance pass plus one full integration journey;
-- deployed Stability owns exact bytes + provenance + Home + visuals + Candidate A/B/C + full journey;
-- Release Integration Burn-In owns two repeated complete stateful journeys on main/manual release use;
-- Markdown-only seals skip heavy Candidate B/C/Stability/Burn-In lanes and rely on Static/release-authority coherence.
-
-Do not restore the old duplicate browser loops, five full Burn-In matrices, or whole-matrix reruns for a single proof. `tests/contracts/ci-orchestration-contracts.cjs` rejects those regressions.
+Application version: v1.2.0
+Runtime asset revision: `1.2.0-r1`
+Release state: Installable Offline App release candidate; not yet production-proven
+Last production-proven runtime: v1.1.5 / `1.1.5-r1`
+Immutable v1.1.5 runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
 
 ## Immediate legal task
 
-Begin v1.2.0 — Installable Offline App only after loading current `main` and preserving the closed v1.1.5 baseline.
+Finish v1.2.0 — Installable Offline App release closure only.
 
-Before writing runtime code:
+Do not begin v1.3.0, cloud, profiles, accounts, QR pairing, two-device transport, or gameplay changes before the frozen v1.2.0 candidate is merged and deployed GitHub Pages Stability proves `1.2.0-r1`.
 
-1. read `00_HANDOFF_GOLDEN_RULE.md`;
-2. read `00_DEVELOPER_START_HERE.md`;
-3. read `CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md`;
-4. read `PROJECT_STATE.md` and `RELEASE_V1.1.5.md`;
-5. read the v1.2 section of `POST_V1_ROADMAP_EXECUTION.md`;
-6. inspect current startup/cache identity and storage/recovery boundaries;
-7. design service-worker install/activate/update/recovery so incompatible runtime revisions can never mix;
-8. keep cloud/account/profile work dependency-blocked.
+Remaining work:
 
-v1.2 direction:
+1. keep page, app, package, manifest, worker, lazy controller, protected asset queries and `RELEASE_V1.2.0.md` coherent at v1.2.0 / `1.2.0-r1`;
+2. keep the fast offline static contract inside the repository-wide suite;
+3. preserve 14 workflow families and 27 protected multiline executable blocks;
+4. obtain one complete green normal PR matrix on the frozen candidate;
+5. merge through the protected PR path;
+6. require deployed-byte coherence plus deployed runtime, visual, Candidate A/B/C, install/offline and complete-journey proof;
+7. after deployed proof only, seal README, CHANGELOG, PROJECT_STATE, NEXT_TASK and `RELEASE_V1.2.0.md` with immutable production evidence;
+8. close the duplicate experimental v1.2 PR as superseded;
+9. then advance to v1.3.0 Recovery & Device Resilience Hardening.
 
-- web app manifest and original install metadata/icons;
-- service worker for versioned first-party shell;
-- atomic cache activation;
-- visible Update Ready flow;
-- offline status and graceful unavailable external media;
-- Chromebook/Android install behavior and browser-appropriate guidance elsewhere;
-- first-load, repeat-load, offline, update, rollback, and cache-corruption tests;
-- two consecutive cache-revision upgrade/rollback proofs before release.
+## v1.2.0 implemented scope
 
-## Protected systems v1.2 must not alter
+v1.2.0 includes a Web App Manifest, original install artwork, versioned first-party Service Worker shell, atomic cache population, no automatic install activation, Update Ready safe-boundary activation, Candidate C busy-state protection, whole-runtime revision selection, worker-owned connectivity verification, explicit offline YouTube degradation, Chromebook/Android install guidance, and local/deployed offline evidence owned by Stability.
+
+The lifecycle proof covers failed cache population, explicit waiting/activation, unrelated-cache preservation, corruption recovery and two consecutive cache-revision upgrade/recovery cycles.
+
+## Protected systems
+
+Do not alter:
 
 - exactly two managers;
 - Showdown lengths `[1,3,5,10]`;
 - same selected league / different permanent clubs;
 - max-11 scoring and 0–0-only tiebreak;
-- League-confirmation and club-rivalry checkpoints;
-- Transfer Challenge state machine;
-- Season Review persistence boundary;
+- League and Club confirmation checkpoints;
+- Transfer Challenge and Season Review state machines;
 - Statistics/Legacy/Trophy calculations;
-- centralized Smart Back/navigation ownership;
-- exactly three canonical current localStorage keys;
+- centralized Smart Back/navigation ownership in `js/screens.js`;
+- exactly three canonical localStorage keys and `js/storage.js` mutation authority;
 - Candidate A non-mutating backup format v1;
 - Candidate B read-only analysis;
-- Candidate C strict exact raw snapshot + transaction-owned rollback semantics;
-- protected Marco Reus/football-photo presentation;
-- startup budgets;
-- local-first behavior.
+- Candidate C exact raw snapshot, immutable confirmed intent, transaction-owned rollback and anti-clobber semantics;
+- protected Marco Reus and accepted football-photo presentation;
+- startup budgets and local-first behavior.
 
-## CI operating rule
+## Testing rule
 
-Do not spend development time watching GitHub Actions every few seconds. Start the relevant owner run, record its run ID, continue independent work, and inspect after an appropriate interval. A rerun changes `run_attempt` and can make the UI look like a completed job restarted; use attempt history before calling that a product failure.
+Keep testing single-owner. Candidate B owns one import browser proof, Candidate C one restore browser proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete journeys on main/manual release use. Do not duplicate matrices or weaken gates to obtain green CI.
 
-When a failure occurs, diagnose first and rerun only the failed/cancelled owner job when possible. Never rerun every permanent workflow because one long job was interrupted.
+Before identity freeze, all 13 normal PR workflow families passed together. The frozen `1.2.0-r1` candidate must reproduce that result before merge.
 
 ## Exact continuation command
 
-`Load current main. Read 00_HANDOFF_GOLDEN_RULE.md, 00_DEVELOPER_START_HERE.md, NEXT_TASK.md, CAREER_MODE_SHOWDOWN_V1.1.5_POST_MERGE.md, PROJECT_STATE.md and RELEASE_V1.1.5.md. Treat ff755a9863abc843ae9aac45178428e3a104fc65 as immutable v1.1.5 application runtime. Do not infer runtime authority from a later mutable main SHA. Do not reopen Candidate C or v1.1.5 release closure. Do not recreate redundant test loops. Begin only v1.2.0 Installable Offline App while preserving local data-safety and cache-revision integrity. Cloud remains future-contract-only.`
+`Load PR #34 / branch agent/v1.2-installable-offline-r1. Read 00_HANDOFF_GOLDEN_RULE.md, CAREER_MODE_SHOWDOWN_V1.2_ACTIVE_HANDOFF.md, PROJECT_STATE.md, NEXT_TASK.md and RELEASE_V1.2.0.md. Treat ff755a9863abc843ae9aac45178428e3a104fc65 as the last production-proven v1.1.5 baseline and v1.2.0 / 1.2.0-r1 as release candidate only. Preserve Candidate A/B/C, Smart Back, gameplay, storage authority, visual locks and startup budgets. Finish v1.2.0 PR gates, merge, then require deployed proof before v1.3.0.`
