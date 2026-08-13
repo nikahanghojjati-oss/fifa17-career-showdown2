@@ -11,7 +11,7 @@ permissions:
 jobs:
   settings-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
 
     steps:
       - name: Check out repository
@@ -21,6 +21,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 24
+
+      - name: Install locked Settings dependencies
+        run: npm ci
 
       - name: Validate application preference persistence
         shell: bash
@@ -93,31 +96,26 @@ jobs:
           const offlineCss = fs.readFileSync('css/offline.css', 'utf8');
           const club = fs.readFileSync('js/clubAssignment.js', 'utf8');
           const wheel = fs.readFileSync('js/leagueWheel.js', 'utf8');
-
           assert.ok(html.includes('id="settingsButton"') && html.includes('menuTileSettings'), 'Home Settings entry is missing.');
           assert.ok(!/(?:src|href)="(?:js\/settings\.js|css\/settings\.css)/.test(html), 'Settings assets must remain lazy.');
           assert.ok(optional.includes('loadRuntimeStyle("settings-ui", "css/settings.css")') && optional.includes('"js/settings.js"'));
           assert.ok(optional.includes('document.getElementById("settingsButton"), "settings", "settingsBound"') && optional.includes('window.openSettings()'));
-
           for(const contract of ['setAttribute("role", "dialog")','setAttribute("aria-modal", "true")','setAttribute("role", "radiogroup")','setAttribute("role", "radio")','setAttribute("role", "switch")','event.key === "Escape"','event.key !== "Tab"','setAttribute("inert", "")','ArrowLeft','ArrowRight','focusSelectedSettingsMotionChoice']) assert.ok(settings.includes(contract), `Settings accessibility contract missing: ${contract}`);
           assert.ok(settings.includes('setApplicationMenuFeedbackPreference'));
           assert.ok(!/\blocalStorage\b/.test(settings), 'Settings UI must not write localStorage directly.');
           assert.ok(settings.includes('window.openOptionalModule("legacy")'), 'Data Management must reuse Legacy.');
           for(const call of ['clearAllCareerModeData(', 'clearLegacyHistory(', 'clearSavedShowdown(']) assert.ok(!settings.includes(call), `Settings must not call ${call}`);
-
           assert.ok(settings.includes('createOfflinePanel') && settings.includes('settingsOfflineInstallButton'), 'Offline App panel/action must live in Settings.');
           assert.ok(settings.includes('getOfflineAppSettingsState') && settings.includes('requestOfflineAppInstall'), 'Settings install action must delegate to the offline controller.');
           assert.ok(settings.includes('activateWaitingOfflineUpdate'), 'Settings update action must delegate to safe update activation.');
           assert.ok(settings.includes('career-mode-offline-state-change'), 'Settings must rerender when offline/install state changes.');
           assert.ok(settingsCss.includes('.settingsOfflinePanel') && settingsCss.includes('.settingsOfflineInstallButton'), 'Settings Offline App presentation is missing.');
-
           for(const forbidden of ['offlineAppRail','offlineAppPanel','offlineInstallAction','ensureOfflineUI']) {
             assert.ok(!offline.includes(forbidden), `Global install UI returned in controller: ${forbidden}`);
             assert.ok(!offlineCss.includes(forbidden), `Global install UI returned in stylesheet: ${forbidden}`);
           }
           assert.ok(!/position\s*:\s*(fixed|sticky)/i.test(offlineCss), 'Offline/install stylesheet may not create fixed or sticky UI.');
           assert.ok(offline.includes('getOfflineAppSettingsState') && offline.includes('requestOfflineAppInstall'), 'Offline controller must expose UI-neutral Settings APIs.');
-
           assert.ok(appCss.includes('.menuTileSettings{grid-column:11/13;grid-row:2'));
           assert.ok(appCss.includes('html[data-motion-reduced="true"] *'));
           assert.ok(settingsCss.includes('@media(min-width:901px) and (max-height:800px)') && settingsCss.includes('@media(max-width:700px)'));
@@ -128,6 +126,11 @@ jobs:
           assert.ok(Number.isFinite(standard) && Number.isFinite(reduced) && reduced < standard / 5);
           console.log('Settings lazy-loading, accessibility, Settings-only install ownership, data reuse, and motion contracts passed.');
           NODE
+
+          npm run serve:test > /tmp/cms-settings-test-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          node tests/browser/settings-install-audit.cjs
 
       - name: Validate Settings presentation structure
         shell: bash
