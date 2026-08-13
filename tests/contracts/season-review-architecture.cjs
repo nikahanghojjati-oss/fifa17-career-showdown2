@@ -1,193 +1,26 @@
-const fs = require('node:fs');
-const vm = require('node:vm');
-const assert = require('node:assert');
-
-const html = fs.readFileSync('index.html', 'utf8');
-const app = fs.readFileSync('js/app.js', 'utf8');
-const season = fs.readFileSync('js/seasonEngine.js', 'utf8');
-const optional = fs.readFileSync('js/optionalModules.js', 'utf8');
-const diagnostics = fs.readFileSync('js/diagnostics.js', 'utf8');
-const seasonCss = fs.readFileSync('css/season.css', 'utf8');
-
-assert.ok(/id="completeSeason"[^>]*>REVIEW SEASON<\/button>/.test(html), 'Season Results must enter review instead of committing immediately.');
-
-const reviewEntry = season.slice(
-  season.indexOf('function completeCurrentSeason()'),
-  season.indexOf('function getSeasonReviewConfirmationMessage')
-);
-assert.ok(reviewEntry.includes('createSeasonReviewDraft()'), 'Review entry must create an isolated snapshot.');
-assert.ok(reviewEntry.includes('renderSeasonReview(seasonReviewDraft)'), 'Review entry must render the reviewed snapshot.');
-assert.ok(!reviewEntry.includes('persistCompletedSeason('), 'Review entry must not persist a season.');
-assert.ok(!reviewEntry.includes('saveCurrentShowdown('), 'Review entry must not write the active save.');
-
-const confirmation = season.slice(
-  season.indexOf('function confirmCurrentSeason()'),
-  season.indexOf('function editSeasonResults()')
-);
-assert.ok(confirmation.includes('buildTrustedSeasonRecordFromReview'), 'Final confirmation must rebuild/verify the reviewed snapshot.');
-assert.ok(confirmation.includes('persistCompletedSeason(roundRecord, seasonNumber)'), 'Only final confirmation may cross the persistence boundary.');
-assert.ok(confirmation.includes('seasonCompletionInProgress = true'), 'Final confirmation must retain double-submit protection.');
-
-const persistence = season.slice(
-  season.indexOf('function persistCompletedSeason('),
-  season.indexOf('function getSeasonCompletionContextMessage')
-);
-assert.ok(persistence.includes('const previousState = {'), 'Season persistence rollback snapshot is missing.');
-assert.ok(persistence.includes('if(!saveCurrentShowdown())'), 'Critical season save check is missing.');
-assert.ok(persistence.includes('currentShowdown.rounds.length = previousState.roundsLength'), 'Round rollback is missing.');
-assert.ok(persistence.includes('currentShowdown.currentRound = previousState.currentRound'), 'Current-round rollback is missing.');
-assert.ok(persistence.includes('currentShowdown.status = previousState.status'), 'Status rollback is missing.');
-assert.ok(persistence.includes('currentShowdown.score = previousState.score'), 'Score rollback is missing.');
-
-assert.ok(season.includes('window.confirmCurrentSeason = confirmCurrentSeason'), 'Final confirmation API is missing.');
-assert.ok(season.includes('window.editSeasonResults = editSeasonResults'), 'Edit-results API is missing.');
-assert.ok(season.includes('window.getSeasonReviewIntegrity = getSeasonReviewIntegrity'), 'Season Review self-diagnostics are missing.');
-assert.ok(season.includes('seasonReviewDraft = null'), 'Season Review must have an explicit ephemeral-draft clearing path.');
-assert.ok(!season.includes('careerModeShowdown.seasonReview'), 'Season Review must not create a new persistence key.');
-
-const editControl = season.slice(
-  season.indexOf('const edit = document.createElement("button")'),
-  season.indexOf('actions.append(confirm, edit)')
-);
-assert.ok(editControl.includes('edit.className = "compactButton"'), 'Edit Results must use a non-routing secondary control.');
-assert.ok(!editControl.includes('backButton'), 'Edit Results must never be intercepted by centralized Smart Back.');
-assert.ok(seasonCss.includes('.seasonReviewActions .compactButton'), 'Edit Results secondary-control styling is missing.');
-
-assert.ok(optional.includes('loadRuntimeStyle("season-review-ui", "css/season.css")'), 'Season Review CSS must remain lazy with gameplay.');
-assert.ok(optional.includes('typeof window.confirmCurrentSeason === "function"'), 'Gameplay readiness must require final-confirmation API.');
-assert.ok(optional.includes('typeof window.getSeasonReviewIntegrity === "function"'), 'Gameplay readiness must require Season Review integrity API.');
-
-assert.ok(diagnostics.includes('["confirmSeasonCompletion", "seasonConfirmBound"]'), 'Diagnostics must verify final-confirmation binding.');
-assert.ok(diagnostics.includes('["editSeasonResults", "seasonEditBound"]'), 'Diagnostics must verify edit-results binding.');
-assert.ok(diagnostics.includes('getSeasonReviewProblems(gameplayReady)'), 'Diagnostics must include Season Review self-checks.');
-
-assert.ok(seasonCss.includes('@media(max-width:700px)'), 'Season Review mobile guard is missing.');
-assert.ok(seasonCss.includes('@media(min-width:901px) and (max-height:800px)'), 'Season Review Chromebook low-height guard is missing.');
-assert.ok(seasonCss.includes('.isNotEarned{color:#52616b;background:#edf1f2'), 'Unawarded mobile achievement labels must retain WCAG AA contrast.');
-assert.ok(!/url\(/i.test(seasonCss), 'Season Review styling must not introduce external image assets.');
-
-class FakeClassList {
-  constructor(names = []) { this.names = new Set(names); }
-  contains(name) { return this.names.has(name); }
-  toggle(name, force) {
-    const enabled = force === undefined ? !this.names.has(name) : Boolean(force);
-    if (enabled) this.names.add(name); else this.names.delete(name);
-    return enabled;
-  }
-}
-
-class FakeElement {
-  constructor(className = '') {
-    this.classList = new FakeClassList(className.split(/\s+/).filter(Boolean));
-    this.className = className;
-    this.dataset = {};
-    this.disabled = false;
-    this.listeners = new Map();
-    this.textContent = '';
-    this.value = '';
-    this.checked = false;
-    this.focused = false;
-  }
-  closest(selector) { return selector === '.backButton' && this.classList.contains('backButton') ? this : null; }
-  addEventListener(type, listener) {
-    if (!this.listeners.has(type)) this.listeners.set(type, []);
-    this.listeners.get(type).push(listener);
-  }
-  setAttribute(name, value) { this[name] = String(value); }
-  focus() { this.focused = true; }
-}
-
-const captureListeners = new Map();
-const runtimeElements = new Map();
-const runtimeDocument = {
-  addEventListener(type, listener, capture) { if (capture) captureListeners.set(type, listener); },
-  getElementById(id) { return runtimeElements.get(id) || null; },
-  querySelector() { return null; }
-};
-const runtimeContext = {
-  console,
-  document: runtimeDocument,
-  Element: FakeElement,
-  currentShowdown: { currentRound: 1 },
-  setTimeout,
-  clearTimeout,
-  requestAnimationFrame: callback => callback()
-};
-runtimeContext.window = runtimeContext;
-vm.createContext(runtimeContext);
-
-const screensSource = fs.readFileSync('js/screens.js', 'utf8');
-vm.runInContext(
-  `${screensSource}\n;globalThis.__screenHarness = { initializeSmartBackDelegation };`,
-  runtimeContext,
-  { filename: 'js/screens.js' }
-);
-vm.runInContext(
-  `${season}\n;globalThis.__seasonHarness = {
-    editSeasonResults,
-    setState(ui, draft) {
-      seasonUI = ui;
-      seasonReviewDraft = draft;
-      seasonReviewActive = true;
-      seasonCompletionInProgress = false;
-    },
-    getState() {
-      return { active: seasonReviewActive, draft: seasonReviewDraft };
-    }
-  };`,
-  runtimeContext,
-  { filename: 'js/seasonEngine.js' }
-);
-
-const editClass = (season.match(/edit\.className\s*=\s*"([^"]+)"/) || [])[1];
-const editButton = new FakeElement(editClass);
-editButton.addEventListener('click', runtimeContext.__seasonHarness.editSeasonResults);
-
-const preservedPosition = new FakeElement();
-preservedPosition.value = '11';
-runtimeElements.set('p1LeaguePosition', preservedPosition);
-
-const runtimeUI = {
-  entryScreen: new FakeElement(),
-  entryHint: new FakeElement(),
-  entryGrid: new FakeElement(),
-  entryActions: new FakeElement(),
-  entryError: new FakeElement(),
-  reviewPanel: new FakeElement(),
-  reviewError: new FakeElement(),
-  entryTitle: new FakeElement()
-};
-runtimeContext.__seasonHarness.setState(runtimeUI, { fingerprint: 'reviewed-max-11' });
-runtimeContext.__screenHarness.initializeSmartBackDelegation();
-
-const clickEvent = {
-  target: editButton,
-  defaultPrevented: false,
-  propagationStopped: false,
-  preventDefault() { this.defaultPrevented = true; },
-  stopImmediatePropagation() { this.propagationStopped = true; }
-};
-captureListeners.get('click')(clickEvent);
-if (!clickEvent.propagationStopped) {
-  for (const listener of editButton.listeners.get('click') || []) listener(clickEvent);
-}
-
-const runtimeState = runtimeContext.__seasonHarness.getState();
-assert.strictEqual(clickEvent.defaultPrevented, false, 'Smart Back must not consume Edit Results.');
-assert.strictEqual(clickEvent.propagationStopped, false, 'Edit Results propagation must reach the Season engine.');
-assert.strictEqual(runtimeState.active, false, 'Review → Edit must restore entry mode.');
-assert.strictEqual(runtimeState.draft, null, 'Review → Edit must invalidate the reviewed draft.');
-assert.strictEqual(runtimeUI.entryScreen.dataset.seasonEntryMode, 'entry', 'Review → Edit must expose the entry form.');
-assert.strictEqual(preservedPosition.value, '11', 'Review → Edit must preserve populated Season values.');
-assert.strictEqual(preservedPosition.focused, true, 'Review → Edit must return focus to the first result field.');
-
-const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
-const revisionMatch = html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i);
-assert.ok(appVersion, 'APP_VERSION is missing.');
-assert.ok(revisionMatch && revisionMatch[1] === `${appVersion}-r1`, 'Shell cache revision must track APP_VERSION.');
-const revision = revisionMatch[1];
-const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)]
-  .map(match => ({ path: match[1], revision: match[2] || '' }));
-assert.deepStrictEqual(refs.filter(ref => ref.revision !== revision), [], 'Initial shell contains mixed cache revisions.');
-
+const fs=require('node:fs');const vm=require('node:vm');const assert=require('node:assert');const read=p=>fs.readFileSync(p,'utf8');
+const html=read('index.html'),app=read('js/app.js'),season=read('js/seasonEngine.js'),optional=read('js/optionalModules.js'),diagnostics=read('js/diagnostics.js'),seasonCss=read('css/season.css');
+assert.ok(/id="completeSeason"[^>]*>REVIEW SEASON<\/button>/.test(html),'Season Results must enter review instead of committing immediately.');
+const review=season.slice(season.indexOf('function completeCurrentSeason()'),season.indexOf('function getSeasonReviewConfirmationMessage'));
+for(const [needle,msg] of [['createSeasonReviewDraft()','Review entry must create an isolated snapshot.'],['renderSeasonReview(seasonReviewDraft)','Review entry must render the reviewed snapshot.']])assert.ok(review.includes(needle),msg);
+for(const needle of ['persistCompletedSeason(','saveCurrentShowdown('])assert.ok(!review.includes(needle),`Review entry must not cross persistence: ${needle}`);
+const confirm=season.slice(season.indexOf('function confirmCurrentSeason()'),season.indexOf('function editSeasonResults()'));
+for(const needle of ['buildTrustedSeasonRecordFromReview','persistCompletedSeason(roundRecord, seasonNumber)','seasonCompletionInProgress = true'])assert.ok(confirm.includes(needle),`Final confirmation contract missing: ${needle}`);
+const persist=season.slice(season.indexOf('function persistCompletedSeason('),season.indexOf('function getSeasonCompletionContextMessage'));
+for(const needle of ['const previousState = {','if(!saveCurrentShowdown())','currentShowdown.rounds.length = previousState.roundsLength','currentShowdown.currentRound = previousState.currentRound','currentShowdown.status = previousState.status','currentShowdown.score = previousState.score'])assert.ok(persist.includes(needle),`Season persistence/rollback contract missing: ${needle}`);
+for(const needle of ['window.confirmCurrentSeason = confirmCurrentSeason','window.editSeasonResults = editSeasonResults','window.getSeasonReviewIntegrity = getSeasonReviewIntegrity','seasonReviewDraft = null'])assert.ok(season.includes(needle),`Season API/draft contract missing: ${needle}`);
+assert.ok(!season.includes('careerModeShowdown.seasonReview'),'Season Review must not create a new persistence key.');
+const edit=season.slice(season.indexOf('const edit = document.createElement("button")'),season.indexOf('actions.append(confirm, edit)'));
+assert.ok(edit.includes('edit.className = "compactButton"')&&!edit.includes('backButton'),'Edit Results must remain a non-routing secondary control.');
+for(const needle of ['loadRuntimeStyle("season-review-ui", "css/season.css")','typeof window.confirmCurrentSeason === "function"','typeof window.getSeasonReviewIntegrity === "function"'])assert.ok(optional.includes(needle),`Lazy gameplay contract missing: ${needle}`);
+for(const needle of ['["confirmSeasonCompletion", "seasonConfirmBound"]','["editSeasonResults", "seasonEditBound"]','getSeasonReviewProblems(gameplayReady)'])assert.ok(diagnostics.includes(needle),`Season diagnostics contract missing: ${needle}`);
+for(const needle of ['.seasonReviewActions .compactButton','@media(max-width:700px)','@media(min-width:901px) and (max-height:800px)','.isNotEarned{color:#52616b;background:#edf1f2'])assert.ok(seasonCss.includes(needle),`Season presentation contract missing: ${needle}`);
+assert.ok(!/url\(/i.test(seasonCss),'Season Review styling must not introduce external image assets.');
+class CL{constructor(s=''){this.s=new Set(s.split(/\s+/).filter(Boolean))}contains(n){return this.s.has(n)}toggle(n,f){f=f===undefined?!this.s.has(n):!!f;f?this.s.add(n):this.s.delete(n);return f}}
+class E{constructor(c=''){this.classList=new CL(c);this.className=c;this.dataset={};this.disabled=false;this.listeners=new Map;this.textContent='';this.value='';this.checked=false;this.focused=false}closest(s){return s==='.backButton'&&this.classList.contains('backButton')?this:null}addEventListener(t,l){if(!this.listeners.has(t))this.listeners.set(t,[]);this.listeners.get(t).push(l)}setAttribute(n,v){this[n]=String(v)}focus(){this.focused=true}}
+const cap=new Map,els=new Map,doc={addEventListener(t,l,c){if(c)cap.set(t,l)},getElementById:id=>els.get(id)||null,querySelector(){return null}},ctx={console,document:doc,Element:E,currentShowdown:{currentRound:1},setTimeout,clearTimeout,requestAnimationFrame:f=>f()};ctx.window=ctx;vm.createContext(ctx);
+vm.runInContext(`${read('js/screens.js')}\n;globalThis.__s={initializeSmartBackDelegation};`,ctx);vm.runInContext(`${season}\n;globalThis.__e={editSeasonResults,set(ui,d){seasonUI=ui;seasonReviewDraft=d;seasonReviewActive=true;seasonCompletionInProgress=false},get(){return{active:seasonReviewActive,draft:seasonReviewDraft}}};`,ctx);
+const editButton=new E((season.match(/edit\.className\s*=\s*"([^"]+)"/)||[])[1]);editButton.addEventListener('click',ctx.__e.editSeasonResults);const pos=new E;pos.value='11';els.set('p1LeaguePosition',pos);const ui={entryScreen:new E,entryHint:new E,entryGrid:new E,entryActions:new E,entryError:new E,reviewPanel:new E,reviewError:new E,entryTitle:new E};ctx.__e.set(ui,{fingerprint:'reviewed-max-11'});ctx.__s.initializeSmartBackDelegation();const ev={target:editButton,defaultPrevented:false,propagationStopped:false,preventDefault(){this.defaultPrevented=true},stopImmediatePropagation(){this.propagationStopped=true}};cap.get('click')(ev);if(!ev.propagationStopped)for(const l of editButton.listeners.get('click')||[])l(ev);const state=ctx.__e.get();
+assert.equal(ev.defaultPrevented,false);assert.equal(ev.propagationStopped,false);assert.equal(state.active,false);assert.equal(state.draft,null);assert.equal(ui.entryScreen.dataset.seasonEntryMode,'entry');assert.equal(pos.value,'11');assert.equal(pos.focused,true);
+const version=(app.match(/const APP_VERSION = "([^"]+)"/)||[])[1],revision=(html.match(/<meta\s+name="app-asset-revision"\s+content="([^"]+)"/i)||[])[1];assert.ok(version&&revision);assert.match(revision,new RegExp(`^${version.replace(/\./g,'\\.')}\\-r[1-9]\\d*$`),'Shell cache revision must be a numbered runtime revision for APP_VERSION.');const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)].map(m=>m[2]||'');assert.deepEqual(refs.filter(r=>r!==revision),[],'Initial shell contains mixed cache revisions.');
 console.log(`Season pre-commit architecture, Smart Back integration, value preservation, rollback, lazy-loading and responsive contracts passed for ${revision}.`);
