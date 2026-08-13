@@ -1,11 +1,55 @@
+/* =====================================================
+   Career Mode Showdown v1.2.0-r2
+   Offline/installed presentation boundary
+
+   Installation and update controls intentionally have no global/floating UI.
+   The only visual rule here is the mobile startup correction that must be
+   available from the versioned offline shell as well as normal browser loads.
+===================================================== */
+
+@media(max-width:700px){
+    #loadingScreen{
+        /* Width-owned art geometry: never grow this band with viewport height. */
+        --startup-mobile-top-band:clamp(46px,12vw,54px);
+    }
+
+    /*
+       Root cause guard: the protected r3 mobile rule used a full-height frame
+       with a bottom-aligned `object-fit:contain` portrait. The portrait was
+       width-constrained, so taller standalone iOS viewports could not make the
+       photo taller; every extra viewport pixel became empty space above Reus.
+       Safari browser chrome merely hid that defect by shortening the viewport.
+
+       Keep the established full-screen art frame, but give the photograph a
+       stable box below a deliberate width-owned top band. The image fills that
+       box with `cover`; for this portrait/photo-box pairing the full vertical
+       subject is retained and only lateral source space is trimmed as needed.
+    */
+    .startupAthleteFrame{
+        inset:0;
+        width:100%;
+        height:100%;
+        clip-path:none;
+        opacity:1;
+    }
+
+    #startupAthlete{
+        position:absolute;
+        inset:var(--startup-mobile-top-band) 0 0 0;
+        width:100%;
+        height:calc(100% - var(--startup-mobile-top-band));
+        object-fit:cover;
+        object-position:54% 50%;
+        filter:saturate(.96) contrast(1.03) brightness(.98);
+    }
+}
+
+@media(max-width:480px){
+    #startupAthlete{object-position:54% 50%;}
+}
+
 /*
-   Career Mode Showdown offline presentation boundary
-
-   Installation, cache readiness and update controls intentionally have no
-   global or floating UI. They live inside Settings so gameplay, navigation and
-   content are never covered by an install/status rail.
-
-   This file remains in the versioned Service Worker shell for cache continuity
-   with the v1.2 installable-app architecture. Do not add fixed/sticky install
-   prompts here unless the project owner explicitly authorizes that interaction.
+   Do not add fixed/sticky install bars, install panels, or global install
+   prompts here. Offline installation belongs inside Settings unless the owner
+   explicitly authorizes a future exception for a specific purpose.
 */
