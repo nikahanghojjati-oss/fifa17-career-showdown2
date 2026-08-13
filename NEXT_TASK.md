@@ -3,35 +3,46 @@
 Last updated: 2026-08-13
 
 Application version: v1.2.0
-Runtime asset revision: `1.2.0-r1`
-Release state: Installable Offline App technically production-proven
-Production runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
-Proven GitHub Pages deployment: `5891182853`
-Production Stability: `31716787806` / deployed smoke `94503946791`
-Release Integration Burn-In: `31716787876` — 2/2
+Production runtime asset revision: `1.2.0-r1`
+Hotfix candidate runtime asset revision: `1.2.0-r2`
+Release state: owner-authorized visual/install hotfix in PR #38
+Previous known-good runtime: `1.2.0-r1`
 
 ## Immediate legal task
 
-Begin v1.3.0 — Recovery & Device Resilience Hardening.
+Finish and ship the v1.2.0 / `1.2.0-r2` hotfix before returning to v1.3 hardening. This is maintenance of the v1.2.0 Installable Offline App milestone, not a new feature milestone.
 
-The goal is a maintenance-first hardening pass after the new install/offline layer. Investigate reproducible defects, recovery gaps, lifecycle races, stale/mixed information, browser/device failure states, install/update edge cases, cache corruption, storage failure behavior, responsive/accessibility regressions and release-authority drift before adding new product scope.
+The hotfix has exactly two product defects in scope:
 
-Do not begin cloud, accounts, QR pairing, two-device transport, gameplay changes or a framework rewrite.
+1. iOS standalone loading composition. Separate safe-area/viewport handling from visual composition, anchor the Reus image in a stable mobile box, prevent installed-app height from stretching the composition, and preserve face/body/leg framing intentionally.
+2. Install UI hierarchy. Remove floating install/status UI from all screens and remove any layout reservation created for it. Keep install/offline/update logic, but place install/update actions only in Settings.
 
-The older execution-roadmap label that assigns v1.3.0 directly to Local Profiles and Save Library is stale as a current task. Local Profiles / Save Library remains future planned work, but its version assignment must be explicitly reconciled after v1.3 hardening.
+The release must add regression protection for:
 
-## v1.3 hardening priorities
+- desktop loading;
+- low-height windowed desktop;
+- narrow mobile browser;
+- iOS standalone installed-app height;
+- maximum bounded mobile top band;
+- stable Reus photo-box anchor and subject-safe crop;
+- loading identity/status/lower-copy relationships;
+- absence of global floating/sticky install presentation;
+- Settings-owned install/update controls;
+- exact whole-runtime cache coherence with r1 retained as previous known-good runtime.
 
-1. preserve the technically proven v1.2.0 / `1.2.0-r1` runtime as rollback authority;
-2. audit Service Worker install/update/activation/recovery for browser close, reload, controller churn, partial cache, stale cache and consecutive-update edge cases;
-3. audit exact preservation of all three canonical raw localStorage values across offline/update/recovery paths;
-4. exercise quota errors, blocked reads/writes, corrupt raw values, interrupted Candidate C recovery and stale reviewed state without weakening transaction-owned rollback or anti-clobber protection;
-5. audit runtime-notice/install/offline UI layering, focus, keyboard, touch, reduced motion, small mobile, Chromebook low-height and high-DPR behavior;
-6. audit Smart Back and route/history ownership for lazy screens with no duplicate listeners or competing router state;
-7. audit external-media failure/recovery and confirmed offline state without converting Cache Storage into a user-data authority;
-8. audit dependency-lock integrity and CI owner topology so infrastructure failures are distinguished from product failures;
-9. audit release/version/revision references, handoffs and historical docs for stale current-facing claims;
-10. implement only defects supported by evidence, then prove each changed surface through its canonical owner workflow.
+Screenshot evidence for the sensitive loading archetypes is a formal visual release gate. Element existence alone is not sufficient.
+
+## Production baseline
+
+v1.2.0 / `1.2.0-r1` remains current production until r2 is merged and deployed:
+
+- merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`;
+- Pages `5891182853`;
+- Stability `31716787806`;
+- deployed smoke `94503946791`;
+- Burn-In `31716787876` 2/2.
+
+Do not rewrite `RELEASE_V1.2.0.md`. The r2 hotfix owns `RELEASE_V1.2.0_R2.md` and must not be marked production-proven before deployed evidence exists.
 
 ## Protected systems
 
@@ -49,26 +60,18 @@ Do not alter without explicit owner direction:
 - Candidate A non-mutating backup format v1;
 - Candidate B read-only analysis;
 - Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned rollback, byte-for-byte verification and anti-clobber semantics;
-- protected Marco Reus and accepted football-photo presentation;
+- protected Marco Reus source and accepted Home/desktop football-photo presentation;
 - startup budgets and local-first behavior;
-- v1.2 whole-runtime cache-revision integrity.
+- whole-runtime cache-revision integrity.
 
 ## Testing rule
 
 Preserve 14 permanent workflow families and 27 protected multiline executable blocks.
 
-Keep testing single-owner. Candidate B owns one import browser proof, Candidate C one restore/recovery browser proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete stateful journeys on main/manual release use. Do not duplicate matrices, inflate budgets or weaken assertions to obtain green CI.
+Keep testing single-owner. Candidate B owns one import browser proof, Candidate C one restore/recovery browser proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete stateful journeys on main/manual release use.
 
-Maintenance work should normally use a dedicated branch/PR. If a failure is infrastructure-only, fix the infrastructure contract without changing production behavior. If a real product defect is found, fix the product and add the narrow regression proof that would have caught it.
+The loading visual regression belongs to the existing V1 Visual Immersion owner. Settings install hierarchy belongs to Settings static contracts plus Stability offline browser proof. Do not create duplicate competing matrices.
 
-## Production baseline
+A runtime hotfix revision may be `r2` or later, but every runtime reference, Service Worker cache identity, manifest icon revision and lazy asset must still match the exact active revision. Tests must reject mixed revisions, not reject legitimate numbered hotfix generations.
 
-v1.2.0 exact-byte production proof:
-
-- merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`;
-- Pages `5891182853`;
-- Stability `31716787806`;
-- deployed smoke `94503946791`;
-- Burn-In `31716787876` 2/2.
-
-This production proof is technical. Do not fabricate a separate owner visual-acceptance statement.
+After r2 is production-proven, resume v1.3.0 — Recovery & Device Resilience Hardening. Cloud, accounts, QR pairing, two-device transport and gameplay changes remain out of scope.

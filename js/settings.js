@@ -1,6 +1,6 @@
 /* =====================================================
-   Career Mode Showdown v1.1.4
-   Workstream 3 — lightweight application Settings
+   Career Mode Showdown v1.2.1
+   Lightweight application Settings
 ===================================================== */
 
 let settingsOverlay = null;
@@ -8,6 +8,8 @@ let settingsDialog = null;
 let settingsContent = null;
 let settingsPreviousFocus = null;
 let settingsPreferenceListenerBound = false;
+let settingsOfflineListenerBound = false;
+let settingsOfflineGuidance = "";
 
 function getSettingsAssetRevision(){
     const meta = document.querySelector('meta[name="app-asset-revision"]');
@@ -15,7 +17,7 @@ function getSettingsAssetRevision(){
 }
 
 function getSettingsApplicationVersion(){
-    return typeof APP_VERSION === "string" ? APP_VERSION : "1.1.4";
+    return typeof APP_VERSION === "string" ? APP_VERSION : "1.2.1";
 }
 
 function getSettingsActiveShowdown(){
@@ -271,6 +273,112 @@ function createMotionPanel(){
     return panel;
 }
 
+function getSettingsOfflineState(){
+    if(typeof window.getOfflineAppSettingsState === "function"){
+        return window.getOfflineAppSettingsState();
+    }
+    return {
+        supported:false,
+        standalone:false,
+        connectivity:"online",
+        connectivityVerified:false,
+        connectivityLabel:"Checking",
+        offlineReady:false,
+        offlineRecoveryReady:false,
+        shellLabel:"Preparing offline support",
+        waitingUpdate:false,
+        installPromptAvailable:false,
+        installationLabel:"Preparing install support",
+        installActionLabel:"PREPARING OFFLINE SUPPORT",
+        installActionDisabled:true,
+        updateActionLabel:"APPLY READY UPDATE",
+        installGuidance:"Offline support is still starting. Reopen Settings in a moment if this status does not update."
+    };
+}
+
+async function handleSettingsOfflineInstall(){
+    if(typeof window.requestOfflineAppInstall !== "function"){
+        settingsOfflineGuidance = "Offline installation support is still starting. Try again in a moment.";
+        renderSettings();
+        focusSettingsControl(".settingsOfflineInstallButton");
+        return;
+    }
+
+    const result = await window.requestOfflineAppInstall();
+    settingsOfflineGuidance = result?.message || "";
+    renderSettings();
+    focusSettingsControl(".settingsOfflineInstallButton");
+}
+
+async function handleSettingsOfflineUpdate(){
+    if(typeof window.activateWaitingOfflineUpdate !== "function"){
+        if(typeof window.showAppNotice === "function"){
+            window.showAppNotice("Offline update support is unavailable in this session.", "error", 6000);
+        }
+        return;
+    }
+    await window.activateWaitingOfflineUpdate();
+    renderSettings();
+    focusSettingsControl(".settingsOfflineUpdateButton");
+}
+
+function createOfflinePanel(){
+    const state = getSettingsOfflineState();
+    const panel = createSettingsPanel(
+        "DEVICE",
+        "OFFLINE APP",
+        "Install Career Mode Showdown for app-style launch and offline use. Installation controls stay here in Settings and never cover gameplay or navigation."
+    );
+    panel.classList.add("settingsOfflinePanel");
+
+    const info = createSettingsElement("div", "settingsInfoGrid settingsOfflineInfo");
+    info.append(
+        createSettingsInfoRow("INSTALLATION", state.installationLabel),
+        createSettingsInfoRow("OFFLINE SHELL", state.shellLabel),
+        createSettingsInfoRow(
+            "CONNECTIVITY",
+            state.connectivityVerified ? state.connectivityLabel : "Checking connection"
+        )
+    );
+
+    const actions = createSettingsElement("div", "settingsOfflineActions");
+    const install = createSettingsElement(
+        "button",
+        "menuButton settingsOfflineInstallButton",
+        state.installActionLabel
+    );
+    install.type = "button";
+    install.disabled = Boolean(state.installActionDisabled);
+    install.addEventListener("click", handleSettingsOfflineInstall);
+    actions.appendChild(install);
+
+    if(state.waitingUpdate){
+        const update = createSettingsElement(
+            "button",
+            "menuButton settingsOfflineUpdateButton",
+            state.updateActionLabel || "APPLY READY UPDATE"
+        );
+        update.type = "button";
+        update.addEventListener("click", handleSettingsOfflineUpdate);
+        actions.appendChild(update);
+    }
+
+    const note = createSettingsElement(
+        "p",
+        "settingsOfflineNote",
+        settingsOfflineGuidance || (
+            state.standalone
+                ? "Installed mode is active. The verified local application shell is kept separate from your three canonical Showdown data keys."
+                : "Choose the install action for device-specific instructions or your browser's native install prompt when available."
+        )
+    );
+    note.setAttribute("role", "status");
+    note.setAttribute("aria-live", "polite");
+
+    panel.append(info, actions, note);
+    return panel;
+}
+
 async function openSettingsDataManagement(){
     closeSettings(false);
 
@@ -296,6 +404,7 @@ function createDataPanel(){
         "DATA MANAGEMENT",
         "Backup export, Showdown deletion and full-reset actions stay centralized in Legacy. Export is read-only; destructive actions keep the existing confirmations and rollback protections."
     );
+    panel.classList.add("settingsDataPanel");
 
     const info = createSettingsElement("div", "settingsInfoGrid");
     info.append(
@@ -331,6 +440,7 @@ function renderSettings(){
     fragment.append(
         createApplicationPanel(),
         createMotionPanel(),
+        createOfflinePanel(),
         createDataPanel()
     );
     settingsContent.replaceChildren(fragment);
@@ -447,6 +557,7 @@ function setSettingsBackgroundInert(inert){
 
 function openSettings(){
     ensureSettingsDialog();
+    settingsOfflineGuidance = "";
     renderSettings();
 
     settingsPreviousFocus = document.activeElement instanceof HTMLElement
@@ -474,22 +585,34 @@ function closeSettings(restoreFocus = true){
         settingsPreviousFocus.focus();
     }
     settingsPreviousFocus = null;
+    settingsOfflineGuidance = "";
 }
 
 function initializeSettings(){
     ensureSettingsDialog();
-    if(settingsPreferenceListenerBound){ return; }
-    settingsPreferenceListenerBound = true;
-    window.addEventListener("career-mode-preferences-change", event => {
-        if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
-            renderSettings();
-            if(event && event.detail && event.detail.source === "user"){
-                focusSelectedSettingsMotionChoice();
-            }else if(event && event.detail && event.detail.source === "menu-feedback"){
-                focusSettingsControl(".settingsAudioToggle");
+
+    if(!settingsPreferenceListenerBound){
+        settingsPreferenceListenerBound = true;
+        window.addEventListener("career-mode-preferences-change", event => {
+            if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
+                renderSettings();
+                if(event && event.detail && event.detail.source === "user"){
+                    focusSelectedSettingsMotionChoice();
+                }else if(event && event.detail && event.detail.source === "menu-feedback"){
+                    focusSettingsControl(".settingsAudioToggle");
+                }
             }
-        }
-    });
+        });
+    }
+
+    if(!settingsOfflineListenerBound){
+        settingsOfflineListenerBound = true;
+        window.addEventListener("career-mode-offline-state-change", () => {
+            if(settingsOverlay && !settingsOverlay.classList.contains("hidden")){
+                renderSettings();
+            }
+        });
+    }
 }
 
 window.initializeSettings = initializeSettings;

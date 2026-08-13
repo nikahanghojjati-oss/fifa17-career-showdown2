@@ -11,7 +11,7 @@ permissions:
 jobs:
   settings-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
 
     steps:
       - name: Check out repository
@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 24
 
+      - name: Install locked Settings dependencies
+        run: npm ci
+
       - name: Validate application preference persistence
         shell: bash
         run: |
@@ -30,37 +33,13 @@ jobs:
           const fs = require('fs');
           const vm = require('vm');
           const assert = require('assert');
-
           const values = new Map();
           let systemReduced = false;
-          const mediaQuery = {
-            get matches(){ return systemReduced; },
-            addEventListener(){},
-            addListener(){}
-          };
+          const mediaQuery = { get matches(){ return systemReduced; }, addEventListener(){}, addListener(){} };
           const documentElement = { dataset: {} };
-          const document = {
-            documentElement,
-            visibilityState: 'visible',
-            addEventListener(){}
-          };
-          const localStorage = {
-            getItem(key){ return values.has(key) ? values.get(key) : null; },
-            setItem(key, value){ values.set(key, String(value)); },
-            removeItem(key){ values.delete(key); }
-          };
-
-          const context = {
-            console,
-            document,
-            localStorage,
-            structuredClone,
-            setTimeout,
-            clearTimeout,
-            Date,
-            JSON,
-            CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; }
-          };
+          const document = { documentElement, visibilityState: 'visible', addEventListener(){} };
+          const localStorage = { getItem(key){ return values.has(key) ? values.get(key) : null; }, setItem(key, value){ values.set(key, String(value)); }, removeItem(key){ values.delete(key); } };
+          const context = { console, document, localStorage, structuredClone, setTimeout, clearTimeout, Date, JSON, CustomEvent: function(type, init){ this.type = type; this.detail = init && init.detail; } };
           context.window = context;
           context.window.setTimeout = setTimeout;
           context.window.clearTimeout = clearTimeout;
@@ -68,106 +47,90 @@ jobs:
           context.window.addEventListener = () => {};
           context.window.dispatchEvent = () => true;
           vm.createContext(context);
-
           const source = fs.readFileSync('js/storage.js', 'utf8');
           vm.runInContext(`${source}\n;globalThis.__settingsStorage = { loadApplicationPreferences, getApplicationMotionPreferenceState, setApplicationReducedMotionPreference, isMenuFeedbackEnabled, setApplicationMenuFeedbackPreference, applyApplicationMotionPreference, clearAllCareerModeData, APPLICATION_PREFERENCES_KEY, STORAGE_KEY, LEGACY_STORAGE_KEY };`, context, { filename: 'js/storage.js' });
           const api = context.__settingsStorage;
-
-          assert.deepStrictEqual(
-            JSON.parse(JSON.stringify(api.loadApplicationPreferences())),
-            { schemaVersion: 2, reducedMotion: false, menuFeedback: true },
-            'Settings must default to Follow Device with original menu feedback enabled.'
-          );
-          assert.strictEqual(api.getApplicationMotionPreferenceState().effectiveReduced, false, 'Standard device motion should remain standard by default.');
-          assert.strictEqual(api.isMenuFeedbackEnabled(), true, 'Menu feedback must be enabled by default.');
-
-          assert.strictEqual(api.setApplicationMenuFeedbackPreference(false), true, 'Menu feedback must be independently mutable.');
-          assert.strictEqual(api.isMenuFeedbackEnabled(), false, 'Menu feedback mute was not retained.');
-          assert.strictEqual(JSON.parse(values.get(api.APPLICATION_PREFERENCES_KEY)).menuFeedback, false, 'Menu feedback mute was not persisted.');
-          assert.strictEqual(api.setApplicationMenuFeedbackPreference(true), true, 'Menu feedback must be re-enabled successfully.');
-
-          assert.strictEqual(api.setApplicationReducedMotionPreference(true), true, 'Reduced-motion override must save successfully.');
-          assert.strictEqual(JSON.parse(values.get(api.APPLICATION_PREFERENCES_KEY)).reducedMotion, true, 'Reduced-motion preference was not persisted.');
-          assert.strictEqual(api.getApplicationMotionPreferenceState().effectiveReduced, true, 'User Reduce Motion must become effective.');
-          assert.strictEqual(documentElement.dataset.motionReduced, 'true', 'Effective reduced-motion DOM flag was not applied.');
-
+          assert.deepStrictEqual(JSON.parse(JSON.stringify(api.loadApplicationPreferences())), { schemaVersion: 2, reducedMotion: false, menuFeedback: true });
+          assert.strictEqual(api.getApplicationMotionPreferenceState().effectiveReduced, false);
+          assert.strictEqual(api.isMenuFeedbackEnabled(), true);
+          assert.strictEqual(api.setApplicationMenuFeedbackPreference(false), true);
+          assert.strictEqual(api.isMenuFeedbackEnabled(), false);
+          assert.strictEqual(JSON.parse(values.get(api.APPLICATION_PREFERENCES_KEY)).menuFeedback, false);
+          assert.strictEqual(api.setApplicationMenuFeedbackPreference(true), true);
+          assert.strictEqual(api.setApplicationReducedMotionPreference(true), true);
+          assert.strictEqual(JSON.parse(values.get(api.APPLICATION_PREFERENCES_KEY)).reducedMotion, true);
+          assert.strictEqual(api.getApplicationMotionPreferenceState().effectiveReduced, true);
+          assert.strictEqual(documentElement.dataset.motionReduced, 'true');
           values.set(api.STORAGE_KEY, '{"id":1}');
           values.set(api.LEGACY_STORAGE_KEY, '[]');
           const preferenceSnapshot = values.get(api.APPLICATION_PREFERENCES_KEY);
-          assert.strictEqual(api.clearAllCareerModeData(), true, 'Showdown data reset should succeed in the storage mock.');
-          assert.strictEqual(values.has(api.STORAGE_KEY), false, 'Active showdown survived Reset All Showdown Data.');
-          assert.strictEqual(values.has(api.LEGACY_STORAGE_KEY), false, 'Legacy history survived Reset All Showdown Data.');
-          assert.strictEqual(values.get(api.APPLICATION_PREFERENCES_KEY), preferenceSnapshot, 'Showdown data reset must not silently erase application preferences.');
-
-          assert.strictEqual(api.setApplicationReducedMotionPreference(false), true, 'Follow Device preference must save successfully.');
+          assert.strictEqual(api.clearAllCareerModeData(), true);
+          assert.strictEqual(values.has(api.STORAGE_KEY), false);
+          assert.strictEqual(values.has(api.LEGACY_STORAGE_KEY), false);
+          assert.strictEqual(values.get(api.APPLICATION_PREFERENCES_KEY), preferenceSnapshot, 'Showdown reset must preserve app preferences.');
+          assert.strictEqual(api.setApplicationReducedMotionPreference(false), true);
           systemReduced = true;
           api.applyApplicationMotionPreference();
           const systemState = api.getApplicationMotionPreferenceState();
-          assert.strictEqual(systemState.reducedMotionOverride, false, 'Follow Device must not become a hidden force-reduced override.');
-          assert.strictEqual(systemState.systemReduced, true, 'System reduced-motion state was not observed.');
-          assert.strictEqual(systemState.effectiveReduced, true, 'A system reduced-motion request must always remain effective.');
-          assert.strictEqual(documentElement.dataset.motionPreference, 'system', 'Follow Device DOM mode is incorrect.');
-          assert.strictEqual(documentElement.dataset.motionReduced, 'true', 'System reduced-motion request did not reach the DOM contract.');
-
-          console.log('Settings preference persistence, reset isolation, and device-reduced-motion precedence passed.');
+          assert.strictEqual(systemState.reducedMotionOverride, false);
+          assert.strictEqual(systemState.systemReduced, true);
+          assert.strictEqual(systemState.effectiveReduced, true);
+          assert.strictEqual(documentElement.dataset.motionPreference, 'system');
+          assert.strictEqual(documentElement.dataset.motionReduced, 'true');
+          console.log('Settings preference persistence, reset isolation, and device reduced-motion precedence passed.');
           NODE
 
-      - name: Validate Settings lazy architecture and accessibility
+      - name: Validate Settings lazy architecture, accessibility, and install ownership
         shell: bash
         run: |
           set -euo pipefail
           node <<'NODE'
           const fs = require('fs');
           const assert = require('assert');
-
           const html = fs.readFileSync('index.html', 'utf8');
           const appCss = fs.readFileSync('css/app.css', 'utf8');
           const settingsCss = fs.readFileSync('css/settings.css', 'utf8');
           const settings = fs.readFileSync('js/settings.js', 'utf8');
           const optional = fs.readFileSync('js/optionalModules.js', 'utf8');
+          const offline = fs.readFileSync('js/offlineApp.js', 'utf8');
+          const offlineCss = fs.readFileSync('css/offline.css', 'utf8');
           const club = fs.readFileSync('js/clubAssignment.js', 'utf8');
           const wheel = fs.readFileSync('js/leagueWheel.js', 'utf8');
-
-          assert.ok(html.includes('id="settingsButton"'), 'Home Settings entry is missing.');
-          assert.ok(html.includes('menuTileSettings'), 'Settings Home tile class is missing.');
-          assert.ok(!/(?:src|href)="(?:js\/settings\.js|css\/settings\.css)/.test(html), 'Settings assets must not become eager startup references.');
-          assert.ok(optional.includes('loadRuntimeStyle("settings-ui", "css/settings.css")'), 'Settings stylesheet is not lazy-loaded.');
-          assert.ok(optional.includes('"js/settings.js"'), 'Settings script is not lazy-loaded.');
-          assert.ok(optional.includes('document.getElementById("settingsButton"), "settings", "settingsBound"'), 'Settings tile is not bound through the optional-module loader.');
-          assert.ok(optional.includes('window.openSettings()'), 'Lazy Settings module is not opened by the optional-module controller.');
-
-          assert.ok(settings.includes('setAttribute("role", "dialog")'), 'Settings must expose dialog semantics.');
-          assert.ok(settings.includes('setAttribute("aria-modal", "true")'), 'Settings dialog must be modal to assistive technology.');
-          assert.ok(settings.includes('setAttribute("role", "radiogroup")'), 'Motion choices must expose a radiogroup.');
-          assert.ok(settings.includes('setAttribute("role", "radio")'), 'Motion choices must expose radio semantics.');
-          assert.ok(settings.includes('setAttribute("role", "switch")'), 'Menu feedback must expose switch semantics.');
-          assert.ok(settings.includes('setApplicationMenuFeedbackPreference'), 'Settings must use the centralized menu-feedback preference API.');
-          assert.ok(settings.includes('event.key === "Escape"'), 'Settings must close with Escape.');
-          assert.ok(settings.includes('event.key !== "Tab"'), 'Settings must contain explicit Tab focus trapping.');
-          assert.ok(settings.includes('setAttribute("inert", "")'), 'Background application must become inert while Settings is open.');
-          assert.ok(settings.includes('ArrowLeft') && settings.includes('ArrowRight'), 'Motion radiogroup must support arrow-key navigation.');
-          assert.ok(settings.includes('focusSelectedSettingsMotionChoice'), 'Motion selection must preserve keyboard focus after rerender.');
-
-          assert.ok(!/\blocalStorage\b/.test(settings), 'Settings UI must consume storage APIs instead of writing localStorage directly.');
-          assert.ok(settings.includes('window.openOptionalModule("legacy")'), 'Settings Data Management must reuse Legacy instead of duplicating destructive controls.');
-          ['clearAllCareerModeData(', 'clearLegacyHistory(', 'clearSavedShowdown('].forEach(call => {
-            assert.ok(!settings.includes(call), `Settings must not directly invoke destructive storage primitive ${call}`);
-          });
-
-          assert.ok(appCss.includes('.menuTileSettings{grid-column:11/13;grid-row:2'), 'Desktop Settings tile placement is missing.');
-          assert.ok(appCss.includes('html[data-motion-reduced="true"] *'), 'User-forced reduced-motion CSS contract is missing.');
-          assert.ok(settingsCss.includes('@media(min-width:901px) and (max-height:800px)'), 'Low-height Chromebook Settings layout guard is missing.');
-          assert.ok(settingsCss.includes('@media(max-width:700px)'), 'Mobile Settings layout guard is missing.');
-          assert.ok(settingsCss.includes('.settingsAudioToggle:focus-visible'), 'Menu feedback switch needs an explicit keyboard focus treatment.');
-
-          assert.ok(club.includes('window.isReducedMotionPreferred()'), 'Club Reveal is not using the centralized motion preference.');
-          assert.ok(wheel.includes('window.isReducedMotionPreferred()'), 'League Wheel is not using the centralized motion preference.');
+          assert.ok(html.includes('id="settingsButton"') && html.includes('menuTileSettings'), 'Home Settings entry is missing.');
+          assert.ok(!/(?:src|href)="(?:js\/settings\.js|css\/settings\.css)/.test(html), 'Settings assets must remain lazy.');
+          assert.ok(optional.includes('loadRuntimeStyle("settings-ui", "css/settings.css")') && optional.includes('"js/settings.js"'));
+          assert.ok(optional.includes('document.getElementById("settingsButton"), "settings", "settingsBound"') && optional.includes('window.openSettings()'));
+          for(const contract of ['setAttribute("role", "dialog")','setAttribute("aria-modal", "true")','setAttribute("role", "radiogroup")','setAttribute("role", "radio")','setAttribute("role", "switch")','event.key === "Escape"','event.key !== "Tab"','setAttribute("inert", "")','ArrowLeft','ArrowRight','focusSelectedSettingsMotionChoice']) assert.ok(settings.includes(contract), `Settings accessibility contract missing: ${contract}`);
+          assert.ok(settings.includes('setApplicationMenuFeedbackPreference'));
+          assert.ok(!/\blocalStorage\b/.test(settings), 'Settings UI must not write localStorage directly.');
+          assert.ok(settings.includes('window.openOptionalModule("legacy")'), 'Data Management must reuse Legacy.');
+          for(const call of ['clearAllCareerModeData(', 'clearLegacyHistory(', 'clearSavedShowdown(']) assert.ok(!settings.includes(call), `Settings must not call ${call}`);
+          assert.ok(settings.includes('createOfflinePanel') && settings.includes('settingsOfflineInstallButton'), 'Offline App panel/action must live in Settings.');
+          assert.ok(settings.includes('getOfflineAppSettingsState') && settings.includes('requestOfflineAppInstall'), 'Settings install action must delegate to the offline controller.');
+          assert.ok(settings.includes('activateWaitingOfflineUpdate'), 'Settings update action must delegate to safe update activation.');
+          assert.ok(settings.includes('career-mode-offline-state-change'), 'Settings must rerender when offline/install state changes.');
+          assert.ok(settingsCss.includes('.settingsOfflinePanel') && settingsCss.includes('.settingsOfflineInstallButton'), 'Settings Offline App presentation is missing.');
+          for(const forbidden of ['offlineAppRail','offlineAppPanel','offlineInstallAction','ensureOfflineUI']) {
+            assert.ok(!offline.includes(forbidden), `Global install UI returned in controller: ${forbidden}`);
+            assert.ok(!offlineCss.includes(forbidden), `Global install UI returned in stylesheet: ${forbidden}`);
+          }
+          assert.ok(!/position\s*:\s*(fixed|sticky)/i.test(offlineCss), 'Offline/install stylesheet may not create fixed or sticky UI.');
+          assert.ok(offline.includes('getOfflineAppSettingsState') && offline.includes('requestOfflineAppInstall'), 'Offline controller must expose UI-neutral Settings APIs.');
+          assert.ok(appCss.includes('.menuTileSettings{grid-column:11/13;grid-row:2'));
+          assert.ok(appCss.includes('html[data-motion-reduced="true"] *'));
+          assert.ok(settingsCss.includes('@media(min-width:901px) and (max-height:800px)') && settingsCss.includes('@media(max-width:700px)'));
+          assert.ok(settingsCss.includes('.settingsAudioToggle:focus-visible'));
+          assert.ok(club.includes('window.isReducedMotionPreferred()') && wheel.includes('window.isReducedMotionPreferred()'));
           const standard = Number((wheel.match(/LEAGUE_WHEEL_SPIN_MS = (\d+)/) || [])[1]);
           const reduced = Number((wheel.match(/LEAGUE_WHEEL_REDUCED_SPIN_MS = (\d+)/) || [])[1]);
-          assert.ok(Number.isFinite(standard) && Number.isFinite(reduced) && reduced < standard / 5, 'Reduced League Wheel timing must be materially shorter than standard timing.');
-
-          console.log('Settings lazy-loading, accessibility, data-management reuse, and motion-consumer contracts passed.');
+          assert.ok(Number.isFinite(standard) && Number.isFinite(reduced) && reduced < standard / 5);
+          console.log('Settings lazy-loading, accessibility, Settings-only install ownership, data reuse, and motion contracts passed.');
           NODE
+
+          npm run serve:test > /tmp/cms-settings-test-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          node tests/browser/settings-install-audit.cjs
 
       - name: Validate Settings presentation structure
         shell: bash
@@ -176,25 +139,19 @@ jobs:
           node <<'NODE'
           const fs = require('fs');
           const assert = require('assert');
-
-          for (const filePath of ['css/app.css', 'css/settings.css']) {
+          for (const filePath of ['css/app.css', 'css/settings.css', 'css/offline.css']) {
             const css = fs.readFileSync(filePath, 'utf8');
-            const open = (css.match(/{/g) || []).length;
-            const close = (css.match(/}/g) || []).length;
-            assert.strictEqual(open, close, `${filePath} has unbalanced braces.`);
+            assert.strictEqual((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, `${filePath} has unbalanced braces.`);
           }
-
           const html = fs.readFileSync('index.html', 'utf8');
           const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
           const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
-          assert.deepStrictEqual(duplicates, [], `Settings shell introduced duplicate HTML ids: ${duplicates.join(', ')}`);
-
+          assert.deepStrictEqual(duplicates, [], `Settings shell introduced duplicate ids: ${duplicates.join(', ')}`);
           const settingsCss = fs.readFileSync('css/settings.css', 'utf8');
-          assert.ok(settingsCss.includes('max-height:min(92vh,820px)'), 'Desktop Settings dialog needs a bounded viewport height.');
-          assert.ok(settingsCss.includes('overflow-y:auto'), 'Settings content must remain scrollable in constrained viewports.');
-          assert.ok(settingsCss.includes('.settingsDialog{width:100%;max-width:none;max-height:none;height:100%'), 'Mobile Settings must use the full available viewport.');
-          assert.ok(settingsCss.includes('from{transform:translateY(6px) scale(.995)}'), 'Settings entrance must preserve full text opacity during automated and visual accessibility checks.');
-          assert.ok(!settingsCss.includes('from{opacity:'), 'Settings entrance must not temporarily lower the contrast of the entire dialog.');
-
+          assert.ok(settingsCss.includes('max-height:min(92vh,820px)'));
+          assert.ok(settingsCss.includes('overflow-y:auto'));
+          assert.ok(settingsCss.includes('.settingsDialog{width:100%;max-width:none;max-height:none;height:100%'));
+          assert.ok(settingsCss.includes('from{transform:translateY(6px) scale(.995)}'));
+          assert.ok(!settingsCss.includes('from{opacity:'), 'Settings entrance must not lower whole-dialog contrast.');
           console.log('Settings CSS structure and responsive viewport contracts passed.');
           NODE
