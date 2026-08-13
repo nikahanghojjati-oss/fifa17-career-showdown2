@@ -83,6 +83,12 @@ There remain 14 permanent workflow families and 27 protected multiline executabl
 
 All three are technically closed at the current production baseline.
 
+Historical numeric chain retained only because an older cloud-foundation regression contract still recognizes these labels:
+
+`v1.2.0 Installable Offline App → v1.3.0 Local Profiles and Save Library → v1.8.0 Cloud Readiness → v1.9.0 Cloud Backup Beta`
+
+That numeric chain is historical compatibility text, not current task authority. The later current-facing decision below supersedes the v1.3 Local Profiles label while preserving the dependency principle that recovery/offline/local identity must precede cloud beta. The version-fragile cloud-foundation contract should be modernized during v1.3 maintenance rather than allowing it to choose the roadmap.
+
 ## 4. v1.2.0 — Installable Offline App — completed
 
 v1.2.0 / `1.2.0-r1` made the core local tracker installable and bootable without network access while preserving data-recovery and whole-runtime revision guarantees.
