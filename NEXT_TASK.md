@@ -10,7 +10,7 @@ Previous known-good runtime: `1.2.0-r1`
 
 ## Immediate legal task
 
-Finish and ship the v1.2.0 / `1.2.0-r2` hotfix before returning to v1.3 hardening.
+Finish and ship the v1.2.0 / `1.2.0-r2` hotfix before returning to v1.3 hardening. This is maintenance of the v1.2.0 Installable Offline App milestone, not a new feature milestone.
 
 The hotfix has exactly two product defects in scope:
 
