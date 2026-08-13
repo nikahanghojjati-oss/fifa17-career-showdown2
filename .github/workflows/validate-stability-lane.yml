@@ -43,7 +43,7 @@ jobs:
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
@@ -58,7 +58,7 @@ jobs:
       - name: Install locked stability dependencies
         run: npm ci
 
-      - name: Run canonical runtime provenance and complete integration journey
+      - name: Run canonical runtime, offline lifecycle, and complete integration journey
         shell: bash
         run: |
           set -euo pipefail
@@ -66,6 +66,7 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="stability-canonical" npm run test:runtime-boundary
+          CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-app-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" npm run test:browser
 
       - name: Upload canonical Stability evidence
@@ -81,7 +82,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: chromium-stability
     runs-on: ubuntu-latest
-    timeout-minutes: 36
+    timeout-minutes: 38
 
     steps:
       - name: Check out repository
@@ -136,6 +137,12 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:restore-browser
+
+      - name: Run install and offline audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: node tests/browser/offline-app-audit.cjs
 
       - name: Run complete journey against deployed Pages
         env:
