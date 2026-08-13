@@ -41,11 +41,17 @@
         object-fit:cover;
         object-position:54% 50%;
         filter:saturate(.96) contrast(1.03) brightness(.98);
+        animation:startupAthleteMobileIn 680ms cubic-bezier(.2,.78,.2,1) both;
     }
 }
 
 @media(max-width:480px){
     #startupAthlete{object-position:54% 50%;}
+}
+
+@keyframes startupAthleteMobileIn{
+    from{opacity:.9;filter:saturate(.82) contrast(1.01) brightness(.84)}
+    to{opacity:1;filter:saturate(.96) contrast(1.03) brightness(.98)}
 }
 
 /*
