@@ -4,37 +4,38 @@ Last updated: 2026-08-13
 
 Application version: v1.2.0
 Runtime asset revision: `1.2.0-r1`
-Release state: Installable Offline App release candidate; not yet production-proven
-Last production-proven runtime: v1.1.5 / `1.1.5-r1`
-Immutable v1.1.5 runtime authority: `ff755a9863abc843ae9aac45178428e3a104fc65`
+Release state: Installable Offline App technically production-proven
+Production runtime merge SHA: `e5acd4ae524f181242df3114b35fd2e812cd8f3b`
+Proven GitHub Pages deployment: `5891182853`
+Production Stability: `31716787806` / deployed smoke `94503946791`
+Release Integration Burn-In: `31716787876` — 2/2
 
 ## Immediate legal task
 
-Finish v1.2.0 — Installable Offline App release closure only.
+Begin v1.3.0 — Recovery & Device Resilience Hardening.
 
-Do not begin v1.3.0, cloud, profiles, accounts, QR pairing, two-device transport, or gameplay changes before the frozen v1.2.0 candidate is merged and deployed GitHub Pages Stability proves `1.2.0-r1`.
+The goal is a maintenance-first hardening pass after the new install/offline layer. Investigate reproducible defects, recovery gaps, lifecycle races, stale/mixed information, browser/device failure states, install/update edge cases, cache corruption, storage failure behavior, responsive/accessibility regressions and release-authority drift before adding new product scope.
 
-Remaining work:
+Do not begin cloud, accounts, QR pairing, two-device transport, gameplay changes or a framework rewrite.
 
-1. keep page, app, package, manifest, worker, lazy controller, protected asset queries and `RELEASE_V1.2.0.md` coherent at v1.2.0 / `1.2.0-r1`;
-2. keep the fast offline static contract inside the repository-wide suite;
-3. preserve 14 permanent workflow families and 27 protected multiline executable blocks;
-4. obtain one complete green normal PR matrix on the frozen candidate;
-5. merge through the protected PR path;
-6. require deployed-byte coherence plus deployed runtime, visual, Candidate A/B/C, install/offline and complete-journey proof;
-7. after deployed proof only, seal README, CHANGELOG, PROJECT_STATE, NEXT_TASK and `RELEASE_V1.2.0.md` with immutable production evidence;
-8. close the duplicate experimental v1.2 PR as superseded;
-9. then advance to v1.3.0 Recovery & Device Resilience Hardening.
+The older execution-roadmap label that assigns v1.3.0 directly to Local Profiles and Save Library is stale as a current task. Local Profiles / Save Library remains future planned work, but its version assignment must be explicitly reconciled after v1.3 hardening.
 
-## v1.2.0 implemented scope
+## v1.3 hardening priorities
 
-v1.2.0 includes a Web App Manifest, original install artwork, versioned first-party Service Worker shell, atomic cache population, no automatic install activation, Update Ready safe-boundary activation, Candidate C busy-state protection, whole-runtime revision selection, worker-owned connectivity verification, explicit offline YouTube degradation, Chromebook/Android install guidance, and local/deployed offline evidence owned by Stability.
-
-The lifecycle proof covers failed cache population, explicit waiting/activation, unrelated-cache preservation, corruption recovery and two consecutive cache-revision upgrade/recovery cycles.
+1. preserve the technically proven v1.2.0 / `1.2.0-r1` runtime as rollback authority;
+2. audit Service Worker install/update/activation/recovery for browser close, reload, controller churn, partial cache, stale cache and consecutive-update edge cases;
+3. audit exact preservation of all three canonical raw localStorage values across offline/update/recovery paths;
+4. exercise quota errors, blocked reads/writes, corrupt raw values, interrupted Candidate C recovery and stale reviewed state without weakening transaction-owned rollback or anti-clobber protection;
+5. audit runtime-notice/install/offline UI layering, focus, keyboard, touch, reduced motion, small mobile, Chromebook low-height and high-DPR behavior;
+6. audit Smart Back and route/history ownership for lazy screens with no duplicate listeners or competing router state;
+7. audit external-media failure/recovery and confirmed offline state without converting Cache Storage into a user-data authority;
+8. audit dependency-lock integrity and CI owner topology so infrastructure failures are distinguished from product failures;
+9. audit release/version/revision references, handoffs and historical docs for stale current-facing claims;
+10. implement only defects supported by evidence, then prove each changed surface through its canonical owner workflow.
 
 ## Protected systems
 
-Do not alter:
+Do not alter without explicit owner direction:
 
 - exactly two managers;
 - Showdown lengths `[1,3,5,10]`;
@@ -47,16 +48,27 @@ Do not alter:
 - exactly three canonical localStorage keys and `js/storage.js` mutation authority;
 - Candidate A non-mutating backup format v1;
 - Candidate B read-only analysis;
-- Candidate C exact raw snapshot, immutable confirmed intent, transaction-owned rollback and anti-clobber semantics;
+- Candidate C immutable confirmed intent, strict exact raw snapshot, last-moment prewrite checks, transaction-owned rollback, byte-for-byte verification and anti-clobber semantics;
 - protected Marco Reus and accepted football-photo presentation;
-- startup budgets and local-first behavior.
+- startup budgets and local-first behavior;
+- v1.2 whole-runtime cache-revision integrity.
 
 ## Testing rule
 
-Keep testing single-owner. Candidate B owns one import browser proof, Candidate C one restore browser proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete journeys on main/manual release use. Do not duplicate matrices or weaken gates to obtain green CI.
+Preserve 14 permanent workflow families and 27 protected multiline executable blocks.
 
-Before identity freeze, all 13 normal PR workflow families passed together. The frozen `1.2.0-r1` candidate must reproduce that result before merge.
+Keep testing single-owner. Candidate B owns one import browser proof, Candidate C one restore/recovery browser proof, local Stability provenance + offline lifecycle + complete journey, deployed Stability the exhaustive public boundary, and Release Integration Burn-In two complete stateful journeys on main/manual release use. Do not duplicate matrices, inflate budgets or weaken assertions to obtain green CI.
 
-## Exact continuation command
+Maintenance work should normally use a dedicated branch/PR. If a failure is infrastructure-only, fix the infrastructure contract without changing production behavior. If a real product defect is found, fix the product and add the narrow regression proof that would have caught it.
 
-`Load PR #34 / branch agent/v1.2-installable-offline-r1. Read 00_HANDOFF_GOLDEN_RULE.md, CAREER_MODE_SHOWDOWN_V1.2_ACTIVE_HANDOFF.md, PROJECT_STATE.md, NEXT_TASK.md and RELEASE_V1.2.0.md. Treat ff755a9863abc843ae9aac45178428e3a104fc65 as the last production-proven v1.1.5 baseline and v1.2.0 / 1.2.0-r1 as release candidate only. Preserve Candidate A/B/C, Smart Back, gameplay, storage authority, visual locks and startup budgets. Finish v1.2.0 PR gates, merge, then require deployed proof before v1.3.0.`
+## Production baseline
+
+v1.2.0 exact-byte production proof:
+
+- merge `e5acd4ae524f181242df3114b35fd2e812cd8f3b`;
+- Pages `5891182853`;
+- Stability `31716787806`;
+- deployed smoke `94503946791`;
+- Burn-In `31716787876` 2/2.
+
+This production proof is technical. Do not fabricate a separate owner visual-acceptance statement.
