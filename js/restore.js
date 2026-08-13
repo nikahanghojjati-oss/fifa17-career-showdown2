@@ -9,15 +9,12 @@
   }
   function clone(value){return value===undefined?undefined:JSON.parse(JSON.stringify(value));}
   function captureStrictRaw(){
-    if(typeof window.captureCareerModeRawRestoreSnapshot==="function"){
-      const snapshot=window.captureCareerModeRawRestoreSnapshot();
-      if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return snapshot;
-      return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:RAW_NAMES.slice()};
+    if(typeof window.captureCareerModeRawRestoreSnapshot!=="function"){
+      return {ok:false,raw:null,failedKeys:RAW_NAMES.slice()};
     }
-    if(typeof window.captureCareerModeRawBackupInputs==="function"){
-      return {ok:true,raw:window.captureCareerModeRawBackupInputs(),failedKeys:[]};
-    }
-    return {ok:false,raw:null,failedKeys:RAW_NAMES.slice()};
+    const snapshot=window.captureCareerModeRawRestoreSnapshot();
+    if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return snapshot;
+    return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:RAW_NAMES.slice()};
   }
   function parseRaw(raw,kind){
     if(raw===null)return {state:"absent",value:kind==="legacy"?[]:null};
