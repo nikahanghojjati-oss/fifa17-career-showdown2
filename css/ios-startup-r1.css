@@ -1,0 +1,51 @@
+/* =====================================================
+   Career Mode Showdown v1.2.1
+   Mobile startup composition contract
+
+   The protected r3 loading art remains the base. This bounded layer fixes the
+   iOS installed-app height regression without touching Home Reus or desktop.
+===================================================== */
+
+@media(max-width:700px){
+    #loadingScreen{
+        /* Width-owned art geometry: do not derive this band from viewport height. */
+        --startup-mobile-top-band:clamp(46px,12vw,54px);
+    }
+
+    /*
+       Root cause guard:
+       r3 used a full-height frame plus a bottom-aligned `object-fit:contain`
+       portrait. In a taller standalone viewport, the same width-constrained
+       image kept the same rendered height and all extra height became empty
+       space above Reus. Browser chrome shortened Safari's viewport and hid the
+       defect.
+
+       Keep the full frame for the established background/slashes, but give the
+       photograph its own stable box below a deliberate width-owned top band.
+       Cover is safe here because this portrait/photo-box pairing keeps almost
+       the full source height and trims only lateral source space as needed.
+    */
+    .startupAthleteFrame{
+        inset:0;
+        width:100%;
+        height:100%;
+        clip-path:none;
+        opacity:1;
+    }
+
+    #startupAthlete{
+        position:absolute;
+        inset:var(--startup-mobile-top-band) 0 0 0;
+        width:100%;
+        height:calc(100% - var(--startup-mobile-top-band));
+        object-fit:cover;
+        object-position:54% 50%;
+        filter:saturate(.96) contrast(1.03) brightness(.98);
+    }
+}
+
+@media(max-width:480px){
+    #startupAthlete{
+        object-position:54% 50%;
+    }
+}
