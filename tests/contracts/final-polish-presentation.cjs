@@ -42,7 +42,7 @@ assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'), 'Device reduced
 const appVersion = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 assert.ok(appVersion, 'APP_VERSION is missing.');
-assert.strictEqual(revision, `${appVersion}-r1`, 'Final Polish cache revision must track APP_VERSION.');
+assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'Final Polish cache revision must be a numbered runtime revision for APP_VERSION.');
 const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?/g)]
   .map(match => ({ path: match[1], revision: match[2] || '' }));
 assert.strictEqual(refs.filter(ref => ref.path.startsWith('js/')).length, 7, 'Initial shell must remain seven scripts.');
