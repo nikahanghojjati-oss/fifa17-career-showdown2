@@ -1,6 +1,6 @@
 const OFFLINE_APP_REVISION=(()=>{
     const meta=document.querySelector('meta[name="app-asset-revision"]');
-    return meta?.content?.trim()||"1.2.1-r1";
+    return meta?.content?.trim()||"1.2.0-r2";
 })();
 const OFFLINE_MESSAGE_TIMEOUT_MS=4500;
 const SAFE_UPDATE_SCREENS=new Set(["mainMenu","dashboard"]);
@@ -156,6 +156,18 @@ function versionedLocalUrl(path){
     const url=new URL(path,location.href);
     url.searchParams.set("v",OFFLINE_APP_REVISION);
     return url.href;
+}
+
+function ensureOfflineStyles(){
+    if(document.querySelector('link[data-offline-app-style]')){ return; }
+    const link=document.createElement("link");
+    link.rel="stylesheet";
+    link.href=versionedLocalUrl("css/offline.css");
+    link.dataset.offlineAppStyle=OFFLINE_APP_REVISION;
+    link.addEventListener("error",()=>{
+        console.warn("[Career Mode Showdown] Offline/installed presentation stylesheet could not be loaded.");
+    },{once:true});
+    document.head.appendChild(link);
 }
 
 function sendWorkerMessage(worker,type,payload={}){
@@ -381,6 +393,7 @@ function consumeEarlyInstallPrompt(){
 }
 
 function initializeOfflineApplication(){
+    ensureOfflineStyles();
     consumeEarlyInstallPrompt();
     installedStandalone=isStandaloneDisplay();
     renderConnectivity();
