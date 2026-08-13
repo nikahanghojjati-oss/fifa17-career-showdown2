@@ -38,6 +38,23 @@ During implementation, update the handoff at meaningful checkpoints. Record:
 - owner acceptance/rejection state separately from automated/developer QA;
 - exact next legal roadmap action.
 
+## Session quality and mandatory handoff threshold
+
+Every development chat must actively judge whether its own engineering reliability is beginning to degrade. Do not try to guess a hidden model limit or wait for a hard failure. Use observable warning signs, including repeated tool-routing or command mistakes, increasing contradiction or repetition, uncertainty about facts already verified earlier in the session, loss of dependency or branch-state tracking, context saturation, or reduced confidence that a change can be completed and validated coherently.
+
+When degradation is reasonably suspected:
+
+1. stop starting new implementation or investigation work;
+2. identify the nearest safe coherent repository boundary;
+3. finish or safely revert only work required to reach that boundary;
+4. update the public repository handoff with exact current authority, unfinished work, mistakes/blocked operations and the next legal action;
+5. provide the owner a ready-to-paste continuation prompt for a fresh developer/chat;
+6. stop the session rather than continuing merely to use remaining context.
+
+Exception: do not stop in the middle of a critical atomic stage when stopping itself would harm the project, such as leaving a mixed runtime identity, a partially applied destructive transition, an incoherent branch/ref update, or another state that cannot safely be treated as authority. In that situation, complete the minimum required operation or revert to the last known-good coherent state first, document it, then hand off immediately. This exception is for restoring safety and coherence only, not for beginning additional work.
+
+A developer who notices repeated mistakes must treat that observation as evidence for handoff, not as a reason to push deeper into the project.
+
 ## Deep historical context
 
 The normal bootstrap should stay concise and source-first. A developer does not need to reread every historical chat before ordinary work.
@@ -61,7 +78,8 @@ Do not:
 - rewrite history to make the path look cleaner than it was;
 - leave the handoff pointing at a superseded SHA or completed task;
 - ask the owner to repeat information that a current repository handoff should contain;
-- rely on old chat chronology when current source/handoffs already resolve the state.
+- rely on old chat chronology when current source/handoffs already resolve the state;
+- continue starting new engineering work after observable session-quality degradation has begun.
 
 ## Completion rule
 
