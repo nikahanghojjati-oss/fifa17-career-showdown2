@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const { execFileSync } = require("node:child_process");
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
 
@@ -212,6 +213,20 @@ async function runCase(browser, config){
     }
 }
 
+function runInstalledPresentationCompanions(){
+    const commonEnvironment = { ...process.env, CMS_BASE_URL: baseUrl.href, CMS_TEST_RESULTS: resultsDirectory };
+    execFileSync(process.execPath, [path.join(__dirname, "loading-visual-audit.cjs")], {
+        cwd: path.resolve(__dirname, "../.."),
+        env: { ...commonEnvironment, CMS_AUDIT_RUN: `${runLabel}-installed-loading` },
+        stdio: "inherit"
+    });
+    execFileSync(process.execPath, [path.join(__dirname, "settings-install-audit.cjs")], {
+        cwd: path.resolve(__dirname, "../.."),
+        env: { ...commonEnvironment, CMS_AUDIT_RUN: `${runLabel}-settings-install` },
+        stdio: "inherit"
+    });
+}
+
 (async () => {
     const runtime = await resolveChromiumRuntime();
     let browserVersion = "";
@@ -236,6 +251,9 @@ async function runCase(browser, config){
             }
         }
     }
+
+    runInstalledPresentationCompanions();
+    process.stdout.write("Home + installed startup + Settings install visual suite passed.\n");
 })().catch(error => {
     console.error("HOME VISUAL AUDIT FAILED");
     console.error(error.stack || error);
