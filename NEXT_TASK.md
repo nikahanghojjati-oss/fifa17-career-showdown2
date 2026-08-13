@@ -30,11 +30,11 @@ The first v1.3 action is therefore:
 
 Do not migrate the whole app to the accidental alternate PR #37 shell unless the owner explicitly requests a redesign.
 
-## v1.2.0-r2 production baseline that must be preserved
+## v1.2.0-r2 Installable Offline App production baseline that must be preserved
 
 The just-shipped hotfix fixed:
 
-- iOS standalone loading composition by separating viewport/safe-area behavior from the Reus art box and locking settled composition geometry;
+- iOS standalone loading composition by separating viewport/safe-area behavior from the Reus art composition and locking settled composition geometry;
 - install UI hierarchy by removing the global floating install/status presentation and moving install/update actions into Settings only.
 
 The hotfix passed all 13 normal PR workflow families twice. Production Stability `31740111919`, deployed-site-smoke job `94581704562`, dedicated V1 Visual Immersion `31740111961`, and Burn-In `31740111986` are green. Burn-In passed 2/2 complete stateful journeys.
