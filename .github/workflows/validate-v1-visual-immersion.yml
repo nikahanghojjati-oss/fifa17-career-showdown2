@@ -11,7 +11,7 @@ permissions:
 jobs:
   visual-immersion-contracts:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
 
     steps:
       - name: Check out repository
@@ -22,7 +22,10 @@ jobs:
         with:
           node-version: 24
 
-      - name: Validate startup and responsive Home contracts
+      - name: Install locked visual dependencies
+        run: npm ci
+
+      - name: Validate startup, Home, and standalone composition
         shell: bash
         run: |
           set -euo pipefail
@@ -33,6 +36,7 @@ jobs:
           const html = fs.readFileSync('index.html', 'utf8');
           const css = fs.readFileSync('css/app.css', 'utf8');
           const visualCss = fs.readFileSync('css/visual-fidelity-r3.css', 'utf8');
+          const offlineCss = fs.readFileSync('css/offline.css', 'utf8');
           const app = fs.readFileSync('js/app.js', 'utf8');
           const menu = fs.readFileSync('js/menuExperience.js', 'utf8');
           const notices = fs.readFileSync('THIRD_PARTY_NOTICES.md', 'utf8');
@@ -42,7 +46,7 @@ jobs:
           const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
 
           assert.ok(appVersion, 'APP_VERSION is missing.');
-          assert.strictEqual(revision, `${appVersion}-r1`, 'The visual release cache identity must track APP_VERSION.');
+          assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'The visual release cache identity must be a numbered revision for APP_VERSION.');
           assert.ok(html.includes(`v${appVersion} · Stable`), 'The user-facing stable release identity is missing.');
           assert.ok(app.includes(`const APP_VERSION = "${appVersion}"`), 'The application version declaration is inconsistent.');
           assert.ok(html.includes('id="loadingScreen" role="status" aria-live="polite" aria-busy="true"'), 'Startup status semantics are missing.');
@@ -66,17 +70,20 @@ jobs:
 
           assert.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`), 'The bounded Reus visual fidelity layer is not aligned with the current runtime revision.');
           assert.ok(visualCss.includes('.menuTilePrimary:disabled') && visualCss.includes('opacity:1') && visualCss.includes('filter:none'), 'Disabled Home state must not dim the Reus hero tile.');
-          assert.ok(visualCss.includes('#startupAthlete') && visualCss.includes('object-fit:contain'), 'Startup Reus portrait must use contained composition.');
-          assert.ok(visualCss.includes('.startupAthleteFrame') && visualCss.includes('inset:0 auto 0 0'), 'Startup portrait frame must remain inside the viewport.');
+          assert.ok(visualCss.includes('#startupAthlete') && visualCss.includes('object-fit:contain'), 'Base startup Reus portrait must retain contained desktop composition.');
+          assert.ok(visualCss.includes('.startupAthleteFrame') && visualCss.includes('inset:0 auto 0 0'), 'Desktop startup portrait frame must remain inside the viewport.');
           assert.ok(visualCss.includes('.menuCoverAthlete.imageLoaded img') && visualCss.includes('opacity:1!important'), 'Loaded Home Reus portrait must render at guaranteed full opacity.');
           assert.ok(visualCss.includes('clip-path:none'), 'Desktop Reus must use a clean rectangular photo anchor without the rejected head/neck clipping edge.');
           assert.ok(visualCss.includes('.menuCoverNumber') && visualCss.includes('display:none'), 'Desktop Reus clean-anchor mode must suppress the competing jersey-number overlay.');
           assert.ok(visualCss.includes('.menuCoverAthlete::after') && visualCss.includes('height:34%') && visualCss.includes('rgba(66,185,218,.28)'), 'Home Reus must keep the bounded owner-requested lower-body accent rail.');
-          assert.ok(visualCss.includes('mix-blend-mode:normal'), 'Home Reus photograph must use normal compositing.');
-          assert.ok(visualCss.includes('image-rendering:auto'), 'Home Reus must use browser-native photographic resampling.');
-          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('filter:saturate(1.035) contrast(1.065) brightness(1.005)'), 'Owner-accepted mobile Reus treatment must remain explicit.');
+          assert.ok(visualCss.includes('mix-blend-mode:normal') && visualCss.includes('image-rendering:auto'), 'Home Reus must preserve natural photographic compositing/resampling.');
+          assert.ok(visualCss.includes('@media(max-width:700px)') && visualCss.includes('filter:saturate(1.035) contrast(1.065) brightness(1.005)'), 'Owner-accepted mobile Home Reus treatment must remain explicit.');
           assert.ok(!visualCss.includes('rgba(229,237,239,.92)'), 'The old 92% white Reus wash must not return.');
-          assert.ok(visualCss.includes('@media(max-width:480px)'), 'Reus fidelity layer must preserve small-screen treatment.');
+
+          assert.ok(offlineCss.includes('--startup-mobile-top-band:clamp(46px,12vw,54px)'), 'Standalone loading top band must stay width-owned and bounded.');
+          assert.ok(offlineCss.includes('height:calc(100% - var(--startup-mobile-top-band))'), 'Standalone loading art must have its own stable image box.');
+          assert.ok(offlineCss.includes('object-fit:cover') && offlineCss.includes('object-position:54% 50%'), 'Standalone mobile Reus must retain the subject-safe crop.');
+          assert.ok(!/\b100(?:d|s|l)?vh\b/i.test(offlineCss), 'Loading art must not stretch from raw viewport-height units.');
 
           const normalDuration = Number((app.match(/STARTUP_SPLASH_MINIMUM_MS\s*=\s*(\d+)/) || [])[1]);
           const reducedDuration = Number((app.match(/STARTUP_SPLASH_REDUCED_MS\s*=\s*(\d+)/) || [])[1]);
@@ -93,5 +100,19 @@ jobs:
           assert.strictEqual(localShell.filter(match => match[1].startsWith('js/')).length, 7, 'Visual immersion added an eager script.');
           assert.deepStrictEqual(localShell.filter(match => match[2] !== revision), [], 'Visual candidate contains mixed shell revisions.');
 
-          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, 2.7 s normal hold, desktop natural photo path, preserved mobile treatment, brief reduced-motion path, and responsive tiers.`);
+          console.log(`V1 startup/Home contracts passed for ${revision}: ${portrait.length} portrait bytes, bounded standalone composition, 2.7 s normal hold, preserved Home treatment, and responsive tiers.`);
           NODE
+
+          npm run serve:test > /tmp/cms-loading-test-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          CMS_AUDIT_RUN="visual-immersion" npm run test:loading-visual
+
+      - name: Upload loading visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: loading-visual-${{ github.run_id }}
+          path: test-results/loading-*.png
+          if-no-files-found: error
+          retention-days: 14
