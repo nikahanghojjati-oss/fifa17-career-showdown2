@@ -11,11 +11,12 @@ Runtime asset revision: **`1.1.5-r1`**
 - Added `RESTORE NOT STARTED`, verified rollback and critical ownership/rollback recovery distinctions; critical uncertainty invalidates runtime caches and locks restore controls.
 - Preserved deterministic repeated imports as zero-write no-ops and corrupt raw bytes unless explicit replacement is selected.
 - Removed the stale Candidate A hardcoded v1.1.3 provenance fallback without changing backup format version 1.
-- Added real-browser maintenance races/failure scenarios to Candidate C, Stability and every Burn-In pass.
+- Added real-browser maintenance race/failure scenarios to the dedicated Candidate C gate and exhaustive deployed Stability proof; post-merge CI orchestration then removed redundant specialist replays from local Stability/Burn-In.
 - Added repository-wide per-contract CI annotations while preserving all protected assertions and the 27-block workflow topology.
 - Added `CLOUD_STORAGE_FOUNDATION.md` for future account/save/device identity, revision/CAS, conflicts, tombstones, privacy and security; no cloud backend/network mutation is included.
 - Preserved the original 165,000 raw / 37,500 gzip startup ceilings; a 31-byte raw regression was fixed without raising either budget.
 - Normal loading remains 2700 ms and reduced-motion startup remains 220 ms.
+- Post-merge CI maintenance removed duplicate long browser matrices, made reruns cancellation-safe, skips heavy browser lanes for Markdown-only seals, reduced local Stability browser wall time from about 6m47s to about 1m11s, and retained the full deployed Candidate A/B/C release boundary.
 
 # v1.1.4 — Candidate C Atomic Restore + Recovery UX
 
