@@ -76,7 +76,36 @@ PR #40 is now the detailed v1.3 salvage/audit record. PR #42 is the actual relea
 
 Issue #41 (`TEMP IGNORE`) was an accidental prior-session tool-routing artifact and remains closed `not_planned`; do not reopen it.
 
-In this session an attempted post-merge PR #42 body update was blocked by the connector safety layer before any mutation. No source, branch or production state changed from that blocked operation. Production evidence is recorded in repository release/proof documents instead.
+In the v1.3 production-seal session an attempted post-merge PR #42 body update was blocked by the connector safety layer before any mutation. No source, branch or production state changed from that blocked operation. Production evidence is recorded in repository release/proof documents instead.
+
+## Quality-first handoff policy publication — 2026-08-13 ET
+
+The owner explicitly required proactive fresh-chat handoff to become permanent repository policy whenever a clean handoff would preserve engineering quality, correctness and continuity better than continuing a context-heavy session.
+
+Session start authority was `main` `0d06a85cffddeaa19790ae1c7cb223bc3116a002`. The pending policy commit `493892525eb36b26ce867118f82d96de78ba6134` on `agent/v13-production-seal` was independently rechecked before publication. Its base-relative change was exactly one file, `00_HANDOFF_GOLDEN_RULE.md`, with +32 / -1 and no runtime, tests, packages, assets, gameplay, persistence, PWA, performance or visual source changes.
+
+PR #44 — `Strengthen quality-first handoff policy` — was opened against `main` and merged with expected head `493892525eb36b26ce867118f82d96de78ba6134`. Policy merge authority is `4fca8015edb250b1ff9da3c766374456188999da`.
+
+All ten workflows applicable to this Markdown-only PR passed:
+
+- Validate Final Polish `31757153617`;
+- Validate Statistics Workstream `31757153569`;
+- Validate Season Review `31757153529`;
+- Validate Settings Workstream `31757153541`;
+- Validate Static App `31757153638`;
+- Validate Transfer Workstream `31757153562`;
+- Validate League Confirmation `31757153558`;
+- Validate Home Bootstrap `31757153589`;
+- Validate V1 Visual Immersion `31757153560`;
+- Validate Licensed Football Visuals `31757153536`.
+
+The other three normal PR workflow families — Candidate C Atomic Restore, Candidate B Import Analysis and Stability Lane — explicitly use `paths-ignore: "**/*.md"`, so their absence on this documentation-only PR is expected and not missing validation.
+
+One read-only connector attempt to fetch the GitHub compare `.diff` URL returned 404. No mutation occurred. The actual PR patch was then verified successfully through the GitHub PR diff action before merge.
+
+After PR #44, production application/runtime authority remains unchanged at `v1.3.0` / `1.3.0-r1`; immediate previous whole shell remains `1.2.0-r2`; owner visual/product acceptance remains separate from technical proof.
+
+This handoff publication seal is being made from branch `agent/handoff-policy-publication-seal`, based on policy merge `4fca8015edb250b1ff9da3c766374456188999da`. It is documentation-only and must not be interpreted as a runtime release.
 
 ## Current legal next action
 
