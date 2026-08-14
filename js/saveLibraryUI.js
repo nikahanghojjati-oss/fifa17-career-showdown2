@@ -96,6 +96,24 @@
         if(button&&!button.disabled)button.click();
     }
 
+    function saveLibraryUIRestoreMutationFocus(preferredSaveId=""){
+        const panel=document.getElementById("saveLibraryProductPanel");
+        const dialog=document.getElementById("settingsDialog");
+        if(!panel||!dialog)return;
+        let control=null;
+        if(preferredSaveId){
+            const preferred=Array.from(panel.querySelectorAll(".saveLibraryCard")).find(card=>card.dataset.saveId===preferredSaveId);
+            if(preferred)control=preferred.querySelector("button:not(:disabled)");
+        }
+        if(!control){
+            const active=panel.querySelector(".saveLibraryCard.isActive");
+            if(active)control=active.querySelector("button:not(:disabled)");
+        }
+        if(!control)control=panel.querySelector(".saveLibraryCard button:not(:disabled),.saveLibraryPrimaryActions button:not(:disabled),button:not(:disabled)");
+        const target=control||dialog;
+        if(typeof target.focus==="function")target.focus({preventScroll:true});
+    }
+
     async function saveLibraryUISwitch(saveId,button){
         if(saveLibraryUIBusy)return;
         const runtime=root.CareerModeSaveLibraryRuntime;
@@ -110,6 +128,7 @@
             if(typeof root.refreshMainMenuExperience==="function")root.refreshMainMenuExperience();
             saveLibraryUIShowNotice("Active local Showdown changed.","success");
             saveLibraryUIRender();
+            saveLibraryUIRestoreMutationFocus(saveId);
         }catch(error){
             saveLibraryUIShowNotice(`The active Save could not be changed. ${error&&error.message?error.message:"No saved data was changed."}`);
         }finally{
@@ -135,6 +154,7 @@
             if(typeof root.refreshMainMenuExperience==="function")root.refreshMainMenuExperience();
             saveLibraryUIShowNotice(`“${name}” was deleted. Other local data was retained.`,"success");
             saveLibraryUIRender();
+            saveLibraryUIRestoreMutationFocus(result.activeSaveId||"");
         }catch(error){
             saveLibraryUIShowNotice(`The selected Save was not deleted. ${error&&error.message?error.message:"No saved data was changed."}`);
         }finally{
