@@ -114,6 +114,15 @@
         if(typeof target.focus==="function")target.focus({preventScroll:true});
     }
 
+    function saveLibraryUIRestoreIdentityFocus(linkKey){
+        const panel=document.getElementById("saveLibraryProductPanel");
+        const dialog=document.getElementById("settingsDialog");
+        if(!panel||!dialog)return;
+        const row=Array.from(panel.querySelectorAll(".saveLibraryIdentityLinkRow")).find(item=>item.dataset.identityLinkKey===linkKey);
+        const target=(row&&row.querySelector("select,button:not(:disabled)"))||panel.querySelector(".saveLibraryIdentityLinks select,.saveLibraryIdentityLinks button:not(:disabled)")||dialog;
+        if(typeof target.focus==="function")target.focus({preventScroll:true});
+    }
+
     async function saveLibraryUISwitch(saveId,button){
         if(saveLibraryUIBusy)return;
         const runtime=root.CareerModeSaveLibraryRuntime;
@@ -237,6 +246,163 @@
         return section;
     }
 
+    function saveLibraryUIProfileOption(profile){
+        const option=document.createElement("option");
+        option.value=profile.profileId;
+        option.textContent=`${profile.displayName||"Unnamed Manager"} · PROFILE ${saveLibraryUIShortIdentity(profile.profileId)}`;
+        return option;
+    }
+
+    async function saveLibraryUIApplyIdentityLink(config,select,button){
+        if(saveLibraryUIBusy)return;
+        const runtime=root.CareerModeSaveLibraryRuntime;
+        const profileId=config.kind==="legacy"&&!select.value?null:select.value;
+        if(profileId===config.currentProfileId){
+            saveLibraryUIShowNotice("That manager identity link is already current.","success");
+            return;
+        }
+        const profileLabel=profileId?`PROFILE ${saveLibraryUIShortIdentity(profileId)}`:"UNRESOLVED";
+        const action=config.kind==="legacy"&&profileId===null
+            ? `Mark “${config.managerName}” in historical “${config.showdownName}” as unresolved? This removes only its explicit Local Profile link. The historical display name stays unchanged.`
+            : `Link “${config.managerName}” in “${config.showdownName}” to ${profileLabel}? This changes stable manager identity only. Saved and historical display names stay unchanged.`;
+        if(!root.confirm(action))return;
+        if(!runtime||typeof runtime.assignSaveManagerProfile!=="function"||typeof runtime.assignLegacyManagerProfile!=="function"){
+            saveLibraryUIShowNotice("Explicit manager identity linkage is unavailable in this session.");
+            return;
+        }
+        saveLibraryUIBusy=true;
+        button.disabled=true;
+        select.disabled=true;
+        button.setAttribute("aria-busy","true");
+        try{
+            const result=config.kind==="save"
+                ?await runtime.assignSaveManagerProfile(config.sourceId,config.role,profileId)
+                :await runtime.assignLegacyManagerProfile(config.sourceId,config.role,profileId);
+            if(!result||result.ok!==true)throw new Error("The identity runtime did not confirm the change.");
+            if(typeof root.refreshMainMenuExperience==="function")root.refreshMainMenuExperience();
+            saveLibraryUIShowNotice(profileId?"Manager identity link updated.":"Historical manager identity is now explicitly unresolved.","success");
+            saveLibraryUIRender();
+            saveLibraryUIRestoreIdentityFocus(config.linkKey);
+        }catch(error){
+            saveLibraryUIShowNotice(`Manager identity was not changed. ${error&&error.message?error.message:"No saved data was changed."}`);
+        }finally{
+            saveLibraryUIBusy=false;
+            if(button.isConnected){button.disabled=false;button.removeAttribute("aria-busy");}
+            if(select.isConnected)select.disabled=false;
+        }
+    }
+
+    function saveLibraryUICreateIdentityLinkRow(config,profiles){
+        const row=saveLibraryUIElement("div","saveLibraryIdentityLinkRow");
+        row.dataset.identityLinkKey=config.linkKey;
+        row.dataset.linkKind=config.kind;
+        row.dataset.sourceId=config.sourceId;
+        row.dataset.role=config.role;
+
+        const context=saveLibraryUIElement("div","saveLibraryIdentityLinkContext");
+        context.append(
+            saveLibraryUIElement("strong","",`${config.role==="playerOne"?"MANAGER 1":"MANAGER 2"} · ${config.managerName}`),
+            saveLibraryUIElement("small","",config.currentProfileId?`Current: PROFILE ${saveLibraryUIShortIdentity(config.currentProfileId)}`:"Current: UNRESOLVED")
+        );
+
+        const select=document.createElement("select");
+        select.className="saveLibraryIdentitySelect";
+        select.setAttribute("aria-label",`${config.kind==="save"?"Link":"Map historical"} ${config.managerName} to a Local Profile`);
+        if(config.kind==="legacy"){
+            const unresolved=document.createElement("option");
+            unresolved.value="";
+            unresolved.textContent="UNRESOLVED · NO LOCAL PROFILE LINK";
+            select.appendChild(unresolved);
+        }
+        const knownCurrent=profiles.some(profile=>profile.profileId===config.currentProfileId);
+        if(config.currentProfileId&&!knownCurrent){
+            const unavailable=document.createElement("option");
+            unavailable.value=config.currentProfileId;
+            unavailable.textContent=`CURRENT PROFILE ${saveLibraryUIShortIdentity(config.currentProfileId)} · NOT PRESENT ON THIS DEVICE`;
+            select.appendChild(unavailable);
+        }
+        for(const profile of profiles)select.appendChild(saveLibraryUIProfileOption(profile));
+        select.value=config.currentProfileId||"";
+
+        const apply=saveLibraryUIElement("button","compactButton saveLibraryIdentityApply",config.kind==="save"?"APPLY LINK":"APPLY HISTORICAL MAP");
+        apply.type="button";
+        apply.addEventListener("click",()=>saveLibraryUIApplyIdentityLink(config,select,apply));
+        row.append(context,select,apply);
+        return row;
+    }
+
+    function saveLibraryUICreateIdentityLinks(library){
+        const section=saveLibraryUIElement("section","saveLibraryIdentityLinks");
+        const heading=saveLibraryUIElement("div","saveLibrarySubheading");
+        heading.append(
+            saveLibraryUIElement("span","","EXPLICIT LINKAGE"),
+            saveLibraryUIElement("h4","","MANAGER IDENTITY LINKS")
+        );
+        const note=saveLibraryUIElement("p","saveLibraryProfileNote","Use this only when you know two Save roles represent the same real manager. No names are matched automatically. Linking changes stable identity references only; existing Showdown and Legacy display names remain historical labels. Historical roles can stay explicitly unresolved.");
+        section.append(heading,note);
+
+        const runtime=root.CareerModeSaveLibraryRuntime;
+        const snapshot=runtime&&typeof runtime.getIdentityMappingSnapshot==="function"?runtime.getIdentityMappingSnapshot():null;
+        if(!snapshot||snapshot.ok!==true){
+            section.appendChild(saveLibraryUIElement("p","saveLibraryIdentityUnavailable",`Identity linkage is unavailable. ${snapshot&&snapshot.error?snapshot.error:"Exact identity state could not be verified."}`));
+            return section;
+        }
+
+        const profiles=Array.isArray(snapshot.library.profiles)?snapshot.library.profiles:[];
+        const saves=Array.isArray(snapshot.library.saves)?snapshot.library.saves:[];
+        if(!profiles.length){
+            section.appendChild(saveLibraryUIElement("p","saveLibraryIdentityUnavailable","Create a Showdown first. Explicit linkage requires an existing stable Local Profile."));
+            return section;
+        }
+
+        if(saves.length){
+            const localHeading=saveLibraryUIElement("h5","saveLibraryIdentityGroupHeading","LOCAL SAVE ROLES");
+            const localList=saveLibraryUIElement("div","saveLibraryIdentityGroup");
+            for(const entry of saves){
+                const showdown=entry.showdown||{};
+                const refs=showdown.identity&&showdown.identity.managerProfileIds||{};
+                const block=saveLibraryUIElement("article","saveLibraryIdentitySource");
+                block.append(
+                    saveLibraryUIElement("strong","",showdown.name||"Unnamed Showdown"),
+                    saveLibraryUIElement("small","",`SAVE ${saveLibraryUIShortIdentity(entry.saveId)}`)
+                );
+                for(const role of ["playerOne","playerTwo"]){
+                    const linkKey=`save:${entry.saveId}:${role}`;
+                    block.appendChild(saveLibraryUICreateIdentityLinkRow({kind:"save",sourceId:entry.saveId,role,managerName:(showdown.managers&&showdown.managers[role])||(role==="playerOne"?"Manager 1":"Manager 2"),showdownName:showdown.name||"Unnamed Showdown",currentProfileId:refs[role]||null,linkKey},profiles));
+                }
+                localList.appendChild(block);
+            }
+            section.append(localHeading,localList);
+        }
+
+        const saveIds=new Set(saves.map(entry=>entry&&entry.saveId).filter(Boolean));
+        const showdownIds=new Set(saves.map(entry=>String(entry&&entry.showdown&&entry.showdown.id)).filter(value=>value!=="undefined"&&value!=="null"));
+        const historical=(snapshot.legacyShowdowns||[]).filter(record=>{
+            const stable=record&&record.identity&&record.identity.saveId;
+            return !(stable&&saveIds.has(stable))&&!showdownIds.has(String(record&&record.id));
+        });
+        if(historical.length){
+            const historicalHeading=saveLibraryUIElement("h5","saveLibraryIdentityGroupHeading","HISTORICAL-ONLY LEGACY ROLES");
+            const historicalList=saveLibraryUIElement("div","saveLibraryIdentityGroup");
+            for(const showdown of historical){
+                const refs=showdown&&showdown.identity&&showdown.identity.managerProfileIds||{};
+                const sourceId=String(showdown&&showdown.id);
+                const block=saveLibraryUIElement("article","saveLibraryIdentitySource historical");
+                block.append(
+                    saveLibraryUIElement("strong","",showdown&&showdown.name||"Historical Showdown"),
+                    saveLibraryUIElement("small","",showdown&&showdown.identity&&showdown.identity.saveId?`LEGACY SAVE ${saveLibraryUIShortIdentity(showdown.identity.saveId)}`:"LEGACY · STABLE IDENTITY WILL BE DERIVED ON EXPLICIT MAP")
+                );
+                for(const role of ["playerOne","playerTwo"]){
+                    const linkKey=`legacy:${sourceId}:${role}`;
+                    block.appendChild(saveLibraryUICreateIdentityLinkRow({kind:"legacy",sourceId,role,managerName:(showdown&&showdown.managers&&showdown.managers[role])||(role==="playerOne"?"Manager 1":"Manager 2"),showdownName:showdown&&showdown.name||"Historical Showdown",currentProfileId:refs[role]||null,linkKey},profiles));
+                }
+                historicalList.appendChild(block);
+            }
+            section.append(historicalHeading,historicalList);
+        }
+        return section;
+    }
+
     function saveLibraryUIReadyPanel(library,panel){
         const saves=Array.isArray(library.saves)?library.saves.slice():[];
         saves.sort((a,b)=>{
@@ -273,6 +439,7 @@
             panel.appendChild(empty);
         }
         panel.appendChild(saveLibraryUICreateProfiles(library));
+        panel.appendChild(saveLibraryUICreateIdentityLinks(library));
     }
 
     function saveLibraryUICompatibilityPanel(panel){
@@ -325,7 +492,7 @@
         heading.append(
             saveLibraryUIElement("span","settingsPanelEyebrow","CAREER DATA"),
             saveLibraryUIElement("h3","","SAVE LIBRARY"),
-            saveLibraryUIElement("p","","Switch between local Career Mode rivalries, create another without overwriting the current one, remove exactly one Save, and see the stable Local Profiles behind manager names.")
+            saveLibraryUIElement("p","","Switch between local Career Mode rivalries, create another without overwriting the current one, remove exactly one Save, inspect Local Profiles, and explicitly link the same manager across Saves or historical Legacy records when you know the identity relationship.")
         );
         panel.appendChild(heading);
 
