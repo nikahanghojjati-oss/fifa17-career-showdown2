@@ -4,15 +4,15 @@ Last updated: 2026-08-14 ET
 
 ## Production authority
 
-Application label: `v1.3.0`
+Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r1`
-Immediate previous known-good runtime: `1.2.0-r2`
+Immediate previous known-good whole shell: `1.2.0-r2`
 Production status: merged, deployed, exact-byte verified and technically production-proven
-Current production runtime merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
+Current production runtime feature merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
 Current feature release version: intentionally unassigned
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-The original v1.3 Recovery & Device Resilience release remains the whole-shell baseline. The Local Profiles / Save Library dependency chain advanced that production code without assigning a new application or Service Worker release identity.
+The original v1.3 Recovery & Device Resilience release remains the whole-shell baseline. The Local Profiles / Save Library dependency chain advanced production code without assigning a new application or Service Worker release identity.
 
 ## Completed Local Profiles / Save Library chain
 
@@ -25,7 +25,7 @@ The fourth layer is complete, merged and production-proven.
 
 ## Visible Save Library product state
 
-The application now provides a user-facing local multi-save experience on top of the established canonical Save Library model.
+The application provides a user-facing local multi-save experience on top of the established canonical Save Library model.
 
 Current behavior:
 
@@ -45,13 +45,13 @@ Current behavior:
 - Corrupt/dual/unverifiable authority is visibly blocked and fail-closed.
 - Mutation rerenders preserve focus inside the established Settings dialog.
 - UI remains contained at Chromebook and phone widths and under reduced motion.
-- Save Library UI/CSS are part of the verified `1.3.0-r1` offline whole shell.
+- Save Library UI/CSS are part of the verified `1.3.0-r1` Installable Offline App whole shell.
 
 ## Runtime/API state
 
 `js/saveLibraryRuntime.js` remains the only product-level Save Library mutation authority.
 
-It now exposes narrow operations for:
+It exposes narrow operations for:
 
 - detached library snapshots;
 - additive Showdown creation;
@@ -82,13 +82,13 @@ Historical ambiguous manager mapping remains future product work unless separate
 
 ## Storage state
 
-Pre-cutover old singleton devices:
+Before explicit Save Library activation on an old singleton device:
 
 - `careerModeShowdown.activeShowdown`
 - `careerModeShowdown.legacyShowdowns`
 - `careerModeShowdown.preferences`
 
-Post-cutover canonical devices:
+After successful cutover:
 
 - `careerModeShowdown.saveLibrary`
 - `careerModeShowdown.legacyShowdowns`
@@ -106,7 +106,9 @@ Candidate B: strictly read-only analysis.
 
 Candidate C: only import stage permitted to mutate canonical restore state.
 
-Candidate C destructive Apply still requires strict `captureCareerModeRawRestoreSnapshot()` authority, exact preconditions, last-moment raw guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber verification, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery.
+Candidate C destructive Apply still requires `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority.
+
+Preserve exact preconditions, last-moment raw guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber verification, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery.
 
 This architecture remains intentionally defensive because the roadmap may later evolve toward multi-device/private-room competition.
 
@@ -114,7 +116,7 @@ This architecture remains intentionally defensive because the roadmap may later 
 
 Whole-shell label remains exactly `1.3.0-r1`.
 
-Previous known-good shell remains `1.2.0-r2`.
+Previous known-good whole shell remains `1.2.0-r2`.
 
 PR #53 added lazy `js/saveLibraryUI.js` and `css/saveLibrary.css` to the complete shell without changing the revision.
 
@@ -151,7 +153,7 @@ New/updated permanent evidence includes:
 - Save Library deployed-site audit in permanent post-merge smoke;
 - whole-shell Service Worker inclusion.
 
-The workflow-family count remains unchanged.
+The workflow-family count remains unchanged at 14 permanent workflow families and 27 protected multiline executable blocks.
 
 ## Exact production proof
 
@@ -165,19 +167,19 @@ PR Stability: `31771109094` — success.
 Candidate C: `31771109180` — success.
 Static App: `31771109225` — success.
 
-Merge:
+Runtime feature merge:
 
 `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
 
-All 14 permanent push workflow families succeeded on the exact merge.
+All 14 permanent push workflow families succeeded on the exact runtime merge.
 
 Release Integration Burn-In `31771269732` — success, both complete stateful passes.
 
 Post-merge Stability `31771269740` — success, including deployed-site-smoke job `94677863736`.
 
-Production Pages proof verified `71` runtime files for `1.3.0-r1` byte-for-byte and passed runtime provenance, Home, visible Save Library, licensed football photos, Candidate A, Candidate B, Candidate C, offline boundary and the complete deployed journey.
+Production Pages proof verified 71 `1.3.0-r1` runtime files byte-for-byte and passed runtime provenance, Home, visible Save Library, licensed football photos, Candidate A, Candidate B, Candidate C, Installable Offline App/offline boundary and the complete deployed journey.
 
-The deployed complete journey recorded `70` checkpoints and `36` accessibility scans.
+The deployed complete journey recorded 70 checkpoints and 36 accessibility scans.
 
 ## Protected product surfaces
 

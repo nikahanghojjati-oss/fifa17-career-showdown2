@@ -95,13 +95,26 @@ for(const stale of [
 
 A.match(roadmap, /v1\.1 Data Safety and Recovery is complete/i, "Roadmap must keep Data Safety and Recovery closed.");
 A.match(roadmap, /Candidate A\/B\/C are protected systems, not the current feature task/i, "Roadmap must keep Candidate A/B/C protected without reopening them as the current feature milestone.");
-A.match(roadmap, /Current milestone — v1\.3\.0 Recovery & Device Resilience Hardening/i, "Roadmap must identify v1.3 resilience as current.");
-A.match(roadmap, /Local Profiles and Save Library — future feature milestone, version pending/i, "Roadmap must keep Local Profiles future and unnumbered until v1.3 closes.");
+A.match(roadmap, /Current milestone — v1\.3\.0 Recovery & Device Resilience Hardening/i, "Roadmap must preserve the v1.3 resilience milestone.");
+A.match(roadmap, /Local Profiles and Save Library — completed dependency milestone, feature version unassigned/i, "Roadmap must record shipped Local Profiles/Save Library without inventing a release version.");
 const resilienceIndex = roadmap.indexOf("Current milestone — v1.3.0 Recovery & Device Resilience Hardening");
-const profilesIndex = roadmap.indexOf("Local Profiles and Save Library — future feature milestone, version pending");
+const profilesIndex = roadmap.indexOf("Local Profiles and Save Library — completed dependency milestone, feature version unassigned");
 const cloudIndex = roadmap.indexOf("Cloud Readiness");
 const backupIndex = roadmap.indexOf("Cloud Backup");
-A.ok(resilienceIndex >= 0 && profilesIndex > resilienceIndex && cloudIndex > profilesIndex && backupIndex > cloudIndex, "Roadmap must preserve resilience → local identity → Cloud Readiness → Cloud Backup dependency order.");
+A.ok(resilienceIndex >= 0 && profilesIndex > resilienceIndex && cloudIndex > profilesIndex && backupIndex > cloudIndex, "Roadmap must preserve resilience → completed local identity/save library → Cloud Readiness → Cloud Backup dependency order.");
+
+for(const [file, text] of [
+    ["00_DEVELOPER_START_HERE.md", start],
+    ["NEXT_TASK.md", next],
+    ["PROJECT_STATE.md", state],
+    ["README.md", readme],
+    ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
+]){
+    A.match(text, /Local Profiles[\s\S]{0,80}Save Library|Save Library[\s\S]{0,80}Local Profiles/i, `${file} must acknowledge the shipped Local Profiles / Save Library dependency chain.`);
+}
+A.ok(readme.includes("careerModeShowdown.saveLibrary"), "README must describe post-cutover Save Library canonical authority.");
+A.ok(/multiple local Showdown Saves|multi-save/i.test(readme), "README must describe the shipped multi-save product model.");
+A.ok(!/one local browser\/device and one active Showdown/i.test(readme), "README must not revive the retired singleton-only product description.");
 
 const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
 for(const term of ["accountId", "profileId", "saveId", "deviceId", "installationId", "baseRevision", "tombstone", "compare-and-swap"]){
@@ -119,4 +132,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; publication truth, recovery ownership, current roadmap, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; publication truth, recovery ownership, shipped Save Library boundary, cloud boundary and workflow topology agree.\n`);
