@@ -6,7 +6,7 @@ Purpose: canonical first read for a new developer session.
 
 ## Sixty-second state
 
-Application label: `v1.3.0`
+Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r1`
 Immediate previous known-good whole shell: `1.2.0-r2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`

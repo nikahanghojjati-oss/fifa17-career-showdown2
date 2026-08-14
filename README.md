@@ -2,16 +2,16 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript, browser localStorage and a first-party Installable Offline App shell.
 
-Application version: v1.3.0 — Recovery & Device Resilience Hardening
+Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Current production runtime: `1.3.0-r1`
-Previous known-good runtime: `1.2.0-r2`
+Previous known-good whole shell: `1.2.0-r2`
+Current shipped product layer: Visible Local Profiles / Save Library Core UI
+Current runtime feature merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
+Feature release version: intentionally unassigned
 Release status: merged, deployed, exact-byte verified and technically production-proven
-Release PR: #42
-Runtime merge: `094401b649954656e27e4a92d027e9532e84ccbf`
-Production Stability: `31755136265` / deployed-site-smoke `94629478166`
-Release Integration Burn-In: `31755136240` — 2/2
-Production proof: `V1.3.0_PRODUCTION_PROOF.md`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+
+The v1.3 release remains the whole-shell application baseline. The later Local Profiles / Save Library chain advanced production behavior without assigning a new application version or Service Worker revision.
 
 Current verified source wins over stale historical status prose. Technical production proof does not fabricate owner visual acceptance.
 
@@ -24,19 +24,24 @@ Read in this order:
 3. `00_CURRENT_HANDOFF.md`
 4. `PROJECT_STATE.md`
 5. `NEXT_TASK.md`
-6. `V1.3.0_PRODUCTION_PROOF.md`
-7. `RELEASE_V1.3.0.md`
-8. `CAREER_MODE_SHOWDOWN_V1.3.0_MAINTENANCE_HANDOFF.md`
-9. `POST_V1_ROADMAP_EXECUTION.md`
+6. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
+7. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
+8. `V1.3.0_PRODUCTION_PROOF.md` when original release-baseline history is relevant
+9. `RELEASE_V1.3.0.md`
+10. `CAREER_MODE_SHOWDOWN_V1.3.0_MAINTENANCE_HANDOFF.md`
+11. `POST_V1_ROADMAP_EXECUTION.md`
 
-Older v1.2 release/proof documents remain immutable rollback/history evidence for their own runtimes.
+Always fetch live `main` before relying on a SHA in documentation.
+
+Older release/proof documents remain immutable rollback/history evidence for their own runtimes.
 
 ## Locked product model
 
 Career Mode Showdown is a rivalry companion, not a browser football simulator and not yet a cloud/account product.
 
 - exactly two managers;
-- one local browser/device and one active Showdown;
+- one local browser/device today, with multiple local Showdown Saves supported by the Save Library;
+- at most one explicit active Save selected by `activeSaveId`;
 - manual FIFA 17 result entry;
 - one selected league for both managers;
 - different permanent clubs;
@@ -48,23 +53,77 @@ Career Mode Showdown is a rivalry companion, not a browser football simulator an
 - equal non-zero scores are Draw;
 - only 0–0 uses league position then league points as tiebreakers.
 
+## Local Profiles / Save Library product
+
+The production application includes a lazy FIFA 17-inspired local Save Library inside the established Settings navigation/focus owner.
+
+The completed dependency chain is:
+
+1. Identity foundation — PR #46.
+2. Canonical persistence integration — PR #48.
+3. Runtime authority cutover — PR #51.
+4. Visible Local Profiles / Save Library Core UI — PR #53.
+
+The visible product supports:
+
+- empty, one-save and multi-save states;
+- additive New Showdown creation rather than destructive replacement;
+- explicit active-Save switching by stable `save_*` identity;
+- deletion of exactly one Save without full-reset semantics;
+- no implicit replacement after deleting the active Save;
+- read-only Local Profiles;
+- same visible manager names remaining distinct `profile_*` identities;
+- retained Local Profiles after single-Save deletion;
+- non-mutating old-singleton compatibility opening;
+- fail-closed presentation when storage authority is corrupt, dual or otherwise unverifiable;
+- keyboard/focus integration with the existing Settings dialog;
+- phone, Chromebook and reduced-motion containment.
+
+Stable prefixes remain `save_*`, `season_*` and `profile_*`. Display names are labels, never identity keys.
+
+Profile rename/edit, historical profile mapping and standalone profile creation remain separate future candidates unless explicitly authorized.
+
 ## Architecture and data safety
 
 Navigation/history/Smart Back authority: `js/screens.js`.
-Persistence/destructive mutation authority: `js/storage.js`.
+
+Public raw browser-storage authority: `js/storage.js`.
+
 Raw transaction engine: `js/storageTransaction.js`.
+
+Save Library runtime mutation authority: `js/saveLibraryRuntime.js`.
+
 Scoring authority: `js/scoring.js`.
+
 Analytics authority: `js/analytics.js`.
 
-Canonical localStorage keys remain exactly:
+Before explicit Save Library activation on an old singleton device, the public canonical localStorage keys remain exactly:
 
 1. `careerModeShowdown.activeShowdown`
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
-Candidate A remains non-mutating export. Candidate B remains strictly read-only import analysis. Candidate C is the only import stage permitted to commit canonical state and preserves immutable confirmed intent, strict exact raw snapshot/precondition handling, last-moment exact-byte checks, transaction-owned mutation and rollback, anti-clobber ownership, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery on uncertainty.
+After successful cutover, the public canonical localStorage keys remain exactly:
 
-Service Worker/Cache Storage contains application bytes only and is never canonical user-data storage.
+1. `careerModeShowdown.saveLibrary`
+2. `careerModeShowdown.legacyShowdowns`
+3. `careerModeShowdown.preferences`
+
+`careerModeShowdown.activeShowdown` is not a fourth permanent canonical key after cutover. It is only a migration/recovery compatibility slot.
+
+UI code never owns canonical `localStorage` directly.
+
+`js/saveLibraryCutover.js` remains lazy. Confirmed Start/Continue may activate or migrate old singleton state. Opening Save Library/Settings or Legacy on an unmigrated singleton device remains non-mutating.
+
+Runtime writes preserve exact owned-byte authority and fail closed on stale/cross-tab drift, singleton reappearance, critical-recovery lock, exact-byte mismatch or failed transactions.
+
+Candidate A remains non-mutating export.
+
+Candidate B remains strictly read-only import analysis.
+
+Candidate C is the only import stage permitted to commit canonical restore state. Candidate C preserves immutable confirmed intent, strict exact raw snapshot/precondition handling through `captureCareerModeRawRestoreSnapshot()`, last-moment exact-byte checks, transaction-owned mutation and ownership-scoped reverse rollback, anti-clobber ownership, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery on uncertainty.
+
+Service Worker and Cache Storage contain application bytes only and are never canonical user-data storage.
 
 ## Installable Offline App
 
@@ -80,9 +139,10 @@ The current `1.3.0-r1` runtime preserves the v1.2 offline architecture and adds 
 - worker-owned connectivity verification;
 - explicit nonfatal offline degradation for external media;
 - lazy PWA controller;
-- install/update presentation only inside Settings.
+- install/update presentation only inside Settings;
+- lazy Save Library UI and CSS included in the verified complete shell.
 
-`CMS_ACTIVATE_UPDATE` verifies the whole shell, awaits successful `skipWaiting()`, and only then acknowledges activation acceptance.
+`CMS_ACTIVATE_UPDATE` verifies the complete candidate shell, awaits successful `skipWaiting()`, and only then acknowledges activation acceptance.
 
 ## Protected visual baseline
 
@@ -90,22 +150,45 @@ The r2 iOS standalone loading correction is structural: safe-area/viewport behav
 
 Do not restore floating/sticky global install UI, viewport-height-driven image sizing or random object-position/crop/brightness hacks.
 
-## v1.3.0 production proof
+Preserve the current FIFA 17-inspired Home and Save Library presentation unless a reproduced defect or separately authorized product candidate requires change.
 
-Frozen candidate `b8d92e9a8a9eec2820c439c0dd2699e9d825a91f` passed two complete 13/13 normal PR generations. Release PR #42 merged at `094401b649954656e27e4a92d027e9532e84ccbf`.
+## Current production proof
 
-After merge, Pages `31755135819`, Stability `31755136265`, deployed-site-smoke `94629478166` and Release Integration Burn-In `31755136240` all passed. The public smoke verified exact runtime bytes, provenance, Home, football visuals, Candidate A/B/C, install/offline behavior and the complete public journey. Burn-In passed 2/2 stateful journeys.
+PR #53 exact final head `2021a0a2eaed26f0aca6639278de82afe2a28d6d` passed all 13 normal PR workflow families.
+
+Runtime feature merge `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa` passed all 14 permanent push workflow families.
+
+Release Integration Burn-In `31771269732` passed both complete stateful integration journeys.
+
+Post-merge Stability `31771269740` passed, including deployed-site-smoke job `94677863736`.
+
+The deployed smoke verified 71 `1.3.0-r1` runtime files byte-for-byte and passed runtime provenance, Home, visible Save Library, licensed football visuals, Candidate A, Candidate B, Candidate C, Installable Offline App/offline boundary and complete deployed journey proof.
 
 ## Validation and performance locks
 
-There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13 families; Release Integration Burn-In is main/manual release-only.
+There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal implementation PRs generally run 13 families; Release Integration Burn-In is main/manual release authority.
 
-Protected ceilings: eager raw <=165,000 bytes; eager gzip <=37,500 bytes; Marco Reus startup portrait <=95,000 bytes; combined first-party startup <=260,000 bytes; normal loading minimum 2700 ms; reduced-motion loading 220 ms.
+Protected ceilings:
 
-Do not raise limits or weaken assertions to make a change pass.
+- eager raw <=165,000 bytes;
+- eager gzip <=37,500 bytes;
+- Marco Reus startup portrait <=95,000 bytes;
+- combined first-party startup <=260,000 bytes;
+- normal loading minimum 2700 ms;
+- reduced-motion loading 220 ms.
+
+Exact final PR #53 measurements were eager raw 162,781 bytes, eager gzip 37,415 bytes, lazy feedback 4,845 bytes, Reus startup portrait 88,492 bytes and combined first-party startup 251,273 bytes.
+
+Do not raise limits, relax timeouts or weaken assertions to make a change pass.
 
 ## Current continuation boundary
 
-v1.3.0 — Recovery & Device Resilience Hardening is technically production-proven. The next legal action is to preserve and observe this baseline unless new evidence or an explicitly authorized later milestone requires work.
+Visible Local Profiles / Save Library Core UI is complete and production-proven.
 
-PR #37 remains untrusted historical work. Local Profiles/Save Library, cloud, accounts, QR pairing, synchronization, gameplay changes and framework rewrites are not implicitly authorized by this release.
+No next substantial product candidate is automatically assigned.
+
+Preserve and observe the proven baseline unless new evidence or an explicitly authorized later milestone requires focused work.
+
+Profile editing, historical mapping, cloud, accounts, QR pairing, synchronization, remote transport, distributed revision/device identity systems, backup/import redesign, gameplay changes and framework rewrites are not implicitly authorized.
+
+PR #37 and PR #35 remain historical draft work and are not current authority.

@@ -4,10 +4,10 @@ Last updated: 2026-08-14 ET
 
 ## Current production milestone
 
-Application label: `v1.3.0`
+Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r1`
 Immediate previous known-good whole shell: `1.2.0-r2`
-Current production runtime merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
+Current production runtime feature merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
 Feature release version: intentionally unassigned
 
 Visible Local Profiles / Save Library Core UI is complete, merged, deployed and production-proven.
@@ -22,7 +22,7 @@ PR #53 merge:
 
 All 13 normal PR workflow families passed the exact final head.
 
-All 14 permanent push workflow families passed the exact merge.
+All 14 permanent push workflow families passed the exact runtime merge.
 
 Release Integration Burn-In `31771269732` succeeded with both complete stateful integration passes.
 
@@ -39,13 +39,14 @@ First:
 1. Fetch live `main` independently.
 2. Inspect recent commits and open pull requests.
 3. Read `00_HANDOFF_GOLDEN_RULE.md`.
-4. Read `00_CURRENT_HANDOFF.md`.
-5. Read `PROJECT_STATE.md`.
-6. Read this file.
-7. Read `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`.
-8. Read `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`.
-9. Inspect current source and permanent contracts before proposing or implementing another candidate.
-10. If the owner supplies a new explicit task, bound that task against current repository authority instead of reviving an old roadmap assumption.
+4. Read `00_DEVELOPER_START_HERE.md`.
+5. Read `00_CURRENT_HANDOFF.md`.
+6. Read `PROJECT_STATE.md`.
+7. Read this file.
+8. Read `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`.
+9. Read `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`.
+10. Inspect current source and permanent contracts before proposing or implementing another candidate.
+11. If the owner supplies a new explicit task, bound that task against current repository authority instead of reviving an old roadmap assumption.
 
 Do not continue work merely to keep a development branch active.
 
@@ -110,7 +111,11 @@ Preserve stable `save_*`, `season_*` and `profile_*` identities.
 
 Display names remain labels, never identity keys.
 
-Preserve canonical three-key post-cutover authority and never make singleton active storage a permanent fourth key.
+Before explicit cutover on an old singleton device, the public canonical storage keys remain `careerModeShowdown.activeShowdown`, `careerModeShowdown.legacyShowdowns` and `careerModeShowdown.preferences`.
+
+After successful cutover, the public canonical storage keys remain `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns` and `careerModeShowdown.preferences`.
+
+Never turn `careerModeShowdown.activeShowdown` into a permanent fourth canonical key.
 
 UI code must not directly own canonical `localStorage`.
 
@@ -118,15 +123,17 @@ Preserve lazy Save Library activation and non-mutating Settings/Legacy opening o
 
 Preserve exact owned-byte runtime authority, stale/cross-tab fail-closed behavior and singleton reappearance rejection.
 
-Preserve Candidate A non-mutating export, Candidate B read-only analysis and Candidate C strict destructive restore authority.
+Preserve Candidate A non-mutating export and Candidate B read-only analysis.
 
-Preserve exact snapshots, preconditions, transaction ownership, reverse rollback, anti-clobber checks, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery.
+Candidate C remains the only destructive import stage. Its Apply path must continue to use `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority.
+
+Preserve exact preconditions, last-moment raw guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery.
 
 Preserve Installable Offline App whole-shell exactness.
 
 Preserve the existing gameplay/scoring rules and protected product surfaces.
 
-Do not raise performance ceilings to make a future candidate pass.
+Do not raise performance ceilings or workflow timeouts merely to make a future candidate pass.
 
 ## Current performance boundary
 
@@ -137,8 +144,21 @@ Exact PR #53 final measurements:
 - Reus startup portrait `88492` <= `95000`
 - combined first-party startup `251273` <= `260000`
 - lazy feedback `4845`
+- normal loading minimum `2700 ms`
+- reduced-motion loading `220 ms`
 
 The eager gzip ceiling remains especially tight. New substantial UI/runtime work should continue to respect existing lazy boundaries where appropriate.
+
+## Validation topology
+
+Repository authority remains:
+
+- 14 permanent workflow families;
+- 27 protected multiline executable blocks;
+- normal implementation PRs generally run 13 workflow families;
+- Release Integration Burn-In remains main/manual release authority.
+
+Never weaken tests or reduce the protected topology merely to obtain green CI.
 
 ## Stop condition
 
