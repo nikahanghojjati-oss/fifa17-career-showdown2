@@ -36,12 +36,25 @@ async function createShowdown(){
         const showdownName=showdownNameInput.value.trim(),managerOne=managerOneInput.value.trim(),managerTwo=managerTwoInput.value.trim(),requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
         const candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:showdownName||"Unnamed Showdown",managers:{playerOne:managerOne||"Manager 1",playerTwo:managerTwo||"Manager 2"},totalRounds:roundAmount,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
         const runtime=window.CareerModeSaveLibraryRuntime;
-        if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){
-            if(typeof window.showAppNotice==="function")window.showAppNotice("Save Library authority is not ready, so the new Showdown was not created.","error",10000);
+        if(!runtime||typeof runtime.createShowdown!=="function"){
+            if(typeof window.showAppNotice==="function")window.showAppNotice("Save Library authority is unavailable, so the new Showdown was not created.","error",10000);
             return false;
         }
         try{
-            const prepared=await runtime.createShowdown(candidate);
+            let prepared;
+            if(!runtime.isReady()){
+                const snapshot=typeof window.captureCareerModeRawSaveLibraryMigrationSnapshot==="function"?window.captureCareerModeRawSaveLibraryMigrationSnapshot():null;
+                const replaceUnreadable=hasStoredActiveData&&!hasUsableActiveSave&&snapshot&&snapshot.ok===true&&snapshot.raw&&snapshot.raw.saveLibrary===null&&snapshot.raw.activeShowdown!==null&&typeof window.replaceUnusableSingletonWithSaveLibraryCandidate==="function";
+                if(replaceUnreadable){
+                    prepared=await window.replaceUnusableSingletonWithSaveLibraryCandidate(candidate);
+                }else{
+                    if(typeof window.ensureSaveLibraryRuntimeAuthority!=="function")throw new Error("Save Library authority loader is unavailable.");
+                    await window.ensureSaveLibraryRuntimeAuthority();
+                    prepared=await runtime.createShowdown(candidate);
+                }
+            }else{
+                prepared=await runtime.createShowdown(candidate);
+            }
             currentShowdown=normalizeShowdown(prepared);
         }catch(error){
             if(typeof window.reportApplicationError==="function")window.reportApplicationError("The new Showdown could not be saved under Save Library authority",error);
