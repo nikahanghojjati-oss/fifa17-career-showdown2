@@ -43,6 +43,9 @@ const SHELL_PATHS = Object.freeze([
     "js/restore.js",
     "js/restoreUI.js",
     "js/ruleBook.js",
+    "js/saveLibraryFoundation.js",
+    "js/saveLibraryPersistence.js",
+    "js/saveLibraryRuntime.js",
     "js/scoring.js",
     "js/screens.js",
     "js/seasonEngine.js",
@@ -104,7 +107,7 @@ async function populateCurrentCache(){
 async function readForcedRevision(){
     if(!(await cacheExists(MODE_CACHE_NAME))){ return ""; }
     const cache=await caches.open(MODE_CACHE_NAME); const response=await cache.match(scopeUrl("__cms_runtime_mode__").href); if(!response){ return ""; }
-    try{return(await response.text()).trim();}catch(error){return "";}
+    try{return(await response.text()).trim();}catch(error){return"";}
 }
 async function writeForcedRevision(revision){ const cache=await caches.open(MODE_CACHE_NAME); await cache.put(scopeUrl("__cms_runtime_mode__").href,new Response(String(revision||""),{headers:{"content-type":"text/plain; charset=utf-8"}})); }
 async function clearForcedRevision(){ await caches.delete(MODE_CACHE_NAME); }
