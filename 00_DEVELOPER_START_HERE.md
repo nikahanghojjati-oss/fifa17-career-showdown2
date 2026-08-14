@@ -10,8 +10,10 @@ Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r1`
 Immediate previous known-good whole shell: `1.2.0-r2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
+Feature release version: intentionally unassigned
 
-Visible Local Profiles / Save Library Core UI and explicit cross-Save/historical manager identity linkage are complete, merged, deployed and production-proven. Their feature release version remains intentionally unassigned.
+Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, and Identity-Safe Career Analytics / Trophy Room longitudinal consumption are complete, merged, deployed and production-proven.
 
 Completed dependency chain:
 
@@ -19,14 +21,15 @@ Completed dependency chain:
 2. canonical persistence integration — PR #48;
 3. runtime authority cutover — PR #51;
 4. visible Local Profiles / Save Library Core UI — PR #53;
-5. explicit cross-Save/historical manager identity linkage foundation — PR #57.
+5. explicit cross-Save/historical manager identity linkage foundation — PR #57;
+6. identity-safe longitudinal Career Analytics / Trophy Room correction — PR #59.
 
-PR #57 exact final head: `9bf4cc19c6ec6485c28a7dd542cbac74052d44bc`.
-Current production runtime feature merge: `95e98c13bbb4cac485531565c3577ae31286d0af`.
-Authority-seal merge: `ab5f4082c520a464a894318bfed1e0511763805f`.
-Final rolling-handoff-only main commit before the current Analytics candidate: `8c6fad42e38b4964d848128e40569442c3fa06d5`.
+PR #59 exact validated head: `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1`.
+Production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`.
+Production Stability run: `31827619109`.
+Deployed-site-smoke job: `94855938131`.
 
-No application or Service Worker release number was assigned to the later Save Library / manager identity feature chain.
+No application or Service Worker release number was assigned to the later Save Library / manager identity / Analytics feature chain.
 
 ## Authority ownership map
 
@@ -36,14 +39,12 @@ One current fact should have one primary owner. Do not copy a fact into a new do
 - `PROJECT_STATE.md` is the primary owner of current deployed product, identity, storage, recovery, performance and production-proof state.
 - `NEXT_TASK.md` is the sole primary owner of the current implementation authorization boundary. A roadmap item is not a task unless this file or a later explicit owner instruction makes it one.
 - `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction and current roadmap classification. It does not assign release versions and does not authorize implementation by itself.
-- `00_CURRENT_HANDOFF.md` is the concise rolling production/evidence handoff and retains prior candidate failure history.
-- `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` is the current branch-specific evidence trail while the owner-authorized Analytics candidate is under validation. It does not override `PROJECT_STATE.md` production facts.
+- `00_CURRENT_HANDOFF.md` is the concise rolling production/evidence handoff and retains the prior identity/Analytics candidate failure history and production proof.
+- `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` is retained as the closed branch-specific evidence trail for PR #59 and its validation failures/corrections. It is historical after production promotion and does not override current authority.
 - release and production-proof files own frozen evidence for the release/candidate they name. Historical proof may accurately describe an older canonical storage model and must not be mistaken for current product authority.
 - Local Profiles / Save Library handoffs preserve rationale and implementation chronology for that completed chain.
 - `00_MASTER_DEVELOPER_CONTEXT.md` and older handoffs are historical rationale only.
 - external reviews are non-authoritative hypotheses. They never override current source, current repository authority or later explicit owner decisions.
-
-A machine-readable authority manifest is not currently justified. The existing deterministic coherence contracts should protect the small set of important cross-file invariants instead of creating another authority source.
 
 ## Required read order
 
@@ -57,37 +58,42 @@ Then read:
 4. `PROJECT_STATE.md`
 5. `NEXT_TASK.md`
 6. `POST_V1_ROADMAP_EXECUTION.md`
-7. `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` when that file exists on the active branch
-8. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
-9. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
-10. deeper Save Library handoffs only when their rationale is relevant
-11. current release/proof documents only when their frozen evidence is relevant
-12. `00_MASTER_DEVELOPER_CONTEXT.md` only when deeper history is required.
+7. `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` when PR #59 failure chronology is relevant
+8. Local Profiles / Save Library historical handoffs only when their rationale is relevant
+9. current release/proof documents only when their frozen evidence is relevant
+10. `00_MASTER_DEVELOPER_CONTEXT.md` only when deeper history is required.
 
 Current verified source plus later explicit owner decisions outrank stale historical narration.
 
 ## Current development boundary
 
-Current production still has the known name-keyed longitudinal Career Analytics limitation described in `PROJECT_STATE.md`; do not claim that defect fixed in production until a proven candidate is merged and deployed.
+The owner-authorized Identity-Safe Career Analytics candidate is no longer an active branch task. It is production-proven.
 
-On 2026-08-14 ET the owner explicitly authorized correcting repository record inconsistencies and independently advancing the roadmap's smallest source-supported next candidate with maximum attention to accuracy.
-
-The active candidate is therefore the narrow identity-safe longitudinal Career Analytics / Trophy Room correction on branch `agent/identity-safe-career-analytics`, based exactly on production main `8c6fad42e38b4964d848128e40569442c3fa06d5`.
-
-The candidate must preserve these semantics:
+Production semantics now include:
 
 - authoritative longitudinal manager identity is a valid stable `profile_*` reference;
 - same visible names never imply the same manager identity;
 - one explicitly reused Local Profile across multiple Saves aggregates as one career identity;
 - distinct same-name profiles remain distinct career identities;
-- unresolved historical roles remain unresolved and are excluded from identified manager totals/leaderboards rather than guessed from labels;
+- unresolved historical roles remain unresolved and are excluded from identity-dependent manager totals/leaderboards/cabinets rather than guessed from labels;
 - overall Showdown/Season totals and Showdown/Season-scoped records remain complete when identity is unresolved;
-- Rivalry Analytics remains scoped to one Showdown and does not become a cross-history identity consumer;
-- Analytics and Trophy Room caches/renders refresh when explicit identity mapping changes affect derived output.
+- Local Profile display names remain presentation only;
+- read-only Career Statistics can obtain canonical profile presentation without eager Save Library mutation-runtime activation;
+- Analytics and Trophy Room caches/renders refresh when identity mapping or consumed profile presentation changes;
+- Rivalry Analytics remains scoped to one Showdown and does not become a cross-history identity consumer.
 
-The active candidate is not production authority until exact-head validation, promotion, merge and deployed-site proof are complete.
+No new substantial runtime candidate is currently authorized. Do not choose backup portability, profile editing, broader Analytics 2.0, Legacy/Achievements, optional content, cloud or any other roadmap area without a later explicit owner instruction.
 
-Do not combine it with profile editing, backup-envelope evolution, cloud, accounts, synchronization, gameplay/scoring changes, global visual redesign or release/version assignment.
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+After reconstructing live repository state and reading current authority:
+
+1. verify the live `main` and current authority seal still agree that PR #59 / merge `c5c7d50c...` is production-proven;
+2. verify whether `NEXT_TASK.md` or a later explicit owner instruction authorizes any newer bounded candidate;
+3. if no newer authorization exists, make no runtime change and preserve the clean production boundary;
+4. when a new owner request exists, study only the relevant current source/history, classify the smallest correct scope, and implement that bounded request without reopening solved architecture.
+
+Do not ask the owner to reconstruct already-recorded repository history.
 
 ## Permanent product and identity locks
 
@@ -127,7 +133,7 @@ After successful cutover, they are exactly:
 
 `careerModeShowdown.activeShowdown` is never a permanent fourth post-cutover key.
 
-`js/storage.js` remains public raw browser-storage authority. `js/storageTransaction.js` remains raw transaction authority. `js/saveLibraryRuntime.js` remains Save Library product and manager-identity mutation authority. UI and Analytics code do not directly own canonical `localStorage`.
+`js/storage.js` remains public raw browser-storage authority. `js/storageTransaction.js` remains raw transaction authority. `js/saveLibraryRuntime.js` remains Save Library product and manager-identity mutation authority. `js/analytics.js` remains derived/read-only Analytics authority. UI and Analytics code do not directly own canonical `localStorage`.
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the only destructive import Apply stage.
 
@@ -154,13 +160,9 @@ Never raise performance or timeout limits merely to obtain green CI.
 
 ## Validation topology and proof
 
-Repository authority remains 14 permanent workflow families and 27 protected multiline executable blocks. Normal implementation PRs generally exercise 13; Release Integration Burn-In is main/manual release authority.
+Repository authority remains 14 permanent workflow families and 27 protected multiline executable blocks. Normal implementation/authority PRs generally exercise 13; Release Integration Burn-In is main/manual release authority.
 
-PR #57 exact final head `9bf4cc19c6ec6485c28a7dd542cbac74052d44bc` passed all 13 normal PR workflow families. Exact runtime feature merge `95e98c13bbb4cac485531565c3577ae31286d0af` passed all 14 permanent push workflow families. Post-merge Stability run `31812858587` succeeded through deployed-site proof.
-
-The documentation/semantic authority seal then passed all 13 normal PR families at exact head `e8ed4994ef331749dc3d94707f9bb80e0b5de80c`; merge `ab5f4082c520a464a894318bfed1e0511763805f` passed all 14 permanent push/deployment workflow families and Stability run `31814624830`.
-
-No validation result for the current Analytics branch may be inferred from those older green SHAs. The Analytics candidate requires its own exact-head proof.
+PR #59 exact final head `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1` passed all 13 normal PR workflow families. Exact runtime merge `c5c7d50cc3a2d9003e057d1813744c877323c068` had 15 successful push/deployment workflow runs, zero failures and zero cancellations. Stability run `31827619109` passed contracts, canonical Chromium and deployed-site proof; deployed-site-smoke job `94855938131` passed every public production gate through the complete journey.
 
 Automated proof and owner visual/product acceptance remain separate evidence channels.
 

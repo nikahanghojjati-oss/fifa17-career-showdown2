@@ -23,9 +23,7 @@ const release = read(releasePath);
 const handoff = read(handoffPath);
 const start = read("00_DEVELOPER_START_HERE.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
-const analyticsHandoff = fs.existsSync("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md")
-    ? read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md")
-    : "";
+const analyticsHandoff = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
 const readme = read("README.md");
 const state = read("PROJECT_STATE.md");
@@ -115,7 +113,7 @@ for(const [file, text] of [
     ["README.md", readme],
     ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
 ]){
-    A.match(text, /Local Profiles[\s\S]{0,80}Save Library|Save Library[\s\S]{0,80}Local Profiles/i, `${file} must acknowledge the shipped Local Profiles / Save Library dependency chain.`);
+    A.match(text, /Local Profiles[\s\S]{0,120}Save Library|Save Library[\s\S]{0,120}Local Profiles/i, `${file} must acknowledge the shipped Local Profiles / Save Library dependency chain.`);
 }
 A.ok(readme.includes("careerModeShowdown.saveLibrary"), "README must describe post-cutover Save Library canonical authority.");
 A.ok(/multiple local Showdown Saves|multi-save/i.test(readme), "README must describe the shipped multi-save product model.");
@@ -134,23 +132,36 @@ A.ok(!/Local Profiles\/Save Library remains the next approved structural directi
 A.match(start, /PROJECT_STATE\.md[^\n]+primary owner of current deployed product/i, "Developer bootstrap must identify PROJECT_STATE as the current-state owner.");
 A.match(start, /NEXT_TASK\.md[^\n]+sole primary owner of the current implementation authorization boundary/i, "Developer bootstrap must identify NEXT_TASK as implementation authority.");
 A.match(start, /POST_V1_ROADMAP_EXECUTION\.md[^\n]+dependency direction and current roadmap classification/i, "Developer bootstrap must keep roadmap ownership distinct from implementation authorization.");
-A.match(start, /explicit cross-Save\/historical manager identity linkage foundation — PR #57/i, "Developer bootstrap must include the shipped fifth manager-identity layer rather than stopping at PR #53.");
+A.match(start, /explicit cross-Save\/historical manager identity linkage foundation — PR #57/i, "Developer bootstrap must include the shipped fifth manager-identity layer.");
+A.match(start, /identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i, "Developer bootstrap must include the shipped Analytics layer rather than treating PR #59 as active branch work.");
 A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail rather than another full project-state owner.");
-A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current production handoff must preserve the source-grounded Analytics identity dependency finding that motivated this candidate.");
-A.match(state, /Career-level aggregation is not yet identity-authoritative across all Saves\/history/i, "PROJECT_STATE must continue to own current production Analytics truth until the candidate is merged and proven.");
-A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must record the shipped explicit manager identity foundation.");
-A.match(next, /Current owner-authorized candidate/i, "NEXT_TASK must record the owner's explicit Analytics authorization.");
-A.match(next, /identity-safe longitudinal Career Analytics correction/i, "NEXT_TASK must keep the authorized Analytics correction narrow and explicit.");
-A.match(next, /Production remains unchanged until this candidate passes exact-head validation/i, "NEXT_TASK must distinguish branch authorization from shipped production truth.");
-A.match(next, /After exact production\/deployed proof[\s\S]+stop before backup portability/i, "NEXT_TASK must stop this candidate before unrelated future roadmap work.");
+A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current production handoff must preserve the source-grounded Analytics identity finding that shaped the implementation.");
+A.match(currentHandoff, /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i, "Current handoff must retain the final PR #59 validation failure and classification evidence.");
+
+A.match(state, /Identity-Safe Career Analytics is therefore merged, deployed, exact-byte verified and technically production-proven/i, "PROJECT_STATE must own current production Analytics truth after PR #59 proof.");
+A.match(state, /Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`/i, "PROJECT_STATE must identify the exact production runtime feature merge.");
+A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
+A.match(state, /unresolved historical manager roles remaining explicit and never guessed from name similarity/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
+
+A.match(next, /No new substantial runtime product candidate is authorized/i, "NEXT_TASK must close the Analytics candidate instead of silently selecting another roadmap feature.");
+A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
+A.match(next, /if no newer authorization exists[\s\S]+make no runtime mutation/i, "NEXT_TASK must define the executable clean-stop behavior when no later owner authorization exists.");
+A.match(next, /Identity-Safe Career Analytics is closed as a production-proven candidate/i, "NEXT_TASK must explicitly close the completed Analytics authorization.");
+
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
-A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed after production proof.");
-A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| AUTHORIZED \/ IN PROGRESS/i, "Roadmap must record the current narrow Analytics authorization without claiming production completion.");
-A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Analytics authorization must not advance cloud authorization.");
-A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Analytics authorization must not weaken Cloud Backup dependency gates.");
-A.ok(analyticsHandoff, "The owner-authorized Analytics branch must maintain its public active handoff.");
-A.match(analyticsHandoff, /Exact branch base:[\s\S]+8c6fad42e38b4964d848128e40569442c3fa06d5/i, "Active Analytics handoff must name its exact verified production base.");
-A.match(analyticsHandoff, /Unresolved historical roles[\s\S]+excluded from identified manager totals\/leaderboards/i, "Active Analytics handoff must preserve unresolved-history semantics.");
+A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
+A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODUCTION-PROVEN/i, "Roadmap must record the shipped Analytics state.");
+A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
+A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Analytics completion must not advance cloud authorization.");
+A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Analytics completion must not weaken Cloud Backup dependency gates.");
+A.match(roadmap, /No substantial runtime candidate is currently authorized/i, "Roadmap must expose the clean stop boundary after Analytics production proof.");
+
+A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must be explicitly closed after promotion.");
+A.match(analyticsHandoff, /Exact branch base:[\s\S]+8c6fad42e38b4964d848128e40569442c3fa06d5/i, "Closed Analytics handoff must preserve its exact verified branch base.");
+A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Closed Analytics handoff must preserve its exact validated PR head.");
+A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Closed Analytics handoff must preserve its exact runtime merge.");
+A.match(analyticsHandoff, /Failure 7[\s\S]+transient\/offscreen rendered-text assertion issue/i, "Closed Analytics handoff must preserve the final test classification without falsely claiming deterministic content-visibility behavior.");
+A.match(analyticsHandoff, /deployed-site-smoke job `94855938131`[\s\S]+complete deployed production journey/i, "Closed Analytics handoff must retain deployed Pages proof.");
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost current handoff/task authority.");
 A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "NEXT_TASK lost permanent validation topology counts.");
@@ -160,4 +171,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; production truth, owner-authorized Analytics branch scope, recovery ownership, shipped Save Library/manager identity, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; production truth, completed Identity-Safe Career Analytics, recovery ownership, shipped Save Library/manager identity, cloud boundary, clean stop authorization and workflow topology agree.\n`);
