@@ -673,8 +673,8 @@ async function runQuotaFailureFixture(browser){
         await page.evaluate(() => {
             Storage.prototype.setItem = window.__cmsQuotaOriginalSetItem;
             delete window.__cmsQuotaOriginalSetItem;
+            document.getElementById("startShowdown").click();
         });
-        await page.locator("#startShowdown").click();
         await waitForScreen(page, "leagueWheelScreen");
         assert.equal((await readActiveSave(page)).name, "Quota Rollback Audit");
         monitors.assertClean("Quota failure fixture");
