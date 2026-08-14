@@ -31,6 +31,9 @@ function createTrophyRoomScreen(){
 }
 
 function getTrophyRoomRenderKey(){
+    if(typeof window.getCareerAnalyticsRevisionKey === "function"){
+        return window.getCareerAnalyticsRevisionKey();
+    }
     const revision = typeof window.getLegacyStorageRevision === "function"
         ? window.getLegacyStorageRevision()
         : 0;
@@ -60,6 +63,7 @@ function createTrophyCount(label, value, code){
 function createManagerCabinet(manager, rank){
     const cabinet = document.createElement("article");
     cabinet.className = "managerCabinet";
+    if(manager.profileId){ cabinet.dataset.profileId = manager.profileId; }
     const header = document.createElement("div");
     header.className = "managerCabinetHeader";
     const rankElement = document.createElement("span");
@@ -178,6 +182,16 @@ function renderAllTimeRecords(container, analytics){
     container.append(heading, grid);
 }
 
+function createTrophyIdentityNotice(analytics){
+    const unresolved = Number(analytics && analytics.identity && analytics.identity.unresolvedRoleCount) || 0;
+    if(!unresolved){ return null; }
+    const notice = document.createElement("div");
+    notice.className = "analyticsEmpty analyticsIdentityNotice";
+    notice.dataset.unresolvedRoles = String(unresolved);
+    notice.textContent = `${unresolved} historical manager role${unresolved === 1 ? " remains" : "s remain"} unresolved. ${unresolved === 1 ? "It is" : "They are"} excluded from manager cabinets and longitudinal leaderboards until explicitly linked to Local Profiles. Overall trophy totals and Showdown or season records remain complete.`;
+    return notice;
+}
+
 function renderTrophyRoom(force = false){
     const content = document.getElementById("trophyRoomContent");
     if(!content){ return; }
@@ -199,37 +213,39 @@ function renderTrophyRoom(force = false){
     );
     fragment.appendChild(summary);
 
-    if(!analytics.managers.length){
+    const identityNotice = createTrophyIdentityNotice(analytics);
+    if(identityNotice){ fragment.appendChild(identityNotice); }
+
+    if(analytics.managers.length){
+        const standingsHeading = document.createElement("h3");
+        standingsHeading.className = "analyticsSectionHeading";
+        standingsHeading.textContent = "CAREER TABLE";
+        fragment.append(standingsHeading, createCareerStandingsTable(analytics.managers));
+
+        const cabinetsHeading = document.createElement("h3");
+        cabinetsHeading.className = "analyticsSectionHeading";
+        cabinetsHeading.textContent = "MANAGER CABINETS";
+        fragment.appendChild(cabinetsHeading);
+        const cabinets = document.createElement("div");
+        cabinets.className = "managerCabinetList";
+        const cabinetFragment = document.createDocumentFragment();
+        analytics.managers.forEach((manager, index) => {
+            cabinetFragment.appendChild(createManagerCabinet(manager, index + 1));
+        });
+        cabinets.appendChild(cabinetFragment);
+        fragment.appendChild(cabinets);
+    }else if(!identityNotice){
         const empty = document.createElement("div");
         empty.className = "analyticsEmpty";
         empty.textContent = "The Trophy Room is empty. Complete a showdown and its managers, trophies, records, and career statistics will appear here automatically.";
         fragment.appendChild(empty);
-        content.replaceChildren(fragment);
-        trophyRoomRenderKey = nextKey;
-        return;
     }
 
-    const standingsHeading = document.createElement("h3");
-    standingsHeading.className = "analyticsSectionHeading";
-    standingsHeading.textContent = "CAREER TABLE";
-    fragment.append(standingsHeading, createCareerStandingsTable(analytics.managers));
-
-    const cabinetsHeading = document.createElement("h3");
-    cabinetsHeading.className = "analyticsSectionHeading";
-    cabinetsHeading.textContent = "MANAGER CABINETS";
-    fragment.appendChild(cabinetsHeading);
-    const cabinets = document.createElement("div");
-    cabinets.className = "managerCabinetList";
-    const cabinetFragment = document.createDocumentFragment();
-    analytics.managers.forEach((manager, index) => {
-        cabinetFragment.appendChild(createManagerCabinet(manager, index + 1));
-    });
-    cabinets.appendChild(cabinetFragment);
-    fragment.appendChild(cabinets);
-
-    const recordsHost = document.createElement("div");
-    renderAllTimeRecords(recordsHost, analytics);
-    while(recordsHost.firstChild){ fragment.appendChild(recordsHost.firstChild); }
+    if(analytics.totals.showdowns){
+        const recordsHost = document.createElement("div");
+        renderAllTimeRecords(recordsHost, analytics);
+        while(recordsHost.firstChild){ fragment.appendChild(recordsHost.firstChild); }
+    }
 
     content.replaceChildren(fragment);
     trophyRoomRenderKey = nextKey;
