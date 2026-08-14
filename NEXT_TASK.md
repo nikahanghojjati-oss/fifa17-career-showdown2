@@ -104,6 +104,8 @@ Candidate C remains the only import stage allowed to mutate canonical restore st
 
 Candidate C destructive Apply still requires `captureCareerModeRawRestoreSnapshot()`.
 
+This strict exact raw snapshot authority remains non-negotiable.
+
 Never substitute `captureCareerModeRawBackupInputs()` as destructive snapshot authority.
 
 Any backup/import envelope evolution remains outside this candidate unless the runtime cutover cannot be made coherent without a separately reviewed compatibility change. Do not redesign the envelope merely because Save Library exists.
