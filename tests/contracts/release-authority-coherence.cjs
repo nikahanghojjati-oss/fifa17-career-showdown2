@@ -134,10 +134,13 @@ A.match(start, /POST_V1_ROADMAP_EXECUTION\.md[^\n]+dependency direction and curr
 A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail rather than another full project-state owner.");
 A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current handoff must preserve the source-grounded Analytics identity dependency finding.");
 A.match(state, /Career-level aggregation is not yet identity-authoritative across all Saves\/history/i, "PROJECT_STATE must own the current Analytics identity limitation.");
+A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must record the shipped explicit manager identity foundation.");
 A.match(next, /Smallest high-value future product candidate/i, "NEXT_TASK must record the bounded future candidate without auto-authorizing it.");
 A.match(next, /not automatically authorized for runtime implementation/i, "NEXT_TASK must distinguish candidate identification from implementation permission.");
-A.match(roadmap, /Historical profile identity mapping \| ACTIVE DEPENDENCY QUESTION/i, "Roadmap must classify unresolved historical identity explicitly.");
-A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| BLOCKED/i, "Roadmap must not claim full identity-safe longitudinal Analytics is ready.");
+A.match(next, /identity-linkage foundation is complete and production-proven/i, "NEXT_TASK must close the owner-authorized identity prerequisite before naming a future Analytics candidate.");
+A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must record explicit historical mapping while preserving unresolved identity as a valid state.");
+A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must close the cross-Save manager identity prerequisite after production proof.");
+A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| READY \/ NOT AUTHORIZED/i, "Roadmap must distinguish an unblocked Analytics dependency from implementation authorization.");
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost current handoff/task authority.");
 A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "NEXT_TASK lost permanent validation topology counts.");
@@ -147,4 +150,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; publication truth, authority ownership, recovery ownership, shipped Save Library boundary, identity/Analytics dependency, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; publication truth, authority ownership, recovery ownership, shipped Save Library and manager identity boundary, Analytics authorization boundary, cloud boundary and workflow topology agree.\n`);
