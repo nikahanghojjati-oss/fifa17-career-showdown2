@@ -22,12 +22,14 @@
   }
 
   function captureReviewedRaw(){
-    if(typeof window.captureCareerModeRawRestoreSnapshot==="function"){
-      const snapshot=window.captureCareerModeRawRestoreSnapshot();
-      return snapshot&&snapshot.ok===true?snapshot:null;
-    }
-    if(typeof window.captureCareerModeRawBackupInputs==="function")return {ok:true,raw:window.captureCareerModeRawBackupInputs(),failedKeys:[]};
-    return null;
+    if(typeof window.captureCareerModeRawRestoreSnapshot!=="function")return null;
+    const restoreSnapshot=window.captureCareerModeRawRestoreSnapshot();
+    if(!restoreSnapshot||restoreSnapshot.ok!==true||!restoreSnapshot.raw)return null;
+    if(typeof window.captureCareerModeRawSaveLibraryMigrationSnapshot!=="function")return restoreSnapshot;
+    const librarySnapshot=window.captureCareerModeRawSaveLibraryMigrationSnapshot();
+    if(!librarySnapshot||librarySnapshot.ok!==true||!librarySnapshot.raw)return null;
+    if(["activeShowdown","legacyShowdowns","preferences"].some(name=>restoreSnapshot.raw[name]!==librarySnapshot.raw[name]))return null;
+    return {ok:true,raw:{...restoreSnapshot.raw,saveLibrary:librarySnapshot.raw.saveLibrary},failedKeys:[]};
   }
 
   function syncCandidateBStatusCopy(){
@@ -162,7 +164,7 @@
 
   async function afterSuccess(result){
     const affected=result.transaction&&Array.isArray(result.transaction.affectedKeys)?result.transaction.affectedKeys:[];
-    if(affected.includes("activeShowdown")&&typeof loadSavedShowdown==="function"&&typeof currentShowdown!=="undefined")currentShowdown=loadSavedShowdown();
+    if((affected.includes("activeShowdown")||affected.includes("saveLibrary"))&&typeof loadSavedShowdown==="function"&&typeof currentShowdown!=="undefined")currentShowdown=loadSavedShowdown();
     if(typeof window.resetNavigationState==="function")window.resetNavigationState();
     if(typeof window.refreshMainMenuExperience==="function")window.refreshMainMenuExperience();
     if(typeof window.showAppNotice==="function")window.showAppNotice("Backup restore completed and verified successfully.","success",6000);

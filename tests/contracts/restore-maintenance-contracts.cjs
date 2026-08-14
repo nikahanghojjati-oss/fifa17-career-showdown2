@@ -27,11 +27,14 @@ function runtime(overrides = {}){
 
 (async () => {
     assert.ok(restoreSource.includes("const confirmedFile=file"), "Apply must bind the exact File object before asynchronous revalidation.");
-    assert.ok(restoreSource.includes("const confirmedChoices=clone"), "Apply must deep-copy confirmed choices before the first await.");
-    assert.ok(restoreSource.includes("const confirmedExpectedRaw=clone"), "Apply must deep-copy the reviewed raw-state precondition.");
+    assert.ok(restoreSource.includes("confirmedChoices=clone"), "Apply must deep-copy confirmed choices before the first await.");
+    assert.ok(restoreSource.includes("confirmedExpectedRaw=clone"), "Apply must deep-copy the reviewed raw-state precondition.");
     assert.ok(restoreSource.indexOf("confirmedChoices=clone") < restoreSource.indexOf("await window.analyzeCareerModeBackupFile"), "Confirmed intent must freeze before fresh asynchronous analysis starts.");
+    assert.ok(restoreSource.indexOf("confirmedExpectedRaw=clone") < restoreSource.indexOf("await window.analyzeCareerModeBackupFile"), "Reviewed raw-state intent must freeze before fresh asynchronous analysis starts.");
     assert.ok(restoreSource.includes("captureCareerModeRawRestoreSnapshot"), "Apply must prefer the strict storage snapshot authority.");
-    assert.ok(restoreSource.includes("applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw)"), "The transaction boundary must receive the exact planning snapshot as a storage precondition.");
+    assert.match(restoreSource, /let\s+candidateRaw\s*=\s*plan\.candidateRaw\s*;\s*let\s+expectedRaw\s*=\s*currentRaw\s*;/s, "Restore planning must begin from the mandatory three-slot plan and exact currentRaw snapshot.");
+    assert.match(restoreSource, /applyCareerModeRawStorageTransaction\(\s*candidateRaw\s*,\s*expectedRaw\s*,\s*transactionOptions\s*\)/s, "Save Library restore must pass the exact four-slot expectedRaw plus transaction options.");
+    assert.match(restoreSource, /applyCareerModeRawStorageTransaction\(\s*plan\.candidateRaw\s*,\s*currentRaw\s*\)/s, "Legacy restore compatibility must keep the mandatory three-slot currentRaw precondition.");
 
     assert.ok(uiSource.includes("fileGeneration"), "Restore UI must version selected-file identity across asynchronous review.");
     assert.ok(uiSource.includes("setRestoreControlsLocked"), "Restore UI must lock decision controls during review/apply.");

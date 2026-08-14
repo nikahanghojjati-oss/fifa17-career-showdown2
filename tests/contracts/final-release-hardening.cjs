@@ -54,10 +54,20 @@ assert.ok(
     compactShowdown.includes("hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData()"),
     "New Showdown must distinguish valid active saves from occupied corrupt raw data."
 );
-assert.ok(showdown.includes("replace the active save${existingName}"), "Destructive active-slot replacement must remain confirmation-gated.");
-assert.ok(stabilityAudit.includes('page.waitForEvent("dialog", { timeout: 5000 })'), "Corrupt-save replacement regression must fail fast instead of hanging CI.");
-assert.ok(stabilityAudit.includes("const dismissedClick = page.locator(\"#startShowdown\").click()") && stabilityAudit.includes("await dismissedClick"), "Dialog audit must resolve the modal concurrently with the triggering click.");
-console.log("Corrupt active-slot replacement protection is permanently gated.");
+assert.ok(showdown.includes("replace the active save${existingName}"), "Destructive replacement of a valid active Showdown must remain confirmation-gated.");
+assert.ok(
+    stabilityAudit.includes("Corrupt singleton bytes must block normal Start rather than being replaced during cutover."),
+    "Unreadable singleton bytes must fail closed at the Save Library activation boundary."
+);
+assert.ok(
+    stabilityAudit.includes("Failed cutover must not fabricate Save Library authority from corrupt singleton bytes."),
+    "Corrupt singleton failure must preserve the original bytes and must not fabricate Save Library authority."
+);
+assert.ok(
+    stabilityAudit.includes("saveLibraryStorageKey") && stabilityAudit.includes("Failed Save Library write must roll back without accepting authority."),
+    "Quota rollback evidence must target the post-cutover Save Library writer rather than the retired singleton writer."
+);
+console.log("Corrupt active-slot cutover is permanently fail-closed while valid active replacement remains confirmation-gated.");
 
 const hasSavedSection = storage.match(/function hasSavedShowdown\(\)\{[\s\S]*?function invalidateLegacyCache/)?.[0] || "";
 assert.ok(hasSavedSection, "hasSavedShowdown validity probe is missing.");

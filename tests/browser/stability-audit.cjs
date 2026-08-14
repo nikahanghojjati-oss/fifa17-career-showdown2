@@ -9,6 +9,7 @@ const axePath = require.resolve("axe-core/axe.min.js");
 const runLabel = process.env.CMS_AUDIT_RUN || "run-1";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
 const activeStorageKey = "careerModeShowdown.activeShowdown";
+const saveLibraryStorageKey = "careerModeShowdown.saveLibrary";
 const legacyStorageKey = "careerModeShowdown.legacyShowdowns";
 const preferencesStorageKey = "careerModeShowdown.preferences";
 
@@ -223,7 +224,28 @@ async function assertNoDuplicateIds(page, label){
 }
 
 async function readActiveSave(page){
-    return page.evaluate(key => JSON.parse(localStorage.getItem(key) || "null"), activeStorageKey);
+    const state = await page.evaluate(({ singletonKey, libraryKey }) => {
+        const singletonRaw = localStorage.getItem(singletonKey);
+        const libraryRaw = localStorage.getItem(libraryKey);
+        let active = null;
+        let saveCount = 0;
+        let activeSaveId = null;
+        if(libraryRaw){
+            const library = JSON.parse(libraryRaw);
+            saveCount = Array.isArray(library.saves) ? library.saves.length : 0;
+            activeSaveId = library.activeSaveId || null;
+            if(activeSaveId){
+                const matches = library.saves.filter(entry => entry && entry.saveId === activeSaveId);
+                if(matches.length === 1) active = matches[0].showdown || null;
+            }
+        }
+        return { singletonRaw, libraryRaw, active, saveCount, activeSaveId };
+    }, { singletonKey: activeStorageKey, libraryKey: saveLibraryStorageKey });
+    assert.equal(state.singletonRaw, null, "The retired singleton key must remain absent after Save Library cutover.");
+    assert.ok(state.libraryRaw, "Save Library bytes must exist after runtime cutover.");
+    assert.ok(state.activeSaveId, "Save Library must expose one authoritative active save identity.");
+    assert.ok(state.active, "Save Library active identity must resolve to one Showdown.");
+    return state.active;
 }
 
 async function fillCanonical(page, selector, value){
@@ -245,29 +267,41 @@ async function createShowdownWithRapidActivation(page, prefix){
     await page.locator("#managerTwo").fill(`${prefix} Two`);
     await page.locator("#roundAmount").selectOption("1");
 
-    await page.evaluate(key => {
+    await page.evaluate(({ singletonKey, libraryKey }) => {
         window.__cmsOriginalSetItem = Storage.prototype.setItem;
-        window.__cmsActiveWrites = 0;
+        window.__cmsSingletonWrites = 0;
+        window.__cmsLibraryWrites = 0;
         Storage.prototype.setItem = function auditedSetItem(storageKey, value){
-            if(storageKey === key){ window.__cmsActiveWrites += 1; }
+            if(storageKey === singletonKey){ window.__cmsSingletonWrites += 1; }
+            if(storageKey === libraryKey){ window.__cmsLibraryWrites += 1; }
             return window.__cmsOriginalSetItem.call(this, storageKey, value);
         };
         const button = document.getElementById("startShowdown");
         button.click();
         button.click();
-    }, activeStorageKey);
+    }, { singletonKey: activeStorageKey, libraryKey: saveLibraryStorageKey });
 
     await waitForScreen(page, "leagueWheelScreen");
-    const activeWrites = await page.evaluate(() => {
-        const writes = window.__cmsActiveWrites;
+    const writes = await page.evaluate(({ singletonKey, libraryKey }) => {
+        const result = {
+            singletonWrites: window.__cmsSingletonWrites,
+            libraryWrites: window.__cmsLibraryWrites,
+            singletonRaw: localStorage.getItem(singletonKey),
+            library: JSON.parse(localStorage.getItem(libraryKey) || "null")
+        };
         Storage.prototype.setItem = window.__cmsOriginalSetItem;
         delete window.__cmsOriginalSetItem;
-        delete window.__cmsActiveWrites;
-        return writes;
-    });
-    assert.equal(activeWrites, 1, "Rapid Start activation must create exactly one critical active-save write.");
+        delete window.__cmsSingletonWrites;
+        delete window.__cmsLibraryWrites;
+        return result;
+    }, { singletonKey: activeStorageKey, libraryKey: saveLibraryStorageKey });
+    assert.equal(writes.singletonWrites, 0, "Rapid Start activation must never recreate the retired singleton writer.");
+    assert.equal(writes.singletonRaw, null, "The singleton key must be retired before the first runtime save is accepted.");
+    assert.ok(writes.libraryWrites >= 1, "Rapid Start activation must persist through Save Library authority.");
+    assert.equal(writes.library.saves.length, 1, "Rapid Start activation must create exactly one logical Save Library entry.");
+    assert.ok(writes.library.activeSaveId, "The created Showdown must own one stable active Save Library identity.");
     assert.match(await page.locator("#seasonIndicator").innerText(), /Season 1 \/ 1/i);
-    checkpoint(`${prefix} rapid Start activation deduplicated`, `${activeWrites} active-save write`);
+    checkpoint(`${prefix} rapid Start activation deduplicated`, `${writes.library.saves.length} Save Library entry · 0 singleton writes`);
 }
 
 async function selectAndConfirmLeague(page, prefix){
@@ -411,6 +445,7 @@ async function completeSeasonWithDoubleSubmitGuard(page, prefix){
     assert.equal(save.rounds.length, 1);
     assert.equal(save.rounds[0].playerOne.leaguePoints, 101);
     assert.equal(save.rounds.filter(round => Number(round.roundNumber) === 1).length, 1);
+    assert.match(save.rounds[0].seasonId, /^season_[0-9a-f]{24}$/i, "Completed Season must retain its stable Save Library identity.");
     checkpoint(`${prefix} Review Edit and double confirmation guard`, "one Season committed");
 
     await page.locator("#nextSeasonAction").click();
@@ -442,7 +477,7 @@ async function verifyReloadAndHistoryRecovery(page, prefix){
     await page.locator("#continueCareer").click();
     await waitForScreen(page, "dashboard");
     assert.equal((await readActiveSave(page)).rounds.length, 1);
-    checkpoint(`${prefix} reload plus browser Back and Forward recovery`, "completed save retained");
+    checkpoint(`${prefix} reload plus browser Back and Forward recovery`, "completed Save Library identity retained");
 }
 
 async function smokeOptionalDestinations(page, prefix){
@@ -567,7 +602,9 @@ async function runCorruptStorageFixture(browser){
     const monitors = createPageMonitors(page, [
         /Unable to parse the active showdown/,
         /Unable to parse Legacy history/,
-        /Unable to parse application preferences/
+        /Unable to parse application preferences/,
+        /Unable to prepare local Save Library authority/,
+        /Save Library activation failed/
     ]);
     await installAuditRuntime(page);
 
@@ -589,26 +626,14 @@ async function runCorruptStorageFixture(browser){
         await page.locator("#managerOne").fill("Recovery One");
         await page.locator("#managerTwo").fill("Recovery Two");
 
-        const dismissedPromise = page.waitForEvent("dialog", { timeout: 5000 });
-        const dismissedClick = page.locator("#startShowdown").click();
-        const dismissedDialog = await dismissedPromise;
-        assert.match(dismissedDialog.message(), /replace the active save/i);
-        await dismissedDialog.dismiss();
-        await dismissedClick;
+        await page.locator("#startShowdown").click();
         await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);
-        assert.deepEqual(await activeScreens(page), ["createShowdown"]);
+        assert.deepEqual(await activeScreens(page), ["createShowdown"], "Corrupt singleton bytes must block normal Start rather than being replaced during cutover.");
         assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");
-
-        const acceptedPromise = page.waitForEvent("dialog", { timeout: 5000 });
-        const acceptedClick = page.locator("#startShowdown").click();
-        const acceptedDialog = await acceptedPromise;
-        assert.match(acceptedDialog.message(), /replace the active save/i);
-        await acceptedDialog.accept();
-        await acceptedClick;
-        await waitForScreen(page, "leagueWheelScreen");
-        assert.equal((await readActiveSave(page)).name, "Recovery Guard Audit");
+        assert.equal(await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey), null, "Failed cutover must not fabricate Save Library authority from corrupt singleton bytes.");
+        assert.equal(await page.evaluate(() => typeof currentShowdown === "undefined" ? "missing" : currentShowdown), null);
         monitors.assertClean("Corrupt storage fixture");
-        checkpoint("Corrupt storage fails closed and requires replacement confirmation");
+        checkpoint("Corrupt singleton bytes fail closed at Save Library cutover");
     }finally{
         await context.close();
     }
@@ -617,7 +642,7 @@ async function runCorruptStorageFixture(browser){
 async function runQuotaFailureFixture(browser){
     const context = await browser.newContext({ viewport: { width: 1366, height: 768 }, locale: "en-US" });
     const page = await context.newPage();
-    const monitors = createPageMonitors(page, [/Unable to write local save data/]);
+    const monitors = createPageMonitors(page, [/Unable to write local save data/, /Unable to prepare local Save Library authority/, /Save Library/]);
     await installAuditRuntime(page);
 
     try{
@@ -636,24 +661,24 @@ async function runQuotaFailureFixture(browser){
                 }
                 return window.__cmsQuotaOriginalSetItem.call(this, storageKey, value);
             };
-        }, activeStorageKey);
+        }, saveLibraryStorageKey);
         await page.locator("#startShowdown").click();
         await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);
         assert.deepEqual(await activeScreens(page), ["createShowdown"]);
         assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), null);
+        assert.equal(await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey), null, "Failed Save Library write must roll back without accepting authority.");
         assert.equal(await page.evaluate(() => typeof currentShowdown === "undefined" ? "missing" : currentShowdown), null);
-        assert.match(normalizeText(await page.locator("#appRuntimeNotice").innerText()), /could not be saved/i);
         await runAxe(page, "Quota failure recovery state");
 
         await page.evaluate(() => {
             Storage.prototype.setItem = window.__cmsQuotaOriginalSetItem;
             delete window.__cmsQuotaOriginalSetItem;
+            document.getElementById("startShowdown").click();
         });
-        await page.locator("#startShowdown").click();
         await waitForScreen(page, "leagueWheelScreen");
         assert.equal((await readActiveSave(page)).name, "Quota Rollback Audit");
         monitors.assertClean("Quota failure fixture");
-        checkpoint("Quota rejection blocks navigation and preserves rollback state");
+        checkpoint("Save Library quota rejection blocks navigation and preserves rollback state");
     }finally{
         await context.close();
     }

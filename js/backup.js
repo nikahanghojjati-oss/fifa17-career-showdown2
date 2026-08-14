@@ -41,7 +41,19 @@ function inspectBackupRecord(raw, validator, label){
     }
 }
 
-function buildCareerModeBackupSnapshot(){
+function captureBackupRawProjection(){
+    if(window.CareerModeSaveLibraryRuntime && typeof window.CareerModeSaveLibraryRuntime.createBackupProjection === "function"){
+        const projected = window.CareerModeSaveLibraryRuntime.createBackupProjection();
+        if(!projected || projected.ok !== true || !projected.raw){
+            throw new Error("Backup cancelled because Save Library authority could not be projected exactly.");
+        }
+        return {
+            raw: projected.raw,
+            warnings: Array.isArray(projected.warnings) ? projected.warnings.slice() : [],
+            recovery: projected.recovery && typeof projected.recovery === "object" ? cloneBackupValue(projected.recovery) : null,
+            activeSource: projected.sourceRaw && projected.sourceRaw.saveLibrary !== null ? "save-library" : null
+        };
+    }
     if(typeof window.captureCareerModeRawRestoreSnapshot !== "function"){
         throw new Error("The exact storage snapshot authority is unavailable.");
     }
@@ -52,16 +64,21 @@ function buildCareerModeBackupSnapshot(){
             : "unknown canonical storage";
         throw new Error(`Backup cancelled because canonical storage could not be read exactly: ${failedKeys}.`);
     }
-    const raw = exactSnapshot.raw;
+    return { raw: exactSnapshot.raw, warnings: [], recovery: null, activeSource: null };
+}
+
+function buildCareerModeBackupSnapshot(){
+    const projection = captureBackupRawProjection();
+    const raw = projection.raw;
     const activeRecord = inspectBackupRecord(raw.activeShowdown, isBackupObject, "Active Showdown storage");
     const legacyRecord = inspectBackupRecord(raw.legacyShowdowns, value => Array.isArray(value) && value.every(isBackupObject), "Legacy storage");
     const preferencesRecord = inspectBackupRecord(raw.preferences, isBackupObject, "Preferences storage");
     const keys = typeof window.getCareerModeStorageKeys === "function" ? window.getCareerModeStorageKeys() : {};
-    const warnings = [];
-    const recovery = {};
+    const warnings = projection.warnings.slice();
+    const recovery = projection.recovery ? cloneBackupValue(projection.recovery) : {};
 
     [
-        ["activeShowdown", keys.activeShowdown, activeRecord],
+        ["activeShowdown", keys.activeShowdown || "careerModeShowdown.activeShowdown", activeRecord],
         ["legacyShowdowns", keys.legacyShowdowns, legacyRecord],
         ["preferences", keys.preferences, preferencesRecord]
     ].forEach(([name, storageKey, record]) => {
@@ -71,8 +88,8 @@ function buildCareerModeBackupSnapshot(){
     });
 
     let activeShowdown = activeRecord.state === "valid" ? cloneBackupValue(activeRecord.value) : null;
-    let activeSource = activeRecord.state === "valid" ? "storage" : "none";
-    if(typeof currentShowdown !== "undefined" && isBackupObject(currentShowdown)){
+    let activeSource = activeRecord.state === "valid" ? (projection.activeSource || "storage") : "none";
+    if(!projection.activeSource && typeof currentShowdown !== "undefined" && isBackupObject(currentShowdown)){
         try{
             activeShowdown = cloneBackupValue(currentShowdown);
             activeSource = "runtime";
