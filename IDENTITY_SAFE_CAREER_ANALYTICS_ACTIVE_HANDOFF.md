@@ -134,23 +134,53 @@ Record / semantic authority layer:
 - `3e0ca9ec22bb9b7e85fc524fc9cd6cd421a48bf0` — advance roadmap classification to `AUTHORIZED / IN PROGRESS` while keeping production, cloud and release identity separate.
 - `5204b370dfa57e335cbbf17cc403d60b833f3557` — advance the cloud coherence contract without weakening Cloud Readiness/Backup gates.
 - `538765e14d5fff8f9e09362b0fc8777597d7e121` — advance release-authority coherence to protect the new authorization state, PR #57 bootstrap correction and cloud boundary.
+- `6957e5a44b2f19890dd8b717f69e01fcb2582ea3` — record the branch authority-alignment checkpoint before promotion work.
 
 ## Operational note
 
-The local `gh` CLI is not installed in the current execution environment, so the normal local `yeet` publish path cannot be used. No repository action was faked or delegated to the owner. The connected GitHub capability supports exact branch creation, scoped file writes, PR creation, workflow/review inspection and expected-head merge, so work is proceeding entirely through repository-native GitHub operations.
+The local `gh` CLI is not installed in the current execution environment, so the normal local `yeet` publish path cannot be used. No repository action was faked or delegated to the owner. The connected GitHub capability supports exact branch creation, scoped file writes, PR creation, workflow/review inspection and expected-head merge, so repository work used connector-native GitHub operations.
 
-## Validation status
+## Quality-first stop and tool-routing mistakes
+
+After the coherent candidate branch had reached head `6957e5a44b2f19890dd8b717f69e01fcb2582ea3`, two consecutive non-mutating branch-creation calls were issued accidentally while the intended next action was PR creation.
+
+Failure 1:
+
+- attempted `create_branch` with an invalid mutually exclusive parameter combination;
+- connector returned HTTP 400 / `INVALID_ARGUMENT` requiring exactly one source selector;
+- no repository ref or file changed.
+
+Failure 2:
+
+- a second accidental `create_branch` call targeted the already-existing `agent/identity-safe-career-analytics` ref;
+- connector returned HTTP 422 / `Reference already exists`;
+- no repository ref or file changed.
+
+These are operational/tool-routing mistakes, not runtime, source, CI or data-integrity failures. However, `00_HANDOFF_GOLDEN_RULE.md` explicitly treats repeated tool-routing mistakes as evidence that the current session should stop at the nearest coherent repository boundary rather than continue into promotion/merge work.
+
+Therefore this session deliberately stops before draft PR creation. No PR has been intentionally opened, no merge attempted, `main` remains untouched, and no CI result is being claimed.
+
+## Validation status at handoff
 
 Validation is not yet claimed green.
 
-The record inconsistency and known pre-authorization semantic-contract wording are now corrected on the branch. The candidate still requires:
+The record inconsistency and known pre-authorization semantic-contract wording are corrected on the branch. Deterministic and Chromium regression code is present, but no PR workflow evidence has yet been collected for the current candidate head.
 
-- draft PR creation from one frozen candidate head;
-- all normal PR workflow families on that exact final candidate SHA;
-- main-drift, changed-file, mergeability, review and unresolved-thread promotion checks;
-- exact expected-head merge only if all gates are green;
-- all permanent production/push workflow families on the exact merge;
-- deployed Pages proof including the new identity-safe Career Analytics browser audit;
-- final authority seal only after runtime production proof.
+The next developer must independently verify repository state before trusting any SHA in this handoff.
 
-No failed validation has occurred yet in this candidate. Any failure must be recorded here with its exact SHA/job/root cause and retained after correction.
+Exact next legal action:
+
+1. fetch live `main`, recent commits and open PRs;
+2. fetch `agent/identity-safe-career-analytics` and confirm its exact current head, including this handoff-only stop commit;
+3. compare it against base `8c6fad42e38b4964d848128e40569442c3fa06d5` and inspect changed-file scope;
+4. read this active handoff plus the six normal authority documents;
+5. do not restart or redesign the candidate;
+6. review the already-written runtime/test/authority changes for source correctness, with special attention to the new browser fixture and semantic-coherence regexes;
+7. open a draft PR only after that review;
+8. run all normal PR workflow families against one exact frozen head and record every failure here without erasing it;
+9. if exact-head proof is green, verify live-main drift, changed-file scope, mergeability, reviews and unresolved threads;
+10. merge only the exact proven expected head;
+11. validate the exact production merge across permanent push/deployment workflows and deployed Pages, including `identity-safe-career-analytics-audit.cjs`;
+12. only after runtime production proof, perform the smallest documentation/semantic authority seal that updates `PROJECT_STATE.md`, closes the candidate in `NEXT_TASK.md`/roadmap, folds this evidence into `00_CURRENT_HANDOFF.md`, and stops before another product candidate.
+
+Do not assign a release version merely because this functionality ships.
