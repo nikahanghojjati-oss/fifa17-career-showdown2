@@ -36,25 +36,52 @@ function analyticsGetActiveIdentitySignature(showdown){
     return `${showdown.id}:${showdown.updatedAt || showdown.completedAt || ""}:${playerOne}:${playerTwo}`;
 }
 
-function analyticsGetProfileDisplayNames(){
+function analyticsCreateProfilePresentationState(profiles){
     const names = new Map();
-    const runtime = typeof window !== "undefined" ? window.CareerModeSaveLibraryRuntime : null;
-    if(!runtime || typeof runtime.isReady !== "function" || !runtime.isReady() || typeof runtime.getIdentityMappingSnapshot !== "function"){
-        return names;
-    }
-
-    const snapshot = runtime.getIdentityMappingSnapshot();
-    const profiles = snapshot && snapshot.ok === true && snapshot.library && Array.isArray(snapshot.library.profiles)
-        ? snapshot.library.profiles
-        : [];
-    profiles.forEach(profile => {
+    (Array.isArray(profiles) ? profiles : []).forEach(profile => {
         if(!profile || typeof profile.profileId !== "string" || !ANALYTICS_PROFILE_ID_PATTERN.test(profile.profileId)){
             return;
         }
         const displayName = String(profile.displayName || "Unknown Manager").trim() || "Unknown Manager";
         names.set(profile.profileId, displayName);
     });
-    return names;
+    const signature = Array.from(names.entries())
+        .sort(([left], [right]) => left.localeCompare(right))
+        .map(([profileId, displayName]) => `${profileId}:${displayName}`)
+        .join("|");
+    return { names, signature: signature || "none" };
+}
+
+function analyticsGetRawProfilePresentationState(){
+    if(typeof window === "undefined" || typeof window.captureCareerModeRawSaveLibraryMigrationSnapshot !== "function"){
+        return null;
+    }
+    try{
+        const snapshot = window.captureCareerModeRawSaveLibraryMigrationSnapshot();
+        const raw = snapshot && snapshot.ok === true ? snapshot.raw : null;
+        if(!raw || raw.saveLibrary === null || raw.activeShowdown !== null){
+            return null;
+        }
+        const library = JSON.parse(raw.saveLibrary);
+        if(!library || typeof library !== "object" || !Array.isArray(library.profiles)){
+            return null;
+        }
+        return analyticsCreateProfilePresentationState(library.profiles);
+    }catch(error){
+        return null;
+    }
+}
+
+function analyticsGetProfilePresentationState(){
+    const runtime = typeof window !== "undefined" ? window.CareerModeSaveLibraryRuntime : null;
+    if(runtime && typeof runtime.isReady === "function" && runtime.isReady() && typeof runtime.getIdentityMappingSnapshot === "function"){
+        const snapshot = runtime.getIdentityMappingSnapshot();
+        if(snapshot && snapshot.ok === true && snapshot.library && Array.isArray(snapshot.library.profiles)){
+            return analyticsCreateProfilePresentationState(snapshot.library.profiles);
+        }
+    }
+
+    return analyticsGetRawProfilePresentationState() || { names: new Map(), signature: "unavailable" };
 }
 
 function getCompletedShowdownsForAnalytics(){
@@ -78,12 +105,13 @@ function getCompletedShowdownsForAnalytics(){
     });
 }
 
-function getCareerAnalyticsCacheKey(){
+function getCareerAnalyticsCacheKey(profilePresentationState = null){
     const revision = typeof window.getLegacyStorageRevision === "function"
         ? window.getLegacyStorageRevision()
         : 0;
     const active = currentShowdown || loadSavedShowdown();
-    return `${revision}|${analyticsGetActiveIdentitySignature(active)}`;
+    const presentation = profilePresentationState || analyticsGetProfilePresentationState();
+    return `${revision}|${analyticsGetActiveIdentitySignature(active)}|${presentation.signature}`;
 }
 
 function getShowdownWinnerKey(showdown){
@@ -338,12 +366,13 @@ function calculateCareerAnalytics(history, profileNames = new Map()){
 }
 
 function buildCareerAnalytics(history = null){
-    const profileNames = analyticsGetProfileDisplayNames();
+    const profilePresentation = analyticsGetProfilePresentationState();
+    const profileNames = profilePresentation.names;
     if(history){
         return calculateCareerAnalytics(history, profileNames);
     }
 
-    const cacheKey = getCareerAnalyticsCacheKey();
+    const cacheKey = getCareerAnalyticsCacheKey(profilePresentation);
     if(careerAnalyticsCacheValue && careerAnalyticsCacheKey === cacheKey){
         return careerAnalyticsCacheValue;
     }
@@ -380,7 +409,7 @@ function findSeasonRecord(history, valueGetter){
                     bestValue = value;
                     holders = [createRecordCandidate(showdown, round, playerKey, value)];
                 }else if(value === bestValue){
-                    holders.push(createRecordCandidate(showdown, round, playerKey, value));
+                    holders.push(createRecordCandidate(showdown, round, playerKey, value)];
                 }
             });
         });
