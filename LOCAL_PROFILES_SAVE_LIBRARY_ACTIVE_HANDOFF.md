@@ -189,6 +189,8 @@ The first mark-ready call was blocked before mutation. A direct merge while the 
 
 During the post-merge documentation seal, the first connector attempt to replace this active handoff was blocked before mutation. No branch content changed from that blocked call; the handoff was then routed through Git blob/tree/commit operations.
 
+PR #47 documentation validation then produced one meaningful failure on its initial head `777e82e538c6bd3bd868c3a95b2e2c24bafe245d`: Validate Static App run `31759464388`, job `94642505926`, failed inside the complete repository contract suite because `tests/contracts/stability-contracts.cjs` requires `NEXT_TASK.md` to retain the phrase `Installable Offline App`. This was classified as a current-documentation contract mismatch, not a runtime defect and not a test defect. The correction restored that protected baseline wording in `NEXT_TASK.md`; no assertion was weakened and no runtime/test source changed.
+
 No blocked or failed operation is production state.
 
 ## Quality-first handoff decision
