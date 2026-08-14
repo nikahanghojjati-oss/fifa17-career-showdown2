@@ -83,6 +83,18 @@ PR #54 correctly updated current handoff/state/task documents to record Save Lib
 
 This is documentation and deterministic-contract drift around an already-proven production runtime. It is not justification to change Save Library runtime, recovery, gameplay, Service Worker or performance architecture.
 
+## Second contract failure and correction
+
+After the first authority reconciliation commit `f71a58a0fcaf4993c8699e095c4d60ce9c1b711f`, both Static App run `31772851141` and Stability run `31772851308` failed at the same inherited stale assertion in `tests/contracts/cloud-foundation-contracts.cjs`.
+
+That contract independently required the roadmap sentence `Local Profiles and Save Library — future feature milestone, version pending`.
+
+The product state is now the opposite: stable local identity, canonical persistence, runtime authority and visible Save Library UI are already production.
+
+The contract's real invariant remains valid and is preserved: cloud work must stay after v1.3 resilience and stable local identity/Save Library, with Cloud Readiness before opt-in Cloud Backup.
+
+The repair therefore updates only that obsolete roadmap phrase to the completed, version-unassigned local milestone. It does not authorize cloud runtime or weaken any cloud identity, conflict, tombstone, privacy, security, storage-boundary or Candidate C checks.
+
 ## Bounded repair
 
 PR #55 is being expanded only enough to restore current publication/contract coherence.
