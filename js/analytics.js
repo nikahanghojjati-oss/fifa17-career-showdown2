@@ -409,7 +409,7 @@ function findSeasonRecord(history, valueGetter){
                     bestValue = value;
                     holders = [createRecordCandidate(showdown, round, playerKey, value)];
                 }else if(value === bestValue){
-                    holders.push(createRecordCandidate(showdown, round, playerKey, value)];
+                    holders.push(createRecordCandidate(showdown, round, playerKey, value));
                 }
             });
         });
