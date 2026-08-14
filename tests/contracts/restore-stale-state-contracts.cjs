@@ -33,7 +33,9 @@ function createRuntime(currentRaw, calls){
 
 (async () => {
     assert.ok(source.includes('status:"stale-state"'), "Candidate C must expose an explicit stale-state result before storage commit.");
-    assert.ok(source.indexOf("compareReviewedRawState") < source.indexOf("applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw)"), "Reviewed-state comparison must occur before the storage transaction boundary.");
+    const reviewedStateIndex = source.indexOf("compareReviewedRawState");
+    const transactionBoundaryIndex = source.indexOf("window.applyCareerModeRawStorageTransaction(");
+    assert.ok(reviewedStateIndex >= 0 && transactionBoundaryIndex >= 0 && reviewedStateIndex < transactionBoundaryIndex, "Reviewed-state comparison must occur before the storage transaction boundary.");
     assert.ok(source.includes("transaction.failurePhase===\"precondition\""), "A last-moment storage precondition failure must also normalize into stale-state recovery.");
 
     const reviewedRaw = {
