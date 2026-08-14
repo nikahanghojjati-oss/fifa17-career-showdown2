@@ -12,10 +12,7 @@ let applicationPreferencesCache=null;
 let motionPreferenceMediaQuery=null;
 let motionPreferenceMediaBound=false;
 let criticalRecoveryStorageState=false;
-function reportStorageError(context,error){
-  console.error(`[Career Mode Showdown] ${context}:`,error);
-  if(typeof window.showAppNotice==="function")window.showAppNotice(`${context}. Your browser may not have saved the latest change.`,"error",10000);
-}
+function reportStorageError(context,error){console.error(`[Career Mode Showdown] ${context}:`,error);if(typeof window.showAppNotice==="function")window.showAppNotice(`${context}. Your browser may not have saved the latest change.`,"error",10000);}
 function readStorageValue(key){try{return localStorage.getItem(key);}catch(error){reportStorageError("Unable to read local save data",error);return null;}}
 function writeStorageValue(key,value){try{localStorage.setItem(key,value);return true;}catch(error){reportStorageError("Unable to write local save data",error);return false;}}
 function removeStorageValue(key){try{localStorage.removeItem(key);return true;}catch(error){reportStorageError("Unable to remove local save data",error);return false;}}
@@ -25,14 +22,7 @@ function captureCareerModeRawRestoreSnapshot(){return captureStorageSnapshot({ac
 function captureLibraryMigrationSnapshot(){return captureStorageSnapshot({saveLibrary:SAVE_KEY,activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});}
 function createDefaultApplicationPreferences(){return {schemaVersion:APPLICATION_PREFERENCES_SCHEMA_VERSION,reducedMotion:false,menuFeedback:true};}
 function normalizeApplicationPreferences(value){return {schemaVersion:APPLICATION_PREFERENCES_SCHEMA_VERSION,reducedMotion:Boolean(value&&value.reducedMotion),menuFeedback:!value||value.menuFeedback!==false};}
-function loadApplicationPreferences(){
-  if(applicationPreferencesCache)return {...applicationPreferencesCache};
-  const raw=readStorageValue(APPLICATION_PREFERENCES_KEY);
-  if(!raw){applicationPreferencesCache=createDefaultApplicationPreferences();return {...applicationPreferencesCache};}
-  try{const parsed=JSON.parse(raw);if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))throw new Error("Application preferences are not a valid object.");applicationPreferencesCache=normalizeApplicationPreferences(parsed);}
-  catch(error){reportStorageError("Unable to parse application preferences",error);applicationPreferencesCache=createDefaultApplicationPreferences();}
-  return {...applicationPreferencesCache};
-}
+function loadApplicationPreferences(){if(applicationPreferencesCache)return {...applicationPreferencesCache};const raw=readStorageValue(APPLICATION_PREFERENCES_KEY);if(!raw){applicationPreferencesCache=createDefaultApplicationPreferences();return {...applicationPreferencesCache};}try{const parsed=JSON.parse(raw);if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))throw new Error("Application preferences are not a valid object.");applicationPreferencesCache=normalizeApplicationPreferences(parsed);}catch(error){reportStorageError("Unable to parse application preferences",error);applicationPreferencesCache=createDefaultApplicationPreferences();}return {...applicationPreferencesCache};}
 function saveApplicationPreferences(preferences){const normalized=normalizeApplicationPreferences(preferences);try{if(!writeStorageValue(APPLICATION_PREFERENCES_KEY,JSON.stringify(normalized)))return false;applicationPreferencesCache=normalized;return true;}catch(error){reportStorageError("Unable to serialize application preferences",error);return false;}}
 function getMotionPreferenceMediaQuery(){if(motionPreferenceMediaQuery)return motionPreferenceMediaQuery;if(typeof window.matchMedia!=="function")return null;motionPreferenceMediaQuery=window.matchMedia("(prefers-reduced-motion: reduce)");return motionPreferenceMediaQuery;}
 function isSystemReducedMotionPreferred(){const query=getMotionPreferenceMediaQuery();return Boolean(query&&query.matches);}
@@ -49,25 +39,12 @@ function saveCurrentShowdown(){cancelScheduledCurrentShowdownSave();return Boole
 function scheduleCurrentShowdownSave(delay=DEFAULT_DRAFT_SAVE_DELAY){if(!currentShowdown)return false;cancelScheduledCurrentShowdownSave();pendingCurrentSaveTimer=window.setTimeout(()=>{pendingCurrentSaveTimer=null;saveCurrentShowdown();},Math.max(0,Number(delay)||0));return true;}
 function flushScheduledCurrentShowdownSave(){if(!pendingCurrentSaveTimer)return true;cancelScheduledCurrentShowdownSave();return saveCurrentShowdown();}
 function flushPendingApplicationWrites(){const transferFlushed=typeof window.flushTransferDraftSave==="function"?window.flushTransferDraftSave():true;return transferFlushed!==false&&flushScheduledCurrentShowdownSave()!==false;}
-function initializeStorageLifecycle(){
-  if(storageLifecycleBound)return;storageLifecycleBound=true;initializeMotionPreferenceLifecycle();
-  window.addEventListener("pagehide",flushPendingApplicationWrites);
-  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")flushPendingApplicationWrites();});
-  window.addEventListener("storage",event=>{if(event.key===LEGACY_STORAGE_KEY)invalidateLegacyCache();if(event.key===APPLICATION_PREFERENCES_KEY){applicationPreferencesCache=null;applyApplicationMotionPreference();notifyApplicationPreferencesChanged("storage");}});
-}
+function initializeStorageLifecycle(){if(storageLifecycleBound)return;storageLifecycleBound=true;initializeMotionPreferenceLifecycle();window.addEventListener("pagehide",flushPendingApplicationWrites);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")flushPendingApplicationWrites();});window.addEventListener("storage",event=>{if(event.key===LEGACY_STORAGE_KEY)invalidateLegacyCache();if(event.key===APPLICATION_PREFERENCES_KEY){applicationPreferencesCache=null;applyApplicationMotionPreference();notifyApplicationPreferencesChanged("storage");}});}
 function parseStoredShowdown(raw,context){try{const parsed=JSON.parse(raw);if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))throw new Error("Active save data is not a valid showdown object.");return parsed;}catch(error){reportStorageError(context,error);return null;}}
-function readSaveLibraryActive(){
-  const raw=readStorageValue(SAVE_KEY);if(raw===null)return null;
-  try{const library=JSON.parse(raw);if(!library||typeof library!=="object"||!Array.isArray(library.saves))throw new Error("Save Library is not a valid registry.");if(library.activeSaveId===null)return null;if(typeof library.activeSaveId!=="string")throw new Error("Save Library active identity is invalid.");const matches=library.saves.filter(entry=>entry&&entry.saveId===library.activeSaveId);if(matches.length!==1||!matches[0].showdown||matches[0].showdown.identity?.saveId!==matches[0].saveId)throw new Error("Save Library active entry is inconsistent.");return matches[0].showdown;}
-  catch(error){reportStorageError("Unable to parse the Save Library active showdown",error);return null;}
-}
+function readSaveLibraryActive(){const raw=readStorageValue(SAVE_KEY);if(raw===null)return null;try{const library=JSON.parse(raw);if(!library||typeof library!=="object"||!Array.isArray(library.saves))throw new Error("Save Library is not a valid registry.");if(library.activeSaveId===null)return null;if(typeof library.activeSaveId!=="string")throw new Error("Save Library active identity is invalid.");const matches=library.saves.filter(entry=>entry&&entry.saveId===library.activeSaveId);if(matches.length!==1||!matches[0].showdown||matches[0].showdown.identity?.saveId!==matches[0].saveId)throw new Error("Save Library active entry is inconsistent.");return matches[0].showdown;}catch(error){reportStorageError("Unable to parse the Save Library active showdown",error);return null;}}
 function loadSavedShowdown(){const singleton=readStorageValue(STORAGE_KEY);return singleton!==null?parseStoredShowdown(singleton,"Unable to parse the active showdown"):readSaveLibraryActive();}
-function clearSavedShowdown(){cancelScheduledCurrentShowdownSave();return Boolean(window.CareerModeSaveLibraryRuntime?.isReady()&&window.CareerModeSaveLibraryRuntime.clearActiveShowdown());}
-function hasStoredActiveShowdownData(){
-  if(readStorageValue(STORAGE_KEY)!==null)return true;
-  const raw=readStorageValue(SAVE_KEY);if(raw===null)return false;
-  try{const library=JSON.parse(raw);return Boolean(library&&library.activeSaveId!==null);}catch{return true;}
-}
+function clearSavedShowdown(){cancelScheduledCurrentShowdownSave();const snapshot=captureLibraryMigrationSnapshot();if(!snapshot.ok)return false;if(snapshot.raw.saveLibrary!==null)return Boolean(window.CareerModeSaveLibraryRuntime?.isReady()&&window.CareerModeSaveLibraryRuntime.clearActiveShowdown());return removeStorageValue(STORAGE_KEY);}
+function hasStoredActiveShowdownData(){if(readStorageValue(STORAGE_KEY)!==null)return true;const raw=readStorageValue(SAVE_KEY);if(raw===null)return false;try{const library=JSON.parse(raw);return Boolean(library&&library.activeSaveId!==null);}catch{return true;}}
 function hasSavedShowdown(){return loadSavedShowdown()!==null;}
 function invalidateLegacyCache(){legacyCache=null;legacyStorageRevision+=1;}
 function getLegacyStorageRevision(){return legacyStorageRevision;}
@@ -78,15 +55,8 @@ function deleteLegacyShowdown(showdownId){const history=loadLegacyShowdowns(),ne
 function clearLegacyHistory(){const removed=removeStorageValue(LEGACY_STORAGE_KEY);if(removed){invalidateLegacyCache();legacyCache=[];}return removed;}
 function restoreStorageSnapshot(key,value){return value===null?removeStorageValue(key):writeStorageValue(key,value);}
 function invalidateRuntimeAfterCriticalRecovery(){criticalRecoveryStorageState=true;invalidateLegacyCache();applicationPreferencesCache=null;if(typeof currentShowdown!=="undefined")currentShowdown=null;}
-function applyCareerModeRawStorageTransaction(plan,expectedRaw=null){
-  if(typeof window.runCareerModeRawStorageTransaction!=="function")return {ok:false,status:"engine-unavailable"};
-  const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY,saveLibrary:SAVE_KEY};
-  const result=window.runCareerModeRawStorageTransaction(plan,{read(name,phase){try{return {ok:true,value:localStorage.getItem(keys[name])};}catch(error){reportStorageError(`Unable to ${phase} ${name} during restore`,error);return {ok:false};}},write(name,value){return restoreStorageSnapshot(keys[name],value);}},expectedRaw,arguments[2]||null);
-  if(result.ok&&(result.status==="success"||result.status==="no-op")){criticalRecoveryStorageState=false;if(result.affectedKeys.includes("legacyShowdowns"))invalidateLegacyCache();if(result.affectedKeys.includes("preferences")){applicationPreferencesCache=null;applyApplicationMotionPreference();notifyApplicationPreferencesChanged("restore");}}
-  else if(result.status==="rollback-failed-critical")invalidateRuntimeAfterCriticalRecovery();
-  return result;
-}
-function clearAllCareerModeData(){cancelScheduledCurrentShowdownSave();return Boolean(window.CareerModeSaveLibraryRuntime?.isReady()&&window.CareerModeSaveLibraryRuntime.clearAllData());}
+function applyCareerModeRawStorageTransaction(plan,expectedRaw=null){if(typeof window.runCareerModeRawStorageTransaction!=="function")return {ok:false,status:"engine-unavailable"};const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY,saveLibrary:SAVE_KEY};const result=window.runCareerModeRawStorageTransaction(plan,{read(name,phase){try{return {ok:true,value:localStorage.getItem(keys[name])};}catch(error){reportStorageError(`Unable to ${phase} ${name} during restore`,error);return {ok:false};}},write(name,value){return restoreStorageSnapshot(keys[name],value);}},expectedRaw,arguments[2]||null);if(result.ok&&(result.status==="success"||result.status==="no-op")){criticalRecoveryStorageState=false;if(result.affectedKeys.includes("legacyShowdowns"))invalidateLegacyCache();if(result.affectedKeys.includes("preferences")){applicationPreferencesCache=null;applyApplicationMotionPreference();notifyApplicationPreferencesChanged("restore");}}else if(result.status==="rollback-failed-critical")invalidateRuntimeAfterCriticalRecovery();return result;}
+function clearAllCareerModeData(){cancelScheduledCurrentShowdownSave();const snapshot=captureLibraryMigrationSnapshot();if(!snapshot.ok)return false;if(snapshot.raw.saveLibrary!==null)return Boolean(window.CareerModeSaveLibraryRuntime?.isReady()&&window.CareerModeSaveLibraryRuntime.clearAllData());if(!removeStorageValue(STORAGE_KEY))return false;if(!removeStorageValue(LEGACY_STORAGE_KEY)){restoreStorageSnapshot(STORAGE_KEY,snapshot.raw.activeShowdown);return false;}invalidateLegacyCache();legacyCache=[];return true;}
 window.captureCareerModeRawBackupInputs=captureCareerModeRawBackupInputs;
 window.captureCareerModeRawRestoreSnapshot=captureCareerModeRawRestoreSnapshot;
 window.captureCareerModeRawSaveLibraryMigrationSnapshot=captureLibraryMigrationSnapshot;
