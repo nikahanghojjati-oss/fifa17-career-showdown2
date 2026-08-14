@@ -1,76 +1,94 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-13 ET
+Last updated: 2026-08-14 ET
 
 ## Production milestone
 
 v1.3.0 — Recovery & Device Resilience Hardening
 
-Production identity: `v1.3.0` / `1.3.0-r1`
+Production identity label: `v1.3.0` / `1.3.0-r1`
 Immediate previous known-good whole shell: `1.2.0-r2`
-Production proof: `V1.3.0_PRODUCTION_PROOF.md`
-Runtime release merge: `094401b649954656e27e4a92d027e9532e84ccbf`
+Original production proof: `V1.3.0_PRODUCTION_PROOF.md`
+Original v1.3 runtime release merge: `094401b649954656e27e4a92d027e9532e84ccbf`
 
-The shipped Installable Offline App baseline remains protected throughout Local Profiles / Save Library work.
+Save Library runtime authority cutover PR #51 is now merged and post-merge proven on `main` at:
 
-## Active development direction
+`7c970c2fa425c9ae6ab8ddf215c8ee88305125a2`
 
-Local Profiles / Save Library — feature release version intentionally unassigned.
+The application/runtime release label was intentionally not changed by this technical cutover.
 
-Completed dependency order:
+The shipped Installable Offline App baseline remains protected throughout future Local Profiles / Save Library work.
+
+## Completed Local Profiles / Save Library dependency chain
+
+Feature release version remains intentionally unassigned.
+
+Completed technical layers:
 
 1. Identity foundation PR #46 merged at `b76baf3be8107a57c5898f691d5178ae1d8a8547`.
 2. Canonical persistence integration PR #48 merged at `d62ea1f62ec92af4a90de04a6ef182ed1bf44692`.
-3. Save Library runtime authority cutover implementation in PR #51 is technically complete and green.
+3. Save Library runtime authority cutover PR #51 merged at `7c970c2fa425c9ae6ab8ddf215c8ee88305125a2` and is production-proven.
 
-Do not reimplement those completed layers.
+Do not reimplement or reopen those layers unless a newly reproduced defect on current `main` provides concrete evidence that the established contracts are wrong.
 
-## Immediate task — close PR #51 safely
-
-Active PR:
-
-#51 — Cut over runtime authority to Save Library
-
-Active branch:
-
-`agent/save-library-runtime-authority-cutover`
+## PR #51 closure proof
 
 Exact runtime/test implementation head:
 
 `46d3e9d10d849b82e9d7d301fb6646404dec82bf`
 
-That head passed all 13 normal PR workflow families.
+Exact final PR head:
 
-First documentation-closure head:
+`bda19f8181598d880c7b1eb7f4e9446464d015e6`
 
-`89fa6c185d9829269f6516feb80eccaa49060383`
+The final PR head passed all 13 normal PR workflow families without test weakening or budget increases.
 
-That head changed only `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md` relative to the green implementation head and also passed all 13 normal PR workflow families.
+Immediately before merge, `main` was independently verified at:
 
-The runtime implementation is complete. The immediate work is documentation closure, fresh exact-head validation, expected-head merge and post-merge proof.
+`98b37a4ec77b3da3da55f6f621a6a0cf2a340fa2`
 
-Do not modify runtime/test implementation merely because documentation advances the PR head. Reopen runtime architecture only if fresh exact-head validation exposes a genuine defect.
+PR #51 was merged using expected-head protection. Exact merge:
 
-Do not say production `main` has been cut over until PR #51 is actually merged and independently proven after merge.
+`7c970c2fa425c9ae6ab8ddf215c8ee88305125a2`
 
-## Required closure procedure
+Its parents are exactly the pre-merge `main` SHA and the exact green final PR head.
 
-1. Re-fetch the live PR #51 head before every consequential branch/merge action.
-2. Preserve `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md` as the detailed runtime architecture and failure/correction ledger unless newer repository authority requires a change.
-3. Keep documentation consistent that implementation is complete and technically green while PR #51 remains in documentation closure / final exact-head validation.
-4. Verify no runtime, test, workflow, service-worker, gameplay, scoring or protected visual source changes during documentation closure.
-5. Observe a fresh validation generation on the exact final PR head and require every applicable workflow to succeed.
-6. Never weaken a test and never raise a performance ceiling to get green.
-7. Confirm PR #51 is mergeable and clean.
-8. Re-fetch current `main` immediately before merge.
-9. Merge with expected-head protection.
-10. Re-fetch `main` after merge and verify the exact merge.
-11. Verify every applicable permanent push-triggered workflow.
-12. If Release Integration Burn-In is automatically/main triggered, verify it too.
-13. Record exact merge SHA and post-merge proof in the public handoff/state authority if the established documentation process requires a separate closure.
-14. Stop at the clean boundary. Do not start the visible Save Library UI candidate in this context-heavy PR/session.
+All 14 permanent push-triggered workflow families passed on the exact merge.
 
-## Final runtime authority model protected by PR #51
+Release Integration Burn-In run `31768712755` passed both complete stateful integration jobs.
+
+Stability Lane run `31768712798` passed all three jobs, including deployed-site smoke. The deployed-site smoke verified exact Pages runtime bytes and passed runtime provenance, Home visual, football-photo crop, Candidate A, Candidate B, Candidate C, install/offline and complete journey audits.
+
+## Immediate engineering task
+
+Do not continue feature implementation in the PR #51 closure context.
+
+The next substantial dependency-ordered candidate is a separately bounded visible Local Profiles / Save Library product-UI candidate.
+
+It must begin in a fresh development session.
+
+The first responsibility of that session is to independently re-fetch current `main`, read the active handoffs and reconstruct the exact owner/repository UI scope before implementation. Do not infer the visible product shape from old planning documents alone.
+
+The future candidate may build user-facing Save Library / Local Profiles surfaces on top of the now-proven identity, persistence and runtime authority layers, but its exact UI scope must be established from current repository authority and owner requirements.
+
+Do not automatically include:
+
+- historical manager auto-linking by display-name equality or normalized spelling;
+- cloud;
+- accounts;
+- QR pairing;
+- synchronization;
+- remote transport;
+- backup/import envelope redesign;
+- gameplay or scoring changes;
+- protected visual redesign;
+- feature release-version assignment.
+
+Historical ambiguous manager identities remain explicit future mapping work.
+
+No visible Save Library UI is implemented yet.
+
+## Final runtime authority model
 
 Before explicit Save Library activation, the compatibility-facing public canonical model remains exactly:
 
@@ -161,7 +179,7 @@ Preserve Smart Back ownership, installed iOS loading composition, Settings-only 
 
 ## PWA locks
 
-Current whole shell remains `1.3.0-r1`.
+Current whole shell label remains `1.3.0-r1`.
 
 Previous whole shell remains `1.2.0-r2`.
 
@@ -177,29 +195,6 @@ There are 14 permanent workflow families and 27 protected multiline executable b
 
 Do not weaken product assertions, recovery checks, visual geometry gates or performance ceilings to obtain green CI. Classify failures before editing implementation.
 
-## Next substantial candidate after PR #51 merges
-
-Do not begin this inside PR #51.
-
-After PR #51 merges, independently re-fetch current `main` and complete post-merge proof first.
-
-Then, in a fresh development session, the next dependency-ordered candidate is a separately bounded visible Local Profiles / Save Library product-UI candidate.
-
-That future session must reconstruct exact owner/repository UI scope before implementation. Do not assume the visible product shape from old planning documents.
-
-Do not automatically include:
-
-- historical manager auto-linking by display-name equality or normalized spelling;
-- cloud;
-- accounts;
-- QR pairing;
-- synchronization;
-- remote transport;
-- backup/import envelope redesign;
-- gameplay or scoring changes;
-- protected visual redesign;
-- feature release-version assignment.
-
-Historical ambiguous manager identities remain explicit future mapping work.
+## Historical warning
 
 PR #37 / `agent/v13-hardening` remains untrusted historical work and must not be merged or revived.
