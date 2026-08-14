@@ -7,11 +7,54 @@
 let careerAnalyticsCacheKey = null;
 let careerAnalyticsCacheValue = null;
 
+const ANALYTICS_PROFILE_ID_PATTERN = /^profile_[a-f0-9]{24}$/;
+const ANALYTICS_MANAGER_ROLES = Object.freeze(["playerOne", "playerTwo"]);
+
 function analyticsNormalizeName(value){
     return String(value || "Unknown Manager")
         .trim()
         .replace(/\s+/g, " ")
         .toLowerCase();
+}
+
+function analyticsGetManagerProfileId(showdown, playerKey){
+    const profileId = showdown
+        && showdown.identity
+        && showdown.identity.managerProfileIds
+        && showdown.identity.managerProfileIds[playerKey];
+    return typeof profileId === "string" && ANALYTICS_PROFILE_ID_PATTERN.test(profileId)
+        ? profileId
+        : null;
+}
+
+function analyticsGetActiveIdentitySignature(showdown){
+    if(!showdown || showdown.status !== "Completed"){
+        return "none";
+    }
+    const playerOne = analyticsGetManagerProfileId(showdown, "playerOne") || "unresolved";
+    const playerTwo = analyticsGetManagerProfileId(showdown, "playerTwo") || "unresolved";
+    return `${showdown.id}:${showdown.updatedAt || showdown.completedAt || ""}:${playerOne}:${playerTwo}`;
+}
+
+function analyticsGetProfileDisplayNames(){
+    const names = new Map();
+    const runtime = typeof window !== "undefined" ? window.CareerModeSaveLibraryRuntime : null;
+    if(!runtime || typeof runtime.isReady !== "function" || !runtime.isReady() || typeof runtime.getIdentityMappingSnapshot !== "function"){
+        return names;
+    }
+
+    const snapshot = runtime.getIdentityMappingSnapshot();
+    const profiles = snapshot && snapshot.ok === true && snapshot.library && Array.isArray(snapshot.library.profiles)
+        ? snapshot.library.profiles
+        : [];
+    profiles.forEach(profile => {
+        if(!profile || typeof profile.profileId !== "string" || !ANALYTICS_PROFILE_ID_PATTERN.test(profile.profileId)){
+            return;
+        }
+        const displayName = String(profile.displayName || "Unknown Manager").trim() || "Unknown Manager";
+        names.set(profile.profileId, displayName);
+    });
+    return names;
 }
 
 function getCompletedShowdownsForAnalytics(){
@@ -39,11 +82,8 @@ function getCareerAnalyticsCacheKey(){
     const revision = typeof window.getLegacyStorageRevision === "function"
         ? window.getLegacyStorageRevision()
         : 0;
-    const active = currentShowdown;
-    const activeSignature = active && active.status === "Completed"
-        ? `${active.id}:${active.updatedAt || active.completedAt || ""}`
-        : "none";
-    return `${revision}|${activeSignature}`;
+    const active = currentShowdown || loadSavedShowdown();
+    return `${revision}|${analyticsGetActiveIdentitySignature(active)}`;
 }
 
 function getShowdownWinnerKey(showdown){
@@ -74,9 +114,10 @@ function getAnalyticsScoring(player){
         : { total: 0, performanceBonus: 0, individualAwardsBonus: 0, awardsBonus: 0 };
 }
 
-function createManagerCareerStats(name){
+function createManagerCareerStats(name, key = analyticsNormalizeName(name), profileId = null){
     return {
-        key: analyticsNormalizeName(name),
+        key,
+        profileId,
         name: String(name || "Unknown Manager").trim() || "Unknown Manager",
         showdowns: 0,
         showdownWins: 0,
@@ -116,12 +157,22 @@ function createManagerCareerStats(name){
     };
 }
 
-function getOrCreateManagerStats(map, name){
-    const key = analyticsNormalizeName(name);
-    if(!map.has(key)){
-        map.set(key, createManagerCareerStats(name));
+function getOrCreateManagerStats(map, profileId, name){
+    if(!map.has(profileId)){
+        map.set(profileId, createManagerCareerStats(name, profileId, profileId));
     }
-    return map.get(key);
+    return map.get(profileId);
+}
+
+function createUnresolvedManagerRole(showdown, playerKey){
+    return {
+        showdownId: String(showdown && showdown.id || ""),
+        saveId: showdown && showdown.identity && typeof showdown.identity.saveId === "string"
+            ? showdown.identity.saveId
+            : null,
+        role: playerKey,
+        name: String(showdown && showdown.managers && showdown.managers[playerKey] || "Unknown Manager").trim() || "Unknown Manager"
+    };
 }
 
 function accumulateTransferStats(stats, challenge, playerKey){
@@ -203,8 +254,10 @@ function finalizeManagerCareerStats(stats){
     return stats;
 }
 
-function calculateCareerAnalytics(history){
+function calculateCareerAnalytics(history, profileNames = new Map()){
     const managerMap = new Map();
+    const unresolvedRoles = [];
+    const unresolvedShowdowns = new Set();
     let totalSeasons = 0;
     let totalPoints = 0;
     let totalTrophies = 0;
@@ -217,10 +270,17 @@ function calculateCareerAnalytics(history){
         const winner = getShowdownWinnerKey(showdown);
         const rounds = Array.isArray(showdown.rounds) ? showdown.rounds : [];
 
-        ["playerOne", "playerTwo"].forEach(playerKey => {
+        ANALYTICS_MANAGER_ROLES.forEach(playerKey => {
+            const profileId = analyticsGetManagerProfileId(showdown, playerKey);
+            if(!profileId){
+                unresolvedRoles.push(createUnresolvedManagerRole(showdown, playerKey));
+                unresolvedShowdowns.add(String(showdown.id));
+                return;
+            }
+
             const managerName = showdown.managers[playerKey];
-            const stats = getOrCreateManagerStats(managerMap, managerName);
-            stats.name = managerName || stats.name;
+            const displayName = profileNames.get(profileId) || managerName || "Unknown Manager";
+            const stats = getOrCreateManagerStats(managerMap, profileId, displayName);
             stats.showdowns += 1;
 
             if(winner === playerKey){ stats.showdownWins += 1; }
@@ -262,6 +322,11 @@ function calculateCareerAnalytics(history){
     return {
         history,
         managers,
+        identity: {
+            unresolvedRoleCount: unresolvedRoles.length,
+            unresolvedShowdownCount: unresolvedShowdowns.size,
+            unresolvedRoles
+        },
         totals: {
             showdowns: history.length,
             seasons: totalSeasons,
@@ -273,8 +338,9 @@ function calculateCareerAnalytics(history){
 }
 
 function buildCareerAnalytics(history = null){
+    const profileNames = analyticsGetProfileDisplayNames();
     if(history){
-        return calculateCareerAnalytics(history);
+        return calculateCareerAnalytics(history, profileNames);
     }
 
     const cacheKey = getCareerAnalyticsCacheKey();
@@ -282,7 +348,7 @@ function buildCareerAnalytics(history = null){
         return careerAnalyticsCacheValue;
     }
 
-    careerAnalyticsCacheValue = calculateCareerAnalytics(getCompletedShowdownsForAnalytics());
+    careerAnalyticsCacheValue = calculateCareerAnalytics(getCompletedShowdownsForAnalytics(), profileNames);
     careerAnalyticsCacheKey = cacheKey;
     return careerAnalyticsCacheValue;
 }
@@ -303,7 +369,7 @@ function findSeasonRecord(history, valueGetter){
 
     history.forEach(showdown => {
         (showdown.rounds || []).forEach(round => {
-            ["playerOne", "playerTwo"].forEach(playerKey => {
+            ANALYTICS_MANAGER_ROLES.forEach(playerKey => {
                 const player = round[playerKey];
                 if(!player){ return; }
 
@@ -424,3 +490,4 @@ function buildRivalryAnalytics(showdown){
 window.buildCareerAnalytics = buildCareerAnalytics;
 window.buildRivalryAnalytics = buildRivalryAnalytics;
 window.getCompletedShowdownsForAnalytics = getCompletedShowdownsForAnalytics;
+window.getCareerAnalyticsRevisionKey = getCareerAnalyticsCacheKey;
