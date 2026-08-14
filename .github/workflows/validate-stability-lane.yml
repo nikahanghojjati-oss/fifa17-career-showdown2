@@ -67,6 +67,7 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           CMS_AUDIT_RUN="stability-canonical" npm run test:runtime-boundary
           CMS_AUDIT_RUN="stability-canonical" node tests/browser/save-library-ui-audit.cjs
+          CMS_AUDIT_RUN="stability-canonical" node tests/browser/manager-identity-linkage-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-boundary-audit.cjs
           CMS_CHROMIUM_MULTI_CONTEXT=1 CMS_AUDIT_RUN="stability-canonical" node tests/browser/offline-cache-lifecycle-v2-audit.cjs
           CMS_AUDIT_RUN="stability-canonical" npm run test:browser
@@ -80,6 +81,8 @@ jobs:
             test-results/stability-audit-*.json
             test-results/save-library-ui-*.json
             test-results/save-library-*.png
+            test-results/manager-identity-linkage-*.json
+            test-results/manager-identity-linkage-*.png
           if-no-files-found: warn
           retention-days: 14
 
@@ -124,6 +127,12 @@ jobs:
           CMS_AUDIT_RUN: deployed-main
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: node tests/browser/save-library-ui-audit.cjs
+
+      - name: Run manager identity linkage audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: node tests/browser/manager-identity-linkage-audit.cjs
 
       - name: Run crop-safe football-photo audit against deployed Pages
         env:
