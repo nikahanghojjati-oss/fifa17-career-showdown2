@@ -161,6 +161,14 @@ async function readAnalytics(page){
 
     const beforeRevision=await page.evaluate(()=>window.getCareerAnalyticsRevisionKey());
     await page.evaluate(async({profileA})=>{
+      if(typeof window.loadRuntimeScript!=="function"){
+        throw new Error("Optional runtime loader is unavailable during Analytics identity mapping audit.");
+      }
+      await window.loadRuntimeScript(
+        "save-library-cutover",
+        "js/saveLibraryCutover.js",
+        ()=>typeof window.ensureSaveLibraryRuntimeAuthority==="function"
+      );
       await window.ensureSaveLibraryRuntimeAuthority();
       const mapping=await window.CareerModeSaveLibraryRuntime.assignLegacyManagerProfile("analytics-history-unresolved","playerOne",profileA);
       if(!mapping||mapping.ok!==true){
