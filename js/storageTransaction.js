@@ -1,5 +1,5 @@
 (function(){
-  const ORDER=Object.freeze(["activeShowdown","legacyShowdowns","preferences"]);
+  const ORDER=Object.freeze(["activeShowdown","legacyShowdowns","preferences","saveLibrary"]);
   const has=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
   function base(status,extra={}){
     return Object.assign({
@@ -13,11 +13,26 @@
     const result=io.read(name,phase);
     return result&&result.ok===true?result:null;
   }
-  function runCareerModeRawStorageTransaction(candidateRaw,io,expectedRaw=null){
+  function resolveTransactionOrder(candidateRaw,options){
+    const unknown=Object.keys(candidateRaw).filter(name=>!ORDER.includes(name));
+    if(unknown.length)return {ok:false,failedKey:unknown[0],order:[]};
+    if(!options||options.order===undefined)return {ok:true,failedKey:null,order:ORDER};
+    if(!Array.isArray(options.order))return {ok:false,failedKey:null,order:[]};
+    const seen=new Set();
+    for(const name of options.order){
+      if(!ORDER.includes(name)||seen.has(name))return {ok:false,failedKey:name,order:[]};
+      seen.add(name);
+    }
+    const missing=Object.keys(candidateRaw).find(name=>!seen.has(name));
+    return missing?{ok:false,failedKey:missing,order:[]}:{ok:true,failedKey:null,order:options.order.slice()};
+  }
+  function runCareerModeRawStorageTransaction(candidateRaw,io,expectedRaw=null,options=null){
     if(!candidateRaw||typeof candidateRaw!=="object"||Array.isArray(candidateRaw)||!io||typeof io.read!=="function"||typeof io.write!=="function"){
       return base("invalid-plan",{failurePhase:"plan"});
     }
-    const requested=ORDER.filter(name=>has(candidateRaw,name));
+    const resolvedOrder=resolveTransactionOrder(candidateRaw,options);
+    if(!resolvedOrder.ok)return base("invalid-plan",{failedKey:resolvedOrder.failedKey,failurePhase:"plan"});
+    const requested=resolvedOrder.order.filter(name=>has(candidateRaw,name));
     for(const name of requested){
       const value=candidateRaw[name];
       if(value!==null&&typeof value!=="string"){
@@ -52,16 +67,31 @@
     const committedKeys=[];
     const preconditionMismatches=[];
     const verificationMismatches=[];
+    const guardRequested=Boolean(options&&options.guardRequestedBeforeEachWrite);
     let failedKey=null;
     let failurePhase=null;
 
+    commitLoop:
     for(const name of affected){
-      const prewrite=readValue(io,name,"prewrite");
-      if(!prewrite||prewrite.value!==snapshot[name]){
-        failedKey=name;
-        failurePhase="precondition";
-        preconditionMismatches.push(name);
-        break;
+      if(guardRequested){
+        for(const guardName of requested){
+          const expected=committedKeys.includes(guardName)?candidateRaw[guardName]:snapshot[guardName];
+          const guard=readValue(io,guardName,guardName===name?"prewrite":"guard-prewrite");
+          if(!guard||guard.value!==expected){
+            failedKey=guardName;
+            failurePhase="precondition";
+            preconditionMismatches.push(guardName);
+            break commitLoop;
+          }
+        }
+      }else{
+        const prewrite=readValue(io,name,"prewrite");
+        if(!prewrite||prewrite.value!==snapshot[name]){
+          failedKey=name;
+          failurePhase="precondition";
+          preconditionMismatches.push(name);
+          break;
+        }
       }
       if(io.write(name,candidateRaw[name],"commit")!==true){
         failedKey=name;
@@ -72,7 +102,8 @@
     }
 
     if(!failurePhase){
-      for(const name of affected){
+      const verificationNames=guardRequested?requested:affected;
+      for(const name of verificationNames){
         const read=readValue(io,name,"verify");
         if(!read||read.value!==candidateRaw[name]){
           failedKey=name;
