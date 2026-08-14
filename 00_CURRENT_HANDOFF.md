@@ -4,11 +4,34 @@ Last updated: 2026-08-14 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. Release and production-proof documents remain frozen evidence for the release they name.
+This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. Release and production-proof documents remain frozen evidence for the release they name.
 
-## Current repository boundary
+## Active owner-authorized implementation
 
-Verified pre-merge `main`:
+Owner instruction received 2026-08-14 ET explicitly authorizes the next bounded candidate: investigate and implement the smallest correct cross-Save/profile manager identity linkage and historical mapping foundation required for identity-safe longitudinal Analytics.
+
+Required constraints from that instruction:
+
+- do not simply replace name-based Analytics keys with profile IDs;
+- first reconstruct existing profile creation/reuse, Save Library, `identity.managerProfileIds`, Legacy migration/mappings, deletion/retention, Candidate A/B/C projection, Analytics caching and Trophy Room dependencies;
+- preserve gameplay, persistence, recovery, PWA/offline, visuals and performance behavior;
+- add deterministic and browser regression coverage for same-name distinct managers, one manager across multiple Saves, unresolved historical identities and deletion/recovery behavior;
+- continuously record decisions, evidence, failures and corrections here;
+- do not expand into cloud, accounts, synchronization or unrelated roadmap work.
+
+Verified live base before branch creation:
+
+`56b7f5cff2055d67ba5ffa6b4729bb24c46718a5`
+
+Active implementation branch:
+
+`agent/manager-identity-linkage-foundation`
+
+The branch was created directly from that exact live `main` SHA. Investigation is in progress. No runtime/data-model mutation has yet been committed after branch creation.
+
+## Current repository boundary before this candidate
+
+Verified pre-audit-merge `main`:
 
 `a8a34ee2d64b63a68ec471f2623a2f27ff9e8c8b`
 
@@ -36,7 +59,7 @@ Exact PR #56 merge:
 
 `58c92dfbabd3fcdcb5cf03cce6baffe882901e4e`
 
-This handoff seal is a post-merge documentation-only update made from that exact merge boundary. Future developers must still fetch live `main` rather than assuming the merge SHA above remains current.
+Post-merge documentation authority was then sealed through `56b7f5cff2055d67ba5ffa6b4729bb24c46718a5`. Future developers must still fetch live `main` rather than assuming any SHA in this handoff remains current.
 
 ## Production/runtime authority remains unchanged
 
@@ -64,7 +87,7 @@ Feature release version:
 
 intentionally unassigned
 
-PR #56 changed no gameplay, persistence, recovery, Save Library runtime, Analytics calculation, PWA/offline bytes, visuals, performance limits or release identity.
+The identity-linkage branch must not change release identity unless separately authorized.
 
 ## Audit conclusions now merged into current authority
 
@@ -115,7 +138,9 @@ Correction:
 
 The correction restored both protected semantic markers without weakening the contract or changing runtime files. On that exact head, every push validation workflow triggered by the documentation change passed: Statistics, Static App, Home Bootstrap, League Confirmation, Season Review, Transfer, Settings, Final Polish, V1 Visual Immersion and Licensed Football Visuals. GitHub Pages build/deployment also passed.
 
-This section records that completed evidence. The commit containing this record is itself documentation-only and follows the green correction head above; future developers must fetch live `main` and verify its workflows rather than treating any SHA in this handoff as permanently current.
+Final post-merge handoff authority before this new candidate:
+
+`56b7f5cff2055d67ba5ffa6b4729bb24c46718a5`
 
 ## Open historical drafts
 
@@ -125,28 +150,24 @@ PR #35 / `agent/v1.2-installable-offline-r2` remains an obsolete historical draf
 
 Neither is a development baseline. Do not revive or merge either over current `main` without a new current-source justification.
 
-## Current authorization boundary
+## Identity-linkage investigation checklist
 
-No new substantial runtime/product implementation candidate is automatically authorized.
+Before changing canonical data semantics, inspect and record:
 
-The smallest source-supported future product candidate is explicit cross-Save/profile manager identity linkage and historical mapping semantics. It remains only a candidate until the owner explicitly authorizes that scope and its exact semantic model is investigated.
+- profile creation and whether reuse can be introduced without weakening stable-ID meaning;
+- current profile registry shape and normalization/validation contracts;
+- all writers/readers of `identity.managerProfileIds`;
+- singleton migration and Legacy same-Showdown inheritance versus unresolved mappings;
+- deletion/retention semantics and orphan profile behavior;
+- Candidate A active-Save projection and Candidate B/C restore preparation/apply behavior;
+- Analytics cache keys/invalidation and any stable-identity assumptions;
+- Trophy Room consumption of career Analytics;
+- transaction ownership and exact raw rollback/recovery boundaries;
+- same-name distinct-manager and same-person-multi-Save regression fixtures;
+- treatment of historical labels versus future identity links.
 
-Do not begin an Analytics runtime correction, generic profile CRUD, historical name-based mapping, backup-format redesign, cloud work, accounts/authentication, pairing/synchronization, gameplay changes, global visual redesign or release-version assignment merely because PR #56 is merged.
+No name-based inference is permitted. Explicitly unresolved historical relationships must remain representable.
 
-If a later owner instruction authorizes identity work, investigate profile creation/reuse, profile registry schema, `identity.managerProfileIds`, migration and Legacy mappings, deletion/retention behavior, Candidate A/B/C projection, Analytics caching, Trophy Room consumption, same-name tests, transaction ownership and historical-label policy before changing data.
+## Next legal action
 
-## Next-session bootstrap
-
-1. Fetch live `main`, recent commits and all open PRs.
-2. Read `00_HANDOFF_GOLDEN_RULE.md`.
-3. Read `00_DEVELOPER_START_HERE.md`.
-4. Read this file.
-5. Read `PROJECT_STATE.md`.
-6. Read `NEXT_TASK.md`.
-7. Read `POST_V1_ROADMAP_EXECUTION.md`.
-8. Inspect deeper Save Library, recovery, release or historical handoffs only when the current task requires their rationale.
-9. Treat current source as implementation authority and do not invent the next feature when `NEXT_TASK.md` does not authorize one.
-
-## Clean stop
-
-The Identity × Legacy × Analytics × Roadmap audit is complete and merged. Production runtime behavior is unchanged. The repository is at a coherent documentation/authority boundary. Stop before starting the identity-linkage candidate or any other substantial runtime work unless a newer explicit owner instruction authorizes it.
+Continue source reconstruction on `agent/manager-identity-linkage-foundation`. Only after the dependency chain is understood should the branch introduce the smallest explicit linkage/mapping domain and its transaction-safe mutations. Analytics calculation changes remain outside this candidate unless separately authorized after the identity foundation itself is proven.
