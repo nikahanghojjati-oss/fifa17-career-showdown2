@@ -180,9 +180,27 @@ Visible Save Library screens, profile rename/create UI, historical profile mappi
 
 Do not assign a feature release version yet.
 
+## Documentation closure authority
+
+Documentation closure PR #49 final validated head:
+
+`5ec81d38cd001ec303a1f79117818edde9e96aba`
+
+PR #49 merge:
+
+`488e8fd464afddfa9d201e0ca0a57cd8a5cdda6b`
+
+The signed merge commit has `d62ea1f62ec92af4a90de04a6ef182ed1bf44692` as its implementation-state parent and exact green closure head `5ec81d38cd001ec303a1f79117818edde9e96aba` as its documentation parent.
+
+The final PR #49 head passed all ten Markdown-applicable workflow families with zero failures. All ten applicable push-triggered workflows on merge `488e8fd464afddfa9d201e0ca0a57cd8a5cdda6b` also passed with zero failures.
+
+PR #49 changed only four authority Markdown files: `00_CURRENT_HANDOFF.md`, `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`, `PROJECT_STATE.md` and `NEXT_TASK.md`. It changed no runtime, test, workflow, service-worker, gameplay, scoring, visual or backup/import source.
+
+This handoff may itself be published by a later documentation-only merge, so future developers must always independently fetch current `main` rather than assuming `488e8fd464afddfa9d201e0ca0a57cd8a5cdda6b` remains the repository tip. The canonical runtime-source state established by PR #48 remains `d62ea1f62ec92af4a90de04a6ef182ed1bf44692` until a later runtime candidate explicitly changes source.
+
 ## Tool and failure record
 
-The persistence session had no CI failure and required no rerun, test weakening or budget increase.
+The canonical persistence implementation PR #48 had no CI failure and required no rerun, test weakening or budget increase.
 
 A read-only local clone attempt failed because the execution environment could not resolve `github.com`; no repository mutation occurred.
 
@@ -196,10 +214,16 @@ PR #47's earlier documentation-only failure remains historical evidence: its ini
 
 PR #37 / `agent/v13-hardening` remains untrusted historical work and must not be revived or merged.
 
-During documentation-only closure PR #49, exact head `d6a81bbe45cb273e56aa0ac0081f7ecd9f0cb68b` passed all ten Markdown-applicable PR workflow families. After the PR was marked ready, the closure branch advanced to concurrent documentation commit `159659dcde032368c4b0b80b553f3d53317f5fc3`, which modified only `00_CURRENT_HANDOFF.md`. The expected-head merge against `d6a81bbe45cb273e56aa0ac0081f7ecd9f0cb68b` was correctly rejected by GitHub with HTTP 409 `Head branch was modified. Review and try the merge again.` No merge or runtime mutation occurred. The new commit was independently inspected, found consistent with the proven persistence boundary, and retained rather than overwritten. PR #49 must be validated again on its resulting exact final documentation head before merge.
+During documentation-only closure PR #49, exact head `d6a81bbe45cb273e56aa0ac0081f7ecd9f0cb68b` first passed all ten Markdown-applicable PR workflow families. After the PR was marked ready, the branch advanced; the expected-head merge against that stale head correctly returned HTTP 409 and did not merge.
+
+The closure branch later reached head `855af6ee9e26460da0906bd1f94f403071883f94`. Validate Static App run `31763489010`, job `94654522519`, failed only because `NEXT_TASK.md` no longer contained one of the protected strict destructive snapshot phrases required by `release-authority-coherence.cjs`. Static release validation still passed at `164967` raw / `37425` gzip, and Candidate A, Candidate B, Candidate C and Save Library persistence contracts all passed. This was classified as a documentation-contract mismatch, not a runtime defect.
+
+The correction restored explicit `strict exact raw snapshot authority` wording without weakening any test or changing runtime source. A stale correction write was itself blocked by HTTP 409 because the branch had concurrently already updated `NEXT_TASK.md`; that blocked operation made no mutation. Final head `5ec81d38cd001ec303a1f79117818edde9e96aba` then passed 10/10 applicable PR workflows and merged as PR #49. Its documentation-only post-merge generation also passed 10/10.
+
+No blocked or failed operation above is production runtime state.
 
 ## Quality-first continuation boundary
 
-Canonical persistence integration is merged and publicly proven. This is a clean repository boundary.
+Canonical persistence integration is merged, production-proven and documentation-sealed. This is a clean repository boundary.
 
 Do not push into runtime authority cutover in the same context-heavy session. A fresh developer session must independently fetch current `main`, read `00_HANDOFF_GOLDEN_RULE.md`, this file, `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`, `PROJECT_STATE.md` and `NEXT_TASK.md`, then reconstruct current source before making runtime changes.
