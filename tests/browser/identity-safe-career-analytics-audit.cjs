@@ -190,8 +190,40 @@ async function readAnalytics(page){
     await page.locator("#careerStatisticsTrophyButton").click();
     await page.locator("#trophyRoom").waitFor({state:"visible",timeout:15000});
     assert.equal(await page.locator("#trophyRoom .managerCabinet[data-profile-id]").count(),4,"Trophy Room must consume the same four stable longitudinal identities.");
-    assert.equal(await page.locator(`#trophyRoom .managerCabinet[data-profile-id="${ids.profileA}"]`).count(),1,"Trophy Room must render one cabinet for the explicitly reused profile.");
-    assert.match(await page.locator(`#trophyRoom .managerCabinet[data-profile-id="${ids.profileA}"]`).innerText(),/ACROSS 3 SHOWDOWNS/i,"Trophy cabinet did not refresh after explicit historical mapping.");
+    const trophyCabinet=page.locator(`#trophyRoom .managerCabinet[data-profile-id="${ids.profileA}"]`);
+    assert.equal(await trophyCabinet.count(),1,"Trophy Room must render one cabinet for the explicitly reused profile.");
+
+    const trophyRevision=await page.evaluate(()=>({
+      career:window.getCareerAnalyticsRevisionKey(),
+      trophy:typeof getTrophyRoomRenderKey==="function"?getTrophyRoomRenderKey():null,
+      rendered:typeof trophyRoomRenderKey==="string"?trophyRoomRenderKey:null
+    }));
+    assert.equal(trophyRevision.career,afterRevision,"Career Analytics revision changed unexpectedly before Trophy Room validation.");
+    assert.equal(trophyRevision.trophy,afterRevision,"Trophy Room render key must consume the current Career Analytics revision.");
+    assert.equal(trophyRevision.rendered,afterRevision,"Trophy Room must record the current Career Analytics revision after rendering.");
+
+    const trophyCabinetBeforeScroll=await trophyCabinet.evaluate(element=>{
+      const rect=element.getBoundingClientRect();
+      return {
+        textContent:element.textContent||"",
+        innerText:element.innerText||"",
+        contentVisibility:getComputedStyle(element).contentVisibility,
+        rect:{top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right,width:rect.width,height:rect.height},
+        viewport:{width:window.innerWidth,height:window.innerHeight,scrollY:window.scrollY}
+      };
+    });
+    assert.match(trophyCabinetBeforeScroll.textContent,/ACROSS 3 SHOWDOWNS/i,"Trophy cabinet DOM did not refresh after explicit historical mapping.");
+
+    await trophyCabinet.scrollIntoViewIfNeeded();
+    const trophyCabinetAfterScroll=await trophyCabinet.evaluate(element=>{
+      const rect=element.getBoundingClientRect();
+      return {
+        innerText:element.innerText||"",
+        rect:{top:rect.top,bottom:rect.bottom,left:rect.left,right:rect.right,width:rect.width,height:rect.height},
+        viewport:{width:window.innerWidth,height:window.innerHeight,scrollY:window.scrollY}
+      };
+    });
+    assert.match(trophyCabinetAfterScroll.innerText,/ACROSS 3 SHOWDOWNS/i,"Visible Trophy cabinet did not refresh after explicit historical mapping.");
     assert.equal(await page.locator("#trophyRoom .analyticsIdentityNotice").count(),0,"Resolved historical identity must not leave a stale Trophy Room warning.");
 
     const singleton=await page.evaluate(key=>localStorage.getItem(key),singletonKey);
@@ -206,6 +238,9 @@ async function readAnalytics(page){
       linkedProfile:ids.profileA,
       linkedShowdowns:remapped.showdowns,
       unresolvedAfterMapping:analytics.identity.unresolvedRoleCount,
+      trophyRevision,
+      trophyCabinetBeforeScroll,
+      trophyCabinetAfterScroll,
       screenshot:screenshotPath
     };
     fs.writeFileSync(path.join(resultsDirectory,`identity-safe-career-analytics-${runLabel}.json`),JSON.stringify(result,null,2));
