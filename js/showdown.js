@@ -5,6 +5,7 @@ let showdownCreationPromise=null;
 function initializeSaveLibraryCutoverGate(){
     if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;
     window.__cmsSaveLibraryCutoverGate=true;
+    const settingsButton=document.getElementById("settingsButton");if(settingsButton){const code=settingsButton.querySelector(".menuTileCode"),label=settingsButton.querySelector(".menuTileLabel"),meta=settingsButton.querySelector(".menuTileMeta");if(code)code.textContent="LOCAL";if(label)label.textContent="SAVE LIBRARY";if(meta)meta.textContent="Local Showdowns, manager profiles and settings";}
     document.addEventListener("click",async event=>{
         const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
         if(!button||button.disabled)return;
