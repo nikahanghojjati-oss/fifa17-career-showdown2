@@ -91,6 +91,9 @@ function getRivalryStatisticsRenderKey(){
 }
 
 function getCareerStatisticsRenderKey(){
+    if(typeof window.getCareerAnalyticsRevisionKey === "function"){
+        return window.getCareerAnalyticsRevisionKey();
+    }
     const revision = typeof window.getLegacyStorageRevision === "function"
         ? window.getLegacyStorageRevision()
         : 0;
@@ -180,6 +183,7 @@ function createCareerStandingsTable(managers){
     managers.forEach((manager, index) => {
         const row = document.createElement("div");
         row.className = "careerStandingsRow";
+        if(manager.profileId){ row.dataset.profileId = manager.profileId; }
         [
             index + 1,
             manager.name,
@@ -296,6 +300,16 @@ function renderCareerManagerComparison(container, analytics){
     container.append(heading, hero, table);
 }
 
+function createCareerIdentityNotice(analytics){
+    const unresolved = Number(analytics && analytics.identity && analytics.identity.unresolvedRoleCount) || 0;
+    if(!unresolved){ return null; }
+    const notice = document.createElement("div");
+    notice.className = "analyticsEmpty analyticsIdentityNotice";
+    notice.dataset.unresolvedRoles = String(unresolved);
+    notice.textContent = `${unresolved} historical manager role${unresolved === 1 ? " remains" : "s remain"} unresolved. ${unresolved === 1 ? "It is" : "They are"} excluded from longitudinal manager totals and leaderboards until explicitly linked to Local Profiles. Overall Showdown, season, points, trophies and season records remain complete.`;
+    return notice;
+}
+
 function renderCareerStatistics(force = false){
     const content = document.getElementById("careerStatisticsContent");
     if(!content){ return; }
@@ -320,11 +334,16 @@ function renderCareerStatistics(force = false){
     );
     fragment.appendChild(summary);
 
+    const identityNotice = createCareerIdentityNotice(analytics);
+    if(identityNotice){ fragment.appendChild(identityNotice); }
+
     if(!analytics.managers.length){
-        const empty = document.createElement("div");
-        empty.className = "analyticsEmpty";
-        empty.textContent = "Career Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.";
-        fragment.appendChild(empty);
+        if(!identityNotice){
+            const empty = document.createElement("div");
+            empty.className = "analyticsEmpty";
+            empty.textContent = "Career Statistics will build automatically after the first completed showdown. Current-showdown statistics remain available from Showdown Home.";
+            fragment.appendChild(empty);
+        }
     }else{
         const standingsHeading = document.createElement("h3");
         standingsHeading.className = "analyticsSectionHeading";
