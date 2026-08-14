@@ -138,7 +138,7 @@ That deployed job passed every production gate in sequence:
 
 The identity foundation is therefore merged, deployed, exact-byte verified and technically production-proven.
 
-## Authority seal in progress
+## Authority seal
 
 Because `PROJECT_STATE.md`, `NEXT_TASK.md` and `POST_V1_ROADMAP_EXECUTION.md` still described this newly shipped dependency as future work immediately after the runtime merge, a documentation/contract-only authority seal was opened from exact production merge `95e98c13bbb4cac485531565c3577ae31286d0af`.
 
@@ -146,15 +146,51 @@ Authority-seal branch:
 
 `agent/manager-identity-authority-seal`
 
-Changes on that branch are limited to current authority and semantic coherence:
+PR:
 
-- `PROJECT_STATE.md` now records PR #57/merge `95e98c...` as shipped production state and keeps the current Analytics name-key limitation explicit;
+PR #58 — `Seal manager identity production authority`
+
+The intended seal scope is current authority plus semantic contracts only:
+
+- `PROJECT_STATE.md` records PR #57/merge `95e98c...` as shipped production state and keeps the current Analytics name-key limitation explicit;
 - `NEXT_TASK.md` closes the identity candidate and identifies identity-safe longitudinal Career Analytics only as a separately authorized future candidate;
 - `POST_V1_ROADMAP_EXECUTION.md` changes cross-Save linkage to DONE, historical mapping to FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED, and identity-safe Analytics to READY / NOT AUTHORIZED;
-- `tests/contracts/release-authority-coherence.cjs` now requires those stronger current semantics rather than the obsolete pre-linkage classifications;
-- this handoff records exact runtime proof and the stop boundary.
+- `tests/contracts/release-authority-coherence.cjs` requires those stronger current semantics rather than the obsolete pre-linkage classifications;
+- `tests/contracts/cloud-foundation-contracts.cjs` keeps cloud future/non-authorized while advancing its dependency assertions to the now-shipped local identity semantics;
+- this handoff records exact runtime proof, failures/corrections and the stop boundary.
 
 No runtime application file is changed by the authority seal.
+
+### Authority-seal validation failure and correction
+
+Initial exact seal head:
+
+`3306028fb04f45eba0a7fdb1c2716c3090e0bb5b`
+
+`Validate Static App` run `31813946514`, job `94810992518`, failed in the repository contract suite after JavaScript syntax and dynamic static release architecture had already passed.
+
+The exact failing assertion came from `tests/contracts/cloud-foundation-contracts.cjs`, which still required the old pre-shipment roadmap classifications:
+
+- `Historical profile identity mapping | ACTIVE DEPENDENCY QUESTION`
+- `Identity-safe longitudinal Analytics / Analytics 2.0 | BLOCKED`
+
+Root cause: a second permanent semantic-coherence contract still encoded the pre-PR-#57 dependency state. The roadmap update was correct; the stale contract was not.
+
+Correction:
+
+`f2b9313817822e23f32fa73d4e7b7455c1e59e00`
+
+The correction does not weaken cloud safeguards. It now requires:
+
+- historical mapping `FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED`;
+- cross-Save manager/profile linkage `DONE`;
+- identity-safe longitudinal Analytics `READY / NOT AUTHORIZED`;
+- current Analytics limitation still recorded in `PROJECT_STATE.md`;
+- no automatically authorized next runtime candidate in `NEXT_TASK.md`;
+- Cloud Readiness/Backup still future and non-authorized;
+- network-free Candidate C, storage-backend-agnostic transaction engine and revision/rollback ownership semantics still protected.
+
+The failure and correction are documentation/contract coherence only. No production runtime byte changed and no product guarantee was weakened.
 
 ## Current Analytics boundary
 
@@ -177,6 +213,6 @@ PR #37 / `agent/v13-hardening` and PR #35 / `agent/v1.2-installable-offline-r2` 
 
 ## Next legal action
 
-Validate the exact final head of `agent/manager-identity-authority-seal` across the normal PR workflow families. If that exact head is green, live `main` is still the expected `95e98c...` base, scope remains documentation plus semantic contract only, and there are no review blockers, merge the seal and verify its exact `main` head.
+Validate the exact final head of `agent/manager-identity-authority-seal` across the normal PR workflow families. If that exact head is green, live `main` is still the expected `95e98c...` base, scope remains authority documents plus semantic contracts only, and there are no review blockers, merge the seal and verify its exact `main` head.
 
 Then stop. Do not begin Career Analytics/Trophy Room aggregation, backup portability, profile editing, cloud, accounts, synchronization or another runtime candidate unless a later explicit owner instruction authorizes that separately bounded work.
