@@ -33,11 +33,14 @@ assert.ok(!/Local Profiles\/Save Library remains the next approved structural di
 assert.match(roadmap, /Current milestone — v1\.3\.0 Recovery & Device Resilience Hardening[\s\S]+Local Profiles and Save Library — completed dependency milestone, feature version unassigned[\s\S]+Cloud Readiness[\s\S]+Cloud Backup/i, "Repository roadmap must keep resilience, completed local identity/Save Library, Cloud Readiness and Cloud Backup in semantic dependency order without inventing release version numbers.");
 assert.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must record shipped explicit historical mapping while retaining unresolved identity as a valid state.");
 assert.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must record the production-proven cross-Save manager identity prerequisite.");
-assert.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| READY \/ NOT AUTHORIZED/i, "Roadmap may mark longitudinal Analytics dependency-ready only while keeping runtime implementation separately unauthorized.");
-assert.match(state, /Career-level aggregation is not yet identity-authoritative across all Saves\/history/i, "PROJECT_STATE must record the current Analytics identity limitation.");
+assert.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| AUTHORIZED \/ IN PROGRESS/i, "Roadmap must reflect the owner's narrow Analytics authorization without implying the candidate is already production-proven.");
+assert.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Authorizing local Analytics must not silently authorize Cloud Readiness.");
+assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain blocked behind Cloud Readiness and remote-system prerequisites.");
+assert.match(state, /Career-level aggregation is not yet identity-authoritative across all Saves\/history/i, "PROJECT_STATE must continue to record production Analytics truth until the branch candidate is merged and proven.");
 assert.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must distinguish shipped local manager identity semantics from future cloud identity.");
-assert.match(next, /There is no automatically authorized next substantial runtime\/product implementation candidate/i, "NEXT_TASK must remain the implementation authorization owner after the identity foundation shipped.");
-assert.match(next, /identity-safe longitudinal Career Analytics correction/i, "NEXT_TASK must keep the now-unblocked Analytics correction separately bounded from cloud work.");
+assert.match(next, /Current owner-authorized candidate/i, "NEXT_TASK must record the owner's explicit Analytics authorization.");
+assert.match(next, /identity-safe longitudinal Career Analytics correction/i, "NEXT_TASK must keep the current Analytics correction narrowly bounded from cloud work.");
+assert.match(next, /Do not expand this candidate into cloud storage/i, "The active Analytics task must keep cloud runtime out of scope.");
 
 assert.ok(!/\bfetch\s*\(/.test(restore), "Candidate C restore remains network-free.");
 assert.ok(!/\blocalStorage\b/.test(transaction), "Transaction state machine must remain storage-backend agnostic.");
@@ -45,4 +48,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS future cloud contract acknowledges shipped Save Library and manager identity semantics, preserves unresolved-history honesty plus revision/conflict/tombstone/privacy/security gates, and keeps cloud runtime unauthorized\n");
+process.stdout.write("PASS future cloud contract preserves shipped local identity, unresolved-history honesty and cloud security/revision boundaries while the separately authorized local Career Analytics candidate remains in progress\n");
