@@ -31,10 +31,13 @@ assert.ok(!/Local Profiles\/Save Library must follow before Cloud Readiness/i.te
 assert.ok(!/Local Profiles\/Save Library remains the next approved structural direction after v1\.3/i.test(cloud), "Cloud foundation must not revive the obsolete next-feature description.");
 
 assert.match(roadmap, /Current milestone — v1\.3\.0 Recovery & Device Resilience Hardening[\s\S]+Local Profiles and Save Library — completed dependency milestone, feature version unassigned[\s\S]+Cloud Readiness[\s\S]+Cloud Backup/i, "Repository roadmap must keep resilience, completed local identity/Save Library, Cloud Readiness and Cloud Backup in semantic dependency order without inventing release version numbers.");
-assert.match(roadmap, /Historical profile identity mapping \| ACTIVE DEPENDENCY QUESTION/i, "Roadmap must expose unresolved historical identity as a dependency question rather than unfinished Save Library work.");
-assert.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| BLOCKED/i, "Roadmap must not claim full longitudinal Analytics is ready before identity semantics are resolved.");
+assert.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must record shipped explicit historical mapping while retaining unresolved identity as a valid state.");
+assert.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must record the production-proven cross-Save manager identity prerequisite.");
+assert.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| READY \/ NOT AUTHORIZED/i, "Roadmap may mark longitudinal Analytics dependency-ready only while keeping runtime implementation separately unauthorized.");
 assert.match(state, /Career-level aggregation is not yet identity-authoritative across all Saves\/history/i, "PROJECT_STATE must record the current Analytics identity limitation.");
-assert.match(next, /There is still no automatically authorized next substantial runtime\/product implementation candidate/i, "NEXT_TASK must remain the implementation authorization owner after the audit.");
+assert.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must distinguish shipped local manager identity semantics from future cloud identity.");
+assert.match(next, /There is no automatically authorized next substantial runtime\/product implementation candidate/i, "NEXT_TASK must remain the implementation authorization owner after the identity foundation shipped.");
+assert.match(next, /identity-safe longitudinal Career Analytics correction/i, "NEXT_TASK must keep the now-unblocked Analytics correction separately bounded from cloud work.");
 
 assert.ok(!/\bfetch\s*\(/.test(restore), "Candidate C restore remains network-free.");
 assert.ok(!/\blocalStorage\b/.test(transaction), "Transaction state machine must remain storage-backend agnostic.");
@@ -42,4 +45,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS future cloud contract acknowledges shipped Save Library, preserves identity/revision/conflict/tombstone/privacy/security gates and rejects stale current-facing dependency narration\n");
+process.stdout.write("PASS future cloud contract acknowledges shipped Save Library and manager identity semantics, preserves unresolved-history honesty plus revision/conflict/tombstone/privacy/security gates, and keeps cloud runtime unauthorized\n");
