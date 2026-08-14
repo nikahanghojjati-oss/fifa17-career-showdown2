@@ -36,6 +36,10 @@ Active branch:
 
 `agent/identity-analytics-roadmap-audit`
 
+Draft PR:
+
+PR #56 — `Audit identity, Analytics and roadmap authority`
+
 Open historical drafts independently checked:
 
 - PR #37 / `agent/v13-hardening` remains open, draft, unmerged and based on obsolete state;
@@ -103,7 +107,7 @@ Current `js/analytics.js` aggregates career managers through `analyticsNormalize
 
 Therefore two distinct authoritative `profile_*` identities with the same visible label collapse into one career Analytics row. The same merged manager rows feed career records and Trophy Room cabinets/leaderboards.
 
-The existing Statistics fixture protects two distinct labels (`Alex`, `Jordan`) but calls them "stable manager identities" even though the fixture contains no profile IDs. That wording is stale and does not prove identity-safe longitudinal aggregation.
+The pre-audit Statistics fixture protected two distinct labels (`Alex`, `Jordan`) while calling them "stable manager identities" despite containing no profile IDs. This branch corrects that narration so the test accurately describes current label-grouped behavior without falsely claiming identity proof.
 
 ## Identity matrix for Analytics inputs
 
@@ -172,17 +176,19 @@ Candidate C preparation preserves non-active Saves that already exist in the des
 
 Therefore same-device restore compatibility is proven, but a full fresh-device multi-Save library round trip is not currently the same guarantee. Backup/import envelope evolution remains a separate future candidate and is not authorized by this audit.
 
-## Documentation/handoff drift found
+## Documentation/handoff drift found and corrected on this branch
 
-`CLOUD_STORAGE_FOUNDATION.md` still contains current-facing prose saying Local Profiles / Save Library must follow v1.3 and remain the next structural direction, despite those layers already being shipped.
+`CLOUD_STORAGE_FOUNDATION.md` contained current-facing prose saying Local Profiles / Save Library must follow v1.3 and remain the next structural direction, despite those layers already being shipped.
 
-Recent authority-reconciliation commits updated roadmap/contracts but did not remove all stale current-facing cloud prose. Existing regex contracts can pass while that contradiction remains.
+Recent authority-reconciliation commits had updated roadmap/contracts but did not remove all stale current-facing cloud prose. Existing coherence regex could pass while that contradiction remained.
 
-This is the concrete reason to strengthen authority ownership/coherence rather than add another large disconnected handoff.
+This branch corrects the cloud narration, defines explicit authority ownership across current state/task/roadmap/handoff/history, and strengthens deterministic coherence checks so the same shipped-as-future contradiction is rejected.
+
+No new machine-readable authority manifest was added because that would create another authority source without sufficient benefit.
 
 ## Current decision
 
-No Analytics runtime behavior will be changed on this audit branch.
+No Analytics runtime behavior is changed on this audit branch.
 
 A direct profile-ID key swap is not sufficiently correct because cross-Save real-manager identity is not yet established. Historical ambiguous records must remain unresolved rather than guessed.
 
@@ -192,20 +198,38 @@ This branch is limited to:
 2. making authority ownership clearer so one current fact has one primary owner;
 3. correcting stale cloud dependency prose;
 4. strengthening existing deterministic coherence checks against this specific drift class;
-5. correcting misleading test narration where it claims label fixtures prove stable identity.
+5. correcting misleading test narration where it claimed label fixtures proved stable identity.
 
-No gameplay, persistence, Save Library runtime, recovery, PWA, scoring, visual, performance or release-version behavior is being changed.
+No gameplay, persistence, Save Library runtime, recovery, PWA, scoring, visual, performance or release-version behavior is changed.
 
 ## Validation / publication state
 
-Local clone execution is unavailable in this session because the execution container could not resolve GitHub hosts. No product inference was made from that environment limitation. Repository reads/writes use the authenticated GitHub connector.
+Local clone execution was unavailable in this session because the execution container could not resolve GitHub hosts. No product inference was made from that environment limitation. Repository reads/writes and Actions proof use the authenticated GitHub connector.
 
-Candidate head: pending documentation/contract edits.
-Draft PR: pending.
-CI: pending exact candidate head.
-Merge: not authorized until exact candidate evidence is reviewed.
-Production proof: unchanged from the shipped PR #53 / v1.3 baseline because this branch currently changes no runtime bytes.
+Exact substantive candidate head validated:
+
+`5ac72b6235bb4b467105c825e911fe6ca948de6a`
+
+Draft PR:
+
+PR #56 — `Audit identity, Analytics and roadmap authority`
+
+Exact-head normal PR validation on `5ac72b6235bb4b467105c825e911fe6ca948de6a`:
+
+- all 13 normal PR workflow families succeeded;
+- Statistics Workstream succeeded;
+- Static App succeeded;
+- Stability Lane succeeded, including its Chromium integration journey;
+- Candidate B Import Analysis succeeded;
+- Candidate C Atomic Restore succeeded, including browser restore/recovery audit;
+- Home, League Confirmation, Season Review, Transfer, Settings, Final Polish, V1 Visual Immersion and Licensed Football Visuals all succeeded.
+
+An earlier candidate head `05779624a378eb74b049553ac83acb5e40e7f06c` produced two CI failures, Static App and Stability, at the shared contract-suite stage. Root cause was a newly added cloud-coherence assertion that required punctuation more literally than the corrected prose. All preceding product/runtime contracts were green. Commit `5ac72b6235bb4b467105c825e911fe6ca948de6a` relaxed only that punctuation-sensitive regex while preserving the semantic requirement, after which all 13 normal PR families passed.
+
+Merge: not performed. PR #56 remains draft. No product identity/Analytics runtime candidate is authorized by this audit closure.
+
+Production proof: unchanged from shipped PR #53 / v1.3 baseline because this branch changes no runtime/application bytes.
 
 ## Clean stop condition
 
-Finish the bounded authority/roadmap/coherence repair, obtain exact-head CI evidence, update this handoff with the candidate SHA/PR/result, and stop before implementing a product identity or Analytics behavior change unless that next candidate has explicit owner/dependency authority.
+This bounded authority/roadmap/coherence audit is complete when this handoff seal itself passes final branch-head CI. Stop before implementing cross-Save/historical identity linkage or any Analytics runtime correction unless a later explicit owner/dependency decision authorizes that product candidate.
