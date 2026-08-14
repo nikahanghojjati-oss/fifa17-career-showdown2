@@ -125,11 +125,11 @@ assert.strictEqual(career.totals.showdowns, 2, 'Career totals must count complet
 assert.strictEqual(career.totals.seasons, 3, 'Career totals must count showdown seasons once, not once per manager.');
 assert.strictEqual(career.totals.points, 27, 'Career points total must equal both managers final showdown points.');
 assert.strictEqual(career.totals.trophies, 7, 'Career trophy total must include league, domestic-cup and Champions League wins.');
-assert.strictEqual(career.managers.length, 2, 'Two stable manager identities should produce two career rows.');
+assert.strictEqual(career.managers.length, 2, 'Two distinct manager labels should produce two current career rows. This fixture does not prove stable profile identity semantics.');
 
 const alex = career.managers.find(manager => manager.name === 'Alex');
 const jordan = career.managers.find(manager => manager.name === 'Jordan');
-assert.ok(alex && jordan, 'Both managers must exist in Career Statistics.');
+assert.ok(alex && jordan, 'Both manager labels must exist in Career Statistics.');
 assert.strictEqual(alex.showdowns, 2, 'Alex showdown count is incorrect.');
 assert.strictEqual(jordan.showdowns, 2, 'Jordan showdown count is incorrect.');
 assert.strictEqual(alex.showdownWins, 1, 'Alex showdown-win count is incorrect.');
@@ -147,10 +147,10 @@ assert.strictEqual(career.records.highestSeasonScore.value, 6, 'Highest season-s
 assert.strictEqual(career.managers[0].name, 'Alex', 'Career table tie-break should keep the manager with more trophies first.');
 
 const rivalry = api.buildRivalryAnalytics(history[0]);
-assert.strictEqual(rivalry.playerOne.name, 'Alex', 'Rivalry manager identity changed.');
+assert.strictEqual(rivalry.playerOne.name, 'Alex', 'Rivalry manager label changed.');
 assert.strictEqual(rivalry.playerOne.totalPoints, 6, 'Rivalry points are incorrect.');
 assert.strictEqual(rivalry.playerTwo.totalPoints, 5, 'Rivalry points are incorrect.');
 assert.strictEqual(rivalry.seasonRows.length, 1, 'Rivalry season progression is incorrect.');
 assert.strictEqual(rivalry.seasonRows[0].winner, 'playerOne', 'Rivalry season winner is incorrect.');
 
-console.log('Career totals, manager records, trophy accumulation, transfer totals, and Rivalry Statistics fixtures passed.');
+console.log('Career totals, current label-grouped manager records, trophy accumulation, transfer totals, and Rivalry Statistics fixtures passed.');

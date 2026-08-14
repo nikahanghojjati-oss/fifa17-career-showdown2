@@ -1,41 +1,50 @@
 # Career Mode Showdown — Cloud Storage Foundation Contract
 
-Last updated: 2026-08-13 ET
+Last updated: 2026-08-14 ET
 Status: future architecture contract only; no cloud runtime is authorized by this document
-Current dependency boundary: v1.3.0 Recovery & Device Resilience Hardening is current. Local Profiles/Save Library must follow before Cloud Readiness and opt-in Cloud Backup; later version numbers remain pending revalidation after v1.3.
+Current dependency boundary: v1.3.0 Recovery & Device Resilience Hardening is closed and Local Profiles/Save Library is a completed production dependency milestone. Cloud Readiness and opt-in Cloud Backup remain future, separately authorized outcomes; historical later version numbers remain planning references only.
 
 ## 1. Purpose and hard boundary
 
-This document defines the minimum identity, revision, conflict, deletion, privacy and security semantics that future cloud work must satisfy. It does not authorize a backend, account system, network write path or cloud UI during v1.3 hardening.
+This document defines the minimum identity, revision, conflict, deletion, privacy and security semantics that future cloud work must satisfy. It does not authorize a backend, account system, network write path or cloud UI in the current local-first product.
 
-The present application remains local-first. `js/storage.js` remains sole canonical browser-persistence authority. A future sync engine may observe and propose validated state transitions, but it must not mutate the current canonical model by bypassing the same transaction/revalidation boundary used by local recovery.
+The present application remains local-first. `js/storage.js` remains sole public raw browser-persistence authority. `js/storageTransaction.js` remains raw transaction authority and `js/saveLibraryRuntime.js` remains current Save Library product mutation authority. A future sync engine may observe and propose validated state transitions, but it must not mutate canonical state by bypassing the same transaction/revalidation boundary used by local recovery.
 
-Cloud implementation remains dependency-blocked behind the approved semantic order: recovery → offline/PWA → resilience hardening → stable local profiles/save registry → Cloud Readiness → opt-in Cloud Backup.
+Cloud implementation remains dependency-ordered behind the already completed local chain:
 
-Historical roadmap versions such as v1.8 Cloud Readiness and v1.9 Cloud Backup are planning references only. The current execution guide explicitly requires those later numeric labels to be revalidated after v1.3 rather than silently restoring the old numbering.
+v1.3.0 Recovery & Device Resilience Hardening
+→ Local Profiles/Save Library
+→ Cloud Readiness
+→ opt-in Cloud Backup.
+
+The first two dependencies above are already shipped. Their presence in this chain describes prerequisite order, not unfinished work.
+
+Historical roadmap versions such as v1.8 Cloud Readiness and v1.9 Cloud Backup are planning references only. No later release version is assigned by this document.
 
 ## 2. Identity model
 
-Future synchronization must separate identities that have different lifetimes. Never overload one identifier to mean all of them.
+Future synchronization must separate identities with different lifetimes. Never overload one identifier to mean all of them.
 
 Required concepts:
 
 - `accountId`: remote authenticated principal. Not required for local-only use.
-- `profileId`: stable local/remote manager-profile namespace introduced by the future local profile milestone.
-- `saveId`: stable identity of one rivalry/save. Existing Showdown identity must be migrated deliberately rather than silently regenerated.
-- `deviceId`: revocable identifier for a registered device in remote account state. It must not be used as a secret.
-- `installationId`: local installation/session lineage used for diagnostics/sync attribution where appropriate. It is not an account credential.
-- `objectType`: the synchronization domain, such as save metadata, active rivalry state, Legacy record, preferences or future challenge/content state.
+- `profileId`: stable Local Profile identity already present in the shipped Save Library. A profile ID is authoritative for that profile record but does not by itself prove that different profiles across different Saves represent the same real person.
+- `saveId`: stable identity of one rivalry/Save.
+- `deviceId`: revocable identifier for a registered remote device. It is metadata, not a secret.
+- `installationId`: installation/session lineage for diagnostics or sync attribution where appropriate. It is not an account credential.
+- `objectType`: synchronization domain, such as Save metadata, active rivalry state, Legacy record, preferences or future content state.
 - `objectId`: stable identity within an object type.
 
 Identity rules:
 
 1. identity is independent of filenames, display names, timestamps and cache revisions;
-2. renaming a Showdown does not create a new save identity;
-3. a server must authorize every object operation against the authenticated account/profile namespace;
-4. client-provided account ownership fields are never trusted as authorization proof;
-5. identifiers should be unguessable where exposure creates enumeration risk, but unpredictability never replaces access control;
-6. device and installation identifiers are metadata, not authentication tokens.
+2. display-name equality never establishes profile or account identity;
+3. renaming a Showdown does not create a new save identity;
+4. a server must authorize every object operation against the authenticated account/profile namespace;
+5. client-provided account ownership fields are never trusted as authorization proof;
+6. identifiers should be unguessable where exposure creates enumeration risk, but unpredictability never replaces access control;
+7. device and installation identifiers are metadata, not authentication tokens;
+8. unresolved historical Local Profile relationships must remain unresolved until an explicit identity policy/mapping proves them.
 
 ## 3. Revision model
 
@@ -60,13 +69,13 @@ Rules:
 6. content hashes detect content identity/corruption but do not authenticate the writer;
 7. local transaction preconditions must be rechecked immediately before committing downloaded or merged state.
 
-Candidate C's confirmed-intent, exact raw precondition and rollback-ownership model is a permanent local prerequisite for this future revision contract. v1.3 may harden those guarantees but must not introduce cloud persistence.
+Candidate C's confirmed-intent, exact raw precondition and rollback-ownership model remains a permanent local prerequisite for this future revision contract.
 
 ## 4. Conflict model
 
 A conflict exists when two valid descendants diverge from the same accepted base or when a client attempts to replace a revision it no longer owns.
 
-Required conflict record should preserve:
+Required conflict records should preserve:
 
 - object identity;
 - common/base revision when known;
@@ -84,12 +93,12 @@ Rules:
 3. deterministic automatic merge is allowed only for a domain with a proven associative/idempotent merge contract and permanent tests;
 4. Legacy/history merging must preserve stable IDs and surface same-ID/different-content conflicts;
 5. preferences may eventually use field-level merge only if each preference has independent semantics and no destructive coupling;
-6. a conflict resolution is itself a new revision derived from explicit known heads;
+6. conflict resolution is itself a new revision derived from explicit known heads;
 7. unresolved conflicts cannot be hidden by a later unrelated sync.
 
 ## 5. Tombstones and deletion
 
-Remote deletion must be represented explicitly. Removing a row/object without a durable deletion revision permits stale clients to resurrect it.
+Remote deletion must be represented explicitly. Removing an object without a durable deletion revision permits stale clients to resurrect it.
 
 A tombstone needs at minimum:
 
@@ -107,9 +116,9 @@ Rules:
 2. deletion participates in compare-and-swap exactly like a normal revision;
 3. offline clients must receive tombstones before they may upload an older live revision;
 4. tombstones are not physically purged merely because time elapsed on one client;
-5. compaction requires a server policy proving stale-device resurrection risk is acceptably closed, for example retention plus a known-device/revision floor;
+5. compaction requires a server policy proving stale-device resurrection risk is acceptably closed;
 6. restore-from-trash, if later offered, creates a new live revision descended from the tombstone rather than erasing deletion history;
-7. account-wide deletion/privacy erasure policy may require stronger irreversible deletion than ordinary sync tombstones and must be handled separately.
+7. account-wide privacy deletion may require stronger irreversible deletion than ordinary sync tombstones and must be handled separately.
 
 ## 6. Local transaction boundary for future sync
 
@@ -141,7 +150,7 @@ Minimum privacy rules:
 
 - collect only data required to provide the requested synchronization/account feature;
 - local-only use remains possible unless a later owner-approved milestone explicitly changes that rule;
-- no public profile, ranking, rivalry feed or discoverability is implied by cloud backup;
+- no public profile, ranking, rivalry feed or discoverability is implied by Cloud Backup;
 - clearly separate private backup data from any future intentionally shared data;
 - provide understandable export and deletion paths for remote user data;
 - document retention for backups, tombstones, audit/security logs and deleted accounts;
@@ -152,7 +161,7 @@ Minimum privacy rules:
 
 ## 8. Security contract
 
-The browser backup SHA-256 checksum is an integrity mechanism only. It is not authentication, signing, encryption or authorization.
+The browser backup SHA-256 checksum is an integrity mechanism, not authentication, signing, encryption or authorization.
 
 Future remote implementation must provide:
 
@@ -167,7 +176,7 @@ Future remote implementation must provide:
 - replay/idempotency protection for state-changing requests;
 - rate limiting and abuse controls on authentication, upload and pairing endpoints;
 - size/schema limits before parsing/storing remote payloads;
-- encryption at rest for hosted user data using provider/platform controls appropriate to the backend;
+- encryption at rest using provider/platform controls appropriate to the backend;
 - secret rotation and no secrets committed to the static GitHub Pages repository;
 - auditability of security-sensitive account/device/delete operations without logging backup contents unnecessarily.
 
@@ -179,7 +188,7 @@ Before any future Cloud Backup beta, tests/review must cover at least:
 
 - stale client attempts to overwrite a newer revision;
 - two devices editing from one base simultaneously;
-- stale client attempting to resurrect a tombstoned save;
+- stale client attempting to resurrect a tombstoned Save;
 - duplicate/replayed upload request;
 - interrupted upload/download;
 - corrupted remote payload;
@@ -198,25 +207,32 @@ Before any future Cloud Backup beta, tests/review must cover at least:
 
 Cloud Readiness may eventually build repository abstractions, stable sync-ready records and mocked async boundaries, but it must not require a production cloud account to use the app.
 
-Opt-in Cloud Backup cannot start until all of the following are true:
+The following current prerequisites are already satisfied and must remain protected:
 
 1. Data Safety and Recovery is proven and permanent;
 2. Installable Offline App behavior has a proven update/recovery strategy;
 3. v1.3 Recovery & Device Resilience Hardening is closed;
-4. stable Local Profiles/Save Library identity and migration are proven in a later milestone;
+4. stable Local Profiles/Save Library identity and migration are production-proven.
+
+Opt-in Cloud Backup still cannot start until all remaining future gates are satisfied:
+
 5. a server/provider, cost and operational ownership decision is documented;
 6. account/privacy/data-retention policy is documented;
 7. revision/conflict/tombstone semantics from this contract are implemented in a mocked deterministic model first;
 8. authentication/authorization threat model is reviewed;
 9. rollback/export escape hatches remain available;
 10. production secrets are excluded from GitHub Pages/static source;
-11. a rollback/disable plan exists for the cloud feature itself.
+11. a rollback/disable plan exists for the cloud feature itself;
+12. remote identity semantics do not silently guess unresolved local/historical manager relationships;
+13. two-device simulation proves stale writes, conflicts, deletion and recovery behavior before production sync.
+
+Cloud Readiness and Cloud Backup remain separate. Completing local identity did not authorize either one.
 
 ## 11. Non-negotiable anti-shortcuts
 
 A future developer must not:
 
-- add Firebase/Supabase/another backend merely because it is easy to connect;
+- add Firebase, Supabase or another backend merely because it is easy to connect;
 - treat `updatedAt` as revision authority;
 - silently resolve divergent gameplay state with last-write-wins;
 - physically delete remote state without anti-resurrection semantics;
@@ -225,10 +241,20 @@ A future developer must not:
 - call localStorage from a sync module;
 - weaken Candidate C transaction verification for remote convenience;
 - present SHA-256 backup integrity as encryption or authentication;
-- make cloud mandatory before an explicit owner-approved product decision.
+- make cloud mandatory before an explicit owner-approved product decision;
+- reinterpret distinct or unresolved Local Profiles by matching display names.
 
-## 12. Relationship to the current release
+## 12. Relationship to current production
 
-v1.3.0 is Recovery & Device Resilience Hardening only. It may strengthen local confirmed-intent snapshots, exact byte preconditions, rollback ownership, Service Worker recovery, lifecycle safety and test authority because those are necessary foundations for later local identity and eventual revision-safe synchronization.
+v1.3.0 — Recovery & Device Resilience Hardening remains the current application/whole-shell milestone and `1.3.0-r1` remains the current Installable Offline App runtime label.
 
-It must not add Local Profiles/Save Library, accounts, cloud runtime, cloud backup, QR pairing or two-device state transport. Local Profiles/Save Library remains the next approved structural direction after v1.3 but has no current version assignment. Cloud Readiness and opt-in Cloud Backup remain later dependency-ordered outcomes.
+Local Profiles/Save Library subsequently shipped as a completed dependency milestone without assigning a new application or Service Worker release number. It is no longer future work and no longer "the next structural direction."
+
+Current production therefore preserves the dependency history:
+
+v1.3.0 Recovery & Device Resilience Hardening
+→ Local Profiles/Save Library
+→ Cloud Readiness
+→ opt-in Cloud Backup.
+
+Only the first two are implemented. Cloud Readiness, Cloud Backup, accounts, authentication, pairing, synchronization and remote transport remain future/not authorized unless a later explicit owner decision and `NEXT_TASK.md` establish a bounded candidate.

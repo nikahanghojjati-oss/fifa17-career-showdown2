@@ -22,11 +22,13 @@ A.ok(fs.existsSync(handoffPath), `${handoffPath} must exist for the active runti
 const release = read(releasePath);
 const handoff = read(handoffPath);
 const start = read("00_DEVELOPER_START_HERE.md");
+const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const next = read("NEXT_TASK.md");
 const readme = read("README.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const changelog = read("CHANGELOG.md");
+const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
 const candidate = /Status:\s*RELEASE CANDIDATE/i.test(release);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
 
@@ -116,13 +118,26 @@ A.ok(readme.includes("careerModeShowdown.saveLibrary"), "README must describe po
 A.ok(/multiple local Showdown Saves|multi-save/i.test(readme), "README must describe the shipped multi-save product model.");
 A.ok(!/one local browser\/device and one active Showdown/i.test(readme), "README must not revive the retired singleton-only product description.");
 
-const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
 for(const term of ["accountId", "profileId", "saveId", "deviceId", "installationId", "baseRevision", "tombstone", "compare-and-swap"]){
     A.ok(cloud.includes(term), `Cloud foundation lost future contract term: ${term}`);
 }
 A.match(cloud, /future architecture contract only/i, "Cloud foundation must remain non-runtime architecture at this milestone.");
 A.match(cloud, /No future cloud module may call localStorage directly/i, "Future sync must remain behind canonical storage authority.");
 A.match(cloud, /v1\.3\.0 Recovery & Device Resilience Hardening[\s\S]+Local Profiles\/Save Library[\s\S]+Cloud Readiness[\s\S]+opt-in Cloud Backup/i, "Cloud foundation must preserve semantic dependency order after v1.3 resequencing.");
+A.match(cloud, /Local Profiles\/Save Library is a completed production dependency milestone/i, "Cloud foundation must acknowledge the shipped Save Library dependency rather than narrating it as pending.");
+A.ok(!/Local Profiles\/Save Library must follow before Cloud Readiness/i.test(cloud), "Cloud foundation contains stale current-facing pending-Save-Library authority.");
+A.ok(!/Local Profiles\/Save Library remains the next approved structural direction after v1\.3/i.test(cloud), "Cloud foundation contains stale next-feature narration.");
+
+A.match(start, /PROJECT_STATE\.md[^\n]+primary owner of current deployed product/i, "Developer bootstrap must identify PROJECT_STATE as the current-state owner.");
+A.match(start, /NEXT_TASK\.md[^\n]+sole primary owner of the current implementation authorization boundary/i, "Developer bootstrap must identify NEXT_TASK as implementation authority.");
+A.match(start, /POST_V1_ROADMAP_EXECUTION\.md[^\n]+dependency direction and current roadmap classification/i, "Developer bootstrap must keep roadmap ownership distinct from implementation authorization.");
+A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail rather than another full project-state owner.");
+A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current handoff must preserve the source-grounded Analytics identity dependency finding.");
+A.match(state, /Career-level aggregation is not yet identity-authoritative across all Saves\/history/i, "PROJECT_STATE must own the current Analytics identity limitation.");
+A.match(next, /Smallest high-value future product candidate/i, "NEXT_TASK must record the bounded future candidate without auto-authorizing it.");
+A.match(next, /not automatically authorized for runtime implementation/i, "NEXT_TASK must distinguish candidate identification from implementation permission.");
+A.match(roadmap, /Historical profile identity mapping \| ACTIVE DEPENDENCY QUESTION/i, "Roadmap must classify unresolved historical identity explicitly.");
+A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| BLOCKED/i, "Roadmap must not claim full identity-safe longitudinal Analytics is ready.");
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost current handoff/task authority.");
 A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "NEXT_TASK lost permanent validation topology counts.");
@@ -132,4 +147,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; publication truth, recovery ownership, shipped Save Library boundary, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; publication truth, authority ownership, recovery ownership, shipped Save Library boundary, identity/Analytics dependency, cloud boundary and workflow topology agree.\n`);
