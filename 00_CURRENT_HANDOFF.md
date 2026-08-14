@@ -161,7 +161,7 @@ The intended seal scope is current authority plus semantic contracts only:
 
 No runtime application file is changed by the authority seal.
 
-### Authority-seal validation failure and correction
+### Authority-seal validation failure 1 and correction
 
 Initial exact seal head:
 
@@ -180,17 +180,27 @@ Correction:
 
 `f2b9313817822e23f32fa73d4e7b7455c1e59e00`
 
-The correction does not weaken cloud safeguards. It now requires:
+The correction does not weaken cloud safeguards. It now requires shipped historical/cross-Save identity semantics, keeps unresolved history valid, keeps Analytics READY / NOT AUTHORIZED, and preserves cloud/network/storage/transaction boundaries.
 
-- historical mapping `FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED`;
-- cross-Save manager/profile linkage `DONE`;
-- identity-safe longitudinal Analytics `READY / NOT AUTHORIZED`;
-- current Analytics limitation still recorded in `PROJECT_STATE.md`;
-- no automatically authorized next runtime candidate in `NEXT_TASK.md`;
-- Cloud Readiness/Backup still future and non-authorized;
-- network-free Candidate C, storage-backend-agnostic transaction engine and revision/rollback ownership semantics still protected.
+### Authority-seal validation failure 2 and correction
 
-The failure and correction are documentation/contract coherence only. No production runtime byte changed and no product guarantee was weakened.
+Exact revalidation head after recording failure 1:
+
+`d1adbef1d06705af0b5d9bd3d9d1fbd27fd5a203`
+
+`Validate Static App` run `31814077123`, job `94811423520`, again passed JavaScript syntax and dynamic static release architecture, then reached the updated cloud contract successfully. It subsequently failed `tests/contracts/release-authority-coherence.cjs` on the protected roadmap dependency-order assertion:
+
+resilience → completed Local Profiles / Save Library → Cloud Readiness → Cloud Backup.
+
+Root cause: section 5 had been retitled from the canonical marker `Local Profiles and Save Library — completed dependency milestone, feature version unassigned` to a longer heading containing explicit manager identity. The contract therefore found the canonical Local Profiles/Save Library marker only later inside the cloud section, after the first `Cloud Readiness` occurrence, and correctly rejected the apparent order.
+
+Correction:
+
+`b9f79a5c032628fe3e6f395b4fa6d4168e437fc3`
+
+The section-5 canonical heading was restored exactly, while its body still records the explicit manager identity extension as completed. The dependency-order contract itself was not weakened.
+
+Both authority-seal failures were documentation/semantic-contract coherence failures only. No production runtime byte changed and no product guarantee, timeout or performance ceiling was weakened.
 
 ## Current Analytics boundary
 
