@@ -3,7 +3,10 @@ const fs = require("node:fs");
 
 const read = file => fs.readFileSync(file, "utf8");
 const golden = read("00_HANDOFF_GOLDEN_RULE.md");
+const start = read("00_DEVELOPER_START_HERE.md");
+const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
+const next = read("NEXT_TASK.md");
 
 assert.match(
   golden,
@@ -36,52 +39,69 @@ assert.match(
   "Immediate-next-task handoff behavior must remain recursive across future developer sessions."
 );
 
-const immediateIndex = active.indexOf("IMMEDIATE NEXT TASK AFTER FULL STUDY");
-const authorizationIndex = active.indexOf("## Owner authorization");
-assert.ok(immediateIndex >= 0, "Active Analytics handoff must expose the mandatory immediate-next-task section.");
-assert.ok(
-  authorizationIndex < 0 || immediateIndex < authorizationIndex,
-  "The immediate task must be prominent near the top of the active handoff rather than buried after historical context."
+for(const [name,text] of [
+  ["00_DEVELOPER_START_HERE.md", start],
+  ["00_CURRENT_HANDOFF.md", current],
+  ["IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md", active],
+  ["NEXT_TASK.md", next]
+]){
+  assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,`${name} must expose the mandatory immediate-next-task boundary after the Analytics promotion.`);
+}
+
+assert.match(
+  active,
+  /FIRST ENGINEERING TASK: preserve the sealed production boundary/i,
+  "Closed Analytics handoff must advance its first engineering task from PR validation to preserving the proven production boundary."
 );
 assert.match(
   active,
-  /FIRST ENGINEERING TASK: validate PR #59 exact head/i,
-  "Active Analytics handoff must advance its first engineering task to exact-head PR validation after the completed source review."
+  /PR #59 is no longer an implementation task[\s\S]+production-proven/i,
+  "Closed Analytics handoff must distinguish completed production work from future implementation authorization."
 );
 assert.match(
   active,
-  /source\/test review has already been completed[\s\S]+no demonstrated runtime defect/i,
-  "Active Analytics handoff must make clear that the completed source review should not be repeated as the current task."
+  /Failure 7[\s\S]+transient\/offscreen rendered-text assertion issue/i,
+  "Closed Analytics handoff must retain the final Trophy Room failure classification rather than erasing the validation history."
 );
 assert.match(
   active,
-  /One exact PR #59 head with all normal pull-request workflow families green/i,
-  "Active Analytics handoff must define the exact-head validation success condition."
+  /a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1[\s\S]+All 13 normal pull-request workflow families passed/i,
+  "Closed Analytics handoff must retain exact-head PR proof."
 );
 assert.match(
   active,
-  /promotion gate/i,
-  "Active Analytics handoff must state the promotion gate rather than leaving merge behavior implicit."
+  /c5c7d50cc3a2d9003e057d1813744c877323c068[\s\S]+deployed-site-smoke job `94855938131`/i,
+  "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 assert.match(
-  active,
-  /production and deployed Pages proof/i,
-  "Active Analytics handoff must state the required production proof step."
+  current,
+  /PR #57[\s\S]+PR #58[\s\S]+PR #59/i,
+  "Current rolling handoff must preserve prior manager-identity authority history while folding in Analytics promotion."
 );
 assert.match(
-  active,
-  /smallest production authority seal, then stop/i,
-  "Active Analytics handoff must state the post-production authority seal and stop boundary."
+  current,
+  /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i,
+  "Current rolling handoff must preserve the exact final Analytics failure class."
 );
 assert.match(
-  active,
-  /Do not begin backup-envelope portability redesign[\s\S]+Cloud Readiness runtime implementation/i,
-  "Active Analytics handoff must keep unrelated future roadmap work explicitly out of scope."
+  next,
+  /No new substantial runtime product candidate is authorized/i,
+  "NEXT_TASK must close the Analytics authorization instead of silently choosing the next roadmap feature."
 );
 assert.match(
-  active,
-  /PR #59 remains draft[\s\S]+Validation is not yet claimed green/i,
-  "Active Analytics handoff must distinguish an open draft PR from validated or production-proven state."
+  next,
+  /if no newer authorization exists[\s\S]+make no runtime mutation/i,
+  "NEXT_TASK must give a concrete executable stop behavior when no newer owner authorization exists."
+);
+assert.match(
+  start,
+  /identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,
+  "Developer bootstrap must include PR #59 in the completed dependency chain."
+);
+assert.match(
+  start,
+  /No new substantial runtime candidate is currently authorized/i,
+  "Developer bootstrap must expose the current clean stop boundary."
 );
 
-console.log("Handoff immediate-next-task contracts passed: permanent policy remains recursive, and the active Analytics handoff now points a fresh developer from bootstrap directly to PR #59 exact-head validation, promotion, production proof and the stop boundary.");
+console.log("Handoff immediate-next-task contracts passed: the recursive policy remains permanent, PR #59 production proof and failure history are retained, and fresh developers are directed to preserve the sealed boundary until a later explicit owner authorization exists.");
