@@ -65,7 +65,7 @@ Candidate name: Save Library Core UI.
 
 Final integration boundary for this PR:
 
-- the existing Home Settings tile remains the one-click entry point;
+- the existing Home Settings tile remains the one-click entry point but is visibly relabeled `SAVE LIBRARY` / `LOCAL` with metadata explaining that local Showdowns, manager profiles and settings live there;
 - opening it still crosses the existing non-mutating local-data preparation boundary;
 - a dedicated FIFA 17-styled `SAVE LIBRARY` product panel is mounted first inside the already lazy Settings overlay;
 - application Settings remain available below it;
@@ -84,6 +84,7 @@ Included:
 - explicit UI explanation that equal manager display names do not merge identity;
 - Local Profiles retained after single-Save deletion rather than implicitly garbage-collected;
 - keyboard/touch controls and responsive Chromebook/mobile containment;
+- focus remains inside the Settings dialog after Save Library mutation rerenders so existing Escape/Tab ownership remains intact;
 - fail-closed visible state when Save Library authority cannot be established;
 - old singleton compatibility state that remains non-mutating until confirmed Continue/Start;
 - no direct `localStorage` access from `js/saveLibraryUI.js`;
@@ -117,11 +118,11 @@ Profile editing is deferred because current Showdown records also contain manage
 - all product mutations continue to fail closed on exact-byte drift, singleton reappearance, critical-recovery lock or transaction failure;
 - product operations never recreate `careerModeShowdown.activeShowdown` after cutover.
 
-`js/showdown.js` no longer presents the retired destructive "replace the active save" confirmation. Confirmed Start still passes through the same lazy activation/cutover gate before additive creation.
+`js/showdown.js` no longer presents the retired destructive "replace the active save" confirmation. Confirmed Start still passes through the same lazy activation/cutover gate before additive creation. The existing Home `#settingsButton` is relabeled at initialization as `LOCAL / SAVE LIBRARY` without creating a second navigation owner.
 
-`js/saveLibraryUI.js` and `css/saveLibrary.css` are entirely lazy. The UI classifies state using the established exact raw read boundary and delegates every mutation to Save Library runtime APIs.
+`js/saveLibraryUI.js` and `css/saveLibrary.css` are entirely lazy. The UI classifies state using the established exact raw read boundary and delegates every mutation to Save Library runtime APIs. After a switch or deletion rerenders the product panel, `saveLibraryUIRestoreMutationFocus()` places focus on a surviving/new primary Save Library control inside `#settingsDialog` (falling back to the dialog itself), preserving the pre-existing Settings modal's Escape/Tab handling.
 
-`js/saveLibraryCutover.js` now mounts the lazy Save Library product after opening Settings. If local Save Library authority cannot be prepared, Settings still opens and the product panel is explicitly blocked/read-only rather than hiding the failure or lying that persistence is healthy.
+`js/saveLibraryCutover.js` mounts the lazy Save Library product after opening Settings. If local Save Library authority cannot be prepared, Settings still opens and the product panel is explicitly blocked/read-only rather than hiding the failure or lying that persistence is healthy.
 
 ## Permanent evidence added/updated
 
@@ -129,6 +130,7 @@ Profile editing is deferred because current Showdown records also contain manage
 
 - no raw storage access from visible UI;
 - lazy product loading;
+- visible Home Save Library discoverability without a new navigation system;
 - exact read-state classification;
 - additive create retaining saves/profiles;
 - detached UI snapshots;
@@ -156,6 +158,8 @@ The new contract is wired into `tests/support/run-contract-suite.cjs`.
 - non-active deletion without active ownership change;
 - active deletion leaving no implicit replacement;
 - profile retention after deletion;
+- focus remains inside the Settings dialog after mouse switch, non-active deletion, active deletion and keyboard switch rerenders;
+- Escape after switch continues to close the overlay through the existing Settings key handler;
 - keyboard activation;
 - Chromebook containment;
 - mobile + reduced-motion containment;
@@ -165,7 +169,7 @@ The audit is inside the existing `Validate Stability Lane` Chromium job and the 
 
 ## Installable Offline App
 
-`service-worker.js` now includes:
+`service-worker.js` includes:
 
 - `css/saveLibrary.css`
 - `js/saveLibraryUI.js`
@@ -180,23 +184,30 @@ No performance ceiling was raised.
 
 Proven PR #51 implementation values remain the comparison boundary: eager raw 162935 bytes, eager gzip 37475 bytes, lazy feedback 4845 bytes. Ceilings remain eager raw <=165000, eager gzip <=37500, Reus startup portrait <=95000, combined first-party startup <=260000.
 
-The candidate deliberately removes the old eager destructive-replacement prompt/branch from `js/showdown.js` while keeping the new product code lazy. Exact Static App CI on PR #53 is the authority for the final candidate budget.
+The candidate deliberately removes the old eager destructive-replacement prompt/branch from `js/showdown.js` while keeping the new product code lazy. Exact Static App CI on PR #53 remains the authority for the final candidate budget.
 
 ## PR #53 proof status
 
-Draft PR #53 was opened from the exact branch and base. At the first full current-head CI observation, the following workflow families were already green:
+Draft PR #53 is based on exact production `main` `2ac04b2327710a0aa05959179d1d865c210a7587`.
 
-- Validate Static App, including JavaScript syntax, dynamic static release architecture, complete repository contracts and workflow topology;
-- Validate Settings Workstream, including lazy architecture, accessibility/focus lifecycle and install ownership;
+On implementation head `2899c020c717d9fa8b59f4c687432d7b0d1b566f`, 12 of the 13 normal PR workflow families succeeded:
+
+- Validate Static App;
+- Validate Settings Workstream;
 - Validate Home Bootstrap;
 - Validate Transfer Workstream;
 - Validate League Confirmation;
 - Validate Final Polish;
 - Validate V1 Visual Immersion;
 - Validate Statistics Workstream;
-- Validate Season Review.
+- Validate Season Review;
+- Validate Licensed Football Visuals;
+- Validate Candidate B Import Analysis;
+- Validate Candidate C Atomic Restore.
 
-The Stability contract job is green, including the new Save Library product contract. The Chromium Stability job and several independent browser/recovery workflows were still running when this handoff update was written. Do not interpret this partial status as merge permission; only exact final-head green proof counts.
+Validate Stability Lane run `31770735442` had a green `stability-contracts` job and one reproduced failure in `chromium-stability` job `94676002232`. The failure was inside the newly added Save Library product audit, not an existing recovery/gameplay gate. Exact log evidence showed the audit timing out while waiting for `#settingsOverlay` to become hidden after an active-Save switch and Escape press.
+
+The focus root cause and correction are recorded below. The corrected browser audit now has explicit focus assertions after every Save Library mutation rerender. All 13 normal workflows must rerun and succeed on the new exact implementation head before merge. Do not treat the earlier 12/13 result as merge authority.
 
 ## Failure and correction ledger
 
@@ -224,9 +235,17 @@ Correction: the increase was unnecessary gate relaxation and was reverted immedi
 
 Correction: no source assumptions were made from that failure. GitHub Actions on exact PR heads is being used as the executable proof authority.
 
+6. First Chromium Stability execution on implementation head `2899c020c717d9fa8b59f4c687432d7b0d1b566f` timed out after switching the active Save and pressing Escape because the Settings overlay stayed open.
+
+Root cause: `MAKE ACTIVE` correctly committed and rerendered the Save Library, but rerender removed the button that owned browser focus. Focus fell outside the Settings overlay, while the established Escape handler intentionally belongs to the overlay. Therefore the next Escape key event did not bubble through Settings and could not close the modal.
+
+This was an accessibility/focus lifecycle defect in the new product layer, not a persistence or transaction defect.
+
+Correction: do not add a competing global Escape handler. After switch and delete rerenders, restore focus to a new/surviving Save Library control inside the existing `#settingsDialog`, with dialog fallback. The browser audit now asserts focus containment after mouse switch, both delete paths and keyboard switch before relying on Escape/Tab behavior. The fix preserves Settings as the sole modal/focus owner.
+
 ## Remaining closure work
 
-- let all 13 normal PR workflow families finish on the exact final implementation head;
+- run all 13 normal PR workflow families on the exact corrected implementation head;
 - classify and repair any reproduced failures without weakening tests or limits;
 - update this handoff and core authority docs with exact final PR head/run proof;
 - mark PR #53 ready only when product/browser evidence is complete;
