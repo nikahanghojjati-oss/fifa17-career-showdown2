@@ -43,7 +43,7 @@ jobs:
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 18
 
     steps:
       - name: Check out repository
@@ -87,7 +87,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: chromium-stability
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 36
 
     steps:
       - name: Check out repository
