@@ -16,6 +16,7 @@ const files = [
   "tests/contracts/restore-plan-contracts.cjs",
   "tests/contracts/restore-stale-state-contracts.cjs",
   "tests/contracts/restore-maintenance-contracts.cjs",
+  "tests/contracts/save-library-foundation-contracts.cjs",
   "tests/contracts/cloud-foundation-contracts.cjs",
   "tests/contracts/offline-hotfix-contracts.cjs",
   "tests/contracts/v13-offline-lifecycle-contracts.cjs",
