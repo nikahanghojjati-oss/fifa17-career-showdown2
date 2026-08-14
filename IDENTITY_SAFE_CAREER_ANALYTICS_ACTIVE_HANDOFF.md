@@ -12,7 +12,7 @@ This is the public branch-specific evidence trail for the owner-authorized narro
 
 Production is unchanged. PR #59 remains draft. Validation is not yet claimed green. No merge or production claim is legal until one exact final PR head passes complete PR validation, survives the promotion gate, merges by expected head and passes exact production plus deployed Pages proof.
 
-A Git commit cannot contain its own SHA. This file therefore records completed exact heads and failure evidence; the exact current validation head must always be frozen from live PR #59 metadata after the latest handoff-only correction lands. Any branch movement invalidates older green evidence.
+A Git commit cannot contain its own SHA. This file therefore records completed exact heads and failure evidence; the exact current validation head must always be frozen from live PR #59 metadata after the latest correction lands. Any branch movement invalidates older green evidence.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY — MANDATORY
 
@@ -25,27 +25,27 @@ Before any mutation:
 3. record the exact current PR head and compare it with live `main`;
 4. verify the changed-file scope has not expanded unexpectedly;
 5. read in order `00_HANDOFF_GOLDEN_RULE.md`, `00_DEVELOPER_START_HERE.md`, `00_CURRENT_HANDOFF.md`, `PROJECT_STATE.md`, `NEXT_TASK.md`, `POST_V1_ROADMAP_EXECUTION.md`, then this file;
-6. inspect current PR workflow status and all recorded failures before changing anything.
+6. inspect current PR workflow status and every recorded failure before changing anything.
 
 ### Phase 2 — FIRST ENGINEERING TASK: validate PR #59 exact head
 
-The source/test review has already been completed and found no demonstrated runtime defect requiring correction before PR creation.
+The source/test review has already been completed and found no demonstrated runtime defect before PR creation. Exact-head CI subsequently exposed one real Analytics presentation integration defect, documented below, and it has been corrected with deterministic regression coverage.
 
-The immediate task is exact-head PR validation.
+The immediate task remains exact-head PR validation.
 
 1. freeze the exact live PR #59 head;
 2. verify `tests/contracts/identity-safe-career-analytics-contracts.cjs` and `tests/contracts/handoff-immediate-next-task-contracts.cjs` remain in the permanent repository suite;
 3. verify `tests/browser/identity-safe-career-analytics-audit.cjs` remains in the Stability Chromium lane;
 4. inspect every normal PR workflow family on that exact SHA;
-5. record every failure with SHA, workflow, run ID, job, message, classification, root cause and corrective commit;
+5. record every failure with SHA, workflow, run ID, job, failure message, classification, root cause and corrective commit;
 6. if the branch moves, completely revalidate the new exact head;
-7. never weaken tests, timeouts, performance budgets, recovery guarantees or workflow topology to obtain green CI.
+7. never weaken tests, timeouts, performance budgets, recovery guarantees or workflow topology merely to obtain green CI.
 
 Success condition:
 
 One exact PR #59 head with all normal pull-request workflow families green and no known unreviewed source, test or authority issue.
 
-If CI demonstrates a real problem, correct only that problem, record the evidence and fully revalidate the new head.
+If CI demonstrates another real problem, correct only that demonstrated problem, strengthen regression evidence where appropriate, record it here and fully revalidate the new head.
 
 ### Phase 3 — promotion gate
 
@@ -100,20 +100,20 @@ Do not begin backup-envelope portability redesign, full fresh-device Save Librar
 
 On 2026-08-14 ET the owner authorized correcting repository record inconsistencies and independently advancing the roadmap's smallest source-supported next candidate with maximum attention to detail and accuracy.
 
-That authorization covers only this narrow identity-safe longitudinal Career Analytics/Trophy Room candidate and the evidence, promotion and authority work needed to prove it.
+That authorization covers only this narrow identity-safe longitudinal Career Analytics/Trophy Room candidate and the evidence, correction, promotion and authority work needed to prove it.
 
 ## Reconstructed repository authority
 
 At continuation bootstrap:
 
 - live `main`: `8c6fad42e38b4964d848128e40569442c3fa06d5`;
-- active branch: `0d97a5ea7adb97cb49daf8e85cfe0fac5f19f630` before this continuation's handoff-phase commits;
+- active branch: `0d97a5ea7adb97cb49daf8e85cfe0fac5f19f630` before this continuation's review/PR-phase commits;
 - branch divergence: 20 ahead / 0 behind at review time;
 - merge base: exact live `main`;
 - pre-existing open PRs: obsolete historical drafts #35 and #37 only;
 - no Analytics PR existed until this continuation opened PR #59.
 
-The reviewed changed-file scope was exactly 16 files:
+The changed-file scope remains exactly 16 files; both CI corrections modify files already present in that candidate scope:
 
 - `.github/workflows/validate-stability-lane.yml`
 - `00_DEVELOPER_START_HERE.md`
@@ -132,7 +132,7 @@ The reviewed changed-file scope was exactly 16 files:
 - `tests/contracts/statistics-fixtures.cjs`
 - `tests/support/run-contract-suite.cjs`
 
-## Root cause and chosen semantics
+## Root cause and chosen identity semantics
 
 Production had two longitudinal Analytics authority defects:
 
@@ -141,7 +141,7 @@ Production had two longitudinal Analytics authority defects:
 
 Trophy Room inherited the manager-row/leader problem because it consumes Career Analytics.
 
-The candidate now keys identified longitudinal manager rows only by valid stable `profile_*` references. Same-name distinct profiles remain distinct. One explicitly reused profile aggregates across Saves. Local Profile `displayName` is presentation only.
+The candidate keys identified longitudinal manager rows only by valid stable `profile_*` references. Same-name distinct profiles remain distinct. One explicitly reused profile aggregates across Saves. Local Profile `displayName` is presentation only and can never establish identity.
 
 Unresolved historical roles remain unresolved and are excluded from identified manager totals/leaderboards, cabinets and manager leaderboards until explicitly mapped. They are never guessed from visible labels.
 
@@ -149,60 +149,65 @@ Identity-independent history remains complete: completed Showdown count, seasons
 
 Rivalry Analytics remains Showdown-scoped and label-presented, with no cross-history identity claim.
 
-## Cache/refresh review
+## Cache, presentation and mutation-authority semantics
 
-`js/analytics.js` exports shared `getCareerAnalyticsRevisionKey()`.
+`js/analytics.js` exports shared `getCareerAnalyticsRevisionKey()` for Career Statistics and Trophy Room.
 
-The key includes Legacy revision plus the completed active Showdown ID/revision and both stable manager profile references or unresolved markers.
+After correction of PR failure 2, its revision now includes:
 
-Career Statistics and Trophy Room both consume that shared revision.
+- Legacy storage revision;
+- completed active Showdown identity/revision and stable manager profile references or unresolved markers;
+- the Local Profile presentation signature actually consumed by Analytics.
 
-Historical manager mapping already uses existing transaction-owned `js/saveLibraryRuntime.js` mutation. When Legacy bytes change, `js/storage.js` invalidates the Legacy cache and increments its revision. Active completed Save-role remaps change the stable profile refs in the active Showdown signature. No new Analytics storage writer exists.
+For Local Profile presentation labels:
+
+- when `CareerModeSaveLibraryRuntime` is already ready, Analytics consumes its validated identity mapping snapshot;
+- when canonical post-cutover Save Library bytes exist but mutation runtime has not been activated, Analytics reads presentation labels through existing `storage.js` exact raw migration snapshot authority;
+- Analytics rejects that raw presentation fallback if the retired singleton key is simultaneously present, if the snapshot is unavailable, if JSON is invalid or if the profile array is invalid;
+- the fallback never calls `localStorage` directly, never activates Save Library, never performs migration and never writes storage;
+- stable `profile_*` references remain identity authority regardless of which read-only presentation source supplies a label.
+
+Historical manager mapping still uses existing transaction-owned `js/saveLibraryRuntime.js` mutation. Legacy changes increment the existing Legacy revision. Active completed Save-role remaps change the stable profile refs in the active Showdown signature. No new Analytics storage writer exists.
 
 ## Deep source/test review completed before PR #59
 
-The continuation reviewed `js/analytics.js`, `js/statistics.js`, `js/trophyRoom.js`, the stable identity mutation/storage paths, Statistics fixtures, the dedicated Analytics contract, the Chromium Analytics audit, Stability integration, handoff enforcement, cloud coherence and release-authority coherence.
+Before PR creation, the continuation reviewed `js/analytics.js`, `js/statistics.js`, `js/trophyRoom.js`, stable identity mutation/storage paths, Statistics fixtures, the dedicated Analytics contract, the Chromium Analytics audit, Stability integration, handoff enforcement, cloud coherence and release-authority coherence.
 
-It confirmed:
+It confirmed stable profile identity aggregation, same-name separation, explicit profile reuse, unresolved-history honesty, complete identity-independent totals/records, presentation-only display names, unchanged Rivalry semantics, existing mapping revision behavior, real runtime Chromium mapping, unchanged Candidate A/B/C semantics, unchanged Save Library mutation authority, unchanged storage/recovery, unchanged PWA/offline, unchanged gameplay/scoring and unchanged performance ceilings.
 
-- stable profile IDs are the only longitudinal manager keys;
-- same-name profiles cannot merge through label equality;
-- explicit profile reuse aggregates correctly;
-- unresolved roles cannot leak into identified manager rows by name;
-- unresolved roles are excluded only from identity-dependent output;
-- overall Showdown/Season counts, points, trophies and identity-independent records remain complete;
-- Local Profile display names remain presentation only;
-- Rivalry semantics remain unchanged;
-- active and historical identity changes invalidate derived caches through existing authority paths;
-- deterministic fixtures actually use stable identities;
-- Chromium uses the real runtime and proves unresolved-to-mapped Career Statistics refresh plus Trophy Room coherence;
-- Candidate A/B/C, Save Library mutation authority, storage/recovery, PWA/offline, gameplay/scoring and performance ceilings are unchanged.
-
-No demonstrated runtime defect was found. No speculative cleanup was performed.
-
-A hypothetical future generic profile-rename feature may need its own Analytics presentation-revision semantics, but generic profile edit/rename is not part of the current product contract and is explicitly out of scope.
+No demonstrated runtime defect was found during that pre-PR static review. No speculative cleanup was performed. PR exact-head browser validation later exposed the presentation-availability integration defect recorded as failure 2 below.
 
 ## Regression evidence
 
-`tests/contracts/identity-safe-career-analytics-contracts.cjs` protects same-name separation, explicit reuse, unresolved identity, no name leakage, identity-independent Season records, profile presentation labels, active identity cache invalidation and unchanged Rivalry labels.
+`tests/contracts/identity-safe-career-analytics-contracts.cjs` protects:
 
-`tests/contracts/statistics-fixtures.cjs` now uses explicit stable profile IDs while preserving established totals, trophies, transfer and record assertions.
+- same-name stable-profile separation;
+- explicit cross-Save profile reuse;
+- unresolved historical identity and no name leakage;
+- complete identity-independent Season records;
+- Local Profile display labeling;
+- active identity mapping cache invalidation;
+- Local Profile labels when canonical Save Library exists but mutation runtime is inactive;
+- presentation-signature cache invalidation;
+- unchanged Rivalry labels.
 
-`tests/browser/identity-safe-career-analytics-audit.cjs` seeds the real Save Library runtime and proves Career Statistics same-name separation, explicit reuse, unresolved historical identity, real `assignLegacyManagerProfile()` mapping, revision refresh, Trophy Room cabinet/leader coherence, no stale identity notice and no singleton resurrection.
+`tests/contracts/statistics-fixtures.cjs` uses explicit stable profile IDs while preserving established totals, trophies, transfer and record assertions.
 
-`.github/workflows/validate-stability-lane.yml` runs that audit in canonical Chromium and against deployed Pages after merge.
+`tests/browser/identity-safe-career-analytics-audit.cjs` seeds the real post-cutover Save Library bytes and verifies Career Statistics same-name separation, explicit reuse, Local Profile presentation, unresolved historical identity, real `assignLegacyManagerProfile()` mapping and refresh, Trophy Room cabinet/leader coherence, removal of the stale unresolved notice, no singleton resurrection and no page/console errors.
+
+`.github/workflows/validate-stability-lane.yml` runs that audit in canonical Chromium and again against deployed Pages after merge.
 
 ## Permanent handoff enforcement
 
-`00_HANDOFF_GOLDEN_RULE.md` permanently requires a prominent `IMMEDIATE NEXT TASK AFTER FULL STUDY` section that separates bootstrap from concrete execution.
+`00_HANDOFF_GOLDEN_RULE.md` permanently requires a prominent `IMMEDIATE NEXT TASK AFTER FULL STUDY` section that separates repository bootstrap/study from the concrete execution task.
 
-`tests/contracts/handoff-immediate-next-task-contracts.cjs` enforces the permanent rule and the current active phase. `tests/support/run-contract-suite.cjs` runs it permanently.
+`tests/contracts/handoff-immediate-next-task-contracts.cjs` enforces the permanent rule and this active handoff's current phase. `tests/support/run-contract-suite.cjs` runs it permanently.
 
-The handoff and its phase-specific contract must advance together whenever the current first engineering task changes.
+The handoff and its phase-specific contract must advance together when the first engineering task changes.
 
 ## Implementation history retained
 
-Runtime/regression commits before this continuation:
+Core candidate commits before this continuation include:
 
 - `1bc5bec1246c79b2762a80466405e7498ec6668b` identity-safe Analytics aggregation/cache;
 - `74c46984e6896cd89aed074a61267dd10f7eb16a` Statistics identity state/revision;
@@ -211,16 +216,12 @@ Runtime/regression commits before this continuation:
 - `a7441649624e951209909549d7ea8086bf194b48` deterministic Analytics contracts;
 - `2ba87beec794788a00e54005e80baa7da1053daa` permanent contract-suite wiring;
 - `b73840ee91e73964ca15cc967f0b0da9d93b7ee3` Chromium Analytics audit;
-- `63d0e1f373e010a8fd96f12a0a5597fc28d24dea` Stability integration.
-
-Authority/handoff commits before this continuation:
-
+- `63d0e1f373e010a8fd96f12a0a5597fc28d24dea` Stability integration;
 - `e6381fdcbd7e76fedd9d80e28fed18129ea971dc` developer bootstrap correction;
 - `298710c8e7474da696cbb28bb3ae13a6afaa7455` owner-authorized NEXT_TASK scope;
 - `3e0ca9ec22bb9b7e85fc524fc9cd6cd421a48bf0` roadmap authorization classification;
 - `5204b370dfa57e335cbbf17cc403d60b833f3557` cloud coherence;
 - `538765e14d5fff8f9e09362b0fc8777597d7e121` release-authority coherence;
-- `6957e5a44b2f19890dd8b717f69e01fcb2582ea3` branch handoff checkpoint;
 - `56d677dfd3493a612c6407b93e588558d2d70f5e` permanent next-task golden rule;
 - `0d97a5ea7adb97cb49daf8e85cfe0fac5f19f630` permanent handoff-contract suite wiring.
 
@@ -236,63 +237,89 @@ PR creation head:
 
 `0d97a5ea7adb97cb49daf8e85cfe0fac5f19f630`
 
-The handoff was then advanced to PR validation in commit:
+The public handoff was advanced to PR validation in:
 
 `1ad5a72021cd53515ff14c2b270ef838ef0f8cc9`
 
-The handoff enforcement contract was advanced to the PR-validation phase in commit:
+The handoff enforcement contract was advanced to the PR-validation phase in:
 
 `7f566ef32428d1d1a00311ee8e8716df6973c03b`
 
-That exact head was frozen for initial PR validation.
+## Exact PR validation failure 1 — documentation contract coherence
 
-## Exact PR validation failure 1
-
-Frozen failing head:
+Failing head:
 
 `7f566ef32428d1d1a00311ee8e8716df6973c03b`
 
-Workflow:
+Workflow/run/job:
 
-`Validate Static App`
-
-Run:
-
-`31824404149`
-
-Job:
-
-`94844989903` — `validate`
-
-Failure step:
-
-`Validate complete repository contracts including Candidate C`
-
-JavaScript syntax and dynamic static release architecture had already passed.
+- `Validate Static App`
+- run `31824404149`
+- job `94844989903` — `validate`
+- failing step: `Validate complete repository contracts including Candidate C`
 
 Exact assertion:
-
-`tests/contracts/release-authority-coherence.cjs` reported:
 
 `AssertionError [ERR_ASSERTION]: Active Analytics handoff must name its exact verified production base.`
 
 Root cause:
 
-The continuation rewrote the active handoff label from the established canonical phrase `Exact branch base:` to `Exact production base:` while preserving the exact same base SHA. The protected release-authority contract intentionally requires the canonical `Exact branch base:` marker.
+The continuation had renamed the established handoff marker `Exact branch base:` to `Exact production base:` while preserving the same SHA. `tests/contracts/release-authority-coherence.cjs` intentionally protects the canonical marker.
 
 Classification:
 
-documentation/semantic-contract coherence failure only. No runtime source, gameplay, storage, recovery, PWA/offline or data-integrity behavior failed.
+documentation/semantic-contract coherence failure only; no runtime, gameplay, storage, recovery, PWA/offline or data-integrity behavior failed.
 
 Correction:
 
-Restore the canonical `Exact branch base:` wording in this handoff and retain the exact base SHA. Do not weaken the contract.
+`5b005e481ef0972adff0dbc2e78399eb5e1558d0` restored `Exact branch base:` without weakening the contract and recorded the failure.
 
-Because this correction moves branch head, complete exact-head PR revalidation is required.
+Complete revalidation was required because branch head moved.
+
+## Exact PR validation failure 2 — inactive-runtime Local Profile presentation
+
+Failing head:
+
+`5b005e481ef0972adff0dbc2e78399eb5e1558d0`
+
+Workflow/run/job:
+
+- `Validate Stability Lane`
+- run `31824548015`
+- job `94845511900` — `chromium-stability`
+- repository-contract Stability job `94845457121` had already passed
+- every other normal PR workflow family on this exact head ultimately passed, including Candidate B and Candidate C
+
+Exact failing assertion from `tests/browser/identity-safe-career-analytics-audit.cjs:147`:
+
+`AssertionError [ERR_ASSERTION]: Identified career labels should use the Local Profile display name when available.`
+
+Actual:
+
+`Same Name`
+
+Expected:
+
+`Canonical Manager`
+
+Root cause:
+
+Career Statistics is intentionally an independently lazy optional module. The Save Library mutation runtime is only loaded/activated through the existing Save Library cutover/data-tool route. The Analytics candidate originally sourced Local Profile display labels only from `CareerModeSaveLibraryRuntime.getIdentityMappingSnapshot()` when that runtime was already ready. Therefore a user could open Career Statistics directly on a valid post-cutover Save Library before mutation authority had ever been activated. Stable profile IDs still aggregated correctly, but the presentation layer fell back to the historical Showdown label instead of the authoritative Local Profile display label. This was a real integration gap exposed by canonical Chromium, not a test race.
+
+Correction:
+
+- `81ac3c55cb9c0eed9c68ab0d3586a24751766353` updates `js/analytics.js` so Local Profile presentation first uses the ready runtime snapshot when available, otherwise uses the existing exact raw Save Library migration snapshot authority only for a clean post-cutover state. It performs no direct browser-storage access, activation, migration or mutation. The consumed profile presentation signature is now part of the shared Analytics revision key.
+- `0d0e428762f1036ad0976adb53963e73dacac677` strengthens `tests/contracts/identity-safe-career-analytics-contracts.cjs` so the inactive-runtime canonical Save Library case and presentation-signature invalidation are deterministic protected behavior.
+
+Why safe:
+
+Stable `profile_*` references remain the sole longitudinal identity key. `js/storage.js` remains raw browser-storage authority. `js/saveLibraryRuntime.js` remains manager-identity/Save Library mutation authority. Analytics remains read-only derived consumption and cannot create, modify, migrate or remap profiles. Malformed, unavailable or dual-authority raw state falls back safely rather than being treated as profile presentation authority.
+
+Complete exact-head revalidation is required because branch head moved.
 
 ## Local execution environment limitation
 
-A fresh local GitHub clone could not be obtained in the available execution environment because external GitHub DNS resolution was unavailable. No local green result is claimed. Canonical GitHub Actions remains the validation authority for this PR.
+A fresh local GitHub clone could not be obtained in the available execution environment because external GitHub DNS resolution was unavailable, and `gh` was not installed. No local green result is claimed. Canonical GitHub Actions is the validation authority for PR #59.
 
 ## Permanent product locks
 
@@ -301,7 +328,7 @@ Installable Offline App runtime remains `1.3.0-r1`.
 Previous known-good whole shell remains `1.2.0-r2`.
 Feature release version remains intentionally unassigned.
 
-Stable identity prefixes remain `profile_*`, `save_*`, `season_*`. Display names remain labels only.
+Stable identity prefixes remain `profile_*`, `save_*`, `season_*`. Display names remain presentation labels only.
 
 Post-cutover canonical public storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; the singleton active key must never become a permanent fourth key.
 
@@ -317,8 +344,11 @@ Gameplay remains exactly two managers; Showdown lengths 1/3/5/10; same selected 
 
 PR #59 remains draft.
 
-The initial frozen head `7f566ef32428d1d1a00311ee8e8716df6973c03b` is rejected for promotion because of the documented release-authority coherence failure.
+Rejected heads retained as evidence:
 
-The correction in this file creates a new head. That new exact head requires complete PR validation from zero. No older green family may be transferred to it.
+- `7f566ef32428d1d1a00311ee8e8716df6973c03b` — release-authority handoff marker failure;
+- `5b005e481ef0972adff0dbc2e78399eb5e1558d0` — Stability inactive-runtime profile-label failure.
+
+The source correction commits are `81ac3c55cb9c0eed9c68ab0d3586a24751766353` and `0d0e428762f1036ad0976adb53963e73dacac677`. This handoff update creates a newer head. That exact new head must be frozen from live PR #59 metadata and completely validated from zero; older green families cannot be transferred.
 
 No merge has occurred. No production/deployed Pages proof exists for this candidate. Production authority must continue to describe the current Analytics limitation until exact merge and deployed proof are complete.
