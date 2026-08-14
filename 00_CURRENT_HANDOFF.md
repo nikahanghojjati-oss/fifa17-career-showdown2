@@ -196,6 +196,8 @@ PR #47's earlier documentation-only failure remains historical evidence: its ini
 
 PR #37 / `agent/v13-hardening` remains untrusted historical work and must not be revived or merged.
 
+During documentation-only closure PR #49, exact head `d6a81bbe45cb273e56aa0ac0081f7ecd9f0cb68b` passed all ten Markdown-applicable PR workflow families. After the PR was marked ready, the closure branch advanced to concurrent documentation commit `159659dcde032368c4b0b80b553f3d53317f5fc3`, which modified only `00_CURRENT_HANDOFF.md`. The expected-head merge against `d6a81bbe45cb273e56aa0ac0081f7ecd9f0cb68b` was correctly rejected by GitHub with HTTP 409 `Head branch was modified. Review and try the merge again.` No merge or runtime mutation occurred. The new commit was independently inspected, found consistent with the proven persistence boundary, and retained rather than overwritten. PR #49 must be validated again on its resulting exact final documentation head before merge.
+
 ## Quality-first continuation boundary
 
 Canonical persistence integration is merged and publicly proven. This is a clean repository boundary.
