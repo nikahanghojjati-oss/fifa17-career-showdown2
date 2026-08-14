@@ -1,30 +1,8 @@
 let currentShowdown=null;
 const CURRENT_SHOWDOWN_SCHEMA_VERSION=2;
 const ALLOWED_SHOWDOWN_ROUNDS=Object.freeze([1,3,5,10]);
-let saveLibraryRuntimeFilesPromise=null;
 let saveLibraryCutoverBusy=false;
 
-function ensureSaveLibraryRuntimeFiles(){
-    if(window.CareerModeSaveLibraryRuntime&&window.CareerModeSaveLibraryPersistence&&window.CareerModeSaveLibraryFoundation&&typeof window.runCareerModeRawStorageTransaction==="function")return Promise.resolve(true);
-    if(saveLibraryRuntimeFilesPromise)return saveLibraryRuntimeFilesPromise;
-    if(typeof loadRuntimeScript!=="function")return Promise.reject(new Error("Optional runtime loader is unavailable."));
-    saveLibraryRuntimeFilesPromise=(async()=>{
-        await Promise.all([
-            loadRuntimeScript("save-library-foundation","js/saveLibraryFoundation.js",()=>Boolean(window.CareerModeSaveLibraryFoundation)),
-            loadRuntimeScript("save-library-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function")
-        ]);
-        await loadRuntimeScript("save-library-persistence","js/saveLibraryPersistence.js",()=>Boolean(window.CareerModeSaveLibraryPersistence));
-        await loadRuntimeScript("save-library-runtime","js/saveLibraryRuntime.js",()=>Boolean(window.CareerModeSaveLibraryRuntime));
-        return true;
-    })().catch(error=>{saveLibraryRuntimeFilesPromise=null;throw error;});
-    return saveLibraryRuntimeFilesPromise;
-}
-async function ensureSaveLibraryRuntimeAuthority(){
-    await ensureSaveLibraryRuntimeFiles();
-    const runtime=window.CareerModeSaveLibraryRuntime;
-    if(!runtime||typeof runtime.activate!=="function")throw new Error("Save Library runtime authority is unavailable.");
-    return runtime.activate();
-}
 function setSaveLibraryCutoverBusy(button,busy){
     if(!button)return;
     button.classList.toggle("isBusy",busy);
@@ -35,7 +13,7 @@ function initializeSaveLibraryCutoverGate(){
     if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;
     window.__cmsSaveLibraryCutoverGate=true;
     document.addEventListener("click",async event=>{
-        const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
+        const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown"):null;
         if(!button||button.disabled)return;
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -43,24 +21,19 @@ function initializeSaveLibraryCutoverGate(){
         saveLibraryCutoverBusy=true;
         setSaveLibraryCutoverBusy(button,true);
         try{
-            if(button.id==="legacyButton"||button.id==="settingsButton"){
-                await ensureSaveLibraryRuntimeFiles();
-                if(typeof window.openOptionalModule!=="function")throw new Error("Optional module navigation is unavailable.");
-                await window.openOptionalModule(button.id==="legacyButton"?"legacy":"settings");
+            if(typeof window.ensureSaveLibraryRuntimeAuthority!=="function")throw new Error("Save Library authority loader is unavailable.");
+            await window.ensureSaveLibraryRuntimeAuthority();
+            if(button.id==="continueCareer"){
+                if(typeof window.resumeSavedShowdown!=="function")throw new Error("Continue route is unavailable.");
+                await window.resumeSavedShowdown();
             }else{
-                await ensureSaveLibraryRuntimeAuthority();
-                if(button.id==="continueCareer"){
-                    if(typeof window.resumeSavedShowdown!=="function")throw new Error("Continue route is unavailable.");
-                    await window.resumeSavedShowdown();
-                }else{
-                    if(typeof window.ensureGameplayModules!=="function")throw new Error("Gameplay runtime loader is unavailable.");
-                    await window.ensureGameplayModules();
-                    if(typeof window.createShowdown!=="function")throw new Error("Showdown creation route is unavailable.");
-                    await window.createShowdown();
-                }
+                if(typeof window.ensureGameplayModules!=="function")throw new Error("Gameplay runtime loader is unavailable.");
+                await window.ensureGameplayModules();
+                if(typeof window.createShowdown!=="function")throw new Error("Showdown creation route is unavailable.");
+                await window.createShowdown();
             }
         }catch(error){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError(button.id==="continueCareer"?"Unable to continue the saved Showdown":button.id==="startShowdown"?"Unable to start the Showdown":"Unable to open local data tools",error);
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError(button.id==="continueCareer"?"Unable to continue the saved Showdown":"Unable to start the Showdown",error);
         }finally{
             setSaveLibraryCutoverBusy(button,false);
             saveLibraryCutoverBusy=false;
@@ -150,8 +123,6 @@ function getShowdownWinner(showdown=currentShowdown){if(!showdown)return"draw";i
 function getTransferChallengeForSeason(seasonNumber){if(!currentShowdown||!Array.isArray(currentShowdown.transferChallenges))return null;const targetSeason=Number(seasonNumber);return currentShowdown.transferChallenges.find(challenge=>challenge&&Number(challenge.seasonNumber)===targetSeason)||null;}
 function isTransferChallengeComplete(seasonNumber){const challenge=getTransferChallengeForSeason(seasonNumber);return Boolean(challenge&&challenge.status==="completed");}
 window.createShowdown=createShowdown;
-window.ensureSaveLibraryRuntimeFiles=ensureSaveLibraryRuntimeFiles;
-window.ensureSaveLibraryRuntimeAuthority=ensureSaveLibraryRuntimeAuthority;
 window.isLeagueDatabaseReady=isLeagueDatabaseReady;
 window.ensureCurrentShowdownNormalized=ensureCurrentShowdownNormalized;
 window.needsShowdownNormalization=needsShowdownNormalization;
