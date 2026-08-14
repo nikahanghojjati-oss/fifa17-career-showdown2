@@ -34,7 +34,10 @@ async function openLibrary(page,expectedMode){
     await overlay.waitFor({state:"visible",timeout:15000});
     const panel=page.locator("#saveLibraryProductPanel");
     await panel.waitFor({state:"visible",timeout:15000});
-    if(expectedMode)await assert.poll(()=>panel.getAttribute("data-library-mode"),{timeout:15000}).then(mode=>assert.equal(mode,expectedMode));
+    if(expectedMode){
+        await page.waitForFunction(mode=>document.getElementById("saveLibraryProductPanel")?.dataset.libraryMode===mode,expectedMode,{timeout:15000});
+        assert.equal(await panel.getAttribute("data-library-mode"),expectedMode);
+    }
     return{overlay,panel};
 }
 
@@ -74,7 +77,7 @@ async function compatibilityIsNonMutating(runtime){
 
 async function corruptStateFailsClosed(runtime){
     const browser=await chromium.launch(runtime);
-    const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true});
+    const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:"reduce"});
     const corrupt="{broken-save-library";
     await context.addInitScript(({key,value})=>{try{localStorage.setItem(key,value);localStorage.removeItem("careerModeShowdown.activeShowdown");}catch(error){}},{key:libraryKey,value:corrupt});
     const page=await context.newPage();const errors=[];
@@ -106,10 +109,17 @@ async function createShowdownThroughUI(page,name){
     await page.locator("#mainMenu").waitFor({state:"visible"});
 }
 
+async function waitForCardCount(page,count){
+    await page.waitForFunction(expected=>document.querySelectorAll("#saveLibraryProductPanel .saveLibraryCard").length===expected,count,{timeout:10000});
+}
+
+async function waitForActiveSave(page,saveId){
+    await page.waitForFunction(id=>document.querySelector(`.saveLibraryCard[data-save-id="${id}"]`)?.classList.contains("isActive")===true,saveId,{timeout:10000});
+}
+
 async function multiSaveJourney(runtime,config){
     const browser=await chromium.launch(runtime);
-    const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor||1,isMobile:Boolean(config.isMobile),hasTouch:Boolean(config.hasTouch)});
-    if(config.reducedMotion)await context.addInitScript(()=>{Object.defineProperty(window,"matchMedia",{value:query=>({matches:query.includes("prefers-reduced-motion"),media:query,addEventListener(){},removeEventListener(){},addListener(){},removeListener(){}}),configurable:true});});
+    const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.deviceScaleFactor||1,isMobile:Boolean(config.isMobile),hasTouch:Boolean(config.hasTouch),reducedMotion:config.reducedMotion?"reduce":"no-preference"});
     const page=await context.newPage();const errors=collectErrors(page);
     try{
         await waitForHome(page);
@@ -134,7 +144,7 @@ async function multiSaveJourney(runtime,config){
         const target=opened.panel.locator(".saveLibraryCard:not(.isActive)").first();
         const targetId=await target.getAttribute("data-save-id");
         await target.locator(".saveLibrarySelectButton").click();
-        await assert.poll(()=>opened.panel.locator(`.saveLibraryCard[data-save-id="${targetId}"]`).evaluate(card=>card.classList.contains("isActive")),{timeout:10000}).then(active=>assert.equal(active,true));
+        await waitForActiveSave(page,targetId);
         assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,`${config.name}: switching must never recreate singleton authority.`);
         const activeBeforeReload=targetId;
 
@@ -149,7 +159,7 @@ async function multiSaveJourney(runtime,config){
         const deletedNonActiveId=await nonActive.getAttribute("data-save-id");
         page.once("dialog",dialog=>dialog.accept());
         await nonActive.locator(".saveLibraryDeleteButton").click();
-        await assert.poll(()=>opened.panel.locator(".saveLibraryCard").count(),{timeout:10000}).then(count=>assert.equal(count,2));
+        await waitForCardCount(page,2);
         assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").getAttribute("data-save-id"),activeBeforeReload,`${config.name}: deleting a non-active Save must not change active ownership.`);
         assert.equal(await opened.panel.locator(`.saveLibraryCard[data-save-id="${deletedNonActiveId}"]`).count(),0);
         assert.equal(await opened.panel.locator(".saveLibraryProfileCard").count(),6,`${config.name}: single-Save deletion must retain stable Local Profiles.`);
@@ -157,7 +167,7 @@ async function multiSaveJourney(runtime,config){
         const activeCard=opened.panel.locator(".saveLibraryCard.isActive");
         page.once("dialog",dialog=>dialog.accept());
         await activeCard.locator(".saveLibraryDeleteButton").click();
-        await assert.poll(()=>opened.panel.locator(".saveLibraryCard").count(),{timeout:10000}).then(count=>assert.equal(count,1));
+        await waitForCardCount(page,1);
         assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").count(),0,`${config.name}: deleting active Save must not silently activate another Save.`);
         assert.match(await opened.panel.innerText(),/NO ACTIVE SAVE/i);
         assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null);
@@ -169,8 +179,7 @@ async function multiSaveJourney(runtime,config){
         await select.focus();
         assert.equal(await select.evaluate(el=>el===document.activeElement),true,`${config.name}: Save switching must be keyboard focusable.`);
         await page.keyboard.press("Enter");
-        await assert.poll(()=>remaining.evaluate(card=>card.classList.contains("isActive")),{timeout:10000}).then(active=>assert.equal(active,true));
-        assert.equal(await remaining.getAttribute("data-save-id"),remainingId);
+        await waitForActiveSave(page,remainingId);
 
         const screenshotPath=path.join(resultsDirectory,`save-library-${config.name}-${runLabel}.png`);
         await page.screenshot({path:screenshotPath,fullPage:true});
