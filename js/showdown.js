@@ -2,7 +2,29 @@ let currentShowdown=null;
 const CURRENT_SHOWDOWN_SCHEMA_VERSION=2;
 const ALLOWED_SHOWDOWN_ROUNDS=Object.freeze([1,3,5,10]);
 let saveLibraryCutoverBusy=false;
+let saveLibraryAuthorityPromise=null;
+let showdownCreationPromise=null;
 
+async function loadSaveLibraryAuthorityFiles(){
+    if(typeof loadRuntimeScript!=="function")throw new Error("Optional runtime loader is unavailable.");
+    await Promise.all([
+        loadRuntimeScript("save-library-foundation","js/saveLibraryFoundation.js",()=>Boolean(window.CareerModeSaveLibraryFoundation)),
+        loadRuntimeScript("restore-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function")
+    ]);
+    await loadRuntimeScript("save-library-persistence","js/saveLibraryPersistence.js",()=>Boolean(window.CareerModeSaveLibraryPersistence));
+    await loadRuntimeScript("save-library-runtime","js/saveLibraryRuntime.js",()=>Boolean(window.CareerModeSaveLibraryRuntime));
+}
+function ensureSaveLibraryRuntimeAuthority(){
+    if(window.CareerModeSaveLibraryRuntime?.isReady())return Promise.resolve(true);
+    if(saveLibraryAuthorityPromise)return saveLibraryAuthorityPromise;
+    saveLibraryAuthorityPromise=(async()=>{
+        await loadSaveLibraryAuthorityFiles();
+        const result=await window.CareerModeSaveLibraryRuntime.activate();
+        if(!result||result.ok!==true)throw new Error("Save Library runtime authority could not be activated.");
+        return true;
+    })().finally(()=>{saveLibraryAuthorityPromise=null;});
+    return saveLibraryAuthorityPromise;
+}
 function setSaveLibraryCutoverBusy(button,busy){
     if(!button)return;
     button.classList.toggle("isBusy",busy);
@@ -13,7 +35,7 @@ function initializeSaveLibraryCutoverGate(){
     if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;
     window.__cmsSaveLibraryCutoverGate=true;
     document.addEventListener("click",async event=>{
-        const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown"):null;
+        const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
         if(!button||button.disabled)return;
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -21,19 +43,22 @@ function initializeSaveLibraryCutoverGate(){
         saveLibraryCutoverBusy=true;
         setSaveLibraryCutoverBusy(button,true);
         try{
-            if(typeof window.ensureSaveLibraryRuntimeAuthority!=="function")throw new Error("Save Library authority loader is unavailable.");
-            await window.ensureSaveLibraryRuntimeAuthority();
+            await ensureSaveLibraryRuntimeAuthority();
             if(button.id==="continueCareer"){
                 if(typeof window.resumeSavedShowdown!=="function")throw new Error("Continue route is unavailable.");
                 await window.resumeSavedShowdown();
-            }else{
+            }else if(button.id==="startShowdown"){
                 if(typeof window.ensureGameplayModules!=="function")throw new Error("Gameplay runtime loader is unavailable.");
                 await window.ensureGameplayModules();
                 if(typeof window.createShowdown!=="function")throw new Error("Showdown creation route is unavailable.");
                 await window.createShowdown();
+            }else{
+                if(typeof window.openOptionalModule!=="function")throw new Error("Optional data route is unavailable.");
+                await window.openOptionalModule(button.id==="legacyButton"?"legacy":"settings");
             }
         }catch(error){
-            if(typeof window.reportApplicationError==="function")window.reportApplicationError(button.id==="continueCareer"?"Unable to continue the saved Showdown":"Unable to start the Showdown",error);
+            const context=button.id==="continueCareer"?"Unable to continue the saved Showdown":button.id==="startShowdown"?"Unable to start the Showdown":button.id==="legacyButton"?"Unable to open Legacy":"Unable to open Settings";
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError(context,error);
         }finally{
             setSaveLibraryCutoverBusy(button,false);
             saveLibraryCutoverBusy=false;
@@ -43,35 +68,39 @@ function initializeSaveLibraryCutoverGate(){
 }
 
 async function createShowdown(){
-    let existing=null;
-    const hasUsableActiveSave=hasSavedShowdown(),hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData();
-    if(hasStoredActiveData){
-        existing=hasUsableActiveSave?loadSavedShowdown():null;
-        const existingName=existing?.name?` "${existing.name}"`:" data currently stored in this browser";
-        if(!window.confirm(`Start a new showdown and replace the active save${existingName}? Completed showdowns already stored in Legacy will not be deleted.`))return false;
-    }
-    const showdownNameInput=document.getElementById("showdownName"),managerOneInput=document.getElementById("managerOne"),managerTwoInput=document.getElementById("managerTwo"),roundAmountInput=document.getElementById("roundAmount");
-    if(!showdownNameInput||!managerOneInput||!managerTwoInput||!roundAmountInput){
-        if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Required setup fields are missing from the page."));
-        return false;
-    }
-    const showdownName=showdownNameInput.value.trim(),managerOne=managerOneInput.value.trim(),managerTwo=managerTwoInput.value.trim(),requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
-    const candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:showdownName||"Unnamed Showdown",managers:{playerOne:managerOne||"Manager 1",playerTwo:managerTwo||"Manager 2"},totalRounds:roundAmount,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
-    const runtime=window.CareerModeSaveLibraryRuntime;
-    if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){
-        if(typeof window.showAppNotice==="function")window.showAppNotice("Save Library authority is not ready, so the new Showdown was not created.","error",10000);
-        return false;
-    }
-    try{
-        const prepared=await runtime.createShowdown(candidate);
-        currentShowdown=normalizeShowdown(prepared);
-    }catch(error){
-        if(typeof window.reportApplicationError==="function")window.reportApplicationError("The new Showdown could not be saved under Save Library authority",error);
-        return false;
-    }
-    if(typeof window.resetTransientSelectionOperations==="function")window.resetTransientSelectionOperations();
-    if(typeof window.refreshMainMenuExperience==="function")window.refreshMainMenuExperience();
-    return showScreen("leagueWheelScreen");
+    if(showdownCreationPromise)return showdownCreationPromise;
+    showdownCreationPromise=(async()=>{
+        let existing=null;
+        const hasUsableActiveSave=hasSavedShowdown(),hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData();
+        if(hasStoredActiveData){
+            existing=hasUsableActiveSave?loadSavedShowdown():null;
+            const existingName=existing?.name?` "${existing.name}"`:" data currently stored in this browser";
+            if(!window.confirm(`Start a new showdown and replace the active save${existingName}? Completed showdowns already stored in Legacy will not be deleted.`))return false;
+        }
+        const showdownNameInput=document.getElementById("showdownName"),managerOneInput=document.getElementById("managerOne"),managerTwoInput=document.getElementById("managerTwo"),roundAmountInput=document.getElementById("roundAmount");
+        if(!showdownNameInput||!managerOneInput||!managerTwoInput||!roundAmountInput){
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Required setup fields are missing from the page."));
+            return false;
+        }
+        const showdownName=showdownNameInput.value.trim(),managerOne=managerOneInput.value.trim(),managerTwo=managerTwoInput.value.trim(),requestedRounds=Number(roundAmountInput.value),roundAmount=ALLOWED_SHOWDOWN_ROUNDS.includes(requestedRounds)?requestedRounds:1,now=new Date().toISOString();
+        const candidate={schemaVersion:CURRENT_SHOWDOWN_SCHEMA_VERSION,id:Date.now(),name:showdownName||"Unnamed Showdown",managers:{playerOne:managerOne||"Manager 1",playerTwo:managerTwo||"Manager 2"},totalRounds:roundAmount,currentRound:1,status:"Created",selectedLeague:null,clubs:{playerOne:null,playerTwo:null},score:{playerOne:0,playerTwo:0},transferChallenges:[],rounds:[],integrityWarnings:[],createdAt:now,updatedAt:now,completedAt:null,archivedAt:null};
+        const runtime=window.CareerModeSaveLibraryRuntime;
+        if(!runtime||typeof runtime.createShowdown!=="function"||!runtime.isReady()){
+            if(typeof window.showAppNotice==="function")window.showAppNotice("Save Library authority is not ready, so the new Showdown was not created.","error",10000);
+            return false;
+        }
+        try{
+            const prepared=await runtime.createShowdown(candidate);
+            currentShowdown=normalizeShowdown(prepared);
+        }catch(error){
+            if(typeof window.reportApplicationError==="function")window.reportApplicationError("The new Showdown could not be saved under Save Library authority",error);
+            return false;
+        }
+        if(typeof window.resetTransientSelectionOperations==="function")window.resetTransientSelectionOperations();
+        if(typeof window.refreshMainMenuExperience==="function")window.refreshMainMenuExperience();
+        return showScreen("leagueWheelScreen");
+    })();
+    try{return await showdownCreationPromise;}finally{showdownCreationPromise=null;}
 }
 
 function isLeagueDatabaseReady(){return typeof leagues!=="undefined"&&Array.isArray(leagues);}
@@ -123,6 +152,7 @@ function getShowdownWinner(showdown=currentShowdown){if(!showdown)return"draw";i
 function getTransferChallengeForSeason(seasonNumber){if(!currentShowdown||!Array.isArray(currentShowdown.transferChallenges))return null;const targetSeason=Number(seasonNumber);return currentShowdown.transferChallenges.find(challenge=>challenge&&Number(challenge.seasonNumber)===targetSeason)||null;}
 function isTransferChallengeComplete(seasonNumber){const challenge=getTransferChallengeForSeason(seasonNumber);return Boolean(challenge&&challenge.status==="completed");}
 window.createShowdown=createShowdown;
+window.ensureSaveLibraryRuntimeAuthority=ensureSaveLibraryRuntimeAuthority;
 window.isLeagueDatabaseReady=isLeagueDatabaseReady;
 window.ensureCurrentShowdownNormalized=ensureCurrentShowdownNormalized;
 window.needsShowdownNormalization=needsShowdownNormalization;
