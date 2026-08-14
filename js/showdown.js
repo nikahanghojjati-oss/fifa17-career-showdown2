@@ -9,11 +9,13 @@ function initializeSaveLibraryCutoverGate(){
         const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
         if(!button||button.disabled)return;
         event.preventDefault();event.stopImmediatePropagation();
+        const lock=button.matches("#continueCareer,#startShowdown");if(lock)button.disabled=true;
         try{
             if(typeof loadRuntimeScript!=="function")throw new Error("Optional runtime loader is unavailable.");
             await loadRuntimeScript("save-library-cutover","js/saveLibraryCutover.js",()=>typeof window.handleSaveLibraryCutoverAction==="function");
             await window.handleSaveLibraryCutoverAction(button);
         }catch(error){
+            if(lock)button.disabled=false;
             if(typeof window.reportApplicationError==="function")window.reportApplicationError("Unable to prepare local Save Library authority",error);
         }
     },true);
