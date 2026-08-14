@@ -59,7 +59,7 @@ Migration can reason about the temporary four-slot set:
 
 This is not a four-key permanent canonical production model.
 
-Migration stages Legacy and Save Library bytes before retiring the singleton. `activeShowdown` retirement is the commit point. Strict raw snapshot authority, complete in-memory planning, exact preconditions, all-slot last-moment prewrite checks, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, interruption/retry idempotence and critical recovery remain protected.
+Migration stages Legacy and Save Library bytes before retiring the singleton. `activeShowdown` retirement is the commit point. Strict exact raw snapshot authority, complete in-memory planning, exact preconditions, all-slot last-moment prewrite checks, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, interruption/retry idempotence and critical recovery remain protected.
 
 A valid Save Library plus a still-live singleton is accepted only as a deterministically verified interrupted staging state. Any mismatch fails closed as a dual-authority conflict with zero mutation.
 
