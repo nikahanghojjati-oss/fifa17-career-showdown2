@@ -23,9 +23,12 @@ const keys={saveLibrary:"careerModeShowdown.saveLibrary",activeShowdown:"careerM
 
 assert.ok(!/\blocalStorage\b/.test(source.runtime),"Save Library runtime orchestration must never access localStorage directly.");
 assert.ok(!source.html.includes("js/saveLibraryFoundation.js")&&!source.html.includes("js/saveLibraryPersistence.js")&&!source.html.includes("js/saveLibraryRuntime.js"),"Save Library authority modules must remain outside eager production HTML.");
-assert.ok(source.app.includes('loadRuntimeScript("save-library-foundation","js/saveLibraryFoundation.js"'),"The eager gate must lazy-load the identity foundation.");
-assert.ok(source.app.includes('loadRuntimeScript("save-library-persistence","js/saveLibraryPersistence.js"'),"The eager gate must lazy-load the proven persistence transition.");
-assert.ok(source.app.includes('loadRuntimeScript("save-library-runtime","js/saveLibraryRuntime.js"'),"The eager gate must lazy-load runtime authority.");
+assert.ok(source.storage.includes('loadRuntimeScript("save-library-foundation","js/saveLibraryFoundation.js"'),"The canonical storage boundary must lazy-load the identity foundation.");
+assert.ok(source.storage.includes('loadRuntimeScript("save-library-persistence","js/saveLibraryPersistence.js"'),"The canonical storage boundary must lazy-load the proven persistence transition.");
+assert.ok(source.storage.includes('loadRuntimeScript("save-library-runtime","js/saveLibraryRuntime.js"'),"The canonical storage boundary must lazy-load runtime authority.");
+assert.ok(source.showdown.includes('await window.ensureSaveLibraryRuntimeAuthority()'),"Start and Continue must activate Save Library only at the confirmed user action boundary.");
+assert.ok(!source.storage.includes('window.ensureGameplayModules=wrapped'),"Predictive gameplay warm-up must remain non-mutating and must not activate Save Library authority.");
+assert.ok(!source.app.includes('save-library-foundation')&&!source.app.includes('save-library-runtime'),"The protected startup app shell must remain free of Save Library cutover loading logic.");
 assert.ok(source.worker.includes('"js/saveLibraryFoundation.js"')&&source.worker.includes('"js/saveLibraryPersistence.js"')&&source.worker.includes('"js/saveLibraryRuntime.js"'),"All Save Library cutover modules must belong to the verified offline whole shell.");
 assert.ok(source.restore.includes("captureCareerModeRawRestoreSnapshot"),"Candidate C must retain the mandatory strict destructive restore snapshot authority.");
 assert.ok(source.restore.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"Candidate C must additionally protect exact Save Library bytes after cutover.");
