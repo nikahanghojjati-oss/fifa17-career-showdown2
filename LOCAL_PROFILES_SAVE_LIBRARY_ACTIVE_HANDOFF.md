@@ -1,21 +1,25 @@
 # Career Mode Showdown — Local Profiles / Save Library Active Handoff
 
-Last updated: 2026-08-13 ET
-Status: Save Library runtime authority cutover implementation complete and technically green; PR #51 in documentation closure / final exact-head validation
+Last updated: 2026-08-14 ET
+Status: identity, canonical persistence and Save Library runtime authority technical layers complete, merged and production-proven; visible product UI remains future work
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
-Production application/runtime: `v1.3.0` / `1.3.0-r1`
+Production application/runtime labels: `v1.3.0` / `1.3.0-r1`
 Immediate previous whole runtime: `1.2.0-r2`
 Feature release version: intentionally unassigned
 
 ## Current boundary
 
-The owner-authorized Local Profiles / Save Library dependency chain has now completed three technical layers:
+The owner-authorized Local Profiles / Save Library dependency chain has completed three technical layers:
 
 1. identity foundation;
 2. canonical persistence transition;
-3. runtime authority cutover implementation.
+3. runtime authority cutover.
 
-The third layer is active in PR #51 and is not yet production `main` authority until merge and post-merge proof complete.
+The third layer merged through PR #51 at:
+
+`7c970c2fa425c9ae6ab8ddf215c8ee88305125a2`
+
+It is now production `main` authority and has passed exact post-merge production validation.
 
 No visible Save Library / Local Profiles product UI is claimed as implemented.
 
@@ -49,34 +53,27 @@ Canonical persistence PR #48 merged at:
 
 `d62ea1f62ec92af4a90de04a6ef182ed1bf44692`
 
-The persistence layer established the strict, non-eager singleton-to-Save-Library transition without itself activating runtime ownership.
+The persistence layer established the strict, non-eager singleton-to-Save-Library transition.
 
-`js/storage.js` remained sole public raw localStorage authority.
+`js/storage.js` remains sole public raw localStorage authority.
 
-`js/storageTransaction.js` remained the raw transaction engine.
+`js/storageTransaction.js` remains the raw transaction engine.
 
-`js/saveLibraryPersistence.js` remained non-direct-storage orchestration over strict storage authority.
+`js/saveLibraryPersistence.js` remains non-direct-storage orchestration over strict storage authority.
 
-The temporary migration view can include:
-
-- `saveLibrary`;
-- `activeShowdown`;
-- `legacyShowdowns`;
-- `preferences`.
-
-That temporary transition set never means four permanent canonical keys.
+The temporary migration view can include `saveLibrary`, `activeShowdown`, `legacyShowdowns` and `preferences`, but that temporary transition set never means four permanent canonical keys.
 
 Singleton retirement remains the migration commit point. Exact raw preconditions, all-requested-slot prewrite guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership checks, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, interruption/retry idempotence and critical recovery remain protected.
 
 Candidate C destructive Apply retained its mandatory three-slot `captureCareerModeRawRestoreSnapshot()` authority.
 
-## Save Library runtime authority cutover — implementation complete
+## Completed Save Library runtime authority cutover
 
-Active PR:
+PR:
 
 #51 — Cut over runtime authority to Save Library
 
-Active branch:
+Implementation branch:
 
 `agent/save-library-runtime-authority-cutover`
 
@@ -84,17 +81,27 @@ Exact runtime/test implementation head:
 
 `46d3e9d10d849b82e9d7d301fb6646404dec82bf`
 
-That implementation head passed all 13 normal PR workflow families.
+Exact final PR head:
 
-The first documentation head after implementation:
+`bda19f8181598d880c7b1eb7f4e9446464d015e6`
 
-`89fa6c185d9829269f6516feb80eccaa49060383`
+Exact merge:
 
-was exactly one documentation commit ahead of `46d3e9d10d849b82e9d7d301fb6646404dec82bf`, changed only `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md`, and also passed all 13 normal PR workflow families.
+`7c970c2fa425c9ae6ab8ddf215c8ee88305125a2`
 
-Detailed architecture and the complete failure/correction ledger live in `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md`.
+The final PR head passed all 13 normal PR workflow families. The merge was performed with expected-head protection after re-fetching current `main` at `98b37a4ec77b3da3da55f6f621a6a0cf2a340fa2`.
 
-The runtime implementation is complete. Documentation closure must not reopen it unless new exact-head validation exposes a genuine defect.
+The exact merge commit parents are the pre-merge `main` SHA and the exact green final PR head.
+
+All 14 permanent push-triggered workflow families subsequently passed on the exact merge SHA.
+
+Release Integration Burn-In run `31768712755` passed both stateful integration repetitions.
+
+Stability Lane run `31768712798` passed all three jobs. Its deployed-site smoke verified exact Pages runtime bytes and passed runtime provenance, Home visual, crop-safe football-photo, Candidate A, Candidate B, Candidate C, install/offline and complete deployed-site journey audits.
+
+No test was weakened and no performance budget was raised.
+
+Detailed cutover architecture and the complete failure/correction ledger remain in `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md`.
 
 ## Runtime loading and activation ownership
 
@@ -110,7 +117,7 @@ On an already-migrated device, Settings or Legacy may load/reactivate Save Libra
 
 Start and Continue are synchronously locked before lazy cutover loading begins, preventing rapid double activation from racing the loader gap.
 
-The heavy identity/persistence/runtime stack remains behind the lazy action boundary because the eager startup budget is extremely tight.
+The heavy identity/persistence/runtime stack remains behind the lazy action boundary because the eager startup budget is tightly protected.
 
 ## Runtime persistence authority
 
@@ -175,23 +182,23 @@ Dual authority fails closed.
 
 ## Critical failure/correction ledger
 
-The detailed exact ledger is preserved in `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md`. The following resolved classes must not return:
+The detailed exact ledger remains in `SAVE_LIBRARY_RUNTIME_AUTHORITY_CUTOVER_ACTIVE_HANDOFF.md`. These resolved classes must not return:
 
-1. Eager Save Library cutover logic exceeded startup budgets. Heavy activation was moved behind a lazy confirmed-action boundary.
-2. Predictive gameplay warm-up became mutating. Migration was restricted to confirmed Start/Continue actions.
-3. Candidate C initially required the four-slot snapshot everywhere. The old three-slot destructive snapshot remained mandatory and Save Library protection became additive only when relevant.
-4. Source compaction broke frozen-intent/source-shape contracts. Readable source and the established transaction call shape were restored.
-5. Settings reset lost safe pre-cutover singleton behavior. Existing behavior was retained only when Save Library is absent.
-6. Settings/Legacy initially initiated migration merely by opening. Unmigrated openings became non-mutating again.
-7. A transient four-key public canonical model appeared. Exactly three canonical keys now exist before activation and exactly three after activation.
-8. Stability still expected singleton writes after cutover. The browser journey now asserts zero singleton writes.
-9. Corrupt singleton bytes briefly followed a replacement-dialog model. They now fail closed and are preserved; no Save Library authority is fabricated.
-10. Quota failure targeted the retired singleton writer. It now targets Save Library authority.
-11. Rapid Start exposed a lazy-loader race. Start/Continue are disabled synchronously before loading.
-12. Transfer Challenge failed because the storage rewrite accidentally removed shared `cloneForStorage()`. Compatibility was restored through the lazy cutover path with `structuredClone` plus JSON fallback.
-13. Concurrent GitHub branch advances produced expected-head HTTP 409 conflicts. Those operations were safely rejected; force overwrite is forbidden.
+1. eager Save Library cutover logic exceeding startup budgets;
+2. predictive gameplay warm-up becoming mutating;
+3. Candidate C incorrectly requiring the four-slot snapshot everywhere;
+4. source compaction breaking frozen-intent/source-shape contracts;
+5. Settings reset losing safe pre-cutover singleton behavior;
+6. Settings/Legacy initiating migration merely by opening;
+7. a transient four-key public canonical model;
+8. Stability expecting singleton writes after cutover;
+9. corrupt singleton replacement rather than fail-closed preservation;
+10. quota failure targeting the retired singleton writer;
+11. rapid Start racing the lazy loader gap;
+12. Transfer Challenge failing after accidental removal of shared `cloneForStorage()`;
+13. unsafe overwriting after expected-head HTTP 409 conflicts.
 
-After the Transfer Challenge correction, exact head `46d3e9d10d849b82e9d7d301fb6646404dec82bf` passed the complete Stability browser journey and all 13 normal PR workflow families.
+The final substantive browser regression was the missing `cloneForStorage()` compatibility helper. It was restored through the lazy cutover path using `structuredClone` with JSON fallback. Exact implementation head `46d3e9d10d849b82e9d7d301fb6646404dec82bf` then passed the complete Stability browser journey and all 13 normal PR workflow families.
 
 ## Performance proof
 
@@ -212,31 +219,9 @@ Locked ceilings remain unchanged:
 
 No budget was raised.
 
-## PR #51 workflow proof so far
-
-Implementation head `46d3e9d10d849b82e9d7d301fb6646404dec82bf` passed:
-
-- Validate Static App;
-- Validate Final Polish;
-- Validate Home Bootstrap;
-- Validate Settings Workstream;
-- Validate League Confirmation;
-- Validate Transfer Workstream;
-- Validate Season Review;
-- Validate Statistics Workstream;
-- Validate V1 Visual Immersion;
-- Validate Licensed Football Visuals;
-- Validate Candidate B Import Analysis;
-- Validate Candidate C Atomic Restore;
-- Validate Stability Lane.
-
-Documentation-only head `89fa6c185d9829269f6516feb80eccaa49060383` also passed all 13.
-
-A fresh validation generation is still required on the exact final documentation head before merge.
-
 ## Installable Offline App and permanent locks
 
-Production app/runtime remains `v1.3.0` / `1.3.0-r1` until PR #51 is merged and post-merge proven.
+Production app/runtime labels remain `v1.3.0` / `1.3.0-r1`.
 
 Immediate previous whole runtime remains `1.2.0-r2`.
 
@@ -244,34 +229,13 @@ The shipped Installable Offline App baseline remains protected. Never assemble m
 
 Preserve Settings-only install/update presentation, installed iOS loading composition, protected football photography, FIFA 17-inspired visual shell, gameplay/scoring, Smart Back and all current accessibility/responsive evidence.
 
-## Documentation closure boundary
+## Next substantial candidate
 
-PR #51 is now in documentation closure / final exact-head validation.
+The technical Local Profiles / Save Library foundation is complete through runtime authority cutover.
 
-Before merge:
+The next dependency-ordered candidate is a separately bounded visible Local Profiles / Save Library product-UI candidate.
 
-- fetch the exact live PR head;
-- verify documentation closure changed no runtime/test source;
-- require every applicable exact-head PR workflow to be green;
-- verify mergeability;
-- re-fetch current `main` immediately before merge;
-- merge only with expected-head protection.
-
-After merge:
-
-- re-fetch and prove the exact `main` merge;
-- verify every applicable permanent push-triggered workflow;
-- verify Release Integration Burn-In if main-triggered;
-- publish exact merge/post-merge proof if the established documentation process requires a separate closure;
-- stop at the clean boundary.
-
-Do not begin visible Save Library UI in PR #51 or this context-heavy closure session.
-
-## Next substantial candidate after PR #51
-
-Only after PR #51 merges and current `main` is independently re-fetched and proven, begin a fresh separately bounded visible Local Profiles / Save Library product-UI candidate.
-
-That future candidate must reconstruct exact owner/repository UI scope before implementation.
+It must begin in a fresh development session and independently re-fetch current `main` before reconstructing exact owner/repository UI scope.
 
 Do not automatically include:
 
@@ -288,8 +252,8 @@ Do not automatically include:
 
 Historical ambiguous manager identities remain explicit future mapping work.
 
+No visible Save Library UI is implemented yet.
+
 ## Handoff decision
 
-The Save Library runtime cutover implementation has reached a clean technical boundary. PR #51 is a closure/merge task now, not a new feature-development task.
-
-Future work must independently re-fetch live GitHub authority and must not trust a stale branch or handoff SHA.
+The Save Library runtime cutover is complete, merged and production-proven. Future work must not reopen this architecture without newly reproduced evidence on current repository authority.
