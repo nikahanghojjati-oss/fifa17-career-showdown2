@@ -10,7 +10,7 @@ assert.match(analyticsSource,/identity\.managerProfileIds|managerProfileIds/,"Ca
 assert.ok(analyticsSource.includes("unresolvedRoleCount"),"Career Analytics must expose unresolved historical identity rather than guessing it.");
 assert.ok(analyticsSource.includes("window.getCareerAnalyticsRevisionKey"),"Career Analytics must expose one coherent render/cache revision key.");
 assert.ok(analyticsSource.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"Career Analytics must be able to read Local Profile presentation labels through the existing exact raw snapshot authority without activating mutation authority.");
-assert.ok(analyticsSource.includes("profilePresentation.signature"),"Career Analytics cache identity must include the Local Profile presentation signature it consumes.");
+assert.ok(analyticsSource.includes("presentation.signature"),"Career Analytics cache identity must include the Local Profile presentation signature it consumes.");
 assert.ok(statisticsSource.includes("excluded from longitudinal manager totals and leaderboards"),"Career Statistics must explain unresolved identity exclusions.");
 assert.ok(trophySource.includes("excluded from manager cabinets and longitudinal leaderboards"),"Trophy Room must explain unresolved identity exclusions.");
 assert.ok(statisticsSource.includes("row.dataset.profileId = manager.profileId"),"Career table rows need stable profile test hooks.");
