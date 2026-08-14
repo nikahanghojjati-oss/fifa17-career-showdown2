@@ -3,112 +3,228 @@
 Last updated: 2026-08-13 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+
+## Production authority
+
 Application: v1.3.0 — Recovery & Device Resilience Hardening
 Production runtime: `1.3.0-r1`
 Previous known-good runtime: `1.2.0-r2`
-Technical status: merged, deployed, exact-byte verified and production-proven
-Release PR: #42
+Runtime release PR: #42
 Runtime merge: `094401b649954656e27e4a92d027e9532e84ccbf`
 Production proof: `V1.3.0_PRODUCTION_PROOF.md`
-Stability: `31755136265` / deployed-site-smoke `94629478166`
-Release Integration Burn-In: `31755136240` — 2/2
 
-This is the active continuation handoff required by `00_HANDOFF_GOLDEN_RULE.md`. Current verified source, later explicit owner decisions, this file, `PROJECT_STATE.md` and `NEXT_TASK.md` outrank stale historical prose.
+The v1.3 runtime remains technically production-proven. Owner visual/product acceptance is a separate evidence channel and must not be inferred from CI or developer verification.
 
-## What shipped in v1.3
+## Current development authority
 
-v1.3 hardened the existing Installable Offline App without changing gameplay, scoring, the proven shell or the three-key canonical storage model.
+The owner explicitly authorized the next dependency-ordered product direction by saying `Continue` after the repository was independently reconstructed and the closed v1.3 baseline was verified.
 
-Candidate A blocked reads fail closed. Candidate B remains read-only. Candidate C destructive Apply requires strict exact raw snapshot authority and otherwise performs no mutation. Candidate C retains immutable confirmed intent, freshness barriers, complete planning, last-moment prewrite checks, transaction-owned mutation and rollback, anti-clobber ownership, exact verification and critical recovery.
+The active direction is:
 
-Service Worker activation now cannot acknowledge success before whole-shell verification and successful `skipWaiting()`. Registration reuse, reconnect-state restoration, Settings focus preservation, whole-shell cache recovery and exact localStorage byte preservation through PWA lifecycle transitions remain protected.
+Local Profiles / Save Library — version pending.
 
-## Production proof
+The historical roadmap label that once called this `v1.3.0` is superseded. `v1.3.0 — Recovery & Device Resilience Hardening` is already the shipped production release, so do not silently reuse that version number.
 
-The frozen candidate `b8d92e9a8a9eec2820c439c0dd2699e9d825a91f` passed all 13 normal PR workflow families together twice: once on PR #40 and again on release PR #42.
+Detailed active-feature history and reasoning live in `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`.
 
-PR #42 merged at `094401b649954656e27e4a92d027e9532e84ccbf`.
+## Foundation candidate — merged
 
-Post-merge evidence:
+Branch:
 
-- Pages `31755135819` succeeded;
-- Stability `31755136265` succeeded;
-- deployed-site-smoke `94629478166` verified exact public runtime bytes, provenance, Home, football visuals, Candidate A/B/C, install/offline behavior and the complete public journey;
-- Burn-In `31755136240` passed 2/2 independent complete stateful journeys.
+`agent/local-profiles-save-library-foundation`
 
-Automated technical production proof is complete. Do not invent owner visual acceptance; later owner screenshots or complaints are separate evidence.
+Foundation bootstrap handoff commit:
 
-## Locked product model
+`cbc90700b37b9aa6dd703a94a8cbb977b76a6a25`
 
-Exactly two managers. Showdown lengths 1/3/5/10. Same selected league, different permanent clubs. Existing scoring and 11-point maximum remain locked. Equal non-zero scores are Draw. Only 0–0 uses league position then league points.
+Implementation head:
 
-## Architecture and data authority
+`c6da6f4324c1590949aab2da6233f0ccc5fecfa0`
 
-`js/screens.js` is navigation/history/Smart Back authority. `js/storage.js` is canonical persistence/destructive mutation authority. `js/storageTransaction.js` is the raw transaction engine. `js/scoring.js` and `js/analytics.js` retain their authorities.
+Final PR head after validation handoff:
 
-Exactly three canonical localStorage keys remain legal:
+`44606296ab734ab429ac34020d377cb3ca2c077f`
+
+PR:
+
+#46 — Add Save Library identity foundation
+
+PR base:
+
+`908469d6034a9374b18d5d75f94fa371d8ad54a7`
+
+Merge:
+
+`b76baf3be8107a57c5898f691d5178ae1d8a8547`
+
+PR #46 introduced only the bounded identity/migration planning foundation required before canonical persistence work.
+
+Changed source/test authority:
+
+- `js/saveLibraryFoundation.js`;
+- `tests/contracts/save-library-foundation-contracts.cjs`;
+- `tests/support/run-contract-suite.cjs`;
+- `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`.
+
+The foundation module is intentionally not loaded by `index.html`, `service-worker.js` or the optional-module runtime path. It performs no localStorage writes. It did not change application version, runtime revision, service-worker semantics, gameplay, scoring, navigation, visual behavior or deployed canonical storage.
+
+## Foundation identity decisions
+
+The merged pure planning foundation defines versioned identity/migration contracts without promoting them to runtime storage authority.
+
+Proposed future registry key:
+
+`careerModeShowdown.saveLibrary`
+
+This key is not currently canonical.
+
+Stable migration identity planning uses opaque deterministic SHA-256-derived IDs based on existing persisted record identity rather than display-name equality:
+
+- `save_*` derives from an existing Showdown ID when no stable save ID already exists;
+- `season_*` derives from stable save ID plus canonical round/Season number;
+- initial `profile_*` identities derive from stable save identity plus explicit player role.
+
+Two managers with identical display names remain distinct identities.
+
+Historical Legacy records are not silently linked to profiles by matching names or normalized spelling. Records that do not share the exact current Showdown identity remain unresolved and are surfaced for later explicit mapping.
+
+The planner fails closed on corrupt raw input, malformed Save Library input, conflicting same-ID/different-content Legacy records, missing Showdown IDs and ambiguous/duplicate Season numbering.
+
+A valid existing Save Library returns an idempotent `already-migrated` planning result with no mutation candidate.
+
+## Foundation validation
+
+Focused local evidence passed:
+
+- syntax check for `js/saveLibraryFoundation.js`;
+- `tests/contracts/save-library-foundation-contracts.cjs`.
+
+The exact implementation head `c6da6f4324c1590949aab2da6233f0ccc5fecfa0` passed all 13 normal PR workflow families together.
+
+The exact final PR head `44606296ab734ab429ac34020d377cb3ca2c077f` then passed an independent fresh 13/13 generation before merge.
+
+The Static App evidence explicitly executed the new foundation contract and preserved eager startup at:
+
+- raw: 164,563 bytes;
+- gzip: 37,355 bytes.
+
+Both remain under the locked 165,000 / 37,500 ceilings. Workflow topology remained 14 permanent families and 27 protected multiline executable blocks.
+
+After PR #46 merged at `b76baf3be8107a57c5898f691d5178ae1d8a8547`, all 14 push-triggered permanent workflow families succeeded.
+
+Post-merge Stability:
+
+`31758874808` — success.
+
+Its deployed-site-smoke job:
+
+`94641012805` — success.
+
+That public-boundary job passed:
+
+- exact Pages runtime-byte verification;
+- runtime-error provenance;
+- Home visual audit;
+- crop-safe football-photo audit;
+- Candidate A backup/export;
+- Candidate B import analysis;
+- Candidate C atomic restore/recovery;
+- install/offline boundary;
+- complete public stateful journey.
+
+Release Integration Burn-In:
+
+`31758874804` — success, 2/2 independent complete stateful journeys.
+
+This evidence proves that merging the unloaded foundation did not regress the production runtime. It does not fabricate owner visual acceptance.
+
+## Current canonical persistence authority
+
+Exactly three localStorage keys remain canonical today:
 
 1. `careerModeShowdown.activeShowdown`
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
-The Service Worker and Cache Storage store versioned application bytes only and never canonical user data.
+Do not treat the proposed `careerModeShowdown.saveLibrary` key as canonical merely because the planning module names it.
 
-## Installable Offline App and visual locks
+`js/storage.js` remains sole canonical persistence/destructive mutation authority.
 
-Current shell `1.3.0-r1` falls back only to immediate previous known-good whole shell `1.2.0-r2` when that shell is complete and verified. Never assemble a runtime from files across revisions.
+`js/storageTransaction.js` remains the raw transaction engine.
 
-Install/update presentation remains Settings-only.
+`js/screens.js` remains navigation/history/Smart Back authority.
 
-Preserve the r2 iOS installed-app loading correction: bounded mobile top band, independent subject-safe Marco Reus image box, width-owned composition and opacity/filter-only animation. The historical defect was viewport-height behavior, not a bad image asset.
+`js/scoring.js` and `js/analytics.js` retain their existing authorities.
 
-## Validation and performance locks
+Service Worker/Cache Storage store application bytes only and may never become canonical user-data authority.
 
-There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13; Burn-In remains main/manual release-only.
+## Protected recovery model
 
-Performance ceilings remain eager raw <=165,000 bytes; eager gzip <=37,500; Reus portrait <=95,000; combined startup <=260,000; normal loading minimum 2700 ms; reduced-motion loading 220 ms.
+Candidate A remains non-mutating export.
 
-## Branch and tool history
+Candidate B remains strictly read-only analysis.
 
-PR #37 / `agent/v13-hardening` remains untrusted and must not be merged or used as a source baseline. Its historical alternate-shell replacement and lockfile remain rejected.
+Candidate C remains the only import stage allowed to commit canonical restore state.
 
-PR #40 is now the detailed v1.3 salvage/audit record. PR #42 is the actual release PR. The isolated `agent/v13-identity-blob-staging` branch remains staging residue only and is not merge authority.
+Candidate C destructive Apply still requires `captureCareerModeRawRestoreSnapshot()` strict exact raw snapshot authority. `captureCareerModeRawBackupInputs()` must never substitute as destructive mutation authority.
 
-Issue #41 (`TEMP IGNORE`) was an accidental prior-session tool-routing artifact and remains closed `not_planned`; do not reopen it.
+Preserve immutable confirmed intent, exact raw preconditions, stale-state barriers, complete in-memory planning, last-moment prewrite checks, transaction-owned mutation and rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery when ownership is uncertain.
 
-In the v1.3 production-seal session an attempted post-merge PR #42 body update was blocked by the connector safety layer before any mutation. No source, branch or production state changed from that blocked operation. Production evidence is recorded in repository release/proof documents instead.
+## PWA / visual / product locks
 
-## Quality-first handoff policy publication — 2026-08-13 ET
+Current whole shell remains `1.3.0-r1`; immediate previous known-good whole shell remains `1.2.0-r2`.
 
-The owner explicitly required proactive fresh-chat handoff to become permanent repository policy whenever a clean handoff would preserve engineering quality, correctness and continuity better than continuing a context-heavy session.
+Preserve atomic whole-shell caching, safe activation, Candidate C gating, whole-runtime selection, previous-runtime recovery, worker-owned connectivity probing, unrelated-cache preservation and Settings-only install/update presentation.
 
-Session start authority was `main` `0d06a85cffddeaa19790ae1c7cb223bc3116a002`. The pending policy commit `493892525eb36b26ce867118f82d96de78ba6134` on `agent/v13-production-seal` was independently rechecked before publication. Its base-relative change was exactly one file, `00_HANDOFF_GOLDEN_RULE.md`, with +32 / -1 and no runtime, tests, packages, assets, gameplay, persistence, PWA, performance or visual source changes.
+`CMS_ACTIVATE_UPDATE` must verify the whole shell, await successful `skipWaiting()`, then acknowledge acceptance.
 
-PR #44 — `Strengthen quality-first handoff policy` — was opened against `main` and merged with expected head `493892525eb36b26ce867118f82d96de78ba6134`. Policy merge authority is `4fca8015edb250b1ff9da3c766374456188999da`.
+Preserve the r2 installed iOS loading composition: bounded top band, independent subject-safe Marco Reus image box, width-owned composition and opacity/filter-only animation.
 
-All ten workflows applicable to this Markdown-only PR passed:
+Exactly two managers. Showdown lengths 1/3/5/10. Same selected league, different permanent clubs. Existing scoring and the 11-point maximum remain locked. Equal non-zero scores are Draw. Only 0–0 uses league position then league points.
 
-- Validate Final Polish `31757153617`;
-- Validate Statistics Workstream `31757153569`;
-- Validate Season Review `31757153529`;
-- Validate Settings Workstream `31757153541`;
-- Validate Static App `31757153638`;
-- Validate Transfer Workstream `31757153562`;
-- Validate League Confirmation `31757153558`;
-- Validate Home Bootstrap `31757153589`;
-- Validate V1 Visual Immersion `31757153560`;
-- Validate Licensed Football Visuals `31757153536`.
+## Next legal engineering task
 
-The other three normal PR workflow families — Candidate C Atomic Restore, Candidate B Import Analysis and Stability Lane — explicitly use `paths-ignore: "**/*.md"`, so their absence on this documentation-only PR is expected and not missing validation.
+The next candidate is canonical persistence integration for the Save Library foundation.
 
-One read-only connector attempt to fetch the GitHub compare `.diff` URL returned 404. No mutation occurred. The actual PR patch was then verified successfully through the GitHub PR diff action before merge.
+This is intentionally a separate high-risk candidate.
 
-After PR #44, production application/runtime authority remains unchanged at `v1.3.0` / `1.3.0-r1`; immediate previous whole shell remains `1.2.0-r2`; owner visual/product acceptance remains separate from technical proof.
+The migration must safely reason about a temporary four-name transition boundary:
 
-This handoff publication seal is being made from branch `agent/handoff-policy-publication-seal`, based on policy merge `4fca8015edb250b1ff9da3c766374456188999da`. It is documentation-only and must not be interpreted as a runtime release.
+- `saveLibrary`;
+- `activeShowdown`;
+- `legacyShowdowns`;
+- `preferences`.
 
-## Current legal next action
+The current three-key model remains canonical until a transactionally proven migration changes that authority.
 
-v1.3.0 — Recovery & Device Resilience Hardening is technically production-proven. Preserve and observe the baseline. Do not begin Local Profiles/Save Library, cloud, accounts, QR pairing, synchronization, gameplay/scoring changes or framework migration without current explicit authority.
+The next developer must not merely add `saveLibrary` as a fourth permanent canonical key. The intended direction is to make the Save Library the eventual sole authority for active/in-progress saves and retire `activeShowdown` only within a verified atomic transition.
 
-At the next session start, fetch `main` again because documentation seal commits may have advanced repository head after the immutable runtime merge `094401b649954656e27e4a92d027e9532e84ccbf`.
+Do not create a state where old `activeShowdown` and new `saveLibrary` independently claim canonical active-save truth.
+
+Before source changes, inspect `js/storage.js`, `js/storageTransaction.js`, `js/saveLibraryFoundation.js`, `js/backup.js`, `js/importAnalysis.js`, `js/restore.js`, and all Candidate A/B/C contracts/browser audits.
+
+The persistence candidate must prove strict snapshot coverage, preconditions, rollback ownership, exact verification, interruption/retry idempotence and corrupt-byte preservation across the transition.
+
+Do not start visible Save Library UI, profile-management UI, historical manager-profile mapping UI, cloud, accounts, QR pairing, synchronization, backup-envelope redesign, gameplay/scoring changes or framework migration as part of this candidate.
+
+Do not assign a release version yet.
+
+## Historical branch and tool warnings
+
+PR #37 / `agent/v13-hardening` remains untrusted historical work. Do not merge it, revive its alternate shell or copy its stale lockfile.
+
+PR #40 remains the detailed v1.3 salvage/audit record. PR #42 is the v1.3 runtime release path. PR #44 is the permanent quality-first handoff policy. PR #45 is its publication seal. PR #46 is the merged Save Library foundation authority.
+
+Issue #41 `TEMP IGNORE` remains a closed accidental tool-routing artifact and must not be reopened.
+
+Earlier historical tool incidents remain part of repository history: PR #40's body was once accidentally replaced with `checkpoint` then repaired; issue #41 was accidentally created then closed; a compare `.diff` request once returned 404; several connector safety blocks occurred before mutation; `gh` was unavailable in prior execution environments. None of those incidents changed production application source unless explicitly recorded otherwise.
+
+This foundation session also had several blocked operations before mutation: the first active-handoff file creation call, the first full-body PR #46 creation call, and the first mark-ready call. A direct merge attempt while PR #46 remained draft returned HTTP 405 and did not merge. The PR was subsequently marked ready successfully and merged only with expected head `44606296ab734ab429ac34020d377cb3ca2c077f`.
+
+A read-only local clone attempt failed because that execution environment could not resolve `github.com`; no repository mutation occurred. The GitHub connector remained source authority.
+
+## Quality-first continuation boundary
+
+The foundation merge plus post-merge public proof is a coherent repository boundary. Canonical persistence integration changes storage ownership and destructive transaction semantics, so it is a distinct substantial task.
+
+Under `00_HANDOFF_GOLDEN_RULE.md`, begin that task in a fresh session after independently verifying current `main` and reading this handoff plus `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md` and `NEXT_TASK.md`.
