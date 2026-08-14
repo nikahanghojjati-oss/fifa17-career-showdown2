@@ -48,17 +48,17 @@ The six current authority documents were read in required order:
 
 Current source remains implementation authority.
 
-## Record inconsistency found
+## Record inconsistency found and corrected on the branch
 
-`00_DEVELOPER_START_HERE.md` is partially stale relative to the newer authority chain. Its sixty-second dependency list still stops at PR #53 and its development-boundary wording still treats cross-Save/profile linkage as future work.
+`00_DEVELOPER_START_HERE.md` was partially stale relative to the newer authority chain. Its sixty-second dependency list stopped at PR #53 and its development-boundary wording still treated cross-Save/profile linkage as future work.
 
 Current source, `00_CURRENT_HANDOFF.md`, `PROJECT_STATE.md`, `NEXT_TASK.md` and `POST_V1_ROADMAP_EXECUTION.md` establish that PR #57 shipped the explicit cross-Save/historical manager identity-linkage foundation and that merge `95e98c13bbb4cac485531565c3577ae31286d0af` is production-proven.
 
-This inconsistency must be corrected without inventing a release version.
+The branch now corrects that bootstrap inconsistency without inventing a release version. `NEXT_TASK.md` and the roadmap also record the owner's later explicit Analytics authorization while continuing to distinguish branch status from production truth.
 
 ## Source reconstruction and root cause
 
-Current `js/analytics.js` had two distinct longitudinal authority defects:
+Production `js/analytics.js` had two distinct longitudinal authority defects:
 
 1. `getOrCreateManagerStats()` keyed career managers by `analyticsNormalizeName(name)`, so different stable `profile_*` identities with equal visible labels collapsed into one career row.
 2. the Career Analytics and presentation render cache key used Legacy revision plus only active Showdown ID/timestamp, so an active completed identity remap could leave derived identity output stale when the Showdown timestamp itself did not change.
@@ -87,6 +87,8 @@ Identified manager rows, manager cabinets and manager leaderboards:
 - fall back to the Showdown label only as presentation, never as an identity key;
 - exclude unresolved historical roles rather than assigning them by name.
 
+Unresolved historical roles are excluded from identified manager totals/leaderboards until explicitly mapped. This is deliberate identity honesty, not data loss.
+
 Identity-independent output remains complete:
 
 - completed Showdown count;
@@ -110,9 +112,11 @@ The key includes:
 
 Career Statistics and Trophy Room use the same revision key, so an identity mapping change invalidates both derived calculation and presentation caches coherently.
 
-## Implementation commits so far
+## Implementation and authority-alignment commits so far
 
 All writes are on `agent/identity-safe-career-analytics`; production `main` is unchanged.
+
+Runtime and regression layer:
 
 - `1bc5bec1246c79b2762a80466405e7498ec6668b` — make Career Analytics stable-profile keyed, preserve unresolved identity explicitly and centralize identity-aware cache revision.
 - `74c46984e6896cd89aed074a61267dd10f7eb16a` — make Career Statistics consume the shared revision and surface unresolved identity honestly.
@@ -123,6 +127,14 @@ All writes are on `agent/identity-safe-career-analytics`; production `main` is u
 - `b73840ee91e73964ca15cc967f0b0da9d93b7ee3` — add Chromium identity-safe Career Analytics regression covering Career Statistics, explicit historical mapping and Trophy Room.
 - `63d0e1f373e010a8fd96f12a0a5597fc28d24dea` — integrate local and deployed Analytics browser evidence into the existing Stability workflow.
 
+Record / semantic authority layer:
+
+- `e6381fdcbd7e76fedd9d80e28fed18129ea971dc` — correct `00_DEVELOPER_START_HERE.md` so the completed chain includes PR #57 and distinguish production truth from the active Analytics branch.
+- `298710c8e7474da696cbb28bb3ae13a6afaa7455` — advance `NEXT_TASK.md` from pre-authorization future-candidate wording to the exact owner-authorized Analytics scope.
+- `3e0ca9ec22bb9b7e85fc524fc9cd6cd421a48bf0` — advance roadmap classification to `AUTHORIZED / IN PROGRESS` while keeping production, cloud and release identity separate.
+- `5204b370dfa57e335cbbf17cc403d60b833f3557` — advance the cloud coherence contract without weakening Cloud Readiness/Backup gates.
+- `538765e14d5fff8f9e09362b0fc8777597d7e121` — advance release-authority coherence to protect the new authorization state, PR #57 bootstrap correction and cloud boundary.
+
 ## Operational note
 
 The local `gh` CLI is not installed in the current execution environment, so the normal local `yeet` publish path cannot be used. No repository action was faked or delegated to the owner. The connected GitHub capability supports exact branch creation, scoped file writes, PR creation, workflow/review inspection and expected-head merge, so work is proceeding entirely through repository-native GitHub operations.
@@ -131,12 +143,10 @@ The local `gh` CLI is not installed in the current execution environment, so the
 
 Validation is not yet claimed green.
 
-The candidate still requires:
+The record inconsistency and known pre-authorization semantic-contract wording are now corrected on the branch. The candidate still requires:
 
-- correction of current authority/documentation inconsistency;
-- advancement of stale semantic contracts that still encode the pre-authorization Analytics state;
-- draft PR creation;
-- all normal PR workflow families on one exact final candidate SHA;
+- draft PR creation from one frozen candidate head;
+- all normal PR workflow families on that exact final candidate SHA;
 - main-drift, changed-file, mergeability, review and unresolved-thread promotion checks;
 - exact expected-head merge only if all gates are green;
 - all permanent production/push workflow families on the exact merge;
