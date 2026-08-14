@@ -60,7 +60,7 @@ function clearAllCareerModeData(){cancelScheduledCurrentShowdownSave();const sna
 window.captureCareerModeRawBackupInputs=captureCareerModeRawBackupInputs;
 window.captureCareerModeRawRestoreSnapshot=captureCareerModeRawRestoreSnapshot;
 window.captureCareerModeRawSaveLibraryMigrationSnapshot=captureLibraryMigrationSnapshot;
-window.getCareerModeStorageKeys=()=>({saveLibrary:SAVE_KEY,activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});
+window.getCareerModeStorageKeys=()=>({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});
 window.initializeStorageLifecycle=initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave=scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave=flushScheduledCurrentShowdownSave;
