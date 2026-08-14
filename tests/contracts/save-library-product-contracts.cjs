@@ -12,6 +12,7 @@ const keys={saveLibrary:"careerModeShowdown.saveLibrary",activeShowdown:"careerM
 assert.ok(!/\blocalStorage\b/.test(source.ui),"Visible Save Library UI must never access raw browser storage directly.");
 assert.ok(source.cutover.includes('loadRuntimeStyle("save-library-ui","css/saveLibrary.css")')&&source.cutover.includes('loadRuntimeScript("save-library-ui","js/saveLibraryUI.js"'),"Save Library product assets must stay behind the existing lazy local-data boundary.");
 assert.ok(source.showdown.includes('label.textContent="SAVE LIBRARY"')&&source.showdown.includes('meta.textContent="Local Showdowns, manager profiles and settings"'),"The established Home Settings tile must visibly advertise the Save Library without adding a second navigation system.");
+assert.ok(source.ui.includes("function saveLibraryUIRestoreMutationFocus")&&source.ui.includes("saveLibraryUIRestoreMutationFocus(saveId)")&&source.ui.includes('saveLibraryUIRestoreMutationFocus(result.activeSaveId||"")'),"Save Library switch/delete rerenders must restore focus inside the established Settings dialog rather than creating a competing modal key handler.");
 assert.ok(source.ui.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"The visible product must use the established exact read authority when deciding empty, compatibility, ready or blocked state.");
 assert.ok(source.ui.includes("Names are labels, not identity keys"),"Local Profiles must explain that equal display names do not merge stable identity.");
 assert.ok(source.ui.includes("DELETE THIS SAVE")&&source.ui.includes("Other local Saves, Local Profiles, Legacy history and app settings remain"),"Single-Save deletion must be visibly distinct from full reset.");
@@ -101,5 +102,5 @@ async function productMutationsFailClosedOnAuthorityDrift(){
 (async()=>{
   await additiveCreateSwitchDeleteAndProfileIdentity();
   await productMutationsFailClosedOnAuthorityDrift();
-  console.log("Save Library product contracts passed: Home discoverability, additive multi-save creation, explicit active switching, scoped deletion, detached UI snapshots, same-name identity separation, singleton non-resurrection and stale-authority fail-closed behavior are protected.");
+  console.log("Save Library product contracts passed: Home discoverability, mutation focus ownership, additive multi-save creation, explicit active switching, scoped deletion, detached UI snapshots, same-name identity separation, singleton non-resurrection and stale-authority fail-closed behavior are protected.");
 })().catch(error=>{console.error(error);process.exit(1);});
