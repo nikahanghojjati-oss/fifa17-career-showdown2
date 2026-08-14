@@ -19,10 +19,10 @@
     return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:RAW_NAMES.slice()};
   }
   function captureStrictSaveLibraryRaw(){
-    if(typeof window.captureCareerModeRawSaveLibraryMigrationSnapshot!=="function")return {ok:false,raw:null,failedKeys:SAVE_LIBRARY_RAW_NAMES.slice()};
+    if(typeof window.captureCareerModeRawSaveLibraryMigrationSnapshot!=="function")return {ok:true,raw:null,failedKeys:[],unavailable:true};
     const snapshot=window.captureCareerModeRawSaveLibraryMigrationSnapshot();
-    if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return snapshot;
-    return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:SAVE_LIBRARY_RAW_NAMES.slice()};
+    if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return {...snapshot,unavailable:false};
+    return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:SAVE_LIBRARY_RAW_NAMES.slice(),unavailable:false};
   }
   function rawViewsAgree(restoreRaw,libraryRaw){return RAW_NAMES.every(name=>restoreRaw[name]===libraryRaw[name]);}
   function parseRaw(raw,kind){
@@ -186,12 +186,13 @@
         return {ok:false,status:"snapshot-unavailable",analysis,failedKeys:saveLibrarySnapshot.failedKeys,errors:[`Exact Save Library storage could not be read safely${saveLibrarySnapshot.failedKeys.length?`: ${saveLibrarySnapshot.failedKeys.join(", ")}`:""}. Nothing was written.`]};
       }
       const currentRaw=strictSnapshot.raw;
-      const completeRaw=saveLibrarySnapshot.raw;
-      if(!rawViewsAgree(currentRaw,completeRaw)){
+      const saveLibraryAvailable=saveLibrarySnapshot.unavailable!==true;
+      const completeRaw=saveLibraryAvailable?saveLibrarySnapshot.raw:currentRaw;
+      if(saveLibraryAvailable&&!rawViewsAgree(currentRaw,completeRaw)){
         return {ok:false,status:"stale-state",analysis,currentRaw:completeRaw,changedKeys:RAW_NAMES.slice(),errors:["Canonical storage changed between the mandatory restore snapshot and the Save Library authority snapshot. Nothing was written."]};
       }
       const reviewState=compareReviewedRawState(confirmedExpectedRaw,currentRaw);
-      const libraryReviewState=compareReviewedSaveLibraryState(confirmedExpectedRaw,completeRaw);
+      const libraryReviewState=saveLibraryAvailable?compareReviewedSaveLibraryState(confirmedExpectedRaw,completeRaw):{checked:false,changedKeys:[]};
       const reviewedChanges=[...reviewState.changedKeys,...libraryReviewState.changedKeys];
       if((reviewState.checked||libraryReviewState.checked)&&reviewedChanges.length){
         return {
@@ -210,7 +211,7 @@
       let candidateRaw=plan.candidateRaw;
       let expectedRaw=currentRaw;
       let transactionOptions;
-      const saveLibraryMode=completeRaw.saveLibrary!==null;
+      const saveLibraryMode=saveLibraryAvailable&&completeRaw.saveLibrary!==null;
       if(saveLibraryMode){
         const prepared=await buildSaveLibraryRestoreCandidate(plan,analysis,completeRaw);
         if(!prepared.ok)return {ok:false,status:prepared.status,analysis,plan,currentRaw:completeRaw,errors:prepared.errors,warnings:plan.warnings};
