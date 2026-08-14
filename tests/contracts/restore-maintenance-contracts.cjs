@@ -32,7 +32,7 @@ function runtime(overrides = {}){
     assert.ok(restoreSource.indexOf("confirmedChoices=clone") < restoreSource.indexOf("await window.analyzeCareerModeBackupFile"), "Confirmed intent must freeze before fresh asynchronous analysis starts.");
     assert.ok(restoreSource.indexOf("confirmedExpectedRaw=clone") < restoreSource.indexOf("await window.analyzeCareerModeBackupFile"), "Reviewed raw-state intent must freeze before fresh asynchronous analysis starts.");
     assert.ok(restoreSource.includes("captureCareerModeRawRestoreSnapshot"), "Apply must prefer the strict storage snapshot authority.");
-    assert.ok(restoreSource.includes("let candidateRaw=plan.candidateRaw,expectedRaw=currentRaw") && restoreSource.includes("window.applyCareerModeRawStorageTransaction(candidateRaw,expectedRaw,transactionOptions)"), "The transaction boundary must receive the exact planning snapshot, or the exact four-slot Save Library snapshot derived from it, as a storage precondition.");
+    assert.ok(restoreSource.includes("let candidateRaw=plan.candidateRaw,expectedRaw=currentRaw") && restoreSource.includes("candidateRaw,expectedRaw,transactionOptions") && restoreSource.includes("plan.candidateRaw,currentRaw"), "The transaction boundary must preserve both exact precondition branches: four-slot Save Library expectedRaw plus transaction options, and legacy plan.candidateRaw with the mandatory three-slot currentRaw snapshot.");
 
     assert.ok(uiSource.includes("fileGeneration"), "Restore UI must version selected-file identity across asynchronous review.");
     assert.ok(uiSource.includes("setRestoreControlsLocked"), "Restore UI must lock decision controls during review/apply.");
