@@ -22,16 +22,29 @@
 .saveLibraryActions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:stretch;margin-top:12px;}
 .saveLibraryActions .menuButton{min-height:46px;font-size:13px;}
 .saveLibraryActions .compactButton{min-width:138px;}
-.saveLibraryProfiles{margin-top:18px;padding-top:14px;border-top:1px solid rgba(31,57,73,.2);}
+.saveLibraryProfiles,.saveLibraryIdentityLinks{margin-top:18px;padding-top:14px;border-top:1px solid rgba(31,57,73,.2);}
 .saveLibrarySubheading{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
 .saveLibrarySubheading span{color:var(--f17-blue-deep);font:700 9px/1 var(--f17-display);letter-spacing:2px;}
 .saveLibrarySubheading h4{font:800 25px/.9 var(--f17-display);}
-.saveLibraryProfileNote{max-width:820px;margin:7px 0 11px;color:#50616c;font-size:11px;line-height:1.45;}
+.saveLibraryProfileNote{max-width:900px;margin:7px 0 11px;color:#50616c;font-size:11px;line-height:1.45;}
 .saveLibraryProfileGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
 .saveLibraryProfileCard{min-width:0;padding:11px 12px;background:#e8eef0;border-left:5px solid var(--f17-cyan);}
 .saveLibraryProfileCard:nth-child(even){border-left-color:var(--f17-yellow-deep);}
 .saveLibraryProfileCard strong{display:block;margin-top:5px;font:800 20px/.95 var(--f17-display);text-transform:uppercase;overflow-wrap:anywhere;}
 .saveLibraryProfileCard small{display:block;margin-top:5px;color:#596a75;font-size:9px;line-height:1.35;}
+.saveLibraryIdentityGroupHeading{margin:15px 0 7px;color:#365264;font:800 12px/1 var(--f17-display);letter-spacing:1.5px;}
+.saveLibraryIdentityGroup{display:grid;gap:8px;}
+.saveLibraryIdentitySource{min-width:0;padding:12px;background:#f8fafa;border-left:5px solid var(--f17-blue);box-shadow:var(--f17-shadow-soft);}
+.saveLibraryIdentitySource.historical{border-left-color:var(--f17-yellow-deep);}
+.saveLibraryIdentitySource>strong{display:block;font:800 18px/1 var(--f17-display);text-transform:uppercase;overflow-wrap:anywhere;}
+.saveLibraryIdentitySource>small{display:block;margin:4px 0 9px;color:#61727d;font:700 8px/1.25 var(--f17-display);letter-spacing:1px;overflow-wrap:anywhere;}
+.saveLibraryIdentityLinkRow{display:grid;grid-template-columns:minmax(150px,.8fr) minmax(220px,1.5fr) minmax(150px,.55fr);gap:6px;align-items:center;padding:7px 0;border-top:1px solid rgba(47,76,93,.13);}
+.saveLibraryIdentityLinkContext{min-width:0;}
+.saveLibraryIdentityLinkContext strong{display:block;color:var(--f17-ink);font-size:10px;line-height:1.25;overflow-wrap:anywhere;}
+.saveLibraryIdentityLinkContext small{display:block;margin-top:3px;color:#61727d;font-size:8px;line-height:1.25;overflow-wrap:anywhere;}
+.saveLibraryIdentitySelect{width:100%;min-width:0;min-height:44px;padding:8px 10px;border:1px solid #b7c5cc;background:#fff;color:var(--f17-ink);font:700 10px/1.2 var(--f17-ui);}
+.saveLibraryIdentityApply{width:100%;min-width:0;min-height:44px;}
+.saveLibraryIdentityUnavailable{margin:8px 0 0;padding:11px 12px;background:#eef3f4;border-left:5px solid #81949f;color:#53646f;font-size:10px;line-height:1.45;}
 .saveLibraryEmptyState,.saveLibraryCompatibilityState,.saveLibraryBlockedState{padding:17px 18px;background:#eef3f4;border-left:7px solid var(--f17-cyan);}
 .saveLibraryCompatibilityState{border-left-color:var(--f17-yellow);}
 .saveLibraryBlockedState{border-left-color:#b74f56;background:#f3e7e8;}
@@ -41,12 +54,12 @@
 @media(max-width:760px){
     .saveLibrarySummary,.saveLibraryGrid,.saveLibraryProfileGrid{grid-template-columns:1fr;}
     .saveLibrarySummaryItem{min-height:42px;justify-content:flex-start;text-align:left;}
-    .saveLibraryActions{grid-template-columns:1fr;}
+    .saveLibraryActions,.saveLibraryIdentityLinkRow{grid-template-columns:1fr;}
     .saveLibraryActions .compactButton{width:100%;min-width:0;}
     .saveLibraryFact{grid-template-columns:78px minmax(0,1fr);}
 }
 @media(max-width:420px){
-    .saveLibraryCard,.saveLibraryEmptyState,.saveLibraryCompatibilityState,.saveLibraryBlockedState{padding:13px 12px;}
+    .saveLibraryCard,.saveLibraryIdentitySource,.saveLibraryEmptyState,.saveLibraryCompatibilityState,.saveLibraryBlockedState{padding:13px 12px;}
     .saveLibraryHeading{padding-right:0;}
     .saveLibraryHeading::after{display:none;}
 }
