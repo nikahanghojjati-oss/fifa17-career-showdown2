@@ -75,7 +75,7 @@
     }
 
     function runtimeGetSaveEntry(library,saveId){
-        if(typeof saveId!=="string"||!/^save_[a-f0-9]{32}$/.test(saveId))throw new Error("A stable Save Library identity is required.");
+        if(typeof saveId!=="string"||!/^save_[a-f0-9]{24}$/.test(saveId))throw new Error("A stable Save Library identity is required.");
         const matches=library.saves.filter(entry=>entry&&entry.saveId===saveId);
         if(matches.length!==1)throw new Error(`Save identity ${saveId} does not resolve to exactly one Save Library entry.`);
         return matches[0];
@@ -273,11 +273,16 @@
         const prepared=runtimeCloneValue(target.showdown);
         await runtimePrimeSeasonIdentities(prepared);
         runtimeAuthorityRawSnapshot();
-        if(library.activeSaveId!==saveId){
-            const next={...library,activeSaveId:saveId,profiles:library.profiles.map(runtimeCloneValue),saves:library.saves.map(runtimeCloneValue)};
-            const errors=runtimeGetFoundation().validateSaveLibrary(next);
-            if(errors.length)throw new Error(`Save Library active selection is invalid: ${errors.join(" ")}`);
-            runtimeCommitLibrary(next);
+        try{
+            if(library.activeSaveId!==saveId){
+                const next={...library,activeSaveId:saveId,profiles:library.profiles.map(runtimeCloneValue),saves:library.saves.map(runtimeCloneValue)};
+                const errors=runtimeGetFoundation().validateSaveLibrary(next);
+                if(errors.length)throw new Error(`Save Library active selection is invalid: ${errors.join(" ")}`);
+                runtimeCommitLibrary(next);
+            }
+        }catch(error){
+            seasonIdentityByRound=new Map();
+            throw error;
         }
         runtimeSetCurrentShowdownReference(prepared);
         return runtimeCloneValue(prepared);
@@ -315,7 +320,7 @@
         const nextLibrary=runtimeAppendSaveEntry(currentLibrary,newEntry,planned.library.profiles,newSaveId);
         await runtimePrimeSeasonIdentities(prepared);
         runtimeAuthorityRawSnapshot();
-        runtimeCommitLibrary(nextLibrary);
+        try{runtimeCommitLibrary(nextLibrary);}catch(error){seasonIdentityByRound=new Map();throw error;}
         return runtimeCloneValue(prepared);
     }
 
