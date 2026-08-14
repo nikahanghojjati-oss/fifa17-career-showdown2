@@ -19,11 +19,23 @@ Identity foundation PR #57 merge: `95e98c13bbb4cac485531565c3577ae31286d0af`.
 
 All 13 normal PR workflow families passed the exact final head. All 14 permanent push workflow families passed the exact runtime merge. Post-merge Stability run `31812858587` succeeded through repository contracts, canonical Chromium integration, deployed byte verification, deployed Save Library, deployed manager identity linkage, Candidate A/B/C, offline and complete journey proof.
 
-## Immediate next-task boundary
+## Current owner-authorized candidate
 
-There is no automatically authorized next substantial runtime/product implementation candidate.
+On 2026-08-14 ET the owner explicitly instructed the developer to correct repository record inconsistencies and then work independently according to the roadmap toward the next step with maximum attention to detail and accuracy.
 
-The owner-authorized identity-linkage prerequisite is now closed. Current production semantics are:
+That later owner instruction authorizes the previously identified smallest high-value candidate: a narrow identity-safe longitudinal Career Analytics correction with coherent Trophy Room consumption.
+
+Active branch:
+
+`agent/identity-safe-career-analytics`
+
+Exact verified branch base:
+
+`8c6fad42e38b4964d848128e40569442c3fa06d5`
+
+Production remains unchanged until this candidate passes exact-head validation, is merged by expected head, and passes exact production/deployed-site proof.
+
+## Shipped identity semantics the candidate must consume
 
 1. stable `profile_*`, `save_*` and `season_*` identities remain authoritative;
 2. fresh New Showdown creation still intentionally creates fresh Local Profiles for its two manager roles;
@@ -38,24 +50,32 @@ The owner-authorized identity-linkage prerequisite is now closed. Current produc
 
 Do not silently map historical or cross-Save identity because display names match.
 
-## Smallest high-value future product candidate
+## Required Analytics behavior
 
-The smallest source-supported future product candidate is now a separate, narrow identity-safe longitudinal Career Analytics correction.
+The implementation must correct the current name-keyed longitudinal defect without converting display labels into identity authority.
 
-If separately authorized, that candidate should make career-level manager aggregation consume authoritative identity semantics that now exist while preserving explicitly unresolved history honestly. At minimum it must investigate and protect:
+At minimum it must protect:
 
 - `js/analytics.js` career-manager aggregation keys and cache invalidation;
-- stable `identity.managerProfileIds` across linked Saves;
+- exact stable `identity.managerProfileIds` across linked Saves;
 - two distinct profiles with the same visible manager name remaining separate career identities;
 - one explicitly reused profile across multiple Saves aggregating as one career identity;
 - historical records whose manager profile reference remains null/unresolved without guessing from labels;
-- Rivalry/Showdown-scoped Analytics behavior that does not require cross-history identity;
-- Trophy Room consumption of Career Analytics output;
-- deterministic and browser regression evidence for same-name distinct managers, one linked manager across Saves, unresolved historical roles and cache refresh after explicit mappings.
+- unresolved historical contributions remaining excluded from identified longitudinal manager totals, cabinets and manager leaderboards until explicitly mapped;
+- overall completed Showdown count, seasons, Showdown points, trophies and Showdown/Season-scoped records remaining complete even when a manager role is unresolved;
+- Rivalry/Showdown-scoped Analytics behavior remaining correct and label-scoped because it does not require cross-history identity;
+- Local Profile display names being presentation labels for identified careers, never aggregation keys;
+- Analytics calculation cache and Career Statistics/Trophy Room render caches invalidating when identity mapping changes affect derived output;
+- Trophy Room consuming the corrected Career Analytics model coherently;
+- deterministic and browser regression evidence for same-name distinct managers, one linked manager across Saves, unresolved historical roles, explicit mapping refresh and Trophy Room coherence.
 
-A direct profile-ID key swap is not sufficiently correct by itself. The implementation must define how unresolved historical contributions are represented and must preserve display labels as labels rather than identity authority.
+A direct profile-ID key swap alone is not sufficient. The unresolved-history and cache semantics above are part of the authorized behavior.
 
-This Analytics candidate is identified, not automatically authorized for runtime implementation. Do not start it merely because the identity prerequisite is now shipped.
+## Current record correction
+
+`00_DEVELOPER_START_HERE.md` was stale because it stopped the completed dependency chain at PR #53 and still narrated cross-Save/profile linkage as future work.
+
+The active candidate must correct that bootstrap record to acknowledge PR #57 and merge `95e98c13bbb4cac485531565c3577ae31286d0af` as shipped production authority without assigning a new feature/application release version.
 
 ## Separate future boundary: backup portability
 
@@ -63,18 +83,17 @@ Candidate A/B/C remain compatible with Save Library and explicit manager identit
 
 Same-device restore preserves non-active Saves already present in the destination library. A complete fresh-device multi-Save library round trip remains separate future backup/import envelope work.
 
-Do not combine that evolution with Analytics work merely because both involve Save Library data.
+Do not combine that evolution with the current Analytics work merely because both involve Save Library data.
 
 ## Possible future areas are not assignments
 
-Separately bounded future areas include:
+Separately bounded future areas after this candidate include:
 
-- identity-safe longitudinal Career Analytics;
 - profile rename/edit semantics;
 - standalone Local Profile creation/reuse outside the current New Showdown behavior;
 - further Save Library/identity-link UX refinement backed by reproduced usability evidence;
 - backup/import envelope evolution;
-- Legacy/Achievements expansion;
+- Legacy/Achievements expansion beyond what this narrow Analytics correction needs;
 - optional content and custom challenge content;
 - Cloud Readiness;
 - opt-in Cloud Backup;
@@ -85,11 +104,11 @@ Separately bounded future areas include:
 
 Historical milestone numbers for these outcomes are not release assignments.
 
-## Hard out-of-scope defaults until separately authorized
+## Hard out-of-scope defaults
 
-Do not automatically begin cloud storage, accounts, authentication, QR pairing, synchronization, network multiplayer, device/writer IDs, distributed revision clocks, historical auto-linking by name, backup/import redesign, generic migration framework work, gameplay/scoring changes, unrelated Statistics/Legacy/Trophy Room redesign, global Smart Back redesign, global visual redesign, loading/music redesign or release-version assignment.
+Do not expand this candidate into cloud storage, accounts, authentication, QR pairing, synchronization, network multiplayer, device/writer IDs, distributed revision clocks, historical auto-linking by name, backup/import redesign, generic migration framework work, profile editing/renaming, gameplay/scoring changes, unrelated Statistics/Legacy/Trophy Room redesign, global Smart Back redesign, global visual redesign, loading/music redesign or release-version assignment.
 
-## Architecture locks for whatever comes next
+## Architecture locks
 
 Preserve stable `profile_*`, `save_*` and `season_*` identities. Display names remain labels, never identity keys.
 
@@ -99,7 +118,7 @@ After successful Save Library cutover, public canonical storage remains `careerM
 
 Never make `careerModeShowdown.activeShowdown` a permanent fourth canonical key.
 
-`js/storage.js` remains public raw browser-storage authority. `js/storageTransaction.js` remains raw transaction authority. `js/saveLibraryRuntime.js` remains product Save Library and manager identity mutation authority. UI code must not directly own canonical `localStorage`.
+`js/storage.js` remains public raw browser-storage authority. `js/storageTransaction.js` remains raw transaction authority. `js/saveLibraryRuntime.js` remains product Save Library and manager identity mutation authority. Analytics and UI code must not directly own canonical `localStorage`.
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the only destructive import Apply stage.
 
@@ -122,8 +141,10 @@ Locked ceilings remain:
 
 Repository authority remains 14 permanent workflow families and 27 protected multiline executable blocks. Normal implementation PRs generally run 13 workflow families; Release Integration Burn-In remains main/manual release authority.
 
-Never weaken tests, timeouts or performance ceilings merely to obtain green CI.
+The new Analytics behavior must be added to permanent deterministic and Chromium proof. Never weaken tests, timeouts or performance ceilings merely to obtain green CI.
 
 ## Stop condition
 
-The explicit manager identity-linkage foundation is complete and production-proven. Stop before changing Career Analytics/Trophy Room aggregation, backup portability, profile editing or any other runtime area unless a later explicit owner instruction authorizes that separately bounded scope.
+Complete only this explicitly authorized identity-safe longitudinal Career Analytics/Trophy Room candidate and its record/validation coherence.
+
+After exact production/deployed proof and a current authority seal, stop before backup portability, profile editing, cloud, another Analytics expansion, gameplay changes or any other substantial product candidate unless a later explicit owner instruction authorizes it.
