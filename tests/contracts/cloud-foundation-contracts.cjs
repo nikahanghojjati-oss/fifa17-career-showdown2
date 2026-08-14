@@ -26,7 +26,7 @@ assert.match(cloud, /v1\.3\.0 Recovery & Device Resilience Hardening[\s\S]+Local
 assert.match(cloud, /Local Profiles\/Save Library is a completed production dependency milestone/i, "Cloud foundation must acknowledge that Local Profiles/Save Library is already shipped.");
 assert.match(cloud, /does not authorize[^\n]+cloud UI in the current local-first product/i, "The cloud contract must remain non-authorizing after the local dependency shipped.");
 assert.match(cloud, /Historical roadmap versions[^\n]+planning references only/i, "Historical cloud version numbers must remain non-authoritative.");
-assert.match(cloud, /It is no longer future work and no longer "the next structural direction"/i, "Cloud foundation must explicitly retire its stale pre-Save-Library current-facing narration.");
+assert.match(cloud, /It is no longer future work[^\n]+next structural direction/i, "Cloud foundation must explicitly retire its stale pre-Save-Library current-facing narration.");
 assert.ok(!/Local Profiles\/Save Library must follow before Cloud Readiness/i.test(cloud), "Cloud foundation must not describe the shipped Save Library milestone as still pending.");
 assert.ok(!/Local Profiles\/Save Library remains the next approved structural direction after v1\.3/i.test(cloud), "Cloud foundation must not revive the obsolete next-feature description.");
 
