@@ -6,33 +6,35 @@ Purpose: canonical first read for a new developer session.
 
 ## Sixty-second state
 
-Application: `v1.3.0` — Recovery & Device Resilience Hardening
+Production application: `v1.3.0` — Recovery & Device Resilience Hardening
 Production runtime: `1.3.0-r1`
 Previous known-good runtime: `1.2.0-r2`
-Status: merged, deployed, exact-byte verified and technically production-proven
-Release PR: #42
+Runtime release PR: #42
 Runtime merge: `094401b649954656e27e4a92d027e9532e84ccbf`
-Stability: `31755136265` / deployed-site-smoke `94629478166`
-Burn-In: `31755136240` — 2/2
 Production proof: `V1.3.0_PRODUCTION_PROOF.md`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-Technical production proof is complete. Owner visual acceptance remains a separate evidence channel.
+The owner has now explicitly authorized the next dependency-ordered product direction: Local Profiles / Save Library. Its release version remains intentionally unassigned.
+
+The first bounded foundation candidate merged through PR #46 at `b76baf3be8107a57c5898f691d5178ae1d8a8547`. It adds pure identity/migration planning in `js/saveLibraryFoundation.js` and focused contracts, but the module is not loaded by the production application and performs no runtime storage writes. Production remains `v1.3.0` / `1.3.0-r1`.
+
+Technical production proof and owner visual/product acceptance remain separate evidence channels.
 
 ## Required read order
 
 1. `00_HANDOFF_GOLDEN_RULE.md`
 2. this file
 3. `00_CURRENT_HANDOFF.md`
-4. `PROJECT_STATE.md`
-5. `NEXT_TASK.md`
-6. `V1.3.0_PRODUCTION_PROOF.md`
-7. `RELEASE_V1.3.0.md`
-8. `CAREER_MODE_SHOWDOWN_V1.3.0_MAINTENANCE_HANDOFF.md`
-9. `POST_V1_ROADMAP_EXECUTION.md`
-10. `00_MASTER_DEVELOPER_CONTEXT.md` when deeper history is needed.
+4. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
+5. `PROJECT_STATE.md`
+6. `NEXT_TASK.md`
+7. `V1.3.0_PRODUCTION_PROOF.md`
+8. `RELEASE_V1.3.0.md`
+9. `CAREER_MODE_SHOWDOWN_V1.3.0_MAINTENANCE_HANDOFF.md`
+10. `POST_V1_ROADMAP_EXECUTION.md`
+11. `00_MASTER_DEVELOPER_CONTEXT.md` only when deeper history is needed.
 
-Verify current `main` at session start. Source wins over stale historical prose.
+Verify current `main` at session start. Source and later explicit owner decisions outrank stale historical prose.
 
 ## Locked product model
 
@@ -49,15 +51,19 @@ Scoring: `js/scoring.js`.
 Analytics: `js/analytics.js`.
 Service Worker/Cache Storage: application bytes only, never canonical user data.
 
-Canonical localStorage keys remain exactly:
+The currently canonical localStorage keys remain exactly:
 
 1. `careerModeShowdown.activeShowdown`
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
+`careerModeShowdown.saveLibrary` exists only as a proposed future key in the merged planning foundation. It is not yet canonical and no runtime code writes it.
+
 ## Recovery contract
 
 Candidate A remains non-mutating export. Candidate B remains strictly read-only analysis. Candidate C is the only import stage allowed to commit canonical state. A legal Apply preserves immutable confirmed intent, strict exact raw snapshot/preconditions, stale-state barriers, complete in-memory planning, last-moment exact-byte checks, transaction-owned mutation and rollback, anti-clobber ownership, post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery on uncertainty.
+
+The next persistence candidate may not weaken these guarantees merely to accommodate a new registry slot.
 
 ## Installable Offline App locks
 
@@ -75,14 +81,18 @@ Preserve the r2 iOS installed-app loading composition: bounded mobile top band, 
 
 ## Validation and performance
 
-There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13; Burn-In is main/manual release-only.
+There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13; Burn-In runs on `main`/manual release authority.
 
 Protected ceilings: eager raw <=165,000; eager gzip <=37,500; Reus portrait <=95,000; combined startup <=260,000 bytes; normal loading minimum 2700 ms; reduced-motion loading 220 ms.
 
+PR #46 preserved eager startup at 164,563 raw / 37,355 gzip because the foundation module remains unloaded.
+
 ## Current continuation
 
-v1.3.0 — Recovery & Device Resilience Hardening is technically production-proven. Preserve the baseline unless new owner evidence or an explicitly authorized later milestone requires work.
+`v1.3.0 — Recovery & Device Resilience Hardening` remains the production milestone and runtime authority.
 
-PR #37 / `agent/v13-hardening` remains untrusted historical work. PR #40 is the detailed salvage/audit record; PR #42 is the release PR. Do not revive PR #37's alternate shell or lockfile.
+Local Profiles / Save Library is now the explicitly authorized active development direction, version pending. The identity/migration planning foundation is merged and publicly validated. The next legal engineering candidate is canonical persistence integration only: prove the atomic transition from the current singleton active slot toward the Save Library without temporarily creating two canonical authorities or weakening Candidate A/B/C.
 
-Local Profiles/Save Library, cloud, accounts, QR pairing, synchronization, gameplay/scoring changes and framework rewrites remain outside the current authorized task.
+Do not begin visible multi-save management UI, historical manager-profile mapping UI, backup-envelope redesign, cloud, accounts, QR pairing, synchronization, gameplay/scoring changes or framework rewrites as part of that persistence candidate.
+
+PR #37 / `agent/v13-hardening` remains untrusted historical work. Do not revive its alternate shell or lockfile.
