@@ -8,6 +8,8 @@ Every developer or ChatGPT session that performs meaningful project work must ma
 
 The reason is operational continuity: a development session can be interrupted, hit a context limit, lose tool availability, or be replaced by another developer without warning. The repository handoff must therefore be sufficient for the next developer to continue from the exact current state without reconstructing the project from chat memory.
 
+The owner's highest operating priority is preservation of engineering quality, correctness and continuity. Maximizing the amount of work completed inside one chat is never a goal by itself. A fresh developer/chat with a complete repository-native handoff is preferred whenever continuing the current session would create meaningfully more context risk than benefit.
+
 ## Required behavior
 
 Before meaningful implementation:
@@ -37,6 +39,32 @@ During implementation, update the handoff at meaningful checkpoints. Record:
 - public Pages verification;
 - owner acceptance/rejection state separately from automated/developer QA;
 - exact next legal roadmap action.
+
+## Quality-first proactive handoff rule
+
+Do not wait for a hard context limit or obvious mistakes before considering a fresh session. Every developer must actively look for clean handoff opportunities.
+
+A proactive handoff should be preferred when all of the following are true:
+
+1. the repository is at a coherent boundary, such as a merged release, completed fix, completed investigation, green PR checkpoint, documentation seal or other state that can be named by an exact SHA;
+2. no critical atomic mutation, destructive transition, mixed runtime identity or partially applied repository operation is in progress;
+3. the current chat has become long, tool-heavy, multi-branch, evidence-dense or otherwise expensive to keep perfectly loaded in working context, or the next task is a distinct new milestone/investigation;
+4. the repository handoff is strong enough that a fresh developer can recover the exact state without relying on chat memory.
+
+Use this decision test: if a fresh developer who first verifies GitHub and reads the current handoff would have an equal or better chance of completing the next substantial task correctly, hand off now rather than starting that task in the current chat.
+
+This rule applies even when the current developer still feels capable of continuing and even when unused context remains. Do not start another major engineering task merely because the session technically can continue.
+
+Before a proactive quality handoff, the developer must:
+
+1. finish or revert only the minimum necessary work needed to leave a coherent repository boundary;
+2. verify current `main`, active branch/PR state and the last meaningful green validation authority;
+3. update the public handoff so it names exact SHAs, versions, open/closed PRs, unfinished work, known hazards, blocked operations and the next legal action;
+4. distinguish technical/automated proof from owner visual or product acceptance;
+5. provide the owner a complete ready-to-paste continuation prompt that tells the next developer to independently verify repository authority rather than blindly trusting the prompt;
+6. stop before beginning the next substantial task.
+
+The next developer inherits the same obligation. This makes quality-first handoff behavior recursive and permanent across every future development session.
 
 ## Session quality and mandatory handoff threshold
 
@@ -79,7 +107,8 @@ Do not:
 - leave the handoff pointing at a superseded SHA or completed task;
 - ask the owner to repeat information that a current repository handoff should contain;
 - rely on old chat chronology when current source/handoffs already resolve the state;
-- continue starting new engineering work after observable session-quality degradation has begun.
+- continue starting new engineering work after observable session-quality degradation has begun;
+- postpone a clean quality-first handoff only to squeeze one more substantial task into the same chat.
 
 ## Completion rule
 
@@ -92,5 +121,7 @@ A build is not considered completely handed off until the public handoff states:
 - deployment status;
 - whether owner acceptance is still pending;
 - the exact next action.
+
+A session-level handoff is not complete until the owner also has a ready-to-paste continuation prompt for the next chat when a fresh session is being recommended.
 
 This file is permanent project operating policy and should be read before development alongside `00_DEVELOPER_START_HERE.md`.
