@@ -57,6 +57,11 @@ async function assertContained(page,label){
     }
 }
 
+async function assertMutationFocusInsideDialog(page,label){
+    const state=await page.locator("#settingsDialog").evaluate(dialog=>({contains:dialog.contains(document.activeElement),tag:document.activeElement?.tagName||"",text:document.activeElement?.textContent?.trim()||""}));
+    assert.equal(state.contains,true,`${label}: Save Library rerender moved keyboard focus outside the Settings dialog (${state.tag} ${state.text}).`);
+}
+
 async function compatibilityIsNonMutating(runtime){
     const browser=await chromium.launch(runtime);
     const context=await browser.newContext({viewport:{width:1100,height:720}});
@@ -145,6 +150,7 @@ async function multiSaveJourney(runtime,config){
         const targetId=await target.getAttribute("data-save-id");
         await target.locator(".saveLibrarySelectButton").click();
         await waitForActiveSave(page,targetId);
+        await assertMutationFocusInsideDialog(page,`${config.name} active switch`);
         assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,`${config.name}: switching must never recreate singleton authority.`);
         const activeBeforeReload=targetId;
 
@@ -160,6 +166,7 @@ async function multiSaveJourney(runtime,config){
         page.once("dialog",dialog=>dialog.accept());
         await nonActive.locator(".saveLibraryDeleteButton").click();
         await waitForCardCount(page,2);
+        await assertMutationFocusInsideDialog(page,`${config.name} non-active deletion`);
         assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").getAttribute("data-save-id"),activeBeforeReload,`${config.name}: deleting a non-active Save must not change active ownership.`);
         assert.equal(await opened.panel.locator(`.saveLibraryCard[data-save-id="${deletedNonActiveId}"]`).count(),0);
         assert.equal(await opened.panel.locator(".saveLibraryProfileCard").count(),6,`${config.name}: single-Save deletion must retain stable Local Profiles.`);
@@ -168,6 +175,7 @@ async function multiSaveJourney(runtime,config){
         page.once("dialog",dialog=>dialog.accept());
         await activeCard.locator(".saveLibraryDeleteButton").click();
         await waitForCardCount(page,1);
+        await assertMutationFocusInsideDialog(page,`${config.name} active deletion`);
         assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").count(),0,`${config.name}: deleting active Save must not silently activate another Save.`);
         assert.match(await opened.panel.innerText(),/NO ACTIVE SAVE/i);
         assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null);
@@ -180,6 +188,7 @@ async function multiSaveJourney(runtime,config){
         assert.equal(await select.evaluate(el=>el===document.activeElement),true,`${config.name}: Save switching must be keyboard focusable.`);
         await page.keyboard.press("Enter");
         await waitForActiveSave(page,remainingId);
+        await assertMutationFocusInsideDialog(page,`${config.name} keyboard active switch`);
 
         const screenshotPath=path.join(resultsDirectory,`save-library-${config.name}-${runLabel}.png`);
         await page.screenshot({path:screenshotPath,fullPage:true});
@@ -198,5 +207,5 @@ async function multiSaveJourney(runtime,config){
     evidence.push(await multiSaveJourney(runtime,{name:"mobile-reduced",viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:true}));
     const resultPath=path.join(resultsDirectory,`save-library-ui-${runLabel}.json`);
     fs.writeFileSync(resultPath,JSON.stringify({runLabel,baseUrl:baseUrl.href,evidence},null,2));
-    console.log("Save Library browser audit passed: compatibility stays non-mutating, corrupt authority fails closed, additive saves switch/reload/delete safely, equal manager names remain separate profiles, and Chromebook/mobile containment is protected.");
+    console.log("Save Library browser audit passed: compatibility stays non-mutating, corrupt authority fails closed, additive saves switch/reload/delete safely, mutation rerenders retain keyboard focus inside Settings, equal manager names remain separate profiles, and Chromebook/mobile containment is protected.");
 })().catch(error=>{console.error(error);process.exitCode=1;});
