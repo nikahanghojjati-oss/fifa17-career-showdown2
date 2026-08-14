@@ -7,6 +7,7 @@ const footballAudit = fs.readFileSync("tests/browser/football-visual-audit.cjs",
 const storage = fs.readFileSync("js/storage.js", "utf8");
 const storageTransaction = fs.readFileSync("js/storageTransaction.js", "utf8");
 const showdown = fs.readFileSync("js/showdown.js", "utf8");
+const saveLibraryRuntime = fs.readFileSync("js/saveLibraryRuntime.js", "utf8");
 const stabilityAudit = fs.readFileSync("tests/browser/stability-audit.cjs", "utf8");
 const restoreUi = fs.readFileSync("js/restoreUI.js", "utf8");
 const restoreCss = fs.readFileSync("css/restore.css", "utf8");
@@ -49,12 +50,13 @@ assert.ok(
 console.log("v1.1 final hardening contracts passed: 44px controls and decoded football-photo paint settlement are protected.");
 
 assert.ok(storage.includes("function hasStoredActiveShowdownData()"), "Raw active-slot occupancy must remain separately detectable from valid Continue state.");
-const compactShowdown = showdown.replace(/\s+/g, "");
+assert.ok(!showdown.includes("replace the active save"), "New Showdown must not resurrect the retired destructive singleton-replacement product model.");
 assert.ok(
-    compactShowdown.includes("hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData()"),
-    "New Showdown must distinguish valid active saves from occupied corrupt raw data."
+    saveLibraryRuntime.includes("function runtimeAppendSaveEntry")
+        && saveLibraryRuntime.includes("saves:[...library.saves.map(runtimeCloneValue),runtimeCloneValue(newEntry)]")
+        && saveLibraryRuntime.includes("profiles:runtimeMergeProfiles(library.profiles,newProfiles)"),
+    "New Showdown must append a stable Save while retaining every existing Save and stable Local Profile identity."
 );
-assert.ok(showdown.includes("replace the active save${existingName}"), "Destructive replacement of a valid active Showdown must remain confirmation-gated.");
 assert.ok(
     stabilityAudit.includes("Corrupt singleton bytes must block normal Start rather than being replaced during cutover."),
     "Unreadable singleton bytes must fail closed at the Save Library activation boundary."
@@ -67,12 +69,12 @@ assert.ok(
     stabilityAudit.includes("saveLibraryStorageKey") && stabilityAudit.includes("Failed Save Library write must roll back without accepting authority."),
     "Quota rollback evidence must target the post-cutover Save Library writer rather than the retired singleton writer."
 );
-console.log("Corrupt active-slot cutover is permanently fail-closed while valid active replacement remains confirmation-gated.");
+console.log("Corrupt active-slot cutover is permanently fail-closed while visible Save Library creation is additive and identity-preserving.");
 
 const hasSavedSection = storage.match(/function hasSavedShowdown\(\)\{[\s\S]*?function invalidateLegacyCache/)?.[0] || "";
 assert.ok(hasSavedSection, "hasSavedShowdown validity probe is missing.");
 assert.ok(!hasSavedSection.includes("reportStorageError"), "Expected corrupt active-save validity probes must not emit runtime console errors.");
-console.log("Corrupt active-save validity probing is silent while replacement protection remains active.");
+console.log("Corrupt active-save validity probing remains silent; confirmed Start still crosses the strict cutover boundary before additive creation.");
 
 assert.ok(
     restoreUi.includes("window.createCareerModeRestorePlan(analysis,confirmedRaw,confirmedChoices)"),
