@@ -43,6 +43,7 @@ const SHELL_PATHS = Object.freeze([
     "js/restore.js",
     "js/restoreUI.js",
     "js/ruleBook.js",
+    "js/saveLibraryCutover.js",
     "js/saveLibraryFoundation.js",
     "js/saveLibraryPersistence.js",
     "js/saveLibraryRuntime.js",
