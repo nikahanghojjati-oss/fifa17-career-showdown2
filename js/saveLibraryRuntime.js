@@ -344,7 +344,7 @@
         root.hasSavedShowdown=runtimeHasSaved;
         root.hasStoredActiveShowdownData=runtimeHasStoredActiveData;
         root.archiveShowdown=runtimeArchiveShowdown;
-        root.getCareerModeStorageKeys=()=>({saveLibrary:SAVE_LIBRARY_KEY,activeShowdown:SINGLETON_KEY,legacyShowdowns:LEGACY_KEY,preferences:PREFERENCES_KEY});
+        root.getCareerModeStorageKeys=()=>({saveLibrary:SAVE_LIBRARY_KEY,legacyShowdowns:LEGACY_KEY,preferences:PREFERENCES_KEY});
     }
 
     function runtimeBindStorageListener(){
