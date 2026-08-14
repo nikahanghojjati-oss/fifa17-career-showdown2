@@ -9,7 +9,7 @@ Production site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
 
 This file is the active branch evidence trail for the owner-authorized narrow Identity-Safe Longitudinal Career Analytics candidate. Production remains unchanged. PR #59 remains draft. Validation is not yet claimed green.
 
-A Git commit cannot contain its own SHA. Therefore this file records all completed failed heads and their corrections, while the exact current validation head must be frozen from live PR #59 metadata after this handoff commit. Any later branch movement invalidates exact-head validation and requires a complete rerun.
+A Git commit cannot contain its own SHA. This file records completed failed heads and corrections. After this handoff commit, freeze the exact live PR #59 head from GitHub and do not mutate the branch unless exact-head validation demonstrates another defect. Any branch movement invalidates older validation evidence.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY — MANDATORY
 
@@ -18,13 +18,13 @@ A Git commit cannot contain its own SHA. Therefore this file records all complet
 Before any mutation:
 
 1. fetch live `main`, recent commits, all open PRs, `agent/identity-safe-career-analytics` and PR #59;
-2. record the exact live PR head, base, ahead/behind state and changed-file scope;
+2. record exact live PR head, base, ahead/behind state and changed-file scope;
 3. read `00_HANDOFF_GOLDEN_RULE.md`, `00_DEVELOPER_START_HERE.md`, `00_CURRENT_HANDOFF.md`, `PROJECT_STATE.md`, `NEXT_TASK.md`, `POST_V1_ROADMAP_EXECUTION.md`, then this file;
-4. inspect every recorded failure and the current workflow status before changing anything.
+4. inspect every recorded failure and current workflow status before changing anything.
 
 ### Phase 2 — FIRST ENGINEERING TASK: validate PR #59 exact head
 
-The source/test review has already been completed and found no demonstrated runtime defect before PR creation. Exact-head CI later exposed the real inactive-runtime Local Profile presentation defect documented below, followed by two correction-layer mistakes that were also caught and corrected.
+The source/test review has already been completed and found no demonstrated runtime defect before PR creation. Exact-head CI then exposed one real inactive-runtime Local Profile presentation defect and several correction/test-orchestration defects, all recorded below with exact evidence.
 
 The immediate task is to freeze the exact live PR #59 head and validate that exact SHA through every normal pull-request workflow family.
 
@@ -87,7 +87,7 @@ Do not begin backup-envelope portability redesign, full Save Library fresh-devic
 
 ## Owner authorization and repository reconstruction
 
-On 2026-08-14 ET the owner authorized correcting repository record inconsistencies and independently advancing the smallest source-supported next roadmap candidate with maximum attention to detail and accuracy. That authorization covers only this narrow identity-safe longitudinal Career Analytics/Trophy Room candidate plus the evidence, correction, promotion and authority work required to prove it.
+On 2026-08-14 ET the owner authorized correcting repository record inconsistencies and independently advancing the smallest source-supported next roadmap candidate with maximum attention to detail and accuracy. That authorization covers only this narrow identity-safe longitudinal Career Analytics/Trophy Room candidate plus evidence, correction, promotion and authority work required to prove it.
 
 At continuation bootstrap:
 
@@ -139,7 +139,7 @@ When Save Library runtime is already ready, Analytics uses its validated identit
 
 `tests/contracts/statistics-fixtures.cjs` uses explicit stable profile identities while retaining established scoring, trophy, transfer and record assertions.
 
-`tests/browser/identity-safe-career-analytics-audit.cjs` uses the real browser/runtime path to prove Career Statistics same-name identity separation, unresolved historical identity, explicit historical mapping, refresh, Trophy Room cabinet/leaderboard identity safety, no stale unresolved notice, no singleton resurrection and no page/console errors.
+`tests/browser/identity-safe-career-analytics-audit.cjs` now explicitly proves that Career Statistics presentation works before Save Library mutation authority is activated, then activates that authority through canonical `ensureSaveLibraryRuntimeAuthority()` before testing real historical mapping, refresh, Trophy Room identity safety, no singleton resurrection and no page/console errors.
 
 `.github/workflows/validate-stability-lane.yml` runs that audit in canonical Chromium and again against deployed Pages after merge.
 
@@ -153,7 +153,7 @@ Run: `31824404149`
 Job: `94844989903` (`validate`)
 Failure: `AssertionError [ERR_ASSERTION]: Active Analytics handoff must name its exact verified production base.`
 
-Root cause: the continuation changed canonical marker `Exact branch base:` to `Exact production base:` while preserving the SHA. Correction `5b005e481ef0972adff0dbc2e78399eb5e1558d0` restored the canonical wording without weakening the contract. Classification: documentation/semantic-contract coherence only.
+Root cause: the continuation changed canonical marker `Exact branch base:` to `Exact production base:` while preserving the SHA. Correction `5b005e481ef0972adff0dbc2e78399eb5e1558d0` restored canonical wording without weakening the contract. Classification: documentation/semantic-contract coherence only.
 
 ### Failure 2 — inactive-runtime Local Profile presentation
 
@@ -182,7 +182,7 @@ Run: `31825346002`
 Job: `94848041517` (`validate`)
 Failure: `js/analytics.js:412 SyntaxError: missing ) after argument list`.
 
-The typo was `holders.push(createRecordCandidate(showdown, round, playerKey, value)];` instead of `holders.push(createRecordCandidate(showdown, round, playerKey, value));`. Statistics and Stability failures on the same head were derivative manifestations of the same invalid source. Correction `86c69560db6b17e7c320c7f526f71ac684c90068` changed only the mismatched bracket to the intended parenthesis.
+The typo was `holders.push(createRecordCandidate(showdown, round, playerKey, value)];` instead of `holders.push(createRecordCandidate(showdown, round, playerKey, value));`. Statistics and Stability failures on the same head were derivative manifestations of the same invalid source. Correction `86c69560db6b17e7c320c7f526f71ac684c90068` changed only the mismatched bracket.
 
 ### Failure 4 — deterministic source-literal mismatch
 
@@ -190,16 +190,30 @@ Failing head: `c61e15ddd3ea59e06b0c02107e2b60a469b37bb4`
 Primary workflow: `Validate Static App`
 Run: `31825526402`
 Job: `94848620686` (`validate`)
-Failing step: `Validate complete repository contracts including Candidate C`
-Exact assertion: `AssertionError [ERR_ASSERTION]: Career Analytics cache identity must include the Local Profile presentation signature it consumes.`
+Exact assertion: `Career Analytics cache identity must include the Local Profile presentation signature it consumes.`
 
-Stability run `31825526429`, job `94848620565` (`stability-contracts`) failed on the same assertion and therefore skipped Chromium. This is one shared deterministic-contract failure class, not another browser/runtime failure.
+Stability run `31825526429`, job `94848620565` failed on the same shared contract assertion and skipped Chromium.
 
-Root cause: the newly added source-literal assertion looked for `profilePresentation.signature`, but `getCareerAnalyticsCacheKey()` intentionally names its local state `presentation` and uses `presentation.signature`. The implementation already contained the correct presentation signature in the returned revision key, and the same deterministic contract separately changes an authoritative profile display label and verifies that the revision key changes.
+Root cause: the source-literal assertion looked for `profilePresentation.signature`, but `getCareerAnalyticsCacheKey()` names the consumed state `presentation` and uses `presentation.signature`. The dynamic contract separately changed an authoritative profile display label and already proved that the revision key changes.
 
-Correction: `37f8e9543b5931930eb30a766336270b6b2c14a0` changes only the source-literal check to `presentation.signature`. The dynamic cache-invalidation assertion remains unchanged, so regression strength is not reduced. No runtime source changed for this correction.
+Correction `37f8e9543b5931930eb30a766336270b6b2c14a0` aligned the literal source check to `presentation.signature` without removing or weakening the dynamic assertion.
 
-This handoff commit moves the branch again, so the next live head requires complete exact-head PR validation from zero.
+### Failure 5 — browser mapping attempted before canonical authority activation
+
+Failing head: `1b6c1f128764f0c5cddb3d022ef4abd733d818b1`
+Workflow: `Validate Stability Lane`
+Run: `31825746735`
+Job: `94849445595` (`chromium-stability`)
+Contracts job `94849387203` passed.
+Exact error from `tests/browser/identity-safe-career-analytics-audit.cjs:158`: `TypeError: Cannot read properties of undefined (reading 'assignLegacyManagerProfile')`.
+
+Before that failure in the same Chromium run, runtime error provenance passed, Save Library browser audit passed, manager identity browser audit passed, and the Analytics audit had already proved the corrected Local Profile presentation path far enough to reach the mapping step.
+
+Root cause: after failure 2, the intended product guarantee is that read-only Career Statistics does not activate Save Library mutation authority. The browser audit correctly reached Statistics with `CareerModeSaveLibraryRuntime` still unloaded, but its next test step directly called `CareerModeSaveLibraryRuntime.assignLegacyManagerProfile()` without first invoking the product's canonical activation entry point. This was a test-orchestration defect, not a reason to make Analytics activate mutation authority.
+
+Correction `18a9457e23279b08e6c8fe0681c862976ecf291e` strengthens the audit by first asserting that mutation authority remains inactive after read-only Analytics presentation, then calling canonical `window.ensureSaveLibraryRuntimeAuthority()`, checking the real mapping result, and only then re-rendering Career Statistics. No runtime source changed for this correction.
+
+This handoff commit creates the next validation head. Complete exact-head revalidation is required.
 
 ## Permanent product locks
 
@@ -224,6 +238,7 @@ Rejected validation heads:
 - `7f566ef32428d1d1a00311ee8e8716df6973c03b` — handoff marker contract failure;
 - `5b005e481ef0972adff0dbc2e78399eb5e1558d0` — real inactive-runtime Local Profile presentation failure;
 - `da9f04ffd890476716a2f513b4dfbf64ec4deca9` — syntax typo during correction;
-- `c61e15ddd3ea59e06b0c02107e2b60a469b37bb4` — deterministic source-literal mismatch.
+- `c61e15ddd3ea59e06b0c02107e2b60a469b37bb4` — deterministic source-literal mismatch;
+- `1b6c1f128764f0c5cddb3d022ef4abd733d818b1` — browser mapping test called mutation API before canonical authority activation.
 
 No merge has occurred. No production/deployed Pages proof exists yet. Freeze the exact live PR #59 head created by this handoff update and validate it completely. Do not make another branch mutation unless validation demonstrates a defect.
