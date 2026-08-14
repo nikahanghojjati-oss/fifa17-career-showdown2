@@ -24,6 +24,8 @@ At the start of the next development session:
 
 Owner visual acceptance remains separate from automated technical proof.
 
+The shipped Installable Offline App baseline remains protected; the production seal changes publication authority only, not runtime behavior.
+
 ## Protected recovery model
 
 Exactly three canonical localStorage keys remain legal. Candidate A is non-mutating export. Candidate B is strictly read-only analysis. Candidate C is the only import stage allowed to mutate canonical state and retains immutable confirmed intent, strict exact raw snapshot/preconditions, freshness rechecks, complete in-memory planning, transaction-owned mutation and rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification and critical recovery when ownership is uncertain.
