@@ -11,30 +11,57 @@ Immediate previous known-good whole shell: `1.2.0-r2`
 Production proof: `V1.3.0_PRODUCTION_PROOF.md`
 Runtime release merge: `094401b649954656e27e4a92d027e9532e84ccbf`
 
-The shipped Installable Offline App baseline remains protected throughout the new local persistence work; the Save Library foundation did not change its runtime behavior or ownership boundaries.
+The shipped Installable Offline App baseline remains protected throughout Local Profiles / Save Library work.
 
 ## Active development direction
 
-Local Profiles / Save Library — version pending.
+Local Profiles / Save Library — feature release version intentionally unassigned.
 
-The owner explicitly authorized continuation into this dependency-ordered direction after v1.3 production closure.
+The owner explicitly authorized this dependency-ordered direction after v1.3 production closure.
 
-Foundation PR #46 merged at `b76baf3be8107a57c5898f691d5178ae1d8a8547`. The merged `js/saveLibraryFoundation.js` is planning/identity logic only, is not loaded by the production application, and performs no runtime storage mutation. Production remains `v1.3.0` / `1.3.0-r1`.
+Foundation PR #46 merged at `b76baf3be8107a57c5898f691d5178ae1d8a8547`.
 
-## Immediate task — canonical persistence integration candidate
+Canonical persistence integration PR #48 merged at `d62ea1f62ec92af4a90de04a6ef182ed1bf44692` after two independent 13/13 PR workflow generations and expected-head merge protection.
 
-Start from a freshly verified current `main` and treat this as a distinct high-risk candidate, not a continuation of an uncommitted branch.
+Post-merge all 14 permanent workflow families passed. Stability `31762998592`, deployed-site-smoke job `94653355400`, and Release Integration Burn-In `31762998620` all succeeded.
 
-Before implementation:
+The persistence integration candidate is complete. Do not reimplement it.
+
+## Immediate task — Save Library runtime authority cutover candidate
+
+Start from a freshly verified current `main`. Do not blindly continue the old implementation or closure branches.
+
+Before source changes:
 
 1. read `00_HANDOFF_GOLDEN_RULE.md`, `00_DEVELOPER_START_HERE.md`, `00_CURRENT_HANDOFF.md`, `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`, `PROJECT_STATE.md` and this file;
-2. inspect current `js/storage.js`, `js/storageTransaction.js`, `js/saveLibraryFoundation.js`, `js/backup.js`, `js/importAnalysis.js`, `js/restore.js`, and the Candidate A/B/C contracts/browser audits;
-3. verify production runtime still declares `1.3.0-r1` with previous whole shell `1.2.0-r2` unless newer source authority proves otherwise;
-4. verify the current canonical persistence model before changing it.
+2. inspect current `js/storage.js`, `js/storageTransaction.js`, `js/saveLibraryFoundation.js`, `js/saveLibraryPersistence.js`, the singleton create/load/save call graph, startup/optional-module loading ownership, `js/backup.js`, `js/importAnalysis.js`, `js/restore.js`, and all Candidate A/B/C plus Save Library persistence contracts;
+3. independently verify production runtime still declares `1.3.0-r1` with previous whole shell `1.2.0-r2` unless newer source authority proves otherwise;
+4. verify the exact current canonical production storage model before mutation;
+5. create/update the public active handoff with exact verified base SHA, branch and owner-authorized bounded scope before implementation.
 
-The engineering goal is to prove a rollback-safe atomic transition from the current singleton active-save model toward the Save Library model without creating two simultaneous canonical active-save authorities.
+## Engineering objective
 
-Current canonical localStorage keys remain exactly:
+The next candidate must transfer active and in-progress Showdown runtime authority from the old singleton path to Save Library without allowing `careerModeShowdown.activeShowdown` to be recreated after a successful migration.
+
+The already-proven migration machinery is a dependency, not a task to redesign.
+
+The candidate must determine the narrowest safe runtime ownership and loading path under the very tight eager startup budget.
+
+Do not simply load the full Save Library foundation eagerly. Current authoritative startup after PR #48 is:
+
+- raw: `164967` bytes;
+- gzip: `37425` bytes.
+
+Locked ceilings remain:
+
+- raw <= `165000`;
+- gzip <= `37500`.
+
+No budget may be raised to make the cutover fit.
+
+## Current production persistence authority
+
+Until the runtime cutover is explicitly implemented and proven, exactly three localStorage keys remain canonical in the public application:
 
 1. `careerModeShowdown.activeShowdown`
 2. `careerModeShowdown.legacyShowdowns`
@@ -44,66 +71,128 @@ Proposed future registry key:
 
 `careerModeShowdown.saveLibrary`
 
-That proposed key is not yet canonical. The target post-migration model may retire `careerModeShowdown.activeShowdown` only when a transactionally proven migration makes the Save Library the sole active/in-progress save authority. Do not leave both as independent canonical sources of truth.
+Do not treat this as a fourth permanent canonical production key.
 
-The transition candidate must handle the fact that migration temporarily reasons about four raw names: `saveLibrary`, `activeShowdown`, `legacyShowdowns`, and `preferences`. Do not simply append a fourth permanent key to the old transaction engine and declare migration complete.
+The runtime cutover must end in a coherent authority model where Save Library owns active/in-progress saves and the old singleton writer can no longer recreate independent active-save truth.
 
-## Persistence safety requirements
+## Existing migration machinery that must be preserved
 
-`js/storage.js` must remain sole public canonical persistence/destructive mutation authority. `js/storageTransaction.js` remains the raw transaction engine unless an explicitly justified internal extraction preserves that ownership boundary.
+`js/storage.js` remains sole public canonical persistence/destructive mutation authority.
 
-Any migration commit must preserve:
+`js/storageTransaction.js` remains the raw transaction engine unless a narrowly justified internal extraction preserves that ownership boundary.
 
-- strict exact raw snapshot authority;
-- immutable confirmed intent where user decisions exist;
-- complete in-memory planning before mutation;
-- stale-state/precondition barriers;
-- last-moment exact-byte prewrite verification;
-- transaction-owned mutation and rollback;
-- anti-clobber ownership checks;
-- exact post-write verification;
-- byte-for-byte rollback verification;
-- corrupt-byte preservation;
-- critical recovery when ownership becomes uncertain;
-- idempotence across reload/retry/interruption;
-- no partial migration that leaves both old and new active-save authorities live.
+`js/saveLibraryPersistence.js` remains non-direct-storage orchestration over strict storage authority.
 
-Candidate A remains non-mutating export. Candidate B remains strictly read-only analysis. Candidate C remains the only import stage allowed to mutate canonical restore state and must not be weakened by the new registry work.
+The migration already proves a temporary four-slot transition over:
 
-Do not use `captureCareerModeRawBackupInputs()` as destructive migration authority when strict exact snapshot authority is required.
+- `saveLibrary`;
+- `activeShowdown`;
+- `legacyShowdowns`;
+- `preferences`.
 
-## Scope exclusions for this candidate
+It preserves singleton-last retirement, exact four-slot snapshot authority, complete in-memory planning, exact preconditions, all-slot last-moment prewrite checks, transaction-owned mutation, reverse rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, interruption/retry idempotence, conflicting dual-authority rejection and critical recovery on uncertainty.
 
-Do not implement the visible Save Library screen yet.
+Do not weaken or duplicate those semantics.
 
-Do not implement profile rename/create/mapping UI yet.
+## Candidate A / B / C locks
+
+Candidate A remains non-mutating export.
+
+Candidate B remains strictly read-only analysis.
+
+Candidate C remains the only import stage allowed to mutate canonical restore state.
+
+Candidate C destructive Apply still requires `captureCareerModeRawRestoreSnapshot()`.
+
+This strict exact raw snapshot authority remains non-negotiable.
+
+Never substitute `captureCareerModeRawBackupInputs()` as destructive snapshot authority.
+
+Any backup/import envelope evolution remains outside this candidate unless the runtime cutover cannot be made coherent without a separately reviewed compatibility change. Do not redesign the envelope merely because Save Library exists.
+
+## Scope exclusions
+
+Do not build visible Save Library UI in this candidate by default.
+
+Do not build profile creation, rename or historical mapping UI.
 
 Do not auto-link historical Legacy manager identity by display-name equality or normalized spelling.
 
-Do not redesign backup/import envelopes until the persistence transition itself is proven and the correct compatibility boundary is understood.
+Do not implement cloud, accounts, QR pairing, synchronization, remote transport or public profiles.
 
-Do not add cloud, accounts, QR pairing, synchronization, remote transport, public profiles or framework migration.
+Do not change gameplay or scoring.
 
-Do not alter gameplay, scoring, Smart Back, protected visuals, loading composition or Settings-only install/update presentation.
+Do not change Smart Back ownership.
 
-Do not assign a feature release version merely to make the candidate look complete.
+Do not redesign protected visuals.
 
-## Foundation evidence
+Do not alter the installed iOS loading composition.
 
-PR #46 passed all 13 normal PR workflow families on its implementation head and again on its final handoff head.
+Do not alter Settings-only install/update presentation.
 
-After merge to `main` at `b76baf3be8107a57c5898f691d5178ae1d8a8547`, all 14 permanent push-triggered workflow families succeeded. Post-merge Stability `31758874808` passed contracts, canonical Chromium integration and deployed-site smoke. Deployed-site-smoke job `94641012805` passed exact Pages runtime-byte verification, runtime provenance, Home, football visuals, Candidate A, Candidate B, Candidate C, install/offline and the complete public journey. Release Integration Burn-In `31758874804` passed 2/2 complete stateful journeys.
+Do not assign a feature release version yet.
 
-The foundation contract preserves deterministic stable save/profile/Season identity planning, blocks same-ID/different-content Legacy conflicts, refuses corrupt raw source, leaves ambiguous historical manager identity for explicit mapping, and is idempotent when a valid Save Library already exists.
+## Permanent product locks
+
+Exactly two managers.
+
+Showdown lengths 1 / 3 / 5 / 10.
+
+Same selected league.
+
+Different permanent clubs.
+
+Champions League +5.
+
+League +3.
+
+Domestic Cup +1.
+
+100 League Points and/or 100 League Goals combined maximum +1.
+
+Top Scorer and/or Top Assist combined maximum +1.
+
+Maximum Season score 11.
+
+Equal non-zero scores are Draw.
+
+Only 0–0 invokes league position then league points.
+
+## PWA locks
+
+Current whole shell remains `1.3.0-r1`.
+
+Previous whole shell remains `1.2.0-r2`.
+
+`CMS_ACTIVATE_UPDATE` must verify the complete candidate shell, await successful `skipWaiting()`, then and only then acknowledge activation.
+
+Never assemble mixed runtimes.
+
+Service Worker and Cache Storage remain application-byte authorities only and may never become canonical user-data storage.
+
+## Performance locks
+
+Eager raw <= `165000`
+Eager gzip <= `37500`
+Reus startup portrait <= `95000`
+Combined first-party startup <= `260000`
+Normal loading minimum `2700 ms`
+Reduced-motion loading `220 ms`
+
+Do not raise budgets to make CI green.
 
 ## Validation authority
 
-There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13 families; Release Integration Burn-In remains `main`/manual release authority.
+There are 14 permanent workflow families and 27 protected multiline executable blocks. Normal PRs run 13; Release Integration Burn-In remains `main`/manual release authority.
 
 Do not weaken product assertions, recovery checks, visual geometry gates or performance ceilings to obtain green CI. Classify failures before editing implementation.
 
+PR #48 established focused permanent regression evidence for strict four-slot persistence transition, interruption/retry, exact rollback, cross-slot stale barriers and anti-clobber recovery. Extend evidence only for new runtime-cutover failure classes; do not replace the existing proof.
+
 ## Quality-first boundary
 
-This persistence transition is the next substantial task and should begin in a fresh development session after independently verifying the final documentation-seal `main` SHA. The foundation checkpoint is intentionally a clean handoff boundary under `00_HANDOFF_GOLDEN_RULE.md`.
+The canonical persistence integration candidate is closed and publicly proven.
 
-PR #37 remains untrusted historical work. Do not merge or revive its alternate shell.
+The runtime authority cutover is a distinct substantial task and should begin in a fresh development session from independently verified current `main`.
+
+PR #37 / `agent/v13-hardening` remains untrusted historical work. Do not merge or revive its alternate shell.
