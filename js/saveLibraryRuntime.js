@@ -8,6 +8,7 @@
     const RUNTIME_ORDER=Object.freeze(["saveLibrary","activeShowdown"]);
     const ARCHIVE_ORDER=Object.freeze(["legacyShowdowns","saveLibrary","activeShowdown"]);
     const CLEAR_ORDER=Object.freeze(["legacyShowdowns","saveLibrary","preferences","activeShowdown"]);
+    const MANAGER_ROLES=Object.freeze(["playerOne","playerTwo"]);
 
     let authorityReady=false;
     let activationPromise=null;
@@ -79,6 +80,26 @@
         const matches=library.saves.filter(entry=>entry&&entry.saveId===saveId);
         if(matches.length!==1)throw new Error(`Save identity ${saveId} does not resolve to exactly one Save Library entry.`);
         return matches[0];
+    }
+
+    function runtimeGetProfileEntry(library,profileId){
+        if(typeof profileId!=="string"||!/^profile_[a-f0-9]{24}$/.test(profileId))throw new Error("A stable Local Profile identity is required.");
+        const matches=(library.profiles||[]).filter(profile=>profile&&profile.profileId===profileId);
+        if(matches.length!==1)throw new Error(`Profile identity ${profileId} does not resolve to exactly one Local Profile.`);
+        return matches[0];
+    }
+
+    function runtimeAssertManagerRole(role){
+        if(!MANAGER_ROLES.includes(role))throw new Error("A valid manager role is required.");
+        return role;
+    }
+
+    function runtimeManagerProfileRefs(showdown){
+        const refs=showdown&&showdown.identity&&showdown.identity.managerProfileIds;
+        return {
+            playerOne:refs&&typeof refs.playerOne==="string"?refs.playerOne:null,
+            playerTwo:refs&&typeof refs.playerTwo==="string"?refs.playerTwo:null
+        };
     }
 
     function runtimeMergeProfiles(existing,incoming){
@@ -202,6 +223,28 @@
         return true;
     }
 
+    function runtimeCommitIdentityState(library,history,raw){
+        const errors=runtimeGetFoundation().validateSaveLibrary(library);
+        if(errors.length)throw new Error(`Manager identity candidate is invalid: ${errors.join(" ")}`);
+        const nextLibraryRaw=JSON.stringify(library);
+        const nextLegacyRaw=JSON.stringify(history);
+        const legacyChanged=nextLegacyRaw!==raw.legacyShowdowns;
+        const candidateRaw={legacyShowdowns:nextLegacyRaw,saveLibrary:nextLibraryRaw,activeShowdown:null};
+        const result=runtimeApplyTransaction(candidateRaw,raw,ARCHIVE_ORDER);
+        if(!result||result.ok!==true){
+            if(result&&(result.failurePhase==="precondition"||result.status==="rollback-failed-critical"))runtimeInvalidateAuthority();
+            throw new Error(`Manager identity transaction failed${result&&result.status?` (${result.status})`:""}.`);
+        }
+        ownedLibraryRaw=nextLibraryRaw;
+        return {result,legacyChanged};
+    }
+
+    function runtimeFlushBeforeIdentityMutation(){
+        if(typeof root.flushPendingApplicationWrites==="function"&&root.flushPendingApplicationWrites()===false){
+            throw new Error("Pending Showdown writes could not be flushed before changing manager identity.");
+        }
+    }
+
     function runtimeSaveCurrent(){
         const showdown=runtimeGetCurrentShowdownReference();
         if(!showdown)return false;
@@ -243,6 +286,82 @@
             runtimeReportSaveFailure("The Save Library could not be inspected safely",error);
             return null;
         }
+    }
+
+    function runtimeGetIdentityMappingSnapshot(){
+        try{
+            const raw=runtimeAuthorityRawSnapshot();
+            return {ok:true,library:runtimeCloneValue(runtimeParseLibrary(raw.saveLibrary)),legacyShowdowns:runtimeCloneValue(runtimeParseLegacy(raw.legacyShowdowns))};
+        }catch(error){
+            return {ok:false,error:error&&error.message?error.message:"Manager identity state could not be inspected safely."};
+        }
+    }
+
+    async function runtimeAssignSaveManagerProfile(saveId,role,profileId){
+        runtimeAssertManagerRole(role);
+        runtimeFlushBeforeIdentityMutation();
+        const raw=runtimeAuthorityRawSnapshot();
+        const library=runtimeParseLibrary(raw.saveLibrary);
+        const history=runtimeParseLegacy(raw.legacyShowdowns);
+        runtimeGetProfileEntry(library,profileId);
+        const entry=runtimeGetSaveEntry(library,saveId);
+        const refs=runtimeManagerProfileRefs(entry.showdown);
+        const otherRole=role==="playerOne"?"playerTwo":"playerOne";
+        if(refs[otherRole]===profileId)throw new Error("One Local Profile cannot represent both manager roles inside the same Showdown.");
+        if(refs[role]===profileId)return {ok:true,changed:false,saveId,role,profileId,propagatedLegacy:false};
+
+        const nextLibrary=runtimeCloneValue(library);
+        const index=nextLibrary.saves.findIndex(item=>item&&item.saveId===saveId);
+        const nextShowdown=nextLibrary.saves[index].showdown;
+        nextShowdown.identity={...nextShowdown.identity,managerProfileIds:{...runtimeManagerProfileRefs(nextShowdown),[role]:profileId}};
+
+        const matchingLegacy=[];
+        history.forEach((record,legacyIndex)=>{
+            if(record&&record.identity&&record.identity.saveId===saveId)matchingLegacy.push(legacyIndex);
+        });
+        if(matchingLegacy.length>1)throw new Error("More than one Legacy record claims the same stable Save identity. Identity linkage is blocked.");
+        const nextHistory=history.map(runtimeCloneValue);
+        if(matchingLegacy.length===1){
+            const legacy=nextHistory[matchingLegacy[0]];
+            legacy.identity={...legacy.identity,managerProfileIds:{...runtimeManagerProfileRefs(legacy),[role]:profileId}};
+        }
+
+        runtimeCommitIdentityState(nextLibrary,nextHistory,raw);
+        if(library.activeSaveId===saveId){
+            runtimeSetCurrentShowdownReference(runtimeCloneValue(nextShowdown));
+        }
+        return {ok:true,changed:true,saveId,role,profileId,propagatedLegacy:matchingLegacy.length===1};
+    }
+
+    async function runtimeAssignLegacyManagerProfile(showdownId,role,profileId){
+        runtimeAssertManagerRole(role);
+        runtimeFlushBeforeIdentityMutation();
+        const raw=runtimeAuthorityRawSnapshot();
+        const library=runtimeParseLibrary(raw.saveLibrary);
+        if(profileId!==null)runtimeGetProfileEntry(library,profileId);
+        const history=runtimeParseLegacy(raw.legacyShowdowns);
+        const matches=[];
+        history.forEach((record,index)=>{if(String(record&&record.id)===String(showdownId))matches.push(index);});
+        if(matches.length!==1)throw new Error("Historical Showdown identity does not resolve to exactly one Legacy record.");
+
+        const legacyIndex=matches[0];
+        const sourceRecord=history[legacyIndex];
+        const migrated=await runtimeGetFoundation().migrateShowdownIdentity(sourceRecord,runtimeManagerProfileRefs(sourceRecord));
+        const saveId=migrated.identity&&migrated.identity.saveId;
+        if(!saveId)throw new Error("Historical Showdown could not receive stable Save identity.");
+        if(library.saves.some(entry=>entry&&entry.saveId===saveId))throw new Error("This historical record still has a local Save. Link the Save manager so its matching Legacy copy stays consistent.");
+        const refs=runtimeManagerProfileRefs(migrated);
+        const otherRole=role==="playerOne"?"playerTwo":"playerOne";
+        if(profileId!==null&&refs[otherRole]===profileId)throw new Error("One Local Profile cannot represent both manager roles inside the same historical Showdown.");
+        migrated.identity={...migrated.identity,managerProfileIds:{...refs,[role]:profileId}};
+
+        const canonical=runtimeGetFoundation().canonicalString;
+        const changed=typeof canonical!=="function"||canonical(sourceRecord)!==canonical(migrated);
+        if(!changed)return {ok:true,changed:false,showdownId:String(showdownId),saveId,role,profileId};
+        const nextHistory=history.map(runtimeCloneValue);
+        nextHistory[legacyIndex]=migrated;
+        runtimeCommitIdentityState(library,nextHistory,raw);
+        return {ok:true,changed:true,showdownId:String(showdownId),saveId,role,profileId};
     }
 
     function runtimeHasSaved(){return runtimeLoadActive()!==null;}
@@ -386,7 +505,33 @@
         if(activeShowdown===null)return JSON.stringify(runtimeReplaceActiveEntry(currentLibrary,null,[],null));
         const planned=await runtimeGetFoundation().buildSingletonMigrationPlan({activeShowdown,legacyShowdowns:[]});
         if(!planned||planned.ok!==true||!planned.library||planned.library.saves.length!==1)throw new Error("Backup active Showdown could not be converted to Save Library authority.");
-        const nextLibrary=runtimeReplaceActiveEntry(currentLibrary,planned.library.saves[0],planned.library.profiles,planned.library.activeSaveId);
+
+        const entry=runtimeCloneValue(planned.library.saves[0]);
+        const generatedProfiles=planned.library.profiles.map(runtimeCloneValue);
+        const incomingRefs=runtimeManagerProfileRefs(activeShowdown);
+        const preparedRefs=runtimeManagerProfileRefs(entry.showdown);
+        const extraProfiles=[];
+        const retainedGeneratedProfiles=new Set(generatedProfiles.map(profile=>profile.profileId));
+        for(const role of MANAGER_ROLES){
+            const incoming=incomingRefs[role];
+            if(!incoming||!/^profile_[a-f0-9]{24}$/.test(incoming))continue;
+            const generated=preparedRefs[role];
+            entry.showdown.identity.managerProfileIds[role]=incoming;
+            retainedGeneratedProfiles.delete(generated);
+            const known=currentLibrary.profiles.some(profile=>profile&&profile.profileId===incoming);
+            if(!known){
+                extraProfiles.push({
+                    schemaVersion:Number(runtimeGetFoundation().PROFILE_SCHEMA_VERSION)||1,
+                    profileId:incoming,
+                    displayName:String((activeShowdown.managers&&activeShowdown.managers[role])||(role==="playerOne"?"Manager 1":"Manager 2")).trim()||"Unknown Manager",
+                    source:{kind:"restore-active-projection",saveId:entry.saveId,role}
+                });
+            }
+        }
+        const finalRefs=runtimeManagerProfileRefs(entry.showdown);
+        if(finalRefs.playerOne&&finalRefs.playerOne===finalRefs.playerTwo)throw new Error("Backup active Showdown assigns one Local Profile to both manager roles.");
+        const restoreProfiles=[...generatedProfiles.filter(profile=>retainedGeneratedProfiles.has(profile.profileId)),...extraProfiles];
+        const nextLibrary=runtimeReplaceActiveEntry(currentLibrary,entry,restoreProfiles,entry.saveId);
         return JSON.stringify(nextLibrary);
     }
 
@@ -463,6 +608,9 @@
         saveCurrentShowdown:runtimeSaveCurrent,
         loadActiveShowdown:runtimeLoadActive,
         getLibrarySnapshot:runtimeGetLibrarySnapshot,
+        getIdentityMappingSnapshot:runtimeGetIdentityMappingSnapshot,
+        assignSaveManagerProfile:runtimeAssignSaveManagerProfile,
+        assignLegacyManagerProfile:runtimeAssignLegacyManagerProfile,
         switchActiveSave:runtimeSwitchActiveSave,
         deleteSave:runtimeDeleteSave,
         clearActiveShowdown:runtimeClearActive,
