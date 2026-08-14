@@ -6,174 +6,177 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns the normal implementation authorization boundary unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. Release and production-proof documents remain frozen evidence for the release they name.
 
-## Active owner-authorized implementation
+## Completed owner-authorized candidate
 
 On 2026-08-14 ET the owner explicitly authorized the smallest correct cross-Save/profile manager identity linkage and historical mapping foundation required before identity-safe longitudinal Analytics.
 
-The authorization specifically requires:
+The owner specifically required source reconstruction across profile creation/reuse, Save Library, `identity.managerProfileIds`, Legacy migration/mappings, deletion/retention, Candidate A/B/C, Analytics caching and Trophy Room before mutation; no naive Analytics key swap; deterministic/browser proof; no cloud/accounts/sync/unrelated roadmap work.
 
-- do not simply replace name-based Analytics keys with profile IDs;
-- reconstruct profile creation/reuse, Save Library, `identity.managerProfileIds`, Legacy migration/mappings, deletion/retention, Candidate A/B/C, Analytics caching and Trophy Room dependencies first;
-- preserve gameplay, persistence, recovery, PWA/offline, visuals and performance;
-- protect same-name distinct managers, one manager across multiple Saves, unresolved historical identities and deletion/recovery behavior with deterministic and browser evidence;
-- do not expand into cloud, accounts, synchronization or unrelated roadmap work.
-
-Verified live `main` before branch creation:
+Verified live `main` before implementation branch creation:
 
 `56b7f5cff2055d67ba5ffa6b4729bb24c46718a5`
 
-Active branch:
+Implementation branch:
 
 `agent/manager-identity-linkage-foundation`
 
-Branch-opening handoff commit:
+Final exact candidate head:
 
-`50840969738e3fb26fb2851ace3eca17d17e1df2`
+`9bf4cc19c6ec6485c28a7dd542cbac74052d44bc`
 
-The branch was created directly from the exact live `main` SHA above. At branch creation the only open PRs were obsolete historical drafts #37 and #35.
+PR:
 
-## Production/runtime boundary before this candidate
+PR #57 — `Add explicit cross-Save manager identity linkage foundation`
 
-Application milestone: `v1.3.0 — Recovery & Device Resilience Hardening`
+Exact PR #57 merge:
 
-Installable Offline App runtime: `1.3.0-r1`
+`95e98c13bbb4cac485531565c3577ae31286d0af`
 
-Immediate previous known-good whole shell: `1.2.0-r2`
+No application/runtime release label was changed. Application milestone remains `v1.3.0 — Recovery & Device Resilience Hardening`; Installable Offline App runtime remains `1.3.0-r1`; previous whole-shell fallback remains `1.2.0-r2`; feature release version remains intentionally unassigned.
 
-Current shipped product layer: Visible Local Profiles / Save Library Core UI
+## Source-grounded identity decision now shipped
 
-Current production runtime feature merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
+A direct profile-ID key swap is not sufficiently correct because fresh Saves can represent the same real manager with different stable Local Profiles and historical records can legitimately have unresolved manager identity.
 
-Feature release version: intentionally unassigned
+The smallest safe semantics now in production are:
 
-This candidate does not assign a new application or runtime version.
+- existing stable `profile_*` identity is the longitudinal manager identity when the user explicitly reuses it;
+- fresh New Showdown creation still creates fresh role profiles by default;
+- a Save manager role can be explicitly reassigned to an existing Local Profile when the user knows the relationship;
+- same visible names never imply equal identity and no name-based matching is performed;
+- one profile cannot represent both rival roles inside one Showdown;
+- the previous profile is retained rather than merged/deleted;
+- Showdown and Legacy display-name labels are not rewritten by identity linkage;
+- a matching Legacy copy inherits a Save-role link only through exact stable `identity.saveId` equality;
+- historical-only Legacy roles can be explicitly mapped to an existing profile or explicitly returned to `null` / unresolved;
+- if a historical record still corresponds to a local Save, direct historical mapping is rejected so the Save role remains the coherent mutation source;
+- deleting a Save retains profiles, surviving cross-Save references and historical mappings.
 
-## Source reconstruction and bounded semantic decision
+No profile rename/edit, generic profile CRUD, Analytics/Trophy calculation rewrite, cloud/account/sync model, backup-envelope redesign, gameplay/scoring change or release-version assignment was included.
 
-Current source and the completed Local Profiles / Save Library handoffs establish these non-negotiable facts:
+## Recovery / Candidate A-B-C behavior
 
-1. Stable `profile_*`, `save_*` and `season_*` identities already exist.
-2. Fresh New Showdown creation intentionally creates two fresh Local Profiles. Equal display names do not imply equal identity.
-3. Display names are labels only. Name equality, normalization, spelling or case folding must never map identity.
-4. Singleton migration may reuse profile refs for a Legacy record only when it is the exact same Showdown identity; otherwise historical manager refs remain unresolved.
-5. Single-Save deletion intentionally retains Local Profiles and Legacy history.
-6. `js/saveLibraryRuntime.js` is the canonical runtime mutation owner. UI code must not write canonical browser storage.
-7. Candidate A remains a non-mutating active-Save projection with the existing v1 envelope. Candidate C remains the only restore stage that mutates canonical restore state through strict exact raw snapshots and transaction-owned guarded writes.
-8. Current Career Analytics still aggregates longitudinal managers primarily by normalized display name. Trophy Room consumes that output and therefore inherits the limitation.
+Candidate A keeps the existing v1 backup envelope. It already projects the active Showdown with `identity.managerProfileIds`.
 
-A direct profile-ID key swap is not sufficiently correct because fresh Saves can represent the same real manager with different `profile_*` identities. The smallest safe foundation is therefore explicit reuse of an existing stable Local Profile reference, not a new person/account schema and not name inference.
+Candidate C Save Library preparation now preserves valid incoming active `profile_*` refs instead of regenerating them:
 
-### Chosen identity semantics
+- an existing matching local profile is reused;
+- a fresh device reconstructs only the minimum missing referenced profile entry;
+- older backups without valid refs retain deterministic generated fallback profiles;
+- the same profile on both rival roles is rejected;
+- unrelated/non-active Saves and profiles remain preserved.
 
-- Existing `profile_*` identity is the longitudinal manager identity when the user explicitly reuses it.
-- A Save manager role can be explicitly reassigned to an existing Local Profile.
-- The old Local Profile is retained; linkage does not merge/delete identities.
-- One profile cannot represent both rival roles inside the same Showdown.
-- Showdown and Legacy display-name labels are not rewritten by identity linkage.
-- A matching Legacy copy inherits a Save-role link only when its stable `identity.saveId` exactly matches that Save.
-- Historical-only Legacy roles may be explicitly mapped to an existing Local Profile or explicitly returned to `null` / unresolved.
-- Historical mappings are located by the existing Showdown record identity and stable-ID migration, never by manager labels.
-- If a historical record resolves to a Save that still exists locally, direct historical mapping is rejected; the Save role must be linked so the matching Legacy copy stays coherent.
-- Save deletion continues to preserve profiles, cross-Save references and historical mappings.
-- No profile rename/edit, generic profile CRUD, Analytics calculation rewrite, cloud/account/sync model, backup-envelope redesign or release assignment is part of this candidate.
+Candidate B remains read-only. Candidate C strict exact raw snapshots, stale-state checks, transaction-owned mutation, rollback ownership, anti-clobber verification and critical recovery remain unchanged.
 
-## Recovery / Candidate A-B-C conclusion
+## Transaction/concurrency correction found before publication
 
-Candidate A already carries the active Showdown's `identity.managerProfileIds` inside its existing active-Showdown projection. The v1 backup envelope therefore does not need a format change for this bounded foundation.
+During final source review, one concurrency dependency was identified before the candidate was published: Legacy bytes determine whether a Save-role link must propagate even when the current operation appears not to modify Legacy.
 
-The existing Save Library restore preparation previously rebuilt the active backup through singleton migration and could regenerate role profile IDs. The bounded correction preserves valid incoming `profile_*` references:
+The implementation therefore guards Legacy as an unchanged exact transaction precondition on Save-role linkage. If another tab archives or changes Legacy at the transaction boundary, linkage fails closed before an owned write rather than accepting an inconsistent Save/Legacy relationship.
 
-- reuse an existing local profile when the incoming stable ID already exists;
-- reconstruct only the minimum referenced profile registry entry when the incoming active backup carries a valid stable profile ID that is not present locally;
-- retain deterministic generated fallback profiles for older backups that do not carry valid refs;
-- reject an active backup that assigns the same profile to both rival roles;
-- retain all unrelated/non-active Saves and existing profiles.
+This was a pre-publication design correction, not a CI/runtime failure. No product guarantee, timeout or performance ceiling was weakened.
 
-Candidate C's strict exact raw snapshots, stale-state checks, guarded transaction, rollback ownership and recovery machinery remain unchanged.
+## Permanent implementation evidence
 
-## Transaction/concurrency decision
-
-Identity mutations flush pending application writes first and then use the existing exact Save Library/Legacy/singleton transaction authority.
-
-For Save-role linkage, Legacy bytes are always included as an exact guarded precondition even when no current Legacy record changes. This is required because the presence of a matching stable Legacy copy determines whether propagation is required. If another tab archives or changes Legacy at the transaction boundary, the linkage fails closed before an owned write rather than accepting an inconsistent Save/Legacy relationship.
-
-## Implementation checkpoint
-
-The bounded implementation changes are now published on the active branch in these files:
+PR #57 changed exactly these eight files:
 
 - `js/saveLibraryRuntime.js`
-  - adds detached identity mapping inspection;
-  - adds explicit Save-role profile reassignment;
-  - adds explicit historical-role mapping/unmapping;
-  - uses existing guarded Save Library/Legacy transaction ownership;
-  - preserves incoming active profile refs during restore preparation.
 - `js/saveLibraryUI.js`
-  - adds an explicit Manager Identity Links surface inside the existing lazy Save Library/Settings owner;
-  - profile options include both display label and short stable profile identity;
-  - historical-only roles include an explicit unresolved option;
-  - no raw `localStorage` access is added.
 - `css/saveLibrary.css`
-  - adds contained lazy linkage presentation while retaining phone/reduced-motion behavior.
 - `tests/contracts/manager-identity-linkage-contracts.cjs`
-  - protects same-name separation, explicit cross-Save reuse, stable-only Legacy propagation, unresolved history, profile retention, Candidate A/C identity preservation, stale Save authority and Legacy transaction-boundary drift.
-- `tests/support/run-contract-suite.cjs`
-  - wires the deterministic identity contract into the canonical contract suite.
 - `tests/browser/manager-identity-linkage-audit.cjs`
-  - exercises the visible linkage surface, same-name distinct managers, exact matching-Legacy propagation, historical map/unmap, cross-linked active Candidate A/C preservation, deletion retention and Settings focus ownership.
+- `tests/support/run-contract-suite.cjs`
 - `.github/workflows/validate-stability-lane.yml`
-  - adds the browser audit to the existing Stability family locally and on deployed `main` without adding a workflow family or increasing timeouts.
+- `00_CURRENT_HANDOFF.md`
 
-Publication commits through the first complete runtime/UI/test implementation:
+The deterministic and Chromium evidence protects same-name distinct profiles, one manager explicitly reused across Saves, exact matching-Legacy propagation, historical map/unmap and unresolved state, profile retention after deletion, Candidate A/C identity preservation, fresh-device minimum profile reconstruction, stale Save authority, Legacy transaction-boundary drift, Settings focus and singleton non-resurrection.
 
-- `6b0f0db114553010d6a014fe7f2e1dd58613b1e2` — deterministic identity contract;
-- `77d22ec020ba584d0eac911fd6d8e6bff7b4a4f8` — browser identity audit;
-- `b972d8368bb64b9326595baef1cbc3ef56b56eb6` — canonical contract-suite wiring;
-- `f454a9d592f2ad5bd898d4adee8163dc38f2441a` — Save Library identity-link styles;
-- `50f94c355e8b390a34daa48affd6991064172937` — Stability lane coverage;
-- `9e126e35c3d02b54495233e87ea4c99957423d6d` — explicit identity UI;
-- `94da55d5d92a1c2a5e7a36f0ffdb7e0adc306640` — runtime identity linkage and restore-preservation implementation.
+## Exact PR proof
 
-No gameplay/scoring code, Analytics calculation, Trophy Room calculation, raw storage owner, storage transaction engine, service worker revision, release identity or backup envelope is changed.
+All 13 normal pull-request workflow families passed exact candidate head:
 
-Local pre-publication checks completed against the prepared files:
+`9bf4cc19c6ec6485c28a7dd542cbac74052d44bc`
 
-- `node --check js/saveLibraryRuntime.js` — pass;
-- `node --check js/saveLibraryUI.js` — pass;
-- `node --check tests/contracts/manager-identity-linkage-contracts.cjs` — pass;
-- `node --check tests/browser/manager-identity-linkage-audit.cjs` — pass;
-- `node --check tests/support/run-contract-suite.cjs` — pass;
-- Save Library CSS braces balanced;
-- required existing `@media(max-width:760px)` and `@media(prefers-reduced-motion:reduce)` boundaries retained;
-- `js/saveLibraryUI.js` contains no `localStorage` access.
+Promotion gate before merge also verified:
 
-Full repository validation is still required on the exact published branch head. Do not call the candidate green until GitHub Actions proves that exact head.
+- live `main` had not moved from the exact branch base;
+- branch was 9 commits ahead / 0 behind;
+- changed-file scope was exactly the eight intended files;
+- PR was mergeable;
+- no submitted reviews existed;
+- no unresolved review threads existed.
 
-## Prior audit / authority closure
+PR #57 was then promoted from draft and merged without moving the proven head.
 
-The prerequisite Identity × Legacy × Analytics × Roadmap audit was completed on `agent/identity-analytics-roadmap-audit`.
+## Exact production proof
 
-Final validated audit head:
+Runtime feature merge:
 
-`64afd874516af0b104a30f438514d43c8e0eb253`
+`95e98c13bbb4cac485531565c3577ae31286d0af`
 
-PR #56 merge:
+All 14 permanent push workflow families succeeded on that exact merge. Exact-head failure count was zero.
 
-`58c92dfbabd3fcdcb5cf03cce6baffe882901e4e`
+Post-merge Stability:
 
-The audit established that current name-based longitudinal Analytics is not identity-safe and that historical ambiguity must remain unresolved unless source identity proves a relationship.
+run `31812858587` — success
 
-Post-merge handoff authority before this candidate was sealed through:
+deployed-site-smoke job `94808020695` — success
 
-`56b7f5cff2055d67ba5ffa6b4729bb24c46718a5`
+That deployed job passed every production gate in sequence:
 
-A prior documentation-only handoff seal at `2433e80358cc70494e1360a9c0f39c510f5f26bf` failed Static App because the protected semantic phrase `concise rolling handoff` had been altered. The correction `dc9a7c494dab834a6fec731b370937cf45b6aff1` restored the contract without weakening it. Preserve both protected semantic markers in this file.
+1. wait for Pages and verify every runtime byte;
+2. runtime error provenance audit;
+3. Home visual audit;
+4. visible Save Library audit;
+5. manager identity linkage browser audit;
+6. licensed/crop-safe football-photo audit;
+7. Candidate A backup export;
+8. Candidate B read-only import analysis;
+9. Candidate C atomic restore/recovery;
+10. Installable Offline App/offline boundary;
+11. complete production journey.
+
+The identity foundation is therefore merged, deployed, exact-byte verified and technically production-proven.
+
+## Authority seal in progress
+
+Because `PROJECT_STATE.md`, `NEXT_TASK.md` and `POST_V1_ROADMAP_EXECUTION.md` still described this newly shipped dependency as future work immediately after the runtime merge, a documentation/contract-only authority seal was opened from exact production merge `95e98c13bbb4cac485531565c3577ae31286d0af`.
+
+Authority-seal branch:
+
+`agent/manager-identity-authority-seal`
+
+Changes on that branch are limited to current authority and semantic coherence:
+
+- `PROJECT_STATE.md` now records PR #57/merge `95e98c...` as shipped production state and keeps the current Analytics name-key limitation explicit;
+- `NEXT_TASK.md` closes the identity candidate and identifies identity-safe longitudinal Career Analytics only as a separately authorized future candidate;
+- `POST_V1_ROADMAP_EXECUTION.md` changes cross-Save linkage to DONE, historical mapping to FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED, and identity-safe Analytics to READY / NOT AUTHORIZED;
+- `tests/contracts/release-authority-coherence.cjs` now requires those stronger current semantics rather than the obsolete pre-linkage classifications;
+- this handoff records exact runtime proof and the stop boundary.
+
+No runtime application file is changed by the authority seal.
+
+## Current Analytics boundary
+
+Career Analytics remains name-keyed in `js/analytics.js`; Trophy Room still consumes that longitudinal output. The identity prerequisite is now solved, but the Analytics runtime correction is a separate candidate.
+
+A future Analytics candidate, if explicitly authorized, must at minimum preserve:
+
+- distinct same-name profiles as distinct career identities;
+- one explicitly reused profile across multiple Saves as one career identity;
+- unresolved historical manager identity without guessing from labels;
+- Rivalry/Showdown-scoped behavior that does not require cross-history identity;
+- Analytics cache invalidation after explicit identity mapping changes;
+- Trophy Room coherence.
+
+Do not start that work merely because the dependency is now technically ready.
 
 ## Open historical drafts
 
-PR #37 / `agent/v13-hardening` and PR #35 / `agent/v1.2-installable-offline-r2` are obsolete historical drafts, not development baselines.
+PR #37 / `agent/v13-hardening` and PR #35 / `agent/v1.2-installable-offline-r2` remain obsolete historical drafts, not development baselines.
 
-## Current validation / next legal action
+## Next legal action
 
-Open a draft PR for `agent/manager-identity-linkage-foundation` and validate its exact head across all normal PR workflow families. Record every failure, root cause and correction here without weakening product guarantees or increasing time/performance ceilings.
+Validate the exact final head of `agent/manager-identity-authority-seal` across the normal PR workflow families. If that exact head is green, live `main` is still the expected `95e98c...` base, scope remains documentation plus semantic contract only, and there are no review blockers, merge the seal and verify its exact `main` head.
 
-After the identity foundation itself is green and production-proven, stop before changing Career Analytics/Trophy Room aggregation unless a later explicit owner instruction authorizes that separate runtime correction.
+Then stop. Do not begin Career Analytics/Trophy Room aggregation, backup portability, profile editing, cloud, accounts, synchronization or another runtime candidate unless a later explicit owner instruction authorizes that separately bounded work.
