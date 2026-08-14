@@ -91,7 +91,7 @@ PR #57 changed exactly these eight files:
 
 The deterministic and Chromium evidence protects same-name distinct profiles, one manager explicitly reused across Saves, exact matching-Legacy propagation, historical map/unmap and unresolved state, profile retention after deletion, Candidate A/C identity preservation, fresh-device minimum profile reconstruction, stale Save authority, Legacy transaction-boundary drift, Settings focus and singleton non-resurrection.
 
-## Exact PR proof
+## Exact PR #57 proof
 
 All 13 normal pull-request workflow families passed exact candidate head:
 
@@ -108,7 +108,7 @@ Promotion gate before merge also verified:
 
 PR #57 was then promoted from draft and merged without moving the proven head.
 
-## Exact production proof
+## Exact runtime production proof
 
 Runtime feature merge:
 
@@ -150,16 +150,24 @@ PR:
 
 PR #58 — `Seal manager identity production authority`
 
-The intended seal scope is current authority plus semantic contracts only:
+Final exact validated authority-seal head:
+
+`e8ed4994ef331749dc3d94707f9bb80e0b5de80c`
+
+Exact PR #58 merge:
+
+`ab5f4082c520a464a894318bfed1e0511763805f`
+
+The final seal scope was exactly six current-authority/semantic-contract files:
 
 - `PROJECT_STATE.md` records PR #57/merge `95e98c...` as shipped production state and keeps the current Analytics name-key limitation explicit;
 - `NEXT_TASK.md` closes the identity candidate and identifies identity-safe longitudinal Career Analytics only as a separately authorized future candidate;
-- `POST_V1_ROADMAP_EXECUTION.md` changes cross-Save linkage to DONE, historical mapping to FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED, and identity-safe Analytics to READY / NOT AUTHORIZED;
+- `POST_V1_ROADMAP_EXECUTION.md` records cross-Save linkage as DONE, historical mapping as FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED, and identity-safe Analytics as READY / NOT AUTHORIZED while retaining the canonical Local Profiles / Save Library milestone marker;
 - `tests/contracts/release-authority-coherence.cjs` requires those stronger current semantics rather than the obsolete pre-linkage classifications;
 - `tests/contracts/cloud-foundation-contracts.cjs` keeps cloud future/non-authorized while advancing its dependency assertions to the now-shipped local identity semantics;
 - this handoff records exact runtime proof, failures/corrections and the stop boundary.
 
-No runtime application file is changed by the authority seal.
+No runtime application file was changed by PR #58.
 
 ### Authority-seal validation failure 1 and correction
 
@@ -180,7 +188,7 @@ Correction:
 
 `f2b9313817822e23f32fa73d4e7b7455c1e59e00`
 
-The correction does not weaken cloud safeguards. It now requires shipped historical/cross-Save identity semantics, keeps unresolved history valid, keeps Analytics READY / NOT AUTHORIZED, and preserves cloud/network/storage/transaction boundaries.
+The correction does not weaken cloud safeguards. It requires shipped historical/cross-Save identity semantics, keeps unresolved history valid, keeps Analytics READY / NOT AUTHORIZED, and preserves cloud/network/storage/transaction boundaries.
 
 ### Authority-seal validation failure 2 and correction
 
@@ -202,6 +210,41 @@ The section-5 canonical heading was restored exactly, while its body still recor
 
 Both authority-seal failures were documentation/semantic-contract coherence failures only. No production runtime byte changed and no product guarantee, timeout or performance ceiling was weakened.
 
+## Exact PR #58 proof and production authority seal proof
+
+All 13 normal PR workflow families passed exact final seal head:
+
+`e8ed4994ef331749dc3d94707f9bb80e0b5de80c`
+
+The promotion gate then verified:
+
+- live `main` remained exact base `95e98c13bbb4cac485531565c3577ae31286d0af`;
+- branch was 9 commits ahead / 0 behind;
+- changed-file scope was exactly the six intended authority/semantic-contract files;
+- PR was mergeable;
+- no submitted reviews existed;
+- no unresolved review threads existed.
+
+PR #58 was promoted and merged without moving the proven head.
+
+Exact authority-seal merge:
+
+`ab5f4082c520a464a894318bfed1e0511763805f`
+
+On that exact `main` head:
+
+- all 14 permanent push/deployment workflow families succeeded;
+- exact-head failures: 0;
+- exact-head cancellations: 0;
+- Stability run `31814624830` succeeded;
+- Stability repository-contract job `94813209407` succeeded;
+- Stability Chromium job `94813264537` succeeded;
+- deployed-site-smoke job `94813741766` succeeded.
+
+The deployed-site smoke again passed every public production gate: exact runtime bytes, runtime provenance, Home, visible Save Library, manager identity linkage, football visuals, Candidate A, Candidate B, Candidate C atomic restore/recovery, Installable Offline App/offline and the complete journey.
+
+The authority documents and semantic contracts are therefore coherent with the already production-proven runtime foundation.
+
 ## Current Analytics boundary
 
 Career Analytics remains name-keyed in `js/analytics.js`; Trophy Room still consumes that longitudinal output. The identity prerequisite is now solved, but the Analytics runtime correction is a separate candidate.
@@ -221,8 +264,22 @@ Do not start that work merely because the dependency is now technically ready.
 
 PR #37 / `agent/v13-hardening` and PR #35 / `agent/v1.2-installable-offline-r2` remain obsolete historical drafts, not development baselines.
 
-## Next legal action
+## Clean stop / next-session bootstrap
 
-Validate the exact final head of `agent/manager-identity-authority-seal` across the normal PR workflow families. If that exact head is green, live `main` is still the expected `95e98c...` base, scope remains authority documents plus semantic contracts only, and there are no review blockers, merge the seal and verify its exact `main` head.
+The owner-authorized manager identity-linkage foundation is complete, merged, deployed, production-proven and sealed into current repository authority.
 
-Then stop. Do not begin Career Analytics/Trophy Room aggregation, backup portability, profile editing, cloud, accounts, synchronization or another runtime candidate unless a later explicit owner instruction authorizes that separately bounded work.
+No new substantial runtime/product candidate is automatically authorized. In particular, do not begin Career Analytics/Trophy Room aggregation, backup portability, profile editing, cloud, accounts, synchronization, gameplay changes or release/version assignment without a later explicit owner instruction.
+
+At the start of the next development session:
+
+1. independently fetch live `main`, recent commits and open PRs;
+2. read `00_HANDOFF_GOLDEN_RULE.md`;
+3. read `00_DEVELOPER_START_HERE.md`;
+4. read this `00_CURRENT_HANDOFF.md`;
+5. read `PROJECT_STATE.md`;
+6. read `NEXT_TASK.md`;
+7. read `POST_V1_ROADMAP_EXECUTION.md`;
+8. inspect deeper source/history only as required by the newly authorized task;
+9. treat current source as implementation authority and do not invent the next feature when `NEXT_TASK.md` plus owner instruction do not authorize one.
+
+The final documentation-only handoff seal commit follows the verified authority-seal merge above; future developers must fetch live `main` rather than treating any SHA in this file as permanently current.
