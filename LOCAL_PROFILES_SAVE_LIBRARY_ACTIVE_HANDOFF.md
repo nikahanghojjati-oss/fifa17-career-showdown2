@@ -1,11 +1,44 @@
 # Career Mode Showdown — Local Profiles / Save Library Active Handoff
 
 Last updated: 2026-08-13 ET
-Status: foundation merged and proven; next candidate is persistence integration
+Status: canonical persistence integration active; implementation not yet started
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Production application/runtime: `v1.3.0` / `1.3.0-r1`
 Immediate previous whole runtime: `1.2.0-r2`
 Feature release version: intentionally unassigned
+
+## Current canonical persistence session
+
+Owner-authorized scope: implement only the next bounded Local Profiles / Save Library candidate, canonical persistence integration. Do not expose Save Library UI, profile creation/rename/historical-mapping UI, redesign the backup/import envelope, add cloud/accounts/QR/synchronization, change gameplay/scoring/navigation/visual ownership, or assign a feature release version.
+
+Independently verified session base `main`:
+
+`e2208b18a4b7ee321a351fed5874b0ae8da9a05d`
+
+The handoff-provided SHA was re-fetched from GitHub before any mutation and had not advanced.
+
+Active branch:
+
+`agent/save-library-canonical-persistence`
+
+Branch base:
+
+`e2208b18a4b7ee321a351fed5874b0ae8da9a05d`
+
+Pre-implementation reconstruction completed before source mutation:
+
+- read the ten required current authority documents in the owner-specified order;
+- inspected `js/storage.js`, `js/storageTransaction.js`, `js/saveLibraryFoundation.js`, `js/backup.js`, `js/importAnalysis.js`, `js/restore.js`, startup/optional-module load ownership and the current singleton runtime write path;
+- inspected Candidate A backup contracts/browser audit, Candidate B import-analysis contracts/browser audit, all four Candidate C restore contract families and both Candidate C browser audits;
+- inspected current static/performance, stability, final-hardening and release-authority contracts;
+- confirmed Candidate C destructive Apply still depends on `captureCareerModeRawRestoreSnapshot()` and transaction-owned exact-byte preconditions/rollback;
+- confirmed eager startup is still locked at `164563` raw / `37355` gzip with only 437 raw bytes of headroom, so the ~20 KB Save Library foundation cannot simply become an eager script;
+- confirmed the existing foundation planner currently treats any valid `saveLibrary` raw value as `already-migrated` even if legacy `activeShowdown` bytes remain, so persistence integration must not accept that dual-slot state as two independent canonical truths;
+- confirmed the raw transaction engine currently knows only `activeShowdown`, `legacyShowdowns`, and `preferences`, and its existing default ordering is part of Candidate C recovery evidence.
+
+No runtime/source implementation had been changed when this checkpoint was published.
+
+Session tool failure before mutation: a read-only `git clone` attempt from the execution container failed because `github.com` DNS could not be resolved (`Could not resolve host: github.com`). No repository mutation occurred. GitHub connector state is therefore the repository authority for this session; normal GitHub CI will remain the authoritative full-repository execution environment.
 
 ## Owner instruction and scope
 
