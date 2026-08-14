@@ -4,7 +4,7 @@ Last updated: 2026-08-14 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-This is the concise rolling evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. Release and production-proof documents remain frozen evidence for the release they name.
+This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. Release and production-proof documents remain frozen evidence for the release they name.
 
 ## Current repository boundary
 
@@ -71,7 +71,7 @@ PR #56 changed no gameplay, persistence, recovery, Save Library runtime, Analyti
 1. Stable `profile_*`, `save_*` and `season_*` identities already exist. Save Library foundation and core UX are shipped and production-proven.
 2. Current Career Analytics is not identity-safe across all history because `js/analytics.js` aggregates career managers primarily by normalized display name and does not use `identity.managerProfileIds` as career aggregation authority.
 3. Two distinct authoritative profiles with the same visible name can therefore collapse into one Career Analytics manager row.
-4. A direct replacement of the name key with `profileId` is not a correct person-level fix because current New Showdown creation creates fresh Local Profiles per Save/manager role. That could split one real manager across multiple career identities.
+4. A direct profile-ID key swap is not sufficiently correct because current New Showdown creation creates fresh Local Profiles per Save/manager role. That could split one real manager across multiple career identities.
 5. Historical Legacy manager/profile relationships may deliberately remain unresolved when source does not prove them. Visible-name equality is never mapping authority.
 6. Full identity-safe longitudinal manager Analytics therefore depends on explicit cross-Save/historical manager identity semantics first. Showdown- or Season-scoped work does not automatically share that dependency.
 7. Candidate A/B/C compatibility does not mean the current v1 backup envelope is a complete fresh-device export of every non-active Save Library entry. Full multi-Save portability remains a separate future candidate.
