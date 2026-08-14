@@ -74,6 +74,37 @@
         return entry;
     }
 
+    function runtimeMergeProfiles(existing,incoming){
+        const merged=(Array.isArray(existing)?existing:[]).map(runtimeCloneValue);
+        const byId=new Map(merged.map(profile=>[profile&&profile.profileId,profile]));
+        for(const profile of Array.isArray(incoming)?incoming:[]){
+            if(!profile||typeof profile.profileId!=="string")throw new Error("Save Library profile identity is invalid.");
+            const known=byId.get(profile.profileId);
+            if(known){
+                const canonical=runtimeGetFoundation().canonicalString;
+                if(typeof canonical!=="function"||canonical(known)!==canonical(profile))throw new Error(`Profile identity ${profile.profileId} conflicts with an existing stable profile.`);
+                continue;
+            }
+            const copy=runtimeCloneValue(profile);
+            merged.push(copy);
+            byId.set(copy.profileId,copy);
+        }
+        return merged;
+    }
+
+    function runtimeReplaceActiveEntry(library,newEntry,newProfiles,newActiveId){
+        const oldActiveId=library.activeSaveId;
+        const retained=library.saves.filter(entry=>!entry||entry.saveId!==oldActiveId).map(runtimeCloneValue);
+        if(newEntry){
+            if(retained.some(entry=>entry&&entry.saveId===newEntry.saveId))throw new Error(`Save identity ${newEntry.saveId} already belongs to a non-active Save Library entry.`);
+            retained.push(runtimeCloneValue(newEntry));
+        }
+        const next={...library,activeSaveId:newActiveId,profiles:runtimeMergeProfiles(library.profiles,newProfiles),saves:retained};
+        const errors=runtimeGetFoundation().validateSaveLibrary(next);
+        if(errors.length)throw new Error(`Save Library active transition is invalid: ${errors.join(" ")}`);
+        return next;
+    }
+
     function runtimeGetCurrentShowdownReference(){return typeof currentShowdown!=="undefined"?currentShowdown:null;}
     function runtimeSetCurrentShowdownReference(value){if(typeof currentShowdown!=="undefined")currentShowdown=value;}
 
@@ -195,11 +226,10 @@
     function runtimeClearActive(){
         try{
             const library=runtimeParseLibrary(runtimeAuthorityRawSnapshot().saveLibrary);
-            library.activeSaveId=null;
-            library.profiles=[];
-            library.saves=[];
-            runtimeCommitLibrary(library);
+            const next=runtimeReplaceActiveEntry(library,null,[],null);
+            runtimeCommitLibrary(next);
             seasonIdentityByRound=new Map();
+            runtimeSetCurrentShowdownReference(null);
             return true;
         }catch(error){
             runtimeReportSaveFailure("The active Save Library entry could not be cleared",error);
@@ -211,13 +241,16 @@
         if(!candidate||typeof candidate!=="object"||Array.isArray(candidate))throw new Error("New Showdown candidate is invalid.");
         const raw=runtimeAuthorityRawSnapshot();
         const currentLibrary=runtimeParseLibrary(raw.saveLibrary);
-        if(currentLibrary.saves.length>1)throw new Error("This runtime cannot safely replace a Save Library that already contains multiple saves without the future visible Save Library workflow.");
+        const active=runtimeGetActiveEntry(currentLibrary);
+        const nonActive=currentLibrary.saves.filter(entry=>!active||!entry||entry.saveId!==active.saveId);
+        if(nonActive.length)throw new Error("This runtime cannot safely replace a Save Library that already contains non-active saves without the future visible Save Library workflow.");
         const planned=await runtimeGetFoundation().buildSingletonMigrationPlan({activeShowdown:candidate,legacyShowdowns:[]});
         if(!planned||planned.ok!==true||!planned.library||planned.library.saves.length!==1)throw new Error("Stable Save Library identity could not be prepared for the new Showdown.");
         const prepared=planned.library.saves[0].showdown;
+        const newEntry=planned.library.saves[0];
         const newSaveId=planned.library.activeSaveId;
         if(currentLibrary.saves.some(entry=>entry&&entry.saveId===newSaveId))throw new Error("A Save Library entry with the new Showdown identity already exists.");
-        const nextLibrary={...currentLibrary,schemaVersion:planned.library.schemaVersion,activeSaveId:newSaveId,profiles:planned.library.profiles,saves:planned.library.saves};
+        const nextLibrary=runtimeReplaceActiveEntry(currentLibrary,newEntry,planned.library.profiles,newSaveId);
         await runtimePrimeSeasonIdentities(prepared);
         runtimeAuthorityRawSnapshot();
         runtimeCommitLibrary(nextLibrary);
@@ -283,16 +316,10 @@
 
     async function runtimePrepareRestoreLibraryRaw(activeShowdown,currentLibraryRaw){
         const currentLibrary=runtimeParseLibrary(currentLibraryRaw);
-        let nextLibrary;
-        if(activeShowdown===null){
-            nextLibrary={...currentLibrary,activeSaveId:null,profiles:[],saves:[]};
-        }else{
-            const planned=await runtimeGetFoundation().buildSingletonMigrationPlan({activeShowdown,legacyShowdowns:[]});
-            if(!planned||planned.ok!==true||!planned.library||planned.library.saves.length!==1)throw new Error("Backup active Showdown could not be converted to Save Library authority.");
-            nextLibrary={...currentLibrary,schemaVersion:planned.library.schemaVersion,activeSaveId:planned.library.activeSaveId,profiles:planned.library.profiles,saves:planned.library.saves};
-        }
-        const errors=runtimeGetFoundation().validateSaveLibrary(nextLibrary);
-        if(errors.length)throw new Error(`Restored Save Library candidate is invalid: ${errors.join(" ")}`);
+        if(activeShowdown===null)return JSON.stringify(runtimeReplaceActiveEntry(currentLibrary,null,[],null));
+        const planned=await runtimeGetFoundation().buildSingletonMigrationPlan({activeShowdown,legacyShowdowns:[]});
+        if(!planned||planned.ok!==true||!planned.library||planned.library.saves.length!==1)throw new Error("Backup active Showdown could not be converted to Save Library authority.");
+        const nextLibrary=runtimeReplaceActiveEntry(currentLibrary,planned.library.saves[0],planned.library.profiles,planned.library.activeSaveId);
         return JSON.stringify(nextLibrary);
     }
 
@@ -317,7 +344,7 @@
         root.hasSavedShowdown=runtimeHasSaved;
         root.hasStoredActiveShowdownData=runtimeHasStoredActiveData;
         root.archiveShowdown=runtimeArchiveShowdown;
-        root.getCareerModeStorageKeys=()=>({saveLibrary:SAVE_LIBRARY_KEY,legacyShowdowns:LEGACY_KEY,preferences:PREFERENCES_KEY});
+        root.getCareerModeStorageKeys=()=>({saveLibrary:SAVE_LIBRARY_KEY,activeShowdown:SINGLETON_KEY,legacyShowdowns:LEGACY_KEY,preferences:PREFERENCES_KEY});
     }
 
     function runtimeBindStorageListener(){
@@ -368,6 +395,7 @@
         createShowdown:runtimeCreateShowdown,
         saveCurrentShowdown:runtimeSaveCurrent,
         loadActiveShowdown:runtimeLoadActive,
+        clearActiveShowdown:runtimeClearActive,
         archiveShowdown:runtimeArchiveShowdown,
         createBackupProjection:runtimeCreateBackupProjection,
         prepareRestoreLibraryRaw:runtimePrepareRestoreLibraryRaw,
