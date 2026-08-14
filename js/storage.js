@@ -1,6 +1,7 @@
 const STORAGE_KEY="careerModeShowdown.activeShowdown";
 const LEGACY_STORAGE_KEY="careerModeShowdown.legacyShowdowns";
 const APPLICATION_PREFERENCES_KEY="careerModeShowdown.preferences";
+const SAVE_KEY="careerModeShowdown.saveLibrary";
 const APPLICATION_PREFERENCES_SCHEMA_VERSION=2;
 const DEFAULT_DRAFT_SAVE_DELAY=420;
 let pendingCurrentSaveTimer=null;
@@ -29,15 +30,9 @@ function removeStorageValue(key){
 function captureCareerModeRawBackupInputs(){
   return {activeShowdown:readStorageValue(STORAGE_KEY),legacyShowdowns:readStorageValue(LEGACY_STORAGE_KEY),preferences:readStorageValue(APPLICATION_PREFERENCES_KEY)};
 }
-function captureCareerModeRawRestoreSnapshot(){
-  const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY};
-  const raw={};
-  const failedKeys=[];
-  for(const [name,key] of Object.entries(keys)){
-    try{raw[name]=localStorage.getItem(key);}catch(error){failedKeys.push(name);reportStorageError(`Unable to read ${name} for an exact restore snapshot`,error);}
-  }
-  return failedKeys.length?{ok:false,raw:null,failedKeys}:{ok:true,raw,failedKeys:[]};
-}
+function captureStorageSnapshot(keys){const raw={},failedKeys=[];for(const [name,key] of Object.entries(keys))try{raw[name]=localStorage.getItem(key);}catch(error){failedKeys.push(name);reportStorageError(`Unable to read ${name} for an exact raw snapshot`,error);}return failedKeys.length?{ok:false,raw:null,failedKeys}:{ok:true,raw,failedKeys:[]};}
+function captureCareerModeRawRestoreSnapshot(){return captureStorageSnapshot({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});}
+function captureLibraryMigrationSnapshot(){return captureStorageSnapshot({saveLibrary:SAVE_KEY,activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});}
 function createDefaultApplicationPreferences(){return {schemaVersion:APPLICATION_PREFERENCES_SCHEMA_VERSION,reducedMotion:false,menuFeedback:true};}
 function normalizeApplicationPreferences(value){
   return {schemaVersion:APPLICATION_PREFERENCES_SCHEMA_VERSION,reducedMotion:Boolean(value&&value.reducedMotion),menuFeedback:!value||value.menuFeedback!==false};
@@ -207,11 +202,11 @@ function invalidateRuntimeAfterCriticalRecovery(){
 }
 function applyCareerModeRawStorageTransaction(plan,expectedRaw=null){
   if(typeof window.runCareerModeRawStorageTransaction!=="function")return {ok:false,status:"engine-unavailable"};
-  const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY};
+  const keys={activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY,saveLibrary:SAVE_KEY};
   const result=window.runCareerModeRawStorageTransaction(plan,{
     read(name,phase){try{return {ok:true,value:localStorage.getItem(keys[name])};}catch(error){reportStorageError(`Unable to ${phase} ${name} during restore`,error);return {ok:false};}},
     write(name,value){return restoreStorageSnapshot(keys[name],value);}
-  },expectedRaw);
+  },expectedRaw,arguments[2]||null);
   if(result.ok&&(result.status==="success"||result.status==="no-op")){
     criticalRecoveryStorageState=false;
     if(result.affectedKeys.includes("activeShowdown")){activeSavePresenceKnown=true;activeSavePresent=plan.activeShowdown!==null;}
@@ -233,6 +228,7 @@ function clearAllCareerModeData(){
 }
 window.captureCareerModeRawBackupInputs=captureCareerModeRawBackupInputs;
 window.captureCareerModeRawRestoreSnapshot=captureCareerModeRawRestoreSnapshot;
+window.captureCareerModeRawSaveLibraryMigrationSnapshot=captureLibraryMigrationSnapshot;
 window.getCareerModeStorageKeys=()=>({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});
 window.initializeStorageLifecycle=initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave=scheduleCurrentShowdownSave;
