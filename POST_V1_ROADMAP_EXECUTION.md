@@ -51,7 +51,7 @@ Implementation and technical production proof for the whole-shell v1.3 milestone
 
 Later Local Profiles / Save Library and manager-identity work deliberately remained on the same `v1.3.0` / `1.3.0-r1` application/runtime labels because no new release version was authorized.
 
-## 5. Local Profiles, Save Library and explicit manager identity — completed dependency milestone, feature version unassigned
+## 5. Local Profiles and Save Library — completed dependency milestone, feature version unassigned
 
 Status: FOUNDATION DONE / EXPERIENCE MAY EXPAND.
 
@@ -59,7 +59,7 @@ The shipped product has stable `profile_*`, `save_*` and `season_*` IDs, canonic
 
 Fresh Showdowns still intentionally begin with fresh profiles for their two manager roles. Same display names never imply the same identity.
 
-The explicit manager identity foundation now adds:
+The completed explicit manager identity foundation extends this Local Profiles / Save Library milestone with:
 
 - explicit reuse of an existing stable Local Profile across Save manager roles;
 - same-name distinct profiles preserved unless a user explicitly links a role;
