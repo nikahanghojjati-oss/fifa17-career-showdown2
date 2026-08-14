@@ -101,6 +101,22 @@ All 13 normal PR workflow families passed again on that exact head, including St
 
 Do not weaken product guarantees to obtain green CI, and do not confuse brittle test syntax with a meaningful product invariant.
 
+### Post-merge handoff seal validation
+
+Initial post-merge handoff seal:
+
+`2433e80358cc70494e1360a9c0f39c510f5f26bf`
+
+`Validate Static App` failed on that documentation-only commit. The failure was not a runtime/product regression. `tests/contracts/release-authority-coherence.cjs` requires the current handoff to preserve the semantic marker `concise rolling handoff`; the first seal had changed that phrase to `concise rolling evidence trail`. The same contract also protects the conclusion that a direct profile-ID key swap is not sufficiently correct.
+
+Correction:
+
+`dc9a7c494dab834a6fec731b370937cf45b6aff1`
+
+The correction restored both protected semantic markers without weakening the contract or changing runtime files. On that exact head, every push validation workflow triggered by the documentation change passed: Statistics, Static App, Home Bootstrap, League Confirmation, Season Review, Transfer, Settings, Final Polish, V1 Visual Immersion and Licensed Football Visuals. GitHub Pages build/deployment also passed.
+
+This section records that completed evidence. The commit containing this record is itself documentation-only and follows the green correction head above; future developers must fetch live `main` and verify its workflows rather than treating any SHA in this handoff as permanently current.
+
 ## Open historical drafts
 
 PR #37 / `agent/v13-hardening` remains an obsolete historical draft.
