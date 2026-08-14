@@ -11,6 +11,8 @@ Immediate previous known-good whole shell: `1.2.0-r2`
 Production proof: `V1.3.0_PRODUCTION_PROOF.md`
 Runtime release merge: `094401b649954656e27e4a92d027e9532e84ccbf`
 
+The shipped Installable Offline App baseline remains protected throughout the new local persistence work; the Save Library foundation did not change its runtime behavior or ownership boundaries.
+
 ## Active development direction
 
 Local Profiles / Save Library — version pending.
