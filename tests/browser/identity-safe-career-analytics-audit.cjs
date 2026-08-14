@@ -153,10 +153,19 @@ async function readAnalytics(page){
     assert.match(await identityNotice.innerText(),/EXCLUDED FROM LONGITUDINAL MANAGER TOTALS AND LEADERBOARDS/i);
     assert.equal(await page.locator("#careerStatisticsContent .careerStandingsRow[data-profile-id]").count(),4,"Career table must render one row per stable profile identity.");
     assert.equal(await page.locator(`#careerStatisticsContent .careerStandingsRow[data-profile-id="${ids.profileA}"]`).count(),1,"Explicitly reused profile must render as one longitudinal career row.");
+    assert.equal(
+      await page.evaluate(()=>Boolean(window.CareerModeSaveLibraryRuntime?.isReady?.())),
+      false,
+      "Read-only Career Statistics presentation must not require Save Library mutation authority activation."
+    );
 
     const beforeRevision=await page.evaluate(()=>window.getCareerAnalyticsRevisionKey());
     await page.evaluate(async({profileA})=>{
-      await window.CareerModeSaveLibraryRuntime.assignLegacyManagerProfile("analytics-history-unresolved","playerOne",profileA);
+      await window.ensureSaveLibraryRuntimeAuthority();
+      const mapping=await window.CareerModeSaveLibraryRuntime.assignLegacyManagerProfile("analytics-history-unresolved","playerOne",profileA);
+      if(!mapping||mapping.ok!==true){
+        throw new Error("Canonical Save Library identity mapping failed during Analytics audit.");
+      }
       window.renderCareerStatistics();
     },{profileA:ids.profileA});
     await page.waitForFunction(()=>!document.querySelector("#careerStatisticsContent .analyticsIdentityNotice"),null,{timeout:10000});
