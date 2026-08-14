@@ -9,6 +9,8 @@ const trophySource=fs.readFileSync("js/trophyRoom.js","utf8");
 assert.match(analyticsSource,/identity\.managerProfileIds|managerProfileIds/,"Career Analytics must consume stable manager profile references.");
 assert.ok(analyticsSource.includes("unresolvedRoleCount"),"Career Analytics must expose unresolved historical identity rather than guessing it.");
 assert.ok(analyticsSource.includes("window.getCareerAnalyticsRevisionKey"),"Career Analytics must expose one coherent render/cache revision key.");
+assert.ok(analyticsSource.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"Career Analytics must be able to read Local Profile presentation labels through the existing exact raw snapshot authority without activating mutation authority.");
+assert.ok(analyticsSource.includes("profilePresentation.signature"),"Career Analytics cache identity must include the Local Profile presentation signature it consumes.");
 assert.ok(statisticsSource.includes("excluded from longitudinal manager totals and leaderboards"),"Career Statistics must explain unresolved identity exclusions.");
 assert.ok(trophySource.includes("excluded from manager cabinets and longitudinal leaderboards"),"Trophy Room must explain unresolved identity exclusions.");
 assert.ok(statisticsSource.includes("row.dataset.profileId = manager.profileId"),"Career table rows need stable profile test hooks.");
@@ -112,8 +114,35 @@ context.currentShowdown.identity.managerProfileIds.playerOne=ids.c;
 const after=context.__test.getCareerAnalyticsCacheKey();
 assert.notEqual(after,before,"Active completed identity remapping must invalidate the Analytics/render cache even when updatedAt is unchanged.");
 
+let rawLibrary={profiles:[
+  {profileId:ids.a,displayName:"Snapshot Manager"},
+  {profileId:ids.b,displayName:"Same Name"},
+  {profileId:ids.c,displayName:"Same Name"},
+  {profileId:ids.d,displayName:"Same Name"}
+]};
+context.CareerModeSaveLibraryRuntime={isReady:()=>false};
+context.captureCareerModeRawSaveLibraryMigrationSnapshot=()=>({
+  ok:true,
+  raw:{
+    saveLibrary:JSON.stringify(rawLibrary),
+    activeShowdown:null,
+    legacyShowdowns:JSON.stringify(history),
+    preferences:null
+  }
+});
+const rawPresented=context.__test.buildCareerAnalytics(history);
+assert.equal(
+  rawPresented.managers.find(manager=>manager.profileId===ids.a).name,
+  "Snapshot Manager",
+  "Career Analytics must retain Local Profile presentation labels when the canonical Save Library exists but mutation authority has not been activated."
+);
+const presentationBefore=context.__test.getCareerAnalyticsCacheKey();
+rawLibrary={...rawLibrary,profiles:rawLibrary.profiles.map(profile=>profile.profileId===ids.a?{...profile,displayName:"Updated Snapshot Manager"}:profile)};
+const presentationAfter=context.__test.getCareerAnalyticsCacheKey();
+assert.notEqual(presentationAfter,presentationBefore,"A changed authoritative Local Profile presentation label must invalidate the Analytics/render cache without changing stable identity.");
+
 const rivalry=context.buildRivalryAnalytics(history[0]);
 assert.equal(rivalry.playerOne.name,"Same Name","Rivalry Analytics must remain scoped to the Showdown's visible role label.");
 assert.equal(rivalry.playerTwo.name,"Same Name","Rivalry Analytics must remain independent from cross-history identity aggregation.");
 
-console.log("Identity-safe Career Analytics contracts passed: same-name profiles separate, explicit reuse aggregates, unresolved history stays excluded from manager totals, season records remain complete, profile labels are coherent, and identity remapping invalidates caches.");
+console.log("Identity-safe Career Analytics contracts passed: same-name profiles separate, explicit reuse aggregates, unresolved history stays excluded from manager totals, season records remain complete, Local Profile labels remain available without activating mutation authority, presentation changes invalidate caches, and identity remapping remains safe.");
