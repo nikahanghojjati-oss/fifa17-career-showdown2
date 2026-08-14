@@ -69,8 +69,6 @@ function ensureSaveLibraryRuntimeAuthority(){
   return saveLibraryAuthorityPromise;
 }
 function installSaveLibraryAuthorityBoundaries(){
-  const gameplay=window.ensureGameplayModules;
-  if(typeof gameplay==="function"&&!gameplay.__saveLibraryAuthority){const wrapped=async()=>{await ensureSaveLibraryRuntimeAuthority();return gameplay();};wrapped.__saveLibraryAuthority=true;window.ensureGameplayModules=wrapped;}
   const optional=window.openOptionalModule;
   if(typeof optional==="function"&&!optional.__saveLibraryAuthority){const wrapped=async name=>{if(name==="legacy"||name==="settings")await ensureSaveLibraryRuntimeAuthority();return optional(name);};wrapped.__saveLibraryAuthority=true;window.openOptionalModule=wrapped;}
 }
