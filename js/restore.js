@@ -1,6 +1,8 @@
 (function(){
   let restoreInFlight=false;
   const RAW_NAMES=Object.freeze(["activeShowdown","legacyShowdowns","preferences"]);
+  const SAVE_LIBRARY_RAW_NAMES=Object.freeze(["saveLibrary","activeShowdown","legacyShowdowns","preferences"]);
+  const SAVE_LIBRARY_RESTORE_ORDER=Object.freeze(["activeShowdown","legacyShowdowns","preferences","saveLibrary"]);
   const own=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
   function canonical(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
@@ -16,6 +18,13 @@
     if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return snapshot;
     return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:RAW_NAMES.slice()};
   }
+  function captureStrictSaveLibraryRaw(){
+    if(typeof window.captureCareerModeRawSaveLibraryMigrationSnapshot!=="function")return {ok:false,raw:null,failedKeys:SAVE_LIBRARY_RAW_NAMES.slice()};
+    const snapshot=window.captureCareerModeRawSaveLibraryMigrationSnapshot();
+    if(snapshot&&snapshot.ok===true&&snapshot.raw&&typeof snapshot.raw==="object")return snapshot;
+    return {ok:false,raw:null,failedKeys:snapshot&&Array.isArray(snapshot.failedKeys)?snapshot.failedKeys:SAVE_LIBRARY_RAW_NAMES.slice()};
+  }
+  function rawViewsAgree(restoreRaw,libraryRaw){return RAW_NAMES.every(name=>restoreRaw[name]===libraryRaw[name]);}
   function parseRaw(raw,kind){
     if(raw===null)return {state:"absent",value:kind==="legacy"?[]:null};
     try{
@@ -133,6 +142,28 @@
     if(RAW_NAMES.some(name=>!own(expectedRaw,name)))return {checked:false,changedKeys:[]};
     return {checked:true,changedKeys:RAW_NAMES.filter(name=>expectedRaw[name]!==currentRaw[name])};
   }
+  function compareReviewedSaveLibraryState(expectedRaw,currentRaw){
+    if(!expectedRaw||!own(expectedRaw,"saveLibrary"))return {checked:false,changedKeys:[]};
+    return {checked:true,changedKeys:expectedRaw.saveLibrary===currentRaw.saveLibrary?[]:["saveLibrary"]};
+  }
+  async function buildSaveLibraryRestoreCandidate(plan,analysis,raw){
+    if(raw.activeShowdown!==null)return {ok:false,status:"dual-authority-conflict",errors:["Save Library and singleton active storage coexist at the restore boundary. Resolve the interrupted migration before applying a backup."]};
+    const runtime=window.CareerModeSaveLibraryRuntime;
+    if(!runtime||typeof runtime.prepareRestoreLibraryRaw!=="function")return {ok:false,status:"save-library-runtime-unavailable",errors:["Save Library restore compatibility is unavailable. Nothing was written."]};
+    let nextLibrary=raw.saveLibrary;
+    if(plan.summary.active==="use-backup")nextLibrary=await runtime.prepareRestoreLibraryRaw(analysis.migratedPayload.activeShowdown,raw.saveLibrary);
+    return {
+      ok:true,
+      candidateRaw:{
+        activeShowdown:null,
+        legacyShowdowns:own(plan.candidateRaw,"legacyShowdowns")?plan.candidateRaw.legacyShowdowns:raw.legacyShowdowns,
+        preferences:own(plan.candidateRaw,"preferences")?plan.candidateRaw.preferences:raw.preferences,
+        saveLibrary:nextLibrary
+      },
+      expectedRaw:raw,
+      options:{order:SAVE_LIBRARY_RESTORE_ORDER.slice(),guardRequestedBeforeEachWrite:true}
+    };
+  }
   async function applyCareerModeRestore(file,choices={},reviewContext={}){
     if(restoreInFlight)return {ok:false,status:"busy",errors:["A restore transaction is already in progress."]};
     const confirmedFile=file;
@@ -150,25 +181,49 @@
       if(!strictSnapshot.ok){
         return {ok:false,status:"snapshot-unavailable",analysis,failedKeys:strictSnapshot.failedKeys,errors:[`Exact browser storage could not be read safely${strictSnapshot.failedKeys.length?`: ${strictSnapshot.failedKeys.join(", ")}`:""}. Nothing was written.`]};
       }
+      const saveLibrarySnapshot=captureStrictSaveLibraryRaw();
+      if(!saveLibrarySnapshot.ok){
+        return {ok:false,status:"snapshot-unavailable",analysis,failedKeys:saveLibrarySnapshot.failedKeys,errors:[`Exact Save Library storage could not be read safely${saveLibrarySnapshot.failedKeys.length?`: ${saveLibrarySnapshot.failedKeys.join(", ")}`:""}. Nothing was written.`]};
+      }
       const currentRaw=strictSnapshot.raw;
+      const completeRaw=saveLibrarySnapshot.raw;
+      if(!rawViewsAgree(currentRaw,completeRaw)){
+        return {ok:false,status:"stale-state",analysis,currentRaw:completeRaw,changedKeys:RAW_NAMES.slice(),errors:["Canonical storage changed between the mandatory restore snapshot and the Save Library authority snapshot. Nothing was written."]};
+      }
       const reviewState=compareReviewedRawState(confirmedExpectedRaw,currentRaw);
-      if(reviewState.checked&&reviewState.changedKeys.length){
+      const libraryReviewState=compareReviewedSaveLibraryState(confirmedExpectedRaw,completeRaw);
+      const reviewedChanges=[...reviewState.changedKeys,...libraryReviewState.changedKeys];
+      if((reviewState.checked||libraryReviewState.checked)&&reviewedChanges.length){
         return {
           ok:false,
           status:"stale-state",
           analysis,
-          currentRaw,
-          changedKeys:reviewState.changedKeys,
-          errors:[`Current browser data changed after review: ${reviewState.changedKeys.join(", ")}. Review the refreshed state before applying.`]
+          currentRaw:completeRaw,
+          changedKeys:reviewedChanges,
+          errors:[`Current browser data changed after review: ${reviewedChanges.join(", ")}. Review the refreshed state before applying.`]
         };
       }
       const plan=createCareerModeRestorePlan(analysis,currentRaw,confirmedChoices);
-      if(!plan.ok)return {ok:false,status:plan.status,analysis,plan,currentRaw,errors:plan.errors,warnings:plan.warnings};
-      if(typeof window.applyCareerModeRawStorageTransaction!=="function")return {ok:false,status:"transaction-unavailable",analysis,plan,currentRaw,errors:["Storage transaction authority is unavailable."]};
-      const transaction=window.applyCareerModeRawStorageTransaction(plan.candidateRaw,currentRaw);
+      if(!plan.ok)return {ok:false,status:plan.status,analysis,plan,currentRaw:completeRaw,errors:plan.errors,warnings:plan.warnings};
+      if(typeof window.applyCareerModeRawStorageTransaction!=="function")return {ok:false,status:"transaction-unavailable",analysis,plan,currentRaw:completeRaw,errors:["Storage transaction authority is unavailable."]};
+
+      let candidateRaw=plan.candidateRaw;
+      let expectedRaw=currentRaw;
+      let transactionOptions;
+      const saveLibraryMode=completeRaw.saveLibrary!==null;
+      if(saveLibraryMode){
+        const prepared=await buildSaveLibraryRestoreCandidate(plan,analysis,completeRaw);
+        if(!prepared.ok)return {ok:false,status:prepared.status,analysis,plan,currentRaw:completeRaw,errors:prepared.errors,warnings:plan.warnings};
+        candidateRaw=prepared.candidateRaw;
+        expectedRaw=prepared.expectedRaw;
+        transactionOptions=prepared.options;
+        if(window.CareerModeSaveLibraryRuntime&&typeof window.CareerModeSaveLibraryRuntime.invalidateAuthority==="function")window.CareerModeSaveLibraryRuntime.invalidateAuthority();
+      }
+
+      const transaction=window.applyCareerModeRawStorageTransaction(candidateRaw,expectedRaw,transactionOptions);
       if(transaction&&transaction.ok!==true&&transaction.failurePhase==="precondition"&&transaction.rollbackVerified!==false){
-        const refreshed=captureStrictRaw();
-        const latestRaw=refreshed.ok?refreshed.raw:currentRaw;
+        const refreshed=saveLibraryMode?captureStrictSaveLibraryRaw():captureStrictRaw();
+        const latestRaw=refreshed.ok?refreshed.raw:expectedRaw;
         return {
           ok:false,status:"stale-state",analysis,plan,currentRaw:latestRaw,transaction,
           changedKeys:Array.isArray(transaction.preconditionMismatches)?transaction.preconditionMismatches:[],
@@ -176,12 +231,17 @@
           warnings:plan.warnings
         };
       }
+      let runtimeReactivationError=null;
+      if(saveLibraryMode&&transaction&&transaction.ok&&window.CareerModeSaveLibraryRuntime&&typeof window.CareerModeSaveLibraryRuntime.activate==="function"){
+        try{await window.CareerModeSaveLibraryRuntime.activate();}
+        catch(error){runtimeReactivationError=error&&error.message?error.message:String(error);}
+      }
       return {
         ok:Boolean(transaction&&transaction.ok),
         status:transaction&&transaction.ok?"success":(transaction&&transaction.status)||"transaction-failed",
-        analysis,plan,currentRaw,transaction,
+        analysis,plan,currentRaw:completeRaw,transaction,
         errors:transaction&&transaction.ok?[]:[transaction&&transaction.status==="write-failed-clean"?"Restore could not start writing. Canonical browser data was left unchanged.":"Restore did not commit successfully."],
-        warnings:plan.warnings
+        warnings:runtimeReactivationError?[...plan.warnings,`Restore committed, but Save Library runtime reactivation requires a reload: ${runtimeReactivationError}`]:plan.warnings
       };
     }catch(error){
       return {ok:false,status:"restore-error",errors:[error&&error.message?error.message:String(error)]};
