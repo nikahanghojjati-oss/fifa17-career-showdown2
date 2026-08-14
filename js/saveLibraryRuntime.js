@@ -74,6 +74,13 @@
         return entry;
     }
 
+    function runtimeGetSaveEntry(library,saveId){
+        if(typeof saveId!=="string"||!/^save_[a-f0-9]{24}$/.test(saveId))throw new Error("A stable Save Library identity is required.");
+        const matches=library.saves.filter(entry=>entry&&entry.saveId===saveId);
+        if(matches.length!==1)throw new Error(`Save identity ${saveId} does not resolve to exactly one Save Library entry.`);
+        return matches[0];
+    }
+
     function runtimeMergeProfiles(existing,incoming){
         const merged=(Array.isArray(existing)?existing:[]).map(runtimeCloneValue);
         const byId=new Map(merged.map(profile=>[profile&&profile.profileId,profile]));
@@ -102,6 +109,20 @@
         const next={...library,activeSaveId:newActiveId,profiles:runtimeMergeProfiles(library.profiles,newProfiles),saves:retained};
         const errors=runtimeGetFoundation().validateSaveLibrary(next);
         if(errors.length)throw new Error(`Save Library active transition is invalid: ${errors.join(" ")}`);
+        return next;
+    }
+
+    function runtimeAppendSaveEntry(library,newEntry,newProfiles,newActiveId){
+        if(!newEntry||newEntry.saveId!==newActiveId)throw new Error("New Save Library entry identity is inconsistent.");
+        if(library.saves.some(entry=>entry&&entry.saveId===newEntry.saveId))throw new Error(`Save identity ${newEntry.saveId} already exists in the Save Library.`);
+        const next={
+            ...library,
+            activeSaveId:newActiveId,
+            profiles:runtimeMergeProfiles(library.profiles,newProfiles),
+            saves:[...library.saves.map(runtimeCloneValue),runtimeCloneValue(newEntry)]
+        };
+        const errors=runtimeGetFoundation().validateSaveLibrary(next);
+        if(errors.length)throw new Error(`Save Library additive create is invalid: ${errors.join(" ")}`);
         return next;
     }
 
@@ -216,6 +237,14 @@
         }
     }
 
+    function runtimeGetLibrarySnapshot(){
+        try{return runtimeCloneValue(runtimeParseLibrary(runtimeAuthorityRawSnapshot().saveLibrary));}
+        catch(error){
+            runtimeReportSaveFailure("The Save Library could not be inspected safely",error);
+            return null;
+        }
+    }
+
     function runtimeHasSaved(){return runtimeLoadActive()!==null;}
 
     function runtimeHasStoredActiveData(){
@@ -237,23 +266,61 @@
         }
     }
 
+    async function runtimeSwitchActiveSave(saveId){
+        const raw=runtimeAuthorityRawSnapshot();
+        const library=runtimeParseLibrary(raw.saveLibrary);
+        const target=runtimeGetSaveEntry(library,saveId);
+        const prepared=runtimeCloneValue(target.showdown);
+        await runtimePrimeSeasonIdentities(prepared);
+        runtimeAuthorityRawSnapshot();
+        try{
+            if(library.activeSaveId!==saveId){
+                const next={...library,activeSaveId:saveId,profiles:library.profiles.map(runtimeCloneValue),saves:library.saves.map(runtimeCloneValue)};
+                const errors=runtimeGetFoundation().validateSaveLibrary(next);
+                if(errors.length)throw new Error(`Save Library active selection is invalid: ${errors.join(" ")}`);
+                runtimeCommitLibrary(next);
+            }
+        }catch(error){
+            seasonIdentityByRound=new Map();
+            throw error;
+        }
+        runtimeSetCurrentShowdownReference(prepared);
+        return runtimeCloneValue(prepared);
+    }
+
+    function runtimeDeleteSave(saveId){
+        const library=runtimeParseLibrary(runtimeAuthorityRawSnapshot().saveLibrary);
+        runtimeGetSaveEntry(library,saveId);
+        const deletingActive=library.activeSaveId===saveId;
+        const next={
+            ...library,
+            activeSaveId:deletingActive?null:library.activeSaveId,
+            profiles:library.profiles.map(runtimeCloneValue),
+            saves:library.saves.filter(entry=>entry&&entry.saveId!==saveId).map(runtimeCloneValue)
+        };
+        const errors=runtimeGetFoundation().validateSaveLibrary(next);
+        if(errors.length)throw new Error(`Save Library single-save deletion is invalid: ${errors.join(" ")}`);
+        runtimeCommitLibrary(next);
+        if(deletingActive){
+            seasonIdentityByRound=new Map();
+            runtimeSetCurrentShowdownReference(null);
+        }
+        return {ok:true,deletedSaveId:saveId,activeSaveId:next.activeSaveId,library:runtimeCloneValue(next)};
+    }
+
     async function runtimeCreateShowdown(candidate){
         if(!candidate||typeof candidate!=="object"||Array.isArray(candidate))throw new Error("New Showdown candidate is invalid.");
         const raw=runtimeAuthorityRawSnapshot();
         const currentLibrary=runtimeParseLibrary(raw.saveLibrary);
-        const active=runtimeGetActiveEntry(currentLibrary);
-        const nonActive=currentLibrary.saves.filter(entry=>!active||!entry||entry.saveId!==active.saveId);
-        if(nonActive.length)throw new Error("This runtime cannot safely replace a Save Library that already contains non-active saves without the future visible Save Library workflow.");
         const planned=await runtimeGetFoundation().buildSingletonMigrationPlan({activeShowdown:candidate,legacyShowdowns:[]});
         if(!planned||planned.ok!==true||!planned.library||planned.library.saves.length!==1)throw new Error("Stable Save Library identity could not be prepared for the new Showdown.");
         const prepared=planned.library.saves[0].showdown;
         const newEntry=planned.library.saves[0];
         const newSaveId=planned.library.activeSaveId;
-        if(currentLibrary.saves.some(entry=>entry&&entry.saveId===newSaveId))throw new Error("A Save Library entry with the new Showdown identity already exists.");
-        const nextLibrary=runtimeReplaceActiveEntry(currentLibrary,newEntry,planned.library.profiles,newSaveId);
+        const nextLibrary=runtimeAppendSaveEntry(currentLibrary,newEntry,planned.library.profiles,newSaveId);
         await runtimePrimeSeasonIdentities(prepared);
         runtimeAuthorityRawSnapshot();
-        runtimeCommitLibrary(nextLibrary);
+        try{runtimeCommitLibrary(nextLibrary);}catch(error){seasonIdentityByRound=new Map();throw error;}
         return runtimeCloneValue(prepared);
     }
 
@@ -395,6 +462,9 @@
         createShowdown:runtimeCreateShowdown,
         saveCurrentShowdown:runtimeSaveCurrent,
         loadActiveShowdown:runtimeLoadActive,
+        getLibrarySnapshot:runtimeGetLibrarySnapshot,
+        switchActiveSave:runtimeSwitchActiveSave,
+        deleteSave:runtimeDeleteSave,
         clearActiveShowdown:runtimeClearActive,
         archiveShowdown:runtimeArchiveShowdown,
         createBackupProjection:runtimeCreateBackupProjection,

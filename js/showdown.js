@@ -5,6 +5,7 @@ let showdownCreationPromise=null;
 function initializeSaveLibraryCutoverGate(){
     if(typeof document==="undefined"||!document.addEventListener||window.__cmsSaveLibraryCutoverGate)return;
     window.__cmsSaveLibraryCutoverGate=true;
+    const settingsButton=document.getElementById("settingsButton");if(settingsButton){const code=settingsButton.querySelector(".menuTileCode"),label=settingsButton.querySelector(".menuTileLabel"),meta=settingsButton.querySelector(".menuTileMeta");if(code)code.textContent="LOCAL";if(label)label.textContent="SAVE LIBRARY";if(meta)meta.textContent="Local Showdowns, manager profiles and settings";}
     document.addEventListener("click",async event=>{
         const button=event.target instanceof Element?event.target.closest("#continueCareer,#startShowdown,#legacyButton,#settingsButton"):null;
         if(!button||button.disabled)return;
@@ -23,13 +24,6 @@ function initializeSaveLibraryCutoverGate(){
 async function createShowdown(){
     if(showdownCreationPromise)return showdownCreationPromise;
     showdownCreationPromise=(async()=>{
-        let existing=null;
-        const hasUsableActiveSave=hasSavedShowdown(),hasStoredActiveData=hasUsableActiveSave||hasStoredActiveShowdownData();
-        if(hasStoredActiveData){
-            existing=hasUsableActiveSave?loadSavedShowdown():null;
-            const existingName=existing?.name?` "${existing.name}"`:" data currently stored in this browser";
-            if(!window.confirm(`Start a new showdown and replace the active save${existingName}? Completed showdowns already stored in Legacy will not be deleted.`))return false;
-        }
         const showdownNameInput=document.getElementById("showdownName"),managerOneInput=document.getElementById("managerOne"),managerTwoInput=document.getElementById("managerTwo"),roundAmountInput=document.getElementById("roundAmount");
         if(!showdownNameInput||!managerOneInput||!managerTwoInput||!roundAmountInput){
             if(typeof window.reportApplicationError==="function")window.reportApplicationError("Showdown creation form is incomplete",new Error("Required setup fields are missing from the page."));
