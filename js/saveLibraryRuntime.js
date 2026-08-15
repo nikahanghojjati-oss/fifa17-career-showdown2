@@ -89,6 +89,13 @@
         return matches[0];
     }
 
+    function runtimeNormalizeProfileDisplayName(displayName){
+        if(typeof displayName!=="string")throw new Error("A Local Profile display label is required.");
+        const normalized=displayName.trim();
+        if(!normalized)throw new Error("A Local Profile display label cannot be empty.");
+        return normalized;
+    }
+
     function runtimeAssertManagerRole(role){
         if(!MANAGER_ROLES.includes(role))throw new Error("A valid manager role is required.");
         return role;
@@ -364,6 +371,21 @@
         return {ok:true,changed:true,showdownId:String(showdownId),saveId,role,profileId};
     }
 
+    function runtimeUpdateProfileDisplayName(profileId,displayName){
+        const normalized=runtimeNormalizeProfileDisplayName(displayName);
+        runtimeFlushBeforeIdentityMutation();
+        const raw=runtimeAuthorityRawSnapshot();
+        const library=runtimeParseLibrary(raw.saveLibrary);
+        const profile=runtimeGetProfileEntry(library,profileId);
+        if(profile.displayName===normalized)return {ok:true,changed:false,profileId,displayName:normalized};
+
+        const nextLibrary=runtimeCloneValue(library);
+        const profileIndex=nextLibrary.profiles.findIndex(item=>item&&item.profileId===profileId);
+        nextLibrary.profiles[profileIndex]={...nextLibrary.profiles[profileIndex],displayName:normalized};
+        runtimeCommitLibrary(nextLibrary);
+        return {ok:true,changed:true,profileId,displayName:normalized};
+    }
+
     function runtimeHasSaved(){return runtimeLoadActive()!==null;}
 
     function runtimeHasStoredActiveData(){
@@ -611,6 +633,7 @@
         getIdentityMappingSnapshot:runtimeGetIdentityMappingSnapshot,
         assignSaveManagerProfile:runtimeAssignSaveManagerProfile,
         assignLegacyManagerProfile:runtimeAssignLegacyManagerProfile,
+        updateProfileDisplayName:runtimeUpdateProfileDisplayName,
         switchActiveSave:runtimeSwitchActiveSave,
         deleteSave:runtimeDeleteSave,
         clearActiveShowdown:runtimeClearActive,

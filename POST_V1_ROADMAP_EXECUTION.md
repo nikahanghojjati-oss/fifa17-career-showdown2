@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-14 ET
+Last updated: 2026-08-15 ET
 Status: current dependency/status authority for the post-v1 direction. This file is not an implementation queue and does not assign release versions.
 
 ## 1. Current authority
@@ -11,12 +11,13 @@ Previous known-good whole shell: `1.2.0-r2`
 Current shipped product layer: Identity-Safe Career Analytics / Trophy Room longitudinal consumption
 Current runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
 Feature release version: intentionally unassigned
+Active bounded candidate: Local Profile display-label editing on candidate whole shell `1.3.0-r2`
 
 `PROJECT_STATE.md` owns current production facts. `NEXT_TASK.md` owns implementation authorization. This file owns dependency direction and roadmap classification only.
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
-No new substantial runtime product candidate is currently authorized after the Analytics production seal.
+Exactly one later owner-authorized runtime candidate is active after the Analytics production seal: Local Profile display-label editing. `NEXT_TASK.md` owns its exact boundary. No second product area is authorized.
 
 ## 2. Permanent rules inherited by every future area
 
@@ -52,7 +53,7 @@ Status: DONE.
 
 Implementation and technical production proof for the whole-shell v1.3 milestone are closed. PR #37 remains historical/untrusted and is not a current baseline.
 
-Later Local Profiles / Save Library, manager-identity and Analytics work deliberately remained on the same `v1.3.0` / `1.3.0-r1` application/runtime labels because no new release version was authorized.
+Later Local Profiles / Save Library, manager-identity and Analytics work originally remained on the same `v1.3.0` / `1.3.0-r1` labels. The active display-label candidate keeps application v1.3.0 but advances the atomic candidate shell to `1.3.0-r2` so changed runtime bytes can update installed clients coherently; this delivery revision is not a second feature or a new application milestone.
 
 Product functionality and release identity remain separate decisions.
 
@@ -75,7 +76,7 @@ The completed explicit manager identity foundation includes:
 - display labels remaining historical labels when stable identity refs change;
 - Candidate A/C preservation of explicit active `profile_*` refs without a backup-envelope redesign.
 
-Further UX refinement is evidence-driven only. Profile rename/edit and generic profile CRUD are not implied by this completed foundation.
+The current bounded experience expansion authorizes display-label editing only. Profile merge/delete and generic profile CRUD remain unassigned.
 
 ## 6. Source-grounded identity × Legacy × Analytics dependency
 
@@ -100,9 +101,9 @@ The classifications below describe dependency/product state, not release numbers
 | Area | Current classification | Source-grounded interpretation |
 | --- | --- | --- |
 | Recovery & Device Resilience | DONE | v1.3 implementation and production proof are closed. |
-| Installable Offline App | DONE | `1.3.0-r1` whole shell is current and production-proven. |
+| Installable Offline App | DONE / r2 CANDIDATE | `1.3.0-r1` remains production-proven; `1.3.0-r2` is the active whole-shell candidate required to deliver the bounded label editor atomically. |
 | Stable Local Identity | DONE | `profile_*`, `save_*`, `season_*` exist and are protected. |
-| Local Profiles | FOUNDATION DONE / EXPERIENCE MAY EXPAND | Visible profiles and explicit cross-Save reuse are shipped without generic profile CRUD. |
+| Local Profiles | DISPLAY-LABEL CANDIDATE ACTIVE | Visible profiles and explicit cross-Save reuse are shipped; only presentation-label editing is active, without generic profile CRUD. |
 | Save Library | FOUNDATION DONE / EXPERIENCE MAY EXPAND | Multi-save create/switch/delete/runtime authority is shipped. |
 | Historical profile identity mapping | FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED | Historical-only roles can be explicitly mapped or remain null when identity is not proven. |
 | Cross-Save manager/profile linkage semantics | DONE | Existing Local Profiles can be explicitly reused across Save roles; name matching is never automatic. |
@@ -144,9 +145,9 @@ Dependency order, product/milestone name and release version number are separate
 
 ## 9. Current implementation authorization boundary
 
-No substantial runtime candidate is currently authorized after the Identity-Safe Career Analytics production seal.
+The sole active runtime candidate is Local Profile display-label editing under `NEXT_TASK.md`.
 
-Do not autonomously select backup portability, profile editing, Legacy, Achievements, broader Analytics 2.0, optional content or cloud because it appears technically ready or next in dependency order.
+Do not broaden it into backup portability, profile merge/delete or generic CRUD, Legacy, Achievements, broader Analytics 2.0, optional content or cloud because those areas appear technically ready or next in dependency order.
 
 When a later explicit owner instruction authorizes a product area, reconstruct current source and only the relevant history, preserve all shipped identity/recovery/PWA/gameplay boundaries, then implement the smallest bounded candidate supported by evidence.
 
@@ -175,8 +176,8 @@ Current milestone — v1.3.0 Recovery & Device Resilience Hardening
 
 ## 12. Current execution rule
 
-Preserve proven `v1.3.0` / `1.3.0-r1` production, the completed Local Profiles / Save Library chain, explicit manager identity linkage and Identity-Safe Career Analytics.
+Preserve proven `v1.3.0` / `1.3.0-r1` production, the completed Local Profiles / Save Library chain, explicit manager identity linkage and Identity-Safe Career Analytics while validating the bounded `1.3.0-r2` Local Profile display-label candidate.
 
 Respond to reproducible defects with root-cause analysis and focused regression evidence.
 
-Do not begin another runtime feature merely because it appears next in this roadmap. `NEXT_TASK.md` or a later explicit owner instruction must authorize whatever follows.
+Do not begin a second runtime feature merely because it appears next in this roadmap. Completion of the active label candidate authorizes nothing that follows.

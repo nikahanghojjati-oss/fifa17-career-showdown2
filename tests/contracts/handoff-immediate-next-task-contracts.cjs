@@ -85,13 +85,13 @@ assert.match(
 );
 assert.match(
   next,
-  /No new substantial runtime product candidate is authorized/i,
-  "NEXT_TASK must close the Analytics authorization instead of silently choosing the next roadmap feature."
+  /later explicit owner continuation instruction[\s\S]+Local Profile display-label editing/i,
+  "NEXT_TASK must name the later explicit authorization and its one bounded candidate."
 );
 assert.match(
   next,
-  /if no newer authorization exists[\s\S]+make no runtime mutation/i,
-  "NEXT_TASK must give a concrete executable stop behavior when no newer owner authorization exists."
+  /Stop this candidate when Local Profile display-label editing is exact-head validated, production-proven and authority-sealed/i,
+  "NEXT_TASK must give a concrete executable stop after the one later-authorized candidate."
 );
 assert.match(
   start,
@@ -100,8 +100,8 @@ assert.match(
 );
 assert.match(
   start,
-  /No new substantial runtime candidate is currently authorized/i,
-  "Developer bootstrap must expose the current clean stop boundary."
+  /One later explicit owner continuation authorized the bounded Local Profile display-label editing candidate/i,
+  "Developer bootstrap must expose the current one-candidate boundary."
 );
 
-console.log("Handoff immediate-next-task contracts passed: the recursive policy remains permanent, PR #59 production proof and failure history are retained, and fresh developers are directed to preserve the sealed boundary until a later explicit owner authorization exists.");
+console.log("Handoff immediate-next-task contracts passed: the recursive policy remains permanent, PR #59 production proof and failure history are retained, and fresh developers are directed through the one later-authorized Local Profile label candidate to a concrete stop.");

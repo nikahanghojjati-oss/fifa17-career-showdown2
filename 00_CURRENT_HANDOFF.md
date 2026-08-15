@@ -1,6 +1,6 @@
 # Career Mode Showdown — Current Handoff
 
-Last updated: 2026-08-14 ET
+Last updated: 2026-08-15 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
@@ -10,18 +10,138 @@ This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns 
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live production and current authority still agree that Identity-Safe Career Analytics is shipped and production-proven;
-2. check `NEXT_TASK.md` and later owner instructions for a genuinely newer authorized bounded candidate;
-3. if none exists, make no runtime mutation and preserve the clean stop boundary;
-4. when a later owner request does exist, inspect only the relevant current source/history, classify the smallest correct scope, and implement only that explicit request without reopening solved architecture.
+1. verify live production still matches authority-seal main `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6` or reconstruct every newer change before proceeding;
+2. inspect branch `agent/local-profile-display-label-edit`, its exact base, current head, diff, tests and any PR before changing it;
+3. continue the bounded Local Profile display-label editing candidate only: guarded runtime mutation, accessible Save Library controls, deterministic contracts, Chromium evidence and handoff continuity;
+4. freeze and validate one exact candidate head across all required PR workflow families, then run the independent promotion gate before any merge;
+5. after a justified merge, verify exact production workflows, deployed runtime bytes and the public Pages journey before sealing authority.
 
-Do not autonomously choose backup portability, profile editing, broader Analytics 2.0, Legacy/Achievements, optional content, cloud or another roadmap item merely because the prior dependency is complete.
+Do not broaden this candidate into Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes. Coherent whole-shell delivery identity is part of this candidate because its runtime bytes change.
+
+## Active bounded continuation — Local Profile display labels
+
+Later owner continuation instruction on 2026-08-15 ET explicitly superseded the prior no-new-candidate stop boundary and authorized selection of exactly one smallest meaningful local-first roadmap candidate after full reconstruction.
+
+Live repository and production reconstruction found:
+
+- exact live `main` and branch base: `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`;
+- open PRs: historical draft PR #35 and PR #37 only, both based on obsolete snapshots;
+- tags/releases: public releases remain `v1.0.0` and `v1.0.1`; later runtime/product functionality remains intentionally unversioned;
+- authority-seal main workflow proof: 15 of 15 exact-head push/deployment runs successful, including Stability run `31829081373` and deployed-site-smoke job `94860761943`;
+- latest Pages deployment: `5911426296`, SHA `eee3b0c...`, successful;
+- independent deployed verification: all 71 runtime files match local `1.3.0-r1` source byte for byte;
+- local pre-change contract baseline: all 28 repository contract files passed after the explicit static release contract.
+
+Selected candidate:
+
+`Local Profile display-label editing`
+
+Active branch:
+
+`agent/local-profile-display-label-edit`
+
+Exact branch base:
+
+`eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`
+
+Source-grounded semantic boundary:
+
+- only `profile.displayName` changes;
+- stable `profile_*`, `save_*` and `season_*` identities never change;
+- saved Showdown manager labels and Legacy manager labels remain unchanged historical presentation;
+- equal visible profile labels remain legal and are never identity authority;
+- mutation remains inside `js/saveLibraryRuntime.js` and uses the existing exact guarded Save Library transaction boundary;
+- UI remains inside the lazy Save Library/Settings surface and never accesses canonical browser storage directly;
+- Career Statistics and Trophy Room continue to consume the shared profile-presentation revision authority already protected by Identity-Safe Career Analytics.
+- the changed JavaScript/CSS ships as candidate runtime `1.3.0-r2`, with production-proven `1.3.0-r1` as its immediate previous whole-shell recovery target.
+
+The first implementation checkpoint is not yet frozen. Record every commit, test result, failed SHA and correction here as the candidate advances.
+
+### Retained local validation failure 1 — cross-realm assertion
+
+The first focused `save-library-product-contracts.cjs` run failed while comparing the successful runtime result as one deep-equal object. The runtime result originated in the VM test realm, so Node rejected prototype equality even though `ok`, `changed`, `profileId` and `displayName` all matched.
+
+Classification: test harness assertion defect, not a runtime product defect.
+
+Correction: compare the four contract fields explicitly. No production behavior changed to satisfy the test.
+
+### Retained local validation failure 2 — isolated server session
+
+The first Chromium audit attempt could not connect to `127.0.0.1:4173` even though the separately yielded test-server session reported that it was listening. The server process and browser command were isolated by the execution environment.
+
+Classification: local orchestration/infrastructure failure, not application or browser-audit behavior.
+
+Correction: start the static server and Chromium audit in one controlled shell with cleanup ownership. The unchanged implementation then passed the complete Save Library browser audit on Chromebook and mobile reduced-motion viewports.
+
+### Retained pre-publication finding — stale installed-app delivery identity
+
+Initial candidate planning preserved `1.3.0-r1` and excluded Service Worker/release identity work. Source inspection then proved that the worker installs and selects an atomic whole-shell cache by runtime revision. Changed Save Library JavaScript and CSS published under the unchanged r1 worker/cache identity would not reliably update an existing installed client and would violate the repository's no-mixed-shell production claim.
+
+Classification: deterministic production-delivery correctness issue discovered before publication, not authorization for a second feature.
+
+Correction: keep application milestone `v1.3.0`, advance only the candidate whole-shell revision to `1.3.0-r2`, set `1.3.0-r1` as its immediate previous known-good shell, and preserve all Service Worker behavior. `RELEASE_V1.3.0_R2.md` and `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md` own the candidate release boundary. Production remains r1 until exact-head CI, expected-head merge and deployed proof succeed.
+
+### Retained local validation failure 3 — wrong static-server helper path
+
+The first post-r2 browser rerun invoked nonexistent `tests/support/serve-static.cjs`, so the controlled server exited before Chromium and the audit failed with `ERR_CONNECTION_REFUSED`.
+
+Classification: local test-orchestration command error, not product or browser behavior.
+
+Correction: use the repository-owned `tests/support/static-server.cjs` helper in the same cleanup-owned shell. The unchanged r2 candidate then passed the complete Chromebook and mobile reduced-motion Save Library audit, including new exact profile-card screenshots.
+
+### Retained local validation failure 4 — real collapsed Save Library grid item
+
+The first visually useful editor capture showed only a thin slice of the profile card with later Settings panels painted over it. Added geometry proof measured the edited card at about 298 px high while its Save Library parent had collapsed to 28 px; the next Settings panel started inside the card's bounds.
+
+Root cause: `.saveLibraryProductPanel { overflow:hidden; }` made the large first CSS Grid item a hidden scroll container with a zero automatic minimum size inside the constrained Settings scroller. Focus-driven automation could silently scroll that 28 px clipped box, so earlier horizontal-only containment checks passed while the real visible panel was unusable.
+
+Classification: deterministic production UI layout defect exposed by the candidate's required visual proof.
+
+Correction: use non-scroll-container `overflow:clip` for the same decorative containment, and permanently assert that editor children remain inside the profile card, the card remains inside the Save Library panel, and the following Settings panel begins after the Save Library panel. Re-run and screenshot proof are required at Chromebook and mobile reduced-motion widths.
+
+### Retained local validation failure 5 — newly exposed Save fact contrast
+
+After the collapsed-panel correction made the full Save Library participate in the visible Settings layout, the complete Chromium journey reached the Settings accessibility scan and reported four identical serious contrast violations. The 8 px Save fact labels used `#667681` on `#eef3f4`, a measured 4.19:1 ratio below the required 4.5:1.
+
+Classification: real existing accessibility defect that had been hidden from the visible scan by the collapsed panel.
+
+Correction: darken only those metadata labels to `#596a75` for about 5.01:1 contrast, preserving typography and hierarchy. Re-run the complete stability journey rather than suppressing the axe rule.
+
+### Retained local validation failure 6 — aggregate legacy-workflow wrapper interruption
+
+Two attempts to run the monolithic `npm run test:legacy-workflows` wrapper were interrupted by the Work execution environment with `network approval was cancelled` while that wrapper nested several long-running browser owners. The cancellation did not identify an application assertion failure, and the wrapper could not complete as one local process.
+
+Classification: local aggregate-runner/session infrastructure interruption, not a demonstrated product or test-owner failure.
+
+Correction: do not report the monolithic wrapper as green. Run the exact affected repository-owned test owners directly under controlled server/process ownership. Candidate C restore/recovery browser and maintenance, Candidate B import browser, football visual audit, Home visual audit, bundled loading/install, Settings install/focus and the full stability journey all passed directly on the unchanged candidate.
+
+### Retained local validation failure 7 — resource-heavy chained loading target closure
+
+After a resource-heavy sequence of Chromium owners, one standalone loading visual run lost its single shared browser target with a target-closed error before completing its cases.
+
+Classification: local browser-process lifecycle/resource failure, not a loading-screen assertion failure.
+
+Correction: rerun the repository-owned loading visual audit with `CMS_CHROMIUM_MULTI_CONTEXT=1`, preserving the same product assertions while isolating its browser contexts. All loading cases passed, including the normal 2700 ms minimum and reduced-motion 220 ms boundary.
+
+### Current focused local evidence
+
+- all 28 repository contract files: pass, including static release identity `1.3.0-r2`;
+- repository JavaScript/CJS/MJS syntax scan: pass;
+- `git diff --check`: pass;
+- Save Library product contracts: pass after the cross-realm assertion correction;
+- Save Library Chromium audit: pass for compatibility, corrupt fail-closed behavior, three-Save/six-profile creation, keyboard label editing, invalid-input no-write behavior, stable identity, unchanged Showdown labels, Analytics presentation revision, switching, deletion, focus, Chromebook containment, mobile containment and reduced motion;
+- profile-editor screenshot review: pass at Chromebook and mobile reduced-motion widths after the real grid-collapse correction;
+- manager identity linkage, Identity-Safe Career Analytics and Trophy Room browser owners: pass;
+- offline boundary, offline cache lifecycle v2 and runtime error provenance: pass with r2 current, r1 previous, restart/corruption recovery and fail-closed behavior intact;
+- full stability journey: pass across 70 checkpoints and 36 axe scans on Chromebook and mobile;
+- Candidate C restore/recovery browser and maintenance, Candidate B import browser, football visual, Home visual, loading/install and Settings install/focus owners: pass directly;
+- monolithic `npm run test:legacy-workflows`: not claimed green because the local Work session interrupted the nested aggregate wrapper; every exact affected owner passed directly.
 
 ## Current production authority
 
 Application milestone remains `v1.3.0 — Recovery & Device Resilience Hardening`.
-Installable Offline App runtime remains `1.3.0-r1`.
-Previous known-good whole shell remains `1.2.0-r2`.
+Current production Installable Offline App runtime remains `1.3.0-r1`.
+The active candidate runtime is `1.3.0-r2`, with `1.3.0-r1` as its immediate previous known-good whole shell.
 Feature release version remains intentionally unassigned.
 
 Current production runtime feature merge:
@@ -212,14 +332,14 @@ Before Save Library cutover, canonical browser keys remain active Showdown + Leg
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the only destructive import Apply stage and continues to use `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority with transaction-owned mutation, ownership-scoped rollback, anti-clobber checks and exact verification.
 
-Installable Offline App runtime remains `1.3.0-r1`; previous whole shell remains `1.2.0-r2`.
+Current production Installable Offline App runtime remains `1.3.0-r1`. Candidate runtime `1.3.0-r2` uses r1 as its immediate previous whole shell.
 
 Locked performance ceilings remain eager raw <= 165000, eager gzip <= 37500, Reus portrait <= 95000, combined first-party startup <= 260000, normal loading minimum 2700 ms and reduced-motion loading 220 ms.
 
 Gameplay/scoring and accepted FIFA 17-inspired presentation remain unchanged.
 
-## Clean stop
+## Current branch boundary
 
-The Identity-Safe Career Analytics workstream is complete, merged, deployed and production-proven. This authority seal exists only to make repository current-state documents and semantic contracts agree with that proven runtime.
+Identity-Safe Career Analytics remains complete, merged, deployed and production-proven. The active Local Profile display-label candidate is a narrow continuation above that sealed runtime and must not reopen its identity model.
 
-No new substantial runtime/product candidate is automatically authorized. Future work requires `NEXT_TASK.md` or a later explicit owner instruction.
+Until a candidate head passes exact local and PR proof, production authority remains `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6` and runtime feature authority remains `c5c7d50cc3a2d9003e057d1813744c877323c068`.
