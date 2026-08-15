@@ -13,10 +13,17 @@ It is development-process infrastructure only. It does not run in the website, c
 - `WORK_ENVIRONMENT_STATUS.json` owns the current environment's machine-readable observations and continuation state.
 - `WORK_ENVIRONMENT_HISTORY.md` is the append-only record of completed environments and transition decisions.
 - `scripts/work-environment-continuity.mjs` validates the record, observes local Git state, calculates the recommendation and generates the ready-to-paste prompt.
+- `scripts/bootstrap-github-cli.mjs` owns repeatable rootless GitHub CLI discovery, current official release installation, checksum verification and authentication-status reporting for fresh Work environments.
 - `AGENTS.md` makes the loop discoverable to every repository-aware coding environment.
 - `00_CURRENT_HANDOFF.md`, `PROJECT_STATE.md` and `NEXT_TASK.md` continue to own project evidence, deployed state and implementation authorization respectively.
 
 Current source always wins. A score is a decision aid, not permission to skip source reconstruction, tests, review or the safe-boundary rules.
+
+## GitHub tooling bootstrap
+
+Before substantial GitHub work, run `npm run work:gh:bootstrap`. The connected GitHub app remains connector-first; `gh` supplies local workflow and Actions gaps only. The bootstrap must reuse an available CLI or install the current official stable Linux release under ignored environment-local tooling after SHA-256 verification, then run `gh auth status` without importing connector credentials. Missing authentication is completed only through GitHub's supported user-directed login flow.
+
+Tool binaries, writable CLI configuration and authentication may disappear with the Work environment. Repeat the bootstrap in every successor rather than assuming a prior workspace path or credential survives.
 
 ## What the system can and cannot know
 

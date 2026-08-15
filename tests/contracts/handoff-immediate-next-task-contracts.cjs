@@ -105,8 +105,8 @@ assert.match(
 );
 assert.match(
   current,
-  /PR #64 closure[\s\S]+629b01d160e4eb1215c54ff6bc9558396a2b256d[\s\S]+PR #65 reconciliation boundary/i,
-  "The rolling handoff must close PR #64 exactly and name PR #65 reconciliation next."
+  /PR #66 authority-seal closure[\s\S]+0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96[\s\S]+Active PR #65 reconciliation/i,
+  "The rolling handoff must close PR #66 exactly, retain PR #64 proof and name the active PR #65 reconciliation."
 );
 assert.match(
   start,

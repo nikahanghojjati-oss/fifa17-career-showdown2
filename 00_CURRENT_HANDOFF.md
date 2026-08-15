@@ -10,35 +10,81 @@ This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns 
 
 The owner's latest explicit handoff authorizes this ordered sequence:
 
-1. complete PR #64 safely;
+1. complete the PR #64 authority seal through PR #66;
 2. reconcile and complete PR #65 on the resulting live main;
-3. proceed directly to exactly one smallest meaningful unblocked user-facing roadmap advancement, provisionally complete fresh-device multi-Save backup/import portability.
+3. proceed directly to the bounded complete fresh-device multi-Save backup/import portability candidate after current-source confirmation.
 
 Infrastructure enables Career Mode Showdown development and must not replace it. If continuity requires a transition, the recursive handoff must still name the exact selected product candidate, bounded acceptance criteria, relevant source/tests and first concrete implementation action rather than ending with generic roadmap selection.
 
-### PR #64 closure
+### PR #66 authority-seal closure
+
+PR #66 exact validated head:
+
+`72e4b41b2b4734e49fd3af4626e9b4048bbc7367`
+
+Expected-head merge and current live main:
+
+`0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`
+
+The merge has parents previous main `629b01d160e4eb1215c54ff6bc9558396a2b256d` and exact validated head `72e4b41...`. Both trees match exactly at `0897d6b9072789fce358a6d1d4d2f39c0623f17f`; website runtime paths are unchanged.
+
+All 15 exact-merge workflow families succeeded. Key proof includes Release Integration Burn-In run `31914434788`, Candidate C run `31914434759`, Stability run `31914434760`, deployed-site-smoke job `95084354648`, Pages run `31914434360` and deployment `5925677418`. Trusted deployment verification matched all 71 runtime files at `1.3.0-r2`; Service Worker and manifest hashes also match source. PR comment `5304728059` is the external protected-merge seal.
+
+### Retained PR #64 closure
 
 PR #64 exact validated head:
 
 `542e4ecab75b1b481862285b7ecbd1d965c341aa`
 
-Expected-head merge and current live main:
+Expected-head merge:
 
 `629b01d160e4eb1215c54ff6bc9558396a2b256d`
 
 The merge tree exactly matches the validated PR head and has parents previous main `fd6879940c6409fd3727a50816a10479ee2446e6` plus exact PR head `542e4ec...`. Website runtime paths are unchanged.
 
-All 15 exact-merge push/deployment workflow families succeeded with zero failures or cancellations. Key proof includes Release Integration Burn-In run `31912849099`, Candidate C run `31912849117`, Stability run `31912849066`, deployed-site-smoke job `95080639852`, Pages run `31912848238` and successful deployment `5925426401`. External evidence is recorded in PR comment `5304605881`.
+All 15 exact-merge push/deployment workflow families succeeded with zero failures or cancellations. Key proof includes Release Integration Burn-In run `31912849099`, Candidate C run `31912849117`, Stability run `31912849066`, deployed-site-smoke job `95080639852`, Pages run `31912848238` and deployment `5925426401`. PR comment `5304605881` is the external seal.
 
-### PR #65 reconciliation boundary
+### Active PR #65 reconciliation
 
 PR #65 historical exact head before reconciliation:
 
 `978fa967517207733cc84c7e6dd6e778b5770723`
 
-Its historical base `fd6879940c6409fd3727a50816a10479ee2446e6` predates the PR #64 merge. PR #65 overlaps PR #64 in `AGENTS.md`, the continuity protocol, status/history and rolling handoff, so it must be reconciled onto live main `629b01d...` without losing PR #64's corrected validate → initialize/reset → assess order.
+Its historical base `fd6879940c6409fd3727a50816a10479ee2446e6` predates PR #64 and PR #66. The active reconciliation branch is `agent/portable-gh-bootstrap-reconcile` from exact live main `0a7dfbef...`; publication will update existing PR #65 branch `agent/portable-gh-bootstrap` only after complete local proof.
 
-Preserve PR #65's rootless, official-release-only, checksum-verified GitHub CLI bootstrap, environment-local writable configuration and connector-first credential boundary. Rerun the real bootstrap, complete local contracts/syntax/runtime-diff proof, push a new reconciled head, invalidate all historical exact-head CI seals and perform complete current-head verification before promotion or merge.
+Reconciled implementation checkpoint:
+
+`45ffd54c997a679ed7d96edae35a1cf003ead4c8`
+
+Reconciled implementation currently preserves:
+
+- existing working `gh` reuse;
+- official `cli/cli` stable release metadata and matching Linux architecture only;
+- exact official release URL validation and published SHA-256 verification before extraction;
+- rootless `--no-same-owner` extraction into ignored `.work-tools/`;
+- a writable environment-local `GH_CONFIG_DIR` launcher;
+- `gh --version` and `gh auth status` checks;
+- supported user-directed `gh auth login` when authentication is absent;
+- connector-first GitHub authority with no connector credential copying or repurposing;
+- deterministic existing-tool, verified-install and checksum-mismatch refusal contracts.
+
+The real reconciled bootstrap installed official GitHub CLI 2.97.0 from `gh_2.97.0_linux_amd64.tar.gz` after matching SHA-256 `a2c9b8497e1f85b1ad0dfcb78b5a622e098801b8e461e459e88e1ee12f018112`. The owner completed the supported browser approval, but this Work environment's direct-network policy blocked the CLI's final `api.github.com` exchange: the environment-local config remained empty and a fresh `gh auth status` correctly reported no authenticated host. The connected GitHub app is independently authenticated as `nikahanghojjati-oss` with repository admin/push authority, so publication uses that connector-first path without copying, exposing or repurposing its credentials.
+
+Current local proof passes:
+
+- real official-release install, checksum verification, version output, existing-binary reuse and unauthenticated status detection;
+- focused deterministic bootstrap contracts, including existing-tool reuse and checksum-mismatch refusal;
+- continuity, handoff, cloud and release authority contracts;
+- explicit static release authority and all 30 repository contract files;
+- complete JavaScript/CJS/MJS syntax scan;
+- `git diff --check` and ignored-tool/config verification;
+- empty website runtime-path diff against exact live main.
+
+Only final record freeze, connector-first publication of the new PR #65 head and fresh exact-head GitHub proof remain before promotion. Local CLI authentication is an accurately recorded environment boundary, not a reason to bypass the supported GitHub connector or import connector credentials.
+
+Historical PR #65 green checks belong only to old head `978fa967...` and become invalid when the reconciled head is pushed. Require a new exact-head CI, review-thread and mergeability gate before promotion.
+
+Current environment assessment after the complete local reconciliation gate: `HANDOFF_AT_CHECKPOINT`; context pressure `100`, quality risk `46`, continuation risk `64.8`, transition cost `19.2` and transition advantage `45.6`. Finish only PR #65 publication, exact-head review/CI, protected merge and post-merge proof; then freeze the recursive handoff and transition before beginning the distinct multi-Save product milestone.
 
 ## Closed bounded follow-up — PR #63 bootstrap assessment order
 
@@ -131,9 +177,9 @@ Inspection of that parser edit found a duplicate local declaration before syntax
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live `main` remains `629b01d160e4eb1215c54ff6bc9558396a2b256d` or reconstruct every newer change before touching the next candidate;
+1. verify live `main` remains PR #66 merge `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` or reconstruct every newer change before touching the next candidate;
 2. validate the inherited continuity record, archive/replace it with a fresh successor record and only then run `npm run work:assess`;
-3. verify PR #64 merge `629b01d...`, all 15 successful exact-merge workflows, successful deployment `5925426401` and unchanged website runtime boundary;
+3. verify PR #66 merge `0a7dfbef...`, all 15 successful exact-merge workflows, deployment `5925677418`, unchanged runtime paths and retained PR #64 proof;
 4. reconcile draft PR #65 branch `agent/portable-gh-bootstrap` from historical head `978fa967...` onto the new live main while preserving both PR #64 ordering semantics and PR #65's rootless checksum-verified GitHub CLI bootstrap;
 5. run the real GitHub CLI bootstrap, supported authentication status, focused bootstrap/continuity contracts, complete repository contract suite, syntax scan, diff hygiene and empty website-runtime diff; then publish a new exact head and require complete current-head CI/review proof before protected merge;
 6. after PR #65 is merged and post-merge proof is complete, confirm from current source that complete fresh-device multi-Save backup/import portability remains incomplete and unblocked, record its exact bounded scope in `NEXT_TASK.md` and begin that one user-facing candidate;
