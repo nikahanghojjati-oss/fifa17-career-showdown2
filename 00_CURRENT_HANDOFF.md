@@ -6,6 +6,60 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns the development-environment assessment protocol. Release and frozen proof documents remain evidence for the release/candidate they name.
 
+## Active bounded follow-up — PR #63 bootstrap assessment order
+
+The owner explicitly authorized publication of the already-designed correction for the single P1 Codex review finding on merged PR #63. The bug is confined to development-process bootstrap instructions: a successor could assess the predecessor's transition-prepared status before initializing fresh observations and incorrectly stop itself.
+
+Verified live `main` and exact branch base:
+
+`fd6879940c6409fd3727a50816a10479ee2446e6`
+
+Active branch:
+
+`agent/fix-continuity-bootstrap-order`
+
+Validated implementation checkpoint:
+
+`64699fcc8509ec16baae272825d0e6f9ccfcbfba`
+
+Draft publication:
+
+PR #64 — `https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/64`
+
+Exact PR base at creation: `fd6879940c6409fd3727a50816a10479ee2446e6`.
+
+Exact initial pushed head: `64699fcc8509ec16baae272825d0e6f9ccfcbfba`.
+
+The following publication-record commit changes only continuity status/history/handoff evidence and becomes the exact candidate head. Its SHA cannot self-reference inside its own tree; verify it from live PR #64, and use the PR publication comment as the external exact-head record.
+
+Current successor environment:
+
+`we-2026-08-15-pr63-followup-publication`
+
+The owner-reported prior local commit `01a42ec2277e771b4967fe96f0042add94c53054` was never pushed and is unavailable in this fresh workspace. Live GitHub still has exact main `fd687994...`, no requested follow-up branch and no additional PR #63 feedback beyond the one P1 thread. The correction was therefore reconstructed source-first on the same exact base.
+
+Implemented boundary:
+
+- validate the inherited status before changing it;
+- archive and replace an earlier environment record, reset per-environment observations and record live starting main;
+- assess only after the successor owns `WORK_ENVIRONMENT_STATUS.json`;
+- prevent a predecessor's transition decision from becoming the successor's starting decision;
+- make the dense transition test an explicit fixture independent of the mutable current status;
+- protect the same ordering in generated recursive handoff prompts.
+
+Validation at this checkpoint:
+
+- focused Work Environment Continuity contract: pass;
+- direct continuity schema validation: pass;
+- all 29 repository contract files after the explicit static release contract: pass;
+- changed MJS/CJS syntax checks: pass;
+- `git diff --check`: pass;
+- website runtime-path working-tree diff against verified live main: empty.
+
+The Work layer cancelled the `npm` wrappers before execution. Their exact repository-owned Node commands were run directly and passed; no red application or contract result was inferred from those infrastructure cancellations.
+
+Current assessment: `HANDOFF_AT_CHECKPOINT`. Finish only the record-only freeze push and external exact-head proof, then provide the recursive handoff and stop. Do not merge PR #64 or begin a Career Mode Showdown product-runtime task without current owner authorization.
+
 ## Repository Work Environment Continuity installation
 
 The owner explicitly authorized a repository-native system that tracks observable context pressure, reliability signals, available usage evidence, handoff readiness and the ramp-up cost of changing Work environments. The system must alert before a fresh environment becomes the safer choice and generate a complete ready-to-paste handoff.
@@ -22,7 +76,7 @@ Draft publication: PR #63, exact base `1b5f87e69d040ae041195f687f3bd90e4c74dad1`
 
 Current recorded assessment: `HANDOFF_AT_CHECKPOINT`. Observable context pressure is high, usage is honestly unknown, quality risk is low and the next work would be a separate milestone. Complete publication of this bounded system, give the owner `npm run work:handoff` output and begin no further substantial task in this environment.
 
-Future environments must read `AGENTS.md`, validate `WORK_ENVIRONMENT_STATUS.json`, run `npm run work:assess`, update the record at meaningful checkpoints and obey the safe-boundary decision. PR #63 merge/workflow identifiers are not predicted; fetch current GitHub and reconstruct the exact final state.
+Future environments must read `AGENTS.md`, validate the inherited `WORK_ENVIRONMENT_STATUS.json`, archive/replace an earlier record with reset observations and only then run `npm run work:assess`. They must update the new record at meaningful checkpoints and obey its safe-boundary decision. PR #63 merge/workflow identifiers are not predicted by this historical installation paragraph; fetch current GitHub and reconstruct the exact final state.
 
 Retained installation-validation evidence: the first combined local command was blocked before execution by the Work approval layer with `network approval was cancelled`, so it was not counted as a test result. Direct exact-owner execution then exposed one documentation contract mismatch: the golden policy referenced the underscored protocol filename but omitted the human-readable system name required for consistent discovery. The heading was corrected without changing scoring or runtime behavior; the focused contract and complete suite passed on rerun.
 
@@ -43,12 +97,12 @@ Inspection of that parser edit found a duplicate local declaration before syntax
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live production still descends from runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` or reconstruct every newer change before proceeding;
-2. read and execute the repository Work Environment Continuity loop, replacing a closed/prior status with a fresh environment record;
-3. verify PR #61, the r2 production proof, open PRs/branches/releases, current tests and deployed Pages before trusting any recorded state;
-4. preserve guarded Local Profile display-label editing, stable identity, unchanged Showdown/Legacy presentation, recovery, offline behavior, gameplay, visuals and performance locks;
-5. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
-6. keep this rolling handoff and continuity status current when repository state changes, but do not manufacture a roadmap assignment.
+1. verify live `main` remains `fd6879940c6409fd3727a50816a10479ee2446e6` or reconstruct any newer source before touching the candidate;
+2. validate the inherited continuity record, archive/replace it with a fresh successor record and only then run `npm run work:assess`;
+3. inspect draft PR #64 and `agent/fix-continuity-bootstrap-order`, then verify the exact live head from GitHub rather than trusting this self-recorded checkpoint;
+4. verify the exact PR head still contains only continuity documentation, evaluator/prompt, regression-contract and continuity-record changes, with no website runtime-path diff;
+5. require the focused continuity contract, complete repository contract suite, changed-file syntax checks, diff hygiene and all exact-head GitHub checks before any promotion decision;
+6. do not merge PR #64 or begin/infer a Career Mode Showdown runtime candidate without current owner authorization. `NEXT_TASK.md` still authorizes none.
 
 Do not reopen display-label editing or begin Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
 
