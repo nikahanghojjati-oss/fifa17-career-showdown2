@@ -13,6 +13,10 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
 Feature release version: intentionally unassigned
 
+Latest infrastructure boundary: PR #64 validated head `542e4ecab75b1b481862285b7ecbd1d965c341aa` merged to `629b01d160e4eb1215c54ff6bc9558396a2b256d`; all 15 post-merge workflows and Pages deployment `5925426401` passed with no website runtime-path change.
+
+Latest owner-authorized sequence: reconcile and complete PR #65's portable rootless GitHub CLI bootstrap on the PR #64 main, then immediately advance one bounded user-facing candidate, provisionally complete fresh-device multi-Save backup/import portability after source confirmation.
+
 Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption and Local Profile display-label editing are complete, merged, deployed and production-proven.
 
 Completed dependency chain:
@@ -91,17 +95,18 @@ Production semantics now include:
 - Analytics and Trophy Room caches/renders refresh when identity mapping or consumed profile presentation changes;
 - Rivalry Analytics remains scoped to one Showdown and does not become a cross-history identity consumer.
 
-Production Local Profile display-label editing changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. No new candidate, broader profile CRUD, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content or cloud work is authorized.
+Production Local Profile display-label editing changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. A later owner handoff authorizes PR #65 reconciliation followed by one bounded complete multi-Save portability candidate. Broader profile CRUD, Analytics 2.0, cloud, communities, rankings and unrelated product work remain unauthorized.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After reconstructing live repository state and reading current authority:
 
-1. verify live `main`, deployed Pages and current authority before trusting any recorded SHA;
-2. validate and initialize the Work Environment Continuity record, then run `npm run work:assess`;
-3. verify r2 merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`, PR #61 proof, deployed bytes and current authority before trusting this record;
-4. preserve guarded Local Profile labels, stable identity, unchanged Showdown/Legacy presentation and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
-5. if no later explicit owner instruction authorizes a new bounded candidate, make no runtime mutation.
+1. verify live `main` remains PR #64 merge `629b01d160e4eb1215c54ff6bc9558396a2b256d` or reconstruct every newer change;
+2. validate the inherited Work Environment Continuity record, initialize fresh observations and only then run `npm run work:assess`;
+3. verify PR #64's 15 successful post-merge workflows, deployment `5925426401`, unchanged runtime paths and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
+4. reconcile PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` onto the PR #64 main while preserving corrected continuity ordering and the checksum-verified rootless bootstrap security boundary;
+5. rerun the real bootstrap, supported GitHub authentication check, complete local contracts/syntax/runtime-diff proof and fresh exact-head CI/review before protected PR #65 merge;
+6. after PR #65 post-merge proof, confirm complete multi-Save portability remains incomplete and unblocked, then begin only the bounded candidate and acceptance criteria in `NEXT_TASK.md`.
 
 Do not ask the owner to reconstruct already-recorded repository history.
 

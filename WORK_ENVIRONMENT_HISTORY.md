@@ -53,6 +53,21 @@ This is the append-only record of Work environment transitions. Current verified
 - Owner acceptance: publication was explicitly authorized; merge and any later product work are not authorized by this record.
 - Exact next safe action: successor initializes a fresh continuity record before assessment, then verifies draft PR #64 exact head, CI, review and empty runtime diff. Do not merge or start runtime work without current owner authorization.
 
+## Successor activation — `we-2026-08-15-infrastructure-to-portability`
+
+- Environment start: `2026-08-15T22:39:26Z`.
+- Starting verified live-main SHA: `fd6879940c6409fd3727a50816a10479ee2446e6`.
+- Owner-authorized sequence: complete PR #64; reconcile and complete PR #65 on the resulting main; then proceed directly to one smallest meaningful unblocked user-facing roadmap advancement, provisionally fresh-device complete multi-Save backup/import portability.
+- Inherited-record handling: validated the predecessor record before replacement, archived its final GitHub facts and reset all per-environment signals before assessing the successor.
+- Current exact boundary: PR #64 merged expected head `542e4ecab75b1b481862285b7ecbd1d965c341aa` to `629b01d160e4eb1215c54ff6bc9558396a2b256d`; merge-tree equality and an empty website-runtime diff are locally proven. All 15 exact-merge workflow families, Stability run `31912849066`, deployed-site-smoke job `95080639852` and Pages deployment `5925426401` succeeded.
+- Exact next safe action: obey the reassessment before the distinct PR #65 reconciliation milestone; preserve PR #64's corrected initialization/assessment order and carry the owner-authorized product candidate into every recursive handoff.
+- Final assessment: `HANDOFF_AT_CHECKPOINT`; context pressure `78`, quality risk `6`, continuation risk `51.4`, transition cost `19.2` and transition advantage `32.2` before final record sealing. Usage remained unavailable and no exact percentage was estimated.
+- Reliability evidence: one combined npm continuity command was cancelled before execution by the Work network-approval layer; its exact repository-owned Node commands passed. One stale handoff-authority assertion requiring the superseded no-candidate stop failed and was corrected to protect the later owner-authorized PR #65 → multi-Save portability sequence. No runtime defect, repeated mistake, stale-fact correction or unresolved failure occurred.
+- Technical proof: PR #64 exact-head local/CI/review proof, expected-head merge, merge-tree equality, all 15 post-merge workflows, deployed-site smoke and Pages deployment are complete. PR comment `5304605881` is the external merge seal.
+- Owner acceptance: the owner explicitly authorized PR #64 and PR #65 completion plus the following website advancement. Owner visual/product acceptance remains separate for future runtime work.
+- Unfinished work: PR #65 reconciliation, current-head validation/merge/post-merge proof and the bounded complete multi-Save portability implementation recorded in `NEXT_TASK.md`.
+- Transition rule: begin no PR #65 mutation in this environment; publish this record and hand off from the exact PR #64 boundary.
+
 ## Required format for later records
 
 Copy this checklist beneath a new dated heading:

@@ -152,7 +152,8 @@ A.match(state, /unresolved historical manager roles remaining explicit and never
 
 A.match(next, /Local Profile display-label candidate is closed as production-proven/i, "NEXT_TASK must close the explicit later-authorized candidate after proof.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /Stop with no runtime change until a later explicit owner instruction names a new bounded candidate/i, "NEXT_TASK must define a concrete clean stop after the authorized candidate.");
+A.match(next, /PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723`[\s\S]+reconcile it before any promotion/i, "NEXT_TASK must gate the new product candidate behind reconciled PR #65.");
+A.match(next, /Bounded product acceptance boundary after PR #65[\s\S]+fresh-device multi-Save backup\/import portability/i, "NEXT_TASK must define the authorized bounded product advancement.");
 A.match(next, /Local Profile display-label editing and Identity-Safe Career Analytics are closed/i, "NEXT_TASK must keep completed Analytics and label editing closed.");
 A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
 
@@ -162,7 +163,7 @@ A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODU
 A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
 A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Analytics completion must not advance cloud authorization.");
 A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Analytics completion must not weaken Cloud Backup dependency gates.");
-A.match(roadmap, /No new substantial runtime candidate is authorized/i, "Roadmap must expose the clean stop after label promotion.");
+A.match(roadmap, /Backup\/import envelope portability \| AUTHORIZED AFTER PR #65/i, "Roadmap must classify bounded portability as authorized only after the infrastructure gate.");
 
 A.match(proof, /Frozen candidate head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`/i, "R2 proof must retain the exact validated PR head.");
 A.match(proof, /Runtime merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "R2 proof must retain the exact runtime merge.");
@@ -186,4 +187,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed Identity-Safe Career Analytics and Local Profile label editing, recovery ownership, cloud boundary, clean stop and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed identity layers, recovery ownership, local portability authorization, cloud boundary and workflow topology agree.\n`);

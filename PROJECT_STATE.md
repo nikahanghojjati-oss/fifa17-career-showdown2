@@ -194,4 +194,4 @@ Only 0–0 invokes league position and then league points.
 
 Identity-Safe Career Analytics and Local Profile display-label editing are complete, merged, deployed and production-proven.
 
-No new substantial runtime product candidate is authorized. Backup portability, profile merge/delete or generic CRUD, broader Analytics 2.0, Legacy/Achievements expansion, optional content and cloud/network work remain separately bounded future areas. Completion of PR #61 authorizes none of them.
+No new runtime candidate has shipped after Local Profile display-label editing. A later owner handoff authorizes PR #65 infrastructure completion followed by one bounded complete fresh-device multi-Save portability candidate if current source confirms it remains incomplete and unblocked. Profile merge/delete or generic CRUD, broader Analytics 2.0, optional content and cloud/network work remain unauthorized.

@@ -16,7 +16,7 @@ Feature release version: intentionally unassigned
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
-The later owner-authorized Local Profile display-label candidate is complete and production-proven. `NEXT_TASK.md` owns the current clean stop. No new product area is authorized.
+The later owner-authorized Local Profile display-label candidate is complete and production-proven. A still-later explicit owner handoff authorizes an ordered gate: complete reconciled PR #65 infrastructure first, then advance one bounded complete fresh-device multi-Save portability candidate if current source confirms it remains incomplete and unblocked. `NEXT_TASK.md` owns the exact implementation boundary.
 
 ## 2. Permanent rules inherited by every future area
 
@@ -113,7 +113,7 @@ The classifications below describe dependency/product state, not release numbers
 | Achievements | CONDITIONAL | Requires a separately authorized product definition. |
 | Optional content/league/challenge packs | FUTURE / NOT AUTHORIZED | Must not replace the accepted default Wheel or scoring authority. |
 | Custom challenge content | FUTURE / NOT AUTHORIZED | Must preserve canonical scoring and default behavior. |
-| Backup/import envelope portability | FUTURE / NOT AUTHORIZED | Current v1 envelope does not serialize the complete Save Library registry for fresh-device full-library round trip. |
+| Backup/import envelope portability | AUTHORIZED AFTER PR #65 / SOURCE CONFIRMATION | Current v1 envelope does not serialize the complete Save Library registry for fresh-device full-library round trip; implement only the bounded local-first candidate owned by `NEXT_TASK.md`. |
 | Cloud Readiness | FUTURE / NOT AUTHORIZED | Architecture-only future work; no required cloud dependency. |
 | Cloud Backup | BLOCKED | Requires Cloud Readiness, provider/cost, auth/privacy, revisions/conflicts/tombstones and recovery escape hatches. |
 | Paired-device capability | BLOCKED | Requires reliable private remote persistence/security first. |
@@ -145,11 +145,9 @@ Dependency order, product/milestone name and release version number are separate
 
 ## 9. Current implementation authorization boundary
 
-No new substantial runtime candidate is authorized under `NEXT_TASK.md`.
+The current ordered authorization is PR #65 reconciliation and completion first, then the bounded complete multi-Save portability candidate in `NEXT_TASK.md` after current-source confirmation.
 
-Do not begin backup portability, profile merge/delete or generic CRUD, Legacy, Achievements, broader Analytics 2.0, optional content or cloud merely because those areas appear technically ready or next in dependency order.
-
-When a later explicit owner instruction authorizes a product area, reconstruct current source and only the relevant history, preserve all shipped identity/recovery/PWA/gameplay boundaries, then implement the smallest bounded candidate supported by evidence.
+Do not use that authorization to begin profile merge/delete or generic CRUD, broader Analytics 2.0, optional content, cloud, communities or rankings. Preserve all shipped identity, recovery, PWA, gameplay, accessibility, performance and presentation boundaries.
 
 ## 10. Save Library repeated-use and portability evidence
 
@@ -180,4 +178,4 @@ Preserve proven `v1.3.0` / `1.3.0-r2` production, immediate `1.3.0-r1` whole-she
 
 Respond to reproducible defects with root-cause analysis and focused regression evidence.
 
-Do not begin a new runtime feature merely because it appears next in this roadmap. Completion of the label candidate authorizes nothing that follows.
+Do not begin a runtime feature merely because it appears next in this roadmap. The later owner handoff authorizes only the PR #65 → bounded complete multi-Save portability sequence recorded in `NEXT_TASK.md`.

@@ -6,7 +6,41 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns the development-environment assessment protocol. Release and frozen proof documents remain evidence for the release/candidate they name.
 
-## Active bounded follow-up — PR #63 bootstrap assessment order
+## Current owner-authorized advancement sequence
+
+The owner's latest explicit handoff authorizes this ordered sequence:
+
+1. complete PR #64 safely;
+2. reconcile and complete PR #65 on the resulting live main;
+3. proceed directly to exactly one smallest meaningful unblocked user-facing roadmap advancement, provisionally complete fresh-device multi-Save backup/import portability.
+
+Infrastructure enables Career Mode Showdown development and must not replace it. If continuity requires a transition, the recursive handoff must still name the exact selected product candidate, bounded acceptance criteria, relevant source/tests and first concrete implementation action rather than ending with generic roadmap selection.
+
+### PR #64 closure
+
+PR #64 exact validated head:
+
+`542e4ecab75b1b481862285b7ecbd1d965c341aa`
+
+Expected-head merge and current live main:
+
+`629b01d160e4eb1215c54ff6bc9558396a2b256d`
+
+The merge tree exactly matches the validated PR head and has parents previous main `fd6879940c6409fd3727a50816a10479ee2446e6` plus exact PR head `542e4ec...`. Website runtime paths are unchanged.
+
+All 15 exact-merge push/deployment workflow families succeeded with zero failures or cancellations. Key proof includes Release Integration Burn-In run `31912849099`, Candidate C run `31912849117`, Stability run `31912849066`, deployed-site-smoke job `95080639852`, Pages run `31912848238` and successful deployment `5925426401`. External evidence is recorded in PR comment `5304605881`.
+
+### PR #65 reconciliation boundary
+
+PR #65 historical exact head before reconciliation:
+
+`978fa967517207733cc84c7e6dd6e778b5770723`
+
+Its historical base `fd6879940c6409fd3727a50816a10479ee2446e6` predates the PR #64 merge. PR #65 overlaps PR #64 in `AGENTS.md`, the continuity protocol, status/history and rolling handoff, so it must be reconciled onto live main `629b01d...` without losing PR #64's corrected validate → initialize/reset → assess order.
+
+Preserve PR #65's rootless, official-release-only, checksum-verified GitHub CLI bootstrap, environment-local writable configuration and connector-first credential boundary. Rerun the real bootstrap, complete local contracts/syntax/runtime-diff proof, push a new reconciled head, invalidate all historical exact-head CI seals and perform complete current-head verification before promotion or merge.
+
+## Closed bounded follow-up — PR #63 bootstrap assessment order
 
 The owner explicitly authorized publication of the already-designed correction for the single P1 Codex review finding on merged PR #63. The bug is confined to development-process bootstrap instructions: a successor could assess the predecessor's transition-prepared status before initializing fresh observations and incorrectly stop itself.
 
@@ -97,14 +131,15 @@ Inspection of that parser edit found a duplicate local declaration before syntax
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live `main` remains `fd6879940c6409fd3727a50816a10479ee2446e6` or reconstruct any newer source before touching the candidate;
+1. verify live `main` remains `629b01d160e4eb1215c54ff6bc9558396a2b256d` or reconstruct every newer change before touching the next candidate;
 2. validate the inherited continuity record, archive/replace it with a fresh successor record and only then run `npm run work:assess`;
-3. inspect draft PR #64 and `agent/fix-continuity-bootstrap-order`, then verify the exact live head from GitHub rather than trusting this self-recorded checkpoint;
-4. verify the exact PR head still contains only continuity documentation, evaluator/prompt, regression-contract and continuity-record changes, with no website runtime-path diff;
-5. require the focused continuity contract, complete repository contract suite, changed-file syntax checks, diff hygiene and all exact-head GitHub checks before any promotion decision;
-6. do not merge PR #64 or begin/infer a Career Mode Showdown runtime candidate without current owner authorization. `NEXT_TASK.md` still authorizes none.
+3. verify PR #64 merge `629b01d...`, all 15 successful exact-merge workflows, successful deployment `5925426401` and unchanged website runtime boundary;
+4. reconcile draft PR #65 branch `agent/portable-gh-bootstrap` from historical head `978fa967...` onto the new live main while preserving both PR #64 ordering semantics and PR #65's rootless checksum-verified GitHub CLI bootstrap;
+5. run the real GitHub CLI bootstrap, supported authentication status, focused bootstrap/continuity contracts, complete repository contract suite, syntax scan, diff hygiene and empty website-runtime diff; then publish a new exact head and require complete current-head CI/review proof before protected merge;
+6. after PR #65 is merged and post-merge proof is complete, confirm from current source that complete fresh-device multi-Save backup/import portability remains incomplete and unblocked, record its exact bounded scope in `NEXT_TASK.md` and begin that one user-facing candidate;
+7. if source proves portability complete or blocked, select the next smallest unblocked candidate from the first unfinished roadmap tier and record the same concrete implementation boundary before coding.
 
-Do not reopen display-label editing or begin Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
+Do not reopen display-label editing or broaden into profile merge/delete, cloud, communities, rankings, unrelated gameplay or speculative Service Worker work. The latest owner handoff authorizes the bounded post-infrastructure product sequence above and no broader runtime area.
 
 ## Closed bounded continuation — Local Profile display labels
 

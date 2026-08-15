@@ -95,8 +95,18 @@ assert.match(
 );
 assert.match(
   next,
-  /Stop with no runtime change until a later explicit owner instruction names a new bounded candidate/i,
-  "NEXT_TASK must give a concrete executable clean stop after the label candidate."
+  /PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723`[\s\S]+reconcile it before any promotion/i,
+  "NEXT_TASK must make PR #65 reconciliation the exact infrastructure gate after PR #64."
+);
+assert.match(
+  next,
+  /Bounded product acceptance boundary after PR #65[\s\S]+fresh-device multi-Save backup\/import portability/i,
+  "NEXT_TASK must carry the owner-authorized user-facing portability candidate past the infrastructure gate."
+);
+assert.match(
+  current,
+  /PR #64 closure[\s\S]+629b01d160e4eb1215c54ff6bc9558396a2b256d[\s\S]+PR #65 reconciliation boundary/i,
+  "The rolling handoff must close PR #64 exactly and name PR #65 reconciliation next."
 );
 assert.match(
   start,
@@ -108,6 +118,6 @@ assert.match(
   /presentation-only Local Profile display-label editing — PR #61/i,
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
-assert.match(start,/No new candidate[\s\S]+authorized/i,"Developer bootstrap must expose the clean post-PR-#61 boundary.");
+assert.match(start,/PR #65[\s\S]+multi-Save backup\/import portability/i,"Developer bootstrap must expose the ordered infrastructure-to-product sequence.");
 
-console.log("Handoff immediate-next-task contracts passed: the recursive policy remains permanent, PR #59 failure history and PR #61 production proof are retained, and fresh developers are directed to a concrete clean stop.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected while fresh developers are directed through PR #65 into bounded multi-Save portability.");
