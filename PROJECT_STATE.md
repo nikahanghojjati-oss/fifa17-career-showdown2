@@ -2,7 +2,13 @@
 
 Last updated: 2026-08-15 ET
 
-This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name.
+This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns development-environment continuity and does not alter product/runtime authority.
+
+## Development continuity infrastructure
+
+The repository includes the Work Environment Continuity system through `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md` and `scripts/work-environment-continuity.mjs`. It measures only observable development-session signals, leaves unknown usage unknown, includes fresh-environment ramp-up cost and produces a safe-boundary transition alert plus ready-to-paste handoff.
+
+This infrastructure is excluded from the website runtime, Service Worker shell, browser persistence and user interface. It assigns no product candidate and changes none of the production authority below.
 
 ## Production authority
 

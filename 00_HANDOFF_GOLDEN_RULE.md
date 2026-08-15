@@ -10,14 +10,21 @@ The reason is operational continuity: a development session can be interrupted, 
 
 The owner's highest operating priority is preservation of engineering quality, correctness and continuity. Maximizing the amount of work completed inside one chat is never a goal by itself. A fresh developer/chat with a complete repository-native handoff is preferred whenever continuing the current session would create meaningfully more context risk than benefit.
 
+## Work Environment Continuity assessment mechanism
+
+`00_WORK_ENVIRONMENT_CONTINUITY.md` defines the permanent measurable operating loop for this rule. Every development environment must maintain `WORK_ENVIRONMENT_STATUS.json`, reassess at the protocol's checkpoints and preserve completed transitions in `WORK_ENVIRONMENT_HISTORY.md`. `AGENTS.md` makes that loop part of repository bootstrap, and `scripts/work-environment-continuity.mjs` produces the deterministic assessment and ready-to-paste prompt.
+
+Run `npm run work:continuity:validate` and `npm run work:assess` before substantial work. Never invent a hidden token or account-usage percentage. If the evaluator recommends preparation or transition, follow its safe-boundary action and generate `npm run work:handoff`; the qualitative safety rules in this file remain controlling.
+
 ## Required behavior
 
 Before meaningful implementation:
 
 1. fetch current `main` and record its exact SHA;
-2. read `00_DEVELOPER_START_HERE.md` and `NEXT_TASK.md`;
-3. identify or create the active public handoff;
-4. record the owner instruction and current branch/base authority.
+2. read `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `00_DEVELOPER_START_HERE.md` and `NEXT_TASK.md`;
+3. validate and initialize the current Work environment status;
+4. identify or create the active public handoff;
+5. record the owner instruction and current branch/base authority.
 
 During implementation, update the handoff at meaningful checkpoints. Record:
 

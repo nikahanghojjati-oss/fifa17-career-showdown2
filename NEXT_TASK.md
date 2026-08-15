@@ -23,15 +23,18 @@ The one later owner-authorized Local Profile display-label candidate is closed a
 
 No new substantial runtime product candidate is authorized. Do not infer implementation authority from roadmap order, an old branch, an open historical PR or the existence of a possible future area.
 
+The owner-authorized repository Work Environment Continuity system is development-process infrastructure, not a product candidate. Every future environment must execute its bootstrap, assessment, checkpoint and safe-handoff rules. Its presence assigns no website runtime work.
+
 ### IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
 1. verify live production still descends from r2 runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` or reconstruct every newer change before proceeding;
-2. verify the public site, `1.3.0-r2` whole-shell identity, open PRs, branches, releases, authority files and current tests;
-3. preserve all shipped Local Profile label, stable-identity, Analytics, recovery, PWA, gameplay, visual, accessibility and performance semantics;
-4. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
-5. keep the rolling handoff current if repository state changes, but do not manufacture a roadmap assignment.
+2. validate and initialize the Work Environment Continuity record, run `npm run work:assess` and obey its safe-boundary decision;
+3. verify the public site, `1.3.0-r2` whole-shell identity, open PRs, branches, releases, authority files and current tests;
+4. preserve all shipped Local Profile label, stable-identity, Analytics, recovery, PWA, gameplay, visual, accessibility and performance semantics;
+5. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
+6. keep the rolling handoff and continuity status current if repository state changes, but do not manufacture a roadmap assignment.
 
 Do not reopen Local Profile display-label editing, propagate labels into Showdown/Legacy history, or begin profile merge/delete, standalone profile creation, backup/import redesign, Analytics expansion, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
 

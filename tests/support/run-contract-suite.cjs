@@ -12,6 +12,7 @@ const files = [
   "tests/contracts/statistics-architecture.cjs",
   "tests/contracts/identity-safe-career-analytics-contracts.cjs",
   "tests/contracts/handoff-immediate-next-task-contracts.cjs",
+  "tests/contracts/work-environment-continuity-contracts.cjs",
   "tests/contracts/backup-contracts.cjs",
   "tests/contracts/import-analysis-contracts.cjs",
   "tests/contracts/restore-storage-contracts.cjs",

@@ -5,6 +5,9 @@
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
     "check": "npm run test:contracts",
+    "work:assess": "node scripts/work-environment-continuity.mjs assess",
+    "work:handoff": "node scripts/work-environment-continuity.mjs handoff",
+    "work:continuity:validate": "node scripts/work-environment-continuity.mjs validate",
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",

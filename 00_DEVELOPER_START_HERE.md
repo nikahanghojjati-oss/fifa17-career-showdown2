@@ -38,6 +38,7 @@ The application version remains v1.3.0. Runtime maintenance r2 gives the changed
 One current fact should have one primary owner. Do not copy a fact into a new document merely to make it easier to find.
 
 - `00_HANDOFF_GOLDEN_RULE.md` owns permanent session/handoff operating policy.
+- `00_WORK_ENVIRONMENT_CONTINUITY.md` owns the measurable context, reliability, transition-cost and alert protocol. `WORK_ENVIRONMENT_STATUS.json` is its current machine-readable record and `WORK_ENVIRONMENT_HISTORY.md` is its append-only transition history.
 - `PROJECT_STATE.md` is the primary owner of current deployed product, identity, storage, recovery, performance and production-proof state.
 - `NEXT_TASK.md` is the sole primary owner of the current implementation authorization boundary. A roadmap item is not a task unless this file or a later explicit owner instruction makes it one.
 - `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction and current roadmap classification. It does not assign release versions and does not authorize implementation by itself.
@@ -54,16 +55,22 @@ Always fetch live `main`, recent commits and open PRs first.
 
 Then read:
 
-1. `00_HANDOFF_GOLDEN_RULE.md`
-2. this file
-3. `00_CURRENT_HANDOFF.md`
-4. `PROJECT_STATE.md`
-5. `NEXT_TASK.md`
-6. `POST_V1_ROADMAP_EXECUTION.md`
-7. `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` when PR #59 failure chronology is relevant
-8. Local Profiles / Save Library historical handoffs only when their rationale is relevant
-9. current release/proof documents only when their frozen evidence is relevant
-10. `00_MASTER_DEVELOPER_CONTEXT.md` only when deeper history is required.
+1. `AGENTS.md`
+2. `00_HANDOFF_GOLDEN_RULE.md`
+3. `00_WORK_ENVIRONMENT_CONTINUITY.md`
+4. `WORK_ENVIRONMENT_STATUS.json`
+5. `WORK_ENVIRONMENT_HISTORY.md`
+6. this file
+7. `00_CURRENT_HANDOFF.md`
+8. `PROJECT_STATE.md`
+9. `NEXT_TASK.md`
+10. `POST_V1_ROADMAP_EXECUTION.md`
+11. `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` when PR #59 failure chronology is relevant
+12. Local Profiles / Save Library historical handoffs only when their rationale is relevant
+13. current release/proof documents only when their frozen evidence is relevant
+14. `00_MASTER_DEVELOPER_CONTEXT.md` only when deeper history is required.
+
+After reading, run `npm run work:continuity:validate` and `npm run work:assess`. Initialize a fresh environment record before substantial work when the recorded environment has closed or belongs to a prior chat. Unknown usage remains unknown; do not estimate an exact percentage.
 
 Current verified source plus later explicit owner decisions outrank stale historical narration.
 
@@ -91,9 +98,10 @@ Production Local Profile display-label editing changes only `profile.displayName
 After reconstructing live repository state and reading current authority:
 
 1. verify live `main`, deployed Pages and current authority before trusting any recorded SHA;
-2. verify r2 merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`, PR #61 proof, deployed bytes and current authority before trusting this record;
-3. preserve guarded Local Profile labels, stable identity, unchanged Showdown/Legacy presentation and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
-4. if no later explicit owner instruction authorizes a new bounded candidate, make no runtime mutation.
+2. validate and initialize the Work Environment Continuity record, then run `npm run work:assess`;
+3. verify r2 merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`, PR #61 proof, deployed bytes and current authority before trusting this record;
+4. preserve guarded Local Profile labels, stable identity, unchanged Showdown/Legacy presentation and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
+5. if no later explicit owner instruction authorizes a new bounded candidate, make no runtime mutation.
 
 Do not ask the owner to reconstruct already-recorded repository history.
 
