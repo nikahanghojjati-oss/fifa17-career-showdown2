@@ -18,6 +18,20 @@ Active branch:
 
 `agent/fix-continuity-bootstrap-order`
 
+Validated implementation checkpoint:
+
+`64699fcc8509ec16baae272825d0e6f9ccfcbfba`
+
+Draft publication:
+
+PR #64 — `https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/64`
+
+Exact PR base at creation: `fd6879940c6409fd3727a50816a10479ee2446e6`.
+
+Exact initial pushed head: `64699fcc8509ec16baae272825d0e6f9ccfcbfba`.
+
+The following publication-record commit changes only continuity status/history/handoff evidence and becomes the exact candidate head. Its SHA cannot self-reference inside its own tree; verify it from live PR #64, and use the PR publication comment as the external exact-head record.
+
 Current successor environment:
 
 `we-2026-08-15-pr63-followup-publication`
@@ -44,7 +58,7 @@ Validation at this checkpoint:
 
 The Work layer cancelled the `npm` wrappers before execution. Their exact repository-owned Node commands were run directly and passed; no red application or contract result was inferred from those infrastructure cancellations.
 
-Current assessment: `HANDOFF_AT_CHECKPOINT`. Finish only commit, branch publication, draft follow-up PR creation and exact publication-record freezing, then provide the recursive handoff and stop. Do not begin a Career Mode Showdown product-runtime task.
+Current assessment: `HANDOFF_AT_CHECKPOINT`. Finish only the record-only freeze push and external exact-head proof, then provide the recursive handoff and stop. Do not merge PR #64 or begin a Career Mode Showdown product-runtime task without current owner authorization.
 
 ## Repository Work Environment Continuity installation
 
@@ -85,10 +99,10 @@ After independently fetching live `main`, recent commits and open PRs and readin
 
 1. verify live `main` remains `fd6879940c6409fd3727a50816a10479ee2446e6` or reconstruct any newer source before touching the candidate;
 2. validate the inherited continuity record, archive/replace it with a fresh successor record and only then run `npm run work:assess`;
-3. inspect the actual follow-up branch and pull request named in the newest publication record rather than trusting a predicted identifier;
+3. inspect draft PR #64 and `agent/fix-continuity-bootstrap-order`, then verify the exact live head from GitHub rather than trusting this self-recorded checkpoint;
 4. verify the exact PR head still contains only continuity documentation, evaluator/prompt, regression-contract and continuity-record changes, with no website runtime-path diff;
-5. require the focused continuity contract, complete repository contract suite, changed-file syntax checks and diff hygiene on the exact head before any promotion decision;
-6. do not begin or infer a Career Mode Showdown runtime candidate. `NEXT_TASK.md` still authorizes none.
+5. require the focused continuity contract, complete repository contract suite, changed-file syntax checks, diff hygiene and all exact-head GitHub checks before any promotion decision;
+6. do not merge PR #64 or begin/infer a Career Mode Showdown runtime candidate without current owner authorization. `NEXT_TASK.md` still authorizes none.
 
 Do not reopen display-label editing or begin Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
 

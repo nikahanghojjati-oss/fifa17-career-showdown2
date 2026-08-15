@@ -38,6 +38,21 @@ This is the append-only record of Work environment transitions. Current verified
 - Usage evidence: unavailable; no percentage is carried forward or estimated.
 - Exact next safe action: reconstruct and independently validate a source-equivalent successor on current live `main`, publish it as a new follow-up PR and record the real identifiers.
 
+## Publication transition — `we-2026-08-15-pr63-followup-publication`
+
+- Environment start: `2026-08-15T20:51:16Z`; transition prepared: `2026-08-15T21:01:25Z`.
+- Starting verified live-main SHA: `fd6879940c6409fd3727a50816a10479ee2446e6`.
+- Bounded owner-authorized task: reconstruct, validate and publish only the PR #63 successor-bootstrap ordering correction without changing website runtime bytes.
+- Final implementation checkpoint: `64699fcc8509ec16baae272825d0e6f9ccfcbfba` on `agent/fix-continuity-bootstrap-order`.
+- Publication: draft PR #64 at `https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/64`, created against exact base `fd6879940c6409fd3727a50816a10479ee2446e6` with initial exact head `64699fcc8509ec16baae272825d0e6f9ccfcbfba`.
+- Final signals before record freeze: high context, four completed phases, six dense evidence events, two recoverable routing clusters, zero corrected implementation defects, one repeated patch-context mistake, zero stale facts, zero unresolved failures and unknown usage with no estimated percentage.
+- Assessment: `HANDOFF_AT_CHECKPOINT`; finish only the publication-record freeze and external exact-head proof, then transition before another substantial task.
+- Validation: focused continuity and handoff contracts passed; continuity schema passed; all 29 contract files after the explicit static release contract passed; both changed-file syntax checks and `git diff --check` passed; runtime-path diff against verified live main was empty.
+- Infrastructure classifications: the Work layer cancelled npm wrappers before execution, so their exact repository-owned Node commands were run directly and passed. Direct public-site browser routing was rejected before navigation; trusted HTTPS inspection returned the expected production title, v1.3.0 stable footer and r2/r1 Service Worker identity.
+- Technical proof: local candidate validation complete; exact-head GitHub CI/review remains for the successor to verify.
+- Owner acceptance: publication was explicitly authorized; merge and any later product work are not authorized by this record.
+- Exact next safe action: successor initializes a fresh continuity record before assessment, then verifies draft PR #64 exact head, CI, review and empty runtime diff. Do not merge or start runtime work without current owner authorization.
+
 ## Required format for later records
 
 Copy this checklist beneath a new dated heading:
