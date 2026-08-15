@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-15-infrastructure-to-portability",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-15T22:55:25Z",
+  "environmentId": "we-2026-08-15-pr66-pr65-portability",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-15T23:49:54Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "fd6879940c6409fd3727a50816a10479ee2446e6"
+    "startingMainSha": "629b01d160e4eb1215c54ff6bc9558396a2b256d"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "very-high",
     "projectComplexity": "very-high",
-    "compactionCount": 0,
-    "majorPhasesCompleted": 4,
+    "compactionCount": 1,
+    "majorPhasesCompleted": 5,
     "largeEvidenceEvents": 9,
-    "toolRoutingErrors": 1,
+    "toolRoutingErrors": 5,
     "correctedFailures": 1,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
@@ -28,34 +28,40 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Complete and seal PR #64, then hand off the exact PR #65 reconciliation and bounded fresh-device multi-Save portability sequence at the continuity-mandated checkpoint.",
-    "lastSafeCheckpoint": "PR #64 exact head 542e4ecab75b1b481862285b7ecbd1d965c341aa merged with expected-head protection to live main 629b01d160e4eb1215c54ff6bc9558396a2b256d. The merge tree and parents are exact, website runtime paths are unchanged, all 15 exact-merge workflow families passed, Stability run 31912849066 and deployed-site-smoke job 95080639852 passed, and Pages deployment 5925426401 succeeded.",
-    "nextSafeAction": "Start a fresh Work environment. After source-first bootstrap and its own continuity initialization/assessment, reconcile PR #65 historical head 978fa967517207733cc84c7e6dd6e778b5770723 onto live main 629b01d160e4eb1215c54ff6bc9558396a2b256d while preserving PR #64 ordering semantics, then perform fresh local and exact-head proof. After PR #65 merges, immediately advance the bounded complete multi-Save portability candidate recorded in NEXT_TASK.md.",
+    "currentTask": "Reconcile and complete PR #65 on live main 0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96 while preserving PR #64 successor-bootstrap ordering and every supported rootless GitHub CLI bootstrap guarantee, then require fresh exact-head proof before protected merge.",
+    "lastSafeCheckpoint": "Reconciled implementation checkpoint 45ffd54c997a679ed7d96edae35a1cf003ead4c8 is committed on agent/portable-gh-bootstrap-reconcile from exact live main 0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96. Final local proof passes the continuity schema, focused bootstrap/authority contracts, explicit static release contract, all 30 repository contracts, complete syntax scan, diff hygiene, ignored tool/config boundary and empty website-runtime comparison. Official gh 2.97.0 is verified and reused. The owner completed supported browser approval, but direct API routing prevented the local CLI from persisting authentication; the GitHub connector is independently authenticated as nikahanghojjati-oss with admin/push authority.",
+    "nextSafeAction": "Rerun complete local validation, freeze current authority evidence, then publish the reconciled PR #65 tree through the authenticated connector-first path and require fresh exact-head CI/review proof before protected merge.",
     "unfinishedWork": [
-      "Reconcile PR #65 onto live main 629b01d160e4eb1215c54ff6bc9558396a2b256d while preserving PR #64 ordering semantics, rerun local and exact-head CI proof, then promote and merge it if fully green.",
-      "Confirm fresh-device complete multi-Save portability is still incomplete and unblocked, record its bounded acceptance criteria in NEXT_TASK.md and implement it with deterministic and browser proof, or select the next eligible roadmap candidate if source disproves that provisional choice."
+      "Commit and publish the reconciled PR #65 tree through the authenticated connector-first path, then require complete fresh exact-head CI/review proof before merge.",
+      "Confirm and implement complete fresh-device multi-Save backup/import portability with deterministic and Chromium coverage while preserving Candidate C recovery guarantees."
     ],
     "knownHazards": [
-      "PR #65 overlaps PR #64 in continuity and handoff documentation and must not be merged blindly on its old base.",
-      "The current v1 backup envelope projects one active Save and does not yet represent the complete Save Library registry for a fresh-device full-library round trip.",
+      "PR #65 predates and overlaps PR #64 and PR #66 authority files; its historical head must not be merged blindly.",
+      "The current v1 backup envelope projects one active Save and does not serialize the complete Save Library registry for a fresh-device full-library round trip.",
       "Candidate C remains the only destructive import Apply stage and its exact raw preconditions, transaction ownership, rollback, anti-clobber and byte-verification guarantees must not be weakened.",
-      "The GitHub CLI binary and authentication from prior Work environments did not survive locally; use the supported rootless bootstrap and user-directed authentication only, never connector credentials.",
+      "The verified gh binary and writable configuration are environment-local and may disappear in a successor. Current direct-network policy blocked local CLI authentication after browser approval; connector credentials must never be copied, exposed or repurposed.",
       "Unknown model usage must remain null and no hidden context or quota percentage may be estimated.",
       "Historical draft PRs #35 and #37 remain obsolete and are not current authority."
     ],
     "evidenceNotes": [
-      "The owner's latest handoff explicitly authorizes completing PR #64, reconciling/completing PR #65 and then proceeding directly to one bounded user-facing roadmap advancement.",
-      "The inherited transition-prepared record was validated before replacement. Its predecessor decision was not used as this successor environment's assessment.",
-      "The first combined npm continuity invocation was cancelled by the Work network-approval layer before execution. Direct repository-owned Node validation and assessment then ran successfully; this is an orchestration failure, not a red project result.",
-      "Live repository metadata, recent commits, open PRs, branches, tags and releases were independently queried through the connected GitHub app and local git.",
-      "The public-site browser safety router rejected direct navigation before any request; trusted HTTPS verification separately returned HTTP 200, the Career Mode Showdown title, v1.3.0 Stable presentation and Service Worker revisions 1.3.0-r2/current and 1.3.0-r1/previous.",
-      "PR #64 clean detached-head verification passed the focused continuity contract, inherited status schema, static release contract, all 29 repository contract files, changed-file syntax checks, git diff hygiene and empty website-runtime boundary. Expected fault-injection diagnostics appeared inside the green contract suite.",
-      "PR #64 had 13 successful exact-head workflow families, 17 successful jobs, one expected draft-only deployed-site skip, no failures, reviews or threads, and clean mergeability before promotion.",
-      "PR #64 merged through the GitHub connector with exact-head protection to 629b01d160e4eb1215c54ff6bc9558396a2b256d. Local fetch confirmed parents fd6879940c6409fd3727a50816a10479ee2446e6 and 542e4ecab75b1b481862285b7ecbd1d965c341aa, exact validated-tree equality and an empty website-runtime diff.",
-      "All 15 PR #64 exact-merge workflow families succeeded with zero failures or cancellations. Release Integration Burn-In run 31912849099, Candidate C run 31912849117, Stability run 31912849066, deployed-site-smoke job 95080639852 and Pages run 31912848238 passed; deployment 5925426401 reached success.",
-      "PR #64 comment 5304605881 records the external protected-merge and post-merge proof.",
-      "The final continuity assessment is HANDOFF_AT_CHECKPOINT: PR #64 is the coherent completed boundary and PR #65 reconciliation is a distinct milestone. No PR #65 branch mutation or product-runtime change was started in this environment.",
-      "The first focused handoff-authority contract correctly failed because it still required the superseded no-candidate stop. NEXT_TASK, developer bootstrap, roadmap classification and exact authority assertions were aligned to the later owner instruction; focused cloud/release/handoff contracts, all 29 repository contracts, the complete JavaScript/CJS/MJS syntax scan and diff hygiene then passed. No runtime path changed."
+      "The GitHub connector and clean clone independently confirmed live main 629b01d160e4eb1215c54ff6bc9558396a2b256d, PR #66 remote head 72e4b41b2b4734e49fd3af4626e9b4048bbc7367 and PR #65 historical remote head 978fa967517207733cc84c7e6dd6e778b5770723.",
+      "All mandatory authority and continuity files were read completely before initialization; package scripts and Node/npm runtime were inspected.",
+      "The inherited main record and the actual PR #66 transition-prepared record both passed direct repository-owned continuity validation before replacement.",
+      "The npm continuity wrapper was cancelled by the Work execution layer before test execution. Its exact repository-owned Node validator passed, so this is recorded as one orchestration-routing event rather than a red project check.",
+      "The predecessor environment's final facts are already present under Successor activation — we-2026-08-15-infrastructure-to-portability in WORK_ENVIRONMENT_HISTORY.md and were not duplicated.",
+      "PR #66 local exact-head verification passed focused authority contracts, the explicit static release contract, all 29 repository contracts, the complete syntax scan, diff hygiene, exact tree identity and an empty website-runtime diff.",
+      "PR #66 had 13 successful exact-head workflow families, 17 successful jobs, one expected draft-only deployed-site-smoke skip, zero reviews or inline threads and clean mergeability before promotion.",
+      "PR #66 expected-head merge 0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96 passed all 15 post-merge workflows, Stability run 31914434760, deployed-site-smoke job 95084354648, Release Integration Burn-In 31914434788, Candidate C 31914434759 and Pages deployment 5925677418. PR comment 5304728059 records the external seal.",
+      "The public-site browser safety router rejected navigation before any request. The repository HTTPS verifier independently matched all 71 deployed runtime files at 1.3.0-r2, and deployed Service Worker and manifest hashes matched source exactly; this is recorded as the second routing event rather than a product failure.",
+      "PR #65 reconciliation preserved the historical bootstrap and deterministic contract blobs byte for byte while manually retaining newer PR #64/PR #66 authority and appending the historical PR #65 evidence instead of restoring stale status or handoff files.",
+      "The real npm bootstrap succeeded and installed verified gh 2.97.0 under ignored .work-tools with writable GH_CONFIG_DIR. gh auth status correctly reported no authentication before the supported user-directed device flow.",
+      "The headless environment could not open github.com/login/device automatically; the CLI remained in its supported manual device flow and the owner received the one-time code. This is the third routing event, not a bootstrap or repository failure.",
+      "The owner completed browser approval, but direct-network policy blocked the waiting CLI's final api.github.com exchange. GH_CONFIG_DIR remained empty and a new gh auth status correctly reported no authenticated host. The connected GitHub app independently verified account nikahanghojjati-oss and repository admin/push permission; connector-first publication proceeds without copying or repurposing credentials. This is the fourth routing event and leaves no unresolved repository defect.",
+      "A combined npm/bootstrap validation invocation was cancelled by the Work execution layer before any repository check executed. Split direct repository-owned commands all passed. This is the fifth routing event, not a red repository result.",
+      "Final local proof passes focused bootstrap, continuity, handoff, cloud and release authority checks; the explicit static release owner and complete 30-file repository contract suite; the complete JavaScript/CJS/MJS syntax scan; diff hygiene; ignored tool/config checks; and an empty website-runtime diff. Expected fault-injection diagnostics remain inside green recovery contracts.",
+      "Post-validation assessment is HANDOFF_AT_CHECKPOINT: context pressure 100, quality risk 46, continuation risk 64.8, transition cost 19.2 and transition advantage 45.6. Finish only PR #65 publication/merge/post-merge proof, then freeze the recursive handoff before the distinct multi-Save product milestone.",
+      "Reconciled implementation checkpoint 45ffd54c997a679ed7d96edae35a1cf003ead4c8 committed the exact 13-file scope after staged diff hygiene. It remains local until final connector-first publication-record proof is complete.",
+      "The first post-commit record transcribed the new checkpoint with an incorrect full SHA suffix. Direct git rev-parse exposed it before publication; the handoff and status now use exact 45ffd54c997a679ed7d96edae35a1cf003ead4c8. This is one corrected documentation fact and one stale-fact correction, with no source or runtime impact."
     ]
   }
 }

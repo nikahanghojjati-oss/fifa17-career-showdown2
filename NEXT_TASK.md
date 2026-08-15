@@ -23,10 +23,12 @@ The one later owner-authorized Local Profile display-label candidate is closed a
 
 A later explicit owner handoff on 2026-08-15 ET supersedes the prior clean stop and authorizes one ordered infrastructure-to-product sequence:
 
-1. complete the portable GitHub CLI bootstrap through PR #65 after reconciling it onto the PR #64 merge;
+1. complete the portable GitHub CLI bootstrap through PR #65 after reconciling it onto the PR #66 merge;
 2. then implement exactly one smallest meaningful user-facing roadmap advancement, provisionally complete fresh-device multi-Save backup/import portability, after confirming from current source that it remains incomplete and unblocked.
 
-PR #64 is complete. Its validated head `542e4ecab75b1b481862285b7ecbd1d965c341aa` merged with expected-head protection to `629b01d160e4eb1215c54ff6bc9558396a2b256d`; all 15 exact-merge workflows and Pages deployment `5925426401` succeeded with no website runtime-path change.
+PR #66 is complete. Its validated head `72e4b41b2b4734e49fd3af4626e9b4048bbc7367` merged with expected-head protection to current live main `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`; the merge tree matches exactly, all 15 exact-merge workflows and Pages deployment `5925677418` succeeded, and website runtime paths remain unchanged.
+
+PR #64 remains the retained corrected-bootstrap authority beneath that seal. Its validated head `542e4ecab75b1b481862285b7ecbd1d965c341aa` merged to `629b01d160e4eb1215c54ff6bc9558396a2b256d` with all 15 exact-merge workflows and deployment `5925426401` successful.
 
 PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` remains based on pre-PR-#64 main `fd6879940c6409fd3727a50816a10479ee2446e6`. Reconcile it before any promotion. Preserve PR #64's inherited-record validation → fresh environment initialization/reset → successor assessment order and PR #65's official-release-only, checksum-verified, rootless GitHub CLI bootstrap with environment-local writable configuration and connector-first credential handling.
 
@@ -52,9 +54,9 @@ If source proves complete multi-Save portability is already finished or genuinel
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live main remains PR #64 merge `629b01d160e4eb1215c54ff6bc9558396a2b256d` or reconstruct every newer change before proceeding;
+1. verify live main remains PR #66 merge `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` or reconstruct every newer change before proceeding;
 2. validate and initialize the Work Environment Continuity record, run `npm run work:assess` and obey its safe-boundary decision;
-3. verify PR #64's 15 successful exact-merge workflows, deployment `5925426401`, unchanged website runtime boundary and the public `1.3.0-r2` / previous `1.3.0-r1` shell;
+3. verify PR #66's 15 successful exact-merge workflows, deployment `5925677418`, unchanged website runtime boundary, retained PR #64 proof and the public `1.3.0-r2` / previous `1.3.0-r1` shell;
 4. reconcile PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` onto the live main, preserving both continuity ordering and portable bootstrap security semantics;
 5. run the real rootless bootstrap, supported `gh auth status`, focused contracts, complete contract/syntax/diff proof and fresh exact-head CI/review verification before protected PR #65 merge;
 6. verify PR #65 post-merge main and workflows;

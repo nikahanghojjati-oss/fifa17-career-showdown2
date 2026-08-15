@@ -68,6 +68,21 @@ This is the append-only record of Work environment transitions. Current verified
 - Unfinished work: PR #65 reconciliation, current-head validation/merge/post-merge proof and the bounded complete multi-Save portability implementation recorded in `NEXT_TASK.md`.
 - Transition rule: begin no PR #65 mutation in this environment; publish this record and hand off from the exact PR #64 boundary.
 
+## Recovered historical PR #65 publication — `we-2026-08-15-portable-gh-bootstrap`
+
+- Record source: live PR #65, its historical branch and publication comments, reconciled after PR #66 rather than copied as current authority.
+- Starting verified live-main SHA: `fd6879940c6409fd3727a50816a10479ee2446e6`.
+- Historical implementation checkpoint: `534e6a4bdf427b26e006fcda2824684ad0d93dd0`; initial publication head `0f00994da0f52ca56c51d9f11ebe59c9c8e3e866`; final historical PR head `978fa967517207733cc84c7e6dd6e778b5770723`.
+- Bounded task: publish a connector-first, checksum-verified and rootless GitHub CLI bootstrap without changing website runtime bytes or copying connector credentials.
+- Material design: reuse an existing working `gh` or resolve the official latest stable `cli/cli` Linux asset, require its published SHA-256 checksum before `--no-same-owner` extraction, install an ignored launcher and writable `GH_CONFIG_DIR`, run version/auth status and use only supported user-directed login when authentication is absent.
+- Historical real-install proof: official GitHub CLI 2.97.0 archive `gh_2.97.0_linux_amd64.tar.gz` matched SHA-256 `a2c9b8497e1f85b1ad0dfcb78b5a622e098801b8e461e459e88e1ee12f018112`; that environment verified authenticated account `nikahanghojjati-oss` through workspace-local configuration without exposing a token.
+- Corrected environment failures: the first extraction attempted to preserve an unmappable archive owner; the corrected extraction used `--no-same-owner`. One device exchange hit network routing, then authenticated into a read-only default config; the final supported flow used writable `GH_CONFIG_DIR`. A transient GitHub 502 succeeded on retry, and a checkout-local credential helper avoided read-only global Git configuration without copying a token.
+- Historical local validation: real bootstrap, focused installer contracts, explicit static release authority, the complete 30-file repository contract suite, full syntax, diff hygiene and empty website-runtime-path comparison passed.
+- Historical exact-head gate: all 13 normal pull-request workflow families succeeded with 17 successful jobs, zero failures, cancellations or pending jobs and one expected conditional deployed-site-smoke skip; reviews and inline threads were empty and the PR was mergeable.
+- External evidence: comments `5304429945`, `5304442584` and final-head seal `5304461282`.
+- Supersession warning: the historical base predates PR #64 and PR #66, so all historical PR #65 exact-head green evidence becomes invalid when reconciliation publishes a new head.
+- Exact next safe action: preserve only the source-grounded bootstrap/security behavior on live main `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`, then require fresh local and exact-head proof before promotion.
+
 ## Required format for later records
 
 Copy this checklist beneath a new dated heading:

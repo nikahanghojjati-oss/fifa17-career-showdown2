@@ -8,6 +8,22 @@ Treat every handoff as orientation, never as implementation authority. Before ch
 
 `NEXT_TASK.md` is the sole repository owner of implementation authorization. Do not infer permission from roadmap order, an old branch, an old PR or an available idea. Development-process documentation and tests do not authorize product-runtime changes.
 
+## Mandatory GitHub tooling bootstrap
+
+The connected GitHub app is the connector-first authority for repository, pull-request and issue metadata and supported writes. The `gh` CLI fills local workflow gaps such as authentication checks, current-branch discovery and GitHub Actions evidence; its availability never reverses that authority order.
+
+Before substantial GitHub work in every fresh Work environment, run:
+
+```sh
+npm run work:gh:bootstrap
+```
+
+The repository-owned bootstrap checks for an existing `gh`. When it is absent, it resolves the current official stable GitHub CLI release, downloads the matching Linux archive from `cli/cli`, verifies that archive against the release's published SHA-256 checksum and installs a rootless launcher under ignored `.work-tools/`. It then runs `gh --version` and `gh auth status` using a writable environment-local configuration directory.
+
+If `gh` is not authenticated, use only the supported user-directed `gh auth login` flow printed by the bootstrap and rerun the status check. Never extract, copy or repurpose connector credentials, never place a token on a command line and never commit `.work-tools/` or GitHub authentication state. An environment-local installation or login must not be assumed to survive a Work environment transition.
+
+If the Work command layer cancels the npm wrapper before execution, run the exact owner directly with `node scripts/bootstrap-github-cli.mjs`; do not infer a bootstrap or authentication result from an unexecuted wrapper.
+
 ## Mandatory Work Environment Continuity loop
 
 At the start of every development environment, read these files before substantial work:
