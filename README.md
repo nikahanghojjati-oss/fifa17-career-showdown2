@@ -19,20 +19,26 @@ Current verified source wins over stale historical status prose. Technical produ
 
 Read in this order:
 
-1. `00_HANDOFF_GOLDEN_RULE.md`
-2. `00_DEVELOPER_START_HERE.md`
-3. `00_CURRENT_HANDOFF.md`
-4. `PROJECT_STATE.md`
-5. `NEXT_TASK.md`
-6. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
-7. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
-8. `V1.3.0_R2_PRODUCTION_PROOF.md` for current frozen production evidence
-9. `V1.3.0_PRODUCTION_PROOF.md` when original r1 release-baseline history is relevant
-10. `RELEASE_V1.3.0_R2.md`
-11. `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md`
-12. `POST_V1_ROADMAP_EXECUTION.md`
+1. `AGENTS.md`
+2. `00_HANDOFF_GOLDEN_RULE.md`
+3. `00_WORK_ENVIRONMENT_CONTINUITY.md`
+4. `WORK_ENVIRONMENT_STATUS.json`
+5. `WORK_ENVIRONMENT_HISTORY.md`
+6. `00_DEVELOPER_START_HERE.md`
+7. `00_CURRENT_HANDOFF.md`
+8. `PROJECT_STATE.md`
+9. `NEXT_TASK.md`
+10. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
+11. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
+12. `V1.3.0_R2_PRODUCTION_PROOF.md` for current frozen production evidence
+13. `V1.3.0_PRODUCTION_PROOF.md` when original r1 release-baseline history is relevant
+14. `RELEASE_V1.3.0_R2.md`
+15. `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md`
+16. `POST_V1_ROADMAP_EXECUTION.md`
 
 Always fetch live `main` before relying on a SHA in documentation.
+
+Run `npm run work:continuity:validate` and `npm run work:assess` after bootstrap and at the protocol's meaningful checkpoints. The Work Environment Continuity system records observable context and reliability signals, uses only explicit usage evidence, weighs fresh-environment ramp-up cost and generates `npm run work:handoff` output when a safe transition is preferable. It is repository development infrastructure and is not included in the website runtime.
 
 Older release/proof documents remain immutable rollback/history evidence for their own runtimes.
 
