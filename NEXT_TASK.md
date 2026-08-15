@@ -7,48 +7,33 @@ This file is the sole primary owner of the current implementation authorization 
 ## Current production milestone
 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Current production Installable Offline App runtime: `1.3.0-r1`
-Active candidate runtime: `1.3.0-r2`
-Candidate previous known-good whole shell: `1.3.0-r1`
-Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
-Validated PR #59 head: `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1`
+Current production Installable Offline App runtime: `1.3.0-r2`
+Immediate previous known-good whole shell: `1.3.0-r1`
+Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
+Validated PR #61 head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`
 Feature release version: intentionally unassigned
 
-Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, and Identity-Safe Career Analytics / Trophy Room longitudinal consumption are complete, merged, deployed and production-proven.
+Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption and presentation-only Local Profile display-label editing are complete, merged, deployed and production-proven.
 
-PR #59 passed all 13 normal pull-request workflow families on exact unchanged head `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1`, merged with expected-head protection to `c5c7d50cc3a2d9003e057d1813744c877323c068`, and passed the permanent push/deployment proof. Stability run `31827619109` and deployed-site-smoke job `94855938131` passed exact runtime bytes, runtime provenance, Home, Save Library, manager identity linkage, Identity-Safe Career Analytics, football visuals, Candidate A/B/C, offline boundary and the complete deployed journey.
+PR #61 passed all 13 normal pull-request workflow families on exact unchanged head `cfedec8dccde51a7a9932a1bd3a92cc91514e579`, merged with expected-head protection to `67095a02188ebd246da0d0f2cd61158b8e9e504e`, and passed all 15 permanent push/deployment runs. Pages deployment `5922244376`, Release Integration Burn-In `31894832592`, Stability `31894832637` and deployed-site-smoke job `95036682319` succeeded. Independent proof matched 71 runtime files plus Service Worker and manifest byte for byte and passed the public profile-label journey with stable IDs and unchanged saved Showdown labels.
 
 ## Current implementation authorization
 
-A later explicit owner continuation instruction on 2026-08-15 ET superseded the prior clean stop and authorized exactly one smallest meaningful local-first roadmap candidate after independently reconstructing live authority.
+The one later owner-authorized Local Profile display-label candidate is closed as production-proven. Completion assigns no next substantial product area.
 
-The active bounded candidate is:
-
-`Local Profile display-label editing`
-
-Active branch:
-
-`agent/local-profile-display-label-edit`
-
-Exact branch base:
-
-`eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`
-
-The candidate may update only the stable Local Profile presentation label through existing Save Library runtime authority and expose an accessible edit control in the existing lazy Save Library/Settings surface. It must preserve stable identity, saved and historical Showdown labels, canonical storage ownership, identity-safe Analytics/Trophy revisioning, recovery, offline behavior, gameplay, visuals and performance ceilings.
+No new substantial runtime product candidate is authorized. Do not infer implementation authority from roadmap order, an old branch, an open historical PR or the existence of a possible future area.
 
 ### IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live `main`, open PRs, branch base and deployed production before touching the candidate;
-2. inspect `js/saveLibraryRuntime.js`, `js/saveLibraryUI.js`, `css/saveLibrary.css`, the Local Profile/Save Library history and the identity-safe Analytics presentation contract;
-3. implement an exact guarded `profile.displayName` mutation without changing any stable ID or Showdown/Legacy manager label;
-4. add deterministic proof for trimming, no-op, invalid input, stale-authority failure and byte preservation outside the Save Library profile label;
-5. add Chromium proof for accessible keyboard editing, retained identity, unchanged Showdown labels, Analytics-facing presentation and Chromebook/mobile containment;
-6. update the rolling handoff continuously, freeze one exact head, validate all required workflow families and promote only after an independent exact-head gate;
-7. after merge, verify exact production workflows, deployed runtime bytes and the public Pages behavior before sealing authority.
+1. verify live production still descends from r2 runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` or reconstruct every newer change before proceeding;
+2. verify the public site, `1.3.0-r2` whole-shell identity, open PRs, branches, releases, authority files and current tests;
+3. preserve all shipped Local Profile label, stable-identity, Analytics, recovery, PWA, gameplay, visual, accessibility and performance semantics;
+4. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
+5. keep the rolling handoff current if repository state changes, but do not manufacture a roadmap assignment.
 
-Do not broaden this candidate into profile merge/delete, Showdown or Legacy label propagation, standalone profile creation, backup/import redesign, Analytics feature expansion, cloud, gameplay or Service Worker behavior changes. The coherent `1.3.0-r2` whole-shell delivery identity is required for these changed runtime bytes and is part of this candidate; it is not a second product candidate or a new application version.
+Do not reopen Local Profile display-label editing, propagate labels into Showdown/Legacy history, or begin profile merge/delete, standalone profile creation, backup/import redesign, Analytics expansion, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
 
 ## Shipped identity and Analytics semantics that every future candidate must preserve
 
@@ -83,7 +68,7 @@ Potential future work remains separately bounded, including:
 - private sharing/groups;
 - conditional future community/discovery/rankings.
 
-None beyond the exact display-label candidate above is implementation-authorized by this file today.
+None of the future areas above is implementation-authorized by this file today.
 
 ## Architecture locks
 
@@ -109,10 +94,10 @@ Preserve the Installable Offline App whole-shell exactness and protected product
 
 Locked ceilings remain:
 
-- eager raw `162781` <= `165000`
-- eager gzip `37415` <= `37500`
+- eager raw `162782` <= `165000`
+- eager gzip `37416` <= `37500`
 - Reus startup portrait `88492` <= `95000`
-- combined first-party startup `251273` <= `260000`
+- combined first-party startup `251274` <= `260000`
 - normal loading minimum `2700 ms`
 - reduced-motion loading `220 ms`
 
@@ -122,4 +107,4 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Stop this candidate when Local Profile display-label editing is exact-head validated, production-proven and authority-sealed. Identity-Safe Career Analytics remains closed and must not be reopened. No second roadmap candidate is authorized by completion of this one.
+Local Profile display-label editing and Identity-Safe Career Analytics are closed and must not be reopened without evidence and explicit authorization. Stop with no runtime change until a later explicit owner instruction names a new bounded candidate. PR #61 completion authorizes no second roadmap candidate.

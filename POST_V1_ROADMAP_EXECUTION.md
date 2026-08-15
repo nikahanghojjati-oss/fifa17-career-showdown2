@@ -6,18 +6,17 @@ Status: current dependency/status authority for the post-v1 direction. This file
 ## 1. Current authority
 
 Current production application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Current runtime revision: `1.3.0-r1`
-Previous known-good whole shell: `1.2.0-r2`
-Current shipped product layer: Identity-Safe Career Analytics / Trophy Room longitudinal consumption
-Current runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
+Current runtime revision: `1.3.0-r2`
+Previous known-good whole shell: `1.3.0-r1`
+Current shipped product layer: presentation-only Local Profile display-label editing
+Current runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
 Feature release version: intentionally unassigned
-Active bounded candidate: Local Profile display-label editing on candidate whole shell `1.3.0-r2`
 
 `PROJECT_STATE.md` owns current production facts. `NEXT_TASK.md` owns implementation authorization. This file owns dependency direction and roadmap classification only.
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
-Exactly one later owner-authorized runtime candidate is active after the Analytics production seal: Local Profile display-label editing. `NEXT_TASK.md` owns its exact boundary. No second product area is authorized.
+The later owner-authorized Local Profile display-label candidate is complete and production-proven. `NEXT_TASK.md` owns the current clean stop. No new product area is authorized.
 
 ## 2. Permanent rules inherited by every future area
 
@@ -44,6 +43,7 @@ Validation integrity: 14 permanent workflow families and 27 protected multiline 
 → `Visible Local Profiles / Save Library Core UI`
 → `Explicit cross-Save / historical manager identity linkage foundation`
 → `Identity-Safe longitudinal Career Analytics / Trophy Room consumption`
+→ `Local Profile display-label editing / 1.3.0-r2 whole-shell maintenance`
 
 All of these layers are technically production-proven.
 
@@ -53,7 +53,7 @@ Status: DONE.
 
 Implementation and technical production proof for the whole-shell v1.3 milestone are closed. PR #37 remains historical/untrusted and is not a current baseline.
 
-Later Local Profiles / Save Library, manager-identity and Analytics work originally remained on the same `v1.3.0` / `1.3.0-r1` labels. The active display-label candidate keeps application v1.3.0 but advances the atomic candidate shell to `1.3.0-r2` so changed runtime bytes can update installed clients coherently; this delivery revision is not a second feature or a new application milestone.
+Later Local Profiles / Save Library, manager-identity and Analytics work originally remained on the same `v1.3.0` / `1.3.0-r1` labels. Display-label editing keeps application v1.3.0 but advances the atomic production shell to `1.3.0-r2` so changed runtime bytes update installed clients coherently; this delivery revision is not a second feature or a new application milestone.
 
 Product functionality and release identity remain separate decisions.
 
@@ -76,7 +76,7 @@ The completed explicit manager identity foundation includes:
 - display labels remaining historical labels when stable identity refs change;
 - Candidate A/C preservation of explicit active `profile_*` refs without a backup-envelope redesign.
 
-The current bounded experience expansion authorizes display-label editing only. Profile merge/delete and generic profile CRUD remain unassigned.
+The bounded display-label experience expansion is complete and production-proven. Profile merge/delete and generic profile CRUD remain unassigned and unauthorized.
 
 ## 6. Source-grounded identity × Legacy × Analytics dependency
 
@@ -101,9 +101,9 @@ The classifications below describe dependency/product state, not release numbers
 | Area | Current classification | Source-grounded interpretation |
 | --- | --- | --- |
 | Recovery & Device Resilience | DONE | v1.3 implementation and production proof are closed. |
-| Installable Offline App | DONE / r2 CANDIDATE | `1.3.0-r1` remains production-proven; `1.3.0-r2` is the active whole-shell candidate required to deliver the bounded label editor atomically. |
+| Installable Offline App | DONE / r2 PRODUCTION | `1.3.0-r2` is production-proven with `1.3.0-r1` as its immediate previous whole shell. |
 | Stable Local Identity | DONE | `profile_*`, `save_*`, `season_*` exist and are protected. |
-| Local Profiles | DISPLAY-LABEL CANDIDATE ACTIVE | Visible profiles and explicit cross-Save reuse are shipped; only presentation-label editing is active, without generic profile CRUD. |
+| Local Profiles | DISPLAY-LABEL EDITING DONE | Visible profiles, explicit cross-Save reuse and presentation-only label editing are shipped; generic profile CRUD remains unauthorized. |
 | Save Library | FOUNDATION DONE / EXPERIENCE MAY EXPAND | Multi-save create/switch/delete/runtime authority is shipped. |
 | Historical profile identity mapping | FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED | Historical-only roles can be explicitly mapped or remain null when identity is not proven. |
 | Cross-Save manager/profile linkage semantics | DONE | Existing Local Profiles can be explicitly reused across Save roles; name matching is never automatic. |
@@ -145,9 +145,9 @@ Dependency order, product/milestone name and release version number are separate
 
 ## 9. Current implementation authorization boundary
 
-The sole active runtime candidate is Local Profile display-label editing under `NEXT_TASK.md`.
+No new substantial runtime candidate is authorized under `NEXT_TASK.md`.
 
-Do not broaden it into backup portability, profile merge/delete or generic CRUD, Legacy, Achievements, broader Analytics 2.0, optional content or cloud because those areas appear technically ready or next in dependency order.
+Do not begin backup portability, profile merge/delete or generic CRUD, Legacy, Achievements, broader Analytics 2.0, optional content or cloud merely because those areas appear technically ready or next in dependency order.
 
 When a later explicit owner instruction authorizes a product area, reconstruct current source and only the relevant history, preserve all shipped identity/recovery/PWA/gameplay boundaries, then implement the smallest bounded candidate supported by evidence.
 
@@ -176,8 +176,8 @@ Current milestone — v1.3.0 Recovery & Device Resilience Hardening
 
 ## 12. Current execution rule
 
-Preserve proven `v1.3.0` / `1.3.0-r1` production, the completed Local Profiles / Save Library chain, explicit manager identity linkage and Identity-Safe Career Analytics while validating the bounded `1.3.0-r2` Local Profile display-label candidate.
+Preserve proven `v1.3.0` / `1.3.0-r2` production, immediate `1.3.0-r1` whole-shell recovery, the completed Local Profiles / Save Library chain, explicit manager identity linkage, Identity-Safe Career Analytics and guarded display-label editing.
 
 Respond to reproducible defects with root-cause analysis and focused regression evidence.
 
-Do not begin a second runtime feature merely because it appears next in this roadmap. Completion of the active label candidate authorizes nothing that follows.
+Do not begin a new runtime feature merely because it appears next in this roadmap. Completion of the label candidate authorizes nothing that follows.
