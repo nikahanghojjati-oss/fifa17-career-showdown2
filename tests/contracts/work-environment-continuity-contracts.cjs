@@ -34,6 +34,13 @@ assert.equal(pkg.scripts["work:continuity:validate"], "node scripts/work-environ
 
 assert.match(agents, /Mandatory Work Environment Continuity loop/i);
 assert.match(agents, /npm run work:continuity:validate[\s\S]+npm run work:assess/i);
+const inheritedValidationIndex = agents.indexOf("Validate the inherited status record");
+const successorInitializationIndex = agents.indexOf("append its final facts to `WORK_ENVIRONMENT_HISTORY.md`");
+const successorAssessmentIndex = agents.indexOf("Only after the current environment owns `WORK_ENVIRONMENT_STATUS.json`");
+assert.ok(inheritedValidationIndex >= 0, "AGENTS.md must validate the inherited record explicitly.");
+assert.ok(successorInitializationIndex > inheritedValidationIndex, "AGENTS.md must archive and replace the inherited record after validation.");
+assert.ok(successorAssessmentIndex > successorInitializationIndex, "AGENTS.md must assess only after the successor owns its fresh status record.");
+assert.match(agents, /Never treat the predecessor's transition decision as the successor's starting decision/i);
 assert.match(agents, /Never guess an exact hidden context-token or account-usage value/i);
 assert.match(agents, /HANDOFF_AT_CHECKPOINT[\s\S]+run `npm run work:handoff`/i);
 assert.match(agents, /development infrastructure[\s\S]+Do not add it to the Career Mode Showdown website runtime/i);
@@ -113,7 +120,29 @@ const cleanRepository = {
   assert.equal(quietAssessment.decision, decisions.CONTINUE, "A low-risk coherent environment should continue.");
   assert.equal(quietAssessment.scores.quotaRisk, null, "Unknown usage must stay unknown instead of being estimated.");
 
-  const denseAssessment = assessState(status, cleanRepository);
+  const dense = structuredClone(quiet);
+  dense.lifecycle = "transition-prepared";
+  Object.assign(dense.signals, {
+    contextComplexity: "very-high",
+    projectComplexity: "very-high",
+    compactionCount: 1,
+    majorPhasesCompleted: 5,
+    largeEvidenceEvents: 11,
+    toolRoutingErrors: 2,
+    correctedFailures: 3,
+    repeatedMistakes: 0,
+    staleFactCorrections: 0,
+    unresolvedFailures: 0,
+    newMilestoneNext: true,
+    usageRemainingPercent: null,
+    usageSource: "unavailable",
+    usageWarning: false,
+    handoffCompleteness: 99,
+    unrecordedDecisions: 0,
+    atomicOperation: false
+  });
+
+  const denseAssessment = assessState(dense, cleanRepository);
   assert.equal(denseAssessment.decision, decisions.HANDOFF_AT_CHECKPOINT, "A dense environment with a strong handoff and separate next milestone should transition at its checkpoint.");
   assert.ok(denseAssessment.scores.transitionAdvantage >= 25);
 
@@ -123,13 +152,13 @@ const cleanRepository = {
   const explicitWarning = withOverrides(quiet, { usageWarning: true });
   assert.equal(assessState(explicitWarning, cleanRepository).decision, decisions.HANDOFF_NOW, "An explicit usage warning must trigger immediate coherent handoff even without a percentage.");
 
-  const atomic = structuredClone(status);
+  const atomic = structuredClone(dense);
   atomic.signals.atomicOperation = true;
   assert.equal(assessState(atomic, { ...cleanRepository, dirty: true }).decision, decisions.FINISH_SAFE_BOUNDARY, "An atomic operation must be made coherent before transition.");
 
   const incompleteRepository = { ...cleanRepository, missingContinuityFiles: ["AGENTS.md"] };
   assert.equal(
-    assessState(status, incompleteRepository).scores.handoffReadiness,
+    assessState(dense, incompleteRepository).scores.handoffReadiness,
     denseAssessment.scores.handoffReadiness - 25,
     "Missing continuity authority must increase transition cost by lowering handoff readiness."
   );
@@ -138,10 +167,17 @@ const cleanRepository = {
   invalidUsage.signals.usageSource = "cli-status";
   assert.throws(() => validateState(invalidUsage), /Unknown usage must use usageSource unavailable/);
 
-  const prompt = buildHandoffPrompt(status, denseAssessment);
+  const prompt = buildHandoffPrompt(dense, denseAssessment);
   assert.match(prompt, /Treat this handoff as orientation, never as implementation authority/i);
   assert.match(prompt, /fetch live main, recent commits, tags, releases, open pull requests and active branches/i);
-  assert.match(prompt, /npm run work:continuity:validate and npm run work:assess/i);
+  assert.match(prompt, /npm run work:continuity:validate[\s\S]+npm run work:assess/i);
+  const promptValidationIndex = prompt.indexOf("Run npm run work:continuity:validate against the inherited status record");
+  const promptInitializationIndex = prompt.indexOf("archive its final facts, replace it with a new unique environment ID");
+  const promptAssessmentIndex = prompt.indexOf("Only after the current environment owns WORK_ENVIRONMENT_STATUS.json, run npm run work:assess");
+  assert.ok(promptValidationIndex >= 0, "Generated handoffs must validate the inherited record explicitly.");
+  assert.ok(promptInitializationIndex > promptValidationIndex, "Generated handoffs must archive and replace the inherited record after validation.");
+  assert.ok(promptAssessmentIndex > promptInitializationIndex, "Generated handoffs must assess only after successor initialization.");
+  assert.match(prompt, /Never treat the predecessor's transition decision as the successor's starting decision/i);
   assert.match(prompt, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
   assert.match(prompt, /Do not invent an exact usage percentage/i);
   assert.match(prompt, /Maintain the same continuity system recursively/i);
