@@ -1,6 +1,6 @@
 # Career Mode Showdown — Developer Start Here
 
-Last updated: 2026-08-14 ET
+Last updated: 2026-08-15 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Purpose: canonical bootstrap for a new developer session.
 
@@ -9,6 +9,7 @@ Purpose: canonical bootstrap for a new developer session.
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r1`
 Immediate previous known-good whole shell: `1.2.0-r2`
+Active candidate runtime: `1.3.0-r2`, with production r1 as its recovery predecessor
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
 Feature release version: intentionally unassigned
@@ -82,16 +83,16 @@ Production semantics now include:
 - Analytics and Trophy Room caches/renders refresh when identity mapping or consumed profile presentation changes;
 - Rivalry Analytics remains scoped to one Showdown and does not become a cross-history identity consumer.
 
-No new substantial runtime candidate is currently authorized. Do not choose backup portability, profile editing, broader Analytics 2.0, Legacy/Achievements, optional content, cloud or any other roadmap area without a later explicit owner instruction.
+One later explicit owner continuation authorized the bounded Local Profile display-label editing candidate. It changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. No second candidate, broader profile CRUD, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content or cloud work is authorized.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After reconstructing live repository state and reading current authority:
 
-1. verify the live `main` and current authority seal still agree that PR #59 / merge `c5c7d50c...` is production-proven;
-2. verify whether `NEXT_TASK.md` or a later explicit owner instruction authorizes any newer bounded candidate;
-3. if no newer authorization exists, make no runtime change and preserve the clean production boundary;
-4. when a new owner request exists, study only the relevant current source/history, classify the smallest correct scope, and implement that bounded request without reopening solved architecture.
+1. verify live `main`, deployed Pages and current authority before trusting any recorded SHA;
+2. inspect `NEXT_TASK.md` and `00_CURRENT_HANDOFF.md` for the exact Local Profile display-label candidate base, head, failures and validation state;
+3. continue only that exact candidate through guarded runtime/UI proof, coherent `1.3.0-r2` whole-shell delivery identity, exact-head CI and deployed verification;
+4. preserve r1 as production authority until r2 is merged and publicly proven, and stop after sealing this one candidate.
 
 Do not ask the owner to reconstruct already-recorded repository history.
 
@@ -143,7 +144,7 @@ Preserve exact preconditions, last-moment raw guards, transaction-owned mutation
 
 ## Installable Offline App and performance locks
 
-Current Installable Offline App whole shell remains `1.3.0-r1`; previous known-good whole shell remains `1.2.0-r2`.
+Current production Installable Offline App whole shell remains `1.3.0-r1`; previous production recovery shell remains `1.2.0-r2`. The active `1.3.0-r2` candidate uses r1 as its immediate previous known-good whole shell.
 
 Service Worker and Cache Storage own application bytes only, never canonical user data. Preserve atomic verified cache population, explicit update activation, Candidate C activation gating, current/previous whole-shell recovery and Settings-owned install/update presentation.
 

@@ -5,13 +5,14 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Current production runtime: `1.3.0-r1`
 Previous known-good whole shell: `1.2.0-r2`
-Current shipped product layer: Visible Local Profiles / Save Library Core UI
-Current runtime feature merge: `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`
+Current shipped product layer: Identity-Safe Career Analytics / Trophy Room longitudinal consumption
+Current runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
 Feature release version: intentionally unassigned
 Release status: merged, deployed, exact-byte verified and technically production-proven
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+Active candidate: Local Profile display-label editing on whole-shell revision `1.3.0-r2`, with production-proven r1 as its predecessor
 
-The v1.3 release remains the whole-shell application baseline. The later Local Profiles / Save Library chain advanced production behavior without assigning a new application version or Service Worker revision.
+The v1.3 release remains the application baseline. The later Local Profiles / Save Library, explicit manager-identity and Identity-Safe Career Analytics chain advanced production behavior without assigning a new application version. The active label candidate keeps application v1.3.0 and advances only the whole-shell revision so changed runtime bytes can update installed clients coherently.
 
 Current verified source wins over stale historical status prose. Technical production proof does not fabricate owner visual acceptance.
 
@@ -63,6 +64,8 @@ The completed dependency chain is:
 2. Canonical persistence integration — PR #48.
 3. Runtime authority cutover — PR #51.
 4. Visible Local Profiles / Save Library Core UI — PR #53.
+5. Explicit cross-Save / historical manager identity linkage — PR #57.
+6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59.
 
 The visible product supports:
 
@@ -71,8 +74,9 @@ The visible product supports:
 - explicit active-Save switching by stable `save_*` identity;
 - deletion of exactly one Save without full-reset semantics;
 - no implicit replacement after deleting the active Save;
-- read-only Local Profiles;
+- visible Local Profiles with explicit stable-identity reuse across Saves;
 - same visible manager names remaining distinct `profile_*` identities;
+- explicit historical profile mapping/unmapping with unresolved identity remaining legal;
 - retained Local Profiles after single-Save deletion;
 - non-mutating old-singleton compatibility opening;
 - fail-closed presentation when storage authority is corrupt, dual or otherwise unverifiable;
@@ -81,7 +85,7 @@ The visible product supports:
 
 Stable prefixes remain `save_*`, `season_*` and `profile_*`. Display names are labels, never identity keys.
 
-Profile rename/edit, historical profile mapping and standalone profile creation remain separate future candidates unless explicitly authorized.
+The active candidate adds presentation-only Local Profile display-label editing. It does not rewrite saved or historical Showdown manager labels and does not authorize profile merge/delete, generic CRUD or standalone profile creation.
 
 ## Architecture and data safety
 
@@ -129,6 +133,8 @@ Service Worker and Cache Storage contain application bytes only and are never ca
 
 The current `1.3.0-r1` runtime preserves the v1.2 offline architecture and adds resilience proof around activation, corruption, restart and exact local-data preservation.
 
+The active candidate uses `1.3.0-r2` with r1 as its immediate previous known-good whole shell because changed Save Library JavaScript and CSS require a new atomic installed-app cache identity. Production remains r1 until exact-head and deployed proof are complete.
+
 - version-owned first-party Service Worker shell;
 - complete verified cache population;
 - no automatic install-time activation;
@@ -154,15 +160,15 @@ Preserve the current FIFA 17-inspired Home and Save Library presentation unless 
 
 ## Current production proof
 
-PR #53 exact final head `2021a0a2eaed26f0aca6639278de82afe2a28d6d` passed all 13 normal PR workflow families.
+PR #59 exact final head `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1` passed all 13 normal PR workflow families.
 
-Runtime feature merge `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa` passed all 14 permanent push workflow families.
+Runtime feature merge `c5c7d50cc3a2d9003e057d1813744c877323c068` passed all permanent push workflow families.
 
-Release Integration Burn-In `31771269732` passed both complete stateful integration journeys.
+Release Integration Burn-In `31827619182` passed both complete stateful integration journeys.
 
-Post-merge Stability `31771269740` passed, including deployed-site-smoke job `94677863736`.
+Post-merge Stability `31827619109` passed, including deployed-site-smoke job `94855938131`.
 
-The deployed smoke verified 71 `1.3.0-r1` runtime files byte-for-byte and passed runtime provenance, Home, visible Save Library, licensed football visuals, Candidate A, Candidate B, Candidate C, Installable Offline App/offline boundary and complete deployed journey proof.
+The deployed smoke verified 71 `1.3.0-r1` runtime files byte-for-byte and passed runtime provenance, Home, visible Save Library, explicit manager identity, Identity-Safe Career Analytics, licensed football visuals, Candidate A, Candidate B, Candidate C, Installable Offline App/offline boundary and complete deployed journey proof.
 
 ## Validation and performance locks
 
@@ -177,18 +183,18 @@ Protected ceilings:
 - normal loading minimum 2700 ms;
 - reduced-motion loading 220 ms.
 
-Exact final PR #53 measurements were eager raw 162,781 bytes, eager gzip 37,415 bytes, lazy feedback 4,845 bytes, Reus startup portrait 88,492 bytes and combined first-party startup 251,273 bytes.
+The locked ceilings remain authoritative across the active candidate; exact candidate measurements must be recorded by the performance gate rather than inferred from older feature proof.
 
 Do not raise limits, relax timeouts or weaken assertions to make a change pass.
 
 ## Current continuation boundary
 
-Visible Local Profiles / Save Library Core UI is complete and production-proven.
+Identity-Safe Career Analytics is complete and production-proven. One later explicit owner instruction authorizes Local Profile display-label editing as the sole active candidate.
 
-No next substantial product candidate is automatically assigned.
+Candidate production status is not implied by local implementation. It requires exact-head PR proof, independent promotion checks, expected-head merge, exact production workflows and deployed-byte/public-journey verification.
 
-Preserve and observe the proven baseline unless new evidence or an explicitly authorized later milestone requires focused work.
+Stop after this candidate is sealed; completion assigns no next substantial product area.
 
-Profile editing, historical mapping, cloud, accounts, QR pairing, synchronization, remote transport, distributed revision/device identity systems, backup/import redesign, gameplay changes and framework rewrites are not implicitly authorized.
+Profile merge/delete or generic CRUD, cloud, accounts, QR pairing, synchronization, remote transport, distributed revision/device identity systems, backup/import redesign, gameplay changes and framework rewrites are not authorized.
 
 PR #37 and PR #35 remain historical draft work and are not current authority.

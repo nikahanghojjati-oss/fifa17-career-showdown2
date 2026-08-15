@@ -1,14 +1,15 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-14 ET
+Last updated: 2026-08-15 ET
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
 ## Current production milestone
 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Installable Offline App runtime label: `1.3.0-r1`
-Immediate previous known-good whole shell: `1.2.0-r2`
+Current production Installable Offline App runtime: `1.3.0-r1`
+Active candidate runtime: `1.3.0-r2`
+Candidate previous known-good whole shell: `1.3.0-r1`
 Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
 Validated PR #59 head: `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1`
 Feature release version: intentionally unassigned
@@ -19,22 +20,35 @@ PR #59 passed all 13 normal pull-request workflow families on exact unchanged he
 
 ## Current implementation authorization
 
-No new substantial runtime product candidate is authorized after the Identity-Safe Career Analytics production seal.
+A later explicit owner continuation instruction on 2026-08-15 ET superseded the prior clean stop and authorized exactly one smallest meaningful local-first roadmap candidate after independently reconstructing live authority.
 
-Do not infer authorization from roadmap order, technical readiness, historical version numbering or the fact that a dependency is now complete.
+The active bounded candidate is:
 
-The next developer's concrete task is authority-preserving verification only until the owner supplies a later explicit product instruction.
+`Local Profile display-label editing`
+
+Active branch:
+
+`agent/local-profile-display-label-edit`
+
+Exact branch base:
+
+`eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`
+
+The candidate may update only the stable Local Profile presentation label through existing Save Library runtime authority and expose an accessible edit control in the existing lazy Save Library/Settings surface. It must preserve stable identity, saved and historical Showdown labels, canonical storage ownership, identity-safe Analytics/Trophy revisioning, recovery, offline behavior, gameplay, visuals and performance ceilings.
 
 ### IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify that live `main` still contains the production-proven Identity-Safe Career Analytics runtime and the current authority seal;
-2. verify there is no newer owner-authorized candidate in `NEXT_TASK.md`, current PRs or a later explicit owner instruction;
-3. if no newer authorization exists, make no runtime mutation and preserve the clean production boundary;
-4. when the owner gives a new product request, reconstruct only the source/history needed for that request, classify its dependency/scope against `PROJECT_STATE.md` and `POST_V1_ROADMAP_EXECUTION.md`, then implement only the explicitly authorized bounded candidate.
+1. verify live `main`, open PRs, branch base and deployed production before touching the candidate;
+2. inspect `js/saveLibraryRuntime.js`, `js/saveLibraryUI.js`, `css/saveLibrary.css`, the Local Profile/Save Library history and the identity-safe Analytics presentation contract;
+3. implement an exact guarded `profile.displayName` mutation without changing any stable ID or Showdown/Legacy manager label;
+4. add deterministic proof for trimming, no-op, invalid input, stale-authority failure and byte preservation outside the Save Library profile label;
+5. add Chromium proof for accessible keyboard editing, retained identity, unchanged Showdown labels, Analytics-facing presentation and Chromebook/mobile containment;
+6. update the rolling handoff continuously, freeze one exact head, validate all required workflow families and promote only after an independent exact-head gate;
+7. after merge, verify exact production workflows, deployed runtime bytes and the public Pages behavior before sealing authority.
 
-This is intentionally a stop boundary, not permission to choose the next roadmap feature autonomously.
+Do not broaden this candidate into profile merge/delete, Showdown or Legacy label propagation, standalone profile creation, backup/import redesign, Analytics feature expansion, cloud, gameplay or Service Worker behavior changes. The coherent `1.3.0-r2` whole-shell delivery identity is required for these changed runtime bytes and is part of this candidate; it is not a second product candidate or a new application version.
 
 ## Shipped identity and Analytics semantics that every future candidate must preserve
 
@@ -56,7 +70,7 @@ This is intentionally a stop boundary, not permission to choose the next roadmap
 Potential future work remains separately bounded, including:
 
 - complete fresh-device multi-Save backup/import envelope portability;
-- profile rename/edit semantics;
+- profile merge/delete semantics or broader profile CRUD;
 - standalone Local Profile creation/reuse outside current New Showdown behavior;
 - evidence-driven Save Library/identity-link UX refinement;
 - broader Analytics 2.0 presentation or visualization expansion;
@@ -69,7 +83,7 @@ Potential future work remains separately bounded, including:
 - private sharing/groups;
 - conditional future community/discovery/rankings.
 
-None is implementation-authorized by this file today.
+None beyond the exact display-label candidate above is implementation-authorized by this file today.
 
 ## Architecture locks
 
@@ -108,4 +122,4 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Identity-Safe Career Analytics is closed as a production-proven candidate. Preserve the sealed boundary and stop before any new runtime feature unless a later explicit owner instruction authorizes it.
+Stop this candidate when Local Profile display-label editing is exact-head validated, production-proven and authority-sealed. Identity-Safe Career Analytics remains closed and must not be reopened. No second roadmap candidate is authorized by completion of this one.

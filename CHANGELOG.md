@@ -1,6 +1,20 @@
 # Career Mode Showdown Changelog
 
-Last updated: 2026-08-13 ET
+Last updated: 2026-08-15 ET
+
+## v1.3.0 runtime maintenance r2 — release candidate
+
+Candidate runtime: `1.3.0-r2`
+Previous known-good runtime: `1.3.0-r1`
+Status: implementation and validation in progress; not production-proven.
+
+- Adds presentation-only Local Profile display-label editing inside the existing lazy Save Library / Settings surface.
+- Preserves stable identities plus saved, in-memory and Legacy Showdown manager labels.
+- Retains same-name profile separation and identity-safe Analytics / Trophy Room presentation revisioning.
+- Advances the atomic whole-shell cache identity so changed JavaScript/CSS can update installed clients without reusing the r1 cache key.
+- Does not change application version, Service Worker behavior, gameplay, scoring, backup/import envelopes, profile merge/delete semantics or cloud boundaries.
+
+See `RELEASE_V1.3.0_R2.md` and `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md` for the candidate boundary. Production remains `1.3.0-r1` until promotion and deployed proof succeed.
 
 ## v1.3.0 — Recovery & Device Resilience Hardening — production
 

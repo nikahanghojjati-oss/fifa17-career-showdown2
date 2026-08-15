@@ -143,10 +143,11 @@ A.match(state, /Current production runtime feature merge: `c5c7d50cc3a2d9003e057
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
 A.match(state, /unresolved historical manager roles remaining explicit and never guessed from name similarity/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
 
-A.match(next, /No new substantial runtime product candidate is authorized/i, "NEXT_TASK must close the Analytics candidate instead of silently selecting another roadmap feature.");
+A.match(next, /later explicit owner continuation instruction[\s\S]+Local Profile display-label editing/i, "NEXT_TASK must identify the explicit later authorization and the one selected bounded candidate.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /if no newer authorization exists[\s\S]+make no runtime mutation/i, "NEXT_TASK must define the executable clean-stop behavior when no later owner authorization exists.");
-A.match(next, /Identity-Safe Career Analytics is closed as a production-proven candidate/i, "NEXT_TASK must explicitly close the completed Analytics authorization.");
+A.match(next, /Stop this candidate when Local Profile display-label editing is exact-head validated, production-proven and authority-sealed/i, "NEXT_TASK must define a concrete stop after the one authorized candidate.");
+A.match(next, /Identity-Safe Career Analytics remains closed/i, "NEXT_TASK must keep completed Analytics closed while the later label candidate advances.");
+A.match(next, /Active candidate runtime: `1\.3\.0-r2`[\s\S]+Candidate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 candidate delivery identity without displacing r1 production truth prematurely.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
@@ -154,7 +155,7 @@ A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODU
 A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
 A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Analytics completion must not advance cloud authorization.");
 A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Analytics completion must not weaken Cloud Backup dependency gates.");
-A.match(roadmap, /No substantial runtime candidate is currently authorized/i, "Roadmap must expose the clean stop boundary after Analytics production proof.");
+A.match(roadmap, /sole active runtime candidate is Local Profile display-label editing/i, "Roadmap must acknowledge the exact later candidate without authorizing a second area.");
 
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must be explicitly closed after promotion.");
 A.match(analyticsHandoff, /Exact branch base:[\s\S]+8c6fad42e38b4964d848128e40569442c3fa06d5/i, "Closed Analytics handoff must preserve its exact verified branch base.");
@@ -171,4 +172,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; production truth, completed Identity-Safe Career Analytics, recovery ownership, shipped Save Library/manager identity, cloud boundary, clean stop authorization and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; production truth, completed Identity-Safe Career Analytics, recovery ownership, the bounded Local Profile label candidate, cloud boundary, candidate stop and workflow topology agree.\n`);
