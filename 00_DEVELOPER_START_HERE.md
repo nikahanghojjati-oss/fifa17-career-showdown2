@@ -7,14 +7,13 @@ Purpose: canonical bootstrap for a new developer session.
 ## Sixty-second state
 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Installable Offline App runtime label: `1.3.0-r1`
-Immediate previous known-good whole shell: `1.2.0-r2`
-Active candidate runtime: `1.3.0-r2`, with production r1 as its recovery predecessor
+Installable Offline App runtime label: `1.3.0-r2`
+Immediate previous known-good whole shell: `1.3.0-r1`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
+Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
 Feature release version: intentionally unassigned
 
-Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, and Identity-Safe Career Analytics / Trophy Room longitudinal consumption are complete, merged, deployed and production-proven.
+Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption and Local Profile display-label editing are complete, merged, deployed and production-proven.
 
 Completed dependency chain:
 
@@ -23,14 +22,16 @@ Completed dependency chain:
 3. runtime authority cutover — PR #51;
 4. visible Local Profiles / Save Library Core UI — PR #53;
 5. explicit cross-Save/historical manager identity linkage foundation — PR #57;
-6. identity-safe longitudinal Career Analytics / Trophy Room correction — PR #59.
+6. identity-safe longitudinal Career Analytics / Trophy Room correction — PR #59;
+7. presentation-only Local Profile display-label editing — PR #61.
 
-PR #59 exact validated head: `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1`.
-Production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`.
-Production Stability run: `31827619109`.
-Deployed-site-smoke job: `94855938131`.
+PR #61 exact validated head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`.
+Production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`.
+Production Stability run: `31894832637`.
+Deployed-site-smoke job: `95036682319`.
+Pages deployment: `5922244376`.
 
-No application or Service Worker release number was assigned to the later Save Library / manager identity / Analytics feature chain.
+The application version remains v1.3.0. Runtime maintenance r2 gives the changed Save Library JavaScript/CSS a coherent atomic shell identity and retains r1 as the immediate predecessor.
 
 ## Authority ownership map
 
@@ -68,7 +69,7 @@ Current verified source plus later explicit owner decisions outrank stale histor
 
 ## Current development boundary
 
-The owner-authorized Identity-Safe Career Analytics candidate is no longer an active branch task. It is production-proven.
+Identity-Safe Career Analytics and Local Profile display-label editing are no longer active branch tasks. Both are production-proven.
 
 Production semantics now include:
 
@@ -83,16 +84,16 @@ Production semantics now include:
 - Analytics and Trophy Room caches/renders refresh when identity mapping or consumed profile presentation changes;
 - Rivalry Analytics remains scoped to one Showdown and does not become a cross-history identity consumer.
 
-One later explicit owner continuation authorized the bounded Local Profile display-label editing candidate. It changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. No second candidate, broader profile CRUD, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content or cloud work is authorized.
+Production Local Profile display-label editing changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. No new candidate, broader profile CRUD, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content or cloud work is authorized.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After reconstructing live repository state and reading current authority:
 
 1. verify live `main`, deployed Pages and current authority before trusting any recorded SHA;
-2. inspect `NEXT_TASK.md` and `00_CURRENT_HANDOFF.md` for the exact Local Profile display-label candidate base, head, failures and validation state;
-3. continue only that exact candidate through guarded runtime/UI proof, coherent `1.3.0-r2` whole-shell delivery identity, exact-head CI and deployed verification;
-4. preserve r1 as production authority until r2 is merged and publicly proven, and stop after sealing this one candidate.
+2. verify r2 merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`, PR #61 proof, deployed bytes and current authority before trusting this record;
+3. preserve guarded Local Profile labels, stable identity, unchanged Showdown/Legacy presentation and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
+4. if no later explicit owner instruction authorizes a new bounded candidate, make no runtime mutation.
 
 Do not ask the owner to reconstruct already-recorded repository history.
 
@@ -144,7 +145,7 @@ Preserve exact preconditions, last-moment raw guards, transaction-owned mutation
 
 ## Installable Offline App and performance locks
 
-Current production Installable Offline App whole shell remains `1.3.0-r1`; previous production recovery shell remains `1.2.0-r2`. The active `1.3.0-r2` candidate uses r1 as its immediate previous known-good whole shell.
+Current production Installable Offline App whole shell is `1.3.0-r2`; its immediate previous known-good whole shell is `1.3.0-r1`.
 
 Service Worker and Cache Storage own application bytes only, never canonical user data. Preserve atomic verified cache population, explicit update activation, Candidate C activation gating, current/previous whole-shell recovery and Settings-owned install/update presentation.
 
@@ -163,7 +164,7 @@ Never raise performance or timeout limits merely to obtain green CI.
 
 Repository authority remains 14 permanent workflow families and 27 protected multiline executable blocks. Normal implementation/authority PRs generally exercise 13; Release Integration Burn-In is main/manual release authority.
 
-PR #59 exact final head `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1` passed all 13 normal PR workflow families. Exact runtime merge `c5c7d50cc3a2d9003e057d1813744c877323c068` had 15 successful push/deployment workflow runs, zero failures and zero cancellations. Stability run `31827619109` passed contracts, canonical Chromium and deployed-site proof; deployed-site-smoke job `94855938131` passed every public production gate through the complete journey.
+PR #61 exact final head `cfedec8dccde51a7a9932a1bd3a92cc91514e579` passed all 13 normal PR workflow families. Exact runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` had 15 successful push/deployment runs, zero failures and zero cancellations. Stability run `31894832637` passed contracts, canonical Chromium and deployed-site proof; deployed-site-smoke job `95036682319` passed every public production gate through the complete journey. Independent proof matched 71 runtime files plus Service Worker and manifest byte for byte and passed the public profile-label journey.
 
 Automated proof and owner visual/product acceptance remain separate evidence channels.
 

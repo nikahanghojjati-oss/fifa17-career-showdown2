@@ -10,15 +10,15 @@ This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns 
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live production still matches authority-seal main `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6` or reconstruct every newer change before proceeding;
-2. inspect branch `agent/local-profile-display-label-edit`, its exact base, current head, diff, tests and any PR before changing it;
-3. continue the bounded Local Profile display-label editing candidate only: guarded runtime mutation, accessible Save Library controls, deterministic contracts, Chromium evidence and handoff continuity;
-4. freeze and validate one exact candidate head across all required PR workflow families, then run the independent promotion gate before any merge;
-5. after a justified merge, verify exact production workflows, deployed runtime bytes and the public Pages journey before sealing authority.
+1. verify live production still descends from runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` or reconstruct every newer change before proceeding;
+2. verify PR #61, the r2 production proof, open PRs/branches/releases, current tests and deployed Pages before trusting any recorded state;
+3. preserve guarded Local Profile display-label editing, stable identity, unchanged Showdown/Legacy presentation, recovery, offline behavior, gameplay, visuals and performance locks;
+4. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
+5. keep this rolling handoff current when repository state changes, but do not manufacture a roadmap assignment.
 
-Do not broaden this candidate into Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes. Coherent whole-shell delivery identity is part of this candidate because its runtime bytes change.
+Do not reopen display-label editing or begin Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
 
-## Active bounded continuation — Local Profile display labels
+## Closed bounded continuation — Local Profile display labels
 
 Later owner continuation instruction on 2026-08-15 ET explicitly superseded the prior no-new-candidate stop boundary and authorized selection of exactly one smallest meaningful local-first roadmap candidate after full reconstruction.
 
@@ -53,7 +53,7 @@ Source-grounded semantic boundary:
 - mutation remains inside `js/saveLibraryRuntime.js` and uses the existing exact guarded Save Library transaction boundary;
 - UI remains inside the lazy Save Library/Settings surface and never accesses canonical browser storage directly;
 - Career Statistics and Trophy Room continue to consume the shared profile-presentation revision authority already protected by Identity-Safe Career Analytics.
-- the changed JavaScript/CSS ships as candidate runtime `1.3.0-r2`, with production-proven `1.3.0-r1` as its immediate previous whole-shell recovery target.
+- the changed JavaScript/CSS ships as production runtime `1.3.0-r2`, with production-proven `1.3.0-r1` as its immediate previous whole-shell recovery target.
 
 First implementation checkpoint:
 
@@ -62,6 +62,14 @@ First implementation checkpoint:
 Commit subject: `Add Local Profile display-label editing`
 
 This checkpoint contains the complete bounded runtime/UI implementation, `1.3.0-r2` whole-shell candidate identity, deterministic and browser regression proof, candidate release/handoff records and all authority updates. The following handoff-freeze commit changes documentation only so the remote branch head can enter exact-head pull-request validation without an unrecorded implementation boundary.
+
+Final frozen PR head:
+
+`cfedec8dccde51a7a9932a1bd3a92cc91514e579`
+
+PR #61 expected-head merge:
+
+`67095a02188ebd246da0d0f2cd61158b8e9e504e`
 
 ### Retained local validation failure 1 — cross-realm assertion
 
@@ -85,7 +93,7 @@ Initial candidate planning preserved `1.3.0-r1` and excluded Service Worker/rele
 
 Classification: deterministic production-delivery correctness issue discovered before publication, not authorization for a second feature.
 
-Correction: keep application milestone `v1.3.0`, advance only the candidate whole-shell revision to `1.3.0-r2`, set `1.3.0-r1` as its immediate previous known-good shell, and preserve all Service Worker behavior. `RELEASE_V1.3.0_R2.md` and `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md` own the candidate release boundary. Production remains r1 until exact-head CI, expected-head merge and deployed proof succeed.
+Correction: keep application milestone `v1.3.0`, advance only the whole-shell revision to `1.3.0-r2`, set `1.3.0-r1` as its immediate previous known-good shell, and preserve all Service Worker behavior. `RELEASE_V1.3.0_R2.md` and `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md` own the release boundary. Production remained r1 at that pre-publication point; r2 is now exact-head validated, merged and publicly proven.
 
 ### Retained local validation failure 3 — wrong static-server helper path
 
@@ -143,18 +151,44 @@ Correction: rerun the repository-owned loading visual audit with `CMS_CHROMIUM_M
 - Candidate C restore/recovery browser and maintenance, Candidate B import browser, football visual, Home visual, loading/install and Settings install/focus owners: pass directly;
 - monolithic `npm run test:legacy-workflows`: not claimed green because the local Work session interrupted the nested aggregate wrapper; every exact affected owner passed directly.
 
+### Post-merge verification infrastructure note
+
+The first direct local Chromium attempt against public Pages returned `ERR_EMPTY_RESPONSE` because the packaged serverless Chromium runtime intentionally blocks external DNS. A temporary network-enabled retry reached the environment HTTPS proxy but the packaged Chromium did not trust its local CA; a further retry was cancelled by the Work network-approval layer before test execution.
+
+Classification: local browser/network infrastructure, not deployed application behavior.
+
+Correction: keep trusted HTTPS exact-byte verification separate from browser interaction. The repository verifier matched 71 runtime files, and separate HTTPS checks matched Service Worker and manifest bytes. The production Stability deployed-site-smoke passed in GitHub Actions, and an independent cloud browser then passed the exact public Local Profile edit and invalid-input journey without bypassing production application checks.
+
+## PR #61 exact validation, merge and production proof
+
+Frozen head `cfedec8dccde51a7a9932a1bd3a92cc91514e579` passed all 13 normal pull-request workflow families with zero failures or cancellations. The independent gate verified unchanged base/head, a clean merge state, mergeability, zero submitted reviews, zero comments and zero unresolved review threads.
+
+PR #61 merged with expected-head protection to `67095a02188ebd246da0d0f2cd61158b8e9e504e`. The merge tree exactly matches the validated head and has expected parents `eee3b0c...` and `cfedec8...`.
+
+All 15 exact-merge push/deployment runs succeeded. Key evidence:
+
+- Pages run `31894832195`, deployment `5922244376` and build `1153293091`;
+- Release Integration Burn-In `31894832592`;
+- Candidate B `31894832632` and Candidate C `31894832804`;
+- Licensed Football Visuals `31894832763`;
+- Stability `31894832637`, Chromium job `95036465423` and deployed-site-smoke job `95036682319`.
+
+Independent deployed proof matched 71 runtime files plus `service-worker.js` and `manifest.webmanifest` byte for byte. The public browser reported `1.3.0-r2` and proved whitespace-only rejection, successful label editing, unchanged exact `profile_*`/`save_*` IDs, unchanged saved Showdown manager label and updated identity-link presentation.
+
+`V1.3.0_R2_PRODUCTION_PROOF.md` owns frozen evidence.
+
 ## Current production authority
 
 Application milestone remains `v1.3.0 — Recovery & Device Resilience Hardening`.
-Current production Installable Offline App runtime remains `1.3.0-r1`.
-The active candidate runtime is `1.3.0-r2`, with `1.3.0-r1` as its immediate previous known-good whole shell.
+Current production Installable Offline App runtime is `1.3.0-r2`.
+Its immediate previous known-good whole shell is `1.3.0-r1`.
 Feature release version remains intentionally unassigned.
 
 Current production runtime feature merge:
 
-`c5c7d50cc3a2d9003e057d1813744c877323c068`
+`67095a02188ebd246da0d0f2cd61158b8e9e504e`
 
-That merge shipped PR #59, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, without changing the application or Service Worker release identity.
+That merge shipped PR #61, presentation-only Local Profile display-label editing and coherent r2 whole-shell delivery, while preserving application v1.3.0 and Service Worker behavior.
 
 ## Completed manager identity dependency chain
 
@@ -166,6 +200,7 @@ The Local Profiles / Save Library and manager-identity chain remains production-
 4. visible Local Profiles / Save Library Core UI — PR #53;
 5. explicit cross-Save/historical manager identity linkage foundation — PR #57, merge `95e98c13bbb4cac485531565c3577ae31286d0af`;
 6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59, merge `c5c7d50cc3a2d9003e057d1813744c877323c068`.
+7. Local Profile display-label editing / r2 whole-shell delivery — PR #61, merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`.
 
 A direct profile-ID key swap is not sufficiently correct by itself. The shipped implementation also preserves intentionally unresolved historical roles, identity-independent historical totals/records, Local Profile display names as presentation only, read-only inactive-runtime profile presentation, coherent revision invalidation and Showdown-scoped Rivalry semantics.
 
@@ -338,14 +373,14 @@ Before Save Library cutover, canonical browser keys remain active Showdown + Leg
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the only destructive import Apply stage and continues to use `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority with transaction-owned mutation, ownership-scoped rollback, anti-clobber checks and exact verification.
 
-Current production Installable Offline App runtime remains `1.3.0-r1`. Candidate runtime `1.3.0-r2` uses r1 as its immediate previous whole shell.
+Current production Installable Offline App runtime is `1.3.0-r2`. Runtime `1.3.0-r1` is its immediate previous known-good whole shell.
 
 Locked performance ceilings remain eager raw <= 165000, eager gzip <= 37500, Reus portrait <= 95000, combined first-party startup <= 260000, normal loading minimum 2700 ms and reduced-motion loading 220 ms.
 
 Gameplay/scoring and accepted FIFA 17-inspired presentation remain unchanged.
 
-## Current branch boundary
+## Current clean boundary
 
-Identity-Safe Career Analytics remains complete, merged, deployed and production-proven. The active Local Profile display-label candidate is a narrow continuation above that sealed runtime and must not reopen its identity model.
+Identity-Safe Career Analytics and Local Profile display-label editing are complete, merged, deployed and production-proven.
 
-Until a candidate head passes exact local and PR proof, production authority remains `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6` and runtime feature authority remains `c5c7d50cc3a2d9003e057d1813744c877323c068`.
+Current runtime feature authority is merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`. No new substantial runtime candidate is authorized; completion of PR #61 authorizes no second roadmap area.

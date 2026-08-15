@@ -16,11 +16,15 @@ const releasePath = generation === 1 ? `RELEASE_V${version}.md` : `RELEASE_V${ve
 const handoffPath = generation === 1
     ? `CAREER_MODE_SHOWDOWN_V${version}_MAINTENANCE_HANDOFF.md`
     : `CAREER_MODE_SHOWDOWN_V${version}_R${generation}_MAINTENANCE_HANDOFF.md`;
+const proofPath = generation === 1
+    ? `V${version}_PRODUCTION_PROOF.md`
+    : `V${version}_R${generation}_PRODUCTION_PROOF.md`;
 A.ok(fs.existsSync(releasePath), `${releasePath} must exist for the active runtime.`);
 A.ok(fs.existsSync(handoffPath), `${handoffPath} must exist for the active runtime.`);
 
 const release = read(releasePath);
 const handoff = read(handoffPath);
+const proof = fs.existsSync(proofPath) ? read(proofPath) : "";
 const start = read("00_DEVELOPER_START_HERE.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const analyticsHandoff = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
@@ -58,8 +62,10 @@ if(candidate){
     A.match(changelogHead, new RegExp(`##\\s+v${version.replace(/\./g, "\\.")}`), "CHANGELOG must identify the current promoted application near the top.");
     A.ok(changelogHead.includes(revision), "CHANGELOG must identify the current promoted runtime near the top.");
     if(generation > 1){
-        A.match(changelogHead, new RegExp(`##\\s+v${version.replace(/\./g, "\\.")}\\s+runtime hotfix r${generation}\\s+—\\s+production`, "i"), "Runtime hotfix changelog heading must identify its generation and production status.");
-        A.ok(previousRuntime && changelogHead.includes(previousRuntime), "Runtime hotfix changelog must preserve its immediate previous whole-shell recovery target.");
+        A.match(changelogHead, new RegExp(`##\\s+v${version.replace(/\./g, "\\.")}\\s+runtime (?:maintenance|hotfix) r${generation}\\s+—\\s+production`, "i"), "Runtime maintenance changelog heading must identify its generation and production status.");
+        A.ok(previousRuntime && changelogHead.includes(previousRuntime), "Runtime maintenance changelog must preserve its immediate previous whole-shell recovery target.");
+        A.ok(proof, `${proofPath} must exist for promoted runtime maintenance.`);
+        A.ok(proof.includes(revision) && proof.includes(previousRuntime), `${proofPath} must preserve current and previous whole-shell identity.`);
     }
 }
 
@@ -134,20 +140,21 @@ A.match(start, /NEXT_TASK\.md[^\n]+sole primary owner of the current implementat
 A.match(start, /POST_V1_ROADMAP_EXECUTION\.md[^\n]+dependency direction and current roadmap classification/i, "Developer bootstrap must keep roadmap ownership distinct from implementation authorization.");
 A.match(start, /explicit cross-Save\/historical manager identity linkage foundation — PR #57/i, "Developer bootstrap must include the shipped fifth manager-identity layer.");
 A.match(start, /identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i, "Developer bootstrap must include the shipped Analytics layer rather than treating PR #59 as active branch work.");
+A.match(start, /presentation-only Local Profile display-label editing — PR #61/i, "Developer bootstrap must include the shipped Local Profile label layer.");
 A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail rather than another full project-state owner.");
 A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current production handoff must preserve the source-grounded Analytics identity finding that shaped the implementation.");
 A.match(currentHandoff, /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i, "Current handoff must retain the final PR #59 validation failure and classification evidence.");
 
 A.match(state, /Identity-Safe Career Analytics is therefore merged, deployed, exact-byte verified and technically production-proven/i, "PROJECT_STATE must own current production Analytics truth after PR #59 proof.");
-A.match(state, /Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`/i, "PROJECT_STATE must identify the exact production runtime feature merge.");
+A.match(state, /Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "PROJECT_STATE must identify the exact r2 production runtime feature merge.");
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
 A.match(state, /unresolved historical manager roles remaining explicit and never guessed from name similarity/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
 
-A.match(next, /later explicit owner continuation instruction[\s\S]+Local Profile display-label editing/i, "NEXT_TASK must identify the explicit later authorization and the one selected bounded candidate.");
+A.match(next, /Local Profile display-label candidate is closed as production-proven/i, "NEXT_TASK must close the explicit later-authorized candidate after proof.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /Stop this candidate when Local Profile display-label editing is exact-head validated, production-proven and authority-sealed/i, "NEXT_TASK must define a concrete stop after the one authorized candidate.");
-A.match(next, /Identity-Safe Career Analytics remains closed/i, "NEXT_TASK must keep completed Analytics closed while the later label candidate advances.");
-A.match(next, /Active candidate runtime: `1\.3\.0-r2`[\s\S]+Candidate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 candidate delivery identity without displacing r1 production truth prematurely.");
+A.match(next, /Stop with no runtime change until a later explicit owner instruction names a new bounded candidate/i, "NEXT_TASK must define a concrete clean stop after the authorized candidate.");
+A.match(next, /Local Profile display-label editing and Identity-Safe Career Analytics are closed/i, "NEXT_TASK must keep completed Analytics and label editing closed.");
+A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
@@ -155,7 +162,14 @@ A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODU
 A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
 A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Analytics completion must not advance cloud authorization.");
 A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Analytics completion must not weaken Cloud Backup dependency gates.");
-A.match(roadmap, /sole active runtime candidate is Local Profile display-label editing/i, "Roadmap must acknowledge the exact later candidate without authorizing a second area.");
+A.match(roadmap, /No new substantial runtime candidate is authorized/i, "Roadmap must expose the clean stop after label promotion.");
+
+A.match(proof, /Frozen candidate head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`/i, "R2 proof must retain the exact validated PR head.");
+A.match(proof, /Runtime merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "R2 proof must retain the exact runtime merge.");
+A.match(proof, /All 15 push\/deployment runs[\s\S]+deployed-site-smoke job `95036682319`/i, "R2 proof must retain exact production workflow and deployed smoke evidence.");
+A.match(proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof must retain the complete runtime-file byte match.");
+A.match(proof, /service-worker\.js[^\n]+exactly matches[\s\S]+manifest\.webmanifest[^\n]+exactly matches/i, "R2 proof must retain exact Service Worker and manifest deployment evidence.");
+A.match(proof, /public browser journey[\s\S]+profile_\*[^\n]+unchanged[\s\S]+saved Showdown manager label remained unchanged/i, "R2 proof must retain the public profile-label identity/history boundary.");
 
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must be explicitly closed after promotion.");
 A.match(analyticsHandoff, /Exact branch base:[\s\S]+8c6fad42e38b4964d848128e40569442c3fa06d5/i, "Closed Analytics handoff must preserve its exact verified branch base.");
@@ -172,4 +186,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; production truth, completed Identity-Safe Career Analytics, recovery ownership, the bounded Local Profile label candidate, cloud boundary, candidate stop and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed Identity-Safe Career Analytics and Local Profile label editing, recovery ownership, cloud boundary, clean stop and workflow topology agree.\n`);
