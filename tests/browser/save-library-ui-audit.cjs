@@ -94,7 +94,7 @@ async function corruptStateFailsClosed(runtime){
         assert.match(await panel.innerText(),/NO LOCAL DATA WAS CHANGED/i);
         assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),corrupt,"Blocked UI must preserve corrupt bytes exactly.");
         assert.equal(await page.evaluate(key=>localStorage.getItem(key),singletonKey),null,"Blocked UI must not fabricate singleton authority.");
-        assert.equal(await panel.locator(".saveLibrarySelectButton,.saveLibraryDeleteButton").count(),0,"Blocked state must expose no mutation controls.");
+        assert.equal(await panel.locator(".saveLibrarySelectButton,.saveLibraryDeleteButton,.saveLibraryProfileEditButton").count(),0,"Blocked state must expose no mutation controls.");
         await assertContained(page,"blocked mobile");
         assert.deepEqual(errors,[],`Blocked Save Library emitted page errors: ${errors.join(" | ")}`);
     }finally{await context.close();await browser.close();}
@@ -146,6 +146,79 @@ async function multiSaveJourney(runtime,config){
         assert.equal(await opened.panel.locator(".saveLibraryCard.isActive").count(),1,`${config.name}: exactly one active Save must be visible.`);
         await assertContained(page,`${config.name} multi-save`);
 
+        const editedProfileId=profileIds[0];
+        let profileCard=opened.panel.locator(`.saveLibraryProfileCard[data-profile-id="${editedProfileId}"]`);
+        const editButton=profileCard.locator(".saveLibraryProfileEditButton");
+        await editButton.focus();
+        await page.keyboard.press("Enter");
+        const labelInput=profileCard.locator(".saveLibraryProfileNameInput");
+        await labelInput.waitFor({state:"visible"});
+        assert.equal(await labelInput.evaluate(input=>input===document.activeElement),true,`${config.name}: profile label editor must receive keyboard focus when disclosed.`);
+        const rawBeforeInvalid=await page.evaluate(key=>localStorage.getItem(key),libraryKey);
+        await labelInput.fill("   ");
+        await page.keyboard.press("Enter");
+        assert.ok((await labelInput.evaluate(input=>input.validationMessage)).length>0,`${config.name}: whitespace-only profile labels must expose native validation feedback.`);
+        assert.equal(await page.evaluate(key=>localStorage.getItem(key),libraryKey),rawBeforeInvalid,`${config.name}: invalid profile labels must not write canonical storage.`);
+        await labelInput.fill("Canonical Profile Label");
+        await page.keyboard.press("Enter");
+        await page.waitForFunction(({key,profileId})=>{
+            const raw=localStorage.getItem(key);if(!raw)return false;
+            try{return JSON.parse(raw).profiles.some(profile=>profile.profileId===profileId&&profile.displayName==="Canonical Profile Label");}catch(error){return false;}
+        },{key:libraryKey,profileId:editedProfileId},{timeout:10000});
+        profileCard=opened.panel.locator(`.saveLibraryProfileCard[data-profile-id="${editedProfileId}"]`);
+        assert.equal((await profileCard.locator(".saveLibraryProfileName").innerText()).trim(),"CANONICAL PROFILE LABEL",`${config.name}: edited Local Profile label did not rerender.`);
+        await assertMutationFocusInsideDialog(page,`${config.name} profile label edit`);
+        assert.equal(await profileCard.locator(".saveLibraryProfileEditButton").evaluate(button=>button===document.activeElement),true,`${config.name}: profile edit rerender must restore focus to the exact stable-profile control.`);
+        const labelState=await page.evaluate(({key,profileId})=>{
+            const library=JSON.parse(localStorage.getItem(key));
+            return {
+                profiles:library.profiles.length,
+                profileIds:library.profiles.map(profile=>profile.profileId),
+                displayName:library.profiles.find(profile=>profile.profileId===profileId)?.displayName||"",
+                managerLabels:library.saves.flatMap(entry=>Object.values(entry.showdown.managers||{})),
+                refs:library.saves.flatMap(entry=>Object.values(entry.showdown.identity?.managerProfileIds||{}))
+            };
+        },{key:libraryKey,profileId:editedProfileId});
+        assert.equal(labelState.profiles,6,`${config.name}: editing one label must not create, merge or delete Local Profiles.`);
+        assert.equal(new Set(labelState.profileIds).size,6,`${config.name}: profile IDs changed during display-label editing.`);
+        assert.equal(labelState.displayName,"Canonical Profile Label");
+        assert.ok(labelState.managerLabels.every(name=>name==="Same Name"),`${config.name}: profile label editing rewrote a saved Showdown manager label.`);
+        assert.ok(labelState.refs.includes(editedProfileId),`${config.name}: edited profile lost its stable Save reference.`);
+        assert.ok((await opened.panel.locator(".saveLibraryIdentitySelect option").allTextContents()).some(text=>text.includes("Canonical Profile Label")),`${config.name}: explicit identity controls did not consume the updated profile presentation label.`);
+        assert.equal(await page.evaluate(async()=>{
+            await window.loadRuntimeScript("analytics-engine","js/analytics.js",()=>typeof window.getCareerAnalyticsRevisionKey==="function");
+            return window.getCareerAnalyticsRevisionKey().includes("Canonical Profile Label");
+        }),true,`${config.name}: Analytics revision authority did not consume the updated Local Profile presentation label.`);
+        await assertContained(page,`${config.name} profile label edit`);
+        await profileCard.locator(".saveLibraryProfileEditButton").click();
+        await profileCard.locator(".saveLibraryProfileEditForm").waitFor({state:"visible"});
+        await profileCard.locator(".saveLibraryProfileIdentity").scrollIntoViewIfNeeded();
+        const profileVisualLayout=await profileCard.evaluate(card=>{
+            const rect=value=>{const box=value.getBoundingClientRect();return{top:box.top,bottom:box.bottom,height:box.height};};
+            const scroller=document.getElementById("settingsContent");
+            const panel=card.closest(".saveLibraryProductPanel");
+            return {
+                card:rect(card),
+                identity:rect(card.querySelector(".saveLibraryProfileIdentity")),
+                name:rect(card.querySelector(".saveLibraryProfileName")),
+                editor:rect(card.querySelector(".saveLibraryProfileEditor")),
+                form:rect(card.querySelector(".saveLibraryProfileEditForm")),
+                panel:rect(panel),
+                nextPanel:panel.nextElementSibling?rect(panel.nextElementSibling):null,
+                scroller:rect(scroller),
+                scrollTop:scroller.scrollTop
+            };
+        });
+        for(const [part,box] of Object.entries(profileVisualLayout)){
+            if(!box||part==="panel"||part==="nextPanel"||part==="scroller"||part==="scrollTop")continue;
+            assert.ok(box.top>=profileVisualLayout.card.top-1&&box.bottom<=profileVisualLayout.card.bottom+1,`${config.name}: ${part} escaped the profile card's vertical layout box.`);
+        }
+        assert.ok(profileVisualLayout.card.top>=profileVisualLayout.panel.top-1&&profileVisualLayout.card.bottom<=profileVisualLayout.panel.bottom+1,`${config.name}: the edited profile card escaped its Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
+        assert.ok(!profileVisualLayout.nextPanel||profileVisualLayout.nextPanel.top>=profileVisualLayout.panel.bottom-1,`${config.name}: the next Settings panel overlapped the Save Library panel (${JSON.stringify(profileVisualLayout)}).`);
+        const profileScreenshotPath=path.join(resultsDirectory,`save-library-profile-label-${config.name}-${runLabel}.png`);
+        await page.screenshot({path:profileScreenshotPath});
+        await profileCard.locator(".saveLibraryProfileCancelButton").click();
+
         const target=opened.panel.locator(".saveLibraryCard:not(.isActive)").first();
         const targetId=await target.getAttribute("data-save-id");
         await target.locator(".saveLibrarySelectButton").click();
@@ -194,7 +267,7 @@ async function multiSaveJourney(runtime,config){
         await page.screenshot({path:screenshotPath,fullPage:true});
         await assertContained(page,`${config.name} final`);
         assert.deepEqual(errors,[],`${config.name}: Save Library emitted page/console errors: ${errors.join(" | ")}`);
-        return{case:config.name,saves:1,profiles:6,activeSaveId:remainingId,screenshot:screenshotPath};
+        return{case:config.name,saves:1,profiles:6,editedProfileId,activeSaveId:remainingId,profileVisualLayout,profileScreenshot:profileScreenshotPath,screenshot:screenshotPath};
     }finally{await context.close();await browser.close();}
 }
 
@@ -207,5 +280,5 @@ async function multiSaveJourney(runtime,config){
     evidence.push(await multiSaveJourney(runtime,{name:"mobile-reduced",viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,reducedMotion:true}));
     const resultPath=path.join(resultsDirectory,`save-library-ui-${runLabel}.json`);
     fs.writeFileSync(resultPath,JSON.stringify({runLabel,baseUrl:baseUrl.href,evidence},null,2));
-    console.log("Save Library browser audit passed: compatibility stays non-mutating, corrupt authority fails closed, additive saves switch/reload/delete safely, mutation rerenders retain keyboard focus inside Settings, equal manager names remain separate profiles, and Chromebook/mobile containment is protected.");
+    console.log("Save Library browser audit passed: compatibility stays non-mutating, corrupt authority fails closed, additive saves switch/reload/delete safely, Local Profile labels edit without rewriting Showdown names or stable identity, mutation rerenders retain keyboard focus inside Settings, equal manager names remain separate profiles, and Chromebook/mobile containment is protected.");
 })().catch(error=>{console.error(error);process.exitCode=1;});

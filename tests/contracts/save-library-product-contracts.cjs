@@ -15,9 +15,11 @@ assert.ok(source.showdown.includes('label.textContent="SAVE LIBRARY"')&&source.s
 assert.ok(source.ui.includes("function saveLibraryUIRestoreMutationFocus")&&source.ui.includes("saveLibraryUIRestoreMutationFocus(saveId)")&&source.ui.includes('saveLibraryUIRestoreMutationFocus(result.activeSaveId||"")'),"Save Library switch/delete rerenders must restore focus inside the established Settings dialog rather than creating a competing modal key handler.");
 assert.ok(source.ui.includes("captureCareerModeRawSaveLibraryMigrationSnapshot"),"The visible product must use the established exact read authority when deciding empty, compatibility, ready or blocked state.");
 assert.ok(source.ui.includes("Names are labels, not identity keys"),"Local Profiles must explain that equal display names do not merge stable identity.");
+assert.ok(source.ui.includes("Editing a display label never rewrites saved or historical Showdown manager names")&&source.ui.includes("EDIT DISPLAY LABEL"),"Local Profile editing must expose its presentation-only boundary in the existing Save Library surface.");
 assert.ok(source.ui.includes("DELETE THIS SAVE")&&source.ui.includes("Other local Saves, Local Profiles, Legacy history and app settings remain"),"Single-Save deletion must be visibly distinct from full reset.");
 assert.ok(!source.showdown.includes("replace the active save"),"New Showdown creation must no longer present the retired destructive singleton-replacement model.");
-assert.ok(source.runtime.includes("runtimeAppendSaveEntry")&&source.runtime.includes("switchActiveSave:runtimeSwitchActiveSave")&&source.runtime.includes("deleteSave:runtimeDeleteSave"),"The visible product must consume one established Save Library runtime rather than inventing UI persistence.");
+assert.ok(source.runtime.includes("runtimeAppendSaveEntry")&&source.runtime.includes("switchActiveSave:runtimeSwitchActiveSave")&&source.runtime.includes("deleteSave:runtimeDeleteSave")&&source.runtime.includes("updateProfileDisplayName:runtimeUpdateProfileDisplayName"),"The visible product must consume one established Save Library runtime rather than inventing UI persistence.");
+assert.ok(source.ui.includes('input.required=true')&&source.ui.includes('edit.setAttribute("aria-expanded","false")'),"Profile label editing must retain native required-input validation and explicit disclosure state.");
 assert.ok(source.worker.includes('"css/saveLibrary.css"')&&source.worker.includes('"js/saveLibraryUI.js"'),"Visible Save Library lazy assets must belong to the verified Installable Offline App shell.");
 assert.ok(source.css.includes("@media(max-width:760px)")&&source.css.includes("@media(prefers-reduced-motion:reduce)"),"Save Library presentation must retain explicit phone and reduced-motion containment.");
 
@@ -99,8 +101,60 @@ async function productMutationsFailClosedOnAuthorityDrift(){
   assert.equal(second.identity.saveId!==first.identity.saveId,true);
 }
 
+async function profileDisplayLabelEditingPreservesIdentityAndHistory(){
+  const runtime=createRuntime();
+  await runtime.api.activate();
+  const prepared=await runtime.api.createShowdown(showdown("profile-label-history","Profile Label History","Original Manager","Historical Rival"));
+  const profileId=prepared.identity.managerProfileIds.playerOne;
+  runtime.context.currentShowdown=structuredClone(prepared);
+  runtime.context.currentShowdown.status="Completed";
+  runtime.context.currentShowdown.completedAt="2026-08-14T03:00:00.000Z";
+  assert.equal(runtime.api.saveCurrentShowdown(),true);
+  assert.equal(runtime.api.archiveShowdown(runtime.context.currentShowdown),true);
+
+  const before=runtime.api.getLibrarySnapshot();
+  const beforeRefs=structuredClone(before.saves[0].showdown.identity.managerProfileIds);
+  const legacyBefore=runtime.raw("legacyShowdowns");
+  runtime.clearWrites();
+  const renamed=runtime.api.updateProfileDisplayName(profileId,"  Canonical Profile Label  ");
+  assert.equal(renamed.ok,true);
+  assert.equal(renamed.changed,true);
+  assert.equal(renamed.profileId,profileId);
+  assert.equal(renamed.displayName,"Canonical Profile Label");
+
+  const after=runtime.api.getLibrarySnapshot();
+  const profile=after.profiles.find(item=>item.profileId===profileId);
+  assert.equal(profile.displayName,"Canonical Profile Label","Profile display labels must trim outer whitespace before commit.");
+  assert.deepEqual(after.saves[0].showdown.identity.managerProfileIds,beforeRefs,"Profile label editing must not change stable manager identity references.");
+  assert.equal(after.saves[0].showdown.managers.playerOne,"Original Manager","Profile label editing must not rewrite the local Showdown manager label.");
+  assert.equal(runtime.context.currentShowdown.managers.playerOne,"Original Manager","Profile label editing must not rewrite the in-memory active Showdown label.");
+  assert.equal(runtime.raw("legacyShowdowns"),legacyBefore,"Profile label editing must preserve Legacy bytes exactly.");
+  assert.equal(JSON.parse(legacyBefore)[0].managers.playerOne,"Original Manager","Historical manager presentation must remain unchanged.");
+  assert.equal(runtime.raw("activeShowdown"),null,"Profile label editing must never resurrect singleton authority.");
+
+  runtime.clearWrites();
+  const unchanged=runtime.api.updateProfileDisplayName(profileId,"Canonical Profile Label");
+  assert.equal(unchanged.changed,false,"Saving the current profile label must be an explicit no-op.");
+  assert.deepEqual(runtime.writes,[],"An unchanged profile label must perform no canonical write.");
+  assert.throws(()=>runtime.api.updateProfileDisplayName(profileId,"   "),/cannot be empty/i);
+  assert.deepEqual(runtime.writes,[],"An empty profile label must be rejected before any canonical write.");
+
+  const stale=createRuntime();
+  await stale.api.activate();
+  const stalePrepared=await stale.api.createShowdown(showdown("profile-label-stale","Profile Label Stale","Stale Manager","Rival"));
+  const staleProfile=stalePrepared.identity.managerProfileIds.playerOne;
+  const external=JSON.parse(stale.raw("saveLibrary"));
+  external.externalRevision="another-tab";
+  stale.values.set(keys.saveLibrary,JSON.stringify(external));
+  stale.clearWrites();
+  assert.throws(()=>stale.api.updateProfileDisplayName(staleProfile,"Blocked Label"),/changed in another tab or operation/i);
+  assert.deepEqual(stale.writes,[],"A stale profile-label edit must fail closed before any canonical write.");
+  assert.equal(stale.api.isReady(),false);
+}
+
 (async()=>{
   await additiveCreateSwitchDeleteAndProfileIdentity();
   await productMutationsFailClosedOnAuthorityDrift();
-  console.log("Save Library product contracts passed: Home discoverability, mutation focus ownership, additive multi-save creation, explicit active switching, scoped deletion, detached UI snapshots, same-name identity separation, singleton non-resurrection and stale-authority fail-closed behavior are protected.");
+  await profileDisplayLabelEditingPreservesIdentityAndHistory();
+  console.log("Save Library product contracts passed: Home discoverability, mutation focus ownership, additive multi-save creation, explicit active switching, scoped deletion, presentation-only Local Profile editing, detached UI snapshots, same-name identity separation, singleton non-resurrection and stale-authority fail-closed behavior are protected.");
 })().catch(error=>{console.error(error);process.exit(1);});

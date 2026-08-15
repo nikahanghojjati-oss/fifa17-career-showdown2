@@ -123,6 +123,15 @@
         if(typeof target.focus==="function")target.focus({preventScroll:true});
     }
 
+    function saveLibraryUIRestoreProfileFocus(profileId){
+        const panel=document.getElementById("saveLibraryProductPanel");
+        const dialog=document.getElementById("settingsDialog");
+        if(!panel||!dialog)return;
+        const card=Array.from(panel.querySelectorAll(".saveLibraryProfileCard")).find(item=>item.dataset.profileId===profileId);
+        const target=(card&&card.querySelector(".saveLibraryProfileEditButton"))||panel.querySelector(".saveLibraryProfileEditButton")||dialog;
+        if(typeof target.focus==="function")target.focus({preventScroll:true});
+    }
+
     async function saveLibraryUISwitch(saveId,button){
         if(saveLibraryUIBusy)return;
         const runtime=root.CareerModeSaveLibraryRuntime;
@@ -217,6 +226,95 @@
         return card;
     }
 
+    async function saveLibraryUIUpdateProfileDisplayName(profile,input,button){
+        if(saveLibraryUIBusy)return;
+        const runtime=root.CareerModeSaveLibraryRuntime;
+        if(!runtime||typeof runtime.updateProfileDisplayName!=="function"){
+            saveLibraryUIShowNotice("Local Profile display-label editing is unavailable in this session.");
+            return;
+        }
+        const displayName=input.value.trim();
+        input.setCustomValidity(displayName?"":"Enter a display label for this Local Profile.");
+        if(!input.reportValidity())return;
+
+        saveLibraryUIBusy=true;
+        input.disabled=true;
+        button.disabled=true;
+        button.setAttribute("aria-busy","true");
+        try{
+            const result=await runtime.updateProfileDisplayName(profile.profileId,displayName);
+            if(!result||result.ok!==true)throw new Error("The Save Library did not confirm the profile-label change.");
+            saveLibraryUIShowNotice(result.changed
+                ?"Local Profile label updated. Saved and historical Showdown names stayed unchanged."
+                :"That Local Profile label is already current.","success");
+            saveLibraryUIRender();
+            saveLibraryUIRestoreProfileFocus(profile.profileId);
+        }catch(error){
+            saveLibraryUIShowNotice(`The Local Profile label was not changed. ${error&&error.message?error.message:"No saved data was changed."}`);
+            if(input.isConnected)input.focus({preventScroll:true});
+        }finally{
+            saveLibraryUIBusy=false;
+            if(input.isConnected)input.disabled=false;
+            if(button.isConnected){button.disabled=false;button.removeAttribute("aria-busy");}
+        }
+    }
+
+    function saveLibraryUICreateProfileEditor(profile){
+        const editor=saveLibraryUIElement("div","saveLibraryProfileEditor");
+        const formId=`profile-label-${profile.profileId}`;
+        const edit=saveLibraryUIElement("button","compactButton saveLibraryProfileEditButton","EDIT DISPLAY LABEL");
+        edit.type="button";
+        edit.setAttribute("aria-expanded","false");
+        edit.setAttribute("aria-controls",formId);
+
+        const form=document.createElement("form");
+        form.id=formId;
+        form.className="saveLibraryProfileEditForm";
+        form.hidden=true;
+        const inputId=`profile-label-input-${profile.profileId}`;
+        const helpId=`profile-label-help-${profile.profileId}`;
+        const label=saveLibraryUIElement("label","",`DISPLAY LABEL FOR PROFILE ${saveLibraryUIShortIdentity(profile.profileId)}`);
+        label.htmlFor=inputId;
+        const input=document.createElement("input");
+        input.id=inputId;
+        input.className="saveLibraryProfileNameInput";
+        input.type="text";
+        input.value=profile.displayName||"";
+        input.required=true;
+        input.autocomplete="off";
+        input.setAttribute("aria-describedby",helpId);
+        input.addEventListener("input",()=>input.setCustomValidity(""));
+        const help=saveLibraryUIElement("small","saveLibraryProfileEditHelp","Updates this Local Profile label only. Saved and historical Showdown manager names stay unchanged.");
+        help.id=helpId;
+        const actions=saveLibraryUIElement("div","saveLibraryProfileEditActions");
+        const save=saveLibraryUIElement("button","compactButton saveLibraryProfileSaveButton","SAVE LABEL");
+        save.type="submit";
+        const cancel=saveLibraryUIElement("button","compactButton saveLibraryProfileCancelButton","CANCEL");
+        cancel.type="button";
+        actions.append(save,cancel);
+        form.append(label,input,help,actions);
+
+        edit.addEventListener("click",()=>{
+            const opening=form.hidden;
+            form.hidden=!opening;
+            edit.setAttribute("aria-expanded",String(opening));
+            if(opening){input.focus({preventScroll:true});input.select();}
+        });
+        cancel.addEventListener("click",()=>{
+            input.value=profile.displayName||"";
+            input.setCustomValidity("");
+            form.hidden=true;
+            edit.setAttribute("aria-expanded","false");
+            edit.focus({preventScroll:true});
+        });
+        form.addEventListener("submit",event=>{
+            event.preventDefault();
+            saveLibraryUIUpdateProfileDisplayName(profile,input,save);
+        });
+        editor.append(edit,form);
+        return editor;
+    }
+
     function saveLibraryUICreateProfiles(library){
         const section=saveLibraryUIElement("section","saveLibraryProfiles");
         const heading=saveLibraryUIElement("div","saveLibrarySubheading");
@@ -224,7 +322,7 @@
             saveLibraryUIElement("span","","LOCAL PROFILES"),
             saveLibraryUIElement("h4","","MANAGER IDENTITIES")
         );
-        const note=saveLibraryUIElement("p","saveLibraryProfileNote","Names are labels, not identity keys. Two managers can use the same visible name and still remain separate Local Profiles.");
+        const note=saveLibraryUIElement("p","saveLibraryProfileNote","Names are labels, not identity keys. Two managers can use the same visible name and still remain separate Local Profiles. Editing a display label never rewrites saved or historical Showdown manager names.");
         const grid=saveLibraryUIElement("div","saveLibraryProfileGrid");
         const profiles=Array.isArray(library.profiles)?library.profiles:[];
         for(const profile of profiles){
@@ -236,8 +334,9 @@
             card.dataset.profileId=profile.profileId;
             card.append(
                 saveLibraryUIElement("span","saveLibraryProfileIdentity",`PROFILE ${saveLibraryUIShortIdentity(profile.profileId)}`),
-                saveLibraryUIElement("strong","",profile.displayName||"Unnamed Manager"),
-                saveLibraryUIElement("small","",references?`Linked by stable identity to ${references} local Save${references===1?"":"s"}`:"Retained local identity · no current Save link")
+                saveLibraryUIElement("strong","saveLibraryProfileName",profile.displayName||"Unnamed Manager"),
+                saveLibraryUIElement("small","",references?`Linked by stable identity to ${references} local Save${references===1?"":"s"}`:"Retained local identity · no current Save link"),
+                saveLibraryUICreateProfileEditor(profile)
             );
             grid.appendChild(card);
         }

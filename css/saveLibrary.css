@@ -1,4 +1,4 @@
-.saveLibraryProductPanel{border-top:6px solid var(--f17-yellow)!important;background:linear-gradient(145deg,rgba(247,249,249,.99),rgba(229,236,239,.98))!important;overflow:hidden;}
+.saveLibraryProductPanel{border-top:6px solid var(--f17-yellow)!important;background:linear-gradient(145deg,rgba(247,249,249,.99),rgba(229,236,239,.98))!important;overflow:clip;}
 .saveLibraryHeading{position:relative;padding-right:clamp(14px,8vw,130px);}
 .saveLibraryHeading::after{content:"17";position:absolute;right:10px;top:-12px;color:rgba(31,67,88,.08);font:800 clamp(58px,9vw,108px)/1 var(--f17-display);letter-spacing:-4px;pointer-events:none;}
 .saveLibrarySummary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:16px 0 10px;}
@@ -17,7 +17,7 @@
 .saveLibraryManagers{margin-bottom:12px;color:#3d5260;font:700 13px/1.2 var(--f17-ui);overflow-wrap:anywhere;}
 .saveLibraryFacts{display:grid;gap:1px;background:#d3dde1;border:1px solid #d3dde1;}
 .saveLibraryFact{min-width:0;display:grid;grid-template-columns:92px minmax(0,1fr);gap:8px;align-items:center;padding:7px 8px;background:#eef3f4;}
-.saveLibraryFact span{color:#667681;font:700 8px/1 var(--f17-display);letter-spacing:1px;}
+.saveLibraryFact span{color:#596a75;font:700 8px/1 var(--f17-display);letter-spacing:1px;}
 .saveLibraryFact strong{min-width:0;color:var(--f17-ink);font-size:11px;line-height:1.25;overflow-wrap:anywhere;}
 .saveLibraryActions{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:stretch;margin-top:12px;}
 .saveLibraryActions .menuButton{min-height:46px;font-size:13px;}
@@ -32,6 +32,15 @@
 .saveLibraryProfileCard:nth-child(even){border-left-color:var(--f17-yellow-deep);}
 .saveLibraryProfileCard strong{display:block;margin-top:5px;font:800 20px/.95 var(--f17-display);text-transform:uppercase;overflow-wrap:anywhere;}
 .saveLibraryProfileCard small{display:block;margin-top:5px;color:#596a75;font-size:9px;line-height:1.35;}
+.saveLibraryProfileEditor{margin-top:10px;padding-top:9px;border-top:1px solid rgba(47,76,93,.15);}
+.saveLibraryProfileEditButton{width:100%;min-height:44px;}
+.saveLibraryProfileEditForm{display:grid;gap:7px;margin-top:8px;}
+.saveLibraryProfileEditForm[hidden]{display:none;}
+.saveLibraryProfileEditForm label{color:#365264;font:800 9px/1.2 var(--f17-display);letter-spacing:1px;}
+.saveLibraryProfileNameInput{width:100%;min-width:0;min-height:44px;padding:9px 10px;border:1px solid #aebec6;background:#fff;color:var(--f17-ink);font:700 13px/1.2 var(--f17-ui);}
+.saveLibraryProfileEditHelp{margin-top:0!important;}
+.saveLibraryProfileEditActions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;}
+.saveLibraryProfileEditActions .compactButton{width:100%;min-width:0;min-height:44px;}
 .saveLibraryIdentityGroupHeading{margin:15px 0 7px;color:#365264;font:800 12px/1 var(--f17-display);letter-spacing:1.5px;}
 .saveLibraryIdentityGroup{display:grid;gap:8px;}
 .saveLibraryIdentitySource{min-width:0;padding:12px;background:#f8fafa;border-left:5px solid var(--f17-blue);box-shadow:var(--f17-shadow-soft);}
@@ -62,6 +71,7 @@
     .saveLibraryCard,.saveLibraryIdentitySource,.saveLibraryEmptyState,.saveLibraryCompatibilityState,.saveLibraryBlockedState{padding:13px 12px;}
     .saveLibraryHeading{padding-right:0;}
     .saveLibraryHeading::after{display:none;}
+    .saveLibraryProfileEditActions{grid-template-columns:1fr;}
 }
 @media(prefers-reduced-motion:reduce){
     .saveLibraryProductPanel *{scroll-behavior:auto!important;}

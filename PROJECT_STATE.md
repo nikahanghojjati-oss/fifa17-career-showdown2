@@ -1,6 +1,6 @@
 # PROJECT STATE — Career Mode Showdown
 
-Last updated: 2026-08-14 ET
+Last updated: 2026-08-15 ET
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name.
 
@@ -16,6 +16,16 @@ Current feature release version: intentionally unassigned
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 The original v1.3 release remains the whole-shell baseline. Later Local Profiles / Save Library, explicit manager-identity linkage and Identity-Safe Career Analytics advanced production functionality without assigning a new application, feature or Service Worker release identity.
+
+## Active release candidate above production
+
+One later explicit owner continuation authorized the bounded Local Profile display-label editing candidate on branch `agent/local-profile-display-label-edit`, based exactly on sealed production main `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`.
+
+Candidate runtime: `1.3.0-r2`
+Candidate previous known-good whole shell: `1.3.0-r1`
+Candidate status: not production; exact-head validation and deployed proof pending
+
+The candidate changes only `profile.displayName` through existing Save Library authority. Stable IDs and saved/in-memory/Legacy Showdown manager labels remain unchanged. The runtime revision advances because changed JavaScript/CSS must install as one new atomic PWA shell; application version remains v1.3.0 and Service Worker behavior is unchanged.
 
 ## Completed local identity and Analytics chain
 
@@ -165,6 +175,6 @@ Only 0–0 invokes league position and then league points.
 
 The owner-authorized Identity-Safe Career Analytics candidate is complete, merged, deployed and production-proven.
 
-No new substantial runtime/product candidate is automatically authorized by this completion. Backup portability, profile editing, broader Analytics 2.0, Legacy/Achievements expansion, optional content and cloud/network work remain separately bounded future areas.
+Exactly one newer candidate is authorized: Local Profile display-label editing under `NEXT_TASK.md`. It is not production authority until exact-head CI, expected-head merge and deployed proof succeed.
 
-Do not begin another runtime feature unless `NEXT_TASK.md` or a later explicit owner instruction authorizes one.
+No second candidate is authorized. Backup portability, profile merge/delete or generic CRUD, broader Analytics 2.0, Legacy/Achievements expansion, optional content and cloud/network work remain separately bounded future areas.
