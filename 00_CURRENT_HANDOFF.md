@@ -4,17 +4,47 @@ Last updated: 2026-08-15 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. Release and frozen proof documents remain evidence for the release/candidate they name.
+This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns the development-environment assessment protocol. Release and frozen proof documents remain evidence for the release/candidate they name.
+
+## Repository Work Environment Continuity installation
+
+The owner explicitly authorized a repository-native system that tracks observable context pressure, reliability signals, available usage evidence, handoff readiness and the ramp-up cost of changing Work environments. The system must alert before a fresh environment becomes the safer choice and generate a complete ready-to-paste handoff.
+
+The bounded installation is development-process infrastructure only. It adds root bootstrap instructions, a permanent protocol, a machine-readable current status, append-only history, a deterministic evaluator/prompt generator and repository contracts. It does not modify or authorize the Career Mode Showdown website runtime.
+
+Verified pre-installation production boundary: `1b5f87e69d040ae041195f687f3bd90e4c74dad1` on live `main`.
+
+Installation branch: `agent/work-environment-continuity-system`.
+
+Current recorded assessment: `HANDOFF_AT_CHECKPOINT`. Observable context pressure is high, usage is honestly unknown, quality risk is low and the next work would be a separate milestone. Complete publication of this bounded system, give the owner `npm run work:handoff` output and begin no further substantial task in this environment.
+
+Future environments must read `AGENTS.md`, validate `WORK_ENVIRONMENT_STATUS.json`, run `npm run work:assess`, update the record at meaningful checkpoints and obey the safe-boundary decision. Publication identifiers in this paragraph are not predicted; fetch current GitHub and reconstruct the exact final PR/merge/workflow state.
+
+Retained installation-validation evidence: the first combined local command was blocked before execution by the Work approval layer with `network approval was cancelled`, so it was not counted as a test result. Direct exact-owner execution then exposed one documentation contract mismatch: the golden policy referenced the underscored protocol filename but omitted the human-readable system name required for consistent discovery. The heading was corrected without changing scoring or runtime behavior; the focused contract and complete suite passed on rerun.
+
+The first JSON assessment also exposed a reporting defect: generic trimming of raw Git porcelain output removed the leading status column and therefore the first character of the first changed filename. The collector now preserves the raw columns, treats unavailable divergence as unknown rather than zero and has a focused parser regression scenario. This affected diagnostic display only; it did not mutate Git or product runtime.
+
+Inspection of that parser edit found a duplicate local declaration before syntax or contract reruns. It was removed immediately and never entered a candidate commit. This was an implementation edit defect, not runtime behavior.
+
+### Current continuity-system local proof
+
+- `npm run work:continuity:validate`: pass;
+- focused deterministic continuity scenarios: pass for low-risk continuation, high-context checkpoint handoff, explicit-warning and <=10% usage handoff, atomic safe-boundary protection, missing-record transition cost, honest unknown usage, Git porcelain parsing and prompt completeness;
+- all 29 repository contract files after the explicit static release contract: pass;
+- complete repository JavaScript/CJS/MJS syntax scan: pass;
+- `git diff --check`: pass;
+- website runtime path diff against verified base `1b5f87e69d040ae041195f687f3bd90e4c74dad1`: empty.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
 1. verify live production still descends from runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` or reconstruct every newer change before proceeding;
-2. verify PR #61, the r2 production proof, open PRs/branches/releases, current tests and deployed Pages before trusting any recorded state;
-3. preserve guarded Local Profile display-label editing, stable identity, unchanged Showdown/Legacy presentation, recovery, offline behavior, gameplay, visuals and performance locks;
-4. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
-5. keep this rolling handoff current when repository state changes, but do not manufacture a roadmap assignment.
+2. read and execute the repository Work Environment Continuity loop, replacing a closed/prior status with a fresh environment record;
+3. verify PR #61, the r2 production proof, open PRs/branches/releases, current tests and deployed Pages before trusting any recorded state;
+4. preserve guarded Local Profile display-label editing, stable identity, unchanged Showdown/Legacy presentation, recovery, offline behavior, gameplay, visuals and performance locks;
+5. if no later explicit owner instruction authorizes a bounded candidate, make no runtime mutation;
+6. keep this rolling handoff and continuity status current when repository state changes, but do not manufacture a roadmap assignment.
 
 Do not reopen display-label editing or begin Showdown/Legacy label rewriting, profile merge/delete, standalone profile creation, backup portability, broader Analytics 2.0, Legacy/Achievements, optional content, cloud, gameplay or Service Worker behavior changes without a later explicit owner instruction.
 
