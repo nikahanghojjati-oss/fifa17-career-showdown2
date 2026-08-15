@@ -7,25 +7,25 @@ This file is the primary owner of current deployed product state. `NEXT_TASK.md`
 ## Production authority
 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Installable Offline App runtime label: `1.3.0-r1`
-Immediate previous known-good whole shell: `1.2.0-r2`
+Installable Offline App runtime label: `1.3.0-r2`
+Immediate previous known-good whole shell: `1.3.0-r1`
 Production status: merged, deployed, exact-byte verified and technically production-proven
-Current production runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
-Validated PR #59 final head: `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1`
+Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
+Validated PR #61 final head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`
 Current feature release version: intentionally unassigned
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-The original v1.3 release remains the whole-shell baseline. Later Local Profiles / Save Library, explicit manager-identity linkage and Identity-Safe Career Analytics advanced production functionality without assigning a new application, feature or Service Worker release identity.
+The application milestone remains v1.3.0. Later Local Profiles / Save Library, explicit manager-identity linkage and Identity-Safe Career Analytics advanced production functionality without assigning a new application feature version. Runtime maintenance r2 now gives the changed Save Library JavaScript/CSS a coherent whole-shell installed-app identity while retaining r1 as the immediate recovery predecessor.
 
-## Active release candidate above production
+## Local Profile display-label production maintenance
 
-One later explicit owner continuation authorized the bounded Local Profile display-label editing candidate on branch `agent/local-profile-display-label-edit`, based exactly on sealed production main `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`.
+The bounded Local Profile display-label candidate was based exactly on sealed production main `eee3b0c62be4d023b7d83fb22447d37db8a8b9b6`, validated on frozen head `cfedec8dccde51a7a9932a1bd3a92cc91514e579`, and merged through PR #61 with expected-head protection to `67095a02188ebd246da0d0f2cd61158b8e9e504e`.
 
-Candidate runtime: `1.3.0-r2`
-Candidate previous known-good whole shell: `1.3.0-r1`
-Candidate status: not production; exact-head validation and deployed proof pending
+Production runtime: `1.3.0-r2`
+Immediate previous known-good whole shell: `1.3.0-r1`
+Status: merged, deployed, exact-byte verified and technically production-proven
 
-The candidate changes only `profile.displayName` through existing Save Library authority. Stable IDs and saved/in-memory/Legacy Showdown manager labels remain unchanged. The runtime revision advances because changed JavaScript/CSS must install as one new atomic PWA shell; application version remains v1.3.0 and Service Worker behavior is unchanged.
+Production changes only `profile.displayName` through existing Save Library authority. Stable IDs and saved/in-memory/Legacy Showdown manager labels remain unchanged. Same-name profiles remain legal and separate. Invalid input fails before write, unchanged input is a no-op, and Analytics/Trophy/identity-link presentation consumes the updated label without changing identity. Application version remains v1.3.0 and Service Worker behavior is unchanged.
 
 ## Completed local identity and Analytics chain
 
@@ -35,8 +35,9 @@ The candidate changes only `profile.displayName` through existing Save Library a
 4. Visible Local Profiles / Save Library Core UI — PR #53, merge `9c648d10e869a56de54e0fa98c30cf2d2e5d05aa`.
 5. Explicit cross-Save/historical manager identity linkage foundation — PR #57, merge `95e98c13bbb4cac485531565c3577ae31286d0af`.
 6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59, merge `c5c7d50cc3a2d9003e057d1813744c877323c068`.
+7. Local Profile display-label editing and r2 whole-shell delivery — PR #61, merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`.
 
-All six layers are shipped and production-proven. Do not describe Save Library, stable Local Profile identity, explicit manager linkage or identity-safe longitudinal Career Analytics as unfinished foundation work.
+All seven layers are shipped and production-proven. Do not describe Save Library, stable Local Profile identity, explicit manager linkage, identity-safe longitudinal Career Analytics or display-label editing as unfinished foundation work.
 
 ## Identity-Safe Career Analytics state
 
@@ -50,6 +51,7 @@ Production behavior includes:
 - unresolved roles excluded only from identity-dependent manager totals, leaderboards, cabinets and comparisons;
 - identity-independent completed Showdown/Season totals, points, trophies and Showdown/Season-scoped records remaining complete even when identity is unresolved;
 - Local Profile `displayName` remaining presentation only;
+- Local Profile `displayName` being user-editable through exact guarded Save Library mutation authority without rewriting Showdown or Legacy labels;
 - Career Statistics and Trophy Room consuming the same stable-identity Analytics authority;
 - Local Profile presentation remaining available through existing read-only exact Save Library snapshot authority even before Save Library mutation runtime activation;
 - Analytics/Trophy Room revisioning incorporating identity and Local Profile presentation state so explicit mapping or label changes invalidate stale derived presentation;
@@ -83,6 +85,16 @@ On that exact runtime merge:
 
 Identity-Safe Career Analytics is therefore merged, deployed, exact-byte verified and technically production-proven.
 
+## Exact PR #61 and r2 production proof
+
+PR #61 exact frozen head `cfedec8dccde51a7a9932a1bd3a92cc91514e579` passed all 13 normal pull-request workflow families. The independent promotion gate verified unchanged base/head, clean mergeability, zero submitted reviews, zero comments and zero unresolved review threads.
+
+Expected-head merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` passed all 15 exact-merge push/deployment runs with zero failures or cancellations. Pages run `31894832195`, deployment `5922244376`, Release Integration Burn-In `31894832592`, Stability `31894832637` and deployed-site-smoke job `95036682319` all succeeded.
+
+Independent deployed verification matched 71 runtime files plus `service-worker.js` and `manifest.webmanifest` byte for byte. A public browser journey verified runtime `1.3.0-r2`, guarded profile-label editing, whitespace-only rejection, stable `profile_*`/`save_*` identity, unchanged saved Showdown manager presentation and coherent identity-link presentation.
+
+`V1.3.0_R2_PRODUCTION_PROOF.md` owns the frozen release evidence.
+
 ## Visible Save Library and identity-link product state
 
 Current production still includes:
@@ -94,6 +106,7 @@ Current production still includes:
 - one explicit `activeSaveId`;
 - stable-ID switching and exact one-Save deletion;
 - visible Local Profiles;
+- guarded presentation-only Local Profile display-label editing;
 - same-name profiles remaining separate stable identities;
 - profiles retained after Save deletion;
 - explicit reuse of an existing Local Profile across Save manager roles;
@@ -139,8 +152,8 @@ The current v1 backup envelope still projects the active Save rather than serial
 
 ## Installable Offline App state
 
-Whole-shell label remains exactly `1.3.0-r1`.
-Previous known-good whole shell remains `1.2.0-r2`.
+Whole-shell label remains exactly `1.3.0-r2`.
+Previous known-good whole shell remains `1.3.0-r1`.
 
 Service Worker and Cache Storage own application bytes only, never canonical user data. Preserve verified cache population, explicit update activation, current/previous whole-shell recovery and installed-app behavior.
 
@@ -148,14 +161,14 @@ Service Worker and Cache Storage own application bytes only, never canonical use
 
 Locked ceilings remain unchanged:
 
-- eager raw `162781` <= `165000` bytes
-- eager gzip `37415` <= `37500` bytes
+- eager raw `162782` <= `165000` bytes
+- eager gzip `37416` <= `37500` bytes
 - Reus startup portrait `88492` <= `95000` bytes
-- combined first-party startup `251273` <= `260000` bytes
+- combined first-party startup `251274` <= `260000` bytes
 - normal loading minimum `2700 ms`
 - reduced-motion loading `220 ms`
 
-Identity-Safe Career Analytics did not require an eager Save Library runtime or startup architecture change.
+Identity-Safe Career Analytics and Local Profile display-label editing do not require an eager Save Library runtime or startup architecture change.
 
 ## Protected product surfaces and gameplay
 
@@ -173,8 +186,6 @@ Only 0–0 invokes league position and then league points.
 
 ## Current clean boundary
 
-The owner-authorized Identity-Safe Career Analytics candidate is complete, merged, deployed and production-proven.
+Identity-Safe Career Analytics and Local Profile display-label editing are complete, merged, deployed and production-proven.
 
-Exactly one newer candidate is authorized: Local Profile display-label editing under `NEXT_TASK.md`. It is not production authority until exact-head CI, expected-head merge and deployed proof succeed.
-
-No second candidate is authorized. Backup portability, profile merge/delete or generic CRUD, broader Analytics 2.0, Legacy/Achievements expansion, optional content and cloud/network work remain separately bounded future areas.
+No new substantial runtime product candidate is authorized. Backup portability, profile merge/delete or generic CRUD, broader Analytics 2.0, Legacy/Achievements expansion, optional content and cloud/network work remain separately bounded future areas. Completion of PR #61 authorizes none of them.

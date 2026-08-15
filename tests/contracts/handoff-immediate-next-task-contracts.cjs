@@ -84,14 +84,19 @@ assert.match(
   "Current rolling handoff must preserve the exact final Analytics failure class."
 );
 assert.match(
-  next,
-  /later explicit owner continuation instruction[\s\S]+Local Profile display-label editing/i,
-  "NEXT_TASK must name the later explicit authorization and its one bounded candidate."
+  current,
+  /PR #61 exact validation, merge and production proof[\s\S]+67095a02188ebd246da0d0f2cd61158b8e9e504e[\s\S]+deployed-site-smoke job `95036682319`/i,
+  "Current rolling handoff must retain exact PR #61 merge and deployed proof."
 );
 assert.match(
   next,
-  /Stop this candidate when Local Profile display-label editing is exact-head validated, production-proven and authority-sealed/i,
-  "NEXT_TASK must give a concrete executable stop after the one later-authorized candidate."
+  /Local Profile display-label candidate is closed as production-proven/i,
+  "NEXT_TASK must close the one later-authorized candidate after production proof."
+);
+assert.match(
+  next,
+  /Stop with no runtime change until a later explicit owner instruction names a new bounded candidate/i,
+  "NEXT_TASK must give a concrete executable clean stop after the label candidate."
 );
 assert.match(
   start,
@@ -100,8 +105,9 @@ assert.match(
 );
 assert.match(
   start,
-  /One later explicit owner continuation authorized the bounded Local Profile display-label editing candidate/i,
-  "Developer bootstrap must expose the current one-candidate boundary."
+  /presentation-only Local Profile display-label editing — PR #61/i,
+  "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
+assert.match(start,/No new candidate[\s\S]+authorized/i,"Developer bootstrap must expose the clean post-PR-#61 boundary.");
 
-console.log("Handoff immediate-next-task contracts passed: the recursive policy remains permanent, PR #59 production proof and failure history are retained, and fresh developers are directed through the one later-authorized Local Profile label candidate to a concrete stop.");
+console.log("Handoff immediate-next-task contracts passed: the recursive policy remains permanent, PR #59 failure history and PR #61 production proof are retained, and fresh developers are directed to a concrete clean stop.");

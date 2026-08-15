@@ -4,16 +4,16 @@ Date: 2026-08-15 ET
 Application version: `v1.3.0`
 Runtime asset revision: `1.3.0-r2`
 Previous known-good runtime: `1.3.0-r1`
-Status: RELEASE CANDIDATE
+Status: MERGED, DEPLOYED, EXACT-BYTE VERIFIED AND TECHNICALLY PRODUCTION-PROVEN
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-## Candidate purpose
+## Release purpose
 
-This bounded runtime maintenance candidate adds presentation-only Local Profile display-label editing inside the existing lazy Save Library / Settings surface. It does not assign a new application milestone or broaden Local Profiles into generic profile CRUD.
+This bounded runtime maintenance release adds presentation-only Local Profile display-label editing inside the existing lazy Save Library / Settings surface. It does not assign a new application milestone or broaden Local Profiles into generic profile CRUD.
 
-The r2 whole-shell identity is required because the candidate changes runtime JavaScript and CSS. Publishing those bytes under the already production-proven `1.3.0-r1` cache key would prevent a coherent installed-app update and could mix release claims with stale cached behavior. `1.3.0-r1` therefore remains the exact immediate previous whole-shell recovery target while this candidate is validated.
+The r2 whole-shell identity is required because the release changes runtime JavaScript and CSS. Publishing those bytes under the already production-proven `1.3.0-r1` cache key would prevent a coherent installed-app update and could mix release claims with stale cached behavior. `1.3.0-r1` therefore remains the exact immediate previous whole-shell recovery target.
 
-## Candidate behavior
+## Shipped behavior
 
 - A user can edit only a Local Profile `displayName`.
 - Outer whitespace is trimmed and an empty label is rejected before any write.
@@ -36,13 +36,17 @@ Gameplay, scoring, accepted FIFA 17-inspired presentation, Smart Back, licensed 
 
 ## Whole-shell relationship
 
-Candidate shell: `1.3.0-r2`
+Production shell: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
 
-The candidate retains complete verified cache population, explicit safe-boundary activation and whole-shell current/previous recovery. Service Worker and Cache Storage continue to own application bytes only, never user data.
+The release retains complete verified cache population, explicit safe-boundary activation and whole-shell current/previous recovery. Service Worker and Cache Storage continue to own application bytes only, never user data.
 
-## Promotion boundary
+## Production proof
 
-This file does not claim production proof. Promotion requires one frozen exact head, every required pull-request workflow family, an independent unchanged-head/unchanged-base/review/thread gate, expected-head merge protection, successful exact-merge Pages and permanent workflow runs, exact deployed-byte verification, public profile-label journey proof and a separate production seal.
+Frozen PR head `cfedec8dccde51a7a9932a1bd3a92cc91514e579` passed all 13 normal pull-request workflow families. PR #61 passed the independent unchanged-head/unchanged-base/review/thread gate and merged with expected-head protection to `67095a02188ebd246da0d0f2cd61158b8e9e504e`.
+
+All 15 exact-merge push/deployment runs succeeded, including Pages `31894832195`, Release Integration Burn-In `31894832592`, Stability `31894832637` and deployed-site-smoke job `95036682319`. Pages deployment `5922244376` targets the exact merge. Independent verification matched 71 runtime files plus `service-worker.js` and `manifest.webmanifest` byte for byte and passed the public profile-label journey.
+
+See `V1.3.0_R2_PRODUCTION_PROOF.md` for the frozen evidence.
 
 Owner visual acceptance remains distinct from automated technical proof.

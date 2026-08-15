@@ -2,11 +2,11 @@
 
 Last updated: 2026-08-15 ET
 
-## v1.3.0 runtime maintenance r2 — release candidate
+## v1.3.0 runtime maintenance r2 — production
 
-Candidate runtime: `1.3.0-r2`
+Current production runtime: `1.3.0-r2`
 Previous known-good runtime: `1.3.0-r1`
-Status: implementation and validation in progress; not production-proven.
+Status: merged, deployed, exact-byte verified and technically production-proven.
 
 - Adds presentation-only Local Profile display-label editing inside the existing lazy Save Library / Settings surface.
 - Preserves stable identities plus saved, in-memory and Legacy Showdown manager labels.
@@ -14,7 +14,18 @@ Status: implementation and validation in progress; not production-proven.
 - Advances the atomic whole-shell cache identity so changed JavaScript/CSS can update installed clients without reusing the r1 cache key.
 - Does not change application version, Service Worker behavior, gameplay, scoring, backup/import envelopes, profile merge/delete semantics or cloud boundaries.
 
-See `RELEASE_V1.3.0_R2.md` and `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md` for the candidate boundary. Production remains `1.3.0-r1` until promotion and deployed proof succeed.
+Production evidence:
+
+- frozen PR #61 head `cfedec8dccde51a7a9932a1bd3a92cc91514e579`;
+- runtime merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`;
+- all 13 pull-request and all 15 exact-merge production workflow families green;
+- Pages run `31894832195` and deployment `5922244376`;
+- Release Integration Burn-In `31894832592`;
+- Stability `31894832637` and deployed-site-smoke job `95036682319`;
+- 71 runtime files plus Service Worker and manifest exact-byte verified;
+- public profile-label journey verified with stable IDs and unchanged saved Showdown labels.
+
+See `RELEASE_V1.3.0_R2.md`, `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md` and `V1.3.0_R2_PRODUCTION_PROOF.md`.
 
 ## v1.3.0 — Recovery & Device Resilience Hardening — production
 

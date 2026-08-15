@@ -3,16 +3,15 @@
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript, browser localStorage and a first-party Installable Offline App shell.
 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Current production runtime: `1.3.0-r1`
-Previous known-good whole shell: `1.2.0-r2`
-Current shipped product layer: Identity-Safe Career Analytics / Trophy Room longitudinal consumption
-Current runtime feature merge: `c5c7d50cc3a2d9003e057d1813744c877323c068`
+Current production runtime: `1.3.0-r2`
+Previous known-good whole shell: `1.3.0-r1`
+Current shipped product layer: presentation-only Local Profile display-label editing
+Current runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
 Feature release version: intentionally unassigned
 Release status: merged, deployed, exact-byte verified and technically production-proven
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-Active candidate: Local Profile display-label editing on whole-shell revision `1.3.0-r2`, with production-proven r1 as its predecessor
 
-The v1.3 release remains the application baseline. The later Local Profiles / Save Library, explicit manager-identity and Identity-Safe Career Analytics chain advanced production behavior without assigning a new application version. The active label candidate keeps application v1.3.0 and advances only the whole-shell revision so changed runtime bytes can update installed clients coherently.
+The v1.3 release remains the application baseline. The later Local Profiles / Save Library, explicit manager-identity, Identity-Safe Career Analytics and display-label chain advanced production behavior without assigning a new application version. Runtime maintenance r2 gives changed Save Library JavaScript/CSS one coherent installed-app shell and retains r1 as its immediate recovery predecessor.
 
 Current verified source wins over stale historical status prose. Technical production proof does not fabricate owner visual acceptance.
 
@@ -27,10 +26,11 @@ Read in this order:
 5. `NEXT_TASK.md`
 6. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
 7. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
-8. `V1.3.0_PRODUCTION_PROOF.md` when original release-baseline history is relevant
-9. `RELEASE_V1.3.0.md`
-10. `CAREER_MODE_SHOWDOWN_V1.3.0_MAINTENANCE_HANDOFF.md`
-11. `POST_V1_ROADMAP_EXECUTION.md`
+8. `V1.3.0_R2_PRODUCTION_PROOF.md` for current frozen production evidence
+9. `V1.3.0_PRODUCTION_PROOF.md` when original r1 release-baseline history is relevant
+10. `RELEASE_V1.3.0_R2.md`
+11. `CAREER_MODE_SHOWDOWN_V1.3.0_R2_MAINTENANCE_HANDOFF.md`
+12. `POST_V1_ROADMAP_EXECUTION.md`
 
 Always fetch live `main` before relying on a SHA in documentation.
 
@@ -66,6 +66,7 @@ The completed dependency chain is:
 4. Visible Local Profiles / Save Library Core UI — PR #53.
 5. Explicit cross-Save / historical manager identity linkage — PR #57.
 6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59.
+7. Presentation-only Local Profile display-label editing — PR #61.
 
 The visible product supports:
 
@@ -75,6 +76,7 @@ The visible product supports:
 - deletion of exactly one Save without full-reset semantics;
 - no implicit replacement after deleting the active Save;
 - visible Local Profiles with explicit stable-identity reuse across Saves;
+- presentation-only Local Profile display-label editing through guarded Save Library authority;
 - same visible manager names remaining distinct `profile_*` identities;
 - explicit historical profile mapping/unmapping with unresolved identity remaining legal;
 - retained Local Profiles after single-Save deletion;
@@ -85,7 +87,7 @@ The visible product supports:
 
 Stable prefixes remain `save_*`, `season_*` and `profile_*`. Display names are labels, never identity keys.
 
-The active candidate adds presentation-only Local Profile display-label editing. It does not rewrite saved or historical Showdown manager labels and does not authorize profile merge/delete, generic CRUD or standalone profile creation.
+Local Profile display-label editing does not rewrite saved or historical Showdown manager labels and does not authorize profile merge/delete, generic CRUD or standalone profile creation.
 
 ## Architecture and data safety
 
@@ -131,9 +133,9 @@ Service Worker and Cache Storage contain application bytes only and are never ca
 
 ## Installable Offline App
 
-The current `1.3.0-r1` runtime preserves the v1.2 offline architecture and adds resilience proof around activation, corruption, restart and exact local-data preservation.
+The current `1.3.0-r2` runtime preserves the v1.3 resilience/offline architecture and adds coherent delivery for the shipped Save Library JavaScript/CSS.
 
-The active candidate uses `1.3.0-r2` with r1 as its immediate previous known-good whole shell because changed Save Library JavaScript and CSS require a new atomic installed-app cache identity. Production remains r1 until exact-head and deployed proof are complete.
+Runtime r2 uses `1.3.0-r1` as its immediate previous known-good whole shell because changed Save Library JavaScript and CSS require a new atomic installed-app cache identity.
 
 - version-owned first-party Service Worker shell;
 - complete verified cache population;
@@ -141,14 +143,14 @@ The active candidate uses `1.3.0-r2` with r1 as its immediate previous known-goo
 - explicit Update Ready activation at safe Home / Showdown Home boundaries;
 - Candidate C busy/recovery protection around activation;
 - whole-runtime cache selection, never per-file revision mixing;
-- current/previous-known-good recovery using `1.3.0-r1` then `1.2.0-r2`;
+- current/previous-known-good recovery using `1.3.0-r2` then `1.3.0-r1`;
 - worker-owned connectivity verification;
 - explicit nonfatal offline degradation for external media;
 - lazy PWA controller;
 - install/update presentation only inside Settings;
 - lazy Save Library UI and CSS included in the verified complete shell.
 
-`CMS_ACTIVATE_UPDATE` verifies the complete candidate shell, awaits successful `skipWaiting()`, and only then acknowledges activation acceptance.
+`CMS_ACTIVATE_UPDATE` verifies the complete shell, awaits successful `skipWaiting()`, and only then acknowledges activation acceptance.
 
 ## Protected visual baseline
 
@@ -160,15 +162,15 @@ Preserve the current FIFA 17-inspired Home and Save Library presentation unless 
 
 ## Current production proof
 
-PR #59 exact final head `a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1` passed all 13 normal PR workflow families.
+PR #61 exact final head `cfedec8dccde51a7a9932a1bd3a92cc91514e579` passed all 13 normal PR workflow families.
 
-Runtime feature merge `c5c7d50cc3a2d9003e057d1813744c877323c068` passed all permanent push workflow families.
+Runtime feature merge `67095a02188ebd246da0d0f2cd61158b8e9e504e` passed all 15 exact-merge push/deployment runs.
 
-Release Integration Burn-In `31827619182` passed both complete stateful integration journeys.
+Release Integration Burn-In `31894832592` passed its complete stateful integration journeys.
 
-Post-merge Stability `31827619109` passed, including deployed-site-smoke job `94855938131`.
+Post-merge Stability `31894832637` passed, including deployed-site-smoke job `95036682319`.
 
-The deployed smoke verified 71 `1.3.0-r1` runtime files byte-for-byte and passed runtime provenance, Home, visible Save Library, explicit manager identity, Identity-Safe Career Analytics, licensed football visuals, Candidate A, Candidate B, Candidate C, Installable Offline App/offline boundary and complete deployed journey proof.
+The deployed smoke verified 71 `1.3.0-r2` runtime files byte for byte and passed runtime provenance, Home, visible Save Library, explicit manager identity, Identity-Safe Career Analytics, licensed football visuals, Candidate A, Candidate B, Candidate C, Installable Offline App/offline boundary and complete deployed journey proof. Independent checks also matched Service Worker and manifest bytes and passed the public profile-label journey with stable IDs and unchanged saved Showdown labels.
 
 ## Validation and performance locks
 
@@ -183,17 +185,15 @@ Protected ceilings:
 - normal loading minimum 2700 ms;
 - reduced-motion loading 220 ms.
 
-The locked ceilings remain authoritative across the active candidate; exact candidate measurements must be recorded by the performance gate rather than inferred from older feature proof.
+The locked ceilings remain authoritative. Current r2 eager measurements are 162782 raw and 37416 compressed bytes.
 
 Do not raise limits, relax timeouts or weaken assertions to make a change pass.
 
 ## Current continuation boundary
 
-Identity-Safe Career Analytics is complete and production-proven. One later explicit owner instruction authorizes Local Profile display-label editing as the sole active candidate.
+Identity-Safe Career Analytics and Local Profile display-label editing are complete and production-proven.
 
-Candidate production status is not implied by local implementation. It requires exact-head PR proof, independent promotion checks, expected-head merge, exact production workflows and deployed-byte/public-journey verification.
-
-Stop after this candidate is sealed; completion assigns no next substantial product area.
+No new substantial runtime product candidate is authorized. Stop with no runtime change unless a later explicit owner instruction names a new bounded candidate.
 
 Profile merge/delete or generic CRUD, cloud, accounts, QR pairing, synchronization, remote transport, distributed revision/device identity systems, backup/import redesign, gameplay changes and framework rewrites are not authorized.
 

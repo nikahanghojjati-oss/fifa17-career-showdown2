@@ -41,8 +41,8 @@ assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain bloc
 assert.match(state, /Identity-Safe Career Analytics is therefore merged, deployed, exact-byte verified and technically production-proven/i, "PROJECT_STATE must record the proven local Analytics layer before any future cloud work.");
 assert.match(state, /unresolved historical manager roles remaining explicit and never guessed from name similarity/i, "PROJECT_STATE must preserve unresolved-history honesty after Analytics promotion.");
 assert.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must distinguish shipped local manager identity semantics from future cloud identity.");
-assert.match(next, /active bounded candidate is:[\s\S]+Local Profile display-label editing/i, "NEXT_TASK must identify the one local-only candidate without turning completed Analytics into implicit Cloud authorization.");
-assert.match(next, /Cloud Readiness[\s\S]+None beyond the exact display-label candidate above is implementation-authorized/i, "NEXT_TASK must keep Cloud Readiness and later network work outside the current authorization boundary.");
+assert.match(next, /No new substantial runtime product candidate is authorized/i, "NEXT_TASK must close the production-proven label candidate without turning completion into implicit Cloud authorization.");
+assert.match(next, /Cloud Readiness[\s\S]+None of the future areas above is implementation-authorized/i, "NEXT_TASK must keep Cloud Readiness and later network work outside the current authorization boundary.");
 assert.match(next, /strict exact raw snapshot authority/i, "NEXT_TASK must preserve destructive restore snapshot authority while cloud remains future work.");
 
 assert.ok(!/\bfetch\s*\(/.test(restore), "Candidate C restore remains network-free.");
@@ -51,4 +51,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS future cloud contract preserves shipped local identity and Identity-Safe Career Analytics, unresolved-history honesty, recovery authority and cloud security/revision boundaries while the sole active label candidate remains local-only\n");
+process.stdout.write("PASS future cloud contract preserves shipped local identity, production-proven display-label editing, unresolved-history honesty, recovery authority and cloud security/revision boundaries at a clean stop\n");
