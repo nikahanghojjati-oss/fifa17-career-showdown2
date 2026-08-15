@@ -55,7 +55,13 @@ Source-grounded semantic boundary:
 - Career Statistics and Trophy Room continue to consume the shared profile-presentation revision authority already protected by Identity-Safe Career Analytics.
 - the changed JavaScript/CSS ships as candidate runtime `1.3.0-r2`, with production-proven `1.3.0-r1` as its immediate previous whole-shell recovery target.
 
-The first implementation checkpoint is not yet frozen. Record every commit, test result, failed SHA and correction here as the candidate advances.
+First implementation checkpoint:
+
+`e21e6656a6e19283856ccd6b8c8ad7748265c813`
+
+Commit subject: `Add Local Profile display-label editing`
+
+This checkpoint contains the complete bounded runtime/UI implementation, `1.3.0-r2` whole-shell candidate identity, deterministic and browser regression proof, candidate release/handoff records and all authority updates. The following handoff-freeze commit changes documentation only so the remote branch head can enter exact-head pull-request validation without an unrecorded implementation boundary.
 
 ### Retained local validation failure 1 — cross-realm assertion
 
