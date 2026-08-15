@@ -21,14 +21,16 @@ At the start of every development environment, read these files before substanti
 7. `PROJECT_STATE.md`
 8. `NEXT_TASK.md`
 
-Then run:
+Then follow this order:
 
-```sh
-npm run work:continuity:validate
-npm run work:assess
-```
+1. Validate the inherited status record with `npm run work:continuity:validate` before changing it.
+2. If the record belongs to an earlier environment, append its final facts to `WORK_ENVIRONMENT_HISTORY.md`, replace it with a new unique environment ID, reset every per-environment observation and record the live `main` SHA in `repository.startingMainSha`.
+3. Record the current bounded task, safe checkpoint, next action, unfinished work and hazards.
+4. Only after the current environment owns `WORK_ENVIRONMENT_STATUS.json`, run `npm run work:assess` and obey that new environment's decision.
 
-Replace the prior environment record with a new environment ID and fresh observable signals before starting substantial work. Update `WORK_ENVIRONMENT_STATUS.json` at every meaningful checkpoint described by the protocol, then run `npm run work:assess` again.
+A closed or transition-prepared decision can correctly stop its owning environment. Never treat the predecessor's transition decision as the successor's starting decision, and never let it prevent the successor from initializing its own record.
+
+Update `WORK_ENVIRONMENT_STATUS.json` at every meaningful checkpoint described by the protocol, then run `npm run work:assess` again.
 
 Never guess an exact hidden context-token or account-usage value. `usageRemainingPercent` stays `null` with `usageSource: "unavailable"` unless the product usage dashboard, CLI `/status` or the owner supplies a value. An explicit usage warning may be recorded without a percentage.
 

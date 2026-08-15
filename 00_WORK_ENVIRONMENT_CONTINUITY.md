@@ -38,11 +38,14 @@ Before substantial work:
 
 1. fetch live GitHub and reconstruct current production authority;
 2. read the files listed in `AGENTS.md`;
-3. run `npm run work:continuity:validate` and `npm run work:assess`;
+3. run `npm run work:continuity:validate` against the inherited record before changing it;
 4. if the current status belongs to an earlier environment, append its final facts to history, then replace it with a new unique environment ID and current observations;
-5. set `repository.startingMainSha` to the full live `main` SHA observed at entry;
-6. record the bounded owner-authorized task, last safe checkpoint, next safe action, unfinished work and hazards;
-7. assess again before implementation.
+5. reset every per-environment signal rather than carrying the predecessor's counters or usage observations forward;
+6. set `repository.startingMainSha` to the full live `main` SHA observed at entry;
+7. record the bounded owner-authorized task, last safe checkpoint, next safe action, unfinished work and hazards;
+8. only after the current environment owns the fresh status record, run `npm run work:assess` and obey that assessment before implementation.
+
+A `closed` or `transition-prepared` record can correctly stop the environment that owns it. It must not prevent a successor from archiving that record, initializing fresh observations and obtaining its own assessment. Never use the predecessor's transition decision as the successor's starting decision.
 
 Suggested environment ID format: `we-YYYY-MM-DD-short-purpose`.
 
