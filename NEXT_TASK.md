@@ -117,3 +117,25 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 Local Profile display-label editing, Identity-Safe Career Analytics, and formatVersion 2 full multi-Save backup/import portability (PR #67) are closed and must not be reopened.
 
 No product candidate is currently authorized. After this documentation synchronization is published, advance only a later explicit owner-authorized candidate drawn from the owner roadmap Phase B onward (Save Library / Local Profile Experience 2.0 first). A continuity transition must carry this clean stop forward rather than inventing a new candidate.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+### Bootstrap / study (required first)
+
+1. Independently confirm live `main` is still `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (or a later SHA that preserves the multi-Save + private two-manager locks).
+2. Confirm PR #68 (docs/phase-a-multi-save-authority-sync) status: if still open, its only remaining purpose is documentation + contract authority synchronization.
+3. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
+4. Do not treat any roadmap ordering as implementation authorization.
+
+### Execution (after study)
+
+**Current authorized work:** complete Phase A documentation authority synchronization only.
+
+1. On branch `docs/phase-a-multi-save-authority-sync`, ensure contracts assert the sealed state (multi-Save CLOSED, no product candidate authorized, clean stop until explicit Phase B owner instruction).
+2. Push via Path B; confirm PR #68 CI fully green.
+3. Report status to owner. Do **not** merge unless the owner explicitly delegates merge.
+4. After merge + live main confirmation of the corrected authority files: hold the clean stop.
+
+**Owner direction received 2026-08-16 (this session):** the owner has explicitly instructed continuation toward the next product version based on the roadmap, with visible progress labeling. That instruction authorizes opening Phase B only **after** Phase A (this documentation synchronization) is published. The first Phase B candidate remains Save Library / Local Profile Experience 2.0 unless the owner names a different candidate.
+
+Do not begin Save Library Experience 2.0, Statistics 2.0, cloud, public community, or private remote joining while Phase A is still open. Public community and global leaderboard remain ELIMINATED. Private remote joining remains BLOCKED.
