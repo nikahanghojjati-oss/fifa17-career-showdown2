@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-15 ET
+Last updated: 2026-08-16 ET
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
@@ -9,61 +9,37 @@ This file is the sole primary owner of the current implementation authorization 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Current production Installable Offline App runtime: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
-Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
-Validated PR #61 head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`
+Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`
+Validated PR #67 head (pre-merge): `a58a471b8e7199cd4a29f5096de87709b7655ae8`
 Feature release version: intentionally unassigned
 
-Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption and presentation-only Local Profile display-label editing are complete, merged, deployed and production-proven.
+Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, and formatVersion 2 full multi-Save backup/import portability are complete, merged, deployed and production-proven.
 
-PR #61 passed all 13 normal pull-request workflow families on exact unchanged head `cfedec8dccde51a7a9932a1bd3a92cc91514e579`, merged with expected-head protection to `67095a02188ebd246da0d0f2cd61158b8e9e504e`, and passed all 15 permanent push/deployment runs. Pages deployment `5922244376`, Release Integration Burn-In `31894832592`, Stability `31894832637` and deployed-site-smoke job `95036682319` succeeded. Independent proof matched 71 runtime files plus Service Worker and manifest byte for byte and passed the public profile-label journey with stable IDs and unchanged saved Showdown labels.
+PR #67 (formatVersion 2 multi-Save portability) was independently reviewed at high-risk depth, squash-merged to `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`, passed Stability Lane 31928164354 attempt 2 (including visible Save Library audit), Pages deployment, and all Validate-* workflows. Owner visual/product acceptance recorded 2026-08-16.
 
 ## Current implementation authorization
 
-The one later owner-authorized Local Profile display-label candidate is closed as production-proven.
+The following candidates are closed as production-proven and must not be reopened:
 
-A later explicit owner handoff on 2026-08-15 ET supersedes the prior clean stop and authorizes one ordered infrastructure-to-product sequence:
+- Local Profile display-label editing
+- Identity-Safe Career Analytics
+- formatVersion 2 full multi-Save backup/import portability (PR #67)
 
-1. complete the portable GitHub CLI bootstrap through PR #65 after reconciling it onto the PR #66 merge;
-2. then implement exactly one smallest meaningful user-facing roadmap advancement, provisionally complete fresh-device multi-Save backup/import portability, after confirming from current source that it remains incomplete and unblocked.
+**No product candidate is currently authorized for implementation.**
 
-PR #66 is complete. Its validated head `72e4b41b2b4734e49fd3af4626e9b4048bbc7367` merged with expected-head protection to current live main `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`; the merge tree matches exactly, all 15 exact-merge workflows and Pages deployment `5925677418` succeeded, and website runtime paths remain unchanged.
+The next authorized work is documentation authority synchronization only (this file and `PROJECT_STATE.md` now correctly record the multi-Save milestone as complete). After that synchronization is published, any subsequent product candidate requires a fresh explicit owner instruction selecting from the owner roadmap Phase B onward (Save Library / Local Profile Experience 2.0, Showdown & Season experience deepening, Career Statistics 2.0, etc.).
 
-PR #64 remains the retained corrected-bootstrap authority beneath that seal. Its validated head `542e4ecab75b1b481862285b7ecbd1d965c341aa` merged to `629b01d160e4eb1215c54ff6bc9558396a2b256d` with all 15 exact-merge workflows and deployment `5925426401` successful.
+Do not begin Save Library Experience 2.0, Local Profile Experience 2.0, broader Analytics, Legacy expansion, Achievements, cloud, private remote joining, or any other future-area work without a new explicit owner authorization that names the exact candidate.
 
-PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` remains based on pre-PR-#64 main `fd6879940c6409fd3727a50816a10479ee2446e6`. Reconcile it before any promotion. Preserve PR #64's inherited-record validation → fresh environment initialization/reset → successor assessment order and PR #65's official-release-only, checksum-verified, rootless GitHub CLI bootstrap with environment-local writable configuration and connector-first credential handling.
+## Shipped multi-Save portability semantics that every future candidate must preserve
 
-The Work Environment Continuity and GitHub CLI systems are development-process infrastructure, not product candidates. They enable the authorized website task and must not become an endless substitute for it.
-
-### Bounded product acceptance boundary after PR #65
-
-Authorized candidate: complete fresh-device multi-Save backup/import portability.
-
-Before runtime implementation, confirm the current v1 backup envelope still cannot round-trip the complete Save Library registry to a fresh browser/device. If confirmed, record the exact source-grounded design and implement the smallest user-facing flow that:
-
-1. exports every supported Save Library Save, stable `save_*`, `profile_*` and `season_*` identity, active-Save selection, supported Save metadata, Legacy data and preferences needed for a complete fresh-device round trip;
-2. imports that complete envelope into a clean browser/device without silently collapsing it to one active Save;
-3. defines and safely handles an existing-data destination without weakening Candidate C's destructive-Apply ownership, freshness, conflict, rollback, anti-clobber or exact-verification guarantees;
-4. rejects invalid, unsupported, truncated or corrupt backups before canonical mutation;
-5. preserves same-name distinct profiles, explicit cross-Save profile reuse, unresolved historical roles and identity-safe Analytics/Trophy semantics;
-6. adds deterministic contract proof and relevant Chromium proof for clean-browser import, existing-data behavior, corrupt input, retry/idempotence and preserved identities/metadata;
-7. preserves gameplay, navigation, recovery, PWA/offline behavior, accessibility, performance ceilings and the accepted presentation.
-
-If source proves complete multi-Save portability is already finished or genuinely blocked, update this file with evidence and select the next smallest unblocked candidate from the first unfinished roadmap tier: Save Library/identity-link UX, bounded Local Profile experience, bounded Analytics presentation or bounded Legacy/Achievements advancement. Do not jump to dependency-gated cloud or public-network features.
-
-### IMMEDIATE NEXT TASK AFTER FULL STUDY
-
-After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
-
-1. verify live main remains PR #66 merge `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` or reconstruct every newer change before proceeding;
-2. validate and initialize the Work Environment Continuity record, run `npm run work:assess` and obey its safe-boundary decision;
-3. verify PR #66's 15 successful exact-merge workflows, deployment `5925677418`, unchanged website runtime boundary, retained PR #64 proof and the public `1.3.0-r2` / previous `1.3.0-r1` shell;
-4. reconcile PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` onto the live main, preserving both continuity ordering and portable bootstrap security semantics;
-5. run the real rootless bootstrap, supported `gh auth status`, focused contracts, complete contract/syntax/diff proof and fresh exact-head CI/review verification before protected PR #65 merge;
-6. verify PR #65 post-merge main and workflows;
-7. then study Candidate A/B/C, Save Library, identity, persistence and browser-audit architecture and begin only the bounded complete multi-Save portability candidate above if current source confirms it remains correct;
-8. maintain the rolling handoff and continuity status at every checkpoint.
-
-Do not reopen Local Profile display-label editing, propagate labels into Showdown/Legacy history, broaden into profile merge/delete, cloud, public communities/rankings, unrelated gameplay or speculative Service Worker changes.
+1. `CAREER_MODE_BACKUP_FORMAT_VERSION = 2` serializes the complete Save Library registry + Legacy + preferences (with optional projected activeShowdown for v1 compatibility).
+2. v1 envelopes remain readable.
+3. Clean-destination restore performs full-restore-clean of the complete library.
+4. Existing-data destinations require explicit replace-all (Candidate C path); keep-current is the safe non-mutating path when the library key is omitted.
+5. Invalid / truncated / corrupt backups are rejected before canonical mutation.
+6. Same-name distinct profiles, explicit cross-Save profile reuse by ID, unresolved historical roles (null), and exact `activeSaveId` restoration are preserved.
+7. Candidate A remains non-mutating export; Candidate B remains read-only analysis; Candidate C remains the sole destructive Apply stage with all existing ownership, freshness, transaction, rollback, anti-clobber and exact-verification guarantees.
 
 ## Shipped identity and Analytics semantics that every future candidate must preserve
 
@@ -84,17 +60,19 @@ Do not reopen Local Profile display-label editing, propagate labels into Showdow
 
 Potential future work remains separately bounded, including:
 
-- profile merge/delete semantics or broader profile CRUD;
-- standalone Local Profile creation/reuse outside current New Showdown behavior;
-- evidence-driven Save Library/identity-link UX refinement;
-- broader Analytics 2.0 presentation or visualization expansion;
-- Legacy/Achievements expansion;
-- optional content and custom challenge content;
-- Cloud Readiness;
-- opt-in Cloud Backup;
-- private paired-device capability;
+- evidence-driven Save Library / Local Profile Experience 2.0 (richer cards, progress, sorting, profile career views);
+- Showdown Home and Season experience deepening;
+- Career Statistics 2.0 and Advanced Visual Analytics;
+- Legacy 2.0, Achievements System, Trophy Room 2.0;
+- optional challenge / league / club content;
+- Backup and Recovery Experience 2.0 (UX only);
+- Cloud Readiness architecture (no runtime);
+- Optional Private Cloud Backup;
+- Private Account / Identity Layer;
+- Private Paired Device Capability;
 - Connected Rivalry;
-- private sharing/groups;
+- Private Transfer Challenge device mode;
+- private sharing;
 - private remote joining / session system (important future requirement after owner clarification 2026-08-16; still BLOCKED — no current auth).
 
 Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16). Product direction is a private two-manager companion. Do not implement or re-introduce public community or global ranking surfaces unless the owner explicitly reverses that lock in a later roadmap amendment.
@@ -105,9 +83,7 @@ None of the future areas above is implementation-authorized by this file today.
 
 Preserve stable `profile_*`, `save_*` and `season_*` identities. Display names remain labels, never identity keys.
 
-Before explicit singleton cutover, public canonical storage remains `careerModeShowdown.activeShowdown`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
-
-After successful Save Library cutover, public canonical storage remains `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
+Public canonical storage remains `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
 
 Never make `careerModeShowdown.activeShowdown` a permanent fourth canonical key.
 
@@ -138,4 +114,6 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Local Profile display-label editing and Identity-Safe Career Analytics are closed and must not be reopened. Complete PR #65 first. Then advance only the bounded fresh-device complete multi-Save portability candidate above when current source confirms it is incomplete and unblocked. A continuity transition must carry this exact product task forward rather than reverting to a generic no-task stop.
+Local Profile display-label editing, Identity-Safe Career Analytics, and formatVersion 2 full multi-Save backup/import portability (PR #67) are closed and must not be reopened.
+
+No product candidate is currently authorized. After this documentation synchronization is published, advance only a later explicit owner-authorized candidate drawn from the owner roadmap Phase B onward (Save Library / Local Profile Experience 2.0 first). A continuity transition must carry this clean stop forward rather than inventing a new candidate.
