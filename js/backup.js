@@ -4,7 +4,7 @@
 ===================================================== */
 
 const CAREER_MODE_BACKUP_FORMAT_ID = "career-mode-showdown-backup";
-const CAREER_MODE_BACKUP_FORMAT_VERSION = 1;
+const CAREER_MODE_BACKUP_FORMAT_VERSION = 2;
 const CAREER_MODE_BACKUP_CHECKSUM_ALGORITHM = "SHA-256";
 
 function getBackupRuntimeRevision(){
@@ -31,7 +31,7 @@ function cloneBackupValue(value){
 }
 
 function inspectBackupRecord(raw, validator, label){
-    if(raw === null){ return { state: "missing", raw: null, value: null, warning: null }; }
+    if(raw === null || raw === undefined){ return { state: "missing", raw: null, value: null, warning: null }; }
     try{
         const value = JSON.parse(raw);
         if(!validator(value)){ throw new Error(`${label} has an unsupported shape.`); }
@@ -70,6 +70,7 @@ function captureBackupRawProjection(){
 function buildCareerModeBackupSnapshot(){
     const projection = captureBackupRawProjection();
     const raw = projection.raw;
+    const saveLibraryRecord = inspectBackupRecord(raw.saveLibrary, isBackupObject, "Save Library storage");
     const activeRecord = inspectBackupRecord(raw.activeShowdown, isBackupObject, "Active Showdown storage");
     const legacyRecord = inspectBackupRecord(raw.legacyShowdowns, value => Array.isArray(value) && value.every(isBackupObject), "Legacy storage");
     const preferencesRecord = inspectBackupRecord(raw.preferences, isBackupObject, "Preferences storage");
@@ -78,6 +79,7 @@ function buildCareerModeBackupSnapshot(){
     const recovery = projection.recovery ? cloneBackupValue(projection.recovery) : {};
 
     [
+        ["saveLibrary", keys.saveLibrary || "careerModeShowdown.saveLibrary", saveLibraryRecord],
         ["activeShowdown", keys.activeShowdown || "careerModeShowdown.activeShowdown", activeRecord],
         ["legacyShowdowns", keys.legacyShowdowns, legacyRecord],
         ["preferences", keys.preferences, preferencesRecord]
@@ -98,6 +100,7 @@ function buildCareerModeBackupSnapshot(){
         }
     }
 
+    const saveLibrary = saveLibraryRecord.state === "valid" ? cloneBackupValue(saveLibraryRecord.value) : null;
     const legacyShowdowns = legacyRecord.state === "valid" ? cloneBackupValue(legacyRecord.value) : null;
     const preferences = preferencesRecord.state === "valid" ? cloneBackupValue(preferencesRecord.value) : null;
     const matchingLegacyIndex = activeShowdown && Array.isArray(legacyShowdowns)
@@ -105,11 +108,13 @@ function buildCareerModeBackupSnapshot(){
         : -1;
 
     return {
-        payload: { activeShowdown, legacyShowdowns, preferences },
+        payload: { saveLibrary, activeShowdown, legacyShowdowns, preferences },
         counts: {
             activeShowdowns: activeShowdown ? 1 : 0,
             legacyShowdowns: Array.isArray(legacyShowdowns) ? legacyShowdowns.length : 0,
-            preferenceRecords: preferences ? 1 : 0
+            preferenceRecords: preferences ? 1 : 0,
+            saveLibrarySaves: saveLibrary && Array.isArray(saveLibrary.saves) ? saveLibrary.saves.length : 0,
+            saveLibraryProfiles: saveLibrary && Array.isArray(saveLibrary.profiles) ? saveLibrary.profiles.length : 0
         },
         relationships: {
             activeSource,
@@ -117,6 +122,7 @@ function buildCareerModeBackupSnapshot(){
             matchingLegacyIndex
         },
         storageState: {
+            saveLibrary: saveLibraryRecord.state,
             activeShowdown: activeRecord.state,
             legacyShowdowns: legacyRecord.state,
             preferences: preferencesRecord.state
@@ -184,7 +190,8 @@ async function verifyCareerModeBackupEnvelopeChecksum(envelope){
     if(!envelope || envelope.formatId !== CAREER_MODE_BACKUP_FORMAT_ID){
         return false;
     }
-    if(envelope.formatVersion !== CAREER_MODE_BACKUP_FORMAT_VERSION){
+    // Accept current formatVersion and legacy v1 so older backups remain readable
+    if(envelope.formatVersion !== CAREER_MODE_BACKUP_FORMAT_VERSION && envelope.formatVersion !== 1){
         return false;
     }
     if(envelope.checksumAlgorithm !== CAREER_MODE_BACKUP_CHECKSUM_ALGORITHM || !envelope.checksum){

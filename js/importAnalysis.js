@@ -279,6 +279,36 @@
         return { ok: errors.length === 0, path, value: migration.value, migration, errors };
     }
 
+    function analyzeSaveLibraryRecord(record, path){
+        if(record === null || record === undefined){
+            return { ok: true, path, value: null, migration: { ok: true, value: null }, errors: [] };
+        }
+        if(!isPlainImportObject(record)){
+            return { ok: false, path, value: null, migration: { ok: false, error: "Save Library must be a plain object." }, errors: ["Save Library must be a plain object."] };
+        }
+        const errors = [];
+        if(Number(record.schemaVersion) !== 1){ errors.push("Save Library schemaVersion must be 1."); }
+        if(!(record.activeSaveId === null || typeof record.activeSaveId === "string")){ errors.push("Save Library activeSaveId must be string or null."); }
+        if(!Array.isArray(record.profiles)){ errors.push("Save Library profiles must be an array."); }
+        if(!Array.isArray(record.saves)){ errors.push("Save Library saves must be an array."); }
+        if(Array.isArray(record.saves)){
+            record.saves.forEach((entry, index) => {
+                if(!entry || typeof entry !== "object" || Array.isArray(entry)){
+                    errors.push(`Save Library saves[${index}] is not a valid entry.`);
+                    return;
+                }
+                if(typeof entry.saveId !== "string"){ errors.push(`Save Library saves[${index}].saveId must be a string.`); }
+            });
+        }
+        return {
+            ok: errors.length === 0,
+            path,
+            value: cloneImportValue(record),
+            migration: { ok: true, value: cloneImportValue(record) },
+            errors
+        };
+    }
+
     function parseLocalRawValue(raw, label){
         if(raw === null){ return { state: "missing", value: null, warning: null }; }
         try{
@@ -444,7 +474,7 @@
             errors.push("Backup format version is missing or invalid.");
         }else if(formatVersion > expectedFormatVersion){
             errors.push(`Backup format v${formatVersion} is newer than this app supports (v${expectedFormatVersion}).`);
-        }else if(formatVersion !== expectedFormatVersion){
+        }else if(formatVersion !== 1 && formatVersion !== expectedFormatVersion){
             errors.push(`Backup format v${formatVersion} is not supported by this Candidate B analyzer.`);
         }
         if(errors.length){
@@ -504,6 +534,12 @@
         if(payload.preferences !== null && payload.preferences !== undefined){
             importedPreferences = analyzePreferencesRecord(payload.preferences, "payload.preferences");
             if(!importedPreferences.ok){ errors.push(...importedPreferences.errors.map(message => `Preferences: ${message}`)); }
+        }
+
+        let importedSaveLibrary = null;
+        if(payload.saveLibrary !== null && payload.saveLibrary !== undefined){
+            importedSaveLibrary = analyzeSaveLibraryRecord(payload.saveLibrary, "payload.saveLibrary");
+            if(!importedSaveLibrary.ok){ errors.push(...importedSaveLibrary.errors.map(message => `Save Library: ${message}`)); }
         }
 
         const internalIdGroups = new Map();
@@ -585,6 +621,7 @@
         const migrationItems = [importedActive, ...importedLegacy, importedPreferences].filter(Boolean);
         const migrations = summarizeMigrations(migrationItems);
         const migratedPayload = {
+            saveLibrary: importedSaveLibrary && importedSaveLibrary.ok ? cloneImportValue(importedSaveLibrary.value) : null,
             activeShowdown: importedActive && importedActive.ok ? cloneImportValue(importedActive.value) : null,
             legacyShowdowns: Array.isArray(payload.legacyShowdowns)
                 ? importedLegacy.map(item => item.ok ? cloneImportValue(item.value) : null)

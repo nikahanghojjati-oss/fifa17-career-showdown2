@@ -16,7 +16,7 @@ function reportStorageError(context,error){console.error(`[Career Mode Showdown]
 function readStorageValue(key){try{return localStorage.getItem(key);}catch(error){reportStorageError("Unable to read local save data",error);return null;}}
 function writeStorageValue(key,value){try{localStorage.setItem(key,value);return true;}catch(error){reportStorageError("Unable to write local save data",error);return false;}}
 function removeStorageValue(key){try{localStorage.removeItem(key);return true;}catch(error){reportStorageError("Unable to remove local save data",error);return false;}}
-function captureCareerModeRawBackupInputs(){return {activeShowdown:readStorageValue(STORAGE_KEY),legacyShowdowns:readStorageValue(LEGACY_STORAGE_KEY),preferences:readStorageValue(APPLICATION_PREFERENCES_KEY)};}
+function captureCareerModeRawBackupInputs(){return {saveLibrary:readStorageValue(SAVE_KEY),activeShowdown:readStorageValue(STORAGE_KEY),legacyShowdowns:readStorageValue(LEGACY_STORAGE_KEY),preferences:readStorageValue(APPLICATION_PREFERENCES_KEY)};}
 function captureStorageSnapshot(keys){const raw={},failedKeys=[];for(const [name,key] of Object.entries(keys))try{raw[name]=localStorage.getItem(key);}catch(error){failedKeys.push(name);reportStorageError(`Unable to read ${name} for an exact raw snapshot`,error);}return failedKeys.length?{ok:false,raw:null,failedKeys}:{ok:true,raw,failedKeys:[]};}
 function captureCareerModeRawRestoreSnapshot(){return captureStorageSnapshot({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});}
 function captureLibraryMigrationSnapshot(){return captureStorageSnapshot({saveLibrary:SAVE_KEY,activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});}
@@ -61,7 +61,7 @@ function clearAllCareerModeData(){cancelScheduledCurrentShowdownSave();const sna
 window.captureCareerModeRawBackupInputs=captureCareerModeRawBackupInputs;
 window.captureCareerModeRawRestoreSnapshot=captureCareerModeRawRestoreSnapshot;
 window.captureCareerModeRawSaveLibraryMigrationSnapshot=captureLibraryMigrationSnapshot;
-window.getCareerModeStorageKeys=()=>({activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});
+window.getCareerModeStorageKeys=()=>({saveLibrary:SAVE_KEY,activeShowdown:STORAGE_KEY,legacyShowdowns:LEGACY_STORAGE_KEY,preferences:APPLICATION_PREFERENCES_KEY});
 window.initializeStorageLifecycle=initializeStorageLifecycle;
 window.scheduleCurrentShowdownSave=scheduleCurrentShowdownSave;
 window.flushScheduledCurrentShowdownSave=flushScheduledCurrentShowdownSave;

@@ -116,7 +116,7 @@ async function assertScenario(runtime, keys, name, input, expected){
 
     const full = await assertScenario(runtime, keys, "full", { active, legacy, preferences }, { active: 1, legacy: 1, preferences: 1 });
     assert.equal(full.formatId, "career-mode-showdown-backup");
-    assert.equal(full.formatVersion, 1);
+    assert.equal(full.formatVersion, 2);
     assert.equal(full.appVersion, appVersion, "Isolated Candidate A provenance must follow the current release identity rather than a historical fallback.");
     assert.equal(full.runtimeRevision, runtimeRevision);
     assert.equal(full.checksumAlgorithm, "SHA-256");

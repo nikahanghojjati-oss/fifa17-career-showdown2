@@ -93,17 +93,65 @@
     const activeChoice=choices.active;
     const legacyChoice=choices.legacy;
     const preferencesChoice=choices.preferences;
+    const payload=analysis.migratedPayload;
+    const hasBackupLibrary=Boolean(
+      payload&&payload.saveLibrary&&typeof payload.saveLibrary==="object"&&
+      Array.isArray(payload.saveLibrary.saves)&&Array.isArray(payload.saveLibrary.profiles)
+    );
+    // saveLibrary choice: key omitted → keep-current (safe default for contracts + classic path).
+    // Key present but empty/invalid → require explicit choice only when backup carries a complete library
+    // (UI shows the SAVE LIBRARY control). Classic v1 envelopes have no library control.
+    const hasSaveLibraryKey=Object.prototype.hasOwnProperty.call(choices,"saveLibrary");
+    const rawSaveLibraryChoice=hasSaveLibraryKey?choices.saveLibrary:"";
+    const saveLibraryChoice=(rawSaveLibraryChoice==="keep-current"||rawSaveLibraryChoice==="use-backup")
+      ?rawSaveLibraryChoice
+      :"keep-current";
     if(activeChoice!=="keep-current"&&activeChoice!=="use-backup")errors.push("Choose whether to keep the current active Showdown or use the backup active state.");
     if(legacyChoice!=="keep-current"&&legacyChoice!=="merge"&&legacyChoice!=="replace-with-backup")errors.push("Choose whether to keep, merge, or replace Legacy history.");
     if(preferencesChoice!=="keep-current"&&preferencesChoice!=="use-backup")errors.push("Choose whether to keep current application preferences or use backup preferences.");
+    if(hasBackupLibrary&&hasSaveLibraryKey&&rawSaveLibraryChoice!=="keep-current"&&rawSaveLibraryChoice!=="use-backup"){
+      errors.push("Choose whether to keep the current complete Save Library or replace it entirely with the backup library.");
+    }
     if(errors.length)return {ok:false,status:"choice-required",errors,warnings,candidateRaw:{},summary:null,conflicts:[]};
+    const destinationIsClean=(currentRaw.saveLibrary==null||currentRaw.saveLibrary===undefined)&&
+      (currentRaw.activeShowdown==null||currentRaw.activeShowdown===undefined);
 
-    const payload=analysis.migratedPayload;
     const candidateRaw={};
-    const summary={active:activeChoice,legacy:legacyChoice,preferences:preferencesChoice,legacyAdded:[],legacySkipped:[],legacyReplaced:[]};
-    if(activeChoice==="use-backup"){
-      if(parseRaw(currentRaw.activeShowdown,"active").state==="corrupt")warnings.push("Unreadable current active Showdown bytes will be replaced only because backup active state was explicitly selected.");
-      candidateRaw.activeShowdown=payload.activeShowdown===null?null:JSON.stringify(payload.activeShowdown);
+    const summary={
+      active:activeChoice,
+      legacy:legacyChoice,
+      preferences:preferencesChoice,
+      saveLibrary:"keep-current",
+      legacyAdded:[],
+      legacySkipped:[],
+      legacyReplaced:[]
+    };
+
+    // Full-library path (formatVersion 2): explicit clean restore or existing-data replace-all under Candidate C
+    if(hasBackupLibrary&&(saveLibraryChoice==="use-backup"||destinationIsClean)){
+      if(destinationIsClean){
+        summary.saveLibrary="full-restore-clean";
+      }else{
+        summary.saveLibrary="replace-all";
+        if(parseRaw(currentRaw.saveLibrary,"saveLibrary").state==="corrupt"){
+          warnings.push("Unreadable current Save Library bytes will be replaced only because explicit full-library replacement was selected.");
+        }
+      }
+      candidateRaw.saveLibrary=JSON.stringify(payload.saveLibrary);
+      // Full library restore owns active selection via activeSaveId; clear singleton activeShowdown
+      candidateRaw.activeShowdown=null;
+      summary.active="use-backup";
+    }else if(hasBackupLibrary&&saveLibraryChoice==="keep-current"){
+      summary.saveLibrary="keep-current";
+      // do not put saveLibrary into candidateRaw
+    }
+
+    // Classic active / preferences / legacy path (still required for v1 compatibility and mixed choices)
+    if(!(hasBackupLibrary&&(saveLibraryChoice==="use-backup"||destinationIsClean))){
+      if(activeChoice==="use-backup"){
+        if(parseRaw(currentRaw.activeShowdown,"active").state==="corrupt")warnings.push("Unreadable current active Showdown bytes will be replaced only because backup active state was explicitly selected.");
+        candidateRaw.activeShowdown=payload.activeShowdown===null?null:JSON.stringify(payload.activeShowdown);
+      }
     }
     if(preferencesChoice==="use-backup"){
       if(parseRaw(currentRaw.preferences,"preferences").state==="corrupt")warnings.push("Unreadable current preference bytes will be replaced only because backup preferences were explicitly selected.");
@@ -211,13 +259,26 @@
       let candidateRaw=plan.candidateRaw;
       let expectedRaw=currentRaw;
       let transactionOptions;
-      const saveLibraryMode=saveLibraryAvailable&&completeRaw.saveLibrary!==null;
+      const planHasFullLibrary=Boolean(
+        plan.summary&&(plan.summary.saveLibrary==="full-restore-clean"||plan.summary.saveLibrary==="replace-all")&&
+        own(plan.candidateRaw,"saveLibrary")
+      );
+      // Enter Save Library transaction when destination already has a library OR the plan is restoring a complete registry
+      const saveLibraryMode=saveLibraryAvailable&&(completeRaw.saveLibrary!==null||planHasFullLibrary);
       if(saveLibraryMode){
-        const prepared=await buildSaveLibraryRestoreCandidate(plan,analysis,completeRaw);
-        if(!prepared.ok)return {ok:false,status:prepared.status,analysis,plan,currentRaw:completeRaw,errors:prepared.errors,warnings:plan.warnings};
-        candidateRaw=prepared.candidateRaw;
-        expectedRaw=prepared.expectedRaw;
-        transactionOptions=prepared.options;
+        if(planHasFullLibrary){
+          // Candidate C path: plan already owns exact candidateRaw including saveLibrary + cleared activeShowdown
+          candidateRaw=Object.assign({},plan.candidateRaw);
+          if(!own(candidateRaw,"activeShowdown"))candidateRaw.activeShowdown=null;
+          expectedRaw=completeRaw;
+          transactionOptions={order:SAVE_LIBRARY_RESTORE_ORDER.slice(),guardRequestedBeforeEachWrite:true};
+        }else{
+          const prepared=await buildSaveLibraryRestoreCandidate(plan,analysis,completeRaw);
+          if(!prepared.ok)return {ok:false,status:prepared.status,analysis,plan,currentRaw:completeRaw,errors:prepared.errors,warnings:plan.warnings};
+          candidateRaw=prepared.candidateRaw;
+          expectedRaw=prepared.expectedRaw;
+          transactionOptions=prepared.options;
+        }
         if(window.CareerModeSaveLibraryRuntime&&typeof window.CareerModeSaveLibraryRuntime.invalidateAuthority==="function")window.CareerModeSaveLibraryRuntime.invalidateAuthority();
       }
 

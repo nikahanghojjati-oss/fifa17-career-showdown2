@@ -22,7 +22,8 @@
     "test:import-contracts": "node tests/contracts/import-analysis-contracts.cjs",
     "test:import-browser": "node tests/browser/import-analysis-audit.cjs",
     "test:restore-contracts": "node tests/support/run-restore-contracts.cjs",
-    "test:restore-browser": "node tests/browser/restore-audit.cjs && node tests/browser/restore-maintenance-audit.cjs"
+    "test:restore-browser": "node tests/browser/restore-audit.cjs && node tests/browser/restore-maintenance-audit.cjs",
+    "test:multi-save-browser": "node tests/browser/multi-save-portability-audit.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",
