@@ -133,6 +133,13 @@ async function chooseMergeRestore(page, conflictChoice = "use-backup"){
     await page.locator('select[name="restore-active"]').selectOption("use-backup");
     await page.locator('select[name="restore-legacy"]').selectOption("merge");
     await page.locator('select[name="restore-preferences"]').selectOption("use-backup");
+    // Full-library path (formatVersion 2): when backup carries a complete Save Library the UI
+    // presents an explicit SAVE LIBRARY control. Keep current so classic active/legacy/preferences
+    // merge semantics remain under test without replacing the entire library.
+    const saveLibrarySelect = page.locator('select[name="restore-saveLibrary"]');
+    if(await saveLibrarySelect.count() > 0){
+        await saveLibrarySelect.selectOption("keep-current");
+    }
     await page.locator("#careerModeRestorePanel .careerRestoreConflict").waitFor({ state: "visible", timeout: 3000 });
     const conflicts = page.locator("#careerModeRestorePanel .careerRestoreConflict .careerRestoreSelect");
     assert.ok(await conflicts.count() >= 1, "Merge must surface same-ID/different-content conflicts.");
