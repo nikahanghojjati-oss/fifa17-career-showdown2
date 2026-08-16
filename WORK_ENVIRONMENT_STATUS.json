@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-15-pr66-pr65-portability",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-16T00:12:05Z",
+  "recordedAt": "2026-08-16T00:15:16Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,8 +13,8 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 8,
-    "largeEvidenceEvents": 16,
-    "toolRoutingErrors": 6,
+    "largeEvidenceEvents": 17,
+    "toolRoutingErrors": 7,
     "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 2,
@@ -68,7 +68,8 @@
       "All 15 exact-merge workflow families and all 23 jobs succeeded. Key proof: Stability 31916005674, deployed-site-smoke 95087964319, Release Integration Burn-In 31916005709, Candidate C 31916005767, Pages run 31916005279 and successful deployment 5925915091. Comment 5304847818 is the external protected-merge seal.",
       "Current-source confirmation for the next milestone found captureCareerModeRawBackupInputs reads only the legacy three backup slots, runtimeProjectBackupRaw projects only one active Save from saveLibrary, and buildCareerModeBackupSnapshot emits only activeShowdown, legacyShowdowns and preferences. Because PR #65 changed no runtime path, complete multi-Save portability remains incomplete and unblocked.",
       "The first focused handoff/release validation after closing PR #65 correctly exposed assertions that still required PR #65 to be pending. Those assertions were updated to require exact PR #65 closure and the now-current product candidate. This is the second corrected/stale-fact event; it changes no runtime behavior.",
-      "Final clean-checkpoint reassessment is HANDOFF_AT_CHECKPOINT: context pressure 100, quality risk 68, continuation risk 84.3, transition cost 13.5 and transition advantage 70.8. The record is transition-prepared and the distinct product milestone must begin in a fresh successor."
+      "The final npm run work:handoff wrapper was cancelled by the Work execution layer before the repository script ran. The exact node scripts/work-environment-continuity.mjs handoff owner is used directly. This is the seventh routing event, not a repository failure.",
+      "Final clean-checkpoint reassessment is HANDOFF_AT_CHECKPOINT: context pressure 100, quality risk 74, continuation risk 87.3, transition cost 13.5 and transition advantage 73.8. The record is transition-prepared and the distinct product milestone must begin in a fresh successor."
     ]
   }
 }

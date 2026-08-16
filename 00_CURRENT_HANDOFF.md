@@ -94,7 +94,7 @@ Fresh exact-head proof completed all 13 pull-request workflow families with 17 s
 
 Current source still proves the next product gap. `captureCareerModeRawBackupInputs()` captures only active Showdown, Legacy and preferences; `runtimeProjectBackupRaw()` projects only the active Save from a Save Library; and `buildCareerModeBackupSnapshot()` emits only that projected active record, Legacy and preferences. The v1 envelope therefore cannot round-trip a complete multi-Save registry to a fresh device. PR #65 changed no runtime path, so the bounded complete fresh-device multi-Save portability candidate remains incomplete and unblocked.
 
-Final clean-checkpoint assessment after PR #65 production proof and recursive record correction: `HANDOFF_AT_CHECKPOINT`; context pressure `100`, quality risk `68`, continuation risk `84.3`, transition cost `13.5` and transition advantage `70.8`. Transition before beginning the distinct product milestone.
+Final clean-checkpoint assessment after PR #65 production proof and recursive record correction: `HANDOFF_AT_CHECKPOINT`; context pressure `100`, quality risk `74`, continuation risk `87.3`, transition cost `13.5` and transition advantage `73.8`. Transition before beginning the distinct product milestone.
 
 ## Closed bounded follow-up — PR #63 bootstrap assessment order
 
