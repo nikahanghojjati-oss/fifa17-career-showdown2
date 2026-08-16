@@ -13,9 +13,9 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`
 Feature release version: intentionally unassigned
 
-Latest infrastructure boundary: PR #66 validated head `72e4b41b2b4734e49fd3af4626e9b4048bbc7367` merged to `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`; all 15 post-merge workflows and Pages deployment `5925677418` passed with no website runtime-path change. This seal retains PR #64 corrected-bootstrap authority at merge `629b01d160e4eb1215c54ff6bc9558396a2b256d`.
+Latest infrastructure boundary: PR #65 reconciled head `f196bfc65552241ea0221fc961bd73192fd88c47` merged with expected-head protection to `e8d90157a227960c690f6a459c4fc143365216ad`; all 15 post-merge workflows, all 23 jobs and Pages deployment `5925915091` passed with no website runtime-path change. This retains PR #66 and PR #64 authority beneath it.
 
-Latest owner-authorized sequence: reconcile and complete PR #65's portable rootless GitHub CLI bootstrap on the PR #66 main, then immediately advance the bounded complete fresh-device multi-Save backup/import portability candidate after source confirmation.
+Latest owner-authorized task: advance the bounded complete fresh-device multi-Save backup/import portability candidate. Current source confirms the v1 envelope still projects only one active Save and cannot round-trip the full registry.
 
 Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption and Local Profile display-label editing are complete, merged, deployed and production-proven.
 
@@ -103,18 +103,18 @@ Production semantics now include:
 - Analytics and Trophy Room caches/renders refresh when identity mapping or consumed profile presentation changes;
 - Rivalry Analytics remains scoped to one Showdown and does not become a cross-history identity consumer.
 
-Production Local Profile display-label editing changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. A later owner handoff authorizes PR #65 reconciliation followed by one bounded complete multi-Save portability candidate. Broader profile CRUD, Analytics 2.0, cloud, communities, rankings and unrelated product work remain unauthorized.
+Production Local Profile display-label editing changes only `profile.displayName`, never stable identity or saved/historical Showdown labels. PR #65 is complete; the current bounded authorization is complete multi-Save portability. Broader profile CRUD, Analytics 2.0, cloud, communities, rankings and unrelated product work remain unauthorized.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 After reconstructing live repository state and reading current authority:
 
-1. verify live `main` remains PR #66 merge `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` or reconstruct every newer change;
+1. verify live `main` remains PR #65 merge `e8d90157a227960c690f6a459c4fc143365216ad` or reconstruct every newer change;
 2. validate the inherited Work Environment Continuity record, initialize fresh observations and only then run `npm run work:assess`;
-3. verify PR #66's 15 successful post-merge workflows, deployment `5925677418`, retained PR #64 proof, unchanged runtime paths and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
-4. reconcile PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` onto the PR #66 main while preserving corrected continuity ordering and the checksum-verified rootless bootstrap security boundary;
-5. rerun the real bootstrap, supported GitHub authentication check, complete local contracts/syntax/runtime-diff proof and fresh exact-head CI/review before protected PR #65 merge;
-6. after PR #65 post-merge proof, confirm complete multi-Save portability remains incomplete and unblocked, then begin only the bounded candidate and acceptance criteria in `NEXT_TASK.md`.
+3. verify PR #65's exact-tree merge, all 15 successful post-merge workflows, deployment `5925915091`, empty runtime paths and coherent `1.3.0-r2` / previous `1.3.0-r1` whole-shell recovery;
+4. study the backup/import/restore and Save Library authorities named in `NEXT_TASK.md`, then define the versioned complete-library envelope and explicit destination policy before mutation code;
+5. begin with deterministic failing multi-Save round-trip, existing-data, corruption, identity and retry/idempotence fixtures; implement only the bounded user-facing flow while preserving Candidate C's destructive Apply guarantees;
+6. run focused deterministic and Chromium proof plus the complete repository, syntax, runtime-diff and exact-head GitHub gates before promotion.
 
 Do not ask the owner to reconstruct already-recorded repository history.
 

@@ -44,17 +44,27 @@ The merge tree exactly matches the validated PR head and has parents previous ma
 
 All 15 exact-merge push/deployment workflow families succeeded with zero failures or cancellations. Key proof includes Release Integration Burn-In run `31912849099`, Candidate C run `31912849117`, Stability run `31912849066`, deployed-site-smoke job `95080639852`, Pages run `31912848238` and deployment `5925426401`. PR comment `5304605881` is the external seal.
 
-### Active PR #65 reconciliation
+### Completed PR #65 reconciliation
 
 PR #65 historical exact head before reconciliation:
 
 `978fa967517207733cc84c7e6dd6e778b5770723`
 
-Its historical base `fd6879940c6409fd3727a50816a10479ee2446e6` predates PR #64 and PR #66. The active reconciliation branch is `agent/portable-gh-bootstrap-reconcile` from exact live main `0a7dfbef...`; publication will update existing PR #65 branch `agent/portable-gh-bootstrap` only after complete local proof.
+Its historical base `fd6879940c6409fd3727a50816a10479ee2446e6` predates PR #64 and PR #66. That historical head and all checks attached to it are superseded.
 
 Reconciled implementation checkpoint:
 
 `45ffd54c997a679ed7d96edae35a1cf003ead4c8`
+
+Validated and merged exact head:
+
+`f196bfc65552241ea0221fc961bd73192fd88c47`
+
+Expected-head merge and current live main:
+
+`e8d90157a227960c690f6a459c4fc143365216ad`
+
+The verified merge has parents previous main `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` and exact head `f196bfc...`. The validated head and merge trees match exactly at `2b15246509123a31e67b1320cca45c381c587c9b`; the 13-file change has an empty website-runtime-path diff.
 
 Reconciled implementation currently preserves:
 
@@ -80,11 +90,11 @@ Current local proof passes:
 - `git diff --check` and ignored-tool/config verification;
 - empty website runtime-path diff against exact live main.
 
-Only final record freeze, connector-first publication of the new PR #65 head and fresh exact-head GitHub proof remain before promotion. Local CLI authentication is an accurately recorded environment boundary, not a reason to bypass the supported GitHub connector or import connector credentials.
+Fresh exact-head proof completed all 13 pull-request workflow families with 17 successful jobs, one expected draft-only deployed-site-smoke skip, no failures/cancellations/pending jobs, no reviews or inline threads and clean mergeability. Exact-merge proof completed all 15 workflow families and all 23 jobs. Key evidence: Stability run `31916005674`, deployed-site-smoke job `95087964319`, Release Integration Burn-In `31916005709`, Candidate C `31916005767`, Pages run `31916005279` and successful deployment `5925915091`. PR comment `5304847818` is the external protected-merge seal.
 
-Historical PR #65 green checks belong only to old head `978fa967...` and become invalid when the reconciled head is pushed. Require a new exact-head CI, review-thread and mergeability gate before promotion.
+Current source still proves the next product gap. `captureCareerModeRawBackupInputs()` captures only active Showdown, Legacy and preferences; `runtimeProjectBackupRaw()` projects only the active Save from a Save Library; and `buildCareerModeBackupSnapshot()` emits only that projected active record, Legacy and preferences. The v1 envelope therefore cannot round-trip a complete multi-Save registry to a fresh device. PR #65 changed no runtime path, so the bounded complete fresh-device multi-Save portability candidate remains incomplete and unblocked.
 
-Current environment assessment after the complete local reconciliation gate: `HANDOFF_AT_CHECKPOINT`; context pressure `100`, quality risk `46`, continuation risk `64.8`, transition cost `19.2` and transition advantage `45.6`. Finish only PR #65 publication, exact-head review/CI, protected merge and post-merge proof; then freeze the recursive handoff and transition before beginning the distinct multi-Save product milestone.
+Final clean-checkpoint assessment after PR #65 production proof and recursive record correction: `HANDOFF_AT_CHECKPOINT`; context pressure `100`, quality risk `68`, continuation risk `84.3`, transition cost `13.5` and transition advantage `70.8`. Transition before beginning the distinct product milestone.
 
 ## Closed bounded follow-up — PR #63 bootstrap assessment order
 
@@ -177,13 +187,13 @@ Inspection of that parser edit found a duplicate local declaration before syntax
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live `main` remains PR #66 merge `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` or reconstruct every newer change before touching the next candidate;
+1. verify live `main` remains PR #65 merge `e8d90157a227960c690f6a459c4fc143365216ad` or reconstruct every newer change before touching the next candidate;
 2. validate the inherited continuity record, archive/replace it with a fresh successor record and only then run `npm run work:assess`;
-3. verify PR #66 merge `0a7dfbef...`, all 15 successful exact-merge workflows, deployment `5925677418`, unchanged runtime paths and retained PR #64 proof;
-4. reconcile draft PR #65 branch `agent/portable-gh-bootstrap` from historical head `978fa967...` onto the new live main while preserving both PR #64 ordering semantics and PR #65's rootless checksum-verified GitHub CLI bootstrap;
-5. run the real GitHub CLI bootstrap, supported authentication status, focused bootstrap/continuity contracts, complete repository contract suite, syntax scan, diff hygiene and empty website-runtime diff; then publish a new exact head and require complete current-head CI/review proof before protected merge;
-6. after PR #65 is merged and post-merge proof is complete, confirm from current source that complete fresh-device multi-Save backup/import portability remains incomplete and unblocked, record its exact bounded scope in `NEXT_TASK.md` and begin that one user-facing candidate;
-7. if source proves portability complete or blocked, select the next smallest unblocked candidate from the first unfinished roadmap tier and record the same concrete implementation boundary before coding.
+3. verify PR #65 head `f196bfc...`, merge/tree equality, all 15 successful exact-merge workflows, deployment `5925915091`, empty runtime paths and external seal comment `5304847818`;
+4. retain the source-grounded finding that `js/storage.js`, `js/saveLibraryRuntime.js` and `js/backup.js` still reduce a Save Library backup to one projected active Save rather than a complete registry;
+5. before runtime mutation, define the versioned complete-library envelope plus explicit clean-browser and existing-data destination policy, keeping Candidate C as the only destructive Apply owner;
+6. first implementation action: add deterministic failing fixtures for a two-Save registry round trip with stable Save/profile/season IDs, same-name distinct profiles, explicit profile reuse, unresolved history, active-Save selection, corrupt/truncated refusal and retry/idempotence; then implement the smallest flow through `js/backup.js`, `js/importAnalysis.js`, `js/restore.js`, `js/saveLibraryRuntime.js` and the storage transaction boundary;
+7. extend `tests/contracts/backup-contracts.cjs`, `import-analysis-contracts.cjs`, the restore contracts and the backup/import/restore Chromium audits, then run the complete repository and deployed-runtime gates before promotion.
 
 Do not reopen display-label editing or broaden into profile merge/delete, cloud, communities, rankings, unrelated gameplay or speculative Service Worker work. The latest owner handoff authorizes the bounded post-infrastructure product sequence above and no broader runtime area.
 

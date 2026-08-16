@@ -21,20 +21,19 @@ PR #61 passed all 13 normal pull-request workflow families on exact unchanged he
 
 The one later owner-authorized Local Profile display-label candidate is closed as production-proven.
 
-A later explicit owner handoff on 2026-08-15 ET supersedes the prior clean stop and authorizes one ordered infrastructure-to-product sequence:
-
-1. complete the portable GitHub CLI bootstrap through PR #65 after reconciling it onto the PR #66 merge;
-2. then implement exactly one smallest meaningful user-facing roadmap advancement, provisionally complete fresh-device multi-Save backup/import portability, after confirming from current source that it remains incomplete and unblocked.
+A later explicit owner handoff on 2026-08-15 ET supersedes the prior clean stop and authorized an ordered infrastructure-to-product sequence. The infrastructure gate is now complete; the current authorized product candidate is complete fresh-device multi-Save backup/import portability.
 
 PR #66 is complete. Its validated head `72e4b41b2b4734e49fd3af4626e9b4048bbc7367` merged with expected-head protection to current live main `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`; the merge tree matches exactly, all 15 exact-merge workflows and Pages deployment `5925677418` succeeded, and website runtime paths remain unchanged.
 
 PR #64 remains the retained corrected-bootstrap authority beneath that seal. Its validated head `542e4ecab75b1b481862285b7ecbd1d965c341aa` merged to `629b01d160e4eb1215c54ff6bc9558396a2b256d` with all 15 exact-merge workflows and deployment `5925426401` successful.
 
-PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` remains based on pre-PR-#64 main `fd6879940c6409fd3727a50816a10479ee2446e6`. Reconcile it before any promotion. Preserve PR #64's inherited-record validation → fresh environment initialization/reset → successor assessment order and PR #65's official-release-only, checksum-verified, rootless GitHub CLI bootstrap with environment-local writable configuration and connector-first credential handling.
+PR #65 is complete. Reconciled exact head `f196bfc65552241ea0221fc961bd73192fd88c47` merged with expected-head protection to current live main `e8d90157a227960c690f6a459c4fc143365216ad`; merge and head trees match at `2b15246509123a31e67b1320cca45c381c587c9b`, website runtime paths are unchanged, all 15 post-merge workflow families and all 23 jobs succeeded, and Pages deployment `5925915091` reached success. External seal comment: `5304847818`.
+
+Current source confirms the product gap remains: `captureCareerModeRawBackupInputs()` captures only active Showdown, Legacy and preferences; `runtimeProjectBackupRaw()` projects only the active entry from a Save Library; and `buildCareerModeBackupSnapshot()` emits no complete Save Library registry. The v1 envelope cannot round-trip multiple Saves to a fresh device.
 
 The Work Environment Continuity and GitHub CLI systems are development-process infrastructure, not product candidates. They enable the authorized website task and must not become an endless substitute for it.
 
-### Bounded product acceptance boundary after PR #65
+### Current bounded product acceptance boundary
 
 Authorized candidate: complete fresh-device multi-Save backup/import portability.
 
@@ -54,14 +53,14 @@ If source proves complete multi-Save portability is already finished or genuinel
 
 After independently fetching live `main`, recent commits and open PRs and reading the permanent authority files:
 
-1. verify live main remains PR #66 merge `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96` or reconstruct every newer change before proceeding;
+1. verify live main remains PR #65 merge `e8d90157a227960c690f6a459c4fc143365216ad` or reconstruct every newer change before proceeding;
 2. validate and initialize the Work Environment Continuity record, run `npm run work:assess` and obey its safe-boundary decision;
-3. verify PR #66's 15 successful exact-merge workflows, deployment `5925677418`, unchanged website runtime boundary, retained PR #64 proof and the public `1.3.0-r2` / previous `1.3.0-r1` shell;
-4. reconcile PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723` onto the live main, preserving both continuity ordering and portable bootstrap security semantics;
-5. run the real rootless bootstrap, supported `gh auth status`, focused contracts, complete contract/syntax/diff proof and fresh exact-head CI/review verification before protected PR #65 merge;
-6. verify PR #65 post-merge main and workflows;
-7. then study Candidate A/B/C, Save Library, identity, persistence and browser-audit architecture and begin only the bounded complete multi-Save portability candidate above if current source confirms it remains correct;
-8. maintain the rolling handoff and continuity status at every checkpoint.
+3. verify PR #65's exact tree, 15 successful exact-merge workflows, deployment `5925915091`, empty website-runtime boundary, retained PR #64/#66 proof and the public `1.3.0-r2` / previous `1.3.0-r1` shell;
+4. study `js/backup.js`, `js/importAnalysis.js`, `js/restore.js`, `js/storage.js`, `js/storageTransaction.js`, `js/saveLibraryRuntime.js`, Candidate A/B/C contracts and the backup/import/restore browser audits;
+5. define the versioned complete-library envelope and explicit clean-browser/existing-data destination behavior before mutation code;
+6. first implementation action: add deterministic failing fixtures that round-trip a two-Save registry with stable identities, active selection, same-name distinct profiles, explicit profile reuse and unresolved history while proving corrupt/truncated refusal, safe existing-data handling and retry/idempotence;
+7. implement the smallest user-facing flow without weakening Candidate C destructive-Apply ownership, freshness, transaction, rollback, anti-clobber or exact-verification guarantees;
+8. run focused contracts/Chromium evidence, the complete repository suite, syntax/diff/runtime hygiene and normal exact-head GitHub proof before promotion; maintain the rolling handoff at every checkpoint.
 
 Do not reopen Local Profile display-label editing, propagate labels into Showdown/Legacy history, broaden into profile merge/delete, cloud, public communities/rankings, unrelated gameplay or speculative Service Worker changes.
 
@@ -136,4 +135,4 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Local Profile display-label editing and Identity-Safe Career Analytics are closed and must not be reopened. Complete PR #65 first. Then advance only the bounded fresh-device complete multi-Save portability candidate above when current source confirms it is incomplete and unblocked. A continuity transition must carry this exact product task forward rather than reverting to a generic no-task stop.
+Local Profile display-label editing, Identity-Safe Career Analytics and PR #65 are closed and must not be reopened. Advance only the bounded fresh-device complete multi-Save portability candidate above. A continuity transition must carry this exact product task forward rather than reverting to a generic no-task stop.

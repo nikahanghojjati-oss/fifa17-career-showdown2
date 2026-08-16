@@ -95,18 +95,18 @@ assert.match(
 );
 assert.match(
   next,
-  /PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723`[\s\S]+reconcile it before any promotion/i,
-  "NEXT_TASK must make PR #65 reconciliation the exact infrastructure gate after PR #64."
+  /PR #65 is complete[\s\S]+f196bfc65552241ea0221fc961bd73192fd88c47[\s\S]+e8d90157a227960c690f6a459c4fc143365216ad[\s\S]+5925915091/i,
+  "NEXT_TASK must close the reconciled PR #65 infrastructure gate with exact merge and deployment proof."
 );
 assert.match(
   next,
-  /Bounded product acceptance boundary after PR #65[\s\S]+fresh-device multi-Save backup\/import portability/i,
-  "NEXT_TASK must carry the owner-authorized user-facing portability candidate past the infrastructure gate."
+  /Current bounded product acceptance boundary[\s\S]+fresh-device multi-Save backup\/import portability/i,
+  "NEXT_TASK must make the owner-authorized user-facing portability candidate current after the closed infrastructure gate."
 );
 assert.match(
   current,
-  /PR #66 authority-seal closure[\s\S]+0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96[\s\S]+Active PR #65 reconciliation/i,
-  "The rolling handoff must close PR #66 exactly, retain PR #64 proof and name the active PR #65 reconciliation."
+  /Completed PR #65 reconciliation[\s\S]+e8d90157a227960c690f6a459c4fc143365216ad[\s\S]+current source still proves the next product gap/i,
+  "The rolling handoff must close PR #65 exactly and name the source-proven portability gap."
 );
 assert.match(
   start,
@@ -120,4 +120,4 @@ assert.match(
 );
 assert.match(start,/PR #65[\s\S]+multi-Save backup\/import portability/i,"Developer bootstrap must expose the ordered infrastructure-to-product sequence.");
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected while fresh developers are directed through PR #65 into bounded multi-Save portability.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected while fresh developers are directed from closed PR #65 into bounded multi-Save portability.");

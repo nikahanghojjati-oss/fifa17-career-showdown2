@@ -152,9 +152,9 @@ A.match(state, /unresolved historical manager roles remaining explicit and never
 
 A.match(next, /Local Profile display-label candidate is closed as production-proven/i, "NEXT_TASK must close the explicit later-authorized candidate after proof.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723`[\s\S]+reconcile it before any promotion/i, "NEXT_TASK must gate the new product candidate behind reconciled PR #65.");
-A.match(next, /Bounded product acceptance boundary after PR #65[\s\S]+fresh-device multi-Save backup\/import portability/i, "NEXT_TASK must define the authorized bounded product advancement.");
-A.match(next, /Local Profile display-label editing and Identity-Safe Career Analytics are closed/i, "NEXT_TASK must keep completed Analytics and label editing closed.");
+A.match(next, /PR #65 is complete[\s\S]+f196bfc65552241ea0221fc961bd73192fd88c47[\s\S]+e8d90157a227960c690f6a459c4fc143365216ad[\s\S]+5925915091/i, "NEXT_TASK must close the reconciled PR #65 gate with exact merge and deployment proof.");
+A.match(next, /Current bounded product acceptance boundary[\s\S]+fresh-device multi-Save backup\/import portability/i, "NEXT_TASK must define the now-current bounded product advancement.");
+A.match(next, /Local Profile display-label editing,[\s\S]+Identity-Safe Career Analytics[\s\S]+PR #65 are closed/i, "NEXT_TASK must keep completed Analytics, label editing and infrastructure closed.");
 A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
