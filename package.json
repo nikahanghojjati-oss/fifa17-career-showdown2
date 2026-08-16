@@ -28,8 +28,7 @@
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",
     "axe-core": "4.13.0",
-    "playwright": "1.62.1",
-    "tar-fs": "3.0.9"
+    "playwright": "1.62.1"
   },
   "engines": {
     "node": ">=24"
