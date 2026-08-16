@@ -203,7 +203,7 @@ function seedLocal(runtime, keys, { active, legacy, preferences }){
     assert.match(tamperedAnalysis.errors.join(" "), /checksum does not match/i);
 
     const futureFormat = structuredClone(envelope);
-    futureFormat.formatVersion = 2;
+    futureFormat.formatVersion = 3;
     const futureFormatAnalysis = await runtime.window.analyzeCareerModeBackupEnvelope(futureFormat);
     assert.equal(futureFormatAnalysis.ok, false);
     assert.match(futureFormatAnalysis.errors.join(" "), /newer than this app supports/i);
@@ -234,7 +234,7 @@ function seedLocal(runtime, keys, { active, legacy, preferences }){
     assert.equal(oversizedReads, 0, "Oversized File objects must be rejected before File.text() is called.");
     assert.match(oversized.errors.join(" "), /too large/i);
 
-    const dangerous = JSON.parse('{"formatId":"career-mode-showdown-backup","formatVersion":1,"checksumAlgorithm":"SHA-256","checksum":"' + '0'.repeat(64) + '","payload":{"__proto__":{"polluted":true}}}');
+    const dangerous = JSON.parse('{\"formatId\":\"career-mode-showdown-backup\",\"formatVersion\":1,\"checksumAlgorithm\":\"SHA-256\",\"checksum\":\"' + '0'.repeat(64) + '\",\"payload\":{\"__proto__\":{\"polluted\":true}}}');
     const dangerousAnalysis = await runtime.window.analyzeCareerModeBackupEnvelope(dangerous);
     assert.equal(dangerousAnalysis.ok, false);
     assert.match(dangerousAnalysis.errors.join(" "), /forbidden object key/i);
