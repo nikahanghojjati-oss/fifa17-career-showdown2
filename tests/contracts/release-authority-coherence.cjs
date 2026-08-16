@@ -145,17 +145,18 @@ A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain
 A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current production handoff must preserve the source-grounded Analytics identity finding that shaped the implementation.");
 A.match(currentHandoff, /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i, "Current handoff must retain the final PR #59 validation failure and classification evidence.");
 
-A.match(state, /Identity-Safe Career Analytics is therefore merged, deployed, exact-byte verified and technically production-proven/i, "PROJECT_STATE must own current production Analytics truth after PR #59 proof.");
-A.match(state, /Current production runtime feature merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "PROJECT_STATE must identify the exact r2 production runtime feature merge.");
+A.match(state, /Identity-Safe Career Analytics[\s\S]{0,120}(production-proven|merged, deployed)/i, "PROJECT_STATE must own current production Analytics truth after PR #59 proof.");
+A.match(state, /Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`/i, "PROJECT_STATE must identify the exact multi-Save (PR #67) production runtime feature merge.");
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
-A.match(state, /unresolved historical manager roles remaining explicit and never guessed from name similarity/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
+A.match(state, /unresolved historical roles remain excluded from identified longitudinal manager totals|unresolved historical manager roles remaining explicit/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
 
-A.match(next, /Local Profile display-label candidate is closed as production-proven/i, "NEXT_TASK must close the explicit later-authorized candidate after proof.");
+A.match(next, /No product candidate is currently authorized for implementation/i, "NEXT_TASK must state that no product candidate is currently authorized after multi-Save closure.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723`[\s\S]+reconcile it before any promotion/i, "NEXT_TASK must gate the new product candidate behind reconciled PR #65.");
-A.match(next, /Bounded product acceptance boundary after PR #65[\s\S]+fresh-device multi-Save backup\/import portability/i, "NEXT_TASK must define the authorized bounded product advancement.");
-A.match(next, /Local Profile display-label editing and Identity-Safe Career Analytics are closed/i, "NEXT_TASK must keep completed Analytics and label editing closed.");
+A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as closed / production-proven.");
+A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
+A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
 A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
+A.match(next, /advance only a later explicit owner-authorized candidate|fresh explicit owner instruction selecting from the owner roadmap Phase B/i, "NEXT_TASK stop condition must require a later explicit owner instruction from Phase B onward.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
@@ -187,4 +188,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed identity layers, recovery ownership, local portability authorization, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed identity layers, recovery ownership, closed multi-Save (PR #67), clean-stop authorization, cloud boundary and workflow topology agree.\n`);
