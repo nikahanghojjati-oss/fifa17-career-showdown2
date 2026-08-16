@@ -519,7 +519,7 @@
                 }
             }
         }
-        return {ok:true,raw:{activeShowdown:projectedActiveRaw,legacyShowdowns:raw.legacyShowdowns,preferences:raw.preferences},warnings,recovery:Object.keys(recovery).length?recovery:null,sourceRaw:runtimeCloneValue(raw)};
+        return {ok:true,raw:{saveLibrary:raw.saveLibrary,activeShowdown:projectedActiveRaw,legacyShowdowns:raw.legacyShowdowns,preferences:raw.preferences},warnings,recovery:Object.keys(recovery).length?recovery:null,sourceRaw:runtimeCloneValue(raw)};
     }
 
     async function runtimePrepareRestoreLibraryRaw(activeShowdown,currentLibraryRaw){

@@ -378,6 +378,33 @@ Two-device/private-manager architecture may consume the already-separated Transf
 
 ---
 
+# 2. Product philosophy lock — private two-manager companion [2026-08-16]
+
+## Owner decision (permanent)
+
+On 2026-08-16 the owner locked the product direction:
+
+- Career Mode Showdown is a **private two-manager companion** for the owner and one friend.
+- **Public community features and a global leaderboard / rankings system are ELIMINATED** from the roadmap. They are not deferred; they are removed as product goals.
+- This does **not** authorize any cloud, multiplayer, account, moderation or public-discovery work.
+
+## Owner clarification (same day)
+
+The friend joins from a different country; sessions are therefore remote. A workable **private remote joining / session system** is an important future requirement. That requirement:
+
+- strengthens the long-term private paired-device / Connected Rivalry direction;
+- remains **BLOCKED** today (no current auth, no current remote transport authorization);
+- does **not** authorize cloud storage, public communities, global leaderboards or any public-facing ranking surface;
+- does **not** change the currently authorized multi-Save portability task.
+
+## Authority impact
+
+- Future sessions must treat public community and global leaderboard work as out of scope unless the owner explicitly reverses this lock in a later amendment.
+- Classification matrices, NEXT_TASK future-area lists and dependency chains must reflect ELIMINATED rather than “conditional / much later”.
+- Private remote joining stays in the blocked future private-paired path and is never started under the multi-Save portability authorization.
+
+---
+
 # Non-regression rules for all amendments
 
 - Do not change the max-11 scoring model.

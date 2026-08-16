@@ -1,11 +1,11 @@
 (function(){
   "use strict";
   let file=null,analysis=null,reviewedRaw=null,busy=false,observer=null,fileGeneration=0;
-  let choices={active:"",legacy:"",preferences:"",legacyConflicts:{}};
+  let choices={active:"",legacy:"",preferences:"",saveLibrary:"",legacyConflicts:{}};
   const make=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;};
   const panel=()=>document.getElementById("careerModeRestorePanel");
   const status=message=>{const n=panel()&&panel().querySelector(".careerRestoreStatus");if(n)n.textContent=message;};
-  const resetChoices=()=>{choices={active:"",legacy:"",preferences:"",legacyConflicts:{}};};
+  const resetChoices=()=>{choices={active:"",legacy:"",preferences:"",saveLibrary:"",legacyConflicts:{}};};
   const cloneValue=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
   const describeActive=value=>value&&value.name?value.name:"No active Showdown in backup";
 
@@ -107,7 +107,7 @@
     const box=make("div",`careerRestorePlan ${plan.ok?"ready":"blocked"}`);
     box.appendChild(make("strong","",plan.ok?"RESTORE PLAN READY":"RESTORE PLAN INCOMPLETE"));
     if(plan.ok){
-      const s=plan.summary,parts=[s.active==="use-backup"?"active matches backup":"active stays local",s.legacy==="merge"?`Legacy merge adds ${s.legacyAdded.length} and replaces ${s.legacyReplaced.length}`:s.legacy==="replace-with-backup"?"Legacy matches backup":"Legacy stays local",s.preferences==="use-backup"?"preferences match backup":"preferences stay local"];
+      const s=plan.summary,parts=[s.saveLibrary==="full-restore-clean"?"Save Library full restore (clean destination)":s.saveLibrary==="replace-all"?"Save Library replace entire library with backup":s.saveLibrary==="keep-current"?"Save Library stays local":null,s.active==="use-backup"?"active matches backup":"active stays local",s.legacy==="merge"?`Legacy merge adds ${s.legacyAdded.length} and replaces ${s.legacyReplaced.length}`:s.legacy==="replace-with-backup"?"Legacy matches backup":"Legacy stays local",s.preferences==="use-backup"?"preferences match backup":"preferences stay local"].filter(Boolean);
       if(!Object.keys(plan.candidateRaw).length)parts.push("no storage rewrite currently required");
       box.appendChild(make("span","",`${parts.join(" · ")}.`));
     }else (plan.errors||[]).slice(0,6).forEach(message=>box.appendChild(make("span","",message)));
@@ -136,7 +136,14 @@
     controls.append(
       selectControl("active","ACTIVE SHOWDOWN",[["keep-current","Keep current active state"],["use-backup",analysis.migratedPayload.activeShowdown?"Use backup active Showdown":"Match backup: remove current active Showdown"]]),
       selectControl("legacy","LEGACY HISTORY",[["keep-current","Keep current Legacy only"],["merge","Merge backup into current Legacy"],["replace-with-backup","Replace current Legacy with backup"]]),
-      selectControl("preferences","PREFERENCES",[["keep-current","Keep current preferences"],["use-backup",analysis.migratedPayload.preferences?"Use backup preferences":"Match backup: remove saved preferences"]])
+      selectControl("preferences","PREFERENCES",[["keep-current","Keep current preferences"],["use-backup",analysis.migratedPayload.preferences?"Use backup preferences":"Match backup: remove saved preferences"]]),
+      ...(function(){
+        const lib=analysis.migratedPayload&&analysis.migratedPayload.saveLibrary;
+        const hasLib=Boolean(lib&&typeof lib==="object"&&Array.isArray(lib.saves)&&Array.isArray(lib.profiles));
+        if(!hasLib)return [];
+        // Always present SAVE LIBRARY control when backup carries a complete registry so existing-data destinations can choose explicitly
+        return [selectControl("saveLibrary","SAVE LIBRARY",[["keep-current","Keep current Save Library"],["use-backup","Replace entire Save Library with backup"]])];
+      })()
     );
     const apply=make("button","compactButton primaryDataButton careerRestoreApply","APPLY RESTORE");apply.type="button";apply.disabled=true;apply.addEventListener("click",applyRestore);
     const actions=make("div","careerRestoreActions");actions.appendChild(apply);

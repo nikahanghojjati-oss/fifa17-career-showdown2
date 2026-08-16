@@ -119,7 +119,7 @@ The classifications below describe dependency/product state, not release numbers
 | Paired-device capability | BLOCKED | Requires reliable private remote persistence/security first. |
 | Connected Rivalry | BLOCKED | Requires proven paired-device/sync semantics and conflict safety. |
 | Private sharing/groups | BLOCKED | Depends on reliable connected identity, privacy and authorization. |
-| Public/community/rankings | CONDITIONAL | Much later only after explicit integrity, moderation, privacy and cost gates. |
+| Public/community/rankings | ELIMINATED | Owner decision 2026-08-16: product is private two-manager companion; public community and global leaderboard removed from roadmap. |
 
 ## 8. Corrected dependency map
 
@@ -137,7 +137,7 @@ proven local recovery/data safety — DONE
 → private paired-device capability
 → reliable Connected Rivalry
 → private sharing/groups
-→ only conditionally much later, community/discovery/rankings.
+→ public community/discovery/rankings ELIMINATED (owner 2026-08-16); private remote joining remains important future BLOCKED work under the private paired-device path.
 
 Independent Showdown/Season-scoped Legacy, Achievement or Analytics improvements may remain separate when they make no cross-history identity claim.
 
@@ -147,7 +147,7 @@ Dependency order, product/milestone name and release version number are separate
 
 The current ordered authorization is PR #65 reconciliation and completion first, then the bounded complete multi-Save portability candidate in `NEXT_TASK.md` after current-source confirmation.
 
-Do not use that authorization to begin profile merge/delete or generic CRUD, broader Analytics 2.0, optional content, cloud, communities or rankings. Preserve all shipped identity, recovery, PWA, gameplay, accessibility, performance and presentation boundaries.
+Do not use that authorization to begin profile merge/delete or generic CRUD, broader Analytics 2.0, optional content, cloud, communities or rankings. Public community and global leaderboard are ELIMINATED (owner 2026-08-16); private remote joining remains BLOCKED future work. Preserve all shipped identity, recovery, PWA, gameplay, accessibility, performance and presentation boundaries.
 
 ## 10. Save Library repeated-use and portability evidence
 
