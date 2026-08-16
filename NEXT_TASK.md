@@ -95,7 +95,9 @@ Potential future work remains separately bounded, including:
 - private paired-device capability;
 - Connected Rivalry;
 - private sharing/groups;
-- conditional future community/discovery/rankings.
+- private remote joining / session system (important future requirement after owner clarification 2026-08-16; still BLOCKED — no current auth).
+
+Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16). Product direction is a private two-manager companion. Do not implement or re-introduce public community or global ranking surfaces unless the owner explicitly reverses that lock in a later roadmap amendment.
 
 None of the future areas above is implementation-authorized by this file today.
 
