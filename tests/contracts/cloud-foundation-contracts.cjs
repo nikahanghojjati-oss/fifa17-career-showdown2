@@ -38,13 +38,16 @@ assert.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \|
 assert.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Completing local Analytics must not silently authorize Cloud Readiness.");
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain blocked behind Cloud Readiness and remote-system prerequisites.");
 
-assert.match(state, /Identity-Safe Career Analytics is therefore merged, deployed, exact-byte verified and technically production-proven/i, "PROJECT_STATE must record the proven local Analytics layer before any future cloud work.");
-assert.match(state, /unresolved historical manager roles remaining explicit and never guessed from name similarity/i, "PROJECT_STATE must preserve unresolved-history honesty after Analytics promotion.");
+assert.match(state, /formatVersion 2 is live|formatVersion 2 full multi-Save/i, "PROJECT_STATE must record formatVersion 2 multi-Save portability as live production truth.");
 assert.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must distinguish shipped local manager identity semantics from future cloud identity.");
-assert.match(next, /fresh-device multi-Save backup\/import portability/i, "NEXT_TASK must name the bounded local-first candidate without turning it into cloud work.");
-assert.match(next, /Do not jump to dependency-gated cloud or public-network features/i, "The authorized local portability candidate must not silently authorize Cloud Readiness.");
+assert.match(state, /No product candidate is currently authorized for implementation/i, "PROJECT_STATE must record the clean-stop authorization boundary after multi-Save closure.");
+
+// Phase A: multi-Save is CLOSED. No product candidate authorized. Cloud remains future/blocked.
+assert.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name the closed multi-Save (PR #67) milestone.");
+assert.match(next, /No product candidate is currently authorized for implementation/i, "NEXT_TASK must state that no product candidate is currently authorized.");
 assert.match(next, /Cloud Readiness[\s\S]+None of the future areas above is implementation-authorized/i, "NEXT_TASK must keep Cloud Readiness and later network work outside the current authorization boundary.");
-assert.match(next, /strict exact raw snapshot authority/i, "NEXT_TASK must preserve destructive restore snapshot authority while cloud remains future work.");
+assert.match(next, /strict exact raw snapshot authority|Candidate C remains the only destructive/i, "NEXT_TASK must preserve destructive restore / Candidate C snapshot authority while cloud remains future work.");
+assert.match(next, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "NEXT_TASK must retain the permanent ELIMINATED public community lock.");
 
 assert.ok(!/\bfetch\s*\(/.test(restore), "Candidate C restore remains network-free.");
 assert.ok(!/\blocalStorage\b/.test(transaction), "Transaction state machine must remain storage-backend agnostic.");
@@ -52,4 +55,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS future cloud contract preserves shipped local identity, recovery authority and cloud security/revision boundaries while bounded local portability advances\n");
+process.stdout.write("PASS future cloud contract preserves shipped local identity, recovery authority, closed multi-Save (PR #67), clean-stop authorization and cloud security/revision boundaries\n");

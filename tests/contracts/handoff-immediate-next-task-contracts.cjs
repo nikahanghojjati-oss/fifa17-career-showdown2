@@ -88,26 +88,45 @@ assert.match(
   /PR #61 exact validation, merge and production proof[\s\S]+67095a02188ebd246da0d0f2cd61158b8e9e504e[\s\S]+deployed-site-smoke job `95036682319`/i,
   "Current rolling handoff must retain exact PR #61 merge and deployed proof."
 );
+
+// Phase A authority: multi-Save portability (PR #67) is CLOSED / production-proven.
+// No product candidate is currently authorized. Clean stop until a later explicit owner instruction.
 assert.match(
   next,
-  /Local Profile display-label candidate is closed as production-proven/i,
-  "NEXT_TASK must close the one later-authorized candidate after production proof."
-);
-assert.match(
-  next,
-  /PR #65 historical head `978fa967517207733cc84c7e6dd6e778b5770723`[\s\S]+reconcile it before any promotion/i,
-  "NEXT_TASK must make PR #65 reconciliation the exact infrastructure gate after PR #64."
+  /No product candidate is currently authorized for implementation/i,
+  "NEXT_TASK must state that no product candidate is currently authorized after multi-Save closure."
 );
 assert.match(
   next,
-  /Bounded product acceptance boundary after PR #65[\s\S]+fresh-device multi-Save backup\/import portability/i,
-  "NEXT_TASK must carry the owner-authorized user-facing portability candidate past the infrastructure gate."
+  /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i,
+  "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as the closed production milestone."
 );
 assert.match(
-  current,
-  /PR #66 authority-seal closure[\s\S]+0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96[\s\S]+Active PR #65 reconciliation/i,
-  "The rolling handoff must close PR #66 exactly, retain PR #64 proof and name the active PR #65 reconciliation."
+  next,
+  /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i,
+  "NEXT_TASK must record the live main feature-merge SHA for PR #67."
 );
+assert.match(
+  next,
+  /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i,
+  "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save portability as production-proven."
+);
+assert.match(
+  next,
+  /advance only a later explicit owner-authorized candidate|fresh explicit owner instruction selecting from the owner roadmap Phase B/i,
+  "NEXT_TASK stop condition must require a later explicit owner instruction from Phase B onward."
+);
+assert.match(
+  next,
+  /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i,
+  "NEXT_TASK must retain the permanent ELIMINATED public community / global leaderboard lock."
+);
+assert.match(
+  next,
+  /private remote joining[\s\S]+BLOCKED/i,
+  "NEXT_TASK must retain private remote joining as important future but currently BLOCKED."
+);
+
 assert.match(
   start,
   /identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,
@@ -118,6 +137,5 @@ assert.match(
   /presentation-only Local Profile display-label editing — PR #61/i,
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
-assert.match(start,/PR #65[\s\S]+multi-Save backup\/import portability/i,"Developer bootstrap must expose the ordered infrastructure-to-product sequence.");
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected while fresh developers are directed through PR #65 into bounded multi-Save portability.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67) is closed; no product candidate currently authorized; clean stop until explicit Phase B owner instruction.");
