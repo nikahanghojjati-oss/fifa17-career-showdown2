@@ -4,6 +4,8 @@ Last updated: 2026-08-16 ET
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
+Work Environment Continuity (see `00_WORK_ENVIRONMENT_CONTINUITY.md`, `AGENTS.md`, and `WORK_ENVIRONMENT_STATUS.json`) routes every fresh development environment through validate → archive/replace → assess before substantial work. Continuity infrastructure does not authorize product changes.
+
 ## Current production milestone
 
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
