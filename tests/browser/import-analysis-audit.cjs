@@ -179,7 +179,8 @@ async function assertDesktopMatrix(browser){
         assert.match(await page.locator("#legacyImportAnalysis").innerText(), /not valid JSON/i);
 
         const future = structuredClone(envelope);
-        future.formatVersion = 2;
+        // formatVersion 2 is now supported (multi-Save portability); treat v3 as the unsupported future format
+        future.formatVersion = 3;
         await page.locator("#careerModeImportFile").setInputFiles({ name: "future-format.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(future)) });
         await analyze.click();
         await page.locator(".legacyImportVerdict.blocked").waitFor({ state: "visible", timeout: 8000 });
