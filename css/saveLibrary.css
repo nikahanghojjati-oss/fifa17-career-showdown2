@@ -60,12 +60,38 @@
 .saveLibraryEmptyState>strong,.saveLibraryCompatibilityState>strong,.saveLibraryBlockedState>strong{display:block;margin:9px 0 5px;font:800 22px/.95 var(--f17-display);}
 .saveLibraryEmptyState p,.saveLibraryCompatibilityState p,.saveLibraryBlockedState p,.saveLibraryEmptyCopy{color:#53646f;font-size:11px;line-height:1.5;}
 .saveLibraryEmptyState .menuButton,.saveLibraryCompatibilityState .menuButton{width:min(340px,100%);margin-top:13px;}
+
+/* Phase B / Save Library Experience 2.0 first slice — richer cards, progress, sort, clearer profiles */
+.saveLibraryStatusRow{display:grid;gap:8px;margin:0 0 12px;}
+.saveLibraryStatusChip{display:inline-flex;align-items:center;align-self:start;min-height:22px;padding:4px 8px;font:800 9px/1 var(--f17-display);letter-spacing:1px;color:#e5ecef;background:#4b5962;}
+.saveLibraryStatusChip.status-completed{color:var(--f17-ink);background:var(--f17-yellow);}
+.saveLibraryStatusChip.status-in-progress{color:#fff;background:var(--f17-blue);}
+.saveLibraryStatusChip.status-not-started{color:#e5ecef;background:#6a7a85;}
+.saveLibraryProgressWrap{display:grid;gap:4px;}
+.saveLibraryProgressLabel{color:#3d5260;font:700 11px/1.2 var(--f17-ui);}
+.saveLibraryProgressTrack{position:relative;height:8px;background:#d3dde1;overflow:hidden;border:1px solid #c0ccd2;}
+.saveLibraryProgressFill{height:100%;background:linear-gradient(90deg,var(--f17-blue),var(--f17-cyan));transition:width .25s ease;}
+.saveLibraryCard.isActive .saveLibraryProgressFill{background:linear-gradient(90deg,var(--f17-yellow-deep),var(--f17-yellow));}
+.saveLibrarySortBar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;}
+.saveLibrarySortLabel{color:var(--f17-blue-deep);font:700 9px/1 var(--f17-display);letter-spacing:1.5px;}
+.saveLibrarySortGroup{display:flex;flex-wrap:wrap;gap:4px;}
+.saveLibrarySortButton{min-height:34px;padding:6px 10px;border:1px solid #aebec6;background:#eef3f4;color:#365264;font:800 9px/1 var(--f17-display);letter-spacing:1px;cursor:pointer;}
+.saveLibrarySortButton.isActive{color:var(--f17-ink);background:var(--f17-yellow);border-color:var(--f17-blue);}
+.saveLibrarySortButton:focus-visible{outline:2px solid var(--f17-blue);outline-offset:2px;}
+.saveLibraryProfileMeta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.saveLibraryProfileLinkBadge{display:inline-flex;align-items:center;min-height:20px;padding:3px 7px;font:800 8px/1 var(--f17-display);letter-spacing:1px;color:#e5ecef;background:#6a7a85;}
+.saveLibraryProfileLinkBadge.linked{color:var(--f17-ink);background:var(--f17-cyan);}
+.saveLibraryProfileCard.isLinked{border-left-color:var(--f17-cyan);}
+.saveLibraryProfileCard.isOrphan{border-left-color:#81949f;opacity:.95;}
+.saveLibraryProfileLinkDetail{display:block;margin-top:5px;color:#596a75;font-size:9px;line-height:1.35;}
+
 @media(max-width:760px){
     .saveLibrarySummary,.saveLibraryGrid,.saveLibraryProfileGrid{grid-template-columns:1fr;}
     .saveLibrarySummaryItem{min-height:42px;justify-content:flex-start;text-align:left;}
     .saveLibraryActions,.saveLibraryIdentityLinkRow{grid-template-columns:1fr;}
     .saveLibraryActions .compactButton{width:100%;min-width:0;}
     .saveLibraryFact{grid-template-columns:78px minmax(0,1fr);}
+    .saveLibrarySortBar{flex-direction:column;align-items:flex-start;}
 }
 @media(max-width:420px){
     .saveLibraryCard,.saveLibraryIdentitySource,.saveLibraryEmptyState,.saveLibraryCompatibilityState,.saveLibraryBlockedState{padding:13px 12px;}
@@ -75,4 +101,5 @@
 }
 @media(prefers-reduced-motion:reduce){
     .saveLibraryProductPanel *{scroll-behavior:auto!important;}
+    .saveLibraryProgressFill{transition:none;}
 }
