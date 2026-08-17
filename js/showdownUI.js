@@ -92,7 +92,30 @@ function ensureCompletionHub(){
     dashboardUI = null;
 }
 
+function ensurePhaseCHomeStyles(){
+    if(document.getElementById("phaseCHomeStyles")){ return; }
+    const style = document.createElement("style");
+    style.id = "phaseCHomeStyles";
+    style.textContent = [
+        ".showdownScoreboard{display:flex;flex-direction:column;gap:8px;padding:12px 18px;margin-bottom:14px}",
+        ".seriesStatusRow{display:flex;justify-content:center}",
+        ".seriesStatusChip{display:inline-flex;align-items:center;min-height:22px;padding:4px 10px;font:800 9px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase;color:#e5ecef;background:#4b5962}",
+        ".seriesStatusChip.series-lead-one{color:#fff;background:var(--f17-blue)}",
+        ".seriesStatusChip.series-lead-two{color:var(--f17-ink);background:var(--f17-yellow)}",
+        ".scoreboardScores{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px}",
+        ".scoreboardScores div:not(.scoreDivider){display:flex;flex-direction:column;align-items:center}",
+        ".scoreboardScores span{font:800 52px/.88 var(--f17-display);color:var(--f17-yellow)}",
+        ".scoreboardScores small{margin-top:5px;color:#c2ccd3;font-size:8px;letter-spacing:1.4px}",
+        ".lastSeasonSummary{width:min(570px,90vw);margin:0 auto 12px;padding:8px 12px;background:var(--f17-panel);border-left:5px solid var(--f17-cyan);box-shadow:var(--f17-shadow-soft)}",
+        ".lastSeasonSummary.hidden{display:none}",
+        ".lastSeasonLabel{margin:0;color:#596873;font:700 9px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase}",
+        ".lastSeasonResult{margin:0;color:var(--f17-ink);font:700 13px/1.3 var(--f17-display)}"
+    ].join("");
+    document.head.appendChild(style);
+}
+
 function initializeShowdownUI(){
+    ensurePhaseCHomeStyles();
     ensureActiveShowdownDeleteControl();
     ensureDashboardIntegrityStatus();
     ensureCompletionHub();
