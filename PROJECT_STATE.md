@@ -16,10 +16,10 @@ Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
 Production status: merged, deployed, exact-byte verified and technically production-proven
-Current production runtime feature merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 Phase B first slice)
+Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 formatVersion 2 multi-Save portability)
+Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 — Save Library / Local Profile Experience 2.0 first slice)
 Validated PR #70 pre-merge head (with 44px touch-target fix): `67163f4a…`
 Phase B authority merge: `d5027f575ee416a1ad3f36b61fc09602e8239174` (PR #69)
-Prior multi-Save merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67)
 Current feature release version: intentionally unassigned
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 

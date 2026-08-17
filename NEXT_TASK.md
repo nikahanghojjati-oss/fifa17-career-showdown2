@@ -11,10 +11,10 @@ Work Environment Continuity (see `00_WORK_ENVIRONMENT_CONTINUITY.md`, `AGENTS.md
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Current production Installable Offline App runtime: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
-Current production runtime feature merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 Phase B first slice)
+Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 formatVersion 2 multi-Save portability)
+Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 — Save Library / Local Profile Experience 2.0 first slice)
 Phase B authority merge: `d5027f575ee416a1ad3f36b61fc09602e8239174` (PR #69)
 Authority sync merge: `372e5570391616efd737fc4780ad0b51d8ec5ce4` (PR #68 Phase A)
-Prior multi-Save merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67)
 Feature release version: intentionally unassigned
 
 Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability, and the bounded Phase B Save Library / Local Profile Experience 2.0 first slice (richer cards, clearer Local Profile presentation, local non-destructive sorting) are complete, merged, deployed and production-proven.
