@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-17 ET (Phase B first slice production-proven)
+Last updated: 2026-08-17 ET (Phase C first slice authorized)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
@@ -29,27 +29,29 @@ The following candidates are closed as production-proven and must not be reopene
 - Phase A documentation authority synchronization (PR #68)
 - Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70, squash-merge `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`)
 
-**No product candidate is currently authorized.**
+**Authorized product candidate:** Phase C / Showdown Home & Season Experience deepening — first slice (owner instruction 2026-08-17).
 
-Phase B first slice shipped and production-proven on 2026-08-17:
+### Phase C first slice scope (bounded)
 
-1. Richer Save Library cards — status chip (IN PROGRESS / COMPLETED / NOT STARTED) + visual progress bar; Last Played label.
-2. Clearer Local Profile presentation — link badge (N SAVES LINKED / NO SAVE LINK), isLinked/isOrphan states.
-3. Local non-destructive sort controls (Last Played · Name · Progress). Active Save always first. Session presentation only; no storage mutation.
-4. Touch-target compliance (sort buttons min-height 44px).
-5. All multi-Save portability, Candidate A/B/C, identity-safe Analytics, and performance ceilings preserved.
+1. Richer Showdown Home (dashboard) scoreboard — series lead/trail status chip + clearer visual hierarchy for the current series score between the two managers.
+2. Contextual primary action label on the Home screen that reflects the real next step (examples: “ENTER SEASON X RESULTS”, “START TRANSFER CHALLENGE”, “VIEW COMPLETED SHOWDOWN”).
+3. Last completed season result summary on the Home screen when at least one season has been played (compact, non-destructive presentation only).
+4. Touch-target and spacing polish for the primary Home actions (min-height 44px where needed) so Chromebook / mobile interaction remains reliable.
 
-Technical production proof:
+Constraints for this first slice:
 
-- Live main: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`
-- Pages deployment serves updated `css/saveLibrary.css` and `js/saveLibraryUI.js` (status chips, progress fill, sort controls confirmed live)
-- Validate Stability Lane #757 (main, commit 65b6c9d) SUCCESS — includes `deployed-site-smoke` (verify:deployment, Save Library UI audit against production Pages, identity audits, restore/import browser audits, offline boundary, complete journey)
-- All other required post-merge workflows green
+- Presentation-only. No new canonical storage keys, no mutation of Save Library / profile / season identity semantics, no change to scoring rules.
+- Preserve multi-Save portability, Candidate A/B/C, identity-safe Analytics, and all performance ceilings.
+- Do not expand into full Season Review redesign, Career Statistics 2.0, Legacy 2.0, or any further Phase C scope beyond the four items above.
+- Do not touch public community / global leaderboard surfaces (ELIMINATED) or private remote joining (BLOCKED).
+
+After this first slice is production-proven, stop and wait for a further explicit owner instruction before expanding Phase C or opening Phase D.
 
 Out of scope until a later explicit owner instruction:
 
-- Broader Save Library / Local Profile Experience 2.0 expansion beyond the first slice
+- Broader Save Library / Local Profile Experience 2.0 expansion beyond the already-shipped first slice
 - Profile merge/delete or generic CRUD
+- Broader Season Experience redesign beyond the first-slice items above
 - Career Statistics 2.0 / Advanced Visual Analytics
 - Legacy 2.0, Achievements, Trophy Room 2.0
 - Cloud, private remote joining, public community surfaces
@@ -84,7 +86,7 @@ Out of scope until a later explicit owner instruction:
 Potential future work remains separately bounded, including:
 
 - broader Save Library / Local Profile Experience 2.0 expansion beyond the first slice above
-- Showdown Home and Season experience deepening
+- further Showdown Home and Season experience deepening beyond the Phase C first slice above
 - Career Statistics 2.0 and Advanced Visual Analytics
 - Legacy 2.0, Achievements System, Trophy Room 2.0
 - optional challenge / league / club content
@@ -137,20 +139,20 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), and Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) are closed and must not be reopened.
 
-**No product candidate is currently authorized.** Stop and wait for a further explicit owner instruction before expanding scope, opening Phase C, or authorizing any new product candidate.
+The currently authorized candidate is the bounded first slice of Phase C / Showdown Home & Season Experience deepening defined above. After that slice is production-proven, stop and wait for a further explicit owner instruction before expanding scope or opening Phase D.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 ### Bootstrap / study (required first)
 
-1. Independently confirm live `main` is `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (or a later SHA that preserves multi-Save + private two-manager locks + Phase B first slice).
+1. Independently confirm live `main` is `482013ca78859f45d1a2fd4906530ab83abb9266` (or a later SHA that preserves multi-Save + private two-manager locks + Phase B first slice + this Phase C authority).
 2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
 3. Confirm no public community / global leaderboard work and no private remote joining work is in scope.
 
 ### Execution (after study)
 
-**Current authorized work:** none. Hold clean stop.
+**Current authorized work:** implement only the bounded Phase C first slice defined above (richer Home scoreboard, contextual primary action, last-season summary, touch-target polish).
 
-Do not expand into Statistics 2.0, Legacy, cloud, remote joining, or further Save Library Experience 2.0 slices until the owner issues an explicit new authorization.
+Do not expand into further Season redesign, Statistics 2.0, Legacy, cloud, remote joining, or additional Phase C items until the owner issues an explicit new authorization.
 
 Owner standing instruction 2026-08-16/17 (permanent operating rule) authorizes merge of green PRs without repeated permission loops; it does not authorize new product candidates beyond the stop condition above.
