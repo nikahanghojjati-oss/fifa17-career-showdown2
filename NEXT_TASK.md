@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-16 ET (Phase B authorization)
+Last updated: 2026-08-17 ET (Phase B first slice production-proven)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
@@ -11,11 +11,13 @@ Work Environment Continuity (see `00_WORK_ENVIRONMENT_CONTINUITY.md`, `AGENTS.md
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Current production Installable Offline App runtime: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
-Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 multi-Save)
+Current production runtime feature merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 Phase B first slice)
+Phase B authority merge: `d5027f575ee416a1ad3f36b61fc09602e8239174` (PR #69)
 Authority sync merge: `372e5570391616efd737fc4780ad0b51d8ec5ce4` (PR #68 Phase A)
+Prior multi-Save merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67)
 Feature release version: intentionally unassigned
 
-Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, and formatVersion 2 full multi-Save backup/import portability are complete, merged, deployed and production-proven.
+Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability, and the bounded Phase B Save Library / Local Profile Experience 2.0 first slice (richer cards, clearer Local Profile presentation, local non-destructive sorting) are complete, merged, deployed and production-proven.
 
 ## Current implementation authorization
 
@@ -25,19 +27,28 @@ The following candidates are closed as production-proven and must not be reopene
 - Identity-Safe Career Analytics
 - formatVersion 2 full multi-Save backup/import portability (PR #67)
 - Phase A documentation authority synchronization (PR #68)
+- Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70, squash-merge `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`)
 
-**Authorized product candidate (owner instruction 2026-08-16):**  
-**Save Library / Local Profile Experience 2.0** (Phase B of the owner Full Comprehensive Project Roadmap).
+**No product candidate is currently authorized.**
 
-Scope of this authorization (bounded first slice, not the entire Experience 2.0):
+Phase B first slice shipped and production-proven on 2026-08-17:
 
-1. Evidence-driven richer Save Library cards (progress indicators, season counts, last-played / status cues) without changing canonical storage keys or identity semantics.
-2. Clearer Local Profile presentation on the Save Library surface (still presentation labels only; no identity mutation beyond existing display-label editing).
-3. Sorting / ordering controls that remain local and non-destructive.
-4. Preserve all shipped multi-Save portability, Candidate A/B/C, identity-safe Analytics, and performance ceilings.
+1. Richer Save Library cards — status chip (IN PROGRESS / COMPLETED / NOT STARTED) + visual progress bar; Last Played label.
+2. Clearer Local Profile presentation — link badge (N SAVES LINKED / NO SAVE LINK), isLinked/isOrphan states.
+3. Local non-destructive sort controls (Last Played · Name · Progress). Active Save always first. Session presentation only; no storage mutation.
+4. Touch-target compliance (sort buttons min-height 44px).
+5. All multi-Save portability, Candidate A/B/C, identity-safe Analytics, and performance ceilings preserved.
 
-Out of scope for this authorization (require a later explicit instruction):
+Technical production proof:
 
+- Live main: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`
+- Pages deployment serves updated `css/saveLibrary.css` and `js/saveLibraryUI.js` (status chips, progress fill, sort controls confirmed live)
+- Validate Stability Lane #757 (main, commit 65b6c9d) SUCCESS — includes `deployed-site-smoke` (verify:deployment, Save Library UI audit against production Pages, identity audits, restore/import browser audits, offline boundary, complete journey)
+- All other required post-merge workflows green
+
+Out of scope until a later explicit owner instruction:
+
+- Broader Save Library / Local Profile Experience 2.0 expansion beyond the first slice
 - Profile merge/delete or generic CRUD
 - Career Statistics 2.0 / Advanced Visual Analytics
 - Legacy 2.0, Achievements, Trophy Room 2.0
@@ -124,25 +135,22 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), and Phase A documentation authority sync (PR #68) are closed and must not be reopened.
+Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), and Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) are closed and must not be reopened.
 
-The currently authorized candidate is the bounded first slice of Save Library / Local Profile Experience 2.0 defined above. After that slice is production-proven, stop and wait for a further explicit owner instruction before expanding scope or opening Phase C.
+**No product candidate is currently authorized.** Stop and wait for a further explicit owner instruction before expanding scope, opening Phase C, or authorizing any new product candidate.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 ### Bootstrap / study (required first)
 
-1. Independently confirm live `main` is `372e5570391616efd737fc4780ad0b51d8ec5ce4` (or a later SHA that preserves multi-Save + private two-manager locks + Phase A authority).
+1. Independently confirm live `main` is `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (or a later SHA that preserves multi-Save + private two-manager locks + Phase B first slice).
 2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
 3. Confirm no public community / global leaderboard work and no private remote joining work is in scope.
 
 ### Execution (after study)
 
-**Current authorized work:** Phase B first slice — Save Library / Local Profile Experience 2.0 (richer cards, progress cues, Local Profile presentation, local sorting).
+**Current authorized work:** none. Hold clean stop.
 
-1. On branch `phase-b/save-library-experience-2.0-authority` (or successor), land the authority update that records this candidate.
-2. Inspect current Save Library UI + runtime surfaces (`js/saveLibraryRuntime.js`, relevant screens/CSS) and produce a short evidence-backed design note for the first visible improvement.
-3. Implement only the bounded first slice with contracts and high-risk depth.
-4. Do not expand into Statistics 2.0, Legacy, cloud, or remote joining.
+Do not expand into Statistics 2.0, Legacy, cloud, remote joining, or further Save Library Experience 2.0 slices until the owner issues an explicit new authorization.
 
-Owner standing instruction 2026-08-16 authorizes continuation through this Phase B first slice. Further phases still require explicit instruction after production proof of the current slice.
+Owner standing instruction 2026-08-16/17 (permanent operating rule) authorizes merge of green PRs without repeated permission loops; it does not authorize new product candidates beyond the stop condition above.

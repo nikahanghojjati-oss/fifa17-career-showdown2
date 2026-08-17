@@ -1,6 +1,6 @@
 # PROJECT STATE — Career Mode Showdown
 
-Last updated: 2026-08-16 ET
+Last updated: 2026-08-17 ET
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns development-environment continuity and does not alter product/runtime authority.
 
@@ -16,14 +16,16 @@ Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
 Production status: merged, deployed, exact-byte verified and technically production-proven
-Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`
-Validated PR #67 pre-merge head: `a58a471b8e7199cd4a29f5096de87709b7655ae8`
+Current production runtime feature merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 Phase B first slice)
+Validated PR #70 pre-merge head (with 44px touch-target fix): `67163f4a…`
+Phase B authority merge: `d5027f575ee416a1ad3f36b61fc09602e8239174` (PR #69)
+Prior multi-Save merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67)
 Current feature release version: intentionally unassigned
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-The application milestone remains v1.3.0. Later Local Profiles / Save Library, explicit manager-identity linkage, Identity-Safe Career Analytics, Local Profile display-label editing, and formatVersion 2 full multi-Save backup/import portability advanced production functionality without assigning a new application feature version. Runtime maintenance r2 continues to give the changed Save Library JavaScript/CSS a coherent whole-shell installed-app identity while retaining r1 as the immediate recovery predecessor.
+The application milestone remains v1.3.0. Later Local Profiles / Save Library, explicit manager-identity linkage, Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability, and the bounded Phase B Save Library / Local Profile Experience 2.0 first slice advanced production functionality without assigning a new application feature version. Runtime maintenance r2 continues to give the changed Save Library JavaScript/CSS a coherent whole-shell installed-app identity while retaining r1 as the immediate recovery predecessor.
 
-## Completed local identity, Analytics and multi-Save portability chain
+## Completed local identity, Analytics, multi-Save portability and Phase B first slice chain
 
 1. Identity foundation — PR #46.
 2. Canonical persistence integration — PR #48.
@@ -33,8 +35,19 @@ The application milestone remains v1.3.0. Later Local Profiles / Save Library, e
 6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59.
 7. Local Profile display-label editing and r2 whole-shell delivery — PR #61, merge `67095a02188ebd246da0d0f2cd61158b8e9e504e`.
 8. formatVersion 2 full multi-Save backup/import portability — PR #67, squash-merge `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (owner-accepted 2026-08-16).
+9. Phase A documentation authority synchronization — PR #68, squash-merge `372e5570391616efd737fc4780ad0b51d8ec5ce4`.
+10. Phase B first slice — Save Library / Local Profile Experience 2.0 (richer cards, clearer Local Profile presentation, local non-destructive sorting) — PR #70, squash-merge `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (2026-08-17).
 
-All eight layers are shipped and production-proven. Do not describe Save Library, stable Local Profile identity, explicit manager linkage, identity-safe longitudinal Career Analytics, display-label editing, or complete multi-Save device portability as unfinished foundation work.
+All ten layers are shipped and production-proven. Do not describe Save Library, stable Local Profile identity, explicit manager linkage, identity-safe longitudinal Career Analytics, display-label editing, complete multi-Save device portability, or the Phase B first-slice presentation improvements as unfinished foundation work.
+
+### Phase B first slice (production-proven 2026-08-17)
+
+- Richer Save cards: status chip (IN PROGRESS / COMPLETED / NOT STARTED) + visual progress bar; Last Played label.
+- Clearer Local Profile presentation: link badge (N SAVES LINKED / NO SAVE LINK), isLinked/isOrphan states.
+- Local non-destructive sort controls (Last Played · Name · Progress). Active Save always first. Session presentation only — no storage write.
+- Touch-target compliance: sort buttons min-height 44px.
+- Live Pages confirmed serving updated `css/saveLibrary.css` and `js/saveLibraryUI.js`.
+- Validate Stability Lane #757 (main, 65b6c9d) SUCCESS including full `deployed-site-smoke` against production Pages.
 
 ## Identity-Safe Career Analytics state
 
@@ -55,9 +68,7 @@ Preserve exact preconditions, last-moment raw guards, transaction-owned mutation
 ## Installable Offline App state
 
 Whole-shell label remains exactly `1.3.0-r2`.
-Previous known-good whole shell remains `1.3.0-r1`.
-
-Service Worker and Cache Storage own application bytes only, never canonical user data. Preserve verified cache population, explicit update activation, current/previous whole-shell recovery and installed-app behavior.
+Preserve Service Worker exactness, versioned cache names, offline shell integrity, and the protected installable surface. Service Worker and offline shell change only when intentionally authorized; they continue to cache first-party bytes only, never canonical user data. Preserve verified cache population, explicit update activation, current/previous whole-shell recovery and installed-app behavior.
 
 ## Performance state
 
@@ -70,7 +81,7 @@ Locked ceilings remain unchanged:
 - normal loading minimum `2700 ms`
 - reduced-motion loading `220 ms`
 
-Identity-Safe Career Analytics, Local Profile display-label editing and formatVersion 2 multi-Save portability do not require an eager Save Library runtime or startup architecture change beyond the already-shipped surface.
+Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 multi-Save portability and the Phase B first-slice presentation changes do not require an eager Save Library runtime or startup architecture change beyond the already-shipped surface.
 
 ## Protected product surfaces and gameplay
 
@@ -94,6 +105,6 @@ Private remote joining remains an important future requirement but is currently 
 
 ## Current clean boundary
 
-Identity-Safe Career Analytics, Local Profile display-label editing, and formatVersion 2 full multi-Save backup/import portability (PR #67) are complete, merged, deployed, production-proven and owner-accepted.
+Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), and Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) are complete, merged, deployed and production-proven.
 
-No product candidate is currently authorized for implementation. The next product candidate requires a fresh explicit owner instruction selecting from the owner roadmap Phase B onward (Save Library / Local Profile Experience 2.0 first). Profile merge/delete or generic CRUD, broader Analytics 2.0, optional content, cloud/network work, public community surfaces and private remote joining remain unauthorized.
+**No product candidate is currently authorized for implementation.** The next product candidate requires a fresh explicit owner instruction. Profile merge/delete or generic CRUD, broader Save Library Experience 2.0 expansion, Analytics 2.0, optional content, cloud/network work, public community surfaces and private remote joining remain unauthorized.
