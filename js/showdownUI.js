@@ -21,6 +21,10 @@ function cacheDashboardUI(){
         clubTwo: document.getElementById("dashboardClubTwo"),
         scoreOne: document.getElementById("dashboardScoreOne"),
         scoreTwo: document.getElementById("dashboardScoreTwo"),
+        seriesStatus: document.getElementById("dashboardSeriesStatus"),
+        lastSeasonSummary: document.getElementById("dashboardLastSeasonSummary"),
+        lastSeasonLabel: document.getElementById("dashboardLastSeasonLabel"),
+        lastSeasonResult: document.getElementById("dashboardLastSeasonResult"),
         lastPositionOne: document.getElementById("dashboardPositionOne"),
         lastPositionTwo: document.getElementById("dashboardPositionTwo"),
         primaryButton: document.getElementById("seasonPrimaryAction"),
@@ -88,7 +92,30 @@ function ensureCompletionHub(){
     dashboardUI = null;
 }
 
+function ensurePhaseCHomeStyles(){
+    if(document.getElementById("phaseCHomeStyles")){ return; }
+    const style = document.createElement("style");
+    style.id = "phaseCHomeStyles";
+    style.textContent = [
+        ".showdownScoreboard{display:flex;flex-direction:column;gap:8px;padding:12px 18px;margin-bottom:14px}",
+        ".seriesStatusRow{display:flex;justify-content:center}",
+        ".seriesStatusChip{display:inline-flex;align-items:center;min-height:22px;padding:4px 10px;font:800 9px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase;color:#e5ecef;background:#4b5962}",
+        ".seriesStatusChip.series-lead-one{color:#fff;background:var(--f17-blue)}",
+        ".seriesStatusChip.series-lead-two{color:var(--f17-ink);background:var(--f17-yellow)}",
+        ".scoreboardScores{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px}",
+        ".scoreboardScores div:not(.scoreDivider){display:flex;flex-direction:column;align-items:center}",
+        ".scoreboardScores span{font:800 52px/.88 var(--f17-display);color:var(--f17-yellow)}",
+        ".scoreboardScores small{margin-top:5px;color:#c2ccd3;font-size:8px;letter-spacing:1.4px}",
+        ".lastSeasonSummary{width:min(570px,90vw);margin:0 auto 12px;padding:8px 12px;background:var(--f17-panel);border-left:5px solid var(--f17-cyan);box-shadow:var(--f17-shadow-soft)}",
+        ".lastSeasonSummary.hidden{display:none}",
+        ".lastSeasonLabel{margin:0;color:#596873;font:700 9px/1 var(--f17-display);letter-spacing:1.2px;text-transform:uppercase}",
+        ".lastSeasonResult{margin:0;color:var(--f17-ink);font:700 13px/1.3 var(--f17-display)}"
+    ].join("");
+    document.head.appendChild(style);
+}
+
 function initializeShowdownUI(){
+    ensurePhaseCHomeStyles();
     ensureActiveShowdownDeleteControl();
     ensureDashboardIntegrityStatus();
     ensureCompletionHub();
@@ -230,6 +257,77 @@ function renderCompletionHub(completed){
     );
 }
 
+function getSeriesStatusPresentation(showdown){
+    if(!showdown || !showdown.score){
+        return { label: "LEVEL", className: "series-level" };
+    }
+    const one = Number(showdown.score.playerOne) || 0;
+    const two = Number(showdown.score.playerTwo) || 0;
+    if(one > two){
+        const name = (showdown.managers && showdown.managers.playerOne) ? showdown.managers.playerOne : "MANAGER 1";
+        return { label: `${String(name).toUpperCase()} LEADS`, className: "series-lead-one" };
+    }
+    if(two > one){
+        const name = (showdown.managers && showdown.managers.playerTwo) ? showdown.managers.playerTwo : "MANAGER 2";
+        return { label: `${String(name).toUpperCase()} LEADS`, className: "series-lead-two" };
+    }
+    if(showdown.status === "Completed"){
+        return { label: "SHOWDOWN LEVEL", className: "series-level" };
+    }
+    return { label: "LEVEL", className: "series-level" };
+}
+
+function getLastSeasonSummaryText(showdown){
+    if(!showdown || !Array.isArray(showdown.rounds) || showdown.rounds.length === 0){
+        return null;
+    }
+    const latest = showdown.rounds[showdown.rounds.length - 1];
+    if(!latest || !latest.playerOne || !latest.playerTwo){
+        return null;
+    }
+    const seasonNumber = latest.roundNumber || showdown.rounds.length;
+    const oneTotal = latest.playerOne.scoring && typeof latest.playerOne.scoring.total === "number"
+        ? latest.playerOne.scoring.total
+        : null;
+    const twoTotal = latest.playerTwo.scoring && typeof latest.playerTwo.scoring.total === "number"
+        ? latest.playerTwo.scoring.total
+        : null;
+    const oneName = (showdown.managers && showdown.managers.playerOne) ? showdown.managers.playerOne : "Manager 1";
+    const twoName = (showdown.managers && showdown.managers.playerTwo) ? showdown.managers.playerTwo : "Manager 2";
+
+    let outcome = "Draw";
+    if(latest.winner === "playerOne"){ outcome = `${oneName} won`; }
+    else if(latest.winner === "playerTwo"){ outcome = `${twoName} won`; }
+
+    if(oneTotal !== null && twoTotal !== null){
+        return `Season ${seasonNumber}: ${oneTotal}–${twoTotal} · ${outcome}`;
+    }
+    return `Season ${seasonNumber}: ${outcome}`;
+}
+
+function renderSeriesStatus(showdown){
+    const ui = getDashboardUI();
+    if(!ui.seriesStatus){ return; }
+    const presentation = getSeriesStatusPresentation(showdown);
+    setDashboardTextIfChanged(ui.seriesStatus, presentation.label);
+    ui.seriesStatus.className = `seriesStatusChip ${presentation.className}`;
+}
+
+function renderLastSeasonSummary(showdown){
+    const ui = getDashboardUI();
+    if(!ui.lastSeasonSummary || !ui.lastSeasonResult){ return; }
+    const summary = getLastSeasonSummaryText(showdown);
+    if(!summary){
+        ui.lastSeasonSummary.classList.add("hidden");
+        setDashboardTextIfChanged(ui.lastSeasonResult, "—");
+        return;
+    }
+    const seasonCount = Array.isArray(showdown.rounds) ? showdown.rounds.length : 0;
+    setDashboardTextIfChanged(ui.lastSeasonLabel, seasonCount === 1 ? "LAST SEASON" : `AFTER ${seasonCount} SEASONS`);
+    setDashboardTextIfChanged(ui.lastSeasonResult, summary);
+    ui.lastSeasonSummary.classList.remove("hidden");
+}
+
 function updateShowdownUI(){
     if(!currentShowdown){ return; }
 
@@ -262,17 +360,19 @@ function updateShowdownUI(){
         window.refreshClubVisualIdentity(currentShowdown);
     }
 
+    renderSeriesStatus(currentShowdown);
+    renderLastSeasonSummary(currentShowdown);
     renderDashboardIntegrityStatus();
     renderCompletionHub(completed);
 
     if(!ui.primaryButton){ return; }
+    if(ui.primaryButton.disabled){ ui.primaryButton.disabled = false; }
+
     if(completed){
-        if(ui.primaryButton.disabled){ ui.primaryButton.disabled = false; }
-        setDashboardTextIfChanged(ui.primaryButton, "VIEW FINAL SEASON SUMMARY");
+        setDashboardTextIfChanged(ui.primaryButton, "VIEW COMPLETED SHOWDOWN");
         return;
     }
 
-    if(ui.primaryButton.disabled){ ui.primaryButton.disabled = false; }
     const challenge = getTransferChallengeForSeason(currentShowdown.currentRound);
     let primaryLabel;
 
