@@ -89,11 +89,11 @@ assert.match(
   "Current rolling handoff must retain exact PR #61 merge and deployed proof."
 );
 
-// Phase B first slice closed: multi-Save + Phase A + Phase B first slice production-proven; no candidate authorized.
+// Phase C first slice authorized: multi-Save + Phase A + Phase B first slice production-proven; Phase C first slice is the authorized candidate.
 assert.match(
   next,
-  /No product candidate is currently authorized/i,
-  "NEXT_TASK must state that no product candidate is currently authorized after Phase B first slice proof."
+  /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience/i,
+  "NEXT_TASK must authorize Phase C / Showdown Home & Season Experience deepening first slice."
 );
 assert.match(
   next,
@@ -117,8 +117,8 @@ assert.match(
 );
 assert.match(
   next,
-  /Stop and wait for a further explicit owner instruction before expanding scope/i,
-  "NEXT_TASK stop condition must require further owner instruction before expanding scope."
+  /After that slice is production-proven, stop and wait for a further explicit owner instruction/i,
+  "NEXT_TASK stop condition must require further owner instruction after Phase C first slice."
 );
 assert.match(
   next,
@@ -142,4 +142,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, and Phase B first slice (PR #70) closed; no product candidate authorized.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, and Phase B first slice (PR #70) closed; Phase C first slice authorized.");
