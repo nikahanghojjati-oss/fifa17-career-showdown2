@@ -89,12 +89,16 @@ assert.match(
   "Current rolling handoff must retain exact PR #61 merge and deployed proof."
 );
 
-// Phase A authority: multi-Save portability (PR #67) is CLOSED / production-proven.
-// No product candidate is currently authorized. Clean stop until a later explicit owner instruction.
+// Phase B authority: multi-Save + Phase A closed; first slice of Save Library Experience 2.0 authorized.
 assert.match(
   next,
-  /No product candidate is currently authorized for implementation/i,
-  "NEXT_TASK must state that no product candidate is currently authorized after multi-Save closure."
+  /Authorized product candidate[\s\S]+Save Library \/ Local Profile Experience 2\.0/i,
+  "NEXT_TASK must authorize the Phase B Save Library / Local Profile Experience 2.0 candidate."
+);
+assert.match(
+  next,
+  /bounded first slice/i,
+  "NEXT_TASK must keep the Phase B authorization bounded to a first slice."
 );
 assert.match(
   next,
@@ -113,8 +117,8 @@ assert.match(
 );
 assert.match(
   next,
-  /advance only a later explicit owner-authorized candidate|fresh explicit owner instruction selecting from the owner roadmap Phase B/i,
-  "NEXT_TASK stop condition must require a later explicit owner instruction from Phase B onward."
+  /After that slice is production-proven, stop and wait for a further explicit owner instruction/i,
+  "NEXT_TASK stop condition must require further owner instruction after the Phase B first slice is proven."
 );
 assert.match(
   next,
@@ -138,4 +142,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67) is closed; no product candidate currently authorized; clean stop until explicit Phase B owner instruction.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67) and Phase A closed; Phase B first slice (Save Library Experience 2.0) authorized under owner instruction.");

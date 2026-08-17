@@ -150,13 +150,13 @@ A.match(state, /Current production runtime feature merge: `8fc671fc644e69b4fd405
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
 A.match(state, /unresolved historical roles remain excluded from identified longitudinal manager totals|unresolved historical manager roles remaining explicit/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
 
-A.match(next, /No product candidate is currently authorized for implementation/i, "NEXT_TASK must state that no product candidate is currently authorized after multi-Save closure.");
+A.match(next, /Authorized product candidate[\s\S]+Save Library \/ Local Profile Experience 2\.0/i, "NEXT_TASK must authorize Phase B Save Library / Local Profile Experience 2.0.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
 A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as closed / production-proven.");
 A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
 A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
 A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
-A.match(next, /advance only a later explicit owner-authorized candidate|fresh explicit owner instruction selecting from the owner roadmap Phase B/i, "NEXT_TASK stop condition must require a later explicit owner instruction from Phase B onward.");
+A.match(next, /After that slice is production-proven, stop and wait for a further explicit owner instruction/i, "NEXT_TASK stop condition must require further owner instruction after Phase B first slice.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
