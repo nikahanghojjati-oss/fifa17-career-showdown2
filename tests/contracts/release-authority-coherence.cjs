@@ -150,9 +150,9 @@ A.match(state, /Current production runtime feature merge: `8fc671fc644e69b4fd405
 A.match(state, /Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`/i, "PROJECT_STATE must identify the exact Phase B first-slice (PR #70) production merge.");
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
 A.match(state, /unresolved historical roles remain excluded from identified longitudinal manager totals|unresolved historical manager roles remaining explicit/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
-A.match(state, /No product candidate is currently authorized for implementation/i, "PROJECT_STATE must record clean-stop after Phase B first slice.");
+A.match(state, /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience|Phase C \/ Showdown Home & Season Experience deepening — first slice/i, "PROJECT_STATE must record Phase C first slice as the authorized product candidate.");
 
-A.match(next, /No product candidate is currently authorized/i, "NEXT_TASK must state that no product candidate is currently authorized after Phase B first slice proof.");
+A.match(next, /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience/i, "NEXT_TASK must authorize Phase C / Showdown Home & Season Experience deepening first slice.");
 A.match(next, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven.");
 A.match(next, /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i, "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice).");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
@@ -160,7 +160,7 @@ A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #
 A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
 A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
 A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
-A.match(next, /Stop and wait for a further explicit owner instruction before expanding scope/i, "NEXT_TASK stop condition must require further owner instruction before expanding scope.");
+A.match(next, /After that slice is production-proven, stop and wait for a further explicit owner instruction/i, "NEXT_TASK stop condition must require further owner instruction after Phase C first slice.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
@@ -192,4 +192,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed identity layers, recovery ownership, closed multi-Save (PR #67), clean-stop authorization, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed identity layers, recovery ownership, closed multi-Save (PR #67), Phase C first-slice authorization, cloud boundary and workflow topology agree.\n`);
