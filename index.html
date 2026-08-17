@@ -236,10 +236,20 @@
 <p class="transferOverviewStatus" id="dashboardTransferStatus">Transfer challenge: not started</p>
 </div>
 
-<div class="showdownScoreboard">
+<div class="showdownScoreboard" id="dashboardScoreboard">
+<div class="seriesStatusRow">
+<span class="seriesStatusChip" id="dashboardSeriesStatus">LEVEL</span>
+</div>
+<div class="scoreboardScores">
 <div><span id="dashboardScoreOne">0</span><small id="scoreLabelOne">POINTS</small></div>
 <div class="scoreDivider">VS</div>
 <div><span id="dashboardScoreTwo">0</span><small id="scoreLabelTwo">POINTS</small></div>
+</div>
+</div>
+
+<div class="lastSeasonSummary hidden" id="dashboardLastSeasonSummary" aria-live="polite">
+<p class="lastSeasonLabel" id="dashboardLastSeasonLabel">LAST SEASON</p>
+<p class="lastSeasonResult" id="dashboardLastSeasonResult">—</p>
 </div>
 
 <div class="playerCards">
