@@ -1,6 +1,6 @@
 # PROJECT STATE — Career Mode Showdown
 
-Last updated: 2026-08-17 ET
+Last updated: 2026-08-17 ET (Phase C first slice authorized)
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns development-environment continuity and does not alter product/runtime authority.
 
@@ -103,8 +103,19 @@ Career Mode Showdown is a private two-manager companion for the owner and one fr
 Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16).
 Private remote joining remains an important future requirement but is currently **BLOCKED** (no auth / transport).
 
-## Current clean boundary
+## Current authorization boundary
 
 Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), and Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) are complete, merged, deployed and production-proven.
 
-**No product candidate is currently authorized for implementation.** The next product candidate requires a fresh explicit owner instruction. Profile merge/delete or generic CRUD, broader Save Library Experience 2.0 expansion, Analytics 2.0, optional content, cloud/network work, public community surfaces and private remote joining remain unauthorized.
+**Authorized product candidate (owner instruction 2026-08-17):** Phase C / Showdown Home & Season Experience deepening — first slice.
+
+Bounded first-slice scope:
+
+1. Richer Showdown Home (dashboard) scoreboard — series lead/trail status chip + clearer visual hierarchy for the current series score.
+2. Contextual primary action label on the Home screen that reflects the real next step.
+3. Last completed season result summary on the Home screen (when at least one season has been played).
+4. Touch-target and spacing polish for primary Home actions (min-height 44px where needed).
+
+Presentation-only. No new canonical storage keys, no mutation of Save Library / profile / season identity semantics, no change to scoring rules. Multi-Save portability, Candidate A/B/C, identity-safe Analytics and performance ceilings remain preserved.
+
+After the Phase C first slice is production-proven, stop and wait for a further explicit owner instruction before expanding Phase C or opening Phase D. Profile merge/delete or generic CRUD, broader Save Library Experience 2.0 expansion, Analytics 2.0, optional content, cloud/network work, public community surfaces and private remote joining remain unauthorized.
