@@ -89,26 +89,26 @@ assert.match(
   "Current rolling handoff must retain exact PR #61 merge and deployed proof."
 );
 
-// Phase B authority: multi-Save + Phase A closed; first slice of Save Library Experience 2.0 authorized.
+// Phase B first slice closed: multi-Save + Phase A + Phase B first slice production-proven; no candidate authorized.
 assert.match(
   next,
-  /Authorized product candidate[\s\S]+Save Library \/ Local Profile Experience 2\.0/i,
-  "NEXT_TASK must authorize the Phase B Save Library / Local Profile Experience 2.0 candidate."
+  /No product candidate is currently authorized/i,
+  "NEXT_TASK must state that no product candidate is currently authorized after Phase B first slice proof."
 );
 assert.match(
   next,
-  /bounded first slice/i,
-  "NEXT_TASK must keep the Phase B authorization bounded to a first slice."
+  /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i,
+  "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven."
+);
+assert.match(
+  next,
+  /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i,
+  "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice)."
 );
 assert.match(
   next,
   /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i,
-  "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as the closed production milestone."
-);
-assert.match(
-  next,
-  /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i,
-  "NEXT_TASK must record the live main feature-merge SHA for PR #67."
+  "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as a closed production milestone."
 );
 assert.match(
   next,
@@ -117,8 +117,8 @@ assert.match(
 );
 assert.match(
   next,
-  /After that slice is production-proven, stop and wait for a further explicit owner instruction/i,
-  "NEXT_TASK stop condition must require further owner instruction after the Phase B first slice is proven."
+  /Stop and wait for a further explicit owner instruction before expanding scope/i,
+  "NEXT_TASK stop condition must require further owner instruction before expanding scope."
 );
 assert.match(
   next,
@@ -142,4 +142,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67) and Phase A closed; Phase B first slice (Save Library Experience 2.0) authorized under owner instruction.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, and Phase B first slice (PR #70) closed; no product candidate authorized.");
