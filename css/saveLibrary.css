@@ -75,7 +75,7 @@
 .saveLibrarySortBar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;}
 .saveLibrarySortLabel{color:var(--f17-blue-deep);font:700 9px/1 var(--f17-display);letter-spacing:1.5px;}
 .saveLibrarySortGroup{display:flex;flex-wrap:wrap;gap:4px;}
-.saveLibrarySortButton{min-height:34px;padding:6px 10px;border:1px solid #aebec6;background:#eef3f4;color:#365264;font:800 9px/1 var(--f17-display);letter-spacing:1px;cursor:pointer;}
+.saveLibrarySortButton{min-height:44px;padding:8px 12px;border:1px solid #aebec6;background:#eef3f4;color:#365264;font:800 9px/1 var(--f17-display);letter-spacing:1px;cursor:pointer;}
 .saveLibrarySortButton.isActive{color:var(--f17-ink);background:var(--f17-yellow);border-color:var(--f17-blue);}
 .saveLibrarySortButton:focus-visible{outline:2px solid var(--f17-blue);outline-offset:2px;}
 .saveLibraryProfileMeta{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
