@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-16 ET
+Last updated: 2026-08-16 ET (Phase B authorization)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
@@ -11,13 +11,11 @@ Work Environment Continuity (see `00_WORK_ENVIRONMENT_CONTINUITY.md`, `AGENTS.md
 Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
 Current production Installable Offline App runtime: `1.3.0-r2`
 Immediate previous known-good whole shell: `1.3.0-r1`
-Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`
-Validated PR #67 head (pre-merge): `a58a471b8e7199cd4a29f5096de87709b7655ae8`
+Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 multi-Save)
+Authority sync merge: `372e5570391616efd737fc4780ad0b51d8ec5ce4` (PR #68 Phase A)
 Feature release version: intentionally unassigned
 
 Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, and formatVersion 2 full multi-Save backup/import portability are complete, merged, deployed and production-proven.
-
-PR #67 (formatVersion 2 multi-Save portability) was independently reviewed at high-risk depth, squash-merged to `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`, passed Stability Lane 31928164354 attempt 2 (including visible Save Library audit), Pages deployment, and all Validate-* workflows. Owner visual/product acceptance recorded 2026-08-16.
 
 ## Current implementation authorization
 
@@ -26,12 +24,24 @@ The following candidates are closed as production-proven and must not be reopene
 - Local Profile display-label editing
 - Identity-Safe Career Analytics
 - formatVersion 2 full multi-Save backup/import portability (PR #67)
+- Phase A documentation authority synchronization (PR #68)
 
-**No product candidate is currently authorized for implementation.**
+**Authorized product candidate (owner instruction 2026-08-16):**  
+**Save Library / Local Profile Experience 2.0** (Phase B of the owner Full Comprehensive Project Roadmap).
 
-The next authorized work is documentation authority synchronization only (this file and `PROJECT_STATE.md` now correctly record the multi-Save milestone as complete). After that synchronization is published, any subsequent product candidate requires a fresh explicit owner instruction selecting from the owner roadmap Phase B onward (Save Library / Local Profile Experience 2.0, Showdown & Season experience deepening, Career Statistics 2.0, etc.).
+Scope of this authorization (bounded first slice, not the entire Experience 2.0):
 
-Do not begin Save Library Experience 2.0, Local Profile Experience 2.0, broader Analytics, Legacy expansion, Achievements, cloud, private remote joining, or any other future-area work without a new explicit owner authorization that names the exact candidate.
+1. Evidence-driven richer Save Library cards (progress indicators, season counts, last-played / status cues) without changing canonical storage keys or identity semantics.
+2. Clearer Local Profile presentation on the Save Library surface (still presentation labels only; no identity mutation beyond existing display-label editing).
+3. Sorting / ordering controls that remain local and non-destructive.
+4. Preserve all shipped multi-Save portability, Candidate A/B/C, identity-safe Analytics, and performance ceilings.
+
+Out of scope for this authorization (require a later explicit instruction):
+
+- Profile merge/delete or generic CRUD
+- Career Statistics 2.0 / Advanced Visual Analytics
+- Legacy 2.0, Achievements, Trophy Room 2.0
+- Cloud, private remote joining, public community surfaces
 
 ## Shipped multi-Save portability semantics that every future candidate must preserve
 
@@ -62,24 +72,22 @@ Do not begin Save Library Experience 2.0, Local Profile Experience 2.0, broader 
 
 Potential future work remains separately bounded, including:
 
-- evidence-driven Save Library / Local Profile Experience 2.0 (richer cards, progress, sorting, profile career views);
-- Showdown Home and Season experience deepening;
-- Career Statistics 2.0 and Advanced Visual Analytics;
-- Legacy 2.0, Achievements System, Trophy Room 2.0;
-- optional challenge / league / club content;
-- Backup and Recovery Experience 2.0 (UX only);
-- Cloud Readiness architecture (no runtime);
-- Optional Private Cloud Backup;
-- Private Account / Identity Layer;
-- Private Paired Device Capability;
-- Connected Rivalry;
-- Private Transfer Challenge device mode;
-- private sharing;
-- private remote joining / session system (important future requirement after owner clarification 2026-08-16; still BLOCKED — no current auth).
+- broader Save Library / Local Profile Experience 2.0 expansion beyond the first slice above
+- Showdown Home and Season experience deepening
+- Career Statistics 2.0 and Advanced Visual Analytics
+- Legacy 2.0, Achievements System, Trophy Room 2.0
+- optional challenge / league / club content
+- Backup and Recovery Experience 2.0 (UX only)
+- Cloud Readiness architecture (no runtime)
+- Optional Private Cloud Backup
+- Private Account / Identity Layer
+- Private Paired Device Capability
+- Connected Rivalry
+- Private Transfer Challenge device mode
+- private sharing
+- private remote joining / session system (important future requirement; still BLOCKED — no current auth).
 
 Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16). Product direction is a private two-manager companion. Do not implement or re-introduce public community or global ranking surfaces unless the owner explicitly reverses that lock in a later roadmap amendment.
-
-None of the future areas above is implementation-authorized by this file today.
 
 ## Architecture locks
 
@@ -116,28 +124,25 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Local Profile display-label editing, Identity-Safe Career Analytics, and formatVersion 2 full multi-Save backup/import portability (PR #67) are closed and must not be reopened.
+Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), and Phase A documentation authority sync (PR #68) are closed and must not be reopened.
 
-No product candidate is currently authorized. After this documentation synchronization is published, advance only a later explicit owner-authorized candidate drawn from the owner roadmap Phase B onward (Save Library / Local Profile Experience 2.0 first). A continuity transition must carry this clean stop forward rather than inventing a new candidate.
+The currently authorized candidate is the bounded first slice of Save Library / Local Profile Experience 2.0 defined above. After that slice is production-proven, stop and wait for a further explicit owner instruction before expanding scope or opening Phase C.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 ### Bootstrap / study (required first)
 
-1. Independently confirm live `main` is still `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (or a later SHA that preserves the multi-Save + private two-manager locks).
-2. Confirm PR #68 (docs/phase-a-multi-save-authority-sync) status: if still open, its only remaining purpose is documentation + contract authority synchronization.
-3. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
-4. Do not treat any roadmap ordering as implementation authorization.
+1. Independently confirm live `main` is `372e5570391616efd737fc4780ad0b51d8ec5ce4` (or a later SHA that preserves multi-Save + private two-manager locks + Phase A authority).
+2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
+3. Confirm no public community / global leaderboard work and no private remote joining work is in scope.
 
 ### Execution (after study)
 
-**Current authorized work:** complete Phase A documentation authority synchronization only.
+**Current authorized work:** Phase B first slice — Save Library / Local Profile Experience 2.0 (richer cards, progress cues, Local Profile presentation, local sorting).
 
-1. On branch `docs/phase-a-multi-save-authority-sync`, ensure contracts assert the sealed state (multi-Save CLOSED, no product candidate authorized, clean stop until explicit Phase B owner instruction).
-2. Push via Path B; confirm PR #68 CI fully green.
-3. Report status to owner. Do **not** merge unless the owner explicitly delegates merge.
-4. After merge + live main confirmation of the corrected authority files: hold the clean stop.
+1. On branch `phase-b/save-library-experience-2.0-authority` (or successor), land the authority update that records this candidate.
+2. Inspect current Save Library UI + runtime surfaces (`js/saveLibraryRuntime.js`, relevant screens/CSS) and produce a short evidence-backed design note for the first visible improvement.
+3. Implement only the bounded first slice with contracts and high-risk depth.
+4. Do not expand into Statistics 2.0, Legacy, cloud, or remote joining.
 
-**Owner direction received 2026-08-16 (this session):** the owner has explicitly instructed continuation toward the next product version based on the roadmap, with visible progress labeling. That instruction authorizes opening Phase B only **after** Phase A (this documentation synchronization) is published. The first Phase B candidate remains Save Library / Local Profile Experience 2.0 unless the owner names a different candidate.
-
-Do not begin Save Library Experience 2.0, Statistics 2.0, cloud, public community, or private remote joining while Phase A is still open. Public community and global leaderboard remain ELIMINATED. Private remote joining remains BLOCKED.
+Owner standing instruction 2026-08-16 authorizes continuation through this Phase B first slice. Further phases still require explicit instruction after production proof of the current slice.
