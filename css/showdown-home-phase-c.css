@@ -1,0 +1,16 @@
+/* Phase C / Showdown Home first slice — series status + last-season summary + touch targets */
+.showdownScoreboard{display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:12px 18px 14px;margin-bottom:14px;}
+.seriesStatusRow{display:flex;justify-content:center;}
+.seriesStatusChip{display:inline-flex;align-items:center;justify-content:center;min-height:24px;padding:5px 12px;font:800 10px/1 var(--f17-display);letter-spacing:1.4px;text-transform:uppercase;color:#e5ecef;background:#4b5962;}
+.seriesStatusChip.series-lead-one{color:#fff;background:var(--f17-blue);}
+.seriesStatusChip.series-lead-two{color:var(--f17-ink);background:var(--f17-yellow);}
+.seriesStatusChip.series-level{color:#e5ecef;background:#5a6872;}
+.scoreboardScores{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:22px;}
+.scoreboardScores div:not(.scoreDivider){display:flex;flex-direction:column;align-items:center;}
+.scoreboardScores span{font:800 52px/.88 var(--f17-display);color:var(--f17-yellow);}
+.scoreboardScores small{margin-top:5px;color:#c2ccd3;font-size:8px;letter-spacing:1.4px;}
+.lastSeasonSummary{width:min(570px,90vw);margin:0 auto 14px;padding:10px 14px;display:flex;flex-direction:column;gap:4px;background:var(--f17-panel);border-left:5px solid var(--f17-cyan);box-shadow:var(--f17-shadow-soft);}
+.lastSeasonSummary.hidden{display:none;}
+.lastSeasonLabel{margin:0;color:#596873;font:700 9px/1.1 var(--f17-display);letter-spacing:1.5px;text-transform:uppercase;}
+.lastSeasonResult{margin:0;color:var(--f17-ink);font:700 14px/1.25 var(--f17-display);}
+.dashboardActions .menuButton,.dashboardActions .backButton{min-height:44px;}
