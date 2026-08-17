@@ -4,6 +4,8 @@
     let saveLibraryUIObserver=null;
     let saveLibraryUIAuthorityIssue="";
     let saveLibraryUIBusy=false;
+    // Phase B / Save Library Experience 2.0 first slice — local presentation-only sort (non-destructive, not persisted)
+    let saveLibraryUISortMode="updated";
 
     function saveLibraryUIElement(tag,className="",text=""){
         const element=document.createElement(tag);
@@ -76,6 +78,21 @@
         const current=Math.max(1,Number(showdown&&showdown.currentRound)||1);
         const total=Math.max(1,Number(showdown&&showdown.totalRounds)||1);
         return `Season ${current} of ${total}`;
+    }
+
+    // Phase B first slice — numeric progress for bar + sorting (presentation only)
+    function saveLibraryUIProgressRatio(showdown){
+        if(showdown&&showdown.status==="Completed")return 1;
+        const current=Math.max(0,Number(showdown&&showdown.currentRound)||0);
+        const total=Math.max(1,Number(showdown&&showdown.totalRounds)||1);
+        return Math.min(1,Math.max(0,current/total));
+    }
+
+    function saveLibraryUIStatusLabel(showdown){
+        if(showdown&&showdown.status==="Completed")return "COMPLETED";
+        const current=Number(showdown&&showdown.currentRound)||0;
+        if(current<=0)return "NOT STARTED";
+        return "IN PROGRESS";
     }
 
     function saveLibraryUILeagueLabel(showdown){
@@ -193,12 +210,33 @@
 
         const title=saveLibraryUIElement("h4","",showdown.name||"Unnamed Showdown");
         const managers=saveLibraryUIElement("p","saveLibraryManagers",`${showdown.managers?.playerOne||"Manager 1"} vs ${showdown.managers?.playerTwo||"Manager 2"}`);
+
+        // Phase B first slice — status chip + visual progress bar (presentation only)
+        const statusRow=saveLibraryUIElement("div","saveLibraryStatusRow");
+        const statusChip=saveLibraryUIElement("span",`saveLibraryStatusChip status-${saveLibraryUIStatusLabel(showdown).toLowerCase().replace(/\s+/g,"-")}`,saveLibraryUIStatusLabel(showdown));
+        statusRow.appendChild(statusChip);
+
+        const progressWrap=saveLibraryUIElement("div","saveLibraryProgressWrap");
+        const progressLabel=saveLibraryUIElement("div","saveLibraryProgressLabel",saveLibraryUISaveProgress(showdown));
+        const progressTrack=saveLibraryUIElement("div","saveLibraryProgressTrack");
+        const progressFill=saveLibraryUIElement("div","saveLibraryProgressFill");
+        const ratio=saveLibraryUIProgressRatio(showdown);
+        progressFill.style.width=`${Math.round(ratio*100)}%`;
+        progressFill.setAttribute("aria-hidden","true");
+        progressTrack.setAttribute("role","progressbar");
+        progressTrack.setAttribute("aria-valuenow",String(Math.round(ratio*100)));
+        progressTrack.setAttribute("aria-valuemin","0");
+        progressTrack.setAttribute("aria-valuemax","100");
+        progressTrack.setAttribute("aria-label",saveLibraryUISaveProgress(showdown));
+        progressTrack.appendChild(progressFill);
+        progressWrap.append(progressLabel,progressTrack);
+        statusRow.appendChild(progressWrap);
+
         const facts=saveLibraryUIElement("div","saveLibraryFacts");
         for(const [label,value] of [
-            ["PROGRESS",saveLibraryUISaveProgress(showdown)],
             ["LEAGUE",saveLibraryUILeagueLabel(showdown)],
             ["CLUBS",saveLibraryUIClubLabel(showdown)],
-            ["LOCAL STATE",saveLibraryUIFormatUpdated(showdown)]
+            ["LAST PLAYED",saveLibraryUIFormatUpdated(showdown)]
         ]){
             const row=saveLibraryUIElement("div","saveLibraryFact");
             row.append(saveLibraryUIElement("span","",label),saveLibraryUIElement("strong","",value));
@@ -222,7 +260,7 @@
         remove.addEventListener("click",()=>saveLibraryUIDelete(entry.saveId,showdown));
         actions.appendChild(remove);
 
-        card.append(top,title,managers,facts,actions);
+        card.append(top,title,managers,statusRow,facts,actions);
         return card;
     }
 
@@ -326,16 +364,25 @@
         const grid=saveLibraryUIElement("div","saveLibraryProfileGrid");
         const profiles=Array.isArray(library.profiles)?library.profiles:[];
         for(const profile of profiles){
-            const references=(library.saves||[]).filter(entry=>{
+            const linkedSaves=(library.saves||[]).filter(entry=>{
                 const ids=entry?.showdown?.identity?.managerProfileIds;
                 return ids&&(ids.playerOne===profile.profileId||ids.playerTwo===profile.profileId);
-            }).length;
-            const card=saveLibraryUIElement("article","saveLibraryProfileCard");
+            });
+            const references=linkedSaves.length;
+            const card=saveLibraryUIElement("article",`saveLibraryProfileCard${references?" isLinked":" isOrphan"}`);
             card.dataset.profileId=profile.profileId;
-            card.append(
+
+            const meta=saveLibraryUIElement("div","saveLibraryProfileMeta");
+            meta.append(
                 saveLibraryUIElement("span","saveLibraryProfileIdentity",`PROFILE ${saveLibraryUIShortIdentity(profile.profileId)}`),
+                saveLibraryUIElement("span",`saveLibraryProfileLinkBadge${references?" linked":""}`,references?`${references} SAVE${references===1?"":"S"} LINKED`:"NO SAVE LINK")
+            );
+            card.append(
+                meta,
                 saveLibraryUIElement("strong","saveLibraryProfileName",profile.displayName||"Unnamed Manager"),
-                saveLibraryUIElement("small","",references?`Linked by stable identity to ${references} local Save${references===1?"":"s"}`:"Retained local identity · no current Save link"),
+                saveLibraryUIElement("small","saveLibraryProfileLinkDetail",references
+                    ? `Stable identity linked to ${references} local Save${references===1?"":"s"}`
+                    : "Retained local identity · not currently linked to a Save"),
                 saveLibraryUICreateProfileEditor(profile)
             );
             grid.appendChild(card);
@@ -502,13 +549,60 @@
         return section;
     }
 
-    function saveLibraryUIReadyPanel(library,panel){
-        const saves=Array.isArray(library.saves)?library.saves.slice():[];
-        saves.sort((a,b)=>{
-            if(a.saveId===library.activeSaveId)return -1;
-            if(b.saveId===library.activeSaveId)return 1;
+    // Phase B first slice — local non-destructive sort (presentation order only)
+    function saveLibraryUISortSaves(saves,activeSaveId,mode){
+        const list=Array.isArray(saves)?saves.slice():[];
+        list.sort((a,b)=>{
+            // Active Save always first for orientation
+            if(a.saveId===activeSaveId)return -1;
+            if(b.saveId===activeSaveId)return 1;
+            if(mode==="name"){
+                const an=String(a.showdown?.name||"").toLowerCase();
+                const bn=String(b.showdown?.name||"").toLowerCase();
+                return an.localeCompare(bn);
+            }
+            if(mode==="progress"){
+                const ar=saveLibraryUIProgressRatio(a.showdown);
+                const br=saveLibraryUIProgressRatio(b.showdown);
+                if(br!==ar)return br-ar; // higher progress first
+                return String(b.showdown?.updatedAt||"").localeCompare(String(a.showdown?.updatedAt||""));
+            }
+            // default: updated (most recent first)
             return String(b.showdown?.updatedAt||"").localeCompare(String(a.showdown?.updatedAt||""));
         });
+        return list;
+    }
+
+    function saveLibraryUICreateSortControls(){
+        const bar=saveLibraryUIElement("div","saveLibrarySortBar");
+        const label=saveLibraryUIElement("span","saveLibrarySortLabel","SORT");
+        const group=saveLibraryUIElement("div","saveLibrarySortGroup");
+        group.setAttribute("role","group");
+        group.setAttribute("aria-label","Sort local Saves");
+
+        const modes=[
+            {id:"updated",label:"LAST PLAYED"},
+            {id:"name",label:"NAME"},
+            {id:"progress",label:"PROGRESS"}
+        ];
+        for(const mode of modes){
+            const btn=saveLibraryUIElement("button",`saveLibrarySortButton${saveLibraryUISortMode===mode.id?" isActive":""}`,mode.label);
+            btn.type="button";
+            btn.dataset.sortMode=mode.id;
+            btn.setAttribute("aria-pressed",String(saveLibraryUISortMode===mode.id));
+            btn.addEventListener("click",()=>{
+                if(saveLibraryUISortMode===mode.id)return;
+                saveLibraryUISortMode=mode.id;
+                saveLibraryUIRender();
+            });
+            group.appendChild(btn);
+        }
+        bar.append(label,group);
+        return bar;
+    }
+
+    function saveLibraryUIReadyPanel(library,panel){
+        const saves=saveLibraryUISortSaves(library.saves,library.activeSaveId,saveLibraryUISortMode);
 
         const summary=saveLibraryUIElement("div","saveLibrarySummary");
         summary.append(
@@ -526,6 +620,7 @@
         panel.appendChild(actions);
 
         if(saves.length){
+            panel.appendChild(saveLibraryUICreateSortControls());
             const grid=saveLibraryUIElement("div","saveLibraryGrid");
             for(const entry of saves)grid.appendChild(saveLibraryUICreateSaveCard(entry,library.activeSaveId));
             panel.appendChild(grid);
