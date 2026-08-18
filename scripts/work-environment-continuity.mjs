@@ -40,6 +40,16 @@ const decisions = Object.freeze({
     FINISH_SAFE_BOUNDARY: "FINISH_SAFE_BOUNDARY"
 });
 
+const handoffProximityRule = Object.freeze([
+    "MANDATORY HANDOFF PROXIMITY RULE",
+    "Every substantive owner-facing project response must visibly include: Handoff proximity: X%",
+    "Handoff proximity estimates Work environment transition proximity, not task completion. Base it on observable continuity evidence and do not mechanically increase it after every response.",
+    "Never fabricate account/model usage to calculate Handoff proximity. If usage is unavailable, use only observable continuity evidence and keep usage unknown.",
+    "At Handoff proximity: 100%, automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.",
+    "WEC remains authoritative when it requires an earlier or stricter transition; Handoff proximity never weakens a WEC decision.",
+    "Every successor handoff must recursively preserve this same Handoff Proximity rule unless the owner explicitly changes it."
+]);
+
 function clamp(value, minimum = 0, maximum = 100){
     return Math.min(maximum, Math.max(minimum, value));
 }
@@ -328,6 +338,8 @@ function buildHandoffPrompt(state, assessment){
         `Recorded transition decision: ${assessment.decision}`,
         `Recorded local HEAD: ${assessment.repository.head}`,
         `Recorded origin/main: ${assessment.repository.originMain}`,
+        "",
+        ...handoffProximityRule,
         "",
         "Before making any change:",
         "1. Fetch live main, recent commits, tags, releases, open pull requests and active branches.",
