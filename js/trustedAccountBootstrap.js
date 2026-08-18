@@ -8,7 +8,7 @@
   const ALLOWED_ACCOUNT_STATUSES=Object.freeze(["active","disabled","deletion-pending"]);
   const ACCOUNT_DATA_FIELDS=Object.freeze(["createdAt","deletionRequestedAt","status"]);
 
-  function isRecord(value){
+  function isTrustedAccountBootstrapRecord(value){
     return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
   }
 
@@ -20,14 +20,14 @@
   }
 
   function normalizeProviderUid(providerPrincipal){
-    if(!isRecord(providerPrincipal)||typeof providerPrincipal.uid!=="string"||providerPrincipal.uid.trim().length===0){
+    if(!isTrustedAccountBootstrapRecord(providerPrincipal)||typeof providerPrincipal.uid!=="string"||providerPrincipal.uid.trim().length===0){
       return null;
     }
     return providerPrincipal.uid.trim();
   }
 
   function sameFields(actual,expected){
-    if(!isRecord(actual))return false;
+    if(!isTrustedAccountBootstrapRecord(actual))return false;
     const keys=Object.keys(actual).sort();
     return keys.length===expected.length&&keys.every((key,index)=>key===expected[index]);
   }
@@ -36,7 +36,7 @@
     if(documentAccountId!==accountId){
       return "ACCOUNT_PATH_IDENTITY_MISMATCH";
     }
-    if(!isRecord(existingAccount)){
+    if(!isTrustedAccountBootstrapRecord(existingAccount)){
       return "ACCOUNT_DOCUMENT_SCHEMA_CONFLICT";
     }
     if(existingAccount.schemaVersion!==1||existingAccount.objectType!=="account"||existingAccount.objectId!==accountId){
@@ -58,7 +58,7 @@
   }
 
   function planTrustedAccountBootstrap(input){
-    if(!isRecord(input)){
+    if(!isTrustedAccountBootstrapRecord(input)){
       return deepFreeze({ok:false,action:"reject",code:"INVALID_BOOTSTRAP_INPUT"});
     }
 
