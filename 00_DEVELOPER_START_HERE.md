@@ -38,7 +38,7 @@ Connected GitHub tooling is source/write authority when the local shell cannot r
 ## Current production identity
 
 Application: **v1.4.0 — Product Deepening**
-Runtime: `1.4.0-r1`
+Installable Offline App runtime: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 
