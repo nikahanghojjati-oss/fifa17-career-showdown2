@@ -65,8 +65,13 @@ assert.match(
 );
 assert.match(
   active,
-  /a0aa98e3b24d73ca51dde7d1ebf0856550a0a9c1e9/i,
-  "Closed Analytics handoff must preserve the final production-proven main SHA for PR #59."
+  /a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1[\s\S]+All 13 normal pull-request workflow families passed/i,
+  "Closed Analytics handoff must retain exact-head PR proof."
+);
+assert.match(
+  active,
+  /c5c7d50cc3a2d9003e057d1813744c877323c068[\s\S]+deployed-site-smoke job `94855938131`/i,
+  "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
 // Phase C first slice closed + visible v1.4.0 seal: multi-Save + Phase A + Phase B + Phase C production-proven; no product candidate authorized.
