@@ -69,7 +69,7 @@ The model remains dormant and is not loaded by production v1.4.0 / `1.4.0-r1`.
 
 ### Phase 1B — provider and operational decision
 
-Status: DECISION COMPLETE IN CURRENT BOUNDED CANDIDATE.
+Status: DONE / MERGED / PROTECTED — PR #77, merge `2dc61e24ef07a0a150a228865f954ab3b3941398`.
 
 Primary future provider candidate:
 
@@ -78,7 +78,7 @@ Primary future provider candidate:
 - Firestore real-time listeners where appropriate;
 - Firebase Local Emulator Suite before production provider connection.
 
-Key guardrails:
+Permanent guardrails:
 
 - provider selection is not provider connection;
 - Firestore persistent offline cache remains disabled because its documented reconnect semantics can use last-write-wins;
@@ -87,41 +87,45 @@ Key guardrails:
 - privileged credentials never enter the GitHub Pages client;
 - Cloud Functions/Blaze requires a later explicit operational gate if server-only operations prove necessary.
 
-Supabase remains a fallback but its Free plan pauses inactive projects and Pro begins at a standing monthly cost. Cloudflare Durable Objects remains a possible dedicated session-coordinator fallback if later evidence justifies a second provider.
+Supabase remains a fallback. Cloudflare Durable Objects remains a possible dedicated session-coordinator fallback if later evidence justifies a second provider.
 
 Detailed authority: `CLOUD_PROVIDER_DECISION_2026-08-17.md`.
 
 ### Phase 1C — private remote data inventory, privacy and retention
 
-Status: AUTHORIZED NEXT PREREQUISITE.
+Status: CURRENT BOUNDED CANDIDATE.
 
-Must define before any Firebase connection:
+Detailed authority: `REMOTE_DATA_PRIVACY_RETENTION_POLICY.md`.
 
-1. exact remote object/data classes;
-2. minimum necessary fields for each class;
-3. what remains local-only;
-4. account/profile/save/device/session relationship boundaries;
-5. live-object retention;
-6. tombstone retention and anti-resurrection window;
-7. pairing/invite/session retention;
-8. minimum security/audit metadata and retention;
-9. prohibited remote data and prohibited logs;
-10. export and deletion semantics;
-11. account deletion semantics;
-12. cloud-disable/local-only fallback;
-13. region-selection criteria without premature region choice.
+Candidate decisions:
+
+1. remote-by-need only: no automatic upload of every local Save;
+2. unshared Saves, Candidate A/B/C recovery material, local preferences and unrelated Legacy history remain local-only by default;
+3. optional Private Cloud Backup remains a separate future opt-in product;
+4. remote identity preserves `accountId` versus `profileId`/`saveId`/`seasonId` separation;
+5. registered device metadata is minimized and device identity is never authentication;
+6. invite/pairing secrets are short-lived and raw secrets are never logged;
+7. tombstones retain deletion authority without deleted gameplay content and remain strong enough for long-offline anti-resurrection;
+8. expired invite/replay metadata has bounded retention;
+9. idempotency metadata defaults to 7-day retention;
+10. app-controlled security/audit metadata defaults to 30-day retention;
+11. account deletion immediately revokes normal connected authority and requires provider-specific cleanup proof before production;
+12. local-only fallback and Candidate A/B/C recovery remain available during cloud disable/outage;
+13. region-selection criteria are defined without prematurely selecting a region;
+14. public discovery/matchmaking/profiles/community/global rankings remain eliminated.
 
 No SDK, provider project, credential, remote collection or auth runtime is allowed in Phase 1C.
 
-### Phase 1D — remote schema and API contract
+### Phase 1D — exact remote schema and API/authorization contract
 
-Status: BLOCKED behind Phase 1C.
+Status: NEXT AFTER PHASE 1C MERGES.
 
 Required concepts:
 
 - `accountId`;
 - `profileId`;
 - `saveId`;
+- `seasonId`;
 - `deviceId`;
 - `installationId`;
 - `objectType` / `objectId`;
@@ -129,12 +133,15 @@ Required concepts:
 - `contentHash`;
 - tombstone metadata;
 - idempotency key;
-- explicit conflict record;
-- authorization scope.
+- explicit conflict response;
+- exact authorization scope;
+- shared two-owner rivalry deletion semantics;
+- app-versus-provider data ownership;
+- account deletion cascade boundaries.
 
 Timestamps remain informational only and never conflict authority.
 
-This phase must translate the provider-neutral Phase 1A semantics into an exact Firebase-compatible schema and Security Rules/API boundary without connecting production data yet.
+Phase 1D must translate the provider-neutral Phase 1A semantics and Phase 1C privacy boundaries into an exact Firebase-compatible schema, transaction/API contract and Security Rules authorization model without connecting production data yet.
 
 ### Phase 1E — deterministic two-device and offline/reconnect harness
 
@@ -155,7 +162,7 @@ Must permanently test:
 - explicit conflict presentation contract;
 - deterministic final state.
 
-### Phase 1F — provider connection and security-rules/emulator proof
+### Phase 1F — provider connection and Security Rules/emulator proof
 
 Status: BLOCKED behind 1A–1E.
 
