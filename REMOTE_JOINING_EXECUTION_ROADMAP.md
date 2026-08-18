@@ -1,7 +1,7 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
 Status: owner-priority roadmap overlay
-Effective: 2026-08-18 ET, synchronized through the Stage 2B PR #84 implementation gate
+Effective: 2026-08-18 ET, synchronized through Stage 2B completion and Stage 2C current policy gate
 Relationship to authority: `NEXT_TASK.md` owns bounded implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns broader post-v1 status; this file owns the detailed Remote Joining prerequisite lane.
 
 ## Product destination
@@ -20,7 +20,7 @@ Every stage must be bounded, validated, merged and proven before the next stage 
 
 ## Versioning principle
 
-`VERSIONING_POLICY.md` is permanent release-numbering authority. Dormant architecture/tests/emulator proof do not consume a visible application version. A shipped runtime change receives the PATCH/MINOR/MAJOR bump justified by actual scope; `rN` never substitutes for a semantic version bump.
+`VERSIONING_POLICY.md` is permanent release-numbering authority. Dormant architecture/tests/emulator proof and policy-only prerequisite work do not consume a visible application version. A shipped runtime change receives the PATCH/MINOR/MAJOR bump justified by actual scope; `rN` never substitutes for a semantic version bump.
 
 ## Stage 0 — Proven local foundation
 
@@ -34,48 +34,18 @@ No connected feature may weaken these guarantees.
 
 Status: DONE / MERGED / PROTECTED through Phase 1F.
 
-### Phase 1A — deterministic revision model
+Phase 1A — DONE / MERGED / PROTECTED — PR #76, merge `b1fafd9cba7e2c647b88445026f6c2d1134378b1`.
+Phase 1B — DONE / MERGED / PROTECTED — PR #77, merge `2dc61e24ef07a0a150a228865f954ab3b3941398`.
+Phase 1C — DONE / MERGED / PROTECTED — PR #78, merge `59957f8b0c29ce0cd480a0e9270a095160005599`.
+Phase 1D — DONE / MERGED / PROTECTED — PR #79, merge `fc2e8e8b921a435103a438a9239efbb890584d22`, exact validated head `2e3c9560590fb934e684fbae44138f16194da6bd`.
+Phase 1E — DONE / MERGED / PROTECTED — PR #80, merge `cebd9c031657c9ee01ba68f1baaac7816c9748b9`, exact validated head `36db46b34a0675623dbdd1a4e2c76e93d438de45`.
+Phase 1F — DONE / MERGED / PROTECTED — PR #81, merge `231556d86a93535fa90e173577c1159de4f40be0`, exact validated head `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d`.
 
-Status: DONE / MERGED / PROTECTED — PR #76, merge `b1fafd9cba7e2c647b88445026f6c2d1134378b1`.
+Firebase Authentication + Cloud Firestore remains the selected primary future provider candidate. Firestore persistent offline cache remains disabled.
 
-Proves monotonic revision authority, immutable `baseRevision` compare-and-swap, explicit stale conflicts, tombstones, anti-resurrection, explicit restore and replay/idempotency semantics without provider/runtime dependency.
+Permanent security result: every application-client Firestore write remains denied. The protected Phase 1D shared-state document does not carry the idempotency-key hash required for Security Rules to identify the matching sibling idempotency receipt. A trusted mutation gateway or separately reviewed protocol/schema adjustment remains a later production-write gate. Phase 1F does not authorize Cloud Functions, Firebase Admin production runtime, service-account credentials or Blaze billing.
 
-### Phase 1B — provider and operational decision
-
-Status: DONE / MERGED / PROTECTED — PR #77, merge `2dc61e24ef07a0a150a228865f954ab3b3941398`.
-
-Firebase Authentication + Cloud Firestore is the selected primary future provider candidate. Firestore persistent offline cache remains disabled. Cloud Functions/Blaze remains a separate future gate if a trusted server operation is later proven necessary.
-
-### Phase 1C — private remote data inventory, privacy and retention
-
-Status: DONE / MERGED / PROTECTED — PR #78, merge `59957f8b0c29ce0cd480a0e9270a095160005599`.
-
-Protects remote-by-need data minimization, private-by-default access, bounded invite/idempotency/security retention, tombstone anti-resurrection, account-deletion revocation, local-only fallback and permanent prohibition of public/community/ranking surfaces.
-
-### Phase 1D — exact remote schema and API/authorization contract
-
-Status: DONE / MERGED / PROTECTED — PR #79, merge `fc2e8e8b921a435103a438a9239efbb890584d22`, exact validated head `2e3c9560590fb934e684fbae44138f16194da6bd`.
-
-Defines exact provider-compatible paths/fields, identity separation, mutation order, immutable original `baseRevision`, replay/idempotency, two-owner governance and deny-by-default authorization.
-
-### Phase 1E — deterministic two-device and offline/reconnect harness
-
-Status: DONE / MERGED / PROTECTED — PR #80, merge `cebd9c031657c9ee01ba68f1baaac7816c9748b9`, exact validated head `36db46b34a0675623dbdd1a4e2c76e93d438de45`.
-
-Proves two-device stale conflicts, recursively frozen queued intent, provider-style retry without silent rebase, tombstone anti-resurrection, current account/device/rivalry reauthorization, two-owner mutation freeze and Candidate C-grade local Apply preconditions.
-
-### Phase 1F — provider connection and Security Rules/emulator proof
-
-Status: DONE / MERGED / PROTECTED — PR #81.
-
-Exact validated head: `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d`.
-Squash merge / completion boundary: `231556d86a93535fa90e173577c1159de4f40be0`.
-
-Phase 1F connects Firebase only inside fixed demo project `demo-career-mode-showdown-phase1f`, loads deny-by-default Firestore Security Rules and proves real Firestore transaction retry behavior. It keeps Firebase absent from the production GitHub Pages shell.
-
-Permanent security result: every application-client Firestore write remains denied. The protected Phase 1D shared-state document does not carry the idempotency-key hash required for Security Rules to identify the matching sibling idempotency receipt, so direct client state writes cannot safely enforce the replay invariant. A trusted mutation gateway or separately reviewed protocol/schema adjustment remains a later production-write gate. Phase 1F does not authorize Cloud Functions, Firebase Admin production runtime, service-account credentials or Blaze billing.
-
-Stage 1 is complete as a bounded readiness/proof layer. Production Firebase runtime and production remote writes are still not enabled.
+Production Firebase runtime and production remote writes are still not enabled.
 
 ### Historical Phase 1E / Phase 1F Stage 1 provenance
 
@@ -94,17 +64,7 @@ Current Stage 1 authority is the completed Phase 1F status above.
 
 Status: ACTIVE PRIORITY LANE / DEPENDENCY-GATED.
 
-Stage 2 requirements remain:
-
-1. private authenticated `accountId`;
-2. provider-enforced authorization on every remote object operation;
-3. account identity separate from Local Profile `profile_*` identity and display labels;
-4. unresolved historical profiles never guessed by name;
-5. secure token/session lifecycle;
-6. no unsafe long-lived bearer-secret persistence;
-7. abuse/rate controls where needed;
-8. account export/deletion and recovery tests;
-9. authentication failure and revocation proof.
+Stage 2 requirements remain private authenticated `accountId`; provider-enforced authorization; account identity separate from Local Profile identity/display labels; no historical-name guessing; secure token/session lifecycle; no unsafe bearer-secret persistence; abuse/rate controls; account export/deletion and recovery tests; authentication failure/revocation proof; safe account metadata lifecycle; and a production mutation/authorization boundary that does not weaken Phase 1D/1F.
 
 Stage 2 is intentionally split into bounded prerequisites rather than one broad account feature.
 
@@ -115,41 +75,52 @@ Status: DONE / MERGED / PROVEN — PR #83.
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
 
 Exact validated head: `a4022d6f316622f73ead9aacde812b545b8dcf78`.
-Squash merge / verified completion boundary: `e39c1b0689598ac922569ff839ca30a1d5dee5fa`.
+Squash merge: `e39c1b0689598ac922569ff839ca30a1d5dee5fa`.
 
-PR #83 added only the Authentication Emulator to the existing fixed demo project and proved real Firebase Auth `uid` → architecture `accountId` semantics through cross-service Firestore Security Rules. The proof uses distinct synthetic Web Auth users, explicit in-memory Auth persistence, wrong-account and unauthenticated denial, sign-out loss of authenticated access, fail-closed invalid sign-in, application-account lifecycle checks separate from provider sign-in, provider identity over client-supplied identity and continued denial of every application-client Firestore create/update/delete.
+Stage 2A proves real Firebase Auth `uid` → architecture `accountId`, explicit in-memory emulator Auth persistence, wrong-account/unauthenticated/sign-out/failure denial paths, application-account lifecycle separation, provider identity over client-supplied identity and continued denial of every application-client Firestore create/update/delete.
 
-All 13 normal workflow families passed on the exact unchanged PR #83 head before merge. Production remained v1.4.0 / `1.4.0-r1`, Firebase remained absent from the production shell and workflow topology remained protected.
-
-Synthetic email/password users remain an emulator test mechanism only. Stage 2A did not select the eventual production sign-in UX.
+Synthetic email/password users remain an emulator test mechanism only. Stage 2A did not select production sign-in UX.
 
 Do not repeat Stage 2A.
 
 ### Stage 2B — Provider Session Lifecycle & Revocation Boundary
 
-Status: CURRENT BOUNDED CANDIDATE / PR #84 VALIDATION AND MERGE GATE.
+Status: DONE / MERGED / PROVEN — PR #84.
 
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2B.md`.
 
-Stage 2B uses Firebase Admin user-management APIs only as test tooling against the existing Authentication Emulator at `127.0.0.1:9099` on fixed project `demo-career-mode-showdown-phase1f`. The Admin SDK remains absent from the production dependency graph, shell and Service Worker; no service-account credential or production project is introduced.
+Exact validated head: `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`.
+Squash merge / verified live main: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
 
-Stage 2B proves the following bounded lifecycle behavior:
-
-- the test-only trusted Admin boundary and real Web Auth observe the same stable Firebase `uid` / architecture `accountId`;
-- provider disable blocks a new client password sign-in;
-- provider re-enable permits a new sign-in with the exact same stable `uid` and cannot fabricate or transfer Local Profile, Save, device, rivalry or manager ownership;
-- an authenticated/provider-enabled user whose application account metadata is `disabled` remains denied private rivalry reads through the existing Firestore Security Rules;
-- provider re-enable alone cannot rewrite application account metadata or restore connected entitlement;
-- a separately trusted emulator-only application status transition back to active restores only the same existing entitlement while every application-client Firestore write stays denied;
-- test-only `revokeRefreshTokens(uid)` is exercised without requesting, logging or persisting raw bearer tokens;
-- refresh-token revocation is kept distinct from provider disablement and from application account authorization;
-- Web Auth test state stays explicit in-memory persistence only.
+Stage 2B uses Firebase Admin only as emulator/CI test tooling and proves the same stable `uid` / architecture `accountId`, trusted provider disable, new-sign-in failure while disabled, re-enable with the same identity, independent application-account fail-closed authorization, and test-only `revokeRefreshTokens(uid)` routing without deliberate raw bearer-token retrieval or persistence.
 
 The Authentication Emulator is not treated as proof of every production in-flight token invalidation timing detail or backend `checkRevoked` behavior. Final production session verification/revocation remains a later Stage 2 provider-operation gate.
 
-Stage 2B does not authorize production Firebase, production account/signup/login UI, production Auth persistence, deployed production Security Rules, application-client writes, Cloud Functions/Admin production runtime/service credentials/Blaze, account export/deletion cascade, safe app account bootstrap/write lifecycle, abuse/rate controls, registered devices, pairing, Connected Rivalry or Remote Joining.
+Production Firebase remains disconnected and every application-client Firestore write remains denied.
 
-After Stage 2B merges, current source and a fresh continuity assessment must choose the next smallest remaining Stage 2 prerequisite. No later Stage 2 prerequisite is pre-authorized by this roadmap.
+Do not repeat Stage 2B.
+
+### Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary
+
+Status: CURRENT BOUNDED CANDIDATE / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED.
+
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md`.
+
+The current Stage 2C policy selects only the initial production authentication behavior:
+
+- Google federated sign-in through `GoogleAuthProvider` only;
+- `signInWithPopup()` from an explicit user gesture on the current GitHub Pages host;
+- `signInWithRedirect()` blocked until a separately reviewed auth-domain/hosting compatibility boundary exists;
+- explicit `browserSessionPersistence`, not implicit durable local persistence;
+- no extra Google OAuth scopes;
+- no deliberate Google provider access-token retrieval or persistence;
+- Firebase `uid` remains architecture `accountId`, never Local Profile/gameplay identity;
+- application account status and rivalry entitlement remain separate authorization;
+- every application-client Firestore write remains denied.
+
+Stage 2C creates no production Firebase project, real production users, account UI, production Firestore data, deployed Security Rules, Admin production runtime, Cloud Function, service credential or paid infrastructure.
+
+After Stage 2C merges, current source and a fresh continuity assessment must choose the next smallest remaining Stage 2 prerequisite. No later Stage 2 prerequisite is pre-authorized by this roadmap.
 
 ### Historical Stage 2A pre-implementation provenance
 
@@ -159,17 +130,7 @@ At the predecessor boundary Stage 2A status was `AUTHORIZED NEXT PREREQUISITE / 
 
 Status: BLOCKED until Stage 2 is proven.
 
-Requirements:
-
-- revocable registered `deviceId`;
-- device identity never substitutes for authentication;
-- private expiring one-use invite/pairing capabilities;
-- replay protection;
-- exact intended account/session authorization;
-- device revocation;
-- pairing cancellation/recovery;
-- unauthorized join denial;
-- no public discovery or matchmaking.
+Requirements include revocable registered `deviceId`; device identity never substitutes for authentication; private expiring one-use invite/pairing capabilities; replay protection; exact intended account/session authorization; device revocation; pairing cancellation/recovery; unauthorized join denial; and no public discovery or matchmaking.
 
 ## Stage 4 — Connected Rivalry Synchronization
 
@@ -177,18 +138,7 @@ Status: BLOCKED until Stage 3 is proven.
 
 This is the first stage where actual two-manager rivalry state becomes a connected synchronization concern.
 
-Requirements:
-
-- private authorized rivalry access;
-- revision-safe mutations;
-- explicit conflicts, never silent last-write-wins;
-- tombstone safety;
-- reconnect recovery;
-- deterministic offline behavior;
-- two-device synchronization proof;
-- validated local transaction boundary for downloaded state;
-- export/rollback escape hatch;
-- local-only mode remains functional.
+Requirements include private authorized rivalry access, revision-safe mutations, explicit conflicts rather than silent last-write-wins, tombstone safety, reconnect recovery, deterministic offline behavior, two-device proof, Candidate C-grade local Apply, export/rollback escape hatch and local-only mode.
 
 The Phase 1F direct-client-write security finding must be resolved through a separately authorized production mutation boundary before Stage 4 remote mutation can be enabled.
 
