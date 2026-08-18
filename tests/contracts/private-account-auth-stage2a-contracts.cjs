@@ -41,7 +41,7 @@ assert.match(emulatorTest, /clientSuppliedIdentity/);
 assert.match(emulatorTest, /setDoc[\s\S]+assertFails/);
 assert.match(emulatorTest, /assertFails\(updateDoc/);
 assert.match(emulatorTest, /assertFails\(deleteDoc/);
-assert.match(emulatorTest, /status:\s*"disabled"/);
+assert.match(emulatorTest, /accountEnvelope\(accountIdB,\s*"disabled"\)/);
 assert.match(emulatorTest, /signOut\(clientA\.auth\)/);
 assert.match(emulatorTest, /Failed sign-in must not fabricate authenticated application state/);
 assert.match(emulatorTest, /same synthetic Auth account must retain its stable Firebase uid/i);
