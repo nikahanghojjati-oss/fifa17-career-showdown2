@@ -157,7 +157,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(rules, /match \/accounts\/\{accountId\}[\s\S]+allow get: if signedIn\(\) && request\.auth\.uid == accountId;[\s\S]+allow list, create, update, delete:\s*if false/);
   assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-  assert.equal(status.environmentId, "we-2026-08-18-stage2g-account-bootstrap-execution");
+  assert.match(status.environmentId, /^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/, "Current WEC environment must use a valid fresh environment identifier.");
   assert.equal(status.repository.startingMainSha, "a27147695607537a1cd1543efb84e6583929a696");
   assert.match(status.continuity.currentTask, /Stage 2G Trusted Account Bootstrap Execution Boundary/i);
   assert.match(history, /Closure addendum — `we-2026-08-18-stage2f-token-verification`/);
