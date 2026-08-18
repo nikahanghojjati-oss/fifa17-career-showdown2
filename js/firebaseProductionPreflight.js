@@ -59,6 +59,8 @@
       push(errors,`WEB_CONFIG_${field.toUpperCase()}_MISSING`,!nonEmptyString(web[field]));
     }
 
+    const expectedDefaultAuthDomain=projectId?`${projectId}.firebaseapp.com`:"";
+    push(errors,"AUTH_DOMAIN_PROJECT_MISMATCH",Boolean(projectId)&&nonEmptyString(web.authDomain)&&web.authDomain.trim().toLowerCase()!==expectedDefaultAuthDomain.toLowerCase());
     push(errors,"PRODUCTION_AUTHORIZED_DOMAIN_MISSING",!domains.includes(PRODUCTION_HOST));
     push(errors,"LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN",domains.some(domain=>domain==="localhost"||domain==="127.0.0.1"||domain==="::1"));
 
