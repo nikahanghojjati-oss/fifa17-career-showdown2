@@ -19,6 +19,10 @@ Read current source before changing anything. Handoffs are orientation only.
 
 Every fresh development environment must enter the repository-owned Work Environment Continuity system before substantial work. The inherited record is validated and archived/replaced before the successor assesses its own fresh context. A predecessor `HANDOFF_AT_CHECKPOINT` decision never becomes the successor's starting decision.
 
+## GitHub CLI bootstrap
+
+The repository-owned GitHub CLI bootstrap remains development infrastructure. When local routing permits it, run `npm run work:gh:bootstrap`; its release download must keep checksum verification before extraction and must keep credentials inside the ignored environment-local configuration. Prefer the connected GitHub app connector-first for repository source/write operations when available, and never extract, copy or repurpose connector credentials. If the local environment cannot route to GitHub, record that limitation and do not falsely claim the CLI bootstrap or `gh auth status` succeeded.
+
 ## Mandatory startup sequence
 
 1. Fetch current `main`, recent commits, open PRs, active branches, tags/releases and Actions/CI.
