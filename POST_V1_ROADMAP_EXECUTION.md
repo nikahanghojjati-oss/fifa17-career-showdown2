@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-18 ET (Phase 1F complete / Stage 2A next)
+Last updated: 2026-08-18 ET (Stage 2A PR #83 implementation candidate)
 Status: current dependency/status authority for post-v1 direction. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
 ## 1. Current authority
@@ -19,7 +19,7 @@ Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22` 
 Cloud/Sync Readiness Phase 1E merge: `cebd9c031657c9ee01ba68f1baaac7816c9748b9` (PR #80)
 Cloud/Sync Readiness Phase 1F merge: `231556d86a93535fa90e173577c1159de4f40be0` (PR #81)
 Authorized product candidate: none
-Current authorized prerequisite candidate: **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary**
+Current authorized prerequisite completion candidate: **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary / PR #83**
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
@@ -61,7 +61,8 @@ Product philosophy lock: Career Mode Showdown is a private two-manager companion
 → `Phase 1D` — PR #79 / DONE
 → `Phase 1E` — PR #80 / DONE
 → `Phase 1F` — PR #81 / DONE
-→ `Private Account / Authentication / Authorization` — CURRENT Stage 2 lane.
+→ `Private Account / Authentication / Authorization` — CURRENT Stage 2 lane
+→ `Stage 2A Auth Emulator identity boundary` — IMPLEMENTED BOUNDED CANDIDATE / PR #83 VALIDATION AND MERGE GATE.
 
 ## 4. Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening
 
@@ -139,13 +140,17 @@ Stage status: ACTIVE PRIORITY LANE / DEPENDENCY-GATED.
 
 ### Stage 2A — Firebase Auth Emulator Identity Boundary
 
-Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
+Status: IMPLEMENTED BOUNDED CANDIDATE / PR #83 VALIDATION AND MERGE GATE.
 
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
 
-The smallest next proof must use the Firebase Authentication Emulator and existing Firestore Emulator under the same fixed demo project to establish real `uid` → `accountId` identity semantics, cross-service Security Rules authentication, wrong-account/unauthenticated/sign-out denial, app-account lifecycle separation and no unsafe credential persistence.
+PR #83 adds the Authentication Emulator on port 9099 to the existing fixed demo project and proves real Firebase Web Auth `uid` → architecture `accountId` semantics through the existing Firestore Security Rules. The corrected technical head `1420d8ffec9e689f1b3973021517713c446c85a0` passed the full 37-file repository contract suite plus the Phase 1F and Stage 2A Auth/Firestore emulator proofs while preserving the 13-workflow / 27-executable-block topology.
 
-Stage 2A remains test/emulator-only. Production accounts, signup/login UI, production Auth persistence, provider-level disable/revocation, safe app account writes, account export/deletion, abuse/rate controls and provider production operations remain later Stage 2 gates.
+The proof uses in-memory Auth persistence only, synthetic runtime-generated credentials only, wrong-account/unauthenticated/sign-out/failure denial paths, app-account lifecycle separation and continued denial of all application-client Firestore writes. Production Firebase remains disconnected and production stays v1.4.0 / `1.4.0-r1`.
+
+Stage 2A is complete only after the exact final PR #83 head is fully green, review/thread state is clean, expected-head squash merge succeeds and live `main` is independently verified.
+
+Merging Stage 2A does not authorize the next Stage 2 prerequisite automatically. A fresh source-grounded continuity assessment must select the next smallest remaining account/auth prerequisite. Production accounts, signup/login UI, production Auth persistence, provider-level disable/revocation, safe app account writes, account export/deletion, abuse/rate controls and provider production operations remain later Stage 2 gates.
 
 Registered devices and private pairing remain Stage 3 and may not be pulled into Stage 2A.
 
@@ -165,7 +170,7 @@ Registered devices and private pairing remain Stage 3 and may not be pulled into
 | Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE | Broader expansion separate. |
 | Showdown Home & Season Experience | FIRST SLICE DONE / PRODUCTION-PROVEN | PR #73 shipped. |
 | Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F DONE | Provider proof complete; production Firebase still disconnected. |
-| Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT | Emulator identity proof is next; production account runtime still gated. |
+| Private Identity / Account Layer | STAGE 2 ACTIVE / 2A PR #83 COMPLETION GATE | Emulator identity proof implemented; later Stage 2 work remains gated. |
 | Paired-device capability | BLOCKED / PRIORITIZED PREREQUISITE | Waits for Stage 2. |
 | Connected Rivalry | BLOCKED / PRIORITIZED PREREQUISITE | Waits for pairing and Stage 2. |
 | Cloud Backup | BLOCKED | Optional private product, not a session-sync substitute. |
@@ -188,6 +193,8 @@ proven local recovery/data safety — DONE
 → Phase 1E — DONE
 → Phase 1F — DONE / PR #81
 → Private Account/Auth/Authorization Stage 2 — CURRENT
+→ Stage 2A — PR #83 IMPLEMENTED / FINAL VALIDATION AND MERGE GATE
+→ later Stage 2 prerequisites — NOT YET SELECTED OR AUTHORIZED
 → Stage 3 secure paired-device/private-session
 → Stage 4 Connected Rivalry
 → Stage 5 Private Remote Joining.
@@ -220,8 +227,10 @@ This historical row is intentionally retained for permanent contract provenance 
 
 Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT.
 
-Current roadmap status is the all-DONE Phase 1A through Phase 1F row in section 9 and the active Stage 2A identity prerequisite above.
+Historical Stage 2A pre-implementation status: Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT. Stage 2A status at that boundary was `AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`.
+
+Current roadmap status is the all-DONE Phase 1A through Phase 1F row in section 9 and the PR #83 Stage 2A completion gate above.
 
 ## 16. Immediate direction
 
-The current exact next prerequisite is Stage 2A Auth Emulator identity proof. Current Work Environment Continuity may require a transition before its implementation. A successor must initialize fresh continuity state, then implement only Stage 2A if its own assessment permits.
+While PR #83 is unmerged, finish only its exact-head validation, authority seal, clean review/thread check and expected-head squash merge. If PR #83 is already merged, do not repeat Stage 2A. Verify live `main`, initialize/reassess Work Environment Continuity and select the next smallest Stage 2 prerequisite from current source before implementation. Stage 3 remains blocked and no later Stage 2 prerequisite is pre-authorized here.

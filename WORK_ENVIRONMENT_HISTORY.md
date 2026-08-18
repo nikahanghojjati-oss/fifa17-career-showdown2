@@ -166,3 +166,28 @@ Copy this checklist beneath a new dated heading:
 - Technical proof before seal: pre-seal exact head passed all 13 normal workflow families, including complete Static App repository contracts, Candidate C browser recovery and Stability browser integration. The final seal invalidates that head as a merge gate and therefore requires a fresh exact-head rerun.
 - Owner acceptance: continued prerequisite advancement toward stable Private Remote Joining is owner-authorized, but Stage 2A implementation belongs to the successor environment after fresh continuity initialization/assessment.
 - Exact next safe action: seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, rerun all 13 normal workflow families on the resulting exact head, verify PR #82 clean review/thread state and mergeability, squash merge under the standing owner rule, verify live main, then stop and hand off before Stage 2A implementation.
+
+## Closure addendum — `we-2026-08-18-private-auth-stage2a-boundary`
+
+- Successor reconciliation recorded: `2026-08-18T14:00:22Z`.
+- Final verified repository boundary: PR #82 remained merged from exact validated head `8f1fb4d4c9324947815936b21c6bc29a657a94b7` to squash merge / verified starting main `87ea27a8dd28a041f973a3ba42312ff9e78ba74d`.
+- Final exact-head proof: all 13 normal pull-request workflow families passed on the unchanged PR #82 head before merge; submitted review count and inline review-thread count were both zero; PR #82 was closed/merged.
+- Rejected seal heads `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` and `1afc134ebe831270336f2be7387c651b05dab919` remain permanently ineligible and historical only.
+- Runtime/version boundary: PR #82 changed no production application runtime. Production remains v1.4.0 / package 1.4.0 / `1.4.0-r1` and production Firebase remains disconnected.
+- Exact next safe action fulfilled: the successor initialized a fresh independent environment from verified main before assessing or beginning Stage 2A.
+
+## Stage 2A implementation activation — `we-2026-08-18-private-auth-stage2a-proof`
+
+- Environment start/reconciliation: `2026-08-18T14:00:22Z`.
+- Starting verified live-main SHA: `87ea27a8dd28a041f973a3ba42312ff9e78ba74d`.
+- Inherited-record handling: the predecessor transition-prepared record was validated and its PR #82 final merge facts were reconciled before the fresh successor record was initialized. The predecessor `HANDOFF_AT_CHECKPOINT` decision was not inherited.
+- Fresh initial assessment: context pressure `45/100`, quality risk `12/100`, next-task separation `20/100`, handoff readiness `80/100`, continuation risk `27.9/100`, transition cost `22.5/100`, transition advantage `5.4`; decision `CONTINUE`. Usage percentage was unavailable and not estimated.
+- Bounded task: implement and prove only Private Account / Authentication Stage 2A as a Firebase Auth + Firestore Emulator identity boundary, preserving production v1.4.0 / `1.4.0-r1`, local-only recovery and total application-client Firestore write denial.
+- Branch / PR: `agent/private-auth-stage2a-emulator-proof`, draft PR #83 `Private Auth Stage 2A real emulator identity proof`, exact base `87ea27a8dd28a041f973a3ba42312ff9e78ba74d`.
+- Material implementation: Auth Emulator `127.0.0.1:9099` was added beside Firestore `127.0.0.1:8080` on fixed project `demo-career-mode-showdown-phase1f`; real Firebase Web Auth sessions use in-memory persistence and exercise Firestore Security Rules as provider-issued `uid`/architecture `accountId`.
+- Proof coverage: distinct stable synthetic `uid` principals; namespace separation; self/private reads; wrong-account and unauthenticated denial; sign-out denial; invalid-sign-in fail-closed behavior; app-account lifecycle separation; provider identity over client-supplied account identity; continued denial of client create/update/delete; no raw token retrieval/persistence; no production Firebase dependency.
+- Corrected failure: the first PR #83 Static App run stopped at a new static matcher that incorrectly expected literal `status: "disabled"`; the test correctly used `accountEnvelope(accountIdB, "disabled")`. The contract matcher was corrected without weakening runtime behavior, Security Rules, timeouts, recovery or performance ceilings.
+- Corrected technical head `1420d8ffec9e689f1b3973021517713c446c85a0`: full 37-file repository contract suite passed; Phase 1F emulator proof passed; real Stage 2A Auth/Firestore proof passed; expected client writes were denied; workflow topology remained 13 workflows / 27 executable blocks.
+- Authority synchronization: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`, `POST_V1_ROADMAP_EXECUTION.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `PROJECT_STATE.md`, `NEXT_TASK.md` and `00_CURRENT_HANDOFF.md` were advanced to the PR #83 completion gate while preserving later Stage 2, Stage 3, Connected Rivalry and Remote Joining blocks.
+- Runtime/version boundary: no production runtime/package/service-worker dependency change is authorized or present; production remains v1.4.0 / package 1.4.0 / `1.4.0-r1`.
+- Exact next safe action: seal current continuity state as the final branch mutation, require a fresh exact-final-head 13-family CI gate, verify clean reviews/threads and mergeability, squash merge PR #83 with expected-head protection, independently verify live `main`, then reassess continuity before any distinct next Stage 2 prerequisite.
