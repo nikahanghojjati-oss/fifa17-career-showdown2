@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-17 ET (Cloud/Sync Readiness Phase 1D exact remote contract)
+Last updated: 2026-08-17 ET (Cloud/Sync Readiness Phase 1E deterministic two-device/offline/reconnect harness)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering alone is not permission to skip a dependency. The owner's 2026-08-17 instruction explicitly opens continued bounded prerequisite advancement toward Private Remote Joining.
 
@@ -20,11 +20,12 @@ Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6`
 Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1` (PR #76)
 Cloud/Sync Readiness Phase 1B merge: `2dc61e24ef07a0a150a228865f954ab3b3941398` (PR #77)
 Cloud/Sync Readiness Phase 1C merge: `59957f8b0c29ce0cd480a0e9270a095160005599` (PR #78)
+Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22` (PR #79; exact validated head `2e3c9560590fb934e684fbae44138f16194da6bd`)
 Feature release version: **v1.4.0**
 
 Local Profiles / Save Library is a shipped and protected dependency milestone beneath the connected-development lane.
 
-PRs #76, #77 and #78 are merged and closed. Their Cloud/Sync architecture/policy work is deliberately not loaded by the production application, so no visible application bump was appropriate. `VERSIONING_POLICY.md` permanently requires meaningful shipped runtime changes to receive PATCH/MINOR/MAJOR version bumps according to scope.
+PRs #76, #77, #78 and #79 are merged and closed. Their Cloud/Sync architecture/policy/dormant-source work is deliberately not loaded by the production application, so no visible application bump was appropriate. `VERSIONING_POLICY.md` permanently requires meaningful shipped runtime changes to receive PATCH/MINOR/MAJOR version bumps according to scope.
 
 ## Closed production/product candidates
 
@@ -39,6 +40,7 @@ The following are closed and must not be reopened:
 - Cloud/Sync Readiness Phase 1A deterministic revision/conflict/tombstone/idempotency model (PR #76, `b1fafd9cba7e2c647b88445026f6c2d1134378b1`)
 - Cloud/Sync Readiness Phase 1B provider/operational decision (PR #77, `2dc61e24ef07a0a150a228865f954ab3b3941398`)
 - Cloud/Sync Readiness Phase 1C private remote data inventory/privacy/retention boundary (PR #78, `59957f8b0c29ce0cd480a0e9270a095160005599`)
+- Cloud/Sync Readiness Phase 1D exact Firebase-compatible remote schema/API/authorization/replay/two-owner deletion contract (PR #79, `fc2e8e8b921a435103a438a9239efbb890584d22`)
 
 **Authorized product candidate:** none.
 
@@ -46,30 +48,35 @@ No product candidate is currently authorized. This means no new user-facing prod
 
 ## Current authorized prerequisite candidate
 
-**Cloud/Sync Readiness Phase 1D — exact Firebase-compatible remote schema and API/authorization contract.**
-
-`REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md` and dormant `js/cloudSyncRemoteContract.js` are the current bounded candidate. Phase 1D translates the provider-neutral Phase 1A model and the Phase 1C privacy boundary into exact object paths/fields, immutable-base mutation semantics, deny-by-default operation authorization, private invite/session boundaries, provider/account data ownership and exact two-owner shared-rivalry deletion semantics.
-
-Phase 1D must remain architecture/dormant-source/test only. It must not add Firebase production SDK/runtime imports, Firebase Auth runtime, production Firestore collections/data, deployed Security Rules, Cloud Functions, account UI, pairing runtime, Connected Rivalry runtime, Remote Joining UI, persistent Firestore offline cache or Cloud Backup.
-
-The Phase 1D candidate must preserve these decisions:
-
-1. `accountId`, `profileId`, `saveId`, `seasonId`, `deviceId`, `installationId`, `rivalryId` and `sessionId` are distinct identities;
-2. display labels are presentation only and never authorization evidence;
-3. authenticated provider context, not a client-supplied account field, establishes `accountId`;
-4. every first-seen state-changing request authenticates, authorizes, reads authority, compares immutable original `baseRevision`, rejects mismatch, verifies/reserves idempotency, performs exactly one logical mutation, advances exactly one revision, updates tombstone state if applicable and returns deterministic success/conflict;
-5. an exact previously accepted idempotency replay is non-mutating and returns the recorded accepted result; a reused key with a different fingerprint is rejected;
-6. provider transaction retries may never refresh the client's original `baseRevision`;
-7. one manager cannot silently delete shared gameplay data while the other remains entitled to retain it;
-8. account deletion, leave, relationship revocation, deletion consent, disabled accounts and stale-device reconnect all have explicit non-transfer/non-resurrection semantics;
-9. Firebase Auth owns credentials/tokens/provider account state; application collections own only minimized app authorization metadata and explicitly connected private rivalry state;
-10. public discovery, public matchmaking, public profiles, public community and global rankings remain eliminated.
-
-## Next prerequisite after Phase 1D merges
-
 **Cloud/Sync Readiness Phase 1E — deterministic two-device and offline/reconnect synchronization harness.**
 
-This is conditionally next only after the Phase 1D candidate is fully validated and merged. Phase 1E must prove the provider-neutral synchronization behavior across two deterministic devices before any Firebase provider connection.
+`CLOUD_SYNC_READINESS_PHASE_1E.md`, dormant `js/cloudSyncTwoDeviceHarness.js` and permanent `tests/contracts/cloud-sync-two-device-harness-contracts.cjs` are the current bounded candidate. Phase 1E must prove the provider-neutral behavior that later Firebase integration is required to preserve.
+
+Phase 1E must remain dormant source/test/authority work. It must not add Firebase production SDK/runtime imports, Firebase Auth runtime, production Firestore collections/data, deployed Security Rules, Cloud Functions, account UI, pairing runtime, Connected Rivalry runtime, Remote Joining UI, persistent Firestore offline cache or Cloud Backup.
+
+The Phase 1E candidate must permanently prove:
+
+1. two devices can start from one authoritative revision and only one stale concurrent intent may be accepted;
+2. stale writes return explicit conflict rather than silent overwrite;
+3. exact accepted idempotency replay remains non-mutating while key reuse with a different fingerprint fails explicitly;
+4. deletion creates authoritative tombstone state and a long-offline stale device cannot resurrect it;
+5. restoration is a separate explicit authorized mutation against the current tombstone revision;
+6. interrupted/provider-style retry preserves the original recursively immutable client intent, especially `baseRevision` and payload;
+7. offline intent retains the base observed at creation even after reconnect refreshes current authority;
+8. reconnect rechecks current account, device, rivalry membership and relationship authority before refreshing the device observation;
+9. revoked devices, disabled accounts, revoked relationships and changed membership invalidate stale cached assumptions;
+10. malformed/unsupported payloads are rejected before authoritative mutation;
+11. local canonical state changing between preview and Apply is detected before overwrite;
+12. precondition/write/rollback/ownership failure cannot clobber newer local state the transaction no longer owns;
+13. cloud disable preserves local-only Save Library operation and Candidate A/B/C authority boundaries;
+14. repeated equivalent executions produce the same deterministic final state;
+15. no Phase 1E proof path requires production Firebase, production network access, credentials or direct `localStorage` ownership.
+
+## Next prerequisite after Phase 1E merges
+
+**Cloud/Sync Readiness Phase 1F — Firebase provider connection, Emulator Suite and deny-by-default Security Rules proof.**
+
+Phase 1F is conditionally next only after Phase 1E is fully validated, merged and independently verified on live `main`. Phase 1F may connect the selected provider only inside a bounded emulator/security-rules milestone and must prove exact provider retry behavior, authorization denial, private invite capability behavior and local-only fallback before any account or pairing product runtime is authorized.
 
 ## Prioritized long-term Private Remote Joining path
 
@@ -89,17 +96,18 @@ Cloud/Sync Readiness is itself staged:
 - Phase 1A deterministic revision model — DONE / PR #76;
 - Phase 1B provider and operational decision — DONE / PR #77;
 - Phase 1C privacy, retention and remote data inventory — DONE / PR #78;
-- Phase 1D remote schema and API/authorization contract — CURRENT BOUNDED CANDIDATE;
-- Phase 1E deterministic two-device/offline sync harness — NEXT AFTER 1D MERGES;
-- Phase 1F provider connection/emulator/Security Rules proof — BLOCKED behind 1E.
+- Phase 1D remote schema and API/authorization contract — DONE / PR #79;
+- Phase 1E deterministic two-device/offline sync harness — CURRENT BOUNDED CANDIDATE;
+- Phase 1F provider connection/emulator/Security Rules proof — NEXT AFTER 1E MERGES / BLOCKED until then.
 
-Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED until the architecture and deterministic harness gates are proven and one bounded runtime prerequisite/candidate is explicitly authorized.
+Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
+Cloud/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED until Phase 1E is proven and a later bounded runtime prerequisite is explicitly opened by dependency order and current source authority.
 
 The former clean-stop wording to "stop and wait for a further explicit owner instruction" was satisfied by the owner's later 2026-08-17 instruction to prioritize and continue the prerequisite path. Do not revive that obsolete waiting loop.
 
 ## Firebase provider boundary
 
-Firebase Authentication + Cloud Firestore is the selected primary future provider candidate, not a connected dependency.
+Firebase Authentication + Cloud Firestore is the selected primary future provider candidate, not a connected dependency during Phase 1E.
 
 Permanent rules for later Firebase work:
 
@@ -168,14 +176,14 @@ Normal PRs exercise the repository's protected workflow families. Do not weaken 
 
 ### Bootstrap / study
 
-1. Verify live `main` contains PR #78 merge `59957f8b0c29ce0cd480a0e9270a095160005599` or reconstruct anything newer.
+1. Verify live `main` contains PR #79 merge `fc2e8e8b921a435103a438a9239efbb890584d22` or reconstruct anything newer.
 2. Confirm v1.4.0 / `1.4.0-r1` remains the deployed runtime unless newer runtime source proves otherwise.
-3. Read `VERSIONING_POLICY.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `CLOUD_SYNC_READINESS_PHASE_1.md`, `CLOUD_PROVIDER_DECISION_2026-08-17.md`, `REMOTE_DATA_PRIVACY_RETENTION_POLICY.md`, `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md`, `CLOUD_STORAGE_FOUNDATION.md`, `PROJECT_STATE.md` and this file.
-4. Confirm Firebase is only a provider candidate and no SDK/network/Auth runtime is authorized.
+3. Read `VERSIONING_POLICY.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `CLOUD_SYNC_READINESS_PHASE_1.md`, `CLOUD_SYNC_READINESS_PHASE_1E.md`, `CLOUD_PROVIDER_DECISION_2026-08-17.md`, `REMOTE_DATA_PRIVACY_RETENTION_POLICY.md`, `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md`, `CLOUD_STORAGE_FOUNDATION.md`, `PROJECT_STATE.md` and this file.
+4. Confirm Firebase remains disconnected in production and Phase 1F is blocked while Phase 1E is unmerged.
 5. Confirm public community/global rankings remain ELIMINATED.
 
 ### Execution
 
-**Current authorized prerequisite work:** complete and validate Phase 1D exact Firebase-compatible remote schema/API/authorization contract as one bounded architecture-only candidate.
+**Current authorized prerequisite work:** complete and validate Phase 1E deterministic two-device/offline/reconnect synchronization harness as one bounded provider-neutral dormant-source/test candidate.
 
-After Phase 1D is fully validated and merged, continue to Phase 1E deterministic two-device/offline/reconnect synchronization harness under the owner's standing instruction only if the Work Environment Continuity assessment says the current environment remains suitable. Do not ask for repeated permission merely to progress to that next dependency gate, but never collapse multiple gates into one implementation or start Phase 1F/provider runtime early.
+Do not connect Firebase in Phase 1E. After Phase 1E is fully validated and merged, reassess Work Environment Continuity before starting the distinct Phase 1F provider/emulator/Security Rules milestone. Do not ask for repeated permission merely to progress to the next dependency gate when source authority and the standing owner instruction still authorize it, but never collapse multiple gates into one implementation.
