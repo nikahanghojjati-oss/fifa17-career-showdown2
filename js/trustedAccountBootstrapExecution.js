@@ -52,10 +52,6 @@
     }
 
     const decision=result.decision;
-    if(decision.accountId!==accountId||decision.documentPath!==documentPath){
-      return rejectStage2G("TRUSTED_ACCOUNT_TRANSACTION_IDENTITY_MISMATCH");
-    }
-
     if(decision.ok===false||decision.action==="reject"){
       if(result.committed)return rejectStage2G("TRUSTED_ACCOUNT_TRANSACTION_COMMIT_MISMATCH");
       return rejectStage2G(typeof decision.code==="string"&&decision.code?decision.code:"TRUSTED_ACCOUNT_BOOTSTRAP_REJECTED");
@@ -63,6 +59,10 @@
 
     if(decision.ok!==true){
       return rejectStage2G("TRUSTED_ACCOUNT_TRANSACTION_RESULT_INVALID");
+    }
+
+    if(decision.accountId!==accountId||decision.documentPath!==documentPath){
+      return rejectStage2G("TRUSTED_ACCOUNT_TRANSACTION_IDENTITY_MISMATCH");
     }
 
     if(decision.action==="create"){
