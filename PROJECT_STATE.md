@@ -1,14 +1,8 @@
 # PROJECT STATE — Career Mode Showdown
 
-Last updated: 2026-08-17 ET (Remote Joining priority clarification after v1.4.0 seal)
+Last updated: 2026-08-17 ET (Cloud/Sync Readiness Phase 1B provider decision)
 
-This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns development-environment continuity and does not alter product/runtime authority.
-
-## Development continuity infrastructure
-
-The repository includes the Work Environment Continuity system through `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md` and `scripts/work-environment-continuity.mjs`. It measures only observable development-session signals, leaves unknown usage unknown, includes fresh-environment ramp-up cost and produces a safe-boundary transition alert plus ready-to-paste handoff.
-
-This infrastructure is excluded from the website runtime, Service Worker shell, browser persistence and user interface. It assigns no product candidate and changes none of the production authority below.
+This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` own dependency direction/status. Release/proof documents remain frozen evidence for the release they name.
 
 ## Production authority
 
@@ -16,63 +10,98 @@ Application milestone: **v1.4.0 — Product Deepening**
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
-Production status: merged, deployed, and production-proven (Phase C product + this authority/version seal)
+Current feature release version: **v1.4.0**
+Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+
 Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 formatVersion 2 multi-Save portability)
 Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70)
 Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6` (PR #73)
-Current feature release version: **v1.4.0** (visible on public site footer + `app-asset-revision` meta)
-Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1` (PR #76)
 
-The application milestone is now v1.4.0. Phase B (Save Library Experience 2.0 first slice) and Phase C (Showdown Home first slice) are the product-deepening content covered by this formal version. Runtime `1.4.0-r1` gives the updated shell a coherent installed-app identity while retaining `1.3.0-r2` as the immediate recovery predecessor.
+PR #76 added the first owner-authorized Remote Joining prerequisite: a deterministic revision/conflict/tombstone/idempotency model plus the permanent versioning policy and detailed Remote Joining execution roadmap. The model is deliberately dormant, provider-neutral and network-free. It is not loaded by the production application, so deployed website/runtime identity remains v1.4.0 / `1.4.0-r1`.
 
-The 2026-08-17 Remote Joining priority amendment changes long-term roadmap priority only. It does not change deployed runtime behavior and does not authorize a networked product candidate.
-
-## Completed local identity, Analytics, multi-Save portability, Phase B and Phase C chain
+## Completed local dependency chain
 
 1. Identity foundation — PR #46.
 2. Canonical persistence integration — PR #48.
 3. Runtime authority cutover — PR #51.
 4. Visible Local Profiles / Save Library Core UI — PR #53.
-5. Explicit cross-Save/historical manager identity linkage foundation — PR #57.
+5. explicit cross-Save/historical manager identity linkage foundation — PR #57.
 6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59.
-7. Local Profile display-label editing and r2 whole-shell delivery — PR #61.
-8. formatVersion 2 full multi-Save backup/import portability — PR #67, squash-merge `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (owner-accepted 2026-08-16).
+7. Local Profile display-label editing and `1.3.0-r2` whole-shell delivery — PR #61.
+8. formatVersion 2 full multi-Save backup/import portability — PR #67.
 9. Phase A documentation authority synchronization — PR #68.
-10. Phase B first slice — Save Library / Local Profile Experience 2.0 — PR #70, squash-merge `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (2026-08-17).
-11. Phase C first slice — Showdown Home & Season Experience deepening — PR #73, squash-merge `dec1d3ba8182c3f62019974dd1704c7c9124def6` (2026-08-17).
+10. Phase B first slice — Save Library / Local Profile Experience 2.0 — PR #70.
+11. Phase C first slice — Showdown Home & Season Experience — PR #73.
 
-All eleven layers are shipped and production-proven.
+All eleven local/product layers are shipped and production-proven.
 
-### Phase C first slice (production-proven 2026-08-17)
+## Cloud / Sync Readiness state
 
-- Series lead/trail status chip on Home scoreboard + clearer visual hierarchy.
-- Contextual primary action (VIEW COMPLETED SHOWDOWN when applicable).
-- Last completed season result summary on Home (presentation-only).
-- Phase C Home styles injected from `js/showdownUI.js` (eager CSS ceilings preserved).
-- Touch-target polish where required.
+The owner opened the prerequisite lane on 2026-08-17 with an explicit instruction to prioritize everything required for Private Remote Joining in dependency order, without rushing or skipping stability gates.
+
+Phase 1A — deterministic revision model: **DONE / MERGED / PROTECTED** through PR #76.
+
+The protected model proves:
+
+- server-authoritative monotonic `revision`;
+- exact immutable `baseRevision` compare-and-swap;
+- explicit stale-write conflict records;
+- tombstones and anti-resurrection;
+- explicit restore from tombstone;
+- idempotency/replay protection;
+- account/object scope separation;
+- `deviceId` as attribution only, never authentication;
+- no backend, no provider SDK, no network request and no direct `localStorage` ownership.
+
+Phase 1B — provider and operational decision: **DECISION RECORDED IN CURRENT CANDIDATE**.
+
+The current provider decision selects Firebase Authentication + Cloud Firestore as the primary future provider candidate while explicitly keeping Firestore persistent offline cache disabled because its documented reconnect semantics can use last-write-wins. Supabase remains a fallback; Cloudflare Durable Objects remains a possible future session-coordinator fallback if evidence proves a need. No provider is connected by this decision.
+
+Phase 1C — private remote data inventory, privacy and retention policy: **NEXT AUTHORIZED PREREQUISITE AFTER THIS DECISION MERGES**.
+
+Later phases remain gated: remote schema/API contract → deterministic two-device/offline harness → private account/auth/authorization → paired-device/private-session capability → Connected Rivalry → Private Remote Joining.
+
+## Versioning authority
+
+`VERSIONING_POLICY.md` is permanent owner authority for release numbering.
+
+- shipped bug fixes, maintenance and small backward-compatible runtime corrections use PATCH bumps;
+- meaningful backward-compatible product capabilities use MINOR bumps;
+- transformative or compatibility-breaking product boundaries may use MAJOR bumps;
+- a new application version begins at `-r1`;
+- `-rN` identifies a whole-shell generation and may not substitute for a required application-version bump;
+- documentation, tests and deliberately dormant non-runtime prerequisite models do not consume a visible application version by themselves.
+
+A version is stable only after required exact-head validation, merge, deployment and production verification.
 
 ## Identity-Safe Career Analytics state
 
-`js/analytics.js` is the Career Analytics calculation authority. Longitudinal manager aggregation uses authoritative stable `profile_*` references rather than normalized visible manager names. Same-name distinct profiles remain distinct; explicit reuse aggregates across Saves; unresolved historical roles remain excluded from identified longitudinal manager totals/leaderboards until explicitly mapped; identity-independent totals and Showdown/Season-scoped records remain complete; display labels remain presentation only; Rivalry Analytics remains Showdown-scoped; identity and profile-presentation changes invalidate Analytics/Trophy Room derived caches coherently.
+`js/analytics.js` remains derived Analytics authority. Stable `profile_*` identity, not display-name equality, owns longitudinal aggregation. Same-name distinct profiles remain distinct; explicit reuse aggregates across Saves. unresolved historical roles remain excluded from identified longitudinal manager totals until explicitly mapped; identity-independent Showdown/Season totals remain complete.
 
 ## Recovery/import state
 
 Candidate A remains non-mutating export.
 Candidate B remains strictly read-only analysis.
-Candidate C remains the only import stage permitted to mutate canonical restore state.
+Candidate C remains the only destructive import Apply stage.
 
-Candidate C destructive Apply still requires `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority and must never substitute `captureCareerModeRawBackupInputs()`. Preserve transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact post-write verification and byte-for-byte rollback verification.
+Candidate C must continue to use `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority. Preserve last-moment preconditions, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery.
 
 **formatVersion 2 is live.** Complete fresh-device multi-Save portability is production-proven and closed.
 
-## Installable Offline App state
+Canonical public storage remains exactly:
 
-Whole-shell label is exactly `1.4.0-r1`.
-Preserve Service Worker exactness, versioned cache names, offline shell integrity, and the protected installable surface. Service Worker and offline shell change only when intentionally authorized; they continue to cache first-party bytes only, never canonical user data. Preserve verified cache population, explicit update activation, current/previous whole-shell recovery and installed-app behavior.
+- `careerModeShowdown.saveLibrary`
+- `careerModeShowdown.legacyShowdowns`
+- `careerModeShowdown.preferences`
 
-## Performance state
+Do not restore `careerModeShowdown.activeShowdown` as a permanent fourth canonical key.
 
-Locked ceilings remain unchanged:
+## Installable Offline App and performance state
+
+Whole-shell label remains exactly `1.4.0-r1`; immediate previous known-good is `1.3.0-r2`.
+
+Locked ceilings remain:
 
 - eager raw `162782` <= `165000` bytes
 - eager gzip `37416` <= `37500` bytes
@@ -81,30 +110,31 @@ Locked ceilings remain unchanged:
 - normal loading minimum `2700 ms`
 - reduced-motion loading `220 ms`
 
-## Protected product surfaces and gameplay
+Never weaken tests, timeouts, recovery guarantees or performance ceilings merely to obtain green CI.
 
-Preserve Home, Continue Career, Create Showdown, league confirmation, club confirmation, Transfer Challenge, Season Entry, Season Review, Season Summary, Statistics, Legacy, Trophy Room, Rule Book, Save Library/Settings, Smart Back, PWA/offline, accessibility, responsive containment, installed iOS behavior, licensed football photography and FIFA 17-inspired presentation.
+## Protected gameplay and product philosophy
 
-Exactly two managers.
-Showdown lengths: `1`, `3`, `5`, `10`.
-Same selected league, different permanent clubs.
-Champions League +5, League +3, Domestic Cup +1.
-100 League Points and/or 100 League Goals combined maximum +1.
-Top Scorer and/or Top Assist combined maximum +1.
-Maximum Season score 11.
-Equal non-zero scores are Draws.
-Only 0–0 invokes league position and then league points.
+Exactly two managers. Showdown lengths remain `1`, `3`, `5`, `10`. Both managers use the same selected league and different permanent clubs. Maximum Season score remains 11. Equal non-zero scores are Draws; only 0–0 uses league position and then league points.
 
-## Permanent product philosophy
+Career Mode Showdown remains a private two-manager companion.
 
-Career Mode Showdown is a private two-manager companion for the owner and one friend.
-Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16).
-Private Remote Joining is a **PRIORITIZED LONG-TERM** product destination (owner clarification 2026-08-17). It is **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**, not deprioritized or permanently blocked.
+Public community features and global leaderboard/rankings are **ELIMINATED**.
 
-The ordered enabling path preserves the shipped local baseline, then advances Cloud/sync readiness, private identity/auth, paired-device/private-session capability, Connected Rivalry synchronization and two-device recovery/conflict proof before the Remote Joining experience itself. When future networked work is authorized, the next safe prerequisite on that path should be preferred over unrelated optional expansion unless a later owner instruction overrides the priority.
+Private Remote Joining is **PRIORITIZED LONG-TERM** and **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. It is not deprioritized or permanently blocked.
+
+The ordered path is:
+
+completed local recovery / identity / portability
+→ Cloud / synchronization readiness
+→ private account / authentication / authorization
+→ secure paired-device / private-session capability
+→ Connected Rivalry synchronization and two-device proof
+→ Private Remote Joining.
 
 ## Current authorization boundary
 
-Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), Phase B first slice (PR #70), and Phase C first slice (PR #73) are complete, merged, deployed and production-proven.
+**No product candidate is currently authorized.** That phrase means no new user-facing production runtime feature is authorized at this exact boundary.
 
-**No product candidate is currently authorized.** The Remote Joining priority amendment does not itself authorize cloud, identity, pairing, sync or Remote Joining runtime work. Hold clean stop until a further explicit owner instruction establishes one bounded implementation candidate.
+The owner's 2026-08-17 instruction separately authorizes continued bounded prerequisite advancement on the prioritized Remote Joining path. The current architecture-only Phase 1B provider decision does not alter production runtime. After it merges, `NEXT_TASK.md` authorizes Phase 1C remote data inventory/privacy/retention work as the next prerequisite.
+
+Do not jump to Firebase integration, account/auth runtime, pairing, Connected Rivalry or Remote Joining until the intervening gates are complete and proven.
