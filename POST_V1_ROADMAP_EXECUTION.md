@@ -214,6 +214,14 @@ Only after Stages 1 through 4 are production-proven may the Remote Joining UX/ru
 
 `VERSIONING_POLICY.md` remains authority. Dormant docs/tests/emulator proof consume no visible application version. The first production-connected account/cloud capability must receive the PATCH/MINOR/MAJOR bump justified by actual shipped scope; an `rN` suffix never hides a semantic bump.
 
-## 15. Immediate direction
+## 15. Historical Phase 1E / Phase 1F roadmap provenance
+
+This historical row is intentionally retained for permanent contract provenance only. It is not current roadmap status:
+
+Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT.
+
+Current roadmap status is the all-DONE Phase 1A through Phase 1F row in section 9 and the active Stage 2A identity prerequisite above.
+
+## 16. Immediate direction
 
 The current exact next prerequisite is Stage 2A Auth Emulator identity proof. Current Work Environment Continuity may require a transition before its implementation. A successor must initialize fresh continuity state, then implement only Stage 2A if its own assessment permits.
