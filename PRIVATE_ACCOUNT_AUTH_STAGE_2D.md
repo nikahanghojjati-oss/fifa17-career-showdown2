@@ -40,6 +40,7 @@ The preflight must validate at least these invariants:
 - the candidate production project ID is non-empty and does not use the protected `demo-` emulator namespace;
 - the candidate project ID differs from `demo-career-mode-showdown-phase1f`;
 - a future web-app configuration has the expected project identity and required public Firebase web configuration fields;
+- the initial accepted Firebase Auth domain matches the candidate project's default `<projectId>.firebaseapp.com` identity; a custom Auth domain requires a separately reviewed hosting/auth-domain compatibility and security boundary before it can be authorized;
 - the Firebase web API key is classified as public project configuration, never as an application secret or authorization boundary;
 - service-account credentials, private keys and Admin credentials are rejected from client/repository configuration;
 - the Stage 2C provider policy remains Google federated sign-in through `GoogleAuthProvider`;
@@ -61,6 +62,7 @@ Permanent contracts must prove rejection of at least:
 - `demo-` project IDs;
 - the existing emulator project ID;
 - mismatched project IDs between environment metadata and Firebase web configuration;
+- an Auth domain that does not correspond to the candidate production project's default `<projectId>.firebaseapp.com` boundary;
 - missing required web configuration fields;
 - a missing production authorized-domain plan;
 - redirect sign-in authorization;
@@ -83,6 +85,7 @@ Stage 2D does not authorize:
 - choosing or provisioning a real Firestore database/location on the owner's behalf;
 - enabling Google Sign-In in a real Firebase console;
 - changing real Authorized Domains;
+- authorizing a custom Firebase Auth domain or redirect-hosting topology;
 - adding Firebase SDK/Auth/Firestore to the GitHub Pages production runtime;
 - creating real Firebase users;
 - account/login UI;
