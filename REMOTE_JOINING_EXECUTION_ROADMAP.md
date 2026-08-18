@@ -1,7 +1,7 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
 Status: owner-priority roadmap overlay
-Effective: 2026-08-18 ET, synchronized through Stage 2B completion and Stage 2C current policy gate
+Effective: 2026-08-18 ET, synchronized through Stage 2C completion; remaining Stage 2 prerequisite not yet selected
 Relationship to authority: `NEXT_TASK.md` owns bounded implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns broader post-v1 status; this file owns the detailed Remote Joining prerequisite lane.
 
 ## Product destination
@@ -21,6 +21,10 @@ Every stage must be bounded, validated, merged and proven before the next stage 
 ## Versioning principle
 
 `VERSIONING_POLICY.md` is permanent release-numbering authority. Dormant architecture/tests/emulator proof and policy-only prerequisite work do not consume a visible application version. A shipped runtime change receives the PATCH/MINOR/MAJOR bump justified by actual scope; `rN` never substitutes for a semantic version bump.
+
+## Continuity principle
+
+Every substantive owner-facing project response visibly reports `Handoff proximity: X%`. At 100%, the current environment automatically generates the complete successor handoff, finishes only the safe bounded checkpoint and stops before another substantial milestone. Unknown usage is never fabricated; stricter WEC decisions remain authoritative; generated successor handoffs preserve the rule recursively.
 
 ## Stage 0 — Proven local foundation
 
@@ -90,11 +94,11 @@ Status: DONE / MERGED / PROVEN — PR #84.
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2B.md`.
 
 Exact validated head: `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`.
-Squash merge / verified live main: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
+Squash merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
 
 Stage 2B uses Firebase Admin only as emulator/CI test tooling and proves the same stable `uid` / architecture `accountId`, trusted provider disable, new-sign-in failure while disabled, re-enable with the same identity, independent application-account fail-closed authorization, and test-only `revokeRefreshTokens(uid)` routing without deliberate raw bearer-token retrieval or persistence.
 
-The Authentication Emulator is not treated as proof of every production in-flight token invalidation timing detail or backend `checkRevoked` behavior. Final production session verification/revocation remains a later Stage 2 provider-operation gate.
+The Authentication Emulator is not treated as proof of every production in-flight ID-token invalidation timing detail or backend `checkRevoked` behavior. Final production session verification/revocation remains a later Stage 2 provider-operation gate.
 
 Production Firebase remains disconnected and every application-client Firestore write remains denied.
 
@@ -102,11 +106,14 @@ Do not repeat Stage 2B.
 
 ### Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary
 
-Status: CURRENT BOUNDED CANDIDATE / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED.
+Status: DONE / MERGED / PROVEN / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED — PR #85.
 
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md`.
 
-The current Stage 2C policy selects only the initial production authentication behavior:
+Exact validated head: `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`.
+Squash merge / verified completion boundary: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
+
+Stage 2C permanently selects only the initial future production authentication behavior:
 
 - Google federated sign-in through `GoogleAuthProvider` only;
 - `signInWithPopup()` from an explicit user gesture on the current GitHub Pages host;
@@ -118,9 +125,17 @@ The current Stage 2C policy selects only the initial production authentication b
 - application account status and rivalry entitlement remain separate authorization;
 - every application-client Firestore write remains denied.
 
-Stage 2C creates no production Firebase project, real production users, account UI, production Firestore data, deployed Security Rules, Admin production runtime, Cloud Function, service credential or paid infrastructure.
+Stage 2C created no production Firebase project, real production users, account UI, production Firestore data, deployed Security Rules, Admin production runtime, Cloud Function, service credential or paid infrastructure.
 
-After Stage 2C merges, current source and a fresh continuity assessment must choose the next smallest remaining Stage 2 prerequisite. No later Stage 2 prerequisite is pre-authorized by this roadmap.
+Do not repeat Stage 2C.
+
+### Remaining Stage 2 prerequisites
+
+Status: NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
+
+Remaining concerns include production Firebase operational/project setup, production web-app configuration, Google provider/authorized-domain setup, safe application-account bootstrap/write lifecycle, trusted production token verification and revoked-token behavior, account export/deletion cascade, authentication abuse/rate controls, production Security Rules deployment, provider outage/recovery behavior and the trusted production mutation-boundary decision.
+
+Their order is not pre-authorized. After the current governance synchronization merges and WEC is reassessed, the next environment must study current source plus current primary provider/security documentation and select only the next smallest prerequisite that safely advances the Remote Joining chain.
 
 ### Historical Stage 2A pre-implementation provenance
 

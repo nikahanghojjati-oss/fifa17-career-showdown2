@@ -1,8 +1,9 @@
 # Private Account / Authentication Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary
 
-Status: CURRENT BOUNDED CANDIDATE / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED
+Status: DONE / MERGED / PROVEN / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED
 
 Effective date: 2026-08-18 ET
+Completion: PR #85, exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`, squash merge / verified live-main boundary `22566e1409cf53d728b38d0b5a19de478ae6761b`.
 
 Production application remains:
 
@@ -17,9 +18,9 @@ Stage 2C changes no production application runtime and therefore requires no sem
 
 Stage 2A proved the real Firebase Auth Emulator identity boundary. Stage 2B proved the emulator/test-only provider session lifecycle and revocation boundary. Neither stage selected a production sign-in provider, production Auth persistence policy or a browser-hosting-compatible OAuth flow.
 
-Those decisions must be explicit before any real Firebase project, production user, account UI or connected runtime exists.
+Those decisions had to be explicit before any real Firebase project, production user, account UI or connected runtime exists.
 
-Stage 2C is therefore a policy and compatibility prerequisite only. It does not connect Firebase in production.
+Stage 2C is therefore a completed policy and compatibility prerequisite only. It does not connect Firebase in production.
 
 ## 2. Source-grounded provider decision
 
@@ -244,35 +245,28 @@ Private Remote Joining remains the prioritized long-term dependency-gated destin
 
 ## 17. Stage 2C proof contract
 
-The Stage 2C repository contract must prove that current source preserves all of the following:
+The Stage 2C repository contract permanently proves that current source preserves all of the following:
 
 1. Stage 2B is DONE / MERGED / PROVEN through PR #84;
-2. the initial production provider decision is Google federated sign-in only;
-3. popup is the selected current static-host flow;
-4. redirect is explicitly blocked until a separately reviewed hosting/auth-domain compatibility boundary exists;
-5. production Auth persistence is explicitly `browserSessionPersistence` rather than implicit default local persistence;
-6. no extra Google OAuth scopes or provider access-token storage is authorized;
-7. Firebase `uid` remains architecture `accountId` and all application/game identity namespaces remain separate;
-8. application account status/entitlement authorization remains separate from provider authentication;
-9. every application-client Firestore write remains denied;
-10. production Firebase remains disconnected and package/runtime identity remains v1.4.0 / `1.4.0-r1`;
-11. Firebase Admin remains absent from the production dependency graph;
-12. Candidate A/B/C, canonical local storage and two-owner governance remain protected;
-13. public/community/rankings remain eliminated;
-14. Stage 3, Connected Rivalry and Private Remote Joining remain blocked behind the dependency chain.
+2. Stage 2C is DONE / MERGED / PROVEN through PR #85 from exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a` to squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`;
+3. the initial production provider decision is Google federated sign-in only;
+4. popup is the selected current static-host flow;
+5. redirect is explicitly blocked until a separately reviewed hosting/auth-domain compatibility boundary exists;
+6. production Auth persistence is explicitly `browserSessionPersistence` rather than implicit default local persistence;
+7. no extra Google OAuth scopes or provider access-token storage is authorized;
+8. Firebase `uid` remains architecture `accountId` and all application/game identity namespaces remain separate;
+9. application account status/entitlement authorization remains separate from provider authentication;
+10. every application-client Firestore write remains denied;
+11. production Firebase remains disconnected and package/runtime identity remains v1.4.0 / `1.4.0-r1`;
+12. Firebase Admin remains absent from the production dependency graph;
+13. Candidate A/B/C, canonical local storage and two-owner governance remain protected;
+14. public/community/rankings remain eliminated;
+15. Stage 3, Connected Rivalry and Private Remote Joining remain blocked behind the dependency chain.
 
-## 18. Exit criteria
+## 18. Completion boundary
 
-Stage 2C is complete only when:
+Stage 2C is complete. PR #85 was validated on one exact unchanged head, merged, and independently reconciled to live `main`.
 
-1. this policy is current source authority;
-2. a permanent Stage 2C contract is registered in the repository contract suite;
-3. `NEXT_TASK.md`, `PROJECT_STATE.md`, `POST_V1_ROADMAP_EXECUTION.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `00_CURRENT_HANDOFF.md` and `00_DEVELOPER_START_HERE.md` are synchronized to Stage 2B DONE / Stage 2C current;
-4. production runtime/dependency files remain unchanged;
-5. complete normal pull-request validation passes on one exact unchanged head;
-6. submitted reviews and inline review threads are clean and the PR is mergeable;
-7. the exact head is squash merged with expected-head protection under the standing owner rule;
-8. live `main` is independently verified;
-9. Work Environment Continuity is reassessed before another distinct Stage 2 prerequisite begins.
+Completion does not authorize production Firebase setup, account UI, production user onboarding, trusted mutation infrastructure, Stage 3 pairing, Connected Rivalry or Private Remote Joining.
 
-Merging Stage 2C does not automatically authorize production Firebase setup, account UI, production user onboarding, trusted mutation infrastructure, Stage 3 pairing, Connected Rivalry or Private Remote Joining.
+The next legal action is a fresh WEC assessment and source-grounded selection of only the next smallest remaining Stage 2 prerequisite. No later Stage 2 implementation is authorized merely by this completed policy.

@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-18 ET (Stage 2B complete / Stage 2C current)
+Last updated: 2026-08-18 ET (Stage 2C complete / governance synchronization current)
 Status: current dependency/status authority for post-v1 direction. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
 ## 1. Current authority
@@ -17,8 +17,9 @@ Cloud/Sync Readiness Phase 1E merge: `cebd9c031657c9ee01ba68f1baaac7816c9748b9` 
 Cloud/Sync Readiness Phase 1F merge: `231556d86a93535fa90e173577c1159de4f40be0` (PR #81)
 Private Account / Authentication Stage 2A merge: `e39c1b0689598ac922569ff839ca30a1d5dee5fa` (PR #83; exact validated head `a4022d6f316622f73ead9aacde812b545b8dcf78`)
 Private Account / Authentication Stage 2B merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03` (PR #84; exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`)
+Private Account / Authentication Stage 2C merge: `22566e1409cf53d728b38d0b5a19de478ae6761b` (PR #85; exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`)
 Authorized product candidate: none
-Current authorized prerequisite candidate: Private Account / Authentication Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary
+Current authorized prerequisite candidate: Handoff Proximity governance synchronization and Stage 2C completion authority reconciliation only.
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
@@ -35,6 +36,8 @@ Architecture integrity: `js/screens.js` remains navigation authority; `js/storag
 Data-safety integrity: canonical storage remains exactly three public keys. Candidate A remains non-mutating export, Candidate B read-only analysis and Candidate C the only destructive import Apply stage. Candidate C keeps strict exact raw snapshot/preconditions, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership and exact verification.
 
 Validation integrity: 14 permanent workflow families and 27 protected multiline executable blocks remain. Normal PRs generally exercise 13; Release Integration Burn In remains main/manual release authority. Performance ceilings and timeouts are not knobs to obtain green CI.
+
+Continuity integrity: every substantive owner-facing project response visibly includes `Handoff proximity: X%`; at 100% the environment automatically generates the complete successor handoff and stops after the current safe checkpoint. Unknown usage is never fabricated, WEC is authoritative when stricter and generated handoffs propagate the rule recursively.
 
 Product philosophy lock: Career Mode Showdown is a private two-manager companion. Public community features and global leaderboard/rankings are ELIMINATED. Private Remote Joining is PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
 
@@ -65,7 +68,8 @@ Product philosophy lock: Career Mode Showdown is a private two-manager companion
 → `Private Account / Authentication / Authorization` — CURRENT Stage 2 lane
 → `Stage 2A Auth Emulator identity boundary` — PR #83 / DONE / MERGED / PROVEN
 → `Stage 2B Provider Session Lifecycle & Revocation Boundary` — PR #84 / DONE / MERGED / PROVEN
-→ `Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary` — CURRENT BOUNDED CANDIDATE.
+→ `Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary` — PR #85 / DONE / MERGED / PROVEN
+→ `remaining Stage 2 prerequisites` — NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
 
 ## 4. Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening
 
@@ -125,7 +129,7 @@ Stage 2A proves real Firebase Web Auth `uid` → architecture `accountId`, expli
 Status: DONE / MERGED / PROVEN — PR #84.
 
 Exact validated head: `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`.
-Squash merge / verified main: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
+Squash merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
 
 Stage 2B proves trusted emulator-only provider disable, new-sign-in failure while disabled, re-enable with the same stable `uid` / architecture `accountId`, independent application-account fail-closed authorization, and test-only refresh-token revocation routing without deliberate raw bearer-token persistence.
 
@@ -133,11 +137,14 @@ Stage 2B does not claim final production in-flight token invalidation timing or 
 
 ### Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary
 
-Status: CURRENT BOUNDED CANDIDATE / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED.
+Status: DONE / MERGED / PROVEN / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED — PR #85.
 
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md`.
 
-Stage 2C selects the initial production authentication policy before any real Firebase connection:
+Exact validated head: `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`.
+Squash merge / verified completion boundary: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
+
+Stage 2C permanently selects the initial future production authentication policy before any real Firebase connection:
 
 1. Google federated sign-in through `GoogleAuthProvider` only;
 2. `signInWithPopup()` from an explicit user gesture on the current static GitHub Pages topology;
@@ -149,9 +156,15 @@ Stage 2C selects the initial production authentication policy before any real Fi
 8. application account status and rivalry entitlement remain separate authorization;
 9. every application-client Firestore write remains denied.
 
-Stage 2C creates no production Firebase project, production user, account UI, production Firestore data, deployed Security Rules, Admin production runtime, Cloud Function or paid infrastructure.
+Stage 2C created no production Firebase project, production user, account UI, production Firestore data, deployed Security Rules, Admin production runtime, Cloud Function or paid infrastructure.
 
-Merging Stage 2C does not authorize the next Stage 2 prerequisite automatically. Production project setup, safe application-account bootstrap/write lifecycle, final trusted production token verification/revocation behavior, export/deletion cascade, abuse/rate controls, production Security Rules and trusted remote mutation infrastructure remain later gates.
+Do not repeat Stage 2C.
+
+### Remaining Stage 2 prerequisites
+
+Stage 2 remains incomplete. Remaining concerns include production Firebase operational setup, safe application-account bootstrap/write lifecycle, final trusted production token verification/revocation behavior, export/deletion cascade, abuse/rate controls, production Security Rules and trusted remote mutation infrastructure.
+
+The current governance synchronization does not select their order. After the governance checkpoint is merged and WEC is reassessed, current source and current primary provider/security documentation must identify only the next smallest necessary Stage 2 prerequisite.
 
 ## 9. Current roadmap classification matrix
 
@@ -169,7 +182,7 @@ Merging Stage 2C does not authorize the next Stage 2 prerequisite automatically.
 | Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE | Broader expansion separate. |
 | Showdown Home & Season Experience | FIRST SLICE DONE / PRODUCTION-PROVEN | PR #73 shipped. |
 | Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F DONE | Provider proof complete; production Firebase disconnected. |
-| Private Identity / Account Layer | STAGE 2 ACTIVE / 2A DONE / 2B DONE / 2C CURRENT | Production auth policy is current; operational account runtime remains blocked. |
+| Private Identity / Account Layer | STAGE 2 ACTIVE / 2A DONE / 2B DONE / 2C DONE / REMAINING PREREQUISITES PENDING | Production auth policy completed; operational account runtime remains blocked. |
 | Paired-device capability | BLOCKED / PRIORITIZED PREREQUISITE | Waits for all Stage 2. |
 | Connected Rivalry | BLOCKED / PRIORITIZED PREREQUISITE | Waits for pairing. |
 | Cloud Backup | BLOCKED | Optional private product. |
@@ -191,7 +204,7 @@ proven local recovery/data safety — DONE
 → Private Account/Auth/Authorization Stage 2 — CURRENT
 → Stage 2A — DONE / PR #83
 → Stage 2B — DONE / PR #84
-→ Stage 2C — CURRENT BOUNDED CANDIDATE
+→ Stage 2C — DONE / PR #85
 → later Stage 2 prerequisites — NOT YET SELECTED OR AUTHORIZED
 → Stage 3 secure paired-device/private-session
 → Stage 4 Connected Rivalry
@@ -229,4 +242,4 @@ Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT
 
 At the historical Stage 2A boundary, Stage 2A — Firebase Auth Emulator Identity Boundary was AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 
-Those transitions are completed. Current authority is Stage 2B DONE / Stage 2C CURRENT.
+Those transitions are completed. Current authority is Stage 2A DONE / Stage 2B DONE / Stage 2C DONE; remaining Stage 2 prerequisite selection waits for the bounded governance checkpoint and fresh WEC reassessment.

@@ -1,6 +1,6 @@
 # Career Mode Showdown — Work Environment Continuity Protocol
 
-Last updated: 2026-08-15 ET
+Last updated: 2026-08-18 ET
 
 This protocol turns the permanent quality-first handoff rule into a repeatable, repository-owned assessment. Its purpose is to alert the owner before a development environment becomes less effective than a fresh environment with a complete handoff.
 
@@ -36,6 +36,24 @@ Only these sources may populate `usageRemainingPercent`:
 3. an explicit owner report.
 
 Otherwise the value must be `null` and `usageSource` must be `unavailable`. Do not derive a fake percentage from message count, file count or intuition. An explicit product warning may set `usageWarning: true` even when no percentage is exposed.
+
+## Handoff Proximity companion signal
+
+Every substantive owner-facing development response must visibly report:
+
+`Handoff proximity: X%`
+
+This percentage is a human-readable companion to the deterministic WEC assessment. It estimates proximity to a recommended Work environment transition, not completion of the current engineering task. It should consider the same observable evidence families used by WEC plus remaining safe-boundary work and whether the next substantial action is a separate milestone.
+
+The number may stay unchanged across several responses and may decrease after a fresh successor initialization or after material uncertainty is safely externalized. It must never be mechanically incremented merely because another message was sent.
+
+Unknown account/model usage is never fabricated for this estimate. If approved usage information is unavailable, Handoff proximity must be derived only from observable continuity evidence while `usageRemainingPercent` remains `null` / `unavailable` in the machine-readable state.
+
+At `Handoff proximity: 100%`, the current environment must automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.
+
+WEC remains authoritative when it requires an earlier or stricter transition. A lower Handoff proximity percentage never authorizes continuing past `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY` requirements.
+
+Every generated successor handoff must recursively contain this Handoff Proximity policy so later environments inherit the visible reporting rule, honest unknown-usage requirement, 100% automatic handoff/stop behavior and WEC precedence.
 
 ## Required lifecycle
 

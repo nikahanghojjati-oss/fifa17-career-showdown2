@@ -16,6 +16,22 @@ The owner's highest operating priority is preservation of engineering quality, c
 
 Run `npm run work:continuity:validate` and `npm run work:assess` before substantial work. Never invent a hidden token or account-usage percentage. If the evaluator recommends preparation or transition, follow its safe-boundary action and generate `npm run work:handoff`; the qualitative safety rules in this file remain controlling.
 
+## Mandatory Handoff Proximity rule
+
+Every substantive owner-facing response while project development work is underway must visibly include:
+
+`Handoff proximity: X%`
+
+Handoff proximity is the evidence-based estimate of how close the current Work environment is to the point where a fresh environment is safer or more effective than continuing. It is not task-completion percentage and must not increase mechanically after every response.
+
+Base the estimate on observable continuity evidence such as context pressure, accumulated project state, the current WEC assessment, environment complexity, completed milestones, large validation events, corrected failures, tooling friction, unresolved failures, remaining atomic operations, handoff readiness and whether the next task is a separate milestone. Use genuinely available account/model usage information only when the product usage dashboard, CLI `/status` or the owner supplies it. Never fabricate usage merely to calculate this percentage.
+
+At `Handoff proximity: 100%` the current environment must automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before another substantial milestone begins.
+
+The repository WEC system remains authoritative whenever it recommends an earlier or stricter transition. Handoff proximity complements WEC; it never overrides `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY` with a weaker action.
+
+This requirement is recursive and permanent. Every generated successor handoff must itself contain the Handoff Proximity rule, including visible owner reporting, honest unknown-usage handling, the 100% automatic handoff/stop rule and WEC precedence. Do not remove it during handoff shortening, documentation cleanup, continuity refactors or roadmap synchronization unless the owner explicitly changes the policy.
+
 ## Required behavior
 
 Before meaningful implementation:

@@ -60,6 +60,22 @@ Obey the assessment decision:
 
 When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY.md`. Give the owner the complete ready-to-paste output from `npm run work:handoff`. The next environment inherits this loop recursively.
 
+## Mandatory Handoff Proximity owner reporting
+
+Every substantive owner-facing response while meaningful project work is underway must visibly include exactly the reporting label:
+
+`Handoff proximity: X%`
+
+The percentage is an evidence-based estimate of proximity to a recommended Work environment transition. It is not task-completion percentage and must not mechanically increase after every message. Consider observable context pressure, WEC state, completed milestones, evidence volume, corrected failures, tooling friction, unresolved failures, remaining atomic work, handoff readiness and whether the next task is a separate milestone.
+
+Never fabricate account/model usage to calculate Handoff proximity. If usage is unavailable, base the estimate only on observable continuity evidence and leave `usageRemainingPercent` unavailable in the WEC record.
+
+At `Handoff proximity: 100%` the current environment must automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.
+
+The repository Work Environment Continuity decision is authoritative when it requires an earlier or stricter transition. Handoff proximity complements WEC and never weakens `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY`.
+
+Every successor handoff must recursively preserve this same Handoff Proximity rule so the requirement propagates to every later environment unless the owner explicitly changes it.
+
 ## Validation and product safety
 
 Run the smallest relevant checks during implementation and the repository contract suite before publication. Do not weaken tests, workflow topology, recovery guarantees, performance ceilings or protected product semantics merely to obtain green results.

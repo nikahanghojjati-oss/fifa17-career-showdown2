@@ -1,6 +1,6 @@
 # Career Mode Showdown — Developer Start Here
 
-Last updated: 2026-08-18 ET (Stage 2B complete / Stage 2C current)
+Last updated: 2026-08-18 ET (Stage 2C complete / governance synchronization current)
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Purpose: canonical bootstrap for a new developer session.
 
@@ -18,6 +18,8 @@ Read current source before changing anything. Handoffs are orientation only.
 ## Work Environment Continuity startup
 
 Every fresh development environment must enter the repository-owned Work Environment Continuity system before substantial work. The inherited record is validated and archived/replaced before the successor assesses its own fresh context. A predecessor transition decision never becomes the successor's starting decision.
+
+Every substantive owner-facing project response must also visibly include `Handoff proximity: X%`. At 100%, automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before another substantial milestone. Never fabricate unavailable usage to calculate the percentage. WEC remains authoritative when it requires an earlier or stricter transition, and every successor handoff must preserve this rule recursively.
 
 ## GitHub CLI bootstrap
 
@@ -42,7 +44,7 @@ Installable Offline App runtime: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 
-Cloud/Sync Phases 1A through 1F and Private Account/Auth Stages 2A / 2B are completed non-production prerequisite work. Stage 2C is policy-only. Production Firebase remains disconnected.
+Cloud/Sync Phases 1A through 1F and Private Account/Auth Stages 2A / 2B / 2C are completed non-production prerequisite work. Stage 2C is policy-only. Production Firebase remains disconnected.
 
 ## Completed product/dependency chain
 
@@ -66,19 +68,18 @@ The current source sits above these completed/protected layers:
 - Phase 1E deterministic two-device/offline/reconnect harness — PR #80;
 - Phase 1F Firebase Local Emulator / deny-by-default Firestore Security Rules proof — PR #81;
 - Stage 2A Firebase Auth Emulator Identity Boundary — PR #83;
-- Stage 2B Provider Session Lifecycle & Revocation Boundary — PR #84.
+- Stage 2B Provider Session Lifecycle & Revocation Boundary — PR #84;
+- Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary — PR #85.
 
-Do not reopen completed portability, identity, recovery, Cloud/Sync, Stage 2A or Stage 2B proof merely because they are prerequisites in the history.
+Do not reopen completed portability, identity, recovery, Cloud/Sync, Stage 2A, Stage 2B or Stage 2C proof merely because they are prerequisites in the history.
 
-## Exact Stage 2B completion boundary
+## Exact Stage 2C completion boundary
 
-PR #84: `Private Auth Stage 2B session lifecycle and revocation proof`
-Exact validated head: `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`
-Squash merge / verified completion boundary: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`
+PR #85: `Private Auth Stage 2C production authentication policy`
+Exact validated head: `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`
+Squash merge / verified completion boundary: `22566e1409cf53d728b38d0b5a19de478ae6761b`
 
-All 13 normal PR workflow families were independently verified successful on the exact unchanged PR head before merge. Submitted reviews and inline review threads were empty.
-
-Stage 2B is DONE / MERGED / PROVEN.
+Stage 2C is DONE / MERGED / PROVEN. Its permanent policy selects Google federated sign-in through `GoogleAuthProvider`, explicit-user-gesture `signInWithPopup()` on the current GitHub Pages topology and explicit `browserSessionPersistence`; redirect remains blocked until a separately reviewed auth-domain/hosting compatibility boundary exists.
 
 Production Firebase remains disconnected. Firebase Admin remains emulator/test-only and absent from production runtime/dependencies.
 
@@ -98,25 +99,13 @@ Stage 2A — Firebase Auth Emulator Identity Boundary — is DONE / MERGED / PRO
 
 Stage 2B — Provider Session Lifecycle & Revocation Boundary — is DONE / MERGED / PROVEN through PR #84.
 
-The current authorized prerequisite is Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary.
+Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary — is DONE / MERGED / PROVEN through PR #85.
 
-Status: CURRENT BOUNDED CANDIDATE / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED.
+The current bounded repository task is governance synchronization only: permanently protect the owner-mandated Handoff Proximity rule, close Stage 2C current-facing authority and publish that non-runtime checkpoint. No later Stage 2 engineering prerequisite is automatically authorized by this synchronization.
 
-Detailed scope: `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md`.
+After this governance checkpoint is merged and independently verified, the next legal action is a fresh WEC assessment plus source-grounded selection of the next smallest remaining Stage 2 prerequisite. Remaining concerns include production Firebase operational setup, safe application-account bootstrap/write lifecycle, trusted production token verification/revocation, account export/deletion, abuse/rate controls, production Security Rules deployment and the trusted remote mutation boundary. Their listing is not implementation order.
 
-Stage 2C selects only the policy needed before production authentication can ever be connected:
-
-- Google federated sign-in through `GoogleAuthProvider` only;
-- `signInWithPopup()` from an explicit user gesture on the current GitHub Pages host;
-- `signInWithRedirect()` remains blocked until a separately reviewed auth-domain/hosting compatibility boundary is proven;
-- explicit `browserSessionPersistence`, not implicit durable local persistence;
-- no extra Google OAuth scopes;
-- no deliberate Google provider access-token retrieval or persistence;
-- Firebase `uid` remains architecture `accountId`, never Local Profile/gameplay identity;
-- application account status and rivalry entitlement remain separate authorization;
-- every application-client Firestore write remains denied.
-
-Do not pull into Stage 2C:
+Do not pull into this governance checkpoint:
 
 - production Firebase project creation or web-app registration;
 - real production users;
@@ -140,7 +129,7 @@ Ordered path:
 
 completed local recovery/identity/portability
 → Cloud / synchronization readiness — DONE through Phase 1F
-→ private account / authentication / authorization — CURRENT Stage 2 lane / Stage 2A DONE / Stage 2B DONE / Stage 2C CURRENT
+→ private account / authentication / authorization — CURRENT Stage 2 lane / Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / remaining Stage 2 prerequisites pending
 → paired-device / private-session capability — blocked Stage 3
 → Connected Rivalry — blocked Stage 4
 → Private Remote Joining — final dependency-gated destination.
@@ -179,8 +168,8 @@ At the pre-implementation boundary, the current authorized prerequisite was **Pr
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-FIRST ENGINEERING TASK: after completing the mandatory startup and fresh continuity assessment, complete only the Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary if that environment's decision permits the milestone.
+FIRST ENGINEERING TASK: finish only the bounded Handoff Proximity governance and Stage 2C completion synchronization if the fresh environment's WEC decision permits that checkpoint.
 
-Keep production Firebase disconnected, keep production at v1.4.0 / `1.4.0-r1`, preserve all direct-client-write denial and recovery guarantees, require the permanent Stage 2C contracts and current-authority synchronization to pass the complete exact-head normal PR gate, and do not begin a later Stage 2 prerequisite until a fresh continuity reassessment.
+Keep production Firebase disconnected, keep production at v1.4.0 / `1.4.0-r1`, preserve all direct-client-write denial and recovery guarantees, require permanent continuity and Stage 2C contracts plus current-authority synchronization to pass the complete exact-head normal PR gate, and do not begin a later Stage 2 prerequisite until this governance checkpoint is merged, live `main` is independently verified and WEC is reassessed.
 
 If the inherited/current continuity record contains a predecessor transition decision, do not let it stop successor initialization. Obey only the fresh successor environment's own assessment.
