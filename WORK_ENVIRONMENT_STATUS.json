@@ -1,68 +1,64 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-18-stage2f-token-verification",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-18T22:30:00Z",
+  "environmentId": "we-2026-08-18-stage2g-account-bootstrap-execution",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-18T22:52:23Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "0cb56c22f82facdb248c8c68ec59064c5612c543"
+    "startingMainSha": "a27147695607537a1cd1543efb84e6583929a696"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "moderate",
     "projectComplexity": "very-high",
-    "compactionCount": 4,
-    "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 24,
-    "toolRoutingErrors": 5,
-    "correctedFailures": 6,
+    "compactionCount": 1,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 12,
+    "toolRoutingErrors": 2,
+    "correctedFailures": 1,
     "repeatedMistakes": 1,
-    "staleFactCorrections": 6,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 99,
+    "handoffCompleteness": 80,
     "unrecordedDecisions": 0,
-    "atomicOperation": true
+    "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish only PR #90 / Private Account / Authentication Stage 2F Trusted Request Authentication & ID Token Revocation Boundary. The implementation and diagnostic gate are complete; no later Stage 2 prerequisite or Stage 3 work may begin in this environment.",
-    "lastSafeCheckpoint": "PR #90 draft on agent/private-auth-stage2f-token-verification remains based on independently verified main 0cb56c22f82facdb248c8c68ec59064c5612c543. Stage 2F dormant trusted request authentication, permanent contracts, Auth Emulator/Admin wiring proof, Stage 2E DONE / Stage 2F CURRENT authority reconciliation and protected historical provenance are committed. Diagnostic head 2fdf8f2d2797cd862d59a51d90083bab92fc54da completed all 13 normal workflow families successfully, including Static App and Stability, with production still v1.4.0 / 1.4.0-r1 and Firebase disconnected.",
-    "nextSafeAction": "Treat this status seal as the final branch mutation. Require a completely fresh 13-family normal pull-request gate on the resulting exact PR #90 head. If and only if every family succeeds, the head is unchanged, submitted reviews and inline review threads are clean and the PR is mergeable, mark PR #90 ready and squash merge with expected-head protection. Independently verify the resulting live main and exact merged head, then stop and generate the complete successor handoff before any separate later Stage 2 prerequisite.",
+    "currentTask": "Implement and prove only Private Account / Authentication Stage 2G Trusted Account Bootstrap Execution Boundary: compose Stage 2F revocation-aware trusted request authentication with Stage 2E account bootstrap planning and an injected atomic trusted conditional-create adapter, while keeping production Firebase disconnected and every application-client Firestore write denied.",
+    "lastSafeCheckpoint": "PR #90 is independently verified DONE / MERGED / PROVEN from exact validated head 1b0178979ea421b3bf27dd7675ad973aa7bfad8c to live main a27147695607537a1cd1543efb84e6583929a696. All 13 final-head workflow families succeeded and submitted reviews/inline threads were empty. WORK_ENVIRONMENT_HISTORY.md now appends only the verified Stage 2F closure, with zero historical deletions versus live main.",
+    "nextSafeAction": "Complete only Stage 2G as a production-dormant atomic trusted account-bootstrap execution boundary. Add permanent contract and Firebase Emulator/Admin proof for authenticated conditional create, concurrency/no-overwrite behavior, existing active/disabled/deletion-pending no-write preservation, fail-closed verifier/transaction errors, token non-reflection and continued browser-write denial. Synchronize current-facing authority, publish one bounded PR, run the full exact-head gate and reassess before any separate Stage 2 prerequisite.",
     "unfinishedWork": [
-      "Wait only through the resulting exact-final-head GitHub Actions gate; all 13 normal workflow families must complete successfully on that unchanged head.",
-      "Verify PR #90 submitted reviews and inline review threads are clean, verify mergeability and exact head identity, then mark ready for review if still draft.",
-      "Squash merge PR #90 using expected-head protection under the standing owner rule and independently verify the resulting live main.",
-      "A successor must reconcile the final PR #90 merge into append-only WORK_ENVIRONMENT_HISTORY.md and initialize a fresh environment before selecting another Stage 2 prerequisite."
+      "Add a dormant trusted account-bootstrap execution module that composes Stage 2F authentication and Stage 2E bootstrap planning without importing Firebase/Admin into production runtime.",
+      "Prove the trusted write adapter performs an atomic read/conditional-create so concurrent bootstrap cannot overwrite or repair an account document that appears after the request begins.",
+      "Add permanent static contracts and Auth/Firestore Emulator proof while preserving total application-client Firestore create/update/delete denial.",
+      "Reconcile Stage 2F to DONE and Stage 2G to CURRENT across the current-facing authority files without rewriting protected historical provenance.",
+      "Publish exactly one bounded Stage 2G PR and require all 13 normal workflow families on the final unchanged head before any merge decision."
     ],
     "knownHazards": [
       "Direct shell DNS cannot resolve github.com in this environment; connected GitHub remains source/write authority and GitHub-hosted Actions remain validation authority.",
-      "Production Firebase remains disconnected. Stage 2F does not authorize a real Firebase project, web app, real users, provider/domain changes, deployed production Security Rules, Firebase Admin production runtime, service credentials, Cloud Functions/Cloud Run, Blaze billing, production IAM/service identity or a trusted production write gateway.",
-      "Every application-client Firestore create/update/delete remains denied. The Phase 1D/1F idempotency-receipt security finding remains unresolved by design and was not weakened by Stage 2F.",
-      "The trusted request verifier must require revocation-aware Firebase verification and derive architecture accountId only from verified Firebase uid; client-supplied account identity and display/profile labels have no authentication authority.",
-      "Successful provider authentication remains separate from application authorization. Account status, device registration, pairing entitlement, rivalry/session membership and operation-specific authorization remain later independent gates.",
-      "The Authentication Emulator proves wiring and identity behavior only; it is not production proof of cryptographic signing, IAM, rate limits or complete revocation-propagation timing.",
-      "Privileged Firestore server clients bypass Firestore Security Rules and require a separately reviewed least-privilege IAM/service-identity boundary before production use.",
+      "Production Firebase remains disconnected. Stage 2G does not authorize a real Firebase project, production Web App configuration, real production users, Google provider/Authorized Domains activation, deployed production Security Rules, Cloud Functions/Cloud Run, Blaze billing or production account UI.",
+      "Every application-client Firestore create/update/delete remains denied. The Phase 1D/1F idempotency-receipt finding remains binding and Stage 2G must not be generalized into shared rivalry mutation authority.",
+      "Firestore server client libraries bypass Firestore Security Rules and rely on IAM. Stage 2G may model/inject trusted execution but must not select or claim production IAM/service identity or hosting authorization.",
+      "Successful Firebase provider authentication remains separate from application authorization. Stage 2G may authorize only the narrow same-uid missing-account bootstrap creation; it must not grant device, pairing, rivalry, session or gameplay mutation authority.",
+      "The account bootstrap must be atomic at the trusted adapter boundary. A separate read followed by an unconditional write is insufficient because a concurrent account creation or conflicting document could otherwise be overwritten.",
+      "Raw Firebase ID tokens remain transient and must never be persisted, logged or reflected in returned decision objects or provider diagnostics.",
       "Candidate A remains non-mutating export, Candidate B read-only analysis and Candidate C the sole destructive local import Apply authority over exactly the three canonical browser-storage keys.",
       "Stage 3 pairing, Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain blocked until the entire Stage 2 lane is proven.",
       "Public discovery, public profiles, public matchmaking, community systems and global leaderboard/rankings remain eliminated.",
-      "Four observed context compactions and the accumulated publication/provenance corrections make this environment transition-bound after PR #90 is safely completed.",
       "Unknown account/model usage remains unavailable and must never be fabricated."
     ],
     "evidenceNotes": [
-      "Successor independently verified live main 0cb56c22f82facdb248c8c68ec59064c5612c543 and PR #89 merged exact head f7d462b3d8252b2912f34a1589e457c03e977bd3 before Stage 2F work.",
-      "Stage 2F adds dormant js/trustedRequestAuthentication.js, permanent tests/contracts/private-account-auth-stage2f-contracts.cjs and tests/firebase/private-account-auth-stage2f-token-verification-emulator.cjs, and appends the emulator proof to the existing Validate Static App lane without adding a workflow family or weakening its timeout.",
-      "The trusted verifier contract requires verifyIdToken(idToken, true), derives accountId only from the verified Firebase uid and fails closed for invalid, expired, revoked, disabled, unavailable, malformed and unknown verifier outcomes without reflecting raw token/provider diagnostics.",
-      "The real Authentication Emulator/Admin wiring proof keeps emulator ID tokens transient in process memory and does not persist, log or return them from the trusted principal boundary.",
-      "Diagnostic head 2fdf8f2d2797cd862d59a51d90083bab92fc54da completed all 13 normal GitHub Actions workflow families successfully, including Static App and Stability. That head became diagnostic-only when this final WEC seal mutated the branch.",
-      "Corrected publication finding 1: the first condensed developer-start rewrite removed the protected IMMEDIATE NEXT TASK AFTER FULL STUDY provenance heading; the source was restored rather than weakening the contract.",
-      "Corrected publication finding 2: the condensed authority rewrite removed protected Work Environment Continuity and rootless GitHub CLI bootstrap provenance; the exact historical provenance was restored without weakening governance.",
-      "Corrected publication finding 3: older Cloud Foundation and Stage 2A through Stage 2D contracts intentionally protected historical transition literals. Those literals were restored as explicitly historical/provenance text while Stage 2F remained the only current authority.",
-      "Corrected publication finding 4: release-authority coherence required the shipped Installable Offline App, v1.3 resilience, Local Profiles/Save Library and earlier exact production provenance to remain present. The previously proven PR #89-era authority bodies were restored beneath short current Stage 2F overrides rather than weakening release contracts.",
-      "Tool-routing errors were environment/tooling limitations or rejected operations, including unavailable direct GitHub DNS and unsupported/invalid fetch paths; none represented a production or repository defect.",
-      "Using the repository continuity formula with final signals gives context pressure 98.0/100, quality risk 100.0/100, next-task separation 80.0/100, handoff readiness 99.0/100, atomic risk 100.0/100, continuation risk 95.4/100, transition cost 29.0/100 and transition advantage 66.4. Because the exact-head validation/merge sequence is an atomic publication boundary, decision: FINISH_SAFE_BOUNDARY. Usage percentage is unavailable and was not estimated."
+      "Successor independently verified live main a27147695607537a1cd1543efb84e6583929a696, PR #90 merged exact head 1b0178979ea421b3bf27dd7675ad973aa7bfad8c, all 13 exact-head workflow families successful, zero submitted reviews and zero inline review threads before selecting Stage 2G.",
+      "Current Stage 2F source verifies transient Firebase ID tokens through injected verifyIdToken(idToken, true), derives accountId only from verified uid and explicitly does not grant application authorization.",
+      "Current Stage 2E source plans a missing accounts/{uid} create and preserves valid existing active/disabled/deletion-pending account documents, but its emulator helper currently demonstrates a separate trusted read followed by a trusted setDoc rather than an atomic execution boundary.",
+      "Current Firebase primary documentation states that Firestore server client libraries bypass Security Rules and are secured through IAM. This supports keeping production IAM/service-identity selection as a later separate review rather than silently bundling it into Stage 2G.",
+      "The initial manual append reconstruction changed protected historical wording twice. The branch was force-reset to the independently verified main boundary, rebuilt from the exact source and audited again; the resulting history diff is additions-only with 15 additions and zero deletions. This is counted as one corrected failure and one repeated mistake rather than hidden.",
+      "Two recoverable routing/tool limitations were observed during startup: direct shell GitHub DNS remained unavailable and an unsupported raw/compare fetch route failed before the supported connector path was used. Neither was a repository or product defect.",
+      "Fresh WEC calculation with context pressure 57/100, quality risk 34/100, next-task separation 20/100, handoff readiness 80/100 and no atomic operation gives continuation risk about 41.4/100, transition cost 22.5/100 and transition advantage about 18.9; decision PREPARE_HANDOFF. Usage percentage is unavailable and was not estimated. The already bounded Stage 2G checkpoint may finish, but a separate milestone requires strengthened records and reassessment."
     ]
   }
 }
