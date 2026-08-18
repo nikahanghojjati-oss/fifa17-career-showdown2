@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-17-phase1d-remote-contract",
   "lifecycle": "active",
-  "recordedAt": "2026-08-18T02:51:00Z",
+  "recordedAt": "2026-08-18T02:53:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 5,
+    "largeEvidenceEvents": 6,
     "toolRoutingErrors": 2,
-    "correctedFailures": 2,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
     "staleFactCorrections": 2,
     "unresolvedFailures": 0,
@@ -29,10 +29,10 @@
   },
   "continuity": {
     "currentTask": "Validate and merge PR #79, Cloud/Sync Readiness Phase 1D exact Firebase-compatible remote schema/API/authorization contract, without connecting Firebase production runtime.",
-    "lastSafeCheckpoint": "PR #79 has now exposed and corrected two exact contract-suite failures without weakening project behavior. The first advanced a stale repository authority assertion from Phase 1C current / Phase 1D next to Phase 1C done / Phase 1D current / Phase 1E next. The second corrected the new Phase 1D provider-decision test so it requires Firebase Authentication followed by Cloud Firestore Standard edition as the authoritative provider document actually expresses them, rather than requiring an invented adjacent plus-sign phrase. JavaScript syntax, dynamic v1.4.0 release architecture and all Phase 1D assertions preceding that provider wording check passed on the prior exact head.",
+    "lastSafeCheckpoint": "PR #79 has exposed and corrected three exact contract-suite failures without weakening project behavior. The first advanced a stale repository authority assertion from Phase 1C current / Phase 1D next to Phase 1C done / Phase 1D current / Phase 1E next. The second corrected the new provider-decision test to require Firebase Authentication followed by Cloud Firestore Standard edition as the authoritative provider document expresses them. The third occurred after the full new Phase 1D contract already passed: release-authority-coherence.cjs imposed the wrong textual order by requiring the no-product-candidate sentence before the Phase 1C merge identity, while NEXT_TASK correctly records production merge identity first and the product gate afterward. The assertion now verifies the actual semantic order rather than forcing a document rewrite.",
     "nextSafeAction": "Require all 13 normal pull-request workflow families to complete successfully on the new exact PR #79 head, verify no unresolved review threads or requested changes and verify mergeability/head immutability, then squash merge and verify main before reassessing continuity for Phase 1E.",
     "unfinishedWork": [
-      "Obtain all-green exact-head protected CI for PR #79 after the two corrected contract-suite failures.",
+      "Obtain all-green exact-head protected CI for PR #79 after the three corrected contract-suite failures.",
       "Merge PR #79 only after review state is clean, the head has not moved and the PR is mergeable.",
       "Verify main after merge and reassess Work Environment Continuity before starting Phase 1E deterministic two-device/offline/reconnect synchronization harness."
     ],
@@ -54,7 +54,8 @@
       "A direct shell clone/download attempt failed before project execution because raw.githubusercontent.com could not resolve. No project test was weakened or classified green without execution.",
       "A connector compare endpoint was unsupported; branch publication and exact-head GitHub-hosted CI are used instead of inventing local compare evidence.",
       "PR #79 initial head b994c066934f65e5784e070894340491990dbed8 triggered all 13 normal workflows. Validate Static App failed only because cloud-foundation-contracts.cjs retained obsolete Phase 1C-current wording; the assertion was advanced and strengthened.",
-      "PR #79 head 24b30cbdcac3f93cf652543f5132accb00811560 then passed syntax, dynamic static release architecture, the updated Cloud/Sync authority contract, Phase 1A and Phase 1C contracts before the new Phase 1D test failed on an over-literal provider wording regex. The authoritative provider decision separately lists Firebase Authentication and Cloud Firestore Standard edition, so the test now requires those exact choices in document order rather than a nonexistent adjacent phrase.",
+      "PR #79 head 24b30cbdcac3f93cf652543f5132accb00811560 passed syntax, dynamic release architecture and preceding Cloud/Sync contracts before the new Phase 1D test exposed an over-literal provider wording regex; the test was corrected to match the authoritative provider decision without reducing coverage.",
+      "PR #79 head f937b6cd1bb9d4b66ba27c5859f94eced6bc42d2 then passed the complete new Phase 1D Firebase-compatible remote schema/API/authorization/replay/two-owner deletion contract. Static App progressed further and failed only because release-authority-coherence.cjs expected the no-product-candidate sentence before the already-recorded Phase 1C merge identity. The assertion ordering was corrected; NEXT_TASK authority itself was not weakened or reordered.",
       "One context compaction occurred during the Phase 1D validation cycle and is recorded explicitly rather than ignored for the next continuity assessment."
     ]
   }
