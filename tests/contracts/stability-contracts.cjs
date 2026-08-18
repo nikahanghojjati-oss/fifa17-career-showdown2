@@ -52,19 +52,36 @@ A.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`));
 A.ok(app.includes('contentScriptData\\.init_ts') && app.includes('isFirstPartyRuntimeError') && app.includes('suppressedExternalRuntimeErrors'));
 A.ok(/Installable Offline App/i.test(state) && /Installable Offline App/i.test(next));
 
-const storageSrc = read('js/storage.js');
-const ctx = { window: {}, currentShowdown: null, console: { warn(){}, error(){} }, DOMException };
-const notes = [];
-ctx.console.warn = (...args) => notes.push(String(args[0]||''));
+const refs = [...html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?:\?v=([^"]+))?"/g)];
+A.ok(refs.length >= 9);
+A.deepEqual(refs.filter(match => match[2] !== revision).map(match => match[1]), []);
+
 const values = new Map();
+const notes = [];
 const ls = {
-  getItem(k){ return values.has(k) ? values.get(k) : null; },
-  setItem(k,v){ values.set(k, String(v)); },
-  removeItem(k){ values.delete(k); }
+    getItem: key => values.has(key) ? values.get(key) : null,
+    setItem(key, value){ values.set(key, String(value)); },
+    removeItem: key => values.delete(key)
 };
-ctx.localStorage = ls;
-vm.runInNewContext(storageSrc + '; this.s = { STORAGE_KEY, LEGACY_STORAGE_KEY, APPLICATION_PREFERENCES_KEY, loadSavedShowdown, hasSavedShowdown, loadLegacyShowdowns, loadApplicationPreferences, saveCurrentShowdown };', ctx);
-const s = ctx.s;
+const ctx = {
+    console: { error(){}, warn(){}, log(){} },
+    currentShowdown: null,
+    localStorage: ls,
+    structuredClone,
+    setTimeout,
+    clearTimeout,
+    CustomEvent: class {},
+    document: { documentElement: { dataset: {} }, addEventListener(){}, visibilityState: 'visible' },
+    matchMedia(){ return { matches: false, addEventListener(){}, addListener(){} }; },
+    addEventListener(){},
+    dispatchEvent(){},
+    showAppNotice: message => notes.push(message)
+};
+ctx.window = ctx;
+vm.createContext(ctx);
+vm.runInContext(`${read('js/storage.js')}\n;globalThis.__s={loadSavedShowdown,hasSavedShowdown,saveCurrentShowdown,loadLegacyShowdowns,loadApplicationPreferences,STORAGE_KEY,LEGACY_STORAGE_KEY,APPLICATION_PREFERENCES_KEY};`, ctx);
+
+const s = ctx.__s;
 values.set(s.STORAGE_KEY, '{bad');
 A.equal(s.loadSavedShowdown(), null);
 A.equal(s.hasSavedShowdown(), false);
