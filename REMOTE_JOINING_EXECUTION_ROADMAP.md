@@ -157,7 +157,7 @@ Do not weaken tests, workflow topology, timeouts, recovery guarantees or perform
 
 ## Historical Cloud Readiness provenance
 
-The following completed-transition wording is intentionally retained because permanent Cloud Foundation contracts protect it. It is historical only and does not override the current Stage 2F lane above.
+The following completed-transition wording is intentionally retained because permanent Cloud Foundation and Stage 2A boundary contracts protect it. It is historical only and does not override the current Stage 2F lane above.
 
 Phase 1A — DONE / MERGED / PROTECTED
 Phase 1B — DONE / MERGED / PROTECTED
@@ -165,3 +165,6 @@ Phase 1C — DONE / MERGED / PROTECTED
 Phase 1D — DONE / MERGED / PROTECTED
 Phase 1E — CURRENT BOUNDED CANDIDATE
 Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED
+Stage 1 — Cloud / Sync Readiness — DONE / MERGED / PROTECTED through Phase 1F.
+Stage 2A — Firebase Auth Emulator Identity Boundary — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
+Stage 3 — Registered Devices / Private Pairing — BLOCKED until Stage 2 is proven.
