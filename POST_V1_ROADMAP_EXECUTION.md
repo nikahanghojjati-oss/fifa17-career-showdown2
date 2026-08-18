@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-17 ET (Cloud/Sync Readiness Phase 1E deterministic two-device/offline/reconnect harness)
+Last updated: 2026-08-18 ET (Cloud/Sync Readiness Phase 1F Firebase Emulator / deny-by-default Security Rules proof)
 Status: current dependency/status authority for post-v1 direction. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
 ## 1. Current authority
@@ -16,14 +16,14 @@ Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1` 
 Cloud/Sync Readiness Phase 1B merge: `2dc61e24ef07a0a150a228865f954ab3b3941398` (PR #77)
 Cloud/Sync Readiness Phase 1C merge: `59957f8b0c29ce0cd480a0e9270a095160005599` (PR #78)
 Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22` (PR #79; exact validated head `2e3c9560590fb934e684fbae44138f16194da6bd`)
+Cloud/Sync Readiness Phase 1E merge: `cebd9c031657c9ee01ba68f1baaac7816c9748b9` (PR #80; exact validated head `36db46b34a0675623dbdd1a4e2c76e93d438de45`)
 Feature release version: **v1.4.0**
 Authorized product candidate: **none**
-Current authorized prerequisite candidate: **Phase 1E deterministic two-device / offline / reconnect harness**
-Next prerequisite after Phase 1E merges: **Phase 1F provider connection / Firebase Emulator Suite / Security Rules proof**
+Current authorized prerequisite candidate: **Phase 1F Firebase Local Emulator / deny-by-default Security Rules proof**
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
-The owner has explicitly opened the prioritized connected-prerequisite lane. That instruction permits one bounded dependency gate at a time; it does not authorize skipping ahead to provider runtime, account/auth, pairing, Connected Rivalry or Remote Joining.
+The owner has explicitly opened the prioritized connected-prerequisite lane. That instruction permits one bounded dependency gate at a time; it does not authorize skipping ahead from Phase 1F to production provider runtime, account/auth, pairing, Connected Rivalry or Remote Joining.
 
 ## 2. Permanent inherited rules
 
@@ -58,9 +58,10 @@ Product philosophy lock: Career Mode Showdown is a private two-manager companion
 → `Cloud/Sync Readiness Phase 1A deterministic revision model` — PR #76 / DONE
 → `Cloud/Sync Readiness Phase 1B provider decision` — PR #77 / DONE
 → `Cloud/Sync Readiness Phase 1C privacy / retention / remote-data boundary` — PR #78 / DONE
-→ `Cloud/Sync Readiness Phase 1D exact remote schema / API / authorization contract` — PR #79 / DONE.
+→ `Cloud/Sync Readiness Phase 1D exact remote schema / API / authorization contract` — PR #79 / DONE
+→ `Cloud/Sync Readiness Phase 1E deterministic two-device / offline / reconnect proof` — PR #80 / DONE.
 
-All runtime/product layers through v1.4.0 remain closed and production-proven. Phases 1A/1B/1C/1D are protected non-runtime prerequisites and do not change the visible runtime version.
+All runtime/product layers through v1.4.0 remain closed and production-proven. Phases 1A through 1E are protected non-runtime prerequisites and do not change the visible runtime version.
 
 ## 4. Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening
 
@@ -74,11 +75,12 @@ Status: FOUNDATION DONE / FIRST EXPERIENCE DEEPENING SLICE DONE.
 
 Stable `profile_*`, `save_*` and `season_*` identities, canonical multi-Save authority, explicit active-Save switching, visible Local Profiles, explicit cross-Save reuse and unresolved historical identity semantics are shipped. Same visible names never establish identity.
 
-Historical profile identity mapping: FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED.
-Cross-Save manager/profile linkage semantics: DONE.
-Current production derived Analytics: IDENTITY-SAFE / PRODUCTION-PROVEN.
-Identity-safe longitudinal Analytics / Analytics 2.0: NARROW IDENTITY-SAFE LAYER DONE; broader Analytics 2.0 remains separate.
-formatVersion 2 full multi-Save portability: DONE / PRODUCTION-PROVEN.
+Historical profile identity mapping | FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED.
+Cross-Save manager/profile linkage semantics | DONE.
+Current production derived Analytics | IDENTITY-SAFE / PRODUCTION-PROVEN.
+Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE.
+Backup/import envelope portability | DONE / PRODUCTION-PROVEN.
+Showdown Home & Season Experience | FIRST SLICE DONE / PRODUCTION-PROVEN.
 
 Same-name profiles never imply identity. Unresolved historical roles may remain null until explicitly mapped. Do not reopen completed portability or identity work as a prerequisite excuse.
 
@@ -100,9 +102,9 @@ Proves monotonic revisions, immutable `baseRevision` compare-and-swap, explicit 
 
 Status: DONE / MERGED / PROTECTED — PR #77.
 
-`CLOUD_PROVIDER_DECISION_2026-08-17.md` selects Firebase Authentication + Cloud Firestore as the primary future provider candidate without connecting Firebase.
+`CLOUD_PROVIDER_DECISION_2026-08-17.md` selects Firebase Authentication + Cloud Firestore as the primary future provider candidate without connecting production Firebase.
 
-Critical provider rule: Firestore persistent offline cache remains disabled because its documented reconnect semantics can use last-write-wins. The project-owned revision/conflict model remains authoritative. Firebase transaction retries may never refresh a stale client intent to a newer base revision.
+Critical provider rule: Firestore persistent offline cache remains disabled because its reconnect semantics can use last-write-wins. The project-owned revision/conflict model remains authoritative. Firebase transaction retries may never refresh a stale client intent to a newer base revision.
 
 Supabase remains a fallback. Cloudflare Durable Objects remains a possible later session-coordinator fallback only if evidence proves a concrete limitation that justifies multi-provider complexity.
 
@@ -147,7 +149,7 @@ Phase 1D was architecture-only/dormant-source/test work. It did not add Firebase
 
 ### Phase 1E — deterministic two-device/offline harness
 
-Status: CURRENT BOUNDED CANDIDATE.
+Status: DONE / MERGED / PROTECTED — PR #80.
 
 `CLOUD_SYNC_READINESS_PHASE_1E.md` plus dormant `js/cloudSyncTwoDeviceHarness.js` and permanent `tests/contracts/cloud-sync-two-device-harness-contracts.cjs` prove the exact provider-neutral behavior required before provider integration:
 
@@ -158,19 +160,35 @@ Status: CURRENT BOUNDED CANDIDATE.
 - recursively immutable queued intent across interruption, offline periods and provider-style retry;
 - reconnect that rechecks current account/device/rivalry authority while leaving queued intent base unchanged;
 - device revocation, account disable, relationship revoke and membership change invalidation;
+- required-peer account and entitlement freeze for shared mutation;
 - malformed/unsupported payload rejection before mutation;
 - deterministic final-state equality across equivalent runs;
 - in-memory local Apply proof using the Candidate C raw transaction engine with stale-precondition and rollback anti-clobber guarantees;
 - local-only Save Library plus Candidate A/B/C fallback authority when remote is disabled;
 - no Firebase, network, credential or direct `localStorage` dependency.
 
-The harness is deliberately absent from the production shell. v1.4.0 / `1.4.0-r1` remains the correct runtime identity.
+The harness remains absent from the production shell. v1.4.0 / `1.4.0-r1` remains the correct runtime identity.
 
 ### Phase 1F — provider connection / emulator / Security Rules proof
 
-Status: NEXT AFTER PHASE 1E MERGES / BLOCKED until then.
+Status: CURRENT BOUNDED CANDIDATE.
 
-Only after Phase 1E's exact-head gate may a bounded candidate connect the selected Firebase provider in a development/emulator proof. Phase 1F must prove deny-by-default Firestore Security Rules, exact provider transaction behavior without silent rebase, unauthorized read/write denial, private invite capability proof, Firebase Auth/provider identity behavior and cloud-disable/local-only fallback before later account or pairing runtime is authorized.
+`CLOUD_SYNC_READINESS_PHASE_1F.md` defines the exact provider proof. The current candidate:
+
+- fixes a Firebase `demo-` project for emulator-only testing;
+- loads deny-by-default Firestore Security Rules;
+- derives account identity from `request.auth.uid` in rules tests;
+- proves self-only and current-entitlement exact reads;
+- denies broad listing/discovery and every application-client Firestore write;
+- proves private invite exact capability access without list authority;
+- uses real Firestore transaction retry behavior to prove the original client `baseRevision` is never silently rebased;
+- preserves exact replay, idempotency conflict, tombstone, anti-resurrection and two-owner mutation-freeze semantics;
+- keeps persistent Firestore offline cache disabled;
+- uses synthetic emulator data only;
+- keeps Firebase SDK/runtime out of the production shell and package dependency graph;
+- does not authorize Cloud Functions, Admin runtime, Blaze billing, account product UI, pairing, Connected Rivalry or Remote Joining.
+
+Source analysis found that the Phase 1D authoritative shared-state document does not contain the idempotency-key hash required for Security Rules to identify the matching sibling idempotency receipt on every direct client state write. Phase 1F therefore denies direct application-client writes rather than weakening replay authority. A future production mutation gateway or a separately reviewed protocol/schema change is a later gate.
 
 ## 8. Roadmap classification matrix
 
@@ -187,13 +205,17 @@ Only after Phase 1E's exact-head gate may a bounded candidate connect the select
 | Current production derived Analytics | IDENTITY-SAFE / PRODUCTION-PROVEN | Stable Local Profile identity is authoritative. |
 | Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE | Broader expansion is separate. |
 | Showdown Home & Season Experience | FIRST SLICE DONE / PRODUCTION-PROVEN | PR #73 shipped. |
-| Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT | Provider-neutral proof lane is active; provider runtime remains blocked. |
+| Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F CURRENT | Firebase is emulator-only; production provider runtime remains blocked. |
 | Cloud Backup | BLOCKED | Optional private product, not a substitute for session synchronization. |
-| Private Identity / Account Layer | BLOCKED / PRIORITIZED PREREQUISITE | Waits for Cloud/Sync Readiness proof. |
+| Private Identity / Account Layer | BLOCKED / PRIORITIZED PREREQUISITE | Waits for Phase 1F exact provider proof. |
 | Paired-device capability | BLOCKED / PRIORITIZED PREREQUISITE | Waits for private auth and secure revocation. |
 | Connected Rivalry | BLOCKED / PRIORITIZED PREREQUISITE | Waits for pairing and proven two-device sync. |
 | Private Remote Joining | PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED | Final private session destination after all prerequisites. |
 | Public/community/rankings | ELIMINATED | Must not return through connected work. |
+
+Historical pre-PR-80 matrix row retained for permanent contract provenance only:
+
+Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT.
 
 ## 9. Corrected dependency map
 
@@ -208,8 +230,8 @@ proven local recovery/data safety — DONE
 → Phase 1B provider decision — DONE
 → Phase 1C privacy/retention/data inventory — DONE
 → Phase 1D exact remote schema/API/authorization contract — DONE
-→ Phase 1E deterministic two-device/offline proof — CURRENT CANDIDATE
-→ Phase 1F provider connection/emulator/security proof — NEXT AFTER 1E
+→ Phase 1E deterministic two-device/offline proof — DONE / PR #80
+→ Phase 1F provider connection/emulator/security proof — CURRENT BOUNDED CANDIDATE
 → private account/auth/authorization
 → secure paired-device/private-session capability
 → Connected Rivalry synchronization
@@ -221,24 +243,24 @@ Optional Private Cloud Backup may later branch from the Cloud foundation but is 
 
 **Authorized product candidate: none.** No user-facing network runtime candidate is authorized yet.
 
-`NEXT_TASK.md` authorizes only the current bounded Phase 1E provider-neutral deterministic harness prerequisite. The owner's standing instruction allows progression from one proven prerequisite gate to the next without repeated permission loops, but never allows collapsing blocked gates or starting Phase 1F/provider runtime before Phase 1E merges and is proven.
+`NEXT_TASK.md` authorizes only the current bounded Phase 1F Firebase Local Emulator / deny-by-default Security Rules prerequisite. The owner's standing instruction allows progression from one proven prerequisite gate to the next without repeated permission loops, but never allows collapsing later gates or turning emulator proof into production provider/account/pairing runtime.
 
 Public community and global leaderboard/rankings remain permanently ELIMINATED unless the owner explicitly reverses that lock.
 
 ## 11. Cloud foundation and provider boundary
 
-`CLOUD_STORAGE_FOUNDATION.md`, `CLOUD_SYNC_READINESS_PHASE_1.md`, `CLOUD_SYNC_READINESS_PHASE_1E.md`, `CLOUD_PROVIDER_DECISION_2026-08-17.md`, `REMOTE_DATA_PRIVACY_RETENTION_POLICY.md`, `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` together define the future cloud safety boundary.
+`CLOUD_STORAGE_FOUNDATION.md`, `CLOUD_SYNC_READINESS_PHASE_1.md`, `CLOUD_SYNC_READINESS_PHASE_1E.md`, `CLOUD_SYNC_READINESS_PHASE_1F.md`, `CLOUD_PROVIDER_DECISION_2026-08-17.md`, `REMOTE_DATA_PRIVACY_RETENTION_POLICY.md`, `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` together define the future cloud safety boundary.
 
 No future cloud module may call `localStorage` directly.
 
-No Firebase SDK/runtime, production Firestore collection or deployed Security Rule should be added until Phase 1E is complete and `NEXT_TASK.md` explicitly authorizes Phase 1F provider-connection proof.
+Phase 1F may add emulator-only Firebase project configuration, Security Rules and pinned CI tooling. It may not add production Firebase SDK/runtime, production Firestore collections, deployed production Security Rules, privileged credentials or production user data.
 
-No privileged Firebase/Admin credential may enter the public client. Firebase Auth account identity must remain separate from Local Profile identity.
+No privileged Firebase/Admin credential may enter the public client. Firebase Auth account identity must remain separate from Local Profile identity. A future production remote mutation boundary remains a separately authorized prerequisite because direct client state writes are denied in Phase 1F.
 
 ## 12. Versioning execution rule
 
 `VERSIONING_POLICY.md` is permanent authority.
 
-Runtime bug fixes and maintenance receive PATCH bumps. Meaningful new backward-compatible capabilities receive MINOR bumps. Transformative or compatibility-breaking boundaries may receive MAJOR bumps. Dormant docs/tests/architecture models do not consume visible application numbers until they affect shipped runtime behavior.
+Runtime bug fixes and maintenance receive PATCH bumps. Meaningful new backward-compatible capabilities receive MINOR bumps. Transformative or compatibility-breaking boundaries may receive MAJOR bumps. Dormant docs/tests/architecture/emulator models do not consume visible application numbers until they affect shipped runtime behavior.
 
 Dependency order, milestone name and release number remain separate decisions.

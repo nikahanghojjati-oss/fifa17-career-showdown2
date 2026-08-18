@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function activeActor() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/accounts/$(request.auth.uid))
+        && get(/databases/$(database)/documents/accounts/$(request.auth.uid)).data.data.status == "active";
+    }
+
+    function currentlyEntitled(rivalryId) {
+      return activeActor()
+        && exists(/databases/$(database)/documents/rivalries/$(rivalryId))
+        && get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.authorizedAccountIds is list
+        && request.auth.uid in get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.authorizedAccountIds;
+    }
+
+    match /accounts/{accountId} {
+      allow get: if signedIn() && request.auth.uid == accountId;
+      allow list, create, update, delete: if false;
+
+      match /profileLinks/{profileId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow list, create, update, delete: if false;
+      }
+
+      match /devices/{deviceId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow list, create, update, delete: if false;
+      }
+
+      match /securityEvents/{eventId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow list, create, update, delete: if false;
+      }
+    }
+
+    match /rivalries/{rivalryId} {
+      allow get: if currentlyEntitled(rivalryId);
+      allow list, create, update, delete: if false;
+
+      match /state/authoritative {
+        allow get: if currentlyEntitled(rivalryId)
+          || (
+            activeActor()
+            && resource.data.lifecycleState == "tombstoned"
+            && resource.data.tombstone != null
+            && resource.data.tombstone.restorableByAccountIds is list
+            && request.auth.uid in resource.data.tombstone.restorableByAccountIds
+          );
+        allow list, create, update, delete: if false;
+
+        match /idempotency/{idempotencyKeyHash} {
+          allow get: if currentlyEntitled(rivalryId)
+            && resource.data.data.actorAccountId == request.auth.uid;
+          allow list, create, update, delete: if false;
+        }
+      }
+
+      match /invites/{inviteId} {
+        allow get: if activeActor()
+          && (
+            resource.data.data.createdByAccountId == request.auth.uid
+            || (
+              resource.data.data.state == "open"
+              && resource.data.data.expiresAt > request.time
+            )
+          );
+        allow list, create, update, delete: if false;
+      }
+
+      match /sessions/{sessionId} {
+        allow get: if currentlyEntitled(rivalryId)
+          && resource.data.data.memberAccountIds is list
+          && request.auth.uid in resource.data.data.memberAccountIds;
+        allow list, create, update, delete: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

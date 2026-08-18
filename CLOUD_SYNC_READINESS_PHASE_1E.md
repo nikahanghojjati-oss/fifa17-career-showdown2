@@ -1,13 +1,15 @@
 # Cloud / Sync Readiness Phase 1E — Deterministic Two-Device and Offline/Reconnect Harness
 
-Status: current bounded prerequisite implementation for the prioritized Private Remote Joining path
+Status: DONE / MERGED / PROTECTED through PR #80
+Exact validated PR head: `36db46b34a0675623dbdd1a4e2c76e93d438de45`
+Squash merge / live-main completion boundary: `cebd9c031657c9ee01ba68f1baaac7816c9748b9`
 Runtime status: dormant provider-neutral source and permanent tests only
 Production identity: v1.4.0 / `1.4.0-r1`
-Provider connection: not authorized in Phase 1E
+Provider connection: Phase 1E itself remains provider-neutral; Phase 1F is the current bounded emulator-only provider proof
 
 ## Purpose
 
-Phase 1E proves synchronization behavior before Firebase, the Firebase Emulator Suite, Security Rules, account UI, pairing runtime, Connected Rivalry runtime or Remote Joining runtime is allowed to exist.
+Phase 1E proved synchronization behavior before Firebase, the Firebase Emulator Suite, Security Rules, account UI, pairing runtime, Connected Rivalry runtime or Remote Joining runtime was allowed to exist.
 
 The implementation is `js/cloudSyncTwoDeviceHarness.js`. It composes the protected Phase 1A revision/CAS/idempotency/tombstone kernel with deterministic simulated account, device and rivalry authority plus the protected raw storage transaction engine used by Candidate C-grade local Apply behavior.
 
@@ -120,13 +122,13 @@ The hash is synchronization integrity metadata only. Phase 1E does not present a
 
 The first attempt reads current authority and compares the original base. If the base is already stale, the intent conflicts immediately. If another accepted mutation occurs after that read but before retry, the retry rereads the newer authority and submits the exact original frozen request. The result is an explicit stale conflict.
 
-A future Firebase transaction may reproduce this transport behavior, but Phase 1F must prove it in the Emulator. Phase 1F may never replace the original base with the newly read Firestore revision.
+Phase 1F must preserve this transport behavior in the Firebase Emulator. Phase 1F may never replace the original base with the newly read Firestore revision.
 
 ## Production/runtime boundary
 
-Phase 1E must remain absent from the production shell.
+Phase 1E remains absent from the production shell.
 
-It may not add or enable:
+Phase 1E itself did not add or enable:
 
 - Firebase client SDK imports;
 - Firebase project configuration or credentials;
@@ -152,18 +154,22 @@ The contract proves the harness is not production-loaded, contains no provider/n
 
 No timeout, performance ceiling, Candidate C recovery guarantee or existing contract may be weakened to obtain green.
 
-## Exit gate and exact next dependency
+## Completion proof and exact next dependency
 
-Phase 1E is complete only when:
+Phase 1E completed through PR #80 from exact validated head `36db46b34a0675623dbdd1a4e2c76e93d438de45`, squash merged to live `main` as `cebd9c031657c9ee01ba68f1baaac7816c9748b9` on 2026-08-18 UTC.
 
-1. the deterministic two-device/offline/reconnect contract passes as part of the permanent repository suite;
-2. all existing Cloud/Sync and Candidate C protections still pass;
-3. production source remains v1.4.0 / `1.4.0-r1` with the harness absent from the shell;
-4. all required normal PR workflow families are successful on the exact unchanged PR head;
-5. submitted reviews and inline review threads are clean;
-6. the PR is mergeable and the expected-head squash merge succeeds;
-7. live `main` is independently verified afterward.
+Its exact-head gate proved:
 
-Only after that exact gate may the project advance to Phase 1F: Firebase provider connection plus Firebase Local Emulator Suite and deny-by-default Security Rules proof.
+1. the deterministic two-device/offline/reconnect contract passed as part of the permanent repository suite;
+2. all existing Cloud/Sync and Candidate C protections still passed;
+3. production source remained v1.4.0 / `1.4.0-r1` with the harness absent from the shell;
+4. all 13 required normal PR workflow families were successful on the exact unchanged PR head;
+5. submitted reviews and inline review threads were clean;
+6. the PR was mergeable and the expected-head squash merge succeeded;
+7. live `main` was independently verified afterward.
 
-Phase 1F remains blocked while Phase 1E is unmerged or unproven. Private account runtime, registered devices, secure pairing, Connected Rivalry and Private Remote Joining remain later dependency-gated stages.
+Historical pre-merge rule retained for permanent contract provenance: Phase 1F remains blocked while Phase 1E is unmerged or unproven. PR #80 satisfied that rule; it is historical evidence, not current implementation authority.
+
+Phase 1F is therefore the current bounded prerequisite: Firebase provider connection inside the Firebase Local Emulator Suite plus deny-by-default Security Rules proof. Phase 1F remains non-production and may not silently broaden into account product UX, pairing, Connected Rivalry or Remote Joining.
+
+Private account runtime, registered devices, secure pairing, Connected Rivalry and Private Remote Joining remain later dependency-gated stages.

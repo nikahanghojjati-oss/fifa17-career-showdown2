@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-17-phase1e-two-device-harness",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-18T04:02:57Z",
+  "environmentId": "we-2026-08-18-phase1f-firebase-emulator-rules",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-08-18T04:49:40Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "fc2e8e8b921a435103a438a9239efbb890584d22"
+    "startingMainSha": "cebd9c031657c9ee01ba68f1baaac7816c9748b9"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 4,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 7,
+    "compactionCount": 2,
+    "majorPhasesCompleted": 3,
+    "largeEvidenceEvents": 10,
     "toolRoutingErrors": 2,
-    "correctedFailures": 2,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": false,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
@@ -28,35 +28,36 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish only the already-implemented Cloud/Sync Readiness Phase 1E candidate: publish one bounded PR from the frozen branch head, obtain exact-head CI/review/mergeability proof, squash merge if every gate is clean, verify live main, then hand off before Phase 1F.",
-    "lastSafeCheckpoint": "Phase 1E dormant harness, permanent contracts and current-facing authority are synchronized on agent/cloud-sync-phase-1e-two-device-harness. Source review corrections for peer-account/membership shared-mutation freeze and full reviewed three-key local Apply preconditions are documented and permanently asserted. Production runtime remains v1.4.0 / 1.4.0-r1.",
-    "nextSafeAction": "Open the single bounded Phase 1E PR from the exact frozen branch head, require all normal exact-head workflow families plus clean reviews/threads and mergeability, fix only real failures without weakening valid contracts, expected-head squash merge, verify live main, then generate the successor handoff for Phase 1F rather than beginning it here.",
+    "currentTask": "Finish only publication of Cloud/Sync Readiness Phase 1F: preserve the bounded Firebase Local Emulator / deny-by-default Firestore Security Rules candidate, repeat exact-head CI after this continuity-only seal, merge PR #81 under the standing protected rule if every gate remains clean, verify live main, then transition before private account/authentication work.",
+    "lastSafeCheckpoint": "PR #81 is open and mergeable from exact implementation head b58606563ecaf194ecdbc617de33744f37d488e9 against verified base cebd9c031657c9ee01ba68f1baaac7816c9748b9. All 13 normal workflow families succeeded on that exact implementation head, including the new Firebase emulator/Security Rules proof, complete repository contracts, Candidate C browser recovery audit and Stability canonical runtime/integration journey. Submitted reviews and inline review threads are both empty. Branch comparison proves no production runtime, Service Worker, package-version or lockfile change.",
+    "nextSafeAction": "Treat this continuity record commit as a head movement that invalidates the prior exact-head merge gate. Require all 13 normal workflow families to succeed again on the new exact PR #81 head, recheck zero reviews/threads, unchanged head and mergeability, squash merge with expected-head protection, independently verify live main, then hand off before the distinct private account/authentication prerequisite.",
     "unfinishedWork": [
-      "Publish one bounded Phase 1E pull request from agent/cloud-sync-phase-1e-two-device-harness.",
-      "Require exact unchanged-head CI across all normal workflow families plus clean submitted reviews, inline review threads and mergeability.",
-      "Fix any real validation failures at source without raising timeouts/performance ceilings or weakening recovery/synchronization contracts.",
-      "Squash merge only after every gate is proven, independently verify live main, then transition before Phase 1F."
+      "Repeat exact-head CI for PR #81 after this continuity-only transition seal changes the candidate head.",
+      "Recheck submitted reviews, inline review threads, exact head identity and mergeability after CI completes.",
+      "Squash merge PR #81 only if every protected gate remains clean and independently verify the resulting live main SHA.",
+      "Generate the complete successor handoff from the verified Phase 1F merge boundary and do not begin private account/authentication runtime in this environment."
     ],
     "knownHazards": [
-      "Do not connect Firebase SDK/Auth/Firestore runtime, create provider data, deploy Security Rules, enable persistent Firestore offline cache or introduce credentials during Phase 1E.",
-      "Never refresh or silently rebase an offline or retried intent's original immutable baseRevision or payload.",
-      "Exact accepted idempotency replay must remain non-mutating and reused-key/different-fingerprint requests must fail explicitly.",
-      "A long-offline device, revoked device, disabled account, inactive required peer or stale cached rivalry membership must never mutate or resurrect newer authoritative state.",
-      "The still-active manager must not inherit sole mutation authority when the required peer account or entitlement is disabled, retained or relinquished.",
-      "Downloaded or previewed remote state may not bypass the full reviewed three-key local snapshot, Candidate C-grade last-moment preconditions, ownership-scoped rollback or anti-clobber protections.",
-      "No sync/harness module may directly own localStorage or weaken Candidate A export, Candidate B read-only analysis, Candidate C destructive Apply authority or the canonical three-key storage model.",
-      "Public discovery, community, matchmaking, public profiles and global rankings remain prohibited.",
-      "Direct shell networking cannot resolve GitHub in this environment, so connector-backed source writes plus GitHub-hosted CI are the available publication/proof path; failed shell routing is not a project test result."
+      "Phase 1F deliberately denies all application-client Firestore writes because the protected Phase 1D shared-state schema does not expose the idempotency-key hash needed for Security Rules to require the matching replay receipt. Do not weaken this boundary or treat client helper code as authorization.",
+      "A future production mutation gateway or protocol/schema adjustment is a separate prerequisite decision. Phase 1F does not authorize Cloud Functions, Firebase Admin runtime, Blaze billing or privileged server credentials.",
+      "Firestore persistent offline cache remains disabled; provider retry may reread authority but may never rewrite the original client baseRevision or payload.",
+      "Firebase Auth context establishes account identity; client-supplied accountId and deviceId never authenticate an actor.",
+      "Preserve Candidate A non-mutating export, Candidate B read-only analysis, Candidate C sole destructive Apply authority and exactly three canonical local-storage keys; no remote module may directly own canonical localStorage.",
+      "The two-owner governance lock remains authoritative: disabled, retained or relinquished required peer state may not grant accidental sole shared mutation authority.",
+      "Public discovery, public profiles, matchmaking, community systems, public leaderboards and global rankings remain eliminated.",
+      "Direct shell DNS cannot resolve GitHub in this environment. Connector-backed GitHub source access and GitHub-hosted CI remain the verified publication/proof path; this environment limitation is not a project failure."
     ],
     "evidenceNotes": [
-      "Live main was independently verified at fc2e8e8b921a435103a438a9239efbb890584d22 and PR #79 Phase 1D was independently verified merged from exact validated head 2e3c9560590fb934e684fbae44138f16194da6bd with all 13 normal exact-head workflow families successful, zero submitted reviews and zero inline review threads.",
-      "The Phase 1E branch was created directly from verified main and now contains a provider-neutral deterministic two-device/offline/reconnect harness, permanent contract, contract-runner wiring and synchronized Phase 1D DONE / Phase 1E CURRENT / Phase 1F BLOCKED authority.",
-      "Source review found two real safety gaps before publication: peer-account/membership state did not freeze the other manager's shared mutation, and local Apply guarded only candidate-changed keys rather than the entire reviewed canonical snapshot. Both were corrected at source, permanently asserted and propagated into Phase 1E authority.",
-      "The hardened harness fails malformed account/device/membership authority closed, recursively freezes queued intent and local previews, freezes shared mutation when any required peer account or membership is not active, and sends all three reviewed canonical keys through the existing guarded raw transaction engine.",
-      "The source remains dormant and absent from index.html, js/optionalModules.js and service-worker.js; package/runtime identity remains v1.4.0 / 1.4.0-r1 with 1.3.0-r2 as the previous known-good whole shell.",
-      "Four conversation compactions have occurred in this successor environment. Usage percentage remains unavailable and is not estimated.",
-      "Using the repository formula with current observable signals gives context pressure 94/100, quality risk 20/100, next-task separation 20/100, handoff readiness 99/100, continuation risk 52.4/100, transition cost 14.0/100 and transition advantage 38.4. Decision: HANDOFF_AT_CHECKPOINT. Required action: finish only the current Phase 1E publication/validation/merge boundary, then transition before another substantial milestone.",
-      "Two connector-routing/endpoint errors and two corrected Phase 1E safety findings are recorded; neither caused a valid test, recovery guarantee, timeout or performance ceiling to be weakened."
+      "Live startup reconstruction verified main cebd9c031657c9ee01ba68f1baaac7816c9748b9 as the PR #80 Phase 1E squash merge from exact validated head 36db46b34a0675623dbdd1a4e2c76e93d438de45. Only historical PRs #35 and #37 remained open.",
+      "Current primary Firebase documentation was checked before implementation: demo projects are appropriate for emulator-only proof; Rules Unit Testing can supply authenticated/unauthenticated contexts; Firestore transactions can rerun after concurrent reads change; web persistent cache is opt-in and remains disabled for this project.",
+      "Provider source analysis found a real security boundary before publication: the Phase 1D authoritative shared-state schema lacks the idempotency-key hash required for Rules to identify the matching sibling replay receipt. Phase 1F therefore fails closed by denying application-client writes and proving mutation semantics only through a test-only trusted emulator boundary.",
+      "Phase 1F pins Firebase JS SDK 12.17.1, @firebase/rules-unit-testing 5.0.1, firebase-tools 15.27.0 and Java 21 only inside the existing Static App CI block. package.json, package-lock.json, index.html and service-worker.js remain unchanged.",
+      "Branch comparison from verified main to PR #81 implementation head showed 14 changed files limited to continuity/authority, emulator configuration, Firestore Rules, tests and the existing Static App workflow; no production runtime file entered the candidate.",
+      "Exact implementation head b58606563ecaf194ecdbc617de33744f37d488e9 passed all 13 normal workflow families. Static App passed JavaScript syntax, release architecture, the complete repository contract suite, Firebase emulator/Security Rules proof and protected 27-block topology. Candidate C and Stability browser journeys also passed.",
+      "PR #81 on implementation head b58606563ecaf194ecdbc617de33744f37d488e9 was mergeable with zero submitted reviews and zero inline review threads before this continuity-only status seal.",
+      "Two recoverable tool-routing/safety events occurred: one unsupported connector branch endpoint was replaced with the supported branch-search action, and one overly detailed PR-create payload was blocked before GitHub mutation then succeeded with a simpler equivalent PR description. One pre-CI authority compatibility correction restored historical Phase 1E gate wording as explicitly historical evidence without weakening current Phase 1F authority.",
+      "Two conversation compactions occurred. Usage percentage remains unavailable and is not estimated.",
+      "Using the repository's deterministic formula with the recorded final-environment signals and a clean branch boundary gives context pressure 98/100, quality risk 16/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 63.9/100, transition cost 14.0/100 and transition advantage 49.9. Decision: HANDOFF_AT_CHECKPOINT. Finish only the current Phase 1F publication boundary, then transition before the distinct private account/authentication milestone. Because a local checkout cannot be created in this environment, the formula is reconstructed exactly from the live repository script rather than claimed as an executed npm wrapper."
     ]
   }
 }
