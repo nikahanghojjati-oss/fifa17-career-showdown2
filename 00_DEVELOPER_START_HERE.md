@@ -50,6 +50,14 @@ Application-client Firestore create/update/delete: denied
 
 ## Completed prerequisite chain
 
+Historical shipped product dependencies remain protected, including:
+
+identity-safe longitudinal Career Analytics / Trophy Room correction — PR #59
+presentation-only Local Profile display-label editing — PR #61
+formatVersion 2 full multi-Save backup/import portability — PR #67
+Save Library / Local Profile Experience 2.0 — PR #70
+Showdown Home & Season Experience first slice — PR #73
+
 Cloud / Sync Readiness Phase 1A through Phase 1F: DONE / MERGED / PROTECTED.
 
 Private Account / Authentication:
@@ -155,3 +163,7 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 Before publication require all 13 normal workflow families on one exact unchanged final PR head, clean submitted reviews and inline review threads, mergeability, expected-head protection and independent live-main verification after merge.
 
 After the safe Stage 2F boundary, reassess WEC before any separate Stage 2 prerequisite.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish only the current Stage 2F Trusted Request Authentication & ID Token Revocation Boundary on `agent/private-auth-stage2f-token-verification`. Preserve production v1.4.0 / `1.4.0-r1`, keep production Firebase disconnected, retain direct application-client Firestore write denial, require the trusted `verifyIdToken(idToken, true)` boundary, complete exact-head validation and publication, then reassess WEC before any separate Stage 2 prerequisite.
