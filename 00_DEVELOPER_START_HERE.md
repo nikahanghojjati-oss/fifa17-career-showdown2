@@ -1,6 +1,6 @@
 # Career Mode Showdown — Developer Start Here
 
-Last updated: 2026-08-17 ET
+Last updated: 2026-08-17 ET (Remote Joining priority clarification)
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Purpose: canonical bootstrap for a new developer session.
 
@@ -42,7 +42,9 @@ Career Mode Showdown is a private two-manager companion for the owner and one fr
 
 Public community features and global leaderboard/rankings are **ELIMINATED**.
 
-Private remote joining remains an important future requirement but is **BLOCKED**. Do not implement it until the explicitly ordered private dependency path is authorized and proven: Cloud → Identity → Paired Device → Remote Joining.
+Private Remote Joining is a **PRIORITIZED LONG-TERM** product destination. It is **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. Do not rush directly to networking or multiplayer UI. The ordered enabling path is Cloud/sync readiness → private identity/auth → paired-device/private-session capability → Connected Rivalry/two-device conflict/offline proof → Remote Joining.
+
+When future networked work is explicitly authorized, the next safe prerequisite on that path should be preferred over unrelated optional expansion unless a later owner instruction changes the priority. Each prerequisite still requires its own bounded implementation authorization.
 
 A green authorized PR may be merged without asking the owner again. That standing merge instruction never creates permission for a new product candidate.
 
@@ -63,6 +65,7 @@ One current fact should have one primary owner.
 - `PROJECT_STATE.md` is the primary owner of current deployed product, identity, storage, recovery, performance and production state.
 - `NEXT_TASK.md` is the sole primary owner of the current implementation authorization boundary. A roadmap item is not a task unless this file or a later explicit owner instruction makes it one.
 - `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction and current roadmap classification. It does not authorize implementation by itself.
+- `PRODUCT_PHILOSOPHY_LOCK.md` plus `REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md` own the permanent private-product and Remote Joining priority direction.
 - `00_CURRENT_HANDOFF.md` remains the concise rolling handoff/evidence trail.
 - `IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md` is historical branch-specific evidence for PR #59.
 - release and production-proof files own frozen evidence for the release/candidate they name.
@@ -86,8 +89,9 @@ Then read:
 9. `NEXT_TASK.md`
 10. `POST_V1_ROADMAP_EXECUTION.md`
 11. `PRODUCT_PHILOSOPHY_LOCK.md`
-12. current release/proof documents when their frozen evidence is relevant
-13. historical handoffs only when deeper rationale is required.
+12. `REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md`
+13. current release/proof documents when their frozen evidence is relevant
+14. historical handoffs only when deeper rationale is required.
 
 After reading, run `npm run work:continuity:validate` and `npm run work:assess`. Initialize a fresh environment record before substantial work when the recorded environment has closed or belongs to a prior chat. Unknown usage remains unknown; do not invent an exact percentage.
 
@@ -122,7 +126,7 @@ Phase B first slice provides richer Save cards, clearer Local Profile presentati
 
 Phase C first slice provides Home series lead/trail status, contextual primary action including `VIEW COMPLETED SHOWDOWN`, last completed season summary and presentation/touch-target polish while preserving eager CSS ceilings.
 
-Broader profile CRUD, further Product Deepening, Season redesign, Career Statistics 2.0, Legacy 2.0, cloud, paired device and remote joining remain unauthorized until explicitly assigned.
+Broader profile CRUD, further Product Deepening, Season redesign, Career Statistics 2.0, Legacy 2.0, Cloud/sync runtime, private identity/auth, paired device, Connected Rivalry and Remote Joining remain unauthorized until explicitly assigned. Remote Joining’s lack of current authorization must not be interpreted as lack of long-term priority.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
@@ -131,9 +135,10 @@ After reconstructing live repository state and reading current authority:
 1. confirm live `main` includes Phase C product merge `dec1d3ba8182c3f62019974dd1704c7c9124def6` or reconstruct every newer change;
 2. confirm the visible application identity is v1.4.0 and the Installable Offline App runtime is `1.4.0-r1` with `1.3.0-r2` as the immediate previous known-good whole shell;
 3. validate the inherited Work Environment Continuity record, initialize fresh observations and run `npm run work:assess`;
-4. confirm public community/global leaderboard remain ELIMINATED and private remote joining remains BLOCKED;
-5. read `NEXT_TASK.md` and verify the authorized product candidate is none;
-6. hold the clean stop until a later explicit owner instruction authorizes one bounded next slice.
+4. confirm public community/global leaderboard remain ELIMINATED and Private Remote Joining remains PRIORITIZED LONG-TERM but DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED;
+5. confirm the future enabling order is Cloud/sync readiness → private identity/auth → paired device/private session → Connected Rivalry/two-device proof → Remote Joining;
+6. read `NEXT_TASK.md` and verify the authorized product candidate is none;
+7. hold the clean stop until a later explicit owner instruction authorizes one bounded next slice or one bounded prerequisite in the prioritized Remote Joining path.
 
 Do not ask the owner to reconstruct already-recorded repository history. Do not convert roadmap ordering into implementation authority.
 

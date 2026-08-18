@@ -28,12 +28,14 @@ Read in this order:
 7. `00_CURRENT_HANDOFF.md`
 8. `PROJECT_STATE.md`
 9. `NEXT_TASK.md`
-10. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
-11. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
-12. `RELEASE_V1.4.0.md`
-13. `CAREER_MODE_SHOWDOWN_V1.4.0_MAINTENANCE_HANDOFF.md`
-14. `V1.3.0_R2_PRODUCTION_PROOF.md` for historical frozen production evidence
-15. `POST_V1_ROADMAP_EXECUTION.md`
+10. `PRODUCT_PHILOSOPHY_LOCK.md`
+11. `REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md`
+12. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
+13. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
+14. `RELEASE_V1.4.0.md`
+15. `CAREER_MODE_SHOWDOWN_V1.4.0_MAINTENANCE_HANDOFF.md`
+16. `V1.3.0_R2_PRODUCTION_PROOF.md` for historical frozen production evidence
+17. `POST_V1_ROADMAP_EXECUTION.md`
 
 Always fetch live `main` before relying on a SHA in documentation.
 
@@ -103,6 +105,8 @@ Phase B first slice and Phase C first slice are complete and production-proven u
 
 **No product candidate is currently authorized.** Stop until a further explicit owner instruction.
 
-Public community / global leaderboard remain **ELIMINATED**. Private remote joining remains **BLOCKED**.
+Public community / global leaderboard remain **ELIMINATED**.
+
+Private Remote Joining is **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. The project must complete and prove its Cloud/sync, private identity/auth, paired-device/private-session and Connected Rivalry/two-device recovery prerequisites before implementing Remote Joining itself. When the future networked lane is explicitly opened, those prerequisites should be advanced deliberately rather than leaving Remote Joining indefinitely behind unrelated optional expansion.
 
 PR #37 and PR #35 remain historical draft work and are not current authority.

@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-17 ET
+Last updated: 2026-08-17 ET (Remote Joining priority clarification)
 Status: current dependency/status authority for the post-v1 direction. This file is not an implementation queue. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
 ## 1. Current authority
@@ -21,6 +21,8 @@ v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems
 
 The shipped local product chain now includes stable Local Profiles / Save Library identity, identity-safe Career Analytics / Trophy Room consumption, Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability, Phase B Save Library / Local Profile Experience 2.0 first slice, and Phase C Showdown Home & Season Experience first slice. All are closed and production-proven.
 
+The owner clarified on 2026-08-17 that Private Remote Joining is a prioritized long-term product destination. That changes roadmap priority, not current implementation authorization.
+
 No roadmap position by itself authorizes a new runtime candidate.
 
 ## 2. Permanent rules inherited by every future area
@@ -35,7 +37,7 @@ Presentation integrity: accepted FIFA 17-inspired visual behavior, mobile/Chrome
 
 Validation integrity: 14 permanent workflow families and 27 protected multiline executable blocks remain. Normal implementation/authority PRs generally exercise 13; Release Integration Burn-In remains main/manual release authority. Performance ceilings and workflow timeouts are not negotiation knobs for future features.
 
-Product philosophy lock: Career Mode Showdown is a private two-manager companion. Public community features and global leaderboard/rankings are **ELIMINATED**. Private remote joining remains important future work but is **BLOCKED** until the dependency path Cloud → Identity → Paired Device → Remote Joining is explicitly authorized and proven.
+Product philosophy lock: Career Mode Showdown is a private two-manager companion. Public community features and global leaderboard/rankings are **ELIMINATED**. Private Remote Joining is **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. Its priority requires the ordered enabling path to be completed rather than bypassed: Cloud/sync readiness → private identity/auth → paired-device/private-session capability → Connected Rivalry/two-device proof → Remote Joining.
 
 ## 3. Completed dependency chain
 
@@ -146,13 +148,13 @@ The classifications below describe dependency/product state, not implementation 
 | Achievements | CONDITIONAL / NOT AUTHORIZED | Requires a separately authorized product definition. |
 | Optional content/league/challenge packs | FUTURE / NOT AUTHORIZED | Must not replace the accepted default Wheel or scoring authority. |
 | Custom challenge content | FUTURE / NOT AUTHORIZED | Must preserve canonical scoring and default behavior. |
-| Cloud Readiness | FUTURE / NOT AUTHORIZED | Architecture-only future work; no required cloud dependency. |
-| Cloud Backup | BLOCKED | Requires Cloud Readiness, provider/cost, auth/privacy, revisions/conflicts/tombstones and recovery escape hatches. |
-| Private Identity / Account Layer | BLOCKED | Requires explicit cloud/identity authorization and privacy/security definition. |
-| Paired-device capability | BLOCKED | Requires reliable private remote persistence/security first. |
-| Connected Rivalry | BLOCKED | Requires proven paired-device/sync semantics and conflict safety. |
-| Private sharing/groups | BLOCKED | Depends on reliable connected identity, privacy and authorization. |
-| Private remote joining | BLOCKED | Dependency order remains Cloud → Identity → Paired Device → Remote Joining. |
+| Cloud Readiness | FUTURE / NOT AUTHORIZED | First enabling prerequisite of the prioritized Remote Joining path when a bounded network-foundation candidate is explicitly authorized; architecture-only until then. |
+| Cloud Backup | BLOCKED | Separate optional private backup product; requires Cloud Readiness, provider/cost, auth/privacy, revisions/conflicts/tombstones and recovery escape hatches. It may share the cloud foundation but is not a substitute for Remote Joining synchronization/session infrastructure. |
+| Private Identity / Account Layer | BLOCKED / PRIORITIZED PREREQUISITE | Becomes the next Remote Joining prerequisite only after the required Cloud/sync foundation is proven; requires privacy/security/auth definition. |
+| Paired-device capability | BLOCKED / PRIORITIZED PREREQUISITE | Requires reliable private remote persistence, authenticated identity, device/session security and revocation first. |
+| Connected Rivalry | BLOCKED / PRIORITIZED PREREQUISITE | Requires proven paired-device/sync semantics, stale-write safety, conflict handling and offline/reconnect recovery. |
+| Private sharing/groups | BLOCKED | Depends on reliable connected identity, privacy and authorization; it is not required to become a public community surface. |
+| Private Remote Joining | PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED | Strategic private two-manager destination. Implement only after Cloud/sync readiness → private identity/auth → paired device/private session → Connected Rivalry/two-device proof are complete. |
 | Public/community/rankings | ELIMINATED | Owner decision 2026-08-16: private two-manager companion only; public community and global leaderboard removed from roadmap. |
 
 ## 10. Corrected dependency map
@@ -167,18 +169,23 @@ proven local recovery/data safety — DONE
 → full multi-Save portability — DONE / PRODUCTION-PROVEN
 → Phase B first product-deepening slice — DONE / PRODUCTION-PROVEN
 → Phase C first product-deepening slice — DONE / PRODUCTION-PROVEN
-→ clean stop until a new bounded owner authorization
-→ optional later local product deepening if explicitly authorized
-→ Cloud Readiness architecture if explicitly authorized
-→ opt-in private Cloud Backup
-→ private Identity / Account Layer
-→ private paired-device capability
-→ reliable Connected Rivalry
-→ private remote joining.
+→ clean stop until a new bounded owner authorization.
+
+From that clean stop, local Product Deepening may continue when explicitly authorized. However, once future networked work is selected, the owner-prioritized strategic path is:
+
+Cloud / synchronization readiness
+→ private account / authentication / authorization identity
+→ secure paired-device / private-session capability
+→ reliable Connected Rivalry synchronization with conflict/offline/two-device proof
+→ private Remote Joining / session experience.
+
+Optional Private Cloud Backup may branch from the Cloud foundation when separately authorized; it is not itself a substitute for the synchronization and session prerequisites above.
+
+When the project reaches future networked work and no later owner instruction overrides the 2026-08-17 priority, the next safe prerequisite on the Remote Joining path should be preferred over unrelated optional expansion.
 
 Public community/discovery/global rankings are ELIMINATED and are not a dependency destination.
 
-Independent Showdown/Season-scoped Legacy, Achievement or Analytics improvements remain separate candidates when explicitly authorized.
+Independent Showdown/Season-scoped Legacy, Achievement or Analytics improvements remain separate candidates when explicitly authorized, but they must not be used to characterize Remote Joining as permanently blocked or non-priority.
 
 Dependency order, product/milestone name and release version number are separate decisions. A future roadmap position is never implementation permission.
 
@@ -188,7 +195,9 @@ Dependency order, product/milestone name and release version number are separate
 
 Phase B first slice and Phase C first slice are closed as production-proven. Hold a clean stop until a further explicit owner instruction authorizes one bounded next slice.
 
-Do not begin profile merge/delete or generic CRUD, broader Analytics 2.0, Season redesign, Legacy 2.0, optional content, cloud, paired device, connected rivalry or remote joining from roadmap ordering alone.
+Do not begin profile merge/delete or generic CRUD, broader Analytics 2.0, Season redesign, Legacy 2.0, optional content, Cloud/sync runtime, private identity/auth, paired device, Connected Rivalry or Remote Joining from roadmap ordering alone.
+
+The 2026-08-17 Remote Joining amendment sets long-term priority only. It does not skip the requirement for a bounded `NEXT_TASK.md` authorization at each prerequisite stage.
 
 Public community and global leaderboard/rankings are permanently ELIMINATED unless the owner explicitly reverses that lock in a later roadmap amendment.
 
@@ -202,25 +211,31 @@ Long-term human usage remains distinct from automation. Large Save counts, many 
 
 `CLOUD_STORAGE_FOUNDATION.md` remains a future architecture contract only. It authorizes no cloud runtime.
 
-Completed prerequisites include recovery/resilience, stable local Save Library/manager identity, identity-safe local Career Analytics and complete local multi-Save portability. None creates or accelerates cloud runtime authorization.
+Completed prerequisites include recovery/resilience, stable local Save Library/manager identity, identity-safe local Career Analytics and complete local multi-Save portability. None creates cloud runtime authorization by itself.
+
+The owner has nevertheless prioritized the private Remote Joining destination. Therefore future Cloud/sync foundation work, when explicitly authorized, should be designed as the first enabling layer for secure private remote sessions rather than as an isolated side quest.
 
 Future cloud work additionally requires explicit revision/conflict/tombstone semantics, authentication/authorization, privacy/retention, provider/cost ownership, recovery/export escape hatches and two-device simulation.
 
 No future cloud module may call localStorage directly.
 
-The private remote path remains ordered:
+The prioritized private remote path remains ordered:
 
 v1.3.0 Recovery & Device Resilience Hardening — completed protected baseline
 → Local Profiles / Save Library / multi-Save portability — completed local dependency
-→ Cloud Readiness — future / not authorized
-→ opt-in Cloud Backup
-→ private Identity / Account Layer
-→ Paired Device
-→ Remote Joining.
+→ Cloud / sync Readiness — future / not authorized until bounded candidate
+→ private Identity / authentication / authorization
+→ Paired Device / private-session security
+→ Connected Rivalry synchronization + two-device conflict/offline proof
+→ Private Remote Joining.
+
+Optional Private Cloud Backup remains a separately bounded use of the Cloud foundation and is not required to masquerade as the Remote Joining transport layer.
 
 ## 14. Current execution rule
 
 Preserve production `v1.4.0` / `1.4.0-r1`, immediate `1.3.0-r2` whole-shell recovery, the completed Local Profiles / Save Library chain, explicit manager identity linkage, Identity-Safe Career Analytics, formatVersion 2 multi-Save portability, and the closed Phase B and Phase C first slices.
+
+Preserve the 2026-08-17 strategic decision that Private Remote Joining is prioritized long-term but dependency-gated. Future developers must neither rush it before prerequisites nor indefinitely deprioritize it behind unrelated optional work once the networked roadmap lane is explicitly opened.
 
 Respond to reproducible defects with root-cause analysis and focused regression evidence.
 

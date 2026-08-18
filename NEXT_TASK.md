@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-17 ET (Phase C first slice sealed + visible v1.4.0)
+Last updated: 2026-08-17 ET (Remote Joining long-term priority clarification after v1.4.0 seal)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
@@ -35,7 +35,7 @@ The following candidates are closed as production-proven and must not be reopene
 
 **Authorized product candidate:** none.
 
-No product candidate is currently authorized. Hold clean stop until a further explicit owner instruction authorizes the next bounded slice (further Product Deepening, Season UX expansion, Career Statistics 2.0, or Remote Foundation dependency work).
+No product candidate is currently authorized. Hold clean stop until a further explicit owner instruction authorizes the next bounded slice (further Product Deepening, Season UX expansion, Career Statistics 2.0, or one prerequisite in the prioritized Private Remote Joining path).
 
 ### Phase C first slice (closed / production-proven)
 
@@ -51,7 +51,8 @@ Out of scope until a later explicit owner instruction:
 - Broader Season Experience redesign beyond the first-slice items above
 - Career Statistics 2.0 / Advanced Visual Analytics
 - Legacy 2.0, Achievements, Trophy Room 2.0
-- Cloud, private remote joining, public community surfaces
+- Cloud/sync runtime, private account/auth, paired-device/session, Connected Rivalry or Remote Joining implementation until one bounded prerequisite/candidate is explicitly authorized
+- Public community/discovery and global leaderboard/ranking surfaces, which are permanently eliminated unless the owner later reverses that decision
 
 ## Shipped multi-Save portability semantics that every future candidate must preserve
 
@@ -78,6 +79,23 @@ Out of scope until a later explicit owner instruction:
 11. identity and profile-presentation state participate in Analytics/Trophy revision invalidation;
 12. Rivalry Statistics remains Showdown-scoped and semantically unchanged.
 
+## Prioritized long-term Private Remote Joining path
+
+Owner clarification 2026-08-17: Private Remote Joining is a prioritized long-term product destination. It must not be described as permanently blocked or treated as an optional side feature.
+
+Its current classification is **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**.
+
+Priority does not permit skipping prerequisites. The ordered enabling path is:
+
+1. preserve the shipped local recovery, Save Library identity, portability and installed-app baseline;
+2. Cloud / synchronization readiness with explicit provider, revision, conflict, tombstone, rollback/export and recovery boundaries;
+3. private account / authentication / authorization identity without name-based identity guessing;
+4. secure paired-device / private-session capability;
+5. Connected Rivalry synchronization with stale-write protection, conflict behavior, offline/reconnect recovery and two-device proof;
+6. Private Remote Joining / session UX only after all preceding layers are proven.
+
+When future networked work is authorized and no later owner instruction overrides this priority, the next safe prerequisite on this path should be preferred over unrelated optional expansion. This prioritization still does not create implementation permission by itself.
+
 ## Separate future areas are not assignments
 
 Potential future work remains separately bounded, including:
@@ -88,14 +106,14 @@ Potential future work remains separately bounded, including:
 - Legacy 2.0, Achievements System, Trophy Room 2.0
 - optional challenge / league / club content
 - Backup and Recovery Experience 2.0 (UX only)
-- Cloud Readiness architecture (no runtime)
-- Optional Private Cloud Backup
+- Cloud Readiness architecture (no runtime), now also an enabling prerequisite for the prioritized Remote Joining path
+- Optional Private Cloud Backup, which may reuse the cloud foundation but is not a substitute for remote synchronization/session infrastructure
 - Private Account / Identity Layer
 - Private Paired Device Capability
 - Connected Rivalry
 - Private Transfer Challenge device mode
 - private sharing
-- private remote joining / session system (important future requirement; still BLOCKED — no current auth).
+- private Remote Joining / session system — **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**
 
 Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16). Product direction is a private two-manager companion. Do not implement or re-introduce public community or global ranking surfaces unless the owner explicitly reverses that lock in a later roadmap amendment.
 
@@ -136,18 +154,19 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), Phase B first slice (PR #70), and Phase C first slice (PR #73) are closed and must not be reopened.
 
-**No product candidate is currently authorized.** Visible application version is v1.4.0 / runtime `1.4.0-r1`. Stop and wait for a further explicit owner instruction before expanding scope or opening the next product candidate.
+**No product candidate is currently authorized.** Visible application version is v1.4.0 / runtime `1.4.0-r1`. The Remote Joining priority clarification is roadmap authority only; stop and wait for a further explicit owner instruction before opening a runtime candidate.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 ### Bootstrap / study (required first)
 
 1. Independently confirm live `main` carries the Phase C product merge `dec1d3ba…` (or later) and this authority seal (v1.4.0 / 1.4.0-r1).
-2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
-3. Confirm no public community / global leaderboard work and no private remote joining work is in scope.
+2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
+3. Confirm public community / global leaderboard work remains ELIMINATED and Private Remote Joining is PRIORITIZED LONG-TERM but DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+4. Confirm the ordered future enabling path remains Cloud/sync readiness → private identity/auth → paired device/private session → Connected Rivalry/two-device proof → Remote Joining.
 
 ### Execution (after study)
 
-**Current authorized work:** none. Hold clean stop.
+**Current authorized work:** none. Hold clean stop until a later explicit owner instruction establishes one bounded product or prerequisite candidate.
 
 Owner standing instruction 2026-08-16/17 (permanent operating rule) authorizes merge of green PRs without repeated permission loops; it does not authorize new product candidates beyond the stop condition above.
