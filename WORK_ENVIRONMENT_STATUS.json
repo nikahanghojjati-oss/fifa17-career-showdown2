@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-18-private-auth-stage2a-proof",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-18T14:20:59Z",
+  "recordedAt": "2026-08-18T14:27:59Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,11 +11,11 @@
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
+    "compactionCount": 2,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 20,
+    "largeEvidenceEvents": 24,
     "toolRoutingErrors": 3,
-    "correctedFailures": 1,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -29,10 +29,10 @@
   },
   "continuity": {
     "currentTask": "Finish only the publication boundary for implemented Private Account / Authentication Stage 2A in PR #83: freeze this exact final branch head, require full exact-head CI, verify clean reviews/threads and mergeability, squash merge with expected-head protection, verify live main, then transition before a distinct next Stage 2 prerequisite.",
-    "lastSafeCheckpoint": "Stage 2A implementation is complete on PR #83. Corrected technical head 1420d8ffec9e689f1b3973021517713c446c85a0 passed the 37-file repository contract suite, Phase 1F Firebase emulator proof, real Stage 2A Auth/Firestore Emulator uid/accountId proof and protected 13-workflow / 27-executable-block topology. Authority, roadmap, rolling handoff and continuity history are now synchronized to the PR #83 completion gate.",
+    "lastSafeCheckpoint": "Stage 2A implementation and authority synchronization are complete on PR #83. Technical head 1420d8ffec9e689f1b3973021517713c446c85a0 proved the real Auth/Firestore Emulator behavior; authority-coherent diagnostic head 063e90adbae3ae9c3f04f9206f36860294338183 then passed the complete Static App gate after two later documentation-coherence defects were corrected. The rolling handoff now records all rejected seal heads and the exact completion gate.",
     "nextSafeAction": "Treat the commit created by this WORK_ENVIRONMENT_STATUS.json seal as the final PR #83 merge candidate and do not mutate the branch again. Require all 13 normal workflow families to pass on that exact unchanged head, mark PR #83 ready, verify submitted reviews and inline threads are empty and the PR is mergeable, squash merge with expected-head protection, independently verify live main, then hand off before any later Stage 2 implementation.",
     "unfinishedWork": [
-      "Run and verify the complete 13-family PR gate on the exact final status-seal head; earlier green technical head 1420d8ffec9e689f1b3973021517713c446c85a0 is evidence but is no longer the final merge head.",
+      "Run and verify the complete 13-family PR gate on the exact final status-seal head; all earlier green heads are evidence only and are not merge authority.",
       "Verify PR #83 exact head unchanged, draft false, mergeable true, submitted reviews empty and inline review threads empty.",
       "Squash merge PR #83 under the standing owner rule with expected-head protection, then independently verify live main.",
       "Do not begin another Stage 2 prerequisite in this environment; transition after the verified PR #83 merge and let a fresh successor reconstruct current source and assess its own continuity state."
@@ -51,10 +51,13 @@
       "Stage 2A proves distinct stable synthetic uid principals, namespace separation, self/private reads, wrong-account and unauthenticated denial, sign-out denial, failed-sign-in fail-closed behavior, inactive application-account rivalry denial and provider identity over client-supplied identity.",
       "All application-client Firestore create/update/delete remains denied. The Phase 1F emulator proof remains in the same CI process. No raw ID token or refresh token is requested or persisted, and synthetic passwords exist only inside the isolated test process.",
       "Production dependency/runtime isolation is protected: package remains 1.4.0, shell/service worker remain 1.4.0-r1, Firebase test packages install only with --no-save --package-lock=false, and no production Firebase connection was added.",
-      "The first PR #83 validation exposed one new static contract matcher defect for the disabled-account helper call. It was corrected without weakening behavior, Security Rules, Candidate C, timeouts or performance ceilings. No repeated mistake, stale-fact correction or unresolved project failure remains.",
+      "The first PR #83 validation exposed a new static contract matcher defect for the disabled-account helper call. It was corrected without weakening behavior, Security Rules, Candidate C, timeouts or performance ceilings.",
       "Corrected technical head 1420d8ffec9e689f1b3973021517713c446c85a0 passed the complete 37-file repository contract suite, Phase 1F emulator proof, Stage 2A real Auth/Firestore proof and permanent 13-workflow / 27-executable-block topology.",
-      "Current authority documents now classify PR #83 as the sole Stage 2A completion gate. If it is already merged, successors must not repeat Stage 2A; they must independently verify main and select the next smallest Stage 2 prerequisite from current source. Stage 3 remains blocked.",
-      "Using the exact repository formula with final signals gives context pressure 90/100, quality risk 22/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 62.6/100, transition cost 14.0/100 and transition advantage 48.7. Decision: HANDOFF_AT_CHECKPOINT. Usage percentage is unavailable and was not estimated."
+      "Rejected seal head 89264d7a7e08b81e5b3da82b532067e1702edb67 failed only because NEXT_TASK.md had dropped historical Phase 1E / Phase 1F provenance still protected by the permanent Cloud foundation contract. That provenance was restored without changing current Stage 2A authorization.",
+      "Rejected diagnostic head 5cb7501d301c0e52aa8751c94e6abc081e78ed32 passed the Cloud foundation contract but exposed an exact Private Account / Authentication Stage 2A naming mismatch in PROJECT_STATE.md. The exact source-grounded name was restored without weakening the Stage 2A boundary contract.",
+      "Authority-coherent diagnostic head 063e90adbae3ae9c3f04f9206f36860294338183 passed the complete Static App gate: JavaScript syntax, dynamic v1.4.0 / 1.4.0-r1 release identity, all repository contracts, Phase 1F emulator proof, real Stage 2A Auth/Firestore proof and the permanent workflow topology.",
+      "Current authority documents classify PR #83 as the sole Stage 2A completion gate. If it is already merged, successors must not repeat Stage 2A; they must independently verify main and select the next smallest Stage 2 prerequisite from current source. Stage 3 remains blocked.",
+      "Using the exact repository formula with final signals gives context pressure 98/100, quality risk 30/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 69.1/100, transition cost 14.0/100 and transition advantage 55.2. Decision: HANDOFF_AT_CHECKPOINT. Usage percentage is unavailable and was not estimated."
     ]
   }
 }
