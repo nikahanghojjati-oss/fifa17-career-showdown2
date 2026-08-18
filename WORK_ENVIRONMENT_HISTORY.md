@@ -74,7 +74,7 @@ This is the append-only record of Work environment transitions. Current verified
 - Starting verified live-main SHA: `fd6879940c6409fd3727a50816a10479ee2446e6`.
 - Historical implementation checkpoint: `534e6a4bdf427b26e006fcda2824684ad0d93dd0`; initial publication head `0f00994da0f52ca56c51d9f11ebe59c9c8e3e866`; final historical PR head `978fa967517207733cc84c7e6dd6e778b5770723`.
 - Bounded task: publish a connector-first, checksum-verified and rootless GitHub CLI bootstrap without changing website runtime bytes or copying connector credentials.
-- Material design: reuse an existing working `gh` or resolve the official latest stable `cli/cli` Linux asset, require its published SHA-256 checksum before `--no-same-owner` extraction, install an ignored launcher and writable `GH_CONFIG_DIR`, run version/auth status and use only supported user-directed login when authentication is absent.
+- Material design: reuse an existing working `gh` or resolve the official `cli/cli` stable release metadata and matching Linux architecture only, require its published SHA-256 checksum before `--no-same-owner` extraction, install an ignored launcher and writable `GH_CONFIG_DIR`, run version/auth status and use only supported user-directed login when authentication is absent.
 - Historical real-install proof: official GitHub CLI 2.97.0 archive `gh_2.97.0_linux_amd64.tar.gz` matched SHA-256 `a2c9b8497e1f85b1ad0dfcb78b5a622e098801b8e461e459e88e1ee12f018112`; that environment verified authenticated account `nikahanghojjati-oss` through workspace-local configuration without exposing a token.
 - Corrected environment failures: the first extraction attempted to preserve an unmappable archive owner; the corrected extraction used `--no-same-owner`. One device exchange hit network routing, then authenticated into a read-only default config; the final supported flow used writable `GH_CONFIG_DIR`. A transient GitHub 502 succeeded on retry, and a checkout-local credential helper avoided read-only global Git configuration without copying a token.
 - Historical local validation: real bootstrap, focused installer contracts, explicit static release authority, the complete 30-file repository contract suite, full syntax, diff hygiene and empty website-runtime-path comparison passed.
@@ -82,6 +82,21 @@ This is the append-only record of Work environment transitions. Current verified
 - External evidence: comments `5304429945`, `5304442584` and final-head seal `5304461282`.
 - Supersession warning: the historical base predates PR #64 and PR #66, so all historical PR #65 exact-head green evidence becomes invalid when reconciliation publishes a new head.
 - Exact next safe action: preserve only the source-grounded bootstrap/security behavior on live main `0a7dfbefc0920fc5eaa119c7fd6b22cc8df63b96`, then require fresh local and exact-head proof before promotion.
+
+## Phase 1D closure — `we-2026-08-17-phase1d-remote-contract`
+
+- Environment transition boundary verified by successor on 2026-08-17 ET.
+- Starting verified live-main SHA: `59957f8b0c29ce0cd480a0e9270a095160005599`.
+- Final exact repository boundary: PR #79 `Cloud Sync Readiness Phase 1D exact remote contract`, exact validated head `2e3c9560590fb934e684fbae44138f16194da6bd`, squash merge/current main `fc2e8e8b921a435103a438a9239efbb890584d22`.
+- Bounded owner-authorized task: define the exact Firebase-compatible private remote schema, API, authorization, replay, immutable-base transaction and two-owner deletion contract without connecting production Firebase runtime.
+- Final recorded decision: `HANDOFF_AT_CHECKPOINT`; this decision belonged only to the Phase 1D environment and must never stop its successor from initializing fresh observations.
+- Final recorded signals: moderate context, one observed compaction, six dense evidence events, two recoverable tool-routing errors, three corrected contract failures, zero repeated mistakes, two stale-fact corrections, zero unresolved failures and unavailable usage with no percentage estimated.
+- Material result: Phase 1D is DONE / MERGED / PROTECTED. `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md`, dormant `js/cloudSyncRemoteContract.js` and permanent `tests/contracts/cloud-sync-remote-contracts.cjs` define the exact remote architecture while production remains v1.4.0 / `1.4.0-r1`.
+- Validation: successor independently verified all 13 normal pull-request workflow families successful on exact head `2e3c956...`, zero submitted reviews, zero inline review threads, merged PR state and unchanged exact head identity.
+- Corrected Phase 1D failures preserved from predecessor evidence: one stale Cloud foundation authority assertion, one over-literal provider-wording assertion and one faulty textual-order assumption in release-authority coherence. Each was corrected at source without weakening behavior, timeouts, recovery guarantees or performance ceilings.
+- Runtime boundary: no Firebase SDK/Auth/Firestore production runtime, production remote data, deployed Security Rules, account UI, pairing runtime, Connected Rivalry runtime or Remote Joining UI was added. No visible version bump was required.
+- Technical proof: complete for the bounded Phase 1D prerequisite. Owner visual acceptance is not applicable to dormant architecture/test-only work; the owner authorized continued prerequisite advancement.
+- Exact next safe action: initialize a fresh successor continuity record from verified main `fc2e8e8...`, assess that successor independently, then implement Phase 1E deterministic provider-neutral two-device/offline/reconnect proof without connecting Firebase.
 
 ## Required format for later records
 
