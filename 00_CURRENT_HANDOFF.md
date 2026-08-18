@@ -45,6 +45,7 @@ Do not repeat Stages 2A, 2B, 2C or 2D, PR #86 or PR #87.
 Current branch: `agent/private-auth-stage2e-account-bootstrap`.
 Fresh environment: `we-2026-08-18-stage2e-account-bootstrap`.
 Starting verified live main: `0fd0ac3651a4b8c78957242b645e095a3c151c9d`.
+Current PR: #89 `Private Auth Stage 2E trusted account bootstrap`, still draft until one immutable final exact head satisfies the full publication gate.
 
 Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — is CURRENT / IMPLEMENTATION-AUTHORIZED / EMULATOR-TEST-ONLY / PRODUCTION FIREBASE DISCONNECTED.
 
@@ -63,24 +64,22 @@ Implemented branch scope:
 
 Stage 2E does not create or connect a real production Firebase project, real Firebase user, production account UI, production Admin/server runtime, Cloud Function, billing, device registration, pairing, Connected Rivalry or Remote Joining.
 
+Publication diagnostics so far:
+
+- diagnostic head `a56b1205e5bd9d59be6ffc85358669f47429d7cd` failed the permanent global JavaScript function-name uniqueness contract because the new dormant module reused Stage 2D's internal helper name `isRecord`; the new helper alone was renamed and the uniqueness contract was not weakened;
+- corrected head `01189377d693cc3d2ae962f0eac0e22c275592a3` made the dynamic static release contract pass and produced 11 green workflow families, but Stability and Static App stopped on an older Stage 2B authority contract because the rolling handoff rewrite had removed an exact protected Handoff Proximity provenance phrase;
+- the protected historical provenance wording is restored below without weakening the Stage 2B contract;
+- both diagnostic heads are permanently ineligible for merge after subsequent branch mutation.
+
 ## Current WEC state
 
-Two successor-context compactions have occurred.
+Three successor-context compactions have now occurred. The third occurred after the last repository status record and must be included in the final publication seal.
 
-Current deterministic assessment: `PREPARE_HANDOFF`.
+The latest repository-recorded deterministic assessment is `PREPARE_HANDOFF`. Current evidence is stricter because of the third compaction and two corrected branch/coherence findings. The final WEC status seal must recalculate from all observable evidence before the immutable final-head gate.
 
-Recorded scores at the latest coherent checkpoint:
+Account/model usage remains unavailable and is not estimated.
 
-- context pressure `65.0/100`;
-- quality risk `6.0/100`;
-- next-task separation `20.0/100`;
-- handoff readiness `88.0/100`;
-- continuation risk `34.4/100`;
-- transition cost `18.9/100`;
-- transition advantage `15.5`;
-- account/model usage unavailable and not estimated.
-
-This permits finishing only the already-bounded Stage 2E publication checkpoint. Do not begin Stage 2F, Stage 3 or another separate milestone in this environment.
+This environment may finish only the already-bounded Stage 2E publication checkpoint. Do not begin Stage 2F, Stage 3 or another separate milestone here.
 
 ## Handoff Proximity governance
 
@@ -124,6 +123,8 @@ No Auth/cloud/sync module may directly own canonical `localStorage`.
 
 The following lines preserve permanent historical transition evidence only. They are not current implementation authority.
 
+Handoff Proximity governance checkpoint — DONE / MERGED / PROTECTED.
+Post-PR #86 authority reconciliation — DONE / MERGED / PROVEN.
 Historical pre-PR #88 wording: Current Stage 2D bounded prerequisite.
 Historical Stage 2D status: Stage 2D — Production Firebase Environment & Configuration Preflight — is CURRENT / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED.
 Historical Stage 2D WEC wording: the fresh WEC assessment is currently `PREPARE_HANDOFF`.
@@ -142,15 +143,16 @@ The predecessor PR #88 tooling limitations and corrected non-runtime findings ar
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish and publish only Stage 2E on `agent/private-auth-stage2e-account-bootstrap`:
+Finish and publish only PR #89 / Stage 2E:
 
 1. preserve production v1.4.0 / `1.4.0-r1` and keep production Firebase disconnected;
 2. preserve every application-client Firestore write denial, Candidate A/B/C, canonical local storage, identity, gameplay and performance lock;
-3. complete only remaining branch coherence/continuity sealing needed for Stage 2E publication;
-4. open one bounded PR and require the complete contract suite plus all 13 normal workflow families on one exact unchanged final head;
-5. verify clean submitted reviews, clean inline review threads, mergeability and unchanged exact head immediately before merge;
-6. squash merge only with expected-head protection and independently verify the resulting live `main`;
-7. reassess WEC at the post-merge safe boundary;
-8. transition before any separate later Stage 2 milestone because this environment is already `PREPARE_HANDOFF`.
+3. require a diagnostic complete contract/emulator pass after the current provenance correction;
+4. then seal the final WEC state as the final branch mutation;
+5. require the complete contract suite plus all 13 normal workflow families on that exact unchanged final head;
+6. verify clean submitted reviews, clean inline review threads, mergeability and unchanged exact head immediately before merge;
+7. mark ready only after the gate, then squash merge with expected-head protection;
+8. independently verify the resulting live `main`, reassess WEC and transition;
+9. do not begin another Stage 2 milestone because this environment is already handoff-bound.
 
 Do not create or connect real production Firebase during Stage 2E. Do not begin Stage 3 pairing, Connected Rivalry or Remote Joining, and do not repeat Phase 1F, PR #82, Stage 2A / PR #83, Stage 2B / PR #84, Stage 2C / PR #85, Handoff Proximity governance / PR #86, reconciliation / PR #87 or Stage 2D / PR #88.
