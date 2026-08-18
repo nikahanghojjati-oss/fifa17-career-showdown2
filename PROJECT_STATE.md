@@ -155,5 +155,9 @@ Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`.
 Phase 1D — DONE / MERGED / PROTECTED. Phase 1E — CURRENT BOUNDED CANDIDATE.
 Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED.
 Phase 1F — DONE / MERGED / PROTECTED through PR #81.
+Stage 2B — DONE / MERGED / PROVEN. Stage 2C — completed / DONE / MERGED / PROVEN.
+Stage 2C exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`; Stage 2C squash-merge boundary `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase disconnected.
+PR #87 — DONE / MERGED / PROVEN. Exact validated head `2415c156161b6244c75e49917bad28efed957adf`; squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
+Stage 2D — current bounded prerequisite.
 
 Historical source may contain earlier phrases such as `Phase 1E — CURRENT BOUNDED CANDIDATE`, `Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED`, or `Stage 2A — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`. Those phrases describe completed transitions and are not current authority.
