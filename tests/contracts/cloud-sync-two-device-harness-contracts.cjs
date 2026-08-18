@@ -145,18 +145,30 @@ h.setMembershipState("acct_b","relinquished");
 const staleMembershipIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"member-old",contentHash:hash("7"),payload:payload("member-old")});
 assert.equal(h.submitIntent(staleMembershipIntent.intent).status,"relationship-revoked");assert.equal(h.authority().revision,beforeInvalid);
 
+// Shared mutation also freezes for the still-active peer when the other required account or membership is no longer active.
+const governance=build();
+governance.setAccountState("acct_b","disabled");
+let peerIntent=governance.createIntent("device_a",{operation:"put",idempotencyKey:"peer-disabled",contentHash:hash("c"),payload:payload("peer-disabled")});
+let peerResult=governance.submitIntent(peerIntent.intent);
+assert.equal(peerResult.status,"forbidden");assert.equal(peerResult.code,"REQUIRED_ACCOUNT_NOT_ACTIVE");assert.equal(governance.authority().revision,0);
+governance.setAccountState("acct_b","active");
+governance.setMembershipState("acct_b","retained");
+peerIntent=governance.createIntent("device_a",{operation:"put",idempotencyKey:"peer-retained",contentHash:hash("d"),payload:payload("peer-retained")});
+peerResult=governance.submitIntent(peerIntent.intent);
+assert.equal(peerResult.status,"relationship-revoked");assert.equal(peerResult.code,"RIVALRY_MUTATION_FROZEN");assert.equal(governance.authority().revision,0);
+
 // 18-19: local preview movement and rollback ownership failure cannot clobber newer local bytes.
 const local=build();
 const preview=local.previewLocalApply("device_a",{
-  legacyShowdowns:'[{"id":"candidate"}]',
-  preferences:'{"schemaVersion":2,"reducedMotion":true,"menuFeedback":true}'
+  legacyShowdowns:'[{"id":"candidate"}]'
 });
 assert.equal(preview.ok,true);
-local.mutateLocalRaw("device_a","preferences",'{"schemaVersion":2,"reducedMotion":false,"menuFeedback":false}');
+assert.equal(Object.isFrozen(preview.preview),true);assert.equal(Object.isFrozen(preview.preview.expectedRaw),true);assert.equal(Object.isFrozen(preview.preview.candidateRaw),true);
+local.mutateLocalRaw("device_a","saveLibrary",'{"schemaVersion":2,"saves":[{"id":"newer"}]}');
 const staleApply=local.applyLocalPreview(preview.preview);
 assert.equal(staleApply.status,"stale-precondition");
 assert.equal(staleApply.transaction.failurePhase,"precondition");
-assert.equal(staleApply.localRaw.legacyShowdowns,'[]',"Stale preview must abort before candidate writes.");
+assert.equal(staleApply.localRaw.legacyShowdowns,'[]',"Movement in any reviewed canonical key must abort before candidate writes.");
 
 const ownership=build();
 const ownershipPreview=ownership.previewLocalApply("device_a",{
