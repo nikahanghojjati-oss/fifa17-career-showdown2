@@ -27,13 +27,14 @@ PR #82: `Seal Phase 1F and authorize Private Auth Stage 2A boundary`.
 Branch: `agent/private-auth-stage2a-emulator-identity`.
 Base: live main `231556d86a93535fa90e173577c1159de4f40be0`.
 Pre-seal exact candidate: `fc63c07051c69b69a97c464f11274d8f5a9a70dc`.
-First status-seal candidate: `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` — rejected by exact-head CI because this handoff rewrite omitted the protected literal `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary.
+First status-seal candidate: `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` — rejected because this handoff rewrite omitted the protected literal `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary.
+Second status-seal candidate: `1afc134ebe831270336f2be7387c651b05dab919` — rejected because the rewritten rolling handoff omitted two protected PR #59 Analytics provenance findings.
 
 The pre-seal candidate changed only continuity/authority documentation plus a permanent Stage 2A boundary contract and contract-suite registration. It did not change `index.html`, production application JavaScript, `service-worker.js`, `package.json` or `package-lock.json`.
 
-All 13 normal workflow families completed `success` on pre-seal head `fc63c07051c69b69a97c464f11274d8f5a9a70dc`. The first final-seal head `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` correctly failed Static App and Stability on the same mandatory-handoff compatibility assertion and is permanently ineligible for merge.
+All 13 normal workflow families completed `success` on pre-seal head `fc63c07051c69b69a97c464f11274d8f5a9a70dc`. Both later seal heads are permanently ineligible for merge because exact-head CI exposed handoff-coherence omissions. The corrections restore protected authority evidence without altering production behavior.
 
-This correction restores the required handoff boundary without altering production behavior. After the correction addendum and final `WORK_ENVIRONMENT_STATUS.json` reseal, all 13 normal workflow families must run again from scratch on the resulting exact unchanged head before PR #82 can merge.
+After the final `WORK_ENVIRONMENT_STATUS.json` reseal, all 13 normal workflow families must run again from scratch on the resulting exact unchanged head before PR #82 can merge.
 
 ## Stage 2A next prerequisite
 
@@ -63,7 +64,8 @@ The published authority candidates exposed documentation/contract coherence defe
 6. corrected the Phase 1F idempotency-finding matcher to protect the actual `idempotencyKeyHash` sibling-receipt finding;
 7. restored the shipped Installable Offline App baseline wording;
 8. restored the completed Local Profiles / Save Library dependency-chain wording;
-9. restored this handoff's mandatory `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary after the first status seal exposed its omission.
+9. restored this handoff's mandatory `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary after the first status seal exposed its omission;
+10. restored the protected PR #59 Analytics identity finding and Failure 7 classification after the second status seal exposed their omission.
 
 No runtime defect, timeout increase, performance-ceiling increase, Candidate C weakening or direct-client-write relaxation was used to obtain green CI.
 
@@ -73,15 +75,15 @@ Environment: `we-2026-08-18-private-auth-stage2a-boundary`.
 Starting verified main: `231556d86a93535fa90e173577c1159de4f40be0`.
 Usage remaining percentage: unavailable and never estimated.
 
-Final recorded signals before the corrected status reseal:
+Final recorded signals before the next corrected status reseal:
 
 - context complexity: high;
 - project complexity: very-high;
 - compaction count: 5;
 - major phases completed: 3;
-- large evidence events: 19;
+- large evidence events: 20;
 - tool-routing errors: 4;
-- corrected failures: 9;
+- corrected failures: 10;
 - repeated mistakes: 0;
 - stale-fact corrections: 0;
 - unresolved failures: 0;
@@ -93,12 +95,12 @@ Final recorded signals before the corrected status reseal:
 Reconstructed exactly from the current repository formula because local GitHub DNS prevents a truthful local checkout/npm-wrapper claim:
 
 - context pressure: `98/100`;
-- quality risk: `60/100`;
+- quality risk: `64/100`;
 - next-task separation: `80/100`;
 - handoff readiness: `99/100`;
-- continuation risk: `80.4/100`;
+- continuation risk: `81.9/100`;
 - transition cost: `14.0/100`;
-- transition advantage: `66.4`.
+- transition advantage: `67.9`.
 
 Decision: `HANDOFF_AT_CHECKPOINT`.
 
@@ -135,6 +137,12 @@ Canonical storage remains exactly:
 - `careerModeShowdown.preferences`
 
 No Auth/cloud/sync module may directly own canonical `localStorage`.
+
+## Historical Analytics evidence retained for provenance
+
+A direct profile-ID key swap is not sufficiently correct because longitudinal Analytics also needed to exclude unresolved historical manager roles while retaining identity-independent Showdown and Season totals.
+
+Failure 7 in the historical PR #59 validation was a transient/offscreen Trophy cabinet rendered-text assertion issue rather than a product data-corruption finding. The offscreen Trophy cabinet rendered-text assertion evidence remains preserved so future developers do not erase the source-grounded classification that shaped the shipped Identity-Safe Career Analytics implementation.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
