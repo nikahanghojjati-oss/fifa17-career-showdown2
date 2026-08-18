@@ -80,7 +80,13 @@ Public canonical localStorage keys after cutover:
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
+`careerModeShowdown.activeShowdown` is not a fourth permanent canonical key after cutover. It remains migration/recovery compatibility input only.
+
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C is the only destructive import Apply stage.
+
+Candidate C preserves immutable confirmed intent, strict exact raw snapshot/precondition authority through `captureCareerModeRawRestoreSnapshot()`, last-moment exact-byte guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery on uncertainty. These recovery guarantees remain binding beneath v1.4.0 Product Deepening and must not be weakened by presentation or roadmap work.
+
+Service Worker and Cache Storage own application bytes only and never canonical user data.
 
 ## Installable Offline App
 
