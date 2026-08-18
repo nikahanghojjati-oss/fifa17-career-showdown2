@@ -16,6 +16,8 @@ Current production Installable Offline App runtime: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
 Feature release version: v1.4.0
 
+Local Profiles and Save Library are completed shipped dependencies beneath the current connected-prerequisite lane.
+
 Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 formatVersion 2 full multi-Save backup/import portability)
 Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70)
 Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6` (PR #73)
