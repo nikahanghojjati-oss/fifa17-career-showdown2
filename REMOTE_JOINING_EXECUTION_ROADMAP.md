@@ -22,6 +22,8 @@ Every stage must be bounded, validated, merged and proven before the next stage 
 
 `VERSIONING_POLICY.md` is permanent release-numbering authority. Dormant architecture/tests/emulator proof and policy-only prerequisite work do not consume a visible application version. A shipped runtime change receives the PATCH/MINOR/MAJOR bump justified by actual scope; `rN` never substitutes for a semantic version bump.
 
+Current production application remains v1.4.0 / runtime `1.4.0-r1`, and production Firebase remains disconnected.
+
 ## Continuity principle
 
 Every substantive owner-facing project response visibly reports `Handoff proximity: X%`. At 100%, the current environment automatically generates the complete successor handoff, finishes only the safe bounded checkpoint and stops before another substantial milestone. Unknown usage is never fabricated; stricter WEC decisions remain authoritative; generated successor handoffs preserve the rule recursively.

@@ -1,20 +1,36 @@
 # Private Account / Authentication Stage 2D — Production Firebase Environment & Configuration Preflight
 
-Status: CURRENT / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED
+Status: DONE / MERGED / PROVEN / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED
+
+Completed: PR #88, exact validated head `f019c6c6c39385fcb1f76f3de240fd73bb972e49`, squash merge / independently verified live-main boundary `0fd0ac3651a4b8c78957242b645e095a3c151c9d`.
+
+Historical pre-merge status retained for contract provenance only: `CURRENT / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED`.
 
 Selected: 2026-08-18 ET after independent verification of PR #87 and fresh Work Environment Continuity initialization.
 
+## Completion proof
+
+Stage 2D is complete and must not be repeated.
+
+All 13 normal workflow families succeeded on the exact unchanged PR #88 head `f019c6c6c39385fcb1f76f3de240fd73bb972e49`. Submitted reviews and inline review threads were empty before the expected-head squash merge. The independently verified resulting live `main` boundary is `0fd0ac3651a4b8c78957242b645e095a3c151c9d`.
+
+The final preflight also rejects an initial Firebase Auth domain that does not match the selected project identity through `AUTH_DOMAIN_PROJECT_MISMATCH`. A later custom Auth domain remains a separately reviewed compatibility/security boundary.
+
+PR #88 changed no production application runtime, dependency, Firebase connection, Security Rule, timeout or performance ceiling. Production therefore remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1` with production Firebase disconnected.
+
+The next bounded prerequisite is not defined by this completed Stage 2D document. Current implementation authority is owned by `NEXT_TASK.md`; on the Stage 2E branch it selects only Trusted Application Account Bootstrap & Lifecycle Boundary.
+
 ## Purpose
 
-Stage 2D is the smallest remaining Stage 2 prerequisite that safely precedes creation or connection of real production Firebase resources.
+Stage 2D was the smallest remaining Stage 2 prerequisite that safely preceded creation or connection of real production Firebase resources.
 
-It must build a deterministic, repository-owned preflight contract that rejects unsafe or incomplete future production Firebase environment metadata before any production project, web app, Authentication provider, Firestore database or Security Rules deployment is connected to the Career Mode Showdown runtime.
+It built a deterministic, repository-owned preflight contract that rejects unsafe or incomplete future production Firebase environment metadata before any production project, web app, Authentication provider, Firestore database or Security Rules deployment is connected to the Career Mode Showdown runtime.
 
 Stage 2D is a readiness validator, not production provisioning.
 
-## Why this prerequisite is next
+## Why this prerequisite was selected
 
-Current primary Firebase documentation reviewed on 2026-08-18 establishes the material provider facts that shape this boundary:
+Current primary Firebase documentation reviewed on 2026-08-18 established the material provider facts that shaped this boundary:
 
 1. production and development should use separate Firebase projects;
 2. a web client needs a registered Firebase web app and configuration before it can connect;
@@ -22,19 +38,19 @@ Current primary Firebase documentation reviewed on 2026-08-18 establishes the ma
 4. Firestore location must be deliberately selected during provisioning and cannot later be changed for that database;
 5. server SDKs bypass Firestore Security Rules and therefore belong to a separately trusted IAM/server boundary.
 
-The repository currently has only the fixed Local Emulator Suite project `demo-career-mode-showdown-phase1f`. Production Firebase remains disconnected. Creating a real project before protecting environment identity, location decision, Auth policy and credential boundaries would make later mistakes harder to detect and recover from.
+The repository still has only the fixed Local Emulator Suite project `demo-career-mode-showdown-phase1f`. Production Firebase remains disconnected.
 
-## Exact implementation authority
+## Exact completed implementation boundary
 
-Stage 2D authorizes only:
+Stage 2D contains only:
 
-1. a dormant deterministic production Firebase preflight module that is not loaded by the production application;
-2. permanent repository contracts for that module and this Stage 2D boundary;
-3. synthetic test fixtures proving valid metadata is accepted and dangerous/incomplete metadata fails closed;
-4. current-facing authority synchronization that records PR #87 as complete and Stage 2D as the single current prerequisite;
+1. dormant deterministic `js/firebaseProductionPreflight.js`, not loaded by the production application;
+2. permanent repository contracts for the preflight and Stage 2D boundary;
+3. synthetic fixtures proving valid metadata is accepted and dangerous/incomplete metadata fails closed;
+4. current-facing authority that was frozen before exact-head CI and merge;
 5. complete normal repository CI on one exact unchanged PR head.
 
-The preflight must validate at least these invariants:
+The preflight validates at least these invariants:
 
 - environment is explicitly `production`;
 - the candidate production project ID is non-empty and does not use the protected `demo-` emulator namespace;
@@ -56,7 +72,7 @@ The preflight must validate at least these invariants:
 
 ## Fail-closed proof requirements
 
-Permanent contracts must prove rejection of at least:
+Permanent contracts prove rejection of at least:
 
 - missing production environment identity;
 - `demo-` project IDs;
@@ -78,7 +94,7 @@ A synthetic fully specified production-like fixture may pass the validator. Pass
 
 ## Explicitly not authorized
 
-Stage 2D does not authorize:
+Stage 2D did not authorize:
 
 - creating a real Firebase project;
 - registering a real Firebase web app;
@@ -130,28 +146,28 @@ No Stage 2D code may directly own canonical `localStorage`.
 
 Stage 2D is dormant prerequisite infrastructure and contracts only. It changes no shipped application behavior.
 
-Production therefore remains:
+Production remains:
 
 - application `v1.4.0 Product Deepening`;
 - package `1.4.0`;
 - runtime `1.4.0-r1`;
 - previous known-good whole shell `1.3.0-r2`.
 
-No semantic version bump is authorized for this non-runtime prerequisite.
+No semantic version bump was required for this non-runtime prerequisite.
 
-## Completion gate
+## Historical completion gate
 
-Stage 2D is complete only when:
+Stage 2D's pre-merge completion gate required:
 
-1. the deterministic preflight implementation exists and is production-dormant;
-2. permanent contracts prove the required pass/fail matrix;
-3. production runtime/dependency isolation remains exact;
-4. current authority records PR #87 as DONE / MERGED / PROVEN and Stage 2D as the current bounded prerequisite;
-5. the entire repository contract suite and all normal workflow families pass on one exact unchanged PR head;
-6. submitted reviews and inline review threads are clean;
-7. mergeability and exact head identity are reverified immediately before merge;
-8. the PR is squash-merged with expected-head protection;
-9. live `main` is independently verified after merge;
-10. WEC is reassessed before any distinct later Stage 2 milestone.
+1. the deterministic preflight implementation to exist and remain production-dormant;
+2. permanent contracts proving the required pass/fail matrix;
+3. exact production runtime/dependency isolation;
+4. then-current authority recording PR #87 as DONE / MERGED / PROVEN and Stage 2D as the current bounded prerequisite;
+5. the entire repository contract suite and all normal workflow families on one exact unchanged PR head;
+6. clean submitted reviews and inline review threads;
+7. mergeability and exact head identity reverified immediately before merge;
+8. expected-head squash merge;
+9. independent live-main verification after merge;
+10. WEC reassessment before a distinct later Stage 2 milestone.
 
-Stage 3 Registered Devices / Private Pairing, Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain blocked.
+All ten conditions were satisfied by PR #88. Stage 3 Registered Devices / Private Pairing, Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain blocked.
