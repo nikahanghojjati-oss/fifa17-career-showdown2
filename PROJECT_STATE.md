@@ -74,7 +74,7 @@ Cloud Functions, Firebase Admin production runtime, service-account credentials 
 
 Cloud/Sync readiness is complete through the bounded Phase 1F proof. The current dependency lane is private account / authentication / authorization.
 
-Stage 2A — **Firebase Auth Emulator Identity Boundary** — is now an implemented bounded candidate in PR #83. It remains emulator/test-only and is not a production account feature.
+Private Account / Authentication Stage 2A — **Firebase Auth Emulator Identity Boundary** — is now an implemented bounded candidate in PR #83. It remains emulator/test-only and is not a production account feature.
 
 PR #83 adds the Authentication Emulator on `127.0.0.1:9099` beside Firestore on `127.0.0.1:8080` under fixed demo project `demo-career-mode-showdown-phase1f`. `tests/firebase/private-account-auth-stage2a-emulator.cjs` uses real Firebase Web Auth sessions with explicit in-memory persistence and proves `uid` → architecture `accountId` through the existing Firestore Security Rules.
 
