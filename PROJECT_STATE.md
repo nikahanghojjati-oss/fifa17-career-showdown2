@@ -146,3 +146,13 @@ completed local recovery / identity / portability
 The current prerequisite candidate is Stage 2A Auth Emulator identity proof only. Production account UI/runtime, pairing, Connected Rivalry and Remote Joining remain unauthorized.
 
 The current Work Environment Continuity record may require a handoff before the distinct Stage 2A implementation. That context-quality boundary does not cancel the owner-authorized prerequisite lane; a successor must initialize a fresh record and obey its own assessment.
+
+## Historical Phase 1E / Phase 1F contract provenance
+
+The following is intentionally historical provenance only and is not current authority:
+
+Phase 1D — exact provider-compatible remote schema and API/authorization contract: **DONE / MERGED / PROTECTED**.
+Phase 1E — deterministic two-device/offline/reconnect synchronization harness: **CURRENT BOUNDED CANDIDATE**.
+Phase 1F — **NEXT AFTER PHASE 1E MERGES / BLOCKED**.
+
+Current authority is the completed Phase 1F / Stage 2A boundary stated above.
