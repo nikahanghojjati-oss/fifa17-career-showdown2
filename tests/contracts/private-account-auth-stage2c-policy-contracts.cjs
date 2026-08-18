@@ -56,11 +56,14 @@ for (const [name, text] of [
   assert.match(text, /Stage 2B[\s\S]{0,320}DONE \/ MERGED \/ PROVEN/i, `${name} must keep Stage 2B closed.`);
   assert.match(text, /Stage 2C[\s\S]{0,420}DONE \/ MERGED \/ PROVEN/i, `${name} must identify Stage 2C as completed.`);
   assert.match(text, /48aa61a8d1b26f2c621cf7f0b410c68e0418257a/i, `${name} must retain the exact validated Stage 2C head.`);
-  assert.match(text, /22566e1409cf53d728b38d0b5a19de478ae6761b/i, `${name} must retain the Stage 2C squash-merge/live-main boundary.`);
+  assert.match(text, /22566e1409cf53d728b38d0b5a19de478ae6761b/i, `${name} must retain the Stage 2C squash-merge boundary.`);
   assert.match(text, /production Firebase[\s\S]{0,220}(disconnected|NOT CONNECTED)/i, `${name} must keep production Firebase disconnected.`);
 }
 
-assert.match(next, /Current authorized prerequisite candidate:[\s\S]+Handoff Proximity governance synchronization/i);
+assert.match(next, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
+assert.match(next, /15cfa82d9aa74db1275968ed3bc1e42669ab23ec/);
+assert.match(next, /1794f1f86968781b898d000360d1fb56234fb92f/);
+assert.match(next, /Current authorized prerequisite candidate:[\s\S]+post-PR #86 current-authority reconciliation/i);
 assert.match(next, /Authorized product candidate:\s*none/i);
 assert.match(next, /remaining Stage 2[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
 assert.match(state, /Stage 2C — completed/i);
@@ -70,7 +73,8 @@ assert.match(roadmap, /remaining Stage 2 prerequisites[\s\S]+NOT YET SELECTED OR
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Remaining Stage 2 prerequisites[\s\S]+NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED/i);
 assert.match(currentHandoff, /Completed Private Account \/ Authentication checkpoints/i);
-assert.match(currentHandoff, /Current governance synchronization checkpoint/i);
+assert.match(currentHandoff, /Handoff Proximity governance checkpoint — DONE \/ MERGED \/ PROTECTED/i);
+assert.match(currentHandoff, /Current bounded authority reconciliation/i);
 assert.match(start, /Exact Stage 2C completion boundary/i);
 assert.match(start, /Stage 2C[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 
@@ -79,7 +83,7 @@ assert.match(rules, /allow list, create, update, delete:\s*if false/g);
 assert.match(rules, /match \/\{document=\*\*\}[\s\S]+allow read, write:\s*if false/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2C completion/governance synchronization must not bump production application version.");
+assert.equal(pkg.version, "1.4.0", "Stage 2C completion/post-PR86 reconciliation must not bump production application version.");
 assert.match(index, /app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker, /RUNTIME_REVISION = "1\.4\.0-r1"/);
 assert.doesNotMatch(index, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion synchronization must not connect Firebase/Auth in the production shell.");
@@ -91,4 +95,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C completed production authentication policy, static-host compatibility and production isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C completed production authentication policy, post-PR86 authority and production isolation contracts\n");

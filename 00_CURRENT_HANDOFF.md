@@ -21,7 +21,9 @@ PR #83 completed Stage 2A from exact validated head `a4022d6f316622f73ead9aacde8
 
 PR #84 completed Stage 2B from exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f` to squash merge `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
 
-PR #85 completed Stage 2C from exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a` to squash merge / independently verified live-main boundary `22566e1409cf53d728b38d0b5a19de478ae6761b`. All 13 normal workflow families passed on that exact unchanged head before merge; submitted reviews and inline review threads were empty.
+PR #85 completed Stage 2C from exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a` to squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`.
+
+PR #86 completed the owner-mandated Handoff Proximity governance synchronization and Stage 2C current-authority seal. Exact validated head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`. Squash merge / independently verified live-main boundary: `1794f1f86968781b898d000360d1fb56234fb92f`. All 13 normal workflow families completed with success on the unchanged exact head; submitted reviews and inline review threads were both empty.
 
 Production Firebase remains disconnected. No production Auth account, Firestore data, deployed production Security Rules, Cloud Function, Admin runtime, service-account credential or Blaze billing exists.
 
@@ -43,38 +45,37 @@ The Authentication Emulator proof does not establish every production in-flight 
 
 Do not repeat Stage 2A, Stage 2B or Stage 2C.
 
-## Current governance synchronization checkpoint
+## Handoff Proximity governance checkpoint — DONE / MERGED / PROTECTED
 
-Current branch: `agent/handoff-proximity-governance-sync`.
-Current draft PR: #86 `Protect Handoff Proximity governance and seal Stage 2C`.
-PR #86 exact base: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
-Fresh environment: `we-2026-08-18-handoff-proximity-governance-sync`.
-Starting verified live main: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
+PR #86 `Protect Handoff Proximity governance and seal Stage 2C` is no longer an implementation task.
 
-The inherited Stage 2C transition-prepared status was validated against current WEC source before replacement. PR #85 completion was independently verified, the predecessor decision was not inherited and a fresh successor record was initialized.
+Exact base: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
+Exact validated head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`.
+Squash merge / verified live main: `1794f1f86968781b898d000360d1fb56234fb92f`.
 
-Fresh initial WEC assessment from recorded observable signals was `PREPARE_HANDOFF`. Usage remains unavailable and was not estimated. That initial decision permitted finishing the already-bounded governance synchronization but required strengthened records and reassessment before another distinct Stage 2 milestone.
+The permanent repository rule now requires every substantive owner-facing project response to visibly include `Handoff proximity: X%`; unavailable account/model usage is never fabricated; at `Handoff proximity: 100%` the environment automatically generates the complete successor handoff, finishes only the current safe bounded checkpoint and stops before another substantial milestone; stricter WEC decisions remain authoritative; and generated successor handoffs recursively preserve the same rule.
 
-The current task is non-runtime repository governance only:
+Rejected exact heads `e2dbd8708cd01a48bfa619bd5780ec95110c13cf` and `6469a5cdcf8b3050e35071156c096ba5cdf7cc0f` remain permanently ineligible as merge authority. The final exact head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec` corrected their source-coherence findings without weakening runtime behavior, Firebase Security Rules, Candidate C guarantees, timeouts or performance ceilings.
 
-1. every substantive owner-facing project response must visibly include `Handoff proximity: X%`;
-2. Handoff proximity represents environment-transition proximity, not task completion;
-3. unavailable account/model usage must never be fabricated to calculate it;
-4. at `Handoff proximity: 100%`, automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before another substantial milestone;
-5. WEC remains authoritative when it requires an earlier or stricter transition;
-6. every generated successor handoff recursively preserves the same rule;
-7. permanent CI contracts protect these requirements;
-8. current-facing authority is synchronized from Stage 2C CURRENT to DONE / MERGED / PROVEN through PR #85.
+PR #86 changed no production runtime and required no semantic application version bump under `VERSIONING_POLICY.md`.
 
-The governance implementation and authority synchronization are complete on the branch. The append-only history contains the PR #85 closure and fresh successor activation. PR #86 is open only as a draft publication vehicle.
+## Current bounded authority reconciliation
 
-Rejected exact head `e2dbd8708cd01a48bfa619bd5780ec95110c13cf` is permanently ineligible for merge authority. Static App and Stability reached the permanent continuity contract and rejected that head because this rolling handoff used only the abbreviation `WEC` rather than explicitly routing future environments through the literal `Work Environment Continuity` phrase required by the contract. JavaScript syntax and dynamic v1.4.0 / `1.4.0-r1` release architecture had already passed. The correction is documentation/coherence only and weakens no test, timeout, recovery guarantee, performance ceiling, Firebase Security Rule or Candidate C invariant.
+Current branch: `agent/post-pr86-authority-reconcile`.
+Fresh environment: `we-2026-08-18-post-pr86-authority-reconcile`.
+Starting verified live main: `1794f1f86968781b898d000360d1fb56234fb92f`.
 
-Rejected exact head `6469a5cdcf8b3050e35071156c096ba5cdf7cc0f` is also permanently ineligible for merge authority. On that corrected head the Work Environment Continuity contract passed, but Stability reached `tests/contracts/private-account-auth-stage2b-contracts.cjs` and found historical current-authority assertions that still required Stage 2C to be `CURRENT BOUNDED CANDIDATE`. Stage 2C is correctly DONE / MERGED / PROVEN through PR #85. The Stage 2B contract has therefore been minimally reconciled to keep Stage 2B closed while asserting Stage 2C completion and the current governance-only authorization. This is a repository contract/source-coherence correction only; no runtime behavior, Firebase Security Rule, Candidate C guarantee, timeout or performance ceiling was weakened.
+The predecessor transition-prepared status was validated before replacement. Its `FINISH_SAFE_BOUNDARY` decision belonged only to the completed PR #86 publication boundary and was not inherited. Fresh per-environment signals were reset and the successor assessment is `CONTINUE` for this narrow non-runtime reconciliation.
 
-The next final status seal must again be the last branch mutation. Its exact resulting head must receive a completely fresh 13-family normal PR gate before review-state verification, readiness transition and expected-head squash merge.
+This bounded reconciliation may only:
 
-This checkpoint changes no production runtime and therefore requires no semantic application version bump under `VERSIONING_POLICY.md`.
+1. append PR #86 final publication facts to the Work Environment Continuity history;
+2. synchronize current-facing authority from PR #86 current/draft wording to PR #86 DONE / MERGED / PROTECTED;
+3. preserve the permanent Handoff Proximity governance and all existing production/security/recovery locks;
+4. publish one exact-head non-runtime reconciliation PR;
+5. after verified merge, reassess WEC before selecting or implementing a distinct Stage 2 engineering prerequisite.
+
+No product runtime feature and no production Firebase connection is authorized by this reconciliation.
 
 ## Remaining Stage 2 direction
 
@@ -82,7 +83,7 @@ The full Private Account / Authentication / Authorization stage remains incomple
 
 Remaining concerns include production Firebase operational/project setup, production web-app/provider/authorized-domain configuration, safe application-account bootstrap/write lifecycle, trusted production token verification and revoked-token behavior, account export/deletion cascade, auth abuse/rate controls, production Security Rules deployment, provider outage/recovery behavior and the trusted production mutation boundary.
 
-These are requirements, not automatic implementation order. After the governance checkpoint is merged and live `main` is independently verified, a fresh successor WEC assessment and current source/provider study must select only the next smallest necessary Stage 2 prerequisite.
+These are requirements, not automatic implementation order. After this narrow reconciliation is merged and live `main` is independently verified, complete the mandatory current-source and current primary Firebase/security-documentation study and select only the next smallest necessary Stage 2 prerequisite that materially advances the private Remote Joining dependency chain. Selection must be recorded before implementation begins.
 
 ## Permanent product and recovery locks
 
@@ -122,12 +123,18 @@ Historical Stage 2A status before PR #83 began was `AUTHORIZED NEXT PREREQUISITE
 
 Direct shell DNS to GitHub remains unavailable in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are therefore the verified source/proof path. The repository-owned GitHub CLI bootstrap remains protected for environments where routing permits it. Never copy connector credentials into local configuration.
 
-One unsupported generic branch-fetch route was corrected to the supported connector action. One optimistic-lock stale-blob `409` correctly rejected a continuity-protocol write against an obsolete blob SHA; the exact branch blob was refetched and the update then succeeded. One generic Actions URL was unsupported, and one workflow-job transport call transiently disconnected before succeeding on retry. None represents a website runtime defect.
+The predecessor's recoverable connector/tool-routing events remain historical and do not represent website runtime defects.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish only PR #86 publication: reseal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation after the Stage 2B contract-coherence correction, require all 13 normal workflow families on that exact unchanged corrected head, verify clean submitted reviews and inline review threads plus mergeability, mark PR #86 ready, then squash merge only with expected-head protection.
+First finish only the post-PR #86 current-authority reconciliation on `agent/post-pr86-authority-reconcile`:
 
-After verified merge, independently verify live `main`, generate the complete successor handoff required by the final continuity decision and stop before selecting or implementing another distinct Stage 2 prerequisite.
+1. preserve production v1.4.0 / `1.4.0-r1` and keep production Firebase disconnected;
+2. append PR #86 final exact-head/merge/CI/review evidence to `WORK_ENVIRONMENT_HISTORY.md` without rewriting historical records;
+3. synchronize `00_CURRENT_HANDOFF.md`, `PROJECT_STATE.md`, `NEXT_TASK.md`, `00_DEVELOPER_START_HERE.md` and current roadmap authority so PR #86 is DONE / MERGED / PROTECTED rather than current work;
+4. keep every Handoff Proximity, Firestore-write denial, Candidate A/B/C, canonical storage, identity, gameplay and performance lock intact;
+5. run the complete repository contract gate and all 13 normal workflow families on one exact unchanged reconciliation PR head;
+6. require clean submitted reviews and inline threads plus mergeability;
+7. squash merge only with expected-head protection and independently verify the new live `main`.
 
-Do not begin Stage 3 pairing, Connected Rivalry or Remote Joining automatically. Do not ask the owner to reconstruct prior chats. Do not repeat Phase 1F, PR #82, Stage 2A / PR #83, Stage 2B / PR #84 or Stage 2C / PR #85. Do not rush Private Remote Joining.
+Only after that verified merge, reassess Work Environment Continuity, complete the remaining mandatory source study plus current primary Firebase/security documentation, and select exactly one next Stage 2 prerequisite. Do not implement the selected prerequisite until its authority is recorded. Do not begin Stage 3 pairing, Connected Rivalry or Remote Joining, and do not repeat Phase 1F, PR #82, Stage 2A / PR #83, Stage 2B / PR #84, Stage 2C / PR #85 or Handoff Proximity governance / PR #86.
