@@ -4,184 +4,148 @@ Last updated: 2026-08-18 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-This is the concise rolling handoff and evidence trail. `PROJECT_STATE.md` owns current deployed product state. `NEXT_TASK.md` owns implementation authorization unless superseded by a later explicit owner instruction. `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/classification. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns the development-environment assessment protocol. Release and frozen proof documents remain evidence for the release/candidate they name.
+This is the concise rolling handoff and evidence trail. Current verified source and later owner instructions override every historical statement. `PROJECT_STATE.md` owns deployed product state and `NEXT_TASK.md` owns bounded implementation authorization.
 
-## Current source boundary
+## Current production boundary
 
-Verified live `main` at Phase 1E start:
+Application: **v1.4.0 — Product Deepening**
+Package: `1.4.0`
+Installable Offline App runtime: `1.4.0-r1`
+Immediate previous known-good whole shell: `1.3.0-r2`
 
-`fc2e8e8b921a435103a438a9239efbb890584d22`
+PR #81 completed Cloud/Sync Readiness Phase 1F from exact validated head `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d` to squash merge / verified live-main boundary `231556d86a93535fa90e173577c1159de4f40be0`.
 
-This is PR #79, Cloud/Sync Readiness Phase 1D exact remote contract.
+Phase 1F is DONE / MERGED / PROTECTED. Production Firebase remains disconnected. No production Auth account, Firestore data, deployed production Security Rules, Cloud Function, Admin runtime, service-account credential or Blaze billing was created.
 
-PR #79 exact validated head:
+Every application-client Firestore write remains denied. The protected Phase 1D shared-state schema still does not expose the idempotency-key hash required for Security Rules to identify the matching sibling replay receipt. A trusted mutation gateway or separately reviewed schema/protocol change remains a later independent production-write gate.
 
-`2e3c9560590fb934e684fbae44138f16194da6bd`
+Firestore persistent offline cache remains disabled. Project-owned immutable `baseRevision`, explicit stale conflict, replay/idempotency, tombstone, reconnect and Candidate C local Apply semantics remain authoritative.
 
-At successor startup all 13 normal exact-head PR workflow families were independently verified successful, submitted reviews were empty and inline review threads were empty.
+## Current PR #82 checkpoint
 
-Production application remains:
+PR #82: `Seal Phase 1F and authorize Private Auth Stage 2A boundary`.
+Branch: `agent/private-auth-stage2a-emulator-identity`.
+Base: live main `231556d86a93535fa90e173577c1159de4f40be0`.
+Pre-seal exact candidate: `fc63c07051c69b69a97c464f11274d8f5a9a70dc`.
+First status-seal candidate: `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` — rejected because this handoff rewrite omitted the protected literal `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary.
+Second status-seal candidate: `1afc134ebe831270336f2be7387c651b05dab919` — rejected because the rewritten rolling handoff omitted two protected PR #59 Analytics provenance findings.
 
-`v1.4.0 — Product Deepening`
+The pre-seal candidate changed only continuity/authority documentation plus a permanent Stage 2A boundary contract and contract-suite registration. It did not change `index.html`, production application JavaScript, `service-worker.js`, `package.json` or `package-lock.json`.
 
-Production Installable Offline App runtime remains:
+All 13 normal workflow families completed `success` on pre-seal head `fc63c07051c69b69a97c464f11274d8f5a9a70dc`. Both later seal heads are permanently ineligible for merge because exact-head CI exposed handoff-coherence omissions. The corrections restore protected authority evidence without altering production behavior.
 
-`1.4.0-r1`
+After the final `WORK_ENVIRONMENT_STATUS.json` reseal, all 13 normal workflow families must run again from scratch on the resulting exact unchanged head before PR #82 can merge.
 
-Immediate previous known-good whole shell remains:
+## Stage 2A next prerequisite
 
-`1.3.0-r2`
+`NEXT_TASK.md` authorizes only **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary**.
 
-Phase 1A, 1B, 1C and 1D are closed, merged and protected non-runtime Cloud/Sync prerequisites. They did not require a visible application version bump.
+Detailed design: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
 
-## Current authorized prerequisite candidate
+Stage 2A is emulator/test-only. A fresh successor may implement it only after initializing and assessing its own Work Environment Continuity record.
 
-Cloud/Sync Readiness Phase 1E — deterministic two-device and offline/reconnect synchronization harness.
+The proof must use the existing fixed demo project `demo-career-mode-showdown-phase1f`, add the Authentication Emulator on localhost port `9099`, preserve Firestore Emulator port `8080`, and prove real Firebase Auth `uid` → architecture `accountId` identity through cross-service Firestore Security Rules.
 
-Active branch:
+It must prove distinct synthetic principals, wrong-account denial, unauthenticated denial, sign-out loss of later authenticated access, application-account lifecycle separation, provider identity over client-supplied identity, in-memory-only test Auth persistence, no persisted raw passwords/ID tokens/refresh tokens and continued denial of every client Firestore write.
 
-`agent/cloud-sync-phase-1e-two-device-harness`
+Synthetic email/password users are permitted only as deterministic emulator test data. Stage 2A does not select production sign-in UX or browser persistence.
 
-Exact branch base:
+Do not add production Firebase, production signup/login UI, registered-device/pairing UX, Connected Rivalry, Remote Joining, Cloud Functions/Admin/Blaze or public/community/ranking features during Stage 2A.
 
-`fc2e8e8b921a435103a438a9239efbb890584d22`
+## Corrections made while proving PR #82
 
-Detailed authority:
+The published authority candidates exposed documentation/contract coherence defects. They were fixed at source without weakening any protected behavior:
 
-`CLOUD_SYNC_READINESS_PHASE_1E.md`
+1. restored the literal Work Environment Continuity routing requirement in the developer bootstrap;
+2. restored the protected GitHub CLI bootstrap and checksum-verification guidance;
+3. preserved historical Phase 1E / Phase 1F roadmap phrases only inside clearly labeled provenance sections so permanent historical contracts remain truthful without becoming current authority;
+4. corrected new Stage 2A contract wording so deny-all Firestore semantics were matched exactly rather than by brittle phrasing;
+5. corrected the Phase 1F deny-all matcher to accept the exact protected wording;
+6. corrected the Phase 1F idempotency-finding matcher to protect the actual `idempotencyKeyHash` sibling-receipt finding;
+7. restored the shipped Installable Offline App baseline wording;
+8. restored the completed Local Profiles / Save Library dependency-chain wording;
+9. restored this handoff's mandatory `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary after the first status seal exposed its omission;
+10. restored the protected PR #59 Analytics identity finding and Failure 7 classification after the second status seal exposed their omission.
 
-Dormant implementation:
+No runtime defect, timeout increase, performance-ceiling increase, Candidate C weakening or direct-client-write relaxation was used to obtain green CI.
 
-`js/cloudSyncTwoDeviceHarness.js`
+## Work Environment Continuity final assessment
 
-Permanent proof:
+Environment: `we-2026-08-18-private-auth-stage2a-boundary`.
+Starting verified main: `231556d86a93535fa90e173577c1159de4f40be0`.
+Usage remaining percentage: unavailable and never estimated.
 
-`tests/contracts/cloud-sync-two-device-harness-contracts.cjs`
+Final recorded signals before the next corrected status reseal:
 
-The harness composes rather than rewrites the Phase 1A revision/CAS/replay/tombstone kernel. It adds deterministic two-device observation, recursively immutable offline intent, current account/device/rivalry authorization, reconnect behavior, provider-style retry proof and an in-memory Candidate C-grade local transaction boundary.
+- context complexity: high;
+- project complexity: very-high;
+- compaction count: 5;
+- major phases completed: 3;
+- large evidence events: 20;
+- tool-routing errors: 4;
+- corrected failures: 10;
+- repeated mistakes: 0;
+- stale-fact corrections: 0;
+- unresolved failures: 0;
+- new milestone next: true;
+- handoff completeness: 99;
+- unrecorded decisions: 0;
+- atomic operation: false.
 
-It is not loaded by the production shell and contains no Firebase, Firestore, production network call, credential or direct `localStorage` ownership.
+Reconstructed exactly from the current repository formula because local GitHub DNS prevents a truthful local checkout/npm-wrapper claim:
 
-## Phase 1E protected behavior
+- context pressure: `98/100`;
+- quality risk: `64/100`;
+- next-task separation: `80/100`;
+- handoff readiness: `99/100`;
+- continuation risk: `81.9/100`;
+- transition cost: `14.0/100`;
+- transition advantage: `67.9`.
 
-The bounded candidate permanently proves:
+Decision: `HANDOFF_AT_CHECKPOINT`.
 
-1. two devices begin from one authoritative revision;
-2. one accepted mutation advances authority exactly once;
-3. the other device's stale original `baseRevision` receives explicit conflict;
-4. exact accepted replay is non-mutating;
-5. reused idempotency key with a different fingerprint fails explicitly;
-6. deletion creates a tombstone and long-offline stale state cannot resurrect it;
-7. restore is a separate explicit mutation from the current tombstone revision;
-8. queued intent and payload are recursively immutable;
-9. reconnect refreshes device observation without rebasing queued intent;
-10. provider-style retry rereads authority but preserves the original client base;
-11. revoked devices cannot mutate;
-12. disabled actors cannot mutate;
-13. a required peer account becoming disabled freezes shared mutation for the still-active manager rather than granting accidental sole write authority;
-14. revoked/read-only relationship or changed rivalry membership invalidates stale cached mutation assumptions;
-15. malformed or unsupported payloads fail before authoritative mutation;
-16. local Apply protects the entire reviewed canonical three-key snapshot, including keys not changed by the candidate;
-17. precondition/write/rollback/ownership failure cannot clobber newer local bytes;
-18. remote disable preserves local-only Save Library operation and Candidate A/B/C authority;
-19. repeated equivalent runs end in deterministic identical state;
-20. Phase 1E remains provider-neutral and dormant.
+The decision is driven by high observable context pressure plus the distinct Stage 2A implementation milestone. It is not caused by an unresolved runtime or product failure.
 
-## Source-review corrections retained
+## Tooling boundary
 
-Initial branch source correctly established the main Phase 1E model, but review found two real safety gaps before PR publication.
+Direct shell DNS cannot resolve GitHub in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are the verified source/proof path. Transient connector routing/log-availability issues were classified as environment tooling, not project failures.
 
-First, actor-only authorization checks meant the still-active manager could continue mutating shared state while the required peer account was disabled or its entitlement was no longer active. That contradicts the Phase 1D two-owner governance rule that shared mutation freezes in those states. The harness now checks the complete two-owner mutation authority before every mutation.
+The repository-owned GitHub CLI bootstrap remains protected for environments where local routing permits it. Never copy connector credentials into local config.
 
-Second, the first local Apply proof passed only the candidate's changed keys to `runCareerModeRawStorageTransaction()`. That allowed an unmodified canonical key to change after preview without participating in the last-moment precondition guard. The harness now submits all three reviewed canonical keys, preserving candidate values for changed keys and reviewed expected bytes for unchanged keys, with `guardRequestedBeforeEachWrite:true` and explicit canonical order.
+## Permanent product and recovery locks
 
-The local preview is also recursively frozen and malformed initial account/device/membership authority now fails closed rather than silently becoming active.
+Private Remote Joining remains **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**.
 
-Source hardening checkpoint:
+Ordered path:
 
-`05f38791f0f087019b794b3d0a134139962a0d82`
+Cloud / synchronization readiness — DONE through Phase 1F
+→ private account / authentication / authorization — CURRENT Stage 2 lane
+→ paired-device / private-session capability — blocked Stage 3
+→ Connected Rivalry — blocked Stage 4
+→ Private Remote Joining — final destination.
 
-Permanent-test hardening checkpoint:
+Public discovery, public profiles, public matchmaking, community systems and global leaderboard/rankings remain eliminated.
 
-`c84ad45782f87990a22c5d6efb132f042be5a360`
+Exactly two managers remain authoritative. Same selected league, different permanent clubs. Showdown lengths `1 / 3 / 5 / 10`. Maximum Season score `11`. Equal non-zero score is a Draw; only 0–0 uses league position then league points.
 
-Developer-bootstrap synchronization checkpoint:
+Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive import Apply authority with strict exact raw snapshot/preconditions, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact verification and critical recovery.
 
-`fddeab1e7f706c37400fe4c4f001cb02e79e1b32`
+Canonical storage remains exactly:
 
-These are branch checkpoints only. The exact PR head must be re-fetched after the final continuity/handoff freeze and all CI evidence must belong to that exact unchanged head.
+- `careerModeShowdown.saveLibrary`
+- `careerModeShowdown.legacyShowdowns`
+- `careerModeShowdown.preferences`
 
-## Provider and Remote Joining boundary
+No Auth/cloud/sync module may directly own canonical `localStorage`.
 
-Firebase Authentication plus Cloud Firestore remains the selected primary future provider candidate. Phase 1E does not connect it.
+## Historical Analytics evidence retained for provenance
 
-Firestore persistent offline cache remains prohibited. Project-owned immutable `baseRevision`, explicit conflicts, idempotency/replay and tombstone semantics remain authoritative. Provider transaction retries may reread provider state but may never silently refresh client intent to a new base.
+A direct profile-ID key swap is not sufficiently correct because longitudinal Analytics also needed to exclude unresolved historical manager roles while retaining identity-independent Showdown and Season totals.
 
-Phase 1F — Firebase provider connection, Firebase Local Emulator Suite and deny-by-default Security Rules proof — is the exact next prerequisite only after Phase 1E is fully validated, merged and independently verified.
-
-Private account/auth runtime, registered-device runtime, secure private pairing, Connected Rivalry runtime and Private Remote Joining remain later dependency-gated stages.
-
-Public community, public discovery, public matchmaking, public profiles, global leaderboard and global rankings remain eliminated.
-
-## Recovery and storage locks
-
-Canonical post-cutover storage remains exactly:
-
-1. `careerModeShowdown.saveLibrary`
-2. `careerModeShowdown.legacyShowdowns`
-3. `careerModeShowdown.preferences`
-
-Candidate A remains non-mutating export.
-
-Candidate B remains read-only analysis.
-
-Candidate C remains the only destructive import Apply stage and permanently keeps `captureCareerModeRawRestoreSnapshot()` as strict exact raw snapshot authority, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact verification, corrupt-byte preservation, retry/idempotence and critical recovery.
-
-No future sync or cloud module may directly own `localStorage`.
-
-## Versioning boundary
-
-`VERSIONING_POLICY.md` remains permanent authority.
-
-Phase 1E is dormant infrastructure/test/authority work and therefore keeps production at v1.4.0 / `1.4.0-r1`.
-
-If a future prerequisite changes production runtime behavior, it must receive the appropriate PATCH, MINOR or MAJOR application version; an `rN` suffix may never hide a required semantic version bump.
-
-## Work Environment Continuity
-
-Current environment:
-
-`we-2026-08-17-phase1e-two-device-harness`
-
-The inherited Phase 1D record was validated and archived before the successor initialized fresh observations. Usage percentage remains unknown because no product dashboard/CLI usage value is available; it must not be estimated.
-
-Direct shell networking in this environment cannot resolve GitHub, so connector-backed source writes plus GitHub-hosted CI are the proof path. A failed local GitHub network route is never treated as a project test failure.
-
-Before final publication, update `WORK_ENVIRONMENT_STATUS.json` with the actual current compaction/evidence/failure counters and run/reconstruct the deterministic continuity assessment from source. After the Phase 1E merge, reassess before beginning Phase 1F.
-
-## Protected historical evidence anchors
-
-The rolling handoff intentionally retains these source-grounded historical findings because permanent release contracts protect them.
-
-A direct profile-ID key swap is not sufficiently correct by itself; Identity-Safe Career Analytics also had to preserve unresolved historical roles, identity-independent historical totals/records, Local Profile display labels as presentation only, read-only inactive-runtime profile presentation and coherent derived-cache invalidation.
-
-Failure 7 — offscreen Trophy cabinet rendered-text assertion: the PR #59 validation history established that the exact cabinet used `content-visibility:auto`; the corrected audit proved Analytics/Trophy revision equality and raw DOM text before requiring rendered text after scrolling the stable-profile cabinet into view. Production CSS was not weakened merely to satisfy Playwright.
-
-Other historical release and PR evidence remains frozen in the dedicated release/proof/handoff files and repository history rather than being treated as current implementation authority.
+Failure 7 in the historical PR #59 validation was a transient/offscreen Trophy cabinet rendered-text assertion issue rather than a product data-corruption finding. The offscreen Trophy cabinet rendered-text assertion evidence remains preserved so future developers do not erase the source-grounded classification that shaped the shipped Identity-Safe Career Analytics implementation.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-If this file is read before Phase 1E merges:
+A fresh successor must independently verify live main, PR #82, branches, releases/tags and CI; validate/archive this environment's transition-prepared record before replacing it; initialize a new environment ID and reset observations; verify production remains v1.4.0 / `1.4.0-r1`; confirm production Firebase remains disconnected and all client Firestore writes remain denied; read `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md` and current Firebase primary Auth Emulator/Auth persistence/Security Rules documentation; then implement only Stage 2A if the successor's own continuity assessment permits.
 
-1. independently fetch live `main`, the active Phase 1E branch, open PRs, tags/releases and current CI;
-2. validate the inherited continuity record and initialize fresh observations before assessing a successor environment;
-3. confirm Phase 1D remains merged at PR #79 and do not reimplement it;
-4. inspect the Phase 1E harness, permanent test, Phase 1A revision model, Phase 1D contract and Candidate C transaction/recovery authority;
-5. preserve peer-account/membership shared-mutation freeze and the full reviewed three-key local Apply guard;
-6. synchronize remaining continuity evidence without introducing Firebase or production runtime loading;
-7. run the exact Phase 1E contract through the complete permanent repository suite and normal PR workflows;
-8. fix real failures at source without weakening valid tests, recovery guarantees, timeouts or performance ceilings;
-9. once exact-head CI is fully green, review state is clean, the head is unchanged and the PR is mergeable, squash merge without another owner approval;
-10. independently verify live `main`, then reassess continuity before Phase 1F.
-
-If Phase 1E is already merged when this file is read, do not repeat it. Reconstruct the exact merge/CI state, archive the predecessor continuity record, initialize the successor and follow `NEXT_TASK.md` for the next dependency gate.
+Do not repeat Phase 1F. Do not ask the owner to reconstruct prior chats. Do not jump to pairing, Connected Rivalry or Remote Joining.

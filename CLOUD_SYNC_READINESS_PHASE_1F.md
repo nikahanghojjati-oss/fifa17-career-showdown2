@@ -1,183 +1,153 @@
 # Cloud / Sync Readiness Phase 1F — Firebase Emulator and Security Rules Proof
 
-Status: CURRENT BOUNDED CANDIDATE
-Effective: 2026-08-18 ET
+Status: DONE / MERGED / PROTECTED through PR #81
+Exact validated PR head: `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d`
+Squash merge / live-main completion boundary: `231556d86a93535fa90e173577c1159de4f40be0`
 Production application: v1.4.0 / `1.4.0-r1` remains unchanged
 Production Firebase runtime: NOT CONNECTED
 Production Firestore data: NOT CREATED
 Production Security Rules deployment: NOT AUTHORIZED
 Cloud Functions / Blaze billing: NOT AUTHORIZED
 
-## 1. Purpose
+## Purpose and completed boundary
 
-Phase 1F is the provider-specific proof layer after Phase 1E. It connects the selected Firebase provider only inside a deterministic development/emulator boundary and proves what Firebase Authentication context, Cloud Firestore Security Rules and Firestore transactions can safely enforce without changing the GitHub Pages application runtime.
+Phase 1F is the completed provider-specific proof layer after Phase 1E. It connects Firebase only inside a deterministic development/emulator boundary and proves what Firebase Authentication context, Cloud Firestore Security Rules and Firestore transactions can safely enforce without changing the GitHub Pages application runtime.
 
-This phase does not implement accounts, pairing, Connected Rivalry, Remote Joining, Private Cloud Backup or any public surface.
+Phase 1F did not implement accounts, pairing, Connected Rivalry, Remote Joining, Private Cloud Backup or any public surface.
 
-Phase 1F composes and preserves the already-protected Phase 1A through Phase 1E contracts. Provider behavior may not replace the project-owned revision, conflict, replay, tombstone, authorization, recovery or local Apply semantics.
-
-## 2. Exact development provider configuration
+## Exact development provider configuration
 
 The proof uses only the Firebase Local Emulator Suite with project ID:
 
 `demo-career-mode-showdown-phase1f`
 
-The `demo-` prefix is deliberate. Firebase recommends demo projects for emulator-only work where practical because they have no live resources; accidental calls to non-emulated products fail rather than reaching production data or incurring resource usage.
+The `demo-` prefix is deliberate. There is no live Firebase resource attached to this proof project.
 
-Repository configuration:
+Repository configuration remains:
 
 - `.firebaserc` fixes the demo project identity;
-- `firebase.json` loads `firestore.rules`, binds the Firestore emulator to localhost port 8080, disables the Emulator UI and uses one project identity;
-- `firestore.rules` is the deny-by-default application-client ruleset under test;
-- `tests/firebase/cloud-sync-phase1f-emulator.cjs` is the emulator behavior proof.
+- `firebase.json` loads `firestore.rules`, binds Firestore to localhost port 8080, disables the Emulator UI and uses one project identity;
+- `firestore.rules` is the deny-by-default client ruleset;
+- `tests/firebase/cloud-sync-phase1f-emulator.cjs` is the real provider transaction/Security Rules proof.
 
-No Firebase project credential, API secret, service account, Admin credential or production user data is required.
+No production Firebase project credential, API secret, service account, Admin credential or production user data is required.
 
-## 3. Toolchain pins
+## Toolchain pins
 
-The exact CI proof toolchain is deliberately pinned:
+The exact CI proof toolchain remains:
 
 - Firebase JavaScript SDK `12.17.1`;
 - `@firebase/rules-unit-testing` `5.0.1`;
 - Firebase CLI `15.27.0`;
 - Java 21 via `actions/setup-java@v5`;
-- repository Node 24 authority remains unchanged.
+- repository Node 24 authority.
 
-These packages are installed only for the CI proof with `--no-save --package-lock=false`. They are not added to `package.json`, `package-lock.json`, `index.html`, `js/optionalModules.js` or `service-worker.js` and therefore are not production application dependencies.
+These packages are installed only for CI proof with `--no-save --package-lock=false`. They are absent from the production package dependency graph and application shell.
 
-## 4. Persistent offline cache remains disabled
+## Persistent offline cache remains disabled
 
 Firestore persistent offline cache remains disabled for Career Mode Showdown synchronization.
 
-The web SDK default remains memory-only unless persistent local caching is explicitly configured. Phase 1F does not enable persistent Firestore cache anywhere. This preserves the project rule that provider reconnect behavior may not introduce silent last-write-wins authority over gameplay state.
+Queued/offline mutation intent remains project-owned and retains its original immutable `baseRevision` and payload as proven by Phase 1E. Provider reconnect behavior may not introduce silent last-write-wins gameplay authority.
 
-Queued/offline mutation intent remains project-owned and must retain its original immutable `baseRevision` and payload as proven by Phase 1E.
+## Firebase Auth identity boundary
 
-## 5. Firebase Auth identity boundary
-
-Production account UI/runtime is not implemented here, but the Security Rules proof uses the same principal boundary that future Firebase Auth must provide:
+Phase 1F did not implement production account UI/runtime, but its Security Rules proof established the future principal boundary:
 
 `request.auth.uid` is the authenticated `accountId`.
 
-Security Rules never trust a client-supplied `accountId` field as identity proof.
+Security Rules never trust a client-supplied `accountId` field as identity proof. `deviceId` and `installationId` remain attribution/revocation metadata, not authentication.
 
-`deviceId` and `installationId` remain revocable/diagnostic attribution metadata, not authentication.
+## Deny-by-default Security Rules boundary
 
-The Rules Unit Testing library supplies authenticated and unauthenticated test contexts without production accounts.
+Phase 1F permanently grants no application-client create, update or delete authority to Firestore.
 
-## 6. Deny-by-default Security Rules boundary
+Every application-client write path remains denied in `firestore.rules`.
 
-Phase 1F intentionally grants no application-client create, update or delete authority to Firestore.
+Narrow direct `get` access is proven for self-scoped account/profile-link/device/security metadata and currently entitled private rivalry/state/session/idempotency objects. Private invite exact-capability access remains narrow. Invite, rivalry, state and idempotency listing remains denied. Unauthenticated and unmatched access remains denied.
 
-Every client write path is denied in `firestore.rules`.
+The raw invite capability remains only the opaque exact document path identifier and is never duplicated into the invite document body, logs, analytics or public directories.
 
-Narrow direct `get` access is proven for the Phase 1D read model:
+## Source-grounded provider security finding
 
-- account/profile-link/device/security-event records are self-only;
-- rivalry and authoritative shared state are exact-get only for currently entitled authenticated accounts;
-- private session exact-get requires current rivalry entitlement plus current session membership;
-- idempotency exact-get requires current rivalry entitlement and the same authenticated actor recorded by the receipt;
-- an open unexpired invite may be read only by an authenticated holder of the exact opaque capability path or its creator;
-- invite collection listing remains denied;
-- rivalry, state and idempotency collection listing remains denied;
-- unauthenticated access remains denied;
-- all unmatched documents are denied.
+Phase 1D requires an accepted shared-state mutation and its idempotency receipt to be one logical atomic operation. The exact Phase 1D shared-state schema does not copy `idempotencyKeyHash` into the authoritative shared-state document.
 
-The raw invite capability remains only the opaque document path identifier. It is never duplicated into the invite document body.
+A Security Rule evaluating a direct shared-state write does not know which sibling `idempotency/{idempotencyKeyHash}` path must accompany that write. Firestore `getAfter()` can validate another document in an atomic operation only when the rule can identify the exact document path to inspect.
 
-## 7. Source-grounded provider security finding
+Therefore Phase 1F does not pretend that a client transaction helper is a security boundary. A modified client could otherwise bypass the helper and omit the required replay receipt.
 
-Phase 1D requires an accepted shared-state mutation and its idempotency receipt to be one logical atomic operation. The current exact Phase 1D shared-state schema intentionally does not copy `idempotencyKeyHash` into the authoritative shared-state document.
-
-That creates an important provider boundary: a Security Rule evaluating a direct shared-state write does not know which sibling `idempotency/{idempotencyKeyHash}` path must accompany that write. Firestore `getAfter()` can validate another document in an atomic operation only when the rule can identify the document path to inspect.
-
-Therefore Phase 1F does not pretend that a client transaction helper is a security boundary. If client shared-state writes were allowed, a modified client could bypass the helper and omit the required idempotency receipt.
-
-The safe Phase 1F decision is:
+The permanent Phase 1F decision is:
 
 1. deny application-client remote writes;
 2. prove narrow provider-enforced read authorization with Security Rules;
 3. use `withSecurityRulesDisabled()` only inside the local emulator test as a test-only trusted mutation boundary;
-4. exercise the complete revision/CAS/replay/tombstone/current-authority transaction semantics against real Firestore transaction retry behavior;
-5. require a later explicit production mutation-boundary decision before any real remote write is enabled.
+4. exercise revision/CAS/replay/tombstone/current-authority semantics against real Firestore transaction retry behavior;
+5. require a later explicit production mutation-boundary decision before real remote writes are enabled.
 
-A later production candidate may propose either a trusted server mutation gateway or a separately reviewed schema/protocol change that makes every invariant enforceable. Phase 1F does not choose that boundary and does not authorize Cloud Functions, Admin SDK runtime, Blaze billing or server deployment.
+A future production candidate may propose either a trusted server mutation gateway or a separately reviewed schema/protocol change that makes every invariant provider-enforceable. Phase 1F does not authorize Cloud Functions, Admin SDK runtime, Blaze billing or server deployment.
 
-## 8. Trusted emulator transaction proof
+## Trusted emulator transaction proof
 
-The emulator-only trusted mutation helper is not production source and is not loaded by the application. It exists solely to prove provider transaction semantics against the protected application contract.
+The emulator-only trusted helper is not production source and is not loaded by the application.
 
-Every first-seen proof mutation preserves this order:
+Every first-seen proof mutation:
 
-1. receive trusted actor identity separately from the request body;
-2. reject a client-supplied `accountId` field;
-3. reread current account, registered device, rivalry governance and authoritative state;
-4. require exactly two manager slots and current active entitlement;
-5. require both required accounts to remain active;
-6. check an existing idempotency receipt before stale-base comparison so an exact accepted replay remains non-mutating;
-7. compare the immutable original client `baseRevision` with current provider authority;
-8. reject stale state explicitly;
-9. enforce tombstone versus explicit restore behavior;
-10. perform exactly one logical state mutation and matching hashed idempotency receipt in one Firestore transaction;
-11. advance exactly one monotonic revision;
-12. return deterministic accepted, replayed, conflict or authorization results.
+1. receives trusted actor identity separately from the request body;
+2. rejects a client-supplied `accountId` field;
+3. rereads current account, device, rivalry governance and authoritative state;
+4. requires exactly two manager slots and current entitlement;
+5. requires both required accounts active;
+6. checks existing idempotency receipt before stale-base comparison so exact accepted replay remains non-mutating;
+7. compares the immutable original client `baseRevision`;
+8. rejects stale state explicitly;
+9. enforces tombstone versus explicit restore behavior;
+10. creates exactly one logical mutation and matching hashed idempotency receipt in one Firestore transaction;
+11. advances exactly one revision;
+12. returns deterministic accepted/replayed/conflict/authorization results.
 
 The raw idempotency key is SHA-256 hashed for its Firestore path and is never stored in the receipt body.
 
-## 9. Provider transaction retry lock
+## Provider transaction retry lock
 
-Firestore can rerun a transaction callback when a document read by the transaction changes concurrently.
+Firestore may rerun a transaction callback when a read document changes concurrently.
 
-Phase 1F permanently proves that the original client request remains outside provider retry authority. The test injects a concurrent authoritative state change after the first transaction read, requires Firestore to retry the callback, and then proves:
+Phase 1F permanently proves that the original client request remains outside provider retry authority. The original `baseRevision` remains unchanged across retry; the retry rereads newer provider authority; stale original intent returns explicit `STALE_BASE_REVISION`; provider retry never silently rebases client intent; and the stale retry creates no extra logical mutation.
 
-- the original request's `baseRevision` remains unchanged;
-- the retry rereads the newer authoritative revision;
-- the stale original request returns explicit conflict;
-- provider retry does not silently rebase the request;
-- no extra logical mutation or revision is produced by the stale request.
+## Replay, tombstone and current-authority proof
 
-## 10. Replay, tombstone and current-authority proof
-
-The emulator proof permanently covers:
+The real emulator proof permanently covers:
 
 - first accepted mutation creates exactly the next revision;
-- exact accepted idempotency replay returns the recorded result with no new write or revision increment;
-- the same idempotency key with a changed request fingerprint fails explicitly;
-- stale concurrent mutation returns explicit `STALE_BASE_REVISION` conflict;
-- deletion writes a newer tombstone with `data: null` and `contentHash: null`;
+- exact accepted idempotency replay is non-mutating;
+- reused key with changed request fingerprint fails explicitly;
+- stale concurrent mutation returns explicit conflict;
+- deletion creates a newer tombstone with `data: null` and `contentHash: null`;
 - stale live state cannot resurrect a tombstone;
-- ordinary `put` cannot implicitly restore a tombstone;
-- explicit `restore` against the current tombstone revision creates a new live revision;
-- a revoked device cannot mutate;
-- disabling the required peer account freezes the still-active manager's shared mutation authority;
-- retained/relinquished peer entitlement freezes shared mutation;
-- rejected authorization cases leave provider state unchanged.
+- ordinary put cannot implicitly restore a tombstone;
+- explicit restore targets the current tombstone revision and creates a newer live revision;
+- revoked device and disabled account authority is denied;
+- required-peer account/entitlement loss freezes shared mutation;
+- rejected authorization leaves provider state unchanged.
 
-## 11. Local-only and recovery boundary
+## Local-only and recovery boundary
 
-Phase 1F does not load any Firebase code into the Career Mode Showdown application shell.
+Phase 1F loads no Firebase code into the Career Mode Showdown production shell.
 
-Turning the future remote layer off therefore continues to leave the current local application fully usable. The following protected systems remain untouched:
+Candidate A non-mutating export, Candidate B read-only analysis and Candidate C as the only destructive import Apply authority remain untouched.
 
-- Candidate A non-mutating export;
-- Candidate B read-only analysis;
-- Candidate C as the only destructive import Apply authority;
-- exact three-key canonical local storage: Save Library, Legacy and preferences;
-- Candidate C strict raw snapshot, last-moment preconditions, transaction-owned mutation, ownership-scoped rollback, anti-clobber and exact verification.
+Candidate C keeps strict exact raw snapshot/preconditions, transaction-owned mutation, ownership-scoped rollback, anti-clobber and exact verification.
 
-No Phase 1F provider module directly owns `localStorage`.
+Canonical local storage remains exactly Save Library, Legacy and preferences. No Phase 1F provider module directly owns `localStorage`.
 
-## 12. Privacy, deletion and provider-control limits
+## Privacy and provider-control limits
 
-The emulator contains synthetic test data only.
+The emulator contains synthetic test data only. No production Firestore region is selected and no production account/data-retention guarantee is claimed from emulator proof alone.
 
-No production Firestore region is selected and no production account/data retention claim is made. Provider-controlled production backups, logs, account deletion and regional behavior remain unproven until a production provider boundary is explicitly authorized and documented.
+Provider-controlled production backups/logs/account deletion/regional behavior remain future provider-operation proof.
 
-This prevents Phase 1F from claiming stronger deletion/privacy guarantees than the deployed provider can later prove.
+## Permanent exclusions
 
-## 13. Permanent exclusions
-
-Phase 1F does not add or authorize:
+Phase 1F did not add or authorize:
 
 - production Firebase SDK/runtime in GitHub Pages;
 - production Firebase Auth accounts or account UI;
@@ -191,16 +161,12 @@ Phase 1F does not add or authorize:
 - Connected Rivalry runtime;
 - Remote Joining runtime or UX;
 - Private Cloud Backup;
-- public profiles;
-- public search/discovery;
-- public invitation directories;
-- matchmaking;
-- community systems;
+- public profiles/search/discovery/invitation directories/matchmaking/community systems;
 - public/global leaderboards or rankings.
 
-## 14. Version boundary
+## Version boundary
 
-Phase 1F is configuration, emulator-only development infrastructure, tests and authority documentation. It does not alter shipped application behavior or production runtime bytes.
+Phase 1F is configuration, emulator-only infrastructure, tests and authority documentation. It did not alter shipped application behavior or production runtime bytes.
 
 Under `VERSIONING_POLICY.md`, production remains:
 
@@ -209,35 +175,18 @@ Under `VERSIONING_POLICY.md`, production remains:
 - runtime `1.4.0-r1`;
 - previous known-good whole shell `1.3.0-r2`.
 
-No visible version bump is consumed by this dormant provider proof.
+## Completion proof
 
-## 15. Phase 1F completion gate
+Phase 1F completed through PR #81 from exact validated head `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d`, squash merged to live `main` as `231556d86a93535fa90e173577c1159de4f40be0` on 2026-08-18 UTC.
 
-Phase 1F is complete only when one exact candidate proves all of the following:
+The successor independently re-fetched PR #81 and independently verified all 13 normal pull-request workflow families successful on the exact unchanged head. Production source remains v1.4.0 / `1.4.0-r1` and production Firebase remains disconnected.
 
-1. Phase 1E is recorded DONE / MERGED / PROTECTED at PR #80 merge `cebd9c031657c9ee01ba68f1baaac7816c9748b9` from exact validated head `36db46b34a0675623dbdd1a4e2c76e93d438de45`;
-2. Firebase emulator configuration uses only the fixed demo project;
-3. Firestore Security Rules are deny-by-default;
-4. unauthorized reads and every application-client write fail in the emulator;
-5. exact authorized reads and private capability reads obey current Auth context and exact object scope;
-6. broad list/discovery access fails;
-7. provider transaction retry preserves the immutable original client `baseRevision`;
-8. explicit conflicts, exact replay, mismatched replay, tombstones, anti-resurrection, current device/account/membership authority and two-owner mutation freeze remain intact;
-9. raw invite/idempotency secrets are not stored unnecessarily;
-10. production package/runtime identity and first-party shell bytes remain unchanged;
-11. Candidate A/B/C and local-only recovery remain intact;
-12. no privileged secret or production user data exists in the candidate;
-13. all existing repository contracts remain green without timeout/performance/recovery weakening;
-14. the new emulator proof passes on the exact PR head;
-15. reviews/threads are clean and the candidate is mergeable.
+Historical pre-merge status wording that called Phase 1F the current bounded candidate is provenance only and is superseded by the completed PR #81 boundary above.
 
-After Phase 1F merges and live `main` is independently verified, reassess Work Environment Continuity before opening the distinct private account/authentication prerequisite. Do not begin account product UX merely because the emulator proof exists.
+## Exact next dependency
 
-## Primary provider references used for this proof
+The next dependency lane is private account / authentication / authorization.
 
-- Firebase Local Emulator Suite installation/configuration: `https://firebase.google.com/docs/emulator-suite/install_and_configure`
-- Connect the app to the Firestore Emulator / demo project guidance: `https://firebase.google.com/docs/emulator-suite/connect_firestore`
-- Security Rules testing: `https://firebase.google.com/docs/rules/unit-tests`
-- Firestore Security Rules conditions and atomic `getAfter()`: `https://firebase.google.com/docs/firestore/security/rules-conditions`
-- Firestore transactions: `https://firebase.google.com/docs/firestore/manage-data/transactions`
-- Firestore offline behavior: `https://firebase.google.com/docs/firestore/manage-data/enable-offline`
+`NEXT_TASK.md` authorizes only **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary**, defined in `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
+
+Stage 2A must prove real Firebase Authentication Emulator `uid` identity through the existing Firestore Security Rules while remaining emulator/test-only. It must not broaden into production accounts, pairing, Connected Rivalry, Remote Joining, Cloud Functions/Admin/Blaze or application-client Firestore writes.
