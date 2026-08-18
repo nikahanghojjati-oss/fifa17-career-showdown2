@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-17 ET (Phase C first slice authorized)
+Last updated: 2026-08-17 ET (Phase C first slice sealed + visible v1.4.0)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering is not permission to implement a feature.
 
@@ -8,16 +8,19 @@ Work Environment Continuity (see `00_WORK_ENVIRONMENT_CONTINUITY.md`, `AGENTS.md
 
 ## Current production milestone
 
-Application milestone: v1.3.0 — Recovery & Device Resilience Hardening
-Current production Installable Offline App runtime: `1.3.0-r2`
-Immediate previous known-good whole shell: `1.3.0-r1`
+Application milestone: **v1.4.0 — Product Deepening** (Phase B Save Library Experience 2.0 first slice + Phase C Showdown Home & Season Experience first slice)
+Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
+Current production Installable Offline App runtime: `1.4.0-r1`
+Immediate previous known-good whole shell: `1.3.0-r2`
 Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 formatVersion 2 multi-Save portability)
-Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70 — Save Library / Local Profile Experience 2.0 first slice)
+Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08` (PR #70)
+Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6` (PR #73)
+Phase C authority merge: `39b1447a003c3440debbe61ea37fab18b0bb4057` (PR #72)
 Phase B authority merge: `d5027f575ee416a1ad3f36b61fc09602e8239174` (PR #69)
 Authority sync merge: `372e5570391616efd737fc4780ad0b51d8ec5ce4` (PR #68 Phase A)
-Feature release version: intentionally unassigned
+Feature release version: **v1.4.0** (visible on public site footer + app-asset-revision)
 
-Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability, and the bounded Phase B Save Library / Local Profile Experience 2.0 first slice (richer cards, clearer Local Profile presentation, local non-destructive sorting) are complete, merged, deployed and production-proven.
+Visible Local Profiles / Save Library Core UI, explicit cross-Save/historical manager identity linkage, Identity-Safe Career Analytics / Trophy Room longitudinal consumption, presentation-only Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability, the bounded Phase B Save Library / Local Profile Experience 2.0 first slice, and the bounded Phase C Showdown Home first slice are complete, merged, deployed and production-proven.
 
 ## Current implementation authorization
 
@@ -28,24 +31,18 @@ The following candidates are closed as production-proven and must not be reopene
 - formatVersion 2 full multi-Save backup/import portability (PR #67)
 - Phase A documentation authority synchronization (PR #68)
 - Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70, squash-merge `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`)
+- Phase C first slice — Showdown Home & Season Experience deepening (PR #73, squash-merge `dec1d3ba8182c3f62019974dd1704c7c9124def6`)
 
-**Authorized product candidate:** Phase C / Showdown Home & Season Experience deepening — first slice (owner instruction 2026-08-17).
+**Authorized product candidate:** none.
 
-### Phase C first slice scope (bounded)
+No product candidate is currently authorized. Hold clean stop until a further explicit owner instruction authorizes the next bounded slice (further Product Deepening, Season UX expansion, Career Statistics 2.0, or Remote Foundation dependency work).
 
-1. Richer Showdown Home (dashboard) scoreboard — series lead/trail status chip + clearer visual hierarchy for the current series score between the two managers.
-2. Contextual primary action label on the Home screen that reflects the real next step (examples: “ENTER SEASON X RESULTS”, “START TRANSFER CHALLENGE”, “VIEW COMPLETED SHOWDOWN”).
-3. Last completed season result summary on the Home screen when at least one season has been played (compact, non-destructive presentation only).
-4. Touch-target and spacing polish for the primary Home actions (min-height 44px where needed) so Chromebook / mobile interaction remains reliable.
+### Phase C first slice (closed / production-proven)
 
-Constraints for this first slice:
-
-- Presentation-only. No new canonical storage keys, no mutation of Save Library / profile / season identity semantics, no change to scoring rules.
-- Preserve multi-Save portability, Candidate A/B/C, identity-safe Analytics, and all performance ceilings.
-- Do not expand into full Season Review redesign, Career Statistics 2.0, Legacy 2.0, or any further Phase C scope beyond the four items above.
-- Do not touch public community / global leaderboard surfaces (ELIMINATED) or private remote joining (BLOCKED).
-
-After this first slice is production-proven, stop and wait for a further explicit owner instruction before expanding Phase C or opening Phase D.
+1. Series lead/trail status chip on Home scoreboard + clearer visual hierarchy.
+2. Contextual primary action label (including VIEW COMPLETED SHOWDOWN).
+3. Last completed season result summary on Home (presentation-only).
+4. Touch-target polish (min-height 44px) and Phase C styles injected from `js/showdownUI.js` to preserve eager CSS ceilings.
 
 Out of scope until a later explicit owner instruction:
 
@@ -137,22 +134,20 @@ Never weaken tests, workflow topology, timeouts, recovery guarantees or performa
 
 ## Stop condition
 
-Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), and Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) are closed and must not be reopened.
+Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), Phase B first slice (PR #70), and Phase C first slice (PR #73) are closed and must not be reopened.
 
-The currently authorized candidate is the bounded first slice of Phase C / Showdown Home & Season Experience deepening defined above. After that slice is production-proven, stop and wait for a further explicit owner instruction before expanding scope or opening Phase D.
+**No product candidate is currently authorized.** Visible application version is v1.4.0 / runtime `1.4.0-r1`. Stop and wait for a further explicit owner instruction before expanding scope or opening the next product candidate.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 ### Bootstrap / study (required first)
 
-1. Independently confirm live `main` is `482013ca78859f45d1a2fd4906530ab83abb9266` (or a later SHA that preserves multi-Save + private two-manager locks + Phase B first slice + this Phase C authority).
+1. Independently confirm live `main` carries the Phase C product merge `dec1d3ba…` (or later) and this authority seal (v1.4.0 / 1.4.0-r1).
 2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `PRODUCT_PHILOSOPHY_LOCK.md`, `PROJECT_STATE.md`, this file, and the owner Full Comprehensive Project Roadmap (Private Two Manager direction).
 3. Confirm no public community / global leaderboard work and no private remote joining work is in scope.
 
 ### Execution (after study)
 
-**Current authorized work:** implement only the bounded Phase C first slice defined above (richer Home scoreboard, contextual primary action, last-season summary, touch-target polish).
-
-Do not expand into further Season redesign, Statistics 2.0, Legacy, cloud, remote joining, or additional Phase C items until the owner issues an explicit new authorization.
+**Current authorized work:** none. Hold clean stop.
 
 Owner standing instruction 2026-08-16/17 (permanent operating rule) authorizes merge of green PRs without repeated permission loops; it does not authorize new product candidates beyond the stop condition above.
