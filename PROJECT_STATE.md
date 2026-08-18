@@ -2,21 +2,21 @@
 
 ## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
 
-Current verified source and `NEXT_TASK.md` override the retained PR #89-era body below.
+Current verified source and `NEXT_TASK.md` override the retained PR #87 / Stage 2D-era body below.
 
-Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — DONE / MERGED / PROVEN through PR #90. Exact validated head `1b0178979ea421b3bf27dd7675ad973aa7bfad8c`; squash merge / independently verified live-main boundary `a27147695607537a1cd1543efb84e6583929a696`.
 
-Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `NEXT_TASK.md`.
+Stage 2G — Trusted Account Bootstrap Execution Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATOR-PROOF-ONLY. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` and `NEXT_TASK.md`.
 
 Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected. Every application-client Firestore create/update/delete remains denied.
 
-Stage 2F requires trusted `verifyIdToken(idToken, true)`, derives architecture `accountId` only from verified Firebase UID, keeps provider authentication separate from application authorization, and creates no production Firebase/Admin/IAM/write infrastructure.
+Stage 2G composes the proven Stage 2F `verifyIdToken(idToken, true)` principal with the Stage 2E bootstrap planner through one injected trusted atomic account transaction. It grants only same-UID `account-bootstrap-only` authority, never passes the raw ID token to the transaction adapter, and uses `updatedByDeviceId: null` only for the revision-0 self-bootstrap before Stage 3 registered-device authority exists. It creates no production Firebase/Admin/IAM/hosting/shared-mutation infrastructure.
 
-Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED. Stage 3 pairing and Stage 4 Connected Rivalry remain blocked.
+Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED. Stage 3 pairing and Stage 4 Connected Rivalry remain blocked until the whole Stage 2 lane is proven.
 
 Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
 
-The complete body below is retained as historical/proven contract provenance. Any historical Stage 2D-current wording below is not current implementation authority.
+The complete body below is retained as historical/proven contract provenance. Historical Stage 2D-current wording below is not current implementation authority.
 
 ---
 
