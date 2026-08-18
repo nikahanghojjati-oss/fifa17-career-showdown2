@@ -37,6 +37,7 @@ expectError(candidate=>{candidate.projectId="";candidate.firebaseWebConfig.proje
 expectError(candidate=>{candidate.projectId="demo-career-mode-showdown-phase1f";candidate.firebaseWebConfig.projectId=candidate.projectId;},"DEMO_PROJECT_FORBIDDEN");
 expectError(candidate=>{candidate.projectId="demo-future-prod";candidate.firebaseWebConfig.projectId=candidate.projectId;},"DEMO_PROJECT_FORBIDDEN");
 expectError(candidate=>{candidate.firebaseWebConfig.projectId="different-project";},"WEB_CONFIG_PROJECT_MISMATCH");
+expectError(candidate=>{candidate.firebaseWebConfig.authDomain="unrelated-project.firebaseapp.com";},"AUTH_DOMAIN_PROJECT_MISMATCH");
 for(const field of preflight.requiredWebConfigFields){
   expectError(candidate=>{candidate.firebaseWebConfig[field]="";},`WEB_CONFIG_${field.toUpperCase()}_MISSING`);
 }
@@ -63,6 +64,8 @@ assert.match(stage2d,/Production Firebase Environment & Configuration Preflight/
 assert.match(stage2d,/CURRENT \/ IMPLEMENTATION-AUTHORIZED \/ NON-RUNTIME \/ PRODUCTION FIREBASE DISCONNECTED/i);
 assert.match(stage2d,/Stage 2D is a readiness validator, not production provisioning/i);
 assert.match(stage2d,/separate Firebase projects/i);
+assert.match(stage2d,/default `<projectId>\.firebaseapp\.com` identity/i);
+assert.match(stage2d,/custom Auth domain requires a separately reviewed/i);
 assert.match(stage2d,/API key[\s\S]+not an authorization secret/i);
 assert.match(stage2d,/Firestore location[\s\S]+cannot later be changed/i);
 assert.match(stage2d,/Every application-client Firestore create\/update\/delete remains denied/i);
