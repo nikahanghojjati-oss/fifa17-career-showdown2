@@ -45,8 +45,8 @@ jobs:
         run: |
           set -euo pipefail
           npm run test:contracts
-          npm install --no-save --package-lock=false --ignore-scripts firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-tools@15.27.0
-          npx --no-install firebase emulators:exec --project demo-career-mode-showdown-phase1f --only auth,firestore "node tests/firebase/cloud-sync-phase1f-emulator.cjs && node tests/firebase/private-account-auth-stage2a-emulator.cjs"
+          npm install --no-save --package-lock=false --ignore-scripts firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0 firebase-tools@15.27.0
+          npx --no-install firebase emulators:exec --project demo-career-mode-showdown-phase1f --only auth,firestore "node tests/firebase/cloud-sync-phase1f-emulator.cjs && node tests/firebase/private-account-auth-stage2a-emulator.cjs && node tests/firebase/private-account-auth-stage2b-lifecycle-emulator.cjs"
 
       - name: Validate permanent workflow block topology
         shell: bash

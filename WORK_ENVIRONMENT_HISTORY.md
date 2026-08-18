@@ -191,3 +191,14 @@ Copy this checklist beneath a new dated heading:
 - Authority synchronization: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`, `POST_V1_ROADMAP_EXECUTION.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `PROJECT_STATE.md`, `NEXT_TASK.md` and `00_CURRENT_HANDOFF.md` were advanced to the PR #83 completion gate while preserving later Stage 2, Stage 3, Connected Rivalry and Remote Joining blocks.
 - Runtime/version boundary: no production runtime/package/service-worker dependency change is authorized or present; production remains v1.4.0 / package 1.4.0 / `1.4.0-r1`.
 - Exact next safe action: seal current continuity state as the final branch mutation, require a fresh exact-final-head 13-family CI gate, verify clean reviews/threads and mergeability, squash merge PR #83 with expected-head protection, independently verify live `main`, then reassess continuity before any distinct next Stage 2 prerequisite.
+
+## Closure addendum — `we-2026-08-18-private-auth-stage2a-proof`
+
+- Successor reconciliation recorded: `2026-08-18T16:30:00Z`.
+- Final verified repository boundary: PR #83 `Private Auth Stage 2A real emulator identity proof`, exact validated head `a4022d6f316622f73ead9aacde812b545b8dcf78`, squash merge / verified live main `e39c1b0689598ac922569ff839ca30a1d5dee5fa`.
+- Final exact-head proof: all 13 normal pull-request workflow families completed with `success` on unchanged head `a4022d6f316622f73ead9aacde812b545b8dcf78`; PR #83 is closed/merged and the predecessor recorded zero submitted reviews and zero inline review threads.
+- Material result: Stage 2A is DONE / MERGED / PROVEN. Firebase Auth `uid` → architecture `accountId`, cross-service Firestore Security Rules identity, wrong-account/unauthenticated/sign-out denial, app-account lifecycle separation and production isolation are protected by permanent contracts and real emulator proof.
+- Security boundary preserved: every application-client Firestore create/update/delete remains denied. Stage 2A did not authorize a production Firebase project, production account UI, Cloud Functions, Firebase Admin production runtime, service-account credentials or Blaze billing.
+- Runtime/version boundary: PR #83 changed no production application runtime. Production remains v1.4.0 / package 1.4.0 / `1.4.0-r1`; production Firebase remains disconnected.
+- Predecessor transition decision: `HANDOFF_AT_CHECKPOINT` belonged only to `we-2026-08-18-private-auth-stage2a-proof` and must not block successor initialization.
+- Exact next safe action: initialize a fresh successor environment from verified main `e39c1b0689598ac922569ff839ca30a1d5dee5fa`, reset per-environment observations, reassess independently, then select only the next smallest remaining Stage 2 prerequisite. Stage 3 pairing, Connected Rivalry and Remote Joining remain blocked.
