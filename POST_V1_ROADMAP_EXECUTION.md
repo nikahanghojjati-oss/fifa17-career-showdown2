@@ -142,13 +142,15 @@ Current production remains v1.4.0 / `1.4.0-r1`.
 
 ## 11. Historical provenance
 
-The following literals are retained as historical contract provenance only. They describe the earlier Cloud Readiness transition and do not override the completed Phase 1A–1F chain or current Stage 2F authority above.
+The following literals are retained as historical contract provenance only. They describe earlier completed transition checkpoints and do not override the completed Phase 1A–1F chain or current Stage 2F authority above.
 
 Historical profile identity mapping | FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED
 Cross-Save manager/profile linkage semantics | DONE
 Current production derived Analytics | IDENTITY-SAFE / PRODUCTION-PROVEN
 Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE
 Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT
+Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F DONE
+Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT
 Cloud Backup | BLOCKED
 Private Remote Joining | PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED
 
