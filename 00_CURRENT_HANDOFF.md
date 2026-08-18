@@ -66,7 +66,20 @@ On that head:
 - expected client Firestore create/update/delete attempts were denied by Security Rules;
 - permanent workflow topology remained 13 workflows / 27 executable blocks.
 
-That head is technical pre-authority-seal evidence only. The final exact PR #83 head must rerun every normal workflow family after current authority/history/continuity synchronization.
+Two later authority-seal candidates were deliberately rejected by the Static App contract suite and must never be treated as validated merge heads:
+
+- `89264d7a7e08b81e5b3da82b532067e1702edb67` omitted historical Phase 1E / Phase 1F `NEXT_TASK.md` provenance still protected by permanent Cloud foundation contracts.
+- `5cb7501d301c0e52aa8751c94e6abc081e78ed32` restored that provenance but exposed an exact Stage 2A naming mismatch in `PROJECT_STATE.md` required by the protected Stage 2A boundary contract.
+
+Both defects were documentation/contract-coherence failures. They were corrected at source without weakening runtime behavior, Security Rules, Candidate C, workflow topology, timeouts or performance ceilings.
+
+Authority-coherent diagnostic head:
+
+`063e90adbae3ae9c3f04f9206f36860294338183`
+
+On that head the complete Static App gate passed again: JavaScript syntax, dynamic v1.4.0 / `1.4.0-r1` release identity, all repository contracts, Phase 1F emulator proof, real Stage 2A Auth/Firestore proof and the permanent 27-block workflow topology. This diagnostic head is still not the final merge head because the Work Environment Continuity status must be resealed after recording the corrected publication evidence.
+
+The final exact PR #83 status-seal head must therefore rerun all 13 normal workflow families from scratch. No earlier green head may substitute for that exact-final-head gate.
 
 ## Stage 2A completion boundary
 
@@ -125,7 +138,7 @@ Direct shell DNS to GitHub is unavailable in this environment and `gh` was not p
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-If PR #83 is not yet merged, finish only the Stage 2A publication boundary: synchronize history/continuity, require exact-final-head CI across all normal workflow families, verify clean submitted reviews and inline threads, verify unchanged mergeable head, squash merge with expected-head protection, then independently verify live `main`.
+If PR #83 is not yet merged, finish only the Stage 2A publication boundary: reseal continuity as the final branch mutation, require exact-final-head CI across all normal workflow families, verify clean submitted reviews and inline threads, verify unchanged mergeable head, squash merge with expected-head protection, then independently verify live `main`.
 
 If PR #83 is already merged, do not reimplement Stage 2A. Validate/archive the completed PR #83 facts, initialize/reassess a fresh Work Environment Continuity environment and select the next smallest remaining Stage 2 prerequisite from current source. No later Stage 2 prerequisite is pre-authorized by this handoff. Stage 3 pairing, Connected Rivalry and Remote Joining remain blocked.
 
