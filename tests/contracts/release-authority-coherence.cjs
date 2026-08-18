@@ -35,6 +35,7 @@ const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const changelog = read("CHANGELOG.md");
 const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
+const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const candidate = /Status:\s*RELEASE CANDIDATE/i.test(release);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
 
@@ -132,9 +133,11 @@ for(const term of ["accountId", "profileId", "saveId", "deviceId", "installation
 A.match(cloud, /future architecture contract only/i, "Cloud foundation must remain non-runtime architecture at this milestone.");
 A.match(cloud, /No future cloud module may call localStorage directly/i, "Future sync must remain behind canonical storage authority.");
 A.match(cloud, /v1\.3\.0 Recovery & Device Resilience Hardening[\s\S]+Local Profiles\/Save Library[\s\S]+Cloud Readiness[\s\S]+opt-in Cloud Backup/i, "Cloud foundation must preserve semantic dependency order after v1.3 resequencing.");
-A.match(cloud, /Local Profiles\/Save Library is a completed production dependency milestone/i, "Cloud foundation must acknowledge the shipped Save Library dependency rather than narrating it as pending.");
+A.match(cloud, /Local Profiles\/Save Library[\s\S]{0,180}(completed local dependencies|completed production dependency milestone|already shipped)/i, "Cloud foundation must acknowledge the shipped Save Library dependency rather than narrating it as pending.");
 A.ok(!/Local Profiles\/Save Library must follow before Cloud Readiness/i.test(cloud), "Cloud foundation contains stale current-facing pending-Save-Library authority.");
 A.ok(!/Local Profiles\/Save Library remains the next approved structural direction after v1\.3/i.test(cloud), "Cloud foundation contains stale next-feature narration.");
+A.match(cloud, /Cloud \/ synchronization readiness[\s\S]+private account \/ authentication \/ authorization[\s\S]+paired-device \/ private-session[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i, "Cloud foundation must encode the prioritized Remote Joining prerequisite path.");
+A.match(cloud, /only after these gates pass may a bounded Remote Joining UX\/runtime candidate be authorized/i, "Cloud foundation must keep Remote Joining gated behind proven prerequisites.");
 
 A.match(start, /PROJECT_STATE\.md[^\n]+primary owner of current deployed product/i, "Developer bootstrap must identify PROJECT_STATE as the current-state owner.");
 A.match(start, /NEXT_TASK\.md[^\n]+sole primary owner of the current implementation authorization boundary/i, "Developer bootstrap must identify NEXT_TASK as implementation authority.");
@@ -145,6 +148,7 @@ A.match(start, /presentation-only Local Profile display-label editing — PR #61
 A.match(start, /formatVersion 2 full multi-Save backup\/import portability — PR #67/i, "Developer bootstrap must include the completed multi-Save portability layer.");
 A.match(start, /Phase B Save Library \/ Local Profile Experience 2\.0 first slice — PR #70/i, "Developer bootstrap must include the shipped Phase B first slice.");
 A.match(start, /Phase C Showdown Home & Season Experience first slice — PR #73/i, "Developer bootstrap must include the shipped Phase C first slice.");
+A.match(start, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Developer bootstrap must preserve the owner-prioritized but gated Remote Joining direction.");
 A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail rather than another full project-state owner.");
 A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current production handoff must preserve the source-grounded Analytics identity finding that shaped the implementation.");
 A.match(currentHandoff, /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i, "Current handoff must retain the final PR #59 validation failure and classification evidence.");
@@ -158,7 +162,7 @@ A.match(state, /explicit cross-Save\/historical manager identity linkage foundat
 A.match(state, /unresolved historical roles remain excluded from identified longitudinal manager totals|unresolved historical manager roles remaining explicit/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
 A.match(state, /No product candidate is currently authorized/i, "PROJECT_STATE must hold the clean-stop authorization boundary after Phase C.");
 A.match(state, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "PROJECT_STATE must retain the private-only product lock.");
-A.match(state, /Private remote joining[\s\S]{0,160}\*\*BLOCKED\*\*/i, "PROJECT_STATE must retain the blocked private remote-joining boundary.");
+A.match(state, /Private Remote Joining[\s\S]{0,260}\*\*PRIORITIZED LONG-TERM\*\*[\s\S]{0,260}\*\*DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED\*\*/i, "PROJECT_STATE must preserve Remote Joining as prioritized long-term while retaining prerequisite and authorization gates.");
 
 A.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "NEXT_TASK must authorize no product candidate after the v1.4.0 seal.");
 A.match(next, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven.");
@@ -171,6 +175,7 @@ A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must recor
 A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
 A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
 A.match(next, /No product candidate is currently authorized[\s\S]+Hold clean stop|Hold clean stop[\s\S]+further explicit owner instruction/i, "NEXT_TASK stop condition must require a clean stop and further owner instruction.");
+A.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must preserve Remote Joining priority without silently authorizing runtime work.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
@@ -178,11 +183,15 @@ A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODU
 A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
 A.match(roadmap, /Backup\/import envelope portability \| DONE \/ PRODUCTION-PROVEN/i, "Roadmap must keep full multi-Save portability closed and production-proven.");
 A.match(roadmap, /Showdown Home & Season Experience \| FIRST SLICE DONE \/ PRODUCTION-PROVEN/i, "Roadmap must keep Phase C first slice closed and production-proven.");
-A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Product Deepening completion must not advance cloud authorization.");
+A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Product Deepening completion must not silently advance cloud authorization.");
 A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Product Deepening completion must not weaken Cloud Backup dependency gates.");
 A.match(roadmap, /Public\/community\/rankings \| ELIMINATED/i, "Roadmap must keep public community and global rankings eliminated.");
-A.match(roadmap, /Private remote joining \| BLOCKED/i, "Roadmap must keep private remote joining blocked behind its dependency chain.");
+A.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must preserve Private Remote Joining as the prioritized strategic destination while retaining strict prerequisite gates.");
 A.match(roadmap, /Authorized product candidate: none/i, "Roadmap must hold a clean stop after the v1.4.0 seal.");
+
+A.match(remotePriority, /Supersedes:[\s\S]+earlier classification of private remote joining as `BLOCKED`/i, "Remote Joining amendment must explicitly supersede the former BLOCKED classification only.");
+A.match(remotePriority, /PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Remote Joining amendment must preserve the owner-selected long-term classification.");
+A.match(remotePriority, /next safe prerequisite[\s\S]+preferred over unrelated optional expansion/i, "Remote Joining amendment must preserve the long-term prerequisite prioritization rule.");
 
 A.match(historicalR2Proof, /Frozen candidate head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`/i, "R2 proof must retain the exact validated PR head.");
 A.match(historicalR2Proof, /Runtime merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "R2 proof must retain the exact runtime merge.");
@@ -206,4 +215,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, clean-stop authority, private product locks, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, clean-stop authority, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);

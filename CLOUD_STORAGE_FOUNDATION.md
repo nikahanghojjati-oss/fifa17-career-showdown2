@@ -1,8 +1,8 @@
 # Career Mode Showdown — Cloud Storage Foundation Contract
 
-Last updated: 2026-08-14 ET
+Last updated: 2026-08-17 ET (Remote Joining priority clarification)
 Status: future architecture contract only; no cloud runtime is authorized by this document
-Current dependency boundary: v1.3.0 Recovery & Device Resilience Hardening is closed and Local Profiles/Save Library is a completed production dependency milestone. Cloud Readiness and opt-in Cloud Backup remain future, separately authorized outcomes; historical later version numbers remain planning references only.
+Current dependency boundary: v1.4.0 Product Deepening is the current application milestone, while v1.3.0 Recovery & Device Resilience Hardening remains the protected resilience baseline. Local Profiles/Save Library, identity-safe Analytics and formatVersion 2 multi-Save portability are completed local dependencies. Cloud Readiness remains future/not authorized today, but the owner has designated Cloud/sync readiness as the first enabling layer of the prioritized long-term Private Remote Joining path.
 
 ## 1. Purpose and hard boundary
 
@@ -17,7 +17,18 @@ v1.3.0 Recovery & Device Resilience Hardening
 → Cloud Readiness
 → opt-in Cloud Backup.
 
-The first two dependencies above are already shipped. Their presence in this chain describes prerequisite order, not unfinished work.
+The first two dependencies above are already shipped. Their presence in this chain describes prerequisite order, not unfinished work. Optional Private Cloud Backup remains one potential consumer of the Cloud foundation; it is not by itself the transport/session layer for Remote Joining.
+
+For the owner-prioritized Private Remote Joining destination, the broader enabling order is:
+
+proven local recovery/identity/portability
+→ Cloud / synchronization readiness
+→ private account / authentication / authorization identity
+→ secure paired-device / private-session capability
+→ Connected Rivalry synchronization with stale-write/conflict/offline/two-device proof
+→ Private Remote Joining.
+
+This priority does not authorize any of those future runtime layers today. Each layer still requires its own bounded implementation authorization.
 
 Historical roadmap versions such as v1.8 Cloud Readiness and v1.9 Cloud Backup are planning references only. No later release version is assigned by this document.
 
@@ -150,14 +161,16 @@ Minimum privacy rules:
 
 - collect only data required to provide the requested synchronization/account feature;
 - local-only use remains possible unless a later owner-approved milestone explicitly changes that rule;
-- no public profile, ranking, rivalry feed or discoverability is implied by Cloud Backup;
-- clearly separate private backup data from any future intentionally shared data;
+- no public profile, ranking, rivalry feed or discoverability is implied by Cloud Backup or Private Remote Joining;
+- clearly separate private backup/synchronization data from any intentionally shared private-session data;
 - provide understandable export and deletion paths for remote user data;
 - document retention for backups, tombstones, audit/security logs and deleted accounts;
 - do not put secrets, auth tokens, email addresses or unnecessary personal data into public URLs, analytics labels or client logs;
 - minimize device metadata and avoid fingerprinting beyond what the feature genuinely needs;
 - do not treat gameplay data as consent for public sharing;
 - future telemetry requires its own explicit data inventory and owner decision.
+
+Private Remote Joining must remain private by default. Pairing/session capability must not silently create public discoverability, public matchmaking, public profiles or global rankings.
 
 ## 8. Security contract
 
@@ -184,7 +197,7 @@ Remote content hashes may be signed or MACed in a future design if authenticity 
 
 ## 9. Threat model minimums
 
-Before any future Cloud Backup beta, tests/review must cover at least:
+Before any future Cloud Backup beta or Remote Joining network beta, tests/review must cover at least:
 
 - stale client attempts to overwrite a newer revision;
 - two devices editing from one base simultaneously;
@@ -201,7 +214,10 @@ Before any future Cloud Backup beta, tests/review must cover at least:
 - rollback failure and ownership loss during apply;
 - schema downgrade/unsupported future schema;
 - oversized or malicious JSON input;
-- offline edits followed by reconnect conflict.
+- offline edits followed by reconnect conflict;
+- unauthorized or replayed pairing/invite attempt;
+- one paired device being revoked while another session is active;
+- private session data being requested by an unrelated authenticated account.
 
 ## 10. Required dependency gates
 
@@ -212,21 +228,31 @@ The following current prerequisites are already satisfied and must remain protec
 1. Data Safety and Recovery is proven and permanent;
 2. Installable Offline App behavior has a proven update/recovery strategy;
 3. v1.3 Recovery & Device Resilience Hardening is closed;
-4. stable Local Profiles/Save Library identity and migration are production-proven.
+4. stable Local Profiles/Save Library identity and migration are production-proven;
+5. formatVersion 2 complete multi-Save portability and recovery semantics are production-proven.
 
-Opt-in Cloud Backup still cannot start until all remaining future gates are satisfied:
+Opt-in Cloud Backup or any Remote Joining sync foundation still cannot start until the relevant remaining future gates are satisfied:
 
-5. a server/provider, cost and operational ownership decision is documented;
-6. account/privacy/data-retention policy is documented;
-7. revision/conflict/tombstone semantics from this contract are implemented in a mocked deterministic model first;
-8. authentication/authorization threat model is reviewed;
-9. rollback/export escape hatches remain available;
-10. production secrets are excluded from GitHub Pages/static source;
-11. a rollback/disable plan exists for the cloud feature itself;
-12. remote identity semantics do not silently guess unresolved local/historical manager relationships;
-13. two-device simulation proves stale writes, conflicts, deletion and recovery behavior before production sync.
+6. a server/provider, cost and operational ownership decision is documented;
+7. account/privacy/data-retention policy is documented;
+8. revision/conflict/tombstone semantics from this contract are implemented in a mocked deterministic model first;
+9. authentication/authorization threat model is reviewed;
+10. rollback/export escape hatches remain available;
+11. production secrets are excluded from GitHub Pages/static source;
+12. a rollback/disable plan exists for the cloud/network feature itself;
+13. remote identity semantics do not silently guess unresolved local/historical manager relationships;
+14. two-device simulation proves stale writes, conflicts, deletion and recovery behavior before production sync.
 
-Cloud Readiness and Cloud Backup remain separate. Completing local identity did not authorize either one.
+The prioritized Remote Joining path adds further gates before Remote Joining itself:
+
+15. private account/authentication/authorization identity is proven against the object-access model;
+16. device registration, revocation and private-session pairing are proven without treating `deviceId` as authentication;
+17. invite/session replay and unauthorized-join cases are permanently tested;
+18. Connected Rivalry synchronization proves stale-write protection, conflict behavior and offline/reconnect recovery across two devices;
+19. the one-device/local-first path remains available and recoverable unless a later explicit owner decision changes that product rule;
+20. only after these gates pass may a bounded Remote Joining UX/runtime candidate be authorized.
+
+Cloud Readiness, Cloud Backup, private identity, paired-device capability, Connected Rivalry and Remote Joining remain separate bounded stages. The owner's priority instruction orders them; it does not collapse them into one implementation.
 
 ## 11. Non-negotiable anti-shortcuts
 
@@ -242,13 +268,15 @@ A future developer must not:
 - weaken Candidate C transaction verification for remote convenience;
 - present SHA-256 backup integrity as encryption or authentication;
 - make cloud mandatory before an explicit owner-approved product decision;
-- reinterpret distinct or unresolved Local Profiles by matching display names.
+- reinterpret distinct or unresolved Local Profiles by matching display names;
+- implement Remote Joining before its Cloud/sync, identity/auth, paired-session and Connected Rivalry prerequisites are proven;
+- use the prerequisite requirement as a reason to indefinitely deprioritize Remote Joining once the owner-authorized networked roadmap lane has begun.
 
 ## 12. Relationship to current production
 
-v1.3.0 — Recovery & Device Resilience Hardening remains the current application/whole-shell milestone and `1.3.0-r1` remains the current Installable Offline App runtime label.
+v1.4.0 — Product Deepening is the current application milestone and `1.4.0-r1` is the current Installable Offline App runtime label. v1.3.0 — Recovery & Device Resilience Hardening remains the protected resilience baseline beneath it, with `1.3.0-r2` as the immediate previous known-good whole shell.
 
-Local Profiles/Save Library subsequently shipped as a completed dependency milestone without assigning a new application or Service Worker release number. It is no longer future work and no longer "the next structural direction."
+Local Profiles/Save Library, identity-safe Career Analytics and formatVersion 2 multi-Save portability subsequently shipped as completed local dependency milestones. They are no longer future work.
 
 Current production therefore preserves the dependency history:
 
@@ -257,4 +285,15 @@ v1.3.0 Recovery & Device Resilience Hardening
 → Cloud Readiness
 → opt-in Cloud Backup.
 
-Only the first two are implemented. Cloud Readiness, Cloud Backup, accounts, authentication, pairing, synchronization and remote transport remain future/not authorized unless a later explicit owner decision and `NEXT_TASK.md` establish a bounded candidate.
+Only the first two entries in that historical cloud/backup chain are implemented. The current v1.4.0 product layer sits above the same protected local foundation.
+
+For the prioritized Private Remote Joining destination, the current strategic path is:
+
+completed local foundation
+→ Cloud / synchronization readiness
+→ private Identity / authentication / authorization
+→ Paired Device / private-session capability
+→ Connected Rivalry synchronization and two-device proof
+→ Private Remote Joining.
+
+Cloud Readiness, Cloud Backup, accounts, authentication, pairing, synchronization and remote transport remain future/not authorized unless a later explicit owner decision and `NEXT_TASK.md` establish a bounded candidate. The 2026-08-17 priority amendment means the prerequisite path should be advanced deliberately when that future networked lane is opened; it does not authorize premature implementation today.

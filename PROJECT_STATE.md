@@ -1,6 +1,6 @@
 # PROJECT STATE — Career Mode Showdown
 
-Last updated: 2026-08-17 ET (Phase C sealed + visible v1.4.0)
+Last updated: 2026-08-17 ET (Remote Joining priority clarification after v1.4.0 seal)
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction/status; release/proof documents remain frozen evidence for the release they name. `00_WORK_ENVIRONMENT_CONTINUITY.md` owns development-environment continuity and does not alter product/runtime authority.
 
@@ -24,6 +24,8 @@ Current feature release version: **v1.4.0** (visible on public site footer + `ap
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 The application milestone is now v1.4.0. Phase B (Save Library Experience 2.0 first slice) and Phase C (Showdown Home first slice) are the product-deepening content covered by this formal version. Runtime `1.4.0-r1` gives the updated shell a coherent installed-app identity while retaining `1.3.0-r2` as the immediate recovery predecessor.
+
+The 2026-08-17 Remote Joining priority amendment changes long-term roadmap priority only. It does not change deployed runtime behavior and does not authorize a networked product candidate.
 
 ## Completed local identity, Analytics, multi-Save portability, Phase B and Phase C chain
 
@@ -97,10 +99,12 @@ Only 0–0 invokes league position and then league points.
 
 Career Mode Showdown is a private two-manager companion for the owner and one friend.
 Public community features and global leaderboard/rankings are **ELIMINATED** (owner decision 2026-08-16).
-Private remote joining remains an important future requirement but is currently **BLOCKED** (no auth / transport).
+Private Remote Joining is a **PRIORITIZED LONG-TERM** product destination (owner clarification 2026-08-17). It is **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**, not deprioritized or permanently blocked.
+
+The ordered enabling path preserves the shipped local baseline, then advances Cloud/sync readiness, private identity/auth, paired-device/private-session capability, Connected Rivalry synchronization and two-device recovery/conflict proof before the Remote Joining experience itself. When future networked work is authorized, the next safe prerequisite on that path should be preferred over unrelated optional expansion unless a later owner instruction overrides the priority.
 
 ## Current authorization boundary
 
 Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 full multi-Save backup/import portability (PR #67), Phase A documentation authority sync (PR #68), Phase B first slice (PR #70), and Phase C first slice (PR #73) are complete, merged, deployed and production-proven.
 
-**No product candidate is currently authorized.** Hold clean stop until a further explicit owner instruction.
+**No product candidate is currently authorized.** The Remote Joining priority amendment does not itself authorize cloud, identity, pairing, sync or Remote Joining runtime work. Hold clean stop until a further explicit owner instruction establishes one bounded implementation candidate.
