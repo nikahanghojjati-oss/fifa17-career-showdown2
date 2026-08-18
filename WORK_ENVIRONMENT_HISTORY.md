@@ -48,7 +48,7 @@ This is the append-only record of Work environment transitions. Current verified
 - Final signals before record freeze: high context, four completed phases, six dense evidence events, two recoverable routing clusters, zero corrected implementation defects, one repeated patch-context mistake, zero stale facts, zero unresolved failures and unknown usage with no estimated percentage.
 - Assessment: `HANDOFF_AT_CHECKPOINT`; finish only the publication-record freeze and external exact-head proof, then transition before another substantial task.
 - Validation: focused continuity and handoff contracts passed; continuity schema passed; all 29 contract files after the explicit static release contract passed; both changed-file syntax checks and `git diff --check` passed; runtime-path diff against verified live main was empty.
-- Infrastructure classifications: the Work layer cancelled npm wrappers before execution, so their exact repository-owned Node commands were run directly and passed. Direct public-site browser routing was rejected before navigation; trusted HTTPS inspection returned the expected production title, v1.3.0 stable footer and r2/r1 Service Worker identity.
+- Infrastructure classifications: the Work layer cancelled the `npm` wrappers before execution, so their exact repository-owned Node commands were run directly and passed. Direct public-site browser routing was rejected before navigation; trusted HTTPS inspection returned the expected production title, v1.3.0 stable footer and r2/r1 Service Worker identity.
 - Technical proof: local candidate validation complete; exact-head GitHub CI/review remains for the successor to verify.
 - Owner acceptance: publication was explicitly authorized; merge and any later product work are not authorized by this record.
 - Exact next safe action: successor initializes a fresh continuity record before assessment, then verifies draft PR #64 exact head, CI, review and empty runtime diff. Do not merge or start runtime work without current owner authorization.
@@ -115,3 +115,20 @@ Copy this checklist beneath a new dated heading:
 - Technical proof status
 - Owner acceptance status
 - Exact next safe action
+
+## Phase 1E closure — `we-2026-08-17-phase1e-two-device-harness`
+
+- Successor-verified closure recorded: `2026-08-18T04:20:02Z`.
+- Starting verified live-main SHA from the predecessor record: `fc2e8e8b921a435103a438a9239efbb890584d22`.
+- Final exact repository boundary: PR #80 `Cloud Sync Readiness Phase 1E deterministic two-device harness`, exact validated head `36db46b34a0675623dbdd1a4e2c76e93d438de45`, squash merge/current live main `cebd9c031657c9ee01ba68f1baaac7816c9748b9`.
+- Bounded owner-authorized task: implement and prove the deterministic provider-neutral two-device/offline/reconnect synchronization harness without connecting Firebase or changing production runtime.
+- Final predecessor decision: `HANDOFF_AT_CHECKPOINT`; it belongs only to the predecessor and must not stop this successor from initializing fresh observations.
+- Final predecessor signals: high context, four observed compactions, two completed major phases, seven dense evidence events, two recoverable tool-routing errors, two corrected safety findings, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures and unavailable usage with no percentage estimated.
+- Material result: Phase 1E is DONE / MERGED / PROTECTED. `CLOUD_SYNC_READINESS_PHASE_1E.md`, dormant `js/cloudSyncTwoDeviceHarness.js` and `tests/contracts/cloud-sync-two-device-harness-contracts.cjs` permanently prove immutable offline intent, explicit stale conflicts, replay/idempotency behavior, tombstone anti-resurrection, current two-owner authorization and full reviewed three-key local Apply preconditions.
+- Corrected safety findings: shared mutation now freezes when the required peer account or entitlement is not active; local Apply now sends all three reviewed canonical keys through the protected raw transaction engine so unchanged reviewed bytes participate in last-moment preconditions.
+- Validation: successor independently re-fetched PR #80 as merged from unchanged exact head `36db46b...`; all 13 normal pull-request workflow families on that exact head are completed with `success`; submitted reviews are empty and inline review threads are empty.
+- Runtime/version boundary: Phase 1E remains dormant and production stays `v1.4.0` / `1.4.0-r1`, with `1.3.0-r2` as the immediate previous known-good whole shell.
+- Tooling boundary: direct shell DNS to GitHub remains unavailable in this successor environment, so connector-first GitHub access and GitHub-hosted CI remain the source/proof path. This is an environment limitation, not a project test failure.
+- Technical proof: complete for the bounded Phase 1E prerequisite.
+- Owner acceptance: the owner explicitly authorized continued prerequisite advancement toward stable Private Remote Joining; no separate visual acceptance applies to dormant proof infrastructure.
+- Exact next safe action: initialize a fresh successor record on live main `cebd9c0...`, reassess it independently, synchronize authority to Phase 1E DONE / Phase 1F CURRENT and begin only the bounded Firebase provider/emulator/deny-by-default Security Rules proof.
