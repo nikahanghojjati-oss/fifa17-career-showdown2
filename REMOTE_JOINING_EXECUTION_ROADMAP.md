@@ -77,6 +77,19 @@ Permanent security result: every application-client Firestore write remains deni
 
 Stage 1 is now complete as a bounded readiness/proof layer. Production Firebase runtime and production remote writes are still not enabled.
 
+### Historical Phase 1E / Phase 1F Stage 1 provenance
+
+The following progression is retained only as historical provenance for permanent Cloud/Sync contracts. It is not current roadmap status:
+
+Phase 1A — DONE / MERGED / PROTECTED.
+Phase 1B — DONE / MERGED / PROTECTED.
+Phase 1C — DONE / MERGED / PROTECTED.
+Phase 1D — DONE / MERGED / PROTECTED.
+Phase 1E — CURRENT BOUNDED CANDIDATE.
+Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED.
+
+Current Stage 1 authority is the completed Phase 1F status above.
+
 ## Stage 2 — Private Account / Authentication / Authorization
 
 Status: ACTIVE PRIORITY LANE / DEPENDENCY-GATED.
