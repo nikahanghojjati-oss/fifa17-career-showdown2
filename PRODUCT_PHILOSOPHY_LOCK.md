@@ -1,7 +1,7 @@
 # Product Philosophy Lock — Private Two-Manager Companion
 
 **Status:** Permanent owner decision [2026-08-16], priority clarification [2026-08-17]
-**Authority:** This file + ROADMAP_AMENDMENTS.md §2 + POST_V1_ROADMAP_EXECUTION.md classification matrix + NEXT_TASK.md future-area list.
+**Authority:** This file + `REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md` + historical ROADMAP_AMENDMENTS.md §2 + POST_V1_ROADMAP_EXECUTION.md classification matrix + NEXT_TASK.md future-area list. The 2026-08-17 amendment supersedes only the earlier `BLOCKED` classification for Private Remote Joining.
 
 ## Decision
 
@@ -43,6 +43,6 @@ When GitHub is connected with write access for this repository, agents **MUST** 
 
 - Classification matrices must show Public/community/rankings as **ELIMINATED**.
 - NEXT_TASK future-area lists must not re-authorize public community or global rankings.
-- Private Remote Joining must be represented as **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED**, not as a deprioritized or permanently blocked feature.
+- Private Remote Joining must be represented as **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**, not as a deprioritized or permanently blocked feature.
 - Cloud/sync readiness, private identity, paired-device/session security and Connected Rivalry foundations must be treated as the ordered enabling path for Remote Joining.
 - Roadmap priority never bypasses the requirement for a bounded implementation authorization before runtime work begins.
