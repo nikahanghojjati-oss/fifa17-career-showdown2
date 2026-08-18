@@ -5,6 +5,8 @@ const vm=require("node:vm");
 const revisionSource=fs.readFileSync("js/cloudSyncRevisionModel.js","utf8");
 const transactionSource=fs.readFileSync("js/storageTransaction.js","utf8");
 const harnessSource=fs.readFileSync("js/cloudSyncTwoDeviceHarness.js","utf8");
+const phase1e=fs.readFileSync("CLOUD_SYNC_READINESS_PHASE_1E.md","utf8");
+const next=fs.readFileSync("NEXT_TASK.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
@@ -19,6 +21,9 @@ assert.doesNotMatch(worker,/cloudSyncTwoDeviceHarness\.js/);
 assert.equal(pkg.version,"1.4.0","Dormant Phase 1E proof must not bump production application version.");
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
+assert.match(phase1e,/recursively frozen/i);
+assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
+assert.match(next,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i);
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
@@ -49,6 +54,7 @@ function build(){
     supportedPayloadFormatVersions:[1]
   });
   assert.equal(created.ok,true);
+  assert.equal(Object.prototype.hasOwnProperty.call(created.authority(),"accountId"),false,"Internal Phase 1A compatibility scope must never escape as an authenticated account identity.");
   return created;
 }
 
@@ -60,6 +66,8 @@ assert.equal(snap.devices.device_b.observedRevision,0);
 const a1=h.createIntent("device_a",{operation:"put",idempotencyKey:"key_a1",contentHash:hash("a"),payload:payload("A1")});
 const b1=h.createIntent("device_b",{operation:"put",idempotencyKey:"key_b1",contentHash:hash("b"),payload:payload("B1")});
 assert.equal(a1.intent.baseRevision,0);assert.equal(b1.intent.baseRevision,0);
+assert.equal(Object.isFrozen(a1.intent),true,"Queued intent envelope must be immutable.");
+assert.equal(Object.isFrozen(a1.intent.content),true,"Queued payload must be recursively immutable across retry/reconnect.");
 const acceptedA=h.submitIntent(a1.intent);
 assert.equal(acceptedA.status,"accepted");assert.equal(acceptedA.authoritativeRevision,1);
 const staleB=h.submitIntent(b1.intent);
@@ -113,7 +121,7 @@ assert.equal(reconnectedA.previousObservedRevision,4);assert.equal(reconnectedA.
 assert.equal(queuedA.intent.baseRevision,4,"Reconnect must not rewrite queued intent baseRevision.");
 assert.equal(h.submitIntent(queuedA.intent).status,"conflict");
 
-// 13-17: revocation/disable/membership authority and invalid payloads reject before remote mutation.
+// 13-17: revocation/disable/relationship/membership authority and invalid payloads reject before remote mutation.
 const beforeInvalid=h.authority().revision;
 const unsupported=h.createIntent("device_b",{operation:"put",idempotencyKey:"unsupported",contentHash:hash("4"),payload:payload("future",2)});
 assert.equal(unsupported.status,"unsupported-payload");assert.equal(h.authority().revision,beforeInvalid);
@@ -129,6 +137,10 @@ h.setAccountState("acct_b","disabled");
 const disabledIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"disabled",contentHash:hash("6"),payload:payload("disabled")});
 assert.equal(h.submitIntent(disabledIntent.intent).status,"account-disabled");assert.equal(h.authority().revision,beforeInvalid);
 h.setAccountState("acct_b","active");
+const staleRelationshipIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"relationship-old",contentHash:hash("6"),payload:payload("relationship-old")});
+h.setRelationshipState("revoked-read-only");
+assert.equal(h.submitIntent(staleRelationshipIntent.intent).status,"relationship-revoked");assert.equal(h.authority().revision,beforeInvalid);
+h.setRelationshipState("active");
 h.setMembershipState("acct_b","relinquished");
 const staleMembershipIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"member-old",contentHash:hash("7"),payload:payload("member-old")});
 assert.equal(h.submitIntent(staleMembershipIntent.intent).status,"relationship-revoked");assert.equal(h.authority().revision,beforeInvalid);
