@@ -4,6 +4,10 @@ Last updated: 2026-08-17 ET (Cloud/Sync Readiness Phase 1B provider decision)
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering alone is not permission to skip a dependency. The owner's 2026-08-17 instruction explicitly opens continued bounded prerequisite advancement toward Private Remote Joining.
 
+## Work Environment Continuity
+
+Every fresh development environment must follow `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json` and the repository Work Environment Continuity validate → archive/replace → assess sequence before substantial work. Continuity infrastructure remains outside the website runtime and does not itself authorize product or prerequisite changes.
+
 ## Current production milestone
 
 Application milestone: **v1.4.0 — Product Deepening**
