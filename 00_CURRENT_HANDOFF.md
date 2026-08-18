@@ -173,3 +173,7 @@ For Stage 2F:
 10. reassess WEC before beginning any separate next Stage 2 milestone.
 
 Do not weaken tests, workflow topology, timeouts, recovery guarantees or performance ceilings merely to obtain green CI.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish only Private Account / Authentication Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary. Preserve every production/recovery/security lock above, require trusted revocation-aware token verification, complete one exact-head PR publication gate and reassess WEC before any later Stage 2 milestone.
