@@ -151,6 +151,11 @@ Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYE
 Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT
 Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F DONE
 Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT
+Stage 2B — Provider Session Lifecycle & Revocation Boundary — DONE / MERGED / PROVEN.
+Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary — DONE / MERGED / PROVEN.
+Stage 2C exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`; Stage 2C squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase disconnected.
+PR #87 — DONE / MERGED / PROVEN. Exact validated head `2415c156161b6244c75e49917bad28efed957adf`; squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
+Stage 2D — Production Firebase Environment & Configuration Preflight — CURRENT.
 Cloud Backup | BLOCKED
 Private Remote Joining | PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED
 
