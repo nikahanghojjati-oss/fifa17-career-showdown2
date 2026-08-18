@@ -24,7 +24,7 @@ assert.match(stage2b, /Admin user-management APIs are elevated operations intend
 assert.match(stage2b, /refresh-token revocation is an Admin SDK operation/i);
 assert.match(stage2b, /FIREBASE_AUTH_EMULATOR_HOST/);
 assert.match(stage2b, /does not claim production proof of every in-flight token invalidation timing detail/i);
-assert.match(stage2b, /application account status[\s\S]+separate fail-closed authorization layer/i);
+assert.match(stage2b, /application account status[\s\S]+immediate fail-closed boundary for connected Firestore authorization/i);
 assert.match(stage2b, /Every application-client Firestore create\/update\/delete remains denied|every application-client Firestore create\/update\/delete remains denied/i);
 assert.match(stage2b, /production Auth persistence choice/i);
 assert.match(stage2b, /Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
