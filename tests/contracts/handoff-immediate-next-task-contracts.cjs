@@ -7,6 +7,7 @@ const start = read("00_DEVELOPER_START_HERE.md");
 const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
+const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 
 assert.match(
   golden,
@@ -112,7 +113,7 @@ assert.match(
 );
 assert.match(
   next,
-  /Stop and wait for a further explicit owner instruction/i,
+  /stop and wait for a further explicit owner instruction|hold clean stop until a later explicit owner instruction/i,
   "NEXT_TASK stop condition must require further owner instruction."
 );
 assert.match(
@@ -132,8 +133,23 @@ assert.match(
 );
 assert.match(
   next,
-  /private remote joining[\s\S]+BLOCKED/i,
-  "NEXT_TASK must retain private remote joining as important future but currently BLOCKED."
+  /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,
+  "NEXT_TASK must preserve Private Remote Joining as a prioritized long-term destination with strict prerequisite gates and no current runtime authorization."
+);
+assert.match(
+  next,
+  /Cloud \/ synchronization readiness[\s\S]+private account \/ authentication \/ authorization[\s\S]+paired-device \/ private-session[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i,
+  "NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
+);
+assert.match(
+  remotePriority,
+  /Supersedes:[\s\S]+earlier classification of private remote joining as `BLOCKED`/i,
+  "The dated owner amendment must explicitly supersede only the former Remote Joining BLOCKED classification."
+);
+assert.match(
+  remotePriority,
+  /PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i,
+  "The owner amendment must lock the new Remote Joining classification."
 );
 
 assert.match(
@@ -147,4 +163,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, Phase B first slice (PR #70), and Phase C first slice (PR #73) closed; visible v1.4.0 seal; no product candidate authorized.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, Phase B first slice (PR #70), and Phase C first slice (PR #73) closed; visible v1.4.0 seal; Remote Joining prioritized but dependency-gated; no product candidate authorized.");
