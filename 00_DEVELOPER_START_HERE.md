@@ -4,7 +4,7 @@ Last updated: 2026-08-18 ET — PR #89 complete / Stage 2F current
 
 Use this as startup orientation only. Current source, live GitHub state, deployed behavior, CI and later owner instructions override every historical record. `NEXT_TASK.md` is the sole primary implementation-authorization authority.
 
-## Mandatory startup sequence
+## Mandatory Work Environment Continuity startup sequence
 
 1. Verify live `main`, recent commits, open PRs, active branches, tags/releases when the connector supports them, current CI, package/runtime identity and deployed site.
 2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `00_CURRENT_HANDOFF.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md`, `PROJECT_STATE.md`, `NEXT_TASK.md`, `VERSIONING_POLICY.md`, `POST_V1_ROADMAP_EXECUTION.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md`.
