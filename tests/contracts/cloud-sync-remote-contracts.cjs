@@ -132,7 +132,7 @@ assert.match(contract,/Candidate A export[\s\S]+Candidate B analysis[\s\S]+Candi
 // Preserve Phase 1A's accepted replay semantics while Phase 1D defines the first-seen mutation pipeline.
 assert.ok(phase1a.indexOf("const replay=safeLedger[request.idempotencyKey]")<phase1a.indexOf("if(request.baseRevision!==state.revision)"),"Phase 1A exact replay must remain a non-mutating preflight before stale-base rejection.");
 assert.match(privacy,/shared two-owner rivalry when only one account requests deletion[\s\S]+Phase 1D/i);
-assert.match(provider,/Firebase Authentication \+ Cloud Firestore/i);
+assert.match(provider,/Firebase Authentication[\s\S]+Cloud Firestore Standard edition/i);
 assert.match(provider,/persistent offline cache[\s\S]+disabled/i);
 
 process.stdout.write("PASS Phase 1D Firebase-compatible remote schema, API, authorization, replay and two-owner deletion contract\n");
