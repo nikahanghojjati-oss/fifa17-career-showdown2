@@ -4,9 +4,11 @@
 
 This short section is the current source-facing override. The complete PR #89 live-main body below is intentionally retained as historical/proven contract provenance except for this prefixed successor update. Current source, live GitHub state and `NEXT_TASK.md` override the historical Stage 2D-current wording below.
 
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+
 Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — DONE / MERGED / PROVEN through PR #90. Exact validated head `1b0178979ea421b3bf27dd7675ad973aa7bfad8c`; squash merge / independently verified live-main boundary `a27147695607537a1cd1543efb84e6583929a696`.
 
-Stage 2G — Trusted Account Bootstrap Execution Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATOR-PROOF-ONLY. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` and `NEXT_TASK.md`. Branch: `agent/private-auth-stage2g-bootstrap-execution`; draft PR #91; fresh environment `we-2026-08-18-stage2g-account-bootstrap-execution`.
+Stage 2G — Trusted Account Bootstrap Execution Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATOR-PROOF-ONLY. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` and `NEXT_TASK.md`. Branch: `agent/private-auth-stage2g-bootstrap-execution`; draft PR #91; fresh environment `we-2026-08-18-stage2g-publication-reconcile`.
 
 Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected. Every application-client Firestore create/update/delete remains denied. Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
 
