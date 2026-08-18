@@ -84,6 +84,8 @@ The client request body never supplies trusted `accountId` authority.
 
 ### Missing account
 
+A missing `accounts/{uid}` document produces exactly one initial create plan when the trusted provider principal has a non-empty `uid`.
+
 When no `accounts/{uid}` document exists and the trusted provider principal has a non-empty `uid`, the decision is exactly one initial create plan:
 
 - path `accounts/{uid}`;
@@ -104,6 +106,8 @@ This no-write behavior is required for all currently valid application statuses:
 - `active`;
 - `disabled`;
 - `deletion-pending`.
+
+For `disabled` and `deletion-pending` accounts, bootstrap therefore remains a no-write outcome.
 
 Bootstrap must never reactivate a disabled account, cancel deletion-pending state, rewrite account creation time, reset revision, refresh provider metadata or otherwise use sign-in as an application lifecycle mutation.
 
