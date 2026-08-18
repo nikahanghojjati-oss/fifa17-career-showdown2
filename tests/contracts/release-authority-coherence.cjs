@@ -25,6 +25,7 @@ A.ok(fs.existsSync(handoffPath), `${handoffPath} must exist for the active runti
 const release = read(releasePath);
 const handoff = read(handoffPath);
 const proof = fs.existsSync(proofPath) ? read(proofPath) : "";
+const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
 const start = read("00_DEVELOPER_START_HERE.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const analyticsHandoff = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
@@ -89,7 +90,7 @@ for(const [file, text] of [
     ["README.md", readme],
     ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
 ]){
-    A.match(text, /v1\.3\.0\s+—?\s*Recovery & Device Resilience Hardening/i, `${file} must preserve the current v1.3 resilience milestone.`);
+    A.match(text, /v1\.3\.0\s+—?\s*Recovery & Device Resilience Hardening/i, `${file} must preserve the v1.3 resilience baseline beneath Product Deepening.`);
 }
 
 for(const stale of [
@@ -103,11 +104,11 @@ for(const stale of [
 }
 
 A.match(roadmap, /v1\.1 Data Safety and Recovery is complete/i, "Roadmap must keep Data Safety and Recovery closed.");
-A.match(roadmap, /Candidate A\/B\/C are protected systems, not the current feature task/i, "Roadmap must keep Candidate A/B\/C protected without reopening them as the current feature milestone.");
-A.match(roadmap, /Current milestone — v1\.3\.0 Recovery & Device Resilience Hardening/i, "Roadmap must preserve the v1.3 resilience milestone.");
-A.match(roadmap, /Local Profiles and Save Library — completed dependency milestone, feature version unassigned/i, "Roadmap must record shipped Local Profiles/Save Library without inventing a release version.");
-const resilienceIndex = roadmap.indexOf("Current milestone — v1.3.0 Recovery & Device Resilience Hardening");
-const profilesIndex = roadmap.indexOf("Local Profiles and Save Library — completed dependency milestone, feature version unassigned");
+A.match(roadmap, /Candidate A\/B\/C are protected systems, not the current feature task/i, "Roadmap must keep Candidate A/B/C protected without reopening them as the current feature milestone.");
+A.match(roadmap, /Completed resilience baseline — v1\.3\.0 Recovery & Device Resilience Hardening/i, "Roadmap must preserve v1.3 as the completed protected resilience baseline.");
+A.match(roadmap, /Local Profiles and Save Library — completed dependency milestone/i, "Roadmap must record shipped Local Profiles/Save Library as a completed dependency milestone.");
+const resilienceIndex = roadmap.indexOf("v1.3.0 Recovery & Device Resilience Hardening");
+const profilesIndex = roadmap.indexOf("Local Profiles and Save Library");
 const cloudIndex = roadmap.indexOf("Cloud Readiness");
 const backupIndex = roadmap.indexOf("Cloud Backup");
 A.ok(resilienceIndex >= 0 && profilesIndex > resilienceIndex && cloudIndex > profilesIndex && backupIndex > cloudIndex, "Roadmap must preserve resilience → completed local identity/save library → Cloud Readiness → Cloud Backup dependency order.");
@@ -141,41 +142,54 @@ A.match(start, /POST_V1_ROADMAP_EXECUTION\.md[^\n]+dependency direction and curr
 A.match(start, /explicit cross-Save\/historical manager identity linkage foundation — PR #57/i, "Developer bootstrap must include the shipped fifth manager-identity layer.");
 A.match(start, /identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i, "Developer bootstrap must include the shipped Analytics layer rather than treating PR #59 as active branch work.");
 A.match(start, /presentation-only Local Profile display-label editing — PR #61/i, "Developer bootstrap must include the shipped Local Profile label layer.");
+A.match(start, /formatVersion 2 full multi-Save backup\/import portability — PR #67/i, "Developer bootstrap must include the completed multi-Save portability layer.");
+A.match(start, /Phase B Save Library \/ Local Profile Experience 2\.0 first slice — PR #70/i, "Developer bootstrap must include the shipped Phase B first slice.");
+A.match(start, /Phase C Showdown Home & Season Experience first slice — PR #73/i, "Developer bootstrap must include the shipped Phase C first slice.");
 A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail rather than another full project-state owner.");
 A.match(currentHandoff, /A direct profile-ID key swap is not sufficiently correct/i, "Current production handoff must preserve the source-grounded Analytics identity finding that shaped the implementation.");
 A.match(currentHandoff, /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i, "Current handoff must retain the final PR #59 validation failure and classification evidence.");
 
+A.match(state, /Application milestone:\s*\*\*v1\.4\.0 — Product Deepening\*\*/i, "PROJECT_STATE must own the visible v1.4.0 Product Deepening milestone.");
 A.match(state, /Identity-Safe Career Analytics[\s\S]{0,300}(production-proven|merged, deployed)/i, "PROJECT_STATE must own current production Analytics truth after PR #59 proof.");
 A.match(state, /Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`/i, "PROJECT_STATE must identify the exact multi-Save (PR #67) production runtime feature merge.");
 A.match(state, /Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`/i, "PROJECT_STATE must identify the exact Phase B first-slice (PR #70) production merge.");
+A.match(state, /Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6`/i, "PROJECT_STATE must identify the exact Phase C first-slice (PR #73) production merge.");
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
 A.match(state, /unresolved historical roles remain excluded from identified longitudinal manager totals|unresolved historical manager roles remaining explicit/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
-A.match(state, /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience|Phase C \/ Showdown Home & Season Experience deepening — first slice/i, "PROJECT_STATE must record Phase C first slice as the authorized product candidate.");
+A.match(state, /No product candidate is currently authorized/i, "PROJECT_STATE must hold the clean-stop authorization boundary after Phase C.");
+A.match(state, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "PROJECT_STATE must retain the private-only product lock.");
+A.match(state, /Private remote joining[\s\S]{0,160}\*\*BLOCKED\*\*/i, "PROJECT_STATE must retain the blocked private remote-joining boundary.");
 
-A.match(next, /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience/i, "NEXT_TASK must authorize Phase C / Showdown Home & Season Experience deepening first slice.");
+A.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "NEXT_TASK must authorize no product candidate after the v1.4.0 seal.");
 A.match(next, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven.");
+A.match(next, /Phase C first slice — Showdown Home & Season Experience deepening \(PR #73/i, "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven.");
 A.match(next, /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i, "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice).");
+A.match(next, /dec1d3ba8182c3f62019974dd1704c7c9124def6/i, "NEXT_TASK must record the live main feature-merge SHA for PR #73 (Phase C first slice).");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
 A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as closed / production-proven.");
 A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
 A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
-A.match(next, /Current production Installable Offline App runtime: `1\.3\.0-r2`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r1`/i, "NEXT_TASK must own coherent r2 production delivery identity and r1 recovery truth.");
-A.match(next, /After that slice is production-proven, stop and wait for a further explicit owner instruction/i, "NEXT_TASK stop condition must require further owner instruction after Phase C first slice.");
+A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
+A.match(next, /No product candidate is currently authorized[\s\S]+Hold clean stop|Hold clean stop[\s\S]+further explicit owner instruction/i, "NEXT_TASK stop condition must require a clean stop and further owner instruction.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
 A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODUCTION-PROVEN/i, "Roadmap must record the shipped Analytics state.");
 A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
-A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Analytics completion must not advance cloud authorization.");
-A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Analytics completion must not weaken Cloud Backup dependency gates.");
-A.match(roadmap, /Backup\/import envelope portability \| AUTHORIZED AFTER PR #65/i, "Roadmap must classify bounded portability as authorized only after the infrastructure gate.");
+A.match(roadmap, /Backup\/import envelope portability \| DONE \/ PRODUCTION-PROVEN/i, "Roadmap must keep full multi-Save portability closed and production-proven.");
+A.match(roadmap, /Showdown Home & Season Experience \| FIRST SLICE DONE \/ PRODUCTION-PROVEN/i, "Roadmap must keep Phase C first slice closed and production-proven.");
+A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Product Deepening completion must not advance cloud authorization.");
+A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Product Deepening completion must not weaken Cloud Backup dependency gates.");
+A.match(roadmap, /Public\/community\/rankings \| ELIMINATED/i, "Roadmap must keep public community and global rankings eliminated.");
+A.match(roadmap, /Private remote joining \| BLOCKED/i, "Roadmap must keep private remote joining blocked behind its dependency chain.");
+A.match(roadmap, /Authorized product candidate: none/i, "Roadmap must hold a clean stop after the v1.4.0 seal.");
 
-A.match(proof, /Frozen candidate head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`/i, "R2 proof must retain the exact validated PR head.");
-A.match(proof, /Runtime merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "R2 proof must retain the exact runtime merge.");
-A.match(proof, /All 15 push\/deployment runs[\s\S]+deployed-site-smoke job `95036682319`/i, "R2 proof must retain exact production workflow and deployed smoke evidence.");
-A.match(proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof must retain the complete runtime-file byte match.");
-A.match(proof, /service-worker\.js[^\n]+exactly matches[\s\S]+manifest\.webmanifest[^\n]+exactly matches/i, "R2 proof must retain exact Service Worker and manifest deployment evidence.");
-A.match(proof, /public browser journey[\s\S]+profile_\*[^\n]+unchanged[\s\S]+saved Showdown manager label remained unchanged/i, "R2 proof must retain the public profile-label identity/history boundary.");
+A.match(historicalR2Proof, /Frozen candidate head: `cfedec8dccde51a7a9932a1bd3a92cc91514e579`/i, "R2 proof must retain the exact validated PR head.");
+A.match(historicalR2Proof, /Runtime merge: `67095a02188ebd246da0d0f2cd61158b8e9e504e`/i, "R2 proof must retain the exact runtime merge.");
+A.match(historicalR2Proof, /All 15 push\/deployment runs[\s\S]+deployed-site-smoke job `95036682319`/i, "R2 proof must retain exact production workflow and deployed smoke evidence.");
+A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof must retain the complete runtime-file byte match.");
+A.match(historicalR2Proof, /service-worker\.js[^\n]+exactly matches[\s\S]+manifest\.webmanifest[^\n]+exactly matches/i, "R2 proof must retain exact Service Worker and manifest deployment evidence.");
+A.match(historicalR2Proof, /public browser journey[\s\S]+profile_\*[^\n]+unchanged[\s\S]+saved Showdown manager label remained unchanged/i, "R2 proof must retain the public profile-label identity/history boundary.");
 
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must be explicitly closed after promotion.");
 A.match(analyticsHandoff, /Exact branch base:[\s\S]+8c6fad42e38b4964d848128e40569442c3fa06d5/i, "Closed Analytics handoff must preserve its exact verified branch base.");
@@ -192,4 +206,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; r2 production proof, completed identity layers, recovery ownership, closed multi-Save (PR #67), Phase C first-slice authorization, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, clean-stop authority, private product locks, cloud boundary and workflow topology agree.\n`);

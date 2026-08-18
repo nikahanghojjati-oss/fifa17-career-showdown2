@@ -73,27 +73,17 @@ assert.match(
   /c5c7d50cc3a2d9003e057d1813744c877323c068[\s\S]+deployed-site-smoke job `94855938131`/i,
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
-assert.match(
-  current,
-  /PR #57[\s\S]+PR #58[\s\S]+PR #59/i,
-  "Current rolling handoff must preserve prior manager-identity authority history while folding in Analytics promotion."
-);
-assert.match(
-  current,
-  /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text assertion/i,
-  "Current rolling handoff must preserve the exact final Analytics failure class."
-);
-assert.match(
-  current,
-  /PR #61 exact validation, merge and production proof[\s\S]+67095a02188ebd246da0d0f2cd61158b8e9e504e[\s\S]+deployed-site-smoke job `95036682319`/i,
-  "Current rolling handoff must retain exact PR #61 merge and deployed proof."
-);
 
-// Phase C first slice authorized: multi-Save + Phase A + Phase B first slice production-proven; Phase C first slice is the authorized candidate.
+// Phase C first slice closed + visible v1.4.0 seal: multi-Save + Phase A + Phase B + Phase C production-proven; no product candidate authorized.
 assert.match(
   next,
-  /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience/i,
-  "NEXT_TASK must authorize Phase C / Showdown Home & Season Experience deepening first slice."
+  /Authorized product candidate:[\s\S]{0,40}none/i,
+  "NEXT_TASK must hold clean stop with no authorized product candidate after the v1.4.0 seal."
+);
+assert.match(
+  next,
+  /Phase C first slice[\s\S]{0,160}(PR #73|production-proven|closed)/i,
+  "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven."
 );
 assert.match(
   next,
@@ -107,6 +97,11 @@ assert.match(
 );
 assert.match(
   next,
+  /dec1d3ba8182c3f62019974dd1704c7c9124def6/i,
+  "NEXT_TASK must record the Phase C first-slice (PR #73) production merge."
+);
+assert.match(
+  next,
   /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i,
   "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as a closed production milestone."
 );
@@ -117,8 +112,18 @@ assert.match(
 );
 assert.match(
   next,
-  /After that slice is production-proven, stop and wait for a further explicit owner instruction/i,
-  "NEXT_TASK stop condition must require further owner instruction after Phase C first slice."
+  /Stop and wait for a further explicit owner instruction/i,
+  "NEXT_TASK stop condition must require further owner instruction."
+);
+assert.match(
+  next,
+  /v1\.4\.0/i,
+  "NEXT_TASK must identify visible application version v1.4.0."
+);
+assert.match(
+  next,
+  /1\.4\.0-r1/i,
+  "NEXT_TASK must identify runtime 1.4.0-r1."
 );
 assert.match(
   next,
@@ -142,4 +147,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, and Phase B first slice (PR #70) closed; Phase C first slice authorized.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, Phase B first slice (PR #70), and Phase C first slice (PR #73) closed; visible v1.4.0 seal; no product candidate authorized.");

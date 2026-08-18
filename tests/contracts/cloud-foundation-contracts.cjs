@@ -18,10 +18,10 @@ assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain bloc
 
 assert.match(state, /formatVersion 2 is live|formatVersion 2 full multi-Save/i, "PROJECT_STATE must record formatVersion 2 multi-Save portability as live production truth.");
 assert.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must distinguish shipped local manager identity semantics from future cloud identity.");
-assert.match(state, /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience|formatVersion 2 is live/i, "PROJECT_STATE must retain multi-Save closed state (Phase C product authorization may still be landing).");
+assert.match(state, /No product candidate is currently authorized|formatVersion 2 is live|Phase C first slice/i, "PROJECT_STATE must retain multi-Save closed state and Phase C seal.");
 
 assert.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name the closed multi-Save (PR #67) milestone.");
-assert.match(next, /Authorized product candidate[\s\S]+Phase C \/ Showdown Home & Season Experience/i, "NEXT_TASK must authorize Phase C first slice while keeping multi-Save closed.");
+assert.match(next, /No product candidate is currently authorized|Authorized product candidate:\s*none/i, "NEXT_TASK must hold clean stop after Phase C seal while keeping multi-Save closed.");
 assert.match(next, /Cloud Readiness[\s\S]+(None of the future areas above is implementation-authorized|still BLOCKED|Out of scope for this authorization|Out of scope until a later explicit owner instruction)/i, "NEXT_TASK must keep Cloud Readiness and later network work outside the current authorization boundary.");
 assert.match(next, /strict exact raw snapshot authority|Candidate C remains the only destructive/i, "NEXT_TASK must preserve destructive restore / Candidate C snapshot authority while cloud remains future work.");
 assert.match(next, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "NEXT_TASK must retain the permanent ELIMINATED public community lock.");
@@ -32,4 +32,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS future cloud contract preserves shipped local identity, recovery authority, closed multi-Save (PR #67), Phase C first-slice authorization and cloud security/revision boundaries\n");
+process.stdout.write("PASS future cloud contract preserves shipped local identity, recovery authority, closed multi-Save (PR #67), closed Phase C first slice, visible v1.4.0 seal and cloud security/revision boundaries\n");
