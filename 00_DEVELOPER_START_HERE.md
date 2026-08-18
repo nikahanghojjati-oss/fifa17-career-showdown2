@@ -1,6 +1,6 @@
 # Career Mode Showdown — Developer Start Here
 
-Last updated: 2026-08-18 ET (Phase 1F complete / Private Auth Stage 2A next)
+Last updated: 2026-08-18 ET (Stage 2B complete / Stage 2C current)
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Purpose: canonical bootstrap for a new developer session.
 
@@ -17,7 +17,7 @@ Read current source before changing anything. Handoffs are orientation only.
 
 ## Work Environment Continuity startup
 
-Every fresh development environment must enter the repository-owned Work Environment Continuity system before substantial work. The inherited record is validated and archived/replaced before the successor assesses its own fresh context. A predecessor `HANDOFF_AT_CHECKPOINT` decision never becomes the successor's starting decision.
+Every fresh development environment must enter the repository-owned Work Environment Continuity system before substantial work. The inherited record is validated and archived/replaced before the successor assesses its own fresh context. A predecessor transition decision never becomes the successor's starting decision.
 
 ## GitHub CLI bootstrap
 
@@ -25,11 +25,11 @@ The repository-owned GitHub CLI bootstrap remains development infrastructure. Wh
 
 ## Mandatory startup sequence
 
-1. Fetch current `main`, recent commits, open PRs, active branches, tags/releases and Actions/CI.
+1. Fetch current `main`, recent commits, open PRs, active branches, tags/releases and Actions/CI where the environment exposes those endpoints.
 2. Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json` and `WORK_ENVIRONMENT_HISTORY.md`.
 3. Validate the inherited continuity record. If it belongs to the predecessor, archive its final facts and initialize a fresh successor record before assessment.
 4. Set the fresh record's `repository.startingMainSha` to independently verified current `main`; reset per-environment observations and never estimate unavailable usage.
-5. Read `PROJECT_STATE.md`, `NEXT_TASK.md`, `POST_V1_ROADMAP_EXECUTION.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md` and the current technical contracts relevant to the authorized prerequisite.
+5. Read `PROJECT_STATE.md`, `NEXT_TASK.md`, `POST_V1_ROADMAP_EXECUTION.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2B.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md` and current technical contracts relevant to the authorized prerequisite.
 6. Run the fresh environment continuity assessment and obey only that environment's decision.
 7. Verify production identity from current source before any runtime mutation.
 
@@ -42,7 +42,7 @@ Installable Offline App runtime: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 
-Cloud/Sync Phases 1A through 1F are dormant/test/provider-readiness work and did not change production runtime identity.
+Cloud/Sync Phases 1A through 1F and Private Account/Auth Stages 2A / 2B are completed non-production prerequisite work. Stage 2C is policy-only. Production Firebase remains disconnected.
 
 ## Completed product/dependency chain
 
@@ -64,19 +64,23 @@ The current source sits above these completed/protected layers:
 - Phase 1C privacy/retention/data inventory — PR #78;
 - Phase 1D exact remote schema/API/authorization contract — PR #79;
 - Phase 1E deterministic two-device/offline/reconnect harness — PR #80;
-- Phase 1F Firebase Local Emulator / deny-by-default Firestore Security Rules proof — PR #81.
+- Phase 1F Firebase Local Emulator / deny-by-default Firestore Security Rules proof — PR #81;
+- Stage 2A Firebase Auth Emulator Identity Boundary — PR #83;
+- Stage 2B Provider Session Lifecycle & Revocation Boundary — PR #84.
 
-Do not reopen completed portability, identity, recovery or Cloud/Sync proof merely because they are prerequisites in the history.
+Do not reopen completed portability, identity, recovery, Cloud/Sync, Stage 2A or Stage 2B proof merely because they are prerequisites in the history.
 
-## Exact Phase 1F completion boundary
+## Exact Stage 2B completion boundary
 
-PR #81: `Cloud Sync Readiness Phase 1F Firebase emulator and rules proof`
-Exact validated head: `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d`
-Squash merge/current completion boundary: `231556d86a93535fa90e173577c1159de4f40be0`
+PR #84: `Private Auth Stage 2B session lifecycle and revocation proof`
+Exact validated head: `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`
+Squash merge / verified completion boundary: `c4feadb69fb5e26eba19fa520afa0a09baf1de03`
 
-All 13 normal PR workflow families were independently verified successful on the exact unchanged PR head before merge.
+All 13 normal PR workflow families were independently verified successful on the exact unchanged PR head before merge. Submitted reviews and inline review threads were empty.
 
-Production Firebase remains disconnected. Phase 1F uses fixed demo project `demo-career-mode-showdown-phase1f` only for emulator proof.
+Stage 2B is DONE / MERGED / PROVEN.
+
+Production Firebase remains disconnected. Firebase Admin remains emulator/test-only and absent from production runtime/dependencies.
 
 ### Security lock carried forward
 
@@ -90,27 +94,42 @@ A later trusted mutation gateway or separately reviewed schema/protocol adjustme
 
 No product candidate is authorized.
 
-The current authorized prerequisite is **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary**.
+Stage 2A — Firebase Auth Emulator Identity Boundary — is DONE / MERGED / PROVEN through PR #83.
 
-Detailed scope: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
+Stage 2B — Provider Session Lifecycle & Revocation Boundary — is DONE / MERGED / PROVEN through PR #84.
 
-Stage 2A is test/emulator-only. It must prove real Firebase Auth `uid` → architecture `accountId` semantics and cross-service Firestore Security Rules identity under the same fixed demo project without connecting production Firebase.
+The current authorized prerequisite is Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary.
 
-It must cover distinct synthetic identities, wrong-account denial, unauthenticated denial, sign-out loss of authenticated access, app-account lifecycle separation, provider identity over client-supplied identity, no unsafe credential/token persistence, in-memory-only test Auth state and continued denial of every client Firestore write.
+Status: CURRENT BOUNDED CANDIDATE / POLICY-ONLY / PRODUCTION FIREBASE DISCONNECTED.
 
-Synthetic email/password users are permitted only as an emulator test mechanism. Stage 2A does not select production sign-in UX.
+Detailed scope: `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md`.
 
-Do not pull into Stage 2A:
+Stage 2C selects only the policy needed before production authentication can ever be connected:
 
-- production signup/login/account UI;
-- production Auth persistence choice;
-- production provider-level disable/revocation work;
+- Google federated sign-in through `GoogleAuthProvider` only;
+- `signInWithPopup()` from an explicit user gesture on the current GitHub Pages host;
+- `signInWithRedirect()` remains blocked until a separately reviewed auth-domain/hosting compatibility boundary is proven;
+- explicit `browserSessionPersistence`, not implicit durable local persistence;
+- no extra Google OAuth scopes;
+- no deliberate Google provider access-token retrieval or persistence;
+- Firebase `uid` remains architecture `accountId`, never Local Profile/gameplay identity;
+- application account status and rivalry entitlement remain separate authorization;
+- every application-client Firestore write remains denied.
+
+Do not pull into Stage 2C:
+
+- production Firebase project creation or web-app registration;
+- real production users;
+- account/signup/login UI;
+- deployed production Security Rules;
+- application-client Firestore writes;
+- Cloud Functions/Admin production runtime/service credentials/Blaze;
+- trusted production `checkRevoked` service;
+- safe application-account write bootstrap;
 - account export/deletion cascade;
-- safe production account-write bootstrap;
 - registered-device UI or pairing;
 - Connected Rivalry;
 - Remote Joining;
-- Cloud Functions/Admin/Blaze;
 - public discovery/community/rankings.
 
 ## Private Remote Joining direction
@@ -121,7 +140,7 @@ Ordered path:
 
 completed local recovery/identity/portability
 → Cloud / synchronization readiness — DONE through Phase 1F
-→ private account / authentication / authorization — CURRENT Stage 2 lane
+→ private account / authentication / authorization — CURRENT Stage 2 lane / Stage 2A DONE / Stage 2B DONE / Stage 2C CURRENT
 → paired-device / private-session capability — blocked Stage 3
 → Connected Rivalry — blocked Stage 4
 → Private Remote Joining — final dependency-gated destination.
@@ -154,10 +173,14 @@ Exactly two managers. Same selected league. Different permanent clubs. Showdown 
 
 Do not weaken Candidate C, tests, timeouts or performance ceilings to obtain green CI.
 
+## Historical Stage 2A provenance
+
+At the pre-implementation boundary, the current authorized prerequisite was **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary** and its status was `AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`. This is historical provenance only; Stage 2A is now complete.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-FIRST ENGINEERING TASK: after completing the mandatory startup and fresh continuity assessment, implement only the Stage 2A Auth Emulator identity proof described in `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md` if that environment's decision permits beginning the milestone.
+FIRST ENGINEERING TASK: after completing the mandatory startup and fresh continuity assessment, complete only the Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary if that environment's decision permits the milestone.
 
-Add Auth Emulator configuration under the existing fixed demo project, prove real Firebase Auth identities through Firestore Security Rules, keep Auth test persistence in memory, keep every client Firestore write denied, preserve local-only/recovery authority and leave production v1.4.0 / `1.4.0-r1` untouched.
+Keep production Firebase disconnected, keep production at v1.4.0 / `1.4.0-r1`, preserve all direct-client-write denial and recovery guarantees, require the permanent Stage 2C contracts and current-authority synchronization to pass the complete exact-head normal PR gate, and do not begin a later Stage 2 prerequisite until a fresh continuity reassessment.
 
-If the inherited/current continuity record says `HANDOFF_AT_CHECKPOINT`, do not let a predecessor decision stop successor initialization. If the fresh successor's own assessment says `HANDOFF_AT_CHECKPOINT`, finish only its current checkpoint and hand off before beginning another distinct milestone.
+If the inherited/current continuity record contains a predecessor transition decision, do not let it stop successor initialization. Obey only the fresh successor environment's own assessment.

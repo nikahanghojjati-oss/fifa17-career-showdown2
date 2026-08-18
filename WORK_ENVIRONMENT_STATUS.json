@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-18-private-auth-stage2b-session-revocation",
+  "environmentId": "we-2026-08-18-private-auth-stage2c-production-auth-policy",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-18T17:05:00Z",
+  "recordedAt": "2026-08-18T17:45:41Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "e39c1b0689598ac922569ff839ca30a1d5dee5fa"
+    "startingMainSha": "c4feadb69fb5e26eba19fa520afa0a09baf1de03"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
     "compactionCount": 3,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 20,
-    "toolRoutingErrors": 3,
-    "correctedFailures": 3,
+    "largeEvidenceEvents": 14,
+    "toolRoutingErrors": 4,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -28,39 +28,43 @@
     "atomicOperation": true
   },
   "continuity": {
-    "currentTask": "Finish only the Private Account / Authentication Stage 2B PR #84 publication boundary after implementing the emulator/test-only Provider Session Lifecycle & Revocation proof. No later Stage 2 prerequisite or Stage 3 work may begin in this environment.",
-    "lastSafeCheckpoint": "PR #84 branch agent/private-auth-stage2b-session-revocation is based on independently verified main e39c1b0689598ac922569ff839ca30a1d5dee5fa. Stage 2B authority, permanent contracts, test-only Firebase Admin/Auth/Firestore emulator proof and current roadmap/state synchronization are implemented. Corrected technical head 3f7713712c1ca9cffb2af05b5e9c0916b62cb0d4 passed the complete Static App gate including the real Stage 2B emulator proof. Pre-seal authority head 4c3c283224cb4b794baf1234dad244bc788a0b28 advanced through JavaScript syntax, dynamic release authority and into the combined repository-contract/emulator step without recurring the corrected release-authority failures.",
-    "nextSafeAction": "Treat this status seal as the final branch mutation. Require a completely fresh 13-family normal pull-request gate on the resulting exact PR #84 head. If and only if every family succeeds, the head is unchanged, submitted reviews and inline review threads are clean and the PR is mergeable, mark PR #84 ready and squash merge with expected-head protection. Independently verify the new live main and PR #84 exact merged head, then stop at the safe boundary and hand off before selecting another Stage 2 prerequisite.",
+    "currentTask": "Finish only the immutable publication boundary for Private Account / Authentication Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary. The policy and authority synchronization are technically complete; this environment must now seal the branch, require a fresh exact-final-head 13-family CI gate, verify clean review/thread state and mergeability, squash merge PR #85 with expected-head protection, independently verify live main, then hand off before another Stage 2 prerequisite.",
+    "lastSafeCheckpoint": "Pre-seal technical candidate 7ce8f6fbf48aab431d51b5e3d380c04f2109070f is fully green across all 13 normal workflow families. Static App passed syntax, dynamic release authority, the complete repository contract suite including Stage 2C and the Auth/Firestore/Admin emulator proofs, plus permanent workflow topology. Candidate C Atomic Restore passed its contracts and authoritative browser recovery audit. Stability passed both contracts and the Chromium integration journey. PR #85 is draft and mergeable with zero submitted reviews and zero inline review threads. Its exact 13-file diff is authority/continuity/contracts only and contains no production runtime file.",
+    "nextSafeAction": "Treat this status seal as the final branch mutation. Discard all earlier CI as merge authority and require all 13 normal workflow families to complete successfully on the resulting exact unchanged final PR #85 head. Then re-fetch PR #85, verify the exact head is unchanged, reviews and inline threads are clean and the PR is mergeable, mark it ready, squash merge with expected-head protection, independently verify the new live main, and stop before any later Stage 2 prerequisite.",
     "unfinishedWork": [
-      "Wait only through the resulting exact-final-head GitHub Actions gate; all 13 normal workflow families must complete successfully on that unchanged head.",
-      "Verify PR #84 submitted reviews and inline review threads are clean, verify mergeability and exact head identity, then mark ready for review if still draft.",
-      "Squash merge PR #84 using expected-head protection under the standing owner rule and independently verify the resulting live main.",
-      "A successor must reconcile the final PR #84 merge into append-only WORK_ENVIRONMENT_HISTORY.md and initialize a fresh environment before selecting another Stage 2 prerequisite."
+      "Capture the exact final seal commit/head created by this status update.",
+      "Require a completely fresh 13-family GitHub Actions gate on that exact unchanged final head; no pre-seal green run counts as merge authority.",
+      "Recheck PR #85 submitted reviews, inline review threads, exact head identity and mergeability after final-head CI completes.",
+      "Mark PR #85 ready for review and squash merge only with expected-head protection after the exact-head gate is fully green.",
+      "Independently verify the resulting live main and preserve exact final merge facts for the successor without rewriting this sealed historical record.",
+      "Hand off before selecting or implementing another distinct Stage 2 prerequisite."
     ],
     "knownHazards": [
-      "Every application-client Firestore write remains denied; Stage 2B does not resolve or weaken the Phase 1D idempotency receipt-path security finding.",
-      "Firebase Admin exists only as CI/test tooling against the fixed local Authentication Emulator. No production Admin SDK runtime, service-account credential, Cloud Function, Blaze billing or GitHub Pages privileged credential is authorized.",
-      "Provider refresh-token revocation is not represented as proof that every already-issued production credential becomes immediately invalid at every consumer. Final production check-revoked/session verification behavior remains a later Stage 2 gate.",
-      "Application account lifecycle metadata remains the immediate fail-closed connected authorization layer separate from provider authentication lifecycle.",
-      "Production Auth persistence remains unselected. Explicit in-memory persistence is only the emulator-test policy.",
-      "Registered devices/private pairing remains blocked until the entire Stage 2 identity/authentication/authorization layer is proven. Connected Rivalry and Private Remote Joining remain later blocked stages.",
+      "Every application-client Firestore create/update/delete remains denied. Stage 2C does not resolve the Phase 1D idempotency receipt-path security finding and must not be used to enable direct client writes.",
+      "Production Firebase remains disconnected. Stage 2C does not authorize production project creation, real users, account UI, deployed Security Rules or production Firebase dependencies.",
+      "Firebase Admin remains emulator/test-only. Production Admin SDK runtime, service-account credentials, Cloud Functions, Blaze billing and paid infrastructure remain separate architecture/security/cost decisions.",
+      "Stage 2B does not prove every production in-flight ID-token invalidation timing detail. Final backend revoked-token verification remains behind a later trusted production verification boundary.",
+      "The Stage 2C policy selects Google federated sign-in, explicit user-gesture popup and browserSessionPersistence only as the future initial production policy. It does not itself connect or configure production Auth.",
+      "OAuth redirect remains unauthorized on the current static host until a separately reviewed auth-domain/hosting compatibility boundary is proven; no silent popup-to-redirect fallback is permitted.",
+      "Firebase provider display names, emails and photos never establish Local Profile identity, Save ownership, device identity, rivalry membership or manager-slot transfer.",
+      "Registered Devices / Private Pairing remains Stage 3 and blocked until the entire Stage 2 account/authentication/authorization layer is proven. Connected Rivalry and Private Remote Joining remain later blocked stages.",
       "Public discovery, public profiles, public matchmaking, community systems and global leaderboard/rankings remain eliminated.",
-      "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive import Apply authority over exactly the three canonical browser-storage keys.",
-      "The local shell cannot resolve GitHub; connected GitHub is source/write authority and GitHub-hosted Actions is the validation path."
+      "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive import Apply authority over exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences."
     ],
     "evidenceNotes": [
-      "The predecessor Stage 2A transition-prepared record was validated and its successful PR #83 merge facts were appended to WORK_ENVIRONMENT_HISTORY.md before this successor environment was initialized.",
-      "Live main at successor start was independently verified as e39c1b0689598ac922569ff839ca30a1d5dee5fa, the PR #83 squash merge from exact validated head a4022d6f316622f73ead9aacde812b545b8dcf78.",
-      "All 13 normal workflow families were independently verified successful on exact PR #83 head a4022d6f316622f73ead9aacde812b545b8dcf78.",
-      "Stage 2B adds PRIVATE_ACCOUNT_AUTH_STAGE_2B.md, tests/firebase/private-account-auth-stage2b-lifecycle-emulator.cjs and tests/contracts/private-account-auth-stage2b-contracts.cjs, and wires the proof into the existing Static App workflow without adding a workflow family or executable block.",
-      "The Stage 2B emulator proof uses real Firebase Web Auth plus test-only Firebase Admin against Authentication Emulator 127.0.0.1:9099 and Firestore Emulator 127.0.0.1:8080 under fixed project demo-career-mode-showdown-phase1f.",
-      "The proof establishes Admin/Web Auth stable uid agreement, provider disable, new-sign-in auth/user-disabled failure, provider re-enable with the same uid, independent application-account disabled rivalry denial, client write denial, trusted app-status restoration of only the same existing entitlement and test-only revokeRefreshTokens(uid) routing without explicit raw bearer-token retrieval/persistence.",
-      "Corrected technical head 3f7713712c1ca9cffb2af05b5e9c0916b62cb0d4 completed the Static App workflow successfully including the real Phase 1F, Stage 2A and Stage 2B emulator proofs.",
-      "Corrected failure 1: the first Stage 2B contract expected a wording variant that did not match the source document's equivalent immediate fail-closed authorization language. The matcher was corrected without weakening behavior or security.",
-      "Corrected failure 2: NEXT_TASK authority synchronization dropped the protected bold ELIMINATED provenance formatting. The exact private-only product lock was restored; the permanent contract was not weakened.",
-      "Corrected failure 3: PROJECT_STATE authority synchronization dropped protected release-authority markdown formatting for the visible v1.4.0 milestone and related permanent provenance anchors. The exact protected formatting was restored; application version and runtime remained unchanged.",
-      "Production package remains 1.4.0 and runtime remains 1.4.0-r1. Stage 2B adds no production Firebase SDK/Admin dependency, account UI, production Firestore data or Security Rules deployment.",
-      "Using the repository continuity formula with final signals gives context pressure 98/100, quality risk 30/100, next-task separation 80/100 and handoff readiness 99/100. Continuation risk is about 69.1/100; transition advantage exceeds the transition threshold. Because the exact-head validation/merge sequence is an atomic publication boundary, decision: FINISH_SAFE_BOUNDARY. Usage percentage is unavailable and was not estimated."
+      "Startup independently verified live main c4feadb69fb5e26eba19fa520afa0a09baf1de03, PR #84 merged from exact validated head d6786d9d3f65a329aaf3607c3eb3d3d357983c5f, all 13 PR #84 workflow families successful and zero submitted reviews/inline threads.",
+      "The predecessor Stage 2B merge and one post-seal compaction were reconciled into append-only WORK_ENVIRONMENT_HISTORY.md before this fresh successor environment was initialized; predecessor FINISH_SAFE_BOUNDARY was not inherited.",
+      "Current production source remains application/package v1.4.0 and runtime 1.4.0-r1. Firebase and firebase-admin remain absent from the production dependency graph, index shell and Service Worker. Production Firebase remains disconnected.",
+      "Current Firebase primary documentation was re-read before the Stage 2C decision: managed OAuth/OIDC is preferred when feasible; Web Auth otherwise defaults to durable local persistence; browserSessionPersistence clears with the browser session; Google supports popup/redirect; redirect requires additional cross-origin Auth helper hosting/domain handling on modern browsers; final revoked-ID-token checking requires a trusted verification boundary.",
+      "Stage 2C policy is therefore Google federated sign-in only, signInWithPopup from an explicit user gesture on the current GitHub Pages topology, no signInWithRedirect until a separate compatible hosting/auth-domain boundary, explicit browserSessionPersistence, no extra Google OAuth scopes and no deliberate provider access-token retrieval or persistence.",
+      "Draft PR #85 was opened from exact base c4feadb69fb5e26eba19fa520afa0a09baf1de03. The changed-file set is exactly 13 non-runtime authority/continuity/contract files.",
+      "Initial diagnostic PR #85 head 5b9e3323d2f54fca1469fa83bf0a73bc61935f2a failed Static App only because NEXT_TASK.md no longer placed the protected shipped Local Profiles / Save Library dependency wording within the release-authority matcher window. All new Stage 2B/2C contracts had already passed. The source sentence was restored without weakening runtime behavior, Security Rules, recovery guarantees, timeouts, performance ceilings or workflow topology.",
+      "Corrected pre-seal technical head 7ce8f6fbf48aab431d51b5e3d380c04f2109070f then passed all 13 normal workflow families, including Static App complete repository contracts/emulator proof/workflow topology, Candidate C browser recovery and Stability Chromium integration.",
+      "Recoverable environment/tooling observations were direct shell GitHub DNS unavailability, a SafeBrowsing-blocked archive download attempt, one optimistic-lock stale-blob 409 corrected by refetching the exact blob, and an in-progress Actions log BlobNotFound timing response. None is a product/runtime failure and none remains unresolved.",
+      "PR #85 submitted review count and inline review-thread count were both zero at the pre-seal technical checkpoint, and GitHub reported the draft mergeable.",
+      "Usage percentage remains unavailable and was never estimated.",
+      "Final continuity formula before this immutable publication seal: context pressure 98/100, quality risk 28/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 68.4/100, transition cost 29.0/100 while the publication boundary is atomic, transition advantage 39.4. Because transition is recommended while the exact-head publication operation is atomic, the decision is FINISH_SAFE_BOUNDARY.",
+      "The required behavior is to complete only the final seal / exact-head CI / expected-head merge / live-main verification boundary, then hand off immediately before another substantial Stage 2 milestone."
     ]
   }
 }
