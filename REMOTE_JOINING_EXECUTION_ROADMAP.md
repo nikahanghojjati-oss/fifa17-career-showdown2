@@ -1,7 +1,7 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
 Status: owner-priority roadmap overlay
-Effective: 2026-08-18 ET, synchronized through Stage 2C completion; remaining Stage 2 prerequisite not yet selected
+Effective: 2026-08-18 ET, synchronized through Stage 2C and PR #86 completion; remaining Stage 2 prerequisite not yet selected
 Relationship to authority: `NEXT_TASK.md` owns bounded implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns broader post-v1 status; this file owns the detailed Remote Joining prerequisite lane.
 
 ## Product destination
@@ -25,6 +25,8 @@ Every stage must be bounded, validated, merged and proven before the next stage 
 ## Continuity principle
 
 Every substantive owner-facing project response visibly reports `Handoff proximity: X%`. At 100%, the current environment automatically generates the complete successor handoff, finishes only the safe bounded checkpoint and stops before another substantial milestone. Unknown usage is never fabricated; stricter WEC decisions remain authoritative; generated successor handoffs preserve the rule recursively.
+
+PR #86 `Protect Handoff Proximity governance and seal Stage 2C` is DONE / MERGED / PROTECTED from exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec` to squash merge / independently verified live main `1794f1f86968781b898d000360d1fb56234fb92f`. All 13 normal workflow families passed on that exact unchanged head; submitted reviews and inline review threads were empty. PR #86 changed no production runtime and is not a Stage 2 engineering prerequisite.
 
 ## Stage 0 — Proven local foundation
 
@@ -129,13 +131,22 @@ Stage 2C created no production Firebase project, real production users, account 
 
 Do not repeat Stage 2C.
 
+### PR #86 governance synchronization — completed
+
+Status: DONE / MERGED / PROTECTED / NON-RUNTIME — PR #86.
+
+Exact validated head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`.
+Squash merge / independently verified live main: `1794f1f86968781b898d000360d1fb56234fb92f`.
+
+PR #86 permanently protects Handoff Proximity governance and reconciles Stage 2C current authority. It does not add account/auth runtime, provider configuration or remote data behavior. Do not repeat PR #86.
+
 ### Remaining Stage 2 prerequisites
 
 Status: NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
 
 Remaining concerns include production Firebase operational/project setup, production web-app configuration, Google provider/authorized-domain setup, safe application-account bootstrap/write lifecycle, trusted production token verification and revoked-token behavior, account export/deletion cascade, authentication abuse/rate controls, production Security Rules deployment, provider outage/recovery behavior and the trusted production mutation-boundary decision.
 
-Their order is not pre-authorized. After the current governance synchronization merges and WEC is reassessed, the next environment must study current source plus current primary provider/security documentation and select only the next smallest prerequisite that safely advances the Remote Joining chain.
+Their order is not pre-authorized. The current bounded work is only the post-PR #86 current-authority reconciliation. After that reconciliation is exact-head validated, merged and independently verified, the fresh environment must reassess WEC, complete the mandatory current repository-source plus current primary provider/security-documentation study and select only the next smallest prerequisite that safely advances the Remote Joining chain. Selection must be recorded before implementation begins.
 
 ### Historical Stage 2A pre-implementation provenance
 

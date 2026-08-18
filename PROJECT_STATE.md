@@ -1,6 +1,6 @@
 # PROJECT STATE — Career Mode Showdown
 
-Last updated: 2026-08-18 ET (Stage 2C complete / Handoff Proximity governance synchronization current)
+Last updated: 2026-08-18 ET (PR #86 complete / post-merge authority reconciliation current)
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` own dependency direction/status.
 
@@ -32,8 +32,9 @@ Phase 1F / Stage 2A authority boundary merge: `87ea27a8dd28a041f973a3ba42312ff9e
 Private Account / Authentication Stage 2A merge: `e39c1b0689598ac922569ff839ca30a1d5dee5fa` (PR #83; exact validated head `a4022d6f316622f73ead9aacde812b545b8dcf78`)
 Private Account / Authentication Stage 2B merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03` (PR #84; exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`)
 Private Account / Authentication Stage 2C merge: `22566e1409cf53d728b38d0b5a19de478ae6761b` (PR #85; exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`)
+Handoff Proximity governance synchronization merge: `1794f1f86968781b898d000360d1fb56234fb92f` (PR #86; exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`)
 
-Cloud/Sync Phases 1A through 1F and Private Account/Auth Stages 2A / 2B / 2C are completed non-production prerequisite work. They do not change the production shell, so production remains v1.4.0 / `1.4.0-r1`.
+Cloud/Sync Phases 1A through 1F and Private Account/Auth Stages 2A / 2B / 2C are completed non-production prerequisite work. PR #86 is completed non-runtime governance/authority work. None changes the production shell, so production remains v1.4.0 / `1.4.0-r1`.
 
 Production Firebase remains disconnected.
 
@@ -108,7 +109,7 @@ Private Account / Authentication Stage 2C — Production Authentication Policy &
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2C.md`.
 
 Exact validated PR #85 head: `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`.
-Squash merge / verified live-main boundary: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
+Squash merge: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
 
 Stage 2C is policy-only. It permanently selects the initial future production authentication behavior before any Firebase production connection exists:
 
@@ -129,6 +130,17 @@ Firebase Admin remains test-only and absent from the production dependency graph
 The full account/auth stage remains incomplete after Stage 2C. Later Stage 2 concerns include production Firebase operational setup, safe application-account bootstrap/write lifecycle, trusted production token verification, account export/deletion cascade, abuse/rate controls, production Security Rules deployment and the trusted remote mutation-boundary decision. Their listing is not automatic implementation order.
 
 Do not repeat Stage 2C.
+
+## Handoff Proximity governance state
+
+PR #86 — Protect Handoff Proximity governance and seal Stage 2C — is **DONE / MERGED / PROTECTED**.
+
+Exact validated PR #86 head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`.
+Squash merge / independently verified live-main boundary: `1794f1f86968781b898d000360d1fb56234fb92f`.
+
+All 13 normal pull-request workflow families passed on that exact unchanged head. Submitted reviews and inline review threads were empty. The permanent Handoff Proximity rule, honest unknown-usage handling, WEC precedence, 100% automatic handoff/stop behavior and recursive successor propagation remain protected by repository governance and contracts.
+
+PR #86 changed no production application runtime or dependency. Do not repeat PR #86.
 
 ## Identity-Safe Career Analytics state
 
@@ -185,9 +197,11 @@ completed local recovery / identity / portability
 
 **No product candidate is currently authorized.**
 
-The only current bounded task is repository governance synchronization for the permanent Handoff Proximity rule plus current-facing Stage 2C completion reconciliation. It changes no website runtime and authorizes no production Firebase connection.
+The only current bounded task is post-PR #86 current-authority reconciliation. It changes no website runtime and authorizes no production Firebase connection.
 
-After that checkpoint is merged and independently verified, a fresh WEC assessment must select only the next smallest remaining Stage 2 prerequisite. Production Firebase connection, account UI, real users, later Stage 2 operational gates, pairing, Connected Rivalry and Remote Joining remain unauthorized until separately selected and proven.
+After this reconciliation is exact-head validated, merged and independently verified, the fresh environment must reassess WEC and complete the mandatory current repository-source plus current primary Firebase/security-documentation study. That study may select exactly one smallest remaining Stage 2 prerequisite that materially advances the private Remote Joining dependency chain. Selection is not implementation: the chosen prerequisite must be recorded as the bounded authority before its engineering work begins.
+
+Production Firebase connection, account UI, real users, later Stage 2 operational gates, pairing, Connected Rivalry and Remote Joining remain unauthorized until separately selected and proven.
 
 ## Historical Phase 1E / Phase 1F / Stage 2A contract provenance
 

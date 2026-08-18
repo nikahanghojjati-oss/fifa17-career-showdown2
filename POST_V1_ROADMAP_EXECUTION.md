@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-18 ET (Stage 2C complete / governance synchronization current)
+Last updated: 2026-08-18 ET (PR #86 complete / post-merge authority reconciliation current)
 Status: current dependency/status authority for post-v1 direction. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
 ## 1. Current authority
@@ -18,8 +18,9 @@ Cloud/Sync Readiness Phase 1F merge: `231556d86a93535fa90e173577c1159de4f40be0` 
 Private Account / Authentication Stage 2A merge: `e39c1b0689598ac922569ff839ca30a1d5dee5fa` (PR #83; exact validated head `a4022d6f316622f73ead9aacde812b545b8dcf78`)
 Private Account / Authentication Stage 2B merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03` (PR #84; exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`)
 Private Account / Authentication Stage 2C merge: `22566e1409cf53d728b38d0b5a19de478ae6761b` (PR #85; exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`)
+Handoff Proximity governance synchronization merge: `1794f1f86968781b898d000360d1fb56234fb92f` (PR #86; exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`)
 Authorized product candidate: none
-Current authorized prerequisite candidate: Handoff Proximity governance synchronization and Stage 2C completion authority reconciliation only.
+Current authorized prerequisite candidate: post-PR #86 current-authority reconciliation only; the next Stage 2 engineering prerequisite remains NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
@@ -69,6 +70,7 @@ Product philosophy lock: Career Mode Showdown is a private two-manager companion
 → `Stage 2A Auth Emulator identity boundary` — PR #83 / DONE / MERGED / PROVEN
 → `Stage 2B Provider Session Lifecycle & Revocation Boundary` — PR #84 / DONE / MERGED / PROVEN
 → `Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary` — PR #85 / DONE / MERGED / PROVEN
+→ `Handoff Proximity governance synchronization / Stage 2C authority seal` — PR #86 / DONE / MERGED / PROTECTED
 → `remaining Stage 2 prerequisites` — NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
 
 ## 4. Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening
@@ -160,11 +162,22 @@ Stage 2C created no production Firebase project, production user, account UI, pr
 
 Do not repeat Stage 2C.
 
+### PR #86 governance synchronization — completed
+
+Status: DONE / MERGED / PROTECTED / NON-RUNTIME — PR #86.
+
+Exact validated head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`.
+Squash merge / independently verified live main: `1794f1f86968781b898d000360d1fb56234fb92f`.
+
+All 13 normal workflow families passed on that exact unchanged head and submitted reviews plus inline review threads were empty. The permanent Handoff Proximity policy and Stage 2C completion authority are repository-protected. PR #86 did not change runtime or connect production Firebase.
+
+Do not repeat PR #86.
+
 ### Remaining Stage 2 prerequisites
 
 Stage 2 remains incomplete. Remaining concerns include production Firebase operational setup, safe application-account bootstrap/write lifecycle, final trusted production token verification/revocation behavior, export/deletion cascade, abuse/rate controls, production Security Rules and trusted remote mutation infrastructure.
 
-The current governance synchronization does not select their order. After the governance checkpoint is merged and WEC is reassessed, current source and current primary provider/security documentation must identify only the next smallest necessary Stage 2 prerequisite.
+Their order is not pre-authorized. The current bounded work is only post-PR #86 authority reconciliation. After that reconciliation is merged and WEC is reassessed, current source and current primary provider/security documentation must identify only the next smallest necessary Stage 2 prerequisite. The selected prerequisite must materially advance the private Remote Joining chain and be recorded before implementation begins.
 
 ## 9. Current roadmap classification matrix
 
@@ -205,6 +218,7 @@ proven local recovery/data safety — DONE
 → Stage 2A — DONE / PR #83
 → Stage 2B — DONE / PR #84
 → Stage 2C — DONE / PR #85
+→ PR #86 governance synchronization — DONE / MERGED / PROTECTED
 → later Stage 2 prerequisites — NOT YET SELECTED OR AUTHORIZED
 → Stage 3 secure paired-device/private-session
 → Stage 4 Connected Rivalry
@@ -242,4 +256,4 @@ Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT
 
 At the historical Stage 2A boundary, Stage 2A — Firebase Auth Emulator Identity Boundary was AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 
-Those transitions are completed. Current authority is Stage 2A DONE / Stage 2B DONE / Stage 2C DONE; remaining Stage 2 prerequisite selection waits for the bounded governance checkpoint and fresh WEC reassessment.
+Those transitions are completed. Current authority is Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / PR #86 DONE / MERGED / PROTECTED. The next Stage 2 engineering prerequisite remains unselected until the narrow post-PR #86 reconciliation is merged, WEC is reassessed and the mandatory current-source/provider-security study selects exactly one dependency gate.

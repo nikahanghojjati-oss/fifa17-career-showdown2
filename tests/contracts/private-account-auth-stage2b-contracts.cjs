@@ -44,7 +44,8 @@ assert.match(stage2a, /Stage 2A[\s\S]+PR #83/i);
 assert.match(stage2c, /DONE \/ MERGED \/ PROVEN/i);
 assert.match(stage2c, /PR #85[\s\S]+48aa61a8d1b26f2c621cf7f0b410c68e0418257a[\s\S]+22566e1409cf53d728b38d0b5a19de478ae6761b/i);
 assert.match(next, /Stage 2B[\s\S]{0,260}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next, /Current authorized prerequisite candidate[\s\S]{0,320}Handoff Proximity governance synchronization/i);
+assert.match(next, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
+assert.match(next, /Current authorized prerequisite candidate[\s\S]{0,420}post-PR #86 current-authority reconciliation/i);
 assert.match(state, /Stage 2C — completed/i);
 assert.match(state, /Current authorization boundary[\s\S]+No product candidate is currently authorized/i);
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
@@ -52,7 +53,8 @@ assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Ho
 assert.match(remoteRoadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
-assert.match(currentHandoff, /Current governance synchronization checkpoint/i);
+assert.match(currentHandoff, /Handoff Proximity governance checkpoint — DONE \/ MERGED \/ PROTECTED/i);
+assert.match(currentHandoff, /Current bounded authority reconciliation/i);
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");
@@ -104,4 +106,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B completed provider lifecycle, revocation and production-isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B completed provider lifecycle, revocation and post-PR86 production-isolation contracts\n");
