@@ -155,9 +155,9 @@ Every bounded prerequisite requires permanent contracts and the full applicable 
 
 Do not weaken tests, workflow topology, timeouts, recovery guarantees or performance ceilings to obtain green CI.
 
-## Historical Cloud Readiness provenance
+## Historical Cloud Readiness and Stage 2 provenance
 
-The following completed-transition wording is intentionally retained because permanent Cloud Foundation and Stage 2A boundary contracts protect it. It is historical only and does not override the current Stage 2F lane above.
+The following completed-transition wording is intentionally retained because permanent Cloud Foundation and Stage 2A/2B/2C boundary contracts protect it. It is historical only and does not override the current Stage 2F lane above.
 
 Phase 1A — DONE / MERGED / PROTECTED
 Phase 1B — DONE / MERGED / PROTECTED
@@ -167,4 +167,9 @@ Phase 1E — CURRENT BOUNDED CANDIDATE
 Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED
 Stage 1 — Cloud / Sync Readiness — DONE / MERGED / PROTECTED through Phase 1F.
 Stage 2A — Firebase Auth Emulator Identity Boundary — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
+Stage 2B — Provider Session Lifecycle & Revocation Boundary — DONE / MERGED / PROVEN.
+Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary — DONE / MERGED / PROVEN.
+Stage 2C exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`; Stage 2C squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase disconnected.
+PR #87 — DONE / MERGED / PROVEN. Exact validated head `2415c156161b6244c75e49917bad28efed957adf`; squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
+Stage 2D — Production Firebase Environment & Configuration Preflight — CURRENT.
 Stage 3 — Registered Devices / Private Pairing — BLOCKED until Stage 2 is proven.
