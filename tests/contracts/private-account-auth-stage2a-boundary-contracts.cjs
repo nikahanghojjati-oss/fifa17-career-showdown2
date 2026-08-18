@@ -24,7 +24,7 @@ assert.match(stage2a, /synthetic email\/password users[\s\S]+test mechanism only
 assert.match(stage2a, /in-memory/i);
 assert.match(stage2a, /wrong-account/i);
 assert.match(stage2a, /Signing out removes authenticated Firestore access/i);
-assert.match(stage2a, /all application-client Firestore create, update and delete remains denied|Every application-client Firestore write remains denied/i);
+assert.match(stage2a, /Every application-client Firestore create, update and delete remains denied|all application-client Firestore writes remain denied/i);
 assert.match(stage2a, /raw password[\s\S]+ID token[\s\S]+refresh token[\s\S]+not/i);
 assert.match(stage2a, /Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
 assert.match(stage2a, /careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/i);
