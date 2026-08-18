@@ -41,16 +41,18 @@ assert.match(stage2b, /Registered devices\/private pairing remain blocked/i);
 assert.match(stage2b, /current bounded prerequisite is Stage 2C/i);
 
 assert.match(stage2a, /Stage 2A[\s\S]+PR #83/i);
-assert.match(stage2c, /CURRENT BOUNDED CANDIDATE/i);
+assert.match(stage2c, /DONE \/ MERGED \/ PROVEN/i);
+assert.match(stage2c, /PR #85[\s\S]+48aa61a8d1b26f2c621cf7f0b410c68e0418257a[\s\S]+22566e1409cf53d728b38d0b5a19de478ae6761b/i);
 assert.match(next, /Stage 2B[\s\S]{0,260}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next, /Current authorized prerequisite candidate[\s\S]{0,260}Stage 2C/i);
-assert.match(state, /Current Stage 2C candidate/i);
+assert.match(next, /Current authorized prerequisite candidate[\s\S]{0,320}Handoff Proximity governance synchronization/i);
+assert.match(state, /Stage 2C — completed/i);
+assert.match(state, /Current authorization boundary[\s\S]+No product candidate is currently authorized/i);
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
-assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
-assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
-assert.match(currentHandoff, /Current Stage 2C checkpoint/i);
+assert.match(currentHandoff, /Current governance synchronization checkpoint/i);
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");

@@ -53,6 +53,17 @@ assert.match(history, /append-only record/i);
 assert.match(history, /we-2026-08-15-continuity-bootstrap[\s\S]+HANDOFF_AT_CHECKPOINT/i);
 
 for(const [name, text] of [
+  ["AGENTS.md", agents],
+  ["00_HANDOFF_GOLDEN_RULE.md", golden],
+  ["00_WORK_ENVIRONMENT_CONTINUITY.md", protocol]
+]){
+  assert.match(text, /Handoff proximity:\s*X%/i, `${name} must require visible Handoff proximity reporting.`);
+  assert.match(text, /Handoff proximity:\s*100%[\s\S]+automatically generate the complete successor handoff[\s\S]+stop before (?:beginning )?another substantial milestone/i, `${name} must require the 100 percent automatic handoff and stop boundary.`);
+  assert.match(text, /(?:Never fabricate[\s\S]{0,220}(?:usage|account\/model usage)|(?:usage|account\/model usage)[\s\S]{0,220}(?:must never be fabricated|is never fabricated))/i, `${name} must forbid fabricated usage in Handoff proximity.`);
+  assert.match(text, /(?:WEC|Work Environment Continuity)[\s\S]{0,260}(?:authoritative[\s\S]{0,220}(?:earlier|stricter)|(?:earlier|stricter)[\s\S]{0,220}(?:authoritative|never weakens|never authorize))/i, `${name} must preserve stricter WEC precedence.`);
+}
+
+for(const [name, text] of [
   ["00_HANDOFF_GOLDEN_RULE.md", golden],
   ["00_DEVELOPER_START_HERE.md", start],
   ["00_CURRENT_HANDOFF.md", current],
@@ -181,8 +192,14 @@ const cleanRepository = {
   assert.match(prompt, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
   assert.match(prompt, /Do not invent an exact usage percentage/i);
   assert.match(prompt, /Maintain the same continuity system recursively/i);
+  assert.match(prompt, /MANDATORY HANDOFF PROXIMITY RULE/i);
+  assert.match(prompt, /Handoff proximity:\s*X%/i);
+  assert.match(prompt, /Handoff proximity:\s*100%[\s\S]+automatically generate the complete successor handoff[\s\S]+stop before beginning another substantial milestone/i);
+  assert.match(prompt, /Never fabricate account\/model usage[\s\S]+usage is unavailable/i);
+  assert.match(prompt, /WEC remains authoritative[\s\S]+earlier or stricter transition/i);
+  assert.match(prompt, /Every successor handoff must recursively preserve this same Handoff Proximity rule/i);
 
-  process.stdout.write("PASS Work Environment Continuity contracts: source-first bootstrap, honest usage handling, deterministic transition thresholds, atomic safety and recursive handoff generation are protected.\n");
+  process.stdout.write("PASS Work Environment Continuity contracts: source-first bootstrap, honest usage handling, deterministic transition thresholds, atomic safety, visible Handoff proximity governance and recursive handoff generation are protected.\n");
 })().catch(error => {
   process.stderr.write(`${error.stack || error.message}\n`);
   process.exitCode = 1;
