@@ -1,7 +1,7 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
 Status: owner-priority roadmap overlay
-Effective: 2026-08-18 ET, synchronized after Phase 1F merge
+Effective: 2026-08-18 ET, synchronized through the Stage 2A PR #83 implementation gate
 Relationship to authority: `NEXT_TASK.md` owns bounded implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` owns broader post-v1 status; this file owns the detailed Remote Joining prerequisite lane.
 
 ## Product destination
@@ -75,7 +75,7 @@ Phase 1F connects Firebase only inside fixed demo project `demo-career-mode-show
 
 Permanent security result: every application-client Firestore write remains denied. The protected Phase 1D shared-state document does not carry the idempotency-key hash required for Security Rules to identify the matching sibling idempotency receipt, so direct client state writes cannot safely enforce the replay invariant. A trusted mutation gateway or separately reviewed protocol/schema adjustment remains a later production-write gate. Phase 1F does not authorize Cloud Functions, Firebase Admin production runtime, service-account credentials or Blaze billing.
 
-Stage 1 is now complete as a bounded readiness/proof layer. Production Firebase runtime and production remote writes are still not enabled.
+Stage 1 is complete as a bounded readiness/proof layer. Production Firebase runtime and production remote writes are still not enabled.
 
 ### Historical Phase 1E / Phase 1F Stage 1 provenance
 
@@ -110,19 +110,25 @@ Stage 2 is intentionally split into bounded prerequisites rather than one broad 
 
 ### Stage 2A — Firebase Auth Emulator Identity Boundary
 
-Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
+Status: IMPLEMENTED BOUNDED CANDIDATE / PR #83 VALIDATION AND MERGE GATE.
 
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
 
-Stage 2A is the smallest proof after Phase 1F. It must add only the Authentication Emulator to the existing fixed demo project and prove real Firebase Auth `uid` → architecture `accountId` semantics through cross-service Firestore Security Rules.
+PR #83 adds only the Authentication Emulator to the existing fixed demo project and proves real Firebase Auth `uid` → architecture `accountId` semantics through cross-service Firestore Security Rules. The proof uses two distinct synthetic Web Auth users, explicit in-memory Auth persistence, wrong-account and unauthenticated denial, sign-out loss of authenticated access, fail-closed invalid sign-in, application-account lifecycle checks separate from provider sign-in, provider identity over client-supplied identity and continued denial of every application-client Firestore create/update/delete.
 
-Required Stage 2A outcomes include distinct synthetic Auth `uid` principals, strict separation from `profileId`/`saveId`/`seasonId`/`deviceId`/`installationId`/`rivalryId`/`sessionId`, wrong-account and unauthenticated denial, sign-out loss of authenticated access, application account lifecycle checks that remain separate from provider sign-in, no persisted raw credentials/tokens, in-memory-only test Auth state and continued denial of all client Firestore writes.
+The corrected technical head `1420d8ffec9e689f1b3973021517713c446c85a0` passed the complete 37-file repository contract suite, preserved Phase 1F emulator proof and the real Stage 2A Auth/Firestore emulator proof under the same demo project. Production remains v1.4.0 / `1.4.0-r1`, Firebase remains absent from the production shell and the workflow topology remains 13 workflows / 27 executable blocks.
 
-Synthetic email/password users may be used only as an emulator test mechanism. Stage 2A does not select the eventual production sign-in UX.
+Stage 2A is complete only after the final unchanged PR #83 head is fully green, review/thread state is clean, expected-head squash merge succeeds and live `main` is independently verified.
+
+Synthetic email/password users remain an emulator test mechanism only. Stage 2A does not select the eventual production sign-in UX.
 
 Stage 2A does not authorize production Firebase, production account/signup/login UI, production Auth persistence, provider-level disable/revocation implementation, account export/deletion cascade, safe application account writes, rate controls, registered-device UI, pairing, Connected Rivalry or Remote Joining.
 
-After Stage 2A merges, current source must choose the next smallest remaining Stage 2 prerequisite. Do not pre-collapse the rest of Stage 2 into Stage 2A.
+After Stage 2A merges, current source and a fresh continuity assessment must choose the next smallest remaining Stage 2 prerequisite. No later Stage 2 prerequisite is pre-authorized by this roadmap.
+
+### Historical Stage 2A pre-implementation provenance
+
+At the predecessor boundary Stage 2A status was `AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`. That wording is retained only as historical provenance and is not current status.
 
 ## Stage 3 — Registered Devices and Private Pairing
 

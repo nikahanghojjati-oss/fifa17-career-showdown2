@@ -13,104 +13,86 @@ Package: `1.4.0`
 Installable Offline App runtime: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
 
-PR #81 completed Cloud/Sync Readiness Phase 1F from exact validated head `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d` to squash merge / verified live-main boundary `231556d86a93535fa90e173577c1159de4f40be0`.
+PR #81 completed Cloud/Sync Readiness Phase 1F from exact validated head `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d` to squash merge `231556d86a93535fa90e173577c1159de4f40be0`.
 
-Phase 1F is DONE / MERGED / PROTECTED. Production Firebase remains disconnected. No production Auth account, Firestore data, deployed production Security Rules, Cloud Function, Admin runtime, service-account credential or Blaze billing was created.
+PR #82 synchronized the completed Phase 1F boundary and authorized Stage 2A from exact validated head `8f1fb4d4c9324947815936b21c6bc29a657a94b7` to verified squash merge / starting main `87ea27a8dd28a041f973a3ba42312ff9e78ba74d`.
+
+Production Firebase remains disconnected. No production Auth account, Firestore data, deployed production Security Rules, Cloud Function, Admin runtime, service-account credential or Blaze billing exists.
 
 Every application-client Firestore write remains denied. The protected Phase 1D shared-state schema still does not expose the idempotency-key hash required for Security Rules to identify the matching sibling replay receipt. A trusted mutation gateway or separately reviewed schema/protocol change remains a later independent production-write gate.
 
 Firestore persistent offline cache remains disabled. Project-owned immutable `baseRevision`, explicit stale conflict, replay/idempotency, tombstone, reconnect and Candidate C local Apply semantics remain authoritative.
 
-## Current PR #82 checkpoint
+## Current PR #83 Stage 2A checkpoint
 
-PR #82: `Seal Phase 1F and authorize Private Auth Stage 2A boundary`.
-Branch: `agent/private-auth-stage2a-emulator-identity`.
-Base: live main `231556d86a93535fa90e173577c1159de4f40be0`.
-Pre-seal exact candidate: `fc63c07051c69b69a97c464f11274d8f5a9a70dc`.
-First status-seal candidate: `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` — rejected because this handoff rewrite omitted the protected literal `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary.
-Second status-seal candidate: `1afc134ebe831270336f2be7387c651b05dab919` — rejected because the rewritten rolling handoff omitted two protected PR #59 Analytics provenance findings.
+PR #83: `Private Auth Stage 2A real emulator identity proof`.
+Branch: `agent/private-auth-stage2a-emulator-proof`.
+Base: verified main `87ea27a8dd28a041f973a3ba42312ff9e78ba74d`.
 
-The pre-seal candidate changed only continuity/authority documentation plus a permanent Stage 2A boundary contract and contract-suite registration. It did not change `index.html`, production application JavaScript, `service-worker.js`, `package.json` or `package-lock.json`.
+Fresh Work Environment Continuity environment: `we-2026-08-18-private-auth-stage2a-proof`.
 
-All 13 normal workflow families completed `success` on pre-seal head `fc63c07051c69b69a97c464f11274d8f5a9a70dc`. Both later seal heads are permanently ineligible for merge because exact-head CI exposed handoff-coherence omissions. The corrections restore protected authority evidence without altering production behavior.
+The successor independently verified live main and PR #82 before initializing its own environment. The predecessor `HANDOFF_AT_CHECKPOINT` decision was not inherited. Fresh assessment decision was `CONTINUE`; usage percentage remains unavailable and was not estimated.
 
-After the final `WORK_ENVIRONMENT_STATUS.json` reseal, all 13 normal workflow families must run again from scratch on the resulting exact unchanged head before PR #82 can merge.
+PR #83 implements only **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary**.
 
-## Stage 2A next prerequisite
+The implementation:
 
-`NEXT_TASK.md` authorizes only **Private Account / Authentication Stage 2A — Firebase Auth Emulator Identity Boundary**.
+1. adds Firebase Authentication Emulator `127.0.0.1:9099` beside Firestore Emulator `127.0.0.1:8080` under fixed project `demo-career-mode-showdown-phase1f`;
+2. uses real Firebase Web Auth synthetic users with explicit in-memory Auth persistence;
+3. proves distinct stable Firebase `uid` principals and `uid` as architecture `accountId` while keeping `profileId`, `saveId`, `seasonId`, `deviceId`, `installationId`, `rivalryId`, `sessionId` and display labels distinct;
+4. proves self/private reads, wrong-account denial, unauthenticated denial, sign-out denial, failed-sign-in fail-closed behavior, app-account lifecycle separation and provider identity over client-supplied identity through the existing Firestore Security Rules;
+5. preserves denial of every application-client Firestore create, update and delete;
+6. keeps credentials confined to the isolated emulator process, never requests raw ID/refresh tokens and uses no canonical browser persistence;
+7. keeps Firebase absent from production `package.json`, `package-lock.json`, `index.html`, `js/optionalModules.js` and `service-worker.js`;
+8. keeps production at v1.4.0 / `1.4.0-r1`.
 
-Detailed design: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`.
+The Static App workflow now runs Phase 1F and Stage 2A in one Auth + Firestore emulator process while retaining the protected 13-workflow / 27-executable-block topology.
 
-Stage 2A is emulator/test-only. A fresh successor may implement it only after initializing and assessing its own Work Environment Continuity record.
+## Validation evidence so far
 
-The proof must use the existing fixed demo project `demo-career-mode-showdown-phase1f`, add the Authentication Emulator on localhost port `9099`, preserve Firestore Emulator port `8080`, and prove real Firebase Auth `uid` → architecture `accountId` identity through cross-service Firestore Security Rules.
+The first PR #83 technical head reached the new Stage 2A static contract but failed before emulator startup because that new contract expected a literal `status: "disabled"`. The real test correctly expressed the transition as `accountEnvelope(accountIdB, "disabled")`. The contract matcher was corrected at source. No runtime behavior, rule, timeout, Candidate C guarantee or performance ceiling was weakened.
 
-It must prove distinct synthetic principals, wrong-account denial, unauthenticated denial, sign-out loss of later authenticated access, application-account lifecycle separation, provider identity over client-supplied identity, in-memory-only test Auth persistence, no persisted raw passwords/ID tokens/refresh tokens and continued denial of every client Firestore write.
+Corrected technical head:
 
-Synthetic email/password users are permitted only as deterministic emulator test data. Stage 2A does not select production sign-in UX or browser persistence.
+`1420d8ffec9e689f1b3973021517713c446c85a0`
 
-Do not add production Firebase, production signup/login UI, registered-device/pairing UX, Connected Rivalry, Remote Joining, Cloud Functions/Admin/Blaze or public/community/ranking features during Stage 2A.
+On that head:
 
-## Corrections made while proving PR #82
+- the dynamic static release contract passed at v1.4.0 / `1.4.0-r1`;
+- all 37 repository contract files passed;
+- Firebase CLI started Auth and Firestore under the fixed demo project;
+- the protected Phase 1F emulator proof passed;
+- the real Stage 2A Auth/Firestore identity proof passed;
+- expected client Firestore create/update/delete attempts were denied by Security Rules;
+- permanent workflow topology remained 13 workflows / 27 executable blocks.
 
-The published authority candidates exposed documentation/contract coherence defects. They were fixed at source without weakening any protected behavior:
+Two later authority-seal candidates were deliberately rejected by the Static App contract suite and must never be treated as validated merge heads:
 
-1. restored the literal Work Environment Continuity routing requirement in the developer bootstrap;
-2. restored the protected GitHub CLI bootstrap and checksum-verification guidance;
-3. preserved historical Phase 1E / Phase 1F roadmap phrases only inside clearly labeled provenance sections so permanent historical contracts remain truthful without becoming current authority;
-4. corrected new Stage 2A contract wording so deny-all Firestore semantics were matched exactly rather than by brittle phrasing;
-5. corrected the Phase 1F deny-all matcher to accept the exact protected wording;
-6. corrected the Phase 1F idempotency-finding matcher to protect the actual `idempotencyKeyHash` sibling-receipt finding;
-7. restored the shipped Installable Offline App baseline wording;
-8. restored the completed Local Profiles / Save Library dependency-chain wording;
-9. restored this handoff's mandatory `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary after the first status seal exposed its omission;
-10. restored the protected PR #59 Analytics identity finding and Failure 7 classification after the second status seal exposed their omission.
+- `89264d7a7e08b81e5b3da82b532067e1702edb67` omitted historical Phase 1E / Phase 1F `NEXT_TASK.md` provenance still protected by permanent Cloud foundation contracts.
+- `5cb7501d301c0e52aa8751c94e6abc081e78ed32` restored that provenance but exposed an exact Stage 2A naming mismatch in `PROJECT_STATE.md` required by the protected Stage 2A boundary contract.
 
-No runtime defect, timeout increase, performance-ceiling increase, Candidate C weakening or direct-client-write relaxation was used to obtain green CI.
+Both defects were documentation/contract-coherence failures. They were corrected at source without weakening runtime behavior, Security Rules, Candidate C, workflow topology, timeouts or performance ceilings.
 
-## Work Environment Continuity final assessment
+Authority-coherent diagnostic head:
 
-Environment: `we-2026-08-18-private-auth-stage2a-boundary`.
-Starting verified main: `231556d86a93535fa90e173577c1159de4f40be0`.
-Usage remaining percentage: unavailable and never estimated.
+`063e90adbae3ae9c3f04f9206f36860294338183`
 
-Final recorded signals before the next corrected status reseal:
+On that head the complete Static App gate passed again: JavaScript syntax, dynamic v1.4.0 / `1.4.0-r1` release identity, all repository contracts, Phase 1F emulator proof, real Stage 2A Auth/Firestore proof and the permanent 27-block workflow topology. This diagnostic head is still not the final merge head because the Work Environment Continuity status must be resealed after recording the corrected publication evidence.
 
-- context complexity: high;
-- project complexity: very-high;
-- compaction count: 5;
-- major phases completed: 3;
-- large evidence events: 20;
-- tool-routing errors: 4;
-- corrected failures: 10;
-- repeated mistakes: 0;
-- stale-fact corrections: 0;
-- unresolved failures: 0;
-- new milestone next: true;
-- handoff completeness: 99;
-- unrecorded decisions: 0;
-- atomic operation: false.
+The final exact PR #83 status-seal head must therefore rerun all 13 normal workflow families from scratch. No earlier green head may substitute for that exact-final-head gate.
 
-Reconstructed exactly from the current repository formula because local GitHub DNS prevents a truthful local checkout/npm-wrapper claim:
+## Stage 2A completion boundary
 
-- context pressure: `98/100`;
-- quality risk: `64/100`;
-- next-task separation: `80/100`;
-- handoff readiness: `99/100`;
-- continuation risk: `81.9/100`;
-- transition cost: `14.0/100`;
-- transition advantage: `67.9`.
+Stage 2A reaches DONE only when:
 
-Decision: `HANDOFF_AT_CHECKPOINT`.
+1. the exact final PR #83 head is unchanged and all 13 normal workflow families are successful;
+2. submitted review state is clean;
+3. inline review-thread state is clean;
+4. PR #83 is mergeable;
+5. expected-head squash merge succeeds under the standing owner rule;
+6. live `main` is independently verified after merge.
 
-The decision is driven by high observable context pressure plus the distinct Stage 2A implementation milestone. It is not caused by an unresolved runtime or product failure.
-
-## Tooling boundary
-
-Direct shell DNS cannot resolve GitHub in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are the verified source/proof path. Transient connector routing/log-availability issues were classified as environment tooling, not project failures.
-
-The repository-owned GitHub CLI bootstrap remains protected for environments where local routing permits it. Never copy connector credentials into local config.
+Merging PR #83 completes only Stage 2A. It does not authorize production account UI, production Firebase, later Stage 2 implementation, registered devices/pairing, Connected Rivalry or Remote Joining.
 
 ## Permanent product and recovery locks
 
@@ -119,7 +101,7 @@ Private Remote Joining remains **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT 
 Ordered path:
 
 Cloud / synchronization readiness — DONE through Phase 1F
-→ private account / authentication / authorization — CURRENT Stage 2 lane
+→ private account / authentication / authorization — CURRENT Stage 2 lane / Stage 2A PR #83 completion gate
 → paired-device / private-session capability — blocked Stage 3
 → Connected Rivalry — blocked Stage 4
 → Private Remote Joining — final destination.
@@ -138,14 +120,26 @@ Canonical storage remains exactly:
 
 No Auth/cloud/sync module may directly own canonical `localStorage`.
 
-## Historical Analytics evidence retained for provenance
+## Historical predecessor / Analytics evidence retained for provenance
+
+The predecessor environment was `we-2026-08-18-private-auth-stage2a-boundary`. Its final decision was `HANDOFF_AT_CHECKPOINT`; that decision belonged only to that predecessor and correctly stopped before the distinct Stage 2A implementation milestone.
+
+The predecessor PR #82 validation rejected two seal heads, `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` and `1afc134ebe831270336f2be7387c651b05dab919`, for authority-coherence omissions. Neither is validated. Final exact PR #82 validated head was `8f1fb4d4c9324947815936b21c6bc29a657a94b7`.
 
 A direct profile-ID key swap is not sufficiently correct because longitudinal Analytics also needed to exclude unresolved historical manager roles while retaining identity-independent Showdown and Season totals.
 
-Failure 7 in the historical PR #59 validation was a transient/offscreen Trophy cabinet rendered-text assertion issue rather than a product data-corruption finding. The offscreen Trophy cabinet rendered-text assertion evidence remains preserved so future developers do not erase the source-grounded classification that shaped the shipped Identity-Safe Career Analytics implementation.
+Failure 7 in historical PR #59 validation was a transient/offscreen rendered-text assertion issue rather than a product data-corruption finding. The offscreen Trophy cabinet rendered-text assertion evidence remains preserved so future developers do not erase the source-grounded classification that shaped the shipped Identity-Safe Career Analytics implementation.
+
+Historical Stage 2A status before PR #83 began was `AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`. It is historical provenance only.
+
+## Tooling boundary
+
+Direct shell DNS to GitHub is unavailable in this environment and `gh` was not preinstalled. Connector-backed GitHub source/write access and GitHub-hosted CI are therefore the verified source/proof path. The repository-owned GitHub CLI bootstrap remains protected for environments where routing permits it. Never copy connector credentials into local configuration.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-A fresh successor must independently verify live main, PR #82, branches, releases/tags and CI; validate/archive this environment's transition-prepared record before replacing it; initialize a new environment ID and reset observations; verify production remains v1.4.0 / `1.4.0-r1`; confirm production Firebase remains disconnected and all client Firestore writes remain denied; read `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md` and current Firebase primary Auth Emulator/Auth persistence/Security Rules documentation; then implement only Stage 2A if the successor's own continuity assessment permits.
+If PR #83 is not yet merged, finish only the Stage 2A publication boundary: reseal continuity as the final branch mutation, require exact-final-head CI across all normal workflow families, verify clean submitted reviews and inline threads, verify unchanged mergeable head, squash merge with expected-head protection, then independently verify live `main`.
 
-Do not repeat Phase 1F. Do not ask the owner to reconstruct prior chats. Do not jump to pairing, Connected Rivalry or Remote Joining.
+If PR #83 is already merged, do not reimplement Stage 2A. Validate/archive the completed PR #83 facts, initialize/reassess a fresh Work Environment Continuity environment and select the next smallest remaining Stage 2 prerequisite from current source. No later Stage 2 prerequisite is pre-authorized by this handoff. Stage 3 pairing, Connected Rivalry and Remote Joining remain blocked.
+
+Do not ask the owner to reconstruct prior chats. Do not repeat Phase 1F or PR #82. Do not rush Private Remote Joining.

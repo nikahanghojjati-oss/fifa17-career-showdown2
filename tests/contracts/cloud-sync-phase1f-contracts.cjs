@@ -71,7 +71,7 @@ assert.match(workflow, /@firebase\/rules-unit-testing@5\.0\.1/);
 assert.match(workflow, /firebase-tools@15\.27\.0/);
 assert.match(workflow, /--no-save/);
 assert.match(workflow, /--package-lock=false/);
-assert.match(workflow, /emulators:exec[\s\S]+--project demo-career-mode-showdown-phase1f[\s\S]+--only firestore/);
+assert.match(workflow, /emulators:exec[\s\S]+--project demo-career-mode-showdown-phase1f[\s\S]+--only auth,firestore/);
 assert.match(workflow, /cloud-sync-phase1f-emulator\.cjs/);
 
 assert.equal(pkg.version, "1.4.0", "Emulator-only Phase 1F proof must not bump production application version.");
