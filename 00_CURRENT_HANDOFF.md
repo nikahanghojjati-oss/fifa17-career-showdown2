@@ -46,12 +46,14 @@ Do not repeat Stage 2A, Stage 2B or Stage 2C.
 ## Current governance synchronization checkpoint
 
 Current branch: `agent/handoff-proximity-governance-sync`.
+Current draft PR: #86 `Protect Handoff Proximity governance and seal Stage 2C`.
+PR #86 exact base: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
 Fresh environment: `we-2026-08-18-handoff-proximity-governance-sync`.
 Starting verified live main: `22566e1409cf53d728b38d0b5a19de478ae6761b`.
 
 The inherited Stage 2C transition-prepared status was validated against current WEC source before replacement. PR #85 completion was independently verified, the predecessor decision was not inherited and a fresh successor record was initialized.
 
-Fresh WEC assessment from recorded observable signals: `PREPARE_HANDOFF`. Usage remains unavailable and was not estimated. This permits finishing the already-bounded governance synchronization but requires strengthened records and reassessment before another distinct Stage 2 milestone.
+Fresh initial WEC assessment from recorded observable signals was `PREPARE_HANDOFF`. Usage remains unavailable and was not estimated. That initial decision permitted finishing the already-bounded governance synchronization but required strengthened records and reassessment before another distinct Stage 2 milestone.
 
 The current task is non-runtime repository governance only:
 
@@ -64,6 +66,10 @@ The current task is non-runtime repository governance only:
 7. permanent CI contracts protect these requirements;
 8. current-facing authority is synchronized from Stage 2C CURRENT to DONE / MERGED / PROVEN through PR #85.
 
+The governance implementation and authority synchronization are now complete on the branch. The append-only history contains the PR #85 closure and fresh successor activation. PR #86 is open only as a draft publication vehicle. Its pre-seal heads are diagnostic and become ineligible for merge authority after the final `WORK_ENVIRONMENT_STATUS.json` seal mutates the branch.
+
+The final status seal must be the last branch mutation. That exact final head must receive a fresh complete 13-family normal PR gate before review-state verification, readiness transition and expected-head squash merge.
+
 This checkpoint changes no production runtime and therefore requires no semantic application version bump under `VERSIONING_POLICY.md`.
 
 ## Remaining Stage 2 direction
@@ -72,7 +78,7 @@ The full Private Account / Authentication / Authorization stage remains incomple
 
 Remaining concerns include production Firebase operational/project setup, production web-app/provider/authorized-domain configuration, safe application-account bootstrap/write lifecycle, trusted production token verification and revoked-token behavior, account export/deletion cascade, auth abuse/rate controls, production Security Rules deployment, provider outage/recovery behavior and the trusted production mutation boundary.
 
-These are requirements, not automatic implementation order. After the governance checkpoint is merged and live `main` is independently verified, a fresh WEC assessment and current source/provider study must select only the next smallest necessary Stage 2 prerequisite.
+These are requirements, not automatic implementation order. After the governance checkpoint is merged and live `main` is independently verified, a fresh successor WEC assessment and current source/provider study must select only the next smallest necessary Stage 2 prerequisite.
 
 ## Permanent product and recovery locks
 
@@ -112,10 +118,12 @@ Historical Stage 2A status before PR #83 began was `AUTHORIZED NEXT PREREQUISITE
 
 Direct shell DNS to GitHub remains unavailable in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are therefore the verified source/proof path. The repository-owned GitHub CLI bootstrap remains protected for environments where routing permits it. Never copy connector credentials into local configuration.
 
+One unsupported generic branch-fetch route was corrected to the supported connector action. One optimistic-lock stale-blob `409` correctly rejected a continuity-protocol write against an obsolete blob SHA; the exact branch blob was refetched and the update then succeeded. Neither incident represents a website runtime defect.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish only the Handoff Proximity governance synchronization on `agent/handoff-proximity-governance-sync`: complete the permanent contracts and current-authority reconciliation, prove production runtime/version bytes remain unchanged, publish one bounded PR, require all 13 normal workflow families on one exact unchanged final head, verify clean submitted reviews and inline threads plus mergeability, then squash merge only with expected-head protection.
+Finish only PR #86 publication: seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, require all 13 normal workflow families on that exact unchanged final head, verify clean submitted reviews and inline review threads plus mergeability, mark PR #86 ready, then squash merge only with expected-head protection.
 
-After verified merge, independently verify live `main` and reassess Work Environment Continuity before selecting another distinct Stage 2 prerequisite.
+After verified merge, independently verify live `main`, generate the complete successor handoff required by the final continuity decision and stop before selecting or implementing another distinct Stage 2 prerequisite.
 
 Do not begin Stage 3 pairing, Connected Rivalry or Remote Joining automatically. Do not ask the owner to reconstruct prior chats. Do not repeat Phase 1F, PR #82, Stage 2A / PR #83, Stage 2B / PR #84 or Stage 2C / PR #85. Do not rush Private Remote Joining.
