@@ -4,6 +4,11 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file, "utf8");
 const stage2b = read("PRIVATE_ACCOUNT_AUTH_STAGE_2B.md");
 const stage2a = read("PRIVATE_ACCOUNT_AUTH_STAGE_2A.md");
+const next = read("NEXT_TASK.md");
+const state = read("PROJECT_STATE.md");
+const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
+const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
+const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const emulatorTest = read("tests/firebase/private-account-auth-stage2b-lifecycle-emulator.cjs");
 const workflow = read(".github/workflows/validate-static-app.yml");
 const rules = read("firestore.rules");
@@ -32,6 +37,17 @@ assert.match(stage2b, /public profiles[\s\S]+global leaderboard\/rankings remain
 assert.match(stage2b, /registered devices\/private pairing[\s\S]+remain blocked/i);
 
 assert.match(stage2a, /Stage 2A[\s\S]+PR #83/i);
+assert.match(next, /Current authorized prerequisite completion candidate[\s\S]{0,240}Private Account \/ Authentication Stage 2B/i);
+assert.match(next, /Private Account \/ Authentication Stage 2A[\s\S]{0,120}DONE \/ MERGED \/ PROVEN/i);
+assert.match(next, /PR #84 completion boundary/i);
+assert.match(state, /Current Stage 2B candidate/i);
+assert.match(state, /Stage 2B[\s\S]+PR #84/i);
+assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+assert.match(remoteRoadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
+assert.match(currentHandoff, /Current PR #84 Stage 2B checkpoint/i);
+assert.match(currentHandoff, /Stage 2A DONE \/ Stage 2B PR #84 completion gate/i);
+
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");
 assert.equal(firebaseConfig.emulators.auth.port, 9099);
@@ -82,4 +98,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle, revocation and production-isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle, revocation, current-authority and production-isolation contracts\n");
