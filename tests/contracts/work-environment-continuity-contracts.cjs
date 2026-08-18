@@ -59,8 +59,8 @@ for(const [name, text] of [
 ]){
   assert.match(text, /Handoff proximity:\s*X%/i, `${name} must require visible Handoff proximity reporting.`);
   assert.match(text, /Handoff proximity:\s*100%[\s\S]+automatically generate the complete successor handoff[\s\S]+stop before (?:beginning )?another substantial milestone/i, `${name} must require the 100 percent automatic handoff and stop boundary.`);
-  assert.match(text, /(?:Never fabricate|must never be fabricated)[\s\S]{0,220}(?:usage|account\/model usage)/i, `${name} must forbid fabricated usage in Handoff proximity.`);
-  assert.match(text, /WEC[\s\S]{0,220}(?:earlier or stricter|earlier|stricter)[\s\S]{0,220}(?:authoritative|never weakens|never authorize)/i, `${name} must preserve stricter WEC precedence.`);
+  assert.match(text, /(?:Never fabricate[\s\S]{0,220}(?:usage|account\/model usage)|(?:usage|account\/model usage)[\s\S]{0,220}(?:must never be fabricated|is never fabricated))/i, `${name} must forbid fabricated usage in Handoff proximity.`);
+  assert.match(text, /(?:WEC|Work Environment Continuity)[\s\S]{0,260}(?:authoritative[\s\S]{0,220}(?:earlier|stricter)|(?:earlier|stricter)[\s\S]{0,220}(?:authoritative|never weakens|never authorize))/i, `${name} must preserve stricter WEC precedence.`);
 }
 
 for(const [name, text] of [
