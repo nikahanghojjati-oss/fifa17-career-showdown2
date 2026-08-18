@@ -10,11 +10,11 @@ The repository Work Environment Continuity system remains active through `AGENTS
 
 ## Production authority
 
-Application milestone: v1.4.0 — Product Deepening
+Application milestone: **v1.4.0 — Product Deepening**
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 Installable Offline App runtime label: `1.4.0-r1`
 Immediate previous known-good whole shell: `1.3.0-r2`
-Current feature release version: v1.4.0
+Current feature release version: **v1.4.0**
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (PR #67 formatVersion 2 multi-Save portability)
@@ -49,17 +49,17 @@ All eleven local/product layers are shipped and production-proven.
 
 ## Cloud / Sync Readiness state
 
-Phase 1A — deterministic revision model: DONE / MERGED / PROTECTED through PR #76.
+Phase 1A — deterministic revision model: **DONE / MERGED / PROTECTED** through PR #76.
 
-Phase 1B — provider and operational decision: DONE / MERGED / PROTECTED through PR #77. Firebase Authentication + Cloud Firestore remains the selected primary future provider candidate. Firestore persistent offline cache remains disabled.
+Phase 1B — provider and operational decision: **DONE / MERGED / PROTECTED** through PR #77. Firebase Authentication + Cloud Firestore remains the selected primary future provider candidate. Firestore persistent offline cache remains disabled.
 
-Phase 1C — private remote data inventory, privacy and retention policy: DONE / MERGED / PROTECTED through PR #78.
+Phase 1C — private remote data inventory, privacy and retention policy: **DONE / MERGED / PROTECTED** through PR #78.
 
-Phase 1D — exact provider-compatible remote schema and API/authorization contract: DONE / MERGED / PROTECTED through PR #79.
+Phase 1D — exact provider-compatible remote schema and API/authorization contract: **DONE / MERGED / PROTECTED** through PR #79.
 
-Phase 1E — deterministic two-device/offline/reconnect synchronization harness: DONE / MERGED / PROTECTED through PR #80.
+Phase 1E — deterministic two-device/offline/reconnect synchronization harness: **DONE / MERGED / PROTECTED** through PR #80.
 
-Phase 1F — Firebase Local Emulator / deny-by-default Firestore Security Rules proof: DONE / MERGED / PROTECTED through PR #81.
+Phase 1F — Firebase Local Emulator / deny-by-default Firestore Security Rules proof: **DONE / MERGED / PROTECTED** through PR #81.
 
 `CLOUD_SYNC_READINESS_PHASE_1F.md`, `.firebaserc`, `firebase.json`, `firestore.rules`, `tests/firebase/cloud-sync-phase1f-emulator.cjs` and `tests/contracts/cloud-sync-phase1f-contracts.cjs` establish the fixed demo-project provider proof. All 13 normal PR workflow families were independently verified successful on exact PR #81 head `0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d` before squash merge `231556d86a93535fa90e173577c1159de4f40be0`.
 
@@ -150,9 +150,9 @@ Exactly two managers. Showdown lengths remain `1`, `3`, `5`, `10`. Both managers
 
 Career Mode Showdown remains a private two-manager companion.
 
-Public community features and global leaderboard/rankings are ELIMINATED.
+Public community features and global leaderboard/rankings are **ELIMINATED**.
 
-Private Remote Joining is PRIORITIZED LONG-TERM and DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+Private Remote Joining is **PRIORITIZED LONG-TERM** and **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**.
 
 The ordered path is:
 
@@ -165,7 +165,7 @@ completed local recovery / identity / portability
 
 ## Current authorization boundary
 
-No product candidate is currently authorized.
+**No product candidate is currently authorized.**
 
 The only current prerequisite work is completion of the Stage 2B PR #84 validation/merge gate. Production account UI/runtime, later Stage 2 prerequisites, pairing, Connected Rivalry and Remote Joining remain unauthorized.
 
@@ -175,9 +175,9 @@ Stage 2B must receive complete exact-final-head CI, clean review/thread state an
 
 The following is intentionally historical provenance only and is not current authority:
 
-Phase 1D — exact provider-compatible remote schema and API/authorization contract: DONE / MERGED / PROTECTED.
-Phase 1E — deterministic two-device/offline/reconnect synchronization harness: CURRENT BOUNDED CANDIDATE.
-Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED.
+Phase 1D — exact provider-compatible remote schema and API/authorization contract: **DONE / MERGED / PROTECTED**.
+Phase 1E — deterministic two-device/offline/reconnect synchronization harness: **CURRENT BOUNDED CANDIDATE**.
+Phase 1F — **NEXT AFTER PHASE 1E MERGES / BLOCKED**.
 Stage 2A — `AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`.
 
 Current authority is the completed Phase 1F / completed PR #83 Stage 2A boundary plus the PR #84 Stage 2B completion gate stated above.
