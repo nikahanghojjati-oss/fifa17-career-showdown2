@@ -36,6 +36,7 @@ const files = [
   "tests/contracts/private-account-auth-stage2b-contracts.cjs",
   "tests/contracts/private-account-auth-stage2c-policy-contracts.cjs",
   "tests/contracts/private-account-auth-stage2d-contracts.cjs",
+  "tests/contracts/private-account-auth-stage2e-contracts.cjs",
   "tests/contracts/offline-hotfix-contracts.cjs",
   "tests/contracts/v13-offline-lifecycle-contracts.cjs",
   "tests/contracts/release-authority-coherence.cjs",
