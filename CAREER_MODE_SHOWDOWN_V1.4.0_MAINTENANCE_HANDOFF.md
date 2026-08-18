@@ -45,6 +45,7 @@ Exactly two managers. Private two-manager companion only. Public community / glo
 - normal loading minimum 2700 ms
 - reduced-motion loading 220 ms
 
+
 ## Recovery ownership (protected)
 
 Candidate C remains the only destructive import Apply stage. It requires strict exact raw snapshot authority via `captureCareerModeRawRestoreSnapshot()`, transaction-owned mutation and ownership-scoped reverse rollback, anti-clobber ownership, exact post-write verification and byte-for-byte rollback verification.
