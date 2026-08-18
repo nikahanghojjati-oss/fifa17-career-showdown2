@@ -4,6 +4,8 @@
 
 Current verified source and `NEXT_TASK.md` override the retained PR #87 / Stage 2D-era roadmap body below.
 
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89.
+
 Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — DONE / MERGED / PROVEN through PR #90. Exact validated head `1b0178979ea421b3bf27dd7675ad973aa7bfad8c`; squash merge / independently verified live-main boundary `a27147695607537a1cd1543efb84e6583929a696`.
 
 Stage 2G — Trusted Account Bootstrap Execution Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATOR-PROOF-ONLY. It is the only current bounded prerequisite.
