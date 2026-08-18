@@ -63,9 +63,10 @@ for (const [name, text] of [
 assert.match(next, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
 assert.match(next, /15cfa82d9aa74db1275968ed3bc1e42669ab23ec/);
 assert.match(next, /1794f1f86968781b898d000360d1fb56234fb92f/);
-assert.match(next, /Current authorized prerequisite candidate:[\s\S]+post-PR #86 current-authority reconciliation/i);
+assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
+assert.match(next, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
 assert.match(next, /Authorized product candidate:\s*none/i);
-assert.match(next, /remaining Stage 2[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
+assert.match(next, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
 assert.match(state, /Stage 2C — completed/i);
 assert.match(state, /Current authorization boundary[\s\S]+No product candidate is currently authorized/i);
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
@@ -83,16 +84,16 @@ assert.match(rules, /allow list, create, update, delete:\s*if false/g);
 assert.match(rules, /match \/\{document=\*\*\}[\s\S]+allow read, write:\s*if false/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2C completion/post-PR86 reconciliation must not bump production application version.");
+assert.equal(pkg.version, "1.4.0", "Stage 2C completion/Stage 2D dormant preflight must not bump production application version.");
 assert.match(index, /app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker, /RUNTIME_REVISION = "1\.4\.0-r1"/);
-assert.doesNotMatch(index, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion synchronization must not connect Firebase/Auth in the production shell.");
-assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion synchronization must not connect Firebase/Auth through production optional modules.");
-assert.doesNotMatch(worker, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion synchronization must not cache Firebase/Auth runtime in the production Service Worker.");
+assert.doesNotMatch(index, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion/Stage 2D must not connect Firebase/Auth in the production shell.");
+assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion/Stage 2D must not connect Firebase/Auth through production optional modules.");
+assert.doesNotMatch(worker, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C completion/Stage 2D must not cache Firebase/Auth runtime in the production Service Worker.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase-admin"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C completed production authentication policy, post-PR86 authority and production isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C completed policy remains protected while Stage 2D preflight becomes current\n");
