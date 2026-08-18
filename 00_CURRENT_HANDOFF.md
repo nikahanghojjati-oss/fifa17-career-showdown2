@@ -174,6 +174,16 @@ For Stage 2F:
 
 Do not weaken tests, workflow topology, timeouts, recovery guarantees or performance ceilings merely to obtain green CI.
 
+## Historical Stage 2 transition provenance
+
+The following literals are historical contract provenance only and do not override the current Stage 2F mission above.
+
+Stage 2B — DONE / MERGED / PROVEN. Stage 2C — DONE / MERGED / PROVEN.
+Stage 2C exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`; Stage 2C squash-merge boundary `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase disconnected.
+Handoff Proximity governance checkpoint — DONE / MERGED / PROTECTED. PR #86 exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`; merge `1794f1f86968781b898d000360d1fb56234fb92f`.
+Post-PR #86 authority reconciliation — DONE / MERGED / PROVEN. PR #87 exact validated head `2415c156161b6244c75e49917bad28efed957adf`; squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
+Current Stage 2D bounded prerequisite: Stage 2D — Production Firebase Environment & Configuration Preflight — CURRENT.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Finish only Private Account / Authentication Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary. Preserve every production/recovery/security lock above, require trusted revocation-aware token verification, complete one exact-head PR publication gate and reassess WEC before any later Stage 2 milestone.
