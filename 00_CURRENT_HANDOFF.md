@@ -4,7 +4,7 @@ Last updated: 2026-08-18 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-This is the concise rolling handoff and evidence trail. Current verified source and later owner instructions override every historical statement. `PROJECT_STATE.md` owns deployed product state and `NEXT_TASK.md` owns bounded implementation authorization.
+This is the concise rolling handoff and evidence trail. Current verified source and later owner instructions override every historical statement. `PROJECT_STATE.md` owns deployed product state and `NEXT_TASK.md` owns bounded implementation authorization. Every successor must enter the repository Work Environment Continuity (WEC) loop before substantial work.
 
 ## Current production boundary
 
@@ -66,9 +66,11 @@ The current task is non-runtime repository governance only:
 7. permanent CI contracts protect these requirements;
 8. current-facing authority is synchronized from Stage 2C CURRENT to DONE / MERGED / PROVEN through PR #85.
 
-The governance implementation and authority synchronization are now complete on the branch. The append-only history contains the PR #85 closure and fresh successor activation. PR #86 is open only as a draft publication vehicle. Its pre-seal heads are diagnostic and become ineligible for merge authority after the final `WORK_ENVIRONMENT_STATUS.json` seal mutates the branch.
+The governance implementation and authority synchronization are complete on the branch. The append-only history contains the PR #85 closure and fresh successor activation. PR #86 is open only as a draft publication vehicle.
 
-The final status seal must be the last branch mutation. That exact final head must receive a fresh complete 13-family normal PR gate before review-state verification, readiness transition and expected-head squash merge.
+Rejected exact head `e2dbd8708cd01a48bfa619bd5780ec95110c13cf` is permanently ineligible for merge authority. Static App and Stability reached the permanent continuity contract and rejected that head because this rolling handoff used only the abbreviation `WEC` rather than explicitly routing future environments through the literal `Work Environment Continuity` phrase required by the contract. JavaScript syntax and dynamic v1.4.0 / `1.4.0-r1` release architecture had already passed. The correction is documentation/coherence only and weakens no test, timeout, recovery guarantee, performance ceiling, Firebase Security Rule or Candidate C invariant.
+
+The corrected final status seal must again be the last branch mutation. Its exact resulting head must receive a completely fresh 13-family normal PR gate before review-state verification, readiness transition and expected-head squash merge.
 
 This checkpoint changes no production runtime and therefore requires no semantic application version bump under `VERSIONING_POLICY.md`.
 
@@ -122,7 +124,7 @@ One unsupported generic branch-fetch route was corrected to the supported connec
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish only PR #86 publication: seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, require all 13 normal workflow families on that exact unchanged final head, verify clean submitted reviews and inline review threads plus mergeability, mark PR #86 ready, then squash merge only with expected-head protection.
+Finish only PR #86 publication: reseal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation after the minimum documentation-coherence correction, require all 13 normal workflow families on that exact unchanged corrected head, verify clean submitted reviews and inline review threads plus mergeability, mark PR #86 ready, then squash merge only with expected-head protection.
 
 After verified merge, independently verify live `main`, generate the complete successor handoff required by the final continuity decision and stop before selecting or implementing another distinct Stage 2 prerequisite.
 
