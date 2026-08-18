@@ -36,8 +36,9 @@
     if(!plainObject(accounts)||Object.keys(accounts).length!==2)return null;
     const normalized={};
     for(const [accountId,record] of Object.entries(accounts)){
-      if(!validId(accountId))return null;
-      const state=plainObject(record)&&ACCOUNT_STATES.includes(record.state)?record.state:"active";
+      if(!validId(accountId)||!plainObject(record))return null;
+      const state=hasOwn(record,"state")?record.state:"active";
+      if(!ACCOUNT_STATES.includes(state))return null;
       normalized[accountId]={state};
     }
     return normalized;
@@ -47,7 +48,8 @@
     const normalized={};
     for(const [deviceId,record] of Object.entries(devices)){
       if(!validId(deviceId)||!plainObject(record)||!validId(record.accountId)||!accounts[record.accountId])return null;
-      const state=DEVICE_STATES.includes(record.state)?record.state:"active";
+      const state=hasOwn(record,"state")?record.state:"active";
+      if(!DEVICE_STATES.includes(state))return null;
       normalized[deviceId]={
         accountId:record.accountId,
         state,
@@ -64,8 +66,11 @@
     const source=plainObject(memberships)?memberships:{};
     const normalized={};
     for(const accountId of Object.keys(accounts)){
-      normalized[accountId]=MEMBERSHIP_STATES.includes(source[accountId])?source[accountId]:"active";
+      const state=hasOwn(source,accountId)?source[accountId]:"active";
+      if(!MEMBERSHIP_STATES.includes(state))return null;
+      normalized[accountId]=state;
     }
+    if(Object.keys(source).some(accountId=>!accounts[accountId]))return null;
     return normalized;
   }
   function isValidPayload(payload,supportedVersions){
@@ -108,14 +113,16 @@
     const devices=normalizeDevices(options.devices,accounts,seed.state);
     if(!devices)return result("invalid-harness");
     const memberships=normalizeMemberships(options.memberships,accounts);
+    if(!memberships)return result("invalid-harness");
     const supportedPayloadFormatVersions=Array.isArray(options.supportedPayloadFormatVersions)&&options.supportedPayloadFormatVersions.length
       ?Array.from(new Set(options.supportedPayloadFormatVersions.filter(value=>Number.isInteger(value)&&value>0))).sort((a,b)=>a-b)
       :[1];
     if(!supportedPayloadFormatVersions.length)return result("invalid-harness");
+    if(hasOwn(options,"relationshipState")&&!RELATIONSHIP_STATES.includes(options.relationshipState))return result("invalid-harness");
     let authority=seed.state;
     let ledger=seed.ledger;
     let remoteEnabled=options.remoteEnabled!==false;
-    let relationshipState=RELATIONSHIP_STATES.includes(options.relationshipState)?options.relationshipState:"active";
+    let relationshipState=hasOwn(options,"relationshipState")?options.relationshipState:"active";
     let sequence=0;
 
     function authorityView(){
@@ -138,7 +145,12 @@
       if(device.state!=="active")return result("device-revoked");
       const membership=memberships[device.accountId];
       if(membership==="relinquished")return result("relationship-revoked");
-      if(requireMutation&&(relationshipState!=="active"||membership!=="active"))return result("relationship-revoked");
+      if(requireMutation){
+        if(relationshipState!=="active"||membership!=="active")return result("relationship-revoked");
+        if(Object.values(memberships).some(state=>state!=="active"))return result("relationship-revoked",{code:"RIVALRY_MUTATION_FROZEN"});
+        const blockedPeer=Object.keys(accounts).find(accountId=>memberships[accountId]==="active"&&accounts[accountId].state!=="active");
+        if(blockedPeer)return result("forbidden",{code:"REQUIRED_ACCOUNT_NOT_ACTIVE"});
+      }
       return {ok:true,status:"authorized",device,accountId:device.accountId,membership,relationshipState};
     }
     function validateIntent(intent){
@@ -305,7 +317,7 @@
       return {
         ok:true,
         status:"local-preview-ready",
-        preview:Object.freeze({
+        preview:deepFreeze({
           deviceId,
           candidateRaw:safeCandidate,
           expectedRaw,
@@ -337,7 +349,11 @@
           return true;
         }
       };
-      const transaction=transactionEngine(preview.candidateRaw,io,preview.expectedRaw,{guardRequestedBeforeEachWrite:true});
+      const guardedCandidate={};
+      for(const key of CANONICAL_LOCAL_KEYS){
+        guardedCandidate[key]=hasOwn(preview.candidateRaw,key)?preview.candidateRaw[key]:preview.expectedRaw[key];
+      }
+      const transaction=transactionEngine(guardedCandidate,io,preview.expectedRaw,{order:CANONICAL_LOCAL_KEYS.slice(),guardRequestedBeforeEachWrite:true});
       return {
         ok:transaction.ok,
         status:transaction.status,
