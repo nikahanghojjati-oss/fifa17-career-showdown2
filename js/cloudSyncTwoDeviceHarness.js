@@ -3,6 +3,12 @@
   const clone=value=>value===undefined?undefined:JSON.parse(JSON.stringify(value));
   const validId=value=>typeof value==="string"&&value.trim().length>0;
   const plainObject=value=>Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
+  const deepFreeze=value=>{
+    if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
+    Object.freeze(value);
+    Object.values(value).forEach(deepFreeze);
+    return value;
+  };
   const CANONICAL_LOCAL_KEYS=Object.freeze(["saveLibrary","legacyShowdowns","preferences"]);
   const ACCOUNT_STATES=Object.freeze(["active","disabled","deletion-pending"]);
   const DEVICE_STATES=Object.freeze(["active","revoked"]);
@@ -81,7 +87,10 @@
     if(!validId(options.rivalryId))return result("invalid-harness");
     const accounts=normalizeAccounts(options.accounts);
     if(!accounts)return result("invalid-harness");
-    const authorityScopeId=`rivalry-scope:${options.rivalryId}`;
+    // Phase 1A uses an account-scoped CAS kernel. Phase 1E supplies one fixed, non-user
+    // sentinel only inside that dormant kernel; authenticated actor accountId remains
+    // separate and is enforced by the harness authorization layer.
+    const authorityScopeId="phase1e_shared_authority_scope";
     const seedInput=plainObject(options.initialAuthority)?options.initialAuthority:{};
     const seed=revisionModel.createAuthority({
       accountId:authorityScopeId,
@@ -109,7 +118,11 @@
     let relationshipState=RELATIONSHIP_STATES.includes(options.relationshipState)?options.relationshipState:"active";
     let sequence=0;
 
-    function authorityView(){return clone(authority);}
+    function authorityView(){
+      const view=clone(authority);
+      delete view.accountId;
+      return view;
+    }
     function authorityDigest(){
       return {revision:authority.revision,contentHash:authority.contentHash,tombstone:Boolean(authority.tombstone)};
     }
@@ -162,7 +175,7 @@
         contentHash:input.operation==="delete"?null:input.contentHash,
         content:input.operation==="delete"?null:clone(input.payload)
       };
-      return {ok:true,status:"intent-created",intent:Object.freeze(intent)};
+      return {ok:true,status:"intent-created",intent:deepFreeze(intent)};
     }
     function submitIntent(intent){
       const validation=validateIntent(intent);
@@ -218,6 +231,13 @@
       if(!authorization.ok)return authorization;
       const originalBaseRevision=intent.baseRevision;
       const firstReadRevision=authority.revision;
+      if(originalBaseRevision!==firstReadRevision){
+        const staleResult=submitIntent(intent);
+        return {
+          ok:staleResult.ok,status:staleResult.status,originalBaseRevision,retryBaseRevision:intent.baseRevision,
+          firstReadRevision,retryReadRevision:authority.revision,interveningResult:null,result:clone(staleResult)
+        };
+      }
       let interveningResult=null;
       if(plainObject(optionsForRetry)&&optionsForRetry.interveningIntent){
         interveningResult=submitIntent(optionsForRetry.interveningIntent);
@@ -346,7 +366,7 @@
       for(const key of Object.keys(ledger).sort())ledgerSnapshot[key]=clone(ledger[key]);
       return {
         rivalryId:options.rivalryId,
-        authority:clone(authority),
+        authority:authorityView(),
         ledger:ledgerSnapshot,
         accounts:accountSnapshot,
         devices:deviceSnapshot,
