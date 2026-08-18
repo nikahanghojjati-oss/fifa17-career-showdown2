@@ -162,6 +162,21 @@ Locked ceilings remain eager raw <= `165000`, eager gzip <= `37500`, Reus startu
 
 Do not weaken tests, workflow topology, timeouts, recovery guarantees or performance ceilings merely to obtain green CI.
 
+## Historical Phase 1E / Phase 1F contract provenance
+
+The following wording is intentionally retained only as historical provenance for permanent contracts. It is not current implementation authority and must never override the completed Phase 1F / current Stage 2A boundary above.
+
+Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`.
+No product candidate is currently authorized.
+Current authorized prerequisite candidate at that historical boundary: Cloud/Sync Readiness Phase 1E — CURRENT BOUNDED CANDIDATE.
+Next prerequisite after Phase 1E merges: Cloud/Sync Readiness Phase 1F — BLOCKED.
+
+Historical pre-PR #80 wording: Phase 1D — DONE / PR #79; Phase 1E — CURRENT BOUNDED CANDIDATE; Phase 1F — BLOCKED.
+Historical pre-PR #81 wording: Phase 1E — DONE / PR #80; Phase 1F — CURRENT BOUNDED CANDIDATE.
+
+Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
+Cloud/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
+
 ## Historical clean-stop clarification
 
 Historical authority once said to "stop and wait for a further explicit owner instruction." The former clean-stop wording was satisfied by the owner's later 2026-08-17 instruction opening the dependency-ordered Remote Joining prerequisite lane. Do not revive that obsolete waiting loop. The current Work Environment Continuity decision may still require a handoff between distinct milestones, but that is a context-quality boundary, not a request for repeated product permission.
