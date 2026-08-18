@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-18-stage2e-account-bootstrap",
   "lifecycle": "active",
-  "recordedAt": "2026-08-18T19:53:00Z",
+  "recordedAt": "2026-08-18T20:09:19Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,9 +11,9 @@
   "signals": {
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
-    "compactionCount": 0,
+    "compactionCount": 2,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 6,
+    "largeEvidenceEvents": 12,
     "toolRoutingErrors": 1,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -23,42 +23,43 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 82,
+    "handoffCompleteness": 88,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Implement and prove exactly one next Private Account / Authentication Stage 2 prerequisite: Stage 2E Trusted Application Account Bootstrap & Lifecycle Boundary. Keep it emulator/test-only and production-dormant while preserving total application-client Firestore write denial and all local recovery locks.",
-    "lastSafeCheckpoint": "Live main was independently verified at 0fd0ac3651a4b8c78957242b645e095a3c151c9d. PR #88 is closed/merged from exact validated head f019c6c6c39385fcb1f76f3de240fd73bb972e49; all 13 normal workflow families succeeded on that exact head; submitted reviews and inline review threads are empty. Production remains v1.4.0 / package 1.4.0 / runtime 1.4.0-r1 with production Firebase disconnected.",
-    "nextSafeAction": "On branch agent/private-auth-stage2e-account-bootstrap, archive the predecessor PR #88 closure facts, synchronize Stage 2D to DONE, define the bounded Stage 2E trusted account-bootstrap contract, implement deterministic emulator/test proof and permanent contracts, then publish one exact-head PR through the full normal validation gate.",
+    "currentTask": "Finish and publish exactly one Private Account / Authentication Stage 2 prerequisite: Stage 2E Trusted Application Account Bootstrap & Lifecycle Boundary. Keep it emulator/test-only and production-dormant while preserving total application-client Firestore write denial and all local recovery locks.",
+    "lastSafeCheckpoint": "On agent/private-auth-stage2e-account-bootstrap from verified main 0fd0ac3651a4b8c78957242b645e095a3c151c9d, the dormant trustedAccountBootstrap decision model, Stage 2E Auth/Firestore Emulator proof, Stage 2E permanent contract and existing Validate Static App emulator-lane wiring are committed. No production runtime, Security Rule, dependency, timeout, performance ceiling or application version changed.",
+    "nextSafeAction": "Complete current-facing authority reconciliation and append-only predecessor PR #88 history, evolve older current-authority contracts without erasing protected historical provenance, then open one bounded Stage 2E PR and finish only its immutable exact-head validation/publication checkpoint.",
     "unfinishedWork": [
       "Append predecessor PR #88 final publication facts to WORK_ENVIRONMENT_HISTORY.md without rewriting prior history.",
-      "Define Stage 2E account bootstrap/lifecycle authority from current source and current primary Firebase documentation.",
-      "Implement deterministic trusted account bootstrap proof with idempotent same-uid behavior and fail-closed conflict handling.",
-      "Add permanent Stage 2E contracts and wire them into the repository contract suite without weakening existing workflows.",
-      "Synchronize current-facing authority from Stage 2D CURRENT to Stage 2D DONE / Stage 2E CURRENT.",
-      "Publish, exact-head validate, review, merge and independently verify the bounded Stage 2E PR."
+      "Synchronize current-facing authority from Stage 2D CURRENT to Stage 2D DONE / Stage 2E CURRENT and advance older current-authority contracts without deleting their historical proof phrases.",
+      "Open, exact-head validate, review, merge and independently verify the bounded Stage 2E PR."
     ],
     "knownHazards": [
       "Direct shell DNS cannot resolve github.com in this environment; connected GitHub remains source/write authority and GitHub-hosted Actions remain validation authority.",
-      "No Firebase/Google Cloud provisioning integration is available in this environment. Stage 2E therefore must not claim or attempt real production project creation or configuration.",
-      "Every application-client Firestore create/update/delete remains denied. Stage 2E may prove only a trusted emulator/test bootstrap boundary and must not convert Admin test tooling into production runtime.",
-      "Server/Admin Firestore access bypasses Security Rules and would require a separately reviewed production IAM/trusted-server boundary before any production use.",
+      "No Firebase/Google Cloud provisioning integration is available in this environment. Stage 2E must not claim or attempt real production project creation or configuration.",
+      "Every application-client Firestore create/update/delete remains denied. Stage 2E proves only a trusted emulator/test bootstrap boundary and must not convert Admin test tooling into production runtime.",
+      "Server/Admin Firestore access bypasses Security Rules and requires a separately reviewed production IAM/trusted-server boundary before any production use.",
       "Provider identity accountId remains separate from profileId, saveId, seasonId, deviceId, installationId, rivalryId, sessionId and display labels.",
       "Account bootstrap must be deterministic and idempotent for the same provider uid; it must never overwrite a conflicting existing account document or infer identity from email/name/profile labels.",
       "Stage 3 pairing, Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain blocked until the whole Stage 2 lane is proven.",
       "Public discovery, public profiles, public matchmaking, community functionality and global leaderboard/rankings remain eliminated.",
       "Candidate A remains non-mutating export, Candidate B read-only analysis and Candidate C the sole destructive local import Apply authority over exactly the three canonical keys.",
+      "Two context compactions have now occurred. WEC requires handoff preparation while this already-bounded Stage 2E checkpoint is finished; no separate milestone may begin here.",
       "Unknown account/model usage remains unavailable and must never be fabricated."
     ],
     "evidenceNotes": [
       "Successor independently verified live main 0fd0ac3651a4b8c78957242b645e095a3c151c9d and PR #88 merge metadata before new work.",
       "All 13 normal GitHub Actions workflow families succeeded on exact PR #88 head f019c6c6c39385fcb1f76f3de240fd73bb972e49; submitted reviews and inline review threads were both empty.",
-      "Current Firebase documentation continues to recommend separate projects for production environments and identifies web configuration as project association rather than a security secret.",
-      "Firebase Admin user management is an elevated secure-server operation; Firestore server client libraries bypass Security Rules and are secured through IAM, so no trusted production backend is implied by emulator proof.",
+      "Current primary Firebase documentation continues to require a trusted server/IAM boundary for elevated Admin/server Firestore operations; emulator proof does not imply a production trusted backend.",
       "Stage 2E is selected because trusted application-account bootstrap is required before registered-device/pairing authorization can safely depend on an application account document, while it can be proven without connecting production Firebase.",
+      "Stage 2E source now plans exactly one missing-account create from trusted provider uid and returns no-write existing decisions for valid active, disabled and deletion-pending same-uid accounts; malformed/path/identity conflicts fail closed.",
+      "The real Stage 2E proof uses Firebase Web Auth plus test-only Admin Auth against the Authentication Emulator and Firestore Emulator; browser account create/update/delete remain denied by unchanged Security Rules.",
+      "The permanent Stage 2E contract is wired into the repository contract suite and the Stage 2E emulator proof is appended to the existing Validate Static App emulator command without adding a workflow block or raising its seven-minute timeout.",
       "Direct git clone failed only because this shell cannot resolve github.com; no repository or CI failure is inferred from that environment limitation.",
-      "Fresh deterministic WEC calculation from these signals: context pressure 45.0/100, quality risk 6.0/100, next-task separation 20.0/100, handoff readiness 82.0/100, continuation risk about 25.7/100, transition cost about 21.6/100, transition advantage about 4.1; decision CONTINUE."
+      "Mandatory source study is complete, including Work Environment Continuity contracts and the Phase 1F trusted emulator transaction proof.",
+      "Updated deterministic WEC calculation from current signals with a coherent committed branch: context pressure 65.0/100, quality risk 6.0/100, next-task separation 20.0/100, handoff readiness 88.0/100, continuation risk 34.4/100, transition cost 18.9/100, transition advantage 15.5; decision PREPARE_HANDOFF."
     ]
   }
 }
