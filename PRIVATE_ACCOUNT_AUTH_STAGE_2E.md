@@ -1,20 +1,24 @@
 # Private Account / Authentication Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary
 
-Status: CURRENT / IMPLEMENTATION-AUTHORIZED / EMULATOR-TEST-ONLY / PRODUCTION FIREBASE DISCONNECTED
+Status: DONE / MERGED / PROVEN / EMULATOR-TEST-ONLY / PRODUCTION FIREBASE DISCONNECTED
 
 Effective: 2026-08-18 ET
+
+Completion: PR #89, exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`, squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
 
 Production application remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
 
 Production Firebase remains disconnected. Every application-client Firestore create, update and delete remains denied.
 
-## Purpose
+Do not repeat Stage 2E.
 
-Stage 2E is the smallest currently unblocked Private Account / Authentication / Authorization prerequisite after completed Stage 2D.
+## Purpose and completed boundary
+
+Stage 2E was the smallest unblocked Private Account / Authentication / Authorization prerequisite after completed Stage 2D. It is now complete and protected through PR #89.
 
 Stage 2D proved a fail-closed production Firebase environment/configuration preflight. It did not define how a successfully authenticated provider identity obtains the minimal Career Mode Showdown application account document that later authorization, registered-device and pairing logic depend on.
 
-Stage 2E defines and proves only that trusted application-account bootstrap boundary. It does not create a production backend, production Firebase project, production user, account UI, registered device, pairing flow, Connected Rivalry runtime or Remote Joining runtime.
+Stage 2E defines and proves only that trusted application-account bootstrap boundary. It did not create a production backend, production Firebase project, production user, account UI, registered device, pairing flow, Connected Rivalry runtime or Remote Joining runtime.
 
 ## Inherited completed Stage 2D boundary
 
@@ -233,7 +237,9 @@ Under `VERSIONING_POLICY.md`, no semantic application version bump is required f
 
 The complete Private Account / Authentication / Authorization Stage 2 remains incomplete after Stage 2E.
 
-Remaining Stage 2 requirements still include real production Firebase operational setup, production provider/configuration, trusted production ID-token verification and revoked-token behavior, account export, provider-aware deletion cascade, abuse/rate controls, production Security Rules deployment, provider outage/recovery behavior and the separately reviewed trusted production mutation boundary.
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — is the current bounded successor prerequisite. Detailed authority is `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `NEXT_TASK.md`.
+
+Remaining later Stage 2 requirements still include real production Firebase operational setup, production provider/configuration, trusted application-account write execution, IAM/service identity, account export, provider-aware deletion cascade, abuse/rate controls, production Security Rules deployment, provider outage/recovery behavior and the separately reviewed trusted production mutation boundary.
 
 Their listing is not automatic implementation order.
 
@@ -243,19 +249,22 @@ Connected Rivalry remains Stage 4 and BLOCKED until Stage 3 and all earlier prer
 
 Private Remote Joining remains the prioritized long-term dependency-gated destination and is NOT YET IMPLEMENTATION-AUTHORIZED.
 
-## Completion gate
+## Completion evidence
 
-Stage 2E is complete only when:
+Stage 2E is DONE / MERGED / PROVEN through PR #89.
 
-1. the dormant decision model and permanent static contracts pass;
-2. the real Auth plus Firestore Emulator proof passes;
-3. the proof demonstrates trusted provider UID identity, first-create behavior, exact idempotent no-write behavior, disabled/deletion-pending preservation and conflict rejection;
-4. every application-client Firestore create/update/delete remains denied;
-5. production runtime/dependencies remain unchanged at v1.4.0 / `1.4.0-r1`;
-6. all complete repository contracts and all 13 normal workflow families pass on one exact unchanged final PR head;
-7. submitted reviews and inline review threads are clean;
-8. the PR is mergeable and exact-head identity remains unchanged;
-9. expected-head squash merge succeeds;
-10. live `main` is independently verified afterward.
+Exact validated PR #89 head:
 
-Only after that safe boundary may a fresh WEC assessment select one next smallest remaining Stage 2 prerequisite.
+`f7d462b3d8252b2912f34a1589e457c03e977bd3`
+
+Squash merge / independently verified live-main completion boundary:
+
+`0cb56c22f82facdb248c8c68ec59064c5612c543`
+
+All 13 normal workflow families passed on that exact unchanged head before merge. Submitted reviews and inline review threads were empty.
+
+The completion proof preserves trusted UID identity, initial missing-account create planning, exact no-write behavior for valid active/disabled/deletion-pending existing accounts, conflict rejection, browser account-write denial and production isolation.
+
+No test, timeout, Candidate C guarantee, Firestore Security Rule or performance ceiling was weakened to complete Stage 2E.
+
+Do not repeat Stage 2E. Continue only with the separately bounded Stage 2F authority after fresh WEC initialization and assessment.
