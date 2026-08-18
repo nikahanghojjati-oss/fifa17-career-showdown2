@@ -84,7 +84,7 @@ Phase 1F — Firebase provider connection, Emulator Suite and deny-by-default Se
 
 The connected GitHub app remains connector-first authority for repository, PR and issue state. Before substantial GitHub work in a fresh environment, run `npm run work:gh:bootstrap` or its exact owner `node scripts/bootstrap-github-cli.mjs` when an npm wrapper is cancelled before execution.
 
-The bootstrap reuses a working `gh` when available. Otherwise it resolves the official stable `cli/cli` release, selects the current Linux architecture, verifies the published SHA-256 checksum before extraction, installs under ignored `.work-tools/`, and uses writable environment-local GitHub CLI configuration. Missing authentication requires the supported `gh auth login` flow; connector credentials are never copied into the CLI.
+The bootstrap reuses a working `gh` when available. Otherwise it resolves the official stable `cli/cli` release, selects the current Linux architecture, requires SHA-256 checksum verification against the published checksum list before extraction, installs under ignored `.work-tools/`, and uses writable environment-local GitHub CLI configuration. Missing authentication requires the supported `gh auth login` flow; connector credentials are never copied into the CLI.
 
 Neither the binary nor its authentication is assumed to persist across Work environments. The repository script is the repeatable authority, and `.work-tools/` must never be committed.
 
