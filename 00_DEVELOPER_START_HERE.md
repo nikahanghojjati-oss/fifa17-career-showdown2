@@ -166,6 +166,15 @@ Before publication require all 13 normal workflow families on one exact unchange
 
 After the safe Stage 2F boundary, reassess WEC before any separate Stage 2 prerequisite.
 
+## Historical Stage 2 transition provenance
+
+The following literals are historical contract provenance only and do not override the current Stage 2F task above.
+
+Stage 2B — DONE / MERGED / PROVEN. Stage 2C — DONE / MERGED / PROVEN.
+Exact Stage 2C completion boundary: exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`; squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase disconnected.
+PR #87 — DONE / MERGED / PROVEN. Exact validated head `2415c156161b6244c75e49917bad28efed957adf`; squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
+Stage 2D — Production Firebase Environment & Configuration Preflight — is CURRENT.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Finish only the current Stage 2F Trusted Request Authentication & ID Token Revocation Boundary on `agent/private-auth-stage2f-token-verification`. Preserve production v1.4.0 / `1.4.0-r1`, keep production Firebase disconnected, retain direct application-client Firestore write denial, require the trusted `verifyIdToken(idToken, true)` boundary, complete exact-head validation and publication, then reassess WEC before any separate Stage 2 prerequisite.
