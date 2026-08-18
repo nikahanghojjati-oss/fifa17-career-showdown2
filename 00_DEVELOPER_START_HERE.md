@@ -13,7 +13,11 @@ Read current source before changing anything. Handoffs are orientation only.
 - `POST_V1_ROADMAP_EXECUTION.md` owns dependency direction and current roadmap classification.
 - `REMOTE_JOINING_EXECUTION_ROADMAP.md` owns the detailed private Remote Joining prerequisite lane.
 - `VERSIONING_POLICY.md` owns application/runtime version numbering.
-- `00_HANDOFF_GOLDEN_RULE.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json` and `WORK_ENVIRONMENT_HISTORY.md` own environment transition discipline.
+- `00_HANDOFF_GOLDEN_RULE.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json` and `WORK_ENVIRONMENT_HISTORY.md` own Work Environment Continuity and environment transition discipline.
+
+## Work Environment Continuity startup
+
+Every fresh development environment must enter the repository-owned Work Environment Continuity system before substantial work. The inherited record is validated and archived/replaced before the successor assesses its own fresh context. A predecessor `HANDOFF_AT_CHECKPOINT` decision never becomes the successor's starting decision.
 
 ## Mandatory startup sequence
 
