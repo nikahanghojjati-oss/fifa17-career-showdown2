@@ -1,5 +1,23 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
+
+This short section is the current source-facing override. The complete PR #89 live-main body below is intentionally retained byte-for-byte as historical/proven contract provenance except for this prefixed successor update. Current source, live GitHub state and `NEXT_TASK.md` override the historical Stage 2D-current wording below.
+
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `NEXT_TASK.md`.
+
+Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected. Every application-client Firestore create/update/delete remains denied. Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+
+Stage 2F must remain production-dormant: require trusted `verifyIdToken(idToken, true)`, derive architecture `accountId` only from verified Firebase UID, keep provider authentication separate from application authorization, persist/log no raw token material, and do not create production Firebase/Admin/IAM/write infrastructure.
+
+Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage, and preserve the rule recursively.
+
+---
+
+# Career Mode Showdown — Developer Start Here
+
 Last updated: 2026-08-18 ET (PR #87 complete / Stage 2D production Firebase preflight current)
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Purpose: canonical bootstrap for a new developer session.

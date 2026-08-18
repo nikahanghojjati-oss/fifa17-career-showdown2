@@ -1,5 +1,25 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
+
+Current verified source overrides the retained PR #89-era body below.
+
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF. Current branch: `agent/private-auth-stage2f-token-verification`. Fresh environment: `we-2026-08-18-stage2f-token-verification`.
+
+Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected and every application-client Firestore create/update/delete remains denied.
+
+Stage 2F requires trusted `verifyIdToken(idToken, true)`, derives architecture `accountId` only from verified Firebase UID and explicitly does not grant application authorization. It does not authorize a production Firebase project, production Admin/IAM/write executor, account UI, Stage 3 pairing, Connected Rivalry or Private Remote Joining.
+
+Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Unknown usage is never fabricated.
+
+The complete body below is retained as historical/proven contract provenance. Its Stage 2E-current and predecessor WEC wording is not current authorization.
+
+---
+
+# Career Mode Showdown — Current Handoff
+
 Last updated: 2026-08-18 ET
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`

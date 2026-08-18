@@ -111,10 +111,12 @@ assert.match(bootstrapSource, /providerPrincipal\.uid/);
 assert.doesNotMatch(bootstrapSource, /providerPrincipal\.(?:email|displayName|photoURL)/);
 
 assert.match(stage2e, /Trusted Application Account Bootstrap & Lifecycle Boundary/i);
-assert.match(stage2e, /CURRENT \/ IMPLEMENTATION-AUTHORIZED \/ EMULATOR-TEST-ONLY \/ PRODUCTION FIREBASE DISCONNECTED/i);
+assert.match(stage2e, /DONE \/ MERGED \/ PROVEN \/ EMULATOR-TEST-ONLY \/ PRODUCTION FIREBASE DISCONNECTED/i);
 assert.match(stage2e, /Stage 2D[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(stage2e, /f019c6c6c39385fcb1f76f3de240fd73bb972e49/);
 assert.match(stage2e, /0fd0ac3651a4b8c78957242b645e095a3c151c9d/);
+assert.match(stage2e, /f7d462b3d8252b2912f34a1589e457c03e977bd3/);
+assert.match(stage2e, /0cb56c22f82facdb248c8c68ec59064c5612c543/);
 assert.match(stage2e, /missing `accounts\/\{uid\}`[\s\S]+exactly one initial create plan/i);
 assert.match(stage2e, /disabled[\s\S]+deletion-pending[\s\S]+no-write/i);
 assert.match(stage2e, /A conflict is not repaired by overwrite/i);
@@ -122,8 +124,10 @@ assert.match(stage2e, /Every application-client Firestore create, update and del
 assert.match(stage2e, /Firebase Admin user-management APIs are elevated operations intended for secure server environments/i);
 assert.match(stage2e, /server client libraries bypass Firestore Security Rules and rely on IAM/i);
 assert.match(stage2e, /Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
+assert.match(stage2e, /Stage 2F[\s\S]+Trusted Request Authentication & ID Token Revocation Boundary/i);
 assert.match(stage2e, /Registered Devices \/ Private Pairing[\s\S]+BLOCKED/i);
-assert.match(stage2e, /Public profiles[\s\S]+global rankings/i);
+assert.match(stage2e, /public profiles[\s\S]+global rankings/i);
+assert.match(stage2e, /Do not repeat Stage 2E/i);
 
 assert.match(stage2d, /DONE \/ MERGED \/ PROVEN \/ NON-RUNTIME \/ PRODUCTION FIREBASE DISCONNECTED/i);
 assert.match(stage2d, /Stage 2D is a readiness validator, not production provisioning/i);
@@ -155,17 +159,12 @@ assert.match(workflow, /firebase-admin@14\.2\.0/);
 assert.match(rules, /match \/accounts\/\{accountId\}[\s\S]+allow get: if signedIn\(\) && request\.auth\.uid == accountId;[\s\S]+allow list, create, update, delete:\s*if false/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-// NEXT_TASK.md is the sole current implementation-authorization owner. Other current-facing
-// documents may retain the exact pre-PR #88 branch-frozen Stage 2D wording until a later
-// legitimate engineering branch needs to touch them; that historical wording must not override
-// the explicit current authority below.
-assert.match(next, /Stage 2D[\s\S]{0,900}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next, /f019c6c6c39385fcb1f76f3de240fd73bb972e49/i);
-assert.match(next, /0fd0ac3651a4b8c78957242b645e095a3c151c9d/i);
-assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,220}Stage 2E/i);
-assert.match(next, /Stage 2E[\s\S]{0,500}CURRENT \/ IMPLEMENTATION-AUTHORIZED \/ EMULATOR-TEST-ONLY/i);
-assert.match(next, /PREPARE_HANDOFF/i);
-assert.match(next, /production Firebase[\s\S]{0,260}disconnected/i);
+assert.match(next, /Stage 2E[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
+assert.match(next, /f7d462b3d8252b2912f34a1589e457c03e977bd3/i);
+assert.match(next, /0cb56c22f82facdb248c8c68ec59064c5612c543/i);
+assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,260}Stage 2F/i);
+assert.match(next, /Stage 2F[\s\S]{0,700}CURRENT \/ IMPLEMENTATION-AUTHORIZED/i);
+assert.match(next, /production Firebase[\s\S]{0,500}disconnected/i);
 
 for (const [name, text] of [
   ["PROJECT_STATE.md", state],
@@ -174,22 +173,24 @@ for (const [name, text] of [
   ["00_CURRENT_HANDOFF.md", currentHandoff],
   ["00_DEVELOPER_START_HERE.md", start]
 ]) {
+  assert.match(text, /Stage 2E[\s\S]{0,1200}DONE \/ MERGED \/ PROVEN/i, `${name} must classify Stage 2E as complete.`);
+  assert.match(text, /Stage 2F[\s\S]{0,1200}(?:CURRENT|implementation-authorized|trusted request)/i, `${name} must preserve the bounded Stage 2F successor.`);
   assert.match(text, /v1\.4\.0/i, `${name} must preserve the current production application version.`);
   assert.match(text, /1\.4\.0-r1/i, `${name} must preserve the current production runtime revision.`);
-  assert.match(text, /production Firebase[\s\S]{0,600}(disconnected|NOT CONNECTED)/i, `${name} must preserve production Firebase isolation.`);
-  assert.match(text, /Private Remote Joining[\s\S]{0,700}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
+  assert.match(text, /production Firebase[\s\S]{0,700}(disconnected|NOT CONNECTED)/i, `${name} must preserve production Firebase isolation.`);
+  assert.match(text, /Private Remote Joining[\s\S]{0,900}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
 }
 
-assert.equal(pkg.version, "1.4.0", "Stage 2E dormant proof must not bump production application version.");
+assert.equal(pkg.version, "1.4.0", "Stage 2E/2F dormant proof must not bump production application version.");
 assert.match(index, /app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker, /RUNTIME_REVISION = "1\.4\.0-r1"/);
-assert.doesNotMatch(index, /trustedAccountBootstrap|private-account-auth-stage2e|firebase-admin|firebase\/auth|firebase\/firestore/i);
-assert.doesNotMatch(optional, /trustedAccountBootstrap|private-account-auth-stage2e|firebase-admin|firebase\/auth|firebase\/firestore/i);
-assert.doesNotMatch(worker, /trustedAccountBootstrap|private-account-auth-stage2e|firebase-admin|firebase\/auth|firebase\/firestore/i);
+assert.doesNotMatch(index, /trustedAccountBootstrap|trustedRequestAuthentication|private-account-auth-stage2e|private-account-auth-stage2f|firebase-admin|firebase\/auth|firebase\/firestore/i);
+assert.doesNotMatch(optional, /trustedAccountBootstrap|trustedRequestAuthentication|private-account-auth-stage2e|private-account-auth-stage2f|firebase-admin|firebase\/auth|firebase\/firestore/i);
+assert.doesNotMatch(worker, /trustedAccountBootstrap|trustedRequestAuthentication|private-account-auth-stage2e|private-account-auth-stage2f|firebase-admin|firebase\/auth|firebase\/firestore/i);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase-admin"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap and production-isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap and merged-boundary contracts\n");

@@ -1,5 +1,27 @@
 # PROJECT STATE — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
+
+Current verified source and `NEXT_TASK.md` override the retained PR #89-era body below.
+
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `NEXT_TASK.md`.
+
+Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected. Every application-client Firestore create/update/delete remains denied.
+
+Stage 2F requires trusted `verifyIdToken(idToken, true)`, derives architecture `accountId` only from verified Firebase UID, keeps provider authentication separate from application authorization, and creates no production Firebase/Admin/IAM/write infrastructure.
+
+Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED. Stage 3 pairing and Stage 4 Connected Rivalry remain blocked.
+
+Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
+
+The complete body below is retained as historical/proven contract provenance. Any historical Stage 2D-current wording below is not current implementation authority.
+
+---
+
+# PROJECT STATE — Career Mode Showdown
+
 Last updated: 2026-08-18 ET (PR #87 complete / Stage 2D production Firebase preflight current)
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` own dependency direction/status.
