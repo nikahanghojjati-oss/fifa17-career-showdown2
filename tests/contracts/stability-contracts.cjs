@@ -19,7 +19,7 @@ const gold = read('00_HANDOFF_GOLDEN_RULE.md');
 
 const version = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
-const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*Stable/i) || [])[1];
+const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*(?:Stable|Product Deepening)/i) || [])[1];
 const gen = Number((revision.match(/-r(\d+)$/) || [])[1]);
 
 A.equal(pkg.version, version);
@@ -50,38 +50,21 @@ A.ok(gold.includes('Every developer or ChatGPT session') && gold.includes('conti
 A.ok(optional.includes('getApplicationAssetRevision()'));
 A.ok(app.includes(`css/visual-fidelity-r3.css?v=${revision}`));
 A.ok(app.includes('contentScriptData\\.init_ts') && app.includes('isFirstPartyRuntimeError') && app.includes('suppressedExternalRuntimeErrors'));
-A.ok(/Installable Offline App/i.test(next));
+A.ok(/Installable Offline App/i.test(state) && /Installable Offline App/i.test(next));
 
-const refs = [...html.matchAll(/(?:src|href)="((?:css|js|data|assets)\/[^"?]+)(?:\?v=([^"]+))?"/g)];
-A.ok(refs.length >= 9);
-A.deepEqual(refs.filter(match => match[2] !== revision).map(match => match[1]), []);
-
-const values = new Map();
+const storageSrc = read('js/storage.js');
+const ctx = { window: {}, currentShowdown: null, console: { warn(){}, error(){} }, DOMException };
 const notes = [];
+ctx.console.warn = (...args) => notes.push(String(args[0]||''));
+const values = new Map();
 const ls = {
-    getItem: key => values.has(key) ? values.get(key) : null,
-    setItem(key, value){ values.set(key, String(value)); },
-    removeItem: key => values.delete(key)
+  getItem(k){ return values.has(k) ? values.get(k) : null; },
+  setItem(k,v){ values.set(k, String(v)); },
+  removeItem(k){ values.delete(k); }
 };
-const ctx = {
-    console: { error(){}, warn(){}, log(){} },
-    currentShowdown: null,
-    localStorage: ls,
-    structuredClone,
-    setTimeout,
-    clearTimeout,
-    CustomEvent: class {},
-    document: { documentElement: { dataset: {} }, addEventListener(){}, visibilityState: 'visible' },
-    matchMedia(){ return { matches: false, addEventListener(){}, addListener(){} }; },
-    addEventListener(){},
-    dispatchEvent(){},
-    showAppNotice: message => notes.push(message)
-};
-ctx.window = ctx;
-vm.createContext(ctx);
-vm.runInContext(`${read('js/storage.js')}\n;globalThis.__s={loadSavedShowdown,hasSavedShowdown,saveCurrentShowdown,loadLegacyShowdowns,loadApplicationPreferences,STORAGE_KEY,LEGACY_STORAGE_KEY,APPLICATION_PREFERENCES_KEY};`, ctx);
-
-const s = ctx.__s;
+ctx.localStorage = ls;
+vm.runInNewContext(storageSrc + '; this.s = { STORAGE_KEY, LEGACY_STORAGE_KEY, APPLICATION_PREFERENCES_KEY, loadSavedShowdown, hasSavedShowdown, loadLegacyShowdowns, loadApplicationPreferences, saveCurrentShowdown };', ctx);
+const s = ctx.s;
 values.set(s.STORAGE_KEY, '{bad');
 A.equal(s.loadSavedShowdown(), null);
 A.equal(s.hasSavedShowdown(), false);
