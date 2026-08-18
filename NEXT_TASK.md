@@ -103,6 +103,8 @@ Cloud/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED during P
 
 The following records the exact pre-merge dependency boundary that earlier permanent contracts intentionally protect. It is historical evidence, not current implementation authority:
 
+Historical protected wording: Current authorized prerequisite candidate: Cloud/Sync Readiness Phase 1E deterministic two-device / offline / reconnect harness. Next prerequisite after Phase 1E merges: Cloud/Sync Readiness Phase 1F provider connection / Firebase Emulator Suite / Security Rules proof.
+
 Phase 1D — exact provider-compatible remote schema and API/authorization contract: DONE / PR #79.
 Phase 1E — deterministic two-device/offline/reconnect synchronization harness: CURRENT BOUNDED CANDIDATE.
 Phase 1F — provider connection/emulator/Security Rules proof: BLOCKED.
