@@ -100,7 +100,7 @@ Cloud/Sync Readiness is itself staged:
 - Phase 1E deterministic two-device/offline sync harness — CURRENT BOUNDED CANDIDATE;
 - Phase 1F provider connection/emulator/Security Rules proof — NEXT AFTER 1E MERGES / BLOCKED until then.
 
-Cloud/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED until Phase 1E is proven and a later bounded runtime prerequisite is explicitly opened by dependency order and current source authority.
+Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED until Phase 1E is proven and a later bounded production-runtime prerequisite is explicitly opened by dependency order and current source authority.
 
 The former clean-stop wording to "stop and wait for a further explicit owner instruction" was satisfied by the owner's later 2026-08-17 instruction to prioritize and continue the prerequisite path. Do not revive that obsolete waiting loop.
 
