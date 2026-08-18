@@ -4,6 +4,10 @@ Last updated: 2026-08-17 ET (Cloud/Sync Readiness Phase 1B provider decision)
 
 This file is the primary owner of current deployed product state. `NEXT_TASK.md` owns implementation authorization; `POST_V1_ROADMAP_EXECUTION.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` own dependency direction/status. Release/proof documents remain frozen evidence for the release they name.
 
+## Development continuity infrastructure
+
+The repository's Work Environment Continuity system remains active through `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md` and `scripts/work-environment-continuity.mjs`. Every fresh development environment must follow the repository's validate → archive/replace → assess sequence before substantial work. Continuity infrastructure is excluded from the website runtime and does not itself authorize product changes.
+
 ## Production authority
 
 Application milestone: **v1.4.0 — Product Deepening**
