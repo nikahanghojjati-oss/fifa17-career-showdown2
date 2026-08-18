@@ -55,9 +55,17 @@ Product philosophy lock: Career Mode Showdown is a private two-manager companion
 
 All runtime/product layers through v1.4.0 remain closed and production-proven. Phase 1A is a protected non-runtime architecture prerequisite and does not change the visible runtime version.
 
-## 4. Local identity, portability and Analytics status
+## 4. Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening
 
-Local Profiles and Save Library: FOUNDATION DONE / FIRST EXPERIENCE DEEPENING SLICE DONE.
+Status: DONE / PROTECTED BASELINE.
+
+The v1.3 resilience milestone remains the protected recovery and device baseline beneath v1.4.0 Product Deepening. Candidate A/B/C ownership, fail-closed restore behavior, exact raw snapshot authority and whole-shell recovery remain binding. Runtime `1.3.0-r2` remains the immediate previous known-good whole shell for `1.4.0-r1`.
+
+## 5. Local Profiles and Save Library — completed dependency milestone
+
+Status: FOUNDATION DONE / FIRST EXPERIENCE DEEPENING SLICE DONE.
+
+Stable `profile_*`, `save_*` and `season_*` identities, canonical multi-Save authority, explicit active-Save switching, visible Local Profiles, explicit cross-Save reuse and unresolved historical identity semantics are shipped. Same visible names never establish identity.
 
 Historical profile identity mapping: FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED.
 
@@ -71,13 +79,13 @@ formatVersion 2 full multi-Save portability: DONE / PRODUCTION-PROVEN.
 
 Same-name profiles never imply identity. Unresolved historical roles may remain null until explicitly mapped. Do not reopen completed portability or identity work as a prerequisite excuse.
 
-## 5. Current Product Deepening milestone
+## 6. Current Product Deepening milestone
 
 v1.4.0 groups the already-shipped Phase B and Phase C first slices. Runtime remains `1.4.0-r1`; `1.3.0-r2` is the immediate previous known-good whole shell.
 
 Further local Product Deepening remains a separate future candidate. Once the connected lane is active, unrelated optional expansion must not indefinitely displace the next safe Remote Joining prerequisite.
 
-## 6. Cloud / Sync Readiness — active prerequisite lane
+## 7. Cloud / Sync Readiness — active prerequisite lane
 
 ### Phase 1A — deterministic revision/conflict model
 
@@ -121,7 +129,7 @@ Status: BLOCKED behind 1A–1E.
 
 Only then may a bounded candidate connect a Firebase development/emulator path. Production remote mutation remains blocked until deny-by-default authorization, exact revision semantics, feature disable, local-only fallback and recovery escape hatches are proven.
 
-## 7. Roadmap classification matrix
+## 8. Roadmap classification matrix
 
 | Area | Current classification | Source-grounded interpretation |
 | --- | --- | --- |
@@ -144,7 +152,7 @@ Only then may a bounded candidate connect a Firebase development/emulator path. 
 | Private Remote Joining | PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED | Final private session destination after all prerequisites. |
 | Public/community/rankings | ELIMINATED | Must not return through connected work. |
 
-## 8. Corrected dependency map
+## 9. Corrected dependency map
 
 proven local recovery/data safety — DONE
 → Installable Offline App/device resilience — DONE
@@ -166,7 +174,7 @@ proven local recovery/data safety — DONE
 
 Optional Private Cloud Backup may later branch from the Cloud foundation but is not a substitute for synchronization/session infrastructure.
 
-## 9. Current implementation authorization boundary
+## 10. Current implementation authorization boundary
 
 **Authorized product candidate: none.** No user-facing network runtime candidate is authorized yet.
 
@@ -174,7 +182,7 @@ Optional Private Cloud Backup may later branch from the Cloud foundation but is 
 
 Public community and global leaderboard/rankings remain permanently ELIMINATED unless the owner explicitly reverses that lock.
 
-## 10. Cloud foundation and provider boundary
+## 11. Cloud foundation and provider boundary
 
 `CLOUD_STORAGE_FOUNDATION.md`, `CLOUD_SYNC_READINESS_PHASE_1.md`, `CLOUD_PROVIDER_DECISION_2026-08-17.md` and `REMOTE_JOINING_EXECUTION_ROADMAP.md` together define the future cloud safety boundary.
 
@@ -184,7 +192,7 @@ No Firebase SDK or remote collection should be added until Phase 1C–1E are com
 
 No privileged Firebase/Admin credential may enter the public client. Firebase Auth account identity must remain separate from Local Profile identity.
 
-## 11. Versioning execution rule
+## 12. Versioning execution rule
 
 `VERSIONING_POLICY.md` is permanent authority.
 
