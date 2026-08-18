@@ -88,7 +88,7 @@ v1.4.0 groups the already-shipped Phase B and Phase C first slices. Runtime rema
 
 Further local Product Deepening remains a separate future candidate. Once the connected lane is active, unrelated optional expansion must not indefinitely displace the next safe Remote Joining prerequisite.
 
-## 7. Cloud / Sync Readiness — active prerequisite lane
+## 7. Cloud Readiness / Sync Readiness — active prerequisite lane
 
 ### Phase 1A — deterministic revision/conflict model
 
