@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-18-stage2g-publication-reconcile",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-18T23:42:33Z",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-08-18T23:49:35Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,37 +11,40 @@
   "signals": {
     "contextComplexity": "very-high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 12,
-    "toolRoutingErrors": 2,
-    "correctedFailures": 0,
+    "compactionCount": 2,
+    "majorPhasesCompleted": 2,
+    "largeEvidenceEvents": 20,
+    "toolRoutingErrors": 3,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
-    "unresolvedFailures": 1,
-    "newMilestoneNext": false,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 88,
+    "handoffCompleteness": 96,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Reconcile and safely finish only the existing Private Account / Authentication Stage 2G Trusted Account Bootstrap Execution Boundary publication in PR #91. Correct current-authority coherence defects, require exact-head proof, merge only if all gates pass, verify live main and transition before any separate Stage 2 prerequisite.",
-    "lastSafeCheckpoint": "Live main is independently verified at a27147695607537a1cd1543efb84e6583929a696 with Stage 2F DONE / MERGED / PROVEN. PR #91 remains open, draft and mergeable on branch agent/private-auth-stage2g-bootstrap-execution. Its currently verified pre-fix head 1ea5fd5c45566855d6e5c6fb9ae3452a6800b5bd has 11 of 13 normal workflow families successful and two failures caused by the same current-authority contract defect.",
-    "nextSafeAction": "Correct only the source-grounded Stage 2E completion omission in the current 00_DEVELOPER_START_HERE.md successor override, preserve historical provenance and all runtime/security locks, then require fresh exact-head validation before any promotion of PR #91.",
+    "currentTask": "Finish only the existing Private Account / Authentication Stage 2G Trusted Account Bootstrap Execution Boundary publication in PR #91: prove this final continuity-sealed head through all 13 normal workflow families, verify clean reviews/threads and mergeability, mark ready, squash merge with expected-head protection, independently verify live main, then transition before another Stage 2 prerequisite.",
+    "lastSafeCheckpoint": "Pre-seal exact head 84479aa0e189a1627bb09798f2c3cb7a535c04ec passed all 13 normal pull-request workflow families unchanged. Static App proved the complete 43-file contract suite, the real Auth/Firestore Emulator Stage 2G revocation-aware atomic account-bootstrap execution, continued browser/client Firestore write denial and 13-workflow/27-executable-block topology. Candidate B, Candidate C and Stability also passed. Production runtime identity remains v1.4.0 / 1.4.0-r1 and no production Firebase runtime was connected.",
+    "nextSafeAction": "Treat this transition seal as the final branch mutation. Require a completely fresh 13-family exact-head gate on the resulting head, re-check submitted reviews, inline threads, exact PR head and mergeability, then mark PR #91 ready and squash merge only with expected-head protection. Verify live main after merge and stop before a separate Stage 2 milestone.",
     "unfinishedWork": [
-      "Correct the confirmed private-account-auth-stage2e contract failure in 00_DEVELOPER_START_HERE.md without weakening the contract matcher or rewriting historical provenance.",
-      "Re-run or inspect all 13 normal workflow families on the exact unchanged corrected PR #91 head and require all to succeed.",
-      "Verify submitted reviews, inline review threads, mergeability, exact head identity and production-runtime isolation before promotion.",
-      "Mark PR #91 ready only after the final gate, squash merge with expected-head protection where supported and independently verify live main afterward.",
-      "Append the predecessor Stage 2G transition discrepancy and this successor's final publication facts to append-only continuity history before the final transition seal."
+      "Require all 13 normal workflow families to succeed on the exact unchanged final seal head produced by this status mutation; earlier green heads are diagnostic only after this mutation.",
+      "Re-check submitted reviews, inline review threads, PR #91 exact head identity and mergeability after the final exact-head gate.",
+      "Mark PR #91 ready only after the final gate, then squash merge with expected-head protection and independently verify live main contains Stage 2G.",
+      "After merge, append the predecessor Stage 2G transition discrepancy plus this successor publication/merge closure to append-only WORK_ENVIRONMENT_HISTORY.md from a fresh successor environment; do not risk rewriting protected historical bodies before the merge boundary exists.",
+      "Do not begin the next Stage 2 prerequisite in this environment. Select it only from current live source after a fresh successor initializes and assesses independently."
     ],
     "knownHazards": [
-      "The uploaded predecessor handoff reported historical diagnostic head b2f3f9bf6fe937ae4aa6047938256645e54258cb, but current GitHub cannot resolve that SHA. It is stale handoff evidence, not current merge authority.",
-      "The predecessor intended a final WEC transition seal after reaching Handoff proximity 100%, but its GitHub update failed because the required current blob SHA was omitted. The inherited repository status therefore remained an earlier active record and must not be treated as the predecessor's final intended state.",
-      "Direct shell DNS/gh routing is unavailable in this environment; connected GitHub is source/write authority and GitHub-hosted Actions are validation authority.",
+      "The uploaded predecessor handoff reported historical diagnostic head b2f3f9bf6fe937ae4aa6047938256645e54258cb, but current GitHub cannot resolve that SHA. It remains stale handoff evidence, not merge authority.",
+      "The predecessor intended a final WEC transition seal after reaching Handoff proximity 100%, but its update failed because the required current blob SHA was omitted. The successor reconstructed current truth rather than fabricating the missing seal.",
+      "The first successor CI failure was a current-authority defect: 00_DEVELOPER_START_HERE.md omitted explicit Stage 2E DONE / MERGED / PROVEN classification. The source was corrected without weakening the permanent Stage 2E contract.",
+      "The second successor CI failure exposed a continuity-contract defect: the Stage 2F contract hard-coded the predecessor Stage 2G environment ID, contradicting mandatory fresh-successor WEC initialization. It was narrowed to require a valid WEC identifier while preserving the exact Stage 2G starting-main/task boundary.",
+      "Direct shell DNS/gh routing is unavailable in this environment; connected GitHub remains source/write authority and GitHub-hosted Actions remain validation authority.",
+      "Independent public Pages fetching from this environment returned a cache miss, so no direct deployed-site observation is claimed. Stage 2G is production-dormant and the source/runtime identity remains unchanged.",
       "Production Firebase remains disconnected. Stage 2G does not authorize a real Firebase project, production Admin runtime, IAM/service identity, Cloud Functions/Cloud Run, Blaze billing, production account UI, pairing, Connected Rivalry or Private Remote Joining runtime.",
       "Every application-client Firestore create/update/delete remains denied. The Phase 1D/1F idempotency-receipt finding remains binding.",
       "Successful provider authentication remains separate from application authorization. Stage 2G grants only same-UID missing-account bootstrap authority through the reviewed atomic transaction boundary.",
@@ -52,13 +55,14 @@
       "Unknown account/model usage remains unavailable and must never be fabricated."
     ],
     "evidenceNotes": [
-      "Successor independently verified live main a27147695607537a1cd1543efb84e6583929a696, open draft PR #91, exact current pre-fix head 1ea5fd5c45566855d6e5c6fb9ae3452a6800b5bd, clean submitted reviews and clean inline review threads.",
-      "All 13 normal pull-request workflow families were inspected on exact head 1ea5fd5c45566855d6e5c6fb9ae3452a6800b5bd: 11 succeeded; Validate Static App and Validate Stability Lane failed.",
-      "Both failing Actions logs independently identify the same source-grounded failure: tests/contracts/private-account-auth-stage2e-contracts.cjs requires 00_DEVELOPER_START_HERE.md to classify Stage 2E as DONE / MERGED / PROVEN in its current-facing authority surface.",
-      "PROJECT_STATE.md and POST_V1_ROADMAP_EXECUTION.md already contain the explicit Stage 2E completion line; REMOTE_JOINING_EXECUTION_ROADMAP.md also lists Stage 2E DONE, Stage 2F DONE and Stage 2G CURRENT. The current 00_DEVELOPER_START_HERE.md successor override omits the Stage 2E completion classification.",
-      "Stage 2G source authority remains production-dormant and narrowly scoped to revocation-aware Stage 2F authentication plus Stage 2E bootstrap planning plus one injected trusted atomic conditional-create transaction. No runtime/version/client-write authority change is required to repair the current CI failure.",
-      "One current-environment context compaction was observed and is counted. One stale-fact correction is recorded because the inherited diagnostic SHA no longer resolves on current GitHub. Two recoverable tooling/routing limitations are counted. The two CI lane failures are one still-unfixed source defect cluster and are counted as one unresolved failure until corrected.",
-      "Fresh deterministic WEC calculation: context pressure 100/100, quality risk 32/100, next-task separation 20/100, handoff readiness 88/100, continuation risk about 59.5/100, transition cost about 18.9/100 and transition advantage about 40.6; decision HANDOFF_AT_CHECKPOINT. Usage is unavailable and was not estimated. Finish only the bounded PR #91 publication checkpoint, then transition before another substantial milestone."
+      "Successor independently verified live main a27147695607537a1cd1543efb84e6583929a696 and PR #91 as open/draft/mergeable. Initial current head 1ea5fd5c45566855d6e5c6fb9ae3452a6800b5bd had 11 of 13 normal workflow families green with Static App and Stability failing on the same current-authority defect.",
+      "The Stage 2E current-authority omission was corrected in 00_DEVELOPER_START_HERE.md. The resulting exact head then exposed the hard-coded predecessor WEC environment ID in tests/contracts/private-account-auth-stage2f-contracts.cjs; that continuity contradiction was corrected with a one-line semantic identifier assertion.",
+      "The correction from 87795961e806c41b88b45ba9d349c2ccdd5aa7d7 to 84479aa0e189a1627bb09798f2c3cb7a535c04ec changed exactly one line in the Stage 2F contract. No production runtime file changed.",
+      "Exact pre-seal head 84479aa0e189a1627bb09798f2c3cb7a535c04ec passed all 13 normal workflow families. Static App passed Stage 2E, Stage 2F and Stage 2G contracts; the real emulator run passed Stage 2G trusted revocation-aware atomic account-bootstrap execution and client-write denial proof; workflow topology remained 13 families / 27 executable blocks.",
+      "Submitted reviews and inline review threads were empty when checked during successor reconstruction. They must be re-checked after this final exact-head gate before merge.",
+      "Two current-environment context compactions are counted. Three recoverable tooling/routing limitations are counted, including unavailable direct shell GitHub routing and one in-progress log-blob 404 that was not a repository failure. One stale-fact correction is counted for the inherited unresolved diagnostic SHA.",
+      "Final deterministic WEC calculation before seal: context pressure 100/100, quality risk 38/100, next-task separation 80/100, handoff readiness 96/100, continuation risk about 73.0/100, transition cost about 15.3/100 and transition advantage about 57.7; decision HANDOFF_AT_CHECKPOINT. Usage remains unavailable and was not estimated.",
+      "Because the final PR #91 merge boundary does not exist until after exact-head validation and expected-head merge, append-only history closure is intentionally deferred to the fresh successor. This status and the owner-facing successor handoff carry the complete facts needed to append history without rewriting protected provenance."
     ]
   }
 }
