@@ -31,7 +31,7 @@ PR #76 added the first owner-authorized Remote Joining prerequisite: a determini
 3. Runtime authority cutover — PR #51.
 4. Visible Local Profiles / Save Library Core UI — PR #53.
 5. explicit cross-Save/historical manager identity linkage foundation — PR #57.
-6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59.
+6. Identity-Safe Career Analytics / Trophy Room longitudinal consumption — PR #59. Identity-Safe Career Analytics is production-proven.
 7. Local Profile display-label editing and `1.3.0-r2` whole-shell delivery — PR #61.
 8. formatVersion 2 full multi-Save backup/import portability — PR #67.
 9. Phase A documentation authority synchronization — PR #68.
