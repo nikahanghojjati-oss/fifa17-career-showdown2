@@ -70,7 +70,9 @@ The governance implementation and authority synchronization are complete on the 
 
 Rejected exact head `e2dbd8708cd01a48bfa619bd5780ec95110c13cf` is permanently ineligible for merge authority. Static App and Stability reached the permanent continuity contract and rejected that head because this rolling handoff used only the abbreviation `WEC` rather than explicitly routing future environments through the literal `Work Environment Continuity` phrase required by the contract. JavaScript syntax and dynamic v1.4.0 / `1.4.0-r1` release architecture had already passed. The correction is documentation/coherence only and weakens no test, timeout, recovery guarantee, performance ceiling, Firebase Security Rule or Candidate C invariant.
 
-The corrected final status seal must again be the last branch mutation. Its exact resulting head must receive a completely fresh 13-family normal PR gate before review-state verification, readiness transition and expected-head squash merge.
+Rejected exact head `6469a5cdcf8b3050e35071156c096ba5cdf7cc0f` is also permanently ineligible for merge authority. On that corrected head the Work Environment Continuity contract passed, but Stability reached `tests/contracts/private-account-auth-stage2b-contracts.cjs` and found historical current-authority assertions that still required Stage 2C to be `CURRENT BOUNDED CANDIDATE`. Stage 2C is correctly DONE / MERGED / PROVEN through PR #85. The Stage 2B contract has therefore been minimally reconciled to keep Stage 2B closed while asserting Stage 2C completion and the current governance-only authorization. This is a repository contract/source-coherence correction only; no runtime behavior, Firebase Security Rule, Candidate C guarantee, timeout or performance ceiling was weakened.
+
+The next final status seal must again be the last branch mutation. Its exact resulting head must receive a completely fresh 13-family normal PR gate before review-state verification, readiness transition and expected-head squash merge.
 
 This checkpoint changes no production runtime and therefore requires no semantic application version bump under `VERSIONING_POLICY.md`.
 
@@ -120,11 +122,11 @@ Historical Stage 2A status before PR #83 began was `AUTHORIZED NEXT PREREQUISITE
 
 Direct shell DNS to GitHub remains unavailable in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are therefore the verified source/proof path. The repository-owned GitHub CLI bootstrap remains protected for environments where routing permits it. Never copy connector credentials into local configuration.
 
-One unsupported generic branch-fetch route was corrected to the supported connector action. One optimistic-lock stale-blob `409` correctly rejected a continuity-protocol write against an obsolete blob SHA; the exact branch blob was refetched and the update then succeeded. Neither incident represents a website runtime defect.
+One unsupported generic branch-fetch route was corrected to the supported connector action. One optimistic-lock stale-blob `409` correctly rejected a continuity-protocol write against an obsolete blob SHA; the exact branch blob was refetched and the update then succeeded. One generic Actions URL was unsupported, and one workflow-job transport call transiently disconnected before succeeding on retry. None represents a website runtime defect.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish only PR #86 publication: reseal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation after the minimum documentation-coherence correction, require all 13 normal workflow families on that exact unchanged corrected head, verify clean submitted reviews and inline review threads plus mergeability, mark PR #86 ready, then squash merge only with expected-head protection.
+Finish only PR #86 publication: reseal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation after the Stage 2B contract-coherence correction, require all 13 normal workflow families on that exact unchanged corrected head, verify clean submitted reviews and inline review threads plus mergeability, mark PR #86 ready, then squash merge only with expected-head protection.
 
 After verified merge, independently verify live `main`, generate the complete successor handoff required by the final continuity decision and stop before selecting or implementing another distinct Stage 2 prerequisite.
 
