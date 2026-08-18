@@ -1,63 +1,63 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-18-private-auth-stage2a-proof",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-18T14:27:59Z",
+  "environmentId": "we-2026-08-18-private-auth-stage2b-session-revocation",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-18T16:35:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "87ea27a8dd28a041f973a3ba42312ff9e78ba74d"
+    "startingMainSha": "e39c1b0689598ac922569ff839ca30a1d5dee5fa"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 2,
-    "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 24,
-    "toolRoutingErrors": 3,
-    "correctedFailures": 3,
+    "compactionCount": 1,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 8,
+    "toolRoutingErrors": 2,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 99,
+    "handoffCompleteness": 50,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish only the publication boundary for implemented Private Account / Authentication Stage 2A in PR #83: freeze this exact final branch head, require full exact-head CI, verify clean reviews/threads and mergeability, squash merge with expected-head protection, verify live main, then transition before a distinct next Stage 2 prerequisite.",
-    "lastSafeCheckpoint": "Stage 2A implementation and authority synchronization are complete on PR #83. Technical head 1420d8ffec9e689f1b3973021517713c446c85a0 proved the real Auth/Firestore Emulator behavior; authority-coherent diagnostic head 063e90adbae3ae9c3f04f9206f36860294338183 then passed the complete Static App gate after two later documentation-coherence defects were corrected. The rolling handoff now records all rejected seal heads and the exact completion gate.",
-    "nextSafeAction": "Treat the commit created by this WORK_ENVIRONMENT_STATUS.json seal as the final PR #83 merge candidate and do not mutate the branch again. Require all 13 normal workflow families to pass on that exact unchanged head, mark PR #83 ready, verify submitted reviews and inline threads are empty and the PR is mergeable, squash merge with expected-head protection, independently verify live main, then hand off before any later Stage 2 implementation.",
+    "currentTask": "Implement and prove only Private Account / Authentication Stage 2B — Provider Session Lifecycle & Revocation Boundary as an emulator/test-only prerequisite after merged Stage 2A. Preserve production v1.4.0 / 1.4.0-r1, production Firebase disconnect, total application-client Firestore write denial and all local recovery locks.",
+    "lastSafeCheckpoint": "Live main e39c1b0689598ac922569ff839ca30a1d5dee5fa was independently verified as the PR #83 squash merge from exact validated head a4022d6f316622f73ead9aacde812b545b8dcf78. All 13 normal PR workflow families on that exact head are successful. The predecessor completion facts were appended to WORK_ENVIRONMENT_HISTORY.md with zero historical deletions before this fresh status was initialized.",
+    "nextSafeAction": "Synchronize current authority to Stage 2A DONE and Stage 2B as the sole bounded current prerequisite, then add a test-only Firebase Admin/Auth Emulator lifecycle proof. Prove provider disable/re-enable and revocation behavior only to the fidelity the emulator actually supports, preserve app-account-status denial as the immediate authorization layer, and fail closed/document any provider behavior the emulator cannot faithfully prove rather than fabricating production guarantees.",
     "unfinishedWork": [
-      "Run and verify the complete 13-family PR gate on the exact final status-seal head; all earlier green heads are evidence only and are not merge authority.",
-      "Verify PR #83 exact head unchanged, draft false, mergeable true, submitted reviews empty and inline review threads empty.",
-      "Squash merge PR #83 under the standing owner rule with expected-head protection, then independently verify live main.",
-      "Do not begin another Stage 2 prerequisite in this environment; transition after the verified PR #83 merge and let a fresh successor reconstruct current source and assess its own continuity state."
+      "Create the exact Stage 2B authority and permanent scope contracts without authorizing production Firebase, account UI, pairing or remote gameplay mutation.",
+      "Add an Auth Emulator lifecycle proof using server-privileged Firebase Admin tooling only inside CI/test infrastructure; keep the Admin SDK absent from the production dependency graph and shell.",
+      "Prove disabled provider users cannot create new authenticated sessions, re-enabled users retain the same uid/accountId, and app account status independently blocks connected rivalry authority without trusting provider disable as an immediate Firestore authorization substitute.",
+      "Investigate and prove refresh-token revocation only if the Auth Emulator exposes faithful behavior; otherwise record the exact limitation and retain production revocation as a later Stage 2 gate.",
+      "Run the complete repository contracts and all 13 normal PR workflow families on the exact final head before any merge."
     ],
     "knownHazards": [
-      "Every application-client Firestore write remains denied; the Phase 1D shared-state schema still lacks the idempotencyKeyHash linkage required for rules-enforced sibling replay receipt atomicity.",
-      "Production Firebase, production accounts, account UI, persistent production Auth state, Cloud Functions, Firebase Admin production runtime, service credentials and Blaze billing remain unauthorized.",
-      "Firebase Auth uid is architecture accountId only and remains separate from profileId, saveId, seasonId, deviceId, installationId, rivalryId, sessionId and display labels.",
-      "Candidate A remains non-mutating, Candidate B read-only and Candidate C sole destructive import Apply authority over exactly the three canonical browser-storage keys.",
-      "Registered devices/pairing, Connected Rivalry and Private Remote Joining remain blocked behind later dependency gates; no later Stage 2 prerequisite is automatically authorized by merging PR #83; public discovery/community/rankings remain eliminated.",
-      "The local shell cannot resolve GitHub and gh is not preinstalled; connected GitHub remains source/write authority and GitHub-hosted CI is the authoritative exact-head validation path."
+      "Every application-client Firestore write remains denied; Stage 2B must not weaken firestore.rules or bypass the unresolved Phase 1D idempotency receipt-path security finding.",
+      "Firebase Admin user management is privileged server behavior. Stage 2B may use it only against the fixed local Auth Emulator with no production service account, credential, Cloud Function, Blaze billing or GitHub Pages runtime dependency.",
+      "Provider session revocation is not identical to immediate authorization denial for already-issued ID tokens; Career Mode Showdown must continue to treat current application account lifecycle metadata as a separate fail-closed authorization layer.",
+      "Production Auth persistence remains unselected. Stage 2A in-memory test persistence remains the only committed persistence behavior until a later bounded Stage 2 decision.",
+      "Firebase Auth uid remains architecture accountId and stays separate from profileId, saveId, seasonId, deviceId, installationId, rivalryId, sessionId and display labels.",
+      "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive import Apply authority over exactly the three canonical browser-storage keys.",
+      "Registered devices/private pairing, Connected Rivalry and Private Remote Joining remain blocked behind later dependency gates; public discovery/community/rankings remain eliminated.",
+      "The local shell cannot resolve GitHub; connected GitHub remains source/write authority and GitHub-hosted CI is the validation path."
     ],
     "evidenceNotes": [
-      "The inherited predecessor record was validated against live GitHub, its successful PR #82 merge from exact head 8f1fb4d4c9324947815936b21c6bc29a657a94b7 to 87ea27a8dd28a041f973a3ba42312ff9e78ba74d was archived, and the successor initialized fresh before assessment.",
-      "PR #83 adds Auth Emulator 127.0.0.1:9099 beside Firestore 127.0.0.1:8080 on fixed demo project demo-career-mode-showdown-phase1f and uses real Firebase Web Auth with inMemoryPersistence to exercise Firestore Security Rules as provider-issued uid/accountId.",
-      "Stage 2A proves distinct stable synthetic uid principals, namespace separation, self/private reads, wrong-account and unauthenticated denial, sign-out denial, failed-sign-in fail-closed behavior, inactive application-account rivalry denial and provider identity over client-supplied identity.",
-      "All application-client Firestore create/update/delete remains denied. The Phase 1F emulator proof remains in the same CI process. No raw ID token or refresh token is requested or persisted, and synthetic passwords exist only inside the isolated test process.",
-      "Production dependency/runtime isolation is protected: package remains 1.4.0, shell/service worker remain 1.4.0-r1, Firebase test packages install only with --no-save --package-lock=false, and no production Firebase connection was added.",
-      "The first PR #83 validation exposed a new static contract matcher defect for the disabled-account helper call. It was corrected without weakening behavior, Security Rules, Candidate C, timeouts or performance ceilings.",
-      "Corrected technical head 1420d8ffec9e689f1b3973021517713c446c85a0 passed the complete 37-file repository contract suite, Phase 1F emulator proof, Stage 2A real Auth/Firestore proof and permanent 13-workflow / 27-executable-block topology.",
-      "Rejected seal head 89264d7a7e08b81e5b3da82b532067e1702edb67 failed only because NEXT_TASK.md had dropped historical Phase 1E / Phase 1F provenance still protected by the permanent Cloud foundation contract. That provenance was restored without changing current Stage 2A authorization.",
-      "Rejected diagnostic head 5cb7501d301c0e52aa8751c94e6abc081e78ed32 passed the Cloud foundation contract but exposed an exact Private Account / Authentication Stage 2A naming mismatch in PROJECT_STATE.md. The exact source-grounded name was restored without weakening the Stage 2A boundary contract.",
-      "Authority-coherent diagnostic head 063e90adbae3ae9c3f04f9206f36860294338183 passed the complete Static App gate: JavaScript syntax, dynamic v1.4.0 / 1.4.0-r1 release identity, all repository contracts, Phase 1F emulator proof, real Stage 2A Auth/Firestore proof and the permanent workflow topology.",
-      "Current authority documents classify PR #83 as the sole Stage 2A completion gate. If it is already merged, successors must not repeat Stage 2A; they must independently verify main and select the next smallest Stage 2 prerequisite from current source. Stage 3 remains blocked.",
-      "Using the exact repository formula with final signals gives context pressure 98/100, quality risk 30/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 69.1/100, transition cost 14.0/100 and transition advantage 55.2. Decision: HANDOFF_AT_CHECKPOINT. Usage percentage is unavailable and was not estimated."
+      "The inherited Stage 2A transition-prepared record was validated against the repository schema before replacement, and PR #83 final merge facts were reconciled into append-only history first.",
+      "Current main remains e39c1b0689598ac922569ff839ca30a1d5dee5fa, the successful PR #83 squash merge from exact head a4022d6f316622f73ead9aacde812b545b8dcf78.",
+      "All 13 normal pull-request workflow families on PR #83 exact head a4022d6f316622f73ead9aacde812b545b8dcf78 completed successfully.",
+      "Current firestore.rules allows narrow exact reads based on request.auth.uid and application account status while denying every application-client create/update/delete path.",
+      "Firebase primary documentation states that Admin SDK user management is elevated server-side behavior and supports disabling users; Firebase Admin SDK connects to the Authentication Emulator when FIREBASE_AUTH_EMULATOR_HOST is set.",
+      "Firebase primary documentation states that Firebase ID tokens are short-lived while refresh tokens create long-lived sessions, and refresh-token revocation is an Admin SDK operation. This makes lifecycle/revocation proof a prerequisite before production sign-in UX.",
+      "The fixed demo project remains demo-career-mode-showdown-phase1f with Auth Emulator 127.0.0.1:9099 and Firestore Emulator 127.0.0.1:8080; production Firebase remains disconnected.",
+      "Production remains application v1.4.0, package 1.4.0 and runtime 1.4.0-r1 because this bounded Stage 2B work is planned as emulator/test-only infrastructure.",
+      "Using the exact repository formula with fresh successor signals gives context pressure 82/100, quality risk 12/100, next-task separation 20/100, handoff readiness 50/100, continuation risk 44.1/100, transition cost 36.0/100 and transition advantage 8.1. Decision: CONTINUE. Usage percentage is unavailable and was not estimated."
     ]
   }
 }
