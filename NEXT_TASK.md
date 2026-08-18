@@ -145,6 +145,8 @@ Private connected work must not introduce public discovery, public matchmaking o
 
 ## Performance and validation locks
 
+The repository protects 14 permanent workflow families and 27 protected multiline executable workflow blocks. Normal PRs generally exercise 13 workflow families; Release Integration Burn-In remains main/manual release authority.
+
 - eager raw <= `165000`
 - eager gzip <= `37500`
 - Reus startup portrait <= `95000`
