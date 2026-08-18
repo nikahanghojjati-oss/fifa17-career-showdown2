@@ -20,6 +20,8 @@ Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6`
 Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1` (PR #76)
 Feature release version: **v1.4.0**
 
+Local Profiles / Save Library is a shipped and protected dependency milestone beneath the connected-development lane.
+
 PR #76 is merged and closed. Its deterministic Cloud/Sync revision model is dormant, network-free and not loaded by the production application, so no visible application bump was appropriate. `VERSIONING_POLICY.md` now permanently requires meaningful shipped runtime changes to receive PATCH/MINOR/MAJOR version bumps according to scope.
 
 ## Closed production/product candidates
