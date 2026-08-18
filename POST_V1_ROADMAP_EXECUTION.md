@@ -1,5 +1,27 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
+## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
+
+Current verified source and `NEXT_TASK.md` override the retained PR #89-era roadmap body below.
+
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF. It is the only current bounded prerequisite.
+
+Current production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`. Production Firebase remains disconnected. Every application-client Firestore create/update/delete remains denied.
+
+Stage 2F requires trusted `verifyIdToken(idToken, true)`, derives architecture `accountId` only from verified Firebase UID, and keeps provider authentication separate from application authorization. It creates no production Firebase/Admin/IAM/write infrastructure.
+
+The dependency order remains Cloud/Sync DONE → Private Account/Auth Stage 2 CURRENT with 2A–2E DONE and 2F CURRENT → Stage 3 pairing BLOCKED → Stage 4 Connected Rivalry BLOCKED → Private Remote Joining final dependency-gated destination. Public/community/rankings remain eliminated.
+
+Every substantive owner-facing project response visibly includes `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
+
+The complete body below is retained as historical/proven contract provenance. Its Stage 2D-current wording is not current implementation authority.
+
+---
+
+# Career Mode Showdown — Post-v1 Roadmap Execution Guide
+
 Last updated: 2026-08-18 ET (PR #87 complete / Stage 2D production Firebase preflight current)
 Status: current dependency/status authority for post-v1 direction. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
