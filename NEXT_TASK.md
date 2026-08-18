@@ -149,7 +149,7 @@ Cloud / synchronization readiness — DONE through Phase 1F
 → Connected Rivalry synchronization — Stage 4, blocked
 → Private Remote Joining — final dependency-gated product destination.
 
-Public community features and global leaderboard/rankings are ELIMINATED.
+Public community features and global leaderboard/rankings are **ELIMINATED**.
 
 Remote Joining remains private. Do not introduce public discovery, public matchmaking, public profiles, invitation directories or rankings indirectly through Firebase or account work.
 
