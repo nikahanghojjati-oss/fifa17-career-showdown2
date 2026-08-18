@@ -125,7 +125,10 @@ assert.match(stage2e, /Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
 assert.match(stage2e, /Registered Devices \/ Private Pairing[\s\S]+BLOCKED/i);
 assert.match(stage2e, /Public profiles[\s\S]+global rankings/i);
 
+assert.match(stage2d, /DONE \/ MERGED \/ PROVEN \/ NON-RUNTIME \/ PRODUCTION FIREBASE DISCONNECTED/i);
 assert.match(stage2d, /Stage 2D is a readiness validator, not production provisioning/i);
+assert.match(stage2d, /f019c6c6c39385fcb1f76f3de240fd73bb972e49/);
+assert.match(stage2d, /0fd0ac3651a4b8c78957242b645e095a3c151c9d/);
 
 assert.match(emulatorTest, /FIREBASE_AUTH_EMULATOR_HOST\s*=\s*"127\.0\.0\.1:9099"/);
 assert.match(emulatorTest, /getAdminAuth\(adminApp\)/);
@@ -152,19 +155,29 @@ assert.match(workflow, /firebase-admin@14\.2\.0/);
 assert.match(rules, /match \/accounts\/\{accountId\}[\s\S]+allow get: if signedIn\(\) && request\.auth\.uid == accountId;[\s\S]+allow list, create, update, delete:\s*if false/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
+// NEXT_TASK.md is the sole current implementation-authorization owner. Other current-facing
+// documents may retain the exact pre-PR #88 branch-frozen Stage 2D wording until a later
+// legitimate engineering branch needs to touch them; that historical wording must not override
+// the explicit current authority below.
+assert.match(next, /Stage 2D[\s\S]{0,900}DONE \/ MERGED \/ PROVEN/i);
+assert.match(next, /f019c6c6c39385fcb1f76f3de240fd73bb972e49/i);
+assert.match(next, /0fd0ac3651a4b8c78957242b645e095a3c151c9d/i);
+assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,220}Stage 2E/i);
+assert.match(next, /Stage 2E[\s\S]{0,500}CURRENT \/ IMPLEMENTATION-AUTHORIZED \/ EMULATOR-TEST-ONLY/i);
+assert.match(next, /PREPARE_HANDOFF/i);
+assert.match(next, /production Firebase[\s\S]{0,260}disconnected/i);
+
 for (const [name, text] of [
-  ["NEXT_TASK.md", next],
   ["PROJECT_STATE.md", state],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
   ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
   ["00_CURRENT_HANDOFF.md", currentHandoff],
   ["00_DEVELOPER_START_HERE.md", start]
 ]) {
-  assert.match(text, /Stage 2D[\s\S]{0,900}DONE \/ MERGED \/ PROVEN/i, `${name} must identify Stage 2D as complete.`);
-  assert.match(text, /f019c6c6c39385fcb1f76f3de240fd73bb972e49/i, `${name} must retain Stage 2D exact validated head.`);
-  assert.match(text, /0fd0ac3651a4b8c78957242b645e095a3c151c9d/i, `${name} must retain Stage 2D squash-merge boundary.`);
-  assert.match(text, /Stage 2E[\s\S]{0,900}(CURRENT|current)/i, `${name} must identify Stage 2E as current.`);
-  assert.match(text, /production Firebase[\s\S]{0,260}(disconnected|NOT CONNECTED)/i, `${name} must keep production Firebase disconnected.`);
+  assert.match(text, /v1\.4\.0/i, `${name} must preserve the current production application version.`);
+  assert.match(text, /1\.4\.0-r1/i, `${name} must preserve the current production runtime revision.`);
+  assert.match(text, /production Firebase[\s\S]{0,600}(disconnected|NOT CONNECTED)/i, `${name} must preserve production Firebase isolation.`);
+  assert.match(text, /Private Remote Joining[\s\S]{0,700}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
 }
 
 assert.equal(pkg.version, "1.4.0", "Stage 2E dormant proof must not bump production application version.");
