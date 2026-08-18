@@ -160,7 +160,7 @@ A.match(state, /Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39d
 A.match(state, /Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6`/i, "PROJECT_STATE must identify the exact Phase C first-slice (PR #73) production merge.");
 A.match(state, /explicit cross-Save\/historical manager identity linkage foundation/i, "PROJECT_STATE must retain the shipped explicit manager identity foundation.");
 A.match(state, /unresolved historical roles remain excluded from identified longitudinal manager totals|unresolved historical manager roles remaining explicit/i, "PROJECT_STATE must retain unresolved historical identity semantics.");
-A.match(state, /No product candidate is currently authorized/i, "PROJECT_STATE must hold the clean-stop authorization boundary after Phase C.");
+A.match(state, /No product candidate is currently authorized/i, "PROJECT_STATE must keep user-facing product runtime gated while prerequisite work advances.");
 A.match(state, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "PROJECT_STATE must retain the private-only product lock.");
 A.match(state, /Private Remote Joining[\s\S]{0,260}\*\*PRIORITIZED LONG-TERM\*\*[\s\S]{0,260}\*\*DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED\*\*/i, "PROJECT_STATE must preserve Remote Joining as prioritized long-term while retaining prerequisite and authorization gates.");
 
@@ -174,7 +174,8 @@ A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #
 A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
 A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
 A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
-A.match(next, /No product candidate is currently authorized[\s\S]+Hold clean stop|Hold clean stop[\s\S]+further explicit owner instruction/i, "NEXT_TASK stop condition must require a clean stop and further owner instruction.");
+A.match(next, /No product candidate is currently authorized[\s\S]+Cloud\/Sync Readiness Phase 1C[\s\S]+AUTHORIZED NEXT/i, "NEXT_TASK must keep product runtime gated while authorizing exactly the next bounded Remote Joining prerequisite.");
+A.match(next, /former clean-stop wording[\s\S]+satisfied[\s\S]+Do not revive/i, "NEXT_TASK must record that the owner has satisfied the former wait-for-instruction boundary without opening blocked runtime work.");
 A.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must preserve Remote Joining priority without silently authorizing runtime work.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
@@ -183,11 +184,11 @@ A.match(roadmap, /Current production derived Analytics \| IDENTITY-SAFE \/ PRODU
 A.match(roadmap, /Identity-safe longitudinal Analytics \/ Analytics 2\.0 \| NARROW IDENTITY-SAFE LAYER DONE/i, "Roadmap must close the narrow identity layer without authorizing broad Analytics 2.0.");
 A.match(roadmap, /Backup\/import envelope portability \| DONE \/ PRODUCTION-PROVEN/i, "Roadmap must keep full multi-Save portability closed and production-proven.");
 A.match(roadmap, /Showdown Home & Season Experience \| FIRST SLICE DONE \/ PRODUCTION-PROVEN/i, "Roadmap must keep Phase C first slice closed and production-proven.");
-A.match(roadmap, /Cloud Readiness \| FUTURE \/ NOT AUTHORIZED/i, "Product Deepening completion must not silently advance cloud authorization.");
+A.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B PROVIDER DECISION COMPLETE \/ 1C NEXT/i, "Roadmap must reflect the owner-authorized Cloud Readiness prerequisite lane without authorizing cloud runtime.");
 A.match(roadmap, /Cloud Backup \| BLOCKED/i, "Product Deepening completion must not weaken Cloud Backup dependency gates.");
 A.match(roadmap, /Public\/community\/rankings \| ELIMINATED/i, "Roadmap must keep public community and global rankings eliminated.");
 A.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must preserve Private Remote Joining as the prioritized strategic destination while retaining strict prerequisite gates.");
-A.match(roadmap, /Authorized product candidate: none/i, "Roadmap must hold a clean stop after the v1.4.0 seal.");
+A.match(roadmap, /Authorized product candidate: none/i, "Roadmap must keep user-facing product runtime gated while prerequisite work advances.");
 
 A.match(remotePriority, /Supersedes:[\s\S]+earlier classification of private remote joining as `BLOCKED`/i, "Remote Joining amendment must explicitly supersede the former BLOCKED classification only.");
 A.match(remotePriority, /PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Remote Joining amendment must preserve the owner-selected long-term classification.");
@@ -215,4 +216,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, clean-stop authority, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, bounded prerequisite authority, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);
