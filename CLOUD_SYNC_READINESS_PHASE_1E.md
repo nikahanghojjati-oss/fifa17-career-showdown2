@@ -21,6 +21,10 @@ Phase 1A predates the two-owner rivalry contract and exposes an account-scoped r
 
 The actual simulated actor `accountId` comes only from the current registered device/account relationship held by the harness. Mutation authorization rechecks current account state, current device state, current rivalry membership and current relationship state before the Phase 1A mutation kernel is called.
 
+The authorization gate is intentionally two-owner aware. Shared rivalry mutation is frozen if either currently required manager account is not active or if either manager's membership is no longer active. A still-active manager never acquires accidental sole mutation authority because the peer is disabled, retained, relinquished or otherwise outside the active two-owner mutation state. Read/retention rights remain a separate concern governed by the Phase 1D contract.
+
+Malformed account/device/membership authority fails harness creation closed rather than being normalized into accidental active authority.
+
 ## Immutable intent rule
 
 A device creates an intent from the exact authoritative revision it has observed.
@@ -57,15 +61,19 @@ Permanent contracts prove all of the following:
 14. a revoked device cannot mutate afterward;
 15. a disabled account cannot mutate and relationship revocation remains authoritative;
 16. a rivalry membership change invalidates stale cached membership assumptions;
-17. malformed or unsupported payloads are rejected before authoritative mutation;
-18. local canonical state changing after remote/local preview but before Apply is detected as a stale precondition;
-19. precondition, write, rollback or ownership failure cannot clobber newer local state the transaction no longer owns;
-20. disabling the remote/cloud path preserves local-only Save Library use;
-21. Candidate A export remains available and non-mutating;
-22. Candidate B analysis remains read-only;
-23. Candidate C remains the exclusive destructive import Apply authority;
-24. canonical local storage remains the permanent three-key model: Save Library, Legacy and preferences;
-25. no proof path requires production Firebase, production network access or remote credentials.
+17. the still-active manager also cannot mutate while the other required manager account is disabled or while either required membership is not active;
+18. malformed or unsupported payloads are rejected before authoritative mutation;
+19. local canonical state changing after remote/local preview but before Apply is detected as a stale precondition;
+20. movement in any reviewed canonical key is detected even when that key was not changed by the candidate;
+21. precondition, write, rollback or ownership failure cannot clobber newer local state the transaction no longer owns;
+22. disabling the remote/cloud path preserves local-only Save Library use;
+23. Candidate A export remains available and non-mutating;
+24. Candidate B analysis remains read-only;
+25. Candidate C remains the exclusive destructive import Apply authority;
+26. canonical local storage remains the permanent three-key model: Save Library, Legacy and preferences;
+27. no proof path requires production Firebase, production network access or remote credentials.
+
+The original owner-required 25-point matrix remains fully covered; points 17 and 20 above make the two source-review hardening requirements explicit rather than weakening or replacing any original requirement.
 
 ## Local Apply boundary
 
@@ -77,11 +85,13 @@ For deterministic local Apply proof it gives each simulated device an in-memory 
 - `legacyShowdowns`;
 - `preferences`.
 
-A preview captures exact expected raw values. Apply delegates to `runCareerModeRawStorageTransaction()` with last-moment guards.
+A preview captures exact expected raw values for the full canonical three-key review set and is recursively frozen. Candidate input may intentionally change only a subset, but Apply still sends all three reviewed keys through `runCareerModeRawStorageTransaction()`: candidate values for changed keys and the exact reviewed values for unchanged keys. The transaction uses explicit canonical ordering plus `guardRequestedBeforeEachWrite:true`.
 
-Tests prove both:
+This means a key that was reviewed but not changed by the candidate cannot move between preview and Apply unnoticed.
 
-- state changed after preview is rejected before candidate bytes can overwrite it;
+Tests prove:
+
+- movement in any reviewed canonical key after preview is rejected before candidate bytes can overwrite it;
 - if a write fails after an earlier transaction-owned write and another actor changes that earlier key, rollback refuses to overwrite those newer bytes and returns the existing critical ownership-failure state.
 
 This is proof of the future remote-to-local transaction boundary. It does not authorize any remote download to mutate production browser storage.
@@ -138,7 +148,7 @@ Because the Phase 1E implementation is dormant infrastructure/test code and does
 
 Permanent proof is `tests/contracts/cloud-sync-two-device-harness-contracts.cjs`, explicitly wired into `tests/support/run-contract-suite.cjs`.
 
-The contract also proves the harness is not production-loaded and contains no provider/network/browser-persistence dependency.
+The contract proves the harness is not production-loaded, contains no provider/network/browser-persistence dependency, rejects malformed authority, freezes complete offline intent, freezes mutation when the required two-owner state is not active, guards the full reviewed three-key local snapshot and preserves Candidate C rollback ownership.
 
 No timeout, performance ceiling, Candidate C recovery guarantee or existing contract may be weakened to obtain green.
 
