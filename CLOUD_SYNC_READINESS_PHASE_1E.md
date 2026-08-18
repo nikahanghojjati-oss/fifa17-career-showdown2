@@ -168,6 +168,8 @@ Its exact-head gate proved:
 6. the PR was mergeable and the expected-head squash merge succeeded;
 7. live `main` was independently verified afterward.
 
+Historical pre-merge rule retained for permanent contract provenance: Phase 1F remains blocked while Phase 1E is unmerged or unproven. PR #80 satisfied that rule; it is historical evidence, not current implementation authority.
+
 Phase 1F is therefore the current bounded prerequisite: Firebase provider connection inside the Firebase Local Emulator Suite plus deny-by-default Security Rules proof. Phase 1F remains non-production and may not silently broaden into account product UX, pairing, Connected Rivalry or Remote Joining.
 
 Private account runtime, registered devices, secure pairing, Connected Rivalry and Private Remote Joining remain later dependency-gated stages.
