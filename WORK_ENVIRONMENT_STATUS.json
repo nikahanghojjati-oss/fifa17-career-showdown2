@@ -1,62 +1,61 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-17-phase1d-remote-contract",
+  "environmentId": "we-2026-08-17-phase1e-two-device-harness",
   "lifecycle": "active",
-  "recordedAt": "2026-08-18T02:53:00Z",
+  "recordedAt": "2026-08-18T03:38:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "59957f8b0c29ce0cd480a0e9270a095160005599"
+    "startingMainSha": "fc2e8e8b921a435103a438a9239efbb890584d22"
   },
   "signals": {
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 1,
-    "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 6,
-    "toolRoutingErrors": 2,
-    "correctedFailures": 3,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 2,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 99,
+    "handoffCompleteness": 90,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Validate and merge PR #79, Cloud/Sync Readiness Phase 1D exact Firebase-compatible remote schema/API/authorization contract, without connecting Firebase production runtime.",
-    "lastSafeCheckpoint": "PR #79 has exposed and corrected three exact contract-suite failures without weakening project behavior. The first advanced a stale repository authority assertion from Phase 1C current / Phase 1D next to Phase 1C done / Phase 1D current / Phase 1E next. The second corrected the new provider-decision test to require Firebase Authentication followed by Cloud Firestore Standard edition as the authoritative provider document expresses them. The third occurred after the full new Phase 1D contract already passed: release-authority-coherence.cjs imposed the wrong textual order by requiring the no-product-candidate sentence before the Phase 1C merge identity, while NEXT_TASK correctly records production merge identity first and the product gate afterward. The assertion now verifies the actual semantic order rather than forcing a document rewrite.",
-    "nextSafeAction": "Require all 13 normal pull-request workflow families to complete successfully on the new exact PR #79 head, verify no unresolved review threads or requested changes and verify mergeability/head immutability, then squash merge and verify main before reassessing continuity for Phase 1E.",
+    "currentTask": "Implement Cloud/Sync Readiness Phase 1E as one provider-neutral deterministic two-device and offline/reconnect synchronization harness, permanently prove the required conflict/replay/tombstone/revocation/local-Apply behaviors, synchronize Phase 1D DONE / Phase 1E CURRENT authority, and do not connect Firebase.",
+    "lastSafeCheckpoint": "Live main was independently verified at fc2e8e8b921a435103a438a9239efbb890584d22, PR #79 Phase 1D was independently verified merged with exact head 2e3c9560590fb934e684fbae44138f16194da6bd, all 13 normal exact-head workflow families successful, zero submitted reviews and zero inline review threads. The predecessor continuity facts were appended to history and the Phase 1E branch was created directly from verified main.",
+    "nextSafeAction": "Implement the smallest dormant provider-neutral Phase 1E harness that composes the existing revision model with current account/device/rivalry authority, immutable offline intent, provider-style retries and in-memory Candidate C-grade local transaction proof; add one permanent contract suite entry and synchronize current authority without changing production runtime identity.",
     "unfinishedWork": [
-      "Obtain all-green exact-head protected CI for PR #79 after the three corrected contract-suite failures.",
-      "Merge PR #79 only after review state is clean, the head has not moved and the PR is mergeable.",
-      "Verify main after merge and reassess Work Environment Continuity before starting Phase 1E deterministic two-device/offline/reconnect synchronization harness."
+      "Add dormant js/cloudSyncTwoDeviceHarness.js without fetch, Firebase, credentials, WebSocket or localStorage ownership.",
+      "Add permanent deterministic Phase 1E contracts covering the complete owner-required two-device/offline/reconnect, revocation, malformed payload and local Apply failure matrix.",
+      "Wire the Phase 1E contract into tests/support/run-contract-suite.cjs.",
+      "Synchronize NEXT_TASK.md, PROJECT_STATE.md, POST_V1_ROADMAP_EXECUTION.md, REMOTE_JOINING_EXECUTION_ROADMAP.md, 00_DEVELOPER_START_HERE.md and the rolling handoff so Phase 1D is DONE and Phase 1E is CURRENT while Phase 1F remains blocked.",
+      "Publish one bounded Phase 1E PR, obtain exact-head CI/review proof, squash merge if all gates are clean, verify main and reassess continuity before Phase 1F."
     ],
     "knownHazards": [
-      "Do not connect Firebase SDK/Auth/Firestore production runtime during Phase 1D.",
-      "Firestore transaction retries may never replace the client's immutable original baseRevision.",
-      "Exact accepted idempotency replay must remain non-mutating while first-seen state changes still use strict compare-and-swap.",
-      "Two-owner shared rivalry deletion must never let one account silently destroy data the other remains entitled to retain.",
-      "No remote module may directly own localStorage or weaken Candidate A/B/C recovery authority.",
+      "Do not connect Firebase SDK/Auth/Firestore runtime, create provider data, deploy Security Rules, enable persistent Firestore offline cache or introduce credentials during Phase 1E.",
+      "Never refresh or silently rebase an offline or retried intent's original immutable baseRevision.",
+      "Exact accepted idempotency replay must remain non-mutating and reused-key/different-fingerprint requests must fail explicitly.",
+      "A long-offline device, revoked device, disabled account or stale cached rivalry membership must never resurrect or mutate newer authoritative state.",
+      "Downloaded or previewed remote state may not bypass Candidate C-grade local preconditions, ownership-scoped rollback or anti-clobber protections.",
+      "No sync/harness module may directly own localStorage or weaken Candidate A export, Candidate B read-only analysis, Candidate C destructive Apply authority or the canonical three-key storage model.",
       "Public discovery, community, matchmaking, public profiles and global rankings remain prohibited.",
-      "Direct shell networking cannot currently resolve GitHub in this environment; authenticated connector state and GitHub-hosted CI are the publication/validation path."
+      "Direct shell networking cannot resolve GitHub in this environment, so local checkout commands including npm work:continuity:validate/work:assess and gh bootstrap cannot execute here; connector-backed source inspection/writes plus GitHub-hosted CI are the available proof path."
     ],
     "evidenceNotes": [
-      "Live main, recent commits, open PRs and active branches were independently verified before mutation; no open PR existed and main matched 59957f8b0c29ce0cd480a0e9270a095160005599.",
-      "PR #78 exact head 7ae36b9e1ed5f6bfc47ff1472eb86a69079d21d7 has all 13 normal workflow families successful; Phase 1C is merged/protected and Phase 1D is the standing owner-authorized next prerequisite.",
-      "Current source identifies application version 1.4.0 and Service Worker runtime 1.4.0-r1 with 1.3.0-r2 as the previous known-good whole shell.",
-      "The inherited WORK_ENVIRONMENT_STATUS.json belonged to an older 2026-08-15 environment whose transition facts are already preserved in WORK_ENVIRONMENT_HISTORY.md; it was validated against the current schema before replacement rather than assessed as this successor environment.",
-      "Fresh-environment continuity scoring using the repository-owned formula was CONTINUE: context pressure 39/100, quality risk 6/100, continuation risk 23.1/100, transition cost 15.3/100 and transition advantage 7.8.",
-      "A direct shell clone/download attempt failed before project execution because raw.githubusercontent.com could not resolve. No project test was weakened or classified green without execution.",
-      "A connector compare endpoint was unsupported; branch publication and exact-head GitHub-hosted CI are used instead of inventing local compare evidence.",
-      "PR #79 initial head b994c066934f65e5784e070894340491990dbed8 triggered all 13 normal workflows. Validate Static App failed only because cloud-foundation-contracts.cjs retained obsolete Phase 1C-current wording; the assertion was advanced and strengthened.",
-      "PR #79 head 24b30cbdcac3f93cf652543f5132accb00811560 passed syntax, dynamic release architecture and preceding Cloud/Sync contracts before the new Phase 1D test exposed an over-literal provider wording regex; the test was corrected to match the authoritative provider decision without reducing coverage.",
-      "PR #79 head f937b6cd1bb9d4b66ba27c5859f94eced6bc42d2 then passed the complete new Phase 1D Firebase-compatible remote schema/API/authorization/replay/two-owner deletion contract. Static App progressed further and failed only because release-authority-coherence.cjs expected the no-product-candidate sentence before the already-recorded Phase 1C merge identity. The assertion ordering was corrected; NEXT_TASK authority itself was not weakened or reordered.",
-      "One context compaction occurred during the Phase 1D validation cycle and is recorded explicitly rather than ignored for the next continuity assessment."
+      "Current live main, recent commits, open PRs and active branches were reconstructed through the authenticated GitHub connector before Phase 1E source mutation; stale draft PRs #35 and #37 remain historical and are not part of this candidate.",
+      "PR #79 merge, exact head, all 13 normal exact-head workflow successes, empty submitted-review set and empty inline-review-thread set were independently verified.",
+      "Current source keeps package version 1.4.0 and runtime 1.4.0-r1 with 1.3.0-r2 as the immediate previous known-good shell; Phase 1E remains dormant infrastructure/test work unless source analysis proves otherwise.",
+      "Authority documents are intentionally one merge behind at the Phase 1D CURRENT / Phase 1E NEXT boundary; the owner handoff explicitly requires synchronizing that authority inside the bounded Phase 1E candidate rather than reimplementing Phase 1D or opening an unrelated planning loop.",
+      "One conversation compaction occurred after source reconstruction in this successor environment and is recorded immediately.",
+      "The repository continuity script was inspected directly. With the current fresh signals and no known usage value, its deterministic formula yields context pressure 51/100, quality risk 0/100, continuation risk 26.1/100, transition cost 18.0/100 and transition advantage 8.1, which corresponds to CONTINUE. The local command wrapper itself could not run because this environment has no network-resolvable local checkout; no command execution is claimed.",
+      "The Phase 1E design will compose rather than rewrite Phase 1A: revision/CAS/replay/tombstone authority stays in js/cloudSyncRevisionModel.js, while the new harness owns simulated two-device authorization/offline/reconnect and in-memory local-Apply proof only."
     ]
   }
 }
