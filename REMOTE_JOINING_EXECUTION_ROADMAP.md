@@ -93,11 +93,11 @@ Detailed authority: `CLOUD_PROVIDER_DECISION_2026-08-17.md`.
 
 ### Phase 1C — private remote data inventory, privacy and retention
 
-Status: CURRENT BOUNDED CANDIDATE.
+Status: DONE / MERGED / PROTECTED — PR #78, merge `59957f8b0c29ce0cd480a0e9270a095160005599`.
 
 Detailed authority: `REMOTE_DATA_PRIVACY_RETENTION_POLICY.md`.
 
-Candidate decisions:
+Protected decisions:
 
 1. remote-by-need only: no automatic upload of every local Save;
 2. unshared Saves, Candidate A/B/C recovery material, local preferences and unrelated Legacy history remain local-only by default;
@@ -114,46 +114,42 @@ Candidate decisions:
 13. region-selection criteria are defined without prematurely selecting a region;
 14. public discovery/matchmaking/profiles/community/global rankings remain eliminated.
 
-No SDK, provider project, credential, remote collection or auth runtime is allowed in Phase 1C.
+No SDK, provider project, credential, remote collection or auth runtime was added by Phase 1C.
 
 ### Phase 1D — exact remote schema and API/authorization contract
 
-Status: NEXT AFTER PHASE 1C MERGES.
+Status: CURRENT BOUNDED CANDIDATE.
 
-Required concepts:
+Detailed authority: `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md` and dormant `js/cloudSyncRemoteContract.js`.
 
-- `accountId`;
-- `profileId`;
-- `saveId`;
-- `seasonId`;
-- `deviceId`;
-- `installationId`;
-- `objectType` / `objectId`;
-- `revision` / `baseRevision` / `parentRevision`;
-- `contentHash`;
-- tombstone metadata;
-- idempotency key;
-- explicit conflict response;
-- exact authorization scope;
-- shared two-owner rivalry deletion semantics;
-- app-versus-provider data ownership;
-- account deletion cascade boundaries.
+The Phase 1D contract fixes the exact provider-compatible architecture before Firebase is connected:
 
-Timestamps remain informational only and never conflict authority.
+- `accountId`, `profileId`, `saveId`, `seasonId`, `deviceId`, `installationId`, `rivalryId`, `sessionId` and `inviteId` remain distinct;
+- Firebase Auth context is the future `accountId` principal source; display labels never authorize;
+- exact private Firestore-compatible document paths/fields exist for account metadata, profile links, registered devices, rivalry governance, authoritative shared state, one-use invites, private sessions, idempotency, tombstones and bounded security metadata;
+- every first-seen mutation follows authenticate → authorize → read authority → compare immutable original `baseRevision` → explicit mismatch rejection → idempotency reservation → exactly one logical mutation → exactly next revision → tombstone update when applicable → deterministic result;
+- an exact accepted idempotency replay is non-mutating and returns the recorded result; a reused key with a different fingerprint is rejected;
+- Firestore transaction retry may reread provider state but may never refresh the client's original `baseRevision`;
+- future Security Rules are deny-by-default and broad list/discovery access is denied;
+- one account deleting itself, leaving, revoking the relationship, requesting deletion, becoming disabled or reconnecting from a stale device cannot silently transfer ownership, delete the other owner's retained data or resurrect a tombstone;
+- shared gameplay deletion requires every currently entitled manager's explicit consent, except a sole remaining entitled owner after the other has explicitly relinquished entitlement or deleted its account;
+- Firebase Auth owns credentials/tokens/provider account lifecycle while application collections hold only minimized app authorization metadata and explicitly connected private rivalry state;
+- account deletion revokes authority before cleanup and preserves the other owner's entitlement;
+- no public index, public lobby, public profile, discovery, matchmaking, community or ranking surface is created.
 
-Phase 1D must translate the provider-neutral Phase 1A semantics and Phase 1C privacy boundaries into an exact Firebase-compatible schema, transaction/API contract and Security Rules authorization model without connecting production data yet.
+Phase 1D remains architecture/dormant-source/test only. It does not add Firebase runtime, production Firestore data, deployed Security Rules, account UI, pairing runtime, Connected Rivalry runtime, Remote Joining UI, Cloud Backup or persistent Firestore offline cache.
 
 ### Phase 1E — deterministic two-device and offline/reconnect harness
 
-Status: BLOCKED behind Phase 1D.
+Status: NEXT AFTER PHASE 1D MERGES.
 
 Must permanently test:
 
 - two devices editing from one base;
 - stale write rejection;
-- duplicate/replayed mutation;
+- exact accepted replay and reused-key mismatch;
 - deletion and stale resurrection attempt;
-- interrupted request/retry;
+- interrupted request/retry while preserving original `baseRevision`;
 - corrupted/unsupported payload rejection;
 - offline edit then reconnect;
 - local state changing between remote preview and local apply;
@@ -162,23 +158,28 @@ Must permanently test:
 - explicit conflict presentation contract;
 - deterministic final state.
 
+Phase 1E remains provider-neutral. It must not connect Firebase.
+
 ### Phase 1F — provider connection and Security Rules/emulator proof
 
-Status: BLOCKED behind 1A–1E.
+Status: BLOCKED behind Phase 1E.
 
-Only after the architecture and two-device model are proven may a bounded candidate connect a Firebase development project/emulator path.
+Only after the architecture and deterministic two-device model are proven may a bounded candidate connect a Firebase development project/emulator path.
 
 Before any production remote mutation:
 
 - deny-by-default rules;
 - exact object/account authorization;
 - emulator tests for unauthorized reads/writes;
+- exact one-use invite capability behavior;
 - no privileged client secret;
 - feature flag / disable switch;
 - local-only fallback;
 - export/recovery escape hatch;
 - no Firestore persistent offline cache;
-- exact revision/CAS semantics proven against provider behavior.
+- exact revision/CAS/idempotency semantics proven against provider transaction behavior.
+
+If emulator proof establishes that a required security invariant cannot be expressed safely with Firebase Auth, Firestore Security Rules and allowed client transactions, a trusted server boundary may be proposed at that time. Phase 1D does not authorize Cloud Functions, Blaze billing or server deployment.
 
 ## Stage 2 — Private Account / Authentication / Authorization
 
@@ -204,7 +205,7 @@ Requirements:
 
 - revocable registered `deviceId`;
 - device identity never substitutes for authentication;
-- private expiring invite/pairing tokens;
+- private expiring one-use invite/pairing capabilities;
 - replay protection;
 - exact intended account/session authorization;
 - device revocation;
