@@ -1,6 +1,6 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-Last updated: 2026-08-18 ET (PR #86 complete / post-merge authority reconciliation current)
+Last updated: 2026-08-18 ET (PR #87 complete / Stage 2D production Firebase preflight current)
 Status: current dependency/status authority for post-v1 direction. `NEXT_TASK.md` remains the sole primary implementation-authorization authority.
 
 ## 1. Current authority
@@ -19,8 +19,9 @@ Private Account / Authentication Stage 2A merge: `e39c1b0689598ac922569ff839ca30
 Private Account / Authentication Stage 2B merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03` (PR #84; exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`)
 Private Account / Authentication Stage 2C merge: `22566e1409cf53d728b38d0b5a19de478ae6761b` (PR #85; exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`)
 Handoff Proximity governance synchronization merge: `1794f1f86968781b898d000360d1fb56234fb92f` (PR #86; exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`)
+Post-PR #86 authority reconciliation merge: `0accb827fa91f86fdd28e63590bd4843267546ae` (PR #87; exact validated head `2415c156161b6244c75e49917bad28efed957adf`)
 Authorized product candidate: none
-Current authorized prerequisite candidate: post-PR #86 current-authority reconciliation only; the next Stage 2 engineering prerequisite remains NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
+Current authorized prerequisite candidate: Private Account / Authentication Stage 2D — Production Firebase Environment & Configuration Preflight.
 
 v1.1 Data Safety and Recovery is complete. Candidate A/B/C are protected systems, not the current feature task.
 
@@ -71,7 +72,8 @@ Product philosophy lock: Career Mode Showdown is a private two-manager companion
 → `Stage 2B Provider Session Lifecycle & Revocation Boundary` — PR #84 / DONE / MERGED / PROVEN
 → `Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary` — PR #85 / DONE / MERGED / PROVEN
 → `Handoff Proximity governance synchronization / Stage 2C authority seal` — PR #86 / DONE / MERGED / PROTECTED
-→ `remaining Stage 2 prerequisites` — NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
+→ `post-PR #86 authority reconciliation` — PR #87 / DONE / MERGED / PROVEN
+→ `Stage 2D Production Firebase Environment & Configuration Preflight` — CURRENT BOUNDED PREREQUISITE.
 
 ## 4. Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening
 
@@ -167,17 +169,42 @@ Do not repeat Stage 2C.
 Status: DONE / MERGED / PROTECTED / NON-RUNTIME — PR #86.
 
 Exact validated head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`.
-Squash merge / independently verified live main: `1794f1f86968781b898d000360d1fb56234fb92f`.
+Squash merge: `1794f1f86968781b898d000360d1fb56234fb92f`.
 
 All 13 normal workflow families passed on that exact unchanged head and submitted reviews plus inline review threads were empty. The permanent Handoff Proximity policy and Stage 2C completion authority are repository-protected. PR #86 did not change runtime or connect production Firebase.
 
 Do not repeat PR #86.
 
-### Remaining Stage 2 prerequisites
+### PR #87 authority reconciliation — completed
 
-Stage 2 remains incomplete. Remaining concerns include production Firebase operational setup, safe application-account bootstrap/write lifecycle, final trusted production token verification/revocation behavior, export/deletion cascade, abuse/rate controls, production Security Rules and trusted remote mutation infrastructure.
+Status: DONE / MERGED / PROVEN / NON-RUNTIME — PR #87.
 
-Their order is not pre-authorized. The current bounded work is only post-PR #86 authority reconciliation. After that reconciliation is merged and WEC is reassessed, current source and current primary provider/security documentation must identify only the next smallest necessary Stage 2 prerequisite. The selected prerequisite must materially advance the private Remote Joining chain and be recorded before implementation begins.
+Exact validated head: `2415c156161b6244c75e49917bad28efed957adf`.
+Squash merge / independently verified Stage 2D starting main: `0accb827fa91f86fdd28e63590bd4843267546ae`.
+
+All 13 normal workflow families passed on the exact unchanged head; submitted reviews and inline review threads were empty. PR #87 deliberately left the next Stage 2 engineering prerequisite unselected for a fresh successor.
+
+Do not repeat PR #87.
+
+### Stage 2D — Production Firebase Environment & Configuration Preflight
+
+Status: CURRENT / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED.
+
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2D.md` and `NEXT_TASK.md`.
+
+Stage 2D is the smallest safe gate before any real Firebase production provisioning. It adds a dormant deterministic preflight and synthetic contracts that fail closed on unsafe or incomplete future production metadata.
+
+The preflight protects at least: explicit production environment identity, non-demo project identity, matching Firebase web configuration, the Stage 2C Google popup/session persistence policy, the production GitHub Pages authorized-domain plan, an explicit Firestore location decision, disabled persistent Firestore cache, continued deny-all application-client writes, no client credential material and no public discovery/ranking capability.
+
+A passing synthetic fixture proves only the guardrail. It does not prove that a real production Firebase project, web app, Auth provider, user, Firestore database or production Security Rules deployment exists.
+
+Stage 2D does not authorize production project creation, web-app registration, Auth console changes, real users, production Firestore data, production Rules deployment, production Admin/Functions/Blaze infrastructure, a trusted mutation gateway or trusted production token-verification service.
+
+### Remaining later Stage 2 prerequisites
+
+Stage 2 remains incomplete. Later concerns include actual production Firebase operational setup, safe application-account bootstrap/write lifecycle, final trusted production token verification/revocation behavior, export/deletion cascade, abuse/rate controls, production Security Rules and trusted remote mutation infrastructure.
+
+Their order is not pre-authorized. Stage 2D is the only current bounded prerequisite and does not preselect the next later Stage 2 gate.
 
 ## 9. Current roadmap classification matrix
 
@@ -195,7 +222,7 @@ Their order is not pre-authorized. The current bounded work is only post-PR #86 
 | Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE | Broader expansion separate. |
 | Showdown Home & Season Experience | FIRST SLICE DONE / PRODUCTION-PROVEN | PR #73 shipped. |
 | Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F DONE | Provider proof complete; production Firebase disconnected. |
-| Private Identity / Account Layer | STAGE 2 ACTIVE / 2A DONE / 2B DONE / 2C DONE / REMAINING PREREQUISITES PENDING | Production auth policy completed; operational account runtime remains blocked. |
+| Private Identity / Account Layer | STAGE 2 ACTIVE / 2A DONE / 2B DONE / 2C DONE / 2D CURRENT | Production auth policy completed; production Firebase preflight current; operational runtime remains blocked. |
 | Paired-device capability | BLOCKED / PRIORITIZED PREREQUISITE | Waits for all Stage 2. |
 | Connected Rivalry | BLOCKED / PRIORITIZED PREREQUISITE | Waits for pairing. |
 | Cloud Backup | BLOCKED | Optional private product. |
@@ -219,7 +246,9 @@ proven local recovery/data safety — DONE
 → Stage 2B — DONE / PR #84
 → Stage 2C — DONE / PR #85
 → PR #86 governance synchronization — DONE / MERGED / PROTECTED
-→ later Stage 2 prerequisites — NOT YET SELECTED OR AUTHORIZED
+→ PR #87 authority reconciliation — DONE / MERGED / PROVEN
+→ Stage 2D Production Firebase Environment & Configuration Preflight — CURRENT
+→ later Stage 2 prerequisites — DEPENDENCY-GATED / NOT PRESELECTED
 → Stage 3 secure paired-device/private-session
 → Stage 4 Connected Rivalry
 → Stage 5 Private Remote Joining.
@@ -253,7 +282,8 @@ Permanent contracts intentionally preserve earlier transition wording. Do not us
 Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT
 Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E DONE / 1F DONE
 Private Identity / Account Layer | STAGE 2 ACTIVE / 2A AUTHORIZED NEXT
+Historical post-PR #86 current authority: remaining Stage 2 prerequisites — NOT YET SELECTED OR IMPLEMENTATION-AUTHORIZED.
 
 At the historical Stage 2A boundary, Stage 2A — Firebase Auth Emulator Identity Boundary was AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 
-Those transitions are completed. Current authority is Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / PR #86 DONE / MERGED / PROTECTED. The next Stage 2 engineering prerequisite remains unselected until the narrow post-PR #86 reconciliation is merged, WEC is reassessed and the mandatory current-source/provider-security study selects exactly one dependency gate.
+Those transitions are completed. Current authority is Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / PR #86 DONE / PR #87 DONE / Stage 2D CURRENT. Stage 2D is the only current bounded prerequisite and no later Stage 2 gate is selected by roadmap order alone.

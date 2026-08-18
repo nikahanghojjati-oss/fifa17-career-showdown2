@@ -1,6 +1,6 @@
 # NEXT TASK — Career Mode Showdown
 
-Last updated: 2026-08-18 ET — PR #86 verified complete / post-merge authority reconciliation current
+Last updated: 2026-08-18 ET — PR #87 verified complete / Stage 2D production Firebase preflight current
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering alone never authorizes implementation. The owner's 2026-08-17 instruction authorizes continued bounded prerequisite advancement toward Private Remote Joining, one dependency gate at a time.
 
@@ -34,8 +34,9 @@ Private Account / Authentication Stage 2A merge: `e39c1b0689598ac922569ff839ca30
 Private Account / Authentication Stage 2B merge: `c4feadb69fb5e26eba19fa520afa0a09baf1de03` (PR #84; exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`)
 Private Account / Authentication Stage 2C merge: `22566e1409cf53d728b38d0b5a19de478ae6761b` (PR #85; exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`)
 Handoff Proximity governance synchronization merge: `1794f1f86968781b898d000360d1fb56234fb92f` (PR #86; exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`)
+Post-PR #86 authority reconciliation merge: `0accb827fa91f86fdd28e63590bd4843267546ae` (PR #87; exact validated head `2415c156161b6244c75e49917bad28efed957adf`)
 
-Phases 1A through 1F, Stages 2A / 2B / 2C and PR #86 are completed non-production prerequisite/governance work. None changes production application behavior, so `VERSIONING_POLICY.md` correctly keeps the visible application at v1.4.0 / `1.4.0-r1`.
+Phases 1A through 1F, Stages 2A / 2B / 2C, PR #86 and PR #87 are completed non-production prerequisite/governance work. None changes production application behavior, so `VERSIONING_POLICY.md` correctly keeps the visible application at v1.4.0 / `1.4.0-r1`.
 
 Production Firebase remains disconnected.
 
@@ -59,6 +60,7 @@ The following are closed and must not be reopened without new source-grounded au
 - Private Account / Authentication Stage 2B Provider Session Lifecycle & Revocation Boundary (PR #84)
 - Private Account / Authentication Stage 2C Production Authentication Policy & Static-Hosting Compatibility Boundary (PR #85)
 - Handoff Proximity governance synchronization / Stage 2C completion authority seal (PR #86)
+- post-PR #86 current-authority reconciliation (PR #87)
 
 Authorized product candidate: none.
 
@@ -119,34 +121,48 @@ Stage 2C did not connect production Firebase, create real users or authorize pro
 PR #86 — Protect Handoff Proximity governance and seal Stage 2C — is DONE / MERGED / PROTECTED.
 
 Exact validated PR #86 head: `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`
-Squash merge / independently verified live main: `1794f1f86968781b898d000360d1fb56234fb92f`
-
-All 13 normal workflow families completed successfully on that exact unchanged head. Submitted reviews and inline review threads were empty. PR #86 changed no production runtime and did not authorize production Firebase.
+Squash merge: `1794f1f86968781b898d000360d1fb56234fb92f`
 
 Do not repeat PR #86.
 
+## Completed post-PR #86 authority reconciliation
+
+PR #87 — Reconcile authority after Handoff Proximity governance merge — is DONE / MERGED / PROVEN.
+
+Exact validated PR #87 head: `2415c156161b6244c75e49917bad28efed957adf`
+Squash merge / independently verified starting live main for this environment: `0accb827fa91f86fdd28e63590bd4843267546ae`
+
+All 13 normal workflow families completed successfully on that exact unchanged head. Submitted reviews and inline review threads were empty. PR #87 changed no production runtime and deliberately left the next Stage 2 engineering prerequisite unselected.
+
+Do not repeat PR #87.
+
 ## Current authorized prerequisite candidate
 
-Current authorized prerequisite candidate: post-PR #86 current-authority reconciliation, followed only by Stage 2 prerequisite selection study after the reconciliation is merged.
+Current authorized prerequisite candidate: Private Account / Authentication Stage 2D — Production Firebase Environment & Configuration Preflight.
 
-Status: CURRENT BOUNDED RECONCILIATION / NON-RUNTIME / NO PRODUCTION FIREBASE CONNECTION / NEXT ENGINEERING PREREQUISITE NOT YET SELECTED.
+Status: AUTHORIZED CURRENT PREREQUISITE / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED.
+
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2D.md`.
+
+Stage 2D is selected because it is the smallest safe dependency before real Firebase production provisioning. It must create a deterministic fail-closed preflight for future production environment identity and configuration without creating or connecting real Firebase resources.
 
 This bounded task authorizes only:
 
-1. append the final PR #86 publication facts to the Work Environment Continuity history;
-2. synchronize current-facing authority so PR #86 is DONE / MERGED / PROTECTED rather than current work;
-3. preserve every Handoff Proximity, recovery, identity, gameplay, Firestore-write denial, performance and versioning lock;
-4. publish one exact-head non-runtime reconciliation PR;
-5. after verified merge, reassess WEC and complete the current-source plus current primary Firebase/security-documentation study needed to select exactly one next Stage 2 prerequisite.
+1. a dormant production Firebase environment/configuration preflight module;
+2. permanent synthetic contracts proving safe metadata passes and unsafe/incomplete metadata fails closed;
+3. preservation of the Stage 2C Google popup/session-persistence policy;
+4. rejection of demo-project identity, project mismatch, missing authorized-domain plan, unresolved Firestore location, persistent Firestore cache, client credential material and direct client-write authorization;
+5. current-facing authority synchronization that records PR #87 complete and Stage 2D current;
+6. one exact-head non-runtime Stage 2D PR through the complete normal validation gate.
 
-The current reconciliation does not authorize implementation of the as-yet-unselected Stage 2 engineering prerequisite.
+Stage 2D completion means the guardrail exists and is proven. It does not mean a real Firebase production project exists.
 
-## Current reconciliation does not authorize
+## Stage 2D does not authorize
 
 Do not add or enable:
 
-- a production Firebase project or web-app registration;
-- production Auth provider configuration or authorized-domain changes;
+- a real production Firebase project or web-app registration;
+- real production Auth provider configuration or Authorized Domains changes;
 - Firebase SDK/Auth runtime in the GitHub Pages shell;
 - real production Firebase users;
 - account/signup/login UI;
@@ -154,6 +170,7 @@ Do not add or enable:
 - application-client Firestore writes;
 - Cloud Functions, Admin production runtime, service-account credentials or Blaze billing;
 - a production backend `checkRevoked` / trusted token-verification service;
+- a trusted production mutation gateway;
 - registered-device product UI;
 - pairing/invite/session product UX;
 - Connected Rivalry runtime;
@@ -161,7 +178,7 @@ Do not add or enable:
 - Private Cloud Backup;
 - public/community/ranking/discovery/matchmaking features.
 
-The entire Private Account / Authentication / Authorization stage remains incomplete after Stage 2C. Remaining Stage 2 concerns include production project/operational setup, safe application-account bootstrap/write lifecycle, trusted production token-verification behavior, account export/deletion cascade, auth abuse/rate controls, production Security Rules deployment and trusted production mutation-boundary selection. Their listing is not automatic implementation order.
+The entire Private Account / Authentication / Authorization stage remains incomplete after Stage 2C. Stage 2D is only the current bounded prerequisite. Remaining later Stage 2 concerns still include actual production project/operational setup, safe application-account bootstrap/write lifecycle, trusted production token-verification behavior, account export/deletion cascade, auth abuse/rate controls, production Security Rules deployment and trusted production mutation-boundary selection. Their listing is not automatic implementation order.
 
 ## Prioritized long-term Private Remote Joining path
 
@@ -178,7 +195,7 @@ Cloud / synchronization readiness
 Current status:
 
 Cloud / synchronization readiness — DONE through Phase 1F
-→ private account / authentication / authorization — CURRENT Stage 2 lane / Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / remaining Stage 2 prerequisites pending
+→ private account / authentication / authorization — CURRENT Stage 2 lane / Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / Stage 2D CURRENT
 → paired-device / private-session capability — Stage 3 BLOCKED
 → Connected Rivalry — Stage 4 BLOCKED
 → Private Remote Joining — final dependency-gated destination.
@@ -237,6 +254,7 @@ Current authorized prerequisite candidate at the historical pre-PR #83 boundary:
 Stage 2A status at that boundary: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 Historical pre-PR #80 wording: Phase 1D — DONE / PR #79; Phase 1E — CURRENT BOUNDED CANDIDATE; Phase 1F — BLOCKED.
 Historical pre-PR #81 wording: Phase 1E — DONE / PR #80; Phase 1F — CURRENT BOUNDED CANDIDATE.
+Historical post-PR #86 wording: Current authorized prerequisite candidate: post-PR #86 current-authority reconciliation.
 Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
 Cloud/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
 
@@ -244,15 +262,17 @@ Historical authority once said to "stop and wait for a further explicit owner in
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Complete only the post-PR #86 current-authority reconciliation:
+Implement and prove only Private Account / Authentication Stage 2D — Production Firebase Environment & Configuration Preflight:
 
 1. preserve production v1.4.0 / `1.4.0-r1` and keep production Firebase disconnected;
 2. preserve every application-client Firestore write denial, Candidate A/B/C, canonical local storage and two-owner governance;
-3. append the verified PR #86 exact-head, merge, 13-family CI and empty review/thread facts to the append-only history;
-4. synchronize current authority to Stage 2A DONE / Stage 2B DONE / Stage 2C DONE / PR #86 DONE / MERGED / PROTECTED;
-5. run complete repository validation and all normal workflow families on one exact unchanged reconciliation PR head;
-6. require clean submitted review and inline-thread state plus mergeability;
-7. merge only under the standing expected-head rule after exact-head proof;
-8. independently verify live `main` and reassess Work Environment Continuity.
+3. implement the dormant deterministic preflight exactly within `PRIVATE_ACCOUNT_AUTH_STAGE_2D.md`;
+4. add permanent synthetic pass/fail contracts and wire them into the complete repository contract suite without adding or removing workflow families;
+5. synchronize current-facing authority so PR #87 is DONE / MERGED / PROVEN and Stage 2D is CURRENT;
+6. run complete repository validation and all normal workflow families on one exact unchanged Stage 2D PR head;
+7. require clean submitted review and inline-thread state plus mergeability;
+8. merge only under the standing expected-head rule after exact-head proof;
+9. independently verify live `main` and reassess Work Environment Continuity;
+10. begin no separate later Stage 2 milestone in this environment if WEC requires transition.
 
-After that verified merge, complete the remaining mandatory repository-source study and current primary Firebase/security documentation review, then record exactly one smallest necessary Stage 2 prerequisite before implementing it. Do not begin Stage 3. Do not ask the owner to reconstruct prior chats. Do not repeat Phase 1F, PR #82, Stage 2A / PR #83, Stage 2B / PR #84, Stage 2C / PR #85 or Handoff Proximity governance / PR #86. Do not rush Private Remote Joining.
+Do not create or connect a real production Firebase project during Stage 2D. Do not begin Stage 3. Do not ask the owner to reconstruct prior chats. Do not repeat Phase 1F, PR #82, Stage 2A / PR #83, Stage 2B / PR #84, Stage 2C / PR #85, Handoff Proximity governance / PR #86 or authority reconciliation / PR #87. Do not rush Private Remote Joining.
