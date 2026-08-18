@@ -1,6 +1,6 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
-Last updated: 2026-08-18 ET — Stage 2E merged / Stage 2F current
+Last updated: 2026-08-18 ET — Stage 2F merged / Stage 2G current
 
 Status: long-term dependency-order authority. `NEXT_TASK.md` remains the sole current implementation-authorization authority.
 
@@ -39,7 +39,8 @@ Handoff Proximity governance — DONE / MERGED / PROTECTED — PR #86
 Post-PR #86 authority reconciliation — DONE / MERGED / PROVEN — PR #87
 2D Production Firebase Environment & Configuration Preflight — DONE / MERGED / PROVEN — PR #88
 2E Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN — PR #89
-2F Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / PRODUCTION FIREBASE DISCONNECTED
+2F Trusted Request Authentication & ID Token Revocation Boundary — DONE / MERGED / PROVEN — PR #90
+2G Trusted Account Bootstrap Execution Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATOR-PROOF-ONLY / PRODUCTION FIREBASE DISCONNECTED
 
 → Stage 3 — Registered Devices / Private Pairing
 BLOCKED until whole Stage 2 is proven.
@@ -76,23 +77,31 @@ Stage 2E is DONE / MERGED / PROVEN. Exact validated PR #89 head `f7d462b3d8252b2
 
 Stage 2E protects trusted UID-only application-account bootstrap, exact missing-account create planning, idempotent no-write behavior for valid active/disabled/deletion-pending accounts, identity/schema conflict rejection and browser account-write denial.
 
-Do not repeat Stage 2E.
+Stage 2F is DONE / MERGED / PROVEN. Exact validated PR #90 head `1b0178979ea421b3bf27dd7675ad973aa7bfad8c`; squash merge / independently verified live-main boundary `a27147695607537a1cd1543efb84e6583929a696`.
 
-## Current Stage 2F prerequisite
+Stage 2F protects revocation-aware trusted `verifyIdToken(idToken, true)` request authentication, derives architecture `accountId` only from the verified Firebase UID, fails closed for invalid/expired/revoked/disabled/unavailable/malformed/unknown verification outcomes and keeps provider authentication separate from application authorization.
 
-Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — is the smallest current trust prerequisite before live provisioning or privileged production writes.
+Do not repeat Stages 2A through 2F.
 
-Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `NEXT_TASK.md`.
+## Current Stage 2G prerequisite
 
-A future privileged request must not trust a body-supplied `accountId`. Stage 2F requires a future trusted server adapter to verify the transient Firebase ID token with revocation checking enabled and derive architecture `accountId` from the verified Firebase `uid` only.
+Stage 2G — Trusted Account Bootstrap Execution Boundary — is the smallest current execution prerequisite before live provisioning or production IAM/hosting selection.
 
-The dormant decision boundary explicitly requires `verifyIdToken(idToken, true)` and fails closed for invalid, expired, revoked, disabled, unavailable, malformed or unknown verifier outcomes.
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` and `NEXT_TASK.md`.
 
-Successful provider authentication does not grant application authorization. Current application account status, device registration, pairing/invite entitlement, rivalry/session membership and operation-specific authority remain separate later checks.
+Stage 2G composes Stage 2F authentication with the Stage 2E account bootstrap planner through one injected trusted atomic account transaction adapter.
 
-The real Authentication Emulator proof is wiring proof only. Emulator-issued test tokens are not production cryptographic/IAM/rate-limit/revocation-propagation proof.
+The trusted adapter receives the verified `accountId`, exact `accounts/{accountId}` path, immutable revision-0 create specification and Stage 2E decision callback. It does not receive the raw Firebase ID token.
 
-Stage 2F creates no production backend, no live Firebase project, no production IAM/service identity and no trusted write execution.
+The authoritative account read and conditional create must occur inside the same provider transaction or equivalent atomic compare-and-create primitive. A separate trusted read followed by unconditional write is forbidden.
+
+One missing same-UID account may commit exactly one revision-0 create. Repeated bootstrap, valid existing active/disabled/deletion-pending accounts and transaction retries that observe the account must perform no write. Conflicting or malformed account state fails closed and is never repaired by overwrite.
+
+Successful provider authentication still grants only `account-bootstrap-only` application authority. It grants no device, pairing, rivalry, session or gameplay mutation authority.
+
+The Phase 1D common envelope expects registered-device attribution, but Stage 3 device registration is blocked until Stage 2 is complete. Stage 2G therefore permits exactly one narrow bootstrap exception: revision-0 `accounts/{accountId}` self-bootstrap uses `updatedByDeviceId: null`, meaning no registered application device exists yet. Later device-attributed operations still require a real currently authorized registered `deviceId`.
+
+Stage 2G's real Authentication/Firestore Emulator plus test-only Admin proof validates transaction semantics only. It does not select or authorize production Firebase Admin runtime, IAM/service identity, Cloud Functions, Cloud Run, billing or production hosting.
 
 ## Permanent remote-write security boundary
 
@@ -102,6 +111,8 @@ The Phase 1D/1F schema does not expose the sibling idempotency receipt key neede
 
 Privileged Firestore server libraries bypass Firestore Security Rules and rely on IAM. Production Admin/service credentials must never exist in browser code or repository source.
 
+Stage 2G does not generalize its narrow trusted account-bootstrap transaction into rivalry/shared-state mutation authority.
+
 ## Stage 2 remaining concerns
 
 Remaining concerns are not a pre-authorized execution order:
@@ -109,14 +120,13 @@ Remaining concerns are not a pre-authorized execution order:
 actual production Firebase project/environment provisioning
 production Web App configuration
 Google provider and Authorized Domains operational setup
-trusted application-account write execution
-least-privilege IAM/service identity
+production trusted execution runtime and least-privilege IAM/service identity
 production Security Rules deployment
 account export
 provider-aware deletion cascade
 abuse/rate controls
 provider outage/recovery behavior
-trusted production mutation gateway/protocol decision
+trusted production shared-mutation gateway/protocol decision
 production operational verification of token/revocation behavior
 
 Select one smallest safe prerequisite at a time after current source study and WEC assessment.
@@ -157,7 +167,7 @@ Do not weaken tests, workflow topology, timeouts, recovery guarantees or perform
 
 ## Historical Cloud Readiness and Stage 2 provenance
 
-The following completed-transition wording is intentionally retained because permanent Cloud Foundation and Stage 2A/2B/2C boundary contracts protect it. It is historical only and does not override the current Stage 2F lane above.
+The following completed-transition wording is intentionally retained because permanent Cloud Foundation and Stage 2A/2B/2C boundary contracts protect it. It is historical only and does not override the current Stage 2G lane above.
 
 Phase 1A — DONE / MERGED / PROTECTED
 Phase 1B — DONE / MERGED / PROTECTED

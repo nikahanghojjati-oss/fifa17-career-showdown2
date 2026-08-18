@@ -1,6 +1,6 @@
 # Private Account / Authentication Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary
 
-Status: CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF / PRODUCTION FIREBASE DISCONNECTED
+Status: DONE / MERGED / PROVEN / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF / PRODUCTION FIREBASE DISCONNECTED
 
 Effective: 2026-08-18 ET
 
@@ -8,9 +8,25 @@ Production application remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
 
 Production Firebase remains disconnected. Every application-client Firestore create, update and delete remains denied.
 
+## Verified completion boundary
+
+Stage 2F is DONE / MERGED / PROVEN through PR #90.
+
+Exact validated PR #90 head:
+
+`1b0178979ea421b3bf27dd7675ad973aa7bfad8c`
+
+Squash merge / independently verified live-main completion boundary:
+
+`a27147695607537a1cd1543efb84e6583929a696`
+
+All 13 normal pull-request workflow families passed on the unchanged exact PR #90 head before merge. Submitted reviews and inline review threads were empty.
+
+Do not repeat Stage 2F. The design and proof contract below remains protected historical/current architecture authority for downstream stages.
+
 ## Purpose
 
-Stage 2F is the smallest safe Private Account / Authentication / Authorization prerequisite after completed Stage 2E.
+Stage 2F was the smallest safe Private Account / Authentication / Authorization prerequisite after completed Stage 2E.
 
 Stage 2E proved how a trusted Firebase Authentication UID maps to the minimal application account bootstrap decision, but it deliberately did not define how a future privileged production request proves that the caller actually owns a valid, current Firebase session before any trusted account bootstrap, export, deletion, device registration or later mutation operation executes.
 
@@ -161,7 +177,7 @@ The future trusted application-account bootstrap sequence may compose Stage 2F a
 
 The request body never supplies authoritative `accountId`.
 
-Stage 2F does not authorize step 5.
+Stage 2F does not authorize step 5. Stage 2G is the separately reviewed dormant trusted account-bootstrap execution semantics boundary; it still does not select production IAM or hosting.
 
 ## Emulator proof boundary
 
@@ -312,4 +328,4 @@ Stage 2F is complete only when:
 12. expected-head squash merge succeeds;
 13. live `main` is independently verified afterward.
 
-Only after that safe boundary may a fresh WEC assessment select one next smallest remaining Stage 2 prerequisite.
+All thirteen completion conditions were satisfied by PR #90 at the verified boundary above. A fresh successor WEC assessment selected Stage 2G as the next bounded prerequisite.
