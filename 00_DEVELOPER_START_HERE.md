@@ -18,6 +18,8 @@ Use this as startup orientation only. Current source, live GitHub state, deploye
 
 Never inherit or assess a predecessor HANDOFF/PREPARE_HANDOFF decision as the successor's own decision.
 
+The repository-owned GitHub CLI bootstrap remains available through `npm run work:gh:bootstrap` when the environment supports it. Its rootless install path requires checksum verification before exposing a downloaded launcher; connected GitHub remains connector-first and connector credentials must never be extracted, copied or repurposed.
+
 ## Mandatory Handoff Proximity rule
 
 Every substantive owner-facing project response must visibly include:
