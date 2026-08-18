@@ -176,6 +176,8 @@ The following wording is intentionally retained only as historical provenance fo
 
 Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`.
 No product candidate is currently authorized.
+Current authorized prerequisite candidate at the historical Phase 1E boundary: Cloud/Sync Readiness Phase 1E.
+Next prerequisite after Phase 1E merges: Cloud/Sync Readiness Phase 1F.
 Current authorized prerequisite candidate at the historical pre-PR #83 boundary: Private Account / Authentication Stage 2A.
 Stage 2A status at that boundary: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 
