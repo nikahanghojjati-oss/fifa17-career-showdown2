@@ -27,12 +27,13 @@ PR #82: `Seal Phase 1F and authorize Private Auth Stage 2A boundary`.
 Branch: `agent/private-auth-stage2a-emulator-identity`.
 Base: live main `231556d86a93535fa90e173577c1159de4f40be0`.
 Pre-seal exact candidate: `fc63c07051c69b69a97c464f11274d8f5a9a70dc`.
+First status-seal candidate: `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` — rejected by exact-head CI because this handoff rewrite omitted the protected literal `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary.
 
-The pre-seal candidate is 23 commits ahead of the exact base and changes only continuity/authority documentation plus a permanent Stage 2A boundary contract and contract-suite registration. It does not change `index.html`, production application JavaScript, `service-worker.js`, `package.json` or `package-lock.json`.
+The pre-seal candidate changed only continuity/authority documentation plus a permanent Stage 2A boundary contract and contract-suite registration. It did not change `index.html`, production application JavaScript, `service-worker.js`, `package.json` or `package-lock.json`.
 
-All 13 normal workflow families completed `success` on pre-seal head `fc63c07051c69b69a97c464f11274d8f5a9a70dc` before this final continuity freeze. Static App proved the complete repository contract suite including the new Stage 2A boundary, Phase 1F emulator proof, release-authority coherence and protected workflow topology. Candidate C and Stability browser audits also completed successfully.
+All 13 normal workflow families completed `success` on pre-seal head `fc63c07051c69b69a97c464f11274d8f5a9a70dc`. The first final-seal head `30c96dd23238d11984e1af04ce18ff82d0ea1bd2` correctly failed Static App and Stability on the same mandatory-handoff compatibility assertion and is permanently ineligible for merge.
 
-This final continuity freeze changes the candidate head, so the pre-seal green result is not the merge gate. After `WORK_ENVIRONMENT_STATUS.json` is sealed, all 13 normal workflow families must run again from scratch on that exact unchanged final head before PR #82 can merge.
+This correction restores the required handoff boundary without altering production behavior. After the correction addendum and final `WORK_ENVIRONMENT_STATUS.json` reseal, all 13 normal workflow families must run again from scratch on the resulting exact unchanged head before PR #82 can merge.
 
 ## Stage 2A next prerequisite
 
@@ -52,15 +53,17 @@ Do not add production Firebase, production signup/login UI, registered-device/pa
 
 ## Corrections made while proving PR #82
 
-The first published authority candidate exposed several real documentation/contract coherence defects. They were fixed at source without weakening any protected behavior:
+The published authority candidates exposed documentation/contract coherence defects. They were fixed at source without weakening any protected behavior:
 
 1. restored the literal Work Environment Continuity routing requirement in the developer bootstrap;
 2. restored the protected GitHub CLI bootstrap and checksum-verification guidance;
 3. preserved historical Phase 1E / Phase 1F roadmap phrases only inside clearly labeled provenance sections so permanent historical contracts remain truthful without becoming current authority;
 4. corrected new Stage 2A contract wording so deny-all Firestore semantics were matched exactly rather than by brittle phrasing;
-5. corrected the Phase 1F idempotency-finding matcher to protect the actual `idempotencyKeyHash` sibling-receipt finding;
-6. restored the shipped Installable Offline App baseline wording;
-7. restored the completed Local Profiles / Save Library dependency-chain wording.
+5. corrected the Phase 1F deny-all matcher to accept the exact protected wording;
+6. corrected the Phase 1F idempotency-finding matcher to protect the actual `idempotencyKeyHash` sibling-receipt finding;
+7. restored the shipped Installable Offline App baseline wording;
+8. restored the completed Local Profiles / Save Library dependency-chain wording;
+9. restored this handoff's mandatory `IMMEDIATE NEXT TASK AFTER FULL STUDY` boundary after the first status seal exposed its omission.
 
 No runtime defect, timeout increase, performance-ceiling increase, Candidate C weakening or direct-client-write relaxation was used to obtain green CI.
 
@@ -70,15 +73,15 @@ Environment: `we-2026-08-18-private-auth-stage2a-boundary`.
 Starting verified main: `231556d86a93535fa90e173577c1159de4f40be0`.
 Usage remaining percentage: unavailable and never estimated.
 
-Final recorded signals before status seal:
+Final recorded signals before the corrected status reseal:
 
 - context complexity: high;
 - project complexity: very-high;
-- compaction count: 4;
+- compaction count: 5;
 - major phases completed: 3;
-- large evidence events: 18;
+- large evidence events: 19;
 - tool-routing errors: 4;
-- corrected failures: 8;
+- corrected failures: 9;
 - repeated mistakes: 0;
 - stale-fact corrections: 0;
 - unresolved failures: 0;
@@ -90,20 +93,20 @@ Final recorded signals before status seal:
 Reconstructed exactly from the current repository formula because local GitHub DNS prevents a truthful local checkout/npm-wrapper claim:
 
 - context pressure: `98/100`;
-- quality risk: `56/100`;
+- quality risk: `60/100`;
 - next-task separation: `80/100`;
 - handoff readiness: `99/100`;
-- continuation risk: `78.9/100`;
+- continuation risk: `80.4/100`;
 - transition cost: `14.0/100`;
-- transition advantage: `64.9`.
+- transition advantage: `66.4`.
 
 Decision: `HANDOFF_AT_CHECKPOINT`.
 
-The decision is driven by high observable context pressure plus the distinct Stage 2A implementation milestone. It is not caused by unresolved engineering failures.
+The decision is driven by high observable context pressure plus the distinct Stage 2A implementation milestone. It is not caused by an unresolved runtime or product failure.
 
 ## Tooling boundary
 
-Direct shell DNS cannot resolve GitHub in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are the verified source/proof path. One in-progress job-log fetch also returned a transient unavailable-log response; it was not treated as a project failure.
+Direct shell DNS cannot resolve GitHub in this environment. Connector-backed GitHub source/write access and GitHub-hosted CI are the verified source/proof path. Transient connector routing/log-availability issues were classified as environment tooling, not project failures.
 
 The repository-owned GitHub CLI bootstrap remains protected for environments where local routing permits it. Never copy connector credentials into local config.
 
@@ -133,7 +136,7 @@ Canonical storage remains exactly:
 
 No Auth/cloud/sync module may directly own canonical `localStorage`.
 
-## Exact successor action
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 A fresh successor must independently verify live main, PR #82, branches, releases/tags and CI; validate/archive this environment's transition-prepared record before replacing it; initialize a new environment ID and reset observations; verify production remains v1.4.0 / `1.4.0-r1`; confirm production Firebase remains disconnected and all client Firestore writes remain denied; read `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md` and current Firebase primary Auth Emulator/Auth persistence/Security Rules documentation; then implement only Stage 2A if the successor's own continuity assessment permits.
 
