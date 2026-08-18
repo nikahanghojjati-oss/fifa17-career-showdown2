@@ -84,10 +84,12 @@ function runtimeCredential() {
 }
 
 async function trustedRead(testEnv, accountId) {
-  return testEnv.withSecurityRulesDisabled(async context => {
+  let value = null;
+  await testEnv.withSecurityRulesDisabled(async context => {
     const snapshot = await getDoc(doc(context.firestore(), "accounts", accountId));
-    return snapshot.exists() ? snapshot.data() : null;
+    value = snapshot.exists() ? snapshot.data() : null;
   });
+  return value;
 }
 
 async function applyTrustedBootstrap(testEnv, providerUid) {
