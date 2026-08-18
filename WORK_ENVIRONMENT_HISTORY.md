@@ -47,7 +47,7 @@ This is the append-only record of Work environment transitions. Current verified
 - Publication: draft PR #64 at `https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/64`, created against exact base `fd6879940c6409fd3727a50816a10479ee2446e6` with initial exact head `64699fcc8509ec16baae272825d0e6f9ccfcbfba`.
 - Final signals before record freeze: high context, four completed phases, six dense evidence events, two recoverable routing clusters, zero corrected implementation defects, one repeated patch-context mistake, zero stale facts, zero unresolved failures and unknown usage with no estimated percentage.
 - Assessment: `HANDOFF_AT_CHECKPOINT`; finish only the publication-record freeze and external exact-head proof, then transition before another substantial task.
-- Validation: focused continuity and handoff contracts passed; continuity schema passed; all 29 contract files after the explicit static release contract passed; both changed-file syntax checks and `git diff --check` passed; runtime-path diff against verified live main was empty.
+- Validation: focused continuity and handoff contracts passed; continuity schema passed; all 29 repository contract files after the explicit static release contract passed; both changed-file syntax checks and `git diff --check` passed; runtime-path diff against verified live main was empty.
 - Infrastructure classifications: the Work layer cancelled the `npm` wrappers before execution, so their exact repository-owned Node commands were run directly and passed. Direct public-site browser routing was rejected before navigation; trusted HTTPS inspection returned the expected production title, v1.3.0 stable footer and r2/r1 Service Worker identity.
 - Technical proof: local candidate validation complete; exact-head GitHub CI/review remains for the successor to verify.
 - Owner acceptance: publication was explicitly authorized; merge and any later product work are not authorized by this record.
@@ -273,3 +273,16 @@ Copy this checklist beneath a new dated heading:
 - Tooling boundary: direct shell DNS to GitHub remains unavailable in the successor environment, so connector-backed GitHub remains source/write authority and GitHub-hosted exact-head Actions remain validation authority. This is an environment routing limitation, not a product failure.
 - Technical proof: complete for the bounded PR #86 governance checkpoint. Owner visual acceptance is not applicable to non-runtime governance work.
 - Exact next safe action fulfilled: initialize a fresh successor environment from independently verified live main `1794f1f86968781b898d000360d1fb56234fb92f`, reset per-environment observations, reassess independently and perform only the narrow post-merge current-authority reconciliation before selecting any new Stage 2 engineering prerequisite.
+
+## Closure addendum — `we-2026-08-18-post-pr86-authority-reconcile`
+
+- Successor reconciliation recorded: `2026-08-18T19:14:00Z`.
+- Starting verified live-main SHA recorded by the predecessor: `1794f1f86968781b898d000360d1fb56234fb92f`.
+- Final verified repository boundary: PR #87 `Reconcile authority after Handoff Proximity governance merge`, exact validated head `2415c156161b6244c75e49917bad28efed957adf`, squash merge / independently verified live main `0accb827fa91f86fdd28e63590bd4843267546ae`.
+- Final exact-head proof: all 13 normal pull-request workflow families completed successfully on unchanged exact head `2415c156161b6244c75e49917bad28efed957adf`; submitted reviews and inline review threads were both empty; PR #87 is closed and merged.
+- Material result: PR #87 completed only the narrow post-PR #86 authority reconciliation, classified PR #86 as DONE / MERGED / PROTECTED, preserved all production/security/recovery locks and intentionally left the next Stage 2 engineering prerequisite unselected.
+- Runtime/security boundary: PR #87 changed no production application runtime or dependency. Production remains v1.4.0 / package 1.4.0 / runtime `1.4.0-r1`; production Firebase remains disconnected; every application-client Firestore create/update/delete remains denied; Firebase Admin remains emulator/test-only.
+- Predecessor final decision: the sealed pre-merge `PREPARE_HANDOFF` and later post-merge `HANDOFF_AT_CHECKPOINT` belonged only to `we-2026-08-18-post-pr86-authority-reconcile` and do not block successor initialization.
+- Tooling boundary: direct shell DNS to GitHub remains unavailable in this successor environment. Connected GitHub remains source/write authority. The connector's tag/release route was unavailable during successor startup and no tag/release result was fabricated.
+- Technical proof: complete for the bounded PR #87 reconciliation checkpoint.
+- Exact next safe action fulfilled: initialize a fresh successor environment from verified live main `0accb827fa91f86fdd28e63590bd4843267546ae`, reset per-environment observations, reassess independently, study current Stage 2 source plus current primary Firebase/security documentation, then select and implement exactly one smallest necessary Stage 2 prerequisite that advances Private Remote Joining.
