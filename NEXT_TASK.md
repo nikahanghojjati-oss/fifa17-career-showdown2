@@ -28,6 +28,8 @@ Cloud/Sync Readiness Phase 1F merge: `231556d86a93535fa90e173577c1159de4f40be0` 
 
 Phases 1A through 1F are deliberately non-production prerequisite work. They do not change production application behavior, so `VERSIONING_POLICY.md` correctly keeps the visible application at v1.4.0 / `1.4.0-r1`.
 
+Completed Local Profiles / Save Library dependency chain remains shipped and protected beneath the connected prerequisite lane.
+
 ## Closed production/product candidates
 
 The following are closed and must not be reopened without new source-grounded authorization:
