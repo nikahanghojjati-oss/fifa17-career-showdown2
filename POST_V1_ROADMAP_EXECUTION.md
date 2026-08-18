@@ -142,4 +142,14 @@ Current production remains v1.4.0 / `1.4.0-r1`.
 
 ## 11. Historical provenance
 
-Earlier roadmap text may contain phrases such as `Phase 1E — CURRENT BOUNDED CANDIDATE`, `Stage 2D CURRENT`, or `Stage 2E CURRENT`. Those are historical transition boundaries only and do not override verified PR #89 completion or `NEXT_TASK.md`.
+The following literals are retained as historical contract provenance only. They describe the earlier Cloud Readiness transition and do not override the completed Phase 1A–1F chain or current Stage 2F authority above.
+
+Historical profile identity mapping | FOUNDATION DONE / UNRESOLVED RECORDS PERMITTED
+Cross-Save manager/profile linkage semantics | DONE
+Current production derived Analytics | IDENTITY-SAFE / PRODUCTION-PROVEN
+Identity-safe longitudinal Analytics / Analytics 2.0 | NARROW IDENTITY-SAFE LAYER DONE
+Cloud Readiness | PHASE 1A DONE / 1B DONE / 1C DONE / 1D DONE / 1E CURRENT / 1F NEXT
+Cloud Backup | BLOCKED
+Private Remote Joining | PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED
+
+Earlier roadmap text may also contain phrases such as `Phase 1E — CURRENT BOUNDED CANDIDATE`, `Stage 2D CURRENT`, or `Stage 2E CURRENT`. Those are historical transition boundaries only and do not override verified PR #89 completion or `NEXT_TASK.md`.
