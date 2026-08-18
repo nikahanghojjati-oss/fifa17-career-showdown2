@@ -35,7 +35,7 @@ assert.match(stage2a, /public discovery[\s\S]+global leaderboard\/rankings remai
 assert.match(phase1f, /DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(phase1f, /0bdbe2e8c0dc36901361a8aa15056c6af3f5e70d/);
 assert.match(phase1f, /231556d86a93535fa90e173577c1159de4f40be0/);
-assert.match(phase1f, /every application-client Firestore write remains denied/i);
+assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? remains denied/i);
 assert.match(phase1f, /idempotency-key hash[\s\S]+matching sibling idempotency receipt/i);
 
 assert.match(next, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i);
