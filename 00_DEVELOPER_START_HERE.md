@@ -2,15 +2,17 @@
 
 ## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
 
-This short section is the current source-facing override. The complete PR #89 live-main body below is intentionally retained byte-for-byte as historical/proven contract provenance except for this prefixed successor update. Current source, live GitHub state and `NEXT_TASK.md` override the historical Stage 2D-current wording below.
+This short section is the current source-facing override. The complete PR #89 live-main body below is intentionally retained as historical/proven contract provenance except for this prefixed successor update. Current source, live GitHub state and `NEXT_TASK.md` override the historical Stage 2D-current wording below.
 
-Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — DONE / MERGED / PROVEN through PR #89. Exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`; squash merge / independently verified live-main boundary `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — DONE / MERGED / PROVEN through PR #90. Exact validated head `1b0178979ea421b3bf27dd7675ad973aa7bfad8c`; squash merge / independently verified live-main boundary `a27147695607537a1cd1543efb84e6583929a696`.
 
-Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / TRUSTED-VERIFIER-CONTRACT / EMULATOR-WIRING-PROOF. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `NEXT_TASK.md`.
+Stage 2G — Trusted Account Bootstrap Execution Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATOR-PROOF-ONLY. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` and `NEXT_TASK.md`. Branch: `agent/private-auth-stage2g-bootstrap-execution`; draft PR #91; fresh environment `we-2026-08-18-stage2g-account-bootstrap-execution`.
 
 Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected. Every application-client Firestore create/update/delete remains denied. Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
 
-Stage 2F must remain production-dormant: require trusted `verifyIdToken(idToken, true)`, derive architecture `accountId` only from verified Firebase UID, keep provider authentication separate from application authorization, persist/log no raw token material, and do not create production Firebase/Admin/IAM/write infrastructure.
+Stage 2G remains production-dormant: require Stage 2F `verifyIdToken(idToken, true)` first, derive architecture `accountId` only from verified Firebase UID, pass no raw token to the injected trusted atomic account transaction, allow only same-UID `account-bootstrap-only` create authority, and use `updatedByDeviceId: null` only for revision-0 self-bootstrap before Stage 3 device registration exists. Do not create production Firebase/Admin/IAM/hosting/shared-mutation infrastructure.
+
+Every fresh developer must read `PRIVATE_ACCOUNT_AUTH_STAGE_2E.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md` and `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` before touching the current trust chain. Stage 3 pairing remains blocked until the whole Stage 2 lane is proven.
 
 Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage, and preserve the rule recursively.
 
