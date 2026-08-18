@@ -234,14 +234,20 @@ Current authorized prerequisite candidate at the historical pre-PR #83 boundary:
 Stage 2A status at that boundary: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED.
 Historical pre-PR #80 wording: Phase 1D — DONE / PR #79; Phase 1E — CURRENT BOUNDED CANDIDATE; Phase 1F — BLOCKED.
 Historical pre-PR #81 wording: Phase 1E — DONE / PR #80; Phase 1F — CURRENT BOUNDED CANDIDATE.
+Historical Stage 2B / Stage 2C completion wording: Stage 2B — DONE / MERGED / PROVEN. Stage 2C — DONE / MERGED / PROVEN. Stage 2C exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`; Stage 2C squash-merge boundary `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase disconnected.
+Completed Handoff Proximity governance synchronization — PR #86 — DONE / MERGED / PROTECTED. Exact validated head `15cfa82d9aa74db1275968ed3bc1e42669ab23ec`; squash merge `1794f1f86968781b898d000360d1fb56234fb92f`.
+Completed post-PR #86 authority reconciliation — PR #87 — DONE / MERGED / PROVEN. Exact validated head `2415c156161b6244c75e49917bad28efed957adf`; squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
 Historical post-PR #86 wording: Current authorized prerequisite candidate: post-PR #86 current-authority reconciliation.
 Historical pre-PR #88 wording: Current authorized prerequisite candidate: Private Account / Authentication Stage 2D — Production Firebase Environment & Configuration Preflight.
+Current authorized prerequisite candidate: Private Account / Authentication Stage 2D — Production Firebase Environment & Configuration Preflight.
+AUTHORIZED CURRENT PREREQUISITE / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED.
 Historical Stage 2D status: AUTHORIZED CURRENT PREREQUISITE / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED.
 Historical Stage 2D roadmap wording: Stage 2D CURRENT.
 Historical pre-PR #89 wording: Current authorized prerequisite candidate: Private Account / Authentication Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary.
 Historical Stage 2E status: CURRENT / IMPLEMENTATION-AUTHORIZED / EMULATOR-TEST-ONLY / PRODUCTION FIREBASE DISCONNECTED.
 Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
 Cloud/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
+Remaining later Stage 2 concerns are not automatic implementation order.
 
 Historical authority once said to "stop and wait for a further explicit owner instruction." The former clean-stop wording was satisfied by the owner's later 2026-08-17 instruction opening the dependency-ordered Remote Joining prerequisite lane. Do not revive that obsolete waiting loop.
 
