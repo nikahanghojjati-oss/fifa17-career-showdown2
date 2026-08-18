@@ -154,5 +154,6 @@ Cloud/Sync Readiness Phase 1C merge: `59957f8b0c29ce0cd480a0e9270a095160005599`.
 Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`.
 Phase 1D — DONE / MERGED / PROTECTED. Phase 1E — CURRENT BOUNDED CANDIDATE.
 Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED.
+Phase 1F — DONE / MERGED / PROTECTED through PR #81.
 
 Historical source may contain earlier phrases such as `Phase 1E — CURRENT BOUNDED CANDIDATE`, `Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED`, or `Stage 2A — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`. Those phrases describe completed transitions and are not current authority.
