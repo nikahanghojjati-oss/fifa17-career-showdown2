@@ -144,4 +144,15 @@ After Stage 2F exact-head validation and merge, independently verify live `main`
 
 ## Historical provenance
 
+The following literals are preserved as historical contract provenance only and do not override the current completed Phase 1A–1F / Stage 2F state above.
+
+formatVersion 2 full multi-Save backup/import portability is live production truth.
+explicit cross-Save/historical manager identity linkage foundation is shipped local identity authority.
+Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1`.
+Cloud/Sync Readiness Phase 1B merge: `2dc61e24ef07a0a150a228865f954ab3b3941398`.
+Cloud/Sync Readiness Phase 1C merge: `59957f8b0c29ce0cd480a0e9270a095160005599`.
+Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`.
+Phase 1D — DONE / MERGED / PROTECTED. Phase 1E — CURRENT BOUNDED CANDIDATE.
+Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED.
+
 Historical source may contain earlier phrases such as `Phase 1E — CURRENT BOUNDED CANDIDATE`, `Phase 1F — NEXT AFTER PHASE 1E MERGES / BLOCKED`, or `Stage 2A — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED`. Those phrases describe completed transitions and are not current authority.
