@@ -77,6 +77,7 @@ function makeRequest(overrides={}){
     "datastore.entities.get",
     "datastore.entities.create"
   ]);
+  assert.equal(stage2i.stage2HRuntimePermissions.includes(stage2i.optionalReplayPermission),false);
   assert.equal(stage2i.appCheckGrantsUserIdentity,false);
   assert.equal(stage2i.appCheckGrantsApplicationAuthorization,false);
   assert.equal(stage2i.appCheckGrantsTrustedOperationAuthority,false);
@@ -151,6 +152,13 @@ function makeRequest(overrides={}){
   }
 
   {
+    const {request,calls}=makeRequest({headers:{"X-Firebase-AppCheck":APP_CHECK_TOKEN,"x-firebase-appcheck":APP_CHECK_TOKEN}});
+    const result=await stage2i.executeProtectedRequest(request);
+    assert.equal(result.code,"STAGE2I_APP_CHECK_TOKEN_REQUIRED","Ambiguous duplicate App Check header keys must fail closed.");
+    assert.deepEqual(calls,[]);
+  }
+
+  {
     const {request,calls}=makeRequest();
     request.verifyAppCheckToken=async token=>{calls.push(["app-check",token]);throw Object.assign(new Error("provider detail must not escape"),{code:"app-check/invalid-token"});};
     const result=await stage2i.executeProtectedRequest(request);
@@ -164,7 +172,9 @@ function makeRequest(overrides={}){
     ["subject mismatch",decodedAppCheck({sub:"different-app"}),"STAGE2I_APP_CHECK_IDENTITY_INVALID"],
     ["wrong app",decodedAppCheck({app_id:"1:1234567890:web:wrong",sub:"1:1234567890:web:wrong"}),"STAGE2I_APP_CHECK_APP_MISMATCH"],
     ["wrong project number",decodedAppCheck({aud:["999",EXPECTED.projectId]}),"STAGE2I_APP_CHECK_PROJECT_MISMATCH"],
-    ["wrong project id",decodedAppCheck({aud:[EXPECTED.projectNumber,"wrong-project"]}),"STAGE2I_APP_CHECK_PROJECT_MISMATCH"]
+    ["wrong project id",decodedAppCheck({aud:[EXPECTED.projectNumber,"wrong-project"]}),"STAGE2I_APP_CHECK_PROJECT_MISMATCH"],
+    ["missing project audience",decodedAppCheck({aud:[EXPECTED.projectNumber]}),"STAGE2I_APP_CHECK_PROJECT_MISMATCH"],
+    ["extra project audience",decodedAppCheck({aud:[EXPECTED.projectNumber,EXPECTED.projectId,"unexpected-audience"]}),"STAGE2I_APP_CHECK_PROJECT_MISMATCH"]
   ]){
     const {request,calls}=makeRequest();
     request.verifyAppCheckToken=async token=>{calls.push(["app-check",token]);return decoded;};
@@ -225,8 +235,29 @@ function makeRequest(overrides={}){
     assert.deepEqual(calls,[]);
   }
 
+  for(const query of [
+    {appCheckToken:"query-copy"},
+    {nested:{idToken:"query-copy"}},
+    {nested:{value:APP_CHECK_TOKEN}}
+  ]){
+    const {request,calls}=makeRequest({query});
+    const result=await stage2i.executeProtectedRequest(request);
+    assert.equal(result.code,"STAGE2I_TRANSIENT_CREDENTIAL_FORWARDING_FORBIDDEN","Query credential material must fail closed.");
+    assert.deepEqual(calls,[]);
+  }
+
+  {
+    const {request,calls}=makeRequest({url:`https://trusted.example/protected?appCheck=${encodeURIComponent(APP_CHECK_TOKEN)}`});
+    const result=await stage2i.executeProtectedRequest(request);
+    assert.equal(result.code,"STAGE2I_TRANSIENT_CREDENTIAL_FORWARDING_FORBIDDEN","Raw App Check material in URLs must fail closed.");
+    assert.deepEqual(calls,[]);
+  }
+
   assert.doesNotMatch(source,/localStorage|sessionStorage|indexedDB|console\.|analytics|fetch\s*\(/i);
   assert.match(source,/verifyAppCheckToken\(appCheckToken\)/);
+  assert.match(source,/decoded\.aud\.length!==2/);
+  assert.match(source,/containsStage2ITransientCredential\(input\.query/);
+  assert.match(source,/urlContainsStage2ITransientCredential\(input\.url/);
   assert.match(source,/verifyTrustedRequestPrincipal[\s\S]+authorizeApplicationOperation[\s\S]+executeTrustedOperation/);
   assert.match(source,/applicationAuthorizationGranted:false/);
 
