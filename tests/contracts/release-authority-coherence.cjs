@@ -30,6 +30,7 @@ const start = read("00_DEVELOPER_START_HERE.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const analyticsHandoff = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
+const archivedNext = read("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md");
 const readme = read("README.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
@@ -171,17 +172,17 @@ A.match(state, /Phase 1D — exact provider-compatible remote schema and API\/au
 A.match(state, /Phase 1F[\s\S]+NEXT AFTER PHASE 1E MERGES \/ BLOCKED/i, "PROJECT_STATE must block Phase 1F until Phase 1E merges and is proven.");
 
 A.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "NEXT_TASK must authorize no product candidate after the v1.4.0 seal.");
-A.match(next, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven.");
-A.match(next, /Phase C first slice — Showdown Home & Season Experience deepening \(PR #73/i, "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven.");
-A.match(next, /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i, "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice).");
-A.match(next, /dec1d3ba8182c3f62019974dd1704c7c9124def6/i, "NEXT_TASK must record the live main feature-merge SHA for PR #73 (Phase C first slice).");
+A.match(archivedNext, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "Archived NEXT_TASK must retain Phase B first slice (PR #70) production provenance.");
+A.match(archivedNext, /Phase C first slice — Showdown Home & Season Experience deepening \(PR #73/i, "Archived NEXT_TASK must retain Phase C first slice (PR #73) production provenance.");
+A.match(archivedNext, /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i, "Archived NEXT_TASK must retain the PR #70 feature-merge SHA.");
+A.match(archivedNext, /dec1d3ba8182c3f62019974dd1704c7c9124def6/i, "Archived NEXT_TASK must retain the PR #73 feature-merge SHA.");
 A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as closed / production-proven.");
-A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
-A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
-A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
-A.match(next, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+No product candidate is currently authorized[\s\S]+Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "NEXT_TASK must keep product runtime gated while advancing exactly from merged Phase 1D to current Phase 1E and blocked-next Phase 1F.");
-A.match(next, /former clean-stop wording[\s\S]+satisfied[\s\S]+Do not revive/i, "NEXT_TASK must record that the owner has satisfied the former wait-for-instruction boundary without opening blocked runtime work.");
+A.match(archivedNext, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "Archived NEXT_TASK must retain multi-Save portability (PR #67) provenance.");
+A.match(archivedNext, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "Archived NEXT_TASK must retain the PR #67 feature-merge SHA.");
+A.match(archivedNext, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "Archived NEXT_TASK must retain completed profile-label, analytics and multi-Save provenance.");
+A.match(next, /Production application milestone remains `v1\.4\.0`[\s\S]+Installable Offline App runtime remains `1\.4\.0-r1`[\s\S]+previous whole shell remains `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
+A.match(archivedNext, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+No product candidate is currently authorized[\s\S]+Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "Archived NEXT_TASK must retain the historical Phase 1D → Phase 1E → Phase 1F transition provenance.");
+A.match(archivedNext, /former clean-stop wording[\s\S]+satisfied[\s\S]+Do not revive/i, "Archived NEXT_TASK must retain the satisfied historical wait boundary.");
 A.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must preserve Remote Joining priority without silently authorizing runtime work.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
@@ -221,11 +222,11 @@ A.match(analyticsHandoff, /Failure 7[\s\S]+transient\/offscreen rendered-text as
 A.match(analyticsHandoff, /deployed-site-smoke job `94855938131`[\s\S]+complete deployed production journey/i, "Closed Analytics handoff must retain deployed Pages proof.");
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost current handoff/task authority.");
-A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "NEXT_TASK lost permanent validation topology counts.");
+A.match(archivedNext, /14 permanent workflow families[\s\S]+27 protected/i, "Archived authority must retain the historical validation-topology narration.");
 const temporaryHelpers = fs.readdirSync(".github/workflows").filter(name => /v115|temporary/i.test(name) && /\.ya?ml$/i.test(name));
 A.deepEqual(temporaryHelpers, [], `Temporary workflow helpers must not enter release authority: ${temporaryHelpers.join(", ")}`);
 const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, Phase 1D closure, current Phase 1E deterministic proof gate, blocked-next Phase 1F, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current production identity, shipped recovery baselines, archived historical release/Cloud provenance, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);
