@@ -16,7 +16,7 @@ assert.match(boundary,/intentionally has no synthetic Stage 2J label/i);
 assert.match(boundary,/account lifecycle export\/deletion execution/i);
 assert.match(boundary,/verified Firebase UID/i);
 assert.match(boundary,/operation-specific Career Mode Showdown authorization for account deletion/i);
-assert.match(boundary,/disabled application account is denied by this self-service boundary/i);
+assert.match(boundary,/A `disabled` application account is denied by this self-service boundary/i);
 assert.match(boundary,/deletion-pending[\s\S]+before destructive cleanup begins/i);
 assert.match(boundary,/registered devices are revoked[\s\S]+invites are revoked[\s\S]+sessions are closed[\s\S]+surviving-owner entitlements are preserved/i);
 assert.match(boundary,/no shared gameplay is destroyed without the exact required deletion consent/i);
