@@ -117,6 +117,22 @@ function makeRequest(overrides={}){
   }
 
   {
+    const {request,calls}=makeRequest();
+    request.verifyAppCheckToken=async token=>{
+      calls.push(["app-check",token,1]);
+      return {appId:EXPECTED.appId,alreadyConsumed:false,token:decodedAppCheck()};
+    };
+    const result=await stage2i.executeProtectedRequest(request);
+    assert.equal(result.ok,true,"Official Firebase Admin VerifyAppCheckTokenResponse shape must be accepted.");
+    assert.deepEqual(calls.map(call=>call[0]),[
+      "app-check",
+      "firebase-auth",
+      "application-authorization",
+      "trusted-operation"
+    ]);
+  }
+
+  {
     const {request,calls}=makeRequest({method:"OPTIONS",headers:{}});
     const result=await stage2i.executeProtectedRequest(request);
     assert.deepEqual(result,{
@@ -255,6 +271,7 @@ function makeRequest(overrides={}){
 
   assert.doesNotMatch(source,/localStorage|sessionStorage|indexedDB|console\.|analytics|fetch\s*\(/i);
   assert.match(source,/verifyAppCheckToken\(appCheckToken\)/);
+  assert.match(source,/normalizeStage2IVerifiedAppCheckClaims/);
   assert.match(source,/decoded\.aud\.length!==2/);
   assert.match(source,/containsStage2ITransientCredential\(input\.query/);
   assert.match(source,/urlContainsStage2ITransientCredential\(input\.url/);
