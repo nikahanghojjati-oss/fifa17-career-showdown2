@@ -29,7 +29,8 @@ const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
 const start = read("00_DEVELOPER_START_HERE.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const analyticsHandoff = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
-const next = read("NEXT_TASK.md");
+const currentNext = read("NEXT_TASK.md");
+const next = read("authority-history/NEXT_TASK_POST_PR99_PRE_CLOSEOUT_FULL.md");
 const readme = read("README.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
@@ -42,9 +43,24 @@ const phase1eTest = read("tests/contracts/cloud-sync-two-device-harness-contract
 const candidate = /Status:\s*RELEASE CANDIDATE/i.test(release);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
 
+A.match(currentNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE-JOINING UNBLOCK CLOSEOUT/i,"Current NEXT_TASK must expose the post-PR99 authority boundary.");
+A.match(currentNext,/PR #99[\s\S]+fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3[\s\S]+0f61225b267e8334467a6d868d36c7ce58dd54a0/i,"Current NEXT_TASK must preserve exact PR99 publication truth.");
+A.ok(currentNext.includes(`v${version}`),"Current NEXT_TASK must identify the current application version.");
+A.ok(currentNext.includes(revision),"Current NEXT_TASK must identify the active runtime revision.");
+A.ok(/transaction-owned|mutation-owned/i.test(currentNext),"Current NEXT_TASK must preserve rollback ownership semantics.");
+A.ok(/strict exact raw|strict snapshot|exact raw snapshot/i.test(currentNext),"Current NEXT_TASK must preserve exact destructive snapshot authority.");
+A.ok(/Installable Offline App|installed-app/i.test(currentNext),"Current NEXT_TASK must preserve the shipped installable/offline baseline.");
+A.match(currentNext,/v1\.3\.0\s+—?\s*Recovery & Device Resilience Hardening/i,"Current NEXT_TASK must preserve the v1.3 resilience baseline beneath Product Deepening.");
+A.match(currentNext,/Local Profiles[\s\S]{0,120}Save Library|Save Library[\s\S]{0,120}Local Profiles/i,"Current NEXT_TASK must acknowledge the shipped Local Profiles / Save Library dependency chain.");
+A.match(currentNext,/Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,"Current NEXT_TASK must preserve prioritized dependency-gated Remote Joining.");
+A.match(currentNext,/authority-history\/NEXT_TASK_POST_PR99_PRE_CLOSEOUT_FULL\.md[\s\S]+aeb826fdde2ea9e6b0ce7c886d2dc1a419158601/i,"Current NEXT_TASK must identify the exact archived pre-closeout authority.");
+for(const stale of ["Current remaining nontechnical exit condition:","Current substantive task — Candidate C","Version identity deliberately remains v1.1.4"]){
+    A.ok(!currentNext.includes(stale),`Current NEXT_TASK contains stale current-facing authority: ${stale}`);
+}
+
 A.ok(release.includes(`Runtime asset revision: \`${revision}\``), `${releasePath} has stale runtime identity.`);
 A.ok(handoff.includes(revision), `${handoffPath} has stale runtime identity.`);
-for(const [file, text] of [["NEXT_TASK.md", next], ["PROJECT_STATE.md", state]]){
+for(const [file, text] of [["NEXT_TASK.md", currentNext], ["PROJECT_STATE.md", state]]){
     A.ok(text.includes(`v${version}`), `${file} must identify the current application version.`);
     A.ok(text.includes(revision), `${file} must identify the active runtime revision.`);
 }
@@ -57,7 +73,7 @@ if(candidate){
     for(const [file, text] of [
         ["README.md", readme],
         ["PROJECT_STATE.md", state],
-        ["NEXT_TASK.md", next],
+        ["NEXT_TASK.md", currentNext],
         ["00_DEVELOPER_START_HERE.md", start],
         ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
     ]){
@@ -76,7 +92,7 @@ if(candidate){
 
 for(const [file, text] of [
     ["00_DEVELOPER_START_HERE.md", start],
-    ["NEXT_TASK.md", next],
+    ["NEXT_TASK.md", currentNext],
     ["PROJECT_STATE.md", state],
     ["README.md", readme],
     [handoffPath, handoff]
@@ -89,7 +105,7 @@ for(const [file, text] of [
 
 for(const [file, text] of [
     ["00_DEVELOPER_START_HERE.md", start],
-    ["NEXT_TASK.md", next],
+    ["NEXT_TASK.md", currentNext],
     ["PROJECT_STATE.md", state],
     ["README.md", readme],
     ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
@@ -102,7 +118,7 @@ for(const stale of [
     "Current substantive task — Candidate C",
     "Version identity deliberately remains v1.1.4"
 ]){
-    for(const [file, text] of [["NEXT_TASK.md", next], ["PROJECT_STATE.md", state], ["README.md", readme], ["POST_V1_ROADMAP_EXECUTION.md", roadmap]]){
+    for(const [file, text] of [["NEXT_TASK.md", currentNext], ["PROJECT_STATE.md", state], ["README.md", readme], ["POST_V1_ROADMAP_EXECUTION.md", roadmap]]){
         A.ok(!text.includes(stale), `${file} contains stale current-facing authority: ${stale}`);
     }
 }
@@ -119,7 +135,7 @@ A.ok(resilienceIndex >= 0 && profilesIndex > resilienceIndex && cloudIndex > pro
 
 for(const [file, text] of [
     ["00_DEVELOPER_START_HERE.md", start],
-    ["NEXT_TASK.md", next],
+    ["NEXT_TASK.md", currentNext],
     ["PROJECT_STATE.md", state],
     ["README.md", readme],
     ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
@@ -170,19 +186,20 @@ A.match(state, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a92
 A.match(state, /Phase 1D — exact provider-compatible remote schema and API\/authorization contract:\s*\*\*DONE \/ MERGED \/ PROTECTED\*\*[\s\S]+Phase 1E — deterministic two-device\/offline\/reconnect synchronization harness:\s*\*\*CURRENT BOUNDED CANDIDATE\*\*/i, "PROJECT_STATE must close Phase 1D and identify Phase 1E as the current deterministic prerequisite.");
 A.match(state, /Phase 1F[\s\S]+NEXT AFTER PHASE 1E MERGES \/ BLOCKED/i, "PROJECT_STATE must block Phase 1F until Phase 1E merges and is proven.");
 
-A.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "NEXT_TASK must authorize no product candidate after the v1.4.0 seal.");
-A.match(next, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven.");
-A.match(next, /Phase C first slice — Showdown Home & Season Experience deepening \(PR #73/i, "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven.");
-A.match(next, /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i, "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice).");
-A.match(next, /dec1d3ba8182c3f62019974dd1704c7c9124def6/i, "NEXT_TASK must record the live main feature-merge SHA for PR #73 (Phase C first slice).");
-A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "NEXT_TASK must retain the permanent concrete handoff section.");
-A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as closed / production-proven.");
-A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
-A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
-A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
-A.match(next, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+No product candidate is currently authorized[\s\S]+Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "NEXT_TASK must keep product runtime gated while advancing exactly from merged Phase 1D to current Phase 1E and blocked-next Phase 1F.");
-A.match(next, /former clean-stop wording[\s\S]+satisfied[\s\S]+Do not revive/i, "NEXT_TASK must record that the owner has satisfied the former wait-for-instruction boundary without opening blocked runtime work.");
-A.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must preserve Remote Joining priority without silently authorizing runtime work.");
+// Historical release/roadmap provenance remains protected in the exact pre-closeout archive rather than burdening current implementation authority.
+A.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "Archived NEXT_TASK must preserve no-product-candidate release provenance.");
+A.match(next, /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i, "Archived NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven.");
+A.match(next, /Phase C first slice — Showdown Home & Season Experience deepening \(PR #73/i, "Archived NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven.");
+A.match(next, /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i, "Archived NEXT_TASK must record the live main feature-merge SHA for PR #70.");
+A.match(next, /dec1d3ba8182c3f62019974dd1704c7c9124def6/i, "Archived NEXT_TASK must record the live main feature-merge SHA for PR #73.");
+A.match(currentNext, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, "Current NEXT_TASK must retain the permanent concrete handoff section.");
+A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "Archived NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as closed / production-proven.");
+A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "Archived NEXT_TASK must record the live main feature-merge SHA for PR #67.");
+A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "Archived NEXT_TASK must retain Local Profile, Analytics and multi-Save production provenance.");
+A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "Archived NEXT_TASK must retain coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
+A.match(next, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+No product candidate is currently authorized[\s\S]+Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "Archived NEXT_TASK must retain the exact Phase 1D → Phase 1E → Phase 1F historical gate provenance.");
+A.match(next, /former clean-stop wording[\s\S]+satisfied[\s\S]+Do not revive/i, "Archived NEXT_TASK must retain the historical owner-instruction transition provenance.");
+A.match(currentNext, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "Current NEXT_TASK must preserve Remote Joining priority without silently authorizing runtime work.");
 
 A.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 A.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must keep the cross-Save manager identity prerequisite closed.");
@@ -221,11 +238,11 @@ A.match(analyticsHandoff, /Failure 7[\s\S]+transient\/offscreen rendered-text as
 A.match(analyticsHandoff, /deployed-site-smoke job `94855938131`[\s\S]+complete deployed production journey/i, "Closed Analytics handoff must retain deployed Pages proof.");
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost current handoff/task authority.");
-A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "NEXT_TASK lost permanent validation topology counts.");
+A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "Archived NEXT_TASK lost permanent validation topology counts.");
 const temporaryHelpers = fs.readdirSync(".github/workflows").filter(name => /v115|temporary/i.test(name) && /\.ya?ml$/i.test(name));
 A.deepEqual(temporaryHelpers, [], `Temporary workflow helpers must not enter release authority: ${temporaryHelpers.join(", ")}`);
 const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, Phase 1D closure, current Phase 1E deterministic proof gate, blocked-next Phase 1F, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current post-PR99 authority is concise and protected, exact pre-closeout historical provenance remains archived, and all production/recovery/Remote Joining/workflow locks agree.\n`);
