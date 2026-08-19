@@ -1,5 +1,27 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
+
+Current source, live GitHub state and `NEXT_TASK.md` override the retained Stage 2D / Stage 2G-current bodies below.
+
+Stage 2G — Trusted Account Bootstrap Execution Boundary — is DONE / MERGED / PROVEN through PR #91. Exact validated final head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`; squash merge / independently verified live-main boundary `f97024cf4be3e76cf25c510fb364675b8e747762`.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md` and `NEXT_TASK.md`.
+
+Every fresh developer must now read `PRIVATE_ACCOUNT_AUTH_STAGE_2E.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md` and `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md` before touching the trust chain.
+
+Stage 2H selects only the future trusted production execution policy: dedicated Cloud Run HTTPS service, dedicated user-managed service account, Application Default Credentials, minimum justified Firestore permissions, Stage 2F revocation-aware Firebase ID-token verification and separate application authorization. Every application-client Firestore create/update/delete remains denied.
+
+Do not provision production Cloud Run, Firebase, service accounts, IAM roles/bindings, billing, users, Firestore, provider configuration or Security Rules in the current boundary. Stage 3 remains blocked until the entire Stage 2 lane is proven.
+
+Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+
+The complete body below is retained unchanged as historical/proven contract provenance and must not override this successor section.
+
+---
+
+# Career Mode Showdown — Developer Start Here
+
 ## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
 
 This short section is the current source-facing override. The complete PR #89 live-main body below is intentionally retained as historical/proven contract provenance except for this prefixed successor update. Current source, live GitHub state and `NEXT_TASK.md` override the historical Stage 2D-current wording below.

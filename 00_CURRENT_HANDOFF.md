@@ -1,5 +1,25 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
+
+Current verified source and live GitHub override every retained Stage 2E / Stage 2F / Stage 2G-current body below.
+
+Stage 2G — Trusted Account Bootstrap Execution Boundary — is DONE / MERGED / PROVEN through PR #91. Exact validated final head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`; squash merge / independently verified live-main boundary `f97024cf4be3e76cf25c510fb364675b8e747762`. All 13 normal workflow families succeeded on that unchanged head; submitted reviews and inline review threads were empty.
+
+Current authorized prerequisite candidate is Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary. Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md` and `NEXT_TASK.md`.
+
+Stage 2H selects a future dedicated Google Cloud Run HTTPS trusted service, dedicated user-managed service identity, Application Default Credentials, minimum justified Firestore permissions, Stage 2F revocation-aware Firebase ID-token verification and separate application authorization. Browser Firestore create/update/delete remains denied. This boundary authorizes no production provisioning.
+
+Fresh successor environment: `we-2026-08-18-post-stage2g-authority-reconcile`. Branch: `agent/post-stage2g-authority-reconcile`. Fresh WEC decision: `HANDOFF_AT_CHECKPOINT`. This environment may finish only the Stage 2G closure / Stage 2H authorization publication boundary and must transition before Stage 2H implementation or Stage 3.
+
+Current production remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`. Production Firebase remains disconnected. Public/community/ranking features remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance and must not override this successor section.
+
+---
+
+# Career Mode Showdown — Current Handoff
+
 ## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
 
 Current verified source overrides the retained PR #89 / Stage 2E-era body below.
