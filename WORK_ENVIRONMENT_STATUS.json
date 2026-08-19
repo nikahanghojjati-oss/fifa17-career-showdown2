@@ -1,64 +1,58 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-19-post-pr98-stage2-selection",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-19T17:57:30Z",
+  "environmentId": "we-2026-08-19-post-pr99-remote-joining-restart",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-19T18:31:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "cc51ab4187fd2f7d721817789982a0d0d1dc619c"
+    "startingMainSha": "0f61225b267e8334467a6d868d36c7ce58dd54a0"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "moderate",
     "projectComplexity": "very-high",
-    "compactionCount": 3,
-    "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 23,
-    "toolRoutingErrors": 4,
-    "correctedFailures": 5,
-    "repeatedMistakes": 1,
+    "compactionCount": 1,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 9,
+    "toolRoutingErrors": 1,
+    "correctedFailures": 0,
+    "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 80,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Publish only PR #99 post-PR #98 successor continuity reconciliation from this immutable transition-prepared head, independently verify merged live main, generate the complete successor handoff and stop. Do not select or implement another Stage 2 prerequisite in this environment.",
-    "lastSafeCheckpoint": "Both the diagnostic head 519ed292051cf951a3d05be9dae75f009ec8aec7 and first transition-seal head 10635e25cf404b9ccd22075dadb3c9bed4e41041 passed all 13 normal pull-request workflow families. A second compaction caused status-only reseal d863937f17c9f8c7720238393aaa077d2f0d2215; immediately afterward a third observable compaction occurred before merge. This definitive status-only seal records compactionCount 3. The WEC formula's compaction contribution is already capped at 20 points from count 2 onward, so the transition assessment is numerically unchanged. No implementation, authority, runtime, test, Firebase, IAM, storage or product file changed in either status-only reseal.",
-    "nextSafeAction": "Treat this definitive status-only seal as the final branch mutation. Require all 13 normal workflow families to succeed on its exact unchanged head. Then recheck exact head, five-file scope, exact archive blob, submitted reviews, inline review threads and mergeability; mark PR #99 ready; squash merge only with expected-head protection; independently verify resulting live main and merged PR facts; generate the complete successor handoff at Handoff proximity 100%; and stop before any later Stage 2 prerequisite selection.",
+    "currentTask": "Complete exactly one bounded post-PR #99 current-authority closeout so live implementation authority no longer points to the completed pre-merge PR #99 task. Preserve all Stage 2F/2H/2I, Firestore, production-isolation, recovery, identity and private-product locks. Do not create another continuity/history-only milestone after this closeout; return to the remaining Stage 2 Remote Joining dependency graph if the fresh WEC still permits.",
+    "lastSafeCheckpoint": "Live main was independently verified at 0f61225b267e8334467a6d868d36c7ce58dd54a0. PR #99 is merged from exact head fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3, changed exactly five files, passed all 13 normal pull-request workflow families, and has zero submitted reviews and zero inline review threads. Branch agent/post-pr99-remote-joining-restart was created from that exact main. Because the connected contents route cannot safely append the large canonical history, exact PR #99 post-seal facts were preserved in authority-history/PR99_POST_SEAL_HISTORY_APPEND_PENDING.md before replacing the predecessor WEC record.",
+    "nextSafeAction": "Update NEXT_TASK.md with one concise post-PR #99 successor authority section while retaining every existing byte of historical/provenance content beneath it; update only the permanent Stage 2I current-authority assertions that still hard-code the pre-merge PR #98/PR #99 boundary; then open one bounded diagnostic PR and require the full exact-head gate without changing production runtime.",
     "unfinishedWork": [
-      "Obtain the complete 13-family exact-head validation gate on this definitive compaction-aware WEC seal.",
-      "Recheck exact head identity, five-file scope, exact archive blob, submitted reviews, inline review threads and mergeability immediately before publication.",
-      "Mark PR #99 ready, squash merge only with expected-head protection, and independently verify resulting live main and merged PR facts.",
-      "Generate the complete successor handoff at Handoff proximity 100% and stop before any separate Stage 2 prerequisite selection."
+      "Replace stale pre-merge PR #99 current implementation authority with the fresh successor boundary.",
+      "Update the Stage 2I current-authority contract only as necessary for the new current section while preserving security/runtime locks and all retained historical contracts.",
+      "Run the bounded PR exact-head validation gate, correct only objective source/coherence failures, then make the final transition-prepared WEC seal the last branch mutation and rerun the full gate.",
+      "Require clean reviews/threads and expected-head squash merge, independently verify live main, then obey the final WEC decision before any separate Stage 2 prerequisite."
     ],
     "knownHazards": [
-      "This definitive transition-prepared WEC seal must remain the last branch mutation. Any later branch file mutation invalidates it and requires a fresh exact-head validation gate.",
-      "WEC decision is HANDOFF_AT_CHECKPOINT. No later Stage 2 prerequisite may begin in this environment.",
-      "The predecessor-specific WEC identity assertions were intentionally replaced with current-authority coherence checks; do not reintroduce fixed predecessor environment IDs or startingMainSha values into permanent successor-continuity tests.",
-      "NEXT_TASK intentionally keeps fresh current authority first and sealed historical provenance after `---`; legacy provenance below that boundary must never be interpreted as current implementation authorization.",
-      "Do not weaken Stage 2F revocation-aware verification, Stage 2H exact four-permission IAM, Stage 2I App Check trust order, browser Firestore write denial, production isolation, Candidate A/B/C, identity locks, two-owner governance or Remote Joining security boundaries.",
-      "Local shell GitHub DNS and direct file-transfer routes are unavailable or unreliable. The route circuit breaker remains active; use supported connected GitHub routes only.",
-      "WORK_ENVIRONMENT_HISTORY.md is append-only. Predecessor facts recovered through PR #98 are already canonical and must not be duplicated or rewritten.",
-      "The exact former NEXT_TASK.md is preserved independently at authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md with blob SHA 2c5a16d191bf470f5463aaf7f71dcdb876d49837.",
-      "Production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/users/data/provider configuration remains disconnected/unprovisioned; browser Firestore mutation remains denied.",
+      "NEXT_TASK.md is the sole implementation-authorization owner. Its existing historical body contains permanent contract provenance and must not be truncated or rewritten merely to make the file cleaner.",
+      "WORK_ENVIRONMENT_HISTORY.md is append-only. The current connector does not expose a safe append/patch mutation for the large file, so exact PR #99 facts are held in a recovery-safe payload rather than risking whole-history reconstruction. Do not turn transport of that payload into a new history-only milestone unless a permanent gate forces it.",
+      "Local gh and a normal local GitHub checkout are unavailable in this Work environment; the connected GitHub app is the supported source/write route and GitHub-hosted pull-request workflows are the validation authority.",
+      "Do not weaken Stage 2F revocation-aware verifyIdToken(idToken, true), Stage 2H exact four-permission IAM, Stage 2I App Check trust order, browser Firestore write denial, production isolation, Candidate A/B/C, canonical three-key storage, identity locks or two-owner governance.",
+      "Stage 3 Registered Devices / Private Pairing remains blocked until the actual remaining Stage 2 prerequisites are reconstructed and proven complete. Do not invent a Stage 2J label from roadmap numbering alone.",
+      "Production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/users/data/provider configuration remains disconnected/unprovisioned; this closeout is non-runtime and receives no semantic version bump.",
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
-      "Verified starting live main is cc51ab4187fd2f7d721817789982a0d0d1dc619c and PR #98 merged exact head is 0cf279f6abe1aeca0d6d46e0bdd4d8b325861064 with 29 additions and 0 deletions in canonical history.",
-      "Fresh successor initialization and assessment were recorded before continuity implementation. The predecessor transition decision and counters were not inherited.",
-      "Diagnostic exact head 519ed292051cf951a3d05be9dae75f009ec8aec7 passed all 13 normal workflow families.",
-      "First transition-seal exact head 10635e25cf404b9ccd22075dadb3c9bed4e41041 also passed all 13 normal workflow families before later compactions were observed.",
-      "PR #99 overall scope remains exactly NEXT_TASK.md, WORK_ENVIRONMENT_STATUS.json, authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md, tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs and tests/contracts/work-environment-interruption-resilience-contracts.cjs.",
-      "The former full NEXT_TASK archive has exact blob SHA 2c5a16d191bf470f5463aaf7f71dcdb876d49837. The compatibility-preserving NEXT_TASK structure and the two narrowly reconciled successor-identity contracts were unchanged by all WEC-only seals.",
-      "Five diagnostic source/coherence findings were exposed and corrected without weakening runtime/security/recovery contracts: missing v1.4.0 label, missing Installable Offline App label, historical handoff coupling, missing Work Environment Continuity routing, and broad legacy NEXT_TASK provenance coupling.",
-      "Three real continuity compactions are now recorded. Usage remains unknown.",
-      "Definitive compaction-aware transition assessment from the repository formula: context pressure 98/100, quality risk 62/100, next-task separation 80/100, handoff readiness 100/100, continuation risk 81.1/100, transition cost 13.5/100, transition advantage 67.6; decision HANDOFF_AT_CHECKPOINT."
+      "The predecessor transition-prepared record was read and validated structurally before replacement; its HANDOFF_AT_CHECKPOINT decision is not inherited.",
+      "PR #99 publication proof was independently reverified from live GitHub: exact head fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3, squash merge 0f61225b267e8334467a6d868d36c7ce58dd54a0, exact five-file scope, all 13 normal workflow families successful, no submitted reviews and no inline review threads.",
+      "Current-source contradiction is objective: live NEXT_TASK.md still authorizes publishing PR #99 from the predecessor environment after PR #99 is already merged; WORK_ENVIRONMENT_STATUS.json likewise described that completed publication task. Other overview files retain older first headings but explicitly defer current implementation authority to NEXT_TASK.md.",
+      "One observed successor context compaction is recorded. One tooling-route limitation cluster is recorded for missing local gh / unsupported direct GitHub shell route; supported connected GitHub operations remain functional.",
+      "Initial deterministic WEC calculation from the repository formula using the recorded fresh signals gives context pressure 57/100, quality risk 6/100, next-task separation 20/100, handoff readiness 80/100, continuation risk 30.9/100, transition cost 22.5/100, transition advantage 8.4; decision CONTINUE. Usage is unavailable and omitted rather than estimated.",
+      "Remote Joining readiness remains approximately 35% at startup because no new product dependency has been completed by this continuity closeout yet."
     ]
   }
 }
