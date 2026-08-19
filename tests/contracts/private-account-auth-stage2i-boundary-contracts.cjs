@@ -5,6 +5,7 @@ const boundary=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2I.md","utf8");
 const implementation=fs.readFileSync("js/trustedAppAttestationRequest.js","utf8");
 const stage2h=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2H.md","utf8");
 const nextTask=fs.readFileSync("NEXT_TASK.md","utf8");
+const preCloseoutNextTask=fs.readFileSync("authority-history/NEXT_TASK_POST_PR99_PRE_CLOSEOUT_FULL.md","utf8");
 const archivedNextTask=fs.readFileSync("authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md","utf8");
 const projectState=fs.readFileSync("PROJECT_STATE.md","utf8");
 const handoff=fs.readFileSync("00_CURRENT_HANDOFF.md","utf8");
@@ -71,19 +72,19 @@ assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
 const currentNextTask=currentOverride(nextTask);
-assert.match(currentNextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #98 CONTINUITY CHECKPOINT/);
-assert.match(currentNextTask,/Status: CONTINUITY RECONCILIATION ONLY \/ HANDOFF-BOUND \/ NON-RUNTIME \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED/);
-assert.match(currentNextTask,/agent\/post-pr98-stage2-selection/);
-assert.match(currentNextTask,/PR #98[\s\S]+0cf279f6abe1aeca0d6d46e0bdd4d8b325861064[\s\S]+cc51ab4187fd2f7d721817789982a0d0d1dc619c/);
-assert.match(currentNextTask,/29 additions and 0 deletions/i);
+assert.match(currentNextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE-JOINING UNBLOCK CLOSEOUT/);
+assert.match(currentNextTask,/Status: BOUNDED POST-PR #99 CURRENT-AUTHORITY CLOSEOUT \/ PREPARE_HANDOFF \/ NON-RUNTIME \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED/);
+assert.match(currentNextTask,/agent\/post-pr99-remote-joining-unblock/);
+assert.match(currentNextTask,/PR #99[\s\S]+fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3[\s\S]+0f61225b267e8334467a6d868d36c7ce58dd54a0/);
 assert.match(currentNextTask,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(currentNextTask,/No later Stage 2 prerequisite is selected by this continuity checkpoint/i);
+assert.match(currentNextTask,/No later Stage 2 prerequisite is selected by this closeout/i);
 assert.match(currentNextTask,/Do not select or implement another Stage 2 prerequisite in this environment/i);
-assert.match(currentNextTask,/HANDOFF_AT_CHECKPOINT/);
+assert.match(currentNextTask,/PREPARE_HANDOFF/);
 assert.match(currentNextTask,/Every application-client Firestore create\/update\/delete remains denied/i);
 assert.match(currentNextTask,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(currentNextTask,/Candidate A remains non-mutating export[\s\S]+Candidate B remains read-only analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
 assert.match(currentNextTask,/global leaderboards and public rankings remain eliminated/i);
+assert.match(currentNextTask,/authority-history\/NEXT_TASK_POST_PR99_PRE_CLOSEOUT_FULL\.md[\s\S]+aeb826fdde2ea9e6b0ce7c886d2dc1a419158601/i);
 
 const environmentMatch=currentNextTask.match(/Current environment: `([^`]+)`/);
 const mainMatch=currentNextTask.match(/Starting independently verified live main: `([0-9a-f]{40})`/i);
@@ -94,6 +95,11 @@ assert.equal(status.repository.startingMainSha,mainMatch[1],"Current WEC startin
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
 assert.doesNotMatch(status.continuity.currentTask,/Do not merge PR #97 in this predecessor environment/i);
+
+assert.match(preCloseoutNextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #98 CONTINUITY CHECKPOINT/);
+assert.match(preCloseoutNextTask,/we-2026-08-19-post-pr98-stage2-selection/);
+assert.match(preCloseoutNextTask,/cc51ab4187fd2f7d721817789982a0d0d1dc619c/);
+assert.match(preCloseoutNextTask,/PR #99 if clean/i);
 
 assert.match(archivedNextTask,/CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT/);
 assert.match(archivedNextTask,/we-2026-08-19-post-pr96-stage2-selection/);
@@ -124,8 +130,8 @@ assert.doesNotMatch(index,/trustedAppAttestationRequest\.js|firebase\/app-check|
 assert.doesNotMatch(optional,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
 assert.doesNotMatch(worker,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
 assert.equal(pkg.version,"1.4.0");
-assert.equal(pkg.dependencies,undefined,"Post-PR #98 continuity checkpoint must not add production dependencies.");
+assert.equal(pkg.dependencies,undefined,"Post-PR #99 continuity closeout must not add production dependencies.");
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 
-process.stdout.write("PASS Stage 2I current-authority contracts without predecessor-specific WEC identity freezing\n");
+process.stdout.write("PASS Stage 2I locks with fresh post-PR99 current authority, exact archived predecessor provenance and successor WEC identity coherence\n");
