@@ -3,7 +3,6 @@ const fs=require("node:fs");
 
 const agents=fs.readFileSync("AGENTS.md","utf8");
 const antiLoop=fs.readFileSync("00_FORWARD_PROGRESS_ANTI_LOOP.md","utf8");
-const handoff=fs.readFileSync("SUCCESSOR_HANDOFF_REMOTE_JOINING_PRIORITY_ANTI_SIDEQUEST_2026-08-19.md","utf8",err=>err);
 
 assert.match(agents,/Mandatory forward-progress \/ anti-loop rule/i);
 assert.match(agents,/00_FORWARD_PROGRESS_ANTI_LOOP\.md/);
