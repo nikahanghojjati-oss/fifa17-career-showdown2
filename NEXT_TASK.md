@@ -1,5 +1,142 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART — 2026-08-19 ET
+
+Current verified source, live GitHub, the owner’s 2026-08-19 Remote Joining priority / anti-sidequest handoff, and later owner instructions override every retained historical record below. This first section is the sole current implementation-authorization boundary.
+
+Status: ONE BOUNDED POST-PR #99 AUTHORITY CLOSEOUT / NON-RUNTIME / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED / REMOTE JOINING PRIORITY ACTIVE.
+
+Current branch: `agent/post-pr99-remote-joining-restart`.
+Current environment: `we-2026-08-19-post-pr99-remote-joining-restart`.
+Starting independently verified live main: `0f61225b267e8334467a6d868d36c7ce58dd54a0`.
+Fresh WEC decision: `CONTINUE`.
+Usage: unavailable and not estimated.
+Authorized product candidate: none.
+
+Work Environment Continuity (WEC): the predecessor `HANDOFF_AT_CHECKPOINT` belonged only to `we-2026-08-19-post-pr98-stage2-selection`. This successor validated the inherited record, independently verified live GitHub, preserved the predecessor’s post-seal facts, initialized its own identity/counters from live main, and assessed itself before this authority mutation. Only this successor’s own WEC decision applies.
+
+The complete pre-existing `NEXT_TASK.md` body is retained after the first `---` as historical/proven contract provenance. It must never override this current first section.
+
+## Verified PR #99 publication boundary
+
+PR #99 `Reconcile post-PR98 successor continuity` is DONE / MERGED / PROVEN.
+
+Exact PR #99 head: `fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3`.
+Squash merge / independently verified live main: `0f61225b267e8334467a6d868d36c7ce58dd54a0`.
+PR #99 changed exactly five files: `NEXT_TASK.md`, `WORK_ENVIRONMENT_STATUS.json`, `authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md`, `tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs`, and `tests/contracts/work-environment-interruption-resilience-contracts.cjs`.
+All 13 normal pull-request workflow families succeeded on the exact PR #99 head. Submitted reviews and inline review threads were empty.
+
+PR #99 selected no later Stage 2 implementation prerequisite and changed no production runtime behavior.
+
+## Current Remote Joining dependency state
+
+Stage 1 — Cloud / Sync Readiness Phase 1A through 1F — DONE / MERGED / PROTECTED.
+
+Stage 2 — Private Account / Authentication / Authorization — ACTIVE prerequisite lane.
+Stages 2A through 2I — DONE / MERGED / PROVEN at their protected dormant boundaries.
+Stage 2 as a whole remains incomplete.
+No later Stage 2 prerequisite is selected by this bounded post-PR #99 closeout.
+
+Stage 3 — Registered Devices / Private Pairing — BLOCKED until every actually required Stage 2 prerequisite is DONE / MERGED / PROVEN.
+Stage 4 — Connected Rivalry — BLOCKED behind Stage 3 and earlier prerequisites.
+Stage 5 — Private Remote Joining — PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+
+Required dependency order remains:
+
+Cloud / synchronization readiness
+→ private account / authentication / authorization
+→ paired-device / private-session capability
+→ Connected Rivalry
+→ Private Remote Joining
+
+After this one bounded closeout is merged and independently verified, reconstruct the actual remaining Stage 2 dependency graph from current verified source. Do not invent a Stage 2J label or assume list order is implementation order. Select exactly one smallest necessary unblocked prerequisite that materially reduces dependency distance to Stage 3 and a workable private Remote Joining session, but only after the required WEC reassessment permits the distinct milestone.
+
+If current verified source proves Stage 2 is already complete, prove that completion and unlock Stage 3 rather than manufacturing additional Stage 2 work.
+
+## Mandatory anti-sidequest boundary
+
+The continuity/history lane closes with this bounded post-PR #99 authority repair.
+
+Do not create another history-only, continuity-refinement, documentation-cleanup, generalized-refactor, workflow-beautification, archival, naming or speculative-research milestone merely because this closeout produced more continuity facts.
+
+A later continuity/history-only task is allowed only when a concrete failing permanent contract, contradictory current implementation authority, unsafe publication/recovery state, or another objectively demonstrated blocker requires it. “It could be cleaner” is not sufficient.
+
+`WORK_ENVIRONMENT_HISTORY.md` remains append-only. The current connected GitHub contents route cannot safely patch that large file, so exact PR #99 post-seal facts are preserved at `authority-history/PR99_POST_SEAL_HISTORY_APPEND_PENDING.md`. That recovery payload is not implementation authority and must not become a separate milestone. Append it canonically only through a safe append-capable route and verify additions-only history when such a route is naturally available or when a permanent gate objectively requires the append.
+
+## Protected trust and production locks
+
+Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+For every future protected non-preflight browser request, preserve this order:
+
+1. Stage 2H production-origin defense in depth.
+2. Transient `X-Firebase-AppCheck` token.
+3. Trusted Firebase Admin App Check verification.
+4. Exact expected production Firebase Web App identity verification.
+5. Exact two-entry production project audience verification.
+6. Stage 2F revocation-aware `verifyIdToken(idToken, true)`.
+7. Architecture `accountId` derived only from verified Firebase UID.
+8. Exact operation-specific Career Mode Showdown application authorization.
+9. Only then execute the explicitly reviewed trusted operation under Stage 2H IAM.
+
+App Check is attestation only. It grants no account identity, application authorization, device authority, pairing authority, rivalry authority, session entitlement, gameplay authority or IAM authority.
+
+Stage 2H reviewed runtime permissions remain exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Do not broaden them silently. Optional App Check limited-use token consumption remains separately reviewed and outside the default Stage 2H role.
+
+Every application-client Firestore create/update/delete remains denied.
+Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service accounts, IAM bindings/custom roles, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned unless later current verified source explicitly proves otherwise.
+
+Production application milestone remains `v1.4.0`; package remains `1.4.0`; Installable Offline App runtime remains `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. This non-runtime authority closeout receives no semantic application version bump.
+
+## Storage, recovery, identity and private-product locks
+
+Canonical browser storage remains exactly:
+
+`careerModeShowdown.saveLibrary`
+`careerModeShowdown.legacyShowdowns`
+`careerModeShowdown.preferences`
+
+Do not restore `careerModeShowdown.activeShowdown` as a permanent fourth canonical key.
+Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive import Apply authority with exact raw snapshot, preconditions, transaction-owned mutation, ownership-scoped rollback, anti-clobber protection, exact verification, corrupt-byte preservation and retry/idempotence guarantees intact.
+
+Firebase Auth UID maps to architecture `accountId`. It remains distinct from `profileId`, `saveId`, `seasonId`, `deviceId`, `installationId`, `rivalryId`, `sessionId` and `inviteId`.
+Exactly two manager slots remain authoritative.
+Public discovery, public profiles, public matchmaking, public invitation directories, community systems, global leaderboards and public rankings remain eliminated.
+
+## Current authorized task
+
+This environment may complete only the objectively required post-PR #99 current-authority closeout. It may not implement a later Stage 2 prerequisite inside this closeout candidate.
+
+Required sequence:
+
+1. Keep this first section as concise current authority and preserve the retained historical body beneath `---`.
+2. Keep the fresh WEC identity and exact `startingMainSha` coherent with this section.
+3. Update only permanent current-authority contract assertions that still hard-code the completed pre-merge PR #98 / PR #99 checkpoint.
+4. Preserve every Stage 2F/2H/2I, Firestore, production-isolation, storage, recovery, identity, two-owner, gameplay and Stage 3-block assertion.
+5. Run one bounded diagnostic exact-head PR gate and correct only objective source/coherence defects without weakening contracts.
+6. Make the final transition-prepared WEC seal the last branch mutation, then require all 13 normal workflow families on that exact unchanged final head plus clean submitted reviews and inline review threads.
+7. Squash merge only with expected-head protection and independently verify the resulting live main.
+8. Close the continuity/history lane. Reassess WEC before the distinct Stage 2 prerequisite milestone; if a transition is required, the successor’s first engineering task must be Stage 2 dependency selection/advancement, not another continuity-only loop.
+
+Do not provision production cloud resources in this closeout. Do not begin Stage 3, Connected Rivalry or Remote Joining UX here. Do not weaken any test or protected security/recovery contract to obtain green CI.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish and publish exactly this one post-PR #99 authority closeout on `agent/post-pr99-remote-joining-restart`: update the stale current-authority contract, open one bounded PR, require the complete exact-head validation/review/merge gate, independently verify live main, and reassess WEC. After that clean boundary, the first allowed engineering milestone is to reconstruct the remaining Stage 2 dependency graph from current verified source and select exactly one smallest necessary unblocked prerequisite toward Stage 3 / Private Remote Joining. Do not open another history-only milestone unless an objectively failing gate forces it.
+
+---
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT SUCCESSOR AUTHORITY — POST-PR #98 CONTINUITY CHECKPOINT — 2026-08-19 ET
 
 Current verified source and live GitHub override every historical record below. This first section is the sole current implementation authorization boundary.
