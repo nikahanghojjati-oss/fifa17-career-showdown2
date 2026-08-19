@@ -6,7 +6,7 @@ Effective: 2026-08-19 ET
 
 Starting verified live-main boundary: `902058d56ec3f1b1fef4918f38568b54cf2dd7bb` after PR #100.
 
-This prerequisite is intentionally descriptive and is not assigned an invented `Stage 2J` label. Current source proves Stages 2A through 2I complete, but Stage 2 as a whole remains incomplete. The smallest remaining blocker before Stage 3 Registered Devices / Private Pairing is a trusted shared-mutation execution boundary that preserves the Phase 1D/1F revision, authorization and replay model while browser Firestore writes remain denied.
+This prerequisite is intentionally descriptive: there is no invented `Stage 2J` label. Current source proves Stages 2A through 2I complete, but Stage 2 as a whole remains incomplete. The smallest remaining blocker before Stage 3 Registered Devices / Private Pairing is a trusted shared-mutation execution boundary that preserves the Phase 1D/1F revision, authorization and replay model while browser Firestore writes remain denied.
 
 ## Why this prerequisite is required
 
