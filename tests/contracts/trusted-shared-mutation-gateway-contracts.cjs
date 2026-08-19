@@ -17,6 +17,7 @@ assert.equal(gateway.sharedMutationAuthorityGrantedOnlyPerOperation,true);
 assert.equal(gateway.providerTransactionMayRetry,true);
 assert.equal(gateway.clientBaseRevisionMayRefreshOnRetry,false);
 assert.equal(gateway.directBrowserMutationAuthorityGranted,false);
+assert.equal(gateway.sessionAuthorityRequiredOnlyWhenOperationPolicyRequiresIt,true);
 assert.deepEqual([...gateway.allowedOperations],["put","delete","restore"]);
 assert.deepEqual([...gateway.allowedObjectTypes],["sharedState"]);
 assert.ok(Object.isFrozen(gateway));
@@ -63,7 +64,9 @@ function authorization(overrides={}){
     deviceState:"active",
     rivalryState:"active",
     entitledAccountIds:["account_1","account_2"],
-    sessionAuthorized:true
+    operationAuthorized:true,
+    sessionRequired:false,
+    sessionAuthorized:false
   },overrides);
 }
 
@@ -155,7 +158,8 @@ function authorization(overrides={}){
     ["revoked device",authorization({deviceState:"revoked"}),"device-revoked"],
     ["former member",authorization({entitledAccountIds:["account_2"]}),"relationship-revoked"],
     ["revoked rivalry",authorization({rivalryState:"revoked-read-only"}),"relationship-revoked"],
-    ["missing session authority",authorization({sessionAuthorized:false}),"TRUSTED_SHARED_MUTATION_SESSION_FORBIDDEN"]
+    ["operation denied",authorization({operationAuthorized:false}),"TRUSTED_SHARED_MUTATION_OPERATION_UNAUTHORIZED"],
+    ["required session missing",authorization({sessionRequired:true,sessionAuthorized:false}),"TRUSTED_SHARED_MUTATION_SESSION_FORBIDDEN"]
   ]){
     const denied=await gateway.executeTrustedSharedMutation({
       accountId:"account_1",
@@ -165,6 +169,16 @@ function authorization(overrides={}){
     assert.equal(denied.ok,false,name);
     assert.equal(denied.code,expected,name);
   }
+
+  const sessionOptional=await gateway.executeTrustedSharedMutation({
+    accountId:"account_1",
+    request:baseRequest(),
+    runAtomicSharedMutation:async tx=>{
+      const decision=tx.decide({authorization:authorization({sessionRequired:false,sessionAuthorized:false}),authoritativeState:authority(),idempotencyRecord:null});
+      return {committed:true,decision};
+    }
+  });
+  assert.equal(sessionOptional.ok,true,"Connected Rivalry mutation may be authorized without a live Remote Joining session when operation policy does not require one");
 
   const stale=await gateway.executeTrustedSharedMutation({
     accountId:"account_1",
@@ -228,7 +242,7 @@ function authorization(overrides={}){
   });
   assert.equal(mismatchCommit.code,"TRUSTED_SHARED_MUTATION_COMMIT_MISMATCH");
 
-  process.stdout.write("PASS trusted shared mutation gateway: trusted-server-only CAS, immutable retry intent, replay/idempotency, current authorization, tombstones and no browser write authority are protected.\n");
+  process.stdout.write("PASS trusted shared mutation gateway: trusted-server-only CAS, immutable retry intent, replay/idempotency, operation-scoped current authorization, optional session gating, tombstones and no browser write authority are protected.\n");
 })().catch(error=>{
   console.error(error);
   process.exit(1);
