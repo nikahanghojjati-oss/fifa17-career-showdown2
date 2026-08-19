@@ -1,5 +1,58 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
+
+Current verified source and live GitHub override every retained predecessor body below.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING through PR #93.
+
+Exact validated final PR #93 head:
+`98f28f71fa6977502333535a9865ab446effde65`
+
+Squash merge / independently verified live-main boundary:
+`f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`
+
+All 13 normal pull-request workflow families succeeded on that exact unchanged head. Submitted reviews and inline review threads were empty.
+
+Current authorized prerequisite: Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
+
+Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Current reconciliation branch: `agent/post-stage2h-authority-reconcile`.
+Fresh environment: `we-2026-08-19-post-stage2h-authority-reconcile`.
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md`.
+
+Stage 2I is selected as the smallest remaining pre-provisioning security prerequisite after the completed Stage 2H trust-hosting/IAM boundary. It defines only the future application-attestation and initial trusted-endpoint abuse-resistance policy before a browser-reachable production Cloud Run service or production Firebase account surface exists.
+
+The selected future web App Check provider is Firebase App Check with reCAPTCHA Enterprise. The future protected custom-backend path must require a transient App Check token in `X-Firebase-AppCheck`, verify the exact expected production Firebase Web App/project identity, then separately require Stage 2F revocation-aware `verifyIdToken(idToken, true)`, derive `accountId` only from verified Firebase UID, evaluate current Career Mode Showdown application authorization and only then reach an explicitly reviewed trusted adapter under Stage 2H least-privilege IAM.
+
+App Check is never Firebase user authentication, Career Mode Showdown application authorization, device identity, rivalry/session authority or Google Cloud IAM. CORS/origin checks remain defense in depth only.
+
+The Stage 2H four-permission account-bootstrap runtime custom role remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Stage 2I does not silently add `firebaseappcheck.appCheckTokens.verify` or any broad App Check/Firebase administrator role. Beta App Check replay-token consumption is not a correctness dependency for the initial account-bootstrap path and would require its own later reviewed operation/IAM boundary if selected.
+
+Every application-client Firestore create/update/delete remains denied. App Check does not repair the Phase 1D / Phase 1F shared-state idempotency-receipt schema finding and does not authorize direct browser shared-state writes.
+
+This Stage 2I authorization boundary must not provision or activate production Firebase, a Firebase Web App, reCAPTCHA Enterprise key, App Check registration/enforcement, Cloud Run, service accounts, IAM/custom roles, billing, users, Firestore data, provider/Authorized Domains configuration or production Security Rules. It changes no production website runtime or version. Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
+
+The current successor WEC initially assessed `PREPARE_HANDOFF`. This environment is authorized only to publish the independently verified Stage 2H closure plus the Stage 2I authorization boundary, finish current-facing authority/history synchronization and pass the full exact-head publication gate. Stage 2I implementation is a distinct milestone and must not start in this environment if the final WEC reassessment requires transition.
+
+Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN. Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream and blocked. Public/community/discovery/matchmaking/ranking systems remain eliminated.
+
+The retained body below is historical/proven contract provenance and must not override this successor section.
+
+---
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
 
 Current verified source and live GitHub override every retained predecessor body below.
@@ -188,7 +241,7 @@ Status: CURRENT / IMPLEMENTATION-AUTHORIZED / ATOMIC-TRUSTED-EXECUTION / EMULATO
 
 Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md`.
 
-Stage 2G is selected because Stage 2F now authenticates a trusted caller but performs no Firestore operation, while Stage 2E defines the account bootstrap decision but its proof demonstrates the trusted read and trusted write separately. A future trusted server must not translate that into a read-then-unconditional-write race.
+Stage 2G is selected because Stage 2F now authenticates a trusted caller but performs no Firestore operation, while Stage 2E defines the account bootstrap decision but its proof demonstrates the trusted read and the trusted write separately. A future trusted server must not translate that into a read-then-unconditional-write race.
 
 Stage 2G therefore composes the proven Stage 2F revocation-aware principal with the Stage 2E planner through exactly one injected atomic account transaction adapter. It closes only the trusted account-bootstrap execution semantics and does not select a production server runtime or IAM identity.
 
