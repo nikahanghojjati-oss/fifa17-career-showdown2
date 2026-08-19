@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file, "utf8");
 const stage2a = read("PRIVATE_ACCOUNT_AUTH_STAGE_2A.md");
 const next = read("NEXT_TASK.md");
+const archivedNext = read("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -38,7 +39,7 @@ assert.match(phase1f, /231556d86a93535fa90e173577c1159de4f40be0/);
 assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? remains denied/i);
 assert.match(phase1f, /idempotencyKeyHash[\s\S]+sibling[\s\S]+idempotency receipt/i);
 
-assert.match(next, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i);
+assert.match(archivedNext, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i,"Archived authority must retain the historical Stage 2A authorization transition.");
 assert.match(next, /Authorized product candidate:[\s\S]{0,40}none/i);
 assert.match(state, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(state, /Private Account \/ Authentication Stage 2A/i);
