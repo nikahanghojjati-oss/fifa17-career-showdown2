@@ -11,6 +11,7 @@ Current environment: `we-2026-08-19-post-pr98-stage2-selection`.
 Starting independently verified live main: `cc51ab4187fd2f7d721817789982a0d0d1dc619c`.
 Current WEC decision: `HANDOFF_AT_CHECKPOINT`.
 Usage: unavailable and not estimated.
+Authorized product candidate: none.
 
 The former full historical `NEXT_TASK.md` body is preserved byte-for-byte in repository history at:
 
