@@ -11,18 +11,18 @@
     "accountId","authorizedAccountIds","entitlementState","revision","parentRevision","updatedByAccountId"
   ]);
 
-  function isRecord(value){
+  function gatewayIsRecord(value){
     return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
   }
 
-  function deepFreeze(value){
+  function gatewayDeepFreeze(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
     Object.freeze(value);
-    Object.values(value).forEach(deepFreeze);
+    Object.values(value).forEach(gatewayDeepFreeze);
     return value;
   }
 
-  function clone(value){
+  function gatewayClone(value){
     if(value===undefined)return undefined;
     return JSON.parse(JSON.stringify(value));
   }
@@ -31,18 +31,18 @@
     return typeof value==="string"&&value.trim().length>0?value.trim():null;
   }
 
-  function stableStringify(value){
+  function gatewayStableStringify(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
-    if(Array.isArray(value))return `[${value.map(stableStringify).join(",")}]`;
-    return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${stableStringify(value[key])}`).join(",")}}`;
+    if(Array.isArray(value))return `[${value.map(gatewayStableStringify).join(",")}]`;
+    return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${gatewayStableStringify(value[key])}`).join(",")}}`;
   }
 
   function reject(code,extra){
-    return deepFreeze(Object.assign({ok:false,action:"reject",code},extra||{}));
+    return gatewayDeepFreeze(Object.assign({ok:false,action:"reject",code},extra||{}));
   }
 
   function validateRequest(request){
-    if(!isRecord(request))return reject("TRUSTED_SHARED_MUTATION_INVALID_REQUEST");
+    if(!gatewayIsRecord(request))return reject("TRUSTED_SHARED_MUTATION_INVALID_REQUEST");
     for(const field of FORBIDDEN_CLIENT_AUTHORITY_FIELDS){
       if(Object.prototype.hasOwnProperty.call(request,field))return reject("TRUSTED_SHARED_MUTATION_CLIENT_AUTHORITY_FORBIDDEN",{field});
     }
@@ -60,7 +60,7 @@
     if((operation==="put"||operation==="restore")&&(!normalizeString(request.contentHash)||!Object.prototype.hasOwnProperty.call(request,"payload"))){
       return reject("TRUSTED_SHARED_MUTATION_PAYLOAD_REQUIRED");
     }
-    return deepFreeze({
+    return gatewayDeepFreeze({
       ok:true,
       operation,
       objectType,
@@ -71,12 +71,12 @@
       baseRevision:request.baseRevision,
       idempotencyKey,
       contentHash:normalizeString(request.contentHash),
-      payload:clone(request.payload)
+      payload:gatewayClone(request.payload)
     });
   }
 
   function createImmutableIntent(validated){
-    return deepFreeze({
+    return gatewayDeepFreeze({
       operation:validated.operation,
       objectType:validated.objectType,
       objectId:validated.objectId,
@@ -86,12 +86,12 @@
       baseRevision:validated.baseRevision,
       idempotencyKey:validated.idempotencyKey,
       contentHash:validated.contentHash,
-      payload:clone(validated.payload)
+      payload:gatewayClone(validated.payload)
     });
   }
 
   function requestFingerprint(accountId,intent){
-    return stableStringify({
+    return gatewayStableStringify({
       accountId,
       operation:intent.operation,
       objectType:intent.objectType,
@@ -106,7 +106,7 @@
   }
 
   function authorizationSnapshot(input){
-    if(!isRecord(input))return null;
+    if(!gatewayIsRecord(input))return null;
     const accountStatus=normalizeString(input.accountStatus);
     const deviceState=normalizeString(input.deviceState);
     const rivalryState=normalizeString(input.rivalryState);
@@ -115,7 +115,7 @@
     const sessionRequired=input.sessionRequired===true;
     const sessionAuthorized=input.sessionAuthorized===true;
     if(!accountStatus||!deviceState||!rivalryState)return null;
-    return deepFreeze({accountStatus,deviceState,rivalryState,entitledAccountIds,operationAuthorized,sessionRequired,sessionAuthorized});
+    return gatewayDeepFreeze({accountStatus,deviceState,rivalryState,entitledAccountIds,operationAuthorized,sessionRequired,sessionAuthorized});
   }
 
   function authorize(accountId,snapshot){
@@ -130,7 +130,7 @@
   }
 
   function validateAuthorityState(state,intent){
-    if(!isRecord(state))return reject("TRUSTED_SHARED_MUTATION_AUTHORITY_INVALID");
+    if(!gatewayIsRecord(state))return reject("TRUSTED_SHARED_MUTATION_AUTHORITY_INVALID");
     if(state.objectType!==intent.objectType||state.objectId!==intent.objectId||state.rivalryId!==intent.rivalryId){
       return reject("TRUSTED_SHARED_MUTATION_AUTHORITY_SCOPE_MISMATCH");
     }
@@ -139,7 +139,7 @@
       return reject("STALE_BASE_REVISION",{
         status:"conflict",
         submittedBaseRevision:intent.baseRevision,
-        authoritative:deepFreeze({
+        authoritative:gatewayDeepFreeze({
           objectType:state.objectType,
           objectId:state.objectId,
           revision:state.revision,
@@ -151,13 +151,13 @@
     if(state.lifecycleState==="tombstoned"&&intent.operation==="put")return reject("tombstone-restore-required");
     if(state.lifecycleState!=="tombstoned"&&intent.operation==="restore")return reject("restore-live-object");
     if(state.lifecycleState==="tombstoned"&&intent.operation==="delete")return reject("already-deleted");
-    return deepFreeze({ok:true});
+    return gatewayDeepFreeze({ok:true});
   }
 
   function buildMutationSpec(accountId,intent,state,fingerprint){
     const nextRevision=state.revision+1;
     const deleting=intent.operation==="delete";
-    return deepFreeze({
+    return gatewayDeepFreeze({
       accountId,
       operation:intent.operation,
       objectType:intent.objectType,
@@ -178,18 +178,18 @@
         priorContentHash:deleting?(normalizeString(state.contentHash)||normalizeString(state.priorContentHash)):null,
         updatedByAccountId:accountId,
         updatedByDeviceId:intent.deviceId,
-        data:deleting?null:clone(intent.payload),
+        data:deleting?null:gatewayClone(intent.payload),
         tombstone:deleting?{reasonCode:"authorized-delete"}:null
       }
     });
   }
 
   function replayResult(replay,intent,fingerprint){
-    if(!isRecord(replay))return null;
+    if(!gatewayIsRecord(replay))return null;
     if(replay.requestFingerprint!==fingerprint)return reject("idempotency-conflict");
     if(replay.baseRevision!==intent.baseRevision)return reject("idempotency-conflict");
     if(!Number.isInteger(replay.acceptedRevision)||replay.acceptedRevision<1)return reject("TRUSTED_SHARED_MUTATION_REPLAY_INVALID");
-    return deepFreeze({
+    return gatewayDeepFreeze({
       ok:true,
       action:"replayed",
       status:"replayed",
@@ -201,7 +201,7 @@
   }
 
   async function executeTrustedSharedMutation(input){
-    if(!isRecord(input))return reject("INVALID_TRUSTED_SHARED_MUTATION_INPUT");
+    if(!gatewayIsRecord(input))return reject("INVALID_TRUSTED_SHARED_MUTATION_INPUT");
     const accountId=normalizeString(input.accountId);
     if(!accountId)return reject("TRUSTED_SHARED_MUTATION_ACCOUNT_REQUIRED");
     const validated=validateRequest(input.request);
@@ -212,19 +212,19 @@
 
     let transactionResult;
     try{
-      transactionResult=await input.runAtomicSharedMutation(deepFreeze({
+      transactionResult=await input.runAtomicSharedMutation(gatewayDeepFreeze({
         accountId,
         intent,
         requestFingerprint:fingerprint,
         decide(context){
-          if(!isRecord(context))return reject("TRUSTED_SHARED_MUTATION_CONTEXT_INVALID");
+          if(!gatewayIsRecord(context))return reject("TRUSTED_SHARED_MUTATION_CONTEXT_INVALID");
           const authError=authorize(accountId,authorizationSnapshot(context.authorization));
           if(authError)return reject(authError);
           const replay=replayResult(context.idempotencyRecord,intent,fingerprint);
           if(replay)return replay;
           const authorityCheck=validateAuthorityState(context.authoritativeState,intent);
           if(!authorityCheck.ok)return authorityCheck;
-          return deepFreeze({
+          return gatewayDeepFreeze({
             ok:true,
             action:"commit",
             mutation:buildMutationSpec(accountId,intent,context.authoritativeState,fingerprint)
@@ -235,7 +235,7 @@
       return reject("TRUSTED_SHARED_MUTATION_TRANSACTION_FAILED");
     }
 
-    if(!isRecord(transactionResult)||!isRecord(transactionResult.decision)||typeof transactionResult.committed!=="boolean"){
+    if(!gatewayIsRecord(transactionResult)||!gatewayIsRecord(transactionResult.decision)||typeof transactionResult.committed!=="boolean"){
       return reject("TRUSTED_SHARED_MUTATION_TRANSACTION_RESULT_INVALID");
     }
     const decision=transactionResult.decision;
@@ -247,11 +247,11 @@
       if(transactionResult.committed)return reject("TRUSTED_SHARED_MUTATION_COMMIT_MISMATCH");
       return decision;
     }
-    if(decision.action!=="commit"||!isRecord(decision.mutation)||!transactionResult.committed){
+    if(decision.action!=="commit"||!gatewayIsRecord(decision.mutation)||!transactionResult.committed){
       return reject("TRUSTED_SHARED_MUTATION_COMMIT_MISMATCH");
     }
     const mutation=decision.mutation;
-    return deepFreeze({
+    return gatewayDeepFreeze({
       ok:true,
       action:"accepted",
       status:"accepted",
@@ -268,7 +268,7 @@
     });
   }
 
-  return deepFreeze({
+  return gatewayDeepFreeze({
     contractVersion:1,
     productionRuntimeConnected:false,
     productionProvisioningAuthorized:false,
