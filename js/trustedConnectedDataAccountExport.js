@@ -5,12 +5,12 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
 
-  const ALLOWED_CONNECTION_STATES=Object.freeze([
+  const CONNECTED_EXPORT_ALLOWED_CONNECTION_STATES=Object.freeze([
     "pending-pair","active","revoked-read-only","single-owner-retained","deletion-pending"
   ]);
-  const ALLOWED_ENTITLEMENT_STATES=Object.freeze(["active","retained","relinquished"]);
-  const ALLOWED_INVENTORY_FIELDS=Object.freeze(["profileLinks","devices","rivalries"]);
-  const EXCLUDED_OPERATIONAL_DATA=Object.freeze([
+  const CONNECTED_EXPORT_ALLOWED_ENTITLEMENT_STATES=Object.freeze(["active","retained","relinquished"]);
+  const CONNECTED_EXPORT_ALLOWED_INVENTORY_FIELDS=Object.freeze(["profileLinks","devices","rivalries"]);
+  const CONNECTED_EXPORT_EXCLUDED_OPERATIONAL_DATA=Object.freeze([
     "provider-authentication-secrets",
     "raw-device-secrets",
     "invite-capabilities",
@@ -92,13 +92,13 @@
     if(!Number.isInteger(governance.revision)||governance.revision<0)return false;
     if(governance.lifecycleState!=="live"||governance.tombstone!==null)return false;
     if(!isConnectedExportRecord(governance.data))return false;
-    if(!ALLOWED_CONNECTION_STATES.includes(governance.data.connectionState))return false;
+    if(!CONNECTED_EXPORT_ALLOWED_CONNECTION_STATES.includes(governance.data.connectionState))return false;
     if(!Array.isArray(governance.data.managerSlots)||governance.data.managerSlots.length!==2)return false;
     return governance.data.managerSlots.every(slot=>
       isConnectedExportRecord(slot)&&
       ["manager-1","manager-2"].includes(slot.slotId)&&
       isConnectedExportString(slot.profileId)&&
-      ALLOWED_ENTITLEMENT_STATES.includes(slot.entitlementState)&&
+      CONNECTED_EXPORT_ALLOWED_ENTITLEMENT_STATES.includes(slot.entitlementState)&&
       typeof slot.deletionConsent==="boolean"&&
       (slot.accountId===null||isConnectedExportString(slot.accountId))
     );
@@ -176,7 +176,7 @@
 
   function validateInventoryShape(inventory){
     if(!isConnectedExportRecord(inventory))return false;
-    if(!Object.keys(inventory).every(field=>ALLOWED_INVENTORY_FIELDS.includes(field)))return false;
+    if(!Object.keys(inventory).every(field=>CONNECTED_EXPORT_ALLOWED_INVENTORY_FIELDS.includes(field)))return false;
     return Array.isArray(inventory.profileLinks)&&Array.isArray(inventory.devices)&&Array.isArray(inventory.rivalries);
   }
 
@@ -244,7 +244,7 @@
       profileLinks,
       devices,
       rivalries,
-      excludedOperationalData:EXCLUDED_OPERATIONAL_DATA,
+      excludedOperationalData:CONNECTED_EXPORT_EXCLUDED_OPERATIONAL_DATA,
       mutationPerformed:false,
       ownershipTransferGranted:false,
       sharedMutationAuthorityGranted:false
@@ -267,7 +267,7 @@
     inviteCapabilitiesExported:false,
     ownershipTransferGranted:false,
     sharedMutationAuthorityGranted:false,
-    excludedOperationalData:EXCLUDED_OPERATIONAL_DATA,
+    excludedOperationalData:CONNECTED_EXPORT_EXCLUDED_OPERATIONAL_DATA,
     executeTrustedConnectedDataAccountExport
   });
 });
