@@ -79,7 +79,7 @@ Every application-client Firestore create/update/delete remains denied.
 
 Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service accounts, IAM bindings/custom roles, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned unless later current verified source explicitly proves otherwise.
 
-Production application/package remains `1.4.0` and runtime remains `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. This continuity-only checkpoint receives no semantic-version bump.
+Production application milestone remains `v1.4.0`; package remains `1.4.0` and runtime remains `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. This continuity-only checkpoint receives no semantic-version bump.
 
 ## Storage, recovery, identity and private-product locks
 
