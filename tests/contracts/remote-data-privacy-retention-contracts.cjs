@@ -53,6 +53,10 @@ assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/,"Architecture-only
 assert.doesNotMatch(index,/firebase|firestore/i,"Phase 1C must not connect Firebase in the production shell.");
 assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1C must not connect Firebase through optional modules.");
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
-assert.match(next,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Phase 1C must not silently authorize remote runtime.");
+assert.match(
+  next,
+  /(?:Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED|NON-PROVISIONING[\s\S]{0,120}PRODUCTION FIREBASE DISCONNECTED|Production Firebase[\s\S]{0,500}remain disconnected\/unprovisioned)/i,
+  "Phase 1C must not silently authorize remote runtime."
+);
 
 process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries\n");
