@@ -6,6 +6,9 @@ const implementation=fs.readFileSync("js/trustedAppAttestationRequest.js","utf8"
 const stage2h=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2H.md","utf8");
 const nextTask=fs.readFileSync("NEXT_TASK.md","utf8");
 const archivedNextTask=fs.readFileSync("authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md","utf8");
+const archivedPr100NextTask=fs.readFileSync("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md","utf8");
+const gatewayBoundary=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_TRUSTED_MUTATION_GATEWAY.md","utf8");
+const gatewayImplementation=fs.readFileSync("js/trustedMutationGateway.js","utf8");
 const projectState=fs.readFileSync("PROJECT_STATE.md","utf8");
 const handoff=fs.readFileSync("00_CURRENT_HANDOFF.md","utf8");
 const developerStart=fs.readFileSync("00_DEVELOPER_START_HERE.md","utf8");
@@ -39,7 +42,6 @@ assert.match(currentBoundary,/firebaseauth\.users\.get[\s\S]+datastore\.database
 assert.match(currentBoundary,/`firebaseappcheck\.appCheckTokens\.verify`[\s\S]+not part of the Stage 2H four-permission role/i);
 assert.match(currentBoundary,/Every application-client Firestore create\/update\/delete remains denied/i);
 assert.match(currentBoundary,/Production remains application\/package `1\.4\.0`[\s\S]+runtime `1\.4\.0-r1`/i);
-assert.match(currentBoundary,/This closure selects no new Stage 2 implementation prerequisite/i);
 assert.match(currentBoundary,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
 assert.match(currentBoundary,/global leaderboards and public rankings remain eliminated/i);
 
@@ -71,17 +73,21 @@ assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
 const currentNextTask=currentOverride(nextTask);
-assert.match(currentNextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/);
-assert.match(currentNextTask,/Status: ONE BOUNDED POST-PR #99 AUTHORITY CLOSEOUT \/ NON-RUNTIME \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ REMOTE JOINING PRIORITY ACTIVE/);
-assert.match(currentNextTask,/agent\/post-pr99-remote-joining-restart/);
+assert.match(currentNextTask,/CURRENT SUCCESSOR AUTHORITY — TRUSTED MUTATION GATEWAY PREREQUISITE/);
+assert.match(currentNextTask,/Status: CURRENT REMAINING STAGE 2 PREREQUISITE \/ TRUSTED MUTATION GATEWAY \/ DORMANT IMPLEMENTATION \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ REMOTE JOINING PRIORITY ACTIVE/);
+assert.match(currentNextTask,/agent\/stage2-remaining-dependency-reconstruction/);
+assert.match(currentNextTask,/PR #100[\s\S]+c098b435908aa04a803f09f90fac2730bf1a4542[\s\S]+902058d56ec3f1b1fef4918f38568b54cf2dd7bb/);
 assert.match(currentNextTask,/PR #99[\s\S]+fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3[\s\S]+0f61225b267e8334467a6d868d36c7ce58dd54a0/);
-assert.match(currentNextTask,/changed exactly five files/i);
-assert.match(currentNextTask,/All 13 normal pull-request workflow families succeeded/i);
-assert.match(currentNextTask,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(currentNextTask,/No later Stage 2 prerequisite is selected by this bounded post-PR #99 closeout/i);
+assert.match(currentNextTask,/Stages 2A through 2I — DONE \/ MERGED \/ PROVEN/);
+assert.match(currentNextTask,/Trusted Mutation Gateway Boundary/);
+assert.match(currentNextTask,/PRIVATE_ACCOUNT_AUTH_TRUSTED_MUTATION_GATEWAY\.md/);
+assert.match(currentNextTask,/js\/trustedMutationGateway\.js/);
+assert.match(currentNextTask,/tests\/contracts\/private-account-auth-trusted-mutation-gateway-contracts\.cjs/);
+assert.match(currentNextTask,/no invented `Stage 2J` label/i);
 assert.match(currentNextTask,/Fresh WEC decision: `CONTINUE`/);
-assert.match(currentNextTask,/continuity\/history lane closes with this bounded post-PR #99 authority repair/i);
+assert.match(currentNextTask,/continuity\/history-only lane is closed/i);
 assert.match(currentNextTask,/Do not create another history-only[\s\S]+milestone/i);
+assert.match(currentNextTask,/Stage 3 — Registered Devices \/ Private Pairing — remains BLOCKED/i);
 assert.match(currentNextTask,/Every application-client Firestore create\/update\/delete remains denied/i);
 assert.match(currentNextTask,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(currentNextTask,/Candidate A remains non-mutating export[\s\S]+Candidate B remains read-only analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
@@ -96,10 +102,23 @@ assert.equal(status.repository.startingMainSha,mainMatch[1],"Current WEC startin
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
 assert.doesNotMatch(status.continuity.currentTask,/Do not merge PR #97 in this predecessor environment/i);
+assert.match(status.continuity.currentTask,/trusted mutation gateway/i);
 
 assert.match(archivedNextTask,/CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT/);
 assert.match(archivedNextTask,/we-2026-08-19-post-pr96-stage2-selection/);
 assert.match(archivedNextTask,/e52968632d9938f17e7e1680c455437d23eb628b/);
+assert.match(archivedPr100NextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/);
+assert.match(archivedPr100NextTask,/agent\/post-pr99-remote-joining-restart/);
+assert.match(archivedPr100NextTask,/cc51ab4187fd2f7d721817789982a0d0d1dc619c|0f61225b267e8334467a6d868d36c7ce58dd54a0/);
+
+assert.match(gatewayBoundary,/Trusted Mutation Gateway Boundary/);
+assert.match(gatewayBoundary,/no invented `Stage 2J` label/i);
+assert.match(gatewayBoundary,/Every application-client Firestore create, update and delete remains denied/i);
+assert.match(gatewayBoundary,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
+assert.match(gatewayBoundary,/does not authorize any Stage 3 device, invite, pairing, rivalry, session or gameplay operation/i);
+assert.match(gatewayImplementation,/sharedMutationOperationAuthorized:false/);
+assert.match(gatewayImplementation,/stage3OperationAuthorized:false/);
+assert.match(gatewayImplementation,/browserFirestoreWrites:"deny-all"/);
 
 for(const [name,text] of [["PROJECT_STATE.md",projectState],["00_CURRENT_HANDOFF.md",handoff],["00_DEVELOPER_START_HERE.md",developerStart],["REMOTE_JOINING_EXECUTION_ROADMAP.md",roadmap],["POST_V1_ROADMAP_EXECUTION.md",postV1]]){
   const current=currentOverride(text);
@@ -111,7 +130,6 @@ for(const [name,text] of [["PROJECT_STATE.md",projectState],["00_CURRENT_HANDOFF
 assert.match(currentOverride(projectState),/Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/);
 assert.match(currentOverride(roadmap),/Stages 2A through 2I — DONE \/ MERGED \/ PROVEN/);
 assert.match(currentOverride(postV1),/Stages 2A–2I — DONE \/ MERGED \/ PROVEN/);
-assert.match(currentOverride(handoff),/No later Stage 2 implementation prerequisite is selected here/i);
 assert.match(currentOverride(developerStart),/Private Remote Joining remains prioritized long term \/ dependency gated \/ not yet implementation authorized/i);
 
 assert.match(history,/Closure addendum — `we-2026-08-19-post-stage2i-closure-reconcile`/);
@@ -122,12 +140,12 @@ assert.match(history,/PR #97 post-seal publication facts pending canonical histo
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
-assert.doesNotMatch(index,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
-assert.doesNotMatch(optional,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
-assert.doesNotMatch(worker,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+assert.doesNotMatch(index,/trustedAppAttestationRequest\.js|trustedMutationGateway\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+assert.doesNotMatch(optional,/trustedAppAttestationRequest\.js|trustedMutationGateway\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+assert.doesNotMatch(worker,/trustedAppAttestationRequest\.js|trustedMutationGateway\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
 assert.equal(pkg.version,"1.4.0");
-assert.equal(pkg.dependencies,undefined,"Post-PR #99 authority closeout must not add production dependencies.");
+assert.equal(pkg.dependencies,undefined,"Trusted Mutation Gateway prerequisite must not add production dependencies.");
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 
-process.stdout.write("PASS Stage 2I current-authority contracts without predecessor-specific WEC identity freezing\n");
+process.stdout.write("PASS Stage 2I completion remains protected while current authority advances to the trusted mutation gateway prerequisite\n");
