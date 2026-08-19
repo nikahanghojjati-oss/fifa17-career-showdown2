@@ -3,12 +3,17 @@
   "environment": "production",
   "projectId": "fifa17-career-showdown-prod",
   "firebaseWebConfig": {
-    "apiKey": "AIzaSyCujW5BY3TI36QmrUxmcv0mlZuYON7O65s",
     "authDomain": "fifa17-career-showdown-prod.firebaseapp.com",
     "projectId": "fifa17-career-showdown-prod",
     "storageBucket": "fifa17-career-showdown-prod.firebasestorage.app",
     "messagingSenderId": "409396353288",
     "appId": "1:409396353288:web:1d3a2a5d6921de6ccbb4bd"
+  },
+  "apiKeyManagement": {
+    "committed": false,
+    "source": "firebase-console-or-controlled-deployment-injection",
+    "classification": "public-project-configuration",
+    "providerRestrictionsVerified": false
   },
   "firestore": {
     "databaseId": "(default)",
