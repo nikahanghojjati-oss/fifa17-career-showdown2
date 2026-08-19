@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-stage2-production-activation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-19T20:12:00Z",
+  "recordedAt": "2026-08-19T20:34:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,10 +11,10 @@
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 6,
-    "toolRoutingErrors": 1,
+    "compactionCount": 2,
+    "majorPhasesCompleted": 2,
+    "largeEvidenceEvents": 11,
+    "toolRoutingErrors": 2,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
@@ -23,39 +23,44 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 70,
-    "unrecordedDecisions": 1,
+    "handoffCompleteness": 80,
+    "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Reconstruct only the genuine remaining Private Account/Auth Stage 2 production/account/operational blockers after merged PR #105 and PR #106, then advance the smallest safe production-activating prerequisite that directly reduces distance to Stage 3 Registered Devices / Private Pairing without inventing Stage 2J or weakening any trust, IAM, recovery, identity, privacy, storage or gameplay lock.",
-    "lastSafeCheckpoint": "Live main was independently reverified at 9f1546177ec84bc11c2c9ee6a631c69906df2206. PR #105 trusted shared mutation gateway is merged through 39aa6cb5bf039b18f51c3982875e8f31a8335766 and PR #106 owner progress reporting policy is merged through current main. Exact PR #106 head a0eaf3c7b94dedd473cfad9a22b1fbb59c218dca passed all 13 normal workflow families. The inherited transition-prepared predecessor WEC was read and validated as belonging to the predecessor environment. Source reconstruction confirms Stage 2H still names production provisioning/configuration, production operational verification, account lifecycle export/deletion execution, abuse/rate controls and provider outage/recovery as later Stage 2 requirements; the trusted shared-mutation gateway requirement is now complete.",
-    "nextSafeAction": "Finish dependency reconstruction against current Stage 2 source and current primary Firebase/Google Cloud provider documentation, select exactly one smallest genuine production-activating prerequisite, and implement its fail-closed repository engineering/proof on this same branch. Do not create a standalone continuity/history/authority PR.",
+    "currentTask": "Finish only the trusted account-deletion execution prerequisite already selected and implemented on agent/stage2-production-activation: open one bounded engineering PR, obtain the complete exact-head CI/review/thread/mergeability gate, publish with expected-head protection if green, independently verify live main, then generate the complete successor handoff and stop before selecting another Stage 2 prerequisite.",
+    "lastSafeCheckpoint": "Live main remains independently verified at 9f1546177ec84bc11c2c9ee6a631c69906df2206. The branch now contains the dormant trusted account-deletion execution module, a source-grounded deletion boundary, implementation and boundary contracts permanently registered in the repository suite, and current NEXT_TASK authority moved from the already-merged PR #105 gateway to this real account-lifecycle engineering candidate. The proof keeps browser Firestore writes denied, Stage 2H IAM unchanged, production provider resources disconnected, production 1.4.0 / 1.4.0-r1 unchanged, and requires deletion-pending-first cleanup, surviving-owner preservation, provider-delete ordering and retry-safe finalization.",
+    "nextSafeAction": "Open one bounded draft engineering PR from agent/stage2-production-activation against current main. Treat the PR head as diagnostic until the complete repository workflows run. Correct only objective failures without weakening the deletion, trust, IAM, recovery, privacy, two-owner or production-isolation locks. Once the implementation head is stable, seal WEC, require all normal workflow families on that exact unchanged head, recheck reviews/threads/mergeability/live main, merge only with expected-head protection, independently verify resulting live main, generate the successor handoff and stop.",
     "unfinishedWork": [
-      "Determine the exact first production activation dependency and whether it can be safely implemented with the currently available repository/GitHub tooling.",
-      "Recheck current provider requirements before authorizing any real production Firebase, App Check, Cloud Run, IAM or billing action.",
-      "Implement and permanently contract the selected smallest Stage 2 production/account/operational prerequisite.",
-      "Run the normal exact-head PR validation gate and publish only after clean review/thread/mergeability verification."
+      "Open the bounded trusted account-deletion execution PR against the unchanged verified main.",
+      "Run the complete PR workflow family gate and classify/correct any objective failure without weakening protected semantics.",
+      "Freeze one exact final head, recheck submitted reviews, inline threads, changed-file scope, mergeability and current live main.",
+      "Squash merge only with expected-head protection if every required exact-head gate is green, then independently verify live main.",
+      "Generate the complete successor handoff and stop before another Stage 2 prerequisite selection."
     ],
     "knownHazards": [
-      "Production Firebase, Firebase Web App, Google provider, Authorized Domains, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service accounts, IAM bindings/custom roles, billing, production users/data/provider configuration and production Security Rules are still disconnected or unprovisioned until separately proven otherwise.",
-      "Every application-client Firestore create/update/delete remains denied; future shared mutation must stay behind the trusted server gateway.",
-      "Preserve Stage 2I production-origin/App Check/exact Web App and project identity/revocation-aware Firebase ID-token/verified UID accountId/operation authorization/trusted operation order.",
-      "Stage 2H's exact four-permission account-bootstrap IAM role remains unchanged until exact additional provider methods justify a separately reviewed expansion.",
+      "WEC now recommends HANDOFF_AT_CHECKPOINT. This environment may finish only the already-bounded account-deletion implementation/publication checkpoint and must not begin another Stage 2 prerequisite afterward.",
+      "Production Firebase, Firebase Web App, Google provider, Authorized Domains, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service accounts, IAM bindings/custom roles, billing, production users/data/provider configuration and production Security Rules remain disconnected or unprovisioned.",
+      "Every application-client Firestore create/update/delete remains denied. Account deletion remains trusted-server-only dormant execution proof.",
+      "Preserve the Stage 2I production-origin/App Check/exact Web App and project identity/revocation-aware Firebase ID-token/verified UID accountId/operation authorization/trusted operation order before this adapter may ever execute in production.",
+      "Stage 2H's exact four-permission account-bootstrap IAM role remains unchanged. This candidate authorizes no production account-update/delete/provider-delete/list/query permission expansion.",
+      "Account deletion may never infer the other manager's deletion consent, ownership transfer or permission to destroy surviving-owner shared gameplay.",
+      "A provider deletion failure must leave the application account deletion-pending and retryable; an already absent provider principal still requires cleanup verification before final application-account removal.",
       "Do not infer production resource existence from dormant preflight fixtures or emulator proof.",
-      "Do not invent Stage 2J or create documentation/history-only milestones merely to preserve numbering or process aesthetics.",
-      "Connector-first GitHub access works. Local github.com DNS resolution failed once in this environment, so the route circuit breaker forbids repeated shell clone/bootstrap retries unless new evidence changes that route.",
-      "The public GitHub Pages fetch route returned a cache-miss error in the web tool; do not misclassify that tool failure as a production-site outage without independent evidence.",
+      "Do not invent Stage 2J or begin connected-data export, provider provisioning, abuse controls, outage recovery, Stage 3, Connected Rivalry or Remote Joining runtime inside this environment after the current checkpoint.",
+      "Connector-first GitHub access works. Local github.com DNS failed earlier and one encoded branch REST fetch was also rejected by the connector; both routing failures are recorded and dead routes must not be retried without new evidence.",
       "Canonical browser storage, Candidate A/B/C recovery authority, distinct identity namespaces, exactly-two-manager ownership and all gameplay scoring locks remain unchanged.",
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
-      "The inherited predecessor WEC was transition-prepared and belonged to we-2026-08-19-stage2-trusted-shared-mutation-gateway; its HANDOFF_AT_CHECKPOINT decision was not inherited by this successor.",
-      "Canonical WORK_ENVIRONMENT_HISTORY append was not rewritten through the connector because the large append-only file cannot be safely round-tripped from a truncated read. The predecessor final facts remain preserved in the owner-supplied successor handoff, live PR/commit evidence and this fresh status; anti-loop policy permits recovery-safe deferral rather than blocking engineering on unsafe history rewriting.",
-      "Current source contains no Stage 2J. PRIVATE_ACCOUNT_AUTH_TRUSTED_SHARED_MUTATION_GATEWAY.md explicitly requires post-publication reconstruction of remaining Stage 2 production/account/operational requirements.",
-      "Stage 2H explicitly lists production environment provisioning/configuration, production operational verification, account lifecycle export/deletion execution, abuse/rate controls and provider outage/recovery behavior as remaining later Stage 2 work. The gateway requirement from that list is now satisfied by PR #105.",
-      "PR #106 exact head a0eaf3c7b94dedd473cfad9a22b1fbb59c218dca has 13 completed/successful normal pull-request workflow runs.",
-      "Fresh deterministic WEC inputs are high context complexity, very-high project complexity, one observed compaction, one completed reconstruction phase, six dense evidence events, one tool-route failure, zero corrected/repeated/unresolved implementation failures, no distinct next milestone beyond the current bounded task, unknown usage, 70/100 handoff completeness, one decision still being recorded and no atomic operation. Applying the repository formula yields continuation risk below PREPARE_HANDOFF and therefore decision CONTINUE."
+      "The inherited predecessor HANDOFF_AT_CHECKPOINT belonged to a different environment and did not block this successor from initializing its own fresh WEC and receiving CONTINUE before implementation.",
+      "Canonical WORK_ENVIRONMENT_HISTORY append remains safely deferred because the connector cannot round-trip the large append-only file without truncation. The predecessor facts remain preserved in live PR/commit evidence and the owner-supplied successor handoff; anti-loop policy forbids turning this into a history-only blocker.",
+      "Stage 2 reconstruction selected trusted account-deletion execution by function from Stage 2H's genuine remaining account lifecycle export/deletion requirement after confirming PR #105 already completed the shared-mutation gateway requirement.",
+      "PRIVATE_ACCOUNT_AUTH_TRUSTED_ACCOUNT_DELETION_EXECUTION.md explicitly has no synthetic Stage 2J label and keeps production provisioning/IAM activation separately gated.",
+      "js/trustedAccountDeletionExecution.js is dormant and trusted-server-only. It accepts only verified UID identity plus explicit operation authorization, moves active accounts to deletion-pending at exactly the next revision, requires complete cleanup/survivor-preservation proof, deletes the provider principal only after cleanup, finalizes the application account last and supports interruption-safe retry.",
+      "Permanent implementation and boundary contracts are registered in tests/support/run-contract-suite.cjs. A local Node prototype of the implementation contract passed the happy path, unauthenticated/unauthorized/disabled rejection, completed replay, inconsistent state, incomplete cleanup, provider outage, provider-already-absent resume, unsafe survivor deletion and revision-mismatch cases before repository publication work began.",
+      "NEXT_TASK current authority now names the trusted account-deletion execution candidate; the former PR #105 gateway current body is retained below it as explicitly historical provenance rather than silently discarded.",
+      "Two observed compactions, two bounded phases and two tool-routing failures increase transition pressure. Current deterministic inputs are high context, very-high project complexity, compactionCount 2, majorPhasesCompleted 2, largeEvidenceEvents 11, toolRoutingErrors 2, no corrected/repeated/stale/unresolved implementation failures, no separate new milestone before finishing this checkpoint, unknown usage, handoff completeness 80, zero unrecorded decisions and no atomic operation. The repository formula yields context pressure 94/100, quality risk 12/100, next-task separation 20/100, handoff readiness 80/100, normalized continuation risk 49.375/100, transition cost 22.5/100 and transition advantage 26.875; decision HANDOFF_AT_CHECKPOINT."
     ]
   }
 }
