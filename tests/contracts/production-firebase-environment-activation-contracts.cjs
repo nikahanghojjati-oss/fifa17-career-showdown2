@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file,"utf8");
 const manifest = JSON.parse(read("firebase.production.environment.json"));
 const firebaseRc = JSON.parse(read(".firebaserc"));
+const preflight = require("../../js/firebaseProductionPreflight.js");
 
 assert.equal(manifest.schemaVersion,1);
 assert.equal(manifest.environment,"production");
@@ -45,9 +46,52 @@ for(const key of ["publicDiscovery","publicProfiles","publicMatchmaking","commun
   assert.equal(manifest.securityLocks[key],false,`${key} must remain disabled.`);
 }
 
+const compatibilityCandidate = {
+  environment: manifest.environment,
+  projectId: manifest.projectId,
+  firebaseWebConfig: manifest.firebaseWebConfig,
+  authorizedDomains: [preflight.productionHost],
+  auth: {
+    provider: "google",
+    providerClass: "GoogleAuthProvider",
+    flow: "popup",
+    userGestureRequired: true,
+    redirectAuthorized: false,
+    persistence: "browserSessionPersistence",
+    extraOAuthScopes: []
+  },
+  firestoreLocation: {
+    decisionRecorded: manifest.firestore.locationDecisionRecorded,
+    value: manifest.firestore.location
+  },
+  firestore: {
+    persistentOfflineCache: manifest.securityLocks.persistentFirestoreOfflineCache,
+    clientWrites: manifest.securityLocks.applicationClientFirestoreWrites,
+    trustedMutationGatewayAuthorized: manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser
+  },
+  security: {
+    webApiKeyClassification: manifest.securityLocks.webApiKeyClassification,
+    webApiKeyIsAuthorizationSecret: manifest.securityLocks.webApiKeyIsAuthorizationSecret
+  },
+  publicFeatures: {
+    discovery: manifest.securityLocks.publicDiscovery,
+    profiles: manifest.securityLocks.publicProfiles,
+    matchmaking: manifest.securityLocks.publicMatchmaking,
+    community: manifest.securityLocks.community,
+    rankings: manifest.securityLocks.rankings
+  }
+};
+assert.deepEqual(
+  preflight.validate(compatibilityCandidate),
+  {ok:true,errors:[]},
+  "The owner-supplied project/Web-App config and chosen nam7 location must be compatible with the locked Stage 2D production policy plan. This is metadata compatibility only, not provider-side activation proof."
+);
+assert.equal(manifest.activation.productionAuthorizedDomain,"not-verified-yet","A passing compatibility plan must never be mistaken for provider-side Authorized Domains proof.");
+assert.equal(manifest.activation.googleAuthProvider,"not-enabled-yet","A passing compatibility plan must never be mistaken for provider-side Google Auth proof.");
+
 const serialized = JSON.stringify(manifest);
 for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken","idToken","serviceAccountKey"]){
   assert.ok(!serialized.includes(forbidden),`Forbidden credential key ${forbidden} must not appear in production environment metadata.`);
 }
 
-process.stdout.write("PASS production Firebase environment activation metadata and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation metadata, Stage 2D compatibility, and safe alias boundary\n");
