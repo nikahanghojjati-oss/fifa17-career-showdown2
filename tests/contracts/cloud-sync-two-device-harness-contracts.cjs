@@ -6,7 +6,7 @@ const revisionSource=fs.readFileSync("js/cloudSyncRevisionModel.js","utf8");
 const transactionSource=fs.readFileSync("js/storageTransaction.js","utf8");
 const harnessSource=fs.readFileSync("js/cloudSyncTwoDeviceHarness.js","utf8");
 const phase1e=fs.readFileSync("CLOUD_SYNC_READINESS_PHASE_1E.md","utf8");
-const next=fs.readFileSync("NEXT_TASK.md","utf8");
+const archivedNext=fs.readFileSync("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
@@ -23,7 +23,7 @@ assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
-assert.match(next,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i);
+assert.match(archivedNext,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i,"Archived authority must retain the exact historical Phase 1D → Phase 1E → Phase 1F transition proof.");
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
