@@ -12,6 +12,7 @@ Starting independently verified live main: `cc51ab4187fd2f7d721817789982a0d0d1dc
 Current WEC decision: `HANDOFF_AT_CHECKPOINT`.
 Usage: unavailable and not estimated.
 Authorized product candidate: none.
+Work Environment Continuity (WEC): every fresh successor must validate inherited state, initialize its own environment identity and counters, record current live main, run its own assessment, and obey only its own decision before any implementation selection.
 
 The former full historical `NEXT_TASK.md` body is preserved byte-for-byte in repository history at:
 
