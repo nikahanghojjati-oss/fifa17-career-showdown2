@@ -16,15 +16,15 @@
     "datastore.entities.create"
   ]);
 
-  function isRecord(value){
+  function isTrustedMutationGatewayRecord(value){
     return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
   }
 
-  function deepFreeze(value,seen=new Set()){
+  function deepFreezeTrustedMutationGateway(value,seen=new Set()){
     if(!value||typeof value!=="object"||Object.isFrozen(value)||seen.has(value))return value;
     seen.add(value);
     Object.freeze(value);
-    Object.values(value).forEach(nested=>deepFreeze(nested,seen));
+    Object.values(value).forEach(nested=>deepFreezeTrustedMutationGateway(nested,seen));
     return value;
   }
 
@@ -33,7 +33,7 @@
   }
 
   function reject(code,status="invalid-request"){
-    return deepFreeze({ok:false,action:"reject",status,code});
+    return deepFreezeTrustedMutationGateway({ok:false,action:"reject",status,code});
   }
 
   function canonicalize(value,seen=new Set()){
@@ -78,7 +78,7 @@
   }
 
   function normalizeRequest(inputOperation,request){
-    if(!isRecord(request)||hasForbiddenTopLevelAuthority(request))return null;
+    if(!isTrustedMutationGatewayRecord(request)||hasForbiddenTopLevelAuthority(request))return null;
     const operation=normalizeString(request.operation);
     const objectType=normalizeString(request.objectType);
     const objectId=normalizeString(request.objectId);
@@ -99,7 +99,7 @@
       payload
     };
     if(canonicalize(immutableIntent)===null)return null;
-    return {idempotencyKey,immutableIntent:deepFreeze(immutableIntent)};
+    return {idempotencyKey,immutableIntent:deepFreezeTrustedMutationGateway(immutableIntent)};
   }
 
   async function trustedSha256(adapter,value){
@@ -111,14 +111,14 @@
   }
 
   function normalizeAuthority(authority,intent){
-    if(!isRecord(authority))return null;
+    if(!isTrustedMutationGatewayRecord(authority))return null;
     if(authority.objectType!==intent.objectType||authority.objectId!==intent.objectId)return null;
     if(!Number.isInteger(authority.revision)||authority.revision<0)return null;
     const lifecycleState=normalizeString(authority.lifecycleState);
     if(lifecycleState!=="live"&&lifecycleState!=="tombstoned")return null;
     const contentHash=authority.contentHash==null?null:normalizeString(authority.contentHash);
     if(authority.contentHash!=null&&!contentHash)return null;
-    return deepFreeze({
+    return deepFreezeTrustedMutationGateway({
       objectType:authority.objectType,
       objectId:authority.objectId,
       revision:authority.revision,
@@ -128,7 +128,7 @@
   }
 
   function normalizeReceipt(receipt){
-    if(!isRecord(receipt))return null;
+    if(!isTrustedMutationGatewayRecord(receipt))return null;
     const requestFingerprint=normalizeString(receipt.requestFingerprint);
     const actorAccountId=normalizeString(receipt.actorAccountId);
     const deviceId=normalizeString(receipt.deviceId);
@@ -139,7 +139,7 @@
     const resultContentHash=receipt.resultContentHash==null?null:normalizeString(receipt.resultContentHash);
     if(receipt.resultContentHash!=null&&!resultContentHash)return null;
     if(typeof receipt.resultTombstone!=="boolean")return null;
-    return deepFreeze({
+    return deepFreezeTrustedMutationGateway({
       requestFingerprint,
       baseRevision:receipt.baseRevision,
       acceptedRevision:receipt.acceptedRevision,
@@ -160,7 +160,7 @@
       ||normalized.deviceId!==intent.deviceId
       ||normalized.baseRevision!==intent.baseRevision
     ){
-      return deepFreeze({
+      return deepFreezeTrustedMutationGateway({
         ok:false,
         action:"no-commit",
         status:"idempotency-conflict",
@@ -168,7 +168,7 @@
         idempotencyKeyHash
       });
     }
-    return deepFreeze({
+    return deepFreezeTrustedMutationGateway({
       ok:true,
       action:"no-commit",
       status:"replayed",
@@ -183,7 +183,7 @@
   }
 
   function validatePlannedMutation(plan,intent,accountId){
-    if(!isRecord(plan)||!isRecord(plan.mutation))return null;
+    if(!isTrustedMutationGatewayRecord(plan)||!isTrustedMutationGatewayRecord(plan.mutation))return null;
     const mutation=plan.mutation;
     if(mutation.objectType!==intent.objectType||mutation.objectId!==intent.objectId)return null;
     if(mutation.revision!==intent.baseRevision+1||mutation.parentRevision!==intent.baseRevision)return null;
@@ -193,11 +193,11 @@
     if(mutation.lifecycleState==="tombstoned"&&contentHash!==null)return null;
     if(mutation.contentHash!=null&&!contentHash)return null;
     if(canonicalize(mutation)===null)return null;
-    return deepFreeze({mutation:deepFreeze(mutation),contentHash,tombstone:mutation.lifecycleState==="tombstoned"});
+    return deepFreezeTrustedMutationGateway({mutation:deepFreezeTrustedMutationGateway(mutation),contentHash,tombstone:mutation.lifecycleState==="tombstoned"});
   }
 
   function boundedConflict(intent,authority,idempotencyKeyHash){
-    return deepFreeze({
+    return deepFreezeTrustedMutationGateway({
       ok:false,
       action:"no-commit",
       status:"conflict",
@@ -219,7 +219,7 @@
   }
 
   async function executeTrustedMutation(input){
-    if(!isRecord(input))return reject("INVALID_TRUSTED_MUTATION_INPUT");
+    if(!isTrustedMutationGatewayRecord(input))return reject("INVALID_TRUSTED_MUTATION_INPUT");
     const accountId=normalizeString(input.accountId);
     const operation=normalizeString(input.operation);
     const authorizationScope=normalizeString(input.authorizationScope);
@@ -241,10 +241,10 @@
     if(typeof input.planMutation!=="function")return reject("TRUSTED_MUTATION_PLANNER_UNAVAILABLE");
 
     let lastDecision=null;
-    const actor=deepFreeze({accountId,providerPrincipal:input.providerPrincipal||null});
+    const actor=deepFreezeTrustedMutationGateway({accountId,providerPrincipal:input.providerPrincipal||null});
     let transactionResult;
     try{
-      transactionResult=await input.runAtomicMutation(deepFreeze({
+      transactionResult=await input.runAtomicMutation(deepFreezeTrustedMutationGateway({
         actor,
         operation,
         authorizationScope,
@@ -252,7 +252,7 @@
         idempotencyKeyHash,
         requestFingerprint,
         async decide(snapshot){
-          if(!isRecord(snapshot)){
+          if(!isTrustedMutationGatewayRecord(snapshot)){
             lastDecision=reject("TRUSTED_MUTATION_TRANSACTION_SNAPSHOT_INVALID");
             return lastDecision;
           }
@@ -270,7 +270,7 @@
 
           let authorization;
           try{
-            authorization=await input.authorizeCurrentMutation(deepFreeze({
+            authorization=await input.authorizeCurrentMutation(deepFreezeTrustedMutationGateway({
               actor,
               operation,
               authorizationScope,
@@ -279,11 +279,11 @@
               authorizationContext:snapshot.authorizationContext||null
             }));
           }catch(_error){
-            lastDecision=deepFreeze({ok:false,action:"no-commit",status:"forbidden",code:"TRUSTED_MUTATION_CURRENT_AUTHORIZATION_FAILED"});
+            lastDecision=deepFreezeTrustedMutationGateway({ok:false,action:"no-commit",status:"forbidden",code:"TRUSTED_MUTATION_CURRENT_AUTHORIZATION_FAILED"});
             return lastDecision;
           }
-          if(!isRecord(authorization)||authorization.authorized!==true){
-            lastDecision=deepFreeze({ok:false,action:"no-commit",status:"forbidden",code:"TRUSTED_MUTATION_CURRENT_AUTHORIZATION_DENIED"});
+          if(!isTrustedMutationGatewayRecord(authorization)||authorization.authorized!==true){
+            lastDecision=deepFreezeTrustedMutationGateway({ok:false,action:"no-commit",status:"forbidden",code:"TRUSTED_MUTATION_CURRENT_AUTHORIZATION_DENIED"});
             return lastDecision;
           }
 
@@ -294,7 +294,7 @@
 
           let planned;
           try{
-            planned=await input.planMutation(deepFreeze({
+            planned=await input.planMutation(deepFreezeTrustedMutationGateway({
               actor,
               operation,
               authorizationScope,
@@ -312,7 +312,7 @@
             return lastDecision;
           }
 
-          const receipt=deepFreeze({
+          const receipt=deepFreezeTrustedMutationGateway({
             requestFingerprint,
             baseRevision:intent.baseRevision,
             acceptedRevision:intent.baseRevision+1,
@@ -323,7 +323,7 @@
             deviceId:intent.deviceId,
             trustedMaterialization:{serverTimestampFields:["createdAt","expiresAt"]}
           });
-          const response=deepFreeze({
+          const response=deepFreezeTrustedMutationGateway({
             status:"accepted",
             objectType:intent.objectType,
             objectId:intent.objectId,
@@ -333,7 +333,7 @@
             tombstone:validatedPlan.tombstone,
             idempotencyKeyHash
           });
-          lastDecision=deepFreeze({
+          lastDecision=deepFreezeTrustedMutationGateway({
             ok:true,
             action:"commit",
             status:"accepted",
@@ -348,7 +348,7 @@
       return reject("TRUSTED_MUTATION_TRANSACTION_FAILED");
     }
 
-    if(!isRecord(transactionResult)||typeof transactionResult.committed!=="boolean"||!isRecord(transactionResult.decision)||!lastDecision){
+    if(!isTrustedMutationGatewayRecord(transactionResult)||typeof transactionResult.committed!=="boolean"||!isTrustedMutationGatewayRecord(transactionResult.decision)||!lastDecision){
       return reject("TRUSTED_MUTATION_TRANSACTION_RESULT_INVALID");
     }
     if(decisionFingerprint(transactionResult.decision)!==decisionFingerprint(lastDecision)){
@@ -362,7 +362,7 @@
     return lastDecision;
   }
 
-  return deepFreeze({
+  return deepFreezeTrustedMutationGateway({
     contractVersion:1,
     stage:GATEWAY_STAGE,
     productionRuntimeConnected:false,
