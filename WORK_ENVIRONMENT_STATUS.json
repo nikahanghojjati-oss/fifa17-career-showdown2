@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-production-firebase-project-activation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-19T23:06:00Z",
+  "recordedAt": "2026-08-19T23:08:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -12,8 +12,8 @@
     "contextComplexity": "high",
     "projectComplexity": "very-high",
     "compactionCount": 1,
-    "majorPhasesCompleted": 4,
-    "largeEvidenceEvents": 17,
+    "majorPhasesCompleted": 5,
+    "largeEvidenceEvents": 18,
     "toolRoutingErrors": 5,
     "correctedFailures": 4,
     "repeatedMistakes": 0,
@@ -23,16 +23,15 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 92,
+    "handoffCompleteness": 93,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Advance the real Stage 2 production Firebase environment activation lane after merged PR #110. Firestore provider existence is now proven. The owner then received a GitHub secret-scanning alert because the Firebase Web API key had been committed in firebase.production.environment.json. Harden committed configuration now by removing the provider-issued key from source metadata while preserving its correct Firebase classification as public project configuration, add a permanent no-Google-API-key-shaped-value contract, and require provider-side API restriction verification before the key is used by the future runtime. Then continue directly to real Google Authentication provider enablement and exact GitHub Pages Authorized Domain verification before production Security Rules/App Check/IAM activation and before any runtime Firebase connection.",
-    "lastSafeCheckpoint": "The independently verified predecessor publication boundary remains 423fbecdb3e0f663b5b12476c6637d1af48ee4ab after merged PR #108. PR #109 activated the real Firebase project boundary and merged to f1d9d52a17ef539217d79639d184000a3ee965e5. PR #110 then passed all 13 normal workflow families on exact head 8bb19e723ad0f852025d715cef0cc81b86a4ffe8 and squash-merged to live main 6a4a52ff427df7822f39aa5e431e010ddd4fbdbc, recording provider-verified existence of the real (default) nam7 Firestore database while keeping runtime disconnected and browser writes deny-all. The owner subsequently supplied a GitHub alert screenshot identifying the committed Firebase Web API key as a possible Google API key secret. Official Firebase documentation confirms Firebase-provisioned web API keys are public project identifiers rather than authorization secrets, but recommends appropriate API restrictions. Because the shipped runtime is still disconnected, the safest repository response is to remove the concrete key from committed metadata, keep only non-sensitive project/app identifiers, and require provider restriction verification before later controlled deployment injection.",
-    "nextSafeAction": "Finish the bounded API-key secret-scan hardening candidate with exact-head CI/review/thread/mergeability gates and merge only if clean. The owner should then verify the Browser key under Google Cloud Console > APIs & Services > Credentials has API restrictions limited to Firebase-required APIs; do not paste the key or any credentials into chat or repository again. Separately enable Google under Firebase Security > Authentication > Sign-in method and add/verify nikahanghojjati-oss.github.io under Authentication Authorized domains. Record provider proof from screenshots. After Auth/domain verification, deploy and verify the repository Firestore Security Rules to the real (default) database without authorizing any application-client create/update/delete path; then continue to App Check/reCAPTCHA Enterprise and trusted runtime IAM in the existing security order. Do not connect production runtime early.",
+    "currentTask": "Advance the real Stage 2 production Firebase environment activation lane after merged PR #111. The committed Firebase Web API key has been removed from source metadata and protected by a permanent no-Google-API-key-shaped-value assertion while retaining its correct public-project-configuration classification. The direct next provider work is to verify this project's Browser key API restrictions, enable the Google Authentication provider, and verify only the GitHub Pages production host nikahanghojjati-oss.github.io as the required Authorized Domain under the locked popup/browserSessionPersistence policy. Then deploy and verify production Firestore Security Rules, App Check/reCAPTCHA Enterprise and trusted runtime IAM before any runtime Firebase connection.",
+    "lastSafeCheckpoint": "The independently verified predecessor publication boundary remains 423fbecdb3e0f663b5b12476c6637d1af48ee4ab after merged PR #108. PR #109 activated the real Firebase project boundary; PR #110 provider-verified the real (default) nam7 Firestore database; PR #111 Harden Firebase Web API key repository handling then passed all 13 normal workflow families on exact head 99088621a1825a40634d7730aabe254af6db678a with no submitted reviews or review threads, remained mergeable, and squash-merged to live main a3c0027b8a6b3b5619a1a16d66d5369294c23bb9. Main now contains no concrete Firebase Web API key in firebase.production.environment.json; apiKeyManagement records committed=false and providerRestrictionsVerified=false. Runtime remains disconnected, browser Firestore writes remain deny-all, and app/runtime identity remains 1.4.0 / 1.4.0-r1.",
+    "nextSafeAction": "Owner/provider action is now required for the next real proof. First open Google Cloud Console for fifa17-career-showdown-prod > APIs & Services > Credentials > the Firebase Browser key and verify API restrictions are enabled for Firebase-required APIs; do not paste the key into chat or repository. Then in Firebase Console > Security > Authentication > Sign-in method enable Google and save. In Authentication > Settings > Authorized domains verify/add nikahanghojjati-oss.github.io and do not broaden localhost/redirect authority. Capture screenshots of the restriction summary, enabled Google provider, and Authorized domains list. Record only provider state, never credentials. After that proof, update the production manifest/contracts and continue to exact production Security Rules deployment and App Check/IAM in order.",
     "unfinishedWork": [
-      "Publish and merge the bounded Firebase Web API-key secret-scan hardening candidate after complete exact-head CI and clean review gates.",
       "Verify provider-side API restrictions for the Firebase-provisioned Browser key before any future runtime injection; the actual key value must remain absent from committed source while runtime is disconnected.",
       "Resolve the GitHub secret-scanning alert after provider restriction verification, classifying the Firebase Web API key according to Firebase's public-project-configuration model rather than rotating it reflexively.",
       "Enable and verify the Google Authentication provider in fifa17-career-showdown-prod under the locked GoogleAuthProvider popup/browserSessionPersistence policy.",
@@ -43,7 +42,7 @@
     ],
     "knownHazards": [
       "Firebase Web API keys are public project configuration, not authorization secrets, but must still be API-restricted and must never substitute for Security Rules, App Check, Firebase Auth or IAM.",
-      "Do not interpret removal of the API key from committed metadata as an attempt to hide a Firebase security boundary; the future web runtime will necessarily receive public Firebase config, but repository/deployment handling should avoid unnecessary secret-scanning noise and provider restrictions must be verified first.",
+      "The GitHub secret-scanning alert remains historical until explicitly resolved; rewriting repository history or reflexively rotating a correctly restricted Firebase Web key would add risk without improving authorization security.",
       "The screenshots prove Firestore database existence and access to the console Data/Rules interfaces; they do not prove the repository firestore.rules has been deployed to production. Keep productionSecurityRules pending until exact deployed rules are verified.",
       "The repository Firebase default alias must remain demo-career-mode-showdown-phase1f so unqualified Firebase CLI commands cannot silently target production; production remains an explicit alias.",
       "Every application-client Firestore create/update/delete remains denied. Do not weaken firestore.rules for convenience.",
@@ -58,14 +57,12 @@
     ],
     "evidenceNotes": [
       "Inherited predecessor we-2026-08-19-trusted-connected-data-account-export reached HANDOFF_AT_CHECKPOINT after PR #108; that decision is preserved only as inherited historical authority and is not this active successor environment's decision.",
-      "PR #110 exact final head 8bb19e723ad0f852025d715cef0cc81b86a4ffe8 passed all 13 normal workflow families, had no review comments or submitted reviews, remained mergeable, and squash-merged to live main 6a4a52ff427df7822f39aa5e431e010ddd4fbdbc.",
-      "Owner Firebase Console screenshots prove Cloud Firestore Database (default) exists and exposes Data and Rules interfaces; production rule equivalence remains separately unverified.",
-      "Owner GitHub email screenshot on 2026-08-19 ET reports a possible valid Google API Key detected in firebase.production.environment.json. The alert corresponds to the Firebase Web apiKey previously recorded from the Firebase-generated public config.",
-      "Official Firebase documentation reviewed 2026-08-19 states Firebase service API keys are public by design, authorization is enforced by Security Rules/IAM/App Check, new Firebase-provisioned API keys are automatically restricted to Firebase-related APIs by default, and API restrictions should still be reviewed. Provider-side restriction state for this specific key is not yet verified and therefore remains pending.",
-      "On branch agent/firebase-api-key-secret-scan-hardening the concrete Web API key has been removed from committed production metadata. apiKeyManagement now records committed=false, source=firebase-console-or-controlled-deployment-injection, classification=public-project-configuration and providerRestrictionsVerified=false. The existing production activation contract now fails if an AIza-shaped Google API key appears in the committed manifest while preserving Stage 2D compatibility through a non-secret synthetic injected value.",
-      "Initial PR #111 Stability/Static App contract failure was continuity-governance-only: the active WEC omitted the required explicit Inherited predecessor ... HANDOFF_AT_CHECKPOINT provenance sentence. This correction restores that inherited-history assertion without changing Firebase security semantics or runtime behavior.",
-      "No runtime Firebase SDK or application behavior changed, so app version 1.4.0 / runtime 1.4.0-r1 remains correct and browser Firestore writes remain deny-all.",
-      "Current observable WEC signals: high context complexity, very-high project complexity, one observed compaction, four completed work phases, seventeen large evidence events, five tool-routing errors, four corrected failures, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures, unknown usage, no atomic operation and 92/100 handoff completeness."
+      "PR #110 exact final head 8bb19e723ad0f852025d715cef0cc81b86a4ffe8 passed all 13 normal workflow families and squash-merged to 6a4a52ff427df7822f39aa5e431e010ddd4fbdbc, proving the real (default) Firestore database exists.",
+      "PR #111 exact final head 99088621a1825a40634d7730aabe254af6db678a passed all 13 normal workflow families after continuity-provenance correction, had no submitted reviews or review threads, was mergeable, and squash-merged to live main a3c0027b8a6b3b5619a1a16d66d5369294c23bb9.",
+      "PR #111 removed the concrete Firebase Web API key from committed production metadata, added apiKeyManagement with committed=false and providerRestrictionsVerified=false, and made production activation contracts fail if an AIza-shaped Google API key appears in the committed manifest. No runtime behavior changed.",
+      "Official Firebase documentation reviewed 2026-08-19 states Firebase service API keys are public by design, authorization is enforced by Security Rules/IAM/App Check, and new Firebase-provisioned API keys are automatically restricted to Firebase-related APIs by default; this project's exact provider restriction state is still intentionally unverified until console proof.",
+      "Fresh branch agent/production-google-auth-activation was created from exact live main a3c0027b8a6b3b5619a1a16d66d5369294c23bb9 to carry the real Google Auth/Authorized Domain provider proof when the owner completes the required console actions; no PR should be opened for a WEC-only checkpoint.",
+      "Current observable WEC signals: high context complexity, very-high project complexity, one observed compaction, five completed work phases, eighteen large evidence events, five tool-routing errors, four corrected failures, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures, unknown usage, no atomic operation and 93/100 handoff completeness."
     ]
   }
 }
