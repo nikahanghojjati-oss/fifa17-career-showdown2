@@ -5,6 +5,7 @@ const read = file => fs.readFileSync(file, "utf8");
 const stage2c = read("PRIVATE_ACCOUNT_AUTH_STAGE_2C.md");
 const stage2b = read("PRIVATE_ACCOUNT_AUTH_STAGE_2B.md");
 const next = read("NEXT_TASK.md");
+const archivedNext = read("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -46,7 +47,6 @@ assert.match(stage2b, /d6786d9d3f65a329aaf3607c3eb3d3d357983c5f/);
 assert.match(stage2b, /c4feadb69fb5e26eba19fa520afa0a09baf1de03/);
 
 for (const [name, text] of [
-  ["NEXT_TASK.md", next],
   ["PROJECT_STATE.md", state],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
   ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
@@ -60,16 +60,22 @@ for (const [name, text] of [
   assert.match(text, /production Firebase[\s\S]{0,260}(disconnected|NOT CONNECTED)/i, `${name} must keep production Firebase disconnected.`);
 }
 
-assert.match(next, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
-assert.match(next, /15cfa82d9aa74db1275968ed3bc1e42669ab23ec/);
-assert.match(next, /1794f1f86968781b898d000360d1fb56234fb92f/);
-assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
-assert.match(next, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
+assert.match(archivedNext, /Stage 2B[\s\S]{0,320}DONE \/ MERGED \/ PROVEN/i,"Archived authority must retain Stage 2B completion provenance.");
+assert.match(archivedNext, /Stage 2C[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i,"Archived authority must retain Stage 2C completion provenance.");
+assert.match(archivedNext, /48aa61a8d1b26f2c621cf7f0b410c68e0418257a/i,"Archived authority must retain the exact validated Stage 2C head.");
+assert.match(archivedNext, /22566e1409cf53d728b38d0b5a19de478ae6761b/i,"Archived authority must retain the Stage 2C squash-merge boundary.");
+assert.match(archivedNext, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
+assert.match(archivedNext, /15cfa82d9aa74db1275968ed3bc1e42669ab23ec/);
+assert.match(archivedNext, /1794f1f86968781b898d000360d1fb56234fb92f/);
+assert.match(archivedNext, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
+assert.match(archivedNext, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
+assert.match(archivedNext, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
+assert.match(next, /Stages 2A through 2I[\s\S]{0,120}DONE \/ MERGED \/ PROVEN/i,"Current NEXT_TASK must keep completed Stage 2A-2I status live.");
 assert.match(next, /Authorized product candidate:\s*none/i);
-assert.match(next, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
+assert.match(next, /production Firebase[\s\S]{0,400}(disconnected|DISCONNECTED|unprovisioned)/i,"Current NEXT_TASK must keep production Firebase disconnected.");
+assert.match(next, /Trusted Mutation Gateway Boundary/i,"Current NEXT_TASK must identify the live remaining Stage 2 prerequisite.");
 
 for (const [name, text] of [
-  ["NEXT_TASK.md", next],
   ["PROJECT_STATE.md", state],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
   ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
@@ -79,8 +85,12 @@ for (const [name, text] of [
   assert.match(text, /PR #87[\s\S]{0,900}(DONE \/ MERGED \/ PROVEN|complete|completed)/i, `${name} must keep PR #87 closed.`);
   assert.match(text, /2415c156161b6244c75e49917bad28efed957adf/i, `${name} must retain PR #87 exact validated head.`);
   assert.match(text, /0accb827fa91f86fdd28e63590bd4843267546ae/i, `${name} must retain PR #87 squash-merge boundary.`);
-  assert.match(text, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i, `${name} must identify Stage 2D as current.`);
+  assert.match(text, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i, `${name} must retain the historical Stage 2D transition.`);
 }
+assert.match(archivedNext, /PR #87[\s\S]{0,900}(DONE \/ MERGED \/ PROVEN|complete|completed)/i,"Archived authority must keep PR #87 closed.");
+assert.match(archivedNext, /2415c156161b6244c75e49917bad28efed957adf/i);
+assert.match(archivedNext, /0accb827fa91f86fdd28e63590bd4843267546ae/i);
+assert.match(archivedNext, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i,"Archived authority must retain historical Stage 2D current status.");
 
 assert.match(state, /Stage 2C — completed/i);
 assert.match(state, /Current authorization boundary[\s\S]+No product candidate is currently authorized/i);
@@ -112,4 +122,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C completed policy remains protected while Stage 2D preflight is current\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy remains protected with archived Stage 2D transition provenance while current gateway authority stays live\n");
