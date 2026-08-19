@@ -79,7 +79,7 @@ assert.match(currentNextTask,/we-2026-08-19-stage2-production-activation/);
 assert.match(currentNextTask,/9f1546177ec84bc11c2c9ee6a631c69906df2206/);
 assert.match(currentNextTask,/PR #105[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(currentNextTask,/PR #106[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(currentNextTask,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/);
+assert.match(currentNextTask,/Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/);
 assert.match(currentNextTask,/PRIVATE_ACCOUNT_AUTH_TRUSTED_ACCOUNT_DELETION_EXECUTION\.md/);
 assert.match(currentNextTask,/js\/trustedAccountDeletionExecution\.js/);
 assert.match(currentNextTask,/intentionally has no synthetic `Stage 2J` label/i);
