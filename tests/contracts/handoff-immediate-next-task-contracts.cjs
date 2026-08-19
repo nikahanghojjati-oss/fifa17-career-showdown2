@@ -7,7 +7,6 @@ const start = read("00_DEVELOPER_START_HERE.md");
 const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
-const historicalNext = read("authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 
 assert.match(
@@ -76,76 +75,71 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Current implementation authority stays concise; the exact former NEXT_TASK blob retains sealed product-history proof.
+// Phase C first slice closed + visible v1.4.0 seal: multi-Save + Phase A + Phase B + Phase C production-proven; no product candidate authorized.
 assert.match(
   next,
   /Authorized product candidate:[\s\S]{0,40}none/i,
-  "Current NEXT_TASK must explicitly authorize no product candidate at this handoff-bound continuity checkpoint."
+  "NEXT_TASK must hold clean stop with no authorized product candidate after the v1.4.0 seal."
 );
 assert.match(
-  historicalNext,
+  next,
   /Phase C first slice[\s\S]{0,160}(PR #73|production-proven|closed)/i,
-  "Archived NEXT_TASK history must preserve Phase C first slice (PR #73) as closed / production-proven."
+  "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven."
 );
 assert.match(
-  historicalNext,
+  next,
   /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i,
-  "Archived NEXT_TASK history must preserve Phase B first slice (PR #70) as closed / production-proven."
+  "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven."
 );
 assert.match(
-  historicalNext,
+  next,
   /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i,
-  "Archived NEXT_TASK history must preserve the live main feature-merge SHA for PR #70."
+  "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice)."
 );
 assert.match(
-  historicalNext,
+  next,
   /dec1d3ba8182c3f62019974dd1704c7c9124def6/i,
-  "Archived NEXT_TASK history must preserve the Phase C first-slice (PR #73) production merge."
+  "NEXT_TASK must record the Phase C first-slice (PR #73) production merge."
 );
 assert.match(
-  historicalNext,
+  next,
   /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i,
-  "Archived NEXT_TASK history must preserve formatVersion 2 multi-Save portability (PR #67)."
+  "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as a closed production milestone."
 );
 assert.match(
-  historicalNext,
+  next,
   /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i,
-  "Archived NEXT_TASK history must preserve Local Profile display-label, Identity-Safe Analytics, and multi-Save portability proof."
+  "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save portability as production-proven."
 );
 assert.match(
-  historicalNext,
+  next,
   /stop and wait for a further explicit owner instruction|hold clean stop until a later explicit owner instruction/i,
-  "Archived NEXT_TASK history must retain the historical clean-stop instruction that governed the v1.4.0 seal."
+  "NEXT_TASK stop condition must require further owner instruction."
 );
 assert.match(
   next,
   /v1\.4\.0/i,
-  "Current NEXT_TASK must identify visible application version v1.4.0."
+  "NEXT_TASK must identify visible application version v1.4.0."
 );
 assert.match(
   next,
   /1\.4\.0-r1/i,
-  "Current NEXT_TASK must identify runtime 1.4.0-r1."
+  "NEXT_TASK must identify runtime 1.4.0-r1."
 );
 assert.match(
-  historicalNext,
+  next,
   /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i,
-  "Archived NEXT_TASK history must retain the exact historical public-community elimination lock."
+  "NEXT_TASK must retain the permanent ELIMINATED public community / global leaderboard lock."
 );
 assert.match(
   next,
-  /Public discovery[\s\S]+public profiles[\s\S]+public matchmaking[\s\S]+public invitation directories[\s\S]+community systems[\s\S]+global leaderboards[\s\S]+public rankings remain eliminated/i,
-  "Current NEXT_TASK must retain the private-product exclusion boundary."
+  /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,
+  "NEXT_TASK must preserve Private Remote Joining as a prioritized long-term destination with strict prerequisite gates and no current runtime authorization."
 );
 assert.match(
   next,
-  /Private Remote Joining[\s\S]+prioritized long-term[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,
-  "Current NEXT_TASK must preserve Private Remote Joining as a prioritized long-term destination with strict prerequisite gates and no current runtime authorization."
-);
-assert.match(
-  next,
-  /Cloud \/ Sync Readiness[\s\S]+Private Account \/ Authentication \/ Authorization[\s\S]+Registered Devices \/ Private Pairing[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i,
-  "Current NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
+  /Cloud \/ synchronization readiness[\s\S]+private account \/ authentication \/ authorization[\s\S]+paired-device \/ private-session[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i,
+  "NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
 );
 assert.match(
   remotePriority,
@@ -169,4 +163,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: current implementation authority is concise and handoff-bound, exact prior NEXT_TASK history preserves sealed product proof, visible v1.4.0/1.4.0-r1 remains explicit, and Private Remote Joining stays prioritized but dependency-gated with no product candidate authorized.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, Phase B first slice (PR #70), and Phase C first slice (PR #73) closed; visible v1.4.0 seal; Remote Joining prioritized but dependency-gated; no product candidate authorized.");

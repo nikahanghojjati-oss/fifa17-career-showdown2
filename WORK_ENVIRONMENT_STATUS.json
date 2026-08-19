@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-post-pr98-stage2-selection",
   "lifecycle": "active",
-  "recordedAt": "2026-08-19T17:47:30Z",
+  "recordedAt": "2026-08-19T18:01:30Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,11 +11,11 @@
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 0,
+    "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 18,
+    "largeEvidenceEvents": 20,
     "toolRoutingErrors": 4,
-    "correctedFailures": 4,
+    "correctedFailures": 5,
     "repeatedMistakes": 1,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -23,16 +23,16 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 96,
+    "handoffCompleteness": 97,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish only the post-PR #98 successor continuity-coherence checkpoint and publication. The fresh WEC is HANDOFF_AT_CHECKPOINT. Do not select or implement another Stage 2 prerequisite and do not begin Stage 3, Connected Rivalry or Private Remote Joining in this environment.",
-    "lastSafeCheckpoint": "The fourth diagnostic candidate at PR #99 head 0359c9c3b2b8e87cc3b0d421559871a514f1fec7 passed the previously corrected stability and handoff-immediate-next-task assertions, then failed only at work-environment-continuity-contracts.cjs line 74 because live NEXT_TASK.md did not contain the literal Work Environment Continuity routing phrase required for every future environment. Full continuity-contract inspection confirmed that this is the only NEXT_TASK-specific assertion in that contract. The source authority now explicitly routes every fresh successor into Work Environment Continuity without weakening the permanent contract.",
-    "nextSafeAction": "Require all 13 normal workflow families to complete successfully on this corrected diagnostic candidate. If green, verify exact changed files, archive blob identity, reviews, inline threads, mergeability and runtime isolation. Then prepare the final transition record, make the final transition-prepared WEC seal the last branch mutation, run the complete exact-head gate again and publish PR #99 only if that immutable head remains clean.",
+    "currentTask": "Finish only the post-PR #98 successor continuity-coherence checkpoint and publication. WEC is HANDOFF_AT_CHECKPOINT. Do not select or implement another Stage 2 prerequisite and do not begin Stage 3, Connected Rivalry or Private Remote Joining in this environment.",
+    "lastSafeCheckpoint": "A real continuity compaction is now observable and is recorded rather than hidden. Diagnostic head 06d55d6fe26970683825aa44b066972d3d1b1f66 restored explicit Work Environment Continuity routing and advanced the complete contract suite to cloud-foundation-contracts.cjs. That failure proved the concise replacement NEXT_TASK had removed historical milestone phrases that several permanent provenance contracts still intentionally scan from the full file. Instead of migrating a broad family of historical contracts during this bounded continuity repair, the successor selected a safer compatibility structure: a fresh post-PR #98 current authority first section, followed by the exact former NEXT_TASK body after the repository's established `---` historical boundary. Current-aware contracts continue to read only the first section; legacy provenance contracts retain their sealed evidence. The exact former body also remains independently archived at blob 2c5a16d191bf470f5463aaf7f71dcdb876d49837. The temporary handoff-immediate-next-task contract migration is reverted to its original main blob because inline historical provenance is restored.",
+    "nextSafeAction": "Run all 13 normal workflow families on this compatibility-preserving diagnostic candidate. If green, verify exact changed-file scope, current first-section authority, exact archive blob, reviews, inline threads, mergeability and runtime isolation. Then create one final transition-prepared WEC seal as the last branch mutation, run the complete exact-head gate again, publish PR #99 only if that immutable head stays clean, independently verify merged main, generate the complete successor handoff and stop.",
     "unfinishedWork": [
-      "Obtain a fully green 13-family diagnostic gate after explicit Work Environment Continuity routing was restored to live NEXT_TASK authority.",
+      "Obtain a fully green 13-family diagnostic gate for the current-first plus retained-history NEXT_TASK compatibility structure.",
       "Verify exact archive blob identity, changed-file scope, reviews, inline threads, mergeability and absence of runtime/version/cloud authority changes.",
       "Make the final transition-prepared WEC seal the last branch mutation and require the complete exact-head gate again.",
       "Publish PR #99 only after clean exact-head evidence, independently verify merged live main, then generate the complete successor handoff before any Stage 2 prerequisite selection."
@@ -40,23 +40,24 @@
     "knownHazards": [
       "WEC decision is HANDOFF_AT_CHECKPOINT. No later Stage 2 prerequisite may begin in this environment.",
       "The predecessor-specific WEC identity assertions were intentionally replaced with current-authority coherence checks; do not reintroduce fixed environment IDs or startingMainSha values into permanent successor-continuity tests.",
-      "The live NEXT_TASK is concise current authority while its former full body is exact archived history; permanent tests must distinguish current authorization from archived provenance rather than force historical bodies back into current authority.",
+      "NEXT_TASK now intentionally keeps fresh current authority first and sealed historical provenance after `---`; legacy provenance text below that boundary must never be interpreted as current implementation authorization.",
       "Do not weaken Stage 2F revocation-aware verification, Stage 2H exact four-permission IAM, Stage 2I App Check trust order, browser Firestore write denial, production isolation, Candidate A/B/C, identity locks, two-owner governance or Remote Joining security boundaries.",
       "Local shell GitHub DNS and direct file-transfer routes are unavailable or unreliable. The route circuit breaker remains active; use supported connected GitHub routes only.",
       "WORK_ENVIRONMENT_HISTORY.md is append-only; predecessor facts recovered through PR #98 are already canonical and must not be duplicated or rewritten.",
-      "The former full NEXT_TASK.md is preserved byte-for-byte at authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md with blob SHA 2c5a16d191bf470f5463aaf7f71dcdb876d49837.",
+      "The exact former NEXT_TASK.md is preserved independently at authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md with blob SHA 2c5a16d191bf470f5463aaf7f71dcdb876d49837.",
       "Production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/users/data/provider configuration remains disconnected/unprovisioned; browser Firestore mutation remains denied.",
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
       "Verified live main is cc51ab4187fd2f7d721817789982a0d0d1dc619c and PR #98 merged exact head is 0cf279f6abe1aeca0d6d46e0bdd4d8b325861064 with 29 additions and 0 deletions in canonical history.",
       "Fresh successor initialization and first assessment were recorded before continuity implementation. The predecessor decision and counters were not inherited.",
-      "PR #99 scope now comprises current NEXT_TASK authority, current WEC status, one exact historical NEXT_TASK archive, two predecessor-identity continuity contracts and the handoff-immediate-next-task contract that distinguishes current authority from archived sealed provenance.",
-      "Archive verification proved authority-history/NEXT_TASK_PRE_PR98_TRANSITION_FULL.md has the exact former NEXT_TASK blob SHA 2c5a16d191bf470f5463aaf7f71dcdb876d49837.",
-      "Diagnostic be82b4900b6b8ee24e936cd7933a6d42a0c6a69d exposed missing v1.4.0; diagnostic 2fd2b43c0cf4a103a046a39acadfe10f20ec48f4 exposed missing Installable Offline App; diagnostic 43c6570ec5c4e6c9308cd67be9abe1ed59b5cf36 exposed stale live-history coupling; diagnostic 0359c9c3b2b8e87cc3b0d421559871a514f1fec7 exposed missing Work Environment Continuity routing. Each finding was corrected in source or authority separation without weakening the protected behavior contracts.",
-      "Full work-environment-continuity-contracts.cjs inspection confirms the sole NEXT_TASK-specific requirement there is the Work Environment Continuity routing phrase; it is now present in live authority.",
-      "Current observable signals: high context, very-high project complexity, zero compactions, two completed phases, eighteen dense evidence events, four recoverable routing errors, four corrected source/coherence failures, one repeated transfer-route mistake, zero stale-fact corrections, zero unresolved failures, unknown usage and no atomic operation.",
-      "Current deterministic assessment: context pressure 74/100, quality risk 58/100, next-task separation 20/100, handoff readiness 96/100, continuation risk 57.9/100, transition cost 15.3/100, transition advantage 42.6; decision HANDOFF_AT_CHECKPOINT."
+      "The former full NEXT_TASK archive has exact blob SHA 2c5a16d191bf470f5463aaf7f71dcdb876d49837; GitHub fetch_blob returned its complete content before the compatibility reconstruction.",
+      "Diagnostic be82b4900b6b8ee24e936cd7933a6d42a0c6a69d exposed missing v1.4.0; 2fd2b43c0cf4a103a046a39acadfe10f20ec48f4 exposed missing Installable Offline App; 43c6570ec5c4e6c9308cd67be9abe1ed59b5cf36 exposed live-history coupling; 0359c9c3b2b8e87cc3b0d421559871a514f1fec7 exposed missing Work Environment Continuity routing; 06d55d6fe26970683825aa44b066972d3d1b1f66 exposed the broader legacy provenance dependency in cloud-foundation-contracts.cjs.",
+      "The broad legacy-provenance finding is corrected structurally rather than by weakening each old contract: current authority is the first section, the former exact body remains below `---`, and the separately archived exact blob remains available for future deliberate migration.",
+      "Current scope keeps only the two necessary successor-identity continuity contract changes; the temporary handoff-immediate-next-task contract migration is reverted to its main-branch blob.",
+      "A real continuity compaction occurred after the first compatibility tree was prepared; that uncommitted tree was discarded and this state records compactionCount 1 before branch mutation.",
+      "Current observable signals: high context, very-high project complexity, one compaction, two completed phases, twenty dense evidence events, four recoverable routing errors, five corrected source/coherence findings, one repeated transfer-route mistake, zero stale-fact corrections, zero unresolved failures, unknown usage and no atomic operation.",
+      "Current deterministic assessment from repository formula: context pressure 86/100, quality risk 62/100, next-task separation 20/100, handoff readiness 97/100, continuation risk 64.6/100, transition cost 14.9/100, transition advantage 49.8; decision HANDOFF_AT_CHECKPOINT."
     ]
   }
 }
