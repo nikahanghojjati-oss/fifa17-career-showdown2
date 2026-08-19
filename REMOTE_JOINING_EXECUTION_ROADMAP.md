@@ -1,5 +1,27 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
+
+Current verified source and `NEXT_TASK.md` override the retained Stage 2G-current body below.
+
+Stage 1 — Cloud / Sync Readiness — DONE through Phase 1F.
+
+Stage 2 — Private Account / Authentication / Authorization — ACTIVE prerequisite lane.
+
+Stage 2G — Trusted Account Bootstrap Execution Boundary — DONE / MERGED / PROVEN through PR #91. Exact validated final head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`; squash merge / independently verified live-main boundary `f97024cf4be3e76cf25c510fb364675b8e747762`.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md`.
+
+Stage 2H selects only the future trust-hosting policy: dedicated Cloud Run HTTPS service, dedicated user-managed service account, Application Default Credentials, minimum justified Firestore permissions, Stage 2F revocation-aware Firebase ID-token verification and independent Career Mode Showdown application authorization. Every application-client Firestore create/update/delete remains denied.
+
+Stage 3 Registered Devices / Private Pairing remains BLOCKED until the whole Stage 2 lane is DONE / MERGED / PROVEN. Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream and blocked. Private Remote Joining remains the prioritized long-term destination, not a reason to skip gates.
+
+The complete body below is retained unchanged as historical/proven contract provenance and must not override this successor section.
+
+---
+
+# Career Mode Showdown — Private Remote Joining Execution Roadmap
+
 Last updated: 2026-08-18 ET — Stage 2F merged / Stage 2G current
 
 Status: long-term dependency-order authority. `NEXT_TASK.md` remains the sole current implementation-authorization authority.

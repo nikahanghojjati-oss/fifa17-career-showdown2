@@ -158,8 +158,9 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
   assert.match(status.environmentId, /^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/, "Current WEC environment must use a valid fresh environment identifier.");
-  assert.equal(status.repository.startingMainSha, "a27147695607537a1cd1543efb84e6583929a696");
-  assert.match(status.continuity.currentTask, /Stage 2G Trusted Account Bootstrap Execution Boundary/i);
+  assert.match(status.repository.startingMainSha, /^[0-9a-f]{40}$/, "Current WEC starting main must be an exact verified commit SHA, not a hard-coded historical environment boundary.");
+  assert.equal(typeof status.continuity.currentTask, "string");
+  assert.ok(status.continuity.currentTask.trim().length > 0, "Current WEC task must remain explicit without pinning every successor to the historical Stage 2G task.");
   assert.match(history, /Closure addendum — `we-2026-08-18-stage2f-token-verification`/);
   assert.match(history, /PR #90[\s\S]+1b0178979ea421b3bf27dd7675ad973aa7bfad8c[\s\S]+a27147695607537a1cd1543efb84e6583929a696/);
 

@@ -1,5 +1,23 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
+
+Current verified source and live GitHub override the retained Stage 2G candidate body below.
+
+Stage 2G — Trusted Account Bootstrap Execution Boundary — is DONE / MERGED / PROVEN through PR #91. Exact validated final head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`; squash merge / independently verified live-main boundary `f97024cf4be3e76cf25c510fb364675b8e747762`. All 13 normal workflow families passed on that unchanged head and submitted reviews / inline review threads were empty.
+
+Current authorized prerequisite candidate: Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary.
+
+Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md`.
+
+Stage 2H selects the future trusted execution policy only: a dedicated Google Cloud Run HTTPS service, dedicated user-managed service identity, Application Default Credentials, minimum justified Firestore permissions, Stage 2F revocation-aware Firebase ID-token verification and separate application authorization. Every browser Firestore create/update/delete remains denied.
+
+This current environment is `HANDOFF_AT_CHECKPOINT`. Its authorized action is only to publish this Stage 2G completion / Stage 2H authorization boundary through the complete exact-head CI/review/merge gate. Do not implement Stage 2H here. Do not provision production Cloud Run, Firebase, IAM, billing, users, Firestore, provider configuration or Security Rules. Stage 3 remains blocked.
+
+The retained body below is historical/current-boundary provenance and must not override this successor section.
+
 Last updated: 2026-08-18 ET — PR #90 verified complete / Stage 2G trusted account-bootstrap execution current
 
 This file is the sole primary owner of the current implementation authorization boundary. Roadmap ordering alone never authorizes implementation. The owner's 2026-08-17 instruction authorizes continued bounded prerequisite advancement toward Private Remote Joining, one dependency gate at a time.
