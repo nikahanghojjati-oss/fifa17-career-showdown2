@@ -1,5 +1,171 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT IMPLEMENTATION AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION — 2026-08-19 ET
+
+Current verified source, live GitHub, the owner’s Remote Joining priority / anti-sidequest direction, and later owner instructions override every retained historical body below.
+
+Status: CURRENT IMPLEMENTATION PREREQUISITE / DORMANT TRUSTED ACCOUNT-LIFECYCLE PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED / REMOTE JOINING PRIORITY ACTIVE.
+
+Current branch: `agent/stage2-production-activation`.
+Current environment: `we-2026-08-19-stage2-production-activation`.
+Starting independently verified live main: `9f1546177ec84bc11c2c9ee6a631c69906df2206`.
+Fresh WEC decision: `CONTINUE`.
+Usage: unavailable and not estimated.
+Authorized product candidate: none.
+
+PR #105 `Add trusted shared mutation gateway prerequisite` is DONE / MERGED / PROVEN through squash merge `39aa6cb5bf039b18f51c3982875e8f31a8335766`.
+
+PR #106 `Preserve owner progress reporting format` is DONE / MERGED / PROVEN through current starting live main `9f1546177ec84bc11c2c9ee6a631c69906df2206`.
+
+The gateway is no longer the current implementation task. Its complete former current-authority body is retained below as historical/proven provenance and must not override this section.
+
+## Current selected Stage 2 prerequisite
+
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN at their protected dormant/non-production boundaries, and the trusted shared-mutation gateway is also DONE / MERGED / PROVEN through PR #105.
+
+Stage 2 as a whole remains incomplete.
+
+Current selected smallest direct prerequisite:
+
+`PRIVATE_ACCOUNT_AUTH_TRUSTED_ACCOUNT_DELETION_EXECUTION.md`
+
+Dormant implementation:
+
+`js/trustedAccountDeletionExecution.js`
+
+Permanent executable contracts:
+
+`tests/contracts/trusted-account-deletion-execution-boundary-contracts.cjs`
+`tests/contracts/trusted-account-deletion-execution-contracts.cjs`
+
+This prerequisite intentionally has no synthetic `Stage 2J` label. It is selected by actual dependency function.
+
+Stage 2H explicitly retained account lifecycle export/deletion execution as later Stage 2 work. Phase 1C and Phase 1D already require deletion to revoke the deleting account first, preserve the other manager's legitimate entitlement, clean account-scoped connected authority, and delete the provider principal only after application cleanup is safely available.
+
+The current proof therefore advances one genuine security/account-lifecycle dependency toward production readiness rather than creating another continuity or architecture-only milestone.
+
+## Trusted deletion execution lock
+
+For every future protected non-preflight browser request, preserve the permanent outer trust order:
+
+1. production-origin allowlist defense in depth;
+2. transient `X-Firebase-AppCheck`;
+3. trusted Firebase Admin App Check verification;
+4. exact expected production Firebase Web App identity;
+5. exact production project audience;
+6. Stage 2F-equivalent revocation-aware `verifyIdToken(idToken, true)`;
+7. derive architecture `accountId` only from verified Firebase UID;
+8. exact operation-specific Career Mode Showdown authorization;
+9. only then invoke the trusted account-deletion adapter under separately reviewed IAM.
+
+The current account-deletion proof is active-account self deletion only. A disabled account is denied by this self-service path; administrative/security deletion of a disabled principal remains separately gated.
+
+Required execution order is deletion-pending first, complete application cleanup proof second, provider-principal deletion third, application-account finalization last.
+
+Cleanup must prove device/invite/session revocation, rivalry processing, profile-link detachment, presentation-label minimization, removal from tombstone restoration authority, bounded metadata handling, preservation of surviving-owner entitlements and zero shared-gameplay destruction without exact required consent.
+
+Any incomplete cleanup, provider failure or finalization failure remains retryable and may never report false success.
+
+A retry of an already deletion-pending account must not reactivate it. A retry that observes the provider principal already absent must skip duplicate provider deletion but still verify cleanup before finalization.
+
+## IAM and browser-write lock
+
+Stage 2H’s proven account-bootstrap runtime custom-role permissions remain exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+This dormant account-deletion proof does not add account update/delete, provider-user delete, list/query, shared-state or broader Firebase/Datastore permissions.
+
+A future production adapter must separately justify the exact provider methods and minimum IAM permissions before any production role expansion or provisioning.
+
+Every application-client Firestore create/update/delete remains denied.
+
+## Production isolation and version lock
+
+Production Firebase/provider infrastructure remains disconnected/unprovisioned at this boundary.
+
+No production Firebase project, Web App, provider configuration, Authorized Domain, reCAPTCHA Enterprise key, App Check enforcement, Cloud Run service, service account, IAM binding/custom role, billing commitment, production user/data, Security Rules deployment, registered device, pairing, Connected Rivalry or Private Remote Joining runtime is created by this candidate.
+
+Production remains application/package `1.4.0`, Installable Offline App runtime `1.4.0-r1`, previous known-good whole shell `1.3.0-r2`.
+
+No semantic version or runtime revision bump is appropriate because shipped runtime behavior does not change.
+
+## Remote Joining dependency and product locks
+
+Cloud / synchronization readiness
+→ private account / authentication / authorization
+→ paired-device / private-session capability
+→ Connected Rivalry
+→ Private Remote Joining
+→ end-to-end hardening / stable release.
+
+Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire genuine Stage 2 production/account/operational lane is DONE / MERGED / PROVEN at its required boundary.
+
+Stage 4 Connected Rivalry remains BLOCKED behind Stage 3.
+
+Stage 5 Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+
+Public discovery, public profiles, public matchmaking, public invitation directories, public lobbies, community systems, global leaderboards and public rankings remain eliminated.
+
+Public community features and global leaderboard/rankings are **ELIMINATED**.
+
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns` and `careerModeShowdown.preferences`. Candidate A remains non-mutating export, Candidate B remains read-only import analysis and Candidate C remains the sole destructive import Apply authority with all existing recovery protections.
+
+Firebase Auth UID maps only to architecture `accountId`. `accountId`, `profileId`, `saveId`, `seasonId`, `deviceId`, `installationId`, `rivalryId`, `sessionId` and `inviteId` remain distinct namespaces. Exactly two manager slots remain authoritative. Account deletion does not infer ownership transfer or the other manager's deletion consent.
+
+All gameplay/scoring locks remain unchanged.
+
+## What remains after this prerequisite
+
+This candidate closes only the trusted account-deletion execution subdependency. It does not complete Stage 2 or authorize Stage 3.
+
+After publication, reconstruct current source again. Remaining genuine Stage 2 work still includes connected-data account export execution, real production Firebase/environment/provider provisioning and configuration, production Security Rules deployment and operational verification, exact production IAM activation for trusted operations, abuse/rate controls where required, provider outage/recovery and rollback proof, and production launch validation/hardening.
+
+That list is not automatic numbering or implementation order. Do not invent Stage 2J or create documentation/history-only milestones.
+
+## Current completion gate
+
+This trusted account-deletion execution prerequisite may be classified DONE / MERGED / PROVEN only when:
+
+1. the boundary document and dormant execution module agree;
+2. verified UID is the only account identity source accepted by the adapter;
+3. exact operation authorization is required before trusted execution;
+4. active account deletion transitions to `deletion-pending` at exactly the next revision before cleanup;
+5. already deletion-pending execution resumes without reactivation or duplicate transition;
+6. complete application cleanup and surviving-owner preservation are proven before provider deletion;
+7. unconsented shared gameplay destruction fails closed;
+8. provider deletion occurs only after cleanup;
+9. provider outage/failure remains retryable without false success;
+10. application-account finalization occurs only after provider deletion is confirmed;
+11. browser Firestore writes remain deny-all;
+12. Stage 2H IAM remains unchanged;
+13. no production provider/runtime/resource activation occurs;
+14. production version/runtime identity remains `1.4.0` / `1.4.0-r1`;
+15. permanent account-deletion contracts are registered and pass;
+16. the complete repository contract suite passes;
+17. all normal PR workflow families pass on one exact unchanged final head;
+18. submitted reviews and inline review threads are clean;
+19. mergeability is clean;
+20. squash merge uses expected-head protection;
+21. resulting live main is independently verified.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish the trusted account-deletion execution candidate on `agent/stage2-production-activation`: validate the dormant deletion saga and boundary contracts, correct only objective failures without weakening security/recovery/two-owner semantics, open one bounded engineering PR, require the complete exact-head CI/review/thread/mergeability gate, merge with expected-head protection only after the head is immutable and green, independently verify live main, then reconstruct the next genuine remaining Stage 2 production/account/operational blocker toward Registered Devices / Private Pairing and Private Remote Joining.
+
+---
+
+# RETAINED HISTORICAL AUTHORITY — TRUSTED SHARED MUTATION GATEWAY — PR #105 PRE-PUBLICATION STATE
+
+The complete body below is retained as historical/proven provenance. Its `CURRENT` classifications are historical and do not override the current account-deletion section above.
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY — 2026-08-19 ET
 
 Current verified source, live GitHub, the owner’s Remote Joining priority / anti-sidequest direction, and later owner instructions override every historical record.

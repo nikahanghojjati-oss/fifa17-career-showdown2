@@ -47,6 +47,8 @@ const files = [
   "tests/contracts/private-account-auth-stage2i-contracts.cjs",
   "tests/contracts/trusted-shared-mutation-gateway-boundary-contracts.cjs",
   "tests/contracts/trusted-shared-mutation-gateway-contracts.cjs",
+  "tests/contracts/trusted-account-deletion-execution-boundary-contracts.cjs",
+  "tests/contracts/trusted-account-deletion-execution-contracts.cjs",
   "tests/contracts/offline-hotfix-contracts.cjs",
   "tests/contracts/v13-offline-lifecycle-contracts.cjs",
   "tests/contracts/release-authority-coherence.cjs",
