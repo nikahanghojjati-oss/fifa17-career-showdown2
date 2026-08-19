@@ -51,7 +51,7 @@ assert.match(privacy,/Remote enablement must never remove local export\/import p
 assert.match(privacy,/Candidate A \/ formatVersion 2 export remains the primary local escape hatch and must stay available/i);
 assert.match(remote,/preserves read\/export\/delete-consent entitlement for both/i);
 assert.match(remote,/preserve the other owner's read\/export\/deletion entitlement/i);
-assert.match(remote,/disabled account[\s\S]+other entitled owner retains authorized read\/export access/i);
+assert.match(remote,/Disabling an account[\s\S]+other entitled owner retains authorized read\/export access/i);
 assert.match(stage2h,/account lifecycle export\/deletion execution/i);
 assert.match(stage2h,/If a later separately authorized Stage 2 operation requires[\s\S]+export[\s\S]+additional permission must be justified/i);
 
