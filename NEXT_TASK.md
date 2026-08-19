@@ -128,6 +128,7 @@ Every application-client Firestore create/update/delete remains denied.
 ## Production isolation
 
 Production Firebase remains disconnected/unprovisioned.
+Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED.
 
 This candidate does not create, deploy, configure or connect:
 
