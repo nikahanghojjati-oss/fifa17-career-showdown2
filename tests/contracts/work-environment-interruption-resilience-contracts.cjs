@@ -26,10 +26,20 @@ assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-.+/,"Current WEC must u
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i,"Current WEC must record a full starting live-main SHA.");
 const environmentMatch=nextTask.match(/Current environment: `([^`]+)`/);
 const mainMatch=nextTask.match(/Starting independently verified live main: `([0-9a-f]{40})`/i);
-assert.ok(environmentMatch,"NEXT_TASK must expose the current WEC environment ID.");
-assert.ok(mainMatch,"NEXT_TASK must expose the current starting live-main SHA.");
-assert.equal(status.environmentId,environmentMatch[1],"Interruption resilience must follow the current successor identity rather than freeze a predecessor environment.");
-assert.equal(status.repository.startingMainSha,mainMatch[1],"Interruption resilience must follow current authority rather than freeze a predecessor starting main.");
+assert.ok(environmentMatch,"NEXT_TASK must retain the most recently published implementation-authority environment for provenance.");
+assert.ok(mainMatch,"NEXT_TASK must retain the most recently published implementation-authority starting main for provenance.");
+
+if(status.environmentId!==environmentMatch[1] || status.repository.startingMainSha!==mainMatch[1]){
+  assert.equal(status.lifecycle,"active","A successor may diverge from the last published NEXT_TASK identity only while its fresh WEC is active.");
+  assert.match(status.continuity.currentTask,/production Firebase environment activation/i,"A fresh successor divergence must identify the concrete new work lane rather than silently inherit predecessor authority.");
+  assert.match(status.continuity.lastSafeCheckpoint,/423fbecdb3e0f663b5b12476c6637d1af48ee4ab/i,"A fresh successor divergence must preserve the independently verified predecessor publication boundary.");
+  assert.match(status.continuity.nextSafeAction,/Firestore|Firebase|provider/i,"The active successor must record a concrete resumable provider-activation next action.");
+  assert.ok(status.continuity.evidenceNotes.some(note=>/Inherited predecessor[\s\S]+HANDOFF_AT_CHECKPOINT/i.test(note)),"The active successor must explicitly preserve the predecessor handoff decision as inherited history rather than its own decision.");
+}else{
+  assert.equal(status.environmentId,environmentMatch[1],"Published authority and active WEC identity must agree when no successor divergence exists.");
+  assert.equal(status.repository.startingMainSha,mainMatch[1],"Published authority and active WEC starting main must agree when no successor divergence exists.");
+}
+
 assert.doesNotMatch(status.continuity.currentTask,/Do not merge PR #97 in this predecessor environment/i);
 assert.match(history,/Successor activation — `we-2026-08-19-post-pr96-stage2-selection`/);
 assert.match(history,/temporary push-triggered branch workflow/i);
