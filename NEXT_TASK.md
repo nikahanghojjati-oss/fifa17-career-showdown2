@@ -10,6 +10,7 @@ Current branch: `agent/stage2-trusted-shared-mutation-gateway`.
 Current environment: `we-2026-08-19-stage2-trusted-shared-mutation-gateway`.
 Starting independently verified live main: `902058d56ec3f1b1fef4918f38568b54cf2dd7bb`.
 Fresh WEC decision: `CONTINUE`.
+Work Environment Continuity remains the mandatory environment lifecycle, assessment, handoff and interruption-recovery system; only this fresh environment’s own WEC decision applies.
 Usage: unavailable and not estimated.
 Authorized product candidate: none.
 
