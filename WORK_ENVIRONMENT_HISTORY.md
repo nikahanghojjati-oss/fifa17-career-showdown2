@@ -186,7 +186,7 @@ Copy this checklist beneath a new dated heading:
 - Branch / PR: `agent/private-auth-stage2a-emulator-proof`, draft PR #83 `Private Auth Stage 2A real emulator identity proof`, exact base `87ea27a8dd28a041f973a3ba42312ff9e78ba74d`.
 - Material implementation: Auth Emulator `127.0.0.1:9099` was added beside Firestore `127.0.0.1:8080` on fixed project `demo-career-mode-showdown-phase1f`; real Firebase Web Auth sessions use in-memory persistence and exercise Firestore Security Rules as provider-issued `uid`/architecture `accountId`.
 - Proof coverage: distinct stable synthetic `uid` principals; namespace separation; self/private reads; wrong-account and unauthenticated denial; sign-out denial; invalid-sign-in fail-closed behavior; app-account lifecycle separation; provider identity over client-supplied account identity; continued denial of client create/update/delete; no raw token retrieval/persistence; no production Firebase dependency.
-- Corrected failure: the first PR #83 Static App run stopped at a new static matcher that incorrectly expected literal `status: \"disabled\"`; the test correctly used `accountEnvelope(accountIdB, \"disabled\")`. The contract matcher was corrected without weakening runtime behavior, Security Rules, timeouts, recovery or performance ceilings.
+- Corrected failure: the first PR #83 Static App run stopped at a new static matcher that incorrectly expected literal `status: "disabled"`; the test correctly used `accountEnvelope(accountIdB, "disabled")`. The contract matcher was corrected without weakening runtime behavior, Security Rules, timeouts, recovery or performance ceilings.
 - Corrected technical head `1420d8ffec9e689f1b3973021517713c446c85a0`: full 37-file repository contract suite passed; Phase 1F emulator proof passed; real Stage 2A Auth/Firestore proof passed; expected client writes were denied; workflow topology remained 13 workflows / 27 executable blocks.
 - Authority synchronization: `PRIVATE_ACCOUNT_AUTH_STAGE_2A.md`, `POST_V1_ROADMAP_EXECUTION.md`, `REMOTE_JOINING_EXECUTION_ROADMAP.md`, `PROJECT_STATE.md`, `NEXT_TASK.md` and `00_CURRENT_HANDOFF.md` were advanced to the PR #83 completion gate while preserving later Stage 2, Stage 3, Connected Rivalry and Remote Joining blocks.
 - Runtime/version boundary: no production runtime/package/service-worker dependency change is authorized or present; production remains v1.4.0 / package 1.4.0 / `1.4.0-r1`.
@@ -387,7 +387,7 @@ Copy this checklist beneath a new dated heading:
 ## Successor activation — `we-2026-08-18-stage2h-trusted-runtime-iam`
 
 - Environment start/reconciliation: `2026-08-19T01:14:00Z`.
-- Starting independently verified live-main SHA: `8e5e892759ec2dd46f0c3d370c848615d5`.
+- Starting independently verified live-main SHA: `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
 - Branch: `agent/private-auth-stage2h-trusted-runtime-iam`, created from that exact main.
 - Draft publication: PR #93 `Private Auth Stage 2H trusted runtime IAM boundary` against exact base `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
 - Inherited-record handling: predecessor PR #92 merge facts, final WEC decision and post-seal compaction were independently reconciled before fresh successor observations were recorded. No predecessor counter or transition decision was inherited.
