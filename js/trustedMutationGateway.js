@@ -15,6 +15,9 @@
     "datastore.entities.get",
     "datastore.entities.create"
   ]);
+  const TRANSIENT_CREDENTIAL_KEYS=Object.freeze(new Set([
+    "appchecktoken","idtoken","firebaseidtoken","authorization","x-firebase-appcheck"
+  ]));
 
   function isTrustedMutationGatewayRecord(value){
     return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
@@ -77,8 +80,19 @@
     );
   }
 
+  function containsTransientCredentialKey(value,seen=new Set()){
+    if(!value||typeof value!=="object")return false;
+    if(seen.has(value))return false;
+    seen.add(value);
+    for(const [key,nested] of Object.entries(value)){
+      if(TRANSIENT_CREDENTIAL_KEYS.has(String(key).toLowerCase()))return true;
+      if(containsTransientCredentialKey(nested,seen))return true;
+    }
+    return false;
+  }
+
   function normalizeRequest(inputOperation,request){
-    if(!isTrustedMutationGatewayRecord(request)||hasForbiddenTopLevelAuthority(request))return null;
+    if(!isTrustedMutationGatewayRecord(request)||hasForbiddenTopLevelAuthority(request)||containsTransientCredentialKey(request))return null;
     const operation=normalizeString(request.operation);
     const objectType=normalizeString(request.objectType);
     const objectId=normalizeString(request.objectId);
