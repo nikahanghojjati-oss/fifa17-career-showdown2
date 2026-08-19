@@ -1,5 +1,33 @@
 # PROJECT STATE — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
+
+Current verified source, live GitHub and `NEXT_TASK.md` override every retained predecessor body below.
+
+Production application state remains v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`; immediate previous known-good whole shell remains `1.3.0-r2`.
+
+Stage 1 Cloud / Sync Readiness remains DONE through Phase 1F.
+
+Stage 2 Private Account / Authentication / Authorization remains the active prerequisite lane. Stages 2A through 2I are DONE / MERGED / PROVEN at their protected dormant boundaries.
+
+Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary — completed through PR #95 from exact validated final head `9a553318791d40afa8c573acf4922ee710284ef2` to squash merge / independently verified live-main boundary `264e53dd56e088262c2f17fc10e36617dfef6c5d`. All 13 normal pull-request workflow families succeeded on that exact unchanged head; submitted reviews and inline review threads were empty.
+
+Stage 2I remains production-dormant and non-provisioning. Its protected future request order is App Check attestation with exact Web App and exact two-element project audience validation before Stage 2F revocation-aware Firebase user verification, then operation-specific application authorization and only then an explicitly reviewed trusted operation. The Stage 2H runtime role remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`.
+
+Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned. Every application-client Firestore create/update/delete remains denied.
+
+The complete Stage 2 lane remains incomplete. No later Stage 2 implementation prerequisite is selected by this closure. `NEXT_TASK.md` authorizes only post-PR #95 closure/current-authority reconciliation and publication. A fresh successor may select exactly one smallest remaining Stage 2 prerequisite only after independent source study and its own WEC assessment.
+
+Stage 3 Registered Devices / Private Pairing remains BLOCKED until the complete Stage 2 lane is DONE / MERGED / PROVEN. Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream and blocked. Private Remote Joining remains the prioritized long-term destination.
+
+Public discovery, public profiles, public matchmaking, public invitation directories, community systems and global leaderboard/rankings remain eliminated. All canonical storage, Candidate A/B/C, identity, gameplay, recovery and performance locks remain unchanged.
+
+The complete body below is retained unchanged as historical/proven contract provenance and does not override this section.
+
+---
+
+# PROJECT STATE — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
 
 Current verified source, live GitHub and `NEXT_TASK.md` override every retained predecessor body below.
