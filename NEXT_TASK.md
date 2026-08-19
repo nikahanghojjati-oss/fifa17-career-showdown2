@@ -1,5 +1,39 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2I IMPLEMENTATION — 2026-08-19 ET
+
+Current verified source and live GitHub override every retained predecessor body below.
+
+Stage 2H remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING through PR #93. PR #94 `Seal Stage 2H and authorize Stage 2I app attestation boundary` is also DONE / MERGED / PROVEN as the Stage 2I authorization boundary: exact validated head `a93515d8259c9665b4dab1ebe23945456f04dfd4`; squash merge / independently verified Stage 2I starting live main `faec8273e8ee4b80fa56b4fd5317d36c7d5e3bdb`.
+
+Current authorized prerequisite: Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
+
+Status: CURRENT IMPLEMENTATION PREREQUISITE / DORMANT PROOF IMPLEMENTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED / EXACT-HEAD COMPLETION GATE PENDING.
+
+Current branch: `agent/private-auth-stage2i-app-attestation`.
+Fresh environment: `we-2026-08-19-stage2i-app-attestation`.
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md`.
+Dormant implementation: `js/trustedAppAttestationRequest.js`.
+Permanent implementation contracts: `tests/contracts/private-account-auth-stage2i-contracts.cjs`.
+
+The fresh successor independently verified PR #94/live main, reset predecessor WEC observations and assessed `CONTINUE` before implementing Stage 2I. Current primary Firebase documentation was rechecked on 2026-08-19 ET.
+
+The bounded implementation proves only the future trusted request gate: Stage 2H origin defense; transient `X-Firebase-AppCheck`; trusted App Check verification; exact decoded Web App identity plus project-number/project-ID audience match; then Stage 2F revocation-aware Firebase user authentication; then separate Career Mode Showdown operation authorization; only then the trusted operation adapter. App Check alone grants zero user/application/device/pairing/rivalry/session/gameplay authority.
+
+The module passes no App Check or Firebase ID token to application-authorization or trusted-operation adapters and rejects protected payloads carrying reserved or actual transient credential material. Beta limited-use App Check token consumption remains disabled by default and does not add `firebaseappcheck.appCheckTokens.verify` to the Stage 2H role.
+
+The Stage 2H runtime role remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`. Every application-client Firestore create/update/delete remains denied. No production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/user/provider/domain/Firestore resource or runtime dependency is authorized or connected. Production remains v1.4.0 / `1.4.0-r1`.
+
+Current safe task: finish Stage 2I authority synchronization and complete repository validation; publish one bounded PR; make the final WEC seal the last branch mutation; require all 13 normal workflow families on one exact unchanged final head; verify clean reviews/threads and mergeability; squash merge only with expected-head protection; independently verify live `main`; then reassess WEC. Do not select or begin another Stage 2 prerequisite or Stage 3 inside this bounded Stage 2I milestone.
+
+Stage 3 Registered Devices / Private Pairing, Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain blocked. Public/community/discovery/matchmaking/ranking systems remain eliminated.
+
+The retained body below is historical/proven contract provenance and must not override this successor section.
+
+---
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
 
 Current verified source and live GitHub override every retained predecessor body below.
