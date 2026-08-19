@@ -1,5 +1,48 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
+
+Current source, live GitHub state and `NEXT_TASK.md` override every retained predecessor body below.
+
+Fresh developers must still perform the repository WEC startup sequence before substantial work. A predecessor transition decision belongs only to that predecessor.
+
+Current live-main starting boundary for Stage 2H: `8e5e892759ec2ddf033bb46f0c3d370c848615d5` after completed PR #92. Current development branch: `agent/private-auth-stage2h-trusted-runtime-iam`. Current draft PR: #93. Current environment: `we-2026-08-18-stage2h-trusted-runtime-iam`.
+
+Private Account/Auth Stages 2A through 2G are DONE / MERGED / PROVEN. Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Before touching the current trust chain, read at minimum:
+
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2E.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md`
+- `NEXT_TASK.md`
+- `firestore.rules`
+- `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md`
+
+Current Stage 2H design is intentionally narrow: one future dedicated same-project Google Cloud Run HTTPS service, one dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware `verifyIdToken(idToken, true)`, independent application authorization and exactly these reviewed runtime custom-role permissions:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Do not use default or broad runtime roles merely for convenience. Do not export a service-account key. Do not conflate deployer service-account attachment authority with runtime application permissions. Do not expand Stage 2G account-bootstrap-only authority into shared mutation.
+
+Stage 2H is proof only. Do not provision Cloud Run, Firebase, service accounts, custom roles/IAM bindings, billing, production users/data, provider configuration, Authorized Domains or production Security Rules. Every browser Firestore create/update/delete remains denied. Stage 3 remains blocked until the entire Stage 2 lane is proven.
+
+Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`; no Stage 2H semantic/runtime bump is appropriate because the policy module is production-dormant.
+
+Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
+
+The complete body below is retained unchanged as historical/proven contract provenance and does not override this section.
+
+---
+
+# Career Mode Showdown — Developer Start Here
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
 
 Current source, live GitHub state and `NEXT_TASK.md` override the retained Stage 2D / Stage 2G-current bodies below.

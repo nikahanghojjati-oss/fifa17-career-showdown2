@@ -1,5 +1,38 @@
 # PROJECT STATE — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
+
+Current verified source and `NEXT_TASK.md` override every retained predecessor body below.
+
+Production application state is unchanged: v1.4.0 / package `1.4.0` / Installable Offline App runtime `1.4.0-r1`; immediate previous known-good whole shell remains `1.3.0-r2`.
+
+Stage 1 Cloud / Sync Readiness remains DONE through Phase 1F.
+
+Stage 2 Private Account / Authentication / Authorization remains the active prerequisite lane. Stages 2A through 2G are DONE / MERGED / PROVEN. PR #92 is also DONE / MERGED / PROVEN and selected Stage 2H from exact validated head `dc012a24e932c1e0dad500855a3220d02f3195e7` to implementation starting live main `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED on draft PR #93.
+
+Stage 2H selects only the future production trust-hosting policy: dedicated same-project Google Cloud Run HTTPS service, dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware Firebase ID-token verification, separate application authorization and an exact four-permission runtime custom role:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Every browser Firestore create/update/delete remains denied. No production Firebase, Cloud Run, service account, custom role/IAM binding, billing, production user, Firestore data, provider configuration, Authorized Domains or production Security Rules is created by Stage 2H. No website runtime/version bump is appropriate.
+
+Stage 2H grants no device, pairing, invite, rivalry, session, shared-state or gameplay mutation authority. Stage 3 Registered Devices / Private Pairing remains BLOCKED until the complete Stage 2 lane is DONE / MERGED / PROVEN. Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream and blocked. Private Remote Joining remains the prioritized long-term destination.
+
+Public discovery, public profiles, public matchmaking, community systems and global leaderboard/rankings remain eliminated. All canonical storage, Candidate A/B/C, identity, gameplay, recovery and performance locks remain unchanged.
+
+The complete body below is retained unchanged as historical/proven contract provenance and does not override this section.
+
+---
+
+# PROJECT STATE — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
 
 Current verified source and `NEXT_TASK.md` override every retained Stage 2D / Stage 2G-current body below.

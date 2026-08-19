@@ -1,5 +1,41 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
+
+Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.
+
+Stage 2G is DONE / MERGED / PROVEN through PR #91. Stage 2H boundary authorization/reconciliation PR #92 is DONE / MERGED / PROVEN from exact validated head `dc012a24e932c1e0dad500855a3220d02f3195e7` to independently verified starting live main `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
+
+Current Stage 2H implementation environment: `we-2026-08-18-stage2h-trusted-runtime-iam`.
+Branch: `agent/private-auth-stage2h-trusted-runtime-iam`.
+Draft PR: #93 `Private Auth Stage 2H trusted runtime IAM boundary`.
+Status: CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Stage 2H now permanently defines the future trusted account-bootstrap host policy without provisioning it: one dedicated same-project Google Cloud Run HTTPS service, one dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware Firebase ID-token verification, separate Career Mode Showdown application authorization and an exact four-permission custom runtime role:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Broad/default runtime authority, exported keys, cross-project service identity and runtime Service Account User/Token Creator authority are rejected. Deployer-only service-account attachment authority remains separate from runtime application permissions.
+
+Every browser Firestore create/update/delete remains denied. Stage 2G remains account-bootstrap-only and atomic. Stage 2H grants no device, pairing, invite, rivalry, session, shared-state or gameplay mutation authority. Stage 3 remains blocked until the entire Stage 2 lane is DONE / MERGED / PROVEN.
+
+Production remains application/package v1.4.0 and runtime `1.4.0-r1`. Production Firebase, Cloud Run and IAM remain unprovisioned/disconnected. Public/community/ranking features remain eliminated.
+
+PR #93 diagnostic history so far: head `213d43004c51f6416071015db26d4ae9aa2fabdd` exposed one duplicate-global-helper source-coherence defect in Static App/Stability. The protected uniqueness contract was not weakened; only Stage 2H helper names were made globally unique. Corrected diagnostic head `329e2db0893b7cc6a4b5af3ecc71c768b2fd7772` passed complete Static App/repository contracts and Stability contracts before later required authority/WEC mutations superseded it. Neither diagnostic head is merge-eligible after later mutations.
+
+Current WEC records one successor context compaction and one corrected source-coherence failure. Usage remains unavailable and is not estimated. Implementation/source authority must be completed before the immutable final continuity seal. That final seal must be the last branch mutation, followed by all 13 normal workflow families on one exact unchanged head, clean reviews/threads, mergeability/exact-head verification, expected-head squash merge and independent live-main verification.
+
+The predecessor `HANDOFF_AT_CHECKPOINT` wording below belongs only to `we-2026-08-18-post-stage2g-authority-reconcile` and is historical. It does not constrain this fresh successor.
+
+---
+
+# Career Mode Showdown — Current Handoff
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
 
 Current verified source and live GitHub override every retained Stage 2E / Stage 2F / Stage 2G-current body below.
