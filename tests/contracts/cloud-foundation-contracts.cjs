@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file, "utf8");
 const state = read("PROJECT_STATE.md");
 const next = read("NEXT_TASK.md");
+const archivedNext = read("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const cloud = read("CLOUD_STORAGE_FOUNDATION.md");
 const provider = read("CLOUD_PROVIDER_DECISION_2026-08-17.md");
@@ -37,13 +38,16 @@ assert.match(state, /Phase 1F[\s\S]+NEXT AFTER PHASE 1E MERGES \/ BLOCKED/i, "PR
 assert.match(state, /No product candidate is currently authorized/i, "PROJECT_STATE must keep production runtime gated while architecture prerequisites advance.");
 assert.match(state, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "PROJECT_STATE must preserve the owner-prioritized Remote Joining direction without current runtime authorization.");
 
-assert.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name the closed multi-Save (PR #67) milestone.");
+// Completed Cloud/Sync milestone provenance belongs to the exact archived authority blob.
+assert.match(archivedNext, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "Archived NEXT_TASK must retain the closed multi-Save (PR #67) milestone.");
+assert.match(archivedNext, /Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E/i, "Archived NEXT_TASK must retain the historical Phase 1E bounded prerequisite evidence.");
+assert.match(archivedNext, /Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "Archived NEXT_TASK must retain the historical Phase 1F-after-1E progression evidence.");
+assert.match(archivedNext, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i, "Archived NEXT_TASK must retain the historical provider/network runtime gate.");
+
+// Rolling NEXT_TASK owns current implementation and safety authority only.
 assert.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "NEXT_TASK must keep user-facing runtime product work gated.");
-assert.match(next, /Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E/i, "NEXT_TASK must keep Phase 1E as the bounded current deterministic prerequisite.");
-assert.match(next, /Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "NEXT_TASK must advance exactly to Phase 1F only after Phase 1E proves clean.");
-assert.match(next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must keep provider/network production runtime outside the current authorization boundary.");
 assert.match(next, /strict exact raw snapshot authority|Candidate C remains the sole destructive/i, "NEXT_TASK must preserve destructive restore / Candidate C snapshot authority while cloud prerequisites advance.");
-assert.match(next, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "NEXT_TASK must retain the permanent ELIMINATED public community lock.");
+assert.match(next, /(?:Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*|community systems[\s\S]{0,120}global leaderboards[\s\S]{0,120}(?:public rankings[\s\S]{0,40}remain eliminated|remain eliminated))/i, "NEXT_TASK must retain the permanent eliminated public community / leaderboard boundary.");
 assert.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+Cloud \/ synchronization readiness[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i, "NEXT_TASK must preserve the prioritized Remote Joining prerequisite chain.");
 
 for(const term of ["baseRevision", "tombstone", "compare-and-swap", "deviceId", "accountId"]){
@@ -77,4 +81,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS Cloud/Sync Readiness authority: Phases 1A/1B/1C/1D proven, Phase 1E current deterministic harness, Phase 1F blocked-next, provider runtime gated, recovery/privacy and Remote Joining dependency locks preserved\n");
+process.stdout.write("PASS Cloud/Sync Readiness authority: historical Phase 1A-1F provenance remains archived, current Remote Joining dependency locks remain live, and provider runtime, recovery and privacy boundaries remain protected\n");
