@@ -13,6 +13,8 @@ Fresh WEC decision: `CONTINUE`.
 Usage: unavailable and not estimated.
 Authorized product candidate: none.
 
+Work Environment Continuity (WEC) remains mandatory. Every fresh successor must validate inherited state, initialize its own environment identity and counters from current live main, run its own assessment, and obey only its own decision before implementation selection.
+
 The predecessor PR #100 environment’s `HANDOFF_AT_CHECKPOINT` decision is not inherited. This successor initialized a fresh WEC identity and reset per-environment observations from verified live main before selecting this prerequisite.
 
 ## Exact predecessor authority preservation
