@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "demo-career-mode-showdown-phase1f"
+    "default": "demo-career-mode-showdown-phase1f",
+    "production": "fifa17-career-showdown-prod"
   }
 }

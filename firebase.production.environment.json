@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "environment": "production",
+  "projectId": "fifa17-career-showdown-prod",
+  "firebaseWebConfig": {
+    "apiKey": "AIzaSyCujW5BY3TI36QmrUxmcv0mlZuYON7O65s",
+    "authDomain": "fifa17-career-showdown-prod.firebaseapp.com",
+    "projectId": "fifa17-career-showdown-prod",
+    "storageBucket": "fifa17-career-showdown-prod.firebasestorage.app",
+    "messagingSenderId": "409396353288",
+    "appId": "1:409396353288:web:1d3a2a5d6921de6ccbb4bd"
+  },
+  "firestore": {
+    "databaseId": "(default)",
+    "location": "nam7",
+    "locationDecisionRecorded": true,
+    "startingRulesMode": "production",
+    "ownerReportedCreated": true,
+    "providerVerified": false
+  },
+  "activation": {
+    "firebaseProject": "owner-created",
+    "webApp": "owner-registered",
+    "googleAuthProvider": "not-enabled-yet",
+    "productionAuthorizedDomain": "not-verified-yet",
+    "productionSecurityRules": "not-deployed-yet",
+    "appCheck": "not-enabled-yet",
+    "trustedRuntimeIam": "not-activated-yet",
+    "runtimeConnected": false
+  },
+  "securityLocks": {
+    "persistentFirestoreOfflineCache": false,
+    "applicationClientFirestoreWrites": "deny-all",
+    "trustedMutationGatewayAuthorizedFromBrowser": false,
+    "webApiKeyClassification": "public-project-configuration",
+    "webApiKeyIsAuthorizationSecret": false,
+    "serviceAccountCredentialsAllowed": false,
+    "publicDiscovery": false,
+    "publicProfiles": false,
+    "publicMatchmaking": false,
+    "community": false,
+    "rankings": false
+  }
+}
