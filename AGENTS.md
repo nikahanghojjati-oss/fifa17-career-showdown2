@@ -76,6 +76,32 @@ The repository Work Environment Continuity decision is authoritative when it req
 
 Every successor handoff must recursively preserve this same Handoff Proximity rule so the requirement propagates to every later environment unless the owner explicitly changes it.
 
+## Mandatory seven-line owner progress report
+
+Every substantive owner-facing development response must include this exact seven-line status shape, in this order, with values updated from current evidence:
+
+```text
+Handoff proximity: X%
+Remote Joining readiness: ~Y%
+Current lane: <current bounded engineering lane>
+Concrete dependency completed: <most recent concrete dependency completed>
+Next unlock: <next dependency or proof gate>
+Blocker: <current blocker, or NONE>
+Sidequest check: <NONE, or NECESSARY because ...>
+```
+
+`Handoff proximity` remains the WEC transition-proximity signal above. `Remote Joining readiness` is separate and estimates end-to-end readiness of the owner-prioritized Private Remote Joining major feature, including its infrastructure, prerequisites, implementation, exact-head validation, deployment/public proof when applicable, hardening and known release-blocking bug closure.
+
+Do not rename or replace `Remote Joining readiness` while Private Remote Joining is still incomplete. The label changes only after current source proves Private Remote Joining is fully finished, integrated, tested, hardened and bug-fixed at the authoritative production boundary, all required exact-head and runtime/deployment gates are green, known release blockers are resolved, and owner acceptance is recorded when an owner-facing acceptance surface applies.
+
+After that completion boundary, replace only the second-line feature label with `<Next Major Feature> readiness: ~Y%`, where `<Next Major Feature>` is the next owner-authorized major feature selected by current source/implementation authority. Never infer that feature only from old roadmap order. The remaining six reporting lines keep the same meaning and continue tracking the newly active major feature and its dependency lane.
+
+`Sidequest check` is `NONE` for direct authorized roadmap/dependency work. Use `NECESSARY because ...` only for objectively required safety, continuity, correctness, security, recovery, publication or owner-mandated process work. Do not create optional cleanup merely to fill this field.
+
+Owner-instruction provenance for this reporting format is preserved at `authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md`. Historical provenance never overrides newer verified source or a later explicit owner instruction.
+
+Every successor handoff and fresh Work environment inherits this seven-line format recursively unless the owner explicitly changes it.
+
 ## Interruption and tooling-resilience guardrails
 
 Treat a tool/session interruption as a recoverable infrastructure event, never as permission to infer success or restart work from memory.
