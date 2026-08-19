@@ -22,7 +22,8 @@ assert.equal(manifest.firestore.location,"nam7");
 assert.equal(manifest.firestore.locationDecisionRecorded,true);
 assert.equal(manifest.firestore.startingRulesMode,"production");
 assert.equal(manifest.firestore.ownerReportedCreated,true);
-assert.equal(manifest.firestore.providerVerified,false,"Provider-side database existence must remain unverified until the console Data view or authenticated provider tooling proves it.");
+assert.equal(manifest.firestore.providerVerified,true,"Provider-side Firestore existence is now verified by owner Firebase Console evidence showing the real database Data and Rules interfaces.");
+assert.match(manifest.firestore.providerVerificationEvidence,/2026-08-19[\s\S]+\(default\)[\s\S]+Data view[\s\S]+Rules tab/i);
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Default Firebase alias must remain emulator-only.");
 assert.equal(firebaseRc.projects.production,manifest.projectId,"Production alias must point to the owner-created production Firebase project.");
@@ -84,14 +85,14 @@ const compatibilityCandidate = {
 assert.deepEqual(
   preflight.validate(compatibilityCandidate),
   {ok:true,errors:[]},
-  "The owner-supplied project/Web-App config and chosen nam7 location must be compatible with the locked Stage 2D production policy plan. This is metadata compatibility only, not provider-side activation proof."
+  "The verified project/Web-App config and nam7 Firestore location must remain compatible with the locked Stage 2D production policy plan."
 );
-assert.equal(manifest.activation.productionAuthorizedDomain,"not-verified-yet","A passing compatibility plan must never be mistaken for provider-side Authorized Domains proof.");
-assert.equal(manifest.activation.googleAuthProvider,"not-enabled-yet","A passing compatibility plan must never be mistaken for provider-side Google Auth proof.");
+assert.equal(manifest.activation.productionAuthorizedDomain,"not-verified-yet","Firestore verification must never be mistaken for provider-side Authorized Domains proof.");
+assert.equal(manifest.activation.googleAuthProvider,"not-enabled-yet","Firestore verification must never be mistaken for provider-side Google Auth proof.");
 
 const serialized = JSON.stringify(manifest);
 for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken","idToken","serviceAccountKey"]){
   assert.ok(!serialized.includes(forbidden),`Forbidden credential key ${forbidden} must not appear in production environment metadata.`);
 }
 
-process.stdout.write("PASS production Firebase environment activation metadata, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, verified Firestore existence, Stage 2D compatibility, and safe alias boundary\n");
