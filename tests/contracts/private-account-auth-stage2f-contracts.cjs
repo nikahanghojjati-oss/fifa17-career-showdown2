@@ -11,6 +11,7 @@ const emulatorTest = read("tests/firebase/private-account-auth-stage2f-token-ver
 const workflow = read(".github/workflows/validate-static-app.yml");
 const rules = read("firestore.rules");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -164,9 +165,11 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(history, /Closure addendum — `we-2026-08-18-stage2f-token-verification`/);
   assert.match(history, /PR #90[\s\S]+1b0178979ea421b3bf27dd7675ad973aa7bfad8c[\s\S]+a27147695607537a1cd1543efb84e6583929a696/);
 
-  assert.match(next, /Stage 2E[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
-  assert.match(next, /Stage 2F/i);
-  assert.match(next, /production Firebase[\s\S]{0,500}disconnected/i);
+  assert.match(historicalNext, /Stage 2E[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i,"Archived predecessor authority must preserve Stage 2E completion proof.");
+  assert.match(historicalNext, /Stage 2F/i,"Archived predecessor authority must preserve the historical Stage 2F transition.");
+  assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i);
+  assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+  assert.match(next, /production Firebase[\s\S]{0,500}(?:disconnected|unprovisioned)/i);
 
   for (const [name, text] of [
     ["PROJECT_STATE.md", state],
@@ -195,7 +198,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
   assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication and Stage 2G successor contracts\n");
+  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with historical Stage 2E/2F transition separated from current gateway authority\n");
 })().catch(error => {
   process.stderr.write(`${error && error.stack ? error.stack : error}\n`);
   process.exit(1);
