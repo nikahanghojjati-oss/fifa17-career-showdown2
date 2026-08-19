@@ -1,0 +1,60 @@
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+
+const boundary=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_TRUSTED_ACCOUNT_DELETION_EXECUTION.md","utf8");
+const implementation=fs.readFileSync("js/trustedAccountDeletionExecution.js","utf8");
+const stage2e=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2E.md","utf8");
+const remote=fs.readFileSync("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md","utf8");
+const rules=fs.readFileSync("firestore.rules","utf8");
+const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
+const index=fs.readFileSync("index.html","utf8");
+const optional=fs.readFileSync("js/optionalModules.js","utf8");
+const worker=fs.readFileSync("service-worker.js","utf8");
+
+assert.match(boundary,/Trusted Account Deletion Execution Boundary/);
+assert.match(boundary,/intentionally has no synthetic Stage 2J label/i);
+assert.match(boundary,/account lifecycle export\/deletion execution/i);
+assert.match(boundary,/verified Firebase UID/i);
+assert.match(boundary,/operation-specific Career Mode Showdown authorization for account deletion/i);
+assert.match(boundary,/disabled application account is denied by this self-service boundary/i);
+assert.match(boundary,/deletion-pending[\s\S]+before destructive cleanup begins/i);
+assert.match(boundary,/registered devices are revoked[\s\S]+invites are revoked[\s\S]+sessions are closed[\s\S]+surviving-owner entitlements are preserved/i);
+assert.match(boundary,/no shared gameplay is destroyed without the exact required deletion consent/i);
+assert.match(boundary,/provider-principal deletion comes after application cleanup/i);
+assert.match(boundary,/application-account finalization occurs only after provider deletion is confirmed/i);
+assert.match(boundary,/Stage 2H's currently proven account-bootstrap runtime role remains exactly/i);
+assert.match(boundary,/Do not add account-update, account-delete, provider-user-delete, list\/query, shared-state or broader Firebase\/Datastore permissions/i);
+assert.match(boundary,/Every application-client Firestore create\/update\/delete remains denied/i);
+assert.match(boundary,/Production dormancy is sequencing for safety, not the final destination/i);
+assert.match(boundary,/does not by itself complete Stage 2 or authorize Stage 3/i);
+assert.match(boundary,/connected-data account export execution[\s\S]+real production Firebase\/environment\/provider provisioning[\s\S]+abuse\/rate controls[\s\S]+provider outage\/recovery/i);
+assert.match(boundary,/careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/);
+assert.match(boundary,/Candidate A remains non-mutating export[\s\S]+Candidate B remains read-only import analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
+assert.match(boundary,/Public discovery[\s\S]+global leaderboards[\s\S]+public rankings remain eliminated/i);
+
+assert.match(stage2e,/account export[\s\S]+provider-aware deletion cascade/i);
+assert.match(remote,/set app account state to `deletion-pending` and deny new app mutations/i);
+assert.match(remote,/revoke\/close registered devices, invites and sessions/i);
+assert.match(remote,/preserving the other owner's entitlement/i);
+assert.match(remote,/delete or disable the Firebase Auth principal only[\s\S]+after required app cleanup authority is safely available/i);
+
+assert.match(implementation,/productionRuntimeConnected:false/);
+assert.match(implementation,/productionProvisioningAuthorized:false/);
+assert.match(implementation,/trustedServerOnly:true/);
+assert.match(implementation,/accountIdentitySource:"verified Firebase UID only"/);
+assert.match(implementation,/deletionPendingDeniesNewMutationAuthority:true/);
+assert.match(implementation,/providerDeleteAfterApplicationCleanup:true/);
+assert.match(implementation,/finalApplicationAccountRemovalAfterProviderDelete:true/);
+assert.match(implementation,/accountDeletionMayDestroySurvivorSharedGameplay:false/);
+assert.match(implementation,/ACCOUNT_DISABLED_SELF_DELETION_FORBIDDEN/);
+assert.match(implementation,/ACCOUNT_DELETION_CLEANUP_INCOMPLETE/);
+assert.match(implementation,/ACCOUNT_DELETION_PROVIDER_DELETE_FAILED/);
+assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
+assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
+assert.doesNotMatch(index,/trustedAccountDeletionExecution\.js/);
+assert.doesNotMatch(optional,/trustedAccountDeletionExecution\.js/);
+assert.doesNotMatch(worker,/trustedAccountDeletionExecution\.js/);
+assert.equal(pkg.version,"1.4.0");
+assert.equal(pkg.dependencies,undefined);
+
+process.stdout.write("PASS trusted account deletion execution boundary: deletion-pending-first lifecycle, survivor preservation, provider ordering, dormant runtime isolation and no IAM/browser-write broadening are protected.\n");
