@@ -28,7 +28,7 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "HANDOFF_NOW for the post-PR #96 transition checkpoint. Stop after this final seal. Do not merge PR #97, begin another Stage 2 prerequisite or begin Stage 3 in this environment.",
+    "currentTask": "HANDOFF_NOW for the post-PR #96 transition checkpoint. Stop after this final seal. Do not merge PR #97 in this predecessor environment. Do not select or implement another Stage 2 prerequisite or begin Stage 3 in this environment.",
     "lastSafeCheckpoint": "Draft PR #97 diagnostic head c50ee2e0ee78246dc15d0afc91a444823bf80ac2 passed all 13 normal workflow families after interruption-recovery fixes. Static App proves the new interruption-resilience contract is in the canonical suite. History is additions-only, no production runtime/version file changed, package remains 1.4.0 and runtime remains 1.4.0-r1.",
     "nextSafeAction": "Fresh successor validates this inherited seal, reconstructs PR #97 exact final head, changed files, reviews, threads and CI, then requires all 13 workflow families on that exact unchanged final head. Only after the clean gate may it mark ready, recheck mergeability, squash merge with expected-head protection, verify live main, append post-seal facts and initialize another fresh WEC before selecting any remaining Stage 2 prerequisite.",
     "unfinishedWork": [
