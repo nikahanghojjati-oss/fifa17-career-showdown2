@@ -111,9 +111,11 @@
     const deviceState=normalizeString(input.deviceState);
     const rivalryState=normalizeString(input.rivalryState);
     const entitledAccountIds=Array.isArray(input.entitledAccountIds)?input.entitledAccountIds.map(normalizeString).filter(Boolean):[];
+    const operationAuthorized=input.operationAuthorized===true;
+    const sessionRequired=input.sessionRequired===true;
     const sessionAuthorized=input.sessionAuthorized===true;
     if(!accountStatus||!deviceState||!rivalryState)return null;
-    return deepFreeze({accountStatus,deviceState,rivalryState,entitledAccountIds,sessionAuthorized});
+    return deepFreeze({accountStatus,deviceState,rivalryState,entitledAccountIds,operationAuthorized,sessionRequired,sessionAuthorized});
   }
 
   function authorize(accountId,snapshot){
@@ -122,7 +124,8 @@
     if(snapshot.deviceState!=="active")return snapshot.deviceState==="revoked"?"device-revoked":"TRUSTED_SHARED_MUTATION_DEVICE_FORBIDDEN";
     if(!snapshot.entitledAccountIds.includes(accountId))return "relationship-revoked";
     if(snapshot.rivalryState!=="active")return "relationship-revoked";
-    if(!snapshot.sessionAuthorized)return "TRUSTED_SHARED_MUTATION_SESSION_FORBIDDEN";
+    if(!snapshot.operationAuthorized)return "TRUSTED_SHARED_MUTATION_OPERATION_UNAUTHORIZED";
+    if(snapshot.sessionRequired&&!snapshot.sessionAuthorized)return "TRUSTED_SHARED_MUTATION_SESSION_FORBIDDEN";
     return null;
   }
 
@@ -275,6 +278,7 @@
     providerTransactionMayRetry:true,
     clientBaseRevisionMayRefreshOnRetry:false,
     directBrowserMutationAuthorityGranted:false,
+    sessionAuthorityRequiredOnlyWhenOperationPolicyRequiresIt:true,
     allowedOperations:ALLOWED_OPERATIONS,
     allowedObjectTypes:ALLOWED_OBJECT_TYPES,
     forbiddenClientAuthorityFields:FORBIDDEN_CLIENT_AUTHORITY_FIELDS,
