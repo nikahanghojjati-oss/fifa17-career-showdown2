@@ -1,23 +1,23 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-18-stage2h-trusted-runtime-iam",
+  "environmentId": "we-2026-08-19-post-stage2h-authority-reconcile",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-19T01:40:00Z",
+  "recordedAt": "2026-08-19T10:17:35Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "8e5e892759ec2ddf033bb46f0c3d370c848615d5"
+    "startingMainSha": "f85d692384cba0b343a9634a5a7b1d56f0b0cc4b"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 2,
+    "compactionCount": 4,
     "majorPhasesCompleted": 4,
-    "largeEvidenceEvents": 20,
-    "toolRoutingErrors": 4,
+    "largeEvidenceEvents": 30,
+    "toolRoutingErrors": 5,
     "correctedFailures": 1,
-    "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "repeatedMistakes": 1,
+    "staleFactCorrections": 2,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
@@ -28,42 +28,41 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish publication of PR #93 for Stage 2H Production Trusted Execution Runtime & Least-Privilege IAM Boundary through an immutable exact-head CI/review/merge proof, independently verify live main, then hand off before any later Stage 2 prerequisite or Stage 3 work.",
-    "lastSafeCheckpoint": "All Stage 2H implementation, permanent contracts, current-facing authority synchronization and append-only predecessor-history reconciliation are complete. Diagnostic head 36030e5fba6070277c5475766509be65687adbe2 passed all 13 normal workflow families, including complete Static App/repository contracts, Chromium Stability and Candidate C browser recovery. PR #93 was draft, mergeable, with zero submitted reviews and zero inline review threads at the pre-seal checkpoint. Production remains v1.4.0 / 1.4.0-r1 with Firebase/Cloud Run/IAM unprovisioned and all browser Firestore writes denied.",
-    "nextSafeAction": "Treat this status seal as the final branch mutation. Require all 13 normal workflow families to pass again on the resulting exact unchanged PR #93 head; immediately recheck submitted reviews, inline review threads, mergeability and exact-head identity; mark ready only after that proof; squash merge with expected-head protection; independently verify live main; then stop and generate the complete successor handoff before selecting or implementing another Stage 2 prerequisite.",
+    "currentTask": "Publish only PR #94: post-Stage 2H closure/current-authority reconciliation plus the Stage 2I App Attestation & Trusted Endpoint Abuse-Resistance authorization boundary. Do not implement Stage 2I in this handoff-bound environment.",
+    "lastSafeCheckpoint": "Live main remains independently verified at f85d692384cba0b343a9634a5a7b1d56f0b0cc4b and Stage 2H PR #93 is DONE / MERGED / PROVEN from exact validated head 98f28f71fa6977502333535a9865ab446effde65. Canonical WORK_ENVIRONMENT_HISTORY.md contains only the intended Stage 2H closure/successor append; two accidental historical wording drifts were restored exactly before this final seal and the obsolete fallback sidecar is absent. Current-facing authority classifies Stage 2H complete and Stage 2I as AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED. Production remains v1.4.0 / 1.4.0-r1 with production Firebase, App Check, reCAPTCHA Enterprise, Cloud Run and IAM unprovisioned and every application-client Firestore write denied.",
+    "nextSafeAction": "Treat this update as the absolute final branch mutation. Require all 13 normal workflow families on this exact unchanged PR #94 head; verify zero submitted reviews and inline review threads, mergeability and exact-head identity; mark ready without changing the head; squash merge only with expected-head protection; independently verify resulting live main; generate the complete successor handoff; stop before Stage 2I implementation.",
     "unfinishedWork": [
-      "Wait for and verify all 13 normal workflow families on the exact immutable post-seal PR #93 head; any branch mutation invalidates the merge candidate.",
-      "Immediately before merge, verify zero unresolved submitted review findings, zero unresolved inline review threads, mergeability and unchanged exact-head identity.",
-      "Mark PR #93 ready only after the complete immutable-head gate succeeds, then squash merge using expected-head protection.",
-      "Independently verify resulting live main and classify Stage 2H DONE / MERGED / PROVEN only from that evidence.",
-      "Generate a complete successor handoff and stop before any later Stage 2 prerequisite or Stage 3 work."
+      "Require all 13 normal pull-request workflow families to succeed on this exact unchanged final PR #94 head.",
+      "Immediately before merge verify clean submitted reviews, clean inline review threads, mergeability and unchanged exact-head identity.",
+      "Mark PR #94 ready only after the exact-head gate and without mutating the branch.",
+      "Squash merge only with expected-head protection and independently verify resulting live main.",
+      "Generate the complete successor handoff and stop before implementing Stage 2I App Attestation & Trusted Endpoint Abuse-Resistance."
     ],
     "knownHazards": [
-      "Production Firebase remains disconnected; Stage 2H must not provision Cloud Run, Firebase, a service account, custom role/IAM binding, billing, production users, Firestore data, provider configuration, Authorized Domains or production Security Rules.",
-      "Firestore server libraries bypass Security Rules; runtime IAM, Firebase end-user authentication and Career Mode Showdown application authorization remain three separate mandatory gates.",
-      "Stage 2F revocation-aware verifyIdToken(idToken, true) remains mandatory; raw Firebase ID tokens stay transient, unlogged, unpersisted and outside the Stage 2G transaction adapter.",
-      "Stage 2G grants only same-UID missing-account revision-0 account-bootstrap authority; do not expand it into device, pairing, rivalry, session, shared-state or gameplay mutation authority.",
-      "Every application-client Firestore create/update/delete remains denied; do not weaken firestore.rules.",
-      "The Stage 2H runtime custom role is exact for the currently reviewed Stage 2F + Stage 2G bootstrap path: firebaseauth.users.get, datastore.databases.get, datastore.entities.get and datastore.entities.create only. Any later permission requires a separately reviewed operation boundary.",
-      "Default/broad service identities, Owner/Editor/Viewer, Firebase Admin, Datastore Owner/User, runtime Service Account User/Token Creator, exported service-account keys and cross-project service identity are not authorized by Stage 2H.",
-      "This transition-prepared status is the final branch mutation. Do not edit source, docs, tests or this status merely to improve wording after exact-head CI begins; a required correction creates a new diagnostic head and requires a new final seal.",
-      "Direct shell DNS cannot resolve GitHub hosts. Connected GitHub remains repository/write authority and GitHub Actions provides validation evidence.",
-      "Direct GitHub Pages observation is unavailable through the current browser route; record unavailable evidence rather than a deployment failure.",
+      "This successor's own final WEC decision is HANDOFF_AT_CHECKPOINT; do not begin Stage 2I implementation after PR #94 publication.",
+      "Stage 2I is authorization-only in PR #94. Do not provision or enforce production Firebase App Check, reCAPTCHA Enterprise, Cloud Run, Firebase, IAM, billing, users, Firestore data, provider configuration or Authorized Domains here.",
+      "Firebase App Check is additive application attestation and must never replace Stage 2F Firebase Authentication, Career Mode Showdown application authorization or Stage 2H least-privilege IAM.",
+      "A successful App Check token alone grants zero account, device, pairing, rivalry, session, shared-state or gameplay authority.",
+      "Limited-use App Check token consumption is not a mandatory correctness dependency; any later use requires operation-specific review and separately justified IAM because current provider guidance documents additional latency and quota/cost tradeoffs.",
+      "Every application-client Firestore create/update/delete remains denied and the Phase 1D/1F shared-state idempotency-receipt finding remains binding.",
+      "Stage 3 Registered Devices / Private Pairing remains blocked until the entire Stage 2 lane is DONE / MERGED / PROVEN.",
+      "Direct shell DNS cannot resolve GitHub and gh remains unavailable in this environment. Connected GitHub is source/write authority; no local gh bootstrap/authentication result is fabricated.",
+      "Five recoverable tool/connector routing errors occurred across this successor; none caused a production mutation or weakened a safety boundary.",
+      "One historical-provenance wording drift cluster was detected through exact diff comparison and corrected before this seal; do not reintroduce those historical edits.",
       "Public discovery, public profiles, public matchmaking, community systems and global leaderboard/rankings remain eliminated.",
-      "Unknown account/model usage remains unavailable and must never be fabricated."
+      "Account/model usage remains unavailable and must never be fabricated."
     ],
     "evidenceNotes": [
-      "Fresh successor independently verified main 8e5e892759ec2ddf033bb46f0c3d370c848615d5 and PR #92 merged from exact head dc012a24e932c1e0dad500855a3220d02f3195e7 with all 13 normal workflow families green and zero submitted reviews/inline threads.",
-      "Current Google/Firebase primary documentation was rechecked for Cloud Run service identity, Application Default Credentials, Firebase end-user ID-token verification, Identity Platform IAM, Firestore method permissions and custom-role support.",
-      "Stage 2H selects a dedicated same-project Google Cloud Run HTTPS service with a dedicated user-managed service account and ADC but authorizes no production resource creation.",
-      "The exact custom runtime permission set for the completed Stage 2F + Stage 2G bootstrap path is firebaseauth.users.get + datastore.databases.get + datastore.entities.get + datastore.entities.create. Broad predefined runtime roles are intentionally rejected.",
-      "PR #93 was created against exact base 8e5e892759ec2ddf033bb46f0c3d370c848615d5 and remained draft through diagnostics.",
-      "Diagnostic PR #93 head 213d43004c51f6416071015db26d4ae9aa2fabdd failed Static App and Stability on one duplicate-global-function-name finding. Only the new Stage 2H helper declarations were renamed; the permanent uniqueness contract was not weakened and that head is permanently ineligible.",
-      "Corrected head 329e2db0893b7cc6a4b5af3ecc71c768b2fd7772 proved the source correction, then later authority/history mutations superseded it.",
-      "Post-authority/history diagnostic head 36030e5fba6070277c5475766509be65687adbe2 passed all 13 normal workflow families, including complete Static App, Chromium Stability and Candidate C browser recovery.",
-      "WORK_ENVIRONMENT_HISTORY.md now append-only reconciles predecessor PR #92 closure and current Stage 2H successor activation without deleting protected provenance.",
-      "Two successor conversation-context compactions are observed and recorded. Usage remains unavailable and is not estimated.",
-      "Deterministic final WEC assessment from these observable signals: context pressure 100/100, quality risk 28/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 69.3/100, transition cost 14.0/100, transition advantage 55.3; decision HANDOFF_AT_CHECKPOINT. This permits only completion of the already-bounded PR #93 publication checkpoint before transition."
+      "Live main was independently rechecked at f85d692384cba0b343a9634a5a7b1d56f0b0cc4b; PR #93 remains merged from exact head 98f28f71fa6977502333535a9865ab446effde65 with all 13 normal workflow families successful and zero submitted reviews/inline review threads.",
+      "Current source authority was synchronized additively: Stage 2H is DONE / MERGED / PROVEN while historical pre-merge bodies remain retained as provenance.",
+      "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md and tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs define only the next non-provisioning App Check/reCAPTCHA Enterprise custom-backend attestation boundary; the contract is registered in tests/support/run-contract-suite.cjs.",
+      "Stage 2I selection is based on current Firebase primary guidance that App Check can protect custom backends, is complementary to Authentication, and recommends reCAPTCHA Enterprise for new web integrations.",
+      "WORK_ENVIRONMENT_HISTORY.md canonically appends the PR #93 post-seal closure and fresh successor activation. Exact diff review now shows only the intended append and no historical deletions.",
+      "The previously stale fallback sidecar is absent from the current PR changed-file set.",
+      "Production application/package remains v1.4.0 and runtime remains 1.4.0-r1; no semantic version bump is appropriate because PR #94 changes no shipped runtime behavior.",
+      "Prior diagnostic reseal heads are permanently ineligible after later continuity/history corrections; only this final seal head may become merge authority after a completely fresh exact-head gate.",
+      "Final deterministic assessment from the repository formula using the complete observable successor signals: context pressure 100/100, quality risk 76/100, next-task separation 80/100, handoff readiness 99/100, continuation risk 87.3/100, transition cost 14.0/100, transition advantage 73.3; decision HANDOFF_AT_CHECKPOINT.",
+      "This status update is intentionally the absolute final branch mutation before exact-head PR #94 publication validation."
     ]
   }
 }

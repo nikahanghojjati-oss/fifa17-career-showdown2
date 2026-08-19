@@ -1,5 +1,58 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
+
+Current source, live GitHub state and `NEXT_TASK.md` override every retained predecessor body below.
+
+Fresh developers must still perform the repository WEC startup sequence before substantial work. A predecessor transition decision belongs only to that predecessor.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is DONE / MERGED / PROVEN through PR #93. Exact validated final head `98f28f71fa6977502333535a9865ab446effde65`; squash merge / independently verified live main `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`. All 13 normal workflow families succeeded on that unchanged head; submitted reviews and inline review threads were empty.
+
+Current successor environment: `we-2026-08-19-post-stage2h-authority-reconcile`.
+Current branch: `agent/post-stage2h-authority-reconcile`.
+Starting verified live main: `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`.
+Initial fresh WEC decision: `PREPARE_HANDOFF`; usage unavailable and not estimated.
+
+The next selected prerequisite is Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
+Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md` and `NEXT_TASK.md`.
+
+Before touching the current trust chain, read at minimum:
+
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2E.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md`
+- `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md`
+- `NEXT_TASK.md`
+- `firestore.rules`
+- `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md`
+
+Stage 2H remains the protected future runtime/IAM boundary: one dedicated same-project Google Cloud Run HTTPS service, one dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware `verifyIdToken(idToken, true)`, independent application authorization and exactly these reviewed account-bootstrap runtime custom-role permissions:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Stage 2I adds no runtime authority yet. It selects Firebase App Check with reCAPTCHA Enterprise for the future production web client and requires custom-backend App Check verification for the exact expected production Firebase Web App/project before Stage 2F user verification and application authorization. App Check must never be treated as user identity, application authorization, device identity, rivalry/session authority or Google Cloud IAM.
+
+Every browser Firestore create/update/delete remains denied. App Check does not solve the protected shared-state idempotency-receipt finding and does not authorize direct browser shared-state mutation.
+
+Do not provision Firebase, App Check, reCAPTCHA Enterprise, Cloud Run, service accounts, IAM roles/bindings, billing, users, Firestore, provider configuration, Authorized Domains or production Security Rules in this authorization boundary. Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
+
+Stage 3 remains blocked until the entire Stage 2 lane is proven. Private Remote Joining remains prioritized long term / dependency gated / not yet implementation authorized. Public/community/discovery/matchmaking/ranking systems remain eliminated.
+
+Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
+
+The complete body below is retained unchanged as historical/proven contract provenance and does not override this section.
+
+---
+
+# Career Mode Showdown — Developer Start Here
+
 ## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
 
 Current source, live GitHub state and `NEXT_TASK.md` override every retained predecessor body below.
