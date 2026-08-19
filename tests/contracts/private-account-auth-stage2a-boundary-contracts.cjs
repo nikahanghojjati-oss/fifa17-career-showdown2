@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file, "utf8");
 const stage2a = read("PRIVATE_ACCOUNT_AUTH_STAGE_2A.md");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -38,7 +39,9 @@ assert.match(phase1f, /231556d86a93535fa90e173577c1159de4f40be0/);
 assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? remains denied/i);
 assert.match(phase1f, /idempotencyKeyHash[\s\S]+sibling[\s\S]+idempotency receipt/i);
 
-assert.match(next, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i);
+assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i,"Archived predecessor authority must preserve the historical Stage 2A selection boundary.");
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current authority must identify the real gateway prerequisite.");
+assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Current authority must keep Stage 2A through 2I closed rather than revive Stage 2A.");
 assert.match(next, /Authorized product candidate:[\s\S]{0,40}none/i);
 assert.match(state, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(state, /Private Account \/ Authentication Stage 2A/i);
@@ -59,4 +62,4 @@ assert.doesNotMatch(index, /firebase|firestore/i, "Stage 2A boundary must not co
 assert.doesNotMatch(optional, /firebase|firestore/i, "Stage 2A boundary must not connect Firebase through production optional modules.");
 assert.doesNotMatch(worker, /firebase|firestore/i, "Stage 2A boundary must not cache Firebase runtime in the production Service Worker.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary and Phase 1F completion authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with historical selection preserved and current gateway authority protected\n");
