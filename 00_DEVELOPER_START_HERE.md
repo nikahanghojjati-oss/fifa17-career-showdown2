@@ -1,5 +1,45 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
+
+Current source, live GitHub state and `NEXT_TASK.md` override every retained predecessor body below.
+
+Fresh developers must validate the inherited WEC record, append/archive predecessor final facts, initialize a fresh environment from independently verified live main, reset per-environment counters and obey only that environment's assessment before substantial work. A predecessor transition decision never becomes the successor's starting decision.
+
+PR #96 `Reconcile Stage 2I publication authority` is DONE / MERGED / PROVEN from exact validated final head `3d2ebad38d85e07f774360fcb7d210b9dd096fa4` to squash merge / independently verified live main `e52968632d9938f17e7e1680c455437d23eb628b`. All 13 normal workflow families succeeded on the unchanged final head; submitted reviews and inline review threads were empty.
+
+Current transition environment: `we-2026-08-19-post-pr96-stage2-selection`.
+Current branch: `agent/post-pr96-stage2-selection`.
+Starting verified live main: `e52968632d9938f17e7e1680c455437d23eb628b`.
+Fresh WEC decision: `HANDOFF_AT_CHECKPOINT`; usage unavailable and not estimated.
+
+Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. Before touching the current trust chain, read at minimum `PRIVATE_ACCOUNT_AUTH_STAGE_2E.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2F.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2G.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md`, `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md`, `NEXT_TASK.md`, `firestore.rules` and `REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md`.
+
+The protected future trust chain keeps App Check verification for the exact expected production Web App and exact two-element project audience ahead of Stage 2F revocation-aware `verifyIdToken(idToken, true)`, derives architecture `accountId` only from verified Firebase UID, applies operation-specific Career Mode Showdown authorization and only then reaches an explicitly reviewed trusted operation. Stage 2H runtime IAM remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Optional App Check replay consumption does not silently add `firebaseappcheck.appCheckTokens.verify` to that runtime role.
+
+Every application-client Firestore create/update/delete remains denied. Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service account, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned. Production remains application/package `1.4.0`, runtime `1.4.0-r1`; previous whole shell remains `1.3.0-r2`.
+
+`NEXT_TASK.md` currently authorizes only the post-PR #96 publication-history/current-authority transition checkpoint. Do not select or begin another Stage 2 prerequisite or Stage 3 in this environment. Provider/security research performed during this checkpoint is non-authoritative and does not preselect a later milestone.
+
+After this checkpoint is merged and independently verified, a new fresh successor may select exactly one smallest remaining Stage 2 prerequisite only after its own source-first WEC assessment. Stage 3 remains blocked until the entire Stage 2 lane is DONE / MERGED / PROVEN. Private Remote Joining remains prioritized long term / dependency gated / not yet implementation authorized. Public discovery, public profiles, public matchmaking, public invitation directories, community systems, global leaderboards and public rankings remain eliminated.
+
+Every substantive owner-facing project response must visibly include `Handoff proximity: X%`; at 100%, finish only the current safe bounded checkpoint, automatically generate the complete successor handoff and stop before another substantial milestone. Never fabricate unavailable usage.
+
+The complete body below is retained unchanged as historical/proven contract provenance and does not override this section.
+
+---
+
+# Career Mode Showdown — Developer Start Here
+
 ## CURRENT START OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
 
 Current source, live GitHub state and `NEXT_TASK.md` override every retained predecessor body below.
