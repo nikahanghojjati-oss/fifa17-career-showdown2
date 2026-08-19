@@ -10,6 +10,8 @@ const handoff=fs.readFileSync("00_CURRENT_HANDOFF.md","utf8");
 const developerStart=fs.readFileSync("00_DEVELOPER_START_HERE.md","utf8");
 const roadmap=fs.readFileSync("REMOTE_JOINING_EXECUTION_ROADMAP.md","utf8");
 const postV1=fs.readFileSync("POST_V1_ROADMAP_EXECUTION.md","utf8");
+const history=fs.readFileSync("WORK_ENVIRONMENT_HISTORY.md","utf8");
+const status=JSON.parse(fs.readFileSync("WORK_ENVIRONMENT_STATUS.json","utf8"));
 const rules=fs.readFileSync("firestore.rules","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
@@ -68,20 +70,23 @@ assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
 const currentNextTask=currentOverride(nextTask);
-assert.match(currentNextTask,/CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE/);
-assert.match(currentNextTask,/Status: CLOSURE RECONCILIATION ONLY \/ NON-RUNTIME \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED/);
-assert.match(currentNextTask,/agent\/post-stage2i-closure-reconcile/);
-assert.match(currentNextTask,/we-2026-08-19-post-stage2i-closure-reconcile/);
+assert.match(currentNextTask,/CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT/);
+assert.match(currentNextTask,/Status: TRANSITION CHECKPOINT ONLY \/ NON-RUNTIME \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED/);
+assert.match(currentNextTask,/agent\/post-pr96-stage2-selection/);
+assert.match(currentNextTask,/we-2026-08-19-post-pr96-stage2-selection/);
+assert.match(currentNextTask,/e52968632d9938f17e7e1680c455437d23eb628b/);
+assert.match(currentNextTask,/PR #96[\s\S]+3d2ebad38d85e07f774360fcb7d210b9dd096fa4[\s\S]+e52968632d9938f17e7e1680c455437d23eb628b/);
+assert.match(currentNextTask,/all 13 normal pull-request workflow families succeeded/i);
+assert.match(currentNextTask,/submitted reviews and inline review threads were empty/i);
 assert.match(currentNextTask,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(currentNextTask,/`js\/trustedAppAttestationRequest\.js`/);
-assert.match(currentNextTask,/No next Stage 2 implementation prerequisite is selected/i);
-assert.match(currentNextTask,/Do not select or begin another Stage 2 prerequisite or Stage 3/i);
+assert.match(currentNextTask,/No next Stage 2 implementation prerequisite is selected by this environment/i);
+assert.match(currentNextTask,/must not select or implement a later Stage 2 prerequisite and must not begin Stage 3/i);
 assert.match(currentNextTask,/HANDOFF_AT_CHECKPOINT/);
 
 for(const [name,text] of [["PROJECT_STATE.md",projectState],["00_CURRENT_HANDOFF.md",handoff],["00_DEVELOPER_START_HERE.md",developerStart],["REMOTE_JOINING_EXECUTION_ROADMAP.md",roadmap],["POST_V1_ROADMAP_EXECUTION.md",postV1]]){
   const current=currentOverride(text);
   assert.match(current,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/,`${name} current override must classify Stage 2I complete.`);
-  assert.match(current,/264e53dd56e088262c2f17fc10e36617dfef6c5d/,`${name} current override must record the PR #95 completion boundary.`);
+  assert.match(current,/e52968632d9938f17e7e1680c455437d23eb628b/,`${name} current override must record the PR #96 completion boundary.`);
   assert.match(current,/Stage 3[\s\S]+BLOCKED/i,`${name} current override must keep Stage 3 blocked.`);
   assert.doesNotMatch(current,/Stage 3[\s\S]+CURRENT \/ IMPLEMENTATION-AUTHORIZED/,`${name} must not authorize Stage 3.`);
 }
@@ -90,7 +95,19 @@ assert.match(currentOverride(projectState),/Stages 2A through 2I are DONE \/ MER
 assert.match(currentOverride(roadmap),/Stages 2A through 2I — DONE \/ MERGED \/ PROVEN/);
 assert.match(currentOverride(postV1),/Stages 2A–2I — DONE \/ MERGED \/ PROVEN/);
 assert.match(currentOverride(handoff),/No later Stage 2 implementation prerequisite is selected here/i);
-assert.match(currentOverride(developerStart),/NEXT_TASK\.md` currently authorizes only post-PR #95 Stage 2I closure/i);
+assert.match(currentOverride(developerStart),/NEXT_TASK\.md` currently authorizes only the post-PR #96 publication-history\/current-authority transition checkpoint/i);
+
+assert.match(history,/Closure addendum — `we-2026-08-19-post-stage2i-closure-reconcile`/);
+assert.match(history,/PR #96[\s\S]+3d2ebad38d85e07f774360fcb7d210b9dd096fa4[\s\S]+e52968632d9938f17e7e1680c455437d23eb628b/);
+assert.match(history,/Successor activation — `we-2026-08-19-post-pr96-stage2-selection`/);
+assert.match(history,/predecessor `HANDOFF_AT_CHECKPOINT`[\s\S]+not inherited/i);
+
+assert.equal(status.environmentId,"we-2026-08-19-post-pr96-stage2-selection");
+assert.equal(status.repository.startingMainSha,"e52968632d9938f17e7e1680c455437d23eb628b");
+assert.equal(status.signals.usageRemainingPercent,null);
+assert.equal(status.signals.usageSource,"unavailable");
+assert.match(status.continuity.currentTask,/post-PR #96/i);
+assert.match(status.continuity.currentTask,/Do not select or implement another Stage 2 prerequisite/i);
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
@@ -98,8 +115,8 @@ assert.doesNotMatch(index,/trustedAppAttestationRequest\.js|firebase\/app-check|
 assert.doesNotMatch(optional,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
 assert.doesNotMatch(worker,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
 assert.equal(pkg.version,"1.4.0");
-assert.equal(pkg.dependencies,undefined,"Stage 2I closure must not add production dependencies.");
+assert.equal(pkg.dependencies,undefined,"Post-PR #96 transition checkpoint must not add production dependencies.");
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 
-process.stdout.write("PASS post-Stage 2I publication closure authority contracts\n");
+process.stdout.write("PASS post-PR96 Stage 2I publication authority contracts\n");

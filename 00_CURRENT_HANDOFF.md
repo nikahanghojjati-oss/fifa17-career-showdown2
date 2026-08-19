@@ -1,5 +1,31 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT HANDOFF — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
+
+Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.
+
+Fresh successor environment: `we-2026-08-19-post-pr96-stage2-selection`.
+Branch: `agent/post-pr96-stage2-selection`.
+Starting independently verified live main: `e52968632d9938f17e7e1680c455437d23eb628b`.
+Fresh WEC decision: `HANDOFF_AT_CHECKPOINT`.
+Usage: unavailable and not estimated.
+
+PR #96 `Reconcile Stage 2I publication authority` is DONE / MERGED / PROVEN from exact validated final head `3d2ebad38d85e07f774360fcb7d210b9dd096fa4` to squash merge / independently verified live main `e52968632d9938f17e7e1680c455437d23eb628b`. All 13 normal workflow families succeeded on the exact unchanged final head; submitted reviews and inline review threads were empty.
+
+Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. App Check remains application attestation only and stays ahead of Stage 2F revocation-aware Firebase Authentication, verified-UID architecture account identity, operation-specific Career Mode Showdown authorization and trusted-operation execution. The Stage 2H runtime role remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; optional App Check replay-consumption permission remains outside it.
+
+Production remains application/package `1.4.0` and runtime `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service account, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned. Every application-client Firestore create/update/delete remains denied.
+
+Current safe task: finish and publish only the post-PR #96 publication-history/current-authority transition checkpoint. Append PR #96 post-seal facts and fresh-successor evidence to canonical history without rewriting prior history, synchronize permanent coherence contracts, validate one bounded diagnostic candidate, make the final transition-prepared WEC seal the last branch mutation, require all 13 normal workflow families plus clean reviews/threads on the exact unchanged final head, expected-head squash merge, independently verify live main, then generate the complete successor handoff.
+
+No later Stage 2 implementation prerequisite is selected here. The fresh WEC is already `HANDOFF_AT_CHECKPOINT`, so this environment must not begin another Stage 2 prerequisite or Stage 3. Current provider/security research is non-authoritative only. A new fresh successor may select exactly one smallest remaining Stage 2 prerequisite only after its own source-first WEC assessment. Stage 3 Registered Devices / Private Pairing remains blocked until the entire Stage 2 lane is DONE / MERGED / PROVEN; Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream. Public discovery, public profiles, public matchmaking, public invitation directories, community systems, global leaderboards and public rankings remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance and must not override this successor section.
+
+---
+
+# Career Mode Showdown — Current Handoff
+
 ## CURRENT HANDOFF — POST-STAGE 2I CLOSURE — 2026-08-19 ET
 
 Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.

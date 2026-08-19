@@ -1,5 +1,39 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
+## CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
+
+Current verified source and `NEXT_TASK.md` override every retained roadmap body below.
+
+Completed connected prerequisites include Cloud/Sync Readiness Phase 1A through 1F and Private Account/Auth Stages 2A through 2I at their protected dormant boundaries.
+
+PR #96 `Reconcile Stage 2I publication authority` is DONE / MERGED / PROVEN from exact validated final head `3d2ebad38d85e07f774360fcb7d210b9dd096fa4` to squash merge / independently verified live-main boundary `e52968632d9938f17e7e1680c455437d23eb628b`. All 13 normal workflow families succeeded on that unchanged final head; submitted reviews and inline review threads were empty.
+
+Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. The protected request chain remains App Check exact Web App plus exact project-audience verification → Stage 2F revocation-aware Firebase user verification → verified-UID architecture account identity → operation-specific Career Mode Showdown authorization → explicitly reviewed trusted operation. Stage 2H runtime IAM remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; optional App Check replay-consumption permission remains outside that role.
+
+Every application-client Firestore create/update/delete remains denied. Stage 2I does not repair the Phase 1D / Phase 1F idempotency-receipt finding and does not authorize direct browser shared-state mutation.
+
+Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service accounts, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned. Production website state remains v1.4.0 / `1.4.0-r1`; this transition checkpoint is non-runtime work and receives no visible semantic version bump.
+
+Correct dependency direction now is:
+
+Cloud / Sync Readiness — DONE through Phase 1F
+→ Private Account / Authentication / Authorization Stage 2 — ACTIVE
+→ Stages 2A–2I — DONE / MERGED / PROVEN at protected dormant boundaries
+→ post-PR #96 transition checkpoint — CURRENT / HANDOFF-BOUND / NON-RUNTIME
+→ remaining Stage 2 prerequisites — DEPENDENCY-GATED / NOT SELECTED BY THIS ENVIRONMENT / NOT PRE-AUTHORIZED BY ROADMAP ORDER
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED
+→ Stage 4 Connected Rivalry — BLOCKED
+→ Stage 5 Private Remote Joining — prioritized long-term final private destination
+→ hardening / stable release.
+
+The fresh WEC is `HANDOFF_AT_CHECKPOINT`; this environment selects no new Stage 2 implementation prerequisite. Provider/security research into production operational safety/recovery, account lifecycle, abuse controls and trusted mutation infrastructure is non-authoritative only. A new fresh successor may select exactly one smallest remaining Stage 2 prerequisite only after independent source study and its own WEC assessment. Public discovery, public profiles, public matchmaking, public invitation directories, community systems, global leaderboards and public rankings remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Older Stage 2D/2G/2H/2I-current wording is historical only.
+
+---
+
+# Career Mode Showdown — Post-v1 Roadmap Execution Guide
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
 
 Current verified source and `NEXT_TASK.md` override every retained roadmap body below.

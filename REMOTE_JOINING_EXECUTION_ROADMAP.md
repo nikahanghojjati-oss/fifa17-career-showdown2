@@ -1,5 +1,56 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
+## CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
+
+Current verified source and `NEXT_TASK.md` override every retained predecessor roadmap body below.
+
+Private Remote Joining remains the prioritized long-term private destination and remains DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED. Stability, security and dependency correctness outrank speed.
+
+Current dependency state:
+
+Stage 1 — Cloud / Sync Readiness — DONE through Phase 1F.
+
+→ Stage 2 — Private Account / Authentication / Authorization — ACTIVE prerequisite lane.
+
+Stages 2A through 2I — DONE / MERGED / PROVEN at their protected dormant boundaries.
+
+PR #96 `Reconcile Stage 2I publication authority` is DONE / MERGED / PROVEN from exact validated final head `3d2ebad38d85e07f774360fcb7d210b9dd096fa4` to squash merge / independently verified live-main boundary `e52968632d9938f17e7e1680c455437d23eb628b`. All 13 normal workflow families succeeded on that unchanged final head; submitted reviews and inline review threads were empty.
+
+Stage 2I remains production-dormant and protects the future browser-to-trusted-service gate: exact production Web App/project App Check verification must precede Stage 2F revocation-aware Firebase user verification, verified-UID account identity, Career Mode Showdown operation authorization and trusted-operation execution. The Stage 2H runtime role remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Optional App Check replay-consumption permission remains separately reviewed and outside that role. Every application-client Firestore create/update/delete remains denied. App Check does not repair the Phase 1D / Phase 1F idempotency-receipt finding and grants no direct browser shared-state mutation authority.
+
+→ post-PR #96 transition checkpoint — CURRENT / HANDOFF-BOUND / NON-RUNTIME / NON-PROVISIONING.
+
+→ remaining Stage 2 prerequisites — DEPENDENCY-GATED / NOT SELECTED BY THIS ENVIRONMENT / NOT PRESELECTED BY ROADMAP ORDER.
+
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN.
+
+→ Stage 4 Connected Rivalry — BLOCKED until Stage 3 and all earlier prerequisites are proven.
+
+→ Stage 5 Private Remote Joining — FINAL DEPENDENCY-GATED PRIVATE PRODUCT DESTINATION.
+
+→ hardening / stable release.
+
+Do not skip stages. The fresh post-PR #96 WEC is `HANDOFF_AT_CHECKPOINT`; this environment selects no next Stage 2 implementation prerequisite. Provider/security research performed here is non-authoritative. A new fresh successor may select one smallest remaining Stage 2 prerequisite only after independent current-source study and its own WEC assessment.
+
+Public discovery, public profiles, public matchmaking, public invitation directories, community systems and global leaderboard/rankings remain eliminated.
+
+Production remains application/package `1.4.0` and runtime `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Older Stage 2G/2H/2I-current wording is historical only.
+
+---
+
+# Career Mode Showdown — Private Remote Joining Execution Roadmap
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
 
 Current verified source and `NEXT_TASK.md` override every retained predecessor roadmap body below.
