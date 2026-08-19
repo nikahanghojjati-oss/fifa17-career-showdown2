@@ -9,6 +9,7 @@
     "pending-pair","active","revoked-read-only","single-owner-retained","deletion-pending"
   ]);
   const ALLOWED_ENTITLEMENT_STATES=Object.freeze(["active","retained","relinquished"]);
+  const ALLOWED_INVENTORY_FIELDS=Object.freeze(["profileLinks","devices","rivalries"]);
   const EXCLUDED_OPERATIONAL_DATA=Object.freeze([
     "provider-authentication-secrets",
     "raw-device-secrets",
@@ -175,9 +176,8 @@
 
   function validateInventoryShape(inventory){
     if(!isConnectedExportRecord(inventory))return false;
-    if(!Array.isArray(inventory.profileLinks)||!Array.isArray(inventory.devices)||!Array.isArray(inventory.rivalries))return false;
-    const forbidden=["invites","sessions","idempotency","securityEvents","providerAuth","providerSecurityLogs","rawDeviceSecrets"];
-    return forbidden.every(field=>!Object.prototype.hasOwnProperty.call(inventory,field));
+    if(!Object.keys(inventory).every(field=>ALLOWED_INVENTORY_FIELDS.includes(field)))return false;
+    return Array.isArray(inventory.profileLinks)&&Array.isArray(inventory.devices)&&Array.isArray(inventory.rivalries);
   }
 
   async function executeTrustedConnectedDataAccountExport(input){
