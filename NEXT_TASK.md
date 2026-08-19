@@ -1,5 +1,35 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
+
+Current verified source and live GitHub override every retained predecessor body below.
+
+Status: TRANSITION CHECKPOINT ONLY / NON-RUNTIME / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Current branch: `agent/post-pr96-stage2-selection`.
+Fresh environment: `we-2026-08-19-post-pr96-stage2-selection`.
+Starting independently verified live main: `e52968632d9938f17e7e1680c455437d23eb628b`.
+
+PR #96 `Reconcile Stage 2I publication authority` is DONE / MERGED / PROVEN. Exact validated final head: `3d2ebad38d85e07f774360fcb7d210b9dd096fa4`. Squash merge / independently verified live-main boundary: `e52968632d9938f17e7e1680c455437d23eb628b`. All 13 normal pull-request workflow families succeeded on that exact unchanged head; submitted reviews and inline review threads were empty.
+
+Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary — remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. Dormant implementation remains `js/trustedAppAttestationRequest.js`. The protected request order remains exact Web App/project App Check verification, then Stage 2F revocation-aware `verifyIdToken(idToken, true)`, verified-UID architecture `accountId`, operation-specific Career Mode Showdown authorization and only then an explicitly reviewed trusted operation. The Stage 2H runtime role remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; optional `firebaseappcheck.appCheckTokens.verify` remains outside it.
+
+Production remains application/package `1.4.0`, runtime `1.4.0-r1`, previous whole shell `1.3.0-r2`. No production Firebase, Firebase Web App, reCAPTCHA Enterprise key, App Check enforcement, Cloud Run, service account, IAM, billing, production users/data/provider configuration or production Security Rules is connected by this checkpoint. Every application-client Firestore create/update/delete remains denied.
+
+Fresh WEC decision: `HANDOFF_AT_CHECKPOINT`. Usage is unavailable and not estimated. This environment may finish only the post-PR #96 publication-history/current-authority reconciliation, permanent coherence validation and exact-head publication checkpoint. It must not select or implement a later Stage 2 prerequisite and must not begin Stage 3.
+
+Current authorized task: append PR #96 post-seal publication facts and fresh-successor evidence to canonical WEC history without rewriting prior history; synchronize current-facing authority to this post-PR #96 transition boundary; update permanent coherence contracts; validate a bounded diagnostic candidate; make the final transition-prepared WEC seal the last branch mutation; require all 13 normal workflow families plus clean reviews/threads on one exact unchanged final head; squash merge only with expected-head protection; independently verify live main; generate the complete successor handoff and stop.
+
+No next Stage 2 implementation prerequisite is selected by this environment. Current provider/security research into remaining production operational safety, account lifecycle, abuse controls, outage/recovery and trusted shared-mutation concerns is research only and carries zero implementation authority.
+
+After this transition checkpoint is merged and independently verified, a new fresh successor must initialize its own WEC from real live main, reset all per-environment observations and only then select exactly one smallest remaining Stage 2 prerequisite if current source plus its own assessment permits it. Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN; Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream. Private Remote Joining stays prioritized long-term and dependency gated. Public discovery, public profiles, public matchmaking, public invitation directories, community systems, global leaderboards and public rankings remain eliminated.
+
+The retained body below is historical/proven contract provenance and does not authorize implementation.
+
+---
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
 
 Current verified source and live GitHub override every retained predecessor body below.

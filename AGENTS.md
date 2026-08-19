@@ -76,6 +76,21 @@ The repository Work Environment Continuity decision is authoritative when it req
 
 Every successor handoff must recursively preserve this same Handoff Proximity rule so the requirement propagates to every later environment unless the owner explicitly changes it.
 
+## Interruption and tooling-resilience guardrails
+
+Treat a tool/session interruption as a recoverable infrastructure event, never as permission to infer success or restart work from memory.
+
+1. Before a long multi-tool or multi-file sequence, make `WORK_ENVIRONMENT_STATUS.json` describe the exact branch/HEAD safe checkpoint, current task, next safe action and hazards. Material decisions must not live only in chat while additional repository mutations continue.
+2. Do not create temporary self-modifying GitHub Actions workflows to append history, mutate the working branch, initialize WEC or work around a missing connector route. Use the connected GitHub contents/ref APIs or a real checkout. A repository workflow may mutate state only when it is already a reviewed permanent workflow explicitly designed for that operation.
+3. Apply a route circuit breaker. After one unsupported or malformed tool route, correct the route once. After a second materially similar failure, stop retrying that route, record the limitation and switch to a different supported path or finish at the nearest coherent checkpoint.
+4. Apply optimistic-lock discipline to GitHub file writes. Fetch the exact branch blob SHA immediately before update/delete. If GitHub rejects a write with stale-SHA/409 semantics, do not retry from cached state; refetch the file, re-evaluate the intended patch and then retry once.
+5. Do not issue identical CI/status polling calls consecutively on an unchanged exact head. Inspect another useful source/evidence item between checks, and treat in-progress CI as pending rather than a failure. Never create repository mutations merely to force a poll or dispatch.
+6. For append-only authority such as `WORK_ENVIRONMENT_HISTORY.md`, inspect the resulting per-file PR patch before accepting the mutation. The patch must contain no deletion/rewrite of prior history; corrections are new appended dated entries.
+7. The final transition-prepared WEC seal must be the last branch mutation. Any later branch mutation invalidates that seal and requires a new final seal plus a fresh exact-head validation gate.
+8. After an unexpected interruption, resume by re-fetching current PR metadata, exact branch HEAD, changed filenames and current workflow state before any write. Never assume the last attempted tool call completed.
+
+These guardrails exist to prevent chat/tool instability from becoming repository-state ambiguity. They change development process only and never authorize product runtime behavior.
+
 ## Validation and product safety
 
 Run the smallest relevant checks during implementation and the repository contract suite before publication. Do not weaken tests, workflow topology, recovery guarantees, performance ceilings or protected product semantics merely to obtain green results.
