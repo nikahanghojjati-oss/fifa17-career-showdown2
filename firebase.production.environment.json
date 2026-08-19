@@ -16,7 +16,8 @@
     "locationDecisionRecorded": true,
     "startingRulesMode": "production",
     "ownerReportedCreated": true,
-    "providerVerified": false
+    "providerVerified": true,
+    "providerVerificationEvidence": "2026-08-19 owner Firebase Console screenshots show the (default) Firestore database Data view and Rules tab."
   },
   "activation": {
     "firebaseProject": "owner-created",
