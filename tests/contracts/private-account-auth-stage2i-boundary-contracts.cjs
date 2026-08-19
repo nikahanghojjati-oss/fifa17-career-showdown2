@@ -96,10 +96,17 @@ assert.match(nextTask,/js\/trustedAccountDeletionExecution\.js/);
 
 const environmentMatch=currentNextTask.match(/Current environment: `([^`]+)`/);
 const mainMatch=currentNextTask.match(/Starting independently verified live main: `([0-9a-f]{40})`/i);
-assert.ok(environmentMatch,"NEXT_TASK.md must expose the current WEC environment ID.");
-assert.ok(mainMatch,"NEXT_TASK.md must expose the current starting live-main SHA.");
-assert.equal(status.environmentId,environmentMatch[1],"Current WEC identity must follow current implementation authority rather than freeze a predecessor environment.");
-assert.equal(status.repository.startingMainSha,mainMatch[1],"Current WEC starting main must follow current implementation authority rather than freeze predecessor main.");
+assert.ok(environmentMatch,"NEXT_TASK.md must expose the most recently published WEC environment ID.");
+assert.ok(mainMatch,"NEXT_TASK.md must expose the most recently published starting live-main SHA.");
+if(status.environmentId!==environmentMatch[1] || status.repository.startingMainSha!==mainMatch[1]){
+  assert.equal(status.lifecycle,"active","A new successor may move beyond historical Stage 2I/NEXT_TASK publication authority only with an active fresh WEC.");
+  assert.match(status.continuity.currentTask,/production Firebase environment activation/i,"A fresh successor must name the concrete provider-activation lane rather than freeze the predecessor task.");
+  assert.match(status.continuity.lastSafeCheckpoint,/423fbecdb3e0f663b5b12476c6637d1af48ee4ab/i,"A fresh successor must preserve the independently verified PR #108 publication boundary.");
+  assert.ok(status.continuity.evidenceNotes.some(note=>/Inherited predecessor[\s\S]+HANDOFF_AT_CHECKPOINT/i.test(note)),"A fresh successor must preserve the predecessor transition decision only as inherited history.");
+}else{
+  assert.equal(status.environmentId,environmentMatch[1],"Published authority and WEC identity must agree when no active successor divergence exists.");
+  assert.equal(status.repository.startingMainSha,mainMatch[1],"Published authority and WEC starting main must agree when no active successor divergence exists.");
+}
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
 assert.doesNotMatch(status.continuity.currentTask,/Publish only PR #100/i);
