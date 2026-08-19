@@ -2,6 +2,7 @@ const assert=require("node:assert/strict");
 const fs=require("node:fs");
 
 const boundary=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2I.md","utf8");
+const implementation=fs.readFileSync("js/trustedAppAttestationRequest.js","utf8");
 const stage2h=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2H.md","utf8");
 const nextTask=fs.readFileSync("NEXT_TASK.md","utf8");
 const projectState=fs.readFileSync("PROJECT_STATE.md","utf8");
@@ -15,8 +16,10 @@ const worker=fs.readFileSync("service-worker.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 
 assert.match(boundary,/Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary/);
-assert.match(boundary,/Status: AUTHORIZED NEXT PREREQUISITE \/ IMPLEMENTATION NOT STARTED \/ DORMANT POLICY PROOF \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED/);
-assert.match(boundary,/Starting verified live-main boundary: `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`/);
+assert.match(boundary,/Status: CURRENT IMPLEMENTATION PREREQUISITE \/ DORMANT PROOF IMPLEMENTED \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ EXACT-HEAD COMPLETION GATE PENDING/);
+assert.match(boundary,/Stage 2I implementation successor starting live main: `faec8273e8ee4b80fa56b4fd5317d36c7d5e3bdb`/);
+assert.match(boundary,/`js\/trustedAppAttestationRequest\.js`/);
+assert.match(boundary,/`tests\/contracts\/private-account-auth-stage2i-contracts\.cjs`/);
 assert.match(boundary,/Stage 2H[\s\S]+DONE \/ MERGED \/ PROVEN through PR #93/);
 assert.match(boundary,/reCAPTCHA Enterprise provider for the future production web app/i);
 assert.match(boundary,/default risk threshold of `0\.5`/);
@@ -25,7 +28,7 @@ assert.match(boundary,/`localhost` must not be added to the production key/i);
 assert.match(boundary,/Debug App Check providers\/tokens belong only to explicit development, emulator or CI environments/i);
 assert.match(boundary,/App Check is not authentication or application authorization/i);
 assert.match(boundary,/`X-Firebase-AppCheck` header/);
-assert.match(boundary,/decoded App Check `app_id`[\s\S]+single expected registered production Career Mode Showdown Firebase Web App identity/i);
+assert.match(boundary,/exact decoded `app_id` \/ `sub` equality[\s\S]+exact decoded `aud\[0\]` project-number and `aud\[1\]` project-ID match/i);
 assert.match(boundary,/verifyIdToken\(idToken, true\)/);
 assert.match(boundary,/App Check token is transient/i);
 assert.match(boundary,/fail closed/i);
@@ -39,7 +42,14 @@ assert.match(boundary,/Candidate A remains non-mutating export[\s\S]+Candidate B
 assert.match(boundary,/global leaderboards and public rankings remain eliminated/i);
 assert.match(boundary,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
 assert.match(boundary,/Private Remote Joining[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(boundary,/current reconciliation environment must publish the Stage 2H closure plus this Stage 2I boundary and stop before implementing Stage 2I/i);
+assert.match(boundary,/This implementation remains a proof boundary until the complete exact-head PR gate/i);
+assert.match(boundary,/must not be classified DONE \/ MERGED \/ PROVEN before those publication conditions are satisfied/i);
+
+assert.match(implementation,/verifyAppCheckToken\(appCheckToken\)/);
+assert.match(implementation,/decoded\.aud\.length!==2/);
+assert.match(implementation,/verifyTrustedRequestPrincipal[\s\S]+authorizeApplicationOperation[\s\S]+executeTrustedOperation/);
+assert.match(implementation,/limitedUseTokenConsumptionRequired:false/);
+assert.match(implementation,/browserFirestoreWrites:"deny-all"/);
 
 assert.match(stage2h,/Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary/);
 assert.match(stage2h,/DONE \/ MERGED \/ PROVEN/);
@@ -49,17 +59,17 @@ assert.match(stage2h,/Every application-client Firestore create, update and dele
 for(const [name,text] of [["NEXT_TASK.md",nextTask],["PROJECT_STATE.md",projectState],["00_CURRENT_HANDOFF.md",handoff],["00_DEVELOPER_START_HERE.md",developerStart],["REMOTE_JOINING_EXECUTION_ROADMAP.md",roadmap]]){
   assert.match(text,/Stage 2H[\s\S]+DONE \/ MERGED \/ PROVEN/,`${name} must classify Stage 2H complete.`);
   assert.match(text,/Stage 2I[\s\S]+Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary/,`${name} must identify Stage 2I.`);
-  assert.match(text,/AUTHORIZED NEXT PREREQUISITE/,`${name} must keep Stage 2I as authorization-only next prerequisite.`);
+  assert.match(text,/AUTHORIZED NEXT PREREQUISITE|CURRENT IMPLEMENTATION PREREQUISITE/,`${name} must retain an explicit Stage 2I current/authorized implementation boundary.`);
 }
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
-assert.doesNotMatch(index,/firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
-assert.doesNotMatch(optional,/firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
-assert.doesNotMatch(worker,/firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+assert.doesNotMatch(index,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+assert.doesNotMatch(optional,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+assert.doesNotMatch(worker,/trustedAppAttestationRequest\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
 assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined,"Stage 2I boundary must not add production dependencies.");
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 
-process.stdout.write("PASS Stage 2I production app-attestation authorization boundary contracts\n");
+process.stdout.write("PASS Stage 2I production app-attestation implementation boundary contracts\n");
