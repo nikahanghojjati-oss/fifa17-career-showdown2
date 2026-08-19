@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-production-firebase-project-activation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-19T23:03:00Z",
+  "recordedAt": "2026-08-19T23:06:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 4,
-    "largeEvidenceEvents": 16,
+    "largeEvidenceEvents": 17,
     "toolRoutingErrors": 5,
-    "correctedFailures": 3,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -23,7 +23,7 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 91,
+    "handoffCompleteness": 92,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
@@ -57,13 +57,15 @@
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
+      "Inherited predecessor we-2026-08-19-trusted-connected-data-account-export reached HANDOFF_AT_CHECKPOINT after PR #108; that decision is preserved only as inherited historical authority and is not this active successor environment's decision.",
       "PR #110 exact final head 8bb19e723ad0f852025d715cef0cc81b86a4ffe8 passed all 13 normal workflow families, had no review comments or submitted reviews, remained mergeable, and squash-merged to live main 6a4a52ff427df7822f39aa5e431e010ddd4fbdbc.",
       "Owner Firebase Console screenshots prove Cloud Firestore Database (default) exists and exposes Data and Rules interfaces; production rule equivalence remains separately unverified.",
       "Owner GitHub email screenshot on 2026-08-19 ET reports a possible valid Google API Key detected in firebase.production.environment.json. The alert corresponds to the Firebase Web apiKey previously recorded from the Firebase-generated public config.",
       "Official Firebase documentation reviewed 2026-08-19 states Firebase service API keys are public by design, authorization is enforced by Security Rules/IAM/App Check, new Firebase-provisioned API keys are automatically restricted to Firebase-related APIs by default, and API restrictions should still be reviewed. Provider-side restriction state for this specific key is not yet verified and therefore remains pending.",
       "On branch agent/firebase-api-key-secret-scan-hardening the concrete Web API key has been removed from committed production metadata. apiKeyManagement now records committed=false, source=firebase-console-or-controlled-deployment-injection, classification=public-project-configuration and providerRestrictionsVerified=false. The existing production activation contract now fails if an AIza-shaped Google API key appears in the committed manifest while preserving Stage 2D compatibility through a non-secret synthetic injected value.",
+      "Initial PR #111 Stability/Static App contract failure was continuity-governance-only: the active WEC omitted the required explicit Inherited predecessor ... HANDOFF_AT_CHECKPOINT provenance sentence. This correction restores that inherited-history assertion without changing Firebase security semantics or runtime behavior.",
       "No runtime Firebase SDK or application behavior changed, so app version 1.4.0 / runtime 1.4.0-r1 remains correct and browser Firestore writes remain deny-all.",
-      "Current observable WEC signals: high context complexity, very-high project complexity, one observed compaction, four completed work phases, sixteen large evidence events, five tool-routing errors, three corrected failures, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures, unknown usage, no atomic operation and 91/100 handoff completeness."
+      "Current observable WEC signals: high context complexity, very-high project complexity, one observed compaction, four completed work phases, seventeen large evidence events, five tool-routing errors, four corrected failures, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures, unknown usage, no atomic operation and 92/100 handoff completeness."
     ]
   }
 }
