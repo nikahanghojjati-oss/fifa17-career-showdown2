@@ -44,11 +44,11 @@
     return freezeConnectedExportValue(Object.assign({ok:false,status,code},extra));
   }
 
-  function normalizeVerifiedUid(value){
+  function normalizeConnectedExportVerifiedUid(value){
     return isConnectedExportString(value)?value.trim():null;
   }
 
-  function validateAccountEnvelope(accountId,account){
+  function validateConnectedExportAccountEnvelope(accountId,account){
     if(!isConnectedExportRecord(account))return "ACCOUNT_EXPORT_ACCOUNT_DOCUMENT_INVALID";
     if(account.schemaVersion!==1||account.objectType!=="account"||account.objectId!==accountId){
       return "ACCOUNT_EXPORT_ACCOUNT_IDENTITY_CONFLICT";
@@ -186,7 +186,7 @@
       return exportFailure("ACCOUNT_EXPORT_ADAPTER_MISSING");
     }
 
-    const accountId=normalizeVerifiedUid(input.verifiedUid);
+    const accountId=normalizeConnectedExportVerifiedUid(input.verifiedUid);
     if(!accountId)return exportFailure("UNAUTHENTICATED_PROVIDER");
     if(input.operationAuthorizationGranted!==true)return exportFailure("ACCOUNT_EXPORT_OPERATION_UNAUTHORIZED");
 
@@ -196,7 +196,7 @@
     }catch(_error){
       return exportFailure("ACCOUNT_EXPORT_ACCOUNT_UNAVAILABLE","retryable");
     }
-    const accountError=validateAccountEnvelope(accountId,account);
+    const accountError=validateConnectedExportAccountEnvelope(accountId,account);
     if(accountError)return exportFailure(accountError);
     if(account.data.status==="disabled")return exportFailure("ACCOUNT_EXPORT_ACCOUNT_DISABLED");
     if(account.data.status==="deletion-pending")return exportFailure("ACCOUNT_EXPORT_DELETION_PENDING");
