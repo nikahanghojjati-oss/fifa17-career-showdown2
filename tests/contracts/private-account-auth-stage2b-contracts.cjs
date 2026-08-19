@@ -6,6 +6,7 @@ const stage2b = read("PRIVATE_ACCOUNT_AUTH_STAGE_2B.md");
 const stage2a = read("PRIVATE_ACCOUNT_AUTH_STAGE_2A.md");
 const stage2c = read("PRIVATE_ACCOUNT_AUTH_STAGE_2C.md");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -43,10 +44,15 @@ assert.match(stage2b, /current bounded prerequisite is Stage 2C/i);
 assert.match(stage2a, /Stage 2A[\s\S]+PR #83/i);
 assert.match(stage2c, /DONE \/ MERGED \/ PROVEN/i);
 assert.match(stage2c, /PR #85[\s\S]+48aa61a8d1b26f2c621cf7f0b410c68e0418257a[\s\S]+22566e1409cf53d728b38d0b5a19de478ae6761b/i);
-assert.match(next, /Stage 2B[\s\S]{0,260}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
-assert.match(next, /Current authorized prerequisite candidate[\s\S]{0,520}Stage 2D/i);
-assert.match(next, /Completed post-PR #86 authority reconciliation[\s\S]{0,520}PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
+
+assert.match(historicalNext, /Stage 2B[\s\S]{0,260}DONE \/ MERGED \/ PROVEN/i);
+assert.match(historicalNext, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
+assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]{0,520}Stage 2D/i);
+assert.match(historicalNext, /Completed post-PR #86 authority reconciliation[\s\S]{0,520}PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i);
+assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(next,/production Firebase[\s\S]{0,500}(disconnected|unprovisioned)/i);
+
 assert.match(state, /Stage 2C — completed/i);
 assert.match(state, /Stage 2D — current bounded prerequisite/i);
 assert.match(state, /Current authorization boundary[\s\S]+No product candidate is currently authorized/i);
@@ -111,4 +117,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B completed provider lifecycle, revocation and Stage 2D current production-isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with historical successor checkpoints separated from current gateway authority\n");
