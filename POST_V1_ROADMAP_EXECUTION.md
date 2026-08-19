@@ -1,5 +1,55 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
+
+Current verified source and `NEXT_TASK.md` override every retained roadmap body below.
+
+Completed connected prerequisites now include Cloud/Sync Readiness Phase 1A through 1F and Private Account/Auth Stages 2A through 2H.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING through PR #93. Exact validated final head `98f28f71fa6977502333535a9865ab446effde65`; squash merge / independently verified live-main boundary `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`.
+
+Current selected prerequisite: Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
+
+Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Stage 2I is the next pre-provisioning security gate because Stage 2H has now selected a browser-reachable future Cloud Run trust boundary, while no application-attestation policy yet protects that endpoint from non-attested clients before Stage 2F user verification and Career Mode Showdown authorization. Stage 2I selects Firebase App Check with reCAPTCHA Enterprise for the future production web app and requires explicit `X-Firebase-AppCheck` verification for the exact expected Firebase Web App/project at the trusted custom backend.
+
+App Check remains independent of Firebase Authentication, Career Mode Showdown application authorization and Stage 2H Google Cloud IAM. It grants no device, pairing, rivalry, session or gameplay authority.
+
+The Stage 2H account-bootstrap runtime permission set remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Stage 2I does not silently add App Check token-consumption permission or a broad Firebase/App Check administrator role. Limited-use/replay consumption remains a separately reviewed beta capability, not an initial correctness dependency.
+
+Every application-client Firestore create/update/delete remains denied. App Check does not repair the Phase 1D / Phase 1F idempotency-receipt security finding and does not authorize direct browser shared-state mutation.
+
+Stage 2I is authorization/policy proof only. It does not create or connect production Firebase, Firebase Web App, reCAPTCHA Enterprise key, App Check registration/enforcement, Cloud Run, service account, IAM binding/custom role, billing, production users/data, Authorized Domains/provider configuration or production Security Rules.
+
+The corrected dependency chain is:
+
+Cloud / Sync Readiness — DONE through Phase 1F
+→ Private Account / Authentication / Authorization Stage 2 — CURRENT
+→ Stages 2A–2H — DONE / MERGED / PROVEN
+→ Stage 2I app attestation + trusted endpoint abuse-resistance — AUTHORIZED NEXT / IMPLEMENTATION NOT STARTED
+→ later Stage 2 prerequisites — dependency-gated / not pre-authorized by roadmap order
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED
+→ Stage 4 Connected Rivalry — BLOCKED
+→ Stage 5 Private Remote Joining — prioritized long-term final destination.
+
+Production website state remains v1.4.0 / `1.4.0-r1`; this Stage 2I authorization boundary is dormant non-runtime prerequisite work and receives no visible semantic version bump. Public/community/ranking/discovery/matchmaking systems remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Any older Stage 2D/2G/2H-current wording is historical only.
+
+---
+
+# Career Mode Showdown — Post-v1 Roadmap Execution Guide
+
 ## CURRENT SUCCESSOR OVERRIDE — STAGE 2H — 2026-08-18 ET
 
 Current verified source and `NEXT_TASK.md` override every retained roadmap body below.

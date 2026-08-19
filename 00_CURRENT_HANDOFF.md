@@ -1,5 +1,52 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
+
+Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING through PR #93.
+
+Exact validated final PR #93 head: `98f28f71fa6977502333535a9865ab446effde65`.
+Squash merge / independently verified live main: `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`.
+All 13 normal pull-request workflow families succeeded on that exact unchanged head; submitted reviews and inline review threads were empty.
+
+Fresh successor environment: `we-2026-08-19-post-stage2h-authority-reconcile`.
+Branch: `agent/post-stage2h-authority-reconcile`.
+Starting verified live main: `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`.
+Fresh initial WEC decision: `PREPARE_HANDOFF`.
+Usage: unavailable and not estimated.
+
+The next selected prerequisite is Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
+Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md` and `NEXT_TASK.md`.
+
+Stage 2I selects Firebase App Check with reCAPTCHA Enterprise for the future production web client and requires the future custom Cloud Run backend to verify a transient `X-Firebase-AppCheck` token for the exact expected production Firebase Web App/project before Stage 2F user verification, Career Mode Showdown application authorization and any trusted operation adapter. App Check is application attestation only; it never substitutes for Firebase Authentication, application authorization, device identity, rivalry/session authority or Google Cloud IAM.
+
+The Stage 2H account-bootstrap runtime role remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Stage 2I does not silently add App Check replay-consumption permission or any broad Firebase/App Check administrator role. The beta limited-use/replay feature is not an initial correctness dependency.
+
+Every browser Firestore create/update/delete remains denied. App Check does not repair the Phase 1D / Phase 1F idempotency-receipt schema finding and grants no direct browser shared-state mutation authority.
+
+Production remains application/package v1.4.0 and runtime `1.4.0-r1`. Production Firebase, App Check, reCAPTCHA Enterprise, Cloud Run and IAM remain unprovisioned/disconnected. No production resource or runtime dependency is authorized by this reconciliation/authorization checkpoint.
+
+This environment may finish only the Stage 2H closure / Stage 2I authorization publication boundary. Stage 2I implementation is a distinct milestone; reassess WEC after the current source/history synchronization and obey the final decision before any implementation. Stage 3 remains blocked until the entire Stage 2 lane is DONE / MERGED / PROVEN.
+
+Public discovery, public profiles, public matchmaking, public invitation directories, community systems and global leaderboard/rankings remain eliminated. Canonical storage, Candidate A/B/C, identity, gameplay, recovery and performance locks remain unchanged.
+
+The complete body below is retained unchanged as historical/proven contract provenance and must not override this successor section.
+
+---
+
+# Career Mode Showdown — Current Handoff
+
 ## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
 
 Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.

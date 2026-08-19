@@ -1,5 +1,40 @@
 # Private Account / Authentication Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary
 
+## SUCCESSOR COMPLETION OVERRIDE — 2026-08-19 ET
+
+Status: DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING
+
+Stage 2H is complete through PR #93 `Private Auth Stage 2H trusted runtime IAM boundary`.
+
+Exact validated final PR head:
+
+`98f28f71fa6977502333535a9865ab446effde65`
+
+Squash merge / independently verified live-main completion boundary:
+
+`f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`
+
+All 13 normal pull-request workflow families succeeded on that exact unchanged head. Submitted reviews and inline review threads were empty. PR #93 was squash merged only after the final exact-head gate, and live `main` was independently verified at the merge SHA above.
+
+The completed Stage 2H policy remains production-dormant and non-provisioning. It selects one dedicated same-project Google Cloud Run HTTPS service, one dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware `verifyIdToken(idToken, true)`, separate Career Mode Showdown application authorization and the exact four-permission account-bootstrap runtime custom role:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+No production Firebase project, Firebase Web App, Cloud Run service, service account, custom role, IAM binding, billing commitment, production user/data, provider/Authorized Domains configuration or production Security Rules deployment was created by Stage 2H. Every application-client Firestore create, update and delete remains denied.
+
+Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`. Do not repeat Stage 2H. Current implementation authorization is owned by `NEXT_TASK.md`; the separately selected next prerequisite is Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
+
+The complete body below is retained unchanged as historical implementation/proof authority. Its `CURRENT` wording records the pre-merge Stage 2H implementation state and no longer overrides this successor completion section.
+
+---
+
+# Private Account / Authentication Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary
+
 Status: CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED
 
 Effective: 2026-08-18 ET

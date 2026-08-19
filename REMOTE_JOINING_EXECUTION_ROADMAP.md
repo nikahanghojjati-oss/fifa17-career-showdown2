@@ -1,5 +1,58 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
+
+Current verified source and `NEXT_TASK.md` override every retained predecessor roadmap body below.
+
+Private Remote Joining remains the prioritized long-term destination and remains DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED. Stability, security and dependency correctness continue to outrank speed.
+
+Current dependency state:
+
+Stage 1 — Cloud / Sync Readiness — DONE through Phase 1F.
+
+→ Stage 2 — Private Account / Authentication / Authorization — ACTIVE prerequisite lane.
+
+Stages 2A through 2H — DONE / MERGED / PROVEN.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — completed through PR #93 from exact validated head `98f28f71fa6977502333535a9865ab446effde65` to squash merge / independently verified live-main boundary `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`.
+
+Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary — AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Stage 2I selects Firebase App Check with reCAPTCHA Enterprise for the future production web client and requires explicit verification of a transient `X-Firebase-AppCheck` token for the exact expected production Firebase Web App/project at the future custom Cloud Run backend before Stage 2F user verification, Career Mode Showdown application authorization and any trusted operation adapter. App Check remains distinct from user authentication, application authorization and Google Cloud IAM.
+
+The Stage 2H account-bootstrap runtime custom role remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Stage 2I does not provision Firebase/App Check/reCAPTCHA/Cloud Run/IAM/billing/user/data/provider resources and does not silently add App Check replay-consumption permission. Beta limited-use/replay consumption remains separately reviewable only if a later sensitive operation needs it.
+
+Every application-client Firestore create/update/delete remains denied. App Check does not repair the Phase 1D / Phase 1F idempotency-receipt security finding and does not grant direct browser shared-state mutation authority.
+
+→ later Stage 2 prerequisites — DEPENDENCY-GATED / NOT PRESELECTED BY ROADMAP ORDER.
+
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN.
+
+→ Stage 4 Connected Rivalry — BLOCKED until Stage 3 and all earlier prerequisites are proven.
+
+→ Stage 5 Private Remote Joining — FINAL DEPENDENCY-GATED PRIVATE PRODUCT DESTINATION.
+
+→ hardening / stable release.
+
+Do not skip stages. Public discovery, public profiles, public matchmaking, public invitation directories, community systems and global leaderboard/rankings remain eliminated.
+
+Production application remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`. Production Firebase remains disconnected.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Older Stage 2G-current, Stage 2H-current or Stage 2H-not-started wording is historical only.
+
+---
+
+# Career Mode Showdown — Private Remote Joining Execution Roadmap
+
 ## CURRENT SUCCESSOR OVERRIDE — STAGE 2H — 2026-08-18 ET
 
 Current verified source and `NEXT_TASK.md` override every retained predecessor roadmap body below.
