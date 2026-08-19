@@ -20,7 +20,10 @@ assert.equal(Object.hasOwn(manifest.firebaseWebConfig,"apiKey"),false,"The provi
 assert.equal(manifest.apiKeyManagement.committed,false);
 assert.equal(manifest.apiKeyManagement.source,"firebase-console-or-controlled-deployment-injection");
 assert.equal(manifest.apiKeyManagement.classification,"public-project-configuration");
-assert.equal(manifest.apiKeyManagement.providerRestrictionsVerified,false,"API-key restrictions require provider-side verification before they may be marked proven.");
+assert.equal(manifest.apiKeyManagement.providerRestrictionsVerified,true,"Owner Google Cloud Console evidence must prove the Firebase Browser key API restrictions before runtime injection.");
+assert.equal(manifest.apiKeyManagement.providerRestrictionCount,25);
+assert.equal(manifest.apiKeyManagement.generativeLanguageApiAllowed,false,"The public Firebase Browser key must never allow Generative Language API.");
+assert.match(manifest.apiKeyManagement.providerVerificationEvidence,/2026-08-19[\s\S]+25 selected APIs[\s\S]+does not contain Generative Language API/i);
 assert.equal(manifest.firebaseWebConfig.storageBucket,"fifa17-career-showdown-prod.firebasestorage.app");
 assert.equal(manifest.firestore.databaseId,"(default)");
 assert.equal(manifest.firestore.location,"nam7");
@@ -64,39 +67,17 @@ const compatibilityCandidate = {
     provider: "google",
     providerClass: "GoogleAuthProvider",
     flow: "popup",
-    userGestureRequired: true,
-    redirectAuthorized: false,
-    persistence: "browserSessionPersistence",
-    extraOAuthScopes: []
+    userGestureRequired:true,
+    redirectAuthorized:false,
+    persistence:"browserSessionPersistence",
+    extraOAuthScopes:[]
   },
-  firestoreLocation: {
-    decisionRecorded: manifest.firestore.locationDecisionRecorded,
-    value: manifest.firestore.location
-  },
-  firestore: {
-    persistentOfflineCache: manifest.securityLocks.persistentFirestoreOfflineCache,
-    clientWrites: manifest.securityLocks.applicationClientFirestoreWrites,
-    trustedMutationGatewayAuthorized: manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser
-  },
-  security: {
-    webApiKeyClassification: manifest.securityLocks.webApiKeyClassification,
-    webApiKeyIsAuthorizationSecret: manifest.securityLocks.webApiKeyIsAuthorizationSecret
-  },
-  publicFeatures: {
-    discovery: manifest.securityLocks.publicDiscovery,
-    profiles: manifest.securityLocks.publicProfiles,
-    matchmaking: manifest.securityLocks.publicMatchmaking,
-    community: manifest.securityLocks.community,
-    rankings: manifest.securityLocks.rankings
-  }
+  firestoreLocation:{decisionRecorded:manifest.firestore.locationDecisionRecorded,value:manifest.firestore.location},
+  firestore:{persistentOfflineCache:manifest.securityLocks.persistentFirestoreOfflineCache,clientWrites:manifest.securityLocks.applicationClientFirestoreWrites,trustedMutationGatewayAuthorized:manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser},
+  security:{webApiKeyClassification:manifest.securityLocks.webApiKeyClassification,webApiKeyIsAuthorizationSecret:manifest.securityLocks.webApiKeyIsAuthorizationSecret},
+  publicFeatures:{discovery:manifest.securityLocks.publicDiscovery,profiles:manifest.securityLocks.publicProfiles,matchmaking:manifest.securityLocks.publicMatchmaking,community:manifest.securityLocks.community,rankings:manifest.securityLocks.rankings}
 };
-assert.deepEqual(
-  preflight.validate(compatibilityCandidate),
-  {ok:true,errors:[]},
-  "The verified project/Web-App metadata and nam7 Firestore location must remain compatible with the locked Stage 2D production policy when the public Web API key is injected outside committed metadata."
-);
-assert.equal(manifest.activation.productionAuthorizedDomain,"not-verified-yet","Firestore verification must never be mistaken for provider-side Authorized Domains proof.");
-assert.equal(manifest.activation.googleAuthProvider,"not-enabled-yet","Firestore verification must never be mistaken for provider-side Google Auth proof.");
+assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The verified project/Web-App metadata, nam7 Firestore location and externally injected public Web API key must remain compatible with the locked Stage 2D production policy.");
 
 const serialized = JSON.stringify(manifest);
 for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken","idToken","serviceAccountKey"]){
@@ -104,4 +85,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, verified Firestore existence, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, verified Firestore existence, verified Firebase-only API restriction evidence, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
