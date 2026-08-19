@@ -30,21 +30,24 @@ At the start of every development environment, read these files before substanti
 
 1. `00_HANDOFF_GOLDEN_RULE.md`
 2. `00_WORK_ENVIRONMENT_CONTINUITY.md`
-3. `WORK_ENVIRONMENT_STATUS.json`
-4. `WORK_ENVIRONMENT_HISTORY.md`
-5. `00_DEVELOPER_START_HERE.md`
-6. `00_CURRENT_HANDOFF.md`
-7. `PROJECT_STATE.md`
-8. `NEXT_TASK.md`
+3. `00_FORWARD_PROGRESS_ANTI_LOOP.md`
+4. `WORK_ENVIRONMENT_STATUS.json`
+5. `WORK_ENVIRONMENT_HISTORY.md`
+6. `00_DEVELOPER_START_HERE.md`
+7. `00_CURRENT_HANDOFF.md`
+8. `PROJECT_STATE.md`
+9. `NEXT_TASK.md`
 
 Then follow this order:
 
 1. Validate the inherited status record with `npm run work:continuity:validate` before changing it.
-2. If the record belongs to an earlier environment, append its final facts to `WORK_ENVIRONMENT_HISTORY.md`, replace it with a new unique environment ID, reset every per-environment observation and record the live `main` SHA in `repository.startingMainSha`.
+2. If the record belongs to an earlier environment, preserve its final facts. Append them to `WORK_ENVIRONMENT_HISTORY.md` when a safe additions-only route is genuinely available. If the available tool cannot append without risking rewrite/truncation, preserve an exact recovery-safe payload instead and do not let that deferred append block the next owner-authorized engineering milestone unless a permanent gate actually requires the canonical append. Replace the predecessor record with a new unique environment ID, reset every per-environment observation and record the live `main` SHA in `repository.startingMainSha`.
 3. Record the current bounded task, safe checkpoint, next action, unfinished work and hazards.
 4. Only after the current environment owns `WORK_ENVIRONMENT_STATUS.json`, run `npm run work:assess` and obey that new environment's decision.
 
 A closed or transition-prepared decision can correctly stop its owning environment. Never treat the predecessor's transition decision as the successor's starting decision, and never let it prevent the successor from initializing its own record.
+
+When a fresh successor is allowed to continue and current source plus owner direction identify the next real engineering dependency, the successor may activate that task in `NEXT_TASK.md` atomically with the same bounded engineering candidate. Do not create a preliminary authority-only PR merely because the predecessor checkpoint is still named in current files.
 
 Update `WORK_ENVIRONMENT_STATUS.json` at every meaningful checkpoint described by the protocol, then run `npm run work:assess` again.
 
@@ -58,7 +61,20 @@ Obey the assessment decision:
 - `HANDOFF_NOW`: start no more work; seal the current coherent boundary, generate the prompt and stop.
 - `FINISH_SAFE_BOUNDARY`: complete or safely revert only the minimum atomic work needed for coherence, then hand off immediately.
 
-When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY.md`. Give the owner the complete ready-to-paste output from `npm run work:handoff`. The next environment inherits this loop recursively.
+When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY.md` through a safe additions-only route when available. If no safe append route exists, preserve the exact recovery payload and do not manufacture a history-only milestone solely to perform that append. Give the owner the complete ready-to-paste output from `npm run work:handoff`. The next environment inherits this loop recursively.
+
+## Mandatory forward-progress / anti-loop rule
+
+`00_FORWARD_PROGRESS_ANTI_LOOP.md` is permanent repository policy. Continuity, history and current-authority maintenance protect engineering; they are not the project destination.
+
+1. After a fresh WEC allows continuation, advance the smallest safe owner-prioritized engineering dependency. For the current project direction, prefer work that materially reduces dependency distance to a workable private Remote Joining session.
+2. Do not open a standalone continuity/history/authority PR unless an objective blocker exists: a failing permanent contract, contradictory current implementation authority, unsafe publication/recovery state, data-loss/security risk, or another demonstrated condition that prevents safe engineering or publication.
+3. Stale historical prose that cannot override current source, an unappended non-authoritative history payload, naming cleanup or general documentation cleanliness is not by itself a blocker.
+4. Do not create history-of-history repair loops or a new history-only milestone merely because the prior closeout produced more history.
+5. If live `main` advances before publication because another environment already merged equivalent or superseding work, stop the stale candidate, compare outcomes, close/abandon duplicate work when satisfied, adopt live `main`, and continue to the next real dependency. Do not create a reconciliation PR solely because the base SHA changed.
+6. After an interruption, reconstruct exact branch/PR/CI/live-main state and resume from the last coherent engineering checkpoint. Do not restart the entire repository study when the current fresh WEC and source boundary remain valid.
+
+This anti-loop rule never permits skipping a real security, recovery, dependency, testing, WEC or publication requirement.
 
 ## Mandatory Handoff Proximity owner reporting
 
