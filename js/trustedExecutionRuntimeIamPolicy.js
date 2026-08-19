@@ -74,7 +74,7 @@
     if(condition)errors.push(code);
   }
 
-  function validate(candidate){
+  function validateStage2HPolicy(candidate){
     if(!isStage2HRecord(candidate))return {ok:false,errors:["INVALID_STAGE2H_POLICY_INPUT"]};
 
     const errors=[];
@@ -145,7 +145,7 @@
     return {ok:errors.length===0,errors};
   }
 
-  function createSyntheticReadyFixture(){
+  function createStage2HSyntheticReadyFixture(){
     return {
       runtime:{
         provider:"google-cloud-run",
@@ -234,7 +234,7 @@
     forbiddenRuntimeRoles:STAGE2H_FORBIDDEN_RUNTIME_ROLES,
     browserFirestoreWrites:"deny-all",
     sharedMutationAuthorityGranted:false,
-    validate,
-    createSyntheticReadyFixture
+    validate:validateStage2HPolicy,
+    createSyntheticReadyFixture:createStage2HSyntheticReadyFixture
   });
 });
