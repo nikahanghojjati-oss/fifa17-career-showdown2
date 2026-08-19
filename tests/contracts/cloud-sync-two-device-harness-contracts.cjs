@@ -7,6 +7,7 @@ const transactionSource=fs.readFileSync("js/storageTransaction.js","utf8");
 const harnessSource=fs.readFileSync("js/cloudSyncTwoDeviceHarness.js","utf8");
 const phase1e=fs.readFileSync("CLOUD_SYNC_READINESS_PHASE_1E.md","utf8");
 const next=fs.readFileSync("NEXT_TASK.md","utf8");
+const historicalNext=fs.readFileSync("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
@@ -23,7 +24,9 @@ assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
-assert.match(next,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current NEXT_TASK must identify the real post-PR100 Stage 2 prerequisite rather than revive Phase 1E as current authority.");
+assert.match(next,/Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
+assert.match(historicalNext,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i,"Exact archived predecessor authority must retain the historical Phase 1D → 1E → 1F implementation sequence.");
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
