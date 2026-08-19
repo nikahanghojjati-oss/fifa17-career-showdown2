@@ -8,6 +8,7 @@ const rules = read("firestore.rules");
 const phase1f = read("CLOUD_SYNC_READINESS_PHASE_1F.md");
 const phase1e = read("CLOUD_SYNC_READINESS_PHASE_1E.md");
 const next = read("NEXT_TASK.md");
+const archivedNext = read("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md");
 const workflow = read(".github/workflows/validate-static-app.yml");
 const emulatorTest = read("tests/firebase/cloud-sync-phase1f-emulator.cjs");
 const index = read("index.html");
@@ -87,9 +88,17 @@ assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-test
 
 assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
-assert.match(next, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+
+// Historical Phase 1E → 1F authorization wording belongs to the exact archived NEXT_TASK authority.
+assert.match(archivedNext, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+assert.match(archivedNext, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
+assert.match(archivedNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
+
+// Rolling NEXT_TASK owns the current, stronger production-isolation boundary.
 assert.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i);
-assert.match(next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(next, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
+assert.match(next, /Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i);
+assert.match(next, /PRODUCTION FIREBASE DISCONNECTED/i);
+assert.match(next, /Every application-client Firestore create\/update\/delete remains denied/i);
+assert.match(next, /Production Firebase[\s\S]+Cloud Run[\s\S]+IAM[\s\S]+remain disconnected\/unprovisioned/i);
 
 process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts\n");
