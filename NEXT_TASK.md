@@ -1,5 +1,186 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT IMPLEMENTATION AUTHORITY — TRUSTED CONNECTED DATA ACCOUNT EXPORT EXECUTION — 2026-08-19 ET
+
+Current verified source, live GitHub, the owner’s Remote Joining priority / anti-sidequest direction, and later owner instructions override every retained historical body below.
+
+Status: CURRENT IMPLEMENTATION PREREQUISITE / DORMANT TRUSTED ACCOUNT-LIFECYCLE PORTABILITY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED / REMOTE JOINING PRIORITY ACTIVE.
+
+Current branch: `agent/trusted-connected-data-account-export`.
+Current environment: `we-2026-08-19-trusted-connected-data-account-export`.
+Starting independently verified live main: `630d047c2db7634bbb0d5ff2d387f71fc265f58d`.
+Fresh WEC decision: `CONTINUE`.
+Usage: unavailable and not estimated.
+Authorized product candidate: none.
+
+PR #105 `Add trusted shared mutation gateway prerequisite` is DONE / MERGED / PROVEN through squash merge `39aa6cb5bf039b18f51c3982875e8f31a8335766`.
+
+PR #106 `Preserve owner progress reporting format` is DONE / MERGED / PROVEN through squash merge `9f1546177ec84bc11c2c9ee6a631c69906df2206`.
+
+PR #107 `Add trusted account deletion execution prerequisite` is DONE / MERGED / PROVEN through squash merge / current starting live main `630d047c2db7634bbb0d5ff2d387f71fc265f58d`.
+
+Trusted account deletion is no longer the current implementation task. Its complete former current-authority body is retained below as historical/proven provenance and must not override this section.
+
+## Current selected Stage 2 prerequisite
+
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN at their protected dormant/non-production boundaries. Trusted Shared Mutation Gateway and Trusted Account Deletion Execution are also DONE / MERGED / PROVEN.
+
+Stage 2 as a whole remains incomplete.
+
+Current selected smallest direct prerequisite:
+
+`PRIVATE_ACCOUNT_AUTH_TRUSTED_CONNECTED_DATA_ACCOUNT_EXPORT.md`
+
+Dormant implementation:
+
+`js/trustedConnectedDataAccountExport.js`
+
+Permanent executable contracts:
+
+`tests/contracts/trusted-connected-data-account-export-boundary-contracts.cjs`
+`tests/contracts/trusted-connected-data-account-export-contracts.cjs`
+
+This prerequisite intentionally has no synthetic `Stage 2J` label. It is selected by actual dependency function.
+
+Phase 1C requires a future connected-data export to be explicit/private and forbids exposure of another account’s authentication secrets, device secrets, security logs or invite tokens. Stage 2H explicitly retained account lifecycle export/deletion execution as later Stage 2 work. Current main after PR #107 has trusted deletion execution but no connected-data account export executor.
+
+This candidate closes the remaining provider-neutral account portability proof before real production data collection/provider activation. It is direct Remote Joining prerequisite work, not a continuity/documentation sidequest.
+
+## Trusted connected export lock
+
+For every future protected non-preflight browser request, preserve the permanent outer trust order:
+
+1. production-origin allowlist defense in depth;
+2. transient `X-Firebase-AppCheck`;
+3. trusted Firebase Admin App Check verification;
+4. exact expected production Firebase Web App identity;
+5. exact production project audience;
+6. Stage 2F-equivalent revocation-aware `verifyIdToken(idToken, true)`;
+7. derive architecture `accountId` only from verified Firebase UID;
+8. exact operation-specific Career Mode Showdown authorization for connected-data account export;
+9. only then invoke the trusted connected-data export adapter under separately reviewed IAM.
+
+Self-service connected-data export requires an `active` application account. A `disabled` or `deletion-pending` account is denied by this operation.
+
+Export is strictly read-only and non-mutating. It does not change account, device, rivalry, shared-state, tombstone, invitation, session, ownership, revision or gameplay authority.
+
+The trusted inventory boundary accepts only the exact approved classes: the requesting account’s account-to-profile links, registered-device metadata and rivalries the requester is currently entitled to read/export. Any extra inventory class fails closed.
+
+For every rivalry, current exactly-two-manager governance must prove that the verified requester occupies a slot with `active` or `retained` entitlement. A relinquished, absent or different-account slot is denied.
+
+Retained read-only rivalry states may be exported where existing governance preserves read/export entitlement. Relationship revocation still stops shared gameplay mutation and never transfers ownership.
+
+Peer provider account identifiers are minimized from the export. Shared manager slots retain stable gameplay `profileId` and private shared display context, but raw peer Firebase UID/accountId, raw `authorizedAccountIds`, peer `createdByAccountId`, peer `updatedByAccountId` and tombstone account-ID lists are replaced with requester-relative booleans where needed to preserve meaning.
+
+The export explicitly excludes provider authentication credentials/tokens, raw device secrets, raw invite capabilities, private-session operational records, idempotency/replay records, application security-event records and provider security/audit logs.
+
+The authoritative shared gameplay content included in an entitled rivalry remains only the already-defined explicitly connected rivalry Save projection. It never becomes the whole local Save Library, Candidate A/B/C recovery material, unrelated Legacy data, local preferences or Private Cloud Backup.
+
+No export grants ownership transfer, deletion consent, restoration authority or shared mutation authority.
+
+## IAM and browser-write lock
+
+Stage 2H’s proven account-bootstrap runtime custom-role permissions remain exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+This dormant export proof does not add list/query, account update/delete, provider-user delete, shared-state mutation or broader Firebase/Datastore permissions.
+
+A future production-connected export adapter must separately identify exact provider direct-get/list/query methods, justify the minimum scoped query strategy and IAM permissions, and prove them before any production role expansion or provisioning.
+
+Every application-client Firestore create/update/delete remains denied.
+
+## Production isolation and version lock
+
+Production Firebase/provider infrastructure remains disconnected/unprovisioned at this boundary.
+
+No production Firebase project, Web App, provider configuration, Authorized Domain, reCAPTCHA Enterprise key, App Check enforcement, Cloud Run service, service account, IAM binding/custom role, billing commitment, production user/data, Security Rules deployment, account/login UI, registered device, pairing, Connected Rivalry or Private Remote Joining runtime is created by this candidate.
+
+Production remains application/package `1.4.0`, Installable Offline App runtime `1.4.0-r1`, previous known-good whole shell `1.3.0-r2`.
+
+No semantic version or runtime revision bump is appropriate because shipped runtime behavior does not change.
+
+## Remote Joining dependency and product locks
+
+Cloud / synchronization readiness
+→ private account / authentication / authorization
+→ paired-device / private-session capability
+→ Connected Rivalry
+→ Private Remote Joining
+→ end-to-end hardening / stable release.
+
+Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire genuine Stage 2 production/account/operational lane is DONE / MERGED / PROVEN at its required boundary.
+
+Stage 4 Connected Rivalry remains BLOCKED behind Stage 3.
+
+Stage 5 Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED.
+
+Public discovery, public profiles, public matchmaking, public invitation directories, public lobbies, community systems, global leaderboards and public rankings remain eliminated.
+
+Public community features and global leaderboard/rankings are **ELIMINATED**.
+
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns` and `careerModeShowdown.preferences`. Candidate A remains non-mutating export, Candidate B remains read-only import analysis and Candidate C remains the sole destructive import Apply authority with all existing recovery protections.
+
+The connected-data account export is distinct from Candidate A and may never replace local formatVersion 2 portability or upload Candidate A files by implication.
+
+Firebase Auth UID maps only to architecture `accountId`. `accountId`, `profileId`, `saveId`, `seasonId`, `deviceId`, `installationId`, `rivalryId`, `sessionId` and `inviteId` remain distinct namespaces. Exactly two manager slots remain authoritative. Export does not infer ownership transfer or another manager’s consent.
+
+All gameplay/scoring locks remain unchanged.
+
+## What remains after this prerequisite
+
+This candidate closes only the trusted connected-data account export execution subdependency. It does not complete Stage 2 or authorize Stage 3.
+
+After publication, reconstruct current source again. Remaining genuine Stage 2 work still includes real production Firebase/environment/provider provisioning and configuration, production Security Rules deployment and operational verification, exact production IAM activation for trusted operations, abuse/rate controls where actually required, provider outage/recovery and rollback proof, and production launch validation/hardening.
+
+That list is not automatic numbering or implementation order. Do not invent Stage 2J or create documentation/history-only milestones.
+
+If no genuine provider-neutral pre-production blocker remains after this export prerequisite, the next authorized work should move incrementally into real provider/IAM/Security Rules activation and proof rather than manufacture another dormant-paperwork milestone.
+
+## Current completion gate
+
+This trusted connected-data account export prerequisite may be classified DONE / MERGED / PROVEN only when:
+
+1. the boundary document and dormant execution module agree;
+2. verified UID is the only account identity source accepted by the adapter;
+3. exact operation authorization is required before trusted export execution;
+4. only active accounts may self-export and disabled/deletion-pending accounts fail closed;
+5. account/profile/device inventory cannot cross account scope;
+6. each rivalry revalidates current exactly-two-manager `active` or `retained` requester entitlement;
+7. peer provider account identifiers are minimized from exported governance and shared-state metadata;
+8. provider authentication, device-secret, invite, private-session, idempotency and security-log classes are excluded;
+9. live shared gameplay is exported only from the already-authorized explicitly connected rivalry projection;
+10. tombstone identity lists are minimized to requester-relative authority;
+11. export remains non-mutating and grants no ownership transfer, delete, restore or shared-mutation authority;
+12. browser Firestore writes remain deny-all;
+13. Stage 2H IAM remains unchanged;
+14. no production provider/runtime/resource activation occurs;
+15. production version/runtime identity remains `1.4.0` / `1.4.0-r1`;
+16. permanent connected-export contracts are registered and pass;
+17. the complete repository contract suite passes;
+18. all normal PR workflow families pass on one exact unchanged final head;
+19. submitted reviews and inline review threads are clean;
+20. mergeability is clean;
+21. squash merge uses expected-head protection;
+22. resulting live main is independently verified.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish the trusted connected-data account export execution candidate on `agent/trusted-connected-data-account-export`: validate the dormant export adapter, privacy/two-owner boundary and permanent contracts; correct only objective failures without weakening security/recovery/identity semantics; open one bounded engineering PR; require the complete exact-head CI/review/thread/mergeability gate; merge with expected-head protection only after the head is immutable and green; independently verify live main; then reconstruct the next genuine remaining Stage 2 production/account/operational blocker toward Registered Devices / Private Pairing and Private Remote Joining.
+
+---
+
+# RETAINED HISTORICAL AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION — PR #107 PRE-SUCCESSOR STATE
+
+The complete former `NEXT_TASK.md` body below is retained as historical/proven provenance. Its `CURRENT` classifications are historical and do not override the current connected-data export section above.
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT IMPLEMENTATION AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION — 2026-08-19 ET
 
 Current verified source, live GitHub, the owner’s Remote Joining priority / anti-sidequest direction, and later owner instructions override every retained historical body below.
