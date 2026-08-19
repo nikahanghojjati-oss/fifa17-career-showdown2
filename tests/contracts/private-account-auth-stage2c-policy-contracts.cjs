@@ -5,6 +5,7 @@ const read = file => fs.readFileSync(file, "utf8");
 const stage2c = read("PRIVATE_ACCOUNT_AUTH_STAGE_2C.md");
 const stage2b = read("PRIVATE_ACCOUNT_AUTH_STAGE_2B.md");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -46,7 +47,7 @@ assert.match(stage2b, /d6786d9d3f65a329aaf3607c3eb3d3d357983c5f/);
 assert.match(stage2b, /c4feadb69fb5e26eba19fa520afa0a09baf1de03/);
 
 for (const [name, text] of [
-  ["NEXT_TASK.md", next],
+  ["authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md", historicalNext],
   ["PROJECT_STATE.md", state],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
   ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
@@ -60,16 +61,19 @@ for (const [name, text] of [
   assert.match(text, /production Firebase[\s\S]{0,260}(disconnected|NOT CONNECTED)/i, `${name} must keep production Firebase disconnected.`);
 }
 
-assert.match(next, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
-assert.match(next, /15cfa82d9aa74db1275968ed3bc1e42669ab23ec/);
-assert.match(next, /1794f1f86968781b898d000360d1fb56234fb92f/);
-assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
-assert.match(next, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
-assert.match(next, /Authorized product candidate:\s*none/i);
-assert.match(next, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
+assert.match(historicalNext, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
+assert.match(historicalNext, /15cfa82d9aa74db1275968ed3bc1e42669ab23ec/);
+assert.match(historicalNext, /1794f1f86968781b898d000360d1fb56234fb92f/);
+assert.match(historicalNext, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
+assert.match(historicalNext, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
+assert.match(historicalNext, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i);
+assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(next,/Authorized product candidate:\s*none/i);
+assert.match(next,/production Firebase[\s\S]{0,500}(disconnected|unprovisioned)/i);
 
 for (const [name, text] of [
-  ["NEXT_TASK.md", next],
+  ["authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md", historicalNext],
   ["PROJECT_STATE.md", state],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
   ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
@@ -79,7 +83,7 @@ for (const [name, text] of [
   assert.match(text, /PR #87[\s\S]{0,900}(DONE \/ MERGED \/ PROVEN|complete|completed)/i, `${name} must keep PR #87 closed.`);
   assert.match(text, /2415c156161b6244c75e49917bad28efed957adf/i, `${name} must retain PR #87 exact validated head.`);
   assert.match(text, /0accb827fa91f86fdd28e63590bd4843267546ae/i, `${name} must retain PR #87 squash-merge boundary.`);
-  assert.match(text, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i, `${name} must identify Stage 2D as current.`);
+  assert.match(text, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i, `${name} must retain the historical Stage 2D-current transition evidence.`);
 }
 
 assert.match(state, /Stage 2C — completed/i);
@@ -112,4 +116,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C completed policy remains protected while Stage 2D preflight is current\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with exact historical Stage 2D transition preserved separately from current gateway authority\n");

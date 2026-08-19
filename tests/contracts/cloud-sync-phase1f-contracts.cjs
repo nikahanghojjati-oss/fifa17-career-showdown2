@@ -8,6 +8,7 @@ const rules = read("firestore.rules");
 const phase1f = read("CLOUD_SYNC_READINESS_PHASE_1F.md");
 const phase1e = read("CLOUD_SYNC_READINESS_PHASE_1E.md");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const workflow = read(".github/workflows/validate-static-app.yml");
 const emulatorTest = read("tests/firebase/cloud-sync-phase1f-emulator.cjs");
 const index = read("index.html");
@@ -87,9 +88,11 @@ assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-test
 
 assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
-assert.match(next, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i);
+assert.match(next, /CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current NEXT_TASK must keep the real Stage 2 gateway prerequisite current rather than revive Phase 1F.");
+assert.match(next, /Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
+assert.match(historicalNext, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i,"Exact archived predecessor authority must retain the historical Phase 1E → Phase 1F implementation transition.");
 assert.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i);
 assert.match(next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(next, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i);
+assert.match(historicalNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Archived Phase 1F-era authority must retain the exact production-runtime prohibition that applied during that prerequisite.");
 
 process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts\n");

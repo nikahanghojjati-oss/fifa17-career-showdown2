@@ -10,6 +10,7 @@ const emulatorTest = read("tests/firebase/private-account-auth-stage2e-bootstrap
 const workflow = read(".github/workflows/validate-static-app.yml");
 const rules = read("firestore.rules");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -159,13 +160,16 @@ assert.match(workflow, /firebase-admin@14\.2\.0/);
 assert.match(rules, /match \/accounts\/\{accountId\}[\s\S]+allow get: if signedIn\(\) && request\.auth\.uid == accountId;[\s\S]+allow list, create, update, delete:\s*if false/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-assert.match(next, /Stage 2E[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next, /f7d462b3d8252b2912f34a1589e457c03e977bd3/i);
-assert.match(next, /0cb56c22f82facdb248c8c68ec59064c5612c543/i);
-assert.match(next, /Stage 2F[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next, /Current authorized prerequisite candidate:[\s\S]{0,320}Stage 2G/i);
-assert.match(next, /Stage 2G[\s\S]{0,900}CURRENT \/ IMPLEMENTATION-AUTHORIZED/i);
-assert.match(next, /production Firebase[\s\S]{0,500}disconnected/i);
+assert.match(historicalNext, /Stage 2E[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
+assert.match(historicalNext, /f7d462b3d8252b2912f34a1589e457c03e977bd3/i);
+assert.match(historicalNext, /0cb56c22f82facdb248c8c68ec59064c5612c543/i);
+assert.match(historicalNext, /Stage 2F[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
+assert.match(historicalNext, /Current authorized prerequisite candidate:[\s\S]{0,320}Stage 2G/i);
+assert.match(historicalNext, /Stage 2G[\s\S]{0,900}CURRENT \/ IMPLEMENTATION-AUTHORIZED/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i);
+assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(next,/production Firebase[\s\S]{0,500}(disconnected|unprovisioned)/i);
+assert.match(next,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
 
 for (const [name, text] of [
   ["PROJECT_STATE.md", state],
@@ -195,4 +199,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap and Stage 2F/2G successor contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with historical Stage 2F/2G transition separated from current gateway authority\n");

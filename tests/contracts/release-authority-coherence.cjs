@@ -30,6 +30,7 @@ const start = read("00_DEVELOPER_START_HERE.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const analyticsHandoff = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const readme = read("README.md");
 const state = read("PROJECT_STATE.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
@@ -180,7 +181,9 @@ A.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #
 A.match(next, /8fc671fc644e69b4fd405d7ebc28f961b2f3ae27/i, "NEXT_TASK must record the live main feature-merge SHA for PR #67.");
 A.match(next, /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i, "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save as production-proven.");
 A.match(next, /Current production Installable Offline App runtime: `1\.4\.0-r1`[\s\S]+Immediate previous known-good whole shell: `1\.3\.0-r2`/i, "NEXT_TASK must own coherent v1.4.0-r1 production delivery identity and v1.3.0-r2 recovery truth.");
-A.match(next, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+No product candidate is currently authorized[\s\S]+Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "NEXT_TASK must keep product runtime gated while advancing exactly from merged Phase 1D to current Phase 1E and blocked-next Phase 1F.");
+A.match(historicalNext, /Cloud\/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`[\s\S]+No product candidate is currently authorized[\s\S]+Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E[\s\S]+Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "Archived NEXT_TASK must retain the historical Phase 1D → Phase 1E → Phase 1F authorization sequence.");
+A.match(next, /CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i, "Current NEXT_TASK must identify the trusted shared mutation gateway rather than reviving a completed Cloud/Sync prerequisite.");
+A.match(next, /Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i, "Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
 A.match(next, /former clean-stop wording[\s\S]+satisfied[\s\S]+Do not revive/i, "NEXT_TASK must record that the owner has satisfied the former wait-for-instruction boundary without opening blocked runtime work.");
 A.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must preserve Remote Joining priority without silently authorizing runtime work.");
 
@@ -228,4 +231,4 @@ const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
 A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; historical r2 production proof, completed identity and multi-Save layers, Phase B/C closure, recovery ownership, Phase 1D closure, current Phase 1E deterministic proof gate, blocked-next Phase 1F, prioritized dependency-gated Remote Joining, private product locks, cloud boundary and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current gateway authority, archived Cloud/Sync transition provenance, production/recovery identity, completed product layers, Remote Joining locks and workflow topology agree.\n`);

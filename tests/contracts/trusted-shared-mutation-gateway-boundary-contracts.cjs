@@ -1,0 +1,53 @@
+const assert=require("node:assert/strict");
+const fs=require("node:fs");
+
+const boundary=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_TRUSTED_SHARED_MUTATION_GATEWAY.md","utf8");
+const implementation=fs.readFileSync("js/trustedSharedMutationGateway.js","utf8");
+const stage2i=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2I.md","utf8");
+const rules=fs.readFileSync("firestore.rules","utf8");
+const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
+const index=fs.readFileSync("index.html","utf8");
+const optional=fs.readFileSync("js/optionalModules.js","utf8");
+const worker=fs.readFileSync("service-worker.js","utf8");
+
+assert.match(boundary,/Trusted Shared Mutation Gateway Boundary/);
+assert.match(boundary,/intentionally has no synthetic Stage 2J label/i);
+assert.match(boundary,/trusted shared-mutation gateway\/protocol boundary unresolved/i);
+assert.match(boundary,/Every application-client Firestore create\/update\/delete remains denied/i);
+assert.match(boundary,/`js\/trustedSharedMutationGateway\.js`/);
+assert.match(boundary,/`tests\/contracts\/trusted-shared-mutation-gateway-contracts\.cjs`/);
+assert.match(boundary,/provider may rerun its transaction callback[\s\S]+may not refresh the original client `baseRevision`/i);
+assert.match(boundary,/current account status is `active`[\s\S]+registered device state is `active`[\s\S]+current entitled account set[\s\S]+rivalry state permits shared mutation[\s\S]+operation remains explicitly authorized/i);
+assert.match(boundary,/Session authority is conditional, not globally required/i);
+assert.match(boundary,/exact same fingerprint and original `baseRevision`[\s\S]+status: replayed[\s\S]+perform no mutation/i);
+assert.match(boundary,/idempotency-conflict/i);
+assert.match(boundary,/STALE_BASE_REVISION/);
+assert.match(boundary,/tombstone-restore-required/);
+assert.match(boundary,/restore-live-object/);
+assert.match(boundary,/does not return full remote gameplay payload/i);
+assert.match(boundary,/Stage 2H's current exact four-permission role remains only the proven account-bootstrap role/i);
+assert.match(boundary,/does not silently add `datastore\.entities\.update`, `datastore\.entities\.delete`/i);
+assert.match(boundary,/Production dormancy is temporary safety sequencing, not the final destination/i);
+assert.match(boundary,/This prerequisite alone does not prove the entire Stage 2 lane complete/i);
+assert.match(boundary,/Registered Devices \/ Private Pairing/i);
+assert.match(boundary,/Public discovery[\s\S]+global leaderboards[\s\S]+public rankings remain eliminated/i);
+assert.match(boundary,/careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/);
+assert.match(boundary,/Candidate A remains non-mutating export[\s\S]+Candidate B remains read-only analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
+
+assert.match(stage2i,/trusted shared-mutation gateway\/protocol boundary/i);
+assert.match(stage2i,/Every application-client Firestore create\/update\/delete remains denied/i);
+assert.match(implementation,/clientBaseRevisionMayRefreshOnRetry:false/);
+assert.match(implementation,/sharedMutationAuthorityGrantedOnlyPerOperation:true/);
+assert.match(implementation,/sessionAuthorityRequiredOnlyWhenOperationPolicyRequiresIt:true/);
+assert.match(implementation,/TRUSTED_SHARED_MUTATION_CLIENT_AUTHORITY_FORBIDDEN/);
+assert.match(implementation,/STALE_BASE_REVISION/);
+assert.match(implementation,/idempotency-conflict/);
+assert.match(implementation,/tombstone-restore-required/);
+assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
+assert.doesNotMatch(index,/trustedSharedMutationGateway\.js/);
+assert.doesNotMatch(optional,/trustedSharedMutationGateway\.js/);
+assert.doesNotMatch(worker,/trustedSharedMutationGateway\.js/);
+assert.equal(pkg.version,"1.4.0");
+assert.equal(pkg.dependencies,undefined);
+
+process.stdout.write("PASS trusted shared mutation gateway boundary: dormant trusted-only protocol, immutable CAS/replay/tombstone rules, no IAM/browser broadening and Remote Joining dependency discipline are protected.\n");
