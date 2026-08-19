@@ -71,17 +71,17 @@ assert.match(stage2h,/DONE \/ MERGED \/ PROVEN/);
 assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
+// Stage 2I is historical proof. It must protect the trust locks without freezing whichever later Stage 2 prerequisite is CURRENT.
 const currentNextTask=currentOverride(nextTask);
-assert.match(currentNextTask,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION/);
-assert.match(currentNextTask,/Status: CURRENT IMPLEMENTATION PREREQUISITE \/ DORMANT TRUSTED ACCOUNT-LIFECYCLE PROOF \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ REMOTE JOINING PRIORITY ACTIVE/);
-assert.match(currentNextTask,/agent\/stage2-production-activation/);
-assert.match(currentNextTask,/we-2026-08-19-stage2-production-activation/);
-assert.match(currentNextTask,/9f1546177ec84bc11c2c9ee6a631c69906df2206/);
+assert.match(currentNextTask,/CURRENT IMPLEMENTATION AUTHORITY —/);
+assert.match(currentNextTask,/Status: CURRENT IMPLEMENTATION PREREQUISITE[\s\S]+NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ REMOTE JOINING PRIORITY ACTIVE/);
+assert.match(currentNextTask,/Current branch: `agent\//);
+assert.match(currentNextTask,/Current environment: `we-/);
+assert.match(currentNextTask,/Starting independently verified live main: `[0-9a-f]{40}`/i);
 assert.match(currentNextTask,/PR #105[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(currentNextTask,/PR #106[\s\S]+DONE \/ MERGED \/ PROVEN/);
+assert.match(currentNextTask,/PR #107[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(currentNextTask,/Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/);
-assert.match(currentNextTask,/PRIVATE_ACCOUNT_AUTH_TRUSTED_ACCOUNT_DELETION_EXECUTION\.md/);
-assert.match(currentNextTask,/js\/trustedAccountDeletionExecution\.js/);
 assert.match(currentNextTask,/intentionally has no synthetic `Stage 2J` label/i);
 assert.match(currentNextTask,/Fresh (?:startup )?WEC decision: `CONTINUE`/);
 assert.match(currentNextTask,/Every application-client Firestore create\/update\/delete remains denied/i);
@@ -90,7 +90,9 @@ assert.match(currentNextTask,/Candidate A remains non-mutating export[\s\S]+Cand
 assert.match(currentNextTask,/global leaderboards and public rankings remain eliminated/i);
 assert.match(currentNextTask,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
 assert.match(currentNextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(currentNextTask,/closes only the trusted account-deletion execution subdependency/i);
+assert.match(nextTask,/RETAINED HISTORICAL AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION/i);
+assert.match(nextTask,/PRIVATE_ACCOUNT_AUTH_TRUSTED_ACCOUNT_DELETION_EXECUTION\.md/);
+assert.match(nextTask,/js\/trustedAccountDeletionExecution\.js/);
 
 const environmentMatch=currentNextTask.match(/Current environment: `([^`]+)`/);
 const mainMatch=currentNextTask.match(/Starting independently verified live main: `([0-9a-f]{40})`/i);
@@ -132,12 +134,13 @@ assert.match(history,/PR #97 post-seal publication facts pending canonical histo
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
-assert.doesNotMatch(index,/trustedAppAttestationRequest\.js|trustedSharedMutationGateway\.js|trustedAccountDeletionExecution\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
-assert.doesNotMatch(optional,/trustedAppAttestationRequest\.js|trustedSharedMutationGateway\.js|trustedAccountDeletionExecution\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
-assert.doesNotMatch(worker,/trustedAppAttestationRequest\.js|trustedSharedMutationGateway\.js|trustedAccountDeletionExecution\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i);
+const dormantTrustedModules=/trustedAppAttestationRequest\.js|trustedSharedMutationGateway\.js|trustedAccountDeletionExecution\.js|trustedConnectedDataAccountExport\.js|firebase\/app-check|ReCaptchaEnterpriseProvider|X-Firebase-AppCheck/i;
+assert.doesNotMatch(index,dormantTrustedModules);
+assert.doesNotMatch(optional,dormantTrustedModules);
+assert.doesNotMatch(worker,dormantTrustedModules);
 assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined,"Dormant trusted Stage 2 proofs must not add production dependencies.");
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 
-process.stdout.write("PASS Stage 2I locks with current trusted account deletion authority, fresh WEC identity and exact predecessor archive preservation\n");
+process.stdout.write("PASS Stage 2I locks remain historically protected without freezing later Stage 2 current-task authority; fresh WEC identity and predecessor archives remain coherent.\n");
