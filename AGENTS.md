@@ -41,7 +41,7 @@ At the start of every development environment, read these files before substanti
 Then follow this order:
 
 1. Validate the inherited status record with `npm run work:continuity:validate` before changing it.
-2. If the record belongs to an earlier environment, preserve its final facts. Append them to `WORK_ENVIRONMENT_HISTORY.md` when a safe additions-only route is genuinely available. If the available tool cannot append without risking rewrite/truncation, preserve an exact recovery-safe payload instead and do not let that deferred append block the next owner-authorized engineering milestone unless a permanent gate actually requires the canonical append. Replace the predecessor record with a new unique environment ID, reset every per-environment observation and record the live `main` SHA in `repository.startingMainSha`.
+2. If the record belongs to an earlier environment, preserve its final facts. When a safe additions-only route is genuinely available, append its final facts to `WORK_ENVIRONMENT_HISTORY.md`. If the available tool cannot append without risking rewrite/truncation, preserve an exact recovery-safe payload instead and do not let that deferred append block the next owner-authorized engineering milestone unless a permanent gate actually requires the canonical append. Replace the predecessor record with a new unique environment ID, reset every per-environment observation and record the live `main` SHA in `repository.startingMainSha`.
 3. Record the current bounded task, safe checkpoint, next action, unfinished work and hazards.
 4. Only after the current environment owns `WORK_ENVIRONMENT_STATUS.json`, run `npm run work:assess` and obey that new environment's decision.
 
