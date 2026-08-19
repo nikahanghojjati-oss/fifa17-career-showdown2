@@ -6,11 +6,16 @@ const implementation=fs.readFileSync("js/trustedConnectedDataAccountExport.js","
 const privacy=fs.readFileSync("REMOTE_DATA_PRIVACY_RETENTION_POLICY.md","utf8");
 const remote=fs.readFileSync("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md","utf8");
 const stage2h=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2H.md","utf8");
+const nextTask=fs.readFileSync("NEXT_TASK.md","utf8");
 const rules=fs.readFileSync("firestore.rules","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
+
+function currentOverride(text){
+  return text.split(/\n---\n/)[0];
+}
 
 assert.match(boundary,/Trusted Connected Data Account Export Execution Boundary/);
 assert.match(boundary,/intentionally has no synthetic Stage 2J label/i);
@@ -50,6 +55,24 @@ assert.match(remote,/disabled account[\s\S]+other entitled owner retains authori
 assert.match(stage2h,/account lifecycle export\/deletion execution/i);
 assert.match(stage2h,/If a later separately authorized Stage 2 operation requires[\s\S]+export[\s\S]+additional permission must be justified/i);
 
+const currentNextTask=currentOverride(nextTask);
+assert.match(currentNextTask,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED CONNECTED DATA ACCOUNT EXPORT EXECUTION/);
+assert.match(currentNextTask,/Status: CURRENT IMPLEMENTATION PREREQUISITE \/ DORMANT TRUSTED ACCOUNT-LIFECYCLE PORTABILITY PROOF \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ REMOTE JOINING PRIORITY ACTIVE/);
+assert.match(currentNextTask,/agent\/trusted-connected-data-account-export/);
+assert.match(currentNextTask,/we-2026-08-19-trusted-connected-data-account-export/);
+assert.match(currentNextTask,/630d047c2db7634bbb0d5ff2d387f71fc265f58d/);
+assert.match(currentNextTask,/PR #107[\s\S]+DONE \/ MERGED \/ PROVEN/);
+assert.match(currentNextTask,/PRIVATE_ACCOUNT_AUTH_TRUSTED_CONNECTED_DATA_ACCOUNT_EXPORT\.md/);
+assert.match(currentNextTask,/js\/trustedConnectedDataAccountExport\.js/);
+assert.match(currentNextTask,/tests\/contracts\/trusted-connected-data-account-export-boundary-contracts\.cjs/);
+assert.match(currentNextTask,/tests\/contracts\/trusted-connected-data-account-export-contracts\.cjs/);
+assert.match(currentNextTask,/intentionally has no synthetic `Stage 2J` label/i);
+assert.match(currentNextTask,/Fresh WEC decision: `CONTINUE`/);
+assert.match(currentNextTask,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
+assert.match(currentNextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
+assert.match(currentNextTask,/closes only the trusted connected-data account export execution subdependency/i);
+assert.match(nextTask,/RETAINED HISTORICAL AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION/i);
+
 assert.match(implementation,/productionRuntimeConnected:false/);
 assert.match(implementation,/productionProvisioningAuthorized:false/);
 assert.match(implementation,/trustedServerOnly:true/);
@@ -75,4 +98,4 @@ assert.doesNotMatch(worker,/trustedConnectedDataAccountExport\.js/);
 assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant runtime isolation and unchanged IAM/browser-write locks are protected.\n");
+process.stdout.write("PASS trusted connected data account export boundary: current authority, private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant runtime isolation and unchanged IAM/browser-write locks are protected.\n");
