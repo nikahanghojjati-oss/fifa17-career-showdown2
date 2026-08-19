@@ -158,6 +158,8 @@ Production Firebase, Firebase Web App, Google provider/Authorized Domains, reCAP
 
 Production application milestone remains `v1.4.0`; package remains `1.4.0`; Installable Offline App runtime remains `1.4.0-r1`; previous whole shell remains `1.3.0-r2`.
 
+Protected shipped baselines remain v1.3.0 — Recovery & Device Resilience Hardening; Local Profiles and Save Library remain completed production dependencies.
+
 This dormant prerequisite receives no semantic application-version bump because shipped runtime behavior is unchanged.
 
 ## Storage, recovery, identity and private-product locks
