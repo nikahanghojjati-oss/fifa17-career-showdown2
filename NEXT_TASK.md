@@ -11,6 +11,7 @@ Current environment: `we-2026-08-19-stage2-remaining-dependency-reconstruction`.
 Starting independently verified live main: `902058d56ec3f1b1fef4918f38568b54cf2dd7bb`.
 Fresh WEC decision: `CONTINUE`.
 Usage: unavailable and not estimated.
+Authorized product candidate: none.
 
 The predecessor PR #100 environment’s `HANDOFF_AT_CHECKPOINT` decision is not inherited. This successor initialized a fresh WEC identity and reset per-environment observations from verified live main before selecting this prerequisite.
 
