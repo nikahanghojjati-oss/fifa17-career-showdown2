@@ -43,10 +43,14 @@
   function readStage2IHeader(headers,name){
     if(!isStage2IRecord(headers))return null;
     const target=name.toLowerCase();
+    let matched=null;
     for(const [key,value] of Object.entries(headers)){
-      if(typeof key==="string"&&key.toLowerCase()===target)return normalizeStage2IString(value);
+      if(typeof key!=="string"||key.toLowerCase()!==target)continue;
+      const normalized=normalizeStage2IString(value);
+      if(!normalized||matched!==null)return null;
+      matched=normalized;
     }
-    return null;
+    return matched;
   }
 
   function normalizeStage2IExpectedIdentity(value){
@@ -71,13 +75,22 @@
     return false;
   }
 
+  function urlContainsStage2ITransientCredential(value,secrets){
+    const url=normalizeStage2IString(value);
+    if(!url)return false;
+    for(const secret of secrets){
+      if(url.includes(secret))return true;
+    }
+    return false;
+  }
+
   function validateStage2IDecodedAppCheckIdentity(decoded,expected){
     if(!isStage2IRecord(decoded))return "STAGE2I_APP_CHECK_IDENTITY_INVALID";
     const appId=normalizeStage2IString(decoded.app_id);
     const subject=normalizeStage2IString(decoded.sub);
     if(!appId||!subject||appId!==subject)return "STAGE2I_APP_CHECK_IDENTITY_INVALID";
     if(appId!==expected.appId)return "STAGE2I_APP_CHECK_APP_MISMATCH";
-    if(!Array.isArray(decoded.aud)||decoded.aud.length<2)return "STAGE2I_APP_CHECK_PROJECT_MISMATCH";
+    if(!Array.isArray(decoded.aud)||decoded.aud.length!==2)return "STAGE2I_APP_CHECK_PROJECT_MISMATCH";
     if(String(decoded.aud[0])!==expected.projectNumber||String(decoded.aud[1])!==expected.projectId){
       return "STAGE2I_APP_CHECK_PROJECT_MISMATCH";
     }
@@ -111,7 +124,11 @@
     const idToken=normalizeStage2IString(input.idToken);
     const transientSecrets=new Set([appCheckToken]);
     if(idToken)transientSecrets.add(idToken);
-    if(containsStage2ITransientCredential(input.payload,transientSecrets)){
+    if(
+      containsStage2ITransientCredential(input.payload,transientSecrets)
+      ||containsStage2ITransientCredential(input.query,transientSecrets)
+      ||urlContainsStage2ITransientCredential(input.url,transientSecrets)
+    ){
       return rejectStage2I("STAGE2I_TRANSIENT_CREDENTIAL_FORWARDING_FORBIDDEN");
     }
     if(typeof input.verifyAppCheckToken!=="function")return rejectStage2I("STAGE2I_APP_CHECK_VERIFIER_UNAVAILABLE");
