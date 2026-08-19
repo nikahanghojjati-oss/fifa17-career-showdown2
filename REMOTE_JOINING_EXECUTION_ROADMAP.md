@@ -1,5 +1,52 @@
 # Career Mode Showdown — Private Remote Joining Execution Roadmap
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2H — 2026-08-18 ET
+
+Current verified source and `NEXT_TASK.md` override every retained predecessor roadmap body below.
+
+Private Remote Joining remains the prioritized long-term destination and remains DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED. Stability, security and dependency correctness continue to outrank speed.
+
+Current dependency state:
+
+Stage 1 — Cloud / Sync Readiness — DONE through Phase 1F.
+
+→ Stage 2 — Private Account / Authentication / Authorization — ACTIVE prerequisite lane.
+
+Stages 2A through 2G — DONE / MERGED / PROVEN.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Stage 2H proves the future trust-hosting and least-privilege IAM boundary only. The selected design is one dedicated same-project Google Cloud Run HTTPS service, one dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware Firebase ID-token verification, independent Career Mode Showdown application authorization and the exact currently reviewed runtime custom-role permissions:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Every application-client Firestore create/update/delete remains denied. Stage 2H creates no production Cloud Run/Firebase/IAM/billing/user/data/provider resource and grants no shared-mutation, device, pairing, rivalry, session or gameplay authority.
+
+→ later Stage 2 prerequisites — DEPENDENCY-GATED / NOT PRESELECTED BY ROADMAP ORDER.
+
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN.
+
+→ Stage 4 Connected Rivalry — BLOCKED until Stage 3 and all earlier prerequisites are proven.
+
+→ Stage 5 Private Remote Joining — FINAL DEPENDENCY-GATED PRIVATE PRODUCT DESTINATION.
+
+→ hardening / stable release.
+
+Do not skip stages. Public discovery, public profiles, public matchmaking, public invitation directories, community systems and global leaderboard/rankings remain eliminated.
+
+Production application remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`. Production Firebase remains disconnected.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Older Stage 2G-current or Stage 2H-not-started wording is historical only.
+
+---
+
+# Career Mode Showdown — Private Remote Joining Execution Roadmap
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2G — 2026-08-18 ET
 
 Current verified source and `NEXT_TASK.md` override the retained Stage 2G-current body below.

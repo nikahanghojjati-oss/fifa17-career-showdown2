@@ -1,10 +1,14 @@
 # Private Account / Authentication Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary
 
-Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED
+Status: CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED
 
 Effective: 2026-08-18 ET
 
-Starting verified live-main boundary: `f97024cf4be3e76cf25c510fb364675b8e747762` after Stage 2G PR #91.
+Stage 2H implementation starting live-main boundary: `8e5e892759ec2ddf033bb46f0c3d370c848615d5` after PR #92.
+
+Stage 2G functional completion boundary remains PR #91 exact validated head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`, squash merge `f97024cf4be3e76cf25c510fb364675b8e747762`.
+
+PR #92 exact validated head `dc012a24e932c1e0dad500855a3220d02f3195e7` reconciled Stage 2G as complete and selected this Stage 2H boundary; its squash merge is the implementation starting main above.
 
 Production application remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
 
@@ -12,53 +16,38 @@ Production Firebase remains disconnected. Every application-client Firestore cre
 
 ## Why Stage 2H is next
 
-Stage 2G — Trusted Account Bootstrap Execution Boundary — is DONE / MERGED / PROVEN through PR #91.
-
-Exact validated PR #91 head:
-
-`9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`
-
-Squash merge / independently verified live-main completion boundary:
-
-`f97024cf4be3e76cf25c510fb364675b8e747762`
-
-All 13 normal pull-request workflow families succeeded on the exact unchanged final PR #91 head. Submitted reviews and inline review threads were empty.
-
 Stage 2F already proves how a future trusted service must verify a transient Firebase ID token with revocation checking and derive architecture `accountId` only from the verified Firebase UID. Stage 2G already proves how that verified principal may execute only the narrow same-UID missing-account bootstrap through one trusted atomic transaction.
 
-The next unresolved dependency is not device registration. It is the production trust boundary that will eventually host those privileged operations. Firestore server client libraries bypass Firestore Security Rules and rely on Google Cloud IAM, so the project must define the runtime, service identity and privilege boundary before any production Firebase or privileged writer is provisioned.
+The next unresolved dependency is the production trust boundary that will eventually host those privileged operations. Firestore server client libraries use Google Cloud IAM rather than Firestore Security Rules, so the runtime, service identity and exact privilege boundary must be proven before any production Firebase or privileged writer is provisioned.
 
 Stage 2H therefore comes before production provisioning, account lifecycle execution, device registration, pairing, Connected Rivalry or Private Remote Joining.
 
 ## Selected production trusted runtime
 
-Stage 2H selects a dedicated Google Cloud Run HTTPS service as the future trusted execution runtime for Career Mode Showdown privileged server operations.
+Stage 2H selects one dedicated Google Cloud Run HTTPS service as the future trusted execution runtime for Career Mode Showdown privileged server operations.
 
-This is an architecture selection only. This Stage 2H boundary does not create or deploy that service.
+This is an architecture and least-privilege policy proof only. Stage 2H does not create, deploy or connect that service.
 
-The selection is based on these provider properties:
-
-1. Cloud Run supports a dedicated service identity for access to Google Cloud APIs.
-2. Google recommends a user-managed service account with only the minimum permissions required by the service.
-3. Firebase Admin SDK on Google-managed runtimes supports Application Default Credentials without exporting service-account key material.
-4. Google documents the end-user pattern in which a public web/mobile app obtains a Firebase/Identity Platform ID token, sends it to a Cloud Run service and the service verifies the ID token in application code.
-5. Firestore server libraries are privileged and bypass Firestore Security Rules, making explicit IAM and application-authorization boundaries mandatory.
-
-Primary provider references for the implementation successor:
+Current primary provider references rechecked on 2026-08-18 ET:
 
 - `https://cloud.google.com/run/docs/configuring/services/service-identity`
 - `https://cloud.google.com/run/docs/authenticating/end-users`
+- `https://cloud.google.com/run/docs/reference/iam/roles`
 - `https://firebase.google.com/docs/admin/setup`
-- `https://firebase.google.com/docs/firestore/security/insecure-rules`
+- `https://firebase.google.com/docs/auth/admin/manage-sessions`
+- `https://cloud.google.com/identity-platform/docs/access-control`
 - `https://cloud.google.com/firestore/docs/security/iam`
+- `https://cloud.google.com/iam/docs/custom-roles-permissions-support`
 
-Current provider documentation must be rechecked when Stage 2H is implemented because provider requirements may change.
+The policy is implemented as dormant source in `js/trustedExecutionRuntimeIamPolicy.js` and permanently protected by `tests/contracts/private-account-auth-stage2h-contracts.cjs`.
+
+The module is not loaded by `index.html`, `js/optionalModules.js` or `service-worker.js`; it performs no Firebase initialization, provider network request, browser-storage mutation, credential loading or production deployment.
 
 ## End-user request boundary
 
-The future Cloud Run service is intended for private Career Mode Showdown end users authenticated by Firebase Authentication, not organization members with Google Cloud IAM access.
+The future service is for private Career Mode Showdown end users authenticated by Firebase Authentication, not organization members authenticated to Google Cloud IAM.
 
-The browser may reach the HTTPS service at the network layer, but network reachability grants zero application authority.
+The browser may reach the Cloud Run HTTPS endpoint at the network layer, but network reachability grants zero application authority.
 
 For every protected non-preflight request:
 
@@ -67,26 +56,107 @@ For every protected non-preflight request:
 3. the trusted service passes only that transient token into the Stage 2F verifier boundary;
 4. Stage 2F requires the equivalent of `verifyIdToken(idToken, true)`;
 5. architecture `accountId` is derived only from the verified Firebase UID;
-6. the service then performs separate current application authorization for the requested operation;
-7. only after authentication and application authorization may the operation reach an explicitly reviewed trusted transaction adapter.
+6. the service performs separate current Career Mode Showdown application authorization for the requested operation;
+7. only after both authentication and operation authorization may the request reach an explicitly reviewed trusted adapter.
 
-CORS, origin checks, Cloud Run reachability, a request body `accountId`, display names, profile labels, device labels or possession of a public service URL are never authentication or application authorization.
+Cloud Run IAM is the runtime service-identity/resource-access boundary. It is not the Career Mode Showdown end-user authorization mechanism.
 
-An `OPTIONS` CORS preflight may be answered without Firebase user authentication when required by browser protocol, but it must never execute an application operation or disclose protected data.
+CORS, origin checks, Cloud Run reachability, a request-body `accountId`, display name, profile label, device label or possession of a public service URL is never authentication or application authorization.
 
-## Dedicated service identity
+The initial browser-origin allowlist is exactly the current production origin:
 
-The future Cloud Run service must use a dedicated user-managed service account created specifically for the Career Mode Showdown trusted execution service.
+`https://nikahanghojjati-oss.github.io`
 
-Do not use a human account, browser credential, exported service-account JSON key or repository secret as runtime authority.
+That allowlist is defense in depth only and grants no application authority. An `OPTIONS` CORS preflight may be answered without Firebase user authentication when browser protocol requires it, but it must never execute an application operation or disclose protected data.
 
-Do not grant primitive `Owner`, `Editor` or `Viewer` roles to the runtime service identity.
+## Dedicated same-project service identity
 
-Do not treat a Firebase Admin role, project-wide administrator role or default compute service account as an acceptable convenience substitute for least privilege.
+The future Cloud Run service must use a dedicated user-managed service account created only for the Career Mode Showdown trusted execution service.
 
-The implementation successor must determine the minimum Firestore permissions needed by the exact reviewed Stage 2 operations. Prefer a narrower custom role when it safely covers the required transaction/read/write methods; if a predefined role is used, justify why its additional permissions are acceptable. The decision must be permanently contracted before production IAM is granted.
+The initial production design keeps that service identity in the same Google Cloud/Firebase project as the Cloud Run service and Firestore database. Cross-project service identity is not authorized by Stage 2H because Google documents additional service-agent token-creation and organization-policy requirements for that topology. A later cross-project design would require its own reviewed boundary.
 
-Runtime IAM controls what the service process can call at Google Cloud. It does not replace per-request Career Mode Showdown application authorization.
+Do not use:
+
+- a human account;
+- the default Compute Engine service account;
+- a default broad Firebase service account as a convenience runtime identity;
+- a browser credential;
+- an exported service-account JSON key;
+- a repository secret containing a service-account private key.
+
+Do not grant primitive `Owner`, `Editor` or `Viewer` roles to the runtime identity.
+
+Do not grant broad convenience runtime roles such as `roles/firebase.admin`, `roles/datastore.owner` or `roles/datastore.user`.
+
+`roles/iam.serviceAccountUser` is deployer authority used to attach a service identity to Cloud Run. It is not a runtime application permission and must not be included in the runtime custom role.
+
+Likewise, `roles/iam.serviceAccountTokenCreator` is not part of this same-project runtime permission set. Stage 2H deliberately avoids the cross-project service-identity topology that would introduce additional token-creator/service-agent requirements.
+
+## Exact least-privilege runtime permission set
+
+For the exact Stage 2F plus Stage 2G bootstrap operation currently authorized, the future runtime custom role contains exactly four permissions:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+No other application-data permission is authorized by Stage 2H.
+
+### Why each permission exists
+
+`firebaseauth.users.get`
+
+Stage 2F requires revocation-aware `verifyIdToken(idToken, true)`. Firebase documents that revocation checking requires an additional backend lookup of current user/session status, and Identity Platform documents `firebaseauth.users.get` for `GetAccountInfo`. This permission is therefore the narrow Firebase Authentication Admin read required by the Stage 2F trusted verification path.
+
+`datastore.databases.get`
+
+Firestore documents this permission for `beginTransaction` and rollback. Stage 2G requires the authoritative account read and conditional create to occur in one provider transaction or equivalent atomic compare-and-create boundary.
+
+`datastore.entities.get`
+
+Firestore documents this permission for document reads. Stage 2G must read the authoritative `accounts/{accountId}` document inside the transaction before deciding whether the missing-account create is legal.
+
+`datastore.entities.create`
+
+Firestore documents this permission for a create or commit/update operation with the `exists=false` precondition. Stage 2G grants only one missing-account revision-0 create and no update/delete authority.
+
+### Explicitly excluded permissions
+
+The Stage 2H bootstrap role must not include:
+
+```text
+datastore.entities.update
+datastore.entities.delete
+datastore.entities.list
+datastore.databases.getMetadata
+datastore.databases.list
+datastore.indexes.list
+```
+
+Nor may it include broader index, database-management, import/export, bulk-delete, project-administration, service-account administration or Firebase-administration permissions merely for convenience.
+
+Google's predefined `roles/datastore.user` is intentionally rejected because it includes broader `datastore.entities.*` authority plus database, index, namespace, statistics and project reads beyond the Stage 2G bootstrap need.
+
+All four selected permissions are supported in custom roles under current Google Cloud IAM documentation. The runtime permission set is therefore contracted as an exact custom role rather than accepting a broader predefined role.
+
+If a later separately authorized Stage 2 operation requires account update/delete, export, device registration, rivalry mutation or another provider API, its additional permission must be justified by that operation's exact API method and reviewed before the runtime role is expanded. Stage 2H does not pre-authorize that expansion.
+
+## Runtime IAM is not application authorization
+
+The custom IAM role constrains what the Cloud Run process can ask Google Cloud/Firebase services to do. It does not decide what a particular Career Mode Showdown user is allowed to do.
+
+A protected request therefore has three separate gates:
+
+1. Stage 2F authenticates the Firebase end user and derives the trusted UID/accountId;
+2. Career Mode Showdown code evaluates current operation-specific application authorization;
+3. Google Cloud IAM limits the service process to the provider calls allowed by the dedicated runtime role.
+
+All three gates must pass for a protected operation. None substitutes for another.
+
+Stage 2G still grants only `applicationAuthorizationGranted: "account-bootstrap-only"` for same-UID missing-account creation. Stage 2H grants no device, pairing, rivalry, session, gameplay or shared-mutation authority.
 
 ## Application Default Credentials and secret boundary
 
@@ -94,7 +164,7 @@ On Google-managed production runtime, Firebase Admin must initialize through App
 
 No service-account private-key JSON may be committed to the repository, bundled into the GitHub Pages client, stored in browser storage, copied from a connector, embedded in source, printed into CI logs or persisted as application data.
 
-Stage 2F Firebase ID tokens remain transient end-user bearer material. They must not be stored in Firestore, localStorage, sessionStorage, IndexedDB, diagnostics, analytics or application logs.
+Stage 2F Firebase ID tokens remain transient end-user bearer material. They must not be stored in Firestore, `localStorage`, `sessionStorage`, IndexedDB, diagnostics, analytics or application logs.
 
 The token is consumed by the trusted verifier and is not forwarded to the Stage 2G account transaction adapter.
 
@@ -102,14 +172,11 @@ The token is consumed by the trusted verifier and is not forwarded to the Stage 
 
 Every application-client Firestore create, update and delete remains denied.
 
-Cloud Run / Admin / server Firestore access bypasses Firestore Security Rules and therefore must be constrained by both:
-
-- least-privilege IAM on the dedicated service identity; and
-- explicit Career Mode Showdown application authentication and authorization before each operation.
+Cloud Run/Admin/server Firestore access bypasses Firestore Security Rules and therefore must be constrained by both least-privilege IAM and explicit Career Mode Showdown application authentication/authorization before each operation.
 
 Stage 2H does not weaken `firestore.rules` and does not authorize direct browser Firestore shared-state writes.
 
-The Phase 1D / Phase 1F idempotency-receipt finding remains binding. Stage 2H is not itself the production shared-rivalry mutation gateway contract and does not grant Connected Rivalry or gameplay mutation authority.
+The Phase 1D / Phase 1F idempotency-receipt finding remains binding. Stage 2H is not the production shared-rivalry mutation gateway contract and does not grant Connected Rivalry or gameplay mutation authority.
 
 ## Stage 2G account-bootstrap composition
 
@@ -118,15 +185,16 @@ The future production account-bootstrap path may compose the completed stages on
 1. HTTPS request reaches the trusted Cloud Run service;
 2. Stage 2F performs revocation-aware Firebase ID-token verification;
 3. authenticated `accountId` is derived only from verified UID;
-4. current application account/lifecycle authorization is evaluated as required by the operation;
+4. current application authorization is evaluated for the exact requested operation;
 5. Stage 2G executes same-UID missing-account bootstrap only through the reviewed atomic transaction adapter;
-6. the service returns a bounded response without raw token or provider diagnostics.
+6. Google Cloud IAM permits only the exact provider methods allowed by the four-permission runtime role;
+7. the service returns a bounded response without raw token or arbitrary provider diagnostics.
 
 Stage 2G's `updatedByDeviceId: null` exception remains limited to revision-0 self-bootstrap before Stage 3 registered-device authority exists.
 
-## Production isolation for this boundary PR
+## Production isolation for Stage 2H
 
-The Stage 2H authorization boundary must not create or activate:
+Stage 2H must not create or activate:
 
 - a production Firebase project;
 - a production Firebase Web App;
@@ -146,7 +214,7 @@ The Stage 2H authorization boundary must not create or activate:
 - Connected Rivalry runtime;
 - Private Remote Joining runtime.
 
-No production application dependency, runtime asset or Service Worker revision changes in this authorization boundary.
+No production application dependency, runtime asset or Service Worker revision changes in this Stage 2H proof.
 
 ## Product and recovery locks
 
@@ -164,11 +232,17 @@ Candidate C remains the sole destructive import Apply authority with the protect
 
 Public discovery, public profiles, public matchmaking, community systems, global leaderboards and public rankings remain eliminated.
 
+## Version boundary
+
+Stage 2H adds only dormant policy source, permanent contracts and authority documentation. It is not loaded by the production application and creates no deployed trusted service.
+
+Under `VERSIONING_POLICY.md`, no semantic application version bump is appropriate. Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
+
 ## Downstream dependency locks
 
-The complete Private Account / Authentication / Authorization Stage 2 lane remains incomplete.
+The complete Private Account / Authentication / Authorization Stage 2 lane remains incomplete after Stage 2H.
 
-Stage 2H resolves only the trusted production runtime/service-identity/IAM policy boundary. Later Stage 2 work still includes production environment provisioning/configuration, production operational verification, account lifecycle export/deletion execution, abuse/rate controls, provider outage/recovery behavior and a separately reviewed trusted shared-mutation gateway/protocol boundary. Their listing is not automatic implementation order.
+Later Stage 2 work still includes production environment provisioning/configuration, production operational verification, account lifecycle export/deletion execution, abuse/rate controls, provider outage/recovery behavior and a separately reviewed trusted shared-mutation gateway/protocol boundary. Their listing is not automatic implementation order.
 
 Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN.
 
@@ -178,19 +252,24 @@ Private Remote Joining remains the prioritized long-term dependency-gated destin
 
 ## Stage 2H implementation completion gate
 
-A future Stage 2H implementation PR may be classified DONE / MERGED / PROVEN only when it permanently proves at minimum:
+Stage 2H may be classified DONE / MERGED / PROVEN only when all of the following are satisfied:
 
-1. Cloud Run is the selected trusted execution runtime and no alternate runtime silently gains authority.
-2. The service uses a dedicated user-managed service identity rather than a default broad identity.
+1. Cloud Run is permanently contracted as the only selected trusted execution runtime for this boundary.
+2. A dedicated same-project user-managed service identity is required and default/cross-project identities fail closed.
 3. Application Default Credentials are required on Google-managed runtime and exported private-key credentials are forbidden.
-4. Exact minimum Firestore runtime permissions are documented, justified and permanently contracted before any production grant.
-5. Primitive Owner/Editor/Viewer and broad convenience administrator roles are rejected for runtime authority.
-6. End-user Firebase ID tokens are verified through the Stage 2F revocation-aware boundary and never treated as Cloud Run IAM credentials.
-7. Application authorization remains separate from Firebase authentication and IAM.
-8. Stage 2G account-bootstrap-only authority remains narrow and atomic.
-9. Every browser Firestore create/update/delete remains denied.
-10. No production Firebase, Cloud Run, IAM, billing, user, Firestore or provider resource is provisioned by the Stage 2H implementation proof unless a later independently authorized provisioning gate explicitly permits it.
-11. Production runtime/version identity remains unchanged unless a real user-facing/runtime shipment occurs.
-12. The complete normal workflow gate succeeds on one exact unchanged final head with clean review/thread state before merge.
+4. The exact four-permission custom runtime role is documented, justified and permanently contracted.
+5. Primitive Owner/Editor/Viewer and broad Firebase/Datastore convenience roles are rejected for runtime authority.
+6. Deployer-only service-account attachment authority remains separate from runtime application permissions.
+7. End-user Firebase ID tokens remain transient and Stage 2F revocation-aware `verifyIdToken(idToken, true)` remains mandatory.
+8. Application authorization remains separate from Firebase authentication and Google Cloud IAM.
+9. Stage 2G account-bootstrap-only authority remains narrow and atomic.
+10. Every browser Firestore create/update/delete remains denied.
+11. No shared-rivalry/gameplay mutation authority is granted.
+12. No production Firebase, Cloud Run, IAM, billing, user, Firestore or provider resource is provisioned by Stage 2H.
+13. Production application/package/runtime identity remains v1.4.0 / `1.4.0-r1`.
+14. Permanent Stage 2H contracts and the complete repository contract suite pass.
+15. All 13 normal workflow families succeed on one exact unchanged final PR head.
+16. Submitted reviews and inline review threads are clean, mergeability is verified and exact-head identity is unchanged immediately before merge.
+17. Expected-head squash merge succeeds and resulting live `main` is independently verified.
 
-This authorization document selects the next prerequisite only. The current handoff-bound environment must publish this boundary and stop before implementing Stage 2H.
+Until all seventeen conditions are satisfied, Stage 2H remains current and Stage 3 remains blocked.
