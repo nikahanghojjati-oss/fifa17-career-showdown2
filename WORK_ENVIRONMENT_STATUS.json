@@ -1,61 +1,59 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-19-post-pr99-remote-joining-restart",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-19T18:54:00Z",
+  "environmentId": "we-2026-08-19-stage2-remaining-dependency-reconstruction",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-19T19:07:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "0f61225b267e8334467a6d868d36c7ce58dd54a0"
+    "startingMainSha": "902058d56ec3f1b1fef4918f38568b54cf2dd7bb"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 16,
-    "toolRoutingErrors": 4,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 10,
+    "toolRoutingErrors": 2,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 90,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Publish only PR #100 post-PR #99 current-authority closeout from this immutable transition-prepared head, independently verify merged live main, generate the complete successor handoff, and stop. Do not select or implement a later Stage 2 prerequisite in this environment.",
-    "lastSafeCheckpoint": "Diagnostic PR #100 head 3c0a76c5af5a07d699a8a1543ca53eae48478d18 passed all 13 normal pull-request workflow families with no source correction required. GitHub reported the diagnostic PR mergeable, with zero submitted reviews and zero inline review threads. PR scope remained exactly four files: additions-only current authority in NEXT_TASK.md, fresh WEC state, one recovery-safe PR99 post-seal payload, and the Stage 2I current-authority contract update. No production runtime, Firebase, IAM, storage, recovery or gameplay file changed.",
-    "nextSafeAction": "Treat this transition-prepared WEC seal as the final branch mutation. Require all 13 normal pull-request workflow families to succeed on its exact unchanged head. Then recheck exact head identity, four-file scope, NEXT_TASK additions-only preservation, submitted reviews, inline review threads and mergeability; mark PR #100 ready; squash merge only with expected-head protection; independently verify resulting live main; generate the complete successor handoff at Handoff proximity 100%; and stop before the distinct Stage 2 dependency-selection milestone.",
+    "currentTask": "Reconstruct the actual remaining Stage 2 Private Account / Authentication / Authorization dependency graph from current verified source after merged PR #100, then select and implement exactly one smallest necessary unblocked prerequisite that materially advances Stage 3 Registered Devices / Private Pairing and Private Remote Joining. Do not create another continuity/history-only milestone unless an objective failing gate or safety contradiction requires it.",
+    "lastSafeCheckpoint": "PR #100 independently completed and merged the bounded post-PR99 authority closeout as live main 902058d56ec3f1b1fef4918f38568b54cf2dd7bb from exact head c098b435908aa04a803f09f90fac2730bf1a4542. All 13 normal workflow families succeeded on that exact head and submitted reviews plus inline review threads were empty. Redundant stale drafts PR #101 and PR #102 are closed unmerged. The continuity/history lane is closed by current authority; the next authorized engineering work is remaining Stage 2 dependency reconstruction toward Private Remote Joining.",
+    "nextSafeAction": "Read current Remote Joining roadmaps, Stage 2A through 2I authority, remote schema/API authorization contracts, Firestore/provider boundaries and current production-isolation rules; identify all actually missing Stage 2 requirements before Stage 3 can unlock; choose exactly one smallest necessary unblocked prerequisite based on dependency risk rather than numbering; record that selection in current authority; implement and prove only that bounded prerequisite without provisioning production cloud resources unless current source explicitly authorizes provisioning.",
     "unfinishedWork": [
-      "Obtain the complete 13-family exact-head validation gate on this immutable final WEC seal.",
-      "Recheck exact head identity, four-file scope, NEXT_TASK additions-only preservation, submitted reviews, inline review threads and mergeability immediately before publication.",
-      "Mark PR #100 ready, squash merge only with expected-head protection, and independently verify resulting live main and merged PR facts.",
-      "Generate the complete successor handoff at Handoff proximity 100% and stop before any separate Stage 2 prerequisite selection."
+      "Reconstruct the remaining Stage 2 dependency graph from current verified source rather than inventing a Stage 2J label.",
+      "Determine whether Stage 2 is already complete; if so, prove completion and unlock Stage 3 instead of manufacturing work.",
+      "If Stage 2 is incomplete, select exactly one smallest necessary unblocked prerequisite that reduces dependency distance to Stage 3 / Private Remote Joining.",
+      "Implement and validate only the selected prerequisite through the normal exact-head publication gate."
     ],
     "knownHazards": [
-      "This WEC seal must be the final branch mutation. Any later branch mutation invalidates exact-head proof and requires a new final seal plus a fresh complete gate.",
-      "NEXT_TASK.md is the sole implementation-authorization owner. Its retained historical body contains permanent contract provenance and must not be truncated or rewritten.",
-      "WORK_ENVIRONMENT_HISTORY.md is append-only. The current connector cannot safely patch that large file; the PR99 recovery payload is intentionally deferred and must not become another history-only milestone unless an objective permanent gate later forces it.",
-      "Local gh / normal shell GitHub access is unavailable. Supported connected GitHub operations are the publication authority in this environment.",
-      "Do not weaken Stage 2F revocation-aware verifyIdToken(idToken, true), Stage 2H exact four-permission IAM, Stage 2I App Check trust order, browser Firestore write denial, production isolation, Candidate A/B/C, canonical three-key storage, identity locks or two-owner governance.",
-      "Stage 3 Registered Devices / Private Pairing remains blocked until the actual remaining Stage 2 prerequisites are reconstructed and proven complete. The next fresh successor must not invent a Stage 2J label from roadmap numbering alone.",
-      "Production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/users/data/provider configuration remains disconnected/unprovisioned; this closeout is non-runtime and receives no semantic version bump.",
+      "The owner anti-sidequest rule is active. Do not create another continuity/history/documentation-only milestone unless a concrete failing gate, contradictory current implementation authority, unsafe publication state or security blocker objectively requires it.",
+      "Stage 3 Registered Devices / Private Pairing remains blocked until every actually required Stage 2 prerequisite is DONE / MERGED / PROVEN.",
+      "Do not invent Stage 2 labels from sequence alone. Requirement identity must come from current source and dependency analysis.",
+      "Do not weaken Stage 2F revocation-aware verifyIdToken(idToken, true), Stage 2H exact four-permission IAM, Stage 2I App Check trust order, operation-specific authorization, browser Firestore write denial, Candidate A/B/C recovery guarantees, canonical three-key storage, identity separation or two-owner governance.",
+      "Production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/users/data/provider configuration remains disconnected/unprovisioned unless a later explicit current authority safely changes that boundary.",
+      "The Phase 1D/1F idempotency-receipt limitation means privileged shared mutation cannot be implemented by loosening browser Security Rules; a trusted mutation gateway or separately reviewed provider-enforceable redesign is required.",
+      "PR99 history recovery payload remains deferred by PR #100 and must not become a separate milestone unless an objective gate requires it.",
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
-      "The predecessor transition-prepared record was validated structurally before replacement; its HANDOFF_AT_CHECKPOINT decision was not inherited.",
-      "PR #99 publication proof was independently reverified: exact head fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3, squash merge 0f61225b267e8334467a6d868d36c7ce58dd54a0, exact five-file scope, all 13 normal workflow families successful, no submitted reviews and no inline review threads.",
-      "The current-source contradiction was repaired narrowly: NEXT_TASK.md places a post-PR #99 successor authority section first while preserving its complete previous content beneath the first separator; compare-to-main reported NEXT_TASK.md additions 137 and deletions 0.",
-      "The Stage 2I boundary contract follows the fresh current authority rather than hard-coding the completed pre-merge post-PR #98 checkpoint. Security/runtime assertions remain intact.",
-      "Diagnostic PR #100 exact head 3c0a76c5af5a07d699a8a1543ca53eae48478d18 passed all 13 normal pull-request workflow families. GitHub reported mergeable true, submitted reviews empty and inline review threads empty before this final status-only seal.",
-      "Four current-environment routing/infrastructure errors are recorded conservatively: unavailable direct shell GitHub route, blocked raw-download helper route, unsupported branch-metadata fetch route, and an in-progress Actions log BlobNotFound response. Each route was abandoned rather than repeatedly retried; supported GitHub workflow status remained authoritative and healthy.",
-      "Final deterministic WEC reassessment from the repository formula with context high, compactionCount 1, majorPhasesCompleted 3, largeEvidenceEvents 16, toolRoutingErrors 4, newMilestoneNext true and handoffCompleteness 100 gives context pressure 90/100, quality risk 24/100, next-task separation 80/100, handoff readiness 100/100, continuation risk 63.5/100, transition cost 13.5/100, transition advantage 50.0; decision HANDOFF_AT_CHECKPOINT. Usage is unavailable and omitted rather than estimated.",
-      "Remote Joining readiness remains approximately 35% because this closeout removes an implementation-authority blocker but completes no new Remote Joining product dependency. The next fresh environment must return directly to the remaining Stage 2 dependency graph."
+      "Fresh successor started from independently verified live main 902058d56ec3f1b1fef4918f38568b54cf2dd7bb after PR #100 merged the one bounded post-PR99 authority closeout.",
+      "PR #100 exact head c098b435908aa04a803f09f90fac2730bf1a4542 passed all 13 normal workflow families; submitted reviews and inline review threads were empty.",
+      "PR #101 and PR #102 were both redundant stale-base reconstructions of the same closeout and are closed without merge. Their commits are not implementation authority.",
+      "The stale-main race was identified as the root cause of the prior apparent loop: live main advanced after startup verification, so revalidating main immediately before publication is now treated as mandatory safety discipline.",
+      "Current Remote Joining readiness remains approximately 35% at environment initialization because no new product prerequisite has yet been completed after PR #100.",
+      "Fresh WEC observations intentionally reset predecessor counters. With high context, very-high project complexity, zero observed compactions, one completed startup/recovery phase, ten dense evidence events, two routing errors, one stale-fact correction, no separate milestone within dependency reconstruction, 90/100 handoff completeness and unknown usage, deterministic assessment is CONTINUE (context pressure 70/100, quality risk 24/100, continuation risk about 43.4/100, transition cost 18.0/100, transition advantage about 25.4 only if a distinct milestone is next; current newMilestoneNext is false, so this environment remains authorized to complete the current reconstruction and bounded selected prerequisite)."
     ]
   }
 }
