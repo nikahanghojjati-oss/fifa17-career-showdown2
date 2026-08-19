@@ -6,7 +6,9 @@ const golden = read("00_HANDOFF_GOLDEN_RULE.md");
 const start = read("00_DEVELOPER_START_HERE.md");
 const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
-const next = read("NEXT_TASK.md");
+const currentNext = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_POST_PR99_PRE_CLOSEOUT_FULL.md");
+const next = historicalNext;
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 
 assert.match(
@@ -44,10 +46,19 @@ for(const [name,text] of [
   ["00_DEVELOPER_START_HERE.md", start],
   ["00_CURRENT_HANDOFF.md", current],
   ["IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md", active],
-  ["NEXT_TASK.md", next]
+  ["NEXT_TASK.md", currentNext]
 ]){
   assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,`${name} must expose the mandatory immediate-next-task boundary after the Analytics promotion.`);
 }
+
+assert.match(currentNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE-JOINING UNBLOCK CLOSEOUT/i,"NEXT_TASK must expose the fresh post-PR #99 current authority first.");
+assert.match(currentNext,/we-2026-08-19-post-pr99-remote-joining-unblock/,"NEXT_TASK must expose the fresh successor WEC identity.");
+assert.match(currentNext,/0f61225b267e8334467a6d868d36c7ce58dd54a0/,"NEXT_TASK must expose the fresh successor starting live-main boundary.");
+assert.match(currentNext,/PR #99[\s\S]+fc9dcc9cb7d298beb8fc07f4ed8caf2470394da3[\s\S]+0f61225b267e8334467a6d868d36c7ce58dd54a0/i,"NEXT_TASK must record PR #99 publication truth.");
+assert.match(currentNext,/Stages 2A through 2I[\s\S]+DONE \/ MERGED \/ PROVEN/i,"NEXT_TASK must keep the completed Stage 2A-2I prerequisite chain protected.");
+assert.match(currentNext,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i,"NEXT_TASK must keep Stage 3 blocked until remaining Stage 2 requirements are proven.");
+assert.match(currentNext,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i,"NEXT_TASK must keep Remote Joining prioritized and dependency gated.");
+assert.match(currentNext,/authority-history\/NEXT_TASK_POST_PR99_PRE_CLOSEOUT_FULL\.md[\s\S]+aeb826fdde2ea9e6b0ce7c886d2dc1a419158601/i,"NEXT_TASK must point to the exact byte-for-byte pre-closeout authority archive.");
 
 assert.match(
   active,
@@ -75,71 +86,71 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Phase C first slice closed + visible v1.4.0 seal: multi-Save + Phase A + Phase B + Phase C production-proven; no product candidate authorized.
+// Historical v1.4.0 seal and shipped-dependency evidence is protected in the exact pre-closeout NEXT_TASK archive.
 assert.match(
   next,
   /Authorized product candidate:[\s\S]{0,40}none/i,
-  "NEXT_TASK must hold clean stop with no authorized product candidate after the v1.4.0 seal."
+  "Archived NEXT_TASK must retain the clean stop with no authorized product candidate after the v1.4.0 seal."
 );
 assert.match(
   next,
   /Phase C first slice[\s\S]{0,160}(PR #73|production-proven|closed)/i,
-  "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven."
+  "Archived NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven."
 );
 assert.match(
   next,
   /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i,
-  "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven."
+  "Archived NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven."
 );
 assert.match(
   next,
   /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i,
-  "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice)."
+  "Archived NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice)."
 );
 assert.match(
   next,
   /dec1d3ba8182c3f62019974dd1704c7c9124def6/i,
-  "NEXT_TASK must record the Phase C first-slice (PR #73) production merge."
+  "Archived NEXT_TASK must record the Phase C first-slice (PR #73) production merge."
 );
 assert.match(
   next,
   /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i,
-  "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as a closed production milestone."
+  "Archived NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as a closed production milestone."
 );
 assert.match(
   next,
   /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i,
-  "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save portability as production-proven."
+  "Archived NEXT_TASK must retain Local Profile display-label, Identity-Safe Analytics, and multi-Save production provenance."
 );
 assert.match(
   next,
   /stop and wait for a further explicit owner instruction|hold clean stop until a later explicit owner instruction/i,
-  "NEXT_TASK stop condition must require further owner instruction."
+  "Archived NEXT_TASK must retain the historical stop condition provenance."
 );
 assert.match(
-  next,
+  currentNext,
   /v1\.4\.0/i,
-  "NEXT_TASK must identify visible application version v1.4.0."
+  "Current NEXT_TASK must identify visible application version v1.4.0."
 );
 assert.match(
-  next,
+  currentNext,
   /1\.4\.0-r1/i,
-  "NEXT_TASK must identify runtime 1.4.0-r1."
+  "Current NEXT_TASK must identify runtime 1.4.0-r1."
 );
 assert.match(
-  next,
-  /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i,
-  "NEXT_TASK must retain the permanent ELIMINATED public community / global leaderboard lock."
+  currentNext,
+  /global leaderboards and public rankings remain eliminated/i,
+  "Current NEXT_TASK must retain the permanent eliminated public community / global ranking lock."
 );
 assert.match(
-  next,
+  currentNext,
   /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,
-  "NEXT_TASK must preserve Private Remote Joining as a prioritized long-term destination with strict prerequisite gates and no current runtime authorization."
+  "Current NEXT_TASK must preserve Private Remote Joining as a prioritized long-term destination with strict prerequisite gates and no current runtime authorization."
 );
 assert.match(
-  next,
+  currentNext,
   /Cloud \/ synchronization readiness[\s\S]+private account \/ authentication \/ authorization[\s\S]+paired-device \/ private-session[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i,
-  "NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
+  "Current NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
 );
 assert.match(
   remotePriority,
@@ -163,4 +174,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, Phase B first slice (PR #70), and Phase C first slice (PR #73) closed; visible v1.4.0 seal; Remote Joining prioritized but dependency-gated; no product candidate authorized.");
+console.log("Handoff immediate-next-task contracts passed: fresh post-PR99 authority is current, exact pre-closeout history remains protected, shipped v1.4.0 provenance remains archived, and Remote Joining stays prioritized but dependency-gated.");
