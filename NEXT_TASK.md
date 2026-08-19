@@ -1,5 +1,57 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2H IMPLEMENTATION — 2026-08-18 ET
+
+Current verified source and live GitHub override every retained predecessor body below.
+
+Stage 2G — Trusted Account Bootstrap Execution Boundary — is DONE / MERGED / PROVEN through PR #91. Stage 2H authorization/reconciliation boundary PR #92 is also DONE / MERGED / PROVEN. PR #92 exact validated head: `dc012a24e932c1e0dad500855a3220d02f3195e7`; squash merge / independently verified Stage 2H starting live main: `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
+
+Current authorized prerequisite: Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary.
+
+Status: CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Current branch: `agent/private-auth-stage2h-trusted-runtime-iam`.
+Current draft PR: #93 `Private Auth Stage 2H trusted runtime IAM boundary`.
+Fresh environment: `we-2026-08-18-stage2h-trusted-runtime-iam`.
+Detailed authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2H.md`.
+
+Stage 2H is authorized to implement only a dormant, non-provisioning trusted-runtime/IAM policy proof. It selects a dedicated same-project Google Cloud Run HTTPS service, a dedicated user-managed service account, Application Default Credentials, Stage 2F revocation-aware `verifyIdToken(idToken, true)`, independent Career Mode Showdown application authorization, and an exact custom runtime permission set for the already-reviewed Stage 2F + Stage 2G bootstrap operation:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Broad or default runtime authority is forbidden. Do not use primitive Owner/Editor/Viewer, Firebase Admin, Datastore Owner/User, default Compute service identity, runtime Service Account User/Token Creator, exported service-account keys or cross-project service identity under this boundary. Deployer-only service-account attachment authority remains separate from runtime application permissions.
+
+Every application-client Firestore create/update/delete remains denied. Stage 2H grants no device, pairing, invite, rivalry, session, shared-state or gameplay mutation authority. Stage 3 remains BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN.
+
+This Stage 2H implementation must not provision or activate production Cloud Run, Firebase, service accounts, custom roles/IAM bindings, billing, users, Firestore data, provider configuration, Authorized Domains or production Security Rules. It changes no production website runtime or version. Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
+
+Current publication discipline for PR #93:
+
+1. preserve all production/runtime/security/recovery/product locks;
+2. keep `js/trustedExecutionRuntimeIamPolicy.js` production-dormant and absent from the public shell/Service Worker;
+3. permanently contract the exact four-permission role and fail closed on privilege expansion;
+4. preserve Stage 2F token handling and Stage 2G account-bootstrap-only atomic authority;
+5. synchronize current-facing authority without erasing historical provenance;
+6. append predecessor WEC closure facts without rewriting prior history;
+7. treat every mutated PR head as diagnostic until the final continuity seal;
+8. after implementation/source authority is complete, make the final WEC seal the last branch mutation;
+9. require all 13 normal workflow families to succeed on that exact unchanged final head;
+10. immediately recheck submitted reviews, inline review threads, mergeability and exact-head identity;
+11. squash merge only with expected-head protection;
+12. independently verify resulting live `main` before classifying Stage 2H DONE / MERGED / PROVEN;
+13. do not begin another Stage 2 prerequisite or Stage 3 inside the final Stage 2H publication checkpoint if WEC requires transition.
+
+The prior `HANDOFF_AT_CHECKPOINT` instruction below belongs only to predecessor `we-2026-08-18-post-stage2g-authority-reconcile`; it is historical and does not constrain this fresh successor.
+
+---
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
 
 Current verified source and live GitHub override the retained Stage 2G candidate body below.
