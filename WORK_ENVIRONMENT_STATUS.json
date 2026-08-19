@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-production-firebase-project-activation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-19T22:52:00Z",
+  "recordedAt": "2026-08-19T22:54:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 12,
+    "largeEvidenceEvents": 13,
     "toolRoutingErrors": 5,
-    "correctedFailures": 2,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -23,13 +23,13 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 87,
+    "handoffCompleteness": 88,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
     "currentTask": "Advance the real Stage 2 production Firebase environment activation lane after PR #109. The owner has now supplied Firebase Console evidence that the real (default) Cloud Firestore database exists and exposes the Data and Rules interfaces. Record that provider verification without weakening Security Rules, then move directly to real Google Authentication provider enablement and exact GitHub Pages Authorized Domain verification before production Security Rules/App Check/IAM activation and before any runtime Firebase connection.",
-    "lastSafeCheckpoint": "PR #109 Activate real production Firebase project boundary passed all 13 normal workflow families on exact head 48a935f452db4ad12330f489ea6d48d17c3cb29a and squash-merged to f1d9d52a17ef539217d79639d184000a3ee965e5. Owner screenshots then proved the real (default) Firestore database Data view and Rules tab exist. Repository branch agent/production-firestore-verification records providerVerified=true with screenshot-derived evidence while leaving Google Auth, Authorized Domains, production Security Rules, App Check, trusted runtime IAM and runtime connection pending. A connector/operator mistake briefly created noop.txt on main and was immediately corrected by deleting it; current main ae048b9a626f826d2f2c5849153600a119c5440d has the same tree as the verified PR #109 merge and zero residual noop file content. A second accidental temporary branch file was also immediately deleted and is absent from PR #110 changed-file scope.",
+    "lastSafeCheckpoint": "The independently verified predecessor publication boundary remains 423fbecdb3e0f663b5b12476c6637d1af48ee4ab after merged PR #108. PR #109 Activate real production Firebase project boundary then passed all 13 normal workflow families on exact head 48a935f452db4ad12330f489ea6d48d17c3cb29a and squash-merged to f1d9d52a17ef539217d79639d184000a3ee965e5. Owner screenshots then proved the real (default) Firestore database Data view and Rules tab exist. Repository branch agent/production-firestore-verification records providerVerified=true with screenshot-derived evidence while leaving Google Auth, Authorized Domains, production Security Rules, App Check, trusted runtime IAM and runtime connection pending. A connector/operator mistake briefly created noop.txt on main and was immediately corrected by deleting it; current main ae048b9a626f826d2f2c5849153600a119c5440d has the same tree as the verified PR #109 merge and zero residual noop file content. A second accidental temporary branch file was also immediately deleted and is absent from PR #110 changed-file scope.",
     "nextSafeAction": "Finish the bounded Firestore-verification candidate and publish it only after exact-head CI is green. Then require the owner to enable Google under Firebase Security > Authentication > Sign-in method and add/verify only nikahanghojjati-oss.github.io under Authentication Authorized domains. Record provider proof from the resulting console state. After Auth/domain verification, deploy the repository Firestore Security Rules to the real (default) database without authorizing any application-client create/update/delete path; then continue to App Check/reCAPTCHA Enterprise and trusted runtime IAM in the existing security order. Do not connect the production runtime early.",
     "unfinishedWork": [
       "Publish the bounded Firestore provider-verification repository candidate with complete exact-head CI/review/thread/mergeability gates.",
@@ -61,8 +61,8 @@
       "Official Firebase documentation reviewed 2026-08-19 confirms Google sign-in is enabled under Security > Authentication > Sign-in method, and Firestore production rules can be deployed from the Firebase console Rules tab or Firebase CLI; server SDKs bypass Firestore Security Rules and remain protected by IAM.",
       "Two branch-target create_file attempts failed because the intended branch had not yet been created; no repository state changed from those calls. A subsequent omitted-branch create_file mistakenly created noop.txt on main; it was immediately fetched and deleted. Current main ae048b9a626f826d2f2c5849153600a119c5440d has the same tree SHA 01279d8a44aad056ea96c68ffe75838974c07cc7 as PR #109 merge f1d9d52a17ef539217d79639d184000a3ee965e5, so the mistake left no content residue.",
       "A second accidental temporary file SHOULD_NOT_CREATE was created only on agent/production-firestore-verification and immediately deleted. PR #110 changed-file scope remains exactly the three intended files, so this correction also left no candidate content residue.",
-      "Initial PR #110 Stability failure was a repository-governance wording contract requiring the active successor task to contain the exact phrase 'production Firebase environment activation'; the WEC task wording was aligned to that already-correct lane without changing product/security semantics.",
-      "Current observable WEC signals: high context complexity, very-high project complexity, one observed compaction, three completed work phases, twelve large evidence events, five tool-routing errors, two corrected failures, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures, unknown usage, no atomic operation and 87/100 handoff completeness."
+      "Initial PR #110 Stability failure was a governance wording contract requiring the active successor task to contain the exact phrase production Firebase environment activation; WEC wording was aligned with no product/security semantic change. The next Stability attempt exposed the paired provenance assertion requiring the lastSafeCheckpoint to retain the exact predecessor publication SHA 423fbecdb3e0f663b5b12476c6637d1af48ee4ab; that historical boundary is now explicitly retained here without overriding later PR #109 facts.",
+      "Current observable WEC signals: high context complexity, very-high project complexity, one observed compaction, three completed work phases, thirteen large evidence events, five tool-routing errors, three corrected failures, zero repeated mistakes, zero stale-fact corrections, zero unresolved failures, unknown usage, no atomic operation and 88/100 handoff completeness."
     ]
   }
 }
