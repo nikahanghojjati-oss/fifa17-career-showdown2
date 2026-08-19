@@ -1,14 +1,49 @@
 # Private Account / Authentication Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary
 
-Status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED
+Status: CURRENT IMPLEMENTATION PREREQUISITE / DORMANT PROOF IMPLEMENTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED / EXACT-HEAD COMPLETION GATE PENDING
 
 Effective: 2026-08-19 ET
 
 Starting verified live-main boundary: `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b` after Stage 2H PR #93.
 
+Stage 2I implementation successor starting live main: `faec8273e8ee4b80fa56b4fd5317d36c7d5e3bdb` after PR #94 authorized this implementation prerequisite.
+
 Production application remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
 
 Production Firebase remains disconnected. Every application-client Firestore create, update and delete remains denied.
+
+## Current implementation activation
+
+PR #94 authorized Stage 2I but deliberately did not implement it. Fresh successor environment `we-2026-08-19-stage2i-app-attestation` independently verified PR #94 and live `main`, initialized a fresh WEC record, rechecked current primary Firebase App Check / reCAPTCHA Enterprise / custom-backend documentation and received a fresh `CONTINUE` assessment before beginning implementation.
+
+The dormant implementation proof is:
+
+`js/trustedAppAttestationRequest.js`
+
+Permanent implementation contracts are:
+
+`tests/contracts/private-account-auth-stage2i-contracts.cjs`
+
+The dormant module is not loaded by `index.html`, `js/optionalModules.js` or `service-worker.js`. It imports no Firebase production SDK, performs no network request, creates no Firebase/App Check/reCAPTCHA/Cloud Run/IAM resource and changes no shipped application behavior.
+
+The implementation requires the future trusted server adapter to supply the exact configured production Web App ID, project number and project ID at deployment time. Stage 2I does not invent those production identities before the production Firebase environment exists.
+
+The executable proof enforces this order for protected non-preflight requests:
+
+1. exact Stage 2H browser origin defense;
+2. transient `X-Firebase-AppCheck` token presence;
+3. injected trusted App Check verification with no limited-use token consumption enabled by default;
+4. exact decoded `app_id` / `sub` equality to the configured Web App ID;
+5. exact decoded `aud[0]` project-number and `aud[1]` project-ID match;
+6. Stage 2F revocation-aware Firebase ID-token authentication;
+7. separate operation-specific Career Mode Showdown application authorization;
+8. only then the injected trusted operation adapter.
+
+App Check and Firebase ID tokens are never forwarded to the application-authorization or trusted-operation adapters. The boundary additionally rejects payloads that contain reserved authentication/attestation fields or the actual transient bearer values so Stage 2G/trusted transaction payloads cannot accidentally inherit either credential.
+
+`OPTIONS` preflight returns only the bounded preflight decision and executes no protected verifier, authorization or trusted operation.
+
+This implementation remains a proof boundary until the complete exact-head PR gate, clean review/thread state, expected-head merge and independent live-main verification are complete. Stage 2I must not be classified DONE / MERGED / PROVEN before those publication conditions are satisfied.
 
 ## Why Stage 2I is next
 
@@ -53,7 +88,9 @@ Current primary documentation reviewed on 2026-08-19 ET:
 - `https://cloud.google.com/run/docs/configuring/max-instances`
 - `https://cloud.google.com/run/docs/about-concurrency`
 
-Current provider documentation must be rechecked when Stage 2I is implemented or when any production provisioning later begins.
+Current provider documentation must be rechecked when any production provisioning later begins.
+
+The implementation recheck confirmed that the Firebase Admin decoded App Check token exposes `app_id` from the token subject and that `aud` contains the project number and project ID. Stage 2I therefore permanently proves exact Web App identity plus exact project audience matching after trusted Admin verification rather than accepting any registered application in the project.
 
 ## Selected web attestation provider
 
@@ -166,6 +203,8 @@ The existing Stage 2G account bootstrap is already idempotent and atomic for rep
 
 If a later operation authorizes App Check token consumption, the provider currently requires `firebaseappcheck.appCheckTokens.verify`, exposed by `roles/firebaseappcheck.tokenVerifier`. That permission is not silently added to the Stage 2H four-permission runtime role by this boundary.
 
+The dormant implementation calls the injected App Check verifier with only the transient token. It does not pass a consume/replay option and therefore does not make limited-use token consumption an implicit requirement.
+
 ## Cloud Run scaling is defense in depth, not rate authorization
 
 Cloud Run maximum-instance and concurrency settings can reduce blast radius, resource pressure and cost exposure, but they are not authentication, application authorization or a strict per-user rate limiter. Google documents that maximum-instance targets can be temporarily exceeded during some traffic spikes and maintenance behavior.
@@ -189,7 +228,7 @@ Baseline App Check policy proof does not authorize a broader Firebase Administra
 
 Any future additional IAM permission must be tied to an exact reviewed provider operation and permanently proven before grant.
 
-`roles/firebaseappcheck.tokenVerifier` / `firebaseappcheck.appCheckTokens.verify` is reserved only for a later explicitly reviewed replay-consumption operation if that beta feature is chosen. It is not part of this Stage 2I authorization boundary.
+`roles/firebaseappcheck.tokenVerifier` / `firebaseappcheck.appCheckTokens.verify` is reserved only for a later explicitly reviewed replay-consumption operation if that beta feature is chosen. It is not part of the Stage 2H four-permission runtime role and is not authorized by this Stage 2I dormant implementation proof.
 
 ## Firestore and shared-mutation boundary remains unchanged
 
@@ -201,9 +240,9 @@ App Check also does not turn a browser into a trusted mutation gateway. A modifi
 
 A separately reviewed trusted shared-mutation gateway/protocol boundary remains required before Connected Rivalry shared-state mutation can become production-authorized.
 
-## Production isolation for this boundary PR
+## Production isolation for this implementation PR
 
-The Stage 2I authorization boundary must not create, enable, deploy or connect:
+The Stage 2I dormant implementation proof must not create, enable, deploy or connect:
 
 - a production Firebase project;
 - a production Firebase Web App;
@@ -224,7 +263,7 @@ The Stage 2I authorization boundary must not create, enable, deploy or connect:
 - Connected Rivalry runtime;
 - Private Remote Joining runtime.
 
-No production application dependency, runtime asset, Service Worker revision or Firebase/App Check import is authorized by this Stage 2I boundary.
+No production application dependency, runtime asset, Service Worker revision or Firebase/App Check import is authorized by this Stage 2I implementation proof.
 
 ## Product, recovery and identity locks
 
@@ -248,9 +287,9 @@ Public discovery, public profiles, public matchmaking, public invitation directo
 
 ## Version boundary
 
-Stage 2I authorization is documentation/contracts only and changes no shipped application behavior.
+Stage 2I implementation is dormant source, documentation and permanent contracts only and changes no shipped application behavior.
 
-Under `VERSIONING_POLICY.md`, no semantic application version bump is appropriate for this boundary. Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
+Under `VERSIONING_POLICY.md`, no semantic application version bump is appropriate for this bounded prerequisite. Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`.
 
 When an App Check/Firebase-connected production capability actually ships, its version must be classified from the real shipped scope rather than from the Stage number.
 
@@ -258,7 +297,7 @@ When an App Check/Firebase-connected production capability actually ships, its v
 
 The complete Private Account / Authentication / Authorization Stage 2 lane remains incomplete.
 
-Stage 2I resolves only the app-attestation / initial endpoint abuse-resistance policy. Later Stage 2 work still includes real production Firebase environment provisioning/configuration, production Web App/provider/Authorized Domains operational setup, production Security Rules deployment, account export, provider-aware deletion cascade, operation-specific abuse/rate controls where required, provider outage/recovery behavior, production operational verification and the trusted shared-mutation gateway/protocol boundary.
+Stage 2I resolves only the app-attestation / initial endpoint abuse-resistance proof. Later Stage 2 work still includes real production Firebase environment provisioning/configuration, production Web App/provider/Authorized Domains operational setup, production Security Rules deployment, account export, provider-aware deletion cascade, operation-specific abuse/rate controls where required, provider outage/recovery behavior, production operational verification and the trusted shared-mutation gateway/protocol boundary.
 
 Their listing is not automatic implementation order.
 
@@ -270,7 +309,7 @@ Private Remote Joining remains the prioritized long-term dependency-gated destin
 
 ## Stage 2I implementation completion gate
 
-A future Stage 2I implementation PR may be classified DONE / MERGED / PROVEN only when it permanently proves at minimum:
+Stage 2I may be classified DONE / MERGED / PROVEN only when it permanently proves at minimum:
 
 1. reCAPTCHA Enterprise is the sole selected initial production web App Check provider for the current GitHub Pages topology;
 2. the initial policy preserves the provider-recommended default risk threshold `0.5` and one-hour TTL unless measured evidence explicitly justifies a later change;
@@ -290,4 +329,6 @@ A future Stage 2I implementation PR may be classified DONE / MERGED / PROVEN onl
 16. all 13 normal workflow families succeed on one exact unchanged final PR head with clean submitted reviews and inline review threads before merge;
 17. expected-head merge succeeds and live `main` is independently verified afterward.
 
-This authorization document selects the next prerequisite only. The current reconciliation environment must publish the Stage 2H closure plus this Stage 2I boundary and stop before implementing Stage 2I if its final WEC assessment requires handoff.
+Conditions 1 through 15 are the implementation target of the current bounded branch. Conditions 16 and 17 remain publication gates and must be independently proven before Stage 2I is called DONE / MERGED / PROVEN.
+
+Do not select or begin another Stage 2 prerequisite or Stage 3 inside this bounded Stage 2I implementation environment.
