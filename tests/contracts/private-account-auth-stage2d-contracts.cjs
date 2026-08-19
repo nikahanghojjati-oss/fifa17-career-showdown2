@@ -5,6 +5,7 @@ const read = file => fs.readFileSync(file,"utf8");
 const preflight = require("../../js/firebaseProductionPreflight.js");
 const stage2d = read("PRIVATE_ACCOUNT_AUTH_STAGE_2D.md");
 const next = read("NEXT_TASK.md");
+const archivedNext = read("authority-history/NEXT_TASK_POST_PR100_REMOTE_JOINING_RESTART_FULL.md");
 const firebaseRc = JSON.parse(read(".firebaserc"));
 const rules = read("firestore.rules");
 const index = read("index.html");
@@ -73,13 +74,15 @@ assert.match(stage2d,/Firebase Admin remains emulator\/test-only/i);
 assert.match(stage2d,/Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
 assert.match(stage2d,/Stage 3 Registered Devices \/ Private Pairing[\s\S]+remain blocked/i);
 
-assert.match(next,/Current authorized prerequisite candidate:[\s\S]{0,180}Stage 2D/i);
-assert.match(next,/AUTHORIZED CURRENT PREREQUISITE \/ IMPLEMENTATION-AUTHORIZED \/ NON-RUNTIME \/ PRODUCTION FIREBASE DISCONNECTED/i);
+assert.match(archivedNext,/Current authorized prerequisite candidate:[\s\S]{0,180}Stage 2D/i,"Archived authority must retain the historical Stage 2D authorization transition.");
+assert.match(archivedNext,/AUTHORIZED CURRENT PREREQUISITE \/ IMPLEMENTATION-AUTHORIZED \/ NON-RUNTIME \/ PRODUCTION FIREBASE DISCONNECTED/i);
+assert.match(archivedNext,/PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
+assert.match(archivedNext,/2415c156161b6244c75e49917bad28efed957adf/);
+assert.match(archivedNext,/0accb827fa91f86fdd28e63590bd4843267546ae/);
 assert.match(next,/Authorized product candidate:\s*none/i);
-assert.match(next,/PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/2415c156161b6244c75e49917bad28efed957adf/);
-assert.match(next,/0accb827fa91f86fdd28e63590bd4843267546ae/);
-assert.match(next,/Stage 3 BLOCKED[\s\S]+Stage 4 BLOCKED[\s\S]+Private Remote Joining/i);
+assert.match(next,/Stage 3[\s\S]{0,220}BLOCKED[\s\S]+Stage 4[\s\S]{0,220}BLOCKED[\s\S]+Private Remote Joining/i);
+assert.match(next,/NON-PROVISIONING[\s\S]{0,180}PRODUCTION FIREBASE DISCONNECTED/i,"Current authority must preserve the Stage 2D production-isolation result while later prerequisites advance.");
+assert.match(next,/Trusted Mutation Gateway Boundary/i,"Current authority must name the live remaining Stage 2 prerequisite.");
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during Stage 2D.");
 assert.match(firebaseRc.projects.default,/^demo-/);
@@ -99,4 +102,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D production Firebase environment preflight and production-isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D production Firebase preflight remains protected with archived authorization provenance and live production-isolation gates\n");
