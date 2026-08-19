@@ -62,6 +62,12 @@
     return deepFreezeStage2I({appId,projectNumber,projectId});
   }
 
+  function normalizeStage2IVerifiedAppCheckClaims(value){
+    if(!isStage2IRecord(value))return value;
+    if(isStage2IRecord(value.token))return value.token;
+    return value;
+  }
+
   function containsStage2ITransientCredential(value,secrets,seen=new Set()){
     if(typeof value==="string")return secrets.has(value.trim());
     if(!value||typeof value!=="object")return false;
@@ -133,13 +139,14 @@
     }
     if(typeof input.verifyAppCheckToken!=="function")return rejectStage2I("STAGE2I_APP_CHECK_VERIFIER_UNAVAILABLE");
 
-    let decodedAppCheck;
+    let verifiedAppCheck;
     try{
-      decodedAppCheck=await input.verifyAppCheckToken(appCheckToken);
+      verifiedAppCheck=await input.verifyAppCheckToken(appCheckToken);
     }catch(_error){
       return rejectStage2I("STAGE2I_APP_CHECK_VERIFICATION_FAILED");
     }
 
+    const decodedAppCheck=normalizeStage2IVerifiedAppCheckClaims(verifiedAppCheck);
     const appCheckIdentityError=validateStage2IDecodedAppCheckIdentity(decodedAppCheck,expectedIdentity);
     if(appCheckIdentityError)return rejectStage2I(appCheckIdentityError);
 
