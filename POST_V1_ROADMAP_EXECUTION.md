@@ -1,5 +1,47 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 2H — 2026-08-18 ET
+
+Current verified source and `NEXT_TASK.md` override every retained roadmap body below.
+
+Completed connected prerequisites now include Cloud/Sync Readiness Phase 1A through 1F and Private Account/Auth Stages 2A through 2G. PR #92 is the completed Stage 2G closure / Stage 2H authorization boundary; exact validated head `dc012a24e932c1e0dad500855a3220d02f3195e7`, squash merge / Stage 2H starting main `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
+
+Current bounded prerequisite: Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary.
+
+Status: CURRENT / IMPLEMENTATION-AUTHORIZED / DORMANT POLICY PROOF / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Stage 2H is the next dependency gate because the proven Stage 2F revocation-aware identity boundary and Stage 2G atomic account-bootstrap boundary still require a production trust-hosting and least-privilege IAM contract before any privileged writer can be provisioned. Stage 2H selects one dedicated same-project Google Cloud Run HTTPS service, a dedicated user-managed service account, Application Default Credentials, separate application authorization and the exact custom runtime permissions required by the currently reviewed Stage 2F + Stage 2G bootstrap path:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+It rejects broader/default runtime authority and exported credentials. It does not deploy Cloud Run, connect Firebase, create service accounts/custom roles/IAM bindings, enable billing, create production users/data, change Authorized Domains or deploy production Security Rules.
+
+Every application-client Firestore create/update/delete remains denied. Stage 2H grants no shared mutation, device, pairing, rivalry, session or gameplay authority. Stage 3 pairing remains blocked until the entire Stage 2 lane is complete.
+
+The corrected dependency chain is:
+
+Cloud / Sync Readiness — DONE through Phase 1F
+→ Private Account / Authentication / Authorization Stage 2 — CURRENT
+→ Stages 2A–2G — DONE / MERGED / PROVEN
+→ Stage 2H trusted execution runtime + least-privilege IAM — CURRENT
+→ later Stage 2 prerequisites — dependency-gated / not pre-authorized by roadmap order
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED
+→ Stage 4 Connected Rivalry — BLOCKED
+→ Stage 5 Private Remote Joining — prioritized long-term final destination.
+
+Production website state remains v1.4.0 / `1.4.0-r1`; Stage 2H is dormant non-runtime prerequisite work and receives no visible semantic version bump. Public/community/ranking/discovery/matchmaking systems remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Any older Stage 2D/2G-current wording is historical only.
+
+---
+
+# Career Mode Showdown — Post-v1 Roadmap Execution Guide
+
 ## CURRENT SUCCESSOR OVERRIDE — 2026-08-18 ET
 
 Current verified source and `NEXT_TASK.md` override the retained PR #87 / Stage 2D-era roadmap body below.
