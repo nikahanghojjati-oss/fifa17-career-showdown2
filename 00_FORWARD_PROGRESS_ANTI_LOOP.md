@@ -84,6 +84,8 @@ If no, defer it while required Remote Joining work remains.
 
 Never use this rule to skip a genuine prerequisite. Stability, security, deterministic synchronization, recovery, authorization and complete testing remain mandatory.
 
+This policy never permits skipping a real security, recovery, dependency, testing, WEC or publication requirement.
+
 ## 8. Publication discipline
 
 One bounded engineering milestone should normally produce one engineering PR. Current-authority synchronization, fresh WEC state and directly required permanent process guards should travel with that engineering PR when they are necessary for the milestone.
