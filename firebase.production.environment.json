@@ -13,7 +13,10 @@
     "committed": false,
     "source": "firebase-console-or-controlled-deployment-injection",
     "classification": "public-project-configuration",
-    "providerRestrictionsVerified": false
+    "providerRestrictionsVerified": true,
+    "providerRestrictionCount": 25,
+    "generativeLanguageApiAllowed": false,
+    "providerVerificationEvidence": "2026-08-19 owner Google Cloud Console screenshots show the Firebase Browser key restricted to 25 selected APIs; the complete visible allowlist contains Firebase-related services and does not contain Generative Language API."
   },
   "firestore": {
     "databaseId": "(default)",
