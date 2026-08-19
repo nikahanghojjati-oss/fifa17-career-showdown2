@@ -1,5 +1,38 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
+
+Current verified source and `NEXT_TASK.md` override every retained roadmap body below.
+
+Completed connected prerequisites include Cloud/Sync Readiness Phase 1A through 1F and Private Account/Auth Stages 2A through 2I at their protected dormant boundaries.
+
+Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED through PR #95. Exact validated final head `9a553318791d40afa8c573acf4922ee710284ef2`; squash merge / independently verified live-main boundary `264e53dd56e088262c2f17fc10e36617dfef6c5d`. All 13 normal workflow families succeeded on that unchanged head; submitted reviews and inline review threads were empty.
+
+The protected request chain remains App Check exact Web App plus exact project-audience verification → Stage 2F revocation-aware Firebase user verification → verified-UID architecture account identity → operation-specific Career Mode Showdown authorization → explicitly reviewed trusted operation. Stage 2H runtime IAM remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; optional App Check replay-consumption permission remains outside that role.
+
+Every application-client Firestore create/update/delete remains denied. Stage 2I does not repair the Phase 1D / Phase 1F idempotency-receipt finding and does not authorize direct browser shared-state mutation.
+
+Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service accounts, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned. Production website state remains v1.4.0 / `1.4.0-r1`; this closure is non-runtime work and receives no visible semantic version bump.
+
+Correct dependency direction now is:
+
+Cloud / Sync Readiness — DONE through Phase 1F
+→ Private Account / Authentication / Authorization Stage 2 — ACTIVE
+→ Stages 2A–2I — DONE / MERGED / PROVEN
+→ remaining Stage 2 prerequisites — DEPENDENCY-GATED / NOT SELECTED BY THIS CLOSURE / NOT PRE-AUTHORIZED BY ROADMAP ORDER
+→ Stage 3 Registered Devices / Private Pairing — BLOCKED
+→ Stage 4 Connected Rivalry — BLOCKED
+→ Stage 5 Private Remote Joining — prioritized long-term final private destination
+→ hardening / stable release.
+
+This closure selects no new Stage 2 implementation prerequisite. A fresh successor may select exactly one smallest remaining Stage 2 prerequisite only after independent source study and its own WEC assessment. Public/community/ranking/discovery/matchmaking/invitation-directory systems remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance. Older Stage 2D/2G/2H/2I-current wording is historical only.
+
+---
+
+# Career Mode Showdown — Post-v1 Roadmap Execution Guide
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
 
 Current verified source and `NEXT_TASK.md` override every retained roadmap body below.

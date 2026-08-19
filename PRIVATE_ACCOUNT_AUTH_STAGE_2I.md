@@ -1,5 +1,38 @@
 # Private Account / Authentication Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary
 
+## SUCCESSOR COMPLETION OVERRIDE — 2026-08-19 ET
+
+Status: DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED
+
+PR #95 `Private Auth Stage 2I app attestation request boundary` is DONE / MERGED / PROVEN. Exact validated final head: `9a553318791d40afa8c573acf4922ee710284ef2`. Squash merge / independently verified live-main boundary: `264e53dd56e088262c2f17fc10e36617dfef6c5d`. All 13 normal pull-request workflow families succeeded on that exact unchanged head; submitted reviews and inline review threads were both empty. GitHub marks the merge commit verified and its sole parent is prior main `faec8273e8ee4b80fa56b4fd5317d36c7d5e3bdb`.
+
+The dormant implementation remains `js/trustedAppAttestationRequest.js`. Permanent executable proof remains `tests/contracts/private-account-auth-stage2i-contracts.cjs` plus `tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs`. Do not repeat Stage 2I implementation.
+
+For every future protected non-preflight browser request, the permanent trust order remains: Stage 2H production-origin defense in depth; transient `X-Firebase-AppCheck`; trusted Firebase Admin App Check verification; normalize the official `VerifyAppCheckTokenResponse.token` wrapper or the explicitly injected direct decoded-claims adapter; require exact decoded `app_id` / `sub` equality to the expected production Career Mode Showdown Firebase Web App; require exactly two audience entries matching the production Firebase project number and project ID; only then invoke the Stage 2F equivalent of `verifyIdToken(idToken, true)`; derive architecture `accountId` only from verified Firebase UID; evaluate operation-specific Career Mode Showdown authorization; only then execute an explicitly reviewed trusted operation under Stage 2H least-privilege IAM.
+
+The Stage 2H runtime permission set remains exactly:
+
+```text
+firebaseauth.users.get
+datastore.databases.get
+datastore.entities.get
+datastore.entities.create
+```
+
+Optional App Check limited-use token consumption remains separate beta hardening. `firebaseappcheck.appCheckTokens.verify` / `roles/firebaseappcheck.tokenVerifier` is not part of the Stage 2H four-permission role and is not a correctness dependency for the current account-bootstrap path.
+
+Production remains application/package `1.4.0` and Installable Offline App runtime `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. No production Firebase project, Firebase Web App, reCAPTCHA Enterprise key, App Check registration/enforcement, Cloud Run service, service account, IAM binding/custom role, billing commitment, production user/data/provider configuration or production Security Rules deployment is authorized or connected by this closure. Every application-client Firestore create/update/delete remains denied.
+
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`. Candidate A remains non-mutating export, Candidate B remains read-only import analysis, and Candidate C remains the sole destructive import Apply authority with all exact-snapshot, precondition, transaction, rollback, anti-clobber, verification and corrupt-byte-preservation guarantees. Firebase Auth `uid` remains architecture `accountId` and remains distinct from every profile/save/season/device/installation/rivalry/session/invite identity. Exactly two manager slots remain authoritative. Public discovery, public profiles, public matchmaking, public invitation directories, community systems, global leaderboards and public rankings remain eliminated.
+
+The complete Private Account / Authentication / Authorization Stage 2 lane remains incomplete. Later Stage 2 prerequisites remain dependency-gated and are not preselected by roadmap order. This closure selects no new Stage 2 implementation prerequisite. Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN; Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream and blocked.
+
+The retained implementation-era body below is historical/proven provenance and no longer overrides this completion section.
+
+---
+
+# Private Account / Authentication Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary
+
 Status: CURRENT IMPLEMENTATION PREREQUISITE / DORMANT PROOF IMPLEMENTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED / EXACT-HEAD COMPLETION GATE PENDING
 
 Effective: 2026-08-19 ET

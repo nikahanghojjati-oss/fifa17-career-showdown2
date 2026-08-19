@@ -1,5 +1,34 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2I CLOSURE — 2026-08-19 ET
+
+Current verified source and live GitHub override every retained predecessor body below.
+
+Status: CLOSURE RECONCILIATION ONLY / NON-RUNTIME / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED.
+
+Current branch: `agent/post-stage2i-closure-reconcile`.
+Fresh environment: `we-2026-08-19-post-stage2i-closure-reconcile`.
+Starting independently verified live main: `264e53dd56e088262c2f17fc10e36617dfef6c5d`.
+Detailed Stage 2I authority: `PRIVATE_ACCOUNT_AUTH_STAGE_2I.md`.
+
+Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED through PR #95. Exact validated final head: `9a553318791d40afa8c573acf4922ee710284ef2`. Squash merge / independently verified live-main boundary: `264e53dd56e088262c2f17fc10e36617dfef6c5d`. All 13 normal pull-request workflow families succeeded on that exact unchanged head; submitted reviews and inline review threads were empty.
+
+Dormant implementation remains `js/trustedAppAttestationRequest.js`. The protected request boundary keeps transient App Check verification with exact Web App plus exact two-element project audience ahead of Stage 2F revocation-aware `verifyIdToken(idToken, true)`, then verified-UID `accountId`, operation-specific Career Mode Showdown authorization and only then an explicitly reviewed trusted operation. The Stage 2H runtime role remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`. Optional `firebaseappcheck.appCheckTokens.verify` remains outside that role.
+
+Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. No production Firebase/App Check/reCAPTCHA Enterprise/Cloud Run/IAM/billing/user/data/provider/Security Rules resource is authorized or connected by this closure. Every application-client Firestore create/update/delete remains denied.
+
+Current authorized task: reconcile PR #95 publication truth across current-facing authority and permanent coherence contracts, append predecessor post-seal closure facts to canonical WEC history without rewriting prior history, preserve all storage/recovery/identity/gameplay/private-product locks, validate one bounded exact-head closure candidate, make the final transition-prepared WEC seal the last branch mutation, require all 13 normal workflow families plus clean reviews/threads, squash merge only with expected-head protection, independently verify live main, generate the complete successor handoff and stop.
+
+Do not select or begin another Stage 2 prerequisite or Stage 3 inside this environment. No next Stage 2 implementation prerequisite is selected by this closure. The fresh successor WEC is `HANDOFF_AT_CHECKPOINT`; its decision permits only completion/publication of this current closure checkpoint.
+
+After this closure is merged and independently verified, a new fresh successor must initialize its own WEC from real live main and only then select exactly one smallest remaining Stage 2 prerequisite if current source plus that fresh assessment permits it. Stage 3 Registered Devices / Private Pairing remains BLOCKED until the entire Stage 2 lane is DONE / MERGED / PROVEN; Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream. Private Remote Joining stays prioritized long-term and dependency gated. Public/community/discovery/matchmaking/invitation-directory/ranking systems remain eliminated.
+
+The retained body below is historical/proven contract provenance and does not authorize implementation.
+
+---
+
+# NEXT TASK — Career Mode Showdown
+
 ## CURRENT SUCCESSOR OVERRIDE — STAGE 2I IMPLEMENTATION — 2026-08-19 ET
 
 Current verified source and live GitHub override every retained predecessor body below.

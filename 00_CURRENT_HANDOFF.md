@@ -1,5 +1,31 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT HANDOFF — POST-STAGE 2I CLOSURE — 2026-08-19 ET
+
+Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.
+
+Fresh successor environment: `we-2026-08-19-post-stage2i-closure-reconcile`.
+Branch: `agent/post-stage2i-closure-reconcile`.
+Starting independently verified live main: `264e53dd56e088262c2f17fc10e36617dfef6c5d`.
+Fresh WEC decision: `HANDOFF_AT_CHECKPOINT`.
+Usage: unavailable and not estimated.
+
+Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED through PR #95. Exact validated final head `9a553318791d40afa8c573acf4922ee710284ef2`; squash merge / independently verified live main `264e53dd56e088262c2f17fc10e36617dfef6c5d`. All 13 normal pull-request workflow families succeeded on that exact unchanged head; submitted reviews and inline review threads were empty.
+
+The Stage 2I dormant implementation and contracts are complete. App Check remains application attestation only and must be verified for the exact expected Web App plus exact two-element project audience before Stage 2F revocation-aware Firebase user verification, verified-UID account identity, operation-specific application authorization and trusted-operation execution. The Stage 2H runtime role remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; optional App Check replay-consumption permission remains outside it.
+
+Production remains v1.4.0 / package `1.4.0` / runtime `1.4.0-r1`; previous whole shell remains `1.3.0-r2`. Production Firebase, Firebase Web App, reCAPTCHA Enterprise, App Check enforcement, Cloud Run, service account, IAM, billing, production users/data/provider configuration and production Security Rules remain disconnected/unprovisioned. Every application-client Firestore create/update/delete remains denied.
+
+Current safe task: finish and publish only the post-PR #95 Stage 2I current-authority closure. Reconcile current-facing authority and permanent coherence contracts, append PR #95 post-seal facts to canonical WEC history without rewriting prior history, validate one exact closure candidate, make the final transition-prepared WEC seal the last branch mutation, require all 13 normal workflow families plus clean reviews/threads, expected-head squash merge, independently verify live main, then generate the complete successor handoff.
+
+No later Stage 2 implementation prerequisite is selected here. Do not begin another Stage 2 prerequisite or Stage 3 in this environment. The next fresh successor may select exactly one smallest remaining Stage 2 prerequisite only after its own source-first WEC assessment. Stage 3 Registered Devices / Private Pairing remains blocked until the entire Stage 2 lane is DONE / MERGED / PROVEN; Stage 4 Connected Rivalry and Stage 5 Private Remote Joining remain downstream. Public/community/discovery/matchmaking/invitation-directory/ranking systems remain eliminated.
+
+The complete body below is retained unchanged as historical/proven contract provenance and must not override this successor section.
+
+---
+
+# Career Mode Showdown — Current Handoff
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-STAGE 2H / STAGE 2I AUTHORIZATION — 2026-08-19 ET
 
 Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.
@@ -237,7 +263,6 @@ Exactly two managers remain authoritative. Same selected league, different perma
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive import Apply authority with strict exact raw snapshot/preconditions, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber checks, exact verification, byte-for-byte rollback verification, corrupt-byte preservation and critical recovery.
 
 Canonical storage remains exactly:
-
 - `careerModeShowdown.saveLibrary`
 - `careerModeShowdown.legacyShowdowns`
 - `careerModeShowdown.preferences`
