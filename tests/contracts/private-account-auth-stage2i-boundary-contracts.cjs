@@ -53,7 +53,7 @@ assert.match(boundary,/Conditions 1 through 15 are the implementation target[\s\
 
 assert.match(implementation,/stage:"2I"/);
 assert.match(implementation,/verifyAppCheckToken\(appCheckToken\)/);
-assert.match(implementation,/decoded\.aud\.length<2/);
+assert.match(implementation,/decoded\.aud\.length!==2/);
 assert.match(implementation,/verifyTrustedRequestPrincipal[\s\S]+authorizeApplicationOperation[\s\S]+executeTrustedOperation/);
 assert.match(implementation,/STAGE2I_TRANSIENT_CREDENTIAL_FORWARDING_FORBIDDEN/);
 assert.match(implementation,/limitedUseTokenConsumptionRequired:false/);
