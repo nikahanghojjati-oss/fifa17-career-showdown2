@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "RJR-1",
+  "metric": "Remote Joining readiness",
+  "denominator": 100,
+  "currentScore": 59,
+  "measurementPolicy": {
+    "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
+    "notMeasuredBy": [
+      "pull-request count",
+      "roadmap stage count",
+      "work-environment age",
+      "handoff proximity",
+      "number of visible owner actions"
+    ],
+    "increaseRule": "Increase only when new verified evidence materially improves an existing fixed capability domain.",
+    "decreaseRule": "Decrease only when previously credited capability evidence is invalidated or a proven regression removes capability.",
+    "modelChangeRule": "Changing domain weights or the denominator requires a new modelVersion, explicit rationale and backcast of prior comparable scores.",
+    "reportingRule": "Every substantive owner-facing development checkpoint reports the latest calculated score even when it does not change."
+  },
+  "domains": [
+    {
+      "id": "deterministic-sync-recovery",
+      "label": "Deterministic sync and recovery safety",
+      "weight": 20,
+      "earned": 20,
+      "evidence": [
+        "Deterministic revision/CAS/idempotency/tombstone contracts are proven.",
+        "Two-device/offline-reconnect harness proves stale conflict, replay, reconnect convergence and local-only fallback.",
+        "Candidate A/B/C recovery authority and canonical local storage safety remain protected."
+      ]
+    },
+    {
+      "id": "identity-auth-trust",
+      "label": "Identity, authentication, authorization and trust",
+      "weight": 20,
+      "earned": 17,
+      "evidence": [
+        "Firebase Authentication provider decision and production Google sign-in configuration are proven.",
+        "Verified UID to accountId boundary, revocation-aware ID-token verification and operation-specific authorization contracts are proven.",
+        "Stage 2I App Check verification order and trusted endpoint attestation contract are proven but production trusted runtime/IAM is not activated."
+      ]
+    },
+    {
+      "id": "production-cloud-security",
+      "label": "Production cloud and security activation",
+      "weight": 20,
+      "earned": 15,
+      "evidence": [
+        "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
+        "Canonical production Firestore Security Rules are provider verified deployed with application-client writes deny-all.",
+        "2026-08-20 provider evidence proves reCAPTCHA Enterprise API/key setup and Firebase App Check Web App registration at one-hour TTL and 0.5 risk threshold with enforcement off.",
+        "Production App Check client traffic, enforcement, trusted-runtime IAM and controlled runtime Firebase connection are not yet proven."
+      ]
+    },
+    {
+      "id": "devices-pairing-connected-rivalry-remote-join",
+      "label": "Devices, pairing, Connected Rivalry and actual Remote Joining",
+      "weight": 30,
+      "earned": 4,
+      "evidence": [
+        "Remote schema and two-owner governance contracts reserve device, invite, session and rivalry identities.",
+        "Actual registered-device lifecycle, private pairing, production Connected Rivalry and a real remote manager join are not yet implemented/proven."
+      ]
+    },
+    {
+      "id": "real-device-hardening-release",
+      "label": "Real-device hardening and stable release",
+      "weight": 10,
+      "earned": 3,
+      "evidence": [
+        "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
+        "Remote Joining specific two-real-device failure testing, abuse hardening, production rollback proof and stable release acceptance remain incomplete."
+      ]
+    }
+  ],
+  "evidenceHistory": [
+    {
+      "recordedAt": "2026-08-20T15:30:00Z",
+      "eventId": "rjr-1-baseline-reconstruction",
+      "score": 58,
+      "delta": 0,
+      "reason": "Reconstructed the metric against a fixed end-to-end capability denominator after discovering earlier denominator drift between prerequisite completion and true Remote Joining readiness."
+    },
+    {
+      "recordedAt": "2026-08-20T16:01:00Z",
+      "eventId": "production-app-check-provider-registration",
+      "score": 59,
+      "delta": 1,
+      "domainId": "production-cloud-security",
+      "reason": "Owner provider screenshots prove production reCAPTCHA Enterprise and Firebase App Check registration for the real Web App with one-hour TTL, 0.5 risk threshold and enforcement still off."
+    }
+  ]
+}
