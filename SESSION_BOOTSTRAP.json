@@ -1,22 +1,42 @@
 {
-  "schemaVersion": 3,
-  "purpose": "live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-20T01:35:00Z",
+  "schemaVersion": 4,
+  "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
+  "recordedAt": "2026-08-20T16:50:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/post-pr113-app-check-handoff",
+  "bootstrapBranch": "agent/pr114-app-check-bootstrap",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
   "lastVerifiedMainSha": "1ccf2d3f451ea53575698877787562e38f1d6f50",
-  "lastCompletedMilestone": "PR #113 production Firestore Security Rules deployment and exact-source protection",
+  "currentPullRequest": {
+    "number": 114,
+    "state": "open-draft",
+    "branch": "agent/pr114-app-check-bootstrap",
+    "base": "main",
+    "prePackagingValidatedCandidateHead": "30ea11102840ad84352c3402f52af107fde1935c",
+    "prePackagingWorkflowFamiliesGreen": 13,
+    "reviewsCleanAtPrePackagingHead": true,
+    "threadsCleanAtPrePackagingHead": true,
+    "mergeableAtPrePackagingHead": true,
+    "mergeAuthorized": false,
+    "finalSealedHeadRule": "Fetch PR #114 after startup. The final SLE/WEC seal is intentionally later than the pre-packaging green head and must be validated from live PR metadata plus exact-head workflow evidence."
+  },
+  "lastCompletedMilestone": "Provider-verified production reCAPTCHA Enterprise/Firebase App Check registration plus dormant controlled App Check bootstrap candidate proven green before SLE packaging",
   "runtime": {
     "applicationVersion": "1.4.0",
     "runtimeRevision": "1.4.0-r1",
-    "runtimeFirebaseConnected": false
+    "runtimeFirebaseConnected": false,
+    "appCheckRuntimeBootstrapConnected": false
   },
-  "currentLane": "Firebase App Check with reCAPTCHA Enterprise registration/integration proof, with enforcement kept off until controlled client integration and metrics justify it",
+  "currentLane": "Close draft PR #114 at an immutable green SLE checkpoint; no merge without separate owner authorization. After eventual merge, next substantive dependency is controlled production Firebase/App Check runtime-config delivery and legitimate App Check traffic proof with enforcement off.",
   "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
+  "remoteJoiningReadiness": {
+    "authority": "REMOTE_JOINING_READINESS.json",
+    "model": "RJR-1",
+    "reportLabel": "Remote Joining readiness",
+    "rule": "Read the ledger; never infer readiness from PR count, stage count, WEC or visible actions."
+  },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md"
+    "canonical": "SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md"
   },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
   "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
@@ -24,66 +44,54 @@
   "contextGraph": "SESSION_CONTEXT_GRAPH.json",
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "starter": {
-    "version": "1.1.0",
-    "checkpoint": "PR113",
-    "canonical": "START_NEXT_SESSION_V1.1.0_PR113.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.1.0_PR113.md",
+    "version": "1.2.0",
+    "checkpoint": "PR114-SLE-DRAFT",
+    "canonical": "START_NEXT_SESSION_V1.2.0_PR114.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.2.0_PR114.md",
     "ownerInitialDelivery": "give-only-this-file-first",
-    "fallbackPackNeededByDefault": false
+    "fallbackPackNeededByDefault": false,
+    "versionReason": "MINOR: backward-compatible SLE startup upgrade adds fixed RJR ledger authority, exact workflow-log-first repair routing and explicit no-merge draft boundary."
   },
-  "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + adaptive context model/graph supersede older read-everything preload lists only for startup context loading; substantive source/security/recovery/WEC/authorization locks remain authoritative.",
+  "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + adaptive context model/graph supersede older read-everything preload lists only for startup context loading; current verified source, WEC, security/recovery rules and later owner instructions remain authoritative.",
   "retrievalStrategy": {
-    "method": "progressive-context-hydration-with-ranked-task-retrieval-and-live-delta",
-    "tier0": "capsule plus mandatory locks",
-    "tier1": "ranked current-task packet",
-    "tier2": "intervening live-main delta only when needed",
-    "tier3": "full handoff/history only as evidence-triggered fallback",
-    "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security recovery authority or publication context"
+    "method": "SLE-progressive-context-hydration-with-ranked-task-retrieval-and-live-delta",
+    "tier0": "starter + capsule + fixed RJR/WEC/security locks",
+    "tier1": "PR #114 metadata, exact head workflows, production Firebase metadata and App Check bootstrap contracts",
+    "tier2": "intervening live-main/PR delta only when current state differs",
+    "tier3": "complete SLE handoff/history only when evidence-triggered",
+    "failureTriage": "For CI failure, fetch exact workflow run jobs then exact failed job logs before changing code. Do not guess from workflow name.",
+    "optimizationObjective": "minimize startup context cost and tool latency subject to zero increase in missed critical security, recovery, authority or publication context"
   },
   "githubToolRouting": {
     "primary": "connected-github-app-tool",
     "rootlessGhBootstrap": "fallback-only-for-concrete-shell-or-cli-gap",
     "runBootstrapAtStartupWhenConnectorSufficient": false,
     "repeatBootstrapWhenConnectorCanDoOperation": false,
-    "maxMateriallySimilarCliRouteFailuresBeforeCircuitBreak": 2,
+    "maxMateriallySimilarRouteFailuresBeforeCircuitBreak": 2,
     "connectorCredentialsMayBeCopiedIntoGh": false,
-    "ownerOverride": "2026-08-19 later owner instruction supersedes predecessor wording that made npm run work:gh:bootstrap mandatory in every fresh environment; reconcile older process docs/contracts naturally inside first substantive engineering PR rather than a documentation-only PR"
+    "knownRejectedRoute": "Do not retry non-fast-forward update_ref attempts used in the PR #114 environment; normal contents writes worked and the rejected attempts changed no repository state."
   },
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "SESSION_CONTEXT_MODEL.json",
-    "SESSION_CONTEXT_GRAPH.json",
-    "SESSION_CONTEXT_LEARNING.json",
+    "REMOTE_JOINING_READINESS.json",
     "WORK_ENVIRONMENT_STATUS.json",
     "firebase.production.environment.json"
   ],
   "targetedReads": [
-    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md",
-    "firestore.rules",
+    "js/productionAppCheckBootstrap.js",
+    "tests/contracts/production-app-check-bootstrap-contracts.cjs",
     "tests/contracts/production-firebase-environment-activation-contracts.cjs",
-    "tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs"
+    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md",
+    "firestore.rules"
   ],
   "expandContextOnlyIf": [
     "live main differs from lastVerifiedMainSha",
+    "PR #114 head/state differs from the final SLE handoff expectation",
+    "a current exact-head workflow fails",
     "newer merged/open current-authority work exists",
-    "contract failure references historical authority",
-    "security recovery or versioning semantics are ambiguous",
+    "security, recovery, versioning or implementation authority is ambiguous",
     "owner requests full reconstruction",
     "WEC requires interruption recovery or successor handoff"
-  ],
-  "ownerShouldProvideMoreFilesOnlyIf": [
-    "connected GitHub tool cannot access repository or bootstrap branch",
-    "compact bootstrap/context-model files are missing or corrupt",
-    "live delta cannot resolve contradictory current authority",
-    "deep historical security recovery or versioning rationale is genuinely required",
-    "interruption recovery or WEC transition requires full deep-reference handoff"
-  ],
-  "doNotPreloadByDefault": [
-    "WORK_ENVIRONMENT_HISTORY.md",
-    "older successor handoffs",
-    "archived authority-history files",
-    "entire roadmap history",
-    "all historical PRs/workflow runs"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -97,17 +105,19 @@
     "candidateC": "sole-destructive-import-apply-authority",
     "applicationClientFirestoreWrites": "deny-all",
     "productionSecurityRules": "provider-verified-deployed",
-    "appCheck": "not-enabled-yet",
+    "appCheck": "provider-verified-registered-enforcement-off-runtime-bootstrap-disconnected",
+    "appCheckTokenTtlSeconds": 3600,
+    "appCheckRiskThreshold": 0.5,
     "trustedRuntimeIam": "not-activated-yet",
-    "stage3Pairing": "blocked-until-stage2-production-operational-activation-complete",
+    "stage3Pairing": "blocked-until-genuine-stage2-production-operational-activation-complete",
     "publicDiscovery": false,
     "publicCommunity": false,
-    "globalLeaderboardsRankings": false
+    "globalLeaderboardsRankings": false,
+    "pr114MergeAuthorized": false
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; provider/dormant evidence alone does not bump runtime identity",
-  "starterVersionPolicy": "independent from app version; PATCH each ordinary WEF=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
-  "wef100PackagingRule": "At every Handoff proximity 100% checkpoint generate the complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh this capsule/model/graph/learning state as needed, and make the root starter and handoff available to the owner.",
-  "adaptiveLearningRule": "Collect lightweight retrieval usefulness outcomes over future sessions. Keep deterministic mandatory locks. Evaluate a small supervised ranking model only after at least 20 materially distinct labeled session outcomes and adopt only if held-out startup simulation reduces context cost without increasing missed-critical-context incidents.",
-  "carryForwardRule": "Because the bootstrap/context files live on the transition branch at this checkpoint, the successor should include them naturally in the first substantive App Check PR rather than opening a documentation-only PR.",
-  "liveFirstRule": "Current source, live GitHub state, deployed site, provider state, and later owner instructions override this capsule and all handoffs."
+  "starterVersionPolicy": "independent from app version; PATCH ordinary WEF=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
+  "wef100PackagingRule": "At every Handoff proximity 100% checkpoint generate a complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh this capsule/graph/learning state as needed, make the starter available to the owner, write the final transition-prepared WEC seal as the last branch mutation, then validate that sealed exact head without further branch mutation.",
+  "adaptiveLearningRule": "Collect lightweight retrieval usefulness outcomes. Deterministic mandatory locks always win. Evaluate a supervised ranking model only after at least 20 materially distinct labeled sessions and only if held-out startup simulations reduce context cost without missed-critical-context regression.",
+  "liveFirstRule": "Current source, live GitHub state, provider state, deployed site and later owner instructions override this capsule and all handoffs."
 }
