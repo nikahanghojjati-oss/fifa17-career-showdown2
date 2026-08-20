@@ -61,7 +61,7 @@ assert.match(runtimeSource,/firebase-app-check\.js/);
 assert.match(runtimeSource,/getToken\(initialized\.appCheck,false\)/);
 assert.match(runtimeSource,/requestIdleCallback/);
 assert.match(runtimeSource,/runtime-config-not-configured/);
-assert.match(runtimeSource,/Local mode remains active/);
+assert.match(runtimeSource,/local mode remains active/i);
 assert.doesNotMatch(runtimeSource,/firebase-firestore|getFirestore|initializeFirestore|firebase-auth|firebase-functions|firebase-storage/i,"This milestone must not initialize another Firebase service.");
 assert.doesNotMatch(runtimeSource,/DebugAppCheckProvider|FIREBASE_APPCHECK_DEBUG_TOKEN/i,"Production runtime must not contain an App Check debug-provider path.");
 
