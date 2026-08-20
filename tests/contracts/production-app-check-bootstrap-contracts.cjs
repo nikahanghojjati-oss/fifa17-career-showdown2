@@ -89,8 +89,9 @@ assert.equal(calls[1][1],validInput.recaptchaEnterpriseSiteKey);
 
 assert.ok(!index.includes("productionAppCheckBootstrap.js"),"index.html must not eagerly load the App Check bootstrap before local startup.");
 assert.ok(!optional.includes("productionAppCheckBootstrap.js"),"optionalModules.js must not own the production App Check bootstrap.");
-assert.ok(worker.includes("js/productionAppCheckBootstrap.js"),"The reviewed r2 shell must cache the immutable bootstrap code for rollback/offline coherence without caching mutable runtime config.");
+assert.ok(!worker.includes("productionAppCheckBootstrap.js"),"The optional App Check bootstrap must stay outside the offline shell so Firebase availability can never become a local/offline startup dependency.");
 assert.ok(runtime.includes("productionAppCheckBootstrap.js"),"The reviewed production Firebase runtime must lazily load the bootstrap after production-origin/config checks.");
+assert.match(runtime,/classifyRuntimeContext[\s\S]+readRuntimeConfig[\s\S]+loadBootstrapScript/,'The production runtime must gate origin/path and controlled config before the optional bootstrap is needed.');
 assert.doesNotMatch(worker,/firebase\.runtime-config\.json/,"Mutable deployment-injected runtime config must not be frozen into the Service Worker shell.");
 assert.doesNotMatch(source,/DebugAppCheckProvider|self\.FIREBASE_APPCHECK_DEBUG_TOKEN/i,"Production bootstrap must not contain a debug-provider path.");
 assert.doesNotMatch(source,/initializeFirestore|getFirestore|firebase\/firestore/i,"App Check bootstrap must not silently initialize Firestore.");
