@@ -15,28 +15,28 @@
   const APP_CHECK_TOKEN_TTL_SECONDS=3600;
   const APP_CHECK_RISK_THRESHOLD=0.5;
 
-  function deepFreeze(value){
+  function deepFreezeProductionAppCheck(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
     Object.freeze(value);
-    Object.values(value).forEach(deepFreeze);
+    Object.values(value).forEach(deepFreezeProductionAppCheck);
     return value;
   }
 
-  function isRecord(value){
+  function isProductionAppCheckRecord(value){
     return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
   }
 
-  function stringValue(value){
+  function normalizeProductionAppCheckString(value){
     return typeof value==="string"&&value.trim()?value.trim():null;
   }
 
-  function reject(code){
-    return deepFreeze({ok:false,code});
+  function rejectProductionAppCheck(code){
+    return deepFreezeProductionAppCheck({ok:false,code});
   }
 
-  function validateFirebaseConfig(config){
-    if(!isRecord(config))return "APP_CHECK_FIREBASE_CONFIG_REQUIRED";
-    if(!stringValue(config.apiKey))return "APP_CHECK_FIREBASE_API_KEY_REQUIRED";
+  function validateProductionAppCheckFirebaseConfig(config){
+    if(!isProductionAppCheckRecord(config))return "APP_CHECK_FIREBASE_CONFIG_REQUIRED";
+    if(!normalizeProductionAppCheckString(config.apiKey))return "APP_CHECK_FIREBASE_API_KEY_REQUIRED";
     if(config.projectId!==PRODUCTION_PROJECT_ID)return "APP_CHECK_PROJECT_ID_MISMATCH";
     if(config.authDomain!==PRODUCTION_AUTH_DOMAIN)return "APP_CHECK_AUTH_DOMAIN_MISMATCH";
     if(config.storageBucket!==PRODUCTION_STORAGE_BUCKET)return "APP_CHECK_STORAGE_BUCKET_MISMATCH";
@@ -45,16 +45,16 @@
     return null;
   }
 
-  function createPlan(input){
-    if(!isRecord(input))return reject("APP_CHECK_BOOTSTRAP_INPUT_REQUIRED");
-    if(stringValue(input.origin)!==PRODUCTION_ORIGIN)return reject("APP_CHECK_PRODUCTION_ORIGIN_REQUIRED");
-    if(input.debug===true)return reject("APP_CHECK_DEBUG_FORBIDDEN_IN_PRODUCTION");
-    if(input.enforcement===true)return reject("APP_CHECK_PREMATURE_ENFORCEMENT_FORBIDDEN");
-    const configError=validateFirebaseConfig(input.firebaseConfig);
-    if(configError)return reject(configError);
-    const siteKey=stringValue(input.recaptchaEnterpriseSiteKey);
-    if(!siteKey)return reject("APP_CHECK_RECAPTCHA_ENTERPRISE_SITE_KEY_REQUIRED");
-    return deepFreeze({
+  function buildProductionAppCheckPlan(input){
+    if(!isProductionAppCheckRecord(input))return rejectProductionAppCheck("APP_CHECK_BOOTSTRAP_INPUT_REQUIRED");
+    if(normalizeProductionAppCheckString(input.origin)!==PRODUCTION_ORIGIN)return rejectProductionAppCheck("APP_CHECK_PRODUCTION_ORIGIN_REQUIRED");
+    if(input.debug===true)return rejectProductionAppCheck("APP_CHECK_DEBUG_FORBIDDEN_IN_PRODUCTION");
+    if(input.enforcement===true)return rejectProductionAppCheck("APP_CHECK_PREMATURE_ENFORCEMENT_FORBIDDEN");
+    const configError=validateProductionAppCheckFirebaseConfig(input.firebaseConfig);
+    if(configError)return rejectProductionAppCheck(configError);
+    const siteKey=normalizeProductionAppCheckString(input.recaptchaEnterpriseSiteKey);
+    if(!siteKey)return rejectProductionAppCheck("APP_CHECK_RECAPTCHA_ENTERPRISE_SITE_KEY_REQUIRED");
+    return deepFreezeProductionAppCheck({
       ok:true,
       provider:APP_CHECK_PROVIDER,
       productionOrigin:PRODUCTION_ORIGIN,
@@ -72,14 +72,14 @@
     });
   }
 
-  function initialize(input){
-    const plan=createPlan(input);
+  function initializeProductionAppCheck(input){
+    const plan=buildProductionAppCheckPlan(input);
     if(!plan.ok)return plan;
     const sdk=input.firebaseSdk;
-    if(!isRecord(sdk))return reject("APP_CHECK_FIREBASE_SDK_REQUIRED");
-    if(typeof sdk.initializeApp!=="function")return reject("APP_CHECK_INITIALIZE_APP_REQUIRED");
-    if(typeof sdk.initializeAppCheck!=="function")return reject("APP_CHECK_INITIALIZE_APP_CHECK_REQUIRED");
-    if(typeof sdk.ReCaptchaEnterpriseProvider!=="function")return reject("APP_CHECK_ENTERPRISE_PROVIDER_REQUIRED");
+    if(!isProductionAppCheckRecord(sdk))return rejectProductionAppCheck("APP_CHECK_FIREBASE_SDK_REQUIRED");
+    if(typeof sdk.initializeApp!=="function")return rejectProductionAppCheck("APP_CHECK_INITIALIZE_APP_REQUIRED");
+    if(typeof sdk.initializeAppCheck!=="function")return rejectProductionAppCheck("APP_CHECK_INITIALIZE_APP_CHECK_REQUIRED");
+    if(typeof sdk.ReCaptchaEnterpriseProvider!=="function")return rejectProductionAppCheck("APP_CHECK_ENTERPRISE_PROVIDER_REQUIRED");
 
     let app;
     let appCheck;
@@ -91,10 +91,10 @@
         isTokenAutoRefreshEnabled:true
       });
     }catch(_error){
-      return reject("APP_CHECK_INITIALIZATION_FAILED");
+      return rejectProductionAppCheck("APP_CHECK_INITIALIZATION_FAILED");
     }
 
-    return deepFreeze({
+    return deepFreezeProductionAppCheck({
       ok:true,
       app,
       appCheck,
@@ -106,7 +106,7 @@
     });
   }
 
-  return deepFreeze({
+  return deepFreezeProductionAppCheck({
     contractVersion:1,
     productionRuntimeConnected:false,
     productionOrigin:PRODUCTION_ORIGIN,
@@ -120,7 +120,7 @@
     tokenAutoRefreshRequired:true,
     browserFirestoreWrites:"deny-all",
     trustedMutationAuthorityGranted:false,
-    createPlan,
-    initialize
+    createPlan:buildProductionAppCheckPlan,
+    initialize:initializeProductionAppCheck
   });
 });
