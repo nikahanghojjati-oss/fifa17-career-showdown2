@@ -1,250 +1,165 @@
-# FIFA 17 Career Mode Showdown — SLE Successor Handoff — PR #114 App Check Bootstrap
+# FIFA 17 Career Mode Showdown — SLE Successor Handoff — PR #114
 
-Status: WEC successor package prepared for the PR #114 clean checkpoint. Treat this file as orientation, never as implementation authority. Current source, live GitHub/provider state, WEC, security/recovery contracts and later owner instructions override every recorded fact.
+Treat this handoff as orientation only. Current source, live GitHub/provider state, WEC, security/recovery contracts and later owner instructions override recorded facts.
 
-## SLE objective
-
-Start lean, verify live state first, load only the evidence needed for the current dependency, and continue substantive Remote Joining prerequisite work without reconstructing the complete project history unless evidence forces a deep fallback.
-
-The owner’s long-term product priority remains Private Remote Joining. Stability and dependency order remain mandatory. Do not manufacture process/documentation milestones when a genuine prerequisite is available.
-
-## Repository
+## Fast startup
 
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
-
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-
-Verified live `main` before this SLE packaging sequence: `1ccf2d3f451ea53575698877787562e38f1d6f50` from merged PR #113.
-
+PR #114 branch: `agent/pr114-app-check-bootstrap`
+Recorded pre-SLE live main: `1ccf2d3f451ea53575698877787562e38f1d6f50` after PR #113
 Application/package: `1.4.0`
-
 Runtime: `1.4.0-r1`
 
-Previous known-good whole shell: `1.3.0-r2`
+Use connected GitHub first. Fetch live `main`, PR #114 exact head/state, exact-head workflows, submitted reviews, inline review threads and mergeability. Do not preload full history.
 
-No runtime/version bump was warranted because PR #114 does not load Firebase/App Check into the shipped website.
+Initial reads only:
 
-## Current candidate
+1. `SESSION_BOOTSTRAP.json`
+2. `REMOTE_JOINING_READINESS.json`
+3. `WORK_ENVIRONMENT_STATUS.json`
+4. `firebase.production.environment.json`
+5. `00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md`
 
-Draft PR: `#114 — Record production App Check registration and add controlled bootstrap`
+Use this complete handoff only when the compact packet cannot resolve a discrepancy, CI failure, security/recovery question or WEC transition issue.
 
-Branch: `agent/pr114-app-check-bootstrap`
+## Standing owner merge/deploy authorization
 
-Base: `main`
+On 2026-08-20 the owner granted project-wide standing authorization through full project completion: once a PR passes every required test and current mandatory publication gate, current and future developers may merge and deploy it without requesting a new owner confirmation.
 
-Merge authorization: NOT GRANTED. The owner explicitly authorized branch creation, commits/pushes and opening the draft PR, but not merge. Do not merge PR #114 until a later explicit owner instruction authorizes it.
+This later instruction supersedes PR #114's earlier draft-only/no-merge limitation. After the final immutable sealed PR #114 head passes its full gate, mark ready if needed, squash-merge with expected-head protection, independently verify resulting live `main`, and complete applicable deployment verification without asking again.
 
-Pre-SLE-packaging engineering head: `30ea11102840ad84352c3402f52af107fde1935c`.
+The standing authorization does not waive exact-head CI, clean reviews/threads, mergeability, expected-head protection, deployment proof when applicable, WEC, versioning, security/recovery guarantees or current implementation scope.
 
-That head passed all 13 normal pull-request workflow families and PR #114 was mergeable with zero submitted reviews and zero inline review threads. The later SLE packaging/WEC-seal commits intentionally move the branch beyond that head, so the successor must fetch PR #114 live and validate the final sealed exact head rather than treating `30ea111...` as current.
+Permanent provenance:
 
-## Provider proof completed by owner on 2026-08-20
+`00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md`
+`authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md`
 
-Production project: `fifa17-career-showdown-prod`.
+## PR #114 purpose and production truth
 
-The owner supplied Google Cloud/Firebase screenshots proving:
+PR #114 records owner-verified production Firebase App Check registration and adds a dormant controlled bootstrap. It does not load Firebase/App Check into the shipped website runtime and does not warrant an application/runtime version bump.
 
-1. reCAPTCHA Enterprise API enabled;
-2. production Web key `Career Mode Showdown Production App Check` created;
-3. Web domain exactly `nikahanghojjati-oss.github.io`;
-4. domain verification enabled;
-5. AMP, interactive challenges, testing-only mode and WAF mode disabled;
-6. the existing Career Mode Showdown Firebase Web App registered with Firebase App Check using reCAPTCHA Enterprise;
-7. token TTL exactly one hour;
-8. App risk threshold Medium (`0.5`);
-9. Firebase displayed `App registration successful` and the Web App status became `Registered` with a green reCAPTCHA Enterprise provider indicator.
+Provider truth proved by owner screenshots on 2026-08-20:
 
-Provider evidence is preserved at `authority-history/APP_CHECK_PROVIDER_REGISTRATION_2026-08-20.md` and in `firebase.production.environment.json`.
+* production project `fifa17-career-showdown-prod`;
+* reCAPTCHA Enterprise API enabled;
+* production Web key restricted to `nikahanghojjati-oss.github.io`;
+* Firebase Web App registered with App Check using reCAPTCHA Enterprise;
+* token TTL one hour;
+* app-risk threshold `0.5`;
+* registration status successful/Registered;
+* App Check enforcement remains OFF.
 
-App Check enforcement remains OFF.
+Production Firestore Security Rules remain provider-verified deployed from canonical `firestore.rules`. Every application-client Firestore create/update/delete remains deny-all.
+
+Production Firebase runtime remains disconnected. App Check client/runtime bootstrap remains disconnected. Trusted runtime IAM remains unactivated.
 
 ## PR #114 implementation
 
-`firebase.production.environment.json`
+`firebase.production.environment.json` records provider-verified App Check registration while preserving enforcement OFF, runtime disconnected, trusted runtime IAM unactivated and browser writes deny-all.
 
-Now records provider-verified App Check registration while keeping:
+`js/productionAppCheckBootstrap.js` is dormant and absent from `index.html`, `js/optionalModules.js` and `service-worker.js`. It locks exact production origin/project/App identity, reCAPTCHA Enterprise, one-hour TTL/0.5 risk policy, no production debug path, no premature enforcement, controlled public-config injection, `initializeApp` before `initializeAppCheck`, `ReCaptchaEnterpriseProvider`, token auto-refresh, no Firestore initialization and no browser trusted-mutation authority.
 
-- `appCheckEnforcement: false`;
-- `appCheckRuntimeBootstrapConnected: false`;
-- `trustedRuntimeIam: not-activated-yet`;
-- `runtimeConnected: false`;
-- application-client Firestore writes `deny-all`.
+The concrete Firebase Web API key and reCAPTCHA Enterprise site key must continue to follow controlled public-config delivery rather than being newly hard-coded into committed runtime source.
 
-`js/productionAppCheckBootstrap.js`
+## Exact-head proof and repairs
 
-Dormant bootstrap contract only. It is intentionally not loaded by `index.html`, `js/optionalModules.js` or `service-worker.js`.
+The pre-SLE engineering head `30ea11102840ad84352c3402f52af107fde1935c` passed all 13 normal PR workflow families, with clean reviews, clean threads and mergeability. Later SLE/WEC packaging intentionally moved the branch, so that old head is not publication authority.
 
-It locks:
+The valid final gate is the final sealed exact head only:
 
-- production origin `https://nikahanghojjati-oss.github.io`;
-- project `fifa17-career-showdown-prod`;
-- exact production Firebase Web App identity;
-- reCAPTCHA Enterprise provider;
-- one-hour TTL / `0.5` risk policy;
-- production debug path forbidden;
-- premature enforcement forbidden;
-- injected Firebase Web config and reCAPTCHA site key required;
-- `initializeApp` before `initializeAppCheck`;
-- `ReCaptchaEnterpriseProvider`;
-- `isTokenAutoRefreshEnabled: true`;
-- no Firestore initialization;
-- no browser trusted-mutation authority.
+1. all 13 normal workflow families green on one unchanged head;
+2. submitted reviews clean;
+3. inline review threads clean;
+4. mergeability clean;
+5. final transition-prepared WEC seal is the last PR-branch mutation;
+6. no later branch mutation;
+7. then use standing authorization to merge/deploy.
 
-Concrete Firebase Browser API key and concrete reCAPTCHA Enterprise site key are not newly hard-coded into committed runtime source. Preserve the controlled public-config injection policy established after PR #111.
+Known objective repairs from this environment:
 
-Permanent App Check/RJR contracts are registered in the canonical contract suite.
+* an RJR reporting regex accidentally required an extra literal `not`; fixed without weakening meaning;
+* App Check module helper names collided globally with existing JS helpers; exact Stability job logs identified the collision and helpers were uniquely renamed;
+* legacy continuity contracts incorrectly allowed successor divergence only while `active`; they were corrected to permit legitimate `transition-prepared` closure only with 100% handoff completeness.
 
-## RJR — Remote Joining readiness
+For any CI failure, fetch the exact run, jobs and failed job log before changing code. Do not guess from workflow name.
 
-Machine-readable numeric authority: `REMOTE_JOINING_READINESS.json`.
+## Remote Joining readiness
 
-Model: `RJR-1`.
+Numeric authority: `REMOTE_JOINING_READINESS.json`
+Model: `RJR-1`
+Current evidence-backed readiness: approximately `59%`
 
-Current evidence-backed readiness at this checkpoint: approximately `59%`.
+Do not infer readiness from PR count, roadmap stage count, WEC, Handoff proximity or visible effort. Provider App Check registration earned the reconstructed move to 59%; dormant bootstrap/SLE packaging alone earns no additional point because legitimate production App Check traffic is not yet proven.
 
-Fixed 100-point domains:
+Private Remote Joining remains the highest long-term priority, dependency-gated and stability-first.
 
-- deterministic sync and recovery safety: 20;
-- identity/authentication/authorization/trust: 20;
-- production cloud/security activation: 20;
-- devices/pairing/Connected Rivalry/actual Remote Joining: 30;
-- real-device hardening/stable release: 10.
+## Permanent security/recovery locks
 
-Do not derive RJR from PR count, roadmap-stage count, WEC, Handoff proximity or visible owner actions. Increase only when verified evidence improves a fixed capability domain. Decrease only when credited evidence is invalidated or a proven regression removes capability. Changing weights/denominator requires a new RJR model version, rationale and backcast.
+App Check is attestation only. It is not authentication, application authorization, pairing authority, rivalry entitlement, gameplay authority, shared-mutation authority or IAM authority.
 
-Provider App Check registration moved the reconstructed 58 baseline to 59. The dormant PR #114 bootstrap and CI proof do not by themselves justify another RJR point because production client traffic is still not proven.
+Trusted request order remains production-origin defense in depth → transient `X-Firebase-AppCheck` → trusted Admin App Check verification → exact App identity/project audience → revocation-aware Firebase ID token verification → derive `accountId` from verified UID → operation-specific application authorization → trusted operation adapter under separately reviewed IAM.
 
-## WEC and owner reporting
-
-Every substantive owner-facing development checkpoint must preserve exactly this seven-line order:
-
-`Handoff proximity: X%`
-
-`Remote Joining readiness: ~Y%`
-
-`Current lane: ...`
-
-`Concrete dependency completed: ...`
-
-`Next unlock: ...`
-
-`Blocker: ...`
-
-`Sidequest check: ...`
-
-RJR comes from `REMOTE_JOINING_READINESS.json`. Handoff proximity/WEC is a separate continuity metric and must never share a denominator with RJR.
-
-At Handoff proximity 100%, finish only the current safe boundary, generate the successor package and stop before another substantial milestone. The predecessor’s WEC decision is historical; a successor must initialize its own fresh WEC identity and assess itself after validating inherited state.
-
-Usage is unavailable unless objectively supplied. Never fabricate account/model usage.
-
-## Important environment lessons
-
-A sequence of non-fast-forward `update_ref` attempts was rejected by GitHub with 422 after branch creation. None changed repository state. That route was circuit-broken. Do not repeat it; normal GitHub contents writes worked.
-
-The first PR #114 validation exposed two distinct test defects/implementation hygiene issues:
-
-1. an RJR reporting regex incorrectly required an extra literal `not` and was corrected;
-2. the new App Check module initially reused global helper names already present in other JS files. Exact Stability job logs identified `isRecord`, `deepFreeze` and `reject` duplicates. The helpers were renamed with production-App-Check-specific names.
-
-Do not infer CI causes from the workflow family name. For a failure, fetch exact workflow run jobs and then exact failed job logs before modifying code.
-
-No security/recovery test was weakened to obtain green CI.
-
-## Permanent security/data locks
-
-Production Firestore Rules source remains `firestore.rules`, blob `0473750cb16b5b8eea234c0f8138c41de5ff3dfb`, provider-verified deployed through PR #113.
-
-Every application-client Firestore create/update/delete remains denied.
-
-App Check is attestation only. It grants no account identity, application authorization, pairing authority, rivalry entitlement, gameplay authority, shared-mutation authority or IAM authority.
-
-Trusted request order remains: production-origin defense in depth → transient `X-Firebase-AppCheck` → trusted Admin App Check verification → exact App identity/project audience → revocation-aware Firebase ID token verification → derive accountId from verified UID → operation-specific application authorization → trusted operation adapter under separately reviewed IAM.
-
-Stage 2H current least-privilege account-bootstrap permission proof remains:
+Stage 2H bootstrap IAM proof remains exactly:
 
 `firebaseauth.users.get`
-
 `datastore.databases.get`
-
 `datastore.entities.get`
-
 `datastore.entities.create`
 
-Do not silently broaden production IAM.
+Do not silently broaden IAM.
 
 Canonical browser storage remains exactly:
 
 `careerModeShowdown.saveLibrary`
-
 `careerModeShowdown.legacyShowdowns`
-
 `careerModeShowdown.preferences`
-
-`activeShowdown` is not a fourth canonical key.
 
 Candidate A remains non-mutating export. Candidate B remains read-only import analysis. Candidate C remains the sole destructive import Apply authority.
 
-Public discovery, public profiles, public matchmaking, public invitation directories, public lobbies, community, public rankings and global leaderboards remain prohibited/eliminated.
+Public discovery, public profiles, public matchmaking, public invitation directories, public lobbies, community, rankings and global leaderboards remain prohibited/eliminated.
 
 Exactly two managers remain authoritative.
 
-## Dependency order
+## Dependency order after PR #114
 
-Current progression remains:
+After PR #114 is merged and live-main is verified, the next substantive dependency is controlled production Firebase/App Check runtime-config delivery and legitimate App Check traffic proof while enforcement remains OFF.
 
-production App Check/runtime trust completion → remaining genuine Stage 2 production/operational trust/IAM proof → Stage 3 Registered Devices / Private Pairing → Stage 4 Connected Rivalry → Stage 5 Private Remote Joining → real-device hardening → stable release.
+Then continue only the genuine remaining Stage 2 production/operational trust/IAM prerequisites → Stage 3 Registered Devices / Private Pairing → Stage 4 Connected Rivalry → Stage 5 Private Remote Joining → real-device hardening → stable release.
 
-Stage 3 remains blocked today. Do not start it simply because provider App Check registration succeeded.
+Stage 3 remains blocked at this checkpoint.
 
-## Immediate successor startup — SLE path
+Do not jump directly to App Check enforcement. First initialize the legitimate production client before protected Firebase services, keep token auto-refresh on, keep debug provider off, observe legitimate verified traffic, and only then evaluate service-specific enforcement.
 
-The owner should initially provide only `START_NEXT_SESSION_V1.2.0_PR114.md`.
+## WEC and reporting
 
-Successor should then:
+Every substantive owner-facing development checkpoint keeps exactly:
 
-1. use the connected GitHub tool first;
-2. fetch live `main`, PR #114 metadata, PR #114 exact head, relevant recent commits and current workflow runs;
-3. read only `SESSION_BOOTSTRAP.json`, `REMOTE_JOINING_READINESS.json`, `WORK_ENVIRONMENT_STATUS.json` and `firebase.production.environment.json` initially;
-4. validate inherited WEC status, archive predecessor facts if required, create a fresh environment ID/reset signals and only then run the successor’s own WEC assessment;
-5. if PR #114 final sealed head is unchanged and all 13 normal workflow families are green, verify reviews/threads/mergeability and report the checkpoint;
-6. do not merge without explicit owner authorization;
-7. if a workflow fails, inspect exact run jobs and exact failed job logs before repair;
-8. load `js/productionAppCheckBootstrap.js`, its App Check contracts, Stage 2I and `firestore.rules` only when needed;
-9. use this complete handoff only as deep fallback.
+`Handoff proximity: X%`
+`Remote Joining readiness: ~Y%`
+`Current lane: ...`
+`Concrete dependency completed: ...`
+`Next unlock: ...`
+`Blocker: ...`
+`Sidequest check: ...`
 
-`NEXT_TASK.md` still contains an older connected-export current-authority body inherited from PR #108. That historical text is preserved in Git history and permanent contracts but is stale relative to the later owner-authorized provider activation/PR #114 lane. Do not regress to PR #108 merely because that heading says CURRENT. Current live source, this later owner instruction, PR #109–#114 provider evidence and the newest WEC/start packet supersede it. Reconcile `NEXT_TASK.md` naturally when publication authority permits; do not create a standalone documentation repair PR.
+At Handoff proximity 100%, finish only the current safe boundary, generate the successor package and stop before a new substantial milestone. The successor must initialize its own fresh WEC identity; never inherit the predecessor transition decision as its own. Never fabricate hidden usage.
 
-## Immediate work after PR #114 is eventually authorized and merged
+## SLE package
 
-Do not jump to App Check enforcement.
+Newest starter: `START_NEXT_SESSION_V1.3.0_PR114.md`
+Mirror: `project-documents/session-starts/START_NEXT_SESSION_V1.3.0_PR114.md`
 
-The next substantive dependency is controlled production runtime-config delivery and App Check client initialization/proof:
+Handoff root/mirror must remain byte-identical:
 
-- determine the leanest safe way to provide the public Firebase Web config/API key and public reCAPTCHA Enterprise site key without reversing PR #111 handling policy;
-- initialize Firebase App and App Check in the legitimate production client before protected Firebase services;
-- require token auto-refresh;
-- keep debug provider disabled in production;
-- keep Firestore application-client writes deny-all;
-- deploy/observe legitimate App Check traffic;
-- use metrics to prove legitimate requests are verified;
-- only then evaluate service-specific enforcement;
-- trusted-runtime IAM/endpoint activation remains separately reviewed and least privilege.
+`SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md`
+`project-documents/handoffs/SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md`
 
-If current provider guidance changes, verify it before provider mutation and update only with evidence.
+`SESSION_BOOTSTRAP.json` is the compact capsule. `SESSION_CONTEXT_GRAPH.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_LEARNING.json` are progressive fallback context, not mandatory preload.
 
-## SLE context system
+`NEXT_TASK.md` still contains stale PR #108-era current-heading prose. Current live source, later owner instructions, PR #109–#114 provider work, WEC and this SLE packet supersede it. Do not create a documentation-only repair milestone; reconcile it naturally inside substantive authorized work.
 
-`SESSION_BOOTSTRAP.json` is the compact capsule.
+## Clean stop
 
-`SESSION_CONTEXT_GRAPH.json` records dependency/provenance relationships.
-
-`SESSION_CONTEXT_MODEL.json` retains deterministic ranking priors.
-
-`SESSION_CONTEXT_LEARNING.json` now contains one labeled material session. It is still cold-start state and is not a trained ML model. Do not claim otherwise. Supervised ranking remains ineligible before at least 20 materially distinct labeled sessions and must beat deterministic retrieval on held-out startup simulations without increasing missed-critical-context events.
-
-Connected GitHub tooling remains primary. Rootless `gh` is fallback only for a concrete unsupported operation.
-
-## Clean-stop rule
-
-At this handoff boundary, do not begin the next substantial runtime-config/App Check traffic milestone. First complete the exact sealed-head proof of PR #114 and obtain any required owner merge authorization. Then the next fresh environment can continue the dependency chain.
+This environment closes only after the final WEC seal is the last PR-branch mutation and the sealed exact head passes all required PR #114 gates. Then use the standing owner authorization to merge/deploy. Do not begin the next runtime-config/App Check traffic milestone inside this inherited WEC=100 environment; that begins under a fresh successor WEC.
