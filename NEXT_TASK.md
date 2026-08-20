@@ -125,6 +125,7 @@ Finish only PR #116 on `agent/pr115-production-deployment-proof`. The engineerin
 The following statements are retained only so permanent executable contracts can prove prior product/recovery milestones were not erased. They do not override the current PR #116 authority above.
 
 Historical PR #115 successor authority snapshot:
+Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION.
 Current branch: `agent/production-app-check-runtime`.
 Current pull request: #115 `Connect production App Check runtime safely`.
 Current environment: `we-2026-08-20-production-app-check-runtime`.
