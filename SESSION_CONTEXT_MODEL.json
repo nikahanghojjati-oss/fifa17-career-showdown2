@@ -1,8 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "priors-only-insufficient-labeled-sessions-for-supervised-model",
-  "purpose": "minimize startup context cost while preserving critical project knowledge",
+  "trainingState": "cold-start-priors-one-labeled-session-insufficient-for-supervised-model",
+  "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
     "authority": 0.18,
@@ -16,10 +16,12 @@
   },
   "mandatoryBypass": [
     "current live main boundary",
+    "current pull-request exact head/state and merge authorization",
     "current application/runtime identity",
     "current bounded lane",
     "later explicit owner instructions",
     "WEC state and transition rules",
+    "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
@@ -31,16 +33,18 @@
     "connected GitHub primary / rootless gh fallback-only routing rule"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [1000, 2000],
-    "tier1TaskPacketAdditionalApproxTokens": [3000, 6000],
-    "tier2LiveDeltaAdditionalApproxTokens": [5000, 10000],
+    "tier0BootstrapApproxTokens": [1000,2000],
+    "tier1TaskPacketAdditionalApproxTokens": [3000,6000],
+    "tier2LiveDeltaAdditionalApproxTokens": [5000,10000],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
     "Represent mandatory locks in Tier 0 regardless of rank.",
-    "Verify connected GitHub live state before accepting recorded task identity.",
-    "If main differs, score changed/intervening files with delta=1 and inspect those before broad history.",
+    "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
+    "Read RJR from REMOTE_JOINING_READINESS.json; never infer it from milestones, PRs or WEC.",
+    "If main or current PR differs, score changed/intervening files with delta=1 and inspect those before broad history.",
     "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
+    "For CI failure, fetch the exact workflow run jobs and exact failed job logs before changing code; log evidence outranks heuristic diagnosis.",
     "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the capsule.",
     "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
   ],
@@ -73,9 +77,10 @@
     "unnecessary historical files loaded",
     "stale-authority corrections after startup",
     "missed-critical-context incidents",
-    "duplicate or repeated GitHub CLI bootstrap attempts",
+    "duplicate or repeated route failures",
     "deep-fallback escalations",
+    "exact-job-log-first CI repairs",
     "direct progression into real Remote Joining prerequisite"
   ],
-  "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security recovery authority or publication information"
+  "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information"
 }
