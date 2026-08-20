@@ -30,7 +30,8 @@
   "activation": {
     "firebaseProject": "owner-created",
     "webApp": "owner-registered",
-    "googleAuthProvider": "not-enabled-yet",
+    "googleAuthProvider": "provider-verified-enabled",
+    "googleAuthProviderVerificationEvidence": "2026-08-19 owner Firebase Console screenshot shows Google listed under Authentication > Sign-in method with Status Enabled.",
     "productionAuthorizedDomain": "not-verified-yet",
     "productionSecurityRules": "not-deployed-yet",
     "appCheck": "not-enabled-yet",
