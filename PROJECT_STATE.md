@@ -53,7 +53,7 @@ Cloud / synchronization readiness
 → Private Remote Joining
 → end-to-end hardening / stable release.
 
-Stage 1 Cloud / Sync Readiness Phase 1A through 1F is completed in current source. Stage 2 private account/authentication/authorization dormant boundaries and later trusted gateway, account deletion and connected-data export prerequisites are completed at their proven boundaries, while remaining production operational activation is still incomplete.
+Stage 1 Cloud / Sync Readiness Phase 1A through 1F is completed in current source. Cloud/Sync Readiness Phase 1F is DONE / MERGED / PROTECTED through PR #81. Private Account / Authentication Stage 2A and Stages 2B through 2I are likewise completed at their protected prerequisite boundaries. Stage 2 private account/authentication/authorization dormant boundaries and later trusted gateway, account deletion and connected-data export prerequisites are completed at their proven boundaries, while remaining production operational activation is still incomplete.
 
 Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1`
 Cloud/Sync Readiness Phase 1B merge: `2dc61e24ef07a0a150a228865f954ab3b3941398`
