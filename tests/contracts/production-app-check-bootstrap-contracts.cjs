@@ -5,12 +5,13 @@ const bootstrap=require("../../js/productionAppCheckBootstrap.js");
 const read=file=>fs.readFileSync(file,"utf8");
 const manifest=JSON.parse(read("firebase.production.environment.json"));
 const source=read("js/productionAppCheckBootstrap.js");
+const runtime=read("js/productionFirebaseRuntime.js");
 const index=read("index.html");
 const optional=read("js/optionalModules.js");
 const worker=read("service-worker.js");
 
 assert.equal(bootstrap.contractVersion,1);
-assert.equal(bootstrap.productionRuntimeConnected,false,"This PR must prove the App Check bootstrap without silently connecting the production website runtime.");
+assert.equal(bootstrap.productionRuntimeConnected,false,"The bootstrap module itself grants no production service/runtime authority; the reviewed r2 loader owns optional client connection.");
 assert.equal(bootstrap.productionOrigin,"https://nikahanghojjati-oss.github.io");
 assert.equal(bootstrap.productionProjectId,"fifa17-career-showdown-prod");
 assert.equal(bootstrap.productionAppId,"1:409396353288:web:1d3a2a5d6921de6ccbb4bd");
@@ -23,6 +24,7 @@ assert.equal(bootstrap.tokenAutoRefreshRequired,true);
 assert.equal(bootstrap.browserFirestoreWrites,"deny-all");
 assert.equal(bootstrap.trustedMutationAuthorityGranted,false);
 
+// Production metadata continues to describe currently verified live provider state until r2 is deployed and traffic-proven.
 assert.equal(manifest.activation.appCheck,"provider-verified-registered");
 assert.equal(manifest.activation.appCheckProvider,"recaptcha-enterprise");
 assert.equal(manifest.activation.appCheckWebAppId,bootstrap.productionAppId);
@@ -81,17 +83,21 @@ assert.equal(initialized.ok,true);
 assert.equal(initialized.tokenAutoRefresh,true);
 assert.equal(initialized.enforcement,false);
 assert.equal(initialized.browserFirestoreWrites,"deny-all");
-assert.deepEqual(calls.map(call=>call[0]),["initializeApp","provider","initializeAppCheck"],"Firebase App initialization must precede App Check initialization, with no Firestore/runtime connection in this dormant contract.");
+assert.deepEqual(calls.map(call=>call[0]),["initializeApp","provider","initializeAppCheck"],"Firebase App initialization must precede App Check initialization, with no Firestore connection.");
 assert.equal(calls[2][2].isTokenAutoRefreshEnabled,true,"Production App Check tokens must auto-refresh.");
 assert.equal(calls[1][1],validInput.recaptchaEnterpriseSiteKey);
 
-for(const [name,text] of [["index.html",index],["js/optionalModules.js",optional],["service-worker.js",worker]]){
-  assert.ok(!text.includes("productionAppCheckBootstrap.js"),`${name} must not load the dormant App Check bootstrap before controlled runtime-config delivery is proven.`);
-}
+assert.ok(!index.includes("productionAppCheckBootstrap.js"),"index.html must not eagerly load the App Check bootstrap before local startup.");
+assert.ok(!optional.includes("productionAppCheckBootstrap.js"),"optionalModules.js must not own the production App Check bootstrap.");
+assert.ok(!worker.includes("productionAppCheckBootstrap.js"),"The optional App Check bootstrap must stay outside the offline shell so Firebase availability can never become a local/offline startup dependency.");
+assert.ok(runtime.includes("productionAppCheckBootstrap.js"),"The reviewed production Firebase runtime must lazily load the bootstrap after production-origin/config checks.");
+assert.match(runtime,/classifyRuntimeContext[\s\S]+readRuntimeConfig[\s\S]+loadBootstrapScript/,'The production runtime must gate origin/path and controlled config before the optional bootstrap is needed.');
+assert.doesNotMatch(worker,/firebase\.runtime-config\.json/,"Mutable deployment-injected runtime config must not be frozen into the Service Worker shell.");
 assert.doesNotMatch(source,/DebugAppCheckProvider|self\.FIREBASE_APPCHECK_DEBUG_TOKEN/i,"Production bootstrap must not contain a debug-provider path.");
-assert.doesNotMatch(source,/initializeFirestore|getFirestore|firebase\/firestore/i,"Dormant App Check bootstrap must not silently initialize Firestore.");
+assert.doesNotMatch(source,/initializeFirestore|getFirestore|firebase\/firestore/i,"App Check bootstrap must not silently initialize Firestore.");
+assert.doesNotMatch(runtime,/initializeFirestore|getFirestore|firebase\/firestore/i,"The r2 App Check runtime must not silently initialize Firestore.");
 assert.doesNotMatch(source,/AIza[0-9A-Za-z_-]{35}/,"Concrete Firebase Browser API key must remain outside committed bootstrap source.");
 assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all");
 assert.equal(manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser,false);
 
-process.stdout.write("PASS provider-verified production App Check registration and dormant exact-origin/exact-app bootstrap with controlled public-config injection, token auto-refresh, no debug/enforcement, no Firestore connection and deny-all browser writes\n");
+process.stdout.write("PASS provider-verified production App Check registration and reviewed lazy r2 exact-origin/exact-app bootstrap with controlled public-config injection, token auto-refresh, no debug/enforcement, no Firestore connection and deny-all browser writes\n");

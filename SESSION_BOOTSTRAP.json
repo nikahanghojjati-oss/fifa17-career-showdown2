@@ -1,17 +1,18 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-20T17:22:00Z",
+  "recordedAt": "2026-08-20T21:15:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/pr114-app-check-bootstrap",
+  "bootstrapBranch": "agent/production-app-check-runtime",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "1ccf2d3f451ea53575698877787562e38f1d6f50",
+  "lastVerifiedMainSha": "7944b87a20cf793c659077d7518c4446f178e32c",
   "currentPullRequest": {
-    "number": 114,
+    "number": 115,
     "state": "open-draft",
-    "branch": "agent/pr114-app-check-bootstrap",
+    "branch": "agent/production-app-check-runtime",
     "base": "main",
-    "prePackagingValidatedCandidateHead": "30ea11102840ad84352c3402f52af107fde1935c",
+    "baseSha": "7944b87a20cf793c659077d7518c4446f178e32c",
+    "prePackagingValidatedCandidateHead": "36debe7511bd4001a17be03b5e3d787559fd032a",
     "prePackagingWorkflowFamiliesGreen": 13,
     "reviewsCleanAtPrePackagingHead": true,
     "threadsCleanAtPrePackagingHead": true,
@@ -19,7 +20,7 @@
     "mergeAuthorized": true,
     "mergeAuthorizationSource": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "mergeAuthorizationCondition": "After every required test and current mandatory publication gate passes on the immutable exact head, merge/deploy without another owner approval prompt.",
-    "finalSealedHeadRule": "Fetch PR #114 after startup. The final SLE/WEC seal is later than the pre-packaging green head and must be validated from live PR metadata plus exact-head workflow evidence before merge."
+    "finalSealedHeadRule": "Fetch PR #115 after startup. The final SLE/WEC seal is later than the pre-packaging green head and must be validated from live PR metadata plus exact-head workflow evidence before merge."
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -30,24 +31,28 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "Provider-verified production reCAPTCHA Enterprise/Firebase App Check registration plus dormant controlled App Check bootstrap candidate proven green before SLE packaging",
+  "lastCompletedMilestone": "PR #115 production App Check runtime candidate reached a clean pre-packaging checkpoint: all 13 normal workflow families green on exact head 36debe7511bd4001a17be03b5e3d787559fd032a, reviews/threads empty and mergeability true while enforcement remained off and browser Firestore writes remained deny-all.",
   "runtime": {
     "applicationVersion": "1.4.0",
-    "runtimeRevision": "1.4.0-r1",
-    "runtimeFirebaseConnected": false,
-    "appCheckRuntimeBootstrapConnected": false
+    "productionRuntimeRevision": "1.4.0-r1",
+    "candidateRuntimeRevision": "1.4.0-r2",
+    "productionRuntimeFirebaseConnected": false,
+    "candidateFirebaseAppCheckRuntimeIntegrated": true,
+    "productionAppCheckTrafficProven": false,
+    "appCheckEnforcement": false
   },
-  "currentLane": "Close PR #114 at an immutable green SLE/WEC checkpoint, then use standing owner authorization to merge/deploy without another approval prompt. After merge/live-main proof, the next substantive dependency is controlled production Firebase/App Check runtime-config delivery and legitimate App Check traffic proof with enforcement off.",
+  "currentLane": "Finish PR #115 publication only under a fresh successor WEC: validate the final transition-prepared sealed exact head, use standing owner authorization for expected-head squash merge/deploy after all gates pass, verify live 1.4.0-r2, deliver controlled public Firebase/App Check runtime configuration and prove legitimate production App Check traffic while enforcement remains off. Do not begin Stage 3 in the predecessor WEC.",
   "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
+    "score": 59,
     "reportLabel": "Remote Joining readiness",
-    "rule": "Read the ledger; never infer readiness from PR count, stage count, WEC or visible actions."
+    "rule": "Read the ledger; never infer readiness from PR count, stage count, WEC or visible actions. PR #115 implementation/test success alone does not increase the score; only new verified production capability evidence may move it."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md"
+    "canonical": "SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20.md"
   },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
   "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
@@ -55,22 +60,22 @@
   "contextGraph": "SESSION_CONTEXT_GRAPH.json",
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "starter": {
-    "version": "1.3.0",
-    "checkpoint": "PR114-SLE-STANDING-MERGE-AUTH",
-    "canonical": "START_NEXT_SESSION_V1.3.0_PR114.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.3.0_PR114.md",
+    "version": "1.3.1",
+    "checkpoint": "PR115-SLE-APP-CHECK-RUNTIME-PUBLICATION",
+    "canonical": "START_NEXT_SESSION_V1.3.1_PR115.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.3.1_PR115.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "MINOR: later standing owner merge/deploy authorization materially changes publication behavior while preserving every existing safety gate."
+    "versionReason": "PATCH: ordinary WEC successor checkpoint advancing authority from merged PR #114 to PR #115 publication while preserving the same startup protocol, standing authorization model and safety gates."
   },
   "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + fixed owner authorization/RJR/WEC locks supersede older read-everything preload lists only for startup context loading; current verified source, security/recovery rules and later owner instructions remain authoritative.",
   "retrievalStrategy": {
     "method": "SLE-progressive-context-hydration-with-ranked-task-retrieval-and-live-delta",
     "tier0": "starter + capsule + standing owner authorization + fixed RJR/WEC/security locks",
-    "tier1": "PR #114 metadata, exact-head workflows, production Firebase metadata and App Check bootstrap contracts",
+    "tier1": "PR #115 metadata, final sealed exact-head workflows, production Firebase metadata and production App Check runtime contracts",
     "tier2": "intervening live-main/PR delta only when current state differs",
     "tier3": "complete SLE handoff/history only when evidence-triggered",
-    "failureTriage": "For CI failure, fetch exact workflow run jobs then exact failed job logs before changing code. Do not guess from workflow name.",
+    "failureTriage": "For CI failure, fetch exact workflow run jobs then exact completed failed-job logs before changing code. In-progress job logs may not yet exist; use job/step status until completion.",
     "optimizationObjective": "minimize startup context cost and tool latency subject to zero increase in missed critical security, recovery, authority or publication context"
   },
   "githubToolRouting": {
@@ -81,8 +86,8 @@
     "maxMateriallySimilarRouteFailuresBeforeCircuitBreak": 2,
     "connectorCredentialsMayBeCopiedIntoGh": false,
     "knownRejectedRoutes": [
-      "Do not retry the PR #114 non-fast-forward update_ref route; contents writes worked and rejected attempts changed no state.",
-      "Do not retry duplicate create_pull_request calls when PR #114 already exists; the duplicate calls were rejected with no state change."
+      "Do not retry unsupported repository Pages endpoint routes through the generic connector fetch path.",
+      "Do not treat a 404 while fetching logs for an in-progress workflow job as product evidence; wait for job completion and use supported status/job routes."
     ]
   },
   "minimalReads": [
@@ -93,18 +98,21 @@
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
   ],
   "targetedReads": [
+    "js/productionFirebaseRuntime.js",
     "js/productionAppCheckBootstrap.js",
+    "firebase.runtime-config.json",
+    "scripts/render-production-firebase-public-config.mjs",
+    "tests/contracts/production-app-check-runtime-contracts.cjs",
     "tests/contracts/production-app-check-bootstrap-contracts.cjs",
-    "tests/contracts/production-firebase-environment-activation-contracts.cjs",
-    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md",
-    "firestore.rules"
+    "NEXT_TASK.md"
   ],
   "expandContextOnlyIf": [
     "live main differs from lastVerifiedMainSha",
-    "PR #114 head/state differs from the final SLE handoff expectation",
+    "PR #115 head/state differs from the final SLE handoff expectation",
     "a current exact-head workflow fails",
     "newer merged/open current-authority work exists",
     "security, recovery, versioning or implementation authority is ambiguous",
+    "controlled deployment configuration is missing or production traffic proof cannot be established",
     "owner requests full reconstruction",
     "WEC requires interruption recovery or successor handoff"
   ],
@@ -120,19 +128,19 @@
     "candidateC": "sole-destructive-import-apply-authority",
     "applicationClientFirestoreWrites": "deny-all",
     "productionSecurityRules": "provider-verified-deployed",
-    "appCheck": "provider-verified-registered-enforcement-off-runtime-bootstrap-disconnected",
+    "appCheck": "provider-verified-registered-enforcement-off-pr115-candidate-runtime-integrated-production-traffic-unproven",
     "appCheckTokenTtlSeconds": 3600,
     "appCheckRiskThreshold": 0.5,
-    "trustedRuntimeIam": "not-activated-yet",
+    "trustedRuntimeIam": "not-activated-by-pr115",
     "stage3Pairing": "blocked-until-genuine-stage2-production-operational-activation-complete",
     "publicDiscovery": false,
     "publicCommunity": false,
     "globalLeaderboardsRankings": false,
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
-  "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; provider/dormant evidence alone does not bump runtime identity",
+  "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; runtime rN never substitutes for application versioning.",
   "starterVersionPolicy": "independent from app version; PATCH ordinary WEC=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
-  "wec100PackagingRule": "At every Handoff proximity 100% checkpoint generate a complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh capsule/graph/learning state as needed, write the final transition-prepared WEC seal as the last PR-branch mutation, validate that sealed exact head without further branch mutation, then use standing owner authorization to merge/deploy when all gates pass.",
+  "wec100PackagingRule": "At every Handoff proximity 100% checkpoint generate a complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh capsule/graph/learning state as needed, write the final transition-prepared WEC seal as the last PR-branch mutation, validate that sealed exact head without further branch mutation, then let the fresh successor continue publication/deployment or the next milestone according to WEC and standing owner authorization.",
   "adaptiveLearningRule": "Collect lightweight retrieval usefulness outcomes. Deterministic mandatory locks always win. Evaluate a supervised ranking model only after at least 20 materially distinct labeled sessions and only if held-out startup simulations reduce context cost without missed-critical-context regression.",
   "liveFirstRule": "Current source, live GitHub state, provider state, deployed site and later owner instructions override this capsule and all handoffs."
 }

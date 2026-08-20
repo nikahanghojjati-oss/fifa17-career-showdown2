@@ -13,10 +13,6 @@ const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
 
-function currentOverride(text){
-  return text.split(/\n---\n/)[0];
-}
-
 assert.match(boundary,/Trusted Connected Data Account Export Execution Boundary/);
 assert.match(boundary,/intentionally has no synthetic Stage 2J label/i);
 assert.match(boundary,/connected-data account export is a different operation over future private provider-held application data/i);
@@ -55,23 +51,16 @@ assert.match(remote,/Disabling an account[\s\S]+other entitled owner retains aut
 assert.match(stage2h,/account lifecycle export\/deletion execution/i);
 assert.match(stage2h,/If a later separately authorized Stage 2 operation requires[\s\S]+export[\s\S]+additional permission must be justified/i);
 
-const currentNextTask=currentOverride(nextTask);
-assert.match(currentNextTask,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED CONNECTED DATA ACCOUNT EXPORT EXECUTION/);
-assert.match(currentNextTask,/Status: CURRENT IMPLEMENTATION PREREQUISITE \/ DORMANT TRUSTED ACCOUNT-LIFECYCLE PORTABILITY PROOF \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED \/ REMOTE JOINING PRIORITY ACTIVE/);
-assert.match(currentNextTask,/agent\/trusted-connected-data-account-export/);
-assert.match(currentNextTask,/we-2026-08-19-trusted-connected-data-account-export/);
-assert.match(currentNextTask,/630d047c2db7634bbb0d5ff2d387f71fc265f58d/);
-assert.match(currentNextTask,/PR #107[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(currentNextTask,/PRIVATE_ACCOUNT_AUTH_TRUSTED_CONNECTED_DATA_ACCOUNT_EXPORT\.md/);
-assert.match(currentNextTask,/js\/trustedConnectedDataAccountExport\.js/);
-assert.match(currentNextTask,/tests\/contracts\/trusted-connected-data-account-export-boundary-contracts\.cjs/);
-assert.match(currentNextTask,/tests\/contracts\/trusted-connected-data-account-export-contracts\.cjs/);
-assert.match(currentNextTask,/intentionally has no synthetic `Stage 2J` label/i);
-assert.match(currentNextTask,/Fresh WEC decision: `CONTINUE`/);
-assert.match(currentNextTask,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
-assert.match(currentNextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(currentNextTask,/closes only the trusted connected-data account export execution subdependency/i);
-assert.match(nextTask,/RETAINED HISTORICAL AUTHORITY — TRUSTED ACCOUNT DELETION EXECUTION/i);
+// The export prerequisite is completed historical proof. Current authority must point at the bounded production App Check runtime milestone.
+assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
+assert.match(nextTask,/Current branch: `agent\/production-app-check-runtime`/);
+assert.match(nextTask,/Current pull request: #115/);
+assert.match(nextTask,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(nextTask,/trusted connected-data export prerequisites are also completed/i);
+assert.match(nextTask,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
+assert.match(nextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
+assert.match(nextTask,/App Check enforcement remains OFF/i);
+assert.match(nextTask,/PR #115 adds no IAM permission and no trusted mutation authority/i);
 
 assert.match(implementation,/productionRuntimeConnected:false/);
 assert.match(implementation,/productionProvisioningAuthorized:false/);
@@ -98,4 +87,4 @@ assert.doesNotMatch(worker,/trustedConnectedDataAccountExport\.js/);
 assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: current authority, private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant runtime isolation and unchanged IAM/browser-write locks are protected.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant runtime isolation and unchanged IAM/browser-write locks are protected while current authority advances to PR #115.\n");

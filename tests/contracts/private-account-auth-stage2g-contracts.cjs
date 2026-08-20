@@ -26,11 +26,13 @@ assert.doesNotMatch(source,/\blocalStorage\b|\bfetch\s*\(|XMLHttpRequest|WebSock
 assert.doesNotMatch(source,/firebase-admin|firebase\/auth|firebase\/firestore|initializeApp|serviceAccount|private_key/i,"Dormant execution policy must not import or initialize a production Firebase runtime.");
 assert.doesNotMatch(index,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase\/auth|firebase\/firestore/i);
 assert.doesNotMatch(optional,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase\/auth|firebase\/firestore/i);
-assert.doesNotMatch(worker,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase\/auth|firebase\/firestore/i);
+assert.doesNotMatch(worker,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase-auth|firebase\/auth|firebase-firestore|firebase\/firestore/i);
 assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined,"Stage 2G must not add production package dependencies.");
-assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
-assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2G execution proof must not freeze later legitimate v1.4.0 runtime revisions.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
 function accountEnvelope(accountId,status="active",deletionRequestedAt=null){
   return {

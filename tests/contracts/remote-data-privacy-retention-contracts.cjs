@@ -48,11 +48,12 @@ assert.match(policy,/local-only use must remain available/i);
 assert.match(policy,/Candidate A export, Candidate B analysis, Candidate C recovery and formatVersion 2 portability must remain available/i);
 assert.match(policy,/no remote module may bypass local transaction authority/i);
 
-assert.equal(pkg.version,"1.4.0","Architecture-only Phase 1C must not falsely bump production application version.");
-assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/,"Architecture-only Phase 1C must not alter production runtime identity.");
-assert.doesNotMatch(index,/firebase|firestore/i,"Phase 1C must not connect Firebase in the production shell.");
+assert.equal(pkg.version,"1.4.0","Phase 1C remains architecture/privacy policy and must not independently change the application semantic version.");
+const runtimeRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+assert.match(runtimeRevision,/^1\.4\.0-r[1-9]\d*$/,"Current runtime identity must remain release-owned within v1.4.0; the historical Phase 1C policy must not freeze later legitimate runtime revisions.");
+assert.doesNotMatch(index,/firebase|firestore/i,"Phase 1C must not itself add a direct Firebase/Firestore production-shell dependency; later controlled runtime integration remains lazy behind app.js.");
 assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1C must not connect Firebase through optional modules.");
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
-assert.match(next,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Phase 1C must not silently authorize remote runtime.");
+assert.match(next,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain recorded without overriding later explicit runtime authority.");
 
 process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries\n");

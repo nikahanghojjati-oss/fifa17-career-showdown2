@@ -40,7 +40,7 @@ assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? r
 assert.match(phase1f, /idempotencyKeyHash[\s\S]+sibling[\s\S]+idempotency receipt/i);
 
 assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i,"Archived predecessor authority must preserve the historical Stage 2A selection boundary.");
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current authority must identify the real gateway prerequisite.");
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current authority must retain the completed gateway prerequisite in historical provenance rather than revive Stage 2A.");
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Current authority must keep Stage 2A through 2I closed rather than revive Stage 2A.");
 assert.match(next, /Authorized product candidate:[\s\S]{0,40}none/i);
 assert.match(state, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
@@ -55,11 +55,13 @@ assert.match(rules, /request\.auth\.uid/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 assert.match(rules, /allow list, create, update, delete:\s*if false/g);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2A scope/authority checkpoint must not bump production application version.");
-assert.match(index, /app-asset-revision" content="1\.4\.0-r1"/);
-assert.match(worker, /RUNTIME_REVISION = "1\.4\.0-r1"/);
-assert.doesNotMatch(index, /firebase|firestore/i, "Stage 2A boundary must not connect Firebase in the production shell.");
-assert.doesNotMatch(optional, /firebase|firestore/i, "Stage 2A boundary must not connect Firebase through production optional modules.");
-assert.doesNotMatch(worker, /firebase|firestore/i, "Stage 2A boundary must not cache Firebase runtime in the production Service Worker.");
+assert.equal(pkg.version, "1.4.0", "Stage 2A scope/authority checkpoint must not independently bump production application version.");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2A must not freeze later legitimate v1.4.0 runtime revisions.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
+assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not itself connect Firebase Auth/Admin/Firestore in the production shell.");
+assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
+assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when a later reviewed App Check runtime is shell-cached.");
 
 process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with historical selection preserved and current gateway authority protected\n");
