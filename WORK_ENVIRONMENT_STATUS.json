@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-20-production-app-check-runtime",
   "lifecycle": "active",
-  "recordedAt": "2026-08-20T21:25:00Z",
+  "recordedAt": "2026-08-20T21:28:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,7 +15,7 @@
     "majorPhasesCompleted": 3,
     "largeEvidenceEvents": 8,
     "toolRoutingErrors": 2,
-    "correctedFailures": 17,
+    "correctedFailures": 18,
     "repeatedMistakes": 1,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -28,11 +28,11 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Repair only the failed PR #115 WEC seal validation boundary, re-prove the complete pre-seal package, then reseal and stop. Product/runtime implementation remains complete for this predecessor: Firebase App + App Check only, local/offline-first, enforcement OFF, application-client Firestore writes deny-all, no Firestore/Auth/Storage/Functions client initialization, no trusted mutation/IAM authority and no Stage 3/Connected Rivalry/Remote Joining UX.",
-    "lastSafeCheckpoint": "Pre-seal package head 8ee17af65dcdc234bee4a07cca1df3df3d84287c passed all 13 normal workflow families, zero submitted reviews, zero inline review threads and mergeability=true. First seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f was correctly rejected by exact-head Stability because tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs still hard-coded lifecycle=active. That stale transition assertion was corrected at 53b7ff7a539ec8c377f6768bc7b0ff412dcbdadf to accept only active or a fully coherent transition-prepared PR #115 WEC with handoffCompleteness=100, unrecordedDecisions=0 and atomicOperation=false.",
+    "currentTask": "Repair only the failed PR #115 WEC seal validation boundary, re-prove the complete pre-seal package, then reseal and stop. Product runtime implementation remains complete for this predecessor: Firebase App + App Check only, local/offline-first, enforcement OFF, application-client Firestore writes deny-all, no Firestore/Auth/Storage/Functions client initialization, no trusted mutation/IAM authority and no Stage 3/Connected Rivalry/Remote Joining UX.",
+    "lastSafeCheckpoint": "Pre-seal package head 8ee17af65dcdc234bee4a07cca1df3df3d84287c passed all 13 normal workflow families, zero submitted reviews, zero inline review threads and mergeability=true. First seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f was rejected by a stale Stage 2I lifecycle assertion. After lifecycle-aware repair, pre-seal repair head 3b971108eb358236dd8f90ab4a034230631c1db4 exposed a second wording-order defect in the same contract: currentTask contained both runtime and App Check but the regex required App Check to precede runtime. That check is now two independent semantic assertions at a43600b4b3e8225f8c7f313d3b24dd9f2c37baf3.",
     "nextSafeAction": "Run the full 13-family pre-seal validation on the current repair head. If and only if all families are green with clean reviews/threads and mergeability, write WORK_ENVIRONMENT_STATUS.json once more as transition-prepared HANDOFF_NOW closure; that reseal must be the final branch mutation. Then validate the new sealed exact head without further mutation and stop for the fresh successor.",
     "unfinishedWork": [
-      "Re-prove all 13 normal workflow families on the post-repair pre-seal head after correcting the stale Stage 2I lifecycle assertion.",
+      "Re-prove all 13 normal workflow families on the post-repair pre-seal head after making the Stage 2I WEC task check order-independent.",
       "Re-check submitted reviews, inline review threads and mergeability on that pre-seal repair head.",
       "Write one new transition-prepared WEC seal as the final branch mutation only after the repaired pre-seal head is completely green.",
       "Validate all 13 normal workflow families on the new final sealed exact head with no later branch mutation, then stop this predecessor environment.",
@@ -42,7 +42,7 @@
     "knownHazards": [
       "Seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f is invalid/superseded because exact-head Stability failed; never present it as publication authority.",
       "The next transition-prepared status write must be the final branch mutation. Any later mutation invalidates that seal and requires another complete pre-seal/reseal cycle.",
-      "Historical Stage 2 contracts may validate current WEC/source authority only when they preserve legitimate active and fully coherent transition-prepared successor states; they must not freeze the PR #115 WEC lifecycle to active forever.",
+      "Historical Stage 2 contracts may validate current WEC/source authority only semantically: legitimate active and fully coherent transition-prepared successor states are allowed, and equivalent wording/order must not create false failures.",
       "Firebase App Check remains application attestation only, not user identity, application authorization, device identity, pairing/session/gameplay/shared-mutation or IAM authority.",
       "App Check enforcement remains OFF and every application-client Firestore create/update/delete remains deny-all.",
       "Stage 2H least-privilege account-bootstrap IAM proof remains exactly firebaseauth.users.get, datastore.databases.get, datastore.entities.get and datastore.entities.create; PR #115 does not activate or broaden it.",
@@ -53,10 +53,11 @@
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
-      "WEC quality risk remains clamped to 100: toolRoutingErrors=2, correctedFailures=17, repeatedMistakes=1, staleFactCorrections=1, unresolvedFailures=0. HANDOFF_NOW remains mandatory once the repair reaches a coherent reseal boundary.",
+      "WEC quality risk remains clamped to 100: toolRoutingErrors=2, correctedFailures=18, repeatedMistakes=1, staleFactCorrections=1, unresolvedFailures=0. HANDOFF_NOW remains mandatory once the repair reaches a coherent reseal boundary.",
       "Context pressure remains clamped to 100; usage remains unavailable and omitted rather than estimated.",
-      "The first seal failure was isolated in exact Stability logs to private-account-auth-stage2i-boundary-contracts.cjs requiring lifecycle=active even after legitimate WEC closure. All contracts before that assertion, including Stage 2H and PR #115 App Check/runtime/RJR locks, passed.",
-      "The corrected Stage 2I contract permits lifecycle active or transition-prepared only; transition-prepared additionally requires handoff completeness 100, zero unrecorded decisions, atomicOperation false and successor final-sealed-head routing.",
+      "The first seal failure was isolated to Stage 2I hard-coding lifecycle=active; that was replaced with strict active-or-coherent-transition-prepared validation.",
+      "The next pre-seal run proved that lifecycle repair worked and advanced to a second Stage 2I-only false failure: the currentTask check required App Check before runtime even though both were present. It is now two independent semantic assertions.",
+      "All product/runtime/security assertions before those WEC wording checks passed, including PR #115 App Check runtime, RJR locks, Stage 2H IAM boundary, offline/recovery and deny-all browser writes.",
       "REMOTE_JOINING_READINESS.json remains RJR-1 score 59/100; seal repair earns no readiness points.",
       "Complete successor handoff/starter root+mirror pairs, refreshed SESSION_BOOTSTRAP.json, updated SLE packaging contract and authority-history/WEC_CLOSURE_PR115_APP_CHECK_RUNTIME_2026-08-20.md remain present from the prior fully green package head."
     ]
