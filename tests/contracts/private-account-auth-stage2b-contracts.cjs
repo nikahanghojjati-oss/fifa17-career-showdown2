@@ -54,7 +54,7 @@ assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A 
 assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i,"Current production runtime authority must keep App Check enforcement off while traffic proof is gathered.");
 assert.match(next,/browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i);
 
-assert.match(state, /PR #115[\s\S]+production App Check runtime/i);
+assert.match(state, /PR #115[\s\S]+Firebase App \+ App Check/i);
 assert.match(state, /Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
 assert.match(state, /No product candidate is currently authorized/i);
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
