@@ -24,6 +24,8 @@ Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 
 PR #114 is DONE / MERGED / PROVEN through live main `7944b87a20cf793c659077d7518c4446f178e32c`. Production Firebase App Check is provider-registered for the real Web App with reCAPTCHA Enterprise, one-hour TTL, 0.5 risk threshold and enforcement OFF.
 
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN at their protected prerequisite boundaries. The later trusted shared mutation gateway, trusted account deletion execution and trusted connected-data export prerequisites are also completed. Stage 2 as a whole remains incomplete only because real production operational activation, trusted runtime/IAM proof and launch hardening remain unfinished.
+
 ## Current bounded engineering task
 
 Finish PR #115 only. Connect the already-proven App Check bootstrap to the shipped GitHub Pages runtime through controlled public runtime configuration while preserving local/offline-first behavior and all existing security, recovery, identity and versioning boundaries.
