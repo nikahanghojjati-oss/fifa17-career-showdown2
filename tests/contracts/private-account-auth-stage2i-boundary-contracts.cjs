@@ -99,11 +99,14 @@ const mainMatch=currentNextTask.match(/Starting independently verified live main
 assert.ok(environmentMatch,"NEXT_TASK.md must expose the most recently published WEC environment ID.");
 assert.ok(mainMatch,"NEXT_TASK.md must expose the most recently published starting live-main SHA.");
 if(status.environmentId!==environmentMatch[1] || status.repository.startingMainSha!==mainMatch[1]){
-  assert.equal(status.lifecycle,"active","A new successor may move beyond historical Stage 2I/NEXT_TASK publication authority only with an active fresh WEC.");
+  assert.ok(["active","transition-prepared"].includes(status.lifecycle),"A new successor may move beyond historical Stage 2I/NEXT_TASK publication authority only with an active fresh WEC or a legitimately transition-prepared completed handoff.");
   assert.match(status.continuity.currentTask,/production[\s\S]{0,120}(Firebase|Firestore)|Firestore Security Rules/i,"A fresh successor must name the concrete production Firebase/Firestore provider-activation lane rather than freeze the predecessor task.");
   assert.ok(status.continuity.lastSafeCheckpoint.includes(status.repository.startingMainSha),"A fresh successor must preserve its independently verified predecessor publication boundary from repository.startingMainSha.");
   const inheritedDecisionRecord=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[])].join("\n");
   assert.match(inheritedDecisionRecord,/inherited predecessor[\s\S]{0,160}HANDOFF_AT_CHECKPOINT/i,"A fresh successor must preserve the predecessor transition decision only as inherited history.");
+  if(status.lifecycle==="transition-prepared"){
+    assert.equal(status.signals.handoffCompleteness,100,"A divergent successor may transition only after the successor handoff package is complete.");
+  }
 }else{
   assert.equal(status.environmentId,environmentMatch[1],"Published authority and WEC identity must agree when no active successor divergence exists.");
   assert.equal(status.repository.startingMainSha,mainMatch[1],"Published authority and WEC starting main must agree when no active successor divergence exists.");
@@ -151,4 +154,4 @@ assert.equal(pkg.dependencies,undefined,"Dormant trusted Stage 2 proofs must not
 assert.match(index,/app-asset-revision" content="1\.4\.0-r1"/);
 assert.match(worker,/RUNTIME_REVISION = "1\.4\.0-r1"/);
 
-process.stdout.write("PASS Stage 2I locks remain historically protected without freezing later Stage 2 current-task authority; fresh WEC identity and predecessor archives remain coherent.\n");
+process.stdout.write("PASS Stage 2I locks remain historically protected without freezing later Stage 2 current-task authority; fresh WEC identity, legitimate transition-prepared closure and predecessor archives remain coherent.\n");

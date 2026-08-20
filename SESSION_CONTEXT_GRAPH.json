@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 2,
+  "recordedAt": "2026-08-20T16:51:00Z",
+  "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
+  "nodes": [
+    {
+      "id": "live-main-pr113",
+      "type": "publication-boundary",
+      "value": "1ccf2d3f451ea53575698877787562e38f1d6f50",
+      "source": "live main after merged PR #113",
+      "authority": 1.0
+    },
+    {
+      "id": "pr114-app-check-sle",
+      "type": "current-draft-candidate",
+      "pr": 114,
+      "branch": "agent/pr114-app-check-bootstrap",
+      "state": "open-draft-no-merge-authority",
+      "prePackagingValidatedHead": "30ea11102840ad84352c3402f52af107fde1935c",
+      "prePackagingWorkflowFamiliesGreen": 13,
+      "authority": 1.0,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "runtime-1.4.0-r1",
+      "type": "runtime-identity",
+      "applicationVersion": "1.4.0",
+      "runtimeRevision": "1.4.0-r1",
+      "firebaseRuntimeConnected": false,
+      "appCheckRuntimeBootstrapConnected": false,
+      "authority": 1.0
+    },
+    {
+      "id": "firestore-production-rules",
+      "type": "completed-prerequisite",
+      "state": "provider-verified-deployed-merged-protected",
+      "sourcePath": "firestore.rules",
+      "blobSha": "0473750cb16b5b8eea234c0f8138c41de5ff3dfb",
+      "browserWrites": "deny-all",
+      "authority": 1.0,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "app-check-provider-registration",
+      "type": "completed-provider-prerequisite",
+      "state": "provider-verified-registered",
+      "provider": "reCAPTCHA Enterprise",
+      "productionHost": "nikahanghojjati-oss.github.io",
+      "tokenTtlSeconds": 3600,
+      "riskThreshold": 0.5,
+      "enforcement": false,
+      "authority": 1.0,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "app-check-dormant-bootstrap",
+      "type": "current-candidate-proof",
+      "state": "published-in-draft-pr114",
+      "runtimeLoaded": false,
+      "autoRefreshRequired": true,
+      "debugProductionAllowed": false,
+      "firestoreInitialized": false,
+      "browserMutationAuthority": false,
+      "source": "js/productionAppCheckBootstrap.js",
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "rjr1-ledger",
+      "type": "reporting-authority",
+      "source": "REMOTE_JOINING_READINESS.json",
+      "denominator": 100,
+      "rule": "fixed evidence-backed capability domains; never derive from PR/stage/WEC count",
+      "authority": 1.0
+    },
+    {
+      "id": "app-check-runtime-traffic",
+      "type": "next-substantive-prerequisite-after-pr114-publication",
+      "state": "not-proven",
+      "requirements": [
+        "controlled public Firebase Web config delivery",
+        "controlled reCAPTCHA Enterprise site-key delivery",
+        "initialize Firebase App + App Check before protected Firebase services",
+        "token auto-refresh",
+        "legitimate production traffic visible in App Check metrics",
+        "enforcement remains off until healthy metrics are proven"
+      ],
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "trusted-runtime-iam",
+      "type": "future-prerequisite",
+      "state": "not-activated-yet",
+      "browserMutationAuthority": false,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "stage3-private-pairing",
+      "type": "future-stage",
+      "state": "blocked",
+      "reason": "genuine Stage 2 production/account/operational activation incomplete"
+    },
+    {
+      "id": "stage4-connected-rivalry-sync",
+      "type": "future-stage",
+      "state": "blocked-by-stage3"
+    },
+    {
+      "id": "stage5-private-remote-joining",
+      "type": "major-feature",
+      "state": "highest-long-term-priority-dependency-gated",
+      "publicDiscovery": false,
+      "publicMatchmaking": false,
+      "community": false,
+      "rankings": false
+    },
+    {
+      "id": "canonical-local-storage",
+      "type": "data-authority-lock",
+      "keys": [
+        "careerModeShowdown.saveLibrary",
+        "careerModeShowdown.legacyShowdowns",
+        "careerModeShowdown.preferences"
+      ],
+      "activeShowdownCanonical": false,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "recovery-candidates",
+      "type": "recovery-authority-lock",
+      "candidateA": "non-mutating-export",
+      "candidateB": "read-only-import-analysis",
+      "candidateC": "sole-destructive-import-apply-authority",
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "github-connected-tool",
+      "type": "tool-route",
+      "state": "primary",
+      "scope": "repository reads/writes, PRs, CI, workflow job logs, branches, commits, reviews"
+    },
+    {
+      "id": "github-rootless-cli",
+      "type": "tool-route",
+      "state": "fallback-only",
+      "condition": "concrete required operation cannot be performed through connected GitHub tool and genuinely needs local CLI capability",
+      "maxSimilarFailures": 2,
+      "connectorCredentialReuse": false
+    }
+  ],
+  "edges": [
+    {"from":"live-main-pr113","to":"firestore-production-rules","relation":"contains-completed-proof"},
+    {"from":"firestore-production-rules","to":"app-check-provider-registration","relation":"unlocked-provider-registration"},
+    {"from":"app-check-provider-registration","to":"app-check-dormant-bootstrap","relation":"provider-proof-enables-safe-bootstrap-contract"},
+    {"from":"app-check-dormant-bootstrap","to":"pr114-app-check-sle","relation":"implemented-in"},
+    {"from":"pr114-app-check-sle","to":"app-check-runtime-traffic","relation":"must-be-published-before-next-substantive-runtime-step"},
+    {"from":"app-check-runtime-traffic","to":"trusted-runtime-iam","relation":"precedes-or-coordinates-with"},
+    {"from":"trusted-runtime-iam","to":"stage3-private-pairing","relation":"part-of-stage2-completion-before"},
+    {"from":"stage3-private-pairing","to":"stage4-connected-rivalry-sync","relation":"prerequisite"},
+    {"from":"stage4-connected-rivalry-sync","to":"stage5-private-remote-joining","relation":"prerequisite"},
+    {"from":"rjr1-ledger","to":"stage5-private-remote-joining","relation":"measures-end-to-end-readiness-toward"},
+    {"from":"canonical-local-storage","to":"stage4-connected-rivalry-sync","relation":"must-remain-safe-through"},
+    {"from":"recovery-candidates","to":"stage4-connected-rivalry-sync","relation":"must-remain-safe-through"},
+    {"from":"github-connected-tool","to":"github-rootless-cli","relation":"preferred-before-fallback"}
+  ],
+  "retrievalHints": {
+    "currentTaskNode": "pr114-app-check-sle",
+    "nextTaskAfterPublicationNode": "app-check-runtime-traffic",
+    "walkDirection": "verify current PR first, then walk forward exactly one dependency; walk backward only to resolve security/publication evidence",
+    "defaultMaxDependencyHops": 2,
+    "ciFailureRule": "fetch exact run jobs and failed job logs before modifying candidate",
+    "expandGraphWhen": [
+      "live main changes",
+      "PR #114 head/state changes",
+      "a current exact-head workflow fails",
+      "security or recovery contradiction appears",
+      "PR #114 merges and app-check-runtime-traffic becomes current"
+    ]
+  }
+}
