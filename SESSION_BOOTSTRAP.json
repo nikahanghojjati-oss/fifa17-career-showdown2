@@ -3,6 +3,7 @@
   "purpose": "live-first-low-context-successor-bootstrap",
   "recordedAt": "2026-08-20T01:11:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "bootstrapBranch": "agent/post-pr113-app-check-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
   "lastVerifiedMainSha": "1ccf2d3f451ea53575698877787562e38f1d6f50",
   "lastCompletedMilestone": "PR #113 production Firestore Security Rules deployment and exact-source protection",
@@ -66,5 +67,6 @@
     "globalLeaderboardsRankings": false
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; provider/dormant evidence alone does not bump runtime identity",
+  "carryForwardRule": "Because the bootstrap files live on the transition branch at this checkpoint, the successor should include them naturally in the first substantive App Check PR rather than opening a documentation-only PR.",
   "liveFirstRule": "Current source, live GitHub state, deployed site, provider state, and later owner instructions override this capsule and all handoffs."
 }
