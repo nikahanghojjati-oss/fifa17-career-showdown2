@@ -38,7 +38,8 @@ assert.equal(firebaseRc.projects.production,manifest.projectId,"Production alias
 
 assert.equal(manifest.activation.firebaseProject,"owner-created");
 assert.equal(manifest.activation.webApp,"owner-registered");
-assert.equal(manifest.activation.googleAuthProvider,"not-enabled-yet");
+assert.equal(manifest.activation.googleAuthProvider,"provider-verified-enabled","Google Authentication must remain provider-verified enabled before downstream Remote Joining prerequisites proceed.");
+assert.match(manifest.activation.googleAuthProviderVerificationEvidence,/2026-08-19[\s\S]+Authentication[\s\S]+Sign-in method[\s\S]+Enabled/i);
 assert.equal(manifest.activation.productionAuthorizedDomain,"not-verified-yet");
 assert.equal(manifest.activation.productionSecurityRules,"not-deployed-yet");
 assert.equal(manifest.activation.appCheck,"not-enabled-yet");
@@ -77,7 +78,7 @@ const compatibilityCandidate = {
   security:{webApiKeyClassification:manifest.securityLocks.webApiKeyClassification,webApiKeyIsAuthorizationSecret:manifest.securityLocks.webApiKeyIsAuthorizationSecret},
   publicFeatures:{discovery:manifest.securityLocks.publicDiscovery,profiles:manifest.securityLocks.publicProfiles,matchmaking:manifest.securityLocks.publicMatchmaking,community:manifest.securityLocks.community,rankings:manifest.securityLocks.rankings}
 };
-assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The verified project/Web-App metadata, nam7 Firestore location and externally injected public Web API key must remain compatible with the locked Stage 2D production policy.");
+assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The verified project/Web-App metadata, nam7 Firestore location, Google provider policy and externally injected public Web API key must remain compatible with the locked Stage 2D production policy.");
 
 const serialized = JSON.stringify(manifest);
 for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken","idToken","serviceAccountKey"]){
@@ -85,4 +86,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, verified Firestore existence, verified Firebase-only API restriction evidence, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, verified Firestore existence, verified Firebase-only API restrictions, verified Google Auth provider, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
