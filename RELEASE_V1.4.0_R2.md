@@ -4,7 +4,7 @@ Date: 2026-08-20 ET
 Application version: `v1.4.0`
 Runtime asset revision: `1.4.0-r2`
 Previous known-good runtime: `1.4.0-r1`
-Status: CANDIDATE — exact-head CI, merge, deployment and production App Check traffic proof pending
+Status: RELEASE CANDIDATE — exact-head CI, merge, deployment and production App Check traffic proof pending
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 ## Release purpose
