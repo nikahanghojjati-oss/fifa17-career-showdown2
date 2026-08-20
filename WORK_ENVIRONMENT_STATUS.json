@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-production-firestore-rules-activation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-20T00:39:00Z",
+  "recordedAt": "2026-08-20T00:56:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -12,8 +12,8 @@
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 10,
+    "majorPhasesCompleted": 2,
+    "largeEvidenceEvents": 15,
     "toolRoutingErrors": 1,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -23,25 +23,25 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 90,
+    "handoffCompleteness": 94,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Deploy and provider-verify the exact current repository firestore.rules to the real production (default) Cloud Firestore database for fifa17-career-showdown-prod without weakening any browser write denial. After provider proof only, record the deployed Rules evidence in firebase.production.environment.json, add or strengthen permanent production-Rules activation contracts, run the complete exact-head gate and publish the bounded milestone. Do not begin App Check enforcement, trusted-runtime activation, Stage 3 pairing or production runtime Firebase connection before this Rules milestone is genuinely proven.",
-    "lastSafeCheckpoint": "Fresh successor reconstruction verified live main e89f7011f029c8375fd69ba89cf9028c280aea04 after merged PR #112. Current main firestore.rules blob remains 0473750cb16b5b8eea234c0f8138c41de5ff3dfb and firebase.json maps Firestore directly to firestore.rules. Production metadata still records productionSecurityRules as not-deployed-yet, runtimeConnected=false and application-client Firestore writes deny-all. The inherited transition branch is exactly three commits ahead of main and changes only the successor handoff plus predecessor transition status. No production Rules deployment has been claimed.",
-    "nextSafeAction": "Owner-controlled provider action only: in Firebase Console for fifa17-career-showdown-prod, open Databases & Storage > Firestore, select (default), open Rules, replace the starter rules with the exact current repository firestore.rules source without hand edits, click Publish and capture proof showing the deployed source/state. Do not create sample data. After provider proof, resume repository evidence/contracts/publication work before starting App Check.",
+    "currentTask": "Finish the bounded production Firestore Security Rules milestone after provider-verified deployment of exact current repository firestore.rules to the real production (default) database. Production metadata and permanent activation contracts now record the proof and protect the exact deployed Rules blob plus deny-all application-client writes. Run the complete exact-head PR gate, review/thread/mergeability checks and publish only if fully green. Do not begin App Check, trusted-runtime activation, Stage 3 pairing or production runtime Firebase connection until this Rules milestone is merged and independently verified.",
+    "lastSafeCheckpoint": "Owner Firebase Console screenshots at 20:51 ET on 2026-08-19 show Database (default), the Rules tab with the repository rule structure, and the success toast 'Published changes can take up to a minute to propagate'. This is accepted as provider proof that production Rules publication succeeded. Branch agent/production-firestore-rules-deployment records productionSecurityRules=provider-verified-deployed, canonical source firestore.rules, exact source blob 0473750cb16b5b8eea234c0f8138c41de5ff3dfb, and a strengthened production Firebase activation contract that computes and locks the Git blob SHA while requiring every create/update/delete/write authority statement to remain deny-all. Runtime remains disconnected and version identity remains 1.4.0 / 1.4.0-r1.",
+    "nextSafeAction": "Freeze the current bounded Rules candidate and run the complete exact-head pull-request workflow gate. Require all normal workflow families successful on one unchanged final head, clean submitted reviews, clean inline review threads and clean mergeability before squash merge with expected-head protection. After merge, independently verify live main and reassess WEC before beginning the distinct App Check/reCAPTCHA Enterprise milestone.",
     "unfinishedWork": [
-      "Publish and provider-verify exact current firestore.rules on the real production (default) Firestore database.",
-      "After proof, update production environment evidence and permanent contracts without changing runtime behavior or version identity.",
       "Run complete exact-head CI/review/thread/mergeability gates and publish the bounded production-Rules milestone only if fully green.",
-      "Then activate and verify App Check with reCAPTCHA Enterprise without premature enforcement, followed by exact trusted-runtime IAM/service identity, abuse controls, rollback/outage proof and controlled runtime connection.",
+      "Reconcile stale current-facing NEXT_TASK.md authority when a safe full-file edit route is available; do not create a separate documentation-only milestone for it.",
+      "After Rules merge and fresh reassessment, activate and verify App Check with reCAPTCHA Enterprise without premature enforcement.",
+      "Then prove exact trusted-runtime IAM/service identity, abuse controls, rollback/outage behavior and controlled runtime connection before Stage 3.",
       "Keep Stage 3 Registered Devices / Private Pairing blocked until genuine Stage 2 production/account/operational activation is complete."
     ],
     "knownHazards": [
       "The inherited predecessor HANDOFF_AT_CHECKPOINT decision is historical only and was not inherited by this fresh successor environment.",
-      "The current live NEXT_TASK.md top section is stale and still describes the already-completed trusted connected-data export prerequisite; later owner handoff/current live provider evidence supersede that stale section. Reconcile current-facing authority in the same bounded Rules publication work rather than creating a sidequest PR.",
-      "The real Firestore database exists, but repository/emulator evidence alone does not prove production Rules deployment. Never mark productionSecurityRules verified until provider proof exists.",
+      "The current live NEXT_TASK.md top section is stale and still describes the already-completed trusted connected-data export prerequisite. Current live provider evidence and this fresh successor status supersede that stale top section; reconcile it within a safe bounded publication/edit path rather than as a sidequest.",
+      "Provider proof is now sufficient to mark production Rules deployed, but no claim is made that App Check, trusted runtime IAM or runtime Firebase connection is active.",
       "Every application-client Firestore create/update/delete remains denied. Do not weaken firestore.rules for convenience.",
       "The production Firebase default CLI alias must remain the demo/emulator project; production stays explicit.",
       "Do not create or request service-account private keys, OAuth refresh tokens, Admin credential files or other long-lived secrets.",
@@ -52,14 +52,13 @@
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
-      "Live GitHub reconstruction verified main e89f7011f029c8375fd69ba89cf9028c280aea04, recent PR #112 merge identity, open PRs limited to superseded drafts #35 and #37, and package version 1.4.0.",
-      "Live main firestore.rules content matches inherited blob SHA 0473750cb16b5b8eea234c0f8138c41de5ff3dfb; it uses tightly scoped authenticated gets and denies application-client list/create/update/delete with a final deny-all catch-all.",
-      "Live main firebase.production.environment.json still records the real project fifa17-career-showdown-prod, (default) nam7 Firestore provider verified, Google Auth enabled, authorized GitHub Pages host, productionSecurityRules not-deployed-yet, appCheck not-enabled-yet, trustedRuntimeIam not-activated-yet and runtimeConnected=false.",
-      "Official Firebase documentation reviewed 2026-08-19 confirms the Firebase Console Rules tab can deploy Cloud Firestore Security Rules to the default database by editing the source and clicking Publish, and that the console shows the deployed rules authority.",
-      "Official current Firebase App Check documentation recommends reCAPTCHA Enterprise for new web integrations and says enforcement should follow client integration and request-metric monitoring rather than precede them.",
-      "No Firebase or Google Cloud management plugin is available in this environment. Local firebase, gcloud and gh CLIs are absent. The provider mutation therefore remains an owner-controlled Firebase Console action rather than a credential workaround.",
-      "One direct public-site fetch failed with a cache-miss transport error; no repository/provider state changed and GitHub source remains independently verified.",
-      "Fresh successor WEC signals reset rather than inheriting predecessor counters. With moderate current-context complexity, one reconstruction phase, unavailable usage and no atomic operation, the current bounded task remains suitable to continue until the provider Rules checkpoint is reached."
+      "Fresh successor startup independently verified live main e89f7011f029c8375fd69ba89cf9028c280aea04 after merged PR #112, open PRs limited to superseded drafts #35/#37, package 1.4.0 and canonical firestore.rules blob 0473750cb16b5b8eea234c0f8138c41de5ff3dfb.",
+      "Owner screenshots at 20:51 ET on 2026-08-19 show the real (default) database Rules tab, visible repository Rules source across lines 1 through the final section, and Firebase's successful publish propagation toast. The owner was explicitly told not to create sample data and reported the publish flow rather than using Develop & Test.",
+      "firebase.production.environment.json now records productionSecurityRules=provider-verified-deployed, source firestore.rules, exact source blob SHA and provider screenshot evidence while preserving appCheck=not-enabled-yet, trustedRuntimeIam=not-activated-yet and runtimeConnected=false.",
+      "tests/contracts/production-firebase-environment-activation-contracts.cjs now verifies firebase.json still maps Firestore to firestore.rules, computes the Git blob SHA from source bytes, requires equality to the provider-verified source blob and fails if any application-client create/update/delete/write authority is not explicit false.",
+      "No runtime Firebase SDK or website behavior changed, so no application semantic-version or runtime-revision bump is appropriate for this provider/security deployment evidence milestone.",
+      "Current fresh WEC calculation after provider proof: context pressure about 49/100, quality risk 18/100, next-task separation 20/100, handoff readiness 94/100, continuation risk about 31.9/100 and transition cost about 16.2/100; transition advantage about 15.7, yielding PREPARE_HANDOFF. This permits finishing the current Rules publication checkpoint but requires reassessment before the distinct App Check milestone.",
+      "One direct public-site fetch failure and one stale NEXT_TASK current-authority discovery were recorded without affecting repository/provider state; no unresolved implementation failure exists."
     ]
   }
 }
