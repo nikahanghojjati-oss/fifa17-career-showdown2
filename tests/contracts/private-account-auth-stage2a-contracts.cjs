@@ -73,12 +73,14 @@ assert.match(stage2a, /all application-client Firestore writes remain denied|Eve
 assert.match(stage2a, /Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
 assert.match(stage2a, /public discovery[\s\S]+global leaderboard\/rankings remain eliminated/i);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2A emulator-only proof must not bump production application version.");
-assert.match(index, /app-asset-revision" content="1\.4\.0-r1"/);
-assert.match(worker, /RUNTIME_REVISION = "1\.4\.0-r1"/);
-assert.doesNotMatch(index, /firebase|firestore/i, "Stage 2A must not connect Firebase in the production shell.");
-assert.doesNotMatch(optional, /firebase|firestore/i, "Stage 2A must not connect Firebase through production optional modules.");
-assert.doesNotMatch(worker, /firebase|firestore/i, "Stage 2A must not cache Firebase runtime in the production Service Worker.");
+assert.equal(pkg.version, "1.4.0", "Stage 2A emulator-only proof must not independently bump production application version.");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2A emulator proof must not freeze later legitimate v1.4.0 runtime revisions.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
+assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A must not itself connect Firebase Auth/Admin/Firestore in the production shell.");
+assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A must not connect Firebase Auth/Admin/Firestore through production optional modules.");
+assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when a later reviewed App Check runtime is shell-cached.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "@firebase/rules-unit-testing"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-tools"), false);
