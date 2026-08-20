@@ -1,12 +1,62 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-20T01:35:00Z",
-  "materialSessionsObserved": 0,
-  "learningState": "cold-start-priors",
+  "recordedAt": "2026-08-20T16:52:00Z",
+  "materialSessionsObserved": 1,
+  "learningState": "cold-start-priors-with-one-labeled-session",
   "defaultUtility": 0.5,
   "alpha": 0.2,
-  "items": {},
-  "sessionMetrics": [],
+  "items": {
+    "firebase.production.environment.json": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 0.8,
+      "learnedUtility": 0.56
+    },
+    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 0.8,
+      "learnedUtility": 0.56
+    },
+    "WORK_ENVIRONMENT_STATUS.json": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 0.8,
+      "learnedUtility": 0.56
+    },
+    "SESSION_CONTEXT_GRAPH.json": {
+      "loaded": true,
+      "usedInDecision": true,
+      "normalizedOutcome": 0.5,
+      "learnedUtility": 0.5
+    },
+    "workflow-job-logs": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1.0,
+      "learnedUtility": 0.6,
+      "note": "Exact Stability job logs identified the real duplicate-function-name failure after an earlier heuristic diagnosis was incomplete."
+    }
+  },
+  "sessionMetrics": [
+    {
+      "sessionId": "we-2026-08-20-pr114-app-check-bootstrap",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "CI contract failure required historical/current-authority and exact job-log inspection; later SLE packaging required WEC deep-reference state.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Repeated rejected non-fast-forward update_ref attempts; route circuit-broken and not used again.",
+      "ciTriageLesson": "Prefer exact workflow job logs over inference from failed workflow family or first suspected assertion."
+    }
+  ],
   "outcomeScale": {
     "preventedErrorOrResolvedContradiction": 1.0,
     "requiredForPublicationSecurityOrRecovery": 0.8,
@@ -15,7 +65,7 @@
     "redundantPreload": -0.5
   },
   "updateRule": "newUtility = 0.8 * oldUtility + 0.2 * normalizedOutcome",
-  "safetyRule": "learned utility never suppresses mandatory security recovery current-authority WEC or later-owner-instruction context",
+  "safetyRule": "learned utility never suppresses mandatory security recovery current-authority WEC RJR or later-owner-instruction context",
   "supervisedModelEligibility": {
     "minimumMaterialSessions": 20,
     "preferredEvaluationSessions": 30,
