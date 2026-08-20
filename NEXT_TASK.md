@@ -80,6 +80,7 @@ Stage 2H's account-bootstrap runtime custom-role permissions remain exactly:
 `datastore.entities.create`
 
 PR #115 and PR #116 add no IAM permission and no trusted mutation authority.
+Historical PR #115 lock: PR #115 adds no IAM permission and no trusted mutation authority.
 
 Cloud / synchronization readiness
 → private account / authentication / authorization
