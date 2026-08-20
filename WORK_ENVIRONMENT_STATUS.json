@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-20-pr115-production-deployment-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-20T21:49:00Z",
+  "recordedAt": "2026-08-20T21:54:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 0,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 6,
+    "largeEvidenceEvents": 7,
     "toolRoutingErrors": 2,
-    "correctedFailures": 2,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -23,16 +23,16 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 72,
+    "handoffCompleteness": 74,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
     "currentTask": "Finish the already-authorized PR #115 production Firebase App Check runtime proof after merge through draft PR #116: establish the missing controlled GitHub Pages deployment-time configuration path for Firebase App + App Check only, keep tracked firebase.runtime-config.json fail-closed, keep App Check enforcement OFF, keep every application-client Firestore create/update/delete deny-all, deploy and verify 1.4.0-r2, prove legitimate App Check traffic, and preserve local/offline/rollback behavior. This is completion of the existing PR #115 bounded prerequisite, not a new Stage 2 milestone.",
-    "lastSafeCheckpoint": "Starting live main remains 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd after the fully gated PR #115 squash merge. Draft PR #116 now contains the permanent GitHub Pages deployment artifact path and executable synthetic-value contract. Diagnostic head 26806635631d75c10edf0b0a987e86661a8e085f reached six green workflow families before Static exposed one WEC-only historical assertion that hard-coded inherited HANDOFF_AT_CHECKPOINT even though the actual predecessor decision was HANDOFF_NOW. The assertion was generalized at 2e02aa15857139be0bc7cb8aa3587d3424029809 to require any explicit inherited non-CONTINUE transition decision without weakening fresh-successor separation or production security.",
-    "nextSafeAction": "Validate the corrected PR #116 head after this WEC checkpoint across all 13 normal workflow families. If any job fails, diagnose only the exact failing source contract and preserve deployment/runtime/security boundaries. After one complete green engineering candidate, synchronize current implementation authority and prepare the final WEC seal. Before merge/deployment, the owner must configure GitHub Pages for Actions and enter CMS_FIREBASE_WEB_API_KEY plus CMS_RECAPTCHA_ENTERPRISE_SITE_KEY directly into controlled GitHub Actions variables rather than chat/source.",
+    "lastSafeCheckpoint": "Starting live main remains 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd after the fully gated PR #115 squash merge. Draft PR #116 contains the permanent GitHub Pages deployment artifact path and executable synthetic-value contract. Diagnostic head 80a4658848b27ba919fcfcc717f9dd8a609c6afb proved the earlier interruption-resilience correction and the new deployment contract both pass, then exposed a second WEC-only brittle Stage 2I boundary assertion freezing predecessor environment we-2026-08-20-production-app-check-runtime and starting main 7944b87a20cf793c659077d7518c4446f178e32c. Commit 5c90d2195a69c77a7704b7f1c7de9189dcad21ca narrowly generalized that contract to accept either the historical predecessor or a verified fresh successor rooted at PR #115 merge main 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd while preserving all App Check, IAM, browser-write, Stage 3 and historical Stage 2I locks.",
+    "nextSafeAction": "Validate the exact PR #116 head produced by this WEC checkpoint across all 13 normal workflow families. If any job fails, diagnose only the exact failing source contract and preserve deployment/runtime/security boundaries. After one complete green engineering candidate, synchronize current implementation authority inside this same PR and prepare the final transition seal. Before merge/deployment, the owner must configure GitHub Pages for Actions and enter CMS_FIREBASE_WEB_API_KEY plus CMS_RECAPTCHA_ENTERPRISE_SITE_KEY directly into controlled GitHub Actions variables rather than chat/source.",
     "unfinishedWork": [
-      "Obtain one unchanged PR #116 engineering head with all 13 normal workflow families green after the WEC historical-decision correction.",
+      "Obtain one unchanged PR #116 engineering head with all 13 normal workflow families green after both truthful fresh-successor contract corrections.",
       "Synchronize NEXT_TASK/current production authority with the post-PR #115 deployment-proof candidate only as part of this same engineering PR, not as a standalone authority milestone.",
       "Configure GitHub Pages to use the reviewed Actions deployment path if repository settings are not already set that way.",
       "Have the owner enter CMS_FIREBASE_WEB_API_KEY and CMS_RECAPTCHA_ENTERPRISE_SITE_KEY directly into the approved GitHub configuration surface; never request them in chat and never invent the reCAPTCHA site key.",
@@ -62,9 +62,10 @@
       "PR #115 was marked ready without head mutation and expected-head squash merged to 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd; live main was independently re-fetched at that exact SHA.",
       "REMOTE_JOINING_READINESS.json remains RJR-1 score 59/100. Merge publication and continuity work earn no readiness points.",
       "Direct public-site verification is unavailable from the current browser/container routes, and no production traffic evidence exists yet; therefore 1.4.0-r2 remains unproven and 1.4.0-r1 remains rollback authority.",
-      "Official GitHub Pages documentation confirms a custom Actions deployment can configure Pages, upload a static artifact and deploy it with pages:write plus id-token:write permissions. Repository configuration variables can be consumed through the vars context; unset variables are explicitly rejected before rendering.",
       "Draft PR #116 adds a permanent runtime-only Pages artifact staging workflow, executes the existing safe renderer only inside that artifact, removes the copied renderer before upload, forbids Git repository mutation/Firebase Hosting, and registers a contract that executes the renderer with synthetic public values while proving stdout does not expose them.",
-      "Static App diagnostic CI failed only in work-environment-interruption-resilience-contracts.cjs because the test froze HANDOFF_AT_CHECKPOINT as the only possible inherited predecessor decision. Current source truth is HANDOFF_NOW. The correction preserves the stronger invariant: a divergent successor must explicitly record an inherited non-CONTINUE transition decision as history rather than treating it as its own assessment.",
+      "The production Pages deployment contract passed on diagnostic head 80a4658848b27ba919fcfcc717f9dd8a609c6afb before the Stage 2I boundary contract failed, so no deployment implementation defect has been observed in Static CI.",
+      "The first PR #116 Static failure was a WEC-only interruption-resilience assertion freezing inherited HANDOFF_AT_CHECKPOINT; it was corrected to preserve any explicit inherited non-CONTINUE predecessor decision, including the actual HANDOFF_NOW state.",
+      "The second PR #116 Static failure was a Stage 2I boundary assertion freezing the predecessor WEC identity and pre-PR #115 starting main. It was corrected narrowly so only the historical predecessor or a verified fresh successor rooted at exact PR #115 merge main may pass, with inherited HANDOFF_NOW and exact merge evidence required for the successor path.",
       "The repository-local gh bootstrap could not be executed because this environment has no repository checkout and direct GitHub network/DNS is unavailable. Connected GitHub remains source/write authority; no connector credentials were copied or repurposed."
     ]
   }
