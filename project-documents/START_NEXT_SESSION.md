@@ -1,21 +1,19 @@
 # Ready-to-Paste Next Session Start
 
-Continue the FIFA 17 Career Mode Showdown project from the newest live source state.
+Use only `START_NEXT_SESSION_V1.2.0_PR114.md` as the owner's initial successor payload.
 
-Do not preload the full historical handoff or all large project documents.
+Do not preload the complete historical handoff or all large project documents.
 
-First read `SESSION_BOOTSTRAP.json` and `00_SESSION_BOOTSTRAP.md` from transition branch `agent/post-pr113-app-check-handoff`, then use the connected GitHub source to verify current live `main`, latest relevant merged/open PRs, current candidate CI if any, runtime identity, and `WORK_ENVIRONMENT_STATUS.json`.
+The v1.2.0 SLE starter requires live-first verification of `main` and draft PR #114, then only four initial repository reads: `SESSION_BOOTSTRAP.json`, `REMOTE_JOINING_READINESS.json`, `WORK_ENVIRONMENT_STATUS.json`, and `firebase.production.environment.json`.
 
-If live `main` still matches the capsule and no newer current-authority work supersedes it, hydrate only the targeted task files listed in `SESSION_BOOTSTRAP.json`, initialize a fresh WEC identity, and immediately continue the real next Remote Joining prerequisite.
+PR #114 is an open draft on `agent/pr114-app-check-bootstrap`. The predecessor owner instruction authorized branch/commit/push/draft-PR publication, not merge. A successor must not merge without a later explicit owner authorization.
 
-If live state differs, inspect only the delta from the capsule's recorded main SHA to current live main, reconstruct the changed current lane from those intervening commits/PRs, and then hydrate only the newly relevant task files.
+Production reCAPTCHA Enterprise/Firebase App Check registration is provider-verified complete at one-hour TTL and risk threshold `0.5`; enforcement remains OFF; the production website Firebase/App Check runtime remains disconnected; browser Firestore create/update/delete remains deny-all.
 
-Use the complete successor handoff only as deep-reference fallback when the compact capsule cannot resolve a discrepancy, historical rationale, security/recovery/versioning ambiguity, contract failure, or WEC transition requirement.
+Use exact workflow run jobs and exact failed job logs before repairing any CI failure. Never infer a failure from the workflow-family name alone.
 
-Current expected next lane at this checkpoint is Firebase App Check with reCAPTCHA Enterprise registration/integration proof. Verify current official Firebase/Google Cloud documentation before provider mutation. Keep App Check enforcement off until controlled client integration and metrics prove legitimate traffic works. Do not start Stage 3 pairing before genuine Stage 2 production/operational activation is complete.
+`REMOTE_JOINING_READINESS.json` / RJR-1 is the numerical authority for the permanent `Remote Joining readiness` report line. WEC/Handoff proximity is separate.
 
-Private Remote Joining remains the highest long-term priority, dependency-gated and stability-first. Do not create documentation/history sidequests when substantive prerequisite work is available.
+Use `SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md` only as deep-reference fallback when the starter/capsule cannot resolve a live delta, security/recovery/publication contradiction or WEC interruption-recovery need.
 
-Every future complete successor handoff must be created both at repository root and as a byte-identical mirror under `project-documents/handoffs/`, then `SESSION_BOOTSTRAP.json` must be refreshed.
-
-Because this optimized bootstrap was created on the transition branch after PR #113, carry these bootstrap/project-document files naturally into the first substantive App Check PR. Do not open a documentation-only PR just to publish them.
+At a WEC 100% boundary, initialize a fresh successor WEC before beginning the next substantial milestone.
