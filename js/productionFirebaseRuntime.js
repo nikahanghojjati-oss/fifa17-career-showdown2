@@ -9,12 +9,14 @@
   const PRODUCTION_PATH_PREFIX="/fifa17-career-showdown2/";
   const FIREBASE_SDK_VERSION="12.17.0";
   const CONFIG_PATH="firebase.runtime-config.json";
+  const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const FALLBACK_RUNTIME_REVISION="1.4.0-r2";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
 
   let runtimeState=Object.freeze({status:"idle",attempted:false,connected:false,tokenObserved:false});
   let runtimePromise=null;
+  let bootstrapPromise=null;
 
   function freezeRuntimeState(value){
     return Object.freeze({...value});
@@ -48,16 +50,16 @@
     return "eligible";
   }
 
-  function buildConfigUrl(){
+  function buildVersionedLocalUrl(path){
     if(!root.document||!root.location)return null;
-    const url=new URL(CONFIG_PATH,root.document.baseURI||root.location.href);
+    const url=new URL(path,root.document.baseURI||root.location.href);
     url.searchParams.set("v",getRuntimeRevision());
     return url.href;
   }
 
   async function readRuntimeConfig(fetchImpl=root.fetch){
     if(typeof fetchImpl!=="function")return {ok:false,code:"runtime-config-fetch-unavailable"};
-    const url=buildConfigUrl();
+    const url=buildVersionedLocalUrl(CONFIG_PATH);
     if(!url)return {ok:false,code:"runtime-config-url-unavailable"};
     try{
       const response=await fetchImpl(url,{cache:"no-store",credentials:"same-origin"});
@@ -74,6 +76,23 @@
 
   function getBootstrap(){
     return root.CareerModeProductionAppCheckBootstrap||null;
+  }
+
+  async function loadBootstrapScript(){
+    const existing=getBootstrap();
+    if(existing)return existing;
+    if(bootstrapPromise)return bootstrapPromise;
+    if(!root.document)return null;
+    bootstrapPromise=new Promise(resolve=>{
+      const script=root.document.createElement("script");
+      script.src=buildVersionedLocalUrl(BOOTSTRAP_PATH);
+      script.async=false;
+      script.dataset.productionAppCheckBootstrap="true";
+      script.addEventListener("load",()=>resolve(getBootstrap()),{once:true});
+      script.addEventListener("error",()=>resolve(null),{once:true});
+      root.document.head.appendChild(script);
+    }).finally(()=>{bootstrapPromise=null;});
+    return bootstrapPromise;
   }
 
   function buildBootstrapInput(config){
@@ -115,7 +134,7 @@
         return setRuntimeState({status:runtimeConfig.code,attempted:true,connected:false,tokenObserved:false});
       }
 
-      const bootstrap=options.bootstrap||getBootstrap();
+      const bootstrap=options.bootstrap||getBootstrap()||await loadBootstrapScript();
       if(!bootstrap||typeof bootstrap.createPlan!=="function"||typeof bootstrap.initialize!=="function"){
         return setRuntimeState({status:"app-check-bootstrap-unavailable",attempted:true,connected:false,tokenObserved:false});
       }
@@ -181,6 +200,7 @@
     firebaseAppModule:FIREBASE_APP_MODULE,
     firebaseAppCheckModule:FIREBASE_APP_CHECK_MODULE,
     runtimeConfigPath:CONFIG_PATH,
+    bootstrapPath:BOOTSTRAP_PATH,
     enforcementEnabled:false,
     browserFirestoreWrites:"deny-all",
     classifyContext:classifyRuntimeContext,
