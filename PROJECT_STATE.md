@@ -2,6 +2,8 @@
 
 Current verified source and live GitHub override historical prose. `PROJECT_STATE.md` is the primary owner of current deployed product state; `NEXT_TASK.md` owns the current implementation authorization boundary.
 
+The repository Work Environment Continuity system remains mandatory through `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md` and the repository continuity scripts. Every fresh environment must validate inherited state, initialize its own fresh WEC record and obey its own assessment before substantial work; predecessor transition decisions are historical only.
+
 ## Current production and candidate boundary
 
 Application milestone: ***v1.4.0 — Product Deepening***
