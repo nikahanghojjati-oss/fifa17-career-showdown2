@@ -13,7 +13,10 @@
     "committed": false,
     "source": "firebase-console-or-controlled-deployment-injection",
     "classification": "public-project-configuration",
-    "providerRestrictionsVerified": false
+    "providerRestrictionsVerified": true,
+    "providerRestrictionCount": 25,
+    "generativeLanguageApiAllowed": false,
+    "providerVerificationEvidence": "2026-08-19 owner Google Cloud Console screenshots show the Firebase Browser key restricted to 25 selected APIs; the complete visible allowlist contains Firebase-related services and does not contain Generative Language API."
   },
   "firestore": {
     "databaseId": "(default)",
@@ -27,8 +30,17 @@
   "activation": {
     "firebaseProject": "owner-created",
     "webApp": "owner-registered",
-    "googleAuthProvider": "not-enabled-yet",
-    "productionAuthorizedDomain": "not-verified-yet",
+    "googleAuthProvider": "provider-verified-enabled",
+    "googleAuthProviderVerificationEvidence": "2026-08-19 owner Firebase Console screenshot shows Google listed under Authentication > Sign-in method with Status Enabled.",
+    "productionAuthorizedDomain": "provider-verified",
+    "productionAuthorizedDomainHost": "nikahanghojjati-oss.github.io",
+    "productionAuthorizedDomains": [
+      "fifa17-career-showdown-prod.firebaseapp.com",
+      "fifa17-career-showdown-prod.web.app",
+      "nikahanghojjati-oss.github.io"
+    ],
+    "productionAuthorizedDomainVerificationEvidence": "2026-08-19 owner Firebase Console screenshot at 20:20 ET shows the two Firebase default Authorized domains plus nikahanghojjati-oss.github.io as Custom, with a success toast stating localhost removed and no localhost row remaining.",
+    "localhostAuthorizedDomainPresent": false,
     "productionSecurityRules": "not-deployed-yet",
     "appCheck": "not-enabled-yet",
     "trustedRuntimeIam": "not-activated-yet",
