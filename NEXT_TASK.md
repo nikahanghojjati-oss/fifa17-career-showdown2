@@ -14,6 +14,8 @@ Fresh WEC decision: `PREPARE_HANDOFF`.
 Usage: unavailable and not estimated.
 Authorized product candidate: none.
 
+Work Environment Continuity remains mandatory. This environment may finish only the current PR #115 bounded milestone, must keep `WORK_ENVIRONMENT_STATUS.json` current at meaningful checkpoints, and must obey the fresh WEC assessment before any separate next milestone. A predecessor transition decision never becomes successor implementation authority.
+
 Application version: `v1.4.0`.
 Current production Installable Offline App runtime: `1.4.0-r1`.
 Current candidate runtime revision: `1.4.0-r2`.
