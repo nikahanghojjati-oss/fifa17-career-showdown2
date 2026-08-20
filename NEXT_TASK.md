@@ -62,7 +62,7 @@ These values are public browser configuration, not authorization secrets, but th
 
 PR #116 adds `.github/workflows/deploy-github-pages.yml`. It stages only the static runtime surface, requires the two GitHub Actions repository variables without printing their values, runs the renderer only inside the ephemeral Pages artifact, verifies the configured output shape without logging the values, removes the copied renderer before artifact upload, and deploys through GitHub Pages with `pages: write` plus `id-token: write`. It does not use Firebase Hosting and does not write generated provider configuration back to repository history.
 
-The permanent validation topology remains protected separately: the 13 normal PR validation workflows retain exactly 27 literal executable blocks, while the Stability Lane and production Pages deployment workflow remain separately owned operational lanes.
+The protected validation topology remains 14 permanent workflow families: 13 normal PR validation workflows plus the separately-owned Stability Lane. Those validation families retain exactly 27 protected literal executable blocks. The production Pages deployment workflow is separate operational deployment infrastructure and is excluded from the validation-family and 27-block counts.
 
 ## Security, recovery and product locks
 
@@ -143,8 +143,8 @@ Immediate previous known-good whole shell: `1.3.0-r2`
 Historical completed product chain:
 Local Profile display-label editing → Identity-Safe Career Analytics → formatVersion 2 full multi-Save backup/import portability (PR #67).
 PR #67 production merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`.
-Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) — CLOSED / PRODUCTION-PROVEN at `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`.
-Phase C first slice — Showdown Home & Season Experience deepening (PR #73) — CLOSED / PRODUCTION-PROVEN at `dec1d3ba8182c3f62019974dd1704c7c9124def6`.
+Phase B first slice — Save Library / Local Profile Experience 2.0 first slice (PR #70) — CLOSED / PRODUCTION-PROVEN at `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`.
+Phase C first slice — Showdown Home & Season Experience first slice (PR #73) — CLOSED / PRODUCTION-PROVEN at `dec1d3ba8182c3f62019974dd1704c7c9124def6`.
 
 Historical Stage 1 wording retained for contract provenance:
 Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED in current source.
