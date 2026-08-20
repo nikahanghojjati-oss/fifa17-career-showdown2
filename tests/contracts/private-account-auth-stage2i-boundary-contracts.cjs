@@ -102,15 +102,21 @@ assert.match(postV1,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(history,/Closure addendum — `we-2026-08-19-post-stage2i-closure-reconcile`/);
 assert.match(history,/PR #96[\s\S]+3d2ebad38d85e07f774360fcb7d210b9dd096fa4[\s\S]+e52968632d9938f17e7e1680c455437d23eb628b/);
 
-// Fresh WEC identity must be honest and independent of the historical Stage 2I environment.
+// Fresh WEC identity must remain honest during active work and at a legitimate transition-prepared seal.
 assert.equal(status.environmentId,"we-2026-08-20-production-app-check-runtime");
-assert.equal(status.lifecycle,"active");
+assert.ok(["active","transition-prepared"].includes(status.lifecycle),"Current PR #115 WEC may be active or legitimately transition-prepared, but never inherit the historical Stage 2I lifecycle.");
+if(status.lifecycle==="transition-prepared"){
+  assert.equal(status.signals.handoffCompleteness,100,"A transition-prepared PR #115 WEC must have a complete handoff.");
+  assert.equal(status.signals.unrecordedDecisions,0,"A transition-prepared PR #115 WEC must externalize all material decisions.");
+  assert.equal(status.signals.atomicOperation,false,"A transition-prepared PR #115 WEC cannot leave an atomic mutation in progress.");
+  assert.match(status.continuity.nextSafeAction,/Fresh successor[\s\S]+final sealed head/i,"Transition-prepared authority must hand final sealed-head validation to a fresh successor.");
+}
 assert.equal(status.repository.startingMainSha,"7944b87a20cf793c659077d7518c4446f178e32c");
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
 assert.match(status.continuity.currentTask,/App Check[\s\S]+runtime/i);
-assert.match(status.continuity.lastSafeCheckpoint,/7944b87a20cf793c659077d7518c4446f178e32c/);
-assert.match((status.continuity.knownHazards||[]).join("\n"),/Stage 2H least-privilege trusted-runtime IAM remains unactivated/i);
+assert.match(status.continuity.lastSafeCheckpoint,/7944b87a20cf793c659077d7518c4446f178e32c|8ee17af65dcdc234bee4a07cca1df3df3d84287c/i,"Current WEC checkpoint must preserve either the starting main or the validated PR #115 pre-seal package head.");
+assert.match((status.continuity.knownHazards||[]).join("\n"),/Stage 2H least-privilege[\s\S]{0,420}(?:unactivated|not activated|does not activate|not activate)/i,"Current WEC must preserve Stage 2H least-privilege IAM non-activation.");
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
