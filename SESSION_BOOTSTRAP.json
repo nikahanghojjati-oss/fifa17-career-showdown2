@@ -18,6 +18,8 @@
     "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md"
   },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
+  "starterPrompt": "START_NEXT_SESSION.md",
+  "startupPrecedence": "START_NEXT_SESSION.md + SESSION_BOOTSTRAP.json + 00_SESSION_BOOTSTRAP.md supersede older read-everything handoff preload lists only for startup context loading; substantive locks remain authoritative",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
     "WORK_ENVIRONMENT_STATUS.json",
