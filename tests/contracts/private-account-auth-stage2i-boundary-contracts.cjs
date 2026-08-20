@@ -53,7 +53,7 @@ assert.match(boundary,/Cloud Run scaling is defense in depth, not rate authoriza
 assert.match(boundary,/App Check does not repair the Phase 1D \/ Phase 1F shared-state idempotency-receipt schema finding/i);
 assert.match(boundary,/Candidate A remains non-mutating export[\s\S]+Candidate B remains strictly read-only import analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
 
-// Preserve the dormant protected-request design. Current PR #115 connects only browser App + App Check, not this trusted endpoint.
+// Preserve the dormant protected-request design. PR #115 / PR #116 connect only browser App + App Check and deployment delivery, not this trusted endpoint.
 assert.match(implementation,/stage:"2I"/);
 assert.match(implementation,/verifyAppCheckToken\(appCheckToken\)/);
 assert.match(implementation,/decoded\.aud\.length!==2/);
@@ -67,13 +67,15 @@ assert.match(stage2h,/DONE \/ MERGED \/ PROVEN/);
 assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
-// Published authority still identifies the PR #115 runtime milestone until this same engineering candidate synchronizes it after green validation.
-assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
-assert.match(nextTask,/Current branch: `agent\/production-app-check-runtime`/);
-assert.match(nextTask,/Current pull request: #115/);
-assert.match(nextTask,/Current environment: `we-2026-08-20-production-app-check-runtime`/);
-assert.match(nextTask,/Starting independently verified live main: `7944b87a20cf793c659077d7518c4446f178e32c`/);
+// Published authority now identifies PR #116 as the direct deployment-proof continuation of merged PR #115.
+assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i);
+assert.match(nextTask,/Current branch: `agent\/pr115-production-deployment-proof`/);
+assert.match(nextTask,/Current pull request: #116/);
+assert.match(nextTask,/Current environment: `we-2026-08-20-pr115-production-deployment-proof`/);
+assert.match(nextTask,/Starting independently verified live main: `1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd`/);
 assert.match(nextTask,/Fresh WEC decision: `PREPARE_HANDOFF`/);
+assert.match(nextTask,/PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd/i);
+assert.match(nextTask,/PR #116 is the direct bounded continuation required to finish that same production proof/i);
 assert.match(nextTask,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(nextTask,/Every application-client Firestore create\/update\/delete remains deny-all/i);
 assert.match(nextTask,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
@@ -82,9 +84,11 @@ assert.match(nextTask,/Public community features and global leaderboard\/ranking
 assert.match(nextTask,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(nextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
 assert.match(nextTask,/App Check enforcement remains OFF/i);
-assert.match(nextTask,/PR #115 adds no IAM permission and no trusted mutation authority/i);
+assert.match(nextTask,/PR #115 and PR #116 add no IAM permission and no trusted mutation authority/i);
+assert.match(nextTask,/Historical PR #115 successor authority snapshot:[\s\S]+Current branch: `agent\/production-app-check-runtime`[\s\S]+Current pull request: #115[\s\S]+Current environment: `we-2026-08-20-production-app-check-runtime`[\s\S]+Starting independently verified live main: `7944b87a20cf793c659077d7518c4446f178e32c`/i);
 
-assert.match(projectState,/PR #115[\s\S]+production App Check runtime/i);
+assert.match(projectState,/PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd/i);
+assert.match(projectState,/PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(projectState,/Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
 assert.match(projectState,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(projectState,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
@@ -151,4 +155,4 @@ const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
 assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2I proof must not freeze later legitimate v1.4.0 runtime revisions.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I locks remain historically protected while current authority advances through the bounded production App Check runtime proof and its verified fresh successor.\n");
+process.stdout.write("PASS Stage 2I locks remain historically protected while current authority advances through the bounded PR #116 production App Check deployment proof and its verified fresh successor.\n");
