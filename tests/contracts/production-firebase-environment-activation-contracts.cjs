@@ -78,7 +78,15 @@ for(const statement of writeAuthorityStatements){
   assert.match(statement,/:\s*if\s+false\s*;/,`Every application-client write authority must remain deny-all: ${statement}`);
 }
 
-assert.equal(manifest.activation.appCheck,"not-enabled-yet");
+assert.equal(manifest.activation.appCheck,"provider-verified-registered","The real production Firebase Web App must preserve owner-verified App Check registration before controlled client integration begins.");
+assert.equal(manifest.activation.appCheckProvider,"recaptcha-enterprise");
+assert.equal(manifest.activation.appCheckWebAppId,manifest.firebaseWebConfig.appId);
+assert.equal(manifest.activation.appCheckProductionHost,"nikahanghojjati-oss.github.io");
+assert.equal(manifest.activation.appCheckTokenTtlSeconds,3600);
+assert.equal(manifest.activation.appCheckRiskThreshold,0.5);
+assert.equal(manifest.activation.appCheckEnforcement,false,"App Check enforcement must remain off until legitimate production client traffic is integrated and measured.");
+assert.equal(manifest.activation.appCheckRuntimeBootstrapConnected,false,"Provider registration alone must not be misreported as production website App Check runtime integration.");
+assert.match(manifest.activation.appCheckProviderVerificationEvidence,/2026-08-20[\s\S]+reCAPTCHA Enterprise[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+Registered[\s\S]+one-hour TTL[\s\S]+0\.5/i);
 assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet");
 assert.equal(manifest.activation.runtimeConnected,false);
 
@@ -124,4 +132,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, provider-verified Firestore Rules, exact Rules blob lock, deny-all browser writes, verified Firestore/API restrictions/Google Auth/Authorized domains, localhost exclusion, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, provider-verified Firestore Rules and App Check registration, exact Rules blob lock, deny-all browser writes, verified Firestore/API restrictions/Google Auth/Authorized domains, localhost exclusion, API-key source separation, Stage 2D compatibility, enforcement-off and safe alias boundary\n");
