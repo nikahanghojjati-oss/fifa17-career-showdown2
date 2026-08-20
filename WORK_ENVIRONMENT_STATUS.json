@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-20-production-app-check-runtime",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-20T21:28:00Z",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-08-20T21:31:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -28,21 +28,25 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Repair only the failed PR #115 WEC seal validation boundary, re-prove the complete pre-seal package, then reseal and stop. Product runtime implementation remains complete for this predecessor: Firebase App + App Check only, local/offline-first, enforcement OFF, application-client Firestore writes deny-all, no Firestore/Auth/Storage/Functions client initialization, no trusted mutation/IAM authority and no Stage 3/Connected Rivalry/Remote Joining UX.",
-    "lastSafeCheckpoint": "Pre-seal package head 8ee17af65dcdc234bee4a07cca1df3df3d84287c passed all 13 normal workflow families, zero submitted reviews, zero inline review threads and mergeability=true. First seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f was rejected by a stale Stage 2I lifecycle assertion. After lifecycle-aware repair, pre-seal repair head 3b971108eb358236dd8f90ab4a034230631c1db4 exposed a second wording-order defect in the same contract: currentTask contained both runtime and App Check but the regex required App Check to precede runtime. That check is now two independent semantic assertions at a43600b4b3e8225f8c7f313d3b24dd9f2c37baf3.",
-    "nextSafeAction": "Run the full 13-family pre-seal validation on the current repair head. If and only if all families are green with clean reviews/threads and mergeability, write WORK_ENVIRONMENT_STATUS.json once more as transition-prepared HANDOFF_NOW closure; that reseal must be the final branch mutation. Then validate the new sealed exact head without further mutation and stop for the fresh successor.",
+    "currentTask": "Seal and hand off the completed PR #115 production Firebase App Check runtime milestone only. Product runtime implementation is complete for this predecessor: Firebase App + App Check only, local/offline-first, exact production origin/path gating, controlled browser-public configuration, enforcement OFF, application-client Firestore writes deny-all, no Firestore/Auth/Storage/Functions client initialization, no trusted mutation/IAM authority and no Stage 3/Connected Rivalry/Remote Joining UX.",
+    "lastSafeCheckpoint": "Original complete SLE package head 8ee17af65dcdc234bee4a07cca1df3df3d84287c passed all 13 workflow families before the first seal attempt. After exact-head seal validation exposed and corrected two Stage 2I WEC-only false assertions, repaired pre-seal head 53c627e441694a7f0db14bba272ee401b4a210ab again passed all 13 normal workflow families with success, including Static complete repository contracts/topology, Chromium Stability and Candidate C authoritative browser recovery. Submitted reviews were empty, inline review threads were empty and PR #115 mergeability was true. Failed seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f is superseded and must never be used as publication authority.",
+    "nextSafeAction": "Fresh successor only: validate this inherited transition-prepared record, archive/finalize predecessor facts and initialize a new WEC identity before assessment. Fetch live PR #115 and treat the commit produced by this status write as the candidate final sealed head; verify it is the last branch mutation, require all 13 normal workflow families green on that exact unchanged final sealed head, re-check submitted reviews, inline review threads and mergeability, then use standing owner authorization for expected-head squash merge/deploy if every gate remains green. Independently verify live main and deployed 1.4.0-r2, deliver controlled browser-public Firebase/App Check runtime configuration, prove legitimate production App Check traffic while enforcement remains OFF, preserve local/offline health and deny-all browser Firestore writes, and update production evidence/RJR only if new verified capability evidence satisfies RJR-1.",
     "unfinishedWork": [
-      "Re-prove all 13 normal workflow families on the post-repair pre-seal head after making the Stage 2I WEC task check order-independent.",
-      "Re-check submitted reviews, inline review threads and mergeability on that pre-seal repair head.",
-      "Write one new transition-prepared WEC seal as the final branch mutation only after the repaired pre-seal head is completely green.",
-      "Validate all 13 normal workflow families on the new final sealed exact head with no later branch mutation, then stop this predecessor environment.",
-      "Fresh successor only: use standing owner authorization for expected-head PR #115 squash merge/deploy after final sealed-head gates pass; independently verify live 1.4.0-r2, controlled public Firebase/App Check config and legitimate production App Check traffic while enforcement remains OFF.",
-      "Fresh successor only: update production evidence/RJR if and only if new verified capability evidence satisfies RJR-1, then complete remaining genuine Stage 2 operational trust/IAM prerequisites before Stage 3."
+      "Validate all 13 normal workflow families on the final sealed exact head produced by this status write; no predecessor branch mutation is permitted after this reseal.",
+      "Re-check submitted reviews, inline review threads and mergeability on that final sealed exact head.",
+      "Fresh successor only: mark PR #115 ready if required and expected-head squash-merge/deploy under standing owner authorization after every final sealed-head gate passes.",
+      "Fresh successor only: independently verify resulting live main and deployed 1.4.0-r2 while retaining 1.4.0-r1 as the known-good rollback boundary until production proof is complete.",
+      "Fresh successor only: deliver CMS_FIREBASE_WEB_API_KEY and CMS_RECAPTCHA_ENTERPRISE_SITE_KEY through the controlled deployment configuration path without newly hard-coding provider values or printing them in logs; never invent the unavailable reCAPTCHA site key.",
+      "Fresh successor only: prove legitimate production App Check token traffic with enforcement still OFF and verify Firebase/App Check failure leaves canonical local startup, storage, recovery and offline operation healthy.",
+      "Keep every application-client Firestore create/update/delete deny-all and do not activate/broaden trusted runtime IAM as part of PR #115 publication.",
+      "Update firebase.production.environment.json, production proof/release authority and REMOTE_JOINING_READINESS.json only after genuine production evidence exists and only when RJR-1 criteria actually award capability points.",
+      "Complete remaining genuine Stage 2 production/account/operational trust and IAM activation/hardening prerequisites before Stage 3 Registered Devices / Private Pairing; Connected Rivalry and Private Remote Joining remain downstream."
     ],
     "knownHazards": [
-      "Seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f is invalid/superseded because exact-head Stability failed; never present it as publication authority.",
-      "The next transition-prepared status write must be the final branch mutation. Any later mutation invalidates that seal and requires another complete pre-seal/reseal cycle.",
-      "Historical Stage 2 contracts may validate current WEC/source authority only semantically: legitimate active and fully coherent transition-prepared successor states are allowed, and equivalent wording/order must not create false failures.",
+      "This reseal status write is the final intended PR-branch mutation for the predecessor. Any later mutation invalidates the seal and requires a new complete pre-seal/reseal cycle.",
+      "Failed seal attempt e26ec5d92f14af834d5acc60b75c18f8b4088a1f is superseded and must never be presented as final publication authority.",
+      "Pre-seal repair head 53c627e441694a7f0db14bba272ee401b4a210ab is evidence only; it does not substitute for exact validation of this reseal's resulting final sealed head.",
+      "Stage 2I WEC validation now permits only active or fully coherent transition-prepared PR #115 states; transition-prepared requires handoffCompleteness=100, unrecordedDecisions=0, atomicOperation=false and routing to a fresh successor's final sealed-head validation.",
       "Firebase App Check remains application attestation only, not user identity, application authorization, device identity, pairing/session/gameplay/shared-mutation or IAM authority.",
       "App Check enforcement remains OFF and every application-client Firestore create/update/delete remains deny-all.",
       "Stage 2H least-privilege account-bootstrap IAM proof remains exactly firebaseauth.users.get, datastore.databases.get, datastore.entities.get and datastore.entities.create; PR #115 does not activate or broaden it.",
@@ -53,13 +57,15 @@
       "Usage remains unavailable and must not be fabricated."
     ],
     "evidenceNotes": [
-      "WEC quality risk remains clamped to 100: toolRoutingErrors=2, correctedFailures=18, repeatedMistakes=1, staleFactCorrections=1, unresolvedFailures=0. HANDOFF_NOW remains mandatory once the repair reaches a coherent reseal boundary.",
-      "Context pressure remains clamped to 100; usage remains unavailable and omitted rather than estimated.",
-      "The first seal failure was isolated to Stage 2I hard-coding lifecycle=active; that was replaced with strict active-or-coherent-transition-prepared validation.",
-      "The next pre-seal run proved that lifecycle repair worked and advanced to a second Stage 2I-only false failure: the currentTask check required App Check before runtime even though both were present. It is now two independent semantic assertions.",
-      "All product/runtime/security assertions before those WEC wording checks passed, including PR #115 App Check runtime, RJR locks, Stage 2H IAM boundary, offline/recovery and deny-all browser writes.",
-      "REMOTE_JOINING_READINESS.json remains RJR-1 score 59/100; seal repair earns no readiness points.",
-      "Complete successor handoff/starter root+mirror pairs, refreshed SESSION_BOOTSTRAP.json, updated SLE packaging contract and authority-history/WEC_CLOSURE_PR115_APP_CHECK_RUNTIME_2026-08-20.md remain present from the prior fully green package head."
+      "WEC deterministic quality risk clamps to 100: toolRoutingErrors=2, correctedFailures=18, repeatedMistakes=1, staleFactCorrections=1, unresolvedFailures=0. HANDOFF_NOW is mandatory at this coherent reseal boundary.",
+      "Context pressure also clamps to 100; usage remains unavailable and is omitted rather than estimated.",
+      "The first exact-head seal attempt failed only because Stage 2I hard-coded lifecycle=active. That contract now accepts active or a strict coherent transition-prepared PR #115 WEC.",
+      "The first repair pre-seal run exposed a second Stage 2I-only brittle assertion requiring App Check before runtime in currentTask; the check now independently requires both concepts without word-order dependence.",
+      "Repaired pre-seal head 53c627e441694a7f0db14bba272ee401b4a210ab passed all 13 normal workflow families with success, including Static full repository contract/topology validation, Chromium Stability and Candidate C browser recovery; reviews and inline threads were empty and mergeability=true.",
+      "All PR #115 production App Check/runtime/security locks remain green: exact production origin/path gate, local-first fallback, controlled runtime config, token observation without token exposure, enforcement OFF, no Firestore/Auth/Storage/Functions client service, no trusted mutation/IAM authority and deny-all application-client Firestore writes.",
+      "REMOTE_JOINING_READINESS.json remains RJR-1 score 59/100; WEC/SLE work and seal repairs earn no readiness points.",
+      "Complete successor package remains rooted at SUCCESSOR_HANDOFF_PR115_APP_CHECK_RUNTIME_SLE_2026-08-20.md and START_NEXT_SESSION_V1.3.1_PR115.md with byte-identical project mirrors, refreshed SESSION_BOOTSTRAP.json, updated SLE packaging contract and authority-history/WEC_CLOSURE_PR115_APP_CHECK_RUNTIME_2026-08-20.md.",
+      "Standing owner merge/deploy authorization remains active through project completion after all required tests/publication gates pass, but this HANDOFF_NOW predecessor stops after final sealed-head validation; the fresh successor owns PR #115 publication/deployment/production-traffic proof."
     ]
   }
 }
