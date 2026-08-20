@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.4.0-r1";
-const PREVIOUS_RUNTIME_REVISION = "1.3.0-r2";
+const RUNTIME_REVISION = "1.4.0-r2";
+const PREVIOUS_RUNTIME_REVISION = "1.4.0-r1";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -41,6 +41,7 @@ const SHELL_PATHS = Object.freeze([
     "js/menuFeedback.js",
     "js/offlineApp.js",
     "js/optionalModules.js",
+    "js/productionFirebaseRuntime.js",
     "js/restore.js",
     "js/restoreUI.js",
     "js/ruleBook.js",
