@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-production-firebase-project-activation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-20T00:04:00Z",
+  "recordedAt": "2026-08-20T00:17:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,7 +13,7 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 7,
-    "largeEvidenceEvents": 20,
+    "largeEvidenceEvents": 21,
     "toolRoutingErrors": 5,
     "correctedFailures": 4,
     "repeatedMistakes": 0,
@@ -23,16 +23,16 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 95,
+    "handoffCompleteness": 96,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Advance the real Stage 2 production Firebase environment activation lane after merged PR #111. Provider-side Browser-key API restrictions are proven, and owner Firebase Console evidence now proves Google Authentication is enabled under Authentication > Sign-in method. The direct next provider dependency is exact verification/addition of nikahanghojjati-oss.github.io as the production Authorized Domain under the locked GoogleAuthProvider popup/browserSessionPersistence policy. Then publish this bounded provider-proof candidate and continue directly to production Firestore Security Rules, App Check/reCAPTCHA Enterprise and trusted runtime IAM before any runtime Firebase connection.",
-    "lastSafeCheckpoint": "The independently verified predecessor publication boundary remains 423fbecdb3e0f663b5b12476c6637d1af48ee4ab after merged PR #108. PR #109 activated the real Firebase project boundary; PR #110 provider-verified the real (default) nam7 Firestore database; PR #111 hardened Firebase Web API key repository handling and squash-merged to live main a3c0027b8a6b3b5619a1a16d66d5369294c23bb9 after all 13 workflow families passed on exact head 99088621a1825a40634d7730aabe254af6db678a. On branch agent/production-google-auth-activation, Browser-key API restrictions are recorded as provider verified and Google Authentication is now recorded as provider-verified enabled from owner console evidence. The concrete key remains absent from committed metadata, runtime remains disconnected, browser Firestore writes remain deny-all, and app/runtime identity remains 1.4.0 / 1.4.0-r1.",
-    "nextSafeAction": "In Firebase Console for fifa17-career-showdown-prod, stay in Authentication and open Settings > Authorized domains. Verify or add exactly nikahanghojjati-oss.github.io. Do not add localhost or a path such as /fifa17-career-showdown2/. Capture a screenshot showing the Authorized domains list. Record only provider state, never credentials. Once that proof is available, update the production manifest/contracts, run exact-head CI/review/thread/mergeability gates, publish the Google Auth + Authorized Domain candidate, and continue to exact production Firestore Security Rules deployment and App Check/IAM in order.",
+    "currentTask": "Advance the real Stage 2 production Firebase environment activation lane after merged PR #111. Provider-side Browser-key API restrictions are proven, Google Authentication is provider-verified enabled, and owner Firebase Console evidence now shows nikahanghojjati-oss.github.io added as a Custom Authorized domain. The same screenshot also shows localhost still present as a Default Authorized domain. Because the locked Stage 2D production preflight explicitly forbids localhost and Firebase strongly discourages localhost in production, keep production Authorized Domain verification pending until localhost is removed. Then publish this bounded provider-proof candidate and continue directly to production Firestore Security Rules, App Check/reCAPTCHA Enterprise and trusted runtime IAM before any runtime Firebase connection.",
+    "lastSafeCheckpoint": "The independently verified predecessor publication boundary remains 423fbecdb3e0f663b5b12476c6637d1af48ee4ab after merged PR #108. PR #109 activated the real Firebase project boundary; PR #110 provider-verified the real (default) nam7 Firestore database; PR #111 hardened Firebase Web API key repository handling and squash-merged to live main a3c0027b8a6b3b5619a1a16d66d5369294c23bb9 after all 13 workflow families passed on exact head 99088621a1825a40634d7730aabe254af6db678a. On branch agent/production-google-auth-activation, Browser-key API restrictions are provider verified, Google Authentication is provider-verified enabled, and the GitHub Pages host is recorded as owner-added. Production domain verification remains intentionally incomplete because localhost is still authorized in the real provider state. The concrete API key remains absent from committed metadata, runtime remains disconnected, browser Firestore writes remain deny-all, and app/runtime identity remains 1.4.0 / 1.4.0-r1.",
+    "nextSafeAction": "In Firebase Console > Authentication > Settings > Authorized domains, delete only the localhost row using its trash icon and leave fifa17-career-showdown-prod.firebaseapp.com, fifa17-career-showdown-prod.web.app and nikahanghojjati-oss.github.io untouched. Capture a screenshot showing the resulting list with localhost absent and nikahanghojjati-oss.github.io still present. Once that proof is available, mark the production Authorized Domain provider verified, run exact-head CI/review/thread/mergeability gates, publish the Browser-key + Google Auth + Authorized Domain candidate, and continue directly to exact production Firestore Security Rules deployment and App Check/IAM in order.",
     "unfinishedWork": [
-      "Add and verify nikahanghojjati-oss.github.io as the production Firebase Authentication Authorized Domain without authorizing localhost or redirect flow by implication.",
+      "Remove localhost from the production Firebase Authentication Authorized domains list and verify the resulting provider state while preserving Firebase default auth domains and nikahanghojjati-oss.github.io.",
       "Publish the bounded Browser-key restriction + Google Auth + Authorized Domain provider-proof candidate after exact-head CI and clean review gates.",
       "Resolve the historical GitHub secret-scanning alert after the provider restriction proof is permanently published; do not rotate the Firebase key reflexively.",
       "Deploy and verify the repository Firestore Security Rules to the real production (default) database while every application-client create/update/delete remains denied.",
@@ -42,7 +42,8 @@
     "knownHazards": [
       "Firebase Web API keys are public project configuration, not authorization secrets, but must remain API-restricted and must never substitute for Security Rules, App Check, Firebase Auth or IAM.",
       "The owner screenshots prove API restrictions, not application restrictions. Do not change Application restrictions until the production Auth/runtime path is ready for controlled testing.",
-      "Google Authentication is provider-verified enabled, but this does not prove the GitHub Pages production domain is authorized; keep productionAuthorizedDomain pending until exact console proof.",
+      "The GitHub Pages production host is now visibly added, but localhost remains authorized; the locked Stage 2D preflight rejects localhost, so production Authorized Domain verification must remain pending until localhost is removed.",
+      "Do not delete the Firebase default domains fifa17-career-showdown-prod.firebaseapp.com or fifa17-career-showdown-prod.web.app; remove only localhost.",
       "The Firestore screenshots prove database existence and access to Data/Rules interfaces; they do not prove repository firestore.rules has been deployed to production.",
       "The repository Firebase default alias must remain demo-career-mode-showdown-phase1f; production remains an explicit alias.",
       "Every application-client Firestore create/update/delete remains denied. Do not weaken firestore.rules for convenience.",
@@ -58,8 +59,10 @@
       "Inherited predecessor we-2026-08-19-trusted-connected-data-account-export reached HANDOFF_AT_CHECKPOINT after PR #108; that decision is preserved only as inherited historical authority and is not this active successor environment's decision.",
       "PR #111 exact final head 99088621a1825a40634d7730aabe254af6db678a passed all 13 normal workflow families, had no submitted reviews or review threads, was mergeable, and squash-merged to live main a3c0027b8a6b3b5619a1a16d66d5369294c23bb9.",
       "Owner Google Cloud Console screenshots on 2026-08-19 ET prove the Firebase Browser key has 25 selected API restrictions and no Generative Language API in the supplied visible allowlist.",
-      "Owner Firebase Console screenshot at 20:04 ET on 2026-08-19 shows Authentication > Sign-in method with Google Status Enabled. That is sufficient provider-side proof that the Google Authentication provider is enabled for fifa17-career-showdown-prod.",
-      "Branch agent/production-google-auth-activation now records providerRestrictionsVerified=true and googleAuthProvider=provider-verified-enabled while keeping productionAuthorizedDomain, productionSecurityRules, App Check, trusted runtime IAM and runtime connection pending.",
+      "Owner Firebase Console screenshot at 20:04 ET on 2026-08-19 shows Authentication > Sign-in method with Google Status Enabled.",
+      "Owner Firebase Console screenshot at 20:10 ET on 2026-08-19 shows nikahanghojjati-oss.github.io added as a Custom Authorized domain. The same screenshot shows localhost present as a Default Authorized domain plus the two Firebase default domains. The owner states they did not manually add localhost.",
+      "Official Firebase documentation reviewed 2026-08-19 strongly discourages localhost in production and recommends removing it if present. The repository's Stage 2D preflight independently enforces LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN.",
+      "Branch agent/production-google-auth-activation now records providerRestrictionsVerified=true, googleAuthProvider=provider-verified-enabled, productionAuthorizedDomain=owner-added-pending-localhost-removal, and localhostAuthorizedDomainPresent=true while production Security Rules, App Check, trusted runtime IAM and runtime connection remain pending.",
       "No runtime Firebase SDK or application behavior changed, so app version 1.4.0 / runtime 1.4.0-r1 remains correct and browser Firestore writes remain deny-all."
     ]
   }
