@@ -40,7 +40,10 @@ assert.equal(manifest.activation.firebaseProject,"owner-created");
 assert.equal(manifest.activation.webApp,"owner-registered");
 assert.equal(manifest.activation.googleAuthProvider,"provider-verified-enabled","Google Authentication must remain provider-verified enabled before downstream Remote Joining prerequisites proceed.");
 assert.match(manifest.activation.googleAuthProviderVerificationEvidence,/2026-08-19[\s\S]+Authentication[\s\S]+Sign-in method[\s\S]+Enabled/i);
-assert.equal(manifest.activation.productionAuthorizedDomain,"not-verified-yet");
+assert.equal(manifest.activation.productionAuthorizedDomain,"owner-added-pending-localhost-removal","The GitHub Pages host may be recorded as added, but production-domain verification must remain pending while localhost is still authorized.");
+assert.equal(manifest.activation.productionAuthorizedDomainHost,"nikahanghojjati-oss.github.io");
+assert.equal(manifest.activation.localhostAuthorizedDomainPresent,true,"Localhost must remain explicitly tracked until provider evidence proves it was removed from the production Authorized domains list.");
+assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/nikahanghojjati-oss\.github\.io[\s\S]+Custom[\s\S]+localhost[\s\S]+Default[\s\S]+incomplete until localhost is removed/i);
 assert.equal(manifest.activation.productionSecurityRules,"not-deployed-yet");
 assert.equal(manifest.activation.appCheck,"not-enabled-yet");
 assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet");
@@ -78,7 +81,9 @@ const compatibilityCandidate = {
   security:{webApiKeyClassification:manifest.securityLocks.webApiKeyClassification,webApiKeyIsAuthorizationSecret:manifest.securityLocks.webApiKeyIsAuthorizationSecret},
   publicFeatures:{discovery:manifest.securityLocks.publicDiscovery,profiles:manifest.securityLocks.publicProfiles,matchmaking:manifest.securityLocks.publicMatchmaking,community:manifest.securityLocks.community,rankings:manifest.securityLocks.rankings}
 };
-assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The verified project/Web-App metadata, nam7 Firestore location, Google provider policy and externally injected public Web API key must remain compatible with the locked Stage 2D production policy.");
+assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The target post-cleanup production Auth state must remain compatible with the locked Stage 2D production policy once localhost is removed and only the production host is supplied.");
+const unsafeCurrentProviderCandidate = {...compatibilityCandidate,authorizedDomains:[preflight.productionHost,"localhost"]};
+assert.ok(preflight.validate(unsafeCurrentProviderCandidate).errors.includes("LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN"),"The currently observed provider state with localhost authorized must fail the production preflight until localhost is removed.");
 
 const serialized = JSON.stringify(manifest);
 for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken","idToken","serviceAccountKey"]){
@@ -86,4 +91,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, verified Firestore existence, verified Firebase-only API restrictions, verified Google Auth provider, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, verified Firestore/API restrictions/Google Auth, production-host addition tracking, localhost-removal gate, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
