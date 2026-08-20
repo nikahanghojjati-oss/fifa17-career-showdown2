@@ -143,8 +143,8 @@ Immediate previous known-good whole shell: `1.3.0-r2`
 Historical completed product chain:
 Local Profile display-label editing → Identity-Safe Career Analytics → formatVersion 2 full multi-Save backup/import portability (PR #67).
 PR #67 production merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`.
-Phase B first slice — Save Library / Local Profile Experience 2.0 first slice (PR #70) — CLOSED / PRODUCTION-PROVEN at `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`.
-Phase C first slice — Showdown Home & Season Experience first slice (PR #73) — CLOSED / PRODUCTION-PROVEN at `dec1d3ba8182c3f62019974dd1704c7c9124def6`.
+Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) — CLOSED / PRODUCTION-PROVEN at `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`.
+Phase C first slice — Showdown Home & Season Experience (PR #73) — CLOSED / PRODUCTION-PROVEN at `dec1d3ba8182c3f62019974dd1704c7c9124def6`.
 
 Historical Stage 1 wording retained for contract provenance:
 Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED in current source.
