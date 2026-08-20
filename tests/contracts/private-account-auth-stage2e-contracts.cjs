@@ -166,37 +166,42 @@ assert.match(historicalNext, /0cb56c22f82facdb248c8c68ec59064c5612c543/i);
 assert.match(historicalNext, /Stage 2F[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i);
 assert.match(historicalNext, /Current authorized prerequisite candidate:[\s\S]{0,320}Stage 2G/i);
 assert.match(historicalNext, /Stage 2G[\s\S]{0,900}CURRENT \/ IMPLEMENTATION-AUTHORIZED/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/production Firebase[\s\S]{0,500}(disconnected|unprovisioned)/i);
-assert.match(next,/Stage 3 Registered Devices \/ Private Pairing remains BLOCKED/i);
+assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i);
+assert.match(next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 
-for (const [name, text] of [
-  ["PROJECT_STATE.md", state],
+const archivalSources = [
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
   ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
   ["00_CURRENT_HANDOFF.md", currentHandoff],
   ["00_DEVELOPER_START_HERE.md", start]
-]) {
+];
+for (const [name, text] of archivalSources) {
   assert.match(text, /Stage 2E[\s\S]{0,1600}DONE \/ MERGED \/ PROVEN/i, `${name} must classify Stage 2E as complete.`);
   assert.match(text, /Stage 2F[\s\S]{0,1600}DONE \/ MERGED \/ PROVEN/i, `${name} must classify Stage 2F as complete.`);
   assert.match(text, /Stage 2G[\s\S]{0,1800}(?:CURRENT|IMPLEMENTATION-AUTHORIZED|Trusted Account Bootstrap Execution Boundary)/i, `${name} must preserve the bounded Stage 2G successor.`);
-  assert.match(text, /v1\.4\.0/i, `${name} must preserve the current production application version.`);
-  assert.match(text, /1\.4\.0-r1/i, `${name} must preserve the current production runtime revision.`);
-  assert.match(text, /production Firebase[\s\S]{0,900}(disconnected|NOT CONNECTED)/i, `${name} must preserve production Firebase isolation.`);
+  assert.match(text, /v1\.4\.0/i, `${name} must preserve the application version at that historical boundary.`);
+  assert.match(text, /1\.4\.0-r1/i, `${name} must preserve the runtime revision at that historical boundary.`);
+  assert.match(text, /production Firebase[\s\S]{0,900}(disconnected|NOT CONNECTED)/i, `${name} must preserve historical production Firebase isolation.`);
   assert.match(text, /Private Remote Joining[\s\S]{0,1200}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
 }
+assert.match(state,/PR #115[\s\S]+production App Check runtime/i);
+assert.match(state,/Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
+assert.match(state,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2E/2F/2G dormant proof must not bump production application version.");
-assert.match(index, /app-asset-revision" content="1\.4\.0-r1"/);
-assert.match(worker, /RUNTIME_REVISION = "1\.4\.0-r1"/);
+assert.equal(pkg.version, "1.4.0", "Stage 2E/2F/2G historical proof must not independently bump production application version.");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2E/2F/2G proof must not freeze later legitimate v1.4.0 runtime revisions.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 assert.doesNotMatch(index, /trustedAccountBootstrap|trustedRequestAuthentication|trustedAccountBootstrapExecution|private-account-auth-stage2e|private-account-auth-stage2f|private-account-auth-stage2g|firebase-admin|firebase\/auth|firebase\/firestore/i);
 assert.doesNotMatch(optional, /trustedAccountBootstrap|trustedRequestAuthentication|trustedAccountBootstrapExecution|private-account-auth-stage2e|private-account-auth-stage2f|private-account-auth-stage2g|firebase-admin|firebase\/auth|firebase\/firestore/i);
-assert.doesNotMatch(worker, /trustedAccountBootstrap|trustedRequestAuthentication|trustedAccountBootstrapExecution|private-account-auth-stage2e|private-account-auth-stage2f|private-account-auth-stage2g|firebase-admin|firebase\/auth|firebase\/firestore/i);
+assert.doesNotMatch(worker, /trustedAccountBootstrap|trustedRequestAuthentication|trustedAccountBootstrapExecution|private-account-auth-stage2e|private-account-auth-stage2f|private-account-auth-stage2g|firebase-admin|firebase-auth|firebase\/auth|firebase-firestore|firebase\/firestore/i);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase-admin"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with historical Stage 2F/2G transition separated from current gateway authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with historical Stage 2F/2G transition separated from current App Check runtime authority\n");

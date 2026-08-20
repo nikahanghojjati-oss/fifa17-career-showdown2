@@ -42,6 +42,7 @@ const files = [
   "tests/contracts/private-account-auth-stage2d-contracts.cjs",
   "tests/contracts/production-firebase-environment-activation-contracts.cjs",
   "tests/contracts/production-app-check-bootstrap-contracts.cjs",
+  "tests/contracts/production-app-check-runtime-contracts.cjs",
   "tests/contracts/remote-joining-readiness-contracts.cjs",
   "tests/contracts/rjr-reporting-authority-contracts.cjs",
   "tests/contracts/private-account-auth-stage2e-contracts.cjs",
