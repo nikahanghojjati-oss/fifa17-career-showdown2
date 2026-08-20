@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-19-production-firestore-rules-activation",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-20T01:05:00Z",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-08-20T01:10:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 20,
+    "largeEvidenceEvents": 23,
     "toolRoutingErrors": 1,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 2,
     "unresolvedFailures": 0,
@@ -23,30 +23,30 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 96,
+    "handoffCompleteness": 98,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish only the bounded production Firestore Security Rules publication checkpoint. Provider deployment is verified and PR #113 records/protects the exact deployed Rules source. The current WEC assessment is HANDOFF_AT_CHECKPOINT after one observed compaction and the exact-head validation corrections, so complete the PR #113 CI/review/thread/mergeability/merge/live-main proof if green, then generate the successor handoff and stop before the distinct App Check/reCAPTCHA Enterprise milestone.",
-    "lastSafeCheckpoint": "This successor started from independently verified live main e89f7011f029c8375fd69ba89cf9028c280aea04 after merged PR #112. Owner Firebase Console screenshots at 20:51 ET on 2026-08-19 then proved successful repository Firestore Rules publication to Database (default). PR #113 first exact head ed17245960a880c495457350281b5ce24c71e640 exposed a stale interruption-resilience lane literal; corrected head a10ef450faae241f83d11c2515656005e02b0676 then exposed the companion assertion that lastSafeCheckpoint itself had not repeated repository.startingMainSha. This status update restores that explicit invariant without changing Firebase, runtime, Rules, product behavior or the protected starting-main identity.",
-    "nextSafeAction": "Run the complete PR #113 exact-head workflow gate on the new head produced by this status seal. Require every normal workflow family successful on one unchanged head, clean submitted reviews, clean inline review threads and clean mergeability. If all gates are green, mark ready without changing head, recheck, squash merge with expected-head protection, independently verify live main, seal continuity and hand off before App Check.",
+    "currentTask": "HANDOFF_AT_CHECKPOINT after finishing only the bounded production Firestore Security Rules publication checkpoint. Provider deployment is verified and PR #113 records/protects the exact deployed Rules source. No further branch mutation is authorized after this transition-prepared seal unless exact-head validation exposes an objective defect; in that case correct only that defect, reseal, and restart the exact-head gate. If the sealed candidate is fully green, complete clean review/thread/mergeability checks, expected-head squash merge and live-main verification, then generate the successor handoff and stop before App Check/reCAPTCHA Enterprise.",
+    "lastSafeCheckpoint": "This successor started from independently verified live main e89f7011f029c8375fd69ba89cf9028c280aea04 after merged PR #112. Owner Firebase Console screenshots at 20:51 ET on 2026-08-19 prove successful repository Firestore Rules publication to Database (default). PR #113 validation then found two bounded test/coherence defects: stale successor-lane/start-main literals in the interruption-resilience contract, and a production-Rules write-authority matcher that incorrectly treated the substring 'create' inside data field names such as createdByAccountId as a permission. Both were corrected without changing firestore.rules, provider state, runtime behavior or browser-write denial. This transition-prepared status is intentionally the last branch mutation before the new exact-head gate.",
+    "nextSafeAction": "Run the complete PR #113 workflow gate on the exact head produced by this transition-prepared seal. Require every normal workflow family successful on one unchanged head, zero blocking submitted reviews, zero unresolved inline review threads and clean mergeability. Mark ready without changing head, recheck those gates, then squash merge with expected-head protection. Independently verify resulting live main, generate the complete successor handoff and stop before App Check.",
     "unfinishedWork": [
       "Complete PR #113 exact-head CI/review/thread/mergeability and expected-head squash merge if fully green.",
-      "Independently verify the resulting live main and seal the production Rules milestone.",
-      "Generate the complete successor handoff at the clean post-merge checkpoint because current WEC requires HANDOFF_AT_CHECKPOINT.",
-      "Successor then begins App Check/reCAPTCHA Enterprise registration/integration proof without premature enforcement, followed by trusted-runtime IAM/service identity, abuse controls, rollback/outage proof and controlled runtime connection.",
-      "Keep Stage 3 Registered Devices / Private Pairing blocked until genuine Stage 2 production/account/operational activation is complete."
+      "Independently verify the resulting live main and seal the production Firestore Rules milestone.",
+      "Generate the complete successor handoff at the clean post-merge checkpoint because this successor's WEC requires HANDOFF_AT_CHECKPOINT.",
+      "Successor begins App Check/reCAPTCHA Enterprise registration/integration proof without premature enforcement, then trusted-runtime IAM/service identity, abuse controls, rollback/outage proof and controlled runtime connection.",
+      "Keep Stage 3 Registered Devices / Private Pairing blocked until the genuine Stage 2 production/account/operational lane is complete."
     ],
     "knownHazards": [
-      "The inherited predecessor HANDOFF_AT_CHECKPOINT decision is historical only; the current HANDOFF_AT_CHECKPOINT assessment is independently produced by this successor's own signals after provider proof, CI evidence and one observed compaction.",
-      "The current live NEXT_TASK.md top section is stale and still describes the already-completed trusted connected-data export prerequisite. Current live provider evidence and this fresh successor status supersede that stale top section; the successor handoff must flag it for safe reconciliation without creating a documentation-only sidequest.",
-      "Provider proof is sufficient to mark production Rules deployed, but no claim is made that App Check, trusted runtime IAM or runtime Firebase connection is active.",
+      "The inherited predecessor HANDOFF_AT_CHECKPOINT decision is historical only; this environment's HANDOFF_AT_CHECKPOINT is independently produced from its own high context, one compaction, provider/CI evidence and corrected failures.",
+      "The current live NEXT_TASK.md top section is stale and still describes the already-completed trusted connected-data export prerequisite. The successor handoff must flag safe reconciliation as part of the next real work lane, not create a documentation-only sidequest.",
+      "Provider proof is sufficient to mark production Rules deployed, but App Check, trusted runtime IAM and runtime Firebase connection remain inactive.",
       "Every application-client Firestore create/update/delete remains denied. Do not weaken firestore.rules for convenience.",
-      "The first two PR #113 failures were continuity-test/status-coherence defects, not Firebase Rules or runtime defects. Do not weaken product/security assertions to make CI green.",
+      "The PR #113 corrections affect tests/status coherence only. The deployed firestore.rules source remains byte-identical to provider-verified Git blob 0473750cb16b5b8eea234c0f8138c41de5ff3dfb.",
       "The production Firebase default CLI alias must remain the demo/emulator project; production stays explicit.",
       "Do not create or request service-account private keys, OAuth refresh tokens, Admin credential files or other long-lived secrets.",
-      "Do not enable App Check enforcement before the client initializes App Check and controlled monitoring proves legitimate traffic remains healthy.",
+      "Do not enable App Check enforcement before client integration and controlled request-metric monitoring prove legitimate traffic healthy.",
       "Do not enable Firebase Hosting, Analytics, Gemini, paid scheduled backups or Blaze as unrelated advancement.",
       "Public discovery, public profiles, public matchmaking, public invitation directories, public lobbies, community, rankings and global leaderboards remain prohibited.",
       "Canonical browser storage and Candidate A/B/C recovery authority remain unchanged and must survive provider outage/rollback.",
@@ -56,10 +56,10 @@
       "Fresh successor startup independently verified live main e89f7011f029c8375fd69ba89cf9028c280aea04 after merged PR #112, open PRs limited to superseded drafts #35/#37, package 1.4.0 and canonical firestore.rules blob 0473750cb16b5b8eea234c0f8138c41de5ff3dfb.",
       "Owner screenshots at 20:51 ET on 2026-08-19 show the real (default) database Rules tab, visible repository Rules source and Firebase's successful publish propagation toast. No sample data was created and Develop & Test was not needed.",
       "firebase.production.environment.json records productionSecurityRules=provider-verified-deployed, source firestore.rules, exact source blob SHA and provider screenshot evidence while preserving appCheck=not-enabled-yet, trustedRuntimeIam=not-activated-yet and runtimeConnected=false.",
-      "tests/contracts/production-firebase-environment-activation-contracts.cjs verifies firebase.json still maps Firestore to firestore.rules, computes the Git blob SHA from source bytes, requires equality to the provider-verified source blob and fails if any application-client create/update/delete/write authority is not explicit false.",
-      "PR #113 first exact head ed17245960a880c495457350281b5ce24c71e640 failed Static App/Stability on stale interruption-resilience wording. The continuity contract was generalized without weakening safety. Corrected exact head a10ef450faae241f83d11c2515656005e02b0676 passed the same earlier assertion but then correctly failed because lastSafeCheckpoint did not itself contain repository.startingMainSha. This update fixes that status coherence fact rather than weakening the invariant.",
-      "One conversation compaction is now observed in this successor and is recorded rather than hidden. With high context, one compaction, three completed phases, twenty dense evidence events, quality risk 34, handoff readiness 96 and no atomic operation, the deterministic WEC model yields continuation risk above 50 and transition advantage well above 25: HANDOFF_AT_CHECKPOINT. Finish only PR #113 publication and live-main proof, then transition before App Check.",
-      "No runtime Firebase SDK or website behavior changed, so no application semantic-version or runtime-revision bump is appropriate for this provider/security deployment evidence milestone."
+      "tests/contracts/production-firebase-environment-activation-contracts.cjs verifies firebase.json maps Firestore to firestore.rules, recomputes the Git blob SHA from source bytes, requires equality to the provider-verified source blob, protects the final catch-all deny and inspects only the allow permission list before deciding whether an allow statement grants create/update/delete/write authority.",
+      "PR #113 head ed17245960a880c495457350281b5ce24c71e640 failed Static App/Stability on stale interruption-resilience wording. After that correction, head a10ef450faae241f83d11c2515656005e02b0676 correctly exposed missing starting-main repetition in lastSafeCheckpoint; that status fact was restored. Head f95d59405888e6f9ac49ef6a68f6a542ac90a99b then passed interruption resilience and reached the production Firebase activation contract, where its first write-denial matcher falsely captured an invite allow-get statement because 'createdByAccountId' contained the substring 'create'. The matcher now parses only the declared permission list and still requires every actual create/update/delete/write authority to be explicit false.",
+      "One conversation compaction is recorded. Current deterministic WEC remains HANDOFF_AT_CHECKPOINT: continuation risk is above the PREPARE threshold and transition advantage is well above 25, with high handoff completeness and no atomic operation. Finish only PR #113 publication and live-main proof, then transition.",
+      "No runtime Firebase SDK or website behavior changed, so application/package remains 1.4.0 and runtime remains 1.4.0-r1; no version bump is appropriate for this provider/security deployment evidence milestone."
     ]
   }
 }
