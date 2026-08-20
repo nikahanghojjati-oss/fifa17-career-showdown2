@@ -6,7 +6,7 @@ The repository Work Environment Continuity system remains mandatory through `AGE
 
 ## Current production and candidate boundary
 
-Application milestone: ***v1.4.0 — Product Deepening***
+Application milestone: **v1.4.0 — Product Deepening**
 Current production application version: `v1.4.0`
 Current production Installable Offline App runtime: `1.4.0-r1`
 Current candidate runtime: `1.4.0-r2`
