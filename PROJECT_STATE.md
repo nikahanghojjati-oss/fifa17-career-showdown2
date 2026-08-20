@@ -16,9 +16,11 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 PR #114 is DONE / MERGED / PROVEN at live main `7944b87a20cf793c659077d7518c4446f178e32c`. Production Firebase App Check is provider-registered with reCAPTCHA Enterprise, one-hour TTL and 0.5 risk threshold; enforcement remains OFF.
 
-PR #115 production App Check runtime candidate on `agent/production-app-check-runtime` is the current direct Remote Joining prerequisite. It connects only Firebase App + App Check to the shipped production-origin client through controlled public runtime configuration. It must remain local-first, obtain legitimate App Check token traffic for monitoring, initialize no Firestore/Auth/Storage/Functions client service, grant no trusted mutation authority, and preserve every application-client Firestore create/update/delete as deny-all.
+PR #115 `Connect production App Check runtime safely` is DONE / MERGED AS SOURCE at live main `1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd` after final sealed head `0ce83bc1b58cb40cf5b766dd76addfd4d00eecb2` passed all 13 normal workflow families with clean reviews, threads and mergeability. It connects only Firebase App + App Check to the shipped production-origin client and does not initialize Firestore/Auth/Storage/Functions or grant trusted mutation authority.
 
-No product candidate is currently authorized. PR #115 is infrastructure/prerequisite runtime work, not a user-facing product-feature authorization.
+PR #116 `Add controlled GitHub Pages App Check deployment` on `agent/pr115-production-deployment-proof` is the current direct Remote Joining prerequisite. It completes the missing deployment-artifact boundary for the already-merged PR #115 runtime: tracked `firebase.runtime-config.json` remains `configured:false`, while the GitHub Pages artifact can receive `CMS_FIREBASE_WEB_API_KEY` and `CMS_RECAPTCHA_ENTERPRISE_SITE_KEY` from controlled repository Actions variables and render them only inside the deployment artifact without printing them or committing them to source.
+
+No product candidate is currently authorized. PR #115 and PR #116 are infrastructure/prerequisite runtime work, not a user-facing product-feature authorization.
 
 Private Remote Joining is **PRIORITIZED LONG-TERM** and **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. Stage 3 Registered Devices / Private Pairing remains blocked until genuine Stage 2 production/account/operational prerequisites are DONE / MERGED / PROVEN. Connected Rivalry and actual Private Remote Joining remain downstream.
 
@@ -60,7 +62,9 @@ Cloud/Sync Readiness Phase 1B merge: `2dc61e24ef07a0a150a228865f954ab3b3941398`
 Cloud/Sync Readiness Phase 1C merge: `59957f8b0c29ce0cd480a0e9270a095160005599`
 Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`
 
-Production Security Rules remain provider-verified deployed. Browser writes remain deny-all. Stage 2H least-privilege account-bootstrap runtime permissions remain exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; PR #115 does not broaden IAM.
+Production Security Rules remain provider-verified deployed. Browser writes remain deny-all. Stage 2H least-privilege account-bootstrap runtime permissions remain exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`; PR #115 and PR #116 do not broaden IAM.
+
+The permanent validation topology remains 13 normal PR validation workflows with exactly 27 protected literal executable blocks. The Stability Lane and the production GitHub Pages deployment workflow are separately-owned lanes and do not alter that 27-block validation baseline.
 
 ## Historical contract provenance retained for executable compatibility
 
@@ -74,6 +78,8 @@ At that historical boundary the active sequence was Phase 1D → Phase 1E → Ph
 
 Historical shipped chain retained: Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save portability, Phase B Save Library / Local Profile Experience 2.0 first slice, and Phase C Showdown Home & Season Experience first slice.
 
+Historical PR #115 implementation authority retained for provenance only: the PR #115 production App Check runtime candidate on `agent/production-app-check-runtime` was the prior current direct Remote Joining prerequisite before its squash merge. Current source has since advanced to PR #116 for the missing production deployment proof.
+
 ## Current completion condition
 
-`1.4.0-r2` is not production-proven until PR #115 reaches one immutable exact head with all normal workflow families green, clean reviews and threads, clean mergeability, expected-head squash merge, deployment verification, controlled public configuration delivery and legitimate production App Check traffic observed while enforcement remains OFF. Until then `1.4.0-r1` remains the production and rollback authority.
+`1.4.0-r2` is not production-proven merely because PR #115 merged or PR #116 engineering CI passes. The production proof still requires PR #116 to reach one immutable exact head with all normal workflow families green, clean reviews and threads, clean mergeability, controlled GitHub Pages Actions configuration, direct repository Actions variable entry for `CMS_FIREBASE_WEB_API_KEY` and `CMS_RECAPTCHA_ENTERPRISE_SITE_KEY`, final transition-prepared WEC seal as the last branch mutation, expected-head squash merge, deployment verification, legitimate production App Check traffic observed while enforcement remains OFF, healthy local/offline operation, and verification that every application-client Firestore create/update/delete remains deny-all. Until the complete production boundary passes, `1.4.0-r1` remains the production and rollback authority.
