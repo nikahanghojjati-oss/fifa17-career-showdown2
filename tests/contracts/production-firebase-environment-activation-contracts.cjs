@@ -1,9 +1,12 @@
 const assert = require("node:assert/strict");
+const crypto = require("node:crypto");
 const fs = require("node:fs");
 
 const read = file => fs.readFileSync(file,"utf8");
 const manifest = JSON.parse(read("firebase.production.environment.json"));
 const firebaseRc = JSON.parse(read(".firebaserc"));
+const firebaseJson = JSON.parse(read("firebase.json"));
+const rulesSource = read("firestore.rules");
 const preflight = require("../../js/firebaseProductionPreflight.js");
 
 assert.equal(manifest.schemaVersion,1);
@@ -35,6 +38,7 @@ assert.match(manifest.firestore.providerVerificationEvidence,/2026-08-19[\s\S]+\
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Default Firebase alias must remain emulator-only.");
 assert.equal(firebaseRc.projects.production,manifest.projectId,"Production alias must point to the owner-created production Firebase project.");
+assert.equal(firebaseJson.firestore.rules,"firestore.rules","Firebase deployment configuration must continue to use the canonical repository Firestore Rules source.");
 
 assert.equal(manifest.activation.firebaseProject,"owner-created");
 assert.equal(manifest.activation.webApp,"owner-registered");
@@ -49,7 +53,31 @@ assert.deepEqual(manifest.activation.productionAuthorizedDomains,[
 ]);
 assert.equal(manifest.activation.localhostAuthorizedDomainPresent,false,"Localhost must remain absent from the production Authorized domains list.");
 assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/2026-08-19[\s\S]+20:20 ET[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+localhost removed[\s\S]+no localhost row/i);
-assert.equal(manifest.activation.productionSecurityRules,"not-deployed-yet");
+
+assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified before App Check or runtime connection advances.");
+assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.rules");
+assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"0473750cb16b5b8eea234c0f8138c41de5ff3dfb");
+assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-19[\s\S]+20:51 ET[\s\S]+Database \(default\)[\s\S]+Rules tab[\s\S]+Published changes can take up to a minute to propagate[\s\S]+No sample data was created/i);
+const gitBlobSha = crypto
+  .createHash("sha1")
+  .update(`blob ${Buffer.byteLength(rulesSource,"utf8")}\0`)
+  .update(rulesSource)
+  .digest("hex");
+assert.equal(gitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"The canonical repository Rules source must remain byte-identical to the source blob that was provider-verified deployed.");
+assert.match(rulesSource,/rules_version\s*=\s*'2';/);
+assert.match(rulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/,"The final deny-all fallback must remain present.");
+const allowStatements = rulesSource.match(/allow\s+[^:;]+:\s*if[\s\S]*?;/g) || [];
+const writeAuthorityStatements = allowStatements.filter(statement=>{
+  const permissions = ((statement.match(/^allow\s+([^:]+):/) || [])[1] || "")
+    .split(",")
+    .map(permission=>permission.trim());
+  return permissions.some(permission=>["create","update","delete","write"].includes(permission));
+});
+assert.ok(writeAuthorityStatements.length >= 8,"Expected the protected Rules source to contain the explicit application-client write denials.");
+for(const statement of writeAuthorityStatements){
+  assert.match(statement,/:\s*if\s+false\s*;/,`Every application-client write authority must remain deny-all: ${statement}`);
+}
+
 assert.equal(manifest.activation.appCheck,"not-enabled-yet");
 assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet");
 assert.equal(manifest.activation.runtimeConnected,false);
@@ -96,4 +124,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, verified Firestore/API restrictions/Google Auth/Authorized domains, localhost exclusion, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, provider-verified Firestore Rules, exact Rules blob lock, deny-all browser writes, verified Firestore/API restrictions/Google Auth/Authorized domains, localhost exclusion, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
