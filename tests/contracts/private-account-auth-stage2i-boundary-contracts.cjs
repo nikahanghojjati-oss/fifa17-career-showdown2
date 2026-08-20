@@ -67,7 +67,7 @@ assert.match(stage2h,/DONE \/ MERGED \/ PROVEN/);
 assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
-// Current authority must now point to the real post-PR #114 production App Check runtime milestone, not a frozen post-Stage-2I checkpoint.
+// Published authority still identifies the PR #115 runtime milestone until this same engineering candidate synchronizes it after green validation.
 assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
 assert.match(nextTask,/Current branch: `agent\/production-app-check-runtime`/);
 assert.match(nextTask,/Current pull request: #115/);
@@ -102,22 +102,41 @@ assert.match(postV1,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(history,/Closure addendum — `we-2026-08-19-post-stage2i-closure-reconcile`/);
 assert.match(history,/PR #96[\s\S]+3d2ebad38d85e07f774360fcb7d210b9dd096fa4[\s\S]+e52968632d9938f17e7e1680c455437d23eb628b/);
 
-// Fresh WEC identity must remain honest during active work and at a legitimate transition-prepared seal.
-assert.equal(status.environmentId,"we-2026-08-20-production-app-check-runtime");
-assert.ok(["active","transition-prepared"].includes(status.lifecycle),"Current PR #115 WEC may be active or legitimately transition-prepared, but never inherit the historical Stage 2I lifecycle.");
+// WEC may be either the original PR #115 environment or a verified fresh successor finishing the same production proof after PR #115 merged.
+const predecessorEnvironment="we-2026-08-20-production-app-check-runtime";
+const predecessorStartingMain="7944b87a20cf793c659077d7518c4446f178e32c";
+const pr115MergeMain="1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd";
+const isPredecessor=status.environmentId===predecessorEnvironment;
+const isFreshSuccessor=status.environmentId!==predecessorEnvironment
+  && /^we-\d{4}-\d{2}-\d{2}-.+/.test(status.environmentId)
+  && status.repository.startingMainSha===pr115MergeMain;
+assert.ok(isPredecessor||isFreshSuccessor,"Stage 2I may observe only the original PR #115 WEC or a fresh successor rooted at the independently verified PR #115 merge boundary.");
+assert.ok(["active","transition-prepared"].includes(status.lifecycle),"The current PR #115 production-proof WEC may be active or legitimately transition-prepared, but never inherit the historical Stage 2I lifecycle.");
 if(status.lifecycle==="transition-prepared"){
-  assert.equal(status.signals.handoffCompleteness,100,"A transition-prepared PR #115 WEC must have a complete handoff.");
-  assert.equal(status.signals.unrecordedDecisions,0,"A transition-prepared PR #115 WEC must externalize all material decisions.");
-  assert.equal(status.signals.atomicOperation,false,"A transition-prepared PR #115 WEC cannot leave an atomic mutation in progress.");
-  assert.match(status.continuity.nextSafeAction,/Fresh successor[\s\S]+final sealed head/i,"Transition-prepared authority must hand final sealed-head validation to a fresh successor.");
+  assert.equal(status.signals.handoffCompleteness,100,"A transition-prepared PR #115 production-proof WEC must have a complete handoff.");
+  assert.equal(status.signals.unrecordedDecisions,0,"A transition-prepared PR #115 production-proof WEC must externalize all material decisions.");
+  assert.equal(status.signals.atomicOperation,false,"A transition-prepared PR #115 production-proof WEC cannot leave an atomic mutation in progress.");
 }
-assert.equal(status.repository.startingMainSha,"7944b87a20cf793c659077d7518c4446f178e32c");
+if(isPredecessor){
+  assert.equal(status.repository.startingMainSha,predecessorStartingMain);
+  if(status.lifecycle==="transition-prepared"){
+    assert.match(status.continuity.nextSafeAction,/Fresh successor[\s\S]+final sealed head/i,"The predecessor transition-prepared authority must hand final sealed-head validation to a fresh successor.");
+  }
+}else{
+  assert.match(status.continuity.currentTask,/PR #115[\s\S]+production[\s\S]+App Check[\s\S]+runtime/i,"A fresh successor must explicitly remain inside the PR #115 production App Check runtime proof rather than activating Stage 3 or another milestone.");
+  assert.match(status.continuity.lastSafeCheckpoint,new RegExp(pr115MergeMain),"A fresh successor must preserve the independently verified PR #115 merge boundary as its safe checkpoint.");
+  const inherited=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[])].join("\n");
+  assert.match(inherited,/Inherited predecessor[\s\S]{0,220}HANDOFF_NOW/i,"A fresh successor must preserve the predecessor HANDOFF_NOW decision as inherited history, not as its own WEC decision.");
+  assert.match(inherited,new RegExp(pr115MergeMain),"A fresh successor must preserve the exact PR #115 merge SHA in its evidence.");
+  if(status.lifecycle==="transition-prepared"){
+    assert.match(status.continuity.nextSafeAction,/exact-head|final sealed|merge|deployment|production/i,"A transition-prepared fresh successor must route to a concrete remaining publication or production-proof gate.");
+  }
+}
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
-assert.match(status.continuity.currentTask,/App Check/i,"Current PR #115 WEC task must retain App Check authority.");
-assert.match(status.continuity.currentTask,/runtime/i,"Current PR #115 WEC task must retain runtime authority.");
-assert.match(status.continuity.lastSafeCheckpoint,/7944b87a20cf793c659077d7518c4446f178e32c|8ee17af65dcdc234bee4a07cca1df3df3d84287c/i,"Current WEC checkpoint must preserve either the starting main or the validated PR #115 pre-seal package head.");
-assert.match((status.continuity.knownHazards||[]).join("\n"),/Stage 2H least-privilege[\s\S]{0,420}(?:unactivated|not activated|does not activate|not activate)/i,"Current WEC must preserve Stage 2H least-privilege IAM non-activation.");
+assert.match(status.continuity.currentTask,/App Check/i,"Current PR #115 production-proof WEC task must retain App Check authority.");
+assert.match(status.continuity.currentTask,/runtime/i,"Current PR #115 production-proof WEC task must retain runtime authority.");
+assert.match((status.continuity.knownHazards||[]).join("\n"),/Stage 2H least-privilege[\s\S]{0,420}(?:unactivated|not activated|does not activate|not activate|must not activate)/i,"Current WEC must preserve Stage 2H least-privilege IAM non-activation.");
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
@@ -132,4 +151,4 @@ const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
 assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2I proof must not freeze later legitimate v1.4.0 runtime revisions.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I locks remain historically protected while current authority advances to the bounded production App Check runtime milestone.\n");
+process.stdout.write("PASS Stage 2I locks remain historically protected while current authority advances through the bounded production App Check runtime proof and its verified fresh successor.\n");
