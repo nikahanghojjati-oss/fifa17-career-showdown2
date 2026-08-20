@@ -114,7 +114,7 @@ Finish PR #115 on `agent/production-app-check-runtime`. Diagnose only exact fail
 
 The following statements are retained only so permanent executable contracts can prove prior product/recovery milestones were not erased. They do not override the current PR #115 authority above.
 
-Historical clean-stop wording required the project to hold clean stop until a later explicit owner instruction. That later owner instruction was satisfied by the owner's Remote Joining priority and subsequent prerequisite authorizations. Do not revive the former clean stop as current authority.
+Former clean-stop wording required the project to hold clean stop until a later explicit owner instruction. That later owner instruction was satisfied by the owner's Remote Joining priority and subsequent prerequisite authorizations. Do not revive the former clean stop as current authority.
 
 Historical production identity before later runtime maintenance candidates:
 Current production Installable Offline App runtime: `1.4.0-r1`
