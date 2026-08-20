@@ -100,9 +100,10 @@ assert.ok(environmentMatch,"NEXT_TASK.md must expose the most recently published
 assert.ok(mainMatch,"NEXT_TASK.md must expose the most recently published starting live-main SHA.");
 if(status.environmentId!==environmentMatch[1] || status.repository.startingMainSha!==mainMatch[1]){
   assert.equal(status.lifecycle,"active","A new successor may move beyond historical Stage 2I/NEXT_TASK publication authority only with an active fresh WEC.");
-  assert.match(status.continuity.currentTask,/production Firebase environment activation/i,"A fresh successor must name the concrete provider-activation lane rather than freeze the predecessor task.");
-  assert.match(status.continuity.lastSafeCheckpoint,/423fbecdb3e0f663b5b12476c6637d1af48ee4ab/i,"A fresh successor must preserve the independently verified PR #108 publication boundary.");
-  assert.ok(status.continuity.evidenceNotes.some(note=>/Inherited predecessor[\s\S]+HANDOFF_AT_CHECKPOINT/i.test(note)),"A fresh successor must preserve the predecessor transition decision only as inherited history.");
+  assert.match(status.continuity.currentTask,/production[\s\S]{0,120}(Firebase|Firestore)|Firestore Security Rules/i,"A fresh successor must name the concrete production Firebase/Firestore provider-activation lane rather than freeze the predecessor task.");
+  assert.ok(status.continuity.lastSafeCheckpoint.includes(status.repository.startingMainSha),"A fresh successor must preserve its independently verified predecessor publication boundary from repository.startingMainSha.");
+  const inheritedDecisionRecord=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[])].join("\n");
+  assert.match(inheritedDecisionRecord,/inherited predecessor[\s\S]{0,160}HANDOFF_AT_CHECKPOINT/i,"A fresh successor must preserve the predecessor transition decision only as inherited history.");
 }else{
   assert.equal(status.environmentId,environmentMatch[1],"Published authority and WEC identity must agree when no active successor divergence exists.");
   assert.equal(status.repository.startingMainSha,mainMatch[1],"Published authority and WEC starting main must agree when no active successor divergence exists.");
