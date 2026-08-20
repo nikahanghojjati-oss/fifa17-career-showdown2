@@ -66,8 +66,8 @@ Production Security Rules remain provider-verified deployed. Browser writes rema
 
 The following labels are historical only and do not override current source. They remain here because permanent contracts use them to prove that earlier dependency ordering was not erased:
 
-Phase 1D — exact provider-compatible remote schema and API/authorization contract: ***DONE / MERGED / PROTECTED***.
-Phase 1E — deterministic two-device/offline/reconnect synchronization harness: ***CURRENT BOUNDED CANDIDATE***.
+Phase 1D — exact provider-compatible remote schema and API/authorization contract: **DONE / MERGED / PROTECTED**.
+Phase 1E — deterministic two-device/offline/reconnect synchronization harness: **CURRENT BOUNDED CANDIDATE**.
 Phase 1F — ***NEXT AFTER PHASE 1E MERGES / BLOCKED***.
 
 At that historical boundary the active sequence was Phase 1D → Phase 1E → Phase 1F. Current source has since completed those prerequisites; these words are provenance, not current implementation authorization.
