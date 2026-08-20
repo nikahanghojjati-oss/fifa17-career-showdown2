@@ -66,7 +66,13 @@ const gitBlobSha = crypto
 assert.equal(gitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"The canonical repository Rules source must remain byte-identical to the source blob that was provider-verified deployed.");
 assert.match(rulesSource,/rules_version\s*=\s*'2';/);
 assert.match(rulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/,"The final deny-all fallback must remain present.");
-const writeAuthorityStatements = rulesSource.match(/allow\s+[^;]*(?:create|update|delete|write)[^;]*;/g) || [];
+const allowStatements = rulesSource.match(/allow\s+[^:;]+:\s*if[\s\S]*?;/g) || [];
+const writeAuthorityStatements = allowStatements.filter(statement=>{
+  const permissions = ((statement.match(/^allow\s+([^:]+):/) || [])[1] || "")
+    .split(",")
+    .map(permission=>permission.trim());
+  return permissions.some(permission=>["create","update","delete","write"].includes(permission));
+});
 assert.ok(writeAuthorityStatements.length >= 8,"Expected the protected Rules source to contain the explicit application-client write denials.");
 for(const statement of writeAuthorityStatements){
   assert.match(statement,/:\s*if\s+false\s*;/,`Every application-client write authority must remain deny-all: ${statement}`);
