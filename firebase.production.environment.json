@@ -41,7 +41,10 @@
     ],
     "productionAuthorizedDomainVerificationEvidence": "2026-08-19 owner Firebase Console screenshot at 20:20 ET shows the two Firebase default Authorized domains plus nikahanghojjati-oss.github.io as Custom, with a success toast stating localhost removed and no localhost row remaining.",
     "localhostAuthorizedDomainPresent": false,
-    "productionSecurityRules": "not-deployed-yet",
+    "productionSecurityRules": "provider-verified-deployed",
+    "productionSecurityRulesSource": "firestore.rules",
+    "productionSecurityRulesSourceBlobSha": "0473750cb16b5b8eea234c0f8138c41de5ff3dfb",
+    "productionSecurityRulesVerificationEvidence": "2026-08-19 owner Firebase Console screenshots at 20:51 ET show Database (default) on the Rules tab with the deployed repository rule structure visible across the source and the success toast 'Published changes can take up to a minute to propagate'. No sample data was created.",
     "appCheck": "not-enabled-yet",
     "trustedRuntimeIam": "not-activated-yet",
     "runtimeConnected": false
