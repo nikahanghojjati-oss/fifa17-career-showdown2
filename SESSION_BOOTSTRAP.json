@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "purpose": "live-first-low-context-successor-bootstrap",
+  "recordedAt": "2026-08-20T01:11:00Z",
+  "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
+  "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+  "lastVerifiedMainSha": "1ccf2d3f451ea53575698877787562e38f1d6f50",
+  "lastCompletedMilestone": "PR #113 production Firestore Security Rules deployment and exact-source protection",
+  "runtime": {
+    "applicationVersion": "1.4.0",
+    "runtimeRevision": "1.4.0-r1",
+    "runtimeFirebaseConnected": false
+  },
+  "currentLane": "Firebase App Check with reCAPTCHA Enterprise registration/integration proof, with enforcement kept off until controlled client integration and metrics justify it",
+  "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
+  "currentHandoff": {
+    "canonical": "SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md"
+  },
+  "startupProtocol": "00_SESSION_BOOTSTRAP.md",
+  "minimalReads": [
+    "SESSION_BOOTSTRAP.json",
+    "WORK_ENVIRONMENT_STATUS.json",
+    "firebase.production.environment.json"
+  ],
+  "targetedReads": [
+    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md",
+    "firestore.rules",
+    "tests/contracts/production-firebase-environment-activation-contracts.cjs",
+    "tests/contracts/private-account-auth-stage2i-boundary-contracts.cjs"
+  ],
+  "expandContextOnlyIf": [
+    "live main differs from lastVerifiedMainSha",
+    "newer merged/open current-authority work exists",
+    "contract failure references historical authority",
+    "security recovery or versioning semantics are ambiguous",
+    "owner requests full reconstruction",
+    "WEC requires interruption recovery or successor handoff"
+  ],
+  "doNotPreloadByDefault": [
+    "WORK_ENVIRONMENT_HISTORY.md",
+    "older successor handoffs",
+    "archived authority-history files",
+    "entire roadmap history",
+    "all historical PRs/workflow runs"
+  ],
+  "criticalLocks": {
+    "canonicalStorage": [
+      "careerModeShowdown.saveLibrary",
+      "careerModeShowdown.legacyShowdowns",
+      "careerModeShowdown.preferences"
+    ],
+    "activeShowdownCanonical": false,
+    "candidateA": "non-mutating-export",
+    "candidateB": "read-only-import-analysis",
+    "candidateC": "sole-destructive-import-apply-authority",
+    "applicationClientFirestoreWrites": "deny-all",
+    "productionSecurityRules": "provider-verified-deployed",
+    "appCheck": "not-enabled-yet",
+    "trustedRuntimeIam": "not-activated-yet",
+    "stage3Pairing": "blocked-until-stage2-production-operational-activation-complete",
+    "publicDiscovery": false,
+    "publicCommunity": false,
+    "globalLeaderboardsRankings": false
+  },
+  "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; provider/dormant evidence alone does not bump runtime identity",
+  "liveFirstRule": "Current source, live GitHub state, deployed site, provider state, and later owner instructions override this capsule and all handoffs."
+}
