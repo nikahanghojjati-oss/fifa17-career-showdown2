@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "modelType": "hybrid-information-retrieval-graph-online-learning",
+  "trainingState": "priors-only-insufficient-labeled-sessions-for-supervised-model",
+  "purpose": "minimize startup context cost while preserving critical project knowledge",
+  "weights": {
+    "taskAffinity": 0.24,
+    "authority": 0.18,
+    "delta": 0.16,
+    "dependency": 0.14,
+    "riskCriticality": 0.12,
+    "contradictionValue": 0.08,
+    "learnedUtility": 0.08,
+    "stalenessPenalty": -0.10,
+    "tokenCostPenalty": -0.10
+  },
+  "mandatoryBypass": [
+    "current live main boundary",
+    "current application/runtime identity",
+    "current bounded lane",
+    "later explicit owner instructions",
+    "WEC state and transition rules",
+    "implementation authorization",
+    "canonical storage authority",
+    "Candidate A/B/C recovery authority",
+    "application-client Firestore write policy",
+    "production Firebase connection/App Check/IAM state",
+    "Stage 3 block while Stage 2 remains incomplete",
+    "public discovery/community/global leaderboard prohibitions",
+    "versioning policy",
+    "connected GitHub primary / rootless gh fallback-only routing rule"
+  ],
+  "contextBudgets": {
+    "tier0BootstrapApproxTokens": [1000, 2000],
+    "tier1TaskPacketAdditionalApproxTokens": [3000, 6000],
+    "tier2LiveDeltaAdditionalApproxTokens": [5000, 10000],
+    "tier3DeepFallback": "unbounded-only-when-evidence-requires"
+  },
+  "rankingProcedure": [
+    "Represent mandatory locks in Tier 0 regardless of rank.",
+    "Verify connected GitHub live state before accepting recorded task identity.",
+    "If main differs, score changed/intervening files with delta=1 and inspect those before broad history.",
+    "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
+    "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the capsule.",
+    "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
+  ],
+  "onlineLearning": {
+    "enabled": true,
+    "method": "conservative-exponential-moving-average",
+    "initialUtility": 0.5,
+    "alpha": 0.2,
+    "outcomes": {
+      "preventedErrorOrResolvedContradiction": 1.0,
+      "requiredForPublicationSecurityOrRecovery": 0.8,
+      "materiallyUsedInDecision": 0.5,
+      "neutralReference": 0.0,
+      "redundantPreload": -0.5
+    },
+    "constraint": "learned utility can never suppress mandatory bypass locks"
+  },
+  "supervisedLearningGate": {
+    "minimumMaterialSessionOutcomes": 20,
+    "preferredEvaluationStart": 30,
+    "candidateModels": [
+      "logistic-regression-needed-vs-not-needed",
+      "pairwise-learning-to-rank"
+    ],
+    "adoptionRequirement": "held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"
+  },
+  "processMetrics": [
+    "startup context tokens or bytes before first substantive action",
+    "tool calls before first substantive action",
+    "unnecessary historical files loaded",
+    "stale-authority corrections after startup",
+    "missed-critical-context incidents",
+    "duplicate or repeated GitHub CLI bootstrap attempts",
+    "deep-fallback escalations",
+    "direct progression into real Remote Joining prerequisite"
+  ],
+  "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security recovery authority or publication information"
+}
