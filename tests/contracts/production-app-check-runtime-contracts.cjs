@@ -46,7 +46,7 @@ for(const path of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.
 }
 assert.match(app,/visual-fidelity-r3\.css\?v=1\.4\.0-r2/);
 assert.match(app,/productionFirebaseRuntime\.js\?v=\$\{r\}/);
-assert.match(app,/Local mode remains active/);
+assert.match(app,/requestAnimationFrame\(\(\)=>\{ra\(\);so\(\);sd\(\);\}\)/,"Production Firebase must remain post-local-startup/lazy rather than blocking application initialization.");
 assert.match(worker,/const RUNTIME_REVISION = "1\.4\.0-r2";/);
 assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.4\.0-r1";/);
 assert.ok(worker.includes('"js/productionFirebaseRuntime.js"'),"The lazy production runtime must be available in the r2 whole-shell cache.");
@@ -125,6 +125,16 @@ const sdk={
   assert.equal(offline.status,"offline");
   assert.equal(offline.attempted,false);
   assert.equal(offline.connected,false);
+
+  const providerFailure=await runtime.initialize({
+    context:{origin:"https://nikahanghojjati-oss.github.io",pathname:"/fifa17-career-showdown2/",online:true},
+    runtimeConfig:validRuntimeConfig,
+    bootstrap,
+    firebaseSdk:{...sdk,getToken:async()=>{throw new Error("synthetic provider outage");}}
+  });
+  assert.equal(providerFailure.status,"app-check-runtime-unavailable");
+  assert.equal(providerFailure.connected,false);
+  assert.equal(providerFailure.tokenObserved,false);
 
   process.stdout.write("PASS production App Check runtime is exact-origin/path gated, local-first, config-injected, token-observing without token exposure, enforcement-off and free of Firestore/trusted mutation authority\n");
 })().catch(error=>{console.error(error);process.exit(1);});
