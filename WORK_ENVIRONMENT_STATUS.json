@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-20-pr115-production-deployment-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-20T21:43:00Z",
+  "recordedAt": "2026-08-20T21:49:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 0,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 5,
+    "largeEvidenceEvents": 6,
     "toolRoutingErrors": 2,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -23,19 +23,20 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 70,
+    "handoffCompleteness": 72,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish the already-authorized PR #115 production Firebase App Check runtime proof after merge: establish the missing controlled GitHub Pages deployment-time configuration path for Firebase App + App Check only, keep tracked firebase.runtime-config.json fail-closed, keep App Check enforcement OFF, keep every application-client Firestore create/update/delete deny-all, deploy and verify 1.4.0-r2, prove legitimate App Check traffic, and preserve local/offline/rollback behavior. This is completion of the existing PR #115 bounded prerequisite, not a new Stage 2 milestone.",
-    "lastSafeCheckpoint": "PR #115 final sealed head 0ce83bc1b58cb40cf5b766dd76addfd4d00eecb2 was independently verified with all 13 normal workflow families successful, zero submitted reviews, zero inline review threads and mergeability=true, then marked ready and expected-head squash merged to live main 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd. Current main still carries fail-closed firebase.runtime-config.json with configured=false, so no production App Check runtime traffic is claimed. The repository contains the safe renderer but no proven Pages deployment workflow consuming deployment-supplied values.",
-    "nextSafeAction": "On branch agent/pr115-production-deployment-proof, implement the smallest permanent GitHub Pages deployment workflow that renders firebase.runtime-config.json only inside the deployment artifact from CMS_FIREBASE_WEB_API_KEY and CMS_RECAPTCHA_ENTERPRISE_SITE_KEY, never prints those browser-public values, preserves the tracked fail-closed source file, and does not initialize any additional Firebase service. Add focused permanent contracts for the deployment boundary, run the complete repository validation gate, then publish only after exact-head gates are green. Owner must enter the two browser-public provider values directly into controlled GitHub configuration rather than chat/source before the production deployment can be triggered and verified.",
+    "currentTask": "Finish the already-authorized PR #115 production Firebase App Check runtime proof after merge through draft PR #116: establish the missing controlled GitHub Pages deployment-time configuration path for Firebase App + App Check only, keep tracked firebase.runtime-config.json fail-closed, keep App Check enforcement OFF, keep every application-client Firestore create/update/delete deny-all, deploy and verify 1.4.0-r2, prove legitimate App Check traffic, and preserve local/offline/rollback behavior. This is completion of the existing PR #115 bounded prerequisite, not a new Stage 2 milestone.",
+    "lastSafeCheckpoint": "Starting live main remains 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd after the fully gated PR #115 squash merge. Draft PR #116 now contains the permanent GitHub Pages deployment artifact path and executable synthetic-value contract. Diagnostic head 26806635631d75c10edf0b0a987e86661a8e085f reached six green workflow families before Static exposed one WEC-only historical assertion that hard-coded inherited HANDOFF_AT_CHECKPOINT even though the actual predecessor decision was HANDOFF_NOW. The assertion was generalized at 2e02aa15857139be0bc7cb8aa3587d3424029809 to require any explicit inherited non-CONTINUE transition decision without weakening fresh-successor separation or production security.",
+    "nextSafeAction": "Validate the corrected PR #116 head after this WEC checkpoint across all 13 normal workflow families. If any job fails, diagnose only the exact failing source contract and preserve deployment/runtime/security boundaries. After one complete green engineering candidate, synchronize current implementation authority and prepare the final WEC seal. Before merge/deployment, the owner must configure GitHub Pages for Actions and enter CMS_FIREBASE_WEB_API_KEY plus CMS_RECAPTCHA_ENTERPRISE_SITE_KEY directly into controlled GitHub Actions variables rather than chat/source.",
     "unfinishedWork": [
-      "Implement and permanently test the controlled GitHub Pages deployment artifact path without committing provider-issued values.",
+      "Obtain one unchanged PR #116 engineering head with all 13 normal workflow families green after the WEC historical-decision correction.",
+      "Synchronize NEXT_TASK/current production authority with the post-PR #115 deployment-proof candidate only as part of this same engineering PR, not as a standalone authority milestone.",
       "Configure GitHub Pages to use the reviewed Actions deployment path if repository settings are not already set that way.",
       "Have the owner enter CMS_FIREBASE_WEB_API_KEY and CMS_RECAPTCHA_ENTERPRISE_SITE_KEY directly into the approved GitHub configuration surface; never request them in chat and never invent the reCAPTCHA site key.",
-      "Run complete exact-head repository validation and clean review/thread/mergeability gates for the follow-up deployment candidate before publication.",
+      "Run final exact-head repository validation and clean review/thread/mergeability gates after the transition-prepared WEC seal is the last branch mutation.",
       "Deploy and independently verify public 1.4.0-r2 plus configured production runtime config without exposing the concrete provider values in repository history or logs.",
       "Prove legitimate production App Check token traffic with enforcement still OFF and verify local/offline startup and the 1.4.0-r1 rollback boundary remain healthy.",
       "Verify every application-client Firestore create/update/delete remains deny-all and no Firestore/Auth/Storage/Functions client service or trusted IAM authority is introduced.",
@@ -44,7 +45,7 @@
     ],
     "knownHazards": [
       "The fresh-successor WEC should have been initialized before PR #115 publication. This successor instead completed the already-green expected-head merge first, then corrected the continuity-order deviation before any further source or provider mutation. Preserve this fact; do not rewrite history to hide it.",
-      "The connected GitHub app can read/write repository source and PR state but exposes no repository Actions variable/secret or Pages-settings mutation route. The environment also has no repository checkout and no usable authenticated gh/network route, so owner-controlled GitHub settings may be required for the final configuration step.",
+      "The connected GitHub app can read/write repository source and PR state but exposes no repository Actions variable/secret or Pages-settings mutation route. The environment also has no repository checkout and no usable authenticated gh/network route, so owner-controlled GitHub settings are required for the final configuration step.",
       "Tracked firebase.runtime-config.json must remain configured=false with no concrete Firebase Web API key or reCAPTCHA Enterprise site key. The deployment artifact may contain those browser-public values because the browser must receive them, but repository source/history and workflow logs must not newly disclose them.",
       "Do not ask the owner to paste the Firebase Web API key or reCAPTCHA Enterprise site key into chat. Direct UI entry into controlled GitHub configuration is the approved route.",
       "App Check enforcement remains OFF until healthy legitimate production traffic is observed and a later separately reviewed enforcement gate is authorized.",
@@ -61,8 +62,9 @@
       "PR #115 was marked ready without head mutation and expected-head squash merged to 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd; live main was independently re-fetched at that exact SHA.",
       "REMOTE_JOINING_READINESS.json remains RJR-1 score 59/100. Merge publication and continuity work earn no readiness points.",
       "Direct public-site verification is unavailable from the current browser/container routes, and no production traffic evidence exists yet; therefore 1.4.0-r2 remains unproven and 1.4.0-r1 remains rollback authority.",
-      "Official GitHub Pages documentation confirms a custom Actions deployment can configure Pages, upload a static artifact and deploy it with pages:write plus id-token:write permissions. Repository configuration variables can be consumed through the vars context; unset variables resolve empty and must cause the renderer/deploy preflight to fail closed.",
-      "Repository inspection found the safe render-production-firebase-public-config.mjs script but no existing custom Pages deployment workflow. The missing deployment mechanism is a concrete blocker inside the existing PR #115 completion gate, not a new product milestone.",
+      "Official GitHub Pages documentation confirms a custom Actions deployment can configure Pages, upload a static artifact and deploy it with pages:write plus id-token:write permissions. Repository configuration variables can be consumed through the vars context; unset variables are explicitly rejected before rendering.",
+      "Draft PR #116 adds a permanent runtime-only Pages artifact staging workflow, executes the existing safe renderer only inside that artifact, removes the copied renderer before upload, forbids Git repository mutation/Firebase Hosting, and registers a contract that executes the renderer with synthetic public values while proving stdout does not expose them.",
+      "Static App diagnostic CI failed only in work-environment-interruption-resilience-contracts.cjs because the test froze HANDOFF_AT_CHECKPOINT as the only possible inherited predecessor decision. Current source truth is HANDOFF_NOW. The correction preserves the stronger invariant: a divergent successor must explicitly record an inherited non-CONTINUE transition decision as history rather than treating it as its own assessment.",
       "The repository-local gh bootstrap could not be executed because this environment has no repository checkout and direct GitHub network/DNS is unavailable. Connected GitHub remains source/write authority; no connector credentials were copied or repurposed."
     ]
   }
