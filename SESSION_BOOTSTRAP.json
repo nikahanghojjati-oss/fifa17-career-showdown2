@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 4,
+  "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-20T16:50:00Z",
+  "recordedAt": "2026-08-20T17:22:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/pr114-app-check-bootstrap",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,8 +16,19 @@
     "reviewsCleanAtPrePackagingHead": true,
     "threadsCleanAtPrePackagingHead": true,
     "mergeableAtPrePackagingHead": true,
-    "mergeAuthorized": false,
-    "finalSealedHeadRule": "Fetch PR #114 after startup. The final SLE/WEC seal is intentionally later than the pre-packaging green head and must be validated from live PR metadata plus exact-head workflow evidence."
+    "mergeAuthorized": true,
+    "mergeAuthorizationSource": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
+    "mergeAuthorizationCondition": "After every required test and current mandatory publication gate passes on the immutable exact head, merge/deploy without another owner approval prompt.",
+    "finalSealedHeadRule": "Fetch PR #114 after startup. The final SLE/WEC seal is later than the pre-packaging green head and must be validated from live PR metadata plus exact-head workflow evidence before merge."
+  },
+  "ownerStandingAuthorization": {
+    "effectiveDate": "2026-08-20",
+    "scope": "all-current-and-future-project-pull-requests-through-full-project-completion",
+    "mergeAndDeployWithoutRepeatedOwnerApproval": true,
+    "condition": "all required tests and current mandatory publication gates pass",
+    "rootAuthority": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
+    "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
+    "laterOwnerInstructionOverrides": true
   },
   "lastCompletedMilestone": "Provider-verified production reCAPTCHA Enterprise/Firebase App Check registration plus dormant controlled App Check bootstrap candidate proven green before SLE packaging",
   "runtime": {
@@ -26,7 +37,7 @@
     "runtimeFirebaseConnected": false,
     "appCheckRuntimeBootstrapConnected": false
   },
-  "currentLane": "Close draft PR #114 at an immutable green SLE checkpoint; no merge without separate owner authorization. After eventual merge, next substantive dependency is controlled production Firebase/App Check runtime-config delivery and legitimate App Check traffic proof with enforcement off.",
+  "currentLane": "Close PR #114 at an immutable green SLE/WEC checkpoint, then use standing owner authorization to merge/deploy without another approval prompt. After merge/live-main proof, the next substantive dependency is controlled production Firebase/App Check runtime-config delivery and legitimate App Check traffic proof with enforcement off.",
   "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -44,19 +55,19 @@
   "contextGraph": "SESSION_CONTEXT_GRAPH.json",
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "starter": {
-    "version": "1.2.0",
-    "checkpoint": "PR114-SLE-DRAFT",
-    "canonical": "START_NEXT_SESSION_V1.2.0_PR114.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.2.0_PR114.md",
+    "version": "1.3.0",
+    "checkpoint": "PR114-SLE-STANDING-MERGE-AUTH",
+    "canonical": "START_NEXT_SESSION_V1.3.0_PR114.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.3.0_PR114.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "MINOR: backward-compatible SLE startup upgrade adds fixed RJR ledger authority, exact workflow-log-first repair routing and explicit no-merge draft boundary."
+    "versionReason": "MINOR: later standing owner merge/deploy authorization materially changes publication behavior while preserving every existing safety gate."
   },
-  "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + adaptive context model/graph supersede older read-everything preload lists only for startup context loading; current verified source, WEC, security/recovery rules and later owner instructions remain authoritative.",
+  "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + fixed owner authorization/RJR/WEC locks supersede older read-everything preload lists only for startup context loading; current verified source, security/recovery rules and later owner instructions remain authoritative.",
   "retrievalStrategy": {
     "method": "SLE-progressive-context-hydration-with-ranked-task-retrieval-and-live-delta",
-    "tier0": "starter + capsule + fixed RJR/WEC/security locks",
-    "tier1": "PR #114 metadata, exact head workflows, production Firebase metadata and App Check bootstrap contracts",
+    "tier0": "starter + capsule + standing owner authorization + fixed RJR/WEC/security locks",
+    "tier1": "PR #114 metadata, exact-head workflows, production Firebase metadata and App Check bootstrap contracts",
     "tier2": "intervening live-main/PR delta only when current state differs",
     "tier3": "complete SLE handoff/history only when evidence-triggered",
     "failureTriage": "For CI failure, fetch exact workflow run jobs then exact failed job logs before changing code. Do not guess from workflow name.",
@@ -69,13 +80,17 @@
     "repeatBootstrapWhenConnectorCanDoOperation": false,
     "maxMateriallySimilarRouteFailuresBeforeCircuitBreak": 2,
     "connectorCredentialsMayBeCopiedIntoGh": false,
-    "knownRejectedRoute": "Do not retry non-fast-forward update_ref attempts used in the PR #114 environment; normal contents writes worked and the rejected attempts changed no repository state."
+    "knownRejectedRoutes": [
+      "Do not retry the PR #114 non-fast-forward update_ref route; contents writes worked and rejected attempts changed no state.",
+      "Do not retry duplicate create_pull_request calls when PR #114 already exists; the duplicate calls were rejected with no state change."
+    ]
   },
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
     "REMOTE_JOINING_READINESS.json",
     "WORK_ENVIRONMENT_STATUS.json",
-    "firebase.production.environment.json"
+    "firebase.production.environment.json",
+    "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
   ],
   "targetedReads": [
     "js/productionAppCheckBootstrap.js",
@@ -113,11 +128,11 @@
     "publicDiscovery": false,
     "publicCommunity": false,
     "globalLeaderboardsRankings": false,
-    "pr114MergeAuthorized": false
+    "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; provider/dormant evidence alone does not bump runtime identity",
-  "starterVersionPolicy": "independent from app version; PATCH ordinary WEF=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
-  "wef100PackagingRule": "At every Handoff proximity 100% checkpoint generate a complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh this capsule/graph/learning state as needed, make the starter available to the owner, write the final transition-prepared WEC seal as the last branch mutation, then validate that sealed exact head without further branch mutation.",
+  "starterVersionPolicy": "independent from app version; PATCH ordinary WEC=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
+  "wec100PackagingRule": "At every Handoff proximity 100% checkpoint generate a complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh capsule/graph/learning state as needed, write the final transition-prepared WEC seal as the last PR-branch mutation, validate that sealed exact head without further branch mutation, then use standing owner authorization to merge/deploy when all gates pass.",
   "adaptiveLearningRule": "Collect lightweight retrieval usefulness outcomes. Deterministic mandatory locks always win. Evaluate a supervised ranking model only after at least 20 materially distinct labeled sessions and only if held-out startup simulations reduce context cost without missed-critical-context regression.",
   "liveFirstRule": "Current source, live GitHub state, provider state, deployed site and later owner instructions override this capsule and all handoffs."
 }
