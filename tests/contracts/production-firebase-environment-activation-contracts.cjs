@@ -40,10 +40,15 @@ assert.equal(manifest.activation.firebaseProject,"owner-created");
 assert.equal(manifest.activation.webApp,"owner-registered");
 assert.equal(manifest.activation.googleAuthProvider,"provider-verified-enabled","Google Authentication must remain provider-verified enabled before downstream Remote Joining prerequisites proceed.");
 assert.match(manifest.activation.googleAuthProviderVerificationEvidence,/2026-08-19[\s\S]+Authentication[\s\S]+Sign-in method[\s\S]+Enabled/i);
-assert.equal(manifest.activation.productionAuthorizedDomain,"owner-added-pending-localhost-removal","The GitHub Pages host may be recorded as added, but production-domain verification must remain pending while localhost is still authorized.");
+assert.equal(manifest.activation.productionAuthorizedDomain,"provider-verified","The production GitHub Pages host and localhost removal must remain provider verified before downstream activation proceeds.");
 assert.equal(manifest.activation.productionAuthorizedDomainHost,"nikahanghojjati-oss.github.io");
-assert.equal(manifest.activation.localhostAuthorizedDomainPresent,true,"Localhost must remain explicitly tracked until provider evidence proves it was removed from the production Authorized domains list.");
-assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/nikahanghojjati-oss\.github\.io[\s\S]+Custom[\s\S]+localhost[\s\S]+Default[\s\S]+incomplete until localhost is removed/i);
+assert.deepEqual(manifest.activation.productionAuthorizedDomains,[
+  "fifa17-career-showdown-prod.firebaseapp.com",
+  "fifa17-career-showdown-prod.web.app",
+  "nikahanghojjati-oss.github.io"
+]);
+assert.equal(manifest.activation.localhostAuthorizedDomainPresent,false,"Localhost must remain absent from the production Authorized domains list.");
+assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/2026-08-19[\s\S]+20:20 ET[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+localhost removed[\s\S]+no localhost row/i);
 assert.equal(manifest.activation.productionSecurityRules,"not-deployed-yet");
 assert.equal(manifest.activation.appCheck,"not-enabled-yet");
 assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet");
@@ -66,7 +71,7 @@ const compatibilityCandidate = {
     ...manifest.firebaseWebConfig,
     apiKey: "public-web-config-injected-for-preflight-contract"
   },
-  authorizedDomains: [preflight.productionHost],
+  authorizedDomains: manifest.activation.productionAuthorizedDomains,
   auth: {
     provider: "google",
     providerClass: "GoogleAuthProvider",
@@ -81,9 +86,9 @@ const compatibilityCandidate = {
   security:{webApiKeyClassification:manifest.securityLocks.webApiKeyClassification,webApiKeyIsAuthorizationSecret:manifest.securityLocks.webApiKeyIsAuthorizationSecret},
   publicFeatures:{discovery:manifest.securityLocks.publicDiscovery,profiles:manifest.securityLocks.publicProfiles,matchmaking:manifest.securityLocks.publicMatchmaking,community:manifest.securityLocks.community,rankings:manifest.securityLocks.rankings}
 };
-assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The target post-cleanup production Auth state must remain compatible with the locked Stage 2D production policy once localhost is removed and only the production host is supplied.");
-const unsafeCurrentProviderCandidate = {...compatibilityCandidate,authorizedDomains:[preflight.productionHost,"localhost"]};
-assert.ok(preflight.validate(unsafeCurrentProviderCandidate).errors.includes("LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN"),"The currently observed provider state with localhost authorized must fail the production preflight until localhost is removed.");
+assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The provider-verified production Auth state must satisfy the locked Stage 2D production policy with localhost removed and the GitHub Pages host authorized.");
+const unsafeLocalhostCandidate = {...compatibilityCandidate,authorizedDomains:[...manifest.activation.productionAuthorizedDomains,"localhost"]};
+assert.ok(preflight.validate(unsafeLocalhostCandidate).errors.includes("LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN"),"Any future reintroduction of localhost must fail the production preflight.");
 
 const serialized = JSON.stringify(manifest);
 for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken","idToken","serviceAccountKey"]){
@@ -91,4 +96,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, verified Firestore/API restrictions/Google Auth, production-host addition tracking, localhost-removal gate, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
+process.stdout.write("PASS production Firebase environment activation, verified Firestore/API restrictions/Google Auth/Authorized domains, localhost exclusion, API-key source separation, Stage 2D compatibility, and safe alias boundary\n");
