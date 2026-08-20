@@ -114,7 +114,8 @@ if(status.lifecycle==="transition-prepared"){
 assert.equal(status.repository.startingMainSha,"7944b87a20cf793c659077d7518c4446f178e32c");
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
-assert.match(status.continuity.currentTask,/App Check[\s\S]+runtime/i);
+assert.match(status.continuity.currentTask,/App Check/i,"Current PR #115 WEC task must retain App Check authority.");
+assert.match(status.continuity.currentTask,/runtime/i,"Current PR #115 WEC task must retain runtime authority.");
 assert.match(status.continuity.lastSafeCheckpoint,/7944b87a20cf793c659077d7518c4446f178e32c|8ee17af65dcdc234bee4a07cca1df3df3d84287c/i,"Current WEC checkpoint must preserve either the starting main or the validated PR #115 pre-seal package head.");
 assert.match((status.continuity.knownHazards||[]).join("\n"),/Stage 2H least-privilege[\s\S]{0,420}(?:unactivated|not activated|does not activate|not activate)/i,"Current WEC must preserve Stage 2H least-privilege IAM non-activation.");
 
