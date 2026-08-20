@@ -16,7 +16,7 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 PR #114 is DONE / MERGED / PROVEN at live main `7944b87a20cf793c659077d7518c4446f178e32c`. Production Firebase App Check is provider-registered with reCAPTCHA Enterprise, one-hour TTL and 0.5 risk threshold; enforcement remains OFF.
 
-PR #115 on `agent/production-app-check-runtime` is the current direct Remote Joining prerequisite candidate. It connects only Firebase App + App Check to the shipped production-origin client through controlled public runtime configuration. It must remain local-first, obtain legitimate App Check token traffic for monitoring, initialize no Firestore/Auth/Storage/Functions client service, grant no trusted mutation authority, and preserve every application-client Firestore create/update/delete as deny-all.
+PR #115 production App Check runtime candidate on `agent/production-app-check-runtime` is the current direct Remote Joining prerequisite. It connects only Firebase App + App Check to the shipped production-origin client through controlled public runtime configuration. It must remain local-first, obtain legitimate App Check token traffic for monitoring, initialize no Firestore/Auth/Storage/Functions client service, grant no trusted mutation authority, and preserve every application-client Firestore create/update/delete as deny-all.
 
 No product candidate is currently authorized. PR #115 is infrastructure/prerequisite runtime work, not a user-facing product-feature authorization.
 
