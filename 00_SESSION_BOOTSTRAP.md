@@ -1,4 +1,4 @@
-# Session Bootstrap Protocol — Live-First, Low-Context, High-Knowledge
+# Session Bootstrap Protocol — Live-First, Adaptive, Low-Context, High-Knowledge
 
 This file defines the preferred startup path for every fresh Career Mode Showdown development session. Its purpose is to minimize Work Environment/context consumption while preserving current, source-grounded project knowledge.
 
@@ -8,15 +8,15 @@ For startup context-loading only, this protocol supersedes older handoff instruc
 
 It does not supersede substantive product, security, recovery, versioning, privacy, Remote Joining dependency, or WEC safety locks. The full successor handoff remains the deep-reference fallback.
 
-A fresh successor should normally start from the newest versioned `START_NEXT_SESSION_...md` + `SESSION_BOOTSTRAP.json`, not by pasting the entire full handoff into the conversation.
+A fresh successor should normally start from the newest versioned `START_NEXT_SESSION_...md`, then retrieve `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_GRAPH.json` from GitHub. Do not paste the entire full handoff into the conversation by default.
 
 ## Owner delivery rule
 
 The owner should provide only the newest versioned `START_NEXT_SESSION_...md` file in the first interaction with the next developer.
 
-Do not require a second owner upload by default. The successor must retrieve `SESSION_BOOTSTRAP.json`, this protocol, the current status, targeted task files, and the complete handoff directly from GitHub as needed.
+Do not require a second owner upload by default. The successor retrieves the capsule, context model, dependency graph, current status, targeted task files, and complete handoff directly from GitHub as needed.
 
-The owner should provide the startup pack or full handoff only as fallback when GitHub/transition-branch access fails, the compact capsule is missing/corrupt, live state cannot be resolved from the delta, a deep historical security/recovery/versioning rationale is genuinely needed, or interruption/WEC recovery requires it.
+The owner should provide the startup pack or full handoff only as fallback when GitHub/transition-branch access fails, the compact context files are missing/corrupt, live state cannot be resolved from the delta, a deep historical security/recovery/versioning rationale is genuinely needed, or interruption/WEC recovery requires it.
 
 ## GitHub tool routing distinction — owner override
 
@@ -28,28 +28,42 @@ Do not run or repeatedly retry the CLI bootstrap at startup when the connected G
 
 This owner instruction is newer than predecessor process wording that described `npm run work:gh:bootstrap` as mandatory in every fresh Work environment. The successor must preserve this newer distinction and reconcile the older repository process wording/contracts naturally inside the first substantive engineering PR rather than creating a documentation-only sidequest.
 
-## Core rule
+## Adaptive context architecture
 
-Do not preload the entire project history.
+Do not preserve context by preloading everything. Preserve it losslessly in source and retrieve only the most useful portion for the current task.
 
-Use progressive context hydration:
+Use four layers:
 
-1. Read the tiny machine-readable `SESSION_BOOTSTRAP.json` first.
-2. Verify live GitHub state before trusting recorded SHAs or task labels.
-3. Read only the current WEC/status and the files directly needed by the live next task.
-4. Expand into the full successor handoff, roadmap, history, or older authority documents only when a discrepancy, ambiguity, regression, or task dependency requires them.
+1. Lossless archive: current repository source, full handoffs, history, roadmap, tests and provider evidence remain intact.
+2. Structured memory: `SESSION_BOOTSTRAP.json` plus `SESSION_CONTEXT_GRAPH.json` expose current state, provenance, locks and dependency relationships.
+3. Ranking model: `SESSION_CONTEXT_MODEL.json` ranks task-relevant files/evidence under a strict context budget using task affinity, authority, live delta, dependency distance, risk criticality, contradiction value, learned utility, staleness and token cost.
+4. Adaptive feedback: future sessions record which loaded items were actually useful or redundant and update utility conservatively. Mandatory security/recovery/authority locks can never be suppressed by learning.
 
-Current source and live provider state always override this capsule.
+Read `00_CONTEXT_RETRIEVAL_ENGINE.md` when the retrieval system itself needs inspection or tuning.
+
+## Why this uses ML carefully
+
+Do not train a heavyweight custom model yet. There are too few labeled Work-environment outcomes for reliable supervised learning, and an external vector database/API would add unnecessary cost and operational risk.
+
+The current approach is an ML-ready hybrid: information retrieval + dependency graph + deterministic safety priors + simple online learning.
+
+After at least 20 materially distinct labeled session outcomes, and preferably 30+, the project may evaluate a small logistic-regression or pairwise ranking model. Adopt it only if held-out startup simulations reduce context cost without increasing missed-critical-context incidents.
 
 ## Fast startup sequence
 
-### Phase 1 — tiny capsule
+### Phase 0 — owner starter
 
-Read only:
+Receive only the newest `START_NEXT_SESSION_...md` file from the owner.
+
+### Phase 1 — compact context
+
+Retrieve from GitHub:
 
 - `SESSION_BOOTSTRAP.json`
+- `SESSION_CONTEXT_MODEL.json`
+- `SESSION_CONTEXT_GRAPH.json`
 
-This provides the expected live-main boundary, current runtime identity, current substantive lane, current full-handoff paths, highest-value safety locks, GitHub routing rule, versioned starter pointer, and the minimal targeted-read set.
+This provides the expected live-main boundary, current runtime identity, current substantive lane, full-handoff paths, highest-value safety locks, GitHub routing rule, dependency graph and adaptive retrieval policy.
 
 ### Phase 2 — live verification
 
@@ -64,21 +78,23 @@ Using the connected GitHub source, verify in as few calls as practical:
 
 Do not scan all historical PRs, branches, tags, or workflow runs unless the live delta requires it.
 
-### Phase 3 — delta decision
+### Phase 3 — ranked task packet
 
 If live `main` equals `SESSION_BOOTSTRAP.json.lastVerifiedMainSha` and no newer current-authority work supersedes the capsule:
 
 - accept the capsule as orientation;
-- read the targeted task files listed in `SESSION_BOOTSTRAP.json.targetedReads`;
+- score current-task candidate files using `SESSION_CONTEXT_MODEL.json`;
+- load mandatory locks plus the highest-ranked task files under the Tier 1 context budget;
 - initialize a fresh successor WEC identity;
 - begin the real current prerequisite.
 
 If live `main` differs:
 
 - compare only the recorded boundary to live `main`;
-- inspect the intervening changed files / merged PRs;
+- give changed/intervening files maximum delta relevance;
+- inspect the intervening changed files / merged PRs first;
 - update the current lane from source truth;
-- then hydrate only the new task-specific context.
+- then rank and hydrate only the new task-specific context.
 
 Do not compensate for a changed SHA by reading the entire repository history.
 
@@ -86,8 +102,8 @@ Do not compensate for a changed SHA by reading the entire repository history.
 
 Read the full successor handoff only when one or more of these is true:
 
-- live state disagrees with the compact capsule;
-- the current task depends on historical rationale not captured by the capsule;
+- live state disagrees with the compact capsule and the delta does not resolve it;
+- the current task depends on historical rationale not captured by the capsule/graph;
 - a contract failure references historical authority;
 - security/recovery/versioning semantics are ambiguous;
 - the owner explicitly asks for full reconstruction;
@@ -95,9 +111,21 @@ Read the full successor handoff only when one or more of these is true:
 
 Read `WORK_ENVIRONMENT_HISTORY.md`, older handoffs, deep roadmap history, and archived authority only on demand.
 
-## Knowledge-preserving locks
+## Context budget tiers
 
-The capsule must always preserve at least:
+Tier 0 bootstrap: roughly 1–2k tokens.
+
+Tier 1 ranked current-task packet: roughly 3–6k additional tokens.
+
+Tier 2 live-delta packet: roughly 5–10k additional tokens only when live source moved or newer authority supersedes the capsule.
+
+Tier 3 deep fallback: no fixed budget, but only when evidence requires it.
+
+These are targets rather than security limits. Critical source must still be loaded when needed.
+
+## Knowledge-preserving mandatory locks
+
+The capsule/graph must always preserve at least:
 
 - owner priority: Private Remote Joining is highest long-term priority, but dependency-gated and stability-first;
 - current application/runtime identity;
@@ -114,7 +142,22 @@ The capsule must always preserve at least:
 - current versioned starter path/version;
 - connected-GitHub-first / rootless-CLI-fallback routing rule.
 
-This allows a fresh session to know the project’s critical invariants without loading dozens of large files.
+Ranking or learning may not remove these.
+
+## Data-science feedback metrics
+
+At meaningful future checkpoints, record enough evidence to evaluate startup quality where practical:
+
+- startup context bytes/tokens before first substantive action;
+- tool calls before first substantive action;
+- historical files loaded but not used;
+- stale-authority corrections after startup;
+- missed-critical-context incidents;
+- duplicate/repeated `gh` bootstrap attempts;
+- Tier 3 fallback rate;
+- whether the session progressed directly into the real Remote Joining prerequisite.
+
+Optimize for lower startup cost and latency subject to zero increase in missed critical security/recovery/authority context.
 
 ## Handoff dual-copy rule
 
@@ -139,20 +182,20 @@ Starter versioning is independent from the website application version:
 
 The filename must include the starter version and checkpoint identifier, for example:
 
-`START_NEXT_SESSION_V1.0.1_PR114.md`
+`START_NEXT_SESSION_V1.1.1_PR114.md`
 
 The root versioned starter should also have a byte-identical archival mirror under `project-documents/session-starts/`.
 
-Refresh `SESSION_BOOTSTRAP.json` with the starter version, root path, and mirror path. Make the root versioned starter directly available to the owner at the handoff response.
+Refresh `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_GRAPH.json` at the checkpoint if their current-state pointers or learned utility evidence changed. Make the root versioned starter directly available to the owner.
 
 The newest starter is the only file the owner normally needs to give the next developer initially.
 
 ## Efficiency rule
 
-Prefer a small accurate live delta over a large stale preload.
+Prefer a small accurate live delta and ranked task packet over a large stale preload.
 
 The goal is not the fewest possible facts. The goal is the fewest loaded bytes/tokens that still make the successor safe, current, and immediately capable of advancing the real roadmap.
 
 ## Anti-sidequest rule
 
-This bootstrap system exists to accelerate substantive development. Do not create repeated documentation-only milestones merely to maintain the bootstrap. Refresh it naturally at real clean checkpoints, merges, or handoffs.
+This bootstrap/context system exists to accelerate substantive development. Do not create repeated documentation-only milestones merely to maintain it. Refresh it naturally at real clean checkpoints, merges, or handoffs.
