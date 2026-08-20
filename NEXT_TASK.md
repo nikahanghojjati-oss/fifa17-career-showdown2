@@ -104,6 +104,8 @@ This milestone may be classified DONE / MERGED / PROVEN only when:
 12. legitimate production App Check token traffic is observed while enforcement remains OFF;
 13. local/offline operation and the `1.4.0-r1` rollback boundary remain healthy.
 
+Permanent validation topology remains 14 permanent workflow families: the 13 normal PR workflow families plus the Stability Lane, with 27 protected workflow blocks enforced by the permanent topology runner.
+
 Remote Joining readiness must not increase merely because this PR exists or because process/authority files are updated. RJR-1 increases only when new capability evidence is actually proven at the required production boundary.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
