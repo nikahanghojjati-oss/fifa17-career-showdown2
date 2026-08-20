@@ -10,7 +10,7 @@ assert.equal(ledger.metric,"Remote Joining readiness");
 assert.equal(ledger.denominator,100);
 assert.match(provenance,/machine-readable ledger:\s*`REMOTE_JOINING_READINESS\.json`/i);
 assert.match(provenance,/does not freeze the current numeric score/i);
-assert.match(provenance,/not PR completion[\s\S]+not[\s\S]+Handoff proximity/i);
+assert.match(provenance,/not PR completion[\s\S]+Handoff proximity/i,"RJR provenance must exclude both PR completion and Handoff proximity from the readiness denominator.");
 assert.equal(ledger.currentScore,ledger.domains.reduce((sum,domain)=>sum+domain.earned,0));
 
 process.stdout.write(`PASS owner reporting label remains stable while REMOTE_JOINING_READINESS.json owns evidence-based RJR-${ledger.modelVersion.replace(/^RJR-/,"")} calculation\n`);
