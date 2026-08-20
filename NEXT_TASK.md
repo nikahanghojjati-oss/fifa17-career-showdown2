@@ -1,20 +1,20 @@
 # NEXT TASK — Career Mode Showdown
 
-## CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION — 2026-08-20 ET
+## CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116 — 2026-08-20 ET
 
 Current verified source, live GitHub, the owner's Remote Joining priority / anti-sidequest direction, and later owner instructions override historical provenance below.
 
-Status: CURRENT RJR PREREQUISITE / SHIPPED-RUNTIME CANDIDATE / PRODUCTION APP CHECK CLIENT INTEGRATION / ENFORCEMENT OFF / BROWSER FIRESTORE WRITES DENY-ALL.
+Status: CURRENT RJR PREREQUISITE / PR #115 MERGED / PR #116 DEPLOYMENT-PROOF CANDIDATE / PRODUCTION APP CHECK CLIENT INTEGRATION / ENFORCEMENT OFF / BROWSER FIRESTORE WRITES DENY-ALL.
 
-Current branch: `agent/production-app-check-runtime`.
-Current pull request: #115 `Connect production App Check runtime safely`.
-Current environment: `we-2026-08-20-production-app-check-runtime`.
-Starting independently verified live main: `7944b87a20cf793c659077d7518c4446f178e32c`.
+Current branch: `agent/pr115-production-deployment-proof`.
+Current pull request: #116 `Add controlled GitHub Pages App Check deployment`.
+Current environment: `we-2026-08-20-pr115-production-deployment-proof`.
+Starting independently verified live main: `1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd`.
 Fresh WEC decision: `PREPARE_HANDOFF`.
 Usage: unavailable and not estimated.
 Authorized product candidate: none.
 
-Work Environment Continuity remains mandatory. This environment may finish only the current PR #115 bounded milestone, must keep `WORK_ENVIRONMENT_STATUS.json` current at meaningful checkpoints, and must obey the fresh WEC assessment before any separate next milestone. A predecessor transition decision never becomes successor implementation authority.
+Work Environment Continuity remains mandatory. This environment may finish only the current PR #115 / PR #116 production App Check deployment-proof boundary, must keep `WORK_ENVIRONMENT_STATUS.json` current at meaningful checkpoints, and must obey the fresh WEC assessment before any separate next milestone. The predecessor `HANDOFF_NOW` decision belongs only to `we-2026-08-20-production-app-check-runtime` and does not become successor implementation authority.
 
 Application version: `v1.4.0`.
 Current production Installable Offline App runtime: `1.4.0-r1`.
@@ -24,11 +24,15 @@ Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 
 PR #114 is DONE / MERGED / PROVEN through live main `7944b87a20cf793c659077d7518c4446f178e32c`. Production Firebase App Check is provider-registered for the real Web App with reCAPTCHA Enterprise, one-hour TTL, 0.5 risk threshold and enforcement OFF.
 
+PR #115 `Connect production App Check runtime safely` is DONE / MERGED AS SOURCE at live main `1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd`. Its final sealed head `0ce83bc1b58cb40cf5b766dd76addfd4d00eecb2` passed all 13 normal workflow families with clean reviews, threads and mergeability before expected-head squash merge. PR #115 alone did not make `1.4.0-r2` production-proven because tracked `firebase.runtime-config.json` correctly remains fail-closed and legitimate production App Check traffic has not yet been observed.
+
+PR #116 is the direct bounded continuation required to finish that same production proof. It adds the controlled GitHub Pages deployment-artifact path that renders the two browser-public provider values only inside the deployment artifact and leaves committed source fail-closed.
+
 Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN at their protected prerequisite boundaries. The later trusted shared mutation gateway, trusted account deletion execution and trusted connected-data export prerequisites are also completed. Stage 2 as a whole remains incomplete only because real production operational activation, trusted runtime/IAM proof and launch hardening remain unfinished.
 
 ## Current bounded engineering task
 
-Finish PR #115 only. Connect the already-proven App Check bootstrap to the shipped GitHub Pages runtime through controlled public runtime configuration while preserving local/offline-first behavior and all existing security, recovery, identity and versioning boundaries.
+Finish PR #116 only as the publication/deployment continuation of PR #115. Preserve the already-proven `1.4.0-r2` App Check runtime while establishing controlled GitHub Pages deployment-time configuration, then hand off at the clean provider-configuration boundary. Do not begin another Stage 2 milestone in this environment.
 
 Required behavior:
 
@@ -56,6 +60,10 @@ Tracked `firebase.runtime-config.json` remains `configured:false` and contains n
 
 These values are public browser configuration, not authorization secrets, but they must be delivered through the controlled deployment path rather than newly hard-coded into committed runtime source or printed into logs.
 
+PR #116 adds `.github/workflows/deploy-github-pages.yml`. It stages only the static runtime surface, requires the two GitHub Actions repository variables without printing their values, runs the renderer only inside the ephemeral Pages artifact, verifies the configured output shape without logging the values, removes the copied renderer before artifact upload, and deploys through GitHub Pages with `pages: write` plus `id-token: write`. It does not use Firebase Hosting and does not write generated provider configuration back to repository history.
+
+The permanent validation topology remains protected separately: the 13 normal PR validation workflows retain exactly 27 literal executable blocks, while the Stability Lane and production Pages deployment workflow remain separately owned operational lanes.
+
 ## Security, recovery and product locks
 
 Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns` and `careerModeShowdown.preferences`.
@@ -71,7 +79,7 @@ Stage 2H's account-bootstrap runtime custom-role permissions remain exactly:
 `datastore.entities.get`
 `datastore.entities.create`
 
-PR #115 adds no IAM permission and no trusted mutation authority.
+PR #115 and PR #116 add no IAM permission and no trusted mutation authority.
 
 Cloud / synchronization readiness
 → private account / authentication / authorization
@@ -86,35 +94,43 @@ Stage 3 Registered Devices / Private Pairing remains blocked until the genuine S
 
 Public community features and global leaderboard/rankings are **ELIMINATED**. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
 
-## PR #115 completion gate
+## PR #115 / PR #116 production-proof completion gate
 
-This milestone may be classified DONE / MERGED / PROVEN only when:
+The `1.4.0-r2` App Check runtime milestone may be classified DONE / MERGED / PROVEN only when:
 
 1. `1.4.0-r2` runtime identity is coherent across index, app runtime, manifest, Home shared assets and Service Worker;
 2. production App Check runtime contracts pass;
-3. the existing startup performance ceilings remain unchanged and pass;
-4. the complete repository contract suite passes;
-5. all 13 normal PR workflow families pass on one exact unchanged final head;
-6. submitted reviews and inline review threads are clean;
-7. mergeability is clean;
-8. the final transition-prepared WEC seal is the last branch mutation;
-9. squash merge uses expected-head protection;
-10. resulting live main and deployed `1.4.0-r2` are independently verified;
-11. controlled public runtime configuration is delivered without committing provider values as source credentials or weakening security boundaries;
-12. legitimate production App Check token traffic is observed while enforcement remains OFF;
-13. local/offline operation and the `1.4.0-r1` rollback boundary remain healthy.
+3. the controlled Pages deployment-artifact contract passes and committed `firebase.runtime-config.json` remains fail-closed;
+4. the existing startup performance ceilings remain unchanged and pass;
+5. the complete repository contract and Firebase emulator suites pass;
+6. all 13 normal PR workflow families pass on one exact unchanged final PR #116 head;
+7. submitted reviews and inline review threads are clean;
+8. mergeability is clean;
+9. GitHub Pages is configured to use GitHub Actions and repository Actions variables `CMS_FIREBASE_WEB_API_KEY` plus `CMS_RECAPTCHA_ENTERPRISE_SITE_KEY` are entered directly in the controlled GitHub UI rather than chat/source;
+10. the final transition-prepared WEC seal is the last PR-branch mutation;
+11. squash merge uses expected-head protection;
+12. resulting live main and deployed `1.4.0-r2` are independently verified;
+13. legitimate production App Check token traffic is observed while enforcement remains OFF;
+14. local/offline operation and the `1.4.0-r1` rollback boundary remain healthy;
+15. every application-client Firestore create/update/delete remains deny-all and no Firestore/Auth/Storage/Functions client service or trusted IAM authority is introduced.
 
-Permanent validation topology remains 14 permanent workflow families: the 13 normal PR workflow families plus the Stability Lane, with 27 protected workflow blocks enforced by the permanent topology runner.
-
-Remote Joining readiness must not increase merely because this PR exists or because process/authority files are updated. RJR-1 increases only when new capability evidence is actually proven at the required production boundary.
+Remote Joining readiness must not increase merely because PR #115 merged, PR #116 exists, CI is green, or process/authority files are updated. RJR-1 increases only when new capability evidence is actually proven at the required production boundary.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish PR #115 on `agent/production-app-check-runtime`. Diagnose only exact failed jobs, correct objective defects without weakening security, recovery, identity, performance or version gates, and obtain one immutable exact PR head with all 13 workflow families green. Then verify reviews, threads and mergeability; write the final transition-prepared WEC seal as the last branch mutation; rerun exact-head gates; use standing owner authorization to expected-head squash merge; independently verify live `1.4.0-r2`; deliver controlled public Firebase/App Check runtime configuration; and prove legitimate App Check traffic with enforcement still OFF. Because the fresh WEC is already `PREPARE_HANDOFF`, do not begin a separate next Stage 2 milestone in this environment after this bounded checkpoint.
+Finish only PR #116 on `agent/pr115-production-deployment-proof`. The engineering candidate `c9a6338f8c4e8f3efc363e7faec207f4db71f7a9` achieved all 13 workflow families green before authority synchronization. Synchronize current authority, rerun all exact-head gates, and prepare the final transition seal. Do not merge before the owner has configured GitHub Pages to use GitHub Actions and entered `CMS_FIREBASE_WEB_API_KEY` plus `CMS_RECAPTCHA_ENTERPRISE_SITE_KEY` directly in repository Actions variables. Never request those provider values in chat and never invent the reCAPTCHA site key. After those controlled settings exist, a fresh successor may verify the final sealed head, reviews, threads and mergeability, use standing owner authorization for expected-head squash merge, verify deployment and legitimate App Check traffic with enforcement still OFF, and preserve `1.4.0-r1` as rollback authority until the complete production proof passes. The current fresh WEC is `PREPARE_HANDOFF`; do not begin a separate next Stage 2 milestone here.
 
 ## Historical production and contract provenance
 
-The following statements are retained only so permanent executable contracts can prove prior product/recovery milestones were not erased. They do not override the current PR #115 authority above.
+The following statements are retained only so permanent executable contracts can prove prior product/recovery milestones were not erased. They do not override the current PR #116 authority above.
+
+Historical PR #115 successor authority snapshot:
+Current branch: `agent/production-app-check-runtime`.
+Current pull request: #115 `Connect production App Check runtime safely`.
+Current environment: `we-2026-08-20-production-app-check-runtime`.
+Starting independently verified live main: `7944b87a20cf793c659077d7518c4446f178e32c`.
+Fresh WEC decision: `PREPARE_HANDOFF`.
+That predecessor later reached `HANDOFF_NOW`; the successor independently verified its final sealed head and merged it before correcting the required fresh-WEC sequencing order. This historical snapshot is provenance only.
 
 Former clean-stop wording required the project to hold clean stop until a later explicit owner instruction. That later owner instruction was satisfied by the owner's Remote Joining priority and subsequent prerequisite authorizations. Do not revive the former clean stop as current authority.
 
@@ -136,4 +152,4 @@ At that historical boundary the Cloud/sync runtime remains NOT YET IMPLEMENTATIO
 
 Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY. That gateway is completed and is not the current task.
 
-No historical wording authorizes a new product feature, Stage 3, Connected Rivalry or Remote Joining UX inside PR #115.
+No historical wording authorizes a new product feature, Stage 3, Connected Rivalry or Remote Joining UX inside PR #116.
