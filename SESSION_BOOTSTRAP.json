@@ -1,7 +1,7 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "purpose": "live-first-low-context-successor-bootstrap",
-  "recordedAt": "2026-08-20T01:11:00Z",
+  "recordedAt": "2026-08-20T01:28:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/post-pr113-app-check-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -19,8 +19,24 @@
     "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR113_TO_APP_CHECK_2026-08-19.md"
   },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
-  "starterPrompt": "START_NEXT_SESSION.md",
-  "startupPrecedence": "START_NEXT_SESSION.md + SESSION_BOOTSTRAP.json + 00_SESSION_BOOTSTRAP.md supersede older read-everything handoff preload lists only for startup context loading; substantive locks remain authoritative",
+  "starter": {
+    "version": "1.0.0",
+    "checkpoint": "PR113",
+    "canonical": "START_NEXT_SESSION_V1.0.0_PR113.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.0.0_PR113.md",
+    "ownerInitialDelivery": "give-only-this-file-first",
+    "fallbackPackNeededByDefault": false
+  },
+  "startupPrecedence": "Newest versioned START_NEXT_SESSION file + SESSION_BOOTSTRAP.json + 00_SESSION_BOOTSTRAP.md supersede older read-everything handoff preload lists only for startup context loading; substantive locks remain authoritative.",
+  "githubToolRouting": {
+    "primary": "connected-github-app-tool",
+    "rootlessGhBootstrap": "fallback-only-for-concrete-shell-or-cli-gap",
+    "runBootstrapAtStartupWhenConnectorSufficient": false,
+    "repeatBootstrapWhenConnectorCanDoOperation": false,
+    "maxMateriallySimilarCliRouteFailuresBeforeCircuitBreak": 2,
+    "connectorCredentialsMayBeCopiedIntoGh": false,
+    "ownerOverride": "2026-08-19 later owner instruction supersedes predecessor wording that made npm run work:gh:bootstrap mandatory in every fresh environment; reconcile older process docs/contracts naturally inside first substantive engineering PR rather than a documentation-only PR"
+  },
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
     "WORK_ENVIRONMENT_STATUS.json",
@@ -39,6 +55,13 @@
     "security recovery or versioning semantics are ambiguous",
     "owner requests full reconstruction",
     "WEC requires interruption recovery or successor handoff"
+  ],
+  "ownerShouldProvideMoreFilesOnlyIf": [
+    "connected GitHub tool cannot access repository or bootstrap branch",
+    "compact bootstrap files are missing or corrupt",
+    "live delta cannot resolve contradictory current authority",
+    "deep historical security recovery or versioning rationale is genuinely required",
+    "interruption recovery or WEC transition requires full deep-reference handoff"
   ],
   "doNotPreloadByDefault": [
     "WORK_ENVIRONMENT_HISTORY.md",
@@ -67,6 +90,8 @@
     "globalLeaderboardsRankings": false
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; provider/dormant evidence alone does not bump runtime identity",
+  "starterVersionPolicy": "independent from app version; PATCH each ordinary WEF=100 checkpoint, MINOR backward-compatible startup-protocol improvement, MAJOR breaking startup-contract redesign",
+  "wef100PackagingRule": "At every Handoff proximity 100% checkpoint generate the complete successor handoff in root plus byte-identical project-documents/handoffs mirror, generate a new versioned START_NEXT_SESSION file in root plus byte-identical project-documents/session-starts mirror, refresh this capsule, and make the root starter and handoff available to the owner.",
   "carryForwardRule": "Because the bootstrap files live on the transition branch at this checkpoint, the successor should include them naturally in the first substantive App Check PR rather than opening a documentation-only PR.",
   "liveFirstRule": "Current source, live GitHub state, deployed site, provider state, and later owner instructions override this capsule and all handoffs."
 }
