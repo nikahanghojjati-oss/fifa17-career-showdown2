@@ -2,6 +2,14 @@
 
 This file defines the preferred startup path for every fresh Career Mode Showdown development session. Its purpose is to minimize Work Environment/context consumption while preserving current, source-grounded project knowledge.
 
+## Startup precedence
+
+For startup context-loading only, this protocol supersedes older handoff instructions that say to read every large authority/history file completely before doing anything.
+
+It does not supersede substantive product, security, recovery, versioning, privacy, Remote Joining dependency, or WEC safety locks. The full successor handoff remains the deep-reference fallback.
+
+A fresh successor should normally start from `START_NEXT_SESSION.md` + `SESSION_BOOTSTRAP.json`, not by pasting the entire full handoff into the conversation.
+
 ## Core rule
 
 Do not preload the entire project history.
