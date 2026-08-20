@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "configured": false,
+  "firebaseConfig": {
+    "authDomain": "fifa17-career-showdown-prod.firebaseapp.com",
+    "projectId": "fifa17-career-showdown-prod",
+    "storageBucket": "fifa17-career-showdown-prod.firebasestorage.app",
+    "messagingSenderId": "409396353288",
+    "appId": "1:409396353288:web:1d3a2a5d6921de6ccbb4bd"
+  },
+  "recaptchaEnterpriseSiteKey": ""
+}
