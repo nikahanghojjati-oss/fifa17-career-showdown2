@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-08-20T01:35:00Z",
+  "purpose": "compact dependency and provenance graph for successor context retrieval",
+  "nodes": [
+    {
+      "id": "live-main-pr113",
+      "type": "publication-boundary",
+      "value": "1ccf2d3f451ea53575698877787562e38f1d6f50",
+      "source": "live main after merged PR #113",
+      "authority": 1.0
+    },
+    {
+      "id": "runtime-1.4.0-r1",
+      "type": "runtime-identity",
+      "applicationVersion": "1.4.0",
+      "runtimeRevision": "1.4.0-r1",
+      "firebaseRuntimeConnected": false,
+      "authority": 1.0
+    },
+    {
+      "id": "firestore-production-rules",
+      "type": "completed-prerequisite",
+      "state": "provider-verified-deployed-merged-protected",
+      "sourcePath": "firestore.rules",
+      "blobSha": "0473750cb16b5b8eea234c0f8138c41de5ff3dfb",
+      "browserWrites": "deny-all",
+      "authority": 1.0,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "app-check-next",
+      "type": "current-next-prerequisite",
+      "state": "not-enabled-yet",
+      "providerDirection": "reCAPTCHA Enterprise unless current official provider guidance changes",
+      "enforcement": "off-until-controlled-integration-and-metrics",
+      "authority": 1.0,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "trusted-runtime-iam",
+      "type": "future-prerequisite",
+      "state": "not-activated-yet",
+      "browserMutationAuthority": false,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "stage3-private-pairing",
+      "type": "future-stage",
+      "state": "blocked",
+      "reason": "genuine Stage 2 production/account/operational activation incomplete"
+    },
+    {
+      "id": "stage4-connected-rivalry-sync",
+      "type": "future-stage",
+      "state": "blocked-by-stage3"
+    },
+    {
+      "id": "stage5-private-remote-joining",
+      "type": "major-feature",
+      "state": "highest-long-term-priority-dependency-gated",
+      "publicDiscovery": false,
+      "publicMatchmaking": false,
+      "community": false,
+      "rankings": false
+    },
+    {
+      "id": "canonical-local-storage",
+      "type": "data-authority-lock",
+      "keys": [
+        "careerModeShowdown.saveLibrary",
+        "careerModeShowdown.legacyShowdowns",
+        "careerModeShowdown.preferences"
+      ],
+      "activeShowdownCanonical": false,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "recovery-candidates",
+      "type": "recovery-authority-lock",
+      "candidateA": "non-mutating-export",
+      "candidateB": "read-only-import-analysis",
+      "candidateC": "sole-destructive-import-apply-authority",
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "github-connected-tool",
+      "type": "tool-route",
+      "state": "primary",
+      "scope": "repository reads PRs CI branches commits issues reviews supported writes"
+    },
+    {
+      "id": "github-rootless-cli",
+      "type": "tool-route",
+      "state": "fallback-only",
+      "condition": "concrete required operation cannot be performed through connected GitHub tool and genuinely needs local CLI capability",
+      "maxSimilarFailures": 2,
+      "connectorCredentialReuse": false
+    }
+  ],
+  "edges": [
+    {"from": "live-main-pr113", "to": "firestore-production-rules", "relation": "contains-completed-proof"},
+    {"from": "firestore-production-rules", "to": "app-check-next", "relation": "unlocks-next"},
+    {"from": "app-check-next", "to": "trusted-runtime-iam", "relation": "precedes"},
+    {"from": "trusted-runtime-iam", "to": "stage3-private-pairing", "relation": "part-of-stage2-completion-before"},
+    {"from": "stage3-private-pairing", "to": "stage4-connected-rivalry-sync", "relation": "prerequisite"},
+    {"from": "stage4-connected-rivalry-sync", "to": "stage5-private-remote-joining", "relation": "prerequisite"},
+    {"from": "canonical-local-storage", "to": "stage4-connected-rivalry-sync", "relation": "must-remain-safe-through"},
+    {"from": "recovery-candidates", "to": "stage4-connected-rivalry-sync", "relation": "must-remain-safe-through"},
+    {"from": "github-connected-tool", "to": "github-rootless-cli", "relation": "preferred-before-fallback"}
+  ],
+  "retrievalHints": {
+    "currentTaskNode": "app-check-next",
+    "walkDirection": "current task backward to prerequisites and forward one dependency at a time",
+    "defaultMaxDependencyHops": 2,
+    "expandGraphWhen": [
+      "live main changes",
+      "current lane changes",
+      "security or recovery contradiction appears",
+      "a prerequisite is completed and next stage becomes current"
+    ]
+  }
+}
