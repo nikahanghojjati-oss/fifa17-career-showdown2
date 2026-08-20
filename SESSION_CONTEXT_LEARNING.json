@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-08-20T01:35:00Z",
+  "materialSessionsObserved": 0,
+  "learningState": "cold-start-priors",
+  "defaultUtility": 0.5,
+  "alpha": 0.2,
+  "items": {},
+  "sessionMetrics": [],
+  "outcomeScale": {
+    "preventedErrorOrResolvedContradiction": 1.0,
+    "requiredForPublicationSecurityOrRecovery": 0.8,
+    "materiallyUsedInDecision": 0.5,
+    "neutralReference": 0.0,
+    "redundantPreload": -0.5
+  },
+  "updateRule": "newUtility = 0.8 * oldUtility + 0.2 * normalizedOutcome",
+  "safetyRule": "learned utility never suppresses mandatory security recovery current-authority WEC or later-owner-instruction context",
+  "supervisedModelEligibility": {
+    "minimumMaterialSessions": 20,
+    "preferredEvaluationSessions": 30,
+    "eligibleNow": false
+  }
+}
