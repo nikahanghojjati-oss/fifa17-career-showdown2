@@ -21,6 +21,12 @@ PR #121 `Make SLE handoff packaging permanent` is merged at live main `ab48ecec7
 
 The owner's canonical SLE definition is **SLE = Smart Lean Efficient**.
 
+No product candidate is currently authorized. The active work is infrastructure/authority prerequisite work, not a user-facing product-feature authorization.
+
+Private Remote Joining is **PRIORITIZED LONG-TERM** and **DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. Stage 3 Registered Devices / Private Pairing remains blocked until genuine Stage 2 production/account/operational prerequisites are DONE / MERGED / PROVEN. Connected Rivalry and actual Private Remote Joining remain downstream.
+
+Public community features and global leaderboard/rankings are **ELIMINATED**. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
+
 ## Current production security truth
 
 The production browser intentionally initializes only Firebase App and Firebase App Check.
@@ -42,8 +48,6 @@ Those permissions are still a reviewed trusted-runtime boundary, not evidence th
 
 ## Current Remote Joining dependency state
 
-Private Remote Joining remains the highest long-term owner priority and remains dependency-gated / stability-first.
-
 Cloud / synchronization readiness
 → private account / authentication / authorization and production operational trust
 → paired-device / private-session capability
@@ -58,8 +62,6 @@ Private Account / Authentication / Authorization Stages 2A through 2I and the la
 Stage 2 as a whole remains incomplete because trusted production runtime/IAM activation and later launch hardening remain unproven. App Check enforcement is a separately reviewed later hardening gate and must not be enabled merely because production token traffic is proven.
 
 Stage 3 Registered Devices / Private Pairing remains blocked until the remaining genuine Stage 2 production/account/operational boundary is DONE / MERGED / PROVEN. Connected Rivalry and actual Private Remote Joining remain downstream.
-
-Public community features and global leaderboard/rankings are ELIMINATED. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
 
 Machine-readable Remote Joining readiness authority is `REMOTE_JOINING_READINESS.json` using fixed model `RJR-1`. The current reconciled score is `61/100`, including only a +2 production-cloud-security delta for the two newly proven capabilities: controlled production runtime connection and legitimate App Check token traffic. No points were awarded for PR count, green CI by itself, documentation, WEC, SLE, enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining.
 
@@ -84,6 +86,11 @@ Local Profiles / Save Library is a completed production dependency milestone. Th
 Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`
 Phase B first-slice production merge: `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`
 Phase C first-slice production merge: `dec1d3ba8182c3f62019974dd1704c7c9124def6`
+
+Cloud/Sync Readiness Phase 1A merge: `b1fafd9cba7e2c647b88445026f6c2d1134378b1`
+Cloud/Sync Readiness Phase 1B merge: `2dc61e24ef07a0a150a228865f954ab3b3941398`
+Cloud/Sync Readiness Phase 1C merge: `59957f8b0c29ce0cd480a0e9270a095160005599`
+Cloud/Sync Readiness Phase 1D merge: `fc2e8e8b921a435103a438a9239efbb890584d22`
 
 ## Current reconciliation candidate
 
