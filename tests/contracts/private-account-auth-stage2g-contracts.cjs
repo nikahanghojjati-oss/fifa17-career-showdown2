@@ -27,11 +27,11 @@ assert.doesNotMatch(source,/firebase-admin|firebase\/auth|firebase\/firestore|in
 assert.doesNotMatch(index,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase\/auth|firebase\/firestore/i);
 assert.doesNotMatch(optional,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase\/auth|firebase\/firestore/i);
 assert.doesNotMatch(worker,/trustedAccountBootstrapExecution\.js|firebase-admin|firebase-auth|firebase\/auth|firebase-firestore|firebase\/firestore/i);
-assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined,"Stage 2G must not add production package dependencies.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2G execution proof must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2G execution proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
 function accountEnvelope(accountId,status="active",deletionRequestedAt=null){
@@ -208,7 +208,7 @@ function verifierFor(uid,expectedToken,callLog){
   assert.match(stage2e,/Status: DONE \/ MERGED \/ PROVEN/);
   assert.match(stage2f,/Trusted Request Authentication & ID Token Revocation Boundary/);
 
-  process.stdout.write("PASS Stage 2G trusted atomic account-bootstrap execution boundary contracts\n");
+  process.stdout.write("PASS Stage 2G trusted atomic account-bootstrap execution boundary contracts with historical proof version-neutral and current release identity coherent\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
