@@ -1,8 +1,21 @@
 # PROJECT STATE — Career Mode Showdown
 
-Current verified source and live GitHub override historical prose. `PROJECT_STATE.md` is the primary owner of current deployed product state; `NEXT_TASK.md` owns the current implementation authorization boundary.
+## Current override — PR #126 Connected Account Settings hotfix
+
+Current verified source and live GitHub override historical prose below. The deployed site is visibly serving application `v1.5.0` / runtime `1.5.0-r1` from merged PR #125, as confirmed by the owner's production installed-app screenshots. That runtime exposes a real defect: Save Library & Settings can open without the Connected Account panel when the optional Settings module wins a startup race against the deferred production Firebase runtime.
+
+Active release candidate — **NOT production**: **v1.5.0 — Private Connected Account Foundation runtime hotfix**.
+Active hotfix candidate Installable Offline App runtime: `1.5.0-r2`.
+Immediate previous whole-shell recovery runtime: `1.5.0-r1`.
+Current hotfix PR: #126 `Fix Connected Account Settings mount race` on `agent/v1.5.1-connected-account-settings-fix`, based on merged PR #125 main `7fb403a802f944c94b0f1e474a78a31863c16b97`.
+
+PR #126 is intentionally narrow: make Connected Account mounting recover when the production Firebase runtime loads after Settings is already open, protect that exact race with a mobile browser regression audit, preserve the existing Spark rules/Auth/App Check/local-first boundaries, and obtain post-deployment Connected Account proof before Stage 3 Registered Devices / Private Pairing. RJR remains `61/100` until genuine production evidence closes a fixed RJR-1 capability gap.
 
 The repository Work Environment Continuity system remains mandatory through `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md` and the repository continuity scripts. Every fresh environment must validate inherited state, initialize its own fresh WEC record and obey its own assessment before substantial work; predecessor transition decisions are historical only.
+
+## Historical pre-PR126 authority retained for executable compatibility
+
+The following preserved text describes the immediately preceding PR #125 release-candidate boundary. It is historical where it conflicts with the current override above.
 
 ## Current production boundary
 

@@ -23,6 +23,11 @@ assert.match(runtimeSource,/firebase-firestore\.js/);
 assert.match(runtimeSource,/browserSessionPersistence/);
 assert.match(runtimeSource,/memoryLocalCache/);
 assert.match(runtimeSource,/signInWithPopup/);
+assert.match(runtimeSource,/function connectedAccountSettingsOpen\(\)/);
+assert.match(runtimeSource,/function mountConnectedAccountSettings\(\)/);
+assert.match(runtimeSource,/new root\.MutationObserver/);
+assert.match(runtimeSource,/target\.id==="settingsOverlay"/);
+assert.match(runtimeSource,/requestMount\(\);/);
 assert.doesNotMatch(runtimeSource,/signInWithRedirect|firebase-functions|firebase-storage|getFunctions|getStorage/);
 
 assert.match(controllerSource,/new sparkConnectedServices\.authSdk\.GoogleAuthProvider\(\)/);
@@ -97,5 +102,5 @@ const mockRuntime={async ensureAccountServices(){calls.push(["ensureAccountServi
   assert.equal(signedOut.connected,false);
   assert.equal(signedOut.accountId,null);
 
-  process.stdout.write("PASS Spark production connected-account policy: Google popup, session-only Auth, memory-only Firestore, self-account bootstrap and zero-billing boundary\n");
+  process.stdout.write("PASS Spark production connected-account policy: Google popup, session-only Auth, memory-only Firestore, self-account bootstrap, durable Settings mount and zero-billing boundary\n");
 })().catch(error=>{console.error(error);process.exit(1);});
