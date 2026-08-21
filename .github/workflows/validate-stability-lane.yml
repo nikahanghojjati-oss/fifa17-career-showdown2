@@ -45,9 +45,8 @@ jobs:
 
       - name: Smoke trusted runtime Firebase Admin imports
         run: >-
-          docker run --rm --entrypoint node career-mode-showdown-trusted-runtime:ci
-          --input-type=module -e
-          "Promise.all([import('./firebaseAdminProvider.mjs'),import('./server.mjs').catch(error => error)]).then(([provider]) => { if(typeof provider.createFirebaseAdminProductionProvider !== 'function') process.exit(1); })"
+          docker run --rm --entrypoint sh career-mode-showdown-trusted-runtime:ci -c
+          'node --check server.mjs && node --input-type=module -e "import(\"./firebaseAdminProvider.mjs\").then(provider => { if(typeof provider.createFirebaseAdminProductionProvider !== \"function\") process.exit(1); })"'
 
   chromium-stability:
     needs: stability-contracts
