@@ -102,6 +102,14 @@ Stage 3 Registered Devices / Private Pairing remains blocked until the remaining
 
 Public community features and global leaderboard/rankings are ELIMINATED. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
 
+## Closed product-dependency evidence retained by current authority
+
+Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) — CLOSED / PRODUCTION-PROVEN at `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`.
+Phase C first slice — Showdown Home & Season Experience deepening (PR #73) — CLOSED / PRODUCTION-PROVEN at `dec1d3ba8182c3f62019974dd1704c7c9124def6`.
+formatVersion 2 full multi-Save backup/import portability (PR #67) — CLOSED / PRODUCTION-PROVEN at `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`.
+
+The already shipped local chain remains: Local Profile display-label editing → Identity-Safe Career Analytics → formatVersion 2 full multi-Save portability. These are protected dependencies, not reopened work.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Finish and publish only the current post-PR121 production-authority/RJR reconciliation candidate. Do not reopen the completed App Check proof lane.
@@ -116,7 +124,7 @@ Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP 
 Historical branch: `agent/pr115-production-deployment-proof`.
 Historical PR #116 title: `Add controlled GitHub Pages App Check deployment`.
 Historical starting main: `1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd`.
-Historical production Installable Offline App runtime: `1.4.0-r1`.
+Historical pre-r2 authority: Current production Installable Offline App runtime: `1.4.0-r1`. Immediate previous known-good whole shell: `1.3.0-r2`.
 Historical candidate runtime revision: `1.4.0-r2`.
 Historical completion rule: the PR #115 / PR #116 production proof could not be classified complete until deployed `1.4.0-r2`, legitimate production App Check token traffic, local/offline operation and deny-all browser write boundaries were proven.
 
@@ -127,5 +135,7 @@ The Next prerequisite after Phase 1E merges was Cloud/Sync Readiness Phase 1F.
 At that historical boundary the Cloud/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED wording prevented premature provider connection. Current source has since advanced through those prerequisite boundaries.
 
 Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY. That gateway is completed and is not the current task.
+
+The former clean-stop wording was satisfied by later explicit owner authorization and subsequent proven prerequisite work. Do not revive that obsolete wait-for-instruction boundary as current implementation authority.
 
 No historical wording authorizes a new product feature, Stage 3, Connected Rivalry or Remote Joining UX inside this reconciliation candidate.
