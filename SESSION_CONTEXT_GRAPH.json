@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-21T12:56:00-04:00",
+  "recordedAt": "2026-08-21T14:26:00-04:00",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -46,8 +46,8 @@
       "authority": 1.0
     },
     {
-      "id": "pr125-source-seal",
-      "type": "current-release-candidate-source-proof",
+      "id": "pr125-original-source-seal",
+      "type": "historical-release-candidate-source-proof",
       "pr": 125,
       "applicationVersion": "1.5.0",
       "runtimeRevision": "1.5.0-r1",
@@ -60,15 +60,36 @@
       "riskCriticality": 1.0
     },
     {
+      "id": "pr125-fresh-source-reseal",
+      "type": "current-release-candidate-source-proof",
+      "pr": 125,
+      "applicationVersion": "1.5.0",
+      "runtimeRevision": "1.5.0-r1",
+      "state": "fresh-successor-revalidated-not-production-proven",
+      "sourceRevalidationHead": "45e6d51ea5636c4fdf0c76eefe32f9b8908463d6",
+      "staticAppRunId": 32511770971,
+      "stabilityRunId": 32511771122,
+      "candidateCRunId": 32511770837,
+      "workflowFamiliesGreen": 13,
+      "reviewsClean": true,
+      "threadsClean": true,
+      "mergeable": true,
+      "postResealMutations": "SLE-transition-packaging-only-until-proven-otherwise",
+      "riskCriticality": 1.0
+    },
+    {
       "id": "spark-rules-publication",
       "type": "immediate-successor-task",
-      "state": "next-bounded-publication-gate",
+      "state": "next-bounded-provider-publication-gate",
       "rulesFile": "firestore.spark.rules",
+      "productionProject": "fifa17-career-showdown-prod",
       "requirements": [
         "fresh successor WEC and live PR verification first",
+        "classify post-45e6d51 SLE packaging delta before publication",
+        "recheck authenticated direct provider publication routes",
         "publish exact reviewed rules without hand edits",
         "authenticated self-account revision-0 create is the only newly allowed application-client write",
-        "all downstream device invite rivalry session idempotency gameplay mutations remain denied",
+        "all downstream device profile security-event invite rivalry session idempotency gameplay mutations remain denied",
         "re-freeze PR head workflows reviews threads and mergeability after provider proof"
       ],
       "riskCriticality": 1.0
@@ -94,6 +115,16 @@
       "definition": "Smart Lean Efficient",
       "mandatoryEveryFutureHandoff": true,
       "recursive": true,
+      "authority": 1.0
+    },
+    {
+      "id": "closing-wec-source-reseal",
+      "type": "historical-predecessor-transition",
+      "environmentId": "we-2026-08-21-pr125-spark-rules-publication",
+      "decision": "HANDOFF_AT_CHECKPOINT",
+      "decisionScope": "closing-environment-only",
+      "successorMustInitializeFreshWec": true,
+      "checkpoint": "source-reseal-before-provider-publication",
       "authority": 1.0
     },
     {
@@ -165,20 +196,20 @@
       "scope": "repository reads/writes, PRs, CI, workflow job logs, branches, commits, reviews"
     },
     {
-      "id": "github-rootless-cli",
+      "id": "firebase-provider-publication-route",
       "type": "tool-route",
-      "state": "fallback-only",
-      "condition": "concrete required operation cannot be performed through connected GitHub tool and genuinely needs local CLI capability",
-      "maxSimilarFailures": 2,
-      "connectorCredentialReuse": false
+      "state": "not-available-in-closing-environment-recheck-in-successor",
+      "ownerFallback": "one-precise-console-publication-action-only-after-direct-routes-are-exhausted"
     }
   ],
   "edges": [
     {"from":"live-main-pr124","to":"pr124-spark-bootstrap-foundation","relation":"contains-merged-prerequisite"},
     {"from":"pr119-app-check-proof","to":"production-runtime-1.4.0-r2","relation":"production-proves"},
-    {"from":"production-runtime-1.4.0-r2","to":"pr125-source-seal","relation":"reused-by-candidate"},
-    {"from":"pr124-spark-bootstrap-foundation","to":"pr125-source-seal","relation":"prerequisite"},
-    {"from":"pr125-source-seal","to":"spark-rules-publication","relation":"unlocks-after-fresh-successor-verification"},
+    {"from":"production-runtime-1.4.0-r2","to":"pr125-original-source-seal","relation":"reused-by-candidate"},
+    {"from":"pr124-spark-bootstrap-foundation","to":"pr125-original-source-seal","relation":"prerequisite"},
+    {"from":"pr125-original-source-seal","to":"pr125-fresh-source-reseal","relation":"followed-by-sle-packaging-and-fresh-successor-revalidation"},
+    {"from":"pr125-fresh-source-reseal","to":"closing-wec-source-reseal","relation":"completed-checkpoint-triggers"},
+    {"from":"closing-wec-source-reseal","to":"spark-rules-publication","relation":"handoff-before-separate-provider-phase"},
     {"from":"spark-rules-publication","to":"pr125-production-proof","relation":"mandatory-before-merge-deploy-proof"},
     {"from":"pr125-production-proof","to":"stage3-registered-devices-private-pairing","relation":"must-complete-and-reassess-before"},
     {"from":"stage3-registered-devices-private-pairing","to":"stage4-connected-rivalry-sync","relation":"prerequisite"},
@@ -187,18 +218,18 @@
     {"from":"canonical-local-storage","to":"pr125-production-proof","relation":"must-remain-safe-through"},
     {"from":"recovery-candidates","to":"pr125-production-proof","relation":"must-remain-safe-through"},
     {"from":"stage2h-iam","to":"pr125-production-proof","relation":"must-remain-unactivated-during"},
-    {"from":"sle-policy","to":"spark-rules-publication","relation":"loads-fresh-successor-safely-before"},
-    {"from":"github-connected-tool","to":"github-rootless-cli","relation":"preferred-before-fallback"}
+    {"from":"sle-policy","to":"closing-wec-source-reseal","relation":"requires-complete-transition-package"},
+    {"from":"github-connected-tool","to":"firebase-provider-publication-route","relation":"different-provider-capability-recheck-required"}
   ],
   "retrievalHints": {
     "currentTaskNode": "spark-rules-publication",
     "nextTaskAfterPublicationNode": "pr125-production-proof",
-    "walkDirection": "verify live main and PR125 source-seal/SLE delta first, publish exact Spark rules, then walk forward to merge/deploy production proof; walk backward only to resolve security, recovery or publication evidence",
+    "walkDirection": "verify live main and final PR125 SLE-only packaging delta from fresh source reseal first, initialize fresh WEC, then publish exact Spark rules and walk forward to merge/deploy production proof; walk backward only to resolve security, recovery or publication evidence",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact run jobs and completed failed-job logs before modifying candidate",
     "expandGraphWhen": [
       "live main changes",
-      "PR #125 head contains an unclassified non-SLE delta",
+      "PR #125 final head contains an unclassified non-SLE delta after 45e6d51",
       "published Firebase rules differ from firestore.spark.rules",
       "a current exact-head workflow fails",
       "security or recovery contradiction appears",
