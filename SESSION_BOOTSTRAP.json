@@ -1,43 +1,73 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-20T22:53:00-04:00",
+  "recordedAt": "2026-08-21T12:55:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "main",
+  "bootstrapBranch": "agent/spark-production-account-runtime",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "ab48ecec7f9560378f79eee30150d39a90834c35",
+  "lastVerifiedMainSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
   "latestGovernanceMerge": {
     "pullRequest": 121,
     "title": "Make SLE handoff packaging permanent",
     "mergeSha": "ab48ecec7f9560378f79eee30150d39a90834c35",
     "runtimeChanged": false
   },
+  "latestMainMerge": {
+    "pullRequest": 124,
+    "title": "Add zero-billing Spark account bootstrap foundation",
+    "mergeSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
+    "runtimeChanged": false,
+    "productionRulesPublished": false
+  },
   "currentPullRequest": {
-    "number": 119,
-    "state": "merged",
-    "branch": "agent/pr119-deployed-app-check-noise-coverage",
+    "number": 125,
+    "title": "Ship Spark private connected account runtime",
+    "state": "open",
+    "branch": "agent/spark-production-account-runtime",
     "base": "main",
-    "baseSha": "08e92c0598b43fd91420dc52ea0dca0058763511",
-    "finalSealedHead": "b1bbab80716a7ecf2724ca6df84da58e1564a891",
-    "mergeSha": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
-    "workflowFamiliesGreenAtFinalSeal": 13,
-    "reviewsCleanAtFinalSeal": true,
-    "threadsCleanAtFinalSeal": true,
-    "mergeableAtFinalSeal": true,
+    "baseSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
+    "sourceValidationSealedHead": "d83a33066b271d7d89bf932f1066d9e1369b3f6d",
+    "transitionPackagingAfterSourceSeal": true,
+    "workflowFamiliesGreenAtSourceSeal": 13,
+    "reviewsCleanAtSourceSeal": true,
+    "threadsCleanAtSourceSeal": true,
+    "mergeableAtSourceSeal": true,
     "mergeAuthorized": true,
     "mergeAuthorizationSource": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
-    "mergeAuthorizationCondition": "After every required test and current mandatory publication gate passes on the immutable exact head, merge/deploy without another owner approval prompt.",
-    "postMergeProductionProof": {
-      "workflow": "Validate Stability Lane",
-      "runNumber": 1230,
-      "runId": 32439162225,
-      "headSha": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
-      "event": "push",
-      "conclusion": "success",
+    "mergeAuthorizationCondition": "After every required test and current mandatory publication gate passes on the intended immutable head, merge/deploy without another owner approval prompt.",
+    "sourceValidation": {
+      "staticAppRunNumber": 1567,
+      "staticAppRunId": 32502859032,
+      "stabilityRunNumber": 1321,
+      "stabilityRunId": 32502858761,
+      "candidateCRunNumber": 955,
+      "candidateCRunId": 32502858786,
       "stabilityContracts": "success",
       "chromiumStability": "success",
-      "deployedSiteSmoke": "success"
-    }
+      "deployedSiteSmoke": "skipped-on-pull-request",
+      "productionProof": false
+    },
+    "mandatoryPublicationGate": {
+      "rulesFile": "firestore.spark.rules",
+      "published": false,
+      "verified": false,
+      "mustCompleteBeforeMerge": true
+    },
+    "mergeSha": null,
+    "postMergeProductionProof": null
+  },
+  "latestProductionProof": {
+    "pullRequest": 119,
+    "workflow": "Validate Stability Lane",
+    "runNumber": 1230,
+    "runId": 32439162225,
+    "headSha": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
+    "event": "push",
+    "conclusion": "success",
+    "stabilityContracts": "success",
+    "chromiumStability": "success",
+    "deployedSiteSmoke": "success",
+    "runtimeRevision": "1.4.0-r2"
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -48,10 +78,14 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "PR #115 through PR #119 production App Check runtime/deployment proof is DONE / MERGED / PROVEN. Permanent push Stability Lane #1230 run 32439162225 succeeded on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 with stability-contracts, chromium-stability and every deployed-site-smoke step green. PR #121 then made SLE packaging permanent without changing runtime behavior.",
+  "lastCompletedMilestone": "PR #125 source validation is sealed on d83a33066b271d7d89bf932f1066d9e1369b3f6d with all 13 normal workflow families green, clean submitted reviews, clean inline review threads and mergeability. This does not publish firestore.spark.rules and does not make v1.5.0 / 1.5.0-r1 production-proven.",
   "runtime": {
     "applicationVersion": "1.4.0",
     "productionRuntimeRevision": "1.4.0-r2",
+    "candidateApplicationVersion": "1.5.0",
+    "candidateRuntimeRevision": "1.5.0-r1",
+    "candidateStatus": "release-candidate-not-production-proven",
+    "candidateImmediateRecoveryRuntime": "1.4.0-r2",
     "productionRuntimeFirebaseConnected": true,
     "productionFirebaseServices": [
       "firebase-app",
@@ -60,25 +94,30 @@
     "productionAppCheckTrafficProven": true,
     "productionAppCheckProvider": "recaptcha-enterprise",
     "appCheckEnforcement": false,
-    "browserFirestoreWrites": "deny-all",
-    "clientAuthInitialized": false,
-    "clientFirestoreInitialized": false,
-    "clientStorageInitialized": false,
-    "clientFunctionsInitialized": false,
+    "publishedBrowserFirestoreWrites": "deny-all",
+    "productionClientAuthInitialized": false,
+    "productionClientFirestoreInitialized": false,
+    "productionClientStorageInitialized": false,
+    "productionClientFunctionsInitialized": false,
+    "candidateLazyAuth": true,
+    "candidateLazyFirestoreMemoryOnly": true,
+    "candidateOnlyProposedBrowserWrite": "strict-authenticated-self-account-revision-0-create",
+    "candidateRulesFile": "firestore.spark.rules",
+    "candidateRulesPublished": false,
     "knownGoodFallbackRuntime": "1.4.0-r1"
   },
-  "currentLane": "Bounded post-PR121 production-authority/RJR reconciliation for the proven 1.4.0-r2 App Check production boundary. Do not reopen the completed App Check proof lane. After publication and fresh WEC reassessment, advance only if allowed to the smallest remaining dependency-gated production trusted-runtime/IAM prerequisite toward Private Remote Joining.",
+  "currentLane": "PR #125 source-validation checkpoint is complete and the predecessor WEC is handoff-bound. Fresh successor must initialize its own WEC, reverify the SLE-only branch delta, then publish and verify exactly firestore.spark.rules before merge/deploy/post-deployment proof.",
   "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
     "score": 61,
     "reportLabel": "Remote Joining readiness",
-    "rule": "Read and reconcile the fixed ledger from evidence; never infer readiness from PR count, CI, WEC, SLE quality or visible owner actions. The current +2 delta is limited to controlled production Firebase App + App Check runtime connection and legitimate production App Check token traffic proven by permanent run 32439162225."
+    "rule": "Read and reconcile the fixed ledger from production capability evidence only; never infer readiness from PR count, CI, WEC, SLE quality, documentation or unpublished provider state."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR119_APP_CHECK_PRODUCTION_PROOF_SLE_2026-08-20.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR119_APP_CHECK_PRODUCTION_PROOF_SLE_2026-08-20.md"
+    "canonical": "SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -94,20 +133,20 @@
   "contextGraph": "SESSION_CONTEXT_GRAPH.json",
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "starter": {
-    "version": "1.4.0",
-    "checkpoint": "POST-PR119-SLE-PRODUCTION-APP-CHECK-PROVEN",
-    "canonical": "START_NEXT_SESSION_V1.4.0_PR119.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.0_PR119.md",
+    "version": "1.4.1",
+    "checkpoint": "PR125-SPARK-CONNECTED-ACCOUNT-SOURCE-SEAL",
+    "canonical": "START_NEXT_SESSION_V1.4.1_PR125.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.1_PR125.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "MINOR: complete Smart Lean Efficient SLE packaging is a permanent recursive requirement while preserving the existing live-first adaptive startup architecture."
+    "versionReason": "PATCH: ordinary new WEC/SLE handoff checkpoint using the existing startup protocol."
   },
   "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + SLE/RJR/WEC/security locks supersede older read-everything preload lists only for startup context loading; current verified source, provider/deployment state, security/recovery rules and later owner instructions remain authoritative.",
   "retrievalStrategy": {
     "method": "SLE-progressive-context-hydration-with-ranked-task-retrieval-and-live-delta",
     "tier0": "starter + capsule + SLE policy + standing owner authorization + fixed RJR/WEC/security locks",
-    "tier1": "live main/PR delta, production authority files, RJR ledger and the smallest current Remote Joining prerequisite authority",
-    "tier2": "intervening live-main/PR delta only when current state differs",
+    "tier1": "live main/PR delta, firestore.spark.rules, current production/candidate authority and exact PR125 source-seal evidence",
+    "tier2": "intervening branch delta only when current state differs from source-validation seal",
     "tier3": "complete SLE handoff/history only when evidence-triggered",
     "failureTriage": "For CI failure, fetch exact workflow run jobs and completed failed-job logs before changing code. Do not guess from a workflow family name.",
     "optimizationObjective": "minimize startup context cost and tool latency subject to zero increase in missed critical security, recovery, authority or publication context"
@@ -119,7 +158,7 @@
     "repeatBootstrapWhenConnectorCanDoOperation": false,
     "maxMateriallySimilarRouteFailuresBeforeCircuitBreak": 2,
     "connectorCredentialsMayBeCopiedIntoGh": false,
-    "ownerManualActionRule": "Do the work directly whenever the connected tools can. Ask the owner only for genuinely owner-controlled or externally invisible operations after supported routes are exhausted.",
+    "ownerManualActionRule": "Do the work directly whenever connected tools can. Ask the owner only for genuinely owner-controlled or externally invisible operations after supported routes are exhausted.",
     "completedOwnerSettings": [
       "GitHub Pages source is GitHub Actions",
       "CMS_FIREBASE_WEB_API_KEY repository variable configured",
@@ -131,19 +170,20 @@
     "00_SLE_HANDOFF_PROTOCOL.md",
     "REMOTE_JOINING_READINESS.json",
     "WORK_ENVIRONMENT_STATUS.json",
-    "firebase.production.environment.json",
+    "firestore.spark.rules",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
   ],
   "targetedReads": [
-    "PROJECT_STATE.md",
     "NEXT_TASK.md",
-    "REMOTE_JOINING_EXECUTION_ROADMAP.md",
-    "PRIVATE_ACCOUNT_AUTH_STAGE_2H.md",
-    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md"
+    "PROJECT_STATE.md",
+    "RELEASE_V1.5.0.md",
+    "CAREER_MODE_SHOWDOWN_V1.5.0_MAINTENANCE_HANDOFF.md",
+    "tests/contracts/spark-account-bootstrap-contracts.cjs",
+    "tests/contracts/production-connected-account-contracts.cjs"
   ],
   "expandContextOnlyIf": [
     "live main differs from lastVerifiedMainSha",
-    "newer merged/open current-authority work exists",
+    "PR #125 head differs from the recorded source-validation seal beyond classified SLE packaging",
     "current production authority conflicts with permanent production proof run 32439162225",
     "a current exact-head workflow fails",
     "security, recovery, versioning or implementation authority is ambiguous",
@@ -160,11 +200,12 @@
     "candidateA": "non-mutating-export",
     "candidateB": "read-only-import-analysis",
     "candidateC": "sole-destructive-import-apply-authority",
-    "applicationClientFirestoreWrites": "deny-all",
-    "productionSecurityRules": "provider-verified-deployed",
+    "publishedApplicationClientFirestoreWrites": "deny-all",
+    "candidateRulesFile": "firestore.spark.rules",
+    "candidateOnlyNewWrite": "strict-authenticated-self-account-revision-0-create",
+    "downstreamRemoteMutations": "denied",
+    "productionSecurityRules": "current-deny-all-until-spark-rules-publication-and-verification",
     "appCheck": "production-runtime-and-legitimate-token-traffic-proven-enforcement-off",
-    "appCheckTokenTtlSeconds": 3600,
-    "appCheckRiskThreshold": 0.5,
     "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
     "stage2hIamPermissions": [
       "firebaseauth.users.get",
