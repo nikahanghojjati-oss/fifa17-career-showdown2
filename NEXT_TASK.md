@@ -128,7 +128,7 @@ Finish only PR #125 `v1.5.0 / 1.5.0-r1` source validation first. Do not publish 
 
 Once source gates are clean, publish exactly the reviewed `firestore.spark.rules` boundary to the existing free Firebase project, verify that self-account create is the only newly permitted application-client write, then merge/deploy under standing owner authorization. Obtain production proof before promoting `1.5.0-r1` from RELEASE CANDIDATE to production-proven or changing RJR.
 
-After the release is fully published/proven, run the fresh WEC assessment before beginning another milestone. If continuation is allowed, choose the next smallest dependency-gated prerequisite. Stage 3 pairing, Connected Rivalry and Remote Joining UX remain blocked until the account/runtime production boundary is genuinely proven.
+After the candidate is fully published, run the fresh WEC assessment before beginning another milestone. If WEC permits continuation, choose the smallest remaining dependency-gated Stage 2 prerequisite justified by the new production proof. Stage 3 pairing, Connected Rivalry and Remote Joining UX remain blocked until the account/runtime production boundary is genuinely proven.
 
 ## Historical production and contract provenance
 
