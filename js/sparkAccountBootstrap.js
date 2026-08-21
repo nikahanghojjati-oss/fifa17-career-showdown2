@@ -5,33 +5,33 @@
 })(typeof globalThis!=="undefined"?globalThis:this,function(root){
   "use strict";
 
-  function isRecord(value){
+  function isSparkAccountRecord(value){
     return Boolean(value)&&typeof value==="object"&&!Array.isArray(value);
   }
 
-  function deepFreeze(value){
+  function deepFreezeSparkAccount(value){
     if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
     Object.freeze(value);
-    Object.values(value).forEach(deepFreeze);
+    Object.values(value).forEach(deepFreezeSparkAccount);
     return value;
   }
 
-  function reject(code){
-    return deepFreeze({ok:false,action:"reject",code});
+  function rejectSparkAccount(code){
+    return deepFreezeSparkAccount({ok:false,action:"reject",code});
   }
 
-  function normalizeUid(user){
-    if(!isRecord(user)||typeof user.uid!=="string"||!user.uid.trim())return null;
+  function normalizeSparkAccountUid(user){
+    if(!isSparkAccountRecord(user)||typeof user.uid!=="string"||!user.uid.trim())return null;
     return user.uid.trim();
   }
 
-  function stableStringify(value){
+  function stableStringifySparkAccount(value){
     if(value===null||typeof value!=="object")return JSON.stringify(value);
-    if(Array.isArray(value))return `[${value.map(stableStringify).join(",")}]`;
-    return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${stableStringify(value[key])}`).join(",")}}`;
+    if(Array.isArray(value))return `[${value.map(stableStringifySparkAccount).join(",")}]`;
+    return `{${Object.keys(value).sort().map(key=>`${JSON.stringify(key)}:${stableStringifySparkAccount(value[key])}`).join(",")}}`;
   }
 
-  function canonicalTimestamp(timestamp){
+  function canonicalSparkAccountTimestamp(timestamp){
     return {
       "@type":"firestore-timestamp",
       seconds:Number(timestamp.seconds),
@@ -39,12 +39,12 @@
     };
   }
 
-  async function sha256AccountData(data,cryptoImpl){
+  async function sha256SparkAccountData(data,cryptoImpl){
     if(!cryptoImpl||!cryptoImpl.subtle||typeof cryptoImpl.subtle.digest!=="function"){
       throw new Error("SPARK_ACCOUNT_CRYPTO_UNAVAILABLE");
     }
-    const canonical=stableStringify({
-      createdAt:canonicalTimestamp(data.createdAt),
+    const canonical=stableStringifySparkAccount({
+      createdAt:canonicalSparkAccountTimestamp(data.createdAt),
       deletionRequestedAt:null,
       status:"active"
     });
@@ -54,23 +54,23 @@
     return `sha256:${Array.from(new Uint8Array(digest)).map(byte=>byte.toString(16).padStart(2,"0")).join("")}`;
   }
 
-  function validateExistingAccount(uid,value){
-    return isRecord(value)
+  function validateExistingSparkAccount(uid,value){
+    return isSparkAccountRecord(value)
       && value.schemaVersion===1
       && value.objectType==="account"
       && value.objectId===uid
       && Number.isInteger(value.revision)
       && value.revision>=0
       && value.lifecycleState==="live"
-      && isRecord(value.data)
+      && isSparkAccountRecord(value.data)
       && ["active","disabled","deletion-pending"].includes(value.data.status);
   }
 
-  async function createInitialEnvelope(uid,Timestamp,cryptoImpl){
+  async function createInitialSparkAccountEnvelope(uid,Timestamp,cryptoImpl){
     if(!Timestamp||typeof Timestamp.now!=="function")throw new Error("SPARK_ACCOUNT_TIMESTAMP_UNAVAILABLE");
     const now=Timestamp.now();
     const data={status:"active",createdAt:now,deletionRequestedAt:null};
-    const contentHash=await sha256AccountData(data,cryptoImpl);
+    const contentHash=await sha256SparkAccountData(data,cryptoImpl);
     return {
       schemaVersion:1,
       objectType:"account",
@@ -89,20 +89,20 @@
   }
 
   async function bootstrapSparkAccount(input){
-    if(!isRecord(input))return reject("SPARK_ACCOUNT_INPUT_REQUIRED");
-    const uid=normalizeUid(input.user);
-    if(!uid)return reject("SPARK_ACCOUNT_AUTH_REQUIRED");
-    if(!input.firestore)return reject("SPARK_ACCOUNT_FIRESTORE_REQUIRED");
+    if(!isSparkAccountRecord(input))return rejectSparkAccount("SPARK_ACCOUNT_INPUT_REQUIRED");
+    const uid=normalizeSparkAccountUid(input.user);
+    if(!uid)return rejectSparkAccount("SPARK_ACCOUNT_AUTH_REQUIRED");
+    if(!input.firestore)return rejectSparkAccount("SPARK_ACCOUNT_FIRESTORE_REQUIRED");
     const sdk=input.firebaseSdk;
-    if(!isRecord(sdk)||typeof sdk.doc!=="function"||typeof sdk.runTransaction!=="function"){
-      return reject("SPARK_ACCOUNT_FIRESTORE_SDK_REQUIRED");
+    if(!isSparkAccountRecord(sdk)||typeof sdk.doc!=="function"||typeof sdk.runTransaction!=="function"){
+      return rejectSparkAccount("SPARK_ACCOUNT_FIRESTORE_SDK_REQUIRED");
     }
 
     let envelope;
     try{
-      envelope=await createInitialEnvelope(uid,sdk.Timestamp,input.cryptoImpl||(root&&root.crypto));
+      envelope=await createInitialSparkAccountEnvelope(uid,sdk.Timestamp,input.cryptoImpl||(root&&root.crypto));
     }catch(_error){
-      return reject("SPARK_ACCOUNT_ENVELOPE_FAILED");
+      return rejectSparkAccount("SPARK_ACCOUNT_ENVELOPE_FAILED");
     }
 
     try{
@@ -111,8 +111,8 @@
         const snapshot=await transaction.get(accountRef);
         if(snapshot.exists()){
           const existing=snapshot.data();
-          if(!validateExistingAccount(uid,existing))return reject("SPARK_ACCOUNT_DOCUMENT_CONFLICT");
-          return deepFreeze({
+          if(!validateExistingSparkAccount(uid,existing))return rejectSparkAccount("SPARK_ACCOUNT_DOCUMENT_CONFLICT");
+          return deepFreezeSparkAccount({
             ok:true,
             action:"existing",
             accountId:uid,
@@ -123,7 +123,7 @@
           });
         }
         transaction.set(accountRef,envelope);
-        return deepFreeze({
+        return deepFreezeSparkAccount({
           ok:true,
           action:"created",
           accountId:uid,
@@ -133,11 +133,11 @@
         });
       });
     }catch(_error){
-      return reject("SPARK_ACCOUNT_BOOTSTRAP_FAILED");
+      return rejectSparkAccount("SPARK_ACCOUNT_BOOTSTRAP_FAILED");
     }
   }
 
-  return deepFreeze({
+  return deepFreezeSparkAccount({
     contractVersion:1,
     providerMode:"firebase-spark-client",
     billingRequired:false,
