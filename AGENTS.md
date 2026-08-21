@@ -8,6 +8,18 @@ Treat every handoff as orientation, never as implementation authority. Before ch
 
 `NEXT_TASK.md` is the sole repository owner of implementation authorization. Do not infer permission from roadmap order, an old branch, an old PR or an available idea. Development-process documentation and tests do not authorize product-runtime changes.
 
+## Mandatory SLE successor packaging
+
+`00_SLE_HANDOFF_PROTOCOL.md` is permanent repository policy and applies recursively to every current and future developer/ChatGPT Work Environment.
+
+The repository uses `SLE` as the project label for its live-first, low-context adaptive successor-loading system. Historical authoritative SLE files define the package behavior but do not spell out a word-by-word acronym expansion; do not invent one as historical fact.
+
+A project handoff is incomplete if it is only a chat prompt or a single unmirrored Markdown file. At every `Handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or equivalent final transition boundary, the closing developer must complete the SLE package defined by `00_SLE_HANDOFF_PROTOCOL.md` and `00_SESSION_BOOTSTRAP.md`: complete root SLE handoff plus byte-identical project mirror, new versioned root START_NEXT_SESSION plus byte-identical project mirror, refreshed `SESSION_BOOTSTRAP.json` current pointers, progressive context refresh when materially needed, explicit immediate successor task, exact live/WEC/security/RJR evidence, applicable SLE contract validation, and the clean stop before the next substantial milestone.
+
+Every generated SLE handoff and starter must recursively preserve this same SLE requirement so future developers cannot silently fall back to a non-SLE handoff unless the owner explicitly changes the policy.
+
+For fresh-session loading, prefer the newest versioned `START_NEXT_SESSION_...md` and compact `SESSION_BOOTSTRAP.json` path defined by `00_SESSION_BOOTSTRAP.md`; do not preload all history merely because the SLE deep-reference handoff exists.
+
 ## Mandatory GitHub tooling bootstrap
 
 The connected GitHub app is the connector-first authority for repository, pull-request and issue metadata and supported writes. The `gh` CLI fills local workflow gaps such as authentication checks, current-branch discovery and GitHub Actions evidence; its availability never reverses that authority order.
@@ -29,14 +41,15 @@ If the Work command layer cancels the npm wrapper before execution, run the exac
 At the start of every development environment, read these files before substantial work:
 
 1. `00_HANDOFF_GOLDEN_RULE.md`
-2. `00_WORK_ENVIRONMENT_CONTINUITY.md`
-3. `00_FORWARD_PROGRESS_ANTI_LOOP.md`
-4. `WORK_ENVIRONMENT_STATUS.json`
-5. `WORK_ENVIRONMENT_HISTORY.md`
-6. `00_DEVELOPER_START_HERE.md`
-7. `00_CURRENT_HANDOFF.md`
-8. `PROJECT_STATE.md`
-9. `NEXT_TASK.md`
+2. `00_SLE_HANDOFF_PROTOCOL.md`
+3. `00_WORK_ENVIRONMENT_CONTINUITY.md`
+4. `00_FORWARD_PROGRESS_ANTI_LOOP.md`
+5. `WORK_ENVIRONMENT_STATUS.json`
+6. `WORK_ENVIRONMENT_HISTORY.md`
+7. `00_DEVELOPER_START_HERE.md`
+8. `00_CURRENT_HANDOFF.md`
+9. `PROJECT_STATE.md`
+10. `NEXT_TASK.md`
 
 Then follow this order:
 
@@ -57,11 +70,11 @@ Obey the assessment decision:
 
 - `CONTINUE`: continue only the currently authorized bounded task.
 - `PREPARE_HANDOFF`: update continuity records and finish the current checkpoint before another milestone.
-- `HANDOFF_AT_CHECKPOINT`: finish or safely revert the bounded operation, freeze evidence, run `npm run work:handoff`, alert the owner and stop before new substantial work.
-- `HANDOFF_NOW`: start no more work; seal the current coherent boundary, generate the prompt and stop.
-- `FINISH_SAFE_BOUNDARY`: complete or safely revert only the minimum atomic work needed for coherence, then hand off immediately.
+- `HANDOFF_AT_CHECKPOINT`: finish or safely revert the bounded operation, freeze evidence, run `npm run work:handoff`, alert the owner, complete the mandatory SLE package, and stop before new substantial work.
+- `HANDOFF_NOW`: start no more work; seal the current coherent boundary, complete the mandatory SLE package and stop.
+- `FINISH_SAFE_BOUNDARY`: complete or safely revert only the minimum atomic work needed for coherence, then perform the mandatory SLE handoff immediately.
 
-When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY.md` through a safe additions-only route when available. If no safe append route exists, preserve the exact recovery payload and do not manufacture a history-only milestone solely to perform that append. Give the owner the complete ready-to-paste output from `npm run work:handoff`. The next environment inherits this loop recursively.
+When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY.md` through a safe additions-only route when available. If no safe append route exists, preserve the exact recovery payload and do not manufacture a history-only milestone solely to perform that append. Give the owner the newest versioned SLE `START_NEXT_SESSION_...md` as the normal next-session entrypoint; the complete deep-reference handoff remains repository-native fallback. The next environment inherits this loop recursively.
 
 ## Mandatory forward-progress / anti-loop rule
 
@@ -74,7 +87,7 @@ When an environment closes, append its final record to `WORK_ENVIRONMENT_HISTORY
 5. If live `main` advances before publication because another environment already merged equivalent or superseding work, stop the stale candidate, compare outcomes, close/abandon duplicate work when satisfied, adopt live `main`, and continue to the next real dependency. Do not create a reconciliation PR solely because the base SHA changed.
 6. After an interruption, reconstruct exact branch/PR/CI/live-main state and resume from the last coherent engineering checkpoint. Do not restart the entire repository study when the current fresh WEC and source boundary remain valid.
 
-This anti-loop rule never permits skipping a real security, recovery, dependency, testing, WEC or publication requirement.
+This anti-loop rule never permits skipping a real security, recovery, dependency, testing, WEC, SLE or publication requirement.
 
 ## Mandatory Handoff Proximity owner reporting
 
@@ -86,11 +99,11 @@ The percentage is an evidence-based estimate of proximity to a recommended Work 
 
 Never fabricate account/model usage to calculate Handoff proximity. If usage is unavailable, base the estimate only on observable continuity evidence and leave `usageRemainingPercent` unavailable in the WEC record.
 
-At `Handoff proximity: 100%` the current environment must automatically generate the complete successor handoff, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone.
+At `Handoff proximity: 100%` the current environment must automatically generate the complete successor handoff as the full SLE package, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone. A plain ready-to-paste prompt alone does not satisfy this boundary.
 
 The repository Work Environment Continuity decision is authoritative when it requires an earlier or stricter transition. Handoff proximity complements WEC and never weakens `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY`.
 
-Every successor handoff must recursively preserve this same Handoff Proximity rule so the requirement propagates to every later environment unless the owner explicitly changes it.
+Every successor SLE handoff must recursively preserve this same Handoff Proximity rule and the mandatory recursive SLE packaging rule so both requirements propagate to every later environment unless the owner explicitly changes them.
 
 ## Mandatory seven-line owner progress report
 
@@ -116,7 +129,7 @@ After that completion boundary, replace only the second-line feature label with 
 
 Owner-instruction provenance for this reporting format is preserved at `authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md`. Historical provenance never overrides newer verified source or a later explicit owner instruction.
 
-Every successor handoff and fresh Work environment inherits this seven-line format recursively unless the owner explicitly changes it.
+Every successor handoff and fresh Work environment inherits this seven-line format recursively unless the owner explicitly changes it. Every such successor handoff must also be packaged as SLE under `00_SLE_HANDOFF_PROTOCOL.md`.
 
 ## Interruption and tooling-resilience guardrails
 
@@ -137,4 +150,4 @@ These guardrails exist to prevent chat/tool instability from becoming repository
 
 Run the smallest relevant checks during implementation and the repository contract suite before publication. Do not weaken tests, workflow topology, recovery guarantees, performance ceilings or protected product semantics merely to obtain green results.
 
-The continuity system is repository development infrastructure. Do not add it to the Career Mode Showdown website runtime, Service Worker shell, browser storage or user interface.
+The continuity/SLE system is repository development infrastructure. Do not add it to the Career Mode Showdown website runtime, Service Worker shell, browser storage or user interface.
