@@ -25,9 +25,9 @@ assert.match(runtimeSource,/memoryLocalCache/);
 assert.match(runtimeSource,/signInWithPopup/);
 assert.doesNotMatch(runtimeSource,/signInWithRedirect|firebase-functions|firebase-storage|getFunctions|getStorage/);
 
-assert.match(controllerSource,/new services\.authSdk\.GoogleAuthProvider\(\)/);
-assert.match(controllerSource,/signInWithPopup\(services\.auth,provider\)/);
-assert.match(controllerSource,/setPersistence\(services\.auth,authSdk\.browserSessionPersistence\)/);
+assert.match(controllerSource,/new sparkConnectedServices\.authSdk\.GoogleAuthProvider\(\)/);
+assert.match(controllerSource,/signInWithPopup\(sparkConnectedServices\.auth,provider\)/);
+assert.match(controllerSource,/setPersistence\(sparkConnectedServices\.auth,authSdk\.browserSessionPersistence\)/);
 assert.match(controllerSource,/CareerModeSparkAccountBootstrap/);
 assert.match(controllerSource,/Remote Joining is still locked|REMOTE JOINING","Locked/);
 assert.match(controllerSource,/Firebase Spark · no billing/);
