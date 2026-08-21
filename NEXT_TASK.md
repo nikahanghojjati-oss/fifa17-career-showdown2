@@ -9,7 +9,7 @@ Status: CURRENT BOUNDED RJR PREREQUISITE RECONCILIATION / NON-RUNTIME / PRODUCTI
 Current branch: `agent/post-pr121-production-rjr-reconciliation`.
 Current environment: `we-2026-08-20-post-pr121-production-rjr-reconciliation`.
 Starting independently verified live main: `ab48ecec7f9560378f79eee30150d39a90834c35`.
-Fresh WEC decision: `CONTINUE` at initialization.
+Fresh Work Environment Continuity (WEC) decision: `CONTINUE` at initialization.
 Usage: unavailable and not estimated.
 Authorized product candidate: none.
 
