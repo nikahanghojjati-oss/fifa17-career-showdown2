@@ -1,5 +1,39 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT OVERRIDE — PR #126 CONNECTED ACCOUNT SETTINGS HOTFIX — 2026-08-21 ET
+
+Current verified source and live GitHub override historical authority below.
+
+Status: CURRENT BOUNDED RUNTIME HOTFIX CANDIDATE / v1.5.0 / 1.5.0-r2 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / NO NEW DOWNSTREAM REMOTE AUTHORITY.
+
+Current branch: `agent/v1.5.1-connected-account-settings-fix`.
+Current PR: #126 `Fix Connected Account Settings mount race`.
+Starting main: `7fb403a802f944c94b0f1e474a78a31863c16b97` from merged PR #125.
+Authorized product candidate: `v1.5.0 — Private Connected Account Foundation` / runtime `1.5.0-r2`.
+Immediate whole-shell rollback/recovery runtime: `1.5.0-r1`.
+Remote Joining readiness: `61/100` until production capability proof justifies movement.
+
+The owner-provided installed-app screenshots prove `v1.5.0 / 1.5.0-r1` is reaching production while the Connected Account panel is absent from Save Library & Settings. Source investigation identified a timing race: the production Firebase runtime is deliberately deferred, while Settings is itself lazily created. The r1 bridge depended on catching the original `#settingsButton` click; if Settings opened before that bridge existed, the click was lost and the Connected Account panel never mounted.
+
+PR #126 must do only the following:
+
+1. make Connected Account mounting recover when the Firebase runtime arrives after Settings is already open;
+2. observe the Settings overlay lifecycle rather than relying on one click timing;
+3. preserve lazy Auth/Firestore initialization, Google popup, `browserSessionPersistence`, memory-only Firestore, Firebase UID identity and the already-published Spark self-account revision-0 boundary;
+4. preserve local/offline Save Library, Legacy and recovery behavior;
+5. preserve App Check enforcement OFF and zero billing;
+6. prove the exact timing regression with a mobile browser audit that opens Settings before delayed Firebase runtime installation and requires the Connected Account panel to appear;
+7. pass exact-head CI/reviews/threads/mergeability, then merge/deploy under standing owner authorization;
+8. obtain post-deployment Connected Account proof before unlocking Registered Devices / Private Pairing.
+
+No Firebase Console change, Firestore Rules change, App Check change, IAM activation, Cloud Run, Cloud Functions, Storage, billing, pairing, Connected Rivalry or Remote Joining implementation belongs in this hotfix.
+
+The smallest next owner-only interaction after successful deployment is real Google sign-in; no repeated Firebase configuration is authorized.
+
+## Historical PR #125 authority retained for executable compatibility
+
+The following text describes the immediately preceding candidate and remains historical where it conflicts with the PR #126 override above.
+
 ## CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME — 2026-08-21 ET
 
 Current verified source, live GitHub, the owner's Remote Joining priority / anti-sidequest direction, zero-billing constraint, and later owner instructions override historical provenance below.
