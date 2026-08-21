@@ -5,12 +5,12 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    function validSelfAccountBootstrap(accountId) {
-      let root = request.resource.data;
-      let accountData = root.data;
-      return signedIn()
-        && request.auth.uid == accountId
-        && root.keys().hasOnly([
+    function validHash(value) {
+      return value is string && value.matches('^sha256:[0-9a-f]{64}$');
+    }
+
+    function validEnvelopeShape(root, objectType, objectId) {
+      return root.keys().hasOnly([
           "schemaVersion",
           "objectType",
           "objectId",
@@ -26,23 +26,44 @@ service cloud.firestore {
           "tombstone"
         ])
         && root.schemaVersion == 1
-        && root.objectType == "account"
-        && root.objectId == accountId
+        && root.objectType == objectType
+        && root.objectId == objectId
+        && root.revision is int
+        && root.revision >= 0
+        && root.lifecycleState == "live"
+        && validHash(root.contentHash)
+        && root.updatedAt is timestamp
+        && root.updatedByAccountId is string
+        && root.data is map
+        && root.tombstone == null;
+    }
+
+    function validCreateEnvelope(root, objectType, objectId) {
+      return validEnvelopeShape(root, objectType, objectId)
         && root.revision == 0
         && root.parentRevision == null
-        && root.lifecycleState == "live"
-        && root.contentHash is string
-        && root.contentHash.matches('^sha256:[0-9a-f]{64}$')
-        && root.priorContentHash == null
-        && root.updatedAt is timestamp
+        && root.priorContentHash == null;
+    }
+
+    function validCasEnvelope(before, after, objectType, objectId) {
+      return validEnvelopeShape(after, objectType, objectId)
+        && after.revision == before.revision + 1
+        && after.parentRevision == before.revision
+        && after.priorContentHash == before.contentHash;
+    }
+
+    function validSelfAccountBootstrap(accountId) {
+      let root = request.resource.data;
+      let accountData = root.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && validCreateEnvelope(root, "account", accountId)
         && root.updatedByAccountId == request.auth.uid
         && root.updatedByDeviceId == null
-        && accountData is map
         && accountData.keys().hasOnly(["status", "createdAt", "deletionRequestedAt"])
         && accountData.status == "active"
         && accountData.createdAt is timestamp
-        && accountData.deletionRequestedAt == null
-        && root.tombstone == null;
+        && accountData.deletionRequestedAt == null;
     }
 
     function activeActor() {
@@ -51,11 +72,365 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/accounts/$(request.auth.uid)).data.data.status == "active";
     }
 
+    function activeDevice(accountId, deviceId) {
+      return activeActor()
+        && request.auth.uid == accountId
+        && deviceId is string
+        && deviceId.matches('^device_[0-9a-f]{32}$')
+        && exists(/databases/$(database)/documents/accounts/$(accountId)/devices/$(deviceId))
+        && get(/databases/$(database)/documents/accounts/$(accountId)/devices/$(deviceId)).data.objectType == "device"
+        && get(/databases/$(database)/documents/accounts/$(accountId)/devices/$(deviceId)).data.data.deviceId == deviceId
+        && get(/databases/$(database)/documents/accounts/$(accountId)/devices/$(deviceId)).data.data.state == "active";
+    }
+
+    function validDeviceData(deviceId, deviceData) {
+      return deviceData.keys().hasOnly([
+          "deviceId",
+          "installationId",
+          "displayLabel",
+          "state",
+          "registeredAt",
+          "lastSeenAt",
+          "revokedAt"
+        ])
+        && deviceData.deviceId == deviceId
+        && deviceData.installationId is string
+        && deviceData.installationId.matches('^installation_[0-9a-f]{32}$')
+        && (deviceData.displayLabel == null || (deviceData.displayLabel is string && deviceData.displayLabel.size() <= 80))
+        && (deviceData.state == "active" || deviceData.state == "revoked")
+        && deviceData.registeredAt is timestamp
+        && deviceData.lastSeenAt is timestamp
+        && (deviceData.revokedAt == null || deviceData.revokedAt is timestamp);
+    }
+
+    function validDeviceCreate(accountId, deviceId) {
+      let root = request.resource.data;
+      let deviceData = root.data;
+      return activeActor()
+        && request.auth.uid == accountId
+        && validCreateEnvelope(root, "device", deviceId)
+        && root.updatedByAccountId == request.auth.uid
+        && root.updatedByDeviceId == deviceId
+        && validDeviceData(deviceId, deviceData)
+        && deviceData.state == "active"
+        && deviceData.registeredAt == deviceData.lastSeenAt
+        && deviceData.revokedAt == null;
+    }
+
+    function validDeviceRevoke(accountId, deviceId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return activeDevice(accountId, after.updatedByDeviceId)
+        && request.auth.uid == accountId
+        && validCasEnvelope(before, after, "device", deviceId)
+        && after.updatedByAccountId == request.auth.uid
+        && validDeviceData(deviceId, after.data)
+        && before.data.state == "active"
+        && after.data.state == "revoked"
+        && after.data.deviceId == before.data.deviceId
+        && after.data.installationId == before.data.installationId
+        && after.data.displayLabel == before.data.displayLabel
+        && after.data.registeredAt == before.data.registeredAt
+        && after.data.lastSeenAt == before.data.lastSeenAt
+        && before.data.revokedAt == null
+        && after.data.revokedAt is timestamp;
+    }
+
+    function validProfileId(value) {
+      return value is string && value.matches('^profile_[0-9a-f]{24}$');
+    }
+
+    function validSaveId(value) {
+      return value is string && value.matches('^save_[0-9a-f]{24}$');
+    }
+
+    function validSlotBase(slot, slotId) {
+      return slot is map
+        && slot.keys().hasOnly([
+          "slotId",
+          "accountId",
+          "profileId",
+          "saveId",
+          "displayLabel",
+          "entitlementState",
+          "deletionConsent"
+        ])
+        && slot.slotId == slotId
+        && (slot.displayLabel == null || (slot.displayLabel is string && slot.displayLabel.size() <= 80))
+        && slot.deletionConsent == false;
+    }
+
+    function validCreatorSlot(slot, slotId, accountId) {
+      return validSlotBase(slot, slotId)
+        && slot.accountId == accountId
+        && validProfileId(slot.profileId)
+        && validSaveId(slot.saveId)
+        && slot.entitlementState == "active";
+    }
+
+    function validOpenSlot(slot, slotId) {
+      return validSlotBase(slot, slotId)
+        && slot.accountId == null
+        && slot.profileId == null
+        && slot.saveId == null
+        && slot.displayLabel == null
+        && slot.entitlementState == "open";
+    }
+
+    function validJoinedSlot(slot, slotId, accountId) {
+      return validCreatorSlot(slot, slotId, accountId);
+    }
+
+    function validInitialManagerSlots(slots, creatorId) {
+      return slots is list
+        && slots.size() == 2
+        && (
+          (validCreatorSlot(slots[0], "playerOne", creatorId) && validOpenSlot(slots[1], "playerTwo"))
+          ||
+          (validOpenSlot(slots[0], "playerOne") && validCreatorSlot(slots[1], "playerTwo", creatorId))
+        );
+    }
+
+    function openSlotId(slots) {
+      return slots[0].accountId == null ? "playerOne" : "playerTwo";
+    }
+
+    function validRivalryData(rivalryData) {
+      return rivalryData.keys().hasOnly([
+          "connectionState",
+          "connectionStateBeforeDeletion",
+          "managerSlots",
+          "authorizedAccountIds",
+          "createdByAccountId",
+          "createdAt"
+        ])
+        && rivalryData.connectionState is string
+        && rivalryData.connectionStateBeforeDeletion == null
+        && rivalryData.managerSlots is list
+        && rivalryData.authorizedAccountIds is list
+        && rivalryData.createdByAccountId is string
+        && rivalryData.createdAt is timestamp;
+    }
+
+    function validInviteData(inviteData) {
+      return inviteData.keys().hasOnly([
+          "purpose",
+          "slotId",
+          "createdByAccountId",
+          "createdAt",
+          "expiresAt",
+          "state",
+          "redeemedByAccountId",
+          "redeemedAt",
+          "revokedAt"
+        ])
+        && inviteData.purpose == "rivalry-pairing"
+        && (inviteData.slotId == "playerOne" || inviteData.slotId == "playerTwo")
+        && inviteData.createdByAccountId is string
+        && inviteData.createdAt is timestamp
+        && inviteData.expiresAt is timestamp
+        && inviteData.expiresAt > inviteData.createdAt
+        && (inviteData.redeemedByAccountId == null || inviteData.redeemedByAccountId is string)
+        && (inviteData.redeemedAt == null || inviteData.redeemedAt is timestamp)
+        && (inviteData.revokedAt == null || inviteData.revokedAt is timestamp);
+    }
+
+    function validInitialRivalryCreate(rivalryId) {
+      let root = request.resource.data;
+      let rivalryData = root.data;
+      let inviteAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data;
+      return activeDevice(request.auth.uid, root.updatedByDeviceId)
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && validCreateEnvelope(root, "rivalry", rivalryId)
+        && root.updatedByAccountId == request.auth.uid
+        && validRivalryData(rivalryData)
+        && rivalryData.connectionState == "pending-pair"
+        && rivalryData.createdByAccountId == request.auth.uid
+        && rivalryData.authorizedAccountIds.size() == 1
+        && rivalryData.authorizedAccountIds[0] == request.auth.uid
+        && validInitialManagerSlots(rivalryData.managerSlots, request.auth.uid)
+        && validCreateEnvelope(inviteAfter, "invite", rivalryId)
+        && inviteAfter.updatedByAccountId == request.auth.uid
+        && inviteAfter.updatedByDeviceId == root.updatedByDeviceId
+        && validInviteData(inviteAfter.data)
+        && inviteAfter.data.createdByAccountId == request.auth.uid
+        && inviteAfter.data.slotId == openSlotId(rivalryData.managerSlots)
+        && inviteAfter.data.state == "open"
+        && inviteAfter.data.createdAt == rivalryData.createdAt
+        && inviteAfter.data.expiresAt > request.time
+        && inviteAfter.data.expiresAt <= request.time + duration.value(30, 'm')
+        && inviteAfter.data.redeemedByAccountId == null
+        && inviteAfter.data.redeemedAt == null
+        && inviteAfter.data.revokedAt == null;
+    }
+
+    function validInitialInviteCreate(rivalryId, inviteId) {
+      let root = request.resource.data;
+      let inviteData = root.data;
+      let rivalryAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      return activeDevice(request.auth.uid, root.updatedByDeviceId)
+        && inviteId == rivalryId
+        && inviteId.matches('^pair_[0-9a-f]{64}$')
+        && validCreateEnvelope(root, "invite", inviteId)
+        && root.updatedByAccountId == request.auth.uid
+        && validInviteData(inviteData)
+        && inviteData.createdByAccountId == request.auth.uid
+        && inviteData.state == "open"
+        && inviteData.expiresAt > request.time
+        && inviteData.expiresAt <= request.time + duration.value(30, 'm')
+        && inviteData.redeemedByAccountId == null
+        && inviteData.redeemedAt == null
+        && inviteData.revokedAt == null
+        && validCreateEnvelope(rivalryAfter, "rivalry", rivalryId)
+        && rivalryAfter.updatedByAccountId == request.auth.uid
+        && rivalryAfter.updatedByDeviceId == root.updatedByDeviceId
+        && validRivalryData(rivalryAfter.data)
+        && rivalryAfter.data.connectionState == "pending-pair"
+        && rivalryAfter.data.createdByAccountId == request.auth.uid
+        && rivalryAfter.data.createdAt == inviteData.createdAt
+        && rivalryAfter.data.authorizedAccountIds.size() == 1
+        && rivalryAfter.data.authorizedAccountIds[0] == request.auth.uid
+        && validInitialManagerSlots(rivalryAfter.data.managerSlots, request.auth.uid)
+        && inviteData.slotId == openSlotId(rivalryAfter.data.managerSlots);
+    }
+
+    function validRedeemedManagerSlots(beforeSlots, afterSlots, creatorId, joinerId, joinSlotId) {
+      return beforeSlots is list
+        && afterSlots is list
+        && beforeSlots.size() == 2
+        && afterSlots.size() == 2
+        && (
+          (
+            validCreatorSlot(beforeSlots[0], "playerOne", creatorId)
+            && validOpenSlot(beforeSlots[1], "playerTwo")
+            && beforeSlots[0] == afterSlots[0]
+            && joinSlotId == "playerTwo"
+            && validJoinedSlot(afterSlots[1], "playerTwo", joinerId)
+          )
+          ||
+          (
+            validOpenSlot(beforeSlots[0], "playerOne")
+            && validCreatorSlot(beforeSlots[1], "playerTwo", creatorId)
+            && joinSlotId == "playerOne"
+            && validJoinedSlot(afterSlots[0], "playerOne", joinerId)
+            && beforeSlots[1] == afterSlots[1]
+          )
+        );
+    }
+
+    function validRivalryRedeem(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let inviteBefore = get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data;
+      let inviteAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data;
+      return activeDevice(request.auth.uid, after.updatedByDeviceId)
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && validCasEnvelope(before, after, "rivalry", rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && validRivalryData(before.data)
+        && validRivalryData(after.data)
+        && before.data.connectionState == "pending-pair"
+        && after.data.connectionState == "active"
+        && after.data.connectionStateBeforeDeletion == before.data.connectionStateBeforeDeletion
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && request.auth.uid != before.data.createdByAccountId
+        && before.data.authorizedAccountIds.size() == 1
+        && before.data.authorizedAccountIds[0] == before.data.createdByAccountId
+        && after.data.authorizedAccountIds.size() == 2
+        && after.data.authorizedAccountIds[0] == before.data.createdByAccountId
+        && after.data.authorizedAccountIds[1] == request.auth.uid
+        && validRedeemedManagerSlots(before.data.managerSlots, after.data.managerSlots, before.data.createdByAccountId, request.auth.uid, inviteBefore.data.slotId)
+        && validInviteData(inviteBefore.data)
+        && inviteBefore.data.purpose == "rivalry-pairing"
+        && inviteBefore.data.state == "open"
+        && inviteBefore.data.createdByAccountId == before.data.createdByAccountId
+        && inviteBefore.data.expiresAt > request.time
+        && validCasEnvelope(inviteBefore, inviteAfter, "invite", rivalryId)
+        && validInviteData(inviteAfter.data)
+        && inviteAfter.updatedByAccountId == request.auth.uid
+        && inviteAfter.updatedByDeviceId == after.updatedByDeviceId
+        && inviteAfter.data.state == "redeemed"
+        && inviteAfter.data.redeemedByAccountId == request.auth.uid
+        && inviteAfter.data.redeemedAt is timestamp
+        && inviteAfter.data.revokedAt == null;
+    }
+
+    function validInviteRedeem(rivalryId, inviteId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let rivalryAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      return activeDevice(request.auth.uid, after.updatedByDeviceId)
+        && inviteId == rivalryId
+        && validCasEnvelope(before, after, "invite", inviteId)
+        && validInviteData(before.data)
+        && validInviteData(after.data)
+        && before.data.purpose == "rivalry-pairing"
+        && before.data.state == "open"
+        && before.data.expiresAt > request.time
+        && request.auth.uid != before.data.createdByAccountId
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.purpose == before.data.purpose
+        && after.data.slotId == before.data.slotId
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.data.state == "redeemed"
+        && after.data.redeemedByAccountId == request.auth.uid
+        && after.data.redeemedAt is timestamp
+        && after.data.revokedAt == null
+        && validCasEnvelope(get(/databases/$(database)/documents/rivalries/$(rivalryId)).data, rivalryAfter, "rivalry", rivalryId)
+        && validRivalryData(rivalryAfter.data)
+        && rivalryAfter.data.connectionState == "active"
+        && rivalryAfter.data.authorizedAccountIds.size() == 2
+        && rivalryAfter.data.authorizedAccountIds[0] == before.data.createdByAccountId
+        && rivalryAfter.data.authorizedAccountIds[1] == request.auth.uid
+        && validRedeemedManagerSlots(
+          get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.managerSlots,
+          rivalryAfter.data.managerSlots,
+          before.data.createdByAccountId,
+          request.auth.uid,
+          before.data.slotId
+        );
+    }
+
+    function validInviteRevoke(inviteId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return activeDevice(request.auth.uid, after.updatedByDeviceId)
+        && validCasEnvelope(before, after, "invite", inviteId)
+        && validInviteData(before.data)
+        && validInviteData(after.data)
+        && before.data.purpose == "rivalry-pairing"
+        && before.data.createdByAccountId == request.auth.uid
+        && before.data.state == "open"
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.purpose == before.data.purpose
+        && after.data.slotId == before.data.slotId
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.data.state == "revoked"
+        && after.data.redeemedByAccountId == null
+        && after.data.redeemedAt == null
+        && after.data.revokedAt is timestamp;
+    }
+
     function currentlyEntitled(rivalryId) {
       return activeActor()
         && exists(/databases/$(database)/documents/rivalries/$(rivalryId))
         && get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.authorizedAccountIds is list
         && request.auth.uid in get(/databases/$(database)/documents/rivalries/$(rivalryId)).data.data.authorizedAccountIds;
+    }
+
+    function capabilityCanReadPendingRivalry(rivalryId) {
+      return activeActor()
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && resource.data.data.connectionState == "pending-pair"
+        && exists(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId))
+        && get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data.data.purpose == "rivalry-pairing"
+        && get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data.data.state == "open"
+        && get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data.data.expiresAt > request.time;
     }
 
     match /accounts/{accountId} {
@@ -70,7 +445,9 @@ service cloud.firestore {
 
       match /devices/{deviceId} {
         allow get: if signedIn() && request.auth.uid == accountId;
-        allow list, create, update, delete: if false;
+        allow create: if validDeviceCreate(accountId, deviceId);
+        allow update: if validDeviceRevoke(accountId, deviceId);
+        allow list, delete: if false;
       }
 
       match /securityEvents/{eventId} {
@@ -80,8 +457,10 @@ service cloud.firestore {
     }
 
     match /rivalries/{rivalryId} {
-      allow get: if currentlyEntitled(rivalryId);
-      allow list, create, update, delete: if false;
+      allow get: if currentlyEntitled(rivalryId) || capabilityCanReadPendingRivalry(rivalryId);
+      allow create: if validInitialRivalryCreate(rivalryId);
+      allow update: if validRivalryRedeem(rivalryId);
+      allow list, delete: if false;
 
       match /state/authoritative {
         allow get: if currentlyEntitled(rivalryId)
@@ -103,6 +482,7 @@ service cloud.firestore {
 
       match /invites/{inviteId} {
         allow get: if activeActor()
+          && inviteId == rivalryId
           && (
             resource.data.data.createdByAccountId == request.auth.uid
             || (
@@ -110,7 +490,9 @@ service cloud.firestore {
               && resource.data.data.expiresAt > request.time
             )
           );
-        allow list, create, update, delete: if false;
+        allow create: if validInitialInviteCreate(rivalryId, inviteId);
+        allow update: if validInviteRedeem(rivalryId, inviteId) || validInviteRevoke(inviteId);
+        allow list, delete: if false;
       }
 
       match /sessions/{sessionId} {
