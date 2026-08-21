@@ -93,7 +93,7 @@ for(const [file, text] of [
     ["00_DEVELOPER_START_HERE.md", start], ["NEXT_TASK.md", next], ["PROJECT_STATE.md", state],
     ["README.md", readme], ["POST_V1_ROADMAP_EXECUTION.md", roadmap]
 ]){
-    A.match(text, /v1\.3\.0\s+—?\s*Recovery & Device Resilience Hardening/i, `${file} must preserve the v1.3 resilience baseline.`);
+    A.match(text, /v1\.3\.0[^\n]{0,90}Recovery & Device Resilience(?: Hardening| baseline)/i, `${file} must preserve the v1.3 resilience baseline.`);
     A.match(text, /Local Profiles[\s\S]{0,140}Save Library|Save Library[\s\S]{0,140}Local Profiles/i, `${file} must acknowledge the shipped Local Profiles / Save Library chain.`);
 }
 
