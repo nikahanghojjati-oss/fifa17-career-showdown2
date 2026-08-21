@@ -49,7 +49,7 @@ assert.match(policy,/Candidate A export, Candidate B analysis, Candidate C recov
 assert.match(policy,/no remote module may bypass local transaction authority/i);
 
 assert.match(policy,/Status:\s*Cloud\/Sync Readiness Phase 1C architecture authority/i,"Phase 1C must remain explicitly historical architecture authority.");
-assert.match(policy,/Runtime status:\s*architecture\/policy only;[\s\S]{0,240}not authorized by this document/i,"Phase 1C itself must remain non-runtime and must not independently authorize a product release or provider connection.");
+assert.match(policy,/Runtime status:\s*architecture\/policy only;\s*no Firebase SDK[\s\S]{0,240}is authorized by this document/i,"Phase 1C itself must remain non-runtime and must not independently authorize a product release or provider connection.");
 const runtimeRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const runtimeVersion=(runtimeRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
 assert.equal(runtimeVersion,pkg.version,"Current application/runtime release identity must remain coherent while historical Phase 1C stays version-neutral.");
