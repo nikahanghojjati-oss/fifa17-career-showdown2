@@ -47,7 +47,6 @@ assert.equal(capsule.currentPullRequest.workflowFamiliesGreenAtSourceSeal,13);
 assert.equal(capsule.currentPullRequest.reviewsCleanAtSourceSeal,true);
 assert.equal(capsule.currentPullRequest.threadsCleanAtSourceSeal,true);
 assert.equal(capsule.currentPullRequest.mergeableAtSourceSeal,true);
-assert.equal(capsule.currentPullRequest.mergeAuthorized,true);
 assert.equal(capsule.currentPullRequest.sourceValidation.staticAppRunId,32502859032);
 assert.equal(capsule.currentPullRequest.sourceValidation.stabilityRunId,32502858761);
 assert.equal(capsule.currentPullRequest.sourceValidation.candidateCRunId,32502858786);
@@ -55,12 +54,30 @@ assert.equal(capsule.currentPullRequest.sourceValidation.stabilityContracts,"suc
 assert.equal(capsule.currentPullRequest.sourceValidation.chromiumStability,"success");
 assert.equal(capsule.currentPullRequest.sourceValidation.deployedSiteSmoke,"skipped-on-pull-request");
 assert.equal(capsule.currentPullRequest.sourceValidation.productionProof,false);
+
+assert.equal(capsule.currentPullRequest.freshSuccessorSourceRevalidationHead,"45e6d51ea5636c4fdf0c76eefe32f9b8908463d6");
+assert.equal(capsule.currentPullRequest.workflowFamiliesGreenAtFreshRevalidation,13);
+assert.equal(capsule.currentPullRequest.reviewsCleanAtFreshRevalidation,true);
+assert.equal(capsule.currentPullRequest.threadsCleanAtFreshRevalidation,true);
+assert.equal(capsule.currentPullRequest.mergeableAtFreshRevalidation,true);
+assert.equal(capsule.currentPullRequest.freshRevalidation.staticAppRunId,32511770971);
+assert.equal(capsule.currentPullRequest.freshRevalidation.stabilityRunId,32511771122);
+assert.equal(capsule.currentPullRequest.freshRevalidation.candidateCRunId,32511770837);
+assert.equal(capsule.currentPullRequest.freshRevalidation.stabilityContracts,"success");
+assert.equal(capsule.currentPullRequest.freshRevalidation.chromiumStability,"success");
+assert.equal(capsule.currentPullRequest.freshRevalidation.deployedSiteSmoke,"skipped-on-pull-request");
+assert.equal(capsule.currentPullRequest.freshRevalidation.productionProof,false);
+assert.equal(capsule.currentPullRequest.mergeAuthorized,true);
 assert.equal(capsule.currentPullRequest.mandatoryPublicationGate.rulesFile,"firestore.spark.rules");
 assert.equal(capsule.currentPullRequest.mandatoryPublicationGate.published,false);
 assert.equal(capsule.currentPullRequest.mandatoryPublicationGate.verified,false);
 assert.equal(capsule.currentPullRequest.mandatoryPublicationGate.mustCompleteBeforeMerge,true);
 assert.equal(capsule.currentPullRequest.mergeSha,null);
 assert.equal(capsule.currentPullRequest.postMergeProductionProof,null);
+
+assert.equal(capsule.closingWec.environmentId,"we-2026-08-21-pr125-spark-rules-publication");
+assert.equal(capsule.closingWec.decision,"HANDOFF_AT_CHECKPOINT");
+assert.match(capsule.closingWec.decisionScope,/closing-environment-only/i);
 
 assert.equal(capsule.latestProductionProof.pullRequest,119);
 assert.equal(capsule.latestProductionProof.workflow,"Validate Stability Lane");
@@ -81,11 +98,11 @@ assert.equal(capsule.slePolicy.plainChatOnlyHandoffComplete,false);
 assert.equal(capsule.slePolicy.requiredAtHandoffProximity100,true);
 assert.equal(capsule.slePolicy.recursiveInheritance,true);
 
-assert.equal(capsule.starter.version,"1.4.1");
-assert.equal(starterRoot,"START_NEXT_SESSION_V1.4.1_PR125.md");
-assert.equal(starterMirror,"project-documents/session-starts/START_NEXT_SESSION_V1.4.1_PR125.md");
-assert.equal(handoffRoot,"SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md");
-assert.equal(handoffMirror,"project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md");
+assert.equal(capsule.starter.version,"1.4.2");
+assert.equal(starterRoot,"START_NEXT_SESSION_V1.4.2_PR125.md");
+assert.equal(starterMirror,"project-documents/session-starts/START_NEXT_SESSION_V1.4.2_PR125.md");
+assert.equal(handoffRoot,"SUCCESSOR_HANDOFF_PR125_SPARK_RULES_SOURCE_RESEAL_SLE_2026-08-21.md");
+assert.equal(handoffMirror,"project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_RULES_SOURCE_RESEAL_SLE_2026-08-21.md");
 
 assert.equal(capsule.runtime.applicationVersion,"1.4.0");
 assert.equal(capsule.runtime.productionRuntimeRevision,"1.4.0-r2");
@@ -158,9 +175,14 @@ assert.match(starter,/run ID `32439162225`/i);
 assert.match(starter,/Current production runtime: `1\.4\.0-r2`/i);
 assert.match(starter,/App Check enforcement remains `OFF`/i);
 assert.match(starter,/d83a33066b271d7d89bf932f1066d9e1369b3f6d/i);
+assert.match(starter,/45e6d51ea5636c4fdf0c76eefe32f9b8908463d6/i);
+assert.match(starter,/Validate Static App #1580/i);
+assert.match(starter,/run `32511770971`/i);
+assert.match(starter,/Validate Stability Lane #1334/i);
+assert.match(starter,/run `32511771122`/i);
 assert.match(starter,/firestore\.spark\.rules/i);
 assert.match(starter,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
-assert.match(starter,/At Handoff proximity 100%[\s\S]{0,320}complete SLE packaging/i);
+assert.match(starter,/At Handoff proximity 100%[\s\S]{0,380}complete SLE packaging/i);
 
 assert.match(handoff,/DONE \/ MERGED \/ PROVEN/i);
 assert.match(handoff,/Validate Stability Lane/i);
@@ -169,7 +191,10 @@ assert.match(handoff,/Legitimate production App Check token traffic is proven/i)
 assert.match(handoff,/App Check enforcement remains `OFF`/i);
 assert.match(handoff,/application-client Firestore create\/update\/delete remains `deny-all`/i);
 assert.match(handoff,/d83a33066b271d7d89bf932f1066d9e1369b3f6d/i);
+assert.match(handoff,/45e6d51ea5636c4fdf0c76eefe32f9b8908463d6/i);
 assert.match(handoff,/all 13 normal pull-request workflow families succeeded/i);
+assert.match(handoff,/Validate Static App` #1580[\s\S]{0,100}32511770971/i);
+assert.match(handoff,/Validate Stability Lane` #1334[\s\S]{0,100}32511771122/i);
 assert.match(handoff,/firestore\.spark\.rules/i);
 assert.match(handoff,/NOT yet published to production/i);
 assert.match(handoff,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
@@ -181,4 +206,4 @@ assert.match(provenance,/through the end of the full Career Mode Showdown projec
 assert.match(rootAuth,/later explicit owner instruction may revoke or narrow/i);
 assert.match(provenance,/later explicit owner instructions override/i);
 
-process.stdout.write("PASS SLE package: PR125 source seal, PR119 production proof, v1.5 candidate/publication boundary, Smart Lean Efficient definition, RJR/security locks and standing owner merge/deploy authorization are protected.\n");
+process.stdout.write("PASS SLE package: PR125 fresh source reseal, PR119 production proof, v1.5 candidate/publication boundary, Smart Lean Efficient definition, RJR/security locks and standing owner merge/deploy authorization are protected.\n");
