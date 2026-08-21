@@ -67,7 +67,7 @@ assert.match(historicalNext, /1794f1f86968781b898d000360d1fb56234fb92f/);
 assert.match(historicalNext, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
 assert.match(historicalNext, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
 assert.match(historicalNext, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i);
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(next,/Authorized product candidate:\s*none/i);
 assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i);
@@ -79,7 +79,8 @@ for (const [name, text] of archivalSources) {
   assert.match(text, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i, `${name} must retain the historical Stage 2D-current transition evidence.`);
 }
 
-assert.match(state, /PR #115[\s\S]+production App Check runtime/i);
+assert.match(state, /PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+Firebase App \+ App Check/i);
+assert.match(state, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(state, /Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
 assert.match(state, /No product candidate is currently authorized/i);
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
@@ -111,4 +112,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with exact historical Stage 2D transition preserved separately from current App Check runtime authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with exact historical Stage 2D transition preserved separately from current PR #116 App Check deployment-proof authority\n");

@@ -6,7 +6,7 @@ const { spawnSync } = require("node:child_process");
 const root = path.resolve(__dirname, "../..");
 const workflowDirectory = path.join(root, ".github/workflows");
 const workflowFiles = fs.readdirSync(workflowDirectory)
-    .filter(name => name.endsWith(".yml") && name !== "validate-stability-lane.yml")
+    .filter(name => name.endsWith(".yml") && name !== "validate-stability-lane.yml" && name !== "deploy-github-pages.yml")
     .sort();
 
 function extractLiteralRunBlocks(source){
@@ -54,4 +54,4 @@ for(const workflowFile of workflowFiles){
 }
 
 assert.equal(executed, 27, `Expected 27 permanent executable workflow blocks; ran ${executed}.`);
-process.stdout.write(`All ${executed} permanent GitHub workflow blocks passed locally.\n`);
+process.stdout.write(`All ${executed} permanent GitHub workflow blocks passed locally. Production Pages deployment is accounted separately from validation topology.\n`);

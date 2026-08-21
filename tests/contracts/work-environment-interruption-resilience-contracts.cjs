@@ -35,7 +35,7 @@ if(status.environmentId!==environmentMatch[1] || status.repository.startingMainS
   assert.ok(status.continuity.lastSafeCheckpoint.includes(status.repository.startingMainSha),"A fresh successor divergence must preserve its independently verified predecessor publication boundary from repository.startingMainSha.");
   assert.match(status.continuity.nextSafeAction,/Firestore|Firebase|provider|exact-head|pull-request|workflow/i,"The successor must record a concrete resumable provider/publication next action.");
   const inheritedDecisionRecord=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[])].join("\n");
-  assert.match(inheritedDecisionRecord,/inherited predecessor[\s\S]{0,160}HANDOFF_AT_CHECKPOINT/i,"The successor must explicitly preserve the predecessor handoff decision as inherited history rather than its own decision.");
+  assert.match(inheritedDecisionRecord,/inherited predecessor[\s\S]{0,200}(?:PREPARE_HANDOFF|HANDOFF_AT_CHECKPOINT|HANDOFF_NOW|FINISH_SAFE_BOUNDARY)/i,"The successor must explicitly preserve the predecessor's actual non-CONTINUE transition decision as inherited history rather than treating it as the successor's own decision.");
   if(status.lifecycle==="transition-prepared"){
     assert.equal(status.signals.handoffCompleteness,100,"A divergent successor may become transition-prepared only with a complete handoff package.");
   }
