@@ -120,6 +120,7 @@ After the candidate is fully published, run the fresh WEC assessment before begi
 
 The following statements are retained only for executable compatibility and historical provenance. They do not override the current authority above.
 
+Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION.
 Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116 — 2026-08-20 ET.
 Historical branch: `agent/pr115-production-deployment-proof`.
 Historical PR #116 title: `Add controlled GitHub Pages App Check deployment`.
