@@ -45,9 +45,10 @@
       path:PATHS.rivalry,
       identity:{rivalryId:"opaque path document ID; distinct from saveId and sessionId"},
       dataFields:["connectionState","connectionStateBeforeDeletion","managerSlots","authorizedAccountIds","createdByAccountId","createdAt"],
-      managerSlotFields:["slotId","accountId","profileId","displayLabel","entitlementState","deletionConsent"],
+      managerSlotFields:["slotId","accountId","profileId","saveId","displayLabel","entitlementState","deletionConsent"],
       allowedConnectionState:["pending-pair","active","revoked-read-only","single-owner-retained","deletion-pending"],
-      allowedEntitlementState:["active","retained","relinquished"]
+      allowedEntitlementState:["open","active","retained","relinquished"],
+      note:"saveId is the stable local Save Library binding for that manager slot; accountId and provider authorization still govern remote entitlement"
     },
     sharedState:{
       path:PATHS.sharedState,
