@@ -1,0 +1,92 @@
+name: PR119 Postmerge Push Proof
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prove-final-push:
+    if: github.head_ref == 'agent/pr119-postmerge-push-proof'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Locate and verify exact-main push Stability Lane
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_SHA: 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          node <<'NODE'
+          const token = process.env.GH_TOKEN;
+          const repo = process.env.REPOSITORY;
+          const target = process.env.TARGET_SHA;
+          const headers = {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${token}`,
+            'X-GitHub-Api-Version': '2022-11-28',
+            'User-Agent': 'career-mode-showdown-postmerge-proof'
+          };
+
+          async function api(path){
+            const response = await fetch(`https://api.github.com${path}`, { headers });
+            if(!response.ok){
+              throw new Error(`${response.status} ${response.statusText}: ${await response.text()}`);
+            }
+            return response.json();
+          }
+
+          const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+          const expectedSteps = [
+            'Wait for Pages and verify every runtime byte',
+            'Run runtime error provenance audit against deployed Pages',
+            'Prove production App Check token path against deployed Pages',
+            'Run Home visual audit against deployed Pages',
+            'Run visible Save Library audit against deployed Pages',
+            'Run manager identity linkage audit against deployed Pages',
+            'Run identity-safe Career Analytics audit against deployed Pages',
+            'Run crop-safe football-photo audit against deployed Pages',
+            'Run Candidate A backup export audit against deployed Pages',
+            'Run Candidate B import analysis against deployed Pages',
+            'Run Candidate C atomic restore and recovery audit against deployed Pages',
+            'Run install and offline boundary audit against deployed Pages',
+            'Run complete journey against deployed Pages'
+          ];
+
+          let run = null;
+          for(let attempt = 0; attempt < 45; attempt += 1){
+            const data = await api(`/repos/${repo}/actions/workflows/validate-stability-lane.yml/runs?branch=main&event=push&head_sha=${target}&per_page=20`);
+            run = data.workflow_runs.find(item => item.head_sha === target && item.event === 'push') || null;
+            if(run){
+              console.log(`PUSH_RUN id=${run.id} number=${run.run_number} status=${run.status} conclusion=${run.conclusion || 'pending'} url=${run.html_url}`);
+              if(run.status === 'completed') break;
+            }else{
+              console.log(`PUSH_RUN pending discovery for ${target}`);
+            }
+            await sleep(20000);
+          }
+
+          if(!run) throw new Error(`No push Stability Lane found for exact main ${target}.`);
+          if(run.status !== 'completed') throw new Error(`Push Stability Lane ${run.id} did not complete within the proof window.`);
+
+          const jobs = await api(`/repos/${repo}/actions/runs/${run.id}/jobs?per_page=100`);
+          for(const job of jobs.jobs){
+            console.log(`JOB name=${job.name} conclusion=${job.conclusion}`);
+          }
+          const smoke = jobs.jobs.find(job => job.name === 'deployed-site-smoke');
+          if(!smoke) throw new Error(`Push run ${run.id} did not contain deployed-site-smoke.`);
+          for(const step of smoke.steps || []){
+            console.log(`SMOKE_STEP name=${step.name} conclusion=${step.conclusion}`);
+          }
+          for(const name of expectedSteps){
+            const step = (smoke.steps || []).find(item => item.name === name);
+            if(!step) throw new Error(`Missing permanent smoke step: ${name}`);
+            if(step.conclusion !== 'success') throw new Error(`Permanent smoke step did not pass: ${name} => ${step.conclusion}`);
+          }
+          if(smoke.conclusion !== 'success') throw new Error(`deployed-site-smoke conclusion=${smoke.conclusion}`);
+          if(run.conclusion !== 'success') throw new Error(`Validate Stability Lane conclusion=${run.conclusion}`);
+          console.log(`FINAL_POSTMERGE_PROOF PASS run=${run.id} number=${run.run_number} sha=${target}`);
+          NODE
