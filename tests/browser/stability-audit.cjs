@@ -37,6 +37,23 @@ function normalizeText(value){
 function isFirstParty(url){
     return String(url || "").startsWith(baseUrl.href);
 }
+const productionOrigin = "https://nikahanghojjati-oss.github.io";
+const productionPathPrefix = "/fifa17-career-showdown2/";
+
+function isExpectedProductionAppCheckConsoleNoise(message){
+    if(baseUrl.origin !== productionOrigin || !baseUrl.pathname.startsWith(productionPathPrefix)){
+        return false;
+    }
+    const text = message.text();
+    if(text.startsWith("Framing 'https://www.google.com/' violates the following report-only Content Security Policy directive: \"frame-ancestors 'self'\".")){
+        return true;
+    }
+    if(text === "requestStorageAccess: Permission denied."){
+        const sourceUrl = message.location()?.url || "";
+        return !sourceUrl || !sourceUrl.startsWith(baseUrl.origin);
+    }
+    return false;
+}
 
 function createPageMonitors(page, expectedConsoleErrors = []){
     const pageErrors = [];
@@ -48,7 +65,8 @@ function createPageMonitors(page, expectedConsoleErrors = []){
         if(message.type() !== "error" || /^Failed to load resource/.test(message.text())){
             return;
         }
-        if(expectedConsoleErrors.some(pattern => pattern.test(message.text()))){
+        if(expectedConsoleErrors.some(pattern => pattern.test(message.text()))
+            || isExpectedProductionAppCheckConsoleNoise(message)){
             return;
         }
         severeConsole.push(message.text());

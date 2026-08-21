@@ -7,6 +7,19 @@ const{resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
 const runLabel=process.env.CMS_AUDIT_RUN||"manager-identity-linkage";
 const resultsDirectory=path.resolve(process.env.CMS_TEST_RESULTS||"test-results");
+const productionOrigin="https://nikahanghojjati-oss.github.io";
+const productionPathPrefix="/fifa17-career-showdown2/";
+
+function isExpectedProductionAppCheckConsoleNoise(message){
+  if(baseUrl.origin!==productionOrigin||!baseUrl.pathname.startsWith(productionPathPrefix))return false;
+  const text=message.text();
+  if(text.startsWith("Framing 'https://www.google.com/' violates the following report-only Content Security Policy directive: \"frame-ancestors 'self'\"."))return true;
+  if(text==="requestStorageAccess: Permission denied."){
+    const sourceUrl=message.location()?.url||"";
+    return !sourceUrl||!sourceUrl.startsWith(baseUrl.origin);
+  }
+  return false;
+}
 const libraryKey="careerModeShowdown.saveLibrary";
 const singletonKey="careerModeShowdown.activeShowdown";
 const legacyKey="careerModeShowdown.legacyShowdowns";
@@ -47,7 +60,7 @@ function seededState(){
 function collectErrors(page){
   const errors=[];
   page.on("pageerror",error=>errors.push(`page: ${error.message}`));
-  page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text()))errors.push(`console: ${message.text()}`);});
+  page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text())&&!isExpectedProductionAppCheckConsoleNoise(message))errors.push(`console: ${message.text()}`);});
   return errors;
 }
 
