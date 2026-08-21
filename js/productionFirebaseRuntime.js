@@ -11,7 +11,7 @@
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
-  const FALLBACK_RUNTIME_REVISION="1.5.0-r1";
+  const FALLBACK_RUNTIME_REVISION="1.5.0-r2";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
   const FIREBASE_AUTH_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-auth.js`;
@@ -21,6 +21,7 @@
   let runtimePromise=null;
   let bootstrapPromise=null;
   let connectedAccountPromise=null;
+  let connectedAccountBridgeObserver=null;
   let productionApp=null;
   let accountServices=null;
   let accountServicesPromise=null;
@@ -294,21 +295,49 @@
     return runtimeState;
   }
 
+  function connectedAccountSettingsOpen(){
+    if(!root.document)return false;
+    const overlay=root.document.getElementById("settingsOverlay");
+    return Boolean(overlay&&!overlay.classList.contains("hidden"));
+  }
+
+  function mountConnectedAccountSettings(){
+    if(!connectedAccountSettingsOpen())return Promise.resolve(false);
+    return loadConnectedAccountScript().then(account=>{
+      if(account&&typeof account.mountWhenSettingsReady==="function")return account.mountWhenSettingsReady();
+      return false;
+    }).catch(()=>false);
+  }
+
   function installConnectedAccountSettingsBridge(){
     if(!root.document||!root.document.addEventListener)return;
     const marker=root.document.documentElement;
     if(marker&&marker.dataset&&marker.dataset.sparkAccountBridge==="true")return;
     if(marker&&marker.dataset)marker.dataset.sparkAccountBridge="true";
+
+    const requestMount=()=>{void mountConnectedAccountSettings();};
     root.document.addEventListener("click",event=>{
       const target=event&&event.target&&typeof event.target.closest==="function"
         ? event.target.closest("#settingsButton")
         : null;
       if(!target)return;
-      void loadConnectedAccountScript().then(account=>{
-        if(account&&typeof account.mountWhenSettingsReady==="function")return account.mountWhenSettingsReady();
-        return false;
-      }).catch(()=>undefined);
+      root.setTimeout(requestMount,0);
     },true);
+
+    if(typeof root.MutationObserver==="function"){
+      connectedAccountBridgeObserver=new root.MutationObserver(records=>{
+        const settingsChanged=records.some(record=>{
+          const target=record.target;
+          if(record.type==="attributes"&&target&&target.id==="settingsOverlay")return true;
+          if(record.type!=="childList")return false;
+          return Array.from(record.addedNodes||[]).some(node=>node&&node.id==="settingsOverlay");
+        });
+        if(settingsChanged&&connectedAccountSettingsOpen())requestMount();
+      });
+      connectedAccountBridgeObserver.observe(root.document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:["class"]});
+    }
+
+    requestMount();
   }
 
   function scheduleProductionFirebaseRuntime(){

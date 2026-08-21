@@ -12,7 +12,7 @@
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
-    "test:browser": "node tests/browser/stability-audit.cjs",
+    "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs",
     "test:home-visual": "node tests/browser/home-visual-audit.cjs",
     "test:loading-visual": "node tests/browser/loading-visual-audit.cjs",
     "test:football-visual": "node tests/browser/football-visual-audit.cjs",

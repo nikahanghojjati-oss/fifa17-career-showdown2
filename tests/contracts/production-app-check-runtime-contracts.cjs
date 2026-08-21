@@ -57,9 +57,10 @@ assert.match(renderer,/without printing provider-issued values/i);
 assert.doesNotMatch(renderer,/console\.log\([^\n]*(?:apiKey|siteKey)/i);
 
 // The immutable 1.4.0-r2 release record remains the production App Check proof baseline.
-// A later release candidate may reuse that boundary on a new coherent whole-shell revision.
+// PR #126 is a whole-shell hotfix above the merged PR #125 r1 account release; it must
+// preserve the same App Check boundary while retaining r1 as immediate rollback.
 const currentRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
-assert.match(currentRevision,/^1\.5\.0-r1$/,"PR #125 must expose the intended v1.5.0-r1 candidate shell without rewriting the historical r2 proof.");
+assert.match(currentRevision,/^1\.5\.0-r2$/,"PR #126 must expose the intended v1.5.0-r2 whole-shell Settings hotfix without rewriting the historical App Check proof.");
 for(const path of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.js","js/menuExperience.js","js/optionalModules.js","js/app.js"]){
   assert.ok(index.includes(`${path}?v=${currentRevision}`),`${path} must use the current candidate shell revision.`);
 }
@@ -67,7 +68,7 @@ assert.ok(app.includes(`visual-fidelity-r3.css?v=${currentRevision}`));
 assert.match(app,/productionFirebaseRuntime\.js\?v=\$\{r\}/);
 assert.match(app,/requestAnimationFrame\(\(\)=>\{ra\(\);so\(\);sd\(\);\}\)/,"Firebase must remain post-local-startup/lazy rather than blocking application initialization.");
 assert.ok(worker.includes(`const RUNTIME_REVISION = "${currentRevision}";`));
-assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.4\.0-r2";/);
+assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.5\.0-r1";/);
 assert.ok(worker.includes('"js/productionFirebaseRuntime.js"'));
 assert.doesNotMatch(worker,/productionAppCheckBootstrap\.js/);
 assert.ok(manifest.includes(currentRevision),"Manifest must use the current candidate shell revision.");
