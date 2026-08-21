@@ -10,6 +10,7 @@
   const FIREBASE_SDK_VERSION="12.17.0";
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
+  const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
   const FALLBACK_RUNTIME_REVISION="1.5.0-r1";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
@@ -19,6 +20,7 @@
   let runtimeState=Object.freeze({status:"idle",attempted:false,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
   let runtimePromise=null;
   let bootstrapPromise=null;
+  let connectedAccountPromise=null;
   let productionApp=null;
   let accountServices=null;
   let accountServicesPromise=null;
@@ -100,6 +102,27 @@
     return bootstrapPromise;
   }
 
+  function getConnectedAccount(){
+    return root.CareerModeSparkConnectedAccount||null;
+  }
+
+  async function loadConnectedAccountScript(){
+    const existing=getConnectedAccount();
+    if(existing)return existing;
+    if(connectedAccountPromise)return connectedAccountPromise;
+    if(!root.document)return null;
+    connectedAccountPromise=new Promise(resolve=>{
+      const script=root.document.createElement("script");
+      script.src=buildVersionedLocalUrl(CONNECTED_ACCOUNT_PATH);
+      script.async=false;
+      script.dataset.sparkConnectedAccount="true";
+      script.addEventListener("load",()=>resolve(getConnectedAccount()),{once:true});
+      script.addEventListener("error",()=>resolve(null),{once:true});
+      root.document.head.appendChild(script);
+    }).finally(()=>{connectedAccountPromise=null;});
+    return connectedAccountPromise;
+  }
+
   function buildBootstrapInput(config){
     return {
       origin:PRODUCTION_ORIGIN,
@@ -134,6 +157,8 @@
       signInWithPopup:authModule.signInWithPopup,
       signOut:authModule.signOut,
       onAuthStateChanged:authModule.onAuthStateChanged,
+      setPersistence:authModule.setPersistence,
+      browserSessionPersistence:authModule.browserSessionPersistence,
       initializeFirestore:firestoreModule.initializeFirestore,
       memoryLocalCache:firestoreModule.memoryLocalCache,
       Timestamp:firestoreModule.Timestamp,
@@ -192,6 +217,7 @@
           authInitialized:false,
           firestoreInitialized:false,
           persistentFirestoreCache:false,
+          authPersistence:"browserSessionPersistence",
           browserFirestoreWrites:"self-account-create-only"
         });
       }catch(error){
@@ -221,9 +247,10 @@
 
       try{
         const sdk=options.accountSdk||await loadAccountFirebaseSdk(options.importImpl);
-        for(const name of ["getAuth","GoogleAuthProvider","signInWithPopup","signOut","onAuthStateChanged","initializeFirestore","memoryLocalCache","doc","runTransaction"]){
+        for(const name of ["getAuth","GoogleAuthProvider","signInWithPopup","signOut","onAuthStateChanged","setPersistence","initializeFirestore","memoryLocalCache","doc","runTransaction"]){
           if(typeof sdk[name]!=="function")throw new Error(`Firebase account SDK method unavailable: ${name}`);
         }
+        if(!sdk.browserSessionPersistence)throw new Error("Firebase browserSessionPersistence is unavailable.");
         if(!sdk.Timestamp)throw new Error("Firebase Timestamp is unavailable.");
         const auth=sdk.getAuth(productionApp);
         const firestore=sdk.initializeFirestore(productionApp,{localCache:sdk.memoryLocalCache()});
@@ -235,7 +262,9 @@
             GoogleAuthProvider:sdk.GoogleAuthProvider,
             signInWithPopup:sdk.signInWithPopup,
             signOut:sdk.signOut,
-            onAuthStateChanged:sdk.onAuthStateChanged
+            onAuthStateChanged:sdk.onAuthStateChanged,
+            setPersistence:sdk.setPersistence,
+            browserSessionPersistence:sdk.browserSessionPersistence
           }),
           firestoreSdk:Object.freeze({Timestamp:sdk.Timestamp,doc:sdk.doc,runTransaction:sdk.runTransaction}),
           billingRequired:false,
@@ -243,9 +272,13 @@
           cloudRunRequired:false,
           cloudFunctionsRequired:false,
           persistentFirestoreCache:false,
+          authPersistence:"browserSessionPersistence",
+          provider:"google",
+          signInFlow:"popup",
+          additionalGoogleScopes:0,
           writeScope:"self-account-create-only"
         });
-        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,browserFirestoreWrites:"self-account-create-only"});
+        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",browserFirestoreWrites:"self-account-create-only"});
         return accountServices;
       }catch(error){
         if(root.console&&typeof root.console.warn==="function"){
@@ -261,6 +294,23 @@
     return runtimeState;
   }
 
+  function installConnectedAccountSettingsBridge(){
+    if(!root.document||!root.document.addEventListener)return;
+    const marker=root.document.documentElement;
+    if(marker&&marker.dataset&&marker.dataset.sparkAccountBridge==="true")return;
+    if(marker&&marker.dataset)marker.dataset.sparkAccountBridge="true";
+    root.document.addEventListener("click",event=>{
+      const target=event&&event.target&&typeof event.target.closest==="function"
+        ? event.target.closest("#settingsButton")
+        : null;
+      if(!target)return;
+      void loadConnectedAccountScript().then(account=>{
+        if(account&&typeof account.mountWhenSettingsReady==="function")return account.mountWhenSettingsReady();
+        return false;
+      }).catch(()=>undefined);
+    },true);
+  }
+
   function scheduleProductionFirebaseRuntime(){
     if(!root.document||!root.location)return;
     const launch=()=>{
@@ -272,6 +322,7 @@
     else launch();
   }
 
+  installConnectedAccountSettingsBridge();
   scheduleProductionFirebaseRuntime();
 
   return Object.freeze({
@@ -285,15 +336,23 @@
     firebaseFirestoreModule:FIREBASE_FIRESTORE_MODULE,
     runtimeConfigPath:CONFIG_PATH,
     bootstrapPath:BOOTSTRAP_PATH,
+    connectedAccountPath:CONNECTED_ACCOUNT_PATH,
     enforcementEnabled:false,
     billingRequired:false,
     blazeRequired:false,
+    cloudRunRequired:false,
+    cloudFunctionsRequired:false,
     persistentFirestoreCache:false,
+    authPersistence:"browserSessionPersistence",
+    provider:"google",
+    signInFlow:"popup",
+    additionalGoogleScopes:0,
     browserFirestoreWrites:"self-account-create-only",
     classifyContext:classifyRuntimeContext,
     readRuntimeConfig,
     initialize:initializeProductionFirebaseRuntime,
     ensureAccountServices:ensureSparkAccountServices,
+    loadConnectedAccount:loadConnectedAccountScript,
     diagnostics:getProductionFirebaseRuntimeDiagnostics
   });
 });
