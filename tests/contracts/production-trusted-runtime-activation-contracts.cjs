@@ -7,11 +7,22 @@ const rootPackage=JSON.parse(fs.readFileSync("package.json","utf8"));
 const runtimePackage=JSON.parse(fs.readFileSync("trusted-runtime/package.json","utf8"));
 const providerSource=fs.readFileSync("trusted-runtime/firebaseAdminProvider.mjs","utf8");
 const serverSource=fs.readFileSync("trusted-runtime/server.mjs","utf8");
+const dockerfile=fs.readFileSync("trusted-runtime/Dockerfile","utf8");
+const cloudBuild=fs.readFileSync("trusted-runtime/cloudbuild.yaml","utf8");
+const roleDefinition=fs.readFileSync("trusted-runtime/runtime-role.yaml","utf8");
+const activationScript=fs.readFileSync("trusted-runtime/activate-production.sh","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const worker=fs.readFileSync("service-worker.js","utf8");
 const stage2h=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2H.md","utf8");
 const environment=JSON.parse(fs.readFileSync("firebase.production.environment.json","utf8"));
+
+const exactRuntimePermissions=[
+  "firebaseauth.users.get",
+  "datastore.databases.get",
+  "datastore.entities.get",
+  "datastore.entities.create"
+];
 
 assert.equal(runtime.contractVersion,1);
 assert.equal(runtime.productionRuntimeTarget,"google-cloud-run-https");
@@ -61,18 +72,44 @@ assert.doesNotMatch(index,/trusted-runtime|firebase-admin/i);
 assert.doesNotMatch(optional,/trusted-runtime|firebase-admin/i);
 assert.doesNotMatch(worker,/trusted-runtime|firebase-admin/i);
 
+assert.match(dockerfile,/FROM node:24-bookworm-slim/);
+assert.match(dockerfile,/USER node/);
+assert.match(dockerfile,/COPY js\/trustedRequestAuthentication\.js/);
+assert.match(dockerfile,/COPY js\/trustedAppAttestationRequest\.js/);
+assert.doesNotMatch(dockerfile,/COPY \. \.|COPY \. \/app/,"Trusted runtime image must copy only its reviewed runtime files rather than the full repository.");
+
+assert.match(cloudBuild,/trusted-runtime\/Dockerfile/);
+assert.match(cloudBuild,/_REGION: us-east4/);
+assert.match(cloudBuild,/_REPOSITORY: cms-trusted-runtime/);
+assert.match(cloudBuild,/career-mode-showdown-trusted-runtime/);
+
+for(const permission of exactRuntimePermissions){
+  assert.match(roleDefinition,new RegExp(permission.replace(/\./g,"\\.")));
+}
+const rolePermissionLines=roleDefinition.split(/\r?\n/).filter(line=>/^\s*-\s+(?:firebaseauth|datastore)\./.test(line));
+assert.equal(rolePermissionLines.length,4,"The production runtime custom role must contain exactly four provider permissions.");
+assert.doesNotMatch(roleDefinition,/datastore\.entities\.(?:update|delete|list)|roles\/datastore|firebase\.admin/i);
+
+assert.match(activationScript,/PROJECT_ID="fifa17-career-showdown-prod"/);
+assert.match(activationScript,/REGION="us-east4"/);
+assert.match(activationScript,/SERVICE_ACCOUNT_ID="cms-trusted-runtime"/);
+assert.match(activationScript,/ROLE_ID="careerModeShowdownAccountBootstrap"/);
+assert.match(activationScript,/gcloud iam roles create[\s\S]+--file="\$ROLE_FILE"/);
+assert.match(activationScript,/gcloud projects add-iam-policy-binding[\s\S]+--role="\$ROLE_NAME"/);
+assert.match(activationScript,/gcloud run deploy[\s\S]+--service-account="\$SERVICE_ACCOUNT"[\s\S]+--allow-unauthenticated/);
+assert.match(activationScript,/--max-instances=2/);
+assert.match(activationScript,/GOOGLE_APPLICATION_CREDENTIALS is set/);
+assert.match(activationScript,/protected account-bootstrap endpoint did not fail closed without credentials/i);
+assert.match(activationScript,/Do not award RJR production-auth\/IAM points until a legitimate App Check \+ Firebase Auth request/i);
+assert.doesNotMatch(activationScript,/service-accounts keys create|private[-_ ]key|roles\/owner|roles\/editor|roles\/datastore\.user|roles\/firebase\.admin/i);
+
 assert.equal(environment.activation.appCheckEnforcement,false);
 assert.equal(environment.securityLocks.applicationClientFirestoreWrites,"deny-all");
 assert.equal(environment.securityLocks.clientAuthInitialized,false);
 assert.equal(environment.securityLocks.clientFirestoreInitialized,false);
 assert.equal(environment.securityLocks.clientStorageInitialized,false);
 assert.equal(environment.securityLocks.clientFunctionsInitialized,false);
-assert.deepEqual(environment.securityLocks.stage2hIamPermissions,[
-  "firebaseauth.users.get",
-  "datastore.databases.get",
-  "datastore.entities.get",
-  "datastore.entities.create"
-]);
+assert.deepEqual(environment.securityLocks.stage2hIamPermissions,exactRuntimePermissions);
 assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 
 (async()=>{
@@ -221,7 +258,7 @@ assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\
   assert.equal(unauthorized.ok,false);
   assert.equal(unauthorized.code,"TRUSTED_ACCOUNT_APPLICATION_AUTHORIZATION_REQUIRED");
 
-  process.stdout.write("PASS production trusted runtime composition: App Check -> revoked-user verification -> application authorization -> create-only account transaction, with exact IAM/browser locks preserved.\n");
+  process.stdout.write("PASS production trusted runtime composition and activation infrastructure: exact App Check -> revoked-user verification -> application authorization -> create-only transaction, exact four-permission IAM, us-east4 deployment and browser locks protected.\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
