@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-21T12:55:00-04:00",
+  "recordedAt": "2026-08-21T14:25:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/spark-production-account-runtime",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -32,9 +32,6 @@
     "reviewsCleanAtSourceSeal": true,
     "threadsCleanAtSourceSeal": true,
     "mergeableAtSourceSeal": true,
-    "mergeAuthorized": true,
-    "mergeAuthorizationSource": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
-    "mergeAuthorizationCondition": "After every required test and current mandatory publication gate passes on the intended immutable head, merge/deploy without another owner approval prompt.",
     "sourceValidation": {
       "staticAppRunNumber": 1567,
       "staticAppRunId": 32502859032,
@@ -47,6 +44,26 @@
       "deployedSiteSmoke": "skipped-on-pull-request",
       "productionProof": false
     },
+    "freshSuccessorSourceRevalidationHead": "45e6d51ea5636c4fdf0c76eefe32f9b8908463d6",
+    "workflowFamiliesGreenAtFreshRevalidation": 13,
+    "reviewsCleanAtFreshRevalidation": true,
+    "threadsCleanAtFreshRevalidation": true,
+    "mergeableAtFreshRevalidation": true,
+    "freshRevalidation": {
+      "staticAppRunNumber": 1580,
+      "staticAppRunId": 32511770971,
+      "stabilityRunNumber": 1334,
+      "stabilityRunId": 32511771122,
+      "candidateCRunNumber": 968,
+      "candidateCRunId": 32511770837,
+      "stabilityContracts": "success",
+      "chromiumStability": "success",
+      "deployedSiteSmoke": "skipped-on-pull-request",
+      "productionProof": false
+    },
+    "mergeAuthorized": true,
+    "mergeAuthorizationSource": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
+    "mergeAuthorizationCondition": "After every required test and current mandatory publication gate passes on the intended immutable head, merge/deploy without another owner approval prompt.",
     "mandatoryPublicationGate": {
       "rulesFile": "firestore.spark.rules",
       "published": false,
@@ -78,7 +95,13 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "PR #125 source validation is sealed on d83a33066b271d7d89bf932f1066d9e1369b3f6d with all 13 normal workflow families green, clean submitted reviews, clean inline review threads and mergeability. This does not publish firestore.spark.rules and does not make v1.5.0 / 1.5.0-r1 production-proven.",
+  "lastCompletedMilestone": "Fresh successor independently revalidated PR #125 after the original source seal. Exact head 45e6d51ea5636c4fdf0c76eefe32f9b8908463d6 passed all 13 normal pull-request workflow families with clean reviews, clean threads and mergeability. This is source proof only; firestore.spark.rules is still unpublished and v1.5.0 / 1.5.0-r1 remains not production-proven.",
+  "closingWec": {
+    "environmentId": "we-2026-08-21-pr125-spark-rules-publication",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "decisionScope": "closing-environment-only-do-not-inherit",
+    "checkpoint": "fresh-successor-pr125-exact-head-source-revalidation-before-provider-publication"
+  },
   "runtime": {
     "applicationVersion": "1.4.0",
     "productionRuntimeRevision": "1.4.0-r2",
@@ -106,7 +129,7 @@
     "candidateRulesPublished": false,
     "knownGoodFallbackRuntime": "1.4.0-r1"
   },
-  "currentLane": "PR #125 source-validation checkpoint is complete and the predecessor WEC is handoff-bound. Fresh successor must initialize its own WEC, reverify the SLE-only branch delta, then publish and verify exactly firestore.spark.rules before merge/deploy/post-deployment proof.",
+  "currentLane": "PR #125 fresh exact-head source revalidation is complete and this WEC is handoff-bound before the distinct production Spark Rules provider-publication phase. Fresh successor must initialize its own WEC, classify final SLE-only packaging delta, then publish and verify exactly firestore.spark.rules before merge/deploy/post-deployment proof.",
   "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -116,8 +139,8 @@
     "rule": "Read and reconcile the fixed ledger from production capability evidence only; never infer readiness from PR count, CI, WEC, SLE quality, documentation or unpublished provider state."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md"
+    "canonical": "SUCCESSOR_HANDOFF_PR125_SPARK_RULES_SOURCE_RESEAL_SLE_2026-08-21.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR125_SPARK_RULES_SOURCE_RESEAL_SLE_2026-08-21.md"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -133,20 +156,20 @@
   "contextGraph": "SESSION_CONTEXT_GRAPH.json",
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "starter": {
-    "version": "1.4.1",
-    "checkpoint": "PR125-SPARK-CONNECTED-ACCOUNT-SOURCE-SEAL",
-    "canonical": "START_NEXT_SESSION_V1.4.1_PR125.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.1_PR125.md",
+    "version": "1.4.2",
+    "checkpoint": "PR125-SPARK-RULES-SOURCE-RESEAL",
+    "canonical": "START_NEXT_SESSION_V1.4.2_PR125.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.2_PR125.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: ordinary new WEC/SLE handoff checkpoint using the existing startup protocol."
+    "versionReason": "PATCH: ordinary new WEC/SLE handoff checkpoint after fresh exact-head source revalidation."
   },
   "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + SLE/RJR/WEC/security locks supersede older read-everything preload lists only for startup context loading; current verified source, provider/deployment state, security/recovery rules and later owner instructions remain authoritative.",
   "retrievalStrategy": {
     "method": "SLE-progressive-context-hydration-with-ranked-task-retrieval-and-live-delta",
     "tier0": "starter + capsule + SLE policy + standing owner authorization + fixed RJR/WEC/security locks",
-    "tier1": "live main/PR delta, firestore.spark.rules, current production/candidate authority and exact PR125 source-seal evidence",
-    "tier2": "intervening branch delta only when current state differs from source-validation seal",
+    "tier1": "live main/PR delta, firestore.spark.rules, current production/candidate authority and exact PR125 fresh source-revalidation evidence",
+    "tier2": "post-45e6d51 SLE packaging delta only when current final PR head differs from the fresh revalidation head",
     "tier3": "complete SLE handoff/history only when evidence-triggered",
     "failureTriage": "For CI failure, fetch exact workflow run jobs and completed failed-job logs before changing code. Do not guess from a workflow family name.",
     "optimizationObjective": "minimize startup context cost and tool latency subject to zero increase in missed critical security, recovery, authority or publication context"
@@ -183,7 +206,7 @@
   ],
   "expandContextOnlyIf": [
     "live main differs from lastVerifiedMainSha",
-    "PR #125 head differs from the recorded source-validation seal beyond classified SLE packaging",
+    "PR #125 final head contains a post-45e6d51 delta beyond classified SLE transition packaging",
     "current production authority conflicts with permanent production proof run 32439162225",
     "a current exact-head workflow fails",
     "security, recovery, versioning or implementation authority is ambiguous",
