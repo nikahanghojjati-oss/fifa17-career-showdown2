@@ -9,7 +9,8 @@ const canonicalKeys=new Set([
   "careerModeShowdown.preferences"
 ]);
 
-async function proveContext(browser,label,contextOptions){
+async function proveContext(runtime,label,contextOptions){
+  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
   const context=await browser.newContext(contextOptions);
   const page=await context.newPage();
   const pageErrors=[];
@@ -59,19 +60,15 @@ async function proveContext(browser,label,contextOptions){
     assert.deepEqual(pageErrors,[],`${label}: Stage 3 browser proof emitted page errors.`);
     process.stdout.write(`PASS Stage 3 ${label} IndexedDB identity persistence, reload, offline, and localStorage isolation\n`);
   }finally{
-    await context.close();
+    await context.close().catch(()=>{});
+    await browser.close().catch(()=>{});
   }
 }
 
 (async()=>{
   const runtime=await resolveChromiumRuntime();
-  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
-  try{
-    await proveContext(browser,"desktop",{viewport:{width:1365,height:768},locale:"en-US"});
-    await proveContext(browser,"mobile",{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
-  }finally{
-    await browser.close();
-  }
+  await proveContext(runtime,"desktop",{viewport:{width:1365,height:768},locale:"en-US"});
+  await proveContext(runtime,"mobile",{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
 })().catch(error=>{
   console.error("STAGE 3 PRIVATE PAIRING BROWSER AUDIT FAILED");
   console.error(error.stack||error);
