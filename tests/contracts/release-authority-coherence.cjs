@@ -56,7 +56,7 @@ if(candidate){
     A.ok(previousRuntime, "A release candidate must name its previous known-good whole-runtime shell.");
     A.ok(readme.includes(previousRuntime) && /production-proven|production proven/i.test(readme), "Candidate README must retain previous production truth.");
     A.ok(changelog.includes(previousRuntime), "Candidate CHANGELOG must retain previous production runtime truth.");
-    A.match(state, new RegExp(`Active release candidate[\\s\\S]{0,220}v${version.replace(/\./g,"\\.")}[\\s\\S]{0,220}NOT production`,"i"), "PROJECT_STATE must identify the active release as a non-production candidate.");
+    A.match(state, new RegExp(`Active release candidate[\\s\\S]{0,180}NOT production[\\s\\S]{0,180}v${version.replace(/\./g,"\\.")}`,"i"), "PROJECT_STATE must identify the active release as a non-production candidate.");
     A.ok(state.includes(revision), "PROJECT_STATE must identify the candidate runtime revision.");
     A.match(next, new RegExp(`Authorized product candidate:[\\s\\S]{0,180}v${version.replace(/\./g,"\\.")}[\\s\\S]{0,180}${revision.replace(/\./g,"\\.")}`,"i"), "NEXT_TASK must identify the current bounded product candidate.");
     A.ok(state.includes(previousRuntime) && next.includes(previousRuntime), "Candidate authority must preserve the immediate production/recovery runtime.");
