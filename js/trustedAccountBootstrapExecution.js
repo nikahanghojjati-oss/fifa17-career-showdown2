@@ -23,6 +23,15 @@
     return deepFreezeStage2G({ok:false,action:"reject",code});
   }
 
+  function normalizeStage2GPrincipal(input){
+    if(!isStage2GRecord(input))return null;
+    const accountId=typeof input.accountId==="string"?input.accountId.trim():"";
+    const providerPrincipal=isStage2GRecord(input.providerPrincipal)?input.providerPrincipal:null;
+    const providerUid=providerPrincipal&&typeof providerPrincipal.uid==="string"?providerPrincipal.uid.trim():"";
+    if(!accountId||!providerUid||accountId!==providerUid)return null;
+    return deepFreezeStage2G({accountId,providerPrincipal:{uid:providerUid}});
+  }
+
   function bootstrapCreateSpec(accountId){
     return deepFreezeStage2G({
       schemaVersion:1,
@@ -94,21 +103,16 @@
     return rejectStage2G("TRUSTED_ACCOUNT_TRANSACTION_RESULT_INVALID");
   }
 
-  async function executeTrustedAccountBootstrap(input){
-    if(!isStage2GRecord(input))return rejectStage2G("INVALID_TRUSTED_ACCOUNT_EXECUTION_INPUT");
-    if(!trustedRequestAuthentication||typeof trustedRequestAuthentication.verifyTrustedRequestPrincipal!=="function"){
-      return rejectStage2G("TRUSTED_REQUEST_AUTHENTICATION_UNAVAILABLE");
-    }
+  async function executeAuthorizedAccountBootstrap(input){
+    if(!isStage2GRecord(input))return rejectStage2G("INVALID_AUTHORIZED_ACCOUNT_EXECUTION_INPUT");
     if(!trustedAccountBootstrap||typeof trustedAccountBootstrap.planTrustedAccountBootstrap!=="function"){
       return rejectStage2G("TRUSTED_ACCOUNT_BOOTSTRAP_PLANNER_UNAVAILABLE");
     }
-
-    const principal=await trustedRequestAuthentication.verifyTrustedRequestPrincipal({
-      idToken:input.idToken,
-      verifyIdToken:input.verifyIdToken
-    });
-    if(!principal.ok)return principal;
-
+    const principal=normalizeStage2GPrincipal(input);
+    if(!principal)return rejectStage2G("TRUSTED_ACCOUNT_AUTHENTICATED_PRINCIPAL_INVALID");
+    if(input.applicationAuthorizationGranted!=="account-bootstrap-only"){
+      return rejectStage2G("TRUSTED_ACCOUNT_APPLICATION_AUTHORIZATION_REQUIRED");
+    }
     if(typeof input.runAtomicAccountBootstrap!=="function"){
       return rejectStage2G("TRUSTED_ACCOUNT_TRANSACTION_UNAVAILABLE");
     }
@@ -136,6 +140,26 @@
     return validateTransactionResult(accountId,documentPath,transactionResult);
   }
 
+  async function executeTrustedAccountBootstrap(input){
+    if(!isStage2GRecord(input))return rejectStage2G("INVALID_TRUSTED_ACCOUNT_EXECUTION_INPUT");
+    if(!trustedRequestAuthentication||typeof trustedRequestAuthentication.verifyTrustedRequestPrincipal!=="function"){
+      return rejectStage2G("TRUSTED_REQUEST_AUTHENTICATION_UNAVAILABLE");
+    }
+
+    const principal=await trustedRequestAuthentication.verifyTrustedRequestPrincipal({
+      idToken:input.idToken,
+      verifyIdToken:input.verifyIdToken
+    });
+    if(!principal.ok)return principal;
+
+    return executeAuthorizedAccountBootstrap({
+      accountId:principal.accountId,
+      providerPrincipal:principal.providerPrincipal,
+      applicationAuthorizationGranted:"account-bootstrap-only",
+      runAtomicAccountBootstrap:input.runAtomicAccountBootstrap
+    });
+  }
+
   return deepFreezeStage2G({
     contractVersion:1,
     stage:"2G",
@@ -145,6 +169,7 @@
     bootstrapAuthorizationScope:"same-provider-uid-missing-account-create-only",
     initialBootstrapDeviceAttribution:null,
     sharedMutationAuthorityGranted:false,
+    executeAuthorizedAccountBootstrap,
     executeTrustedAccountBootstrap
   });
 });

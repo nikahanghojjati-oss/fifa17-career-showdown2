@@ -1,0 +1,18 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - trusted-runtime/Dockerfile
+      - -t
+      - ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_IMAGE}:${_TAG}
+      - .
+images:
+  - ${_REGION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY}/${_IMAGE}:${_TAG}
+substitutions:
+  _REGION: us-east4
+  _REPOSITORY: cms-trusted-runtime
+  _IMAGE: career-mode-showdown-trusted-runtime
+  _TAG: manual
+options:
+  logging: CLOUD_LOGGING_ONLY
