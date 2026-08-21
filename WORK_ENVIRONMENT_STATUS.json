@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-21-pr125-spark-rules-provider-publication",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-21T17:43:00-04:00",
+  "recordedAt": "2026-08-21T17:46:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,11 +13,11 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 5,
-    "largeEvidenceEvents": 8,
+    "largeEvidenceEvents": 9,
     "toolRoutingErrors": 2,
-    "correctedFailures": 4,
+    "correctedFailures": 5,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 3,
+    "staleFactCorrections": 4,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
@@ -28,14 +28,14 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Close the production Private Connected Account milestone after owner real-device proof, merged PR #126 mount-race hotfix, merged PR #127 production proof/RJR reconciliation and mandatory SLE transition packaging; stop before the separate Stage 3 Registered Devices / Private Pairing product milestone.",
-    "lastSafeCheckpoint": "Live main before transition packaging is 0013bba24142aab4c76e5bca038ae99afa638c8d from merged PR #127. Production real-device evidence directly shows Private account ready together with APPLICATION VERSION v1.5.0 and BUILD 1.5.0-r2. PR #127 exact validated head 84216d1a6f5f49fb84c620fbd140170e5ba868e7 passed all 13 normal workflow families, had zero submitted reviews and zero inline review threads, was mergeable, and merged under standing authorization. REMOTE_JOINING_READINESS.json is now evidence-backed 63/100. Transition PR #128 on agent/stage3-sle-transition contains SLE packaging/process authority only and no runtime/Firebase/provider/gameplay mutation.",
-    "nextSafeAction": "HANDOFF to a fresh successor using START_NEXT_SESSION_V1.4.3_STAGE3.md. Successor independently verifies live main and PR #128 outcome, initializes a fresh WEC without inheriting this HANDOFF_AT_CHECKPOINT decision, then begins the real v1.6.0 Stage 3 Registered Devices / Private Pairing feature in one product branch/PR with no intervening generic prerequisite or documentation-only milestone.",
+    "currentTask": "Close the production Private Connected Account milestone after owner real-device production proof, merged PR #126 mount-race hotfix, merged PR #127 production Firebase authentication/self-account proof and RJR reconciliation, then complete mandatory SLE transition packaging without starting the separate Stage 3 Registered Devices / Private Pairing product milestone.",
+    "lastSafeCheckpoint": "Live main before transition packaging is 0013bba24142aab4c76e5bca038ae99afa638c8d from merged PR #127. Production real-device evidence directly shows Private account ready together with APPLICATION VERSION v1.5.0 and BUILD 1.5.0-r2. PR #127 exact validated head 84216d1a6f5f49fb84c620fbd140170e5ba868e7 passed all 13 normal workflow families, had zero submitted reviews and zero inline review threads, was mergeable, and merged under standing authorization. REMOTE_JOINING_READINESS.json is evidence-backed 63/100. Transition PR #128 on agent/stage3-sle-transition contains SLE/process continuity only and no runtime/Firebase/provider/gameplay mutation.",
+    "nextSafeAction": "HANDOFF to a fresh successor using START_NEXT_SESSION_V1.4.3_STAGE3.md after exact-head PR #128 validation/merge. The successor independently verifies live main, initializes a fresh WEC without inheriting this HANDOFF_AT_CHECKPOINT decision, then implements the real v1.6.0 Stage 3 Registered Devices / Private Pairing feature in one product branch/PR with no intervening generic prerequisite or documentation-only milestone.",
     "unfinishedWork": [
       "Validate the final immutable PR #128 SLE transition head across all normal publication workflow families, reviews, inline review threads and mergeability.",
       "Merge PR #128 under standing owner authorization if all required gates are green; it is transition-only and changes no runtime/provider state.",
-      "Fresh successor must begin real Stage 3 Registered Devices / Private Pairing implementation after its own WEC initialization.",
-      "Stage 3 must implement registered-device lifecycle and private one-use exactly-two-manager pairing with proportional gaming-app security and zero billing.",
+      "Fresh successor begins real Stage 3 Registered Devices / Private Pairing implementation after its own WEC initialization.",
+      "Stage 3 implements registered-device lifecycle and private one-use exactly-two-manager pairing with proportional gaming-app security and zero billing.",
       "Stage 4 Connected Rivalry, Stage 5 actual Remote Joining and real-device hardening remain downstream."
     ],
     "knownHazards": [
@@ -44,7 +44,7 @@
       "Firebase Spark/zero billing remains required; do not add Blaze, Cloud Run, Cloud Functions or Storage without later explicit owner authorization.",
       "Stage 2H reviewed IAM remains exactly firebaseauth.users.get, datastore.databases.get, datastore.entities.get, datastore.entities.create and remains unactivated.",
       "Do not ask the owner to repeat the already-completed Spark Firestore Rules publication, Firebase provider setup, reinstall or Connected Account Google sign-in proof.",
-      "Current NEXT_TASK.md and PROJECT_STATE.md still preserve stale PR #125-era implementation wording because historical contracts remain coupled to it. Reconcile those files in the same real Stage 3 product PR, not a separate documentation-only milestone, and make affected point-in-time tests current-state/evidence-driven instead of perpetuating repeated edits.",
+      "Current NEXT_TASK.md and PROJECT_STATE.md retain stale PR #125-era wording. Reconcile them in the same real Stage 3 product PR, not a separate documentation-only milestone, and make affected point-in-time tests current-state/evidence-driven rather than perpetuating repeated edits.",
       "Public discovery, public profiles, public matchmaking, public invitation directories, community features and global leaderboard/rankings remain eliminated.",
       "Canonical localStorage remains careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Persistent Firestore cache remains disabled; current production Connected Account uses memory-only Firestore.",
@@ -58,7 +58,8 @@
       "RJR-1 moved only from 61 to 63: +1 real production Google authentication and +1 real production strict self-account bootstrap. No process/build-label/pairing/Connected-Rivalry/Remote-Joining points were awarded.",
       "Two stale historical contracts that hardcoded readiness 61 were corrected to preserve the historical 61 baseline while allowing later evidence-backed RJR movement; this prevents repeating the same maintenance after every legitimate future score change.",
       "Transition package updates SLE starter/bootstrap/context graph and rewrites the SLE packaging contract to validate current-state invariants rather than hardcoding obsolete PR125 checkpoint values.",
-      "Deterministic WEC assessment at closure: context pressure clamps to 100; quality risk 64 from two routing errors, four corrected failures and three stale-fact corrections; next-task separation 80 because Stage 3 is a distinct milestone; usage omitted as unavailable. Normalized continuation risk is 82.75. Handoff readiness is 100. Transition cost is 13.5 from very-high project complexity only. Transition advantage is 69.25. Required decision: HANDOFF_AT_CHECKPOINT."
+      "First PR #128 validation exposed one additional process-contract assumption: work-environment-interruption-resilience required every fresh divergent WEC to describe a Firebase/Firestore lane. Exact Static App logs showed all earlier runtime/product/SLE contracts passed before this assertion. The contract was corrected to require a concrete source-verifiable milestone-neutral resumable action instead, preventing future non-Firebase milestones from failing for historical wording.",
+      "Final deterministic WEC closure after that correction: context pressure clamps to 100; quality risk clamps to 80 from two routing errors, five corrected failures and four stale-fact corrections; next-task separation 80 because Stage 3 is a distinct milestone; usage omitted as unavailable. HANDOFF_NOW threshold is reached by quality risk at 80, but the environment is already at a coherent transition checkpoint with atomicOperation false and the complete SLE package sealed, so no additional product work is authorized."
     ]
   }
 }
