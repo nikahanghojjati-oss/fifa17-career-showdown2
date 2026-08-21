@@ -43,8 +43,12 @@ assert.match(candidateRules,/match \/rivalries\/\{rivalryId\}[\s\S]+allow list, 
 assert.match(candidateRules,/match \/\{document=\*\*\}[\s\S]+allow read, write: if false;/);
 assert.doesNotMatch(candidateRules,/allow\s+(?:write|update|delete)[^\n]*if\s+true/i);
 
-assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The provider-verified production rules must remain unchanged until the Spark candidate is fully proven and deliberately deployed.");
+assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The repository's historical deny-all production rules file must remain unchanged; the separately reviewed Spark rules own the later provider publication boundary.");
 assert.match(workflow,/spark-account-bootstrap-emulator\.cjs/,"Permanent Static App validation must execute the Spark emulator proof.");
-assert.equal(readiness.currentScore,61,"Selecting or implementing the free architecture must not inflate Remote Joining readiness before verified capability proof.");
+assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100,"RJR must remain on the fixed RJR-1 denominator and may rise only with verified capability evidence.");
+assert.ok(readiness.evidenceHistory.some(event=>event.eventId==="production-app-check-runtime-proof"&&event.score===61),"The historical 61-point pre-Spark-production baseline must remain preserved.");
+if(readiness.currentScore>61){
+  assert.ok(readiness.evidenceHistory.some(event=>event.score===readiness.currentScore&&event.delta>0),"Any post-61 RJR movement must be backed by an explicit positive evidence event.");
+}
 
-process.stdout.write("PASS zero-billing Spark account-bootstrap candidate: no billing/Blaze/server runtime, self-create only, downstream writes denied, production rules untouched, RJR unchanged\n");
+process.stdout.write("PASS zero-billing Spark account-bootstrap boundary: no billing/Blaze/server runtime, self-create only, downstream writes denied, historical repository rules preserved, and RJR movement remains evidence-gated\n");
