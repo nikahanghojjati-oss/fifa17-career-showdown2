@@ -63,30 +63,18 @@
   }
 
   function generateDeviceIdentity(cryptoImpl=root.crypto,nowEpochMs=Date.now()){
-    return Object.freeze({
-      schemaVersion:IDENTITY_SCHEMA_VERSION,
-      installationId:randomId("installation_",INSTALLATION_ID_BYTES,cryptoImpl),
-      deviceId:randomId("device_",DEVICE_ID_BYTES,cryptoImpl),
-      createdAtEpochMs:Number(nowEpochMs)
-    });
+    return Object.freeze({schemaVersion:IDENTITY_SCHEMA_VERSION,installationId:randomId("installation_",INSTALLATION_ID_BYTES,cryptoImpl),deviceId:randomId("device_",DEVICE_ID_BYTES,cryptoImpl),createdAtEpochMs:Number(nowEpochMs)});
   }
 
   function validDeviceIdentity(value){
-    return Boolean(value
-      && value.schemaVersion===IDENTITY_SCHEMA_VERSION
-      && typeof value.installationId==="string"&&/^installation_[0-9a-f]{32}$/.test(value.installationId)
-      && typeof value.deviceId==="string"&&/^device_[0-9a-f]{32}$/.test(value.deviceId)
-      && Number.isFinite(value.createdAtEpochMs)&&value.createdAtEpochMs>0);
+    return Boolean(value&&value.schemaVersion===IDENTITY_SCHEMA_VERSION&&typeof value.installationId==="string"&&/^installation_[0-9a-f]{32}$/.test(value.installationId)&&typeof value.deviceId==="string"&&/^device_[0-9a-f]{32}$/.test(value.deviceId)&&Number.isFinite(value.createdAtEpochMs)&&value.createdAtEpochMs>0);
   }
 
   function openIdentityDatabase(indexedDBImpl=root.indexedDB){
     if(!indexedDBImpl||typeof indexedDBImpl.open!=="function")return Promise.reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity storage is unavailable in this browser."));
     return new Promise((resolve,reject)=>{
       const request=indexedDBImpl.open(IDENTITY_DB_NAME,IDENTITY_DB_VERSION);
-      request.onupgradeneeded=()=>{
-        const database=request.result;
-        if(!database.objectStoreNames.contains(IDENTITY_STORE_NAME))database.createObjectStore(IDENTITY_STORE_NAME);
-      };
+      request.onupgradeneeded=()=>{const database=request.result;if(!database.objectStoreNames.contains(IDENTITY_STORE_NAME))database.createObjectStore(IDENTITY_STORE_NAME);};
       request.onsuccess=()=>resolve(request.result);
       request.onerror=()=>reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity storage could not be opened."));
       request.onblocked=()=>reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity storage is blocked by another browser context."));
@@ -108,69 +96,38 @@
         read.onsuccess=()=>{
           const existing=read.result;
           if(existing!==undefined){
-            if(!validDeviceIdentity(existing)){
-              try{transaction.abort();}catch(_error){}
-              reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_CONFLICT","Stored private device identity is invalid. Remote pairing is disabled without touching local saves."));
-              return;
-            }
+            if(!validDeviceIdentity(existing)){try{transaction.abort();}catch(_error){}reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_CONFLICT","Stored private device identity is invalid. Remote pairing is disabled without touching local saves."));return;}
             resolvedIdentity=Object.freeze({...existing});
             return;
           }
-          try{
-            resolvedIdentity=generateDeviceIdentity(cryptoImpl,nowEpochMs);
-            store.add({...resolvedIdentity},IDENTITY_PRIMARY_KEY);
-          }catch(error){
-            try{transaction.abort();}catch(_error){}
-            reject(error);
-          }
+          try{resolvedIdentity=generateDeviceIdentity(cryptoImpl,nowEpochMs);store.add({...resolvedIdentity},IDENTITY_PRIMARY_KEY);}catch(error){try{transaction.abort();}catch(_error){}reject(error);}
         };
         read.onerror=()=>reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity could not be read."));
         transaction.oncomplete=()=>resolve(resolvedIdentity);
         transaction.onerror=()=>reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity could not be committed."));
         transaction.onabort=()=>reject(errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","Private device identity transaction was aborted."));
       });
-    }finally{
-      if(database&&typeof database.close==="function")database.close();
-    }
+    }finally{if(database&&typeof database.close==="function")database.close();}
   }
 
   function canonicalize(value){
     if(value===null||value===undefined)return value===undefined?null:value;
     if(value&&typeof value.toMillis==="function")return {$timestamp:value.toMillis()};
     if(Array.isArray(value))return value.map(canonicalize);
-    if(typeof value==="object"){
-      const result={};
-      for(const key of Object.keys(value).sort())result[key]=canonicalize(value[key]);
-      return result;
-    }
+    if(typeof value==="object"){const result={};for(const key of Object.keys(value).sort())result[key]=canonicalize(value[key]);return result;}
     return value;
   }
 
   async function sha256(value,cryptoImpl=root.crypto){
     if(!cryptoImpl||!cryptoImpl.subtle||typeof cryptoImpl.subtle.digest!=="function")throw errorWithCode("PRIVATE_CRYPTO_UNAVAILABLE","Secure browser hashing is unavailable.");
-    const text=JSON.stringify(canonicalize(value));
-    const bytes=new TextEncoder().encode(text);
+    const bytes=new TextEncoder().encode(JSON.stringify(canonicalize(value)));
     const digest=await cryptoImpl.subtle.digest("SHA-256",bytes);
     return `sha256:${hexFromBytes(new Uint8Array(digest))}`;
   }
 
   async function buildEnvelope({objectType,objectId,revision,parentRevision,priorContentHash,updatedAt,updatedByAccountId,updatedByDeviceId,data,cryptoImpl=root.crypto}){
     const contentHash=await sha256({objectType,objectId,revision,data},cryptoImpl);
-    return {
-      schemaVersion:1,
-      objectType,
-      objectId,
-      revision,
-      parentRevision,
-      lifecycleState:"live",
-      contentHash,
-      priorContentHash,
-      updatedAt,
-      updatedByAccountId,
-      updatedByDeviceId,
-      data,
-      tombstone:null
-    };
+    return {schemaVersion:1,objectType,objectId,revision,parentRevision,lifecycleState:"live",contentHash,priorContentHash,updatedAt,updatedByAccountId,updatedByDeviceId,data,tombstone:null};
   }
 
   function timestampMillis(value){
@@ -211,9 +168,7 @@
 
   function validateFirestoreInputs({firestore,firebaseSdk}){
     if(!firestore)throw errorWithCode("PRIVATE_FIRESTORE_UNAVAILABLE","Private Firestore services are unavailable.");
-    for(const name of ["doc","runTransaction"]){
-      if(!firebaseSdk||typeof firebaseSdk[name]!=="function")throw errorWithCode("PRIVATE_FIRESTORE_UNAVAILABLE",`Private Firestore SDK method unavailable: ${name}.`);
-    }
+    for(const name of ["doc","runTransaction"]){if(!firebaseSdk||typeof firebaseSdk[name]!=="function")throw errorWithCode("PRIVATE_FIRESTORE_UNAVAILABLE",`Private Firestore SDK method unavailable: ${name}.`);}
     if(!firebaseSdk.Timestamp||typeof firebaseSdk.Timestamp.fromMillis!=="function")throw errorWithCode("PRIVATE_FIRESTORE_UNAVAILABLE","Firestore Timestamp support is unavailable.");
   }
 
@@ -249,15 +204,7 @@
           if(stored.data.installationId!==identity.installationId)throw errorWithCode("PRIVATE_DEVICE_CONFLICT","Registered device belongs to a different private installation identity.");
           return {action:"existing",revision:stored.revision};
         }
-        const data={
-          deviceId:identity.deviceId,
-          installationId:identity.installationId,
-          displayLabel:null,
-          state:"active",
-          registeredAt:now,
-          lastSeenAt:now,
-          revokedAt:null
-        };
+        const data={deviceId:identity.deviceId,installationId:identity.installationId,displayLabel:null,state:"active",registeredAt:now,lastSeenAt:now,revokedAt:null};
         const envelope=await buildEnvelope({objectType:"device",objectId:identity.deviceId,revision:0,parentRevision:null,priorContentHash:null,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data,cryptoImpl:options.cryptoImpl||root.crypto});
         transaction.set(deviceReference,envelope);
         return {action:"created",revision:0};
@@ -266,7 +213,7 @@
     }catch(error){return asResultError(error,"PRIVATE_DEVICE_REGISTRATION_FAILED");}
   }
 
-  async function revokeDevice(options={}){
+  async function revokeRegisteredDevice(options={}){
     try{
       validateFirestoreInputs(options);
       const accountId=normalizeAccountId(options.user);
@@ -275,8 +222,7 @@
       const targetDeviceId=typeof options.targetDeviceId==="string"?options.targetDeviceId.trim():identity.deviceId;
       if(!/^device_[0-9a-f]{32}$/.test(targetDeviceId))throw errorWithCode("PRIVATE_DEVICE_ID_INVALID","A valid registered device identity is required.");
       const sdk=options.firebaseSdk;
-      const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
-      const now=sdk.Timestamp.fromMillis(nowEpochMs);
+      const now=sdk.Timestamp.fromMillis(options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs));
       const actorReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
       const targetReference=sdk.doc(options.firestore,"accounts",accountId,"devices",targetDeviceId);
       const result=await sdk.runTransaction(options.firestore,async transaction=>{
@@ -296,9 +242,7 @@
   function buildManagerSlots(accountId,binding){
     const creatorRole=binding.managerRole;
     const invitedRole=oppositeManagerRole(creatorRole);
-    const slotFor=role=>role===creatorRole
-      ? {slotId:role,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}
-      : {slotId:role,accountId:null,profileId:null,saveId:null,displayLabel:null,entitlementState:"open",deletionConsent:false};
+    const slotFor=role=>role===creatorRole?{slotId:role,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}:{slotId:role,accountId:null,profileId:null,saveId:null,displayLabel:null,entitlementState:"open",deletionConsent:false};
     return {managerSlots:[slotFor("playerOne"),slotFor("playerTwo")],invitedRole};
   }
 
@@ -312,30 +256,25 @@
       const ttlMs=options.ttlMs===undefined?PAIRING_TTL_MS:Number(options.ttlMs);
       if(!Number.isFinite(ttlMs)||ttlMs<=0||ttlMs>MAX_PAIRING_TTL_MS)throw errorWithCode("PAIRING_TTL_INVALID","Private pairing expiry must be within 30 minutes.");
       const capability=normalizeCapability(options.capability||randomId("pair_",PAIRING_CAPABILITY_BYTES,options.cryptoImpl||root.crypto));
-      const rivalryId=capability;
-      const inviteId=capability;
       const sdk=options.firebaseSdk;
       const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
       const createdAt=sdk.Timestamp.fromMillis(nowEpochMs);
       const expiresAt=sdk.Timestamp.fromMillis(nowEpochMs+ttlMs);
       const deviceReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
-      const rivalryReference=sdk.doc(options.firestore,"rivalries",rivalryId);
-      const inviteReference=sdk.doc(options.firestore,"rivalries",rivalryId,"invites",inviteId);
+      const rivalryReference=sdk.doc(options.firestore,"rivalries",capability);
+      const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
       const {managerSlots,invitedRole}=buildManagerSlots(accountId,binding);
       await sdk.runTransaction(options.firestore,async transaction=>{
         const deviceSnapshot=await transaction.get(deviceReference);
         assertActiveDeviceSnapshot(deviceSnapshot,identity.deviceId);
-        const rivalrySnapshot=await transaction.get(rivalryReference);
-        const inviteSnapshot=await transaction.get(inviteReference);
-        if(rivalrySnapshot.exists()||inviteSnapshot.exists())throw errorWithCode("PAIRING_CAPABILITY_COLLISION","A private pairing capability collision occurred. Generate a new pairing code.");
         const rivalryData={connectionState:"pending-pair",connectionStateBeforeDeletion:null,managerSlots,authorizedAccountIds:[accountId],createdByAccountId:accountId,createdAt};
         const inviteData={purpose:"rivalry-pairing",slotId:invitedRole,createdByAccountId:accountId,createdAt,expiresAt,state:"open",redeemedByAccountId:null,redeemedAt:null,revokedAt:null};
-        const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:rivalryId,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
-        const inviteEnvelope=await buildEnvelope({objectType:"invite",objectId:inviteId,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
+        const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:capability,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
+        const inviteEnvelope=await buildEnvelope({objectType:"invite",objectId:capability,revision:0,parentRevision:null,priorContentHash:null,updatedAt:createdAt,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:inviteData,cryptoImpl:options.cryptoImpl||root.crypto});
         transaction.set(rivalryReference,rivalryEnvelope);
         transaction.set(inviteReference,inviteEnvelope);
       });
-      return {ok:true,rivalryId,inviteId,capability,slotId:invitedRole,expiresAtEpochMs:nowEpochMs+ttlMs,creatorBinding:binding};
+      return {ok:true,rivalryId:capability,inviteId:capability,capability,slotId:invitedRole,expiresAtEpochMs:nowEpochMs+ttlMs,creatorBinding:binding};
     }catch(error){return asResultError(error,"PAIRING_CREATE_FAILED");}
   }
 
@@ -379,9 +318,7 @@
         const rivalrySnapshot=await transaction.get(rivalryReference);
         const inviteSnapshot=await transaction.get(inviteReference);
         const {rivalry,invite}=assertPairingDocuments(rivalrySnapshot,inviteSnapshot,capability,accountId,binding,nowEpochMs);
-        const nextSlots=rivalry.data.managerSlots.map(slot=>slot.slotId===invite.data.slotId
-          ? {slotId:slot.slotId,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}
-          : {...slot});
+        const nextSlots=rivalry.data.managerSlots.map(slot=>slot.slotId===invite.data.slotId?{slotId:slot.slotId,accountId,profileId:binding.profileId,saveId:binding.saveId,displayLabel:binding.displayLabel,entitlementState:"active",deletionConsent:false}:{...slot});
         const rivalryData={...rivalry.data,connectionState:"active",managerSlots:nextSlots,authorizedAccountIds:[invite.data.createdByAccountId,accountId]};
         const inviteData={...invite.data,state:"redeemed",redeemedByAccountId:accountId,redeemedAt:now,revokedAt:null};
         const rivalryEnvelope=await buildEnvelope({objectType:"rivalry",objectId:capability,revision:rivalry.revision+1,parentRevision:rivalry.revision,priorContentHash:rivalry.contentHash,updatedAt:now,updatedByAccountId:accountId,updatedByDeviceId:identity.deviceId,data:rivalryData,cryptoImpl:options.cryptoImpl||root.crypto});
@@ -402,8 +339,7 @@
       if(!validDeviceIdentity(identity))throw errorWithCode("PRIVATE_DEVICE_IDENTITY_UNAVAILABLE","A stable registered device is required.");
       const capability=normalizeCapability(options.capability);
       const sdk=options.firebaseSdk;
-      const nowEpochMs=options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs);
-      const now=sdk.Timestamp.fromMillis(nowEpochMs);
+      const now=sdk.Timestamp.fromMillis(options.nowEpochMs===undefined?Date.now():Number(options.nowEpochMs));
       const deviceReference=sdk.doc(options.firestore,"accounts",accountId,"devices",identity.deviceId);
       const inviteReference=sdk.doc(options.firestore,"rivalries",capability,"invites",capability);
       const result=await sdk.runTransaction(options.firestore,async transaction=>{
@@ -460,9 +396,7 @@
       const result=await registerDevice({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,cryptoImpl:root.crypto});
       if(!result.ok)throw errorWithCode(result.code,result.message);
       return setState({status:"ready",initialized:true,busy:false,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId,message:"This browser is privately registered. Pairing only links the two manager identities; gameplay synchronization is still locked."});
-    }catch(error){
-      return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."} Local Career Mode remains unchanged.`});
-    }
+    }catch(error){return setState({status:error&&error.code==="PRIVATE_DEVICE_REVOKED"?"revoked":"device-error",initialized:true,busy:false,connected:true,registered:false,message:`${error&&error.message?error.message:"This browser could not be registered."} Local Career Mode remains unchanged.`});}
   }
 
   async function initialize(){
@@ -472,10 +406,8 @@
       if(!account||typeof account.getState!=="function")return setState({status:"account-unavailable",initialized:true,busy:false,connected:false,registered:false,message:"Private pairing is unavailable, but local Career Mode remains available."});
       if(!pairingAccountUnsubscribe&&typeof account.subscribe==="function"){
         pairingAccountUnsubscribe=account.subscribe(next=>{
-          if(!next||next.connected!==true){
-            pairingServices=null;
-            setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,message:"Sign in above to register this browser and use private pairing."});
-          }else if(pairingState.accountId!==next.accountId||pairingState.registered!==true){void registerCurrentDevice();}
+          if(!next||next.connected!==true){pairingServices=null;setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,message:"Sign in above to register this browser and use private pairing."});}
+          else if(pairingState.accountId!==next.accountId||pairingState.registered!==true){void registerCurrentDevice();}
         });
       }
       const current=account.getState();
@@ -492,14 +424,8 @@
     return element;
   }
 
-  function shortId(value){
-    if(typeof value!=="string"||!value)return "—";
-    return value.length<=16?value:`${value.slice(0,10)}…${value.slice(-4)}`;
-  }
-
-  function bindingLabel(binding){
-    return `${binding.managerRole==="playerOne"?"Player One":"Player Two"} · ${binding.displayLabel||shortId(binding.profileId)}`;
-  }
+  function shortId(value){return typeof value!=="string"||!value?"—":value.length<=16?value:`${value.slice(0,10)}…${value.slice(-4)}`;}
+  function bindingLabel(binding){return `${binding.managerRole==="playerOne"?"Player One":"Player Two"} · ${binding.displayLabel||shortId(binding.profileId)}`;}
 
   function renderPanel(){
     if(!root.document)return null;
@@ -511,63 +437,40 @@
       panel=createElement("section","settingsPanel settingsConnectedAccountPanel settingsPrivatePairingPanel");
       panel.id=PANEL_ID;
       const accountPanel=root.document.getElementById("sparkConnectedAccountPanel");
-      if(accountPanel&&accountPanel.parentNode===content&&accountPanel.nextSibling)content.insertBefore(panel,accountPanel.nextSibling);
-      else content.appendChild(panel);
+      if(accountPanel&&accountPanel.parentNode===content&&accountPanel.nextSibling)content.insertBefore(panel,accountPanel.nextSibling);else content.appendChild(panel);
     }
     panel.replaceChildren();
     const heading=createElement("div","settingsPanelHeading");
     heading.append(createElement("span","settingsPanelEyebrow","PRIVATE RIVALRY"),createElement("h3","","REGISTERED DEVICE & PAIRING"),createElement("p","","Link exactly two private manager identities. This stage does not synchronize gameplay or start a Remote Joining session."));
     const info=createElement("div","settingsInfoGrid");
     for(const [label,value] of [["DEVICE",pairingState.registered?`Registered · ${shortId(pairingState.deviceId)}`:pairingState.connected?"Not registered":"Sign in required"],["PAIRING","One use · 15 minute private capability"],["MANAGERS","Exactly two stable account/profile/save identities"],["GAMEPLAY SYNC","Locked until Connected Rivalry"],["BILLING","Firebase Spark · no billing"]]){
-      const row=createElement("div","settingsInfoRow");
-      row.append(createElement("span","",label),createElement("strong","",value));
-      info.appendChild(row);
+      const row=createElement("div","settingsInfoRow");row.append(createElement("span","",label),createElement("strong","",value));info.appendChild(row);
     }
     panel.append(heading,info);
-
     if(pairingState.registered){
       const bindings=localBindingOptions();
       const form=createElement("div","settingsOfflineActions settingsConnectedAccountActions");
       const select=createElement("select","menuButton settingsConnectedAccountButton");
       select.setAttribute("aria-label","Local manager identity for private pairing");
-      if(!bindings.length){
-        const option=createElement("option","","No active Save Library manager identity");option.value="";select.appendChild(option);select.disabled=true;
-      }else{
-        bindings.forEach((binding,index)=>{const option=createElement("option","",bindingLabel(binding));option.value=String(index);select.appendChild(option);});
-      }
+      if(!bindings.length){const option=createElement("option","","No active Save Library manager identity");option.value="";select.appendChild(option);select.disabled=true;}
+      else bindings.forEach((binding,index)=>{const option=createElement("option","",bindingLabel(binding));option.value=String(index);select.appendChild(option);});
       const createButton=createElement("button","menuButton settingsConnectedAccountButton","CREATE PAIRING CODE");createButton.type="button";createButton.disabled=pairingState.busy||!bindings.length;
       const codeInput=createElement("input","settingsConnectedAccountInput");codeInput.type="text";codeInput.placeholder="Paste private pairing code";codeInput.autocomplete="off";codeInput.spellcheck=false;codeInput.setAttribute("aria-label","Private pairing code");
       const joinButton=createElement("button","menuButton settingsConnectedAccountButton","JOIN PRIVATE PAIRING");joinButton.type="button";joinButton.disabled=pairingState.busy||!bindings.length;
       createButton.addEventListener("click",async()=>{
-        const binding=bindings[Number(select.value)||0];
-        if(!binding)return;
+        const binding=bindings[Number(select.value)||0];if(!binding)return;
         setState({status:"creating-pair",busy:true,capability:null,expiresAtEpochMs:null,message:"Creating a private one-use pairing code…"});
-        try{
-          const context=await resolveConnectedContext();
-          const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});
-          if(!result.ok)throw errorWithCode(result.code,result.message);
-          setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. It expires in 15 minutes and can be used once."});
-        }catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be created."} Local saves were not changed.`});}
+        try{const context=await resolveConnectedContext();const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. It expires in 15 minutes and can be used once."});}
+        catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be created."} Local saves were not changed.`});}
       });
       joinButton.addEventListener("click",async()=>{
-        const binding=bindings[Number(select.value)||0];
-        if(!binding)return;
+        const binding=bindings[Number(select.value)||0];if(!binding)return;
         setState({status:"joining-pair",busy:true,message:"Redeeming the private one-use pairing code…"});
-        try{
-          const context=await resolveConnectedContext();
-          const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});
-          if(!result.ok)throw errorWithCode(result.code,result.message);
-          codeInput.value="";
-          setState({status:"paired",busy:false,capability:null,expiresAtEpochMs:null,message:"Private managers are paired. Shared gameplay and Remote Joining remain locked until the Connected Rivalry stage is implemented."});
-        }catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be joined."} Local saves were not changed.`});}
+        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);codeInput.value="";setState({status:"paired",busy:false,capability:null,expiresAtEpochMs:null,message:"Private managers are paired. Shared gameplay and Remote Joining remain locked until the Connected Rivalry stage is implemented."});}
+        catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be joined."} Local saves were not changed.`});}
       });
-      form.append(select,createButton,codeInput,joinButton);
-      panel.appendChild(form);
-      if(pairingState.capability){
-        const capabilityBox=createElement("div","settingsDataNote");
-        capabilityBox.append(createElement("strong","","PRIVATE PAIRING CODE: "),createElement("code","",pairingState.capability));
-        panel.appendChild(capabilityBox);
-      }
+      form.append(select,createButton,codeInput,joinButton);panel.appendChild(form);
+      if(pairingState.capability){const capabilityBox=createElement("div","settingsDataNote");capabilityBox.append(createElement("strong","","PRIVATE PAIRING CODE: "),createElement("code","",pairingState.capability));panel.appendChild(capabilityBox);}
     }
     const note=createElement("p","settingsDataNote",pairingState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");panel.appendChild(note);
     return panel;
@@ -589,11 +492,7 @@
     });
   }
 
-  function subscribe(listener){
-    if(typeof listener!=="function")return ()=>{};
-    pairingListeners.add(listener);
-    return ()=>pairingListeners.delete(listener);
-  }
+  function subscribe(listener){if(typeof listener!=="function")return ()=>{};pairingListeners.add(listener);return ()=>pairingListeners.delete(listener);}
 
   return freezeDeep({
     contractVersion:1,
@@ -614,7 +513,8 @@
     normalizeCapability,
     localBindingOptions,
     registerDevice,
-    revokeDevice,
+    revokeRegisteredDevice,
+    revokeDevice:revokeRegisteredDevice,
     createPairing,
     redeemPairing,
     revokePairing,
