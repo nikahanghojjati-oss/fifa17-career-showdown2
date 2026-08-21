@@ -8,6 +8,7 @@ Status: CURRENT BOUNDED PRODUCT CANDIDATE / v1.5.0 / 1.5.0-r1 / NOT PRODUCTION-P
 
 Current branch: `agent/spark-production-account-runtime`.
 Current PR: #125 `Ship Spark private connected account runtime`.
+Current environment: `we-2026-08-21-spark-production-account-runtime`.
 Starting independently verified live main: `82413e36cd70bb10e332cb2aaa137ad350f2d241` from merged PR #124 `Add zero-billing Spark account bootstrap foundation`.
 Usage: unavailable and not estimated.
 Authorized product candidate: `v1.5.0 — Private Connected Account Foundation` / runtime `1.5.0-r1`.
