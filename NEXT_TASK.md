@@ -50,6 +50,8 @@ Required outcomes:
 12. publish under standing owner authorization only after the exact-head gates are clean;
 13. reassess the fresh WEC before any separate later prerequisite.
 
+Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 27 protected workflow blocks in the normal topology contract.
+
 This reconciliation awards RJR +2 only because permanent production proof closes exactly two previously uncredited production-cloud-security gaps: controlled Firebase App + App Check runtime connection and legitimate production App Check token traffic. It awards no points for PR count, green CI by itself, documentation, WEC, SLE, App Check enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining.
 
 ## Security, recovery and product locks
