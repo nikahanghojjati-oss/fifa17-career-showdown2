@@ -1,0 +1,40 @@
+name: Validate Stage 3 Private Pairing
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stage3-private-pairing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install repository dependencies
+        run: npm ci
+
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1
+
+      - name: Run deterministic Stage 3 client contracts
+        run: node tests/contracts/stage3-private-pairing-contracts.cjs
+
+      - name: Run Stage 3 Firestore Rules emulator proof
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage3 "node tests/firebase/stage3-private-pairing-emulator.cjs"
