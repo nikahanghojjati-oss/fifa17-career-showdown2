@@ -129,7 +129,7 @@ After that completion boundary, replace only the second-line feature label with 
 
 Owner-instruction provenance for this reporting format is preserved at `authority-history/OWNER_PROGRESS_REPORTING_FORMAT_2026-08-19.md`. Historical provenance never overrides newer verified source or a later explicit owner instruction.
 
-Every successor SLE handoff and fresh Work environment inherits this seven-line format recursively unless the owner explicitly changes it.
+Every successor handoff and fresh Work environment inherits this seven-line format recursively unless the owner explicitly changes it. Every such successor handoff must also be packaged as SLE under `00_SLE_HANDOFF_PROTOCOL.md`.
 
 ## Interruption and tooling-resilience guardrails
 
