@@ -163,7 +163,7 @@ A.match(currentHandoff, /Failure 7[\s\S]+offscreen Trophy cabinet rendered-text 
 
 A.match(state, /Application milestone:\s*\*\*v1\.4\.0 — Product Deepening\*\*/i, "PROJECT_STATE must preserve the currently deployed v1.4.0 Product Deepening production milestone until candidate promotion.");
 A.match(state, /Current production Installable Offline App runtime: `1\.4\.0-r2`/i, "PROJECT_STATE must preserve the production-proven r2 runtime while the candidate is unpromoted.");
-A.match(state, /Active release candidate[\s\S]{0,260}v1\.5\.0[\s\S]{0,260}NOT production/i, "PROJECT_STATE must distinguish the v1.5 candidate from deployed production.");
+A.match(state, /Active release candidate[\s\S]{0,180}NOT production[\s\S]{0,180}v1\.5\.0/i, "PROJECT_STATE must distinguish the v1.5 candidate from deployed production.");
 A.match(state, /Candidate Installable Offline App runtime: `1\.5\.0-r1`/i, "PROJECT_STATE must identify the v1.5 candidate runtime.");
 A.match(state, /Identity-Safe Career Analytics[\s\S]{0,300}(production-proven|merged, deployed)/i, "PROJECT_STATE must own production Analytics truth.");
 A.match(state, /Current production runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`/i, "PROJECT_STATE must identify the exact multi-Save production feature merge.");
