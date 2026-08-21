@@ -59,6 +59,7 @@ Production App Check enforcement: OFF.
 Production debug App Check: prohibited.
 
 The browser intentionally initializes only Firebase App and Firebase App Check. No browser trusted mutation authority exists.
+Every application-client Firestore create/update/delete remains deny-all.
 
 App Check remains application attestation only. It grants no account identity, application authorization, device identity, pairing authority, rivalry/session authority, gameplay authority, shared mutation authority or IAM authority.
 
