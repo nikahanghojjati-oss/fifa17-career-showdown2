@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 61,
+  "currentScore": 63,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -34,10 +34,11 @@
       "id": "identity-auth-trust",
       "label": "Identity, authentication, authorization and trust",
       "weight": 20,
-      "earned": 17,
+      "earned": 18,
       "evidence": [
         "Firebase Authentication provider decision and production Google sign-in configuration are proven.",
         "Verified UID to accountId boundary, revocation-aware ID-token verification and operation-specific authorization contracts are proven.",
+        "2026-08-21 owner-supplied real mobile production evidence proves the Google popup sign-in flow completes against the production Firebase Auth project and returns a live authenticated Firebase identity in the installed application.",
         "Stage 2I App Check verification order and trusted endpoint attestation contract are proven but production trusted runtime/IAM is not activated."
       ]
     },
@@ -45,13 +46,14 @@
       "id": "production-cloud-security",
       "label": "Production cloud and security activation",
       "weight": 20,
-      "earned": 17,
+      "earned": 18,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
-        "Canonical production Firestore Security Rules are provider verified deployed with application-client writes deny-all.",
+        "Canonical production Firestore Security Rules are provider verified deployed with the strict authenticated self-account revision-0 bootstrap boundary while downstream application-client writes remain denied.",
         "2026-08-20 provider evidence proves reCAPTCHA Enterprise API/key setup and Firebase App Check Web App registration at one-hour TTL and 0.5 risk threshold with enforcement off.",
         "Permanent Validate Stability Lane #1230 / run 32439162225 proves controlled production 1.4.0-r2 Firebase App + App Check runtime connection, exact-origin/path gating, every deployed runtime byte, and legitimate reCAPTCHA Enterprise App Check token traffic while enforcement remains off.",
-        "The production browser still initializes no Firebase Authentication, Firestore, Storage or Functions client service; every application-client Firestore write remains deny-all.",
+        "2026-08-21 owner-supplied real mobile production evidence shows the Connected Account surface, successful Google sign-in and the application state 'Private account ready'. Current source only emits that ready state after the authenticated Firebase UID self-account bootstrap returns ok with active status, so the bounded production Auth + memory-only Firestore + strict self-account create path is now materially proven.",
+        "Production Auth and Firestore remain lazy/optional; Storage and Functions stay uninitialized, local saves remain local-first, and no downstream device/pairing/rivalry/session/gameplay browser mutation authority is granted.",
         "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
       ]
     },
@@ -99,6 +101,22 @@
       "delta": 2,
       "domainId": "production-cloud-security",
       "reason": "Permanent push-triggered Stability Lane #1230 / run 32439162225 on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 proves two previously uncredited production capabilities: controlled Firebase App + App Check runtime connection and legitimate production App Check token traffic. The +2 is deliberately limited to those two newly proven fixed-domain capabilities; no points are awarded for PR count, green CI by itself, documentation, WEC/SLE work, App Check enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining."
+    },
+    {
+      "recordedAt": "2026-08-21T21:08:00Z",
+      "eventId": "production-google-auth-real-device-proof",
+      "score": 62,
+      "delta": 1,
+      "domainId": "identity-auth-trust",
+      "reason": "Owner-supplied real mobile production evidence proves the installed application opens the production Google popup sign-in flow and returns to a live authenticated Firebase identity. This credits one previously unproven production authentication capability only."
+    },
+    {
+      "recordedAt": "2026-08-21T21:09:00Z",
+      "eventId": "production-self-account-bootstrap-real-device-proof",
+      "score": 63,
+      "delta": 1,
+      "domainId": "production-cloud-security",
+      "reason": "Owner-supplied real mobile production evidence shows 'Private account ready'. Current source reaches that state only after the authenticated Firebase UID self-account bootstrap returns ok with active status, materially proving the bounded production Auth + memory-only Firestore + strict revision-0 self-account create path. No points are awarded for pairing, Connected Rivalry, actual Remote Joining, App Check enforcement or unactivated trusted-runtime IAM."
     }
   ]
 }
