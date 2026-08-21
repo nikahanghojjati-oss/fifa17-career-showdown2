@@ -1,17 +1,17 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-21T17:40:00-04:00",
+  "recordedAt": "2026-08-21T19:43:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/stage3-sle-transition",
+  "bootstrapBranch": "agent/v1.6.0-registered-devices-private-pairing",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "0013bba24142aab4c76e5bca038ae99afa638c8d",
+  "lastVerifiedMainSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
   "latestMainMerge": {
-    "pullRequest": 127,
-    "title": "Record production Connected Account proof",
-    "mergeSha": "0013bba24142aab4c76e5bca038ae99afa638c8d",
+    "pullRequest": 128,
+    "title": "Transition authority to Stage 3 private pairing",
+    "mergeSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
     "runtimeChanged": false,
-    "productionProofRecorded": true
+    "productionProofRecorded": false
   },
   "productionRuntimeMerge": {
     "pullRequest": 126,
@@ -24,10 +24,11 @@
   "transitionPullRequest": {
     "number": 128,
     "title": "Transition authority to Stage 3 private pairing",
-    "state": "open-during-package-construction",
+    "state": "merged",
     "branch": "agent/stage3-sle-transition",
     "base": "main",
     "baseSha": "0013bba24142aab4c76e5bca038ae99afa638c8d",
+    "mergeSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
     "runtimeChanged": false,
     "purpose": "mandatory-SLE-transition-only"
   },
@@ -51,7 +52,7 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "Production Private Connected Account is proven end-to-end on the exact installed v1.5.0 / 1.5.0-r2 mobile runtime: Connected Account renders, real Google popup authentication completes, strict Firebase UID self-account bootstrap succeeds, and Private account ready is shown. PR #127 recorded the proof and RJR-1 63/100 and merged at 0013bba24142aab4c76e5bca038ae99afa638c8d.",
+  "lastCompletedMilestone": "Production Private Connected Account is proven end-to-end on v1.5.0 / 1.5.0-r2: Connected Account renders, real Google popup authentication completes, strict Firebase UID self-account bootstrap succeeds, and Private account ready is shown. PR #127 recorded that proof and RJR-1 63/100; transition-only PR #128 then moved current authority to Stage 3.",
   "closingWec": {
     "environmentId": "we-2026-08-21-pr125-spark-rules-provider-publication",
     "decision": "HANDOFF_AT_CHECKPOINT",
@@ -63,6 +64,10 @@
     "productionRuntimeRevision": "1.5.0-r2",
     "productionStatus": "production-proven",
     "immediateRecoveryRuntime": "1.5.0-r1",
+    "candidateApplicationVersion": "1.6.0",
+    "candidateRuntimeRevision": "1.6.0-r1",
+    "candidateStatus": "release-candidate-not-production-proven",
+    "candidateImmediateRecoveryRuntime": "1.5.0-r2",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
@@ -70,12 +75,13 @@
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "strict-authenticated-self-account-revision-0-create-only",
+    "candidateBrowserWriteScope": "stage3-self-device-and-private-pairing-only-after-new-rules-publication",
     "productionConnectedAccount": "proven-ready",
     "storageInitialized": false,
     "functionsInitialized": false,
     "billingRequired": false
   },
-  "currentLane": "Transition at the clean production Connected Account boundary. The next fresh environment must begin the real v1.6.0 Stage 3 Registered Devices / Private Pairing feature, not another broad prerequisite or documentation-only lane.",
+  "currentLane": "v1.6.0 / 1.6.0-r1 Stage 3 Registered Devices / Private Pairing is implemented in PR #129. Current work is exact-head validation, clean review/thread/mergeability proof, then the genuinely new production Stage 3 firestore.spark.rules publication gate, followed by merge/deploy and real production pairing proof. Connected Rivalry and actual Remote Joining remain blocked.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -121,24 +127,25 @@
   "targetedReads": [
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
     "js/cloudSyncRemoteContract.js",
+    "js/sparkPrivatePairing.js",
     "js/sparkConnectedAccount.js",
-    "js/sparkAccountBootstrap.js",
     "firestore.spark.rules",
+    "tests/firebase/stage3-private-pairing-emulator.cjs",
     "NEXT_TASK.md",
     "PROJECT_STATE.md"
   ],
   "immediateNextTask": {
     "applicationCandidate": "v1.6.0",
+    "runtimeCandidate": "1.6.0-r1",
     "stage": "Stage 3 Registered Devices / Private Pairing",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "stable private device/installation identity",
-      "authenticated self-device registration and revocation",
-      "private exactly-two-manager pairing",
-      "128-bit-or-stronger short-lived one-use invite capability",
-      "provider-enforceable zero-billing Firestore transactions/rules only as required",
-      "browser/mobile/emulator proof for replay expiry revocation isolation and local-first behavior"
+      "seal all permanent workflow families green on one exact PR #129 head",
+      "verify clean reviews threads and mergeability on that same head",
+      "publish and verify only the genuinely new Stage 3 firestore.spark.rules boundary after source gates are clean",
+      "merge/deploy under standing owner authorization",
+      "obtain real production registered-device/private-pairing proof before moving RJR-1 or unlocking Connected Rivalry"
     ],
     "blockedUntilLater": [
       "Connected Rivalry gameplay synchronization",
