@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-20T22:29:00-04:00",
+  "recordedAt": "2026-08-21T12:56:00-04:00",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr119",
-      "type": "publication-boundary",
-      "value": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
-      "source": "live main after merged PR #119",
+      "id": "live-main-pr124",
+      "type": "current-main-boundary",
+      "value": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
+      "source": "live main after merged PR #124",
       "authority": 1.0
     },
     {
@@ -23,7 +23,7 @@
       "riskCriticality": 1.0
     },
     {
-      "id": "runtime-1.4.0-r2",
+      "id": "production-runtime-1.4.0-r2",
       "type": "runtime-identity",
       "applicationVersion": "1.4.0",
       "runtimeRevision": "1.4.0-r2",
@@ -36,17 +36,62 @@
       "riskCriticality": 1.0
     },
     {
-      "id": "pr120-proof-probe",
-      "type": "closed-non-authority-proof-helper",
-      "pr": 120,
-      "state": "closed-without-merge",
-      "purpose": "read-only discovery and verification of exact-main push Stability Lane #1230",
-      "mustNotMerge": true
+      "id": "pr124-spark-bootstrap-foundation",
+      "type": "completed-source-emulator-prerequisite",
+      "pr": 124,
+      "state": "merged-source-proof-not-production-activated",
+      "mergeSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
+      "rulesCandidate": "firestore.spark.rules",
+      "productionRulesPublished": false,
+      "authority": 1.0
+    },
+    {
+      "id": "pr125-source-seal",
+      "type": "current-release-candidate-source-proof",
+      "pr": 125,
+      "applicationVersion": "1.5.0",
+      "runtimeRevision": "1.5.0-r1",
+      "state": "source-validated-not-production-proven",
+      "sourceValidationHead": "d83a33066b271d7d89bf932f1066d9e1369b3f6d",
+      "workflowFamiliesGreen": 13,
+      "reviewsClean": true,
+      "threadsClean": true,
+      "mergeable": true,
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "spark-rules-publication",
+      "type": "immediate-successor-task",
+      "state": "next-bounded-publication-gate",
+      "rulesFile": "firestore.spark.rules",
+      "requirements": [
+        "fresh successor WEC and live PR verification first",
+        "publish exact reviewed rules without hand edits",
+        "authenticated self-account revision-0 create is the only newly allowed application-client write",
+        "all downstream device invite rivalry session idempotency gameplay mutations remain denied",
+        "re-freeze PR head workflows reviews threads and mergeability after provider proof"
+      ],
+      "riskCriticality": 1.0
+    },
+    {
+      "id": "pr125-production-proof",
+      "type": "future-publication-proof",
+      "state": "blocked-by-spark-rules-publication",
+      "requirements": [
+        "merge/deploy only after required gates under standing owner authorization",
+        "prove v1.5.0 / 1.5.0-r1 deployed identity",
+        "prove optional Connected Account flow and local-first fallback",
+        "prove memory-only Firestore and strict self-account bootstrap",
+        "prove downstream writes remain denied",
+        "reconsider RJR only from genuine production capability evidence"
+      ],
+      "riskCriticality": 1.0
     },
     {
       "id": "sle-policy",
       "type": "permanent-process-authority",
       "source": "00_SLE_HANDOFF_PROTOCOL.md",
+      "definition": "Smart Lean Efficient",
       "mandatoryEveryFutureHandoff": true,
       "recursive": true,
       "authority": 1.0
@@ -56,35 +101,15 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 59,
-      "state": "requires-post-production-proof-evidence-reconciliation",
-      "rule": "fixed evidence-backed capability domains; never derive from PR/CI/WEC/SLE count",
+      "recordedScore": 61,
+      "state": "current-evidence-backed-score",
+      "rule": "fixed production capability evidence only; never derive from PR/CI/WEC/SLE count",
       "authority": 1.0
-    },
-    {
-      "id": "production-authority-reconciliation",
-      "type": "immediate-successor-task",
-      "state": "next-bounded-task",
-      "requirements": [
-        "record 1.4.0-r2 as production-proven",
-        "preserve 1.4.0-r1 as known-good fallback/recovery knowledge rather than current production authority",
-        "reconcile App Check traffic/runtime evidence into fixed RJR-1 only if exact defensible delta exists",
-        "preserve enforcement off and deny-all browser Firestore writes",
-        "preserve no client Auth/Firestore/Storage/Functions initialization",
-        "preserve exact Stage 2H IAM"
-      ],
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "trusted-runtime-operational-boundary",
-      "type": "future-prerequisite",
-      "state": "requires-current-source-reassessment-after-authority-reconciliation",
-      "riskCriticality": 1.0
     },
     {
       "id": "stage3-registered-devices-private-pairing",
       "type": "future-stage",
-      "state": "dependency-gated",
+      "state": "dependency-gated-blocked",
       "riskCriticality": 1.0
     },
     {
@@ -129,6 +154,7 @@
         "datastore.entities.get",
         "datastore.entities.create"
       ],
+      "activated": false,
       "mustNotBroaden": true,
       "riskCriticality": 1.0
     },
@@ -148,31 +174,32 @@
     }
   ],
   "edges": [
-    {"from":"live-main-pr119","to":"pr119-app-check-proof","relation":"contains-completed-proof"},
-    {"from":"pr119-app-check-proof","to":"runtime-1.4.0-r2","relation":"production-proves"},
-    {"from":"runtime-1.4.0-r2","to":"production-authority-reconciliation","relation":"requires-authority-reconciliation"},
-    {"from":"rjr1-ledger","to":"production-authority-reconciliation","relation":"must-be-evaluated-from-new-production-evidence"},
-    {"from":"production-authority-reconciliation","to":"trusted-runtime-operational-boundary","relation":"reassess-next-smallest-prerequisite-after"},
-    {"from":"trusted-runtime-operational-boundary","to":"stage3-registered-devices-private-pairing","relation":"precedes"},
+    {"from":"live-main-pr124","to":"pr124-spark-bootstrap-foundation","relation":"contains-merged-prerequisite"},
+    {"from":"pr119-app-check-proof","to":"production-runtime-1.4.0-r2","relation":"production-proves"},
+    {"from":"production-runtime-1.4.0-r2","to":"pr125-source-seal","relation":"reused-by-candidate"},
+    {"from":"pr124-spark-bootstrap-foundation","to":"pr125-source-seal","relation":"prerequisite"},
+    {"from":"pr125-source-seal","to":"spark-rules-publication","relation":"unlocks-after-fresh-successor-verification"},
+    {"from":"spark-rules-publication","to":"pr125-production-proof","relation":"mandatory-before-merge-deploy-proof"},
+    {"from":"pr125-production-proof","to":"stage3-registered-devices-private-pairing","relation":"must-complete-and-reassess-before"},
     {"from":"stage3-registered-devices-private-pairing","to":"stage4-connected-rivalry-sync","relation":"prerequisite"},
     {"from":"stage4-connected-rivalry-sync","to":"stage5-private-remote-joining","relation":"prerequisite"},
     {"from":"rjr1-ledger","to":"stage5-private-remote-joining","relation":"measures-end-to-end-readiness-toward"},
-    {"from":"canonical-local-storage","to":"stage4-connected-rivalry-sync","relation":"must-remain-safe-through"},
-    {"from":"recovery-candidates","to":"stage4-connected-rivalry-sync","relation":"must-remain-safe-through"},
-    {"from":"stage2h-iam","to":"trusted-runtime-operational-boundary","relation":"constrains"},
-    {"from":"sle-policy","to":"production-authority-reconciliation","relation":"loads-successor-safely-before"},
+    {"from":"canonical-local-storage","to":"pr125-production-proof","relation":"must-remain-safe-through"},
+    {"from":"recovery-candidates","to":"pr125-production-proof","relation":"must-remain-safe-through"},
+    {"from":"stage2h-iam","to":"pr125-production-proof","relation":"must-remain-unactivated-during"},
+    {"from":"sle-policy","to":"spark-rules-publication","relation":"loads-fresh-successor-safely-before"},
     {"from":"github-connected-tool","to":"github-rootless-cli","relation":"preferred-before-fallback"}
   ],
   "retrievalHints": {
-    "currentTaskNode": "production-authority-reconciliation",
-    "nextTaskAfterPublicationNode": "trusted-runtime-operational-boundary",
-    "walkDirection": "verify live PR119 production proof first, perform one bounded authority/RJR reconciliation, then walk forward exactly one dependency according to current NEXT_TASK; walk backward only to resolve security/publication evidence",
+    "currentTaskNode": "spark-rules-publication",
+    "nextTaskAfterPublicationNode": "pr125-production-proof",
+    "walkDirection": "verify live main and PR125 source-seal/SLE delta first, publish exact Spark rules, then walk forward to merge/deploy production proof; walk backward only to resolve security, recovery or publication evidence",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact run jobs and completed failed-job logs before modifying candidate",
     "expandGraphWhen": [
       "live main changes",
-      "a newer current-authority PR appears",
-      "production authority reconciliation selects a specific next Remote Joining prerequisite",
+      "PR #125 head contains an unclassified non-SLE delta",
+      "published Firebase rules differ from firestore.spark.rules",
       "a current exact-head workflow fails",
       "security or recovery contradiction appears",
       "a new SLE handoff boundary is reached"
