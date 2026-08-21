@@ -40,6 +40,14 @@ jobs:
       - name: Run storage, backup, restore, release, and CI contracts
         run: npm run test:contracts
 
+      - name: Build trusted runtime activation container
+        run: docker build -f trusted-runtime/Dockerfile -t career-mode-showdown-trusted-runtime:ci .
+
+      - name: Smoke trusted runtime Firebase Admin imports
+        run: >-
+          docker run --rm --entrypoint sh career-mode-showdown-trusted-runtime:ci -c
+          'node --check server.mjs && node --input-type=module -e "import(\"./firebaseAdminProvider.mjs\").then(provider => { if(typeof provider.createFirebaseAdminProductionProvider !== \"function\") process.exit(1); })"'
+
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest

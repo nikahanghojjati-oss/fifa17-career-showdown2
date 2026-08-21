@@ -1,0 +1,8 @@
+title: Career Mode Showdown Trusted Account Bootstrap
+stage: GA
+description: Exact production runtime permissions for revocation-aware Firebase Auth verification and revision-0 account bootstrap only.
+includedPermissions:
+  - firebaseauth.users.get
+  - datastore.databases.get
+  - datastore.entities.get
+  - datastore.entities.create

@@ -1,0 +1,16 @@
+{
+  "name": "career-mode-showdown-trusted-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "description": "Least-privilege Cloud Run trusted execution adapter for private Career Mode Showdown account bootstrap.",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "14.3.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
