@@ -19,7 +19,7 @@ for(const field of ["authDomain","projectId","appId","messagingSenderId"]){
   assert.equal(typeof manifest.firebaseWebConfig[field],"string",`${field} must be a string.`);
   assert.ok(manifest.firebaseWebConfig[field].trim(),`${field} must be non-empty.`);
 }
-assert.equal(Object.hasOwn(manifest.firebaseWebConfig,"apiKey"),false,"The provider-issued Firebase Web API key must not be stored in committed production metadata while the runtime remains disconnected.");
+assert.equal(Object.hasOwn(manifest.firebaseWebConfig,"apiKey"),false,"The provider-issued Firebase Web API key must remain outside committed production metadata and enter only through the controlled deployment artifact.");
 assert.equal(manifest.apiKeyManagement.committed,false);
 assert.equal(manifest.apiKeyManagement.source,"firebase-console-or-controlled-deployment-injection");
 assert.equal(manifest.apiKeyManagement.classification,"public-project-configuration");
@@ -40,6 +40,20 @@ assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","De
 assert.equal(firebaseRc.projects.production,manifest.projectId,"Production alias must point to the owner-created production Firebase project.");
 assert.equal(firebaseJson.firestore.rules,"firestore.rules","Firebase deployment configuration must continue to use the canonical repository Firestore Rules source.");
 
+assert.equal(manifest.productionRuntime.applicationVersion,"1.4.0");
+assert.equal(manifest.productionRuntime.runtimeRevision,"1.4.0-r2");
+assert.equal(manifest.productionRuntime.status,"production-proven");
+assert.equal(manifest.productionRuntime.knownGoodFallbackRuntime,"1.4.0-r1");
+assert.equal(manifest.productionRuntime.proof.workflow,"Validate Stability Lane");
+assert.equal(manifest.productionRuntime.proof.runNumber,1230);
+assert.equal(manifest.productionRuntime.proof.runId,32439162225);
+assert.equal(manifest.productionRuntime.proof.headSha,"3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516");
+assert.equal(manifest.productionRuntime.proof.event,"push");
+assert.equal(manifest.productionRuntime.proof.conclusion,"success");
+assert.equal(manifest.productionRuntime.proof.deployedRuntimeByteVerification,true);
+assert.equal(manifest.productionRuntime.proof.productionAppCheckTokenPath,true);
+assert.equal(manifest.productionRuntime.proof.completeDeployedJourney,true);
+
 assert.equal(manifest.activation.firebaseProject,"owner-created");
 assert.equal(manifest.activation.webApp,"owner-registered");
 assert.equal(manifest.activation.googleAuthProvider,"provider-verified-enabled","Google Authentication must remain provider-verified enabled before downstream Remote Joining prerequisites proceed.");
@@ -54,7 +68,7 @@ assert.deepEqual(manifest.activation.productionAuthorizedDomains,[
 assert.equal(manifest.activation.localhostAuthorizedDomainPresent,false,"Localhost must remain absent from the production Authorized domains list.");
 assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/2026-08-19[\s\S]+20:20 ET[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+localhost removed[\s\S]+no localhost row/i);
 
-assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified before App Check or runtime connection advances.");
+assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified before downstream production trust activation proceeds.");
 assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.rules");
 assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"0473750cb16b5b8eea234c0f8138c41de5ff3dfb");
 assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-19[\s\S]+20:51 ET[\s\S]+Database \(default\)[\s\S]+Rules tab[\s\S]+Published changes can take up to a minute to propagate[\s\S]+No sample data was created/i);
@@ -78,17 +92,19 @@ for(const statement of writeAuthorityStatements){
   assert.match(statement,/:\s*if\s+false\s*;/,`Every application-client write authority must remain deny-all: ${statement}`);
 }
 
-assert.equal(manifest.activation.appCheck,"provider-verified-registered","The real production Firebase Web App must preserve owner-verified App Check registration before controlled client integration begins.");
+assert.equal(manifest.activation.appCheck,"production-runtime-proven","Production authority must distinguish completed runtime/token proof from earlier provider-registration-only status.");
 assert.equal(manifest.activation.appCheckProvider,"recaptcha-enterprise");
 assert.equal(manifest.activation.appCheckWebAppId,manifest.firebaseWebConfig.appId);
 assert.equal(manifest.activation.appCheckProductionHost,"nikahanghojjati-oss.github.io");
 assert.equal(manifest.activation.appCheckTokenTtlSeconds,3600);
 assert.equal(manifest.activation.appCheckRiskThreshold,0.5);
-assert.equal(manifest.activation.appCheckEnforcement,false,"App Check enforcement must remain off until legitimate production client traffic is integrated and measured.");
-assert.equal(manifest.activation.appCheckRuntimeBootstrapConnected,false,"Provider registration alone must not be misreported as production website App Check runtime integration.");
+assert.equal(manifest.activation.appCheckEnforcement,false,"App Check enforcement remains a separately reviewed hardening gate even after legitimate production traffic is proven.");
+assert.equal(manifest.activation.appCheckRuntimeBootstrapConnected,true,"Permanent production proof must record the controlled Firebase App + App Check runtime connection.");
+assert.equal(manifest.activation.appCheckLegitimateProductionTrafficProven,true,"Permanent production proof must record legitimate reCAPTCHA Enterprise App Check traffic.");
 assert.match(manifest.activation.appCheckProviderVerificationEvidence,/2026-08-20[\s\S]+reCAPTCHA Enterprise[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+Registered[\s\S]+one-hour TTL[\s\S]+0\.5/i);
-assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet");
-assert.equal(manifest.activation.runtimeConnected,false);
+assert.match(manifest.activation.appCheckRuntimeVerificationEvidence,/Validate Stability Lane #1230[\s\S]+32439162225[\s\S]+3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516[\s\S]+real production[\s\S]+App Check token path[\s\S]+enforcement remained OFF/i);
+assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet","App Check proof must not be conflated with trusted runtime/IAM activation.");
+assert.equal(manifest.activation.runtimeConnected,true,"Controlled production Firebase App + App Check runtime connection is now permanently proven.");
 
 assert.equal(manifest.securityLocks.persistentFirestoreOfflineCache,false);
 assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all");
@@ -96,6 +112,16 @@ assert.equal(manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser,
 assert.equal(manifest.securityLocks.webApiKeyClassification,"public-project-configuration");
 assert.equal(manifest.securityLocks.webApiKeyIsAuthorizationSecret,false);
 assert.equal(manifest.securityLocks.serviceAccountCredentialsAllowed,false);
+assert.equal(manifest.securityLocks.clientAuthInitialized,false);
+assert.equal(manifest.securityLocks.clientFirestoreInitialized,false);
+assert.equal(manifest.securityLocks.clientStorageInitialized,false);
+assert.equal(manifest.securityLocks.clientFunctionsInitialized,false);
+assert.deepEqual(manifest.securityLocks.stage2hIamPermissions,[
+  "firebaseauth.users.get",
+  "datastore.databases.get",
+  "datastore.entities.get",
+  "datastore.entities.create"
+],"Stage 2H least-privilege IAM authority must remain exactly the reviewed four permissions.");
 for(const key of ["publicDiscovery","publicProfiles","publicMatchmaking","community","rankings"]){
   assert.equal(manifest.securityLocks[key],false,`${key} must remain disabled.`);
 }
@@ -132,4 +158,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase environment activation, provider-verified Firestore Rules and App Check registration, exact Rules blob lock, deny-all browser writes, verified Firestore/API restrictions/Google Auth/Authorized domains, localhost exclusion, API-key source separation, Stage 2D compatibility, enforcement-off and safe alias boundary\n");
+process.stdout.write("PASS production Firebase authority: 1.4.0-r2 and controlled App Check runtime/token traffic proven, enforcement off, trusted IAM still unactivated, exact four-permission Stage 2H lock, deny-all browser writes, forbidden client services uninitialized, provider restrictions and source separation preserved\n");

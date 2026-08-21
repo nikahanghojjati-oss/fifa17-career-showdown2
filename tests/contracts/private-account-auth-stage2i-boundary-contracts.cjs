@@ -14,6 +14,8 @@ const roadmap=fs.readFileSync("REMOTE_JOINING_EXECUTION_ROADMAP.md","utf8");
 const postV1=fs.readFileSync("POST_V1_ROADMAP_EXECUTION.md","utf8");
 const history=fs.readFileSync("WORK_ENVIRONMENT_HISTORY.md","utf8");
 const status=JSON.parse(fs.readFileSync("WORK_ENVIRONMENT_STATUS.json","utf8"));
+const production=JSON.parse(fs.readFileSync("firebase.production.environment.json","utf8"));
+const readiness=JSON.parse(fs.readFileSync("REMOTE_JOINING_READINESS.json","utf8"));
 const rules=fs.readFileSync("firestore.rules","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
@@ -53,7 +55,7 @@ assert.match(boundary,/Cloud Run scaling is defense in depth, not rate authoriza
 assert.match(boundary,/App Check does not repair the Phase 1D \/ Phase 1F shared-state idempotency-receipt schema finding/i);
 assert.match(boundary,/Candidate A remains non-mutating export[\s\S]+Candidate B remains strictly read-only import analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
 
-// Preserve the dormant protected-request design. PR #115 / PR #116 connect only browser App + App Check and deployment delivery, not this trusted endpoint.
+// Preserve the dormant trusted-request design. The later production browser integration connects Firebase App + App Check only; it does not activate this trusted endpoint or broaden IAM.
 assert.match(implementation,/stage:"2I"/);
 assert.match(implementation,/verifyAppCheckToken\(appCheckToken\)/);
 assert.match(implementation,/decoded\.aud\.length!==2/);
@@ -67,31 +69,31 @@ assert.match(stage2h,/DONE \/ MERGED \/ PROVEN/);
 assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
-// Published authority now identifies PR #116 as the direct deployment-proof continuation of merged PR #115.
-assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i);
-assert.match(nextTask,/Current branch: `agent\/pr115-production-deployment-proof`/);
-assert.match(nextTask,/Current pull request: #116/);
-assert.match(nextTask,/Current environment: `we-2026-08-20-pr115-production-deployment-proof`/);
-assert.match(nextTask,/Starting independently verified live main: `1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd`/);
-assert.match(nextTask,/Fresh WEC decision: `PREPARE_HANDOFF`/);
-assert.match(nextTask,/PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd/i);
-assert.match(nextTask,/PR #116 is the direct bounded continuation required to finish that same production proof/i);
+// Current authority is the post-PR121 production-proof/RJR reconciliation. Historical PR #115/#116 wording may remain only as explicitly marked provenance.
+assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — POST-PR121 PRODUCTION AUTHORITY \/ RJR RECONCILIATION/i);
+assert.match(nextTask,/Current branch: `agent\/post-pr121-production-rjr-reconciliation`/);
+assert.match(nextTask,/Current environment: `we-2026-08-20-post-pr121-production-rjr-reconciliation`/);
+assert.match(nextTask,/Starting independently verified live main: `ab48ecec7f9560378f79eee30150d39a90834c35`/);
+assert.match(nextTask,/Fresh Work Environment Continuity \(WEC\) decision: `CONTINUE`/);
+assert.match(nextTask,/production Firebase App Check runtime\/deployment chain through PRs #115, #116, #117, #118 and #119 is DONE \/ MERGED \/ PROVEN/i);
 assert.match(nextTask,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(nextTask,/Every application-client Firestore create\/update\/delete remains deny-all/i);
+assert.match(nextTask,/application-client Firestore create\/update\/delete remains deny-all/i);
 assert.match(nextTask,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(nextTask,/Candidate A remains non-mutating export[\s\S]+Candidate B remains read-only import analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i);
 assert.match(nextTask,/Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i);
 assert.match(nextTask,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(nextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(nextTask,/App Check enforcement remains OFF/i);
-assert.match(nextTask,/PR #115 and PR #116 add no IAM permission and no trusted mutation authority/i);
-assert.match(nextTask,/Historical PR #115 successor authority snapshot:[\s\S]+Current branch: `agent\/production-app-check-runtime`[\s\S]+Current pull request: #115[\s\S]+Current environment: `we-2026-08-20-production-app-check-runtime`[\s\S]+Starting independently verified live main: `7944b87a20cf793c659077d7518c4446f178e32c`/i);
+assert.match(nextTask,/App Check enforcement(?: remains)?:? OFF/i);
+assert.match(nextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datastore\.entities\.create[\s\S]+Do not broaden/i);
+assert.match(nextTask,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i);
 
-assert.match(projectState,/PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd/i);
+assert.match(projectState,/PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+Firebase App \+ App Check/i);
 assert.match(projectState,/PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(projectState,/Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
 assert.match(projectState,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(projectState,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
+assert.match(projectState,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
+assert.match(projectState,/Known-good fallback\/recovery runtime: `1\.4\.0-r1`/i);
 
 // Historical authority remains immutable provenance and must not be mistaken for current implementation authority.
 assert.match(preGatewayNextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/);
@@ -106,41 +108,40 @@ assert.match(postV1,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(history,/Closure addendum — `we-2026-08-19-post-stage2i-closure-reconcile`/);
 assert.match(history,/PR #96[\s\S]+3d2ebad38d85e07f774360fcb7d210b9dd096fa4[\s\S]+e52968632d9938f17e7e1680c455437d23eb628b/);
 
-// WEC may be either the original PR #115 environment or a verified fresh successor finishing the same production proof after PR #115 merged.
-const predecessorEnvironment="we-2026-08-20-production-app-check-runtime";
-const predecessorStartingMain="7944b87a20cf793c659077d7518c4446f178e32c";
-const pr115MergeMain="1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd";
-const isPredecessor=status.environmentId===predecessorEnvironment;
-const isFreshSuccessor=status.environmentId!==predecessorEnvironment
-  && /^we-\d{4}-\d{2}-\d{2}-.+/.test(status.environmentId)
-  && status.repository.startingMainSha===pr115MergeMain;
-assert.ok(isPredecessor||isFreshSuccessor,"Stage 2I may observe only the original PR #115 WEC or a fresh successor rooted at the independently verified PR #115 merge boundary.");
-assert.ok(["active","transition-prepared"].includes(status.lifecycle),"The current PR #115 production-proof WEC may be active or legitimately transition-prepared, but never inherit the historical Stage 2I lifecycle.");
-if(status.lifecycle==="transition-prepared"){
-  assert.equal(status.signals.handoffCompleteness,100,"A transition-prepared PR #115 production-proof WEC must have a complete handoff.");
-  assert.equal(status.signals.unrecordedDecisions,0,"A transition-prepared PR #115 production-proof WEC must externalize all material decisions.");
-  assert.equal(status.signals.atomicOperation,false,"A transition-prepared PR #115 production-proof WEC cannot leave an atomic mutation in progress.");
-}
-if(isPredecessor){
-  assert.equal(status.repository.startingMainSha,predecessorStartingMain);
-  if(status.lifecycle==="transition-prepared"){
-    assert.match(status.continuity.nextSafeAction,/Fresh successor[\s\S]+final sealed head/i,"The predecessor transition-prepared authority must hand final sealed-head validation to a fresh successor.");
-  }
-}else{
-  assert.match(status.continuity.currentTask,/PR #115[\s\S]+production[\s\S]+App Check[\s\S]+runtime/i,"A fresh successor must explicitly remain inside the PR #115 production App Check runtime proof rather than activating Stage 3 or another milestone.");
-  assert.match(status.continuity.lastSafeCheckpoint,new RegExp(pr115MergeMain),"A fresh successor must preserve the independently verified PR #115 merge boundary as its safe checkpoint.");
-  const inherited=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[])].join("\n");
-  assert.match(inherited,/Inherited predecessor[\s\S]{0,220}HANDOFF_NOW/i,"A fresh successor must preserve the predecessor HANDOFF_NOW decision as inherited history, not as its own WEC decision.");
-  assert.match(inherited,new RegExp(pr115MergeMain),"A fresh successor must preserve the exact PR #115 merge SHA in its evidence.");
-  if(status.lifecycle==="transition-prepared"){
-    assert.match(status.continuity.nextSafeAction,/exact-head|final sealed|merge|deployment|production/i,"A transition-prepared fresh successor must route to a concrete remaining publication or production-proof gate.");
-  }
-}
+// The fresh post-PR121 successor owns its own WEC. It must not inherit the earlier PR #115/PR #116 transition decision.
+assert.equal(status.environmentId,"we-2026-08-20-post-pr121-production-rjr-reconciliation");
+assert.equal(status.repository.startingMainSha,"ab48ecec7f9560378f79eee30150d39a90834c35");
+assert.ok(["active","transition-prepared"].includes(status.lifecycle));
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
-assert.match(status.continuity.currentTask,/App Check/i,"Current PR #115 production-proof WEC task must retain App Check authority.");
-assert.match(status.continuity.currentTask,/runtime/i,"Current PR #115 production-proof WEC task must retain runtime authority.");
-assert.match((status.continuity.knownHazards||[]).join("\n"),/Stage 2H least-privilege[\s\S]{0,420}(?:unactivated|not activated|does not activate|not activate|must not activate)/i,"Current WEC must preserve Stage 2H least-privilege IAM non-activation.");
+assert.match(status.continuity.currentTask,/post-PR121[\s\S]+production-authority[\s\S]+RJR/i);
+assert.match(status.continuity.currentTask,/1\.4\.0-r2[\s\S]+App Check/i);
+assert.match(status.continuity.lastSafeCheckpoint,/ab48ecec7f9560378f79eee30150d39a90834c35/);
+const currentLocks=[...(status.continuity.knownHazards||[]),...(status.continuity.evidenceNotes||[])].join("\n");
+assert.match(currentLocks,/Stage 2H IAM remains exactly[\s\S]+firebaseauth\.users\.get[\s\S]+datastore\.entities\.create/i);
+assert.match(currentLocks,/App Check enforcement remains OFF/i);
+if(status.lifecycle==="transition-prepared"){
+  assert.equal(status.signals.handoffCompleteness,100);
+  assert.equal(status.signals.unrecordedDecisions,0);
+  assert.equal(status.signals.atomicOperation,false);
+  assert.match(status.continuity.nextSafeAction,/exact-head|final sealed|merge|publication|production|successor/i);
+}
+
+// Permanent production evidence may prove browser App Check traffic without activating the Stage 2I trusted endpoint.
+assert.equal(production.productionRuntime.runtimeRevision,"1.4.0-r2");
+assert.equal(production.productionRuntime.status,"production-proven");
+assert.equal(production.activation.appCheckRuntimeBootstrapConnected,true);
+assert.equal(production.activation.appCheckLegitimateProductionTrafficProven,true);
+assert.equal(production.activation.appCheckEnforcement,false);
+assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
+assert.deepEqual(production.securityLocks.stage2hIamPermissions,[
+  "firebaseauth.users.get",
+  "datastore.databases.get",
+  "datastore.entities.get",
+  "datastore.entities.create"
+]);
+assert.equal(readiness.modelVersion,"RJR-1");
+assert.equal(readiness.currentScore,61);
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
@@ -155,4 +156,4 @@ const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
 assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2I proof must not freeze later legitimate v1.4.0 runtime revisions.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I locks remain historically protected while current authority advances through the bounded PR #116 production App Check deployment proof and its verified fresh successor.\n");
+process.stdout.write("PASS Stage 2I historical locks remain protected while current authority reconciles the proven 1.4.0-r2 production App Check boundary; trusted runtime/IAM remains unactivated and Stage 3 stays blocked.\n");

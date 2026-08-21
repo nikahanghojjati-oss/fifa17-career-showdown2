@@ -4,7 +4,15 @@ Owner-mandated permanent repository policy.
 
 ## What SLE means in this project
 
-The repository historically uses `SLE` as the project label for its live-first, low-context, adaptive successor-loading system. Existing authoritative SLE files describe the behavior and package but do not spell out a word-by-word expansion of the acronym. Do not invent an expansion and present it as historical fact.
+SLE = Smart Lean Efficient.
+
+This is the owner's explicit project definition and supersedes older wording that treated SLE only as a repository label without a spelled-out expansion.
+
+Operational intent:
+
+- Smart: verify live authority, reason from evidence, distinguish proof from assumption, and avoid stale or artificial status claims.
+- Lean: load only the smallest safe current context first instead of rereading the entire project history by default.
+- Efficient: minimize repeated study, redundant tool work, owner chores, continuity sidequests, and handoff overhead without weakening security, recovery, testing, or publication quality.
 
 Operationally, SLE is the complete successor-loading envelope for a Work Environment transition. Its purpose is to let a fresh developer become safe and productive from a small current packet first, while keeping the complete project record available as lossless fallback context.
 
@@ -27,6 +35,8 @@ Current source, live GitHub/provider/deployment state, later owner instructions,
 
 Every future developer, ChatGPT session or Work Environment that reaches a handoff boundary must use SLE packaging. A plain chat-only successor prompt or a single unmirrored Markdown handoff is not a complete project handoff.
 
+Every future SLE handoff must explicitly preserve the owner definition `SLE = Smart Lean Efficient` unless the owner later changes it.
+
 At every `Handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or other final transition boundary, the closing developer must, before stopping:
 
 1. verify the exact current live-main / branch / PR / deployment boundary;
@@ -41,7 +51,7 @@ At every `Handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or o
 10. ensure the final transition/WEC seal remains the last intended branch mutation when the current publication contract requires an immutable seal;
 11. give the owner the newest root `START_NEXT_SESSION_...md` as the normal next-session file and stop before beginning the next substantial milestone.
 
-Every SLE handoff must recursively state that the next developer inherits this same SLE rule. The rule remains active until the owner explicitly changes it.
+Every SLE handoff must recursively state that the next developer inherits this same Smart Lean Efficient rule. The rule remains active until the owner explicitly changes it.
 
 ## Required SLE content
 
@@ -59,11 +69,11 @@ The complete SLE handoff must preserve, at minimum:
 - owner-only actions that are already complete so successors do not ask for them again;
 - exact `IMMEDIATE NEXT TASK AFTER FULL STUDY` with ordered execution gates and scope limits;
 - the mandatory seven-line owner progress format;
-- the recursive SLE packaging rule itself.
+- the recursive Smart Lean Efficient SLE packaging rule itself.
 
 ## Efficiency and anti-sidequest rule
 
-SLE exists to reduce startup cost and preserve continuity, not to create repeated documentation milestones. Refresh it naturally at a real transition/handoff boundary or when an owner explicitly requires a handoff correction, as in this policy addition.
+SLE exists to reduce startup cost and preserve continuity, not to create repeated documentation milestones. Refresh it naturally at a real transition/handoff boundary or when an owner explicitly requires a handoff correction.
 
 A successor normally receives only the newest versioned starter first. It should use the connected GitHub tool, load the compact capsule, verify live state, hydrate only task-relevant context, and expand to the full SLE handoff or history only when needed.
 
@@ -79,4 +89,4 @@ Do not use SLE maintenance to delay the next real dependency-gated Remote Joinin
 
 `AGENTS.md` makes these rules repository-wide developer instructions.
 
-This file makes the owner's SLE requirement explicit and permanent across all future developers.
+This file makes the owner's Smart Lean Efficient requirement explicit and permanent across all future developers.

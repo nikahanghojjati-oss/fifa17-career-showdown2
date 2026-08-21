@@ -1,11 +1,17 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-20T22:29:00-04:00",
+  "recordedAt": "2026-08-20T22:53:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
+  "lastVerifiedMainSha": "ab48ecec7f9560378f79eee30150d39a90834c35",
+  "latestGovernanceMerge": {
+    "pullRequest": 121,
+    "title": "Make SLE handoff packaging permanent",
+    "mergeSha": "ab48ecec7f9560378f79eee30150d39a90834c35",
+    "runtimeChanged": false
+  },
   "currentPullRequest": {
     "number": 119,
     "state": "merged",
@@ -42,7 +48,7 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "PR #115 through PR #119 production App Check runtime/deployment proof is DONE / MERGED / PROVEN. Permanent push Stability Lane #1230 run 32439162225 succeeded on exact live main 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 with stability-contracts, chromium-stability and every deployed-site-smoke step green.",
+  "lastCompletedMilestone": "PR #115 through PR #119 production App Check runtime/deployment proof is DONE / MERGED / PROVEN. Permanent push Stability Lane #1230 run 32439162225 succeeded on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 with stability-contracts, chromium-stability and every deployed-site-smoke step green. PR #121 then made SLE packaging permanent without changing runtime behavior.",
   "runtime": {
     "applicationVersion": "1.4.0",
     "productionRuntimeRevision": "1.4.0-r2",
@@ -61,14 +67,14 @@
     "clientFunctionsInitialized": false,
     "knownGoodFallbackRuntime": "1.4.0-r1"
   },
-  "currentLane": "Fresh successor first performs one bounded production-authority/RJR reconciliation for the now-proven 1.4.0-r2 App Check production boundary, then—if its own WEC allows continuation—advances immediately to the smallest remaining dependency-gated prerequisite toward Private Remote Joining. Do not reopen the completed App Check proof lane.",
+  "currentLane": "Bounded post-PR121 production-authority/RJR reconciliation for the proven 1.4.0-r2 App Check production boundary. Do not reopen the completed App Check proof lane. After publication and fresh WEC reassessment, advance only if allowed to the smallest remaining dependency-gated production trusted-runtime/IAM prerequisite toward Private Remote Joining.",
   "remoteJoiningPriority": "highest-long-term-priority-but-dependency-gated-stability-first",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 59,
+    "score": 61,
     "reportLabel": "Remote Joining readiness",
-    "rule": "Read and reconcile the fixed ledger from evidence; never infer readiness from PR count, CI, WEC, SLE quality or visible owner actions. Current ledger language about unproven production App Check traffic/runtime connection is stale after permanent run 32439162225, but change the score only if a defensible fixed-model capability delta exists."
+    "rule": "Read and reconcile the fixed ledger from evidence; never infer readiness from PR count, CI, WEC, SLE quality or visible owner actions. The current +2 delta is limited to controlled production Firebase App + App Check runtime connection and legitimate production App Check token traffic proven by permanent run 32439162225."
   },
   "currentHandoff": {
     "canonical": "SUCCESSOR_HANDOFF_PR119_APP_CHECK_PRODUCTION_PROOF_SLE_2026-08-20.md",
@@ -76,8 +82,8 @@
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
+    "definition": "Smart Lean Efficient",
     "mandatoryForEveryFutureHandoff": true,
-    "historicalTerminology": "SLE is the repository label for the live-first, low-context adaptive successor-loading system; historical authoritative files define behavior but do not spell out a word-by-word acronym expansion.",
     "plainChatOnlyHandoffComplete": false,
     "requiredAtHandoffProximity100": true,
     "recursiveInheritance": true
@@ -94,7 +100,7 @@
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.0_PR119.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "MINOR: owner explicitly made complete SLE packaging a permanent recursive requirement for every future developer while preserving the existing live-first adaptive startup architecture."
+    "versionReason": "MINOR: complete Smart Lean Efficient SLE packaging is a permanent recursive requirement while preserving the existing live-first adaptive startup architecture."
   },
   "startupPrecedence": "Newest versioned START_NEXT_SESSION file + this capsule + SLE/RJR/WEC/security locks supersede older read-everything preload lists only for startup context loading; current verified source, provider/deployment state, security/recovery rules and later owner instructions remain authoritative.",
   "retrievalStrategy": {
@@ -138,7 +144,7 @@
   "expandContextOnlyIf": [
     "live main differs from lastVerifiedMainSha",
     "newer merged/open current-authority work exists",
-    "current production authority conflicts with proven run 32439162225",
+    "current production authority conflicts with permanent production proof run 32439162225",
     "a current exact-head workflow fails",
     "security, recovery, versioning or implementation authority is ambiguous",
     "owner requests full reconstruction",
@@ -159,7 +165,7 @@
     "appCheck": "production-runtime-and-legitimate-token-traffic-proven-enforcement-off",
     "appCheckTokenTtlSeconds": 3600,
     "appCheckRiskThreshold": 0.5,
-    "trustedRuntimeIam": "stage2h-reviewed-not-broadened",
+    "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
     "stage2hIamPermissions": [
       "firebaseauth.users.get",
       "datastore.databases.get",
@@ -173,7 +179,7 @@
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; runtime rN never substitutes for application versioning.",
   "starterVersionPolicy": "independent from app version; PATCH ordinary WEC=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
-  "wec100PackagingRule": "At every Handoff proximity 100% or final WEC transition checkpoint, complete mandatory SLE packaging: root plus byte-identical project mirror of the SUCCESSOR_HANDOFF SLE, new versioned root plus byte-identical project mirror START_NEXT_SESSION, refreshed SESSION_BOOTSTRAP current pointers, progressive context refresh when materially changed, final transition-prepared WEC seal as the last intended branch mutation when required, exact-head validation, owner delivery of the newest starter, then stop before the next substantial milestone.",
+  "wec100PackagingRule": "At every Handoff proximity 100% or final WEC transition checkpoint, complete mandatory Smart Lean Efficient SLE packaging: root plus byte-identical project mirror of the SUCCESSOR_HANDOFF SLE, new versioned root plus byte-identical project mirror START_NEXT_SESSION, refreshed SESSION_BOOTSTRAP current pointers, progressive context refresh when materially changed, final transition-prepared WEC seal as the last intended branch mutation when required, exact-head validation, owner delivery of the newest starter, then stop before the next substantial milestone.",
   "adaptiveLearningRule": "Collect lightweight retrieval usefulness outcomes. Deterministic mandatory locks always win. Evaluate a supervised ranking model only after at least 20 materially distinct labeled sessions and only if held-out startup simulations reduce context cost without missed-critical-context regression.",
   "liveFirstRule": "Current source, live GitHub state, provider/deployment state and later owner instructions override this capsule and all handoffs."
 }

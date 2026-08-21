@@ -30,7 +30,10 @@ assert.deepEqual(read(handoffRoot),read(handoffMirror),"SLE handoff root and pro
 assert.deepEqual(read(starterRoot),read(starterMirror),"SLE starter root and project mirror must remain byte-identical.");
 
 assert.equal(capsule.schemaVersion,5);
-assert.equal(capsule.lastVerifiedMainSha,"3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516");
+assert.equal(capsule.lastVerifiedMainSha,"ab48ecec7f9560378f79eee30150d39a90834c35");
+assert.equal(capsule.latestGovernanceMerge.pullRequest,121);
+assert.equal(capsule.latestGovernanceMerge.mergeSha,"ab48ecec7f9560378f79eee30150d39a90834c35");
+assert.equal(capsule.latestGovernanceMerge.runtimeChanged,false);
 assert.equal(capsule.currentPullRequest.number,119);
 assert.equal(capsule.currentPullRequest.state,"merged");
 assert.equal(capsule.currentPullRequest.mergeSha,"3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516");
@@ -49,6 +52,7 @@ assert.equal(capsule.ownerStandingAuthorization.mergeAndDeployWithoutRepeatedOwn
 assert.equal(capsule.ownerStandingAuthorization.rootAuthority,"00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 assert.equal(capsule.ownerStandingAuthorization.provenance,"authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md");
 assert.equal(capsule.slePolicy.authority,"00_SLE_HANDOFF_PROTOCOL.md");
+assert.equal(capsule.slePolicy.definition,"Smart Lean Efficient");
 assert.equal(capsule.slePolicy.mandatoryForEveryFutureHandoff,true);
 assert.equal(capsule.slePolicy.plainChatOnlyHandoffComplete,false);
 assert.equal(capsule.slePolicy.requiredAtHandoffProximity100,true);
@@ -68,11 +72,20 @@ assert.equal(capsule.runtime.clientAuthInitialized,false);
 assert.equal(capsule.runtime.clientFirestoreInitialized,false);
 assert.equal(capsule.runtime.clientStorageInitialized,false);
 assert.equal(capsule.runtime.clientFunctionsInitialized,false);
-assert.equal(capsule.remoteJoiningReadiness.score,59);
+assert.equal(capsule.runtime.knownGoodFallbackRuntime,"1.4.0-r1");
+assert.equal(capsule.remoteJoiningReadiness.score,61);
 assert.equal(capsule.criticalLocks.applicationClientFirestoreWrites,"deny-all");
+assert.equal(capsule.criticalLocks.trustedRuntimeIam,"stage2h-reviewed-not-broadened-not-activated");
+assert.deepEqual(capsule.criticalLocks.stage2hIamPermissions,[
+  "firebaseauth.users.get",
+  "datastore.databases.get",
+  "datastore.entities.get",
+  "datastore.entities.create"
+]);
 assert.ok(capsule.minimalReads.includes("00_SLE_HANDOFF_PROTOCOL.md"),"Permanent SLE policy must be a Tier-0 successor read.");
 assert.ok(capsule.minimalReads.includes("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"),"Standing owner authorization must be a Tier-0 successor read.");
-assert.match(capsule.wec100PackagingRule,/mandatory SLE packaging/i);
+assert.match(capsule.wec100PackagingRule,/Smart Lean Efficient/i);
+assert.match(capsule.wec100PackagingRule,/mandatory[\s\S]*SLE packaging/i);
 assert.match(capsule.wec100PackagingRule,/byte-identical project mirror/i);
 assert.match(capsule.wec100PackagingRule,/stop before the next substantial milestone/i);
 
@@ -87,6 +100,7 @@ for(const [name,value] of [["starter",starter],["handoff",handoff],["root author
   assert.match(value,/required (?:test|tests|repository test|repository tests|gate|gates)/i,`${name} must keep merge/deploy conditional on required validation.`);
 }
 
+assert.match(sle,/SLE = Smart Lean Efficient/i);
 assert.match(sle,/mandatory future-developer rule/i);
 assert.match(sle,/Every future developer[\s\S]{0,220}handoff boundary[\s\S]{0,220}SLE/i);
 assert.match(sle,/plain chat-only successor prompt[\s\S]{0,160}not a complete project handoff/i);
@@ -120,4 +134,4 @@ assert.match(provenance,/through the end of the full Career Mode Showdown projec
 assert.match(rootAuth,/later explicit owner instruction may revoke or narrow/i);
 assert.match(provenance,/later explicit owner instructions override/i);
 
-process.stdout.write("PASS SLE package: current PR119 production-proof handoff/starter mirrors, permanent recursive SLE policy, compact capsule, RJR/security locks and standing owner merge/deploy authorization are protected.\n");
+process.stdout.write("PASS SLE package: live main and PR121 governance boundary, PR119 production proof package, Smart Lean Efficient definition, RJR/security locks and standing owner merge/deploy authorization are protected.\n");

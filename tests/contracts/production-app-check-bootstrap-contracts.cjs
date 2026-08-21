@@ -24,18 +24,20 @@ assert.equal(bootstrap.tokenAutoRefreshRequired,true);
 assert.equal(bootstrap.browserFirestoreWrites,"deny-all");
 assert.equal(bootstrap.trustedMutationAuthorityGranted,false);
 
-// Production metadata continues to describe currently verified live provider state until r2 is deployed and traffic-proven.
-assert.equal(manifest.activation.appCheck,"provider-verified-registered");
+// Permanent production proof now owns the live provider/runtime state. The bootstrap contract itself still grants no trusted mutation authority.
+assert.equal(manifest.activation.appCheck,"production-runtime-proven");
 assert.equal(manifest.activation.appCheckProvider,"recaptcha-enterprise");
 assert.equal(manifest.activation.appCheckWebAppId,bootstrap.productionAppId);
 assert.equal(manifest.activation.appCheckProductionHost,"nikahanghojjati-oss.github.io");
 assert.equal(manifest.activation.appCheckTokenTtlSeconds,bootstrap.appCheckTokenTtlSeconds);
 assert.equal(manifest.activation.appCheckRiskThreshold,bootstrap.appCheckRiskThreshold);
 assert.equal(manifest.activation.appCheckEnforcement,false);
-assert.equal(manifest.activation.appCheckRuntimeBootstrapConnected,false);
-assert.equal(manifest.activation.runtimeConnected,false);
+assert.equal(manifest.activation.appCheckRuntimeBootstrapConnected,true);
+assert.equal(manifest.activation.appCheckLegitimateProductionTrafficProven,true);
+assert.equal(manifest.activation.runtimeConnected,true);
 assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet");
 assert.match(manifest.activation.appCheckProviderVerificationEvidence,/2026-08-20[\s\S]+reCAPTCHA Enterprise[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+one-hour TTL[\s\S]+0\.5/i);
+assert.match(manifest.activation.appCheckRuntimeVerificationEvidence,/Validate Stability Lane #1230[\s\S]+32439162225[\s\S]+real production[\s\S]+App Check token path/i);
 
 const validConfig={
   apiKey:"controlled-public-web-config-injection",
@@ -99,5 +101,9 @@ assert.doesNotMatch(runtime,/initializeFirestore|getFirestore|firebase\/firestor
 assert.doesNotMatch(source,/AIza[0-9A-Za-z_-]{35}/,"Concrete Firebase Browser API key must remain outside committed bootstrap source.");
 assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all");
 assert.equal(manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser,false);
+assert.equal(manifest.securityLocks.clientAuthInitialized,false);
+assert.equal(manifest.securityLocks.clientFirestoreInitialized,false);
+assert.equal(manifest.securityLocks.clientStorageInitialized,false);
+assert.equal(manifest.securityLocks.clientFunctionsInitialized,false);
 
-process.stdout.write("PASS provider-verified production App Check registration and reviewed lazy r2 exact-origin/exact-app bootstrap with controlled public-config injection, token auto-refresh, no debug/enforcement, no Firestore connection and deny-all browser writes\n");
+process.stdout.write("PASS production App Check provider/runtime proof is reconciled while the bootstrap remains lazy exact-origin/exact-app, controlled public-config injected, token-refreshing, debug/enforcement off, free of Firestore/trusted mutation authority and local-first\n");
