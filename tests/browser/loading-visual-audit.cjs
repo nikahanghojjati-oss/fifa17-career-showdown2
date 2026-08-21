@@ -8,6 +8,8 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "loading-visual";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
 const IOS_UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 19_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/19.0 Mobile/15E148 Safari/604.1";
+const productionOrigin = "https://nikahanghojjati-oss.github.io";
+const productionPathPrefix = "/fifa17-career-showdown2/";
 
 const cases = [
     { name: "desktop", viewport: { width: 1366, height: 768 }, dpr: 1, mobile: false },
@@ -17,6 +19,21 @@ const cases = [
 ];
 
 fs.mkdirSync(resultsDirectory, { recursive: true });
+
+function isExpectedProductionAppCheckConsoleNoise(message){
+    if(baseUrl.origin !== productionOrigin || !baseUrl.pathname.startsWith(productionPathPrefix)){
+        return false;
+    }
+    const text = message.text();
+    if(/^Framing 'https:\/\/www\.google\.com\/' violates the following report-only Content Security Policy directive: "frame-ancestors 'self'"\./.test(text)){
+        return true;
+    }
+    if(text === "requestStorageAccess: Permission denied."){
+        const sourceUrl = message.location()?.url || "";
+        return !sourceUrl || !sourceUrl.startsWith(baseUrl.origin);
+    }
+    return false;
+}
 
 function assertNear(actual, expected, tolerance, message){
     assert.ok(Number.isFinite(actual) && Math.abs(actual - expected) <= tolerance,
@@ -135,15 +152,21 @@ function assertMobile(result, config){
 
 async function runCase(browser, config){
     const context=await browser.newContext({viewport:config.viewport,deviceScaleFactor:config.dpr,isMobile:Boolean(config.mobile),hasTouch:Boolean(config.mobile),userAgent:config.mobile?IOS_UA:undefined,locale:"en-US"});
-    const page=await context.newPage(),pageErrors=[],consoleErrors=[],localFailures=[];
+    const page=await context.newPage(),pageErrors=[],consoleErrors=[],externalConsoleNoise=[],localFailures=[];
     page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
-    page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text()))consoleErrors.push(message.text());});
+    page.on("console",message=>{
+        if(message.type()==="error"&&!/^Failed to load resource/.test(message.text())){
+            if(isExpectedProductionAppCheckConsoleNoise(message))externalConsoleNoise.push(message.text());
+            else consoleErrors.push(message.text());
+        }
+    });
     page.on("requestfailed",request=>{if(request.url().startsWith(baseUrl.href))localFailures.push(`${request.method()} ${request.url()} :: ${request.failure()?.errorText||"failed"}`);});
     try{
         await prepareStartup(page,config);const result=await inspectStartup(page);assertCommon(result,config);
         if(config.mobile)assertMobile(result,config);else assert.equal(result.image.objectFit,"contain",`${config.name}: protected desktop loading treatment changed unexpectedly.`);
         const screenshotPath=path.join(resultsDirectory,`loading-${config.name}-${runLabel}.png`);await page.screenshot({path:screenshotPath,fullPage:true});
         assert.deepEqual(pageErrors,[],`${config.name}: page errors detected.`);assert.deepEqual(consoleErrors,[],`${config.name}: unexpected console errors detected.`);assert.deepEqual(localFailures,[],`${config.name}: failed first-party requests detected.`);
+        if(externalConsoleNoise.length)process.stdout.write(`INFO ${config.name} :: ignored ${externalConsoleNoise.length} expected external production App Check browser console message(s).\n`);
         process.stdout.write(`PASS ${config.name} :: ${result.viewport.width}x${result.viewport.height} @${result.dpr}x :: fit=${result.image.objectFit} crop=${result.image.objectPosition} topBand=${result.topBand.toFixed(1)}px :: visible source ${(result.image.visibleSourceWidthRatio*100).toFixed(1)}%w / ${(result.image.visibleSourceHeightRatio*100).toFixed(1)}%h\n`);return result;
     }finally{await context.close();}
 }
