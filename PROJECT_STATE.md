@@ -112,6 +112,10 @@ Phase 1F — ***NEXT AFTER PHASE 1E MERGES / BLOCKED***.
 
 At that historical boundary the active sequence was Phase 1D → Phase 1E → Phase 1F. Current source has since completed those prerequisites; these words are provenance, not current implementation authorization.
 
+Historical PR #115 source boundary: PR #115 `Connect production App Check runtime safely` is DONE / MERGED AS SOURCE. Its reviewed production boundary initializes Firebase App + App Check only and grants no browser trusted mutation authority.
+
+Historical PR #116 transition: PR #116 `Add controlled GitHub Pages App Check deployment` became the current direct Remote Joining prerequisite at the PR #115 closeout. Current source has since completed and proven PR #116 and the follow-up #117 through #119 production proof chain.
+
 Historical shipped chain retained: Local Profile display-label editing, Identity-Safe Career Analytics, formatVersion 2 full multi-Save portability, Phase B Save Library / Local Profile Experience 2.0 first slice, and Phase C Showdown Home & Season Experience first slice.
 
 Historical PR #115 implementation authority is retained only as provenance: the production App Check runtime candidate on `agent/production-app-check-runtime` was once the direct Remote Joining prerequisite. Current source has since completed and proven the full PR #115 through PR #119 production runtime/deployment chain.
