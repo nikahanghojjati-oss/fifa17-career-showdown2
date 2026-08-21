@@ -49,14 +49,15 @@ assert.match(historicalNext, /Stage 2B[\s\S]{0,260}DONE \/ MERGED \/ PROVEN/i);
 assert.match(historicalNext, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
 assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]{0,520}Stage 2D/i);
 assert.match(historicalNext, /Completed post-PR #86 authority reconciliation[\s\S]{0,520}PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Current authority must advance beyond the completed gateway prerequisite into the explicit App Check deployment-proof lane.");
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current authority must identify PR #125 rather than revive the historical PR #115/#116 App Check deployment-proof lane.");
+assert.match(next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"NEXT_TASK must retain PR #115/#116 deployment-proof authority only as historical provenance.");
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i,"Current production runtime authority must keep App Check enforcement off while traffic proof is gathered.");
-assert.match(next,/browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i);
+assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i,"Current production runtime authority must keep App Check enforcement off.");
+assert.match(next,/currently published application-client Firestore create\/update\/delete boundary remains deny-all|browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i,"Current authority must preserve the deployed deny-all Firestore boundary while PR #125 remains a candidate.");
 
 assert.match(state, /PR #115[\s\S]+Firebase App \+ App Check/i);
-assert.match(state, /Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
-assert.match(state, /No product candidate is currently authorized/i);
+assert.match(state, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"PROJECT_STATE must keep the dormant Stage 2A-2I prerequisite boundaries completed at their proven boundaries.");
+assert.match(state, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"PROJECT_STATE must identify v1.5.0 as the bounded non-production candidate instead of preserving obsolete no-candidate current authority.");
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
@@ -106,18 +107,18 @@ assert.match(workflow, /emulators:exec[\s\S]+--project demo-career-mode-showdown
 assert.match(workflow, /private-account-auth-stage2a-emulator\.cjs/);
 assert.match(workflow, /private-account-auth-stage2b-lifecycle-emulator\.cjs/);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2B emulator-only proof must not independently bump production application version.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2B emulator proof must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2B emulator proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
-assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2B must not itself connect Firebase Auth/Admin/Firestore in the production shell.");
+assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2B must not itself connect Firebase Auth/Admin/Firestore directly in the production shell; later reviewed connected-account runtime remains lazy behind app.js.");
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2B must not connect Firebase Auth/Admin/Firestore through production optional modules.");
-assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2b/i, "Stage 2B Auth/Admin emulator runtime must remain absent from the production Service Worker even when a later reviewed App Check runtime is shell-cached.");
+assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2b/i, "Stage 2B Auth/Admin emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase-admin"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with historical successor checkpoints separated from current PR #116 App Check deployment-proof authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with historical successor checkpoints preserved and current PR #125/v1.5 candidate authority explicit\n");
