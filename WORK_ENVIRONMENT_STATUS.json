@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-21-spark-production-account-runtime",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-21T17:02:00Z",
+  "recordedAt": "2026-08-21T17:05:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,7 +15,7 @@
     "majorPhasesCompleted": 3,
     "largeEvidenceEvents": 8,
     "toolRoutingErrors": 2,
-    "correctedFailures": 7,
+    "correctedFailures": 8,
     "repeatedMistakes": 0,
     "staleFactCorrections": 6,
     "unresolvedFailures": 0,
@@ -28,7 +28,7 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "CLOSED FOR THIS ENVIRONMENT: PR #125 v1.5.0 / 1.5.0-r1 source validation completed on exact source-seal head d83a33066b271d7d89bf932f1066d9e1369b3f6d. Complete Smart Lean Efficient successor packaging is prepared. Stop before production firestore.spark.rules publication, merge/deploy or any later milestone.",
+    "currentTask": "CLOSED FOR THIS ENVIRONMENT: PR #125 private connected-account runtime v1.5.0 / 1.5.0-r1 source validation completed on exact source-seal head d83a33066b271d7d89bf932f1066d9e1369b3f6d. Complete Smart Lean Efficient successor packaging is prepared. Stop before production firestore.spark.rules publication, merge/deploy or any later milestone.",
     "lastSafeCheckpoint": "PR #125 source-validation exact head d83a33066b271d7d89bf932f1066d9e1369b3f6d passed all 13 normal workflow families with clean submitted reviews, zero inline review threads and mergeability. The subsequent branch delta is SLE transition packaging only: root/mirrored full handoff, START_NEXT_SESSION_V1.4.1_PR125 root/mirror, refreshed SESSION_BOOTSTRAP and context graph, and the advanced SLE packaging contract. The pre-final-WEC packaging head passed the Stability contract job before this final status seal.",
     "nextSafeAction": "A fresh successor must verify live main and PR #125, initialize and assess its own fresh WEC instead of inheriting this decision, classify/revalidate the SLE-only delta after the d83a33066b271d7d89bf932f1066d9e1369b3f6d source seal, then publish and verify exactly firestore.spark.rules before standing-authorized merge/deploy and post-deployment v1.5.0 / 1.5.0-r1 production proof.",
     "unfinishedWork": [
@@ -55,12 +55,13 @@
       "Live main was independently reverified at 82413e36cd70bb10e332cb2aaa137ad350f2d241 from merged PR #124 Add zero-billing Spark account bootstrap foundation.",
       "PR #125 source-validation exact head d83a33066b271d7d89bf932f1066d9e1369b3f6d passed all 13 normal workflow families. Validate Static App #1567 run 32502859032 passed complete repository contracts and 27-block topology. Validate Stability Lane #1321 run 32502858761 passed stability-contracts and chromium-stability; pull-request deployed-site-smoke was correctly skipped. Candidate C #955 run 32502858786 passed contracts, authoritative browser audit and evidence upload.",
       "At the source seal PR #125 was open, non-draft and mergeable with zero submitted reviews and zero inline review threads.",
-      "The v1.5 candidate exposed multiple stale current-vs-historical contract clusters. Corrections preserved historical Cloud/Sync, Stage 2, App Check, trusted-runtime, shared-gateway, deletion/export and release-authority proof while removing permanent v1.4/WEC/old-branch freezes. Those grouped corrections are reflected in correctedFailures=7 and staleFactCorrections=6 rather than hidden or counted as process success.",
+      "The v1.5 candidate exposed multiple stale current-vs-historical contract clusters. Corrections preserved historical Cloud/Sync, Stage 2, App Check, trusted-runtime, shared-gateway, deletion/export and release-authority proof while removing permanent v1.4/WEC/old-branch freezes. Those grouped corrections plus the final WEC wording correction are reflected in correctedFailures=8 and staleFactCorrections=6 rather than hidden or counted as process success.",
       "A later attempt to retrieve an in-progress GitHub Actions log returned a temporary 404 because the log blob was not materialized. The route was not repeatedly retried; final toolRoutingErrors=2 preserves this additional recoverable routing event.",
       "Two conversation compactions are observable in this environment, so compactionCount=2. Unknown product/account usage remains null/unavailable and is not inferred from conversation size.",
-      "Final context pressure is clamped at 100 from very-high complexity, two compactions, three completed material phases and eight dense evidence events. Final quality risk is clamped at 100 from two routing errors, seven grouped corrected-failure clusters and six grouped stale-fact correction clusters. Next-task separation is 80 because production Spark Rules publication is a separate provider milestone.",
+      "Final context pressure is clamped at 100 from very-high complexity, two compactions, three completed material phases and eight dense evidence events. Final quality risk is clamped at 100 from two routing errors, eight grouped corrected-failure clusters and six grouped stale-fact correction clusters. Next-task separation is 80 because production Spark Rules publication is a separate provider milestone.",
       "With unknown usage omitted, final continuation risk is 96.25. Handoff readiness is 100, project complexity is very-high, atomicOperation is false, and transition cost is 13.50; transition advantage is 82.75. Quality risk >=80 independently triggers HANDOFF_NOW. The safe checkpoint is already complete, so the required behavior is to hand off now and start no production-publication work in this environment.",
       "Mandatory SLE package created: SUCCESSOR_HANDOFF_PR125_SPARK_CONNECTED_ACCOUNT_SOURCE_SEAL_SLE_2026-08-21.md plus byte-identical project-documents/handoffs mirror; START_NEXT_SESSION_V1.4.1_PR125.md plus byte-identical project-documents/session-starts mirror; refreshed SESSION_BOOTSTRAP.json and SESSION_CONTEXT_GRAPH.json; SLE packaging contract advanced to the PR #125 source-seal/publication boundary.",
+      "The first final-seal Static App attempt reached and passed the new SLE package contract but then failed the Stage 2I continuity assertion because continuity.currentTask omitted the literal private connected-account description. This final WEC rewrite corrects that wording without changing product, security or publication authority and keeps WORK_ENVIRONMENT_STATUS.json as the final intended branch mutation.",
       "The generic SESSION_CONTEXT_MODEL.json remains current and was intentionally not churned. SESSION_CONTEXT_LEARNING.json was not cosmetically rewritten because no mandatory current-state pointer lives there; the useful retrieval findings are captured in the handoff, graph and WEC evidence.",
       "Standing owner merge/deploy authorization remains conditional on all required tests and current mandatory publication gates. For PR #125 the missing gate is production publication and verification of exactly firestore.spark.rules."
     ]
