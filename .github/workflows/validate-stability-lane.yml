@@ -40,6 +40,15 @@ jobs:
       - name: Run storage, backup, restore, release, and CI contracts
         run: npm run test:contracts
 
+      - name: Build trusted runtime activation container
+        run: docker build -f trusted-runtime/Dockerfile -t career-mode-showdown-trusted-runtime:ci .
+
+      - name: Smoke trusted runtime Firebase Admin imports
+        run: >-
+          docker run --rm --entrypoint node career-mode-showdown-trusted-runtime:ci
+          --input-type=module -e
+          "Promise.all([import('./firebaseAdminProvider.mjs'),import('./server.mjs').catch(error => error)]).then(([provider]) => { if(typeof provider.createFirebaseAdminProductionProvider !== 'function') process.exit(1); })"
+
   chromium-stability:
     needs: stability-contracts
     runs-on: ubuntu-latest
@@ -169,7 +178,7 @@ jobs:
       - name: Run Candidate C atomic restore and recovery audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_BASE_URL: https://nikahanghojjati-oss/fifa17-career-showdown2/
         run: npm run test:restore-browser
 
       - name: Run install and offline boundary audit against deployed Pages
