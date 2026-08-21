@@ -27,7 +27,11 @@ assert.doesNotMatch(optional,/trustedAccountDeletionExecution\.js/);
 assert.doesNotMatch(worker,/trustedAccountDeletionExecution\.js/);
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
-assert.equal(pkg.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while the dormant account-deletion implementation proof stays version-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
 function account(status="active",revision=3){
@@ -188,7 +192,7 @@ function adapters(overrides={}){
   assert.equal(beginMismatch.code,"ACCOUNT_DELETION_BEGIN_COMMIT_MISMATCH");
   assert.equal(cleanupCalled,false);
 
-  process.stdout.write("PASS trusted account deletion execution: deletion-pending-first, survivor preservation, provider-delete ordering, retry safety and fail-closed cleanup proof are protected.\n");
+  process.stdout.write("PASS trusted account deletion execution: deletion-pending-first, survivor preservation, provider-delete ordering, retry safety and fail-closed cleanup proof are protected; historical proof is release-neutral.\n");
 })().catch(error=>{
   console.error(error);
   process.exit(1);
