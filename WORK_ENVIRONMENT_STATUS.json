@@ -1,66 +1,64 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-21-pr125-spark-rules-provider-publication",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-21T17:48:00-04:00",
+  "environmentId": "we-2026-08-21-v160-stage3-private-pairing",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-21T18:14:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241"
+    "startingMainSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2"
   },
   "signals": {
-    "contextComplexity": "very-high",
+    "contextComplexity": "high",
     "projectComplexity": "very-high",
     "compactionCount": 1,
-    "majorPhasesCompleted": 5,
-    "largeEvidenceEvents": 10,
-    "toolRoutingErrors": 2,
-    "correctedFailures": 6,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 4,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 15,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Close the PR #125 private connected-account production chain after owner real-device production proof, including merged PR #126 mount-race hotfix, merged PR #127 production Firebase authentication/self-account proof and RJR reconciliation, then complete mandatory SLE transition packaging without starting the separate Stage 3 Registered Devices / Private Pairing product milestone.",
-    "lastSafeCheckpoint": "Live main before transition packaging is 0013bba24142aab4c76e5bca038ae99afa638c8d from merged PR #127. Production real-device evidence directly shows Private account ready together with APPLICATION VERSION v1.5.0 and BUILD 1.5.0-r2. PR #127 exact validated head 84216d1a6f5f49fb84c620fbd140170e5ba868e7 passed all 13 normal workflow families, had zero submitted reviews and zero inline review threads, was mergeable, and merged under standing authorization. REMOTE_JOINING_READINESS.json is evidence-backed 63/100. Transition PR #128 on agent/stage3-sle-transition contains SLE/process continuity only and no runtime/Firebase/provider/gameplay mutation.",
-    "nextSafeAction": "HANDOFF from this exact-head transition checkpoint to a fresh successor using START_NEXT_SESSION_V1.4.3_STAGE3.md after final PR #128 workflow/review/thread/mergeability validation and standing-authorized merge. The successor independently verifies live main, initializes a fresh WEC without inheriting this HANDOFF_AT_CHECKPOINT decision, then implements the real v1.6.0 Stage 3 Registered Devices / Private Pairing feature in one product branch/PR with no intervening generic prerequisite or documentation-only milestone.",
+    "currentTask": "Implement v1.6.0 Stage 3 Registered Devices / Private Pairing directly from verified live main, including stable private installation/device identity, self-device registration/revocation, one-use short-lived private two-manager pairing bound to stable account/profile/save identity, strict Spark Firestore rules/transactions, Stage 3 tests, and reconciliation of stale NEXT_TASK.md / PROJECT_STATE.md in the same feature PR.",
+    "lastSafeCheckpoint": "Fresh successor independently verified live main 9a4600cd121bb8230a0df3c4b673a7cc81e59dd2 from merged transition-only PR #128. PR #128 exact head b58dd8c32fbdc5195e3755dd5bcf3425407d1b9b passed all 13 normal workflow families with zero submitted reviews and zero inline review threads. Stage 2 Connected Account production proof remains complete at v1.5.0 / runtime 1.5.0-r2 and RJR-1 remains 63/100.",
+    "nextSafeAction": "Implement the first coherent Stage 3 source slice on agent/v1.6.0-registered-devices-private-pairing: IndexedDB-backed private device identity, transaction-only self-device lifecycle and capability pairing, exact Firestore Rules, contract/emulator/browser-mobile proof, then validate before any provider publication request.",
     "unfinishedWork": [
-      "Validate the final immutable PR #128 SLE transition head across all normal publication workflow families, reviews, inline review threads and mergeability.",
-      "Merge PR #128 under standing owner authorization if all required gates are green; it is transition-only and changes no runtime/provider state.",
-      "Fresh successor begins real Stage 3 Registered Devices / Private Pairing implementation after its own WEC initialization.",
-      "Stage 3 implements registered-device lifecycle and private one-use exactly-two-manager pairing with proportional gaming-app security and zero billing.",
-      "Stage 4 Connected Rivalry, Stage 5 actual Remote Joining and real-device hardening remain downstream."
+      "Implement stable private installation/device identity without adding a canonical localStorage authority.",
+      "Implement authenticated self-device registration and irreversible revocation at accounts/{accountId}/devices/{deviceId}.",
+      "Implement cryptographically strong short-lived one-use private pairing and exactly-two-manager account/profile/save binding.",
+      "Extend Spark Firestore Rules only for the exact Stage 3 operations and preserve deny-by-default downstream boundaries.",
+      "Add Stage 3 contract, emulator, browser and mobile-emulation proof including expiry, replay, wrong-account/wrong-scope, device revocation, two-manager limit and local-first behavior.",
+      "Reconcile NEXT_TASK.md and PROJECT_STATE.md inside the same Stage 3 product PR.",
+      "After exact source/CI proof, publish genuinely new Stage 3 Rules only if required, then merge/deploy under standing owner authorization."
     ],
     "knownHazards": [
-      "This environment's HANDOFF_AT_CHECKPOINT/HANDOFF_NOW closure is closing-environment-only; the successor must not inherit it.",
+      "Do not reopen or repeat completed Stage 2 Firebase provider setup, reinstall, Spark account Rules publication or Google sign-in proof without concrete regression evidence.",
       "App Check enforcement remains OFF.",
-      "Firebase Spark/zero billing remains required; do not add Blaze, Cloud Run, Cloud Functions or Storage without later explicit owner authorization.",
-      "Stage 2H reviewed IAM remains exactly firebaseauth.users.get, datastore.databases.get, datastore.entities.get, datastore.entities.create and remains unactivated.",
-      "Do not ask the owner to repeat the already-completed Spark Firestore Rules publication, Firebase provider setup, reinstall or Connected Account Google sign-in proof.",
-      "Current NEXT_TASK.md and PROJECT_STATE.md retain stale PR #125-era wording. Reconcile them in the same real Stage 3 product PR, not a separate documentation-only milestone, and make affected point-in-time tests current-state/evidence-driven rather than perpetuating repeated edits.",
-      "Public discovery, public profiles, public matchmaking, public invitation directories, community features and global leaderboard/rankings remain eliminated.",
-      "Canonical localStorage remains careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
-      "Persistent Firestore cache remains disabled; current production Connected Account uses memory-only Firestore.",
-      "Usage remains null/unavailable and must not be estimated."
+      "Firebase Spark/zero billing remains mandatory; no Blaze, Cloud Run, Cloud Functions or Firebase Storage without later explicit owner authorization.",
+      "Stage 2H historical IAM remains unactivated and unchanged.",
+      "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
+      "Persistent Firestore cache remains disabled.",
+      "Public discovery/community/matchmaking/public invite directories/global leaderboard/rankings remain eliminated.",
+      "Exactly two manager slots; display names never authorize or identify a manager.",
+      "Shared gameplay state, Connected Rivalry synchronization and actual Remote Joining sessions remain blocked until later stages.",
+      "Usage is unavailable and must not be estimated."
     ],
     "evidenceNotes": [
-      "Owner real-device production screenshots prove Connected Account rendering, production Google popup authentication, Private account ready, application v1.5.0 and build 1.5.0-r2.",
-      "Source-grounded state logic in js/sparkConnectedAccount.js proves Private account ready only follows authenticated Firebase UID plus successful active self-account bootstrap.",
-      "PR #126 fixed the production/mobile late-Firebase Settings mount race and added a deliberate mobile regression test; all 13 exact-head PR workflows succeeded before merge.",
-      "PR #127 merged at 0013bba24142aab4c76e5bca038ae99afa638c8d after all 13 exact-head workflow families succeeded on 84216d1a6f5f49fb84c620fbd140170e5ba868e7 with clean reviews/threads and mergeability.",
-      "RJR-1 moved only from 61 to 63: +1 real production Google authentication and +1 real production strict self-account bootstrap. No process/build-label/pairing/Connected-Rivalry/Remote-Joining points were awarded.",
-      "Two stale historical contracts that hardcoded readiness 61 were corrected to preserve the historical 61 baseline while allowing later evidence-backed RJR movement; this prevents repeating the same maintenance after every legitimate future score change.",
-      "Transition package updates SLE starter/bootstrap/context graph and rewrites the SLE packaging contract to validate current-state invariants rather than hardcoding obsolete PR125 checkpoint values.",
-      "First PR #128 validation exposed one process-contract assumption that every divergent WEC must describe a Firebase/Firestore lane. Exact logs showed all earlier runtime/product/SLE contracts passed; the contract was made milestone-neutral and source-verifiable.",
-      "The next exact-head validation exposed a second historical Stage 2I assertion requiring the closing WEC task text to preserve PR #125 connected-account provenance. Rather than distort current authority or alter the historical Stage 2I proof again, the WEC now accurately names the completed PR #125 connected-account production chain through PR #126/#127 while keeping Stage 3 as the separate next milestone.",
-      "Final deterministic WEC closure: context pressure clamps to 100; quality risk exceeds the HANDOFF_NOW threshold because this long environment accumulated two routing errors, six corrected failures and four stale-fact corrections; next-task separation is 80 because Stage 3 is distinct; usage is unavailable and omitted. The environment is already coherent, transition-prepared, handoffComplete 100, atomicOperation false, so no additional product work is authorized."
+      "The uploaded Stage 3 starter was treated as orientation and independently checked against live GitHub before implementation.",
+      "The predecessor handoff was stale only because its transition PR #128 had subsequently merged; live source confirmed PR #128 contains no Stage 3 runtime implementation.",
+      "Existing Save Library identity already supplies stable save_* and profile_* identifiers, so Stage 3 can bind manager slots without inventing a new profile authority.",
+      "Existing remote contract defines private device, rivalry and invite paths but Spark production Rules still deny downstream writes, so a genuinely new Stage 3 Rules source change will be required before production pairing can work.",
+      "Initial Stage 3 pairing will keep the capability private and avoid server infrastructure by using the same 256-bit opaque identifier as the initial rivalryId and inviteId, enabling deterministic Firestore getAfter() validation without duplicating the secret into document data.",
+      "Device identity will live in IndexedDB rather than localStorage and will not fingerprint hardware; failure to obtain it disables only optional remote Stage 3 operations while local career saves remain authoritative."
     ]
   }
 }
