@@ -1,30 +1,30 @@
 # NEXT TASK — Career Mode Showdown
 
-## CURRENT IMPLEMENTATION AUTHORITY — POST-PR121 PRODUCTION AUTHORITY / RJR RECONCILIATION — 2026-08-20 ET
+## CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME — 2026-08-21 ET
 
-Current verified source, live GitHub, the owner's Remote Joining priority / anti-sidequest direction, and later owner instructions override historical provenance below.
+Current verified source, live GitHub, the owner's Remote Joining priority / anti-sidequest direction, zero-billing constraint, and later owner instructions override historical provenance below.
 
-Status: CURRENT BOUNDED RJR PREREQUISITE RECONCILIATION / NON-RUNTIME / PRODUCTION 1.4.0-r2 PROVEN / APP CHECK ENFORCEMENT OFF / BROWSER FIRESTORE WRITES DENY-ALL.
+Status: CURRENT BOUNDED PRODUCT CANDIDATE / v1.5.0 / 1.5.0-r1 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / DOWNSTREAM REMOTE MUTATIONS BLOCKED.
 
-Current branch: `agent/post-pr121-production-rjr-reconciliation`.
-Current environment: `we-2026-08-20-post-pr121-production-rjr-reconciliation`.
-Starting independently verified live main: `ab48ecec7f9560378f79eee30150d39a90834c35`.
-Fresh Work Environment Continuity (WEC) decision: `CONTINUE` at initialization.
+Current branch: `agent/spark-production-account-runtime`.
+Current PR: #125 `Ship Spark private connected account runtime`.
+Starting independently verified live main: `82413e36cd70bb10e332cb2aaa137ad350f2d241` from merged PR #124 `Add zero-billing Spark account bootstrap foundation`.
 Usage: unavailable and not estimated.
-Authorized product candidate: none.
+Authorized product candidate: `v1.5.0 — Private Connected Account Foundation` / runtime `1.5.0-r1`.
 
-Application version: `v1.4.0`.
+Current production application version: `v1.4.0`.
 Current production Installable Offline App runtime: `1.4.0-r2`.
-Known-good fallback/recovery runtime: `1.4.0-r1`.
+Immediate candidate rollback/recovery runtime: `1.4.0-r2`.
+Previously recorded pre-r2 fallback knowledge: `1.4.0-r1`.
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening.
 
-PR #121 `Make SLE handoff packaging permanent` is DONE / MERGED at live main `ab48ecec7f9560378f79eee30150d39a90834c35`. It changed development-process/successor-loading infrastructure only.
+PR #121 `Make SLE handoff packaging permanent` is DONE / MERGED at `ab48ecec7f9560378f79eee30150d39a90834c35`. It changed development-process/successor-loading infrastructure only.
 
 The production Firebase App Check runtime/deployment chain through PRs #115, #116, #117, #118 and #119 is DONE / MERGED / PROVEN. Permanent post-merge production proof is `Validate Stability Lane` #1230 / run `32439162225`, successful on exact production head `3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516`.
 
 That permanent deployed proof verifies every intended `1.4.0-r2` runtime byte, runtime error provenance, a real reCAPTCHA Enterprise App Check token path, Home, Save Library, manager identity linkage, identity-safe Career Analytics, football visuals, Candidate A backup, Candidate B import analysis, Candidate C atomic restore/recovery, install/offline boundary and the complete deployed journey.
 
-The current canonical production/RJR authority entering this candidate contained two stale capability claims: `firebase.production.environment.json` recorded runtime/App Check bootstrap connection as false, and `REMOTE_JOINING_READINESS.json` said production App Check client traffic and controlled runtime Firebase connection were unproven. This candidate exists only to reconcile those facts and directly dependent current-state pointers.
+PR #124 `Add zero-billing Spark account bootstrap foundation` is DONE / MERGED at `82413e36cd70bb10e332cb2aaa137ad350f2d241`. It added a separate reviewed `firestore.spark.rules` candidate and a strict Firebase-uid revision-0 self-account bootstrap with emulator proof. It did not publish those rules or initialize production browser Auth/Firestore.
 
 The owner's canonical terminology is:
 
@@ -32,27 +32,30 @@ The owner's canonical terminology is:
 
 ## Current bounded engineering task
 
-Complete one bounded production-authority / RJR-1 reconciliation only.
+Complete PR #125 as the first production-facing private connected-account release candidate without crossing the zero-billing or Remote Joining dependency boundaries.
 
 Required outcomes:
 
-1. record `1.4.0-r2` as the current production-proven runtime;
-2. preserve `1.4.0-r1` as known-good fallback/recovery knowledge, not current production authority;
-3. reconcile RJR-1 only for exact newly proven fixed-domain capability evidence;
-4. preserve App Check enforcement OFF;
-5. preserve every application-client Firestore create/update/delete as deny-all;
-6. do not initialize browser Firebase Authentication, Firestore, Storage or Functions;
-7. preserve Stage 2H IAM exactly as `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, `datastore.entities.create`;
-8. correct canonical SLE policy to explicitly state `SLE = Smart Lean Efficient`;
-9. preserve exact three-key canonical local storage and Candidate A/B/C recovery authority;
-10. run all relevant repository contracts and normal publication gates on one exact immutable candidate head;
-11. require clean submitted reviews, clean inline review threads and mergeability;
-12. publish under standing owner authorization only after the exact-head gates are clean;
-13. reassess the fresh WEC before any separate later prerequisite.
+1. keep deployed production truth at `v1.4.0` / `1.4.0-r2` until actual deployment proof succeeds;
+2. complete coherent candidate identity `v1.5.0` / `1.5.0-r1` with `1.4.0-r2` as immediate whole-shell recovery target;
+3. reuse the proven production Firebase App + App Check runtime and keep App Check enforcement OFF;
+4. initialize Firebase Authentication and Cloud Firestore only lazily after explicit Connected Account demand, never as a local-startup dependency;
+5. use Google `signInWithPopup()` only, with explicit `browserSessionPersistence` before sign-in;
+6. use memory-only Firestore client cache and request no additional Google OAuth scopes;
+7. use Firebase `uid` as the sole application `accountId` source and reuse the PR #124 self-account revision-0 bootstrap;
+8. permit no candidate browser write beyond the authenticated user's own strict initial `accounts/{request.auth.uid}` document under the exact reviewed Spark rules;
+9. keep account list/update/delete, devices, profile-link writes, security-event writes, invites, rivalry state, sessions, idempotency and gameplay mutations denied;
+10. preserve local Career Mode, canonical Saves and recovery while signed out, offline, popup-cancelled or Firebase-unavailable;
+11. do not introduce billing, Blaze, Cloud Run, Cloud Functions, Firebase Storage or a new trusted backend credential path;
+12. keep Stage 2H's historical reviewed IAM list unchanged and unactivated;
+13. keep RJR at `61/100` until genuine production activation/proof closes a fixed-model capability gap;
+14. run all relevant repository contracts and normal publication gates on one exact immutable candidate head;
+15. require clean submitted reviews, clean inline review threads and mergeability on that same head;
+16. only after source gates are clean, publish the exact reviewed `firestore.spark.rules` to the existing free production Firebase project and verify the boundary;
+17. after rules proof, merge/deploy under standing owner authorization and obtain post-deployment production proof before calling `1.5.0-r1` production-proven;
+18. reassess fresh WEC before beginning the next separate prerequisite.
 
 Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 27 protected workflow blocks in the normal topology contract.
-
-This reconciliation awards RJR +2 only because permanent production proof closes exactly two previously uncredited production-cloud-security gaps: controlled Firebase App + App Check runtime connection and legitimate production App Check token traffic. It awards no points for PR count, green CI by itself, documentation, WEC, SLE, App Check enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining.
 
 ## Security, recovery and product locks
 
@@ -60,8 +63,11 @@ Production App Check provider: reCAPTCHA Enterprise.
 Production App Check enforcement: OFF.
 Production debug App Check: prohibited.
 
-The browser intentionally initializes only Firebase App and Firebase App Check. No browser trusted mutation authority exists.
-Every application-client Firestore create/update/delete remains deny-all.
+The currently deployed `1.4.0-r2` browser intentionally initializes only Firebase App and Firebase App Check. Its currently published application-client Firestore create/update/delete boundary remains deny-all.
+
+The PR #125 candidate may lazily initialize Auth + Firestore only for the optional Connected Account path. Firestore persistence must remain memory-only. Google popup is the only provider flow. No redirect sign-in, additional scopes, provider credential extraction, raw token storage, Storage client or Functions client is authorized.
+
+The exact reviewed production-activation rules candidate is `firestore.spark.rules`. It permits exactly one new write shape: authenticated self-account revision-0 create at `accounts/{request.auth.uid}`. All downstream private-joining mutation surfaces remain denied.
 
 App Check remains application attestation only. It grants no account identity, application authorization, device identity, pairing authority, rivalry/session authority, gameplay authority, shared mutation authority or IAM authority.
 
@@ -82,7 +88,7 @@ Stage 2H's reviewed account-bootstrap runtime custom-role permissions remain exa
 `datastore.entities.get`
 `datastore.entities.create`
 
-Do not broaden them.
+Do not broaden or activate them inside PR #125.
 
 ## Remote Joining dependency order
 
@@ -97,9 +103,9 @@ Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YE
 
 Stage 1 Cloud / Sync Readiness Phase 1A through 1F is DONE / MERGED / PROTECTED.
 
-Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN. The later trusted gateway, account-deletion and connected-data-export prerequisite contracts are also completed at their protected boundaries. The production App Check browser/runtime proof is now complete.
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN at their protected prerequisite boundaries. The production App Check browser/runtime proof is complete. PR #124 completed the zero-billing self-account bootstrap foundation in source/emulator proof. PR #125 is the current production-facing account-runtime candidate.
 
-Stage 2 as a whole remains incomplete because production trusted-runtime/IAM activation and later launch hardening remain unproven. App Check enforcement is a separately reviewed later hardening gate and must not be enabled merely because production token traffic is proven.
+Stage 2 as a whole remains incomplete because PR #125 production rules/runtime activation and post-deployment account proof are not yet complete, and later launch hardening remains unproven. App Check enforcement is a separately reviewed later hardening gate and must not be enabled merely because production token traffic is proven.
 
 Stage 3 Registered Devices / Private Pairing remains blocked until the remaining genuine Stage 2 production/account/operational lane is DONE / MERGED / PROVEN. Connected Rivalry and actual Private Remote Joining remain downstream.
 
@@ -116,9 +122,11 @@ The already shipped local chain remains: Local Profile display-label editing →
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish and publish only the current post-PR121 production-authority/RJR reconciliation candidate. Do not reopen the completed App Check proof lane.
+Finish only PR #125 `v1.5.0 / 1.5.0-r1` source validation first. Do not publish production Firestore Rules until the exact candidate source head is clean.
 
-After the candidate is fully published, run the fresh WEC assessment before beginning another milestone. If WEC permits continuation, select the smallest remaining dependency-gated Stage 2 prerequisite: production trusted runtime/IAM activation proof using the already-reviewed exact four-permission Stage 2H role and the existing Stage 2F/2I verification order. That later milestone must not broaden browser authority, initialize forbidden Firebase client services, enable App Check enforcement by default, or begin Stage 3 pairing/Connected Rivalry/Remote Joining UX out of order.
+Once source gates are clean, publish exactly the reviewed `firestore.spark.rules` boundary to the existing free Firebase project, verify that self-account create is the only newly permitted application-client write, then merge/deploy under standing owner authorization. Obtain production proof before promoting `1.5.0-r1` from RELEASE CANDIDATE to production-proven or changing RJR.
+
+After the release is fully published/proven, run the fresh WEC assessment before beginning another milestone. If continuation is allowed, choose the next smallest dependency-gated prerequisite. Stage 3 pairing, Connected Rivalry and Remote Joining UX remain blocked until the account/runtime production boundary is genuinely proven.
 
 ## Historical production and contract provenance
 
@@ -141,6 +149,17 @@ At that historical boundary the Cloud/sync runtime remains NOT YET IMPLEMENTATIO
 
 Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY. That gateway is completed and is not the current task.
 
+Historical post-PR121 reconciliation status: CURRENT BOUNDED RJR PREREQUISITE RECONCILIATION / NON-RUNTIME / PRODUCTION 1.4.0-r2 PROVEN / APP CHECK ENFORCEMENT OFF / BROWSER FIRESTORE WRITES DENY-ALL.
+Historical reconciliation branch: `agent/post-pr121-production-rjr-reconciliation`.
+Historical reconciliation environment: `we-2026-08-20-post-pr121-production-rjr-reconciliation`.
+Historical reconciliation starting main: `ab48ecec7f9560378f79eee30150d39a90834c35`.
+Historical reconciliation Fresh Work Environment Continuity (WEC) decision: `CONTINUE` at initialization.
+Historical reconciliation authorized product candidate: none.
+Historical reconciliation application version: `v1.4.0`.
+Historical reconciliation current production Installable Offline App runtime: `1.4.0-r2`.
+Historical reconciliation known-good fallback/recovery runtime: `1.4.0-r1`.
+Historical reconciliation required every application-client Firestore create/update/delete to remain deny-all and browser Firebase Authentication, Firestore, Storage and Functions uninitialized. Those statements describe that completed non-runtime lane and do not prohibit the separately reviewed PR #125 candidate boundary.
+
 The former clean-stop wording was satisfied by later explicit owner authorization and subsequent proven prerequisite work. Do not revive that obsolete wait-for-instruction boundary as current implementation authority.
 
-No historical wording authorizes a new product feature, Stage 3, Connected Rivalry or Remote Joining UX inside this reconciliation candidate.
+No historical wording authorizes Stage 3, Connected Rivalry or Remote Joining UX inside PR #125.
