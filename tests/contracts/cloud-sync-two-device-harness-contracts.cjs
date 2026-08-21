@@ -19,14 +19,14 @@ assert.doesNotMatch(harnessSource,/firebase|firestore/i);
 assert.doesNotMatch(index,/cloudSyncTwoDeviceHarness\.js/);
 assert.doesNotMatch(optional,/cloudSyncTwoDeviceHarness\.js/);
 assert.doesNotMatch(worker,/cloudSyncTwoDeviceHarness\.js/);
-assert.equal(pkg.version,"1.4.0","Dormant Phase 1E proof must not independently bump production application version.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Phase 1E proof must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must stay coherent while dormant provider-neutral Phase 1E remains version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent while the provider-neutral Phase 1E harness stays dormant.");
 assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current NEXT_TASK must identify the real post-PR100 Stage 2 prerequisite rather than revive Phase 1E as current authority.");
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current NEXT_TASK must retain the historical post-PR100 gateway heading as provenance rather than revive Phase 1E as current authority.");
 assert.match(next,/Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
 assert.match(historicalNext,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i,"Exact archived predecessor authority must retain the historical Phase 1D → 1E → 1F implementation sequence.");
 
@@ -218,4 +218,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current release identity stays coherent\n");
