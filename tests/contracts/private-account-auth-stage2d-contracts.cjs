@@ -79,31 +79,32 @@ assert.match(historicalNext,/AUTHORIZED CURRENT PREREQUISITE \/ IMPLEMENTATION-A
 assert.match(historicalNext,/PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
 assert.match(historicalNext,/2415c156161b6244c75e49917bad28efed957adf/);
 assert.match(historicalNext,/0accb827fa91f86fdd28e63590bd4843267546ae/);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current NEXT_TASK must identify PR #125 rather than revive the historical App Check-runtime lane.");
+assert.match(next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i,"NEXT_TASK must retain the prior App Check-runtime authority only as historical provenance.");
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/Authorized product candidate:\s*none/i);
+assert.match(next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Current NEXT_TASK must identify the bounded v1.5.0/r1 candidate.");
 assert.match(next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
 assert.match(next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
 
-assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during Stage 2D proof.");
+assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during the historical Stage 2D proof.");
 assert.match(firebaseRc.projects.default,/^demo-/);
 assert.match(rules,/allow list, create, update, delete:\s*if false/g);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]+allow read, write:\s*if false/);
 assert.doesNotMatch(rules,/allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-assert.equal(pkg.version,"1.4.0","Stage 2D dormant preflight must not independently bump production application version.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2D preflight must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2D dormant preflight stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
-assert.doesNotMatch(index,/firebaseProductionPreflight|firebase\/auth|firebase\/firestore|firebase-admin/i,"Production shell must not load the dormant Stage 2D preflight or Auth/Firestore/Admin runtime.");
+assert.doesNotMatch(index,/firebaseProductionPreflight|firebase\/auth|firebase\/firestore|firebase-admin/i,"Production shell must not directly load the dormant Stage 2D preflight or Auth/Firestore/Admin runtime; later reviewed connected-account runtime remains lazy behind app.js.");
 assert.doesNotMatch(optional,/firebaseProductionPreflight|firebase\/auth|firebase\/firestore|firebase-admin/i,"Production optional modules must not load the dormant Stage 2D preflight or Auth/Firestore/Admin runtime.");
-assert.doesNotMatch(worker,/firebaseProductionPreflight|firebase-auth|firebase\/auth|firebase-firestore|firebase\/firestore|firebase-admin/i,"Service Worker must not cache Stage 2D/Auth/Firestore/Admin runtime even when a later reviewed App Check runtime is shell-cached.");
+assert.doesNotMatch(worker,/firebaseProductionPreflight|firebase-auth|firebase\/auth|firebase-firestore|firebase\/firestore|firebase-admin/i,"Service Worker must not cache Stage 2D/Auth/Firestore/Admin runtime even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase"),false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase"),false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase-admin"),false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority separated from current App Check runtime authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR #125/v1.5 candidate authority explicit\n");
