@@ -94,7 +94,7 @@ Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YE
 
 Stage 1 Cloud / Sync Readiness Phase 1A through 1F is DONE / MERGED / PROTECTED.
 
-Private Account / Authentication / Authorization Stages 2A through 2I and the later trusted gateway, account-deletion and connected-data-export prerequisite contracts are completed at their protected boundaries. The production App Check browser/runtime proof is now also complete.
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN. The later trusted gateway, account-deletion and connected-data-export prerequisite contracts are also completed at their protected boundaries. The production App Check browser/runtime proof is now complete.
 
 Stage 2 as a whole remains incomplete because production trusted-runtime/IAM activation and later launch hardening remain unproven. App Check enforcement is a separately reviewed later hardening gate and must not be enabled merely because production token traffic is proven.
 
