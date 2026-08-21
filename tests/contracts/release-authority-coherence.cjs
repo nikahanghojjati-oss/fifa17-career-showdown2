@@ -156,11 +156,12 @@ if(version === "1.6.0"){
 }
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost handoff/task authority.");
-A.ok(next.includes("14 permanent workflow families") && next.includes("27 protected"), "NEXT_TASK lost permanent validation topology counts.");
+A.ok(next.includes("14 permanent workflow families"), "NEXT_TASK lost permanent validation family-count history.");
 const temporaryHelpers = fs.readdirSync(".github/workflows").filter(name => /v115|temporary/i.test(name) && /\.ya?ml$/i.test(name));
 A.deepEqual(temporaryHelpers, [], `Temporary workflow helpers must not enter release authority: ${temporaryHelpers.join(", ")}`);
 const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
-A.ok(topology.includes('assert.equal(executed, 27'), "Protected 27-block workflow invariant changed unexpectedly.");
+A.ok(topology.includes('assert.equal(executed, 28'), "Protected 28-block workflow invariant changed unexpectedly.");
+A.ok(read(".github/workflows/validate-static-app.yml").includes("validate-stage3-private-pairing.yml"), "Static topology must explicitly require the permanent Stage 3 workflow.");
 
 process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current candidate identity, immutable historical evidence, recovery semantics, Remote Joining locks and workflow topology agree.\n`);
