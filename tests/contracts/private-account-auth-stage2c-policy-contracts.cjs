@@ -67,9 +67,10 @@ assert.match(historicalNext, /1794f1f86968781b898d000360d1fb56234fb92f/);
 assert.match(historicalNext, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
 assert.match(historicalNext, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
 assert.match(historicalNext, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i);
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current NEXT_TASK must identify PR #125 rather than revive the historical PR #115/#116 App Check deployment-proof lane.");
+assert.match(next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"NEXT_TASK must retain PR #115/#116 deployment-proof authority only as historical provenance.");
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/Authorized product candidate:\s*none/i);
+assert.match(next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Current NEXT_TASK must identify the bounded v1.5.0 / 1.5.0-r1 candidate.");
 assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i);
 
 for (const [name, text] of archivalSources) {
@@ -81,8 +82,8 @@ for (const [name, text] of archivalSources) {
 
 assert.match(state, /PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+Firebase App \+ App Check/i);
 assert.match(state, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
-assert.match(state, /Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
-assert.match(state, /No product candidate is currently authorized/i);
+assert.match(state, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority instead of restoring obsolete dormant-stage wording.");
+assert.match(state, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"PROJECT_STATE must identify v1.5.0 as the current bounded non-production candidate.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
@@ -98,18 +99,18 @@ assert.match(rules, /allow list, create, update, delete:\s*if false/g);
 assert.match(rules, /match \/\{document=\*\*\}[\s\S]+allow read, write:\s*if false/);
 assert.doesNotMatch(rules, /allow\s+(?:write|create|update|delete)[^\n]*if\s+true/i);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2C policy proof must not independently bump production application version.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2C policy must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2C policy proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
-assert.doesNotMatch(index, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C must not itself connect Firebase Auth/Admin/Firestore in the production shell.");
+assert.doesNotMatch(index, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C must not itself connect Firebase Auth/Admin/Firestore directly in the production shell; later reviewed connected-account runtime remains lazy behind app.js.");
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore/i, "Stage 2C must not connect Firebase Auth/Admin/Firestore through production optional modules.");
-assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore|private-account-auth-stage2c/i, "Stage 2C Auth policy/runtime must remain absent from the production Service Worker even when a later reviewed App Check runtime is shell-cached.");
+assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|GoogleAuthProvider|signInWithPopup|browserSessionPersistence|firestore|private-account-auth-stage2c/i, "Stage 2C Auth policy/runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "firebase-admin"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with exact historical Stage 2D transition preserved separately from current PR #116 App Check deployment-proof authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with historical Stage 2D transition preserved and current PR #125/v1.5 candidate authority explicit\n");

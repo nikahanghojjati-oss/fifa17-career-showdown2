@@ -76,11 +76,16 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Historical local product slices remain closed; the current authorized work is dependency-gated infrastructure/authority reconciliation, not a product feature.
+// Historical local product slices remain closed; current authority is the bounded v1.5.0 private connected-account candidate, while later Remote Joining stages remain blocked.
 assert.match(
   next,
-  /Authorized product candidate:[\s\S]{0,40}none/i,
-  "NEXT_TASK must keep user-facing product work unauthorized while infrastructure prerequisites advance."
+  /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,
+  "NEXT_TASK must identify v1.5.0 / 1.5.0-r1 as the current bounded product candidate."
+);
+assert.match(
+  next,
+  /Historical reconciliation authorized product candidate:\s*none/i,
+  "NEXT_TASK must retain the earlier no-product-candidate reconciliation state only as historical provenance."
 );
 assert.match(
   next,
@@ -129,8 +134,8 @@ assert.match(
 );
 assert.match(
   next,
-  /v1\.4\.0/i,
-  "NEXT_TASK must identify visible application version v1.4.0."
+  /Current production application version:\s*`v1\.4\.0`/i,
+  "NEXT_TASK must preserve v1.4.0 as current production until the v1.5.0 candidate is actually proven."
 );
 assert.match(
   next,
@@ -139,8 +144,13 @@ assert.match(
 );
 assert.match(
   next,
-  /Known-good fallback\/recovery runtime: `1\.4\.0-r1`/i,
-  "NEXT_TASK must preserve 1.4.0-r1 as fallback/recovery knowledge."
+  /Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i,
+  "NEXT_TASK must identify 1.4.0-r2 as the v1.5.0-r1 candidate's immediate recovery target."
+);
+assert.match(
+  next,
+  /Previously recorded pre-r2 fallback knowledge: `1\.4\.0-r1`/i,
+  "NEXT_TASK must preserve 1.4.0-r1 as older fallback/recovery knowledge without treating it as the immediate v1.5 candidate rollback."
 );
 assert.match(
   next,
@@ -179,4 +189,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical product proof remain protected; production 1.4.0-r2/fallback r1 authority is coherent; standing owner publication plus fresh WEC governs continuation; Remote Joining remains prioritized but dependency-gated; no product candidate is authorized.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical product proof remain protected; production 1.4.0-r2 and v1.5.0-r1 candidate authority are coherent; standing owner publication plus fresh WEC governs continuation; Remote Joining remains prioritized but dependency-gated.");

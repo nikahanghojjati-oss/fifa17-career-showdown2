@@ -32,16 +32,17 @@ assert.match(state, /Cloud\/Sync Readiness Phase 1A merge:[\s\S]+b1fafd9cba7e2c6
 assert.match(state, /Cloud\/Sync Readiness Phase 1B merge:[\s\S]+2dc61e24ef07a0a150a228865f954ab3b3941398/i, "PROJECT_STATE must record the exact PR #77 Phase 1B merge.");
 assert.match(state, /Cloud\/Sync Readiness Phase 1C merge:[\s\S]+59957f8b0c29ce0cd480a0e9270a095160005599/i, "PROJECT_STATE must record the exact PR #78 Phase 1C merge.");
 assert.match(state, /Cloud\/Sync Readiness Phase 1D merge:[\s\S]+fc2e8e8b921a435103a438a9239efbb890584d22/i, "PROJECT_STATE must record the exact PR #79 Phase 1D merge.");
-assert.match(state, /Phase 1D[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE/i, "PROJECT_STATE must close Phase 1D and identify Phase 1E as the active deterministic harness candidate.");
-assert.match(state, /Phase 1F[\s\S]+NEXT AFTER PHASE 1E MERGES \/ BLOCKED/i, "PROJECT_STATE must keep Phase 1F blocked until Phase 1E is merged and proven.");
-assert.match(state, /No product candidate is currently authorized/i, "PROJECT_STATE must keep production runtime gated while architecture prerequisites advance.");
+assert.match(state, /Phase 1D[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE/i, "PROJECT_STATE must retain the historical Phase 1D-to-1E provenance without treating it as current authorization.");
+assert.match(state, /Phase 1F[\s\S]+NEXT AFTER PHASE 1E MERGES \/ BLOCKED/i, "PROJECT_STATE must retain the historical Phase 1F blocked-next provenance.");
+assert.match(state, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i, "PROJECT_STATE must identify v1.5.0 as the current bounded release candidate without promoting it to production.");
+assert.match(state, /1\.4\.0-r2[\s\S]{0,220}production-proven runtime and immediate recovery target/i, "PROJECT_STATE must keep 1.4.0-r2 as production and recovery authority until the v1.5.0 candidate is actually proven.");
 assert.match(state, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "PROJECT_STATE must preserve the owner-prioritized Remote Joining direction without current runtime authorization.");
 
 assert.match(next, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "NEXT_TASK must name the closed multi-Save (PR #67) milestone.");
-assert.match(next, /Authorized product candidate:\*\* none|Authorized product candidate:\s*none/i, "NEXT_TASK must keep user-facing runtime product work gated.");
-assert.match(next, /Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E/i, "NEXT_TASK must keep Phase 1E as the bounded current deterministic prerequisite.");
-assert.match(next, /Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "NEXT_TASK must advance exactly to Phase 1F only after Phase 1E proves clean.");
-assert.match(next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must keep provider/network production runtime outside the current authorization boundary.");
+assert.match(next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i, "NEXT_TASK must identify the current bounded v1.5.0 / 1.5.0-r1 product candidate.");
+assert.match(next, /Current authorized prerequisite candidate[\s\S]+Cloud\/Sync Readiness Phase 1E/i, "NEXT_TASK must retain Phase 1E as historical prerequisite provenance.");
+assert.match(next, /Next prerequisite after Phase 1E merges[\s\S]+Cloud\/Sync Readiness Phase 1F/i, "NEXT_TASK must retain the historical Phase 1E-to-1F prerequisite progression.");
+assert.match(next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must retain the historical provider-runtime gate as provenance rather than current authority.");
 assert.match(next, /strict exact raw snapshot authority|Candidate C remains the sole destructive/i, "NEXT_TASK must preserve destructive restore / Candidate C snapshot authority while cloud prerequisites advance.");
 assert.match(next, /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i, "NEXT_TASK must retain the permanent ELIMINATED public community lock.");
 assert.match(next, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i, "NEXT_TASK must preserve Private Remote Joining as prioritized long-term while still dependency-gated and not runtime-authorized.");
@@ -78,4 +79,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS Cloud/Sync Readiness authority: Phases 1A/1B/1C/1D proven, Phase 1E current deterministic harness, Phase 1F blocked-next, provider runtime gated, recovery/privacy and Remote Joining dependency locks preserved\n");
+process.stdout.write("PASS Cloud/Sync Readiness authority: historical Phases 1A-1F provenance remains protected, current v1.5.0/r1 candidate stays non-production, recovery/privacy locks remain intact, and Remote Joining remains prioritized but dependency-gated\n");
