@@ -138,7 +138,8 @@ assert.deepEqual(production.securityLocks.stage2hIamPermissions,[
   "datastore.entities.create"
 ]);
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.equal(readiness.currentScore,61);
+assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100);
+assert.ok(readiness.evidenceHistory.some(event=>event.eventId==="production-app-check-runtime-proof"&&event.score===61),"Historical 61-point App Check production proof must remain preserved while later evidence may increase RJR.");
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
