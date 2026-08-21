@@ -40,7 +40,11 @@ assert.equal(runtime.browserFirestoreWrites,"deny-all");
 assert.equal(runtime.directBrowserTrustedMutationAuthority,false);
 assert.equal(typeof stage2g.executeAuthorizedAccountBootstrap,"function");
 
-assert.equal(rootPackage.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const rootRuntimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(rootRuntimeVersion,rootPackage.version,"Current GitHub Pages release identity must remain coherent while the separately packaged trusted runtime proof stays release-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(rootPackage.dependencies,undefined,"Trusted runtime dependencies must remain isolated from the GitHub Pages package.");
 assert.equal(runtimePackage.type,"commonjs");
 assert.equal(runtimePackage.dependencies["firebase-admin"],"14.3.0");
@@ -258,7 +262,7 @@ assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\
   assert.equal(unauthorized.ok,false);
   assert.equal(unauthorized.code,"TRUSTED_ACCOUNT_APPLICATION_AUTHORIZATION_REQUIRED");
 
-  process.stdout.write("PASS production trusted runtime composition and activation infrastructure: exact App Check -> revoked-user verification -> application authorization -> create-only transaction, exact four-permission IAM, us-east4 deployment and browser locks protected.\n");
+  process.stdout.write("PASS production trusted runtime composition and activation infrastructure: exact App Check -> revoked-user verification -> application authorization -> create-only transaction, exact four-permission IAM, us-east4 deployment and browser locks protected; root release identity remains independently coherent.\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
