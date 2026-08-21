@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-21-pr125-spark-rules-publication",
   "lifecycle": "active",
-  "recordedAt": "2026-08-21T18:08:00Z",
+  "recordedAt": "2026-08-21T18:12:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,7 +15,7 @@
     "majorPhasesCompleted": 1,
     "largeEvidenceEvents": 3,
     "toolRoutingErrors": 1,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -28,18 +28,20 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "PR #125 production Spark Rules publication lane for candidate v1.5.0 / 1.5.0-r1. Reverify the SLE-only post-source-seal delta and exact-head gates, publish exactly firestore.spark.rules to the existing free production Firebase project, verify the strict authenticated self-account revision-0 create boundary, then re-freeze PR evidence before any standing-authorized merge/deploy.",
+    "currentTask": "PR #125 private connected-account Spark Rules production publication lane for candidate v1.5.0 / 1.5.0-r1. Reverify the SLE-only post-source-seal delta and exact-head gates, publish exactly firestore.spark.rules to the existing free production Firebase project, verify the strict authenticated self-account revision-0 create boundary, then re-freeze PR evidence before any standing-authorized merge/deploy.",
     "lastSafeCheckpoint": "Successor live reconstruction verified main 82413e36cd70bb10e332cb2aaa137ad350f2d241 and PR #125 head 9da981f88ccfe091832ed54965e1a95f4836ff9c. The d83a33066b271d7d89bf932f1066d9e1369b3f6d..9da981f88ccfe091832ed54965e1a95f4836ff9c delta is 10 commits and changes only SLE/WEC/session packaging plus the SLE packaging contract. All 13 normal PR workflow families succeeded on 9da981f88ccfe091832ed54965e1a95f4836ff9c; PR #125 was open, non-draft, mergeable, with zero submitted reviews and zero inline review threads before successor WEC initialization.",
-    "nextSafeAction": "Reverify the new exact PR head and applicable workflows after this successor WEC continuity correction. Then use an existing safe provider-publication route, if available, to publish byte-for-byte firestore.spark.rules without hand edits. If no authenticated Firebase publication route is available to this environment, do not fabricate provider proof or merge; stop at that concrete owner-controlled/provider-access blocker with exact paste/deploy instructions only after exhausting supported direct routes.",
+    "nextSafeAction": "Reverify the new exact PR head and applicable workflows after this second WEC continuity correction. Because the fresh WEC now reaches PREPARE_HANDOFF, strengthen continuity records and reassess before crossing from exact-head source validation into the separate provider-publication phase. If the reassessment permits the bounded publication phase, use an existing safe provider-publication route if available to publish byte-for-byte firestore.spark.rules without hand edits. If no authenticated Firebase publication route is available to this environment, do not fabricate provider proof or merge; stop at that concrete owner-controlled/provider-access blocker with exact publication instructions after exhausting supported direct routes.",
     "unfinishedWork": [
-      "Re-freeze the exact PR #125 head after this WEC continuity correction and verify all applicable workflow gates, reviews, inline threads and mergeability.",
-      "Publish exactly firestore.spark.rules to the existing free production Firebase project without hand edits.",
+      "Re-freeze the exact PR #125 head after this second WEC continuity correction and verify all applicable workflow gates, reviews, inline threads and mergeability.",
+      "Reassess WEC at the exact-head source-validation checkpoint before beginning provider publication.",
+      "Publish exactly firestore.spark.rules to the existing free production Firebase project without hand edits if WEC permits continuation.",
       "Verify authenticated self-account revision-0 create is the only newly allowed application-client write and all downstream Remote Joining mutations remain denied.",
       "After Rules proof, re-freeze PR #125 head/workflows/reviews/threads/mergeability and merge/deploy only under standing owner authorization after every required gate passes.",
       "Obtain post-deployment production proof before promoting v1.5.0 / 1.5.0-r1 or changing Remote Joining readiness from 61/100."
     ],
     "knownHazards": [
-      "Inherited predecessor transition history: HANDOFF_NOW was the predecessor environment's closing decision. It is preserved only as historical evidence and is not this successor's decision; this successor independently assessed CONTINUE after resetting per-environment observations.",
+      "Inherited predecessor transition history: HANDOFF_NOW was the predecessor environment's closing decision. It is preserved only as historical evidence and is not this successor's decision; this successor independently initialized and assessed its own WEC.",
+      "The successor's current deterministic WEC decision after two corrected continuity defects is PREPARE_HANDOFF. This does not abandon the in-progress source-validation checkpoint, but records must be strengthened and WEC reassessed before the separate provider-publication phase.",
       "Production remains v1.4.0 / 1.4.0-r2; PR #125 v1.5.0 / 1.5.0-r1 is not production-proven.",
       "App Check enforcement remains OFF.",
       "The currently published production Firestore application-client write boundary is deny-all until exact firestore.spark.rules publication is independently proven.",
@@ -53,10 +55,11 @@
     ],
     "evidenceNotes": [
       "Fresh successor did not inherit the predecessor decision as its own. Per-environment counters were reset and startingMainSha was independently observed from live main.",
-      "The first successor WEC initialization caused Static App #1578 and Stability Lane #1332 to fail the same work-environment-interruption-resilience contract because the historical predecessor decision was not expressed with the contract's required literal inherited-predecessor marker. Earlier runtime, release, SLE and continuity assertions passed. This is recorded as correctedFailures=1; the fix changes WEC wording only.",
+      "The first successor WEC initialization caused Static App #1578 and Stability Lane #1332 to fail the same interruption-resilience contract because the historical predecessor decision lacked the required literal inherited-predecessor marker. Earlier runtime, release, SLE and continuity assertions passed. That WEC wording-only defect was corrected and counted once.",
+      "On corrected head 97a99d7d0dfb5f71298ec91647fd159d98bebe24, Static App #1579 and Stability Lane #1333 both progressed through the repaired interruption-resilience contract and then failed the same Stage 2I boundary assertion because continuity.currentTask did not contain the literal connected-account label. Production Firebase authority, App Check, Spark account path, recovery, RJR and Stage 2A-2H contracts passed before that assertion. This second WEC wording-only defect is corrected here and counted once, bringing correctedFailures to 2.",
       "Remote Joining readiness authority REMOTE_JOINING_READINESS.json remains fixed at 61/100; no points are awarded for source work, CI, SLE/WEC work or unpublished provider state.",
       "The reviewed firestore.spark.rules permits authenticated self-account get and strict revision-0 create; account list/update/delete and all downstream device/profile/security-event/rivalry/invite/session/idempotency/gameplay mutations remain denied.",
-      "Fresh deterministic WEC reassessment from the recorded signals: context pressure 66; quality risk 10; next-task separation 20; usage omitted because unavailable; continuation risk 36.375. Handoff readiness 70; transition cost 27.0; transition advantage 9.375. No hard warning or transition threshold applies, so the successor decision remains CONTINUE for only this bounded publication lane."
+      "Fresh deterministic WEC reassessment from the recorded signals: context pressure 66; quality risk 14; next-task separation 20; usage omitted because unavailable; continuation risk 37.875. Handoff readiness 70; transition cost 27.0; transition advantage 10.875. The transition-advantage threshold now triggers PREPARE_HANDOFF. Strengthen records and reassess before beginning the separate provider-publication phase."
     ]
   }
 }
