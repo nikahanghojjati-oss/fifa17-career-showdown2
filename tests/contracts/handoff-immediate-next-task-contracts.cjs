@@ -8,6 +8,7 @@ const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
+const standingAuth = read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 
 assert.match(
   golden,
@@ -75,11 +76,11 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Phase C first slice closed + visible v1.4.0 seal: multi-Save + Phase A + Phase B + Phase C production-proven; no product candidate authorized.
+// Historical local product slices remain closed; the current authorized work is dependency-gated infrastructure/authority reconciliation, not a product feature.
 assert.match(
   next,
   /Authorized product candidate:[\s\S]{0,40}none/i,
-  "NEXT_TASK must hold clean stop with no authorized product candidate after the v1.4.0 seal."
+  "NEXT_TASK must keep user-facing product work unauthorized while infrastructure prerequisites advance."
 );
 assert.match(
   next,
@@ -113,8 +114,18 @@ assert.match(
 );
 assert.match(
   next,
-  /stop and wait for a further explicit owner instruction|hold clean stop until a later explicit owner instruction/i,
-  "NEXT_TASK stop condition must require further owner instruction."
+  /publish under standing owner authorization[\s\S]+reassess the fresh WEC/i,
+  "NEXT_TASK must use the owner's standing publication authority after exact-head gates and reassess WEC before a separate milestone."
+);
+assert.match(
+  next,
+  /After the candidate is fully published[\s\S]+If WEC permits continuation[\s\S]+smallest remaining dependency-gated Stage 2 prerequisite/i,
+  "NEXT_TASK must advance only through a fresh WEC decision rather than reviving the obsolete owner-wait clean stop."
+);
+assert.match(
+  standingAuth,
+  /standing[\s\S]+merge[\s\S]+deploy/i,
+  "Standing owner authorization must remain the publication authority for validated current and future project PRs."
 );
 assert.match(
   next,
@@ -123,12 +134,17 @@ assert.match(
 );
 assert.match(
   next,
-  /1\.4\.0-r1/i,
-  "NEXT_TASK must identify runtime 1.4.0-r1."
+  /Current production Installable Offline App runtime: `1\.4\.0-r2`/i,
+  "NEXT_TASK must identify the now-proven production runtime 1.4.0-r2."
 );
 assert.match(
   next,
-  /Public community features and global leaderboard\/rankings are \*\*ELIMINATED\*\*/i,
+  /Known-good fallback\/recovery runtime: `1\.4\.0-r1`/i,
+  "NEXT_TASK must preserve 1.4.0-r1 as fallback/recovery knowledge."
+);
+assert.match(
+  next,
+  /Public community features and global leaderboard\/rankings are (?:\*\*)?ELIMINATED(?:\*\*)?/i,
   "NEXT_TASK must retain the permanent ELIMINATED public community / global leaderboard lock."
 );
 assert.match(
@@ -163,4 +179,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical proof remain protected; multi-Save (PR #67), Phase A, Phase B first slice (PR #70), and Phase C first slice (PR #73) closed; visible v1.4.0 seal; Remote Joining prioritized but dependency-gated; no product candidate authorized.");
+console.log("Handoff immediate-next-task contracts passed: recursive policy and historical product proof remain protected; production 1.4.0-r2/fallback r1 authority is coherent; standing owner publication plus fresh WEC governs continuation; Remote Joining remains prioritized but dependency-gated; no product candidate is authorized.");

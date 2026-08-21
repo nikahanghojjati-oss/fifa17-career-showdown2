@@ -2,6 +2,23 @@
   "schemaVersion": 1,
   "environment": "production",
   "projectId": "fifa17-career-showdown-prod",
+  "productionRuntime": {
+    "applicationVersion": "1.4.0",
+    "runtimeRevision": "1.4.0-r2",
+    "status": "production-proven",
+    "knownGoodFallbackRuntime": "1.4.0-r1",
+    "proof": {
+      "workflow": "Validate Stability Lane",
+      "runNumber": 1230,
+      "runId": 32439162225,
+      "headSha": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
+      "event": "push",
+      "conclusion": "success",
+      "deployedRuntimeByteVerification": true,
+      "productionAppCheckTokenPath": true,
+      "completeDeployedJourney": true
+    }
+  },
   "firebaseWebConfig": {
     "authDomain": "fifa17-career-showdown-prod.firebaseapp.com",
     "projectId": "fifa17-career-showdown-prod",
@@ -45,17 +62,19 @@
     "productionSecurityRulesSource": "firestore.rules",
     "productionSecurityRulesSourceBlobSha": "0473750cb16b5b8eea234c0f8138c41de5ff3dfb",
     "productionSecurityRulesVerificationEvidence": "2026-08-19 owner Firebase Console screenshots at 20:51 ET show Database (default) on the Rules tab with the deployed repository rule structure visible across the source and the success toast 'Published changes can take up to a minute to propagate'. No sample data was created.",
-    "appCheck": "provider-verified-registered",
+    "appCheck": "production-runtime-proven",
     "appCheckProvider": "recaptcha-enterprise",
     "appCheckWebAppId": "1:409396353288:web:1d3a2a5d6921de6ccbb4bd",
     "appCheckProductionHost": "nikahanghojjati-oss.github.io",
     "appCheckTokenTtlSeconds": 3600,
     "appCheckRiskThreshold": 0.5,
     "appCheckEnforcement": false,
-    "appCheckRuntimeBootstrapConnected": false,
+    "appCheckRuntimeBootstrapConnected": true,
+    "appCheckLegitimateProductionTrafficProven": true,
     "appCheckProviderVerificationEvidence": "2026-08-20 owner Google Cloud and Firebase Console screenshots show the reCAPTCHA Enterprise API enabled, a production Web key restricted to nikahanghojjati-oss.github.io with domain verification enabled and testing/challenges/WAF disabled, and the existing Career Mode Showdown Firebase Web App successfully Registered with reCAPTCHA Enterprise, one-hour TTL and Medium (0.5) app-risk threshold.",
+    "appCheckRuntimeVerificationEvidence": "Permanent Validate Stability Lane #1230 / run 32439162225 succeeded on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516. Its deployed-site-smoke verified every deployed runtime byte, runtime error provenance, a real production reCAPTCHA Enterprise App Check token path, and the complete deployed journey while enforcement remained OFF.",
     "trustedRuntimeIam": "not-activated-yet",
-    "runtimeConnected": false
+    "runtimeConnected": true
   },
   "securityLocks": {
     "persistentFirestoreOfflineCache": false,
@@ -64,6 +83,16 @@
     "webApiKeyClassification": "public-project-configuration",
     "webApiKeyIsAuthorizationSecret": false,
     "serviceAccountCredentialsAllowed": false,
+    "clientAuthInitialized": false,
+    "clientFirestoreInitialized": false,
+    "clientStorageInitialized": false,
+    "clientFunctionsInitialized": false,
+    "stage2hIamPermissions": [
+      "firebaseauth.users.get",
+      "datastore.databases.get",
+      "datastore.entities.get",
+      "datastore.entities.create"
+    ],
     "publicDiscovery": false,
     "publicProfiles": false,
     "publicMatchmaking": false,

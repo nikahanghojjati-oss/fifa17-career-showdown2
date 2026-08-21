@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 59,
+  "currentScore": 61,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -45,12 +45,14 @@
       "id": "production-cloud-security",
       "label": "Production cloud and security activation",
       "weight": 20,
-      "earned": 15,
+      "earned": 17,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
         "Canonical production Firestore Security Rules are provider verified deployed with application-client writes deny-all.",
         "2026-08-20 provider evidence proves reCAPTCHA Enterprise API/key setup and Firebase App Check Web App registration at one-hour TTL and 0.5 risk threshold with enforcement off.",
-        "Production App Check client traffic, enforcement, trusted-runtime IAM and controlled runtime Firebase connection are not yet proven."
+        "Permanent Validate Stability Lane #1230 / run 32439162225 proves controlled production 1.4.0-r2 Firebase App + App Check runtime connection, exact-origin/path gating, every deployed runtime byte, and legitimate reCAPTCHA Enterprise App Check token traffic while enforcement remains off.",
+        "The production browser still initializes no Firebase Authentication, Firestore, Storage or Functions client service; every application-client Firestore write remains deny-all.",
+        "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
       ]
     },
     {
@@ -89,6 +91,14 @@
       "delta": 1,
       "domainId": "production-cloud-security",
       "reason": "Owner provider screenshots prove production reCAPTCHA Enterprise and Firebase App Check registration for the real Web App with one-hour TTL, 0.5 risk threshold and enforcement still off."
+    },
+    {
+      "recordedAt": "2026-08-21T02:53:00Z",
+      "eventId": "production-app-check-runtime-proof",
+      "score": 61,
+      "delta": 2,
+      "domainId": "production-cloud-security",
+      "reason": "Permanent push-triggered Stability Lane #1230 / run 32439162225 on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 proves two previously uncredited production capabilities: controlled Firebase App + App Check runtime connection and legitimate production App Check token traffic. The +2 is deliberately limited to those two newly proven fixed-domain capabilities; no points are awarded for PR count, green CI by itself, documentation, WEC/SLE work, App Check enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining."
     }
   ]
 }
