@@ -73,17 +73,17 @@ assert.match(stage2a, /all application-client Firestore writes remain denied|Eve
 assert.match(stage2a, /Candidate A[\s\S]+Candidate B[\s\S]+Candidate C/i);
 assert.match(stage2a, /public discovery[\s\S]+global leaderboard\/rankings remain eliminated/i);
 
-assert.equal(pkg.version, "1.4.0", "Stage 2A emulator-only proof must not independently bump production application version.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2A emulator proof must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2A emulator proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
-assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A must not itself connect Firebase Auth/Admin/Firestore in the production shell.");
+assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A must not itself connect Firebase Auth/Admin/Firestore directly in the production shell; later reviewed connected-account runtime remains lazy behind app.js.");
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A must not connect Firebase Auth/Admin/Firestore through production optional modules.");
-assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when a later reviewed App Check runtime is shell-cached.");
+assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "@firebase/rules-unit-testing"), false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-tools"), false);
 assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2A real Auth Emulator identity and production-isolation contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A real Auth Emulator identity and production-isolation contracts; historical emulator proof remains version-neutral while current release identity stays coherent\n");
