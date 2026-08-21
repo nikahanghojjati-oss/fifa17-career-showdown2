@@ -144,12 +144,16 @@ function binding(role,seed,label){
     await assertFails(getDoc(inviteRefB));
     await assertSucceeds(getDoc(inviteRefA));
 
+    // Once redeemed, the joiner intentionally loses read access to the terminal
+    // invite. A replay therefore fails at the provider boundary before client code
+    // can classify it as already-used. This is stricter than exposing terminal
+    // invite metadata and still proves one-use replay rejection.
     const replay=await pairing.redeemPairing({
       user:{uid:"acct_stage3_b"},firestore:dbB,firebaseSdk:sdk(),identity:bIdentity,
       binding:binding("playerTwo","2","Rival"),capability,cryptoImpl:crypto.webcrypto,nowEpochMs:Date.now()
     });
     assert.equal(replay.ok,false);
-    assert.equal(replay.code,"PAIRING_CAPABILITY_ALREADY_USED");
+    assert.equal(replay.code,"permission-denied");
     await assertFails(updateDoc(inviteRefB,{"data.state":"redeemed"}));
 
     await assertFails(setDoc(doc(dbA,"rivalries",capability,"state","authoritative"),{revision:1}));
