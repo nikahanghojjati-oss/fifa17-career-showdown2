@@ -1,5 +1,57 @@
 # NEXT TASK — Career Mode Showdown
 
+## CURRENT OVERRIDE — v1.6.0 STAGE 3 REGISTERED DEVICES / PRIVATE PAIRING — 2026-08-21 ET
+
+Current verified source and live GitHub override historical authority below.
+
+Status: CURRENT BOUNDED STAGE 3 RELEASE CANDIDATE / v1.6.0 / 1.6.0-r1 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / SHARED GAMEPLAY AND REMOTE JOINING STILL LOCKED.
+
+Current branch: `agent/v1.6.0-registered-devices-private-pairing`.
+Current PR: #129 `v1.6.0 Stage 3: Registered Devices / Private Pairing`.
+Starting independently verified live main: `9a4600cd121bb8230a0df3c4b673a7cc81e59dd2` from merged transition PR #128.
+Current environment: `we-2026-08-21-v160-stage3-private-pairing`.
+Authorized release candidate: `v1.6.0 — Registered Devices & Private Pairing` / Installable Offline App runtime `1.6.0-r1`.
+Immediate whole-shell rollback/recovery runtime: `1.5.0-r2`.
+Remote Joining readiness: `63/100` under fixed model `RJR-1`; do not award new points until genuine production capability proof exists.
+Usage: unavailable and not estimated.
+
+Stage 2 private Connected Account production proof through PRs #125, #126 and #127 is DONE / MERGED / PROVEN. Private Account / Authentication / Authorization Stages 2A through 2I remain DONE / MERGED / PROVEN at their protected prerequisite boundaries. Do not repeat completed Firebase provider setup, the earlier Spark self-account rules publication, reinstall, Google sign-in, or self-account bootstrap proof.
+
+Current Stage 3 implementation already includes:
+
+1. stable 128-bit private device and installation identity persisted only in IndexedDB;
+2. authenticated self-device registration and irreversible revocation at the exact private account/device path;
+3. 256-bit private pairing capabilities with a 15-minute default expiry and one-use semantics;
+4. exactly two manager slots bound to authenticated Firebase account identity plus stable Local Profile `profileId` and Save Library `saveId`;
+5. atomic private rivalry/invite creation and redemption through Firestore transactions;
+6. restrictive `firestore.spark.rules` permitting only the exact Stage 3 device/pairing operations while keeping shared authoritative gameplay state and sessions write-denied;
+7. deterministic Stage 3 client contracts;
+8. successful desktop Chromium and mobile Chromium IndexedDB persistence/reload/offline/localStorage-isolation proof;
+9. successful Firestore emulator proof including successful two-manager redemption, third-account denial, list denial, terminal invite privacy, device revocation and no shared gameplay/session write authority;
+10. coherent `v1.6.0 / 1.6.0-r1` release candidate identity with `1.5.0-r2` as rollback.
+
+Immediate engineering task:
+
+1. finish exact-head full CI on PR #129 after release/current-authority reconciliation;
+2. keep submitted reviews and inline review threads clean and verify mergeability on that exact head;
+3. keep App Check enforcement OFF, Firebase Spark / zero billing, `browserSessionPersistence`, memory-only Firestore and no additional Google scopes;
+4. keep canonical browser localStorage exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical;
+5. do not implement Stage 4 Connected Rivalry shared gameplay synchronization or Stage 5 Remote Joining sessions inside PR #129;
+6. after exact-head source gates are clean, publish exactly the reviewed Stage 3 `firestore.spark.rules` to the existing free production Firebase project; do not broaden provider authority;
+7. verify the production Rules boundary, then merge/deploy under standing owner authorization if every required gate is green;
+8. obtain real-device production proof for registered-device creation and exactly-two-manager one-use private pairing before calling Stage 3 production-proven or increasing RJR;
+9. reassess the fresh WEC at the clean Stage 3 checkpoint before beginning Stage 4.
+
+Stage 2H reviewed IAM remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, and `datastore.entities.create`; it remains unactivated. No Blaze, Cloud Run, Cloud Functions, Firebase Storage, billing account, provider-token storage, redirect sign-in or trusted browser mutation backend is authorized.
+
+Public community features and global leaderboard/rankings are ELIMINATED. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
+
+Candidate A remains non-mutating export. Candidate B remains read-only import analysis. Candidate C remains the sole destructive import Apply authority with the protected recovery and transaction rules.
+
+## Historical pre-Stage3 authority retained for executable compatibility
+
+Everything below is provenance only where it conflicts with the current Stage 3 override above.
+
 ## CURRENT OVERRIDE — PR #126 CONNECTED ACCOUNT SETTINGS HOTFIX — 2026-08-21 ET
 
 Current verified source and live GitHub override historical authority below.
