@@ -1,130 +1,47 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-21T14:26:00-04:00",
+  "recordedAt": "2026-08-21T17:41:00-04:00",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr124",
+      "id": "live-main-pr127",
       "type": "current-main-boundary",
-      "value": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
-      "source": "live main after merged PR #124",
+      "value": "0013bba24142aab4c76e5bca038ae99afa638c8d",
+      "source": "live main after merged PR #127 before transition packaging",
       "authority": 1.0
     },
     {
-      "id": "pr119-app-check-proof",
-      "type": "completed-production-proof",
-      "pr": 119,
-      "state": "merged-proven",
-      "mergeSha": "3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516",
-      "permanentStabilityRun": 32439162225,
-      "permanentStabilityRunNumber": 1230,
-      "deployedSiteSmoke": "success",
-      "authority": 1.0,
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "production-runtime-1.4.0-r2",
-      "type": "runtime-identity",
-      "applicationVersion": "1.4.0",
-      "runtimeRevision": "1.4.0-r2",
-      "firebaseAppConnected": true,
-      "appCheckConnected": true,
-      "productionTokenTrafficProven": true,
+      "id": "production-runtime-1.5.0-r2",
+      "type": "production-runtime-proof",
+      "applicationVersion": "1.5.0",
+      "runtimeRevision": "1.5.0-r2",
+      "connectedAccount": "production-proven",
+      "googleAuthentication": "production-proven",
+      "selfAccountBootstrap": "production-proven",
       "appCheckEnforcement": false,
-      "browserFirestoreWrites": "deny-all",
+      "billingRequired": false,
       "authority": 1.0,
       "riskCriticality": 1.0
     },
     {
-      "id": "pr124-spark-bootstrap-foundation",
-      "type": "completed-source-emulator-prerequisite",
-      "pr": 124,
-      "state": "merged-source-proof-not-production-activated",
-      "mergeSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241",
-      "rulesCandidate": "firestore.spark.rules",
-      "productionRulesPublished": false,
-      "authority": 1.0
+      "id": "pr126-connected-account-mount-fix",
+      "type": "completed-runtime-fix",
+      "pr": 126,
+      "mergeSha": "ebbe062dac7a0272df81e5de493421594ddf17a4",
+      "state": "merged-proven",
+      "mobileLateRuntimeRegression": "protected"
     },
     {
-      "id": "pr125-original-source-seal",
-      "type": "historical-release-candidate-source-proof",
-      "pr": 125,
-      "applicationVersion": "1.5.0",
-      "runtimeRevision": "1.5.0-r1",
-      "state": "source-validated-not-production-proven",
-      "sourceValidationHead": "d83a33066b271d7d89bf932f1066d9e1369b3f6d",
+      "id": "pr127-connected-account-production-proof",
+      "type": "completed-production-proof-record",
+      "pr": 127,
+      "mergeSha": "0013bba24142aab4c76e5bca038ae99afa638c8d",
+      "validatedHead": "84216d1a6f5f49fb84c620fbd140170e5ba868e7",
       "workflowFamiliesGreen": 13,
       "reviewsClean": true,
       "threadsClean": true,
-      "mergeable": true,
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "pr125-fresh-source-reseal",
-      "type": "current-release-candidate-source-proof",
-      "pr": 125,
-      "applicationVersion": "1.5.0",
-      "runtimeRevision": "1.5.0-r1",
-      "state": "fresh-successor-revalidated-not-production-proven",
-      "sourceRevalidationHead": "45e6d51ea5636c4fdf0c76eefe32f9b8908463d6",
-      "staticAppRunId": 32511770971,
-      "stabilityRunId": 32511771122,
-      "candidateCRunId": 32511770837,
-      "workflowFamiliesGreen": 13,
-      "reviewsClean": true,
-      "threadsClean": true,
-      "mergeable": true,
-      "postResealMutations": "SLE-transition-packaging-only-until-proven-otherwise",
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "spark-rules-publication",
-      "type": "immediate-successor-task",
-      "state": "next-bounded-provider-publication-gate",
-      "rulesFile": "firestore.spark.rules",
-      "productionProject": "fifa17-career-showdown-prod",
-      "requirements": [
-        "fresh successor WEC and live PR verification first",
-        "classify post-45e6d51 SLE packaging delta before publication",
-        "recheck authenticated direct provider publication routes",
-        "publish exact reviewed rules without hand edits",
-        "authenticated self-account revision-0 create is the only newly allowed application-client write",
-        "all downstream device profile security-event invite rivalry session idempotency gameplay mutations remain denied",
-        "re-freeze PR head workflows reviews threads and mergeability after provider proof"
-      ],
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "pr125-production-proof",
-      "type": "future-publication-proof",
-      "state": "blocked-by-spark-rules-publication",
-      "requirements": [
-        "merge/deploy only after required gates under standing owner authorization",
-        "prove v1.5.0 / 1.5.0-r1 deployed identity",
-        "prove optional Connected Account flow and local-first fallback",
-        "prove memory-only Firestore and strict self-account bootstrap",
-        "prove downstream writes remain denied",
-        "reconsider RJR only from genuine production capability evidence"
-      ],
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "sle-policy",
-      "type": "permanent-process-authority",
-      "source": "00_SLE_HANDOFF_PROTOCOL.md",
-      "definition": "Smart Lean Efficient",
-      "mandatoryEveryFutureHandoff": true,
-      "recursive": true,
-      "authority": 1.0
-    },
-    {
-      "id": "closing-wec-source-reseal",
-      "type": "historical-predecessor-transition",
-      "environmentId": "we-2026-08-21-pr125-spark-rules-publication",
-      "decision": "HANDOFF_AT_CHECKPOINT",
-      "decisionScope": "closing-environment-only",
-      "successorMustInitializeFreshWec": true,
-      "checkpoint": "source-reseal-before-provider-publication",
+      "mergeableBeforeMerge": true,
+      "rjrScore": 63,
       "authority": 1.0
     },
     {
@@ -132,33 +49,41 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 61,
-      "state": "current-evidence-backed-score",
-      "rule": "fixed production capability evidence only; never derive from PR/CI/WEC/SLE count",
+      "recordedScore": 63,
+      "rule": "fixed capability evidence only; no process-only movement",
       "authority": 1.0
     },
     {
       "id": "stage3-registered-devices-private-pairing",
-      "type": "future-stage",
-      "state": "dependency-gated-blocked",
+      "type": "immediate-next-product-milestone",
+      "applicationCandidate": "1.6.0",
+      "state": "next-after-fresh-successor-wec",
+      "requirements": [
+        "stable private installation/device identity",
+        "authenticated self-device registration/revocation",
+        "exactly-two-manager private pairing",
+        "128-bit-or-stronger short-lived one-use invite capability",
+        "strict zero-billing provider-enforceable Firestore operations only as required",
+        "replay expiry revocation isolation local-first emulator/browser/mobile proof"
+      ],
       "riskCriticality": 1.0
     },
     {
-      "id": "stage4-connected-rivalry-sync",
+      "id": "stage4-connected-rivalry",
       "type": "future-stage",
-      "state": "blocked-by-prior-dependencies"
+      "state": "blocked-by-stage3"
     },
     {
       "id": "stage5-private-remote-joining",
-      "type": "major-feature",
-      "state": "highest-long-term-priority-dependency-gated",
+      "type": "highest-priority-product-destination",
+      "state": "blocked-by-stage4",
       "publicDiscovery": false,
       "publicMatchmaking": false,
       "community": false,
       "rankings": false
     },
     {
-      "id": "canonical-local-storage",
+      "id": "canonical-storage",
       "type": "data-authority-lock",
       "keys": [
         "careerModeShowdown.saveLibrary",
@@ -169,71 +94,53 @@
       "riskCriticality": 1.0
     },
     {
-      "id": "recovery-candidates",
-      "type": "recovery-authority-lock",
-      "candidateA": "non-mutating-export",
-      "candidateB": "read-only-import-analysis",
-      "candidateC": "sole-destructive-import-apply-authority",
-      "riskCriticality": 1.0
-    },
-    {
-      "id": "stage2h-iam",
+      "id": "security-zero-billing",
       "type": "security-authority-lock",
-      "permissions": [
+      "firebaseSpark": true,
+      "appCheckEnforcement": false,
+      "persistentFirestoreCache": false,
+      "stage2hIamActivated": false,
+      "stage2hIamPermissions": [
         "firebaseauth.users.get",
         "datastore.databases.get",
         "datastore.entities.get",
         "datastore.entities.create"
       ],
-      "activated": false,
-      "mustNotBroaden": true,
+      "ownerRepeatConnectedAccountSetup": false,
       "riskCriticality": 1.0
     },
     {
-      "id": "github-connected-tool",
-      "type": "tool-route",
-      "state": "primary",
-      "scope": "repository reads/writes, PRs, CI, workflow job logs, branches, commits, reviews"
-    },
-    {
-      "id": "firebase-provider-publication-route",
-      "type": "tool-route",
-      "state": "not-available-in-closing-environment-recheck-in-successor",
-      "ownerFallback": "one-precise-console-publication-action-only-after-direct-routes-are-exhausted"
+      "id": "sle-transition-pr128",
+      "type": "current-transition-package",
+      "pr": 128,
+      "branch": "agent/stage3-sle-transition",
+      "state": "transition-only-no-runtime-change",
+      "successorMustInitializeFreshWec": true
     }
   ],
   "edges": [
-    {"from":"live-main-pr124","to":"pr124-spark-bootstrap-foundation","relation":"contains-merged-prerequisite"},
-    {"from":"pr119-app-check-proof","to":"production-runtime-1.4.0-r2","relation":"production-proves"},
-    {"from":"production-runtime-1.4.0-r2","to":"pr125-original-source-seal","relation":"reused-by-candidate"},
-    {"from":"pr124-spark-bootstrap-foundation","to":"pr125-original-source-seal","relation":"prerequisite"},
-    {"from":"pr125-original-source-seal","to":"pr125-fresh-source-reseal","relation":"followed-by-sle-packaging-and-fresh-successor-revalidation"},
-    {"from":"pr125-fresh-source-reseal","to":"closing-wec-source-reseal","relation":"completed-checkpoint-triggers"},
-    {"from":"closing-wec-source-reseal","to":"spark-rules-publication","relation":"handoff-before-separate-provider-phase"},
-    {"from":"spark-rules-publication","to":"pr125-production-proof","relation":"mandatory-before-merge-deploy-proof"},
-    {"from":"pr125-production-proof","to":"stage3-registered-devices-private-pairing","relation":"must-complete-and-reassess-before"},
-    {"from":"stage3-registered-devices-private-pairing","to":"stage4-connected-rivalry-sync","relation":"prerequisite"},
-    {"from":"stage4-connected-rivalry-sync","to":"stage5-private-remote-joining","relation":"prerequisite"},
-    {"from":"rjr1-ledger","to":"stage5-private-remote-joining","relation":"measures-end-to-end-readiness-toward"},
-    {"from":"canonical-local-storage","to":"pr125-production-proof","relation":"must-remain-safe-through"},
-    {"from":"recovery-candidates","to":"pr125-production-proof","relation":"must-remain-safe-through"},
-    {"from":"stage2h-iam","to":"pr125-production-proof","relation":"must-remain-unactivated-during"},
-    {"from":"sle-policy","to":"closing-wec-source-reseal","relation":"requires-complete-transition-package"},
-    {"from":"github-connected-tool","to":"firebase-provider-publication-route","relation":"different-provider-capability-recheck-required"}
+    {"from":"pr126-connected-account-mount-fix","to":"production-runtime-1.5.0-r2","relation":"fix-enables"},
+    {"from":"production-runtime-1.5.0-r2","to":"pr127-connected-account-production-proof","relation":"production-proven-by"},
+    {"from":"pr127-connected-account-production-proof","to":"rjr1-ledger","relation":"adds-two-evidence-backed-points"},
+    {"from":"pr127-connected-account-production-proof","to":"stage3-registered-devices-private-pairing","relation":"unlocks-after-fresh-wec"},
+    {"from":"stage3-registered-devices-private-pairing","to":"stage4-connected-rivalry","relation":"prerequisite"},
+    {"from":"stage4-connected-rivalry","to":"stage5-private-remote-joining","relation":"prerequisite"},
+    {"from":"canonical-storage","to":"stage3-registered-devices-private-pairing","relation":"must-remain-safe-through"},
+    {"from":"security-zero-billing","to":"stage3-registered-devices-private-pairing","relation":"constrains"},
+    {"from":"sle-transition-pr128","to":"stage3-registered-devices-private-pairing","relation":"handoff-to-fresh-successor"}
   ],
   "retrievalHints": {
-    "currentTaskNode": "spark-rules-publication",
-    "nextTaskAfterPublicationNode": "pr125-production-proof",
-    "walkDirection": "verify live main and final PR125 SLE-only packaging delta from fresh source reseal first, initialize fresh WEC, then publish exact Spark rules and walk forward to merge/deploy production proof; walk backward only to resolve security, recovery or publication evidence",
+    "currentTaskNode": "sle-transition-pr128",
+    "immediateNextProductNode": "stage3-registered-devices-private-pairing",
+    "walkDirection": "verify live state and transition package once, initialize fresh WEC, then move directly into Stage 3 product work; walk backward only for concrete security/recovery/schema questions",
     "defaultMaxDependencyHops": 2,
-    "ciFailureRule": "fetch exact run jobs and completed failed-job logs before modifying candidate",
+    "ciFailureRule": "fetch exact failed job logs before changing source; make stale point-in-time process contracts evidence-gated rather than repeatedly hardcoding new RJR values",
     "expandGraphWhen": [
-      "live main changes",
-      "PR #125 final head contains an unclassified non-SLE delta after 45e6d51",
-      "published Firebase rules differ from firestore.spark.rules",
+      "live main differs from recorded boundary",
+      "transition PR contains unexpected runtime changes",
+      "Stage 3 schema/rules design conflicts with existing remote contract",
       "a current exact-head workflow fails",
-      "security or recovery contradiction appears",
-      "a new SLE handoff boundary is reached"
+      "security/recovery contradiction appears"
     ]
   }
 }
