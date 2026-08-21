@@ -55,6 +55,8 @@ Required outcomes:
 17. after rules proof, merge/deploy under standing owner authorization and obtain post-deployment production proof before calling `1.5.0-r1` production-proven;
 18. reassess fresh WEC before beginning the next separate prerequisite.
 
+After the exact-head source gates and exact Spark Rules verification are clean, publish under standing owner authorization. After publication and production proof, reassess the fresh WEC before any separate milestone.
+
 Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 27 protected workflow blocks in the normal topology contract.
 
 ## Security, recovery and product locks
