@@ -108,14 +108,14 @@ function validEnvelope(uid,overrides={}){
     await assertFails(setDoc(doc(dbA,"accounts","acct_spark_a","devices","device_spark_a"),{state:"active"}));
     await assertFails(setDoc(doc(dbA,"rivalries","rivalry_spark_a"),{authorizedAccountIds:["acct_spark_a"]}));
 
-    const conflict=await testEnv.withSecurityRulesDisabled(async context=>{
+    await testEnv.withSecurityRulesDisabled(async context=>{
       await setDoc(doc(context.firestore(),"accounts","acct_spark_b"),{broken:true});
-      return spark.bootstrap({
-        user:{uid:"acct_spark_b"},
-        firestore:dbB,
-        firebaseSdk:sdk(),
-        cryptoImpl:crypto.webcrypto
-      });
+    });
+    const conflict=await spark.bootstrap({
+      user:{uid:"acct_spark_b"},
+      firestore:dbB,
+      firebaseSdk:sdk(),
+      cryptoImpl:crypto.webcrypto
     });
     assert.equal(conflict.ok,false);
     assert.equal(conflict.code,"SPARK_ACCOUNT_DOCUMENT_CONFLICT");
