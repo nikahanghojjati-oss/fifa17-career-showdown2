@@ -56,19 +56,21 @@ assert.match(renderer,/configured:true/);
 assert.match(renderer,/without printing provider-issued values/i);
 assert.doesNotMatch(renderer,/console\.log\([^\n]*(?:apiKey|siteKey)/i);
 
-// The deployed/live shell remains the proven 1.4.0-r2 authority while the 1.5.0-r1 candidate is under review.
-assert.match(index,/app-asset-revision" content="1\.4\.0-r2"/);
+// The immutable 1.4.0-r2 release record remains the production App Check proof baseline.
+// A later release candidate may reuse that boundary on a new coherent whole-shell revision.
+const currentRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+assert.match(currentRevision,/^1\.5\.0-r1$/,"PR #125 must expose the intended v1.5.0-r1 candidate shell without rewriting the historical r2 proof.");
 for(const path of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.js","js/menuExperience.js","js/optionalModules.js","js/app.js"]){
-  assert.ok(index.includes(`${path}?v=1.4.0-r2`),`${path} must remain on the live r2 shell until final candidate promotion.`);
+  assert.ok(index.includes(`${path}?v=${currentRevision}`),`${path} must use the current candidate shell revision.`);
 }
-assert.match(app,/visual-fidelity-r3\.css\?v=1\.4\.0-r2/);
+assert.ok(app.includes(`visual-fidelity-r3.css?v=${currentRevision}`));
 assert.match(app,/productionFirebaseRuntime\.js\?v=\$\{r\}/);
 assert.match(app,/requestAnimationFrame\(\(\)=>\{ra\(\);so\(\);sd\(\);\}\)/,"Firebase must remain post-local-startup/lazy rather than blocking application initialization.");
-assert.match(worker,/const RUNTIME_REVISION = "1\.4\.0-r2";/);
-assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.4\.0-r1";/);
+assert.ok(worker.includes(`const RUNTIME_REVISION = "${currentRevision}";`));
+assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.4\.0-r2";/);
 assert.ok(worker.includes('"js/productionFirebaseRuntime.js"'));
 assert.doesNotMatch(worker,/productionAppCheckBootstrap\.js/);
-assert.match(manifest,/1\.4\.0-r2/g);
+assert.ok(manifest.includes(currentRevision),"Manifest must use the current candidate shell revision.");
 assert.match(historicalRelease,/Runtime asset revision: `1\.4\.0-r2`/);
 assert.match(historicalRelease,/Previous known-good runtime: `1\.4\.0-r1`/);
 assert.match(historicalRelease,/App Check enforcement remains OFF/);
@@ -173,5 +175,5 @@ function appCheckSdk(calls){
   assert.equal(providerFailure.connected,false);
   assert.equal(providerFailure.tokenObserved,false);
 
-  process.stdout.write("PASS production Firebase runtime keeps App Check local-first and isolated while Spark Auth + memory-only Firestore activate only on explicit connected-account demand\n");
+  process.stdout.write("PASS production Firebase runtime keeps the proven App Check boundary local-first while the v1.5 Spark Auth + memory-only Firestore path activates only on explicit connected-account demand\n");
 })().catch(error=>{console.error(error);process.exit(1);});
