@@ -77,7 +77,10 @@ assert.match(runtime,/classifyRuntimeContext[\s\S]+readRuntimeConfig[\s\S]+loadB
 assert.doesNotMatch(worker,/firebase\.runtime-config\.json/);
 assert.doesNotMatch(source,/DebugAppCheckProvider|self\.FIREBASE_APPCHECK_DEBUG_TOKEN/i);
 assert.doesNotMatch(source,/initializeFirestore|getFirestore|firebase\/firestore/i,"App Check bootstrap must not initialize Firestore.");
-const appCheckOnlyRuntime=runtime.split("async function ensureSparkAccountServices")[0];
+const baseStart=runtime.indexOf("async function initializeProductionFirebaseRuntime");
+const baseEnd=runtime.indexOf("async function ensureSparkAccountServices");
+assert.ok(baseStart>=0&&baseEnd>baseStart,"Production runtime must expose separate base App Check and Spark account initialization functions.");
+const appCheckOnlyRuntime=runtime.slice(baseStart,baseEnd);
 assert.doesNotMatch(appCheckOnlyRuntime,/initializeFirestore|getFirestore|firebase\/firestore/i,"The base App Check initialization path must remain free of Firestore initialization.");
 assert.match(runtime,/async function ensureSparkAccountServices[\s\S]+initializeFirestore[\s\S]+memoryLocalCache/,"The separately reviewed Spark account path may initialize memory-only Firestore on demand.");
 assert.doesNotMatch(source,/AIza[0-9A-Za-z_-]{35}/);
