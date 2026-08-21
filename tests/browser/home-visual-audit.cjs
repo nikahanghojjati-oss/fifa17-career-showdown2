@@ -8,6 +8,8 @@ const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const runLabel = process.env.CMS_AUDIT_RUN || "home-visual";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
+const productionOrigin = "https://nikahanghojjati-oss.github.io";
+const productionPathPrefix = "/fifa17-career-showdown2/";
 
 const cases = [
     {
@@ -48,6 +50,24 @@ async function waitForHome(page){
     await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 12000 });
     await page.locator(".menuCoverAthlete.imageLoaded img").waitFor({ state: "visible", timeout: 12000 });
+}
+
+function isExpectedProductionAppCheckConsoleNoise(message){
+    if(baseUrl.origin !== productionOrigin || !baseUrl.pathname.startsWith(productionPathPrefix)){
+        return false;
+    }
+
+    const text = message.text();
+    if(/^Framing 'https:\/\/www\.google\.com\/' violates the following report-only Content Security Policy directive: "frame-ancestors 'self'"\./.test(text)){
+        return true;
+    }
+
+    if(text === "requestStorageAccess: Permission denied."){
+        const sourceUrl = message.location()?.url || "";
+        return !sourceUrl || !sourceUrl.startsWith(baseUrl.origin);
+    }
+
+    return false;
 }
 
 async function inspectHome(page){
@@ -141,12 +161,17 @@ async function runCase(browser, config){
     const page = await context.newPage();
     const pageErrors = [];
     const consoleErrors = [];
+    const externalConsoleNoise = [];
     const localFailures = [];
 
     page.on("pageerror", error => pageErrors.push(error.stack || error.message));
     page.on("console", message => {
         if(message.type() === "error" && !/^Failed to load resource/.test(message.text())){
-            consoleErrors.push(message.text());
+            if(isExpectedProductionAppCheckConsoleNoise(message)){
+                externalConsoleNoise.push(message.text());
+            }else{
+                consoleErrors.push(message.text());
+            }
         }
     });
     page.on("requestfailed", request => {
@@ -200,6 +225,12 @@ async function runCase(browser, config){
         assert.deepEqual(pageErrors, [], `${config.name}: page errors detected.`);
         assert.deepEqual(consoleErrors, [], `${config.name}: unexpected console errors detected.`);
         assert.deepEqual(localFailures, [], `${config.name}: failed first-party requests detected.`);
+
+        if(externalConsoleNoise.length){
+            process.stdout.write(
+                `INFO ${config.name} :: ignored ${externalConsoleNoise.length} expected external production App Check browser console message(s).\n`
+            );
+        }
 
         const screenshotPath = path.join(resultsDirectory, `home-${config.name}-${runLabel}.png`);
         await page.screenshot({ path: screenshotPath, fullPage: true });
