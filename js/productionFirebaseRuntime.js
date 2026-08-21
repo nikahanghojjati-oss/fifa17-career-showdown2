@@ -10,13 +10,20 @@
   const FIREBASE_SDK_VERSION="12.17.0";
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
-  const FALLBACK_RUNTIME_REVISION="1.4.0-r2";
+  const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
+  const FALLBACK_RUNTIME_REVISION="1.5.0-r1";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
+  const FIREBASE_AUTH_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-auth.js`;
+  const FIREBASE_FIRESTORE_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-firestore.js`;
 
-  let runtimeState=Object.freeze({status:"idle",attempted:false,connected:false,tokenObserved:false});
+  let runtimeState=Object.freeze({status:"idle",attempted:false,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
   let runtimePromise=null;
   let bootstrapPromise=null;
+  let connectedAccountPromise=null;
+  let productionApp=null;
+  let accountServices=null;
+  let accountServicesPromise=null;
 
   function freezeRuntimeState(value){
     return Object.freeze({...value});
@@ -95,6 +102,27 @@
     return bootstrapPromise;
   }
 
+  function getConnectedAccount(){
+    return root.CareerModeSparkConnectedAccount||null;
+  }
+
+  async function loadConnectedAccountScript(){
+    const existing=getConnectedAccount();
+    if(existing)return existing;
+    if(connectedAccountPromise)return connectedAccountPromise;
+    if(!root.document)return null;
+    connectedAccountPromise=new Promise(resolve=>{
+      const script=root.document.createElement("script");
+      script.src=buildVersionedLocalUrl(CONNECTED_ACCOUNT_PATH);
+      script.async=false;
+      script.dataset.sparkConnectedAccount="true";
+      script.addEventListener("load",()=>resolve(getConnectedAccount()),{once:true});
+      script.addEventListener("error",()=>resolve(null),{once:true});
+      root.document.head.appendChild(script);
+    }).finally(()=>{connectedAccountPromise=null;});
+    return connectedAccountPromise;
+  }
+
   function buildBootstrapInput(config){
     return {
       origin:PRODUCTION_ORIGIN,
@@ -118,31 +146,53 @@
     };
   }
 
+  async function loadAccountFirebaseSdk(importImpl=url=>import(url)){
+    const [authModule,firestoreModule]=await Promise.all([
+      importImpl(FIREBASE_AUTH_MODULE),
+      importImpl(FIREBASE_FIRESTORE_MODULE)
+    ]);
+    return {
+      getAuth:authModule.getAuth,
+      GoogleAuthProvider:authModule.GoogleAuthProvider,
+      signInWithPopup:authModule.signInWithPopup,
+      signOut:authModule.signOut,
+      onAuthStateChanged:authModule.onAuthStateChanged,
+      setPersistence:authModule.setPersistence,
+      browserSessionPersistence:authModule.browserSessionPersistence,
+      initializeFirestore:firestoreModule.initializeFirestore,
+      memoryLocalCache:firestoreModule.memoryLocalCache,
+      Timestamp:firestoreModule.Timestamp,
+      doc:firestoreModule.doc,
+      runTransaction:firestoreModule.runTransaction
+    };
+  }
+
   async function initializeProductionFirebaseRuntime(options={}){
     if(runtimePromise)return runtimePromise;
+    if(productionApp&&runtimeState.connected)return runtimeState;
     runtimePromise=(async()=>{
       const contextCode=classifyRuntimeContext(options.context||getRuntimeContext());
       if(contextCode!=="eligible"){
-        return setRuntimeState({status:contextCode,attempted:false,connected:false,tokenObserved:false});
+        return setRuntimeState({status:contextCode,attempted:false,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       }
 
-      setRuntimeState({status:"initializing",attempted:true,connected:false,tokenObserved:false});
+      setRuntimeState({status:"initializing",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       const runtimeConfig=options.runtimeConfig
         ? {ok:true,config:options.runtimeConfig}
         : await readRuntimeConfig(options.fetchImpl||root.fetch);
       if(!runtimeConfig.ok){
-        return setRuntimeState({status:runtimeConfig.code,attempted:true,connected:false,tokenObserved:false});
+        return setRuntimeState({status:runtimeConfig.code,attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       }
 
       const bootstrap=options.bootstrap||getBootstrap()||await loadBootstrapScript();
       if(!bootstrap||typeof bootstrap.createPlan!=="function"||typeof bootstrap.initialize!=="function"){
-        return setRuntimeState({status:"app-check-bootstrap-unavailable",attempted:true,connected:false,tokenObserved:false});
+        return setRuntimeState({status:"app-check-bootstrap-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       }
 
       const bootstrapInput=buildBootstrapInput(runtimeConfig.config);
       const plan=bootstrap.createPlan(bootstrapInput);
       if(!plan||plan.ok!==true){
-        return setRuntimeState({status:plan&&plan.code?plan.code:"runtime-config-invalid",attempted:true,connected:false,tokenObserved:false});
+        return setRuntimeState({status:plan&&plan.code?plan.code:"runtime-config-invalid",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       }
 
       try{
@@ -150,8 +200,9 @@
         if(typeof sdk.getToken!=="function")throw new Error("Firebase App Check getToken is unavailable.");
         const initialized=bootstrap.initialize({...bootstrapInput,firebaseSdk:sdk});
         if(!initialized||initialized.ok!==true){
-          return setRuntimeState({status:initialized&&initialized.code?initialized.code:"app-check-initialization-failed",attempted:true,connected:false,tokenObserved:false});
+          return setRuntimeState({status:initialized&&initialized.code?initialized.code:"app-check-initialization-failed",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
         }
+        productionApp=initialized.app;
         const tokenResult=await sdk.getToken(initialized.appCheck,false);
         const tokenObserved=Boolean(tokenResult&&typeof tokenResult.token==="string"&&tokenResult.token.length>0);
         return setRuntimeState({
@@ -163,20 +214,101 @@
           provider:"recaptcha-enterprise",
           sdkVersion:FIREBASE_SDK_VERSION,
           enforcement:false,
-          browserFirestoreWrites:"deny-all"
+          authInitialized:false,
+          firestoreInitialized:false,
+          persistentFirestoreCache:false,
+          authPersistence:"browserSessionPersistence",
+          browserFirestoreWrites:"self-account-create-only"
         });
       }catch(error){
+        productionApp=null;
         if(root.console&&typeof root.console.warn==="function"){
           root.console.warn("[Career Mode Showdown] Production App Check is temporarily unavailable; local mode remains active.",error);
         }
-        return setRuntimeState({status:"app-check-runtime-unavailable",attempted:true,connected:false,tokenObserved:false});
+        return setRuntimeState({status:"app-check-runtime-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       }
     })().finally(()=>{runtimePromise=null;});
     return runtimePromise;
   }
 
+  async function ensureSparkAccountServices(options={}){
+    if(accountServices)return accountServices;
+    if(accountServicesPromise)return accountServicesPromise;
+    accountServicesPromise=(async()=>{
+      const contextCode=classifyRuntimeContext(options.context||getRuntimeContext());
+      if(contextCode!=="eligible")return Object.freeze({ok:false,code:contextCode});
+
+      if(!productionApp){
+        const base=await initializeProductionFirebaseRuntime(options.baseRuntimeOptions||options);
+        if(!base||base.connected!==true||!productionApp){
+          return Object.freeze({ok:false,code:base&&base.status?base.status:"firebase-runtime-unavailable"});
+        }
+      }
+
+      try{
+        const sdk=options.accountSdk||await loadAccountFirebaseSdk(options.importImpl);
+        for(const name of ["getAuth","GoogleAuthProvider","signInWithPopup","signOut","onAuthStateChanged","setPersistence","initializeFirestore","memoryLocalCache","doc","runTransaction"]){
+          if(typeof sdk[name]!=="function")throw new Error(`Firebase account SDK method unavailable: ${name}`);
+        }
+        if(!sdk.browserSessionPersistence)throw new Error("Firebase browserSessionPersistence is unavailable.");
+        if(!sdk.Timestamp)throw new Error("Firebase Timestamp is unavailable.");
+        const auth=sdk.getAuth(productionApp);
+        const firestore=sdk.initializeFirestore(productionApp,{localCache:sdk.memoryLocalCache()});
+        accountServices=Object.freeze({
+          ok:true,
+          auth,
+          firestore,
+          authSdk:Object.freeze({
+            GoogleAuthProvider:sdk.GoogleAuthProvider,
+            signInWithPopup:sdk.signInWithPopup,
+            signOut:sdk.signOut,
+            onAuthStateChanged:sdk.onAuthStateChanged,
+            setPersistence:sdk.setPersistence,
+            browserSessionPersistence:sdk.browserSessionPersistence
+          }),
+          firestoreSdk:Object.freeze({Timestamp:sdk.Timestamp,doc:sdk.doc,runTransaction:sdk.runTransaction}),
+          billingRequired:false,
+          blazeRequired:false,
+          cloudRunRequired:false,
+          cloudFunctionsRequired:false,
+          persistentFirestoreCache:false,
+          authPersistence:"browserSessionPersistence",
+          provider:"google",
+          signInFlow:"popup",
+          additionalGoogleScopes:0,
+          writeScope:"self-account-create-only"
+        });
+        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",browserFirestoreWrites:"self-account-create-only"});
+        return accountServices;
+      }catch(error){
+        if(root.console&&typeof root.console.warn==="function"){
+          root.console.warn("[Career Mode Showdown] Optional connected account services are unavailable; local mode remains active.",error);
+        }
+        return Object.freeze({ok:false,code:"spark-account-services-unavailable"});
+      }
+    })().finally(()=>{accountServicesPromise=null;});
+    return accountServicesPromise;
+  }
+
   function getProductionFirebaseRuntimeDiagnostics(){
     return runtimeState;
+  }
+
+  function installConnectedAccountSettingsBridge(){
+    if(!root.document||!root.document.addEventListener)return;
+    const marker=root.document.documentElement;
+    if(marker&&marker.dataset&&marker.dataset.sparkAccountBridge==="true")return;
+    if(marker&&marker.dataset)marker.dataset.sparkAccountBridge="true";
+    root.document.addEventListener("click",event=>{
+      const target=event&&event.target&&typeof event.target.closest==="function"
+        ? event.target.closest("#settingsButton")
+        : null;
+      if(!target)return;
+      void loadConnectedAccountScript().then(account=>{
+        if(account&&typeof account.mountWhenSettingsReady==="function")return account.mountWhenSettingsReady();
+        return false;
+      }).catch(()=>undefined);
+    },true);
   }
 
   function scheduleProductionFirebaseRuntime(){
@@ -190,22 +322,37 @@
     else launch();
   }
 
+  installConnectedAccountSettingsBridge();
   scheduleProductionFirebaseRuntime();
 
-  return freezeRuntimeState({
-    contractVersion:1,
+  return Object.freeze({
+    contractVersion:2,
     productionOrigin:PRODUCTION_ORIGIN,
     productionPathPrefix:PRODUCTION_PATH_PREFIX,
     firebaseSdkVersion:FIREBASE_SDK_VERSION,
     firebaseAppModule:FIREBASE_APP_MODULE,
     firebaseAppCheckModule:FIREBASE_APP_CHECK_MODULE,
+    firebaseAuthModule:FIREBASE_AUTH_MODULE,
+    firebaseFirestoreModule:FIREBASE_FIRESTORE_MODULE,
     runtimeConfigPath:CONFIG_PATH,
     bootstrapPath:BOOTSTRAP_PATH,
+    connectedAccountPath:CONNECTED_ACCOUNT_PATH,
     enforcementEnabled:false,
-    browserFirestoreWrites:"deny-all",
+    billingRequired:false,
+    blazeRequired:false,
+    cloudRunRequired:false,
+    cloudFunctionsRequired:false,
+    persistentFirestoreCache:false,
+    authPersistence:"browserSessionPersistence",
+    provider:"google",
+    signInFlow:"popup",
+    additionalGoogleScopes:0,
+    browserFirestoreWrites:"self-account-create-only",
     classifyContext:classifyRuntimeContext,
     readRuntimeConfig,
     initialize:initializeProductionFirebaseRuntime,
+    ensureAccountServices:ensureSparkAccountServices,
+    loadConnectedAccount:loadConnectedAccountScript,
     diagnostics:getProductionFirebaseRuntimeDiagnostics
   });
 });

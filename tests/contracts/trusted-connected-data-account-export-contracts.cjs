@@ -40,7 +40,11 @@ assert.doesNotMatch(optional,/trustedConnectedDataAccountExport\.js/);
 assert.doesNotMatch(worker,/trustedConnectedDataAccountExport\.js/);
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
-assert.equal(pkg.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while the dormant connected-data export implementation proof stays version-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
 function account(status="active",revision=5){
@@ -261,7 +265,7 @@ function adapters(overrides={}){
   assert.equal(inventoryOutage.code,"ACCOUNT_EXPORT_INVENTORY_UNAVAILABLE");
   assert.equal(inventoryOutage.status,"retryable");
 
-  process.stdout.write("PASS trusted connected data account export: active-account authorization, exact data-class scope, peer-identity minimization, retained two-owner entitlement, tombstone minimization and non-mutating production isolation are protected.\n");
+  process.stdout.write("PASS trusted connected data account export: active-account authorization, exact data-class scope, peer-identity minimization, retained two-owner entitlement, tombstone minimization and non-mutating production isolation are protected; historical proof is release-neutral.\n");
 })().catch(error=>{
   console.error(error);
   process.exit(1);

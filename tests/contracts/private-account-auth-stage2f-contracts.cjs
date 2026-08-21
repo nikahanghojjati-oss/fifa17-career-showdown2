@@ -167,8 +167,10 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
 
   assert.match(historicalNext, /Stage 2E[\s\S]{0,1000}DONE \/ MERGED \/ PROVEN/i,"Archived predecessor authority must preserve Stage 2E completion proof.");
   assert.match(historicalNext, /Stage 2F/i,"Archived predecessor authority must preserve the historical Stage 2F transition.");
-  assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i);
+  assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current authority must identify PR #125 rather than revive the historical App Check-runtime lane.");
+  assert.match(next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i,"The previous App Check-runtime heading must remain provenance only.");
   assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+  assert.match(next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
   assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i);
 
   const archivalSources = [
@@ -186,13 +188,14 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
     assert.match(text, /Private Remote Joining[\s\S]{0,900}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
   }
   assert.match(state,/PR #115[\s\S]+production App Check runtime/i);
-  assert.match(state,/Stage 2 private account\/authentication\/authorization dormant boundaries[\s\S]+completed at their proven boundaries/i);
+  assert.match(state,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"PROJECT_STATE must preserve completed Stage 2A-through-2I authority instead of obsolete dormant-stage wording.");
+  assert.match(state,/Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i);
   assert.match(state,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
 
-  assert.equal(pkg.version, "1.4.0", "Stage 2F/2G historical proof must not independently bump production application version.");
   const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
   const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-  assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2F/2G proof must not freeze later legitimate v1.4.0 runtime revisions.");
+  const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+  assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2F/2G proof stays version-neutral.");
   assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
   assert.doesNotMatch(index, /trustedRequestAuthentication|trustedAccountBootstrapExecution|private-account-auth-stage2f|private-account-auth-stage2g|firebase-admin|firebase\/auth|firebase\/firestore/i);
   assert.doesNotMatch(optional, /trustedRequestAuthentication|trustedAccountBootstrapExecution|private-account-auth-stage2f|private-account-auth-stage2g|firebase-admin|firebase\/auth|firebase\/firestore/i);
@@ -203,7 +206,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
   assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with historical Stage 2E/2F transition separated from current App Check runtime authority\n");
+  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with historical Stage 2E/2F transition preserved and current PR #125/v1.5 candidate authority explicit\n");
 })().catch(error => {
   process.stderr.write(`${error && error.stack ? error.stack : error}\n`);
   process.exit(1);

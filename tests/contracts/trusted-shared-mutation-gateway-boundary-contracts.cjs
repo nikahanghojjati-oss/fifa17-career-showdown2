@@ -47,7 +47,11 @@ assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;
 assert.doesNotMatch(index,/trustedSharedMutationGateway\.js/);
 assert.doesNotMatch(optional,/trustedSharedMutationGateway\.js/);
 assert.doesNotMatch(worker,/trustedSharedMutationGateway\.js/);
-assert.equal(pkg.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while the dormant trusted shared-mutation gateway boundary stays version-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted shared mutation gateway boundary: dormant trusted-only protocol, immutable CAS/replay/tombstone rules, no IAM/browser broadening and Remote Joining dependency discipline are protected.\n");
+process.stdout.write("PASS trusted shared mutation gateway boundary: dormant trusted-only protocol, immutable CAS/replay/tombstone rules, no IAM/browser broadening and Remote Joining dependency discipline are protected; historical proof is release-neutral.\n");

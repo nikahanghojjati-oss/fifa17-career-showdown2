@@ -17,10 +17,10 @@ assert.doesNotMatch(source,/\bfetch\s*\(|XMLHttpRequest|WebSocket/);
 assert.doesNotMatch(index,/cloudSyncRemoteContract\.js/);
 assert.doesNotMatch(optional,/cloudSyncRemoteContract\.js/);
 assert.doesNotMatch(worker,/cloudSyncRemoteContract\.js/);
-assert.equal(pkg.version,"1.4.0","Architecture-only Phase 1D must not independently bump production app version.");
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Current runtime identity must remain release-owned within v1.4.0; historical Phase 1D cannot freeze later legitimate runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must stay coherent while historical architecture-only Phase 1D remains version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identity must stay coherent while the dormant Phase 1D contract remains unloaded.");
 assert.doesNotMatch(index,/cloudSyncRemoteContract\.js|firebase-firestore|firebase\/firestore/i,"Phase 1D must not itself connect its dormant remote contract or Firestore in the production shell.");
 assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1D must not connect Firebase through optional modules.");
@@ -137,4 +137,4 @@ assert.match(privacy,/shared two-owner rivalry when only one account requests de
 assert.match(provider,/Firebase Authentication[\s\S]+Cloud Firestore Standard edition/i);
 assert.match(provider,/persistent offline cache[\s\S]+disabled/i);
 
-process.stdout.write("PASS Phase 1D Firebase-compatible remote schema, API, authorization, replay and two-owner deletion contract\n");
+process.stdout.write("PASS Phase 1D Firebase-compatible remote schema, API, authorization, replay and two-owner deletion contract; historical architecture stays version-neutral while current release identity remains coherent\n");

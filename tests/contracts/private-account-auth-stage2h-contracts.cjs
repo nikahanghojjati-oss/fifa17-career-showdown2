@@ -127,14 +127,14 @@ assert.doesNotMatch(index,/trustedExecutionRuntimeIamPolicy\.js|firebase-admin|f
 assert.doesNotMatch(optional,/trustedExecutionRuntimeIamPolicy\.js|firebase-admin|firebase\/auth|firebase\/firestore/i);
 assert.doesNotMatch(worker,/trustedExecutionRuntimeIamPolicy\.js|firebase-admin|firebase-auth|firebase\/auth|firebase-firestore|firebase\/firestore/i);
 
-assert.equal(pkg.version,"1.4.0");
 assert.equal(pkg.dependencies,undefined,"Stage 2H must not add production dependencies.");
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@google-cloud\/firestore"/);
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
-assert.match(indexRevision,/^1\.4\.0-r[1-9]\d*$/,"Historical Stage 2H IAM proof must not freeze later legitimate v1.4.0 runtime revisions.");
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2H IAM proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
 assert.match(rules,/match \/accounts\/\{accountId\}[\s\S]*allow list, create, update, delete: if false;/);
@@ -164,4 +164,4 @@ assert.match(stage2f,/verifyIdToken\(idToken, true\)/i);
 assert.match(stage2g,/account-bootstrap-only/i);
 assert.match(stage2g,/does not select or authorize a production service identity/i);
 
-process.stdout.write("PASS Private Account/Auth Stage 2H trusted Cloud Run runtime and least-privilege IAM contracts\n");
+process.stdout.write("PASS Private Account/Auth Stage 2H trusted Cloud Run runtime and least-privilege IAM contracts with exact permission lock preserved and historical proof version-neutral\n");

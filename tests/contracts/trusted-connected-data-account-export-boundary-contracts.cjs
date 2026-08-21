@@ -52,20 +52,20 @@ assert.match(remote,/Disabling an account[\s\S]+other entitled owner retains aut
 assert.match(stage2h,/account lifecycle export\/deletion execution/i);
 assert.match(stage2h,/If a later separately authorized Stage 2 operation requires[\s\S]+export[\s\S]+additional permission must be justified/i);
 
-// The export prerequisite is completed historical proof. Current authority is the post-PR121 production-proof/RJR reconciliation and must not regress export, IAM, privacy or Stage 3 ordering.
-assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — POST-PR121 PRODUCTION AUTHORITY \/ RJR RECONCILIATION/i);
-assert.match(nextTask,/Current branch: `agent\/post-pr121-production-rjr-reconciliation`/);
-assert.match(nextTask,/Current environment: `we-2026-08-20-post-pr121-production-rjr-reconciliation`/);
+// Export remains completed historical proof. Current authority is PR #125 and must not regress export, IAM, privacy or Stage 3 ordering.
+assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i);
+assert.match(nextTask,/Current branch: `agent\/spark-production-account-runtime`/);
+assert.match(nextTask,/Current environment: `we-2026-08-21-spark-production-account-runtime`/);
+assert.match(nextTask,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
 assert.match(nextTask,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(nextTask,/connected-data-export prerequisite contracts are also completed at their protected boundaries/i);
 assert.match(nextTask,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(nextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
 assert.match(nextTask,/App Check enforcement(?: remains)?:? OFF/i);
-assert.match(nextTask,/Every application-client Firestore create\/update\/delete remains deny-all/i);
+assert.match(nextTask,/currently published application-client Firestore create\/update\/delete boundary remains deny-all|browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i);
 assert.match(nextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datastore\.entities\.create[\s\S]+Do not broaden/i);
 assert.match(nextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
-assert.match(nextTask,/Known-good fallback\/recovery runtime: `1\.4\.0-r1`/i);
-assert.match(nextTask,/production trusted runtime\/IAM activation proof/i);
+assert.match(nextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
+assert.match(nextTask,/Finish only PR #125[\s\S]+source validation first/i);
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -99,7 +99,11 @@ assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;
 assert.doesNotMatch(index,/trustedConnectedDataAccountExport\.js/);
 assert.doesNotMatch(optional,/trustedConnectedDataAccountExport\.js/);
 assert.doesNotMatch(worker,/trustedConnectedDataAccountExport\.js/);
-assert.equal(pkg.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while the dormant connected-data export boundary stays version-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under post-PR121 production authority.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current PR #125 authority.\n");

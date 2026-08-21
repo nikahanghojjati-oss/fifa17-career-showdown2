@@ -28,7 +28,11 @@ assert.doesNotMatch(index,/trustedSharedMutationGateway\.js/);
 assert.doesNotMatch(optional,/trustedSharedMutationGateway\.js/);
 assert.doesNotMatch(worker,/trustedSharedMutationGateway\.js/);
 assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
-assert.equal(pkg.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while the dormant trusted shared-mutation implementation proof stays version-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
 function baseRequest(overrides={}){
@@ -242,7 +246,7 @@ function authorization(overrides={}){
   });
   assert.equal(mismatchCommit.code,"TRUSTED_SHARED_MUTATION_COMMIT_MISMATCH");
 
-  process.stdout.write("PASS trusted shared mutation gateway: trusted-server-only CAS, immutable retry intent, replay/idempotency, operation-scoped current authorization, optional session gating, tombstones and no browser write authority are protected.\n");
+  process.stdout.write("PASS trusted shared mutation gateway: trusted-server-only CAS, immutable retry intent, replay/idempotency, operation-scoped current authorization, optional session gating, tombstones and no browser write authority are protected; historical proof is release-neutral.\n");
 })().catch(error=>{
   console.error(error);
   process.exit(1);
