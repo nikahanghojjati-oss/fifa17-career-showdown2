@@ -54,7 +54,11 @@ assert.match(rules,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;
 assert.doesNotMatch(index,/trustedAccountDeletionExecution\.js/);
 assert.doesNotMatch(optional,/trustedAccountDeletionExecution\.js/);
 assert.doesNotMatch(worker,/trustedAccountDeletionExecution\.js/);
-assert.equal(pkg.version,"1.4.0");
+const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
+const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1];
+assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while the dormant account-deletion boundary stays version-neutral.");
+assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted account deletion execution boundary: deletion-pending-first lifecycle, survivor preservation, provider ordering, dormant runtime isolation and no IAM/browser-write broadening are protected.\n");
+process.stdout.write("PASS trusted account deletion execution boundary: deletion-pending-first lifecycle, survivor preservation, provider ordering, dormant runtime isolation and no IAM/browser-write broadening are protected; historical proof is release-neutral.\n");
