@@ -1,59 +1,60 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-20-post-pr121-production-rjr-reconciliation",
+  "environmentId": "we-2026-08-21-spark-production-account-runtime",
   "lifecycle": "active",
-  "recordedAt": "2026-08-21T02:53:00Z",
+  "recordedAt": "2026-08-21T15:22:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "ab48ecec7f9560378f79eee30150d39a90834c35"
+    "startingMainSha": "82413e36cd70bb10e332cb2aaa137ad350f2d241"
   },
   "signals": {
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 0,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 2,
-    "toolRoutingErrors": 1,
+    "largeEvidenceEvents": 0,
+    "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 68,
+    "handoffCompleteness": 76,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Perform one bounded post-PR121 production-authority and RJR-1 reconciliation for the now-proven 1.4.0-r2 App Check production boundary, including the owner correction SLE = Smart Lean Efficient. Preserve enforcement OFF, deny-all browser Firestore writes, no client Auth/Firestore/Storage/Functions initialization, and the exact Stage 2H four-permission IAM boundary.",
-    "lastSafeCheckpoint": "Live main was independently verified at ab48ecec7f9560378f79eee30150d39a90834c35 with PR #121 merged. Permanent Validate Stability Lane #1230 / run 32439162225 succeeded on exact post-PR119 production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516; stability-contracts, chromium-stability and deployed-site-smoke all succeeded, including exact deployed runtime-byte verification and the real production App Check token path. Current canonical production/RJR authority still contains stale pre-proof claims and therefore requires bounded reconciliation.",
-    "nextSafeAction": "Update only current production authority, RJR-1 evidence, Smart Lean Efficient terminology and directly dependent current-state pointers. Award RJR points only for exact newly proven capabilities. Run publication gates on one exact immutable candidate head, require clean reviews/threads and mergeability, then publish under standing owner authorization if clean. Reassess WEC before any separate trusted-runtime/IAM activation milestone.",
+    "currentTask": "Complete PR #125 zero-billing production Firebase Authentication / memory-only Firestore private connected-account runtime source validation for v1.5.0 / 1.5.0-r1. Keep deployed production at v1.4.0 / 1.4.0-r2, App Check enforcement OFF and production Firestore Rules unchanged until one exact candidate head passes the source gates.",
+    "lastSafeCheckpoint": "Fresh WEC initialized after independently re-verifying live main at 82413e36cd70bb10e332cb2aaa137ad350f2d241 and PR #125 at exact head a7893b38158bc78c8b0dd2ea69ca6919e1bc332b. On that head the permanent contract suite passed dynamic v1.5.0/r1 release identity, stability, accessibility, visual, season, statistics, analytics, immediate-next-task, WEC, seven-line reporting and SLE packaging before exposing the stale predecessor-environment provenance defect in interruption-resilience. Production rules have not been changed or published.",
+    "nextSafeAction": "Synchronize NEXT_TASK with this fresh environment identity, then rerun PR #125 exact-head workflows and continue one concrete contract failure at a time. Do not publish firestore.spark.rules until the complete exact-head source gate is clean; after rules proof use standing owner publication authority and obtain production proof before any RJR change or separate milestone.",
     "unfinishedWork": [
-      "Reconcile firebase.production.environment.json to production-proven 1.4.0-r2 while preserving 1.4.0-r1 as known-good fallback knowledge.",
-      "Reconcile REMOTE_JOINING_READINESS.json only against exact fixed-model capability evidence.",
-      "Correct canonical SLE wording to SLE = Smart Lean Efficient.",
-      "Synchronize current PROJECT_STATE/NEXT_TASK/bootstrap authority without reopening completed App Check proof work.",
-      "Validate and publish the bounded candidate under standing owner authorization if all exact-head gates are clean."
+      "Finish PR #125 exact-head source and browser validation on one immutable head.",
+      "Reconcile any remaining stale historical-vs-current authority contracts without falsifying production state.",
+      "After source green, publish exactly firestore.spark.rules to the existing free Firebase project and verify that self-account revision-0 create is the only newly permitted browser write.",
+      "Reverify PR reviews, inline threads and mergeability, then merge/deploy under standing owner authorization and obtain production proof.",
+      "Append the missing PR #122 through PR #124 continuity transition facts to canonical WORK_ENVIRONMENT_HISTORY.md when a safe append-capable repository route is available; do not rewrite or truncate the large append-only history file through the current connector."
     ],
     "knownHazards": [
-      "The predecessor transition-prepared WEC decision belongs only to we-2026-08-20-pr116-production-proof-successor and is not inherited.",
+      "The inherited WORK_ENVIRONMENT_STATUS.json was stale at environment initialization and still identified we-2026-08-20-post-pr121-production-rjr-reconciliation even though PR #122 had merged and live main had advanced through PR #124. This fresh record intentionally resets per-environment counters instead of inheriting predecessor counters or decisions.",
+      "Canonical WORK_ENVIRONMENT_HISTORY.md currently has no indexed PR #122 or PR #123 transition record. The available GitHub connector exposes no safe append operation for the large append-only file, so the missing archival append is explicitly deferred rather than risking a destructive full-file rewrite.",
+      "Deployed production remains v1.4.0 / 1.4.0-r2 until PR #125 is actually merged, deployed and post-deployment proven.",
       "App Check enforcement remains OFF and must not be enabled merely because production token traffic is proven.",
-      "Every application-client Firestore create/update/delete remains deny-all; client Auth, Firestore, Storage and Functions remain uninitialized.",
-      "Stage 2H IAM remains exactly firebaseauth.users.get, datastore.databases.get, datastore.entities.get and datastore.entities.create; do not broaden it.",
-      "The approved production console-noise classifier remains narrow to known external Google/reCAPTCHA messages on the exact production origin/path.",
-      "Direct local git network access still cannot resolve github.com; connected GitHub is source/write authority and GitHub-hosted Actions are validation authority.",
+      "The currently published production Firestore Rules remain deny-all for application-client writes. The reviewed firestore.spark.rules candidate is not production-authorized until exact-head source gates are clean and those exact rules are published and verified.",
+      "PR #125 must not activate Cloud Run, Cloud Functions, Firebase Storage, Blaze/billing, Stage 3 pairing, Connected Rivalry or actual Remote Joining UX.",
+      "RJR remains 61/100 until genuine production account activation/proof closes a fixed RJR-1 capability gap.",
       "Usage is unavailable and is not estimated."
     ],
     "evidenceNotes": [
-      "Live main independently verified at ab48ecec7f9560378f79eee30150d39a90834c35; PR #121 remains merged from head 6ef83e22a16d4dc743f21478969d7cc397b5a140 with no submitted reviews or inline review threads.",
-      "Permanent production proof run 32439162225 / Validate Stability Lane #1230 is completed success on exact head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516.",
-      "All three permanent jobs succeeded; deployed-site-smoke proved every runtime byte, runtime error provenance, real production App Check token path, Save Library, manager identity, Career Analytics, football visuals, Candidate A/B/C, offline boundary and complete journey.",
-      "The current RJR ledger still says production App Check client traffic and controlled runtime Firebase connection are unproven, and firebase.production.environment.json still records both runtime connection flags false; those statements are stale relative to permanent production evidence.",
-      "Owner authority explicitly defines SLE as Smart Lean Efficient; canonical 00_SLE_HANDOFF_PROTOCOL.md still contains the superseded no-expansion wording.",
-      "Fresh deterministic WEC assessment: context pressure 39, quality risk 18, next-task separation 20, continuation risk 27.56, transition cost 27.90, transition advantage -0.34; decision CONTINUE."
+      "Live main independently reverified at 82413e36cd70bb10e332cb2aaa137ad350f2d241, the merge of PR #124 Add zero-billing Spark account bootstrap foundation.",
+      "PR #122 Reconcile proven production App Check authority and RJR is independently verified merged from exact head 265069763baa0a140504efe0363479ef69002498 as merge 9dfc084d70787ad9a1cbe296474196d03bff8276.",
+      "PR #123 Add production trusted runtime activation adapter is independently verified merged from exact head a74703d27b25850848f4305106a2c165ab9e5b44 as merge e977eaf5cad28cfce0fc48712b2229daea023e84; PR #125 does not activate that trusted runtime path.",
+      "PR #125 is open, non-draft and mergeable on branch agent/spark-production-account-runtime. The latest inherited implementation checkpoint at fresh-WEC initialization is a7893b38158bc78c8b0dd2ea69ca6919e1bc332b.",
+      "Earlier PR #125 implementation and CI evidence is inherited source evidence at this late continuity repair and is not counted in the fresh environment's reset counters.",
+      "Fresh deterministic WEC assessment from reset signals: context pressure 35, quality risk 0, next-task separation 20, unknown usage omitted, continuation risk 19.06, handoff readiness 76, transition cost 24.30 and transition advantage -5.24; decision CONTINUE."
     ]
   }
 }
