@@ -36,5 +36,14 @@ jobs:
       - name: Run deterministic Stage 3 client contracts
         run: node tests/contracts/stage3-private-pairing-contracts.cjs
 
+      - name: Prove desktop and mobile IndexedDB identity behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-stage3-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          node tests/browser/stage3-private-pairing-audit.cjs
+
       - name: Run Stage 3 Firestore Rules emulator proof
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage3 "node tests/firebase/stage3-private-pairing-emulator.cjs"
