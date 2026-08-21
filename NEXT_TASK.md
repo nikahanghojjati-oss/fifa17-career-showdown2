@@ -100,7 +100,7 @@ Stage 2 as a whole remains incomplete because production trusted-runtime/IAM act
 
 Stage 3 Registered Devices / Private Pairing remains blocked until the remaining genuine Stage 2 production/account/operational lane is DONE / MERGED / PROVEN. Connected Rivalry and actual Private Remote Joining remain downstream.
 
-Public community features and global leaderboard/rankings are ELIMINATED. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
+Public community features and global leaderboard/rankings are **ELIMINATED**. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
 
 ## Closed product-dependency evidence retained by current authority
 
