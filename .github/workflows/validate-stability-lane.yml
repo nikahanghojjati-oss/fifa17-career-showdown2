@@ -178,7 +178,7 @@ jobs:
       - name: Run Candidate C atomic restore and recovery audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
-          CMS_BASE_URL: https://nikahanghojjati-oss/fifa17-career-showdown2/
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:restore-browser
 
       - name: Run install and offline boundary audit against deployed Pages
