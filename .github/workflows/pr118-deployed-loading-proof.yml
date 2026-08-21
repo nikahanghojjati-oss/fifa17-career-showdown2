@@ -26,4 +26,5 @@ jobs:
         env:
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
           CMS_AUDIT_RUN: deployed-pr118-loading-proof
+          CMS_CHROMIUM_MULTI_CONTEXT: "1"
         run: npm run test:loading-visual
