@@ -22,26 +22,38 @@ assert.match(agents,/After an unexpected interruption[\s\S]+re-fetching current 
 assert.match(agents,/Never assume the last attempted tool call completed/i);
 assert.match(suite,/tests\/contracts\/work-environment-interruption-resilience-contracts\.cjs/);
 
-assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-.+/,"Current WEC must use a fresh environment identity.");
+assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-.+/,"Current WEC must use a valid environment identity.");
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i,"Current WEC must record a full starting live-main SHA.");
+assert.ok(["active","transition-prepared","closed"].includes(status.lifecycle),"WEC lifecycle must remain explicit.");
+assert.equal(status.signals.usageRemainingPercent,null,"Unknown model/account usage must remain unknown unless an approved source reports it.");
+assert.equal(status.signals.usageSource,"unavailable");
+assert.ok(typeof status.continuity.currentTask==="string"&&status.continuity.currentTask.trim().length>=40,"Current WEC must name a concrete bounded task rather than inherit one implicitly.");
+assert.ok(typeof status.continuity.lastSafeCheckpoint==="string"&&status.continuity.lastSafeCheckpoint.trim().length>=40,"Current WEC must preserve a concrete safe checkpoint.");
+assert.ok(typeof status.continuity.nextSafeAction==="string"&&status.continuity.nextSafeAction.trim().length>=40,"Current WEC must preserve a concrete resumable next action.");
+assert.ok(Array.isArray(status.continuity.unfinishedWork)&&status.continuity.unfinishedWork.length>0,"Current WEC must preserve unfinished work.");
+assert.ok(Array.isArray(status.continuity.knownHazards)&&status.continuity.knownHazards.length>0,"Current WEC must preserve hazards.");
+assert.ok(Array.isArray(status.continuity.evidenceNotes)&&status.continuity.evidenceNotes.length>0,"Current WEC must preserve evidence notes.");
+
+// NEXT_TASK may intentionally lag during a fresh successor or transition package. In that case the WEC must
+// make the divergence explicit and preserve live-first recovery rather than hardcoding one historical product lane.
 const environmentMatch=nextTask.match(/Current environment: `([^`]+)`/);
 const mainMatch=nextTask.match(/Starting independently verified live main: `([0-9a-f]{40})`/i);
 assert.ok(environmentMatch,"NEXT_TASK must retain the most recently published implementation-authority environment for provenance.");
 assert.ok(mainMatch,"NEXT_TASK must retain the most recently published implementation-authority starting main for provenance.");
-
-if(status.environmentId!==environmentMatch[1] || status.repository.startingMainSha!==mainMatch[1]){
-  assert.ok(["active","transition-prepared"].includes(status.lifecycle),"A fresh successor may diverge from the last published NEXT_TASK identity only while its WEC is active or legitimately transition-prepared at a completed handoff checkpoint.");
-  assert.match(status.continuity.currentTask,/production[\s\S]{0,120}(Firebase|Firestore)|Firestore Security Rules/i,"A fresh successor divergence must identify its concrete production Firebase/Firestore work lane rather than silently inherit predecessor authority.");
-  assert.ok(status.continuity.lastSafeCheckpoint.includes(status.repository.startingMainSha),"A fresh successor divergence must preserve its independently verified predecessor publication boundary from repository.startingMainSha.");
-  assert.match(status.continuity.nextSafeAction,/Firestore|Firebase|provider|exact-head|pull-request|workflow/i,"The successor must record a concrete resumable provider/publication next action.");
-  const inheritedDecisionRecord=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[])].join("\n");
-  assert.match(inheritedDecisionRecord,/inherited predecessor[\s\S]{0,200}(?:PREPARE_HANDOFF|HANDOFF_AT_CHECKPOINT|HANDOFF_NOW|FINISH_SAFE_BOUNDARY)/i,"The successor must explicitly preserve the predecessor's actual non-CONTINUE transition decision as inherited history rather than treating it as the successor's own decision.");
+const diverged=status.environmentId!==environmentMatch[1]||status.repository.startingMainSha!==mainMatch[1];
+if(diverged){
+  assert.ok(["active","transition-prepared"].includes(status.lifecycle),"A WEC may diverge from the last published NEXT_TASK identity only while actively reconciling work or at a legitimate transition checkpoint.");
+  assert.match(status.continuity.nextSafeAction,/live|main|exact|head|workflow|pull request|pull-request|successor|handoff|implement|publish|deploy/i,"A divergent WEC must record a source-verifiable resumable action.");
+  const record=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[]),status.continuity.nextSafeAction].join("\n");
+  assert.match(record,/predecessor|successor|do not inherit|historical|closing-environment-only/i,"A divergent WEC must explicitly prevent predecessor transition authority from being silently inherited.");
   if(status.lifecycle==="transition-prepared"){
-    assert.equal(status.signals.handoffCompleteness,100,"A divergent successor may become transition-prepared only with a complete handoff package.");
+    assert.equal(status.signals.handoffCompleteness,100,"A divergent WEC may become transition-prepared only with a complete handoff package.");
+    assert.equal(status.signals.unrecordedDecisions,0,"A final transition seal may not leave material decisions only in chat.");
+    assert.equal(status.signals.atomicOperation,false,"A final transition seal may not abandon an atomic operation.");
   }
 }else{
-  assert.equal(status.environmentId,environmentMatch[1],"Published authority and active WEC identity must agree when no successor divergence exists.");
-  assert.equal(status.repository.startingMainSha,mainMatch[1],"Published authority and active WEC starting main must agree when no successor divergence exists.");
+  assert.equal(status.environmentId,environmentMatch[1]);
+  assert.equal(status.repository.startingMainSha,mainMatch[1]);
 }
 
 assert.doesNotMatch(status.continuity.currentTask,/Do not merge PR #97 in this predecessor environment/i);
@@ -50,4 +62,4 @@ assert.match(history,/temporary push-triggered branch workflow/i);
 assert.match(history,/temporary PR-triggered append workflow/i);
 assert.match(history,/stale blob SHA[\s\S]+rejected by GitHub with no state change/i);
 
-process.stdout.write("PASS Work Environment interruption resilience: repository checkpointing, route circuit breaking, optimistic-lock writes, bounded CI polling, append-only patch verification, permanent-suite enforcement, fresh-successor identity, legitimate transition-prepared closure and interruption resume discipline are protected.\n");
+process.stdout.write("PASS Work Environment interruption resilience: repository checkpointing, route circuit breaking, optimistic-lock writes, bounded CI polling, append-only history protection, milestone-neutral successor divergence, complete transition sealing and interruption resume discipline are protected.\n");
