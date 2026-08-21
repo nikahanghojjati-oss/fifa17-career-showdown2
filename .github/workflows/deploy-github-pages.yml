@@ -1,0 +1,100 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Require controlled browser-public deployment variables
+        env:
+          HAS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY != '' }}
+          HAS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$HAS_FIREBASE_WEB_API_KEY" != "true" || "$HAS_RECAPTCHA_ENTERPRISE_SITE_KEY" != "true" ]]; then
+            echo "::error::Required GitHub Actions variables CMS_FIREBASE_WEB_API_KEY and CMS_RECAPTCHA_ENTERPRISE_SITE_KEY are not configured."
+            exit 1
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Stage static runtime surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .pages-artifact/scripts
+          cp index.html manifest.webmanifest service-worker.js firebase.runtime-config.json .pages-artifact/
+          cp -R assets css data js .pages-artifact/
+          cp scripts/render-production-firebase-public-config.mjs .pages-artifact/scripts/
+
+      - name: Render deployment-only Firebase App Check configuration
+        env:
+          CMS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY }}
+          CMS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY }}
+        run: node .pages-artifact/scripts/render-production-firebase-public-config.mjs
+
+      - name: Verify rendered configuration without printing provider values
+        shell: bash
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require("node:fs");
+          const config = JSON.parse(fs.readFileSync(".pages-artifact/firebase.runtime-config.json", "utf8"));
+          if(config.schemaVersion !== 1 || config.configured !== true){
+            throw new Error("Rendered runtime configuration is not enabled.");
+          }
+          if(!config.firebaseConfig || config.firebaseConfig.projectId !== "fifa17-career-showdown-prod"){
+            throw new Error("Rendered runtime configuration has the wrong Firebase project.");
+          }
+          if(typeof config.firebaseConfig.apiKey !== "string" || config.firebaseConfig.apiKey.length < 20){
+            throw new Error("Rendered Firebase Web API key is missing or malformed.");
+          }
+          if(typeof config.recaptchaEnterpriseSiteKey !== "string" || config.recaptchaEnterpriseSiteKey.length < 20){
+            throw new Error("Rendered reCAPTCHA Enterprise site key is missing or malformed.");
+          }
+          process.stdout.write("Verified configured production Firebase/App Check runtime shape without printing provider values.\n");
+          NODE
+          rm -rf .pages-artifact/scripts
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .pages-artifact
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

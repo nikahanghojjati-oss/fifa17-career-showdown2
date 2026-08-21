@@ -49,7 +49,7 @@ assert.match(historicalNext, /Stage 2B[\s\S]{0,260}DONE \/ MERGED \/ PROVEN/i);
 assert.match(historicalNext, /Completed Handoff Proximity governance synchronization[\s\S]{0,520}PR #86[\s\S]{0,520}DONE \/ MERGED \/ PROTECTED/i);
 assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]{0,520}Stage 2D/i);
 assert.match(historicalNext, /Completed post-PR #86 authority reconciliation[\s\S]{0,520}PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i,"Current authority must advance beyond the completed gateway prerequisite into the explicit App Check runtime lane.");
+assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Current authority must advance beyond the completed gateway prerequisite into the explicit App Check deployment-proof lane.");
 assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i,"Current production runtime authority must keep App Check enforcement off while traffic proof is gathered.");
 assert.match(next,/browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i);
@@ -120,4 +120,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with historical successor checkpoints separated from current App Check runtime authority\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with historical successor checkpoints separated from current PR #116 App Check deployment-proof authority\n");
