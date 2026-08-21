@@ -105,6 +105,7 @@ Public community features and global leaderboard/rankings are **ELIMINATED**. Pu
 
 ## Closed product-dependency evidence retained by current authority
 
+Local Profiles / Save Library remains a completed production dependency milestone.
 Phase B first slice — Save Library / Local Profile Experience 2.0 (PR #70) — CLOSED / PRODUCTION-PROVEN at `65b6c9db0a070b6e5e992a39dffeee23df0c6f08`.
 Phase C first slice — Showdown Home & Season Experience deepening (PR #73) — CLOSED / PRODUCTION-PROVEN at `dec1d3ba8182c3f62019974dd1704c7c9124def6`.
 formatVersion 2 full multi-Save backup/import portability (PR #67) — CLOSED / PRODUCTION-PROVEN at `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27`.
