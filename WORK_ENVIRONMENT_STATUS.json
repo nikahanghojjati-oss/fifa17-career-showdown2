@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-21-v160-stage3-private-pairing",
   "lifecycle": "active",
-  "recordedAt": "2026-08-21T18:14:00-04:00",
+  "recordedAt": "2026-08-21T19:39:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,54 +11,56 @@
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
+    "compactionCount": 2,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 1,
+    "largeEvidenceEvents": 7,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 8,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 5,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 15,
+    "handoffCompleteness": 72,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Implement v1.6.0 Stage 3 Registered Devices / Private Pairing directly from verified live main, including stable private installation/device identity, self-device registration/revocation, one-use short-lived private two-manager pairing bound to stable account/profile/save identity, strict Spark Firestore rules/transactions, Stage 3 tests, and reconciliation of stale NEXT_TASK.md / PROJECT_STATE.md in the same feature PR.",
-    "lastSafeCheckpoint": "Fresh successor independently verified live main 9a4600cd121bb8230a0df3c4b673a7cc81e59dd2 from merged transition-only PR #128. PR #128 exact head b58dd8c32fbdc5195e3755dd5bcf3425407d1b9b passed all 13 normal workflow families with zero submitted reviews and zero inline review threads. Stage 2 Connected Account production proof remains complete at v1.5.0 / runtime 1.5.0-r2 and RJR-1 remains 63/100.",
-    "nextSafeAction": "Implement the first coherent Stage 3 source slice on agent/v1.6.0-registered-devices-private-pairing: IndexedDB-backed private device identity, transaction-only self-device lifecycle and capability pairing, exact Firestore Rules, contract/emulator/browser-mobile proof, then validate before any provider publication request.",
+    "currentTask": "Finish v1.6.0 Stage 3 Registered Devices / Private Pairing on PR #129: hold one exact release-candidate head green across all permanent workflow families, verify reviews/threads/mergeability, prove the genuinely new Stage 3 production Firestore Rules boundary, then merge/deploy and obtain production pairing evidence before promoting readiness or unlocking Connected Rivalry.",
+    "lastSafeCheckpoint": "Stage 3 runtime and provider semantics are implemented and proven in source: stable IndexedDB private installation/device identity, authenticated device register/revoke, 256-bit short-lived one-use private pairing, exactly two manager slots bound to account/profile/save identity, restrictive Spark Firestore rules, deterministic client contracts, desktop/mobile Chromium identity proof, and Firestore emulator proof all passed. v1.6.0 / 1.6.0-r1 is coherent with 1.5.0-r2 as the production-proven rollback shell. PROJECT_STATE.md, NEXT_TASK.md, README.md and CHANGELOG.md now identify Stage 3 as current rather than PR #125/#126 history. RJR-1 deliberately remains 63/100 until production Stage 3 evidence exists.",
+    "nextSafeAction": "Require all permanent workflow families to pass on the newest exact PR #129 head after WEC/release-authority reconciliation. If clean, inspect submitted reviews, inline review threads and mergeability. Only then advance to the genuinely new production Stage 3 firestore.spark.rules publication/proof gate; do not repeat any completed Stage 2 Firebase setup.",
     "unfinishedWork": [
-      "Implement stable private installation/device identity without adding a canonical localStorage authority.",
-      "Implement authenticated self-device registration and irreversible revocation at accounts/{accountId}/devices/{deviceId}.",
-      "Implement cryptographically strong short-lived one-use private pairing and exactly-two-manager account/profile/save binding.",
-      "Extend Spark Firestore Rules only for the exact Stage 3 operations and preserve deny-by-default downstream boundaries.",
-      "Add Stage 3 contract, emulator, browser and mobile-emulation proof including expiry, replay, wrong-account/wrong-scope, device revocation, two-manager limit and local-first behavior.",
-      "Reconcile NEXT_TASK.md and PROJECT_STATE.md inside the same Stage 3 product PR.",
-      "After exact source/CI proof, publish genuinely new Stage 3 Rules only if required, then merge/deploy under standing owner authorization."
+      "Obtain a clean exact-head run across every permanent PR workflow family, including Static App, Stability Lane, Licensed Football Visuals and Validate Stage 3 Private Pairing.",
+      "Verify zero submitted blocking reviews, zero unresolved inline review threads and mergeability on the same exact head.",
+      "Publish and verify the exact reviewed Stage 3 firestore.spark.rules in production only after source gates are clean; this is a new device/pairing permission boundary, not a repeat of Stage 2 account rules setup.",
+      "Merge/deploy v1.6.0-r1 under standing owner authorization after provider proof and verify production shell/runtime health.",
+      "Obtain real production registered-device/private-pairing evidence before crediting RJR-1 or unlocking Connected Rivalry."
     ],
     "knownHazards": [
-      "Do not reopen or repeat completed Stage 2 Firebase provider setup, reinstall, Spark account Rules publication or Google sign-in proof without concrete regression evidence.",
+      "Do not reopen or repeat completed Stage 2 Firebase provider setup, Spark self-account Rules publication, Google sign-in configuration or Connected Account production proof without concrete regression evidence.",
       "App Check enforcement remains OFF.",
       "Firebase Spark/zero billing remains mandatory; no Blaze, Cloud Run, Cloud Functions or Firebase Storage without later explicit owner authorization.",
       "Stage 2H historical IAM remains unactivated and unchanged.",
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
+      "Stage 3 private device identity lives in IndexedDB and must never become canonical gameplay save authority or hardware fingerprinting.",
       "Persistent Firestore cache remains disabled.",
       "Public discovery/community/matchmaking/public invite directories/global leaderboard/rankings remain eliminated.",
       "Exactly two manager slots; display names never authorize or identify a manager.",
       "Shared gameplay state, Connected Rivalry synchronization and actual Remote Joining sessions remain blocked until later stages.",
+      "Do not award RJR points for source code, green CI, documentation, WEC or emulator evidence alone when the fixed-model capability still requires production proof.",
       "Usage is unavailable and must not be estimated."
     ],
     "evidenceNotes": [
-      "The uploaded Stage 3 starter was treated as orientation and independently checked against live GitHub before implementation.",
-      "The predecessor handoff was stale only because its transition PR #128 had subsequently merged; live source confirmed PR #128 contains no Stage 3 runtime implementation.",
-      "Existing Save Library identity already supplies stable save_* and profile_* identifiers, so Stage 3 can bind manager slots without inventing a new profile authority.",
-      "Existing remote contract defines private device, rivalry and invite paths but Spark production Rules still deny downstream writes, so a genuinely new Stage 3 Rules source change will be required before production pairing can work.",
-      "Initial Stage 3 pairing will keep the capability private and avoid server infrastructure by using the same 256-bit opaque identifier as the initial rivalryId and inviteId, enabling deterministic Firestore getAfter() validation without duplicating the secret into document data.",
-      "Device identity will live in IndexedDB rather than localStorage and will not fingerprint hardware; failure to obtain it disables only optional remote Stage 3 operations while local career saves remain authoritative."
+      "Fresh successor independently verified live main 9a4600cd121bb8230a0df3c4b673a7cc81e59dd2 after transition-only PR #128; Stage 2 Connected Account production proof was already complete at v1.5.0 / 1.5.0-r2 and RJR-1 63/100.",
+      "Existing Save Library identity supplies stable save_* and profile_* identifiers, so Stage 3 binds manager slots without inventing a second profile authority.",
+      "Stage 3 uses a 256-bit opaque capability as the initial rivalryId/inviteId so exact-path Security Rules and getAfter() can validate atomic create/redeem without a public lookup directory or trusted paid backend.",
+      "Device identity is generated privately in IndexedDB, does not fingerprint hardware, and its failure or deletion affects only optional remote identity while local career saves remain authoritative.",
+      "The dedicated Stage 3 workflow has already passed deterministic contracts, desktop Chromium, mobile Chromium and the Firestore Rules emulator on the implemented functional boundary, including expiry/replay denial, wrong-account/scope denial, exactly-two-manager enforcement, device revocation and continued state/session write denial.",
+      "Firestore rule expression-budget and terminal-invite privacy failures were resolved by simplifying duplicate rule checks and preserving the stricter post-redemption privacy behavior rather than weakening authorization.",
+      "Historical CI contracts that froze Stage 2 release labels/SHAs were modernized only where they incorrectly prevented legitimate successor/release progression; immutable historical security and licensed-visual evidence remains protected.",
+      "The release shell is coherent at v1.6.0 / 1.6.0-r1 with 1.5.0-r2 as previous known-good whole-shell recovery and js/sparkPrivatePairing.js included in the offline cache."
     ]
   }
 }
