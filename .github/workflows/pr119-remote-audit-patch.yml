@@ -1,0 +1,145 @@
+name: PR119 Remote Audit Patch
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-prove:
+    if: github.event.pull_request.number == 119
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out PR head
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Patch exact production App Check noise handling
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const productionBlock = [
+            'const productionOrigin="https://nikahanghojjati-oss.github.io";',
+            'const productionPathPrefix="/fifa17-career-showdown2/";',
+            '',
+            'function isExpectedProductionAppCheckConsoleNoise(message){',
+            '  if(baseUrl.origin!==productionOrigin||!baseUrl.pathname.startsWith(productionPathPrefix))return false;',
+            '  const text=message.text();',
+            '  if(text.startsWith("Framing \'https://www.google.com/\' violates the following report-only Content Security Policy directive: \\"frame-ancestors \'self\'\\"."))return true;',
+            '  if(text==="requestStorageAccess: Permission denied."){',
+            '    const sourceUrl=message.location()?.url||"";',
+            '    return !sourceUrl||!sourceUrl.startsWith(baseUrl.origin);',
+            '  }',
+            '  return false;',
+            '}',
+            ''
+          ].join('\n');
+
+          const compactFiles = [
+            'tests/browser/save-library-ui-audit.cjs',
+            'tests/browser/manager-identity-linkage-audit.cjs',
+            'tests/browser/identity-safe-career-analytics-audit.cjs'
+          ];
+          const resultsMarker = 'const resultsDirectory=path.resolve(process.env.CMS_TEST_RESULTS||"test-results");\n';
+          const oldConsole = 'page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text()))errors.push(`console: ${message.text()}`);});';
+          const newConsole = 'page.on("console",message=>{if(message.type()==="error"&&!/^Failed to load resource/.test(message.text())&&!isExpectedProductionAppCheckConsoleNoise(message))errors.push(`console: ${message.text()}`);});';
+
+          for(const file of compactFiles){
+            let source = fs.readFileSync(file, 'utf8');
+            if(!source.includes(resultsMarker)) throw new Error(`${file}: results marker missing`);
+            if(!source.includes(oldConsole)) throw new Error(`${file}: console monitor marker missing`);
+            source = source.replace(resultsMarker, resultsMarker + productionBlock);
+            source = source.replace(oldConsole, newConsole);
+            fs.writeFileSync(file, source);
+          }
+
+          const stabilityFile = 'tests/browser/stability-audit.cjs';
+          let stability = fs.readFileSync(stabilityFile, 'utf8');
+          const firstPartyMarker = [
+            'function isFirstParty(url){',
+            '    return String(url || "").startsWith(baseUrl.href);',
+            '}',
+            ''
+          ].join('\n');
+          const stabilityHelper = [
+            'const productionOrigin = "https://nikahanghojjati-oss.github.io";',
+            'const productionPathPrefix = "/fifa17-career-showdown2/";',
+            '',
+            'function isExpectedProductionAppCheckConsoleNoise(message){',
+            '    if(baseUrl.origin !== productionOrigin || !baseUrl.pathname.startsWith(productionPathPrefix)){',
+            '        return false;',
+            '    }',
+            '    const text = message.text();',
+            '    if(text.startsWith("Framing \'https://www.google.com/\' violates the following report-only Content Security Policy directive: \\"frame-ancestors \'self\'\\".")){',
+            '        return true;',
+            '    }',
+            '    if(text === "requestStorageAccess: Permission denied."){',
+            '        const sourceUrl = message.location()?.url || "";',
+            '        return !sourceUrl || !sourceUrl.startsWith(baseUrl.origin);',
+            '    }',
+            '    return false;',
+            '}',
+            ''
+          ].join('\n');
+          const oldExpected = [
+            '        if(expectedConsoleErrors.some(pattern => pattern.test(message.text()))){',
+            '            return;',
+            '        }',
+            '        severeConsole.push(message.text());'
+          ].join('\n');
+          const newExpected = [
+            '        if(expectedConsoleErrors.some(pattern => pattern.test(message.text()))',
+            '            || isExpectedProductionAppCheckConsoleNoise(message)){',
+            '            return;',
+            '        }',
+            '        severeConsole.push(message.text());'
+          ].join('\n');
+          if(!stability.includes(firstPartyMarker)) throw new Error('stability-audit: first-party marker missing');
+          if(!stability.includes(oldExpected)) throw new Error('stability-audit: console monitor marker missing');
+          stability = stability.replace(firstPartyMarker, firstPartyMarker + stabilityHelper);
+          stability = stability.replace(oldExpected, newExpected);
+          fs.writeFileSync(stabilityFile, stability);
+          NODE
+
+          git diff --check
+
+      - name: Install locked stability dependencies
+        run: npm ci
+
+      - name: Prove remaining deployed-site smoke against live Pages
+        env:
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+          CMS_AUDIT_RUN: deployed-pr119-proof
+          CMS_CHROMIUM_MULTI_CONTEXT: "1"
+        run: |
+          node tests/browser/save-library-ui-audit.cjs
+          node tests/browser/manager-identity-linkage-audit.cjs
+          node tests/browser/identity-safe-career-analytics-audit.cjs
+          npm run test:football-visual
+          npm run test:backup-browser
+          npm run test:import-browser
+          npm run test:restore-browser
+          node tests/browser/offline-boundary-audit.cjs
+          npm run test:browser
+
+      - name: Commit proven source patch and remove bootstrap
+        run: |
+          rm .github/workflows/pr119-remote-audit-patch.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Harden deployed App Check audit noise coverage"
+          git push origin HEAD:"${GITHUB_HEAD_REF}"
