@@ -13,7 +13,7 @@ Known-good fallback/recovery runtime: `1.4.0-r1`
 Completed resilience baseline: v1.3.0 — Recovery & Device Resilience Hardening
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-The production App Check runtime/deployment chain through PRs #115, #116, #117, #118 and #119 is DONE / MERGED / PROVEN. Permanent post-merge production proof is `Validate Stability Lane` #1230 / run `32439162225`, a successful push run on exact production head `3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516`.
+The production App Check runtime/deployment chain through PRs #115, #116, #117, #118 and #119 is DONE / MERGED / PROVEN. PR #115 introduced the reviewed production Firebase App + App Check runtime boundary; PRs #116 through #119 completed deployment and permanent production proof without adding browser Auth, Firestore, Storage or Functions authority. Permanent post-merge production proof is `Validate Stability Lane` #1230 / run `32439162225`, a successful push run on exact production head `3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516`.
 
 All three permanent Stability Lane jobs succeeded: `stability-contracts`, `chromium-stability` and `deployed-site-smoke`. The deployed smoke verified every intended `1.4.0-r2` runtime byte, runtime error provenance, a real reCAPTCHA Enterprise App Check token path, Home, Save Library, manager identity linkage, identity-safe Career Analytics, football visuals, Candidate A backup, Candidate B import analysis, Candidate C atomic restore/recovery, the install/offline boundary and the complete deployed journey.
 
@@ -59,7 +59,7 @@ Stage 1 Cloud / Sync Readiness Phase 1A through 1F is DONE / MERGED / PROTECTED.
 
 Cloud/Sync Readiness Phase 1F is DONE / MERGED / PROTECTED through PR #81.
 
-Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN. Private Account / Authentication Stage 2A remains a completed emulator-only identity-boundary prerequisite and is not revived by the current reconciliation. The later trusted gateway/account-deletion/connected-data-export prerequisite contracts are completed at their protected boundaries. The production App Check client/runtime proof is now also complete.
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN. Stage 2 private account/authentication/authorization dormant boundaries are completed at their proven boundaries. Private Account / Authentication Stage 2A remains a completed emulator-only identity-boundary prerequisite and is not revived by the current reconciliation. The later trusted gateway/account-deletion/connected-data-export prerequisite contracts are completed at their protected boundaries. The production App Check client/runtime proof is now also complete.
 
 Stage 2 as a whole remains incomplete because trusted production runtime/IAM activation and later launch hardening remain unproven. App Check enforcement is a separately reviewed later hardening gate and must not be enabled merely because production token traffic is proven.
 
