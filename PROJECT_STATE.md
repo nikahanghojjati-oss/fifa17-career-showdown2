@@ -57,7 +57,9 @@ Cloud / synchronization readiness
 
 Stage 1 Cloud / Sync Readiness Phase 1A through 1F is DONE / MERGED / PROTECTED.
 
-Private Account / Authentication / Authorization Stages 2A through 2I and the later trusted gateway/account-deletion/connected-data-export prerequisite contracts are completed at their protected boundaries. The production App Check client/runtime proof is now also complete.
+Cloud/Sync Readiness Phase 1F is DONE / MERGED / PROTECTED through PR #81.
+
+Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN. Private Account / Authentication Stage 2A remains a completed emulator-only identity-boundary prerequisite and is not revived by the current reconciliation. The later trusted gateway/account-deletion/connected-data-export prerequisite contracts are completed at their protected boundaries. The production App Check client/runtime proof is now also complete.
 
 Stage 2 as a whole remains incomplete because trusted production runtime/IAM activation and later launch hardening remain unproven. App Check enforcement is a separately reviewed later hardening gate and must not be enabled merely because production token traffic is proven.
 
