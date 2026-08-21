@@ -99,7 +99,7 @@ The percentage is an evidence-based estimate of proximity to a recommended Work 
 
 Never fabricate account/model usage to calculate Handoff proximity. If usage is unavailable, base the estimate only on observable continuity evidence and leave `usageRemainingPercent` unavailable in the WEC record.
 
-At `Handoff proximity: 100%` the current environment must automatically complete the full SLE successor package, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone. A plain ready-to-paste prompt alone does not satisfy this boundary.
+At `Handoff proximity: 100%` the current environment must automatically generate the complete successor handoff as the full SLE package, finish only the current safe bounded checkpoint and stop before beginning another substantial milestone. A plain ready-to-paste prompt alone does not satisfy this boundary.
 
 The repository Work Environment Continuity decision is authoritative when it requires an earlier or stricter transition. Handoff proximity complements WEC and never weakens `PREPARE_HANDOFF`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW` or `FINISH_SAFE_BOUNDARY`.
 
