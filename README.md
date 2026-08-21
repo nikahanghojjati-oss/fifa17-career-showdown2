@@ -2,16 +2,23 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript, browser localStorage and a first-party Installable Offline App shell.
 
-Application milestone: v1.4.0 — Product Deepening
-Current production runtime: `1.4.0-r1`
-Previous known-good whole shell: `1.3.0-r2`
+Current production application milestone: v1.4.0 — Product Deepening
+Current production runtime: `1.4.0-r2` — production-proven
+Current production rollback knowledge: `1.4.0-r1`
+Active release candidate: **v1.5.0 — Private Connected Account Foundation** / `1.5.0-r1` — not production-proven
+Candidate immediate recovery target: `1.4.0-r2`
 Current shipped product layer: Phase B Save Library Experience 2.0 first slice + Phase C Showdown Home first slice
 Current runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (multi-Save); Phase B `65b6c9db…`; Phase C `dec1d3ba…`
-Feature release version: **v1.4.0** (visible on public site footer + app-asset-revision)
-Release status: merged, deployed, and production-proven
+Production release status: v1.4.0 merged, deployed, and production-proven; `1.4.0-r2` has permanent post-deployment proof
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 v1.4.0 formalizes the Product Deepening first slices (Save Library UX + Showdown Home) under a visible application version. The completed v1.3.0 — Recovery & Device Resilience Hardening baseline, multi-Save formatVersion 2 portability, identity-safe Analytics, and private two-manager locks remain protected.
+
+`1.4.0-r2` is the current production-proven whole shell. Its permanent production proof is `Validate Stability Lane` #1230 / run `32439162225` on exact production head `3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516`; production App Check is connected with legitimate reCAPTCHA Enterprise token traffic and enforcement remains OFF.
+
+PR #124 `Add zero-billing Spark account bootstrap foundation` is merged at `82413e36cd70bb10e332cb2aaa137ad350f2d241`. It adds the strict zero-billing self-account bootstrap foundation and reviewed `firestore.spark.rules` candidate without publishing those rules or changing the deployed browser Auth/Firestore boundary.
+
+PR #125 `Ship Spark private connected account runtime` is the active bounded release candidate for `v1.5.0 / 1.5.0-r1`. It may lazily initialize Google Firebase Authentication plus memory-only Firestore only after an explicit Connected Account action. It uses `signInWithPopup()` plus `browserSessionPersistence`, Firebase `uid` as `accountId`, no additional OAuth scopes, no provider-token extraction, no Storage/Functions/Cloud Run/Blaze/billing, and no downstream Remote Joining mutation authority. Production remains `1.4.0-r2` until the exact candidate passes source validation, the reviewed Spark rules are published and verified, and post-deployment proof succeeds.
 
 Current verified source wins over stale historical status prose. Technical production proof does not fabricate owner visual acceptance.
 
@@ -32,7 +39,7 @@ Read in this order:
 11. `REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md`
 12. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
 13. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
-14. `RELEASE_V1.4.0.md`
+14. current `RELEASE_V*.md` candidate/production record selected from the runtime revision
 15. `CAREER_MODE_SHOWDOWN_V1.4.0_MAINTENANCE_HANDOFF.md`
 16. `V1.3.0_R2_PRODUCTION_PROOF.md` for historical frozen production evidence
 17. `POST_V1_ROADMAP_EXECUTION.md`
@@ -45,10 +52,10 @@ Older release/proof documents remain immutable rollback/history evidence for the
 
 ## Locked product model
 
-Career Mode Showdown is a rivalry companion, not a browser football simulator and not yet a cloud/account product.
+Career Mode Showdown is a rivalry companion, not a browser football simulator. Private connected-account infrastructure is now entering a bounded candidate phase, but Remote Joining itself remains dependency-gated.
 
 - exactly two managers;
-- one local browser/device today, with multiple local Showdown Saves supported by the Save Library;
+- multiple local Showdown Saves supported by the Save Library;
 - at most one explicit active Save selected by `activeSaveId`;
 - manual FIFA 17 result entry;
 - one selected league for both managers;
@@ -86,27 +93,30 @@ Public canonical localStorage keys after cutover:
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C is the only destructive import Apply stage.
 
-Candidate C preserves immutable confirmed intent, strict exact raw snapshot/precondition authority through `captureCareerModeRawRestoreSnapshot()`, last-moment exact-byte guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery on uncertainty. These recovery guarantees remain binding beneath v1.4.0 Product Deepening and must not be weakened by presentation or roadmap work.
+Candidate C preserves immutable confirmed intent, strict exact raw snapshot/precondition authority through `captureCareerModeRawRestoreSnapshot()`, last-moment exact-byte guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery on uncertainty. These recovery guarantees remain binding beneath v1.4.0 production and the v1.5.0 candidate and must not be weakened by presentation or roadmap work.
 
 Service Worker and Cache Storage own application bytes only and never canonical user data.
 
 ## Installable Offline App
 
-Current whole shell: `1.4.0-r1`. Previous known-good: `1.3.0-r2`.
+Current production whole shell: `1.4.0-r2` — production-proven.
+Production fallback/recovery knowledge: `1.4.0-r1`.
+Current release candidate shell: `1.5.0-r1`, with `1.4.0-r2` as its immediate previous known-good whole shell.
 
 - version-owned first-party Service Worker shell;
 - complete verified cache population;
 - explicit Update Ready activation at safe boundaries;
-- current/previous-known-good recovery using `1.4.0-r1` then `1.3.0-r2`.
+- current/previous-known-good recovery preserved across release revisions;
+- Firebase account connectivity remains optional and must never become an offline/local startup dependency.
 
 ## Current continuation boundary
 
-Phase B first slice and Phase C first slice are complete and production-proven under formal **v1.4.0**.
+Phase B first slice and Phase C first slice are complete and production-proven under formal **v1.4.0**. `1.4.0-r2` is the current production-proven runtime.
 
-**No product candidate is currently authorized.** Stop until a further explicit owner instruction.
+**PR #125 / v1.5.0-r1 is the current bounded product candidate.** It is not production-proven. Its source must pass the permanent exact-head gates before the exact reviewed free `firestore.spark.rules` boundary is published. Only after rules verification may it merge/deploy under standing owner authorization, followed by post-deployment proof.
 
 Public community / global leaderboard remain **ELIMINATED**.
 
-Private Remote Joining is **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. The project must complete and prove its Cloud/sync, private identity/auth, paired-device/private-session and Connected Rivalry/two-device recovery prerequisites before implementing Remote Joining itself. When the future networked lane is explicitly opened, those prerequisites should be advanced deliberately rather than leaving Remote Joining indefinitely behind unrelated optional expansion.
+Private Remote Joining is **PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED**. Registered Devices / Private Pairing, Connected Rivalry, and actual Remote Joining remain downstream of successful private-account production activation/proof. PR #125 must not implement those later stages.
 
 PR #37 and PR #35 remain historical draft work and are not current authority.
