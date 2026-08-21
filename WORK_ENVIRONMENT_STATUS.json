@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-20-pr116-production-proof-successor",
   "lifecycle": "active",
-  "recordedAt": "2026-08-21T00:48:00Z",
+  "recordedAt": "2026-08-21T00:51:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,7 +15,7 @@
     "majorPhasesCompleted": 1,
     "largeEvidenceEvents": 8,
     "toolRoutingErrors": 2,
-    "correctedFailures": 4,
+    "correctedFailures": 5,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -29,7 +29,7 @@
   },
   "continuity": {
     "currentTask": "Finish the same PR #115 production Firebase App Check runtime proof through the already-merged PR #116 deployment boundary and bounded PR #117 deployed-proof hardening. PR #116 is merged and 1.4.0-r2 is live. Preserve enforcement OFF, deny-all browser Firestore writes, no client Auth/Firestore/Storage/Functions initialization, and 1.4.0-r1 rollback authority until the full production proof closes.",
-    "lastSafeCheckpoint": "This fresh successor environment began from independently verified live main 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd, the PR #115 merge publication boundary recorded in repository.startingMainSha. Owner-controlled GitHub Pages Actions mode and both required repository Actions variables were visually proven. PR #116 sealed head e8b265a12bf3c1093187ff179b9d6736eda68d84 was reverified with all 13 normal workflow families successful, zero reviews, zero inline review threads and clean mergeability, then marked ready and expected-head squash merged. Live main became 75d08868218340c6533f0688e21a34be4f4df12b. Deploy GitHub Pages #1 succeeded. Push Stability Lane run 32431980047 verified 85 runtime files match 1.4.0-r2 byte-for-byte and the deployed runtime error provenance audit passed, then stopped only because the Home visual audit treated third-party reCAPTCHA Enterprise browser console noise as first-party failure. PR #117 now narrowly classifies only that production-origin external noise and adds an explicit production App Check token audit. Temporary PR117 deployed proof run 32433219067 completed successfully: the live r2 runtime reached App Check status ready, connected=true, tokenObserved=true with provider recaptcha-enterprise, enforcement=false, browserFirestoreWrites=deny-all and no client Auth/Firestore/Storage/Functions SDKs; the deployed Home visual suite also passed all desktop/mobile cases. The temporary proof workflow and temporary branch note were removed before final publication work. Current deterministic WEC remains HANDOFF_AT_CHECKPOINT: context pressure approximately 65, quality risk approximately 28, next-task separation 20, continuation risk approximately 42.69, transition cost approximately 15.75 and transition advantage approximately 26.94. Finish only the current PR117 production-proof checkpoint, then hand off instead of starting a separate milestone.",
+    "lastSafeCheckpoint": "This fresh successor environment began from independently verified live main 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd, the PR #115 merge publication boundary recorded in repository.startingMainSha. Owner-controlled GitHub Pages Actions mode and both required repository Actions variables were visually proven. PR #116 sealed head e8b265a12bf3c1093187ff179b9d6736eda68d84 was reverified with all 13 normal workflow families successful, zero reviews, zero inline review threads and clean mergeability, then marked ready and expected-head squash merged. Live main became 75d08868218340c6533f0688e21a34be4f4df12b. Deploy GitHub Pages #1 succeeded. Push Stability Lane run 32431980047 verified 85 runtime files match 1.4.0-r2 byte-for-byte and the deployed runtime error provenance audit passed, then stopped only because the Home visual audit treated third-party reCAPTCHA Enterprise browser console noise as first-party failure. PR #117 now narrowly classifies only that production-origin external noise and adds an explicit production App Check token audit. Temporary PR117 deployed proof run 32433219067 completed successfully: the live r2 runtime reached App Check status ready, connected=true, tokenObserved=true with provider recaptcha-enterprise, enforcement=false, browserFirestoreWrites=deny-all and no client Auth/Firestore/Storage/Functions SDKs; the deployed Home visual suite also passed all desktop/mobile cases. The temporary proof workflow and temporary branch note were removed before final publication work. Current deterministic WEC remains HANDOFF_AT_CHECKPOINT: context pressure approximately 65, quality risk approximately 32, next-task separation 20, continuation risk approximately 44.19, transition cost approximately 15.75 and transition advantage approximately 28.44. Finish only the current PR117 production-proof checkpoint, then hand off instead of starting a separate milestone.",
     "nextSafeAction": "Let all normal PR #117 workflow families finish on one exact unchanged permanent head after temporary proof cleanup and this current WEC checkpoint. Recheck reviews, inline review threads and mergeability. If clean, prepare the final transition seal as the last branch mutation, reverify the sealed head, then use standing owner authorization for mark-ready-if-needed and expected-head squash merge. After merge, independently verify live main and the push-only Stability Lane including the permanent production App Check token step and full deployed-site smoke. Complete the production-proof checkpoint and generate the successor handoff; do not begin a separate Stage 2 or Stage 3 milestone in this environment.",
     "unfinishedWork": [
       "Finish all normal PR #117 workflow families on one exact unchanged permanent head and resolve any genuine failures without weakening first-party error detection.",
@@ -47,7 +47,8 @@
       "The first PR117 production-token audit over-assumed that Firebase App Check getToken always exposes an expiry field. The live token proof had already passed status, connection, tokenObserved, provider, enforcement and deny-all assertions before that non-contract field assertion failed. The audit was corrected so expiry is validated only when the SDK exposes it.",
       "The first PR117 WEC checkpoint omitted the original startingMainSha from lastSafeCheckpoint, violating the interruption-resilience provenance contract without changing production behavior. That provenance was restored.",
       "The next PR117 WEC checkpoint described the correct proof lane but omitted the literal runtime wording required by the protected Stage 2I successor boundary. That wording was restored.",
-      "The next protected Stage 2I contract required the earlier HANDOFF_NOW predecessor fact rather than only the later packaging predecessor PREPARE_HANDOFF fact. This checkpoint preserves both without inheriting either as the successor decision.",
+      "The next protected Stage 2I contract required the earlier HANDOFF_NOW predecessor fact rather than only the later packaging predecessor PREPARE_HANDOFF fact. That protected provenance was restored.",
+      "The next protected Stage 2I contract required the exact PR #115 merge SHA inside evidenceNotes/knownHazards rather than only lastSafeCheckpoint. This checkpoint restores that exact evidence placement.",
       "Tracked firebase.runtime-config.json remains configured=false; concrete browser-public provider values exist only in the deployment artifact and must not be newly printed or committed.",
       "App Check enforcement remains OFF. Every application-client Firestore create/update/delete remains deny-all. Do not initialize Firestore, Firebase Authentication, Storage or Functions in this proof lane.",
       "Stage 2H least-privilege IAM remains exactly firebaseauth.users.get, datastore.databases.get, datastore.entities.get and datastore.entities.create; PR #117 does not activate it and must not broaden it.",
@@ -57,6 +58,7 @@
       "Usage remains unavailable and is not estimated."
     ],
     "evidenceNotes": [
+      "Fresh successor independently verified the PR #115 merge boundary at 1c4758c8dcfb4cc6b652bb5aafc73ebe532be0cd before advancing the same production App Check runtime proof.",
       "PR #116 is merged; live main was independently re-fetched at 75d08868218340c6533f0688e21a34be4f4df12b.",
       "Deploy GitHub Pages #1 succeeded on 75d0886 after GitHub Pages was switched to GitHub Actions and both required repository variables were created directly in GitHub.",
       "Push Stability Lane run 32431980047 job 96625717788 proved 85 deployed runtime files match 1.4.0-r2 byte-for-byte and the deployed runtime error provenance audit passed before Home visual stopped on external Google/reCAPTCHA browser console noise.",
