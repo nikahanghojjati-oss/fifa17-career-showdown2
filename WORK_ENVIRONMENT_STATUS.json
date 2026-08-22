@@ -2,19 +2,19 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-21-v170-connected-rivalry",
   "lifecycle": "active",
-  "recordedAt": "2026-08-21T21:11:00-04:00",
+  "recordedAt": "2026-08-21T21:27:48-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "df3fe061c7df3c4235aa2394623e703a4412ca46"
   },
   "signals": {
-    "contextComplexity": "moderate",
+    "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
+    "compactionCount": 2,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 4,
-    "toolRoutingErrors": 2,
+    "largeEvidenceEvents": 9,
+    "toolRoutingErrors": 3,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
@@ -23,20 +23,22 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 0,
+    "handoffCompleteness": 35,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Implement the first bounded Stage 4 Connected Rivalry slice on v1.7.0: exact private rivalry reattachment/persistence plus shared authoritative gameplay-state create/read/update using the protected deterministic CAS and idempotency contracts for only the two active paired accounts/devices. Do not implement Remote Joining sessions.",
-    "lastSafeCheckpoint": "Fresh successor independently verified live main df3fe061c7df3c4235aa2394623e703a4412ca46, PR #129 sealed head e3f462306e1d2b0822aaf54eb1f9dc9af62ed4f8, all 14 exact-head workflow families successful, zero submitted reviews, zero inline review threads, production Stage 3 proof and RJR-1 69/100. Stage 4 branch agent/v1.7.0-connected-rivalry-state was created exactly from that main and the predecessor WEC was preserved in authority-history before replacement.",
-    "nextSafeAction": "Activate the bounded Stage 4 override in NEXT_TASK.md together with the engineering candidate, then implement and test only direct exact-rivalry shared-state publication/read/CAS/idempotency plus private local rivalry-pointer continuity. Keep shared-state local apply and all session orchestration outside this first slice unless a safety dependency requires them.",
+    "currentTask": "Complete and validate the first bounded v1.7.0 Stage 4 Connected Rivalry release candidate: exact private rivalry reattachment/persistence plus shared authoritative gameplay-state create/read/update with rule-verifiable CAS/idempotency for only the two active paired accounts/devices. Stage 5 Remote Joining sessions remain write-locked.",
+    "lastSafeCheckpoint": "On agent/v1.7.0-connected-rivalry-state, the new js/sparkConnectedRivalry.js runtime is implemented and app-shell wired; firestore.spark.rules now has the bounded active-pair shared-state/idempotency write boundary; the protected remote contract carries an atomic mutationReceipt pointer; deterministic Stage 4 client contracts and an adversarial Firestore emulator matrix are committed; the existing Stage 3 validation workflow was extended rather than adding a fifteenth permanent workflow family. JavaScript syntax was checked locally, but the new emulator suite has not yet been executed by GitHub CI and production Rules have not been published.",
+    "nextSafeAction": "Finish v1.7.0 / 1.7.0-r1 release-candidate identity and minimum current Stage 4 authority reconciliation, include sparkConnectedRivalry.js in the offline shell, then open a PR and use exact-head CI to compile/run the new Rules and emulator matrix. Do not publish production Rules until the exact candidate source and all required validation families are green.",
     "unfinishedWork": [
-      "Stage 4 first slice source implementation and emulator/browser contract proof are not yet complete.",
-      "Production Firestore Rules for the Stage 4 shared-state write boundary are not yet reviewed or published.",
-      "Safe remote-state application back into canonical local Save Library remains a later bounded Stage 4 slice unless this first slice proves a smaller safe authority seam.",
+      "The v1.7.0 / 1.7.0-r1 candidate identity, release record, maintenance handoff and current Stage 4 PROJECT_STATE/NEXT_TASK overrides are not yet complete.",
+      "sparkConnectedRivalry.js is app-shell loaded but not yet added to the service-worker offline shell list.",
+      "The new Stage 4 emulator test is authored but has not yet run under Firebase Emulator Suite in GitHub CI.",
+      "Production Firestore Rules for the Stage 4 shared-state write boundary are not yet reviewed against a sealed exact PR head or published.",
+      "Safe remote-state application back into canonical local Save Library remains a later bounded Stage 4 slice; this first slice intentionally refreshes remote state without overwriting local saves.",
       "Stage 5 actual Private Remote Joining session orchestration remains unimplemented and unauthorized in this slice.",
-      "Final two-physical-device hardening and stable release acceptance remain downstream."
+      "Production Connected Rivalry proof, separate-physical-device hardening and final stable release acceptance remain downstream."
     ],
     "knownHazards": [
       "Do not repeat completed Firebase project/App/Google Auth/App Check/Stage 2 self-account/Stage 3 Rules setup without concrete regression evidence.",
@@ -45,24 +47,29 @@
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Private device and connected-rivalry convenience metadata may use IndexedDB but must never become gameplay authority or authorization evidence.",
       "Do not add rivalry listing/discovery to recover a connection. Authorization remains direct exact-rivalry access only.",
-      "A v1.6.0 pairing may need exact rivalry-code reattachment after reload because Stage 3 did not persist the rivalry pointer; this must not be mislabeled as re-pairing.",
-      "Exactly two paired manager slots and both required accounts/devices must remain active for shared gameplay mutation.",
+      "Existing v1.6.0 pairings may require exact rivalry-code reattachment after reload because Stage 3 did not persist the rivalry pointer; reattachment must not create or redeem a new pairing.",
+      "Exactly two paired manager slots and both required accounts must remain active for shared gameplay mutation; a disabled required account freezes mutation without erasing local recovery data.",
       "Client baseRevision must remain immutable across retries and reconnect; no silent rebase or last-writer-wins behavior.",
       "Idempotency exact replay must not mutate or increment revision; key reuse with a different request fingerprint must conflict.",
-      "Existing tombstones must remain non-resurrectable; this slice does not authorize rivalry deletion/restore governance.",
+      "Shared-state mutationReceipt is authorization-supporting transaction linkage only; client-supplied contentHash is not authorization evidence and Rules cannot recompute SHA-256.",
+      "Existing tombstones must remain non-resurrectable; this first slice does not authorize rivalry deletion or restore governance.",
+      "Remote shared-state refresh must not overwrite canonical local Save Library until a separately validated local-apply transaction boundary exists.",
       "Public discovery/community/matchmaking/public invite directories/global leaderboard/rankings remain eliminated.",
       "Stage 5 Remote Joining session documents remain write-denied.",
       "Do not award RJR points for source, documentation, green CI or emulator proof alone when production capability proof is still absent.",
       "Usage is unavailable and must not be estimated."
     ],
     "evidenceNotes": [
-      "The predecessor HANDOFF_NOW state was validated as closing-environment-only and not inherited as this environment's decision.",
-      "The current remote contract reserves rivalries/{rivalryId}/state/authoritative with monotonic revision, immutable client baseRevision, exact idempotency replay and tombstone anti-resurrection semantics.",
-      "Current production firestore.spark.rules allows entitled direct reads of authoritative state but keeps shared-state/idempotency writes denied, creating a narrow Stage 4 Rules delta.",
-      "Stage 3 pairing already establishes connectionState active, exactly two manager slots and authorizedAccountIds [creator, joiner] after atomic redemption.",
-      "Save Library runtime exposes safe read snapshots but no direct remote replacement API, so this first slice will not bypass Candidate C/local transaction authority to force remote payload into local saves.",
-      "Because rivalry list access is intentionally denied, Stage 4 will preserve a private exact rivalry pointer in IndexedDB for future pairings and support explicit exact-code reattachment for already-paired v1.6.0 users.",
-      "Fresh deterministic WEC assessment inputs produce CONTINUE: context pressure remains below transition threshold, quality risk is low, usage is unknown rather than estimated, no atomic operation is active, and current handoff completeness is intentionally reset to zero."
+      "The predecessor HANDOFF_NOW state was validated as closing-environment-only and was not inherited as this environment's decision.",
+      "Live main and PR #129 predecessor facts were independently reverified before Stage 4 mutation: main df3fe061c7df3c4235aa2394623e703a4412ca46, sealed Stage 3 head e3f462306e1d2b0822aaf54eb1f9dc9af62ed4f8, all 14 exact-head workflow families successful, zero submitted reviews and zero inline review threads.",
+      "Stage 4 uses only the already-reserved rivalries/{rivalryId}/state/authoritative and nested idempotency path; sessions remain outside the implementation boundary.",
+      "A direct exact-rivalry browser pointer is stored only in IndexedDB convenience metadata; there is no account-wide rivalry listing or public discovery route.",
+      "The deterministic remote shared save identity is the creator slot's stable saveId while each paired slot retains its own local saveId linkage in rivalry governance metadata.",
+      "The client builds an immutable mutation plan before provider retries, binds state to a SHA-256 idempotency-key hash and request fingerprint, and rejects stale revisions or tombstones without rebasing.",
+      "Firestore Rules cross-check state.data.mutationReceipt against the exact getAfter idempotency receipt in the same transaction, preventing a browser from opening shared-state authority without the paired mutation receipt.",
+      "The Stage 4 emulator matrix covers two-account create/update, exact replay, reused-key conflict, stale CAS, third-account denial, required-account disable freeze, device revocation, tombstone anti-resurrection and session-write denial.",
+      "The permanent validation topology remains 14 workflow families because Stage 4 was added to the existing private-pairing workflow rather than creating a new workflow file.",
+      "Fresh WEC reassessment remains CONTINUE: observable context pressure is 90/100, quality risk 18/100, continuation risk 49.875/100, transition cost 42.75/100 and transition advantage 7.125; usage remains unknown, no hard-transition trigger exists, no atomic operation is active and there are no unresolved failures."
     ]
   }
 }
