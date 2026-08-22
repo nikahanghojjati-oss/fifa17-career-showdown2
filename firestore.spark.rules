@@ -663,7 +663,11 @@ service cloud.firestore {
 
         match /idempotency/{idempotencyKeyHash} {
           allow get: if currentlyEntitled(rivalryId)
-            && resource.data.data.actorAccountId == request.auth.uid;
+            && validIdempotencyKeyHash(idempotencyKeyHash)
+            && (
+              !exists(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative/idempotency/$(idempotencyKeyHash))
+              || resource.data.data.actorAccountId == request.auth.uid
+            );
           allow create: if validIdempotencyCreate(rivalryId, idempotencyKeyHash);
           allow list, update, delete: if false;
         }
