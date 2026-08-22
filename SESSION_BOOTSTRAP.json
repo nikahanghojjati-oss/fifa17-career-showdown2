@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-22T09:54:00-04:00",
+  "recordedAt": "2026-08-22T11:00:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedRuntimeMainSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+  "lastVerifiedRuntimeMainSha": "d3ae21ebfded08e45d9a0db61cf22948e1539df3",
   "latestRuntimeMerge": {
     "pullRequest": 131,
     "title": "v1.7.0-r2: restore production shell coherence",
@@ -38,7 +38,30 @@
     "r2SubmittedReviews": 0,
     "r2InlineReviewThreads": 0,
     "r2DelayedBrowserIdentityRegression": "passed",
+    "r2DeployedRuntimeFilesByteExact": 89,
+    "r2DeployedShellIdentityObserved": true,
+    "ordinaryBrowserAppCheckProofPending": true,
     "genuineConnectedRivalryProductionProof": false
+  },
+  "productionProofClassification": {
+    "diagnosticPullRequest": 133,
+    "diagnosticExactHead": "06f068c6f66ded465bea563755e54d543cb3f744",
+    "diagnosticMergeSha": "d3ae21ebfded08e45d9a0db61cf22948e1539df3",
+    "diagnosticFilesChanged": 4,
+    "runtimeChanged": false,
+    "firestoreRulesChanged": false,
+    "workflowChanged": false,
+    "exactHeadWorkflowFamiliesGreen": 14,
+    "mainPushPagesRun": 32579873745,
+    "mainPushStabilityRun": 32579873735,
+    "deployedSiteJob": 97047866345,
+    "deployedByteProof": "89-r2-runtime-files-byte-exact",
+    "runtimeProvenance": "passed",
+    "appCheckOutcome": "recaptcha-enterprise-403-initial-throttle-in-headless-ci",
+    "classification": "headless-ci-attestation-provider-boundary-ordinary-browser-proof-required",
+    "officialGuidance": "https://firebase.google.com/docs/app-check/web/recaptcha-enterprise-provider",
+    "noRepeatedHostedRerun": true,
+    "productionDebugProviderProhibited": true
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -55,7 +78,7 @@
     "productionStatus": "production-proven",
     "candidateApplicationVersion": "1.7.0",
     "candidateRuntimeRevision": "1.7.0-r2",
-    "candidateStatus": "release-candidate-merged-not-production-proven",
+    "candidateStatus": "release-candidate-deployed-byte-exact-ordinary-browser-app-check-proof-pending",
     "candidateRuntimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
     "candidateImmediateRecoveryRuntime": "1.6.0-r1",
     "firebaseAppConnected": true,
@@ -72,7 +95,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Stage 4 Connected Rivalry production proof. First independently verify the merged r2 GitHub Pages deployment and stable shell identity, then prove genuine Connected Rivalry behavior using the already-paired accounts and registered devices. Do not begin Stage 5.",
+  "currentLane": "Stage 4 ordinary-browser App Check and genuine Connected Rivalry production proof. Reuse the owner's existing paired browser/accounts/devices; do not repeat setup or begin Stage 5.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -82,23 +105,23 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-22-stage4-provider-proof",
-    "decision": "PREPARE_HANDOFF",
+    "environmentId": "we-2026-08-22-stage4-r2-production-proof",
+    "decision": "HANDOFF_AT_CHECKPOINT",
     "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "stage4-r2-runtime-merged-production-observability-and-genuine-connected-rivalry-proof-pending"
+    "checkpoint": "stage4-r2-byte-exact-deployed-headless-ci-appcheck-classified-ordinary-browser-and-genuine-connected-rivalry-proof-pending"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md"
+    "canonical": "SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md"
   },
   "starter": {
-    "version": "1.4.6",
-    "checkpoint": "STAGE4-R2-MERGED-TO-PRODUCTION-PROOF",
-    "canonical": "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
+    "version": "1.4.7",
+    "checkpoint": "STAGE4-R2-HEADLESS-CI-CLASSIFIED-TO-HUMAN-APPCHECK-PROOF",
+    "canonical": "START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: mandatory SLE/WEC transition after bounded r2 shell-coherence merge and before genuine Stage 4 production proof."
+    "versionReason": "PATCH: mandatory SLE/WEC transition after byte-exact r2 deployment proof and classification of headless-CI reCAPTCHA Enterprise 403 throttling, before ordinary-browser and genuine cross-account proof."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -115,8 +138,8 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
-    "SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md",
+    "START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
+    "SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
     "RELEASE_V1.7.0_R2.md",
@@ -141,12 +164,15 @@
     "applicationCandidate": "1.7.0",
     "runtimeCandidate": "1.7.0-r2",
     "runtimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
-    "stage": "Stage 4 Connected Rivalry deployed-site and genuine production proof",
+    "stage": "Stage 4 ordinary-browser App Check and genuine Connected Rivalry production proof",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "independently fetch current main and prove any newer main commits after ce09cbef are continuity-only before treating ce09cbef as runtime authority",
-      "inspect the post-merge push Stability Lane and GitHub Pages deployment automatically when available; verify every r2 runtime byte plus delayed footer and Save Library stability",
+      "independently fetch current main and prove any newer SLE publication after d3ae21ebfded08e45d9a0db61cf22948e1539df3 is continuity-only before using the recorded runtime boundary",
+      "preserve the completed proof that all 89 deployed runtime files match 1.7.0-r2 and the delayed footer and Save Library identity remained stable",
+      "obtain exactly one redacted diagnostics result from the owner's existing ordinary paired production browser using JSON.stringify(window.CareerModeProductionFirebaseRuntime?.diagnostics?.())",
+      "if ordinary-browser diagnostics report ready, connected and tokenObserved, record genuine App Check proof and continue in that same paired browser; if unavailable, inspect existing provider registration/key/domain/metrics without recreating setup",
+      "do not use a production debug provider, lower the reCAPTCHA risk threshold, enable enforcement, add billing, weaken the proof assertion or repeat headless-CI reruns",
       "do not republish Firestore Rules or repeat Firebase project, Web App, Google Auth, App Check, Connected Account, device registration or private pairing setup",
       "reuse the already-paired two accounts and registered browser device identities to attach or verify the exact private rivalry in Settings > Connected Rivalry",
       "prove Manager A refresh/publish and Manager B refresh observe the same authoritative state without overwriting canonical local saves",
