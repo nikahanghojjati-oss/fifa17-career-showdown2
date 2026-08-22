@@ -1,52 +1,44 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-22T09:16:00-04:00",
+  "recordedAt": "2026-08-22T09:54:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05",
-  "latestMainMerge": {
-    "pullRequest": 130,
-    "title": "v1.7.0 Stage 4: Connected Rivalry",
-    "mergeSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05",
+  "lastVerifiedRuntimeMainSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+  "latestRuntimeMerge": {
+    "pullRequest": 131,
+    "title": "v1.7.0-r2: restore production shell coherence",
+    "mergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+    "applicationVersion": "1.7.0",
+    "runtimeRevision": "1.7.0-r2",
     "runtimeChanged": true,
     "productionProofRecorded": false
   },
-  "productionRuntimeMerge": {
+  "previousStage4Merge": {
+    "pullRequest": 130,
+    "title": "v1.7.0 Stage 4: Connected Rivalry",
+    "mergeSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05"
+  },
+  "lastProductionProvenRuntime": {
     "pullRequest": 129,
     "title": "v1.6.0 Stage 3: Registered Devices / Private Pairing",
     "mergeSha": "5d254cea6e4deebd2aac79effeda30dcc3048385",
     "applicationVersion": "1.6.0",
     "runtimeRevision": "1.6.0-r1",
-    "runtimeChanged": true
+    "proofRecord": "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md"
   },
-  "latestProductionProof": {
-    "source": "owner-firebase-console-plus-live-site-normal-incognito-browser-evidence",
-    "record": "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md",
-    "applicationVersion": "1.6.0",
-    "runtimeRevision": "1.6.0-r1",
-    "firestoreStage3RulesPublished": true,
-    "registeredDeviceIdentity": "proven-two-distinct-browser-identities",
-    "privatePairingCreate": "proven",
-    "wrongSlotRejectionLocalSavePreserved": "proven",
-    "privatePairingRedeem": "proven-cross-account",
-    "connectedRivalry": "not-production-proven",
-    "remoteJoiningSession": "not-yet-implemented"
-  },
-  "currentStage4SourceSeal": {
-    "pullRequest": 130,
-    "title": "v1.7.0 Stage 4: Connected Rivalry",
-    "branch": "agent/v1.7.0-connected-rivalry-state",
-    "baseSha": "df3fe061c7df3c4235aa2394623e703a4412ca46",
-    "validatedSourceHead": "7336adda832322bbd93e8c16f3de0e4bbf5273c1",
+  "stage4Authority": {
+    "sourceSeal": "7336adda832322bbd93e8c16f3de0e4bbf5273c1",
     "firestoreRulesBlob": "ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f",
-    "workflowFamiliesGreen": 14,
-    "submittedReviews": 0,
-    "inlineReviewThreads": 0,
-    "mergeableAtSeal": true,
     "productionRulesPublished": true,
-    "productionProofRecorded": false
+    "rulesMustNotBeRepublishedWithoutReviewedChangeOrConcreteRegression": true,
+    "r2ExactPrHead": "ab487cec1ba2d0d6c466d8046235e1e901569f80",
+    "r2PermanentWorkflowFamiliesGreen": 14,
+    "r2SubmittedReviews": 0,
+    "r2InlineReviewThreads": 0,
+    "r2DelayedBrowserIdentityRegression": "passed",
+    "genuineConnectedRivalryProductionProof": false
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -57,21 +49,14 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "Stage 4 exact reviewed Firestore Rules are production-published and PR #130 is merged at verified main d0eb160d62a05ebdc5c68b5b79447ce1fedffc05. Owner production observation exposed a browser-shell coherence incident before genuine Connected Rivalry proof, so v1.7.0-r2 is the bounded current runtime hotfix candidate. RJR-1 remains 69/100.",
-  "closingWec": {
-    "environmentId": "we-2026-08-21-v170-connected-rivalry",
-    "decision": "PREPARE_HANDOFF",
-    "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "pr130-stage4-source-sealed-before-provider-publication"
-  },
   "runtime": {
     "applicationVersion": "1.6.0",
     "productionRuntimeRevision": "1.6.0-r1",
     "productionStatus": "production-proven",
-    "immediateRecoveryRuntime": "1.5.0-r2",
     "candidateApplicationVersion": "1.7.0",
     "candidateRuntimeRevision": "1.7.0-r2",
-    "candidateStatus": "release-candidate-not-production-proven",
+    "candidateStatus": "release-candidate-merged-not-production-proven",
+    "candidateRuntimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
     "candidateImmediateRecoveryRuntime": "1.6.0-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
@@ -81,25 +66,39 @@
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "strict-self-account-plus-self-device-and-private-pairing-only",
     "candidateBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
-    "productionConnectedAccount": "proven-ready",
-    "productionPrivatePairing": "proven",
-    "candidateConnectedRivalry": "rules-published-pr130-merged-r2-shell-coherence-hotfix-awaiting-live-capability-proof",
+    "firestorePersistence": "memory-only",
+    "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+    "billingRequired": false,
     "storageInitialized": false,
-    "functionsInitialized": false,
-    "billingRequired": false
+    "functionsInitialized": false
   },
-  "currentLane": "Stage 4 Connected Rivalry remains the current bounded lane. Complete only the v1.7.0-r2 shell-coherence hotfix, deploy/prove the stable exact release identity, then resume genuine Connected Rivalry production proof. Stage 5 remains blocked.",
+  "currentLane": "Stage 4 Connected Rivalry production proof. First independently verify the merged r2 GitHub Pages deployment and stable shell identity, then prove genuine Connected Rivalry behavior using the already-paired accounts and registered devices. Do not begin Stage 5.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
     "score": 69,
     "reportLabel": "Remote Joining readiness",
-    "rule": "Move only on genuine fixed-domain capability evidence, never PR/CI/WEC/SLE/documentation count."
+    "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
+  },
+  "closingWec": {
+    "environmentId": "we-2026-08-22-stage4-provider-proof",
+    "decision": "PREPARE_HANDOFF",
+    "decisionScope": "closing-environment-only-do-not-inherit",
+    "checkpoint": "stage4-r2-runtime-merged-production-observability-and-genuine-connected-rivalry-proof-pending"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md"
+    "canonical": "SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md"
+  },
+  "starter": {
+    "version": "1.4.6",
+    "checkpoint": "STAGE4-R2-MERGED-TO-PRODUCTION-PROOF",
+    "canonical": "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
+    "ownerInitialDelivery": "give-only-this-file-first",
+    "fallbackPackNeededByDefault": false,
+    "versionReason": "PATCH: mandatory SLE/WEC transition after bounded r2 shell-coherence merge and before genuine Stage 4 production proof."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -109,15 +108,6 @@
     "requiredAtHandoffProximity100": true,
     "recursiveInheritance": true
   },
-  "starter": {
-    "version": "1.4.5",
-    "checkpoint": "PR130-STAGE4-SOURCE-SEAL-TO-PROVIDER-PROOF",
-    "canonical": "START_NEXT_SESSION_V1.4.5_PR130_STAGE4_PROVIDER.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.5_PR130_STAGE4_PROVIDER.md",
-    "ownerInitialDelivery": "give-only-this-file-first",
-    "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: ordinary mandatory SLE/WEC transition checkpoint after the Stage 4 source seal and before provider publication/proof."
-  },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
   "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
   "contextModel": "SESSION_CONTEXT_MODEL.json",
@@ -125,15 +115,13 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "CURRENT_STAGE4_SOURCE_SEAL_OVERRIDE_2026-08-21.md",
-    "00_SLE_HANDOFF_PROTOCOL.md",
-    "REMOTE_JOINING_READINESS.json",
+    "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
+    "SUCCESSOR_HANDOFF_STAGE4_R2_PRODUCTION_PROOF_SLE_2026-08-22.md",
     "WORK_ENVIRONMENT_STATUS.json",
-    "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
+    "REMOTE_JOINING_READINESS.json",
     "RELEASE_V1.7.0_R2.md",
-    "RELEASE_V1.7.0.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
-    "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md"
+    "00_SLE_HANDOFF_PROTOCOL.md"
   ],
   "targetedReads": [
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
@@ -144,6 +132,7 @@
     "firestore.spark.rules",
     "tests/contracts/stage4-connected-rivalry-contracts.cjs",
     "tests/firebase/stage4-connected-rivalry-emulator.cjs",
+    ".github/workflows/validate-stability-lane.yml",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
     "POST_V1_ROADMAP_EXECUTION.md"
@@ -151,59 +140,54 @@
   "immediateNextTask": {
     "applicationCandidate": "1.7.0",
     "runtimeCandidate": "1.7.0-r2",
-    "stage": "Stage 4 Connected Rivalry r2 shell coherence and genuine production proof",
+    "runtimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+    "stage": "Stage 4 Connected Rivalry deployed-site and genuine production proof",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "validate the bounded v1.7.0-r2 fresh immutable runtime namespace and delayed release-identity regression proof",
-      "keep the exact already-published Stage 4 firestore.spark.rules blob unchanged and do not repeat provider setup",
-      "merge and deploy v1.7.0 / 1.7.0-r2 only after the complete exact-head gate is clean",
-      "prove the live footer remains Connected Rivalry after startup settles and the local-data tile remains stable",
-      "obtain genuine Connected Rivalry production capability evidence across the already-paired accounts and registered devices",
-      "update RJR-1 only for genuine fixed-domain production capability evidence actually proven",
-      "keep Stage 5 Remote Joining session orchestration blocked until Stage 4 is production-proven"
-    ],
-    "blockedUntilLater": [
-      "Stage 5 Remote Joining session orchestration until Stage 4 production proof",
-      "Cloud Backup unless separately authorized",
-      "public discovery/community/matchmaking",
-      "public invitation directories",
-      "global leaderboards/rankings",
-      "Blaze/Cloud Run/Cloud Functions/Firebase Storage unless later explicitly authorized"
+      "independently fetch current main and prove any newer main commits after ce09cbef are continuity-only before treating ce09cbef as runtime authority",
+      "inspect the post-merge push Stability Lane and GitHub Pages deployment automatically when available; verify every r2 runtime byte plus delayed footer and Save Library stability",
+      "do not republish Firestore Rules or repeat Firebase project, Web App, Google Auth, App Check, Connected Account, device registration or private pairing setup",
+      "reuse the already-paired two accounts and registered browser device identities to attach or verify the exact private rivalry in Settings > Connected Rivalry",
+      "prove Manager A refresh/publish and Manager B refresh observe the same authoritative state without overwriting canonical local saves",
+      "prove monotonic revision behavior and stale-base rejection; prove exact idempotency replay/no duplicate revision when safely repeatable",
+      "prove third-account and revoked-device denial in production when safe and preserve local-only fallback",
+      "record genuine production proof and update RJR-1 only for capabilities actually demonstrated",
+      "after first Stage 4 proof, harden with two physical devices, adverse network/token expiry, revocation, sleep/wake/refresh and clearer stale/replay/local-vs-remote UX",
+      "complete the explicit remote-to-local reconciliation contract reusing Candidate C transaction/anti-clobber/recovery properties before Stage 5"
+    ]
+  },
+  "successorCapabilityLeverage": {
+    "expectedEnvironment": "Work / GPT-5.6 Sol Max or stronger",
+    "rule": "Use stronger capabilities aggressively but truthfully when available; never invent access.",
+    "preferredAutomation": [
+      "discover and request a Firebase/provider connection if the product exposes one, then inspect provider state directly instead of asking the owner for screenshots",
+      "run repository visual/browser/deployed-site tests and inspect generated screenshots/evidence directly",
+      "use npm run work:gh:bootstrap when shell/CLI access exists and automate exact-head GitHub, CI and deployment evidence collection",
+      "minimize owner actions to genuinely owner-only authentication or physical-device steps"
     ]
   },
   "criticalLocks": {
-    "canonicalStorage": [
-      "careerModeShowdown.saveLibrary",
-      "careerModeShowdown.legacyShowdowns",
-      "careerModeShowdown.preferences"
-    ],
+    "canonicalStorage": ["careerModeShowdown.saveLibrary", "careerModeShowdown.legacyShowdowns", "careerModeShowdown.preferences"],
     "activeShowdownCanonical": false,
     "candidateA": "non-mutating-export",
     "candidateB": "read-only-import-analysis",
     "candidateC": "sole-destructive-import-apply-authority",
     "appCheck": "production-proven-enforcement-off",
     "firestorePersistence": "memory-only",
-    "browserFirestoreCurrentWriteScope": "production-stage3-self-account-device-private-pairing-only",
-    "candidateBrowserFirestoreWriteScope": "bounded-stage4-connected-rivalry-authoritative-state-plus-idempotency",
     "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
-    "stage2hIamPermissions": [
-      "firebaseauth.users.get",
-      "datastore.databases.get",
-      "datastore.entities.get",
-      "datastore.entities.create"
-    ],
+    "stage2hIamPermissions": ["firebaseauth.users.get", "datastore.databases.get", "datastore.entities.get", "datastore.entities.create"],
     "zeroBilling": true,
+    "exactlyTwoManagers": true,
     "publicDiscovery": false,
     "publicCommunity": false,
     "publicMatchmaking": false,
     "globalLeaderboardsRankings": false,
     "standingMergeDeployAuthorizedAfterRequiredGates": true,
-    "ownerMustNotRepeatCompletedConnectedAccountFirebaseSetup": true,
-    "ownerMustNotRepeatCompletedStage3RulesPublication": true
+    "stage5Locked": true,
+    "ownerMustNotRepeatCompletedFirebaseOrStage3Setup": true
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; runtime rN never substitutes for application versioning.",
-  "starterVersionPolicy": "independent from app version; PATCH ordinary WEC=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
-  "wec100PackagingRule": "At every Handoff proximity 100% or final WEC transition checkpoint, complete mandatory Smart Lean Efficient SLE packaging with byte-identical root/project mirrors, refresh the compact capsule and material context pointers, seal WEC, validate, give the newest starter to the owner, then stop before the next substantial milestone.",
+  "wec100PackagingRule": "At Handoff proximity 100%, complete mandatory Smart Lean Efficient SLE packaging, seal WEC, validate root/project mirrors, deliver newest starter, then stop before the next substantial milestone.",
   "liveFirstRule": "Current source, live GitHub state, provider/deployment state and later owner instructions override this capsule and all handoffs."
 }
