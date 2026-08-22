@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.5.0-r2";
-const PREVIOUS_RUNTIME_REVISION = "1.5.0-r1";
+const RUNTIME_REVISION = "1.6.0-r1";
+const PREVIOUS_RUNTIME_REVISION = "1.5.0-r2";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -44,6 +44,7 @@ const SHELL_PATHS = Object.freeze([
     "js/productionFirebaseRuntime.js",
     "js/sparkAccountBootstrap.js",
     "js/sparkConnectedAccount.js",
+    "js/sparkPrivatePairing.js",
     "js/restore.js",
     "js/restoreUI.js",
     "js/ruleBook.js",
