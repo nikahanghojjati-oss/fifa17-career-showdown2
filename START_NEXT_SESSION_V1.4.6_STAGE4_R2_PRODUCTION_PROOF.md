@@ -48,8 +48,28 @@ After first genuine Stage 4 proof, harden within Stage 4: two physical devices, 
 
 ## Locked boundaries
 
-App Check enforcement OFF. Firebase Spark / zero billing. Firestore persistent cache disabled/memory-only. Google Auth popup-only `browserSessionPersistence`, no extra scopes. No Blaze, Cloud Run, Cloud Functions or Firebase Storage. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating, Candidate B read-only, Candidate C sole destructive local Apply authority. Exactly two managers. No public discovery/community/matchmaking/public invite directory/global leaderboard/rankings.
+App Check enforcement remains OFF. Firebase Spark / zero billing. Firestore persistent cache disabled/memory-only. Google Auth popup-only `browserSessionPersistence`, no extra scopes. No Blaze, Cloud Run, Cloud Functions or Firebase Storage. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating, Candidate B read-only, Candidate C sole destructive local Apply authority. Exactly two managers. No public discovery/community/matchmaking/public invite directory/global leaderboard/rankings.
 
 ## Successor operating instruction
 
 Use stronger capabilities aggressively but truthfully. Automate provider/GitHub/deployment/visual evidence collection instead of outsourcing it to the owner. Ask the owner only for genuinely owner-only authentication or physical-device actions. Stay on the single Remote Joining dependency lane, make the smallest safe changes, and do not repeat generic setup or earlier proven work.
+
+## Mandatory SLE continuity language
+
+SLE = Smart Lean Efficient.
+
+IMMEDIATE NEXT TASK AFTER FULL STUDY: independently prove the deployed `v1.7.0 / 1.7.0-r2` shell and then obtain genuine Connected Rivalry production evidence using the already-paired accounts and registered devices; Stage 5 remains blocked.
+
+Standing owner authorization remains active: after all required tests and mandatory gates pass, merge and deploy without asking for repeated owner approval, while preserving expected-head protection and deployment verification.
+
+Remote Joining readiness: 69/100. Do not move it for this handoff package.
+
+Every substantive owner-facing project response must end with these seven lines in this order:
+
+Handoff proximity: X%
+Remote Joining readiness: X/100
+Current lane: ...
+Concrete dependency completed: ...
+Next unlock: ...
+Blocker: ...
+Sidequest check: ...
