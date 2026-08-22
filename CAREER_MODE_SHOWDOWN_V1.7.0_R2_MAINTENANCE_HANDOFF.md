@@ -1,0 +1,11 @@
+# Career Mode Showdown v1.7.0-r2 Maintenance Handoff
+
+Current bounded candidate: `v1.7.0 / 1.7.0-r2`. Previous known-good whole shell: `1.6.0-r1`. This maintenance slice fixes public runtime identity coherence only; it does not reopen or expand Stage 4 capability.
+
+The owner observed production initially render `v1.7.0 · Connected Rivalry` and later change to `v1.7.0 · Stable`. Investigation found no intended final-source mutation to Stable, but did prove that changed Stage 4 runtime bytes had reused the same public `1.7.0-r1` asset identity. The fresh r2 namespace removes that ambiguity. The static Home tile now starts as `LOCAL / SAVE LIBRARY`, matching the existing intentional bootstrap identity instead of visibly relabeling itself.
+
+Preserve the Installable Offline App and `1.6.0-r1` as the known-good recovery shell. Preserve transaction-owned rollback semantics, strict exact raw snapshot authority, ownership-scoped rollback, anti-clobber behavior and exact recovery verification. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.
+
+Do not republish Firebase Rules. Production Stage 4 Rules remain exact reviewed blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`. App Check enforcement remains OFF, Firebase Spark / zero billing remains mandatory, persistent Firestore cache remains disabled, and Stage 5 Remote Joining session writes remain denied.
+
+Require the complete 14-family exact-head gate, clean submitted reviews, clean inline review threads and mergeability before merge/deploy under standing authorization. After deployment, prove that the footer remains `v1.7.0 · Connected Rivalry` after startup settles, then resume genuine Connected Rivalry production proof. RJR-1 remains 69 until genuine production capability evidence exists.

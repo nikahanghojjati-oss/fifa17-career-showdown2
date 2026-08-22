@@ -1,3 +1,11 @@
+# CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 SHELL COHERENCE HOTFIX — 2026-08-22 ET
+
+Status: CURRENT BOUNDED RUNTIME HOTFIX RELEASE CANDIDATE / v1.7.0 / 1.7.0-r2 / NOT PRODUCTION-PROVEN.
+Authorized release candidate: `v1.7.0 — Connected Rivalry` / `1.7.0-r2`.
+Previous known-good runtime: `1.6.0-r1`.
+
+Immediate task: validate and deploy only the fresh r2 shell identity, prove after startup settling that the footer remains `v1.7.0 · Connected Rivalry` and the Home local-data tile remains `LOCAL / SAVE LIBRARY`, then resume genuine Stage 4 Connected Rivalry production proof. Do not republish Firestore Rules, repeat account/device/pairing setup, change canonical local storage, weaken transaction-owned / strict exact raw snapshot recovery, or begin Stage 5. Firebase Spark / zero billing and App Check enforcement OFF remain locked. RJR-1 remains 69.
+
 # NEXT TASK — Career Mode Showdown
 
 ## CURRENT OVERRIDE — v1.7.0 STAGE 4 CONNECTED RIVALRY — 2026-08-21 ET
