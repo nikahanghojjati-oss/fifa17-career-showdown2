@@ -1,0 +1,134 @@
+name: Temporary v1.7.0-r2 shell coherence patch
+
+on:
+  push:
+    branches: [agent/v1.7.0-r2-shell-coherence-hotfix]
+    paths:
+      - ".github/workflows/temporary-v170-r2-shell-coherence.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.7.0-r2-shell-coherence-hotfix
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Apply bounded runtime coherence hotfix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path('.')
+          runtime_files = [root/'index.html', root/'manifest.webmanifest', root/'service-worker.js']
+          runtime_files += sorted((root/'js').glob('*.js'))
+          runtime_files += sorted((root/'css').glob('*.css'))
+          runtime_files += sorted((root/'data').glob('*.js'))
+          for path in runtime_files:
+              text = path.read_text()
+              if '1.7.0-r1' in text:
+                  path.write_text(text.replace('1.7.0-r1', '1.7.0-r2'))
+
+          index = root/'index.html'
+          text = index.read_text()
+          old = '<span class="menuTileCode">OPTIONS</span><span class="menuTileLabel">SETTINGS</span><span class="menuTileMeta">Motion, app information and local data</span>'
+          new = '<span class="menuTileCode">LOCAL</span><span class="menuTileLabel">SAVE LIBRARY</span><span class="menuTileMeta">Local Showdowns, manager profiles and settings</span>'
+          if old not in text:
+              raise SystemExit('Expected static Settings tile identity not found')
+          text = text.replace(old, new, 1)
+          if '<footer>Career Mode Showdown<br>v1.7.0 · Connected Rivalry</footer>' not in text:
+              raise SystemExit('Expected Connected Rivalry footer missing')
+          index.write_text(text)
+
+          release = '''# Career Mode Showdown v1.7.0-r2 — Shell Coherence Hotfix\n\nStatus: RELEASE CANDIDATE\n\nApplication version: `v1.7.0`\nRuntime asset revision: `1.7.0-r2`\nPrevious known-good runtime: `1.6.0-r1`\n\nThis is a bounded runtime-maintenance candidate inside the Stage 4 Connected Rivalry production-proof checkpoint. It does not add a product capability. It assigns a fresh immutable public runtime namespace after multiple Stage 4 candidate byte generations reused `1.7.0-r1`, and it makes the initial Home local-data tile match the intentional post-bootstrap `LOCAL / SAVE LIBRARY` identity.\n\nThe release footer remains exactly `v1.7.0 · Connected Rivalry`. Browser stability proof now waits after startup and rejects any delayed footer or Home local-data identity mutation. The service worker uses `1.7.0-r2` as current and retains production-proven `1.6.0-r1` as the whole-shell recovery target; the potentially mixed `1.7.0-r1` cache is not a recovery authority.\n\nStage 4 Firestore Rules are unchanged. The production-published reviewed Rules blob remains `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`, and the immutable Stage 4 source seal remains `7336adda832322bbd93e8c16f3de0e4bbf5273c1`. App Check enforcement remains OFF, Firebase Spark / zero billing remains mandatory, Firestore persistent cache remains disabled, and Google authentication remains popup-only `browserSessionPersistence`.\n\nCanonical local storage, Candidate A/B/C authority, exactly-two-manager pairing, stale/idempotency/tombstone protections, and the Stage 5 session-write lock are unchanged. RJR-1 remains `69/100`; this maintenance candidate earns no readiness credit by itself.\n'''
+          (root/'RELEASE_V1.7.0_R2.md').write_text(release)
+
+          handoff = '''# Career Mode Showdown v1.7.0-r2 Maintenance Handoff\n\nCurrent bounded candidate: `v1.7.0 / 1.7.0-r2`. Previous known-good whole shell: `1.6.0-r1`. This maintenance slice fixes public runtime identity coherence only; it does not reopen or expand Stage 4 capability.\n\nThe owner observed production initially render `v1.7.0 · Connected Rivalry` and later change to `v1.7.0 · Stable`. Investigation found no intended final-source mutation to Stable, but did prove that changed Stage 4 runtime bytes had reused the same public `1.7.0-r1` asset identity. The fresh r2 namespace removes that ambiguity. The static Home tile now starts as `LOCAL / SAVE LIBRARY`, matching the existing intentional bootstrap identity instead of visibly relabeling itself.\n\nPreserve the Installable Offline App and `1.6.0-r1` as the known-good recovery shell. Preserve transaction-owned rollback semantics, strict exact raw snapshot authority, ownership-scoped rollback, anti-clobber behavior and exact recovery verification. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`.\n\nDo not republish Firebase Rules. Production Stage 4 Rules remain exact reviewed blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`. App Check enforcement remains OFF, Firebase Spark / zero billing remains mandatory, persistent Firestore cache remains disabled, and Stage 5 Remote Joining session writes remain denied.\n\nRequire the complete 14-family exact-head gate, clean submitted reviews, clean inline review threads and mergeability before merge/deploy under standing authorization. After deployment, prove that the footer remains `v1.7.0 · Connected Rivalry` after startup settles, then resume genuine Connected Rivalry production proof. RJR-1 remains 69 until genuine production capability evidence exists.\n'''
+          (root/'CAREER_MODE_SHOWDOWN_V1.7.0_R2_MAINTENANCE_HANDOFF.md').write_text(handoff)
+
+          contract = r'''const assert=require("node:assert/strict");
+          const fs=require("node:fs"),path=require("node:path");
+          const root=path.resolve(__dirname,"../..");
+          const read=p=>fs.readFileSync(path.join(root,p),"utf8");
+          const html=read("index.html"),app=read("js/app.js"),worker=read("service-worker.js"),manifest=read("manifest.webmanifest"),release=read("RELEASE_V1.7.0_R2.md");
+          assert.match(app,/const APP_VERSION = "1\.7\.0";/);
+          assert.match(html,/app-asset-revision" content="1\.7\.0-r2"/);
+          assert.match(worker,/const RUNTIME_REVISION = "1\.7\.0-r2";/);
+          assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.6\.0-r1";/);
+          assert.match(html,/<footer>Career Mode Showdown<br>v1\.7\.0 · Connected Rivalry<\/footer>/);
+          assert.match(html,/<span class="menuTileCode">LOCAL<\/span><span class="menuTileLabel">SAVE LIBRARY<\/span><span class="menuTileMeta">Local Showdowns, manager profiles and settings<\/span>/);
+          assert.match(release,/Runtime asset revision: `1\.7\.0-r2`/);
+          assert.match(release,/Previous known-good runtime: `1\.6\.0-r1`/);
+          assert.match(manifest,/1\.7\.0-r2/);
+          const active=["index.html","manifest.webmanifest","service-worker.js"];
+          for(const dir of ["js","css","data"]){for(const name of fs.readdirSync(path.join(root,dir)).filter(n=>/\.(?:js|css)$/.test(n)))active.push(`${dir}/${name}`);}
+          const stale=active.filter(file=>read(file).includes("1.7.0-r1"));
+          assert.deepEqual(stale,[],`Changed r1 public runtime identity leaked into r2 surfaces: ${stale.join(", ")}`);
+          console.log("PASS v1.7.0-r2 shell coherence: immutable namespace, stable release identity and 1.6.0-r1 recovery target.");
+          '''
+          (root/'tests/contracts/release-shell-coherence-contracts.cjs').write_text(contract)
+
+          suite = root/'tests/support/run-contract-suite.cjs'
+          text = suite.read_text()
+          needle='  "tests/contracts/stage4-connected-rivalry-contracts.cjs",\n'
+          if needle not in text: raise SystemExit('Stage 4 suite anchor missing')
+          text=text.replace(needle,needle+'  "tests/contracts/release-shell-coherence-contracts.cjs",\n',1)
+          suite.write_text(text)
+
+          static = root/'tests/contracts/static-app-release-contracts.cjs'
+          text=static.read_text()
+          old="const A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),z=require('node:zlib');const root=path.resolve(__dirname,'../..'),read=p=>fs.readFileSync(path.join(root,p),'utf8'),exists=p=>fs.existsSync(path.join(root,p));const html=read('index.html'),app=read('js/app.js'),css=read('css/app.css'),opt=read('js/optionalModules.js')"
+          new="const A=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),z=require('node:zlib');const root=path.resolve(__dirname,'../..'),read=p=>fs.readFileSync(path.join(root,p),'utf8'),exists=p=>fs.existsSync(path.join(root,p));const html=read('index.html'),app=read('js/app.js'),worker=read('service-worker.js'),css=read('css/app.css'),opt=read('js/optionalModules.js')"
+          if old not in text: raise SystemExit('Static contract header anchor missing')
+          text=text.replace(old,new,1)
+          old2="A.ok(release.includes(`Previous known-good runtime: \\`${version}-r${gen-1}\\``),'Runtime hotfix record must identify its immediate previous whole-shell recovery target.')"
+          new2="const previous=(worker.match(/const PREVIOUS_RUNTIME_REVISION = \\\"([^\\\"]*)\\\";/)||[])[1];A.ok(previous&&release.includes(`Previous known-good runtime: \\`${previous}\\``),'Runtime hotfix record must identify its reviewed previous whole-shell recovery target.')"
+          if old2 not in text: raise SystemExit('Static contract previous-runtime anchor missing')
+          text=text.replace(old2,new2,1)
+          static.write_text(text)
+
+          audit=root/'tests/browser/stability-audit.cjs'
+          text=audit.read_text()
+          anchor='''async function activeScreens(page){\n    return page.locator(".screen:not(.hidden)").evaluateAll(elements => elements.map(element => element.id));\n}\n'''
+          addition='''async function assertStableReleaseIdentity(page, label){\n    await page.waitForTimeout(5000);\n    const footer = normalizeText(await page.locator("#app > footer").innerText());\n    assert.equal(footer, "Career Mode Showdown v1.7.0 · Connected Rivalry", `${label} release footer changed after startup settled.`);\n    const tile = await page.locator("#settingsButton").evaluate(button => ({\n        code: button.querySelector(".menuTileCode")?.textContent?.trim() || "",\n        label: button.querySelector(".menuTileLabel")?.textContent?.trim() || "",\n        meta: button.querySelector(".menuTileMeta")?.textContent?.trim() || ""\n    }));\n    assert.deepEqual(tile,{code:"LOCAL",label:"SAVE LIBRARY",meta:"Local Showdowns, manager profiles and settings"},`${label} Home local-data identity changed after startup settled.`);\n    checkpoint(`${label} stable release identity`, "v1.7.0 · Connected Rivalry · Save Library");\n}\n\n'''
+          if anchor not in text: raise SystemExit('Browser audit insertion anchor missing')
+          text=text.replace(anchor,addition+anchor,1)
+          call='''        await openApplication(page);\n        assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()), "No Active Showdown");'''
+          repl='''        await openApplication(page);\n        await assertStableReleaseIdentity(page, config.prefix);\n        assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()), "No Active Showdown");'''
+          if call not in text: raise SystemExit('Browser audit call anchor missing')
+          audit.write_text(text.replace(call,repl,1))
+
+          def prepend(path, block):
+              p=root/path; p.write_text(block+p.read_text())
+
+          prepend(Path('PROJECT_STATE.md'), '''# CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 SHELL COHERENCE HOTFIX — 2026-08-22 ET\n\nStatus: CURRENT BOUNDED STAGE 4 RELEASE CANDIDATE / v1.7.0 / 1.7.0-r2 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.\n\nThe authorized release candidate is `v1.7.0 — Connected Rivalry` / Installable Offline App runtime `1.7.0-r2`. The reviewed previous known-good whole-shell recovery runtime is `1.6.0-r1`; do not use the potentially mixed `1.7.0-r1` cache as recovery authority. This hotfix only gives the final Stage 4 bytes a fresh immutable public namespace and stabilizes the visible release/Home identity. Production Stage 4 Firestore Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` and must not be republished. RJR-1 remains `69/100` until genuine Connected Rivalry production behavior is proven. Canonical local storage, Candidate C destructive Apply exclusivity, transaction-owned rollback, strict exact raw snapshot authority, Installable Offline App recovery, two-manager private authorization, zero billing and the Stage 5 lock remain unchanged.\n\n''')
+          prepend(Path('NEXT_TASK.md'), '''# CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 SHELL COHERENCE HOTFIX — 2026-08-22 ET\n\nStatus: CURRENT BOUNDED RUNTIME HOTFIX RELEASE CANDIDATE / v1.7.0 / 1.7.0-r2 / NOT PRODUCTION-PROVEN.\nAuthorized release candidate: `v1.7.0 — Connected Rivalry` / `1.7.0-r2`.\nPrevious known-good runtime: `1.6.0-r1`.\n\nImmediate task: validate and deploy only the fresh r2 shell identity, prove after startup settling that the footer remains `v1.7.0 · Connected Rivalry` and the Home local-data tile remains `LOCAL / SAVE LIBRARY`, then resume genuine Stage 4 Connected Rivalry production proof. Do not republish Firestore Rules, repeat account/device/pairing setup, change canonical local storage, weaken transaction-owned / strict exact raw snapshot recovery, or begin Stage 5. Firebase Spark / zero billing and App Check enforcement OFF remain locked. RJR-1 remains 69.\n\n''')
+          prepend(Path('README.md'), '''# CURRENT RELEASE NOTE — v1.7.0-r2 shell coherence candidate\n\nActive release candidate: `v1.7.0 — Connected Rivalry` / `1.7.0-r2` — not production-proven. Previous known-good production runtime: `1.6.0-r1` — production-proven. This bounded maintenance candidate assigns a fresh immutable browser asset namespace after `1.7.0-r1` was reused during Stage 4 candidate development. It does not alter Firestore Rules or add Remote Joining capability.\n\n''')
+          prepend(Path('CHANGELOG.md'), '''# v1.7.0-r2 — Stage 4 shell coherence hotfix — release candidate\n\nCandidate runtime: `1.7.0-r2`\nPrevious known-good runtime: `1.6.0-r1`\nStatus: bounded Stage 4 runtime-maintenance candidate; not production-proven.\n\n- assigns a fresh immutable runtime/public asset namespace after changed Stage 4 bytes reused `1.7.0-r1`;\n- makes the static Home local-data tile match the intentional `LOCAL / SAVE LIBRARY` bootstrap state;\n- keeps the release footer exactly `v1.7.0 · Connected Rivalry` and adds a delayed browser assertion that rejects post-startup identity mutation;\n- keeps `1.6.0-r1` as the known-good whole-shell recovery target;\n- changes no Firestore Rules, authorization semantics, canonical local storage, Candidate C authority, billing, App Check enforcement or Stage 5 lock;\n- RJR-1 remains 69 pending genuine Connected Rivalry production proof.\n\n''')
+
+          for path in runtime_files:
+              if '1.7.0-r1' in path.read_text():
+                  raise SystemExit(f'Stale r1 runtime identity remains in {path}')
+          PY
+      - name: Validate bounded hotfix contracts
+        run: |
+          npm ci
+          npm run test:contracts
+      - name: Commit bounded hotfix payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html manifest.webmanifest service-worker.js js css data tests RELEASE_V1.7.0_R2.md CAREER_MODE_SHOWDOWN_V1.7.0_R2_MAINTENANCE_HANDOFF.md PROJECT_STATE.md NEXT_TASK.md README.md CHANGELOG.md
+          git commit -m "Fix v1.7.0 shell release coherence"
+          git push origin HEAD:agent/v1.7.0-r2-shell-coherence-hotfix
