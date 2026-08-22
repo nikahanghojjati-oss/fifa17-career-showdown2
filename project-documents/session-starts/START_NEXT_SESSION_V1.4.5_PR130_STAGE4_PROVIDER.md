@@ -16,6 +16,8 @@ On the exact source seal: all 14 permanent workflow families green, zero submitt
 
 Before any mutation, independently verify live `main`, PR #130 and its exact current head/diff/workflows/reviews/threads/mergeability, deployed runtime identity and current production Firebase Rules state. Read `SESSION_BOOTSTRAP.json`, `CURRENT_STAGE4_SOURCE_SEAL_OVERRIDE_2026-08-21.md`, `SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md`, the SLE/WEC authorities, RJR-1, `RELEASE_V1.7.0.md` and standing merge/deploy authorization.
 
+Also read `SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_GROK_INTEGRATED_2026-08-21.md`. It preserves the same Stage 4 source-seal authority while recording only the substantial accepted lessons from the owner's independent Grok review: stronger Stage 4 production-proof expectations, a two-physical-device Stage 4 hardening requirement, explicit stale/replay/local-vs-remote UX, and a named remote-to-local reconciliation design gate before Stage 5. Treat the external review as advisory; live source, owner instructions and project authorities still win.
+
 The predecessor `PREPARE_HANDOFF` belongs only to `we-2026-08-21-v170-connected-rivalry`. Validate/archive it, initialize a fresh WEC with reset counters and live starting-main truth, and run your own assessment. Do not inherit the predecessor decision.
 
 Do not repeat Firebase project/Web App setup, Google Auth setup, App Check setup, Stage 2 account bootstrap, Stage 3 device/pairing setup or already-proven Stage 3 Rules publication.
@@ -28,7 +30,9 @@ Remote Joining readiness remains `69/100`; source, CI, emulator and documentatio
 
 Complete the Stage 4 Connected Rivalry provider-publication and production-proof checkpoint. Preserve `7336adda...` as the immutable runtime/source seal and confirm any later PR commits are documentation/continuity only. If all current required tests and required provider gates remain clean, publish the exact reviewed Stage 4 Rules candidate, record provider proof, and merge/deploy under standing owner authorization only after all required gates permit it. Then obtain genuine live Connected Rivalry production capability evidence before changing RJR-1. Do not begin Stage 5.
 
-Standing owner merge/deploy authorization remains effective only after all required tests and current provider/deployment gates pass; never use it to bypass a failed gate.
+After Stage 4 first production proof, perform focused Stage 4 hardening before Stage 5: prove the connected flow on two physical devices, exercise revoked-device/adverse-network behavior, and make stale/replay/local-vs-remote state understandable in the UI. Before Stage 5 session orchestration begins, complete and review the remote-to-local reconciliation contract described in the Grok-integrated handoff so remote state cannot introduce a second unsafe destructive local Apply path.
+
+Standing owner merge/deploy authorization remains effective only after all required tests and current mandatory publication gates pass; never use it to bypass a failed gate.
 
 Every substantive owner-facing response must end with:
 
