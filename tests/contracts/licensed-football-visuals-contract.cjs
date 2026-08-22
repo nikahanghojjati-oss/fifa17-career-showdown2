@@ -126,7 +126,7 @@ const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1]
 assert.ok(appVersion, 'APP_VERSION is missing.');
 assert.strictEqual(pkg.version, appVersion, 'Package release identity must track APP_VERSION.');
 assert.ok(revision && revision.startsWith(`${appVersion}-r`) && /^[1-9]\d*$/.test(revision.slice(`${appVersion}-r`.length)), 'HTML cache revision must be a numbered revision for APP_VERSION.');
-assert.ok(html.includes(`v${appVersion} · Stable`) || html.includes(`v${appVersion} · Product Deepening`) || html.includes(`v${appVersion} · Private Connected Account Foundation`) || html.includes(`v${appVersion} · Registered Devices & Private Pairing`), 'Footer release identity must track APP_VERSION.');
+assert.ok(html.includes(`v${appVersion} · Stable`) || html.includes(`v${appVersion} · Product Deepening`) || html.includes(`v${appVersion} · Private Connected Account Foundation`) || html.includes(`v${appVersion} · Registered Devices & Private Pairing`) || html.includes(`v${appVersion} · Connected Rivalry`), 'Footer release identity must track APP_VERSION.');
 assert.ok(app.includes(`const APP_VERSION = "${appVersion}";`), 'Runtime APP_VERSION declaration is inconsistent.');
 assert.ok(app.includes(`visual-fidelity-r3.css?v=${revision}`), 'Protected visual-fidelity cache revision must advance coherently.');
 assert.ok(builder.includes('James Rodríguez (cropped).jpg') && builder.includes('Manchester United v Chelsea, 16 April 2017 (11).jpg') && builder.includes('Anthony Martial 27 September 2017 cropped.jpg'), 'Deterministic builder is not aligned with active player sources.');
