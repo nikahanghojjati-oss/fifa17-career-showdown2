@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-22-stage4-r2-production-proof",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-22T10:47:00-04:00",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-08-22T11:00:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -10,36 +10,35 @@
     "runtimeReleaseMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "very-high",
     "projectComplexity": "very-high",
-    "compactionCount": 0,
-    "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 9,
-    "toolRoutingErrors": 0,
+    "compactionCount": 1,
+    "majorPhasesCompleted": 5,
+    "largeEvidenceEvents": 14,
+    "toolRoutingErrors": 4,
     "correctedFailures": 1,
-    "repeatedMistakes": 0,
+    "repeatedMistakes": 1,
     "staleFactCorrections": 0,
-    "unresolvedFailures": 1,
-    "newMilestoneNext": false,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 91,
+    "handoffCompleteness": 100,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "decision": {
-    "value": "PREPARE_HANDOFF",
+    "value": "HANDOFF_AT_CHECKPOINT",
     "scope": "current-successor-environment",
-    "reason": "The fresh successor completed live reconstruction, repeated production-failure classification, the bounded audit-observability correction and the first complete diagnostic PR gate. Finish only PR #133 exact-head sealing, publication and post-merge provider classification before reassessing; do not start genuine cross-account mutation as a new milestone in the current unsealed state."
+    "reason": "The successor completed live reconstruction, the bounded audit-observability correction, exact-head PR #133 publication and post-merge provider classification. The next substantial action requires genuine production evidence from the owner's existing ordinary paired browser rather than unsupported headless CI, so this environment must publish the complete SLE checkpoint and stop before cross-account mutation."
   },
   "continuity": {
-    "currentTask": "Classify the post-merge deployed App Check-only Stability failure, independently prove the deployed v1.7.0 / 1.7.0-r2 shell and delayed release identity, then obtain genuine Connected Rivalry production evidence using the already-paired accounts and registered devices. Do not begin Stage 5.",
-    "lastSafeCheckpoint": "Draft PR #133 is open from exact diagnostic head e44faca8e98adfd51d6f62f7cb61493ad73c17e7 against unchanged main 212c232d0572b15316c724f957adc3e17dd8595c. Its four-file patch contains no runtime, Rules or workflow change. All 14 workflow families succeeded on that exact diagnostic head, including Stability contracts and full Chromium Stability; submitted reviews and inline review threads are empty and GitHub reports the PR mergeable. The branch corrects the stale deployed App Check write-scope assertion and adds redacted provider/dependency failure evidence. Cloud-browser DOM proof separately observed 1.7.0-r2, footer v1.7.0 · Connected Rivalry and Home LOCAL / SAVE LIBRARY unchanged after more than 20 seconds. Genuine Connected Rivalry remains unproven and RJR-1 remains 69.",
-    "nextSafeAction": "Publish this WEC-only seal as the final PR #133 branch mutation, require all 14 workflow families plus clean reviews/threads and mergeability on that exact unchanged sealed head, then mark ready and squash-merge with expected-head protection. Inspect the resulting main push Stability deployed-site smoke to classify the redacted provider failure or prove recovery. Do not change runtime bytes or begin genuine cross-account mutation before that production-proof checkpoint is coherent.",
+    "currentTask": "Close only the Stage 4 r2 deployment/App Check classification checkpoint through mandatory SLE publication. Do not begin owner-browser or cross-account mutation in this closing environment and do not begin Stage 5.",
+    "lastSafeCheckpoint": "PR #133 merged by expected-head squash from exact sealed head 06f068c6f66ded465bea563755e54d543cb3f744 to live main d3ae21ebfded08e45d9a0db61cf22948e1539df3. All 14 PR workflow families passed on that exact head with zero reviews, zero inline threads and clean mergeability. On the merge push, Pages and 13 other workflow families succeeded; Stability run 32579873735 alone failed in deployed-site-smoke job 97047866345 after proving all 89 deployed r2 runtime files byte for byte and passing runtime provenance. The redacted App Check evidence is reCAPTCHA Enterprise POST abort plus Firebase SDK 403 initial-throttle for 24 hours. Current Firebase guidance explicitly classifies CI as an invalid App Check environment; production debug App Check remains prohibited. Cloud-browser DOM proof separately observed 1.7.0-r2, v1.7.0 · Connected Rivalry and LOCAL / SAVE LIBRARY unchanged after more than 20 seconds. Genuine normal-browser App Check and Connected Rivalry behavior remain unproven; RJR-1 remains 69.",
+    "nextSafeAction": "A fresh successor must verify live main and this continuity-only handoff publication, initialize a fresh WEC, then request exactly one redacted diagnostics result from the owner's existing ordinary paired production browser: JSON.stringify(window.CareerModeProductionFirebaseRuntime?.diagnostics?.()). If it reports ready/connected/tokenObserved, continue genuine Connected Rivalry proof in that same already-paired session. If it reports unavailable, inspect the existing App Check registration, reCAPTCHA Enterprise domain/key binding and metrics without recreating setup, lowering the risk threshold, enabling debug mode, enabling enforcement or adding billing.",
     "unfinishedWork": [
-      "Classify and resolve or truthfully seal the repeated deployed App Check-only Stability failure without weakening the permanent proof lane.",
-      "Prove the deployed footer remains v1.7.0 · Connected Rivalry after startup settles and Home remains LOCAL / SAVE LIBRARY.",
+      "Obtain a redacted App Check diagnostics result from the owner's existing ordinary paired production browser; do not use headless CI or a production debug provider as a substitute.",
       "Prove genuine Manager A publish and Manager B refresh against the same private rivalry without overwriting canonical local saves.",
       "Prove monotonic revision, stale-base rejection and exact idempotency behavior in production when safely repeatable.",
       "Prove third-account and revoked-device denial when safe, preserve local-only fallback and keep Stage 5 session writes denied.",
@@ -50,6 +49,8 @@
       "Do not republish production Firestore Rules; reviewed and published Stage 4 blob remains ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f.",
       "Do not repeat Firebase project, Web App, Google Auth, App Check, Connected Account, device registration or private pairing setup without concrete regression evidence.",
       "Do not infer genuine Connected Rivalry proof from source, CI, exact-byte deployment or Rules publication.",
+      "Do not treat headless GitHub Actions as a reliable production reCAPTCHA Enterprise attestation environment; current Firebase guidance identifies CI as invalid unless a debug provider is used, and production debug App Check remains prohibited.",
+      "Do not lower the reCAPTCHA Enterprise risk threshold, rotate/recreate the existing key or registration, enable enforcement or add billing merely to make automation green.",
       "App Check enforcement remains OFF and Firebase Spark / zero billing remains mandatory.",
       "Firestore persistence remains memory-only and Google Auth remains popup-only browserSessionPersistence with no additional scopes.",
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
@@ -71,7 +72,13 @@
       "The production audit stale deny-all assertion is corrected to the reviewed spark-private-account-device-pairing-connected-rivalry-state scope, and redacted external/provider diagnostics are now protected by contract.",
       "All 68 repository contract files after the explicit static release contract pass locally; the first diagnostic run exposed and the correction restored an explicit no-predecessor-decision-inheritance WEC assertion.",
       "PR #133 diagnostic head e44faca8e98adfd51d6f62f7cb61493ad73c17e7 passed all 14 workflow families; reviews and inline threads remain zero and mergeability is clean.",
-      "This WEC update is the final intended PR #133 branch mutation; every publication gate must be re-proven on the resulting exact seal before merge.",
+      "The 10:47 WEC-only update was the final intended PR #133 branch mutation; every publication gate was re-proven on the resulting exact seal before merge.",
+      "Final PR #133 seal 06f068c6f66ded465bea563755e54d543cb3f744 passed all 14 workflow families and merged with expected-head squash to d3ae21ebfded08e45d9a0db61cf22948e1539df3.",
+      "Main push Pages run 32579873745 and 13 non-Stability validation families succeeded. Stability run 32579873735 failed only in deployed-site-smoke job 97047866345 after exact 89-file r2 deployment and runtime-provenance success.",
+      "Redacted provider evidence records an aborted POST to https://www.google.com/recaptcha/enterprise/clr and Firebase App Check 403 initial-throttle for one day. No provider keys, query strings or tokens were logged.",
+      "Official Firebase web-provider guidance says some environments, including CI, are classified invalid and require the debug provider for CI testing. The project forbids production debug App Check, so no further same-environment rerun or security weakening is authorized.",
+      "Four recoverable tool-routing errors and one repeated attempt to read an inaccessible cloud-browser page-world global are recorded; no repository, provider or production mutation resulted.",
+      "This seven-file Smart Lean Efficient transition package is the final intended branch mutation; require the complete exact-head PR gate and clean review/thread/mergeability state before expected-head publication.",
       "Remote Joining readiness remains 69/100 until genuine Connected Rivalry production capability is demonstrated."
     ]
   }
