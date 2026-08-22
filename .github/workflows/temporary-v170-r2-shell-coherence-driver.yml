@@ -1,0 +1,61 @@
+name: Temporary v1.7.0-r2 shell coherence driver
+
+on:
+  push:
+    branches: [agent/v1.7.0-r2-shell-coherence-hotfix]
+    paths:
+      - ".github/workflows/temporary-v170-r2-shell-coherence-driver.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/temporary-v170-r2-shell-coherence-driver.yml"
+      - ".github/workflows/temporary-v170-r2-shell-coherence.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.7.0-r2-shell-coherence-hotfix
+          fetch-depth: 0
+      - name: Materialize the reviewed bounded transformation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import textwrap
+          source=Path('.github/workflows/temporary-v170-r2-shell-coherence.yml').read_text()
+          start="          python - <<'PY'\n"
+          end="\n          PY\n      - name: Validate bounded hotfix contracts"
+          if start not in source or end not in source:
+              raise SystemExit('Unable to locate reviewed transformation payload')
+          payload=source.split(start,1)[1].split(end,1)[0]
+          exec(compile(textwrap.dedent(payload),'r2-shell-coherence-payload','exec'),{'__name__':'__main__'})
+          PY
+      - name: Commit transformation before diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html manifest.webmanifest service-worker.js js css data tests RELEASE_V1.7.0_R2.md CAREER_MODE_SHOWDOWN_V1.7.0_R2_MAINTENANCE_HANDOFF.md PROJECT_STATE.md NEXT_TASK.md README.md CHANGELOG.md
+          if git diff --cached --quiet; then
+            echo "No transformation changes to commit."
+          else
+            git commit -m "Fix v1.7.0 shell release coherence"
+            git push origin HEAD:agent/v1.7.0-r2-shell-coherence-hotfix
+          fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Run diagnostic contracts after publication
+        run: |
+          npm ci
+          npm run test:contracts
