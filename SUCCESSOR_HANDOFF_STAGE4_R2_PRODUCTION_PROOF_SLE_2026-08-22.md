@@ -76,7 +76,7 @@ Before Stage 5 can influence local canonical saves, complete an explicit reviewe
 
 ## 7. Locked product/security boundaries
 
-- App Check enforcement OFF.
+- App Check enforcement remains OFF.
 - Firebase Spark / zero billing mandatory.
 - Firestore persistent cache disabled/memory-only.
 - Google Auth popup-only `browserSessionPersistence`, no additional scopes.
@@ -103,3 +103,23 @@ Do not run in circles. Do not repeat setup already proven. Do not turn continuit
 The predecessor environment is transition-prepared at Handoff proximity 100%. Its `PREPARE_HANDOFF` decision applies only to the closing environment. The successor must validate predecessor facts, archive them, initialize a fresh environment ID with current live `main`, reset its own counters, record current task/checkpoint/hazards and run its own continuity assessment. Usage remains unavailable and must never be invented.
 
 At the successor's own future Handoff proximity 100%, repeat mandatory Smart Lean Efficient packaging and stop before beginning the next substantial milestone.
+
+## 10. Mandatory SLE continuity language
+
+SLE = Smart Lean Efficient.
+
+IMMEDIATE NEXT TASK AFTER FULL STUDY: independently prove the deployed `v1.7.0 / 1.7.0-r2` shell and then obtain genuine Connected Rivalry production evidence using the already-paired accounts and registered devices; Stage 5 remains blocked.
+
+Standing owner authorization remains active: after all required tests and mandatory gates pass, merge and deploy without asking for repeated owner approval, while preserving exact-head protection and deployment verification.
+
+Remote Joining readiness: 69/100. It remains unchanged until genuine production capability evidence exists.
+
+Every substantive owner-facing project response must end with these seven lines in this order:
+
+Handoff proximity: X%
+Remote Joining readiness: X/100
+Current lane: ...
+Concrete dependency completed: ...
+Next unlock: ...
+Blocker: ...
+Sidequest check: ...
