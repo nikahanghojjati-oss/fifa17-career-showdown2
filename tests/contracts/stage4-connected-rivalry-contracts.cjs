@@ -222,11 +222,14 @@ function stage4Rivalry(fixture){
   assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/);
 
   const app=fs.readFileSync("js/app.js","utf8");
+  const connectedAccount=fs.readFileSync("js/sparkConnectedAccount.js","utf8");
   const worker=fs.readFileSync("service-worker.js","utf8");
-  assert.match(app,/sparkConnectedRivalry\.js/);
+  assert.doesNotMatch(app,/sparkConnectedRivalry\.js/,"Connected Rivalry must not race the lazy account/pairing lifecycle at local startup.");
+  assert.match(connectedAccount,/SPARK_CONNECTED_RIVALRY_PATH="js\/sparkConnectedRivalry\.js"/);
+  assert.match(connectedAccount,/await sparkConnectedLoadPrivatePairingScript\(\)[\s\S]*await sparkConnectedLoadRivalryScript\(\)/,"Connected Rivalry must load only after the Private Pairing module exists.");
   assert.match(worker,/js\/sparkConnectedRivalry\.js/);
 
-  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, deterministic projection, immutable CAS/replay plan, local-first recovery, and Stage 5 lock\n");
+  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, deterministic projection, immutable CAS/replay plan, lazy prerequisite lifecycle, local-first recovery, and Stage 5 lock\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
