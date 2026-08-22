@@ -53,9 +53,10 @@
     sharedState:{
       path:PATHS.sharedState,
       identity:{rivalryId:"parent path ID",saveId:"stable save_* identity",seasonId:"stable season_* identity inside seasonIds/activeSeasonId"},
-      dataFields:["saveId","managerBindings","seasonIds","activeSeasonId","payloadFormatVersion","payload"],
+      dataFields:["saveId","managerBindings","seasonIds","activeSeasonId","payloadFormatVersion","payload","mutationReceipt"],
       managerBindingFields:["slotId","profileId"],
-      note:"payload is exactly the explicitly connected rivalry Save projection, never the whole local Save Library, recovery bytes, unrelated Legacy or local preferences"
+      mutationReceiptFields:["idempotencyKeyHash","requestFingerprint","baseRevision"],
+      note:"payload is exactly the explicitly connected rivalry Save projection, never the whole local Save Library, recovery bytes, unrelated Legacy or local preferences; mutationReceipt binds the accepted state revision to the exact immutable idempotency receipt so Firestore Rules can verify both writes belong to one transaction"
     },
     invite:{
       path:PATHS.invite,
