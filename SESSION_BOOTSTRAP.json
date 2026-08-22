@@ -1,17 +1,17 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-21T22:30:00-04:00",
+  "recordedAt": "2026-08-22T09:16:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "df3fe061c7df3c4235aa2394623e703a4412ca46",
+  "lastVerifiedMainSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05",
   "latestMainMerge": {
-    "pullRequest": 129,
-    "title": "v1.6.0 Stage 3: Registered Devices / Private Pairing",
-    "mergeSha": "5d254cea6e4deebd2aac79effeda30dcc3048385",
+    "pullRequest": 130,
+    "title": "v1.7.0 Stage 4: Connected Rivalry",
+    "mergeSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05",
     "runtimeChanged": true,
-    "productionProofRecorded": true
+    "productionProofRecorded": false
   },
   "productionRuntimeMerge": {
     "pullRequest": 129,
@@ -45,7 +45,7 @@
     "submittedReviews": 0,
     "inlineReviewThreads": 0,
     "mergeableAtSeal": true,
-    "productionRulesPublished": false,
+    "productionRulesPublished": true,
     "productionProofRecorded": false
   },
   "ownerStandingAuthorization": {
@@ -57,7 +57,7 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "Stage 4 Connected Rivalry source implementation is sealed on PR #130 at exact source head 7336adda832322bbd93e8c16f3de0e4bbf5273c1 with all 14 permanent workflow families green, zero submitted reviews, zero inline review threads and mergeability true. Production remains Stage 3 v1.6.0 / 1.6.0-r1 because Stage 4 provider publication, merge/deployment and live production capability proof are not complete. RJR-1 remains 69/100.",
+  "lastCompletedMilestone": "Stage 4 exact reviewed Firestore Rules are production-published and PR #130 is merged at verified main d0eb160d62a05ebdc5c68b5b79447ce1fedffc05. Owner production observation exposed a browser-shell coherence incident before genuine Connected Rivalry proof, so v1.7.0-r2 is the bounded current runtime hotfix candidate. RJR-1 remains 69/100.",
   "closingWec": {
     "environmentId": "we-2026-08-21-v170-connected-rivalry",
     "decision": "PREPARE_HANDOFF",
@@ -70,7 +70,7 @@
     "productionStatus": "production-proven",
     "immediateRecoveryRuntime": "1.5.0-r2",
     "candidateApplicationVersion": "1.7.0",
-    "candidateRuntimeRevision": "1.7.0-r1",
+    "candidateRuntimeRevision": "1.7.0-r2",
     "candidateStatus": "release-candidate-not-production-proven",
     "candidateImmediateRecoveryRuntime": "1.6.0-r1",
     "firebaseAppConnected": true,
@@ -83,12 +83,12 @@
     "candidateBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
     "productionConnectedAccount": "proven-ready",
     "productionPrivatePairing": "proven",
-    "candidateConnectedRivalry": "source-sealed-awaiting-provider-publication-and-production-proof",
+    "candidateConnectedRivalry": "rules-published-pr130-merged-r2-shell-coherence-hotfix-awaiting-live-capability-proof",
     "storageInitialized": false,
     "functionsInitialized": false,
     "billingRequired": false
   },
-  "currentLane": "PR #130 Stage 4 Connected Rivalry source is sealed. This closing environment must stop after SLE/WEC packaging. A fresh successor must independently verify live state, initialize its own WEC, then complete Stage 4 provider publication, merge/deployment and genuine production Connected Rivalry proof. Stage 5 actual Remote Joining sessions remain blocked.",
+  "currentLane": "Stage 4 Connected Rivalry remains the current bounded lane. Complete only the v1.7.0-r2 shell-coherence hotfix, deploy/prove the stable exact release identity, then resume genuine Connected Rivalry production proof. Stage 5 remains blocked.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -130,6 +130,7 @@
     "REMOTE_JOINING_READINESS.json",
     "WORK_ENVIRONMENT_STATUS.json",
     "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
+    "RELEASE_V1.7.0_R2.md",
     "RELEASE_V1.7.0.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md"
@@ -149,19 +150,17 @@
   ],
   "immediateNextTask": {
     "applicationCandidate": "1.7.0",
-    "runtimeCandidate": "1.7.0-r1",
-    "stage": "Stage 4 Connected Rivalry provider publication and production proof",
+    "runtimeCandidate": "1.7.0-r2",
+    "stage": "Stage 4 Connected Rivalry r2 shell coherence and genuine production proof",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "independently reconstruct live main, PR #130 and provider state and verify the immutable 7336adda source seal",
-      "initialize a fresh successor WEC and do not inherit predecessor PREPARE_HANDOFF",
-      "confirm current required workflow, review, thread and mergeability gates before any provider mutation",
-      "publish the exact reviewed Stage 4 firestore.spark.rules candidate only when current provider gates permit it",
-      "record precise Stage 4 production Rules publication proof",
-      "merge and deploy v1.7.0 / 1.7.0-r1 under standing owner authorization only after all required gates pass",
-      "obtain genuine live Connected Rivalry production capability evidence across the paired-account and registered-device boundary",
-      "update RJR-1 only for fixed-domain production capability evidence actually proven",
+      "validate the bounded v1.7.0-r2 fresh immutable runtime namespace and delayed release-identity regression proof",
+      "keep the exact already-published Stage 4 firestore.spark.rules blob unchanged and do not repeat provider setup",
+      "merge and deploy v1.7.0 / 1.7.0-r2 only after the complete exact-head gate is clean",
+      "prove the live footer remains Connected Rivalry after startup settles and the local-data tile remains stable",
+      "obtain genuine Connected Rivalry production capability evidence across the already-paired accounts and registered devices",
+      "update RJR-1 only for genuine fixed-domain production capability evidence actually proven",
       "keep Stage 5 Remote Joining session orchestration blocked until Stage 4 is production-proven"
     ],
     "blockedUntilLater": [
