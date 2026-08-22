@@ -1,42 +1,42 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-22-stage4-r2-production-proof",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-22T11:00:00-04:00",
+  "environmentId": "we-2026-08-22-stage4-human-appcheck-proof",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-22T15:59:30.630Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "212c232d0572b15316c724f957adc3e17dd8595c",
+    "startingMainSha": "6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60",
     "runtimeReleaseMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2"
   },
   "signals": {
-    "contextComplexity": "very-high",
+    "contextComplexity": "moderate",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 5,
-    "largeEvidenceEvents": 14,
-    "toolRoutingErrors": 4,
-    "correctedFailures": 1,
-    "repeatedMistakes": 1,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
+    "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 70,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "decision": {
-    "value": "HANDOFF_AT_CHECKPOINT",
+    "value": "CONTINUE",
     "scope": "current-successor-environment",
-    "reason": "The successor completed live reconstruction, the bounded audit-observability correction, exact-head PR #133 publication and post-merge provider classification. The next substantial action requires genuine production evidence from the owner's existing ordinary paired browser rather than unsupported headless CI, so this environment must publish the complete SLE checkpoint and stop before cross-account mutation."
+    "reason": "Fresh successor independently verified the live Stage 4 boundary. PR #134 is a one-commit continuity-only delta after PR #133, all 14 exact-head PR workflow families passed, no open PR supersedes the lane, and the current task remains the bounded ordinary-browser App Check and genuine Connected Rivalry production proof."
   },
   "continuity": {
-    "currentTask": "Close only the Stage 4 r2 deployment/App Check classification checkpoint through mandatory SLE publication. Do not begin owner-browser or cross-account mutation in this closing environment and do not begin Stage 5.",
-    "lastSafeCheckpoint": "PR #133 merged by expected-head squash from exact sealed head 06f068c6f66ded465bea563755e54d543cb3f744 to live main d3ae21ebfded08e45d9a0db61cf22948e1539df3. All 14 PR workflow families passed on that exact head with zero reviews, zero inline threads and clean mergeability. On the merge push, Pages and 13 other workflow families succeeded; Stability run 32579873735 alone failed in deployed-site-smoke job 97047866345 after proving all 89 deployed r2 runtime files byte for byte and passing runtime provenance. The redacted App Check evidence is reCAPTCHA Enterprise POST abort plus Firebase SDK 403 initial-throttle for 24 hours. Current Firebase guidance explicitly classifies CI as an invalid App Check environment; production debug App Check remains prohibited. Cloud-browser DOM proof separately observed 1.7.0-r2, v1.7.0 · Connected Rivalry and LOCAL / SAVE LIBRARY unchanged after more than 20 seconds. Genuine normal-browser App Check and Connected Rivalry behavior remain unproven; RJR-1 remains 69.",
-    "nextSafeAction": "A fresh successor must verify live main and this continuity-only handoff publication, initialize a fresh WEC, then request exactly one redacted diagnostics result from the owner's existing ordinary paired production browser: JSON.stringify(window.CareerModeProductionFirebaseRuntime?.diagnostics?.()). If it reports ready/connected/tokenObserved, continue genuine Connected Rivalry proof in that same already-paired session. If it reports unavailable, inspect the existing App Check registration, reCAPTCHA Enterprise domain/key binding and metrics without recreating setup, lowering the risk threshold, enabling debug mode, enabling enforcement or adding billing.",
+    "currentTask": "Obtain one redacted ordinary-browser App Check diagnostics result from the owner's existing paired production browser and, if ready/connected/tokenObserved, continue genuine Stage 4 Connected Rivalry production proof in that same paired context. Do not begin Stage 5.",
+    "lastSafeCheckpoint": "Live main is 6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60, exactly one commit beyond PR #133 merge d3ae21ebfded08e45d9a0db61cf22948e1539df3. PR #134 changed only seven SLE/WEC files and no runtime, Firestore Rules, workflow, provider, storage, enforcement, billing, product-test or version byte. Its exact head 6ad935bf9e24268fd1ba9d4e82f0318356220425 passed all 14 PR workflow families. No open PR supersedes Stage 4. The deployed r2 byte/provenance proof remains intact; ordinary-browser App Check and Connected Rivalry behavior remain unproven; RJR-1 remains 69/100.",
+    "nextSafeAction": "After the production page has been open for about 20 seconds in the owner's existing ordinary already-paired browser, obtain only the JSON result of JSON.stringify(window.CareerModeProductionFirebaseRuntime?.diagnostics?.()). If ready, connected and tokenObserved are true, continue genuine Connected Rivalry proof in that same context. If unavailable, inspect the existing provider registration/domain/key/metrics without recreating setup, lowering risk, enabling debug/enforcement or adding billing.",
     "unfinishedWork": [
       "Obtain a redacted App Check diagnostics result from the owner's existing ordinary paired production browser; do not use headless CI or a production debug provider as a substitute.",
       "Prove genuine Manager A publish and Manager B refresh against the same private rivalry without overwriting canonical local saves.",
@@ -61,25 +61,12 @@
       "Usage is unavailable and must not be estimated."
     ],
     "evidenceNotes": [
-      "Repository GitHub CLI bootstrap installed checksum-verified gh 2.98.0, but CLI authentication is absent; connected GitHub and public Actions APIs remain available.",
-      "The predecessor PREPARE_HANDOFF decision was closing-environment-only and is not inherited by this fresh successor WEC.",
-      "The npm continuity wrapper was cancelled by the Work command layer before execution; the exact repository-owned Node validation command ran and passed.",
-      "PR #132 changed only SESSION_BOOTSTRAP.json, both root/mirrored starter files, both root/mirrored full SLE handoff files and WORK_ENVIRONMENT_STATUS.json.",
-      "Post-merge run 32576712659 and continuity-main run 32578125253 both passed contracts and Chromium Stability and both failed only at the deployed App Check audit.",
-      "Run 32576712659 independently proved all 89 deployed r2 runtime files byte for byte before the App Check-only failure.",
-      "A deliberate failed-job rerun of Stability run 32578125253 reproduced app-check-runtime-unavailable for a third hosted failure; the provider failure is not classified as transient.",
-      "Cloud-browser live DOM proof observed 1.7.0-r2, v1.7.0 · Connected Rivalry and LOCAL / SAVE LIBRARY unchanged after more than 20 seconds.",
-      "The production audit stale deny-all assertion is corrected to the reviewed spark-private-account-device-pairing-connected-rivalry-state scope, and redacted external/provider diagnostics are now protected by contract.",
-      "All 68 repository contract files after the explicit static release contract pass locally; the first diagnostic run exposed and the correction restored an explicit no-predecessor-decision-inheritance WEC assertion.",
-      "PR #133 diagnostic head e44faca8e98adfd51d6f62f7cb61493ad73c17e7 passed all 14 workflow families; reviews and inline threads remain zero and mergeability is clean.",
-      "The 10:47 WEC-only update was the final intended PR #133 branch mutation; every publication gate was re-proven on the resulting exact seal before merge.",
-      "Final PR #133 seal 06f068c6f66ded465bea563755e54d543cb3f744 passed all 14 workflow families and merged with expected-head squash to d3ae21ebfded08e45d9a0db61cf22948e1539df3.",
-      "Main push Pages run 32579873745 and 13 non-Stability validation families succeeded. Stability run 32579873735 failed only in deployed-site-smoke job 97047866345 after exact 89-file r2 deployment and runtime-provenance success.",
-      "Redacted provider evidence records an aborted POST to https://www.google.com/recaptcha/enterprise/clr and Firebase App Check 403 initial-throttle for one day. No provider keys, query strings or tokens were logged.",
-      "Official Firebase web-provider guidance says some environments, including CI, are classified invalid and require the debug provider for CI testing. The project forbids production debug App Check, so no further same-environment rerun or security weakening is authorized.",
-      "Four recoverable tool-routing errors and one repeated attempt to read an inaccessible cloud-browser page-world global are recorded; no repository, provider or production mutation resulted.",
-      "This seven-file Smart Lean Efficient transition package is the final intended branch mutation; require the complete exact-head PR gate and clean review/thread/mergeability state before expected-head publication.",
-      "Remote Joining readiness remains 69/100 until genuine Connected Rivalry production capability is demonstrated."
+      "Predecessor environment we-2026-08-22-stage4-r2-production-proof was already archived through PR #134 and its HANDOFF_AT_CHECKPOINT decision was not inherited.",
+      "Live main 6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60 is exactly one commit ahead of d3ae21ebfded08e45d9a0db61cf22948e1539df3, with only seven SLE/WEC continuity files changed.",
+      "PR #134 exact head 6ad935bf9e24268fd1ba9d4e82f0318356220425 passed all 14 pull-request workflow families; no open pull request supersedes the current lane.",
+      "An automated review arrived after PR #134 merged and left two unresolved process-only threads. Current 00_SLE_HANDOFF_PROTOCOL.md explicitly defines SLE = Smart Lean Efficient, superseding the first comment's older premise. The reporting-format comment does not alter RJR evidence or runtime authority. Neither thread justifies a product detour.",
+      "Connected GitHub access is authenticated as nikahanghojjati-oss with repository admin/write capability. gh CLI is absent in this environment but is not needed for the current operation.",
+      "Remote Joining readiness remains 69/100 until genuine ordinary-browser App Check and Connected Rivalry production capability are demonstrated."
     ]
   }
 }
