@@ -9,6 +9,10 @@ service cloud.firestore {
       return value is string && value.matches('^sha256:[0-9a-f]{64}$');
     }
 
+    function validIdempotencyKeyHash(value) {
+      return value is string && value.matches('^[0-9a-f]{64}$');
+    }
+
     function validEnvelopeShape(root, objectType, objectId) {
       return root.keys().hasOnly([
           "schemaVersion",
@@ -47,6 +51,7 @@ service cloud.firestore {
 
     function validCasEnvelope(before, after, objectType, objectId) {
       return validEnvelopeShape(after, objectType, objectId)
+        && before.lifecycleState == "live"
         && after.revision == before.revision + 1
         && after.parentRevision == before.revision
         && after.priorContentHash == before.contentHash;
@@ -66,11 +71,16 @@ service cloud.firestore {
         && accountData.deletionRequestedAt == null;
     }
 
-    function activeActor() {
-      let account = get(/databases/$(database)/documents/accounts/$(request.auth.uid));
-      return signedIn()
-        && account.data.objectType == "account"
+    function activeAccount(accountId) {
+      let account = get(/databases/$(database)/documents/accounts/$(accountId));
+      return account.data.objectType == "account"
+        && account.data.objectId == accountId
+        && account.data.lifecycleState == "live"
         && account.data.data.status == "active";
+    }
+
+    function activeActor() {
+      return signedIn() && activeAccount(request.auth.uid);
     }
 
     function activeDevice(deviceId) {
@@ -80,6 +90,7 @@ service cloud.firestore {
         && deviceId.matches('^device_[0-9a-f]{32}$')
         && device.data.objectType == "device"
         && device.data.objectId == deviceId
+        && device.data.lifecycleState == "live"
         && device.data.data.deviceId == deviceId
         && device.data.data.state == "active";
     }
@@ -421,6 +432,183 @@ service cloud.firestore {
         && request.auth.uid in rivalry.data.data.authorizedAccountIds;
     }
 
+    function activePairedRivalry(rivalryId) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let data = rivalry.data.data;
+      let ids = data.authorizedAccountIds;
+      let slots = data.managerSlots;
+      return activeActor()
+        && rivalry.data.objectType == "rivalry"
+        && rivalry.data.objectId == rivalryId
+        && rivalry.data.lifecycleState == "live"
+        && data.connectionState == "active"
+        && ids is list
+        && ids.size() == 2
+        && ids[0] is string
+        && ids[1] is string
+        && ids[0] != ids[1]
+        && request.auth.uid in ids
+        && activeAccount(ids[0])
+        && activeAccount(ids[1])
+        && slots is list
+        && slots.size() == 2
+        && validCreatorSlot(slots[0], "playerOne", slots[0].accountId)
+        && validCreatorSlot(slots[1], "playerTwo", slots[1].accountId)
+        && slots[0].accountId != slots[1].accountId
+        && slots[0].accountId in ids
+        && slots[1].accountId in ids;
+    }
+
+    function validManagerBinding(binding, slot) {
+      return binding is map
+        && binding.keys().hasOnly(["slotId", "profileId"])
+        && binding.slotId == slot.slotId
+        && binding.profileId == slot.profileId;
+    }
+
+    function validMutationReceipt(receipt, baseRevision) {
+      return receipt is map
+        && receipt.keys().hasOnly(["idempotencyKeyHash", "requestFingerprint", "baseRevision"])
+        && validIdempotencyKeyHash(receipt.idempotencyKeyHash)
+        && validHash(receipt.requestFingerprint)
+        && receipt.baseRevision is int
+        && receipt.baseRevision >= 0
+        && receipt.baseRevision == baseRevision;
+    }
+
+    function validSharedStateData(rivalryId, stateData, baseRevision) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      let r = rivalry.data;
+      let slots = r.managerSlots;
+      return stateData.keys().hasOnly([
+          "saveId",
+          "managerBindings",
+          "seasonIds",
+          "activeSeasonId",
+          "payloadFormatVersion",
+          "payload",
+          "mutationReceipt"
+        ])
+        && validSaveId(stateData.saveId)
+        && (
+          (slots[0].accountId == r.createdByAccountId && stateData.saveId == slots[0].saveId)
+          ||
+          (slots[1].accountId == r.createdByAccountId && stateData.saveId == slots[1].saveId)
+        )
+        && stateData.managerBindings is list
+        && stateData.managerBindings.size() == 2
+        && validManagerBinding(stateData.managerBindings[0], slots[0])
+        && validManagerBinding(stateData.managerBindings[1], slots[1])
+        && stateData.seasonIds is list
+        && stateData.seasonIds.size() <= 10
+        && (stateData.activeSeasonId == null || stateData.activeSeasonId in stateData.seasonIds)
+        && stateData.payloadFormatVersion == 1
+        && stateData.payload is map
+        && validMutationReceipt(stateData.mutationReceipt, baseRevision);
+    }
+
+    function stateReceiptMatchesIdempotency(rivalryId, stateRoot) {
+      let receiptKey = stateRoot.data.mutationReceipt.idempotencyKeyHash;
+      let receipt = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative/idempotency/$(receiptKey)).data;
+      return receipt.objectType == "idempotency"
+        && receipt.objectId == receiptKey
+        && receipt.lifecycleState == "live"
+        && receipt.updatedByAccountId == request.auth.uid
+        && receipt.updatedByDeviceId == stateRoot.updatedByDeviceId
+        && receipt.data.requestFingerprint == stateRoot.data.mutationReceipt.requestFingerprint
+        && receipt.data.baseRevision == stateRoot.data.mutationReceipt.baseRevision
+        && receipt.data.acceptedRevision == stateRoot.revision
+        && receipt.data.resultStatus == "accepted"
+        && receipt.data.resultContentHash == stateRoot.contentHash
+        && receipt.data.resultTombstone == false
+        && receipt.data.actorAccountId == request.auth.uid
+        && receipt.data.deviceId == stateRoot.updatedByDeviceId;
+    }
+
+    function validSharedStateCreate(rivalryId) {
+      let after = request.resource.data;
+      return rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && activePairedRivalry(rivalryId)
+        && activeDevice(after.updatedByDeviceId)
+        && validCreateEnvelope(after, "sharedState", rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && validSharedStateData(rivalryId, after.data, 0)
+        && stateReceiptMatchesIdempotency(rivalryId, after);
+    }
+
+    function validSharedStateUpdate(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && activePairedRivalry(rivalryId)
+        && activeDevice(after.updatedByDeviceId)
+        && before.lifecycleState == "live"
+        && validCasEnvelope(before, after, "sharedState", rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.saveId == before.data.saveId
+        && after.data.managerBindings == before.data.managerBindings
+        && validSharedStateData(rivalryId, after.data, before.revision)
+        && stateReceiptMatchesIdempotency(rivalryId, after);
+    }
+
+    function validIdempotencyData(data, idempotencyKeyHash) {
+      return data.keys().hasOnly([
+          "requestFingerprint",
+          "baseRevision",
+          "acceptedRevision",
+          "resultStatus",
+          "resultContentHash",
+          "resultTombstone",
+          "actorAccountId",
+          "deviceId",
+          "createdAt",
+          "expiresAt"
+        ])
+        && validHash(data.requestFingerprint)
+        && data.baseRevision is int
+        && data.baseRevision >= 0
+        && data.acceptedRevision is int
+        && data.acceptedRevision >= 0
+        && data.resultStatus == "accepted"
+        && validHash(data.resultContentHash)
+        && data.resultTombstone == false
+        && data.actorAccountId == request.auth.uid
+        && data.deviceId is string
+        && data.deviceId.matches('^device_[0-9a-f]{32}$')
+        && data.createdAt is timestamp
+        && data.expiresAt is timestamp
+        && data.expiresAt > data.createdAt
+        && data.expiresAt <= data.createdAt + duration.value(8, 'd')
+        && validIdempotencyKeyHash(idempotencyKeyHash);
+    }
+
+    function idempotencyMatchesStateAfter(rivalryId, idempotencyKeyHash, receiptRoot) {
+      let state = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative).data;
+      return state.objectType == "sharedState"
+        && state.objectId == rivalryId
+        && state.lifecycleState == "live"
+        && state.updatedByAccountId == request.auth.uid
+        && state.updatedByDeviceId == receiptRoot.updatedByDeviceId
+        && state.data.mutationReceipt.idempotencyKeyHash == idempotencyKeyHash
+        && state.data.mutationReceipt.requestFingerprint == receiptRoot.data.requestFingerprint
+        && state.data.mutationReceipt.baseRevision == receiptRoot.data.baseRevision
+        && state.revision == receiptRoot.data.acceptedRevision
+        && state.contentHash == receiptRoot.data.resultContentHash;
+    }
+
+    function validIdempotencyCreate(rivalryId, idempotencyKeyHash) {
+      let root = request.resource.data;
+      return activePairedRivalry(rivalryId)
+        && activeDevice(root.updatedByDeviceId)
+        && validIdempotencyKeyHash(idempotencyKeyHash)
+        && validCreateEnvelope(root, "idempotency", idempotencyKeyHash)
+        && root.updatedByAccountId == request.auth.uid
+        && validIdempotencyData(root.data, idempotencyKeyHash)
+        && root.updatedByDeviceId == root.data.deviceId
+        && root.updatedAt == root.data.createdAt
+        && idempotencyMatchesStateAfter(rivalryId, idempotencyKeyHash, root);
+    }
+
     function capabilityCanReadPendingRivalry(rivalryId) {
       let invite = get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId));
       return activeActor()
@@ -469,12 +657,15 @@ service cloud.firestore {
             && resource.data.tombstone.restorableByAccountIds is list
             && request.auth.uid in resource.data.tombstone.restorableByAccountIds
           );
-        allow list, create, update, delete: if false;
+        allow create: if validSharedStateCreate(rivalryId);
+        allow update: if validSharedStateUpdate(rivalryId);
+        allow list, delete: if false;
 
         match /idempotency/{idempotencyKeyHash} {
           allow get: if currentlyEntitled(rivalryId)
             && resource.data.data.actorAccountId == request.auth.uid;
-          allow list, create, update, delete: if false;
+          allow create: if validIdempotencyCreate(rivalryId, idempotencyKeyHash);
+          allow list, update, delete: if false;
         }
       }
 
