@@ -130,6 +130,19 @@ async function openApplication(page){
     await waitForApplication(page);
 }
 
+async function assertStableReleaseIdentity(page, label){
+    await page.waitForTimeout(5000);
+    const footer = normalizeText(await page.locator("#app > footer").innerText());
+    assert.equal(footer, "Career Mode Showdown v1.7.0 · Connected Rivalry", `${label} release footer changed after startup settled.`);
+    const tile = await page.locator("#settingsButton").evaluate(button => ({
+        code: button.querySelector(".menuTileCode")?.textContent?.trim() || "",
+        label: button.querySelector(".menuTileLabel")?.textContent?.trim() || "",
+        meta: button.querySelector(".menuTileMeta")?.textContent?.trim() || ""
+    }));
+    assert.deepEqual(tile,{code:"LOCAL",label:"SAVE LIBRARY",meta:"Local Showdowns, manager profiles and settings"},`${label} Home local-data identity changed after startup settled.`);
+    checkpoint(`${label} stable release identity`, "v1.7.0 · Connected Rivalry · Save Library");
+}
+
 async function activeScreens(page){
     return page.locator(".screen:not(.hidden)").evaluateAll(elements => elements.map(element => element.id));
 }
@@ -573,6 +586,7 @@ async function runProductScenario(browser, config){
 
     try{
         await openApplication(page);
+        await assertStableReleaseIdentity(page, config.prefix);
         assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()), "No Active Showdown");
         assert.equal(await page.locator("#continueCareer").isEnabled(), false);
         await runAxe(page, `${config.prefix} Empty Home`);

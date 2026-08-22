@@ -1,3 +1,9 @@
+# CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 SHELL COHERENCE HOTFIX — 2026-08-22 ET
+
+Status: CURRENT BOUNDED STAGE 4 RELEASE CANDIDATE / v1.7.0 / 1.7.0-r2 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.
+
+The authorized release candidate is `v1.7.0 — Connected Rivalry` / Installable Offline App runtime `1.7.0-r2`. The reviewed previous known-good whole-shell recovery runtime is `1.6.0-r1`; do not use the potentially mixed `1.7.0-r1` cache as recovery authority. This hotfix only gives the final Stage 4 bytes a fresh immutable public namespace and stabilizes the visible release/Home identity. Production Stage 4 Firestore Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` and must not be republished. RJR-1 remains `69/100` until genuine Connected Rivalry production behavior is proven. Canonical local storage, Candidate C destructive Apply exclusivity, transaction-owned rollback, strict exact raw snapshot authority, Installable Offline App recovery, two-manager private authorization, zero billing and the Stage 5 lock remain unchanged.
+
 # PROJECT STATE — Career Mode Showdown
 
 ## CURRENT OVERRIDE — v1.7.0 STAGE 4 CONNECTED RIVALRY — 2026-08-21 ET
