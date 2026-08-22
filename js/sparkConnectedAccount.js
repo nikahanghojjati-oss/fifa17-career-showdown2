@@ -7,6 +7,7 @@
 
   const SPARK_CONNECTED_BOOTSTRAP_PATH="js/sparkAccountBootstrap.js";
   const SPARK_PRIVATE_PAIRING_PATH="js/sparkPrivatePairing.js";
+  const SPARK_CONNECTED_RIVALRY_PATH="js/sparkConnectedRivalry.js";
   const SPARK_CONNECTED_SETTINGS_PANEL_ID="sparkConnectedAccountPanel";
   const SPARK_CONNECTED_SETTINGS_CONTENT_ID="settingsContent";
   const SPARK_CONNECTED_SETTINGS_OVERLAY_ID="settingsOverlay";
@@ -16,6 +17,7 @@
   let sparkConnectedInitializePromise=null;
   let sparkConnectedBootstrapScriptPromise=null;
   let sparkPrivatePairingScriptPromise=null;
+  let sparkConnectedRivalryScriptPromise=null;
   let sparkConnectedAuthUnsubscribe=null;
   const sparkConnectedBootstrapPromiseByUid=new Map();
   let sparkConnectedSettingsObserver=null;
@@ -29,9 +31,9 @@
   }
 
   function sparkConnectedGetRevision(){
-    if(!root.document)return "1.6.0-r1";
+    if(!root.document)return "1.7.0-r1";
     const meta=root.document.querySelector('meta[name="app-asset-revision"]');
-    return meta&&meta.content?meta.content.trim()||"1.6.0-r1":"1.6.0-r1";
+    return meta&&meta.content?meta.content.trim()||"1.7.0-r1":"1.7.0-r1";
   }
 
   function sparkConnectedVersionedLocalUrl(path){
@@ -89,12 +91,34 @@
     return sparkPrivatePairingScriptPromise;
   }
 
-  function sparkConnectedMountPrivatePairing(){
-    if(!sparkConnectedState.connected)return Promise.resolve(false);
-    return sparkConnectedLoadPrivatePairingScript().then(pairing=>{
-      if(pairing&&typeof pairing.mountWhenSettingsReady==="function")return pairing.mountWhenSettingsReady();
+  function sparkConnectedLoadRivalryScript(){
+    if(root.CareerModeSparkConnectedRivalry)return Promise.resolve(root.CareerModeSparkConnectedRivalry);
+    if(sparkConnectedRivalryScriptPromise)return sparkConnectedRivalryScriptPromise;
+    if(!root.document)return Promise.resolve(null);
+    sparkConnectedRivalryScriptPromise=new Promise(resolve=>{
+      const script=root.document.createElement("script");
+      script.src=sparkConnectedVersionedLocalUrl(SPARK_CONNECTED_RIVALRY_PATH);
+      script.async=false;
+      script.dataset.sparkConnectedRivalry="true";
+      script.addEventListener("load",()=>resolve(root.CareerModeSparkConnectedRivalry||null),{once:true});
+      script.addEventListener("error",()=>resolve(null),{once:true});
+      root.document.head.appendChild(script);
+    }).finally(()=>{sparkConnectedRivalryScriptPromise=null;});
+    return sparkConnectedRivalryScriptPromise;
+  }
+
+  async function sparkConnectedMountPrivatePairing(){
+    if(!sparkConnectedState.connected)return false;
+    try{
+      const pairing=await sparkConnectedLoadPrivatePairingScript();
+      if(!pairing||typeof pairing.mountWhenSettingsReady!=="function")return false;
+      const pairingMounted=await pairing.mountWhenSettingsReady();
+      const rivalry=await sparkConnectedLoadRivalryScript();
+      if(rivalry&&typeof rivalry.mountWhenSettingsReady==="function")await rivalry.mountWhenSettingsReady();
+      return pairingMounted;
+    }catch(_error){
       return false;
-    }).catch(()=>false);
+    }
   }
 
   async function sparkConnectedBootstrapUser(user){
@@ -122,7 +146,7 @@
     }
     const accountStatus=result.status||"active";
     const connected=accountStatus==="active";
-    const next=sparkConnectedSetState({status:connected?"ready":"account-unavailable",initialized:true,signedIn:true,connected,busy:false,accountStatus,message:connected?"Private account is ready. Remote Joining is still locked until later pairing and Connected Rivalry stages are proven.":sparkConnectedLocalModeMessage(`This private account is ${accountStatus}.`)});
+    const next=sparkConnectedSetState({status:connected?"ready":"account-unavailable",initialized:true,signedIn:true,connected,busy:false,accountStatus,message:connected?"Private account is ready. Private pairing and Connected Rivalry are available below when their requirements are met. Remote Joining sessions remain locked.":sparkConnectedLocalModeMessage(`This private account is ${accountStatus}.`)});
     if(connected)void sparkConnectedMountPrivatePairing();
     return next;
   }
@@ -145,7 +169,7 @@
         sparkConnectedAuthUnsubscribe=authSdk.onAuthStateChanged(sparkConnectedServices.auth,user=>{void sparkConnectedActivateUser(user);},()=>sparkConnectedSetState({status:"auth-state-error",initialized:true,busy:false,connected:false,message:sparkConnectedLocalModeMessage("Authentication state could not be read.")}));
       }
       if(sparkConnectedServices.auth.currentUser)return sparkConnectedActivateUser(sparkConnectedServices.auth.currentUser);
-      return sparkConnectedSetState({status:"signed-out",initialized:true,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Sign in with Google only when you want future private connected features. Local play stays available without an account."});
+      return sparkConnectedSetState({status:"signed-out",initialized:true,signedIn:false,connected:false,busy:false,accountId:null,displayName:null,email:null,accountStatus:null,message:"Sign in with Google only when you want private connected features. Local play stays available without an account."});
     })().finally(()=>{sparkConnectedInitializePromise=null;});
     return sparkConnectedInitializePromise;
   }
@@ -207,9 +231,9 @@
     if(!panel){panel=sparkConnectedCreateElement("section","settingsPanel settingsConnectedAccountPanel");panel.id=SPARK_CONNECTED_SETTINGS_PANEL_ID;content.insertBefore(panel,content.firstChild||null);}
     panel.replaceChildren();
     const heading=sparkConnectedCreateElement("div","settingsPanelHeading");
-    heading.append(sparkConnectedCreateElement("span","settingsPanelEyebrow","PRIVATE CONNECTION"),sparkConnectedCreateElement("h3","","CONNECTED ACCOUNT"),sparkConnectedCreateElement("p","","Optional Google sign-in for future private rivalry features. Your current saves remain local to this device."));
+    heading.append(sparkConnectedCreateElement("span","settingsPanelEyebrow","PRIVATE CONNECTION"),sparkConnectedCreateElement("h3","","CONNECTED ACCOUNT"),sparkConnectedCreateElement("p","","Optional Google sign-in for private pairing and Connected Rivalry. Your current saves remain local to this device."));
     const info=sparkConnectedCreateElement("div","settingsInfoGrid");
-    for(const [label,value] of [["STATUS",sparkConnectedState.connected?"Private account ready":sparkConnectedState.signedIn?"Signed in · setup incomplete":"Local only"],["ACCOUNT",sparkConnectedAccountLabel()],["ACCOUNT ID",sparkConnectedShortAccountId()],["REMOTE JOINING","Locked · prerequisites still in progress"],["INFRASTRUCTURE","Firebase Spark · no billing"]]){
+    for(const [label,value] of [["STATUS",sparkConnectedState.connected?"Private account ready":sparkConnectedState.signedIn?"Signed in · setup incomplete":"Local only"],["ACCOUNT",sparkConnectedAccountLabel()],["ACCOUNT ID",sparkConnectedShortAccountId()],["REMOTE JOINING","Locked · Stage 5 sessions not enabled"],["INFRASTRUCTURE","Firebase Spark · no billing"]]){
       const row=sparkConnectedCreateElement("div","settingsInfoRow");
       row.append(sparkConnectedCreateElement("span","",label),sparkConnectedCreateElement("strong","",value));
       info.appendChild(row);
@@ -259,5 +283,5 @@
 
   function sparkConnectedGetState(){return sparkConnectedState;}
 
-  return sparkConnectedFreeze({contractVersion:1,provider:"google",signInFlow:"popup",authPersistence:"browserSessionPersistence",firestorePersistence:"memory-only",billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,additionalGoogleScopes:0,writeScope:"self-account-create-only",privatePairingPath:SPARK_PRIVATE_PAIRING_PATH,initialize:sparkConnectedInitialize,signIn:sparkConnectedSignIn,signOut:sparkConnectedSignOut,mountWhenSettingsReady:sparkConnectedMountWhenSettingsReady,subscribe:sparkConnectedSubscribe,getState:sparkConnectedGetState});
+  return sparkConnectedFreeze({contractVersion:1,provider:"google",signInFlow:"popup",authPersistence:"browserSessionPersistence",firestorePersistence:"memory-only",billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,additionalGoogleScopes:0,writeScope:"self-account-create-only",privatePairingPath:SPARK_PRIVATE_PAIRING_PATH,connectedRivalryPath:SPARK_CONNECTED_RIVALRY_PATH,initialize:sparkConnectedInitialize,signIn:sparkConnectedSignIn,signOut:sparkConnectedSignOut,mountWhenSettingsReady:sparkConnectedMountWhenSettingsReady,subscribe:sparkConnectedSubscribe,getState:sparkConnectedGetState});
 });

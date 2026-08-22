@@ -2,35 +2,49 @@
 
 Last updated: 2026-08-21 ET
 
-## v1.6.0 — Registered Devices & Private Pairing — release candidate
+## v1.7.0 — Connected Rivalry — release candidate
 
-Candidate runtime: `1.6.0-r1`
-Previous known-good runtime: `1.5.0-r2`
-Status: PR #129 source candidate; not production-proven.
+Candidate runtime: `1.7.0-r1`
+Previous known-good runtime: `1.6.0-r1`
+Status: Stage 4 source candidate; not production-proven.
 
 Candidate scope:
 
-- stable private installation/device identity in IndexedDB without adding canonical localStorage authority;
-- authenticated self-device registration and irreversible revocation;
-- 256-bit short-lived one-use private pairing capability;
-- exactly two manager slots bound to stable `accountId`, `profileId`, and `saveId` identity;
-- Firebase Spark Firestore transactions and restrictive Security Rules limited to Stage 3 device/pairing operations;
-- deterministic client contracts, desktop/mobile Chromium IndexedDB proof, and Firestore Rules emulator proof;
-- memory-only Firestore, session-only Google authentication, zero billing, and App Check enforcement OFF preserved;
-- shared gameplay state, Connected Rivalry synchronization, Remote Joining sessions, public discovery, matchmaking, invite directories, leaderboards and rankings remain blocked.
+- direct exact-rivalry attachment with no listing, public discovery, matchmaking or lobby surface;
+- private IndexedDB rivalry-pointer continuity that never becomes gameplay or authorization authority;
+- deterministic publication projection for the explicitly connected local Save;
+- authoritative reads without destructive remote-to-local Apply;
+- immutable client `baseRevision` compare-and-swap and exactly-next monotonic revision advancement;
+- atomic SHA-256 idempotency receipts with exact replay returning the accepted result without another mutation/revision increment;
+- explicit reused-key and stale-base conflict handling with no silent rebase or last-writer-wins fallback;
+- shared-state mutation restricted to the active exactly-two-manager rivalry with both accounts and the writer device active;
+- tombstone anti-resurrection;
+- Stage 4 deterministic client contracts and Firestore emulator proof added to the existing permanent validation topology;
+- Firebase Spark / zero billing, memory-only Firestore, session-only Google authentication and App Check enforcement OFF preserved;
+- Stage 5 Remote Joining session writes and orchestration remain blocked.
 
-Production promotion requires one exact candidate head with all normal workflow families green, clean reviews/threads/mergeability, publication and verification of the exact reviewed Stage 3 `firestore.spark.rules`, merge/deploy under standing owner authorization, and post-deployment proof.
+Production promotion requires one exact candidate head with all permanent workflow families green, clean reviews/threads/mergeability, publication and verification of the exact reviewed Stage 4 `firestore.spark.rules`, merge/deploy under standing owner authorization, and real production Connected Rivalry proof. RJR-1 remains `69/100` until genuine production capability evidence closes a fixed-domain gap.
+
+## v1.6.0 — Registered Devices & Private Pairing — production
+
+Current production runtime: `1.6.0-r1` — production-proven.
+Previous runtime/recovery target at that release: `1.5.0-r2`.
+Status: merged, deployed, and production-proven; this is the immediate known-good whole-shell recovery target for the v1.7.0 candidate.
+
+The v1.6.0 line added stable private installation/device identity in IndexedDB, authenticated self-device registration and irreversible revocation, a 256-bit short-lived one-use private pairing capability, and exactly two manager slots bound to stable `accountId`, `profileId`, and `saveId` identity.
+
+The production Stage 3 boundary remains Firebase Spark with memory-only Firestore, session-only Google authentication, zero billing and App Check enforcement OFF. Production proof established the registered-device/private-pairing path without crediting Connected Rivalry, actual Remote Joining sessions or two-physical-machine hardening.
 
 ## v1.5.0 — Private Connected Account Foundation — production
 
 Runtime progression: `1.5.0-r1` → `1.5.0-r2`.
-Current production runtime: `1.5.0-r2` — production-proven.
+Production runtime at that milestone: `1.5.0-r2` — production-proven.
 Previous runtime/recovery knowledge: `1.5.0-r1`.
-Status: merged, deployed, and production-proven; this is the immediate known-good whole-shell recovery target for the v1.6.0 candidate.
+Status: merged, deployed, and production-proven.
 
 The v1.5.0 line established the optional private Connected Account foundation on the zero-billing Firebase Spark path. It preserves local-first startup, Google `signInWithPopup()` with `browserSessionPersistence`, memory-only Firestore, Firebase `uid` as the sole application `accountId`, no additional OAuth scopes, no provider-token storage, no Storage/Functions/Cloud Run/Blaze, and App Check enforcement OFF.
 
-`1.5.0-r2` fixed the Connected Account Settings mount race and completed production proof of the real Google sign-in / self-account bootstrap path. Registered Devices / Private Pairing remained blocked until that production boundary was proven.
+`1.5.0-r2` fixed the Connected Account Settings mount race and completed production proof of the real Google sign-in / self-account bootstrap path.
 
 ## v1.4.0 — Product Deepening — production
 
@@ -52,7 +66,7 @@ The v1.4.0 line restored visible public version progression without changing sco
 
 Runtime progression: `1.3.0-r1` → `1.3.0-r2` (Local Profile display-label editing whole shell).
 
-Includes formatVersion 2 multi-Save portability (PR #67), identity-safe Analytics, Local Profile display labels, and resilience hardening.
+Includes formatVersion 2 multi-Save portability, identity-safe Analytics, Local Profile display labels, and resilience hardening.
 
 ## Earlier releases
 

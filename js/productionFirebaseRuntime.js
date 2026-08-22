@@ -11,7 +11,8 @@
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
-  const FALLBACK_RUNTIME_REVISION="1.5.0-r2";
+  const FALLBACK_RUNTIME_REVISION="1.7.0-r1";
+  const BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
   const FIREBASE_AUTH_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-auth.js`;
@@ -219,7 +220,7 @@
           firestoreInitialized:false,
           persistentFirestoreCache:false,
           authPersistence:"browserSessionPersistence",
-          browserFirestoreWrites:"self-account-create-only"
+          browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE
         });
       }catch(error){
         productionApp=null;
@@ -252,7 +253,7 @@
           if(typeof sdk[name]!=="function")throw new Error(`Firebase account SDK method unavailable: ${name}`);
         }
         if(!sdk.browserSessionPersistence)throw new Error("Firebase browserSessionPersistence is unavailable.");
-        if(!sdk.Timestamp)throw new Error("Firebase Timestamp is unavailable.");
+        if(!sdk.Timestamp)throw new Error("Firebase Timestamp support is unavailable.");
         const auth=sdk.getAuth(productionApp);
         const firestore=sdk.initializeFirestore(productionApp,{localCache:sdk.memoryLocalCache()});
         accountServices=Object.freeze({
@@ -277,9 +278,9 @@
           provider:"google",
           signInFlow:"popup",
           additionalGoogleScopes:0,
-          writeScope:"self-account-create-only"
+          writeScope:BROWSER_FIRESTORE_WRITE_SCOPE
         });
-        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",browserFirestoreWrites:"self-account-create-only"});
+        setRuntimeState({...runtimeState,authInitialized:true,firestoreInitialized:true,persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE});
         return accountServices;
       }catch(error){
         if(root.console&&typeof root.console.warn==="function"){
@@ -376,7 +377,7 @@
     provider:"google",
     signInFlow:"popup",
     additionalGoogleScopes:0,
-    browserFirestoreWrites:"self-account-create-only",
+    browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE,
     classifyContext:classifyRuntimeContext,
     readRuntimeConfig,
     initialize:initializeProductionFirebaseRuntime,

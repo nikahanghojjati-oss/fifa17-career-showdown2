@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-20T16:52:00Z",
+  "recordedAt": "2026-08-22T03:25:00Z",
   "materialSessionsObserved": 1,
   "learningState": "cold-start-priors-with-one-labeled-session",
   "defaultUtility": 0.5,
@@ -40,6 +40,14 @@
       "normalizedOutcome": 1.0,
       "learnedUtility": 0.6,
       "note": "Exact Stability job logs identified the real duplicate-function-name failure after an earlier heuristic diagnosis was incomplete."
+    },
+    "external-grok-review-2026-08-21": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 0.8,
+      "learnedUtility": 0.56,
+      "note": "Advisory external review accepted where compatible with project authority: strengthen Stage 4 production proof around revoked-device denial, stale CAS, replay and third-account denial; require two physical devices during Stage 4 hardening; make remote-to-local reconciliation an explicit pre-Stage-5 design gate reusing Candidate-C-level anti-clobber/rollback properties; add stale/replay/local-vs-remote UX during hardening; keep direct Spark Firestore Rules and App Check enforcement OFF unless concrete complexity/threat evidence changes the tradeoff; reduce duplicate continuity prose by reusing current bootstrap/handoff authorities rather than creating parallel systems."
     }
   },
   "sessionMetrics": [

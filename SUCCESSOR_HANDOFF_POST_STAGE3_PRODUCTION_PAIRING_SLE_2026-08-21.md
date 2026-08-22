@@ -87,6 +87,8 @@ No credit was given for CI/docs/WEC, emulator-only replay/third-account/revocati
 
 Do not move 69 without new fixed-domain capability evidence.
 
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
 ## Next product milestone: Stage 4 Connected Rivalry
 
 Stage 4 is the next separate milestone and the only correct immediate product direction after the fresh successor WEC permits work.
@@ -133,7 +135,7 @@ Versioning: Stage 4 is a material product feature and should receive a reasonabl
 - Candidate C sole destructive import Apply authority;
 - Google Auth popup-only with `browserSessionPersistence` and zero extra scopes;
 - Firestore memory-only;
-- App Check enforcement OFF;
+- App Check enforcement remains OFF;
 - Firebase Spark / zero billing;
 - no Blaze, Cloud Run, Cloud Functions, Firebase Storage or billing without explicit later owner authorization;
 - public discovery/community/matchmaking/public invite directories/global leaderboards/rankings eliminated;

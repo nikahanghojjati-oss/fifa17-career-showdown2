@@ -11,9 +11,11 @@ const runtimeSource=read("js/productionFirebaseRuntime.js");
 const placeholderSource=read("firebase.runtime-config.json");
 const placeholder=JSON.parse(placeholderSource);
 const renderer=read("scripts/render-production-firebase-public-config.mjs");
+const pkg=JSON.parse(read("package.json"));
 const historicalAppCheckRelease=read("RELEASE_V1.4.0_R2.md");
 const historicalConnectedAccountHotfix=read("RELEASE_V1.5.0_R2.md");
-const currentRelease=read("RELEASE_V1.6.0.md");
+const currentRelease=read(`RELEASE_V${pkg.version}.md`);
+const FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
 
 function freshRuntime(){
   const path=require.resolve("../../js/productionFirebaseRuntime.js");
@@ -30,7 +32,7 @@ assert.equal(runtime.runtimeConfigPath,"firebase.runtime-config.json");
 assert.equal(runtime.bootstrapPath,"js/productionAppCheckBootstrap.js");
 assert.equal(runtime.connectedAccountPath,"js/sparkConnectedAccount.js");
 assert.equal(runtime.enforcementEnabled,false);
-assert.equal(runtime.browserFirestoreWrites,"self-account-create-only");
+assert.equal(runtime.browserFirestoreWrites,FIRESTORE_WRITE_SCOPE);
 assert.equal(runtime.authPersistence,"browserSessionPersistence");
 assert.equal(runtime.persistentFirestoreCache,false);
 assert.equal(runtime.billingRequired,false);
@@ -64,6 +66,7 @@ assert.doesNotMatch(renderer,/console\.log\([^\n]*(?:apiKey|siteKey)/i);
 const currentRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const currentAppVersion=(app.match(/const APP_VERSION = "([^"]+)"/)||[])[1];
 assert.ok(currentAppVersion,"Current APP_VERSION is missing.");
+assert.equal(currentAppVersion,pkg.version,"Current APP_VERSION must match package release identity.");
 assert.match(currentRevision,new RegExp(`^${currentAppVersion.replace(/\./g,"\\.")}-r[1-9]\\d*$`),"Current shell revision must advance coherently with APP_VERSION instead of being frozen to PR #126.");
 for(const path of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.js","js/menuExperience.js","js/optionalModules.js","js/app.js"]){
   assert.ok(index.includes(`${path}?v=${currentRevision}`),`${path} must use the current candidate shell revision.`);
@@ -98,6 +101,7 @@ assert.match(runtimeSource,/runtime-config-not-configured/);
 assert.match(runtimeSource,/local mode remains active/i);
 assert.match(runtimeSource,/initializeFirestore\(productionApp,\{localCache:sdk\.memoryLocalCache\(\)\}\)/);
 assert.match(runtimeSource,/browserSessionPersistence/);
+assert.match(runtimeSource,/BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state"/);
 assert.doesNotMatch(runtimeSource,/firebase-functions|firebase-storage|getFunctions|getStorage/i);
 assert.doesNotMatch(runtimeSource,/DebugAppCheckProvider|FIREBASE_APPCHECK_DEBUG_TOKEN/i);
 
@@ -137,7 +141,7 @@ function appCheckSdk(calls){
   assert.equal(ready.authInitialized,false);
   assert.equal(ready.firestoreInitialized,false);
   assert.equal(ready.persistentFirestoreCache,false);
-  assert.equal(ready.browserFirestoreWrites,"self-account-create-only");
+  assert.equal(ready.browserFirestoreWrites,FIRESTORE_WRITE_SCOPE);
   assert.equal(Object.hasOwn(ready,"token"),false,"Raw App Check token must never enter runtime diagnostics.");
   assert.deepEqual(baseCalls.map(call=>call[0]),["initializeApp","provider","initializeAppCheck","getToken"],"Base initialization must remain App + App Check only.");
   assert.equal(baseCalls[2][2].isTokenAutoRefreshEnabled,true);
@@ -163,7 +167,7 @@ function appCheckSdk(calls){
   assert.equal(accountServices.ok,true);
   assert.equal(accountServices.authPersistence,"browserSessionPersistence");
   assert.equal(accountServices.persistentFirestoreCache,false);
-  assert.equal(accountServices.writeScope,"self-account-create-only");
+  assert.equal(accountServices.writeScope,FIRESTORE_WRITE_SCOPE);
   assert.equal(accountServices.billingRequired,false);
   assert.equal(accountServices.cloudRunRequired,false);
   assert.deepEqual(accountCalls.map(call=>call[0]),["getAuth","memoryLocalCache","initializeFirestore"],"Auth/Firestore must initialize only after explicit account-service demand, with memory cache.");
@@ -188,5 +192,5 @@ function appCheckSdk(calls){
   assert.equal(providerFailure.connected,false);
   assert.equal(providerFailure.tokenObserved,false);
 
-  process.stdout.write(`PASS production Firebase runtime keeps historical App Check and PR #126 proof immutable while current ${currentAppVersion}/${currentRevision} remains local-first and explicit-demand only\n`);
+  process.stdout.write(`PASS production Firebase runtime keeps historical App Check and PR #126 proof immutable while current ${currentAppVersion}/${currentRevision} remains local-first, bounded and explicit-demand only\n`);
 })().catch(error=>{console.error(error);process.exit(1);});

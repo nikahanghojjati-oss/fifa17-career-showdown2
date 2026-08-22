@@ -10,7 +10,7 @@ permissions:
 jobs:
   stage3-private-pairing:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -47,3 +47,9 @@ jobs:
 
       - name: Run Stage 3 Firestore Rules emulator proof
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage3 "node tests/firebase/stage3-private-pairing-emulator.cjs"
+
+      - name: Run deterministic Stage 4 Connected Rivalry contracts
+        run: node tests/contracts/stage4-connected-rivalry-contracts.cjs
+
+      - name: Run Stage 4 Connected Rivalry Firestore Rules emulator proof
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-connected-rivalry-emulator.cjs"

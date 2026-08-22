@@ -2,25 +2,18 @@
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript, browser localStorage and a first-party Installable Offline App shell.
 
-Current production application milestone: v1.5.0 — Private Connected Account Foundation
-Current production runtime: `1.5.0-r2` — production-proven
-Current production rollback knowledge: `1.5.0-r1`
-Active release candidate: **v1.6.0 — Registered Devices & Private Pairing** / `1.6.0-r1` — not production-proven
-Candidate immediate recovery target: `1.5.0-r2`
-Current shipped product layer: production Connected Account foundation on top of the protected local Save Library / Showdown Home product
-Current runtime feature merge: `8fc671fc644e69b4fd405d7ebc28f961b2f3ae27` (multi-Save); Phase B `65b6c9db…`; Phase C `dec1d3ba…`
-Production release status: v1.5.0 merged, deployed, and production-proven; `1.5.0-r2` is the immediate known-good whole-shell recovery target for the v1.6.0 candidate
+Current production application milestone: v1.6.0 — Registered Devices & Private Pairing
+Current production runtime: `1.6.0-r1` — production-proven
+Active release candidate: **v1.7.0 — Connected Rivalry** / `1.7.0-r1` — not production-proven
+Candidate immediate recovery target: `1.6.0-r1`
+Remote Joining readiness: `69/100` under fixed model `RJR-1`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
-v1.5.0 established the production private Connected Account foundation while preserving local-first startup, session-only Google authentication, memory-only Firestore, Firebase UID account identity, zero billing and App Check enforcement OFF. The completed v1.4.0 Product Deepening milestone, v1.3.0 Recovery & Device Resilience baseline, formatVersion 2 portability, identity-safe Analytics and private two-manager locks remain protected.
+v1.6.0 completed the production Registered Devices / Private Pairing prerequisite on top of the already-proven private Connected Account foundation. Stable private browser-device identity, exactly-two-manager pairing and the zero-billing Firebase Spark provider boundary are production-proven. App Check enforcement remains OFF, Firestore persistent cache remains disabled, Google authentication remains popup-only with `browserSessionPersistence`, and no additional Google OAuth scopes are requested.
 
-`1.5.0-r2` is the current production-proven whole shell and the rollback target for the Stage 3 candidate. Stage 3 does not reopen the already-proven Connected Account setup and does not authorize billing, public discovery, shared gameplay state or Remote Joining sessions.
+v1.7.0 is the current bounded Stage 4 Connected Rivalry candidate. It adds direct exact-rivalry authoritative shared-gameplay state, compare-and-swap revisions, idempotency replay protection and the narrow Firestore authorization needed by exactly the two paired managers. It does not implement Stage 5 Remote Joining sessions or allow remote payloads to overwrite canonical local saves.
 
-PR #124 `Add zero-billing Spark account bootstrap foundation`, PR #125 `Ship Spark private connected account runtime`, and the subsequent v1.5.0 production proof chain are completed prerequisite history. They must not be treated as current implementation work.
-
-PR #129 `v1.6.0 Stage 3: Registered Devices / Private Pairing` is the active bounded release candidate. It adds stable private installation/device identity in IndexedDB, authenticated self-device registration/revocation, a 256-bit short-lived one-use private pairing capability, and exactly two manager slots bound to stable account/profile/save identities. The provider boundary remains Firebase Spark with memory-only Firestore, no Cloud Run/Functions/Storage/Blaze, App Check enforcement OFF, and no shared gameplay/session writes.
-
-Current verified source wins over stale historical status prose. Technical production proof does not fabricate owner visual acceptance.
+Current verified source wins over stale historical status prose. Source code, documentation, emulator proof and green CI do not by themselves increase Remote Joining readiness or promote a candidate to production-proven.
 
 ## Development entry point
 
@@ -40,7 +33,7 @@ Read in this order:
 12. `LOCAL_PROFILES_SAVE_LIBRARY_ACTIVE_HANDOFF.md`
 13. `VISIBLE_SAVE_LIBRARY_UI_ACTIVE_HANDOFF.md`
 14. current `RELEASE_V*.md` candidate/production record selected from the runtime revision
-15. `CAREER_MODE_SHOWDOWN_V1.4.0_MAINTENANCE_HANDOFF.md`
+15. current `CAREER_MODE_SHOWDOWN_V*_MAINTENANCE_HANDOFF.md`
 16. `V1.3.0_R2_PRODUCTION_PROOF.md` for historical frozen production evidence
 17. `POST_V1_ROADMAP_EXECUTION.md`
 
@@ -52,7 +45,7 @@ Older release/proof documents remain immutable rollback/history evidence for the
 
 ## Locked product model
 
-Career Mode Showdown is a rivalry companion, not a browser football simulator. The private Connected Account foundation is production-proven; Registered Devices / Private Pairing is the active bounded candidate, while Connected Rivalry and actual Remote Joining remain dependency-gated downstream.
+Career Mode Showdown is a rivalry companion, not a browser football simulator. The production private Connected Account and Registered Devices / Private Pairing foundations are complete. Connected Rivalry is the current bounded prerequisite, while actual Private Remote Joining remains dependency-gated downstream.
 
 - exactly two managers;
 - multiple local Showdown Saves supported by the Save Library;
@@ -68,11 +61,13 @@ Career Mode Showdown is a rivalry companion, not a browser football simulator. T
 - equal non-zero scores are Draw;
 - only 0–0 uses league position then league points as tiebreakers.
 
+Public community features and global leaderboard/rankings are ELIMINATED. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
+
 ## Local Profiles / Save Library product
 
 The production application includes a lazy FIFA 17-inspired local Save Library inside the established Settings navigation/focus owner.
 
-The completed dependency chain includes identity foundation, canonical persistence, runtime authority cutover, visible Save Library UI, explicit manager identity, Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 multi-Save portability (PR #67), Phase B first slice (PR #70), and Phase C first slice (PR #73).
+The completed dependency chain includes identity foundation, canonical persistence, runtime authority cutover, visible Save Library UI, explicit manager identity, Identity-Safe Career Analytics, Local Profile display-label editing, formatVersion 2 multi-Save portability, Phase B Save Library / Local Profile Experience 2.0 first slice, and Phase C Showdown Home & Season Experience first slice.
 
 Stable prefixes remain `save_*`, `season_*` and `profile_*`. Display names are labels, never identity keys.
 
@@ -83,42 +78,60 @@ Public raw browser-storage authority: `js/storage.js`.
 Raw transaction engine: `js/storageTransaction.js`.
 Save Library runtime mutation authority: `js/saveLibraryRuntime.js`.
 Analytics authority: `js/analytics.js`.
+Connected Rivalry network boundary: `js/sparkConnectedRivalry.js`.
 
 Public canonical localStorage keys after cutover:
+
 1. `careerModeShowdown.saveLibrary`
 2. `careerModeShowdown.legacyShowdowns`
 3. `careerModeShowdown.preferences`
 
 `careerModeShowdown.activeShowdown` is not a fourth permanent canonical key after cutover. It remains migration/recovery compatibility input only.
 
-Stage 3 private device identity is intentionally stored outside canonical localStorage in IndexedDB. It does not become gameplay save authority and clearing it must not delete local Showdown saves.
+Private device identity and Connected Rivalry convenience metadata are intentionally stored outside canonical localStorage in IndexedDB. They do not become gameplay save authority, and clearing them must not delete local Showdown saves.
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C is the only destructive import Apply stage.
 
-Candidate C preserves immutable confirmed intent, strict exact raw snapshot/precondition authority through `captureCareerModeRawRestoreSnapshot()`, last-moment exact-byte guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery on uncertainty. These recovery guarantees remain binding beneath v1.5.0 production and the v1.6.0 candidate and must not be weakened by Remote Joining prerequisite work.
+Candidate C preserves immutable confirmed intent, strict exact raw snapshot/precondition authority through `captureCareerModeRawRestoreSnapshot()`, last-moment exact-byte guards, transaction-owned mutation, ownership-scoped reverse rollback, anti-clobber ownership, exact post-write verification, byte-for-byte rollback verification, corrupt-byte preservation, retry/idempotence and critical recovery on uncertainty. These recovery guarantees remain binding beneath the v1.7.0 Connected Rivalry candidate.
+
+The first Stage 4 slice may project and publish the explicitly connected active Save and may read remote authoritative state, but it does not directly Apply remote bytes back into canonical local Save Library storage.
 
 Service Worker and Cache Storage own application bytes only and never canonical user data.
 
 ## Installable Offline App
 
-Current production whole shell: `1.5.0-r2` — production-proven.
-Production fallback/recovery knowledge: `1.5.0-r1`.
-Current release candidate shell: `1.6.0-r1`, with `1.5.0-r2` as its immediate previous known-good whole shell.
+Current production whole shell: `1.6.0-r1` — production-proven.
+Current release candidate shell: `1.7.0-r1`, with `1.6.0-r1` as its immediate previous known-good whole-shell recovery target.
 
 - version-owned first-party Service Worker shell;
 - complete verified cache population;
 - explicit Update Ready activation at safe boundaries;
 - current/previous-known-good recovery preserved across release revisions;
-- Firebase account connectivity remains optional and must never become an offline/local startup dependency.
+- Firebase account connectivity and Connected Rivalry remain optional to local startup;
+- provider failure must never produce a mixed-version shell or mutate local saves.
+
+Completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening — remains protected.
+
+## Stage 4 Connected Rivalry contract
+
+Shared authoritative gameplay state uses only `rivalries/{rivalryId}/state/authoritative`. Idempotency receipts live beneath that exact state. Rivalry access remains direct exact-get only; client list/discovery remains denied.
+
+The client `baseRevision` is immutable across retries. Accepted writes advance exactly one monotonic revision. Stale base revisions return explicit conflicts and are never silently rebased. Last-writer-wins behavior is prohibited.
+
+A first accepted idempotent mutation atomically writes the authoritative state and its receipt. An exact accepted replay returns the previously recorded accepted result without another mutation or revision increment. Reusing the same key with a different request fingerprint conflicts.
+
+Shared-state mutation requires the active paired rivalry, exactly two authorized manager accounts, both accounts active, and the writer's registered device active. Tombstoned state cannot be resurrected by this candidate.
+
+Stage 5 Remote Joining session documents remain write-denied. No host/join session orchestration, presence, public lobby or session discovery belongs in v1.7.0-r1.
 
 ## Current continuation boundary
 
-The production private Connected Account foundation is complete under **v1.5.0 / 1.5.0-r2**.
+`v1.6.0 / 1.6.0-r1` remains production authority.
 
-**PR #129 / v1.6.0-r1 is the current bounded product candidate.** Its deterministic contracts, desktop/mobile IndexedDB identity audits and Firestore Rules emulator proof must remain green on one exact head. Production Firestore Rules must not be advanced until the exact candidate source gates are clean. After provider publication proof, merge/deploy may proceed under standing owner authorization, followed by post-deployment proof before promotion to production-proven.
+`v1.7.0 / 1.7.0-r1` is the current bounded Connected Rivalry release candidate. The required order is exact-head source/CI proof → clean reviews/threads/mergeability → publish and verify exactly the reviewed Stage 4 `firestore.spark.rules` → merge/deploy under standing owner authorization → real production Connected Rivalry proof.
 
-Public community / global leaderboard remain **ELIMINATED**. Public discovery, public profiles, public matchmaking, public invite directories and public lobbies remain prohibited.
+No production Rules publication should occur before the immutable source checkpoint is clean. Only genuine production capability proof may move `REMOTE_JOINING_READINESS.json` above `69/100`.
 
-Private Remote Joining remains **PRIORITIZED LONG-TERM / DEPENDENCY-GATED**. Stage 3 Registered Devices / Private Pairing is the active prerequisite; Connected Rivalry is next only after Stage 3 is fully proven, and actual Private Remote Joining remains downstream of Connected Rivalry.
+Private Remote Joining remains PRIORITIZED LONG-TERM / DEPENDENCY-GATED. Stage 4 Connected Rivalry must be production-proven before Stage 5 actual Remote Joining session orchestration begins.
 
 PR #37 and PR #35 remain historical draft work and are not current authority.
