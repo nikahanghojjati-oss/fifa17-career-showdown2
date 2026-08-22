@@ -1,0 +1,68 @@
+name: Temporary v1.7.0-r2 capsule synchronization
+
+on:
+  push:
+    branches: [agent/v1.7.0-r2-shell-coherence-hotfix]
+    paths:
+      - ".github/workflows/temporary-v170-r2-capsule-fix.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/temporary-v170-r2-capsule-fix.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  synchronize:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: agent/v1.7.0-r2-shell-coherence-hotfix
+          fetch-depth: 0
+      - name: Synchronize current capsule facts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('SESSION_BOOTSTRAP.json')
+          x=json.loads(p.read_text())
+          x['recordedAt']='2026-08-22T09:16:00-04:00'
+          x['lastVerifiedMainSha']='d0eb160d62a05ebdc5c68b5b79447ce1fedffc05'
+          x['latestMainMerge']={
+            'pullRequest':130,
+            'title':'v1.7.0 Stage 4: Connected Rivalry',
+            'mergeSha':'d0eb160d62a05ebdc5c68b5b79447ce1fedffc05',
+            'runtimeChanged':True,
+            'productionProofRecorded':False
+          }
+          x['currentStage4SourceSeal']['productionRulesPublished']=True
+          x['currentStage4SourceSeal']['productionProofRecorded']=False
+          x['lastCompletedMilestone']='Stage 4 exact reviewed Firestore Rules are production-published and PR #130 is merged at verified main d0eb160d62a05ebdc5c68b5b79447ce1fedffc05. Owner production observation exposed a browser-shell coherence incident before genuine Connected Rivalry proof, so v1.7.0-r2 is the bounded current runtime hotfix candidate. RJR-1 remains 69/100.'
+          x['runtime']['candidateRuntimeRevision']='1.7.0-r2'
+          x['runtime']['candidateConnectedRivalry']='rules-published-pr130-merged-r2-shell-coherence-hotfix-awaiting-live-capability-proof'
+          x['currentLane']='Stage 4 Connected Rivalry remains the current bounded lane. Complete only the v1.7.0-r2 shell-coherence hotfix, deploy/prove the stable exact release identity, then resume genuine Connected Rivalry production proof. Stage 5 remains blocked.'
+          x['immediateNextTask']['runtimeCandidate']='1.7.0-r2'
+          x['immediateNextTask']['stage']='Stage 4 Connected Rivalry r2 shell coherence and genuine production proof'
+          x['immediateNextTask']['scope']=[
+            'validate the bounded v1.7.0-r2 fresh immutable runtime namespace and delayed release-identity regression proof',
+            'keep the exact already-published Stage 4 firestore.spark.rules blob unchanged and do not repeat provider setup',
+            'merge and deploy v1.7.0 / 1.7.0-r2 only after the complete exact-head gate is clean',
+            'prove the live footer remains Connected Rivalry after startup settles and the local-data tile remains stable',
+            'obtain genuine Connected Rivalry production capability evidence across the already-paired accounts and registered devices',
+            'update RJR-1 only for genuine fixed-domain production capability evidence actually proven',
+            'keep Stage 5 Remote Joining session orchestration blocked until Stage 4 is production-proven'
+          ]
+          if 'RELEASE_V1.7.0_R2.md' not in x['minimalReads']:
+            x['minimalReads'].insert(6,'RELEASE_V1.7.0_R2.md')
+          p.write_text(json.dumps(x,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add SESSION_BOOTSTRAP.json
+          git commit -m "Synchronize r2 live-first capsule"
+          git push origin HEAD:agent/v1.7.0-r2-shell-coherence-hotfix
