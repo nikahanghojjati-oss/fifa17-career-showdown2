@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 63,
+  "currentScore": 69,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -49,11 +49,11 @@
       "earned": 18,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
-        "Canonical production Firestore Security Rules are provider verified deployed with the strict authenticated self-account revision-0 bootstrap boundary while downstream application-client writes remain denied.",
+        "Production Firestore Security Rules are provider verified through the strict authenticated self-account boundary and the later Stage 3 registered-device/private-pairing boundary.",
         "2026-08-20 provider evidence proves reCAPTCHA Enterprise API/key setup and Firebase App Check Web App registration at one-hour TTL and 0.5 risk threshold with enforcement off.",
         "Permanent Validate Stability Lane #1230 / run 32439162225 proves controlled production 1.4.0-r2 Firebase App + App Check runtime connection, exact-origin/path gating, every deployed runtime byte, and legitimate reCAPTCHA Enterprise App Check token traffic while enforcement remains off.",
-        "2026-08-21 owner-supplied real mobile production evidence shows the Connected Account surface, successful Google sign-in and the application state 'Private account ready'. Current source only emits that ready state after the authenticated Firebase UID self-account bootstrap returns ok with active status, so the bounded production Auth + memory-only Firestore + strict self-account create path is now materially proven.",
-        "Production Auth and Firestore remain lazy/optional; Storage and Functions stay uninitialized, local saves remain local-first, and no downstream device/pairing/rivalry/session/gameplay browser mutation authority is granted.",
+        "2026-08-21 owner-supplied real mobile production evidence proves the Connected Account surface, successful Google sign-in and strict self-account bootstrap path.",
+        "2026-08-21 owner-supplied production Stage 3 evidence proves the published zero-billing device/pairing Rules are exercised by the deployed v1.6.0-r1 browser path.",
         "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
       ]
     },
@@ -61,10 +61,13 @@
       "id": "devices-pairing-connected-rivalry-remote-join",
       "label": "Devices, pairing, Connected Rivalry and actual Remote Joining",
       "weight": 30,
-      "earned": 4,
+      "earned": 10,
       "evidence": [
         "Remote schema and two-owner governance contracts reserve device, invite, session and rivalry identities.",
-        "Actual registered-device lifecycle, private pairing, production Connected Rivalry and a real remote manager join are not yet implemented/proven."
+        "Stage 3 is production-proven at v1.6.0 / 1.6.0-r1: two distinct authenticated browser device identities register successfully, a private one-use capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager identity.",
+        "The live proof uses separate normal/incognito browser storage identities on one physical Chromebook; it proves two application device identities but not two-physical-machine hardening.",
+        "Production replay, third-account and device-revocation negative paths remain uncredited here even though source/emulator contracts cover them.",
+        "Connected Rivalry shared gameplay synchronization and actual Remote Joining sessions remain unimplemented/unproven."
       ]
     },
     {
@@ -74,7 +77,7 @@
       "earned": 3,
       "evidence": [
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
-        "Remote Joining specific two-real-device failure testing, abuse hardening, production rollback proof and stable release acceptance remain incomplete."
+        "Remote Joining specific two-physical-device failure testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
       ]
     }
   ],
@@ -117,6 +120,14 @@
       "delta": 1,
       "domainId": "production-cloud-security",
       "reason": "Owner-supplied real mobile production evidence shows 'Private account ready'. Current source reaches that state only after the authenticated Firebase UID self-account bootstrap returns ok with active status, materially proving the bounded production Auth + memory-only Firestore + strict revision-0 self-account create path. No points are awarded for pairing, Connected Rivalry, actual Remote Joining, App Check enforcement or unactivated trusted-runtime IAM."
+    },
+    {
+      "recordedAt": "2026-08-22T00:50:00Z",
+      "eventId": "production-stage3-registered-device-private-pairing-proof",
+      "score": 69,
+      "delta": 6,
+      "domainId": "devices-pairing-connected-rivalry-remote-join",
+      "reason": "Owner-supplied live v1.6.0 / 1.6.0-r1 screenshots materially prove the first production Stage 3 capabilities: two distinct authenticated browser device identities register, a private one-use pairing capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager slot. The +6 is deliberately bounded to registered-device/private-pairing production capability. It does not credit emulator-only replay/third-account/revocation negatives, two-physical-machine hardening, Connected Rivalry, shared gameplay synchronization or actual Remote Joining."
     }
   ]
 }
