@@ -967,6 +967,13 @@
 
   crInstallSubscriptions();
   if(root.document){
+    root.document.addEventListener("click",event=>{
+      const target=event&&event.target&&typeof event.target.closest==="function"
+        ?event.target.closest("#settingsButton")
+        :null;
+      if(!target)return;
+      root.setTimeout(()=>{void crMountWhenSettingsReady();},0);
+    },true);
     crMountWhenSettingsReady().catch(()=>false);
   }
 
