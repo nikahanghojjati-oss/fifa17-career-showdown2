@@ -1,3 +1,7 @@
+# CURRENT RELEASE NOTE — v1.7.0-r2 shell coherence candidate
+
+Active release candidate: `v1.7.0 — Connected Rivalry` / `1.7.0-r2` — not production-proven. Previous known-good production runtime: `1.6.0-r1` — production-proven. This bounded maintenance candidate assigns a fresh immutable browser asset namespace after `1.7.0-r1` was reused during Stage 4 candidate development. It does not alter Firestore Rules or add Remote Joining capability.
+
 # Career Mode Showdown
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript, browser localStorage and a first-party Installable Offline App shell.

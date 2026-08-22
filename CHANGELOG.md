@@ -1,3 +1,16 @@
+# v1.7.0-r2 — Stage 4 shell coherence hotfix — release candidate
+
+Candidate runtime: `1.7.0-r2`
+Previous known-good runtime: `1.6.0-r1`
+Status: bounded Stage 4 runtime-maintenance candidate; not production-proven.
+
+- assigns a fresh immutable runtime/public asset namespace after changed Stage 4 bytes reused `1.7.0-r1`;
+- makes the static Home local-data tile match the intentional `LOCAL / SAVE LIBRARY` bootstrap state;
+- keeps the release footer exactly `v1.7.0 · Connected Rivalry` and adds a delayed browser assertion that rejects post-startup identity mutation;
+- keeps `1.6.0-r1` as the known-good whole-shell recovery target;
+- changes no Firestore Rules, authorization semantics, canonical local storage, Candidate C authority, billing, App Check enforcement or Stage 5 lock;
+- RJR-1 remains 69 pending genuine Connected Rivalry production proof.
+
 # Career Mode Showdown Changelog
 
 Last updated: 2026-08-21 ET
