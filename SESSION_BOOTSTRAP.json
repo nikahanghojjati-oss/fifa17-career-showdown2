@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-21T22:10:00-04:00",
+  "recordedAt": "2026-08-21T22:30:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -21,31 +21,32 @@
     "runtimeRevision": "1.6.0-r1",
     "runtimeChanged": true
   },
-  "transitionPullRequest": {
-    "number": 128,
-    "title": "Transition authority to Stage 3 private pairing",
-    "state": "merged",
-    "branch": "agent/stage3-sle-transition",
-    "base": "main",
-    "baseSha": "0013bba24142aab4c76e5bca038ae99afa638c8d",
-    "mergeSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
-    "runtimeChanged": false,
-    "purpose": "historical-stage3-entry-transition"
-  },
   "latestProductionProof": {
     "source": "owner-firebase-console-plus-live-site-normal-incognito-browser-evidence",
     "record": "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md",
     "applicationVersion": "1.6.0",
     "runtimeRevision": "1.6.0-r1",
     "firestoreStage3RulesPublished": true,
-    "connectedAccountReady": true,
     "registeredDeviceIdentity": "proven-two-distinct-browser-identities",
     "privatePairingCreate": "proven",
     "wrongSlotRejectionLocalSavePreserved": "proven",
     "privatePairingRedeem": "proven-cross-account",
-    "physicalDeviceCountClaim": "one-physical-chromebook-two-browser-device-identities",
-    "connectedRivalry": "not-yet-production-proven",
+    "connectedRivalry": "not-production-proven",
     "remoteJoiningSession": "not-yet-implemented"
+  },
+  "currentStage4SourceSeal": {
+    "pullRequest": 130,
+    "title": "v1.7.0 Stage 4: Connected Rivalry",
+    "branch": "agent/v1.7.0-connected-rivalry-state",
+    "baseSha": "df3fe061c7df3c4235aa2394623e703a4412ca46",
+    "validatedSourceHead": "7336adda832322bbd93e8c16f3de0e4bbf5273c1",
+    "firestoreRulesBlob": "ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f",
+    "workflowFamiliesGreen": 14,
+    "submittedReviews": 0,
+    "inlineReviewThreads": 0,
+    "mergeableAtSeal": true,
+    "productionRulesPublished": false,
+    "productionProofRecorded": false
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -56,12 +57,12 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "Stage 3 Registered Devices / Private Pairing is DONE / MERGED / DEPLOYED / PRODUCTION-PROVEN at v1.6.0 / 1.6.0-r1. Production proof covers the Stage 3 Rules boundary, distinct authenticated browser device identities, private capability creation, wrong-slot rejection without local-save mutation, and successful cross-account manager pairing. RJR-1 is 69/100.",
+  "lastCompletedMilestone": "Stage 4 Connected Rivalry source implementation is sealed on PR #130 at exact source head 7336adda832322bbd93e8c16f3de0e4bbf5273c1 with all 14 permanent workflow families green, zero submitted reviews, zero inline review threads and mergeability true. Production remains Stage 3 v1.6.0 / 1.6.0-r1 because Stage 4 provider publication, merge/deployment and live production capability proof are not complete. RJR-1 remains 69/100.",
   "closingWec": {
-    "environmentId": "we-2026-08-21-v160-stage3-private-pairing",
-    "decision": "HANDOFF_NOW",
+    "environmentId": "we-2026-08-21-v170-connected-rivalry",
+    "decision": "PREPARE_HANDOFF",
     "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "stage3-production-proven-before-stage4-separate-milestone"
+    "checkpoint": "pr130-stage4-source-sealed-before-provider-publication"
   },
   "runtime": {
     "applicationVersion": "1.6.0",
@@ -79,14 +80,15 @@
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "strict-self-account-plus-self-device-and-private-pairing-only",
-    "candidateBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-state-idempotency-only",
+    "candidateBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
     "productionConnectedAccount": "proven-ready",
     "productionPrivatePairing": "proven",
+    "candidateConnectedRivalry": "source-sealed-awaiting-provider-publication-and-production-proof",
     "storageInitialized": false,
     "functionsInitialized": false,
     "billingRequired": false
   },
-  "currentLane": "PR #130 is the bounded v1.7.0 / 1.7.0-r1 Stage 4 Connected Rivalry release candidate. Seal one exact source head before publishing the reviewed Stage 4 Firestore Rules. Production remains v1.6.0 / 1.6.0-r1 and Stage 5 actual Remote Joining sessions remain blocked.",
+  "currentLane": "PR #130 Stage 4 Connected Rivalry source is sealed. This closing environment must stop after SLE/WEC packaging. A fresh successor must independently verify live state, initialize its own WEC, then complete Stage 4 provider publication, merge/deployment and genuine production Connected Rivalry proof. Stage 5 actual Remote Joining sessions remain blocked.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -96,8 +98,8 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never PR/CI/WEC/SLE/documentation count."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md"
+    "canonical": "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -108,13 +110,13 @@
     "recursiveInheritance": true
   },
   "starter": {
-    "version": "1.4.4",
-    "checkpoint": "POST-STAGE3-PRODUCTION-PAIRING-TO-STAGE4",
-    "canonical": "START_NEXT_SESSION_V1.4.4_STAGE4.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.4_STAGE4.md",
+    "version": "1.4.5",
+    "checkpoint": "PR130-STAGE4-SOURCE-SEAL-TO-PROVIDER-PROOF",
+    "canonical": "START_NEXT_SESSION_V1.4.5_PR130_STAGE4_PROVIDER.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.5_PR130_STAGE4_PROVIDER.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: ordinary mandatory SLE/WEC transition checkpoint after production Stage 3 proof."
+    "versionReason": "PATCH: ordinary mandatory SLE/WEC transition checkpoint after the Stage 4 source seal and before provider publication/proof."
   },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
   "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
@@ -123,45 +125,47 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "CURRENT_STAGE3_PRODUCTION_OVERRIDE_2026-08-21.md",
+    "CURRENT_STAGE4_SOURCE_SEAL_OVERRIDE_2026-08-21.md",
     "00_SLE_HANDOFF_PROTOCOL.md",
     "REMOTE_JOINING_READINESS.json",
     "WORK_ENVIRONMENT_STATUS.json",
-    "SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md",
-    "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md",
-    "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
+    "SUCCESSOR_HANDOFF_PR130_STAGE4_SOURCE_SEAL_SLE_2026-08-21.md",
+    "RELEASE_V1.7.0.md",
+    "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
+    "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md"
   ],
   "targetedReads": [
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
     "js/cloudSyncRemoteContract.js",
+    "js/sparkConnectedRivalry.js",
     "js/sparkPrivatePairing.js",
     "js/sparkConnectedAccount.js",
-    "js/sparkConnectedRivalry.js",
     "firestore.spark.rules",
-    "tests/firebase/stage3-private-pairing-emulator.cjs",
+    "tests/contracts/stage4-connected-rivalry-contracts.cjs",
     "tests/firebase/stage4-connected-rivalry-emulator.cjs",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
     "POST_V1_ROADMAP_EXECUTION.md"
   ],
   "immediateNextTask": {
-    "applicationCandidate": "v1.7.0",
+    "applicationCandidate": "1.7.0",
     "runtimeCandidate": "1.7.0-r1",
-    "stage": "Stage 4 Connected Rivalry",
+    "stage": "Stage 4 Connected Rivalry provider publication and production proof",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "seal PR #130 on one exact immutable head with all permanent workflow families green",
-      "keep direct exact-rivalry access with no listing or public discovery",
-      "prove shared authoritative state CAS and exact idempotency replay for only the two paired accounts and active registered-device boundary",
-      "preserve local-first/offline/recovery behavior and zero billing",
-      "publish exactly the reviewed Stage 4 Firestore Rules only after the source checkpoint is clean",
-      "obtain real production Connected Rivalry proof before moving RJR-1",
-      "keep actual Remote Joining session orchestration blocked until Stage 4 is production-proven"
+      "independently reconstruct live main, PR #130 and provider state and verify the immutable 7336adda source seal",
+      "initialize a fresh successor WEC and do not inherit predecessor PREPARE_HANDOFF",
+      "confirm current required workflow, review, thread and mergeability gates before any provider mutation",
+      "publish the exact reviewed Stage 4 firestore.spark.rules candidate only when current provider gates permit it",
+      "record precise Stage 4 production Rules publication proof",
+      "merge and deploy v1.7.0 / 1.7.0-r1 under standing owner authorization only after all required gates pass",
+      "obtain genuine live Connected Rivalry production capability evidence across the paired-account and registered-device boundary",
+      "update RJR-1 only for fixed-domain production capability evidence actually proven",
+      "keep Stage 5 Remote Joining session orchestration blocked until Stage 4 is production-proven"
     ],
     "blockedUntilLater": [
-      "Remote Joining session orchestration",
-      "destructive remote-to-local Save Library Apply without a separately validated transaction boundary",
+      "Stage 5 Remote Joining session orchestration until Stage 4 production proof",
       "Cloud Backup unless separately authorized",
       "public discovery/community/matchmaking",
       "public invitation directories",
@@ -181,7 +185,8 @@
     "candidateC": "sole-destructive-import-apply-authority",
     "appCheck": "production-proven-enforcement-off",
     "firestorePersistence": "memory-only",
-    "browserFirestoreCurrentWriteScope": "strict-self-account-plus-self-device-and-private-pairing-only",
+    "browserFirestoreCurrentWriteScope": "production-stage3-self-account-device-private-pairing-only",
+    "candidateBrowserFirestoreWriteScope": "bounded-stage4-connected-rivalry-authoritative-state-plus-idempotency",
     "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
     "stage2hIamPermissions": [
       "firebaseauth.users.get",
