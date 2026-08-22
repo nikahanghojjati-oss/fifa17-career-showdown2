@@ -1,34 +1,34 @@
 # PROJECT STATE — Career Mode Showdown
 
-## CURRENT OVERRIDE — v1.6.0 STAGE 3 REGISTERED DEVICES / PRIVATE PAIRING — 2026-08-21 ET
+## CURRENT OVERRIDE — v1.7.0 STAGE 4 CONNECTED RIVALRY — 2026-08-21 ET
 
 Current verified source and live GitHub override historical prose below.
 
-Status: CURRENT BOUNDED STAGE 3 RELEASE CANDIDATE / v1.6.0 / 1.6.0-r1 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / SHARED GAMEPLAY AND REMOTE JOINING STILL LOCKED.
+Status: CURRENT BOUNDED STAGE 4 RELEASE CANDIDATE / v1.7.0 / 1.7.0-r1 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 REMOTE JOINING SESSIONS STILL LOCKED.
 
-Current branch: `agent/v1.6.0-registered-devices-private-pairing`.
-Current PR: #129 `v1.6.0 Stage 3: Registered Devices / Private Pairing`.
-Starting independently verified live main: `9a4600cd121bb8230a0df3c4b673a7cc81e59dd2` from merged transition PR #128.
-Current release candidate: `v1.6.0 — Registered Devices & Private Pairing`.
-Current Installable Offline App candidate runtime: `1.6.0-r1`.
-Immediate whole-shell rollback/recovery runtime: `1.5.0-r2`.
-Remote Joining readiness authority: `REMOTE_JOINING_READINESS.json` fixed model `RJR-1`, currently `63/100` until genuine new production capability proof justifies movement.
+Current branch: `agent/v1.7.0-connected-rivalry-state`.
+Current PR: not opened yet.
+Starting independently verified production-proven main: `df3fe061c7df3c4235aa2394623e703a4412ca46`.
+Current release candidate: `v1.7.0 — Connected Rivalry`.
+Current Installable Offline App candidate runtime: `1.7.0-r1`.
+Immediate whole-shell rollback/recovery runtime: `1.6.0-r1`.
+Remote Joining readiness authority: `REMOTE_JOINING_READINESS.json` fixed model `RJR-1`, currently `69/100`; source work, documentation, emulator proof and green CI do not increase this score without genuine production capability proof.
 
-Stage 2 private Connected Account production proof is DONE / MERGED / PROVEN through the PR #125 → #126 → #127 chain. Do not repeat Google provider configuration, the already-completed Spark self-account rules publication, reinstall, or the proven production Google sign-in/self-account bootstrap work.
+Stage 3 Registered Devices / Private Pairing is DONE / MERGED / PRODUCTION-PROVEN through PR #129 and the recorded production proof. Do not repeat Firebase project/App setup, Google provider configuration, Connected Account bootstrap setup, Stage 3 pairing setup, reinstall or other already-proven provider work without concrete regression evidence.
 
-Stage 3 source now implements stable private installation/device identity in IndexedDB, authenticated self-device registration and revocation, a 256-bit short-lived one-use private pairing capability, and exactly two manager slots bound to authenticated account identity plus stable `profileId` and `saveId`. Firestore persistent cache remains disabled; Google auth remains `browserSessionPersistence`; Firebase Spark / zero billing remains mandatory.
+The current Stage 4 candidate implements only the first Connected Rivalry authoritative-state slice: exact private rivalry attachment with no list/discovery path, a private IndexedDB convenience pointer, deterministic projection of the explicitly connected local Save, direct authoritative reads, compare-and-swap publication with immutable client `baseRevision`, monotonic revision/hash linkage, atomic SHA-256 idempotency receipts, exact replay without revision increment, explicit reused-key and stale-base conflicts, active-account/device/two-manager mutation checks and tombstone anti-resurrection.
 
-The Stage 3 functional gate is source-proven on one coherent candidate lineage: deterministic client contracts pass, desktop Chromium IndexedDB persistence/reload/offline/localStorage-isolation proof passes, mobile Chromium proof passes, and the Firestore emulator accepts the restrictive device/pairing Rules including successful atomic two-manager redemption while denying third-account access, list access, shared authoritative gameplay writes and session writes.
+The first Stage 4 slice deliberately does not apply remote payload bytes back into canonical local Save Library state. Candidate C remains the sole destructive local Apply authority. Stage 5 Remote Joining session documents remain write-denied and no host/join session orchestration, presence or lobby flow is authorized inside this candidate.
 
-Production `firestore.rules` has not yet been replaced by the Stage 3 candidate. `firestore.spark.rules` is the reviewed Stage 3 source candidate. Stage 3 must not be called production-proven until exact-head source gates are clean, reviews/threads/mergeability are clean, the exact reviewed Rules are published to the existing free production Firebase project, deployment succeeds, and real-device production proof succeeds.
+The exact Stage 4 provider candidate remains `firestore.spark.rules`. Production Rules must not be changed until one immutable PR head passes complete repository contracts, the existing permanent workflow topology, Stage 3 regression protection, Stage 4 client contracts, Firestore emulator authorization/CAS/idempotency/tombstone/session-denial proof, browser/local-first validation, submitted-review and inline-thread checks, and mergeability.
 
-App Check enforcement remains OFF. Stage 2H reviewed IAM remains exactly `firebaseauth.users.get`, `datastore.databases.get`, `datastore.entities.get`, and `datastore.entities.create`, and remains unactivated. No Blaze, Cloud Run, Cloud Functions, Storage, billing account, additional Google OAuth scopes or trusted browser mutation backend is authorized.
+App Check enforcement remains OFF. Firestore persistent cache remains disabled. Google authentication remains popup-only with `browserSessionPersistence` and no additional Google OAuth scopes. Firebase Spark / zero billing remains mandatory. No Blaze, Cloud Run, Cloud Functions, Storage, billing account, provider-token storage or new trusted browser mutation backend is authorized.
 
-Stage 1 Cloud / Sync Readiness Phase 1A through 1F is DONE / MERGED / PROTECTED. Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN at their reviewed prerequisite boundaries. Stage 3 is the current candidate. Stage 4 Connected Rivalry shared gameplay synchronization and Stage 5 actual Private Remote Joining remain downstream and are not implementation-authorized inside PR #129.
+Stage 1 Cloud / Sync Readiness Phase 1A through 1F is DONE / MERGED / PROTECTED. Private Account / Authentication / Authorization Stages 2A through 2I are DONE / MERGED / PROVEN. Stage 3 Registered Devices / Private Pairing is DONE / MERGED / PRODUCTION-PROVEN. Stage 4 Connected Rivalry is the current bounded candidate. Stage 5 actual Private Remote Joining remains downstream and implementation-locked here.
 
 Private Remote Joining remains PRIORITIZED LONG-TERM and DEPENDENCY-GATED. Public community features and global leaderboard/rankings remain ELIMINATED. Public discovery, public profiles, public matchmaking, public invitation directories and public lobbies remain prohibited.
 
-Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Stage 3 private device identity is stored in IndexedDB only and is not gameplay/save authority. Candidate A remains non-mutating export, Candidate B remains read-only import analysis, and Candidate C remains the sole destructive import Apply authority.
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Connected Rivalry convenience metadata may use IndexedDB but is not gameplay/save authority or authorization evidence. Candidate A remains non-mutating export, Candidate B remains read-only import analysis, and Candidate C remains the sole destructive import Apply authority with transaction-owned mutation, immutable confirmed intent, strict exact raw snapshot authority, stale-state guards, ownership-scoped reverse rollback, anti-clobber behavior and exact recovery verification.
 
 The repository Work Environment Continuity system remains mandatory through `AGENTS.md`, `00_WORK_ENVIRONMENT_CONTINUITY.md`, `WORK_ENVIRONMENT_STATUS.json`, `WORK_ENVIRONMENT_HISTORY.md` and the repository continuity scripts. Every fresh environment validates inherited state, initializes its own fresh WEC and obeys its own assessment. Usage remains unavailable and must not be estimated.
 

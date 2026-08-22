@@ -31,6 +31,22 @@ The normal loading path is:
 
 Current source, live GitHub/provider/deployment state, later owner instructions, security/recovery authority and the successor's own freshly initialized WEC always override stale recorded facts in an SLE package.
 
+## Permanent owner-facing lean delivery invariant
+
+The owner must not be burdened with the full handoff as the normal entrypoint.
+
+At every normal handoff or next-session transition:
+
+1. generate and retain the complete SLE handoff in the repository as deep fallback/reference;
+2. give the owner only the newest compact downloadable `START_NEXT_SESSION_...md` first;
+3. when a ready-to-paste chat copy is useful or required, paste the compact starter content, not the full deep-reference handoff;
+4. do not ask the owner to choose among multiple handoff files or read/manage the repository continuity stack;
+5. do not surface, paste or link the complete `SUCCESSOR_HANDOFF_...` to the owner by default merely because it exists;
+6. surface the full handoff only when the owner explicitly asks for it, when the starter/capsule cannot reconstruct required context, or when a genuine continuity/recovery investigation requires deep provenance;
+7. keep one clear current starter entrypoint and prevent handoff sprawl or competing owner-facing authorities.
+
+This owner-facing delivery invariant is part of SLE itself, not an optional presentation preference. A developer who generates the correct full package but routinely hands the owner the heavy file first has violated the Lean and Efficient parts of SLE.
+
 ## Mandatory future-developer rule
 
 Every future developer, ChatGPT session or Work Environment that reaches a handoff boundary must use SLE packaging. A plain chat-only successor prompt or a single unmirrored Markdown handoff is not a complete project handoff.

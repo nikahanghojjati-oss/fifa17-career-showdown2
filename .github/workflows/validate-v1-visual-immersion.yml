@@ -50,7 +50,8 @@ jobs:
           assert.ok(
             html.includes(`v${appVersion} · Product Deepening`)
               || html.includes(`v${appVersion} · Private Connected Account Foundation`)
-              || html.includes(`v${appVersion} · Registered Devices & Private Pairing`),
+              || html.includes(`v${appVersion} · Registered Devices & Private Pairing`)
+              || html.includes(`v${appVersion} · Connected Rivalry`),
             'The user-facing release identity is missing or not approved for this release family.'
           );
           assert.ok(app.includes(`const APP_VERSION = "${appVersion}"`), 'The application version declaration is inconsistent.');
