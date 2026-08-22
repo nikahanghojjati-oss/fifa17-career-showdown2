@@ -1,24 +1,24 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-21T19:43:00-04:00",
+  "recordedAt": "2026-08-21T20:55:00-04:00",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/v1.6.0-registered-devices-private-pairing",
+  "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
+  "lastVerifiedMainSha": "5d254cea6e4deebd2aac79effeda30dcc3048385",
   "latestMainMerge": {
-    "pullRequest": 128,
-    "title": "Transition authority to Stage 3 private pairing",
-    "mergeSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
-    "runtimeChanged": false,
-    "productionProofRecorded": false
+    "pullRequest": 129,
+    "title": "v1.6.0 Stage 3: Registered Devices / Private Pairing",
+    "mergeSha": "5d254cea6e4deebd2aac79effeda30dcc3048385",
+    "runtimeChanged": true,
+    "productionProofRecorded": true
   },
   "productionRuntimeMerge": {
-    "pullRequest": 126,
-    "title": "Fix Connected Account Settings mount race",
-    "mergeSha": "ebbe062dac7a0272df81e5de493421594ddf17a4",
-    "applicationVersion": "1.5.0",
-    "runtimeRevision": "1.5.0-r2",
+    "pullRequest": 129,
+    "title": "v1.6.0 Stage 3: Registered Devices / Private Pairing",
+    "mergeSha": "5d254cea6e4deebd2aac79effeda30dcc3048385",
+    "applicationVersion": "1.6.0",
+    "runtimeRevision": "1.6.0-r1",
     "runtimeChanged": true
   },
   "transitionPullRequest": {
@@ -30,18 +30,22 @@
     "baseSha": "0013bba24142aab4c76e5bca038ae99afa638c8d",
     "mergeSha": "9a4600cd121bb8230a0df3c4b673a7cc81e59dd2",
     "runtimeChanged": false,
-    "purpose": "mandatory-SLE-transition-only"
+    "purpose": "historical-stage3-entry-transition"
   },
   "latestProductionProof": {
-    "source": "owner-real-device-screenshots-plus-source-grounded-state-transition",
-    "record": "PRODUCTION_CONNECTED_ACCOUNT_REAL_DEVICE_PROOF_2026-08-21.md",
-    "applicationVersion": "1.5.0",
-    "runtimeRevision": "1.5.0-r2",
-    "connectedAccountPanel": "proven",
-    "googlePopupAuthentication": "proven",
-    "firebaseUidSelfAccountBootstrap": "proven",
-    "privateAccountReady": true,
-    "exactInstalledBuildDirectlyObserved": true
+    "source": "owner-firebase-console-plus-live-site-normal-incognito-browser-evidence",
+    "record": "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md",
+    "applicationVersion": "1.6.0",
+    "runtimeRevision": "1.6.0-r1",
+    "firestoreStage3RulesPublished": true,
+    "connectedAccountReady": true,
+    "registeredDeviceIdentity": "proven-two-distinct-browser-identities",
+    "privatePairingCreate": "proven",
+    "wrongSlotRejectionLocalSavePreserved": "proven",
+    "privatePairingRedeem": "proven-cross-account",
+    "physicalDeviceCountClaim": "one-physical-chromebook-two-browser-device-identities",
+    "connectedRivalry": "not-yet-implemented",
+    "remoteJoiningSession": "not-yet-implemented"
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -52,21 +56,21 @@
     "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
-  "lastCompletedMilestone": "Production Private Connected Account is proven end-to-end on v1.5.0 / 1.5.0-r2: Connected Account renders, real Google popup authentication completes, strict Firebase UID self-account bootstrap succeeds, and Private account ready is shown. PR #127 recorded that proof and RJR-1 63/100; transition-only PR #128 then moved current authority to Stage 3.",
+  "lastCompletedMilestone": "Stage 3 Registered Devices / Private Pairing is DONE / MERGED / DEPLOYED / PRODUCTION-PROVEN at v1.6.0 / 1.6.0-r1. Production proof covers the new Stage 3 Rules boundary, distinct authenticated browser device identities, private capability creation, wrong-slot rejection without local-save mutation, and successful cross-account manager pairing. RJR-1 is 69/100.",
   "closingWec": {
-    "environmentId": "we-2026-08-21-pr125-spark-rules-provider-publication",
-    "decision": "HANDOFF_AT_CHECKPOINT",
+    "environmentId": "we-2026-08-21-v160-stage3-private-pairing",
+    "decision": "HANDOFF_NOW",
     "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "production-connected-account-proven-before-stage3-separate-milestone"
+    "checkpoint": "stage3-production-proven-before-stage4-separate-milestone"
   },
   "runtime": {
-    "applicationVersion": "1.5.0",
-    "productionRuntimeRevision": "1.5.0-r2",
+    "applicationVersion": "1.6.0",
+    "productionRuntimeRevision": "1.6.0-r1",
     "productionStatus": "production-proven",
-    "immediateRecoveryRuntime": "1.5.0-r1",
+    "immediateRecoveryRuntime": "1.5.0-r2",
     "candidateApplicationVersion": "1.6.0",
     "candidateRuntimeRevision": "1.6.0-r1",
-    "candidateStatus": "release-candidate-not-production-proven",
+    "candidateStatus": "current-production-no-next-runtime-candidate-started",
     "candidateImmediateRecoveryRuntime": "1.5.0-r2",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
@@ -74,25 +78,26 @@
     "appCheckEnforcement": false,
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
-    "productionBrowserWriteScope": "strict-authenticated-self-account-revision-0-create-only",
-    "candidateBrowserWriteScope": "stage3-self-device-and-private-pairing-only-after-new-rules-publication",
+    "productionBrowserWriteScope": "strict-self-account-plus-self-device-and-private-pairing-only",
+    "candidateBrowserWriteScope": "no-stage4-shared-state-authority-started-yet",
     "productionConnectedAccount": "proven-ready",
+    "productionPrivatePairing": "proven",
     "storageInitialized": false,
     "functionsInitialized": false,
     "billingRequired": false
   },
-  "currentLane": "v1.6.0 / 1.6.0-r1 Stage 3 Registered Devices / Private Pairing is implemented in PR #129. Current work is exact-head validation, clean review/thread/mergeability proof, then the genuinely new production Stage 3 firestore.spark.rules publication gate, followed by merge/deploy and real production pairing proof. Connected Rivalry and actual Remote Joining remain blocked.",
+  "currentLane": "Stage 3 production closeout is complete. This environment must stop. The next fresh successor may begin only Stage 4 Connected Rivalry after independent live-state reconstruction and a fresh WEC assessment; Stage 5 actual Remote Joining sessions remain blocked.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 63,
+    "score": 69,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never PR/CI/WEC/SLE/documentation count."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_POST_PR127_TO_STAGE3_PAIRING_SLE_2026-08-21.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR127_TO_STAGE3_PAIRING_SLE_2026-08-21.md"
+    "canonical": "SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -103,13 +108,13 @@
     "recursiveInheritance": true
   },
   "starter": {
-    "version": "1.4.3",
-    "checkpoint": "POST-PR127-TO-STAGE3-PAIRING",
-    "canonical": "START_NEXT_SESSION_V1.4.3_STAGE3.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.3_STAGE3.md",
+    "version": "1.4.4",
+    "checkpoint": "POST-STAGE3-PRODUCTION-PAIRING-TO-STAGE4",
+    "canonical": "START_NEXT_SESSION_V1.4.4_STAGE4.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.4_STAGE4.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: ordinary WEC/SLE transition checkpoint after production Connected Account proof."
+    "versionReason": "PATCH: ordinary mandatory SLE/WEC transition checkpoint after production Stage 3 proof."
   },
   "startupProtocol": "00_SESSION_BOOTSTRAP.md",
   "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
@@ -118,10 +123,12 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
+    "CURRENT_STAGE3_PRODUCTION_OVERRIDE_2026-08-21.md",
     "00_SLE_HANDOFF_PROTOCOL.md",
     "REMOTE_JOINING_READINESS.json",
     "WORK_ENVIRONMENT_STATUS.json",
-    "SUCCESSOR_HANDOFF_POST_PR127_TO_STAGE3_PAIRING_SLE_2026-08-21.md",
+    "SUCCESSOR_HANDOFF_POST_STAGE3_PRODUCTION_PAIRING_SLE_2026-08-21.md",
+    "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
   ],
   "targetedReads": [
@@ -132,27 +139,31 @@
     "firestore.spark.rules",
     "tests/firebase/stage3-private-pairing-emulator.cjs",
     "NEXT_TASK.md",
-    "PROJECT_STATE.md"
+    "PROJECT_STATE.md",
+    "POST_V1_ROADMAP_EXECUTION.md"
   ],
   "immediateNextTask": {
-    "applicationCandidate": "v1.6.0",
-    "runtimeCandidate": "1.6.0-r1",
-    "stage": "Stage 3 Registered Devices / Private Pairing",
+    "applicationCandidate": "not-started-select-by-version-policy-after-source-study",
+    "runtimeCandidate": "not-started",
+    "stage": "Stage 4 Connected Rivalry",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "seal all permanent workflow families green on one exact PR #129 head",
-      "verify clean reviews threads and mergeability on that same head",
-      "publish and verify only the genuinely new Stage 3 firestore.spark.rules boundary after source gates are clean",
-      "merge/deploy under standing owner authorization",
-      "obtain real production registered-device/private-pairing proof before moving RJR-1 or unlocking Connected Rivalry"
+      "independently reconstruct live main and production v1.6.0-r1 Stage 3 proof",
+      "initialize a fresh successor WEC and do not inherit predecessor HANDOFF_NOW",
+      "select the smallest coherent Connected Rivalry shared-state slice that reuses the protected deterministic revision/CAS/idempotency/tombstone/offline-reconnect model",
+      "authorize shared authoritative rivalry gameplay state only for the exactly two already-paired accounts and registered-device boundary",
+      "preserve local-first/offline/recovery behavior and zero billing",
+      "prove deterministic two-account convergence and security before production publication",
+      "keep actual Remote Joining session orchestration blocked until Stage 4 is production-proven"
     ],
     "blockedUntilLater": [
-      "Connected Rivalry gameplay synchronization",
       "Remote Joining session orchestration",
-      "Cloud Backup",
+      "Cloud Backup unless separately authorized",
       "public discovery/community/matchmaking",
-      "global leaderboards/rankings"
+      "public invitation directories",
+      "global leaderboards/rankings",
+      "Blaze/Cloud Run/Cloud Functions/Firebase Storage unless later explicitly authorized"
     ]
   },
   "criticalLocks": {
@@ -167,7 +178,7 @@
     "candidateC": "sole-destructive-import-apply-authority",
     "appCheck": "production-proven-enforcement-off",
     "firestorePersistence": "memory-only",
-    "browserFirestoreCurrentWriteScope": "strict-authenticated-self-account-revision-0-create-only",
+    "browserFirestoreCurrentWriteScope": "strict-self-account-plus-self-device-and-private-pairing-only",
     "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
     "stage2hIamPermissions": [
       "firebaseauth.users.get",
@@ -181,7 +192,8 @@
     "publicMatchmaking": false,
     "globalLeaderboardsRankings": false,
     "standingMergeDeployAuthorizedAfterRequiredGates": true,
-    "ownerMustNotRepeatCompletedConnectedAccountFirebaseSetup": true
+    "ownerMustNotRepeatCompletedConnectedAccountFirebaseSetup": true,
+    "ownerMustNotRepeatCompletedStage3RulesPublication": true
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; runtime rN never substitutes for application versioning.",
   "starterVersionPolicy": "independent from app version; PATCH ordinary WEC=100 checkpoint, MINOR backward-compatible material startup-protocol improvement, MAJOR breaking startup-contract redesign",
