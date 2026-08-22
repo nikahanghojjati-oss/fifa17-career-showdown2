@@ -25,4 +25,14 @@ Some older current-facing documents still contain candidate-era v1.6.0 wording. 
 
 Standing owner merge/deploy authorization remains effective only after all required tests and current mandatory publication gates pass. Never use that standing authorization to bypass a failed source, provider, deployment or production-proof gate.
 
-Every substantive owner-facing response must end with the exact seven-line footer required by the SLE handoff. At Handoff proximity 100%, package a complete successor handoff and stop before the next substantial milestone.
+Every substantive owner-facing response must end with the exact seven-line footer required by the SLE handoff:
+
+`Handoff proximity: X%`
+`Remote Joining readiness: X/100`
+`Current lane: ...`
+`Concrete dependency completed: ...`
+`Next unlock: ...`
+`Blocker: ...`
+`Sidequest check: ...`
+
+At Handoff proximity 100%, package a complete successor handoff and stop before the next substantial milestone.
