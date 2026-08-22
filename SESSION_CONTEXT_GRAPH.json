@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-21T22:25:00-04:00",
+  "recordedAt": "2026-08-21T22:32:00-04:00",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
       "id": "live-main-post-stage3-proof",
       "type": "current-main-boundary",
       "value": "df3fe061c7df3c4235aa2394623e703a4412ca46",
-      "source": "live main after Stage 3 production proof packaging and before PR #130 Stage 4 merge",
+      "source": "live main after Stage 3 production proof and before PR #130 Stage 4 merge",
       "authority": 1.0
     },
     {
@@ -52,19 +52,15 @@
       "applicationCandidate": "1.7.0",
       "runtimeCandidate": "1.7.0-r1",
       "pullRequest": 130,
-      "state": "release-candidate-source-validation",
+      "state": "source-sealed-awaiting-provider-publication-and-production-proof",
       "requirements": [
-        "exact private rivalry attachment without list or discovery",
-        "shared authoritative gameplay state for exactly the two paired accounts",
-        "registered active writer device",
-        "both paired accounts active for mutation",
-        "immutable baseRevision compare-and-swap with monotonic revision and hash linkage",
-        "atomic SHA-256 idempotency receipt with exact replay and fresh-receipt enforcement",
-        "stale conflict and reused-key conflict without silent rebase",
-        "tombstone anti-resurrection",
-        "local-first recovery with no destructive remote-to-local Apply in this first slice",
-        "Stage 5 session creation and mutation remain denied",
-        "Firebase Spark zero billing and memory-only Firestore"
+        "preserve immutable runtime/source seal 7336adda832322bbd93e8c16f3de0e4bbf5273c1",
+        "publish exact reviewed Stage 4 Firestore Rules only after current gates remain clean",
+        "record provider publication proof",
+        "merge/deploy under standing owner authorization only after required gates pass",
+        "obtain genuine live Connected Rivalry capability evidence",
+        "keep RJR at 69 until fixed-domain production evidence exists",
+        "keep Stage 5 session orchestration blocked until Stage 4 production proof"
       ],
       "riskCriticality": 1.0
     },
@@ -116,15 +112,22 @@
       "baseMainSha": "df3fe061c7df3c4235aa2394623e703a4412ca46",
       "applicationVersion": "1.7.0",
       "runtimeRevision": "1.7.0-r1",
+      "immutableSourceSeal": "7336adda832322bbd93e8c16f3de0e4bbf5273c1",
+      "firestoreRulesBlobAtSeal": "ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f",
+      "workflowFamiliesGreenAtSeal": 14,
+      "submittedReviewsAtSeal": 0,
+      "inlineThreadsAtSeal": 0,
+      "mergeableAtSeal": true,
       "productionStatus": "not-production-proven",
-      "productionRulesPublicationAllowedBeforeExactHeadSeal": false
+      "productionRulesPublished": false,
+      "laterPackagingCommitsMayReplaceSourceSeal": false
     }
   ],
   "edges": [
     {"from":"pr129-stage3-production","to":"production-runtime-1.6.0-r1","relation":"production-proves"},
     {"from":"pr129-stage3-production","to":"rjr1-ledger","relation":"adds-six-evidence-backed-points"},
     {"from":"pr129-stage3-production","to":"stage4-connected-rivalry","relation":"unlocks"},
-    {"from":"pr130-stage4-candidate","to":"stage4-connected-rivalry","relation":"implements"},
+    {"from":"pr130-stage4-candidate","to":"stage4-connected-rivalry","relation":"source-seals"},
     {"from":"stage4-connected-rivalry","to":"stage5-private-remote-joining","relation":"production-proof-prerequisite"},
     {"from":"canonical-storage","to":"stage4-connected-rivalry","relation":"must-remain-safe-through"},
     {"from":"security-zero-billing","to":"stage4-connected-rivalry","relation":"constrains"}
@@ -132,14 +135,14 @@
   "retrievalHints": {
     "currentTaskNode": "pr130-stage4-candidate",
     "immediateNextProductNode": "stage4-connected-rivalry",
-    "walkDirection": "verify Stage 3 production proof once, then stay on Stage 4 product work and exact-head validation; walk backward only for concrete security, recovery or schema questions",
+    "walkDirection": "verify Stage 3 production truth once, preserve the Stage 4 source seal, then continue product work only through Stage 4 provider publication and production proof; do not restart implementation or begin Stage 5",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
-      "live main differs from the recorded Stage 3 production-proof boundary",
-      "PR #130 contains unexpected scope outside Stage 4",
-      "Stage 4 schema or Rules conflict with protected remote contracts",
-      "a current exact-head workflow fails",
+      "live main differs from the recorded production boundary",
+      "PR #130 current head changes runtime or Rules after the immutable source seal",
+      "production Rules differ from the reviewed Stage 4 candidate",
+      "a required workflow or provider gate fails",
       "security or recovery contradiction appears"
     ]
   }
