@@ -56,9 +56,14 @@ assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=0&&r
 
 const sourceRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const sourceVersion=(sourceRevision&&sourceRevision.match(/^(\d+\.\d+\.\d+)-r\d+$/)||[])[1];
+const productionVersion=(capsule.runtime.productionRuntimeRevision&&capsule.runtime.productionRuntimeRevision.match(/^(\d+\.\d+\.\d+)-r\d+$/)||[])[1];
 assert.equal(sourceVersion,pkg.version,"Current source package and runtime revision must remain coherent.");
-assert.equal(capsule.runtime.applicationVersion,pkg.version);
-assert.equal(capsule.runtime.productionRuntimeRevision,sourceRevision);
+assert.equal(capsule.runtime.candidateApplicationVersion,pkg.version,"SLE capsule candidate application version must track current source.");
+assert.equal(capsule.runtime.candidateRuntimeRevision,sourceRevision,"SLE capsule candidate runtime revision must track current source.");
+assert.match(capsule.runtime.candidateStatus,/not-production-proven|release-candidate/i,"Candidate status must not fabricate production proof.");
+assert.equal(capsule.runtime.applicationVersion,productionVersion,"Production application version must match the production runtime revision, not the unmerged source candidate.");
+assert.match(capsule.runtime.productionStatus,/production-proven/i);
+assert.equal(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.productionRuntimeRevision,"The candidate recovery target must be the current production-proven whole shell.");
 assert.equal(capsule.runtime.appCheckEnforcement,false);
 assert.equal(capsule.runtime.billingRequired,false);
 assert.match(capsule.runtime.productionClientFirestore,/memory-only/i);
@@ -130,4 +135,4 @@ assert.ok(capsule.targetedReads.includes("js/cloudSyncRemoteContract.js"));
 assert.equal(capsule.immediateNextTask.mustStartAsRealProductWork,true);
 assert.equal(capsule.immediateNextTask.mustNotInsertGenericPrerequisiteLane,true);
 
-process.stdout.write(`PASS SLE package: live-first Smart Lean Efficient handoff is coherent for ${pkg.version}/${sourceRevision}, RJR ${readiness.currentScore}/100 and the next real product milestone.\n`);
+process.stdout.write(`PASS SLE package: live-first Smart Lean Efficient handoff is coherent for source ${pkg.version}/${sourceRevision}, production ${capsule.runtime.applicationVersion}/${capsule.runtime.productionRuntimeRevision}, RJR ${readiness.currentScore}/100 and the next real product milestone.\n`);

@@ -11,7 +11,9 @@ const runtimeSource=read("js/productionFirebaseRuntime.js");
 const placeholderSource=read("firebase.runtime-config.json");
 const placeholder=JSON.parse(placeholderSource);
 const renderer=read("scripts/render-production-firebase-public-config.mjs");
-const historicalRelease=read("RELEASE_V1.4.0_R2.md");
+const historicalAppCheckRelease=read("RELEASE_V1.4.0_R2.md");
+const historicalConnectedAccountHotfix=read("RELEASE_V1.5.0_R2.md");
+const currentRelease=read("RELEASE_V1.6.0.md");
 
 function freshRuntime(){
   const path=require.resolve("../../js/productionFirebaseRuntime.js");
@@ -56,11 +58,13 @@ assert.match(renderer,/configured:true/);
 assert.match(renderer,/without printing provider-issued values/i);
 assert.doesNotMatch(renderer,/console\.log\([^\n]*(?:apiKey|siteKey)/i);
 
-// The immutable 1.4.0-r2 release record remains the production App Check proof baseline.
-// PR #126 is a whole-shell hotfix above the merged PR #125 r1 account release; it must
-// preserve the same App Check boundary while retaining r1 as immediate rollback.
+// Historical proof remains pinned to the releases that actually established it.
+// Current source may advance to later product releases as long as the same local-first
+// App Check/Auth/Firestore boundary and coherent whole-shell revision discipline remain intact.
 const currentRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
-assert.match(currentRevision,/^1\.5\.0-r2$/,"PR #126 must expose the intended v1.5.0-r2 whole-shell Settings hotfix without rewriting the historical App Check proof.");
+const currentAppVersion=(app.match(/const APP_VERSION = "([^"]+)"/)||[])[1];
+assert.ok(currentAppVersion,"Current APP_VERSION is missing.");
+assert.match(currentRevision,new RegExp(`^${currentAppVersion.replace(/\./g,"\\.")}-r[1-9]\\d*$`),"Current shell revision must advance coherently with APP_VERSION instead of being frozen to PR #126.");
 for(const path of ["js/storage.js","js/showdown.js","js/scoring.js","js/screens.js","js/menuExperience.js","js/optionalModules.js","js/app.js"]){
   assert.ok(index.includes(`${path}?v=${currentRevision}`),`${path} must use the current candidate shell revision.`);
 }
@@ -68,13 +72,21 @@ assert.ok(app.includes(`visual-fidelity-r3.css?v=${currentRevision}`));
 assert.match(app,/productionFirebaseRuntime\.js\?v=\$\{r\}/);
 assert.match(app,/requestAnimationFrame\(\(\)=>\{ra\(\);so\(\);sd\(\);\}\)/,"Firebase must remain post-local-startup/lazy rather than blocking application initialization.");
 assert.ok(worker.includes(`const RUNTIME_REVISION = "${currentRevision}";`));
-assert.match(worker,/const PREVIOUS_RUNTIME_REVISION = "1\.5\.0-r1";/);
+const previousKnownGood=(currentRelease.match(/Previous known-good runtime:\s*`([^`]+)`/i)||[])[1];
+assert.ok(previousKnownGood,"Current release must name its previous known-good whole-shell runtime.");
+assert.ok(worker.includes(`const PREVIOUS_RUNTIME_REVISION = "${previousKnownGood}";`),"Service Worker rollback target must match the current release record.");
 assert.ok(worker.includes('"js/productionFirebaseRuntime.js"'));
 assert.doesNotMatch(worker,/productionAppCheckBootstrap\.js/);
 assert.ok(manifest.includes(currentRevision),"Manifest must use the current candidate shell revision.");
-assert.match(historicalRelease,/Runtime asset revision: `1\.4\.0-r2`/);
-assert.match(historicalRelease,/Previous known-good runtime: `1\.4\.0-r1`/);
-assert.match(historicalRelease,/App Check enforcement remains OFF/);
+
+// Immutable App Check proof baseline.
+assert.match(historicalAppCheckRelease,/Runtime asset revision: `1\.4\.0-r2`/);
+assert.match(historicalAppCheckRelease,/Previous known-good runtime: `1\.4\.0-r1`/);
+assert.match(historicalAppCheckRelease,/App Check enforcement remains OFF/);
+// Immutable PR #126 Connected Account hotfix provenance.
+assert.match(historicalConnectedAccountHotfix,/Runtime asset revision: `1\.5\.0-r2`/);
+assert.match(historicalConnectedAccountHotfix,/Previous known-good runtime: `1\.5\.0-r1`/);
+assert.match(historicalConnectedAccountHotfix,/production runtime hotfix/i);
 
 assert.match(runtimeSource,/firebase-app\.js/);
 assert.match(runtimeSource,/firebase-app-check\.js/);
@@ -176,5 +188,5 @@ function appCheckSdk(calls){
   assert.equal(providerFailure.connected,false);
   assert.equal(providerFailure.tokenObserved,false);
 
-  process.stdout.write("PASS production Firebase runtime keeps the proven App Check boundary local-first while the v1.5 Spark Auth + memory-only Firestore path activates only on explicit connected-account demand\n");
+  process.stdout.write(`PASS production Firebase runtime keeps historical App Check and PR #126 proof immutable while current ${currentAppVersion}/${currentRevision} remains local-first and explicit-demand only\n`);
 })().catch(error=>{console.error(error);process.exit(1);});

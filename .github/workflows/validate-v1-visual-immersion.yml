@@ -48,7 +48,9 @@ jobs:
           assert.ok(appVersion, 'APP_VERSION is missing.');
           assert.match(revision, new RegExp(`^${appVersion.replace(/\./g, '\\.')}\\-r[1-9]\\d*$`), 'The visual release cache identity must be a numbered revision for APP_VERSION.');
           assert.ok(
-            html.includes(`v${appVersion} · Product Deepening`) || html.includes(`v${appVersion} · Private Connected Account Foundation`),
+            html.includes(`v${appVersion} · Product Deepening`)
+              || html.includes(`v${appVersion} · Private Connected Account Foundation`)
+              || html.includes(`v${appVersion} · Registered Devices & Private Pairing`),
             'The user-facing release identity is missing or not approved for this release family.'
           );
           assert.ok(app.includes(`const APP_VERSION = "${appVersion}"`), 'The application version declaration is inconsistent.');
