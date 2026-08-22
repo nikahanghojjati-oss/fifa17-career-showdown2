@@ -8,6 +8,7 @@ const app=read("js/app.js");
 const worker=read("service-worker.js");
 const manifest=read("manifest.webmanifest");
 const runtimeSource=read("js/productionFirebaseRuntime.js");
+const productionAuditSource=read("tests/browser/production-app-check-runtime-audit.cjs");
 const placeholderSource=read("firebase.runtime-config.json");
 const placeholder=JSON.parse(placeholderSource);
 const renderer=read("scripts/render-production-firebase-public-config.mjs");
@@ -104,6 +105,12 @@ assert.match(runtimeSource,/browserSessionPersistence/);
 assert.match(runtimeSource,/BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state"/);
 assert.doesNotMatch(runtimeSource,/firebase-functions|firebase-storage|getFunctions|getStorage/i);
 assert.doesNotMatch(runtimeSource,/DebugAppCheckProvider|FIREBASE_APPCHECK_DEBUG_TOKEN/i);
+assert.match(productionAuditSource,/expectedBrowserFirestoreWriteScope = "spark-private-account-device-pairing-connected-rivalry-state"/);
+assert.match(productionAuditSource,/appCheckDependencyFailures/);
+assert.match(productionAuditSource,/appCheckRuntimeMessages/);
+assert.match(productionAuditSource,/Redacted evidence/);
+assert.match(productionAuditSource,/redacted-browser-key/);
+assert.doesNotMatch(productionAuditSource,/diagnostics\.browserFirestoreWrites, "deny-all"/);
 
 const validRuntimeConfig={
   schemaVersion:1,
