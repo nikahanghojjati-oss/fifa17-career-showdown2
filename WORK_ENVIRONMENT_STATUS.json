@@ -12,6 +12,7 @@
   "signals": {
     "contextComplexity": "very-high",
     "projectComplexity": "very-high",
+    "compactionCount": 2,
     "compactionCountLastExplicitlyRecorded": 2,
     "laterContextCompressionOccurredExactCountUnavailable": true,
     "majorPhasesCompleted": 4,
