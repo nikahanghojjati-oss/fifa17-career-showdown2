@@ -42,23 +42,30 @@
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
+    "scope": "all-current-and-future-project-pull-requests-through-full-project-completion",
     "mergeAndDeployWithoutRepeatedOwnerApproval": true,
     "condition": "all required tests and current mandatory publication gates pass",
     "rootAuthority": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
+    "provenance": "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
     "laterOwnerInstructionOverrides": true
   },
   "runtime": {
-    "lastProductionProvenApplicationVersion": "1.6.0",
-    "lastProductionProvenRuntimeRevision": "1.6.0-r1",
-    "currentMergedApplicationCandidate": "1.7.0",
-    "currentMergedRuntimeCandidate": "1.7.0-r2",
-    "currentMergedRuntimeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
-    "candidateStatus": "merged-awaiting-independent-deployed-site-and-genuine-connected-rivalry-production-proof",
+    "applicationVersion": "1.6.0",
+    "productionRuntimeRevision": "1.6.0-r1",
+    "productionStatus": "production-proven",
+    "candidateApplicationVersion": "1.7.0",
+    "candidateRuntimeRevision": "1.7.0-r2",
+    "candidateStatus": "release-candidate-merged-not-production-proven",
+    "candidateRuntimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
     "candidateImmediateRecoveryRuntime": "1.6.0-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
     "appCheckEnforcement": false,
+    "productionClientAuth": "lazy-on-explicit-connected-account-demand",
+    "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
+    "productionBrowserWriteScope": "strict-self-account-plus-self-device-and-private-pairing-only",
+    "candidateBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
     "firestorePersistence": "memory-only",
     "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
     "billingRequired": false,
@@ -71,7 +78,8 @@
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
     "score": 69,
-    "rule": "Move only on genuine fixed-domain production capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
+    "reportLabel": "Remote Joining readiness",
+    "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
     "environmentId": "we-2026-08-22-stage4-provider-proof",
@@ -89,6 +97,7 @@
     "canonical": "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
     "ownerInitialDelivery": "give-only-this-file-first",
+    "fallbackPackNeededByDefault": false,
     "versionReason": "PATCH: mandatory SLE/WEC transition after bounded r2 shell-coherence merge and before genuine Stage 4 production proof."
   },
   "slePolicy": {
@@ -99,6 +108,11 @@
     "requiredAtHandoffProximity100": true,
     "recursiveInheritance": true
   },
+  "startupProtocol": "00_SESSION_BOOTSTRAP.md",
+  "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
+  "contextModel": "SESSION_CONTEXT_MODEL.json",
+  "contextGraph": "SESSION_CONTEXT_GRAPH.json",
+  "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
     "START_NEXT_SESSION_V1.4.6_STAGE4_R2_PRODUCTION_PROOF.md",
@@ -110,6 +124,8 @@
     "00_SLE_HANDOFF_PROTOCOL.md"
   ],
   "targetedReads": [
+    "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
+    "js/cloudSyncRemoteContract.js",
     "js/sparkConnectedRivalry.js",
     "js/sparkPrivatePairing.js",
     "js/sparkConnectedAccount.js",
@@ -156,19 +172,22 @@
     "activeShowdownCanonical": false,
     "candidateA": "non-mutating-export",
     "candidateB": "read-only-import-analysis",
-    "candidateC": "sole-destructive-local-apply-authority",
+    "candidateC": "sole-destructive-import-apply-authority",
     "appCheck": "production-proven-enforcement-off",
     "firestorePersistence": "memory-only",
+    "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
+    "stage2hIamPermissions": ["firebaseauth.users.get", "datastore.databases.get", "datastore.entities.get", "datastore.entities.create"],
     "zeroBilling": true,
     "exactlyTwoManagers": true,
     "publicDiscovery": false,
     "publicCommunity": false,
     "publicMatchmaking": false,
     "globalLeaderboardsRankings": false,
+    "standingMergeDeployAuthorizedAfterRequiredGates": true,
     "stage5Locked": true,
     "ownerMustNotRepeatCompletedFirebaseOrStage3Setup": true
   },
   "versionPolicy": "PATCH fixes/hardening; MINOR product features; MAJOR breaking changes; runtime rN never substitutes for application versioning.",
-  "wec100PackagingRule": "At Handoff proximity 100%, complete mandatory SLE packaging, seal WEC, validate root/project mirrors, deliver newest starter, then stop before the next substantial milestone.",
+  "wec100PackagingRule": "At Handoff proximity 100%, complete mandatory Smart Lean Efficient SLE packaging, seal WEC, validate root/project mirrors, deliver newest starter, then stop before the next substantial milestone.",
   "liveFirstRule": "Current source, live GitHub state, provider/deployment state and later owner instructions override this capsule and all handoffs."
 }
