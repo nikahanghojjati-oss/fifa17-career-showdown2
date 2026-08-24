@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-24T14:18:41Z",
-  "materialSessionsObserved": 2,
-  "learningState": "cold-start-priors-with-two-labeled-sessions",
+  "recordedAt": "2026-08-24T18:54:25Z",
+  "materialSessionsObserved": 3,
+  "learningState": "cold-start-priors-with-three-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -25,8 +25,8 @@
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 0.8,
-      "learnedUtility": 0.608,
-      "note": "The fresh WEC accepted owner production evidence, then correctly forced a checkpoint transition before the distinct remote-to-local reconciliation milestone."
+      "learnedUtility": 0.6464,
+      "note": "Fresh WEC ownership prevented predecessor decisions from leaking across both the reconciliation implementation and its exact publication/deployment boundary."
     },
     "SESSION_CONTEXT_GRAPH.json": {
       "loaded": true,
@@ -39,8 +39,8 @@
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1.0,
-      "learnedUtility": 0.6,
-      "note": "Exact Stability job logs identified the real duplicate-function-name failure after an earlier heuristic diagnosis was incomplete."
+      "learnedUtility": 0.68,
+      "note": "Exact job logs isolated both the stale v1.7 Stability oracle and the post-merge headless reCAPTCHA Enterprise 403 initial-throttle without misclassifying either as a runtime defect."
     },
     "external-grok-review-2026-08-21": {
       "loaded": true,
@@ -95,6 +95,20 @@
       "routeFailureCluster": "One Work-layer script approval disconnect and one local shell quoting error; direct Node validation and safe corrected search succeeded without repeated routing loops.",
       "productionEvidenceLesson": "Credit only capability facts visible in owner-controlled production evidence; redact private capability identifiers and distinguish independent rivalries and physical-device limits.",
       "authorityLesson": "A completed proof lane does not itself authorize the next runtime milestone; inspect NEXT_TASK and transition when WEC identifies a distinct milestone."
+    },
+    {
+      "sessionId": "we-2026-08-24-v180-reconciliation-publication",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "Exact workflow logs were required to correct the protected-block topology invariant and stale Stability release identity, then to classify the deployed App Check-only failure without changing runtime or provider state.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Two protected local runner transports and two deployed continuation attempts disconnected; each route was circuit-broken after its second materially similar failure and authoritative exact-head GitHub or byte-proof evidence was used instead.",
+      "ciTriageLesson": "Exact failed-job logs distinguish source oracles from provider-boundary failures; one bounded fresh-runner retry was sufficient to classify the repeat reCAPTCHA Enterprise 403 initial-throttle and prohibit more headless attempts.",
+      "productionEvidenceLesson": "A successful merge, Pages deployment and 89-file byte proof establish provenance but do not establish destructive reconciliation capability; retain RJR 77 until an owner-controlled Apply sequence is proven."
     }
   ],
   "outcomeScale": {

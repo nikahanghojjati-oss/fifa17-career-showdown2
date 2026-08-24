@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-24T17:49:26Z",
+  "recordedAt": "2026-08-24T18:54:25Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr135-merged",
+      "id": "live-main-pr136-merged",
       "type": "current-main-boundary",
-      "value": "065222416dbd65e4b7886eaebf9a3f375f7c60a8",
-      "source": "independently verified live main after PR #135 production-evidence merge and before the v1.8.0 reconciliation candidate branch",
-      "runtimeChangedFromReleaseMerge": false,
+      "value": "1d9793412a712e931b516be8ca853df4e95b5b50",
+      "source": "independently verified live main after expected-head squash merge of PR #136 and successful v1.8.0-r1 Pages deployment",
+      "runtimeChangedFromReleaseMerge": true,
       "authority": 1.0
     },
     {
@@ -19,7 +19,7 @@
       "runtimeReleaseMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
       "ordinaryBrowserAppCheck": "production-proven-ready-connected-token-observed",
       "connectedRivalryFirstSlice": "production-proven",
-      "remoteToLocalApply": "v1.8.0-r1-source-candidate-locally-validated-not-production-proven",
+      "remoteToLocalApply": "v1.8.0-r1-merged-deployed-89-files-byte-proven-owner-production-proof-pending",
       "appCheckEnforcement": false,
       "billingRequired": false,
       "authority": 1.0,
@@ -71,11 +71,16 @@
     {
       "id": "stage4-remote-to-local-reconciliation",
       "type": "immediate-next-product-milestone",
-      "state": "v1.8.0-r1-locally-validated-unpublished-not-production-proven",
+      "state": "v1.8.0-r1-merged-deployed-byte-proven-owner-production-proof-pending",
       "applicationVersion": "1.8.0",
       "runtimeRevision": "1.8.0-r1",
       "engineeringCheckpoint": "42b89dfd4859d1655d231d2c04406e66545e45b4",
-      "activationRule": "fresh successor verifies the final sealed branch, initializes fresh WEC, then publishes the exact candidate and runs all PR gates if assessment permits",
+      "releasePr": 136,
+      "releaseExactHead": "4f8393c7c1e1284ff1b0290d07b7e61deb12c784",
+      "releaseMergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
+      "pagesRunId": 32763563751,
+      "deployedRuntimeFilesByteExact": 89,
+      "activationRule": "fresh successor verifies the final SLE seal, initializes fresh WEC, then coordinates genuine owner-browser reconciliation proof using the existing two paired manager sessions",
       "requirements": [
         "non-mutating remote preview by default",
         "Candidate C remains sole destructive local Apply authority",
@@ -143,7 +148,7 @@
   "retrievalHints": {
     "currentTaskNode": "stage4-remote-to-local-reconciliation",
     "immediateNextProductNode": "stage4-remote-to-local-reconciliation",
-    "walkDirection": "continue product work by verifying the final sealed v1.8.0-r1 reconciliation candidate, publishing one exact-head PR, completing all workflow/review/deployment gates, then obtaining genuine production reconciliation proof; do not repeat setup or begin Stage 5",
+    "walkDirection": "continue product work only through genuine owner-browser proof of deployed v1.8.0-r1 remote-to-local reconciliation; do not repeat setup, retry headless App Check, republish unchanged Rules or begin Stage 5",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
