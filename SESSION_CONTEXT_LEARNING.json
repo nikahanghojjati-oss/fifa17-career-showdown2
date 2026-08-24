@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-22T03:25:00Z",
-  "materialSessionsObserved": 1,
-  "learningState": "cold-start-priors-with-one-labeled-session",
+  "recordedAt": "2026-08-24T14:18:41Z",
+  "materialSessionsObserved": 2,
+  "learningState": "cold-start-priors-with-two-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -25,7 +25,8 @@
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 0.8,
-      "learnedUtility": 0.56
+      "learnedUtility": 0.608,
+      "note": "The fresh WEC accepted owner production evidence, then correctly forced a checkpoint transition before the distinct remote-to-local reconciliation milestone."
     },
     "SESSION_CONTEXT_GRAPH.json": {
       "loaded": true,
@@ -48,6 +49,22 @@
       "normalizedOutcome": 0.8,
       "learnedUtility": 0.56,
       "note": "Advisory external review accepted where compatible with project authority: strengthen Stage 4 production proof around revoked-device denial, stale CAS, replay and third-account denial; require two physical devices during Stage 4 hardening; make remote-to-local reconciliation an explicit pre-Stage-5 design gate reusing Candidate-C-level anti-clobber/rollback properties; add stale/replay/local-vs-remote UX during hardening; keep direct Spark Firestore Rules and App Check enforcement OFF unless concrete complexity/threat evidence changes the tradeoff; reduce duplicate continuity prose by reusing current bootstrap/handoff authorities rather than creating parallel systems."
+    },
+    "NEXT_TASK.md": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1.0,
+      "learnedUtility": 0.6,
+      "note": "Reading sole implementation authority prevented this closing environment from beginning a distinct reconciliation milestone under the completed first-slice authorization."
+    },
+    "owner-production-screenshots-2026-08-24": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 0.8,
+      "learnedUtility": 0.56,
+      "note": "Redacted visual inspection established genuine App Check and Connected Rivalry capability evidence without storing full private rivalry identifiers."
     }
   },
   "sessionMetrics": [
@@ -63,6 +80,21 @@
       "staleAuthorityCorrection": true,
       "routeFailureCluster": "Repeated rejected non-fast-forward update_ref attempts; route circuit-broken and not used again.",
       "ciTriageLesson": "Prefer exact workflow job logs over inference from failed workflow family or first suspected assertion."
+    },
+    {
+      "sessionId": "we-2026-08-22-stage4-human-appcheck-proof",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "ghBinaryBootstrapObserved": "checksum-verified gh 2.98.0 installed locally but unauthenticated and unnecessary because the connected GitHub route was sufficient",
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "WEC required a complete checkpoint transition and current implementation authority had to be reconciled before selecting the distinct next milestone.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "One Work-layer script approval disconnect and one local shell quoting error; direct Node validation and safe corrected search succeeded without repeated routing loops.",
+      "productionEvidenceLesson": "Credit only capability facts visible in owner-controlled production evidence; redact private capability identifiers and distinguish independent rivalries and physical-device limits.",
+      "authorityLesson": "A completed proof lane does not itself authorize the next runtime milestone; inspect NEXT_TASK and transition when WEC identifies a distinct milestone."
     }
   ],
   "outcomeScale": {

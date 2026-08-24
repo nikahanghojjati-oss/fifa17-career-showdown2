@@ -1,5 +1,21 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START OVERRIDE — STAGE 4 FIRST SLICE PRODUCTION-PROVEN — 2026-08-24 ET
+
+Current source, live GitHub, `SESSION_BOOTSTRAP.json` and `NEXT_TASK.md` override retained historical bodies below.
+
+Production is `v1.7.0 / 1.7.0-r2`. Ordinary owner-controlled App Check and the first Connected Rivalry slice are production-proven in `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`: private two-manager attach, revision-0 create/read, stale-base rejection, safe recovery, monotonic revision-1 update and cross-manager convergence without local Apply or a reported local-save overwrite. RJR-1 is `77/100`.
+
+Fresh developers must validate/archive closing environment `we-2026-08-22-stage4-human-appcheck-proof`, initialize a fresh unique WEC and assess before mutation. The closing `HANDOFF_AT_CHECKPOINT` decision is not inherited.
+
+The next selected prerequisite is explicit remote-to-local reconciliation, but no runtime candidate is authorized by the handoff alone. If the fresh WEC permits, activate the smallest bounded candidate atomically in `NEXT_TASK.md` with real product work. Reuse Candidate C as sole destructive Apply authority with immutable intent, strict exact raw snapshot authority, backup-before-Apply, transaction-owned mutation, anti-clobber guards, ownership-scoped rollback and exact recovery verification. Remote preview stays non-mutating and Stage 5 stays locked.
+
+Read `START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md` and `SESSION_BOOTSTRAP.json` for the compact live-first packet. The connected GitHub app is primary; local `gh` is fallback-only for a genuine connector gap and its authentication is never assumed to persist.
+
+The complete body below remains historical provenance and does not override this section.
+
+---
+
 ## CURRENT START OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
 
 Current source, live GitHub state and `NEXT_TASK.md` override every retained predecessor body below.
