@@ -1,5 +1,17 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START OVERRIDE — v1.8.0 DEPLOYED / RECONCILIATION PROOF PENDING — 2026-08-24 ET
+
+Live main is PR #136 squash merge `1d9793412a712e931b516be8ca853df4e95b5b50`. Public `v1.8.0 / 1.8.0-r1` is deployed and all 89 runtime files are byte-identical to that merge. PR #136's exact final head passed all 14 workflow families with clean reviews/threads/mergeability.
+
+The next task is not more implementation. Load `START_NEXT_SESSION_V1.4.10_V1.8.0_PRODUCTION_RECONCILIATION_PROOF.md`, verify live state, initialize a fresh WEC, then coordinate genuine production reconciliation proof using the existing two paired manager sessions. Preview must remain non-mutating; stale intent must reject; exact confirmed Candidate C Apply must download a backup first and preserve identities plus unrelated Saves.
+
+RJR-1 remains `77/100`. Do not award points for source, merge, CI, deployment or SLE. Do not repeat Firebase/App Check/account/device/pairing setup, change provider settings, republish unchanged Rules, enable App Check enforcement or begin Stage 5. `v1.7.0-r2` remains the immediate known-good whole-shell recovery runtime until owner proof closes.
+
+The retained body below remains historical provenance and does not override this section.
+
+---
+
 ## CURRENT START OVERRIDE — STAGE 4 FIRST SLICE PRODUCTION-PROVEN — 2026-08-24 ET
 
 Current source, live GitHub, `SESSION_BOOTSTRAP.json` and `NEXT_TASK.md` override retained historical bodies below.
