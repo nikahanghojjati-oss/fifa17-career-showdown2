@@ -1,5 +1,19 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT TRANSITION — RIVALRY AUTHORITY MISMATCH — 2026-08-24 ET
+
+Owner-controlled Safari refresh at 16:38 ET completed read-only on `PLAYER TWO · GOP`, preserved `LOCAL TARGET: Player Two · save_97c6e0…3ceca` and `LOCAL COMMIT: Not applied this session`, but returned `REMOTE OBSERVED: Not published` and `No authoritative shared state exists yet. The first publish will create revision 0.` No Publish, Verify/Reattach, Preview or Apply occurred; local and remote state were not mutated.
+
+Comparison screenshots at 17:52 ET resolved the contradiction. Player One / Nik remains attached to `pair_a07108…756fb` and reads revision 1; Player Two / Gop is attached to a different empty rivalry beginning `pair_d1db8e…`. The messages differ because the two surfaces are reading different rivalry documents. The revision-1 authority was not lost and no Save Library or runtime corruption is demonstrated.
+
+Hard stop: do not press `PUBLISH LOCAL SAVE`, create/join pairing, Preview or Apply. The exact guarded repair is for a fresh successor to have the owner copy Nik's existing exact code, replace Gop's entire wrong code, keep `PLAYER TWO · GOP` selected, press `VERIFY / REATTACH` once, then refresh once and require the same redacted fingerprint plus revision 1. Source and focused Stage 4 contracts prove reattach validates account/device/role/profile/save before changing only Gop's browser-local IndexedDB pointer.
+
+Closing WEC `we-2026-08-24-v180-owner-reconciliation-proof` is `HANDOFF_AT_CHECKPOINT`. New compact starter: `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md`. Complete deep fallback: `SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md`. Live main remains `87c57b3f918520b93feeefc189802dc65aa96257`, runtime remains public `v1.8.0-r1`, RJR remains 77 and Stage 5 remains locked.
+
+The retained body below is historical unless consistent with this transition override.
+
+---
+
 ## CURRENT OWNER-PROOF REBASELINE — REFRESHED SAFARI SESSIONS — 2026-08-24 ET
 
 Live main is `87c57b3f918520b93feeefc189802dc65aa96257` after PR #137 closed the v1.8.0 SLE publication boundary. Runtime authority remains PR #136 merge `1d9793412a712e931b516be8ca853df4e95b5b50`, public `v1.8.0 / 1.8.0-r1`; RJR-1 remains exactly `77/100` and Stage 5 remains locked.

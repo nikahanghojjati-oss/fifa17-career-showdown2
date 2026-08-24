@@ -1,3 +1,22 @@
+# CURRENT OVERRIDE — v1.8.0 PLAYER TWO RIVALRY-POINTER REPAIR — 2026-08-24 ET
+
+Status: ROOT CAUSE PROVEN / PLAYER ONE NIK ON `pair_a07108…756fb` REVISION 1 / PLAYER TWO GOP ON DIFFERENT EMPTY `pair_d1db8e…` RIVALRY / NO DATA LOSS / RJR-1 77/100 / STAGE 5 LOCKED.
+
+Verified live main: `87c57b3f918520b93feeefc189802dc65aa96257`. Runtime authority remains PR #136 merge `1d9793412a712e931b516be8ca853df4e95b5b50`, public `v1.8.0 / 1.8.0-r1`. The two surfaces show different messages because they are attached to different valid private rivalry documents after reconnection; no runtime code defect or Save Library corruption is proven.
+
+Current environment: `we-2026-08-24-v180-owner-reconciliation-proof`.
+Starting independently verified live main: `87c57b3f918520b93feeefc189802dc65aa96257`.
+
+Immediate task: guardedly repair only Gop's browser-local pointer. Copy Nik's exact existing rivalry code without pressing an action. On Player Two / Gop, replace the entire wrong code, keep `PLAYER TWO · GOP` selected and press `VERIFY / REATTACH` exactly once. Source verifies account, active device, role, profile and Save entitlement before persisting the pointer. Then refresh exactly once and require both redacted fingerprints to match plus `REMOTE OBSERVED: Revision 1`, unchanged local target and `LOCAL COMMIT: Not applied this session`.
+
+Do not Publish revision 0, create/join pairing, Preview or Apply. Stop on any error or mismatch. Resume the original Preview/stale-rejection/backup-and-Apply proof only after the repaired revision-1 baseline is accepted.
+
+Current compact SLE starter: `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.0 DEPLOYED / OWNER RECONCILIATION PROOF — 2026-08-24 ET
 
 Status: PR #136 MERGED / `v1.8.0 / 1.8.0-r1` DEPLOYED AND 89-FILE BYTE-PROVEN / SAFE REMOTE RECONCILIATION OWNER PROOF PENDING / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

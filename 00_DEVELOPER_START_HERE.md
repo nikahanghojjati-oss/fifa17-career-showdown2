@@ -1,5 +1,15 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START — v1.8.0 PLAYER TWO RIVALRY-POINTER REPAIR — 2026-08-24 ET
+
+Start with `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md` and `SESSION_BOOTSTRAP.json`, then verify live main and the public transition branch. Open `SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md` for the exact guarded repair.
+
+Player One / Nik remains on `pair_a07108…756fb` at revision 1. Player Two / Gop is attached to a different empty `pair_d1db8e…` rivalry. Do not publish revision 0. Guardedly reattach only Gop's browser-local pointer to Nik's exact code, refresh once and require matching fingerprints/revision 1 before resuming reconciliation proof. RJR remains 77 and Stage 5 remains locked.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 ## CURRENT START OVERRIDE — v1.8.0 DEPLOYED / RECONCILIATION PROOF PENDING — 2026-08-24 ET
 
 Live main is PR #136 squash merge `1d9793412a712e931b516be8ca853df4e95b5b50`. Public `v1.8.0 / 1.8.0-r1` is deployed and all 89 runtime files are byte-identical to that merge. PR #136's exact final head passed all 14 workflow families with clean reviews/threads/mergeability.
