@@ -1,5 +1,21 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT OWNER-PROOF REBASELINE — REFRESHED SAFARI SESSIONS — 2026-08-24 ET
+
+Live main is `87c57b3f918520b93feeefc189802dc65aa96257` after PR #137 closed the v1.8.0 SLE publication boundary. Runtime authority remains PR #136 merge `1d9793412a712e931b516be8ca853df4e95b5b50`, public `v1.8.0 / 1.8.0-r1`; RJR-1 remains exactly `77/100` and Stage 5 remains locked.
+
+The owner corrected the inherited session assumption: updating the app required Safari sign-in again, and both manager/rivalry connections were then re-established. Do not describe those surfaces as untouched earlier sessions. This does not by itself invalidate the same-account, same-manager and same-private-rivalry authority, but current visible attachment and revision must be rebaselined before Preview. Do not repeat sign-in, device, pairing or rivalry reconnection again unless a concrete error is first captured and assessed.
+
+The intended remote-to-local target is Player Two / Gop's existing local career Save. “Target Showdown” means the local Showdown record inside that Save that Candidate C would update with remote gameplay while preserving its local Save/profile/season identity; it is not a server, rivalry code or new Showdown. The owner does not need to locate an internal ID: the selected manager control and `LOCAL TARGET` row bind/display the exact Save.
+
+Immediate safe owner step: on the refreshed Player Two / Gop surface, open Settings → Connected Rivalry and, without pressing Publish, Preview or Apply, capture the selected manager plus `RIVALRY`, `REMOTE OBSERVED`, `LOCAL TARGET` and `LOCAL COMMIT`. If unattached or errored, stop and capture that visible state rather than reconnecting again. The prior Save Library/unrelated-Save capture moves after this refreshed identity/attachment baseline is accepted.
+
+Current WEC `we-2026-08-24-v180-owner-reconciliation-proof` is `PREPARE_HANDOFF`: finish this bounded clarification/rebaseline checkpoint and keep the rolling handoff current before another milestone. Usage remains unavailable and is not estimated.
+
+The retained body below is historical unless consistent with this latest owner correction.
+
+---
+
 ## CURRENT HANDOFF — POST-PR #136 PRODUCTION RECONCILIATION PROOF — 2026-08-24 ET
 
 PR #136 final head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784` passed all 14 PR workflow families, clean reviews/threads and mergeability, then merged with expected-head squash SHA `1d9793412a712e931b516be8ca853df4e95b5b50`. Pages run `32763563751` succeeded; public `v1.8.0 / 1.8.0-r1` matches all 89 merged runtime files byte-for-byte.

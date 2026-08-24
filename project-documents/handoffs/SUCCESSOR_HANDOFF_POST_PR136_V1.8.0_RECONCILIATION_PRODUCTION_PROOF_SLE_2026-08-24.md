@@ -9,6 +9,14 @@ SLE = Smart Lean Efficient.
 
 Use the existing two paired manager sessions to prove the deployed `v1.8.0 / 1.8.0-r1` Safe Remote Reconciliation capability in ordinary owner-controlled production browsers. Do not repeat Firebase, App Check, account, device, pairing, private-rivalry or Firestore Rules setup. Do not begin Stage 5.
 
+### Current owner-session correction — 2026-08-24 ET
+
+The owner reports that updating the app required Safari sign-in again, after which both manager/rivalry connections were re-established. This supersedes the assumption that the browser surfaces remain untouched earlier sessions; it does not by itself invalidate the same-account, same-manager and same-private-rivalry authority. Treat the refreshed connections as the current evidence baseline, verify their visible attachment/manager/revision before Preview, and do not repeat sign-in, device, pairing or rivalry reconnection again without a captured concrete regression.
+
+The intended Apply target is Player Two / Gop's existing local career Save. “Target Showdown” means the local Showdown record inside that Save, not a remote server, rivalry code or new Showdown. The selected manager control and `LOCAL TARGET` row resolve the exact internal Save; the owner should not be asked to locate its ID manually.
+
+First safe operation: on the refreshed Player Two / Gop surface, open Settings → Connected Rivalry and, without Publish, Preview or Apply, capture the selected manager plus `RIVALRY`, `REMOTE OBSERVED`, `LOCAL TARGET` and `LOCAL COMMIT`. Stop on an unattached/error state and capture it; do not reconnect again. Only after that baseline is accepted should the ordinary Save Library/unrelated-Save and non-mutating Preview evidence sequence continue.
+
 ## 2. Exact repository and deployment boundary
 
 - PR #136 `v1.8.0: Safe Remote Reconciliation` passed all 14 pull-request workflow families on exact unchanged head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784`, with zero submitted reviews, zero inline threads and mergeability clean.
