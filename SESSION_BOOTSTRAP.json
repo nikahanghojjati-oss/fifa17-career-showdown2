@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-24T14:18:41Z",
+  "recordedAt": "2026-08-24T17:49:26Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "main",
+  "bootstrapBranch": "agent/stage4-remote-local-reconciliation",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedRuntimeMainSha": "6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60",
+  "lastVerifiedRuntimeMainSha": "065222416dbd65e4b7886eaebf9a3f375f7c60a8",
   "latestRuntimeMerge": {
     "pullRequest": 131,
     "title": "v1.7.0-r2: restore production shell coherence",
@@ -53,7 +53,7 @@
     "ordinaryBrowserAppCheckProof": "ready-connected-token-observed",
     "genuineConnectedRivalryProductionProof": true,
     "genuineConnectedRivalryProofScope": "two-entitled-attach-revision0-create-read-stale-reject-recover-revision1-converge-no-local-apply",
-    "remoteToLocalReconciliation": "locked-pending-explicit-candidate-c-governed-slice"
+    "remoteToLocalReconciliation": "source-candidate-implemented-not-production-proven"
   },
   "productionProofClassification": {
     "diagnosticPullRequest": 133,
@@ -90,10 +90,10 @@
     "applicationVersion": "1.7.0",
     "productionRuntimeRevision": "1.7.0-r2",
     "productionStatus": "production-proven-stage4-first-slice",
-    "candidateApplicationVersion": "1.7.0",
-    "candidateRuntimeRevision": "1.7.0-r2",
-    "candidateStatus": "production-proven-stage4-first-slice-remote-to-local-reconciliation-pending",
-    "candidateRuntimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+    "candidateApplicationVersion": "1.8.0",
+    "candidateRuntimeRevision": "1.8.0-r1",
+    "candidateStatus": "release-candidate-not-production-proven-stage4-safe-remote-reconciliation",
+    "candidateRuntimeMergeSha": null,
     "candidateImmediateRecoveryRuntime": "1.7.0-r2",
     "previousKnownGoodRecoveryRuntime": "1.6.0-r1",
     "firebaseAppConnected": true,
@@ -110,7 +110,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Stage 4 first Connected Rivalry slice is production-proven. Seal the checkpoint, then a fresh WEC may activate the smallest Candidate-C-governed remote-to-local reconciliation candidate. Do not repeat proof setup or begin Stage 5.",
+  "currentLane": "Finish exact-head validation and publication of the bounded v1.8.0 Candidate-C-governed remote-to-local reconciliation release candidate. Do not republish unchanged Rules, repeat completed proof setup or begin Stage 5.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -120,23 +120,23 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-22-stage4-human-appcheck-proof",
-    "decision": "HANDOFF_AT_CHECKPOINT",
+    "environmentId": "we-2026-08-24-stage4-remote-local-reconciliation",
+    "decision": "HANDOFF_NOW",
     "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "stage4-r2-ordinary-browser-appcheck-and-connected-rivalry-revision1-production-proven-rjr77-reconciliation-next"
+    "checkpoint": "v1.8.0-r1-reconciliation-candidate-locally-validated-unpublished-rjr77"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md"
+    "canonical": "SUCCESSOR_HANDOFF_V1.8.0_RECONCILIATION_CANDIDATE_TO_PR_SLE_2026-08-24.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_V1.8.0_RECONCILIATION_CANDIDATE_TO_PR_SLE_2026-08-24.md"
   },
   "starter": {
-    "version": "1.4.8",
-    "checkpoint": "STAGE4-PRODUCTION-PROOF-TO-REMOTE-LOCAL-RECONCILIATION",
-    "canonical": "START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
+    "version": "1.4.9",
+    "checkpoint": "V1.8.0-RECONCILIATION-CANDIDATE-TO-PR",
+    "canonical": "START_NEXT_SESSION_V1.4.9_V1.8.0_RECONCILIATION_PR.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.9_V1.8.0_RECONCILIATION_PR.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: mandatory SLE/WEC transition after genuine ordinary-browser App Check plus revision-0/stale-recovery/revision-1 cross-manager production proof, before the distinct remote-to-local reconciliation milestone."
+    "versionReason": "PATCH: mandatory SLE/WEC transition after completing and locally validating the bounded v1.8.0 reconciliation engineering candidate, before its distinct PR/publication milestone."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -153,11 +153,11 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
-    "SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md",
+    "START_NEXT_SESSION_V1.4.9_V1.8.0_RECONCILIATION_PR.md",
+    "SUCCESSOR_HANDOFF_V1.8.0_RECONCILIATION_CANDIDATE_TO_PR_SLE_2026-08-24.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
-    "RELEASE_V1.7.0_R2.md",
+    "RELEASE_V1.8.0.md",
     "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
@@ -182,23 +182,23 @@
     "POST_V1_ROADMAP_EXECUTION.md"
   ],
   "immediateNextTask": {
-    "applicationCandidate": "1.7.0",
-    "runtimeCandidate": "1.7.0-r2",
-    "runtimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
-    "stage": "Stage 4 remote-to-local reconciliation candidate activation and implementation",
+    "applicationCandidate": "1.8.0",
+    "runtimeCandidate": "1.8.0-r1",
+    "runtimeMergeSha": null,
+    "stage": "Stage 4 safe remote reconciliation exact-head validation and publication",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
       "independently verify current main, the closing production-evidence checkpoint branch/PR and any intervening files before accepting this capsule",
-      "validate and archive closing WEC we-2026-08-22-stage4-human-appcheck-proof, initialize a fresh unique WEC with reset counters and assess before mutation",
+      "validate and archive closing WEC we-2026-08-24-stage4-remote-local-reconciliation, initialize a fresh unique WEC with reset counters and assess before mutation",
       "accept ordinary-browser App Check and the first Connected Rivalry slice as production-proven only when live evidence files and RJR-1 remain coherent at 77/100",
       "do not repeat Firebase, App Check, Connected Account, device registration, pairing, Rules publication or human production proof absent concrete regression evidence",
-      "activate the smallest bounded remote-to-local reconciliation candidate atomically in NEXT_TASK.md with the real engineering change; do not create a documentation-only prerequisite PR",
+      "validate the implemented bounded remote-to-local reconciliation candidate on its exact unchanged head and publish one engineering PR",
       "keep remote refresh and preview non-mutating by default and prohibit automatic Apply or silent overwrite",
       "reuse Candidate C as the sole destructive local Apply authority with immutable intent, exact target identity and exact observed remote revision/hash",
       "complete canonical backup before Apply and preserve transaction-owned mutation, stale-state rejection, anti-clobber checks, ownership-scoped rollback and exact recovery verification",
       "make observed remote state and committed local state unmistakably distinct in the UI",
-      "add focused contract and browser coverage and use appropriate versioning before release",
+      "retain the passing focused contract and rendered browser proof and complete all permanent exact-head workflow families before merge",
       "retain exact idempotency replay, third-account/revoked-device negatives and two-physical-device/network behavior as remaining Stage 4 hardening unless newly proven",
       "update RJR-1 only for newly demonstrated fixed-domain production capabilities",
       "keep Stage 5 session orchestration blocked until reconciliation and remaining Stage 4 hardening are production-proven"

@@ -1,3 +1,18 @@
+# v1.8.0 — Safe Remote Reconciliation — release candidate
+
+Candidate runtime: `1.8.0-r1`
+Current production and previous known-good runtime: `1.7.0-r2`
+Status: release candidate; not production-proven.
+
+- keeps remote refresh and preview non-mutating and prohibits automatic local Apply;
+- routes explicit confirmed local mutation only through Candidate C;
+- binds immutable intent to the exact local Save/profile/role and exact remote revision/hash;
+- completes canonical backup before strict exact raw guards and transaction-owned mutation;
+- preserves stale-state rejection, anti-clobber checks, ownership-scoped rollback and exact recovery verification;
+- distinguishes observed remote state from committed local state in Settings;
+- changes no Firestore Rules, billing, App Check enforcement, two-manager privacy or Stage 5 authority;
+- keeps RJR-1 at `77/100` until genuine new production capability is proven.
+
 # v1.7.0-r2 — Stage 4 shell coherence hotfix — production-proven
 
 Current production runtime: `1.7.0-r2`

@@ -161,7 +161,7 @@ const temporaryHelpers = fs.readdirSync(".github/workflows").filter(name => /v11
 A.deepEqual(temporaryHelpers, [], `Temporary workflow helpers must not enter release authority: ${temporaryHelpers.join(", ")}`);
 const topology = read("tests/support/run-workflow-blocks.cjs");
 A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
-A.ok(topology.includes('assert.equal(executed, 28'), "Protected 28-block workflow invariant changed unexpectedly.");
+A.ok(topology.includes('assert.equal(executed, 30'), "Protected 30-block workflow invariant changed unexpectedly.");
 A.ok(read(".github/workflows/validate-static-app.yml").includes("validate-stage3-private-pairing.yml"), "Static topology must explicitly require the permanent Stage 3 workflow.");
 
 process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current candidate identity, immutable historical evidence, recovery semantics, Remote Joining locks and workflow topology agree.\n`);

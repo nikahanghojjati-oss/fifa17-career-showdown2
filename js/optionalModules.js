@@ -284,7 +284,6 @@ async function ensureDiagnosticsModule(){
         "js/diagnostics.js",
         () => typeof window.runApplicationDiagnostics === "function"
     );
-    return true;
 }
 
 function ensureMenuFeedbackModule(){
@@ -358,20 +357,7 @@ async function ensureTrophyRoomModule(){
 async function ensureLegacyModule(){
     const stylePromise = loadRuntimeStyle("legacy-ui", "css/legacy.css");
     const restoreStylePromise = loadRuntimeStyle("restore-ui", "css/restore.css");
-    await loadRuntimeScript(
-        "backup-engine",
-        "js/backup.js",
-        () => typeof window.createCareerModeBackupEnvelope === "function"
-            && typeof window.verifyCareerModeBackupEnvelopeChecksum === "function"
-            && typeof window.exportCareerModeBackup === "function"
-    );
-    await loadRuntimeScript("import-analysis","js/importAnalysis.js",()=>typeof window.analyzeCareerModeBackupFile==="function");
-    await loadRuntimeScript("restore-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function");
-    await loadRuntimeScript(
-        "restore-engine",
-        "js/restore.js",
-        () => typeof window.createCareerModeRestorePlan === "function" && typeof window.applyCareerModeRestore === "function"
-    );
+    await ensureCandidateC();
     await loadRuntimeScript(
         "restore-ui",
         "js/restoreUI.js",
@@ -384,6 +370,28 @@ async function ensureLegacyModule(){
     );
     await Promise.all([stylePromise, restoreStylePromise]);
     window.initializeCareerModeRestoreUI();
+}
+
+async function ensureCandidateC(){
+    await loadRuntimeScript(
+        "backup-engine",
+        "js/backup.js",
+        () => typeof window.createCareerModeBackupEnvelope === "function"
+            && typeof window.verifyCareerModeBackupEnvelopeChecksum === "function"
+    );
+    await loadRuntimeScript(
+        "import-analysis",
+        "js/importAnalysis.js",
+        () => typeof window.validateCareerModeImportShowdownRecord === "function"
+    );
+    await loadRuntimeScript("restore-transaction","js/storageTransaction.js",()=>typeof window.runCareerModeRawStorageTransaction==="function");
+    await loadRuntimeScript(
+        "restore-engine",
+        "js/restore.js",
+        () => typeof window.prepareCareerModeRemoteReconciliationIntent === "function"
+            && typeof window.applyCareerModeRemoteReconciliation === "function"
+    );
+    return true;
 }
 
 async function ensureRuleBookModule(){
@@ -571,5 +579,6 @@ window.ensureMenuFeedbackModule = ensureMenuFeedbackModule;
 window.ensureFootballVisualModule = ensureFootballVisualModule;
 window.ensureRequiredFootballVisualExperience = ensureRequiredFootballVisualExperience;
 window.ensureOptionalModule = ensureOptionalModule;
+window.ensureCareerModeCandidateCAuthority = ensureCandidateC;
 window.openOptionalModule = openOptionalModule;
 window.getOptionalModuleState = getOptionalModuleState;
