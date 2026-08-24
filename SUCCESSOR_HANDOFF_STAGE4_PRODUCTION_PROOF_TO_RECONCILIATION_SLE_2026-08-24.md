@@ -126,7 +126,7 @@ The Work-layer `npm run work:continuity:validate` request disconnected before ap
 
 ## 9. WEC/SLE transition
 
-The decision-trigger assessment returned `HANDOFF_AT_CHECKPOINT`: context pressure 97/100, quality risk 18/100, usage unknown, handoff readiness 98/100, continuation risk 64.2/100 and transition advantage 44.5. Later recoverable packaging-route errors are preserved separately in the final WEC rather than retroactively changing that exact earlier output. The decisive facts were high context pressure plus a distinct next milestone with a strong handoff package. The decision belongs only to `we-2026-08-22-stage4-human-appcheck-proof`.
+The decision-trigger assessment returned `HANDOFF_AT_CHECKPOINT`: context pressure 97/100, quality risk 18/100, usage unknown, handoff readiness 98/100, continuation risk 64.2/100 and transition advantage 44.5. Later recoverable packaging-route errors are preserved separately rather than retroactively changing that exact earlier output. The final pre-seal reassessment remained `HANDOFF_AT_CHECKPOINT`: context pressure 100/100, quality risk 34/100, usage unknown, handoff readiness 100/100, continuation risk 71.5/100, transition cost 18.8/100 and transition advantage 52.8. The decisive facts were saturated context pressure plus a distinct next milestone with a complete handoff package. The decision belongs only to `we-2026-08-22-stage4-human-appcheck-proof`.
 
 A successor must verify the closing checkpoint, archive this status/history, create a fresh unique WEC, reset counters, set the exact reconciliation candidate only when activated with code, and run a fresh assessment. Usage remains unavailable and must not be estimated.
 
