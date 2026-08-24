@@ -201,7 +201,7 @@ Required outcomes:
 
 After the exact-head source gates and exact Spark Rules verification are clean, publish under standing owner authorization. After publication and production proof, reassess the fresh WEC before any separate milestone.
 
-Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 27 protected workflow blocks in the normal topology contract.
+Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 29 protected workflow blocks in the normal topology contract.
 
 ## Security, recovery and product locks
 

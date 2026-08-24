@@ -412,7 +412,7 @@ Exactly two managers. Same selected league. Different permanent clubs. Showdown 
 
 ## Validation locks
 
-14 permanent workflow families and 27 protected multiline executable workflow blocks remain repository authority. Normal PRs generally exercise 13. Release Integration Burn In remains main/manual release authority.
+14 permanent workflow families and 29 protected multiline executable workflow blocks remain repository authority. Normal PRs generally exercise 13. Release Integration Burn In remains main/manual release authority.
 
 Do not weaken Candidate C, tests, timeouts or performance ceilings to obtain green CI.
 
