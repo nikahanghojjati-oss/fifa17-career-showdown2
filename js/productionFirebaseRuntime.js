@@ -11,7 +11,7 @@
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
-  const FALLBACK_RUNTIME_REVISION="1.7.0-r2";
+  const FALLBACK_RUNTIME_REVISION="1.8.0-r1";
   const BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;

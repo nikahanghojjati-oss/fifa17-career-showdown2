@@ -45,11 +45,32 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           node tests/browser/stage3-private-pairing-audit.cjs
 
+      - name: Prove explicit Stage 4 remote-to-local reconciliation in browser
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-stage4-reconciliation-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          CMS_AUDIT_RUN="stage4-canonical" node tests/browser/stage4-remote-local-reconciliation-audit.cjs
+
+      - name: Upload Stage 4 reconciliation browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage4-remote-local-reconciliation
+          path: |
+            test-results/stage4-remote-local-preview-*.png
+            test-results/stage4-remote-local-committed-*.png
+          if-no-files-found: error
+
       - name: Run Stage 3 Firestore Rules emulator proof
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage3 "node tests/firebase/stage3-private-pairing-emulator.cjs"
 
       - name: Run deterministic Stage 4 Connected Rivalry contracts
-        run: node tests/contracts/stage4-connected-rivalry-contracts.cjs
+        run: |
+          node tests/contracts/stage4-connected-rivalry-contracts.cjs
+          node tests/contracts/stage4-remote-local-reconciliation-contracts.cjs
 
       - name: Run Stage 4 Connected Rivalry Firestore Rules emulator proof
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-connected-rivalry-emulator.cjs"

@@ -130,6 +130,19 @@
 
 .settingsDataButton{margin-top:11px;}
 .settingsDataNote{margin-top:8px;color:#5f6c75;font-size:9px;line-height:1.4;}
+.settingsConnectedRivalryConfirmation{
+    margin-top:11px;padding:11px;display:grid;gap:8px;background:#eef3f4;border-left:4px solid var(--f17-yellow);
+}
+.settingsConnectedRivalryPreviewSummary{
+    overflow-wrap:anywhere;color:#44545e;font:700 9px/1.45 var(--f17-ui);
+}
+.settingsConnectedRivalryConfirmLabel{
+    min-width:0;padding:10px;display:grid;grid-template-columns:20px minmax(0,1fr);gap:9px;align-items:start;
+    color:#273640;background:#fff;border:1px solid #bdc8cd;font-size:9px;line-height:1.45;cursor:pointer;
+}
+.settingsConnectedRivalryConfirmInput{width:17px;height:17px;margin:0;accent-color:var(--f17-blue);}
+.settingsConnectedRivalryApply{min-height:48px;color:var(--f17-ink);background:var(--f17-yellow);border-left-color:var(--f17-blue);}
+.settingsConnectedRivalryApply:disabled{color:#66747c;background:#d8e1e4;border-left-color:#9caab1;cursor:not-allowed;}
 .settingsFooter{
     min-height:62px;padding:8px 13px!important;display:flex!important;align-items:center;justify-content:flex-end;
     color:inherit!important;background:#d5dde0!important;border:0!important;border-top:1px solid #bdc8cd!important;

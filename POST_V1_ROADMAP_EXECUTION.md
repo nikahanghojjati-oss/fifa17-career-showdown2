@@ -6,6 +6,8 @@ Current source, live GitHub and `NEXT_TASK.md` override retained roadmap bodies 
 
 Production is `v1.7.0 / 1.7.0-r2`. Stage 3 Registered Devices / Private Pairing and the first Stage 4 Connected Rivalry slice are production-proven. RJR-1 is `77/100`. Permanent proof is `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`.
 
+Current source is the bounded `v1.8.0 / 1.8.0-r1` Safe Remote Reconciliation release candidate and is not production-proven. It implements non-mutating remote preview plus explicit Candidate-C-governed local Apply with canonical backup, immutable exact revision/hash and local-target intent, strict exact raw guards, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. Exact-head publication and genuine production proof remain pending; Stage 5 stays locked.
+
 Current dependency direction:
 
 Cloud / Sync Readiness — DONE

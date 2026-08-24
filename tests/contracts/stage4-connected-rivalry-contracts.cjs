@@ -76,13 +76,15 @@ function stage4Rivalry(fixture){
 }
 
 (async()=>{
-  assert.equal(connected.contractVersion,1);
-  assert.equal(connected.feature,"connected-rivalry-shared-state-first-slice");
+  assert.equal(connected.contractVersion,2);
+  assert.equal(connected.feature,"connected-rivalry-remote-to-local-reconciliation");
   assert.equal(connected.pointerStorage,"indexeddb-private-convenience-only");
   assert.equal(connected.persistentFirestoreCache,false);
   assert.equal(connected.publicDiscovery,false);
   assert.equal(connected.gameplaySync,true);
-  assert.equal(connected.localApply,false);
+  assert.equal(connected.localApply,true);
+  assert.equal(connected.automaticLocalApply,false);
+  assert.equal(connected.localApplyAuthority,"candidate-c-explicit-confirmed-only");
   assert.equal(connected.remoteJoiningSessions,false);
   assert.equal(connected.billingRequired,false);
   assert.deepEqual(Array.from(connected.canonicalStorageKeys),[
@@ -101,6 +103,11 @@ function stage4Rivalry(fixture){
   assert.match(source,/TOMBSTONE_RESTORE_REQUIRED/);
   assert.match(source,/expectedStateExists/);
   assert.match(source,/mutationReceipt/);
+  assert.match(source,/REMOTE OBSERVED/);
+  assert.match(source,/LOCAL TARGET/);
+  assert.match(source,/LOCAL COMMIT/);
+  assert.match(source,/PREVIEW REMOTE → LOCAL/);
+  assert.match(source,/BACK UP \+ APPLY EXACT REVISION/);
 
   const rivalryId=`pair_${"c".repeat(64)}`;
   assert.equal(connected.normalizeRivalryId(`  ${rivalryId.toUpperCase()}  `),rivalryId);
@@ -229,7 +236,7 @@ function stage4Rivalry(fixture){
   assert.match(connectedAccount,/await sparkConnectedLoadPrivatePairingScript\(\)[\s\S]*await sparkConnectedLoadRivalryScript\(\)/,"Connected Rivalry must load only after the Private Pairing module exists.");
   assert.match(worker,/js\/sparkConnectedRivalry\.js/);
 
-  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, deterministic projection, immutable CAS/replay plan, lazy prerequisite lifecycle, local-first recovery, and Stage 5 lock\n");
+  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, deterministic projection, immutable CAS/replay plan, integrity-checked observation, explicit Candidate C local Apply, and Stage 5 lock\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);

@@ -1,4 +1,10 @@
-# CURRENT RELEASE NOTE — v1.7.0-r2 Stage 4 first slice production-proven
+# CURRENT RELEASE NOTE — v1.8.0-r1 safe remote reconciliation candidate
+
+Current source candidate: `v1.8.0 — Safe Remote Reconciliation` / `1.8.0-r1`, release candidate and not production-proven. Current production and immediate whole-shell recovery authority remain production-proven `v1.7.0 — Connected Rivalry` / `1.7.0-r2`. RJR-1 remains `77/100`.
+
+The candidate keeps remote refresh and preview non-mutating and makes local Apply an explicit confirmed Candidate C operation. Immutable intent binds the exact remote revision/hash to the exact local Save/profile/role; canonical backup completes before strict exact raw snapshot guards and transaction-owned mutation; stale-state, anti-clobber, ownership-scoped rollback and exact recovery verification remain mandatory. Observed remote state and committed local state are distinct in the UI. Firestore Rules, billing, App Check enforcement, canonical storage, exactly-two-manager privacy and the Stage 5 lock do not change.
+
+# PREVIOUS PRODUCTION NOTE — v1.7.0-r2 Stage 4 first slice production-proven
 
 Current production: `v1.7.0 — Connected Rivalry` / `1.7.0-r2`. Previous whole-shell recovery fallback: `1.6.0-r1`. Ordinary owner-controlled App Check and the first private Connected Rivalry slice are production-proven; see `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`. RJR-1 is `77/100`.
 
@@ -14,7 +20,8 @@ A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub 
 
 Current production application milestone: v1.7.0 — Connected Rivalry first slice
 Current production runtime: `1.7.0-r2` — production-proven
-Next candidate: Stage 4 remote-to-local reconciliation — selected prerequisite, not yet runtime-authorized
+Current source candidate: v1.8.0 — Safe Remote Reconciliation / `1.8.0-r1` — not production-proven
+Next gate: exact-head validation, review, merge, deployment and genuine production reconciliation proof
 Previous whole-shell recovery fallback: `1.6.0-r1`
 Remote Joining readiness: `77/100` under fixed model `RJR-1`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
