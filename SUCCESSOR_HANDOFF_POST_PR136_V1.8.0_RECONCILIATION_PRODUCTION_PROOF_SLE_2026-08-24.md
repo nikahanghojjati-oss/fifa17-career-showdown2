@@ -15,7 +15,7 @@ Use the existing two paired manager sessions to prove the deployed `v1.8.0 / 1.8
 - Expected-head squash merge: `1d9793412a712e931b516be8ca853df4e95b5b50`; sole parent: `065222416dbd65e4b7886eaebf9a3f375f7c60a8`.
 - GitHub Pages deployment run: `32763563751` / run number 21 / success.
 - The public site serves `v1.8.0 · Connected Rivalry` and runtime `1.8.0-r1`; independent deployment verification matched all 89 runtime files byte-for-byte to merge `1d9793412a712e931b516be8ca853df4e95b5b50`.
-- SLE closeout branch: `agent/v180-reconciliation-production-handoff`, from exact merge main. Its documentation PR is `SLE_CLOSEOUT_PR_PENDING`; resolve the final seal live.
+- SLE closeout branch: `agent/v180-reconciliation-production-handoff`, from exact merge main. Documentation PR `#137` opened from initial package head `c820b484b0bd3fca295fedd9a7372d6669975199`; this WEC/history update is its only final seal mutation, so resolve the final head and merge live.
 - `v1.7.0 / 1.7.0-r2` remains the immediate known-good whole-shell recovery runtime until the owner-controlled reconciliation proof closes.
 - Production Firestore Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`; PR #136 and this SLE closeout contain no Rules change.
 

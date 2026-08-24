@@ -21,7 +21,7 @@ Post-merge Burn-In, Stability contracts and Chromium Stability passed. Deployed 
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Verify live main, the SLE closeout PR `SLE_CLOSEOUT_PR_PENDING`, public `1.8.0-r1`, RJR 77 and the unchanged Rules blob.
+1. Verify live main, SLE closeout PR `#137` from initial package head `c820b484b0bd3fca295fedd9a7372d6669975199`, public `1.8.0-r1`, RJR 77 and the unchanged Rules blob.
 2. Validate the closed predecessor WEC, create a fresh unique WEC with reset counters and assess it. Never inherit predecessor counters or its transition decision.
 3. Reuse the two existing paired manager sessions; do not repeat Firebase, App Check, account, device, pairing or rivalry setup.
 4. On the target manager: record `LOCAL TARGET`, refresh, record `REMOTE OBSERVED` and `LOCAL COMMIT: Not applied this session`, then run `PREVIEW REMOTE → LOCAL`. Confirm preview is non-mutating and Apply is disabled.

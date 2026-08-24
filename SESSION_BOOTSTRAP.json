@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-24T18:54:25Z",
+  "recordedAt": "2026-08-24T18:59:10Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/v180-reconciliation-production-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -31,7 +31,10 @@
     "mergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
     "pagesRunId": 32763563751,
     "deployedRuntimeFilesByteExact": 89,
-    "ownerReconciliationProofPending": true
+    "ownerReconciliationProofPending": true,
+    "sleCloseoutPullRequest": 137,
+    "sleCloseoutInitialHead": "c820b484b0bd3fca295fedd9a7372d6669975199",
+    "sleCloseoutFinalSeal": "resolve-live-after-final-wec-history-mutation"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 131,

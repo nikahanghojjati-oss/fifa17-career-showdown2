@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-24T18:54:25Z",
+  "recordedAt": "2026-08-24T18:59:10Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
