@@ -63,6 +63,11 @@ assert.equal(capsule.runtime.candidateRuntimeRevision,sourceRevision,"SLE capsul
 assert.match(capsule.runtime.candidateStatus,/not-production-proven|release-candidate|production-proven/i,"Candidate status must classify production proof truthfully.");
 assert.equal(capsule.runtime.applicationVersion,productionVersion,"Production application version must match the production runtime revision, not the unmerged source candidate.");
 assert.match(capsule.runtime.productionStatus,/production-proven/i);
+const candidateClaimsProductionProven=/production-proven/i.test(capsule.runtime.candidateStatus)&&!/not-production-proven/i.test(capsule.runtime.candidateStatus);
+if(candidateClaimsProductionProven){
+  assert.equal(capsule.runtime.candidateApplicationVersion,capsule.runtime.applicationVersion,"A production-proven candidate status is legal only when candidate and production application identities match.");
+  assert.equal(capsule.runtime.candidateRuntimeRevision,capsule.runtime.productionRuntimeRevision,"A production-proven candidate status is legal only when candidate and production runtime identities match.");
+}
 assert.equal(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.productionRuntimeRevision,"The candidate recovery target must be the current production-proven whole shell.");
 assert.equal(capsule.runtime.appCheckEnforcement,false);
 assert.equal(capsule.runtime.billingRequired,false);
@@ -120,6 +125,7 @@ for(const [name,value] of [["starter",starter],["handoff",handoff]]){
   assert.match(value,/App Check enforcement remains OFF/i,`${name} must preserve the App Check enforcement lock.`);
   assert.match(value,/Remote Joining readiness/i,`${name} must preserve RJR reporting authority.`);
   assert.match(value,/Handoff proximity: X%/i,`${name} must preserve the seven-line progress format.`);
+  assert.match(value,/Handoff proximity: X%\s*\nRemote Joining readiness: ~Y%/i,`${name} must preserve the exact owner-facing readiness percentage template.`);
   assert.match(value,/Sidequest check:/i,`${name} must preserve the seven-line progress format.`);
 }
 

@@ -1,3 +1,15 @@
+# CURRENT OVERRIDE — v1.8.0 STAGE 4 SAFE REMOTE RECONCILIATION — 2026-08-24 ET
+
+Status: CURRENT RELEASE CANDIDATE / v1.8.0 / 1.8.0-r1 / NOT PRODUCTION-PROVEN / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.
+
+Authorized product candidate: `v1.8.0 — Safe Remote Reconciliation` / Installable Offline App runtime `1.8.0-r1`.
+Current production and immediate whole-shell recovery runtime: `v1.7.0 — Connected Rivalry` / `1.7.0-r2`, production-proven.
+Current branch: `agent/stage4-remote-local-reconciliation`.
+
+Immediate task: finish exact-head validation for the implemented remote-to-local reconciliation slice, publish one bounded PR, require all permanent workflow families plus clean reviews/threads/mergeability, then merge and deploy under standing owner authorization. Do not republish Firestore Rules because this candidate contains no Rules change. Do not begin Stage 5 or repeat completed Firebase, App Check, account, device, pairing or first-slice production proof.
+
+Remote refresh and preview are non-mutating. Candidate C remains the sole destructive local Apply authority. Apply requires immutable confirmed intent bound to the exact local Save/profile/role and exact observed remote revision/hash, canonical backup completion, strict exact raw snapshot guards, transaction-owned mutation, stale-state and anti-clobber rejection, ownership-scoped rollback and exact recovery verification. The UI must keep observed remote state distinct from committed local state. Canonical local storage, exactly-two-manager authorization, Firebase Spark / zero billing, memory-only Firestore, popup-only authentication and the private/no-public-discovery boundary remain locked. Source, tests, CI and deployment alone do not increase RJR-1 or make this candidate production-proven.
+
 # CURRENT OVERRIDE — STAGE 4 PRODUCTION-PROVEN / RECONCILIATION SELECTION BOUNDARY — 2026-08-24 ET
 
 Status: CURRENT CLEAN CHECKPOINT / v1.7.0 / 1.7.0-r2 / FIRST CONNECTED RIVALRY SLICE PRODUCTION-PROVEN / RJR-1 77/100 / NO NEW RUNTIME CANDIDATE AUTHORIZED / STAGE 5 LOCKED.
@@ -189,7 +201,7 @@ Required outcomes:
 
 After the exact-head source gates and exact Spark Rules verification are clean, publish under standing owner authorization. After publication and production proof, reassess the fresh WEC before any separate milestone.
 
-Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 27 protected workflow blocks in the normal topology contract.
+Permanent validation topology remains 14 permanent workflow families total, including the 13 normal pull-request workflow families plus the Stability Lane, with 29 protected workflow blocks in the normal topology contract.
 
 ## Security, recovery and product locks
 

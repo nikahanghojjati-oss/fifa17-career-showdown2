@@ -1,3 +1,13 @@
+# CURRENT OVERRIDE — v1.8.0 STAGE 4 SAFE REMOTE RECONCILIATION CANDIDATE — 2026-08-24 ET
+
+Status: CURRENT RELEASE CANDIDATE / v1.8.0 / 1.8.0-r1 / NOT PRODUCTION-PROVEN / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.
+
+The bounded candidate is implemented on `agent/stage4-remote-local-reconciliation`. Current production and immediate Installable Offline App recovery authority remain production-proven `v1.7.0 / 1.7.0-r2`; the production Firestore Rules blob remains `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` and is unchanged.
+
+The candidate adds non-mutating remote preview and an explicit confirmed remote-to-local Apply routed only through Candidate C. It binds immutable intent to the exact remote revision/hash and exact local Save/profile/role, completes a canonical backup before mutation, preserves strict exact raw snapshot guards and transaction-owned mutation, rejects stale or anti-clobber violations, retains ownership-scoped rollback and exact recovery verification, and distinguishes observed remote state from committed local state in the UI. Focused contracts and rendered browser proof pass locally; full exact-head release gates and production proof remain pending.
+
+Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Exactly two managers, Firebase Spark / zero billing, App Check enforcement OFF, memory-only Firestore, popup-only authentication, no extra scopes, no public discovery/community/matchmaking/rankings and the Stage 5 lock remain unchanged. RJR-1 remains 77/100 because source implementation and local proof are not production capability proof.
+
 # CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 FIRST SLICE PRODUCTION-PROVEN — 2026-08-24 ET
 
 Status: CURRENT PRODUCTION-PROVEN STAGE 4 FIRST SLICE / v1.7.0 / 1.7.0-r2 / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / REMOTE-TO-LOCAL APPLY STILL LOCKED / STAGE 5 LOCKED.

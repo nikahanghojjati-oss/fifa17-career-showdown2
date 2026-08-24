@@ -244,6 +244,29 @@
         return errors;
     }
 
+    function validateCareerModeImportShowdownRecord(record){
+        const migration = migrateCareerModeImportRecord("showdown", record);
+        if(!migration.ok){
+            return {
+                ok: false,
+                value: null,
+                sourceVersion: migration.sourceVersion,
+                targetVersion: migration.targetVersion,
+                steps: migration.steps,
+                errors: [migration.error]
+            };
+        }
+        const errors = validateCurrentShowdownRecord(migration.value);
+        return {
+            ok: errors.length === 0,
+            value: errors.length ? null : cloneImportValue(migration.value),
+            sourceVersion: migration.sourceVersion,
+            targetVersion: migration.targetVersion,
+            steps: migration.steps.slice(),
+            errors
+        };
+    }
+
     function validateCurrentPreferencesRecord(preferences){
         const errors = [];
         if(!isPlainImportObject(preferences)){ return ["Preferences record is not an object."]; }
@@ -914,6 +937,7 @@
         preferences: IMPORT_MIGRATION_REGISTRY.preferences.map(step => ({ id: step.id, from: step.from, to: step.to }))
     });
     window.migrateCareerModeImportRecord = migrateCareerModeImportRecord;
+    window.validateCareerModeImportShowdownRecord = validateCareerModeImportShowdownRecord;
     window.analyzeCareerModeBackupEnvelope = analyzeCareerModeBackupEnvelope;
     window.analyzeCareerModeBackupText = analyzeCareerModeBackupText;
     window.analyzeCareerModeBackupFile = analyzeCareerModeBackupFile;

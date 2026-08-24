@@ -53,5 +53,5 @@ for(const workflowFile of workflowFiles){
     });
 }
 
-assert.equal(executed, 28, `Expected 28 permanent executable workflow blocks; ran ${executed}.`);
+assert.equal(executed, 30, `Expected 30 permanent executable workflow blocks; ran ${executed}.`);
 process.stdout.write(`All ${executed} permanent GitHub workflow blocks passed locally. Production Pages deployment is accounted separately from validation topology.\n`);

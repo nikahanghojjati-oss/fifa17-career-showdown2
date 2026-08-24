@@ -1,5 +1,20 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT HANDOFF — v1.8.0 RECONCILIATION CANDIDATE TO PR — 2026-08-24 ET
+
+Current source candidate is `v1.8.0 / 1.8.0-r1`, locally validated and not production-proven. Engineering checkpoint `42b89dfd4859d1655d231d2c04406e66545e45b4` implements non-mutating remote preview and explicit confirmed Candidate C local Apply with canonical backup, immutable exact remote/local intent, strict exact raw guards, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. All 69 contracts, protected workflow blocks and rendered reconciliation browser proof passed.
+
+Production and immediate whole-shell recovery remain production-proven `v1.7.0 / 1.7.0-r2`; RJR-1 remains `77/100`; production Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` is unchanged and must not be republished. No v1.8.0 PR, merge, deployment or production proof exists yet.
+
+Closing WEC `we-2026-08-24-stage4-remote-local-reconciliation` assessed `HANDOFF_NOW`. A fresh successor validates the final seal, initializes and assesses a new WEC, then publishes one exact-head PR, completes all 14 workflow families and clean review/thread/mergeability gates, merges/deploys under standing owner authorization and obtains genuine production reconciliation proof. Stage 5 remains locked.
+
+Complete SLE handoff: `SUCCESSOR_HANDOFF_V1.8.0_RECONCILIATION_CANDIDATE_TO_PR_SLE_2026-08-24.md`.
+Compact owner starter: `START_NEXT_SESSION_V1.4.9_V1.8.0_RECONCILIATION_PR.md`.
+
+The retained body below is historical and does not override this section.
+
+---
+
 ## CURRENT HANDOFF — STAGE 4 PRODUCTION PROOF TO RECONCILIATION — 2026-08-24 ET
 
 Current source, live GitHub, `SESSION_BOOTSTRAP.json` and `NEXT_TASK.md` override retained historical bodies below.

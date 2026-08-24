@@ -33,13 +33,22 @@
     observedExists:false,
     observedRevision:null,
     observedContentHash:null,
+    observedEnvelope:null,
     observedTombstone:false,
+    reconciliationPreviewReady:false,
+    previewRevision:null,
+    previewContentHash:null,
+    previewSaveId:null,
+    localCommitRevision:null,
+    localCommitContentHash:null,
+    localCommitSaveId:null,
     message:"Connected Rivalry is available after private pairing. Local saves remain the recovery authority."
   });
   let crInitializePromise=null;
   let crSettingsObserver=null;
   let crAccountUnsubscribe=null;
   let crPairingUnsubscribe=null;
+  let crReconciliationIntent=null;
   const crListeners=new Set();
 
   function crFreeze(value){
@@ -350,6 +359,15 @@
     };
   }
 
+  async function crAssertLiveSharedStateIntegrity(value,rivalryId,cryptoImpl=root.crypto){
+    if(!crIsEnvelopeValue(value,"sharedState",rivalryId)||value.lifecycleState!=="live"||typeof value.contentHash!=="string"||!/^sha256:[0-9a-f]{64}$/.test(value.contentHash)){
+      throw crError("CONNECTED_RIVALRY_STATE_INVALID","Authoritative shared gameplay state is invalid.");
+    }
+    const expected=await crSha256({objectType:"sharedState",objectId:rivalryId,revision:value.revision,data:value.data},cryptoImpl);
+    if(expected!==value.contentHash)throw crError("CONNECTED_RIVALRY_STATE_INTEGRITY_FAILED","Authoritative shared gameplay state failed SHA-256 integrity verification.");
+    return value;
+  }
+
   async function crBuildMutationPlan({rivalryId,rivalryValue,binding,accountId,deviceId,expectedStateExists,baseRevision,idempotencyKey,saveRuntime,cryptoImpl=root.crypto}){
     const normalizedRivalryId=crNormalizeRivalryId(rivalryId);
     const normalizedBinding=crNormalizeBinding(binding);
@@ -462,9 +480,7 @@
         if(stateValue&&stateValue.lifecycleState==="tombstoned"){
           return {ok:true,status:"tombstoned",exists:true,tombstoned:true,revision:Number.isInteger(stateValue.revision)?stateValue.revision:null,contentHash:null,rivalryValue};
         }
-        if(!crIsEnvelopeValue(stateValue,"sharedState",rivalryId)||stateValue.lifecycleState!=="live"){
-          throw crError("CONNECTED_RIVALRY_STATE_INVALID","Authoritative shared gameplay state is invalid.");
-        }
+        await crAssertLiveSharedStateIntegrity(stateValue,rivalryId,options.cryptoImpl||root.crypto);
         return {ok:true,status:"live",exists:true,tombstoned:false,revision:stateValue.revision,contentHash:stateValue.contentHash,envelope:crClone(stateValue),rivalryValue};
       });
     }catch(error){
@@ -548,9 +564,7 @@
         if(before&&before.lifecycleState==="tombstoned"){
           throw crError("TOMBSTONE_RESTORE_REQUIRED","This rivalry was deleted remotely and cannot be resurrected by a normal publish.");
         }
-        if(stateExists&&(!crIsEnvelopeValue(before,"sharedState",rivalryId)||before.lifecycleState!=="live")){
-          throw crError("CONNECTED_RIVALRY_STATE_INVALID","Authoritative shared gameplay state is invalid.");
-        }
+        if(stateExists)await crAssertLiveSharedStateIntegrity(before,rivalryId,options.cryptoImpl||root.crypto);
         if(stateExists&&before.revision!==plan.baseRevision){
           const error=crError("STALE_BASE_REVISION","Authoritative shared gameplay state changed. Refresh before publishing again.");
           error.authoritativeRevision=before.revision;
@@ -656,6 +670,15 @@
           accountId:context.accountId,
           deviceId:context.deviceId,
           binding:binding||null,
+          observedExists:false,
+          observedRevision:null,
+          observedContentHash:null,
+          observedEnvelope:null,
+          observedTombstone:false,
+          ...crClearReconciliationPreview(),
+          localCommitRevision:null,
+          localCommitContentHash:null,
+          localCommitSaveId:null,
           message:pointer
             ?"A private Connected Rivalry link is saved on this browser. Refresh verifies current remote authority before any publish."
             :"Connected Rivalry is ready. Attach the exact private rivalry code once; this does not repeat pairing."
@@ -668,6 +691,8 @@
           connected:false,
           attached:false,
           rivalryId:null,
+          observedEnvelope:null,
+          ...crClearReconciliationPreview(),
           message:`${error&&error.message?error.message:"Connected Rivalry is unavailable."} Local Career Mode remains unchanged.`
         });
       }
@@ -688,6 +713,16 @@
 
   function crBindingLabel(binding){
     return `${binding.managerRole==="playerOne"?"Player One":"Player Two"} · ${binding.displayLabel||crShort(binding.profileId)}`;
+  }
+
+  function crClearReconciliationPreview(){
+    crReconciliationIntent=null;
+    return {
+      reconciliationPreviewReady:false,
+      previewRevision:null,
+      previewContentHash:null,
+      previewSaveId:null
+    };
   }
 
   async function crHandleAttach(binding,rivalryInput){
@@ -716,7 +751,12 @@
         observedExists:false,
         observedRevision:null,
         observedContentHash:null,
+        observedEnvelope:null,
         observedTombstone:false,
+        ...crClearReconciliationPreview(),
+        localCommitRevision:null,
+        localCommitContentHash:null,
+        localCommitSaveId:null,
         message:"Connected Rivalry attached privately. Refresh shared state before publishing; local saves were not changed."
       });
     }catch(error){
@@ -746,7 +786,9 @@
         observedExists:result.exists,
         observedRevision:result.revision,
         observedContentHash:result.contentHash||null,
+        observedEnvelope:result.envelope?crClone(result.envelope):null,
         observedTombstone:Boolean(result.tombstoned),
+        ...crClearReconciliationPreview(),
         message:result.tombstoned
           ?"This Connected Rivalry is tombstoned. Normal publishing is locked; local saves remain available."
           :result.exists
@@ -784,13 +826,91 @@
         observedExists:true,
         observedRevision:result.revision,
         observedContentHash:result.contentHash,
+        observedEnvelope:null,
         observedTombstone:false,
+        ...crClearReconciliationPreview(),
         message:result.replayed
           ?`The accepted mutation was replayed safely at revision ${result.revision}; no duplicate revision was created.`
           :`Shared gameplay projection published at revision ${result.revision}. Local Save Library remains unchanged.`
       });
     }catch(error){
       crSetState({status:error&&error.code==="STALE_BASE_REVISION"?"conflict":"publish-error",busy:false,message:`${error&&error.message?error.message:"Shared gameplay state could not be published."} Local saves were not changed.`});
+    }
+  }
+
+  async function crHandleReconciliationPreview(binding){
+    if(!crState.rivalryId||!crState.observedEnvelope)return;
+    crSetState({status:"reconciliation-previewing",busy:true,...crClearReconciliationPreview(),message:"Building a non-mutating preview for this exact remote revision and local Save target…"});
+    try{
+      if(typeof root.ensureCareerModeCandidateCAuthority!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C recovery authority cannot be loaded.");
+      await root.ensureCareerModeCandidateCAuthority();
+      if(typeof root.prepareCareerModeRemoteReconciliationIntent!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C reconciliation preview authority is unavailable.");
+      const result=await root.prepareCareerModeRemoteReconciliationIntent({
+        rivalryId:crState.rivalryId,
+        envelope:crState.observedEnvelope,
+        target:binding
+      });
+      if(!result||result.ok!==true)throw crError("CONNECTED_RIVALRY_RECONCILIATION_PREVIEW_FAILED",result&&Array.isArray(result.errors)?result.errors.join(" "):"Remote-to-local preview could not be prepared.");
+      crReconciliationIntent=result.intent;
+      crSetState({
+        status:"reconciliation-preview-ready",
+        busy:false,
+        binding,
+        reconciliationPreviewReady:true,
+        previewRevision:result.preview.remoteRevision,
+        previewContentHash:result.preview.remoteContentHash,
+        previewSaveId:result.preview.localSaveId,
+        message:result.preview.changesLocalSave
+          ?`Preview ready. Remote revision ${result.preview.remoteRevision} is observed only and has not changed local Save ${crShort(result.preview.localSaveId)}.`
+          :`Preview ready. Remote revision ${result.preview.remoteRevision} already matches the identity-safe local gameplay candidate; explicit Apply still records the reviewed commit boundary.`
+      });
+    }catch(error){
+      crSetState({status:"reconciliation-preview-error",busy:false,...crClearReconciliationPreview(),message:`${error&&error.message?error.message:"Remote-to-local preview could not be prepared."} Local saves were not changed.`});
+    }
+  }
+
+  async function crHandleReconciliationApply(binding){
+    const intent=crReconciliationIntent;
+    if(!intent||!crState.reconciliationPreviewReady)return;
+    if(binding.saveId!==intent.target.saveId||binding.profileId!==intent.target.profileId||binding.managerRole!==intent.target.managerRole){
+      crSetState({status:"reconciliation-target-changed",busy:false,...crClearReconciliationPreview(),message:"The selected local target changed after preview. Review the exact remote revision and local Save again."});
+      return;
+    }
+    crSetState({status:"reconciliation-applying",busy:true,message:"Candidate C is verifying the remote base, completing a canonical backup and guarding the exact local commit…"});
+    try{
+      const context=await crResolveContext();
+      if(typeof root.applyCareerModeRemoteReconciliation!=="function")throw crError("CONNECTED_RIVALRY_CANDIDATE_C_UNAVAILABLE","Candidate C reconciliation Apply authority is unavailable.");
+      const verifyRemote=()=>crReadSharedState({
+        user:context.user,
+        firestore:context.services.firestore,
+        firebaseSdk:context.services.firestoreSdk,
+        deviceId:context.deviceId,
+        binding,
+        rivalryId:intent.rivalryId,
+        cryptoImpl:root.crypto
+      });
+      const result=await root.applyCareerModeRemoteReconciliation(intent,{
+        confirmed:true,
+        confirmationFingerprint:intent.confirmationFingerprint,
+        verifyRemote
+      });
+      if(!result||result.ok!==true){
+        const detail=result&&Array.isArray(result.errors)&&result.errors.length?result.errors.join(" "):"Remote gameplay was not committed locally.";
+        const backupNote=result&&result.backup?" The pre-Apply backup was completed.":"";
+        crSetState({status:"reconciliation-apply-error",busy:false,...crClearReconciliationPreview(),message:`${detail}${backupNote} Review current remote and local state before trying again.`});
+        return;
+      }
+      crSetState({
+        status:"reconciliation-applied",
+        busy:false,
+        ...crClearReconciliationPreview(),
+        localCommitRevision:result.remoteRevision,
+        localCommitContentHash:result.remoteContentHash,
+        localCommitSaveId:result.localSaveId,
+        message:`Local commit complete: remote revision ${result.remoteRevision} was applied to ${crShort(result.localSaveId)} only after a verified backup and exact Candidate C transaction.`
+      });
+    }catch(error){
+      crSetState({status:"reconciliation-apply-error",busy:false,...crClearReconciliationPreview(),message:`${error&&error.message?error.message:"Remote gameplay was not committed locally."} Review current remote and local state before trying again.`});
     }
   }
 
@@ -811,8 +931,8 @@
     const heading=crCreate("div","settingsPanelHeading");
     heading.append(
       crCreate("span","settingsPanelEyebrow","CONNECTED RIVALRY"),
-      crCreate("h3","","SHARED AUTHORITATIVE STATE"),
-      crCreate("p","","Share only the paired rivalry Save projection. Refresh never overwrites local saves, and Remote Joining sessions remain locked.")
+      crCreate("h3","","OBSERVE REMOTE · COMMIT LOCAL EXPLICITLY"),
+      crCreate("p","","Refresh and preview are read-only. Local gameplay changes only after exact confirmation, a verified backup and Candidate C Apply. Remote Joining sessions remain locked.")
     );
     const info=crCreate("div","settingsInfoGrid");
     const revisionLabel=crState.observedTombstone
@@ -820,11 +940,18 @@
       :crState.observedExists&&Number.isInteger(crState.observedRevision)
         ?`Revision ${crState.observedRevision}`
         :"Not published";
+    const targetLabel=crState.binding
+      ?`${crState.binding.managerRole==="playerOne"?"Player One":"Player Two"} · ${crShort(crState.binding.saveId)}`
+      :"No exact local target";
+    const localCommitLabel=Number.isInteger(crState.localCommitRevision)&&crState.localCommitSaveId
+      ?`Revision ${crState.localCommitRevision} · ${crShort(crState.localCommitSaveId)}`
+      :"Not applied this session";
     for(const [label,value] of [
       ["RIVALRY",crState.attached?crShort(crState.rivalryId):"Not attached"],
-      ["SHARED STATE",revisionLabel],
+      ["REMOTE OBSERVED",revisionLabel],
+      ["LOCAL TARGET",targetLabel],
+      ["LOCAL COMMIT",localCommitLabel],
       ["CONFLICT MODEL","Immutable base revision · no silent rebase"],
-      ["LOCAL APPLY","Locked to later safe Stage 4 slice"],
       ["REMOTE JOINING","Stage 5 · still locked"],
       ["BILLING","Firebase Spark · no billing"]
     ]){
@@ -880,8 +1007,39 @@
         const binding=bindings[Number(select.value)||0];
         if(binding)void crHandlePublish(binding);
       });
-      actions.append(select,code,attach,refresh,publish);
+      const preview=crCreate("button","menuButton settingsConnectedAccountButton","PREVIEW REMOTE → LOCAL");
+      preview.type="button";
+      preview.disabled=crState.busy||!crState.attached||crState.observedTombstone||!crState.observedEnvelope||!bindings.length;
+      preview.addEventListener("click",()=>{
+        const binding=bindings[Number(select.value)||0];
+        if(binding)void crHandleReconciliationPreview(binding);
+      });
+      actions.append(select,code,attach,refresh,publish,preview);
       panel.appendChild(actions);
+      if(crState.reconciliationPreviewReady&&crReconciliationIntent){
+        const confirmation=crCreate("div","settingsConnectedRivalryConfirmation");
+        confirmation.append(
+          crCreate("span","settingsPanelEyebrow","NON-MUTATING PREVIEW"),
+          crCreate("p","settingsConnectedRivalryPreviewSummary",`Remote observed: revision ${crReconciliationIntent.remote.revision} · ${crReconciliationIntent.remote.contentHash}`),
+          crCreate("p","settingsConnectedRivalryPreviewSummary",`Local target: ${crReconciliationIntent.target.saveId} · ${crReconciliationIntent.target.managerRole} · ${crReconciliationIntent.target.profileId}`)
+        );
+        const label=crCreate("label","settingsConnectedRivalryConfirmLabel");
+        const checkbox=crCreate("input","settingsConnectedRivalryConfirmInput");
+        checkbox.type="checkbox";
+        checkbox.checked=false;
+        const confirmationText=crCreate("span","",crReconciliationIntent.confirmationText);
+        label.append(checkbox,confirmationText);
+        const apply=crCreate("button","menuButton settingsConnectedAccountButton settingsConnectedRivalryApply","BACK UP + APPLY EXACT REVISION");
+        apply.type="button";
+        apply.disabled=true;
+        checkbox.addEventListener("change",()=>{apply.disabled=crState.busy||checkbox.checked!==true;});
+        apply.addEventListener("click",()=>{
+          const binding=bindings[Number(select.value)||0];
+          if(binding&&checkbox.checked===true)void crHandleReconciliationApply(binding);
+        });
+        confirmation.append(label,apply);
+        panel.appendChild(confirmation);
+      }
     }
 
     const note=crCreate("p","settingsDataNote",crState.message);
@@ -944,7 +1102,12 @@
             observedExists:false,
             observedRevision:null,
             observedContentHash:null,
+            observedEnvelope:null,
             observedTombstone:false,
+            ...crClearReconciliationPreview(),
+            localCommitRevision:null,
+            localCommitContentHash:null,
+            localCommitSaveId:null,
             message:"Sign in above to use Connected Rivalry. Local Career Mode remains available."
           });
         }else if(crState.accountId!==next.accountId){
@@ -978,15 +1141,17 @@
   }
 
   return crFreeze({
-    contractVersion:1,
-    feature:"connected-rivalry-shared-state-first-slice",
+    contractVersion:2,
+    feature:"connected-rivalry-remote-to-local-reconciliation",
     pointerStorage:"indexeddb-private-convenience-only",
     canonicalStorageKeys:CR_CANONICAL_KEYS,
     idempotencyRetentionMs:CR_IDEMPOTENCY_TTL_MS,
     persistentFirestoreCache:false,
     publicDiscovery:false,
     gameplaySync:true,
-    localApply:false,
+    localApply:true,
+    automaticLocalApply:false,
+    localApplyAuthority:"candidate-c-explicit-confirmed-only",
     remoteJoiningSessions:false,
     billingRequired:false,
     normalizeRivalryId:crNormalizeRivalryId,
@@ -999,6 +1164,7 @@
     attachRivalry:crAttachRivalry,
     readSharedState:crReadSharedState,
     publishSharedState:crPublishSharedState,
+    verifyLiveSharedStateIntegrity:crAssertLiveSharedStateIntegrity,
     initialize:crInitialize,
     mountWhenSettingsReady:crMountWhenSettingsReady,
     subscribe:crSubscribe,

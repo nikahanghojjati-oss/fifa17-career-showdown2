@@ -31,9 +31,9 @@
   }
 
   function sparkConnectedGetRevision(){
-    if(!root.document)return "1.7.0-r2";
+    if(!root.document)return "1.8.0-r1";
     const meta=root.document.querySelector('meta[name="app-asset-revision"]');
-    return meta&&meta.content?meta.content.trim()||"1.7.0-r2":"1.7.0-r2";
+    return meta&&meta.content?meta.content.trim()||"1.8.0-r1":"1.8.0-r1";
   }
 
   function sparkConnectedVersionedLocalUrl(path){
