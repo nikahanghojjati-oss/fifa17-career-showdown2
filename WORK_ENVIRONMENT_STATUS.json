@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-22-stage4-human-appcheck-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-22T15:59:30.630Z",
+  "recordedAt": "2026-08-24T09:04:33Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,36 +13,36 @@
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 1,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 2,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
-    "unresolvedFailures": 0,
+    "unresolvedFailures": 1,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 70,
+    "handoffCompleteness": 82,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "decision": {
     "value": "CONTINUE",
     "scope": "current-successor-environment",
-    "reason": "Fresh successor independently verified the live Stage 4 boundary. PR #134 is a one-commit continuity-only delta after PR #133, all 14 exact-head PR workflow families passed, no open PR supersedes the lane, and the current task remains the bounded ordinary-browser App Check and genuine Connected Rivalry production proof."
+    "reason": "Owner-supplied 2026-08-24 ordinary-Chrome production evidence closes the outstanding human App Check diagnostic: the deployed runtime reports ready, attempted, connected and tokenObserved with reCAPTCHA Enterprise while enforcement remains off. A separate Firestore permission-denied read against the saved Connected Rivalry is now the only immediate Stage 4 production blocker and requires a bounded read-only entitlement diagnosis, not repeated setup."
   },
   "continuity": {
-    "currentTask": "Obtain one redacted ordinary-browser App Check diagnostics result from the owner's existing paired production browser and, if ready/connected/tokenObserved, continue genuine Stage 4 Connected Rivalry production proof in that same paired context. Do not begin Stage 5.",
-    "lastSafeCheckpoint": "Live main is 6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60, exactly one commit beyond PR #133 merge d3ae21ebfded08e45d9a0db61cf22948e1539df3. PR #134 changed only seven SLE/WEC files and no runtime, Firestore Rules, workflow, provider, storage, enforcement, billing, product-test or version byte. Its exact head 6ad935bf9e24268fd1ba9d4e82f0318356220425 passed all 14 PR workflow families. No open PR supersedes Stage 4. The deployed r2 byte/provenance proof remains intact; ordinary-browser App Check and Connected Rivalry behavior remain unproven; RJR-1 remains 69/100.",
-    "nextSafeAction": "After the production page has been open for about 20 seconds in the owner's existing ordinary already-paired browser, obtain only the JSON result of JSON.stringify(window.CareerModeProductionFirebaseRuntime?.diagnostics?.()). If ready, connected and tokenObserved are true, continue genuine Connected Rivalry proof in that same context. If unavailable, inspect the existing provider registration/domain/key/metrics without recreating setup, lowering risk, enabling debug/enforcement or adding billing.",
+    "currentTask": "Diagnose the production Firestore permission-denied read for the existing saved Connected Rivalry, then complete Manager A publish and Manager B refresh proof without recreating authentication, device registration or private pairing. Do not begin Stage 5.",
+    "lastSafeCheckpoint": "At 2026-08-24 04:58 EDT, owner-supplied ordinary Chrome evidence from the public production site proved App Check diagnostics status ready, attempted true, connected true, tokenObserved true, provider recaptcha-enterprise and SDK 12.17.0, with enforcement false and no token value exposed. The same screen preserves Private account ready, a registered device, the existing two-manager pairing context, Firebase Spark/no billing and the Stage 5 lock. Console separately shows a Firestore BatchGet permission-denied response for the saved rivalry root. That denial is authorization/state evidence, not App Check failure. Canonical local saves were not written or replaced. RJR-1 remains 69/100 because production App Check runtime/token traffic was already credited and genuine Connected Rivalry synchronization is not yet proven.",
+    "nextSafeAction": "In the owner's same ordinary paired browser, inspect the existing Connected Rivalry panel and perform one read-only REFRESH SHARED STATE attempt if the saved link is attached. Capture only the panel status/result with private rivalry/account/device identifiers redacted. Do not create a new code, join/re-pair, publish, enable App Check enforcement or alter billing until the entitlement result is classified.",
     "unfinishedWork": [
-      "Obtain a redacted App Check diagnostics result from the owner's existing ordinary paired production browser; do not use headless CI or a production debug provider as a substitute.",
+      "Classify the production permission-denied read for the existing saved Connected Rivalry as stale pointer, current-account entitlement mismatch, active-device mismatch or deployed Rules/runtime inconsistency using the same browser context.",
       "Prove genuine Manager A publish and Manager B refresh against the same private rivalry without overwriting canonical local saves.",
       "Prove monotonic revision, stale-base rejection and exact idempotency behavior in production when safely repeatable.",
       "Prove third-account and revoked-device denial when safe, preserve local-only fallback and keep Stage 5 session writes denied.",
-      "Record genuine production evidence and update RJR-1 only for fixed-domain capability actually proven.",
+      "Record genuine production Connected Rivalry evidence and update RJR-1 only for fixed-domain capability actually proven.",
       "Complete Stage 4 hardening and an explicit remote-to-local reconciliation contract before Stage 5."
     ],
     "knownHazards": [
@@ -66,7 +66,10 @@
       "PR #134 exact head 6ad935bf9e24268fd1ba9d4e82f0318356220425 passed all 14 pull-request workflow families; no open pull request supersedes the current lane.",
       "An automated review arrived after PR #134 merged and left two unresolved process-only threads. Current 00_SLE_HANDOFF_PROTOCOL.md explicitly defines SLE = Smart Lean Efficient, superseding the first comment's older premise. The reporting-format comment does not alter RJR evidence or runtime authority. Neither thread justifies a product detour.",
       "Connected GitHub access is authenticated as nikahanghojjati-oss with repository admin/write capability. gh CLI is absent in this environment but is not needed for the current operation.",
-      "Remote Joining readiness remains 69/100 until genuine ordinary-browser App Check and Connected Rivalry production capability are demonstrated."
+      "2026-08-24 owner-supplied ordinary-Chrome production evidence proves the deployed App Check client reaches ready with attempted, connected and tokenObserved all true through reCAPTCHA Enterprise SDK 12.17.0. Enforcement remains off; no raw token was recorded.",
+      "The same screenshot shows the current Connected Account, registered device and two-manager pairing context intact, so repeating authentication/device/pairing setup is prohibited absent contrary evidence.",
+      "A Firestore BatchGet permission-denied response for the saved rivalry root is the current bounded blocker. It is distinct from App Check because enforcement is off and the diagnostic is healthy; determine entitlement/device/pointer state before any publish.",
+      "RJR-1 remains 69/100: ordinary-browser App Check corroborates an already credited capability, while genuine Connected Rivalry shared-state behavior remains unproven."
     ]
   }
 }
