@@ -1,19 +1,15 @@
 # Ready-to-Paste Next Session Start
 
-Use only `START_NEXT_SESSION_V1.2.0_PR114.md` as the owner's initial successor payload.
+Use only `START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md` as the owner's initial successor payload.
 
 Do not preload the complete historical handoff or all large project documents.
 
-The v1.2.0 SLE starter requires live-first verification of `main` and draft PR #114, then only four initial repository reads: `SESSION_BOOTSTRAP.json`, `REMOTE_JOINING_READINESS.json`, `WORK_ENVIRONMENT_STATUS.json`, and `firebase.production.environment.json`.
+The v1.4.8 SLE starter requires live-first verification of current `main` and the Stage 4 production-proof checkpoint, then compact reads from `SESSION_BOOTSTRAP.json`, `WORK_ENVIRONMENT_STATUS.json`, `REMOTE_JOINING_READINESS.json` and the exact production proof.
 
-PR #114 is an open draft on `agent/pr114-app-check-bootstrap`. The predecessor owner instruction authorized branch/commit/push/draft-PR publication, not merge. A successor must not merge without a later explicit owner authorization.
+The first v1.7.0-r2 Connected Rivalry slice is production-proven and RJR-1 is `77/100`. The next selected prerequisite is Candidate-C-governed remote-to-local reconciliation, but the closing environment does not authorize or begin that distinct runtime milestone.
 
-Production reCAPTCHA Enterprise/Firebase App Check registration is provider-verified complete at one-hour TTL and risk threshold `0.5`; enforcement remains OFF; the production website Firebase/App Check runtime remains disconnected; browser Firestore create/update/delete remains deny-all.
+Use exact workflow jobs/logs before repairing CI. The connected GitHub app is primary; local `gh` is fallback-only for a genuine connector gap and its authentication must never be assumed to persist across Work environments.
 
-Use exact workflow run jobs and exact failed job logs before repairing any CI failure. Never infer a failure from the workflow-family name alone.
+Use `SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md` only as deep-reference fallback when the starter/capsule cannot resolve a live delta, security/recovery/publication contradiction or WEC interruption-recovery need.
 
-`REMOTE_JOINING_READINESS.json` / RJR-1 is the numerical authority for the permanent `Remote Joining readiness` report line. WEC/Handoff proximity is separate.
-
-Use `SUCCESSOR_HANDOFF_PR114_APP_CHECK_SLE_2026-08-20.md` only as deep-reference fallback when the starter/capsule cannot resolve a live delta, security/recovery/publication contradiction or WEC interruption-recovery need.
-
-At a WEC 100% boundary, initialize a fresh successor WEC before beginning the next substantial milestone.
+Validate/archive the closing WEC, initialize a fresh successor WEC and assess before activating the reconciliation candidate atomically with real product work. Stage 5 remains blocked.

@@ -1,5 +1,20 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT HANDOFF — STAGE 4 PRODUCTION PROOF TO RECONCILIATION — 2026-08-24 ET
+
+Current source, live GitHub, `SESSION_BOOTSTRAP.json` and `NEXT_TASK.md` override retained historical bodies below.
+
+Production `v1.7.0 / 1.7.0-r2` is proven through ordinary owner-controlled App Check plus private Connected Rivalry revision-0/stale-recovery/revision-1 cross-manager behavior. Permanent proof is `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`; RJR-1 is `77/100`.
+
+Closing environment `we-2026-08-22-stage4-human-appcheck-proof` assessed `HANDOFF_AT_CHECKPOINT` before the distinct remote-to-local reconciliation milestone. A fresh successor must validate/archive the closing WEC, initialize its own unique WEC and assess again. If permitted, activate the smallest Candidate-C-governed reconciliation candidate atomically in `NEXT_TASK.md` with real engineering work. No automatic remote Apply; preserve strict exact raw snapshot authority, transaction-owned mutation, backup, anti-clobber, ownership-scoped rollback and exact recovery verification. Stage 5 remains locked.
+
+Complete SLE handoff: `SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md`.
+Compact owner starter: `START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md`.
+
+The complete body below remains a concise rolling handoff history and does not override this section.
+
+---
+
 ## CURRENT HANDOFF — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
 
 Current verified source, `NEXT_TASK.md` and live GitHub override every retained predecessor body below.

@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 FIRST SLICE PRODUCTION-PROVEN — 2026-08-24 ET
+
+Status: CURRENT PRODUCTION-PROVEN STAGE 4 FIRST SLICE / v1.7.0 / 1.7.0-r2 / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / REMOTE-TO-LOCAL APPLY STILL LOCKED / STAGE 5 LOCKED.
+
+Live `main` immediately before the production-evidence branch remains continuity-only handoff merge `6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60`; the evidence checkpoint is draft PR #135 on `agent/stage4-human-appcheck-production-proof`; the v1.7.0-r2 runtime release authority remains PR #131 merge `ce09cbef6030bcd1329121be556ba4da2fe20fd2`. Permanent production evidence is recorded in `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md` and the fixed RJR-1 ledger.
+
+The first Connected Rivalry slice is now genuinely production-proven in ordinary owner-controlled browsers: reCAPTCHA Enterprise App Check reaches ready/connected/token-observed; both entitled manager bindings attach to a private rivalry; one manager creates revision 0; the other reads it without local Apply; stale-base publication is rejected without silent rebase; refresh recovers safely; one compare-and-swap update advances monotonically to revision 1; and the other manager converges on revision 1 without a reported local-save overwrite. Owner-reported installed-app/Safari testing also proves bounded iPhone cross-surface behavior on one physical phone.
+
+This proof does not authorize remote payload bytes to mutate canonical local saves. Candidate C remains the sole destructive local Apply authority. Exact idempotency replay, third-account/revoked-device production negatives, two-physical-device/two-network hardening, adverse network/token lifecycle testing, and the explicit remote-to-local reconciliation boundary remain incomplete. Stage 5 session orchestration remains implementation-locked.
+
+The next product candidate is the smallest explicit remote-to-local reconciliation slice under Candidate C recovery authority: read/preview only by default; immutable observed remote base; exact target identity; explicit confirmation; backup before Apply; transaction-owned mutation; stale-state and anti-clobber guards; ownership-scoped rollback; exact recovery verification; and unmistakable observed-remote versus committed-local UI. A fresh successor must verify live authority, initialize its own WEC, and activate that bounded candidate atomically in `NEXT_TASK.md` with the real engineering change. Until then, no new runtime candidate is implementation-authorized.
+
+The production-published Stage 4 Firestore Rules blob remains `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` and must not be republished without a reviewed rule change or concrete regression. Firebase Spark / zero billing, App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, no additional OAuth scopes, exactly two managers, no public discovery/community/matchmaking/rankings, and canonical local storage/recovery authority remain locked.
+
 # CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 SHELL COHERENCE HOTFIX — 2026-08-22 ET
 
 Status: CURRENT BOUNDED STAGE 4 RELEASE CANDIDATE / v1.7.0 / 1.7.0-r2 / NOT PRODUCTION-PROVEN / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

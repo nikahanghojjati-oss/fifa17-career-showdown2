@@ -1,5 +1,27 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
+## CURRENT SUCCESSOR OVERRIDE — STAGE 4 PRODUCTION PROOF TO RECONCILIATION — 2026-08-24 ET
+
+Current source, live GitHub and `NEXT_TASK.md` override retained roadmap bodies below.
+
+Production is `v1.7.0 / 1.7.0-r2`. Stage 3 Registered Devices / Private Pairing and the first Stage 4 Connected Rivalry slice are production-proven. RJR-1 is `77/100`. Permanent proof is `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`.
+
+Current dependency direction:
+
+Cloud / Sync Readiness — DONE
+→ Private Account / Authentication / Authorization — DONE at the current Spark browser boundary
+→ Stage 3 Registered Devices / Private Pairing — PRODUCTION-PROVEN
+→ Stage 4 Connected Rivalry first slice — PRODUCTION-PROVEN
+→ explicit Candidate-C-governed remote-to-local reconciliation plus remaining Stage 4 hardening — NEXT SELECTED PREREQUISITE / FRESH-WEC ACTIVATION REQUIRED
+→ Stage 5 Private Remote Joining — PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED
+→ end-to-end hardening / stable release.
+
+Candidate A/B/C are protected systems, not generic reopenable feature tasks. Reconciliation must reuse Candidate C's strict exact raw snapshot authority, transaction-owned mutation, immutable intent, backup, stale guards, anti-clobber behavior, ownership-scoped rollback and exact recovery verification. Public/community/rankings remain ELIMINATED. The completed resilience baseline — v1.3.0 Recovery & Device Resilience Hardening — and the completed Local Profiles and Save Library dependency milestone remain protected.
+
+The complete body below remains historical provenance and does not override this section.
+
+---
+
 ## CURRENT SUCCESSOR OVERRIDE — POST-PR #96 TRANSITION CHECKPOINT — 2026-08-19 ET
 
 Current verified source and `NEXT_TASK.md` override every retained roadmap body below.

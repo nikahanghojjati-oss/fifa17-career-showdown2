@@ -1,3 +1,33 @@
+# CURRENT OVERRIDE — STAGE 4 PRODUCTION-PROVEN / RECONCILIATION SELECTION BOUNDARY — 2026-08-24 ET
+
+Status: CURRENT CLEAN CHECKPOINT / v1.7.0 / 1.7.0-r2 / FIRST CONNECTED RIVALRY SLICE PRODUCTION-PROVEN / RJR-1 77/100 / NO NEW RUNTIME CANDIDATE AUTHORIZED / STAGE 5 LOCKED.
+
+Verified live `main` before this production-evidence branch: `6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60`.
+Closing evidence checkpoint: draft PR #135 on `agent/stage4-human-appcheck-production-proof`.
+Runtime release authority: PR #131 merge `ce09cbef6030bcd1329121be556ba4da2fe20fd2`.
+Production proof: `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`.
+RJR authority: `REMOTE_JOINING_READINESS.json`, fixed model `RJR-1`, `77/100`.
+Usage: unavailable and not estimated.
+
+The immediately preceding production-proof task is complete. Ordinary owner-controlled browsers prove App Check ready/connected/token-observed plus private two-manager attach, revision-0 publication/read, stale-base rejection, safe recovery, monotonic revision-1 publication and cross-manager revision-1 convergence without local Apply or a reported local-save overwrite. Do not repeat this owner proof, Firebase setup, account/device/pairing setup, Firestore Rules publication or headless-CI attestation attempts without concrete regression evidence.
+
+No runtime implementation is authorized by this checkpoint alone. The next selected product prerequisite is the smallest explicit remote-to-local reconciliation slice, but a fresh successor must first verify current live authority, archive the closing WEC, initialize a fresh unique WEC, run its assessment, and then activate the bounded candidate atomically in this file with the real engineering change if that assessment permits.
+
+The activation must preserve all of the following:
+
+1. remote refresh and preview remain non-mutating by default; no automatic Apply and no silent overwrite;
+2. Candidate C remains the sole destructive local Apply authority;
+3. an Apply binds immutable confirmed intent to the exact local target identity and exact observed remote revision/hash;
+4. a canonical backup is completed before mutation;
+5. transaction-owned mutation, stale-state rejection, anti-clobber checks, ownership-scoped reverse rollback and exact recovery verification are mandatory;
+6. UI distinguishes observed remote state from committed local state before and after Apply;
+7. canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical;
+8. App Check enforcement remains OFF, Firebase Spark / zero billing remains mandatory, Firestore remains memory-only and Google Auth remains popup-only `browserSessionPersistence` with no extra scopes;
+9. the reviewed production Firestore Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` is not republished unless the candidate contains a reviewed rule change or concrete regression requires recovery;
+10. exactly two managers and the private/no-public-discovery boundary remain locked;
+11. exact idempotency replay and third-account/revoked-device production negatives remain Stage 4 hardening work, not assumptions;
+12. Stage 5 Remote Joining session documents, host/join orchestration, presence and lobbies remain implementation-locked until this Stage 4 boundary is production-proven and the next fresh WEC permits progression.
+
 # CURRENT OVERRIDE — v1.7.0-r2 STAGE 4 SHELL COHERENCE HOTFIX — 2026-08-22 ET
 
 Status: CURRENT BOUNDED RUNTIME HOTFIX RELEASE CANDIDATE / v1.7.0 / 1.7.0-r2 / NOT PRODUCTION-PROVEN.

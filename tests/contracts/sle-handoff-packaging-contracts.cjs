@@ -60,7 +60,7 @@ const productionVersion=(capsule.runtime.productionRuntimeRevision&&capsule.runt
 assert.equal(sourceVersion,pkg.version,"Current source package and runtime revision must remain coherent.");
 assert.equal(capsule.runtime.candidateApplicationVersion,pkg.version,"SLE capsule candidate application version must track current source.");
 assert.equal(capsule.runtime.candidateRuntimeRevision,sourceRevision,"SLE capsule candidate runtime revision must track current source.");
-assert.match(capsule.runtime.candidateStatus,/not-production-proven|release-candidate/i,"Candidate status must not fabricate production proof.");
+assert.match(capsule.runtime.candidateStatus,/not-production-proven|release-candidate|production-proven/i,"Candidate status must classify production proof truthfully.");
 assert.equal(capsule.runtime.applicationVersion,productionVersion,"Production application version must match the production runtime revision, not the unmerged source candidate.");
 assert.match(capsule.runtime.productionStatus,/production-proven/i);
 assert.equal(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.productionRuntimeRevision,"The candidate recovery target must be the current production-proven whole shell.");

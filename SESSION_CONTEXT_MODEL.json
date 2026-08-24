@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-one-labeled-session-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-two-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -27,7 +27,7 @@
     "Candidate A/B/C recovery authority",
     "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
-    "Stage 3 block while Stage 2 remains incomplete",
+    "Stage 5 block while Stage 4 reconciliation and hardening remain incomplete",
     "public discovery/community/global leaderboard prohibitions",
     "versioning policy",
     "connected GitHub primary / rootless gh fallback-only routing rule"

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-22T11:00:00-04:00",
+  "recordedAt": "2026-08-24T14:18:41Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "main",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedRuntimeMainSha": "d3ae21ebfded08e45d9a0db61cf22948e1539df3",
+  "lastVerifiedRuntimeMainSha": "6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60",
   "latestRuntimeMerge": {
     "pullRequest": 131,
     "title": "v1.7.0-r2: restore production shell coherence",
@@ -13,20 +13,29 @@
     "applicationVersion": "1.7.0",
     "runtimeRevision": "1.7.0-r2",
     "runtimeChanged": true,
-    "productionProofRecorded": false
+    "productionProofRecorded": true
   },
   "previousStage4Merge": {
     "pullRequest": 130,
     "title": "v1.7.0 Stage 4: Connected Rivalry",
     "mergeSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05"
   },
+  "closingEvidenceCheckpoint": {
+    "pullRequest": 135,
+    "branch": "agent/stage4-human-appcheck-production-proof",
+    "baseMainSha": "6d1e5f55e666eebbf5a9527eb0db5e93f6e18d60",
+    "finalExactHead": "verify-live-after-final-wec-seal",
+    "runtimeChanged": false,
+    "firestoreRulesChanged": false,
+    "providerChanged": false
+  },
   "lastProductionProvenRuntime": {
-    "pullRequest": 129,
-    "title": "v1.6.0 Stage 3: Registered Devices / Private Pairing",
-    "mergeSha": "5d254cea6e4deebd2aac79effeda30dcc3048385",
-    "applicationVersion": "1.6.0",
-    "runtimeRevision": "1.6.0-r1",
-    "proofRecord": "PRODUCTION_STAGE3_PRIVATE_PAIRING_PROOF_2026-08-21.md"
+    "pullRequest": 131,
+    "title": "v1.7.0-r2: restore production shell coherence",
+    "mergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+    "applicationVersion": "1.7.0",
+    "runtimeRevision": "1.7.0-r2",
+    "proofRecord": "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md"
   },
   "stage4Authority": {
     "sourceSeal": "7336adda832322bbd93e8c16f3de0e4bbf5273c1",
@@ -40,8 +49,11 @@
     "r2DelayedBrowserIdentityRegression": "passed",
     "r2DeployedRuntimeFilesByteExact": 89,
     "r2DeployedShellIdentityObserved": true,
-    "ordinaryBrowserAppCheckProofPending": true,
-    "genuineConnectedRivalryProductionProof": false
+    "ordinaryBrowserAppCheckProofPending": false,
+    "ordinaryBrowserAppCheckProof": "ready-connected-token-observed",
+    "genuineConnectedRivalryProductionProof": true,
+    "genuineConnectedRivalryProofScope": "two-entitled-attach-revision0-create-read-stale-reject-recover-revision1-converge-no-local-apply",
+    "remoteToLocalReconciliation": "locked-pending-explicit-candidate-c-governed-slice"
   },
   "productionProofClassification": {
     "diagnosticPullRequest": 133,
@@ -58,10 +70,12 @@
     "deployedByteProof": "89-r2-runtime-files-byte-exact",
     "runtimeProvenance": "passed",
     "appCheckOutcome": "recaptcha-enterprise-403-initial-throttle-in-headless-ci",
-    "classification": "headless-ci-attestation-provider-boundary-ordinary-browser-proof-required",
+    "classification": "headless-ci-attestation-provider-boundary-resolved-by-owner-controlled-ordinary-browser-proof",
     "officialGuidance": "https://firebase.google.com/docs/app-check/web/recaptcha-enterprise-provider",
     "noRepeatedHostedRerun": true,
-    "productionDebugProviderProhibited": true
+    "productionDebugProviderProhibited": true,
+    "ordinaryBrowserOutcome": "ready-connected-token-observed",
+    "ordinaryBrowserProofRecord": "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md"
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -73,14 +87,15 @@
     "laterOwnerInstructionOverrides": true
   },
   "runtime": {
-    "applicationVersion": "1.6.0",
-    "productionRuntimeRevision": "1.6.0-r1",
-    "productionStatus": "production-proven",
+    "applicationVersion": "1.7.0",
+    "productionRuntimeRevision": "1.7.0-r2",
+    "productionStatus": "production-proven-stage4-first-slice",
     "candidateApplicationVersion": "1.7.0",
     "candidateRuntimeRevision": "1.7.0-r2",
-    "candidateStatus": "release-candidate-deployed-byte-exact-ordinary-browser-app-check-proof-pending",
+    "candidateStatus": "production-proven-stage4-first-slice-remote-to-local-reconciliation-pending",
     "candidateRuntimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
-    "candidateImmediateRecoveryRuntime": "1.6.0-r1",
+    "candidateImmediateRecoveryRuntime": "1.7.0-r2",
+    "previousKnownGoodRecoveryRuntime": "1.6.0-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
@@ -95,33 +110,33 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Stage 4 ordinary-browser App Check and genuine Connected Rivalry production proof. Reuse the owner's existing paired browser/accounts/devices; do not repeat setup or begin Stage 5.",
+  "currentLane": "Stage 4 first Connected Rivalry slice is production-proven. Seal the checkpoint, then a fresh WEC may activate the smallest Candidate-C-governed remote-to-local reconciliation candidate. Do not repeat proof setup or begin Stage 5.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 69,
+    "score": 77,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-22-stage4-r2-production-proof",
+    "environmentId": "we-2026-08-22-stage4-human-appcheck-proof",
     "decision": "HANDOFF_AT_CHECKPOINT",
     "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "stage4-r2-byte-exact-deployed-headless-ci-appcheck-classified-ordinary-browser-and-genuine-connected-rivalry-proof-pending"
+    "checkpoint": "stage4-r2-ordinary-browser-appcheck-and-connected-rivalry-revision1-production-proven-rjr77-reconciliation-next"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md"
+    "canonical": "SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md"
   },
   "starter": {
-    "version": "1.4.7",
-    "checkpoint": "STAGE4-R2-HEADLESS-CI-CLASSIFIED-TO-HUMAN-APPCHECK-PROOF",
-    "canonical": "START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
+    "version": "1.4.8",
+    "checkpoint": "STAGE4-PRODUCTION-PROOF-TO-REMOTE-LOCAL-RECONCILIATION",
+    "canonical": "START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: mandatory SLE/WEC transition after byte-exact r2 deployment proof and classification of headless-CI reCAPTCHA Enterprise 403 throttling, before ordinary-browser and genuine cross-account proof."
+    "versionReason": "PATCH: mandatory SLE/WEC transition after genuine ordinary-browser App Check plus revision-0/stale-recovery/revision-1 cross-manager production proof, before the distinct remote-to-local reconciliation milestone."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -138,16 +153,19 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "START_NEXT_SESSION_V1.4.7_STAGE4_HUMAN_APPCHECK_PROOF.md",
-    "SUCCESSOR_HANDOFF_STAGE4_HUMAN_APPCHECK_PROOF_SLE_2026-08-22.md",
+    "START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md",
+    "SUCCESSOR_HANDOFF_STAGE4_PRODUCTION_PROOF_TO_RECONCILIATION_SLE_2026-08-24.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
     "RELEASE_V1.7.0_R2.md",
+    "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
   ],
   "targetedReads": [
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
+    "CAREER_MODE_SHOWDOWN_CANDIDATE_C_IMPLEMENTATION_LOG_2026-08-12.md",
+    "SAVE_LIBRARY_AUTHORITY_RECONCILIATION_ACTIVE_HANDOFF.md",
     "js/cloudSyncRemoteContract.js",
     "js/sparkConnectedRivalry.js",
     "js/sparkPrivatePairing.js",
@@ -155,6 +173,9 @@
     "firestore.spark.rules",
     "tests/contracts/stage4-connected-rivalry-contracts.cjs",
     "tests/firebase/stage4-connected-rivalry-emulator.cjs",
+    "tests/contracts/restore-plan-contracts.cjs",
+    "tests/contracts/restore-stale-state-contracts.cjs",
+    "tests/contracts/restore-storage-contracts.cjs",
     ".github/workflows/validate-stability-lane.yml",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
@@ -164,23 +185,23 @@
     "applicationCandidate": "1.7.0",
     "runtimeCandidate": "1.7.0-r2",
     "runtimeMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
-    "stage": "Stage 4 ordinary-browser App Check and genuine Connected Rivalry production proof",
+    "stage": "Stage 4 remote-to-local reconciliation candidate activation and implementation",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "independently fetch current main and prove any newer SLE publication after d3ae21ebfded08e45d9a0db61cf22948e1539df3 is continuity-only before using the recorded runtime boundary",
-      "preserve the completed proof that all 89 deployed runtime files match 1.7.0-r2 and the delayed footer and Save Library identity remained stable",
-      "obtain exactly one redacted diagnostics result from the owner's existing ordinary paired production browser using JSON.stringify(window.CareerModeProductionFirebaseRuntime?.diagnostics?.())",
-      "if ordinary-browser diagnostics report ready, connected and tokenObserved, record genuine App Check proof and continue in that same paired browser; if unavailable, inspect existing provider registration/key/domain/metrics without recreating setup",
-      "do not use a production debug provider, lower the reCAPTCHA risk threshold, enable enforcement, add billing, weaken the proof assertion or repeat headless-CI reruns",
-      "do not republish Firestore Rules or repeat Firebase project, Web App, Google Auth, App Check, Connected Account, device registration or private pairing setup",
-      "reuse the already-paired two accounts and registered browser device identities to attach or verify the exact private rivalry in Settings > Connected Rivalry",
-      "prove Manager A refresh/publish and Manager B refresh observe the same authoritative state without overwriting canonical local saves",
-      "prove monotonic revision behavior and stale-base rejection; prove exact idempotency replay/no duplicate revision when safely repeatable",
-      "prove third-account and revoked-device denial in production when safe and preserve local-only fallback",
-      "record genuine production proof and update RJR-1 only for capabilities actually demonstrated",
-      "after first Stage 4 proof, harden with two physical devices, adverse network/token expiry, revocation, sleep/wake/refresh and clearer stale/replay/local-vs-remote UX",
-      "complete the explicit remote-to-local reconciliation contract reusing Candidate C transaction/anti-clobber/recovery properties before Stage 5"
+      "independently verify current main, the closing production-evidence checkpoint branch/PR and any intervening files before accepting this capsule",
+      "validate and archive closing WEC we-2026-08-22-stage4-human-appcheck-proof, initialize a fresh unique WEC with reset counters and assess before mutation",
+      "accept ordinary-browser App Check and the first Connected Rivalry slice as production-proven only when live evidence files and RJR-1 remain coherent at 77/100",
+      "do not repeat Firebase, App Check, Connected Account, device registration, pairing, Rules publication or human production proof absent concrete regression evidence",
+      "activate the smallest bounded remote-to-local reconciliation candidate atomically in NEXT_TASK.md with the real engineering change; do not create a documentation-only prerequisite PR",
+      "keep remote refresh and preview non-mutating by default and prohibit automatic Apply or silent overwrite",
+      "reuse Candidate C as the sole destructive local Apply authority with immutable intent, exact target identity and exact observed remote revision/hash",
+      "complete canonical backup before Apply and preserve transaction-owned mutation, stale-state rejection, anti-clobber checks, ownership-scoped rollback and exact recovery verification",
+      "make observed remote state and committed local state unmistakably distinct in the UI",
+      "add focused contract and browser coverage and use appropriate versioning before release",
+      "retain exact idempotency replay, third-account/revoked-device negatives and two-physical-device/network behavior as remaining Stage 4 hardening unless newly proven",
+      "update RJR-1 only for newly demonstrated fixed-domain production capabilities",
+      "keep Stage 5 session orchestration blocked until reconciliation and remaining Stage 4 hardening are production-proven"
     ]
   },
   "successorCapabilityLeverage": {
