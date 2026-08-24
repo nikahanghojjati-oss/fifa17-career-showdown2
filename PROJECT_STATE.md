@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — v1.8.0 SAFE REMOTE RECONCILIATION DEPLOYED — 2026-08-24 ET
+
+PR #136 is DONE / MERGED from exact validated head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784` to expected-head squash merge/live main `1d9793412a712e931b516be8ca853df4e95b5b50`. All 14 exact-head PR workflow families passed with clean reviews, threads and mergeability. GitHub Pages run `32763563751` deployed `v1.8.0 / 1.8.0-r1`; 89 runtime files match the merge byte-for-byte.
+
+The shell and Candidate-C-governed reconciliation implementation are deployed. Genuine owner-controlled production proof of the remote-to-local Apply capability is still pending, so RJR-1 remains `77/100` and `v1.7.0-r2` remains the immediate known-good whole-shell recovery runtime.
+
+Post-merge Release Integration Burn-In, Stability contracts and Chromium Stability passed. Deployed byte/runtime checks passed, but reCAPTCHA Enterprise returned `403 initial-throttle` for the App Check token audit on the first headless attempt and one fresh-runner retry, so the later deployed smoke steps were skipped. The app failed closed to local mode. Do not repeat headless App Check attempts or change provider configuration; use the already proven ordinary owner-browser App Check path for the required reconciliation proof.
+
+Production Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`, Firebase Spark / zero billing, App Check enforcement OFF, memory-only Firestore, popup-only authentication, exactly two managers, canonical storage and the Stage 5 lock are unchanged.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.0 STAGE 4 SAFE REMOTE RECONCILIATION CANDIDATE — 2026-08-24 ET
 
 Status: CURRENT RELEASE CANDIDATE / v1.8.0 / 1.8.0-r1 / NOT PRODUCTION-PROVEN / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

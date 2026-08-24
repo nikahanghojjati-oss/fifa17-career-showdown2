@@ -1,3 +1,22 @@
+# CURRENT OVERRIDE — v1.8.0 DEPLOYED / OWNER RECONCILIATION PROOF — 2026-08-24 ET
+
+Status: PR #136 MERGED / `v1.8.0 / 1.8.0-r1` DEPLOYED AND 89-FILE BYTE-PROVEN / SAFE REMOTE RECONCILIATION OWNER PROOF PENDING / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.
+
+Exact source boundary: PR #136 final head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784`; expected-head squash merge/live main `1d9793412a712e931b516be8ca853df4e95b5b50`; Pages run `32763563751` succeeded. All 14 exact-head PR workflow families passed. Post-merge Burn-In, Stability contracts and Chromium Stability passed. Stability run `32763563701` failed only in deployed App Check because reCAPTCHA Enterprise returned the same `403 initial-throttle` on its first attempt and one fresh-runner retry; public bytes and the deployed runtime-error boundary passed. Stop headless App Check retries.
+
+Current environment: `we-2026-08-24-v180-reconciliation-publication`.
+Starting independently verified live main: `065222416dbd65e4b7886eaebf9a3f375f7c60a8`.
+
+Immediate task: after fresh live-state/WEC bootstrap, coordinate only the existing two paired manager sessions through non-mutating Refresh/Preview, stale-preview rejection, exact confirmed `BACK UP + APPLY EXACT REVISION`, downloaded backup retention, identity/unrelated-Save preservation, matching `REMOTE OBSERVED` / `LOCAL COMMIT` revision and proof that local Apply does not mutate remote authority. Record redacted production evidence, then recalculate fixed RJR-1 without assuming a point increase. Do not repeat Firebase, App Check, account, device, pairing or rivalry setup. Do not republish unchanged Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`. Do not begin Stage 5.
+
+`v1.7.0 / 1.7.0-r2` remains the immediate known-good whole-shell recovery runtime until this owner-controlled proof closes. Exact replay, third-account/revoked-device negatives and two-physical-device/network hardening remain incomplete.
+
+Current compact SLE starter: `START_NEXT_SESSION_V1.4.10_V1.8.0_PRODUCTION_RECONCILIATION_PROOF.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.0 STAGE 4 SAFE REMOTE RECONCILIATION — 2026-08-24 ET
 
 Status: CURRENT RELEASE CANDIDATE / v1.8.0 / 1.8.0-r1 / NOT PRODUCTION-PROVEN / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

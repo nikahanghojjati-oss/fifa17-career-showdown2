@@ -1,5 +1,20 @@
 # Career Mode Showdown — Current Handoff
 
+## CURRENT HANDOFF — POST-PR #136 PRODUCTION RECONCILIATION PROOF — 2026-08-24 ET
+
+PR #136 final head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784` passed all 14 PR workflow families, clean reviews/threads and mergeability, then merged with expected-head squash SHA `1d9793412a712e931b516be8ca853df4e95b5b50`. Pages run `32763563751` succeeded; public `v1.8.0 / 1.8.0-r1` matches all 89 merged runtime files byte-for-byte.
+
+Remote preview is non-mutating and exact confirmed local Apply remains Candidate C only with backup-before-mutation, immutable exact remote/local intent, stale/anti-clobber rejection, transaction ownership, rollback and exact recovery verification. Owner-controlled production reconciliation proof remains pending; RJR-1 remains `77/100`, `v1.7.0-r2` remains the immediate whole-shell recovery runtime and Stage 5 remains locked.
+
+Post-merge Burn-In, Stability contracts and Chromium Stability passed. The deployed App Check step received repeated reCAPTCHA Enterprise `403 initial-throttle`; deployed bytes/runtime boundary passed, the app failed closed and the headless route is circuit-broken. Do not change provider settings or repeat setup. The next environment reuses the existing two paired manager sessions for Preview → stale rejection → refreshed exact backup-and-Apply → identity/unrelated-Save/remote-authority verification.
+
+Complete SLE handoff: `SUCCESSOR_HANDOFF_POST_PR136_V1.8.0_RECONCILIATION_PRODUCTION_PROOF_SLE_2026-08-24.md`.
+Compact owner starter: `START_NEXT_SESSION_V1.4.10_V1.8.0_PRODUCTION_RECONCILIATION_PROOF.md`.
+
+The retained body below is historical and does not override this section.
+
+---
+
 ## CURRENT HANDOFF — v1.8.0 RECONCILIATION CANDIDATE TO PR — 2026-08-24 ET
 
 Current source candidate is `v1.8.0 / 1.8.0-r1`, locally validated and not production-proven. Engineering checkpoint `42b89dfd4859d1655d231d2c04406e66545e45b4` implements non-mutating remote preview and explicit confirmed Candidate C local Apply with canonical backup, immutable exact remote/local intent, strict exact raw guards, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. All 69 contracts, protected workflow blocks and rendered reconciliation browser proof passed.

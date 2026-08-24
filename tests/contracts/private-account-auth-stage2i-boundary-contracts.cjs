@@ -95,7 +95,7 @@ assert.match(`${nextTask}\n${projectState}`,/Remote Joining[\s\S]+DEPENDENCY-GAT
 // into this Stage 2I contract again.
 assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/);
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i);
-assert.ok(["active","transition-prepared"].includes(status.lifecycle));
+assert.ok(["active","transition-prepared","closed"].includes(status.lifecycle));
 assert.equal(status.signals.usageRemainingPercent,null);
 assert.equal(status.signals.usageSource,"unavailable");
 assert.equal(typeof status.continuity.currentTask,"string");
@@ -105,7 +105,7 @@ assert.ok(status.continuity.nextSafeAction.trim().length>0);
 const currentLocks=[...(status.continuity.knownHazards||[]),...(status.continuity.evidenceNotes||[])].join("\n");
 assert.match(currentLocks,/App Check enforcement remains OFF/i);
 assert.match(currentLocks,/Spark|zero billing/i);
-if(status.lifecycle==="transition-prepared"){
+if(["transition-prepared","closed"].includes(status.lifecycle)){
   assert.equal(status.signals.handoffCompleteness,100);
   assert.equal(status.signals.unrecordedDecisions,0);
   assert.equal(status.signals.atomicOperation,false);
