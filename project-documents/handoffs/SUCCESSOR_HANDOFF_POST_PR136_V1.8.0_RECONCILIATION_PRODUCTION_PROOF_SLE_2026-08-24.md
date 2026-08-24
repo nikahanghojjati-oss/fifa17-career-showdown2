@@ -15,7 +15,9 @@ The owner reports that updating the app required Safari sign-in again, after whi
 
 The intended Apply target is Player Two / Gop's existing local career Save. “Target Showdown” means the local Showdown record inside that Save, not a remote server, rivalry code or new Showdown. The selected manager control and `LOCAL TARGET` row resolve the exact internal Save; the owner should not be asked to locate its ID manually.
 
-First safe operation: on the refreshed Player Two / Gop surface, open Settings → Connected Rivalry and, without Publish, Preview or Apply, capture the selected manager plus `RIVALRY`, `REMOTE OBSERVED`, `LOCAL TARGET` and `LOCAL COMMIT`. Stop on an unattached/error state and capture it; do not reconnect again. Only after that baseline is accepted should the ordinary Save Library/unrelated-Save and non-mutating Preview evidence sequence continue.
+Owner-controlled Safari screenshots at 16:31 ET now prove the refreshed private rivalry is attached, the selector is `PLAYER TWO · GOP`, `LOCAL TARGET` is `Player Two · save_97c6e0…3ceca`, `LOCAL COMMIT` is `Not applied this session`, Preview is disabled and the status states local saves were not changed. The UI never labels this “target Showdown”; that earlier shorthand refers to the displayed `LOCAL TARGET` Save. `REMOTE OBSERVED: Not published` is the expected pre-refresh in-memory state after reattachment and is not evidence that the authoritative revision disappeared.
+
+Next safe operation: press `REFRESH SHARED STATE` exactly once on Player Two / Gop and capture `REMOTE OBSERVED`, `LOCAL TARGET` and `LOCAL COMMIT`. Refresh is read-only. Do not press `VERIFY / REATTACH`, `PUBLISH LOCAL SAVE`, `PREVIEW REMOTE → LOCAL` or Apply. Stop and capture any error or unexpected revision. Only after the refreshed remote-authority baseline is accepted should the ordinary Save Library/unrelated-Save and non-mutating Preview evidence sequence continue.
 
 ## 2. Exact repository and deployment boundary
 
