@@ -1,21 +1,27 @@
-# CURRENT RELEASE NOTE — v1.7.0-r2 shell coherence candidate
+# CURRENT RELEASE NOTE — v1.7.0-r2 Stage 4 first slice production-proven
 
-Active release candidate: `v1.7.0 — Connected Rivalry` / `1.7.0-r2` — not production-proven. Previous known-good production runtime: `1.6.0-r1` — production-proven. This bounded maintenance candidate assigns a fresh immutable browser asset namespace after `1.7.0-r1` was reused during Stage 4 candidate development. It does not alter Firestore Rules or add Remote Joining capability.
+Current production: `v1.7.0 — Connected Rivalry` / `1.7.0-r2`. Previous whole-shell recovery fallback: `1.6.0-r1`. Ordinary owner-controlled App Check and the first private Connected Rivalry slice are production-proven; see `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`. RJR-1 is `77/100`.
+
+The proven slice includes exact two-manager private attachment, authoritative revision-0 create/read, stale-base rejection, safe recovery, monotonic revision-1 compare-and-swap publication and cross-manager revision-1 convergence without local Apply or a reported local-save overwrite. Remote-to-local reconciliation, exact replay/negative authorization production proof, two-physical-device hardening and Stage 5 remain incomplete.
+
+The next candidate must preserve the Installable Offline App and Candidate C's sole destructive Apply authority: immutable confirmed intent, strict exact raw snapshot authority, transaction-owned mutation, backup-before-Apply, anti-clobber, ownership-scoped rollback and exact recovery verification. No automatic remote overwrite.
+
+Historical pre-proof note: the bounded r2 maintenance candidate assigned a fresh immutable browser asset namespace after `1.7.0-r1` was reused during Stage 4 candidate development. It did not alter Firestore Rules or add Remote Joining capability. Production proof now supersedes its former candidate status.
 
 # Career Mode Showdown
 
 A lightweight two-player FIFA 17 Career Mode rivalry companion built for GitHub Pages with plain HTML, CSS, JavaScript, browser localStorage and a first-party Installable Offline App shell.
 
-Current production application milestone: v1.6.0 — Registered Devices & Private Pairing
-Current production runtime: `1.6.0-r1` — production-proven
-Active release candidate: **v1.7.0 — Connected Rivalry** / `1.7.0-r1` — not production-proven
-Candidate immediate recovery target: `1.6.0-r1`
-Remote Joining readiness: `69/100` under fixed model `RJR-1`
+Current production application milestone: v1.7.0 — Connected Rivalry first slice
+Current production runtime: `1.7.0-r2` — production-proven
+Next candidate: Stage 4 remote-to-local reconciliation — selected prerequisite, not yet runtime-authorized
+Previous whole-shell recovery fallback: `1.6.0-r1`
+Remote Joining readiness: `77/100` under fixed model `RJR-1`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 
 v1.6.0 completed the production Registered Devices / Private Pairing prerequisite on top of the already-proven private Connected Account foundation. Stable private browser-device identity, exactly-two-manager pairing and the zero-billing Firebase Spark provider boundary are production-proven. App Check enforcement remains OFF, Firestore persistent cache remains disabled, Google authentication remains popup-only with `browserSessionPersistence`, and no additional Google OAuth scopes are requested.
 
-v1.7.0 is the current bounded Stage 4 Connected Rivalry candidate. It adds direct exact-rivalry authoritative shared-gameplay state, compare-and-swap revisions, idempotency replay protection and the narrow Firestore authorization needed by exactly the two paired managers. It does not implement Stage 5 Remote Joining sessions or allow remote payloads to overwrite canonical local saves.
+v1.7.0 is the current production Stage 4 Connected Rivalry first slice. It adds direct exact-rivalry authoritative shared-gameplay state, compare-and-swap revisions, idempotency replay protection and the narrow Firestore authorization needed by exactly the two paired managers. It does not implement Stage 5 Remote Joining sessions or allow remote payloads to overwrite canonical local saves.
 
 Current verified source wins over stale historical status prose. Source code, documentation, emulator proof and green CI do not by themselves increase Remote Joining readiness or promote a candidate to production-proven.
 
