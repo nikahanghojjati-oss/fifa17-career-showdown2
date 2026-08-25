@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T12:40:07Z",
+  "recordedAt": "2026-08-25T23:21:00Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-seven-labeled-sessions-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-material-session-history-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -17,91 +17,60 @@
   },
   "mandatoryBypass": [
     "current live main boundary",
-    "current pull-request exact head/state and merge authorization",
-    "current application/runtime identity",
-    "current bounded lane",
+    "current pull-request exact head/state and standing merge/deploy authorization",
+    "current production application/runtime identity",
+    "current bounded lane and immediate next product milestone",
     "later explicit owner instructions",
-    "owner-browser rivalry fingerprint and authoritative-revision agreement before any publish, preview or local Apply",
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
-    "closed RJR provenance finding: exact pre-RJR 82 reports, no exact 81 artifact, fixed-model backcast 58, no capability regression and official RJR-1 78",
-    "exact one-action Player Two unavailable-code proof scope, fixture, owner-device-local session requirement, clean Work cloud-browser ineligibility, no-mutation boundary and stop conditions",
-    "implementation authorization",
+    "fresh current-identity rivalry fingerprint and exact observed remote revision before any Preview or local Apply",
+    "historical rivalry is evidence-only because its original local profile/save identities were deleted",
+    "one-shot Player Two all-zero unavailable-code fixture is consumed and must not be repeated",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
     "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
-    "Stage 5 block while the deployed pairing UX regression and owner reconciliation proof remain incomplete",
+    "Stage 5 block until Stage 4 reconciliation and remaining explicit prerequisites are production-proven",
     "public discovery/community/global leaderboard prohibitions",
     "versioning policy",
     "connected GitHub primary / rootless gh fallback-only routing rule"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [
-      1000,
-      2000
-    ],
-    "tier1TaskPacketAdditionalApproxTokens": [
-      3000,
-      6000
-    ],
-    "tier2LiveDeltaAdditionalApproxTokens": [
-      5000,
-      10000
-    ],
+    "tier0BootstrapApproxTokens": [1000,2000],
+    "tier1TaskPacketAdditionalApproxTokens": [3000,6000],
+    "tier2LiveDeltaAdditionalApproxTokens": [5000,10000],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
     "Represent mandatory locks in Tier 0 regardless of rank.",
     "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
-    "Read current RJR from REMOTE_JOINING_READINESS.json and the closed historical 82-to-58 explanation from RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md; never infer either from milestones, PRs or WEC.",
-    "When owner surfaces disagree, compare their exact redacted rivalry fingerprints before inferring remote data loss or changing source; a different fingerprint means a different authoritative document path.",
-    "If main or current PR differs, score changed/intervening files with delta=1 and inspect those before broad history.",
-    "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
-    "For CI failure, fetch the exact workflow run jobs and exact failed job logs before changing code; log evidence outranks heuristic diagnosis.",
-    "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the capsule.",
-    "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
+    "Read current RJR from REMOTE_JOINING_READINESS.json; never infer score from milestones, PRs or WEC.",
+    "For the next milestone, start from the fresh current-identity rivalry and current observed revision; do not use the historical deleted-local-identity rivalry as a positive-path test object.",
+    "Before destructive reconciliation, load the existing Stage 4 reconciliation and Candidate C authorities and current sparkConnectedRivalry source.",
+    "If owner evidence contradicts expectations, stop at the first failure and inspect exact source/data identity boundaries before mutating code or provider configuration.",
+    "For CI failure, fetch exact workflow run jobs and exact failed job logs before changing code.",
+    "Escalate to deep fallback only for unresolved contradiction, recovery/security/versioning ambiguity, explicit historical reconstruction or WEC interruption recovery."
   ],
   "onlineLearning": {
     "enabled": true,
     "method": "conservative-exponential-moving-average",
     "initialUtility": 0.5,
     "alpha": 0.2,
-    "outcomes": {
-      "preventedErrorOrResolvedContradiction": 1,
-      "requiredForPublicationSecurityOrRecovery": 0.8,
-      "materiallyUsedInDecision": 0.5,
-      "neutralReference": 0,
-      "redundantPreload": -0.5
-    },
     "constraint": "learned utility can never suppress mandatory bypass locks"
   },
   "supervisedLearningGate": {
     "minimumMaterialSessionOutcomes": 20,
     "preferredEvaluationStart": 30,
-    "candidateModels": [
-      "logistic-regression-needed-vs-not-needed",
-      "pairwise-learning-to-rank"
-    ],
+    "candidateModels": ["logistic-regression-needed-vs-not-needed","pairwise-learning-to-rank"],
     "adoptionRequirement": "held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"
   },
-  "processMetrics": [
-    "startup context tokens or bytes before first substantive action",
-    "tool calls before first substantive action",
-    "unnecessary historical files loaded",
-    "stale-authority corrections after startup",
-    "missed-critical-context incidents",
-    "duplicate or repeated route failures",
-    "deep-fallback escalations",
-    "exact-job-log-first CI repairs",
-    "direct progression into real Remote Joining prerequisite"
-  ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
-  "latestR2RecoveryCheckpoint": {
-    "mainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
-    "runtimeRevision": "1.8.1-r2",
-    "pagesRunId": 32863192183,
-    "next": "owner-existing-rivalry-recovery",
-    "durableIdShortening": "abandoned"
+  "latestCheckpoint": {
+    "mainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+    "runtimeRevision": "1.8.1-r3",
+    "rjr": 78,
+    "closedProof": "fresh-current-identity-rivalry-revision0-plus-one-shot-player-two-unavailable-code-preservation",
+    "next": "stage4-owner-remote-to-local-reconciliation-proof",
+    "starter": "START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md"
   }
 }
