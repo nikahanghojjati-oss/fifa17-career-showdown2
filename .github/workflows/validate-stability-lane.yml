@@ -138,6 +138,12 @@ jobs:
           CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
         run: npm run test:home-visual
 
+      - name: Run Settings install and Connected Account audit against deployed Pages
+        env:
+          CMS_AUDIT_RUN: deployed-main
+          CMS_BASE_URL: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/
+        run: node tests/browser/settings-install-audit.cjs
+
       - name: Run visible Save Library audit against deployed Pages
         env:
           CMS_AUDIT_RUN: deployed-main
