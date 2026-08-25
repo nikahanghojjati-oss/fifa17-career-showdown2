@@ -2,7 +2,7 @@
 
 ## CURRENT START — v1.8.1 PAIRING IDENTITY UX HARDENING — 2026-08-24 ET
 
-Start from current branch `agent/v181-pairing-ux-hardening`, candidate `v1.8.1 / 1.8.1-r1`, previous production/recovery runtime `1.8.0-r1`, WEC `we-2026-08-24-v181-pairing-ux-hardening` and fixed RJR-1 `78/100`. Read the current overrides in `PROJECT_STATE.md` and `NEXT_TASK.md`, then verify live GitHub before acting.
+Start with `START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md` and `SESSION_BOOTSTRAP.json`, then verify live GitHub before acting. Current branch is `agent/v181-pairing-ux-hardening`; candidate is `v1.8.1 / 1.8.1-r1`; previous production/recovery runtime is `1.8.0-r1`; WEC is `we-2026-08-24-v181-pairing-ux-hardening`; fixed RJR-1 is `78/100`. Use `SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md` only for deep recovery or publication detail.
 
 The candidate fixes stable manager selection and safe denied-redemption guidance only. It changes no Rules/provider/billing/App Check/storage/reconciliation protocol and does not authorize Stage 5. Preserve Candidate C strict exact raw snapshot authority, transaction-owned mutation and the Installable Offline App recovery path. Complete exact-head tests, PR gates, expected-head merge and deployed verification under standing authorization.
 

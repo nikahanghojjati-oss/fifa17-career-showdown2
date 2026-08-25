@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-24T21:59:31Z",
+  "recordedAt": "2026-08-25T00:11:42Z",
   "materialSessionsObserved": 4,
   "learningState": "cold-start-priors-with-four-labeled-sessions",
   "defaultUtility": 0.5,
@@ -66,6 +66,15 @@
       "normalizedOutcome": 1.0,
       "learnedUtility": 0.648,
       "note": "Redacted cross-surface fingerprints distinguished two different valid rivalry IDs, proved the revision-1 authority remained intact and prevented an unsafe revision-0 publish on the wrong rivalry."
+    },
+    "successor-entrypoint-coherence": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1.0,
+      "learnedUtility": 0.6,
+      "note": "PR #138 review caught that the ready-to-paste entrypoint and capsule still selected the superseded v1.8.0/RJR-77 repair lane while current source selected v1.8.1/RJR-78. Future publication packaging must assert the ready-to-paste file names the capsule's exact current starter, deep handoff, source version and fixed RJR score."
     }
   },
   "sessionMetrics": [

@@ -4,6 +4,8 @@ Current branch is `agent/v181-pairing-ux-hardening`; candidate is `v1.8.1 / 1.8.
 
 The bounded runtime patch preserves the selected manager's stable role/profile/save identity across pairing rerenders, keeps pasted capability text when selection changes and maps raw denied redemption outcomes to safe non-enumerating guidance. Focused deterministic and rendered mobile tests pass. No Rules/provider/App Check/billing/canonical-storage/Connected-Rivalry protocol change exists. Candidate C strict exact raw snapshot authority and transaction-owned destructive mutation remain unchanged; the Installable Offline App remains recoverable.
 
+PR #138 opened from exact initial head `7a2902aaef1e2e8307edb7822d4203305fb6e75b`. Automated review found the old v1.8.0 successor pointer still active, so current publication continuity is now `START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md` plus `SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md`. Resolve the final head live and repeat all gates after this necessary correction.
+
 The retained handoff below is historical where it conflicts with this override.
 
 ---

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-24-v181-pairing-ux-hardening",
   "lifecycle": "active",
-  "recordedAt": "2026-08-24T23:55:34Z",
+  "recordedAt": "2026-08-25T00:11:42Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 8,
+    "largeEvidenceEvents": 9,
     "toolRoutingErrors": 6,
-    "correctedFailures": 2,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -24,19 +24,19 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 78,
+    "handoffCompleteness": 84,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "decision": {
-    "value": "CONTINUE",
+    "value": "HANDOFF_AT_CHECKPOINT",
     "scope": "current-successor-environment",
-    "reason": "The bounded v1.8.1 / 1.8.1-r1 candidate is implemented and all source, contract, desktop/mobile browser, accessibility, visual, portability, restore and offline lifecycle gates pass. Continue through exact-head publication, review, merge and deployment verification. Usage remains unavailable and unestimated."
+    "reason": "The bounded v1.8.1 / 1.8.1-r1 candidate is implemented and all source, contract, desktop/mobile browser, accessibility, visual, portability, restore and offline lifecycle gates pass. PR #138 opened from an exact byte-matched tree; automated review correctly found one stale successor entrypoint, and the complete mirrored v1.4.12/v1.8.1/RJR-78 package plus a permanent assertion now correct it locally. Finish only this already-bounded final-head validation, review-thread resolution, expected-head merge and deployment verification operation; then complete post-deployment SLE/WEC closure and transition before another substantial milestone. Usage remains unavailable and unestimated."
   },
   "continuity": {
-    "currentTask": "Publish, merge and byte-verify the exact fully validated v1.8.1 / 1.8.1-r1 pairing UX hardening candidate without changing Firestore Rules, provider configuration, canonical storage, Candidate C authority or the Stage 5 lock.",
-    "lastSafeCheckpoint": "The candidate preserves manager selection by stable role/profile/Save identity across create, join and error rerenders; maps opaque one-use redemption failures to safe non-enumerating guidance; records the completed two-physical-device evidence at fixed-ledger RJR-1 78/100; and keeps local Saves unchanged. All 69 contracts, 72 Stability checkpoints, 36 accessibility scans, focused Stage 3/4 audits, complete visual coverage, Candidate A/B/C browser paths, multi-Save portability and the full offline cache lifecycle pass. Diff hygiene and WEC validation pass. Production remains v1.8.0 / 1.8.0-r1 until this exact candidate is merged and deployed.",
-    "nextSafeAction": "Create one exact local release commit, publish the unchanged tree to the current successor branch through the connected GitHub authority, open the standing-owner-authorized pull request, require exact-head workflows/review/thread/mergeability gates, merge with expected-head protection, then verify the deployed v1.8.1 / 1.8.1-r1 bytes before closing SLE.",
+    "currentTask": "Publish the review-corrected exact PR #138 head, require all 14 workflow families and zero unresolved threads, merge with expected-head protection, and byte-verify deployed v1.8.1 / 1.8.1-r1 without changing Firestore Rules, provider configuration, canonical storage, Candidate C authority or the Stage 5 lock.",
+    "lastSafeCheckpoint": "PR #138 opened from exact remote head 7a2902aaef1e2e8307edb7822d4203305fb6e75b and exact local/GitHub tree 9ba73c65dcc8db715fa46d5dec5e9c6f120f0658 after all 39 changed blobs matched. The candidate had 13 completed successful workflow families and every final Stage 3 job step successful when automated review found one real continuity defect: project-documents/START_NEXT_SESSION.md and the capsule still routed successors to v1.8.0/RJR-77. A complete byte-mirrored v1.4.12 v1.8.1/RJR-78 starter/handoff, refreshed current pointers and a permanent SLE regression assertion now correct that defect locally. Product/runtime, Rules, provider and Stage 5 boundaries are unchanged.",
+    "nextSafeAction": "Run JSON, mirror, WEC, SLE and complete applicable contract/browser gates on the corrected tree; commit it as the final PR branch mutation; publish and verify the exact new tree/head; resolve the review thread only after verification; require all 14 exact-head workflow families and clean mergeability; merge with expected-head protection; then verify deployed v1.8.1 / 1.8.1-r1 before post-deployment SLE closeout.",
     "unfinishedWork": [
       "Publish, merge and byte-verify the exact validated patch release under standing owner authorization without changing Firestore Rules or provider configuration.",
       "Prove non-mutating Preview with Apply disabled before confirmation.",
@@ -78,6 +78,8 @@
       "The v1.8.1 / 1.8.1-r1 candidate is fully implemented. Focused Stage 3 contracts and mobile browser proof verify stable Player Two selection through successful and denied rerenders and safe opaque permission guidance. The complete 69-file contract suite passes.",
       "Expanded rendered validation passes 72 Stability checkpoints, 36 accessibility scans, Connected Account late-runtime installation, Stage 4 reconciliation, all startup and licensed-football visual cases, Candidate A backup, Candidate B analysis, Candidate C restore/rollback, format-2 multi-Save portability, and the complete offline cache lifecycle. The dormant portability audit was corrected to use the real Save Library cutover route and a renderable archived-showdown fixture; no product authority was weakened.",
       "Three command-routing incidents were environmental: npm approval wrappers disconnected before execution and a server started in a separate command session was network-isolated. Direct repository-owned Node commands and co-located server/browser commands completed successfully. The SLE capsule's stale score and the portability audit's stale setup were corrected, leaving zero unresolved failures."
+      ,"PR #138 opened from exact remote head 7a2902aaef1e2e8307edb7822d4203305fb6e75b and exact tree 9ba73c65dcc8db715fa46d5dec5e9c6f120f0658 after all 39 changed blobs matched. Automated Codex review correctly identified that project-documents/START_NEXT_SESSION.md and SESSION_BOOTSTRAP.json still selected the superseded v1.8.0/RJR-77 repair lane. The complete mirrored v1.4.12 v1.8.1/RJR-78 starter and deep handoff, refreshed entrypoints and a permanent SLE contract assertion are the bounded correction; the final head must repeat every gate before the thread is resolved or merge occurs."
+      ,"After the SLE correction, the complete direct 69-contract suite passed. A redundant local Stage 3 browser rerun did not execute because this scratch checkout no longer contained optional tar-fs under node_modules; no browser result is claimed from that command. The identical product runtime had already passed the focused rendered audit before the documentation/test-only correction, initial PR head Stage 3 showed every job step successful, and the required final-head hosted workflow installs pinned dependencies before rerunning the authoritative browser gate."
     ]
   }
 }

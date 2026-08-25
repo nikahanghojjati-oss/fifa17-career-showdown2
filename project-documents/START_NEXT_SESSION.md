@@ -1,15 +1,15 @@
 # Ready-to-Paste Next Session Start
 
-Use only `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md` as the owner's initial successor payload.
+Use only `START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md` as the owner's initial successor payload.
 
 Do not preload the complete historical handoff or all large project documents.
 
-The v1.4.11 SLE starter requires live-first verification of current `main`, the public transition branch and deployed `1.8.0-r1`, then compact reads from `SESSION_BOOTSTRAP.json`, `WORK_ENVIRONMENT_STATUS.json`, `REMOTE_JOINING_READINESS.json` and the new pointer-mismatch handoff.
+The v1.4.12 SLE starter requires live-first verification of current `main`, PR #138's exact current head and deployed `1.8.0-r1`, then compact reads from `SESSION_BOOTSTRAP.json`, `WORK_ENVIRONMENT_STATUS.json`, `REMOTE_JOINING_READINESS.json` and the current v1.8.1 publication handoff.
 
-Player One / Nik remains on `pair_a07108…756fb` at revision 1 while Player Two / Gop points to a different empty `pair_d1db8e…` rivalry after reconnection. The revision-1 authority was not lost. The next exact task is guardedly reattach only Gop's browser-local pointer to Nik's exact code, refresh once and verify matching fingerprints/revision 1. Immediate whole-shell recovery remains `v1.7.0 / 1.7.0-r2`; RJR-1 remains `77/100`.
+The `v1.8.1 / 1.8.1-r1` candidate fixes stable Player One/Player Two pairing selection, pasted-capability retention and privacy-safe denied/opaque capability guidance. Owner-controlled Chromebook/iPhone evidence already proves the underlying two-physical-device pairing and revision-convergence capability; fixed RJR-1 is exactly `78/100`. Source, tests, CI and documentation add no readiness points.
 
 Use exact workflow jobs/logs before repairing CI. The connected GitHub app is primary; local `gh` is fallback-only for a genuine connector gap and its authentication must never be assumed to persist across Work environments.
 
-Use `SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md` as the focused deep-reference fallback for the guarded repair and interruption recovery.
+Use `SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md` only as the focused deep-reference fallback for exact-head recovery, review/merge/deployment gates or a security/publication contradiction.
 
-Validate/archive the closing WEC, initialize a fresh successor WEC and assess before the owner repair. Do not publish revision 0, create/join pairing, Preview or Apply before Gop reads Nik's revision 1. Do not repeat headless App Check, republish unchanged Rules or begin Stage 5.
+Require all 14 workflow families on the final unchanged head, zero unresolved review threads, clean mergeability, expected-head merge and deployed `v1.8.1 / 1.8.1-r1` verification. Do not repeat setup, republish unchanged Rules, change App Check/provider/billing/storage authority or begin Stage 5.

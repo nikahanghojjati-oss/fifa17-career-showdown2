@@ -13,6 +13,8 @@ The same evidence exposes a real Stage 3 UI defect: every state rerender rebuilt
 
 Immediate task: complete the exact-head repository and rendered-browser gates, publish one bounded PR, require all permanent workflow families plus clean reviews/threads/mergeability, merge with expected-head protection under standing owner authorization, and verify the deployed whole shell. Do not republish unchanged Firestore Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`. Do not change Firebase/App Check/provider/billing configuration, canonical storage, exactly-two-manager authorization, Candidate C strict exact raw snapshot and transaction-owned mutation authority, or begin Stage 5.
 
+Current compact SLE starter: `START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md`. Deep fallback: `SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md`. PR #138's initial head is historical after the review-driven pointer correction; always resolve the exact current head live.
+
 After deployment, the smallest owner check is non-destructive: select Player Two, exercise one new/invalid pairing-code outcome and verify the selector remains Player Two with safe guidance. Remote-to-local Apply proof, exact idempotency replay, third-account/revoked-device production negatives, adverse-network/token lifecycle hardening and actual Remote Joining sessions remain incomplete.
 
 The retained body below is historical where it conflicts with this override.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-24T23:33:22Z",
+  "recordedAt": "2026-08-25T00:11:42Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/v181-pairing-ux-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -20,6 +20,22 @@
     "title": "v1.7.0 Stage 4: Connected Rivalry",
     "mergeSha": "d0eb160d62a05ebdc5c68b5b79447ce1fedffc05"
   },
+  "currentPublicationCheckpoint": {
+    "pullRequest": 138,
+    "branch": "agent/v181-pairing-ux-hardening",
+    "baseMainSha": "87c57b3f918520b93feeefc189802dc65aa96257",
+    "initialExactHead": "7a2902aaef1e2e8307edb7822d4203305fb6e75b",
+    "initialExactTree": "9ba73c65dcc8db715fa46d5dec5e9c6f120f0658",
+    "initialChangedFiles": 39,
+    "initialBlobHashesVerified": 39,
+    "reviewCorrection": "replace-superseded-v180-rjr77-successor-entrypoint-with-mirrored-v181-rjr78-package",
+    "finalExactHead": null,
+    "workflowFamiliesRequired": 14,
+    "mergeSha": null,
+    "pagesRunId": null,
+    "firestoreRulesChanged": false,
+    "providerChanged": false
+  },
   "closingEvidenceCheckpoint": {
     "pullRequest": 136,
     "branch": "agent/stage4-remote-local-reconciliation",
@@ -36,7 +52,8 @@
     "sleCloseoutInitialHead": "c820b484b0bd3fca295fedd9a7372d6669975199",
     "sleCloseoutFinalSeal": "ea20a8fcb201db6336841e5fdb01e8bb84f5bc41",
     "sleCloseoutMergeSha": "87c57b3f918520b93feeefc189802dc65aa96257",
-    "ownerProofBlocker": "proven-player-two-wrong-rivalry-pointer-must-reattach-to-player-one-revision1-rivalry"
+    "ownerProofBlockerAtCheckpoint": "proven-player-two-wrong-rivalry-pointer-must-reattach-to-player-one-revision1-rivalry",
+    "ownerProofBlockerResolvedByCurrentEvidence": "fresh-two-physical-device-private-pairing-and-revision1-convergence"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 131,
@@ -62,7 +79,8 @@
     "ordinaryBrowserAppCheckProof": "ready-connected-token-observed",
     "genuineConnectedRivalryProductionProof": true,
     "genuineConnectedRivalryProofScope": "two-entitled-attach-revision0-create-read-stale-reject-recover-revision1-converge-no-local-apply",
-    "remoteToLocalReconciliation": "v1.8.0-r1-merged-deployed-byte-proven-owner-apply-proof-blocked-by-rivalry-authority-mismatch",
+    "remoteToLocalReconciliation": "v1.8.0-r1-merged-deployed-byte-proven-owner-apply-proof-pending-after-fresh-two-device-rivalry-baseline",
+    "latestTwoPhysicalDeviceProofRecord": "PRODUCTION_TWO_PHYSICAL_DEVICE_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
     "reconciliationPr": 136,
     "reconciliationExactHead": "4f8393c7c1e1284ff1b0290d07b7e61deb12c784",
     "reconciliationMergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
@@ -93,7 +111,7 @@
     "productionDebugProviderProhibited": true,
     "ordinaryBrowserOutcome": "previous-stage4-ready-connected-token-observed-reuse-existing-sessions",
     "ordinaryBrowserProofRecord": "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
-    "reconciliationOwnerProof": "blocked-until-player-two-pointer-reattaches-to-player-one-revision1-rivalry"
+    "reconciliationOwnerProof": "pending-after-fresh-two-physical-device-pairing-baseline-and-v181-hardening-deployment"
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -144,17 +162,17 @@
     "checkpoint": "v1.8.0-r1-proven-cross-surface-rivalry-pointer-mismatch-safe-reattach-required-rjr77"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md"
+    "canonical": "SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md"
   },
   "starter": {
-    "version": "1.4.11",
-    "checkpoint": "V1.8.0-RIVALRY-AUTHORITY-MISMATCH",
-    "canonical": "START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md",
+    "version": "1.4.12",
+    "checkpoint": "V1.8.1-PAIRING-IDENTITY-UX-HARDENING-PR",
+    "canonical": "START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: mandatory SLE/WEC transition after the owner-controlled read-only Player Two refresh exposed a rivalry-authority mismatch before any Publish, Preview or Apply."
+    "versionReason": "PATCH: automated review found the compact owner entrypoint still routed to the superseded v1.8.0/RJR-77 pointer-repair lane after the v1.8.1/RJR-78 release candidate became current."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -171,11 +189,11 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md",
-    "SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md",
+    "START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md",
+    "SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
-    "RELEASE_V1.8.0.md",
+    "RELEASE_V1.8.1.md",
     "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
