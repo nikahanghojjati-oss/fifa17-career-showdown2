@@ -26,7 +26,7 @@ Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 4. Locate the exact source of 81 in prior chat/export, Library, older branches/tags/handoffs, issues or PR evidence. Capture timestamp, wording, model, denominator, weights and credited inputs. Absence from current Git is not proof it never existed.
 5. Backcast the 81 inputs through fixed RJR-1. If 81 was comparable RJR-1, identify the exact invalidated evidence/regression required for 77; if none exists, flag a score inconsistency. If it used a different or intuition-based denominator, classify it as non-comparable and explain the denominator drift.
 6. Recalculate every comparable checkpoint and publish an evidence-backed explanation. Do not alter the official 78 ledger unless exact comparable proof justifies a correction and every RJR/SLE contract passes.
-7. After the audit closes, proceed directly to the queued real product check: one non-mutating Player Two / Gop syntactically valid but practically nonexistent-code Private Pairing regression, then reassess before the separate Candidate C owner Apply proof. Stage 5 remains locked.
+7. After the audit closes, proceed directly to the queued real product check: select `PLAYER TWO · GOP`, enter exactly `pair_0000000000000000000000000000000000000000000000000000000000000000`, and press `JOIN PRIVATE PAIRING` once. This non-secret, practically nonexistent `pair_` plus 64-hex fixture reaches the deployed unavailable/opaque-code path; do not substitute a malformed, non-hex, wrong-length or real capability value. Require Player Two to remain selected, privacy-safe fresh-code guidance and no local/remote mutation, then reassess before the separate Candidate C owner Apply proof. Stage 5 remains locked.
 
 ## Locked boundaries
 

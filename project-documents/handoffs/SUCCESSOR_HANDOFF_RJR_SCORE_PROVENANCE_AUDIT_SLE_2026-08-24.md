@@ -69,7 +69,7 @@ Then complete only the score-provenance audit:
 6. Recalculate all five domains and explain every delta. Modify the official ledger only after exact comparable evidence supports the correction and all RJR/SLE contracts pass.
 7. Publish the evidence-backed explanation briefly for the owner.
 
-After this mandatory correctness gate, continue real product work directly: run exactly one non-mutating Player Two / Gop syntactically valid but practically nonexistent-code Private Pairing regression on the existing signed-in sessions. Require selector persistence, privacy-safe guidance and no local/remote mutation. Then reassess before the separate Candidate C owner Apply proof. Do not repeat account, device, pairing or rivalry setup without concrete regression evidence.
+After this mandatory correctness gate, continue real product work directly: on the existing signed-in sessions select `PLAYER TWO · GOP`, enter exactly `pair_0000000000000000000000000000000000000000000000000000000000000000`, and press `JOIN PRIVATE PAIRING` once. This non-secret, practically nonexistent `pair_` plus 64-hex fixture reaches the deployed unavailable/opaque-code path; do not substitute a malformed, non-hex, wrong-length or real capability value. Require Player Two to remain selected, privacy-safe fresh-code guidance and no local/remote mutation. Then reassess before the separate Candidate C owner Apply proof. Do not repeat account, device, pairing or rivalry setup without concrete regression evidence.
 
 ## 6. Permanent locks
 
