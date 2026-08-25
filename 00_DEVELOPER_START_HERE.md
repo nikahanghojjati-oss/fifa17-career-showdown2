@@ -1,5 +1,25 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START — v1.8.1 PAIRING IDENTITY UX HARDENING — 2026-08-24 ET
+
+Start with `START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md` and `SESSION_BOOTSTRAP.json`, then verify live GitHub before acting. Current branch is `agent/v181-pairing-ux-hardening`; candidate is `v1.8.1 / 1.8.1-r1`; previous production/recovery runtime is `1.8.0-r1`; WEC is `we-2026-08-24-v181-pairing-ux-hardening`; fixed RJR-1 is `78/100`. Use `SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md` only for deep recovery or publication detail.
+
+The candidate fixes stable manager selection and safe denied-redemption guidance only. It changes no Rules/provider/billing/App Check/storage/reconciliation protocol and does not authorize Stage 5. Preserve Candidate C strict exact raw snapshot authority, transaction-owned mutation and the Installable Offline App recovery path. Complete exact-head tests, PR gates, expected-head merge and deployed verification under standing authorization.
+
+The retained start below is historical where it conflicts with this override.
+
+---
+
+## CURRENT START — v1.8.0 PLAYER TWO RIVALRY-POINTER REPAIR — 2026-08-24 ET
+
+Start with `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md` and `SESSION_BOOTSTRAP.json`, then verify live main and the public transition branch. Open `SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md` for the exact guarded repair.
+
+Player One / Nik remains on `pair_a07108…756fb` at revision 1. Player Two / Gop is attached to a different empty `pair_d1db8e…` rivalry. Do not publish revision 0. Guardedly reattach only Gop's browser-local pointer to Nik's exact code, refresh once and require matching fingerprints/revision 1 before resuming reconciliation proof. RJR remains 77 and Stage 5 remains locked.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 ## CURRENT START OVERRIDE — v1.8.0 DEPLOYED / RECONCILIATION PROOF PENDING — 2026-08-24 ET
 
 Live main is PR #136 squash merge `1d9793412a712e931b516be8ca853df4e95b5b50`. Public `v1.8.0 / 1.8.0-r1` is deployed and all 89 runtime files are byte-identical to that merge. PR #136's exact final head passed all 14 workflow families with clean reviews/threads/mergeability.

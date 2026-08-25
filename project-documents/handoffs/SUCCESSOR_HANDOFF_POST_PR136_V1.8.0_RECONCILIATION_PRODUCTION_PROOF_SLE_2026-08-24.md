@@ -9,6 +9,16 @@ SLE = Smart Lean Efficient.
 
 Use the existing two paired manager sessions to prove the deployed `v1.8.0 / 1.8.0-r1` Safe Remote Reconciliation capability in ordinary owner-controlled production browsers. Do not repeat Firebase, App Check, account, device, pairing, private-rivalry or Firestore Rules setup. Do not begin Stage 5.
 
+### Current owner-session correction — 2026-08-24 ET
+
+The owner reports that updating the app required Safari sign-in again, after which both manager/rivalry connections were re-established. This supersedes the assumption that the browser surfaces remain untouched earlier sessions; it does not by itself invalidate the same-account, same-manager and same-private-rivalry authority. Treat the refreshed connections as the current evidence baseline, verify their visible attachment/manager/revision before Preview, and do not repeat sign-in, device, pairing or rivalry reconnection again without a captured concrete regression.
+
+The intended Apply target is Player Two / Gop's existing local career Save. “Target Showdown” means the local Showdown record inside that Save, not a remote server, rivalry code or new Showdown. The selected manager control and `LOCAL TARGET` row resolve the exact internal Save; the owner should not be asked to locate its ID manually.
+
+Owner-controlled Safari screenshots at 16:31 ET now prove the refreshed private rivalry is attached, the selector is `PLAYER TWO · GOP`, `LOCAL TARGET` is `Player Two · save_97c6e0…3ceca`, `LOCAL COMMIT` is `Not applied this session`, Preview is disabled and the status states local saves were not changed. The UI never labels this “target Showdown”; that earlier shorthand refers to the displayed `LOCAL TARGET` Save. `REMOTE OBSERVED: Not published` is the expected pre-refresh in-memory state after reattachment and is not evidence that the authoritative revision disappeared.
+
+Next safe operation: press `REFRESH SHARED STATE` exactly once on Player Two / Gop and capture `REMOTE OBSERVED`, `LOCAL TARGET` and `LOCAL COMMIT`. Refresh is read-only. Do not press `VERIFY / REATTACH`, `PUBLISH LOCAL SAVE`, `PREVIEW REMOTE → LOCAL` or Apply. Stop and capture any error or unexpected revision. Only after the refreshed remote-authority baseline is accepted should the ordinary Save Library/unrelated-Save and non-mutating Preview evidence sequence continue.
+
 ## 2. Exact repository and deployment boundary
 
 - PR #136 `v1.8.0: Safe Remote Reconciliation` passed all 14 pull-request workflow families on exact unchanged head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784`, with zero submitted reviews, zero inline threads and mergeability clean.
