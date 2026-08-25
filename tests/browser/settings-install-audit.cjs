@@ -26,6 +26,13 @@ function isExpectedExternalFirebaseAuthHelperPageError(error){
     return stack.includes(`${productionAuthHelperOrigin}/__/auth/`);
 }
 
+function sanitizedPageErrorEvidence(error){
+    return {
+        message: sanitizeDiagnosticText(error && error.message),
+        stack: sanitizeDiagnosticText(error && error.stack)
+    };
+}
+
 assert.equal(
     isExpectedExternalFirebaseAuthHelperPageError({
         message: "fireauth is not defined",
@@ -59,13 +66,10 @@ async function run(){
 
     page.on("pageerror", error => {
         if(isExpectedExternalFirebaseAuthHelperPageError(error)){
-            ignoredExternalAuthHelperErrors.push(error.message);
+            ignoredExternalAuthHelperErrors.push(sanitizedPageErrorEvidence(error));
             return;
         }
-        pageErrors.push({
-            message: sanitizeDiagnosticText(error && error.message),
-            stack: sanitizeDiagnosticText(error && error.stack)
-        });
+        pageErrors.push(sanitizedPageErrorEvidence(error));
     });
 
     try{
@@ -164,7 +168,9 @@ async function run(){
             `Settings install audit emitted non-provider page errors: ${JSON.stringify(pageErrors)}`
         );
         if(ignoredExternalAuthHelperErrors.length){
-            console.log(`INFO Settings install audit ignored ${ignoredExternalAuthHelperErrors.length} exact Firebase-hosted Auth helper page error(s) after proving Auth + memory-only Firestore initialization remained healthy.`);
+            console.log(
+                `INFO Settings install audit ignored ${ignoredExternalAuthHelperErrors.length} exact Firebase-hosted Auth helper page error(s) after proving Auth + memory-only Firestore initialization remained healthy. Sanitized provider provenance: ${JSON.stringify(ignoredExternalAuthHelperErrors)}`
+            );
         }
         console.log("Settings-owned install UI and focus lifecycle passed: connectivity rerenders preserve focus, Tab stays trapped, Escape restores opener.");
     }finally{
