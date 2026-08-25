@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-r3-fireauth-production-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T20:12:00Z",
+  "recordedAt": "2026-08-25T20:18:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 12,
+    "largeEvidenceEvents": 14,
     "toolRoutingErrors": 5,
-    "correctedFailures": 4,
+    "correctedFailures": 5,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 1,
@@ -30,8 +30,8 @@
   },
   "continuity": {
     "currentTask": "Finish the v1.8.1-r3 technical production proof functionality-first: preserve the now-cleared fireauth Settings path, eliminate the seven production firebase.runtime-config.json navigation-cancellation failures, and obtain one fully green deployed-main Stability run without weakening existing security boundaries.",
-    "lastSafeCheckpoint": "PR #149 is the bounded production Firebase startup-timing fix. PR #148 is already merged to live main d61dcb92be248f61e59a96ee07ed42527cce8d5f and production Settings plus all deployed audits through Candidate C/offline passed, so fireauth no longer blocks Connected Account or Settings. The remaining post-merge failure is seven first-party firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests in the final navigation-heavy journey. The first PR #149 implementation exceeded the existing initial gzip budget by only 49 bytes; that failure was corrected without raising the budget. Current code head b4db34dd1ab5f954357e4a63b1d836189c3a87e1 preserves the same immediate-on-script-load Firebase initialization in a smaller form.",
-    "nextSafeAction": "Make no further source mutations after this WEC checkpoint. Require all permanent PR workflow families green on the unchanged final PR #149 head, inspect reviews/threads and mergeability, then merge only if every gate is clean. After merge, require Pages deployment and the full deployed-site Stability job to pass through the complete journey with zero first-party runtime-config request failures. If it passes, move to ordinary owner iPhone Connected Account/Google sign-in acceptance; if it fails, fix only the newly demonstrated functional blocker.",
+    "lastSafeCheckpoint": "PR #149 remains the bounded production Firebase timing repair. PR #148 is merged to live main d61dcb92be248f61e59a96ee07ed42527cce8d5f and the historical fireauth failure point now passes in production. The remaining production failure is seven firebase.runtime-config.json navigation cancellations in the final complete journey. The first app.js implementation exceeded the protected initial gzip budget; app.js has now been restored byte-for-byte. The timing repair moved into lazy js/productionFirebaseRuntime.js itself: once that already-post-startup script executes, initializeProductionFirebaseRuntime starts immediately instead of adding a second requestIdleCallback/setTimeout delay. The permanent production App Check runtime contract was updated to require this prompt second-stage initialization while preserving all existing App Check/Auth/Firestore boundaries.",
+    "nextSafeAction": "Freeze the branch after this WEC update. Require all 14 permanent PR workflow families green on one unchanged exact head, inspect reviews/threads and mergeability, and merge only if clean. Then require Pages deployment plus one completely green deployed-main Stability run through the final complete journey with zero same-origin runtime-config request failures. If green, proceed to ordinary owner iPhone Connected Account/Google sign-in acceptance. If not, repair only the demonstrated functional blocker.",
     "unfinishedWork": [
       "Validate PR #149 on one unchanged exact head through all permanent PR workflow families.",
       "Require clean reviews, resolved inline threads and mergeability before publication.",
@@ -52,15 +52,15 @@
     "evidenceNotes": [
       "Starter START_NEXT_SESSION_V1.4.18_R3_FIREAUTH_PRODUCTION_PROOF.md was used as orientation only; current GitHub source won wherever newer state existed.",
       "PR #148 was exact-head validated with all 14 permanent PR workflow families green, its review thread resolved, and it was squash-merged under standing owner authorization to main d61dcb92be248f61e59a96ee07ed42527cce8d5f.",
-      "Post-merge Pages deployment succeeded and verified all 89 v1.8.1-r3 runtime files byte-for-byte.",
-      "Post-merge production runtime provenance and App Check audits passed. Home plus its Settings companion passed, proving the exact historical fireauth failure point no longer aborts the production suite. The historical fireauth error did not recur, so no speculative extra security work is authorized while functionality advances.",
-      "Save Library, manager identity, Career Analytics, football visuals, Candidate A, Candidate B, Candidate C and offline boundary all passed in deployed production after the Settings path cleared.",
-      "The final complete journey alone failed because seven same-origin firebase.runtime-config.json?v=1.8.1-r3 requests ended net::ERR_FAILED while the browser test deliberately performs reload, about:blank, Back and Forward recovery transitions.",
-      "productionFirebaseRuntime.js schedules initialization through an additional requestIdleCallback/setTimeout after js/app.js has already deferred loading the Firebase runtime until post-local-startup. This creates an avoidable late-request window during navigation-heavy recovery testing.",
-      "PR #149 does not suppress failed requests and does not alter Firebase permissions or account boundaries. js/app.js invokes CareerModeProductionFirebaseRuntime.initialize() when the already-lazy production runtime script loads; the runtime's existing idle scheduler remains a fallback and its runtimePromise/connected-state guards deduplicate repeated calls.",
-      "The first PR #149 form failed Final Polish only because initial gzip bytes were 37549 against the existing 37500 limit. The code was compacted rather than raising the performance budget; functionality is unchanged.",
-      "Five duplicate branch-create calls were tool-routing mistakes after the branch already existed. They caused no repository mutation and are recorded in toolRoutingErrors rather than hidden.",
-      "The current implementation branch started from live main d61dcb92be248f61e59a96ee07ed42527cce8d5f. Current code head before this final WEC checkpoint is b4db34dd1ab5f954357e4a63b1d836189c3a87e1.",
+      "Post-merge Pages deployment verified all 89 v1.8.1-r3 runtime files byte-for-byte. Runtime provenance, App Check, Home plus Settings, Save Library, manager identity, Career Analytics, football visuals, Candidate A/B/C and offline boundary passed.",
+      "The historical fireauth error did not recur and Settings completed successfully, so fireauth is functionally cleared and no speculative security redesign is authorized while functionality advances.",
+      "The final deployed journey alone failed because seven same-origin firebase.runtime-config.json?v=1.8.1-r3 requests ended net::ERR_FAILED during deliberate reload/about:blank/Back/Forward recovery.",
+      "The first PR #149 app.js onload implementation failed only the protected startup gzip budget, first by 49 bytes and then by 22 bytes. The budget was not raised or bypassed.",
+      "app.js is restored to main blob 272af604dcbc720f49990c330c781ca83b0eb906. The functionality fix now removes the redundant second idle delay from the lazy productionFirebaseRuntime.js, which is not part of the seven-script initial shell budget.",
+      "production-app-check-runtime-contracts.cjs now explicitly forbids the obsolete second requestIdleCallback/setTimeout(run,900) delay and requires immediate initializeProductionFirebaseRuntime invocation after the lazy runtime executes.",
+      "No Rules, App Check enforcement, Firebase public configuration, auth persistence, Firestore persistence, write scope, canonical storage or gameplay behavior changed.",
+      "Five duplicate branch-create calls were tool-routing mistakes after the branch already existed. They caused no repository mutation and are recorded rather than hidden.",
+      "Current runtime timing commit is 2f60d1d470f296b7e0cb6e0de10a74787a335e19; current contract commit is 5c4d0b1f01e1feea87d81846683cae91b1acd87d. This WEC mutation becomes the new exact-head validation boundary.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
