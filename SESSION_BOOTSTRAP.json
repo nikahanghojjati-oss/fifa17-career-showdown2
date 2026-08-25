@@ -1,9 +1,9 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-25T15:03:00Z",
+  "recordedAt": "2026-08-25T17:01:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/post-pr144-r2-production-handoff",
+  "bootstrapBranch": "agent/r2-existing-rivalry-owner-recovery-proof",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
   "lastVerifiedRuntimeMainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
   "latestRuntimeMerge": {
@@ -20,23 +20,19 @@
     "pagesArtifactDigest": "sha256:5f00a4e07cd803d2e16b1d59d3cd46063923e96e53bd388469b1e8c0996409f0"
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 144,
-    "branch": "agent/v182-rivalry-id-recovery-ux",
-    "finalExactHead": "bc93407decbc5b8300013f1e23b558d686174566",
+    "pullRequest": 146,
+    "branch": "agent/r2-existing-rivalry-owner-recovery-proof",
     "workflowFamiliesRequired": 14,
-    "workflowFamiliesGreen": 14,
-    "submittedReviews": 3,
+    "workflowFamiliesGreen": 0,
+    "submittedReviews": 0,
     "unresolvedReviewThreads": 0,
     "mergeability": true,
-    "mergeSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
-    "mergeTree": "e0ddc2e360a345705957bb535fd57fbfec3843a3",
-    "pagesRunId": 32863192183,
-    "pagesConclusion": "success",
-    "pagesArtifactId": 9569006078,
-    "pagesArtifactDigest": "sha256:5f00a4e07cd803d2e16b1d59d3cd46063923e96e53bd388469b1e8c0996409f0",
+    "mergeSha": null,
+    "pagesRunId": null,
+    "pagesConclusion": null,
     "firestoreRulesChanged": false,
     "providerChanged": false,
-    "postDeploymentCloseoutBranch": "agent/post-pr144-r2-production-handoff"
+    "checkpointStatus": "release-candidate-exact-head-validation-in-progress"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 144,
@@ -45,7 +41,8 @@
     "applicationVersion": "1.8.1",
     "runtimeRevision": "1.8.1-r2",
     "proofRecord": "SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
-    "proofClass": "successful-pages-deployment-plus-generated-artifact-targeted-runtime-inspection"
+    "proofClass": "successful-pages-deployment-plus-generated-artifact-targeted-runtime-inspection",
+    "currentRegression": "Connected Account unavailable when App Check token observation receives provider 403 and r2 treats it as fatal"
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -59,17 +56,18 @@
   "runtime": {
     "applicationVersion": "1.8.1",
     "productionRuntimeRevision": "1.8.1-r2",
-    "productionStatus": "production-proven-deployed-r2-rivalry-id-recovery-ux",
+    "productionStatus": "production-proven-deployed-r2-with-owner-proven-connected-account-regression",
     "candidateApplicationVersion": "1.8.1",
-    "candidateRuntimeRevision": "1.8.1-r2",
-    "candidateStatus": "production-proven-deployed-r2-rivalry-id-recovery-ux",
-    "candidateRuntimeMergeSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
-    "candidateImmediateRecoveryRuntime": "1.8.1-r2",
+    "candidateRuntimeRevision": "1.8.1-r3",
+    "candidateStatus": "release-candidate-not-production-proven-connected-account-recovery",
+    "candidateRuntimeMergeSha": null,
+    "candidateImmediateRecoveryRuntime": "1.8.1-r1",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
     "appCheckEnforcement": false,
+    "appCheckCurrentObservation": "provider-403-initial-throttle-can-degrade-without-disabling-account-services-in-r3",
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
@@ -79,19 +77,19 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Owner-device recovery of the existing Nik/Gop Connected Rivalry using the exact full saved durable rivalry ID exposed and copied by production v1.8.1 / 1.8.1-r2; no replacement pairing, no ID shortening, no Publish/Preview/Apply during pointer recovery.",
+  "currentLane": "PR #146 v1.8.1-r3 Connected Account production regression recovery: decouple unenforced App Check token-observation failure from Google Auth and memory-only Firestore availability without changing provider configuration, Rules, billing, canonical storage, Candidate C, pairing/rivalry identity, or Stage 5.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 78,
+    "score": 76,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
     "environmentId": "we-2026-08-25-player-two-owner-device-proof-live",
     "decision": "HANDOFF_NOW-after-publication-checkpoint",
-    "decisionScope": "closing-environment-only-do-not-inherit",
+    "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
     "checkpoint": "pr144-r2-exact-head-14-green-review-clean-merged-pages-success-artifact-inspected"
   },
   "currentHandoff": {
@@ -100,12 +98,12 @@
   },
   "starter": {
     "version": "1.4.17",
-    "checkpoint": "R2-EXISTING-RIVALRY-OWNER-RECOVERY-PROOF",
+    "checkpoint": "R3-CONNECTED-ACCOUNT-RECOVERY-CANDIDATE-WITH-R2-PRODUCTION-ORIENTATION",
     "canonical": "START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: PR #144 r2 recovery UX is merged/deployed; successor must prove full-ID copy and recover the existing Gop pointer without creating a replacement rivalry."
+    "versionReason": "Current starter is retained as predecessor production orientation while live NEXT_TASK, PROJECT_STATE, PR #146 and RJR authority own the urgent r3 Connected Account recovery lane."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -122,13 +120,14 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
+    "NEXT_TASK.md",
+    "PROJECT_STATE.md",
+    "REMOTE_JOINING_READINESS.json",
+    "RELEASE_V1.8.1_R3.md",
+    "CAREER_MODE_SHOWDOWN_V1.8.1_R3_MAINTENANCE_HANDOFF.md",
     "START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
     "SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
     "WORK_ENVIRONMENT_STATUS.json",
-    "REMOTE_JOINING_READINESS.json",
-    "RELEASE_V1.8.1_R2.md",
-    "PRODUCTION_TWO_PHYSICAL_DEVICE_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
-    "RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
   ],
@@ -136,6 +135,8 @@
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
     "CAREER_MODE_SHOWDOWN_CANDIDATE_C_IMPLEMENTATION_LOG_2026-08-12.md",
     "SAVE_LIBRARY_AUTHORITY_RECONCILIATION_ACTIVE_HANDOFF.md",
+    "js/productionFirebaseRuntime.js",
+    "js/productionAppCheckBootstrap.js",
     "js/cloudSyncRemoteContract.js",
     "js/sparkConnectedRivalry.js",
     "js/sparkPrivatePairing.js",
@@ -168,10 +169,10 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "r2-existing-rivalry-owner-recovery-proof",
+    "name": "pr146-r3-connected-account-recovery",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Verify full saved rivalry ID copy on Nik and attach existing signed-in PLAYER TWO \u00b7 GOP to that exact existing rivalry once; do not create a new pairing."
+    "summary": "Finish exact-head PR #146 validation and deploy r3; only after exact production proof ask the owner to verify Connected Account availability, Google popup sign-in and Private account ready. Do not replace pairing/rivalry state."
   },
   "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/context pointers, seal WEC as the final branch mutation, and stop before the next substantial milestone."
 }
