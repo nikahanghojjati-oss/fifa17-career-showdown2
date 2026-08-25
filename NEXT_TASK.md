@@ -1,60 +1,81 @@
-# CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX — 2026-08-25 ET
+# CURRENT IMPLEMENTATION AUTHORITY — STAGE 4 OWNER REMOTE-TO-LOCAL RECONCILIATION — 2026-08-25 ET
 
-Status: RELEASE CANDIDATE / DEPLOYED / TECHNICAL PRODUCTION PROOF IN PROGRESS / RJR-1 `76/100` UNTIL OWNER ACCOUNT RESTORATION PROOF / STAGE 5 LOCKED.
+Status: CURRENT OWNER-PROOF MILESTONE / PRODUCTION `v1.8.1 / 1.8.1-r3` / RJR-1 `78/100` / STAGE 5 LOCKED.
 
-Authorized release candidate: `v1.8.1 / 1.8.1-r3`.
+Current production runtime is `v1.8.1 / 1.8.1-r3` on live main `beab9f31cb7f31bf4938f5b0df67394899ef12a0`. The repaired r3 Connected Account path is owner-proven on ordinary iPhone Safari. The temporary r2 regression credits are restored, so fixed RJR-1 is `78/100`.
 
-Current production runtime is `v1.8.1 / 1.8.1-r3` from squash merge `857727586d548a96fca3ad63c394bf8f0b9e3b90`. Previous known-good whole-shell recovery runtime remains deliberately `1.8.1-r1`, not regressed r2.
+## Closed predecessor evidence
 
-## Exact blocker and authority
+The current Player One / Nik identity in normal Chromebook Chrome and the current Player Two / Gop identity in Incognito Chrome are freshly paired and attached to the same current rivalry, privacy-safe fingerprint `pair_8f24ae...3528c`. Player One published the first authoritative shared state exactly once at revision 0. Both sides then refreshed and observed revision 0 without local Apply or a reported local Save overwrite.
 
-PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families, all review threads were resolved, and expected-head squash merge produced live main `857727586d548a96fca3ad63c394bf8f0b9e3b90`. GitHub Pages deployment run `32883493535` succeeded. Stability deployed-site-smoke job `97919366693` then independently verified all 89 runtime files byte-for-byte as `1.8.1-r3` and passed runtime error provenance.
+After that good pair was stable, Player Two consumed the authorized non-secret `pair_` plus 64-zero unavailable-code fixture exactly once. Production returned bounded unavailable/expired/used guidance, did not expose raw permission-denied text, explicitly reported that local saves were unchanged, and preserved Player Two selection, the good rivalry pointer, revision 0, the local target and `LOCAL COMMIT: Not applied this session`. Do not repeat that fixture merely for duplication.
 
-The remaining technical proof failure is now classified: the production runtime correctly reached `ready-app-check-degraded` while reCAPTCHA Enterprise returned `403 appCheck/initial-throttle` and App Check enforcement remained OFF. The stale browser audit still required `ready` plus `tokenObserved=true`, so it failed before the downstream deployed-site browser audits could run. That audit expectation must be corrected without relabeling degraded attestation as successful token proof.
-
-The bounded rule remains: production origin/config/project/bootstrap and Firebase App/App Check initialization stay fail-closed. A successful token remains `ready` with `tokenObserved=true`. Only a token-observation failure after successful Firebase App/App Check initialization while enforcement is OFF may be `ready-app-check-degraded`, with `connected=true`, `tokenObserved=false`, `appCheckDegraded=true` and preserved redacted provider/runtime evidence. Connected Account remains allowed in that bounded degraded state. Raw App Check tokens must never enter diagnostics.
-
-Do not enable App Check enforcement, change reCAPTCHA/Firebase provider configuration, use a debug provider/token, change billing, weaken Firestore Rules, change auth persistence/scopes, change canonical storage, create a replacement rivalry, or begin Stage 5.
+The historical original rivalry fingerprint `pair_a07108...756fb` remains active remotely, but its original local `profileId` / `saveId` identities were deleted when local browser data was wiped. Production correctly rejects replacement-local-identity attachment and leaves local saves unchanged. The historical rivalry is evidence-only; do not force-rebind, edit or delete it to satisfy a proof script.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish only the post-deployment r3 production-proof correction. Validate the test-only branch that makes the headless production App Check audit distinguish real `ready` token proof from explicitly evidenced enforcement-OFF `ready-app-check-degraded`. Require all 14 permanent workflow families green on one unchanged exact head, inspect every review and inline thread, and require clean mergeability. If those gates pass, publish under standing owner authorization with expected-head squash merge. Then require main Stability deployed-site smoke to re-verify all 89 production runtime bytes and continue through every downstream deployed-site browser audit.
+Run only the bounded Stage 4 owner remote-to-local reconciliation proof on the fresh current-identity rivalry. Before asking the owner to perform any destructive Apply, study current live source plus the existing reconciliation/Candidate C authorities, especially:
 
-Do not ask the owner to test until that technical production gate is clean. The first owner acceptance test is then only Connected Account recovery on an ordinary iPhone surface: open Connected Account, confirm the service is available, complete Google popup sign-in, and require strict self-account bootstrap to reach `Private account ready`. Do not create a replacement pairing or rivalry during this recovery proof.
+- `START_NEXT_SESSION_V1.4.10_V1.8.0_PRODUCTION_RECONCILIATION_PROOF.md`
+- `START_NEXT_SESSION_V1.4.8_STAGE4_RECONCILIATION.md`
+- `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`
+- `CAREER_MODE_SHOWDOWN_CANDIDATE_C_IMPLEMENTATION_LOG_2026-08-12.md`
+- `SAVE_LIBRARY_AUTHORITY_RECONCILIATION_ACTIVE_HANDOFF.md`
+- `js/sparkConnectedRivalry.js`
 
-After `Private account ready` is restored, immediately resume the previously deferred original Nik/Gop rivalry pointer proof that was blocked before the Connected Account regression. Use the now selectable/copyable recovery-ID UI to obtain the full original Pair ID for the rivalry historically fingerprinted as `pair_a07108…756fb`; do not manually type that shortened fingerprint. Put the exact full copied ID into both Player One / Nik and Player Two / Gop recovery fields. On each side press `VERIFY / REATTACH` once, then `REFRESH SHARED STATE` once. Require the `RIVALRY` field to show that same original rivalry and require `REMOTE OBSERVED: Revision 1`. Leave the Firebase document untouched. Do not Publish, Preview or Candidate C Apply during this pointer proof.
+Derive the smallest safe owner sequence from the existing implementation. The proof must establish all of the following without inventing a new workflow:
 
-## Required candidate gates
+1. reverify the same fresh current rivalry and exact observed remote authority before reconciliation;
+2. `PREVIEW REMOTE → LOCAL` is non-mutating and does not alter canonical local storage;
+3. preview intent is bound to the exact observed remote revision/hash and exact local target identity;
+4. if remote authority changes after preview, the stale intent is rejected rather than silently rebased;
+5. actual local Apply requires an exact verified backup and explicit confirmation;
+6. Candidate C remains the sole destructive local Apply authority;
+7. Apply preserves stable manager identity and unrelated Saves;
+8. successful Apply converges the intended local target to the exact intended remote authority;
+9. local Apply does not itself mutate the remote authoritative document;
+10. evidence clearly distinguishes observed remote state from committed local state and proves rollback/recovery ownership boundaries.
 
-1. Keep whole-shell identity coherent at `v1.8.1 / 1.8.1-r3`; Service Worker recovery target must remain known-good `1.8.1-r1`.
-2. Deterministically prove normal App Check token success remains `ready`; token-observation failure under enforcement OFF becomes connected `ready-app-check-degraded`; real App/App Check initialization failure remains fatal.
-3. Production browser proof may accept `ready-app-check-degraded` only with enforcement OFF, connected Firebase App/App Check, `tokenObserved=false`, `appCheckDegraded=true` and preserved redacted failure evidence. It must never report degraded attestation as successful token proof.
-4. Prove degraded App Check observation still permits Google Auth plus memory-only Firestore account-service initialization with `browserSessionPersistence`, popup-only sign-in and zero additional scopes.
-5. Preserve Firebase Spark / zero billing, unchanged production Rules, exactly two private managers and all Stage 4 safety boundaries.
-6. Require all 14 permanent workflow families green on the exact unchanged proof-correction head, clean reviews/threads and mergeability before expected-head squash merge under standing owner authorization.
-7. After merge, require exact deployed byte identity and all downstream deployed-site browser audits. Do not manufacture an App Check token if the provider remains externally throttled.
-8. Owner acceptance after technical proof must show ordinary iOS Connected Account is available, Google popup sign-in succeeds and strict self-account bootstrap reaches `Private account ready`.
-9. Only that production owner proof may restore the two RJR credits currently withdrawn by the regression, returning 76 toward 78 if the exact prior capabilities are genuinely restored.
-10. After account restoration, complete the original Nik/Gop pointer test with the exact full copied Pair ID and `REMOTE OBSERVED: Revision 1` before any separate Candidate C owner reconciliation or Stage 5 work.
+Stop on the first genuine failure. Preserve evidence, diagnose the smallest demonstrated product defect, and repair only that defect through the normal exact-head test/review/merge/deploy process. Do not begin Stage 5 sessions until this reconciliation proof and remaining explicit Stage 5 prerequisites are production-proven.
 
-The all-zero unavailable-code fixture remains unconsumed. Do not create a replacement pairing. Do not Publish shared gameplay, Preview or Candidate C Apply during pointer recovery.
+## Current fixed locks
 
-## Permanent product locks
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical.
 
-The Installable Offline App remains the local-first recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline remains intact. Local Profiles and Save Library remain the local identity and multi-save foundation. Canonical storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical.
+Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive local Apply authority.
 
-Candidate C remains the sole destructive remote-to-local Apply authority with immutable intent, backup first, strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. No public discovery/community/matchmaking/rankings are authorized. Stage 5 Remote Joining sessions remain locked.
+Firestore client persistence remains memory-only. Firebase remains Spark / zero billing. Google Auth remains popup-only with `browserSessionPersistence`. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but not activated or broadened. Exactly two private managers remain required. No public discovery, community, matchmaking or global rankings are authorized.
+
+Standing owner authorization remains active: after all required tests and publication gates pass, merge and deploy without repeatedly asking for owner approval. A later explicit owner instruction may override that standing authorization.
 
 ## Work Environment Continuity
 
-Current environment: `we-2026-08-25-r2-existing-rivalry-owner-recovery`
-Starting independently verified live main: `2eb58974e615aa7f2e95419a6f0cdf20495d2682`
-Current r3 production merge: `857727586d548a96fca3ad63c394bf8f0b9e3b90`
+Current environment: `we-2026-08-25-owner-account-proof`
+Starting independently verified live main: `beab9f31cb7f31bf4938f5b0df67394899ef12a0`
 
-Every future environment must use the repository Work Environment Continuity process before executing this task. Validate the inherited status, archive predecessor final facts, initialize a fresh environment-owned status record, run that environment's own assessment, and treat any predecessor transition decision as orientation only. Reassess WEC after technical r3 production proof, after owner account acceptance, and before any separate milestone.
+This predecessor environment closes at the Stage 4 milestone boundary. A successor must independently revalidate live GitHub, current source, CI and production, archive predecessor final facts, initialize a fresh WEC and make its own transition assessment. Do not inherit this predecessor transition decision as successor authority.
 
-## Historical authority
+Current SLE starter: `START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md`.
+Deep fallback: `SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md`.
 
-The complete pre-r3 `NEXT_TASK.md` was preserved byte-for-byte before this concise current-authority replacement at `authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md`. Historical authority remains provenance only and cannot override this current owner-directed regression repair.
+## Completed r3 recovery authority retained as historical provenance
 
-Historical completed-stage markers retained for permanent contracts: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` and `CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME`. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED as completed prerequisite provenance. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED as completed prerequisite provenance. These markers do not override the current r3 Connected Account recovery authority above.
+The following text preserves the previously live r3 recovery authority only so permanent contracts and forensic history remain lossless. It is COMPLETED / SUPERSEDED and does not authorize current work.
+
+Former heading: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`.
+
+Former status: Status: RELEASE CANDIDATE / DEPLOYED / TECHNICAL PRODUCTION PROOF IN PROGRESS / RJR-1 `76/100` UNTIL OWNER ACCOUNT RESTORATION PROOF / STAGE 5 LOCKED.
+
+Former candidate line: Authorized release candidate: `v1.8.1 / 1.8.1-r3`.
+
+Former runtime evidence: Current production runtime is `v1.8.1 / 1.8.1-r3` from squash merge `857727586d548a96fca3ad63c394bf8f0b9e3b90`. Previous known-good whole-shell recovery runtime remains deliberately `1.8.1-r1`, not regressed r2.
+
+PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families and GitHub Pages deployment run `32883493535` succeeded.
+
+The formerly authorized sequence under `IMMEDIATE NEXT TASK AFTER FULL STUDY` was to finish only the post-deployment r3 production-proof correction, require all 14 permanent workflow families green, use expected-head squash merge, and then require main Stability deployed-site smoke. That sequence is complete.
+
+The former owner gate said: Do not ask the owner to test until that technical production gate is clean. Then prove Google popup sign-in and `Private account ready`. That owner proof is now complete and the two withdrawn RJR credits have been restored.
+
+The formerly deferred pointer proof required the full original Pair ID, Player One / Nik, Player Two / Gop, `VERIFY / REATTACH`, `REFRESH SHARED STATE`, and `REMOTE OBSERVED: Revision 1`. It also said: Do not Publish, Preview or Candidate C Apply during this pointer proof. The surviving remote document was later found, but its original local profile/save identities had been deleted; exact binding rejection therefore closed that historical recovery attempt without forcing new identities onto old authority.
+
+The complete pre-r3 authority remains preserved at `authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md`. Historical text is provenance only and cannot override the current Stage 4 reconciliation authority above.
