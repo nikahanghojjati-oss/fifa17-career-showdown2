@@ -1,0 +1,51 @@
+name: Temporary PR144 Bootstrap Sync
+
+on:
+  push:
+    branches:
+      - agent/v182-rivalry-id-recovery-ux
+
+permissions:
+  contents: write
+
+jobs:
+  sync-bootstrap:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/v182-rivalry-id-recovery-ux
+          fetch-depth: 0
+      - name: Synchronize SLE candidate identity
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path=Path('SESSION_BOOTSTRAP.json')
+          data=json.loads(path.read_text())
+          data['recordedAt']='2026-08-25T14:50:00Z'
+          data['bootstrapBranch']='agent/v182-rivalry-id-recovery-ux'
+          runtime=data['runtime']
+          runtime['candidateApplicationVersion']='1.8.1'
+          runtime['candidateRuntimeRevision']='1.8.1-r2'
+          runtime['candidateStatus']='release-candidate-connected-rivalry-recovery-ux'
+          runtime['candidateRuntimeMergeSha']=None
+          runtime['candidateImmediateRecoveryRuntime']='1.8.1-r1'
+          data['currentLane']='Promote PR #144 v1.8.1 / 1.8.1-r2 only after all exact-head gates pass, then production-prove the full visible/selectable/copyable saved rivalry ID and recover the existing Player Two / Gop pointer without creating a replacement rivalry. The durable pair_ plus 64-hex ID is not shortened. Stage 5 remains locked.'
+          if 'RELEASE_V1.8.1_R2.md' not in data['minimalReads']:
+              data['minimalReads'].insert(6,'RELEASE_V1.8.1_R2.md')
+          path.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
+          PY
+          rm .github/workflows/tmp-pr144-bootstrap-sync.yml
+          node tests/contracts/sle-handoff-packaging-contracts.cjs
+          git diff --check
+      - name: Commit synchronized capsule
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Sync r2 SLE candidate capsule"
+          git push origin HEAD:agent/v182-rivalry-id-recovery-ux
