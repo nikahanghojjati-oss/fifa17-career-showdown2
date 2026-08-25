@@ -1,0 +1,71 @@
+name: Temporary Post PR144 SLE Preseal Retry
+
+on:
+  push:
+    branches:
+      - agent/post-pr144-r2-production-handoff
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/post-pr144-r2-production-handoff
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Rebuild and validate mirrored SLE successor package
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          workflow = Path('.github/workflows/tmp-post-pr144-sle-preseal.yml').read_text()
+          start = workflow.index("          python - <<'PY'\n") + len("          python - <<'PY'\n")
+          end = workflow.index("\n          PY\n", start)
+          block = workflow[start:end]
+          lines = block.splitlines()
+          normalized = '\n'.join(line[10:] if line.startswith('          ') else line for line in lines) + '\n'
+          exec(compile(normalized, '<preseal-generator>', 'exec'), {})
+
+          # Markdown hard-break spaces in generated evidence are unnecessary and
+          # violate the repository's git-diff whitespace gate. Strip trailing
+          # spaces/tabs from every generated text line before deterministic checks.
+          for path in [
+              'RELEASE_V1.8.1_R2.md',
+              'START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md',
+              'project-documents/session-starts/START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md',
+              'SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md',
+              'project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md',
+              'project-documents/START_NEXT_SESSION.md',
+              'PROJECT_STATE.md', 'NEXT_TASK.md', '00_CURRENT_HANDOFF.md',
+              '00_DEVELOPER_START_HERE.md', 'CAREER_MODE_SHOWDOWN_V1.8.1_R2_MAINTENANCE_HANDOFF.md',
+              'README.md', 'CHANGELOG.md', 'WORK_ENVIRONMENT_HISTORY.md'
+          ]:
+              p = Path(path)
+              if p.exists():
+                  text = p.read_text()
+                  p.write_text('\n'.join(line.rstrip(' \t') for line in text.splitlines()) + ('\n' if text.endswith('\n') else ''))
+          PY
+          rm .github/workflows/tmp-post-pr144-sle-preseal.yml
+          rm .github/workflows/tmp-post-pr144-sle-preseal-retry.yml
+          git diff --check
+          node tests/contracts/sle-handoff-packaging-contracts.cjs
+          npm run test:contracts
+          npm run work:continuity:validate
+      - name: Commit validated preseal package
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Prepare post-PR144 r2 successor SLE package"
+          git push origin HEAD:agent/post-pr144-r2-production-handoff
