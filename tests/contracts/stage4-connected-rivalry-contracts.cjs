@@ -108,10 +108,17 @@ function stage4Rivalry(fixture){
   assert.match(source,/LOCAL COMMIT/);
   assert.match(source,/PREVIEW REMOTE → LOCAL/);
   assert.match(source,/BACK UP \+ APPLY EXACT REVISION/);
+  assert.match(source,/code\.value=crState\.rivalryId\|\|""/,"A saved rivalry ID must be real selectable input text, not placeholder-only text.");
+  assert.match(source,/FULL RIVALRY ID/,"The complete saved rivalry ID must also be visibly rendered for mobile recovery.");
+  assert.match(source,/COPY RIVALRY ID/,"The saved rivalry ID must expose an explicit copy action.");
+  assert.match(source,/overflowWrap="anywhere"/,"The full rivalry ID display must wrap instead of visually truncating on narrow mobile screens.");
+  assert.match(source,/navigator\.clipboard\.writeText\(rivalryId\)/,"Copy must use the browser clipboard when available.");
+  assert.match(source,/code\.setSelectionRange\(0,code\.value\.length\)/,"Copy must retain a selectable fallback when clipboard APIs are unavailable.");
 
   const rivalryId=`pair_${"c".repeat(64)}`;
   assert.equal(connected.normalizeRivalryId(`  ${rivalryId.toUpperCase()}  `),rivalryId);
   assert.throws(()=>connected.normalizeRivalryId("pair_short"),/exact private rivalry code/i);
+  assert.throws(()=>connected.normalizeRivalryId(`pair_${"c".repeat(32)}`),/exact private rivalry code/i,"Do not silently shorten the security-sensitive durable rivalry identifier.");
 
   const fixture=stage4SaveRuntime();
   const rivalry=stage4Rivalry(fixture);
@@ -236,7 +243,7 @@ function stage4Rivalry(fixture){
   assert.match(connectedAccount,/await sparkConnectedLoadPrivatePairingScript\(\)[\s\S]*await sparkConnectedLoadRivalryScript\(\)/,"Connected Rivalry must load only after the Private Pairing module exists.");
   assert.match(worker,/js\/sparkConnectedRivalry\.js/);
 
-  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, deterministic projection, immutable CAS/replay plan, integrity-checked observation, explicit Candidate C local Apply, and Stage 5 lock\n");
+  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, full/selectable/copyable recovery ID, deterministic projection, immutable CAS/replay plan, integrity-checked observation, explicit Candidate C local Apply, and Stage 5 lock\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
