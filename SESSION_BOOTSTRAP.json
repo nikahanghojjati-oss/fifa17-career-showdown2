@@ -1,48 +1,47 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-25T17:01:00Z",
+  "recordedAt": "2026-08-25T19:07:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/r2-existing-rivalry-owner-recovery-proof",
+  "bootstrapBranch": "agent/r3-production-proof-fireauth-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedRuntimeMainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
+  "lastVerifiedRuntimeMainSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90",
   "latestRuntimeMerge": {
-    "pullRequest": 144,
-    "title": "Runtime r2: make Connected Rivalry IDs recoverable on mobile",
-    "finalExactHead": "bc93407decbc5b8300013f1e23b558d686174566",
-    "mergeSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
+    "pullRequest": 146,
+    "title": "Restore Connected Account during unenforced App Check throttling",
+    "finalExactHead": "649112cd91db3696dd5a847250d6f1c09fc9912f",
+    "mergeSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90",
     "applicationVersion": "1.8.1",
-    "runtimeRevision": "1.8.1-r2",
+    "runtimeRevision": "1.8.1-r3",
     "runtimeChanged": true,
-    "productionProofRecorded": true,
-    "pagesRunId": 32863192183,
-    "pagesArtifactId": 9569006078,
-    "pagesArtifactDigest": "sha256:5f00a4e07cd803d2e16b1d59d3cd46063923e96e53bd388469b1e8c0996409f0"
+    "productionDeploymentRecorded": true,
+    "ownerAccountAcceptanceRecorded": false,
+    "pagesRunId": 32883493535
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 146,
-    "branch": "agent/r2-existing-rivalry-owner-recovery-proof",
+    "pullRequest": 147,
+    "branch": "main",
+    "finalExactHead": "5a02f0645bb935d7e11ea357829cb3b3756ea1ab",
     "workflowFamiliesRequired": 14,
-    "workflowFamiliesGreen": 0,
+    "workflowFamiliesGreen": 14,
     "submittedReviews": 0,
     "unresolvedReviewThreads": 0,
-    "mergeability": true,
-    "mergeSha": null,
-    "pagesRunId": null,
-    "pagesConclusion": null,
+    "mergeSha": "449c5d07f79ede8814eab2f6cbbe6656f10b973b",
+    "runtimeChanged": false,
     "firestoreRulesChanged": false,
     "providerChanged": false,
-    "checkpointStatus": "release-candidate-exact-head-validation-in-progress"
+    "postMergeStabilityRunId": 32886420964,
+    "postMergeDeployedSiteJobId": 97928827439,
+    "checkpointStatus": "merged-app-check-proof-passed-downstream-fireauth-pageerror-blocker"
   },
   "lastProductionProvenRuntime": {
-    "pullRequest": 144,
-    "title": "Runtime r2: make Connected Rivalry IDs recoverable on mobile",
-    "mergeSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
+    "pullRequest": 146,
+    "title": "Restore Connected Account during unenforced App Check throttling",
+    "mergeSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90",
     "applicationVersion": "1.8.1",
-    "runtimeRevision": "1.8.1-r2",
-    "proofRecord": "SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
-    "proofClass": "successful-pages-deployment-plus-generated-artifact-targeted-runtime-inspection",
-    "currentRegression": "Connected Account unavailable when App Check token observation receives provider 403 and r2 treats it as fatal"
+    "runtimeRevision": "1.8.1-r3",
+    "proofClass": "pages-deployed-89-byte-exact-app-check-degraded-boundary-proven-owner-account-acceptance-pending",
+    "currentLimitation": "post-merge deployed-site Settings install audit emits fireauth is not defined before downstream production browser audits can complete"
   },
   "ownerStandingAuthorization": {
     "effectiveDate": "2026-08-20",
@@ -55,21 +54,21 @@
   },
   "runtime": {
     "applicationVersion": "1.8.1",
-    "productionRuntimeRevision": "1.8.1-r2",
-    "productionStatus": "production-proven-deployed-r2-with-owner-proven-connected-account-regression",
+    "productionRuntimeRevision": "1.8.1-r3",
+    "productionStatus": "deployed-byte-proven-r3-technical-proof-in-progress-owner-account-acceptance-pending",
     "candidateApplicationVersion": "1.8.1",
     "candidateRuntimeRevision": "1.8.1-r3",
-    "candidateStatus": "release-candidate-not-production-proven-connected-account-recovery",
-    "candidateRuntimeMergeSha": null,
+    "candidateStatus": "deployed-production-proof-fireauth-blocker",
+    "candidateRuntimeMergeSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90",
     "candidateImmediateRecoveryRuntime": "1.8.1-r1",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
     "appCheckEnforcement": false,
-    "appCheckCurrentObservation": "provider-403-initial-throttle-can-degrade-without-disabling-account-services-in-r3",
-    "productionClientAuth": "lazy-on-explicit-connected-account-demand",
-    "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
+    "appCheckCurrentObservation": "post-pr147-headless-production-proof-passes-ready-app-check-degraded-with-redacted-provider-evidence",
+    "productionClientAuth": "lazy-on-connected-account-demand",
+    "productionClientFirestore": "lazy-memory-only-on-connected-account-demand",
     "productionBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
     "firestorePersistence": "memory-only",
     "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
@@ -77,7 +76,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #146 v1.8.1-r3 Connected Account production regression recovery: decouple unenforced App Check token-observation failure from Google Auth and memory-only Firestore availability without changing provider configuration, Rules, billing, canonical storage, Candidate C, pairing/rivalry identity, or Stage 5.",
+  "currentLane": "Fresh successor must investigate the deployed-site Settings audit `fireauth is not defined` pageerror provenance after PR #147 proved the r3 enforcement-OFF App Check degraded boundary. Preserve first-party error fatality and classify external Firebase Auth iframe/provider noise only if exact source evidence proves it.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -87,23 +86,27 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-25-player-two-owner-device-proof-live",
-    "decision": "HANDOFF_NOW-after-publication-checkpoint",
+    "environmentId": "we-2026-08-25-r2-existing-rivalry-owner-recovery",
+    "decision": "HANDOFF_NOW",
     "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
-    "checkpoint": "pr144-r2-exact-head-14-green-review-clean-merged-pages-success-artifact-inspected"
+    "contextPressure": 97,
+    "qualityRisk": 80,
+    "continuationRisk": 76.2,
+    "transitionAdvantage": 64.0,
+    "checkpoint": "pr147-merged-app-check-production-proof-passed-fireauth-downstream-blocker-discovered"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md"
+    "canonical": "SUCCESSOR_HANDOFF_POST_PR147_R3_FIREAUTH_PRODUCTION_PROOF_SLE_2026-08-25.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR147_R3_FIREAUTH_PRODUCTION_PROOF_SLE_2026-08-25.md"
   },
   "starter": {
-    "version": "1.4.17",
-    "checkpoint": "R3-CONNECTED-ACCOUNT-RECOVERY-CANDIDATE-WITH-R2-PRODUCTION-ORIENTATION",
-    "canonical": "START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
+    "version": "1.4.18",
+    "checkpoint": "R3-FIREAUTH-PRODUCTION-PROOF",
+    "canonical": "START_NEXT_SESSION_V1.4.18_R3_FIREAUTH_PRODUCTION_PROOF.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.18_R3_FIREAUTH_PRODUCTION_PROOF.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "Current starter is retained as predecessor production orientation while live NEXT_TASK, PROJECT_STATE, PR #146 and RJR authority own the urgent r3 Connected Account recovery lane."
+    "versionReason": "Patch successor checkpoint after PR #147 merged, the r3 App Check production boundary passed, and the downstream Settings audit exposed a new exact fireauth pageerror blocker."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -121,26 +124,25 @@
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
     "NEXT_TASK.md",
-    "PROJECT_STATE.md",
-    "REMOTE_JOINING_READINESS.json",
-    "RELEASE_V1.8.1_R3.md",
-    "CAREER_MODE_SHOWDOWN_V1.8.1_R3_MAINTENANCE_HANDOFF.md",
-    "START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
-    "SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md",
     "WORK_ENVIRONMENT_STATUS.json",
+    "REMOTE_JOINING_READINESS.json",
+    "START_NEXT_SESSION_V1.4.18_R3_FIREAUTH_PRODUCTION_PROOF.md",
+    "SUCCESSOR_HANDOFF_POST_PR147_R3_FIREAUTH_PRODUCTION_PROOF_SLE_2026-08-25.md",
+    "tests/browser/settings-install-audit.cjs",
+    "tests/browser/production-app-check-runtime-audit.cjs",
+    "js/sparkConnectedAccount.js",
+    "js/productionFirebaseRuntime.js",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
   ],
   "targetedReads": [
-    "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
-    "CAREER_MODE_SHOWDOWN_CANDIDATE_C_IMPLEMENTATION_LOG_2026-08-12.md",
-    "SAVE_LIBRARY_AUTHORITY_RECONCILIATION_ACTIVE_HANDOFF.md",
-    "js/productionFirebaseRuntime.js",
-    "js/productionAppCheckBootstrap.js",
-    "js/cloudSyncRemoteContract.js",
+    "START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md",
     "js/sparkConnectedRivalry.js",
     "js/sparkPrivatePairing.js",
-    "service-worker.js"
+    "tests/browser/home-visual-audit.cjs",
+    ".github/workflows/validate-stability-lane.yml",
+    "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
+    "CAREER_MODE_SHOWDOWN_CANDIDATE_C_IMPLEMENTATION_LOG_2026-08-12.md"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -152,7 +154,7 @@
     "candidateA": "non-mutating-export",
     "candidateB": "read-only-import-analysis",
     "candidateC": "sole-destructive-import-apply-authority",
-    "appCheck": "production-proven-enforcement-off",
+    "appCheck": "production-enforcement-off-degraded-observation-does-not-disable-account-services",
     "firestorePersistence": "memory-only",
     "trustedRuntimeIam": "stage2h-reviewed-not-broadened-not-activated",
     "stage2hIamPermissions": [
@@ -169,10 +171,10 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "pr146-r3-connected-account-recovery",
+    "name": "r3-fireauth-production-proof-provenance",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Finish exact-head PR #146 validation and deploy r3; only after exact production proof ask the owner to verify Connected Account availability, Google popup sign-in and Private account ready. Do not replace pairing/rivalry state."
+    "summary": "Fresh WEC, then prove source provenance of the deployed Settings audit `fireauth is not defined`; narrowly correct only the demonstrated first-party or external-provider cause, rerun the complete production smoke, then request owner Connected Account acceptance. After Private account ready, resume the original full Pair-ID Nik-to-Gop reattachment test before the separate all-zero fixture."
   },
-  "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/context pointers, seal WEC as the final branch mutation, and stop before the next substantial milestone."
+  "wec100PackagingRule": "At Handoff proximity 100% or any WEC transition boundary, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/context pointers, seal WEC as the final branch mutation, and stop before the next substantial milestone."
 }
