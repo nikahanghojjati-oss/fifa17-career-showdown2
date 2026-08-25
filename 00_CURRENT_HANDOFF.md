@@ -1,3 +1,17 @@
+# CURRENT HANDOFF — v1.8.1 DEPLOYED PAIRING UX PRODUCTION PROOF — 2026-08-24 ET
+
+PR #138 final exact head/tree `e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26` / `a86d8de18b9df768c782cc0a4338a9123fc05860` passed all 14 permanent PR workflow families. Its real successor-entrypoint review defect was corrected and the sole thread resolved. Expected-head squash merge/live runtime main is `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; Pages run `32793956319` succeeded; all 89 production runtime files match `v1.8.1 / 1.8.1-r1` byte-for-byte.
+
+The next owner proof is deliberately minimal and non-mutating: on the existing Player Two / Gop Registered Device & Pairing surface, select Player Two, submit exactly one syntactically valid but non-secret and practically nonexistent 64-hex capability from the current starter, and require Player Two to remain selected with privacy-safe used/expired/unavailable and fresh-code guidance. Raw permission text, Player One reset, local Save mutation or Connected Rivalry mutation is a failure. A malformed value would exercise only local validation and is not acceptable proof. Do not create another real pairing merely to repeat the check.
+
+RJR-1 remains exactly `78/100`; publication and UI acceptance add no capability credit. Main-push Stability contracts, Chromium, bytes and runtime provenance passed; the overall run failed only at the known headless reCAPTCHA Enterprise `403 initial-throttle`, so no retry or provider mutation is authorized. Firestore Rules remain blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`; App Check enforcement stays OFF; Stage 5 stays locked.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md`. Complete deep fallback: `SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md`.
+
+The retained handoff below is historical where it conflicts with this override.
+
+---
+
 # CURRENT HANDOFF — v1.8.1 PAIRING IDENTITY UX HARDENING CANDIDATE — 2026-08-24 ET
 
 Current branch is `agent/v181-pairing-ux-hardening`; candidate is `v1.8.1 / 1.8.1-r1`, not production-proven; previous production/recovery shell is `1.8.0-r1`; fixed RJR-1 is `78/100`; Stage 5 remains locked. Owner evidence across Chromebook and iPhone proves a fresh two-physical-device pairing plus revision-0/stale-rejection/recovery/revision-1 convergence without local Apply.

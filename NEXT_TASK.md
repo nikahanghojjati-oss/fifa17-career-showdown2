@@ -1,3 +1,24 @@
+# CURRENT OVERRIDE — v1.8.1 DEPLOYED PAIRING UX OWNER REGRESSION PROOF — 2026-08-24 ET
+
+Status: PR #138 MERGED / `v1.8.1 / 1.8.1-r1` DEPLOYED AND 89-FILE BYTE-PROVEN / RJR-1 78/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.
+
+Exact release boundary: PR #138 final head/tree `e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26` / `a86d8de18b9df768c782cc0a4338a9123fc05860`, all 14 PR workflow families successful, sole review thread resolved, expected-head squash merge/live runtime main `ca0cb6ce8628c5f993669c08ff33e8f64c634870`. Pages run `32793956319` succeeded and all 89 public runtime files match `1.8.1-r1` byte-for-byte.
+
+Current closeout branch: `agent/v181-pairing-ux-production-handoff`.
+Closing environment: `we-2026-08-24-v181-pairing-ux-hardening`.
+
+Immediate task after the mandatory closeout merges: initialize a fresh WEC and run exactly one non-mutating owner regression check on the existing Player Two / Gop Private Pairing surface. Select `PLAYER TWO · GOP`, submit the current starter's syntactically valid but non-secret and practically nonexistent 64-hex code, and prove the error rerender preserves Player Two and shows safe used/expired/unavailable plus fresh-code/Connected-Rivalry guidance. A malformed value proves only local validation and is not acceptable. Raw `Missing or insufficient permissions`, selector reset, local Save mutation or Connected Rivalry mutation is a failure. Capture before/after evidence and stop; do not create another real pairing merely to repeat the check.
+
+Main-push Stability run `32793956255` failed only at the headless production App Check token step with the known reCAPTCHA Enterprise `403 initial-throttle` after Stability contracts, Chromium, deployed byte identity and runtime provenance passed. Do not rerun that headless path, use a debug provider, change provider/App Check/billing configuration or republish unchanged Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.
+
+RJR-1 remains 78; this deployed UX acceptance adds no new capability credit. Only after it closes may a separately assessed milestone resume the pending Stage 4 owner proof: non-mutating Preview, stale-intent rejection, canonical backup, exact confirmed Candidate C Apply, identity/unrelated-Save preservation, observed/committed convergence and proof local Apply does not mutate remote authority. Stage 5 remains locked.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md`. Deep fallback: `SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.1 PAIRING IDENTITY UX HARDENING — 2026-08-24 ET
 
 Status: CURRENT RELEASE CANDIDATE / `v1.8.1 / 1.8.1-r1` / NOT PRODUCTION-PROVEN / RJR-1 78/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

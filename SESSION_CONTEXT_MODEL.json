@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T00:11:42Z",
+  "recordedAt": "2026-08-25T00:45:53Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-four-labeled-sessions-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-five-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -29,7 +29,7 @@
     "Candidate A/B/C recovery authority",
     "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
-    "Stage 5 block while owner reconciliation proof and Stage 4 hardening remain incomplete",
+    "Stage 5 block while the deployed pairing UX regression and owner reconciliation proof remain incomplete",
     "public discovery/community/global leaderboard prohibitions",
     "versioning policy",
     "connected GitHub primary / rootless gh fallback-only routing rule"

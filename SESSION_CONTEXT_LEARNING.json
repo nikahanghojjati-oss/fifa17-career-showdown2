@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-25T00:11:42Z",
-  "materialSessionsObserved": 4,
-  "learningState": "cold-start-priors-with-four-labeled-sessions",
+  "recordedAt": "2026-08-25T00:45:53Z",
+  "materialSessionsObserved": 5,
+  "learningState": "cold-start-priors-with-five-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -39,8 +39,8 @@
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1.0,
-      "learnedUtility": 0.68,
-      "note": "Exact job logs isolated both the stale v1.7 Stability oracle and the post-merge headless reCAPTCHA Enterprise 403 initial-throttle without misclassifying either as a runtime defect."
+      "learnedUtility": 0.744,
+      "note": "Exact job logs isolated the stale v1.7 Stability oracle and both post-merge headless reCAPTCHA Enterprise 403 initial-throttle boundaries. In the v1.8.1 release they proved Stability contracts, Chromium Stability, deployed bytes and runtime provenance passed before the provider token step, preventing an unsafe runtime/provider change or redundant retry."
     },
     "external-grok-review-2026-08-21": {
       "loaded": true,
@@ -73,8 +73,8 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1.0,
-      "learnedUtility": 0.6,
-      "note": "PR #138 review caught that the ready-to-paste entrypoint and capsule still selected the superseded v1.8.0/RJR-77 repair lane while current source selected v1.8.1/RJR-78. Future publication packaging must assert the ready-to-paste file names the capsule's exact current starter, deep handoff, source version and fixed RJR score."
+      "learnedUtility": 0.68,
+      "note": "PR #138 review caught that the ready-to-paste entrypoint and capsule still selected the superseded v1.8.0/RJR-77 repair lane while current source selected v1.8.1/RJR-78. The synchronized v1.4.13 post-deployment package now advances all entrypoints together and retains the permanent exact starter/handoff/source/RJR assertions."
     }
   },
   "sessionMetrics": [
@@ -133,6 +133,21 @@
       "routeFailureCluster": "One malformed multi-file apply_patch was rejected before mutation; bounded exact patches succeeded without product, provider or owner-data mutation.",
       "productionEvidenceLesson": "Compare redacted rivalry fingerprints before diagnosing data loss: two different fingerprints route to two different authoritative documents, so repair the browser-local pointer through the entitlement-validated attach path before any Publish, Preview or Apply.",
       "authorityLesson": "A post-update sign-in and reconnection is a new browser-pointer baseline even when the same accounts, roles and Saves are retained."
+    },
+    {
+      "sessionId": "we-2026-08-24-v181-pairing-ux-hardening",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "A real PR review correction required synchronized successor-entrypoint repair, and exact post-merge workflow logs were required to separate deployed runtime provenance from the reCAPTCHA Enterprise provider throttle.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Optional local browser dependencies were absent after the documentation/test-only correction, so no rerun result was claimed; the authoritative hosted final-head workflow installed pinned dependencies and passed.",
+      "ciTriageLesson": "When deployed bytes and runtime provenance pass before an App Check token failure, preserve the runtime and provider locks, record the exact external throttle and do not convert a known provider boundary into speculative product work.",
+      "productionEvidenceLesson": "PR #138, Pages and 89-file byte identity prove release delivery, but the owner still supplies the smallest non-mutating Player Two syntactically valid but practically nonexistent-code acceptance check; a malformed value proves only local validation, and RJR remains exactly 78 because shipped UX acceptance is not a new Remote Joining capability.",
+      "authorityLesson": "A final-head review correction must synchronize the ready-to-paste entrypoint, compact starter, deep handoff, capsule and graph before merge, then the post-deployment package must advance all of them together."
     }
   ],
   "outcomeScale": {
