@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-player-two-owner-device-proof-live",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T14:51:00Z",
+  "recordedAt": "2026-08-25T14:57:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 14,
+    "largeEvidenceEvents": 16,
     "toolRoutingErrors": 6,
-    "correctedFailures": 5,
+    "correctedFailures": 7,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -24,24 +24,25 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 96,
+    "handoffCompleteness": 98,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "decision": {
     "value": "HANDOFF_AT_CHECKPOINT",
     "scope": "current-successor-environment",
-    "reason": "Deterministic reassessment now favors transition after the current bounded publication checkpoint: context pressure is 65, quality risk is 68, next-task separation is 20 and unknown usage is omitted, producing continuation risk about 57.7. With handoff readiness 96 and high project complexity, transition cost is about 13.1 and transition advantage about 44.6, above the HANDOFF_AT_CHECKPOINT threshold. Finish only PR #144 exact-head gates, standing-authorized merge and production verification, then seal the complete WEC/SLE package at 100 before any owner-device reattach or later milestone."
+    "reason": "Deterministic reassessment remains HANDOFF_AT_CHECKPOINT. Context pressure is 65, quality risk is 76, next-task separation is 20 and unknown usage is omitted, yielding continuation risk about 60.7. With handoff readiness 98 and high project complexity, transition cost is about 12.2 and transition advantage about 48.5. Finish only the frozen PR #144 validation/publication/production-proof checkpoint, then seal complete WEC/SLE continuity at 100 and stop before owner-device mutation."
   },
   "continuity": {
-    "currentTask": "Finish the already-open bounded PR #144 publication checkpoint for v1.8.1 / 1.8.1-r2 Connected Rivalry recovery UX: exact-head 14-family validation, zero unresolved review threads, clean mergeability, standing-authorized expected-head squash merge and GitHub Pages production verification. Then hand off; do not begin owner-device reattach in this environment.",
-    "lastSafeCheckpoint": "Both legitimate review edge cases are corrected and focused tests pass. The SLE capsule coherence failure found by Static App/Stability was also corrected: SESSION_BOOTSTRAP now tracks candidate v1.8.1 / 1.8.1-r2 as a release candidate while production and immediate recovery remain 1.8.1-r1. Durable ID shortening is fully rejected. The two automated review findings have correction replies; the copy thread is resolved, while the service-worker thread still needs its resolution state rechecked. No production mutation has occurred yet.",
-    "nextSafeAction": "Use this human-authored exact head for the definitive 14 permanent PR workflow families. Inspect any failure, require clean review/thread state and mergeability, then use standing authorization to squash-merge with expected-head protection. Verify main and Pages deploy coherent r2. Immediately after production proof, generate and seal the mirrored SLE successor package and WEC/history at 100, then stop before owner-device recovery.",
+    "currentTask": "Finish the frozen PR #144 publication checkpoint for v1.8.1 / 1.8.1-r2 Connected Rivalry recovery UX: all 14 exact-head permanent workflows, zero unresolved review threads, clean mergeability, standing-authorized expected-head squash merge and GitHub Pages production verification. Then seal handoff at 100; do not begin owner-device reattach here.",
+    "lastSafeCheckpoint": "The complete repository contract suite now passes on bot correction head af5da43ebfbbf06a97048349e8a3ec6c60cec14b after correcting both legitimate review edge cases plus all r2 release-authority coherence surfaced by exact-head CI. The durable rivalry ID remains pair_ plus 64 hex and is copied only from immutable crState.rivalryId; visual wrapping cannot alter copied characters. Skipped-r1 rollback preserves the highest verified older installed shell. SESSION_BOOTSTRAP tracks r2 as candidate while production remains r1; generation-aware App Check release authority reads RELEASE_V1.8.1_R2.md; required r2 maintenance handoff exists; candidate state explicitly remains NOT PRODUCTION-PROVEN. No production mutation has occurred.",
+    "nextSafeAction": "Treat this human-authored status commit as the definitive PR #144 head and require the full 14 permanent workflow families to succeed on it. Then re-check all reviews/threads and mergeability. Only with zero unresolved threads and exact-head green use standing authorization to squash-merge, verify main and Pages r2, and immediately seal the mirrored SLE/WEC handoff at 100.",
     "unfinishedWork": [
-      "Complete all 14 permanent exact-head PR #144 workflow families successfully.",
-      "Ensure both PR review threads are resolved and no new unresolved thread exists.",
-      "Standing-authorized expected-head squash merge PR #144 and verify GitHub Pages publishes v1.8.1 / 1.8.1-r2.",
-      "Seal the complete mirrored successor SLE package, current pointers, append-only WEC history and final transition-prepared WEC at 100.",
+      "Complete all 14 permanent exact-head PR #144 workflow families successfully on the definitive human-authored head.",
+      "Ensure both original review threads are resolved/outdated and no new unresolved thread exists.",
+      "Standing-authorized expected-head squash merge PR #144 and verify GitHub Pages publishes coherent v1.8.1 / 1.8.1-r2.",
+      "Verify the deployed artifact preserves the exact full-ID copy source and skipped-release rollback semantics without Rules/provider changes.",
+      "Seal complete mirrored successor SLE package, current pointers, append-only WEC history and transition-prepared WEC at handoffCompleteness 100.",
       "Successor only: prove production full rivalry ID visibility/selectability/copy on Nik, then reattach signed-in PLAYER TWO · GOP to that exact existing rivalry once without creating a replacement pairing.",
       "Successor only: after recovery evidence is stable, resume the separately bounded one-shot unavailable-code fixture proof; the fixture remains unconsumed.",
       "Successor only: reassess before Candidate C owner reconciliation; Stage 5 stays locked."
@@ -56,13 +57,15 @@
       "Firebase Spark/zero billing, App Check enforcement remains OFF, memory-only Firestore, popup-only browserSessionPersistence, unchanged Rules and Stage 5 lock remain mandatory."
     ],
     "evidenceNotes": [
-      "Current main is PR #142 squash 7d21667eddac29804cea9aa13077618a52e09768 pending PR #144 promotion.",
+      "Current main remains PR #142 squash 7d21667eddac29804cea9aa13077618a52e09768 pending PR #144 promotion.",
       "PR #144 candidate runtime is v1.8.1 / 1.8.1-r2; production-proven and immediate recovery runtime remain 1.8.1-r1 until successful merge/deployment proof.",
-      "Copy correction exact source: Clipboard API writes immutable rivalryId; fallbackCopy.value=rivalryId; fallback selects exactly 0 through rivalryId.length; manual fallback selects rivalryIdText. Wrapped rendering is display-only and does not alter copied bytes.",
-      "Rollback correction exact source: findRecoveryRuntime prefers complete declared r1, otherwise selects highest verified retained older shell; activation preserves recovery.cacheName; rollback writes recovery.revision; requested versioned assets use only their matching cache.",
-      "Focused correction workflow job 97846830170 passed syntax, Stage 4 and offline-hotfix checks and removed its temporary workflow/script.",
-      "First definitive Static App and Stability attempts on head 23fdb23128af8f2f0013b3e94388f06cf475bb9a independently failed at the same SLE capsule coherence assertion because SESSION_BOOTSTRAP still named candidate 1.8.1-r1. Runtime/static contracts before that assertion passed as 1.8.1-r2.",
-      "Temporary bootstrap-sync workflow then updated only candidate authority to 1.8.1-r2/release-candidate, kept production and immediate recovery at r1, passed sle-handoff-packaging-contracts, removed itself, and produced bot head d866cf1ad6b2057de1471aa968457c63baa2702c.",
+      "Copy review correction: navigator.clipboard.writeText receives immutable rivalryId; fallbackCopy.value is rivalryId; fallback selects exactly rivalryId.length; final manual fallback selects the complete visible rivalryIdText node. The editable code field is not a copy authority.",
+      "Rollback review correction: findRecoveryRuntime prefers complete declared r1, otherwise highest verified retained older shell; activation preserves recovery.cacheName; rollback writes recovery.revision; versioned retained assets are served only from their matching cache.",
+      "Focused edge-correction workflow run 32861648451 / job 97846830170 passed syntax, Stage 4 and offline-hotfix checks and removed its temporary workflow/script.",
+      "The first r2 exact-head attempts exposed stale SESSION_BOOTSTRAP candidate identity; corrected bot head d866cf1ad6b2057de1471aa968457c63baa2702c passed the SLE packaging contract with production still r1.",
+      "The next exact-head Static/Stability attempt exposed production-app-check-runtime-contracts reading the base release record rather than the active r2 maintenance record. Generation-aware release selection fixed that without changing runtime security boundaries.",
+      "The full contract run then surfaced two release-authority metadata requirements: exact App Check enforcement remains OFF invariant wording and the required CAREER_MODE_SHOWDOWN_V1.8.1_R2_MAINTENANCE_HANDOFF.md plus explicit NOT PRODUCTION-PROVEN/Authorized release candidate authority. All were corrected as documentation/test coherence only.",
+      "Temporary authority-sync run 32862596719 succeeded through npm run test:contracts and produced bot head af5da43ebfbbf06a97048349e8a3ec6c60cec14b; its temporary workflow deleted itself before the bot commit.",
       "The durable ID shortening idea is closed with no implementation, migration, alias authority or protocol change. Short fingerprints remain recognition-only.",
       "Official RJR-1 remains exactly 78/100; this recovery UX, review corrections, CI, documentation and publication earn zero readiness points themselves.",
       "Per-environment usage remains null/unavailable under the WEC protocol; no predecessor usage report is inherited."
