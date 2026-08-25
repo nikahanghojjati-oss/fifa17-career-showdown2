@@ -1,3 +1,17 @@
+# CURRENT HANDOFF — PLAYER TWO OWNER-DEVICE PROOF / CLOUD SESSION BLOCKER — 2026-08-25 ET
+
+Live main is PR #141 merge `8bf5313735a9afbcb0922524e3dee3f283a963a7`, tree `3f46ea38c924260319ca78e7281dd67cba842e1f`. Its final head `99fc72e32a94aeaa1318bea17571c46375272747` passed all 14 workflow families and both review threads are resolved/outdated. Production remains 89-file byte-proven `v1.8.1 / 1.8.1-r1`; Rules remain blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`; RJR-1 remains 78.
+
+The Work cloud browser loaded production but visibly showed Save Library empty, no active Showdown and account not signed in. It had no device-local Player Two / Gop Save/profile/binding/pointer authority. No capability was entered, JOIN was not pressed and the one-shot proof remains unconsumed. Never replace the required owner-device evidence with synthetic clean-browser state.
+
+Immediate product task: use the owner's existing signed-in Chromebook or iPhone session. Select `PLAYER TWO · GOP`, capture a redacted before-state, submit exactly `pair_0000000000000000000000000000000000000000000000000000000000000000` once, and prove Player Two remains selected with privacy-safe fresh-code/existing-Connected-Rivalry guidance and no local or remote mutation. Do not retry, create another real pairing, repeat setup, Publish, Preview, Apply or begin Stage 5.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md`. Complete deep fallback: `SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md`.
+
+The retained handoff below is historical where it conflicts with this override.
+
+---
+
 # CURRENT HANDOFF — POST-RJR BACKCAST PLAYER TWO UNAVAILABLE-CODE PROOF — 2026-08-25 ET
 
 PR #140 final head/tree `787ebb457b0cdc532034df26c18b10a08abed743` / `9704baea1a18634d5d6e3a2e3bf0975db0448f8e` passed all 14 workflow families, corrected/resolved its sole review thread and squash-merged to live main `838ef18c50f185fceafd01591e49081366c61cac`. Production remains `v1.8.1 / 1.8.1-r1`; an independent 2026-08-25 verifier matched all 89 public runtime files. Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.

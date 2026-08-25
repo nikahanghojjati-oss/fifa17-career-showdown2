@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T11:38:35Z",
+  "recordedAt": "2026-08-25T12:40:07Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr140-merged",
+      "id": "live-main-pr141-merged",
       "type": "current-main-boundary",
-      "value": "838ef18c50f185fceafd01591e49081366c61cac",
-      "source": "independently verified expected-head squash merge for documentation-only PR #140 after all 14 final-head workflow families passed and the sole review thread was corrected, resolved and outdated",
+      "value": "8bf5313735a9afbcb0922524e3dee3f283a963a7",
+      "source": "independently verified squash merge for PR #141 after exact head 99fc72e32a94aeaa1318bea17571c46375272747 passed all 14 workflow families and both review threads were corrected, resolved and outdated",
       "runtimeChangedFromReleaseMerge": false,
       "authority": 1
     },
@@ -191,12 +191,12 @@
     {
       "id": "v181-pairing-identity-ux-hardening",
       "type": "immediate-next-product-milestone",
-      "state": "production-deployed-exactly-one-owner-unavailable-code-proof-next",
+      "state": "production-deployed-owner-device-unavailable-code-proof-next-clean-work-cloud-browser-ineligible",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r1",
       "previousRuntimeRevision": "1.8.0-r1",
       "scope": [
-        "reuse existing signed-in owner session and explicitly select Player Two / Gop",
+        "use only the owner's existing signed-in Chromebook or iPhone device-local session and explicitly select Player Two / Gop; never synthesize missing state in a clean Work cloud browser",
         "capture redacted before-state for selected manager and no-mutation boundary",
         "submit exactly once pair_ plus 64 zero hex characters through JOIN PRIVATE PAIRING",
         "preserve Player Two across the unavailable-code rerender",
@@ -326,7 +326,7 @@
   "retrievalHints": {
     "currentTaskNode": "v181-pairing-identity-ux-hardening",
     "immediateNextProductNode": "v181-pairing-identity-ux-hardening",
-    "walkDirection": "continue Stage 3 product work directly with exactly one non-mutating deployed Player Two syntactically valid but practically nonexistent-code Private Pairing regression check; preserve the closed pre-RJR 82 to RJR-1 58 backcast and official score 78, then reassess before the separate Stage 4 reconciliation owner proof",
+    "walkDirection": "continue Stage 3 product work directly with exactly one non-mutating deployed Player Two syntactically valid but practically nonexistent-code Private Pairing regression check on the owner's existing device-local session; the clean Work cloud browser lacks the required Save and signed-in identity; preserve the closed pre-RJR 82 to RJR-1 58 backcast and official score 78, then reassess before the separate Stage 4 reconciliation owner proof",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
@@ -336,7 +336,8 @@
       "a required workflow or provider gate fails",
       "the two owner surfaces show different rivalry fingerprints or remote revisions after the fresh two-device pairing baseline",
       "security, recovery or canonical-storage contradiction appears",
-      "a new exact 81 artifact appears that materially contradicts the closed 82-to-58 provenance backcast"
+      "a new exact 81 artifact appears that materially contradicts the closed 82-to-58 provenance backcast",
+      "the owner's actual device-local Player Two / Gop surface is unavailable or its before-state contradicts the recorded two-device authority"
     ]
   }
 }
