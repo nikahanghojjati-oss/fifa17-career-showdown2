@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — v1.8.1-r2 CONNECTED RIVALRY RECOVERY UX CANDIDATE — 2026-08-25 ET
 
-Status: RELEASE CANDIDATE / `v1.8.1 / 1.8.1-r2` / previous known-good whole shell `1.8.1-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
+Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN / `v1.8.1 / 1.8.1-r2` / previous known-good whole shell `1.8.1-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
 
 Owner iPhone evidence exposed a direct recovery defect after reauthentication: Player One / Nik retained the original Connected Rivalry pointer, but the exact durable rivalry ID was rendered only as a gray input placeholder, so iOS truncated it and provided no selectable/copyable text. Player Two / Gop remains signed in but is not attached. The original proven rivalry is not being replaced.
 

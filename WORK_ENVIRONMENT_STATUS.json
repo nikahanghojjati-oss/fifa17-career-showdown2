@@ -53,7 +53,7 @@
       "An r2 client that skipped r1 must retain and be able to use the highest verified installed older shell instead of losing rollback coverage.",
       "Do not create a replacement Nik/Gop pairing. Do not Publish, Preview or Candidate C Apply during pointer recovery.",
       "The all-zero unavailable-code fixture remains unconsumed. Do not submit it until a successor re-establishes a valid recovered before-state.",
-      "Firebase Spark/zero billing, App Check enforcement OFF, memory-only Firestore, popup-only browserSessionPersistence, unchanged Rules and Stage 5 lock remain mandatory."
+      "Firebase Spark/zero billing, App Check enforcement remains OFF, memory-only Firestore, popup-only browserSessionPersistence, unchanged Rules and Stage 5 lock remain mandatory."
     ],
     "evidenceNotes": [
       "Current main is PR #142 squash 7d21667eddac29804cea9aa13077618a52e09768 pending PR #144 promotion.",
