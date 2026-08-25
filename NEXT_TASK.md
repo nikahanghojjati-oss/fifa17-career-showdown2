@@ -43,6 +43,9 @@ Candidate C remains the sole destructive remote-to-local Apply authority with im
 
 ## Work Environment Continuity
 
+Current environment: `we-2026-08-25-r2-existing-rivalry-owner-recovery`
+Starting independently verified live main: `2eb58974e615aa7f2e95419a6f0cdf20495d2682`
+
 Every future environment must use the repository Work Environment Continuity process before executing this task. Validate the inherited status, archive predecessor final facts, initialize a fresh environment-owned status record, run that environment's own assessment, and treat any predecessor transition decision as orientation only. Reassess WEC after r3 publication before any separate milestone.
 
 ## Historical authority
