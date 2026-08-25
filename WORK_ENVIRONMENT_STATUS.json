@@ -1,61 +1,69 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-25T22:53:00Z",
+  "lifecycle": "sealed",
+  "recordedAt": "2026-08-25T23:22:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
-    "runtimeReleaseMergeSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90"
+    "verifiedClosingMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+    "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0"
   },
   "signals": {
-    "contextComplexity": "moderate",
+    "contextComplexity": "high",
     "projectComplexity": "high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 11,
+    "majorPhasesCompleted": 3,
+    "largeEvidenceEvents": 14,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 2,
     "unresolvedFailures": 0,
-    "newMilestoneNext": false,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 86,
+    "handoffCompleteness": 100,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
+  "transition": {
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "reason": "Connected Account restoration, fresh current-identity Connected Rivalry continuity, revision-0 cross-manager observation and the one-shot Player Two unavailable-code regression are closed. The next task is a distinct destructive Stage 4 owner reconciliation milestone and must begin in a fresh successor WEC.",
+    "decisionScope": "this-closing-environment-only-do-not-inherit",
+    "slePackaged": true,
+    "starter": "START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md",
+    "deepHandoff": "SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md"
+  },
   "continuity": {
-    "currentTask": "Replace the no-longer-usable historical local binding proof with a fresh positive Nik/Gop pairing using the owners' current stable local manager identities, prove Connected Rivalry on that fresh pair, then run the bounded one-shot Player Two all-zero unavailable-code regression while preserving the fresh good pair and local saves.",
-    "lastSafeCheckpoint": "Chromebook is now verified on v1.8.1 / 1.8.1-r3. The historical Nik/Gop rivalry with recognition fingerprint pair_a07108...756fb was found directly in Firestore and remains active with exactly two authorized accounts, but both current owner devices now use newly created local profile/save identities because earlier local browser data was wiped. Reattachment therefore correctly fails with 'The selected local manager identity does not match this paired rivalry. Local saves were not changed.' This is expected identity-lock behavior, not a new product regression, and proves the old rivalry cannot be honestly rebound to replacement local identities. The historical Firestore document is left untouched.",
-    "nextSafeAction": "Create one fresh pairing code from the current Player One/Nik local manager identity on normal Chromebook Chrome. Within the 15-minute capability window, join it exactly once from a separate Player Two/Gop session that has its own current stable local manager identity. After the fresh pair is active, use that fresh pair ID for Connected Rivalry attach/refresh as needed and capture positive-path evidence. Only after the fresh pair is stable, run the one-shot Player Two unavailable-code test using pair_ plus 64 zeros in the Private Pairing JOIN field and confirm the failure leaves Player Two selection, local saves, manager binding, fresh rivalry pointer and observed shared state unchanged.",
+    "currentTask": "Successor must independently validate the sealed predecessor facts, initialize a fresh WEC, then run the smallest safe Stage 4 owner remote-to-local reconciliation proof on the fresh current-identity Nik/Gop rivalry. Prove non-mutating Preview, exact remote revision/hash and local-target binding, stale-intent rejection, verified backup, explicit Candidate C Apply, identity/unrelated-Save preservation, exact local convergence and no remote mutation.",
+    "lastSafeCheckpoint": "Production v1.8.1 / 1.8.1-r3 is owner-accepted for Connected Account. Owner current identities are freshly paired on isolated normal/Incognito Chromebook browser contexts and both attach to the same fresh rivalry fingerprint pair_8f24ae...3528c. Player One published authoritative revision 0 once; both sides refreshed and observed revision 0 with no local Apply or reported local Save overwrite. Player Two then consumed the authorized pair_ plus 64-zero unavailable-code fixture exactly once; bounded guidance appeared and Player Two, the good rivalry pointer, revision 0, local target and LOCAL COMMIT: Not applied this session remained intact. RJR-1 is restored to 78/100; the fresh pair and zero-code proof add no duplicate credit.",
+    "nextSafeAction": "Do not perform more pairing or unavailable-code testing. Fresh successor should study the Stage 4 reconciliation/Candidate C authorities and current sparkConnectedRivalry source, reverify the fresh rivalry and revision, then derive and execute the smallest owner-controlled remote-to-local reconciliation proof. Stop on first failure before speculative source/provider changes.",
     "unfinishedWork": [
-      "Fresh positive Nik/Gop pair using current stable local manager identities; do not reuse or mutate the historical pair.",
-      "Positive Connected Rivalry attach/read proof on the fresh pair; publish only if required for a bounded shared-state proof and never use Candidate C Apply during this lane.",
-      "One-shot Player Two all-zero unavailable-code regression exactly once after the fresh pair is stable, preserving all good-pair state.",
-      "Reassess fixed RJR only from genuine capability evidence; Stage 5 remains locked until its explicit prerequisite authority is satisfied."
+      "Stage 4 owner remote-to-local reconciliation proof: non-mutating Preview, stale-intent rejection, exact backup, explicit Candidate C Apply, identity/unrelated-Save preservation, local convergence and no remote mutation.",
+      "After Stage 4 reconciliation is production-proven, reassess the fixed RJR ledger for genuinely new capability evidence only.",
+      "Complete remaining explicit Stage 5 Remote Joining hardening/session prerequisites before enabling Stage 5."
     ],
     "knownHazards": [
-      "Do not attempt to force the historical pair onto replacement profileId/saveId values; the exact identity mismatch is expected and local saves must remain unchanged.",
-      "Do not edit or delete the historical Firestore rivalry; retain it as historical evidence only.",
-      "Do not expose full account IDs, identity hashes or full active rivalry IDs in repository evidence or owner-facing summaries.",
-      "The all-zero unavailable-code fixture is one-shot owner evidence and must be consumed only after a fresh positive pair is stable.",
-      "During the all-zero test, use the Private Pairing JOIN field, not Connected Rivalry attach, and verify the good fresh rivalry remains intact afterward.",
-      "Functionality/playability is the active priority. Avoid security or documentation sidequests without evidence.",
-      "App Check enforcement remains OFF; Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only with browserSessionPersistence; exactly two private managers remain required.",
+      "The one-shot Player Two all-zero unavailable-code fixture is consumed; do not repeat it merely for duplication.",
+      "The historical original rivalry pair_a07108...756fb is active remotely but its original local profile/save identities were deleted. Do not force rebind, edit or delete it merely to make a test pass.",
+      "Use the fresh current-identity rivalry fingerprint pair_8f24ae...3528c for the next positive-path reconciliation proof; never persist full active rivalry IDs in repository evidence.",
+      "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive local Apply authority.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
-      "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive Apply authority."
+      "App Check enforcement remains OFF; Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only with browserSessionPersistence; exactly two private managers remain required.",
+      "Do not expose full account IDs, device IDs, identity hashes or full active rivalry IDs in repository evidence.",
+      "Functionality/playability and RJR advancement are the active priority. Do not create security, documentation or tooling sidequests without evidence."
     ],
     "evidenceNotes": [
-      "Live main predecessor seal remains beab9f31cb7f31bf4938f5b0df67394899ef12a0 with post-merge Stability run 32900618125 completed success through the deployed production journey.",
-      "Owner iPhone Safari evidence proved Google authenticated identity and Private account ready, restoring fixed RJR-1 from 76 to 78.",
-      "Owner Chromebook was safely upgraded from stale v1.8.0 / 1.8.0-r1 to current v1.8.1 / 1.8.1-r3 without clearing local data.",
-      "Firestore owner evidence directly confirmed the historical rivalry fingerprint pair_a07108...756fb still exists, is active and has exactly two authorized accounts. Full private identifiers are intentionally omitted from repository evidence.",
-      "Current iPhone and Chromebook evidence shows replacement local manager/save identities after earlier data wipe. Exact historical reattach is rejected by the production binding validator and explicitly reports that local saves were not changed.",
-      "Decision: historical pair continuity is no longer a valid positive-path owner proof because its original local identities were deleted. A fresh pair is now the correct positive-path test object; the historical pair remains untouched for provenance only.",
+      "Live main independently reverified at beab9f31cb7f31bf4938f5b0df67394899ef12a0; production application/runtime is v1.8.1 / 1.8.1-r3 and post-merge Stability run 32900618125 is successful.",
+      "Owner iPhone Safari evidence proves repaired production r3 exposes ordinary SIGN IN WITH GOOGLE and reaches Private account ready, restoring exactly the two RJR credits temporarily withdrawn by r2. REMOTE_JOINING_READINESS.json is synchronized back to 78/100 with append-only restoration events.",
+      "Historical original rivalry Firestore evidence proves pair_a07108...756fb remains active with two authorized accounts; replacement local profile/save identities correctly fail exact binding validation without changing local saves.",
+      "Owner fresh positive proof uses normal Chromebook Chrome for current Player One/Nik and Incognito Chromebook Chrome for current Player Two/Gop. Both attach to the same fresh rivalry, Player One creates revision 0, and both observe revision 0 without local Apply.",
+      "Owner one-shot Player Two unavailable-code proof returns bounded non-enumerating guidance and preserves Player Two selection, the good rivalry pointer, revision 0, local target and no-local-commit state. Canonical privacy-safe proof artifact is OWNER_PRODUCTION_PLAYER_TWO_UNAVAILABLE_CODE_PROOF_2026-08-25.md.",
+      "Fresh positive proof and unavailable-code regression re-prove already credited capabilities and therefore add zero RJR points.",
+      "Complete mirrored SLE = Smart Lean Efficient package is created at START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md and SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md with byte-identical project mirrors, refreshed bootstrap, context graph/model and ready-to-paste entrypoint.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
   }
