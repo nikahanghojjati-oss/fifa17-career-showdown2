@@ -5,7 +5,9 @@ const read = file => fs.readFileSync(file, "utf8");
 const stage2a = read("PRIVATE_ACCOUNT_AUTH_STAGE_2A.md");
 const next = read("NEXT_TASK.md");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
+const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const state = read("PROJECT_STATE.md");
+const preR3State = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
 const phase1f = read("CLOUD_SYNC_READINESS_PHASE_1F.md");
@@ -39,12 +41,15 @@ assert.match(phase1f, /231556d86a93535fa90e173577c1159de4f40be0/);
 assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? remains denied/i);
 assert.match(phase1f, /idempotencyKeyHash[\s\S]+sibling[\s\S]+idempotency receipt/i);
 
+// Stage 2A is immutable prerequisite provenance, not current execution authority.
 assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i,"Archived predecessor authority must preserve the historical Stage 2A selection boundary.");
-assert.match(next,/Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current authority must retain the completed gateway prerequisite only as historical provenance rather than revive Stage 2A.");
-assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Current authority must keep Stage 2A through 2I closed rather than revive Stage 2A.");
-assert.match(next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Current authority must identify the bounded v1.5.0/r1 candidate rather than rely on historical no-candidate prose.");
-assert.match(state, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
-assert.match(state, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"PROJECT_STATE must preserve Stage 2A completion inside the current Stage 2A-through-2I authority instead of restoring obsolete current-stage wording.");
+assert.match(preR3Next,/Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must retain the completed gateway prerequisite as historical provenance.");
+assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 authority must preserve Stage 2A through 2I completion.");
+assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Lossless pre-r3 authority must preserve the historical bounded v1.5.0/r1 candidate.");
+assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
+assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
+assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Current NEXT_TASK must identify the actual r3 recovery authority rather than revive Stage 2A.");
+assert.match(state,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Current PROJECT_STATE must identify the actual r3 recovery authority rather than revive Stage 2A.");
 assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/ 1D DONE \/ 1E DONE \/ 1F DONE/i);
 assert.match(roadmap, /Private Identity \/ Account Layer \| STAGE 2 ACTIVE \/ 2A AUTHORIZED NEXT/i);
 assert.match(remoteRoadmap, /Stage 1 — Cloud \/ Sync Readiness[\s\S]+DONE \/ MERGED \/ PROTECTED through Phase 1F/i);
@@ -64,4 +69,4 @@ assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
 assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with historical selection preserved, current Stage 2A-2I completion protected and v1.5 candidate authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current r3 recovery authority explicit\n");
