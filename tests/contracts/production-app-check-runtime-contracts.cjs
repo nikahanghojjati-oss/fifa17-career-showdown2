@@ -82,7 +82,12 @@ const previousKnownGood=(currentRelease.match(/Previous known-good runtime:\s*`(
 assert.ok(previousKnownGood,"Current release must name its previous known-good whole-shell runtime.");
 assert.ok(worker.includes(`const PREVIOUS_RUNTIME_REVISION = "${previousKnownGood}";`),"Service Worker rollback target must match the current release record.");
 assert.ok(worker.includes('"js/productionFirebaseRuntime.js"'));
-assert.doesNotMatch(worker,/productionAppCheckBootstrap\.js/);
+const workerShellStart=worker.indexOf("const SHELL_PATHS");
+const workerShellEnd=worker.indexOf("]);",workerShellStart);
+assert.ok(workerShellStart>=0&&workerShellEnd>workerShellStart,"Service worker must expose a bounded SHELL_PATHS list.");
+assert.doesNotMatch(worker.slice(workerShellStart,workerShellEnd),/productionAppCheckBootstrap\.js/,"Lazy App Check bootstrap must remain outside the offline shell dependency.");
+assert.match(worker,/const APP_CHECK_BOOTSTRAP_PATH = "js\/productionAppCheckBootstrap\.js";/,"Service worker must identify the optional bootstrap separately from the shell.");
+assert.match(worker,/if\(path===APP_CHECK_BOOTSTRAP_PATH\)\{return;\}/,"Optional production bootstrap must bypass shell-only interception.");
 assert.ok(manifest.includes(currentRevision),"Manifest must use the current candidate shell revision.");
 
 // Immutable App Check proof baseline.

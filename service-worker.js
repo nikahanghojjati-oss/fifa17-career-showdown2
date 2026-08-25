@@ -7,6 +7,7 @@ const PREVIOUS_CACHE_NAME = PREVIOUS_RUNTIME_REVISION ? `${CACHE_PREFIX}${PREVIO
 const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
+const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 
 const SHELL_PATHS = Object.freeze([
     "index.html",
@@ -174,7 +175,7 @@ async function cachedShellResponse(path,revision){ const cacheName=cacheNameForR
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
     if(request.mode==="navigate"){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return; }
-    const path=relativeScopePath(url); if(!path){return;} if(path===RUNTIME_CONFIG_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});
