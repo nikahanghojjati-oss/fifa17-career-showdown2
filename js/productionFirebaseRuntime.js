@@ -11,7 +11,7 @@
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
-  const FALLBACK_RUNTIME_REVISION="1.8.1-r2";
+  const FALLBACK_RUNTIME_REVISION="1.8.1-r3";
   const BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
@@ -205,13 +205,30 @@
           return setRuntimeState({status:initialized&&initialized.code?initialized.code:"app-check-initialization-failed",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
         }
         productionApp=initialized.app;
-        const tokenResult=await sdk.getToken(initialized.appCheck,false);
-        const tokenObserved=Boolean(tokenResult&&typeof tokenResult.token==="string"&&tokenResult.token.length>0);
+
+        let tokenResult=null;
+        let tokenObserved=false;
+        let appCheckDegraded=false;
+        try{
+          tokenResult=await sdk.getToken(initialized.appCheck,false);
+          tokenObserved=Boolean(tokenResult&&typeof tokenResult.token==="string"&&tokenResult.token.length>0);
+          appCheckDegraded=!tokenObserved;
+          if(appCheckDegraded&&root.console&&typeof root.console.warn==="function"){
+            root.console.warn("[Career Mode Showdown] Production App Check token was not observed; enforcement is off, so Connected Account remains available while attestation monitoring recovers.");
+          }
+        }catch(error){
+          appCheckDegraded=true;
+          if(root.console&&typeof root.console.warn==="function"){
+            root.console.warn("[Career Mode Showdown] Production App Check token observation is temporarily unavailable; enforcement is off, so Connected Account remains available while attestation monitoring recovers.",error);
+          }
+        }
+
         return setRuntimeState({
-          status:tokenObserved?"ready":"token-unavailable",
+          status:tokenObserved?"ready":"ready-app-check-degraded",
           attempted:true,
           connected:true,
           tokenObserved,
+          appCheckDegraded,
           tokenExpireTimeMillis:Number.isFinite(tokenResult&&tokenResult.expireTimeMillis)?tokenResult.expireTimeMillis:null,
           provider:"recaptcha-enterprise",
           sdkVersion:FIREBASE_SDK_VERSION,
@@ -225,7 +242,7 @@
       }catch(error){
         productionApp=null;
         if(root.console&&typeof root.console.warn==="function"){
-          root.console.warn("[Career Mode Showdown] Production App Check is temporarily unavailable; local mode remains active.",error);
+          root.console.warn("[Career Mode Showdown] Production Firebase/App Check initialization is unavailable; local mode remains active.",error);
         }
         return setRuntimeState({status:"app-check-runtime-unavailable",attempted:true,connected:false,tokenObserved:false,authInitialized:false,firestoreInitialized:false});
       }

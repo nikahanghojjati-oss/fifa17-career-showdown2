@@ -74,7 +74,13 @@ if(candidateClaimsProductionProven){
   assert.equal(capsule.runtime.candidateApplicationVersion,capsule.runtime.applicationVersion,"A production-proven candidate status is legal only when candidate and production application identities match.");
   assert.equal(capsule.runtime.candidateRuntimeRevision,capsule.runtime.productionRuntimeRevision,"A production-proven candidate status is legal only when candidate and production runtime identities match.");
 }
-assert.equal(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.productionRuntimeRevision,"The candidate recovery target must be the current production-proven whole shell.");
+const productionIsKnownRegressed=/regression|known-bad/i.test(capsule.runtime.productionStatus);
+if(productionIsKnownRegressed){
+  assert.equal(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.previousKnownGoodRecoveryRuntime,"A candidate must skip a proven-bad deployed generation and recover to the recorded previous known-good whole shell.");
+  assert.notEqual(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.productionRuntimeRevision,"A proven-bad production runtime must never become the candidate rollback target merely because it is currently deployed.");
+}else{
+  assert.equal(capsule.runtime.candidateImmediateRecoveryRuntime,capsule.runtime.productionRuntimeRevision,"When production is not proven bad, the candidate recovery target must be the current production-proven whole shell.");
+}
 assert.equal(capsule.runtime.appCheckEnforcement,false);
 assert.equal(capsule.runtime.billingRequired,false);
 assert.match(capsule.runtime.productionClientFirestore,/memory-only/i);

@@ -8,6 +8,7 @@ const rules = read("firestore.rules");
 const phase1f = read("CLOUD_SYNC_READINESS_PHASE_1F.md");
 const phase1e = read("CLOUD_SYNC_READINESS_PHASE_1E.md");
 const next = read("NEXT_TASK.md");
+const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const workflow = read(".github/workflows/validate-static-app.yml");
 const emulatorTest = read("tests/firebase/cloud-sync-phase1f-emulator.cjs");
@@ -90,12 +91,17 @@ assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-test
 
 assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
-assert.match(next, /CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current NEXT_TASK must identify PR #125 rather than revive Phase 1F or the historical gateway as current authority.");
-assert.match(next, /Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"NEXT_TASK must retain the completed trusted gateway heading only as historical provenance.");
-assert.match(next, /Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
+
+// Phase 1F and PR #125 are completed provenance. Current execution authority has advanced to
+// the r3 Connected Account recovery, so stale milestone assertions belong to immutable archives.
+assert.match(next, /CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Current NEXT_TASK must identify the actual r3 recovery authority.");
+assert.match(next, /PR #146[\s\S]+all 14 permanent workflow families[\s\S]+expected-head squash merge/i,"Current NEXT_TASK must identify the exact r3 validation/publication checkpoint.");
+assert.match(next, /Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority without reviving it as the active milestone.");
+assert.match(preR3Next, /CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Lossless pre-r3 authority must preserve the completed PR #125 Connected Account milestone.");
+assert.match(preR3Next, /Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must preserve the trusted gateway heading as provenance.");
 assert.match(historicalNext, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i,"Exact archived predecessor authority must retain the historical Phase 1E → Phase 1F implementation transition.");
-assert.match(next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Current NEXT_TASK must identify the bounded v1.5.0 / 1.5.0-r1 candidate rather than rely on historical no-candidate prose.");
-assert.match(next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"NEXT_TASK must retain the historical Phase 1F provider-runtime prohibition as provenance.");
+assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Lossless pre-r3 authority must preserve the historical bounded v1.5.0 / 1.5.0-r1 candidate.");
+assert.match(preR3Next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Lossless pre-r3 authority must preserve the historical Phase 1F provider-runtime prohibition.");
 assert.match(historicalNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Archived Phase 1F-era authority must retain the exact production-runtime prohibition that applied during that prerequisite.");
 
-process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; historical emulator proof remains version-neutral while current v1.5 candidate authority stays explicit\n");
+process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125 provenance while current r3 recovery authority stays explicit\n");

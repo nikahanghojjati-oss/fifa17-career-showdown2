@@ -2,6 +2,7 @@ const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const policy=fs.readFileSync("REMOTE_DATA_PRIVACY_RETENTION_POLICY.md","utf8");
 const next=fs.readFileSync("NEXT_TASK.md","utf8");
+const historicalNext=fs.readFileSync("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
@@ -56,6 +57,7 @@ assert.equal(runtimeVersion,pkg.version,"Current application/runtime release ide
 assert.doesNotMatch(index,/firebase|firestore/i,"Phase 1C must not itself add a direct Firebase/Firestore production-shell dependency; later controlled runtime integration remains lazy behind app.js.");
 assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1C must not connect Firebase through optional modules.");
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
-assert.match(next,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain recorded without overriding later explicit runtime authority.");
+assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved in the lossless pre-r3 archive without overriding later explicit runtime authority.");
+assert.match(next,/v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX[\s\S]+App Check enforcement[\s\S]+OFF/i,"Current NEXT_TASK must retain the later explicit controlled Firebase/App Check runtime authority rather than pretending Phase 1C is still the active implementation gate.");
 
-process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical policy remains version-neutral while current release identity stays coherent\n");
+process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while current r3 authority stays explicit\n");

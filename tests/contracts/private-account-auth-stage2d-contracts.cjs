@@ -6,6 +6,7 @@ const preflight = require("../../js/firebaseProductionPreflight.js");
 const stage2d = read("PRIVATE_ACCOUNT_AUTH_STAGE_2D.md");
 const next = read("NEXT_TASK.md");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
+const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const firebaseRc = JSON.parse(read(".firebaserc"));
 const rules = read("firestore.rules");
 const index = read("index.html");
@@ -79,13 +80,16 @@ assert.match(historicalNext,/AUTHORIZED CURRENT PREREQUISITE \/ IMPLEMENTATION-A
 assert.match(historicalNext,/PR #87[\s\S]{0,520}DONE \/ MERGED \/ PROVEN/i);
 assert.match(historicalNext,/2415c156161b6244c75e49917bad28efed957adf/);
 assert.match(historicalNext,/0accb827fa91f86fdd28e63590bd4843267546ae/);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current NEXT_TASK must identify PR #125 rather than revive the historical App Check-runtime lane.");
-assert.match(next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i,"NEXT_TASK must retain the prior App Check-runtime authority only as historical provenance.");
-assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Current NEXT_TASK must identify the bounded v1.5.0/r1 candidate.");
-assert.match(next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
-assert.match(next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
-assert.match(next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
+assert.match(preR3Next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Immutable pre-r3 NEXT_TASK must preserve the PR #125 Connected Account runtime authority.");
+assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i,"Immutable pre-r3 NEXT_TASK must preserve prior App Check-runtime provenance.");
+assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0/r1 candidate provenance.");
+assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
+assert.match(preR3Next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
+assert.match(preR3Next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
+assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify the current r3 Connected Account recovery authority.");
+assert.match(next,/Do not enable App Check enforcement/i,"Live r3 authority must keep App Check enforcement off.");
+assert.match(next,/Stage 5(?: Remote Joining sessions)? remain(?:s)? locked/i,"Live r3 authority must keep Stage 5 locked.");
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during the historical Stage 2D proof.");
 assert.match(firebaseRc.projects.default,/^demo-/);
@@ -107,4 +111,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR #125/v1.5 candidate authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current r3 recovery authority explicit\n");
