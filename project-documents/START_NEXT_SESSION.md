@@ -1,15 +1,7 @@
-# Ready-to-Paste Next Session Start
+# START NEXT SESSION
 
-Use only `START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md` as the owner's initial successor payload.
+Give the successor only `START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md` first. It is the compact SLE = Smart Lean Efficient entrypoint. Deep fallback: `SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md`.
 
-Do not preload the complete historical handoff or all large project documents.
+Current production source/runtime: `v1.8.1 / 1.8.1-r2` after merged PR #144 at `f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18` and successful Pages run `32863192183`. Official Remote Joining readiness: `78/100` under RJR-1.
 
-The v1.4.16 SLE starter requires live-first verification that PR #141 remains merged at main `8bf5313735a9afbcb0922524e3dee3f283a963a7` or a later source-authoritative successor, public `v1.8.1 / 1.8.1-r1` remains byte-exact and fixed RJR-1 remains `78/100`. Then use only the owner's existing device-local signed-in session for exactly one non-mutating Player Two unavailable-code proof.
-
-The audit recovered exact prior reports of `82/100`, no exact 81 report, and a contemporaneous `11.5/20 = 57.5%` end-to-end recalculation. The 82 estimate was a non-comparable prerequisite/infrastructure measure; its RJR-1 backcast is 58, not a capability regression. The official comparable sequence ends `74 -> 77 -> 78` and fixed RJR-1 remains exactly `78/100`.
-
-The Work cloud browser was verified ineligible because it had an empty Save Library, no active Showdown and no signed-in account. No capability was entered and the exact check remains unconsumed. Never synthesize the missing Player Two / Gop state in that clean browser.
-
-Use `SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md` only as the focused deep-reference fallback for exact proof steps, recovery or a security/publication contradiction.
-
-Select `PLAYER TWO · GOP`, submit exactly `pair_0000000000000000000000000000000000000000000000000000000000000000` once, and require Player Two preservation, privacy-safe fresh-code guidance and no local/remote mutation. Do not retry, create another real pairing, repeat setup, republish unchanged Rules, change App Check/provider/billing/storage authority, use Candidate C or begin Stage 5.
+Immediate product work is owner-device recovery of the existing Nik/Gop Connected Rivalry using the exact full saved ID and the r2 copy control. Durable ID shortening is abandoned; do not create a replacement pairing.

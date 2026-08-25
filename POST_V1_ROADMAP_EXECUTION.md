@@ -1,3 +1,7 @@
+# CURRENT PRODUCTION RUNTIME — v1.8.1 / 1.8.1-r2 — PR #144
+
+Production-proven Connected Rivalry full-ID recovery UX is deployed at runtime `1.8.1-r2`; durable rivalry-ID shortening is abandoned and Stage 5 remains locked.
+
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
 ## CURRENT SUCCESSOR OVERRIDE — v1.8.1 DEPLOYED PAIRING UX PROOF TO RECONCILIATION — 2026-08-24 ET

@@ -1,3 +1,7 @@
+## 1.8.1-r2 — 2026-08-25
+
+- Production-deployed Connected Rivalry recovery UX: exact full durable ID visible/wrapped/selectable and copied from immutable saved authority; skipped-release rollback preserves a verified older installed shell. Durable ID shortening abandoned. RJR remains 78.
+
 ## v1.8.1 — Pairing Identity UX Hardening — production
 
 Current production runtime: `1.8.1-r1` — deployed and 89-file byte-proven.
