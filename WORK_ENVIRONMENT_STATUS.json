@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-r3-runtime-config-cache-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T20:56:00Z",
+  "recordedAt": "2026-08-25T20:58:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 18,
+    "largeEvidenceEvents": 19,
     "toolRoutingErrors": 5,
-    "correctedFailures": 7,
+    "correctedFailures": 8,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 1,
@@ -30,7 +30,7 @@
   },
   "continuity": {
     "currentTask": "Finish the v1.8.1-r3 functionality-first production proof: preserve the cleared fireauth Settings path, eliminate the seven repeated firebase.runtime-config.json navigation failures, obtain one fully green deployed-main Stability run, then move directly to ordinary owner iPhone Connected Account/Google sign-in acceptance.",
-    "lastSafeCheckpoint": "PR #149 merged to main 8ee648558be6f907f5529aceac92124ed960a4ea and its deployed smoke again passed every production audit through offline with no fireauth recurrence, but the final journey still recorded seven firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests. PR #150 now addresses the demonstrated two-part cause: readRuntimeConfig uses revision-scoped cache:force-cache, and service-worker.js explicitly bypasses shell interception for exactly firebase.runtime-config.json while all actual SHELL_PATHS remain immutable and fail closed. Codex review identified the service-worker half of the bug. The first SW candidate then exposed an obsolete contract that prohibited the config filename from appearing anywhere in service-worker.js; that contract has been corrected narrowly so the config must remain absent from SHELL_PATHS while the explicit bypass and force-cache behavior are positively required. No Auth, Firestore, App Check enforcement, private rivalry data, canonical storage or gameplay behavior changed.",
+    "lastSafeCheckpoint": "PR #149 merged to main 8ee648558be6f907f5529aceac92124ed960a4ea and its deployed smoke again passed every production audit through offline with no fireauth recurrence, but the final journey still recorded seven firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests. PR #150 addresses the demonstrated two-part cause: readRuntimeConfig uses revision-scoped cache:force-cache, and service-worker.js explicitly bypasses shell interception for exactly firebase.runtime-config.json while all actual SHELL_PATHS remain immutable and fail closed. Codex review identified the service-worker half. The obsolete worker-wide config-name prohibition was replaced by narrow contracts requiring config exclusion from SHELL_PATHS plus the explicit bypass and force-cache behavior. A follow-up Stability failure was only a regression-contract typo matching fetch(...) instead of the implementation's injected fetchImpl(...); commit 6fef67c09f6e44654ea68d1e3ad5062c1135652f corrected that assertion without changing product code.",
     "nextSafeAction": "Freeze PR #150 after this WEC update. Require all 14 permanent PR workflow families green on one unchanged exact head, inspect reviews/threads and mergeability, resolve the valid service-worker review only with evidence, and merge under standing owner authorization if clean. After merge require Pages success plus one completely green deployed-main Stability run through the final complete journey. If green, immediately request ordinary owner iPhone Connected Account/Google popup sign-in proof; do not start a security sidequest.",
     "unfinishedWork": [
       "Validate PR #150 on one unchanged exact head through all 14 permanent PR workflow families.",
@@ -58,8 +58,8 @@
       "Initial PR #150 functional commit 558e4b7000341ad375c34d2ed28967641d740131 changes readRuntimeConfig fetch cache mode from no-store to force-cache for the already revisioned public config URL.",
       "PR #150 Codex P1 review thread PRRT_kwDOTomsDM6cPdYM correctly proved force-cache alone was insufficient because the controlled page's service worker returned Response.error() for the versioned config path absent from SHELL_PATHS.",
       "Service-worker correction commit 1762178bdcb083a552887574f3d2b9e127d4cc0e adds RUNTIME_CONFIG_PATH and returns from the fetch handler for exactly firebase.runtime-config.json before shell-cache interception. Browser/network cache semantics therefore apply to that one public config path while actual shell paths remain unchanged.",
-      "Stability on head 62ed8937... failed only because production-app-check-bootstrap-contracts.cjs asserted the firebase runtime config filename must not appear anywhere in service-worker.js. The product behavior itself was not exercised because Chromium was gated behind contracts.",
-      "Contract correction commit 4e8a578d9cad952c3bec145bab4f54054041cce3 keeps firebase.runtime-config.json forbidden from the SHELL_PATHS block, positively requires the exact service-worker bypass, and requires the revisioned force-cache runtime fetch. This updates the invariant to protect the intended reliability architecture rather than weakening shell integrity.",
+      "Contract correction commit 4e8a578d9cad952c3bec145bab4f54054041cce3 keeps firebase.runtime-config.json forbidden from the SHELL_PATHS block, positively requires the exact service-worker bypass, and requires the revisioned force-cache runtime fetch.",
+      "Stability on head 0062fae... failed only because that new regression assertion targeted fetch(...) while readRuntimeConfig intentionally uses injected fetchImpl(...). Commit 6fef67c09f6e44654ea68d1e3ad5062c1135652f corrects the assertion target; product code remained unchanged.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
