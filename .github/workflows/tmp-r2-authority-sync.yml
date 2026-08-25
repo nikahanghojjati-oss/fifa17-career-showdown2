@@ -1,0 +1,86 @@
+name: Temporary R2 Authority Sync
+
+on:
+  push:
+    branches:
+      - agent/v182-rivalry-id-recovery-ux
+
+permissions:
+  contents: write
+
+jobs:
+  sync-authority:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/v182-rivalry-id-recovery-ux
+          fetch-depth: 0
+      - name: Sync current authority metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          state = Path('PROJECT_STATE.md')
+          state_prefix = '''# CURRENT OVERRIDE — v1.8.1-r2 CONNECTED RIVALRY RECOVERY UX CANDIDATE — 2026-08-25 ET
+
+Status: RELEASE CANDIDATE / `v1.8.1 / 1.8.1-r2` / previous known-good whole shell `1.8.1-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
+
+Owner iPhone evidence exposed a direct recovery defect after reauthentication: Player One / Nik retained the original Connected Rivalry pointer, but the exact durable rivalry ID was rendered only as a gray input placeholder, so iOS truncated it and provided no selectable/copyable text. Player Two / Gop remains signed in but is not attached. The original proven rivalry is not being replaced.
+
+PR #144 is the bounded recovery hotfix. The saved rivalry ID is now the real input value, the complete ID is visibly rendered with narrow-screen wrapping and text selection, and `COPY RIVALRY ID` uses the Clipboard API with a selection/copy fallback. Attach / Refresh / Publish / Preview / Candidate C semantics are unchanged. No Firestore Rules, provider, billing, App Check enforcement, auth persistence, canonical storage or Stage 5 behavior changes.
+
+The durable identifier deliberately remains exactly `pair_` plus 64 lowercase hex characters. It is the established 256-bit capability/rivalry identity used by existing Firestore documents, invites, local pointers, authorization contracts and shared-state paths. Short fingerprints remain display-only; shortening or migrating the actual ID is not authorized in this recovery hotfix.
+
+The immediate gate is exact-head PR #144 CI/review/mergeability, then standing-authorized squash merge and GitHub Pages proof. After production r2 is verified, use Nik's newly copyable existing ID to restore Gop's exact Player Two Connected Rivalry pointer without creating a new pairing. The all-zero unavailable-code fixture remains unconsumed. This UX release itself earns zero RJR points.
+
+The retained state below is historical where it conflicts with this override.
+
+---
+
+'''
+          if not state.read_text().startswith('# CURRENT OVERRIDE — v1.8.1-r2 CONNECTED RIVALRY RECOVERY UX CANDIDATE'):
+              state.write_text(state_prefix + state.read_text())
+
+          next_task = Path('NEXT_TASK.md')
+          next_prefix = '''# CURRENT OVERRIDE — v1.8.1-r2 RECOVERY UX PROMOTION THEN GOP REATTACH — 2026-08-25 ET
+
+Status: PR #144 CANDIDATE / `v1.8.1 / 1.8.1-r2` / previous whole shell `1.8.1-r1` / OFFICIAL RJR-1 78/100 / STAGE 5 LOCKED.
+
+Immediate task: finish exact-head PR #144 validation and publish the bounded Connected Rivalry recovery UX. The full saved rivalry ID must be visible without ellipsis, be actual selectable input text, and expose `COPY RIVALRY ID` with a safe fallback. The durable identifier remains `pair_` plus 64 hex characters; do not shorten, migrate or replace the existing Nik/Gop rivalry.
+
+After the exact candidate passes all required workflows, reviews, threads and mergeability, standing authorization permits squash merge and Pages deployment. Verify the deployed r2 shell before owner interaction. Then on the owner's existing Nik context copy the surviving exact rivalry ID, switch to the signed-in Gop context, confirm the Connected Rivalry selector is `PLAYER TWO · GOP`, paste the exact ID and attach the existing rivalry once. Do not create a new pairing and do not Publish, Preview or Apply during pointer recovery.
+
+Only after that existing-rivalry recovery is proven may the previously authorized one-shot unavailable-code fixture proof resume. The fixture remains unconsumed. Candidate C owner reconciliation is a later separately assessed proof and Stage 5 remains locked. This recovery hotfix earns zero RJR points.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
+'''
+          if not next_task.read_text().startswith('# CURRENT OVERRIDE — v1.8.1-r2 RECOVERY UX PROMOTION THEN GOP REATTACH'):
+              next_task.write_text(next_prefix + next_task.read_text())
+
+          release = Path('RELEASE_V1.8.1_R2.md')
+          text = release.read_text()
+          if 'Status: RELEASE CANDIDATE' not in text:
+              text = text.replace('# Career Mode Showdown v1.8.1 — Runtime r2\n', '# Career Mode Showdown v1.8.1 — Runtime r2\n\nStatus: RELEASE CANDIDATE\n', 1)
+          release.write_text(text)
+          PY
+          rm .github/workflows/tmp-r2-authority-sync.yml
+          git diff --check
+          grep -q 'v1.8.1 / 1.8.1-r2' PROJECT_STATE.md
+          grep -q 'v1.8.1 / 1.8.1-r2' NEXT_TASK.md
+          grep -q 'Status: RELEASE CANDIDATE' RELEASE_V1.8.1_R2.md
+      - name: Commit synchronized authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Sync 1.8.1-r2 release authority"
+          git push origin HEAD:agent/v182-rivalry-id-recovery-ux
