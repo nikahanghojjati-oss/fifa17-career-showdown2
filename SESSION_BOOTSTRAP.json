@@ -1,9 +1,9 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-25T12:40:07Z",
+  "recordedAt": "2026-08-25T14:50:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/player-two-owner-session-handoff",
+  "bootstrapBranch": "agent/v182-rivalry-id-recovery-ux",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
   "lastVerifiedRuntimeMainSha": "ca0cb6ce8628c5f993669c08ff33e8f64c634870",
   "latestRuntimeMerge": {
@@ -149,9 +149,9 @@
     "productionRuntimeRevision": "1.8.1-r1",
     "productionStatus": "production-proven-deployed-whole-shell-pairing-ux-owner-regression-pending",
     "candidateApplicationVersion": "1.8.1",
-    "candidateRuntimeRevision": "1.8.1-r1",
-    "candidateStatus": "production-proven-deployed-pairing-identity-ux-hardening",
-    "candidateRuntimeMergeSha": "ca0cb6ce8628c5f993669c08ff33e8f64c634870",
+    "candidateRuntimeRevision": "1.8.1-r2",
+    "candidateStatus": "release-candidate-connected-rivalry-recovery-ux",
+    "candidateRuntimeMergeSha": null,
     "candidateImmediateRecoveryRuntime": "1.8.1-r1",
     "previousKnownGoodRecoveryRuntime": "1.8.0-r1",
     "firebaseAppConnected": true,
@@ -168,7 +168,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Run exactly one deployed, non-mutating Player Two / Gop Private Pairing unavailable-code regression proof only on the owner's existing device-local signed-in session. The clean Work cloud browser was proven ineligible because its Save Library is empty and it is signed out. Preserve Player Two selection, require privacy-safe fresh-code guidance, prove no local/remote mutation, then reassess before Candidate C. Stage 5 remains locked.",
+  "currentLane": "Promote PR #144 v1.8.1 / 1.8.1-r2 only after all exact-head gates pass, then production-prove the full visible/selectable/copyable saved rivalry ID and recover the existing Player Two / Gop pointer without creating a replacement rivalry. The durable pair_ plus 64-hex ID is not shortened. Stage 5 remains locked.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -216,6 +216,7 @@
     "RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
+    "RELEASE_V1.8.1_R2.md",
     "RELEASE_V1.8.1.md",
     "PRODUCTION_TWO_PHYSICAL_DEVICE_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",

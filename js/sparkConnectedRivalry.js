@@ -981,10 +981,90 @@
       }
       const code=crCreate("input","settingsConnectedAccountInput");
       code.type="text";
-      code.placeholder=crState.rivalryId?crState.rivalryId:"Paste exact private rivalry code";
+      code.value=crState.rivalryId||"";
+      code.placeholder=crState.rivalryId?"Saved rivalry ID":"Paste exact private rivalry code";
       code.autocomplete="off";
+      code.autocapitalize="none";
       code.spellcheck=false;
       code.setAttribute("aria-label","Exact private rivalry code for Connected Rivalry");
+
+      let rivalryIdBlock=null;
+      let copyRivalryId=null;
+      if(crState.rivalryId){
+        rivalryIdBlock=crCreate("div","settingsDataNote settingsConnectedRivalryIdBlock");
+        rivalryIdBlock.setAttribute("aria-label","Full Connected Rivalry ID");
+        rivalryIdBlock.style.userSelect="text";
+        rivalryIdBlock.style.webkitUserSelect="text";
+        rivalryIdBlock.style.overflowWrap="anywhere";
+        rivalryIdBlock.style.wordBreak="break-all";
+        const rivalryIdLabel=crCreate("span","settingsPanelEyebrow","FULL RIVALRY ID");
+        const rivalryIdText=crCreate("code","settingsConnectedRivalryIdText",crState.rivalryId);
+        rivalryIdText.style.display="block";
+        rivalryIdText.style.marginTop="0.4rem";
+        rivalryIdText.style.fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+        rivalryIdText.style.fontSize="0.82rem";
+        rivalryIdText.style.lineHeight="1.45";
+        rivalryIdText.style.whiteSpace="normal";
+        rivalryIdText.style.userSelect="text";
+        rivalryIdText.style.webkitUserSelect="text";
+        rivalryIdText.style.overflowWrap="anywhere";
+        rivalryIdText.style.wordBreak="break-all";
+        rivalryIdBlock.append(rivalryIdLabel,rivalryIdText);
+
+        copyRivalryId=crCreate("button","menuButton settingsConnectedAccountButton","COPY RIVALRY ID");
+        copyRivalryId.type="button";
+        copyRivalryId.disabled=Boolean(crState.busy);
+        copyRivalryId.addEventListener("click",async()=>{
+          const rivalryId=crState.rivalryId;
+          if(!rivalryId)return;
+          let copied=false;
+          try{
+            if(root.navigator&&root.navigator.clipboard&&typeof root.navigator.clipboard.writeText==="function"){
+              await root.navigator.clipboard.writeText(rivalryId);
+              copied=true;
+            }
+          }catch(_error){}
+          if(!copied){
+            let fallbackCopy=null;
+            try{
+              if(root.document&&root.document.body){
+                fallbackCopy=root.document.createElement("textarea");
+                fallbackCopy.value=rivalryId;
+                fallbackCopy.readOnly=true;
+                fallbackCopy.setAttribute("aria-hidden","true");
+                fallbackCopy.style.position="fixed";
+                fallbackCopy.style.left="-9999px";
+                fallbackCopy.style.top="0";
+                fallbackCopy.style.opacity="0";
+                root.document.body.appendChild(fallbackCopy);
+                fallbackCopy.focus();
+                fallbackCopy.select();
+                fallbackCopy.setSelectionRange(0,rivalryId.length);
+                copied=Boolean(typeof root.document.execCommand==="function"&&root.document.execCommand("copy"));
+              }
+            }catch(_error){}
+            finally{
+              if(fallbackCopy&&fallbackCopy.parentNode)fallbackCopy.parentNode.removeChild(fallbackCopy);
+            }
+          }
+          if(copied){
+            copyRivalryId.textContent="COPIED";
+            root.setTimeout(()=>{if(copyRivalryId&&copyRivalryId.isConnected)copyRivalryId.textContent="COPY RIVALRY ID";},1600);
+          }else{
+            try{
+              const selection=typeof root.getSelection==="function"?root.getSelection():null;
+              if(selection&&root.document&&typeof root.document.createRange==="function"){
+                const range=root.document.createRange();
+                range.selectNodeContents(rivalryIdText);
+                selection.removeAllRanges();
+                selection.addRange(range);
+              }
+            }catch(_error){}
+            copyRivalryId.textContent="FULL ID SELECTED — USE COPY";
+          }
+        });
+      }
+
       const attach=crCreate("button","menuButton settingsConnectedAccountButton",crState.attached?"VERIFY / REATTACH":"ATTACH CONNECTED RIVALRY");
       attach.type="button";
       attach.disabled=crState.busy||!bindings.length;
@@ -1014,7 +1094,11 @@
         const binding=bindings[Number(select.value)||0];
         if(binding)void crHandleReconciliationPreview(binding);
       });
-      actions.append(select,code,attach,refresh,publish,preview);
+      actions.append(select);
+      if(rivalryIdBlock)actions.append(rivalryIdBlock);
+      actions.append(code);
+      if(copyRivalryId)actions.append(copyRivalryId);
+      actions.append(attach,refresh,publish,preview);
       panel.appendChild(actions);
       if(crState.reconciliationPreviewReady&&crReconciliationIntent){
         const confirmation=crCreate("div","settingsConnectedRivalryConfirmation");
