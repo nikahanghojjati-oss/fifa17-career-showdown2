@@ -17,17 +17,31 @@ jobs:
         with:
           ref: agent/v182-rivalry-id-recovery-ux
           fetch-depth: 0
-      - name: Make App Check release contract generation-aware
+      - name: Synchronize generation-aware release contract and invariant wording
         run: |
           set -euo pipefail
           python - <<'PY'
+          import json
           from pathlib import Path
+
           p=Path('tests/contracts/production-app-check-runtime-contracts.cjs')
           s=p.read_text()
           old='const currentRelease=read(`RELEASE_V${pkg.version}.md`);'
           new='const candidateRevision=(index.match(/app-asset-revision"\\s+content="([^"]+)/)||[])[1];\nconst candidateGeneration=Number((candidateRevision&&candidateRevision.match(/-r(\\d+)$/)||[])[1]);\nconst currentRelease=read(candidateGeneration===1?`RELEASE_V${pkg.version}.md`:`RELEASE_V${pkg.version}_R${candidateGeneration}.md`);'
           if s.count(old)!=1: raise SystemExit('currentRelease marker mismatch')
           p.write_text(s.replace(old,new))
+
+          w=Path('WORK_ENVIRONMENT_STATUS.json')
+          data=json.loads(w.read_text())
+          replaced=False
+          for key in ('knownHazards','evidenceNotes'):
+            vals=data['continuity'].get(key,[])
+            for i,value in enumerate(vals):
+              if 'App Check enforcement OFF' in value:
+                vals[i]=value.replace('App Check enforcement OFF','App Check enforcement remains OFF')
+                replaced=True
+          if not replaced: raise SystemExit('App Check invariant wording marker missing')
+          w.write_text(json.dumps(data,indent=2,ensure_ascii=False)+'\n')
           PY
           rm .github/workflows/tmp-pr144-release-contract-sync.yml
           node --check tests/contracts/production-app-check-runtime-contracts.cjs
@@ -40,5 +54,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Make App Check release contract r-generation aware"
+          git commit -m "Synchronize r2 release contract invariants"
           git push origin HEAD:agent/v182-rivalry-id-recovery-ux
