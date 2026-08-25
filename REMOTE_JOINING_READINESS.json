@@ -70,7 +70,7 @@
         "The first live proof uses separate normal/incognito browser storage identities on one physical Chromebook; it proves two application device identities but not two-physical-machine hardening.",
         "2026-08-24 live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves the first production Connected Rivalry slice: the exact private rivalry attaches under both entitled manager bindings, Player Two publishes the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser refreshes that same revision without local Apply or a reported local-save overwrite.",
         "2026-08-24 owner-supplied evidence from a second independent production rivalry on iPhone proves an unrefreshed Player One publish cannot overwrite Player Two's newly created authoritative revision 0: the runtime rejects the stale base and reports that local saves were not changed.",
-        "The same iPhone production sequence then proves deterministic recovery and convergence: Player One refreshes after rejection to revision 0, publishes exactly once to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite.",
+        "The same iPhone production sequence then proves deterministic recovery and convergence: Player One refreshes after rejection to revision 0, publishes exactly once through the CAS update path to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite.",
         "Exact idempotency replay, third-account/revoked-device negatives, two-network/adverse-network hardening, remote-to-local reconciliation and actual Remote Joining sessions remain uncredited."
       ]
     },
@@ -133,7 +133,7 @@
       "score": 69,
       "delta": 6,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
-      "reason": "Owner-supplied live v1.6.0 / 1.6.0-r1 screenshots materially prove the first production Stage 3 capabilities: two distinct authenticated browser device identities register, a private one-use pairing capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager slot. The +6 is deliberately bounded to registered-device/private-pairing production capability. It does not credit emulator-only replay/third-account/revocation negatives, two-physical-machine hardening, Connected Rivalry, shared gameplay synchronization or actual Remote Joining."
+      "reason": "Owner-supplied live v1.6.0 / 1.6.0-r1 screenshots materially prove the first production Stage 3 capabilities: two distinct authenticated browser device identities register, a private one-use capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager slot. The +6 is deliberately bounded to registered-device/private-pairing production capability. It does not credit emulator-only replay/third-account/revocation negatives, two-physical-machine hardening, Connected Rivalry, shared gameplay synchronization or actual Remote Joining."
     },
     {
       "recordedAt": "2026-08-24T13:30:37Z",
@@ -141,7 +141,7 @@
       "score": 72,
       "delta": 3,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
-      "reason": "Owner-supplied live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves three previously uncredited production capabilities within the fixed device/pairing/Connected-Rivalry/Remote-Join domain: each entitled manager binding can attach to the exact private rivalry, Player Two creates the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser reads that same revision without local Apply or a reported local-save overwrite. The +3 is deliberately limited to those three capabilities. It does not credit revision advancement, stale-base rejection, idempotency replay, third-account or revoked-device denial, two-physical-device hardening, remote-to-local reconciliation, or actual Remote Joining sessions."
+      "reason": "Owner-supplied live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves three previously uncredited production capabilities within the fixed device/pairing/Connected-Rivalry/Remote-Join domain: each entitled manager binding can attach to the exact private rivalry, Player Two creates the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser refreshes that same revision without local Apply or a reported local-save overwrite. The +3 is deliberately limited to those three capabilities. It does not credit revision advancement, stale-base rejection, idempotency replay, third-account or revoked-device denial, two-physical-device hardening, remote-to-local reconciliation, or actual Remote Joining sessions."
     },
     {
       "recordedAt": "2026-08-24T13:57:00Z",
@@ -181,6 +181,7 @@
       "score": 77,
       "delta": -1,
       "domainId": "identity-auth-trust",
+      "invalidation": true,
       "reason": "Owner screenshots from both iPhone Safari and the installed v1.8.1-r2 application show Connected Account runtime unavailable, while the matching deployed Stability run captured reCAPTCHA Enterprise 403 appCheck/initial-throttle. Source proves the runtime converts that token-observation failure into a fatal account-services outage. This proven regression removes current access to the previously credited production Google sign-in capability, so exactly that +1 credit is withdrawn pending production restoration proof."
     },
     {
@@ -189,6 +190,7 @@
       "score": 76,
       "delta": -1,
       "domainId": "production-cloud-security",
+      "invalidation": true,
       "reason": "The same production r2 regression prevents Auth and memory-only Firestore account services from initializing, so the previously credited strict authenticated self-account bootstrap path cannot currently be reached on the owner production surfaces. Exactly that +1 production bootstrap credit is withdrawn. Historical provider, Rules, App Check registration and Stage 3 evidence remain valid and are not double-penalized."
     }
   ]
