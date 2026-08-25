@@ -1,8 +1,8 @@
-# v1.8.1 — Pairing Identity UX Hardening — release candidate
+## v1.8.1 — Pairing Identity UX Hardening — production
 
-Candidate runtime: `1.8.1-r1`
+Current production runtime: `1.8.1-r1` — deployed and 89-file byte-proven.
 Previous known-good runtime: `1.8.0-r1`
-Status: release candidate; not production-proven.
+Status: PR #138 merged at `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; Pages run `32793956319` succeeded.
 
 - preserves the selected private manager by stable role/profile/save identity through busy, success and failure rerenders;
 - keeps a pasted one-use pairing code intact when the local manager selection changes;
@@ -10,7 +10,8 @@ Status: release candidate; not production-proven.
 - updates stale Stage 3 copy to point at the already-shipped explicit Connected Rivalry actions;
 - adds deterministic and rendered mobile-browser regressions for Player Two persistence and denied redemption;
 - changes no Firestore Rules, provider/billing/App Check configuration, canonical local storage, Candidate C destructive authority or Stage 5 lock;
-- records owner-proven two-physical-device hardening and the fixed RJR-1 movement from `77/100` to `78/100`; code and release activity earn no readiness credit.
+- records owner-proven two-physical-device hardening and the fixed RJR-1 movement from `77/100` to `78/100`; code and release activity earn no readiness credit;
+- records that Stability contracts, Chromium, deployed bytes and runtime provenance passed before the known headless reCAPTCHA Enterprise `403 initial-throttle`; no retry or provider mutation is authorized.
 
 # v1.8.0 — Safe Remote Reconciliation — release candidate
 
@@ -44,6 +45,19 @@ Status: deployed and production-proven for the first Connected Rivalry slice.
 # Career Mode Showdown Changelog
 
 Last updated: 2026-08-24 ET
+
+## v1.8.1 — Pairing Identity UX Hardening — production
+
+Current production runtime: `1.8.1-r1` — deployed and 89-file byte-proven.
+Previous known-good whole-shell recovery reference: `1.8.0-r1`.
+Status: PR #138 merged at `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; Pages run `32793956319` succeeded.
+
+- preserves the selected Player One/Player Two role/profile/Save identity across Private Pairing busy, success and failure rerenders;
+- preserves pasted capability text on selector-only changes;
+- maps denied, expired, consumed or opaque capability outcomes to privacy-safe fresh-code / Connected Rivalry guidance;
+- adds deterministic and mobile rendered regressions without changing Firestore Rules, provider configuration, canonical storage, Candidate C or Stage 5;
+- keeps fixed RJR-1 at `78/100`; source, CI, merge, deployment and UX acceptance earn no capability points;
+- records the known post-merge headless reCAPTCHA Enterprise `403 initial-throttle` only after Stability contracts, Chromium, deployed bytes and runtime provenance passed; no retry or provider mutation is authorized.
 
 ## v1.7.0 — Connected Rivalry — production
 

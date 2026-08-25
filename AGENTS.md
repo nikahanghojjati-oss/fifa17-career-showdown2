@@ -12,7 +12,7 @@ Treat every handoff as orientation, never as implementation authority. Before ch
 
 `00_SLE_HANDOFF_PROTOCOL.md` is permanent repository policy and applies recursively to every current and future developer/ChatGPT Work Environment.
 
-The repository uses `SLE` as the project label for its live-first, low-context adaptive successor-loading system. Historical authoritative SLE files define the package behavior but do not spell out a word-by-word acronym expansion; do not invent one as historical fact.
+The repository uses `SLE` as the project label for its live-first, low-context adaptive successor-loading system. Later explicit owner authority in `00_SLE_HANDOFF_PROTOCOL.md` defines `SLE = Smart Lean Efficient` and supersedes the older unexpanded-label wording. Preserve that exact definition in every generated SLE starter and handoff unless the owner later changes it.
 
 A project handoff is incomplete if it is only a chat prompt or a single unmirrored Markdown file. At every `Handoff proximity: 100%`, `HANDOFF_AT_CHECKPOINT`, `HANDOFF_NOW`, or equivalent final transition boundary, the closing developer must complete the SLE package defined by `00_SLE_HANDOFF_PROTOCOL.md` and `00_SESSION_BOOTSTRAP.md`: complete root SLE handoff plus byte-identical project mirror, new versioned root START_NEXT_SESSION plus byte-identical project mirror, refreshed `SESSION_BOOTSTRAP.json` current pointers, progressive context refresh when materially needed, explicit immediate successor task, exact live/WEC/security/RJR evidence, applicable SLE contract validation, and the clean stop before the next substantial milestone.
 
