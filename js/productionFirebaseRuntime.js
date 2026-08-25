@@ -360,11 +360,7 @@
 
   function scheduleProductionFirebaseRuntime(){
     if(!root.document||!root.location)return;
-    const launch=()=>{
-      const run=()=>initializeProductionFirebaseRuntime().catch(()=>undefined);
-      if(typeof root.requestIdleCallback==="function")root.requestIdleCallback(run,{timeout:2500});
-      else root.setTimeout(run,900);
-    };
+    const launch=()=>{initializeProductionFirebaseRuntime().catch(()=>undefined);};
     if(root.document.readyState==="loading")root.document.addEventListener("DOMContentLoaded",launch,{once:true});
     else launch();
   }
