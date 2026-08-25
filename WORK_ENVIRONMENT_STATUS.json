@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T21:59:00Z",
+  "recordedAt": "2026-08-25T22:31:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,7 +14,7 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 6,
+    "largeEvidenceEvents": 8,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -24,23 +24,25 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 78,
+    "handoffCompleteness": 82,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Complete the exact original Nik/Gop Connected Rivalry pointer recovery proof after successful owner iPhone Connected Account restoration. Use the complete copied original durable Pair ID, verify/reattach each side once, refresh shared state once, require the same original rivalry plus REMOTE OBSERVED: Revision 1, and do not create a replacement pairing or mutate gameplay authority.",
-    "lastSafeCheckpoint": "Owner production evidence on ordinary iPhone Safari proves the r3 Connected Account recovery gate is restored. One screenshot shows the signed-out Local only state with the normal SIGN IN WITH GOOGLE action available; the other shows the same production Connected Account surface after authentication at Private account ready with account Nick Hj. This is the exact owner-facing evidence required by current authority to restore the two temporarily withdrawn RJR credits, returning RJR-1 from 76 to 78. Stage 5 remains locked.",
-    "nextSafeAction": "Move the next manual proof to the Chromebook for easier exact-ID handling. Use the existing Nik and Gop browser sessions only. Obtain the complete original Pair ID through the recovery UI, copy it exactly, place that same exact ID into both recovery fields, press VERIFY / REATTACH once on each side, then REFRESH SHARED STATE once on each side. Require the same original rivalry and REMOTE OBSERVED: Revision 1. Do not create a new pairing and do not Publish, Preview or Candidate C Apply.",
+    "currentTask": "Safely move the owner Chromebook from its stale cached v1.8.0 / 1.8.0-r1 shell to the staged current v1.8.1 / 1.8.1-r3 runtime without clearing local storage, then resume exact original Nik/Gop Connected Rivalry pointer recovery only after version verification.",
+    "lastSafeCheckpoint": "Owner Chromebook evidence first showed APPLICATION VERSION v1.8.0 and BUILD 1.8.0-r1 with a stale local rivalry pointer pair_500375...91ff6 and REMOTE OBSERVED: Not published. Current source requires FULL RIVALRY ID and COPY RIVALRY ID whenever crState.rivalryId is loaded, confirming this was an old shell. After returning online and reloading, the OFFLINE APP panel now shows Offline shell ready, Online, and APPLY READY UPDATE, proving the newer service worker is staged and waiting. No rivalry mutation controls were used and no site data was cleared.",
+    "nextSafeAction": "Owner should click APPLY READY UPDATE exactly once. Allow the service-worker controller change to reload the page automatically. Reopen Settings and verify APPLICATION VERSION v1.8.1 and BUILD 1.8.1-r3 before any Connected Rivalry action. If the update action reports that the screen is not a safe boundary, return to Home and retry there. Do not clear browser data, create a new pairing, Publish, Preview or Candidate C Apply.",
     "unfinishedWork": [
-      "Exact original Nik/Gop Pair-ID recovery using the complete copied original durable rivalry ID; no replacement pairing and no Publish, Preview or Candidate C Apply during recovery.",
+      "Verify Chromebook successfully transitions to v1.8.1 / 1.8.1-r3 with local Save Library and browser data preserved.",
+      "Then inspect the current FULL RIVALRY ID and recover the exact original Nik/Gop durable rivalry pair_a07108...756fb rather than accepting stale pair_500375...91ff6 as authoritative.",
       "After original-pair recovery is stable, one-shot Player Two all-zero unavailable-code regression proof exactly once, preserving Player Two selection, local Saves, manager binding, rivalry pointer, Connected Rivalry revision and authoritative gameplay state.",
       "Reassess fixed RJR only from evidence after each genuine capability proof; Stage 5 remains locked until its explicit prerequisite authority is satisfied."
     ],
     "knownHazards": [
+      "Do not test rivalry recovery on stale v1.8.0-r1; update and verify the runtime first.",
+      "Do not clear Chrome browsing data, cookies, IndexedDB, Cache Storage or uninstall the app because that could destroy local recovery evidence.",
       "Functionality/playability is the active priority. Do not create security or documentation sidequests without evidence.",
       "App Check enforcement remains OFF; Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only with browserSessionPersistence; exactly two private managers remain required.",
-      "Do not add the optional productionAppCheckBootstrap.js to SHELL_PATHS or broaden the two proven service-worker bypasses into a general unknown-asset fallback.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
       "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive Apply authority.",
       "Do not expose secrets, full account IDs, identity hashes or full rivalry IDs in repository evidence or owner-facing summaries.",
@@ -49,12 +51,11 @@
     ],
     "evidenceNotes": [
       "This fresh environment independently validated the predecessor seal against live GitHub before taking ownership; predecessor transition decisions are orientation only.",
-      "Live main is still beab9f31cb7f31bf4938f5b0df67394899ef12a0 with no newer merged PR after #151 in the recent-PR authority checked at entry.",
-      "PR #151 is closed/merged, exact head 664a6ba0013d83d20ef88efba85e694a85f072c8, merge commit beab9f31cb7f31bf4938f5b0df67394899ef12a0.",
-      "Post-merge Stability run 32900618125 is completed success on live main; stability-contracts, chromium-stability and deployed-site-smoke all passed through the final complete production journey.",
-      "Owner iPhone Safari evidence at 17:57 ET shows the normal signed-out Connected Account state with SIGN IN WITH GOOGLE available and a separate authenticated state reaching Private account ready with a truncated account ID. The proof does not expose a full provider account ID.",
-      "Current authority explicitly reserves the two removed RJR credits for genuine owner production proof of Google-authenticated identity and strict self-account bootstrap. The provided Safari evidence satisfies both, so fixed RJR-1 returns from 76 to 78; no additional credit is awarded for CI, merge or screenshots beyond those restored capabilities.",
-      "Chromebook is selected for the next original-rivalry pointer proof because exact full Pair-ID copy/paste and side-by-side two-session inspection are materially easier and reduce transcription risk. This is a testing-surface choice only, not a product or security change.",
+      "Live main is still beab9f31cb7f31bf4938f5b0df67394899ef12a0; post-merge Stability run 32900618125 is completed success through the final deployed production journey.",
+      "Owner iPhone Safari evidence proved the normal signed-out Google action and authenticated Private account ready state, restoring fixed RJR-1 from 76 to 78.",
+      "Chromebook screenshot at approximately 18:11 ET showed stale APPLICATION VERSION v1.8.0 and BUILD 1.8.0-r1. The old Connected Rivalry surface showed pair_500375...91ff6 and REMOTE OBSERVED: Not published, with no COPY RIVALRY ID control.",
+      "Current main sparkConnectedRivalry.js conditionally renders FULL RIVALRY ID plus COPY RIVALRY ID whenever crState.rivalryId is non-null, so the missing control was consistent with the stale shell rather than an owner navigation mistake.",
+      "Chromebook screenshot at approximately 18:31 ET shows OFFLINE APP state Browser install / Offline shell ready / Online plus APPLY READY UPDATE. This proves the current worker is staged and waiting; update has not yet been activated.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
   }
