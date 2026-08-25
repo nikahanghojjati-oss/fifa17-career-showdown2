@@ -74,7 +74,14 @@ assert.ok(!optional.includes("productionAppCheckBootstrap.js"),"optionalModules.
 assert.ok(!worker.includes("productionAppCheckBootstrap.js"),"The optional App Check bootstrap must stay outside the offline startup dependency.");
 assert.ok(runtime.includes("productionAppCheckBootstrap.js"),"The production Firebase runtime must lazily load the bootstrap after production-origin/config checks.");
 assert.match(runtime,/classifyRuntimeContext[\s\S]+readRuntimeConfig[\s\S]+loadBootstrapScript/);
-assert.doesNotMatch(worker,/firebase\.runtime-config\.json/);
+const shellStart=worker.indexOf("const SHELL_PATHS");
+const shellEnd=worker.indexOf("]);",shellStart);
+assert.ok(shellStart>=0&&shellEnd>shellStart,"Service worker must retain an explicit immutable SHELL_PATHS boundary.");
+const shellSource=worker.slice(shellStart,shellEnd);
+assert.doesNotMatch(shellSource,/firebase\.runtime-config\.json/,"Deployment-only Firebase config must stay outside the offline shell cache.");
+assert.match(worker,/const RUNTIME_CONFIG_PATH = "firebase\.runtime-config\.json";/,"Service worker must identify the public production runtime config separately from the offline shell.");
+assert.match(worker,/if\(path===RUNTIME_CONFIG_PATH\)\{return;\}/,"The public revisioned runtime config must bypass shell-only service-worker interception so browser/network caching can serve it.");
+assert.match(runtime,/fetchImpl\(url,\{cache:"force-cache",credentials:"same-origin"\}\)/,"Revisioned public runtime config should be reusable across reload/back-forward recovery instead of forcing a fresh request for every document.");
 assert.doesNotMatch(source,/DebugAppCheckProvider|self\.FIREBASE_APPCHECK_DEBUG_TOKEN/i);
 assert.doesNotMatch(source,/initializeFirestore|getFirestore|firebase\/firestore/i,"App Check bootstrap must not initialize Firestore.");
 const baseStart=runtime.indexOf("async function initializeProductionFirebaseRuntime");
