@@ -50,6 +50,7 @@
       "Do not create a replacement Nik/Gop pairing or Publish, Preview or Candidate C Apply during the later pointer-recovery proof."
     ],
     "evidenceNotes": [
+      "This successor WEC does not inherit predecessor transition authority; predecessor handoff/transition decisions are historical closing-environment evidence only.",
       "Live main was independently re-verified at 8ee648558be6f907f5529aceac92124ed960a4ea before PR #150 work began.",
       "PR #149 merged the prompt lazy production Firebase runtime start without changing the protected initial shell, existing Rules, App Check enforcement, Auth persistence, Firestore cache policy, write authority or gameplay behavior.",
       "Post-PR #149 Pages deployment verified all 89 v1.8.1-r3 runtime files byte-for-byte.",
