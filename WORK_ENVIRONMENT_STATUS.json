@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T22:31:00Z",
+  "recordedAt": "2026-08-25T22:53:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,7 +14,7 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 8,
+    "largeEvidenceEvents": 11,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -24,38 +24,38 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 82,
+    "handoffCompleteness": 86,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Safely move the owner Chromebook from its stale cached v1.8.0 / 1.8.0-r1 shell to the staged current v1.8.1 / 1.8.1-r3 runtime without clearing local storage, then resume exact original Nik/Gop Connected Rivalry pointer recovery only after version verification.",
-    "lastSafeCheckpoint": "Owner Chromebook evidence first showed APPLICATION VERSION v1.8.0 and BUILD 1.8.0-r1 with a stale local rivalry pointer pair_500375...91ff6 and REMOTE OBSERVED: Not published. Current source requires FULL RIVALRY ID and COPY RIVALRY ID whenever crState.rivalryId is loaded, confirming this was an old shell. After returning online and reloading, the OFFLINE APP panel now shows Offline shell ready, Online, and APPLY READY UPDATE, proving the newer service worker is staged and waiting. No rivalry mutation controls were used and no site data was cleared.",
-    "nextSafeAction": "Owner should click APPLY READY UPDATE exactly once. Allow the service-worker controller change to reload the page automatically. Reopen Settings and verify APPLICATION VERSION v1.8.1 and BUILD 1.8.1-r3 before any Connected Rivalry action. If the update action reports that the screen is not a safe boundary, return to Home and retry there. Do not clear browser data, create a new pairing, Publish, Preview or Candidate C Apply.",
+    "currentTask": "Replace the no-longer-usable historical local binding proof with a fresh positive Nik/Gop pairing using the owners' current stable local manager identities, prove Connected Rivalry on that fresh pair, then run the bounded one-shot Player Two all-zero unavailable-code regression while preserving the fresh good pair and local saves.",
+    "lastSafeCheckpoint": "Chromebook is now verified on v1.8.1 / 1.8.1-r3. The historical Nik/Gop rivalry with recognition fingerprint pair_a07108...756fb was found directly in Firestore and remains active with exactly two authorized accounts, but both current owner devices now use newly created local profile/save identities because earlier local browser data was wiped. Reattachment therefore correctly fails with 'The selected local manager identity does not match this paired rivalry. Local saves were not changed.' This is expected identity-lock behavior, not a new product regression, and proves the old rivalry cannot be honestly rebound to replacement local identities. The historical Firestore document is left untouched.",
+    "nextSafeAction": "Create one fresh pairing code from the current Player One/Nik local manager identity on normal Chromebook Chrome. Within the 15-minute capability window, join it exactly once from a separate Player Two/Gop session that has its own current stable local manager identity. After the fresh pair is active, use that fresh pair ID for Connected Rivalry attach/refresh as needed and capture positive-path evidence. Only after the fresh pair is stable, run the one-shot Player Two unavailable-code test using pair_ plus 64 zeros in the Private Pairing JOIN field and confirm the failure leaves Player Two selection, local saves, manager binding, fresh rivalry pointer and observed shared state unchanged.",
     "unfinishedWork": [
-      "Verify Chromebook successfully transitions to v1.8.1 / 1.8.1-r3 with local Save Library and browser data preserved.",
-      "Then inspect the current FULL RIVALRY ID and recover the exact original Nik/Gop durable rivalry pair_a07108...756fb rather than accepting stale pair_500375...91ff6 as authoritative.",
-      "After original-pair recovery is stable, one-shot Player Two all-zero unavailable-code regression proof exactly once, preserving Player Two selection, local Saves, manager binding, rivalry pointer, Connected Rivalry revision and authoritative gameplay state.",
-      "Reassess fixed RJR only from evidence after each genuine capability proof; Stage 5 remains locked until its explicit prerequisite authority is satisfied."
+      "Fresh positive Nik/Gop pair using current stable local manager identities; do not reuse or mutate the historical pair.",
+      "Positive Connected Rivalry attach/read proof on the fresh pair; publish only if required for a bounded shared-state proof and never use Candidate C Apply during this lane.",
+      "One-shot Player Two all-zero unavailable-code regression exactly once after the fresh pair is stable, preserving all good-pair state.",
+      "Reassess fixed RJR only from genuine capability evidence; Stage 5 remains locked until its explicit prerequisite authority is satisfied."
     ],
     "knownHazards": [
-      "Do not test rivalry recovery on stale v1.8.0-r1; update and verify the runtime first.",
-      "Do not clear Chrome browsing data, cookies, IndexedDB, Cache Storage or uninstall the app because that could destroy local recovery evidence.",
-      "Functionality/playability is the active priority. Do not create security or documentation sidequests without evidence.",
+      "Do not attempt to force the historical pair onto replacement profileId/saveId values; the exact identity mismatch is expected and local saves must remain unchanged.",
+      "Do not edit or delete the historical Firestore rivalry; retain it as historical evidence only.",
+      "Do not expose full account IDs, identity hashes or full active rivalry IDs in repository evidence or owner-facing summaries.",
+      "The all-zero unavailable-code fixture is one-shot owner evidence and must be consumed only after a fresh positive pair is stable.",
+      "During the all-zero test, use the Private Pairing JOIN field, not Connected Rivalry attach, and verify the good fresh rivalry remains intact afterward.",
+      "Functionality/playability is the active priority. Avoid security or documentation sidequests without evidence.",
       "App Check enforcement remains OFF; Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only with browserSessionPersistence; exactly two private managers remain required.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
-      "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive Apply authority.",
-      "Do not expose secrets, full account IDs, identity hashes or full rivalry IDs in repository evidence or owner-facing summaries.",
-      "Do not create a replacement Nik/Gop pairing or Publish, Preview or Candidate C Apply during original-pair recovery.",
-      "The all-zero unavailable-code fixture is one-shot owner evidence; do not consume it before original-pair recovery is stable."
+      "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive Apply authority."
     ],
     "evidenceNotes": [
-      "This fresh environment independently validated the predecessor seal against live GitHub before taking ownership; predecessor transition decisions are orientation only.",
-      "Live main is still beab9f31cb7f31bf4938f5b0df67394899ef12a0; post-merge Stability run 32900618125 is completed success through the final deployed production journey.",
-      "Owner iPhone Safari evidence proved the normal signed-out Google action and authenticated Private account ready state, restoring fixed RJR-1 from 76 to 78.",
-      "Chromebook screenshot at approximately 18:11 ET showed stale APPLICATION VERSION v1.8.0 and BUILD 1.8.0-r1. The old Connected Rivalry surface showed pair_500375...91ff6 and REMOTE OBSERVED: Not published, with no COPY RIVALRY ID control.",
-      "Current main sparkConnectedRivalry.js conditionally renders FULL RIVALRY ID plus COPY RIVALRY ID whenever crState.rivalryId is non-null, so the missing control was consistent with the stale shell rather than an owner navigation mistake.",
-      "Chromebook screenshot at approximately 18:31 ET shows OFFLINE APP state Browser install / Offline shell ready / Online plus APPLY READY UPDATE. This proves the current worker is staged and waiting; update has not yet been activated.",
+      "Live main predecessor seal remains beab9f31cb7f31bf4938f5b0df67394899ef12a0 with post-merge Stability run 32900618125 completed success through the deployed production journey.",
+      "Owner iPhone Safari evidence proved Google authenticated identity and Private account ready, restoring fixed RJR-1 from 76 to 78.",
+      "Owner Chromebook was safely upgraded from stale v1.8.0 / 1.8.0-r1 to current v1.8.1 / 1.8.1-r3 without clearing local data.",
+      "Firestore owner evidence directly confirmed the historical rivalry fingerprint pair_a07108...756fb still exists, is active and has exactly two authorized accounts. Full private identifiers are intentionally omitted from repository evidence.",
+      "Current iPhone and Chromebook evidence shows replacement local manager/save identities after earlier data wipe. Exact historical reattach is rejected by the production binding validator and explicitly reports that local saves were not changed.",
+      "Decision: historical pair continuity is no longer a valid positive-path owner proof because its original local identities were deleted. A fresh pair is now the correct positive-path test object; the historical pair remains untouched for provenance only.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
   }
