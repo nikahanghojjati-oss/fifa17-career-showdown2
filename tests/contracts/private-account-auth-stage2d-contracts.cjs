@@ -53,7 +53,7 @@ expectError(candidate=>{candidate.auth.extraOAuthScopes=["calendar.readonly"];},
 expectError(candidate=>{candidate.firestoreLocation.decisionRecorded=false;candidate.firestoreLocation.value="";},"FIRESTORE_LOCATION_DECISION_REQUIRED");
 expectError(candidate=>{candidate.firestore.persistentOfflineCache=true;},"FIRESTORE_PERSISTENT_CACHE_FORBIDDEN");
 expectError(candidate=>{candidate.firestore.clientWrites="allow";},"CLIENT_FIRESTORE_WRITES_MUST_BE_DENIED");
-expectError(candidate=>{candidate.trustedMutationGatewayAuthorized=true;},"TRUSTED_MUTATION_GATEWAY_NOT_AUTHORIZED");
+expectError(candidate=>{candidate.firestore.trustedMutationGatewayAuthorized=true;},"TRUSTED_MUTATION_GATEWAY_NOT_AUTHORIZED");
 expectError(candidate=>{candidate.security.webApiKeyClassification="secret";},"WEB_API_KEY_CLASSIFICATION_INVALID");
 expectError(candidate=>{candidate.security.webApiKeyIsAuthorizationSecret=true;},"WEB_API_KEY_MUST_NOT_BE_SECURITY_BOUNDARY");
 expectError(candidate=>{candidate.privateKey="forbidden";},"CREDENTIAL_MATERIAL_FORBIDDEN");
