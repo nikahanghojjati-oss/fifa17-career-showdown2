@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-25T23:39:00Z",
+  "recordedAt": "2026-08-25T23:42:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,9 +15,9 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 17,
+    "largeEvidenceEvents": 18,
     "toolRoutingErrors": 0,
-    "correctedFailures": 2,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
     "staleFactCorrections": 3,
     "unresolvedFailures": 0,
@@ -54,6 +54,7 @@
       "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive local Apply authority.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
       "The Installable Offline App remains the local-first recovery baseline.",
+      "No public discovery/community/matchmaking/rankings are authorized; Stage 5 Remote Joining sessions remain locked.",
       "App Check enforcement remains OFF; Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only with browserSessionPersistence; exactly two private managers remain required.",
       "Do not expose full account IDs, device IDs, identity hashes or full active rivalry IDs in repository evidence.",
       "Functionality/playability and RJR advancement are the active priority. Do not create security, documentation or tooling sidequests without evidence."
@@ -67,7 +68,7 @@
       "Fresh positive proof and unavailable-code regression re-prove already credited capabilities and therefore add zero RJR points.",
       "Complete mirrored SLE = Smart Lean Efficient package is created at START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md and SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md with byte-identical project mirrors, refreshed bootstrap, context graph/model and ready-to-paste entrypoint.",
       "PR #152 Codex review identified two authority-packaging issues on an earlier head: unsupported WEC lifecycle text and stale NEXT_TASK authorization. Both are corrected: lifecycle is transition-prepared and live NEXT_TASK explicitly authorizes the same Stage 4 reconciliation milestone while preserving r3 recovery prose as completed historical provenance only. Both review threads are resolved.",
-      "Exact-head contract validation then exposed two preserved-authority compatibility requirements in NEXT_TASK: the Installable Offline App phrase and the historical PR #146 -> all 14 workflow families -> expected-head squash merge -> GitHub Pages ordering. Both are now restored as historical provenance without changing the current Stage 4 authority or runtime behavior.",
+      "Exact-head contract validation exposed preserved-authority compatibility requirements in NEXT_TASK: the Installable Offline App phrase, the historical PR #146 -> all 14 workflow families -> expected-head squash merge -> GitHub Pages ordering, and exact permanent public-feature and Stage 5 lock phrases. All are now restored without changing the current Stage 4 authority or runtime behavior.",
       "This WEC update is the final branch mutation after all review-driven and exact-head contract corrections; any later branch mutation invalidates this transition seal and requires a fresh exact-head validation gate.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
