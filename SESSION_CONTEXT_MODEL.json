@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T00:45:53Z",
+  "recordedAt": "2026-08-25T01:54:05Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-five-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -24,6 +24,7 @@
     "owner-browser rivalry fingerprint and authoritative-revision agreement before any publish, preview or local Apply",
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
+    "owner-reported RJR 81 provenance gap and required fixed-model backcast before any 81 to 77 explanation or score change",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",

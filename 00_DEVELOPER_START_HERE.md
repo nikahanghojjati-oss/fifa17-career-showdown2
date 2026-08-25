@@ -1,5 +1,17 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START — RJR 81 TO 77 TO 78 PROVENANCE AUDIT — 2026-08-24 ET
+
+Start with `START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md` and `SESSION_BOOTSTRAP.json`, then verify live main `9219879389b727fba1f9095aa2bf1a0299449222` and unchanged production `v1.8.1 / 1.8.1-r1`. Read `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md` before explaining or changing the score.
+
+The owner reports an earlier 81, but current source, reachable Git history and available prior-context retrieval do not contain its exact calculation. Fixed RJR-1 fully reconstructs 77 and the later 77 to 78 two-physical-device hardening point. Locate the 81 artifact/model/denominator/inputs, backcast it and determine whether it was comparable RJR-1, a non-comparable earlier measure or a real calculation inconsistency. Official RJR remains 78 until exact evidence justifies a tested correction.
+
+Use `SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md` only for deep recovery or provenance detail. After the audit, continue directly to the queued non-mutating Player Two unavailable-code product check. No runtime, Rules, provider, billing, storage, Candidate C or Stage 5 change is authorized by this audit.
+
+The retained start below is historical where it conflicts with this override.
+
+---
+
 ## CURRENT START — v1.8.1 DEPLOYED PAIRING UX PRODUCTION PROOF — 2026-08-24 ET
 
 Start with `START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md` and `SESSION_BOOTSTRAP.json`, then verify live GitHub and public Pages. PR #138 final head `e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26` passed all 14 PR workflow families with its review correction resolved; expected-head squash merge/main is `ca0cb6ce8628c5f993669c08ff33e8f64c634870`. Pages run `32793956319` succeeded and all 89 public runtime files match `v1.8.1 / 1.8.1-r1` byte-for-byte. Fixed RJR-1 is `78/100`.

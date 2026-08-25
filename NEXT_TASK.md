@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — OWNER-MANDATED RJR 81 TO 77 TO 78 PROVENANCE AUDIT — 2026-08-24 ET
+
+Status: PR #139 MERGED AT LIVE MAIN `9219879389b727fba1f9095aa2bf1a0299449222` / PRODUCTION `v1.8.1 / 1.8.1-r1` UNCHANGED / OFFICIAL RJR-1 78/100 / OWNER-REPORTED 81 PROVENANCE UNRESOLVED / STAGE 5 LOCKED.
+
+Immediate task: complete the non-runtime investigation defined by `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md`. Locate the exact prior 81 artifact and its model, denominator, weights and credited inputs; backcast it through fixed RJR-1; determine whether 81 was comparable, non-comparable or exposes a real calculation/reporting inconsistency; recalculate every comparable checkpoint and explain the outcome with evidence. Do not guess why 81 became 77 and do not mutate the official 78 ledger without exact comparable proof plus passing RJR/SLE contracts.
+
+Exact evidence already frozen: fixed RJR-1 records 74 to 77 for stale recovery, revision-1 publication and cross-manager convergence, then 77 to 78 for Chromebook+iPhone two-physical-device hardening. Current source, reachable Git history and available prior-context retrieval did not locate the exact 81 calculation. RJR-1 permits a decrease only for invalidated credited evidence or a proven capability regression and requires a new model version/rationale/backcast for denominator or weight changes.
+
+After the audit closes, continue directly to the queued real product check below: one non-mutating Player Two / Gop syntactically valid but practically nonexistent-code regression, then reassess before the separate Candidate C owner proof. No runtime, Firestore Rules, workflow, provider, billing, storage, Candidate C or Stage 5 change is authorized in this audit lane.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md`. Deep fallback: `SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.1 DEPLOYED PAIRING UX OWNER REGRESSION PROOF — 2026-08-24 ET
 
 Status: PR #138 MERGED / `v1.8.1 / 1.8.1-r1` DEPLOYED AND 89-FILE BYTE-PROVEN / RJR-1 78/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

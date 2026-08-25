@@ -1,3 +1,19 @@
+# CURRENT HANDOFF — RJR 81 TO 77 TO 78 PROVENANCE AUDIT — 2026-08-24 ET
+
+PR #139 merged at live main `9219879389b727fba1f9095aa2bf1a0299449222`, exact tree `320522bbf183199ad8175aec7d0904ef4b15aabe`, after all 14 pull-request workflow families passed with clean review/thread state. Production remains unchanged and byte-proven `v1.8.1 / 1.8.1-r1`; fixed RJR-1 remains `78/100`.
+
+The owner reports that RJR was previously 81 before later reporting 77 and then 78. Current source, reachable Git history and available prior-context retrieval did not locate the exact 81 statement or calculation. The current handoff therefore records 81 as an unresolved owner-reported provenance discrepancy and requires the successor to locate its artifact/model/denominator/inputs, backcast it through RJR-1, recalculate comparable checkpoints and explain or correct the result without guessing.
+
+Exact current evidence proves 74 to 77 for stale recovery, revision-1 publication and convergence, then 77 to 78 for Chromebook+iPhone two-physical-device hardening. RJR-1 permits a decrease only for invalidated credited evidence or a proven regression; a model/denominator change requires a new version, rationale and historical backcast. Do not change official 78 until comparable evidence justifies a tested correction.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md`. Complete deep fallback: `SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md`. Exact audit evidence: `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md`.
+
+After the audit closes, continue directly to the queued non-mutating Player Two unavailable-code product check. No runtime, Rules, provider, billing, storage, Candidate C or Stage 5 mutation belongs to this audit.
+
+The retained handoff below is historical where it conflicts with this override.
+
+---
+
 # CURRENT HANDOFF — v1.8.1 DEPLOYED PAIRING UX PRODUCTION PROOF — 2026-08-24 ET
 
 PR #138 final exact head/tree `e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26` / `a86d8de18b9df768c782cc0a4338a9123fc05860` passed all 14 permanent PR workflow families. Its real successor-entrypoint review defect was corrected and the sole thread resolved. Expected-head squash merge/live runtime main is `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; Pages run `32793956319` succeeded; all 89 production runtime files match `v1.8.1 / 1.8.1-r1` byte-for-byte.
