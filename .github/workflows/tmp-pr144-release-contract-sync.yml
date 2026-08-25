@@ -1,0 +1,44 @@
+name: Temporary PR144 Release Contract Sync
+
+on:
+  push:
+    branches:
+      - agent/v182-rivalry-id-recovery-ux
+
+permissions:
+  contents: write
+
+jobs:
+  sync-release-contract:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/v182-rivalry-id-recovery-ux
+          fetch-depth: 0
+      - name: Make App Check release contract generation-aware
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tests/contracts/production-app-check-runtime-contracts.cjs')
+          s=p.read_text()
+          old='const currentRelease=read(`RELEASE_V${pkg.version}.md`);'
+          new='const candidateRevision=(index.match(/app-asset-revision"\\s+content="([^"]+)/)||[])[1];\nconst candidateGeneration=Number((candidateRevision&&candidateRevision.match(/-r(\\d+)$/)||[])[1]);\nconst currentRelease=read(candidateGeneration===1?`RELEASE_V${pkg.version}.md`:`RELEASE_V${pkg.version}_R${candidateGeneration}.md`);'
+          if s.count(old)!=1: raise SystemExit('currentRelease marker mismatch')
+          p.write_text(s.replace(old,new))
+          PY
+          rm .github/workflows/tmp-pr144-release-contract-sync.yml
+          node --check tests/contracts/production-app-check-runtime-contracts.cjs
+          node tests/contracts/production-app-check-runtime-contracts.cjs
+          npm run test:contracts
+          git diff --check
+      - name: Commit contract correction
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Make App Check release contract r-generation aware"
+          git push origin HEAD:agent/v182-rivalry-id-recovery-ux
