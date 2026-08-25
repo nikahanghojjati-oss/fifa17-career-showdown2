@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-rjr-score-provenance-backcast",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-25T11:51:15Z",
+  "recordedAt": "2026-08-25T11:57:18Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 2,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 17,
+    "largeEvidenceEvents": 18,
     "toolRoutingErrors": 5,
-    "correctedFailures": 3,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -35,10 +35,10 @@
   },
   "continuity": {
     "currentTask": "Publish and merge only the final WEC seal for the closed RJR score-provenance backcast and complete v1.4.15 Player Two proof handoff. Preserve official RJR-1 at 78 and make no runtime, Rules, workflow or provider mutation.",
-    "lastSafeCheckpoint": "PR #141 exact reachable pre-seal head fa42d7f005468b1488e6c4df32d180e80b424fdf has tree 2d29467769c49fc9d955a98b543d8bbb7ec3df0a, exactly matching validated local pre-seal 00ffc19b9b99f21b0739fe5f153c83c19d5c75ee. It changes exactly 17 audit, SLE/context/WEC and contract files. All 14 required pull-request workflow families passed on that exact head; reviews and review threads are empty, mergeability is clean, and all 69 repository contract files plus independent 89-file production verification pass.",
-    "nextSafeAction": "Publish this status/history final seal as the sole child of reachable pre-seal fa42d7f005468b1488e6c4df32d180e80b424fdf, require all 14 exact-head workflow families plus clean reviews, zero unresolved threads and clean mergeability, then expected-head squash merge PR #141 under standing authorization and verify live main plus unchanged public 1.8.1-r1. A fresh successor must initialize its own WEC and perform exactly one non-mutating Player Two / Gop unavailable-code proof.",
+    "lastSafeCheckpoint": "PR #141 reachable corrected pre-seal be9a45a5a83474e34fbbaefc11a33c199fd44512 has tree f2a09b1f332974858bf4f83d0617fd2e72aaee6a, exactly matching validated local correction 9efd3b722cc5b18340c31e7840c9780697377532. The corrected RJR reporting contract reverses every nonzero domain delta, explicitly proves negative invalidation backcasting and rejects any nonzero movement without a known fixed domain. Focused RJR contracts and all 69 repository contract files pass; both review threads were verified corrected live and resolved.",
+    "nextSafeAction": "Publish this status/history final reseal as the sole child of reachable corrected pre-seal be9a45a5a83474e34fbbaefc11a33c199fd44512, require all 14 exact-head workflow families plus clean reviews, zero unresolved threads and clean mergeability, then expected-head squash merge PR #141 under standing authorization and verify live main plus unchanged public 1.8.1-r1. A fresh successor must initialize its own WEC and perform exactly one non-mutating Player Two / Gop unavailable-code proof.",
     "unfinishedWork": [
-      "Publish and merge the two-file final seal for PR #141 after fresh exact-head workflows, reviews, threads and mergeability are clean.",
+      "Publish and merge the two-file final reseal for PR #141 after fresh exact-head workflows, reviews, threads and mergeability are clean.",
       "Verify merged main and prove the public 1.8.1-r1 runtime remains byte-identical; do not retry or mutate the known App Check provider boundary.",
       "In a fresh successor environment, perform exactly one non-mutating Player Two / Gop unavailable-code regression proof with the exact non-secret pair_ plus 64-zero fixture.",
       "Keep real pairing, Candidate C and Stage 5 locked."
@@ -62,8 +62,9 @@
       ,"The closed audit RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md preserves the timestamped 82 evidence, exhaustive no-exact-81 boundary, 11.5/20 = 57.5 rounded-to-58 methodology, full fixed-model vector table and non-comparability conclusion. The focused reporting-authority contract and full repository suite pass."
       ,"The byte-identical v1.4.15 starter and deep handoff pairs, refreshed capsule/graph/model/learning and rolling pointers select exactly one Player Two / Gop invalid-code check using pair_ plus 64 zero hex characters. It prohibits retry, real pairing, Publish, Preview, Apply, local Save mutation, pointer/binding mutation, rivalry revision mutation, Candidate C and Stage 5 work."
       ,"Independent deployment verification on 2026-08-25 proved all 89 public runtime files still match 1.8.1-r1 byte-for-byte. The reviewed Stage 4 firestore.spark.rules source remains exact blob ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f."
-      ,"Connected GitHub published exact pre-seal fa42d7f005468b1488e6c4df32d180e80b424fdf with tree 2d29467769c49fc9d955a98b543d8bbb7ec3df0 on PR #141. All 14 exact-head workflow families passed; reviews and threads are empty and the PR is mergeable. This transition-prepared status and an additions-only WORK_ENVIRONMENT_HISTORY.md closure are the sole final-seal mutation after that reachable checkpoint."
-      ,"Five recoverable routing errors and three corrected failures remain observable: one wrong historical SHA, one unsupported tags route, one initially misread Library result shape, one truncated large-history blob read corrected by bounded chunks, and one multi-operation patch context failure before mutation. None changed product, provider, security, runtime, readiness or the official ledger."
+      ,"Connected GitHub published exact initial pre-seal fa42d7f005468b1488e6c4df32d180e80b424fdf with tree 2d29467769c49fc9d955a98b543d8bbb7ec3df0 on PR #141. All 14 workflow families passed, but later automated review opened two threads; the first seal is therefore historical and invalidated."
+      ,"Five recoverable routing errors and four corrected failures remain observable: one wrong historical SHA, one unsupported tags route, one initially misread Library result shape, one truncated large-history blob read corrected by bounded chunks, one multi-operation patch context failure before mutation, and the later review-found negative-delta contract gap. None changed product, provider, security, runtime, readiness or the official ledger."
+      ,"Automated review correctly found that the new baseline reconstruction reversed only positive score movements. Corrected pre-seal be9a45a5a83474e34fbbaefc11a33c199fd44512 reverses every nonzero domain delta, includes a synthetic +2 then -1 invalidation proof, and rejects nonzero movements without a known domain. The separate status-staleness thread was already corrected by the first transition seal. Both threads were verified live, replied to and resolved; this status plus the additions-only history reseal are the sole final-seal mutation after the corrected pre-seal."
     ]
   }
 }
