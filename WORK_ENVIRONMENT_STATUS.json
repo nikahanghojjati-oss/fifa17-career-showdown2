@@ -43,7 +43,7 @@
       "Reassess WEC before Candidate C owner reconciliation. Stage 5 remains locked."
     ],
     "knownHazards": [
-      "Do not enable App Check enforcement, switch providers, use a debug provider/token, change Firebase billing, or alter provider configuration merely to silence the current 403/throttle evidence.",
+      "App Check enforcement remains OFF. Do not switch providers, use a debug provider/token, change Firebase billing, or alter provider configuration merely to silence the current 403/throttle evidence.",
       "Do not weaken Firestore Rules, authenticated self-account/device/pairing/rivalry authorization, exactly-two-manager governance, popup-only Google Auth, browserSessionPersistence or memory-only Firestore.",
       "Only App Check token observation failure after successful production App/App Check initialization is eligible for degraded operation. Production origin/config/project/bootstrap/App initialization mismatches remain fatal and fail closed.",
       "Do not expose raw App Check tokens, provider secrets, API keys, account IDs or rivalry IDs in diagnostics or evidence.",
