@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — PLAYER TWO UNAVAILABLE-CODE OWNER PROOF AFTER CLOSED RJR BACKCAST — 2026-08-25 ET
+
+Status: PR #140 MERGED AT LIVE MAIN `838ef18c50f185fceafd01591e49081366c61cac` / PRODUCTION `v1.8.1 / 1.8.1-r1` BYTE-PROVEN / RJR PROVENANCE CLOSED / OFFICIAL RJR-1 78/100 / STAGE 5 LOCKED.
+
+Audit truth: exact prior-conversation retrieval recovered pre-RJR `82/100`, no exact 81 status, and the contemporaneous `11.5/20 = 57.5%` end-to-end correction. The 82 estimate is non-comparable prerequisite/infrastructure completion; its RJR-1 backcast is 58. No capability regression occurred. The official fixed-model sequence remains `58 -> 59 -> 61 -> 62 -> 63 -> 69 -> 72 -> 73 -> 74 -> 77 -> 78`.
+
+Immediate task: after live-state verification and a fresh WEC, reuse the existing signed-in Player Two / Gop Private Pairing surface. Capture a redacted before-state, keep `PLAYER TWO · GOP` selected, enter exactly `pair_0000000000000000000000000000000000000000000000000000000000000000`, and press `JOIN PRIVATE PAIRING` exactly once. Require Player Two to remain selected, privacy-safe non-enumerating used/expired/unavailable plus fresh-code/existing-Connected-Rivalry guidance, and no local Save, binding, rivalry-pointer, Connected Rivalry revision or authoritative-gameplay mutation. Raw permission text, selector reset or mutation is a failure.
+
+Do not use a malformed, non-hex, wrong-length or real capability. Do not retry, create a real pairing, repeat Firebase/App Check/account/device/rivalry setup, Publish, Preview, use Candidate C, republish unchanged Rules, change provider/App Check/billing/storage behavior or begin Stage 5. This proof earns zero RJR points. Record evidence and reassess before the separate Candidate C owner reconciliation proof.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md`. Deep fallback: `SUCCESSOR_HANDOFF_POST_RJR_BACKCAST_PLAYER_TWO_PROOF_SLE_2026-08-25.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — OWNER-MANDATED RJR 81 TO 77 TO 78 PROVENANCE AUDIT — 2026-08-24 ET
 
 Status: PR #139 MERGED AT LIVE MAIN `9219879389b727fba1f9095aa2bf1a0299449222` / PRODUCTION `v1.8.1 / 1.8.1-r1` UNCHANGED / OFFICIAL RJR-1 78/100 / OWNER-REPORTED 81 PROVENANCE UNRESOLVED / STAGE 5 LOCKED.

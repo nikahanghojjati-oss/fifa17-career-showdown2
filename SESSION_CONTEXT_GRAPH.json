@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T01:54:05Z",
+  "recordedAt": "2026-08-25T11:38:35Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr139-merged",
+      "id": "live-main-pr140-merged",
       "type": "current-main-boundary",
-      "value": "9219879389b727fba1f9095aa2bf1a0299449222",
-      "source": "independently verified expected-head squash merge for documentation-only PR #139 after all 14 final-head workflow families passed with clean review/thread state",
+      "value": "838ef18c50f185fceafd01591e49081366c61cac",
+      "source": "independently verified expected-head squash merge for documentation-only PR #140 after all 14 final-head workflow families passed and the sole review thread was corrected, resolved and outdated",
       "runtimeChangedFromReleaseMerge": false,
-      "authority": 1.0
+      "authority": 1
     },
     {
       "id": "production-runtime-1.8.1-r1",
@@ -24,8 +24,8 @@
       "remoteToLocalApply": "merged-deployed-byte-proven-owner-apply-proof-pending-after-pairing-ux-regression-check",
       "appCheckEnforcement": false,
       "billingRequired": false,
-      "authority": 1.0,
-      "riskCriticality": 1.0
+      "authority": 1,
+      "riskCriticality": 1
     },
     {
       "id": "pr131-stage4-runtime-release",
@@ -35,7 +35,7 @@
       "runtimeRevision": "1.7.0-r2",
       "productionProofRecord": "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
       "rjrScoreAfterProof": 77,
-      "authority": 1.0
+      "authority": 1
     },
     {
       "id": "pr136-v180-runtime-release",
@@ -46,7 +46,7 @@
       "pagesRunId": 32763563751,
       "deployedRuntimeFilesByteExact": 89,
       "remoteToLocalOwnerApplyProof": "pending",
-      "authority": 1.0
+      "authority": 1
     },
     {
       "id": "pr138-v181-runtime-release",
@@ -63,21 +63,48 @@
       "firestoreRulesChanged": false,
       "providerChanged": false,
       "ownerInvalidCodeRegressionProof": "pending",
-      "authority": 1.0
+      "authority": 1
     },
     {
       "id": "rjr-81-77-78-provenance-audit",
-      "type": "owner-mandated-correctness-gate",
-      "state": "packaged-for-successor-investigation",
+      "type": "completed-owner-mandated-correctness-audit",
+      "state": "closed-backcast-published-official-score-unchanged",
       "evidenceRecord": "RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md",
       "ownerReportedHistoricalScore": 81,
-      "ownerReportedScoreProvenance": "unresolved-no-exact-artifact-in-current-source-reachable-git-or-available-prior-context",
-      "fixedLedgerComparableCheckpoints": [77,78],
-      "requiredOutcome": "locate the 81 artifact/model/inputs, backcast through RJR-1, recalculate and explain or propose a tested correction without guessing",
+      "ownerReportedScoreProvenance": "preserved-owner-recollection-no-exact-81-status-artifact-found",
+      "fixedLedgerComparableCheckpoints": [
+        58,
+        59,
+        61,
+        62,
+        63,
+        69,
+        72,
+        73,
+        74,
+        77,
+        78
+      ],
+      "requiredOutcome": "completed-no-capability-regression-pre-rjr-82-backcasts-to-rjr1-58",
       "officialScoreDuringAudit": 78,
       "scoreMutationAuthorized": false,
-      "authority": 1.0,
-      "riskCriticality": 1.0
+      "authority": 1,
+      "riskCriticality": 1,
+      "exactRecoveredHistoricalScore": 82,
+      "recoveredStatusTimestamps": [
+        "2026-08-20T03:25:03Z",
+        "2026-08-20T03:25:23Z"
+      ],
+      "recoveredModel": "pre-rjr-intuition-based-prerequisite-infrastructure-estimate",
+      "recoveredModelComparableToRjr1": false,
+      "fixedModelBackcastScore": 58,
+      "fixedModelBackcastVector": [
+        20,
+        17,
+        14,
+        4,
+        3
+      ]
     },
     {
       "id": "rjr1-ledger",
@@ -86,7 +113,7 @@
       "denominator": 100,
       "recordedScore": 78,
       "rule": "fixed capability evidence only; no process-only movement",
-      "authority": 1.0
+      "authority": 1
     },
     {
       "id": "stage4-first-slice-production-proof",
@@ -109,8 +136,8 @@
         "remote-to-local reconciliation",
         "Stage 5 sessions"
       ],
-      "riskCriticality": 1.0,
-      "authority": 1.0
+      "riskCriticality": 1,
+      "authority": 1
     },
     {
       "id": "stage4-remote-to-local-reconciliation",
@@ -144,7 +171,7 @@
         "clear observed-remote versus committed-local UI",
         "production proof before Stage 5"
       ],
-      "riskCriticality": 1.0
+      "riskCriticality": 1
     },
     {
       "id": "stage4-two-physical-device-hardening-proof",
@@ -158,22 +185,24 @@
         "cross-device revision-1 convergence without local Apply"
       ],
       "rjrScoreAfterProof": 78,
-      "riskCriticality": 1.0,
-      "authority": 1.0
+      "riskCriticality": 1,
+      "authority": 1
     },
     {
       "id": "v181-pairing-identity-ux-hardening",
       "type": "immediate-next-product-milestone",
-      "state": "production-deployed-owner-regression-pending",
+      "state": "production-deployed-exactly-one-owner-unavailable-code-proof-next",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r1",
       "previousRuntimeRevision": "1.8.0-r1",
       "scope": [
-        "stable role/profile/save selector identity through every pairing rerender",
-        "pasted capability preservation on selector-only changes",
-        "safe non-enumerating denied-redemption guidance",
-        "complete exact-head validation, expected-head merge and deployed whole-shell verification",
-        "one owner-controlled non-mutating Player Two syntactically valid but practically nonexistent-code acceptance check"
+        "reuse existing signed-in owner session and explicitly select Player Two / Gop",
+        "capture redacted before-state for selected manager and no-mutation boundary",
+        "submit exactly once pair_ plus 64 zero hex characters through JOIN PRIVATE PAIRING",
+        "preserve Player Two across the unavailable-code rerender",
+        "show safe non-enumerating used-expired-unavailable and fresh-code or existing-Connected-Rivalry guidance",
+        "prove no local Save, manager binding, rivalry pointer, Connected Rivalry revision or authoritative gameplay mutation",
+        "stop and reassess before Candidate C or Stage 5"
       ],
       "releasePr": 138,
       "releaseExactHead": "e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26",
@@ -183,7 +212,7 @@
       "rulesChanged": false,
       "stage5Authorized": false,
       "riskCriticality": 0.7,
-      "authority": 1.0
+      "authority": 1
     },
     {
       "id": "stage5-private-remote-joining",
@@ -205,7 +234,7 @@
       "activeShowdownCanonical": false,
       "connectedRivalryPointerAuthority": false,
       "candidateC": "sole-destructive-local-apply-authority",
-      "riskCriticality": 1.0
+      "riskCriticality": 1
     },
     {
       "id": "security-zero-billing",
@@ -224,28 +253,80 @@
       "publicCommunity": false,
       "publicMatchmaking": false,
       "globalLeaderboardsRankings": false,
-      "riskCriticality": 1.0
+      "riskCriticality": 1
     }
   ],
   "edges": [
-    {"from":"rjr-81-77-78-provenance-audit","to":"rjr1-ledger","relation":"must-reconcile-with-fixed-model-before-score-explanation-or-change"},
-    {"from":"rjr-81-77-78-provenance-audit","to":"v181-pairing-identity-ux-hardening","relation":"owner-required-correctness-gate-before-queued-product-check"},
-    {"from":"pr136-v180-runtime-release","to":"pr138-v181-runtime-release","relation":"previous-whole-shell"},
-    {"from":"pr138-v181-runtime-release","to":"production-runtime-1.8.1-r1","relation":"released"},
-    {"from":"stage4-first-slice-production-proof","to":"production-runtime-1.8.1-r1","relation":"inherited-production-proven-first-slice"},
-    {"from":"stage4-first-slice-production-proof","to":"rjr1-ledger","relation":"raises-fixed-ledger-to-77"},
-    {"from":"stage4-two-physical-device-hardening-proof","to":"rjr1-ledger","relation":"raises-fixed-ledger-to-78"},
-    {"from":"stage4-two-physical-device-hardening-proof","to":"v181-pairing-identity-ux-hardening","relation":"exposes-selector-and-guidance-defect"},
-    {"from":"stage4-first-slice-production-proof","to":"stage4-remote-to-local-reconciliation","relation":"unlocks-next-prerequisite-selection"},
-    {"from":"stage4-remote-to-local-reconciliation","to":"stage5-private-remote-joining","relation":"production-proof-prerequisite"},
-    {"from":"v181-pairing-identity-ux-hardening","to":"stage4-remote-to-local-reconciliation","relation":"close-deployed-owner-regression-before-resuming-owner-proof"},
-    {"from":"canonical-storage","to":"stage4-remote-to-local-reconciliation","relation":"must-remain-safe-through"},
-    {"from":"security-zero-billing","to":"stage4-remote-to-local-reconciliation","relation":"constrains"}
+    {
+      "from": "rjr-81-77-78-provenance-audit",
+      "to": "rjr1-ledger",
+      "relation": "closed-backcast-proves-pre-rjr-82-is-non-comparable-and-official-rjr1-remains-78"
+    },
+    {
+      "from": "rjr-81-77-78-provenance-audit",
+      "to": "v181-pairing-identity-ux-hardening",
+      "relation": "completed-correctness-gate-unlocks-queued-product-check"
+    },
+    {
+      "from": "pr136-v180-runtime-release",
+      "to": "pr138-v181-runtime-release",
+      "relation": "previous-whole-shell"
+    },
+    {
+      "from": "pr138-v181-runtime-release",
+      "to": "production-runtime-1.8.1-r1",
+      "relation": "released"
+    },
+    {
+      "from": "stage4-first-slice-production-proof",
+      "to": "production-runtime-1.8.1-r1",
+      "relation": "inherited-production-proven-first-slice"
+    },
+    {
+      "from": "stage4-first-slice-production-proof",
+      "to": "rjr1-ledger",
+      "relation": "raises-fixed-ledger-to-77"
+    },
+    {
+      "from": "stage4-two-physical-device-hardening-proof",
+      "to": "rjr1-ledger",
+      "relation": "raises-fixed-ledger-to-78"
+    },
+    {
+      "from": "stage4-two-physical-device-hardening-proof",
+      "to": "v181-pairing-identity-ux-hardening",
+      "relation": "exposes-selector-and-guidance-defect"
+    },
+    {
+      "from": "stage4-first-slice-production-proof",
+      "to": "stage4-remote-to-local-reconciliation",
+      "relation": "unlocks-next-prerequisite-selection"
+    },
+    {
+      "from": "stage4-remote-to-local-reconciliation",
+      "to": "stage5-private-remote-joining",
+      "relation": "production-proof-prerequisite"
+    },
+    {
+      "from": "v181-pairing-identity-ux-hardening",
+      "to": "stage4-remote-to-local-reconciliation",
+      "relation": "close-deployed-owner-regression-before-resuming-owner-proof"
+    },
+    {
+      "from": "canonical-storage",
+      "to": "stage4-remote-to-local-reconciliation",
+      "relation": "must-remain-safe-through"
+    },
+    {
+      "from": "security-zero-billing",
+      "to": "stage4-remote-to-local-reconciliation",
+      "relation": "constrains"
+    }
   ],
   "retrievalHints": {
-    "currentTaskNode": "rjr-81-77-78-provenance-audit",
+    "currentTaskNode": "v181-pairing-identity-ux-hardening",
     "immediateNextProductNode": "v181-pairing-identity-ux-hardening",
-    "walkDirection": "complete the owner-mandated RJR 81 to 77 to 78 provenance audit first, preserving official RJR-1 at 78 unless exact comparable evidence proves a correction; then continue Stage 3 product work directly with exactly one non-mutating deployed Player Two syntactically valid but practically nonexistent-code Private Pairing regression check before the separately pending Stage 4 reconciliation owner proof",
+    "walkDirection": "continue Stage 3 product work directly with exactly one non-mutating deployed Player Two syntactically valid but practically nonexistent-code Private Pairing regression check; preserve the closed pre-RJR 82 to RJR-1 58 backcast and official score 78, then reassess before the separate Stage 4 reconciliation owner proof",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
@@ -255,7 +336,7 @@
       "a required workflow or provider gate fails",
       "the two owner surfaces show different rivalry fingerprints or remote revisions after the fresh two-device pairing baseline",
       "security, recovery or canonical-storage contradiction appears",
-      "the exact owner-reported 81 artifact or a comparable-score contradiction is found"
+      "a new exact 81 artifact appears that materially contradicts the closed 82-to-58 provenance backcast"
     ]
   }
 }

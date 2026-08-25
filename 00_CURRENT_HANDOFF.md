@@ -1,3 +1,17 @@
+# CURRENT HANDOFF — POST-RJR BACKCAST PLAYER TWO UNAVAILABLE-CODE PROOF — 2026-08-25 ET
+
+PR #140 final head/tree `787ebb457b0cdc532034df26c18b10a08abed743` / `9704baea1a18634d5d6e3a2e3bf0975db0448f8e` passed all 14 workflow families, corrected/resolved its sole review thread and squash-merged to live main `838ef18c50f185fceafd01591e49081366c61cac`. Production remains `v1.8.1 / 1.8.1-r1`; an independent 2026-08-25 verifier matched all 89 public runtime files. Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.
+
+The owner-mandated RJR provenance audit is closed. Exact prior-conversation evidence recovered `82/100` status reports at 2026-08-20T03:25:03Z and 03:25:23Z and no exact 81 status. The 82 estimate had no fixed model, weights or reproducible evidence ledger; a contemporaneous end-to-end calculation was `11.5/20 = 57.5%`, approximately 58. Reverse fixed-domain deltas reproduce RJR-1 baseline `20 + 17 + 14 + 4 + 3 = 58`. No capability regressed. Official RJR-1 remains `20 + 18 + 18 + 17 + 5 = 78`.
+
+Immediate product task: reuse the existing signed-in Player Two / Gop Private Pairing surface. Select `PLAYER TWO · GOP`, submit exactly `pair_0000000000000000000000000000000000000000000000000000000000000000` through `JOIN PRIVATE PAIRING` once, and prove the failure rerender preserves Player Two with privacy-safe fresh-code/existing-Connected-Rivalry guidance and no local or remote mutation. A malformed or real substitute is prohibited. Do not retry, create another real pairing, Publish, Preview, Apply or begin Stage 5.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md`. Complete deep fallback: `SUCCESSOR_HANDOFF_POST_RJR_BACKCAST_PLAYER_TWO_PROOF_SLE_2026-08-25.md`. Closed audit: `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md`.
+
+The retained handoff below is historical where it conflicts with this override.
+
+---
+
 # CURRENT HANDOFF — RJR 81 TO 77 TO 78 PROVENANCE AUDIT — 2026-08-24 ET
 
 PR #139 merged at live main `9219879389b727fba1f9095aa2bf1a0299449222`, exact tree `320522bbf183199ad8175aec7d0904ef4b15aabe`, after all 14 pull-request workflow families passed with clean review/thread state. Production remains unchanged and byte-proven `v1.8.1 / 1.8.1-r1`; fixed RJR-1 remains `78/100`.
