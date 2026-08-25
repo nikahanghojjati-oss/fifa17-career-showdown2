@@ -51,3 +51,5 @@ Every future environment must use the repository Work Environment Continuity pro
 ## Historical authority
 
 The complete pre-r3 `NEXT_TASK.md` was preserved byte-for-byte before this concise current-authority replacement at `authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md`. Historical authority remains provenance only and cannot override this current owner-directed regression repair.
+
+Historical completed-stage marker retained for permanent contracts: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY`. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED as completed prerequisite provenance; this marker does not override the current r3 Connected Account recovery authority above.
