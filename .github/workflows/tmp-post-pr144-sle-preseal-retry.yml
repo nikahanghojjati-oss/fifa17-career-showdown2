@@ -25,6 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           python - <<'PY'
+          import json
           from pathlib import Path
 
           workflow = Path('.github/workflows/tmp-post-pr144-sle-preseal.yml').read_text()
@@ -34,6 +35,14 @@ jobs:
           lines = block.splitlines()
           normalized = '\n'.join(line[10:] if line.startswith('          ') else line for line in lines) + '\n'
           exec(compile(normalized, '<preseal-generator>', 'exec'), {})
+
+          # Divergent/closing WEC state must explicitly deny silent inheritance.
+          status_path = Path('WORK_ENVIRONMENT_STATUS.json')
+          status = json.loads(status_path.read_text())
+          note = 'This is a closing-environment-only predecessor decision; the successor must not inherit predecessor transition authority and must initialize a fresh WEC with reset counters.'
+          if note not in status['continuity']['evidenceNotes']:
+              status['continuity']['evidenceNotes'].append(note)
+          status_path.write_text(json.dumps(status, indent=2) + '\n')
 
           # Markdown hard-break spaces in generated evidence are unnecessary and
           # violate the repository's git-diff whitespace gate. Strip trailing
