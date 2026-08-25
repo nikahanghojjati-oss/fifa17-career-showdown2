@@ -71,7 +71,7 @@
     const url=buildVersionedLocalUrl(CONFIG_PATH);
     if(!url)return {ok:false,code:"runtime-config-url-unavailable"};
     try{
-      const response=await fetchImpl(url,{cache:"no-store",credentials:"same-origin"});
+      const response=await fetchImpl(url,{cache:"force-cache",credentials:"same-origin"});
       if(!response||!response.ok)return {ok:false,code:"runtime-config-unavailable"};
       const config=await response.json();
       if(!config||config.schemaVersion!==1||config.configured!==true){
