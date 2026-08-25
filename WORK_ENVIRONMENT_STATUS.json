@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-24-rjr-score-provenance-audit",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-25T02:31:00Z",
+  "recordedAt": "2026-08-25T02:52:19Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 8,
+    "largeEvidenceEvents": 9,
     "toolRoutingErrors": 2,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -35,8 +35,8 @@
   },
   "continuity": {
     "currentTask": "Publish and merge only the final owner-required RJR score-provenance SLE handoff seal. Preserve official RJR-1 at 78 and make no runtime, Rules, workflow or provider mutation.",
-    "lastSafeCheckpoint": "Reachable connected-GitHub pre-seal commit 21ea03a8c94b35ffdf573662ecf5a08e10789ed6 has exact tree 962929118846d9e5733f0322a6e16367c2fb245b and contains the standalone 81/77/78 audit, byte-identical mirrored v1.4.14 starter/deep handoff, refreshed capsule/context/current-authority pointers and fresh WEC. Its tree matches validated local pre-seal 6508b197dc05d2a08c3b43cf46613c3545258397 byte-for-byte. JSON parsing, mirror equality, diff hygiene, explicit static release contracts and the complete 69-file repository contract suite pass. REMOTE_JOINING_READINESS.json and all runtime/Rules/workflow/provider files are unchanged.",
-    "nextSafeAction": "Publish this status/history final seal as the sole child of reachable pre-seal commit 21ea03a8c94b35ffdf573662ecf5a08e10789ed6, require all exact-head workflow families plus clean reviews, zero unresolved threads and clean mergeability, then expected-head squash merge under standing authorization. A fresh successor must initialize its own WEC and perform the RJR provenance/backcast audit before the queued Player Two product check.",
+    "lastSafeCheckpoint": "Reachable connected-GitHub corrected pre-seal commit e998369924779bd9f56185b0c8ce17ee0e2a2fb7 has exact tree 7ffb444397126658d94f1686b8c9b6198660dd96 and restores the exact non-secret pair_ plus 64-hex Player Two regression fixture in both byte-identical starter/handoff mirrors. Its tree matches validated local correction 428f153ae366b88a203f73202612e03034cb7d92 byte-for-byte. JSON parsing, exact fixture validation, mirror equality, diff hygiene and the complete 69-file repository contract suite pass. REMOTE_JOINING_READINESS.json and all runtime/Rules/workflow/provider files are unchanged.",
+    "nextSafeAction": "Publish this status/history final seal as the sole child of reachable corrected pre-seal commit e998369924779bd9f56185b0c8ce17ee0e2a2fb7, require all exact-head workflow families plus clean reviews, zero unresolved threads and clean mergeability, resolve the existing review thread only after verifying the correction live, then expected-head squash merge under standing authorization. A fresh successor must initialize its own WEC and perform the RJR provenance/backcast audit before the queued Player Two product check.",
     "unfinishedWork": [
       "Locate the exact originating statement or artifact for the owner-reported 81, including date, model version, denominator, domain weights and credited evidence.",
       "Determine whether 81 was RJR-1, an earlier intuition-based percentage or a different denominator; do not infer the answer from the later 77/78 ledger.",
@@ -63,6 +63,7 @@
       ,"The v1.4.14 starter and deep handoff root/project mirrors are byte-identical. SESSION_BOOTSTRAP.json selects them, the context graph makes the owner-mandated audit the first correctness gate while preserving the next real product milestone, and the official RJR ledger remains byte-unchanged at 78."
       ,"Connected GitHub created reachable pre-seal 21ea03a8c94b35ffdf573662ecf5a08e10789ed6 with exact tree 962929118846d9e5733f0322a6e16367c2fb245b, byte-identical to validated local pre-seal 6508b197dc05d2a08c3b43cf46613c3545258397. Direct HTTPS git push had no local GitHub credential, so the authenticated connector-first route was used without copying credentials. This status and the additions-only closure entry in WORK_ENVIRONMENT_HISTORY.md are the sole final-seal file mutations after the reachable checkpoint; any later branch file mutation invalidates the seal and requires fresh validation and resealing."
       ,"Two recoverable publication/seal routing errors are recorded: the first connected-repository lookup used the wrong argument alias and was corrected before mutation; the first focused interruption-resilience invocation used a nonexistent shortened filename, then the exact repository filename passed. Neither changed product, provider, security, readiness or test behavior."
+      ,"PR #140 initial exact head f20c3d3e2f1aee1e7143f62fb3843b4248abf5c9 passed all 14 workflow families, but automated review correctly found that v1.4.14 omitted the exact Player Two unavailable-code fixture while SESSION_BOOTSTRAP.json still required it from the current starter. Corrected pre-seal e998369924779bd9f56185b0c8ce17ee0e2a2fb7 restores exactly pair_ plus 64 zero hex characters and prohibits malformed, non-hex, wrong-length or real substitutions in both starter and deep-handoff mirrors. Full validation passes and readiness remains 78. This status and the matching additions-only history addendum are the sole final-seal mutations after that corrected checkpoint."
     ]
   }
 }
