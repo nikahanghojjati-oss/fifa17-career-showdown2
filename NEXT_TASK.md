@@ -41,6 +41,10 @@ The Installable Offline App remains the local-first recovery baseline. The compl
 
 Candidate C remains the sole destructive remote-to-local Apply authority with immutable intent, backup first, strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. No public discovery/community/matchmaking/rankings are authorized. Stage 5 Remote Joining sessions remain locked.
 
+## Work Environment Continuity
+
+Every future environment must use the repository Work Environment Continuity process before executing this task. Validate the inherited status, archive predecessor final facts, initialize a fresh environment-owned status record, run that environment's own assessment, and treat any predecessor transition decision as orientation only. Reassess WEC after r3 publication before any separate milestone.
+
 ## Historical authority
 
 The complete pre-r3 `NEXT_TASK.md` was preserved byte-for-byte before this concise current-authority replacement at `authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md`. Historical authority remains provenance only and cannot override this current owner-directed regression repair.
