@@ -15,5 +15,5 @@ assert.match(manifest,/1\.8\.1-r2/);
 const active=["index.html","manifest.webmanifest","service-worker.js"];
 for(const dir of ["js","css","data"]){for(const name of fs.readdirSync(path.join(root,dir)).filter(n=>/\.(?:js|css)$/.test(n)))active.push(`${dir}/${name}`);}
 const stale=active.filter(file=>read(file).includes("1.8.1-r0")||read(file).includes("1.8.0-r0"));
-assert.deepEqual(stale,[],`Stale public runtime identity leaked into v1.8.1-r1 surfaces: ${stale.join(", ")}`);
-console.log("PASS v1.8.1-r2 shell coherence: immutable namespace, stable release identity and 1.8.0-r1 recovery target.");
+assert.deepEqual(stale,[],`Stale public runtime identity leaked into v1.8.1-r2 surfaces: ${stale.join(", ")}`);
+console.log("PASS v1.8.1-r2 shell coherence: immutable namespace, stable release identity and 1.8.1-r1 recovery target.");
