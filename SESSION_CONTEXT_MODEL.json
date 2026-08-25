@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T12:40:07Z",
+  "recordedAt": "2026-08-25T19:08:00Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-seven-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -16,48 +16,40 @@
     "tokenCostPenalty": -0.1
   },
   "mandatoryBypass": [
-    "current live main boundary",
-    "current pull-request exact head/state and merge authorization",
+    "current live main boundary and exact r3 runtime release merge",
+    "current pull-request exact head/state and standing merge authorization",
     "current application/runtime identity",
-    "current bounded lane",
+    "current bounded r3 fireauth production-proof lane",
     "later explicit owner instructions",
-    "owner-browser rivalry fingerprint and authoritative-revision agreement before any publish, preview or local Apply",
-    "WEC state and transition rules",
+    "post-PR147 Stability evidence: 89-byte production identity and App Check degraded boundary pass followed by exact fireauth pageerror blocker",
+    "deferred original Nik-to-Gop full Pair-ID owner recovery test before the separate all-zero unavailable-code proof",
+    "WEC state and transition rules; predecessor HANDOFF_NOW must never be inherited",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
-    "closed RJR provenance finding: exact pre-RJR 82 reports, no exact 81 artifact, fixed-model backcast 58, no capability regression and official RJR-1 78",
-    "exact one-action Player Two unavailable-code proof scope, fixture, owner-device-local session requirement, clean Work cloud-browser ineligibility, no-mutation boundary and stop conditions",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
     "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
-    "Stage 5 block while the deployed pairing UX regression and owner reconciliation proof remain incomplete",
+    "Stage 5 lock until r3 account acceptance and remaining Stage 4 owner proof are complete",
     "public discovery/community/global leaderboard prohibitions",
     "versioning policy",
     "connected GitHub primary / rootless gh fallback-only routing rule"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [
-      1000,
-      2000
-    ],
-    "tier1TaskPacketAdditionalApproxTokens": [
-      3000,
-      6000
-    ],
-    "tier2LiveDeltaAdditionalApproxTokens": [
-      5000,
-      10000
-    ],
+    "tier0BootstrapApproxTokens": [1000,2000],
+    "tier1TaskPacketAdditionalApproxTokens": [3000,6000],
+    "tier2LiveDeltaAdditionalApproxTokens": [5000,10000],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
     "Represent mandatory locks in Tier 0 regardless of rank.",
     "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
-    "Read current RJR from REMOTE_JOINING_READINESS.json and the closed historical 82-to-58 explanation from RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md; never infer either from milestones, PRs or WEC.",
-    "When owner surfaces disagree, compare their exact redacted rivalry fingerprints before inferring remote data loss or changing source; a different fingerprint means a different authoritative document path.",
+    "Read current RJR only from REMOTE_JOINING_READINESS.json; never infer it from milestones, PRs, WEC or SLE.",
+    "For the current failure, fetch exact main Stability job 97928827439 and inspect the fireauth pageerror provenance before changing code.",
+    "Keep every first-party pageerror fatal; classify an external Firebase Auth iframe/provider error only after source/stack evidence proves the origin.",
+    "After technical r3 production proof, owner acceptance must restore Private account ready before any original-rivalry Pair-ID mutation.",
+    "For the deferred rivalry proof, Player One/Nik supplies the exact full copied original ID and only Player Two/Gop is reattached once; do not substitute the shortened fingerprint.",
     "If main or current PR differs, score changed/intervening files with delta=1 and inspect those before broad history.",
-    "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
     "For CI failure, fetch the exact workflow run jobs and exact failed job logs before changing code; log evidence outranks heuristic diagnosis.",
     "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the capsule.",
     "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
@@ -79,10 +71,7 @@
   "supervisedLearningGate": {
     "minimumMaterialSessionOutcomes": 20,
     "preferredEvaluationStart": 30,
-    "candidateModels": [
-      "logistic-regression-needed-vs-not-needed",
-      "pairwise-learning-to-rank"
-    ],
+    "candidateModels": ["logistic-regression-needed-vs-not-needed","pairwise-learning-to-rank"],
     "adoptionRequirement": "held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"
   },
   "processMetrics": [
@@ -97,11 +86,16 @@
     "direct progression into real Remote Joining prerequisite"
   ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
-  "latestR2RecoveryCheckpoint": {
-    "mainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
-    "runtimeRevision": "1.8.1-r2",
-    "pagesRunId": 32863192183,
-    "next": "owner-existing-rivalry-recovery",
+  "latestR3ProductionProofCheckpoint": {
+    "mainSha": "449c5d07f79ede8814eab2f6cbbe6656f10b973b",
+    "runtimeMergeSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90",
+    "runtimeRevision": "1.8.1-r3",
+    "pagesRunId": 32883493535,
+    "postMergeStabilityRunId": 32886420964,
+    "deployedSiteJobId": 97928827439,
+    "appCheckBoundary": "passed-ready-app-check-degraded-enforcement-off",
+    "next": "prove-fireauth-pageerror-provenance-then-owner-account-acceptance",
+    "deferredOwnerPointerProof": "Nik exact full copied original Pair ID to Gop one-time reattachment and Revision 1 refresh",
     "durableIdShortening": "abandoned"
   }
 }
