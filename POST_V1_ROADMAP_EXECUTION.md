@@ -1,12 +1,12 @@
 # Career Mode Showdown — Post-v1 Roadmap Execution Guide
 
-## CURRENT SUCCESSOR OVERRIDE — STAGE 4 PRODUCTION PROOF TO RECONCILIATION — 2026-08-24 ET
+## CURRENT SUCCESSOR OVERRIDE — v1.8.1 DEPLOYED PAIRING UX PROOF TO RECONCILIATION — 2026-08-24 ET
 
 Current source, live GitHub and `NEXT_TASK.md` override retained roadmap bodies below.
 
-Production is `v1.7.0 / 1.7.0-r2`. Stage 3 Registered Devices / Private Pairing and the first Stage 4 Connected Rivalry slice are production-proven. RJR-1 is `77/100`. Permanent proof is `PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md`.
+Production is `v1.8.1 / 1.8.1-r1` from PR #138 merge `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; Pages run `32793956319` and independent verification prove all 89 runtime files byte-for-byte. Stage 3 Registered Devices / Private Pairing and the first Stage 4 Connected Rivalry slice are production-proven. Owner Chromebook/iPhone hardening evidence keeps fixed RJR-1 at `78/100`.
 
-Current source is the bounded `v1.8.1 / 1.8.1-r1` Pairing Identity UX Hardening release candidate and is not production-proven. It preserves stable manager selection through private-pairing rerenders and replaces opaque denied redemption errors with safe actionable guidance. Production and immediate whole-shell recovery remain `v1.8.0 / 1.8.0-r1`. The existing non-mutating remote preview and Candidate-C-governed local Apply authority—with canonical backup, immutable exact revision/hash and local-target intent, strict exact raw guards, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification—remain unchanged. Exact-head publication remains pending; Stage 5 stays locked.
+The deployed patch preserves stable manager selection through private-pairing rerenders and replaces opaque denied redemption errors with safe actionable guidance. `1.8.0-r1` remains the previous whole-shell recovery reference. The immediate action is one non-mutating Player Two syntactically valid but practically nonexistent-code owner regression check; it must not change local Saves, Connected Rivalry or authoritative gameplay and earns no RJR credit. Only after that check closes and a fresh WEC is assessed may the existing non-mutating remote preview and Candidate-C-governed local Apply proof resume—with canonical backup, immutable exact revision/hash and local-target intent, strict exact raw guards, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. Stage 5 stays locked.
 
 Current dependency direction:
 
@@ -14,7 +14,8 @@ Cloud / Sync Readiness — DONE
 → Private Account / Authentication / Authorization — DONE at the current Spark browser boundary
 → Stage 3 Registered Devices / Private Pairing — PRODUCTION-PROVEN
 → Stage 4 Connected Rivalry first slice — PRODUCTION-PROVEN
-→ explicit Candidate-C-governed remote-to-local reconciliation plus remaining Stage 4 hardening — NEXT SELECTED PREREQUISITE / FRESH-WEC ACTIVATION REQUIRED
+→ deployed Player Two pairing-UX regression check — IMMEDIATE NON-MUTATING OWNER PROOF
+→ explicit Candidate-C-governed remote-to-local reconciliation plus remaining Stage 4 hardening — NEXT SEPARATE PREREQUISITE / FRESH-WEC ACTIVATION REQUIRED
 → Stage 5 Private Remote Joining — PRIORITIZED LONG-TERM / DEPENDENCY-GATED / NOT YET AUTHORIZED
 → end-to-end hardening / stable release.
 

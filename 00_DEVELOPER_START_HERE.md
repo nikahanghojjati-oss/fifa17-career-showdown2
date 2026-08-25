@@ -1,5 +1,17 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START — v1.8.1 DEPLOYED PAIRING UX PRODUCTION PROOF — 2026-08-24 ET
+
+Start with `START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md` and `SESSION_BOOTSTRAP.json`, then verify live GitHub and public Pages. PR #138 final head `e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26` passed all 14 PR workflow families with its review correction resolved; expected-head squash merge/main is `ca0cb6ce8628c5f993669c08ff33e8f64c634870`. Pages run `32793956319` succeeded and all 89 public runtime files match `v1.8.1 / 1.8.1-r1` byte-for-byte. Fixed RJR-1 is `78/100`.
+
+The immediate next dependency is one non-mutating ordinary-browser regression check on the existing Player Two / Gop surface: submit exactly one syntactically valid but non-secret and practically nonexistent 64-hex pairing code from the current starter, then prove Player Two remains selected with privacy-safe fresh-code guidance. A malformed value proves only local validation and must not be used. Do not create another real pairing or modify Connected Rivalry/local Saves. Only after that acceptance closes may a separately assessed milestone resume the pending Stage 4 Preview/stale-rejection/backup-and-Candidate-C-Apply proof. Stage 5 remains locked.
+
+Main-push Stability failed only at the known headless reCAPTCHA Enterprise `403 initial-throttle` after contracts, Chromium, deployed bytes and runtime provenance passed. Do not rerun the headless path, change provider/App Check/billing configuration or republish unchanged Rules. Use `SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md` only for deep recovery or exact publication evidence.
+
+The retained start below is historical where it conflicts with this override.
+
+---
+
 ## CURRENT START — v1.8.1 PAIRING IDENTITY UX HARDENING — 2026-08-24 ET
 
 Start with `START_NEXT_SESSION_V1.4.12_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR.md` and `SESSION_BOOTSTRAP.json`, then verify live GitHub before acting. Current branch is `agent/v181-pairing-ux-hardening`; candidate is `v1.8.1 / 1.8.1-r1`; previous production/recovery runtime is `1.8.0-r1`; WEC is `we-2026-08-24-v181-pairing-ux-hardening`; fixed RJR-1 is `78/100`. Use `SUCCESSOR_HANDOFF_V1.8.1_PAIRING_IDENTITY_UX_HARDENING_PR_SLE_2026-08-24.md` only for deep recovery or publication detail.

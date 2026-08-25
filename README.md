@@ -1,8 +1,10 @@
-# CURRENT RELEASE NOTE — v1.8.1-r1 pairing identity UX hardening candidate
+# CURRENT RELEASE NOTE — v1.8.1-r1 pairing identity UX hardening production release
 
-Current source candidate: `v1.8.1 — Pairing Identity UX Hardening` / `1.8.1-r1`, release candidate and not production-proven. Current production and immediate whole-shell recovery authority are production-proven `v1.8.0 / 1.8.0-r1`. Fixed RJR-1 is `78/100` after owner evidence across a Chromebook and iPhone closes one two-physical-device hardening gap; the runtime fix itself earns no readiness points.
+Current production: `v1.8.1 — Pairing Identity UX Hardening` / `1.8.1-r1`, merged by PR #138 at `ca0cb6ce8628c5f993669c08ff33e8f64c634870`, deployed by Pages run `32793956319` and independently proven across all 89 runtime files. `1.8.0-r1` is the previous whole-shell recovery reference. Fixed RJR-1 is `78/100` after owner evidence across a Chromebook and iPhone closed one two-physical-device hardening gap; the runtime fix, release and deployment earn no readiness points.
 
 This patch keeps the selected Player One/Player Two manager bound to its stable role/profile/save identity through every private-pairing rerender, preserves a pasted pairing code when selection changes, and replaces raw permission-denied redemption text with safe non-enumerating recovery guidance. It changes no Firestore Rules, provider configuration, canonical local storage, Candidate C strict exact raw snapshot / transaction-owned mutation authority, exactly-two-manager privacy boundary or Stage 5 lock. The Installable Offline App and all local Career Mode/recovery paths remain available without Firebase.
+
+The next production acceptance action is exactly one non-mutating, syntactically valid but practically nonexistent-code check with Player Two / Gop selected. It must preserve Player Two and show privacy-safe fresh-code guidance without local Save, Connected Rivalry or authoritative gameplay mutation. Main-push runtime bytes and provenance passed; the sole Stability failure was the known headless reCAPTCHA Enterprise `403 initial-throttle`, so no retry or provider mutation is authorized.
 
 The retained release note below is historical where it conflicts with this override.
 

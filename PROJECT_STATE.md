@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — v1.8.1 PAIRING IDENTITY UX HARDENING DEPLOYED — 2026-08-24 ET
+
+Status: PRODUCTION-PROVEN DEPLOYED WHOLE SHELL / `v1.8.1 / 1.8.1-r1` / 89 RUNTIME FILES BYTE-EXACT / previous whole shell `1.8.0-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
+
+PR #138 final head/tree `e3a053bc6cca4aec5f82f3d25536c5eb1ae48e26` / `a86d8de18b9df768c782cc0a4338a9123fc05860` passed all 14 PR workflow families, corrected its sole real review issue and reached zero unresolved threads. Expected-head squash merge/live runtime main is `ca0cb6ce8628c5f993669c08ff33e8f64c634870`. Pages run `32793956319` succeeded and hosted plus independent verification prove all 89 public files match `1.8.1-r1` byte-for-byte.
+
+The release preserves exact manager role/profile/Save selection through Private Pairing rerenders, preserves pasted capability text on selector-only changes and replaces raw denied/opaque redemption errors with privacy-safe actionable guidance. No Firestore Rules, provider, billing, App Check enforcement, authentication persistence, canonical storage, Connected Rivalry protocol, Candidate C or Stage 5 behavior changed.
+
+Main-push Stability contracts and Chromium Stability passed. Deployed byte identity and runtime provenance passed. The overall Stability run failed only at the known headless reCAPTCHA Enterprise `403 initial-throttle`; the app failed closed. No rerun, debug provider, provider mutation or unchanged Rules publication is authorized.
+
+The immediate production acceptance task is one non-mutating, syntactically valid but practically nonexistent-code Player Two selector/guidance check. Remote-to-local Candidate C Apply proof, exact replay, third-account/revoked-device negatives, adverse-network/token lifecycle hardening and Stage 5 remain incomplete. RJR stays 78 because release/process/UX acceptance earns no new capability points.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.1 PAIRING IDENTITY UX HARDENING CANDIDATE — 2026-08-24 ET
 
 Status: RELEASE CANDIDATE / `v1.8.1 / 1.8.1-r1` / NOT PRODUCTION-PROVEN / previous known-good whole shell `1.8.0-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
