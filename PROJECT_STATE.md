@@ -1,3 +1,13 @@
+# CURRENT OVERRIDE — RJR SCORE PROVENANCE AUDIT REQUIRED — 2026-08-24 ET
+
+Live main is `9219879389b727fba1f9095aa2bf1a0299449222` after merged PR #139; public runtime remains unchanged and byte-proven `v1.8.1 / 1.8.1-r1` from runtime merge `ca0cb6ce8628c5f993669c08ff33e8f64c634870`. Official fixed RJR-1 remains `78/100`.
+
+The owner reports an earlier RJR 81 before 77 and 78. No exact 81 artifact/calculation is present in current source or reachable Git history, so its model comparability is unresolved. `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md` is the required next correctness investigation. It changes no product authority and does not authorize a score mutation.
+
+The retained state below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.1 PAIRING IDENTITY UX HARDENING DEPLOYED — 2026-08-24 ET
 
 Status: PRODUCTION-PROVEN DEPLOYED WHOLE SHELL / `v1.8.1 / 1.8.1-r1` / 89 RUNTIME FILES BYTE-EXACT / previous whole shell `1.8.0-r1` / RJR-1 78/100 / STAGE 5 LOCKED.

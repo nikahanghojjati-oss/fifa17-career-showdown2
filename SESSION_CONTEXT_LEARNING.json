@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-25T00:45:53Z",
+  "recordedAt": "2026-08-25T01:54:05Z",
   "materialSessionsObserved": 5,
   "learningState": "cold-start-priors-with-five-labeled-sessions",
   "defaultUtility": 0.5,
@@ -75,6 +75,14 @@
       "normalizedOutcome": 1.0,
       "learnedUtility": 0.68,
       "note": "PR #138 review caught that the ready-to-paste entrypoint and capsule still selected the superseded v1.8.0/RJR-77 repair lane while current source selected v1.8.1/RJR-78. The synchronized v1.4.13 post-deployment package now advances all entrypoints together and retains the permanent exact starter/handoff/source/RJR assertions."
+    },
+    "rjr-score-provenance-search": {
+      "loaded": true,
+      "usedInDecision": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1.0,
+      "learnedUtility": 0.6,
+      "note": "Current-source, reachable-Git-history and available prior-context searches found no exact 81 calculation while the fixed ledger fully reconstructed 77 and 78. Recording 81 as unresolved owner-reported provenance prevents a fabricated explanation and forces a comparable-model backcast before any score mutation."
     }
   },
   "sessionMetrics": [
