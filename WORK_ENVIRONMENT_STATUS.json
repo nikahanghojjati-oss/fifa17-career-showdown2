@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-r3-fireauth-production-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T20:08:00Z",
+  "recordedAt": "2026-08-25T20:12:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 11,
-    "toolRoutingErrors": 0,
-    "correctedFailures": 3,
+    "largeEvidenceEvents": 12,
+    "toolRoutingErrors": 5,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 1,
@@ -24,16 +24,16 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 96,
+    "handoffCompleteness": 97,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
     "currentTask": "Finish the v1.8.1-r3 technical production proof functionality-first: preserve the now-cleared fireauth Settings path, eliminate the seven production firebase.runtime-config.json navigation-cancellation failures, and obtain one fully green deployed-main Stability run without weakening existing security boundaries.",
-    "lastSafeCheckpoint": "PR #148 was exact-head validated and merged to live main d61dcb92be248f61e59a96ee07ed42527cce8d5f. Production Settings and every deployed audit through Candidate C plus offline boundary passed, so fireauth no longer blocks Connected Account or Settings. The only remaining post-merge failure is the final complete journey reporting seven first-party firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests during deliberate reload/back/forward recovery. Branch fix/production-firebase-startup-timing now starts the already-lazy production Firebase runtime immediately when its post-local-startup script loads, rather than leaving initialization for the runtime's second idle window.",
-    "nextSafeAction": "Freeze the smallest functionality fix, run the permanent PR workflow matrix on one unchanged exact head, inspect reviews/threads and mergeability, then merge only if clean. After merge, require Pages deployment and the full deployed-site Stability job to pass through the complete journey with zero first-party runtime-config request failures. If it passes, move to ordinary owner iPhone Connected Account/Google sign-in acceptance; if it fails, fix only the newly demonstrated functional blocker.",
+    "lastSafeCheckpoint": "PR #149 is the bounded production Firebase startup-timing fix. PR #148 is already merged to live main d61dcb92be248f61e59a96ee07ed42527cce8d5f and production Settings plus all deployed audits through Candidate C/offline passed, so fireauth no longer blocks Connected Account or Settings. The remaining post-merge failure is seven first-party firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests in the final navigation-heavy journey. The first PR #149 implementation exceeded the existing initial gzip budget by only 49 bytes; that failure was corrected without raising the budget. Current code head b4db34dd1ab5f954357e4a63b1d836189c3a87e1 preserves the same immediate-on-script-load Firebase initialization in a smaller form.",
+    "nextSafeAction": "Make no further source mutations after this WEC checkpoint. Require all permanent PR workflow families green on the unchanged final PR #149 head, inspect reviews/threads and mergeability, then merge only if every gate is clean. After merge, require Pages deployment and the full deployed-site Stability job to pass through the complete journey with zero first-party runtime-config request failures. If it passes, move to ordinary owner iPhone Connected Account/Google sign-in acceptance; if it fails, fix only the newly demonstrated functional blocker.",
     "unfinishedWork": [
-      "Validate the production Firebase startup-timing branch on one unchanged exact head through all permanent PR workflow families.",
+      "Validate PR #149 on one unchanged exact head through all permanent PR workflow families.",
       "Require clean reviews, resolved inline threads and mergeability before publication.",
       "Require one fully green post-merge deployed-main Stability run, including the final complete journey with zero first-party firebase.runtime-config.json request failures.",
       "Treat fireauth as functionally cleared unless it genuinely recurs; if it recurs, keep same-origin/unproven errors fatal and use the existing narrow Firebase-hosted provenance rule rather than broad suppression.",
@@ -57,8 +57,10 @@
       "Save Library, manager identity, Career Analytics, football visuals, Candidate A, Candidate B, Candidate C and offline boundary all passed in deployed production after the Settings path cleared.",
       "The final complete journey alone failed because seven same-origin firebase.runtime-config.json?v=1.8.1-r3 requests ended net::ERR_FAILED while the browser test deliberately performs reload, about:blank, Back and Forward recovery transitions.",
       "productionFirebaseRuntime.js schedules initialization through an additional requestIdleCallback/setTimeout after js/app.js has already deferred loading the Firebase runtime until post-local-startup. This creates an avoidable late-request window during navigation-heavy recovery testing.",
-      "The current functionality fix does not suppress failed requests and does not alter Firebase permissions or account boundaries. js/app.js now invokes CareerModeProductionFirebaseRuntime.initialize() on the production runtime script load event; the existing runtime idle scheduler remains as a harmless fallback and runtimePromise/connected-state deduplication preserves idempotency.",
-      "The current implementation branch started from live main d61dcb92be248f61e59a96ee07ed42527cce8d5f. First code commit is 9fee62da365d7fefc490d0a8c0ba0b48aac441a6.",
+      "PR #149 does not suppress failed requests and does not alter Firebase permissions or account boundaries. js/app.js invokes CareerModeProductionFirebaseRuntime.initialize() when the already-lazy production runtime script loads; the runtime's existing idle scheduler remains a fallback and its runtimePromise/connected-state guards deduplicate repeated calls.",
+      "The first PR #149 form failed Final Polish only because initial gzip bytes were 37549 against the existing 37500 limit. The code was compacted rather than raising the performance budget; functionality is unchanged.",
+      "Five duplicate branch-create calls were tool-routing mistakes after the branch already existed. They caused no repository mutation and are recorded in toolRoutingErrors rather than hidden.",
+      "The current implementation branch started from live main d61dcb92be248f61e59a96ee07ed42527cce8d5f. Current code head before this final WEC checkpoint is b4db34dd1ab5f954357e4a63b1d836189c3a87e1.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
