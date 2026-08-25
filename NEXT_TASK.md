@@ -40,6 +40,8 @@ Stop on the first genuine failure. Preserve evidence, diagnose the smallest demo
 
 ## Current fixed locks
 
+The Installable Offline App remains the local-first recovery baseline.
+
 Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical.
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive local Apply authority.
