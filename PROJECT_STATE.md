@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — v1.8.1-r2 CONNECTED RIVALRY RECOVERY UX CANDIDATE — 2026-08-25 ET
+
+Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN / `v1.8.1 / 1.8.1-r2` / previous known-good whole shell `1.8.1-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
+
+Owner iPhone evidence exposed a direct recovery defect after reauthentication: Player One / Nik retained the original Connected Rivalry pointer, but the exact durable rivalry ID was rendered only as a gray input placeholder, so iOS truncated it and provided no selectable/copyable text. Player Two / Gop remains signed in but is not attached. The original proven rivalry is not being replaced.
+
+PR #144 is the bounded recovery hotfix. The saved rivalry ID is now the real input value, the complete ID is visibly rendered with narrow-screen wrapping and text selection, and `COPY RIVALRY ID` uses the Clipboard API with a selection/copy fallback. Attach / Refresh / Publish / Preview / Candidate C semantics are unchanged. No Firestore Rules, provider, billing, App Check enforcement, auth persistence, canonical storage or Stage 5 behavior changes.
+
+The durable identifier deliberately remains exactly `pair_` plus 64 lowercase hex characters. It is the established 256-bit capability/rivalry identity used by existing Firestore documents, invites, local pointers, authorization contracts and shared-state paths. Short fingerprints remain display-only; shortening or migrating the actual ID is not authorized in this recovery hotfix.
+
+The immediate gate is exact-head PR #144 CI/review/mergeability, then standing-authorized squash merge and GitHub Pages proof. After production r2 is verified, use Nik's newly copyable existing ID to restore Gop's exact Player Two Connected Rivalry pointer without creating a new pairing. The all-zero unavailable-code fixture remains unconsumed. This UX release itself earns zero RJR points.
+
+The retained state below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — PR #141 LIVE / PLAYER TWO OWNER-DEVICE PROOF PENDING — 2026-08-25 ET
 
 Live main is PR #141 squash merge `8bf5313735a9afbcb0922524e3dee3f283a963a7`, exact tree `3f46ea38c924260319ca78e7281dd67cba842e1f`. PR #141 final head `99fc72e32a94aeaa1318bea17571c46375272747` passed all 14 workflow families and its two review threads are resolved/outdated. Production remains `v1.8.1 / 1.8.1-r1`; this environment independently matched all 89 public runtime files byte-for-byte. Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.

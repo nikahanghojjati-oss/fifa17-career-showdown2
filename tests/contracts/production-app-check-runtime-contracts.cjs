@@ -15,7 +15,9 @@ const renderer=read("scripts/render-production-firebase-public-config.mjs");
 const pkg=JSON.parse(read("package.json"));
 const historicalAppCheckRelease=read("RELEASE_V1.4.0_R2.md");
 const historicalConnectedAccountHotfix=read("RELEASE_V1.5.0_R2.md");
-const currentRelease=read(`RELEASE_V${pkg.version}.md`);
+const candidateRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+const candidateGeneration=Number((candidateRevision&&candidateRevision.match(/-r(\d+)$/)||[])[1]);
+const currentRelease=read(candidateGeneration===1?`RELEASE_V${pkg.version}.md`:`RELEASE_V${pkg.version}_R${candidateGeneration}.md`);
 const FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
 
 function freshRuntime(){

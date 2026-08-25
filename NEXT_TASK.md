@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — v1.8.1-r2 RECOVERY UX PROMOTION THEN GOP REATTACH — 2026-08-25 ET
+
+Status: PR #144 CANDIDATE / `v1.8.1 / 1.8.1-r2` / previous whole shell `1.8.1-r1` / OFFICIAL RJR-1 78/100 / STAGE 5 LOCKED.
+
+Authorized release candidate: `v1.8.1 / 1.8.1-r2`; immediate production/recovery runtime remains `1.8.1-r1` until deployment proof.
+
+Immediate task: finish exact-head PR #144 validation and publish the bounded Connected Rivalry recovery UX. The full saved rivalry ID must be visible without ellipsis, be actual selectable input text, and expose `COPY RIVALRY ID` with a safe fallback. The durable identifier remains `pair_` plus 64 hex characters; do not shorten, migrate or replace the existing Nik/Gop rivalry.
+
+After the exact candidate passes all required workflows, reviews, threads and mergeability, standing authorization permits squash merge and Pages deployment. Verify the deployed r2 shell before owner interaction. Then on the owner's existing Nik context copy the surviving exact rivalry ID, switch to the signed-in Gop context, confirm the Connected Rivalry selector is `PLAYER TWO · GOP`, paste the exact ID and attach the existing rivalry once. Do not create a new pairing and do not Publish, Preview or Apply during pointer recovery.
+
+Only after that existing-rivalry recovery is proven may the previously authorized one-shot unavailable-code fixture proof resume. The fixture remains unconsumed. Candidate C owner reconciliation is a later separately assessed proof and Stage 5 remains locked. This recovery hotfix earns zero RJR points.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — PLAYER TWO OWNER-DEVICE PROOF / WORK CLOUD SESSION INELIGIBLE — 2026-08-25 ET
 
 Status: PR #141 MERGED AT LIVE MAIN `8bf5313735a9afbcb0922524e3dee3f283a963a7` / PRODUCTION `v1.8.1 / 1.8.1-r1` VERIFIED 89-FILE BYTE-EXACT / RULES BLOB `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` / OFFICIAL RJR-1 78/100 / STAGE 5 LOCKED.
