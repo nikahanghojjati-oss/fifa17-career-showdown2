@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-25-r3-runtime-config-cache-proof",
+  "environmentId": "we-2026-08-25-r3-bootstrap-service-worker-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T20:58:00Z",
+  "recordedAt": "2026-08-25T21:14:52Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "8ee648558be6f907f5529aceac92124ed960a4ea",
+    "startingMainSha": "4e2208a30301529c0d2a714fbb021c759fdc7883",
     "runtimeReleaseMergeSha": "857727586d548a96fca3ad63c394bf8f0b9e3b90"
   },
   "signals": {
@@ -14,10 +14,10 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 19,
-    "toolRoutingErrors": 5,
-    "correctedFailures": 8,
-    "repeatedMistakes": 0,
+    "largeEvidenceEvents": 22,
+    "toolRoutingErrors": 10,
+    "correctedFailures": 9,
+    "repeatedMistakes": 1,
     "staleFactCorrections": 1,
     "unresolvedFailures": 1,
     "newMilestoneNext": false,
@@ -29,22 +29,23 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish the v1.8.1-r3 functionality-first production proof: preserve the cleared fireauth Settings path, eliminate the seven repeated firebase.runtime-config.json navigation failures, obtain one fully green deployed-main Stability run, then move directly to ordinary owner iPhone Connected Account/Google sign-in acceptance.",
-    "lastSafeCheckpoint": "PR #149 merged to main 8ee648558be6f907f5529aceac92124ed960a4ea and its deployed smoke again passed every production audit through offline with no fireauth recurrence, but the final journey still recorded seven firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests. PR #150 addresses the demonstrated two-part cause: readRuntimeConfig uses revision-scoped cache:force-cache, and service-worker.js explicitly bypasses shell interception for exactly firebase.runtime-config.json while all actual SHELL_PATHS remain immutable and fail closed. Codex review identified the service-worker half. The obsolete worker-wide config-name prohibition was replaced by narrow contracts requiring config exclusion from SHELL_PATHS plus the explicit bypass and force-cache behavior. A follow-up Stability failure was only a regression-contract typo matching fetch(...) instead of the implementation's injected fetchImpl(...); commit 6fef67c09f6e44654ea68d1e3ad5062c1135652f corrected that assertion without changing product code.",
-    "nextSafeAction": "Freeze PR #150 after this WEC update. Require all 14 permanent PR workflow families green on one unchanged exact head, inspect reviews/threads and mergeability, resolve the valid service-worker review only with evidence, and merge under standing owner authorization if clean. After merge require Pages success plus one completely green deployed-main Stability run through the final complete journey. If green, immediately request ordinary owner iPhone Connected Account/Google popup sign-in proof; do not start a security sidequest.",
+    "currentTask": "Finish the v1.8.1-r3 functionality-first production proof: preserve the cleared fireauth Settings path and the now-fixed runtime-config delivery path, eliminate the seven productionAppCheckBootstrap.js service-worker failures, obtain one fully green deployed-main Stability run, then move directly to ordinary owner iPhone Connected Account/Google sign-in acceptance.",
+    "lastSafeCheckpoint": "PR #150 passed all 14 permanent PR workflow families on exact head 07f4aa211f4d5a14e01c7f39e67483e8d4ebb987 and merged to main 4e2208a30301529c0d2a714fbb021c759fdc7883. Pages deployment succeeded, post-merge stability contracts and canonical Chromium passed, and deployed production again passed runtime provenance, App Check boundary, Home plus Settings, Save Library, manager identity, Career Analytics, football visuals, Candidate A/B/C and offline boundary. The historical fireauth error did not recur. PR #150 completely removed the seven firebase.runtime-config.json failures. The final complete journey then exposed the next deterministic service-worker defect: seven js/productionAppCheckBootstrap.js?v=1.8.1-r3 requests ended net::ERR_FAILED because the optional bootstrap is intentionally outside SHELL_PATHS but the worker intercepted every other revisioned same-origin GET and returned Response.error() on a cache miss. The current candidate keeps the bootstrap outside the offline shell and adds an exact service-worker bypass so normal network/browser caching can load it.",
+    "nextSafeAction": "Open and freeze the bootstrap service-worker follow-up PR after this WEC update. Require all 14 permanent PR workflow families green on one unchanged exact head, inspect reviews/threads and mergeability, and merge under standing owner authorization only if clean. After merge require Pages success plus one completely green deployed-main Stability run through the final complete journey. If another concrete first-party runtime dependency is then exposed, repair only that demonstrated delivery defect. If fully green, immediately request ordinary owner iPhone Connected Account/Google popup sign-in proof; do not start a security sidequest.",
     "unfinishedWork": [
-      "Validate PR #150 on one unchanged exact head through all 14 permanent PR workflow families.",
+      "Validate the bootstrap service-worker follow-up on one unchanged exact head through all 14 permanent PR workflow families.",
       "Require clean reviews, resolved inline threads and mergeability before publication.",
-      "Require one fully green post-merge deployed-main Stability run, including the final complete journey with zero first-party firebase.runtime-config.json request failures.",
+      "Require one fully green post-merge deployed-main Stability run, including the final complete journey with zero first-party production bootstrap request failures.",
       "Treat fireauth as functionally cleared unless it genuinely recurs; do not re-open speculative fireauth/security work without evidence.",
       "After technical production proof, obtain ordinary owner iPhone Connected Account availability, Google popup sign-in and Private account ready proof.",
       "Only genuine owner restoration may return RJR from 76 toward 78; then resume the exact original Nik/Gop full Pair-ID recovery test. Stage 5 remains locked."
     ],
     "knownHazards": [
-      "Functionality is the active priority. Do not add security complexity that harms playability, but do not weaken existing protections when the demonstrated blocker can be fixed without doing so.",
+      "Functionality is the active priority. Do not add security complexity that harms playability, and only relax an existing boundary when the demonstrated functional blocker truly requires it.",
       "App Check enforcement remains OFF. Firebase stays Spark/zero billing, Firestore stays memory-only, Google Auth stays popup-only with browserSessionPersistence, and exactly two private managers remain required.",
-      "The force-cache and service-worker bypass apply only to the public revisioned firebase.runtime-config.json asset. They do not enable persistent Firestore cache, persist Auth beyond browserSessionPersistence, cache private rivalry data, or relax Firestore Rules.",
-      "All actual SHELL_PATHS remain service-worker cache-owned and fail closed if the requested revision is unavailable; do not broaden the runtime-config bypass without evidence.",
+      "firebase.runtime-config.json and js/productionAppCheckBootstrap.js are public revisioned production dependencies that may bypass shell-only service-worker interception; neither bypass enables persistent Firestore cache, persists Auth beyond browserSessionPersistence, caches private rivalry data, or relaxes Firestore Rules.",
+      "The App Check bootstrap must remain outside SHELL_PATHS and outside the seven-script eager startup shell; its bypass must stay exact rather than becoming a general unknown-asset network fallback.",
+      "All actual SHELL_PATHS remain service-worker cache-owned and fail closed if the requested revision is unavailable; do not broaden bypasses without evidence.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Candidate A remains non-mutating, Candidate B read-only, Candidate C the sole destructive Apply authority; Stage 5 remains locked.",
       "Do not expose raw App Check tokens, browser keys, provider secrets, account IDs or full rivalry IDs in test diagnostics or repository evidence.",
@@ -52,14 +53,15 @@
     ],
     "evidenceNotes": [
       "This successor WEC does not inherit predecessor transition authority; predecessor handoff/transition decisions are historical closing-environment evidence only.",
-      "Live main was independently re-verified at 8ee648558be6f907f5529aceac92124ed960a4ea before PR #150 work began.",
-      "Post-PR #149 deployed smoke again passed Settings/Connected Account presentation and no fireauth error recurred; fireauth remains functionally cleared.",
-      "The final deployed journey completed its functional Chromebook flow through optional Settings coverage, then failed only at monitors.assertClean because seven identical first-party firebase.runtime-config.json?v=1.8.1-r3 requests ended net::ERR_FAILED.",
-      "Initial PR #150 functional commit 558e4b7000341ad375c34d2ed28967641d740131 changes readRuntimeConfig fetch cache mode from no-store to force-cache for the already revisioned public config URL.",
-      "PR #150 Codex P1 review thread PRRT_kwDOTomsDM6cPdYM correctly proved force-cache alone was insufficient because the controlled page's service worker returned Response.error() for the versioned config path absent from SHELL_PATHS.",
-      "Service-worker correction commit 1762178bdcb083a552887574f3d2b9e127d4cc0e adds RUNTIME_CONFIG_PATH and returns from the fetch handler for exactly firebase.runtime-config.json before shell-cache interception. Browser/network cache semantics therefore apply to that one public config path while actual shell paths remain unchanged.",
-      "Contract correction commit 4e8a578d9cad952c3bec145bab4f54054041cce3 keeps firebase.runtime-config.json forbidden from the SHELL_PATHS block, positively requires the exact service-worker bypass, and requires the revisioned force-cache runtime fetch.",
-      "Stability on head 0062fae... failed only because that new regression assertion targeted fetch(...) while readRuntimeConfig intentionally uses injected fetchImpl(...). Commit 6fef67c09f6e44654ea68d1e3ad5062c1135652f corrects the assertion target; product code remained unchanged.",
+      "Live main was independently re-verified at 4e2208a30301529c0d2a714fbb021c759fdc7883 before the bootstrap service-worker follow-up began.",
+      "PR #150 final exact head 07f4aa211f4d5a14e01c7f39e67483e8d4ebb987 had all 14 permanent PR workflow families green before merge. Its service-worker correction preserved shell fail-closed behavior while bypassing only firebase.runtime-config.json.",
+      "Post-PR #150 Pages deployment succeeded. Stability contracts and canonical Chromium passed. Deployed steps through offline all passed, and no fireauth error recurred.",
+      "The original seven firebase.runtime-config.json?v=1.8.1-r3 failures disappeared completely after PR #150, proving that functional repair was effective.",
+      "The final deployed complete journey now fails only at monitors.assertClean with seven identical GET js/productionAppCheckBootstrap.js?v=1.8.1-r3 :: net::ERR_FAILED entries after the functional Chromebook journey itself completes.",
+      "Current service-worker source proves the bootstrap is not in SHELL_PATHS, while the revisioned same-origin fetch handler otherwise serves only cached shell entries and returns Response.error() for misses. productionFirebaseRuntime lazily injects this exact bootstrap script after production config checks.",
+      "The existing production App Check bootstrap contract explicitly requires the bootstrap to remain outside the offline startup shell dependency. Therefore the chosen repair is an exact service-worker bypass, not adding the bootstrap to SHELL_PATHS.",
+      "Functional commit 2edf7b592678b8e3106b7417a3e24a4f564f0fbc adds APP_CHECK_BOOTSTRAP_PATH and bypasses shell interception for exactly js/productionAppCheckBootstrap.js. Contract commit f41346e7015d6f27fe6822fde9a5d843ab4003b1 positively requires that exact bypass while still forbidding the bootstrap from SHELL_PATHS.",
+      "Five redundant update_ref calls during tool-schema routing were operational mistakes with no repository state change; they are recorded rather than hidden.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
