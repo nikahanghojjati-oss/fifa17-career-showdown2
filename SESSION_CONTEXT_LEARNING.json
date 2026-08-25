@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-25T01:54:05Z",
-  "materialSessionsObserved": 5,
-  "learningState": "cold-start-priors-with-five-labeled-sessions",
+  "recordedAt": "2026-08-25T11:38:35Z",
+  "materialSessionsObserved": 6,
+  "learningState": "cold-start-priors-with-six-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -38,7 +38,7 @@
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1.0,
+      "normalizedOutcome": 1,
       "learnedUtility": 0.744,
       "note": "Exact job logs isolated the stale v1.7 Stability oracle and both post-merge headless reCAPTCHA Enterprise 403 initial-throttle boundaries. In the v1.8.1 release they proved Stability contracts, Chromium Stability, deployed bytes and runtime provenance passed before the provider token step, preventing an unsafe runtime/provider change or redundant retry."
     },
@@ -54,7 +54,7 @@
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1.0,
+      "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "Reading sole implementation authority prevented this closing environment from beginning a distinct reconciliation milestone under the completed first-slice authorization."
     },
@@ -63,7 +63,7 @@
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1.0,
+      "normalizedOutcome": 1,
       "learnedUtility": 0.648,
       "note": "Redacted cross-surface fingerprints distinguished two different valid rivalry IDs, proved the revision-1 authority remained intact and prevented an unsafe revision-0 publish on the wrong rivalry."
     },
@@ -72,7 +72,7 @@
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1.0,
+      "normalizedOutcome": 1,
       "learnedUtility": 0.68,
       "note": "PR #138 review caught that the ready-to-paste entrypoint and capsule still selected the superseded v1.8.0/RJR-77 repair lane while current source selected v1.8.1/RJR-78. The synchronized v1.4.13 post-deployment package now advances all entrypoints together and retains the permanent exact starter/handoff/source/RJR assertions."
     },
@@ -80,9 +80,9 @@
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1.0,
-      "learnedUtility": 0.6,
-      "note": "Current-source, reachable-Git-history and available prior-context searches found no exact 81 calculation while the fixed ledger fully reconstructed 77 and 78. Recording 81 as unresolved owner-reported provenance prevents a fabricated explanation and forces a comparable-model backcast before any score mutation."
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.68,
+      "note": "Prior-conversation retrieval recovered exact pre-RJR 82/100 status reports at 2026-08-20T03:25:03Z and 03:25:23Z plus the earlier 11.5/20 = 57.5% correction, while exhaustive prior-conversation, Git-ref and relevant Library searches found no exact 81 status. Reverse domain deltas reproduced the formal RJR-1 58 baseline vector 20+17+14+4+3. This proves a non-comparable ruler correction rather than capability regression and leaves official RJR-1 at 78."
     }
   },
   "sessionMetrics": [
@@ -156,13 +156,29 @@
       "ciTriageLesson": "When deployed bytes and runtime provenance pass before an App Check token failure, preserve the runtime and provider locks, record the exact external throttle and do not convert a known provider boundary into speculative product work.",
       "productionEvidenceLesson": "PR #138, Pages and 89-file byte identity prove release delivery, but the owner still supplies the smallest non-mutating Player Two syntactically valid but practically nonexistent-code acceptance check; a malformed value proves only local validation, and RJR remains exactly 78 because shipped UX acceptance is not a new Remote Joining capability.",
       "authorityLesson": "A final-head review correction must synchronize the ready-to-paste entrypoint, compact starter, deep handoff, capsule and graph before merge, then the post-deployment package must advance all of them together."
+    },
+    {
+      "sessionId": "we-2026-08-25-rjr-score-provenance-backcast",
+      "directRemoteJoiningPrerequisiteReached": false,
+      "nextRealProductMilestoneUnblocked": true,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The owner explicitly required exact historical score reconstruction across prior conversation, Library, all Git refs, the fixed ledger and production proof records before the queued product check.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "One npm Work wrapper disconnected before direct repository-owned validation; one unsupported GitHub tags route, one result-shape parsing correction and one mistyped historical SHA were safely corrected without product or provider mutation.",
+      "provenanceLesson": "Do not reconcile a remembered number by guessing. Preserve the recollection, locate the exact recoverable statement, record its timestamp and missing model inputs, then backcast contemporaneous capabilities through the fixed ledger.",
+      "numericalLesson": "Pre-RJR 82 measured prerequisite/infrastructure completion and is non-comparable. The same boundary was 11.5/20 = 57.5% and formal RJR-1 58; comparable evidence then increases monotonically to 78.",
+      "authorityLesson": "A completed correctness audit can unlock the queued one-action product proof without awarding readiness points or broadening runtime, Rules, provider, Candidate C or Stage 5 scope."
     }
   ],
   "outcomeScale": {
-    "preventedErrorOrResolvedContradiction": 1.0,
+    "preventedErrorOrResolvedContradiction": 1,
     "requiredForPublicationSecurityOrRecovery": 0.8,
     "materiallyUsedInDecision": 0.5,
-    "neutralReference": 0.0,
+    "neutralReference": 0,
     "redundantPreload": -0.5
   },
   "updateRule": "newUtility = 0.8 * oldUtility + 0.2 * normalizedOutcome",

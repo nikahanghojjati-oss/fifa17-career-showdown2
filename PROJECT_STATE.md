@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — RJR BACKCAST CLOSED / PLAYER TWO PROOF NEXT — 2026-08-25 ET
+
+Live main is PR #140 squash merge `838ef18c50f185fceafd01591e49081366c61cac`, exact tree `9704baea1a18634d5d6e3a2e3bf0975db0448f8e`. Production remains byte-proven `v1.8.1 / 1.8.1-r1` from runtime merge `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; an independent 2026-08-25 check matched all 89 public runtime files. Production Stage 4 Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.
+
+The RJR score-provenance audit is closed. Exact prior-conversation evidence recovered unsupported pre-RJR 82 reports, no exact 81 status, and a contemporaneous 11.5/20 = 57.5% end-to-end correction. The RJR-1 backcast is `20 + 17 + 14 + 4 + 3 = 58`; no credited evidence was invalidated and no capability regressed. Comparable fixed-model evidence then advances monotonically to current `20 + 18 + 18 + 17 + 5 = 78`. Official RJR-1 remains `78/100`.
+
+Current task is exactly one non-mutating deployed Player Two / Gop unavailable-code regression proof on the existing signed-in session. It must preserve Player Two, show privacy-safe fresh-code/existing-Connected-Rivalry guidance and leave local Saves, bindings, rivalry pointers, Connected Rivalry revision and authoritative gameplay unchanged. Candidate C, repeated setup, real pairing creation, Rules/provider changes and Stage 5 are not authorized.
+
+Current starter: `START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md`. Deep SLE fallback: `SUCCESSOR_HANDOFF_POST_RJR_BACKCAST_PLAYER_TWO_PROOF_SLE_2026-08-25.md`.
+
+The retained state below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — RJR SCORE PROVENANCE AUDIT REQUIRED — 2026-08-24 ET
 
 Live main is `9219879389b727fba1f9095aa2bf1a0299449222` after merged PR #139; public runtime remains unchanged and byte-proven `v1.8.1 / 1.8.1-r1` from runtime merge `ca0cb6ce8628c5f993669c08ff33e8f64c634870`. Official fixed RJR-1 remains `78/100`.
