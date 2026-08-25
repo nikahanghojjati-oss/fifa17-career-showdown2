@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T21:51:00Z",
+  "recordedAt": "2026-08-25T21:59:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,8 +13,8 @@
     "contextComplexity": "moderate",
     "projectComplexity": "high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 4,
+    "majorPhasesCompleted": 2,
+    "largeEvidenceEvents": 6,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -24,19 +24,18 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 70,
+    "handoffCompleteness": 78,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Evaluate the next genuine owner-device acceptance gate on ordinary iPhone production: Settings -> Connected Account -> Google popup sign-in -> Private account ready. Keep RJR-1 at 76 until genuine owner proof. Only after that proof may this environment move to the exact original Nik/Gop rivalry-ID recovery proof; Stage 5 remains locked.",
-    "lastSafeCheckpoint": "Live main was independently re-verified at beab9f31cb7f31bf4938f5b0df67394899ef12a0. PR #151 is merged from exact head 664a6ba0013d83d20ef88efba85e694a85f072c8 with its sole Codex P1 thread resolved. Post-merge Stability run 32900618125 is completed success on that main SHA; stability-contracts, chromium-stability and deployed-site-smoke all passed, including deployed-site-smoke Step 17 Run complete journey against deployed Pages.",
-    "nextSafeAction": "Obtain only the minimum ordinary owner iPhone screenshots needed to prove Connected Account is available, Google popup sign-in succeeds and the visible production UI reaches Private account ready without exposing raw account IDs, full rivalry IDs or identity hashes. Do not change code or reopen the PR #148-#151 production failure chain unless this real-device proof exposes a new reproducible defect.",
+    "currentTask": "Complete the exact original Nik/Gop Connected Rivalry pointer recovery proof after successful owner iPhone Connected Account restoration. Use the complete copied original durable Pair ID, verify/reattach each side once, refresh shared state once, require the same original rivalry plus REMOTE OBSERVED: Revision 1, and do not create a replacement pairing or mutate gameplay authority.",
+    "lastSafeCheckpoint": "Owner production evidence on ordinary iPhone Safari proves the r3 Connected Account recovery gate is restored. One screenshot shows the signed-out Local only state with the normal SIGN IN WITH GOOGLE action available; the other shows the same production Connected Account surface after authentication at Private account ready with account Nick Hj. This is the exact owner-facing evidence required by current authority to restore the two temporarily withdrawn RJR credits, returning RJR-1 from 76 to 78. Stage 5 remains locked.",
+    "nextSafeAction": "Move the next manual proof to the Chromebook for easier exact-ID handling. Use the existing Nik and Gop browser sessions only. Obtain the complete original Pair ID through the recovery UI, copy it exactly, place that same exact ID into both recovery fields, press VERIFY / REATTACH once on each side, then REFRESH SHARED STATE once on each side. Require the same original rivalry and REMOTE OBSERVED: Revision 1. Do not create a new pairing and do not Publish, Preview or Candidate C Apply.",
     "unfinishedWork": [
-      "Ordinary iPhone Connected Account acceptance proof: live production Settings -> Connected Account -> Google popup sign-in -> Private account ready, with privacy-safe visible UI.",
-      "After genuine account readiness, exact original Nik/Gop Pair-ID recovery using the complete copied original durable rivalry ID; do not create a replacement pairing and do not Publish, Preview or Candidate C Apply during recovery.",
+      "Exact original Nik/Gop Pair-ID recovery using the complete copied original durable rivalry ID; no replacement pairing and no Publish, Preview or Candidate C Apply during recovery.",
       "After original-pair recovery is stable, one-shot Player Two all-zero unavailable-code regression proof exactly once, preserving Player Two selection, local Saves, manager binding, rivalry pointer, Connected Rivalry revision and authoritative gameplay state.",
-      "Recalculate RJR only from the current fixed RJR authority after genuine owner evidence; Stage 5 remains locked."
+      "Reassess fixed RJR only from evidence after each genuine capability proof; Stage 5 remains locked until its explicit prerequisite authority is satisfied."
     ],
     "knownHazards": [
       "Functionality/playability is the active priority. Do not create security or documentation sidequests without evidence.",
@@ -44,7 +43,7 @@
       "Do not add the optional productionAppCheckBootstrap.js to SHELL_PATHS or broaden the two proven service-worker bypasses into a general unknown-asset fallback.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
       "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive Apply authority.",
-      "Do not expose secrets, account IDs, identity hashes or full rivalry IDs in owner-visible proof.",
+      "Do not expose secrets, full account IDs, identity hashes or full rivalry IDs in repository evidence or owner-facing summaries.",
       "Do not create a replacement Nik/Gop pairing or Publish, Preview or Candidate C Apply during original-pair recovery.",
       "The all-zero unavailable-code fixture is one-shot owner evidence; do not consume it before original-pair recovery is stable."
     ],
@@ -52,10 +51,10 @@
       "This fresh environment independently validated the predecessor seal against live GitHub before taking ownership; predecessor transition decisions are orientation only.",
       "Live main is still beab9f31cb7f31bf4938f5b0df67394899ef12a0 with no newer merged PR after #151 in the recent-PR authority checked at entry.",
       "PR #151 is closed/merged, exact head 664a6ba0013d83d20ef88efba85e694a85f072c8, merge commit beab9f31cb7f31bf4938f5b0df67394899ef12a0.",
-      "PR #151 has one Codex COMMENTED review containing a P1 runtime-contract finding; the inline thread is resolved after commit a7f65952ec56faf60378f83b3c207c0254a03a6e narrowed the duplicate stale assertion.",
-      "Post-merge Stability run 32900618125 is completed success on live main. Jobs 97973364391 stability-contracts, 97973531571 chromium-stability and 97974268677 deployed-site-smoke all completed success; deployed-site-smoke Step 17 Run complete journey against deployed Pages is success.",
-      "Current NEXT_TASK.md and PROJECT_STATE.md still contain pre-final-proof wording, but they explicitly authorize the owner iOS Connected Account acceptance test after technical proof becomes clean. Live GitHub evidence proves that gate is now clean, so no authority-only or repair PR is required before the manual proof.",
-      "Local git/npm continuity wrapper execution could not be performed because this sandbox could not resolve github.com. The connected GitHub connector remained functional and was used for authoritative repository reads and the fresh WEC branch.",
+      "Post-merge Stability run 32900618125 is completed success on live main; stability-contracts, chromium-stability and deployed-site-smoke all passed through the final complete production journey.",
+      "Owner iPhone Safari evidence at 17:57 ET shows the normal signed-out Connected Account state with SIGN IN WITH GOOGLE available and a separate authenticated state reaching Private account ready with a truncated account ID. The proof does not expose a full provider account ID.",
+      "Current authority explicitly reserves the two removed RJR credits for genuine owner production proof of Google-authenticated identity and strict self-account bootstrap. The provided Safari evidence satisfies both, so fixed RJR-1 returns from 76 to 78; no additional credit is awarded for CI, merge or screenshots beyond those restored capabilities.",
+      "Chromebook is selected for the next original-rivalry pointer proof because exact full Pair-ID copy/paste and side-by-side two-session inspection are materially easier and reduce transcription risk. This is a testing-surface choice only, not a product or security change.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
   }
