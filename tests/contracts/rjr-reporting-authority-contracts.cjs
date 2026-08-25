@@ -21,13 +21,16 @@ assert.match(audit,/11\.5\s*\/\s*20\s*=\s*57\.5%[\s\S]+58%/i,"The contemporaneou
 assert.match(audit,/non-comparable[\s\S]+ruler correction[\s\S]+not a legal RJR-1 score decrease/i,"The audit must distinguish a model correction from capability loss.");
 assert.match(audit,/no exact `81\/100`, `~81%` or `81%`/i,"The exhaustive no-exact-81 result must remain explicit.");
 
-const baseline=new Map(ledger.domains.map(domain=>[domain.id,domain.earned]));
-for(const event of [...ledger.evidenceHistory].reverse()){
-  if(event.delta>0){
-    assert.ok(baseline.has(event.domainId),`Cannot backcast unknown RJR domain ${event.domainId}.`);
-    baseline.set(event.domainId,baseline.get(event.domainId)-event.delta);
+function backcastDomainScores(domains,evidenceHistory){
+  const scores=new Map(domains.map(domain=>[domain.id,domain.earned]));
+  for(const event of [...evidenceHistory].reverse()){
+    if(event.delta===0) continue;
+    assert.ok(scores.has(event.domainId),`Cannot backcast unknown RJR domain ${event.domainId}.`);
+    scores.set(event.domainId,scores.get(event.domainId)-event.delta);
   }
+  return scores;
 }
+const baseline=backcastDomainScores(ledger.domains,ledger.evidenceHistory);
 assert.deepEqual([...baseline.entries()],[
   ["deterministic-sync-recovery",20],
   ["identity-auth-trust",17],
@@ -36,6 +39,16 @@ assert.deepEqual([...baseline.entries()],[
   ["real-device-hardening-release",3]
 ],"Reversing append-only evidence deltas must reproduce the fixed 58-point RJR-1 baseline vector.");
 assert.equal([...baseline.values()].reduce((sum,value)=>sum+value,0),58);
+const negativeMovementBackcast=backcastDomainScores(
+  [{id:"synthetic-domain",earned:9}],
+  [{delta:0},{delta:2,domainId:"synthetic-domain"},{delta:-1,domainId:"synthetic-domain"}]
+);
+assert.equal(negativeMovementBackcast.get("synthetic-domain"),8,"Backcasting must reverse negative invalidation deltas as well as positive evidence deltas.");
+assert.throws(
+  ()=>backcastDomainScores([{id:"synthetic-domain",earned:9}],[{delta:-1}]),
+  /unknown RJR domain undefined/,
+  "Every nonzero RJR movement must identify the fixed domain it changes."
+);
 assert.match(audit,/Baseline backcast\s*\|\s*20\s*\|\s*17\s*\|\s*14\s*\|\s*4\s*\|\s*3\s*\|\s*58/i,"The published audit must expose the reconstructed five-domain baseline.");
 assert.match(audit,/Official RJR-1 remains `78\/100`[\s\S]+`20 \+ 18 \+ 18 \+ 17 \+ 5`/i,"The audit must preserve the current fixed-model numerical authority.");
 
