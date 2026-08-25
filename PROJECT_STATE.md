@@ -39,6 +39,10 @@ Finish the r3 candidate, require all 14 permanent workflow families green on the
 
 After deployed r3 is technically proven, obtain owner iOS acceptance of Connected Account restoration. Only then resume existing Nik/Gop rivalry pointer recovery. Do not create a replacement pairing. Do not Publish, Preview or Candidate C Apply during pointer recovery. The all-zero unavailable-code fixture remains unconsumed. Stage 5 remains locked.
 
+## Work Environment Continuity
+
+Every successor must enter through the repository Work Environment Continuity system before executing this state. Validate the inherited record, archive predecessor final facts, initialize a fresh environment-owned status record, then run the fresh assessment. The predecessor transition decision is orientation only and never substitutes for the successor's own WEC decision. Reassess at the r3 publication boundary before beginning any separate milestone.
+
 ## Historical state
 
 The complete pre-r3 `PROJECT_STATE.md` was preserved byte-for-byte before this concise current-state replacement at `authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md`. Historical text remains provenance only where it conflicts with this current override.
