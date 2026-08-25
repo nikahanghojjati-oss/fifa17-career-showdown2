@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-25T23:35:00Z",
+  "recordedAt": "2026-08-25T23:39:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,9 +15,9 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 16,
+    "largeEvidenceEvents": 17,
     "toolRoutingErrors": 0,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 3,
     "unresolvedFailures": 0,
@@ -67,7 +67,7 @@
       "Fresh positive proof and unavailable-code regression re-prove already credited capabilities and therefore add zero RJR points.",
       "Complete mirrored SLE = Smart Lean Efficient package is created at START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md and SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md with byte-identical project mirrors, refreshed bootstrap, context graph/model and ready-to-paste entrypoint.",
       "PR #152 Codex review identified two authority-packaging issues on an earlier head: unsupported WEC lifecycle text and stale NEXT_TASK authorization. Both are corrected: lifecycle is transition-prepared and live NEXT_TASK explicitly authorizes the same Stage 4 reconciliation milestone while preserving r3 recovery prose as completed historical provenance only. Both review threads are resolved.",
-      "The first exact-head run after NEXT_TASK alignment exposed one stability contract requirement that the live authority retain the phrase Installable Offline App. That compatibility fact was restored without changing the authorized Stage 4 lane or runtime behavior.",
+      "Exact-head contract validation then exposed two preserved-authority compatibility requirements in NEXT_TASK: the Installable Offline App phrase and the historical PR #146 -> all 14 workflow families -> expected-head squash merge -> GitHub Pages ordering. Both are now restored as historical provenance without changing the current Stage 4 authority or runtime behavior.",
       "This WEC update is the final branch mutation after all review-driven and exact-head contract corrections; any later branch mutation invalidates this transition seal and requires a fresh exact-head validation gate.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
