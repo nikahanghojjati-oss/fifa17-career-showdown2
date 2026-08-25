@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
-  "lifecycle": "sealed",
+  "lifecycle": "closed",
   "recordedAt": "2026-08-25T23:22:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
