@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
-  "lifecycle": "closed",
+  "lifecycle": "transition-prepared",
   "recordedAt": "2026-08-25T23:22:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
@@ -40,13 +40,14 @@
   "continuity": {
     "currentTask": "Successor must independently validate the sealed predecessor facts, initialize a fresh WEC, then run the smallest safe Stage 4 owner remote-to-local reconciliation proof on the fresh current-identity Nik/Gop rivalry. Prove non-mutating Preview, exact remote revision/hash and local-target binding, stale-intent rejection, verified backup, explicit Candidate C Apply, identity/unrelated-Save preservation, exact local convergence and no remote mutation.",
     "lastSafeCheckpoint": "Production v1.8.1 / 1.8.1-r3 is owner-accepted for Connected Account. Owner current identities are freshly paired on isolated normal/Incognito Chromebook browser contexts and both attach to the same fresh rivalry fingerprint pair_8f24ae...3528c. Player One published authoritative revision 0 once; both sides refreshed and observed revision 0 with no local Apply or reported local Save overwrite. Player Two then consumed the authorized pair_ plus 64-zero unavailable-code fixture exactly once; bounded guidance appeared and Player Two, the good rivalry pointer, revision 0, local target and LOCAL COMMIT: Not applied this session remained intact. RJR-1 is restored to 78/100; the fresh pair and zero-code proof add no duplicate credit.",
-    "nextSafeAction": "Do not perform more pairing or unavailable-code testing. Fresh successor should study the Stage 4 reconciliation/Candidate C authorities and current sparkConnectedRivalry source, reverify the fresh rivalry and revision, then derive and execute the smallest owner-controlled remote-to-local reconciliation proof. Stop on first failure before speculative source/provider changes.",
+    "nextSafeAction": "Fresh successor must independently re-fetch live main, exact current GitHub/production state and this handoff package before doing product work; then study the Stage 4 reconciliation/Candidate C authorities, reverify the fresh rivalry and revision, and derive the smallest owner-controlled remote-to-local reconciliation proof. Do not inherit this predecessor transition decision as successor authority.",
     "unfinishedWork": [
       "Stage 4 owner remote-to-local reconciliation proof: non-mutating Preview, stale-intent rejection, exact backup, explicit Candidate C Apply, identity/unrelated-Save preservation, local convergence and no remote mutation.",
       "After Stage 4 reconciliation is production-proven, reassess the fixed RJR ledger for genuinely new capability evidence only.",
       "Complete remaining explicit Stage 5 Remote Joining hardening/session prerequisites before enabling Stage 5."
     ],
     "knownHazards": [
+      "This is a predecessor closing environment. Successor must independently validate and initialize a fresh WEC; do not inherit this transition decision.",
       "The one-shot Player Two all-zero unavailable-code fixture is consumed; do not repeat it merely for duplication.",
       "The historical original rivalry pair_a07108...756fb is active remotely but its original local profile/save identities were deleted. Do not force rebind, edit or delete it merely to make a test pass.",
       "Use the fresh current-identity rivalry fingerprint pair_8f24ae...3528c for the next positive-path reconciliation proof; never persist full active rivalry IDs in repository evidence.",
