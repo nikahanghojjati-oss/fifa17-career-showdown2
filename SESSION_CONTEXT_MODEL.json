@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T01:54:05Z",
+  "recordedAt": "2026-08-25T11:38:35Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-five-labeled-sessions-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-six-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -12,8 +12,8 @@
     "riskCriticality": 0.12,
     "contradictionValue": 0.08,
     "learnedUtility": 0.08,
-    "stalenessPenalty": -0.10,
-    "tokenCostPenalty": -0.10
+    "stalenessPenalty": -0.1,
+    "tokenCostPenalty": -0.1
   },
   "mandatoryBypass": [
     "current live main boundary",
@@ -24,7 +24,8 @@
     "owner-browser rivalry fingerprint and authoritative-revision agreement before any publish, preview or local Apply",
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
-    "owner-reported RJR 81 provenance gap and required fixed-model backcast before any 81 to 77 explanation or score change",
+    "closed RJR provenance finding: exact pre-RJR 82 reports, no exact 81 artifact, fixed-model backcast 58, no capability regression and official RJR-1 78",
+    "exact one-action Player Two unavailable-code proof scope, fixture, no-mutation boundary and stop conditions",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
@@ -36,15 +37,24 @@
     "connected GitHub primary / rootless gh fallback-only routing rule"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [1000,2000],
-    "tier1TaskPacketAdditionalApproxTokens": [3000,6000],
-    "tier2LiveDeltaAdditionalApproxTokens": [5000,10000],
+    "tier0BootstrapApproxTokens": [
+      1000,
+      2000
+    ],
+    "tier1TaskPacketAdditionalApproxTokens": [
+      3000,
+      6000
+    ],
+    "tier2LiveDeltaAdditionalApproxTokens": [
+      5000,
+      10000
+    ],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
     "Represent mandatory locks in Tier 0 regardless of rank.",
     "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
-    "Read RJR from REMOTE_JOINING_READINESS.json; never infer it from milestones, PRs or WEC.",
+    "Read current RJR from REMOTE_JOINING_READINESS.json and the closed historical 82-to-58 explanation from RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md; never infer either from milestones, PRs or WEC.",
     "When owner surfaces disagree, compare their exact redacted rivalry fingerprints before inferring remote data loss or changing source; a different fingerprint means a different authoritative document path.",
     "If main or current PR differs, score changed/intervening files with delta=1 and inspect those before broad history.",
     "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
@@ -58,10 +68,10 @@
     "initialUtility": 0.5,
     "alpha": 0.2,
     "outcomes": {
-      "preventedErrorOrResolvedContradiction": 1.0,
+      "preventedErrorOrResolvedContradiction": 1,
       "requiredForPublicationSecurityOrRecovery": 0.8,
       "materiallyUsedInDecision": 0.5,
-      "neutralReference": 0.0,
+      "neutralReference": 0,
       "redundantPreload": -0.5
     },
     "constraint": "learned utility can never suppress mandatory bypass locks"

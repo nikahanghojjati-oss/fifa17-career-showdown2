@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-24-rjr-score-provenance-audit",
+  "environmentId": "we-2026-08-25-rjr-score-provenance-backcast",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-25T02:52:19Z",
+  "recordedAt": "2026-08-25T11:57:18Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "9219879389b727fba1f9095aa2bf1a0299449222",
+    "startingMainSha": "838ef18c50f185fceafd01591e49081366c61cac",
     "runtimeReleaseMergeSha": "ca0cb6ce8628c5f993669c08ff33e8f64c634870"
   },
   "signals": {
-    "contextComplexity": "moderate",
+    "contextComplexity": "high",
     "projectComplexity": "high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 9,
-    "toolRoutingErrors": 2,
-    "correctedFailures": 2,
+    "compactionCount": 2,
+    "majorPhasesCompleted": 3,
+    "largeEvidenceEvents": 18,
+    "toolRoutingErrors": 5,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -31,39 +31,40 @@
   "decision": {
     "value": "HANDOFF_AT_CHECKPOINT",
     "scope": "current-successor-environment",
-    "reason": "The owner-required RJR 81 to 77 to 78 evidence packet and complete mirrored v1.4.14 SLE handoff are validated and safely checkpointed. The actual provenance/backcast investigation is a distinct successor milestone. Publish and merge only this documentation seal, then transition without beginning the audit or queued product proof in this environment."
+    "reason": "The owner-mandated provenance backcast is closed, its complete v1.4.15 SLE successor package is validated, and the queued Player Two product proof is a distinct milestone. Publish and merge only the final two-file continuity seal after fresh exact-head gates, verify unchanged production authority, then transition without beginning the product proof or Stage 5 work in this environment."
   },
   "continuity": {
-    "currentTask": "Publish and merge only the final owner-required RJR score-provenance SLE handoff seal. Preserve official RJR-1 at 78 and make no runtime, Rules, workflow or provider mutation.",
-    "lastSafeCheckpoint": "Reachable connected-GitHub corrected pre-seal commit e998369924779bd9f56185b0c8ce17ee0e2a2fb7 has exact tree 7ffb444397126658d94f1686b8c9b6198660dd96 and restores the exact non-secret pair_ plus 64-hex Player Two regression fixture in both byte-identical starter/handoff mirrors. Its tree matches validated local correction 428f153ae366b88a203f73202612e03034cb7d92 byte-for-byte. JSON parsing, exact fixture validation, mirror equality, diff hygiene and the complete 69-file repository contract suite pass. REMOTE_JOINING_READINESS.json and all runtime/Rules/workflow/provider files are unchanged.",
-    "nextSafeAction": "Publish this status/history final seal as the sole child of reachable corrected pre-seal commit e998369924779bd9f56185b0c8ce17ee0e2a2fb7, require all exact-head workflow families plus clean reviews, zero unresolved threads and clean mergeability, resolve the existing review thread only after verifying the correction live, then expected-head squash merge under standing authorization. A fresh successor must initialize its own WEC and perform the RJR provenance/backcast audit before the queued Player Two product check.",
+    "currentTask": "Publish and merge only the final WEC seal for the closed RJR score-provenance backcast and complete v1.4.15 Player Two proof handoff. Preserve official RJR-1 at 78 and make no runtime, Rules, workflow or provider mutation.",
+    "lastSafeCheckpoint": "PR #141 reachable corrected pre-seal be9a45a5a83474e34fbbaefc11a33c199fd44512 has tree f2a09b1f332974858bf4f83d0617fd2e72aaee6a, exactly matching validated local correction 9efd3b722cc5b18340c31e7840c9780697377532. The corrected RJR reporting contract reverses every nonzero domain delta, explicitly proves negative invalidation backcasting and rejects any nonzero movement without a known fixed domain. Focused RJR contracts and all 69 repository contract files pass; both review threads were verified corrected live and resolved.",
+    "nextSafeAction": "Publish this status/history final reseal as the sole child of reachable corrected pre-seal be9a45a5a83474e34fbbaefc11a33c199fd44512, require all 14 exact-head workflow families plus clean reviews, zero unresolved threads and clean mergeability, then expected-head squash merge PR #141 under standing authorization and verify live main plus unchanged public 1.8.1-r1. A fresh successor must initialize its own WEC and perform exactly one non-mutating Player Two / Gop unavailable-code proof.",
     "unfinishedWork": [
-      "Locate the exact originating statement or artifact for the owner-reported 81, including date, model version, denominator, domain weights and credited evidence.",
-      "Determine whether 81 was RJR-1, an earlier intuition-based percentage or a different denominator; do not infer the answer from the later 77/78 ledger.",
-      "If 81 was comparable RJR-1, identify the exact invalidated evidence or proven regression required by the decrease rule; otherwise classify 81 and backcast it under RJR-1.",
-      "After the provenance audit, recalculate all comparable checkpoints from the fixed domains and explain any correction with evidence.",
-      "Keep the pending non-mutating Player Two unavailable-code regression and later Candidate C owner proof queued after this audit."
+      "Publish and merge the two-file final reseal for PR #141 after fresh exact-head workflows, reviews, threads and mergeability are clean.",
+      "Verify merged main and prove the public 1.8.1-r1 runtime remains byte-identical; do not retry or mutate the known App Check provider boundary.",
+      "In a fresh successor environment, perform exactly one non-mutating Player Two / Gop unavailable-code regression proof with the exact non-secret pair_ plus 64-zero fixture.",
+      "Keep real pairing, Candidate C and Stage 5 locked."
     ],
     "knownHazards": [
-      "No current repository file, reachable Git history search or available prior-context search produced the exact 81 calculation. Absence of a located artifact is not proof that the owner never received 81.",
-      "RJR-1 permits a decrease only when credited evidence is invalidated or a proven regression removes capability; changing weights or denominator requires a new model version, rationale and historical backcast.",
-      "Do not change REMOTE_JOINING_READINESS.json merely to reconcile narrative inconsistency. Official RJR-1 remains the calculated 78 until the provenance audit supplies comparable evidence.",
-      "The current 77 and 78 checkpoints are evidence-backed: 74 to 77 credits stale recovery, revision-1 publication and convergence; 77 to 78 credits Chromebook plus iPhone two-physical-device hardening.",
-      "No runtime, Firestore Rules, workflow, Firebase/App Check/provider, billing, storage, Candidate C or Stage 5 change is authorized in this documentation-only correction.",
-      "App Check enforcement remains OFF; Firebase Spark and zero billing remain locked; Firestore remains memory-only and production Rules must not be republished without a reviewed change or concrete regression.",
+      "The exact recoverable pre-model score is 82, while the owner's current recollection says 81 and no exact 81 artifact was found. Do not substitute one for the other or reopen the closed audit without new evidence.",
+      "The pre-model 82 had no fixed RJR-1 domains, weights, denominator or evidence ledger. Its change to fixed-model 58 is a non-comparable ruler correction, not a capability decrease.",
+      "Official RJR-1 remains the calculated 78; documentation, testing, publication and the queued UX proof earn zero readiness points.",
+      "No runtime, Firestore Rules, workflow, Firebase/App Check/provider, billing, storage, Candidate C or Stage 5 mutation is authorized in this audit.",
+      "App Check enforcement remains OFF; Firebase Spark and zero billing remain locked; Firestore remains memory-only and unchanged Rules must not be republished.",
       "Usage is unavailable and must not be estimated."
     ],
     "evidenceNotes": [
-      "The predecessor transition-prepared WEC validated before replacement. PR #139 merged at main 9219879389b727fba1f9095aa2bf1a0299449222 with tree 320522bbf183199ad8175aec7d0904ef4b15aabe; production runtime remained unchanged.",
-      "Repository and reachable Git searches for exact 81/100, 81 / 100, RJR near 81 and Remote Joining readiness near 81 found no source calculation. Available prior-context retrieval likewise found 59, 61, 69, 77 and 78 records but no exact 81 artifact.",
-      "REMOTE_JOINING_READINESS.json records fixed RJR-1 baseline 58 after denominator drift, then evidence-backed checkpoints 59, 61, 62, 63, 69, 72, 73, 74, 77 and 78.",
-      "authority-history/REMOTE_JOINING_READINESS_MODEL_RJR1_2026-08-20.md states that RJR-1 replaced intuition-based percentages and requires comparable-score backcasting for any model or denominator change.",
-      "PRODUCTION_STAGE4_CONNECTED_RIVALRY_PROOF_2026-08-24.md proves the 69 to 72 to 74 to 77 sequence. PRODUCTION_TWO_PHYSICAL_DEVICE_CONNECTED_RIVALRY_PROOF_2026-08-24.md proves 77 to 78 as exactly one real-device-hardening point."
-      ,"The initial complete contract run correctly exposed that the fresh WEC had not repeated the permanent exact phrase App Check enforcement remains OFF and the Spark/zero-billing lock. The status now preserves both; the rerun passed all 69 contract files without weakening any test."
-      ,"The v1.4.14 starter and deep handoff root/project mirrors are byte-identical. SESSION_BOOTSTRAP.json selects them, the context graph makes the owner-mandated audit the first correctness gate while preserving the next real product milestone, and the official RJR ledger remains byte-unchanged at 78."
-      ,"Connected GitHub created reachable pre-seal 21ea03a8c94b35ffdf573662ecf5a08e10789ed6 with exact tree 962929118846d9e5733f0322a6e16367c2fb245b, byte-identical to validated local pre-seal 6508b197dc05d2a08c3b43cf46613c3545258397. Direct HTTPS git push had no local GitHub credential, so the authenticated connector-first route was used without copying credentials. This status and the additions-only closure entry in WORK_ENVIRONMENT_HISTORY.md are the sole final-seal file mutations after the reachable checkpoint; any later branch file mutation invalidates the seal and requires fresh validation and resealing."
-      ,"Two recoverable publication/seal routing errors are recorded: the first connected-repository lookup used the wrong argument alias and was corrected before mutation; the first focused interruption-resilience invocation used a nonexistent shortened filename, then the exact repository filename passed. Neither changed product, provider, security, readiness or test behavior."
-      ,"PR #140 initial exact head f20c3d3e2f1aee1e7143f62fb3843b4248abf5c9 passed all 14 workflow families, but automated review correctly found that v1.4.14 omitted the exact Player Two unavailable-code fixture while SESSION_BOOTSTRAP.json still required it from the current starter. Corrected pre-seal e998369924779bd9f56185b0c8ce17ee0e2a2fb7 restores exactly pair_ plus 64 zero hex characters and prohibits malformed, non-hex, wrong-length or real substitutions in both starter and deep-handoff mirrors. Full validation passes and readiness remains 78. This status and the matching additions-only history addendum are the sole final-seal mutations after that corrected checkpoint."
+      "PR #140 final exact head 787ebb457b0cdc532034df26c18b10a08abed743 passed all 14 workflow families and merged to starting main 838ef18c50f185fceafd01591e49081366c61cac with exact tree 9704baea1a18634d5d6e3a2e3bf0975db0448f8e; the sole review thread is resolved/outdated and zero unresolved threads remain.",
+      "Repository-wide search across all fetched remote branches, tags and reachable commits found no exact Remote Joining readiness 81 or 82 line before the audit documentation; historical fixed RJR-1 begins with a deterministically reconstructed 58 vector [20,17,14,4,3] and first committed current score 59.",
+      "Prior-conversation retrieval found exact assistant reports Remote Joining readiness: 82/100 at 2026-08-20T03:25:03Z and 2026-08-20T03:25:23Z. The repeated explanation credited a high-weight production Rules prerequisite but gave no calculation or stable denominator.",
+      "The assistant's 2026-08-20T02:41:39Z methodological correction states that the pre-model 82 measured prerequisite/infrastructure foundation while a 20-condition end-to-end model scored 11.5/20, or 57.5 rounded to 58. This proves a ruler change rather than lost capability.",
+      "Library finds show approximate pre-model handoff references 35, 41, 44 and 45 before the 82 report, then fixed RJR-1 evidence at 59 and later checkpoints. No Library artifact contains an exact 81 or an itemized 82 calculation.",
+      "REMOTE_JOINING_READINESS.json and its Git history reconstruct fixed RJR-1 checkpoints 58, 59, 61, 62, 63, 69, 72, 73, 74, 77 and 78. Every vector and evidence delta recalculates under the unchanged five-domain weights 20, 20, 20, 30 and 10.",
+      "The two current deltas remain proven and comparable: 74 to 77 credits stale recovery, revision-one publication and cross-manager convergence; 77 to 78 credits Chromebook-plus-iPhone two-physical-device hardening."
+      ,"The closed audit RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md preserves the timestamped 82 evidence, exhaustive no-exact-81 boundary, 11.5/20 = 57.5 rounded-to-58 methodology, full fixed-model vector table and non-comparability conclusion. The focused reporting-authority contract and full repository suite pass."
+      ,"The byte-identical v1.4.15 starter and deep handoff pairs, refreshed capsule/graph/model/learning and rolling pointers select exactly one Player Two / Gop invalid-code check using pair_ plus 64 zero hex characters. It prohibits retry, real pairing, Publish, Preview, Apply, local Save mutation, pointer/binding mutation, rivalry revision mutation, Candidate C and Stage 5 work."
+      ,"Independent deployment verification on 2026-08-25 proved all 89 public runtime files still match 1.8.1-r1 byte-for-byte. The reviewed Stage 4 firestore.spark.rules source remains exact blob ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f."
+      ,"Connected GitHub published exact initial pre-seal fa42d7f005468b1488e6c4df32d180e80b424fdf with tree 2d29467769c49fc9d955a98b543d8bbb7ec3df0 on PR #141. All 14 workflow families passed, but later automated review opened two threads; the first seal is therefore historical and invalidated."
+      ,"Five recoverable routing errors and four corrected failures remain observable: one wrong historical SHA, one unsupported tags route, one initially misread Library result shape, one truncated large-history blob read corrected by bounded chunks, one multi-operation patch context failure before mutation, and the later review-found negative-delta contract gap. None changed product, provider, security, runtime, readiness or the official ledger."
+      ,"Automated review correctly found that the new baseline reconstruction reversed only positive score movements. Corrected pre-seal be9a45a5a83474e34fbbaefc11a33c199fd44512 reverses every nonzero domain delta, includes a synthetic +2 then -1 invalidation proof, and rejects nonzero movements without a known domain. The separate status-staleness thread was already corrected by the first transition seal. Both threads were verified live, replied to and resolved; this status plus the additions-only history reseal are the sole final-seal mutation after the corrected pre-seal."
     ]
   }
 }

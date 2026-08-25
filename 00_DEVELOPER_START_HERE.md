@@ -1,5 +1,19 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START — PLAYER TWO UNAVAILABLE-CODE PROOF AFTER CLOSED RJR BACKCAST — 2026-08-25 ET
+
+Start with `START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md` and `SESSION_BOOTSTRAP.json`. Verify live main includes the closed audit after PR #140 merge `838ef18c50f185fceafd01591e49081366c61cac`, public `v1.8.1 / 1.8.1-r1` remains byte-exact, RJR-1 remains 78 and Firestore Rules remain unchanged.
+
+The exact recovered historical score was pre-RJR `82/100`, not an exact 81 artifact. It backcasts to RJR-1 58 and represents a non-comparable ruler correction, not capability loss. Read `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md` for the timestamps, 20-condition calculation and five-domain checkpoint table. Do not reopen the audit without materially contradictory exact evidence.
+
+The immediate real product task is exactly one non-mutating owner-browser check on the existing Player Two / Gop Private Pairing surface. Submit only the exact syntactically valid non-secret fixture in the starter once, require Player Two preservation plus privacy-safe guidance and prove no local/remote mutation. Do not repeat setup, retry, use Candidate C, republish unchanged Rules, change provider/App Check/billing/storage authority or begin Stage 5.
+
+Use `SUCCESSOR_HANDOFF_POST_RJR_BACKCAST_PLAYER_TWO_PROOF_SLE_2026-08-25.md` only for the exact proof protocol, recovery or publication/security contradiction.
+
+The retained start below is historical where it conflicts with this override.
+
+---
+
 ## CURRENT START — RJR 81 TO 77 TO 78 PROVENANCE AUDIT — 2026-08-24 ET
 
 Start with `START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md` and `SESSION_BOOTSTRAP.json`, then verify live main `9219879389b727fba1f9095aa2bf1a0299449222` and unchanged production `v1.8.1 / 1.8.1-r1`. Read `RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md` before explaining or changing the score.
