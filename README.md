@@ -1,3 +1,5 @@
+Production runtime: `v1.8.1 / 1.8.1-r2` — Connected Rivalry full-ID recovery UX, PR #144.
+
 # CURRENT RELEASE NOTE — v1.8.1-r1 pairing identity UX hardening production release
 
 Current production: `v1.8.1 — Pairing Identity UX Hardening` / `1.8.1-r1`, merged by PR #138 at `ca0cb6ce8628c5f993669c08ff33e8f64c634870`, deployed by Pages run `32793956319` and independently proven across all 89 runtime files. `1.8.0-r1` is the previous whole-shell recovery reference. Fixed RJR-1 is `78/100` after owner evidence across a Chromebook and iPhone closed one two-physical-device hardening gap; the runtime fix, release and deployment earn no readiness points.
