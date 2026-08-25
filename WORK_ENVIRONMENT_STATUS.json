@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-owner-account-proof",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-25T23:22:00Z",
+  "recordedAt": "2026-08-25T23:31:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -15,11 +15,11 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 14,
+    "largeEvidenceEvents": 15,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "staleFactCorrections": 3,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
@@ -65,6 +65,8 @@
       "Owner one-shot Player Two unavailable-code proof returns bounded non-enumerating guidance and preserves Player Two selection, the good rivalry pointer, revision 0, local target and no-local-commit state. Canonical privacy-safe proof artifact is OWNER_PRODUCTION_PLAYER_TWO_UNAVAILABLE_CODE_PROOF_2026-08-25.md.",
       "Fresh positive proof and unavailable-code regression re-prove already credited capabilities and therefore add zero RJR points.",
       "Complete mirrored SLE = Smart Lean Efficient package is created at START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md and SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md with byte-identical project mirrors, refreshed bootstrap, context graph/model and ready-to-paste entrypoint.",
+      "PR #152 Codex review identified two authority-packaging issues on an earlier head: unsupported WEC lifecycle text and stale NEXT_TASK authorization. Both are corrected on the current branch: lifecycle is transition-prepared and live NEXT_TASK now explicitly authorizes the same Stage 4 reconciliation milestone while preserving r3 recovery prose as completed historical provenance only.",
+      "This WEC update is the final branch mutation after those review-driven corrections; any later branch mutation invalidates this transition seal and requires a fresh exact-head validation gate.",
       "Usage remains null/unavailable because no approved current-session usage percentage was supplied."
     ]
   }
