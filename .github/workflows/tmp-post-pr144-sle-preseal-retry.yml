@@ -44,6 +44,13 @@ jobs:
               status['continuity']['evidenceNotes'].append(note)
           status_path.write_text(json.dumps(status, indent=2) + '\n')
 
+          # Promoted runtimes are acknowledged by every current release-authority surface.
+          roadmap_path = Path('POST_V1_ROADMAP_EXECUTION.md')
+          roadmap = roadmap_path.read_text()
+          marker = '# CURRENT PRODUCTION RUNTIME — v1.8.1 / 1.8.1-r2 — PR #144\n\nProduction-proven Connected Rivalry full-ID recovery UX is deployed at runtime `1.8.1-r2`; durable rivalry-ID shortening is abandoned and Stage 5 remains locked.\n\n'
+          if '1.8.1-r2' not in roadmap[:2500]:
+              roadmap_path.write_text(marker + roadmap)
+
           # Markdown hard-break spaces in generated evidence are unnecessary and
           # violate the repository's git-diff whitespace gate. Strip trailing
           # spaces/tabs from every generated text line before deterministic checks.
@@ -56,7 +63,7 @@ jobs:
               'project-documents/START_NEXT_SESSION.md',
               'PROJECT_STATE.md', 'NEXT_TASK.md', '00_CURRENT_HANDOFF.md',
               '00_DEVELOPER_START_HERE.md', 'CAREER_MODE_SHOWDOWN_V1.8.1_R2_MAINTENANCE_HANDOFF.md',
-              'README.md', 'CHANGELOG.md', 'WORK_ENVIRONMENT_HISTORY.md'
+              'README.md', 'CHANGELOG.md', 'WORK_ENVIRONMENT_HISTORY.md', 'POST_V1_ROADMAP_EXECUTION.md'
           ]:
               p = Path(path)
               if p.exists():
