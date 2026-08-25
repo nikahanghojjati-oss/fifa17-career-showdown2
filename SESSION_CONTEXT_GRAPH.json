@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T12:40:07Z",
+  "recordedAt": "2026-08-25T15:03:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -155,7 +155,7 @@
       "ownerPairingRebaseline": {
         "priorRootCause": "Player One and Player Two had been reconnected to different valid rivalry IDs, so they correctly observed different authoritative documents",
         "resolution": "owner created a fresh one-use pairing on Chromebook, joined it on iPhone with exact Player Two entitlement, attached both Connected Rivalry surfaces and proved revision-0/revision-1 stale-recovery convergence",
-        "currentFingerprint": "pair_500375…91ff6",
+        "currentFingerprint": "pair_500375\u202691ff6",
         "currentObservedRevision": 1,
         "mutationBoundary": "no local Apply has occurred; reverify current attachment and revision before the separately pending reconciliation proof"
       },
@@ -190,7 +190,7 @@
     },
     {
       "id": "v181-pairing-identity-ux-hardening",
-      "type": "immediate-next-product-milestone",
+      "type": "historical-product-milestone",
       "state": "production-deployed-owner-device-unavailable-code-proof-next-clean-work-cloud-browser-ineligible",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r1",
@@ -254,6 +254,44 @@
       "publicMatchmaking": false,
       "globalLeaderboardsRankings": false,
       "riskCriticality": 1
+    },
+    {
+      "id": "pr144-r2-production-release",
+      "type": "completed-production-shell-release",
+      "pr": 144,
+      "finalExactHead": "bc93407decbc5b8300013f1e23b558d686174566",
+      "mergeSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
+      "mergeTree": "e0ddc2e360a345705957bb535fd57fbfec3843a3",
+      "runtimeRevision": "1.8.1-r2",
+      "pagesRunId": 32863192183,
+      "pagesArtifactId": 9569006078,
+      "fullRivalryIdCopy": "immutable-full-id-primary-and-fallback",
+      "durableIdShortening": "abandoned",
+      "prWorkflowFamiliesGreen": 14,
+      "unresolvedReviewThreads": 0,
+      "rulesChanged": false,
+      "providerChanged": false,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "r2-existing-rivalry-owner-recovery",
+      "type": "immediate-next-product-milestone",
+      "state": "production-r2-deployed-owner-proof-next",
+      "applicationVersion": "1.8.1",
+      "runtimeRevision": "1.8.1-r2",
+      "scope": [
+        "prove Nik full durable rivalry ID is fully visible/wrapped/selectable and copy action copies exact full value",
+        "confirm PLAYER TWO \u00b7 GOP before mutation",
+        "attach Gop once to Nik existing exact rivalry ID without creating a replacement pairing",
+        "prove same rivalry revision/authority and no local Save overwrite",
+        "do not Publish Preview or Candidate C Apply during recovery",
+        "after recovery resume the separate one-shot unavailable-code proof"
+      ],
+      "rulesChanged": false,
+      "stage5Authorized": false,
+      "riskCriticality": 0.8,
+      "authority": 1
     }
   ],
   "edges": [
@@ -321,12 +359,22 @@
       "from": "security-zero-billing",
       "to": "stage4-remote-to-local-reconciliation",
       "relation": "constrains"
+    },
+    {
+      "from": "pr144-r2-production-release",
+      "to": "r2-existing-rivalry-owner-recovery",
+      "relation": "deployed-recovery-ux-unlocks-owner-existing-pointer-proof"
+    },
+    {
+      "from": "r2-existing-rivalry-owner-recovery",
+      "to": "stage4-remote-to-local-reconciliation",
+      "relation": "recover-existing-pointer-and-close-unavailable-code-proof-before-candidate-c-owner-reconciliation"
     }
   ],
   "retrievalHints": {
-    "currentTaskNode": "v181-pairing-identity-ux-hardening",
-    "immediateNextProductNode": "v181-pairing-identity-ux-hardening",
-    "walkDirection": "continue Stage 3 product work directly with exactly one non-mutating deployed Player Two syntactically valid but practically nonexistent-code Private Pairing regression check on the owner's existing device-local session; the clean Work cloud browser lacks the required Save and signed-in identity; preserve the closed pre-RJR 82 to RJR-1 58 backcast and official score 78, then reassess before the separate Stage 4 reconciliation owner proof",
+    "currentTaskNode": "r2-existing-rivalry-owner-recovery",
+    "immediateNextProductNode": "r2-existing-rivalry-owner-recovery",
+    "walkDirection": "continue Stage 3/Stage 4 product work directly: production r2 existing-rivalry recovery on the owner devices, then the one-shot unavailable-code proof; no replacement pairing, no durable-ID shortening, then reassess before Candidate C.",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [

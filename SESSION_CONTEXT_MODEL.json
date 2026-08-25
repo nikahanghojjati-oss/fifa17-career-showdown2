@@ -96,5 +96,12 @@
     "exact-job-log-first CI repairs",
     "direct progression into real Remote Joining prerequisite"
   ],
-  "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information"
+  "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
+  "latestR2RecoveryCheckpoint": {
+    "mainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
+    "runtimeRevision": "1.8.1-r2",
+    "pagesRunId": 32863192183,
+    "next": "owner-existing-rivalry-recovery",
+    "durableIdShortening": "abandoned"
+  }
 }

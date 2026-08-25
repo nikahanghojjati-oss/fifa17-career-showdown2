@@ -202,5 +202,10 @@
     "minimumMaterialSessions": 20,
     "preferredEvaluationSessions": 30,
     "eligibleNow": false
+  },
+  "latestR2RecoveryLesson": {
+    "lesson": "Long durable identifiers should remain authority-stable; solve mobile recovery with full wrapping/selectability and immutable full-value copy. Copy fallback must never source an editable field. Runtime rollback must retain a verified installed older shell when an intermediate release was skipped.",
+    "mainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
+    "next": "owner-existing-rivalry-recovery"
   }
 }

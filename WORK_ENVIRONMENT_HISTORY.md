@@ -801,3 +801,17 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Final observable signals: moderate context complexity, high project complexity, zero compactions, three completed major phases, eight dense evidence events, three recoverable routing errors, two corrected failure clusters, zero repeated mistakes, one stale-fact correction, zero unresolved failures, exact user-reported usage, `100/100` handoff completeness, zero unrecorded decisions and no atomic operation.
 - Final mutation boundary: this additions-only closure and the matching transition-prepared WEC are the sole file mutation after reachable pre-seal `858679ace51925303384b7435699071be15a267b`. Any later file change invalidates the seal and requires fresh exact-head validation plus another final seal.
 - Exact next safe action: publish this final seal as the sole child of the reachable pre-seal, open the handoff pull request and require exact-head workflows, clean reviews, zero unresolved threads and clean mergeability before standing-authorized merge. Stop. A fresh GPT-5.6 Sol High successor must use only the owner's existing signed-in Chromebook or iPhone Player Two / Gop session, accept before/after owner screenshots when needed, submit the exact fixture once and preserve zero mutation.
+
+
+## PR #144 r2 recovery UX publication checkpoint — we-2026-08-25-player-two-owner-device-proof-live
+
+- Deterministic WEC decision before publication: `HANDOFF_AT_CHECKPOINT`; predecessor counters were not inherited from an earlier environment.
+- PR #144 final exact head `bc93407decbc5b8300013f1e23b558d686174566` passed all 14 permanent workflow families, mergeability was clean and both legitimate review threads were corrected/resolved.
+- Standing-authorized squash merge `f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18` / tree `e0ddc2e360a345705957bb535fd57fbfec3843a3` completed.
+- Pages run `32863192183` succeeded; artifact `9569006078` / `sha256:5f00a4e07cd803d2e16b1d59d3cd46063923e96e53bd388469b1e8c0996409f0` was targeted-inspected as `v1.8.1 / 1.8.1-r2`.
+- Full rivalry-ID copy source is immutable full `rivalryId`; wrapping is visual only. Durable ID shortening is abandoned.
+- Skipped-r1 clients retain a verified older installed shell for rollback.
+- Firestore Rules/provider/billing/App Check/auth/canonical storage/Candidate C/Stage 5 boundaries were not changed. App Check enforcement remains OFF.
+- Official RJR-1 remains 78; publication work earns zero points.
+- Owner-device Gop recovery, unavailable-code proof and Candidate C proof were not performed in this closing environment.
+- Complete mirrored v1.4.17 SLE successor package prepared; final WEC seal to 100 is the only permitted subsequent branch file mutation.

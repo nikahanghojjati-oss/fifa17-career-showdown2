@@ -1,3 +1,15 @@
+# CURRENT OVERRIDE — PR #144 r2 DEPLOYED / EXISTING GOP RIVALRY RECOVERY NEXT — 2026-08-25 ET
+
+Live main is PR #144 squash `f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18` / tree `e0ddc2e360a345705957bb535fd57fbfec3843a3`. Production is `v1.8.1 / 1.8.1-r2`; Pages run `32863192183` succeeded and its generated artifact was inspected for the complete immutable full-ID copy path and skipped-release rollback behavior. Durable rivalry ID shortening is abandoned. Official RJR-1 remains `78/100`; Stage 5 remains locked.
+
+Immediate task: on the owner's existing Nik context prove the complete saved rivalry ID is visible/wrapped/selectable and copy it using `COPY RIVALRY ID`; then on the existing signed-in `PLAYER TWO · GOP` context paste that exact full value and attach the existing rivalry exactly once. Do not create a new pairing and do not Publish, Preview or Candidate C Apply during pointer recovery. After recovery stabilizes, resume the separately bounded one-shot unavailable-code proof; the all-zero fixture remains unconsumed.
+
+Current starter: `START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md`. Deep fallback: `SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT HANDOFF — PLAYER TWO OWNER-DEVICE PROOF / CLOUD SESSION BLOCKER — 2026-08-25 ET
 
 Live main is PR #141 merge `8bf5313735a9afbcb0922524e3dee3f283a963a7`, tree `3f46ea38c924260319ca78e7281dd67cba842e1f`. Its final head `99fc72e32a94aeaa1318bea17571c46375272747` passed all 14 workflow families and both review threads are resolved/outdated. Production remains 89-file byte-proven `v1.8.1 / 1.8.1-r1`; Rules remain blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`; RJR-1 remains 78.
