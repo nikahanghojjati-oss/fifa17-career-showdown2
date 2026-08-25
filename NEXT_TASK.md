@@ -46,7 +46,11 @@ Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `car
 
 Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive local Apply authority.
 
-Firestore client persistence remains memory-only. Firebase remains Spark / zero billing. Google Auth remains popup-only with `browserSessionPersistence`. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but not activated or broadened. Exactly two private managers remain required. No public discovery, community, matchmaking or global rankings are authorized.
+Firestore client persistence remains memory-only. Firebase remains Spark / zero billing. Google Auth remains popup-only with `browserSessionPersistence`. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but not activated or broadened. Exactly two private managers remain required.
+
+No public discovery/community/matchmaking/rankings are authorized.
+
+Stage 5 Remote Joining sessions remain locked.
 
 Standing owner authorization remains active: after all required tests and publication gates pass, merge and deploy without repeatedly asking for owner approval. A later explicit owner instruction may override that standing authorization.
 
