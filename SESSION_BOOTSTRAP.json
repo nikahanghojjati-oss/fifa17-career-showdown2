@@ -1,9 +1,9 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-25T00:45:53Z",
+  "recordedAt": "2026-08-25T01:54:05Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/v181-pairing-ux-production-handoff",
+  "bootstrapBranch": "agent/rjr-score-provenance-audit",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
   "lastVerifiedRuntimeMainSha": "ca0cb6ce8628c5f993669c08ff33e8f64c634870",
   "latestRuntimeMerge": {
@@ -44,7 +44,11 @@
     "firestoreRulesChanged": false,
     "providerChanged": false,
     "postDeploymentCloseoutBranch": "agent/v181-pairing-ux-production-handoff",
-    "postDeploymentCloseoutPullRequest": null
+    "postDeploymentCloseoutPullRequest": 139,
+    "postDeploymentCloseoutExactHead": "545d123460d3e2d48eb8711af77dcf6f768aa8a7",
+    "postDeploymentCloseoutExactTree": "320522bbf183199ad8175aec7d0904ef4b15aabe",
+    "postDeploymentCloseoutMergeSha": "9219879389b727fba1f9095aa2bf1a0299449222",
+    "postDeploymentCloseoutPagesRunId": 32797673625
   },
   "closingEvidenceCheckpoint": {
     "pullRequest": 136,
@@ -164,7 +168,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Close the documentation-only v1.8.1-r1 production handoff, then run one non-mutating Player Two syntactically valid but practically nonexistent-code Private Pairing regression check before separately resuming the Stage 4 owner reconciliation proof; no Rules/provider/storage/Candidate C/Stage 5 change is authorized in this closeout.",
+  "currentLane": "Complete the owner-mandated non-runtime RJR 81 to 77 to 78 provenance audit first: locate the exact 81 artifact/model/inputs, backcast and recalculate comparable checkpoints, then return directly to the queued non-mutating Player Two Private Pairing regression check. No score guess, runtime, Rules, provider, storage, Candidate C or Stage 5 change is authorized.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -174,23 +178,23 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-24-v181-pairing-ux-hardening",
-    "decision": "HANDOFF_NOW",
+    "environmentId": "we-2026-08-24-rjr-score-provenance-audit",
+    "decision": "HANDOFF_AT_CHECKPOINT",
     "decisionScope": "closing-environment-only-do-not-inherit",
-    "checkpoint": "v1.8.1-r1-merged-deployed-byte-proven-post-deployment-package-sealed-owner-regression-next-rjr78"
+    "checkpoint": "owner-required-rjr-81-77-78-provenance-audit-packaged-official-rjr78-unchanged"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md"
+    "canonical": "SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md"
   },
   "starter": {
-    "version": "1.4.13",
-    "checkpoint": "V1.8.1-PAIRING-UX-PRODUCTION-PROOF",
-    "canonical": "START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md",
+    "version": "1.4.14",
+    "checkpoint": "RJR-SCORE-PROVENANCE-AUDIT",
+    "canonical": "START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PATCH: PR #138 is now merged, deployed and byte-proven, so the compact owner entrypoint advances from release publication to the single non-mutating production UX regression check while preserving RJR 78 and all locks."
+    "versionReason": "PATCH: the owner explicitly requires the unresolved reported 81 to fixed-ledger 77 to 78 score sequence to be investigated, backcast, recalculated and explained before the queued product check; official RJR-1 remains 78 until exact comparable evidence proves a correction."
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -207,8 +211,9 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
-    "START_NEXT_SESSION_V1.4.13_V1.8.1_PAIRING_UX_PRODUCTION_PROOF.md",
-    "SUCCESSOR_HANDOFF_POST_PR138_V1.8.1_PAIRING_UX_PRODUCTION_PROOF_SLE_2026-08-24.md",
+    "START_NEXT_SESSION_V1.4.14_RJR_SCORE_PROVENANCE_AUDIT.md",
+    "SUCCESSOR_HANDOFF_RJR_SCORE_PROVENANCE_AUDIT_SLE_2026-08-24.md",
+    "RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
     "RELEASE_V1.8.1.md",
@@ -239,12 +244,14 @@
     "applicationCandidate": "1.8.1",
     "runtimeCandidate": "1.8.1-r1",
     "runtimeMergeSha": "ca0cb6ce8628c5f993669c08ff33e8f64c634870",
-    "stage": "Stage 3 deployed Private Pairing UX owner regression check before remaining Stage 4 owner proof",
+    "stage": "Owner-mandated RJR score provenance correctness gate immediately before the Stage 3 deployed Private Pairing UX owner regression check",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
     "scope": [
-      "independently verify live main ca0cb6ce8628c5f993669c08ff33e8f64c634870 and public v1.8.1-r1 before accepting this capsule",
-      "preserve the owner-proven Chromebook/iPhone two-physical-device evidence and fixed RJR-1 score 78 without awarding points for source, tests or release work",
+      "independently verify live main 9219879389b727fba1f9095aa2bf1a0299449222 and unchanged public v1.8.1-r1 before accepting this capsule",
+      "locate the exact owner-reported 81 artifact, model, denominator, weights and credited inputs; current source, reachable Git history and available prior-context retrieval did not locate the calculation",
+      "backcast 81 through fixed RJR-1, compare it with evidence-backed 77 and 78, recalculate all comparable checkpoints and explain or propose a tested correction without guessing",
+      "preserve official fixed RJR-1 score 78 unless exact comparable evidence justifies a correction; source, tests, release and documentation work earn no points",
       "reuse the existing signed-in owner sessions and select Player Two / Gop without repeating Firebase, App Check, account, device, pairing or Connected Rivalry setup",
       "submit exactly one syntactically valid but non-secret and practically nonexistent 64-hex Private Pairing code from the current starter, then verify Player Two remains selected after the unavailable/opaque-code failure rerender; a malformed value proves only local validation",
       "require safe non-enumerating used-expired-unavailable guidance and reject raw Missing or insufficient permissions text",

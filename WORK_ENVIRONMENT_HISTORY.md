@@ -721,3 +721,10 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Safety and readiness remain unchanged: no runtime, Firestore Rules, workflow, provider, billing, App Check enforcement, storage, Candidate C or Stage 5 behavior changed. RJR-1 remains exactly `78/100`; review correction, tests, publication and UX acceptance earn zero readiness points.
 - Final mutation boundary: this additions-only addendum and the matching transition-prepared WEC are the sole final-seal mutation after reachable remote pre-seal `8b487e142f69eaf4a8d1c25466f3ee48369870f3`. Any later branch mutation invalidates this reseal and requires fresh exact-head validation plus another final seal.
 - Exact next safe action: publish the final seal as the sole child of that reachable pre-seal on PR #139, require all 14 exact-head workflow families, clean reviews, zero unresolved threads and clean mergeability, resolve review threads only after correction evidence is live and verified, then expected-head squash merge and verify unchanged public `1.8.1-r1`. Stop before the fresh-successor owner regression milestone.
+
+## PR #139 merge closure — `we-2026-08-24-v181-pairing-ux-hardening`
+
+- PR #139 merged at expected-head squash/live main `9219879389b727fba1f9095aa2bf1a0299449222`; its exact tree is `320522bbf183199ad8175aec7d0904ef4b15aabe`, equal to the sealed local tree.
+- All 14 pull-request workflow families were successful, reviews were clean and no unresolved thread remained. Pages run `32797673625` succeeded.
+- Independent deployment verification passed all 89 public `1.8.1-r1` files. Fourteen of fifteen push workflows succeeded; the sole Stability failure was the already classified reCAPTCHA Enterprise `403 initial-throttle` after contracts, Chromium, deployed bytes and runtime provenance passed. No runtime, Rules or provider correction was required.
+- The predecessor is now archived. Fresh environment `we-2026-08-24-rjr-score-provenance-audit` starts from live main `9219879389b727fba1f9095aa2bf1a0299449222` for the owner's bounded RJR score-provenance handoff correction.
