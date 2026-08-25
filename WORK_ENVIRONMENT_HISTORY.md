@@ -780,3 +780,12 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Deterministic final clean-reseal assessment: context pressure `98/100`, quality risk `58/100`, next-task separation `80/100`, handoff readiness `100/100`, continuation risk `79.6/100`, transition cost `11.3/100`, transition advantage `68.4`; decision remains `HANDOFF_AT_CHECKPOINT`.
 - Final mutation boundary: this additions-only addendum and the matching transition-prepared WEC are the sole final-reseal mutation after corrected reachable pre-seal `be9a45a5a83474e34fbbaefc11a33c199fd44512`. Any later branch mutation invalidates this reseal and requires fresh exact-head validation plus another final seal.
 - Exact next safe action: publish the final reseal as the sole child of `be9a45a5a83474e34fbbaefc11a33c199fd44512`, require all 14 exact-head workflow families, clean reviews, zero unresolved threads and clean mergeability, then expected-head squash merge PR #141 and verify live main plus unchanged public `1.8.1-r1`. Stop before the fresh-successor Player Two / Gop product proof.
+
+## PR #141 merge closure — `we-2026-08-25-rjr-score-provenance-backcast`
+
+- Successor verification recorded: `2026-08-25T12:40:07Z`.
+- PR #141 final exact head `99fc72e32a94aeaa1318bea17571c46375272747` passed all 14 pull-request workflow families. Its two automated-review threads are resolved and outdated; zero unresolved threads remain.
+- PR #141 squash-merged to live main `8bf5313735a9afbcb0922524e3dee3f283a963a7`, exact tree `3f46ea38c924260319ca78e7281dd67cba842e1f`. This supersedes the v1.4.15 starter's earlier PR #140 main pointer while preserving its closed-audit and product-proof direction.
+- Independent deployment verification in the fresh successor matched all 89 public runtime files to `1.8.1-r1` byte-for-byte. Visible production also reported `v1.8.1 / 1.8.1-r1`, and `firestore.spark.rules` remained exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.
+- The predecessor `HANDOFF_AT_CHECKPOINT` decision and counters remain archived and were not inherited.
+- Exact next safe action fulfilled: fresh environment `we-2026-08-25-player-two-owner-session-proof` independently reconstructed live state and attempted only the authorized non-mutating deployed Player Two check.

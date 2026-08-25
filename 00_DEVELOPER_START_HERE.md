@@ -1,5 +1,19 @@
 # Career Mode Showdown — Developer Start Here
 
+## CURRENT START — PLAYER TWO OWNER-DEVICE PROOF AFTER INELIGIBLE WORK CLOUD SESSION — 2026-08-25 ET
+
+Start with `START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md` and `SESSION_BOOTSTRAP.json`. Verify PR #141 merge/main `8bf5313735a9afbcb0922524e3dee3f283a963a7` or later source authority, all 89 public `1.8.1-r1` files, fixed RJR-1 78 and unchanged Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.
+
+The prior Work cloud browser was production-healthy but had an empty Save Library, no active Showdown and no signed-in account. It could not truthfully reproduce the owner's browser-local `PLAYER TWO · GOP` state. No capability was submitted and the test remains unconsumed. Do not synthesize or recreate that state in a clean browser.
+
+The immediate product task is one exact owner-device action on the existing signed-in Chromebook or iPhone session: capture before-state, submit the starter's exact `pair_` plus 64-zero fixture once, and require Player Two preservation, privacy-safe fresh-code/existing-rivalry guidance and zero local or remote mutation. Do not retry, repeat setup, create a real pairing, use Candidate C, republish Rules or begin Stage 5.
+
+Use `SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md` only for exact evidence, recovery or security/publication contradiction.
+
+The retained start below is historical where it conflicts with this override.
+
+---
+
 ## CURRENT START — PLAYER TWO UNAVAILABLE-CODE PROOF AFTER CLOSED RJR BACKCAST — 2026-08-25 ET
 
 Start with `START_NEXT_SESSION_V1.4.15_PLAYER_TWO_UNAVAILABLE_CODE_PROOF.md` and `SESSION_BOOTSTRAP.json`. Verify live main includes the closed audit after PR #140 merge `838ef18c50f185fceafd01591e49081366c61cac`, public `v1.8.1 / 1.8.1-r1` remains byte-exact, RJR-1 remains 78 and Firestore Rules remain unchanged.

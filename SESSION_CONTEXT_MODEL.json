@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T11:38:35Z",
+  "recordedAt": "2026-08-25T12:40:07Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-six-labeled-sessions-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-seven-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -25,7 +25,7 @@
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
     "closed RJR provenance finding: exact pre-RJR 82 reports, no exact 81 artifact, fixed-model backcast 58, no capability regression and official RJR-1 78",
-    "exact one-action Player Two unavailable-code proof scope, fixture, no-mutation boundary and stop conditions",
+    "exact one-action Player Two unavailable-code proof scope, fixture, owner-device-local session requirement, clean Work cloud-browser ineligibility, no-mutation boundary and stop conditions",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",

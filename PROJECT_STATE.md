@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — PR #141 LIVE / PLAYER TWO OWNER-DEVICE PROOF PENDING — 2026-08-25 ET
+
+Live main is PR #141 squash merge `8bf5313735a9afbcb0922524e3dee3f283a963a7`, exact tree `3f46ea38c924260319ca78e7281dd67cba842e1f`. PR #141 final head `99fc72e32a94aeaa1318bea17571c46375272747` passed all 14 workflow families and its two review threads are resolved/outdated. Production remains `v1.8.1 / 1.8.1-r1`; this environment independently matched all 89 public runtime files byte-for-byte. Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.
+
+The Work cloud browser loaded production but had an empty Save Library, no active Showdown and no signed-in account. It therefore lacked the browser-local Player Two / Gop authority required by the acceptance contract. No code was submitted, the one-click test remains unconsumed and no local or remote state changed. This is a session/environment blocker, not a proven product regression.
+
+Current task remains exactly one non-mutating unavailable-code proof, but only on the owner's existing signed-in Chromebook or iPhone session where `PLAYER TWO · GOP` and its Connected Rivalry already exist. Before/after owner screenshots are valid evidence. Synthetic clean-browser setup, retry, real pairing, Candidate C, Rules/provider changes and Stage 5 remain prohibited.
+
+RJR provenance remains closed and official RJR-1 remains `78/100`. Current starter: `START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md`. Deep fallback: `SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md`.
+
+The retained state below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — RJR BACKCAST CLOSED / PLAYER TWO PROOF NEXT — 2026-08-25 ET
 
 Live main is PR #140 squash merge `838ef18c50f185fceafd01591e49081366c61cac`, exact tree `9704baea1a18634d5d6e3a2e3bf0975db0448f8e`. Production remains byte-proven `v1.8.1 / 1.8.1-r1` from runtime merge `ca0cb6ce8628c5f993669c08ff33e8f64c634870`; an independent 2026-08-25 check matched all 89 public runtime files. Production Stage 4 Rules remain exact blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`.

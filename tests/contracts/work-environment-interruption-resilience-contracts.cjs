@@ -25,8 +25,14 @@ assert.match(suite,/tests\/contracts\/work-environment-interruption-resilience-c
 assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-.+/,"Current WEC must use a valid environment identity.");
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i,"Current WEC must record a full starting live-main SHA.");
 assert.ok(["active","transition-prepared","closed"].includes(status.lifecycle),"WEC lifecycle must remain explicit.");
-assert.equal(status.signals.usageRemainingPercent,null,"Unknown model/account usage must remain unknown unless an approved source reports it.");
-assert.equal(status.signals.usageSource,"unavailable");
+const usageRemaining=status.signals.usageRemainingPercent;
+const usageSource=status.signals.usageSource;
+if(usageRemaining===null){
+  assert.equal(usageSource,"unavailable","Unknown model/account usage must remain unknown unless an approved source reports it.");
+}else{
+  assert.ok(Number.isInteger(usageRemaining)&&usageRemaining>=0&&usageRemaining<=100,"An approved usage observation must be an integer percentage from 0 through 100.");
+  assert.ok(["usage-dashboard","cli-status","user-reported"].includes(usageSource),"A known usage percentage must identify one approved source.");
+}
 assert.ok(typeof status.continuity.currentTask==="string"&&status.continuity.currentTask.trim().length>=40,"Current WEC must name a concrete bounded task rather than inherit one implicitly.");
 assert.ok(typeof status.continuity.lastSafeCheckpoint==="string"&&status.continuity.lastSafeCheckpoint.trim().length>=40,"Current WEC must preserve a concrete safe checkpoint.");
 assert.ok(typeof status.continuity.nextSafeAction==="string"&&status.continuity.nextSafeAction.trim().length>=40,"Current WEC must preserve a concrete resumable next action.");
