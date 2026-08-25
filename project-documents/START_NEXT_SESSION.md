@@ -1,7 +1,16 @@
 # START NEXT SESSION
 
-Give the successor only `START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md` first. It is the compact SLE = Smart Lean Efficient entrypoint. Deep fallback: `SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md`.
+Current bounded recovery authority is PR #146, the `v1.8.1 / 1.8.1-r3` Connected Account recovery candidate. The existing SLE = Smart Lean Efficient production-orientation starter remains `START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md`, with deep production fallback `SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md`; those r2 files are predecessor production orientation only and do not override live PR #146, `NEXT_TASK.md`, `PROJECT_STATE.md`, or the current RJR ledger.
 
-Current production source/runtime: `v1.8.1 / 1.8.1-r2` after merged PR #144 at `f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18` and successful Pages run `32863192183`. Official Remote Joining readiness: `78/100` under RJR-1.
+Current deployed source/runtime is `v1.8.1 / 1.8.1-r2`, but Connected Account has an owner-proven production regression. Current source candidate is `v1.8.1 / 1.8.1-r3`, not production-proven. Official Remote Joining readiness is `76/100` under RJR-1 until ordinary owner production evidence on deployed r3 restores the two invalidated account capabilities.
 
-Immediate product work is owner-device recovery of the existing Nik/Gop Connected Rivalry using the exact full saved ID and the r2 copy control. Durable ID shortening is abandoned; do not create a replacement pairing.
+IMMEDIATE NEXT TASK AFTER FULL STUDY: validate PR #146 on one exact unchanged head through all 14 permanent workflow families, reviews, threads and mergeability; then publish under standing merge/deploy authorization, prove the exact Pages deployment, and only then ask the owner for the smallest iPhone Connected Account sign-in/bootstrap acceptance test. Do not create a replacement pairing or rivalry. App Check enforcement remains OFF. Required gates must pass before publication.
+
+Owner-facing checkpoint template remains:
+Handoff proximity: X%
+Remote Joining readiness: ~Y%
+Current lane: ...
+Concrete dependency completed: ...
+Next unlock: ...
+Blocker: ...
+Sidequest check: ...
