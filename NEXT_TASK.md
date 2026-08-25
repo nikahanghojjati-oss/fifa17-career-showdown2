@@ -16,6 +16,12 @@ The authorized r3 repair is narrowly bounded: keep production origin/config/proj
 
 Do not enable App Check enforcement, change reCAPTCHA/Firebase provider configuration, use a debug provider/token, change billing, weaken Firestore Rules, change auth persistence/scopes, change canonical storage, create a replacement rivalry, or begin Stage 5.
 
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+After the mandatory fresh live-state/bootstrap study, continue only this bounded recovery lane. Resolve PR #146 against its exact current head, require all 14 permanent workflow families green on one unchanged head, inspect every review and inline thread, and require clean mergeability. If those gates pass, publish under standing owner authorization with expected-head squash merge, verify the GitHub Pages deployment and exact deployed shell identity, then reassess the fresh WEC before any separate milestone.
+
+Do not ask the owner to test the release candidate. Owner interaction begins only after `1.8.1-r3` is actually deployed and independently verified. The smallest production acceptance test is then: open Connected Account on ordinary iPhone Safari or the installed app, confirm the service is available, complete Google popup sign-in, and require strict self-account bootstrap to reach `Private account ready`. Do not create a replacement pairing or rivalry during this recovery proof.
+
 ## Required candidate gates
 
 1. Keep whole-shell identity coherent at `v1.8.1 / 1.8.1-r3`; Service Worker recovery target must remain known-good `1.8.1-r1`.
