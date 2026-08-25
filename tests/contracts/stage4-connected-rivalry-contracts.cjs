@@ -113,7 +113,10 @@ function stage4Rivalry(fixture){
   assert.match(source,/COPY RIVALRY ID/,"The saved rivalry ID must expose an explicit copy action.");
   assert.match(source,/overflowWrap="anywhere"/,"The full rivalry ID display must wrap instead of visually truncating on narrow mobile screens.");
   assert.match(source,/navigator\.clipboard\.writeText\(rivalryId\)/,"Copy must use the browser clipboard when available.");
-  assert.match(source,/code\.setSelectionRange\(0,code\.value\.length\)/,"Copy must retain a selectable fallback when clipboard APIs are unavailable.");
+  assert.match(source,/fallbackCopy\.value=rivalryId/,"Clipboard fallback must copy the immutable saved rivalry ID, never editable reattach text.");
+  assert.match(source,/fallbackCopy\.setSelectionRange\(0,rivalryId\.length\)/,"Clipboard fallback must select the complete durable rivalry ID.");
+  assert.match(source,/range\.selectNodeContents\(rivalryIdText\)/,"Manual fallback must select the complete visible full-ID surface.");
+  assert.doesNotMatch(source,/code\.setSelectionRange\(0,code\.value\.length\)/,"Copy fallback must not depend on the editable attachment input.");
 
   const rivalryId=`pair_${"c".repeat(64)}`;
   assert.equal(connected.normalizeRivalryId(`  ${rivalryId.toUpperCase()}  `),rivalryId);

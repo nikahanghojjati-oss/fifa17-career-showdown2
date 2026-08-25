@@ -1025,21 +1025,42 @@
             }
           }catch(_error){}
           if(!copied){
+            let fallbackCopy=null;
             try{
-              code.focus();
-              code.select();
-              code.setSelectionRange(0,code.value.length);
-              copied=Boolean(root.document&&typeof root.document.execCommand==="function"&&root.document.execCommand("copy"));
+              if(root.document&&root.document.body){
+                fallbackCopy=root.document.createElement("textarea");
+                fallbackCopy.value=rivalryId;
+                fallbackCopy.readOnly=true;
+                fallbackCopy.setAttribute("aria-hidden","true");
+                fallbackCopy.style.position="fixed";
+                fallbackCopy.style.left="-9999px";
+                fallbackCopy.style.top="0";
+                fallbackCopy.style.opacity="0";
+                root.document.body.appendChild(fallbackCopy);
+                fallbackCopy.focus();
+                fallbackCopy.select();
+                fallbackCopy.setSelectionRange(0,rivalryId.length);
+                copied=Boolean(typeof root.document.execCommand==="function"&&root.document.execCommand("copy"));
+              }
             }catch(_error){}
+            finally{
+              if(fallbackCopy&&fallbackCopy.parentNode)fallbackCopy.parentNode.removeChild(fallbackCopy);
+            }
           }
           if(copied){
             copyRivalryId.textContent="COPIED";
             root.setTimeout(()=>{if(copyRivalryId&&copyRivalryId.isConnected)copyRivalryId.textContent="COPY RIVALRY ID";},1600);
           }else{
-            code.focus();
-            code.select();
-            try{code.setSelectionRange(0,code.value.length);}catch(_error){}
-            copyRivalryId.textContent="SELECTED — USE COPY";
+            try{
+              const selection=typeof root.getSelection==="function"?root.getSelection():null;
+              if(selection&&root.document&&typeof root.document.createRange==="function"){
+                const range=root.document.createRange();
+                range.selectNodeContents(rivalryIdText);
+                selection.removeAllRanges();
+                selection.addRange(range);
+              }
+            }catch(_error){}
+            copyRivalryId.textContent="FULL ID SELECTED — USE COPY";
           }
         });
       }
