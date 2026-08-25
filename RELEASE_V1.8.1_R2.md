@@ -1,5 +1,7 @@
 # Career Mode Showdown v1.8.1 — Runtime r2
 
+Status: RELEASE CANDIDATE
+
 Application version: `v1.8.1`
 Runtime asset revision: `1.8.1-r2`
 Previous known-good runtime: `1.8.1-r1`
