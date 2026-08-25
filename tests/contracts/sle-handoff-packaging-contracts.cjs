@@ -27,6 +27,7 @@ const handoffRoot=capsule.currentHandoff.canonical;
 const handoffMirror=capsule.currentHandoff.projectMirror;
 const starterRoot=capsule.starter.canonical;
 const starterMirror=capsule.starter.projectMirror;
+const readyToPaste=text("project-documents/START_NEXT_SESSION.md");
 for(const path of [
   "00_SLE_HANDOFF_PROTOCOL.md",
   "00_SESSION_BOOTSTRAP.md",
@@ -46,6 +47,11 @@ assert.deepEqual(read(starterRoot),read(starterMirror),"SLE starter root and pro
 assert.match(starterRoot,new RegExp(`START_NEXT_SESSION_V${capsule.starter.version.replace(/\./g,"\\.")}`));
 assert.equal(capsule.starter.ownerInitialDelivery,"give-only-this-file-first");
 assert.equal(capsule.starter.fallbackPackNeededByDefault,false);
+assert.ok(readyToPaste.includes(starterRoot),"Ready-to-paste successor entrypoint must name the capsule's current starter.");
+assert.ok(readyToPaste.includes(handoffRoot),"Ready-to-paste successor entrypoint must name the capsule's current deep handoff.");
+assert.ok(readyToPaste.includes(`v${pkg.version}`),"Ready-to-paste successor entrypoint must identify the current source candidate.");
+assert.ok(readyToPaste.includes(`${readiness.currentScore}/100`),"Ready-to-paste successor entrypoint must identify the fixed current RJR score.");
+assert.doesNotMatch(readyToPaste,/START_NEXT_SESSION_V1\.4\.11_V1\.8\.0_RIVALRY_AUTHORITY_MISMATCH/,"Ready-to-paste successor entrypoint must not route to the superseded v1.8.0 pointer-repair starter.");
 
 assert.equal(capsule.remoteJoiningReadiness.authority,"REMOTE_JOINING_READINESS.json");
 assert.equal(capsule.remoteJoiningReadiness.model,readiness.modelVersion);

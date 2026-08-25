@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 77,
+  "currentScore": 78,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -69,18 +69,19 @@
         "2026-08-24 live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves the first production Connected Rivalry slice: the exact private rivalry attaches under both entitled manager bindings, Player Two publishes the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser refreshes that same revision without local Apply or a reported local-save overwrite.",
         "2026-08-24 owner-supplied evidence from a second independent production rivalry on iPhone proves an unrefreshed Player One publish cannot overwrite Player Two's newly created authoritative revision 0: the runtime rejects the stale base and reports that local saves were not changed.",
         "The same iPhone production sequence then proves deterministic recovery and convergence: Player One refreshes after rejection to revision 0, publishes exactly once to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite.",
-        "Exact idempotency replay, third-account/revoked-device negatives, two-physical-machine hardening, remote-to-local reconciliation and actual Remote Joining sessions remain uncredited."
+        "Exact idempotency replay, third-account/revoked-device negatives, two-network/adverse-network hardening, remote-to-local reconciliation and actual Remote Joining sessions remain uncredited."
       ]
     },
     {
       "id": "real-device-hardening-release",
       "label": "Real-device hardening and stable release",
       "weight": 10,
-      "earned": 4,
+      "earned": 5,
       "evidence": [
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
-        "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage but does not substitute for two-physical-device proof.",
-        "Remote Joining specific two-physical-device failure testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
+        "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage.",
+        "2026-08-24 owner-supplied production evidence across one Chromebook and one iPhone proves fresh one-use pairing, revision-0 publication, live stale rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
+        "Remote Joining specific two-network/adverse-network and token-lifecycle testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
       ]
     }
   ],
@@ -163,6 +164,14 @@
       "delta": 3,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
       "reason": "Owner-supplied production screenshots from the second iPhone rivalry prove three previously uncredited capabilities after a live stale-base rejection: Player One refreshes safely to the authoritative revision 0, publishes exactly once through the CAS update path to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite. The +3 is limited to stale recovery, revision advancement and cross-manager convergence. It does not credit exact idempotency replay, negative authorization/revocation paths, two-physical-device hardening, remote-to-local reconciliation or actual Remote Joining."
+    },
+    {
+      "recordedAt": "2026-08-24T22:58:00Z",
+      "eventId": "production-stage4-two-physical-device-hardening-proof",
+      "score": 78,
+      "delta": 1,
+      "domainId": "real-device-hardening-release",
+      "reason": "Owner-supplied production evidence across a Chromebook and iPhone proves a fresh one-use pairing, exact Player One/Player Two attachment, revision-0 publication, cross-device observation, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite. The +1 is deliberately limited to closing the previously uncredited two-physical-device boundary. It does not credit source work, release activity, two-network/adverse-network testing, token lifecycle, remote-to-local Apply or actual Remote Joining sessions."
     }
   ]
 }

@@ -1,3 +1,17 @@
+# v1.8.1 — Pairing Identity UX Hardening — release candidate
+
+Candidate runtime: `1.8.1-r1`
+Previous known-good runtime: `1.8.0-r1`
+Status: release candidate; not production-proven.
+
+- preserves the selected private manager by stable role/profile/save identity through busy, success and failure rerenders;
+- keeps a pasted one-use pairing code intact when the local manager selection changes;
+- replaces raw permission-denied/opaque capability errors with non-enumerating instructions to use a fresh code or the existing Connected Rivalry;
+- updates stale Stage 3 copy to point at the already-shipped explicit Connected Rivalry actions;
+- adds deterministic and rendered mobile-browser regressions for Player Two persistence and denied redemption;
+- changes no Firestore Rules, provider/billing/App Check configuration, canonical local storage, Candidate C destructive authority or Stage 5 lock;
+- records owner-proven two-physical-device hardening and the fixed RJR-1 movement from `77/100` to `78/100`; code and release activity earn no readiness credit.
+
 # v1.8.0 — Safe Remote Reconciliation — release candidate
 
 Candidate runtime: `1.8.0-r1`

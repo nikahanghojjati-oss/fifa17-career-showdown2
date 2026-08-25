@@ -1,7 +1,8 @@
 {
   "schemaVersion": 2,
+  "recordedAt": "2026-08-25T00:11:42Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-three-labeled-sessions-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-four-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -20,6 +21,7 @@
     "current application/runtime identity",
     "current bounded lane",
     "later explicit owner instructions",
+    "owner-browser rivalry fingerprint and authoritative-revision agreement before any publish, preview or local Apply",
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
     "implementation authorization",
@@ -42,6 +44,7 @@
     "Represent mandatory locks in Tier 0 regardless of rank.",
     "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
     "Read RJR from REMOTE_JOINING_READINESS.json; never infer it from milestones, PRs or WEC.",
+    "When owner surfaces disagree, compare their exact redacted rivalry fingerprints before inferring remote data loss or changing source; a different fingerprint means a different authoritative document path.",
     "If main or current PR differs, score changed/intervening files with delta=1 and inspect those before broad history.",
     "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
     "For CI failure, fetch the exact workflow run jobs and exact failed job logs before changing code; log evidence outranks heuristic diagnosis.",

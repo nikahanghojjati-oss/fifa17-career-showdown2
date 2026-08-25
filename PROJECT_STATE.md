@@ -1,3 +1,29 @@
+# CURRENT OVERRIDE — v1.8.1 PAIRING IDENTITY UX HARDENING CANDIDATE — 2026-08-24 ET
+
+Status: RELEASE CANDIDATE / `v1.8.1 / 1.8.1-r1` / NOT PRODUCTION-PROVEN / previous known-good whole shell `1.8.0-r1` / RJR-1 78/100 / STAGE 5 LOCKED.
+
+Owner screenshots prove a fresh private rivalry was exercised across two physical devices (Chromebook and iPhone): exact manager-role pairing, revision-0 publication, live stale rejection, recovery, revision-1 publication and cross-device convergence, all without local Apply or a reported local-save overwrite. This earns one bounded real-device-hardening point. The fixed ledger is now 78/100; implementation, tests, CI and release packaging earn no points.
+
+The bounded patch fixes the observed selector/error UX defect in `js/sparkPrivatePairing.js`. Manager selection is now bound to stable role/profile/save identity instead of a transient option index and survives busy, success and error rerenders. Selector changes no longer erase a pasted pairing capability. Permission-denied and other opaque capability outcomes produce safe non-enumerating recovery guidance instead of raw Firestore text. Permanent deterministic and rendered mobile regressions cover both paths.
+
+No Firestore Rules, cloud provider, billing, App Check enforcement, authentication persistence, canonical browser storage, Connected Rivalry protocol or destructive reconciliation behavior changes. Candidate C remains the sole Apply path with immutable intent, backup first, strict exact raw snapshot guards, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. The Installable Offline App and local Career Mode remain available without Firebase. Exactly two managers and no public discovery remain locked. Stage 5 Remote Joining sessions are not authorized.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
+# CURRENT OVERRIDE — v1.8.0 PLAYER TWO RIVALRY-POINTER MISMATCH — 2026-08-24 ET
+
+Live main remains `87c57b3f918520b93feeefc189802dc65aa96257`; public runtime remains `v1.8.0 / 1.8.0-r1` from PR #136 merge `1d9793412a712e931b516be8ca853df4e95b5b50`. RJR-1 remains exactly 77/100 and Stage 5 remains locked.
+
+Owner screenshots prove Player One / Nik remains on `pair_a07108…756fb` at revision 1 while Player Two / Gop was reconnected to a different empty `pair_d1db8e…` rivalry. This explains the different messages. Remote revision 1 was not lost; no Save Library or runtime corruption is demonstrated.
+
+The next safe action is the guarded pointer repair described by starter `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md`. Do not publish revision 0, create/join pairing, Preview or Apply before Gop is reattached to Nik's exact code and reads revision 1.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.0 SAFE REMOTE RECONCILIATION DEPLOYED — 2026-08-24 ET
 
 PR #136 is DONE / MERGED from exact validated head `4f8393c7c1e1284ff1b0290d07b7e61deb12c784` to expected-head squash merge/live main `1d9793412a712e931b516be8ca853df4e95b5b50`. All 14 exact-head PR workflow families passed with clean reviews, threads and mergeability. GitHub Pages run `32763563751` deployed `v1.8.0 / 1.8.0-r1`; 89 runtime files match the merge byte-for-byte.

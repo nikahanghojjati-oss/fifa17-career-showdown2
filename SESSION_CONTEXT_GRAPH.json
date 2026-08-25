@@ -1,25 +1,26 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-24T18:59:10Z",
+  "recordedAt": "2026-08-25T00:11:42Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr136-merged",
+      "id": "live-main-pr137-merged",
       "type": "current-main-boundary",
-      "value": "1d9793412a712e931b516be8ca853df4e95b5b50",
-      "source": "independently verified live main after expected-head squash merge of PR #136 and successful v1.8.0-r1 Pages deployment",
-      "runtimeChangedFromReleaseMerge": true,
+      "value": "87c57b3f918520b93feeefc189802dc65aa96257",
+      "source": "independently verified live main after documentation/SLE closeout PR #137; runtime authority remains PR #136 merge 1d9793412a712e931b516be8ca853df4e95b5b50",
+      "runtimeChangedFromReleaseMerge": false,
       "authority": 1.0
     },
     {
-      "id": "production-runtime-1.7.0-r2",
+      "id": "production-runtime-1.8.0-r1",
       "type": "production-runtime-proof",
-      "applicationVersion": "1.7.0",
-      "runtimeRevision": "1.7.0-r2",
-      "runtimeReleaseMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
+      "applicationVersion": "1.8.0",
+      "runtimeRevision": "1.8.0-r1",
+      "runtimeReleaseMergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
+      "deployedRuntimeFilesByteExact": 89,
       "ordinaryBrowserAppCheck": "production-proven-ready-connected-token-observed",
       "connectedRivalryFirstSlice": "production-proven",
-      "remoteToLocalApply": "v1.8.0-r1-merged-deployed-89-files-byte-proven-owner-production-proof-pending",
+      "remoteToLocalApply": "merged-deployed-byte-proven-owner-apply-proof-pending-after-fresh-two-device-rivalry-baseline",
       "appCheckEnforcement": false,
       "billingRequired": false,
       "authority": 1.0,
@@ -36,11 +37,22 @@
       "authority": 1.0
     },
     {
+      "id": "pr136-v180-runtime-release",
+      "type": "completed-production-shell-release",
+      "pr": 136,
+      "mergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
+      "runtimeRevision": "1.8.0-r1",
+      "pagesRunId": 32763563751,
+      "deployedRuntimeFilesByteExact": 89,
+      "remoteToLocalOwnerApplyProof": "pending",
+      "authority": 1.0
+    },
+    {
       "id": "rjr1-ledger",
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 77,
+      "recordedScore": 78,
       "rule": "fixed capability evidence only; no process-only movement",
       "authority": 1.0
     },
@@ -61,7 +73,7 @@
       "uncredited": [
         "exact idempotency replay",
         "third-account and revoked-device production negatives",
-        "two-physical-device hardening",
+        "two-network and adverse-network hardening",
         "remote-to-local reconciliation",
         "Stage 5 sessions"
       ],
@@ -70,8 +82,8 @@
     },
     {
       "id": "stage4-remote-to-local-reconciliation",
-      "type": "immediate-next-product-milestone",
-      "state": "v1.8.0-r1-merged-deployed-byte-proven-owner-production-proof-pending",
+      "type": "open-production-proof-milestone",
+      "state": "v1.8.0-r1-merged-deployed-byte-proven-owner-proof-pending-after-fresh-two-device-rivalry-baseline",
       "applicationVersion": "1.8.0",
       "runtimeRevision": "1.8.0-r1",
       "engineeringCheckpoint": "42b89dfd4859d1655d231d2c04406e66545e45b4",
@@ -80,8 +92,16 @@
       "releaseMergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
       "pagesRunId": 32763563751,
       "deployedRuntimeFilesByteExact": 89,
-      "activationRule": "fresh successor verifies the final SLE seal, initializes fresh WEC, then coordinates genuine owner-browser reconciliation proof using the existing two paired manager sessions",
+      "activationRule": "after v1.8.1-r1 is exact-head merged and deployment-verified, reverify the fresh two-device rivalry attachment and revision, then resume the separately pending non-mutating Preview, stale-intent rejection and exact Candidate C backup-and-Apply owner proof",
+      "ownerPairingRebaseline": {
+        "priorRootCause": "Player One and Player Two had been reconnected to different valid rivalry IDs, so they correctly observed different authoritative documents",
+        "resolution": "owner created a fresh one-use pairing on Chromebook, joined it on iPhone with exact Player Two entitlement, attached both Connected Rivalry surfaces and proved revision-0/revision-1 stale-recovery convergence",
+        "currentFingerprint": "pair_500375…91ff6",
+        "currentObservedRevision": 1,
+        "mutationBoundary": "no local Apply has occurred; reverify current attachment and revision before the separately pending reconciliation proof"
+      },
       "requirements": [
+        "reverify both owner surfaces still point to the fresh redacted rivalry fingerprint and read the same revision before reconciliation resumes",
         "non-mutating remote preview by default",
         "Candidate C remains sole destructive local Apply authority",
         "immutable observed remote revision and hash",
@@ -93,6 +113,39 @@
         "production proof before Stage 5"
       ],
       "riskCriticality": 1.0
+    },
+    {
+      "id": "stage4-two-physical-device-hardening-proof",
+      "type": "completed-production-capability",
+      "proofRecord": "PRODUCTION_TWO_PHYSICAL_DEVICE_CONNECTED_RIVALRY_PROOF_2026-08-24.md",
+      "capabilities": [
+        "fresh Chromebook-created one-use private pairing",
+        "iPhone Player Two entitlement join and exact two-manager attachment",
+        "revision-0 and revision-1 publication",
+        "live stale-write rejection and safe refresh recovery",
+        "cross-device revision-1 convergence without local Apply"
+      ],
+      "rjrScoreAfterProof": 78,
+      "riskCriticality": 1.0,
+      "authority": 1.0
+    },
+    {
+      "id": "v181-pairing-identity-ux-hardening",
+      "type": "immediate-next-product-milestone",
+      "state": "release-candidate-not-production-proven",
+      "applicationVersion": "1.8.1",
+      "runtimeRevision": "1.8.1-r1",
+      "previousRuntimeRevision": "1.8.0-r1",
+      "scope": [
+        "stable role/profile/save selector identity through every pairing rerender",
+        "pasted capability preservation on selector-only changes",
+        "safe non-enumerating denied-redemption guidance",
+        "complete exact-head validation, expected-head merge and deployed whole-shell verification"
+      ],
+      "rulesChanged": false,
+      "stage5Authorized": false,
+      "riskCriticality": 0.7,
+      "authority": 1.0
     },
     {
       "id": "stage5-private-remote-joining",
@@ -137,18 +190,21 @@
     }
   ],
   "edges": [
-    {"from":"pr131-stage4-runtime-release","to":"production-runtime-1.7.0-r2","relation":"released"},
-    {"from":"stage4-first-slice-production-proof","to":"production-runtime-1.7.0-r2","relation":"production-proves-first-slice"},
+    {"from":"pr136-v180-runtime-release","to":"production-runtime-1.8.0-r1","relation":"released"},
+    {"from":"stage4-first-slice-production-proof","to":"production-runtime-1.8.0-r1","relation":"inherited-production-proven-first-slice"},
     {"from":"stage4-first-slice-production-proof","to":"rjr1-ledger","relation":"raises-fixed-ledger-to-77"},
+    {"from":"stage4-two-physical-device-hardening-proof","to":"rjr1-ledger","relation":"raises-fixed-ledger-to-78"},
+    {"from":"stage4-two-physical-device-hardening-proof","to":"v181-pairing-identity-ux-hardening","relation":"exposes-selector-and-guidance-defect"},
     {"from":"stage4-first-slice-production-proof","to":"stage4-remote-to-local-reconciliation","relation":"unlocks-next-prerequisite-selection"},
     {"from":"stage4-remote-to-local-reconciliation","to":"stage5-private-remote-joining","relation":"production-proof-prerequisite"},
+    {"from":"v181-pairing-identity-ux-hardening","to":"stage4-remote-to-local-reconciliation","relation":"ship-hardening-before-resuming-owner-proof"},
     {"from":"canonical-storage","to":"stage4-remote-to-local-reconciliation","relation":"must-remain-safe-through"},
     {"from":"security-zero-billing","to":"stage4-remote-to-local-reconciliation","relation":"constrains"}
   ],
   "retrievalHints": {
-    "currentTaskNode": "stage4-remote-to-local-reconciliation",
-    "immediateNextProductNode": "stage4-remote-to-local-reconciliation",
-    "walkDirection": "continue product work only through genuine owner-browser proof of deployed v1.8.0-r1 remote-to-local reconciliation; do not repeat setup, retry headless App Check, republish unchanged Rules or begin Stage 5",
+    "currentTaskNode": "v181-pairing-identity-ux-hardening",
+    "immediateNextProductNode": "v181-pairing-identity-ux-hardening",
+    "walkDirection": "continue real product work by exact-head validating, publishing and deploying v1.8.1-r1 pairing identity UX hardening; preserve the two-physical-device proof and RJR-1 score 78, do not republish unchanged Rules or begin Stage 5, then resume the separately pending v1.8.0 reconciliation owner proof",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
@@ -156,6 +212,7 @@
       "a newer current-authority file selects a different product milestone",
       "production Rules differ from the reviewed Stage 4 blob",
       "a required workflow or provider gate fails",
+      "the two owner surfaces show different rivalry fingerprints or remote revisions after the fresh two-device pairing baseline",
       "security, recovery or canonical-storage contradiction appears"
     ]
   }
