@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-r3-runtime-config-cache-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T20:50:00Z",
+  "recordedAt": "2026-08-25T20:53:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 16,
+    "largeEvidenceEvents": 17,
     "toolRoutingErrors": 5,
-    "correctedFailures": 5,
+    "correctedFailures": 6,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 1,
@@ -24,14 +24,14 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 97,
+    "handoffCompleteness": 98,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
     "currentTask": "Finish the v1.8.1-r3 functionality-first production proof: preserve the cleared fireauth Settings path, eliminate the seven repeated firebase.runtime-config.json navigation failures, obtain one fully green deployed-main Stability run, then move directly to ordinary owner iPhone Connected Account/Google sign-in acceptance.",
-    "lastSafeCheckpoint": "PR #149 passed all 14 permanent PR workflow families and was merged to main 8ee648558be6f907f5529aceac92124ed960a4ea. Pages deployment succeeded and the merged Chromium journey passed. The deployed production smoke again passed runtime provenance, App Check, Home plus Settings, Save Library, manager identity, Career Analytics, football visuals, Candidate A/B/C and offline boundary. The historical fireauth error did not recur. Only the final deployed complete journey failed, with the same seven GET firebase.runtime-config.json?v=1.8.1-r3 :: net::ERR_FAILED entries after otherwise successful reload/Back/Forward recovery. Investigation found the public runtime config URL is revisioned but readRuntimeConfig forced cache:no-store, creating a fresh request on every restored document. PR #150 changes only that revisioned public config fetch to cache:force-cache so a successfully fetched config may be reused across same-browser navigation while genuine initial/config HTTP failures remain fatal.",
-    "nextSafeAction": "Freeze PR #150 after this WEC update. Require all 14 permanent PR workflow families green on one unchanged exact head, inspect reviews/threads and mergeability, then merge under standing owner authorization only if clean. After merge require Pages success plus one completely green deployed-main Stability run through the final complete journey. If green, immediately request ordinary owner iPhone Connected Account/Google popup sign-in proof; do not start a security sidequest.",
+    "lastSafeCheckpoint": "PR #149 passed all 14 permanent PR workflow families and was merged to main 8ee648558be6f907f5529aceac92124ed960a4ea. Its deployed smoke again passed runtime provenance, App Check, Home plus Settings, Save Library, manager identity, Career Analytics, football visuals, Candidate A/B/C and offline boundary, with no fireauth recurrence, but the final journey still recorded seven firebase.runtime-config.json?v=1.8.1-r3 net::ERR_FAILED requests. PR #150 first changed only the public revisioned config fetch from cache:no-store to cache:force-cache. Codex review correctly identified that the active service worker intercepted that versioned non-shell path and returned Response.error() because firebase.runtime-config.json is intentionally absent from SHELL_PATHS. The branch now also gives exactly firebase.runtime-config.json a service-worker bypass, leaving all actual SHELL_PATHS on the existing fail-closed immutable cache path. This allows the browser's revision-scoped HTTP cache/network path to serve the public config without changing Auth, Firestore, App Check or private rivalry data behavior.",
+    "nextSafeAction": "Freeze PR #150 after this WEC update. Require all 14 permanent PR workflow families green on one unchanged exact head, inspect reviews/threads and mergeability, then resolve the valid service-worker review only with evidence and merge under standing owner authorization if clean. After merge require Pages success plus one completely green deployed-main Stability run through the final complete journey. If green, immediately request ordinary owner iPhone Connected Account/Google popup sign-in proof; do not start a security sidequest.",
     "unfinishedWork": [
       "Validate PR #150 on one unchanged exact head through all 14 permanent PR workflow families.",
       "Require clean reviews, resolved inline threads and mergeability before publication.",
@@ -43,7 +43,8 @@
     "knownHazards": [
       "Functionality is the active priority. Do not add security complexity that harms playability, but do not weaken existing protections when the demonstrated blocker can be fixed without doing so.",
       "App Check enforcement remains OFF. Firebase stays Spark/zero billing, Firestore stays memory-only, Google Auth stays popup-only with browserSessionPersistence, and exactly two private managers remain required.",
-      "The force-cache change applies only to the public revisioned firebase.runtime-config.json asset. It does not enable persistent Firestore cache, persist Auth beyond browserSessionPersistence, cache private rivalry data, or relax Firestore Rules.",
+      "The force-cache and service-worker bypass apply only to the public revisioned firebase.runtime-config.json asset. They do not enable persistent Firestore cache, persist Auth beyond browserSessionPersistence, cache private rivalry data, or relax Firestore Rules.",
+      "All actual SHELL_PATHS remain service-worker cache-owned and fail closed if the requested revision is unavailable; do not broaden the runtime-config bypass without evidence.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Candidate A remains non-mutating, Candidate B read-only, Candidate C the sole destructive Apply authority; Stage 5 remains locked.",
       "Do not expose raw App Check tokens, browser keys, provider secrets, account IDs or full rivalry IDs in test diagnostics or repository evidence.",
@@ -52,14 +53,12 @@
     "evidenceNotes": [
       "This successor WEC does not inherit predecessor transition authority; predecessor handoff/transition decisions are historical closing-environment evidence only.",
       "Live main was independently re-verified at 8ee648558be6f907f5529aceac92124ed960a4ea before PR #150 work began.",
-      "PR #149 merged the prompt lazy production Firebase runtime start without changing the protected initial shell, existing Rules, App Check enforcement, Auth persistence, Firestore cache policy, write authority or gameplay behavior.",
-      "Post-PR #149 Pages deployment verified all 89 v1.8.1-r3 runtime files byte-for-byte.",
       "Post-PR #149 deployed smoke again passed Settings/Connected Account presentation and no fireauth error recurred; fireauth remains functionally cleared.",
-      "The final deployed journey again completed its functional Chromebook flow through optional Settings coverage, then failed only at monitors.assertClean because seven identical first-party firebase.runtime-config.json?v=1.8.1-r3 requests ended net::ERR_FAILED.",
-      "PR #150 branch fix/deployed-navigation-runtime-settle was created directly from main 8ee648558be6f907f5529aceac92124ed960a4ea.",
-      "Initial PR #150 functional commit 558e4b7000341ad375c34d2ed28967641d740131 changes exactly one production line: readRuntimeConfig fetch cache mode from no-store to force-cache. Compare showed one file, one addition and one deletion.",
-      "The config request URL already carries app-asset revision v=1.8.1-r3, so reusing the successful browser response is revision-scoped rather than an unversioned private-data cache.",
-      "The first PR #150 Stability contract phase passed before this WEC update; no existing contract required no-store behavior.",
+      "The final deployed journey completed its functional Chromebook flow through optional Settings coverage, then failed only at monitors.assertClean because seven identical first-party firebase.runtime-config.json?v=1.8.1-r3 requests ended net::ERR_FAILED.",
+      "Initial PR #150 functional commit 558e4b7000341ad375c34d2ed28967641d740131 changes readRuntimeConfig fetch cache mode from no-store to force-cache for the already revisioned public config URL.",
+      "PR #150 Codex P1 review thread PRRT_kwDOTomsDM6cPdYM correctly proved force-cache alone was insufficient because the controlled page's service worker returned Response.error() for the versioned config path absent from SHELL_PATHS.",
+      "Service-worker correction commit 1762178bdcb083a552887574f3d2b9e127d4cc0e adds RUNTIME_CONFIG_PATH and returns from the fetch handler for exactly firebase.runtime-config.json before shell-cache interception. Browser/network cache semantics therefore apply to that one public config path while actual shell paths remain unchanged.",
+      "The previous Static App failure on head 06602e... was only WEC wording; successor authority wording was corrected without product changes.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
