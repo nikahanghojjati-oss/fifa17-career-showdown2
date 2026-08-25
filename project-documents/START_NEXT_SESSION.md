@@ -1,10 +1,16 @@
 # START NEXT SESSION
 
-Current bounded recovery authority is PR #146, the `v1.8.1 / 1.8.1-r3` Connected Account recovery candidate. The existing SLE = Smart Lean Efficient production-orientation starter remains `START_NEXT_SESSION_V1.4.17_R2_RIVALRY_RECOVERY_OWNER_PROOF.md`, with deep production fallback `SUCCESSOR_HANDOFF_POST_PR144_R2_RIVALRY_RECOVERY_OWNER_PROOF_SLE_2026-08-25.md`; those r2 files are predecessor production orientation only and do not override live PR #146, `NEXT_TASK.md`, `PROJECT_STATE.md`, or the current RJR ledger.
+Current SLE = Smart Lean Efficient owner entrypoint: `START_NEXT_SESSION_V1.4.18_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION.md`.
 
-Current deployed source/runtime is `v1.8.1 / 1.8.1-r2`, but Connected Account has an owner-proven production regression. Current source candidate is `v1.8.1 / 1.8.1-r3`, not production-proven. Official Remote Joining readiness is `76/100` under RJR-1 until ordinary owner production evidence on deployed r3 restores the two invalidated account capabilities.
+Deep fallback handoff: `SUCCESSOR_HANDOFF_POST_PLAYER_TWO_ZERO_TO_STAGE4_RECONCILIATION_SLE_2026-08-25.md`.
 
-IMMEDIATE NEXT TASK AFTER FULL STUDY: validate PR #146 on one exact unchanged head through all 14 permanent workflow families, reviews, threads and mergeability; then publish under standing merge/deploy authorization, prove the exact Pages deployment, and only then ask the owner for the smallest iPhone Connected Account sign-in/bootstrap acceptance test. Do not create a replacement pairing or rivalry. App Check enforcement remains OFF. Required gates must pass before publication.
+Current production source/runtime is `v1.8.1 / 1.8.1-r3`. At predecessor seal, independently verified live `main` is `beab9f31cb7f31bf4938f5b0df67394899ef12a0`; successor must independently revalidate live GitHub and production before substantial work.
+
+Official Remote Joining readiness is `78/100` under fixed RJR-1. The one-shot Player Two unavailable-code proof is closed and earns zero duplicate points.
+
+IMMEDIATE NEXT TASK AFTER FULL STUDY: resume the distinct Stage 4 owner remote-to-local reconciliation proof on the fresh current-identity Nik/Gop rivalry. Prove non-mutating Preview, exact observed revision/hash and local-target binding, stale-intent rejection, verified exact backup, explicitly confirmed Candidate C Apply, stable identity and unrelated-Save preservation, exact local convergence, and no remote-authority mutation from local Apply. Stop on first failure. Do not repeat the consumed zero-code fixture and do not begin Stage 5 yet.
+
+Standing merge/deploy authorization remains active after all required tests and publication gates pass. App Check enforcement remains OFF.
 
 Owner-facing checkpoint template remains:
 Handoff proximity: X%
