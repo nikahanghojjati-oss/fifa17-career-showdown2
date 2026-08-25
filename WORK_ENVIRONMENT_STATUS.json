@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-r3-fireauth-production-proof",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T19:33:51Z",
+  "recordedAt": "2026-08-25T19:35:02Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 8,
+    "largeEvidenceEvents": 9,
     "toolRoutingErrors": 0,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -24,16 +24,16 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 94,
+    "handoffCompleteness": 95,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
     "currentTask": "Finish only the v1.8.1-r3 technical production proof on PR #148: validate the narrow external Firebase Auth helper page-error classification on one unchanged exact head, publish only after all required gates are clean, then require complete deployed-main Stability proof.",
-    "lastSafeCheckpoint": "Live main remains 449c5d07f79ede8814eab2f6cbbe6656f10b973b. PR #148 has been narrowed to WORK_ENVIRONMENT_STATUS.json plus tests/browser/settings-install-audit.cjs. The Settings audit still classifies only exact fireauth is not defined when the raw Error stack proves the Firebase-hosted /__/auth/ helper origin, keeps first-party and unproven-origin errors fatal, requires healthy production Auth plus memory-only Firestore initialization, and now preserves sanitized message plus stack provenance for every accepted helper error. The prior P1 review was resolved with exact source and main-job evidence proving the production Settings audit already runs through the Home visual companion path; a briefly added duplicate Stability step was reverted.",
-    "nextSafeAction": "Freeze this branch head with no further mutations, require all 14 permanent PR workflow families green on the unchanged exact head, re-fetch reviews, inline threads and mergeability, and merge only if every gate is clean. Then require post-merge main Stability deployed-site-smoke to prove the accepted error's sanitized Firebase /__/auth/ stack provenance and continue through every downstream production browser audit.",
+    "lastSafeCheckpoint": "Live main remains 449c5d07f79ede8814eab2f6cbbe6656f10b973b. PR #148 remains narrowed to WORK_ENVIRONMENT_STATUS.json plus tests/browser/settings-install-audit.cjs. The first frozen-head Stability gate exposed one continuity-contract wording failure only: Stage 2I requires the current WEC to explicitly state that App Check enforcement remains OFF. Product and test behavior were not implicated. This record restores that exact permanent lock while preserving the narrow fireauth classification, sanitized stack evidence, healthy Connected Account assertions and all existing security boundaries.",
+    "nextSafeAction": "Treat this WEC correction as a new exact-head boundary. Make no further branch mutations, require all 14 permanent PR workflow families green on the unchanged head, re-fetch reviews, inline threads and mergeability, and merge only if every gate is clean. Then require post-merge main Stability deployed-site-smoke to prove the accepted error's sanitized Firebase /__/auth/ stack provenance and continue through every downstream production browser audit.",
     "unfinishedWork": [
-      "Require all 14 permanent workflow families green on the unchanged frozen PR #148 head and verify no new review/thread finding appears.",
+      "Require all 14 permanent workflow families green on the unchanged final PR #148 head and verify no new review/thread finding appears.",
       "Require clean mergeability and expected-head squash merge only under standing owner authorization after exact-head gates pass.",
       "Require post-merge main Stability to re-verify all 89 deployed runtime files and pass runtime provenance, App Check, Home plus its Settings companion, Save Library, identity, analytics, Candidate A/B/C, offline and complete-journey audits.",
       "Require the successful Settings companion log to preserve sanitized provider stack provenance proving the exact Firebase-hosted /__/auth/ origin. If that proof is absent, keep the failure fatal and improve evidence capture rather than broadening suppression.",
@@ -42,7 +42,7 @@
     ],
     "knownHazards": [
       "Every first-party or unproven-origin page error remains fatal. The exact fireauth classification is allowed only when the raw Error stack proves https://fifa17-career-showdown-prod.firebaseapp.com/__/auth/ provenance and production Connected Account initialization remains healthy.",
-      "Do not enable App Check enforcement, change reCAPTCHA/Firebase provider configuration, use debug providers/tokens, change billing, weaken Firestore Rules or change auth persistence/scopes merely to obtain green CI.",
+      "App Check enforcement remains OFF. Do not enable enforcement, change reCAPTCHA/Firebase provider configuration, use debug providers/tokens, change billing, weaken Firestore Rules or change auth persistence/scopes merely to obtain green CI.",
       "Firebase stays Spark/zero billing, Firestore stays memory-only, Google Auth stays popup-only with browserSessionPersistence, and exactly two private managers remain required.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Candidate A remains non-mutating, Candidate B read-only, Candidate C the sole destructive Apply authority; Stage 5 remains locked.",
@@ -59,9 +59,10 @@
       "Candidate commit 697679c923d6ce2dda93a2fe029f4e1a2c0a41eb added sanitizedPageErrorEvidence so both fatal errors and narrowly accepted external helper errors retain sanitized message plus stack evidence. The acceptance predicate itself was not broadened.",
       "A direct duplicate Settings workflow step was briefly added in response to the P1, then reverted after source plus job-log evidence proved it would execute the same production account audit twice. This correction is recorded rather than hidden.",
       "Review thread PRRT_kwDOTomsDM6cM_29 was resolved after reply 3856541029 documented the exact production execution path and failure evidence; no test or security boundary was weakened to resolve it.",
+      "Exact-head a66c7a32191dafd8c333ef2787f74fed063d07e9 failed Stability contracts only because private-account-auth-stage2i-boundary-contracts.cjs requires the current WEC evidence text to match /App Check enforcement remains OFF/i. The prior wording said do not enable App Check enforcement but omitted that exact affirmative lock. This is a continuity-contract correction, not a product or security relaxation.",
       "An environment-local git clone/bootstrap route was unavailable because the execution sandbox could not resolve github.com. No local npm/bootstrap result is fabricated; connector-first source and GitHub Actions evidence remain authoritative and the permanent exact-head CI gate is required after every mutation.",
       "Predecessor final facts remain preserved in the SLE starter/deep handoff and predecessor WEC. Canonical WORK_ENVIRONMENT_HISTORY.md was not rewritten through a full-file replacement merely to append history because that would violate the additions-only safety rule.",
-      "Fresh deterministic WEC inputs at this freeze correspond to PREPARE_HANDOFF rather than a mandatory immediate transition: context pressure about 61, quality risk 16, continuation risk about 36.4, transition cost about 14.0 and transition advantage about 22.5. Finish this bounded production-proof checkpoint but start no separate milestone.",
+      "Fresh WEC assessment remains PREPARE_HANDOFF, not an immediate transition: finish this bounded production-proof checkpoint but start no separate milestone.",
       "REMOTE_JOINING_READINESS.json authority remains RJR-1 76/100 until ordinary owner production proof genuinely restores Google-authenticated identity and strict self-account bootstrap.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
