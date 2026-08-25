@@ -6,7 +6,7 @@ Application: `v1.8.1`
 Candidate runtime: `1.8.1-r3`
 Current deployed runtime: `1.8.1-r2` with owner-proven Connected Account regression
 Previous known-good whole-shell recovery runtime: `1.8.1-r1`
-Remote Joining readiness: `76/100` under fixed RJR-1 while the two previously credited production account capabilities are unavailable
+Remote Joining readiness: fixed RJR-1 `76/100` while the two previously credited production account capabilities are unavailable
 Stage 5: LOCKED
 
 ## Proven production incident
