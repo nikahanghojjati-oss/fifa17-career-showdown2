@@ -45,7 +45,7 @@ Source reconstruction found that the production Firebase runtime successfully in
 
 ## Readiness accounting
 
-RJR-1 remains `78/100` during implementation and publication. This source fix, CI, release packaging and deployment receive no readiness points by themselves. Any score change requires evidence under the fixed RJR-1 rules.
+RJR-1 is `76/100` during implementation and publication because the deployed r2 regression explicitly invalidates two previously credited production capabilities: live Google-authenticated identity and strict authenticated self-account bootstrap. This source fix, CI, release packaging, merge and deployment receive no readiness points by themselves. Only ordinary production evidence on deployed r3 that genuinely restores those capabilities may re-credit them under the fixed RJR-1 rules.
 
 ## Required promotion gates
 
