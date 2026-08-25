@@ -20,7 +20,7 @@
   const SETTINGS_OVERLAY_ID="settingsOverlay";
   const MANAGER_ROLES=Object.freeze(["playerOne","playerTwo"]);
 
-  let pairingState=Object.freeze({status:"idle",initialized:false,busy:false,connected:false,registered:false,accountId:null,deviceId:null,message:"Private pairing is available after your private account and this device are ready.",capability:null,expiresAtEpochMs:null});
+  let pairingState=Object.freeze({status:"idle",initialized:false,busy:false,connected:false,registered:false,accountId:null,deviceId:null,selectedBindingKey:null,message:"Private pairing is available after your private account and this device are ready.",capability:null,expiresAtEpochMs:null});
   let pairingServices=null;
   let pairingIdentity=null;
   let pairingInitializePromise=null;
@@ -34,10 +34,10 @@
     return value;
   }
 
-  function setState(next){
+  function setState(next,options={}){
     pairingState=freezeDeep({...pairingState,...next});
     for(const listener of pairingListeners){try{listener(pairingState);}catch(_error){}}
-    renderPanel();
+    if(options.render!==false)renderPanel();
     return pairingState;
   }
 
@@ -152,6 +152,19 @@
     if(!/^profile_[a-f0-9]{24}$/.test(profileId))throw errorWithCode("PRIVATE_PROFILE_ID_REQUIRED","Choose a manager with a stable Local Profile identity.");
     if(!MANAGER_ROLES.includes(managerRole))throw errorWithCode("PRIVATE_MANAGER_ROLE_REQUIRED","Choose Player One or Player Two for this private rivalry.");
     return Object.freeze({saveId,profileId,managerRole,displayLabel:displayLabel||null});
+  }
+
+  function bindingKey(binding){
+    const normalized=normalizeLocalBinding(binding);
+    return `${normalized.managerRole}:${normalized.profileId}:${normalized.saveId}`;
+  }
+
+  function pairingJoinErrorMessage(error){
+    const code=error&&typeof error.code==="string"?error.code.trim().toLowerCase():"";
+    const message=error&&typeof error.message==="string"?error.message.trim():"";
+    const opaqueCodes=new Set(["permission-denied","firestore/permission-denied","permission_denied","pairing_capability_not_found","pairing_scope_denied","pairing_capability_already_used","pairing_capability_expired","pairing_rivalry_not_joinable"]);
+    if(opaqueCodes.has(code)||/missing or insufficient permissions/i.test(message))return "This one-use pairing code could not be joined. It may be expired, already used, or unavailable to this account. Create a new code on the other device, or use Connected Rivalry below if these managers are already paired.";
+    return message||"Private pairing could not be joined.";
   }
 
   function normalizeCapability(value){
@@ -406,8 +419,9 @@
       if(!account||typeof account.getState!=="function")return setState({status:"account-unavailable",initialized:true,busy:false,connected:false,registered:false,message:"Private pairing is unavailable, but local Career Mode remains available."});
       if(!pairingAccountUnsubscribe&&typeof account.subscribe==="function"){
         pairingAccountUnsubscribe=account.subscribe(next=>{
-          if(!next||next.connected!==true){pairingServices=null;setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,message:"Sign in above to register this browser and use private pairing."});}
-          else if(pairingState.accountId!==next.accountId||pairingState.registered!==true){void registerCurrentDevice();}
+          if(!next||next.connected!==true){pairingServices=null;setState({status:"signed-out",initialized:true,busy:false,connected:false,registered:false,accountId:null,selectedBindingKey:null,capability:null,expiresAtEpochMs:null,message:"Sign in above to register this browser and use private pairing."});}
+          else if(pairingState.accountId!==next.accountId){pairingServices=null;setState({selectedBindingKey:null,capability:null,expiresAtEpochMs:null});void registerCurrentDevice();}
+          else if(pairingState.registered!==true){void registerCurrentDevice();}
         });
       }
       const current=account.getState();
@@ -443,7 +457,7 @@
     const heading=createElement("div","settingsPanelHeading");
     heading.append(createElement("span","settingsPanelEyebrow","PRIVATE RIVALRY"),createElement("h3","","REGISTERED DEVICE & PAIRING"),createElement("p","","Link exactly two private manager identities. This stage does not synchronize gameplay or start a Remote Joining session."));
     const info=createElement("div","settingsInfoGrid");
-    for(const [label,value] of [["DEVICE",pairingState.registered?`Registered · ${shortId(pairingState.deviceId)}`:pairingState.connected?"Not registered":"Sign in required"],["PAIRING","One use · 15 minute private capability"],["MANAGERS","Exactly two stable account/profile/save identities"],["GAMEPLAY SYNC","Locked until Connected Rivalry"],["BILLING","Firebase Spark · no billing"]]){
+    for(const [label,value] of [["DEVICE",pairingState.registered?`Registered · ${shortId(pairingState.deviceId)}`:pairingState.connected?"Not registered":"Sign in required"],["PAIRING","One use · 15 minute private capability"],["MANAGERS","Exactly two stable account/profile/save identities"],["GAMEPLAY SYNC","Explicit actions only in Connected Rivalry below"],["BILLING","Firebase Spark · no billing"]]){
       const row=createElement("div","settingsInfoRow");row.append(createElement("span","",label),createElement("strong","",value));info.appendChild(row);
     }
     panel.append(heading,info);
@@ -452,22 +466,26 @@
       const form=createElement("div","settingsOfflineActions settingsConnectedAccountActions");
       const select=createElement("select","menuButton settingsConnectedAccountButton");
       select.setAttribute("aria-label","Local manager identity for private pairing");
-      if(!bindings.length){const option=createElement("option","","No active Save Library manager identity");option.value="";select.appendChild(option);select.disabled=true;}
-      else bindings.forEach((binding,index)=>{const option=createElement("option","",bindingLabel(binding));option.value=String(index);select.appendChild(option);});
+      const bindingEntries=bindings.map(binding=>({binding,key:bindingKey(binding)}));
+      const selectedEntry=bindingEntries.find(entry=>entry.key===pairingState.selectedBindingKey)||bindingEntries[0]||null;
+      if(!bindingEntries.length){const option=createElement("option","","No active Save Library manager identity");option.value="";select.appendChild(option);select.disabled=true;}
+      else bindingEntries.forEach(entry=>{const option=createElement("option","",bindingLabel(entry.binding));option.value=entry.key;option.selected=entry.key===selectedEntry.key;select.appendChild(option);});
+      select.addEventListener("change",()=>{if(bindingEntries.some(entry=>entry.key===select.value))setState({selectedBindingKey:select.value},{render:false});});
+      const selectedBinding=()=>{const entry=bindingEntries.find(candidate=>candidate.key===select.value)||selectedEntry;return entry?entry.binding:null;};
       const createButton=createElement("button","menuButton settingsConnectedAccountButton","CREATE PAIRING CODE");createButton.type="button";createButton.disabled=pairingState.busy||!bindings.length;
       const codeInput=createElement("input","settingsConnectedAccountInput");codeInput.type="text";codeInput.placeholder="Paste private pairing code";codeInput.autocomplete="off";codeInput.spellcheck=false;codeInput.setAttribute("aria-label","Private pairing code");
       const joinButton=createElement("button","menuButton settingsConnectedAccountButton","JOIN PRIVATE PAIRING");joinButton.type="button";joinButton.disabled=pairingState.busy||!bindings.length;
       createButton.addEventListener("click",async()=>{
-        const binding=bindings[Number(select.value)||0];if(!binding)return;
-        setState({status:"creating-pair",busy:true,capability:null,expiresAtEpochMs:null,message:"Creating a private one-use pairing code…"});
+        const binding=selectedBinding();if(!binding)return;
+        setState({status:"creating-pair",busy:true,selectedBindingKey:bindingKey(binding),capability:null,expiresAtEpochMs:null,message:"Creating a private one-use pairing code…"});
         try{const context=await resolveConnectedContext();const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. It expires in 15 minutes and can be used once."});}
         catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be created."} Local saves were not changed.`});}
       });
       joinButton.addEventListener("click",async()=>{
-        const binding=bindings[Number(select.value)||0];if(!binding)return;
-        setState({status:"joining-pair",busy:true,message:"Redeeming the private one-use pairing code…"});
-        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);codeInput.value="";setState({status:"paired",busy:false,capability:null,expiresAtEpochMs:null,message:"Private managers are paired. Shared gameplay and Remote Joining remain locked until the Connected Rivalry stage is implemented."});}
-        catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be joined."} Local saves were not changed.`});}
+        const binding=selectedBinding();if(!binding)return;
+        setState({status:"joining-pair",busy:true,selectedBindingKey:bindingKey(binding),message:"Redeeming the private one-use pairing code…"});
+        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);codeInput.value="";setState({status:"paired",busy:false,capability:null,expiresAtEpochMs:null,message:"Private managers are paired. Use Connected Rivalry below for explicit shared-state actions; Remote Joining remains locked."});}
+        catch(error){setState({status:"pair-error",busy:false,message:`${pairingJoinErrorMessage(error)} Local saves were not changed.`});}
       });
       form.append(select,createButton,codeInput,joinButton);panel.appendChild(form);
       if(pairingState.capability){const capabilityBox=createElement("div","settingsDataNote");capabilityBox.append(createElement("strong","","PRIVATE PAIRING CODE: "),createElement("code","",pairingState.capability));panel.appendChild(capabilityBox);}
@@ -510,6 +528,8 @@
     validDeviceIdentity,
     getOrCreateDeviceIdentity,
     normalizeLocalBinding,
+    bindingKey,
+    pairingJoinErrorMessage,
     normalizeCapability,
     localBindingOptions,
     registerDevice,

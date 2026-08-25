@@ -1,3 +1,13 @@
+# CURRENT RELEASE NOTE — v1.8.1-r1 pairing identity UX hardening candidate
+
+Current source candidate: `v1.8.1 — Pairing Identity UX Hardening` / `1.8.1-r1`, release candidate and not production-proven. Current production and immediate whole-shell recovery authority are production-proven `v1.8.0 / 1.8.0-r1`. Fixed RJR-1 is `78/100` after owner evidence across a Chromebook and iPhone closes one two-physical-device hardening gap; the runtime fix itself earns no readiness points.
+
+This patch keeps the selected Player One/Player Two manager bound to its stable role/profile/save identity through every private-pairing rerender, preserves a pasted pairing code when selection changes, and replaces raw permission-denied redemption text with safe non-enumerating recovery guidance. It changes no Firestore Rules, provider configuration, canonical local storage, Candidate C strict exact raw snapshot / transaction-owned mutation authority, exactly-two-manager privacy boundary or Stage 5 lock. The Installable Offline App and all local Career Mode/recovery paths remain available without Firebase.
+
+The retained release note below is historical where it conflicts with this override.
+
+---
+
 # CURRENT RELEASE NOTE — v1.8.0-r1 safe remote reconciliation candidate
 
 Current source candidate: `v1.8.0 — Safe Remote Reconciliation` / `1.8.0-r1`, release candidate and not production-proven. Current production and immediate whole-shell recovery authority remain production-proven `v1.7.0 — Connected Rivalry` / `1.7.0-r2`. RJR-1 remains `77/100`.

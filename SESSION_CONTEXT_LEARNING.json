@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-24T18:59:10Z",
-  "materialSessionsObserved": 3,
-  "learningState": "cold-start-priors-with-three-labeled-sessions",
+  "recordedAt": "2026-08-24T21:59:31Z",
+  "materialSessionsObserved": 4,
+  "learningState": "cold-start-priors-with-four-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -62,9 +62,10 @@
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 0.8,
-      "learnedUtility": 0.56,
-      "note": "Redacted visual inspection established genuine App Check and Connected Rivalry capability evidence without storing full private rivalry identifiers."
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1.0,
+      "learnedUtility": 0.648,
+      "note": "Redacted cross-surface fingerprints distinguished two different valid rivalry IDs, proved the revision-1 authority remained intact and prevented an unsafe revision-0 publish on the wrong rivalry."
     }
   },
   "sessionMetrics": [
@@ -109,6 +110,20 @@
       "routeFailureCluster": "Two protected local runner transports and two deployed continuation attempts disconnected; each route was circuit-broken after its second materially similar failure and authoritative exact-head GitHub or byte-proof evidence was used instead.",
       "ciTriageLesson": "Exact failed-job logs distinguish source oracles from provider-boundary failures; one bounded fresh-runner retry was sufficient to classify the repeat reCAPTCHA Enterprise 403 initial-throttle and prohibit more headless attempts.",
       "productionEvidenceLesson": "A successful merge, Pages deployment and 89-file byte proof establish provenance but do not establish destructive reconciliation capability; retain RJR 77 until an owner-controlled Apply sequence is proven."
+    },
+    {
+      "sessionId": "we-2026-08-24-v180-owner-reconciliation-proof",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "A read-only owner refresh contradicted the earlier revision-1 proof and required exact source-path, prior-proof, cross-surface fingerprint and WEC handoff inspection.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "One malformed multi-file apply_patch was rejected before mutation; bounded exact patches succeeded without product, provider or owner-data mutation.",
+      "productionEvidenceLesson": "Compare redacted rivalry fingerprints before diagnosing data loss: two different fingerprints route to two different authoritative documents, so repair the browser-local pointer through the entitlement-validated attach path before any Publish, Preview or Apply.",
+      "authorityLesson": "A post-update sign-in and reconnection is a new browser-pointer baseline even when the same accounts, roles and Saves are retained."
     }
   ],
   "outcomeScale": {

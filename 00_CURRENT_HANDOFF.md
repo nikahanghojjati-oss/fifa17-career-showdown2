@@ -1,4 +1,46 @@
+# CURRENT HANDOFF — v1.8.1 PAIRING IDENTITY UX HARDENING CANDIDATE — 2026-08-24 ET
+
+Current branch is `agent/v181-pairing-ux-hardening`; candidate is `v1.8.1 / 1.8.1-r1`, not production-proven; previous production/recovery shell is `1.8.0-r1`; fixed RJR-1 is `78/100`; Stage 5 remains locked. Owner evidence across Chromebook and iPhone proves a fresh two-physical-device pairing plus revision-0/stale-rejection/recovery/revision-1 convergence without local Apply.
+
+The bounded runtime patch preserves the selected manager's stable role/profile/save identity across pairing rerenders, keeps pasted capability text when selection changes and maps raw denied redemption outcomes to safe non-enumerating guidance. Focused deterministic and rendered mobile tests pass. No Rules/provider/App Check/billing/canonical-storage/Connected-Rivalry protocol change exists. Candidate C strict exact raw snapshot authority and transaction-owned destructive mutation remain unchanged; the Installable Offline App remains recoverable.
+
+The retained handoff below is historical where it conflicts with this override.
+
+---
+
 # Career Mode Showdown — Current Handoff
+
+## CURRENT TRANSITION — RIVALRY AUTHORITY MISMATCH — 2026-08-24 ET
+
+Owner-controlled Safari refresh at 16:38 ET completed read-only on `PLAYER TWO · GOP`, preserved `LOCAL TARGET: Player Two · save_97c6e0…3ceca` and `LOCAL COMMIT: Not applied this session`, but returned `REMOTE OBSERVED: Not published` and `No authoritative shared state exists yet. The first publish will create revision 0.` No Publish, Verify/Reattach, Preview or Apply occurred; local and remote state were not mutated.
+
+Comparison screenshots at 17:52 ET resolved the contradiction. Player One / Nik remains attached to `pair_a07108…756fb` and reads revision 1; Player Two / Gop is attached to a different empty rivalry beginning `pair_d1db8e…`. The messages differ because the two surfaces are reading different rivalry documents. The revision-1 authority was not lost and no Save Library or runtime corruption is demonstrated.
+
+Hard stop: do not press `PUBLISH LOCAL SAVE`, create/join pairing, Preview or Apply. The exact guarded repair is for a fresh successor to have the owner copy Nik's existing exact code, replace Gop's entire wrong code, keep `PLAYER TWO · GOP` selected, press `VERIFY / REATTACH` once, then refresh once and require the same redacted fingerprint plus revision 1. Source and focused Stage 4 contracts prove reattach validates account/device/role/profile/save before changing only Gop's browser-local IndexedDB pointer.
+
+Closing WEC `we-2026-08-24-v180-owner-reconciliation-proof` is `HANDOFF_AT_CHECKPOINT`. New compact starter: `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md`. Complete deep fallback: `SUCCESSOR_HANDOFF_V1.8.0_RIVALRY_AUTHORITY_MISMATCH_SLE_2026-08-24.md`. Live main remains `87c57b3f918520b93feeefc189802dc65aa96257`, runtime remains public `v1.8.0-r1`, RJR remains 77 and Stage 5 remains locked.
+
+The retained body below is historical unless consistent with this transition override.
+
+---
+
+## CURRENT OWNER-PROOF REBASELINE — REFRESHED SAFARI SESSIONS — 2026-08-24 ET
+
+Live main is `87c57b3f918520b93feeefc189802dc65aa96257` after PR #137 closed the v1.8.0 SLE publication boundary. Runtime authority remains PR #136 merge `1d9793412a712e931b516be8ca853df4e95b5b50`, public `v1.8.0 / 1.8.0-r1`; RJR-1 remains exactly `77/100` and Stage 5 remains locked.
+
+The owner corrected the inherited session assumption: updating the app required Safari sign-in again, and both manager/rivalry connections were then re-established. Do not describe those surfaces as untouched earlier sessions. This does not by itself invalidate the same-account, same-manager and same-private-rivalry authority, but current visible attachment and revision must be rebaselined before Preview. Do not repeat sign-in, device, pairing or rivalry reconnection again unless a concrete error is first captured and assessed.
+
+The intended remote-to-local target is Player Two / Gop's existing local career Save. “Target Showdown” means the local Showdown record inside that Save that Candidate C would update with remote gameplay while preserving its local Save/profile/season identity; it is not a server, rivalry code or new Showdown. The owner does not need to locate an internal ID: the selected manager control and `LOCAL TARGET` row bind/display the exact Save.
+
+Owner-controlled Safari screenshots at 16:31 ET now prove the refreshed private rivalry is attached, the selector is `PLAYER TWO · GOP`, `LOCAL TARGET` is `Player Two · save_97c6e0…3ceca`, `LOCAL COMMIT` is `Not applied this session`, Preview is disabled and the UI states local saves were not changed. The application does not display the phrase “target Showdown”; that earlier wording refers to the displayed `LOCAL TARGET` Save. `REMOTE OBSERVED: Not published` is only the pre-refresh in-memory state and does not prove the remote authority disappeared.
+
+Immediate safe owner step: press `REFRESH SHARED STATE` exactly once on this Player Two / Gop surface, then capture `REMOTE OBSERVED`, `LOCAL TARGET` and `LOCAL COMMIT`. Refresh is read-only. Do not press `VERIFY / REATTACH`, `PUBLISH LOCAL SAVE`, `PREVIEW REMOTE → LOCAL` or Apply. Stop and capture any error or unexpected revision before proceeding. The prior Save Library/unrelated-Save capture remains after this refreshed remote-authority baseline is accepted.
+
+Current WEC `we-2026-08-24-v180-owner-reconciliation-proof` is `PREPARE_HANDOFF`: finish this bounded clarification/rebaseline checkpoint and keep the rolling handoff current before another milestone. Usage remains unavailable and is not estimated.
+
+The retained body below is historical unless consistent with this latest owner correction.
+
+---
 
 ## CURRENT HANDOFF — POST-PR #136 PRODUCTION RECONCILIATION PROOF — 2026-08-24 ET
 

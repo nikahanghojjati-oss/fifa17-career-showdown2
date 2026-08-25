@@ -91,6 +91,11 @@ const LEGACY_SHOWDOWNS = [{
   id: 1600000000000,
   name: "Legacy Archive",
   status: "Completed",
+  managers: { playerOne: "Archive One", playerTwo: "Archive Two" },
+  clubs: { playerOne: "Arsenal", playerTwo: "Chelsea" },
+  score: { playerOne: 0, playerTwo: 0 },
+  rounds: [],
+  transferChallenges: [],
   completedAt: "2026-07-01T00:00:00.000Z"
 }];
 const PREFERENCES = { schemaVersion: 2, reducedMotion: false, menuFeedback: true };
@@ -102,8 +107,7 @@ async function waitForApp(page) {
 }
 
 async function openDataManagement(page) {
-  const opened = await page.evaluate(async () => window.openOptionalModule("legacy"));
-  assert.equal(opened, true, "Legacy/Data Management must open");
+  await page.locator("#legacyButton").click();
   await page.locator("#legacy").waitFor({ state: "visible", timeout: 12000 });
   await page.locator("#careerModeRestorePanel").waitFor({ state: "visible", timeout: 5000 });
 }
@@ -193,6 +197,8 @@ async function cleanFullLibraryRestore(browser) {
   try {
     await waitForApp(page);
     await seedFullLibrary(page);
+    await waitForApp(page);
+    await openDataManagement(page);
     const envelope = await exportEnvelope(page);
 
     // Clean destination
@@ -269,6 +275,8 @@ async function existingDataReplaceAndKeep(browser) {
   try {
     await waitForApp(page);
     await seedFullLibrary(page);
+    await waitForApp(page);
+    await openDataManagement(page);
     const envelope = await exportEnvelope(page);
 
     // Existing destination with different library
@@ -353,6 +361,8 @@ async function corruptAndAnalysisRefusal(browser) {
   try {
     await waitForApp(page);
     await seedFullLibrary(page);
+    await waitForApp(page);
+    await openDataManagement(page);
     const before = await snapshotStorage(page);
 
     // Blocked analysis must refuse before mutation
@@ -429,6 +439,7 @@ async function restoreUIChoiceSurface(browser) {
   try {
     await waitForApp(page);
     await seedFullLibrary(page);
+    await waitForApp(page);
     await openDataManagement(page);
 
     // Seed existing data so SAVE LIBRARY control appears after a real analysis would run

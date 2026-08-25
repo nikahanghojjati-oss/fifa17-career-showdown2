@@ -67,12 +67,23 @@ function binding(role,seed,label){
     "careerModeShowdown.preferences"
   ]);
 
+  const stableBinding=binding("playerTwo","9","Gop");
+  assert.equal(pairing.bindingKey(stableBinding),`${stableBinding.managerRole}:${stableBinding.profileId}:${stableBinding.saveId}`);
+  assert.equal(pairing.bindingKey({...stableBinding,displayLabel:"Renamed"}),pairing.bindingKey(stableBinding));
+  const safeJoinMessage=pairing.pairingJoinErrorMessage(Object.assign(new Error("Missing or insufficient permissions."),{code:"permission-denied"}));
+  assert.match(safeJoinMessage,/expired, already used, or unavailable to this account/i);
+  assert.match(safeJoinMessage,/create a new code on the other device/i);
+  assert.doesNotMatch(safeJoinMessage,/missing or insufficient permissions/i);
+  assert.equal(pairing.pairingJoinErrorMessage(Object.assign(new Error("Choose Player Two."),{code:"PAIRING_SLOT_MISMATCH"})),"Choose Player Two.");
+
   const source=fs.readFileSync("js/sparkPrivatePairing.js","utf8");
   assert.doesNotMatch(source,/localStorage\s*\./);
   assert.doesNotMatch(source,/state\/authoritative/);
   assert.doesNotMatch(source,/sessions\//);
   assert.match(source,/getOrCreateDeviceIdentity/);
   assert.match(source,/indexedDB/);
+  assert.match(source,/selectedBindingKey:bindingKey\(binding\)/);
+  assert.doesNotMatch(source,/bindings\[Number\(select\.value\)\|\|0\]/);
 
   const generatedA=pairing.generateDeviceIdentity(crypto.webcrypto,1_700_000_000_000);
   const generatedB=pairing.generateDeviceIdentity(crypto.webcrypto,1_700_000_000_000);

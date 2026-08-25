@@ -1,3 +1,43 @@
+# CURRENT OVERRIDE — v1.8.1 PAIRING IDENTITY UX HARDENING — 2026-08-24 ET
+
+Status: CURRENT RELEASE CANDIDATE / `v1.8.1 / 1.8.1-r1` / NOT PRODUCTION-PROVEN / RJR-1 78/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.
+
+Authorized product candidate: `v1.8.1 — Pairing Identity UX Hardening` / Installable Offline App runtime `1.8.1-r1`.
+Current production and immediate whole-shell recovery runtime: `v1.8.0 / 1.8.0-r1`.
+Current branch: `agent/v181-pairing-ux-hardening`.
+Current environment: `we-2026-08-24-v181-pairing-ux-hardening`.
+
+Owner production evidence across the Chromebook and iPhone proves two physical devices can create a fresh private pairing, attach the exact Player One and Player Two Save identities, publish revision 0, reject a stale write, recover and converge at revision 1 without local Apply. This closes one real-device-hardening gap and moves fixed RJR-1 from 77 to 78; source work receives no readiness credit.
+
+The same evidence exposes a real Stage 3 UI defect: every state rerender rebuilt the manager selector with index `0`, visually resetting Player Two to Player One, while consumed/expired capability reads could surface raw `Missing or insufficient permissions`. The candidate now keys selection to the stable manager role/profile/save identity, preserves it through success and failure rerenders, preserves a pasted code when the selector changes, and maps denied/opaque redemption outcomes to non-enumerating actionable guidance. Connected Rivalry copy now reflects the already-shipped explicit shared-state stage.
+
+Immediate task: complete the exact-head repository and rendered-browser gates, publish one bounded PR, require all permanent workflow families plus clean reviews/threads/mergeability, merge with expected-head protection under standing owner authorization, and verify the deployed whole shell. Do not republish unchanged Firestore Rules blob `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f`. Do not change Firebase/App Check/provider/billing configuration, canonical storage, exactly-two-manager authorization, Candidate C strict exact raw snapshot and transaction-owned mutation authority, or begin Stage 5.
+
+After deployment, the smallest owner check is non-destructive: select Player Two, exercise one new/invalid pairing-code outcome and verify the selector remains Player Two with safe guidance. Remote-to-local Apply proof, exact idempotency replay, third-account/revoked-device production negatives, adverse-network/token lifecycle hardening and actual Remote Joining sessions remain incomplete.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
+# CURRENT OVERRIDE — v1.8.0 PLAYER TWO RIVALRY-POINTER REPAIR — 2026-08-24 ET
+
+Status: ROOT CAUSE PROVEN / PLAYER ONE NIK ON `pair_a07108…756fb` REVISION 1 / PLAYER TWO GOP ON DIFFERENT EMPTY `pair_d1db8e…` RIVALRY / NO DATA LOSS / RJR-1 77/100 / STAGE 5 LOCKED.
+
+Verified live main: `87c57b3f918520b93feeefc189802dc65aa96257`. Runtime authority remains PR #136 merge `1d9793412a712e931b516be8ca853df4e95b5b50`, public `v1.8.0 / 1.8.0-r1`. The two surfaces show different messages because they are attached to different valid private rivalry documents after reconnection; no runtime code defect or Save Library corruption is proven.
+
+Current environment: `we-2026-08-24-v180-owner-reconciliation-proof`.
+Starting independently verified live main: `87c57b3f918520b93feeefc189802dc65aa96257`.
+
+Immediate task: guardedly repair only Gop's browser-local pointer. Copy Nik's exact existing rivalry code without pressing an action. On Player Two / Gop, replace the entire wrong code, keep `PLAYER TWO · GOP` selected and press `VERIFY / REATTACH` exactly once. Source verifies account, active device, role, profile and Save entitlement before persisting the pointer. Then refresh exactly once and require both redacted fingerprints to match plus `REMOTE OBSERVED: Revision 1`, unchanged local target and `LOCAL COMMIT: Not applied this session`.
+
+Do not Publish revision 0, create/join pairing, Preview or Apply. Stop on any error or mismatch. Resume the original Preview/stale-rejection/backup-and-Apply proof only after the repaired revision-1 baseline is accepted.
+
+Current compact SLE starter: `START_NEXT_SESSION_V1.4.11_V1.8.0_RIVALRY_AUTHORITY_MISMATCH.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — v1.8.0 DEPLOYED / OWNER RECONCILIATION PROOF — 2026-08-24 ET
 
 Status: PR #136 MERGED / `v1.8.0 / 1.8.0-r1` DEPLOYED AND 89-FILE BYTE-PROVEN / SAFE REMOTE RECONCILIATION OWNER PROOF PENDING / RJR-1 77/100 / ZERO BILLING / APP CHECK ENFORCEMENT OFF / STAGE 5 LOCKED.

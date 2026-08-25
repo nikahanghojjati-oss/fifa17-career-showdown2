@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-24T18:59:10Z",
+  "recordedAt": "2026-08-24T23:33:22Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr136-merged",
+      "id": "live-main-pr137-merged",
       "type": "current-main-boundary",
-      "value": "1d9793412a712e931b516be8ca853df4e95b5b50",
-      "source": "independently verified live main after expected-head squash merge of PR #136 and successful v1.8.0-r1 Pages deployment",
-      "runtimeChangedFromReleaseMerge": true,
+      "value": "87c57b3f918520b93feeefc189802dc65aa96257",
+      "source": "independently verified live main after documentation/SLE closeout PR #137; runtime authority remains PR #136 merge 1d9793412a712e931b516be8ca853df4e95b5b50",
+      "runtimeChangedFromReleaseMerge": false,
       "authority": 1.0
     },
     {
@@ -19,7 +19,7 @@
       "runtimeReleaseMergeSha": "ce09cbef6030bcd1329121be556ba4da2fe20fd2",
       "ordinaryBrowserAppCheck": "production-proven-ready-connected-token-observed",
       "connectedRivalryFirstSlice": "production-proven",
-      "remoteToLocalApply": "v1.8.0-r1-merged-deployed-89-files-byte-proven-owner-production-proof-pending",
+      "remoteToLocalApply": "v1.8.0-r1-merged-deployed-89-files-byte-proven-owner-proof-blocked-until-player-two-pointer-repaired",
       "appCheckEnforcement": false,
       "billingRequired": false,
       "authority": 1.0,
@@ -40,7 +40,7 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 77,
+      "recordedScore": 78,
       "rule": "fixed capability evidence only; no process-only movement",
       "authority": 1.0
     },
@@ -61,7 +61,7 @@
       "uncredited": [
         "exact idempotency replay",
         "third-account and revoked-device production negatives",
-        "two-physical-device hardening",
+        "two-network and adverse-network hardening",
         "remote-to-local reconciliation",
         "Stage 5 sessions"
       ],
@@ -70,8 +70,8 @@
     },
     {
       "id": "stage4-remote-to-local-reconciliation",
-      "type": "immediate-next-product-milestone",
-      "state": "v1.8.0-r1-merged-deployed-byte-proven-owner-production-proof-pending",
+      "type": "open-production-proof-milestone",
+      "state": "v1.8.0-r1-merged-deployed-byte-proven-owner-proof-blocked-until-player-two-pointer-repaired",
       "applicationVersion": "1.8.0",
       "runtimeRevision": "1.8.0-r1",
       "engineeringCheckpoint": "42b89dfd4859d1655d231d2c04406e66545e45b4",
@@ -80,8 +80,16 @@
       "releaseMergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
       "pagesRunId": 32763563751,
       "deployedRuntimeFilesByteExact": 89,
-      "activationRule": "fresh successor verifies the final SLE seal, initializes fresh WEC, then coordinates genuine owner-browser reconciliation proof using the existing two paired manager sessions",
+      "activationRule": "fresh successor verifies the final SLE seal, initializes a fresh WEC, then reattaches only Player Two / Gop's browser-local pointer to Player One / Nik's exact revision-1 rivalry through guarded VERIFY / REATTACH and confirms the repaired baseline read-only before resuming reconciliation proof",
+      "ownerPointerRepair": {
+        "rootCause": "Player One / Nik and Player Two / Gop were reconnected to different valid rivalry IDs; the former reads revision 1 and the latter correctly reads an empty document path",
+        "playerOneFingerprint": "pair_a07108…756fb",
+        "playerTwoWrongFingerprint": "pair_d1db8e…",
+        "repair": "copy Nik's exact existing code into Gop with PLAYER TWO / GOP selected, press VERIFY / REATTACH once, then REFRESH SHARED STATE once and require the matching fingerprint plus revision 1",
+        "mutationBoundary": "do not Publish, Preview or Apply until the repaired revision-1 baseline is captured"
+      },
       "requirements": [
+        "both owner surfaces must point to the same redacted rivalry fingerprint and Player Two must read revision 1 before reconciliation resumes",
         "non-mutating remote preview by default",
         "Candidate C remains sole destructive local Apply authority",
         "immutable observed remote revision and hash",
@@ -93,6 +101,24 @@
         "production proof before Stage 5"
       ],
       "riskCriticality": 1.0
+    },
+    {
+      "id": "v181-pairing-identity-ux-hardening",
+      "type": "immediate-next-product-milestone",
+      "state": "release-candidate-not-production-proven",
+      "applicationVersion": "1.8.1",
+      "runtimeRevision": "1.8.1-r1",
+      "previousRuntimeRevision": "1.8.0-r1",
+      "scope": [
+        "stable role/profile/save selector identity through every pairing rerender",
+        "pasted capability preservation on selector-only changes",
+        "safe non-enumerating denied-redemption guidance",
+        "complete exact-head validation, expected-head merge and deployed whole-shell verification"
+      ],
+      "rulesChanged": false,
+      "stage5Authorized": false,
+      "riskCriticality": 0.7,
+      "authority": 1.0
     },
     {
       "id": "stage5-private-remote-joining",
@@ -142,13 +168,14 @@
     {"from":"stage4-first-slice-production-proof","to":"rjr1-ledger","relation":"raises-fixed-ledger-to-77"},
     {"from":"stage4-first-slice-production-proof","to":"stage4-remote-to-local-reconciliation","relation":"unlocks-next-prerequisite-selection"},
     {"from":"stage4-remote-to-local-reconciliation","to":"stage5-private-remote-joining","relation":"production-proof-prerequisite"},
+    {"from":"v181-pairing-identity-ux-hardening","to":"stage4-remote-to-local-reconciliation","relation":"ship-hardening-before-resuming-owner-proof"},
     {"from":"canonical-storage","to":"stage4-remote-to-local-reconciliation","relation":"must-remain-safe-through"},
     {"from":"security-zero-billing","to":"stage4-remote-to-local-reconciliation","relation":"constrains"}
   ],
   "retrievalHints": {
-    "currentTaskNode": "stage4-remote-to-local-reconciliation",
-    "immediateNextProductNode": "stage4-remote-to-local-reconciliation",
-    "walkDirection": "continue product work only through genuine owner-browser proof of deployed v1.8.0-r1 remote-to-local reconciliation; do not repeat setup, retry headless App Check, republish unchanged Rules or begin Stage 5",
+    "currentTaskNode": "v181-pairing-identity-ux-hardening",
+    "immediateNextProductNode": "v181-pairing-identity-ux-hardening",
+    "walkDirection": "continue real product work by exact-head validating, publishing and deploying v1.8.1-r1 pairing identity UX hardening; preserve the two-physical-device proof and RJR-1 score 78, do not republish unchanged Rules or begin Stage 5, then resume the separately pending v1.8.0 reconciliation owner proof",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
@@ -156,6 +183,7 @@
       "a newer current-authority file selects a different product milestone",
       "production Rules differ from the reviewed Stage 4 blob",
       "a required workflow or provider gate fails",
+      "the two owner surfaces show different rivalry fingerprints or remote revisions after guarded reattachment",
       "security, recovery or canonical-storage contradiction appears"
     ]
   }
