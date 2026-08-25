@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-player-two-owner-device-proof-live",
   "lifecycle": "active",
-  "recordedAt": "2026-08-25T14:25:00Z",
+  "recordedAt": "2026-08-25T14:31:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 9,
-    "toolRoutingErrors": 4,
-    "correctedFailures": 1,
+    "largeEvidenceEvents": 11,
+    "toolRoutingErrors": 5,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -24,21 +24,21 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 88,
+    "handoffCompleteness": 90,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "decision": {
     "value": "CONTINUE",
     "scope": "current-successor-environment",
-    "reason": "The successor remains below deterministic transition thresholds. The owner-device evidence exposed a direct Connected Rivalry recovery blocker, the minimal 1.8.1-r2 runtime hotfix is now coherently staged with the 1.8.1-r1 rollback namespace, and the next bounded operation is exact-head PR validation/publication before resuming the same existing Nik/Gop rivalry proof. Usage remains unavailable rather than inherited."
+    "reason": "The successor remains below deterministic transition thresholds. PR #144 exposed only release-authority metadata drift after the runtime revision bump; that failure was diagnosed and corrected without widening product scope. The coherent 1.8.1-r2 hotfix is ready for a fresh human-authored exact-head PR gate cycle. Usage remains unavailable rather than inherited."
   },
   "continuity": {
-    "currentTask": "Validate, publish and production-prove the bounded v1.8.1 / 1.8.1-r2 Connected Rivalry recovery UX hotfix: full visible saved rivalry ID, selectable text and explicit copy action, without changing the durable pair_ plus 64-hex identity model or any provider/gameplay authority.",
-    "lastSafeCheckpoint": "PR #142 predecessor handoff was standing-authorized and squash-merged to main 7d21667eddac29804cea9aa13077618a52e09768. Owner iPhone evidence then proved Player One / Nik retains the original Connected Rivalry pointer while Player Two / Gop is signed in but not attached, and exposed that the saved rivalry ID was placeholder-only and therefore gray, truncated and non-selectable on iOS. Clean branch agent/v182-rivalry-id-recovery-ux now stages a coherent 1.8.1-r2 hotfix with the full ID rendered, selectable and copyable, 1.8.1-r1 retained as previous whole-shell rollback, and tests guarding against unsafe ID shortening.",
-    "nextSafeAction": "Open the intended hotfix pull request from exact current branch head, require all exact-head workflow families plus clean reviews/threads/mergeability, fix any product-relevant failure, then standing-authorized squash-merge and verify the resulting GitHub Pages artifact before asking the owner to update and copy the surviving Nik rivalry ID into Gop's exact Player Two attachment path.",
+    "currentTask": "Validate, publish and production-prove PR #144 for v1.8.1 / 1.8.1-r2 Connected Rivalry recovery UX: full visible saved rivalry ID, selectable text and explicit copy action, while preserving the durable pair_ plus 64-hex identity model and all provider/gameplay authority locks.",
+    "lastSafeCheckpoint": "PR #144 was opened from the clean r2 branch. Its first exact-head Static App and Stability failures were traced to PROJECT_STATE.md and NEXT_TASK.md still naming 1.8.1-r1, not to runtime code. Dynamic static release architecture had already passed as v1.8.1 / 1.8.1-r2. Current authority metadata now names the r2 candidate and RELEASE_V1.8.1_R2.md is explicitly RELEASE CANDIDATE. The temporary sync workflow removed itself from the candidate diff; this WEC commit is the fresh human-authored exact head that must receive the definitive PR workflow cycle.",
+    "nextSafeAction": "Require all 14 permanent workflow families on this exact PR #144 head, inspect any failure rather than assuming it, verify reviews/threads/mergeability, then standing-authorized squash-merge and verify the resulting GitHub Pages artifact before asking the owner to update and copy the surviving Nik rivalry ID into Gop's exact Player Two attachment path.",
     "unfinishedWork": [
-      "Run exact-head PR CI/review/mergeability gates for the 1.8.1-r2 recovery hotfix and resolve any genuine failure without scope drift.",
+      "Require all exact-head PR #144 CI/review/mergeability gates for the 1.8.1-r2 recovery hotfix and resolve any genuine failure without scope drift.",
       "After merge, verify main and GitHub Pages publish the coherent 1.8.1-r2 whole shell with 1.8.1-r1 as rollback target.",
       "On the owner's updated Nik surface, prove the complete saved rivalry ID is visible, selectable and COPY RIVALRY ID works.",
       "Use that exact existing rivalry ID to attach Player Two / Gop once without creating a new pairing, then capture the resulting existing-rivalry state.",
@@ -51,7 +51,7 @@
       "Do not create a replacement Nik/Gop pairing: the existing rivalry and prior Revision 1 production evidence must be preserved.",
       "Do not Publish, Preview or Candidate C Apply while recovering the pointer. Attach is the only permitted existing-rivalry recovery mutation after owner verifies Player Two / Gop selection.",
       "The one-shot all-zero unavailable-code fixture remains unconsumed and must not be used until a valid before-state is re-established.",
-      "A post-PR142 main-push Stability Lane workflow reported failure even though PR #142's exact PR head had all required families successful; inspect rather than inherit or ignore any equivalent failure on this hotfix PR.",
+      "GitHub Actions commits made with GITHUB_TOKEN do not initiate the definitive recursive PR workflow cycle; require the permanent families on this human-authored exact head instead of treating action_required bot-push records as product failures.",
       "Firebase Spark/zero billing, App Check enforcement OFF, memory-only Firestore, popup-only browserSessionPersistence, unchanged Rules and Stage 5 lock remain mandatory."
     ],
     "evidenceNotes": [
@@ -60,8 +60,9 @@
       "Root cause is exact: js/sparkConnectedRivalry.js populated crState.rivalryId into input.placeholder rather than input.value, producing gray non-selectable truncated text on iOS.",
       "Hotfix now sets code.value from crState.rivalryId, renders a wrapping FULL RIVALRY ID block with text selection enabled, and adds COPY RIVALRY ID using navigator.clipboard.writeText with selection/execCommand fallback.",
       "Stage 4 contracts now require full/selectable/copyable recovery behavior and explicitly reject a pair_ plus 32-hex shortened identifier.",
-      "Runtime identity is intentionally v1.8.1 / 1.8.1-r2, not a semantic-version feature bump. The service worker moves the cache namespace to r2 and preserves 1.8.1-r1 as previous known-good whole-shell recovery target.",
-      "The temporary branch-only Actions workflow used to prepare the coherent large-file runtime revision update succeeded and deleted itself before its final candidate commit; it is absent from the main-to-candidate diff.",
+      "Runtime identity is intentionally v1.8.1 / 1.8.1-r2. The service worker moves the cache namespace to r2 and preserves 1.8.1-r1 as previous known-good whole-shell recovery target.",
+      "PR #144 first exact-head syntax and dynamic static release validation passed; contract failure was authority metadata coherence only and was corrected by adding current r2 overrides to PROJECT_STATE/NEXT_TASK and marking the r2 release record as RELEASE CANDIDATE.",
+      "The first temporary authority-sync workflow had invalid YAML because multiline embedded text escaped the YAML block indentation; it was corrected immediately, completed successfully, and removed itself from the candidate diff.",
       "An inspection-only draft PR #143 was accidentally opened and immediately closed without merge or product mutation; this routing error is recorded and corrected.",
       "Official RJR-1 remains exactly 78/100; this recovery UX code, tests, documentation and publication receive zero readiness points by themselves.",
       "Per-environment usage remains reset and unavailable; no predecessor 10 percent report is inherited."
