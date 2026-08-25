@@ -72,7 +72,7 @@ Former candidate line: Authorized release candidate: `v1.8.1 / 1.8.1-r3`.
 
 Former runtime evidence: Current production runtime is `v1.8.1 / 1.8.1-r3` from squash merge `857727586d548a96fca3ad63c394bf8f0b9e3b90`. Previous known-good whole-shell recovery runtime remains deliberately `1.8.1-r1`, not regressed r2.
 
-PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families and GitHub Pages deployment run `32883493535` succeeded.
+PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families, then the authorized expected-head squash merge completed, and GitHub Pages deployment run `32883493535` succeeded.
 
 The formerly authorized sequence under `IMMEDIATE NEXT TASK AFTER FULL STUDY` was to finish only the post-deployment r3 production-proof correction, require all 14 permanent workflow families green, use expected-head squash merge, and then require main Stability deployed-site smoke. That sequence is complete.
 
