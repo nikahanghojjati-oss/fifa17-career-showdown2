@@ -7,6 +7,7 @@ const start = read("00_DEVELOPER_START_HERE.md");
 const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
+const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const standingAuth = read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 
@@ -76,56 +77,69 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Historical local product slices remain closed; current authority is the bounded v1.5.0 private connected-account candidate, while later Remote Joining stages remain blocked.
+// Current authority is intentionally concise. Historical product-chain assertions remain
+// protected against the byte-for-byte pre-r3 archive instead of forcing stale milestone
+// prose back into the live execution pointer.
+assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"NEXT_TASK must expose the current r3 recovery authority.");
+assert.match(next,/Status:\s*RELEASE CANDIDATE[\s\S]+RJR-1 `76\/100`[\s\S]+STAGE 5 LOCKED/i,"NEXT_TASK must preserve current candidate, RJR and Stage 5 truth.");
+assert.match(next,/Authorized release candidate:\s*`v1\.8\.1 \/ 1\.8\.1-r3`/i,"NEXT_TASK must identify the exact r3 candidate.");
+assert.match(next,/Current production runtime is `v1\.8\.1 \/ 1\.8\.1-r2`[\s\S]+owner-proven production Connected Account regression/i,"NEXT_TASK must keep the deployed r2 regression explicit.");
+assert.match(next,/Previous known-good whole-shell recovery runtime is deliberately `1\.8\.1-r1`, not r2/i,"NEXT_TASK must roll back around the known-bad r2 generation.");
+assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+PR #146[\s\S]+all 14 permanent workflow families[\s\S]+expected-head squash merge[\s\S]+GitHub Pages/i,"NEXT_TASK must give a fresh developer the complete bounded r3 execution sequence.");
+assert.match(next,/Do not ask the owner to test the release candidate[\s\S]+only after `1\.8\.1-r3` is actually deployed/i,"Owner testing must remain post-deployment only.");
+assert.match(next,/Google popup sign-in[\s\S]+Private account ready/i,"The owner acceptance boundary must prove the two regressed production capabilities.");
+assert.match(next,/authority-history\/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25\.md/i,"NEXT_TASK must point to its lossless pre-r3 archive.");
+
+// Historical local product slices remain immutable in the archived pre-r3 authority.
 assert.match(
-  next,
+  historicalNext,
   /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,
-  "NEXT_TASK must identify v1.5.0 / 1.5.0-r1 as the current bounded product candidate."
+  "Archived NEXT_TASK must preserve v1.5.0 / 1.5.0-r1 bounded product-candidate history."
 );
 assert.match(
-  next,
+  historicalNext,
   /Historical reconciliation authorized product candidate:\s*none/i,
-  "NEXT_TASK must retain the earlier no-product-candidate reconciliation state only as historical provenance."
+  "Archived NEXT_TASK must retain the earlier no-product-candidate reconciliation state as provenance."
 );
 assert.match(
-  next,
+  historicalNext,
   /Phase C first slice[\s\S]{0,160}(PR #73|production-proven|closed)/i,
-  "NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven."
+  "Archived NEXT_TASK must name Phase C first slice (PR #73) as closed / production-proven."
 );
 assert.match(
-  next,
+  historicalNext,
   /Phase B first slice — Save Library \/ Local Profile Experience 2\.0 \(PR #70/i,
-  "NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven."
+  "Archived NEXT_TASK must name Phase B first slice (PR #70) as closed / production-proven."
 );
 assert.match(
-  next,
+  historicalNext,
   /65b6c9db0a070b6e5e992a39dffeee23df0c6f08/i,
-  "NEXT_TASK must record the live main feature-merge SHA for PR #70 (Phase B first slice)."
+  "Archived NEXT_TASK must record the live main feature-merge SHA for PR #70."
 );
 assert.match(
-  next,
+  historicalNext,
   /dec1d3ba8182c3f62019974dd1704c7c9124def6/i,
-  "NEXT_TASK must record the Phase C first-slice (PR #73) production merge."
+  "Archived NEXT_TASK must record the Phase C first-slice PR #73 production merge."
 );
 assert.match(
-  next,
+  historicalNext,
   /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i,
-  "NEXT_TASK must name formatVersion 2 multi-Save portability (PR #67) as a closed production milestone."
+  "Archived NEXT_TASK must preserve formatVersion 2 multi-Save portability history."
 );
 assert.match(
-  next,
+  historicalNext,
   /Local Profile display-label editing[\s\S]+Identity-Safe Career Analytics[\s\S]+formatVersion 2 full multi-Save/i,
-  "NEXT_TASK must close Local Profile display-label, Identity-Safe Analytics, and multi-Save portability as production-proven."
+  "Archived NEXT_TASK must preserve the completed local dependency chain."
 );
 assert.match(
-  next,
+  historicalNext,
   /publish under standing owner authorization[\s\S]+reassess the fresh WEC/i,
-  "NEXT_TASK must use the owner's standing publication authority after exact-head gates and reassess WEC before a separate milestone."
+  "Archived NEXT_TASK must retain standing publication authority and fresh-WEC continuation history."
 );
 assert.match(
-  next,
+  historicalNext,
   /After the candidate is fully published[\s\S]+If WEC permits continuation[\s\S]+smallest remaining dependency-gated Stage 2 prerequisite/i,
-  "NEXT_TASK must advance only through a fresh WEC decision rather than reviving the obsolete owner-wait clean stop."
+  "Archived NEXT_TASK must preserve the historical post-publication dependency ordering."
 );
 assert.match(
   standingAuth,
@@ -133,39 +147,39 @@ assert.match(
   "Standing owner authorization must remain the publication authority for validated current and future project PRs."
 );
 assert.match(
-  next,
+  historicalNext,
   /Current production application version:\s*`v1\.4\.0`/i,
-  "NEXT_TASK must preserve v1.4.0 as current production until the v1.5.0 candidate is actually proven."
+  "Archived NEXT_TASK must preserve v1.4.0 production history for the v1.5.0 candidate era."
 );
 assert.match(
-  next,
+  historicalNext,
   /Current production Installable Offline App runtime: `1\.4\.0-r2`/i,
-  "NEXT_TASK must identify the now-proven production runtime 1.4.0-r2."
+  "Archived NEXT_TASK must preserve the historical production runtime 1.4.0-r2."
 );
 assert.match(
-  next,
+  historicalNext,
   /Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i,
-  "NEXT_TASK must identify 1.4.0-r2 as the v1.5.0-r1 candidate's immediate recovery target."
+  "Archived NEXT_TASK must preserve the v1.5.0-r1 candidate's immediate recovery target."
 );
 assert.match(
-  next,
+  historicalNext,
   /Previously recorded pre-r2 fallback knowledge: `1\.4\.0-r1`/i,
-  "NEXT_TASK must preserve 1.4.0-r1 as older fallback/recovery knowledge without treating it as the immediate v1.5 candidate rollback."
+  "Archived NEXT_TASK must preserve older 1.4.0-r1 fallback knowledge."
 );
 assert.match(
-  next,
+  historicalNext,
   /Public community features and global leaderboard\/rankings are (?:\*\*)?ELIMINATED(?:\*\*)?/i,
-  "NEXT_TASK must retain the permanent ELIMINATED public community / global leaderboard lock."
+  "Archived NEXT_TASK must retain the permanent ELIMINATED public community / global leaderboard lock."
 );
 assert.match(
-  next,
+  historicalNext,
   /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,
-  "NEXT_TASK must preserve Private Remote Joining as a prioritized long-term destination with strict prerequisite gates and no current runtime authorization."
+  "Archived NEXT_TASK must preserve Private Remote Joining's historical prioritized dependency-gated classification."
 );
 assert.match(
-  next,
+  historicalNext,
   /Cloud \/ synchronization readiness[\s\S]+private account \/ authentication \/ authorization[\s\S]+paired-device \/ private-session[\s\S]+Connected Rivalry[\s\S]+Private Remote Joining/i,
-  "NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
+  "Archived NEXT_TASK must preserve the ordered Remote Joining prerequisite path."
 );
 assert.match(
   remotePriority,
@@ -177,7 +191,6 @@ assert.match(
   /PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i,
   "The owner amendment must lock the new Remote Joining classification."
 );
-
 assert.match(
   start,
   /identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,
@@ -189,4 +202,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: recursive policy and historical product proof remain protected; production 1.4.0-r2 and v1.5.0-r1 candidate authority are coherent; standing owner publication plus fresh WEC governs continuation; Remote Joining remains prioritized but dependency-gated.");
+console.log("Handoff immediate-next-task contracts passed: live NEXT_TASK stays concise and executable for r3 while the lossless pre-r3 archive preserves historical product proof and permanent Remote Joining locks.");
