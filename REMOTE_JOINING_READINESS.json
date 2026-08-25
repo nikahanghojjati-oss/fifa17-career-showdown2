@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 78,
+  "currentScore": 76,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -34,11 +34,12 @@
       "id": "identity-auth-trust",
       "label": "Identity, authentication, authorization and trust",
       "weight": 20,
-      "earned": 18,
+      "earned": 17,
       "evidence": [
         "Firebase Authentication provider decision and production Google sign-in configuration are proven.",
         "Verified UID to accountId boundary, revocation-aware ID-token verification and operation-specific authorization contracts are proven.",
-        "2026-08-21 owner-supplied real mobile production evidence proves the Google popup sign-in flow completes against the production Firebase Auth project and returns a live authenticated Firebase identity in the installed application.",
+        "2026-08-21 owner-supplied real mobile production evidence proved the Google popup sign-in flow completed against the production Firebase Auth project and returned a live authenticated Firebase identity in the installed application.",
+        "2026-08-25 owner evidence on production v1.8.1-r2 plus the matching Stability failure proves the currently deployed runtime can block access to that previously credited sign-in capability when App Check token observation is throttled, so that one production capability credit is withdrawn until restoration is production-proven.",
         "Stage 2I App Check verification order and trusted endpoint attestation contract are proven but production trusted runtime/IAM is not activated."
       ]
     },
@@ -46,13 +47,14 @@
       "id": "production-cloud-security",
       "label": "Production cloud and security activation",
       "weight": 20,
-      "earned": 18,
+      "earned": 17,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
         "Production Firestore Security Rules are provider verified through the strict authenticated self-account boundary and the later Stage 3 registered-device/private-pairing boundary.",
         "2026-08-20 provider evidence proves reCAPTCHA Enterprise API/key setup and Firebase App Check Web App registration at one-hour TTL and 0.5 risk threshold with enforcement off.",
         "Permanent Validate Stability Lane #1230 / run 32439162225 proves controlled production 1.4.0-r2 Firebase App + App Check runtime connection, exact-origin/path gating, every deployed runtime byte, and legitimate reCAPTCHA Enterprise App Check token traffic while enforcement remains off.",
-        "2026-08-21 owner-supplied real mobile production evidence proves the Connected Account surface, successful Google sign-in and strict self-account bootstrap path.",
+        "2026-08-21 owner-supplied real mobile production evidence proved the Connected Account surface, successful Google sign-in and strict self-account bootstrap path.",
+        "2026-08-25 production v1.8.1-r2 currently cannot reach that previously credited self-account bootstrap path on the owner iPhone because the runtime disables Auth/Firestore account services after App Check token throttling; that one bootstrap capability credit is withdrawn until restoration is production-proven.",
         "2026-08-21 owner-supplied production Stage 3 evidence proves the published zero-billing device/pairing Rules are exercised by the deployed v1.6.0-r1 browser path.",
         "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
       ]
@@ -68,7 +70,7 @@
         "The first live proof uses separate normal/incognito browser storage identities on one physical Chromebook; it proves two application device identities but not two-physical-machine hardening.",
         "2026-08-24 live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves the first production Connected Rivalry slice: the exact private rivalry attaches under both entitled manager bindings, Player Two publishes the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser refreshes that same revision without local Apply or a reported local-save overwrite.",
         "2026-08-24 owner-supplied evidence from a second independent production rivalry on iPhone proves an unrefreshed Player One publish cannot overwrite Player Two's newly created authoritative revision 0: the runtime rejects the stale base and reports that local saves were not changed.",
-        "The same iPhone production sequence then proves deterministic recovery and convergence: Player One refreshes after rejection to revision 0, publishes exactly once to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite.",
+        "The same iPhone production sequence then proves deterministic recovery and convergence: Player One refreshes after rejection to revision 0, publishes exactly once through the CAS update path to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite.",
         "Exact idempotency replay, third-account/revoked-device negatives, two-network/adverse-network hardening, remote-to-local reconciliation and actual Remote Joining sessions remain uncredited."
       ]
     },
@@ -80,7 +82,7 @@
       "evidence": [
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
         "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage.",
-        "2026-08-24 owner-supplied production evidence across one Chromebook and one iPhone proves fresh one-use pairing, revision-0 publication, live stale rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
+        "2026-08-24 owner-supplied production evidence across one Chromebook and one iPhone proves fresh one-use pairing, revision-0 publication, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
         "Remote Joining specific two-network/adverse-network and token-lifecycle testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
       ]
     }
@@ -107,7 +109,7 @@
       "score": 61,
       "delta": 2,
       "domainId": "production-cloud-security",
-      "reason": "Permanent push-triggered Stability Lane #1230 / run 32439162225 on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 proves two previously uncredited production capabilities: controlled Firebase App + App Check runtime connection and legitimate production App Check token traffic. The +2 is deliberately limited to those two newly proven fixed-domain capabilities; no points are awarded for PR count, green CI by itself, documentation, WEC/SLE work, App Check enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining."
+      "reason": "Permanent push-triggered Stability Lane #1230 / run 32439162225 on exact production head 3d2ebefec683e0b3bf6b2beac08d54f1c3d9e516 proves two previously uncredited production capabilities: controlled production Firebase App + App Check runtime connection and legitimate production App Check token traffic. The +2 is deliberately limited to those two newly proven fixed-domain capabilities; no points are awarded for PR count, green CI by itself, documentation, WEC/SLE work, App Check enforcement, trusted-runtime IAM, pairing, Connected Rivalry or actual Remote Joining."
     },
     {
       "recordedAt": "2026-08-21T21:08:00Z",
@@ -131,7 +133,7 @@
       "score": 69,
       "delta": 6,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
-      "reason": "Owner-supplied live v1.6.0 / 1.6.0-r1 screenshots materially prove the first production Stage 3 capabilities: two distinct authenticated browser device identities register, a private one-use pairing capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager slot. The +6 is deliberately bounded to registered-device/private-pairing production capability. It does not credit emulator-only replay/third-account/revocation negatives, two-physical-machine hardening, Connected Rivalry, shared gameplay synchronization or actual Remote Joining."
+      "reason": "Owner-supplied live v1.6.0 / 1.6.0-r1 screenshots materially prove the first production Stage 3 capabilities: two distinct authenticated browser device identities register, a private one-use capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager slot. The +6 is deliberately bounded to registered-device/private-pairing production capability. It does not credit emulator-only replay/third-account/revocation negatives, two-physical-machine hardening, Connected Rivalry, shared gameplay synchronization or actual Remote Joining."
     },
     {
       "recordedAt": "2026-08-24T13:30:37Z",
@@ -139,7 +141,7 @@
       "score": 72,
       "delta": 3,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
-      "reason": "Owner-supplied live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves three previously uncredited production capabilities within the fixed device/pairing/Connected-Rivalry/Remote-Join domain: each entitled manager binding can attach to the exact private rivalry, Player Two creates the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser reads that same revision without local Apply or a reported local-save overwrite. The +3 is deliberately limited to those three capabilities. It does not credit revision advancement, stale-base rejection, idempotency replay, third-account or revoked-device denial, two-physical-device hardening, remote-to-local reconciliation, or actual Remote Joining sessions."
+      "reason": "Owner-supplied live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves three previously uncredited production capabilities within the fixed device/pairing/Connected-Rivalry/Remote-Join domain: each entitled manager binding can attach to the exact private rivalry, Player Two creates the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser refreshes that same revision without local Apply or a reported local-save overwrite. The +3 is deliberately limited to those three capabilities. It does not credit revision advancement, stale-base rejection, idempotency replay, third-account or revoked-device denial, two-physical-device hardening, remote-to-local reconciliation, or actual Remote Joining sessions."
     },
     {
       "recordedAt": "2026-08-24T13:57:00Z",
@@ -172,6 +174,24 @@
       "delta": 1,
       "domainId": "real-device-hardening-release",
       "reason": "Owner-supplied production evidence across a Chromebook and iPhone proves a fresh one-use pairing, exact Player One/Player Two attachment, revision-0 publication, cross-device observation, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite. The +1 is deliberately limited to closing the previously uncredited two-physical-device boundary. It does not credit source work, release activity, two-network/adverse-network testing, token lifecycle, remote-to-local Apply or actual Remote Joining sessions."
+    },
+    {
+      "recordedAt": "2026-08-25T16:14:00Z",
+      "eventId": "production-r2-connected-account-throttle-regression-auth",
+      "score": 77,
+      "delta": -1,
+      "domainId": "identity-auth-trust",
+      "invalidation": true,
+      "reason": "Owner screenshots from both iPhone Safari and the installed v1.8.1-r2 application show Connected Account runtime unavailable, while the matching deployed Stability run captured reCAPTCHA Enterprise 403 appCheck/initial-throttle. Source proves the runtime converts that token-observation failure into a fatal account-services outage. This proven regression removes current access to the previously credited production Google sign-in capability, so exactly that +1 credit is withdrawn pending production restoration proof."
+    },
+    {
+      "recordedAt": "2026-08-25T16:14:01Z",
+      "eventId": "production-r2-connected-account-throttle-regression-bootstrap",
+      "score": 76,
+      "delta": -1,
+      "domainId": "production-cloud-security",
+      "invalidation": true,
+      "reason": "The same production r2 regression prevents Auth and memory-only Firestore account services from initializing, so the previously credited strict authenticated self-account bootstrap path cannot currently be reached on the owner production surfaces. Exactly that +1 production bootstrap credit is withdrawn. Historical provider, Rules, App Check registration and Stage 3 evidence remain valid and are not double-penalized."
     }
   ]
 }

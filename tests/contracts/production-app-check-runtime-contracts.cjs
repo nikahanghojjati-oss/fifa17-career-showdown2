@@ -99,6 +99,8 @@ assert.match(runtimeSource,/firebase-app-check\.js/);
 assert.match(runtimeSource,/firebase-auth\.js/);
 assert.match(runtimeSource,/firebase-firestore\.js/);
 assert.match(runtimeSource,/getToken\(initialized\.appCheck,false\)/);
+assert.match(runtimeSource,/ready-app-check-degraded/);
+assert.match(runtimeSource,/enforcement is off, so Connected Account remains available/i);
 assert.match(runtimeSource,/requestIdleCallback/);
 assert.match(runtimeSource,/runtime-config-not-configured/);
 assert.match(runtimeSource,/local mode remains active/i);
@@ -139,6 +141,24 @@ function appCheckSdk(calls){
   };
 }
 
+function accountSdk(calls){
+  const sessionPersistence={type:"SESSION"};
+  return {
+    getAuth(appInstance){calls.push(["getAuth",appInstance]);return {name:"auth"};},
+    GoogleAuthProvider:function GoogleAuthProvider(){},
+    async signInWithPopup(){},
+    async signOut(){},
+    onAuthStateChanged(){return ()=>{};},
+    async setPersistence(){},
+    browserSessionPersistence:sessionPersistence,
+    initializeFirestore(appInstance,options){calls.push(["initializeFirestore",appInstance,options]);return {name:"firestore"};},
+    memoryLocalCache(){calls.push(["memoryLocalCache"]);return {kind:"memory"};},
+    Timestamp:{now(){return {seconds:1,nanoseconds:0};}},
+    doc(){},
+    runTransaction(){}
+  };
+}
+
 (async()=>{
   const readyRuntime=freshRuntime();
   const baseCalls=[];
@@ -146,6 +166,7 @@ function appCheckSdk(calls){
   assert.equal(ready.status,"ready");
   assert.equal(ready.connected,true);
   assert.equal(ready.tokenObserved,true);
+  assert.equal(ready.appCheckDegraded,false);
   assert.equal(ready.enforcement,false);
   assert.equal(ready.authInitialized,false);
   assert.equal(ready.firestoreInitialized,false);
@@ -157,22 +178,7 @@ function appCheckSdk(calls){
   assert.equal(baseCalls[3][2],false);
 
   const accountCalls=[];
-  const sessionPersistence={type:"SESSION"};
-  const accountSdk={
-    getAuth(appInstance){accountCalls.push(["getAuth",appInstance]);return {name:"auth"};},
-    GoogleAuthProvider:function GoogleAuthProvider(){},
-    async signInWithPopup(){},
-    async signOut(){},
-    onAuthStateChanged(){return ()=>{};},
-    async setPersistence(){},
-    browserSessionPersistence:sessionPersistence,
-    initializeFirestore(appInstance,options){accountCalls.push(["initializeFirestore",appInstance,options]);return {name:"firestore"};},
-    memoryLocalCache(){accountCalls.push(["memoryLocalCache"]);return {kind:"memory"};},
-    Timestamp:{now(){return {seconds:1,nanoseconds:0};}},
-    doc(){},
-    runTransaction(){}
-  };
-  const accountServices=await readyRuntime.ensureAccountServices({context:eligible,accountSdk});
+  const accountServices=await readyRuntime.ensureAccountServices({context:eligible,accountSdk:accountSdk(accountCalls)});
   assert.equal(accountServices.ok,true);
   assert.equal(accountServices.authPersistence,"browserSessionPersistence");
   assert.equal(accountServices.persistentFirestoreCache,false);
@@ -197,9 +203,35 @@ function appCheckSdk(calls){
   const failureSdk=appCheckSdk([]);
   failureSdk.getToken=async()=>{throw new Error("synthetic provider outage");};
   const providerFailure=await failureRuntime.initialize({context:eligible,runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:failureSdk});
-  assert.equal(providerFailure.status,"app-check-runtime-unavailable");
-  assert.equal(providerFailure.connected,false);
+  assert.equal(providerFailure.status,"ready-app-check-degraded");
+  assert.equal(providerFailure.connected,true);
   assert.equal(providerFailure.tokenObserved,false);
+  assert.equal(providerFailure.appCheckDegraded,true);
+  assert.equal(providerFailure.enforcement,false);
+  assert.equal(Object.hasOwn(providerFailure,"token"),false,"Degraded diagnostics must not expose a raw App Check token.");
 
-  process.stdout.write(`PASS production Firebase runtime keeps historical App Check and PR #126 proof immutable while current ${currentAppVersion}/${currentRevision} remains local-first, bounded and explicit-demand only\n`);
+  const degradedAccountCalls=[];
+  const degradedAccountServices=await failureRuntime.ensureAccountServices({context:eligible,accountSdk:accountSdk(degradedAccountCalls)});
+  assert.equal(degradedAccountServices.ok,true,"An unenforced App Check token outage must not disable Connected Account.");
+  assert.equal(degradedAccountServices.authPersistence,"browserSessionPersistence");
+  assert.equal(degradedAccountServices.persistentFirestoreCache,false);
+  assert.equal(degradedAccountServices.writeScope,FIRESTORE_WRITE_SCOPE);
+  assert.deepEqual(degradedAccountCalls.map(call=>call[0]),["getAuth","memoryLocalCache","initializeFirestore"]);
+  const degradedDiagnostics=failureRuntime.diagnostics();
+  assert.equal(degradedDiagnostics.status,"ready-app-check-degraded");
+  assert.equal(degradedDiagnostics.connected,true);
+  assert.equal(degradedDiagnostics.tokenObserved,false);
+  assert.equal(degradedDiagnostics.appCheckDegraded,true);
+  assert.equal(degradedDiagnostics.authInitialized,true);
+  assert.equal(degradedDiagnostics.firestoreInitialized,true);
+
+  const initFailureRuntime=freshRuntime();
+  const initFailureSdk=appCheckSdk([]);
+  initFailureSdk.initializeAppCheck=()=>{throw new Error("synthetic App Check initialization failure");};
+  const initFailure=await initFailureRuntime.initialize({context:eligible,runtimeConfig:validRuntimeConfig,bootstrap,firebaseSdk:initFailureSdk});
+  assert.equal(initFailure.status,"APP_CHECK_INITIALIZATION_FAILED");
+  assert.equal(initFailure.connected,false,"App/App Check initialization failure must remain fatal and fail closed.");
+  assert.equal(initFailure.tokenObserved,false);
+
+  process.stdout.write(`PASS production Firebase runtime keeps historical App Check and PR #126 proof immutable while current ${currentAppVersion}/${currentRevision} tolerates unenforced attestation observation outages without weakening account boundaries\n`);
 })().catch(error=>{console.error(error);process.exit(1);});

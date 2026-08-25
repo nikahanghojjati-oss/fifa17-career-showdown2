@@ -7,6 +7,7 @@ const privacy=fs.readFileSync("REMOTE_DATA_PRIVACY_RETENTION_POLICY.md","utf8");
 const remote=fs.readFileSync("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md","utf8");
 const stage2h=fs.readFileSync("PRIVATE_ACCOUNT_AUTH_STAGE_2H.md","utf8");
 const nextTask=fs.readFileSync("NEXT_TASK.md","utf8");
+const preR3NextTask=fs.readFileSync("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md","utf8");
 const production=JSON.parse(fs.readFileSync("firebase.production.environment.json","utf8"));
 const rules=fs.readFileSync("firestore.rules","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
@@ -52,20 +53,26 @@ assert.match(remote,/Disabling an account[\s\S]+other entitled owner retains aut
 assert.match(stage2h,/account lifecycle export\/deletion execution/i);
 assert.match(stage2h,/If a later separately authorized Stage 2 operation requires[\s\S]+export[\s\S]+additional permission must be justified/i);
 
-// Export remains completed historical proof. Current authority is PR #125 and must not regress export, IAM, privacy or Stage 3 ordering.
-assert.match(nextTask,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i);
-assert.match(nextTask,/Current branch: `agent\/spark-production-account-runtime`/);
-assert.match(nextTask,/Current environment: `we-2026-08-21-spark-production-account-runtime`/);
-assert.match(nextTask,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
-assert.match(nextTask,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(nextTask,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
-assert.match(nextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
-assert.match(nextTask,/App Check enforcement(?: remains)?:? OFF/i);
-assert.match(nextTask,/currently published application-client Firestore create\/update\/delete boundary remains deny-all|browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i);
-assert.match(nextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datastore\.entities\.create[\s\S]+Do not broaden/i);
-assert.match(nextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
-assert.match(nextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
-assert.match(nextTask,/Finish only PR #125[\s\S]+source validation first/i);
+// Export remains completed historical proof. PR #125-era authority is immutable provenance;
+// live authority may advance without rewriting the proof that established export/IAM/privacy locks.
+assert.match(preR3NextTask,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i);
+assert.match(preR3NextTask,/Current branch: `agent\/spark-production-account-runtime`/);
+assert.match(preR3NextTask,/Current environment: `we-2026-08-21-spark-production-account-runtime`/);
+assert.match(preR3NextTask,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
+assert.match(preR3NextTask,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(preR3NextTask,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
+assert.match(preR3NextTask,/Private Remote Joining remains PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i);
+assert.match(preR3NextTask,/App Check enforcement(?: remains)?:? OFF/i);
+assert.match(preR3NextTask,/currently published application-client Firestore create\/update\/delete boundary remains deny-all|browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i);
+assert.match(preR3NextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datastore\.entities\.create[\s\S]+Do not broaden/i);
+assert.match(preR3NextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
+assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
+assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
+assert.match(nextTask,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify current r3 recovery authority rather than revive PR #125.");
+assert.match(nextTask,/App Check enforcement remains OFF|Do not enable App Check enforcement/i);
+assert.match(nextTask,/unchanged production Rules/i);
+assert.match(nextTask,/Candidate C remains the sole destructive remote-to-local Apply authority/i);
+assert.match(nextTask,/Stage 5 Remote Joining sessions remain locked|STAGE 5 LOCKED/i);
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -106,4 +113,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current PR #125 authority.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current r3 authority.\n");

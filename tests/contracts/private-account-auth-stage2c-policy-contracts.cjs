@@ -6,7 +6,9 @@ const stage2c = read("PRIVATE_ACCOUNT_AUTH_STAGE_2C.md");
 const stage2b = read("PRIVATE_ACCOUNT_AUTH_STAGE_2B.md");
 const next = read("NEXT_TASK.md");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
+const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const state = read("PROJECT_STATE.md");
+const preR3State = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
@@ -67,11 +69,12 @@ assert.match(historicalNext, /1794f1f86968781b898d000360d1fb56234fb92f/);
 assert.match(historicalNext, /Current authorized prerequisite candidate:[\s\S]{0,240}Stage 2D/i);
 assert.match(historicalNext, /Historical post-PR #86 wording:[\s\S]{0,180}post-PR #86 current-authority reconciliation/i);
 assert.match(historicalNext, /Remaining later Stage 2 concerns[\s\S]+not automatic implementation order|remaining Stage 2[\s\S]+not automatic/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Current NEXT_TASK must identify PR #125 rather than revive the historical PR #115/#116 App Check deployment-proof lane.");
-assert.match(next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"NEXT_TASK must retain PR #115/#116 deployment-proof authority only as historical provenance.");
-assert.match(next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
-assert.match(next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Current NEXT_TASK must identify the bounded v1.5.0 / 1.5.0-r1 candidate.");
-assert.match(next,/App Check[\s\S]{0,700}enforcement OFF/i);
+assert.match(preR3Next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Immutable pre-r3 NEXT_TASK must preserve the PR #125 runtime authority.");
+assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Immutable pre-r3 NEXT_TASK must preserve PR #115/#116 deployment-proof provenance.");
+assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
+assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0 / 1.5.0-r1 candidate provenance.");
+assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify the current r3 Connected Account recovery authority.");
+assert.match(next,/Do not enable App Check enforcement/i,"Live r3 authority must keep App Check enforcement off.");
 
 for (const [name, text] of archivalSources) {
   assert.match(text, /PR #87[\s\S]{0,900}(DONE \/ MERGED \/ PROVEN|complete|completed)/i, `${name} must keep PR #87 closed.`);
@@ -80,10 +83,12 @@ for (const [name, text] of archivalSources) {
   assert.match(text, /Stage 2D[\s\S]{0,900}(CURRENT|current)/i, `${name} must retain the historical Stage 2D-current transition evidence.`);
 }
 
-assert.match(state, /PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+Firebase App \+ App Check/i);
-assert.match(state, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
-assert.match(state, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority instead of restoring obsolete dormant-stage wording.");
-assert.match(state, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"PROJECT_STATE must identify v1.5.0 as the current bounded non-production candidate.");
+assert.match(preR3State, /PR #115 `Connect production App Check runtime safely` is DONE \/ MERGED AS SOURCE[\s\S]+Firebase App \+ App Check/i);
+assert.match(preR3State, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
+assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority.");
+assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
+assert.match(state,/v1\.8\.1[\s\S]+1\.8\.1-r3/i,"Live PROJECT_STATE must identify the r3 recovery candidate.");
+assert.match(state,/RJR-1[\s\S]{0,260}76\/100/i,"Live PROJECT_STATE must keep recovery readiness at 76 until owner production proof.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
@@ -113,4 +118,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with historical Stage 2D transition preserved and current PR #125/v1.5 candidate authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with historical Stage 2D transition preserved and current r3 recovery authority explicit\n");

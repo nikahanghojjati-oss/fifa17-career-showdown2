@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T15:03:00Z",
+  "recordedAt": "2026-08-25T17:02:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -72,47 +72,26 @@
       "evidenceRecord": "RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md",
       "ownerReportedHistoricalScore": 81,
       "ownerReportedScoreProvenance": "preserved-owner-recollection-no-exact-81-status-artifact-found",
-      "fixedLedgerComparableCheckpoints": [
-        58,
-        59,
-        61,
-        62,
-        63,
-        69,
-        72,
-        73,
-        74,
-        77,
-        78
-      ],
+      "fixedLedgerComparableCheckpoints": [58,59,61,62,63,69,72,73,74,77,78],
       "requiredOutcome": "completed-no-capability-regression-pre-rjr-82-backcasts-to-rjr1-58",
       "officialScoreDuringAudit": 78,
       "scoreMutationAuthorized": false,
       "authority": 1,
       "riskCriticality": 1,
       "exactRecoveredHistoricalScore": 82,
-      "recoveredStatusTimestamps": [
-        "2026-08-20T03:25:03Z",
-        "2026-08-20T03:25:23Z"
-      ],
+      "recoveredStatusTimestamps": ["2026-08-20T03:25:03Z","2026-08-20T03:25:23Z"],
       "recoveredModel": "pre-rjr-intuition-based-prerequisite-infrastructure-estimate",
       "recoveredModelComparableToRjr1": false,
       "fixedModelBackcastScore": 58,
-      "fixedModelBackcastVector": [
-        20,
-        17,
-        14,
-        4,
-        3
-      ]
+      "fixedModelBackcastVector": [20,17,14,4,3]
     },
     {
       "id": "rjr1-ledger",
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 78,
-      "rule": "fixed capability evidence only; no process-only movement",
+      "recordedScore": 76,
+      "rule": "fixed capability evidence only; no process-only movement; two account capability credits are currently invalidated by the proven r2 Connected Account regression",
       "authority": 1
     },
     {
@@ -142,7 +121,7 @@
     {
       "id": "stage4-remote-to-local-reconciliation",
       "type": "open-production-proof-milestone",
-      "state": "v1.8.1-r1-merged-deployed-byte-proven-owner-proof-pending-after-pairing-ux-regression-check",
+      "state": "paused-until-connected-account-r3-recovery-is-production-proven",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r1",
       "engineeringCheckpoint": "42b89dfd4859d1655d231d2c04406e66545e45b4",
@@ -151,13 +130,13 @@
       "releaseMergeSha": "1d9793412a712e931b516be8ca853df4e95b5b50",
       "pagesRunId": 32763563751,
       "deployedRuntimeFilesByteExact": 89,
-      "activationRule": "after the one non-mutating deployed Player Two syntactically valid but practically nonexistent-code regression check closes and a fresh WEC is assessed, reverify the fresh two-device rivalry attachment and revision, then resume the separately pending non-mutating Preview, stale-intent rejection and exact Candidate C backup-and-Apply owner proof",
+      "activationRule": "after Connected Account r3 is production-proven, recover the existing Nik/Gop rivalry pointer and close the separate unavailable-code proof before resuming non-mutating Preview, stale-intent rejection and exact Candidate C backup-and-Apply owner proof",
       "ownerPairingRebaseline": {
         "priorRootCause": "Player One and Player Two had been reconnected to different valid rivalry IDs, so they correctly observed different authoritative documents",
         "resolution": "owner created a fresh one-use pairing on Chromebook, joined it on iPhone with exact Player Two entitlement, attached both Connected Rivalry surfaces and proved revision-0/revision-1 stale-recovery convergence",
         "currentFingerprint": "pair_500375\u202691ff6",
         "currentObservedRevision": 1,
-        "mutationBoundary": "no local Apply has occurred; reverify current attachment and revision before the separately pending reconciliation proof"
+        "mutationBoundary": "no local Apply has occurred; preserve this authority while the Connected Account regression is repaired"
       },
       "requirements": [
         "reverify both owner surfaces still point to the fresh redacted rivalry fingerprint and read the same revision before reconciliation resumes",
@@ -191,7 +170,7 @@
     {
       "id": "v181-pairing-identity-ux-hardening",
       "type": "historical-product-milestone",
-      "state": "production-deployed-owner-device-unavailable-code-proof-next-clean-work-cloud-browser-ineligible",
+      "state": "production-deployed-owner-device-unavailable-code-proof-paused-by-connected-account-regression",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r1",
       "previousRuntimeRevision": "1.8.0-r1",
@@ -217,7 +196,7 @@
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "blocked-by-deployed-pairing-ux-regression-and-stage4-reconciliation",
+      "state": "blocked-by-connected-account-r2-regression-and-stage4-reconciliation",
       "publicDiscovery": false,
       "publicMatchmaking": false,
       "community": false,
@@ -226,11 +205,7 @@
     {
       "id": "canonical-storage",
       "type": "data-authority-lock",
-      "keys": [
-        "careerModeShowdown.saveLibrary",
-        "careerModeShowdown.legacyShowdowns",
-        "careerModeShowdown.preferences"
-      ],
+      "keys": ["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"],
       "activeShowdownCanonical": false,
       "connectedRivalryPointerAuthority": false,
       "candidateC": "sole-destructive-local-apply-authority",
@@ -243,12 +218,7 @@
       "appCheckEnforcement": false,
       "persistentFirestoreCache": false,
       "stage2hIamActivated": false,
-      "stage2hIamPermissions": [
-        "firebaseauth.users.get",
-        "datastore.databases.get",
-        "datastore.entities.get",
-        "datastore.entities.create"
-      ],
+      "stage2hIamPermissions": ["firebaseauth.users.get","datastore.databases.get","datastore.entities.get","datastore.entities.create"],
       "publicDiscovery": false,
       "publicCommunity": false,
       "publicMatchmaking": false,
@@ -257,7 +227,7 @@
     },
     {
       "id": "pr144-r2-production-release",
-      "type": "completed-production-shell-release",
+      "type": "completed-production-shell-release-with-current-regression",
       "pr": 144,
       "finalExactHead": "bc93407decbc5b8300013f1e23b558d686174566",
       "mergeSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
@@ -267,6 +237,7 @@
       "pagesArtifactId": 9569006078,
       "fullRivalryIdCopy": "immutable-full-id-primary-and-fallback",
       "durableIdShortening": "abandoned",
+      "connectedAccountRegression": "owner-proven-App-Check-token-observation-403-causes-r2-fatal-account-outage",
       "prWorkflowFamiliesGreen": 14,
       "unresolvedReviewThreads": 0,
       "rulesChanged": false,
@@ -276,13 +247,13 @@
     },
     {
       "id": "r2-existing-rivalry-owner-recovery",
-      "type": "immediate-next-product-milestone",
-      "state": "production-r2-deployed-owner-proof-next",
+      "type": "paused-product-milestone",
+      "state": "paused-until-r3-connected-account-recovery",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r2",
       "scope": [
         "prove Nik full durable rivalry ID is fully visible/wrapped/selectable and copy action copies exact full value",
-        "confirm PLAYER TWO \u00b7 GOP before mutation",
+        "confirm PLAYER TWO · GOP before mutation",
         "attach Gop once to Nik existing exact rivalry ID without creating a replacement pairing",
         "prove same rivalry revision/authority and no local Save overwrite",
         "do not Publish Preview or Candidate C Apply during recovery",
@@ -292,89 +263,52 @@
       "stage5Authorized": false,
       "riskCriticality": 0.8,
       "authority": 1
+    },
+    {
+      "id": "pr146-r3-connected-account-recovery",
+      "type": "immediate-next-product-milestone",
+      "state": "release-candidate-exact-head-validation-in-progress",
+      "applicationVersion": "1.8.1",
+      "runtimeRevision": "1.8.1-r3",
+      "productionRuntime": "1.8.1-r2",
+      "recoveryRuntime": "1.8.1-r1",
+      "scope": [
+        "retain initialized Firebase App when post-initialization App Check getToken observation is throttled while enforcement is off",
+        "preserve real App/App Check initialization failures as fail-closed",
+        "preserve popup-only browserSessionPersistence Google Auth and memory-only Firestore",
+        "preserve Firebase Spark zero billing, unchanged Rules and exactly-two-manager authorization",
+        "require 14 exact-head workflow families, clean reviews and mergeability before publication",
+        "after exact deployed proof obtain ordinary owner iPhone sign-in and Private account ready acceptance before restoring RJR credits"
+      ],
+      "rulesChanged": false,
+      "providerChanged": false,
+      "stage5Authorized": false,
+      "riskCriticality": 1,
+      "authority": 1
     }
   ],
   "edges": [
-    {
-      "from": "rjr-81-77-78-provenance-audit",
-      "to": "rjr1-ledger",
-      "relation": "closed-backcast-proves-pre-rjr-82-is-non-comparable-and-official-rjr1-remains-78"
-    },
-    {
-      "from": "rjr-81-77-78-provenance-audit",
-      "to": "v181-pairing-identity-ux-hardening",
-      "relation": "completed-correctness-gate-unlocks-queued-product-check"
-    },
-    {
-      "from": "pr136-v180-runtime-release",
-      "to": "pr138-v181-runtime-release",
-      "relation": "previous-whole-shell"
-    },
-    {
-      "from": "pr138-v181-runtime-release",
-      "to": "production-runtime-1.8.1-r1",
-      "relation": "released"
-    },
-    {
-      "from": "stage4-first-slice-production-proof",
-      "to": "production-runtime-1.8.1-r1",
-      "relation": "inherited-production-proven-first-slice"
-    },
-    {
-      "from": "stage4-first-slice-production-proof",
-      "to": "rjr1-ledger",
-      "relation": "raises-fixed-ledger-to-77"
-    },
-    {
-      "from": "stage4-two-physical-device-hardening-proof",
-      "to": "rjr1-ledger",
-      "relation": "raises-fixed-ledger-to-78"
-    },
-    {
-      "from": "stage4-two-physical-device-hardening-proof",
-      "to": "v181-pairing-identity-ux-hardening",
-      "relation": "exposes-selector-and-guidance-defect"
-    },
-    {
-      "from": "stage4-first-slice-production-proof",
-      "to": "stage4-remote-to-local-reconciliation",
-      "relation": "unlocks-next-prerequisite-selection"
-    },
-    {
-      "from": "stage4-remote-to-local-reconciliation",
-      "to": "stage5-private-remote-joining",
-      "relation": "production-proof-prerequisite"
-    },
-    {
-      "from": "v181-pairing-identity-ux-hardening",
-      "to": "stage4-remote-to-local-reconciliation",
-      "relation": "close-deployed-owner-regression-before-resuming-owner-proof"
-    },
-    {
-      "from": "canonical-storage",
-      "to": "stage4-remote-to-local-reconciliation",
-      "relation": "must-remain-safe-through"
-    },
-    {
-      "from": "security-zero-billing",
-      "to": "stage4-remote-to-local-reconciliation",
-      "relation": "constrains"
-    },
-    {
-      "from": "pr144-r2-production-release",
-      "to": "r2-existing-rivalry-owner-recovery",
-      "relation": "deployed-recovery-ux-unlocks-owner-existing-pointer-proof"
-    },
-    {
-      "from": "r2-existing-rivalry-owner-recovery",
-      "to": "stage4-remote-to-local-reconciliation",
-      "relation": "recover-existing-pointer-and-close-unavailable-code-proof-before-candidate-c-owner-reconciliation"
-    }
+    {"from":"rjr-81-77-78-provenance-audit","to":"rjr1-ledger","relation":"closed-backcast-proves-pre-rjr-82-is-non-comparable-and-historical-rjr1-reached-78"},
+    {"from":"rjr-81-77-78-provenance-audit","to":"v181-pairing-identity-ux-hardening","relation":"completed-correctness-gate-unlocks-queued-product-check"},
+    {"from":"pr136-v180-runtime-release","to":"pr138-v181-runtime-release","relation":"previous-whole-shell"},
+    {"from":"pr138-v181-runtime-release","to":"production-runtime-1.8.1-r1","relation":"released"},
+    {"from":"stage4-first-slice-production-proof","to":"production-runtime-1.8.1-r1","relation":"inherited-production-proven-first-slice"},
+    {"from":"stage4-first-slice-production-proof","to":"rjr1-ledger","relation":"historically-raised-fixed-ledger-to-77"},
+    {"from":"stage4-two-physical-device-hardening-proof","to":"rjr1-ledger","relation":"historically-raised-fixed-ledger-to-78-before-current-r2-regression-invalidations"},
+    {"from":"stage4-two-physical-device-hardening-proof","to":"v181-pairing-identity-ux-hardening","relation":"exposes-selector-and-guidance-defect"},
+    {"from":"stage4-first-slice-production-proof","to":"stage4-remote-to-local-reconciliation","relation":"unlocks-next-prerequisite-selection"},
+    {"from":"stage4-remote-to-local-reconciliation","to":"stage5-private-remote-joining","relation":"production-proof-prerequisite"},
+    {"from":"v181-pairing-identity-ux-hardening","to":"stage4-remote-to-local-reconciliation","relation":"close-deployed-owner-regression-before-resuming-owner-proof"},
+    {"from":"canonical-storage","to":"stage4-remote-to-local-reconciliation","relation":"must-remain-safe-through"},
+    {"from":"security-zero-billing","to":"pr146-r3-connected-account-recovery","relation":"constrains"},
+    {"from":"pr144-r2-production-release","to":"pr146-r3-connected-account-recovery","relation":"owner-proven-connected-account-regression-requires-bounded-hotfix"},
+    {"from":"pr146-r3-connected-account-recovery","to":"r2-existing-rivalry-owner-recovery","relation":"production-proven-account-restoration-required-before-existing-pointer-recovery-resumes"},
+    {"from":"r2-existing-rivalry-owner-recovery","to":"stage4-remote-to-local-reconciliation","relation":"recover-existing-pointer-and-close-unavailable-code-proof-before-candidate-c-owner-reconciliation"}
   ],
   "retrievalHints": {
-    "currentTaskNode": "r2-existing-rivalry-owner-recovery",
-    "immediateNextProductNode": "r2-existing-rivalry-owner-recovery",
-    "walkDirection": "continue Stage 3/Stage 4 product work directly: production r2 existing-rivalry recovery on the owner devices, then the one-shot unavailable-code proof; no replacement pairing, no durable-ID shortening, then reassess before Candidate C.",
+    "currentTaskNode": "pr146-r3-connected-account-recovery",
+    "immediateNextProductNode": "pr146-r3-connected-account-recovery",
+    "walkDirection": "continue product work directly: finish PR #146 v1.8.1-r3 Connected Account recovery, publish after exact gates, prove ordinary owner iPhone sign-in/bootstrap restoration, then resume the existing Nik/Gop Stage 4 rivalry pointer recovery without replacement state.",
     "defaultMaxDependencyHops": 2,
     "ciFailureRule": "fetch exact failed job logs before changing source; change only the demonstrated root cause and never award RJR points for CI, documentation or WEC process alone",
     "expandGraphWhen": [
@@ -382,7 +316,7 @@
       "a newer current-authority file selects a different product milestone",
       "production Rules differ from the reviewed Stage 4 blob",
       "a required workflow or provider gate fails",
-      "the two owner surfaces show different rivalry fingerprints or remote revisions after the fresh two-device pairing baseline",
+      "the r3 owner acceptance surface still reports Connected Account unavailable",
       "security, recovery or canonical-storage contradiction appears",
       "a new exact 81 artifact appears that materially contradicts the closed 82-to-58 provenance backcast",
       "the owner's actual device-local Player Two / Gop surface is unavailable or its before-state contradicts the recorded two-device authority"

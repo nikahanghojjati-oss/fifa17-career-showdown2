@@ -53,10 +53,16 @@ assert.doesNotMatch(candidateRules,/allow\s+(?:write|update|delete)[^\n]*if\s+tr
 
 assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The repository's historical deny-all production rules file remains distinct until an explicitly validated provider publication changes production.");
 assert.match(workflow,/spark-account-bootstrap-emulator\.cjs/,"Permanent Static App validation must execute the Spark account bootstrap emulator proof.");
-assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100,"RJR must remain on the fixed RJR-1 denominator and may rise only with verified capability evidence.");
+assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100,"RJR must remain on the fixed RJR-1 denominator and move only with verified capability evidence.");
 assert.ok(readiness.evidenceHistory.some(event=>event.eventId==="production-app-check-runtime-proof"&&event.score===61),"The historical 61-point pre-Spark-production baseline must remain preserved.");
 if(readiness.currentScore>61){
-  assert.ok(readiness.evidenceHistory.some(event=>event.score===readiness.currentScore&&event.delta>0),"Any post-61 RJR movement must be backed by an explicit positive evidence event.");
+  assert.ok(readiness.evidenceHistory.some(event=>event.score>61&&event.delta>0),"Post-61 capability growth must be backed by explicit positive evidence events.");
+}
+const latestReadinessEvent=readiness.evidenceHistory.at(-1);
+assert.ok(latestReadinessEvent,"RJR must retain an evidence history.");
+assert.equal(latestReadinessEvent.score,readiness.currentScore,"Current RJR must equal the latest explicit evidence event rather than float independently of provenance.");
+if(latestReadinessEvent.delta<0){
+  assert.equal(latestReadinessEvent.invalidation,true,"A readiness decrease must be an explicit invalidation/regression event.");
 }
 
 process.stdout.write("PASS zero-billing Spark account bootstrap remains strict while Stage 3 adds only exact registered-device/private-pairing Rules and keeps downstream gameplay/session writes denied.\n");
