@@ -96,8 +96,14 @@ assert.match(`${nextTask}\n${projectState}`,/Remote Joining[\s\S]+DEPENDENCY-GAT
 assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/);
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i);
 assert.ok(["active","transition-prepared","closed"].includes(status.lifecycle));
-assert.equal(status.signals.usageRemainingPercent,null);
-assert.equal(status.signals.usageSource,"unavailable");
+const currentUsageRemaining=status.signals.usageRemainingPercent;
+const currentUsageSource=status.signals.usageSource;
+if(currentUsageRemaining===null){
+  assert.equal(currentUsageSource,"unavailable");
+}else{
+  assert.ok(Number.isInteger(currentUsageRemaining)&&currentUsageRemaining>=0&&currentUsageRemaining<=100);
+  assert.ok(["usage-dashboard","cli-status","user-reported"].includes(currentUsageSource));
+}
 assert.equal(typeof status.continuity.currentTask,"string");
 assert.ok(status.continuity.currentTask.trim().length>0);
 assert.equal(typeof status.continuity.nextSafeAction,"string");

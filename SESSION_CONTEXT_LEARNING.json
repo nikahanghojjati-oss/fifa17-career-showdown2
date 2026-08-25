@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-25T11:38:35Z",
-  "materialSessionsObserved": 6,
-  "learningState": "cold-start-priors-with-six-labeled-sessions",
+  "recordedAt": "2026-08-25T12:40:07Z",
+  "materialSessionsObserved": 7,
+  "learningState": "cold-start-priors-with-seven-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -172,6 +172,21 @@
       "provenanceLesson": "Do not reconcile a remembered number by guessing. Preserve the recollection, locate the exact recoverable statement, record its timestamp and missing model inputs, then backcast contemporaneous capabilities through the fixed ledger.",
       "numericalLesson": "Pre-RJR 82 measured prerequisite/infrastructure completion and is non-comparable. The same boundary was 11.5/20 = 57.5% and formal RJR-1 58; comparable evidence then increases monotonically to 78.",
       "authorityLesson": "A completed correctness audit can unlock the queued one-action product proof without awarding readiness points or broadening runtime, Rules, provider, Candidate C or Stage 5 scope."
+    },
+    {
+      "sessionId": "we-2026-08-25-player-two-owner-session-proof",
+      "directRemoteJoiningPrerequisiteReached": false,
+      "nextRealProductMilestoneUnblocked": false,
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": false,
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "The initial workspace lacked a usable checkout and one npm wrapper disconnected before direct repository-owned validation; both were safely corrected without product mutation.",
+      "productionEvidenceLesson": "A cloud browser can prove public availability and release identity but cannot replace an owner's origin-and-browser-local Save, profile, manager binding or rivalry pointer. If the required local state is absent, classify the blocker and preserve the one-shot proof instead of synthesizing authority.",
+      "authorityLesson": "Use owner-device before and after evidence for device-local product acceptance when Work Browser cannot share that state. Signing into or seeding a clean browser is not equivalent to reusing the existing Player Two / Gop session.",
+      "usageLesson": "An exact owner-reported 10 percent remaining allowance is a valid WEC source and triggers HANDOFF_NOW; reserve work for the complete mirrored SLE package and final seal."
     }
   ],
   "outcomeScale": {

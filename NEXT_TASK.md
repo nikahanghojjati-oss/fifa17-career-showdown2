@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — PLAYER TWO OWNER-DEVICE PROOF / WORK CLOUD SESSION INELIGIBLE — 2026-08-25 ET
+
+Status: PR #141 MERGED AT LIVE MAIN `8bf5313735a9afbcb0922524e3dee3f283a963a7` / PRODUCTION `v1.8.1 / 1.8.1-r1` VERIFIED 89-FILE BYTE-EXACT / RULES BLOB `ecc8ccb2ab50f0f7057ab3170eb080ad9e36025f` / OFFICIAL RJR-1 78/100 / STAGE 5 LOCKED.
+
+The bounded Work cloud-browser attempt proved only an environment boundary: that browser had an empty Save Library, no active Showdown and no signed-in account, so it could not expose the owner's device-local `PLAYER TWO · GOP` Save/profile/binding/pointer state. No capability was entered, `JOIN PRIVATE PAIRING` was not pressed and no state changed. Do not create synthetic state or repeat setup there.
+
+Immediate task: after live verification and a fresh WEC, use only the owner's existing signed-in Chromebook or iPhone session. Capture a redacted before-state, keep `PLAYER TWO · GOP` selected, enter exactly `pair_0000000000000000000000000000000000000000000000000000000000000000`, and press `JOIN PRIVATE PAIRING` exactly once. Require Player Two to remain selected, privacy-safe non-enumerating used/expired/unavailable plus fresh-code/existing-Connected-Rivalry guidance, and no local Save, binding, rivalry-pointer, Connected Rivalry revision or authoritative-gameplay mutation. Raw permission text, selector reset or mutation is a failure.
+
+Do not retry, create a real pairing, repeat account/device/rivalry setup, Publish, Preview, use Candidate C, republish unchanged Rules, change provider/App Check/billing/storage behavior or begin Stage 5. This proof earns zero RJR points. Reassess before the separate Candidate C owner reconciliation proof.
+
+Current compact starter: `START_NEXT_SESSION_V1.4.16_PLAYER_TWO_OWNER_DEVICE_PROOF.md`. Deep fallback: `SUCCESSOR_HANDOFF_PLAYER_TWO_OWNER_DEVICE_PROOF_SLE_2026-08-25.md`.
+
+The retained body below is historical where it conflicts with this override.
+
+---
+
 # CURRENT OVERRIDE — PLAYER TWO UNAVAILABLE-CODE OWNER PROOF AFTER CLOSED RJR BACKCAST — 2026-08-25 ET
 
 Status: PR #140 MERGED AT LIVE MAIN `838ef18c50f185fceafd01591e49081366c61cac` / PRODUCTION `v1.8.1 / 1.8.1-r1` BYTE-PROVEN / RJR PROVENANCE CLOSED / OFFICIAL RJR-1 78/100 / STAGE 5 LOCKED.
