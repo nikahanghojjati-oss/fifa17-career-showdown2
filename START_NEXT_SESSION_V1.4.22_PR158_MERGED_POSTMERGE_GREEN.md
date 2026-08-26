@@ -4,6 +4,7 @@ SLE = Smart Lean Efficient.
 
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
+Canonical starter: `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md`
 
 Treat this starter and every handoff as orientation only. Current source, live GitHub/provider/deployment evidence and later owner instructions win.
 
