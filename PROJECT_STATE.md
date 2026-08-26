@@ -1,4 +1,4 @@
-# CURRENT OVERRIDE — v1.8.1-r3 STAGE 4 RECONCILIATION / EXACT REPLAY / DETERMINISTIC ADVERSE-PROVIDER SAFETY PRODUCTION-BOUNDARY SEALED — 2026-08-26 ET
+# CURRENT OVERRIDE — v1.8.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN — EXACT REPLAY + DETERMINISTIC ADVERSE-NETWORK SAFETY PROVEN — 2026-08-26 ET
 
 Status: DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY MERGED + POST-MERGE GREEN / STAGE 5 STILL LOCKED.
 
@@ -9,6 +9,7 @@ Current live main: `5eecb482e94263fce7ce9041cdc4f3c7f3a86d21` (PR #158 squash me
 PR #158 final exact head: `72435c180deb744418f93fe8155f280973c3b76a`
 Previous known-good whole-shell recovery runtime: `1.8.1-r1`
 Remote Joining readiness: `81/100` under fixed RJR-1
+Remote Joining readiness candidate: `81/100` under fixed RJR-1
 Historical superseded recovery checkpoint under RJR-1: `76/100` after the r2 Connected Account regression and before owner production restoration proof; it is provenance only, not the current score.
 Current continuity-only publication: PR #159 `Seal PR #158 WEC 100 SLE handoff`; it changes no website runtime bytes and cannot move RJR.
 Stage 5: still locked pending the remaining explicit pre-Stage-5 hardening
@@ -51,7 +52,7 @@ Do not reopen completed r3, pairing, unavailable-code, stale-preview, destructiv
 
 First finish/verify continuity-only PR #159 publication if it remains open when the fresh successor begins. That is transition work only, not a new RJR capability. The successor must validate/archive the inherited closing Work Environment Continuity record, initialize a fresh unique WEC with reset counters, and independently re-fetch live source and deployment authority before product work.
 
-Then begin token-lifecycle hardening, the next automatically provable pre-Stage-5 capability. Study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic expiry/refresh transition while keeping App Check enforcement remains OFF and preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery. Existing source configures App Check token auto-refresh and initial expiry observation, but current proof does not establish a later lifecycle transition. Prefer deterministic provider-compatible proof over a speculative scheduler or long-running production wait.
+Then begin token-lifecycle hardening, the next automatically provable pre-Stage-5 capability. The next automatically provable lane is token-lifecycle hardening: study the existing App Check/Auth lifecycle and prove the smallest meaningful deterministic later expiry/refresh transition, including safe failure handling. Study deployed r3 App Check/Auth lifecycle while keeping App Check enforcement remains OFF and preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery. Existing source configures App Check token auto-refresh and initial expiry observation, but current proof does not establish a later lifecycle transition. Prefer deterministic provider-compatible proof over a speculative scheduler or long-running production wait.
 
 The authenticated third-account/revoked-device production negative remains a real gate, but PR #157 proved it cannot be honestly automated from the current GitHub environment without legitimate identity/device state. Do not manufacture synthetic evidence or ask the owner to recreate already-consumed account/pairing/device state merely for duplication.
 
