@@ -2,7 +2,7 @@
 
 Status: `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / RJR-1 `80/100` / STAGE 5 STILL LOCKED PENDING THE REMAINING EXPLICIT PRE-STAGE-5 HARDENING.
 
-Current deployed runtime checkpoint remains `v1.8.1 / 1.8.1-r3` from PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`. This exact-replay lane does not change production runtime bytes, Firestore Security Rules, Firebase configuration, billing, canonical local storage, Candidate C authority, App Check enforcement, Google Auth behavior or trusted-runtime IAM.
+Production runtime remains `1.8.1-r3`. The exact deployed runtime checkpoint is `v1.8.1 / 1.8.1-r3` from PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`. This exact-replay lane does not change production runtime bytes, Firestore Security Rules, Firebase configuration, billing, canonical local storage, Candidate C authority, App Check enforcement, Google Auth behavior or trusted-runtime IAM.
 
 Current environment: `we-2026-08-25-stage4-idempotency-replay`
 
