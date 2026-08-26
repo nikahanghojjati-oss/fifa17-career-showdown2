@@ -42,7 +42,8 @@ const phase1eHarness = read("js/cloudSyncTwoDeviceHarness.js");
 const phase1eTest = read("tests/contracts/cloud-sync-two-device-harness-contracts.cjs");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
-const candidate = /Status:\s*RELEASE CANDIDATE/i.test(release);
+const candidateRecord = /Status:\s*RELEASE CANDIDATE/i.test(release);
+const currentProductionProven = /Status:\s*DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i.test(state) && state.includes(revision);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
 
 A.ok(release.includes(`Runtime asset revision: \`${revision}\``), `${releasePath} has stale runtime identity.`);
@@ -52,7 +53,23 @@ for(const [file, text] of [["NEXT_TASK.md", next], ["PROJECT_STATE.md", state]])
     A.ok(text.includes(revision), `${file} must identify the active runtime revision.`);
 }
 
-if(candidate){
+if(candidateRecord && currentProductionProven){
+    // The runtime release note is an immutable candidate-era record. A later production proof may
+    // supersede its candidate label without rewriting the original release-boundary evidence.
+    A.ok(previousRuntime, "The retained candidate-era release record must name its previous known-good whole-runtime shell.");
+    A.ok(readme.includes(previousRuntime) && /production-proven|production proven/i.test(readme), "README must retain previous production truth.");
+    A.ok(changelog.includes(previousRuntime), "CHANGELOG must retain previous production runtime truth.");
+    const currentState = state.slice(0, state.indexOf("## Historical pre-Stage3 authority") >= 0 ? state.indexOf("## Historical pre-Stage3 authority") : 5000);
+    const currentNext = next.slice(0, next.indexOf("## Historical pre-Stage3 authority") >= 0 ? next.indexOf("## Historical pre-Stage3 authority") : 5000);
+    A.match(currentState, /DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i, "PROJECT_STATE must expose the later production-proven promotion.");
+    A.ok(currentState.includes(`v${version}`) && currentState.includes(revision), "PROJECT_STATE current override must identify the promoted version and runtime.");
+    A.match(currentState, /Current runtime merge:\s*`beab9f31cb7f31bf4938f5b0df67394899ef12a0` \(PR #151\)/i, "PROJECT_STATE must retain the exact production runtime lineage.");
+    A.match(currentNext, /DEPLOYED \/ PRODUCTION-PROVEN/i, "NEXT_TASK must expose the later production-proven promotion.");
+    A.ok(currentNext.includes(`v${version}`) && currentNext.includes(revision), "NEXT_TASK current override must identify the promoted version and runtime.");
+    A.match(currentNext, /PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`/i, "NEXT_TASK must retain the exact production runtime lineage.");
+    A.match(currentNext, /RJR-1 `79\/100`/i, "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
+    A.match(currentNext, /exact idempotency replay/i, "NEXT_TASK must route forward from the proven runtime instead of reviving candidate publication work.");
+}else if(candidateRecord){
     A.ok(previousRuntime, "A release candidate must name its previous known-good whole-runtime shell.");
     A.ok(readme.includes(previousRuntime) && /production-proven|production proven/i.test(readme), "Candidate README must retain previous production truth.");
     A.ok(changelog.includes(previousRuntime), "Candidate CHANGELOG must retain previous production runtime truth.");
@@ -164,4 +181,4 @@ A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-la
 A.ok(topology.includes('assert.equal(executed, 30'), "Protected 30-block workflow invariant changed unexpectedly.");
 A.ok(read(".github/workflows/validate-static-app.yml").includes("validate-stage3-private-pairing.yml"), "Static topology must explicitly require the permanent Stage 3 workflow.");
 
-process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current candidate identity, immutable historical evidence, recovery semantics, Remote Joining locks and workflow topology agree.\n`);
+process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current release authority, immutable historical evidence, recovery semantics, Remote Joining locks and workflow topology agree.\n`);

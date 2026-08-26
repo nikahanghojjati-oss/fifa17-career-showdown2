@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-25T12:40:07Z",
+  "recordedAt": "2026-08-26T00:43:00Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-seven-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -21,43 +21,33 @@
     "current application/runtime identity",
     "current bounded lane",
     "later explicit owner instructions",
-    "owner-browser rivalry fingerprint and authoritative-revision agreement before any publish, preview or local Apply",
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
-    "closed RJR provenance finding: exact pre-RJR 82 reports, no exact 81 artifact, fixed-model backcast 58, no capability regression and official RJR-1 78",
-    "exact one-action Player Two unavailable-code proof scope, fixture, owner-device-local session requirement, clean Work cloud-browser ineligibility, no-mutation boundary and stop conditions",
+    "current RJR provenance: repaired r3 restored exactly the two r2-invalidated account credits and owner-proven Stage 4 reconciliation adds exactly one new capability for 79/100",
+    "Stage 4 reconciliation production proof is closed and must not be repeated merely for duplication",
+    "exact idempotency replay is the recommended next smallest explicit pre-Stage-5 capability unless live evidence proves a narrower dependency",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
     "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
-    "Stage 5 block while the deployed pairing UX regression and owner reconciliation proof remain incomplete",
+    "Stage 5 remains blocked only by remaining explicit pre-Stage-5 hardening, not by the now-closed account recovery or reconciliation gates",
     "public discovery/community/global leaderboard prohibitions",
     "versioning policy",
     "connected GitHub primary / rootless gh fallback-only routing rule"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [
-      1000,
-      2000
-    ],
-    "tier1TaskPacketAdditionalApproxTokens": [
-      3000,
-      6000
-    ],
-    "tier2LiveDeltaAdditionalApproxTokens": [
-      5000,
-      10000
-    ],
+    "tier0BootstrapApproxTokens": [1000,2000],
+    "tier1TaskPacketAdditionalApproxTokens": [3000,6000],
+    "tier2LiveDeltaAdditionalApproxTokens": [5000,10000],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
     "Represent mandatory locks in Tier 0 regardless of rank.",
     "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
-    "Read current RJR from REMOTE_JOINING_READINESS.json and the closed historical 82-to-58 explanation from RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md; never infer either from milestones, PRs or WEC.",
-    "When owner surfaces disagree, compare their exact redacted rivalry fingerprints before inferring remote data loss or changing source; a different fingerprint means a different authoritative document path.",
-    "If main or current PR differs, score changed/intervening files with delta=1 and inspect those before broad history.",
-    "Score current-task candidates using normalized features and load highest-ranked items under Tier 1 budget.",
+    "Read current RJR only from REMOTE_JOINING_READINESS.json; never infer score from milestone count, PRs or WEC.",
+    "If main or the closeout PR differs from the starter boundary, inspect only the live delta before broad history.",
+    "For the next product lane, rank idempotency receipt/client/Rules/permanent-contract files above historical pairing, account and reconciliation material because those owner gates are closed.",
     "For CI failure, fetch the exact workflow run jobs and exact failed job logs before changing code; log evidence outranks heuristic diagnosis.",
     "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the capsule.",
     "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
@@ -97,11 +87,12 @@
     "direct progression into real Remote Joining prerequisite"
   ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
-  "latestR2RecoveryCheckpoint": {
-    "mainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
-    "runtimeRevision": "1.8.1-r2",
-    "pagesRunId": 32863192183,
-    "next": "owner-existing-rivalry-recovery",
-    "durableIdShortening": "abandoned"
+  "latestCheckpoint": {
+    "liveMainShaAtPackagingStart": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+    "runtimeRevision": "1.8.1-r3",
+    "rjrScore": 79,
+    "closedCapability": "stage4-remote-to-local-reconciliation",
+    "next": "stage4-exact-idempotency-replay-production-proof",
+    "closeoutPullRequest": 153
   }
 }

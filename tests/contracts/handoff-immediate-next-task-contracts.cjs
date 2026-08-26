@@ -7,6 +7,9 @@ const start = read("00_DEVELOPER_START_HERE.md");
 const current = read("00_CURRENT_HANDOFF.md");
 const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
+const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
+const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
+const reconciliationProof = read("OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const standingAuth = read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
@@ -77,20 +80,27 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Current authority is intentionally concise. Historical product-chain assertions remain
-// protected against the byte-for-byte pre-r3 archive instead of forcing stale milestone
-// prose back into the live execution pointer.
-assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"NEXT_TASK must expose the current r3 recovery authority.");
-assert.match(next,/Status:\s*RELEASE CANDIDATE[\s\S]+RJR-1 `76\/100`[\s\S]+STAGE 5 LOCKED/i,"NEXT_TASK must preserve current candidate, RJR and Stage 5 truth.");
-assert.match(next,/Authorized release candidate:\s*`v1\.8\.1 \/ 1\.8\.1-r3`/i,"NEXT_TASK must identify the exact r3 candidate.");
-assert.match(next,/Current production runtime is `v1\.8\.1 \/ 1\.8\.1-r3`[\s\S]+857727586d548a96fca3ad63c394bf8f0b9e3b90/i,"NEXT_TASK must identify the deployed r3 production merge rather than preserve stale r2-as-current truth.");
-assert.match(next,/Previous known-good whole-shell recovery runtime remains deliberately `1\.8\.1-r1`, not regressed r2/i,"NEXT_TASK must retain the known-bad r2 regression and roll back around it.");
-assert.match(next,/PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f`[\s\S]+all 14 permanent workflow families[\s\S]+GitHub Pages deployment run `32883493535`/i,"NEXT_TASK must preserve the exact r3 PR and deployment evidence.");
-assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+post-deployment r3 production-proof correction[\s\S]+all 14 permanent workflow families[\s\S]+expected-head squash merge[\s\S]+main Stability deployed-site smoke/i,"NEXT_TASK must give a fresh developer the complete bounded post-deployment r3 proof-correction sequence.");
-assert.match(next,/Do not ask the owner to test until that technical production gate is clean[\s\S]+Google popup sign-in[\s\S]+Private account ready/i,"Owner testing must remain gated on technical production proof and must restore the two regressed account capabilities.");
-assert.match(next,/full original Pair ID[\s\S]+Player One \/ Nik[\s\S]+Player Two \/ Gop[\s\S]+VERIFY \/ REATTACH[\s\S]+REFRESH SHARED STATE[\s\S]+REMOTE OBSERVED: Revision 1/i,"NEXT_TASK must preserve the previously deferred original-rivalry pointer proof after account restoration.");
-assert.match(next,/Do not Publish, Preview or Candidate C Apply during this pointer proof/i,"Pointer recovery must not silently broaden into shared mutation or local destructive Apply.");
-assert.match(next,/authority-history\/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25\.md/i,"NEXT_TASK must point to its lossless pre-r3 archive.");
+// Current authority must advance when a later owner-production gate closes. Historical
+// product-chain assertions remain protected against the immutable pre-r3 archive rather
+// than forcing obsolete r3 recovery instructions back into the live execution pointer.
+assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"NEXT_TASK must expose the current reconciliation-proven authority.");
+assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+RJR-1 `79\/100`[\s\S]+STAGE 5 STILL LOCKED/i,"NEXT_TASK must preserve current runtime, RJR and Stage 5 truth.");
+assert.match(next,/PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`[\s\S]+664a6ba0013d83d20ef88efba85e694a85f072c8[\s\S]+14 permanent PR workflow families/i,"NEXT_TASK must preserve the exact currently deployed r3 runtime lineage.");
+assert.match(next,/OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25\.md/i,"NEXT_TASK must point to the canonical current owner reconciliation proof.");
+assert.match(next,/non-mutating `PREVIEW REMOTE → LOCAL`[\s\S]+stale Preview rejection[\s\S]+verified canonical backup-first[\s\S]+Candidate C[\s\S]+exact local convergence[\s\S]+no remote-authority mutation/i,"NEXT_TASK must preserve the closed reconciliation safety properties.");
+assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+exact idempotency replay[\s\S]+original accepted result[\s\S]+without creating another authoritative revision or changing local saves/i,"NEXT_TASK must give a fresh developer the smallest concrete post-reconciliation product task.");
+assert.match(next,/third-account\/revoked-device production negatives[\s\S]+two-network\/adverse-network\/token-lifecycle/i,"NEXT_TASK must preserve the known remaining explicit pre-Stage-5 hardening without bundling it into the immediate task.");
+assert.match(next,/Do not repeat the Stage 4 remote-to-local destructive Apply/i,"NEXT_TASK must forbid redundant destructive reconciliation proof.");
+assert.match(next,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"NEXT_TASK must preserve the offline recovery baseline while connected work advances.");
+assert.match(next,/App Check enforcement remains OFF/i,"NEXT_TASK must preserve the App Check enforcement lock.");
+assert.match(next,/after all required tests and current publication gates pass, merge and deploy without repeatedly asking for approval/i,"NEXT_TASK must preserve standing owner publication authorization with gate conditions.");
+assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fixed model.");
+assert.equal(readiness.currentScore,79,"The current fixed RJR authority must reflect the production-proven reconciliation capability.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,79,"The SLE bootstrap must agree with the live RJR ledger.");
+assert.equal(bootstrap.starter?.version,"1.4.19","The SLE bootstrap must expose the current compact successor starter.");
+assert.equal(bootstrap.immediateNextTask?.name,"stage4-exact-idempotency-replay-production-proof","The SLE bootstrap must route the next environment into the exact replay capability.");
+assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
+assert.match(reconciliationProof,/sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d/i,"Canonical owner evidence must retain the exact reviewed remote gameplay hash.");
 
 // Historical local product slices remain immutable in the archived pre-r3 authority.
 assert.match(
@@ -204,4 +214,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: live NEXT_TASK tracks deployed r3 technical proof plus the deferred original-rivalry pointer test while the lossless pre-r3 archive preserves historical product proof and permanent Remote Joining locks.");
+console.log("Handoff immediate-next-task contracts passed: live NEXT_TASK tracks production-proven Stage 4 reconciliation and exact-idempotency next work while the lossless pre-r3 archive preserves historical product proof and permanent Remote Joining locks.");

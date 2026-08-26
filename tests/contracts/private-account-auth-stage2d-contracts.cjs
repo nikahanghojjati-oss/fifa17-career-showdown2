@@ -87,9 +87,9 @@ assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(preR3Next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
 assert.match(preR3Next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
-assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify the current r3 Connected Account recovery authority.");
-assert.match(next,/Do not enable App Check enforcement/i,"Live r3 authority must keep App Check enforcement off.");
-assert.match(next,/Stage 5(?: Remote Joining sessions)? remain(?:s)? locked/i,"Live r3 authority must keep Stage 5 locked.");
+assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Live NEXT_TASK must identify the current production-proven reconciliation authority.");
+assert.match(next,/App Check enforcement remains OFF/i,"Live reconciliation authority must keep App Check enforcement off.");
+assert.match(next,/STAGE 5 STILL LOCKED|Do not begin Stage 5/i,"Live reconciliation authority must keep Stage 5 locked until the explicit remaining gates close.");
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during the historical Stage 2D proof.");
 assert.match(firebaseRc.projects.default,/^demo-/);
@@ -111,4 +111,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current r3 recovery authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current reconciliation authority explicit\n");
