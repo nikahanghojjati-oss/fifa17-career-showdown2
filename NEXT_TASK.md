@@ -25,7 +25,7 @@ The owner then completed the bounded Stage 4 remote-to-local reconciliation proo
 3. stale Preview rejection after Player One advances remote revision 0 → 1, before backup or local mutation;
 4. explicit confirmation before destructive Apply;
 5. verified canonical backup-first behavior;
-6. Candidate C as the sole destructive local Apply authority;
+6. Candidate C remains the sole destructive remote-to-local Apply authority;
 7. stable Player Two manager/profile identity and real Save Library structure;
 8. exact local convergence to remote revision 1;
 9. no remote-authority mutation caused by local Apply: the post-Apply remote remains revision 1 with the same pre-Apply content hash;
@@ -58,7 +58,7 @@ Do not begin Stage 5 host/join/session orchestration until the fresh successor v
 
 The Installable Offline App remains the local-first startup and recovery baseline; Remote Joining hardening must not make ordinary local startup depend on Firebase availability.
 
-Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, Candidate C the sole destructive Apply authority. Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive remote-to-local Apply authority. Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
 
 ## Work Environment Continuity
 
