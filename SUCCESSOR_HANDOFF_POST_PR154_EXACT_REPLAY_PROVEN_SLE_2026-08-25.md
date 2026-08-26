@@ -141,7 +141,7 @@ The first focused emulator candidate failed only because a test helper incorrect
 
 A later sequence of Static/Stability failures was authority-coherence drift: old contracts still froze prior current-score/task wording. The final exact-head suite passed after current-versus-historical scope was made explicit. Do not interpret those corrected contract failures as product replay regressions.
 
-## 6. Next bounded product lane
+## 6. IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 The next successor must not reopen replay or start a generic hardening program. The immediate product lane is:
 
