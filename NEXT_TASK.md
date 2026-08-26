@@ -10,7 +10,7 @@ Starting independently verified live main: `1af7d7243ba3849d3ec2f4bd236f1ba7e4c0
 
 Latest independently verified merged main before this candidate: `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883` (PR #157 squash merge). PR #157 closed the production-negative automation audit without claiming synthetic 403 evidence; all 14 exact-head PR workflow families and all 15 post-merge runs were green.
 
-Historical completed-stage provenance remains closed and protected. Stage 1 Cloud / Sync Readiness Phase 1A through 1F and Private Account/Auth Stage 2A through 2I remain DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
+Historical completed-stage provenance remains closed and protected. `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is retained here only as historical post-PR100 provenance; it is not current implementation authority and must not revive Phase 1E or any completed prerequisite. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
 
 ## What is now closed
 
