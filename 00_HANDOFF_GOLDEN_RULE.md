@@ -98,6 +98,30 @@ If a handoff is created because a session is degrading or interrupted, this imme
 
 This requirement is recursive and permanent: every future developer/chat that creates, updates or seals a handoff inherits the obligation to leave the next developer an equally explicit immediate-next-task section.
 
+## Mandatory repository-first next-developer copy-paste prompt
+
+Whenever a fresh developer/chat is recommended, every closing developer must give the owner one short ready-to-paste prompt for the next developer in addition to the repository-native SLE package. This prompt is an owner convenience layer only: it must not substitute for, weaken or replace the complete SLE handoff, versioned starter, bootstrap capsule, WEC seal or repository validation requirements.
+
+The prompt must be generated from the current verified handoff boundary rather than copied forward unchanged from an older session. It must stay concise and repository-first. At minimum it must tell the next developer to:
+
+1. open the live repository `nikahanghojjati-oss/fifa17-career-showdown2`;
+2. read the newest authoritative versioned `START_NEXT_SESSION_...md` named by the closing handoff or `SESSION_BOOTSTRAP.json`;
+3. follow SLE/deep-reference material only as needed rather than preloading all history;
+4. independently verify current live `main`, relevant active/just-merged PR state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md` and the closing WEC instead of blindly trusting the prompt;
+5. initialize a fresh WEC and never inherit the predecessor's transition decision as its own;
+6. execute the exact `IMMEDIATE NEXT TASK AFTER FULL STUDY` after bootstrap/study is complete; and
+7. treat the handoff as orientation only, with current source, live GitHub/provider/deployment evidence and later explicit owner instructions winning over stale recorded facts.
+
+Use this semantic template, replacing placeholders with the current verified authority:
+
+```text
+Open the live repository `nikahanghojjati-oss/fifa17-career-showdown2` and read `<CURRENT_START_NEXT_SESSION_FILENAME>` first. Follow its SLE/deep references as needed. Independently verify current `main`, relevant PR state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, and the closing WEC. Then initialize a fresh WEC and execute `IMMEDIATE NEXT TASK AFTER FULL STUDY`. Treat the handoff as orientation only; current source and live GitHub/provider/deployment evidence win.
+```
+
+The closing developer may add one or two current-specific clauses when they materially reduce ambiguity, such as naming a frozen PR head, a known transient CI classification or an owner action that must not be repeated. Do not turn the convenience prompt into a second deep handoff, do not paste large historical context into it, and do not make the owner choose among competing prompts.
+
+This requirement is recursive and permanent. Every future developer/chat must preserve it in successor handoffs and must provide the owner a freshly generated repository-first copy-paste prompt whenever recommending the next chat, unless the owner explicitly changes this policy.
+
 ## Quality-first proactive handoff rule
 
 Do not wait for a hard context limit or obvious mistakes before considering a fresh session. Every developer must actively look for clean handoff opportunities.

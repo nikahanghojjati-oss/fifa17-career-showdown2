@@ -8,15 +8,19 @@ For startup context-loading only, this protocol supersedes older handoff instruc
 
 It does not supersede substantive product, security, recovery, versioning, privacy, Remote Joining dependency, or WEC safety locks. The full successor handoff remains the deep-reference fallback.
 
-A fresh successor should normally start from the newest versioned `START_NEXT_SESSION_...md`, then retrieve `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_GRAPH.json` from GitHub. Do not paste the entire full handoff into the conversation by default.
+A fresh successor should normally receive the owner's short repository-first next-developer prompt, retrieve the newest versioned `START_NEXT_SESSION_...md` named there, then retrieve `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_GRAPH.json` from GitHub. Do not paste the entire full handoff into the conversation by default.
 
 ## Owner delivery rule
 
-The owner should provide only the newest versioned `START_NEXT_SESSION_...md` file in the first interaction with the next developer.
+The normal owner-facing transition is one short ready-to-paste repository-first prompt generated from the current verified handoff boundary. It must name the newest versioned `START_NEXT_SESSION_...md` and direct the successor to retrieve that file from the live repository, verify live authority independently, initialize a fresh WEC, and execute `IMMEDIATE NEXT TASK AFTER FULL STUDY`.
+
+The owner may attach the newest versioned `START_NEXT_SESSION_...md` instead when direct repository retrieval is unavailable or when the owner prefers a file. The starter remains the compact repository authority; the short prompt is the normal chat-copy convenience layer and never replaces the SLE package.
 
 Do not require a second owner upload by default. The successor retrieves the capsule, context model, dependency graph, current status, targeted task files, and complete handoff directly from GitHub as needed.
 
 The owner should provide the startup pack or full handoff only as fallback when GitHub/transition-branch access fails, the compact context files are missing/corrupt, live state cannot be resolved from the delta, a deep historical security/recovery/versioning rationale is genuinely needed, or interruption/WEC recovery requires it.
+
+Generate the owner prompt with `npm run work:next-prompt` when repository tooling is available. Its semantic authority is `00_HANDOFF_GOLDEN_RULE.md`. Never copy a prior prompt forward unchanged if the current starter or live boundary has moved.
 
 ## GitHub tool routing distinction — owner override
 
@@ -51,9 +55,9 @@ After at least 20 materially distinct labeled session outcomes, and preferably 3
 
 ## Fast startup sequence
 
-### Phase 0 — owner starter
+### Phase 0 — owner starter prompt
 
-Receive only the newest `START_NEXT_SESSION_...md` file from the owner.
+Receive the short repository-first next-developer prompt from the owner. Retrieve the newest `START_NEXT_SESSION_...md` it names from the live repository. If repository retrieval is unavailable, use an owner-attached copy of that same starter as fallback.
 
 ### Phase 1 — compact context
 
@@ -140,6 +144,7 @@ The capsule/graph must always preserve at least:
 - version-bump policy;
 - current full-handoff paths;
 - current versioned starter path/version;
+- repository-first next-developer prompt standard;
 - connected-GitHub-first / rootless-CLI-fallback routing rule.
 
 Ranking or learning may not remove these.
@@ -186,9 +191,9 @@ The filename must include the starter version and checkpoint identifier, for exa
 
 The root versioned starter should also have a byte-identical archival mirror under `project-documents/session-starts/`.
 
-Refresh `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_GRAPH.json` at the checkpoint if their current-state pointers or learned utility evidence changed. Make the root versioned starter directly available to the owner.
+Refresh `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_MODEL.json` and `SESSION_CONTEXT_GRAPH.json` at the checkpoint if their current-state pointers or learned utility evidence changed. Make the root versioned starter available as the compact fallback file, and give the owner the short repository-first prompt generated from that current starter as the normal chat-copy transition.
 
-The newest starter is the only file the owner normally needs to give the next developer initially.
+The newest starter remains the authoritative compact repository entrypoint. The short prompt tells the next developer where to find it and how to verify live state safely.
 
 ## Efficiency rule
 
