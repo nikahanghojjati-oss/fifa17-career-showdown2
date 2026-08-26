@@ -31,7 +31,7 @@ Do not reopen or repeat the successful destructive Candidate C remote-to-local A
 
 Exactly two private managers. Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only import analysis, Candidate C sole destructive Apply authority. Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. No public discovery, community, matchmaking, public invitation directory or global rankings. Local-first startup/recovery must remain usable without Firebase.
 
-Standing owner authorization remains active: after all required exact-head tests, review/thread gates and deployment gates pass, merge/deploy without repeatedly asking for approval. A later explicit owner instruction overrides it.
+Standing owner authorization remains active: after all required tests, exact-head review/thread gates and deployment gates pass, merge/deploy without repeatedly asking for approval. A later explicit owner instruction overrides it.
 
 ## DEEP REFERENCE
 
