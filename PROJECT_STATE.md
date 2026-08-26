@@ -9,6 +9,8 @@ Previous known-good whole-shell recovery runtime: `1.8.1-r1`
 Remote Joining readiness: `79/100` under fixed RJR-1
 Stage 5: still locked pending the remaining explicit pre-Stage-5 hardening
 
+Historical immediate-predecessor override retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Under that earlier regression checkpoint, RJR-1 was `76/100` while the two previously credited production account capabilities were unavailable. That score/state is superseded by ordinary-owner r3 restoration and the current fixed RJR-1 `79/100`; it is not current runtime or capability truth.
+
 ## Current production truth
 
 The r2 Connected Account/App Check throttle regression is repaired and owner-proven on ordinary iPhone Safari in r3. Normal Google sign-in and strict authenticated self-account bootstrap are restored, so the two temporarily withdrawn RJR credits are restored from 76 back to 78.
