@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
   "lifecycle": "active",
-  "recordedAt": "2026-08-26T04:24:00Z",
+  "recordedAt": "2026-08-26T04:39:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 0,
     "largeEvidenceEvents": 0,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -29,22 +29,27 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Execute the canonical IMMEDIATE NEXT TASK AFTER FULL STUDY from live main: advance the smallest unconsumed critical-path capability toward a fully playable Private Remote Joining session without repeating consumed owner/device/destructive proof. The chosen lane is a coherent Private Remote Joining session boundary built on the already-proven Connected Rivalry attach/read/publish/replay/reconciliation primitives.",
-    "lastSafeCheckpoint": "Fresh live-state verification completed from main 1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb after merged PRs #155 and #156. Canonical RJR-1 remains exactly 81/100; runtime bytes remain v1.8.1 / 1.8.1-r3; PR #156 post-merge GitHub Pages deployment succeeded. Existing emulator coverage already proves outsider, unregistered/spoofed-device, revoked-device, expired-pair and direct-write rejection, so repeating those tests alone would not create new RJR evidence.",
-    "nextSafeAction": "Implement and validate the smallest explicit Private Remote Joining session orchestration boundary on top of the existing Connected Rivalry runtime, preserving exactly-two-manager authorization, immutable revision/idempotency semantics, Candidate C explicit-confirmed local Apply authority, local-save recovery invariants and zero-billing Firebase constraints.",
+    "currentTask": "Execute the canonical IMMEDIATE NEXT TASK AFTER FULL STUDY from live main: advance the smallest unconsumed critical-path capability toward a fully playable Private Remote Joining session without repeating consumed owner/device/destructive proof. The current bounded lane is a non-destructive production unauthenticated authorization-negative proof on a cryptographically random synthetic rivalry path; after that proof is consumed, move directly to the coherent Private Remote Joining session boundary.",
+    "lastSafeCheckpoint": "Fresh live-state verification completed from main 1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb after merged PRs #155 and #156. Canonical RJR-1 remains exactly 81/100; runtime bytes remain v1.8.1 / 1.8.1-r3; PR #156 post-merge GitHub Pages deployment succeeded. Existing emulator coverage already proves outsider, unregistered/spoofed-device, revoked-device, expired-pair and direct-write rejection. An initial production probe attempt failed before reaching Firebase because Node 24 rejected mixed CommonJS/top-level-await syntax; that failed attempt was removed from the branch rather than counted as evidence.",
+    "nextSafeAction": "Run exactly one corrected, temporary GitHub-hosted production probe requiring an unauthenticated synthetic authoritative-state mutation to be rejected. If proven, remove the temporary probe, permanently record the evidence, reconcile the fixed RJR ledger only if its scoring model awards capability credit, and route next work into explicit Private Remote Joining session orchestration.",
     "unfinishedWork": [
-      "Implement the bounded Private Remote Joining session orchestration slice and a visible start/resume path that composes existing verified Connected Rivalry primitives rather than duplicating them.",
-      "Add deterministic contract/emulator coverage for first-writer bootstrap, existing-authority resume, stale/replay behavior and authorization failures through the new session boundary.",
-      "Run the required direct and full regression gates, review exact-head results and only merge/deploy under the standing owner authorization if all required gates are green.",
+      "Prove one non-destructive production unauthenticated mutation rejection without touching existing owner accounts, registered devices, pairings, rivalries or local saves.",
+      "Remove the temporary production probe immediately after its single useful proof so future PRs do not repeat it.",
+      "Implement the bounded Private Remote Joining session orchestration slice and visible start/resume path on top of already-proven Connected Rivalry primitives.",
       "Do not change RJR-1 from 81/100 unless new concrete capability evidence satisfies the fixed scoring model."
     ],
     "knownHazards": [
-      "Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply or exact-replay proof merely for confidence.",
-      "Do not weaken Firestore authorization, App Check posture, exactly-two-manager governance or local-save recovery guarantees to make session orchestration easier.",
-      "Candidate C remains the sole explicit-confirmed authority for destructive remote-to-local Apply; session startup must not silently overwrite a local save.",
+      "Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply, Stage 4 reconciliation or exact-replay proof merely for confidence.",
+      "The historical pair_a07108...756fb rivalry has deleted original local profile/save identities; do not force, edit or delete it for testing.",
+      "Existing emulator proof already covers registered third-account denial, unregistered/spoofed-device denial, revoked-device publication denial, expired/deleted pair denial and direct remote-save write denial; do not rerun those alone as new RJR evidence.",
+      "Do not weaken Firestore authorization, exactly-two-manager governance or local-save recovery guarantees to make session orchestration easier.",
+      "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
+      "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive explicit-confirmed Apply authority; session startup must never silently overwrite a local save.",
+      "Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated and unbroadened.",
+      "Exactly two private managers remain required. Public discovery, public community/profile surfaces, matchmaking and global rankings remain prohibited.",
       "The current Connected Rivalry runtime deliberately reports remoteJoiningSessions:false; change that only when an actual bounded session orchestration capability and tests exist.",
       "RJR evidence is capability-based. Documentation, CI volume or a renamed UI alone cannot justify readiness points.",
-      "Direct sandbox git network access is unavailable; use the installed GitHub connector for repository writes and GitHub-hosted validation for exact-head evidence."
+      "Direct sandbox git network access is unavailable; use the installed GitHub connector for repository writes and GitHub-hosted validation without owner action."
     ],
     "evidenceNotes": [
       "Live main at WEC initialization is 1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb, the squash merge of PR #156.",
@@ -52,6 +57,7 @@
       "Both PR #155 and PR #156 received automated Codex review findings that were addressed by later commits before merge; live merged source is authoritative.",
       "Canonical REMOTE_JOINING_READINESS.json reports currentScore 81 and first usable path EXACT_REPLAY_OVER_CONNECTED_RIVALRY while generic Private Remote Joining session packaging remains incomplete.",
       "Current js/sparkConnectedRivalry.js already provides secure attach, authoritative read, deterministic publish/replay and explicit Candidate C reconciliation, but exports remoteJoiningSessions:false.",
+      "The first temporary probe head d5075785ee026ef1c52a9d8a44da3bf21054a747 is explicitly non-evidence: its production step failed locally in Node before issuing the HTTP request. The branch was rewound to remove that probe before retrying.",
       "Usage is unknown because no approved current-session usage value is available; no predecessor usage value was inherited or estimated."
     ]
   }
