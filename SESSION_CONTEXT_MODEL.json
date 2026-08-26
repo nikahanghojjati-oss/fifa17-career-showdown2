@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-26T00:43:00Z",
+  "recordedAt": "2026-08-26T23:59:00Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-seven-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -23,15 +23,16 @@
     "later explicit owner instructions",
     "WEC state and transition rules",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
-    "current RJR provenance: repaired r3 restored exactly the two r2-invalidated account credits and owner-proven Stage 4 reconciliation adds exactly one new capability for 79/100",
-    "Stage 4 reconciliation production proof is closed and must not be repeated merely for duplication",
-    "exact idempotency replay is the recommended next smallest explicit pre-Stage-5 capability unless live evidence proves a narrower dependency",
+    "current RJR provenance: repaired r3 restored exactly the two r2-invalidated account credits, owner-proven Stage 4 reconciliation added one capability to 79/100, exact accepted-result replay added one to 80/100, and deterministic adverse-provider local-save safety added one to 81/100",
+    "Stage 4 reconciliation, exact accepted-result replay, and deterministic adverse-provider proof are closed and must not be repeated merely for duplication",
+    "token-lifecycle hardening is the recommended next automatically provable explicit pre-Stage-5 capability unless live evidence proves a narrower dependency",
+    "authenticated third-account/revoked-device production negatives require legitimate authenticated production identity/device state; synthetic probes are non-evidence",
     "implementation authorization",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
     "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
-    "Stage 5 remains blocked only by remaining explicit pre-Stage-5 hardening, not by the now-closed account recovery or reconciliation gates",
+    "Stage 5 remains blocked only by remaining explicit pre-Stage-5 hardening, not by the now-closed account recovery, reconciliation, exact-replay, or deterministic adverse-provider gates",
     "public discovery/community/global leaderboard prohibitions",
     "versioning policy",
     "connected GitHub primary / rootless gh fallback-only routing rule"
@@ -47,7 +48,7 @@
     "Verify connected GitHub live main and current PR exact state before accepting recorded task identity.",
     "Read current RJR only from REMOTE_JOINING_READINESS.json; never infer score from milestone count, PRs or WEC.",
     "If main or the closeout PR differs from the starter boundary, inspect only the live delta before broad history.",
-    "For the next product lane, rank idempotency receipt/client/Rules/permanent-contract files above historical pairing, account and reconciliation material because those owner gates are closed.",
+    "For the next product lane, rank App Check/Auth token lifecycle runtime and permanent-contract files above historical pairing, account, reconciliation, replay and adverse-provider material because those completed gates are closed.",
     "For CI failure, fetch the exact workflow run jobs and exact failed job logs before changing code; log evidence outranks heuristic diagnosis.",
     "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the capsule.",
     "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
@@ -88,11 +89,11 @@
   ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
   "latestCheckpoint": {
-    "liveMainShaAtPackagingStart": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+    "liveMainShaAtPackagingStart": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
     "runtimeRevision": "1.8.1-r3",
-    "rjrScore": 79,
-    "closedCapability": "stage4-remote-to-local-reconciliation",
-    "next": "stage4-exact-idempotency-replay-production-proof",
-    "closeoutPullRequest": 153
+    "rjrScore": 81,
+    "closedCapability": "stage4-deterministic-adverse-provider-local-save-safety",
+    "next": "stage4-token-lifecycle-hardening",
+    "closeoutPullRequest": 159
   }
 }
