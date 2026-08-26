@@ -39,7 +39,7 @@ The historical `pair_a07108...756fb` rivalry has deleted original local profile/
 5. After exact replay, reassess remaining Stage 5 blockers. Known uncredited gaps include third-account/revoked-device production negatives and two-network/adverse-network/token-lifecycle hardening. Take them one capability at a time.
 6. Begin Stage 5 Private Remote Joining host/join/session orchestration as soon as a fresh evidence-led assessment proves the remaining explicit pre-Stage-5 gates are closed. Do not insert generic infrastructure or documentation sidequests.
 
-Permanent locks: exactly two private managers; canonical storage only `careerModeShowdown.saveLibrary`, `.legacyShowdowns`, `.preferences`; `activeShowdown` non-canonical; Candidate A non-mutating, Candidate B read-only, Candidate C sole destructive Apply; Firebase Spark / zero billing; Firestore memory-only; Google Auth popup-only `browserSessionPersistence`; App Check enforcement OFF; trusted-runtime IAM not activated/broadened; no public discovery/community/matchmaking/global rankings.
+Permanent locks: exactly two private managers; canonical storage only `careerModeShowdown.saveLibrary`, `.legacyShowdowns`, `.preferences`; `activeShowdown` non-canonical; Candidate A non-mutating, Candidate B read-only, Candidate C sole destructive Apply; Firebase Spark / zero billing; Firestore memory-only; Google Auth popup-only `browserSessionPersistence`; App Check enforcement remains OFF; trusted-runtime IAM not activated/broadened; no public discovery/community/matchmaking/global rankings.
 
 Standing owner authorization remains active: after all required tests and publication gates pass, merge and deploy without repeatedly asking for approval. Later explicit owner instructions override it.
 
@@ -49,7 +49,7 @@ At Handoff proximity 100%, recursively create the complete mirrored SLE package,
 
 Owner-facing checkpoint template:
 Handoff proximity: X%
-Remote Joining readiness: X/100
+Remote Joining readiness: ~Y%
 Current lane: ...
 Concrete dependency completed: ...
 Next unlock: ...
