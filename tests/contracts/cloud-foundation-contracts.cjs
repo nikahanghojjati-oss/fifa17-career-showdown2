@@ -63,7 +63,7 @@ assert.match(historicalState, /1\.4\.0-r2[\s\S]{0,220}production-proven runtime 
 assert.match(historicalState, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Archived PROJECT_STATE must preserve owner-prioritized Remote Joining historical direction.");
 
 assert.match(next, /CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i, "NEXT_TASK must expose current reconciliation-proven authority.");
-assert.match(next, /PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`[\s\S]+all 14 permanent PR workflow families green/i, "NEXT_TASK must preserve exact current r3 runtime publication evidence.");
+assert.match(next, /Production runtime remains `1\.8\.1-r3`[\s\S]+does not change production runtime bytes/i, "NEXT_TASK must preserve the unchanged current r3 production runtime boundary for this proof-only lane.");
 assert.match(next, /Candidate C (?:as|remains) the sole destructive (?:local )?Apply authority|Candidate C the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
 assert.match(next, /Public discovery, community, matchmaking and global rankings remain prohibited/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
 assert.match(next, /STAGE 5 STILL LOCKED|Do not begin Stage 5 host\/join\/session orchestration/i, "NEXT_TASK must preserve the Stage 5 lock.");
