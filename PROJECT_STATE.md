@@ -43,7 +43,7 @@ After that proof, reassess the remaining Stage 5 blockers rather than running a 
 
 Firebase stays Spark / zero billing. App Check enforcement stays OFF. Firestore persistent cache remains disabled/memory-only. Google Auth remains popup-only with `browserSessionPersistence` and no extra scopes. Trusted-runtime IAM remains reviewed but not activated or broadened. Exactly two private managers remain required. No public discovery/community/matchmaking/global rankings are authorized.
 
-The Installable Offline App remains the local-first recovery baseline. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C the sole destructive remote-to-local Apply authority.
+The Installable Offline App remains the local-first recovery baseline. The completed v1.3.0 Recovery & Device Resilience Hardening baseline remains intact. Local Profiles and Save Library remain the shipped local identity and multi-save dependency chain. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive remote-to-local Apply authority with strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification.
 
 ## Work Environment Continuity
 
