@@ -4,6 +4,8 @@ const fs = require("node:fs");
 const read = file => fs.readFileSync(file, "utf8");
 const state = read("PROJECT_STATE.md");
 const next = read("NEXT_TASK.md");
+const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
+const reconciliationProof = read("OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md");
 const historicalState = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
@@ -28,18 +30,23 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must prioritize Remote Joining without skipping prerequisite authorization.");
 
-// Current live authority may advance far beyond early Cloud Readiness milestones. Protect the
-// active r3 incident boundary here, and protect the old 1A-1F/v1.5 provenance against the
-// lossless pre-r3 archives instead of forcing stale milestone prose back into live pointers.
-assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i, "PROJECT_STATE must expose the current r3 recovery authority.");
-assert.match(state, /Current deployed runtime:\s*`1\.8\.1-r2`[\s\S]+owner-proven Connected Account regression/i, "PROJECT_STATE must keep the active r2 production regression explicit.");
+// Current live authority has advanced beyond the repaired r3 incident into a production-proven
+// Stage 4 reconciliation boundary. Protect the current runtime/RJR/reconciliation truth here,
+// while the immutable pre-r3 archives retain the original 1A-1F/v1.5 provenance.
+assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i, "PROJECT_STATE must expose the current reconciliation-proven r3 authority.");
+assert.match(state, /Production runtime:\s*`1\.8\.1-r3`[\s\S]+Current runtime merge:\s*`beab9f31cb7f31bf4938f5b0df67394899ef12a0` \(PR #151\)/i, "PROJECT_STATE must identify the current deployed r3 runtime lineage.");
 assert.match(state, /Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r1`/i, "PROJECT_STATE must preserve the known-good rollback generation.");
-assert.match(state, /Remote Joining readiness:\s*`76\/100`/i, "PROJECT_STATE must track current fixed RJR authority.");
-assert.match(state, /App Check enforcement remains OFF/i, "PROJECT_STATE must preserve the App Check enforcement lock.");
-assert.match(state, /Firebase Spark \/ zero billing remains unchanged/i, "PROJECT_STATE must preserve zero-billing Firebase operation.");
-assert.match(state, /Candidate C remains the sole destructive remote-to-local Apply authority/i, "PROJECT_STATE must preserve Candidate C destructive Apply authority.");
+assert.match(state, /Remote Joining readiness:\s*`79\/100` under fixed RJR-1/i, "PROJECT_STATE must track current fixed RJR authority.");
+assert.match(state, /App Check enforcement (?:stays|remains) OFF/i, "PROJECT_STATE must preserve the App Check enforcement lock.");
+assert.match(state, /Firebase (?:stays|remains) Spark \/ zero billing/i, "PROJECT_STATE must preserve zero-billing Firebase operation.");
+assert.match(state, /Candidate C (?:remains )?the sole destructive remote-to-local Apply authority/i, "PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 assert.match(state, /Canonical local storage remains exactly `careerModeShowdown\.saveLibrary`, `careerModeShowdown\.legacyShowdowns`, and `careerModeShowdown\.preferences`/i, "PROJECT_STATE must preserve canonical storage authority.");
-assert.match(state, /Stage 5 remains locked/i, "PROJECT_STATE must keep Stage 5 locked.");
+assert.match(state, /Stage 5[\s\S]{0,120}(?:still|remains) locked/i, "PROJECT_STATE must keep Stage 5 locked until remaining explicit pre-Stage-5 hardening is proven.");
+assert.match(state, /remote-to-local reconciliation capability adds exactly \+1:\s*78 → 79/i, "PROJECT_STATE must preserve conservative fixed-domain reconciliation credit.");
+assert.match(state, /exact idempotency replay[\s\S]+third-account\/revoked-device production negatives[\s\S]+two-network\/adverse-network\/token-lifecycle hardening/i, "PROJECT_STATE must retain the currently uncredited pre-Stage-5 hardening boundary.");
+assert.equal(readiness.modelVersion, "RJR-1", "Cloud foundation must continue using the fixed RJR-1 model.");
+assert.equal(readiness.currentScore, 79, "Cloud foundation must agree with the current evidence-backed RJR score.");
+assert.match(reconciliationProof, /Gate result[\s\S]+PASS/i, "Current reconciliation authority must be backed by the canonical owner production proof.");
 
 assert.match(historicalState, /formatVersion 2 is live|formatVersion 2 full multi-Save/i, "Archived PROJECT_STATE must preserve formatVersion 2 multi-Save portability production truth.");
 assert.match(historicalState, /explicit cross-Save\/historical manager identity linkage foundation/i, "Archived PROJECT_STATE must preserve shipped local manager identity semantics.");
@@ -53,11 +60,12 @@ assert.match(historicalState, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT
 assert.match(historicalState, /1\.4\.0-r2[\s\S]{0,220}production-proven runtime and immediate recovery target/i, "Archived PROJECT_STATE must retain the historical v1.4.0-r2 recovery boundary.");
 assert.match(historicalState, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Archived PROJECT_STATE must preserve owner-prioritized Remote Joining historical direction.");
 
-assert.match(next, /CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i, "NEXT_TASK must expose current r3 recovery authority.");
-assert.match(next, /PR #146[\s\S]+all 14 permanent workflow families[\s\S]+expected-head squash merge[\s\S]+GitHub Pages/i, "NEXT_TASK must preserve the exact current r3 validation/publication sequence.");
-assert.match(next, /strict exact raw snapshot authority|Candidate C remains the sole destructive/i, "NEXT_TASK must preserve destructive restore / Candidate C snapshot authority.");
-assert.match(next, /No public discovery\/community\/matchmaking\/rankings are authorized/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
-assert.match(next, /Stage 5 Remote Joining sessions remain locked/i, "NEXT_TASK must preserve the Stage 5 lock.");
+assert.match(next, /CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i, "NEXT_TASK must expose current reconciliation-proven authority.");
+assert.match(next, /PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`[\s\S]+all 14 permanent PR workflow families green/i, "NEXT_TASK must preserve exact current r3 runtime publication evidence.");
+assert.match(next, /Candidate C (?:as|remains) the sole destructive (?:local )?Apply authority|Candidate C the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
+assert.match(next, /Public discovery, community, matchmaking and global rankings remain prohibited/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
+assert.match(next, /STAGE 5 STILL LOCKED|Do not begin Stage 5 host\/join\/session orchestration/i, "NEXT_TASK must preserve the Stage 5 lock.");
+assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+exact idempotency replay[\s\S]+without creating another authoritative revision or changing local saves/i, "NEXT_TASK must name the concrete smallest remaining pre-Stage-5 product capability.");
 
 assert.match(historicalNext, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "Archived NEXT_TASK must name the closed multi-Save PR #67 milestone.");
 assert.match(historicalNext, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i, "Archived NEXT_TASK must identify the historical v1.5.0 / 1.5.0-r1 product candidate.");
@@ -99,4 +107,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS Cloud/Sync authority: current r3 Connected Account recovery remains explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n");
+process.stdout.write("PASS Cloud/Sync authority: production-proven r3 reconciliation and RJR79 remain explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n");
