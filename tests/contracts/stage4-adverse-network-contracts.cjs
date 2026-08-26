@@ -119,10 +119,16 @@ function sdk(runTransaction){
   assert.equal(JSON.stringify(f.library),before,"A provider failure after publish preflight must not mutate the canonical local Save Library snapshot.");
 
   const source=require("node:fs").readFileSync("js/sparkConnectedRivalry.js","utf8");
-  assert.match(source,/status:\"refresh-error\"[\s\S]*Local saves remain available/);
-  assert.match(source,/status:error&&error\.code===\"STALE_BASE_REVISION\"\?\"conflict\":\"publish-error\"[\s\S]*Local saves were not changed/);
+  const refreshStart=source.indexOf("async function crHandleRefresh");
+  const publishStart=source.indexOf("async function crHandlePublish",refreshStart);
+  const reconciliationStart=source.indexOf("async function crHandleReconciliationPreview",publishStart);
+  assert.ok(refreshStart>=0&&publishStart>refreshStart&&reconciliationStart>publishStart,"Connected Rivalry UI handler boundaries must remain discoverable for focused recovery assertions.");
+  const refreshHandler=source.slice(refreshStart,publishStart);
+  const publishHandler=source.slice(publishStart,reconciliationStart);
+  assert.match(refreshHandler,/status:\"refresh-error\"[\s\S]*Local saves remain available/);
+  assert.match(publishHandler,/status:error&&error\.code===\"STALE_BASE_REVISION\"\?\"conflict\":\"publish-error\"[\s\S]*Local saves were not changed/);
 
-  process.stdout.write("PASS Stage 4 adverse-network safety: attach/read fail bounded, publish can lose provider connectivity after authorized preflight without mutating canonical local saves, and retry-visible UI preserves local-first recovery authority\n");
+  process.stdout.write("PASS Stage 4 adverse-network safety: attach/read fail bounded, publish can lose provider connectivity after authorized preflight without mutating canonical local saves, and handler-scoped retry UI preserves local-first recovery authority\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
