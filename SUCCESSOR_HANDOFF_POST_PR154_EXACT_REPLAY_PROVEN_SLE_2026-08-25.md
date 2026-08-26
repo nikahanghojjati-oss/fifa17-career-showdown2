@@ -28,7 +28,7 @@ PR #154 is proof/authority hardening only. It does not change production runtime
 
 This transition package is sealed from `agent/post-pr154-sle-handoff-seal`. The successor must independently fetch live `main`, any handoff-seal PR/merge state, exact checks, reviews/threads and current source authority. All SHAs in this handoff are orientation until independently revalidated; current live GitHub/source wins.
 
-Standing owner authorization remains in force: after all mandatory gates pass, merge and deploy without repeatedly requesting approval. A later explicit owner instruction overrides it.
+Standing owner authorization remains in force: after all required gates pass, merge and deploy without repeatedly requesting approval. A later explicit owner instruction overrides it.
 
 ## 2. Fixed Remote Joining readiness
 
