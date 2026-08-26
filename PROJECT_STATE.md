@@ -1,16 +1,16 @@
-# CURRENT OVERRIDE — v1.8.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN — EXACT REPLAY + DETERMINISTIC ADVERSE-NETWORK SAFETY PROVEN — 2026-08-26 ET
+# CURRENT OVERRIDE — v1.8.1-r3 STAGE 4 RECONCILIATION / EXACT REPLAY / DETERMINISTIC ADVERSE-PROVIDER SAFETY PRODUCTION-BOUNDARY SEALED — 2026-08-26 ET
 
-Status: DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / STAGE 5 STILL LOCKED.
+Status: DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY MERGED + POST-MERGE GREEN / STAGE 5 STILL LOCKED.
 
 Application: `v1.8.1`
 Production runtime: `1.8.1-r3`
 Current runtime merge: `beab9f31cb7f31bf4938f5b0df67394899ef12a0` (PR #151)
+Current live main: `5eecb482e94263fce7ce9041cdc4f3c7f3a86d21` (PR #158 squash merge)
+PR #158 final exact head: `72435c180deb744418f93fe8155f280973c3b76a`
 Previous known-good whole-shell recovery runtime: `1.8.1-r1`
 Remote Joining readiness: `81/100` under fixed RJR-1
 Historical superseded recovery checkpoint under RJR-1: `76/100` after the r2 Connected Account regression and before owner production restoration proof; it is provenance only, not the current score.
-Remote Joining readiness candidate: `81/100` under fixed RJR-1 prior to PR #158 exact-head publication; this candidate becomes live main authority only on successful merge.
-Latest merged main before this candidate: `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883` (PR #157)
-Current publication candidate: PR #158 on `agent/stage4-adverse-network-hardening`
+Current continuity-only publication: PR #159 `Seal PR #158 WEC 100 SLE handoff`; it changes no website runtime bytes and cannot move RJR.
 Stage 5: still locked pending the remaining explicit pre-Stage-5 hardening
 
 ## Current production truth
@@ -23,13 +23,15 @@ Canonical owner proof: `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_P
 
 Exact accepted-result idempotency replay remains evidence-proven through the permanent Firestore emulator boundary using the real `js/sparkConnectedRivalry.js` mutation runtime and production `firestore.spark.rules`. An accepted revision-0 request can be replayed after later revision-1 advancement and still return its immutable original accepted revision/hash without altering current authority, duplicating receipts, weakening two-owner authorization, changing canonical local Save state, or bypassing stale-base CAS.
 
-PR #157 then audited the remaining authenticated third-account/revoked-device production-negative boundary. Its two synthetic production attempts are explicitly non-evidence; the audit established that legitimate authenticated identity/device state is required to prove those named production negatives. PR #157 merged as `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883` after 14/14 exact-head PR workflow families and 15/15 post-merge runs were green.
+PR #157 audited the remaining authenticated third-account/revoked-device production-negative boundary. Its two synthetic production attempts are explicitly non-evidence; the audit established that legitimate authenticated identity/device state is required to prove those named production negatives. PR #157 merged as `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883` after 14/14 exact-head PR workflow families and 15/15 post-merge runs were green.
 
-PR #158 adds the next automatically provable hardening capability without changing production runtime bytes. Permanent `tests/contracts/stage4-adverse-network-contracts.cjs` executes the real Connected Rivalry API through provider failure. Attach/read outages remain bounded. More importantly, publish passes valid registered-device and exactly-two-owner rivalry preflight, builds the immutable local projection, then loses provider connectivity before remote commit; the canonical local Save Library fixture remains byte-for-byte unchanged.
+PR #158 is now merged and post-merge green. Permanent `tests/contracts/stage4-adverse-network-contracts.cjs` executes the real Connected Rivalry API through provider failure. Attach/read outages remain bounded. More importantly, publish passes valid registered-device and exactly-two-owner rivalry preflight, builds the immutable local projection, then loses provider connectivity before remote commit; the canonical local Save Library fixture remains byte-for-byte unchanged. All 14 permanent PR workflow families passed on exact head `72435c180deb744418f93fe8155f280973c3b76a`; the expected-head squash merge is live main `5eecb482e94263fce7ce9041cdc4f3c7f3a86d21`; all 15 post-merge push/deployment runs succeeded, including Pages `33019945003` and Stability `33019945012` through the complete deployed journey.
+
+Production runtime remains `1.8.1-r3`; PR #158 changed no runtime bytes, Firestore Security Rules, provider configuration, billing, canonical storage, Google Auth policy, App Check enforcement or trusted-runtime IAM.
 
 ## RJR truth
 
-Fixed RJR-1 candidate is now `81/100`.
+Fixed RJR-1 is now live at `81/100`.
 
 The accounting remains conservative:
 
@@ -43,24 +45,28 @@ The new +1 belongs only to `devices-pairing-connected-rivalry-remote-join`. It d
 
 Remaining explicitly uncredited capability includes authenticated third-account/revoked-device production negatives, two-physical-network hardening, token-lifecycle hardening, actual Remote Joining sessions, abuse hardening, production rollback proof, and final stable Remote Joining release acceptance.
 
-## Immediate engineering boundary
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Do not reopen completed r3, pairing, unavailable-code, stale-preview, destructive reconciliation, exact-replay, or deterministic adverse-provider proofs.
 
-The authenticated third-account/revoked-device production negative is still a real gate, but PR #157 proved it cannot be honestly automated from the current GitHub environment without legitimate identity/device state. Do not manufacture synthetic evidence or ask the owner to recreate already-consumed account/pairing/device state merely for duplication.
+First finish/verify continuity-only PR #159 publication if it remains open when the fresh successor begins. That is transition work only, not a new RJR capability. The successor must validate/archive the inherited closing Work Environment Continuity record, initialize a fresh unique WEC with reset counters, and independently re-fetch live source and deployment authority before product work.
 
-The next automatically provable lane is token-lifecycle hardening. Study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful expiry/refresh transition while keeping App Check enforcement OFF and preserving Connected Account/Connected Rivalry/local-save safety. Existing source configures App Check token auto-refresh and initial expiry observation, but current proof does not establish a later lifecycle transition. Prefer deterministic provider-compatible proof over a speculative scheduler or long-running production wait.
+Then begin token-lifecycle hardening, the next automatically provable pre-Stage-5 capability. Study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic expiry/refresh transition while keeping App Check enforcement remains OFF and preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery. Existing source configures App Check token auto-refresh and initial expiry observation, but current proof does not establish a later lifecycle transition. Prefer deterministic provider-compatible proof over a speculative scheduler or long-running production wait.
+
+The authenticated third-account/revoked-device production negative remains a real gate, but PR #157 proved it cannot be honestly automated from the current GitHub environment without legitimate identity/device state. Do not manufacture synthetic evidence or ask the owner to recreate already-consumed account/pairing/device state merely for duplication.
 
 Two-physical-network behavior remains separately uncredited. Stage 5 host/join/session orchestration remains locked until remaining explicit pre-Stage-5 gates are genuinely closed. Private Remote Joining remains the highest long-term priority and becomes the immediate product milestone once those gates close.
 
 ## Permanent locks
 
-Firebase stays Spark / zero billing. App Check enforcement stays OFF. Firestore persistent cache remains disabled/memory-only. Google Auth remains popup-only with `browserSessionPersistence` and no extra scopes. Trusted-runtime IAM remains reviewed but not activated or broadened. Exactly two private managers remain required. No public discovery/community/matchmaking/global rankings are authorized.
+Firebase stays Spark / zero billing. App Check enforcement remains OFF. Firestore persistent cache remains disabled/memory-only. Google Auth remains popup-only with `browserSessionPersistence` and no extra scopes. Trusted-runtime IAM remains reviewed but not activated or broadened. Exactly two private managers remain required. No public discovery/community/matchmaking/global rankings are authorized.
 
 The Installable Offline App remains the local-first recovery baseline. The completed v1.3.0 Recovery & Device Resilience Hardening baseline remains intact. Local Profiles and Save Library remain the shipped local identity and multi-save dependency chain. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive remote-to-local Apply authority with strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification.
 
-## Work Environment Continuity
+## Work Environment Continuity / SLE
 
-The active environment is `we-2026-08-26-private-remote-joining-session-boundary-5c7a`. It initialized from independently verified main `1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb`, merged PR #157 under exact-head gates, then started PR #158 exactly from merged main `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883`. Current-session usage remains unknown because no approved current-session usage value is exposed; predecessor usage was not inherited.
+Current closing environment is `we-2026-08-26-private-remote-joining-session-boundary-5c7a`. It initialized from independently verified main `1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb`, closed the PR #157 production-negative dependency audit, then completed PR #158 deterministic adverse-provider safety and publication. Current-session usage remains unknown because no approved current-session usage value is exposed; predecessor usage was not inherited or estimated.
+
+SLE = Smart Lean Efficient. Current compact starter is `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md`; full deep handoff is `SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md`. Handoff material remains orientation only; current source, live GitHub/provider/deployment evidence and later owner instructions win.
 
 Standing owner merge/deploy authorization remains active after required tests, exact-head review, and publication gates pass. Later explicit owner instructions override it.
