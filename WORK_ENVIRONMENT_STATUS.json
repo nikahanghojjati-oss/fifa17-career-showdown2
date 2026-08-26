@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-stage4-owner-reconciliation",
   "lifecycle": "closed",
-  "recordedAt": "2026-08-26T00:53:00Z",
+  "recordedAt": "2026-08-26T00:55:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,11 +14,11 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 14,
+    "largeEvidenceEvents": 15,
     "toolRoutingErrors": 0,
-    "correctedFailures": 3,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 2,
+    "staleFactCorrections": 3,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
@@ -30,7 +30,7 @@
   },
   "continuity": {
     "currentTask": "The bounded Stage 4 owner remote-to-local reconciliation proof is complete and production-proven on v1.8.1-r3. This environment is sealed at the clean checkpoint and must not begin the next exact-idempotency milestone.",
-    "lastSafeCheckpoint": "Owner Chromebook Incognito production evidence closes Stage 4 reconciliation on fresh rivalry pair_8f24ae...3528c. Player Two successfully applied reviewed remote revision 1 only after explicit confirmation and a verified canonical backup; the uploaded backup checksum independently matched c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4. Post-Apply refresh still showed REMOTE OBSERVED Revision 1 and LOCAL COMMIT Revision 1 on the same target. Save Library still contained exactly one TEWE Save and the same ghyu/GOP profiles. Final read-only Preview still showed hash sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d and explicitly reported that remote revision 1 already matches the identity-safe local gameplay candidate, proving local convergence and zero remote-authority mutation. Privacy-safe proof, RJR ledger 79/100, current authority, mirrored SLE handoff/starter and compact context pointers are packaged on PR #153. Exact-head CI was repaired log-first in three bounded current-authority corrections without runtime changes: the Installable Offline App lock was restored in NEXT_TASK; the stale handoff current-task contract was migrated from superseded r3 recovery assertions to reconciliation/RJR79/idempotency authority while retaining historical archive assertions; and NEXT_TASK restored the explicit closing implementation-authority environment plus starting-main provenance required for interruption-safe recovery.",
+    "lastSafeCheckpoint": "Owner Chromebook Incognito production evidence closes Stage 4 reconciliation on fresh rivalry pair_8f24ae...3528c. Player Two successfully applied reviewed remote revision 1 only after explicit confirmation and a verified canonical backup; the uploaded backup checksum independently matched c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4. Post-Apply refresh still showed REMOTE OBSERVED Revision 1 and LOCAL COMMIT Revision 1 on the same target. Save Library still contained exactly one TEWE Save and the same ghyu/GOP profiles. Final read-only Preview still showed hash sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d and explicitly reported that remote revision 1 already matches the identity-safe local gameplay candidate, proving local convergence and zero remote-authority mutation. Privacy-safe proof, RJR ledger 79/100, current authority, mirrored SLE handoff/starter and compact context pointers are packaged on PR #153. Exact-head CI was repaired log-first in four bounded current-authority corrections without runtime changes: NEXT_TASK restored the Installable Offline App recovery lock; the stale handoff current-task contract was migrated from superseded r3 recovery assertions to reconciliation/RJR79/idempotency authority while retaining historical archive assertions; NEXT_TASK restored explicit closing implementation-authority environment and starting-main provenance; and the Cloud/Sync authority contract was migrated from obsolete r3-incident-as-current assertions to the now-proven r3 reconciliation/RJR79 boundary while preserving all immutable pre-r3 provider, privacy, Phase 1A-1F and recovery contracts.",
     "nextSafeAction": "A fresh successor should start from START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md, independently verify live main plus PR #153 final head/check/review/merge state and current RJR authority, initialize a fresh unique WEC with reset counters, then execute the smallest remaining explicit pre-Stage-5 capability: exact idempotency replay production proof unless live evidence proves a narrower dependency.",
     "unfinishedWork": [
       "Complete PR #153 exact-head publication gates and merge under standing owner authorization if every required workflow/review/mergeability gate passes; this publication work must not mutate the sealed branch unless a real gate failure requires correction and another reseal.",
@@ -60,7 +60,7 @@
       "Post-Apply refresh and final Preview prove the same remote revision 1 and identical pre/post content hash, the same Player Two target, LOCAL COMMIT Revision 1, preserved Save/profile structure and explicit local-match status.",
       "The repaired r3 ordinary-owner account proof restored exactly two r2-invalidated credits 76 to 78; the newly proven single remote-to-local reconciliation capability adds exactly +1 to 79 with no duplicate subproof credit.",
       "Canonical production proof is OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md. New compact starter is START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md with byte-identical project mirror and a byte-identical complete SLE handoff mirror.",
-      "First exact-head Static App/Stability logs identified missing Installable Offline App text in NEXT_TASK. The next exact logs then passed stability and SLE packaging before exposing a stale handoff current-task contract. After that migration, the following exact logs reached the interruption-resilience contract and exposed only missing Current environment / Starting independently verified live main provenance in NEXT_TASK; those exact current values were restored without changing product/runtime behavior.",
+      "The final stale-contract failure was observed only after all earlier live current-task, WEC, SLE packaging, interruption-resilience and recovery checks passed. The exact Static App job log identified cloud-foundation-contracts.cjs as still expecting the superseded r3 Connected Account incident and RJR76 in PROJECT_STATE/NEXT_TASK. The contract itself was updated to current reconciliation/RJR79 authority while preserving all immutable historical/provider/privacy/Cloud Readiness constraints; production/runtime source remains unchanged.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
