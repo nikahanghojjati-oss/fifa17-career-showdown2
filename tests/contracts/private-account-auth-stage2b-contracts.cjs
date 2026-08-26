@@ -55,15 +55,15 @@ assert.match(preR3Next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVA
 assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Immutable pre-r3 authority must preserve PR #115/#116 deployment-proof provenance.");
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/currently published application-client Firestore create\/update\/delete boundary remains deny-all|browser Firestore (?:create\/update\/delete remains deny-all|writes deny-all)/i,"Immutable pre-r3 authority must preserve the deployed deny-all Firestore boundary that applied to the PR #125 candidate.");
-assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify the current r3 Connected Account recovery authority.");
-assert.match(next,/Do not enable App Check enforcement/i,"Current r3 production recovery authority must keep App Check enforcement off.");
-assert.match(next,/unchanged production Rules/i,"Current r3 recovery authority must preserve the production Rules boundary.");
+assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Live NEXT_TASK must identify the current production-proven reconciliation authority.");
+assert.match(next,/App Check enforcement remains OFF/i,"Current reconciliation authority must keep App Check enforcement off.");
+assert.match(next,/Firebase remains Spark \/ zero billing/i,"Current reconciliation authority must preserve Spark zero billing.");
 
 assert.match(preR3State, /PR #115[\s\S]+Firebase App \+ App Check/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve the dormant Stage 2A-2I prerequisite boundaries at their proven boundaries.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the bounded v1.5.0 candidate provenance.");
-assert.match(state,/v1\.8\.1[\s\S]+1\.8\.1-r3/i,"Live PROJECT_STATE must identify the r3 recovery candidate.");
-assert.match(state,/RJR-1[\s\S]{0,260}76\/100/i,"Live PROJECT_STATE must preserve the withdrawn readiness credits while r3 lacks owner production proof.");
+assert.match(state,/v1\.8\.1[\s\S]+1\.8\.1-r3/i,"Live PROJECT_STATE must identify the deployed r3 reconciliation runtime.");
+assert.match(state,/RJR-1[\s\S]{0,260}79\/100/i,"Live PROJECT_STATE must preserve the current owner-proven reconciliation readiness score.");
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
@@ -127,4 +127,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with immutable historical successor checkpoints preserved and current r3 recovery authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2B provider lifecycle/revocation proof with immutable historical successor checkpoints preserved and current reconciliation authority explicit\n");
