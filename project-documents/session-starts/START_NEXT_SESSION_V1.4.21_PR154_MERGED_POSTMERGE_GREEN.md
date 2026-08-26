@@ -16,7 +16,7 @@ Exact replay is now closed: the permanent Firebase emulator proof uses the real 
 
 This handoff is being sealed from branch `agent/post-pr154-sle-handoff-seal`. Treat every SHA and PR number here as orientation: independently fetch live `main`, current handoff-seal publication state, checks/reviews/threads, runtime identity and `REMOTE_JOINING_READINESS.json` before acting. Current source and live GitHub always win.
 
-## IMMEDIATE NEXT ACTION
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Validate the predecessor publication facts, then initialize a fresh unique WEC with counters reset. Do not inherit the predecessor transition decision and never fabricate usage.
 2. Start the smallest remaining explicit pre-Stage-5 production authorization negative: third-account and/or revoked-device denial.
