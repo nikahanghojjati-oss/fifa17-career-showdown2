@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-26T23:12:00Z",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-26T23:17:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 2,
     "largeEvidenceEvents": 4,
     "toolRoutingErrors": 0,
-    "correctedFailures": 18,
+    "correctedFailures": 15,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -24,16 +24,17 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 99,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "The complete mirrored SLE/WEC successor package is sealed at WEC 100 after PR #158 deterministic adverse-provider safety merged and all post-merge production gates passed. Begin no token-lifecycle implementation and make no further branch mutation in this predecessor environment.",
-    "lastSafeCheckpoint": "PR #157 merged as ac1a2d7cb30d35e82609b67efa9c8bb820ee9883 after 14/14 exact-head and 15/15 post-merge green. PR #158 final exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent workflow families, its only Codex finding was fixed/resolved, and it squash-merged as live main 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21. All 15 PR #158 post-merge push/deployment runs are successful, including Pages 33019945003 and Stability 33019945012 through the complete deployed journey. RJR-1 is live at 81/100. Production runtime remains v1.8.1 / 1.8.1-r3 from PR #151 and runtime bytes are unchanged. The v1.4.22 starter/full SLE handoff mirrors and SESSION_BOOTSTRAP are complete for successor use.",
-    "nextSafeAction": "Do not mutate this branch again. A successor must independently verify current live main and PR #159 publication state, complete PR #159 review/merge verification if it is still open, validate/archive this inherited closing WEC, initialize a fresh unique WEC with reset counters, and then execute the token-lifecycle hardening task from current NEXT_TASK authority. Stage 5 remains locked until remaining explicit pre-Stage-5 gates genuinely close.",
+    "currentTask": "Reconcile the final continuity package with exact current-state authority after final Codex review found stale 00_CURRENT_HANDOFF/PROJECT_STATE pointers and an erroneous WEC failure-count inflation. Do not begin token-lifecycle implementation.",
+    "lastSafeCheckpoint": "PR #158 is merged as live main 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21 after 14/14 exact-head and 15/15 post-merge green; production remains v1.8.1 / 1.8.1-r3 and RJR-1 remains 81/100. PR #159 contains the v1.4.22 mirrored SLE package but its prior WEC 100 seal was invalidated by final review findings and is intentionally reopened at active/99 until current-state files are reconciled and a new immutable seal is written.",
+    "nextSafeAction": "Refresh 00_CURRENT_HANDOFF.md and PROJECT_STATE.md to the PR #158 merged/post-merge-green RJR 81 boundary and token-lifecycle next task, resolve final review findings, obtain fresh read-only exact-head review, then set SESSION_BOOTSTRAP and WEC to 100 with the final transition-prepared WEC write as the last branch mutation. Publish PR #159 only if that immutable head is clean and mergeable.",
     "unfinishedWork": [
-      "Verify/complete continuity-only PR #159 publication if it is still open when the successor starts; if already merged, independently verify its live-main boundary and continue.",
+      "Refresh stale 00_CURRENT_HANDOFF.md and PROJECT_STATE.md current-state directions.",
+      "Re-seal and publish continuity-only PR #159 if the corrected exact head is clean.",
       "Token-lifecycle hardening is the immediate next substantive product capability after this WEC transition.",
       "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes are non-evidence.",
       "Two-physical-network behavior remains separately uncredited.",
@@ -49,7 +50,7 @@
       "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened.",
       "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
       "RJR is capability-based; documentation, CI volume or continuity work cannot move the score.",
-      "This transition-prepared WEC seal is the final branch mutation. Any later branch mutation invalidates the seal and requires fresh exact-head validation before handoff."
+      "Any branch mutation after a transition-prepared WEC seal invalidates that seal; the new final seal must again be the last branch mutation."
     ],
     "evidenceNotes": [
       "PR #158 exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent PR workflow families and merged by expected-head squash to 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21.",
@@ -57,9 +58,9 @@
       "tests/contracts/stage4-adverse-network-contracts.cjs permanently proves provider failure after valid device/rivalry preflight and immutable local projection cannot mutate canonical local Save Library bytes.",
       "REMOTE_JOINING_READINESS.json is live at fixed RJR-1 81/100, +1 only for deterministic adverse-provider failure safety.",
       "PR #157 established legitimate production identity/device state is required for the remaining authenticated third-account/revoked-device production negatives; synthetic probes are explicitly non-evidence.",
-      "The v1.4.22 starter root/project copies share one blob identity and the full SLE handoff root/project copies share one blob identity. The ready-to-paste pointer names the same starter/handoff and RJR 81 boundary.",
-      "Fresh Codex review of corrected head a549e33ae1a8b933ea2ebe16266ab040ec66b116 reproduced the final 99-percent lifecycle sequencing defect; it was corrected by keeping the 99-percent WEC active before this 100-percent transition-prepared seal. Earlier adverse-provider and App Check wording findings were also corrected and resolved/outdated.",
-      "Connector-authored branch commits did not fan out normal Actions in this environment; local clone validation was unavailable because outbound DNS to github.com was blocked. No CI execution is fabricated. Final package review must therefore be verified from live PR #159 evidence before publication if still pending.",
+      "The v1.4.22 starter root/project copies share one blob identity and the full SLE handoff root/project copies share one blob identity.",
+      "Final Codex review on prior sealed head aba136197cd9ad38f512f2daf8795def4f80a1bf found that correctedFailures 18 artificially changed the assessment to HANDOFF_NOW and that 00_CURRENT_HANDOFF.md / PROJECT_STATE.md were stale. correctedFailures is restored to the last evidence-grounded value 15; the seal is intentionally reopened before fixing those current-state authorities.",
+      "Connector-authored branch commits did not fan out normal Actions in this environment; local clone validation was unavailable because outbound DNS to github.com was blocked. No CI execution is fabricated.",
       "Usage remained unknown because no approved current-session usage value was exposed; no predecessor usage value was inherited or estimated."
     ]
   }
