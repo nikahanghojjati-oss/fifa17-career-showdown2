@@ -1,17 +1,19 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-26T02:20:00Z",
+  "recordedAt": "2026-08-26T03:05:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr153-merged",
+      "id": "live-main-pr154-merged",
       "type": "current-main-boundary",
-      "value": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab",
-      "pullRequest": 153,
-      "finalExactHead": "69db6f1431b494e55331dc270ebfe232d5d609e1",
+      "value": "141a7937a9e4cf580178c857dc6267e464f918aa",
+      "pullRequest": 154,
+      "finalExactHead": "317121cd3298f2d452b079c06af53b21470be57b",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r3",
       "runtimeChanged": false,
+      "prWorkflowFamiliesGreen": 14,
+      "postMergeRunsGreen": 15,
       "authority": 1
     },
     {
@@ -35,7 +37,7 @@
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
       "recordedScore": 80,
-      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits, Stage 4 production reconciliation added one previously uncredited capability, and exact accepted-result idempotency replay adds exactly one bounded capability",
+      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits, Stage 4 production reconciliation added one previously uncredited capability, and exact accepted-result idempotency replay added exactly one bounded capability",
       "authority": 1
     },
     {
@@ -59,7 +61,10 @@
     {
       "id": "stage4-exact-idempotency-replay",
       "type": "completed-evidence-capability",
-      "state": "evidence-proven-permanent-emulator-gate",
+      "state": "merged-postmerge-green-permanent-emulator-gate",
+      "pullRequest": 154,
+      "finalExactHead": "317121cd3298f2d452b079c06af53b21470be57b",
+      "mergeSha": "141a7937a9e4cf580178c857dc6267e464f918aa",
       "capabilities": [
         "exact accepted request/key returns the original accepted revision and content hash",
         "replay after a later legitimate authority advance leaves the current authoritative state unchanged",
@@ -85,6 +90,10 @@
         "preserve the exact two-owner private rivalry boundary and current local Save authority",
         "request only the minimum owner evidence if a production-only identity dependency is genuinely unavoidable",
         "do not bundle adverse-network or token-lifecycle work unless fresh evidence makes it the same atomic boundary"
+      ],
+      "knownExistingEmulatorProof": [
+        "registered third account attachment denied with permission-denied",
+        "revoked Player Two device publication denied with CONNECTED_RIVALRY_DEVICE_REVOKED and unchanged authority"
       ],
       "stage5Authorized": false,
       "authority": 1,
@@ -184,7 +193,7 @@
     }
   ],
   "retrievalHints": {
-    "walkDirection": "Start from current Stage 4 production-negative authorization work and traverse only dependencies needed for that immediate capability; preserve proven Stage 3, Stage 4 reconciliation and exact-replay locks without rereading closed history.",
+    "walkDirection": "Start from current Stage 4 production-negative authorization product work and traverse only dependencies needed for that immediate capability; preserve proven Stage 3, Stage 4 reconciliation and exact-replay locks without rereading closed history.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

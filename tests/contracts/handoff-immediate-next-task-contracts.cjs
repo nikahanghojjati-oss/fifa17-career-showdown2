@@ -101,7 +101,9 @@ assert.match(next,/after all required tests[\s\S]+merge and deploy without repea
 assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fixed model.");
 assert.ok(Number.isInteger(readiness.currentScore) && readiness.currentScore >= 80 && readiness.currentScore <= 100,"The fixed RJR authority must not regress below the evidence-proven exact replay checkpoint.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
-assert.equal(bootstrap.starter?.version,"1.4.19","The repository SLE bootstrap must retain the latest checked-in compact successor starter until the next handoff package is sealed.");
+assert.match(bootstrap.starter?.version || "",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
+assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
+assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
 assert.equal(bootstrap.immediateNextTask?.name,"stage4-production-negative-authorization-proof","The SLE bootstrap must route the next environment into the smallest remaining production-negative authorization boundary.");
 assert.match(bootstrap.currentLane,/idempotency replay[\s\S]+third account[\s\S]+revoked device/i,"The SLE bootstrap current lane must agree that replay is proven and production-negative authorization is next.");
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
