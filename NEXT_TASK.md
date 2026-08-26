@@ -10,6 +10,8 @@ Starting independently verified live main: `beab9f31cb7f31bf4938f5b0df67394899ef
 
 These two provenance lines identify only the closing implementation-authority environment and its entry main. A successor must not inherit this environment's transition decision; it must re-verify live GitHub and create a fresh WEC.
 
+Historical post-PR100 provenance retained, not reactivated: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY`. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. These closed milestones are provenance only; the current authority is the production-proven Stage 4 reconciliation boundary and the next execution lane is exact idempotency replay.
+
 ## What is now closed
 
 The repaired r3 ordinary-owner iPhone proof restored exactly the two account capabilities temporarily invalidated by the r2 App Check throttle regression, returning fixed RJR-1 from 76 to 78.
