@@ -8,7 +8,7 @@ Current environment: `we-2026-08-25-stage4-idempotency-replay`
 
 Starting independently verified live main: `b4d0a2bc82f0de16da29c8b9c3f602e3997506ab`
 
-The successor independently verified that PR #153 was merged from exact sealed head `69db6f1431b494e55331dc270ebfe232d5d609e1`, that all four review threads were resolved, that all 14 permanent PR workflow families were green on that sealed head and that all 15 post-merge runs on `b4d0a2bc82f0de16da29c8b9c3f602e3997506ab` were successful before beginning this lane.
+The successor independently verified that PR #153 was merged from exact sealed head `69db6f1431b494e55331dc270ebfe232d5d609e1`, that all four review threads were resolved, that all 14 permanent workflow families for the PR were green on that sealed head, and that all 15 post-merge runs on `b4d0a2bc82f0de16da29c8b9c3f602e3997506ab` were successful before beginning this lane.
 
 Historical completed-stage provenance remains closed and protected. `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is retained here only as historical post-PR100 provenance; it is not current implementation authority and must not revive Phase 1E or any completed prerequisite. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Neither completed prerequisite chain may be reopened merely because its historical text remains in the repository.
 
