@@ -1,0 +1,59 @@
+name: Temporary Production Auth Negative Proof
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  production-unauthenticated-mutation-rejection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Prove production rejects unauthenticated synthetic rivalry mutation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const assert = require('node:assert/strict');
+          const crypto = require('node:crypto');
+
+          (async () => {
+            const projectId = 'fifa17-career-showdown-prod';
+            const syntheticRivalryId = `pair_${crypto.randomBytes(32).toString('hex')}`;
+            const documentPath = `rivalries/${syntheticRivalryId}/state/authoritative`;
+            const endpoint = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${documentPath}`;
+            const body = {
+              fields: {
+                schemaVersion: { integerValue: '1' },
+                objectType: { stringValue: 'sharedState' },
+                objectId: { stringValue: syntheticRivalryId },
+                revision: { integerValue: '0' },
+                lifecycleState: { stringValue: 'live' }
+              }
+            };
+
+            const response = await fetch(endpoint, {
+              method: 'PATCH',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(body),
+              redirect: 'error'
+            });
+            const responseText = await response.text();
+            assert.ok(response.status === 401 || response.status === 403, `Expected production unauthenticated write rejection, received HTTP ${response.status}: ${responseText.slice(0, 500)}`);
+            assert.equal(response.ok, false, 'Unauthenticated production mutation must never be accepted.');
+            console.log(JSON.stringify({
+              proof: 'production-unauthenticated-firestore-mutation-rejected',
+              productionProject: projectId,
+              targetClass: 'synthetic-rivalry-authoritative-state',
+              authenticationSupplied: false,
+              existingOwnerDataTouched: false,
+              accepted: false,
+              httpStatus: response.status
+            }));
+          })().catch((error) => {
+            console.error(error);
+            process.exitCode = 1;
+          });
+          NODE
