@@ -1,65 +1,66 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-stage4-idempotency-replay",
-  "lifecycle": "active",
-  "recordedAt": "2026-08-26T02:07:00Z",
+  "lifecycle": "closed",
+  "recordedAt": "2026-08-26T03:05:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab",
-    "runtimeReleaseMergeSha": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab"
+    "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0"
   },
   "signals": {
     "contextComplexity": "moderate",
     "projectComplexity": "high",
-    "compactionCount": 1,
+    "compactionCount": 2,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 2,
+    "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 2,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 2,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 50,
+    "handoffCompleteness": 100,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Seal and publish PR #154 exact accepted-result idempotency replay proof at a final unchanged reviewed head, then reassess the smallest remaining explicit pre-Stage-5 production hardening boundary without bundling unrelated work.",
-    "lastSafeCheckpoint": "On corrected replay-proof head c2c48c7c5de59e50875a31a978ce8405f138b88d, all 14 permanent PR workflow families completed successfully. The focused Firestore emulator proof executed the real Connected Rivalry mutation runtime against production Security Rules and proved historical exact accepted-result replay after authority advanced from revision 0 to revision 1, while current authority, receipt set, tracked canonical local Save snapshot, same-key conflict protection, cross-owner receipt authority and stale-base CAS remained protected. Fixed RJR-1 was reconciled from 79 to 80 with exactly +1 for this previously explicit uncredited capability. A later authority-only head exposed one required NEXT_TASK reconciliation marker, which was restored without changing runtime or replay semantics.",
-    "nextSafeAction": "Require all 14 permanent workflow families to pass again on the final authority-updated PR #154 head, inspect reviews and review threads on that exact unchanged head, verify mergeability and current main, then merge under standing owner authority if all gates are clean. After publication, run this environment's own WEC reassessment before selecting the smallest remaining production-negative or network/token-lifecycle hardening capability.",
+    "currentTask": "PR #154 exact accepted-result idempotency replay proof is fully closed: final exact head 317121cd3298f2d452b079c06af53b21470be57b passed all 14 permanent PR workflow families, merged as 141a7937a9e4cf580178c857dc6267e464f918aa, and all 15 post-merge workflow/deployment runs succeeded. This environment is sealed for successor transition at RJR-1 80/100.",
+    "lastSafeCheckpoint": "Published main 141a7937a9e4cf580178c857dc6267e464f918aa after PR #154. Exact replay is evidence-proven through the real Connected Rivalry mutation runtime plus production Security Rules; runtime remains v1.8.1 / 1.8.1-r3. PR #154 changed no runtime bytes, Rules, provider config, billing, canonical local storage, Candidate C authority, App Check enforcement or trusted-runtime IAM.",
+    "nextSafeAction": "Successor must independently verify live main and handoff-seal publication state, initialize a fresh WEC, then audit the smallest remaining production-negative authorization capability for a third account and/or revoked device using existing deployed/runtime proof machinery before requesting any owner setup. Do not reopen exact replay or Stage 4 reconciliation.",
     "unfinishedWork": [
-      "Publish PR #154 only after final exact-head CI, review-thread and mergeability gates pass; do not merge a head that differs from the reviewed/tested head.",
-      "After exact replay publication, audit whether third-account and revoked-device production negatives can be proven through existing deployed/runtime proof machinery without recreating owner setup. Request only minimal owner evidence if a genuinely production-only dependency remains.",
-      "Reassess two-network/adverse-network and token-lifecycle behavior only after the production-negative audit; do not bundle all hardening categories into one rewrite.",
-      "Begin Stage 5 Private Remote Joining host/join/session orchestration once the remaining explicit prerequisite gates are proven closed."
+      "Prove the smallest remaining production authorization negative for a third account and/or revoked device; choose one bounded capability first.",
+      "After that boundary closes, reassess two-network/adverse-network and token-lifecycle behavior without bundling unrelated hardening.",
+      "Begin Stage 5 Private Remote Joining host/join/session orchestration as soon as fresh evidence proves the remaining explicit pre-Stage-5 gates closed.",
+      "Continue fixed RJR-1 evidence accounting toward 100 without credit for PRs, CI volume, documentation or repeated proof."
     ],
     "knownHazards": [
-      "00_DEVELOPER_START_HERE.md, 00_CURRENT_HANDOFF.md and parts of SESSION_BOOTSTRAP.json still contain older PR/RJR checkpoint top matter. Current live GitHub, NEXT_TASK.md, REMOTE_JOINING_READINESS.json, this WEC and the v1.4.20 successor starter are newer for this bounded lane; do not let stale top matter redirect execution unless a permanent gate proves a continuity repair is required.",
-      "The ordinary Connected Rivalry Publish UI generates a new idempotency key for each separate logical publish unless an explicit idempotencyKey is supplied. Two manual clicks are therefore two logical mutations, not exact replay. The proven replay boundary is the same immutable accepted key/fingerprint retried through the mutation runtime/provider transaction path.",
-      "The first focused PR #154 emulator run failed because the test helper incorrectly assumed withSecurityRulesDisabled returns the callback value. Receipt-field assertions had already passed. The helper was corrected to capture the disabled-rules query result explicitly; no product runtime or Security Rule was changed to make the test pass.",
-      "The first RJR80/NEXT_TASK authority update changed the NEXT_TASK heading and violated a permanent contract requiring the literal Stage 4 reconciliation production-proven marker. The marker was restored while preserving the newer replay-proven/RJR80 authority; no capability evidence or product behavior was weakened.",
-      "Do not repeat the successful destructive Candidate C remote-to-local Apply, consumed unavailable-code fixture, historical deleted-identity rivalry recovery, r2/r3 Connected Account recovery incident or exact replay proof merely for duplication.",
+      "Do not repeat the successful destructive Candidate C remote-to-local Apply, consumed unavailable-code fixture, historical deleted-identity rivalry recovery, r2/r3 Connected Account recovery incident, Stage 4 reconciliation or exact replay proof merely for duplication.",
+      "The historical pair_a07108...756fb rivalry has deleted original local profile/save identities; do not force/edit/delete it for testing.",
+      "The ordinary Connected Rivalry Publish UI creates a new idempotency key for each separate logical publish unless the immutable key is explicitly reused. Two manual clicks are not exact replay.",
+      "Existing emulator proof already covers registered third-account denial and revoked-device publication denial; production proof should reuse current machinery and owner state rather than rebuilding setup.",
+      "The predecessor read-only audit found exported production device-revocation machinery but no normal UI control invoking it. Recheck current source before assuming a production path.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive Apply authority.",
-      "Firebase remains Spark/zero billing; Firestore persistent cache remains disabled/memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated and unbroadened.",
-      "Exactly two private managers remain required. Public discovery, public community/profile surfaces, matchmaking and global rankings remain prohibited."
+      "Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated/unbroadened.",
+      "Exactly two private managers remain required. Public discovery, public community/profile surfaces, matchmaking and global rankings remain prohibited.",
+      "Direct sandbox git clone could not resolve github.com in this environment while the installed GitHub connector worked normally; prefer connector-first execution without owner action."
     ],
     "evidenceNotes": [
-      "The uploaded v1.4.20 successor starter was treated as orientation only and its predecessor facts were independently reconciled against live GitHub before this environment was created.",
-      "PR #153 is merged; exact sealed head 69db6f1431b494e55331dc270ebfe232d5d609e1 had 14 successful workflow runs and merge SHA b4d0a2bc82f0de16da29c8b9c3f602e3997506ab had 15 successful post-merge runs with none failing or in progress at startup verification.",
-      "Runtime and authorization-contract inspection established that existing js/sparkConnectedRivalry.js already returns an immutable accepted receipt result before stale/CAS evaluation when the same unexpired key/fingerprint/actor/device/base is retried. No production behavior rewrite was justified.",
-      "The permanent focused emulator proof accepts revision 0, advances a different logical mutation to revision 1, then replays the exact original request and verifies the original revision/hash is returned while revision 1 and its current content/hash remain untouched.",
-      "The same proof verifies no duplicate or mutated receipt, no tracked canonical local Save snapshot mutation, same-key/different-fingerprint rejection, cross-owner receipt denial and continued stale-base CAS rejection for a genuinely new mutation key.",
-      "Corrected replay-proof head c2c48c7c5de59e50875a31a978ce8405f138b88d completed all 14 permanent PR workflow families successfully, including the modified Stage 3/4 Firestore emulator family and Chromium Stability.",
-      "Fixed RJR-1 is now 80/100 in the candidate authority: +1 only for the previously explicit uncredited exact accepted-result replay capability. No duplicate points were awarded for CI volume, receipt subassertions, documentation or the test-helper correction.",
-      "The later authority-only head 46b425c0bef0b024534f833174f795de4104061c failed Static App and Stability contracts for the same single reason: NEXT_TASK no longer matched the required literal current reconciliation-proven authority marker. The exact assertion was isolated from both logs and the marker was restored in NEXT_TASK without changing runtime, Rules, replay proof or RJR mathematics.",
-      "A direct sandbox git clone attempt could not resolve github.com, while the installed GitHub connector is functioning normally. Connector-first execution therefore continues without owner action or browser fallback.",
-      "Fresh successor usage remains unknown because no approved current-session usage value is exposed; predecessor usage was intentionally not inherited."
+      "Predecessor PR #153 facts were independently verified before this fresh WEC began; starting main was b4d0a2bc82f0de16da29c8b9c3f602e3997506ab.",
+      "Production runtime inspection proved js/sparkConnectedRivalry.js already implemented accepted-result replay semantics before any product rewrite; the bounded task was proof plus authority reconciliation, not runtime invention.",
+      "Permanent test tests/firebase/stage4-idempotency-replay-emulator.cjs proves accepted revision-0 replay after a different legitimate revision-1 advance returns the original accepted revision/hash with no current-authority, receipt-set or canonical-local-Save mutation.",
+      "Same-key/different-fingerprint reuse remains rejected, cross-owner receipt authority remains denied, and genuinely new stale mutations remain rejected by immutable-base CAS.",
+      "Fixed RJR-1 moved exactly 79 -> 80 for the previously explicit uncredited exact replay capability; no duplicate subproof/CI/documentation credit was awarded.",
+      "Final PR #154 exact head 317121cd3298f2d452b079c06af53b21470be57b completed all 14 permanent PR workflow families successfully with zero submitted reviews, zero inline review threads and clean mergeability.",
+      "PR #154 squash-merged as 141a7937a9e4cf580178c857dc6267e464f918aa under standing owner authorization.",
+      "All 15 post-merge workflow/deployment runs on 141a7937a9e4cf580178c857dc6267e464f918aa succeeded, including GitHub Pages, Stability contracts, Chromium and deployed-site runtime-byte/product journeys.",
+      "Authority-coherence failures during the PR were stale current-versus-historical pointer assumptions, not replay/runtime regressions; final exact-head contracts passed after preserving historical 76/79 provenance while advancing current RJR80 truth.",
+      "Usage remains unknown because no approved current-session usage value is exposed; predecessor usage was not inherited or estimated."
     ]
   }
 }
