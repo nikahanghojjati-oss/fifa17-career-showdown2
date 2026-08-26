@@ -20,7 +20,7 @@ Standing owner authorization remains in force: after all required tests and curr
 
 Authority: `REMOTE_JOINING_READINESS.json`, model `RJR-1`, fixed denominator 100.
 
-Current evidence-backed score: `79/100`.
+Current Remote Joining readiness: `79/100`.
 
 The score history relevant to this checkpoint is:
 
@@ -70,7 +70,7 @@ Backup checksum:
 
 `c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4`
 
-The checksum was independently recalculated using the production canonical backup algorithm and matched the embedded value exactly.
+The checksum was independently recalculated using the production backup canonicalization rule and matched the embedded value exactly.
 
 Do not commit the owner's raw backup into the repository merely for evidence; it contains full local identity identifiers. The privacy-safe proof record is sufficient.
 
@@ -124,7 +124,7 @@ Ordered execution:
 1. Start from the newest compact starter and `SESSION_BOOTSTRAP.json`; independently verify live main, PR #153 final state, current runtime identity and current RJR authority.
 2. Initialize a fresh unique WEC with all per-environment counters reset. Do not inherit this environment's transition decision.
 3. Load only the idempotency-relevant Stage 4 mutation receipt/client/Rules/permanent-contract source needed to understand the exact accepted-result replay contract.
-4. Determine the smallest safe real-production proof that an exact replay returns the original accepted outcome without another authoritative revision and without local Save mutation. Prefer automated/deployed proof where it can establish the production boundary without making the owner repeat setup.
+4. Determine the smallest safe real-production proof that an exact replay returns the original accepted outcome without another authoritative revision and without local Save mutation. Prefer automated/deployed proof where it can establish the real production boundary without making the owner repeat setup.
 5. If a real product defect appears, repair the smallest defect through the normal exact-head test/review/merge/deploy path. Do not create a documentation/security/provider sidequest.
 6. After exact replay is closed, reassess live remaining Stage 5 blockers. Known gaps include third-account/revoked-device production negatives and adverse-network/token-lifecycle behavior. Take them one capability at a time.
 7. Begin Stage 5 Private Remote Joining host/join/session orchestration only when the fresh evidence-led assessment proves the remaining explicit pre-Stage-5 gates are closed.
@@ -142,7 +142,7 @@ Private Remote Joining remains the highest long-term project priority; prerequis
 - Firebase Spark / zero billing;
 - Firestore memory-only persistence;
 - Google Auth popup-only `browserSessionPersistence`, no extra scopes;
-- App Check enforcement OFF;
+- App Check enforcement remains OFF;
 - trusted-runtime IAM reviewed but not activated or broadened;
 - no public discovery, community, public matchmaking, public invitation directory or global rankings;
 - display names never authorize;
@@ -161,7 +161,7 @@ SLE = Smart Lean Efficient must be recursively preserved. At every future Handof
 ## Required owner-facing format
 
 Handoff proximity: X%
-Remote Joining readiness: X/100
+Remote Joining readiness: ~Y%
 Current lane: ...
 Concrete dependency completed: ...
 Next unlock: ...
