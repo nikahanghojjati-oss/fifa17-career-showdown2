@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-26T03:05:00Z",
+  "recordedAt": "2026-08-26T05:27:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/post-pr154-sle-handoff-seal",
+  "bootstrapBranch": "agent/stage4-adverse-network-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "141a7937a9e4cf580178c857dc6267e464f918aa",
+  "lastVerifiedMainSha": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
   "lastVerifiedRuntimeMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
   "latestRuntimeMerge": {
     "pullRequest": 151,
@@ -21,24 +21,24 @@
     "pagesArtifactDigest": null
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 154,
-    "title": "Prove exact accepted-result idempotency replay",
-    "branch": "agent/stage4-idempotency-replay",
-    "finalExactHead": "317121cd3298f2d452b079c06af53b21470be57b",
+    "pullRequest": 157,
+    "title": "Audit remaining production authorization negative dependency",
+    "branch": "agent/private-remote-joining-session-boundary",
+    "finalExactHead": "2e482dfdf8e6a313fb47e890e27761801fa94746",
     "workflowFamiliesRequired": 14,
     "workflowFamiliesGreen": 14,
-    "submittedReviews": 0,
+    "submittedReviews": 1,
     "unresolvedReviewThreads": 0,
     "mergeabilityBeforeMerge": true,
-    "mergeSha": "141a7937a9e4cf580178c857dc6267e464f918aa",
+    "mergeSha": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
     "postMergeRunsRequired": 15,
     "postMergeRunsGreen": 15,
-    "pagesRunId": 32924352374,
+    "pagesRunId": 32931790086,
     "pagesConclusion": "success",
     "firestoreRulesChanged": false,
     "providerChanged": false,
     "runtimeChanged": false,
-    "checkpointStatus": "merged-postmerge-green-exact-accepted-result-replay-proven-rjr80"
+    "checkpointStatus": "merged-postmerge-green-production-negative-dependency-audited-rjr80"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 151,
@@ -47,7 +47,7 @@
     "applicationVersion": "1.8.1",
     "runtimeRevision": "1.8.1-r3",
     "proofRecord": "OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md",
-    "proofClass": "production-proven-r3-owner-account-recovery-stage4-reconciliation-plus-pr154-exact-replay-evidence",
+    "proofClass": "production-proven-r3-owner-account-recovery-stage4-reconciliation-plus-exact-replay",
     "currentRegression": null
   },
   "ownerStandingAuthorization": {
@@ -65,7 +65,7 @@
     "productionStatus": "production-proven-deployed-r3-with-stage4-reconciliation-and-exact-replay-proof",
     "candidateApplicationVersion": "1.8.1",
     "candidateRuntimeRevision": "1.8.1-r3",
-    "candidateStatus": "production-proven-current-source",
+    "candidateStatus": "production-proven-runtime-unchanged-test-only-hardening-candidate",
     "candidateRuntimeMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
     "candidateImmediateRecoveryRuntime": "1.8.1-r3",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r1",
@@ -83,19 +83,19 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #154 exact accepted-result idempotency replay is merged and post-merge green at RJR-1 80/100. The next bounded product lane is the smallest remaining production-negative authorization proof for a third account and/or revoked device; do not start it inside the closing predecessor environment.",
+  "currentLane": "PR #158 proves deterministic Connected Rivalry adverse-provider failure safety at RJR-1 candidate 81/100. PR #157 already established that authenticated third-account/revoked-device production negatives require legitimate production identity/device state. After PR #158 publication, token-lifecycle hardening is the next automatically provable pre-Stage-5 capability; two-physical-network behavior remains separately uncredited.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 80,
+    "score": 81,
     "reportLabel": "Remote Joining readiness",
-    "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
+    "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
     "environmentId": "we-2026-08-25-stage4-idempotency-replay",
     "decision": "HANDOFF_AT_CHECKPOINT",
-    "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
+    "decisionScope": "historical-predecessor-closing-environment-only-do-not-inherit",
     "checkpoint": "pr154-exact-replay-merged-postmerge-green-rjr80"
   },
   "currentHandoff": {
@@ -104,12 +104,12 @@
   },
   "starter": {
     "version": "1.4.21",
-    "checkpoint": "PR154-MERGED-POSTMERGE-GREEN-EXACT-REPLAY-PROVEN",
+    "checkpoint": "PR154-MERGED-POSTMERGE-GREEN-EXACT-REPLAY-PROVEN-HISTORICAL-ORIENTATION",
     "canonical": "START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "Patch increment for the next clean handoff checkpoint after the owner-delivered v1.4.20 predecessor orientation and the merged/post-merge-green PR #154 exact replay capability."
+    "versionReason": "Retained as the latest sealed compact starter; live repository authority has advanced through PR #157 and current PR #158 and must be independently verified."
   },
   "successorPackage": {
     "compactStarter": "START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
@@ -146,12 +146,15 @@
   "targetedReads": [
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
     "js/cloudSyncRemoteContract.js",
+    "js/productionFirebaseRuntime.js",
+    "js/productionAppCheckBootstrap.js",
     "js/sparkPrivatePairing.js",
     "js/sparkConnectedRivalry.js",
     "firestore.spark.rules",
-    "tests/firebase/stage4-connected-rivalry-emulator.cjs",
-    "tests/firebase/stage4-idempotency-replay-emulator.cjs",
-    "tests/contracts/stage4-connected-rivalry-contracts.cjs"
+    "tests/contracts/stage4-connected-rivalry-contracts.cjs",
+    "tests/contracts/stage4-adverse-network-contracts.cjs",
+    "tests/contracts/production-app-check-runtime-contracts.cjs",
+    "tests/browser/production-app-check-runtime-audit.cjs"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -180,15 +183,15 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "stage4-production-negative-authorization-proof",
+    "name": "stage4-token-lifecycle-hardening",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Prove the smallest remaining production authorization negative for a third account and/or revoked device using existing deployed/runtime proof machinery where possible; request only the minimum owner evidence if production-only identity setup is genuinely unavoidable."
+    "summary": "After PR #158 publication, prove the smallest meaningful App Check/Auth token expiry or refresh lifecycle boundary while preserving Connected Account, Connected Rivalry and canonical local-save safety with App Check enforcement still OFF."
   },
   "transition": {
-    "contextTransitionRequired": true,
-    "continuationDecision": "HANDOFF_AT_CHECKPOINT",
-    "handoffCompleteness": 100,
+    "contextTransitionRequired": false,
+    "continuationDecision": "CONTINUE_CURRENT_ENVIRONMENT",
+    "handoffCompleteness": 30,
     "atomicOperation": false,
     "unrecordedDecisions": 0,
     "nextEnvironmentStartsFresh": true
