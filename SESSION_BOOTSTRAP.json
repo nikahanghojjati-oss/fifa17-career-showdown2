@@ -145,6 +145,7 @@
   ],
   "targetedReads": [
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
+    "js/cloudSyncRemoteContract.js",
     "js/sparkPrivatePairing.js",
     "js/sparkConnectedRivalry.js",
     "firestore.spark.rules",
