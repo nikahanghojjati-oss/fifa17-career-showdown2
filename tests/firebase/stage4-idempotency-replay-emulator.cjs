@@ -115,13 +115,15 @@ function rawKeyHash(value){
 }
 
 async function adminReceiptIds(testEnv,rivalryId){
-  return testEnv.withSecurityRulesDisabled(async context=>{
+  let ids=[];
+  await testEnv.withSecurityRulesDisabled(async context=>{
     const snap=await getDocs(collection(
       context.firestore(),
       "rivalries",rivalryId,"state","authoritative","idempotency"
     ));
-    return snap.docs.map(item=>item.id).sort();
+    ids=snap.docs.map(item=>item.id).sort();
   });
+  return ids;
 }
 
 (async()=>{
