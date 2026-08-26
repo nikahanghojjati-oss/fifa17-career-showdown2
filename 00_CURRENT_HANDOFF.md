@@ -37,6 +37,24 @@ Firebase remains Spark / zero billing. Firestore persistence remains memory-only
 
 Standing owner merge/deploy authorization remains active after all required tests, exact-head review and publication/deployment gates pass. Later explicit owner instructions override it.
 
+## Historical contract provenance compatibility summary
+
+The lines in this section are permanent historical transition evidence only. They are not current implementation authority and must not override the current Stage 4 / token-lifecycle direction above.
+
+Stage 2B — Provider Session Lifecycle & Revocation Boundary — DONE / MERGED / PROVEN through PR #84, exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`, squash merge `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
+
+Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary — DONE / MERGED / PROVEN through PR #85, exact validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`, squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`. At that historical boundary production Firebase remained disconnected.
+
+Handoff Proximity governance checkpoint — DONE / MERGED / PROTECTED.
+
+PR #87 — Post-PR #86 authority reconciliation — DONE / MERGED / PROVEN, exact validated head `2415c156161b6244c75e49917bad28efed957adf`, squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`.
+
+Historical pre-PR #88 wording: Current Stage 2D bounded prerequisite. Historical Stage 2D status: Stage 2D — Production Firebase Environment & Configuration Preflight — is CURRENT / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED. Historical Stage 2D WEC wording: the fresh WEC assessment is currently `PREPARE_HANDOFF`.
+
+Stage 2G — Trusted Account Bootstrap Execution Boundary — DONE / MERGED / PROVEN through PR #91, exact validated final head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`, squash merge `f97024cf4be3e76cf25c510fb364675b8e747762`.
+
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — historical status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. This historical authorization was later completed and superseded; Stage 2H is not current work.
+
 ## Current SLE / Work Environment Continuity package
 
 SLE = Smart Lean Efficient.
