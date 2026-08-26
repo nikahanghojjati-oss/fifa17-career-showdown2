@@ -29,6 +29,8 @@ App Check enforcement remains OFF. Do not add persistent Firestore cache, extra 
 
 ## Permanent locks
 
+Stage 2I remains DONE / MERGED / PROVEN as immutable historical security provenance; current authority has advanced beyond it without activating or broadening its dormant trusted-runtime IAM boundary.
+
 Exactly two private managers. Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C the sole destructive explicit Apply authority with strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification.
 
 Firebase remains Spark / zero billing. Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. Public discovery/community/matchmaking/global rankings remain prohibited. The Installable Offline App and v1.3.0 Recovery & Device Resilience Hardening remain the local-first recovery baseline; Local Profiles and Save Library remain the completed local identity/multi-save dependency chain.
