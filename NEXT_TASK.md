@@ -12,6 +12,8 @@ Latest independently verified merged main before this candidate: `ac1a2d7cb30d35
 
 Historical completed-stage provenance remains closed and protected. `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is retained here only as historical post-PR100 provenance; it is not current implementation authority and must not revive Phase 1E or any completed prerequisite. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
 
+Historical immediate-predecessor recovery heading retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Its bounded incident locks were: Do not enable App Check enforcement; preserve unchanged production Rules. That recovery checkpoint is closed and superseded by owner-proven account restoration, Stage 4 reconciliation, exact accepted-result replay, and deterministic adverse-provider safety; it is not current implementation authority or the current score.
+
 ## What is now closed
 
 Stage 4 remote-to-local reconciliation remains production-proven on the current-identity Nik/Gop rivalry. Canonical evidence remains `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md`.
