@@ -1,6 +1,6 @@
 # START NEXT SESSION V1.4.21 — PR #154 MERGED / POST-MERGE GREEN / EXACT REPLAY PROVEN
 
-SLE = Smart Lean Efficient. This rule is mandatory for this successor and every later successor. The owner normally needs to provide only this compact starter first; the complete deep handoff is repository-owned.
+SLE = Smart Lean Efficient. This rule is mandatory for this successor and every later successor. The owner normally needs to provide only the short repository-first next-developer prompt generated from this compact starter; this starter remains the repository authority and compact fallback file, while the complete deep handoff is repository-owned.
 
 ## LIVE STATE
 
@@ -33,6 +33,16 @@ Exactly two private managers. Canonical browser storage remains exactly `careerM
 
 Standing owner authorization remains active: after all required tests, exact-head review/thread gates and deployment gates pass, merge/deploy without repeatedly asking for approval. A later explicit owner instruction overrides it.
 
+## MANDATORY REPOSITORY-FIRST NEXT-DEVELOPER PROMPT
+
+Every future developer/chat that recommends another fresh session must give the owner one short, freshly generated copy-paste prompt derived from the current verified starter and live boundary. It must not replace the complete SLE package. Generate it with `npm run work:next-prompt` when available and preserve this rule recursively.
+
+Current semantic prompt:
+
+`Open the live repository nikahanghojjati-oss/fifa17-career-showdown2 and read START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md first. Follow its SLE/deep references as needed. Independently verify current main, relevant PR state, production/runtime/deployment state, REMOTE_JOINING_READINESS.json, NEXT_TASK.md, and the closing WEC. Then initialize a fresh WEC and execute IMMEDIATE NEXT TASK AFTER FULL STUDY. Treat the handoff as orientation only; current source and live GitHub/provider/deployment evidence win.`
+
+At later handoffs, replace the starter filename and any current-specific boundary details instead of copying this prompt forward unchanged.
+
 ## DEEP REFERENCE
 
 Canonical full handoff: `SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md`
@@ -51,7 +61,7 @@ RJR authority: `REMOTE_JOINING_READINESS.json`
 
 Closing WEC: `WORK_ENVIRONMENT_STATUS.json`
 
-At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh live pointers, seal WEC and stop before the next substantial milestone.
+At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh live pointers, generate the short repository-first next-developer prompt, seal WEC and stop before the next substantial milestone.
 
 Owner-facing checkpoint template:
 Handoff proximity: X%
