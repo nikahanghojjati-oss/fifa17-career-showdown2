@@ -7,6 +7,7 @@ Production runtime: `1.8.1-r3`
 Current runtime merge: `beab9f31cb7f31bf4938f5b0df67394899ef12a0` (PR #151)
 Previous known-good whole-shell recovery runtime: `1.8.1-r1`
 Remote Joining readiness: `81/100` under fixed RJR-1
+Historical superseded recovery checkpoint under RJR-1: `76/100` after the r2 Connected Account regression and before owner production restoration proof; it is provenance only, not the current score.
 Remote Joining readiness candidate: `81/100` under fixed RJR-1 prior to PR #158 exact-head publication; this candidate becomes live main authority only on successful merge.
 Latest merged main before this candidate: `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883` (PR #157)
 Current publication candidate: PR #158 on `agent/stage4-adverse-network-hardening`
