@@ -14,6 +14,8 @@ Historical completed-stage provenance remains closed and protected. `CURRENT IMP
 
 Historical immediate-predecessor recovery heading retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Its bounded incident locks were: Do not enable App Check enforcement; preserve unchanged production Rules. That recovery checkpoint is closed and superseded by owner-proven account restoration, Stage 4 reconciliation, and exact accepted-result replay at fixed RJR-1 `80/100`; it is not the current task or current score.
 
+Historical immediate-pre-replay reconciliation checkpoint: RJR-1 `79/100`. At that checkpoint exact idempotency replay was the next explicit uncredited Connected Rivalry hardening capability. The current permanent replay proof closes that capability and advances the fixed ledger exactly once to RJR-1 `80/100`; the historical 79 value is provenance only.
+
 ## What is now closed
 
 Stage 4 remote-to-local reconciliation remains production-proven on the current-identity Nik/Gop rivalry. Canonical evidence remains `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md`.
