@@ -10,7 +10,9 @@ Starting independently verified live main: `beab9f31cb7f31bf4938f5b0df67394899ef
 
 These two provenance lines identify only the closing implementation-authority environment and its entry main. A successor must not inherit this environment's transition decision; it must re-verify live GitHub and create a fresh WEC.
 
-Historical post-PR100 provenance retained, not reactivated: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY`. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. These closed milestones are provenance only; the current authority is the production-proven Stage 4 reconciliation boundary and the next execution lane is exact idempotency replay.
+Historical completed-stage provenance retained, not reactivated: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY`; `CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME`; Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED; Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. These closed milestones are provenance only; the current authority is the production-proven Stage 4 reconciliation boundary and the next execution lane is exact idempotency replay.
+
+Immediate predecessor recovery provenance is also retained explicitly but superseded: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Under that prior checkpoint, PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families and expected-head squash merge produced live main `857727586d548a96fca3ad63c394bf8f0b9e3b90`. Its bounded locks included: Do not enable App Check enforcement; preserve unchanged production Rules. That incident authority is historical only and cannot override the later owner-proven r3 account restoration, PR #151 runtime authority, RJR-1 79/100, or this reconciliation closeout.
 
 ## What is now closed
 
