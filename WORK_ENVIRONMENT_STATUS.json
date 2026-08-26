@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-26T23:49:30Z",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-26T23:57:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -24,17 +24,19 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 99,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Closing continuity package is sealed at WEC 100 after exact current-state authority and historical handoff-contract compatibility were reconciled. Do not begin token-lifecycle implementation in this environment.",
-    "lastSafeCheckpoint": "PR #159 pre-seal exact head 6f4848d81da901e78359c8adcaa2a2effb40e419 passed all 14 distinct permanent workflow families with zero failures after the final historical handoff compatibility correction. SESSION_BOOTSTRAP.json is now 100 and this transition-prepared WEC write is the required final branch mutation.",
-    "nextSafeAction": "Do not mutate this branch again. Revalidate this immutable WEC-100 exact head, obtain clean exact-head review/thread and mergeability state, then publish PR #159 under standing authorization. After publication, validate/archive this inherited WEC, initialize a fresh unique WEC with reset counters from live main, assess it independently, and begin token-lifecycle hardening.",
+    "currentTask": "Repair the two final exact-head Codex compatibility findings before resealing PR #159: refresh SESSION_CONTEXT_MODEL.json to the live RJR 81/token-lifecycle boundary and restore the complete recursive SLE packaging rule in the v1.4.22 starter.",
+    "lastSafeCheckpoint": "Final sealed head 1eb4c7aabbf004b750ca98cf15c39b3bf6fb4ef5 received exact-head Codex review. All earlier threads stayed resolved, but the review opened two new actionable threads: stale RJR79/idempotency context-model authority and incomplete recursive SLE starter wording. Publication was correctly stopped before merge.",
+    "nextSafeAction": "Keep this WEC active at 99 while correcting both review findings, rerun exact-head required validation, obtain clean exact-head review/thread and mergeability state, then set SESSION_BOOTSTRAP.json to 100 and seal this WEC as the final branch mutation only when the exact package is clean.",
     "unfinishedWork": [
-      "Complete read-only exact-head publication validation and merge of continuity-only PR #159; no further branch mutation is allowed before merge.",
-      "Archive this WEC and initialize a fresh unique successor WEC after PR #159 publication.",
+      "Refresh SESSION_CONTEXT_MODEL.json to current live main 5eecb482..., fixed RJR-1 81/100, PR #158 adverse-provider closure and token-lifecycle next lane.",
+      "Restore the explicit recursive complete mirrored SLE packaging/refresh pointers/generate prompt/WEC100/stop boundary in the v1.4.22 starter and keep its project mirror byte-identical.",
+      "Repeat exact-head workflow and Codex review/thread/mergeability publication gates after the fixes; publication must remain blocked until clean.",
+      "Archive this inherited WEC and initialize a fresh unique successor WEC only after PR #159 publication.",
       "Token-lifecycle hardening is the immediate next substantive product capability after the fresh WEC transition.",
       "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes are non-evidence.",
       "Two-physical-network behavior remains separately uncredited.",
@@ -50,7 +52,7 @@
       "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened.",
       "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
       "RJR is capability-based; documentation, CI volume or continuity work cannot move the score.",
-      "Any branch mutation after this transition-prepared WEC seal invalidates the seal; publication validation from this point must be read-only with respect to the PR branch."
+      "Do not reseal until the exact corrected package is clean. After a new transition-prepared WEC seal, any further branch mutation invalidates that seal."
     ],
     "evidenceNotes": [
       "PR #158 exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent PR workflow families and merged by expected-head squash to 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21.",
@@ -58,10 +60,11 @@
       "tests/contracts/stage4-adverse-network-contracts.cjs permanently proves provider failure after valid device/rivalry preflight and immutable local projection cannot mutate canonical local Save Library bytes.",
       "REMOTE_JOINING_READINESS.json is live at fixed RJR-1 81/100, +1 only for deterministic adverse-provider failure safety.",
       "PR #157 established legitimate production identity/device state is required for the remaining authenticated third-account/revoked-device production negatives; synthetic probes are explicitly non-evidence.",
-      "The v1.4.22 starter root/project copies share one blob identity and the full SLE handoff root/project copies share one blob identity.",
-      "Final Codex review on prior sealed head aba136197cd9ad38f512f2daf8795def4f80a1bf found that correctedFailures 18 artificially changed the assessment to HANDOFF_NOW and that 00_CURRENT_HANDOFF.md / PROJECT_STATE.md were stale. The seal was correctly reopened, stale authorities were reconciled, and the prior evidence-grounded count 15 was preserved until one new exact-head compatibility failure was actually observed.",
+      "The v1.4.22 starter root/project copies and full SLE handoff root/project copies were mirrored at the prior candidate boundary; the starter mirror must be refreshed again with the current fix before reseal.",
+      "Final Codex review on prior sealed head aba136197cd9ad38f512f2daf8795def4f80a1bf found that correctedFailures 18 artificially changed the assessment to HANDOFF_NOW and that 00_CURRENT_HANDOFF.md / PROJECT_STATE.md were stale. The seal was correctly reopened and correctedFailures restored to evidence-grounded state.",
       "Exact head 046d37116340dda25e734e2e7357ec7362844f7f exposed one genuine Stage 2E archival handoff compatibility failure in the contract suite; it was corrected by restoring the complete Stage 2E/2F historical transition markers. correctedFailures is therefore truthfully 16, not an inferred or duplicated count.",
-      "PR #159 pre-seal exact head 6f4848d81da901e78359c8adcaa2a2effb40e419 has successful runs for all 14 distinct permanent workflow families and zero failed runs. Four superseded duplicate runs from the deliberate close/reopen trigger were canceled by concurrency, and every affected family has a successful replacement on the same unchanged head.",
+      "Pre-seal exact head 6f4848d81da901e78359c8adcaa2a2effb40e419 had successful runs for all 14 distinct permanent workflow families and zero failed runs.",
+      "Final-head Codex review submitted at 2026-08-26T23:55:23Z on 1eb4c7aabb... opened two new actionable threads: SESSION_CONTEXT_MODEL.json still named RJR 79/exact replay next, and v1.4.22 starter omitted the complete recursive SLE packaging/WEC100 stop rule. The seal was reopened before publication to repair both.",
       "Usage remained unknown because no approved current-session usage value was exposed; no predecessor usage value was inherited or estimated."
     ]
   }
