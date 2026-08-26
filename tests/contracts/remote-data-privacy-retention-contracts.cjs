@@ -58,6 +58,7 @@ assert.doesNotMatch(index,/firebase|firestore/i,"Phase 1C must not itself add a 
 assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1C must not connect Firebase through optional modules.");
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
 assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved in the lossless pre-r3 archive without overriding later explicit runtime authority.");
-assert.match(next,/v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX[\s\S]+App Check enforcement[\s\S]+OFF/i,"Current NEXT_TASK must retain the later explicit controlled Firebase/App Check runtime authority rather than pretending Phase 1C is still the active implementation gate.");
+assert.match(next,/STAGE 4 RECONCILIATION PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+App Check enforcement remains OFF/i,"Current NEXT_TASK must retain the later explicit controlled Firebase/App Check runtime authority while advancing beyond the superseded r3 recovery incident.");
+assert.match(next,/Firebase remains Spark \/ zero billing[\s\S]+Firestore remains memory-only[\s\S]+Google Auth remains popup-only `browserSessionPersistence`/i,"Current NEXT_TASK must preserve the bounded production provider/privacy locks inherited after Phase 1C.");
 
-process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while current r3 authority stays explicit\n");
+process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while current production-proven r3 reconciliation authority stays explicit\n");

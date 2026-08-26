@@ -68,11 +68,11 @@ assert.match(preR3NextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datast
 assert.match(preR3NextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
-assert.match(nextTask,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify current r3 recovery authority rather than revive PR #125.");
-assert.match(nextTask,/App Check enforcement remains OFF|Do not enable App Check enforcement/i);
-assert.match(nextTask,/unchanged production Rules/i);
+assert.match(nextTask,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Live NEXT_TASK must identify current production-proven reconciliation authority rather than revive PR #125 or the r3 recovery incident.");
+assert.match(nextTask,/App Check enforcement remains OFF/i);
+assert.match(nextTask,/Firestore remains memory-only/i);
 assert.match(nextTask,/Candidate C remains the sole destructive remote-to-local Apply authority/i);
-assert.match(nextTask,/Stage 5 Remote Joining sessions remain locked|STAGE 5 LOCKED/i);
+assert.match(nextTask,/STAGE 5 STILL LOCKED|Do not begin Stage 5/i);
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -113,4 +113,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current r3 authority.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current reconciliation authority.\n");

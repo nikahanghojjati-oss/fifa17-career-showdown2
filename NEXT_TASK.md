@@ -1,60 +1,67 @@
-# CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX — 2026-08-25 ET
+# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN — 2026-08-25 ET
 
-Status: RELEASE CANDIDATE / DEPLOYED / TECHNICAL PRODUCTION PROOF IN PROGRESS / RJR-1 `76/100` UNTIL OWNER ACCOUNT RESTORATION PROOF / STAGE 5 LOCKED.
+Status: `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN / STAGE 4 REMOTE-TO-LOCAL RECONCILIATION GATE PASSED / RJR-1 `79/100` / STAGE 5 STILL LOCKED PENDING FINAL EXPLICIT PRE-STAGE-5 HARDENING.
 
-Authorized release candidate: `v1.8.1 / 1.8.1-r3`.
+Live runtime authority at this checkpoint remains PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`, exact reviewed head `664a6ba0013d83d20ef88efba85e694a85f072c8`, with all 14 permanent PR workflow families green before merge and successful post-merge production Stability/deployment proof.
 
-Current production runtime is `v1.8.1 / 1.8.1-r3` from squash merge `857727586d548a96fca3ad63c394bf8f0b9e3b90`. Previous known-good whole-shell recovery runtime remains deliberately `1.8.1-r1`, not regressed r2.
+Current environment: `we-2026-08-25-stage4-owner-reconciliation`
 
-## Exact blocker and authority
+Starting independently verified live main: `beab9f31cb7f31bf4938f5b0df67394899ef12a0`
 
-PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families, all review threads were resolved, and expected-head squash merge produced live main `857727586d548a96fca3ad63c394bf8f0b9e3b90`. GitHub Pages deployment run `32883493535` succeeded. Stability deployed-site-smoke job `97919366693` then independently verified all 89 runtime files byte-for-byte as `1.8.1-r3` and passed runtime error provenance.
+These two provenance lines identify only the closing implementation-authority environment and its entry main. A successor must not inherit this environment's transition decision; it must re-verify live GitHub and create a fresh WEC.
 
-The remaining technical proof failure is now classified: the production runtime correctly reached `ready-app-check-degraded` while reCAPTCHA Enterprise returned `403 appCheck/initial-throttle` and App Check enforcement remained OFF. The stale browser audit still required `ready` plus `tokenObserved=true`, so it failed before the downstream deployed-site browser audits could run. That audit expectation must be corrected without relabeling degraded attestation as successful token proof.
+Historical completed-stage provenance retained, not reactivated: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY`; `CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME`; Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED; Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. These closed milestones are provenance only; the current authority is the production-proven Stage 4 reconciliation boundary and the next execution lane is exact idempotency replay.
 
-The bounded rule remains: production origin/config/project/bootstrap and Firebase App/App Check initialization stay fail-closed. A successful token remains `ready` with `tokenObserved=true`. Only a token-observation failure after successful Firebase App/App Check initialization while enforcement is OFF may be `ready-app-check-degraded`, with `connected=true`, `tokenObserved=false`, `appCheckDegraded=true` and preserved redacted provider/runtime evidence. Connected Account remains allowed in that bounded degraded state. Raw App Check tokens must never enter diagnostics.
+Immediate predecessor recovery provenance is also retained explicitly but superseded: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Under that prior checkpoint, PR #146 final exact head `649112cd91db3696dd5a847250d6f1c09fc9912f` passed all 14 permanent workflow families and expected-head squash merge produced live main `857727586d548a96fca3ad63c394bf8f0b9e3b90`. Its bounded locks included: Do not enable App Check enforcement; preserve unchanged production Rules. That incident authority is historical only and cannot override the later owner-proven r3 account restoration, PR #151 runtime authority, RJR-1 79/100, or this reconciliation closeout.
 
-Do not enable App Check enforcement, change reCAPTCHA/Firebase provider configuration, use a debug provider/token, change billing, weaken Firestore Rules, change auth persistence/scopes, change canonical storage, create a replacement rivalry, or begin Stage 5.
+## What is now closed
+
+The repaired r3 ordinary-owner iPhone proof restored exactly the two account capabilities temporarily invalidated by the r2 App Check throttle regression, returning fixed RJR-1 from 76 to 78.
+
+The owner then completed the bounded Stage 4 remote-to-local reconciliation proof on the fresh current-identity Nik/Gop rivalry. Production now proves:
+
+1. non-mutating `PREVIEW REMOTE → LOCAL`;
+2. exact remote revision/hash and exact Player Two local-target binding;
+3. stale Preview rejection after Player One advances remote revision 0 → 1, before backup or local mutation;
+4. explicit confirmation before destructive Apply;
+5. verified canonical backup-first behavior;
+6. Candidate C remains the sole destructive remote-to-local Apply authority;
+7. stable Player Two manager/profile identity and real Save Library structure;
+8. exact local convergence to remote revision 1;
+9. no remote-authority mutation caused by local Apply: the post-Apply remote remains revision 1 with the same pre-Apply content hash;
+10. clear observed-remote versus committed-local UI state.
+
+Canonical evidence: `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md`.
+
+The real owner Player Two state contained exactly one Save, so no artificial unrelated second Save was manufactured. Permanent Candidate C contracts remain the unrelated-Save preservation evidence.
+
+RJR-1 is now conservatively `79/100`: the +1 is only the previously explicit uncredited production remote-to-local reconciliation capability. Its required Preview/stale/backup/convergence subproofs do not receive separate duplicate credits.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Finish only the post-deployment r3 production-proof correction. Validate the test-only branch that makes the headless production App Check audit distinguish real `ready` token proof from explicitly evidenced enforcement-OFF `ready-app-check-degraded`. Require all 14 permanent workflow families green on one unchanged exact head, inspect every review and inline thread, and require clean mergeability. If those gates pass, publish under standing owner authorization with expected-head squash merge. Then require main Stability deployed-site smoke to re-verify all 89 production runtime bytes and continue through every downstream deployed-site browser audit.
+Finish the smallest remaining explicit pre-Stage-5 Stage 4 hardening rather than starting generic infrastructure work or repeating closed owner tests.
 
-Do not ask the owner to test until that technical production gate is clean. The first owner acceptance test is then only Connected Account recovery on an ordinary iPhone surface: open Connected Account, confirm the service is available, complete Google popup sign-in, and require strict self-account bootstrap to reach `Private account ready`. Do not create a replacement pairing or rivalry during this recovery proof.
+Start with exact idempotency replay because it is still explicitly uncredited and directly protects authoritative Connected Rivalry mutation. Independently study the current mutation receipt/idempotency source, Security Rules, emulator/permanent contracts and production UI path, then design the smallest safe proof that an exact replay returns the original accepted result without creating another authoritative revision or changing local saves. Prefer automated/deployed proof where it can establish the real production boundary without making the owner repeat setup.
 
-After `Private account ready` is restored, immediately resume the previously deferred original Nik/Gop rivalry pointer proof that was blocked before the Connected Account regression. Use the now selectable/copyable recovery-ID UI to obtain the full original Pair ID for the rivalry historically fingerprinted as `pair_a07108…756fb`; do not manually type that shortened fingerprint. Put the exact full copied ID into both Player One / Nik and Player Two / Gop recovery fields. On each side press `VERIFY / REATTACH` once, then `REFRESH SHARED STATE` once. Require the `RIVALRY` field to show that same original rivalry and require `REMOTE OBSERVED: Revision 1`. Leave the Firebase document untouched. Do not Publish, Preview or Candidate C Apply during this pointer proof.
+After exact replay is closed, reassess the remaining Stage 5 blockers from live authority. Current known uncredited hardening includes third-account/revoked-device production negatives and two-network/adverse-network/token-lifecycle behavior. Do not bundle all of these into one speculative rewrite. Choose the smallest next capability that materially reduces Remote Joining risk.
 
-## Required candidate gates
+Do not begin Stage 5 host/join/session orchestration until the fresh successor verifies that the remaining explicit pre-Stage-5 gates are actually closed. When they are closed, Stage 5 Private Remote Joining becomes the next real product milestone rather than another Stage 4 sidequest.
 
-1. Keep whole-shell identity coherent at `v1.8.1 / 1.8.1-r3`; Service Worker recovery target must remain known-good `1.8.1-r1`.
-2. Deterministically prove normal App Check token success remains `ready`; token-observation failure under enforcement OFF becomes connected `ready-app-check-degraded`; real App/App Check initialization failure remains fatal.
-3. Production browser proof may accept `ready-app-check-degraded` only with enforcement OFF, connected Firebase App/App Check, `tokenObserved=false`, `appCheckDegraded=true` and preserved redacted failure evidence. It must never report degraded attestation as successful token proof.
-4. Prove degraded App Check observation still permits Google Auth plus memory-only Firestore account-service initialization with `browserSessionPersistence`, popup-only sign-in and zero additional scopes.
-5. Preserve Firebase Spark / zero billing, unchanged production Rules, exactly two private managers and all Stage 4 safety boundaries.
-6. Require all 14 permanent workflow families green on the exact unchanged proof-correction head, clean reviews/threads and mergeability before expected-head squash merge under standing owner authorization.
-7. After merge, require exact deployed byte identity and all downstream deployed-site browser audits. Do not manufacture an App Check token if the provider remains externally throttled.
-8. Owner acceptance after technical proof must show ordinary iOS Connected Account is available, Google popup sign-in succeeds and strict self-account bootstrap reaches `Private account ready`.
-9. Only that production owner proof may restore the two RJR credits currently withdrawn by the regression, returning 76 toward 78 if the exact prior capabilities are genuinely restored.
-10. After account restoration, complete the original Nik/Gop pointer test with the exact full copied Pair ID and `REMOTE OBSERVED: Revision 1` before any separate Candidate C owner reconciliation or Stage 5 work.
+## Do not repeat
 
-The all-zero unavailable-code fixture remains unconsumed. Do not create a replacement pairing. Do not Publish shared gameplay, Preview or Candidate C Apply during pointer recovery.
+- Do not repeat the consumed `pair_` + 64-zero unavailable-code owner fixture merely for duplication.
+- Do not force, edit or delete the historical `pair_a07108...756fb` rivalry whose original local profile/save identities were deleted.
+- Do not recreate pairing/account/device setup without a concrete regression or a genuinely new proof dependency.
+- Do not repeat the Stage 4 remote-to-local destructive Apply merely because it is now proven.
 
-## Permanent product locks
+## Permanent locks
 
-The Installable Offline App remains the local-first recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline remains intact. Local Profiles and Save Library remain the local identity and multi-save foundation. Canonical storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical.
+The Installable Offline App remains the local-first startup and recovery baseline; Remote Joining hardening must not make ordinary local startup depend on Firebase availability. The completed v1.3.0 Recovery & Device Resilience Hardening baseline remains intact. Local Profiles and Save Library remain the shipped local identity and multi-save dependency chain.
 
-Candidate C remains the sole destructive remote-to-local Apply authority with immutable intent, backup first, strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. No public discovery/community/matchmaking/rankings are authorized. Stage 5 Remote Joining sessions remain locked.
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive Apply authority. For remote-to-local reconciliation specifically, Candidate C remains the sole destructive remote-to-local Apply authority with strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification. Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
 
 ## Work Environment Continuity
 
-Current environment: `we-2026-08-25-r2-existing-rivalry-owner-recovery`
-Starting independently verified live main: `2eb58974e615aa7f2e95419a6f0cdf20495d2682`
-Current r3 production merge: `857727586d548a96fca3ad63c394bf8f0b9e3b90`
+The closing reconciliation environment is `we-2026-08-25-stage4-owner-reconciliation`. Its final transition decision belongs only to that environment. A successor must independently verify live `main`, current PR/CI/deployment state and the newest RJR authority, initialize a fresh unique WEC with reset counters, and run its own assessment before executing the next task. Never fabricate usage.
 
-Every future environment must use the repository Work Environment Continuity process before executing this task. Validate the inherited status, archive predecessor final facts, initialize a fresh environment-owned status record, run that environment's own assessment, and treat any predecessor transition decision as orientation only. Reassess WEC after technical r3 production proof, after owner account acceptance, and before any separate milestone.
-
-## Historical authority
-
-The complete pre-r3 `NEXT_TASK.md` was preserved byte-for-byte before this concise current-authority replacement at `authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md`. Historical authority remains provenance only and cannot override this current owner-directed regression repair.
-
-Historical completed-stage markers retained for permanent contracts: `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` and `CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME`. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED as completed prerequisite provenance. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED as completed prerequisite provenance. These markers do not override the current r3 Connected Account recovery authority above.
+Standing owner authorization remains active: after all required tests and current publication gates pass, merge and deploy without repeatedly asking for approval. A later explicit owner instruction overrides this authority.

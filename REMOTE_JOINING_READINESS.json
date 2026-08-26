@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 76,
+  "currentScore": 79,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -34,12 +34,13 @@
       "id": "identity-auth-trust",
       "label": "Identity, authentication, authorization and trust",
       "weight": 20,
-      "earned": 17,
+      "earned": 18,
       "evidence": [
         "Firebase Authentication provider decision and production Google sign-in configuration are proven.",
         "Verified UID to accountId boundary, revocation-aware ID-token verification and operation-specific authorization contracts are proven.",
-        "2026-08-21 owner-supplied real mobile production evidence proved the Google popup sign-in flow completed against the production Firebase Auth project and returned a live authenticated Firebase identity in the installed application.",
-        "2026-08-25 owner evidence on production v1.8.1-r2 plus the matching Stability failure proves the currently deployed runtime can block access to that previously credited sign-in capability when App Check token observation is throttled, so that one production capability credit is withdrawn until restoration is production-proven.",
+        "2026-08-21 owner-supplied real mobile production evidence proved the Google popup sign-in flow completed against the production Firebase Auth project and returned a live authenticated Firebase identity.",
+        "2026-08-25 owner evidence on production v1.8.1-r2 plus the matching Stability failure proved the deployed r2 runtime could block access to that sign-in capability when App Check token observation was throttled, temporarily invalidating that one production credit.",
+        "2026-08-25 ordinary-owner iPhone Safari evidence on repaired production v1.8.1-r3 re-proved the normal signed-out Google sign-in surface and authenticated account path, restoring exactly the previously withdrawn production authentication credit.",
         "Stage 2I App Check verification order and trusted endpoint attestation contract are proven but production trusted runtime/IAM is not activated."
       ]
     },
@@ -47,14 +48,15 @@
       "id": "production-cloud-security",
       "label": "Production cloud and security activation",
       "weight": 20,
-      "earned": 17,
+      "earned": 18,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
         "Production Firestore Security Rules are provider verified through the strict authenticated self-account boundary and the later Stage 3 registered-device/private-pairing boundary.",
         "2026-08-20 provider evidence proves reCAPTCHA Enterprise API/key setup and Firebase App Check Web App registration at one-hour TTL and 0.5 risk threshold with enforcement off.",
         "Permanent Validate Stability Lane #1230 / run 32439162225 proves controlled production 1.4.0-r2 Firebase App + App Check runtime connection, exact-origin/path gating, every deployed runtime byte, and legitimate reCAPTCHA Enterprise App Check token traffic while enforcement remains off.",
         "2026-08-21 owner-supplied real mobile production evidence proved the Connected Account surface, successful Google sign-in and strict self-account bootstrap path.",
-        "2026-08-25 production v1.8.1-r2 currently cannot reach that previously credited self-account bootstrap path on the owner iPhone because the runtime disables Auth/Firestore account services after App Check token throttling; that one bootstrap capability credit is withdrawn until restoration is production-proven.",
+        "2026-08-25 production v1.8.1-r2 temporarily made that previously credited self-account bootstrap unreachable when the runtime disabled Auth/Firestore account services after App Check token throttling.",
+        "2026-08-25 ordinary-owner iPhone Safari evidence on repaired production v1.8.1-r3 re-proved strict authenticated self-account bootstrap through Private account ready, restoring exactly the previously withdrawn bootstrap credit.",
         "2026-08-21 owner-supplied production Stage 3 evidence proves the published zero-billing device/pairing Rules are exercised by the deployed v1.6.0-r1 browser path.",
         "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
       ]
@@ -63,7 +65,7 @@
       "id": "devices-pairing-connected-rivalry-remote-join",
       "label": "Devices, pairing, Connected Rivalry and actual Remote Joining",
       "weight": 30,
-      "earned": 17,
+      "earned": 18,
       "evidence": [
         "Remote schema and two-owner governance contracts reserve device, invite, session and rivalry identities.",
         "Stage 3 is production-proven at v1.6.0 / 1.6.0-r1: two distinct authenticated browser device identities register successfully, a private one-use capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager identity.",
@@ -71,7 +73,8 @@
         "2026-08-24 live v1.7.0 / 1.7.0-r2 ordinary-browser evidence proves the first production Connected Rivalry slice: the exact private rivalry attaches under both entitled manager bindings, Player Two publishes the first authoritative shared gameplay projection at revision 0, and the distinct incognito Player One browser refreshes that same revision without local Apply or a reported local-save overwrite.",
         "2026-08-24 owner-supplied evidence from a second independent production rivalry on iPhone proves an unrefreshed Player One publish cannot overwrite Player Two's newly created authoritative revision 0: the runtime rejects the stale base and reports that local saves were not changed.",
         "The same iPhone production sequence then proves deterministic recovery and convergence: Player One refreshes after rejection to revision 0, publishes exactly once through the CAS update path to monotonic revision 1, and Player Two refreshes that same revision 1 without local Apply or a reported local-save overwrite.",
-        "Exact idempotency replay, third-account/revoked-device negatives, two-network/adverse-network hardening, remote-to-local reconciliation and actual Remote Joining sessions remain uncredited."
+        "2026-08-25/26 owner Chromebook production proof on v1.8.1-r3 closes the previously uncredited remote-to-local reconciliation capability: read-only exact revision/hash Preview, stale-intent rejection before backup/local mutation, verified backup-first explicit Candidate C Apply, stable Player Two identity, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply.",
+        "Exact idempotency replay, third-account/revoked-device production negatives, two-network/adverse-network hardening and actual Remote Joining sessions remain uncredited."
       ]
     },
     {
@@ -125,7 +128,7 @@
       "score": 63,
       "delta": 1,
       "domainId": "production-cloud-security",
-      "reason": "Owner-supplied real mobile production evidence shows 'Private account ready'. Current source reaches that state only after the authenticated Firebase UID self-account bootstrap returns ok with active status, materially proving the bounded production Auth + memory-only Firestore + strict revision-0 self-account create path. No points are awarded for pairing, Connected Rivalry, actual Remote Joining, App Check enforcement or unactivated trusted-runtime IAM."
+      "reason": "Owner-supplied real mobile production evidence shows Private account ready. Current source reaches that state only after the authenticated Firebase UID self-account bootstrap returns ok with active status, materially proving the bounded production Auth + memory-only Firestore + strict revision-0 self-account create path. No points are awarded for pairing, Connected Rivalry, actual Remote Joining, App Check enforcement or unactivated trusted-runtime IAM."
     },
     {
       "recordedAt": "2026-08-22T00:50:00Z",
@@ -192,6 +195,32 @@
       "domainId": "production-cloud-security",
       "invalidation": true,
       "reason": "The same production r2 regression prevents Auth and memory-only Firestore account services from initializing, so the previously credited strict authenticated self-account bootstrap path cannot currently be reached on the owner production surfaces. Exactly that +1 production bootstrap credit is withdrawn. Historical provider, Rules, App Check registration and Stage 3 evidence remain valid and are not double-penalized."
+    },
+    {
+      "recordedAt": "2026-08-25T23:44:00Z",
+      "eventId": "production-r3-connected-account-restoration-auth",
+      "score": 77,
+      "delta": 1,
+      "domainId": "identity-auth-trust",
+      "restoration": true,
+      "reason": "Ordinary-owner iPhone Safari production evidence on repaired v1.8.1-r3 re-proves the normal signed-out Google sign-in surface and authenticated Firebase identity path. This restores exactly the single authentication credit withdrawn by the r2 App Check throttle regression; it creates no new duplicate account capability credit."
+    },
+    {
+      "recordedAt": "2026-08-25T23:44:01Z",
+      "eventId": "production-r3-connected-account-restoration-bootstrap",
+      "score": 78,
+      "delta": 1,
+      "domainId": "production-cloud-security",
+      "restoration": true,
+      "reason": "The same ordinary-owner production acceptance reaches Private account ready on repaired v1.8.1-r3, re-proving the strict authenticated self-account bootstrap path. This restores exactly the one bootstrap credit withdrawn by the r2 regression and does not alter App Check enforcement, provider configuration, Rules or billing."
+    },
+    {
+      "recordedAt": "2026-08-26T00:33:10Z",
+      "eventId": "production-stage4-remote-to-local-reconciliation-proof",
+      "score": 79,
+      "delta": 1,
+      "domainId": "devices-pairing-connected-rivalry-remote-join",
+      "reason": "Owner-supplied Chromebook production evidence on v1.8.1-r3 proves the previously explicit uncredited remote-to-local reconciliation capability end to end: non-mutating exact revision/hash Preview, stale-intent rejection before backup/local mutation, explicit confirmation, independently verified canonical backup-first Candidate C Apply, stable Player Two identity/Save structure, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply. The +1 credits the single bounded reconciliation capability; its required subproofs do not receive separate duplicate points."
     }
   ]
 }
