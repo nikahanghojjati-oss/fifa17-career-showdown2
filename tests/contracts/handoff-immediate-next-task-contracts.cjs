@@ -88,24 +88,27 @@ assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+STAGE 5 STILL LOCK
 assert.match(next,new RegExp("RJR-1 `"+readiness.currentScore+"\\/100`","i"),"NEXT_TASK must report the score from the live fixed RJR ledger rather than a stale literal.");
 assert.match(next,/Production runtime remains `1\.8\.1-r3`[\s\S]+does not change production runtime bytes[\s\S]+Firestore Security Rules[\s\S]+canonical local storage/i,"NEXT_TASK must preserve the unchanged production runtime and Rules boundary for this proof-only lane.");
 assert.match(next,/OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25\.md/i,"NEXT_TASK must point to the canonical current owner reconciliation proof.");
-assert.match(next,/exact accepted-result idempotency replay[\s\S]+evidence-proven[\s\S]+revision 0[\s\S]+revision 1[\s\S]+original accepted revision 0[\s\S]+original accepted content hash/i,"NEXT_TASK must preserve the newly closed exact accepted-result replay boundary.");
+assert.match(next,/exact accepted-result idempotency replay[\s\S]+evidence-proven[\s\S]+revision 0[\s\S]+revision 1[\s\S]+original accepted revision 0[\s\S]+original accepted content hash/i,"NEXT_TASK must preserve the closed exact accepted-result replay boundary.");
 assert.match(next,/no duplicate receipt[\s\S]+canonical local Save Library snapshot remains unchanged[\s\S]+same-key\/different-fingerprint[\s\S]+other owner[\s\S]+stale[\s\S]+CAS/i,"NEXT_TASK must preserve replay uniqueness, local-state safety, authorization and CAS invariants.");
-assert.match(next,/Fixed RJR-1 is now `80\/100`[\s\S]+single previously explicit uncredited exact accepted-result replay capability/i,"NEXT_TASK must preserve the bounded one-point replay reconciliation rationale.");
-assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+third account[\s\S]+revoked device[\s\S]+production boundary[\s\S]+minimum owner evidence/i,"NEXT_TASK must give the next environment the smallest production-negative authorization audit after replay closes.");
-assert.match(next,/two-network\/adverse-network behavior[\s\S]+token-lifecycle behavior/i,"NEXT_TASK must preserve the other known remaining explicit pre-Stage-5 hardening without bundling it into the immediate task.");
+assert.match(next,/deterministic adverse-provider[\s\S]+registered-device[\s\S]+exactly-two-owner[\s\S]+canonical local Save Library[\s\S]+byte-for-byte unchanged/i,"NEXT_TASK must preserve the newly proven deterministic adverse-provider safety boundary.");
+assert.match(next,new RegExp("Fixed RJR-1 is now `"+readiness.currentScore+"\\/100`[\\s\\S]+\\+1 credits only deterministic adverse-provider failure safety","i"),"NEXT_TASK must preserve the bounded one-point adverse-provider reconciliation rationale.");
+assert.match(next,/Production-negative authorization audit result[\s\S]+third-account[\s\S]+revoked registered-device[\s\S]+legitimate authenticated production identity\/device state/i,"NEXT_TASK must retain the real blocked production authorization dependency without fabricating proof.");
+assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+token-lifecycle hardening[\s\S]+token auto-refresh[\s\S]+expiry\/refresh transition/i,"NEXT_TASK must route the next automatic lane into token lifecycle after adverse-provider safety closes.");
+assert.match(next,/Two-physical-network behavior remains separately uncredited/i,"NEXT_TASK must distinguish deterministic provider failure proof from real two-network hardening.");
 assert.match(next,/Do not repeat the Stage 4 remote-to-local destructive Apply/i,"NEXT_TASK must forbid redundant destructive reconciliation proof.");
 assert.match(next,/Do not repeat exact replay proof/i,"NEXT_TASK must forbid redundant replay work after the permanent gate owns it.");
+assert.match(next,/Do not repeat deterministic adverse-network proof/i,"NEXT_TASK must forbid redundant adverse-provider proof after the permanent gate owns it.");
 assert.match(next,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"NEXT_TASK must preserve the offline recovery baseline while connected work advances.");
 assert.match(next,/App Check enforcement remains OFF/i,"NEXT_TASK must preserve the App Check enforcement lock.");
 assert.match(next,/after all required tests[\s\S]+merge and deploy without repeatedly asking for approval/i,"NEXT_TASK must preserve standing owner publication authorization with gate conditions.");
 assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fixed model.");
-assert.ok(Number.isInteger(readiness.currentScore) && readiness.currentScore >= 80 && readiness.currentScore <= 100,"The fixed RJR authority must not regress below the evidence-proven exact replay checkpoint.");
+assert.ok(Number.isInteger(readiness.currentScore) && readiness.currentScore >= 81 && readiness.currentScore <= 100,"The fixed RJR authority must not regress below the evidence-proven deterministic adverse-provider checkpoint.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
 assert.match(bootstrap.starter?.version || "",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
-assert.equal(bootstrap.immediateNextTask?.name,"stage4-production-negative-authorization-proof","The SLE bootstrap must route the next environment into the smallest remaining production-negative authorization boundary.");
-assert.match(bootstrap.currentLane,/idempotency replay[\s\S]+third account[\s\S]+revoked device/i,"The SLE bootstrap current lane must agree that replay is proven and production-negative authorization is next.");
+assert.equal(bootstrap.immediateNextTask?.name,"stage4-token-lifecycle-hardening","The SLE bootstrap must route the next automatic environment into token-lifecycle hardening after adverse-provider proof.");
+assert.match(bootstrap.currentLane,/PR #158[\s\S]+adverse-provider[\s\S]+81\/100[\s\S]+token-lifecycle/i,"The SLE bootstrap current lane must agree that adverse-provider safety is the current candidate and token lifecycle is next.");
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
 assert.match(reconciliationProof,/sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d/i,"Canonical owner evidence must retain the exact reviewed remote gameplay hash.");
 
@@ -193,7 +196,7 @@ assert.match(
 assert.match(
   historicalNext,
   /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED[\s\S]+NOT YET IMPLEMENTATION-AUTHORIZED/i,
-  "Archived NEXT_TASK must preserve Private Remote Joining's historical prioritized dependency-gated classification."
+  "The dated owner amendment must lock the new Remote Joining classification."
 );
 assert.match(
   historicalNext,
@@ -221,4 +224,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: live NEXT_TASK and SESSION_BOOTSTRAP track the fixed RJR ledger, preserve the production-proven Stage 4 reconciliation and exact-replay closure, and route the next environment into the smallest remaining production-negative authorization boundary while the lossless pre-r3 archive preserves historical product proof and permanent Remote Joining locks.");
+console.log(`Handoff immediate-next-task contracts passed: live NEXT_TASK and SESSION_BOOTSTRAP track fixed RJR ${readiness.currentScore}/100, preserve Stage 4 reconciliation/exact replay and deterministic adverse-provider closure, and route the next automatic lane into token-lifecycle hardening while production identity/device negatives and real two-network proof remain explicit.`);
