@@ -1,70 +1,58 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-25-stage4-owner-reconciliation",
-  "lifecycle": "closed",
-  "recordedAt": "2026-08-26T01:25:00Z",
+  "environmentId": "we-2026-08-25-stage4-idempotency-replay",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-26T01:47:03Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
-    "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0"
+    "startingMainSha": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab",
+    "runtimeReleaseMergeSha": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "moderate",
     "projectComplexity": "high",
-    "compactionCount": 2,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 20,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
     "toolRoutingErrors": 0,
-    "correctedFailures": 9,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 9,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 35,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Stage 4 owner remote-to-local reconciliation is complete and production-proven on v1.8.1-r3. PR #153 publication closeout is the only remaining work in this environment; this final WEC reseal is the last branch mutation and this environment must not begin the separate exact-idempotency milestone.",
-    "lastSafeCheckpoint": "Owner Chromebook Incognito production evidence closed Stage 4 reconciliation on fresh rivalry pair_8f24ae...3528c. Player Two applied reviewed remote revision 1 only after explicit confirmation and a verified canonical backup; the uploaded backup checksum independently matched c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4. Post-Apply refresh showed REMOTE OBSERVED Revision 1 and LOCAL COMMIT Revision 1 on the same target; Save Library still contained exactly one TEWE Save and the same ghyu/GOP profiles. Final read-only Preview retained hash sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d and explicitly reported that remote revision 1 already matches the identity-safe local gameplay candidate, proving local convergence and zero remote-authority mutation. PR #153 now packages the privacy-safe proof, fixed RJR-1 79/100 ledger, current authority, refreshed session bootstrap/context and mirrored SLE successor package. Log-first publication repair migrated stale current-authority assertions through Cloud/Sync Phase 1F, Stage 2A-2D, privacy, connected-data export and release-authority coherence while preserving immutable historical provenance and all product/security locks. Pre-seal exact head 2784d29ccf95a1014f95b4090cefc95b70acfe5e passed Static App including the complete repository contract suite, Candidate C restore contracts/browser evidence, Stage 3 private-pairing/reconciliation proof and every completed specialist family; Stability contracts also passed and its unchanged-runtime Chromium journey was still running when this mandatory final WEC seal was written. This WEC write is intentionally the final branch mutation, so publication requires a fresh all-14-workflow exact-head validation on the resulting seal head before merge.",
-    "nextSafeAction": "Verify the exact post-seal PR #153 head without further branch mutation. Require all 14 permanent workflow families green on that unchanged exact head, both remaining review threads resolved from current evidence, and clean mergeability; then perform the standing-authorized expected-head squash merge and verify live main/publication state. Only a fresh successor WEC may then execute exact accepted-result idempotency replay proof.",
+    "currentTask": "Prove the smallest remaining pre-Stage-5 hardening capability: exact accepted-result idempotency replay for an already accepted Connected Rivalry authoritative mutation, preserving revision/content/hash, canonical local Save Library state, receipt uniqueness, CAS protection and two-owner authorization.",
+    "lastSafeCheckpoint": "Fresh successor startup independently verified live main b4d0a2bc82f0de16da29c8b9c3f602e3997506ab, PR #153 merged from exact sealed head 69db6f1431b494e55331dc270ebfe232d5d609e1, all four review threads resolved, all 14 sealed-head PR workflow families successful and all 15 post-merge workflow runs successful. Stage 4 reconciliation remains production-proven and fixed RJR-1 remains 79/100. No successor runtime mutation existed before this fresh WEC initialization.",
+    "nextSafeAction": "Finish studying the exact mutation receipt/idempotency runtime path, Security Rules, emulator coverage, permanent contracts and deployed production retry reachability. Then implement only the smallest coherent replay-proof change on agent/stage4-idempotency-replay, validate it, review exact head, and publish under standing owner authority if all gates pass.",
     "unfinishedWork": [
-      "Complete PR #153 final post-seal exact-head publication gates with no further branch mutation: all 14 permanent workflow families green, review threads resolved, mergeability clean, then expected-head squash merge under standing owner authorization and verify resulting live main/publication state.",
-      "In a fresh successor environment after PR #153 publication, prove exact accepted-result idempotency replay without another authoritative revision or local Save mutation.",
-      "After replay proof, reassess only the remaining explicit pre-Stage-5 gaps, including third-account/revoked-device production negatives and two-network/adverse-network/token-lifecycle behavior where still required.",
-      "Begin Stage 5 Private Remote Joining host/join/session orchestration as soon as a fresh evidence-led assessment proves the explicit prerequisite gates are closed."
+      "Close exact accepted-result idempotency replay with evidence that the same accepted request/key returns the original accepted revision/hash without another authoritative effect, canonical local Save mutation or weakened authorization/CAS.",
+      "After replay is closed, reassess only explicit remaining pre-Stage-5 gaps from live authority, including third-account/revoked-device production negatives and two-network/adverse-network/token-lifecycle behavior where still unproven.",
+      "Begin Stage 5 Private Remote Joining host/join/session orchestration immediately once the explicit prerequisite gates are proven closed."
     ],
     "knownHazards": [
-      "Do not mutate the PR #153 branch after this final WEC reseal. Any later branch mutation invalidates the final seal and requires another exact-head validation/reseal cycle.",
-      "Do not repeat the successful destructive Candidate C Apply merely for duplication; the reconciliation gate is production-proven.",
-      "Do not repeat the consumed pair_ plus 64-zero unavailable-code fixture merely for duplication.",
-      "Do not force, edit or delete historical rivalry pair_a07108...756fb whose original local profile/save identities were deleted.",
-      "The real Player Two state contained exactly one Save; do not manufacture unrelated-Save production evidence. Permanent Candidate C contracts remain the unrelated-Save mutation-boundary evidence.",
-      "The Installable Offline App and completed v1.3.0 Recovery & Device Resilience Hardening baseline remain the local-first startup/recovery authority; connected hardening must not make ordinary local startup depend on Firebase availability.",
-      "Historical Stage 1, Stage 2, PR #125, r3 Connected Account recovery and TRUSTED SHARED MUTATION GATEWAY text is provenance only; do not misread it as superseding current Stage 4 reconciliation/idempotency authority.",
-      "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown is non-canonical.",
-      "Candidate A remains non-mutating, Candidate B read-only and Candidate C remains the sole destructive Apply authority; remote-to-local Candidate C uses strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection and ownership-scoped rollback.",
-      "Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only browserSessionPersistence; App Check enforcement remains OFF; trusted-runtime IAM is not activated or broadened.",
-      "Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.",
-      "Stage 5 remains locked only until the remaining explicit pre-Stage-5 hardening is proven; do not invent generic prerequisite lanes that indefinitely delay the product milestone."
+      "00_DEVELOPER_START_HERE.md and 00_CURRENT_HANDOFF.md still begin with stale PR #144/RJR78 top matter. Current live main, NEXT_TASK.md, PROJECT_STATE.md, SESSION_BOOTSTRAP.json and the v1.4.20 successor starter establish RJR79 and exact replay as current authority; do not let the stale top matter redirect execution unless a permanent gate proves it must be repaired in this lane.",
+      "The ordinary Connected Rivalry Publish UI currently generates a new idempotency key for each separate publish call unless an explicit idempotencyKey is supplied; clicking Publish twice is therefore not accepted-result replay proof.",
+      "Do not repeat the successful destructive Candidate C remote-to-local Apply, consumed unavailable-code fixture, historical deleted-identity rivalry recovery, or r2/r3 Connected Account recovery incident merely for duplication.",
+      "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
+      "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive Apply authority.",
+      "Firebase remains Spark/zero billing; Firestore persistent cache remains disabled/memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated and unbroadened.",
+      "Exactly two private managers remain required. Public discovery, public community/profile surfaces, matchmaking and global rankings remain prohibited."
     ],
     "evidenceNotes": [
-      "This environment independently verified live main beab9f31cb7f31bf4938f5b0df67394899ef12a0, PR #151 release lineage, source/runtime 1.8.1-r3 and required recovery/security authorities before destructive proof.",
-      "Owner production evidence proved revision-0 non-mutating Preview and immutable exact remote/local target binding, then deliberately stale revision-0 Preview rejection after Player One advanced remote authority to revision 1 before backup or local mutation.",
-      "Owner pre-Apply baseline proved one real TEWE Save and two stable Local Profiles ghyu/GOP; no artificial unrelated Save was created.",
-      "Fresh revision-1 Preview exact hash was sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d.",
-      "Owner completed exact-confirmation verified-backup-first Candidate C Apply once. The supplied backup is format v2, app/runtime 1.8.1/1.8.1-r3, one Save/two profiles, no warnings/recovery, and its SHA-256 envelope checksum independently matched c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4.",
-      "Post-Apply refresh and final Preview prove the same remote revision 1 and identical pre/post content hash, the same Player Two target, LOCAL COMMIT Revision 1, preserved Save/profile structure and explicit local-match status.",
-      "The repaired r3 ordinary-owner account proof restored exactly two r2-invalidated credits 76 to 78; the newly proven single remote-to-local reconciliation capability adds exactly +1 to fixed RJR-1 79 with no duplicate subproof credit.",
-      "Canonical production proof is OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md. Compact successor starter is START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md with byte-identical project/session mirror and a byte-identical complete SLE handoff mirror.",
-      "The final stale-authority migration was evidence-led rather than speculative: exact Static App/Stability logs were followed to their first failing assertions, while a Codex review independently identified the remaining current-authority family. The repaired suite now recognizes current reconciliation/RJR79 authority while retaining immutable candidate-era release records and historical Phase/Stage provenance instead of rewriting history.",
-      "Pre-seal exact head 2784d29ccf95a1014f95b4090cefc95b70acfe5e produced a successful Static App workflow, proving the complete repository contracts plus emulator chain pass after the release-authority migration. Candidate C and Stage 3 workflows were also green on that exact head; Stability contracts were green before the final seal mutation.",
-      "Two Codex P1 review threads remain intentionally unresolved until this post-seal exact head proves the migration fully green; they describe stale earlier heads and should be resolved only from final exact-head evidence.",
-      "Usage remains null/unavailable because no approved current-session usage value was supplied."
+      "The uploaded v1.4.20 successor starter was treated as orientation only and its predecessor facts were independently reconciled against live GitHub before this environment was created.",
+      "PR #153 is merged; exact sealed head 69db6f1431b494e55331dc270ebfe232d5d609e1 had 14 successful workflow runs and merge SHA b4d0a2bc82f0de16da29c8b9c3f602e3997506ab had 15 successful post-merge runs with none failing or in progress at startup verification.",
+      "Runtime inspection found existing accepted-receipt replay semantics in js/sparkConnectedRivalry.js: a matching unexpired receipt/fingerprint validates the accepted revision content hash and returns status replayed with the original revision/hash rather than writing another authoritative state.",
+      "Permanent stage4 contract coverage currently proves same explicit key yields the same request fingerprint, but this startup inspection has not yet found a real Firestore transaction replay proof; that boundary is the active investigation.",
+      "A direct sandbox git clone attempt could not resolve github.com, while the installed GitHub connector is functioning normally. Connector-first execution therefore continues without owner action or browser fallback.",
+      "Fresh successor usage is unknown because no approved current-session usage value is exposed; predecessor usage was intentionally not inherited."
     ]
   }
 }
