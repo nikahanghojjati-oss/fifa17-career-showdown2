@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-stage4-idempotency-replay",
   "lifecycle": "closed",
-  "recordedAt": "2026-08-26T03:12:00Z",
+  "recordedAt": "2026-08-26T03:16:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 1,
     "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 5,
+    "correctedFailures": 6,
     "repeatedMistakes": 0,
     "staleFactCorrections": 4,
     "unresolvedFailures": 0,
@@ -30,7 +30,7 @@
   },
   "continuity": {
     "currentTask": "PR #154 exact accepted-result idempotency replay proof is fully closed: final exact head 317121cd3298f2d452b079c06af53b21470be57b passed all 14 permanent PR workflow families, merged as 141a7937a9e4cf580178c857dc6267e464f918aa, and all 15 post-merge workflow/deployment runs succeeded. The complete v1.4.21 SLE successor package is prepared on PR #155; this environment remains sealed for transition at RJR-1 80/100.",
-    "lastSafeCheckpoint": "Published product main 141a7937a9e4cf580178c857dc6267e464f918aa after PR #154, with all 15 post-merge runs green. Exact replay is evidence-proven through the real Connected Rivalry mutation runtime plus production Security Rules; runtime remains v1.8.1 / 1.8.1-r3. PR #155 now carries canonical SLE headings, byte-identical compact/deep mirrors, source-driven successor-version validation, required remote-contract targeted reads and explicit product-work routing.",
+    "lastSafeCheckpoint": "Published product main 141a7937a9e4cf580178c857dc6267e464f918aa after PR #154, with all 15 post-merge runs green. Exact replay is evidence-proven through the real Connected Rivalry mutation runtime plus production Security Rules; runtime remains v1.8.1 / 1.8.1-r3. PR #155 now carries canonical SLE headings and required-validation wording, byte-identical compact/deep mirrors, source-driven successor-version validation, required remote-contract targeted reads and explicit product-work routing.",
     "nextSafeAction": "Finish only PR #155 exact-head handoff publication gates. If all 14 permanent workflow families, reviews, threads and mergeability are clean, merge under standing owner authorization and verify post-merge publication. Then stop. The successor must independently verify live main, initialize a fresh WEC, and begin the smallest production-negative authorization proof for a third account and/or revoked device.",
     "unfinishedWork": [
       "Publish PR #155 only after its final unchanged WEC-sealed head passes all permanent exact-head gates, then verify the post-merge continuity publication and stop this environment.",
@@ -45,7 +45,7 @@
       "Existing emulator proof already covers registered third-account denial and revoked-device publication denial; production proof should reuse current machinery and owner state rather than rebuilding setup.",
       "The predecessor read-only audit found exported production device-revocation machinery but no normal UI control invoking it. Recheck current source before assuming a production path.",
       "Successor starter version and its canonical/mirror filenames must advance together. The permanent handoff contract is source-driven and validates semantic version shape plus canonical/mirror agreement rather than freezing a historical literal.",
-      "Every SLE starter and deep handoff must retain the exact canonical heading IMMEDIATE NEXT TASK AFTER FULL STUDY; SESSION_BOOTSTRAP targeted reads must retain REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md and js/cloudSyncRemoteContract.js; the context graph must explicitly route into real product work.",
+      "Every SLE starter and deep handoff must retain the exact canonical heading IMMEDIATE NEXT TASK AFTER FULL STUDY and explicitly condition publication on required tests or required gates; SESSION_BOOTSTRAP targeted reads must retain REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md and js/cloudSyncRemoteContract.js; the context graph must explicitly route into real product work.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive Apply authority.",
       "Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated/unbroadened.",
@@ -61,9 +61,9 @@
       "Final PR #154 exact head 317121cd3298f2d452b079c06af53b21470be57b completed all 14 permanent PR workflow families successfully with zero submitted reviews, zero inline review threads and clean mergeability.",
       "PR #154 squash-merged as 141a7937a9e4cf580178c857dc6267e464f918aa under standing owner authorization.",
       "All 15 post-merge workflow/deployment runs on 141a7937a9e4cf580178c857dc6267e464f918aa succeeded, including GitHub Pages, Stability contracts, Chromium and deployed-site runtime-byte/product journeys.",
-      "The corrected v1.4.21 compact starter and its project mirror share Git blob ab6b393902a5e15eb54c2e9544b5826c667717b4; the corrected full successor handoff and its project mirror share Git blob 852b9df11619ca9b1fff3155e029ac427b226032.",
+      "The final compact v1.4.21 starter and its project mirror share Git blob 9f04207147934b206daf03adc5d2e721ec1b24c2; the final full successor handoff and its project mirror share Git blob 69b9bd03b5cd46babb8dcd0f1327f11f7b2ff0cb.",
       "Initial PR #155 Stability failed only because handoff-immediate-next-task-contracts.cjs froze the prior starter version 1.4.19. That stale literal was replaced with source-driven semantic-version and canonical/mirror filename agreement checks; no product/runtime/security behavior changed.",
-      "A later PR #155 Stability run advanced past that corrected contract and exposed SLE packaging exactness: the starter used IMMEDIATE NEXT ACTION instead of mandatory IMMEDIATE NEXT TASK AFTER FULL STUDY. Both compact and deep mirrors were corrected, the required js/cloudSyncRemoteContract.js targeted read was restored, and context-graph routing was made explicitly product-work oriented before this final WEC reseal.",
+      "Subsequent PR #155 Stability runs advanced deeper through SLE packaging and exposed exact-package wording requirements: canonical IMMEDIATE NEXT TASK AFTER FULL STUDY heading and explicit required-tests/required-gates publication wording. Both compact/deep mirrors were reconciled; required js/cloudSyncRemoteContract.js targeted read and explicit product-work context routing were restored before this final WEC reseal.",
       "Authority-coherence failures during PR #154 and PR #155 packaging were stale current-versus-historical or exact-package pointer assumptions, not replay/runtime regressions; each was corrected without weakening product/security invariants.",
       "Usage remains unknown because no approved current-session usage value is exposed; predecessor usage was not inherited or estimated."
     ]
