@@ -193,7 +193,7 @@
     }
   ],
   "retrievalHints": {
-    "walkDirection": "Start from current Stage 4 production-negative authorization work and traverse only dependencies needed for that immediate capability; preserve proven Stage 3, Stage 4 reconciliation and exact-replay locks without rereading closed history.",
+    "walkDirection": "Start from current Stage 4 production-negative authorization product work and traverse only dependencies needed for that immediate capability; preserve proven Stage 3, Stage 4 reconciliation and exact-replay locks without rereading closed history.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
