@@ -4,6 +4,12 @@ Status: `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN / STAGE 4 REMOTE-TO-LOC
 
 Live runtime authority at this checkpoint remains PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`, exact reviewed head `664a6ba0013d83d20ef88efba85e694a85f072c8`, with all 14 permanent PR workflow families green before merge and successful post-merge production Stability/deployment proof.
 
+Current environment: `we-2026-08-25-stage4-owner-reconciliation`
+
+Starting independently verified live main: `beab9f31cb7f31bf4938f5b0df67394899ef12a0`
+
+These two provenance lines identify only the closing implementation-authority environment and its entry main. A successor must not inherit this environment's transition decision; it must re-verify live GitHub and create a fresh WEC.
+
 ## What is now closed
 
 The repaired r3 ordinary-owner iPhone proof restored exactly the two account capabilities temporarily invalidated by the r2 App Check throttle regression, returning fixed RJR-1 from 76 to 78.
