@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-25-stage4-owner-reconciliation",
   "lifecycle": "closed",
-  "recordedAt": "2026-08-26T00:48:00Z",
+  "recordedAt": "2026-08-26T00:51:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,11 +14,11 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 12,
+    "largeEvidenceEvents": 13,
     "toolRoutingErrors": 0,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 2,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
@@ -30,7 +30,7 @@
   },
   "continuity": {
     "currentTask": "The bounded Stage 4 owner remote-to-local reconciliation proof is complete and production-proven on v1.8.1-r3. This environment is sealed at the clean checkpoint and must not begin the next exact-idempotency milestone.",
-    "lastSafeCheckpoint": "Owner Chromebook Incognito production evidence closes Stage 4 reconciliation on fresh rivalry pair_8f24ae...3528c. Player Two successfully applied reviewed remote revision 1 only after explicit confirmation and a verified canonical backup; the uploaded backup checksum independently matched c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4. Post-Apply refresh still showed REMOTE OBSERVED Revision 1 and LOCAL COMMIT Revision 1 on the same target. Save Library still contained exactly one TEWE Save and the same ghyu/GOP profiles. Final read-only Preview still showed hash sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d and explicitly reported that remote revision 1 already matches the identity-safe local gameplay candidate, proving local convergence and zero remote-authority mutation. Privacy-safe proof, RJR ledger 79/100, current authority, mirrored SLE handoff/starter and compact context pointers are packaged on PR #153. The first exact-head contract run exposed one documentation-authority omission: NEXT_TASK.md no longer named the Installable Offline App recovery lock. The exact log was inspected first, the single missing lock sentence was restored without runtime change, and this record is the required final reseal after that correction.",
+    "lastSafeCheckpoint": "Owner Chromebook Incognito production evidence closes Stage 4 reconciliation on fresh rivalry pair_8f24ae...3528c. Player Two successfully applied reviewed remote revision 1 only after explicit confirmation and a verified canonical backup; the uploaded backup checksum independently matched c2d3a4054e6aad5ff007dbe6f04340d2bbfc641f4ce60f4b34e3a827b5f834e4. Post-Apply refresh still showed REMOTE OBSERVED Revision 1 and LOCAL COMMIT Revision 1 on the same target. Save Library still contained exactly one TEWE Save and the same ghyu/GOP profiles. Final read-only Preview still showed hash sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d and explicitly reported that remote revision 1 already matches the identity-safe local gameplay candidate, proving local convergence and zero remote-authority mutation. Privacy-safe proof, RJR ledger 79/100, current authority, mirrored SLE handoff/starter and compact context pointers are packaged on PR #153. Exact-head CI surfaced two current-authority contract migrations, both handled log-first without runtime changes: NEXT_TASK restored the Installable Offline App recovery lock, and the handoff immediate-next-task contract was advanced from obsolete r3-recovery assertions to the now-proven reconciliation/idempotency boundary while retaining all historical archive assertions.",
     "nextSafeAction": "A fresh successor should start from START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md, independently verify live main plus PR #153 final head/check/review/merge state and current RJR authority, initialize a fresh unique WEC with reset counters, then execute the smallest remaining explicit pre-Stage-5 capability: exact idempotency replay production proof unless live evidence proves a narrower dependency.",
     "unfinishedWork": [
       "Complete PR #153 exact-head publication gates and merge under standing owner authorization if every required workflow/review/mergeability gate passes; this publication work must not mutate the sealed branch unless a real gate failure requires correction and another reseal.",
@@ -60,7 +60,7 @@
       "Post-Apply refresh and final Preview prove the same remote revision 1 and identical pre/post content hash, the same Player Two target, LOCAL COMMIT Revision 1, preserved Save/profile structure and explicit local-match status.",
       "The repaired r3 ordinary-owner account proof restored exactly two r2-invalidated credits 76 to 78; the newly proven single remote-to-local reconciliation capability adds exactly +1 to 79 with no duplicate subproof credit.",
       "Canonical production proof is OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md. New compact starter is START_NEXT_SESSION_V1.4.19_STAGE4_RECONCILIATION_PROVEN.md with byte-identical project mirror and a byte-identical complete SLE handoff mirror.",
-      "PR #153 exact-head Static App and Stability failures were inspected at the exact failed job logs before any edit. Both stopped at the same stability-contract assertion requiring Installable Offline App in PROJECT_STATE.md and NEXT_TASK.md. PROJECT_STATE already preserved it; NEXT_TASK was repaired with one recovery-lock sentence and no runtime/source behavior change.",
+      "First exact-head Static App/Stability logs identified the missing Installable Offline App text in NEXT_TASK. After that exact repair, the next exact logs passed stability contracts and then exposed a separate stale handoff-immediate-next-task contract still asserting the superseded r3 recovery task. That contract was migrated to assert current reconciliation proof/RJR79/idempotency authority while retaining its immutable historical archive checks.",
       "Usage remains null/unavailable because no approved current-session usage value was supplied."
     ]
   }
