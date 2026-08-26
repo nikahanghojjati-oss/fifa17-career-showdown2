@@ -30,22 +30,24 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must prioritize Remote Joining without skipping prerequisite authorization.");
 
-// Current live authority has advanced beyond the repaired r3 incident into a production-proven
-// Stage 4 reconciliation boundary. Protect the current runtime/RJR/reconciliation truth here,
-// while the immutable pre-r3 archives retain the original 1A-1F/v1.5 provenance.
-assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i, "PROJECT_STATE must expose the current reconciliation-proven r3 authority.");
+// Current live authority has advanced through production-proven Stage 4 reconciliation
+// and evidence-proven exact accepted-result replay. Protect current runtime/RJR/next-task
+// truth here while immutable pre-r3 archives retain the original 1A-1F/v1.5 provenance.
+assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN — EXACT ACCEPTED-RESULT REPLAY PROVEN/i, "PROJECT_STATE must expose the current reconciliation plus exact-replay authority.");
 assert.match(state, /Production runtime:\s*`1\.8\.1-r3`[\s\S]+Current runtime merge:\s*`beab9f31cb7f31bf4938f5b0df67394899ef12a0` \(PR #151\)/i, "PROJECT_STATE must identify the current deployed r3 runtime lineage.");
 assert.match(state, /Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r1`/i, "PROJECT_STATE must preserve the known-good rollback generation.");
-assert.match(state, /Remote Joining readiness:\s*`79\/100` under fixed RJR-1/i, "PROJECT_STATE must track current fixed RJR authority.");
+assert.match(state, new RegExp("Remote Joining readiness:\\s*`" + readiness.currentScore + "\\/100` under fixed RJR-1", "i"), "PROJECT_STATE must track the live fixed RJR authority rather than a stale literal.");
 assert.match(state, /App Check enforcement (?:stays|remains) OFF/i, "PROJECT_STATE must preserve the App Check enforcement lock.");
 assert.match(state, /Firebase (?:stays|remains) Spark \/ zero billing/i, "PROJECT_STATE must preserve zero-billing Firebase operation.");
 assert.match(state, /Candidate C (?:remains )?the sole destructive remote-to-local Apply authority/i, "PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 assert.match(state, /Canonical local storage remains exactly `careerModeShowdown\.saveLibrary`, `careerModeShowdown\.legacyShowdowns`, and `careerModeShowdown\.preferences`/i, "PROJECT_STATE must preserve canonical storage authority.");
-assert.match(state, /Stage 5[\s\S]{0,120}(?:still|remains) locked/i, "PROJECT_STATE must keep Stage 5 locked until remaining explicit pre-Stage-5 hardening is proven.");
+assert.match(state, /Stage 5[\s\S]{0,160}(?:still|remains) locked/i, "PROJECT_STATE must keep Stage 5 locked until remaining explicit pre-Stage-5 hardening is proven.");
 assert.match(state, /remote-to-local reconciliation capability adds exactly \+1:\s*78 → 79/i, "PROJECT_STATE must preserve conservative fixed-domain reconciliation credit.");
-assert.match(state, /exact idempotency replay[\s\S]+third-account\/revoked-device production negatives[\s\S]+two-network\/adverse-network\/token-lifecycle hardening/i, "PROJECT_STATE must retain the currently uncredited pre-Stage-5 hardening boundary.");
+assert.match(state, /exact accepted-result idempotency replay capability adds exactly \+1:\s*79 → 80/i, "PROJECT_STATE must preserve the single bounded replay capability credit.");
+assert.match(state, /Remaining explicitly uncredited capability includes third-account\/revoked-device production negatives[\s\S]+two-network\/adverse-network\/token-lifecycle hardening[\s\S]+Exact idempotency replay is no longer an uncredited blocker/i, "PROJECT_STATE must distinguish closed replay from the remaining pre-Stage-5 hardening boundary.");
+assert.match(state, /next real work is the smallest remaining pre-Stage-5 production authorization negative for a third account and\/or a revoked device/i, "PROJECT_STATE must route the next bounded product work to production-negative authorization proof.");
 assert.equal(readiness.modelVersion, "RJR-1", "Cloud foundation must continue using the fixed RJR-1 model.");
-assert.equal(readiness.currentScore, 79, "Cloud foundation must agree with the current evidence-backed RJR score.");
+assert.equal(readiness.currentScore, 80, "Cloud foundation must agree with the current evidence-backed exact-replay RJR checkpoint.");
 assert.match(reconciliationProof, /Gate result[\s\S]+PASS/i, "Current reconciliation authority must be backed by the canonical owner production proof.");
 
 assert.match(historicalState, /formatVersion 2 is live|formatVersion 2 full multi-Save/i, "Archived PROJECT_STATE must preserve formatVersion 2 multi-Save portability production truth.");
@@ -65,7 +67,8 @@ assert.match(next, /PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12
 assert.match(next, /Candidate C (?:as|remains) the sole destructive (?:local )?Apply authority|Candidate C the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
 assert.match(next, /Public discovery, community, matchmaking and global rankings remain prohibited/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
 assert.match(next, /STAGE 5 STILL LOCKED|Do not begin Stage 5 host\/join\/session orchestration/i, "NEXT_TASK must preserve the Stage 5 lock.");
-assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+exact idempotency replay[\s\S]+without creating another authoritative revision or changing local saves/i, "NEXT_TASK must name the concrete smallest remaining pre-Stage-5 product capability.");
+assert.match(next, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i, "NEXT_TASK must preserve exact replay as a closed evidence-backed boundary.");
+assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+third account[\s\S]+revoked device[\s\S]+production boundary/i, "NEXT_TASK must name the concrete smallest remaining production-negative authorization capability.");
 
 assert.match(historicalNext, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "Archived NEXT_TASK must name the closed multi-Save PR #67 milestone.");
 assert.match(historicalNext, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i, "Archived NEXT_TASK must identify the historical v1.5.0 / 1.5.0-r1 product candidate.");
@@ -107,4 +110,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write("PASS Cloud/Sync authority: production-proven r3 reconciliation and RJR79 remain explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n");
+process.stdout.write("PASS Cloud/Sync authority: production-proven r3 reconciliation, evidence-proven exact replay and RJR80 remain explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n");
