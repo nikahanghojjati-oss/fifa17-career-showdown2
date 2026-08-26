@@ -84,7 +84,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #158 is merged and post-merge green at live RJR-1 81/100. The next automatically provable explicit pre-Stage-5 lane is token-lifecycle hardening. Authenticated third-account/revoked-device production negatives remain blocked on legitimate production identity/device state and two-physical-network behavior remains separately uncredited.",
+  "currentLane": "PR #158 adverse-provider safety is merged and post-merge green at live RJR-1 81/100. The next automatically provable explicit pre-Stage-5 lane is token-lifecycle hardening. Authenticated third-account/revoked-device production negatives remain blocked on legitimate production identity/device state and two-physical-network behavior remains separately uncredited.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
