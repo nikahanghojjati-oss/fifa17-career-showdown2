@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-26T00:41:00Z",
+  "recordedAt": "2026-08-26T02:12:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/stage4-owner-reconciliation-proof",
+  "bootstrapBranch": "agent/stage4-idempotency-replay",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+  "lastVerifiedMainSha": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab",
   "lastVerifiedRuntimeMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
   "latestRuntimeMerge": {
     "pullRequest": 151,
@@ -21,19 +21,19 @@
     "pagesArtifactDigest": null
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 153,
-    "branch": "agent/stage4-owner-reconciliation-proof",
+    "pullRequest": 154,
+    "branch": "agent/stage4-idempotency-replay",
     "workflowFamiliesRequired": 14,
     "workflowFamiliesGreen": 0,
     "submittedReviews": 0,
     "unresolvedReviewThreads": 0,
-    "mergeability": null,
+    "mergeability": true,
     "mergeSha": null,
     "pagesRunId": null,
     "pagesConclusion": null,
     "firestoreRulesChanged": false,
     "providerChanged": false,
-    "checkpointStatus": "handoff-package-sealed-candidate-awaiting-final-exact-head-publication-gates"
+    "checkpointStatus": "exact-replay-proven-authority-consistency-fix-awaiting-final-exact-head-publication-gates"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 151,
@@ -78,12 +78,12 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Stage 4 reconciliation is production-proven; finish the smallest remaining explicit pre-Stage-5 Connected Rivalry hardening capability, starting with exact idempotency replay unless fresh live evidence proves a narrower dependency.",
+  "currentLane": "Exact accepted-result idempotency replay is evidence-proven at the real Connected Rivalry runtime plus production Rules boundary; finish PR #154 publication gates, then audit the smallest remaining production-negative authorization capability for a third account and/or revoked device before any Stage 5 session work.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 79,
+    "score": 80,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI, provider publication, WEC, SLE or documentation count."
   },
@@ -139,7 +139,8 @@
     "js/sparkConnectedRivalry.js",
     "firestore.spark.rules",
     "tests/contracts/cloud-sync-remote-contracts.cjs",
-    "tests/contracts/stage4-connected-rivalry-contracts.cjs"
+    "tests/contracts/stage4-connected-rivalry-contracts.cjs",
+    "tests/firebase/stage4-idempotency-replay-emulator.cjs"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -168,10 +169,10 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "stage4-exact-idempotency-replay-production-proof",
+    "name": "stage4-production-negative-authorization-proof",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Prove the exact accepted-result idempotency replay boundary in production without another authoritative revision or local Save mutation, then reassess only the remaining explicit Stage 5 blockers."
+    "summary": "After PR #154 is fully published, prove the smallest remaining production authorization negative for a third account and/or revoked device using existing deployed/runtime proof machinery where possible; request only the minimum owner evidence if production-only identity setup is genuinely unavoidable."
   },
   "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/context pointers, seal WEC as the final branch mutation, and stop before the next substantial milestone."
 }

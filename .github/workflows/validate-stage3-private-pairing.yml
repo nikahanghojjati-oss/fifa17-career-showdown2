@@ -73,4 +73,4 @@ jobs:
           node tests/contracts/stage4-remote-local-reconciliation-contracts.cjs
 
       - name: Run Stage 4 Connected Rivalry Firestore Rules emulator proof
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-connected-rivalry-emulator.cjs"
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-connected-rivalry-emulator.cjs && node tests/firebase/stage4-idempotency-replay-emulator.cjs"

@@ -1,16 +1,17 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-26T00:42:00Z",
+  "recordedAt": "2026-08-26T02:20:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr151-merged",
+      "id": "live-main-pr153-merged",
       "type": "current-main-boundary",
-      "value": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
-      "pullRequest": 151,
-      "finalExactHead": "664a6ba0013d83d20ef88efba85e694a85f072c8",
+      "value": "b4d0a2bc82f0de16da29c8b9c3f602e3997506ab",
+      "pullRequest": 153,
+      "finalExactHead": "69db6f1431b494e55331dc270ebfe232d5d609e1",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r3",
+      "runtimeChanged": false,
       "authority": 1
     },
     {
@@ -19,6 +20,7 @@
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r3",
       "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+      "runtimeReleasePullRequest": 151,
       "prWorkflowFamiliesGreen": 14,
       "ownerAccountRecovery": "production-proven",
       "stage4Reconciliation": "production-proven",
@@ -32,8 +34,8 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 79,
-      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits and Stage 4 production reconciliation adds exactly one previously uncredited capability",
+      "recordedScore": 80,
+      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits, Stage 4 production reconciliation added one previously uncredited capability, and exact accepted-result idempotency replay adds exactly one bounded capability",
       "authority": 1
     },
     {
@@ -56,14 +58,33 @@
     },
     {
       "id": "stage4-exact-idempotency-replay",
+      "type": "completed-evidence-capability",
+      "state": "evidence-proven-permanent-emulator-gate",
+      "capabilities": [
+        "exact accepted request/key returns the original accepted revision and content hash",
+        "replay after a later legitimate authority advance leaves the current authoritative state unchanged",
+        "accepted receipt remains immutable and no duplicate receipt is created",
+        "canonical local Save Library state remains unchanged",
+        "same-key different-fingerprint reuse is rejected",
+        "accepting-actor receipt authority is not exposed to the other owner",
+        "new stale mutations still obey immutable-base CAS"
+      ],
+      "runtimeChanged": false,
+      "rulesChanged": false,
+      "rjrScoreAfterProof": 80,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage4-production-negative-authorization",
       "type": "immediate-next-product-milestone",
-      "state": "uncredited-production-proof-next",
+      "state": "production-proof-audit-next",
       "scope": [
-        "prove exact accepted-result replay behavior",
-        "prove replay creates no additional authoritative revision",
-        "prove replay causes no local Save mutation",
-        "prefer the smallest deployed or production-grounded proof without repeating owner setup",
-        "repair only a genuine observed product defect if one exists"
+        "prove the smallest remaining third-account and/or revoked-device production authorization denial",
+        "reuse existing deployed/runtime proof machinery before requesting any new owner setup",
+        "preserve the exact two-owner private rivalry boundary and current local Save authority",
+        "request only the minimum owner evidence if a production-only identity dependency is genuinely unavoidable",
+        "do not bundle adverse-network or token-lifecycle work unless fresh evidence makes it the same atomic boundary"
       ],
       "stage5Authorized": false,
       "authority": 1,
@@ -74,7 +95,6 @@
       "type": "highest-priority-product-destination",
       "state": "blocked-by-remaining-explicit-pre-stage5-hardening",
       "knownRemainingGaps": [
-        "exact idempotency replay production proof",
         "third-account or revoked-device production negatives",
         "two-network adverse-network and token-lifecycle hardening where still required"
       ],
@@ -139,22 +159,32 @@
     },
     {
       "from": "stage4-exact-idempotency-replay",
+      "to": "rjr1-ledger",
+      "relation": "adds-one-bounded-previously-uncredited-replay-capability"
+    },
+    {
+      "from": "stage4-exact-idempotency-replay",
+      "to": "stage4-production-negative-authorization",
+      "relation": "replay-closed-next-smallest-explicit-stage4-hardening-capability"
+    },
+    {
+      "from": "stage4-production-negative-authorization",
       "to": "stage5-private-remote-joining",
-      "relation": "one-remaining-pre-stage5-capability-before-fresh-blocker-reassessment"
+      "relation": "remaining-production-authorization-gate-before-fresh-stage5-blocker-reassessment"
     },
     {
       "from": "canonical-storage",
-      "to": "stage4-exact-idempotency-replay",
+      "to": "stage4-production-negative-authorization",
       "relation": "must-preserve-local-save-authority"
     },
     {
       "from": "security-zero-billing",
-      "to": "stage4-exact-idempotency-replay",
+      "to": "stage4-production-negative-authorization",
       "relation": "must-preserve-current-provider-and-authorization-locks"
     }
   ],
   "retrievalHints": {
-    "walkDirection": "Start from current product work and traverse only dependencies needed for the immediate capability; preserve proven Stage 3 and Stage 4 locks without rereading history.",
+    "walkDirection": "Start from current Stage 4 production-negative authorization work and traverse only dependencies needed for that immediate capability; preserve proven Stage 3, Stage 4 reconciliation and exact-replay locks without rereading closed history.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

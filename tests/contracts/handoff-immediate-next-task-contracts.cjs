@@ -80,25 +80,30 @@ assert.match(
   "Closed Analytics handoff must retain exact runtime merge and deployed proof."
 );
 
-// Current authority must advance when a later owner-production gate closes. Historical
-// product-chain assertions remain protected against the immutable pre-r3 archive rather
-// than forcing obsolete r3 recovery instructions back into the live execution pointer.
+// Live authority advances with evidence. Historical product-chain assertions remain
+// protected against the immutable pre-r3 archive rather than forcing obsolete work back
+// into the current execution pointer.
 assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"NEXT_TASK must expose the current reconciliation-proven authority.");
-assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+RJR-1 `79\/100`[\s\S]+STAGE 5 STILL LOCKED/i,"NEXT_TASK must preserve current runtime, RJR and Stage 5 truth.");
-assert.match(next,/PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`[\s\S]+664a6ba0013d83d20ef88efba85e694a85f072c8[\s\S]+14 permanent PR workflow families/i,"NEXT_TASK must preserve the exact currently deployed r3 runtime lineage.");
+assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+STAGE 5 STILL LOCKED/i,"NEXT_TASK must preserve current runtime and Stage 5 lock truth.");
+assert.match(next,new RegExp("RJR-1 `"+readiness.currentScore+"\\/100`","i"),"NEXT_TASK must report the score from the live fixed RJR ledger rather than a stale literal.");
+assert.match(next,/Production runtime remains `1\.8\.1-r3`[\s\S]+does not change production runtime bytes[\s\S]+Firestore Security Rules[\s\S]+canonical local storage/i,"NEXT_TASK must preserve the unchanged production runtime and Rules boundary for this proof-only lane.");
 assert.match(next,/OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25\.md/i,"NEXT_TASK must point to the canonical current owner reconciliation proof.");
-assert.match(next,/non-mutating `PREVIEW REMOTE → LOCAL`[\s\S]+stale Preview rejection[\s\S]+verified canonical backup-first[\s\S]+Candidate C[\s\S]+exact local convergence[\s\S]+no remote-authority mutation/i,"NEXT_TASK must preserve the closed reconciliation safety properties.");
-assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+exact idempotency replay[\s\S]+original accepted result[\s\S]+without creating another authoritative revision or changing local saves/i,"NEXT_TASK must give a fresh developer the smallest concrete post-reconciliation product task.");
-assert.match(next,/third-account\/revoked-device production negatives[\s\S]+two-network\/adverse-network\/token-lifecycle/i,"NEXT_TASK must preserve the known remaining explicit pre-Stage-5 hardening without bundling it into the immediate task.");
+assert.match(next,/exact accepted-result idempotency replay[\s\S]+evidence-proven[\s\S]+revision 0[\s\S]+revision 1[\s\S]+original accepted revision 0[\s\S]+original accepted content hash/i,"NEXT_TASK must preserve the newly closed exact accepted-result replay boundary.");
+assert.match(next,/no duplicate receipt[\s\S]+canonical local Save Library snapshot remains unchanged[\s\S]+same-key\/different-fingerprint[\s\S]+other owner[\s\S]+stale[\s\S]+CAS/i,"NEXT_TASK must preserve replay uniqueness, local-state safety, authorization and CAS invariants.");
+assert.match(next,/Fixed RJR-1 is now `80\/100`[\s\S]+single previously explicit uncredited exact accepted-result replay capability/i,"NEXT_TASK must preserve the bounded one-point replay reconciliation rationale.");
+assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+third account[\s\S]+revoked device[\s\S]+production boundary[\s\S]+minimum owner evidence/i,"NEXT_TASK must give the next environment the smallest production-negative authorization audit after replay closes.");
+assert.match(next,/two-network\/adverse-network behavior[\s\S]+token-lifecycle behavior/i,"NEXT_TASK must preserve the other known remaining explicit pre-Stage-5 hardening without bundling it into the immediate task.");
 assert.match(next,/Do not repeat the Stage 4 remote-to-local destructive Apply/i,"NEXT_TASK must forbid redundant destructive reconciliation proof.");
+assert.match(next,/Do not repeat exact replay proof/i,"NEXT_TASK must forbid redundant replay work after the permanent gate owns it.");
 assert.match(next,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"NEXT_TASK must preserve the offline recovery baseline while connected work advances.");
 assert.match(next,/App Check enforcement remains OFF/i,"NEXT_TASK must preserve the App Check enforcement lock.");
-assert.match(next,/after all required tests and current publication gates pass, merge and deploy without repeatedly asking for approval/i,"NEXT_TASK must preserve standing owner publication authorization with gate conditions.");
+assert.match(next,/after all required tests[\s\S]+merge and deploy without repeatedly asking for approval/i,"NEXT_TASK must preserve standing owner publication authorization with gate conditions.");
 assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fixed model.");
-assert.equal(readiness.currentScore,79,"The current fixed RJR authority must reflect the production-proven reconciliation capability.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,79,"The SLE bootstrap must agree with the live RJR ledger.");
-assert.equal(bootstrap.starter?.version,"1.4.19","The SLE bootstrap must expose the current compact successor starter.");
-assert.equal(bootstrap.immediateNextTask?.name,"stage4-exact-idempotency-replay-production-proof","The SLE bootstrap must route the next environment into the exact replay capability.");
+assert.ok(Number.isInteger(readiness.currentScore) && readiness.currentScore >= 80 && readiness.currentScore <= 100,"The fixed RJR authority must not regress below the evidence-proven exact replay checkpoint.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
+assert.equal(bootstrap.starter?.version,"1.4.19","The repository SLE bootstrap must retain the latest checked-in compact successor starter until the next handoff package is sealed.");
+assert.equal(bootstrap.immediateNextTask?.name,"stage4-production-negative-authorization-proof","The SLE bootstrap must route the next environment into the smallest remaining production-negative authorization boundary.");
+assert.match(bootstrap.currentLane,/idempotency replay[\s\S]+third account[\s\S]+revoked device/i,"The SLE bootstrap current lane must agree that replay is proven and production-negative authorization is next.");
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
 assert.match(reconciliationProof,/sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d/i,"Canonical owner evidence must retain the exact reviewed remote gameplay hash.");
 
@@ -214,4 +219,4 @@ assert.match(
   "Developer bootstrap must include PR #61 in the completed dependency chain."
 );
 
-console.log("Handoff immediate-next-task contracts passed: live NEXT_TASK tracks production-proven Stage 4 reconciliation and exact-idempotency next work while the lossless pre-r3 archive preserves historical product proof and permanent Remote Joining locks.");
+console.log("Handoff immediate-next-task contracts passed: live NEXT_TASK and SESSION_BOOTSTRAP track the fixed RJR ledger, preserve the production-proven Stage 4 reconciliation and exact-replay closure, and route the next environment into the smallest remaining production-negative authorization boundary while the lossless pre-r3 archive preserves historical product proof and permanent Remote Joining locks.");
