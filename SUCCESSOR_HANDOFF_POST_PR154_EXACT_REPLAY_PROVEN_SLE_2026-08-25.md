@@ -1,6 +1,6 @@
 # SUCCESSOR HANDOFF — POST-PR #154 EXACT ACCEPTED-RESULT REPLAY PROVEN / RJR 80
 
-SLE = Smart Lean Efficient. This rule is mandatory for this successor and every later successor. A plain chat-only prompt or one unmirrored handoff is not a complete project transition.
+SLE = Smart Lean Efficient. This rule is mandatory for this successor and every later successor. A plain chat-only prompt or one unmirrored handoff is not a complete project transition. Whenever a fresh chat is recommended, the closing developer must additionally give the owner one short freshly generated repository-first copy-paste prompt derived from the current starter/live boundary.
 
 ## 1. Live-first authority
 
@@ -266,7 +266,17 @@ WEC authority:
 
 `WORK_ENVIRONMENT_STATUS.json`
 
-At every future Handoff proximity 100%, recursively generate the complete mirrored SLE package, refresh genuinely changed current pointers, seal WEC, and stop before another substantial milestone.
+At every future Handoff proximity 100%, recursively generate the complete mirrored SLE package, refresh genuinely changed current pointers, generate the short repository-first next-developer prompt, seal WEC, and stop before another substantial milestone.
+
+## 10A. Mandatory repository-first next-developer prompt
+
+Every future developer/chat that recommends a fresh successor must give the owner one concise, freshly generated prompt from the current verified boundary. It is an owner convenience layer only and must not substitute for the complete SLE package.
+
+Generate it with `npm run work:next-prompt` when available. The current semantic prompt is:
+
+`Open the live repository nikahanghojjati-oss/fifa17-career-showdown2 and read START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md first. Follow its SLE/deep references as needed. Independently verify current main, relevant PR state, production/runtime/deployment state, REMOTE_JOINING_READINESS.json, NEXT_TASK.md, and the closing WEC. Then initialize a fresh WEC and execute IMMEDIATE NEXT TASK AFTER FULL STUDY. Treat the handoff as orientation only; current source and live GitHub/provider/deployment evidence win.`
+
+At each later handoff, regenerate this prompt using the new current starter and live authority instead of copying this text forward unchanged. The successor inherits this rule recursively.
 
 ## 11. Required owner-facing format
 
