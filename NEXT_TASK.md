@@ -2,7 +2,7 @@
 
 Status: `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / RJR-1 `81/100` / STAGE 5 STILL LOCKED PENDING THE REMAINING EXPLICIT PRE-STAGE-5 HARDENING.
 
-Production runtime remains `1.8.1-r3`. This adverse-network proof lane does not change production runtime bytes, Firestore Security Rules, Firebase configuration, billing, canonical local storage, Candidate C authority, App Check enforcement, Google Auth behavior or trusted-runtime IAM.
+Production runtime remains `1.8.1-r3`. The exact deployed runtime checkpoint is `v1.8.1 / 1.8.1-r3` from PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`. This adverse-network proof lane does not change production runtime bytes, Firestore Security Rules, Firebase configuration, billing, canonical local storage, Candidate C authority, App Check enforcement, Google Auth behavior or trusted-runtime IAM.
 
 Current environment: `we-2026-08-26-private-remote-joining-session-boundary-5c7a`
 
@@ -34,7 +34,7 @@ Advance the next automatically provable explicit pre-Stage-5 capability: token-l
 
 Study the deployed `1.8.1-r3` App Check/Auth lifecycle and prove the smallest meaningful lifecycle boundary without changing provider policy or enabling App Check enforcement. Existing source already configures App Check token auto-refresh and records initial expiry when the SDK exposes it, but current proof does not establish a later expiry/refresh transition. Prefer deterministic, bounded proof that a token expiry/refresh transition cannot corrupt Connected Account/Connected Rivalry state or local saves. Do not invent a long-running production wait if a deterministic provider-compatible lifecycle proof is sufficient; do not build a speculative scheduler unless source evidence demonstrates it is needed.
 
-Two-physical-network behavior remains separately uncredited and must not be claimed from deterministic CI. Authenticated third-account/revoked-device production negatives remain blocked on legitimate identity/device state. Do not bundle these categories together merely to raise the score.
+Two-physical-network behavior remains separately uncredited and must not be claimed from deterministic CI. The third account and revoked device remain a separate production boundary blocked on legitimate authenticated identity/device state. Do not bundle these categories together merely to raise the score.
 
 Do not begin Stage 5 host/join/session orchestration until the remaining explicit pre-Stage-5 gates are genuinely closed. Once those gates are closed, Stage 5 Private Remote Joining becomes the next real product milestone.
 
