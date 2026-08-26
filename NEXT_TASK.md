@@ -46,6 +46,8 @@ Do not begin Stage 5 host/join/session orchestration until the fresh successor v
 
 ## Permanent locks
 
+The Installable Offline App remains the local-first startup and recovery baseline; Remote Joining hardening must not make ordinary local startup depend on Firebase availability.
+
 Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, Candidate C the sole destructive Apply authority. Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
 
 ## Work Environment Continuity
