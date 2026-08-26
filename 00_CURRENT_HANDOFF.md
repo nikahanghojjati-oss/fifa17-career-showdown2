@@ -51,6 +51,12 @@ PR #87 — Post-PR #86 authority reconciliation — DONE / MERGED / PROVEN, exac
 
 Historical pre-PR #88 wording: Current Stage 2D bounded prerequisite. Historical Stage 2D status: Stage 2D — Production Firebase Environment & Configuration Preflight — is CURRENT / IMPLEMENTATION-AUTHORIZED / NON-RUNTIME / PRODUCTION FIREBASE DISCONNECTED. Historical Stage 2D WEC wording: the fresh WEC assessment is currently `PREPARE_HANDOFF`.
 
+Stage 2E — Trusted Application Account Bootstrap Boundary — DONE / MERGED / PROVEN through PR #89, exact validated head `f7d462b3d8252b2912f34a1589e457c03e977bd3`, squash merge `0cb56c22f82facdb248c8c68ec59064c5612c543`.
+
+Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — DONE / MERGED / PROVEN through PR #90, exact validated head `1b0178979ea421b3bf27dd7675ad973aa7bfad8c`, squash merge `a27147695607537a1cd1543efb84e6583929a696`.
+
+At the Stage 2E / Stage 2F / Stage 2G transition boundary the application identity remained `v1.4.0` with runtime `1.4.0-r1`; production Firebase remained disconnected / NOT CONNECTED and Private Remote Joining remained DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED / blocked.
+
 Stage 2G — Trusted Account Bootstrap Execution Boundary — DONE / MERGED / PROVEN through PR #91, exact validated final head `9b11ed82766d011bef6f5ea29ba2a9cd20e4ad52`, squash merge `f97024cf4be3e76cf25c510fb364675b8e747762`.
 
 Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — historical status: AUTHORIZED NEXT PREREQUISITE / IMPLEMENTATION NOT STARTED / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED. This historical authorization was later completed and superseded; Stage 2H is not current work.
