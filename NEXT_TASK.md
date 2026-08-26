@@ -14,7 +14,7 @@ Historical completed-stage provenance remains closed and protected. `CURRENT IMP
 
 Historical immediate-predecessor recovery heading retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Its bounded incident locks were: Do not enable App Check enforcement; preserve unchanged production Rules. That recovery checkpoint is closed and superseded by owner-proven account restoration, Stage 4 reconciliation, exact accepted-result replay, and deterministic adverse-provider safety; it is not current implementation authority or the current score.
 
-Historical readiness checkpoint retained only as provenance: RJR-1 `79/100` was the exact post-reconciliation / pre-exact-replay checkpoint. It was superseded first by exact accepted-result replay at 80 and then by deterministic adverse-provider safety at the current RJR-1 `81/100`; it is not the current score.
+Historical readiness checkpoint retained only as provenance: RJR-1 `79/100` was the exact post-reconciliation / pre-exact-replay checkpoint. It was superseded first by exact accepted-result replay at 80 and then by deterministic adverse-provider safety at the current RJR-1 `81/100`; it is not the current score. Historical release-authority shorthand `exact idempotency replay` refers to the now-proven exact accepted-result idempotency replay capability and is retained only for compatibility with earlier authority wording.
 
 ## What is now closed
 
