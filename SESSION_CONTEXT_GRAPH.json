@@ -1,14 +1,14 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-26T03:05:00Z",
+  "recordedAt": "2026-08-26T05:25:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr154-merged",
+      "id": "live-main-pr157-merged",
       "type": "current-main-boundary",
-      "value": "141a7937a9e4cf580178c857dc6267e464f918aa",
-      "pullRequest": 154,
-      "finalExactHead": "317121cd3298f2d452b079c06af53b21470be57b",
+      "value": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
+      "pullRequest": 157,
+      "finalExactHead": "2e482dfdf8e6a313fb47e890e27761801fa94746",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r3",
       "runtimeChanged": false,
@@ -23,7 +23,6 @@
       "runtimeRevision": "1.8.1-r3",
       "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
       "runtimeReleasePullRequest": 151,
-      "prWorkflowFamiliesGreen": 14,
       "ownerAccountRecovery": "production-proven",
       "stage4Reconciliation": "production-proven",
       "appCheckEnforcement": false,
@@ -36,24 +35,14 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 80,
-      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits, Stage 4 production reconciliation added one previously uncredited capability, and exact accepted-result idempotency replay added exactly one bounded capability",
+      "recordedScore": 81,
+      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits, Stage 4 production reconciliation added one capability, exact accepted-result replay added one capability, and deterministic adverse-provider safety adds exactly one bounded capability",
       "authority": 1
     },
     {
       "id": "stage4-reconciliation-production-proof",
       "type": "completed-production-capability",
       "proofRecord": "OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md",
-      "capabilities": [
-        "non-mutating exact remote revision/hash Preview",
-        "exact Player Two local-target binding",
-        "stale-intent rejection before backup and local mutation",
-        "explicit confirmation and verified canonical backup before Apply",
-        "Candidate C-only destructive local Apply",
-        "stable Player Two manager/profile and real Save Library structure",
-        "exact local convergence to remote revision 1",
-        "unchanged authoritative remote revision/hash after local Apply"
-      ],
       "rjrScoreAfterProof": 79,
       "authority": 1,
       "riskCriticality": 1
@@ -63,17 +52,7 @@
       "type": "completed-evidence-capability",
       "state": "merged-postmerge-green-permanent-emulator-gate",
       "pullRequest": 154,
-      "finalExactHead": "317121cd3298f2d452b079c06af53b21470be57b",
       "mergeSha": "141a7937a9e4cf580178c857dc6267e464f918aa",
-      "capabilities": [
-        "exact accepted request/key returns the original accepted revision and content hash",
-        "replay after a later legitimate authority advance leaves the current authoritative state unchanged",
-        "accepted receipt remains immutable and no duplicate receipt is created",
-        "canonical local Save Library state remains unchanged",
-        "same-key different-fingerprint reuse is rejected",
-        "accepting-actor receipt authority is not exposed to the other owner",
-        "new stale mutations still obey immutable-base CAS"
-      ],
       "runtimeChanged": false,
       "rulesChanged": false,
       "rjrScoreAfterProof": 80,
@@ -81,19 +60,49 @@
       "riskCriticality": 1
     },
     {
-      "id": "stage4-production-negative-authorization",
-      "type": "immediate-next-product-milestone",
-      "state": "production-proof-audit-next",
-      "scope": [
-        "prove the smallest remaining third-account and/or revoked-device production authorization denial",
-        "reuse existing deployed/runtime proof machinery before requesting any new owner setup",
-        "preserve the exact two-owner private rivalry boundary and current local Save authority",
-        "request only the minimum owner evidence if a production-only identity dependency is genuinely unavoidable",
-        "do not bundle adverse-network or token-lifecycle work unless fresh evidence makes it the same atomic boundary"
+      "id": "stage4-production-negative-authorization-audit",
+      "type": "completed-blocker-audit",
+      "state": "merged-postmerge-green-legitimate-production-state-required",
+      "pullRequest": 157,
+      "mergeSha": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
+      "result": "authenticated third-account and revoked-device production negatives cannot be validly automated without legitimate authenticated production identity/device state; synthetic unauthenticated probes are non-evidence",
+      "rjrDelta": 0,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage4-deterministic-adverse-network",
+      "type": "completed-evidence-capability-candidate",
+      "state": "pr158-exact-head-publication-gates-pending",
+      "pullRequest": 158,
+      "proof": "tests/contracts/stage4-adverse-network-contracts.cjs",
+      "capabilities": [
+        "attach/read provider unavailability returns bounded provider errors",
+        "publish passes active registered-device and exactly-two-owner rivalry preflight before the induced provider loss",
+        "immutable local projection planning completes before the remote mutation attempt",
+        "provider loss before remote commit leaves canonical local Save Library byte-for-byte unchanged",
+        "UI failure paths preserve local-save recovery messaging"
       ],
-      "knownExistingEmulatorProof": [
-        "registered third account attachment denied with permission-denied",
-        "revoked Player Two device publication denied with CONNECTED_RIVALRY_DEVICE_REVOKED and unchanged authority"
+      "rjrScoreAfterProof": 81,
+      "notCredited": [
+        "two-physical-network testing",
+        "token lifecycle",
+        "authenticated third-account/revoked-device production negatives",
+        "actual Remote Joining sessions"
+      ],
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage4-token-lifecycle-hardening",
+      "type": "immediate-next-product-milestone",
+      "state": "next-after-pr158-publication",
+      "scope": [
+        "study deployed r3 App Check/Auth lifecycle",
+        "prove the smallest meaningful expiry or refresh transition",
+        "preserve Connected Account and Connected Rivalry state boundaries",
+        "prove local saves cannot be corrupted by token lifecycle failure",
+        "keep App Check enforcement OFF and avoid speculative scheduler work unless source evidence requires it"
       ],
       "stage5Authorized": false,
       "authority": 1,
@@ -104,8 +113,10 @@
       "type": "highest-priority-product-destination",
       "state": "blocked-by-remaining-explicit-pre-stage5-hardening",
       "knownRemainingGaps": [
-        "third-account or revoked-device production negatives",
-        "two-network adverse-network and token-lifecycle hardening where still required"
+        "authenticated third-account or revoked-device production negatives",
+        "two-physical-network hardening",
+        "token-lifecycle hardening",
+        "abuse and release acceptance boundaries"
       ],
       "publicDiscovery": false,
       "publicMatchmaking": false,
@@ -151,49 +162,20 @@
     }
   ],
   "edges": [
-    {
-      "from": "production-runtime-v181-r3",
-      "to": "stage4-reconciliation-production-proof",
-      "relation": "deployed-runtime-owner-production-proves"
-    },
-    {
-      "from": "stage4-reconciliation-production-proof",
-      "to": "rjr1-ledger",
-      "relation": "adds-one-previously-uncredited-fixed-capability"
-    },
-    {
-      "from": "stage4-reconciliation-production-proof",
-      "to": "stage4-exact-idempotency-replay",
-      "relation": "next-smallest-explicit-stage4-hardening-capability"
-    },
-    {
-      "from": "stage4-exact-idempotency-replay",
-      "to": "rjr1-ledger",
-      "relation": "adds-one-bounded-previously-uncredited-replay-capability"
-    },
-    {
-      "from": "stage4-exact-idempotency-replay",
-      "to": "stage4-production-negative-authorization",
-      "relation": "replay-closed-next-smallest-explicit-stage4-hardening-capability"
-    },
-    {
-      "from": "stage4-production-negative-authorization",
-      "to": "stage5-private-remote-joining",
-      "relation": "remaining-production-authorization-gate-before-fresh-stage5-blocker-reassessment"
-    },
-    {
-      "from": "canonical-storage",
-      "to": "stage4-production-negative-authorization",
-      "relation": "must-preserve-local-save-authority"
-    },
-    {
-      "from": "security-zero-billing",
-      "to": "stage4-production-negative-authorization",
-      "relation": "must-preserve-current-provider-and-authorization-locks"
-    }
+    {"from":"production-runtime-v181-r3","to":"stage4-reconciliation-production-proof","relation":"deployed-runtime-owner-production-proves"},
+    {"from":"stage4-reconciliation-production-proof","to":"rjr1-ledger","relation":"adds-one-fixed-capability"},
+    {"from":"stage4-reconciliation-production-proof","to":"stage4-exact-idempotency-replay","relation":"next-smallest-stage4-hardening"},
+    {"from":"stage4-exact-idempotency-replay","to":"rjr1-ledger","relation":"adds-one-bounded-replay-capability"},
+    {"from":"stage4-exact-idempotency-replay","to":"stage4-production-negative-authorization-audit","relation":"next-production-authorization-audit"},
+    {"from":"stage4-production-negative-authorization-audit","to":"stage4-deterministic-adverse-network","relation":"production-identity-state-blocked-select-next-automatic-hardening"},
+    {"from":"stage4-deterministic-adverse-network","to":"rjr1-ledger","relation":"adds-one-bounded-deterministic-adverse-provider-capability"},
+    {"from":"stage4-deterministic-adverse-network","to":"stage4-token-lifecycle-hardening","relation":"next-automatically-provable-pre-stage5-capability"},
+    {"from":"stage4-token-lifecycle-hardening","to":"stage5-private-remote-joining","relation":"remaining-pre-stage5-gate-before-session-orchestration"},
+    {"from":"canonical-storage","to":"stage4-deterministic-adverse-network","relation":"must-preserve-local-save-authority"},
+    {"from":"security-zero-billing","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-current-provider-and-enforcement-locks"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from current Stage 4 production-negative authorization product work and traverse only dependencies needed for that immediate capability; preserve proven Stage 3, Stage 4 reconciliation and exact-replay locks without rereading closed history.",
+    "walkDirection": "Start from current Stage 4 token-lifecycle product work after PR #158 adverse-network publication; preserve proven reconciliation, exact-replay and deterministic adverse-provider locks without rereading closed history.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
