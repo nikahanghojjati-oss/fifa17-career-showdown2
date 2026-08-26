@@ -6,6 +6,8 @@ Production runtime remains `1.8.1-r3`. This adverse-network proof lane does not 
 
 Current environment: `we-2026-08-26-private-remote-joining-session-boundary-5c7a`
 
+Starting independently verified live main: `1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb`
+
 Latest independently verified merged main before this candidate: `ac1a2d7cb30d35e82609b67efa9c8bb820ee9883` (PR #157 squash merge). PR #157 closed the production-negative automation audit without claiming synthetic 403 evidence; all 14 exact-head PR workflow families and all 15 post-merge runs were green.
 
 Historical completed-stage provenance remains closed and protected. Stage 1 Cloud / Sync Readiness Phase 1A through 1F and Private Account/Auth Stage 2A through 2I remain DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
