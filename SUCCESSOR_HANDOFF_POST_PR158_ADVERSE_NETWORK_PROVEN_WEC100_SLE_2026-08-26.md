@@ -6,7 +6,7 @@ Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 Closing environment: `we-2026-08-26-private-remote-joining-session-boundary-5c7a`
 
-This handoff is orientation only. The successor must independently fetch current source, live GitHub, provider state and deployed evidence. Those sources plus later owner instructions override any stale recorded statement here. The successor must validate the inherited closing WEC, archive its final facts, create a fresh unique WEC with reset counters, and only then assess its own environment. Never inherit this predecessor's `HANDOFF_AT_CHECKPOINT` decision as the successor's starting decision.
+This handoff is orientation only. The successor must independently fetch current source, live GitHub, provider state and deployed evidence. Those sources plus later owner instructions override any stale recorded statement here. The successor must validate the inherited closing WEC, archive its final facts, create a fresh unique WEC with reset counters, and only then assess its own environment. Never inherit this predecessor's `HANDOFF_NOW` decision as the successor's starting decision.
 
 ## 1. Exact verified live boundary
 
@@ -69,24 +69,25 @@ Standing owner merge/deploy authorization remains active through project complet
 
 ## 8. IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Do not begin Stage 5 host/join/session orchestration yet. The next automatically provable explicit pre-Stage-5 capability is token-lifecycle hardening.
+Do not begin Stage 5 host/join/session orchestration yet. The next automatically provable explicit pre-Stage-5 capability is token-lifecycle hardening, but PR #159 publication is a mandatory predecessor gate if it remains open.
 
 Ordered execution:
 1. Independently verify live `main`, current PR/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, this starter/handoff, and the closing WEC.
-2. Validate and archive the inherited WEC; initialize a fresh unique successor WEC with reset counters before assessing.
-3. Read the deployed r3 lifecycle path, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, `tests/contracts/production-app-check-runtime-contracts.cjs`, browser App Check audit coverage, and the Connected Rivalry safety boundary.
-4. Characterize what is already proven: App Check auto-refresh is configured, initial token observation/expiry may be exposed, enforcement remains OFF, Auth uses popup-only session persistence, local-first recovery remains the fallback.
-5. Select the smallest deterministic provider-compatible later expiry/refresh transition that is genuinely unproven. Prefer focused proof over a long production TTL wait or speculative scheduler.
-6. Prove both successful and failed lifecycle transition handling cannot corrupt Connected Account state, Connected Rivalry state or canonical local saves. Preserve bounded recovery/error behavior.
-7. Do not add persistent Firestore cache, extra Auth scopes, billing, broader IAM, new storage authority or App Check enforcement merely to make the test easier.
-8. Award RJR only if a fixed-domain capability is genuinely closed. Keep two-physical-network behavior and authenticated production third-account/revoked-device negatives separately uncredited.
-9. Reassess remaining explicit pre-Stage-5 gates after token-lifecycle proof. Stage 5 becomes the next real product milestone only when those gates are genuinely closed.
+2. Validate and archive the inherited WEC; initialize a fresh unique successor WEC with reset counters before assessing. Never inherit this predecessor's `HANDOFF_NOW` decision.
+3. If PR #159 is still open, first complete read-only validation of its immutable WEC-100 head, publish it under standing authorization only if the required gates remain clean, then verify post-merge `main` and deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
+4. Read the deployed r3 lifecycle path, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, `tests/contracts/production-app-check-runtime-contracts.cjs`, browser App Check audit coverage, and the Connected Rivalry safety boundary.
+5. Characterize what is already proven: App Check auto-refresh is configured, initial token observation/expiry may be exposed, enforcement remains OFF, Auth uses popup-only session persistence, local-first recovery remains the fallback.
+6. Select the smallest deterministic provider-compatible later expiry/refresh transition that is genuinely unproven. Prefer focused proof over a long production TTL wait or speculative scheduler.
+7. Prove both successful and failed lifecycle transition handling cannot corrupt Connected Account state, Connected Rivalry state or canonical local saves. Preserve bounded recovery/error behavior.
+8. Do not add persistent Firestore cache, extra Auth scopes, billing, broader IAM, new storage authority or App Check enforcement merely to make the test easier.
+9. Award RJR only if a fixed-domain capability is genuinely closed. Keep two-physical-network behavior and authenticated production third-account/revoked-device negatives separately uncredited.
+10. Reassess remaining explicit pre-Stage-5 gates after token-lifecycle proof. Stage 5 becomes the next real product milestone only when those gates are genuinely closed.
 
 ## 9. Closing WEC
 
 Closing environment: `we-2026-08-26-private-remote-joining-session-boundary-5c7a`.
 Starting independently verified main for that environment: `1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb`.
-The environment completed two major bounded phases: PR #157 production-negative dependency audit and PR #158 deterministic adverse-provider safety/publication. Usage remained unavailable; no percentage was invented or inherited. Final transition decision is `HANDOFF_AT_CHECKPOINT` for this predecessor only. The successor starts fresh.
+The environment completed two major bounded phases: PR #157 production-negative dependency audit and PR #158 deterministic adverse-provider safety/publication. Usage remained unavailable; no percentage was invented or inherited. Final transition decision is `HANDOFF_NOW` for this predecessor only. The successor starts fresh.
 
 ## 10. SLE recursion and repository-first next-developer prompt
 
