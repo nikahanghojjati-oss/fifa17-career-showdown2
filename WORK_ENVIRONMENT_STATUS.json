@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T02:02:00Z",
+  "recordedAt": "2026-08-27T02:13:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 3,
+    "largeEvidenceEvents": 5,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -24,20 +24,21 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 22,
+    "handoffCompleteness": 35,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Advance the first genuinely uncredited Stage 4 token-lifecycle hardening capability after PR #159 publication. Observe a later Firebase App Check token transition through the production SDK lifecycle without adding a speculative scheduler, exposing raw token material, enabling enforcement, or changing account/provider/storage policy. Prove that token refresh success and refresh observation failure cannot corrupt Connected Account/Connected Rivalry state or canonical local saves.",
-    "lastSafeCheckpoint": "PR #159 immutable sealed head bca3da0e1be82d7217e6e7db47900c84ff2b22e5 was published by expected-head squash merge to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. Deploy GitHub Pages run 33031387118 succeeded. Stability run 33031387112 completed successfully including deployed runtime-byte verification, production App Check token path, Save Library, Candidate A/B/C, offline install and complete deployed journey. Fixed RJR remains 81/100 because PR #159 was continuity-only.",
-    "nextSafeAction": "Implement and permanently test the smallest production-compatible App Check later-token lifecycle observer using Firebase SDK token-change semantics. Keep auto-refresh SDK-owned; preserve raw-token redaction, local-first startup, Connected Account/Connected Rivalry continuity, memory-only Firestore, browserSessionPersistence and enforcement OFF. After focused proof passes, reconcile fixed RJR only if the resulting capability genuinely closes an uncredited RJR-1 boundary.",
+    "currentTask": "Validate and publish the first genuinely uncredited Stage 4 token-lifecycle hardening capability as v1.8.1 / 1.8.1-r4. The runtime now observes later Firebase App Check SDK token transitions through onTokenChanged, exposes a bounded explicit force-refresh proof path, keeps SDK auto-refresh as the scheduler, and preserves raw-token redaction, Connected Account/Connected Rivalry continuity and canonical local-save safety while enforcement remains OFF.",
+    "lastSafeCheckpoint": "Draft PR #160 exists from live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. Initial exact candidate cc2a541f034249739f9e9c2b7634510ca04f1d02 passed JavaScript syntax but Static App and Stability both stopped on one shared shell-coherence assertion: js/app.js still requested visual-fidelity-r3.css with the old 1.8.1-r3 query while the candidate shell is r4. This was one evidence-grounded corrected failure, not a token-lifecycle behavior failure. The stylesheet query is now aligned to 1.8.1-r4; the next exact head must rerun the full gates.",
+    "nextSafeAction": "Require fresh exact-head Static App and Stability contract execution after the app.js r4 correction. If the permanent stage4-token-lifecycle contract reaches execution and passes, inspect all remaining workflow families for independent defects. Reconcile candidate RJR only after the focused capability proof is green; do not award points for packaging or CI volume.",
     "unfinishedWork": [
-      "Add bounded production token-change observation with no raw token exposure and no custom refresh timer.",
-      "Add deterministic contract coverage for a later-expiry transition and observer failure while connected services/local-save state remain unchanged.",
-      "Wire the focused token-lifecycle proof into the permanent contract suite.",
-      "Run exact-head CI/review/thread/mergeability gates and publish only if clean under standing owner authorization.",
-      "Keep authenticated third-account/revoked registered-device production negatives blocked on legitimate production identity/device state; synthetic probes remain non-evidence.",
+      "Prove tests/contracts/stage4-token-lifecycle-contracts.cjs passes inside the permanent repository suite on the corrected exact head.",
+      "Reconcile REMOTE_JOINING_READINESS.json only if the capability genuinely closes the fixed RJR-1 token-lifecycle gap.",
+      "Bring all 14 permanent PR workflow families, review/thread and mergeability gates green on one unchanged final head.",
+      "Publish r4 under standing owner authorization only after clean exact-head gates, then verify live main, Pages/runtime bytes and deployed Stability/App Check journey.",
+      "After r4 production proof, reassess WEC and advance the next smallest unblocked Remote Joining dependency if continuation remains permitted.",
+      "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes remain non-evidence.",
       "Two-physical-network behavior remains separately uncredited."
     ],
     "knownHazards": [
@@ -55,8 +56,10 @@
     "evidenceNotes": [
       "Predecessor closure is preserved in work-environment-archives/WEC_CLOSURE_PR159_2026-08-27.json; predecessor HANDOFF_NOW is not inherited.",
       "Fresh successor assessment from reset counters permits CONTINUE; no predecessor corrected-failure or stale-fact counters were carried forward.",
-      "Official Firebase JavaScript App Check API exposes onTokenChanged for changes in AppCheckTokenResult and the current runtime already enables isTokenAutoRefreshEnabled:true, so lifecycle observation can remain SDK-owned rather than timer-driven.",
-      "Current production runtime records an initial tokenExpireTimeMillis but has no later token-change observation path; that is the bounded capability gap being addressed.",
+      "PR #159 merged to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff and its 15 post-merge runs are green; Pages run 33031387118 and full deployed Stability run 33031387112 succeeded.",
+      "Official Firebase JavaScript App Check API exposes onTokenChanged and getToken(forceRefresh); r4 uses those SDK lifecycle surfaces while retaining isTokenAutoRefreshEnabled:true and adding no custom refresh timer.",
+      "r4 permanent proof checks later-expiry transition, same-expiry dedupe, force-refresh success/failure, observer error, raw-token redaction, account-service identity preservation and byte-identical local/rivalry fixtures.",
+      "Initial PR #160 head cc2a541f034249739f9e9c2b7634510ca04f1d02 had one shared static shell-coherence defect only: app.js visual-fidelity query remained r3. Syntax passed; Static App and Stability stopped before the new repository suite could execute. The defect is corrected on the current branch.",
       "Usage remains unknown because no approved current-session usage value is exposed; no percentage is inherited or estimated."
     ]
   }
