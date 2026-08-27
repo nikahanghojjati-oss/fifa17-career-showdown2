@@ -1,6 +1,6 @@
 # Career Mode Showdown v1.8.1 — Runtime r5
 
-Status: RELEASE CANDIDATE — SUSTAINED MUTATION-FREQUENCY HARDENING — CAPABILITY PROOF PENDING FINAL EXACT-HEAD CI / DEPLOYMENT PENDING
+Status: RELEASE CANDIDATE — SUSTAINED MUTATION-FREQUENCY HARDENING — CAPABILITY EVIDENCE-PROVEN / DEPLOYMENT PENDING
 
 Application version: `v1.8.1`
 Runtime asset revision: `1.8.1-r5`
@@ -8,7 +8,7 @@ Previous known-good runtime: `1.8.1-r4`
 
 ## Why r5 exists
 
-Runtime r4 production-proved deterministic App Check token-lifecycle safety while Connected Rivalry retained immutable-base CAS, exact accepted-result replay, structural abuse bounds and Candidate C-only destructive remote-to-local Apply. The remaining pre-Stage-5 abuse gap is sustained distinct mutation frequency: an authorized active device could otherwise submit a valid new revision immediately after the preceding accepted revision.
+Runtime r4 production-proved deterministic App Check token-lifecycle safety while Connected Rivalry retained immutable-base CAS, exact accepted-result replay, structural abuse bounds and Candidate C-only destructive remote-to-local Apply. The remaining pre-Stage-5 abuse gap was sustained distinct mutation frequency: an authorized active device could otherwise submit a valid new revision immediately after the preceding accepted revision.
 
 Runtime r5 adds a narrow zero-billing write-frequency boundary without changing who is authorized, the canonical local Save authority, pairing semantics or Stage 5.
 
@@ -29,15 +29,16 @@ Runtime r5 adds a narrow zero-billing write-frequency boundary without changing 
 
 ## Permanent proof
 
-`tests/contracts/stage4-mutation-rate-limit-contracts.cjs` protects the runtime SDK surface, server-time Rules boundary and permanent storage/provider/session locks.
+PR #163 proof head `e26d37dc598c956e8e7a82e1f9c0b3d919326914` passed the permanent Validate Stage 3 Private Pairing lane including both new proofs:
 
-`tests/firebase/stage4-mutation-rate-limit-emulator.cjs` is the dedicated Firestore Rules proof. It must demonstrate that a sustained distinct revision is denied while the server-time window is closed with no new authority or receipt, that a skewed caller clock cannot control the authoritative timestamp, that exact accepted-result replay still succeeds without another mutation during the closed window, and that the same previously denied logical mutation advances exactly once after the window opens.
+- `tests/contracts/stage4-mutation-rate-limit-contracts.cjs` protects the runtime SDK surface, server-time Rules boundary and permanent storage/provider/session locks.
+- `tests/firebase/stage4-mutation-rate-limit-emulator.cjs` proves a sustained distinct revision is denied while the server-time window is closed with no new authority or receipt, a skewed caller clock cannot control the authoritative timestamp, exact accepted-result replay still succeeds without another mutation during the closed window, and the same previously denied logical mutation advances exactly once after the window opens while canonical local Save Library state remains unchanged.
 
-The capability is not considered evidence-proven until that permanent emulator proof passes on the exact candidate line and the final unchanged publication head passes the normal permanent workflow gates.
+Final publication still requires the exact unchanged r5 publication head to pass the normal permanent workflow/review/merge gates and deployed verification.
 
 ## Readiness accounting
 
-Fixed RJR-1 remains `83/100` until the dedicated permanent sustained mutation-frequency proof passes. Once it passes, this distinct broader abuse-resistance capability may add exactly `+1`, from 83 → 84. Source edits, runtime packaging, CI volume, PR publication, merge, deployment and provider publication do not earn duplicate readiness credit.
+Fixed RJR-1 is now `84/100`. The dedicated permanent sustained mutation-frequency proof adds exactly `+1`, from 83 → 84, for one distinct broader abuse-resistance capability in the fixed real-device-hardening/release domain. Source edits, runtime packaging, CI volume, PR publication, merge, deployment and provider publication earn no duplicate readiness credit.
 
 Production publication of the strengthened `firestore.spark.rules` remains a separate provider verification gate. Repository candidate Rules must not be described as production-live without provider evidence.
 
