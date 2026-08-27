@@ -1,4 +1,4 @@
-# CURRENT OVERRIDE — STAGE 4 TOKEN-LIFECYCLE HARDENING CANDIDATE — r3 PRODUCTION BASELINE REMAINS PROVEN — 2026-08-27 ET
+# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN — TOKEN-LIFECYCLE HARDENING CANDIDATE — 2026-08-27 ET
 
 Status: production `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / candidate `v1.8.1 / 1.8.1-r4` TOKEN-LIFECYCLE HARDENING UNDER EXACT VALIDATION / RJR-1 `81/100` / STAGE 5 STILL LOCKED PENDING THE REMAINING EXPLICIT PRE-STAGE-5 HARDENING.
 
@@ -44,7 +44,7 @@ The r4 candidate must prove the next automatically provable explicit pre-Stage-5
 
 Permanent `tests/contracts/stage4-token-lifecycle-contracts.cjs` must prove all of the following before readiness can move: a distinct later expiry is observed as a real lifecycle transition; duplicate same-expiry notification does not fabricate another transition; force-refresh success is bounded; force-refresh outage is bounded; observer failure is metadata-only; raw App Check tokens never enter diagnostics; existing Auth/Firestore account services are not recreated; Connected Rivalry authority remains unchanged; canonical local Save Library bytes remain unchanged; App Check enforcement remains OFF.
 
-Initial PR #160 validation exposed release-shell propagation only before the focused lifecycle contract could execute. The stale r3 visual stylesheet query in `js/app.js` is corrected. The stale r3 Home Reus thumbnail query and current-authority r3 candidate omissions are being corrected at source. Do not weaken tests to bypass these whole-shell invariants.
+Initial PR #160 validation exposed release-shell propagation only before the focused lifecycle contract could execute. The stale r3 visual stylesheet query in `js/app.js` is corrected. The stale r3 Home Reus thumbnail query and current-authority r3 candidate omissions are corrected at source. Do not weaken tests to bypass these whole-shell invariants.
 
 After those propagation repairs, require `tests/contracts/static-app-release-contracts.cjs` and the entire permanent repository suite to pass, then all 14 permanent PR workflow families on one exact unchanged candidate head. Inspect review submissions and inline threads and require mergeability. The Codex review service may be quota-blocked; a quota response is tooling unavailability, not a clean or failed code review, and must not be misrepresented.
 
