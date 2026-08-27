@@ -26,9 +26,11 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must stay cohe
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent while the provider-neutral Phase 1E harness stays dormant.");
 assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current NEXT_TASK must retain the historical post-PR100 gateway heading as provenance rather than revive Phase 1E as current authority.");
-assert.match(next,/Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
+assert.match(historicalNext,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Archived post-PR100 authority must retain the historical gateway heading as provenance.");
 assert.match(historicalNext,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i,"Exact archived predecessor authority must retain the historical Phase 1D → 1E → 1F implementation sequence.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"Current NEXT_TASK must advance beyond the historical gateway and dormant Phase 1E authority to the actual PR #163 publication lane.");
+assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
+assert.match(next,/Stage 5 host\/join\/session orchestration remains locked/i,"Current NEXT_TASK must preserve the explicit Stage 5 gate while dormant Phase 1E provenance stays archived.");
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
@@ -218,4 +220,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current release identity stays coherent\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #163 publication authority stays coherent\n");
