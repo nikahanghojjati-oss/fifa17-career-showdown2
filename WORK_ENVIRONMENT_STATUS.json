@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T02:13:00Z",
+  "recordedAt": "2026-08-27T02:21:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 5,
-    "toolRoutingErrors": 0,
-    "correctedFailures": 1,
+    "largeEvidenceEvents": 8,
+    "toolRoutingErrors": 1,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -24,14 +24,14 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 35,
+    "handoffCompleteness": 50,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Validate and publish the first genuinely uncredited Stage 4 token-lifecycle hardening capability as v1.8.1 / 1.8.1-r4. The runtime now observes later Firebase App Check SDK token transitions through onTokenChanged, exposes a bounded explicit force-refresh proof path, keeps SDK auto-refresh as the scheduler, and preserves raw-token redaction, Connected Account/Connected Rivalry continuity and canonical local-save safety while enforcement remains OFF.",
-    "lastSafeCheckpoint": "Draft PR #160 exists from live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. Initial exact candidate cc2a541f034249739f9e9c2b7634510ca04f1d02 passed JavaScript syntax but Static App and Stability both stopped on one shared shell-coherence assertion: js/app.js still requested visual-fidelity-r3.css with the old 1.8.1-r3 query while the candidate shell is r4. This was one evidence-grounded corrected failure, not a token-lifecycle behavior failure. The stylesheet query is now aligned to 1.8.1-r4; the next exact head must rerun the full gates.",
-    "nextSafeAction": "Require fresh exact-head Static App and Stability contract execution after the app.js r4 correction. If the permanent stage4-token-lifecycle contract reaches execution and passes, inspect all remaining workflow families for independent defects. Reconcile candidate RJR only after the focused capability proof is green; do not award points for packaging or CI volume.",
+    "currentTask": "Validate and publish v1.8.1 / 1.8.1-r4 as the first genuinely uncredited Stage 4 token-lifecycle hardening capability. The production-compatible runtime observes later Firebase App Check SDK token transitions through onTokenChanged, exposes a bounded explicit force-refresh proof path, keeps SDK auto-refresh as the scheduler, and preserves raw-token redaction, Connected Account/Connected Rivalry continuity and canonical local-save safety while enforcement remains OFF.",
+    "lastSafeCheckpoint": "PR #160 validation has progressively cleared r4 shell propagation. The first candidate exposed stale app.js visual-fidelity r3 query. The next exact head cleared dynamic static release but exposed two independent propagation gaps: mandatory PROJECT_STATE/NEXT_TASK candidate markers and the Home Reus thumbnail remained r3. After those were corrected, the repository suite cleared state/next and reached release-candidate recovery provenance, exposing one further release-provenance gap: README/CHANGELOG did not name production-proven 1.8.1-r3 as the r4 previous known-good runtime. README and CHANGELOG now preserve that exact r3 provenance. These are four evidence-grounded corrected failures total. None is a token-lifecycle behavior failure.",
+    "nextSafeAction": "Require fresh exact-head Static App and Stability contract execution after r3 recovery provenance was restored. The next meaningful gate is execution of tests/contracts/stage4-token-lifecycle-contracts.cjs inside the permanent suite. If it passes, reconcile candidate RJR only to the fixed-domain capability actually proven, then complete the 14-family/review/thread/mergeability publication gates.",
     "unfinishedWork": [
       "Prove tests/contracts/stage4-token-lifecycle-contracts.cjs passes inside the permanent repository suite on the corrected exact head.",
       "Reconcile REMOTE_JOINING_READINESS.json only if the capability genuinely closes the fixed RJR-1 token-lifecycle gap.",
@@ -56,10 +56,13 @@
     "evidenceNotes": [
       "Predecessor closure is preserved in work-environment-archives/WEC_CLOSURE_PR159_2026-08-27.json; predecessor HANDOFF_NOW is not inherited.",
       "Fresh successor assessment from reset counters permits CONTINUE; no predecessor corrected-failure or stale-fact counters were carried forward.",
-      "PR #159 merged to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff and its 15 post-merge runs are green; Pages run 33031387118 and full deployed Stability run 33031387112 succeeded.",
+      "PR #159 merged to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff and its 15 post-merge runs are green; Pages 33031387118, Release Integration 33031387155 and full deployed Stability 33031387112 succeeded.",
       "Official Firebase JavaScript App Check API exposes onTokenChanged and getToken(forceRefresh); r4 uses those SDK lifecycle surfaces while retaining isTokenAutoRefreshEnabled:true and adding no custom refresh timer.",
       "r4 permanent proof checks later-expiry transition, same-expiry dedupe, force-refresh success/failure, observer error, raw-token redaction, account-service identity preservation and byte-identical local/rivalry fixtures.",
-      "Initial PR #160 head cc2a541f034249739f9e9c2b7634510ca04f1d02 had one shared static shell-coherence defect only: app.js visual-fidelity query remained r3. Syntax passed; Static App and Stability stopped before the new repository suite could execute. The defect is corrected on the current branch.",
+      "Initial PR #160 validation failure 1: app.js visual-fidelity query remained r3 after shell moved to r4.",
+      "Validation failures 2 and 3: mandatory current authority and Home Reus thumbnail still carried r3 candidate identity after static release architecture was corrected.",
+      "Validation failure 4: r4 release candidate correctly named r3 as rollback, but README/CHANGELOG lacked explicit production-proven r3 provenance. Both now preserve it.",
+      "One repository checkout/bootstrap attempt through the container could not resolve github.com; no retry loop was used and connector-first GitHub operations continued successfully.",
       "Usage remains unknown because no approved current-session usage value is exposed; no percentage is inherited or estimated."
     ]
   }
