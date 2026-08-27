@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 
 const read = file => fs.readFileSync(file, "utf8");
+const escapeRegex = value => String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const golden = read("00_HANDOFF_GOLDEN_RULE.md");
 const start = read("00_DEVELOPER_START_HERE.md");
 const current = read("00_CURRENT_HANDOFF.md");
@@ -9,10 +10,13 @@ const active = read("IDENTITY_SAFE_CAREER_ANALYTICS_ACTIVE_HANDOFF.md");
 const next = read("NEXT_TASK.md");
 const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
+const packageJson = JSON.parse(read("package.json"));
 const reconciliationProof = read("OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const standingAuth = read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
+const productionRuntime = bootstrap.runtime?.productionRuntimeRevision || "";
+const applicationVersion = bootstrap.runtime?.applicationVersion || packageJson.version || "";
 
 assert.match(golden,/Mandatory immediate-next-task handoff rule/i,"Golden handoff policy must permanently require an explicit immediate-next-task section.");
 assert.match(golden,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,"Golden handoff policy must name the required post-study immediate-task section.");
@@ -31,24 +35,28 @@ assert.match(active,/Failure 7[\s\S]+transient\/offscreen rendered-text assertio
 assert.match(active,/a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1[\s\S]+All 13 normal pull-request workflow families passed/i,"Closed Analytics handoff must retain exact-head PR proof.");
 assert.match(active,/c5c7d50cc3a2d9003e057d1813744c877323c068[\s\S]+deployed-site-smoke job `94855938131`/i,"Closed Analytics handoff must retain exact runtime merge and deployed proof.");
 
-// Live authority advances with evidence. Historical product-chain assertions remain protected.
+// Live authority advances with evidence. Never fossilize a prior recovery runtime in this contract.
+assert.ok(applicationVersion,"SESSION_BOOTSTRAP must expose the current application version.");
+assert.ok(productionRuntime,"SESSION_BOOTSTRAP must expose the current production runtime revision.");
+assert.equal(packageJson.version,applicationVersion,"package.json and SESSION_BOOTSTRAP must agree on the application version.");
 assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"NEXT_TASK must expose the current reconciliation-proven authority.");
-assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+STAGE 5 STILL LOCKED/i,"NEXT_TASK must preserve current runtime and Stage 5 lock truth.");
+assert.match(next,new RegExp(`Status:[\\s\\S]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[\\s\\S]+STAGE 5 STILL LOCKED`,"i"),"NEXT_TASK must preserve current runtime and Stage 5 lock truth.");
 assert.match(next,new RegExp("RJR-1 `"+readiness.currentScore+"\\/100`","i"),"NEXT_TASK must report the score from the live fixed RJR ledger rather than a stale literal.");
-assert.match(next,/Production runtime remains `1\.8\.1-r3`[\s\S]+does not change production runtime bytes[\s\S]+Firestore Security Rules[\s\S]+canonical local storage/i,"NEXT_TASK must preserve the unchanged production runtime and Rules boundary for the completed proof-only predecessor lane.");
+assert.match(next,new RegExp(`Production runtime is \\`${escapeRegex(productionRuntime)}\\`[\\s\\S]+PR #160[\\s\\S]+post-merge push\\/deployment runs[\\s\\S]+immediate previous whole-shell recovery runtime`,"i"),"NEXT_TASK must preserve current production runtime provenance and its immediate recovery boundary.");
 assert.match(next,/OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25\.md/i,"NEXT_TASK must point to the canonical current owner reconciliation proof.");
-assert.match(next,/exact accepted-result idempotency replay[\s\S]+evidence-proven[\s\S]+revision 0[\s\S]+revision 1[\s\S]+original accepted revision 0[\s\S]+original accepted content hash/i,"NEXT_TASK must preserve the closed exact accepted-result replay boundary.");
-assert.match(next,/no duplicate receipt[\s\S]+canonical local Save Library snapshot remains unchanged[\s\S]+same-key\/different-fingerprint[\s\S]+other owner[\s\S]+stale[\s\S]+CAS/i,"NEXT_TASK must preserve replay uniqueness, local-state safety, authorization and CAS invariants.");
+assert.match(next,/exact accepted-result idempotency replay[\s\S]+evidence-proven[\s\S]+revision-0[\s\S]+revision-1[\s\S]+original accepted revision\/hash/i,"NEXT_TASK must preserve the closed exact accepted-result replay boundary.");
+assert.match(next,/without changing current authority[\s\S]+receipt count[\s\S]+canonical local Save state[\s\S]+two-owner authorization[\s\S]+stale-base CAS/i,"NEXT_TASK must preserve replay uniqueness, local-state safety, authorization and CAS invariants.");
 assert.match(next,/deterministic adverse-provider[\s\S]+registered-device[\s\S]+exactly-two-owner[\s\S]+canonical local Save Library[\s\S]+byte-for-byte unchanged/i,"NEXT_TASK must preserve deterministic adverse-provider safety.");
-assert.match(next,/prior 80 → 81 \+1 credits only deterministic adverse-provider failure safety/i,"NEXT_TASK must preserve the bounded prior adverse-provider credit.");
-assert.match(next,new RegExp("Fixed RJR-1 is now `"+readiness.currentScore+"\\/100`[\\s\\S]+new 81 → 82 \\+1 credits only deterministic App Check token-lifecycle safety","i"),"NEXT_TASK must preserve the bounded latest token-lifecycle credit.");
-assert.match(next,/Production-negative authorization audit result[\s\S]+third-account[\s\S]+revoked registered-device[\s\S]+legitimate authenticated production identity\/device state/i,"NEXT_TASK must retain the real blocked production authorization dependency without fabricating proof.");
-assert.match(next,/token-lifecycle hardening[\s\S]+token auto-refresh[\s\S]+expiry\/refresh transition[\s\S]+proven/i,"NEXT_TASK must preserve the newly proven lifecycle boundary.");
-assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #160[\s\S]+publication/i,"NEXT_TASK must route the current bounded lane into publication rather than repeating proof.");
+assert.match(next,/80 → 81 \+1 credits only deterministic adverse-provider failure safety/i,"NEXT_TASK must preserve the bounded prior adverse-provider credit.");
+assert.match(next,new RegExp("Fixed RJR-1 is `"+readiness.currentScore+"\\/100`[\\s\\S]+81 → 82 \\+1 credits only deterministic App Check token-lifecycle safety","i"),"NEXT_TASK must preserve the bounded latest token-lifecycle credit.");
+assert.match(next,/Authenticated third-account[\s\S]+revoked registered-device[\s\S]+legitimate authenticated production identity\/device state/i,"NEXT_TASK must retain the real blocked production authorization dependency without fabricating proof.");
+assert.match(next,/token auto-refresh[\s\S]+onTokenChanged[\s\S]+force-refresh[\s\S]+App Check enforcement remains OFF/i,"NEXT_TASK must preserve the proven lifecycle boundary without inventing a custom refresh scheduler.");
+assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+mandatory recursive SLE package[\s\S]+publish it under standing owner authorization/i,"NEXT_TASK must route the completed predecessor lane into recursive SLE publication rather than repeating proof.");
+assert.match(next,/After that package is live[\s\S]+fresh unique WEC[\s\S]+smallest genuinely unblocked remaining Remote Joining dependency/i,"NEXT_TASK must require a fresh successor WEC before selecting new product work.");
 assert.match(next,/Two-physical-network behavior remains separately uncredited/i,"NEXT_TASK must distinguish deterministic proof from real two-network hardening.");
-assert.match(next,/Do not repeat the Stage 4 remote-to-local destructive Apply/i,"NEXT_TASK must forbid redundant destructive reconciliation proof.");
+assert.match(next,/Do not repeat Stage 4 destructive remote-to-local Candidate C Apply/i,"NEXT_TASK must forbid redundant destructive reconciliation proof.");
 assert.match(next,/Do not repeat exact replay proof/i,"NEXT_TASK must forbid redundant replay work after the permanent gate owns it.");
-assert.match(next,/Do not repeat deterministic adverse-network proof/i,"NEXT_TASK must forbid redundant adverse-provider proof after the permanent gate owns it.");
+assert.match(next,/Do not repeat deterministic adverse-provider proof/i,"NEXT_TASK must forbid redundant adverse-provider work after the permanent gate owns it.");
 assert.match(next,/Do not repeat deterministic token-lifecycle proof/i,"NEXT_TASK must forbid redundant lifecycle proof after the permanent gate owns it.");
 assert.match(next,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"NEXT_TASK must preserve the offline recovery baseline while connected work advances.");
 assert.match(next,/App Check enforcement remains OFF/i,"NEXT_TASK must preserve the App Check enforcement lock.");
@@ -59,8 +67,10 @@ assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
-assert.equal(bootstrap.immediateNextTask?.name,"stage4-token-lifecycle-hardening","The SLE bootstrap must keep ownership of PR #160 until its publication checkpoint closes.");
-assert.match(bootstrap.currentLane,/PR #160[\s\S]+token-lifecycle[\s\S]+82\/100[\s\S]+publication[\s\S]+deployment/i,"The SLE bootstrap current lane must agree that lifecycle proof is green at RJR82 and publication/deployment is pending.");
+assert.equal(bootstrap.immediateNextTask?.name,"mandatory-pr160-r4-production-sle-publication","The sealed predecessor SLE bootstrap must keep the bounded task on publication only until the successor transition begins.");
+assert.match(bootstrap.currentLane,/PR #160[\s\S]+production-proven[\s\S]+82\/100[\s\S]+predecessor WEC[\s\S]+SLE package/i,"The SLE bootstrap current lane must agree that PR #160 is production-proven at RJR82 and the predecessor is sealed for SLE publication.");
+assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_AT_CHECKPOINT","The sealed predecessor bootstrap must record its deterministic final WEC decision.");
+assert.equal(bootstrap.transition?.handoffCompleteness,100,"The sealed predecessor bootstrap must expose 100% handoff completeness.");
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
 assert.match(reconciliationProof,/sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d/i,"Canonical owner evidence must retain the exact reviewed remote gameplay hash.");
 
@@ -88,4 +98,4 @@ assert.match(remotePriority,/PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YE
 assert.match(start,/identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,"Developer bootstrap must include PR #59 in the completed dependency chain.");
 assert.match(start,/presentation-only Local Profile display-label editing — PR #61/i,"Developer bootstrap must include PR #61 in the completed dependency chain.");
 
-console.log(`Handoff immediate-next-task contracts passed: live NEXT_TASK and SESSION_BOOTSTRAP track fixed RJR ${readiness.currentScore}/100, preserve Stage 4 reconciliation/exact replay/adverse-provider closure and proven token lifecycle, and route current work into PR #160 publication while production identity/device negatives and real two-network proof remain explicit.`);
+console.log(`Handoff immediate-next-task contracts passed: live NEXT_TASK and SESSION_BOOTSTRAP track ${applicationVersion}/${productionRuntime}, fixed RJR ${readiness.currentScore}/100, preserve Stage 5 lock plus Stage 4 reconciliation/replay/adverse-provider/token-lifecycle closure, and route the sealed predecessor into SLE publication before a fresh successor WEC.`);
