@@ -31,8 +31,8 @@ assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain sepa
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must prioritize Remote Joining without skipping prerequisite authorization.");
 
 // Current live authority has advanced through production-proven Stage 4 reconciliation,
-// evidence-proven exact accepted-result replay, and deterministic adverse-provider
-// failure safety. Immutable pre-r3 archives retain the original 1A-1F/v1.5 provenance.
+// evidence-proven exact accepted-result replay, deterministic adverse-provider safety and
+// deterministic App Check token-lifecycle safety. Immutable pre-r3 archives retain the original provenance.
 assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN — EXACT REPLAY \+ DETERMINISTIC ADVERSE-NETWORK SAFETY PROVEN/i, "PROJECT_STATE must expose current reconciliation, exact-replay and deterministic adverse-network authority.");
 assert.match(state, /Production runtime:\s*`1\.8\.1-r3`[\s\S]+Current runtime merge:\s*`beab9f31cb7f31bf4938f5b0df67394899ef12a0` \(PR #151\)/i, "PROJECT_STATE must identify the current deployed r3 runtime lineage.");
 assert.match(state, /Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r1`/i, "PROJECT_STATE must preserve the known-good rollback generation.");
@@ -45,11 +45,13 @@ assert.match(state, /Stage 5[\s\S]{0,160}(?:still|remains) locked/i, "PROJECT_ST
 assert.match(state, /remote-to-local reconciliation added exactly \+1:\s*78 → 79/i, "PROJECT_STATE must preserve conservative fixed-domain reconciliation credit.");
 assert.match(state, /exact accepted-result idempotency replay added exactly \+1:\s*79 → 80/i, "PROJECT_STATE must preserve the single bounded replay capability credit.");
 assert.match(state, /deterministic adverse-provider failure safety adds exactly \+1:\s*80 → 81/i, "PROJECT_STATE must preserve the single bounded adverse-provider capability credit.");
-assert.match(state, /Remaining explicitly uncredited capability includes authenticated third-account\/revoked-device production negatives[\s\S]+two-physical-network hardening[\s\S]+token-lifecycle hardening[\s\S]+actual Remote Joining sessions/i, "PROJECT_STATE must distinguish closed adverse-provider safety from the remaining pre-Stage-5 hardening boundary.");
-assert.match(state, /next automatically provable lane is token-lifecycle hardening[\s\S]+App Check\/Auth lifecycle[\s\S]+expiry\/refresh transition/i, "PROJECT_STATE must route the next automatic product work to token-lifecycle hardening.");
-assert.match(state, /Two-physical-network behavior remains separately uncredited/i, "PROJECT_STATE must not conflate deterministic adverse-provider proof with real two-network hardening.");
+assert.match(state, /deterministic App Check token-lifecycle safety adds exactly \+1:\s*81 → 82/i, "PROJECT_STATE must preserve the single bounded token-lifecycle capability credit.");
+assert.match(state, /Remaining explicitly uncredited capability includes authenticated third-account\/revoked-device production negatives[\s\S]+two-physical-network hardening[\s\S]+actual Remote Joining sessions/i, "PROJECT_STATE must distinguish proven deterministic token lifecycle from remaining Remote Joining hardening.");
+assert.match(state, /token-lifecycle contract[\s\S]+PASSED[\s\S]+ac465bc781b038860f91620debb7ae7fc7a3e05d/i, "PROJECT_STATE must preserve the exact focused lifecycle proof checkpoint.");
+assert.match(state, /Current bounded work[\s\S]+finish PR #160 publication/i, "PROJECT_STATE must route current work into publication of the already-proven r4 capability.");
+assert.match(state, /Two-physical-network behavior remains separately uncredited/i, "PROJECT_STATE must not conflate deterministic provider/lifecycle proof with real two-network hardening.");
 assert.equal(readiness.modelVersion, "RJR-1", "Cloud foundation must continue using the fixed RJR-1 model.");
-assert.equal(readiness.currentScore, 81, "Cloud foundation must agree with the evidence-backed deterministic adverse-provider RJR checkpoint.");
+assert.equal(readiness.currentScore, 82, "Cloud foundation must agree with the evidence-backed token-lifecycle RJR checkpoint.");
 assert.match(reconciliationProof, /Gate result[\s\S]+PASS/i, "Current reconciliation authority must be backed by the canonical owner production proof.");
 
 assert.match(historicalState, /formatVersion 2 is live|formatVersion 2 full multi-Save/i, "Archived PROJECT_STATE must preserve formatVersion 2 multi-Save portability production truth.");
@@ -65,14 +67,15 @@ assert.match(historicalState, /1\.4\.0-r2[\s\S]{0,220}production-proven runtime 
 assert.match(historicalState, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Archived PROJECT_STATE must preserve owner-prioritized Remote Joining historical direction.");
 
 assert.match(next, /CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i, "NEXT_TASK must expose current reconciliation-proven authority.");
-assert.match(next, /Production runtime remains `1\.8\.1-r3`[\s\S]+does not change production runtime bytes/i, "NEXT_TASK must preserve the unchanged current r3 production runtime boundary for this proof-only lane.");
-assert.match(next, /Candidate C (?:as|remains) the sole destructive (?:local )?Apply authority|Candidate C the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
+assert.match(next, /Production runtime remains `1\.8\.1-r3`[\s\S]+does not change production runtime bytes/i, "NEXT_TASK must preserve the unchanged current r3 production runtime boundary for the completed proof-only predecessor lane.");
+assert.match(next, /Candidate C (?:as|remains) the sole destructive (?:local )?Apply authority|Candidate C remains the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
 assert.match(next, /Public discovery, community, matchmaking and global rankings remain prohibited/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
-assert.match(next, /STAGE 5 STILL LOCKED|Do not begin Stage 5 host\/join\/session orchestration/i, "NEXT_TASK must preserve the Stage 5 lock.");
+assert.match(next, /STAGE 5 STILL LOCKED|Stage 5 host\/join\/session orchestration remains locked/i, "NEXT_TASK must preserve the Stage 5 lock.");
 assert.match(next, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i, "NEXT_TASK must preserve exact replay as a closed evidence-backed boundary.");
 assert.match(next, /deterministic adverse-provider[\s\S]+canonical local Save Library fixture remains byte-for-byte unchanged/i, "NEXT_TASK must preserve deterministic adverse-provider local-save safety as closed evidence.");
 assert.match(next, /Production-negative authorization audit result[\s\S]+authenticated third-account[\s\S]+revoked registered-device[\s\S]+legitimate authenticated production identity\/device state/i, "NEXT_TASK must preserve the blocked production authorization dependency without synthetic proof.");
-assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+token-lifecycle hardening[\s\S]+token auto-refresh[\s\S]+expiry\/refresh transition/i, "NEXT_TASK must name token-lifecycle hardening as the concrete next automatically provable capability.");
+assert.match(next, /token-lifecycle hardening[\s\S]+token auto-refresh[\s\S]+expiry\/refresh transition[\s\S]+proven/i, "NEXT_TASK must preserve token lifecycle as an evidence-proven bounded capability.");
+assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #160[\s\S]+publication/i, "NEXT_TASK must route the current bounded lane into PR #160 publication rather than repeating proof.");
 assert.match(next, /Two-physical-network behavior remains separately uncredited/i, "NEXT_TASK must keep real two-network proof separately uncredited.");
 
 assert.match(historicalNext, /formatVersion 2 full multi-Save backup\/import portability \(PR #67\)/i, "Archived NEXT_TASK must name the closed multi-Save PR #67 milestone.");
@@ -115,4 +118,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write(`PASS Cloud/Sync authority: production-proven r3 reconciliation, evidence-proven exact replay, deterministic adverse-provider safety and RJR${readiness.currentScore} remain explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n`);
+process.stdout.write(`PASS Cloud/Sync authority: production-proven r3 reconciliation, evidence-proven exact replay, deterministic adverse-provider and token-lifecycle safety with RJR${readiness.currentScore} remain explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n`);

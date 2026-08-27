@@ -1,21 +1,19 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-27T01:16:00Z",
+  "recordedAt": "2026-08-27T02:34:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr158-merged",
+      "id": "live-main-pr159-merged",
       "type": "current-main-boundary",
-      "value": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
-      "pullRequest": 158,
-      "finalExactHead": "72435c180deb744418f93fe8155f280973c3b76a",
+      "value": "be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff",
+      "pullRequest": 159,
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r3",
       "runtimeChanged": false,
-      "prWorkflowFamiliesGreen": 14,
       "postMergeRunsGreen": 15,
-      "pagesRunId": 33019945003,
-      "stabilityRunId": 33019945012,
+      "pagesRunId": 33031387118,
+      "stabilityRunId": 33031387112,
       "authority": 1
     },
     {
@@ -37,8 +35,8 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 81,
-      "rule": "fixed capability evidence only; deterministic adverse-provider safety is the latest single bounded capability credit",
+      "recordedScore": 82,
+      "rule": "fixed capability evidence only; deterministic App Check token lifecycle is the latest single bounded production-cloud-security credit",
       "authority": 1
     },
     {
@@ -79,12 +77,6 @@
       "mergeSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
       "proof": "tests/contracts/stage4-adverse-network-contracts.cjs",
       "rjrScoreAfterProof": 81,
-      "notCredited": [
-        "two-physical-network testing",
-        "token lifecycle",
-        "authenticated third-account/revoked-device production negatives",
-        "actual Remote Joining sessions"
-      ],
       "authority": 1,
       "riskCriticality": 1
     },
@@ -92,30 +84,32 @@
       "id": "pr159-continuity-publication-gate",
       "type": "mandatory-transition-publication-gate",
       "pullRequest": 159,
-      "state": "open-preseal",
+      "state": "merged-postmerge-green",
       "runtimeChanged": false,
       "rjrDelta": 0,
-      "requiredOrder": [
-        "validate and archive inherited predecessor WEC",
-        "initialize fresh unique WEC with reset per-environment counters from independently verified live main",
-        "assess fresh WEC independently without inheriting predecessor HANDOFF_NOW",
-        "read-only validate immutable WEC-100 PR #159 head",
-        "publish PR #159 only if fresh WEC permits continuation and publication gates remain clean",
-        "verify resulting live main and post-merge/deployment state"
-      ],
+      "mergeSha": "be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff",
+      "postMergeRunsGreen": 15,
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage4-token-lifecycle-hardening",
       "type": "immediate-next-product-milestone",
-      "state": "blocked-until-pr159-publication-postmerge-verified-and-fresh-wec-permits",
+      "state": "proof-passed-pr160-publication-and-deployment-pending",
+      "pullRequest": 160,
+      "applicationVersion": "1.8.1",
+      "candidateRuntimeRevision": "1.8.1-r4",
+      "proofExactHead": "ac465bc781b038860f91620debb7ae7fc7a3e05d",
+      "proof": "tests/contracts/stage4-token-lifecycle-contracts.cjs",
+      "rjrScoreAfterProof": 82,
       "scope": [
-        "study deployed r3 App Check/Auth lifecycle",
-        "prove the smallest meaningful later expiry or refresh transition",
-        "preserve Connected Account and Connected Rivalry state boundaries",
-        "prove canonical local saves cannot be corrupted by token lifecycle failure",
-        "keep App Check enforcement OFF and avoid speculative scheduler work unless source evidence requires it"
+        "Firebase SDK remains refresh scheduler",
+        "distinct later App Check expiry transition is observable",
+        "duplicate same-expiry notification is deduplicated",
+        "bounded force-refresh success and failure preserve account and rivalry authority",
+        "raw tokens remain redacted",
+        "canonical local saves remain unchanged",
+        "App Check enforcement remains OFF"
       ],
       "stage5Authorized": false,
       "authority": 1,
@@ -128,8 +122,10 @@
       "knownRemainingGaps": [
         "authenticated third-account or revoked-device production negatives",
         "two-physical-network hardening",
-        "token-lifecycle hardening",
-        "abuse and release acceptance boundaries"
+        "real-device token-lifecycle acceptance",
+        "abuse hardening",
+        "production rollback proof",
+        "final stable Remote Joining release acceptance"
       ],
       "authority": 1
     },
@@ -170,13 +166,14 @@
     {"from":"stage4-production-negative-authorization-audit","to":"stage4-deterministic-adverse-network","relation":"production-state-blocked-select-next-automatic-hardening"},
     {"from":"stage4-deterministic-adverse-network","to":"rjr1-ledger","relation":"adds-one-bounded-deterministic-adverse-provider-capability"},
     {"from":"stage4-deterministic-adverse-network","to":"pr159-continuity-publication-gate","relation":"continuity-publication-must-close-before-next-product-milestone"},
-    {"from":"pr159-continuity-publication-gate","to":"stage4-token-lifecycle-hardening","relation":"publication-postmerge-verified-and-fresh-wec-permits-continuation"},
-    {"from":"stage4-token-lifecycle-hardening","to":"stage5-private-remote-joining","relation":"remaining-pre-stage5-gate-before-session-orchestration"},
+    {"from":"pr159-continuity-publication-gate","to":"stage4-token-lifecycle-hardening","relation":"publication-postmerge-verified-and-fresh-wec-permitted-continuation"},
+    {"from":"stage4-token-lifecycle-hardening","to":"rjr1-ledger","relation":"adds-one-bounded-production-cloud-security-token-lifecycle-capability"},
+    {"from":"stage4-token-lifecycle-hardening","to":"stage5-private-remote-joining","relation":"finish-publication-deployment-then-transition-before-next-remaining-gate"},
     {"from":"canonical-storage","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-local-save-authority"},
     {"from":"security-zero-billing","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-provider-and-enforcement-locks"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #158 merged/post-merge-green at RJR 81, then enforce the PR #159 transition publication gate: validate/archive inherited WEC, initialize and independently assess a fresh unique WEC, publish/read-only verify PR #159 only if permitted, and verify post-merge/deployment before ranking Stage 4 token-lifecycle product work. Preserve proven reconciliation, exact replay and deterministic adverse-provider locks without rereading closed history. Stage 5 remains dependency-gated.",
+    "walkDirection": "Start from live main PR #159 merged/post-merge-green, production r3 and fixed RJR 82. PR #160 deterministic token-lifecycle proof passed on exact head ac465bc781b038860f91620debb7ae7fc7a3e05d; finish exact-head publication gates and deployed r4 verification, then honor the current WEC handoff-at-checkpoint decision before another substantial product milestone. Preserve reconciliation, exact replay, adverse-provider safety, canonical storage and enforcement-off locks without repeating owner proof.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

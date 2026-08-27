@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-27T02:25:00Z",
+  "recordedAt": "2026-08-27T02:34:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/stage4-token-lifecycle-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -21,25 +21,25 @@
     "pagesArtifactDigest": null
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 158,
-    "title": "Prove Stage 4 adverse-network local-save safety",
-    "branch": "agent/stage4-adverse-network-hardening",
-    "finalExactHead": "72435c180deb744418f93fe8155f280973c3b76a",
+    "pullRequest": 160,
+    "title": "Harden Stage 4 App Check lifecycle",
+    "branch": "agent/stage4-token-lifecycle-hardening",
+    "lifecycleProofExactHead": "ac465bc781b038860f91620debb7ae7fc7a3e05d",
     "workflowFamiliesRequired": 14,
-    "workflowFamiliesGreen": 14,
-    "submittedReviews": 1,
-    "unresolvedReviewThreads": 0,
+    "workflowFamiliesGreen": null,
+    "submittedReviews": null,
+    "unresolvedReviewThreads": null,
     "mergeabilityBeforeMerge": true,
-    "mergeSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
-    "postMergeRunsRequired": 15,
-    "postMergeRunsGreen": 15,
-    "pagesRunId": 33019945003,
-    "pagesConclusion": "success",
-    "stabilityRunId": 33019945012,
+    "mergeSha": null,
+    "postMergeRunsRequired": null,
+    "postMergeRunsGreen": null,
+    "pagesRunId": null,
+    "pagesConclusion": null,
+    "stabilityRunId": null,
     "firestoreRulesChanged": false,
     "providerChanged": false,
-    "runtimeChanged": false,
-    "checkpointStatus": "merged-postmerge-green-deterministic-adverse-provider-rjr81"
+    "runtimeChanged": true,
+    "checkpointStatus": "token-lifecycle-proof-passed-rjr82-publication-pending"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 151,
@@ -66,7 +66,7 @@
     "productionStatus": "production-proven-deployed-r3-with-stage4-reconciliation-exact-replay-and-deterministic-adverse-provider-safety",
     "candidateApplicationVersion": "1.8.1",
     "candidateRuntimeRevision": "1.8.1-r4",
-    "candidateStatus": "release-candidate-not-production-proven-token-lifecycle-hardening",
+    "candidateStatus": "release-candidate-not-production-proven-token-lifecycle-capability-evidence-proven",
     "candidateRuntimeMergeSha": null,
     "candidateImmediateRecoveryRuntime": "1.8.1-r3",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r1",
@@ -74,7 +74,7 @@
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
     "appCheckEnforcement": false,
-    "appCheckCurrentObservation": "production-r3-initial-token-path-proven-r4-later-expiry-refresh-observer-candidate-under-validation",
+    "appCheckCurrentObservation": "production-r3-initial-token-path-proven-r4-deterministic-later-expiry-refresh-safety-proof-passed-deployment-pending",
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
@@ -84,20 +84,20 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 continuity publication is merged and all 15 post-merge runs are green on live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. Fresh successor WEC we-2026-08-27-stage4-token-lifecycle-rjr-be07 independently assessed CONTINUE and now owns PR #160 token-lifecycle hardening. Candidate source is v1.8.1 / 1.8.1-r4 while production remains production-proven 1.8.1-r3. The permanent lifecycle proof must establish later expiry/refresh transition safety, raw-token redaction, account/rivalry continuity and unchanged canonical local saves before RJR may move above 81/100. App Check enforcement remains OFF and no custom refresh scheduler is authorized.",
+  "currentLane": "PR #159 is merged and post-merge green on live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. Fresh successor WEC we-2026-08-27-stage4-token-lifecycle-rjr-be07 owns PR #160. Candidate source is v1.8.1 / 1.8.1-r4 while production remains production-proven 1.8.1-r3. Permanent tests/contracts/stage4-token-lifecycle-contracts.cjs passed on exact branch head ac465bc781b038860f91620debb7ae7fc7a3e05d, proving later expiry/refresh safety, raw-token redaction, preserved account/rivalry services and unchanged canonical local saves. Fixed RJR-1 is now 82/100. Finish exact-head 14-family/review/thread/mergeability gates, publish PR #160, verify Pages/runtime bytes and deployed Stability/App Check journey, then transition before another substantial milestone. App Check enforcement remains OFF.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 81,
+    "score": 82,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
-    "decision": "HANDOFF_NOW",
-    "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
-    "checkpoint": "pr159-merged-postmerge-green-successor-token-lifecycle-active"
+    "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "decisionScope": "finish-current-pr160-publication-and-deployment-checkpoint-then-transition",
+    "checkpoint": "pr160-token-lifecycle-proof-passed-rjr82-publication-pending"
   },
   "currentHandoff": {
     "canonical": "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
@@ -110,7 +110,7 @@
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "v1.4.22 predecessor transition capsule retained until the current successor reaches its own SLE handoff boundary; current source and live authority override its historical task wording."
+    "versionReason": "Predecessor starter remains the last completed handoff package until this environment seals its post-PR160 successor package. Current source and live authority override its historical task wording."
   },
   "successorPackage": {
     "compactStarter": "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
@@ -187,15 +187,15 @@
     "name": "stage4-token-lifecycle-hardening",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Finish PR #160 by proving the smallest meaningful deterministic App Check expiry/refresh lifecycle transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
+    "summary": "Finish PR #160 publication and deployed verification for the already-proven deterministic App Check expiry/refresh lifecycle capability while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
   },
   "transition": {
-    "contextTransitionRequired": false,
-    "continuationDecision": "CONTINUE",
-    "handoffCompleteness": 50,
+    "contextTransitionRequired": true,
+    "continuationDecision": "HANDOFF_AT_CHECKPOINT",
+    "handoffCompleteness": 70,
     "atomicOperation": false,
     "unrecordedDecisions": 0,
-    "nextEnvironmentStartsFresh": false
+    "nextEnvironmentStartsFresh": true
   },
   "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/context pointers, seal WEC as the final branch mutation, and stop before the next substantial milestone."
 }

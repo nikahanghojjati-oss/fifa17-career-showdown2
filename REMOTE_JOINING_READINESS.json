@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 81,
+  "currentScore": 82,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -48,7 +48,7 @@
       "id": "production-cloud-security",
       "label": "Production cloud and security activation",
       "weight": 20,
-      "earned": 18,
+      "earned": 19,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
         "Production Firestore Security Rules are provider verified through the strict authenticated self-account boundary and the later Stage 3 registered-device/private-pairing boundary.",
@@ -58,6 +58,7 @@
         "2026-08-25 production v1.8.1-r2 temporarily made that previously credited self-account bootstrap unreachable when the runtime disabled Auth/Firestore account services after App Check token throttling.",
         "2026-08-25 ordinary-owner iPhone Safari evidence on repaired production v1.8.1-r3 re-proved strict authenticated self-account bootstrap through Private account ready, restoring exactly the previously withdrawn bootstrap credit.",
         "2026-08-21 owner-supplied production Stage 3 evidence proves the published zero-billing device/pairing Rules are exercised by the deployed v1.6.0-r1 browser path.",
+        "2026-08-27 permanent Stage 4 token-lifecycle proof on PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d proves Firebase-owned auto refresh can be observed across a distinct later expiry; duplicate same-expiry notifications do not fabricate transitions; bounded force-refresh success/failure preserves existing Auth/Firestore services, Connected Rivalry authority and canonical local Save bytes; raw token strings remain absent from diagnostics; App Check enforcement remains OFF.",
         "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
       ]
     },
@@ -76,7 +77,7 @@
         "2026-08-25/26 owner Chromebook production proof on v1.8.1-r3 closes the previously uncredited remote-to-local reconciliation capability: read-only exact revision/hash Preview, stale-intent rejection before backup/local mutation, verified backup-first explicit Candidate C Apply, stable Player Two identity, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply.",
         "2026-08-26 permanent Stage 4 emulator proof executes the real Connected Rivalry mutation runtime against production Firestore Rules and closes exact accepted-result idempotency replay: after the rivalry legitimately advances from revision 0 to revision 1, replay of the exact original accepted request returns the original revision 0/hash while current authority, receipt set, canonical local Save snapshot, CAS and two-owner boundaries remain unchanged.",
         "2026-08-26 permanent adverse-network contract executes the real Connected Rivalry client API through provider loss after valid registered-device/exactly-two-owner preflight and immutable local projection planning, proving bounded failure with the canonical local Save Library snapshot unchanged.",
-        "Authenticated third-account/revoked-device production negatives, two-physical-network hardening, token-lifecycle behavior and actual Remote Joining sessions remain uncredited."
+        "Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited. Token-lifecycle safety is now credited separately in production-cloud-security and does not add a duplicate Connected Rivalry point."
       ]
     },
     {
@@ -88,7 +89,7 @@
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
         "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage.",
         "2026-08-24 owner-supplied production evidence across one Chromebook and one iPhone proves fresh one-use pairing, revision-0 publication, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
-        "Remote Joining specific two-network and token-lifecycle testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
+        "Remote Joining specific two-network and real-device token-lifecycle testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
       ]
     }
   ],
@@ -239,6 +240,14 @@
       "delta": 1,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
       "reason": "The permanent Stage 4 adverse-network contract executes the real Connected Rivalry client API through provider unavailability after legitimate registered-device and exactly-two-owner rivalry preflight plus immutable local projection planning. The remote mutation fails before commit, returns a bounded provider error, and the canonical local Save Library snapshot remains byte-for-byte unchanged. The +1 credits only deterministic adverse-provider failure safety; it does not credit two-physical-network testing, authenticated third-account/revoked-device production negatives, token lifecycle, CI volume or actual Remote Joining sessions."
+    },
+    {
+      "recordedAt": "2026-08-27T02:30:55Z",
+      "eventId": "stage4-deterministic-token-lifecycle-safety-proof",
+      "score": 82,
+      "delta": 1,
+      "domainId": "production-cloud-security",
+      "reason": "PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d passed the permanent Stage 4 token-lifecycle contract using the real production Firebase runtime boundary. Firebase-owned auto refresh is observed across a distinct later expiry; duplicate same-expiry notification is deduplicated; bounded force-refresh success and outage preserve existing Auth/Firestore services, Connected Rivalry authority and canonical local Save bytes; observer failure remains metadata-only; raw App Check token values never enter diagnostics; enforcement remains OFF. The +1 credits only this newly proven fixed production-cloud-security lifecycle capability and gives zero credit to packaging, CI volume or deployment itself."
     }
   ]
 }
