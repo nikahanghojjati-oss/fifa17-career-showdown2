@@ -43,7 +43,13 @@ The successor, after validating/archiving this WEC and initializing a fresh uniq
 
 ## Do not repeat
 
-Do not repeat the consumed unavailable-code fixture, pairing/device recovery, destructive Candidate C reconciliation, exact replay, deterministic adverse-provider, deterministic token-lifecycle or already-proven structural-abuse proof merely for volume. Do not force, edit or delete historical `pair_a07108...756fb`.
+Do not repeat Stage 4 destructive remote-to-local Candidate C Apply.
+Do not repeat exact replay proof.
+Do not repeat deterministic adverse-provider proof.
+Do not repeat deterministic token-lifecycle proof.
+Do not repeat already-proven structural-abuse proof merely for volume.
+Do not repeat the consumed unavailable-code fixture or pairing/device recovery merely for duplication.
+Do not force, edit or delete historical `pair_a07108...756fb`.
 
 ## Permanent locks
 
