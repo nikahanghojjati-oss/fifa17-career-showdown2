@@ -24,9 +24,11 @@ PR #157 already established that the authenticated third-account/revoked registe
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Initialize a fresh unique WEC after independently verifying live `main`, PR #158, deployment, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `SESSION_BOOTSTRAP.json` and the closing WEC. Then advance the next automatically provable pre-Stage-5 capability: token-lifecycle hardening.
+Initialize a fresh unique WEC after independently verifying live `main`, PR #159 state, PR #158, deployment, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `SESSION_BOOTSTRAP.json` and the closing WEC. Never inherit the predecessor's `HANDOFF_NOW` decision as the fresh successor's decision.
 
-Study deployed `1.8.1-r3` App Check/Auth lifecycle, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, existing App Check/runtime contracts and Connected Rivalry safety. Prove the smallest meaningful deterministic expiry/refresh transition that cannot corrupt Connected Account, Connected Rivalry or canonical local saves. App Check enforcement remains OFF. Do not add extra Auth scopes, persistent Firestore cache, billing, speculative scheduler work or new storage authority unless live source evidence makes it genuinely necessary.
+If PR #159 is still open, publication comes first: perform read-only validation of its immutable WEC-100 head, require the standing publication gates to remain clean, publish it under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
+
+Only after PR #159 publication/post-merge verification, advance the next automatically provable pre-Stage-5 capability: token-lifecycle hardening. Study deployed `1.8.1-r3` App Check/Auth lifecycle, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, existing App Check/runtime contracts and Connected Rivalry safety. Prove the smallest meaningful deterministic expiry/refresh transition that cannot corrupt Connected Account, Connected Rivalry or canonical local saves. App Check enforcement remains OFF. Do not add extra Auth scopes, persistent Firestore cache, billing, speculative scheduler work or new storage authority unless live source evidence makes it genuinely necessary.
 
 Two-physical-network behavior remains separately uncredited. Stage 5 host/join/session orchestration remains locked until the remaining explicit pre-Stage-5 gates are genuinely closed.
 
