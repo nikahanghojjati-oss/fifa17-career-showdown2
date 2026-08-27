@@ -47,6 +47,8 @@ Do not repeat the consumed unavailable-code fixture, pairing/device recovery, de
 
 ## Permanent locks
 
+The Installable Offline App remains the local-first startup and recovery baseline; ordinary local startup must not depend on Firebase availability.
+
 Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive Apply authority for remote-to-local local mutation.
 
 Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
