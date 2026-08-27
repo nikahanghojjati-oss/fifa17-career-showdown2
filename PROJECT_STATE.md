@@ -1,15 +1,16 @@
-# CURRENT OVERRIDE — v1.8.1-r4 STAGE 4 TOKEN-LIFECYCLE HARDENING CANDIDATE — r3 PRODUCTION BASELINE REMAINS PROVEN — 2026-08-27 ET
+# CURRENT OVERRIDE — v1.8.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN — EXACT REPLAY + DETERMINISTIC ADVERSE-NETWORK SAFETY PROVEN — r4 TOKEN-LIFECYCLE CANDIDATE — 2026-08-27 ET
 
 Status: `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY MERGED + POST-MERGE GREEN / `v1.8.1 / 1.8.1-r4` TOKEN-LIFECYCLE CANDIDATE UNDER EXACT VALIDATION / STAGE 5 STILL LOCKED.
 
 Application: `v1.8.1`
 Production runtime: `1.8.1-r3`
 Candidate runtime: `1.8.1-r4`
-Production runtime merge: `beab9f31cb7f31bf4938f5b0df67394899ef12a0` (PR #151)
+Current runtime merge: `beab9f31cb7f31bf4938f5b0df67394899ef12a0` (PR #151)
 Current live main: `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff` (PR #159 squash merge)
 Current product candidate: PR #160 `Harden Stage 4 App Check lifecycle`
 PR #158 final exact head: `72435c180deb744418f93fe8155f280973c3b76a`
-Previous known-good whole-shell recovery runtime for r4: `1.8.1-r3`
+Previous known-good whole-shell recovery runtime: `1.8.1-r1`
+Candidate r4 immediate whole-shell rollback target: `1.8.1-r3`
 Remote Joining readiness: `81/100` under fixed RJR-1
 Remote Joining readiness candidate: `81/100` under fixed RJR-1 until the focused token-lifecycle proof is green
 Historical superseded recovery checkpoint under RJR-1: `76/100` after the r2 Connected Account regression and before owner production restoration proof; it is provenance only, not the current score.
@@ -51,7 +52,7 @@ The accounting remains conservative:
 - r3 owner account recovery restored exactly the two r2-invalidated credits: 76 → 78;
 - production-proven remote-to-local reconciliation added exactly +1: 78 → 79;
 - exact accepted-result idempotency replay added exactly +1: 79 → 80;
-- permanent deterministic adverse-provider failure safety added exactly +1: 80 → 81;
+- permanent deterministic adverse-provider failure safety adds exactly +1: 80 → 81;
 - PR #159 continuity publication earned zero;
 - r4 implementation/release packaging earns zero until capability evidence is green;
 - no duplicate points are awarded for CI volume, documentation, repeated subassertions, or already-consumed owner/device/destructive proof.
@@ -66,7 +67,9 @@ Do not reopen completed r3 recovery, pairing, unavailable-code, stale-preview, d
 
 Current bounded work is PR #160 token-lifecycle hardening on fresh environment `we-2026-08-27-stage4-token-lifecycle-rjr-be07`, initialized from independently verified live main `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff` with reset per-environment counters and its own `CONTINUE` assessment.
 
-Finish r4 candidate coherence and execute the permanent token-lifecycle proof. The first candidate head exposed only release-shell propagation issues before the focused lifecycle contract could execute: stale r3 visual stylesheet query, stale current authority runtime marker, and stale Home Reus thumbnail revision. Correct those at source without weakening tests. Then require the permanent repository contract suite and all 14 permanent workflow families on one exact unchanged head.
+The next automatically provable lane is token-lifecycle hardening. Use the existing Firebase App Check/Auth lifecycle without a custom scheduler and prove the smallest meaningful expiry/refresh transition while preserving connected authority and local-first recovery.
+
+Finish r4 candidate coherence and execute the permanent token-lifecycle proof. The first candidate heads exposed release-shell and current-authority propagation issues before the focused lifecycle contract could execute; correct those at source without weakening tests. Then require the permanent repository contract suite and all 14 permanent workflow families on one exact unchanged head.
 
 Only after the focused lifecycle proof passes may `REMOTE_JOINING_READINESS.json` receive any bounded candidate movement. Any point must correspond only to the newly proven later token expiry/refresh safety capability in the fixed RJR-1 domain; source work, CI volume, release files and deployment do not count.
 
