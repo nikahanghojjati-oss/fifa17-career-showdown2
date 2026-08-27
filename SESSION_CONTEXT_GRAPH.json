@@ -108,7 +108,7 @@
     },
     {
       "id": "stage4-token-lifecycle-hardening",
-      "type": "immediate-next-product-milestone-after-publication",
+      "type": "immediate-next-product-milestone",
       "state": "blocked-until-pr159-publication-postmerge-verified-and-fresh-wec-permits",
       "scope": [
         "study deployed r3 App Check/Auth lifecycle",
