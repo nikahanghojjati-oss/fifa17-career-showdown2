@@ -23,7 +23,7 @@ const CANONICAL_KEYS=Object.freeze([
 
 function sdk(){
   const firestore=require("firebase/firestore");
-  return {Timestamp,serverTimestamp:firestore.serverTimestamp,doc,runTransaction:firestore.runTransaction};
+  return {Timestamp,doc,runTransaction:firestore.runTransaction};
 }
 
 function hash(seed="0"){
@@ -114,10 +114,6 @@ function rawKeyHash(value){
   return crypto.createHash("sha256").update(String(value)).digest("hex");
 }
 
-function wait(ms){
-  return new Promise(resolve=>setTimeout(resolve,ms));
-}
-
 async function adminReceiptIds(testEnv,rivalryId){
   let ids=[];
   await testEnv.withSecurityRulesDisabled(async context=>{
@@ -199,7 +195,6 @@ async function adminReceiptIds(testEnv,rivalryId){
     assert.equal(acceptedReceipt.data.actorAccountId,"acct_replay_a");
     assert.equal(acceptedReceipt.data.deviceId,aIdentity.deviceId);
 
-    await wait(2100);
     const advanced=await connected.publishSharedState({
       user:{uid:"acct_replay_a"},firestore:dbA,firebaseSdk:sdk(),deviceId:aIdentity.deviceId,
       binding:aBinding,rivalryId,expectedStateExists:true,baseRevision:0,idempotencyKey:"stage4-advance-after-accepted",
