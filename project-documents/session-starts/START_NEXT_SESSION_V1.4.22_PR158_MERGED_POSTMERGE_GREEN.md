@@ -36,7 +36,11 @@ Exactly two private managers. Canonical storage only `careerModeShowdown.saveLib
 
 Standing owner merge/deploy authorization remains active after all required tests, exact-head review and deployment gates pass. Later explicit owner instructions override it.
 
+## MANDATORY RECURSIVE SLE HANDOFF BOUNDARY
+
 Future handoffs must recursively use SLE = Smart Lean Efficient and preserve the mandatory repository-first next-developer prompt standard. When repository tooling is available use `npm run work:next-prompt`. A fresh successor must initialize its own WEC; never inherit this predecessor's transition decision as its own.
+
+At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh the live capsule/bootstrap and context pointers including `SESSION_BOOTSTRAP.json`, `SESSION_CONTEXT_GRAPH.json`, `SESSION_CONTEXT_MODEL.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current handoff pointers as required by the live package, generate the short repository-first next-developer prompt, set the transition package to 100, seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, and stop before beginning the next substantial milestone. A prompt-only, single-file or unmirrored handoff is incomplete.
 
 Owner-facing progress format:
 Handoff proximity: X%
