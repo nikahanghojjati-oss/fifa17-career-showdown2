@@ -21,9 +21,11 @@ PR #157 already established that authenticated third-account and revoked registe
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-After independently verifying live `main`, PR #159 publication state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `SESSION_BOOTSTRAP.json` and the closing Work Environment Continuity record, validate/archive the inherited WEC and initialize a fresh unique WEC with reset counters.
+First independently verify live `main`, PR #159 publication state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `SESSION_BOOTSTRAP.json` and the closing Work Environment Continuity record. Validate/archive the inherited WEC, initialize a fresh unique WEC with reset counters from verified live `main`, and assess that fresh successor environment independently. Never inherit the predecessor transition decision as the successor's own decision.
 
-Then begin the next automatically provable pre-Stage-5 product capability: token-lifecycle hardening. Study deployed `1.8.1-r3` App Check/Auth lifecycle, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, existing App Check/runtime contracts and Connected Rivalry safety. Prove the smallest meaningful deterministic later expiry/refresh transition, including failure handling, while preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery.
+If PR #159 is still open after the fresh successor WEC owns and assesses its status, complete read-only validation of its immutable WEC-100 head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
+
+Only after that publication gate closes, and only if the fresh WEC permits continuation, begin the next automatically provable pre-Stage-5 product capability: token-lifecycle hardening. Study deployed `1.8.1-r3` App Check/Auth lifecycle, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, existing App Check/runtime contracts and Connected Rivalry safety. Prove the smallest meaningful deterministic later expiry/refresh transition, including failure handling, while preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery.
 
 App Check enforcement remains OFF. Do not add persistent Firestore cache, extra Auth scopes, billing, broader IAM, speculative scheduler work or new storage authority merely to make proof easier. Two-physical-network behavior remains separately uncredited. Stage 5 stays locked until the remaining explicit gates genuinely close.
 
@@ -69,4 +71,4 @@ Compact starter: `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md`.
 Deep handoff: `SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md`.
 Current closing environment: `we-2026-08-26-private-remote-joining-session-boundary-5c7a`.
 
-Handoff material is orientation only. Current source, live GitHub/provider/deployment evidence and later owner instructions win. A successor must never inherit the predecessor transition decision as its own; initialize and assess a fresh WEC before new substantive work.
+Handoff material is orientation only. Current source, live GitHub/provider/deployment evidence and later owner instructions win. A successor must never inherit the predecessor transition decision as its own; initialize and assess a fresh WEC before PR #159 publication work or any other new substantive work.
