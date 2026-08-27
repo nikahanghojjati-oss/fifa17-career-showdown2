@@ -1,33 +1,38 @@
-# CURRENT HANDOFF — PR #158 MERGED / POST-MERGE GREEN / RJR 81 — 2026-08-26 ET
+# CURRENT HANDOFF — PR #160 MERGED / POST-MERGE GREEN / v1.8.1-r4 PRODUCTION / RJR 82 — 2026-08-27 ET
 
-This file is the concise rolling handoff for the current repository boundary. Older rolling entries remain recoverable in Git history, including the complete pre-refresh body at commit `aba136197cd9ad38f512f2daf8795def4f80a1bf`; they are historical provenance only and must not override this current section.
+This file is the concise rolling handoff for the current repository boundary. Older rolling entries remain recoverable in Git history and are historical provenance only; they must not override this current section.
 
 ## Current live authority
 
-- Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
-- Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-- Live `main`: `5eecb482e94263fce7ce9041cdc4f3c7f3a86d21`, squash merge of PR #158 `Prove Stage 4 adverse-network local-save safety`.
-- PR #158 final exact head: `72435c180deb744418f93fe8155f280973c3b76a`.
-- PR #158 exact-head validation: all 14 permanent pull-request workflow families successful; its sole Codex finding was corrected and resolved before merge.
-- Post-merge validation: all 15 push/deployment runs successful, including GitHub Pages `33019945003` and Stability `33019945012` through the complete deployed journey.
-- Production: `v1.8.1 / 1.8.1-r3`.
-- Runtime release merge: `beab9f31cb7f31bf4938f5b0df67394899ef12a0` from PR #151.
-- Remote Joining readiness: fixed RJR-1 `81/100`.
+- Repository: `nikahanghojjati-oss/fifa17-career-showdown2`.
+- Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`.
+- Verified pre-handoff runtime main: `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`, expected-head squash merge of PR #160 `Harden Stage 4 App Check lifecycle`.
+- PR #160 final exact head: `9b39d9b6032eb24ef98a252ec7de13e129443c95`.
+- PR #160 exact-head validation: all 14 permanent pull-request workflow families successful; 0 submitted reviews; 0 inline review threads; mergeability true.
+- Post-merge validation: all 15 push/deployment runs completed without failure/cancellation, including Pages `33035579363`, Release Integration Burn-In `33035579462` and Stability `33035579438` through deployed runtime-byte equality, production App Check token path, Candidate A/B/C, offline/install and the complete journey.
+- Production: `v1.8.1 / 1.8.1-r4`.
+- Immediate previous whole-shell recovery runtime: `1.8.1-r3`.
+- Production proof: `V1.8.1_R4_PRODUCTION_PROOF.md`.
+- Remote Joining readiness: fixed RJR-1 `82/100`.
 - Stage 5 Private Remote Joining host/join/session orchestration: still locked pending remaining explicit pre-Stage-5 hardening.
 
-PR #158 permanently closes deterministic adverse-provider failure safety without changing runtime bytes, Firestore Security Rules, provider configuration or canonical storage. `tests/contracts/stage4-adverse-network-contracts.cjs` proves that after valid registered-device and exactly-two-owner rivalry preflight plus immutable local projection, provider loss before remote mutation commit leaves canonical local Save Library bytes unchanged. This is exactly +1 from RJR 80 to 81; it does not credit two-physical-network behavior, token lifecycle, authenticated production third-account/revoked-device negatives, actual Remote Joining sessions or final connected release acceptance.
+PR #160 closes deterministic App Check token-lifecycle safety. Permanent `tests/contracts/stage4-token-lifecycle-contracts.cjs` proves a distinct later expiry transition, duplicate-expiry dedupe, bounded force-refresh success/failure, metadata-only observer failure, raw-token redaction, preserved Auth/Firestore service identity, unchanged Connected Rivalry authority and byte-identical canonical local saves while App Check enforcement remains OFF. This is exactly +1 from RJR 81 to 82; merge/deployment/SLE receive no duplicate credit.
 
-PR #157 already established that authenticated third-account and revoked registered-device production-negative proof requires legitimate authenticated production identity/device state. Its synthetic probes are explicitly non-evidence. Do not recreate owner accounts, pairings, devices or destructive local state merely to duplicate already-consumed proof.
+Authenticated third-account/revoked registered-device production negatives still require legitimate authenticated production identity/device state. Synthetic attempts are non-evidence. Two-physical-network behavior remains separately uncredited.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-First independently verify live `main`, PR #159 publication state, production/runtime/deployment state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `SESSION_BOOTSTRAP.json` and the closing Work Environment Continuity record. Validate/archive the inherited WEC, initialize a fresh unique WEC with reset counters from verified live `main`, and assess that fresh successor environment independently. Never inherit the predecessor transition decision as the successor's own decision.
+This predecessor work environment is at Handoff proximity 100%. Do not start another substantial product milestone here. Finish and publish only the mandatory recursive SLE/WEC handoff package.
 
-If PR #159 is still open after the fresh successor WEC owns and assesses its status, and the fresh WEC permits continuation, complete read-only validation of its immutable WEC-100 head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
+Canonical starter: `START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md`.
+Deep SLE handoff: `SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md`.
+Production proof: `V1.8.1_R4_PRODUCTION_PROOF.md`.
 
-Only after that publication gate closes, and only if the fresh WEC permits continuation, begin the next automatically provable pre-Stage-5 product capability: token-lifecycle hardening. Study deployed `1.8.1-r3` App Check/Auth lifecycle, especially `js/productionFirebaseRuntime.js`, `js/sparkConnectedAccount.js`, existing App Check/runtime contracts and Connected Rivalry safety. Prove the smallest meaningful deterministic later expiry/refresh transition, including failure handling, while preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery.
+After that transition package is live, the successor must independently verify current `main`, validate/archive the predecessor WEC, create a fresh unique WEC with reset counters and the independently verified current live-main SHA, assess it, and obey its own result. Never inherit this predecessor's transition decision.
 
-App Check enforcement remains OFF. Do not add persistent Firestore cache, extra Auth scopes, billing, broader IAM, speculative scheduler work or new storage authority merely to make proof easier. Two-physical-network behavior remains separately uncredited. Stage 5 stays locked until the remaining explicit gates genuinely close.
+If the fresh successor WEC permits continuation, select the smallest genuinely unblocked remaining Remote Joining dependency from live evidence. Do not preselect a blocked owner-dependent proof merely because it is uncredited. Explicit open areas include legitimate-state third-account/revoked-device production negatives, two-physical-network behavior, real-device token-lifecycle acceptance, abuse hardening, production rollback proof, actual Remote Joining sessions after their gates close, and final stable Remote Joining release acceptance.
+
+Do not repeat consumed owner pairing/device recovery, unavailable-code proof, destructive Candidate C Apply, Stage 4 reconciliation, exact replay, deterministic adverse-provider or deterministic token-lifecycle proof merely for confidence.
 
 ## Permanent locks
 
@@ -39,9 +44,11 @@ Firebase remains Spark / zero billing. Firestore persistence remains memory-only
 
 Standing owner merge/deploy authorization remains active after all required tests, exact-head review and publication/deployment gates pass. Later explicit owner instructions override it.
 
+The historical `pair_a07108...756fb` rivalry must not be forced, edited or deleted; its original local profile/save identities were deleted.
+
 ## Historical contract provenance compatibility summary
 
-The lines in this section are permanent historical transition evidence only. They are not current implementation authority and must not override the current Stage 4 / token-lifecycle direction above.
+The lines in this section are permanent historical transition evidence only. They are not current implementation authority.
 
 Stage 2B — Provider Session Lifecycle & Revocation Boundary — DONE / MERGED / PROVEN through PR #84, exact validated head `d6786d9d3f65a329aaf3607c3eb3d3d357983c5f`, squash merge `c4feadb69fb5e26eba19fa520afa0a09baf1de03`.
 
@@ -67,8 +74,8 @@ Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary
 
 SLE = Smart Lean Efficient.
 
-Compact starter: `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md`.
-Deep handoff: `SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md`.
-Current closing environment: `we-2026-08-26-private-remote-joining-session-boundary-5c7a`.
+Compact starter: `START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md`.
+Deep handoff: `SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md`.
+Current closing environment: `we-2026-08-27-stage4-token-lifecycle-rjr-be07`.
 
-Handoff material is orientation only. Current source, live GitHub/provider/deployment evidence and later owner instructions win. A successor must never inherit the predecessor transition decision as its own; initialize and assess a fresh WEC before PR #159 publication work or any other new substantive work.
+Handoff material is orientation only. Current source, live GitHub/provider/deployment evidence and later owner instructions win. A successor must never inherit the predecessor transition decision as its own; initialize and assess a fresh WEC before any new substantive product work.
