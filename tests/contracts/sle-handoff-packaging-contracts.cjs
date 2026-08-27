@@ -140,7 +140,7 @@ assert.match(capsule.wec100PackagingRule, /stop before the next substantial mile
 const starter = text(starterRoot);
 const handoff = text(handoffRoot);
 for (const [name, value] of [["starter", starter], ["handoff", handoff]]) {
-  assert.match(value, /SLE = Smart Lean Efficient/i, `${name} must preserve the owner SLE definition.`);
+  assert.match(value, /(?:SLE = Smart Lean Efficient|Smart Lean Efficient \(SLE\))/i, `${name} must preserve the owner SLE definition.`);
   assert.match(value, /IMMEDIATE NEXT TASK AFTER FULL STUDY/i, `${name} must identify the immediate next task.`);
   assert.match(value, /standing[\s\S]{0,350}merge[\s\S]{0,260}deploy/i, `${name} must preserve standing merge/deploy authorization.`);
   assert.match(value, /required (?:test|tests|gate|gates)/i, `${name} must condition publication on validation.`);
