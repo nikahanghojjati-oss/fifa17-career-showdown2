@@ -11,7 +11,7 @@
   const CONFIG_PATH="firebase.runtime-config.json";
   const BOOTSTRAP_PATH="js/productionAppCheckBootstrap.js";
   const CONNECTED_ACCOUNT_PATH="js/sparkConnectedAccount.js";
-  const FALLBACK_RUNTIME_REVISION="1.8.1-r4";
+  const FALLBACK_RUNTIME_REVISION="1.8.1-r5";
   const BROWSER_FIRESTORE_WRITE_SCOPE="spark-private-account-device-pairing-connected-rivalry-state";
   const FIREBASE_APP_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app.js`;
   const FIREBASE_APP_CHECK_MODULE=`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-app-check.js`;
@@ -230,6 +230,7 @@
       initializeFirestore:firestoreModule.initializeFirestore,
       memoryLocalCache:firestoreModule.memoryLocalCache,
       Timestamp:firestoreModule.Timestamp,
+      serverTimestamp:firestoreModule.serverTimestamp,
       doc:firestoreModule.doc,
       runTransaction:firestoreModule.runTransaction
     };
@@ -399,7 +400,7 @@
 
       try{
         const sdk=options.accountSdk||await loadAccountFirebaseSdk(options.importImpl);
-        for(const name of ["getAuth","GoogleAuthProvider","signInWithPopup","signOut","onAuthStateChanged","setPersistence","initializeFirestore","memoryLocalCache","doc","runTransaction"]){
+        for(const name of ["getAuth","GoogleAuthProvider","signInWithPopup","signOut","onAuthStateChanged","setPersistence","initializeFirestore","memoryLocalCache","serverTimestamp","doc","runTransaction"]){
           if(typeof sdk[name]!=="function")throw new Error(`Firebase account SDK method unavailable: ${name}`);
         }
         if(!sdk.browserSessionPersistence)throw new Error("Firebase browserSessionPersistence is unavailable.");
@@ -418,7 +419,7 @@
             setPersistence:sdk.setPersistence,
             browserSessionPersistence:sdk.browserSessionPersistence
           }),
-          firestoreSdk:Object.freeze({Timestamp:sdk.Timestamp,doc:sdk.doc,runTransaction:sdk.runTransaction}),
+          firestoreSdk:Object.freeze({Timestamp:sdk.Timestamp,serverTimestamp:sdk.serverTimestamp,doc:sdk.doc,runTransaction:sdk.runTransaction}),
           billingRequired:false,
           blazeRequired:false,
           cloudRunRequired:false,
