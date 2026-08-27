@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-27T01:46:00Z",
+  "recordedAt": "2026-08-27T02:43:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/wec100-pr158-handoff",
+  "bootstrapBranch": "agent/stage4-token-lifecycle-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
+  "lastVerifiedMainSha": "be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff",
   "lastVerifiedRuntimeMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
   "latestRuntimeMerge": {
     "pullRequest": 151,
@@ -21,25 +21,25 @@
     "pagesArtifactDigest": null
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 158,
-    "title": "Prove Stage 4 adverse-network local-save safety",
-    "branch": "agent/stage4-adverse-network-hardening",
-    "finalExactHead": "72435c180deb744418f93fe8155f280973c3b76a",
+    "pullRequest": 160,
+    "title": "Harden Stage 4 App Check lifecycle",
+    "branch": "agent/stage4-token-lifecycle-hardening",
+    "lifecycleProofExactHead": "ac465bc781b038860f91620debb7ae7fc7a3e05d",
     "workflowFamiliesRequired": 14,
-    "workflowFamiliesGreen": 14,
-    "submittedReviews": 1,
-    "unresolvedReviewThreads": 0,
+    "workflowFamiliesGreen": null,
+    "submittedReviews": null,
+    "unresolvedReviewThreads": null,
     "mergeabilityBeforeMerge": true,
-    "mergeSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
-    "postMergeRunsRequired": 15,
-    "postMergeRunsGreen": 15,
-    "pagesRunId": 33019945003,
-    "pagesConclusion": "success",
-    "stabilityRunId": 33019945012,
+    "mergeSha": null,
+    "postMergeRunsRequired": null,
+    "postMergeRunsGreen": null,
+    "pagesRunId": null,
+    "pagesConclusion": null,
+    "stabilityRunId": null,
     "firestoreRulesChanged": false,
     "providerChanged": false,
-    "runtimeChanged": false,
-    "checkpointStatus": "merged-postmerge-green-deterministic-adverse-provider-rjr81"
+    "runtimeChanged": true,
+    "checkpointStatus": "token-lifecycle-proof-passed-rjr82-publication-pending"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 151,
@@ -65,16 +65,16 @@
     "productionRuntimeRevision": "1.8.1-r3",
     "productionStatus": "production-proven-deployed-r3-with-stage4-reconciliation-exact-replay-and-deterministic-adverse-provider-safety",
     "candidateApplicationVersion": "1.8.1",
-    "candidateRuntimeRevision": "1.8.1-r3",
-    "candidateStatus": "production-proven-runtime-unchanged",
-    "candidateRuntimeMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
+    "candidateRuntimeRevision": "1.8.1-r4",
+    "candidateStatus": "release-candidate-not-production-proven-token-lifecycle-capability-evidence-proven",
+    "candidateRuntimeMergeSha": null,
     "candidateImmediateRecoveryRuntime": "1.8.1-r3",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
     "appCheckEnforcement": false,
-    "appCheckCurrentObservation": "enforcement-off-production-connected-r3-initial-token-path-proven-later-refresh-transition-uncredited",
+    "appCheckCurrentObservation": "production-r3-initial-token-path-proven-r4-deterministic-later-expiry-refresh-safety-proof-passed-deployment-pending",
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
@@ -84,20 +84,20 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 predecessor handoff package is now preseal-verified at exact active/99 head 38dbb90d591f24b26c7bcd5b211769e47aa7621e: all 14 permanent workflow families succeeded, exact-head Codex reported no major issues, zero unresolved review threads remain, and mergeability is true. This bootstrap/capsule is the mandated first seal mutation at handoffCompleteness 100. The immediately following WORK_ENVIRONMENT_STATUS.json transition-prepared 100 write must be the final predecessor branch mutation. The successor must validate/archive this inherited WEC, initialize a fresh unique WEC with reset per-environment counters from independently verified live main, and independently assess that fresh WEC without inheriting predecessor HANDOFF_NOW. PR #159 publication is permitted only if the fresh successor WEC permits continuation and read-only immutable-head gates remain clean. Token-lifecycle hardening starts only after publication/post-merge verification and only if the fresh WEC still permits continuation.",
+  "currentLane": "PR #159 is merged and post-merge green on live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. PR #160 token-lifecycle capability proof is green on exact branch head ac465bc781b038860f91620debb7ae7fc7a3e05d while production remains production-proven 1.8.1-r3. Fixed RJR-1 is now 82/100. PR #160 publication and deployment are pending: finish exact-head 14-family/review/thread/mergeability gates, publish the expected head, verify Pages/runtime bytes and the deployed Stability/App Check journey, then transition before another substantial milestone. App Check enforcement remains OFF.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 81,
+    "score": 82,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
-    "decision": "HANDOFF_NOW",
-    "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
-    "checkpoint": "pr159-preseal-38dbb90-all14-green-clean-codex-zero-unresolved-mergeable"
+    "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "decisionScope": "finish-current-pr160-publication-and-deployment-checkpoint-then-transition",
+    "checkpoint": "pr160-token-lifecycle-proof-passed-rjr82-publication-pending"
   },
   "currentHandoff": {
     "canonical": "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
@@ -110,7 +110,7 @@
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "v1.4.22 final repaired transition capsule: PR #159 publication is gated on fresh successor WEC continuation and predecessor decision is HANDOFF_NOW."
+    "versionReason": "Predecessor starter remains the last completed handoff package until this environment seals its post-PR160 successor package. Current source and live authority override its historical task wording."
   },
   "successorPackage": {
     "compactStarter": "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
@@ -154,6 +154,7 @@
     "tests/contracts/production-app-check-runtime-contracts.cjs",
     "tests/browser/production-app-check-runtime-audit.cjs",
     "tests/contracts/stage4-adverse-network-contracts.cjs",
+    "tests/contracts/stage4-token-lifecycle-contracts.cjs",
     "firestore.spark.rules"
   ],
   "criticalLocks": {
@@ -186,12 +187,12 @@
     "name": "stage4-token-lifecycle-hardening",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "After PR #159 publication and post-merge verification, prove the smallest meaningful deterministic App Check/Auth expiry or refresh lifecycle transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
+    "summary": "Finish PR #160 publication and deployed verification for the already-proven deterministic App Check expiry/refresh lifecycle capability while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
   },
   "transition": {
     "contextTransitionRequired": true,
-    "continuationDecision": "HANDOFF_NOW",
-    "handoffCompleteness": 100,
+    "continuationDecision": "HANDOFF_AT_CHECKPOINT",
+    "handoffCompleteness": 70,
     "atomicOperation": false,
     "unrecordedDecisions": 0,
     "nextEnvironmentStartsFresh": true
