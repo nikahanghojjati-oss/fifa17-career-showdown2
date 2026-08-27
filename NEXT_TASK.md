@@ -14,7 +14,7 @@ Repository validation history retains 14 permanent workflow families as the requ
 
 Historical completed-stage provenance remains closed and protected. `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is retained only as the historical post-PR100 gateway heading; it is not current implementation authority and must never revive Phase 1E or the dormant provider-neutral harness as current work. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
 
-Historical immediate-predecessor recovery heading retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. That recovery checkpoint is closed and superseded by owner-proven account restoration, Stage 4 reconciliation, exact accepted-result replay, deterministic adverse-provider safety, and the current r4 token-lifecycle proof.
+Historical immediate-predecessor recovery heading retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Its bounded incident locks were: Do not enable App Check enforcement; preserve unchanged production Rules. That recovery checkpoint is closed and superseded by owner-proven account restoration, Stage 4 reconciliation, exact accepted-result replay, deterministic adverse-provider safety, and the current r4 token-lifecycle proof.
 
 ## What is now closed
 
