@@ -36,4 +36,6 @@ PR #87 post-PR #86 authority reconciliation is DONE / MERGED / PROVEN, with exac
 
 Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — is DONE / MERGED / PROVEN. Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — is DONE / MERGED / PROVEN. Stage 2G — Trusted Account Bootstrap Execution Boundary — is CURRENT / IMPLEMENTATION-AUTHORIZED in that historical successor record only. The application was `v1.4.0`, runtime `1.4.0-r1`, production Firebase remained disconnected, and Private Remote Joining remained DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED at that historical boundary.
 
+Historical release/recovery compatibility remains protected: Candidate C destructive recovery is transaction-owned / mutation-owned, uses strict exact raw snapshot authority, and preserves the shipped Installable Offline App baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and completed Local Profiles / Save Library dependency chain remain historical release authority; they are not current token-lifecycle work.
+
 Historical Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED as historical provenance only; it does not override the current connected production Stage 4 boundary above.
