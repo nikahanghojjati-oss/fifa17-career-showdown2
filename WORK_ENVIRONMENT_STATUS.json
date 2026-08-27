@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T02:34:00Z",
+  "recordedAt": "2026-08-27T02:43:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,9 +14,9 @@
     "projectComplexity": "high",
     "compactionCount": 0,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 10,
+    "largeEvidenceEvents": 11,
     "toolRoutingErrors": 1,
-    "correctedFailures": 9,
+    "correctedFailures": 10,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -24,16 +24,15 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 70,
+    "handoffCompleteness": 72,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish PR #160 as the bounded v1.8.1 / 1.8.1-r4 App Check token-lifecycle hardening milestone. The permanent lifecycle contract passed on exact branch head ac465bc781b038860f91620debb7ae7fc7a3e05d and closes one fixed RJR-1 production-cloud-security capability, moving the evidence-supported candidate score from 81 to 82. Production remains r3 until r4 is merged and deployed-proven.",
-    "lastSafeCheckpoint": "On PR #160 head ac465bc781b038860f91620debb7ae7fc7a3e05d, the repository suite passed through production App Check runtime contracts and then PASS Stage 4 token lifecycle: Firebase-owned auto refresh was observed across a later expiry, deterministic force-refresh success/failure stayed bounded, raw tokens stayed redacted, and Connected Account/Rivalry plus canonical local saves remained unchanged. The suite failed only afterward because this WEC used 'Do not enable App Check enforcement' instead of the permanent exact invariant phrase 'App Check enforcement remains OFF'. That wording defect is being corrected together with the bounded RJR 82 reconciliation.",
-    "nextSafeAction": "Commit one coherent RJR-82 authority/WEC reconciliation without changing runtime bytes, then require the full permanent repository suite and all 14 PR workflow families on one unchanged head. If review/thread/mergeability gates are clean, publish PR #160 under standing authorization, verify live main plus Pages/runtime-byte and deployed Stability/App Check proof, then seal this environment for successor transition before starting another substantial milestone.",
+    "currentTask": "Finish PR #160 as the bounded v1.8.1 / 1.8.1-r4 App Check token-lifecycle hardening milestone. The permanent lifecycle contract passed on exact branch head ac465bc781b038860f91620debb7ae7fc7a3e05d and closes one fixed RJR-1 production-cloud-security capability, moving the evidence-supported score from 81 to 82. Production remains r3 until r4 is merged and deployed-proven.",
+    "lastSafeCheckpoint": "Atomic RJR-82 reconciliation head 04ecc9b6725a8229b154ce8f46a067c79ed7ccf2 passed dynamic release, Stability release coherence, SLE and early permanent contracts. Stability then stopped in the updated handoff-immediate-next-task contract because its newly added bootstrap regex required the literal nouns publication and deployment, while the semantically correct bootstrap text used publish PR #160 and deployed Stability. This is validation defect 10 in the current environment, not a product or lifecycle failure. The bootstrap now states PR #160 publication and deployment are pending explicitly so the contract and authority use the same stable terminology.",
+    "nextSafeAction": "Run the full permanent repository suite and all 14 PR workflow families on the corrected exact head. If clean, inspect review/thread and mergeability gates, publish PR #160 under standing authorization, verify live main plus Pages/runtime-byte and deployed Stability/App Check proof, then complete recursive SLE/WEC handoff before another substantial milestone.",
     "unfinishedWork": [
-      "Make REMOTE_JOINING_READINESS.json, PROJECT_STATE.md, NEXT_TASK.md, SESSION_BOOTSTRAP.json and SESSION_CONTEXT_GRAPH.json agree on the evidence-backed 82/100 token-lifecycle checkpoint.",
       "Bring all 14 permanent PR workflow families, review/thread and mergeability gates green on one unchanged final head.",
       "Publish r4 under standing owner authorization only after clean exact-head gates, then verify live main, Pages/runtime bytes and deployed Stability/App Check journey.",
       "After r4 production proof, complete the recursive SLE/WEC handoff before another substantial milestone because this environment has accumulated elevated validation churn.",
@@ -41,7 +40,7 @@
       "Two-physical-network behavior remains separately uncredited."
     ],
     "knownHazards": [
-      "Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply, Stage 4 reconciliation, exact replay or adverse-provider proof merely for confidence.",
+      "Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply, Stage 4 reconciliation, exact replay, adverse-provider proof or deterministic token-lifecycle proof merely for confidence.",
       "Do not build a custom token refresh scheduler; Firebase App Check already owns automatic refresh when enabled.",
       "Never expose raw App Check token values in diagnostics, storage, logs or tests.",
       "App Check enforcement remains OFF while lifecycle observation and refresh proof remain bounded.",
@@ -54,7 +53,7 @@
     ],
     "evidenceNotes": [
       "Predecessor closure is preserved in work-environment-archives/WEC_CLOSURE_PR159_2026-08-27.json; predecessor HANDOFF_NOW is not inherited.",
-      "Fresh successor assessment from reset counters originally permitted CONTINUE; current accumulated evidence now supports finishing only the current bounded PR #160 milestone before transition.",
+      "Fresh successor assessment from reset counters originally permitted CONTINUE; current accumulated evidence supports finishing only the current bounded PR #160 milestone before transition.",
       "PR #159 merged to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff and its 15 post-merge runs are green; Pages 33031387118, Release Integration 33031387155 and full deployed Stability 33031387112 succeeded.",
       "Official Firebase JavaScript App Check API exposes onTokenChanged and getToken(forceRefresh); r4 uses those SDK lifecycle surfaces while retaining isTokenAutoRefreshEnabled:true and adding no custom refresh timer.",
       "PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d passed tests/contracts/stage4-token-lifecycle-contracts.cjs before a later WEC wording assertion stopped the suite.",
@@ -65,8 +64,9 @@
       "Validation failure 5: NEXT_TASK lost the exact current reconciliation-proven authority marker required by the permanent handoff contract.",
       "Validation failure 6: SESSION_BOOTSTRAP candidateRuntimeRevision remained r3 after source moved to r4.",
       "Validation failure 7: PROJECT_STATE lost the exact r3 reconciliation/exact-replay/adverse-network production authority heading required by the Cloud foundation contract.",
-      "Validation failure 8: NEXT_TASK preserved adverse-provider save safety semantically but omitted the exact 'canonical local Save Library fixture remains byte-for-byte unchanged' contract phrase.",
-      "Validation failure 9: this WEC preserved the enforcement-off policy semantically but omitted the exact 'App Check enforcement remains OFF' phrase required by the Stage 2I boundary contract.",
+      "Validation failure 8: NEXT_TASK preserved adverse-provider save safety semantically but omitted the exact canonical local Save Library fixture remains byte-for-byte unchanged contract phrase.",
+      "Validation failure 9: WEC preserved the enforcement-off policy semantically but omitted the exact App Check enforcement remains OFF phrase required by the Stage 2I boundary contract.",
+      "Validation failure 10: the newly updated handoff contract overconstrained bootstrap wording to publication/deployment nouns while bootstrap used equivalent publish/deployed wording; bootstrap terminology is now aligned without weakening the intended gate.",
       "One repository checkout/bootstrap attempt through the container could not resolve github.com; no retry loop was used and connector-first GitHub operations continued successfully.",
       "Usage remains unknown because no approved current-session usage value is exposed; no percentage is inherited or estimated."
     ]

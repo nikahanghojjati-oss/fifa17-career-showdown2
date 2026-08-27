@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-27T02:34:00Z",
+  "recordedAt": "2026-08-27T02:43:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/stage4-token-lifecycle-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -84,7 +84,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #159 is merged and post-merge green on live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. Fresh successor WEC we-2026-08-27-stage4-token-lifecycle-rjr-be07 owns PR #160. Candidate source is v1.8.1 / 1.8.1-r4 while production remains production-proven 1.8.1-r3. Permanent tests/contracts/stage4-token-lifecycle-contracts.cjs passed on exact branch head ac465bc781b038860f91620debb7ae7fc7a3e05d, proving later expiry/refresh safety, raw-token redaction, preserved account/rivalry services and unchanged canonical local saves. Fixed RJR-1 is now 82/100. Finish exact-head 14-family/review/thread/mergeability gates, publish PR #160, verify Pages/runtime bytes and deployed Stability/App Check journey, then transition before another substantial milestone. App Check enforcement remains OFF.",
+  "currentLane": "PR #159 is merged and post-merge green on live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff. PR #160 token-lifecycle capability proof is green on exact branch head ac465bc781b038860f91620debb7ae7fc7a3e05d while production remains production-proven 1.8.1-r3. Fixed RJR-1 is now 82/100. PR #160 publication and deployment are pending: finish exact-head 14-family/review/thread/mergeability gates, publish the expected head, verify Pages/runtime bytes and the deployed Stability/App Check journey, then transition before another substantial milestone. App Check enforcement remains OFF.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
