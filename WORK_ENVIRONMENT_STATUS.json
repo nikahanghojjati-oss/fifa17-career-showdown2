@@ -2,71 +2,15 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T02:45:00Z",
-  "repository": {
-    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
-    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff",
-    "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0"
-  },
-  "signals": {
-    "contextComplexity": "high",
-    "projectComplexity": "high",
-    "compactionCount": 0,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 12,
-    "toolRoutingErrors": 1,
-    "correctedFailures": 11,
-    "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
-    "unresolvedFailures": 0,
-    "newMilestoneNext": false,
-    "usageRemainingPercent": null,
-    "usageSource": "unavailable",
-    "usageWarning": false,
-    "handoffCompleteness": 74,
-    "unrecordedDecisions": 0,
-    "atomicOperation": false
-  },
+  "recordedAt": "2026-08-27T02:46:00Z",
+  "repository": {"name":"nikahanghojjati-oss/fifa17-career-showdown2","publicSite":"https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/","startingMainSha":"be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff","runtimeReleaseMergeSha":"beab9f31cb7f31bf4938f5b0df67394899ef12a0"},
+  "signals": {"contextComplexity":"high","projectComplexity":"high","compactionCount":0,"majorPhasesCompleted":1,"largeEvidenceEvents":13,"toolRoutingErrors":1,"correctedFailures":12,"repeatedMistakes":0,"staleFactCorrections":0,"unresolvedFailures":0,"newMilestoneNext":false,"usageRemainingPercent":null,"usageSource":"unavailable","usageWarning":false,"handoffCompleteness":76,"unrecordedDecisions":0,"atomicOperation":false},
   "continuity": {
     "currentTask": "Finish PR #160 as the bounded v1.8.1 / 1.8.1-r4 App Check token-lifecycle hardening milestone. The focused lifecycle capability is evidence-proven and fixed RJR-1 is 82/100; production remains r3 until r4 is merged and deployed-proven.",
-    "lastSafeCheckpoint": "Exact head c759b87478ff29729f1da4457996fa021f82bbdc passed dynamic release, handoff/current authority at RJR82, WEC contracts and owner reporting. Stability then advanced to SLE packaging and stopped because project-documents/START_NEXT_SESSION.md still reported predecessor RJR81. That live generated pointer is now aligned to PR #160 / RJR82 while retaining predecessor starter/deep-handoff filenames as orientation. This is validation defect 11, not a capability or score change.",
+    "lastSafeCheckpoint": "Exact head 5198771079fc64025366ccb8300feaf4d92c1d7e passed dynamic release, RJR82 handoff/current authority, WEC, owner reporting and ready-to-paste successor score. Stability then stopped at SLE graph retrievalHints because the protected regex requires the literal phrase product work or Stage 3 while the graph said product milestone. The graph now explicitly calls PR #160 deterministic token-lifecycle product work. This is validation defect 12, not a product or score change.",
     "nextSafeAction": "Require the full permanent repository suite and all 14 PR workflow families on the corrected exact head. If clean, inspect review/thread and mergeability gates, publish PR #160 under standing authorization, verify live main plus Pages/runtime-byte and deployed Stability/App Check proof, then complete recursive SLE/WEC handoff before another substantial milestone.",
-    "unfinishedWork": [
-      "Bring all 14 permanent PR workflow families, review/thread and mergeability gates green on one unchanged final head.",
-      "Publish r4 under standing owner authorization only after clean exact-head gates, then verify live main, Pages/runtime bytes and deployed Stability/App Check journey.",
-      "After r4 production proof, complete the recursive SLE/WEC handoff before another substantial milestone because this environment has accumulated elevated validation churn.",
-      "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes remain non-evidence.",
-      "Two-physical-network behavior remains separately uncredited."
-    ],
-    "knownHazards": [
-      "Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply, Stage 4 reconciliation, exact replay, adverse-provider proof or deterministic token-lifecycle proof merely for confidence.",
-      "Do not build a custom token refresh scheduler; Firebase App Check already owns automatic refresh when enabled.",
-      "Never expose raw App Check token values in diagnostics, storage, logs or tests.",
-      "App Check enforcement remains OFF while lifecycle observation and refresh proof remain bounded.",
-      "Do not weaken Firestore authorization, exactly-two-manager governance or local-save recovery guarantees.",
-      "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
-      "Candidate A remains non-mutating, Candidate B read-only, Candidate C sole destructive explicit Apply authority.",
-      "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; trusted-runtime IAM unactivated/unbroadened.",
-      "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
-      "RJR moves only on genuine fixed-domain capability evidence."
-    ],
-    "evidenceNotes": [
-      "Predecessor closure is preserved in work-environment-archives/WEC_CLOSURE_PR159_2026-08-27.json; predecessor HANDOFF_NOW is not inherited.",
-      "Fresh successor assessment originally permitted CONTINUE; accumulated evidence now supports finishing only the current bounded PR #160 milestone before transition.",
-      "PR #159 merged to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff and its 15 post-merge runs are green.",
-      "PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d passed tests/contracts/stage4-token-lifecycle-contracts.cjs before a later WEC wording assertion stopped the suite.",
-      "The passed lifecycle proof establishes later-expiry transition, same-expiry dedupe, bounded force-refresh success/failure, observer error handling, raw-token redaction, account-service identity preservation and byte-identical local/rivalry fixtures.",
-      "Validation failures 1-4 were r4 shell/current-authority/recovery-provenance propagation defects.",
-      "Validation failure 5 was the lost NEXT_TASK current reconciliation-proven authority marker.",
-      "Validation failure 6 was stale SESSION_BOOTSTRAP candidateRuntimeRevision r3.",
-      "Validation failure 7 was the lost PROJECT_STATE exact r3 reconciliation/exact-replay/adverse-network production authority heading.",
-      "Validation failure 8 was missing exact adverse-provider canonical local Save Library fixture remains byte-for-byte unchanged wording.",
-      "Validation failure 9 was missing exact App Check enforcement remains OFF wording in the WEC.",
-      "Validation failure 10 was bootstrap publication/deployment terminology not matching a newly added live-contract regex.",
-      "Validation failure 11 was project-documents/START_NEXT_SESSION.md retaining predecessor RJR81 after the fixed ledger advanced to 82.",
-      "One repository checkout/bootstrap attempt through the container could not resolve github.com; no retry loop was used and connector-first GitHub operations continued successfully.",
-      "Usage remains unknown because no approved current-session usage value is exposed; no percentage is inherited or estimated."
-    ]
+    "unfinishedWork": ["Bring all 14 permanent PR workflow families, review/thread and mergeability gates green on one unchanged final head.","Publish r4 under standing owner authorization only after clean exact-head gates, then verify live main, Pages/runtime bytes and deployed Stability/App Check journey.","After r4 production proof, complete the recursive SLE/WEC handoff before another substantial milestone.","Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes remain non-evidence.","Two-physical-network behavior remains separately uncredited."],
+    "knownHazards": ["Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply, Stage 4 reconciliation, exact replay, adverse-provider proof or deterministic token-lifecycle proof merely for confidence.","Do not build a custom token refresh scheduler; Firebase App Check already owns automatic refresh when enabled.","Never expose raw App Check token values in diagnostics, storage, logs or tests.","App Check enforcement remains OFF while lifecycle observation and refresh proof remain bounded.","Do not weaken Firestore authorization, exactly-two-manager governance or local-save recovery guarantees.","Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.","Candidate A remains non-mutating, Candidate B read-only, Candidate C sole destructive explicit Apply authority.","Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; trusted-runtime IAM unactivated/unbroadened.","Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.","RJR moves only on genuine fixed-domain capability evidence."],
+    "evidenceNotes": ["Predecessor closure is preserved in work-environment-archives/WEC_CLOSURE_PR159_2026-08-27.json; predecessor HANDOFF_NOW is not inherited.","Fresh successor assessment originally permitted CONTINUE; accumulated evidence now supports finishing only the current bounded PR #160 milestone before transition.","PR #159 merged to live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff and its 15 post-merge runs are green.","PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d passed tests/contracts/stage4-token-lifecycle-contracts.cjs before a later WEC wording assertion stopped the suite.","The passed lifecycle proof establishes later-expiry transition, same-expiry dedupe, bounded force-refresh success/failure, observer error handling, raw-token redaction, account-service identity preservation and byte-identical local/rivalry fixtures.","Validation defects 1-12 are recorded in this environment; defects 1-9 were r4 shell/current-authority/WEC propagation, defect 10 bootstrap publication terminology, defect 11 stale ready-to-paste RJR81, and defect 12 missing protected product work retrieval keyword.","One repository checkout/bootstrap attempt through the container could not resolve github.com; no retry loop was used and connector-first GitHub operations continued successfully.","Usage remains unknown because no approved current-session usage value is exposed; no percentage is inherited or estimated."]
   }
 }
