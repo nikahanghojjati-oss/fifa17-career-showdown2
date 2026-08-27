@@ -28,4 +28,6 @@ At Handoff proximity 100%, recursively create the complete mirrored SLE package,
 
 The completed local dependency chain includes identity-safe longitudinal Career Analytics / Trophy Room correction — PR #59 and presentation-only Local Profile display-label editing — PR #61. These are completed historical dependencies, not current work.
 
+Historical GitHub CLI bootstrap remains repository-owned, connector-first and protected by checksum verification with environment-local tooling/config only and no connector credential repurposing. It is historical tooling compatibility, not a token-lifecycle prerequisite unless a genuine connector gap requires fallback.
+
 Historical Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED as historical provenance only; it does not override the current connected production Stage 4 boundary above.
