@@ -532,6 +532,7 @@ service cloud.firestore {
         && activePairedRivalry(rivalryId)
         && activeOwnedDevice(after.updatedByDeviceId)
         && validCreateEnvelope(after, "sharedState", rivalryId)
+        && after.updatedAt == request.time
         && after.updatedByAccountId == request.auth.uid
         && validSharedStateData(rivalryId, after.data, 0)
         && stateReceiptMatchesIdempotency(rivalryId, after);
@@ -545,6 +546,8 @@ service cloud.firestore {
         && activeOwnedDevice(after.updatedByDeviceId)
         && before.lifecycleState == "live"
         && validCasEnvelope(before, after, "sharedState", rivalryId)
+        && after.updatedAt == request.time
+        && request.time >= before.updatedAt + duration.value(2, 's')
         && after.updatedByAccountId == request.auth.uid
         && after.data.saveId == before.data.saveId
         && after.data.managerBindings == before.data.managerBindings
