@@ -68,7 +68,7 @@ const files = [
   "tests/contracts/trusted-account-deletion-execution-boundary-contracts.cjs",
   "tests/contracts/trusted-account-deletion-execution-contracts.cjs",
   "tests/contracts/trusted-connected-data-account-export-boundary-contracts.cjs",
-  "tests/contracts/trusted-connected-data_account_export-contracts.cjs",
+  "tests/contracts/trusted-connected-data-account-export-contracts.cjs",
   "tests/contracts/offline-hotfix-contracts.cjs",
   "tests/contracts/v13-offline-lifecycle-contracts.cjs",
   "tests/contracts/release-authority-coherence.cjs",
