@@ -1,65 +1,62 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
+  "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-5eec",
   "lifecycle": "active",
-  "recordedAt": "2026-08-26T05:30:00Z",
+  "recordedAt": "2026-08-27T01:49:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "1af7d7243ba3849d3ec2f4bd236f1ba7e4c0efeb",
+    "startingMainSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
     "runtimeReleaseMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 1,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 0,
     "toolRoutingErrors": 0,
-    "correctedFailures": 2,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": false,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 35,
+    "handoffCompleteness": 0,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Seal PR #158 Stage 4 deterministic adverse-network hardening on an exact unchanged head. The permanent contract executes real Connected Rivalry attach/read/publish APIs through provider unavailability, including publish failure after valid registered-device/exactly-two-owner preflight and immutable local projection planning, while proving canonical local Save Library state remains byte-for-byte unchanged.",
-    "lastSafeCheckpoint": "PR #157 merged from exact green head 2e482dfdf8e6a313fb47e890e27761801fa94746 as main ac1a2d7cb30d35e82609b67efa9c8bb820ee9883. All 15 post-merge runs are now independently verified successful, including Deploy GitHub Pages run 32931790086. On PR #158, the new adverse-network contract already passed inside the permanent Stability repository contract-suite step before RJR reconciliation. The fixed branch ledger therefore advances narrowly from 80 to candidate 81/100 in devices-pairing-connected-rivalry-remote-join only; exact final-head gates are still required before that score becomes live main authority. Production runtime remains v1.8.1 / 1.8.1-r3 and runtime bytes are unchanged.",
-    "nextSafeAction": "Finish authority-file coherence, then require all 14 permanent workflow families plus review/thread/mergeability gates on the final exact PR #158 head. If green, merge by expected head under standing owner authorization, verify post-merge main and runs, and then advance token-lifecycle hardening as the next automatically provable pre-Stage-5 capability. Do not count two-physical-network or token-lifecycle capability from the deterministic adverse-provider proof.",
+    "currentTask": "Own the successor publication boundary from independently verified live main 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21. First read-only validate immutable sealed PR #159 head bca3da0e1be82d7217e6e7db47900c84ff2b22e5 and, only while this fresh successor WEC permits continuation and all required gates remain clean, publish PR #159 under standing owner authorization and independently verify resulting live main plus post-merge/deployment state. Then advance the smallest genuinely unproven Stage 4 token-lifecycle capability that can move fixed RJR-1 toward 100.",
+    "lastSafeCheckpoint": "Inherited predecessor WEC we-2026-08-26-private-remote-joining-session-boundary-5c7a was independently validated and archived at authority-history/WEC_CLOSURE_we-2026-08-26-private-remote-joining-session-boundary-5c7a_2026-08-27.md. Its HANDOFF_NOW decision and all per-environment counters were not inherited. Live main was independently reverified as 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21. PR #159 predecessor branch is immutable after final sealed head bca3da0e1be82d7217e6e7db47900c84ff2b22e5. Fixed RJR remains 81/100; continuity work earns no readiness credit.",
+    "nextSafeAction": "Assess this fresh reset WEC independently using the repository evaluator. If it permits continuation, complete read-only exact-head PR #159 publication gates, expected-head squash merge and post-merge/deployment verification. Only after publication is verified may token-lifecycle product work begin. Reassess after each genuine capability/publication phase and transition when this successor's own evidence requires it.",
     "unfinishedWork": [
-      "Make NEXT_TASK, PROJECT_STATE, SESSION_BOOTSTRAP, SESSION_CONTEXT_GRAPH, ready-to-paste successor state and their contracts agree with the candidate RJR 81 adverse-provider proof and token-lifecycle next task.",
-      "Complete exact-final-head PR #158 CI/review/thread/mergeability gates and merge only if unchanged and green.",
-      "Keep authenticated third-account and revoked-device production-negative proof blocked on legitimate production identity/device state; do not recreate owner pairing/account/device state merely for duplication.",
-      "After PR #158 publication, advance token-lifecycle hardening; keep two-physical-network behavior separately uncredited.",
-      "Do not begin Stage 5 Private Remote Joining host/join/session orchestration until remaining explicit pre-Stage-5 gates are closed."
+      "Independently assess this fresh successor WEC before PR #159 publication work.",
+      "Read-only validate immutable sealed PR #159 head and publish/post-merge verify it only if this fresh WEC permits continuation and all gates remain clean.",
+      "Study deployed v1.8.1 / 1.8.1-r3 App Check/Auth lifecycle and prove the smallest meaningful later expiry/refresh transition with safe success and failure behavior.",
+      "Award RJR only for genuine fixed-domain capability evidence; continuity publication itself earns zero.",
+      "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate authenticated production identity/device state; synthetic probes are non-evidence.",
+      "Two-physical-network behavior remains separately uncredited; Stage 5 remains locked until remaining explicit pre-Stage-5 gates genuinely close."
     ],
     "knownHazards": [
-      "Do not repeat consumed owner pairing, owner-device recovery, destructive Candidate C Apply, Stage 4 reconciliation, exact accepted-result replay or deterministic adverse-provider proof merely for confidence.",
-      "The historical pair_a07108...756fb rivalry has deleted original local profile/save identities; do not force, edit or delete it for testing.",
-      "Existing emulator proof already covers registered third-account denial, unregistered/spoofed-device denial, revoked-device publication denial, expired/deleted pair denial and direct remote-save write denial; rerunning those alone is not new production RJR evidence.",
-      "A deterministic provider-network proof is not equivalent to two-physical-network or production token-lifecycle evidence; the +1 is scoped only to deterministic adverse-provider failure safety.",
-      "Do not weaken Firestore authorization, exactly-two-manager governance or local-save recovery guarantees to make a test pass.",
-      "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
-      "Candidate A remains non-mutating, Candidate B remains read-only and Candidate C remains the sole destructive explicit-confirmed Apply authority.",
-      "Firebase remains Spark/zero billing; Firestore remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated and unbroadened.",
-      "Exactly two private managers remain required. Public discovery, public community/profile surfaces, matchmaking and global rankings remain prohibited.",
-      "Current NEXT_TASK keeps Stage 5 locked until remaining pre-Stage-5 hardening is proven; do not bypass that authority.",
-      "RJR evidence is capability-based. Documentation, CI volume or renamed UI alone cannot justify readiness points."
+      "Do not inherit predecessor HANDOFF_NOW or any predecessor counter into this fresh environment.",
+      "Do not mutate the sealed PR #159 predecessor branch.",
+      "Do not repeat consumed owner pairing, owner-device recovery, unavailable-code proof, destructive Candidate C Apply, Stage 4 reconciliation, exact accepted-result replay or deterministic adverse-provider proof merely for confidence.",
+      "Do not force, edit or delete historical pair_a07108...756fb rivalry; original local profile/save identities were deleted.",
+      "Canonical storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
+      "Candidate A remains non-mutating, Candidate B read-only, Candidate C sole destructive explicit Apply authority.",
+      "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated/unbroadened.",
+      "Exactly two private managers remain required. No public discovery, community, matchmaking or global rankings.",
+      "RJR is capability-based. PR count, documentation, WEC/SLE work and repeated existing proof earn no readiness credit."
     ],
     "evidenceNotes": [
-      "PR #157 exact head 2e482dfdf8e6a313fb47e890e27761801fa94746 passed all 14 permanent PR workflow families and merged by expected-head squash to ac1a2d7cb30d35e82609b67efa9c8bb820ee9883; all 15 post-merge runs are successful.",
-      "Production runtime remains v1.8.1 / 1.8.1-r3 from beab9f31cb7f31bf4938f5b0df67394899ef12a0; PR #158 changes no runtime bytes or provider configuration.",
-      "tests/contracts/stage4-adverse-network-contracts.cjs exercises real Connected Rivalry attach/read provider outage and a publish outage after legitimate device/rivalry preflight plus immutable local projection planning, requiring the canonical local Save Library fixture to remain byte-for-byte unchanged.",
-      "The adverse-network proof is wired into tests/support/run-contract-suite.cjs and the initial PR #158 Stability contract-suite step passed it on GitHub-hosted CI.",
-      "REMOTE_JOINING_READINESS.json on the PR #158 branch now records candidate 81/100: +1 only to devices-pairing-connected-rivalry-remote-join for deterministic adverse-provider failure safety. Two-physical-network, token lifecycle, production third-account/revoked-device negatives and actual sessions remain uncredited.",
-      "PR #157 established that authenticated third-account/revoked-device production negatives require legitimate production identity/device state; both synthetic probes are explicitly non-evidence.",
-      "Usage is unknown because no approved current-session usage value is available; no predecessor usage value was inherited or estimated."
+      "Successor independently verified live main 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21 before initialization.",
+      "Predecessor final facts are archived in authority-history/WEC_CLOSURE_we-2026-08-26-private-remote-joining-session-boundary-5c7a_2026-08-27.md; the predecessor decision is non-inheritable.",
+      "Fresh per-environment counters are all reset to zero and usage remains unknown/unestimated.",
+      "Production remains v1.8.1 / 1.8.1-r3 from runtime release merge beab9f31cb7f31bf4938f5b0df67394899ef12a0.",
+      "Fixed RJR-1 starts this successor at 81/100."
     ]
   }
 }
