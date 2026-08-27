@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-27T00:23:00Z",
+  "recordedAt": "2026-08-27T00:45:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/wec100-pr158-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -84,7 +84,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 final sealed head 54130d2535... was invalidated by exact-head Codex review because mandatory 00_DEVELOPER_START_HERE.md still advertised obsolete PR #144/r2, RJR 78 and consumed owner/device proof. WEC and this capsule are intentionally reopened to active/99 until that current entrypoint is refreshed and fresh exact-head gates are clean. Token-lifecycle hardening remains next only after publication and a fresh WEC.",
+  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 continuity/handoff compatibility repair is the current publication boundary: exact head 0c8452017638f8fca1aab655ea7a93855fcffebd passed all 14 permanent workflow families, then exact-head Codex review identified three continuity-only package contradictions now repaired: canonical/mirrored predecessor decision must be HANDOFF_NOW, this capsule must point at the repaired publication state, and the v1.4.22 starter/mirror must gate token-lifecycle work on PR #159 publication/post-merge verification. Fresh exact-head validation/review is now the only pre-seal action. Token-lifecycle hardening begins only after PR #159 is published and a fresh successor WEC permits it.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -97,7 +97,7 @@
     "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
     "decision": "HANDOFF_NOW",
     "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
-    "checkpoint": "pr159-safe-publication-boundary-after-compatibility-repair"
+    "checkpoint": "pr159-safe-publication-boundary-after-all-compatibility-repairs"
   },
   "currentHandoff": {
     "canonical": "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
@@ -110,7 +110,7 @@
     "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "v1.4.22 transition capsule under final compatibility repair before publication."
+    "versionReason": "v1.4.22 final repaired transition capsule: PR #159 publication is explicitly gated before token-lifecycle work and predecessor decision is HANDOFF_NOW."
   },
   "successorPackage": {
     "compactStarter": "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
@@ -186,7 +186,7 @@
     "name": "stage4-token-lifecycle-hardening",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Prove the smallest meaningful deterministic App Check/Auth expiry or refresh lifecycle transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
+    "summary": "After PR #159 publication and post-merge verification, prove the smallest meaningful deterministic App Check/Auth expiry or refresh lifecycle transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
   },
   "transition": {
     "contextTransitionRequired": true,
