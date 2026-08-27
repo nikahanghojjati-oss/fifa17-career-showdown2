@@ -1,28 +1,28 @@
 # START NEXT SESSION
 
-Current compact SLE = Smart Lean Efficient owner entrypoint is `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md`.
+Current compact SLE = Smart Lean Efficient owner entrypoint remains `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md` until this environment seals its new post-PR160 handoff package.
 
-Deep fallback is `SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md`.
+Current deep fallback remains `SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md` until that same seal.
 
-Always independently fetch current `main`; both files are orientation only and current source/live GitHub/provider/deployment evidence win.
+Always independently fetch current `main`; both predecessor files are orientation only and current source/live GitHub/provider/deployment evidence win.
 
-Verified checkpoint at packaging: PR #158 final exact head `72435c180deb744418f93fe8155f280973c3b76a` passed all 14 permanent workflow families, its only Codex finding was fixed/resolved, and it squash-merged as live main `5eecb482e94263fce7ce9041cdc4f3c7f3a86d21`. All 15 post-merge push/deployment runs are successful, including GitHub Pages `33019945003` and Stability `33019945012` through the complete deployed journey.
+Current live checkpoint: PR #159 is merged/post-merge green as main `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`. Production remains `v1.8.1 / 1.8.1-r3`. Current product candidate is PR #160 `Harden Stage 4 App Check lifecycle`, source runtime `v1.8.1 / 1.8.1-r4`.
 
-Production remains `v1.8.1 / 1.8.1-r3`; PR #158 changed no runtime bytes. Remote Joining readiness is fixed RJR-1 `81/100`.
+Remote Joining readiness is fixed RJR-1 `82/100`. The new +1 from 81 to 82 is evidence-backed only by the deterministic App Check token-lifecycle capability. Permanent `tests/contracts/stage4-token-lifecycle-contracts.cjs` passed on exact PR #160 branch head `ac465bc781b038860f91620debb7ae7fc7a3e05d`: Firebase-owned auto refresh is observed across a distinct later expiry, duplicate same-expiry notification is deduplicated, bounded force-refresh success/failure preserves existing Auth/Firestore services, Connected Rivalry authority and canonical local Save bytes, raw tokens remain redacted, and App Check enforcement remains OFF. Deployment/CI volume itself earns no duplicate readiness credit.
 
-PR #158 permanently proves deterministic adverse-provider failure safety: after valid device/exactly-two-owner preflight and immutable local projection, provider failure before remote commit cannot change canonical local Save Library bytes. This is exactly +1 from 80 to 81 and does not credit two-physical-network behavior, token lifecycle, authenticated production third-account/revoked-device negatives or actual sessions.
+PR #158 adverse-provider safety remains closed at the prior 80 → 81 checkpoint. PR #159 continuity publication earned zero readiness points. Production r3 remains the rollback authority until r4 is merged and deployed-proven.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-First validate/archive the inherited closing WEC, initialize a fresh unique WEC for the successor with reset per-environment counters from independently verified live `main`, and assess that fresh WEC independently. Never inherit the predecessor transition decision as the successor's own decision.
+Finish PR #160 publication and deployed verification. Do not repeat consumed pairing/device/recovery, unavailable-code, destructive Candidate C reconciliation, exact replay, deterministic adverse-provider or deterministic token-lifecycle proof.
 
-If PR #159 remains open and the fresh WEC permits continuation after it owns and assesses its status, perform read-only validation of the immutable WEC-100 head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. If the fresh WEC does not permit continuation, obey that decision and do not publish from that environment. Do not begin token-lifecycle product work while PR #159 remains unpublished or its post-merge publication state is unverified.
+Require the current exact PR #160 head to pass the full permanent repository suite and all 14 permanent workflow families together. Inspect reviews and unresolved inline threads and require mergeability. Under standing owner authorization, publish only after those gates are clean, then independently verify resulting live `main`, GitHub Pages runtime-byte equality and full deployed Stability/App Check journey. Only then may `1.8.1-r4` be called production-proven.
 
-Only after PR #159 publication/post-merge verification, and only if the fresh WEC permits continuation, advance token-lifecycle hardening. Study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic expiry/refresh transition while preserving Connected Account, Connected Rivalry, canonical local saves and local-first recovery. App Check enforcement remains OFF. Stage 5 host/join/session work remains locked until remaining explicit pre-Stage-5 gates close.
+After the PR #160 publication/deployment checkpoint, do not start another substantial milestone in this environment. Its current WEC is `HANDOFF_AT_CHECKPOINT`; recursively create and seal the new SLE package first. The successor must validate/archive that inherited WEC, initialize its own fresh unique WEC with reset per-environment counters from independently verified main, independently assess it, and only then select the smallest genuinely unblocked remaining Remote Joining dependency.
 
-Authenticated third-account/revoked-device production negatives remain blocked on legitimate identity/device state; synthetic probes are non-evidence. Two-physical-network behavior remains separately uncredited.
+Authenticated third-account/revoked-device production negatives remain blocked on legitimate identity/device state; synthetic probes are non-evidence. Two-physical-network behavior, real-device token-lifecycle acceptance, abuse hardening, production rollback proof, actual Remote Joining sessions and final stable release acceptance remain separately uncredited. Stage 5 host/join/session work remains locked until remaining explicit pre-Stage-5 gates close.
 
-Permanent locks: exactly two private managers; canonical storage only `careerModeShowdown.saveLibrary`, `.legacyShowdowns`, `.preferences`; Candidate C sole destructive Apply; Firebase Spark/zero billing; Firestore memory-only; popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened; no public discovery/community/matchmaking/global rankings; local-first startup/recovery independent of Firebase.
+Permanent locks: exactly two private managers; canonical storage only `careerModeShowdown.saveLibrary`, `.legacyShowdowns`, `.preferences`; `activeShowdown` noncanonical; Candidate A nonmutating; Candidate B read-only; Candidate C sole destructive Apply; Firebase Spark/zero billing; Firestore memory-only; popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened; no public discovery/community/matchmaking/global rankings; local-first startup/recovery independent of Firebase.
 
 Standing merge/deploy authorization remains active after all required tests and publication/deployment gates pass.
 

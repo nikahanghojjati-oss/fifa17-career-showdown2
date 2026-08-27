@@ -1,3 +1,7 @@
+## 1.8.1-r3 — 2026-08-25 — production-proven
+
+- Production-proven Connected Account/App Check recovery runtime. Restored ordinary signed-out Google sign-in and strict authenticated self-account bootstrap while App Check enforcement remains OFF, Firestore remains memory-only and local-first recovery remains intact. This is the direct previous known-good whole-shell recovery target for the `1.8.1-r4` token-lifecycle candidate.
+
 ## 1.8.1-r2 — 2026-08-25
 
 - Production-deployed Connected Rivalry recovery UX: exact full durable ID visible/wrapped/selectable and copied from immutable saved authority; skipped-release rollback preserves a verified older installed shell. Durable ID shortening abandoned. RJR remains 78.
