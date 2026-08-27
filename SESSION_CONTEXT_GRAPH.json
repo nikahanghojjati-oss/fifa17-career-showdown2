@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-26T22:40:00Z",
+  "recordedAt": "2026-08-27T01:16:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -89,9 +89,27 @@
       "riskCriticality": 1
     },
     {
+      "id": "pr159-continuity-publication-gate",
+      "type": "mandatory-transition-publication-gate",
+      "pullRequest": 159,
+      "state": "open-preseal",
+      "runtimeChanged": false,
+      "rjrDelta": 0,
+      "requiredOrder": [
+        "validate and archive inherited predecessor WEC",
+        "initialize fresh unique WEC with reset per-environment counters from independently verified live main",
+        "assess fresh WEC independently without inheriting predecessor HANDOFF_NOW",
+        "read-only validate immutable WEC-100 PR #159 head",
+        "publish PR #159 only if fresh WEC permits continuation and publication gates remain clean",
+        "verify resulting live main and post-merge/deployment state"
+      ],
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
       "id": "stage4-token-lifecycle-hardening",
-      "type": "immediate-next-product-milestone",
-      "state": "immediate-after-fresh-wec",
+      "type": "immediate-next-product-milestone-after-publication",
+      "state": "blocked-until-pr159-publication-postmerge-verified-and-fresh-wec-permits",
       "scope": [
         "study deployed r3 App Check/Auth lifecycle",
         "prove the smallest meaningful later expiry or refresh transition",
@@ -151,13 +169,14 @@
     {"from":"stage4-exact-idempotency-replay","to":"stage4-production-negative-authorization-audit","relation":"next-production-authorization-audit"},
     {"from":"stage4-production-negative-authorization-audit","to":"stage4-deterministic-adverse-network","relation":"production-state-blocked-select-next-automatic-hardening"},
     {"from":"stage4-deterministic-adverse-network","to":"rjr1-ledger","relation":"adds-one-bounded-deterministic-adverse-provider-capability"},
-    {"from":"stage4-deterministic-adverse-network","to":"stage4-token-lifecycle-hardening","relation":"next-automatically-provable-pre-stage5-capability"},
+    {"from":"stage4-deterministic-adverse-network","to":"pr159-continuity-publication-gate","relation":"continuity-publication-must-close-before-next-product-milestone"},
+    {"from":"pr159-continuity-publication-gate","to":"stage4-token-lifecycle-hardening","relation":"publication-postmerge-verified-and-fresh-wec-permits-continuation"},
     {"from":"stage4-token-lifecycle-hardening","to":"stage5-private-remote-joining","relation":"remaining-pre-stage5-gate-before-session-orchestration"},
     {"from":"canonical-storage","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-local-save-authority"},
     {"from":"security-zero-billing","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-provider-and-enforcement-locks"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from current Stage 4 token-lifecycle product work after PR #158 merged post-merge green; preserve proven reconciliation, exact replay and deterministic adverse-provider locks without rereading closed history. Stage 3/Stage 5 product work remains dependency-gated.",
+    "walkDirection": "Start from PR #158 merged/post-merge-green at RJR 81, then enforce the PR #159 transition publication gate: validate/archive inherited WEC, initialize and independently assess a fresh unique WEC, publish/read-only verify PR #159 only if permitted, and verify post-merge/deployment before ranking Stage 4 token-lifecycle product work. Preserve proven reconciliation, exact replay and deterministic adverse-provider locks without rereading closed history. Stage 5 remains dependency-gated.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
