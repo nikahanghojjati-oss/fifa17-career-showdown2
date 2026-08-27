@@ -1,3 +1,5 @@
+Production runtime: `v1.8.1 / 1.8.1-r3` — production-proven Connected Account/App Check recovery baseline and direct whole-shell recovery target for the `1.8.1-r4` token-lifecycle candidate.
+
 Production runtime: `v1.8.1 / 1.8.1-r2` — Connected Rivalry full-ID recovery UX, PR #144.
 
 # CURRENT RELEASE NOTE — v1.8.1-r1 pairing identity UX hardening production release
