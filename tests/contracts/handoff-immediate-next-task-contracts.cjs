@@ -16,6 +16,7 @@ const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUN
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const standingAuth = read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 const productionRuntime = bootstrap.runtime?.productionRuntimeRevision || "";
+const candidateRuntime = bootstrap.runtime?.candidateRuntimeRevision || "";
 const applicationVersion = bootstrap.runtime?.applicationVersion || packageJson.version || "";
 
 assert.match(golden,/Mandatory immediate-next-task handoff rule/i,"Golden handoff policy must permanently require an explicit immediate-next-task section.");
@@ -37,49 +38,54 @@ assert.match(active,/c5c7d50cc3a2d9003e057d1813744c877323c068[\s\S]+deployed-sit
 
 assert.ok(applicationVersion,"SESSION_BOOTSTRAP must expose the current application version.");
 assert.ok(productionRuntime,"SESSION_BOOTSTRAP must expose the current production runtime revision.");
+assert.ok(candidateRuntime,"SESSION_BOOTSTRAP must expose the current candidate runtime revision during runtime publication.");
 assert.equal(packageJson.version,applicationVersion,"package.json and SESSION_BOOTSTRAP must agree on the application version.");
-assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"NEXT_TASK must expose the current reconciliation-proven authority.");
-assert.match(next,new RegExp(`Status:[\\s\\S]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[\\s\\S]+STAGE 5 STILL LOCKED`,"i"),"NEXT_TASK must preserve current runtime and Stage 5 lock truth.");
-assert.match(next,new RegExp("RJR-1 `"+readiness.currentScore+"\\/100`","i"),"NEXT_TASK must report the score from the live fixed RJR ledger rather than a stale literal.");
-assert.match(next,new RegExp("Production runtime is `[\\s\\S]*"+escapeRegex(productionRuntime)+"`[\\s\\S]+PR #160[\\s\\S]+post-merge push\\/deployment runs[\\s\\S]+immediate previous whole-shell recovery runtime","i"),"NEXT_TASK must preserve current production runtime provenance and its immediate recovery boundary.");
-assert.match(next,/OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25\.md/i,"NEXT_TASK must point to the canonical current owner reconciliation proof.");
-assert.match(next,/exact accepted-result idempotency replay[\s\S]+evidence-proven[\s\S]+revision-0[\s\S]+revision-1[\s\S]+original accepted revision\/hash/i,"NEXT_TASK must preserve the closed exact accepted-result replay boundary.");
-assert.match(next,/without changing current authority[\s\S]+receipt count[\s\S]+canonical local Save state[\s\S]+two-owner authorization[\s\S]+stale-base CAS/i,"NEXT_TASK must preserve replay uniqueness, local-state safety, authorization and CAS invariants.");
-assert.match(next,/deterministic adverse-provider[\s\S]+registered-device[\s\S]+exactly-two-owner[\s\S]+canonical local Save Library[\s\S]+byte-for-byte unchanged/i,"NEXT_TASK must preserve deterministic adverse-provider safety.");
-assert.match(next,/80 → 81 \+1 credits only deterministic adverse-provider failure safety/i,"NEXT_TASK must preserve the bounded adverse-provider credit.");
-assert.match(next,/81 → 82 \+1 credits only deterministic App Check token-lifecycle safety/i,"NEXT_TASK must preserve the bounded token-lifecycle credit.");
-assert.match(next,new RegExp("Fixed RJR-1 is `"+readiness.currentScore+"\\/100`","i"),"NEXT_TASK must preserve the calculated fixed RJR score.");
-if(readiness.currentScore>=83){
-  assert.match(next,/82 → 83 \+1 credits only deterministic structural abuse resistance/i,"NEXT_TASK must preserve the bounded structural-abuse credit.");
-  assert.match(next,/11-season[\s\S]+denied[\s\S]+no authoritative state[\s\S]+idempotency receipt[\s\S]+ten-season boundary remains accepted/i,"NEXT_TASK must preserve the exact structural-abuse proof boundary.");
-  assert.match(next,/rate limiting[\s\S]+production abuse acceptance[\s\S]+remain[\s\S]+uncredited/i,"NEXT_TASK must not inflate structural abuse proof into full abuse-hardening closure.");
-}
-assert.match(next,/Authenticated third-account[\s\S]+revoked registered-device[\s\S]+legitimate authenticated production identity\/device state/i,"NEXT_TASK must retain the real blocked production authorization dependency without fabricating proof.");
-assert.match(next,/token auto-refresh[\s\S]+onTokenChanged[\s\S]+force-refresh[\s\S]+App Check enforcement remains OFF/i,"NEXT_TASK must preserve the proven lifecycle boundary without inventing a custom refresh scheduler.");
-assert.match(next,/Two-physical-network behavior remains separately uncredited/i,"NEXT_TASK must distinguish deterministic proof from real two-network hardening.");
-assert.match(next,/Do not repeat Stage 4 destructive remote-to-local Candidate C Apply/i,"NEXT_TASK must forbid redundant destructive reconciliation proof.");
-assert.match(next,/Do not repeat exact replay proof/i,"NEXT_TASK must forbid redundant replay work after the permanent gate owns it.");
-assert.match(next,/Do not repeat deterministic adverse-provider proof/i,"NEXT_TASK must forbid redundant adverse-provider work after the permanent gate owns it.");
-assert.match(next,/Do not repeat deterministic token-lifecycle proof/i,"NEXT_TASK must forbid redundant lifecycle proof after the permanent gate owns it.");
-assert.match(next,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"NEXT_TASK must preserve the offline recovery baseline while connected work advances.");
-assert.match(next,/App Check enforcement remains OFF/i,"NEXT_TASK must preserve the App Check enforcement lock.");
-assert.match(next,/after all required tests[\s\S]+merge and deploy without repeatedly asking for approval/i,"NEXT_TASK must preserve standing owner publication authorization with gate conditions.");
 assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fixed model.");
 assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=82&&readiness.currentScore<=100,"The fixed RJR authority must not regress below the evidence-proven token-lifecycle checkpoint.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
+
+assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"NEXT_TASK must expose the current PR #163 sustained mutation-frequency authority rather than a stale predecessor heading.");
+assert.match(next,new RegExp(`Status:[\\s\\S]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[\\s\\S]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(candidateRuntime)}[\\s\\S]+STAGE 5 REMAINS LOCKED`,"i"),"NEXT_TASK must distinguish deployed production runtime, candidate runtime and the Stage 5 lock.");
+assert.match(next,new RegExp("RJR[\\s\\S]+"+readiness.currentScore+"\\/100","i"),"NEXT_TASK must report the score from the live fixed RJR ledger rather than a stale literal.");
+assert.match(next,/PR #163 proof head[\s\S]+Validate Stage 3 Private Pairing[\s\S]+stage4-mutation-rate-limit-contracts\.cjs[\s\S]+stage4-mutation-rate-limit-emulator\.cjs/i,"NEXT_TASK must preserve the exact permanent capability-proof provenance for sustained mutation-frequency hardening.");
+assert.match(next,/at least two seconds[\s\S]+Firestore server time[\s\S]+denied mutation[\s\S]+no authoritative revision[\s\S]+idempotency receipt[\s\S]+canonical local Save Library[\s\S]+Exact accepted-result replay/i,"NEXT_TASK must preserve the bounded server-time rate-limit proof and its no-side-effect/replay invariants.");
+assert.match(next,/exactly \+1[\s\S]+83 → 84/i,"NEXT_TASK must preserve the single bounded readiness credit for sustained mutation-frequency hardening.");
+assert.match(next,/Runtime packaging[\s\S]+CI volume[\s\S]+PR publication[\s\S]+merge[\s\S]+deployment[\s\S]+provider publication[\s\S]+documentation[\s\S]+zero duplicate/i,"NEXT_TASK must forbid duplicate readiness credit for publication mechanics.");
+assert.match(next,/Production-provider publication[\s\S]+firestore\.spark\.rules[\s\S]+separately unverified/i,"NEXT_TASK must keep repository/emulator Rules evidence separate from provider publication truth.");
+assert.match(next,/structural abuse resistance remains closed and protected/i,"NEXT_TASK must preserve the prior structural-abuse capability as closed rather than repeat it.");
+assert.match(next,/Exact accepted-result replay[\s\S]+deterministic adverse-provider[\s\S]+App Check token-lifecycle[\s\S]+production remote-to-local reconciliation[\s\S]+consumed proof/i,"NEXT_TASK must preserve prior evidence as consumed and non-repeatable.");
+assert.match(next,/Authenticated third-account[\s\S]+revoked registered-device[\s\S]+legitimate authenticated production identity\/device state/i,"NEXT_TASK must retain the real blocked production authorization dependency without fabricating proof.");
+assert.match(next,/Two-physical-network behavior remains separately uncredited/i,"NEXT_TASK must distinguish deterministic proof from real two-network hardening.");
+assert.match(next,/Remote Joining specific real-device token-lifecycle acceptance remains uncredited/i,"NEXT_TASK must preserve the separate real-device lifecycle gap.");
+assert.match(next,/Production abuse acceptance remains uncredited/i,"NEXT_TASK must not inflate deterministic rate-limit evidence into production abuse acceptance.");
+assert.match(next,/Production rollback proof remains uncredited/i,"NEXT_TASK must preserve the production rollback gap.");
+assert.match(next,/Actual Remote Joining sessions remain Stage-5-gated/i,"NEXT_TASK must preserve the actual session gate.");
+assert.match(next,/Final stable Remote Joining release acceptance remains uncredited/i,"NEXT_TASK must preserve final release acceptance as uncredited.");
+assert.match(next,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"NEXT_TASK must preserve the offline recovery baseline while connected work advances.");
+assert.match(next,/Canonical browser storage remains exactly[\s\S]+careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences[\s\S]+activeShowdown is non-canonical/i,"NEXT_TASK must preserve the exact canonical local storage boundary.");
+assert.match(next,/Candidate A remains non-mutating[\s\S]+Candidate B remains read-only[\s\S]+Candidate C remains the sole destructive Apply authority[\s\S]+rollback remains transaction-owned[\s\S]+strict exact raw snapshot/i,"NEXT_TASK must preserve Candidate A/B/C authority and rollback locks.");
+assert.match(next,/Firebase remains Spark \/ zero billing[\s\S]+Firestore remains memory-only[\s\S]+Google Auth remains popup-only `browserSessionPersistence` with no extra scopes[\s\S]+App Check enforcement remains OFF[\s\S]+Trusted-runtime IAM remains unactivated\/unbroadened/i,"NEXT_TASK must preserve provider, persistence, Auth, App Check and IAM locks.");
+assert.match(next,/Exactly two private managers remain required[\s\S]+Public discovery, community, matchmaking and global rankings remain prohibited/i,"NEXT_TASK must preserve private exactly-two-owner product scope.");
+assert.match(next,/after all required tests[\s\S]+merge and deploy without repeatedly asking for approval/i,"NEXT_TASK must preserve standing owner publication authorization with gate conditions.");
+
+assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,160,"SESSION_BOOTSTRAP must retain PR #160 as current deployed runtime provenance until r5 is merged and verified.");
+assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with the deployed production runtime.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,163,"SESSION_BOOTSTRAP must point at the active PR #163 publication checkpoint.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.candidateRuntimeRevision,candidateRuntime,"SESSION_BOOTSTRAP publication checkpoint must agree with the r5 candidate runtime.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence,readiness.currentScore,"SESSION_BOOTSTRAP publication checkpoint must preserve exact conservative RJR accounting.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage3PrivatePairingProofGreen,true,"SESSION_BOOTSTRAP must retain the permanent Stage 3/4 capability-proof pass.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderRulesPublicationProven,false,"SESSION_BOOTSTRAP must not fabricate production Firestore Rules publication.");
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
 
 if(bootstrap.immediateNextTask?.mustStartAsRealProductWork===true){
-  assert.equal(bootstrap.immediateNextTask.name,"pr162-structural-abuse-hardening-publication","Active successor bootstrap must keep the bounded PR #162 publication task until publication completes.");
-  assert.match(bootstrap.currentLane,/PR #162[\s\S]+structural abuse hardening/i,"Active successor bootstrap must expose the current abuse-hardening publication lane.");
-  assert.match(bootstrap.currentLane,/83\/100/i,"Active successor bootstrap must expose the fixed RJR score.");
-  assert.match(bootstrap.currentLane,/14 permanent workflow families/i,"Active successor bootstrap must preserve the exact-head workflow proof.");
+  assert.equal(bootstrap.immediateNextTask.name,"pr163-r5-rjr84-publication-and-sle-seal","Active successor bootstrap must keep the bounded PR #163 publication + SLE seal task until publication completes.");
+  assert.match(bootstrap.currentLane,/PR #163[\s\S]+1\.8\.1-r5[\s\S]+RJR-1 exactly 83 to 84/i,"Active successor bootstrap must expose the current r5/RJR84 publication lane.");
+  assert.match(bootstrap.currentLane,/14-family publication/i,"Active successor bootstrap must preserve the exact-head workflow requirement.");
   assert.equal(bootstrap.transition?.continuationDecision,"CONTINUE","Active successor bootstrap must retain its independently assessed continuation decision until reassessed.");
   assert.ok(bootstrap.transition?.handoffCompleteness<100,"Active product publication must not falsely claim a complete handoff package.");
-  assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #162 publication[\s\S]+14 permanent workflow families[\s\S]+Expected-head squash merge/i,"NEXT_TASK must route the active successor through exact-head PR #162 publication rather than another product milestone.");
-  assert.match(next,/reassess this fresh successor WEC immediately after publication/i,"NEXT_TASK must require WEC reassessment before another substantial capability.");
+  assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #163 publication only[\s\S]+14 permanent workflow families[\s\S]+Expected-head squash merge[\s\S]+deployed `v1\.8\.1 \/ 1\.8\.1-r5`[\s\S]+recursive SLE handoff package[\s\S]+Handoff proximity 100%/i,"NEXT_TASK must route the active successor through exact-head PR #163 publication and then the mandatory SLE seal rather than another product milestone.");
 }else{
   assert.match(bootstrap.immediateNextTask?.name||"",/sle-publication/i,"A transition-only bootstrap task must be recursive SLE publication.");
   assert.equal(bootstrap.transition?.contextTransitionRequired,true,"Transition-only bootstrap must require a context transition.");
@@ -113,4 +119,4 @@ assert.match(remotePriority,/PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YE
 assert.match(start,/identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,"Developer bootstrap must include PR #59 in the completed dependency chain.");
 assert.match(start,/presentation-only Local Profile display-label editing — PR #61/i,"Developer bootstrap must include PR #61 in the completed dependency chain.");
 
-console.log(`Handoff immediate-next-task contracts passed: live NEXT_TASK and SESSION_BOOTSTRAP track ${applicationVersion}/${productionRuntime}, fixed RJR ${readiness.currentScore}/100, preserve Stage 5 lock plus Stage 4 reconciliation/replay/adverse-provider/token-lifecycle/structural-abuse closure, and route the current environment through its truthful publication-or-transition boundary.`);
+console.log(`Handoff immediate-next-task contracts passed: live PR #163 authority tracks production ${applicationVersion}/${productionRuntime}, candidate ${applicationVersion}/${candidateRuntime}, fixed RJR ${readiness.currentScore}/100, preserves all permanent locks and consumed proof, and routes publication directly into the recursive SLE seal.`);
