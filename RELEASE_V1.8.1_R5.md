@@ -42,6 +42,10 @@ Fixed RJR-1 is now `84/100`. The dedicated permanent sustained mutation-frequenc
 
 Production publication of the strengthened `firestore.spark.rules` remains a separate provider verification gate. Repository candidate Rules must not be described as production-live without provider evidence.
 
+## Promotion gates
+
+Require the exact unchanged final r5 candidate head to pass all 14 permanent workflow families, review/thread/mergeability gates, whole-shell coherence and normal expected-head publication discipline. After merge/deployment, require runtime-byte equality and the normal deployed Stability/App Check journey before treating r5 as production-proven. Deployment verification closes publication confidence but does not duplicate the already-earned sustained mutation-frequency capability point.
+
 ## Recovery
 
 `1.8.1-r4` is the previous known-good whole shell and remains the direct rollback target if r5 fails promotion or deployed verification.
