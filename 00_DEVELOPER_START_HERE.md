@@ -10,7 +10,7 @@ Production remains `v1.8.1 / 1.8.1-r3`; PR #158 changed no production runtime by
 
 First enter the mandatory Work Environment Continuity system: independently verify live `main` and PR #159 state, validate/archive the inherited predecessor WEC, initialize a fresh unique WEC with reset counters from the verified live main, and assess that fresh successor environment independently. Never inherit this predecessor's `HANDOFF_NOW` decision as the successor's own decision.
 
-If PR #159 is still open after the fresh successor WEC owns and assesses its status, complete read-only validation of the immutable WEC-100 PR head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
+If PR #159 is still open after the fresh successor WEC owns and assesses its status, and the fresh WEC permits continuation, complete read-only validation of the immutable WEC-100 PR head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
 
 Only after the PR #159 publication gate closes, and only if the fresh WEC permits continuation, execute Stage 4 token-lifecycle hardening: study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic later expiry/refresh transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery.
 
