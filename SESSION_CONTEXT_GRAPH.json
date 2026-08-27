@@ -32,7 +32,7 @@
     {"from":"security-zero-billing","to":"stage4-structural-abuse-hardening","relation":"must-preserve-provider-and-enforcement-locks"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from production-proven PR #160 / v1.8.1-r4, then PR #161 predecessor SLE publication merge e5a6b6334499887982ff280ff820eb5d508d9eba, then the fresh successor WEC and PR #162 structural abuse-hardening evidence at fixed RJR 83. Finish PR #162 publication and reassess WEC before another substantial capability. Preserve reconciliation, exact replay, adverse-provider safety, token-lifecycle safety, canonical storage, zero-billing and enforcement-off locks without repeating owner proof.",
+    "walkDirection": "Start from production-proven PR #160 / v1.8.1-r4, then PR #161 predecessor SLE publication merge e5a6b6334499887982ff280ff820eb5d508d9eba, then the fresh successor WEC and PR #162 structural abuse-hardening evidence at fixed RJR 83. Finish PR #162 publication and reassess WEC before another substantial Remote Joining capability. Preserve reconciliation, exact replay, adverse-provider safety, token-lifecycle safety, canonical storage, zero-billing and enforcement-off locks without repeating owner proof.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
