@@ -18,7 +18,11 @@ const RULES=fs.readFileSync("firestore.spark.rules","utf8");
 
 function sdk(){
   const firestore=require("firebase/firestore");
-  return {Timestamp,doc,runTransaction:firestore.runTransaction};
+  return {Timestamp,serverTimestamp:firestore.serverTimestamp,doc,runTransaction:firestore.runTransaction};
+}
+
+function wait(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
 }
 
 function hash(seed="0"){return `sha256:${seed.repeat(64).slice(0,64)}`;}
@@ -238,6 +242,7 @@ function rawKeyHash(value){
     assert.equal(bRead0.ok,true,JSON.stringify(bRead0));
     assert.equal(bRead0.revision,0);
 
+    await wait(2100);
     const aUpdate=await connected.publishSharedState({
       user:{uid:"acct_stage4_a"},firestore:dbA,firebaseSdk:sdk(),deviceId:aIdentity.deviceId,
       binding:aBinding,rivalryId,expectedStateExists:true,baseRevision:0,idempotencyKey:"stage4-a-update-1",
@@ -262,6 +267,7 @@ function rawKeyHash(value){
     });
     assert.equal(bRefresh.ok,true,JSON.stringify(bRefresh));
     assert.equal(bRefresh.revision,1);
+    await wait(2100);
     const bUpdate=await connected.publishSharedState({
       user:{uid:"acct_stage4_b"},firestore:dbB,firebaseSdk:sdk(),deviceId:bIdentity.deviceId,
       binding:bBinding,rivalryId,expectedStateExists:true,baseRevision:1,idempotencyKey:"stage4-b-update-2",
