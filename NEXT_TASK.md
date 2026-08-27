@@ -53,7 +53,7 @@ Do not force, edit or delete historical `pair_a07108...756fb`.
 
 The Installable Offline App remains the local-first startup and recovery baseline; ordinary local startup must not depend on Firebase availability. The `v1.3.0 Recovery & Device Resilience Hardening` baseline remains closed and protected, and Local Profiles with Save Library remain the shipped local identity/save dependency chain.
 
-Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B remains read-only analysis, and Candidate C remains the sole destructive Apply authority for remote-to-local local mutation. Candidate C rollback remains transaction-owned and its destructive recovery boundary requires a strict exact raw snapshot.
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; activeShowdown is non-canonical. Candidate A remains non-mutating export, Candidate B remains read-only analysis, and Candidate C remains the sole destructive Apply authority for remote-to-local local mutation. Candidate C rollback remains transaction-owned and its destructive recovery boundary requires a strict exact raw snapshot.
 
 Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
 
