@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN — TOKEN-LIFECYCLE HARDENING CANDIDATE — 2026-08-27 ET
 
-Status: production `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / candidate `v1.8.1 / 1.8.1-r4` TOKEN-LIFECYCLE CAPABILITY EVIDENCE-PROVEN / RJR-1 `82/100` / STAGE 5 STILL LOCKED PENDING THE REMAINING EXPLICIT PRE-STAGE-5 HARDENING.
+Status: production `v1.8.1 / 1.8.1-r3` DEPLOYED / PRODUCTION-PROVEN STAGE 4 RECONCILIATION / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / candidate `v1.8.1 / 1.8.1-r4` RELEASE CANDIDATE / NOT PRODUCTION-PROVEN / TOKEN-LIFECYCLE CAPABILITY EVIDENCE-PROVEN / RJR-1 `82/100` / STAGE 5 STILL LOCKED PENDING THE REMAINING EXPLICIT PRE-STAGE-5 HARDENING.
 
 Production runtime remains `1.8.1-r3` until PR #160 is merged and deployed-proven. The exact deployed runtime checkpoint is `v1.8.1 / 1.8.1-r3` from PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`. Current live main is PR #159 squash merge `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`; PR #159 is continuity-only, fully post-merge green, and earns no RJR credit. The completed PR #158 adverse-provider proof-only lane does not change production runtime bytes, Firestore Security Rules, provider configuration, billing, canonical local storage, Candidate C authority, App Check enforcement, Google Auth behavior, or trusted-runtime IAM. The new PR #160 r4 candidate changes whole-shell/runtime bytes only for bounded token-lifecycle observation and preserves every one of those policy and storage boundaries.
 
@@ -8,7 +8,7 @@ Current environment: `we-2026-08-27-stage4-token-lifecycle-rjr-be07`
 
 Starting independently verified live main: `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`
 
-Current product candidate: PR #160 `Harden Stage 4 App Check lifecycle` on `agent/stage4-token-lifecycle-hardening`.
+Authorized product candidate: `v1.8.1 / 1.8.1-r4` — PR #160 `Harden Stage 4 App Check lifecycle` on `agent/stage4-token-lifecycle-hardening`.
 
 Repository validation history retains 14 permanent workflow families as the required PR-family gate for this runtime generation.
 
