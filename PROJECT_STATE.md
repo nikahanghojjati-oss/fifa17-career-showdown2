@@ -78,7 +78,7 @@ Firebase remains Spark / zero billing. App Check enforcement remains OFF. Firest
 
 Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive remote-to-local Apply authority with strict exact raw snapshot authority, immutable intent, backup-before-Apply, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification.
 
-The Installable Offline App remains the local-first startup/recovery baseline; ordinary local use must not depend on Firebase availability.
+The Installable Offline App remains the local-first startup/recovery baseline; ordinary local use must not depend on Firebase availability. The `v1.3.0 Recovery & Device Resilience Hardening` baseline remains closed and protected; Local Profiles and Save Library remain the shipped local identity/save dependency chain.
 
 ## Work Environment Continuity / SLE
 
