@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-27T00:45:00Z",
+  "recordedAt": "2026-08-27T01:19:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "agent/wec100-pr158-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -84,7 +84,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 continuity/handoff compatibility repair is the current publication boundary: exact head 0c8452017638f8fca1aab655ea7a93855fcffebd passed all 14 permanent workflow families, then exact-head Codex review identified three continuity-only package contradictions now repaired: canonical/mirrored predecessor decision must be HANDOFF_NOW, this capsule must point at the repaired publication state, and the v1.4.22 starter/mirror must gate token-lifecycle work on PR #159 publication/post-merge verification. Fresh exact-head validation/review is now the only pre-seal action. Token-lifecycle hardening begins only after PR #159 is published and a fresh successor WEC permits it.",
+  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 continuity/handoff compatibility repair remains the current publication boundary. Before any PR #159 publication work, the successor must validate/archive this inherited predecessor WEC, initialize a fresh unique WEC with reset per-environment counters from independently verified live main, and independently assess that fresh WEC without inheriting predecessor HANDOFF_NOW. If PR #159 remains open and the fresh WEC permits continuation, read-only validate the immutable WEC-100 head, publish only with clean gates, then verify resulting live main and post-merge/deployment state. Token-lifecycle hardening starts only after that publication gate closes and the fresh WEC permits continuation. Current active/99 branch is repairing only continuity ordering; no runtime, provider, storage, RJR or consumed owner-proof behavior is being changed.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
