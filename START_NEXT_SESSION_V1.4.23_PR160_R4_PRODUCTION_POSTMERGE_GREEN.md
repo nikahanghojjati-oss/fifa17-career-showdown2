@@ -47,7 +47,7 @@ Permanent proof establishes SDK-owned auto-refresh across a distinct later expir
 
 PR count, documentation, CI volume, merge, deployment and SLE work earn zero duplicate RJR credit.
 
-## Immediate successor direction
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Do not begin by repeating token-lifecycle, adverse-provider, exact-replay, destructive reconciliation, pairing/device recovery or unavailable-code owner proof.
 
