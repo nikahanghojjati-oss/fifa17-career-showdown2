@@ -30,4 +30,10 @@ The completed local dependency chain includes identity-safe longitudinal Career 
 
 Historical GitHub CLI bootstrap remains repository-owned, connector-first and protected by checksum verification with environment-local tooling/config only and no connector credential repurposing. It is historical tooling compatibility, not a token-lifecycle prerequisite unless a genuine connector gap requires fallback.
 
+Stage 2B — Provider Lifecycle & Revocation Proof — is DONE / MERGED / PROVEN. Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary — is DONE / MERGED / PROVEN. Exact Stage 2C completion boundary: validated head `48aa61a8d1b26f2c621cf7f0b410c68e0418257a`, squash merge `22566e1409cf53d728b38d0b5a19de478ae6761b`; production Firebase remained disconnected at that historical boundary.
+
+PR #87 post-PR #86 authority reconciliation is DONE / MERGED / PROVEN, with exact validated head `2415c156161b6244c75e49917bad28efed957adf` and squash merge `0accb827fa91f86fdd28e63590bd4843267546ae`. Stage 2D — Production Firebase Environment & Configuration Preflight — is CURRENT in that historical transition record only; it is not current product work now.
+
+Stage 2E — Trusted Application Account Bootstrap & Lifecycle Boundary — is DONE / MERGED / PROVEN. Stage 2F — Trusted Request Authentication & ID Token Revocation Boundary — is DONE / MERGED / PROVEN. Stage 2G — Trusted Account Bootstrap Execution Boundary — is CURRENT / IMPLEMENTATION-AUTHORIZED in that historical successor record only. The application was `v1.4.0`, runtime `1.4.0-r1`, production Firebase remained disconnected, and Private Remote Joining remained DEPENDENCY-GATED / NOT YET IMPLEMENTATION-AUTHORIZED at that historical boundary.
+
 Historical Stage 2I remains DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING / PRODUCTION FIREBASE DISCONNECTED as historical provenance only; it does not override the current connected production Stage 4 boundary above.
