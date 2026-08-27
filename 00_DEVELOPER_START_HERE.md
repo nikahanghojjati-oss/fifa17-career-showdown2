@@ -8,7 +8,11 @@ Production remains `v1.8.1 / 1.8.1-r3`; PR #158 changed no production runtime by
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-After PR #159 publication, enter the mandatory Work Environment Continuity system: validate/archive the inherited predecessor WEC, initialize a fresh unique WEC with reset counters from independently verified live main and assess that fresh environment independently. If it permits continuation, execute Stage 4 token-lifecycle hardening: study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic later expiry/refresh transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery.
+First enter the mandatory Work Environment Continuity system: independently verify live `main` and PR #159 state, validate/archive the inherited predecessor WEC, initialize a fresh unique WEC with reset counters from the verified live main, and assess that fresh successor environment independently. Never inherit this predecessor's `HANDOFF_NOW` decision as the successor's own decision.
+
+If PR #159 is still open after the fresh successor WEC owns and assesses its status, complete read-only validation of the immutable WEC-100 PR head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished.
+
+Only after the PR #159 publication gate closes, and only if the fresh WEC permits continuation, execute Stage 4 token-lifecycle hardening: study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic later expiry/refresh transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and local-first recovery.
 
 App Check enforcement remains OFF. Do not add extra Auth scopes, persistent Firestore cache, billing, speculative scheduler work or broader trusted-runtime IAM. Do not repeat consumed owner pairing, owner-device recovery, unavailable-code proof, destructive Candidate C Apply, Stage 4 reconciliation, exact accepted-result replay or deterministic adverse-provider proof merely for confidence. The historical `pair_a07108...756fb` rivalry must not be forced, edited or deleted; its original local profile/save identities were deleted. Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state and synthetic probes are non-evidence.
 
@@ -20,7 +24,7 @@ Current compact starter: `START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREE
 Deep SLE handoff: `SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md`.
 Rolling historical compatibility authority: `00_CURRENT_HANDOFF.md` and repository history.
 
-PR #159 is continuity-only. Its predecessor WEC `we-2026-08-26-private-remote-joining-session-boundary-5c7a` correctly assesses `HANDOFF_NOW`. Finish only the PR #159 safe publication boundary, then transition. A successor must never inherit the predecessor transition decision as its own.
+PR #159 is continuity-only. Its predecessor WEC `we-2026-08-26-private-remote-joining-session-boundary-5c7a` correctly assesses `HANDOFF_NOW`. Finish only the PR #159 handoff seal boundary, then transition. A successor must never inherit the predecessor transition decision as its own.
 
 At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh live capsule/bootstrap/context pointers, generate the repository-first next-developer prompt, set the transition package to 100, seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, and stop before the next substantial milestone. A prompt-only, single-file or unmirrored handoff is incomplete.
 
