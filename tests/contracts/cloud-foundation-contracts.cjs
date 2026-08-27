@@ -78,7 +78,7 @@ assert.match(historicalState, /1\.4\.0-r2[\s\S]{0,220}production-proven runtime 
 assert.match(historicalState, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Archived PROJECT_STATE must preserve owner-prioritized Remote Joining historical direction.");
 
 assert.match(next, /CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i, "NEXT_TASK must expose current reconciliation-proven authority.");
-assert.match(next, /Production runtime is `1\.8\.1-r4`[\s\S]+`1\.8\.1-r3` is now the immediate previous whole-shell recovery runtime/i, "NEXT_TASK must preserve the current r4 production runtime and immediate r3 recovery boundary.");
+assert.match(next, /Production runtime is `1\.8\.1-r4`[\s\S]+`1\.8\.1-r3` (?:is now|remains) the immediate previous whole-shell recovery runtime/i, "NEXT_TASK must preserve the current r4 production runtime and immediate r3 recovery boundary.");
 assert.match(next, /Candidate C (?:as|remains) the sole destructive (?:local )?Apply authority|Candidate C remains the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
 assert.match(next, /Public discovery, community, matchmaking and global rankings remain prohibited/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
 assert.match(next, /STAGE 5 STILL LOCKED|Stage 5 host\/join\/session orchestration remains locked/i, "NEXT_TASK must preserve the Stage 5 lock.");
