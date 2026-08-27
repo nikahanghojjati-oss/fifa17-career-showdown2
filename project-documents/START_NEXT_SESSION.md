@@ -14,7 +14,11 @@ PR #158 permanently proves deterministic adverse-provider failure safety: after 
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-After validating the inherited closing WEC and creating a fresh unique WEC with reset counters, advance token-lifecycle hardening. Study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic expiry/refresh transition while preserving Connected Account, Connected Rivalry, canonical local saves and local-first recovery. App Check enforcement remains OFF. Stage 5 host/join/session work remains locked until remaining explicit pre-Stage-5 gates close.
+First validate/archive the inherited closing WEC, initialize a fresh unique successor WEC with reset per-environment counters from independently verified live `main`, and assess that fresh successor environment independently. Never inherit the predecessor transition decision as the successor's own decision.
+
+If PR #159 remains open after the fresh successor WEC owns and assesses its status, perform read-only validation of the immutable WEC-100 head, require the standing publication gates to remain clean, publish PR #159 under standing owner authorization, and verify resulting live `main` plus post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished or its post-merge publication state is unverified.
+
+Only after PR #159 publication/post-merge verification, and only if the fresh WEC permits continuation, advance token-lifecycle hardening. Study deployed r3 App Check/Auth lifecycle and prove the smallest meaningful deterministic expiry/refresh transition while preserving Connected Account, Connected Rivalry, canonical local saves and local-first recovery. App Check enforcement remains OFF. Stage 5 host/join/session work remains locked until remaining explicit pre-Stage-5 gates close.
 
 Authenticated third-account/revoked-device production negatives remain blocked on legitimate identity/device state; synthetic probes are non-evidence. Two-physical-network behavior remains separately uncredited.
 
