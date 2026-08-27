@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 82,
+  "currentScore": 83,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -84,12 +84,13 @@
       "id": "real-device-hardening-release",
       "label": "Real-device hardening and stable release",
       "weight": 10,
-      "earned": 5,
+      "earned": 6,
       "evidence": [
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
         "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage.",
         "2026-08-24 owner-supplied production evidence across one Chromebook and one iPhone proves fresh one-use pairing, revision-0 publication, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
-        "Remote Joining specific two-network and real-device token-lifecycle testing, abuse hardening, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
+        "2026-08-27 permanent Stage 4 structural abuse-hardening proof executes the real private pairing and Connected Rivalry clients against the production Firestore Rules in the emulator: authenticated rivalry collection enumeration is denied; authorized modified-client 11-season create and update attempts are denied; rejected writes allocate no authoritative shared-state document or additional idempotency receipt and leave canonical local Save Library fixtures unchanged; the exact legitimate ten-season boundary remains accepted.",
+        "Remote Joining specific two-network and real-device token-lifecycle testing, broader abuse hardening including rate limiting and production abuse acceptance, production rollback proof and final stable Remote Joining release acceptance remain incomplete."
       ]
     }
   ],
@@ -248,6 +249,14 @@
       "delta": 1,
       "domainId": "production-cloud-security",
       "reason": "PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d passed the permanent Stage 4 token-lifecycle contract using the real production Firebase runtime boundary. Firebase-owned auto refresh is observed across a distinct later expiry; duplicate same-expiry notification is deduplicated; bounded force-refresh success and outage preserve existing Auth/Firestore services, Connected Rivalry authority and canonical local Save bytes; observer failure remains metadata-only; raw App Check token values never enter diagnostics; enforcement remains OFF. The +1 credits only this newly proven fixed production-cloud-security lifecycle capability and gives zero credit to packaging, CI volume or deployment itself."
+    },
+    {
+      "recordedAt": "2026-08-27T14:06:00Z",
+      "eventId": "stage4-structural-abuse-hardening-proof",
+      "score": 83,
+      "delta": 1,
+      "domainId": "real-device-hardening-release",
+      "reason": "PR #162 exact proof head d32a8242bc4e1c145c1228a1ef1818ff795710fb passed all 14 permanent workflow families including the real Stage 3/4 Firestore emulator lane and full Stability Chromium journey. The permanent proof shows authenticated rivalry collection enumeration is denied; authorized modified-client 11-season create and peer update attempts are denied by production Firestore Rules; rejected attempts allocate no authoritative shared state or extra idempotency receipts and leave canonical local Save Library fixtures unchanged; the exact legitimate ten-season boundary remains accepted. The +1 credits only structural abuse resistance in the fixed hardening/release domain. It does not credit PR/CI volume, rate limiting, production abuse acceptance, App Check enforcement, two-network testing, production rollback, actual Remote Joining sessions or final stable release acceptance."
     }
   ]
 }

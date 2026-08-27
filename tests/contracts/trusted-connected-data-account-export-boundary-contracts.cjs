@@ -71,7 +71,7 @@ assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i)
 assert.match(nextTask,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Live NEXT_TASK must identify current production-proven reconciliation authority rather than revive PR #125 or the r3 recovery incident.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore remains memory-only/i);
-assert.match(nextTask,/Candidate C remains the sole destructive remote-to-local Apply authority/i);
+assert.match(nextTask,/Candidate C remains the sole destructive (?=[^\n]*Apply authority)(?=[^\n]*remote-to-local)[^\n]+/i,"Live NEXT_TASK must preserve Candidate C as the sole destructive remote-to-local Apply authority without pinning one sentence order.");
 assert.match(nextTask,/STAGE 5 STILL LOCKED|Do not begin Stage 5/i);
 
 assert.equal(production.activation.appCheckEnforcement,false);
