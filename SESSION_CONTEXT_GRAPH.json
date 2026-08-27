@@ -1,19 +1,21 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-26T05:25:00Z",
+  "recordedAt": "2026-08-27T01:16:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
-      "id": "live-main-pr157-merged",
+      "id": "live-main-pr158-merged",
       "type": "current-main-boundary",
-      "value": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
-      "pullRequest": 157,
-      "finalExactHead": "2e482dfdf8e6a313fb47e890e27761801fa94746",
+      "value": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
+      "pullRequest": 158,
+      "finalExactHead": "72435c180deb744418f93fe8155f280973c3b76a",
       "applicationVersion": "1.8.1",
       "runtimeRevision": "1.8.1-r3",
       "runtimeChanged": false,
       "prWorkflowFamiliesGreen": 14,
       "postMergeRunsGreen": 15,
+      "pagesRunId": 33019945003,
+      "stabilityRunId": 33019945012,
       "authority": 1
     },
     {
@@ -36,7 +38,7 @@
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
       "recordedScore": 81,
-      "rule": "fixed capability evidence only; r3 restored exactly two r2-invalidated account credits, Stage 4 production reconciliation added one capability, exact accepted-result replay added one capability, and deterministic adverse-provider safety adds exactly one bounded capability",
+      "rule": "fixed capability evidence only; deterministic adverse-provider safety is the latest single bounded capability credit",
       "authority": 1
     },
     {
@@ -53,8 +55,6 @@
       "state": "merged-postmerge-green-permanent-emulator-gate",
       "pullRequest": 154,
       "mergeSha": "141a7937a9e4cf580178c857dc6267e464f918aa",
-      "runtimeChanged": false,
-      "rulesChanged": false,
       "rjrScoreAfterProof": 80,
       "authority": 1,
       "riskCriticality": 1
@@ -65,24 +65,19 @@
       "state": "merged-postmerge-green-legitimate-production-state-required",
       "pullRequest": 157,
       "mergeSha": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
-      "result": "authenticated third-account and revoked-device production negatives cannot be validly automated without legitimate authenticated production identity/device state; synthetic unauthenticated probes are non-evidence",
+      "result": "authenticated third-account and revoked-device production negatives require legitimate authenticated production identity/device state; synthetic probes are non-evidence",
       "rjrDelta": 0,
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage4-deterministic-adverse-network",
-      "type": "completed-evidence-capability-candidate",
-      "state": "pr158-exact-head-publication-gates-pending",
+      "type": "completed-evidence-capability",
+      "state": "pr158-merged-postmerge-green",
       "pullRequest": 158,
+      "finalExactHead": "72435c180deb744418f93fe8155f280973c3b76a",
+      "mergeSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
       "proof": "tests/contracts/stage4-adverse-network-contracts.cjs",
-      "capabilities": [
-        "attach/read provider unavailability returns bounded provider errors",
-        "publish passes active registered-device and exactly-two-owner rivalry preflight before the induced provider loss",
-        "immutable local projection planning completes before the remote mutation attempt",
-        "provider loss before remote commit leaves canonical local Save Library byte-for-byte unchanged",
-        "UI failure paths preserve local-save recovery messaging"
-      ],
       "rjrScoreAfterProof": 81,
       "notCredited": [
         "two-physical-network testing",
@@ -94,14 +89,32 @@
       "riskCriticality": 1
     },
     {
+      "id": "pr159-continuity-publication-gate",
+      "type": "mandatory-transition-publication-gate",
+      "pullRequest": 159,
+      "state": "open-preseal",
+      "runtimeChanged": false,
+      "rjrDelta": 0,
+      "requiredOrder": [
+        "validate and archive inherited predecessor WEC",
+        "initialize fresh unique WEC with reset per-environment counters from independently verified live main",
+        "assess fresh WEC independently without inheriting predecessor HANDOFF_NOW",
+        "read-only validate immutable WEC-100 PR #159 head",
+        "publish PR #159 only if fresh WEC permits continuation and publication gates remain clean",
+        "verify resulting live main and post-merge/deployment state"
+      ],
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
       "id": "stage4-token-lifecycle-hardening",
       "type": "immediate-next-product-milestone",
-      "state": "next-after-pr158-publication",
+      "state": "blocked-until-pr159-publication-postmerge-verified-and-fresh-wec-permits",
       "scope": [
         "study deployed r3 App Check/Auth lifecycle",
-        "prove the smallest meaningful expiry or refresh transition",
+        "prove the smallest meaningful later expiry or refresh transition",
         "preserve Connected Account and Connected Rivalry state boundaries",
-        "prove local saves cannot be corrupted by token lifecycle failure",
+        "prove canonical local saves cannot be corrupted by token lifecycle failure",
         "keep App Check enforcement OFF and avoid speculative scheduler work unless source evidence requires it"
       ],
       "stage5Authorized": false,
@@ -118,10 +131,6 @@
         "token-lifecycle hardening",
         "abuse and release acceptance boundaries"
       ],
-      "publicDiscovery": false,
-      "publicMatchmaking": false,
-      "community": false,
-      "rankings": false,
       "authority": 1
     },
     {
@@ -147,12 +156,6 @@
       "persistentFirestoreCache": false,
       "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
       "stage2hIamActivated": false,
-      "stage2hIamPermissions": [
-        "firebaseauth.users.get",
-        "datastore.databases.get",
-        "datastore.entities.get",
-        "datastore.entities.create"
-      ],
       "publicDiscovery": false,
       "publicCommunity": false,
       "publicMatchmaking": false,
@@ -162,20 +165,18 @@
     }
   ],
   "edges": [
-    {"from":"production-runtime-v181-r3","to":"stage4-reconciliation-production-proof","relation":"deployed-runtime-owner-production-proves"},
-    {"from":"stage4-reconciliation-production-proof","to":"rjr1-ledger","relation":"adds-one-fixed-capability"},
     {"from":"stage4-reconciliation-production-proof","to":"stage4-exact-idempotency-replay","relation":"next-smallest-stage4-hardening"},
-    {"from":"stage4-exact-idempotency-replay","to":"rjr1-ledger","relation":"adds-one-bounded-replay-capability"},
     {"from":"stage4-exact-idempotency-replay","to":"stage4-production-negative-authorization-audit","relation":"next-production-authorization-audit"},
-    {"from":"stage4-production-negative-authorization-audit","to":"stage4-deterministic-adverse-network","relation":"production-identity-state-blocked-select-next-automatic-hardening"},
+    {"from":"stage4-production-negative-authorization-audit","to":"stage4-deterministic-adverse-network","relation":"production-state-blocked-select-next-automatic-hardening"},
     {"from":"stage4-deterministic-adverse-network","to":"rjr1-ledger","relation":"adds-one-bounded-deterministic-adverse-provider-capability"},
-    {"from":"stage4-deterministic-adverse-network","to":"stage4-token-lifecycle-hardening","relation":"next-automatically-provable-pre-stage5-capability"},
+    {"from":"stage4-deterministic-adverse-network","to":"pr159-continuity-publication-gate","relation":"continuity-publication-must-close-before-next-product-milestone"},
+    {"from":"pr159-continuity-publication-gate","to":"stage4-token-lifecycle-hardening","relation":"publication-postmerge-verified-and-fresh-wec-permits-continuation"},
     {"from":"stage4-token-lifecycle-hardening","to":"stage5-private-remote-joining","relation":"remaining-pre-stage5-gate-before-session-orchestration"},
-    {"from":"canonical-storage","to":"stage4-deterministic-adverse-network","relation":"must-preserve-local-save-authority"},
-    {"from":"security-zero-billing","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-current-provider-and-enforcement-locks"}
+    {"from":"canonical-storage","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-local-save-authority"},
+    {"from":"security-zero-billing","to":"stage4-token-lifecycle-hardening","relation":"must-preserve-provider-and-enforcement-locks"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from current Stage 4 token-lifecycle product work after PR #158 adverse-network publication; preserve proven reconciliation, exact-replay and deterministic adverse-provider locks without rereading closed history.",
+    "walkDirection": "Start from PR #158 merged/post-merge-green at RJR 81, then enforce the PR #159 transition publication gate: validate/archive inherited WEC, initialize and independently assess a fresh unique WEC, publish/read-only verify PR #159 only if permitted, and verify post-merge/deployment before ranking Stage 4 token-lifecycle product work. Preserve proven reconciliation, exact replay and deterministic adverse-provider locks without rereading closed history. Stage 5 remains dependency-gated.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
