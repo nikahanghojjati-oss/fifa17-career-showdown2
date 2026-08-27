@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-26T05:27:00Z",
+  "recordedAt": "2026-08-27T01:46:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "agent/stage4-adverse-network-hardening",
+  "bootstrapBranch": "agent/wec100-pr158-handoff",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
+  "lastVerifiedMainSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
   "lastVerifiedRuntimeMainSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
   "latestRuntimeMerge": {
     "pullRequest": 151,
@@ -21,24 +21,25 @@
     "pagesArtifactDigest": null
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 157,
-    "title": "Audit remaining production authorization negative dependency",
-    "branch": "agent/private-remote-joining-session-boundary",
-    "finalExactHead": "2e482dfdf8e6a313fb47e890e27761801fa94746",
+    "pullRequest": 158,
+    "title": "Prove Stage 4 adverse-network local-save safety",
+    "branch": "agent/stage4-adverse-network-hardening",
+    "finalExactHead": "72435c180deb744418f93fe8155f280973c3b76a",
     "workflowFamiliesRequired": 14,
     "workflowFamiliesGreen": 14,
     "submittedReviews": 1,
     "unresolvedReviewThreads": 0,
     "mergeabilityBeforeMerge": true,
-    "mergeSha": "ac1a2d7cb30d35e82609b67efa9c8bb820ee9883",
+    "mergeSha": "5eecb482e94263fce7ce9041cdc4f3c7f3a86d21",
     "postMergeRunsRequired": 15,
     "postMergeRunsGreen": 15,
-    "pagesRunId": 32931790086,
+    "pagesRunId": 33019945003,
     "pagesConclusion": "success",
+    "stabilityRunId": 33019945012,
     "firestoreRulesChanged": false,
     "providerChanged": false,
     "runtimeChanged": false,
-    "checkpointStatus": "merged-postmerge-green-production-negative-dependency-audited-rjr80"
+    "checkpointStatus": "merged-postmerge-green-deterministic-adverse-provider-rjr81"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 151,
@@ -47,7 +48,7 @@
     "applicationVersion": "1.8.1",
     "runtimeRevision": "1.8.1-r3",
     "proofRecord": "OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md",
-    "proofClass": "production-proven-r3-owner-account-recovery-stage4-reconciliation-plus-exact-replay",
+    "proofClass": "production-proven-r3-account-recovery-stage4-reconciliation-exact-replay-and-adverse-provider-safety",
     "currentRegression": null
   },
   "ownerStandingAuthorization": {
@@ -62,10 +63,10 @@
   "runtime": {
     "applicationVersion": "1.8.1",
     "productionRuntimeRevision": "1.8.1-r3",
-    "productionStatus": "production-proven-deployed-r3-with-stage4-reconciliation-and-exact-replay-proof",
+    "productionStatus": "production-proven-deployed-r3-with-stage4-reconciliation-exact-replay-and-deterministic-adverse-provider-safety",
     "candidateApplicationVersion": "1.8.1",
     "candidateRuntimeRevision": "1.8.1-r3",
-    "candidateStatus": "production-proven-runtime-unchanged-test-only-hardening-candidate",
+    "candidateStatus": "production-proven-runtime-unchanged",
     "candidateRuntimeMergeSha": "beab9f31cb7f31bf4938f5b0df67394899ef12a0",
     "candidateImmediateRecoveryRuntime": "1.8.1-r3",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r1",
@@ -73,7 +74,7 @@
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
     "appCheckEnforcement": false,
-    "appCheckCurrentObservation": "enforcement-off-production-connected-with-r3-degraded-observation-tolerance-preserved",
+    "appCheckCurrentObservation": "enforcement-off-production-connected-r3-initial-token-path-proven-later-refresh-transition-uncredited",
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
     "productionBrowserWriteScope": "bounded-private-account-device-pairing-plus-connected-rivalry-authoritative-state",
@@ -83,7 +84,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #158 proves deterministic Connected Rivalry adverse-provider failure safety at RJR-1 candidate 81/100. PR #157 already established that authenticated third-account/revoked-device production negatives require legitimate production identity/device state. After PR #158 publication, token-lifecycle hardening is the next automatically provable pre-Stage-5 capability; two-physical-network behavior remains separately uncredited.",
+  "currentLane": "PR #158 adverse-provider safety remains merged and post-merge green at fixed RJR-1 81/100. PR #159 predecessor handoff package is now preseal-verified at exact active/99 head 38dbb90d591f24b26c7bcd5b211769e47aa7621e: all 14 permanent workflow families succeeded, exact-head Codex reported no major issues, zero unresolved review threads remain, and mergeability is true. This bootstrap/capsule is the mandated first seal mutation at handoffCompleteness 100. The immediately following WORK_ENVIRONMENT_STATUS.json transition-prepared 100 write must be the final predecessor branch mutation. The successor must validate/archive this inherited WEC, initialize a fresh unique WEC with reset per-environment counters from independently verified live main, and independently assess that fresh WEC without inheriting predecessor HANDOFF_NOW. PR #159 publication is permitted only if the fresh successor WEC permits continuation and read-only immutable-head gates remain clean. Token-lifecycle hardening starts only after publication/post-merge verification and only if the fresh WEC still permits continuation.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -93,27 +94,27 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication, WEC, SLE or documentation count."
   },
   "closingWec": {
-    "environmentId": "we-2026-08-25-stage4-idempotency-replay",
-    "decision": "HANDOFF_AT_CHECKPOINT",
-    "decisionScope": "historical-predecessor-closing-environment-only-do-not-inherit",
-    "checkpoint": "pr154-exact-replay-merged-postmerge-green-rjr80"
+    "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
+    "decision": "HANDOFF_NOW",
+    "decisionScope": "predecessor-closing-environment-only-do-not-inherit",
+    "checkpoint": "pr159-preseal-38dbb90-all14-green-clean-codex-zero-unresolved-mergeable"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md"
+    "canonical": "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md"
   },
   "starter": {
-    "version": "1.4.21",
-    "checkpoint": "PR154-MERGED-POSTMERGE-GREEN-EXACT-REPLAY-PROVEN-HISTORICAL-ORIENTATION",
-    "canonical": "START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
+    "version": "1.4.22",
+    "checkpoint": "PR158-MERGED-POSTMERGE-GREEN-ADVERSE-PROVIDER-PROVEN-RJR81",
+    "canonical": "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
     "ownerInitialDelivery": "give-only-this-file-first",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "Retained as the latest sealed compact starter; live repository authority has advanced through PR #157 and current PR #158 and must be independently verified."
+    "versionReason": "v1.4.22 final repaired transition capsule: PR #159 publication is gated on fresh successor WEC continuation and predecessor decision is HANDOFF_NOW."
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
@@ -137,8 +138,9 @@
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
     "REMOTE_JOINING_READINESS.json",
-    "START_NEXT_SESSION_V1.4.21_PR154_MERGED_POSTMERGE_GREEN.md",
-    "SUCCESSOR_HANDOFF_POST_PR154_EXACT_REPLAY_PROVEN_SLE_2026-08-25.md",
+    "00_DEVELOPER_START_HERE.md",
+    "START_NEXT_SESSION_V1.4.22_PR158_MERGED_POSTMERGE_GREEN.md",
+    "SUCCESSOR_HANDOFF_POST_PR158_ADVERSE_NETWORK_PROVEN_WEC100_SLE_2026-08-26.md",
     "WORK_ENVIRONMENT_STATUS.json",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
@@ -147,14 +149,12 @@
     "REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md",
     "js/cloudSyncRemoteContract.js",
     "js/productionFirebaseRuntime.js",
-    "js/productionAppCheckBootstrap.js",
-    "js/sparkPrivatePairing.js",
+    "js/sparkConnectedAccount.js",
     "js/sparkConnectedRivalry.js",
-    "firestore.spark.rules",
-    "tests/contracts/stage4-connected-rivalry-contracts.cjs",
-    "tests/contracts/stage4-adverse-network-contracts.cjs",
     "tests/contracts/production-app-check-runtime-contracts.cjs",
-    "tests/browser/production-app-check-runtime-audit.cjs"
+    "tests/browser/production-app-check-runtime-audit.cjs",
+    "tests/contracts/stage4-adverse-network-contracts.cjs",
+    "firestore.spark.rules"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -186,12 +186,12 @@
     "name": "stage4-token-lifecycle-hardening",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "After PR #158 publication, prove the smallest meaningful App Check/Auth token expiry or refresh lifecycle boundary while preserving Connected Account, Connected Rivalry and canonical local-save safety with App Check enforcement still OFF."
+    "summary": "After PR #159 publication and post-merge verification, prove the smallest meaningful deterministic App Check/Auth expiry or refresh lifecycle transition while preserving Connected Account, Connected Rivalry, canonical local-save safety and enforcement-off local-first recovery."
   },
   "transition": {
-    "contextTransitionRequired": false,
-    "continuationDecision": "CONTINUE_CURRENT_ENVIRONMENT",
-    "handoffCompleteness": 30,
+    "contextTransitionRequired": true,
+    "continuationDecision": "HANDOFF_NOW",
+    "handoffCompleteness": 100,
     "atomicOperation": false,
     "unrecordedDecisions": 0,
     "nextEnvironmentStartsFresh": true
