@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — PR #158 MERGED / POST-MERGE GREEN / RJR 81 / TOKEN LIFECYCLE NEXT — 2026-08-27 ET
 
-Current source, live GitHub/provider/deployment evidence, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `REMOTE_JOINING_READINESS.json` and later owner instructions override historical material.
+Current source, live GitHub/provider/deployment evidence, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `REMOTE_JOINING_READINESS.json` and later owner instructions override historical material. `00_HANDOFF_GOLDEN_RULE.md` remains the permanent handoff/task-governance authority and `NEXT_TASK.md` remains the live execution authority.
 
 Live main at this transition boundary is PR #158 squash `5eecb482e94263fce7ce9041cdc4f3c7f3a86d21`. PR #158 exact head `72435c180deb744418f93fe8155f280973c3b76a` passed all 14 permanent PR workflow families and all 15 post-merge push/deployment runs are green, including Pages `33019945003` and Stability `33019945012`.
 
