@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T00:40:00Z",
+  "recordedAt": "2026-08-27T00:46:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 2,
     "largeEvidenceEvents": 4,
     "toolRoutingErrors": 0,
-    "correctedFailures": 22,
+    "correctedFailures": 25,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -29,13 +29,13 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "PR #159 remains reopened active/99. The final release-authority compatibility assertion is now repaired: 00_DEVELOPER_START_HERE.md explicitly preserves 00_HANDOFF_GOLDEN_RULE.md and NEXT_TASK.md authority while retaining current PR #158/RJR81/token-lifecycle direction and all prior compatibility markers. Revalidate this exact package and reseal only if clean.",
-    "lastSafeCheckpoint": "Exact head 58286e128bec37a31948dc71efe803b5e4147b18 passed the complete repository contract suite through release-authority coherence, where the final failing assertion required 00_DEVELOPER_START_HERE.md to include both 00_HANDOFF_GOLDEN_RULE.md and NEXT_TASK.md. NEXT_TASK.md was already present; the golden-rule pointer is restored on b8abe509cb715f81199153c5e7e3ea1faca281f3. Static App and Stability shared this one root assertion, so it counts once.",
-    "nextSafeAction": "Run fresh exact-head workflows on the repaired active/99 package, require all 14 permanent families green, obtain a clean exact-head Codex review and zero unresolved threads, and confirm mergeability. If clean, set SESSION_BOOTSTRAP.json to 100 first and seal this WEC transition-prepared at 100 as the final branch mutation, then stop and hand off.",
+    "currentTask": "PR #159 remains active/99 after the final three exact-head Codex continuity findings were repaired: canonical and mirrored handoff now preserve HANDOFF_NOW, SESSION_BOOTSTRAP points at the repaired PR #159 publication boundary, and the v1.4.22 starter/mirror explicitly require PR #159 publication and post-merge verification before token-lifecycle product work. Fresh exact-head validation/review is the only remaining pre-seal action.",
+    "lastSafeCheckpoint": "Exact pre-review head 0c8452017638f8fca1aab655ea7a93855fcffebd passed all 14 permanent workflow families including the complete Static App contracts and Chromium Stability journey. Its exact-head Codex review then found three continuity-only contradictions in the full handoff decision, capsule lane, and starter publication ordering. All three are now repaired without changing runtime, provider, RJR, storage, authorization or consumed owner-proof boundaries.",
+    "nextSafeAction": "Require a fresh exact-head run with all 14 permanent workflow families green, clean Codex review, zero unresolved review threads and mergeability true. If clean, update SESSION_BOOTSTRAP.json to handoffCompleteness 100 first, then make the transition-prepared WORK_ENVIRONMENT_STATUS.json WEC-100 write the final branch mutation and stop. PR #159 publication/post-merge verification is successor work after this WEC-100 boundary.",
     "unfinishedWork": [
-      "Complete exact-head workflow and Codex review/thread/mergeability gates on the repaired active/99 package.",
+      "Complete exact-head workflow, Codex review/thread and mergeability gates on the fully repaired active/99 package.",
       "If clean, set SESSION_BOOTSTRAP.json to 100 and make the WEC-100 transition-prepared write the final PR-branch mutation.",
-      "PR #159 publication and post-merge verification remain successor work if not completed before this WEC-100 stop.",
+      "PR #159 publication and post-merge verification remain successor work after the WEC-100 stop.",
       "After PR #159 publication, validate/archive this inherited WEC and initialize a fresh unique successor WEC before token-lifecycle product work.",
       "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes are non-evidence.",
       "Two-physical-network behavior remains separately uncredited."
@@ -50,7 +50,7 @@
       "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened.",
       "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
       "RJR is capability-based; documentation, CI volume or continuity work cannot move the score.",
-      "With correctedFailures truthfully 22 and one stale-fact correction, quality risk is capped at 100/100 under the repository evaluator; the predecessor decision is HANDOFF_NOW. Finish only this handoff seal boundary and do not start token-lifecycle work here."
+      "With correctedFailures truthfully 25 and one stale-fact correction, quality risk is capped at 100/100 under the repository evaluator; the predecessor decision is HANDOFF_NOW. Finish only this handoff seal boundary and do not start token-lifecycle work here."
     ],
     "evidenceNotes": [
       "PR #158 exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent PR workflow families and merged by expected-head squash to 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21.",
@@ -62,8 +62,9 @@
       "Exact head 77f4a2dee7bdbd4b6d2fee1466eb0bb2e465ace4 exposed the historical GitHub CLI bootstrap/checksum marker, raising correctedFailures to 19.",
       "Exact head e7dcdb87b511de3482d0181e399518a48f006351 exposed the Stage 2B/2C archival developer-entry assertion and adjacent Stage2/PR87 compatibility set, raising correctedFailures to 20.",
       "Exact head addf3afbbf8fc2a00e867d0e3e2304b1315ab29c exposed release/recovery compatibility markers, raising correctedFailures to 21.",
-      "Exact head 58286e128bec37a31948dc71efe803b5e4147b18 exposed the final release-authority assertion requiring 00_HANDOFF_GOLDEN_RULE.md alongside NEXT_TASK.md; that pointer is restored on b8abe509cb715f81199153c5e7e3ea1faca281f3, raising correctedFailures to 22.",
-      "The evaluator quality-risk score is now capped at 100, so HANDOFF_NOW is the correct predecessor decision.",
+      "Exact head 58286e128bec37a31948dc71efe803b5e4147b18 exposed the final release-authority assertion requiring 00_HANDOFF_GOLDEN_RULE.md alongside NEXT_TASK.md, raising correctedFailures to 22.",
+      "Exact head 0c8452017638f8fca1aab655ea7a93855fcffebd then passed all 14 permanent workflow families. Its Codex exact-head review found three distinct final continuity contradictions: stale HANDOFF_AT_CHECKPOINT in canonical/mirrored SLE handoff, stale capsule current-lane recovery text, and missing PR #159 publication gate in starter/mirror. These are repaired, raising correctedFailures from 22 to 25.",
+      "The evaluator quality-risk score remains capped at 100, so HANDOFF_NOW is the correct predecessor decision.",
       "Usage remains unknown because no approved current-session usage value is exposed; no predecessor usage value is inherited or estimated."
     ]
   }
