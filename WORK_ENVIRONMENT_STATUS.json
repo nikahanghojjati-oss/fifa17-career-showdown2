@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T00:22:00Z",
+  "recordedAt": "2026-08-27T00:26:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 2,
     "largeEvidenceEvents": 4,
     "toolRoutingErrors": 0,
-    "correctedFailures": 17,
+    "correctedFailures": 18,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -29,14 +29,13 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "The prior WEC-100 seal was invalidated by exact-head Codex review because mandatory 00_DEVELOPER_START_HERE.md still advertised obsolete PR #144/r2, RJR 78 and consumed owner/device proof. Reopen active/99, refresh that current entrypoint, revalidate the exact package, then reseal only if clean.",
-    "lastSafeCheckpoint": "Exact sealed head 54130d253518f2ecb48ffd7978704ef92a147173 had 13 of 14 permanent workflow families green and the final Stability journey still running when Codex review identified the stale mandatory developer entrypoint. The finding is genuine continuity compatibility evidence and requires branch mutation, so the seal is invalidated rather than published.",
-    "nextSafeAction": "Set SESSION_BOOTSTRAP.json back to 99 with the predecessor assessment aligned to HANDOFF_NOW, refresh 00_DEVELOPER_START_HERE.md to PR #158 merged/post-merge green, RJR 81 and token-lifecycle next while marking retained older material historical, resolve the review finding, then require fresh exact-head workflows and Codex review before another two-step seal.",
+    "currentTask": "PR #159 remains reopened active/99. The stale developer-entry P1 is fixed, and one exact contract failure caused by the concise replacement exposed three required compatibility markers. Those markers are now restored; revalidate this exact package and reseal only if clean.",
+    "lastSafeCheckpoint": "Exact active/99 head 22a591009c5c850127cc5b70fcef9782a977dee3 proved the current override itself was correct but both Static App and Stability stopped on the same single root contract assertion: 00_DEVELOPER_START_HERE.md lacked the literal IMMEDIATE NEXT TASK AFTER FULL STUDY marker. Inspection of the permanent contract also required historical PR #59 and PR #61 dependency markers. Head 37a6991cff0975222fc1f80af2746e836e6bbfc7 restores all three without restoring stale owner/device directions.",
+    "nextSafeAction": "Run fresh exact-head workflows on the repaired active/99 package, require all 14 permanent families green, obtain a clean exact-head Codex review and zero unresolved threads, and confirm mergeability. If clean, set SESSION_BOOTSTRAP.json to 100 first and seal this WEC transition-prepared at 100 as the final branch mutation.",
     "unfinishedWork": [
-      "Refresh the mandatory developer entrypoint and capsule after invalidating the stale seal.",
-      "Run fresh exact-head workflow, Codex review/thread and mergeability gates on the repaired active/99 package.",
-      "If clean, set SESSION_BOOTSTRAP.json to 100 first and make transition-prepared WORK_ENVIRONMENT_STATUS.json WEC 100 the final PR-branch mutation.",
-      "Publish PR #159 under standing authorization and verify post-merge state.",
+      "Complete exact-head workflow and Codex review/thread/mergeability gates on the repaired active/99 package.",
+      "If clean, set SESSION_BOOTSTRAP.json to 100 and make the WEC-100 transition-prepared write the final PR-branch mutation.",
+      "Complete read-only exact-seal validation, publish PR #159 under standing authorization and verify post-merge state.",
       "Validate/archive this inherited WEC and initialize a fresh unique successor WEC before token-lifecycle product work.",
       "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate production identity/device state; synthetic probes are non-evidence.",
       "Two-physical-network behavior remains separately uncredited."
@@ -51,15 +50,16 @@
       "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened.",
       "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
       "RJR is capability-based; documentation, CI volume or continuity work cannot move the score.",
-      "With correctedFailures now truthfully 17 and one stale-fact correction, quality risk is 80/100 under the repository evaluator; the predecessor decision is therefore HANDOFF_NOW. Finish only this safe publication boundary before successor initialization."
+      "With correctedFailures truthfully 18 and one stale-fact correction, quality risk is 84/100 under the repository evaluator; the predecessor decision remains HANDOFF_NOW. Finish only this safe publication boundary before successor initialization."
     ],
     "evidenceNotes": [
       "PR #158 exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent PR workflow families and merged by expected-head squash to 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21.",
       "All 15 post-merge push/deployment runs on 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21 completed successfully; Pages run 33019945003 and Stability run 33019945012 are green.",
       "REMOTE_JOINING_READINESS.json remains fixed RJR-1 81/100; PR #159 is continuity-only and earns no readiness credit.",
       "Exact corrected pre-seal head b87692c702c6dfc6a10ec049976d8385e24d4d1c passed all 14 permanent workflow families with zero failures and Codex reported no major issues.",
-      "The later sealed head 54130d253518f2ecb48ffd7978704ef92a147173 exposed one new genuine P1 compatibility defect: 00_DEVELOPER_START_HERE.md still presented obsolete PR #144/r2, RJR 78 and consumed Nik/Gop recovery/unavailable-code work as CURRENT OVERRIDE.",
-      "This new exact-head review defect raises correctedFailures from 16 to the evidence-grounded value 17. The evaluator formula gives qualityRisk 80, so HANDOFF_NOW is now the correct predecessor decision.",
+      "Sealed head 54130d253518f2ecb48ffd7978704ef92a147173 exposed one genuine P1 compatibility defect: 00_DEVELOPER_START_HERE.md still presented obsolete PR #144/r2, RJR 78 and consumed Nik/Gop recovery/unavailable-code work as CURRENT OVERRIDE. That raised correctedFailures from 16 to 17.",
+      "After replacing that stale entrypoint, exact head 22a591009c5c850127cc5b70fcef9782a977dee3 exposed one genuine contract compatibility root failure shared by Static App and Stability: the developer entrypoint lacked the literal IMMEDIATE NEXT TASK AFTER FULL STUDY marker; permanent contract inspection also showed required historical PR #59 and PR #61 markers. Those are restored on 37a6991cff0975222fc1f80af2746e836e6bbfc7 without reviving obsolete current directions, raising correctedFailures to 18.",
+      "The evaluator formula now gives qualityRisk 84, so HANDOFF_NOW remains the correct predecessor decision.",
       "Usage remains unknown because no approved current-session usage value is exposed; no predecessor usage value is inherited or estimated."
     ]
   }
