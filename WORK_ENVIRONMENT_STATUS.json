@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T00:35:00Z",
+  "recordedAt": "2026-08-27T00:38:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 2,
     "largeEvidenceEvents": 4,
     "toolRoutingErrors": 0,
-    "correctedFailures": 20,
+    "correctedFailures": 21,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -29,8 +29,8 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "PR #159 remains reopened active/99. The current developer entrypoint now contains the live PR #158/RJR81/token-lifecycle authority plus the complete contract-required historical compatibility summary discovered by exact-head validation through Stage 2C, without restoring obsolete owner/device execution directions. Revalidate this exact package and reseal only if clean.",
-    "lastSafeCheckpoint": "Exact head e7dcdb87b511de3482d0181e399518a48f006351 progressed through the GitHub CLI contract and then exposed one new genuine archival assertion: 00_DEVELOPER_START_HERE.md must retain Stage 2B/2C completion, exact Stage 2C hashes, PR #87 hashes, historical Stage 2D-current evidence, Stage 2E/2F/2G transition markers, v1.4.0/1.4.0-r1, historical production-Firebase-disconnected and dependency-gated Remote Joining provenance. These are restored on dce0126206a6103a3f046476f07431a721dc5192 as historical compatibility only.",
+    "currentTask": "PR #159 remains reopened active/99. The current developer entrypoint now preserves current PR #158/RJR81/token-lifecycle authority and every compatibility marker exposed by the complete contract suite through release-authority coherence, without restoring obsolete owner/device execution directions. Revalidate this exact package and reseal only if clean.",
+    "lastSafeCheckpoint": "Exact head addf3afbbf8fc2a00e867d0e3e2304b1315ab29c passed the repository contract suite through Stage 4 and then exposed one new release-authority compatibility assertion: 00_DEVELOPER_START_HERE.md must preserve transaction/mutation-owned rollback, strict exact raw snapshot authority, Installable Offline App, v1.3.0 Recovery & Device Resilience Hardening and the Local Profiles / Save Library chain. Those historical markers are restored on 6d94548b41491790d4684d7c6cec3969d6a92ee4.",
     "nextSafeAction": "Run fresh exact-head workflows on the repaired active/99 package, require all 14 permanent families green, obtain a clean exact-head Codex review and zero unresolved threads, and confirm mergeability. If clean, set SESSION_BOOTSTRAP.json to 100 first and seal this WEC transition-prepared at 100 as the final branch mutation, then stop and hand off.",
     "unfinishedWork": [
       "Complete exact-head workflow and Codex review/thread/mergeability gates on the repaired active/99 package.",
@@ -50,7 +50,7 @@
       "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened.",
       "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
       "RJR is capability-based; documentation, CI volume or continuity work cannot move the score.",
-      "With correctedFailures truthfully 20 and one stale-fact correction, quality risk is 92/100 under the repository evaluator; the predecessor decision remains HANDOFF_NOW. Finish only this handoff seal boundary and do not start token-lifecycle work here."
+      "With correctedFailures truthfully 21 and one stale-fact correction, quality risk is 96/100 under the repository evaluator; the predecessor decision remains HANDOFF_NOW. Finish only this handoff seal boundary and do not start token-lifecycle work here."
     ],
     "evidenceNotes": [
       "PR #158 exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent PR workflow families and merged by expected-head squash to 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21.",
@@ -60,8 +60,9 @@
       "Sealed head 54130d253518f2ecb48ffd7978704ef92a147173 exposed stale current developer authority, raising correctedFailures from 16 to 17.",
       "Exact head 22a591009c5c850127cc5b70fcef9782a977dee3 exposed the missing immediate-task plus PR #59/#61 compatibility boundary, raising correctedFailures to 18.",
       "Exact head 77f4a2dee7bdbd4b6d2fee1466eb0bb2e465ace4 exposed the historical GitHub CLI bootstrap/checksum marker, raising correctedFailures to 19.",
-      "Exact head e7dcdb87b511de3482d0181e399518a48f006351 then exposed the Stage 2B/2C archival developer-entry assertion; inspection of that permanent contract identified the complete adjacent Stage 2C/PR87/Stage2D and Stage2E/2F/2G compatibility set now restored on dce0126206a6103a3f046476f07431a721dc5192, raising correctedFailures to 20.",
-      "The evaluator formula now gives qualityRisk 92, so HANDOFF_NOW remains the correct predecessor decision.",
+      "Exact head e7dcdb87b511de3482d0181e399518a48f006351 exposed the Stage 2B/2C archival developer-entry assertion and adjacent Stage2/PR87 compatibility set, raising correctedFailures to 20.",
+      "Exact head addf3afbbf8fc2a00e867d0e3e2304b1315ab29c passed every contract through release-authority coherence, where the last developer-entry release/recovery compatibility markers were exposed and restored on 6d94548b41491790d4684d7c6cec3969d6a92ee4, raising correctedFailures to 21.",
+      "The evaluator formula now gives qualityRisk 96, so HANDOFF_NOW remains the correct predecessor decision.",
       "Usage remains unknown because no approved current-session usage value is exposed; no predecessor usage value is inherited or estimated."
     ]
   }
