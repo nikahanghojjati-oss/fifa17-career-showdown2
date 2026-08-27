@@ -2,11 +2,12 @@
 
 Status: production `v1.8.1 / 1.8.1-r4` DEPLOYED / PRODUCTION-PROVEN / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN / RJR-1 `82/100` / STAGE 5 STILL LOCKED / CURRENT AUTHORIZED TASK = MANDATORY SLE TRANSITION PUBLICATION ONLY.
 
+Current environment: `we-2026-08-27-stage4-token-lifecycle-rjr-be07`.
+Starting independently verified live main: `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`.
+
 Production runtime is `1.8.1-r4` from PR #160 expected-head squash merge `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`. The final exact PR head was `9b39d9b6032eb24ef98a252ec7de13e129443c95`; all 14 permanent workflow families passed on that unchanged head before merge. Exactly 15 post-merge push/deployment runs then completed without failure/cancellation, including Pages `33035579363`, Release Integration Burn-In `33035579462`, and Stability `33035579438` through deployed runtime-byte equality, production App Check token-path proof, Candidate A/B/C, offline/install and the complete deployed journey. `1.8.1-r3` is now the immediate previous whole-shell recovery runtime.
 
-Current predecessor environment: `we-2026-08-27-stage4-token-lifecycle-rjr-be07`.
-
-Its independently verified starting main remains `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`; do not rewrite that historical starting SHA merely because PR #160 later merged.
+This is the closing predecessor implementation-authority environment. Its independently verified starting main remains `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`; do not rewrite that historical starting SHA merely because PR #160 later merged, and do not inherit this predecessor transition decision as the successor's own decision.
 
 Repository validation history retains 14 permanent workflow families as the required PR-family gate for this runtime generation.
 
