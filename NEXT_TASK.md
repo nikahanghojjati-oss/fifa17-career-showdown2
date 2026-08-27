@@ -3,7 +3,7 @@
 Status: production `v1.8.1 / 1.8.1-r4` DEPLOYED / PRODUCTION-PROVEN / RJR-1 `83/100` / STAGE 5 STILL LOCKED / CURRENT AUTHORIZED TASK = MANDATORY RECURSIVE SLE TRANSITION PUBLICATION ONLY.
 
 Current environment: `we-2026-08-27-post-pr161-rjr-successor`.
-Starting and still independently verified live main: `e5a6b6334499887982ff280ff820eb5d508d9eba` (PR #161 SLE publication merge).
+Starting independently verified live main: `e5a6b6334499887982ff280ff820eb5d508d9eba` (PR #161 SLE publication merge; independently reverified unchanged during this transition).
 
 Production runtime is `1.8.1-r4` from PR #160 expected-head squash merge `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`. The final exact PR #160 head was `9b39d9b6032eb24ef98a252ec7de13e129443c95`; all 14 permanent workflow families passed on that unchanged head before merge. Exactly 15 post-merge push/deployment runs were verified without failure/cancellation and production proof is recorded in `V1.8.1_R4_PRODUCTION_PROOF.md`. `1.8.1-r3` remains the immediate previous whole-shell recovery runtime.
 
