@@ -34,7 +34,11 @@ Do not cite the two synthetic attempts as evidence. The first failed before a ne
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Advance the next automatically provable explicit pre-Stage-5 capability: token-lifecycle hardening.
+Before product work, close the continuity-publication boundary in the required successor order. Independently verify current live main and PR #159. Validate/archive the inherited predecessor Work Environment Continuity record, initialize a fresh unique WEC with reset per-environment counters from independently verified live main, and assess that fresh WEC independently. Never inherit predecessor `HANDOFF_NOW` as the successor decision.
+
+If PR #159 remains open and the fresh WEC permits continuation, perform read-only validation of its immutable WEC-100 head, require all publication gates to remain clean, publish it under standing owner authorization, then independently verify the resulting live main and post-merge/deployment state. Do not begin token-lifecycle product work while PR #159 remains unpublished or its post-merge publication state is unverified.
+
+Only after PR #159 publication/post-merge verification, and only if the fresh WEC permits continuation, advance the next automatically provable explicit pre-Stage-5 capability: token-lifecycle hardening.
 
 Study the deployed `1.8.1-r3` App Check/Auth lifecycle and prove the smallest meaningful lifecycle boundary without changing provider policy or enabling App Check enforcement. Existing source already configures App Check token auto-refresh and records initial expiry when the SDK exposes it, but current proof does not establish a later expiry/refresh transition. Prefer deterministic, bounded proof that a token expiry/refresh transition cannot corrupt Connected Account/Connected Rivalry state or local saves. Do not invent a long-running production wait if a deterministic provider-compatible lifecycle proof is sufficient; do not build a speculative scheduler unless source evidence demonstrates it is needed.
 
