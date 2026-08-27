@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-26-private-remote-joining-session-boundary-5c7a",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T00:38:00Z",
+  "recordedAt": "2026-08-27T00:40:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,7 +16,7 @@
     "majorPhasesCompleted": 2,
     "largeEvidenceEvents": 4,
     "toolRoutingErrors": 0,
-    "correctedFailures": 21,
+    "correctedFailures": 22,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -29,8 +29,8 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "PR #159 remains reopened active/99. The current developer entrypoint now preserves current PR #158/RJR81/token-lifecycle authority and every compatibility marker exposed by the complete contract suite through release-authority coherence, without restoring obsolete owner/device execution directions. Revalidate this exact package and reseal only if clean.",
-    "lastSafeCheckpoint": "Exact head addf3afbbf8fc2a00e867d0e3e2304b1315ab29c passed the repository contract suite through Stage 4 and then exposed one new release-authority compatibility assertion: 00_DEVELOPER_START_HERE.md must preserve transaction/mutation-owned rollback, strict exact raw snapshot authority, Installable Offline App, v1.3.0 Recovery & Device Resilience Hardening and the Local Profiles / Save Library chain. Those historical markers are restored on 6d94548b41491790d4684d7c6cec3969d6a92ee4.",
+    "currentTask": "PR #159 remains reopened active/99. The final release-authority compatibility assertion is now repaired: 00_DEVELOPER_START_HERE.md explicitly preserves 00_HANDOFF_GOLDEN_RULE.md and NEXT_TASK.md authority while retaining current PR #158/RJR81/token-lifecycle direction and all prior compatibility markers. Revalidate this exact package and reseal only if clean.",
+    "lastSafeCheckpoint": "Exact head 58286e128bec37a31948dc71efe803b5e4147b18 passed the complete repository contract suite through release-authority coherence, where the final failing assertion required 00_DEVELOPER_START_HERE.md to include both 00_HANDOFF_GOLDEN_RULE.md and NEXT_TASK.md. NEXT_TASK.md was already present; the golden-rule pointer is restored on b8abe509cb715f81199153c5e7e3ea1faca281f3. Static App and Stability shared this one root assertion, so it counts once.",
     "nextSafeAction": "Run fresh exact-head workflows on the repaired active/99 package, require all 14 permanent families green, obtain a clean exact-head Codex review and zero unresolved threads, and confirm mergeability. If clean, set SESSION_BOOTSTRAP.json to 100 first and seal this WEC transition-prepared at 100 as the final branch mutation, then stop and hand off.",
     "unfinishedWork": [
       "Complete exact-head workflow and Codex review/thread/mergeability gates on the repaired active/99 package.",
@@ -50,7 +50,7 @@
       "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened.",
       "Exactly two private managers remain required. Public discovery/community/matchmaking/global rankings remain prohibited.",
       "RJR is capability-based; documentation, CI volume or continuity work cannot move the score.",
-      "With correctedFailures truthfully 21 and one stale-fact correction, quality risk is 96/100 under the repository evaluator; the predecessor decision remains HANDOFF_NOW. Finish only this handoff seal boundary and do not start token-lifecycle work here."
+      "With correctedFailures truthfully 22 and one stale-fact correction, quality risk is capped at 100/100 under the repository evaluator; the predecessor decision is HANDOFF_NOW. Finish only this handoff seal boundary and do not start token-lifecycle work here."
     ],
     "evidenceNotes": [
       "PR #158 exact head 72435c180deb744418f93fe8155f280973c3b76a passed all 14 permanent PR workflow families and merged by expected-head squash to 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21.",
@@ -61,8 +61,9 @@
       "Exact head 22a591009c5c850127cc5b70fcef9782a977dee3 exposed the missing immediate-task plus PR #59/#61 compatibility boundary, raising correctedFailures to 18.",
       "Exact head 77f4a2dee7bdbd4b6d2fee1466eb0bb2e465ace4 exposed the historical GitHub CLI bootstrap/checksum marker, raising correctedFailures to 19.",
       "Exact head e7dcdb87b511de3482d0181e399518a48f006351 exposed the Stage 2B/2C archival developer-entry assertion and adjacent Stage2/PR87 compatibility set, raising correctedFailures to 20.",
-      "Exact head addf3afbbf8fc2a00e867d0e3e2304b1315ab29c passed every contract through release-authority coherence, where the last developer-entry release/recovery compatibility markers were exposed and restored on 6d94548b41491790d4684d7c6cec3969d6a92ee4, raising correctedFailures to 21.",
-      "The evaluator formula now gives qualityRisk 96, so HANDOFF_NOW remains the correct predecessor decision.",
+      "Exact head addf3afbbf8fc2a00e867d0e3e2304b1315ab29c exposed release/recovery compatibility markers, raising correctedFailures to 21.",
+      "Exact head 58286e128bec37a31948dc71efe803b5e4147b18 exposed the final release-authority assertion requiring 00_HANDOFF_GOLDEN_RULE.md alongside NEXT_TASK.md; that pointer is restored on b8abe509cb715f81199153c5e7e3ea1faca281f3, raising correctedFailures to 22.",
+      "The evaluator quality-risk score is now capped at 100, so HANDOFF_NOW is the correct predecessor decision.",
       "Usage remains unknown because no approved current-session usage value is exposed; no predecessor usage value is inherited or estimated."
     ]
   }
