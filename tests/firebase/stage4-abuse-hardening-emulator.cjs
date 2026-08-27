@@ -7,7 +7,6 @@ const {
   doc,
   getDoc,
   getDocs,
-  serverTimestamp,
   setDoc,
   writeBatch
 }=require("firebase/firestore");
@@ -20,11 +19,7 @@ const RULES=fs.readFileSync("firestore.spark.rules","utf8");
 
 function sdk(){
   const firestore=require("firebase/firestore");
-  return {Timestamp,serverTimestamp:firestore.serverTimestamp,doc,runTransaction:firestore.runTransaction};
-}
-
-function wait(ms){
-  return new Promise(resolve=>setTimeout(resolve,ms));
+  return {Timestamp,doc,runTransaction:firestore.runTransaction};
 }
 
 function hash(seed="0"){
@@ -231,8 +226,6 @@ async function adminState(testEnv,rivalryId){
     assert.equal(acceptedState.data.payload.rounds.length,10,"The accepted payload must carry the same exact ten rounds declared by seasonIds.");
     assert.equal(acceptedReceiptIds.length,1);
 
-    await wait(2100);
-
     // Model a genuinely modified client rather than calling the production projection builder:
     // retain ten declared seasonIds but hand-forge eleven payload rounds plus the matching
     // authoritative/idempotency envelopes so the Rules themselves must reject the inconsistency.
@@ -262,7 +255,7 @@ async function adminState(testEnv,rivalryId){
       revision:1,
       parentRevision:0,
       priorContentHash:acceptedState.contentHash,
-      updatedAt:serverTimestamp(),
+      updatedAt:forgedAt,
       updatedByAccountId:"acct_abuse_a",
       updatedByDeviceId:aIdentity.deviceId,
       data:forgedData
