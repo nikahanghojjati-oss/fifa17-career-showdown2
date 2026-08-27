@@ -1,7 +1,7 @@
 # Successor Handoff — PR #160 Token Lifecycle / v1.8.1-r4 Production-Proven — SLE
 
 Date: 2026-08-27 ET
-SLE: Smart Lean Efficient
+SLE = Smart Lean Efficient
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
 Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
 Application: `v1.8.1`
@@ -82,7 +82,7 @@ Current fixed domains remain:
 
 Do not move the score for source work, PR count, WEC/SLE work, documentation, repeated subassertions or already-consumed owner proof. Move it only when new evidence materially closes a fixed-domain capability.
 
-## Explicitly uncredited / still open
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 The successor must independently study current evidence and choose the smallest genuinely unblocked Remote Joining dependency. Do not automatically choose a blocked owner-dependent proof merely because it is listed here.
 
