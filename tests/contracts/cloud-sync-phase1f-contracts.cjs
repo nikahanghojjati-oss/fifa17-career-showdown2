@@ -93,16 +93,16 @@ assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
 
 // Phase 1F, PR #125 and the r3 Connected Account repair are completed provenance. Current
-// execution authority has advanced through production-proven Stage 4 reconciliation and
-// evidence-proven exact replay to the remaining production-negative authorization boundary.
+// execution authority has advanced through production-proven Stage 4 reconciliation, exact
+// replay, deterministic adverse-provider safety and production-proven r4 token lifecycle.
 assert.match(next, /CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Current NEXT_TASK must identify the current production-proven reconciliation authority.");
-assert.match(next, /v1\.8\.1 \/ 1\.8\.1-r3[\s\S]+PR #151 squash merge `beab9f31cb7f31bf4938f5b0df67394899ef12a0`/i,"Current NEXT_TASK must preserve the exact deployed r3 runtime checkpoint.");
+assert.match(next, /v1\.8\.1 \/ 1\.8\.1-r4[\s\S]+PR #160 expected-head squash merge `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`/i,"Current NEXT_TASK must preserve the exact deployed r4 runtime checkpoint.");
 assert.match(next, /Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority without reviving it as the active milestone.");
 assert.match(next, /App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock after the historical Phase 1F boundary.");
 assert.match(next, /Firebase remains Spark \/ zero billing/i,"Current NEXT_TASK must preserve the Spark zero-billing lock after the historical Phase 1F boundary.");
 assert.match(next, /Firestore remains memory-only/i,"Current NEXT_TASK must preserve the memory-only Firestore lock after the historical Phase 1F boundary.");
 assert.match(next, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i,"Current NEXT_TASK must preserve exact replay as a closed evidence-backed capability.");
-assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+third account[\s\S]+revoked device[\s\S]+production boundary/i,"Current NEXT_TASK must route execution to the smallest remaining production-negative authorization capability after replay closes.");
+assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish the mandatory recursive SLE package[\s\S]+publish it/i,"Current NEXT_TASK must route execution to the mandatory transition publication boundary after r4 production proof.");
 assert.match(preR3Next, /CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Lossless pre-r3 authority must preserve the completed PR #125 Connected Account milestone.");
 assert.match(preR3Next, /Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must preserve the trusted gateway heading as provenance.");
 assert.match(historicalNext, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i,"Exact archived predecessor authority must retain the historical Phase 1E → Phase 1F implementation transition.");
@@ -110,4 +110,4 @@ assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S
 assert.match(preR3Next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Lossless pre-r3 authority must preserve the historical Phase 1F provider-runtime prohibition.");
 assert.match(historicalNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Archived Phase 1F-era authority must retain the exact production-runtime prohibition that applied during that prerequisite.");
 
-process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125 provenance while current reconciliation, exact-replay closure and production-negative authorization authority stay explicit\n");
+process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125 provenance while current r4 reconciliation, exact-replay, adverse-provider and token-lifecycle closure stay explicit\n");
