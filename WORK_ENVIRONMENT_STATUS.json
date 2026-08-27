@@ -1,9 +1,61 @@
 {
-  "schemaVersion":1,
-  "environmentId":"we-2026-08-27-stage4-token-lifecycle-rjr-be07",
-  "lifecycle":"active",
-  "recordedAt":"2026-08-27T02:54:00Z",
-  "repository":{"name":"nikahanghojjati-oss/fifa17-career-showdown2","publicSite":"https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/","startingMainSha":"be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff","runtimeReleaseMergeSha":"beab9f31cb7f31bf4938f5b0df67394899ef12a0"},
-  "signals":{"contextComplexity":"high","projectComplexity":"high","compactionCount":0,"majorPhasesCompleted":1,"largeEvidenceEvents":16,"toolRoutingErrors":1,"correctedFailures":15,"repeatedMistakes":0,"staleFactCorrections":0,"unresolvedFailures":0,"newMilestoneNext":false,"usageRemainingPercent":null,"usageSource":"unavailable","usageWarning":false,"handoffCompleteness":82,"unrecordedDecisions":0,"atomicOperation":false},
-  "continuity":{"currentTask":"Finish PR #160 as the bounded v1.8.1 / 1.8.1-r4 App Check token-lifecycle hardening milestone. Focused lifecycle proof is green and fixed RJR-1 is 82/100; production remains r3 until merge/deployment proof.","lastSafeCheckpoint":"Exact head 04f97d68e7af0f941830089d539d2c2e0b178f5c passed release/SLE, Cloud 1A-1F, production Firebase/App Check runtime, the Stage 4 token-lifecycle proof, fixed RJR82 and the 58→82 backcast. The next Stage 2E compatibility assertion required the historical r3 incident lock phrases 'Do not enable App Check enforcement' and 'unchanged production Rules'. Those exact historical locks are restored in NEXT_TASK while the current permanent lock still says App Check enforcement remains OFF. This is validation defect 15, not a runtime or score failure.","nextSafeAction":"Require the full permanent repository suite and all 14 PR workflow families on the corrected exact head. If clean, inspect exact-head review/thread and mergeability gates, publish PR #160 under standing authorization, verify live main plus Pages/runtime-byte and deployed Stability/App Check proof, then complete recursive SLE/WEC handoff before another substantial milestone.","unfinishedWork":["14/14 exact-head PR workflow families green","clean exact-head review/thread/mergeability gates","publish PR #160 and verify deployed r4","seal recursive SLE/WEC handoff before another milestone"],"knownHazards":["Do not repeat consumed owner/device/destructive proof.","No custom App Check refresh scheduler.","Never expose raw App Check tokens.","App Check enforcement remains OFF.","Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.","Candidate A non-mutating; Candidate B read-only; Candidate C sole destructive Apply.","Firebase Spark/zero billing; Firestore memory-only; popup-only browserSessionPersistence/no extra scopes; trusted IAM unactivated/unbroadened.","Exactly two private managers; no public discovery/community/matchmaking/global rankings."],"evidenceNotes":["PR #159 is merged/postmerge green on live main be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff.","PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d passed tests/contracts/stage4-token-lifecycle-contracts.cjs.","Fixed RJR-1 is 82/100; the +1 is only deterministic App Check lifecycle safety.","Validation defects 1-15 are recorded; defect 15 restores exact historical r3 enforcement/Rules incident wording.","Usage remains unknown/unavailable and is not estimated."]}
+  "schemaVersion": 1,
+  "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
+  "lifecycle": "transition-prepared",
+  "recordedAt": "2026-08-27T03:47:00Z",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff",
+    "runtimeReleaseMergeSha": "2964527c4f7fc80b16d6d5ce73bd4f5823487d2c"
+  },
+  "signals": {
+    "contextComplexity": "high",
+    "projectComplexity": "high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 16,
+    "toolRoutingErrors": 1,
+    "correctedFailures": 15,
+    "repeatedMistakes": 0,
+    "staleFactCorrections": 0,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": true,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 100,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "continuity": {
+    "currentTask": "PR #160 v1.8.1 / 1.8.1-r4 deterministic App Check token-lifecycle hardening is merged, deployed and production-proven. The predecessor product milestone is complete; only publication of the sealed recursive SLE package remains before successor product work.",
+    "lastSafeCheckpoint": "Live main/runtime merge 2964527c4f7fc80b16d6d5ce73bd4f5823487d2c is independently verified. PR #160 final exact head 9b39d9b6032eb24ef98a252ec7de13e129443c95 passed all 14 permanent PR workflow families with zero submitted reviews and zero inline threads before expected-head squash merge. Exactly 15 post-merge push/deployment runs completed successfully, including Pages 33035579363, Burn-In 33035579462 and Stability 33035579438 with deployed-site-smoke 98397917248.",
+    "nextSafeAction": "Publish this sealed v1.4.23 recursive SLE package without runtime changes. The successor must then validate/archive this predecessor boundary, initialize a fresh unique WEC from the independently verified then-live main with reset counters, assess it independently, and only if permitted select the smallest genuinely unblocked remaining Remote Joining dependency.",
+    "unfinishedWork": [
+      "Publish the sealed v1.4.23 PR #160 production SLE continuity package to main without runtime changes."
+    ],
+    "knownHazards": [
+      "Do not repeat consumed owner/device/destructive/replay/adverse-provider/token-lifecycle proof.",
+      "Do not manufacture authenticated third-account or revoked-device production evidence without legitimate authenticated production identity/device state.",
+      "Two-physical-network behavior and real-device token-lifecycle acceptance remain owner/state dependent unless legitimate new evidence becomes available.",
+      "Stage 5 host/join/session orchestration remains locked until the explicit remaining pre-Stage-5 gates genuinely close.",
+      "No custom App Check refresh scheduler; raw App Check tokens must never be exposed.",
+      "App Check enforcement remains OFF.",
+      "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
+      "Candidate A remains non-mutating; Candidate B read-only; Candidate C sole destructive Apply authority.",
+      "Firebase remains Spark/zero billing; Firestore memory-only; Google Auth popup-only browserSessionPersistence/no extra scopes; trusted IAM unactivated/unbroadened.",
+      "Exactly two private managers; no public discovery/community/matchmaking/global rankings.",
+      "Historical rivalry pair_a07108...756fb must not be forced, edited or deleted."
+    ],
+    "evidenceNotes": [
+      "Fixed RJR-1 remains 82/100; the only new credit in PR #160 is deterministic App Check lifecycle safety in production-cloud-security.",
+      "Production runtime is v1.8.1 / 1.8.1-r4; 1.8.1-r3 is the immediate previous whole-shell recovery target.",
+      "The in-progress WEC draft was not sealed after production verification. Final closure preserves its observed counters, changes newMilestoneNext to true and handoffCompleteness to 100, and records the final runtime merge.",
+      "With preserved counters and unknown usage omitted, the repository evaluator gives context pressure 70, quality risk 66, next-task separation 80, handoff readiness 100, continuation risk 70.4, transition cost 11.3 and transition advantage 59.1, therefore HANDOFF_AT_CHECKPOINT.",
+      "The earlier draft HANDOFF_NOW label had no supported hard-transition trigger and is superseded by the deterministic final assessment; required behavior remains transition before another substantial milestone.",
+      "Usage remains unknown/unavailable and is not estimated.",
+      "Canonical predecessor closure archive: authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-27_PR160_R4.md."
+    ]
+  }
 }
