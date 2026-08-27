@@ -34,7 +34,7 @@ PR #163 proof head `e26d37dc598c956e8e7a82e1f9c0b3d919326914` passed the permane
 - `tests/contracts/stage4-mutation-rate-limit-contracts.cjs` protects the runtime SDK surface, server-time Rules boundary and permanent storage/provider/session locks.
 - `tests/firebase/stage4-mutation-rate-limit-emulator.cjs` proves a sustained distinct revision is denied while the server-time window is closed with no new authority or receipt, a skewed caller clock cannot control the authoritative timestamp, exact accepted-result replay still succeeds without another mutation during the closed window, and the same previously denied logical mutation advances exactly once after the window opens while canonical local Save Library state remains unchanged.
 
-Final publication still requires the exact unchanged r5 publication head to pass the normal permanent workflow/review/merge gates and deployed verification.
+The capability evidence is fixed at that proof checkpoint. Final publication still requires one unchanged r5 publication head to pass all 14 permanent workflow families plus normal review/mergeability gates and post-merge deployed verification. Those publication gates add confidence but no duplicate readiness point.
 
 ## Readiness accounting
 
