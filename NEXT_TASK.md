@@ -60,6 +60,8 @@ Two-physical-network behavior remains separately uncredited. The third account a
 
 ## Permanent locks
 
+The completed v1.3.0 Recovery & Device Resilience Hardening baseline remains intact. Local Profiles and Save Library remain the shipped local identity and multi-save dependency chain.
+
 The Installable Offline App remains the local-first startup and recovery baseline; Remote Joining hardening must not make ordinary local startup depend on Firebase availability.
 
 Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive Apply authority. Candidate C remains the sole destructive remote-to-local Apply authority with strict exact raw snapshot authority, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification.
