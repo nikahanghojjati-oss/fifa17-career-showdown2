@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-27-pr162-publication-successor-1516",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T15:16:10-04:00",
+  "recordedAt": "2026-08-27T15:24:30-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -14,34 +14,33 @@
     "projectComplexity": "very-high",
     "compactionCount": 0,
     "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 4,
+    "largeEvidenceEvents": 8,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 4,
     "unresolvedFailures": 1,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 20,
+    "handoffCompleteness": 35,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Finish PR #162 publication from independently verified live state. Preserve fixed RJR-1 at 83/100, correct only the deterministic stale current-authority contract blocking two workflow families, obtain one unchanged exact head with all 14 permanent workflow families green, substantively close the already-fixed review findings, merge under standing authorization, verify post-merge state, then separately verify production Firestore Rules publication before claiming the strengthened Rules are live.",
-    "lastSafeCheckpoint": "Predecessor closure archive was independently checked and its HANDOFF_NOW decision was not inherited. Live main remains e5a6b6334499887982ff280ff820eb5d508d9eba. PR #162 is open and mergeable at exact head 5a69700454fe3c899757048661b85b1de7615154. Twelve of fourteen permanent workflow families are green. Validate Static App and Validate Stability Lane both fail at the same stale assertion in tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs, which still requires an obsolete v1.8.1-r3 PROJECT_STATE heading even though current authority is correctly v1.8.1-r4 plus PR #162 structural-abuse evidence. The structural-abuse emulator proof itself is not the observed failure.",
-    "nextSafeAction": "Narrowly advance the stale PROJECT_STATE matcher in tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs from obsolete r3 wording to the current production-proven r4 authority while retaining the anti-Stage-2A-revival purpose. Then require fresh exact-head CI on the resulting PR head and inspect all reviews/threads/mergeability before publication.",
+    "currentTask": "Finish PR #162 publication from independently verified live state. Preserve fixed RJR-1 at 83/100, repair only stale current-authority regression assertions without weakening immutable provenance, obtain one unchanged exact head with all 14 permanent workflow families green, substantively close the already-fixed review findings, merge under standing authorization, verify post-merge state, then separately verify production Firestore Rules publication before claiming the strengthened Rules are live.",
+    "lastSafeCheckpoint": "Predecessor closure archive was independently checked and its HANDOFF_NOW decision was not inherited. Live main remains e5a6b6334499887982ff280ff820eb5d508d9eba. PR #162 remained open and mergeable. The original 5a697004 head had 12/14 workflow families green and exposed an obsolete r3 current-authority assertion in the Stage 2A boundary contract. That assertion now passes. Subsequent exact-head contract runs exposed the same stale-current-authority class in Stage 2E and showed Stage 2F/Stage 2I boundary carried equivalent r3-only live assumptions; those live assertions were made source-driven while immutable pre-r3 provenance stayed strict. On pre-WEC-update head fb1d6e4fe2b5d36a8a28160da62dcbd29857b9c4, the complete suite passed through Stage 2H and then failed only because this fresh WEC used the semantically equivalent phrase 'App Check enforcement OFF' instead of the permanent exact lock phrase 'App Check enforcement remains OFF'. No runtime, provider, Rules, RJR score or security behavior changed in these corrections.",
+    "nextSafeAction": "Re-run exact-head CI after this WEC lock-phrase correction. If the repository contract suite exposes another stale current-authority assertion, correct only that assertion at source while preserving immutable historical evidence. Otherwise freeze the exact head and require all 14 permanent workflow families green before review-thread closure or merge.",
     "unfinishedWork": [
-      "Correct the one stale r3-only PROJECT_STATE assertion without weakening the historical Stage 2A provenance checks.",
-      "Obtain all 14 permanent workflow families green on one unchanged exact PR #162 head.",
+      "Obtain all 14 permanent workflow families green on one unchanged exact PR #162 head after the stale-authority contract cleanup.",
       "Recheck the two Codex review threads and close them only because their underlying forged-payload and stale-WEC defects are substantively fixed.",
       "Expected-head squash merge PR #162 under standing owner authorization and independently verify live main/post-merge status.",
       "Separately verify actual production-provider publication of the strengthened Firestore Rules before claiming those Rules are live.",
       "Reassess this fresh WEC after publication before selecting any new RJR capability."
     ],
     "knownHazards": [
-      "Do not loosen or delete the Stage 2A anti-revival contract merely to make CI green; update only its stale current-authority identity expectation.",
+      "Do not loosen or delete historical Stage 2 provenance contracts merely to make CI green; only stale live-current authority expectations may advance.",
       "Do not double-credit RJR for PR publication, CI volume, documentation or stronger proof of the same structural abuse capability; fixed RJR-1 remains 83/100 until a distinct capability is genuinely proven.",
       "Do not claim repository/emulator Firestore Rules proof equals production provider publication.",
       "Do not repeat consumed owner pairing, owner-device recovery, unavailable-code, Candidate C reconciliation, exact replay, adverse-provider, token-lifecycle or structural-abuse proof merely for confidence.",
@@ -49,14 +48,14 @@
       "Stage 5 remains locked until explicit remaining preconditions genuinely close.",
       "Exactly two private managers; canonical browser storage remains careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
       "Candidate A remains non-mutating, Candidate B read-only and Candidate C the sole destructive remote-to-local Apply authority.",
-      "Firebase remains Spark/zero billing, Firestore memory-only, Google Auth popup-only browserSessionPersistence/no extra scopes, App Check enforcement OFF and trusted IAM unactivated/unbroadened.",
+      "Firebase remains Spark/zero billing, Firestore memory-only, Google Auth popup-only browserSessionPersistence/no extra scopes, App Check enforcement remains OFF and trusted IAM unactivated/unbroadened.",
       "No public discovery, community, matchmaking or global rankings. Historical rivalry pair_a07108...756fb must not be forced, edited or deleted."
     ],
     "evidenceNotes": [
       "Fresh successor counters were reset; predecessor environment-local HANDOFF_NOW and counters were not inherited.",
-      "Exact PR #162 head 5a69700454fe3c899757048661b85b1de7615154 is mergeable and currently has 12/14 workflow families successful.",
-      "Both failing workflow logs identify the same assertion at tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs:52 and show expected /CURRENT OVERRIDE — v1.8.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i versus the current r4 structural-abuse PROJECT_STATE.",
-      "The two Codex review findings remain visible; later branch commits appear to address both underlying defects, but thread closure waits for fresh exact-head proof.",
+      "Original PR #162 head 5a69700454fe3c899757048661b85b1de7615154 was mergeable with 12/14 workflow families successful; both red families died in the same stale Stage 2A current-authority assertion, not the structural-abuse emulator proof.",
+      "Pre-WEC-update head fb1d6e4fe2b5d36a8a28160da62dcbd29857b9c4 proved Stage 2A, Stage 2E, Stage 2F, Stage 2G and Stage 2H contract sections pass before the WEC exact lock-phrase assertion stopped the suite.",
+      "The two Codex review findings remain visible; branch source addresses the hidden-eleventh-round forged payload and the predecessor WEC has been replaced by this fresh successor record, but thread closure waits for a clean unchanged exact head.",
       "Current-session usage is unavailable and is not estimated."
     ]
   }
