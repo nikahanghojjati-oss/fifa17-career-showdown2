@@ -47,7 +47,7 @@ assert.match(state, /exact accepted-result idempotency replay added exactly \+1:
 assert.match(state, /deterministic adverse-provider failure safety adds exactly \+1:\s*80 → 81/i, "PROJECT_STATE must preserve the single bounded adverse-provider capability credit.");
 assert.match(state, /deterministic App Check token-lifecycle safety adds exactly \+1:\s*81 → 82/i, "PROJECT_STATE must preserve the single bounded token-lifecycle capability credit.");
 assert.match(state, /Remaining explicitly uncredited capability includes authenticated third-account\/revoked-device production negatives[\s\S]+two-physical-network hardening[\s\S]+actual Remote Joining sessions/i, "PROJECT_STATE must distinguish proven deterministic token lifecycle from remaining Remote Joining hardening.");
-assert.match(state, /token-lifecycle contract[\s\S]+PASSED[\s\S]+ac465bc781b038860f91620debb7ae7fc7a3e05d/i, "PROJECT_STATE must preserve the exact focused lifecycle proof checkpoint.");
+assert.match(state, /stage4-token-lifecycle-contracts\.cjs[\s\S]+PASSED[\s\S]+ac465bc781b038860f91620debb7ae7fc7a3e05d/i, "PROJECT_STATE must preserve the exact focused lifecycle proof checkpoint.");
 assert.match(state, /Current bounded work[\s\S]+finish PR #160 publication/i, "PROJECT_STATE must route current work into publication of the already-proven r4 capability.");
 assert.match(state, /Two-physical-network behavior remains separately uncredited/i, "PROJECT_STATE must not conflate deterministic provider/lifecycle proof with real two-network hardening.");
 assert.equal(readiness.modelVersion, "RJR-1", "Cloud foundation must continue using the fixed RJR-1 model.");
