@@ -73,7 +73,9 @@ assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical
 
 if(bootstrap.immediateNextTask?.mustStartAsRealProductWork===true){
   assert.equal(bootstrap.immediateNextTask.name,"pr162-structural-abuse-hardening-publication","Active successor bootstrap must keep the bounded PR #162 publication task until publication completes.");
-  assert.match(bootstrap.currentLane,/PR #162[\s\S]+structural abuse hardening[\s\S]+83\/100[\s\S]+14 permanent workflow families/i,"Active successor bootstrap must expose the current abuse-hardening publication lane and fixed score.");
+  assert.match(bootstrap.currentLane,/PR #162[\s\S]+structural abuse hardening/i,"Active successor bootstrap must expose the current abuse-hardening publication lane.");
+  assert.match(bootstrap.currentLane,/83\/100/i,"Active successor bootstrap must expose the fixed RJR score.");
+  assert.match(bootstrap.currentLane,/14 permanent workflow families/i,"Active successor bootstrap must preserve the exact-head workflow proof.");
   assert.equal(bootstrap.transition?.continuationDecision,"CONTINUE","Active successor bootstrap must retain its independently assessed continuation decision until reassessed.");
   assert.ok(bootstrap.transition?.handoffCompleteness<100,"Active product publication must not falsely claim a complete handoff package.");
   assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #162 publication[\s\S]+14 permanent workflow families[\s\S]+Expected-head squash merge/i,"NEXT_TASK must route the active successor through exact-head PR #162 publication rather than another product milestone.");
