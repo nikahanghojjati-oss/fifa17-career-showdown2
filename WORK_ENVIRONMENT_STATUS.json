@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-27-stage4-token-lifecycle-rjr-5eec",
   "lifecycle": "active",
-  "recordedAt": "2026-08-27T01:49:00Z",
+  "recordedAt": "2026-08-27T01:50:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -29,12 +29,11 @@
     "atomicOperation": false
   },
   "continuity": {
-    "currentTask": "Own the successor publication boundary from independently verified live main 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21. First read-only validate immutable sealed PR #159 head bca3da0e1be82d7217e6e7db47900c84ff2b22e5 and, only while this fresh successor WEC permits continuation and all required gates remain clean, publish PR #159 under standing owner authorization and independently verify resulting live main plus post-merge/deployment state. Then advance the smallest genuinely unproven Stage 4 token-lifecycle capability that can move fixed RJR-1 toward 100.",
-    "lastSafeCheckpoint": "Inherited predecessor WEC we-2026-08-26-private-remote-joining-session-boundary-5c7a was independently validated and archived at authority-history/WEC_CLOSURE_we-2026-08-26-private-remote-joining-session-boundary-5c7a_2026-08-27.md. Its HANDOFF_NOW decision and all per-environment counters were not inherited. Live main was independently reverified as 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21. PR #159 predecessor branch is immutable after final sealed head bca3da0e1be82d7217e6e7db47900c84ff2b22e5. Fixed RJR remains 81/100; continuity work earns no readiness credit.",
-    "nextSafeAction": "Assess this fresh reset WEC independently using the repository evaluator. If it permits continuation, complete read-only exact-head PR #159 publication gates, expected-head squash merge and post-merge/deployment verification. Only after publication is verified may token-lifecycle product work begin. Reassess after each genuine capability/publication phase and transition when this successor's own evidence requires it.",
+    "currentTask": "Fresh successor WEC independently assesses CONTINUE. Complete read-only validation of immutable sealed PR #159 head bca3da0e1be82d7217e6e7db47900c84ff2b22e5 and, while this successor decision remains CONTINUE and all required gates stay clean, publish PR #159 under standing owner authorization and independently verify resulting live main plus post-merge/deployment state. Then advance the smallest genuinely unproven Stage 4 token-lifecycle capability that can move fixed RJR-1 toward 100.",
+    "lastSafeCheckpoint": "Inherited predecessor WEC we-2026-08-26-private-remote-joining-session-boundary-5c7a was independently validated and archived at authority-history/WEC_CLOSURE_we-2026-08-26-private-remote-joining-session-boundary-5c7a_2026-08-27.md. Its HANDOFF_NOW decision and all per-environment counters were not inherited. Live main was independently reverified as 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21. Fresh reset signals independently evaluate under scripts/work-environment-continuity.mjs to CONTINUE with contextPressure 60.0, qualityRisk 0.0, quotaRisk unknown, nextTaskSeparation 80.0, handoffReadiness 0.0, atomicRisk 0.0, continuationRisk 41.3, transitionCost 56.3 and transitionAdvantage -15.0. Fixed RJR remains 81/100.",
+    "nextSafeAction": "Because this fresh successor WEC independently permits CONTINUE, read-only validate the immutable WEC-100 PR #159 sealed head. Require all 14 permanent workflow families successful on that exact sealed head, clean exact-head Codex review, zero unresolved review threads and mergeability true. If clean, expected-head squash merge under standing authorization and verify post-merge main/deployment before beginning token-lifecycle product work.",
     "unfinishedWork": [
-      "Independently assess this fresh successor WEC before PR #159 publication work.",
-      "Read-only validate immutable sealed PR #159 head and publish/post-merge verify it only if this fresh WEC permits continuation and all gates remain clean.",
+      "Read-only validate immutable sealed PR #159 head and publish/post-merge verify it while this fresh WEC permits continuation and all gates remain clean.",
       "Study deployed v1.8.1 / 1.8.1-r3 App Check/Auth lifecycle and prove the smallest meaningful later expiry/refresh transition with safe success and failure behavior.",
       "Award RJR only for genuine fixed-domain capability evidence; continuity publication itself earns zero.",
       "Authenticated third-account/revoked registered-device production negatives remain blocked on legitimate authenticated production identity/device state; synthetic probes are non-evidence.",
@@ -53,8 +52,9 @@
     ],
     "evidenceNotes": [
       "Successor independently verified live main 5eecb482e94263fce7ce9041cdc4f3c7f3a86d21 before initialization.",
-      "Predecessor final facts are archived in authority-history/WEC_CLOSURE_we-2026-08-26-private-remote-joining-session-boundary-5c7a_2026-08-27.md; the predecessor decision is non-inheritable.",
+      "Predecessor final facts are archived in authority-history/WEC_CLOSURE_we-2026-08-26-private-remote-joining-session-boundary-5c7a_2026-08-27.md; predecessor HANDOFF_NOW is non-inheritable.",
       "Fresh per-environment counters are all reset to zero and usage remains unknown/unestimated.",
+      "Independent fresh assessment under the repository evaluator is CONTINUE: contextPressure 60.0, qualityRisk 0.0, continuationRisk 41.3, transitionCost 56.3, transitionAdvantage -15.0.",
       "Production remains v1.8.1 / 1.8.1-r3 from runtime release merge beab9f31cb7f31bf4938f5b0df67394899ef12a0.",
       "Fixed RJR-1 starts this successor at 81/100."
     ]
