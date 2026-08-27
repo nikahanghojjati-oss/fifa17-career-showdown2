@@ -20,7 +20,9 @@ Authenticated third-account/revoked-device production negatives remain blocked o
 
 Permanent locks: exactly two private managers; canonical storage only `careerModeShowdown.saveLibrary`, `.legacyShowdowns`, `.preferences`; Candidate C sole destructive Apply; Firebase Spark/zero billing; Firestore memory-only; popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened; no public discovery/community/matchmaking/global rankings; local-first startup/recovery independent of Firebase.
 
-Standing merge/deploy authorization remains active after all required tests and publication/deployment gates pass. Future handoffs must recursively use SLE = Smart Lean Efficient and the repository-first next-developer prompt standard; use `npm run work:next-prompt` when available.
+Standing merge/deploy authorization remains active after all required tests and publication/deployment gates pass.
+
+Future handoffs must recursively use SLE = Smart Lean Efficient and the repository-first next-developer prompt standard; use `npm run work:next-prompt` when available. At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh the live capsule/bootstrap and context pointers, generate the short repository-first next-developer prompt, set the transition package to 100, seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, and stop before beginning the next substantial milestone. A prompt-only, single-file or unmirrored handoff is incomplete.
 
 Owner-facing checkpoint template remains:
 Handoff proximity: X%
