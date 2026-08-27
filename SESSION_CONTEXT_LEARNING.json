@@ -1,71 +1,34 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-25T12:40:07Z",
-  "materialSessionsObserved": 7,
-  "learningState": "cold-start-priors-with-seven-labeled-sessions",
+  "recordedAt": "2026-08-27T03:20:00Z",
+  "materialSessionsObserved": 8,
+  "learningState": "cold-start-priors-with-eight-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
-    "firebase.production.environment.json": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 0.8,
-      "learnedUtility": 0.56
-    },
-    "PRIVATE_ACCOUNT_AUTH_STAGE_2I.md": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 0.8,
-      "learnedUtility": 0.56
-    },
     "WORK_ENVIRONMENT_STATUS.json": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 0.8,
-      "learnedUtility": 0.6464,
-      "note": "Fresh WEC ownership prevented predecessor decisions from leaking across both the reconciliation implementation and its exact publication/deployment boundary."
-    },
-    "SESSION_CONTEXT_GRAPH.json": {
-      "loaded": true,
-      "usedInDecision": true,
-      "normalizedOutcome": 0.5,
-      "learnedUtility": 0.5
+      "learnedUtility": 0.68,
+      "note": "Fresh WEC ownership prevented predecessor decisions from leaking into PR #160; accumulated validation churn then correctly forced transition after the bounded production checkpoint."
     },
     "workflow-job-logs": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.744,
-      "note": "Exact job logs isolated the stale v1.7 Stability oracle and both post-merge headless reCAPTCHA Enterprise 403 initial-throttle boundaries. In the v1.8.1 release they proved Stability contracts, Chromium Stability, deployed bytes and runtime provenance passed before the provider token step, preventing an unsafe runtime/provider change or redundant retry."
-    },
-    "external-grok-review-2026-08-21": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 0.8,
-      "learnedUtility": 0.56,
-      "note": "Advisory external review accepted where compatible with project authority: strengthen Stage 4 production proof around revoked-device denial, stale CAS, replay and third-account denial; require two physical devices during Stage 4 hardening; make remote-to-local reconciliation an explicit pre-Stage-5 design gate reusing Candidate-C-level anti-clobber/rollback properties; add stale/replay/local-vs-remote UX during hardening; keep direct Spark Firestore Rules and App Check enforcement OFF unless concrete complexity/threat evidence changes the tradeoff; reduce duplicate continuity prose by reusing current bootstrap/handoff authorities rather than creating parallel systems."
+      "learnedUtility": 0.8,
+      "note": "Exact logs distinguished runtime capability success from successive stale authority/packaging assertions, avoiding speculative product or provider changes. Final PR #160 exact-head and deployed Stability evidence proved r4 safely."
     },
     "NEXT_TASK.md": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.6,
-      "note": "Reading sole implementation authority prevented this closing environment from beginning a distinct reconciliation milestone under the completed first-slice authorization."
-    },
-    "owner-production-screenshots-2026-08-24": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.648,
-      "note": "Redacted cross-surface fingerprints distinguished two different valid rivalry IDs, proved the revision-1 authority remained intact and prevented an unsafe revision-0 publish on the wrong rivalry."
+      "learnedUtility": 0.68,
+      "note": "Sole implementation authority kept work on the bounded token-lifecycle capability, then correctly stopped product work at the mandatory handoff checkpoint."
     },
     "successor-entrypoint-coherence": {
       "loaded": true,
@@ -73,120 +36,51 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.68,
-      "note": "PR #138 review caught that the ready-to-paste entrypoint and capsule still selected the superseded v1.8.0/RJR-77 repair lane while current source selected v1.8.1/RJR-78. The synchronized v1.4.13 post-deployment package now advances all entrypoints together and retains the permanent exact starter/handoff/source/RJR assertions."
+      "learnedUtility": 0.744,
+      "note": "The PR #160 validation sequence repeatedly demonstrated that current starter, deep handoff, bootstrap, graph and live authority must advance together. The v1.4.23 package now points to production r4 and fixed RJR82."
     },
     "rjr-score-provenance-search": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.68,
-      "note": "Prior-conversation retrieval recovered exact pre-RJR 82/100 status reports at 2026-08-20T03:25:03Z and 03:25:23Z plus the earlier 11.5/20 = 57.5% correction, while exhaustive prior-conversation, Git-ref and relevant Library searches found no exact 81 status. Reverse domain deltas reproduced the formal RJR-1 58 baseline vector 20+17+14+4+3. This proves a non-comparable ruler correction rather than capability regression and leaves official RJR-1 at 78."
+      "learnedUtility": 0.744,
+      "note": "Fixed RJR-1 prevents PR/CI/deployment volume from moving readiness. PR #160 added exactly one token-lifecycle capability point, 81 to 82; deployment and SLE add zero."
+    },
+    "stage4-token-lifecycle-contract": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "The focused permanent contract proved later App Check expiry/refresh safety before broad publication. Preserve SDK-owned refresh, raw-token redaction, unchanged Auth/Firestore/Connected Rivalry/local-save authority and enforcement OFF."
+    },
+    "pr160-production-proof": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "normalizedOutcome": 0.8,
+      "learnedUtility": 0.56,
+      "note": "Exact-head 14/14 validation plus 15 successful post-merge runs, deployed runtime-byte equality, production App Check path, Candidate A/B/C, offline and complete journey are enough to promote r4 without repeating owner proof."
     }
   },
   "sessionMetrics": [
     {
-      "sessionId": "we-2026-08-20-pr114-app-check-bootstrap",
+      "sessionId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
       "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "successor-must-reassess",
       "fullHistoryPreloaded": false,
       "githubConnectorSufficient": true,
       "ghFallbackUsed": false,
       "deepFallbackUsed": true,
-      "deepFallbackReason": "CI contract failure required historical/current-authority and exact job-log inspection; later SLE packaging required WEC deep-reference state.",
+      "deepFallbackReason": "Permanent contract failures exposed stale handoff/release-authority compatibility markers; exact logs and live files were required to distinguish those from runtime defects and to prove production deployment.",
       "missedCriticalContextIncident": false,
       "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Repeated rejected non-fast-forward update_ref attempts; route circuit-broken and not used again.",
-      "ciTriageLesson": "Prefer exact workflow job logs over inference from failed workflow family or first suspected assertion."
-    },
-    {
-      "sessionId": "we-2026-08-22-stage4-human-appcheck-proof",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "ghBinaryBootstrapObserved": "checksum-verified gh 2.98.0 installed locally but unauthenticated and unnecessary because the connected GitHub route was sufficient",
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "WEC required a complete checkpoint transition and current implementation authority had to be reconciled before selecting the distinct next milestone.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "One Work-layer script approval disconnect and one local shell quoting error; direct Node validation and safe corrected search succeeded without repeated routing loops.",
-      "productionEvidenceLesson": "Credit only capability facts visible in owner-controlled production evidence; redact private capability identifiers and distinguish independent rivalries and physical-device limits.",
-      "authorityLesson": "A completed proof lane does not itself authorize the next runtime milestone; inspect NEXT_TASK and transition when WEC identifies a distinct milestone."
-    },
-    {
-      "sessionId": "we-2026-08-24-v180-reconciliation-publication",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "Exact workflow logs were required to correct the protected-block topology invariant and stale Stability release identity, then to classify the deployed App Check-only failure without changing runtime or provider state.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Two protected local runner transports and two deployed continuation attempts disconnected; each route was circuit-broken after its second materially similar failure and authoritative exact-head GitHub or byte-proof evidence was used instead.",
-      "ciTriageLesson": "Exact failed-job logs distinguish source oracles from provider-boundary failures; one bounded fresh-runner retry was sufficient to classify the repeat reCAPTCHA Enterprise 403 initial-throttle and prohibit more headless attempts.",
-      "productionEvidenceLesson": "A successful merge, Pages deployment and 89-file byte proof establish provenance but do not establish destructive reconciliation capability; retain RJR 77 until an owner-controlled Apply sequence is proven."
-    },
-    {
-      "sessionId": "we-2026-08-24-v180-owner-reconciliation-proof",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "A read-only owner refresh contradicted the earlier revision-1 proof and required exact source-path, prior-proof, cross-surface fingerprint and WEC handoff inspection.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "One malformed multi-file apply_patch was rejected before mutation; bounded exact patches succeeded without product, provider or owner-data mutation.",
-      "productionEvidenceLesson": "Compare redacted rivalry fingerprints before diagnosing data loss: two different fingerprints route to two different authoritative documents, so repair the browser-local pointer through the entitlement-validated attach path before any Publish, Preview or Apply.",
-      "authorityLesson": "A post-update sign-in and reconnection is a new browser-pointer baseline even when the same accounts, roles and Saves are retained."
-    },
-    {
-      "sessionId": "we-2026-08-24-v181-pairing-ux-hardening",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "A real PR review correction required synchronized successor-entrypoint repair, and exact post-merge workflow logs were required to separate deployed runtime provenance from the reCAPTCHA Enterprise provider throttle.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Optional local browser dependencies were absent after the documentation/test-only correction, so no rerun result was claimed; the authoritative hosted final-head workflow installed pinned dependencies and passed.",
-      "ciTriageLesson": "When deployed bytes and runtime provenance pass before an App Check token failure, preserve the runtime and provider locks, record the exact external throttle and do not convert a known provider boundary into speculative product work.",
-      "productionEvidenceLesson": "PR #138, Pages and 89-file byte identity prove release delivery, but the owner still supplies the smallest non-mutating Player Two syntactically valid but practically nonexistent-code acceptance check; a malformed value proves only local validation, and RJR remains exactly 78 because shipped UX acceptance is not a new Remote Joining capability.",
-      "authorityLesson": "A final-head review correction must synchronize the ready-to-paste entrypoint, compact starter, deep handoff, capsule and graph before merge, then the post-deployment package must advance all of them together."
-    },
-    {
-      "sessionId": "we-2026-08-25-rjr-score-provenance-backcast",
-      "directRemoteJoiningPrerequisiteReached": false,
-      "nextRealProductMilestoneUnblocked": true,
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "The owner explicitly required exact historical score reconstruction across prior conversation, Library, all Git refs, the fixed ledger and production proof records before the queued product check.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "One npm Work wrapper disconnected before direct repository-owned validation; one unsupported GitHub tags route, one result-shape parsing correction and one mistyped historical SHA were safely corrected without product or provider mutation.",
-      "provenanceLesson": "Do not reconcile a remembered number by guessing. Preserve the recollection, locate the exact recoverable statement, record its timestamp and missing model inputs, then backcast contemporaneous capabilities through the fixed ledger.",
-      "numericalLesson": "Pre-RJR 82 measured prerequisite/infrastructure completion and is non-comparable. The same boundary was 11.5/20 = 57.5% and formal RJR-1 58; comparable evidence then increases monotonically to 78.",
-      "authorityLesson": "A completed correctness audit can unlock the queued one-action product proof without awarding readiness points or broadening runtime, Rules, provider, Candidate C or Stage 5 scope."
-    },
-    {
-      "sessionId": "we-2026-08-25-player-two-owner-session-proof",
-      "directRemoteJoiningPrerequisiteReached": false,
-      "nextRealProductMilestoneUnblocked": false,
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": false,
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "The initial workspace lacked a usable checkout and one npm wrapper disconnected before direct repository-owned validation; both were safely corrected without product mutation.",
-      "productionEvidenceLesson": "A cloud browser can prove public availability and release identity but cannot replace an owner's origin-and-browser-local Save, profile, manager binding or rivalry pointer. If the required local state is absent, classify the blocker and preserve the one-shot proof instead of synthesizing authority.",
-      "authorityLesson": "Use owner-device before and after evidence for device-local product acceptance when Work Browser cannot share that state. Signing into or seeding a clean browser is not equivalent to reusing the existing Player Two / Gop session.",
-      "usageLesson": "An exact owner-reported 10 percent remaining allowance is a valid WEC source and triggers HANDOFF_NOW; reserve work for the complete mirrored SLE package and final seal."
+      "routeFailureCluster": "One create-branch call used a stale argument shape and was immediately corrected from the live schema; no repeated routing loop or repository corruption occurred.",
+      "ciTriageLesson": "When the focused capability already passes, continue reading the exact next failing assertion before touching runtime. Keep packaging/authority repairs separate from product behavior.",
+      "productionEvidenceLesson": "Promote a runtime only after exact-head source gates and deployed proof both pass. Runtime-byte equality plus production App Check path and complete deployed recovery/journey prove delivery; they do not add duplicate RJR points.",
+      "authorityLesson": "At Handoff proximity 100%, stop product advancement, create mirrored recursive SLE artifacts, refresh current pointers, seal WEC last and hand the successor a fresh-WEC decision rather than preselecting a blocked proof lane."
     }
   ],
   "outcomeScale": {
@@ -203,9 +97,10 @@
     "preferredEvaluationSessions": 30,
     "eligibleNow": false
   },
-  "latestR2RecoveryLesson": {
-    "lesson": "Long durable identifiers should remain authority-stable; solve mobile recovery with full wrapping/selectability and immutable full-value copy. Copy fallback must never source an editable field. Runtime rollback must retain a verified installed older shell when an intermediate release was skipped.",
-    "mainSha": "f3d26f5f9b8cee8996ecff296d6ca9bcc2c3fb18",
-    "next": "owner-existing-rivalry-recovery"
+  "latestLesson": {
+    "lesson": "PR #160 production r4 closes deterministic App Check token-lifecycle safety only. Preserve fixed RJR82, do not repeat consumed proof, and require a fresh successor WEC before selecting the next genuinely unblocked Remote Joining dependency.",
+    "runtimeMainSha": "2964527c4f7fc80b16d6d5ce73bd4f5823487d2c",
+    "starter": "START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md"
   }
 }
