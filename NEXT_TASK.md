@@ -9,23 +9,25 @@ Production runtime is `1.8.1-r4` from PR #160 expected-head squash merge `296452
 
 PR #161 published the predecessor recursive SLE package to live main `e5a6b6334499887982ff280ff820eb5d508d9eba`; its continuity publication earns zero RJR credit. The fresh successor WEC `we-2026-08-27-post-pr161-rjr-successor` independently reset all per-environment signals, started from that exact live main, calculated continuation risk below transition cost, and returned `CONTINUE` rather than inheriting the predecessor decision.
 
-Historical completed-stage provenance remains closed and protected. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
+Historical completed-stage provenance remains closed and protected. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Historical post-PR100 heading `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is retained only as provenance; it is not current implementation authority and must never revive Phase 1E or the dormant provider-neutral harness as current work. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
 
 ## What is closed
 
 Stage 4 remote-to-local reconciliation remains production-proven on the current-identity Nik/Gop rivalry. Canonical evidence remains `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md`.
 
-Exact accepted-result idempotency replay remains evidence-proven through the permanent Firestore emulator boundary using the real `js/sparkConnectedRivalry.js` mutation runtime and production `firestore.spark.rules`. An accepted revision-0 request can be followed by a legitimate revision-1 mutation, then exact replay of the original accepted key/fingerprint returns the original accepted revision/hash without changing current authority, receipt count, canonical local Save state, two-owner authorization or stale-base CAS.
+Exact accepted-result idempotency replay remains evidence-proven through the permanent Firestore emulator boundary using the real `js/sparkConnectedRivalry.js` mutation runtime and the Stage 4 Firestore Rules authority. An accepted revision-0 request can be followed by a legitimate revision-1 mutation, then exact replay of the original accepted key/fingerprint returns the original accepted revision/hash without changing current authority, receipt count, canonical local Save state, two-owner authorization or stale-base CAS.
 
 Permanent `tests/contracts/stage4-adverse-network-contracts.cjs` proves deterministic adverse-provider safety through the real Connected Rivalry API: valid registered-device and exactly-two-owner preflight and immutable local projection planning can be followed by provider loss before remote commit; the canonical local Save Library fixture remains byte-for-byte unchanged. Attach/read provider loss is bounded.
 
 Permanent `tests/contracts/stage4-token-lifecycle-contracts.cjs` proves Firebase App Check token auto-refresh remains SDK-owned through `isTokenAutoRefreshEnabled: true`; the runtime observes a distinct later expiry through `onTokenChanged`, deduplicates same-expiry notifications, bounds explicit `getToken(appCheck, true)` force-refresh success/outage, keeps observer failure metadata-only, redacts raw tokens, preserves existing Auth/Firestore services, preserves Connected Rivalry authority and leaves canonical local Save bytes unchanged. App Check enforcement remains OFF.
 
-PR #162 exact proof head `d32a8242bc4e1c145c1228a1ef1818ff795710fb` passed all 14 permanent workflow families before the RJR ledger movement. Its permanent `tests/firebase/stage4-abuse-hardening-emulator.cjs` executes the real private pairing and Connected Rivalry clients against production Firestore Rules. Authenticated rivalry collection enumeration is denied. Authorized modified-client 11-season create and peer update attempts are denied; rejected writes allocate no authoritative state or additional idempotency receipt and leave canonical local Save Library fixtures unchanged; the exact legitimate ten-season boundary remains accepted. This is structural abuse resistance only. It does not prove rate limiting, production abuse acceptance, App Check enforcement, two-network behavior, production rollback, actual Remote Joining sessions or final stable release acceptance.
+PR #162 original proof head `d32a8242bc4e1c145c1228a1ef1818ff795710fb` passed all 14 permanent workflow families and proved authenticated rivalry collection enumeration denial plus ordinary authorized modified-client 11-season create/update denial. Codex review correctly identified that those client-path tests could not model a hand-forged payload with ten declared `seasonIds` but more than ten `payload.rounds`. The branch therefore strengthens candidate `firestore.spark.rules` so `payload.rounds` must be a list, must have exactly the same count as `seasonIds`, and must remain at or below ten. Permanent `tests/firebase/stage4-abuse-hardening-emulator.cjs` now independently forges a cross-consistent authoritative-state + idempotency-receipt batch with ten declared season IDs and an eleventh hidden payload round and requires Rules denial. Denied oversized/forged writes allocate no accepted authority or additional receipt, while the exact legitimate ten-season path remains accepted and local Save authority stays unchanged.
+
+This remains one bounded structural abuse-resistance capability. It does not prove rate limiting, production abuse acceptance, App Check enforcement, two-network behavior, production rollback, actual Remote Joining sessions or final stable release acceptance. The strengthened repository Rules candidate is not production provider publication evidence by itself.
 
 ## RJR truth
 
-Fixed RJR-1 is `83/100`. The 80 → 81 +1 credits only deterministic adverse-provider failure safety. The 81 → 82 +1 credits only deterministic App Check token-lifecycle safety in `production-cloud-security`. The 82 → 83 +1 credits only deterministic structural abuse resistance in `real-device-hardening-release`. PR count, CI volume, documentation, WEC/SLE work and publication activity earn zero duplicate readiness credit.
+Fixed RJR-1 is `83/100`. The 80 → 81 +1 credits only deterministic adverse-provider failure safety. The 81 → 82 +1 credits only deterministic App Check token-lifecycle safety in `production-cloud-security`. The 82 → 83 +1 credits only deterministic structural abuse resistance in `real-device-hardening-release`. PR count, CI volume, documentation, WEC/SLE work and publication activity earn zero duplicate readiness credit. Strengthening the same structural-abuse proof earns no second point.
 
 ## Production-negative authorization boundary
 
@@ -39,11 +41,12 @@ Do not start a second substantial product capability before closing the current 
 
 Finish PR #162 publication under standing owner authorization:
 
-1. Keep the current branch coherent at RJR-1 `83/100` and preserve the exact structural-abuse proof boundary.
-2. Require all 14 permanent workflow families on the final unchanged PR head, plus clean review/thread/mergeability gates.
-3. Expected-head squash merge PR #162 only after those gates pass.
-4. Verify live `main` and the full post-merge push/deployment run set. This proof-only PR changes no website runtime bytes or production Firestore Rules, so production runtime must remain `1.8.1-r4`.
-5. Reassess this fresh successor WEC immediately after publication. If it reaches its transition boundary or Handoff proximity 100%, generate the complete recursive SLE / Start Next Session package and stop before another substantial Remote Joining milestone.
+1. Keep the current branch coherent at RJR-1 `83/100` and preserve the strengthened structural-abuse proof boundary.
+2. Require all 14 permanent workflow families on the final unchanged PR head, including the raw forged-payload Firestore emulator proof, plus clean review/thread/mergeability gates.
+3. Resolve the two legitimate review threads only after the underlying forged-payload and WEC findings are actually fixed and validated.
+4. Expected-head squash merge PR #162 only after those gates pass.
+5. Verify live `main` and the full post-merge run set. Website runtime bytes must remain `1.8.1-r4`. Because PR #162 now changes repository `firestore.spark.rules`, distinguish merged/reviewed Rules source from actual production provider publication; do not claim the strengthened Rules are live in production until provider publication is separately verified.
+6. Reassess this fresh successor WEC immediately after publication. If it reaches its transition boundary or Handoff proximity 100%, generate the complete recursive SLE / Start Next Session package and stop before another substantial Remote Joining milestone.
 
 After that package is live, a later successor must initialize a fresh unique WEC before selecting the next substantial capability. If WEC permits continuation, select the smallest genuinely unblocked remaining Remote Joining dependency from live evidence rather than a blocked owner-dependent proof.
 
@@ -56,7 +59,7 @@ After that package is live, a later successor must initialize a fresh unique WEC
 - Do not repeat exact replay proof merely to accumulate CI volume.
 - Do not repeat deterministic adverse-provider proof merely to accumulate CI volume.
 - Do not repeat deterministic token-lifecycle proof merely to accumulate CI volume.
-- Do not repeat structural abuse proof merely to accumulate CI volume.
+- Do not repeat structural abuse proof merely to accumulate CI volume after the strengthened forged-payload gate is closed.
 
 ## Permanent locks
 
