@@ -49,7 +49,7 @@ assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S
 assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
 assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Current NEXT_TASK must identify the production-proven reconciliation authority rather than revive Stage 2A.");
-assert.match(state,/CURRENT OVERRIDE — v1\.8\.1-r3 STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Current PROJECT_STATE must identify the production-proven reconciliation authority rather than revive Stage 2A.");
+assert.match(state,/^# CURRENT OVERRIDE — [^\n]+PRODUCTION-PROVEN[^\n]*\n\nStatus:\s*DEPLOYED \/ PRODUCTION-PROVEN `v[^`]+` \/ STAGE 4 RECONCILIATION/im,"Current PROJECT_STATE must identify the current production-proven Stage 4 authority rather than revive Stage 2A or freeze an obsolete runtime generation.");
 assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/ 1D DONE \/ 1E DONE \/ 1F DONE/i);
 assert.match(roadmap, /Private Identity \/ Account Layer \| STAGE 2 ACTIVE \/ 2A AUTHORIZED NEXT/i);
 assert.match(remoteRoadmap, /Stage 1 — Cloud \/ Sync Readiness[\s\S]+DONE \/ MERGED \/ PROTECTED through Phase 1F/i);

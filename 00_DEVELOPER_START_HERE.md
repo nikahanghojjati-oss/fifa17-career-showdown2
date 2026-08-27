@@ -1,32 +1,35 @@
-# CURRENT OVERRIDE — PR #160 MERGED / POST-MERGE GREEN / v1.8.1-r4 PRODUCTION / RJR 82 / SLE TRANSITION — 2026-08-27 ET
+# CURRENT OVERRIDE — PR #162 STRUCTURAL ABUSE RJR83 / HANDOFF_NOW / v1.4.24 SLE — 2026-08-27 ET
 
 Current source, live GitHub/provider/deployment evidence, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `REMOTE_JOINING_READINESS.json` and later owner instructions override historical material. `00_HANDOFF_GOLDEN_RULE.md` remains the permanent handoff/task-governance authority and `NEXT_TASK.md` remains the live execution authority. Work Environment Continuity (WEC) remains mandatory for every successor environment; validate/archive the predecessor record, create a fresh unique WEC with reset counters, and obey that fresh assessment before substantive product work.
 
-Verified pre-handoff runtime main is PR #160 squash `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`. PR #160 exact head `9b39d9b6032eb24ef98a252ec7de13e129443c95` passed all 14 permanent PR workflow families; reviews/threads were clean and mergeability true. All 15 post-merge push/deployment runs completed without failure/cancellation, including Pages `33035579363`, Release Integration Burn-In `33035579462` and Stability `33035579438` through deployed runtime-byte equality, production App Check token path, Save Library, Candidate A/B/C, offline/install and the complete journey.
+Verified live main at transition is PR #161 squash `e5a6b6334499887982ff280ff820eb5d508d9eba`. Production runtime remains PR #160 squash `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`, application/runtime `v1.8.1 / 1.8.1-r4`, with `1.8.1-r3` as the immediate previous whole-shell recovery target.
 
-Production is `v1.8.1 / 1.8.1-r4`; `1.8.1-r3` is the immediate previous whole-shell recovery target. Fixed RJR-1 is `82/100`. PR #160 closes deterministic App Check token-lifecycle safety only; release/deployment/SLE add zero duplicate readiness credit.
+Fixed RJR-1 is `83/100`. PR #162 original proof head `d32a8242bc4e1c145c1228a1ef1818ff795710fb` passed all 14 permanent workflow families and earned exactly one `82 → 83` structural abuse-resistance credit. Review then exposed a real forged-payload gap; the branch strengthened candidate `firestore.spark.rules` to bind `payload.rounds` count to `seasonIds` and the ten-season ceiling, and a raw hidden-eleventh-round state plus receipt emulator proof has passed denial. The stronger evidence earns no second RJR point.
+
+PR #162 remains OPEN / UNMERGED at this environment transition. It changes no website runtime bytes but does change repository candidate Firestore Rules. Actual production-provider Rules publication is separately unproven.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-This predecessor environment is at Handoff proximity 100%. Do not start another substantial product milestone here. Finish/publish the mandatory recursive SLE package and final WEC seal only.
+This environment `we-2026-08-27-post-pr161-rjr-successor` is at Handoff proximity 100% with deterministic `HANDOFF_NOW`. Do not start another substantial product milestone here. Finish the mandatory recursive SLE package and publish it, seal the WEC as the final branch mutation, and stop.
 
-Current compact starter: `START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md`.
-Deep SLE handoff: `SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md`.
+Current compact starter: `START_NEXT_SESSION_V1.4.24_PR162_STRUCTURAL_ABUSE_RJR83_TRANSITION.md`.
+Deep SLE handoff: `SUCCESSOR_HANDOFF_PR162_STRUCTURAL_ABUSE_RJR83_SLE_2026-08-27.md`.
+WEC closure archive: `authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-27_PR162_RJR83_PREPUBLICATION.md`.
 Production proof: `V1.8.1_R4_PRODUCTION_PROOF.md`.
 
-A successor must first independently verify live `main`, PR #160/runtime/deployment state and current authority; validate/archive the inherited predecessor WEC; initialize a fresh unique WEC with reset counters and the independently verified live-main SHA; and assess that fresh environment. Never inherit this predecessor's `HANDOFF_NOW` decision as the successor's own decision.
+A successor must first independently verify live `main`, PR #162 exact head/workflows/reviews/threads/mergeability and production runtime/provider state; validate/archive this inherited predecessor WEC; initialize a fresh unique WEC with reset counters and the independently verified live-main SHA; and assess that fresh environment. Never inherit this predecessor's `HANDOFF_NOW` decision as the successor's own decision.
 
-Only if the fresh WEC permits continuation should the successor select the smallest genuinely unblocked remaining Remote Joining dependency from live evidence. Do not automatically choose authenticated third-account/revoked-device production negatives unless legitimate authenticated production identity/device state actually exists. Synthetic probes are non-evidence. Two-physical-network behavior remains separately uncredited. Stage 5 remains locked until remaining explicit pre-Stage-5 gates genuinely close.
+If live evidence remains unchanged, the successor's first bounded product task is to finish PR #162 publication before a different substantial Remote Joining milestone: obtain all 14 permanent workflow families green on one unchanged head, substantively re-check and resolve the two legitimate review findings, confirm mergeability, expected-head squash merge under standing owner authorization, verify post-merge state, and separately verify actual production Firebase Firestore Rules publication before calling the strengthened Rules live.
 
-Do not repeat consumed owner pairing, owner-device recovery, unavailable-code proof, destructive Candidate C Apply, Stage 4 reconciliation, exact accepted-result replay, deterministic adverse-provider proof or deterministic token-lifecycle proof merely for confidence. Historical `pair_a07108...756fb` must not be forced, edited or deleted; its original local profile/save identities were deleted.
+Do not repeat consumed owner pairing, owner-device recovery, unavailable-code proof, destructive Candidate C Apply, Stage 4 reconciliation, exact accepted-result replay, deterministic adverse-provider proof, deterministic token-lifecycle proof or already-proven structural-abuse proof merely for confidence. Historical `pair_a07108...756fb` must not be forced, edited or deleted; its original local profile/save identities were deleted.
 
 ## CURRENT PERMANENT LOCKS
 
-Exactly two private managers. Canonical browser storage is exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Candidate A is non-mutating, Candidate B read-only, Candidate C sole destructive explicit Apply authority with strict exact raw snapshot authority and transaction-owned mutation. Firebase remains Spark/zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Public discovery/community/matchmaking/global rankings remain prohibited. The Installable Offline App remains the local-first recovery baseline.
+Exactly two private managers. Canonical browser storage is exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical. Candidate A is non-mutating, Candidate B read-only, Candidate C sole destructive explicit Apply authority with strict exact raw snapshot authority and transaction-owned mutation. Firebase remains Spark/zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Public discovery/community/matchmaking/global rankings remain prohibited. The Installable Offline App remains the local-first recovery baseline. Stage 5 remains locked until its explicit remaining preconditions genuinely close.
 
 Standing owner merge/deploy authorization remains active after required gates pass; do not repeatedly ask for approval. Later explicit owner instructions override it.
 
-At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh live bootstrap/context pointers, generate the repository-first next-developer prompt, set the transition package to 100, seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, and stop before the next substantial milestone. A prompt-only, single-file or unmirrored handoff is incomplete.
+At Handoff proximity 100%, recursively create the complete mirrored SLE package, refresh live bootstrap/context pointers, generate the repository-first next-developer prompt with `npm run work:next-prompt`, set the transition package to 100, seal `WORK_ENVIRONMENT_STATUS.json` as the final branch mutation, and stop before the next substantial milestone. A prompt-only, single-file or unmirrored handoff is incomplete.
 
 ## HISTORICAL COMPATIBILITY SUMMARY
 

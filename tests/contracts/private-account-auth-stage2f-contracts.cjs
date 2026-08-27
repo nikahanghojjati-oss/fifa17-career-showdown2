@@ -173,8 +173,8 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PRODUCTION APP CHECK RUNTIME INTEGRATION/i,"Immutable pre-r3 NEXT_TASK must preserve prior App Check-runtime provenance.");
   assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
   assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
-  assert.match(next,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify the current r3 Connected Account recovery authority.");
-  assert.match(next,/Do not enable App Check enforcement/i,"Live r3 authority must keep App Check enforcement off.");
+  assert.match(next,/^# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/im,"Live NEXT_TASK must identify the current production-proven Stage 4 authority rather than freeze the historical r3 recovery checkpoint.");
+  assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
 
   const archivalSources = [
     ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
@@ -194,8 +194,8 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(preR3State,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I authority.");
   assert.match(preR3State,/Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i);
   assert.match(preR3State,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
-  assert.match(state,/v1\.8\.1[\s\S]+1\.8\.1-r3/i,"Live PROJECT_STATE must identify the r3 recovery candidate.");
-  assert.match(state,/RJR-1[\s\S]{0,260}76\/100/i,"Live PROJECT_STATE must keep recovery readiness at 76 until owner production proof.");
+  assert.match(state,/^# CURRENT OVERRIDE — [^\n]+PRODUCTION-PROVEN[^\n]*$/im,"Live PROJECT_STATE must identify current production-proven authority rather than freeze the historical r3 recovery candidate.");
+  assert.match(state,/Status:\s*DEPLOYED \/ PRODUCTION-PROVEN `v[^`]+` \/ STAGE 4 RECONCILIATION[\s\S]{0,180}RJR-1 `\d{1,3}\/100`/i,"Live PROJECT_STATE must carry the current production Stage 4 and fixed-RJR authority without hard-coding a superseded score.");
 
   const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
   const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
@@ -211,7 +211,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
   assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with historical Stage 2E/2F transition preserved and current r3 recovery authority explicit\n");
+  process.stdout.write("PASS Private Account/Auth Stage 2F trusted request authentication with historical Stage 2E/2F transition preserved and current Stage 4 authority explicit\n");
 })().catch(error => {
   process.stderr.write(`${error && error.stack ? error.stack : error}\n`);
   process.exit(1);

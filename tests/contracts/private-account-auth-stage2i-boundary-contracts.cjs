@@ -90,11 +90,12 @@ for(const document of [preR3NextTask,preR3ProjectState,developerStart,roadmap,po
 assert.match(handoff,/Stage 2I remains DONE \/ MERGED \/ PROVEN/);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: remains)?:? OFF/i);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
-assert.match(nextTask,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must identify the current r3 recovery authority rather than revive Stage 2I.");
-assert.match(nextTask,/Do not enable App Check enforcement/i);
+assert.match(nextTask,/^# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/im,"Live NEXT_TASK must identify the current production-proven Stage 4 authority rather than revive Stage 2I or freeze the historical r3 recovery checkpoint.");
+assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(`${nextTask}\n${projectState}`,/Public community|public discovery|global leaderboard|global ranking|No public discovery/i);
-assert.match(`${nextTask}\n${projectState}`,/Stage 5[\s\S]+locked/i,"Live authority must keep actual Remote Joining sessions locked during r3 recovery.");
-assert.match(projectState,/v1\.8\.1[\s\S]+1\.8\.1-r3/i,"Live PROJECT_STATE must identify the r3 recovery candidate.");
+assert.match(`${nextTask}\n${projectState}`,/Stage 5[\s\S]+locked/i,"Live authority must keep actual Remote Joining sessions locked until explicit Stage 5 preconditions close.");
+assert.match(projectState,/^# CURRENT OVERRIDE — [^\n]+PRODUCTION-PROVEN[^\n]*$/im,"Live PROJECT_STATE must identify current production-proven authority rather than freeze the historical r3 recovery candidate.");
+assert.match(projectState,/Status:\s*DEPLOYED \/ PRODUCTION-PROVEN `v[^`]+` \/ STAGE 4 RECONCILIATION[\s\S]{0,180}RJR-1 `\d{1,3}\/100`/i,"Live PROJECT_STATE must carry the current production Stage 4 and fixed-RJR authority.");
 
 // Every successor owns a fresh WEC. Never pin a historical predecessor SHA or task
 // into this Stage 2I contract again.
@@ -151,4 +152,4 @@ const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1]
 assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2I proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current r3 successor authority is source-driven.\n");
+process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current Stage 4 successor authority is source-driven.\n");

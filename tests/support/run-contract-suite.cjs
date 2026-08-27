@@ -60,6 +60,7 @@ const files = [
   "tests/contracts/stage3-private-pairing-contracts.cjs",
   "tests/contracts/stage4-connected-rivalry-contracts.cjs",
   "tests/contracts/stage4-adverse-network-contracts.cjs",
+  "tests/contracts/stage4-abuse-hardening-contracts.cjs",
   "tests/contracts/stage4-remote-local-reconciliation-contracts.cjs",
   "tests/contracts/release-shell-coherence-contracts.cjs",
   "tests/contracts/trusted-shared-mutation-gateway-boundary-contracts.cjs",

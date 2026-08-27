@@ -1,87 +1,66 @@
-# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN — r4 TOKEN-LIFECYCLE PRODUCTION-PROVEN — SLE HANDOFF CURRENT — 2026-08-27 ET
+# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN — RJR83 STRUCTURAL ABUSE EVIDENCE-PROVEN — HANDOFF_NOW — 2026-08-27 ET
 
-Status: production `v1.8.1 / 1.8.1-r4` DEPLOYED / PRODUCTION-PROVEN / EXACT ACCEPTED-RESULT IDEMPOTENCY REPLAY EVIDENCE-PROVEN / DETERMINISTIC ADVERSE-PROVIDER FAILURE SAFETY EVIDENCE-PROVEN / TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN / RJR-1 `82/100` / STAGE 5 STILL LOCKED / CURRENT AUTHORIZED TASK = MANDATORY SLE TRANSITION PUBLICATION ONLY.
+Status: production `v1.8.1 / 1.8.1-r4` DEPLOYED / PRODUCTION-PROVEN / RJR-1 `83/100` / STAGE 5 STILL LOCKED / CURRENT AUTHORIZED TASK = MANDATORY RECURSIVE SLE TRANSITION PUBLICATION ONLY.
 
-Current environment: `we-2026-08-27-stage4-token-lifecycle-rjr-be07`.
-Starting independently verified live main: `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`.
+Current environment: `we-2026-08-27-post-pr161-rjr-successor`.
+Starting independently verified live main: `e5a6b6334499887982ff280ff820eb5d508d9eba` (PR #161 SLE publication merge; independently reverified unchanged during this transition).
 
-Production runtime is `1.8.1-r4` from PR #160 expected-head squash merge `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`. The final exact PR head was `9b39d9b6032eb24ef98a252ec7de13e129443c95`; all 14 permanent workflow families passed on that unchanged head before merge. Exactly 15 post-merge push/deployment runs then completed without failure/cancellation, including Pages `33035579363`, Release Integration Burn-In `33035579462`, and Stability `33035579438` through deployed runtime-byte equality, production App Check token-path proof, Candidate A/B/C, offline/install and the complete deployed journey. `1.8.1-r3` is now the immediate previous whole-shell recovery runtime.
+Production runtime is `1.8.1-r4` from PR #160 expected-head squash merge `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`. The final exact PR #160 head was `9b39d9b6032eb24ef98a252ec7de13e129443c95`; all 14 permanent workflow families passed on that unchanged head before merge. Exactly 15 post-merge push/deployment runs were verified without failure/cancellation and production proof is recorded in `V1.8.1_R4_PRODUCTION_PROOF.md`. `1.8.1-r3` remains the immediate previous whole-shell recovery runtime.
 
-This is the closing predecessor implementation-authority environment. Its independently verified starting main remains `be07794d52d044ecfc4f9fbdade1a80b0f2eb8ff`; do not rewrite that historical starting SHA merely because PR #160 later merged, and do not inherit this predecessor transition decision as the successor's own decision.
+Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Historical heading `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is provenance only and must not revive Phase 1E or any completed prerequisite chain.
 
-Repository validation history retains 14 permanent workflow families as the required PR-family gate for this runtime generation.
+Stage 4 remote-to-local reconciliation remains production-proven on the current-identity Nik/Gop rivalry through `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md`.
 
-Historical completed-stage provenance remains closed and protected. `CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY` is retained only as the historical post-PR100 gateway heading; it is not current implementation authority and must never revive Phase 1E or the dormant provider-neutral harness as current work. Stage 1 Cloud / Sync Readiness Phase 1A through 1F remains DONE / MERGED / PROTECTED. Private Account/Auth Stage 2A through 2I remains DONE / MERGED / PROTECTED. Do not reopen completed prerequisite chains merely because historical text remains in the repository.
+Exact accepted-result idempotency replay remains evidence-proven. An accepted revision-0 request can be replayed after legitimate revision-1 advancement and return the original accepted revision/hash without changing current authority, receipt count, canonical local Save state, two-owner authorization or stale-base CAS.
 
-Historical immediate-predecessor recovery heading retained only as provenance: `CURRENT OVERRIDE — v1.8.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX`. Its incident locks remain binding: Do not enable App Check enforcement; preserve unchanged production Rules. That recovery checkpoint is closed and superseded by owner-proven account restoration, Stage 4 reconciliation, exact accepted-result replay, deterministic adverse-provider safety and production-proven r4 token-lifecycle safety.
+Deterministic adverse-provider safety remains evidence-proven: valid registered-device and exactly-two-owner preflight plus immutable local projection planning can be followed by provider loss before remote commit while the canonical local Save Library fixture remains byte-for-byte unchanged.
 
-## What is closed
+Permanent `tests/contracts/stage4-token-lifecycle-contracts.cjs` PASSED on exact proof head `ac465bc781b038860f91620debb7ae7fc7a3e05d`. Firebase App Check token auto-refresh remains SDK-owned through `isTokenAutoRefreshEnabled: true`; `onTokenChanged` observes a distinct later expiry, same-expiry notifications dedupe, bounded force-refresh success/failure is isolated, raw tokens remain redacted, and App Check enforcement remains OFF.
 
-Stage 4 remote-to-local reconciliation remains production-proven on the current-identity Nik/Gop rivalry. Canonical evidence remains `OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md`.
+## Structural abuse boundary carried forward
 
-Exact accepted-result idempotency replay remains evidence-proven through the permanent Firestore emulator boundary using the real `js/sparkConnectedRivalry.js` mutation runtime and production `firestore.spark.rules`. An accepted revision-0 request can be followed by a legitimate revision-1 mutation, then exact replay of the original accepted key/fingerprint returns the original accepted revision/hash without changing current authority, receipt count, canonical local Save state, two-owner authorization or stale-base CAS.
+PR #162 original proof head `d32a8242bc4e1c145c1228a1ef1818ff795710fb` passed all 14 permanent workflow families. Authorized modified-client 11-season create/update attempts are denied, denied attempts allocate no authoritative state mutation or additional idempotency receipt, canonical local Save Library state remains unchanged, and the exact ten-season boundary remains accepted.
 
-Permanent `tests/contracts/stage4-adverse-network-contracts.cjs` proves deterministic adverse-provider safety through the real Connected Rivalry API: valid registered-device and exactly-two-owner preflight and immutable local projection planning can be followed by provider loss before remote commit; the canonical local Save Library fixture remains byte-for-byte unchanged. Attach/read provider loss is bounded.
+Codex review found the original production-client path could not model a forged payload with ten declared `seasonIds` and an eleventh hidden `payload.rounds` entry. The branch strengthened candidate `firestore.spark.rules` so payload rounds are a list, their count equals the declared season count and the `<=10` boundary remains enforced. A raw forged state plus receipt emulator attempt now exercises the hidden eleventh round and the permanent Stage 3/4 emulator lane has passed its denial.
 
-Permanent `tests/contracts/stage4-token-lifecycle-contracts.cjs` PASSED on exact proof head `ac465bc781b038860f91620debb7ae7fc7a3e05d`. Firebase App Check token auto-refresh remains SDK-owned through `isTokenAutoRefreshEnabled: true`; the runtime observes a distinct later expiry through `onTokenChanged`, deduplicates same-expiry notifications, bounds explicit `getToken(appCheck, true)` force-refresh success/outage, keeps observer failure metadata-only, redacts raw tokens, preserves existing Auth/Firestore services, preserves Connected Rivalry authority and leaves canonical local Save bytes unchanged. App Check enforcement remains OFF.
+This remains exactly one structural abuse-resistance capability. Fixed RJR-1 is `83/100`: 80 → 81 +1 credits only deterministic adverse-provider failure safety; 81 → 82 +1 credits only deterministic App Check token-lifecycle safety; 82 → 83 +1 credits only deterministic structural abuse resistance. Strengthening the same proof, CI volume, merge, provider publication, documentation and SLE work earn zero additional RJR credit.
 
-The production deployment proof is recorded in `V1.8.1_R4_PRODUCTION_PROOF.md`.
-
-Fixed RJR-1 is `82/100`. The 80 → 81 +1 credits only deterministic adverse-provider failure safety. The 81 → 82 +1 credits only deterministic App Check token-lifecycle safety in `production-cloud-security`. PR #160 packaging, CI volume, merge, deployment and the SLE handoff earn zero duplicate readiness credit.
+PR #162 changes no website runtime byte but does change repository candidate `firestore.spark.rules`. Production-provider publication of the strengthened Rules is not yet proven and must remain a separate evidence boundary.
 
 ## Production-negative authorization boundary
 
-Authenticated third-account and revoked registered-device production denials already have emulator coverage. PR #157 established that the current repository/GitHub execution environment cannot validly production-prove either named case without legitimate authenticated production identity/device state.
+Authenticated third-account and revoked registered-device production denials already have emulator coverage, but legitimate authenticated production identity/device state is required for honest production proof. PR #157 established that synthetic repository/GitHub probes are non-evidence. Do not recreate owner accounts, pairings or devices merely to manufacture proof.
 
-Do not cite synthetic attempts as evidence. Do not recreate owner accounts, pairings, devices or destructive state merely to manufacture this proof.
-
-Two-physical-network behavior remains separately uncredited. Two-physical-device behavior is already proven and must not be conflated with network diversity.
+Two-physical-network behavior remains separately uncredited. Real-device token-lifecycle acceptance, broader abuse hardening including rate limiting and production abuse acceptance, production rollback proof, actual Remote Joining sessions and final stable Remote Joining release acceptance remain uncredited. Stage 5 host/join/session orchestration remains locked.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-This predecessor work environment is at Handoff proximity 100%. Do not start another substantial product milestone.
+Finish the mandatory recursive SLE package and publish it as this environment's only remaining bounded action. Handoff proximity is 100%; do not begin another substantial engineering milestone here.
 
-Finish the mandatory recursive SLE package and publish it under standing owner authorization after all handoff/package validation gates pass:
+The completed SLE package is rooted at `START_NEXT_SESSION_V1.4.24_PR162_STRUCTURAL_ABUSE_RJR83_TRANSITION.md` with deep handoff `SUCCESSOR_HANDOFF_PR162_STRUCTURAL_ABUSE_RJR83_SLE_2026-08-27.md`. Seal the current WEC only after all package pointers and contracts are coherent, then stop.
 
-1. canonical starter `START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md`;
-2. byte-identical mirror `project-documents/session-starts/START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md`;
-3. canonical deep handoff `SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md`;
-4. byte-identical mirror `project-documents/handoffs/SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md`;
-5. `V1.8.1_R4_PRODUCTION_PROOF.md`;
-6. refreshed `SESSION_BOOTSTRAP.json` plus context graph/model/learning and rolling handoff pointers;
-7. predecessor WEC sealed transition-prepared at 100% as the final intended branch mutation;
-8. exact-head handoff validation, review/thread/mergeability gates, expected-head publication, and post-merge verification.
-
-After that package is live, the successor must independently verify current `main`, validate/archive the predecessor WEC, initialize a fresh unique WEC with reset counters and fresh `startingMainSha`, assess it, and obey its own decision. If the fresh WEC says CONTINUE, select the smallest genuinely unblocked remaining Remote Joining dependency from live evidence.
-
-Explicitly uncredited areas available for successor study include authenticated third-account/revoked-device production negatives (only if legitimate identity/device state exists), two-physical-network behavior, actual Remote Joining sessions, real-device token-lifecycle acceptance, abuse hardening, production rollback proof and final stable Remote Joining release acceptance. Do not preselect a blocked owner-dependent proof merely because it is uncredited.
-
-Stage 5 host/join/session orchestration remains locked until the remaining explicit pre-Stage-5 gates are genuinely closed.
+The successor, after validating/archiving this WEC and initializing a fresh unique WEC with reset counters, must Finish PR #162 publication before selecting a different substantial Remote Joining capability unless live evidence changes the premise. Require one unchanged exact head with all 14 permanent workflow families green, substantively verify and resolve the two legitimate review threads, confirm mergeability, then Expected-head squash merge PR #162 under standing owner authorization. Verify resulting live main/post-merge state and separately verify actual production Firebase Firestore Rules publication before calling the strengthened Rules production-live.
 
 ## Do not repeat
 
-- Do not repeat the consumed `pair_` + 64-zero unavailable-code owner fixture merely for duplication.
-- Do not force, edit or delete historical `pair_a07108...756fb`, whose original local profile/save identities were deleted.
-- Do not recreate pairing/account/device setup without a concrete regression or genuinely new proof dependency.
-- Do not repeat Stage 4 destructive remote-to-local Candidate C Apply merely because it is proven.
-- Do not repeat exact replay proof merely to accumulate CI volume.
-- Do not repeat deterministic adverse-provider proof merely to accumulate CI volume.
-- Do not repeat deterministic token-lifecycle proof merely to accumulate CI volume.
+Do not repeat Stage 4 destructive remote-to-local Candidate C Apply.
+Do not repeat exact replay proof.
+Do not repeat deterministic adverse-provider proof.
+Do not repeat deterministic token-lifecycle proof.
+Do not repeat already-proven structural-abuse proof merely for volume.
+Do not repeat the consumed unavailable-code fixture or pairing/device recovery merely for duplication.
+Do not force, edit or delete historical `pair_a07108...756fb`.
 
 ## Permanent locks
 
-The completed v1.3.0 Recovery & Device Resilience Hardening baseline remains intact. Local Profiles and Save Library remain the shipped local identity and multi-save dependency chain.
+The Installable Offline App remains the local-first startup and recovery baseline; ordinary local startup must not depend on Firebase availability. The `v1.3.0 Recovery & Device Resilience Hardening` baseline remains closed and protected, and Local Profiles with Save Library remain the shipped local identity/save dependency chain.
 
-The Installable Offline App remains the local-first startup and recovery baseline; Remote Joining hardening must not make ordinary local startup depend on Firebase availability.
+Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive Apply authority for remote-to-local local mutation. Candidate C rollback remains transaction-owned and its destructive recovery boundary requires a strict exact raw snapshot.
 
-Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B read-only analysis, and Candidate C remains the sole destructive Apply authority. Candidate C remains the sole destructive remote-to-local Apply authority with strict exact raw snapshot authority, immutable intent, backup-before-Apply, transaction-owned mutation, stale/anti-clobber rejection, ownership-scoped rollback and exact recovery verification.
-
-Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains reviewed but unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
+Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited.
 
 ## Work Environment Continuity
 
-The active predecessor environment is `we-2026-08-27-stage4-token-lifecycle-rjr-be07`. It reached its transition boundary after finishing PR #160 production proof. Current-session usage remains unknown because no approved current-session usage value is exposed.
+This environment's deterministic WEC now requires `HANDOFF_NOW`; Handoff proximity is 100%. That 100% is environment-local transition readiness, not RJR and not project completion. A successor must not inherit this transition decision. It must initialize a fresh WEC with reset per-environment counters and independently assess current live state.
 
-Do not inherit this predecessor transition decision as the successor's own decision. The successor must create a fresh unique environment with reset observations, independently verified current live main and fresh evaluator assessment.
-
-Standing owner authorization remains active: after all required tests, exact-head review/publication and deployment gates pass, merge and deploy without repeatedly asking for approval. A later explicit owner instruction overrides this authority.
+Standing owner authorization remains active: after all required tests and current publication gates pass, merge and deploy without repeatedly asking for approval. A later explicit owner instruction overrides it.

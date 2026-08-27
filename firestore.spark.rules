@@ -508,6 +508,9 @@ service cloud.firestore {
         && (stateData.activeSeasonId == null || stateData.activeSeasonId in stateData.seasonIds)
         && stateData.payloadFormatVersion == 1
         && stateData.payload is map
+        && stateData.payload.rounds is list
+        && stateData.payload.rounds.size() == stateData.seasonIds.size()
+        && stateData.payload.rounds.size() <= 10
         && validMutationReceipt(stateData.mutationReceipt, baseRevision);
     }
 
