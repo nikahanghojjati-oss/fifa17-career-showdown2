@@ -66,7 +66,7 @@
     "productionStatus": "production-proven-deployed-r4-token-lifecycle-stage4-reconciliation-exact-replay-adverse-provider-safe",
     "candidateApplicationVersion": "1.8.1",
     "candidateRuntimeRevision": "1.8.1-r5",
-    "candidateStatus": "capability-evidence-proven-publication-pending",
+    "candidateStatus": "release-candidate-not-production-proven",
     "candidateRuntimeMergeSha": null,
     "immediateRecoveryRuntime": "1.8.1-r4",
     "previousKnownGoodRecoveryRuntime": "1.8.1-r4",
