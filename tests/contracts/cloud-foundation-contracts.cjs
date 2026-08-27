@@ -45,8 +45,8 @@ assert.match(state, /Canonical local storage remains exactly `careerModeShowdown
 assert.match(state, /Stage 5[\s\S]{0,160}(?:still|remains) locked/i, "PROJECT_STATE must keep Stage 5 locked until remaining explicit pre-Stage-5 hardening is proven.");
 assert.match(state, /remote-to-local reconciliation added exactly \+1:\s*78 → 79/i, "PROJECT_STATE must preserve conservative fixed-domain reconciliation credit.");
 assert.match(state, /exact accepted-result idempotency replay added exactly \+1:\s*79 → 80/i, "PROJECT_STATE must preserve the single bounded replay capability credit.");
-assert.match(state, /deterministic adverse-provider failure safety adds exactly \+1:\s*80 → 81/i, "PROJECT_STATE must preserve the single bounded adverse-provider capability credit.");
-assert.match(state, /deterministic App Check token-lifecycle safety adds exactly \+1:\s*81 → 82/i, "PROJECT_STATE must preserve the single bounded token-lifecycle capability credit.");
+assert.match(state, /deterministic adverse-provider failure safety add(?:s|ed) exactly \+1:\s*80 → 81/i, "PROJECT_STATE must preserve the single bounded adverse-provider capability credit.");
+assert.match(state, /deterministic App Check token-lifecycle safety add(?:s|ed) exactly \+1:\s*81 → 82/i, "PROJECT_STATE must preserve the single bounded token-lifecycle capability credit.");
 assert.match(state, /Remaining explicitly uncredited capability includes authenticated third-account\/revoked-device production negatives[\s\S]+two-physical-network hardening[\s\S]+actual Remote Joining sessions/i, "PROJECT_STATE must distinguish proven deterministic token lifecycle from remaining Remote Joining hardening.");
 assert.match(state, /stage4-token-lifecycle-contracts\.cjs[\s\S]+PASSED[\s\S]+ac465bc781b038860f91620debb7ae7fc7a3e05d/i, "PROJECT_STATE must preserve the exact focused lifecycle proof checkpoint.");
 assert.match(state, /Current bounded work[\s\S]+mandatory recursive SLE handoff package/i, "PROJECT_STATE must route current work into publication of the already-proven r4 handoff boundary.");
