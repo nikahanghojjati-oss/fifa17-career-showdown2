@@ -38,7 +38,7 @@ Exactly two private managers. Canonical browser storage remains exactly `careerM
 
 Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Public discovery/community/matchmaking/global rankings remain prohibited. Historical rivalry `pair_a07108...756fb` must not be forced, edited or deleted.
 
-Standing owner merge/deploy authorization remains active after all mandatory gates pass; later explicit owner instructions override it.
+Standing owner merge/deploy authorization remains active after all required validation gates pass; later explicit owner instructions override it.
 
 ## Required reporting
 
