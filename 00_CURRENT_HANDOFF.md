@@ -1,6 +1,6 @@
 # CURRENT HANDOFF — PR #166 Production Rollback / RJR85 / PR #167 SLE Transition
 
-SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory. This handoff is orientation only; current source, live GitHub/provider/deployment evidence and later owner instructions win.
+SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory. This rolling handoff is orientation only; current source, live GitHub/provider/deployment evidence and later owner instructions win.
 
 Production application/runtime: `v1.8.1 / 1.8.1-r5`.
 PR #166 squash merge / rollback proof publication main: `32c32afb1365c9ae6120d810a68e5c72c4b8229a`.
