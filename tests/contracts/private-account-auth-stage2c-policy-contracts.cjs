@@ -49,12 +49,11 @@ assert.match(stage2b, /DONE \/ MERGED \/ PROVEN[\s\S]+PR #84/i);
 assert.match(stage2b, /d6786d9d3f65a329aaf3607c3eb3d3d357983c5f/);
 assert.match(stage2b, /c4feadb69fb5e26eba19fa520afa0a09baf1de03/);
 
+// Historical transition detail belongs to immutable history and long-lived roadmaps.
 const archivalSources = [
   ["authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md", historicalNext],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
-  ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap],
-  ["00_CURRENT_HANDOFF.md", currentHandoff],
-  ["00_DEVELOPER_START_HERE.md", start]
+  ["REMOTE_JOINING_EXECUTION_ROADMAP.md", remoteRoadmap]
 ];
 for (const [name, text] of archivalSources) {
   assert.match(text, /Stage 2B[\s\S]{0,320}DONE \/ MERGED \/ PROVEN/i, `${name} must keep Stage 2B closed.`);
@@ -88,18 +87,17 @@ assert.match(preR3State, /PR #115 `Connect production App Check runtime safely` 
 assert.match(preR3State, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
-assert.match(state,/Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i,"Live PROJECT_STATE must distinguish deployed r4 from candidate r5.");
+assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate recovery runtime.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must report the current evidence-backed RJR score rather than the older reconciliation-only checkpoint.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
-assert.match(currentHandoff, /Post-PR #86 authority reconciliation — DONE \/ MERGED \/ PROVEN/i);
-assert.match(currentHandoff, /Current Stage 2D bounded prerequisite/i);
-assert.match(start, /Exact Stage 2C completion boundary/i);
-assert.match(start, /Stage 2C[\s\S]+DONE \/ MERGED \/ PROVEN/i);
-assert.match(start, /Stage 2D — Production Firebase Environment & Configuration Preflight — is CURRENT/i);
+assert.match(currentHandoff, /PR #163[\s\S]+1\.8\.1-r5[\s\S]+RJR84/i,"Rolling handoff must expose current PR #163/r5/RJR84 authority.");
+assert.match(currentHandoff, /Handoff proximity 100%[\s\S]+HANDOFF_NOW/i,"Rolling handoff must expose the current transition boundary.");
+assert.match(start, /PR #163[\s\S]+1\.8\.1-r5[\s\S]+84\/100/i,"Developer start must expose current PR #163/r5/RJR84 authority.");
+assert.match(start, /Stage 5 stays locked|Stage 5 remains locked/i,"Developer start must preserve the current Stage 5 lock.");
 
 assert.match(rules, /request\.auth\.uid/);
 assert.match(rules, /allow list, create, update, delete:\s*if false/g);
@@ -120,4 +118,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with historical Stage 2D transition preserved and current PR #163 fixed-RJR authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current production r5 fixed-RJR authority explicit\n");
