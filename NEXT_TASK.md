@@ -15,7 +15,11 @@ SLE transition PR: #167
 
 Run `33190961085` independently observed exact r4 live in production, restored exact r5, independently observed r5 live again, and passed the final proof seal. Both artifacts were constructed before the production mutation and the restore job is fail-safe after successful artifact construction. Production is back on r5.
 
-TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. The rollback proof adds no duplicate token-lifecycle credit and App Check enforcement remains OFF.
+## Closed consumed Stage 4 capabilities
+
+Exact accepted-result idempotency replay is EVIDENCE-PROVEN and closed. Deterministic adverse-provider safety is EVIDENCE-PROVEN and closed. Production remote-to-local reconciliation is EVIDENCE-PROVEN and closed. Structural abuse resistance is EVIDENCE-PROVEN, closed and protected. Sustained mutation-frequency resistance is EVIDENCE-PROVEN, closed and protected. App Check token-lifecycle safety is PRODUCTION-PROVEN and remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. These capabilities are consumed proof and must not be rerun merely for confidence.
+
+The rollback proof adds no duplicate token-lifecycle or other consumed-capability credit and App Check enforcement remains OFF.
 
 The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
 
@@ -25,7 +29,7 @@ Production-provider publication of strengthened `firestore.spark.rules` remains 
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-For this closing environment: finish PR #167 only. Ensure the complete mirrored Smart Lean Efficient package, RJR85 authority, proof record, bootstrap pointers and Work Environment Continuity (WEC) closure are coherent; make `WORK_ENVIRONMENT_STATUS.json` the final intended branch mutation; require the unchanged exact PR #167 head to pass all mandatory publication gates with no blocking review findings; merge under standing authorization; verify live main/publication and production still exposes `1.8.1-r5`; then stop at Handoff proximity 100% before another substantive milestone.
+For this closing environment: finish PR #167 only. This is the mandatory recursive SLE package publication boundary. Ensure the complete mirrored Smart Lean Efficient package, RJR85 authority, proof record, bootstrap pointers and Work Environment Continuity (WEC) closure are coherent; make `WORK_ENVIRONMENT_STATUS.json` the final intended branch mutation; require the unchanged exact PR #167 head to pass all mandatory publication gates with no blocking review findings; merge under standing authorization; verify live main/publication and production still exposes `1.8.1-r5`; then stop at Handoff proximity 100% before another substantive milestone.
 
 For the fresh successor: independently verify the new live main, PR #167 post-merge state, production/runtime/deployment state, rollback run `33190961085`, `REMOTE_JOINING_READINESS.json`, `PROJECT_STATE.md`, this file, `SESSION_BOOTSTRAP.json`, provider truth and the closing WEC. Work Environment Continuity remains mandatory: validate/archive predecessor WEC `we-2026-08-28-rjr-production-rollback-proof`, initialize a fresh unique WEC with reset counters and the independently observed live-main SHA, run its own assessment, and obey that result.
 
