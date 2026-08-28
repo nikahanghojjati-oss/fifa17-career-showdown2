@@ -1,25 +1,26 @@
-# CURRENT OVERRIDE — PR #163 r5 PRODUCTION / RJR84 / v1.4.25 SLE TRANSITION — 2026-08-27 ET
+# CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK / RJR85 / PR #167 v1.4.26 SLE TRANSITION — 2026-08-28 ET
 
 Current source, live GitHub/provider/deployment evidence, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `REMOTE_JOINING_READINESS.json`, and later owner instructions override historical material. `00_HANDOFF_GOLDEN_RULE.md` remains permanent handoff governance. Work Environment Continuity (WEC) is mandatory: validate/archive the predecessor WEC, initialize a fresh unique WEC with reset counters and the independently observed live-main SHA, then assess and obey that fresh environment before substantive product work. Never inherit a predecessor transition decision.
 
 Current production application/runtime: `v1.8.1 / 1.8.1-r5`.
-PR #163 final exact head: `5131cadcd3250b5a515f3f4b6f292f8ee51aab67`.
-PR #163 squash merge / production runtime main: `c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf`.
-Production proof: `V1.8.1_R5_PRODUCTION_PROOF.md`.
-Immediate recovery runtime: `1.8.1-r4`.
-Fixed RJR-1: `84/100`.
-Current starter: `START_NEXT_SESSION_V1.4.25_PR163_R5_PRODUCTION_RJR84_TRANSITION.md`.
-Current deep handoff: `SUCCESSOR_HANDOFF_PR163_R5_PRODUCTION_RJR84_SLE_2026-08-27.md`.
+PR #166 squash merge / rollback-proof publication main: `32c32afb1365c9ae6120d810a68e5c72c4b8229a`.
+Production rollback workflow: `33190961085` — SUCCESS.
+Rollback proof: `PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md`.
+Immediate known-good rollback runtime: `1.8.1-r4` from `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`.
+Fixed RJR-1: `85/100`.
+Current transition PR: #167.
+Current starter: `START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md`.
+Current deep handoff: `SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md`.
 
-PR #163 production publication is complete: all 14 permanent exact-head PR workflow families passed; review/thread gates were empty; Pages `33130452373`, Stability `33130452363`, and Burn-In `33130452330` succeeded; deployed Stability proved every runtime byte, production App Check, Candidate A/B/C, install/offline, and the complete journey. The sustained mutation-frequency capability earned exactly one RJR point, 83 → 84. Publication/SLE add zero duplicate credit.
+PR #166 production rollback/restoration proof is complete. Run `33190961085` built both artifacts before mutation, independently observed exact known-good `1.8.1-r4` live, restored exact `1.8.1-r5`, independently observed r5 live again, and passed the final both-boundaries seal. Production is safely back on r5. This closed exactly one previously uncredited capability and advanced fixed RJR-1 from 84 to 85; PR/CI volume, merge, restoration mechanics, documentation and SLE receive zero duplicate credit.
 
-Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Do not infer provider-live Rules from repository/emulator or website deployment evidence.
+Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Do not infer provider-live Rules from repository/emulator or GitHub Pages deployment evidence. Authenticated third-account/revoked-device production negatives, two-physical-network behavior, Remote Joining-specific real-device token-lifecycle acceptance, production provider abuse acceptance, actual Stage 5 sessions and final stable Remote Joining release acceptance remain uncredited.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-The closing environment `we-2026-08-27-post-pr162-rjr-successor-1544` is at Handoff proximity 100%. Publish and verify only the mandatory recursive SLE transition package, seal `WORK_ENVIRONMENT_STATUS.json` as the final intended branch mutation, and stop before another substantial RJR milestone.
+The closing environment `we-2026-08-28-rjr-production-rollback-proof` is transition-only. Finish and publish PR #167 only: ensure the complete mirrored SLE package and current authority contracts are coherent, make `WORK_ENVIRONMENT_STATUS.json` the final intended branch mutation, require the unchanged exact PR #167 head to pass every mandatory workflow/review gate, merge under standing authorization if no stop condition exists, independently verify post-merge main and production still expose `v1.8.1 / 1.8.1-r5`, then stop at Handoff proximity 100% before another substantive milestone.
 
-The fresh successor independently verifies live main/PR163/deployment/provider/RJR truth, validates and archives this closing WEC, initializes a fresh WEC, runs its own assessment, and—only if permitted—selects the smallest genuinely unblocked remaining Remote Joining dependency. Stage 5 stays locked until explicit preconditions genuinely close. Do not repeat consumed owner/device/destructive/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit proof merely for confidence.
+The fresh successor independently verifies live main, PR #167 post-merge publication, production runtime/deployment, rollback run `33190961085`, RJR85 and provider truth; validates and archives this closing WEC; initializes a fresh unique WEC with reset counters and the independently observed live-main SHA; runs its own assessment; and only if permitted selects the smallest genuinely unblocked remaining Remote Joining dependency. Stage 5 stays locked until explicit preconditions genuinely close. Do not repeat consumed owner/device/destructive/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit/production-rollback proof merely for confidence.
 
 ## CURRENT PERMANENT LOCKS
 
