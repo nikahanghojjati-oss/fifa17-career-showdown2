@@ -102,7 +102,7 @@ Handoff proximity is evidence-based environment transition readiness, not task c
 
 ## Mandatory repository-first next-developer prompt standard
 
-This handoff recursively preserves the mandatory repository-first prompt rule. Every future closer must refresh the newest versioned starter, deep mirrored handoff, bootstrap capsule and WEC, then give the owner one short fresh repository-first prompt rather than burdening them with the full handoff by default.
+This handoff recursively preserves the mandatory repository-first prompt rule. Every future closer must refresh the newest versioned starter, deep mirrored handoff, bootstrap capsule and WEC, run `npm run work:next-prompt`, then give the owner one short fresh repository-first prompt rather than burdening them with the full handoff by default.
 
 Current compact starter: `START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md`.
 
