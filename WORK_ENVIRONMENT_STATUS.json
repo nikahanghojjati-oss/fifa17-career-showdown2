@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-28-rjr-production-rollback-proof",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-28T13:06:00-04:00",
+  "recordedAt": "2026-08-28T13:12:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,9 +16,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 2,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 16,
+    "largeEvidenceEvents": 18,
     "toolRoutingErrors": 1,
-    "correctedFailures": 0,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 2,
     "unresolvedFailures": 0,
@@ -32,16 +32,16 @@
   },
   "assessment": {
     "decision": "HANDOFF_AT_CHECKPOINT",
-    "reason": "One distinct production capability is complete and consumed, production has been restored to an exact known-good r5 state, the recursive SLE package is prepared on PR #167, no atomic operation or unresolved failure remains, and the next RJR dependency is a separate evidence domain better handled by a fresh environment.",
+    "reason": "One distinct production capability is complete and consumed, production has been restored to an exact known-good r5 state, the recursive SLE package is prepared on PR #167, the single protected-baseline contract omission found on the first sealed candidate has been corrected without capability or runtime change, no atomic operation or unresolved failure remains, and the next RJR dependency is a separate evidence domain better handled by a fresh environment.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
     "currentTask": "Publish and verify only PR #167, the completed recursive SLE transition for production-proven rollback/restoration and fixed RJR85, then stop before another substantive RJR capability.",
-    "lastSafeCheckpoint": "PR #166 merged as 32c32afb1365c9ae6120d810a68e5c72c4b8229a and production rollback workflow 33190961085 completed SUCCESS: exact known-good 1.8.1-r4 was independently observed live, exact 1.8.1-r5 was restored and independently observed live, and the final both-boundaries seal passed. Production is safely on r5. Fixed RJR-1 is reconciled to 85/100 on PR #167.",
+    "lastSafeCheckpoint": "PR #166 merged as 32c32afb1365c9ae6120d810a68e5c72c4b8229a and production rollback workflow 33190961085 completed SUCCESS: exact known-good 1.8.1-r4 was independently observed live, exact 1.8.1-r5 was restored and independently observed live, and the final both-boundaries seal passed. Fixed RJR-1 is reconciled to 85/100 on PR #167. First sealed candidate 2a95a792d8ecd66c40830cc7e9bf13c17a3a5ba2 exposed one protected documentation-contract omission shared by Static App run 33191969096 and Stability run 33191969117: PROJECT_STATE.md and NEXT_TASK.md had dropped the literal Installable Offline App baseline. The baseline wording was restored in commits efe7ca525b78bc952b44f0cc1a7546eac0a8e98b and f0cb441a572dbde059650363b81508d41c2b43f2 with no runtime, provider, security-boundary or RJR change; this WEC mutation reseals the corrected candidate.",
     "nextSafeAction": "Require the unchanged final PR #167 head to pass all mandatory workflow/review gates; merge under standing authorization if no stop condition exists; independently verify post-merge main, transition authority and production r5 identity; then hand off. The successor validates/archives this WEC, initializes a fresh unique WEC with reset counters and independently observed live-main SHA, assesses it, and only if permitted selects the smallest genuinely unblocked remaining RJR dependency.",
     "unfinishedWork": [
-      "Finish exact-head CI/review validation for PR #167 without mutating the sealed branch.",
+      "Finish exact-head CI/review validation for PR #167 without mutating the resealed branch.",
       "Merge PR #167 only if all mandatory gates pass and no standing-authorization stop condition exists.",
       "Verify post-merge live main, RJR85 transition authority and production still exposes v1.8.1 / 1.8.1-r5.",
       "Stop at Handoff proximity 100%; do not begin another substantive dependency in this environment."
@@ -59,6 +59,7 @@
       "PR #166 publication main is 32c32afb1365c9ae6120d810a68e5c72c4b8229a.",
       "Production Pages rollback run 33190961085 succeeded across build, live r4 verification, exact r5 restoration, live r5 verification and final seal.",
       "Fixed RJR-1 advances exactly 84 -> 85 because production rollback proof was a previously explicit uncredited capability in real-device-hardening-release; no process or documentation credit was added.",
+      "First sealed exact head 2a95a792d8ecd66c40830cc7e9bf13c17a3a5ba2 failed both Static App 33191969096 and Stability 33191969117 at the same stability contract because PROJECT_STATE.md and NEXT_TASK.md omitted the protected literal Installable Offline App baseline. The omission was corrected only by restoring that protected baseline wording, with no change to capability scope, runtime, provider state, security locks or RJR, and the WEC was then resealed as the final intended branch mutation.",
       "Complete recursive SLE package is versioned v1.4.26 with root/project mirrors and fresh repository-first next-developer prompt.",
       "Closure record: authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-28_PR166_PRODUCTION_ROLLBACK_RJR85_SLE.md.",
       "Current-session usage is unavailable and is not estimated."
