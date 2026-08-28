@@ -3,7 +3,7 @@
 Status: production remains `v1.8.1 / 1.8.1-r5`. PR #166 publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Production rollback workflow `33190961085` is fully successful. Fixed RJR-1 is `85/100`. STAGE 5 REMAINS LOCKED.
 
 Current environment: `we-2026-08-28-rjr-production-rollback-proof`
-Starting independently verified main: `9c086f5548de4e65a9d2bb6645d01e10da7facf6`
+Starting independently verified live main: `9c086f5548de4e65a9d2bb6645d01e10da7facf6`
 Production rollback publication main: `32c32afb1365c9ae6120d810a68e5c72c4b8229a`
 Production runtime: `v1.8.1 / 1.8.1-r5`
 Known-good rollback runtime: `1.8.1-r4`
