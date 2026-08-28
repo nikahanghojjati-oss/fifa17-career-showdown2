@@ -73,8 +73,8 @@ assert.match(preR3Next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVA
 assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Immutable pre-r3 NEXT_TASK must preserve PR #115/#116 deployment-proof provenance.");
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0 / 1.5.0-r1 candidate provenance.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"Live NEXT_TASK must identify the current PR #163 publication authority.");
-assert.match(next,/App Check enforcement remains OFF/i,"Live PR #163 authority must keep App Check enforcement off.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #166[\s\S]+RJR85[\s\S]+PR #167/i,"Live NEXT_TASK must identify the current PR #166 rollback / RJR85 / PR #167 transition authority.");
+assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
 
 for (const [name, text] of archivalSources) {
   assert.match(text, /PR #87[\s\S]{0,900}(DONE \/ MERGED \/ PROVEN|complete|completed)/i, `${name} must keep PR #87 closed.`);
@@ -94,9 +94,9 @@ assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Ho
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
-assert.match(currentHandoff, /PR #163[\s\S]+1\.8\.1-r5[\s\S]+RJR84/i,"Rolling handoff must expose current PR #163/r5/RJR84 authority.");
-assert.match(currentHandoff, /Handoff proximity 100%[\s\S]+HANDOFF_NOW/i,"Rolling handoff must expose the current transition boundary.");
-assert.match(start, /PR #163[\s\S]+1\.8\.1-r5[\s\S]+84\/100/i,"Developer start must expose current PR #163/r5/RJR84 authority.");
+assert.match(currentHandoff, /PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Rolling handoff must expose current PR #166/r5/RJR85/PR #167 transition authority.");
+assert.match(currentHandoff, /Handoff proximity 100%[\s\S]+HANDOFF_AT_CHECKPOINT/i,"Rolling handoff must expose the current transition boundary.");
+assert.match(start, /PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Developer start must expose current PR #166/r5/RJR85/PR #167 transition authority.");
 assert.match(start, /Stage 5 stays locked|Stage 5 remains locked/i,"Developer start must preserve the current Stage 5 lock.");
 
 assert.match(rules, /request\.auth\.uid/);
@@ -118,4 +118,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current production r5 fixed-RJR authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current PR #166 rollback / RJR85 / PR #167 transition authority explicit\n");
