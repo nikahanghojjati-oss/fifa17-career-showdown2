@@ -87,7 +87,7 @@ assert.match(preR3State, /PR #115 `Connect production App Check runtime safely` 
 assert.match(preR3State, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
-assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate recovery runtime.");
+assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must report the current evidence-backed RJR score rather than the older reconciliation-only checkpoint.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
