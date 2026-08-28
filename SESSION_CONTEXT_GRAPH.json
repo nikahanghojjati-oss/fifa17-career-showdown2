@@ -1,28 +1,153 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-27T21:05:00-04:00",
+  "recordedAt": "2026-08-28T17:20:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
-    {"id":"production-runtime-v181-r5","type":"production-runtime-proof","state":"pr163-merged-postmerge-green-production-proven","pullRequest":163,"applicationVersion":"1.8.1","runtimeRevision":"1.8.1-r5","finalExactHead":"5131cadcd3250b5a515f3f4b6f292f8ee51aab67","capabilityProofExactHead":"e26d37dc598c956e8e7a82e1f9c0b3d919326914","mergeSha":"c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf","previousWholeShellRecoveryRuntime":"1.8.1-r4","productionProof":"V1.8.1_R5_PRODUCTION_PROOF.md","pagesRunId":33130452373,"stabilityRunId":33130452363,"burnInRunId":33130452330,"postMergeDeploymentGreen":true,"runtimeByteEqualityProven":true,"deployedAppCheckPathProven":true,"deployedCompleteJourneyProven":true,"productionProviderRulesPublicationProven":false,"authority":1,"riskCriticality":1},
-    {"id":"rjr1-ledger","type":"reporting-authority","source":"REMOTE_JOINING_READINESS.json","denominator":100,"recordedScore":84,"rule":"fixed capability evidence only; PR, CI, merge, deployment, provider publication, WEC, SLE and documentation add zero duplicate credit","authority":1,"riskCriticality":1},
-    {"id":"stage4-sustained-mutation-frequency","type":"completed-production-capability","state":"pr163-r5-production-proven","pullRequest":163,"proof":"tests/firebase/stage4-mutation-rate-limit-emulator.cjs","contract":"tests/contracts/stage4-mutation-rate-limit-contracts.cjs","rjrScoreAfterProof":84,"productionProviderRulesPublicationProven":false,"stage5Authorized":false,"scope":["authoritative sustained revisions anchor to Firestore server time","revision 3+ distinct accepted mutations require two-second server-time spacing","skewed caller time cannot bypass","denied mutation allocates no authoritative revision or idempotency receipt","canonical local Save Library stays unchanged on denial","exact accepted-result replay remains idempotent during the closed window","previously denied logical mutation may later advance exactly once under immutable-base CAS"],"authority":1,"riskCriticality":1},
-    {"id":"closing-current-wec","type":"completed-environment-transition","state":"pr163-r5-production-rjr84-sle-handoff-now","environmentId":"we-2026-08-27-post-pr162-rjr-successor-1544","startingMainSha":"567e2c308ce32cf2c4ef7432e65ffb3a99111ef5","productionMainSha":"c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf","initialDecision":"CONTINUE","finalDecision":"HANDOFF_NOW","handoffProximity":100,"rjrScore":84,"starter":"START_NEXT_SESSION_V1.4.25_PR163_R5_PRODUCTION_RJR84_TRANSITION.md","fullHandoff":"SUCCESSOR_HANDOFF_PR163_R5_PRODUCTION_RJR84_SLE_2026-08-27.md","closure":"authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-27_PR163_R5_PRODUCTION_RJR84_SLE.md","authority":1,"riskCriticality":1},
-    {"id":"successor-selection","type":"successor-immediate-decision","state":"fresh-wec-required-after-r5-production-sle-transition","rule":"successor independently verifies live source/GitHub/provider/deployment truth, validates and archives the sealed predecessor WEC, initializes a fresh unique WEC with reset counters, then selects the smallest genuinely unblocked remaining Remote Joining dependency only if its own assessment permits continuation; never repeat consumed proof or inherit HANDOFF_NOW","authority":1,"riskCriticality":1},
-    {"id":"stage5-private-remote-joining","type":"highest-priority-product-destination","state":"locked-by-remaining-explicit-pre-stage5-gates","knownRemainingGaps":["authenticated third-account or revoked-device production negatives if legitimate state exists","two-physical-network hardening","Remote Joining-specific real-device token-lifecycle acceptance","production abuse acceptance","production rollback proof","actual Remote Joining sessions","final stable Remote Joining release acceptance"],"authority":1},
-    {"id":"canonical-storage","type":"data-authority-lock","keys":["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"],"activeShowdownCanonical":false,"candidateA":"non-mutating-export","candidateB":"read-only-analysis","candidateC":"sole-destructive-local-apply-authority","candidateCRollback":"transaction-owned-strict-exact-raw-snapshot","authority":1,"riskCriticality":1},
-    {"id":"security-zero-billing","type":"security-authority-lock","firebaseSpark":true,"appCheckEnforcement":false,"persistentFirestoreCache":false,"googleAuthPersistence":"browserSessionPersistence-popup-only-no-extra-scopes","stage2hIamActivated":false,"publicDiscovery":false,"publicCommunity":false,"publicMatchmaking":false,"globalLeaderboardsRankings":false,"productionProviderRulesPublicationProven":false,"authority":1,"riskCriticality":1}
+    {
+      "id": "production-runtime-v181-r5",
+      "type": "production-runtime-proof",
+      "state": "r5-production-proven-and-restored-after-rollback-drill",
+      "applicationVersion": "1.8.1",
+      "runtimeRevision": "1.8.1-r5",
+      "runtimePublicationPullRequest": 163,
+      "runtimeMergeSha": "c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf",
+      "rollbackProofPullRequest": 166,
+      "rollbackPublicationMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+      "knownGoodRollbackRuntime": "1.8.1-r4",
+      "knownGoodRollbackSha": "2964527c4f7fc80b16d6d5ce73bd4f5823487d2c",
+      "rollbackRunId": 33190961085,
+      "productionRestorationProven": true,
+      "productionProviderRulesPublicationProven": false,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "rjr1-ledger",
+      "type": "reporting-authority",
+      "source": "REMOTE_JOINING_READINESS.json",
+      "denominator": 100,
+      "recordedScore": 85,
+      "rule": "fixed capability evidence only; PR, CI, merge, deployment mechanics, provider publication process, WEC, SLE and documentation add zero duplicate credit",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage4-sustained-mutation-frequency",
+      "type": "completed-capability",
+      "state": "consumed-rjr84-proof",
+      "pullRequest": 163,
+      "rjrScoreAfterProof": 84,
+      "productionProviderRulesPublicationProven": false,
+      "stage5Authorized": false,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "production-pages-rollback-proof",
+      "type": "completed-production-capability",
+      "state": "pr166-production-proven-consumed",
+      "pullRequest": 166,
+      "mergeSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+      "workflowRunId": 33190961085,
+      "rollbackTargetRuntime": "1.8.1-r4",
+      "restoreRuntime": "1.8.1-r5",
+      "rollbackObservedLive": true,
+      "restorationObservedLive": true,
+      "rjrScoreAfterProof": 85,
+      "scope": [
+        "GitHub Pages runtime bytes only",
+        "exact known-good r4 observed live",
+        "exact current r5 restored and observed live",
+        "no Firebase Rules, IAM, billing, App Check enforcement or canonical production-data mutation"
+      ],
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "closing-current-wec",
+      "type": "environment-transition",
+      "state": "pr167-rjr85-sle-transition-pending-publication",
+      "environmentId": "we-2026-08-28-rjr-production-rollback-proof",
+      "startingMainSha": "9c086f5548de4e65a9d2bb6645d01e10da7facf6",
+      "capabilityPublicationMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+      "transitionPullRequest": 167,
+      "initialDecision": "CONTINUE",
+      "finalDecision": "HANDOFF_AT_CHECKPOINT",
+      "handoffProximity": 100,
+      "rjrScore": 85,
+      "starter": "START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md",
+      "closure": "authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-28_PR166_PRODUCTION_ROLLBACK_RJR85_SLE.md",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "successor-selection",
+      "type": "successor-immediate-decision",
+      "state": "fresh-wec-required-after-rjr85-transition",
+      "rule": "successor independently verifies live source/GitHub/provider/deployment truth, validates and archives the predecessor WEC, initializes a fresh unique WEC with reset counters, then selects the smallest genuinely unblocked remaining Remote Joining dependency only if its own assessment permits continuation; never repeat consumed proof or inherit HANDOFF_AT_CHECKPOINT",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "stage5-private-remote-joining",
+      "type": "highest-priority-product-destination",
+      "state": "locked-by-remaining-explicit-pre-stage5-gates",
+      "knownRemainingGaps": [
+        "authenticated third-account or revoked-device production negatives if legitimate state exists",
+        "two-physical-network behavior",
+        "Remote Joining-specific real-device token-lifecycle acceptance",
+        "production provider abuse acceptance",
+        "actual Remote Joining sessions",
+        "final stable Remote Joining release acceptance"
+      ],
+      "authority": 1
+    },
+    {
+      "id": "canonical-storage",
+      "type": "data-authority-lock",
+      "keys": [
+        "careerModeShowdown.saveLibrary",
+        "careerModeShowdown.legacyShowdowns",
+        "careerModeShowdown.preferences"
+      ],
+      "activeShowdownCanonical": false,
+      "candidateA": "non-mutating-export",
+      "candidateB": "read-only-analysis",
+      "candidateC": "sole-destructive-local-apply-authority",
+      "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "security-zero-billing",
+      "type": "security-authority-lock",
+      "firebaseSpark": true,
+      "appCheckEnforcement": false,
+      "persistentFirestoreCache": false,
+      "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
+      "trustedRuntimeIamActivated": false,
+      "publicDiscovery": false,
+      "publicCommunity": false,
+      "publicMatchmaking": false,
+      "globalLeaderboardsRankings": false,
+      "productionProviderRulesPublicationProven": false,
+      "authority": 1,
+      "riskCriticality": 1
+    }
   ],
   "edges": [
-    {"from":"stage4-sustained-mutation-frequency","to":"production-runtime-v181-r5","relation":"published-and-production-proven"},
-    {"from":"stage4-sustained-mutation-frequency","to":"rjr1-ledger","relation":"adds-one-bounded-sustained-mutation-frequency-capability"},
-    {"from":"production-runtime-v181-r5","to":"closing-current-wec","relation":"bounded-publication-complete-transition-now"},
-    {"from":"closing-current-wec","to":"successor-selection","relation":"fresh-successor-wec-required"},
-    {"from":"successor-selection","to":"stage5-private-remote-joining","relation":"fresh-wec-select-smallest-genuinely-unblocked-pre-stage5-or-later-capability"},
-    {"from":"canonical-storage","to":"successor-selection","relation":"permanent-data-authority-lock"},
-    {"from":"security-zero-billing","to":"successor-selection","relation":"permanent-provider-and-enforcement-lock"}
+    {"from": "stage4-sustained-mutation-frequency", "to": "rjr1-ledger", "relation": "historical-consumed-rjr84-capability"},
+    {"from": "production-pages-rollback-proof", "to": "rjr1-ledger", "relation": "adds-one-bounded-production-rollback-capability-to-rjr85"},
+    {"from": "production-runtime-v181-r5", "to": "production-pages-rollback-proof", "relation": "rollback-and-exact-restoration-tested"},
+    {"from": "production-pages-rollback-proof", "to": "closing-current-wec", "relation": "bounded-capability-complete-transition-now"},
+    {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
+    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "fresh-wec-select-smallest-genuinely-unblocked-pre-stage5-or-later-capability"},
+    {"from": "canonical-storage", "to": "successor-selection", "relation": "permanent-data-authority-lock"},
+    {"from": "security-zero-billing", "to": "successor-selection", "relation": "permanent-provider-and-enforcement-lock"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #163 production merge c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf and v1.8.1/1.8.1-r5 production proof, then fixed RJR84, closing WEC/Handoff proximity 100, and successor-selection. For new product work, the fresh successor must select the smallest genuinely unblocked remaining Remote Joining dependency while Stage 5 stays locked. Production Firestore Rules publication remains separately unverified. Preserve reconciliation, exact replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit, canonical storage, zero-billing and App Check enforcement-off locks without repeating consumed proof.",
+    "walkDirection": "Start from PR #166 production rollback proof run 33190961085 and restored v1.8.1/1.8.1-r5, then fixed RJR85, PR #167 transition/WEC, and successor-selection. For new product work, the fresh successor must select the smallest genuinely unblocked remaining Remote Joining dependency while Stage 5 stays locked. Production Firestore Rules publication remains separately unverified. Preserve reconciliation, replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit, rollback, canonical-storage, zero-billing and App Check enforcement-off locks without repeating consumed proof.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
