@@ -33,7 +33,7 @@ Only if the fresh assessment permits continuation, select the smallest genuinely
 
 ## Permanent locks
 
-Exactly two private managers; only the three canonical localStorage keys; Candidate A non-mutating; Candidate B read-only; Candidate C sole destructive Apply authority with transaction-owned rollback and strict exact raw snapshot.
+Exactly two private managers; only the three canonical localStorage keys; Candidate A non-mutating; Candidate B read-only; Candidate C remains the sole destructive remote-to-local Apply authority with transaction-owned rollback and strict exact raw snapshot.
 
 Firebase remains Spark / zero billing; Firestore remains memory-only; Google Auth remains popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened. Equivalent protected shorthand: Spark/zero billing; memory-only Firestore; popup-only `browserSessionPersistence` Google Auth with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened.
 
