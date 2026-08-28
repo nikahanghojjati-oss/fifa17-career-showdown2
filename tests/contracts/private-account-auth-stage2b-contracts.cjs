@@ -73,9 +73,9 @@ assert.match(remoteRoadmap, /Stage 2B — Provider Session Lifecycle & Revocatio
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
-assert.match(currentHandoff, /Handoff Proximity governance checkpoint — DONE \/ MERGED \/ PROTECTED/i);
-assert.match(currentHandoff, /Post-PR #86 authority reconciliation — DONE \/ MERGED \/ PROVEN/i);
-assert.match(currentHandoff, /Current Stage 2D bounded prerequisite/i);
+assert.match(currentHandoff, /PR #163[\s\S]+1\.8\.1-r5[\s\S]+RJR84/i,"Rolling handoff must expose current PR #163/r5/RJR84 authority.");
+assert.match(currentHandoff, /Handoff proximity 100%[\s\S]+HANDOFF_NOW/i,"Rolling handoff must expose the current transition boundary rather than the historical PR #86 checkpoint.");
+assert.match(currentHandoff, /Stage 5 remains locked/i,"Rolling handoff must preserve the current Stage 5 lock.");
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");
