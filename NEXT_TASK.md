@@ -21,7 +21,7 @@ The Installable Offline App remains the local-first startup and recovery baselin
 
 This closes exactly one previously explicit uncredited capability. RJR advances `84 → 85`. PR/CI volume, merge, documentation and SLE earn zero duplicate credit.
 
-Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Authenticated third-account/revoked-device production negatives, two-network behavior, real-device Remote Joining token-lifecycle acceptance, production provider abuse acceptance, actual Stage 5 sessions and final stable release acceptance remain uncredited.
+Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Authenticated third-account/revoked-device production negatives, two-network behavior, real-device Remote Joining token-lifecycle acceptance, production provider abuse acceptance, actual Stage 5 sessions and final stable release acceptance remain uncredited. Stage 5 host/join/session orchestration remains locked until its explicit preconditions genuinely close.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
