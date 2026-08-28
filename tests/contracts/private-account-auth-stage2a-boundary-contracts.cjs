@@ -8,6 +8,7 @@ const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_
 const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const state = read("PROJECT_STATE.md");
 const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
+const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const preR3State = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -17,6 +18,7 @@ const index = read("index.html");
 const optional = read("js/optionalModules.js");
 const worker = read("service-worker.js");
 const pkg = JSON.parse(read("package.json"));
+const r5Production = bootstrap.runtime?.productionRuntimeRevision === "1.8.1-r5" && !bootstrap.runtime?.candidateRuntimeRevision;
 
 assert.match(stage2a, /AUTHORIZED NEXT PREREQUISITE \/ IMPLEMENTATION NOT STARTED/i);
 assert.match(stage2a, /demo-career-mode-showdown-phase1f/);
@@ -49,10 +51,16 @@ assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stage
 assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Lossless pre-r3 authority must preserve the historical bounded v1.5.0/r1 candidate.");
 assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"Current NEXT_TASK must identify the actual PR #163 publication authority rather than revive Stage 2A.");
-assert.match(next,/production `v1\.8\.1 \/ 1\.8\.1-r4` remains DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+candidate `v1\.8\.1 \/ 1\.8\.1-r5` is EVIDENCE-PROVEN \/ PUBLICATION PENDING/i,"Current NEXT_TASK must distinguish deployed r4 from candidate r5.");
-assert.match(state,/CURRENT OVERRIDE — v1\.8\.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING EVIDENCE-PROVEN — PR #163 — RJR84/i,"Current PROJECT_STATE must identify the current PR #163/r5 authority rather than revive Stage 2A.");
-assert.match(state,/Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i,"Current PROJECT_STATE must distinguish production r4 from candidate r5.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #163[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING/i,"Current NEXT_TASK must identify the actual PR #163 authority rather than revive Stage 2A.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #163[\s\S]+r5[\s\S]+RJR84/i,"Current PROJECT_STATE must identify the current PR #163/r5 authority rather than revive Stage 2A.");
+if(r5Production){
+  assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN/i,"Current NEXT_TASK must expose promoted r5 production truth.");
+  assert.match(state,/DEPLOYED\s*\/\s*PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5/i,"Current PROJECT_STATE must expose promoted r5 production truth.");
+  assert.match(state,/Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i,"Current PROJECT_STATE must retain r4 as the prior whole-shell recovery runtime.");
+}else{
+  assert.match(next,/production `v1\.8\.1 \/ 1\.8\.1-r4` remains DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+candidate `v1\.8\.1 \/ 1\.8\.1-r5` is EVIDENCE-PROVEN \/ PUBLICATION PENDING/i,"Current NEXT_TASK must distinguish deployed r4 from candidate r5.");
+  assert.match(state,/Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i,"Current PROJECT_STATE must distinguish production r4 from candidate r5.");
+}
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Current PROJECT_STATE must report the live fixed RJR score.");
 assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/ 1D DONE \/ 1E DONE \/ 1F DONE/i);
@@ -74,4 +82,4 @@ assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
 assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current PR #163 r5 publication authority explicit\n");
+process.stdout.write(`PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current PR #163 ${r5Production?"production r5":"candidate r5"} authority explicit\n`);
