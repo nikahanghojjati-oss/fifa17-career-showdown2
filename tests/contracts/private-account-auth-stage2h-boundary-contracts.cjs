@@ -43,19 +43,22 @@ assert.match(stage2g,/Trusted Account Bootstrap Execution Boundary/);
 assert.match(stage2g,/Every application-client Firestore create, update and delete remains denied/i);
 assert.match(stage2g,/account-bootstrap-only/);
 
+// Immutable historical sources retain the original Stage 2G -> 2H selection boundary.
 assert.match(historicalNextTask,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(historicalNextTask,/Stage 2H[\s\S]+Production Trusted Execution Runtime & Least-Privilege IAM Boundary/);
 assert.match(historicalNextTask,/AUTHORIZED NEXT PREREQUISITE/);
 assert.match(historicalNextTask,/Do not provision production Cloud Run|do not provision production Cloud Run/i);
 assert.match(historicalProjectState,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(historicalProjectState,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
-assert.match(liveNextTask,/CURRENT OVERRIDE — v1\.8\.1-r3 CONNECTED ACCOUNT RECOVERY HOTFIX/i,"Live NEXT_TASK must not revive Stage 2H as current authority.");
-assert.match(liveNextTask,/Do not enable App Check enforcement/i);
-assert.match(liveProjectState,/v1\.8\.1[\s\S]+1\.8\.1-r3/i,"Live PROJECT_STATE must identify the r3 recovery candidate.");
-assert.match(handoff,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(handoff,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
-assert.match(developerStart,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
-assert.match(developerStart,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
+
+// Live authority has advanced through production-proven r5. Do not force rolling
+// handoff documents to impersonate the historical Stage 2H-current checkpoint.
+assert.match(liveNextTask,/CURRENT OVERRIDE[\s\S]+PR #163[\s\S]+PRODUCTION-PROVEN/i,"Live NEXT_TASK must expose the current PR #163 production boundary rather than revive Stage 2H.");
+assert.match(liveNextTask,/App Check enforcement remains OFF/i);
+assert.match(liveNextTask,/Stage 5 host\/join\/session orchestration remains locked/i);
+assert.match(liveProjectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and r4 recovery.");
+assert.match(handoff,/PR #163[\s\S]+1\.8\.1-r5[\s\S]+RJR84/i,"Rolling handoff must expose current PR #163/r5/RJR84 authority.");
+assert.match(developerStart,/PR #163[\s\S]+1\.8\.1-r5[\s\S]+84\/100/i,"Developer start must expose current PR #163/r5/RJR84 authority.");
 assert.match(roadmap,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(roadmap,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
 
@@ -71,4 +74,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 assert.equal(pkg.dependencies,undefined,"Historical Stage 2H authorization boundary must not add production dependencies.");
 
-process.stdout.write("PASS Stage 2H trusted production execution/IAM authorization boundary contracts with historical selection preserved and current r3 authority explicit\n");
+process.stdout.write("PASS Stage 2H trusted production execution/IAM authorization boundary contracts: immutable historical selection is preserved while current production r5 authority remains explicit\n");
