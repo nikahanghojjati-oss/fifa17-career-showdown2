@@ -121,7 +121,7 @@ assert.ok(status.continuity.currentTask.trim().length>0);
 assert.equal(typeof status.continuity.nextSafeAction,"string");
 assert.ok(status.continuity.nextSafeAction.trim().length>0);
 const currentLocks=[...(status.continuity.knownHazards||[]),...(status.continuity.evidenceNotes||[])].join("\n");
-assert.match(currentLocks,/App Check enforcement remains OFF/i);
+assert.match(currentLocks,/App Check enforcement(?: remains)? OFF/i);
 assert.match(currentLocks,/Spark|zero billing/i);
 if(["transition-prepared","closed"].includes(status.lifecycle)){
   assert.equal(status.signals.handoffCompleteness,100);
