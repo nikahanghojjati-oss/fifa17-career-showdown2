@@ -1,0 +1,219 @@
+name: Prove Production Pages Rollback
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/production-rollback-drill/2026-08-28-r4-to-r5.trigger
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-production
+  cancel-in-progress: false
+
+env:
+  ROLLBACK_SHA: 2964527c4f7fc80b16d6d5ce73bd4f5823487d2c
+  ROLLBACK_REVISION: 1.8.1-r4
+  RESTORE_REVISION: 1.8.1-r5
+
+jobs:
+  build-proof-artifacts:
+    if: github.repository == 'nikahanghojjati-oss/fifa17-career-showdown2' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Check out known-good rollback source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.ROLLBACK_SHA }}
+          path: rollback-source
+
+      - name: Check out exact restore source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          path: restore-source
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Require controlled browser-public deployment variables
+        env:
+          HAS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY != '' }}
+          HAS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$HAS_FIREBASE_WEB_API_KEY" != "true" || "$HAS_RECAPTCHA_ENTERPRISE_SITE_KEY" != "true" ]]; then
+            echo "::error::Required controlled production browser variables are not configured."
+            exit 1
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Stage rollback artifact from exact r4 commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p rollback-artifact/scripts
+          cp rollback-source/index.html rollback-source/manifest.webmanifest rollback-source/service-worker.js rollback-source/firebase.runtime-config.json rollback-artifact/
+          cp -R rollback-source/assets rollback-source/css rollback-source/data rollback-source/js rollback-artifact/
+          cp rollback-source/scripts/render-production-firebase-public-config.mjs rollback-artifact/scripts/
+
+      - name: Render rollback deployment-only Firebase App Check configuration
+        env:
+          CMS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY }}
+          CMS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY }}
+        run: node rollback-artifact/scripts/render-production-firebase-public-config.mjs rollback-artifact/firebase.runtime-config.json
+
+      - name: Verify rollback artifact identity and safety shape
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F '<meta name="app-asset-revision" content="1.8.1-r4">' rollback-artifact/index.html >/dev/null
+          grep -F 'FALLBACK_RUNTIME_REVISION="1.8.1-r4"' rollback-artifact/js/productionFirebaseRuntime.js >/dev/null
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const config = JSON.parse(fs.readFileSync('rollback-artifact/firebase.runtime-config.json', 'utf8'));
+          if(config.schemaVersion !== 1 || config.configured !== true) throw new Error('Rollback runtime config is not enabled.');
+          if(!config.firebaseConfig || config.firebaseConfig.projectId !== 'fifa17-career-showdown-prod') throw new Error('Rollback runtime config targets the wrong project.');
+          if(typeof config.firebaseConfig.apiKey !== 'string' || config.firebaseConfig.apiKey.length < 20) throw new Error('Rollback Firebase Web API key is missing or malformed.');
+          if(typeof config.recaptchaEnterpriseSiteKey !== 'string' || config.recaptchaEnterpriseSiteKey.length < 20) throw new Error('Rollback reCAPTCHA Enterprise site key is missing or malformed.');
+          NODE
+          rm -rf rollback-artifact/scripts
+
+      - name: Upload rollback Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          name: github-pages-rollback-r4
+          path: rollback-artifact
+
+      - name: Stage exact current restore artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p restore-artifact/scripts
+          cp restore-source/index.html restore-source/manifest.webmanifest restore-source/service-worker.js restore-source/firebase.runtime-config.json restore-artifact/
+          cp -R restore-source/assets restore-source/css restore-source/data restore-source/js restore-artifact/
+          cp restore-source/scripts/render-production-firebase-public-config.mjs restore-artifact/scripts/
+
+      - name: Render restore deployment-only Firebase App Check configuration
+        env:
+          CMS_FIREBASE_WEB_API_KEY: ${{ vars.CMS_FIREBASE_WEB_API_KEY }}
+          CMS_RECAPTCHA_ENTERPRISE_SITE_KEY: ${{ vars.CMS_RECAPTCHA_ENTERPRISE_SITE_KEY }}
+        run: node restore-artifact/scripts/render-production-firebase-public-config.mjs restore-artifact/firebase.runtime-config.json
+
+      - name: Verify restore artifact identity and safety shape
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F '<meta name="app-asset-revision" content="1.8.1-r5">' restore-artifact/index.html >/dev/null
+          grep -F 'FALLBACK_RUNTIME_REVISION="1.8.1-r5"' restore-artifact/js/productionFirebaseRuntime.js >/dev/null
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const config = JSON.parse(fs.readFileSync('restore-artifact/firebase.runtime-config.json', 'utf8'));
+          if(config.schemaVersion !== 1 || config.configured !== true) throw new Error('Restore runtime config is not enabled.');
+          if(!config.firebaseConfig || config.firebaseConfig.projectId !== 'fifa17-career-showdown-prod') throw new Error('Restore runtime config targets the wrong project.');
+          if(typeof config.firebaseConfig.apiKey !== 'string' || config.firebaseConfig.apiKey.length < 20) throw new Error('Restore Firebase Web API key is missing or malformed.');
+          if(typeof config.recaptchaEnterpriseSiteKey !== 'string' || config.recaptchaEnterpriseSiteKey.length < 20) throw new Error('Restore reCAPTCHA Enterprise site key is missing or malformed.');
+          NODE
+          rm -rf restore-artifact/scripts
+
+      - name: Upload restore Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          name: github-pages-restore-r5
+          path: restore-artifact
+
+  deploy-rollback:
+    needs: build-proof-artifacts
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.rollback.outputs.page_url }}
+
+    steps:
+      - name: Deploy known-good r4 rollback artifact
+        id: rollback
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-rollback-r4
+
+      - name: Verify r4 is actually live in production
+        env:
+          PAGE_URL: ${{ steps.rollback.outputs.page_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}/"
+          probe="rollback-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_SHA}"
+          for attempt in $(seq 1 24); do
+            html="$(curl --fail --silent --show-error --location --header 'Cache-Control: no-cache' "${base}?proof=${probe}-${attempt}" || true)"
+            runtime="$(curl --fail --silent --show-error --location --header 'Cache-Control: no-cache' "${base}js/productionFirebaseRuntime.js?proof=${probe}-${attempt}" || true)"
+            if grep -Fq '<meta name="app-asset-revision" content="1.8.1-r4">' <<<"$html" && grep -Fq 'FALLBACK_RUNTIME_REVISION="1.8.1-r4"' <<<"$runtime"; then
+              echo "Verified production rollback identity 1.8.1-r4."
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::Production never exposed the expected r4 rollback identity inside the bounded verification window."
+          exit 1
+
+  restore-current:
+    needs: [build-proof-artifacts, deploy-rollback]
+    if: always() && needs.build-proof-artifacts.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment:
+      name: github-pages
+      url: ${{ steps.restore.outputs.page_url }}
+
+    steps:
+      - name: Restore exact current r5 artifact
+        id: restore
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-restore-r5
+
+      - name: Verify r5 is restored live in production
+        env:
+          PAGE_URL: ${{ steps.restore.outputs.page_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}/"
+          probe="restore-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_SHA}"
+          for attempt in $(seq 1 24); do
+            html="$(curl --fail --silent --show-error --location --header 'Cache-Control: no-cache' "${base}?proof=${probe}-${attempt}" || true)"
+            runtime="$(curl --fail --silent --show-error --location --header 'Cache-Control: no-cache' "${base}js/productionFirebaseRuntime.js?proof=${probe}-${attempt}" || true)"
+            if grep -Fq '<meta name="app-asset-revision" content="1.8.1-r5">' <<<"$html" && grep -Fq 'FALLBACK_RUNTIME_REVISION="1.8.1-r5"' <<<"$runtime"; then
+              echo "Verified exact production restoration identity 1.8.1-r5."
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::Production did not restore the expected r5 identity inside the bounded verification window."
+          exit 1
+
+  seal-proof:
+    needs: [deploy-rollback, restore-current]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require both rollback and restoration proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ needs.deploy-rollback.result }}" = "success"
+          test "${{ needs.restore-current.result }}" = "success"
+          echo "Production Pages rollback proof sealed: r5 -> r4 -> r5, with exact live identity verification at both production boundaries."
