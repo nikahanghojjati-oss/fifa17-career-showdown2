@@ -54,7 +54,7 @@ Handoff proximity is environment-local transition readiness, not project complet
 
 ## Mandatory repository-first next-developer prompt standard
 
-Future closers must preserve this same rule recursively. Give the owner one short, freshly generated repository-first prompt naming the newest starter; do not burden the owner with the deep handoff by default.
+Future closers must preserve this same rule recursively. Run `npm run work:next-prompt` to generate the owner's short, freshly generated repository-first prompt naming the newest starter; do not burden the owner with the deep handoff by default.
 
 Ready-to-paste prompt for this successor:
 
