@@ -6,6 +6,8 @@ const historicalNext=fs.readFileSync("authority-history/NEXT_TASK_PRE_R3_CONNECT
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
+const bootstrap=JSON.parse(fs.readFileSync("SESSION_BOOTSTRAP.json","utf8"));
+const r5Production=bootstrap.runtime?.productionRuntimeRevision==="1.8.1-r5"&&!bootstrap.runtime?.candidateRuntimeRevision;
 
 for(const term of ["accountId","profileId","saveId","seasonId","deviceId","installationId","baseRevision","tombstone","idempotency"]){
   assert.ok(policy.includes(term),`Phase 1C lost required identity/sync term: ${term}`);
@@ -58,8 +60,14 @@ assert.doesNotMatch(index,/firebase|firestore/i,"Phase 1C must not itself add a 
 assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1C must not connect Firebase through optional modules.");
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
 assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved in the lossless pre-r3 archive without overriding later explicit runtime authority.");
-assert.match(next,/Status:[\s\S]+production `v1\.8\.1 \/ 1\.8\.1-r4` remains DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+candidate `v1\.8\.1 \/ 1\.8\.1-r5` is EVIDENCE-PROVEN \/ PUBLICATION PENDING[\s\S]+App Check enforcement remains OFF/i,"Current NEXT_TASK must retain deployed r4 Firebase/App Check authority while truthfully exposing the r5 publication candidate.");
+if(r5Production){
+  assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+STAGE 5 REMAINS LOCKED/i,"Current NEXT_TASK must expose promoted r5 production authority and retain the Stage 5 lock.");
+  assert.match(next,/TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN|stage4-token-lifecycle-contracts\.cjs/i,"Current NEXT_TASK must preserve deployed App Check token-lifecycle authority after r5 promotion.");
+}else{
+  assert.match(next,/Status:[\s\S]+production `v1\.8\.1 \/ 1\.8\.1-r4` remains DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+candidate `v1\.8\.1 \/ 1\.8\.1-r5` is EVIDENCE-PROVEN \/ PUBLICATION PENDING[\s\S]+App Check enforcement remains OFF/i,"Current NEXT_TASK must retain deployed r4 Firebase/App Check authority while truthfully exposing the r5 publication candidate.");
+}
 assert.match(next,/Firebase remains Spark \/ zero billing[\s\S]+Firestore remains memory-only[\s\S]+Google Auth remains popup-only `browserSessionPersistence`/i,"Current NEXT_TASK must preserve the bounded production provider/privacy locks inherited after Phase 1C.");
+assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock.");
 assert.match(next,/Production-provider publication[\s\S]+firestore\.spark\.rules[\s\S]+separately unverified/i,"Current NEXT_TASK must keep repository/emulator Rules proof separate from provider publication truth.");
 
-process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while deployed r4 and candidate r5 authority remain explicit\n");
+process.stdout.write(`PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while ${r5Production?"production-proven r5":"deployed r4 and candidate r5"} authority remains explicit\n`);
