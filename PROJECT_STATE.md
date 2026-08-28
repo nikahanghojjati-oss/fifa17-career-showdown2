@@ -15,6 +15,8 @@ Remote Joining readiness: `85/100` under fixed RJR-1
 
 PR #166 added one bounded one-shot GitHub Pages rollback/restore drill. Workflow run `33190961085` built both artifacts before production mutation, deployed exact known-good `1.8.1-r4` from `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`, independently observed r4 live from public HTML/runtime identity, restored exact `1.8.1-r5`, independently observed r5 live again, and passed its final seal requiring both boundaries. Production is safely back on r5.
 
+The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
+
 The drill changed GitHub Pages runtime bytes only. Firebase Rules, provider IAM, billing, App Check enforcement, Auth persistence/scopes, canonical data and protected historical rivalry state were outside its mutation boundary.
 
 Production-provider publication of the strengthened current `firestore.spark.rules` remains separately unverified. Repository/emulator Rules evidence and GitHub Pages deployment are not provider-live Rules proof.
