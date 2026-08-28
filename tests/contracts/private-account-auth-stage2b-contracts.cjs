@@ -63,7 +63,7 @@ assert.match(next,/Firebase remains Spark \/ zero billing/i,"Current transition 
 assert.match(preR3State, /PR #115[\s\S]+Firebase App \+ App Check/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve the dormant Stage 2A-2I prerequisite boundaries at their proven boundaries.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the bounded v1.5.0 candidate provenance.");
-assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate recovery runtime.");
+assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2B current-state checks must use the fixed RJR-1 model.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must report the current evidence-backed readiness score from the fixed RJR ledger rather than a stale reconciliation-only literal.");
 assert.match(roadmap, /Stage 2B — Provider Session Lifecycle & Revocation Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
