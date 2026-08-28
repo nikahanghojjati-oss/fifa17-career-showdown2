@@ -37,4 +37,6 @@ Completed local dependencies include identity-safe longitudinal Career Analytics
 
 Historical Stage 2B/2C/2D/2E/2F/2G/2H/2I authority remains preserved in repository history and dedicated authority records; it does not override the current r5 production boundary. The Candidate C destructive recovery lock remains transaction-owned and requires strict exact raw snapshot authority.
 
+The repository-owned GitHub CLI bootstrap remains protected historical tooling authority: prefer the connected GitHub app / connector-first path when available, and the rootless fallback retains official-release checksum verification, environment-local credentials, and no connector-credential reuse. It is infrastructure provenance, not current product work.
+
 At every future Handoff proximity 100%, recursively create the complete mirrored SLE = Smart Lean Efficient package, refresh bootstrap/context pointers, run `npm run work:next-prompt`, seal WEC as the final intended branch mutation, and stop before another substantial milestone.
