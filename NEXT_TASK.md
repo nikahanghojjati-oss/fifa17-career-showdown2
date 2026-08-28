@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK PROVEN — RJR85 — PR #167 SLE TRANSITION — 2026-08-28 ET
 
-Status: production remains `v1.8.1 / 1.8.1-r5`. PR #166 publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Production rollback workflow `33190961085` is fully successful. Fixed RJR-1 is `85/100`. STAGE 5 REMAINS LOCKED.
+Status: `v1.8.1 / 1.8.1-r5` is DEPLOYED / PRODUCTION-PROVEN and remains current production. PR #166 publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Production rollback workflow `33190961085` is fully successful. Fixed RJR-1 is `85/100`. STAGE 5 REMAINS LOCKED.
 
 Current environment: `we-2026-08-28-rjr-production-rollback-proof`
 Starting independently verified live main: `9c086f5548de4e65a9d2bb6645d01e10da7facf6`
@@ -14,6 +14,8 @@ SLE transition PR: #167
 ## Proven production rollback capability
 
 Run `33190961085` independently observed exact r4 live in production, restored exact r5, independently observed r5 live again, and passed the final proof seal. Both artifacts were constructed before the production mutation and the restore job is fail-safe after successful artifact construction. Production is back on r5.
+
+TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. The rollback proof adds no duplicate token-lifecycle credit and App Check enforcement remains OFF.
 
 The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
 
@@ -31,6 +33,6 @@ Only if the fresh assessment permits continuation, select the smallest genuinely
 
 ## Permanent locks
 
-Exactly two private managers; only the three canonical localStorage keys; Candidate A non-mutating; Candidate B read-only; Candidate C sole destructive Apply authority with transaction-owned rollback and strict exact raw snapshot; Spark/zero billing; memory-only Firestore; popup-only `browserSessionPersistence` Google Auth with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened; no public discovery/community/matchmaking/global rankings; protected historical rivalry `pair_a07108...756fb` untouched.
+Exactly two private managers; only the three canonical localStorage keys; Candidate A non-mutating; Candidate B read-only; Candidate C sole destructive Apply authority with transaction-owned rollback and strict exact raw snapshot; Firebase remains Spark / zero billing; Firestore remains memory-only; Google Auth remains popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened; no public discovery/community/matchmaking/global rankings; protected historical rivalry `pair_a07108...756fb` untouched.
 
 Standing owner merge/deploy authorization remains active after all mandatory gates pass. Later explicit owner instructions override it.
