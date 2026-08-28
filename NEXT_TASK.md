@@ -31,6 +31,8 @@ Production-provider publication of strengthened `firestore.spark.rules` remains 
 
 Authenticated third-account and revoked registered-device production negatives remain uncredited without legitimate authenticated production identity/device state. Two-physical-network behavior remains separately uncredited. Remote Joining specific real-device token-lifecycle acceptance remains uncredited. Production abuse acceptance remains uncredited. Production rollback proof remains uncredited. Actual Remote Joining sessions remain Stage-5-gated. Final stable Remote Joining release acceptance remains uncredited.
 
+Stage 5 host/join/session orchestration remains locked until its explicit preconditions genuinely close.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Finish the **mandatory recursive SLE package and publish it** for environment `we-2026-08-27-post-pr162-rjr-successor-1544`, seal its WEC at Handoff proximity 100%, verify the transition publication, and stop before another substantial RJR milestone.
