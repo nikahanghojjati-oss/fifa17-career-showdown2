@@ -15,6 +15,8 @@ SLE transition PR: #167
 
 Run `33190961085` independently observed exact r4 live in production, restored exact r5, independently observed r5 live again, and passed the final proof seal. Both artifacts were constructed before the production mutation and the restore job is fail-safe after successful artifact construction. Production is back on r5.
 
+The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
+
 This closes exactly one previously explicit uncredited capability. RJR advances `84 → 85`. PR/CI volume, merge, documentation and SLE earn zero duplicate credit.
 
 Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Authenticated third-account/revoked-device production negatives, two-network behavior, real-device Remote Joining token-lifecycle acceptance, production provider abuse acceptance, actual Stage 5 sessions and final stable release acceptance remain uncredited.
