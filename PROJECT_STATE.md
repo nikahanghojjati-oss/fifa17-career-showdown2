@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK PROVEN / RJR85 / PR #167 SLE TRANSITION — 2026-08-28 ET
 
-Status: production remains `v1.8.1 / 1.8.1-r5`. PR #166 squash merge / proof-publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Fixed RJR-1 is `85/100` after independently verified production rollback and exact restoration. Stage 5 remains locked.
+Status: DEPLOYED / PRODUCTION-PROVEN; production remains `v1.8.1 / 1.8.1-r5`. PR #166 squash merge / proof-publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Fixed RJR-1 is `85/100` after independently verified production rollback and exact restoration. Stage 5 remains locked.
 
 Application: `v1.8.1`
 Production runtime: `1.8.1-r5`
