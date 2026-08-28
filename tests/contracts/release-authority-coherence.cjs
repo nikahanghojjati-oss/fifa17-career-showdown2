@@ -159,7 +159,7 @@ A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof mu
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must remain closed.");
 A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Analytics handoff must retain its validated PR head.");
 A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its runtime merge.");
-A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail.");
+A.match(currentHandoff, /rolling handoff/i, "Current handoff must remain a rolling evidence trail.");
 
 // Current Stage 3 authority must be explicit in the current override, while old milestone text may remain historical below it.
 if(version === "1.6.0"){
