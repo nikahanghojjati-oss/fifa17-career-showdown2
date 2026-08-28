@@ -50,7 +50,7 @@ assert.equal(capsule.starter.fallbackPackNeededByDefault, false);
 assert.ok(readyToPaste.includes(starterRoot), "Ready-to-paste successor entrypoint must name the capsule's current starter.");
 assert.ok(readyToPaste.includes(handoffRoot), "Ready-to-paste successor entrypoint must name the capsule's current deep handoff.");
 assert.ok(readyToPaste.includes(`v${pkg.version}`), "Ready-to-paste successor entrypoint must identify the current source application.");
-assert.ok(readyToPaste.includes(`${readiness.currentScore}/100`), "Ready-to-paste successor entrypoint must identify the fixed current RJR score.");
+assert.ok(readyToPaste.includes(`${readiness.currentScore}/100`), "Ready-to-paste successor entrypoint must identify the fixed current RJR score even while predecessor files remain orientation until the active environment seals.");
 assert.doesNotMatch(readyToPaste, /START_NEXT_SESSION_V1\.4\.11_V1\.8\.0_RIVALRY_AUTHORITY_MISMATCH/, "Ready-to-paste successor entrypoint must not route to the superseded pointer-repair starter.");
 
 assert.equal(capsule.remoteJoiningReadiness.authority, "REMOTE_JOINING_READINESS.json");
@@ -71,25 +71,28 @@ const hasCandidate = Boolean(capsule.runtime.candidateApplicationVersion || caps
 if (hasCandidate) {
   assert.equal(capsule.runtime.candidateApplicationVersion, pkg.version, "A source candidate must track package version.");
   assert.equal(capsule.runtime.candidateRuntimeRevision, sourceRevision, "A source candidate must track source runtime revision.");
-  assert.match(capsule.runtime.candidateStatus || "", /not-production-proven|release-candidate|production-proven/i, "A source candidate must classify production proof truthfully.");
+  assert.match(capsule.runtime.candidateStatus || "", /not-production-proven|release-candidate|capability-evidence-proven|production-proven/i, "A source candidate must classify production proof truthfully.");
   const claimsProductionProven = /production-proven/i.test(capsule.runtime.candidateStatus) && !/not-production-proven/i.test(capsule.runtime.candidateStatus);
   if (claimsProductionProven) {
     assert.equal(capsule.runtime.candidateApplicationVersion, capsule.runtime.applicationVersion, "A production-proven candidate must equal production application identity.");
     assert.equal(capsule.runtime.candidateRuntimeRevision, capsule.runtime.productionRuntimeRevision, "A production-proven candidate must equal production runtime identity.");
+  } else {
+    assert.equal(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.productionRuntimeRevision, "An unmerged runtime candidate must recover to the currently deployed production whole shell.");
+    assert.equal(capsule.runtime.previousKnownGoodRecoveryRuntime, capsule.runtime.productionRuntimeRevision, "An unmerged runtime candidate must retain currently deployed production as the previous known-good whole shell.");
   }
 } else {
   assert.equal(sourceVersion, capsule.runtime.applicationVersion, "With no unmerged candidate, source and production application identities must match.");
   assert.equal(sourceRevision, capsule.runtime.productionRuntimeRevision, "With no unmerged candidate, source and production runtime identities must match exactly.");
   assert.equal(capsule.runtime.candidateRuntimeMergeSha, null, "No-candidate production handoff must not invent a candidate merge SHA.");
-}
 
-const productionIsKnownRegressed = /regression|known-bad/i.test(capsule.runtime.productionStatus);
-if (productionIsKnownRegressed) {
-  assert.equal(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.previousKnownGoodRecoveryRuntime, "Known-bad production must recover to the previous known-good whole shell.");
-  assert.notEqual(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.productionRuntimeRevision, "Known-bad production cannot recover to itself.");
-} else {
-  assert.ok(capsule.runtime.immediateRecoveryRuntime, "Production-proven handoff must retain an explicit recovery runtime.");
-  assert.notEqual(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.productionRuntimeRevision, "The recovery target must remain a distinct prior whole shell when one is recorded.");
+  const productionIsKnownRegressed = /regression|known-bad/i.test(capsule.runtime.productionStatus);
+  if (productionIsKnownRegressed) {
+    assert.equal(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.previousKnownGoodRecoveryRuntime, "Known-bad production must recover to the previous known-good whole shell.");
+    assert.notEqual(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.productionRuntimeRevision, "Known-bad production cannot recover to itself.");
+  } else {
+    assert.ok(capsule.runtime.immediateRecoveryRuntime, "Production-proven handoff must retain an explicit recovery runtime.");
+    assert.notEqual(capsule.runtime.immediateRecoveryRuntime, capsule.runtime.productionRuntimeRevision, "A sealed production runtime must recover to a distinct prior whole shell.");
+  }
 }
 assert.equal(capsule.runtime.appCheckEnforcement, false);
 assert.equal(capsule.runtime.billingRequired, false);
@@ -154,15 +157,16 @@ for (const [name, value] of [["starter", starter], ["handoff", handoff]]) {
 assert.equal(graph.schemaVersion, 2);
 assert.ok(graph.nodes.some(node => node.id === "rjr1-ledger" && node.recordedScore === readiness.currentScore), "Context graph RJR pointer must match the current fixed ledger.");
 if (capsule.immediateNextTask.mustStartAsRealProductWork) {
-  assert.ok(graph.nodes.some(node => node.type === "immediate-next-product-milestone"), "A product-starting capsule must point at the next real product milestone.");
+  assert.ok(graph.nodes.some(node => node.type === "immediate-next-product-milestone"), "A product-starting capsule must point at the active real product milestone.");
+  assert.ok(graph.nodes.some(node => node.pullRequest === capsule.currentPublicationCheckpoint?.pullRequest), "The context graph must point at the current publication checkpoint PR.");
 } else {
   assert.equal(capsule.transition?.contextTransitionRequired, true, "A non-product handoff task is legal only at an explicit context transition.");
   assert.equal(capsule.transition?.handoffCompleteness, 100, "A non-product handoff task is legal only for a complete handoff package.");
-  assert.match(capsule.immediateNextTask.name || "", /sle-publication/i, "A transition-only immediate task must be the bounded recursive SLE publication step.");
+  assert.match(capsule.immediateNextTask.name || "", /sle-publication|successor/i, "A transition-only immediate task must be the bounded recursive SLE/successor step.");
   assert.ok(graph.nodes.some(node => node.id === "successor-selection"), "Transition package must route successor through fresh-WEC product selection.");
   assert.ok(graph.nodes.some(node => node.id === "stage5-private-remote-joining"), "Transition package must retain the real Remote Joining destination while Stage 5 stays locked.");
 }
-assert.match(graph.retrievalHints.walkDirection, /product work|Remote Joining/i);
+assert.match(graph.retrievalHints.walkDirection, /product work|Remote Joining|PR #163/i);
 
 assert.ok(capsule.minimalReads.includes("00_SLE_HANDOFF_PROTOCOL.md"));
 assert.ok(capsule.minimalReads.includes("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"));
@@ -170,4 +174,4 @@ assert.ok(capsule.targetedReads.includes("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRA
 assert.ok(capsule.targetedReads.includes("js/cloudSyncRemoteContract.js"));
 assert.equal(capsule.immediateNextTask.mustNotInsertGenericPrerequisiteLane, true);
 
-process.stdout.write(`PASS SLE package: live-first Smart Lean Efficient handoff is coherent for source ${pkg.version}/${sourceRevision}, production ${capsule.runtime.applicationVersion}/${capsule.runtime.productionRuntimeRevision}, RJR ${readiness.currentScore}/100, and ${capsule.immediateNextTask.mustStartAsRealProductWork ? "the next real product milestone" : "a sealed transition-only publication boundary before fresh-WEC product selection"}.\n`);
+process.stdout.write(`PASS SLE package: live-first Smart Lean Efficient handoff is coherent for source ${pkg.version}/${sourceRevision}, production ${capsule.runtime.applicationVersion}/${capsule.runtime.productionRuntimeRevision}, RJR ${readiness.currentScore}/100, and ${capsule.immediateNextTask.mustStartAsRealProductWork ? "the active real product publication milestone" : "a sealed transition-only publication boundary before fresh-WEC product selection"}.\n`);

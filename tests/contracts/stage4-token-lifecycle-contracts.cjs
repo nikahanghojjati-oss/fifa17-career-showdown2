@@ -58,6 +58,7 @@ function accountSdk(calls){
     initializeFirestore(appInstance,options){calls.push(["initializeFirestore",appInstance,options]);return {name:"firestore"};},
     memoryLocalCache(){calls.push(["memoryLocalCache"]);return {kind:"memory"};},
     Timestamp:{now(){return {seconds:1,nanoseconds:0};}},
+    serverTimestamp(){return {kind:"server-timestamp"};},
     doc(){},
     runTransaction(){}
   };
