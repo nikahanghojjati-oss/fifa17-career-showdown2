@@ -2,6 +2,8 @@
 
 Status: `v1.8.1 / 1.8.1-r5` is DEPLOYED / PRODUCTION-PROVEN from PR #163 squash merge `c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf`. Fixed RJR-1 is `84/100`. STAGE 5 REMAINS LOCKED.
 
+Current environment: `we-2026-08-27-post-pr162-rjr-successor-1544`
+Starting independently verified live main: `567e2c308ce32cf2c4ef7432e65ffb3a99111ef5`
 Production runtime: `v1.8.1 / 1.8.1-r5`
 PR #163 final exact head: `5131cadcd3250b5a515f3f4b6f292f8ee51aab67`
 PR #163 merge: `c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf`
