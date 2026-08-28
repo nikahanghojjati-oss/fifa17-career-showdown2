@@ -16,6 +16,7 @@ This earns exactly +1 in the fixed `real-device-hardening-release` domain: RJR 8
 
 ## Current publication candidate
 
+Authorized release candidate: `v1.8.1 / 1.8.1-r5`.
 Candidate application/runtime: `v1.8.1 / 1.8.1-r5`.
 Previous known-good whole-shell recovery runtime: `1.8.1-r4`.
 Release record: `RELEASE_V1.8.1_R5.md`.
