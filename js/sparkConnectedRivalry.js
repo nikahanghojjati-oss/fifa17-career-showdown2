@@ -574,6 +574,9 @@
         const acceptedRevision=stateExists?plan.baseRevision+1:0;
         const nowEpochMs=Number(options.nowEpochMs===undefined?Date.now():options.nowEpochMs);
         const now=options.firebaseSdk.Timestamp.fromMillis(nowEpochMs);
+        const stateUpdatedAt=typeof options.firebaseSdk.serverTimestamp==="function"
+          ? options.firebaseSdk.serverTimestamp()
+          : now;
         const expiresAt=options.firebaseSdk.Timestamp.fromMillis(nowEpochMs+CR_IDEMPOTENCY_TTL_MS);
         const stateData={
           ...crClone(plan.projection),
@@ -589,7 +592,7 @@
           revision:acceptedRevision,
           parentRevision:stateExists?before.revision:null,
           priorContentHash:stateExists?before.contentHash:null,
-          updatedAt:now,
+          updatedAt:stateUpdatedAt,
           updatedByAccountId:accountId,
           updatedByDeviceId:deviceId,
           data:stateData,

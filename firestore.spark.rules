@@ -526,6 +526,17 @@ service cloud.firestore {
         && receipt.data.resultContentHash == stateRoot.contentHash;
     }
 
+    function validSharedStateMutationTiming(before, after) {
+      return before.revision < 2
+        || (
+          after.updatedAt == request.time
+          && (
+            before.revision == 2
+            || request.time >= before.updatedAt + duration.value(2, 's')
+          )
+        );
+    }
+
     function validSharedStateCreate(rivalryId) {
       let after = request.resource.data;
       return rivalryId.matches('^pair_[0-9a-f]{64}$')
@@ -545,6 +556,7 @@ service cloud.firestore {
         && activeOwnedDevice(after.updatedByDeviceId)
         && before.lifecycleState == "live"
         && validCasEnvelope(before, after, "sharedState", rivalryId)
+        && validSharedStateMutationTiming(before, after)
         && after.updatedByAccountId == request.auth.uid
         && after.data.saveId == before.data.saveId
         && after.data.managerBindings == before.data.managerBindings

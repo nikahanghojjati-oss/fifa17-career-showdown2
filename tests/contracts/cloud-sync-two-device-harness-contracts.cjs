@@ -26,9 +26,11 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must stay cohe
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent while the provider-neutral Phase 1E harness stays dormant.");
 assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
-assert.match(next,/CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Current NEXT_TASK must retain the historical post-PR100 gateway heading as provenance rather than revive Phase 1E as current authority.");
-assert.match(next,/Stage 1 Cloud \/ Sync Readiness Phase 1A through 1F remains DONE \/ MERGED \/ PROTECTED/i,"Current NEXT_TASK must preserve completed Stage 1 Cloud/Sync authority.");
-assert.match(historicalNext,/Phase 1D[\s\S]+DONE \/ PR #79[\s\S]+Phase 1E[\s\S]+CURRENT BOUNDED CANDIDATE[\s\S]+Phase 1F[\s\S]+BLOCKED/i,"Exact archived predecessor authority must retain the historical Phase 1D → 1E → 1F implementation sequence.");
+assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
+assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"Current NEXT_TASK must advance beyond the historical gateway and dormant Phase 1E authority to the actual PR #163 publication lane.");
+assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
+assert.match(next,/Stage 5 host\/join\/session orchestration remains locked/i,"Current NEXT_TASK must preserve the explicit Stage 5 gate while dormant Phase 1E provenance stays archived.");
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
@@ -63,7 +65,6 @@ function build(){
   return created;
 }
 
-// 1-5: two devices share one base, accepted A, stale B, exact replay, mismatched replay.
 const h=build();
 let snap=h.snapshot();
 assert.equal(snap.devices.device_a.observedRevision,0);
@@ -83,7 +84,6 @@ const changedReplay={...a1.intent,contentHash:hash("c"),content:payload("changed
 const replayConflict=h.submitIntent(changedReplay);
 assert.equal(replayConflict.status,"idempotency-conflict");assert.equal(h.authority().revision,1);
 
-// 6-8: tombstone, long-offline anti-resurrection, explicit restore is separate.
 assert.equal(h.reconnect("device_b").observedRevision,1);
 h.setDeviceOnline("device_b",false);
 const staleOfflinePut=h.createIntent("device_b",{operation:"put",idempotencyKey:"key_offline_old",contentHash:hash("d"),payload:payload("offline-old")});
@@ -102,7 +102,6 @@ assert.equal(restoreB.intent.baseRevision,2);
 const restored=h.submitIntent(restoreB.intent);
 assert.equal(restored.status,"accepted");assert.equal(h.authority().revision,3);assert.equal(h.authority().tombstone,false);
 
-// 9-12: interrupted/provider-style retry and offline intent never silently rebase; reconnect refreshes observation only.
 h.reconnect("device_a");h.reconnect("device_b");
 const retryOriginal=h.createIntent("device_a",{operation:"put",idempotencyKey:"key_retry_a",contentHash:hash("f"),payload:payload("retry-A")});
 const retryIntervening=h.createIntent("device_b",{operation:"put",idempotencyKey:"key_retry_b",contentHash:hash("1"),payload:payload("retry-B")});
@@ -126,7 +125,6 @@ assert.equal(reconnectedA.previousObservedRevision,4);assert.equal(reconnectedA.
 assert.equal(queuedA.intent.baseRevision,4,"Reconnect must not rewrite queued intent baseRevision.");
 assert.equal(h.submitIntent(queuedA.intent).status,"conflict");
 
-// 13-17: revocation/disable/relationship/membership authority and invalid payloads reject before remote mutation.
 const beforeInvalid=h.authority().revision;
 const unsupported=h.createIntent("device_b",{operation:"put",idempotencyKey:"unsupported",contentHash:hash("4"),payload:payload("future",2)});
 assert.equal(unsupported.status,"unsupported-payload");assert.equal(h.authority().revision,beforeInvalid);
@@ -150,7 +148,6 @@ h.setMembershipState("acct_b","relinquished");
 const staleMembershipIntent=h.createIntent("device_b",{operation:"put",idempotencyKey:"member-old",contentHash:hash("7"),payload:payload("member-old")});
 assert.equal(h.submitIntent(staleMembershipIntent.intent).status,"relationship-revoked");assert.equal(h.authority().revision,beforeInvalid);
 
-// Shared mutation also freezes for the still-active peer when the other required account or membership is no longer active.
 const governance=build();
 governance.setAccountState("acct_b","disabled");
 let peerIntent=governance.createIntent("device_a",{operation:"put",idempotencyKey:"peer-disabled",contentHash:hash("c"),payload:payload("peer-disabled")});
@@ -162,11 +159,8 @@ peerIntent=governance.createIntent("device_a",{operation:"put",idempotencyKey:"p
 peerResult=governance.submitIntent(peerIntent.intent);
 assert.equal(peerResult.status,"relationship-revoked");assert.equal(peerResult.code,"RIVALRY_MUTATION_FROZEN");assert.equal(governance.authority().revision,0);
 
-// 18-19: local preview movement and rollback ownership failure cannot clobber newer local bytes.
 const local=build();
-const preview=local.previewLocalApply("device_a",{
-  legacyShowdowns:'[{"id":"candidate"}]'
-});
+const preview=local.previewLocalApply("device_a",{legacyShowdowns:'[{"id":"candidate"}]'});
 assert.equal(preview.ok,true);
 assert.equal(Object.isFrozen(preview.preview),true);assert.equal(Object.isFrozen(preview.preview.expectedRaw),true);assert.equal(Object.isFrozen(preview.preview.candidateRaw),true);
 local.mutateLocalRaw("device_a","saveLibrary",'{"schemaVersion":2,"saves":[{"id":"newer"}]}');
@@ -189,7 +183,6 @@ assert.equal(failedApply.status,"rollback-failed-critical");
 assert.ok(Array.from(failedApply.transaction.rollbackOwnershipConflicts).includes("legacyShowdowns"));
 assert.equal(failedApply.localRaw.legacyShowdowns,newerLegacy,"Rollback must not clobber bytes it no longer owns.");
 
-// 20-24: cloud disable preserves local-only Save Library and recovery authorities; no provider/network dependency.
 const disabled=build();
 disabled.setRemoteEnabled(false);
 const capabilities=disabled.localCapabilities();
@@ -201,7 +194,6 @@ assert.deepEqual(Array.from(capabilities.canonicalStorageKeys),["saveLibrary","l
 const remoteDisabledIntent=disabled.createIntent("device_a",{operation:"put",idempotencyKey:"remote-off",contentHash:hash("8"),payload:payload("local-only")});
 assert.equal(disabled.submitIntent(remoteDisabledIntent.intent).status,"remote-disabled");assert.equal(disabled.authority().revision,0);
 
-// 25: repeated equivalent executions produce an identical deterministic final state.
 function deterministicRun(){
   const x=build();
   const i1=x.createIntent("device_a",{operation:"put",idempotencyKey:"det-a",contentHash:hash("9"),payload:payload("A")});
@@ -218,4 +210,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current release identity stays coherent\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #163 publication authority stays coherent\n");

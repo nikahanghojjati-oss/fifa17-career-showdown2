@@ -7,6 +7,7 @@ const next = read("NEXT_TASK.md");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const state = read("PROJECT_STATE.md");
+const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const preR3State = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -48,8 +49,12 @@ assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stage
 assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Lossless pre-r3 authority must preserve the historical bounded v1.5.0/r1 candidate.");
 assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
-assert.match(next,/CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/i,"Current NEXT_TASK must identify the production-proven reconciliation authority rather than revive Stage 2A.");
-assert.match(state,/^# CURRENT OVERRIDE — [^\n]+PRODUCTION-PROVEN[^\n]*\n\nStatus:\s*DEPLOYED \/ PRODUCTION-PROVEN `v[^`]+` \/ STAGE 4 RECONCILIATION/im,"Current PROJECT_STATE must identify the current production-proven Stage 4 authority rather than revive Stage 2A or freeze an obsolete runtime generation.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"Current NEXT_TASK must identify the actual PR #163 publication authority rather than revive Stage 2A.");
+assert.match(next,/production `v1\.8\.1 \/ 1\.8\.1-r4` remains DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+candidate `v1\.8\.1 \/ 1\.8\.1-r5` is EVIDENCE-PROVEN \/ PUBLICATION PENDING/i,"Current NEXT_TASK must distinguish deployed r4 from candidate r5.");
+assert.match(state,/CURRENT OVERRIDE — v1\.8\.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING EVIDENCE-PROVEN — PR #163 — RJR84/i,"Current PROJECT_STATE must identify the current PR #163/r5 authority rather than revive Stage 2A.");
+assert.match(state,/Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i,"Current PROJECT_STATE must distinguish production r4 from candidate r5.");
+assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
+assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Current PROJECT_STATE must report the live fixed RJR score.");
 assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/ 1D DONE \/ 1E DONE \/ 1F DONE/i);
 assert.match(roadmap, /Private Identity \/ Account Layer \| STAGE 2 ACTIVE \/ 2A AUTHORIZED NEXT/i);
 assert.match(remoteRoadmap, /Stage 1 — Cloud \/ Sync Readiness[\s\S]+DONE \/ MERGED \/ PROTECTED through Phase 1F/i);
@@ -69,4 +74,4 @@ assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
 assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current reconciliation authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current PR #163 r5 publication authority explicit\n");

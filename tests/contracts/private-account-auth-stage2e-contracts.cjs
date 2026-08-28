@@ -13,6 +13,7 @@ const next = read("NEXT_TASK.md");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const preR3Next = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const state = read("PROJECT_STATE.md");
+const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const preR3State = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
@@ -72,11 +73,7 @@ assert.equal(Object.isFrozen(createPlan.initialData), true);
 
 for (const status of bootstrap.allowedAccountStatuses) {
   const existing = accountFixture(uid, status);
-  const plan = bootstrap.planTrustedAccountBootstrap({
-    providerPrincipal: { uid },
-    documentAccountId: uid,
-    existingAccount: existing
-  });
+  const plan = bootstrap.planTrustedAccountBootstrap({ providerPrincipal: { uid }, documentAccountId: uid, existingAccount: existing });
   assert.equal(plan.ok, true, `${status} same-uid account must be accepted as existing.`);
   assert.equal(plan.action, "existing");
   assert.equal(plan.status, status);
@@ -173,9 +170,9 @@ assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY —
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
-assert.match(next,/^# CURRENT OVERRIDE — STAGE 4 RECONCILIATION PRODUCTION-PROVEN/im,"Live NEXT_TASK must identify the current production-proven Stage 4 authority rather than freeze the historical r3 recovery checkpoint.");
+assert.match(next,/^# CURRENT OVERRIDE — v1\.8\.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING — RJR84 — PR #163 PUBLICATION/im,"Live NEXT_TASK must identify the current PR #163/r5 publication authority rather than freeze the historical r3 recovery checkpoint.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
-assert.match(next,/PR #162 changes no website runtime byte but does change repository candidate `firestore\.spark\.rules`[\s\S]{0,320}Production-provider publication of the strengthened Rules is not yet proven/i,"Live authority must distinguish strengthened candidate Rules from separately unproven production-provider publication.");
+assert.match(next,/Production-provider publication of the strengthened candidate `firestore\.spark\.rules` from PR #162\/#163 remains separately unverified/i,"Live authority must distinguish candidate Rules from separately unproven production-provider publication.");
 
 const archivalSources = [
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
@@ -196,8 +193,10 @@ assert.match(preR3State,/PR #115[\s\S]+production App Check runtime/i);
 assert.match(preR3State,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve the completed Stage 2A-through-2I prerequisite boundary.");
 assert.match(preR3State,/Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i);
 assert.match(preR3State,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
-assert.match(state,/^# CURRENT OVERRIDE — [^\n]+PRODUCTION-PROVEN[^\n]*$/im,"Live PROJECT_STATE must identify current production-proven authority rather than freeze the historical r3 recovery candidate.");
-assert.match(state,/Status:\s*DEPLOYED \/ PRODUCTION-PROVEN `v[^`]+` \/ STAGE 4 RECONCILIATION[\s\S]{0,180}RJR-1 `\d{1,3}\/100`/i,"Live PROJECT_STATE must carry the current production Stage 4 and fixed-RJR authority without hard-coding a superseded score.");
+assert.match(state,/CURRENT OVERRIDE — v1\.8\.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING EVIDENCE-PROVEN — PR #163 — RJR84/i,"Live PROJECT_STATE must identify current PR #163/r5 authority rather than freeze the historical r3 recovery candidate.");
+assert.match(state,/Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i,"Live PROJECT_STATE must distinguish deployed r4 from candidate r5.");
+assert.equal(readiness.modelVersion,"RJR-1");
+assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority without a superseded literal.");
 
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
@@ -213,4 +212,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with historical Stage 2F/2G transition preserved and current Stage 4 authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with historical Stage 2F/2G transition preserved and current PR #163 authority explicit\n");
