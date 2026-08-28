@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — v1.8.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING EVIDENCE-PROVEN — PR #163 — RJR84 — 2026-08-27 ET
 
-Status: production `v1.8.1 / 1.8.1-r4` remains DEPLOYED / PRODUCTION-PROVEN. Candidate `v1.8.1 / 1.8.1-r5` is RELEASE CANDIDATE / CAPABILITY EVIDENCE-PROVEN / PUBLICATION PENDING. Stage 4 reconciliation + exact replay + deterministic adverse-provider + token-lifecycle + structural abuse + sustained mutation-frequency safety are proven. Fixed RJR-1 is `84/100`. Stage 5 remains locked.
+Status: production `v1.8.1 / 1.8.1-r4` remains DEPLOYED / PRODUCTION-PROVEN. Candidate `v1.8.1 / 1.8.1-r5` is RELEASE CANDIDATE / CAPABILITY EVIDENCE-PROVEN / PUBLICATION PENDING / NOT PRODUCTION-PROVEN. Stage 4 reconciliation + exact replay + deterministic adverse-provider + token-lifecycle + structural abuse + sustained mutation-frequency safety are proven. Fixed RJR-1 is `84/100`. Stage 5 remains locked.
 
 Application: `v1.8.1`
 Production runtime: `1.8.1-r4`
