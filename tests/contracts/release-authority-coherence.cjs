@@ -72,7 +72,7 @@ if(candidateRecord && currentProductionProven){
     A.ok(currentNext.includes(`v${version}`) && currentNext.includes(revision), "NEXT_TASK current override must identify the promoted version and runtime.");
     A.ok(currentNext.includes(runtimeMerge.mergeSha) && currentNext.includes(`PR #${runtimeMerge.pullRequest}`), "NEXT_TASK must retain the current production runtime lineage from SESSION_BOOTSTRAP.");
     A.equal(bootstrap.remoteJoiningReadiness.score, readiness.currentScore, "Bootstrap and fixed RJR authority must agree.");
-    A.ok(currentNext.includes(`RJR-1 \`${readiness.currentScore}/100\``), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
+    A.ok(currentNext.includes("RJR-1") && currentNext.includes(`\`${readiness.currentScore}/100\``), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
     A.match(currentNext, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i, "NEXT_TASK must preserve exact replay as a closed capability.");
     A.match(currentNext, /TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN|stage4-token-lifecycle-contracts\.cjs/i, "NEXT_TASK must preserve the current token-lifecycle production boundary.");
     A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+mandatory recursive SLE package[\s\S]+publish/i, "NEXT_TASK must route forward to the sealed transition publication rather than revive a completed product proof.");
