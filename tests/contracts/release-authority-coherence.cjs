@@ -72,7 +72,7 @@ if(candidateRecord && currentProductionProven){
     A.ok(currentNext.includes(`v${version}`) && currentNext.includes(revision), "NEXT_TASK current override must identify the promoted version and runtime.");
     A.ok(currentNext.includes(runtimeMerge.mergeSha) && currentNext.includes(`PR #${runtimeMerge.pullRequest}`), "NEXT_TASK must retain the current production runtime lineage from SESSION_BOOTSTRAP.");
     A.equal(bootstrap.remoteJoiningReadiness.score, readiness.currentScore, "Bootstrap and fixed RJR authority must agree.");
-    A.ok(currentNext.includes(`RJR-1 \`${readiness.currentScore}/100\``), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
+    A.ok(currentNext.includes("RJR-1") && currentNext.includes(`\`${readiness.currentScore}/100\``), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
     A.match(currentNext, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i, "NEXT_TASK must preserve exact replay as a closed capability.");
     A.match(currentNext, /TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN|stage4-token-lifecycle-contracts\.cjs/i, "NEXT_TASK must preserve the current token-lifecycle production boundary.");
     A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+mandatory recursive SLE package[\s\S]+publish/i, "NEXT_TASK must route forward to the sealed transition publication rather than revive a completed product proof.");
@@ -159,7 +159,7 @@ A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof mu
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must remain closed.");
 A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Analytics handoff must retain its validated PR head.");
 A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its runtime merge.");
-A.match(currentHandoff, /concise rolling handoff/i, "Current handoff must remain a rolling evidence trail.");
+A.match(currentHandoff, /rolling handoff/i, "Current handoff must remain a rolling evidence trail.");
 
 // Current Stage 3 authority must be explicit in the current override, while old milestone text may remain historical below it.
 if(version === "1.6.0"){

@@ -5,6 +5,7 @@ const read = file => fs.readFileSync(file, "utf8");
 const state = read("PROJECT_STATE.md");
 const next = read("NEXT_TASK.md");
 const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
+const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const reconciliationProof = read("OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md");
 const historicalState = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
@@ -21,6 +22,7 @@ const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const restore = read("js/restore.js");
 const transaction = read("js/storageTransaction.js");
 const storage = read("js/storage.js");
+const r5Production = bootstrap.runtime?.productionRuntimeRevision === "1.8.1-r5" && !bootstrap.runtime?.candidateRuntimeRevision;
 
 assert.match(roadmap, /Historical profile identity mapping \| FOUNDATION DONE \/ UNRESOLVED RECORDS PERMITTED/i, "Roadmap must preserve unresolved historical identity as a valid state.");
 assert.match(roadmap, /Cross-Save manager\/profile linkage semantics \| DONE/i, "Roadmap must retain the production-proven cross-Save manager identity prerequisite.");
@@ -30,14 +32,26 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must prioritize Remote Joining without skipping prerequisite authorization.");
 
-// Live authority has advanced beyond the archived r4/r3 checkpoints. Keep deployed r4
-// truth separate from the r5 candidate and preserve every consumed capability without
-// forcing the live documents to keep obsolete predecessor headings.
-assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING EVIDENCE-PROVEN — PR #163 — RJR84/i, "PROJECT_STATE must expose current PR #163 / r5 / RJR84 authority.");
-assert.match(state, /Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i, "PROJECT_STATE must distinguish deployed r4 from candidate r5.");
-assert.match(state, /Current verified live main:\s*`567e2c308ce32cf2c4ef7432e65ffb3a99111ef5` \(PR #162 merge\)/i, "PROJECT_STATE must retain the current verified PR #162 live-main boundary until PR #163 merges.");
-assert.match(state, /PR #160 remains the production runtime authority[\s\S]+`v1\.8\.1 \/ 1\.8\.1-r4`[\s\S]+V1\.8\.1_R4_PRODUCTION_PROOF\.md/i, "PROJECT_STATE must retain deployed r4 production provenance.");
-assert.match(state, /Previous known-good whole-shell recovery runtime for r5:\s*`1\.8\.1-r4`/i, "PROJECT_STATE must use deployed r4 as the r5 candidate rollback target.");
+// Current Cloud authority follows the same PR #163 capability across its candidate -> production lifecycle.
+assert.match(state, /CURRENT OVERRIDE[\s\S]+PR #163[\s\S]+r5[\s\S]+RJR84/i, "PROJECT_STATE must expose current PR #163 / r5 / RJR84 authority.");
+if(r5Production){
+  assert.match(state, /DEPLOYED\s*\/\s*PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5/i, "PROJECT_STATE must identify promoted r5 production truth.");
+  assert.match(state, /Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i, "PROJECT_STATE must retain r4 as the immediate prior whole-shell recovery runtime.");
+  assert.match(state, /PR #163 final exact publication head:\s*`5131cadcd3250b5a515f3f4b6f292f8ee51aab67`/i, "PROJECT_STATE must retain the final exact r5 publication head.");
+  assert.match(state, /Production runtime merge:\s*`c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf` \(PR #163\)/i, "PROJECT_STATE must retain the r5 production merge.");
+  assert.match(state, /V1\.8\.1_R5_PRODUCTION_PROOF\.md/i, "PROJECT_STATE must point at the r5 production proof.");
+  assert.match(state, /Production-provider publication of strengthened `firestore\.spark\.rules` remains separately[\s\S]+unverified/i, "PROJECT_STATE must keep repository Rules proof separate from provider publication truth after promotion.");
+  assert.match(state, /Current bounded work[\s\S]+mandatory recursive Smart Lean Efficient SLE transition package[\s\S]+Handoff proximity 100%/i, "PROJECT_STATE must route the completed r5 publication into the current environment SLE seal.");
+}else{
+  assert.match(state, /CURRENT OVERRIDE — v1\.8\.1-r5 SUSTAINED MUTATION-FREQUENCY HARDENING EVIDENCE-PROVEN — PR #163 — RJR84/i, "PROJECT_STATE must expose candidate-era PR #163 / r5 / RJR84 authority.");
+  assert.match(state, /Production runtime:\s*`1\.8\.1-r4`[\s\S]+Candidate runtime:\s*`1\.8\.1-r5`/i, "PROJECT_STATE must distinguish deployed r4 from candidate r5.");
+  assert.match(state, /Current verified live main:\s*`567e2c308ce32cf2c4ef7432e65ffb3a99111ef5` \(PR #162 merge\)/i, "PROJECT_STATE must retain the PR #162 live-main boundary until PR #163 merges.");
+  assert.match(state, /PR #160 remains the production runtime authority[\s\S]+`v1\.8\.1 \/ 1\.8\.1-r4`[\s\S]+V1\.8\.1_R4_PRODUCTION_PROOF\.md/i, "PROJECT_STATE must retain deployed r4 production provenance.");
+  assert.match(state, /Previous known-good whole-shell recovery runtime for r5:\s*`1\.8\.1-r4`/i, "PROJECT_STATE must use deployed r4 as the r5 candidate rollback target.");
+  assert.match(state, /Production-provider publication of the strengthened candidate `firestore\.spark\.rules` remains separately unproven/i, "PROJECT_STATE must keep candidate Rules proof separate from provider publication truth.");
+  assert.match(state, /Current bounded work[\s\S]+finishing PR #163 publication[\s\S]+14 permanent workflow families[\s\S]+expected-head squash merge/i, "PROJECT_STATE must route candidate-era work through exact-head PR #163 publication.");
+  assert.match(state, /After publication verification[\s\S]+recursive SLE package[\s\S]+Handoff proximity 100%/i, "PROJECT_STATE must route successful candidate publication into the current environment seal.");
+}
 assert.match(state, new RegExp("Remote Joining readiness:\\s*`" + readiness.currentScore + "\\/100` under fixed RJR-1", "i"), "PROJECT_STATE must track the live fixed RJR score rather than a stale literal.");
 assert.match(state, /App Check enforcement remains OFF/i, "PROJECT_STATE must preserve the App Check enforcement lock.");
 assert.match(state, /Firebase remains Spark \/ zero billing/i, "PROJECT_STATE must preserve zero-billing Firebase operation.");
@@ -48,16 +62,13 @@ assert.match(state, /remote-to-local reconciliation:\s*78 → 79/i, "PROJECT_STA
 assert.match(state, /exact accepted-result replay:\s*79 → 80/i, "PROJECT_STATE must preserve the single bounded replay capability credit.");
 assert.match(state, /deterministic adverse-provider failure safety:\s*80 → 81/i, "PROJECT_STATE must preserve the single bounded adverse-provider capability credit.");
 assert.match(state, /deterministic App Check token-lifecycle safety:\s*81 → 82/i, "PROJECT_STATE must preserve the single bounded token-lifecycle capability credit.");
-assert.match(state, /deterministic structural abuse resistance:\s*82 → 83/i, "PROJECT_STATE must preserve the single bounded structural-abuse capability credit.");
+assert.match(state, /structural abuse resistance:\s*82 → 83/i, "PROJECT_STATE must preserve the single bounded structural-abuse capability credit.");
 if(readiness.currentScore>=84){
-  assert.match(state, /deterministic sustained mutation-frequency abuse resistance:\s*83 → 84/i, "PROJECT_STATE must preserve the single bounded sustained mutation-frequency credit.");
-  assert.match(state, /revision 2 → 3 establishes an authoritative Firestore server-time anchor[\s\S]+at revision 3 and later[\s\S]+at least two seconds[\s\S]+serverTimestamp\(\)[\s\S]+rate-limited distinct mutation allocates no authoritative revision and no idempotency receipt[\s\S]+exact accepted-result replay remains idempotent/i, "PROJECT_STATE must preserve the exact sustained mutation-frequency evidence boundary.");
-  assert.match(state, /Production-provider publication of the strengthened candidate `firestore\.spark\.rules` remains separately unproven/i, "PROJECT_STATE must keep repository Rules proof separate from provider publication truth.");
+  assert.match(state, /sustained mutation-frequency abuse resistance:\s*83 → 84/i, "PROJECT_STATE must preserve the single bounded sustained mutation-frequency credit.");
+  assert.match(state, /anchors authoritative shared-state time to Firestore server time[\s\S]+at least two seconds[\s\S]+caller-clock skew[\s\S]+no authoritative revision or idempotency receipt[\s\S]+canonical local Save Library state unchanged[\s\S]+exact accepted-result replay/i, "PROJECT_STATE must preserve the exact sustained mutation-frequency evidence boundary.");
 }
-assert.match(state, /Remaining explicitly uncredited capability[\s\S]+Authenticated third-account\/revoked registered-device production negatives[\s\S]+Two-physical-network behavior[\s\S]+Production abuse acceptance[\s\S]+Production rollback proof[\s\S]+Actual Remote Joining sessions/i, "PROJECT_STATE must distinguish proven deterministic hardening from remaining Remote Joining hardening.");
-assert.match(state, /Permanent Stage 4 App Check token-lifecycle safety remains evidence-proven/i, "PROJECT_STATE must preserve token lifecycle as consumed evidence while r4 stays production authority.");
-assert.match(state, /Current bounded work[\s\S]+finishing PR #163 publication[\s\S]+14 permanent workflow families[\s\S]+expected-head squash merge/i, "PROJECT_STATE must route current work through exact-head PR #163 publication.");
-assert.match(state, /After publication verification[\s\S]+recursive SLE package[\s\S]+Handoff proximity 100%/i, "PROJECT_STATE must route successful publication directly into the current environment seal.");
+assert.match(state, /Authenticated third-account\/revoked registered-device production negatives[\s\S]+Two-physical-network behavior[\s\S]+Production abuse acceptance[\s\S]+Production rollback proof[\s\S]+Actual Remote Joining sessions/i, "PROJECT_STATE must distinguish proven deterministic hardening from remaining Remote Joining hardening.");
+assert.match(state, /token-lifecycle safety:\s*81 → 82/i, "PROJECT_STATE must preserve token lifecycle as consumed evidence after r5 promotion.");
 assert.match(state, /Two-physical-network behavior remains uncredited/i, "PROJECT_STATE must not conflate deterministic provider/lifecycle proof with real two-network hardening.");
 assert.equal(readiness.modelVersion, "RJR-1", "Cloud foundation must continue using the fixed RJR-1 model.");
 assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=82&&readiness.currentScore<=100, "Cloud foundation must follow the evidence-backed fixed RJR ledger rather than freeze an earlier checkpoint.");
@@ -77,7 +88,13 @@ assert.match(historicalState, /1\.4\.0-r2[\s\S]{0,220}production-proven runtime 
 assert.match(historicalState, /Private Remote Joining[\s\S]+PRIORITIZED LONG-TERM[\s\S]+DEPENDENCY-GATED \/ NOT YET IMPLEMENTATION-AUTHORIZED/i, "Archived PROJECT_STATE must preserve owner-prioritized Remote Joining historical direction.");
 
 assert.match(next, /CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i, "NEXT_TASK must expose current PR #163 authority.");
-assert.match(next, /Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r4[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+STAGE 5 REMAINS LOCKED/i, "NEXT_TASK must distinguish current production r4, candidate r5 and the Stage 5 lock.");
+if(r5Production){
+  assert.match(next, /Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+STAGE 5 REMAINS LOCKED/i, "NEXT_TASK must expose promoted r5 and the Stage 5 lock.");
+  assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+mandatory recursive SLE package and publish it[\s\S]+Handoff proximity 100%/i, "NEXT_TASK must route promoted r5 directly into the recursive SLE seal.");
+}else{
+  assert.match(next, /Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r4[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+STAGE 5 REMAINS LOCKED/i, "NEXT_TASK must distinguish candidate-era production r4, candidate r5 and the Stage 5 lock.");
+  assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #163 publication only[\s\S]+14 permanent workflow families[\s\S]+Expected-head squash merge[\s\S]+Handoff proximity 100%/i, "NEXT_TASK must route candidate-era work through PR #163 publication and the recursive SLE seal.");
+}
 assert.match(next, /Candidate C remains the sole destructive Apply authority/i, "NEXT_TASK must preserve destructive restore / Candidate C authority.");
 assert.match(next, /Public discovery, community, matchmaking and global rankings remain prohibited/i, "NEXT_TASK must retain the permanent public community/discovery prohibition.");
 assert.match(next, /Exact accepted-result replay[\s\S]+deterministic adverse-provider[\s\S]+App Check token-lifecycle safety[\s\S]+production remote-to-local reconciliation[\s\S]+consumed proof/i, "NEXT_TASK must preserve consumed replay/adverse-provider/token-lifecycle/reconciliation evidence.");
@@ -86,7 +103,6 @@ if(readiness.currentScore>=84){
   assert.match(next, /PR #163 proof head[\s\S]+stage4-mutation-rate-limit-contracts\.cjs[\s\S]+stage4-mutation-rate-limit-emulator\.cjs/i, "NEXT_TASK must retain permanent sustained mutation-frequency proof provenance.");
   assert.match(next, /Firestore server time[\s\S]+at least two seconds[\s\S]+denied mutation allocates no authoritative revision or idempotency receipt[\s\S]+Exact accepted-result replay remains idempotent/i, "NEXT_TASK must retain sustained mutation-frequency safety semantics.");
   assert.match(next, /Production-provider publication[\s\S]+firestore\.spark\.rules[\s\S]+separately unverified/i, "NEXT_TASK must keep provider Rules publication separate from repository proof.");
-  assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish PR #163 publication only[\s\S]+14 permanent workflow families[\s\S]+Expected-head squash merge[\s\S]+Handoff proximity 100%/i, "NEXT_TASK must route current work through PR #163 publication and the recursive SLE seal.");
 }
 assert.match(next, /Two-physical-network behavior remains separately uncredited/i, "NEXT_TASK must keep real two-network proof separately uncredited.");
 
@@ -130,4 +146,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"), "Canonical l
 assert.ok(transaction.includes("preconditionMismatches"), "Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"), "Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write(`PASS Cloud/Sync authority: deployed r4 plus candidate r5 sustained mutation-frequency safety with RJR${readiness.currentScore} remain explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n`);
+process.stdout.write(`PASS Cloud/Sync authority: ${r5Production ? "production-proven r5" : "deployed r4 plus candidate r5"} sustained mutation-frequency safety with RJR${readiness.currentScore} remains explicit while immutable pre-r3 archives protect early Cloud Readiness provenance, recovery/privacy locks and the ordered Remote Joining foundation.\n`);
