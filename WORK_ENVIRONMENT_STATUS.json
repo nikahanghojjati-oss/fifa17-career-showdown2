@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-29-rjr-provider-rules-acceptance",
   "lifecycle": "active",
-  "recordedAt": "2026-08-29T00:50:00-04:00",
+  "recordedAt": "2026-08-29T07:56:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -12,8 +12,8 @@
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 5,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 6,
     "toolRoutingErrors": 1,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -23,42 +23,41 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 78,
+    "handoffCompleteness": 84,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "This successor independently verified live main, PR #169, its exact sealed head, all 14 permanent workflow families, resolved review threads, the successful post-merge Pages deployment, current fixed RJR-1 authority and the production-provider nonclaim before initializing a new unique WEC. Predecessor HANDOFF_AT_CHECKPOINT and predecessor counters were not inherited. No authenticated Firebase or Google Cloud provider route is exposed in the current environment and no installable Firebase plugin was found, so the bounded current lane is direct provider publication/verification through the smallest owner-required action, followed only by legitimate production authorization-negative acceptance supported by real existing state. Usage is unavailable and not estimated.",
+    "reason": "The owner supplied direct authenticated Firebase Console evidence that the production project fifa17-career-showdown-prod, Firestore Database (default), accepted a new Today 7:48 AM Rules version whose visible source anchors and line progression match the reviewed firestore.spark.rules candidate through the final deny-by-default boundary. The prior provider-publication nonclaim is therefore closed. The production environment manifest and a dedicated proof record now preserve that provider truth. No unrelated provider setting was changed. Continue only to the smallest legitimate production authorization-negative acceptance supported by real existing state; do not fabricate a third account, revoked device or rivalry. Usage remains unavailable and is not estimated.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 45,
+      "contextPressure": 49,
       "qualityRisk": 6,
       "quotaRisk": null,
       "nextTaskSeparation": 20,
-      "handoffReadiness": 78,
+      "handoffReadiness": 84,
       "atomicRisk": 0,
-      "continuationRisk": 25.6875,
-      "transitionCost": 23.4,
-      "transitionAdvantage": 2.2875
+      "continuationRisk": 27.4375,
+      "transitionCost": 20.7,
+      "transitionAdvantage": 6.7375
     }
   },
   "continuity": {
-    "currentTask": "Obtain direct provider-authoritative publication and verification of the reviewed production firestore.spark.rules source for fifa17-career-showdown-prod, preserving the isolated production deployment boundary and every permanent lock; then execute only the smallest legitimate production authorization-negative acceptance that real existing account/device/rivalry state supports and recalculate RJR only for genuinely new verified capability evidence.",
-    "lastSafeCheckpoint": "Live main cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc is independently verified as the PR #169 squash merge. PR #169 final sealed head 534c0a9f97aa1f6000a591fb3d0612b8ac4b6f6d passed all 14 permanent PR workflow families; both inline automated review findings are resolved; Pages run 33233575696 succeeded on exact merge head. Fixed RJR-1 is 85/100. firebase.production.environment.json still correctly records provider-verified firestore.rules, while production publication of firestore.spark.rules remains UNVERIFIED. The successor branch rjr/provider-rules-acceptance-2026-08-29 was created from exact live main and predecessor closure facts were archived in the existing recovery-safe pending-history payload.",
-    "nextSafeAction": "Use the smallest provider-authoritative route. Because this environment exposes no Firebase/Google Cloud connector and no installable Firebase plugin, ask the owner to open Firebase Console project fifa17-career-showdown-prod -> Firestore Database -> (default) -> Rules, replace the editor with the exact current live-main firestore.spark.rules source without hand edits, publish, and return direct provider evidence of the published Rules state/version. Do not change billing, IAM, App Check enforcement, Auth configuration, database data or unrelated provider settings. After provider verification, run only a legitimate existing-state authorization-negative acceptance; do not fabricate a third account, revoked device or rivalry.",
+    "currentTask": "With strengthened firestore.spark.rules now provider-verified in production, execute only the smallest legitimate production authorization-negative acceptance supported by real existing account/device/rivalry state, then reconcile fixed RJR-1 strictly from the new provider-backed evidence and determine whether the explicit Stage 5 preconditions have genuinely closed.",
+    "lastSafeCheckpoint": "Live main cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc remains the PR #169 squash merge. PR #169 exact sealed head 534c0a9f97aa1f6000a591fb3d0612b8ac4b6f6d passed all 14 permanent PR workflow families and both inline automated findings are resolved. Pages run 33233575696 succeeded. Owner Firebase Console screenshots from 2026-08-29 approximately 07:48-07:52 ET now directly prove production project fifa17-career-showdown-prod, Firestore Database (default), has a new Today 7:48 AM Rules version matching the strengthened firestore.spark.rules structure through final deny-by-default. firebase.production.environment.json and PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md record that provider proof on this branch.",
+    "nextSafeAction": "Use the already-deployed production-authorization-acceptance.html surface for a read-only third-account provider denial only if the owner already has a legitimate existing active Connected Account that is neither manager in a legitimate existing active paired rivalry. The probe must perform exactly two reads, zero writes, return provider permission denied for both, preserve canonical local storage and sanitize identifiers. If no such third account already exists, do not manufacture one; select the next genuinely unblocked pre-Stage-5 capability instead. Revoked-device client-guard confirmation alone remains non-crediting because it occurs before a provider mutation is staged.",
     "unfinishedWork": [
-      "Capture direct provider-authoritative evidence that production (default) accepted the current reviewed firestore.spark.rules source.",
-      "Keep firebase.production.environment.json on provider-verified firestore.rules until that direct evidence exists; then reconcile it only as part of a coherent evidence-backed candidate.",
-      "After provider verification, execute the smallest legitimate production authorization-negative acceptance supported by real existing state, preferring the bounded third-account read-only surface only if all eligibility conditions already exist.",
-      "Recalculate fixed RJR-1 only for genuinely new verified capability evidence; repository source, tests, PRs, CI, merge, Pages publication and a successful CLI exit alone earn no score.",
-      "Keep Stage 5 locked until its explicit prerequisites genuinely close under current authority."
+      "Reconcile fixed RJR-1 for the newly provider-verified strengthened Rules capability as part of the current evidence-backed candidate; do not award duplicate credit for PR #169, CI, Pages or documentation.",
+      "Execute the bounded third-account production read-denial acceptance only if legitimate existing third-account and active-rivalry state already exists.",
+      "Provider-backed revoked-device mutation denial remains distinct from the existing pre-write client guard and must not be falsely claimed.",
+      "Reassess whether Stage 5 explicit prerequisites genuinely close after the remaining authorization/provider boundaries are resolved.",
+      "Then prioritize actual Private Remote Joining host/join/session orchestration and real two-device/network hardening rather than more generic prerequisite work."
     ],
     "knownHazards": [
       "Root firebase.json must remain on firestore.rules and root .firebaserc default must remain demo-career-mode-showdown-phase1f; the existing production alias fifa17-career-showdown-prod must not become the root default.",
-      "firebase.production.environment.json records the older provider-verified firestore.rules deployment and must not be rewritten to claim firestore.spark.rules deployed until direct provider-authoritative evidence exists.",
-      "No Firebase or Google Cloud connector is exposed in this environment, no installable Firebase plugin was found, and GitHub Pages/GitHub repository authority cannot publish or verify Firestore Rules provider state.",
+      "Production Rules publication is now provider-verified, but that fact does not itself prove any third-account or revoked-device denial outcome.",
       "Authenticated third-account and revoked registered-device production negatives require legitimate existing state and must not be fabricated. A revoked-device client guard before provider write staging is not Firestore Rules mutation-denial proof.",
       "Consumed owner/device, Candidate C destructive reconciliation, exact replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit and rollback/restoration proof must not be repeated merely for confidence.",
       "Stage 5 remains locked until explicit prerequisites genuinely close. Exactly two private managers remain required; canonical browser storage remains careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences with activeShowdown non-canonical; Firebase remains Spark / zero billing; Firestore client persistence remains memory-only; Google Auth remains popup-only with browserSessionPersistence and no extra scopes; App Check enforcement OFF remains an explicit permanent lock; trusted-runtime IAM remains unactivated and unbroadened; public discovery, community, matchmaking and global rankings remain prohibited.",
@@ -67,12 +66,11 @@
     "evidenceNotes": [
       "Predecessor we-2026-08-29-rjr-provider-security-deployment-path was independently validated and archived before successor initialization. Its HANDOFF_AT_CHECKPOINT decision is not inherited.",
       "Live main remains cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc; PR #169 merged from exact sealed head 534c0a9f97aa1f6000a591fb3d0612b8ac4b6f6d; Pages run 33233575696 succeeded on that merge head.",
-      "All 14 permanent PR workflow families were independently re-fetched for exact PR #169 sealed head and are successful.",
-      "PR #169 review truth was independently re-fetched: Codex submitted one review on earlier commit 8749754d4a; both inline automated findings are resolved/outdated; no completed second final-head Codex review is claimed.",
-      "REMOTE_JOINING_READINESS.json remains fixed at 85/100. Remaining gaps include provider-backed strengthened security/authorization negatives, real-device/network Remote Joining hardening, actual Remote Joining sessions and final stable release acceptance.",
-      "firebase.production.rules.json points only to firestore.spark.rules and PRODUCTION_FIRESTORE_RULES_DEPLOYMENT.md preserves the exact bounded CLI alternative: firebase deploy --config firebase.production.rules.json --project fifa17-career-showdown-prod --only firestore.",
-      "SESSION_BOOTSTRAP.json, NEXT_TASK.md, PROJECT_STATE.md, 00_DEVELOPER_START_HERE.md and 00_CURRENT_HANDOFF.md contain older PR #166/#167 transition pointers; current live PR #169/WEC/handoff/provider evidence supersede those stale historical pointers for execution without requiring a cosmetic authority-only PR.",
-      "One web-route attempt to the public Pages URL was rejected by the browsing safety layer; this is recorded as a current-environment tool-routing error and was not retried as evidence because GitHub deployment authority already established the exact post-merge Pages publication result.",
+      "All 14 permanent PR workflow families were independently re-fetched for exact PR #169 sealed head and are successful; both inline automated review findings are resolved.",
+      "2026-08-29 owner Firebase Console screenshots show production project fifa17-career-showdown-prod, Database (default), Rules tab, new Today 7:48 AM version and strengthened source anchors spanning approximately lines 1 through 720, including activeDevice, validDeviceRevoke, currentlyEntitled, activePairedRivalry, bounded season count, idempotency/timing logic, rivalry/session authorization and final deny-by-default.",
+      "The published repository candidate is firestore.spark.rules blob 2b7c0b166ae0aae7ab7a3ce84725b21091262484. The prior provider publication nonclaim is superseded by this direct provider evidence.",
+      "firebase.production.environment.json now records firestore.spark.rules as the provider-verified production Rules source; PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md preserves the detailed provider evidence and nonclaims.",
+      "The already-deployed production-authorization-acceptance.html surface is read-only for the third-account candidate: it requires an existing active private account not in the target active paired rivalry, performs two Firestore reads, requests zero writes, and treats readable data as NOT PROVEN.",
       "Current-session account/model usage is unavailable and is not estimated."
     ]
   }
