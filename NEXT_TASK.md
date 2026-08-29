@@ -3,6 +3,7 @@
 Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. Live main at this candidate's start is `cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc`, the PR #169 squash merge. Fixed RJR-1 is `86/100`. STAGE 5 REMAINS LOCKED through the current bounded publication checkpoint and must be reassessed immediately after the next legitimate production provider-abuse result.
 
 Current environment: `we-2026-08-29-rjr-provider-rules-acceptance`
+Starting independently verified live main: `cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc`
 Current branch: `rjr/provider-rules-acceptance-2026-08-29`
 Current publication PR: #171
 Production runtime: `v1.8.1 / 1.8.1-r5`
