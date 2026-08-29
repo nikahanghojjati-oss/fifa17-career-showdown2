@@ -90,16 +90,16 @@ for(const document of [preR3NextTask,preR3ProjectState,roadmap,postV1]){
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: remains)?:? OFF/i);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
-// Live authority is the post-PR163 r5 production/SLE transition, not the historical
-// candidate-era PR163 publication state.
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #163[\s\S]+PRODUCTION-PROVEN[\s\S]+RJR84[\s\S]+SLE TRANSITION/im,"Live NEXT_TASK must identify the current PR #163 production/SLE transition authority.");
+// Live authority is the PR #166 rollback / RJR85 / PR #167 SLE transition, not a
+// historical Stage 2I or earlier PR #163 publication checkpoint.
+assert.match(nextTask,/^# CURRENT OVERRIDE — PR #166[\s\S]+RJR85[\s\S]+PR #167[\s\S]+SLE TRANSITION/im,"Live NEXT_TASK must identify the current PR #166 rollback / RJR85 / PR #167 SLE transition authority.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Stage 5 host\/join\/session orchestration remains locked/i,"Live authority must keep actual Remote Joining sessions locked until explicit Stage 5 preconditions close.");
 assert.match(`${nextTask}\n${projectState}`,/Public community|public discovery|global leaderboard|global ranking|No public discovery/i);
-assert.match(projectState,/CURRENT OVERRIDE — PR #163 r5 DEPLOYED \/ PRODUCTION-PROVEN — RJR84 — SLE TRANSITION/i,"Live PROJECT_STATE must identify current PR #163/r5 production authority.");
-assert.match(projectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Previous known-good whole-shell recovery runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate recovery runtime.");
-assert.match(handoff,/PR #163[\s\S]+1\.8\.1-r5[\s\S]+RJR84/i,"Rolling handoff must expose current PR #163/r5/RJR84 authority.");
-assert.match(developerStart,/PR #163[\s\S]+1\.8\.1-r5[\s\S]+84\/100/i,"Developer start must expose current PR #163/r5/RJR84 authority.");
+assert.match(projectState,/CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK PROVEN \/ RJR85 \/ PR #167 SLE TRANSITION/i,"Live PROJECT_STATE must identify current PR #166 rollback/RJR85/PR #167 authority.");
+assert.match(projectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
+assert.match(handoff,/PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Rolling handoff must expose current PR #166/r5/RJR85/PR #167 authority.");
+assert.match(developerStart,/PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Developer start must expose current PR #166/r5/RJR85/PR #167 authority.");
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.match(projectState,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority.");
 
@@ -121,7 +121,7 @@ assert.ok(status.continuity.currentTask.trim().length>0);
 assert.equal(typeof status.continuity.nextSafeAction,"string");
 assert.ok(status.continuity.nextSafeAction.trim().length>0);
 const currentLocks=[...(status.continuity.knownHazards||[]),...(status.continuity.evidenceNotes||[])].join("\n");
-assert.match(currentLocks,/App Check enforcement remains OFF/i);
+assert.match(currentLocks,/App Check enforcement(?: remains)? OFF/i);
 assert.match(currentLocks,/Spark|zero billing/i);
 if(["transition-prepared","closed"].includes(status.lifecycle)){
   assert.equal(status.signals.handoffCompleteness,100);
@@ -158,4 +158,4 @@ const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1]
 assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2I proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR #163 production-r5 successor authority is source-driven.\n");
+process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR #166 rollback / RJR85 / PR #167 successor authority is source-driven.\n");

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-27T03:20:00Z",
+  "recordedAt": "2026-08-28T17:20:00Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
-  "trainingState": "cold-start-priors-eight-labeled-sessions-insufficient-for-supervised-model",
+  "trainingState": "cold-start-priors-nine-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
   "weights": {
     "taskAffinity": 0.24,
@@ -21,30 +21,30 @@
     "current application/runtime identity",
     "current bounded lane",
     "later explicit owner instructions",
-    "WEC state and transition rules",
-    "validate/archive predecessor WEC, initialize a fresh unique successor WEC with reset per-environment counters from independently verified live main, and assess the fresh WEC without inheriting predecessor HANDOFF_NOW",
+    "Work Environment Continuity state and transition rules",
+    "validate/archive predecessor WEC, initialize a fresh unique successor WEC with reset per-environment counters from independently verified live main, and assess the fresh WEC without inheriting predecessor transition decisions",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority",
-    "current RJR provenance: repaired r3 restored exactly the two r2-invalidated account credits, Stage 4 reconciliation added one to 79, exact replay added one to 80, adverse-provider safety added one to 81, deterministic App Check token lifecycle added one to 82; deployment and SLE add zero",
-    "Stage 4 reconciliation, exact replay, deterministic adverse-provider and deterministic token-lifecycle proof are closed and must not be repeated merely for duplication",
-    "production v1.8.1-r4 lineage: PR #160 exact head 9b39d9b6032eb24ef98a252ec7de13e129443c95, merge/runtime main 2964527c4f7fc80b16d6d5ce73bd4f5823487d2c, 15 successful post-merge push/deployment runs including Pages 33035579363, Burn-In 33035579462 and Stability 33035579438",
+    "current RJR provenance: repaired r3 restored two invalidated account credits to 78; reconciliation 79; exact replay 80; adverse-provider safety 81; deterministic token lifecycle 82; structural abuse 83; sustained mutation-frequency 84; production Pages rollback and exact restoration 85; publication mechanics and SLE add zero",
+    "consumed reconciliation, replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit and production-rollback proof must not be repeated merely for confidence",
+    "production v1.8.1-r5 remains current; PR #166 / run 33190961085 independently observed known-good r4 live then restored exact r5 live",
+    "production-provider publication of strengthened firestore.spark.rules remains separately unverified",
     "authenticated third-account/revoked-device production negatives require legitimate authenticated production identity/device state; synthetic probes are non-evidence",
     "two-physical-network behavior remains separately uncredited",
-    "Stage 5 remains locked until remaining explicit pre-Stage-5 hardening genuinely closes",
-    "implementation authorization",
+    "Remote Joining-specific real-device token-lifecycle acceptance remains separately uncredited",
+    "production provider abuse acceptance remains separately uncredited",
+    "Stage 5 remains locked until remaining explicit pre-Stage-5 gates genuinely close",
     "canonical storage authority",
     "Candidate A/B/C recovery authority",
-    "application-client Firestore write policy",
     "production Firebase connection/App Check/IAM state",
     "App Check enforcement remains OFF",
-    "public discovery/community/global leaderboard prohibitions",
+    "public discovery/community/matchmaking/global rankings remain prohibited",
     "versioning policy",
-    "connected GitHub primary / rootless gh fallback-only routing rule",
-    "mandatory SLE recursion: at handoff proximity 100 create mirrored starter/full handoff, refresh pointers, final WEC seal last, stop before another substantial milestone"
+    "mandatory SLE recursion: at Handoff proximity 100 create mirrored starter/full handoff, refresh current pointers, final WEC seal last, verify publication and stop before another substantial milestone"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [1000,2000],
-    "tier1TaskPacketAdditionalApproxTokens": [3000,6000],
-    "tier2LiveDeltaAdditionalApproxTokens": [5000,10000],
+    "tier0BootstrapApproxTokens": [1000, 2000],
+    "tier1TaskPacketAdditionalApproxTokens": [3000, 6000],
+    "tier2LiveDeltaAdditionalApproxTokens": [5000, 10000],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
@@ -52,9 +52,9 @@
     "Verify connected GitHub live main and current PR/deployment state before accepting recorded task identity.",
     "Read current RJR only from REMOTE_JOINING_READINESS.json; never infer score from milestone count, PRs, WEC or deployment volume.",
     "At successor startup rank predecessor-WEC validation/archive, fresh unique WEC initialization/reset and independent assessment above product work.",
-    "After fresh WEC continuation, rank the smallest genuinely unblocked remaining Remote Joining dependency above completed Stage 1-4 history.",
+    "After fresh WEC continuation, rank the smallest genuinely unblocked remaining Remote Joining dependency above completed Stage 1-4 and rollback history.",
     "Do not auto-rank authenticated third-account/revoked-device production negatives unless legitimate identity/device state actually exists.",
-    "For CI failure, fetch the exact workflow run jobs and failed job logs before changing code; log evidence outranks heuristic diagnosis.",
+    "For CI failure, fetch exact workflow run jobs and failed job logs before changing source; log evidence outranks heuristic diagnosis.",
     "Escalate to Tier 2 only when live delta exists or newer current-authority work supersedes the starter.",
     "Escalate to Tier 3 only for unresolved contradiction, historical contract failure, security/recovery/versioning ambiguity, explicit owner reconstruction request or WEC/interruption recovery."
   ],
@@ -75,7 +75,7 @@
   "supervisedLearningGate": {
     "minimumMaterialSessionOutcomes": 20,
     "preferredEvaluationStart": 30,
-    "candidateModels": ["logistic-regression-needed-vs-not-needed","pairwise-learning-to-rank"],
+    "candidateModels": ["logistic-regression-needed-vs-not-needed", "pairwise-learning-to-rank"],
     "adoptionRequirement": "held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"
   },
   "processMetrics": [
@@ -91,15 +91,17 @@
   ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
   "latestCheckpoint": {
-    "runtimeMainShaAtPredecessorTransition": "2964527c4f7fc80b16d6d5ce73bd4f5823487d2c",
-    "runtimeRevision": "1.8.1-r4",
-    "rjrScore": 82,
-    "closedCapability": "stage4-deterministic-app-check-token-lifecycle-safety-production-proven",
-    "productionProof": "V1.8.1_R4_PRODUCTION_PROOF.md",
-    "transitionGateBeforeNext": "publish recursive v1.4.23 SLE -> successor independently verifies live main -> validate/archive predecessor WEC -> initialize/reset fresh unique WEC -> assess fresh WEC",
+    "capabilityPublicationMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+    "runtimeRevision": "1.8.1-r5",
+    "knownGoodRollbackRuntime": "1.8.1-r4",
+    "rjrScore": 85,
+    "closedCapability": "production-pages-rollback-and-exact-restoration-proof",
+    "productionProof": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
+    "rollbackRunId": 33190961085,
+    "transitionGateBeforeNext": "publish recursive v1.4.26 SLE through PR #167 -> successor independently verifies live main -> validate/archive predecessor WEC -> initialize/reset fresh unique WEC -> assess fresh WEC",
     "next": "successor-select-smallest-genuinely-unblocked-remaining-remote-joining-dependency",
-    "closeoutPullRequest": 160,
-    "starter": "START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md"
+    "closeoutPullRequest": 167,
+    "starter": "START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md"
   }
 }

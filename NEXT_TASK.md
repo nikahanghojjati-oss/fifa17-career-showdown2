@@ -1,56 +1,46 @@
-# CURRENT OVERRIDE — PR #163 SUSTAINED MUTATION-FREQUENCY HARDENING PRODUCTION-PROVEN — RJR84 — SLE TRANSITION — 2026-08-27 ET
+# CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK PROVEN — RJR85 — PR #167 SLE TRANSITION — 2026-08-28 ET
 
-Status: `v1.8.1 / 1.8.1-r5` is DEPLOYED / PRODUCTION-PROVEN from PR #163 squash merge `c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf`. Fixed RJR-1 is `84/100`. STAGE 5 REMAINS LOCKED.
+Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. PR #166 publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Production rollback workflow `33190961085` is fully successful. Fixed RJR-1 is `85/100`. STAGE 5 REMAINS LOCKED.
 
-Current environment: `we-2026-08-27-post-pr162-rjr-successor-1544`
-Starting independently verified live main: `567e2c308ce32cf2c4ef7432e65ffb3a99111ef5`
+Current environment: `we-2026-08-28-rjr-production-rollback-proof`
+Starting independently verified live main: `9c086f5548de4e65a9d2bb6645d01e10da7facf6`
+Production rollback publication main: `32c32afb1365c9ae6120d810a68e5c72c4b8229a`
 Production runtime: `v1.8.1 / 1.8.1-r5`
-PR #163 final exact head: `5131cadcd3250b5a515f3f4b6f292f8ee51aab67`
-PR #163 merge: `c2fbcdc3d57ac6e64dee8ed5681193673ca0cbbf`
-Previous known-good whole-shell recovery runtime: `1.8.1-r4`
-Production proof: `V1.8.1_R5_PRODUCTION_PROOF.md`
-Closing environment: `we-2026-08-27-post-pr162-rjr-successor-1544`
+Known-good rollback runtime: `1.8.1-r4`
+Rollback target commit: `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`
+Rollback proof: `PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md`
+SLE transition PR: #167
 
-## Proven sustained mutation-frequency capability
+## Proven production rollback capability
 
-PR #163 proof head `e26d37dc598c956e8e7a82e1f9c0b3d919326914` passed the permanent Validate Stage 3 Private Pairing lane including `tests/contracts/stage4-mutation-rate-limit-contracts.cjs` and `tests/firebase/stage4-mutation-rate-limit-emulator.cjs`.
+Run `33190961085` independently observed exact r4 live in production, restored exact r5, independently observed r5 live again, and passed the final proof seal. Both artifacts were constructed before the production mutation and the restore job is fail-safe after successful artifact construction. Production is back on r5.
 
-The permanent proof establishes that the bounded low-revision establishment path remains compatible; revision 2 → 3 establishes authoritative Firestore server time; at revision 3 and later distinct accepted revisions require at least two seconds between authoritative server-time anchors; caller-clock skew cannot bypass the boundary; a denied mutation allocates no authoritative revision or idempotency receipt and leaves canonical local Save Library state unchanged; Exact accepted-result replay remains idempotent during the closed window; and the same previously denied logical mutation may advance exactly once later under immutable-base CAS.
+## Closed consumed Stage 4 capabilities
 
-This earned exactly +1, RJR `83 → 84`. Runtime packaging, CI volume, PR publication, merge, deployment, provider publication, documentation and SLE work earn zero duplicate readiness credit.
+Exact accepted-result idempotency replay is EVIDENCE-PROVEN and closed. Deterministic adverse-provider safety is EVIDENCE-PROVEN and closed. Production remote-to-local reconciliation is EVIDENCE-PROVEN and closed. Structural abuse resistance is EVIDENCE-PROVEN, closed and protected. Sustained mutation-frequency resistance is EVIDENCE-PROVEN, closed and protected. App Check token-lifecycle safety is PRODUCTION-PROVEN and remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. These capabilities are consumed proof and must not be rerun merely for confidence.
 
-## Production publication evidence
-
-The final unchanged PR #163 head passed all 14 permanent workflow families with zero submitted reviews and zero inline review threads before squash merge. Post-merge Pages run `33130452373`, Stability run `33130452363`, and Burn-In run `33130452330` succeeded. Deployed Stability verified every r5 runtime byte, the production App Check path, Candidate A/B/C, install/offline, and the complete deployed journey.
-
-Exact accepted-result idempotency replay remains evidence-proven. Deterministic adverse-provider failure safety remains evidence-proven. TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. Structural abuse resistance remains closed and protected. Exact accepted-result replay, deterministic adverse-provider safety, App Check token-lifecycle safety, production remote-to-local reconciliation, structural abuse and sustained mutation-frequency proof are consumed proof and must not be repeated merely for confidence.
-
-Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Repository/emulator evidence and GitHub Pages website deployment do not prove provider-live Rules.
-
-## Remaining explicitly uncredited capability
-
-Authenticated third-account and revoked registered-device production negatives remain uncredited without legitimate authenticated production identity/device state. Two-physical-network behavior remains separately uncredited. Remote Joining specific real-device token-lifecycle acceptance remains uncredited. Production abuse acceptance remains uncredited. Production rollback proof remains uncredited. Actual Remote Joining sessions remain Stage-5-gated. Final stable Remote Joining release acceptance remains uncredited.
-
-Stage 5 host/join/session orchestration remains locked until its explicit preconditions genuinely close.
-
-## IMMEDIATE NEXT TASK AFTER FULL STUDY
-
-Finish the **mandatory recursive SLE package and publish it** for environment `we-2026-08-27-post-pr162-rjr-successor-1544`, seal its WEC at Handoff proximity 100%, verify the transition publication, and stop before another substantial RJR milestone.
-
-The fresh successor must independently verify live `main`, PR #163 post-merge state, production/runtime/deployment/provider truth and RJR84; validate/archive the closing WEC; initialize a fresh unique WEC with reset counters; run its own assessment; then, only if that assessment permits continuation, select the smallest genuinely unblocked remaining Remote Joining dependency from live evidence. Never inherit predecessor `HANDOFF_NOW` as the successor decision.
-
-Do not manufacture authenticated production identity/device evidence, do not repeat consumed proof, do not claim provider Rules publication without provider evidence, and do not enter Stage 5 until its explicit preconditions genuinely close.
-
-## Permanent locks
+The rollback proof adds no duplicate token-lifecycle or other consumed-capability credit and App Check enforcement remains OFF.
 
 The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
 
-Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`; `activeShowdown` is non-canonical. Candidate A remains non-mutating export, Candidate B remains read-only analysis, and Candidate C remains the sole destructive Apply authority for remote-to-local local mutation; Candidate C rollback remains transaction-owned and destructive recovery requires a strict exact raw snapshot.
+This closes exactly one previously explicit uncredited capability. RJR advances `84 → 85`. PR/CI volume, merge, documentation and SLE earn zero duplicate credit.
 
-Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Exactly two private managers remain required. Public discovery, community, matchmaking and global rankings remain prohibited. Historical rivalry `pair_a07108...756fb` must not be forced, edited or deleted.
+Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Authenticated third-account/revoked-device production negatives, two-network behavior, real-device Remote Joining token-lifecycle acceptance, production provider abuse acceptance, actual Stage 5 sessions and final stable release acceptance remain uncredited. Stage 5 host/join/session orchestration remains locked until its explicit preconditions genuinely close.
 
-Standing owner authorization remains active: after all required tests and current publication gates pass, merge and deploy without repeatedly asking for approval. Later explicit owner instructions override it.
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-## Work Environment Continuity
+For this closing environment: finish PR #167 only. The mandatory recursive SLE package must publish through PR #167. Ensure the complete mirrored Smart Lean Efficient package, RJR85 authority, proof record, bootstrap pointers and Work Environment Continuity (WEC) closure are coherent; make `WORK_ENVIRONMENT_STATUS.json` the final intended branch mutation; require the unchanged exact PR #167 head to pass all 14 permanent workflow families, all mandatory publication gates, and all review gates with no blocking findings; merge under standing authorization; verify live main/publication and production still exposes `1.8.1-r5`; then stop at Handoff proximity 100% before another substantive milestone.
 
-Work Environment Continuity remains mandatory. Handoff proximity is environment-local transition readiness, not project completion and not RJR. At Handoff proximity 100%, the complete mirrored Smart Lean Efficient package must be live and `WORK_ENVIRONMENT_STATUS.json` must be the final intended branch mutation before the transition PR is sealed.
+For the fresh successor: independently verify the new live main, PR #167 post-merge state, production/runtime/deployment state, rollback run `33190961085`, `REMOTE_JOINING_READINESS.json`, `PROJECT_STATE.md`, this file, `SESSION_BOOTSTRAP.json`, provider truth and the closing WEC. Work Environment Continuity remains mandatory: validate/archive predecessor WEC `we-2026-08-28-rjr-production-rollback-proof`, initialize a fresh unique WEC with reset counters and the independently observed live-main SHA, run its own assessment, and obey that result.
+
+Only if the fresh assessment permits continuation, select the smallest genuinely unblocked remaining RJR dependency from live evidence. Do not repeat consumed owner/device/destructive/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit/production-rollback proof merely for confidence. Do not manufacture provider/authenticated identity/device/network evidence. Keep Stage 5 locked until its explicit preconditions genuinely close.
+
+## Permanent locks
+
+Exactly two private managers; only the three canonical localStorage keys; Candidate A non-mutating; Candidate B read-only; Candidate C remains the sole destructive remote-to-local Apply authority. Canonical compatibility lock: Candidate C sole destructive Apply authority; remote-to-local only; transaction-owned rollback; strict exact raw snapshot.
+
+Firebase remains Spark / zero billing; Firestore remains memory-only; Google Auth remains popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened. Equivalent protected shorthand: Spark/zero billing; memory-only Firestore; popup-only `browserSessionPersistence` Google Auth with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened.
+
+No public discovery/community/matchmaking/global rankings; protected historical rivalry `pair_a07108...756fb` remains untouched.
+
+Standing owner merge/deploy authorization remains active after all mandatory gates pass. Later explicit owner instructions override it.
