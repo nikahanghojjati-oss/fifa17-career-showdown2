@@ -117,7 +117,7 @@ A second final-head Codex review on replacement seal `29f71240fb14a336f0304c1f6f
 
 The transient-auth P1 is now closed at the stronger browser boundary: source head `da20773a4dbf8e237d6c7fb5552d9076d655222f` locks both authentication controls for the complete asynchronous query and still keeps the post-query UID check. Test head `c51fc4a1312fef1a9a0bdfb919c1258254ab2ce4` permanently requires that UI lock, marks direct probe results without it ineligible, and preserves the sign-out-during-query failure case. No provider write authority, runtime billing/IAM scope, or RJR credit changed from these repairs.
 
-The deep-handoff P1 is addressed by this refresh and its byte-identical project mirror. Final exact-head workflow/review facts after this packaging refresh must be independently verified from GitHub; do not treat any pre-seal SHA in this narrative as the final merge SHA.
+The deep-handoff P1 is addressed by this refresh and its byte-identical project mirror. Exact engineering head `235387446679d83dc121214c4c126f2d029146b9` then passed all 14 permanent workflow families before the owner's reporting-format update. Final exact-head workflow/review facts after the reporting-format and WEC-seal mutations must still be independently verified from GitHub; do not treat any pre-seal SHA in this narrative as the final merge SHA.
 
 A separate branch-local WEC bookkeeping error was also corrected before publication: the first post-implementation WEC manually retained `CONTINUE` although its own deterministic transition advantage exceeded the `PREPARE_HANDOFF` threshold. The corrected calculation recorded `PREPARE_HANDOFF`; no product behavior or provider state changed.
 
@@ -187,15 +187,18 @@ Every future closer must preserve the repository-first next-developer prompt sta
 
 Never fabricate model/account usage. `usageRemainingPercent` remains `null` / `unavailable` unless an approved product dashboard, CLI status, or explicit owner report provides it.
 
-Every substantive owner-facing development report must preserve exactly this seven-line shape:
+The owner explicitly changed the reporting format on 2026-08-29. Every substantive owner-facing development report must now preserve exactly this eight-line shape:
 
 Handoff proximity: X%
 Remote Joining readiness: ~Y%
+Estimated focused sessions to genuine RJR100: ~N–M
 Current lane: <current bounded engineering lane>
 Concrete dependency completed: <most recent concrete dependency completed>
 Next unlock: <next dependency or proof gate>
 Blocker: <current blocker, or NONE>
 Sidequest check: <NONE, or NECESSARY because ...>
+
+The session estimate is roadmap-based planning guidance, not RJR evidence, not a mechanical `100 - score` conversion, and not a promise. Recalculate it when verified dependencies or evidence materially change the critical path. At genuine RJR100 it becomes `~0`. This eight-line format recursively supersedes the prior seven-line shape unless the owner later changes it again.
 
 ## 13. RJR100 strategic session forecast
 
