@@ -171,6 +171,8 @@ Standing owner merge/deploy authorization remains active after all required test
 
 Every future handoff remains SLE = Smart Lean Efficient and must be a complete mirrored repository package, not a chat-only prompt. At Handoff proximity 100% or a stricter WEC transition decision, finish only the current coherent checkpoint, refresh current pointers/context, make the final WEC seal the last intended branch mutation, validate the unchanged exact head, publish/verify if allowed, give the owner the newest versioned starter and stop before another substantial milestone.
 
+Every future closer must preserve the repository-first next-developer prompt standard. After refreshing the complete mirrored SLE package, run `npm run work:next-prompt` and use its generated repository-first next-developer prompt as the owner-facing continuation entrypoint; the prompt supplements rather than replaces the complete repository handoff.
+
 Never fabricate model/account usage. `usageRemainingPercent` remains `null` / `unavailable` unless an approved product dashboard, CLI status, or explicit owner report provides it.
 
 Every substantive owner-facing development report must preserve exactly this seven-line shape:
