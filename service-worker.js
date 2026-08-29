@@ -11,6 +11,10 @@ const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
 const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
     "production-authorization-acceptance.html"
 ]);
+const NETWORK_ONLY_ASSET_PATHS = new Set([
+    "js/productionAuthorizationAcceptance.js",
+    "js/productionProviderAbuseAcceptance.js"
+]);
 
 const SHELL_PATHS = Object.freeze([
     "index.html",
@@ -133,7 +137,7 @@ async function cacheExists(cacheName){ if(!cacheName){ return false; } return (a
 async function verifyCache(revision = RUNTIME_REVISION){
     const cacheName = cacheNameForRevision(revision);
     if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:SHELL_PATHS.length, missing:SHELL_PATHS.slice() }; }
-    const cache = await caches.open(cacheName); const missing=[];
+    const cache=await caches.open(cacheName); const missing=[];
     for(const path of SHELL_PATHS){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
     return { ok:missing.length===0, available:true, cacheName, revision, expected:SHELL_PATHS.length, missing };
 }
@@ -182,7 +186,7 @@ self.addEventListener("fetch",event=>{
         if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(request)); return; }
         event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
     }
-    const path=relativeScopePath(url); if(!path){return;} if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    const path=relativeScopePath(url); if(!path){return;} if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(request)); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});
