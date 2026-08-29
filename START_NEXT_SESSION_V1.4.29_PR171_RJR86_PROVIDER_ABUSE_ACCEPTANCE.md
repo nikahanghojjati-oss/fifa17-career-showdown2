@@ -55,4 +55,6 @@ Next unlock: <next dependency or proof gate>
 Blocker: <current blocker, or NONE>
 Sidequest check: <NONE, or NECESSARY because ...>
 
+Every future closer must preserve the repository-first next-developer prompt standard and run `npm run work:next-prompt` after refreshing the current starter, deep handoff, bootstrap and context pointers. The generated repository-first next-developer prompt is the owner-facing continuation entrypoint; it supplements rather than replaces the complete mirrored SLE package.
+
 Never fabricate usage. At Handoff proximity 100% or any stricter WEC transition boundary, complete the full mirrored SLE = Smart Lean Efficient package, make the final WEC seal the last intended branch mutation, verify publication, and stop before another substantial milestone.
