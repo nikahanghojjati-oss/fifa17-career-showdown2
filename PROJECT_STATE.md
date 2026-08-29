@@ -17,6 +17,8 @@ Closing environment: `we-2026-08-29-rjr-provider-rules-acceptance`
 
 Production runtime remains `1.8.1-r5`; PR #171 changes auxiliary acceptance/current-authority files, not normal product runtime identity. Existing rollback/restoration proof remains run `33190961085`, which independently observed exact known-good r4 live and restored exact r5 live.
 
+The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected while connected work advances.
+
 On 2026-08-29 the owner published the exact reviewed strengthened Firestore Rules in Firebase Console project `fifa17-career-showdown-prod`, Database `(default)`. Provider version history shows a new `Today · 7:48 AM` Rules version, and screenshots show strengthened source anchors from the file start through final deny-by-default. Production-provider publication of strengthened `firestore.spark.rules` is therefore now directly verified; repository/emulator/Pages evidence was not used as a substitute.
 
 Root `firebase.json` remains intentionally on historical `firestore.rules`; root `.firebaserc` remains intentionally defaulted to `demo-career-mode-showdown-phase1f` with the named production alias preserved. The isolated production-only deployment config remains `firebase.production.rules.json`.
