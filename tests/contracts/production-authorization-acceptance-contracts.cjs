@@ -32,7 +32,7 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   assert.match(page,/never bootstraps a Firestore private account/i);
   assert.match(page,/Requested provider writes: 0/i);
   assert.match(page,/not provider mutation-denial proof/i);
-  assert.match(deployWorkflow,/cp index\.html production-authorization-acceptance\.html manifest\.webmanifest service-worker\.js firebase\.runtime-config\.json \.pages-artifact\//,'Pages build must stage the bounded production authorization acceptance page.');
+  assert.match(deployWorkflow,/cp production-authorization-acceptance\.html \.pages-artifact\//,'Pages build must additively stage the bounded production authorization acceptance page.');
   assert.doesNotMatch(source,/\blocalStorage\b/,'Auxiliary JS must preserve the static release storage boundary.');
   assert.equal(acceptance.isPermissionDenied({code:'permission-denied'}),true);
   assert.equal(acceptance.isPermissionDenied(new Error('Missing or insufficient permissions.')),true);
