@@ -105,7 +105,7 @@ The initial PR #171 candidate opened from head `eb1aba693b5d338de8a0cf9b5be13fe9
 
 The first Stability gate correctly failed in `handoff-immediate-next-task-contracts.cjs` after core runtime/storage/recovery contracts had already passed. Exact log finding: `SESSION_BOOTSTRAP.json` still reported RJR85 while the live branch ledger reported RJR86 (`85 !== 86`). The same legacy SLE/current-authority contracts froze older PR #166/#167 and provider-unverified pointers.
 
-This is a current-authority coherence failure, not a runtime or provider regression. The environment corrected `NEXT_TASK.md` to the real PR #171 / provider-proven / RJR86 checkpoint and is updating the complete SLE/current context package instead of weakening the gate.
+This is a current-authority coherence failure, not a runtime or provider regression. The environment corrected `NEXT_TASK.md` to the real PR #171 / provider-proven / RJR86 checkpoint and updated the complete SLE/current context package instead of weakening the gate. Exact engineering head `04e9f02d17eec4af2775253d821b3699b2d78e9f` subsequently passed all 14 permanent workflow families before final SNS/SLE forecast sealing.
 
 A separate branch-local WEC bookkeeping error was also corrected before publication: the first post-implementation WEC manually retained `CONTINUE` although its own deterministic transition advantage exceeded the `PREPARE_HANDOFF` threshold. The corrected calculation recorded `PREPARE_HANDOFF`; no product behavior or provider state changed.
 
@@ -144,7 +144,7 @@ Neither state-dependent negative should keep the project in an endless prerequis
 - owner/device pairing proof;
 - two-physical-device Connected Rivalry proof;
 - Candidate C destructive remote-to-local reconciliation;
-- exact accepted-result idempotency replay;
+- exact accepted-result idempotency replay — evidence-proven / consumed;
 - deterministic adverse-provider safety;
 - App Check token-lifecycle safety;
 - structural abuse resistance;
@@ -184,3 +184,20 @@ Concrete dependency completed: <most recent concrete dependency completed>
 Next unlock: <next dependency or proof gate>
 Blocker: <current blocker, or NONE>
 Sidequest check: <NONE, or NECESSARY because ...>
+
+## 13. RJR100 strategic session forecast
+
+This forecast is planning guidance, not RJR evidence and not a promise of one point per session. The fixed ledger has `14` genuine points remaining at RJR86: identity/authentication/trust `2`, devices/pairing/Connected Rivalry/actual Remote Joining `10`, and real-device hardening/release `2`. Production cloud/security and deterministic sync/recovery are already maxed and must not be mined for duplicate credit.
+
+Expected critical-path range: `5–8 focused successor sessions` to reach genuine RJR100 if provider acceptance behaves as designed, Stage 5 session authority can be implemented without an unexpected architecture change, and two-device/two-network evidence is available when needed. Contingency range: `8–12 sessions` if session-specific Firestore Rules need additional review/publication iterations, provider behavior exposes a real defect, physical-device/network acceptance must be split, or reconnect/token/release acceptance finds legitimate bugs.
+
+Strategic session shape:
+
+1. Publish/verify PR #171 if not already complete, then run the owner-authenticated zero-write provider-abuse enumeration denial. A qualifying PASS may move `86 → 87`; otherwise record the result and award zero.
+2. Reassess Stage 5 immediately. If unlocked, specify/contracts + implement the smallest real private host/join/session lifecycle and the minimum separately reviewed session-specific Rules authority required by that exact protocol. No generic prerequisite lane.
+3. Publish Stage 5 and obtain real two-device/two-network host/join/session evidence, including exact two-owner privacy and deterministic session identity. RJR movement must follow the fixed ledger, not implementation volume.
+4. Harden Remote Joining-specific disconnect/reconnect, stale/replayed intent, token refresh/expiry, session recovery and adverse-network behavior without rerunning already-consumed generic Stage 4 proofs.
+5. Close any remaining legitimate authorization/lifecycle gap only when real state exists. Do not fabricate a third account or revoked device; skip non-blocking state-dependent negatives if current authority does not require them.
+6. Complete final stable Remote Joining release acceptance, production validation, release-blocking bug closure and strict RJR reconciliation to `100/100` only when every remaining fixed capability is evidence-proven.
+
+Use the lower end only when a session can close multiple naturally coupled capabilities with one coherent implementation + evidence boundary. Use the upper range when provider/review/device gates force separation. Never accelerate the estimate by weakening permanent locks, enabling billing, broadening IAM, enabling App Check enforcement without separate authority, fabricating test identities, or crediting PR/CI/documentation/process volume.
