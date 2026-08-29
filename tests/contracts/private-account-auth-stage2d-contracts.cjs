@@ -40,9 +40,7 @@ expectError(candidate=>{candidate.projectId="demo-career-mode-showdown-phase1f";
 expectError(candidate=>{candidate.projectId="demo-future-prod";candidate.firebaseWebConfig.projectId=candidate.projectId;},"DEMO_PROJECT_FORBIDDEN");
 expectError(candidate=>{candidate.firebaseWebConfig.projectId="different-project";},"WEB_CONFIG_PROJECT_MISMATCH");
 expectError(candidate=>{candidate.firebaseWebConfig.authDomain="unrelated-project.firebaseapp.com";},"AUTH_DOMAIN_PROJECT_MISMATCH");
-for(const field of preflight.requiredWebConfigFields){
-  expectError(candidate=>{candidate.firebaseWebConfig[field]="";},`WEB_CONFIG_${field.toUpperCase()}_MISSING`);
-}
+for(const field of preflight.requiredWebConfigFields){ expectError(candidate=>{candidate.firebaseWebConfig[field]="";},`WEB_CONFIG_${field.toUpperCase()}_MISSING`); }
 expectError(candidate=>{candidate.authorizedDomains=[];},"PRODUCTION_AUTHORIZED_DOMAIN_MISSING");
 expectError(candidate=>{candidate.authorizedDomains.push("localhost");},"LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN");
 expectError(candidate=>{candidate.auth.provider="email";},"AUTH_PROVIDER_POLICY_MISMATCH");
@@ -58,9 +56,7 @@ expectError(candidate=>{candidate.security.webApiKeyClassification="secret";},"W
 expectError(candidate=>{candidate.security.webApiKeyIsAuthorizationSecret=true;},"WEB_API_KEY_MUST_NOT_BE_SECURITY_BOUNDARY");
 expectError(candidate=>{candidate.privateKey="forbidden";},"CREDENTIAL_MATERIAL_FORBIDDEN");
 expectError(candidate=>{candidate.nested={serviceAccount:{project_id:"forbidden"}};},"CREDENTIAL_MATERIAL_FORBIDDEN");
-for(const key of ["discovery","profiles","matchmaking","community","rankings"]){
-  expectError(candidate=>{candidate.publicFeatures[key]=true;},`PUBLIC_${key.toUpperCase()}_FORBIDDEN`);
-}
+for(const key of ["discovery","profiles","matchmaking","community","rankings"]){ expectError(candidate=>{candidate.publicFeatures[key]=true;},`PUBLIC_${key.toUpperCase()}_FORBIDDEN`); }
 
 assert.match(stage2d,/Production Firebase Environment & Configuration Preflight/i);
 assert.match(stage2d,/CURRENT \/ IMPLEMENTATION-AUTHORIZED \/ NON-RUNTIME \/ PRODUCTION FIREBASE DISCONNECTED/i);
@@ -87,7 +83,7 @@ assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(preR3Next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
 assert.match(preR3Next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #166[\s\S]+RJR85[\s\S]+PR #167/i,"Live NEXT_TASK must identify the current PR #166 rollback / RJR85 / PR #167 transition authority.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Live NEXT_TASK must identify the current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
 assert.match(next,/STAGE 5 REMAINS LOCKED|Stage 5 host\/join\/session orchestration remains locked/i,"Live transition authority must keep Stage 5 locked until the explicit remaining gates close.");
 
@@ -111,4 +107,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR #166 rollback / RJR85 / PR #167 transition authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority explicit\n");
