@@ -7,6 +7,7 @@ Starting independently verified live main: `cbdc8cbf12f53b1bb60e6e1306f070a11ae6
 Current branch: `rjr/provider-rules-acceptance-2026-08-29`
 Current publication PR: #171
 Production runtime: `v1.8.1 / 1.8.1-r5`
+Production runtime lineage: PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`
 Known-good rollback runtime: `1.8.1-r4`
 Production rollback proof: `PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md`, workflow `33190961085` — SUCCESS / CONSUMED
 Strengthened Rules provider proof: `PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md`
