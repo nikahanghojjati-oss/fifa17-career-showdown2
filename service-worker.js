@@ -8,6 +8,13 @@ const MODE_CACHE_NAME = `${MODE_CACHE_PREFIX}${RUNTIME_REVISION}`;
 const NETWORK_PROBE_TIMEOUT_MS = 1800;
 const RUNTIME_CONFIG_PATH = "firebase.runtime-config.json";
 const APP_CHECK_BOOTSTRAP_PATH = "js/productionAppCheckBootstrap.js";
+const NETWORK_ONLY_NAVIGATION_PATHS = new Set([
+    "production-authorization-acceptance.html"
+]);
+const NETWORK_ONLY_ASSET_PATHS = new Set([
+    "js/productionAuthorizationAcceptance.js",
+    "js/productionProviderAbuseAcceptance.js"
+]);
 
 const SHELL_PATHS = Object.freeze([
     "index.html",
@@ -94,6 +101,7 @@ function scopeUrl(path = ""){
 function versionedShellUrl(path, revision = RUNTIME_REVISION){
     const url = scopeUrl(path); url.searchParams.set("v", revision); return url.href;
 }
+function networkOnlyRequest(request){ return new Request(request,{cache:"reload"}); }
 function cacheNameForRevision(revision){ return revision ? `${CACHE_PREFIX}${revision}` : ""; }
 function revisionFromCacheName(cacheName){ return cacheName&&cacheName.startsWith(CACHE_PREFIX)?cacheName.slice(CACHE_PREFIX.length):""; }
 function compareRuntimeRevisions(a,b){
@@ -130,7 +138,7 @@ async function cacheExists(cacheName){ if(!cacheName){ return false; } return (a
 async function verifyCache(revision = RUNTIME_REVISION){
     const cacheName = cacheNameForRevision(revision);
     if(!revision || !(await cacheExists(cacheName))){ return { ok:false, available:false, cacheName, revision, expected:SHELL_PATHS.length, missing:SHELL_PATHS.slice() }; }
-    const cache = await caches.open(cacheName); const missing=[];
+    const cache=await caches.open(cacheName); const missing=[];
     for(const path of SHELL_PATHS){ const response=await cache.match(versionedShellUrl(path,revision)); if(!response||!response.ok){ missing.push(path); } }
     return { ok:missing.length===0, available:true, cacheName, revision, expected:SHELL_PATHS.length, missing };
 }
@@ -174,8 +182,12 @@ self.addEventListener("activate",event=>{ event.waitUntil((async()=>{ const stat
 async function cachedShellResponse(path,revision){ const cacheName=cacheNameForRevision(revision); if(!cacheName||!(await cacheExists(cacheName))){return null;} const cache=await caches.open(cacheName); return cache.match(versionedShellUrl(path,revision)); }
 self.addEventListener("fetch",event=>{
     const request=event.request; if(request.method!=="GET"){return;} const url=new URL(request.url); const scope=scopeUrl(); if(url.origin!==scope.origin){return;}
-    if(request.mode==="navigate"){ event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return; }
-    const path=relativeScopePath(url); if(!path){return;} if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
+    if(request.mode==="navigate"){
+        const path=relativeScopePath(url);
+        if(NETWORK_ONLY_NAVIGATION_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; }
+        event.respondWith((async()=>{ const selected=await chooseNavigationRuntime(); if(selected){const cached=await cachedShellResponse("index.html",selected.revision);if(cached){return cached;}} return fetch(request); })()); return;
+    }
+    const path=relativeScopePath(url); if(!path){return;} if(NETWORK_ONLY_ASSET_PATHS.has(path)){ event.respondWith(fetch(networkOnlyRequest(request))); return; } if(path===RUNTIME_CONFIG_PATH){return;} if(path===APP_CHECK_BOOTSTRAP_PATH){return;} const requestedRevision=url.searchParams.get("v")||""; if(!requestedRevision){return;}
     event.respondWith((async()=>{const cached=await cachedShellResponse(path,requestedRevision);return cached||Response.error();})());
 });
 self.__CMS_SERVICE_WORKER_DIAGNOSTICS__=Object.freeze({revision:RUNTIME_REVISION,previousRevision:PREVIOUS_RUNTIME_REVISION,cacheName:CACHE_NAME,previousCacheName:PREVIOUS_CACHE_NAME,modeCacheName:MODE_CACHE_NAME,shellPaths:SHELL_PATHS});

@@ -3,6 +3,7 @@ const fs=require("node:fs");
 const policy=fs.readFileSync("REMOTE_DATA_PRIVACY_RETENTION_POLICY.md","utf8");
 const next=fs.readFileSync("NEXT_TASK.md","utf8");
 const historicalNext=fs.readFileSync("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md","utf8");
+const providerProof=fs.readFileSync("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
@@ -68,6 +69,7 @@ if(r5Production){
 }
 assert.match(next,/Firebase remains Spark \/ zero billing[\s\S]+Firestore remains memory-only[\s\S]+Google Auth remains popup-only `browserSessionPersistence`/i,"Current NEXT_TASK must preserve the bounded production provider/privacy locks inherited after Phase 1C.");
 assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock.");
-assert.match(next,/Production-provider publication[\s\S]+firestore\.spark\.rules[\s\S]+separately unverified/i,"Current NEXT_TASK must keep repository/emulator Rules proof separate from provider publication truth.");
+assert.match(next,/Production-provider publication[\s\S]+firestore\.spark\.rules[\s\S]+provider-verified/i,"Current NEXT_TASK must preserve direct provider verification of the strengthened Rules without conflating it with repository/emulator evidence.");
+assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+firestore\.spark\.rules[\s\S]+Today · 7:48 AM/i,"Current privacy authority must retain direct provider provenance for the strengthened Rules publication claim.");
 
-process.stdout.write(`PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while ${r5Production?"production-proven r5":"deployed r4 and candidate r5"} authority remains explicit\n`);
+process.stdout.write(`PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while ${r5Production?"production-proven r5 with provider-verified strengthened Rules":"deployed r4 and candidate r5"} authority remains explicit\n`);

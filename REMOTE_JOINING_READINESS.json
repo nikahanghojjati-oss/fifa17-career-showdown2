@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 85,
+  "currentScore": 86,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -48,7 +48,7 @@
       "id": "production-cloud-security",
       "label": "Production cloud and security activation",
       "weight": 20,
-      "earned": 19,
+      "earned": 20,
       "evidence": [
         "Production Firebase project, Web App, Firestore database, restricted Browser API key, Google Auth and GitHub Pages authorized domain are provider verified.",
         "Production Firestore Security Rules are provider verified through the strict authenticated self-account boundary and the later Stage 3 registered-device/private-pairing boundary.",
@@ -59,7 +59,8 @@
         "2026-08-25 ordinary-owner iPhone Safari evidence on repaired production v1.8.1-r3 re-proved strict authenticated self-account bootstrap through Private account ready, restoring exactly the previously withdrawn bootstrap credit.",
         "2026-08-21 owner-supplied production Stage 3 evidence proves the published zero-billing device/pairing Rules are exercised by the deployed v1.6.0-r1 browser path.",
         "2026-08-27 permanent Stage 4 token-lifecycle proof on PR #160 exact head ac465bc781b038860f91620debb7ae7fc7a3e05d proves Firebase-owned auto refresh can be observed across a distinct later expiry; duplicate same-expiry notifications do not fabricate transitions; bounded force-refresh success/failure preserves existing Auth/Firestore services, Connected Rivalry authority and canonical local Save bytes; raw token strings remain absent from diagnostics; App Check enforcement remains OFF.",
-        "App Check enforcement and trusted-runtime IAM activation remain separately unproven and are not credited by this reconciliation."
+        "2026-08-29 owner-supplied authenticated Firebase Console evidence proves the production project fifa17-career-showdown-prod / Firestore (default) accepted a new Rules version at 7:48 AM whose visible source traverses and matches the reviewed strengthened firestore.spark.rules boundary through its final deny-by-default rule. The reviewed repository source blob is 2b7c0b166ae0aae7ab7a3ce84725b21091262484. This closes provider publication of the strengthened production Rules without changing App Check enforcement, IAM or billing.",
+        "App Check enforcement and trusted-runtime IAM activation remain deliberately unactivated under current permanent locks and receive no readiness credit."
       ]
     },
     {
@@ -77,7 +78,7 @@
         "2026-08-25/26 owner Chromebook production proof on v1.8.1-r3 closes the previously uncredited remote-to-local reconciliation capability: read-only exact revision/hash Preview, stale-intent rejection before backup/local mutation, verified backup-first explicit Candidate C Apply, stable Player Two identity, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply.",
         "2026-08-26 permanent Stage 4 emulator proof executes the real Connected Rivalry mutation runtime against production Firestore Rules and closes exact accepted-result idempotency replay: after the rivalry legitimately advances from revision 0 to revision 1, replay of the exact original accepted request returns the original revision 0/hash while current authority, receipt set, canonical local Save snapshot, CAS and two-owner boundaries remain unchanged.",
         "2026-08-26 permanent adverse-network contract executes the real Connected Rivalry client API through provider loss after valid registered-device/exactly-two-owner preflight and immutable local projection planning, proving bounded failure with the canonical local Save Library snapshot unchanged.",
-        "Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited. Token-lifecycle safety is now credited separately in production-cloud-security and does not add a duplicate Connected Rivalry point."
+        "Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit."
       ]
     },
     {
@@ -88,7 +89,7 @@
       "evidence": [
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
         "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage.",
-        "2026-08-24 owner-supplied production evidence across one Chromebook and one iPhone proves fresh one-use pairing, revision-0 publication, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
+        "2026-08-24 owner-supplied production evidence across one Chromebook and iPhone proves fresh one-use pairing, revision-0 publication, live stale-base rejection, recovery and revision-1 convergence across two physical devices without local Apply or a reported local-save overwrite.",
         "2026-08-27 permanent Stage 4 structural abuse-hardening proof executes the real private pairing and Connected Rivalry clients against the production Firestore Rules in the emulator: authenticated rivalry collection enumeration is denied; authorized modified-client 11-season create and update attempts are denied; rejected writes allocate no authoritative shared-state document or additional idempotency receipt and leave canonical local Save Library fixtures unchanged; the exact legitimate ten-season boundary remains accepted.",
         "2026-08-27 permanent Stage 4 sustained mutation-frequency proof executes the real Connected Rivalry client against the candidate production Firestore Rules in the emulator: after the low-revision establishment path anchors server time at revision 3, a distinct mutation inside the two-second server-time window is denied with no authority or receipt allocation; a skewed caller clock cannot forge the authoritative timestamp; exact accepted-result replay remains idempotent during the closed window; and the same previously denied logical mutation advances exactly once after the window opens while canonical local Save Library state remains unchanged.",
         "2026-08-28 production GitHub Pages rollback run 33190961085 proves an exact known-good v1.8.1-r4 artifact can be deployed and independently observed live, followed by exact restoration of v1.8.1-r5 and independent live identity verification in the same serialized production workflow. The workflow builds both artifacts before touching production and makes restoration run after successful artifact construction even if rollback verification fails.",
@@ -275,6 +276,14 @@
       "delta": 1,
       "domainId": "real-device-hardening-release",
       "reason": "Production GitHub Pages rollback workflow run 33190961085 on PR #166 publication main 32c32afb1365c9ae6120d810a68e5c72c4b8229a successfully built both production artifacts before mutation, deployed exact known-good v1.8.1-r4 from 2964527c4f7fc80b16d6d5ce73bd4f5823487d2c, independently verified r4 live from public HTML/runtime identity, restored exact v1.8.1-r5, independently verified r5 live again, and passed the final seal requiring both boundaries. The +1 credits only the previously explicit uncredited production rollback capability. It gives zero duplicate credit to workflow code, PR/CI volume, merge, restoration mechanics, documentation or SLE work and does not claim provider-live strengthened Firestore Rules, production abuse acceptance, two-network testing, actual Remote Joining sessions or final stable release acceptance."
+    },
+    {
+      "recordedAt": "2026-08-29T11:48:00Z",
+      "eventId": "production-strengthened-firestore-rules-provider-publication",
+      "score": 86,
+      "delta": 1,
+      "domainId": "production-cloud-security",
+      "reason": "Owner-supplied authenticated Firebase Console evidence shows project fifa17-career-showdown-prod, Firestore database (default), a newly published Rules version labeled Today · 7:48 AM, and visible source anchors spanning the reviewed strengthened firestore.spark.rules boundary through the final deny-by-default rule. The reviewed repository source blob is 2b7c0b166ae0aae7ab7a3ce84725b21091262484. This closes exactly the previously uncredited provider publication of the strengthened production security boundary. The +1 is limited to production-cloud-security; no credit is awarded for PR #169, CI, documentation, screenshots as process volume, App Check enforcement, IAM activation, third-account/revoked-device negatives, two-network behavior, actual Remote Joining sessions or final stable release acceptance."
     }
   ]
 }

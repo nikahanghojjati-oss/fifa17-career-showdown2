@@ -17,6 +17,9 @@ const golden = text("00_HANDOFF_GOLDEN_RULE.md");
 const rootAuth = text("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 const provenance = text("authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md");
 const nextPrompt = text("NEXT_CHAT_HANDOFF_PROMPT.md");
+const nextTask = text("NEXT_TASK.md");
+const projectState = text("PROJECT_STATE.md");
+const currentHandoff = text("00_CURRENT_HANDOFF.md");
 
 assert.equal(capsule.schemaVersion, 5);
 assert.equal(capsule.repository, "nikahanghojjati-oss/fifa17-career-showdown2");
@@ -44,7 +47,8 @@ for (const path of [
   "SESSION_CONTEXT_LEARNING.json",
   "NEXT_CHAT_HANDOFF_PROMPT.md",
   "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
-  "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md"
+  "authority-history/OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION_2026-08-20.md",
+  "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md"
 ]) assert.ok(fs.existsSync(path), `SLE package is missing ${path}`);
 
 assert.deepEqual(read(handoffRoot), read(handoffMirror), "SLE handoff root and project mirror must remain byte-identical.");
@@ -52,6 +56,7 @@ assert.deepEqual(read(starterRoot), read(starterMirror), "SLE starter root and p
 assert.match(starterRoot, new RegExp(`START_NEXT_SESSION_V${capsule.starter.version.replace(/\./g, "\\.")}`));
 assert.equal(capsule.starter.ownerInitialDelivery, "short-repository-first-prompt", "Current SLE policy requires the short repository-first prompt as the normal owner entrypoint.");
 assert.equal(capsule.starter.fallbackPackNeededByDefault, false);
+assert.equal(capsule.starter.version, "1.4.29");
 assert.ok(rollingStarter.includes(starterRoot), "Rolling successor entrypoint must name the capsule's current starter.");
 assert.ok(rollingStarter.includes(handoffRoot), "Rolling successor entrypoint must name the capsule's current deep handoff.");
 assert.ok(rollingStarter.includes(`v${pkg.version}`), "Rolling successor entrypoint must identify the current source application.");
@@ -60,11 +65,12 @@ assert.match(nextPrompt,/Open the live repository `nikahanghojjati-oss\/fifa17-c
 assert.ok(nextPrompt.includes(starterRoot),"Fresh next-developer prompt must name the current versioned starter.");
 assert.match(nextPrompt,/independently verify/i,"Fresh next-developer prompt must require independent live verification.");
 assert.match(nextPrompt,/fresh unique WEC|fresh WEC/i,"Fresh next-developer prompt must require a fresh successor WEC.");
+assert.match(nextPrompt,/PROBE ENUMERATION DENIAL/i,"Fresh next-developer prompt must route to the bounded live provider-abuse acceptance after publication.");
 
 assert.equal(capsule.remoteJoiningReadiness.authority, "REMOTE_JOINING_READINESS.json");
 assert.equal(capsule.remoteJoiningReadiness.model, readiness.modelVersion);
 assert.equal(capsule.remoteJoiningReadiness.score, readiness.currentScore);
-assert.equal(readiness.currentScore, 85);
+assert.equal(readiness.currentScore, 86);
 assert.equal(readiness.denominator, 100);
 assert.match(capsule.remoteJoiningReadiness.rule, /capability evidence|genuine/i);
 
@@ -81,11 +87,15 @@ assert.equal(capsule.runtime.billingRequired, false);
 assert.match(capsule.runtime.productionClientFirestore, /memory-only/i);
 assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);
 assert.equal(capsule.latestRuntimeMerge.rollbackRunId, 33190961085);
-assert.equal(capsule.currentPublicationCheckpoint.pullRequest, 167);
+assert.equal(capsule.currentPublicationCheckpoint.pullRequest, 171);
 assert.equal(capsule.currentPublicationCheckpoint.productionRollbackProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.productionRestorationProven, true);
-assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesPublicationProven, false);
-assert.equal(capsule.currentPublicationCheckpoint.rjrAfterEvidence, 85);
+assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesPublicationProven, true);
+assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesSource, "firestore.spark.rules");
+assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesBlobSha, "2b7c0b166ae0aae7ab7a3ce84725b21091262484");
+assert.equal(capsule.currentPublicationCheckpoint.rjrAfterEvidence, readiness.currentScore);
+assert.equal(capsule.currentPublicationCheckpoint.providerAbuseAcceptanceImplemented, true);
+assert.equal(capsule.currentPublicationCheckpoint.providerAbuseProductionAcceptanceProven, false);
 
 assert.deepEqual(capsule.criticalLocks.canonicalStorage, [
   "careerModeShowdown.saveLibrary",
@@ -137,27 +147,39 @@ for (const [name, value] of [["starter", starter], ["handoff", handoff]]) {
   assert.match(value, /Handoff proximity: X%/i, `${name} must preserve the seven-line progress format.`);
   assert.match(value, /Handoff proximity: X%\s*\nRemote Joining readiness: ~Y%/i, `${name} must preserve the exact owner-facing readiness percentage template.`);
   assert.match(value, /Sidequest check:/i, `${name} must preserve the seven-line progress format.`);
+  assert.match(value, /PROBE ENUMERATION DENIAL/i, `${name} must identify the next bounded production evidence action.`);
 }
+
+assert.match(nextTask,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+RJR86/i);
+assert.match(nextTask,/Production-provider publication[\s\S]+provider/i);
+assert.match(nextTask,/PROBE ENUMERATION DENIAL/i);
+assert.match(projectState,/RJR-1 is `86\/100`|Remote Joining readiness: `86\/100`/i);
+assert.match(currentHandoff,/PR #171[\s\S]+RJR86/i);
 
 assert.equal(graph.schemaVersion, 2);
 assert.ok(graph.nodes.some(node => node.id === "rjr1-ledger" && node.recordedScore === readiness.currentScore), "Context graph RJR pointer must match the current fixed ledger.");
-assert.ok(graph.nodes.some(node => node.id === "production-pages-rollback-proof" && node.workflowRunId === 33190961085 && node.rjrScoreAfterProof === 85), "Context graph must preserve the newly closed rollback capability.");
-assert.ok(graph.nodes.some(node => node.id === "closing-current-wec" && node.transitionPullRequest === 167), "Context graph must point at the current transition PR.");
+assert.ok(graph.nodes.some(node => node.id === "production-pages-rollback-proof" && node.workflowRunId === 33190961085 && node.rjrScoreAfterProof === 85), "Context graph must preserve consumed rollback capability provenance.");
+assert.ok(graph.nodes.some(node => node.id === "production-strengthened-rules-provider-proof" && node.rjrScoreAfterProof === 86 && node.rulesBlobSha === "2b7c0b166ae0aae7ab7a3ce84725b21091262484"), "Context graph must preserve provider-proven strengthened Rules evidence.");
+assert.ok(graph.nodes.some(node => node.id === "provider-abuse-enumeration-acceptance" && node.firestoreWritesRequested === 0 && node.creditBeforeLivePass === false), "Context graph must preserve the zero-write no-precredit provider-abuse boundary.");
+assert.ok(graph.nodes.some(node => node.id === "closing-current-wec" && node.transitionPullRequest === 171 && node.rjrScore === 86), "Context graph must point at PR #171 RJR86 transition.");
 assert.ok(graph.nodes.some(node => node.id === "successor-selection"), "Transition package must route successor through fresh-WEC product selection.");
-assert.ok(graph.nodes.some(node => node.id === "stage5-private-remote-joining"), "Transition package must retain the real Remote Joining destination while Stage 5 stays locked.");
-assert.doesNotMatch(graph.retrievalHints.walkDirection,/RJR84(?![^\n]*85)/i,"Context graph retrieval hint must not stop at the superseded RJR84 checkpoint.");
-assert.match(graph.retrievalHints.walkDirection,/PR #166[\s\S]+RJR85[\s\S]+PR #167/i);
-assert.equal(model.latestCheckpoint.rjrScore,85,"Context model latest checkpoint must match RJR85.");
-assert.equal(model.latestCheckpoint.rollbackRunId,33190961085,"Context model must retain exact rollback proof provenance.");
-assert.equal(model.latestCheckpoint.closeoutPullRequest,167,"Context model must point at the current transition PR.");
-assert.match(learning.latestLesson.lesson,/RJR85[\s\S]+fresh successor WEC/i,"Context learning must preserve the current transition lesson.");
+assert.ok(graph.nodes.some(node => node.id === "stage5-private-remote-joining"), "Transition package must retain the real Remote Joining destination while Stage 5 is reassessed after the next production result.");
+assert.match(graph.retrievalHints.walkDirection,/PR #171[\s\S]+RJR86[\s\S]+provider-abuse/i);
+assert.equal(model.latestCheckpoint.rjrScore,86,"Context model latest checkpoint must match RJR86.");
+assert.equal(model.latestCheckpoint.rulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");
+assert.equal(model.latestCheckpoint.closeoutPullRequest,171,"Context model must point at the current publication PR.");
+assert.match(learning.latestLesson.lesson,/RJR 85 to 86[\s\S]+Fresh successor WEC|RJR86[\s\S]+Fresh successor/i,"Context learning must preserve the current transition lesson.");
+assert.equal(learning.latestLesson.rjrScore,86);
+assert.equal(learning.latestLesson.closeoutPullRequest,171);
 
 assert.ok(capsule.minimalReads.includes("00_SLE_HANDOFF_PROTOCOL.md"));
 assert.ok(capsule.minimalReads.includes("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"));
+assert.ok(capsule.minimalReads.includes("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md"));
 assert.equal(capsule.immediateNextTask.mustNotInsertGenericPrerequisiteLane, true);
 assert.equal(capsule.immediateNextTask.mustStartAsRealProductWork, false);
+assert.match(capsule.immediateNextTask.summary,/PROBE ENUMERATION DENIAL/i);
 assert.equal(capsule.transition.contextTransitionRequired, true);
 assert.equal(capsule.transition.handoffCompleteness, 100);
 assert.equal(capsule.transition.continuationDecision, "HANDOFF_AT_CHECKPOINT");
 
-process.stdout.write(`PASS SLE package: repository-first Smart Lean Efficient handoff is coherent for source ${pkg.version}/${sourceRevision}, restored production ${capsule.runtime.applicationVersion}/${capsule.runtime.productionRuntimeRevision}, fixed RJR ${readiness.currentScore}/100, and PR #167 transition-only publication before fresh-WEC product selection.\n`);
+process.stdout.write(`PASS SLE package: repository-first Smart Lean Efficient handoff is coherent for source ${pkg.version}/${sourceRevision}, production ${capsule.runtime.applicationVersion}/${capsule.runtime.productionRuntimeRevision}, fixed RJR ${readiness.currentScore}/100, provider-proven strengthened Rules and PR #171 transition before live provider-abuse acceptance.\n`);

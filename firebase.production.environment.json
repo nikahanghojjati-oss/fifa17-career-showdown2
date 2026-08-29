@@ -42,7 +42,7 @@
     "startingRulesMode": "production",
     "ownerReportedCreated": true,
     "providerVerified": true,
-    "providerVerificationEvidence": "2026-08-19 owner Firebase Console screenshots show the (default) Firestore database Data view and Rules tab."
+    "providerVerificationEvidence": "2026-08-29 owner Firebase Console screenshots show project fifa17-career-showdown-prod, Firestore Database (default), Rules tab, a new Today 7:48 AM provider Rules version, and the strengthened repository rule structure through the final deny-by-default boundary."
   },
   "activation": {
     "firebaseProject": "owner-created",
@@ -59,9 +59,9 @@
     "productionAuthorizedDomainVerificationEvidence": "2026-08-19 owner Firebase Console screenshot at 20:20 ET shows the two Firebase default Authorized domains plus nikahanghojjati-oss.github.io as Custom, with a success toast stating localhost removed and no localhost row remaining.",
     "localhostAuthorizedDomainPresent": false,
     "productionSecurityRules": "provider-verified-deployed",
-    "productionSecurityRulesSource": "firestore.rules",
-    "productionSecurityRulesSourceBlobSha": "0473750cb16b5b8eea234c0f8138c41de5ff3dfb",
-    "productionSecurityRulesVerificationEvidence": "2026-08-19 owner Firebase Console screenshots at 20:51 ET show Database (default) on the Rules tab with the deployed repository rule structure visible across the source and the success toast 'Published changes can take up to a minute to propagate'. No sample data was created.",
+    "productionSecurityRulesSource": "firestore.spark.rules",
+    "productionSecurityRulesSourceBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
+    "productionSecurityRulesVerificationEvidence": "2026-08-29 owner Firebase Console screenshots at approximately 07:48-07:52 ET show production project fifa17-career-showdown-prod, Database (default), the Rules tab with a new Today 7:48 AM version selected, and strengthened firestore.spark.rules source across the file including activeDevice, validDeviceRevoke, currentlyEntitled, activePairedRivalry, bounded season count, idempotency/timing logic, rivalry read authorization, session read restriction and the final allow read, write: if false boundary. No provider setting other than Rules publication was requested or evidenced.",
     "appCheck": "production-runtime-proven",
     "appCheckProvider": "recaptcha-enterprise",
     "appCheckWebAppId": "1:409396353288:web:1d3a2a5d6921de6ccbb4bd",

@@ -49,7 +49,6 @@ assert.match(stage2b, /DONE \/ MERGED \/ PROVEN[\s\S]+PR #84/i);
 assert.match(stage2b, /d6786d9d3f65a329aaf3607c3eb3d3d357983c5f/);
 assert.match(stage2b, /c4feadb69fb5e26eba19fa520afa0a09baf1de03/);
 
-// Historical transition detail belongs to immutable history and long-lived roadmaps.
 const archivalSources = [
   ["authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md", historicalNext],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
@@ -73,7 +72,7 @@ assert.match(preR3Next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVA
 assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Immutable pre-r3 NEXT_TASK must preserve PR #115/#116 deployment-proof provenance.");
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0 / 1.5.0-r1 candidate provenance.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #166[\s\S]+RJR85[\s\S]+PR #167/i,"Live NEXT_TASK must identify the current PR #166 rollback / RJR85 / PR #167 transition authority.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Live NEXT_TASK must identify the current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
 
 for (const [name, text] of archivalSources) {
@@ -89,15 +88,16 @@ assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Sta
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
 assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
+assert.equal(readiness.currentScore,86,"Stage 2C current-state checks must preserve the fixed RJR86 provider-publication checkpoint.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must report the current evidence-backed RJR score rather than the older reconciliation-only checkpoint.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
-assert.match(currentHandoff, /PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Rolling handoff must expose current PR #166/r5/RJR85/PR #167 transition authority.");
-assert.match(currentHandoff, /Handoff proximity 100%[\s\S]+HANDOFF_AT_CHECKPOINT/i,"Rolling handoff must expose the current transition boundary.");
-assert.match(start, /PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Developer start must expose current PR #166/r5/RJR85/PR #167 transition authority.");
-assert.match(start, /Stage 5 stays locked|Stage 5 remains locked/i,"Developer start must preserve the current Stage 5 lock.");
+assert.match(currentHandoff, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Rolling handoff must expose current PR #171/r5/RJR86 transition authority.");
+assert.match(currentHandoff, /provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
+assert.match(start, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Developer start must expose current PR #171/r5/RJR86 transition authority.");
+assert.match(start, /provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Developer start must preserve provider-abuse acceptance before Stage 5 reassessment.");
 
 assert.match(rules, /request\.auth\.uid/);
 assert.match(rules, /allow list, create, update, delete:\s*if false/g);
@@ -118,4 +118,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current PR #166 rollback / RJR85 / PR #167 transition authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority explicit\n");
