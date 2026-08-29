@@ -49,7 +49,6 @@ assert.match(stage2b, /DONE \/ MERGED \/ PROVEN[\s\S]+PR #84/i);
 assert.match(stage2b, /d6786d9d3f65a329aaf3607c3eb3d3d357983c5f/);
 assert.match(stage2b, /c4feadb69fb5e26eba19fa520afa0a09baf1de03/);
 
-// Historical transition detail belongs to immutable history and long-lived roadmaps.
 const archivalSources = [
   ["authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md", historicalNext],
   ["POST_V1_ROADMAP_EXECUTION.md", roadmap],
@@ -96,7 +95,7 @@ assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configurat
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(currentHandoff, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Rolling handoff must expose current PR #171/r5/RJR86 transition authority.");
-assert.match(currentHandoff, /Stage 5 remains locked/i,"Rolling handoff must preserve the current Stage 5 lock.");
+assert.match(currentHandoff, /provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
 assert.match(start, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Developer start must expose current PR #171/r5/RJR86 transition authority.");
 assert.match(start, /Stage 5 stays locked|Stage 5 remains locked/i,"Developer start must preserve the current Stage 5 lock.");
 
