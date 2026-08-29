@@ -1,0 +1,32 @@
+# Pending canonical Work Environment history append — PR #168 successor activation
+
+This is an additions-only continuity payload created because the connected GitHub write surface can replace whole files but cannot safely append to the large canonical `WORK_ENVIRONMENT_HISTORY.md` without reconstructing and rewriting prior history. It is not a substitute for current live authority. A future environment with an append-capable route should append these records verbatim to `WORK_ENVIRONMENT_HISTORY.md`, verify the canonical change is additions-only, then delete this payload in the same bounded continuity checkpoint.
+
+## Closure addendum — `we-2026-08-28-rjr-authorization-negative-acceptance`
+
+- Successor verification recorded: `2026-08-29T00:08:39-04:00`.
+- Starting main recorded by the predecessor: `640aa6762f0b495c4f2cef198cb27663b8209cce`, the PR #167 squash merge.
+- Final verified repository boundary: PR #168 `Add bounded production authorization negative acceptance`, final exact sealed head `dce9e0efd0b808c24976ee7f2aae6f3a6b60d47c`, squash merge/current live main `053e624f12c3f4bcc5cab6c70f1a5b2211fca647`.
+- Exact-head and publication proof: the unchanged final PR #168 sealed head passed all 14 permanent workflow families; both automated inline review findings were corrected, replied to and resolved; GitHub Pages deployment run `33231748924` completed successfully for exact merge head `053e624f12c3f4bcc5cab6c70f1a5b2211fca647` with artifact `9708692504` and digest `sha256:f3439635ed0aefb2d43cff9fcbbf48e4cbdb1e9dfe09e95a01c6d8e990964867`.
+- Production identity remained `v1.8.1 / 1.8.1-r5`; known-good rollback runtime remains `1.8.1-r4`. Production rollback/restoration proof is already consumed.
+- Fixed RJR-1 remained exactly `85/100`. PR implementation, CI, review, merge, deployment and acceptance-tool existence earned zero RJR credit because no legitimate new production authorization-negative observation was executed.
+- Material result: a bounded read-only third-account production authorization acceptance surface is deployed. It requires a legitimate existing active Connected Account that is neither target rivalry manager, a legitimate existing active paired rivalry, explicit operator confirmations, exactly two Firestore reads, zero provider writes, provider denial of both reads and unchanged browser storage. Identifiers are SHA-256 fingerprinted rather than emitted raw.
+- Revoked-device prerequisite probing remains non-crediting: the client guard occurs before provider mutation staging and is not Firestore Rules write-denial proof.
+- Provider nonclaim preserved: production publication of strengthened `firestore.spark.rules` remains independently unverified. Repository source, emulator tests, CI, Pages deployment and the acceptance page do not prove provider Rules publication.
+- Corrected failures preserved rather than hidden: stale copied main SHA; premature `NEXT_TASK.md` authority rewrite; missing Pages staging of the acceptance HTML; first Pages staging fix violating the legacy exact copy-command contract; contradictory `providerAuthorizationDenied` evidence on a `NOT_PROVEN` outcome. All were corrected before the final seal.
+- Permanent locks preserved: Stage 5 remains locked; exactly two private managers; Firebase Spark/zero billing; Firestore memory-only; Google Auth popup-only with `browserSessionPersistence` and no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened; public discovery/community/matchmaking/global rankings prohibited; canonical local storage remains the exact three Career Mode Showdown keys; historical rivalry `pair_a07108...756fb` must not be forced, edited or deleted.
+- Consumed proof must not be repeated merely for confidence: owner/device, Candidate C destructive reconciliation, exact replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit and production rollback/restoration.
+- Final predecessor decision: `HANDOFF_AT_CHECKPOINT`. It belonged only to `we-2026-08-28-rjr-authorization-negative-acceptance` and is not inherited by its successor.
+- Exact successor action fulfilled: independently verify live main/PR/deployment/RJR authority, archive this predecessor, create a fresh unique WEC with reset counters, then select the smallest genuinely unblocked remaining RJR dependency without fabricating provider or owner evidence.
+
+## Successor activation — `we-2026-08-29-rjr-provider-security-deployment-path`
+
+- Environment start: `2026-08-29T00:08:39-04:00`.
+- Starting independently verified live-main SHA: `053e624f12c3f4bcc5cab6c70f1a5b2211fca647`.
+- Branch: `rjr/provider-security-deployment-path-2026-08-29`, created from that exact live main.
+- Inherited-record handling: predecessor WEC was independently validated and the publication facts above were archived before successor assessment. No predecessor counter, usage value or transition decision is inherited.
+- Startup verification: PR #168 is merged from exact final sealed head `dce9e0efd0b808c24976ee7f2aae6f3a6b60d47c`; merge/live main is `053e624f12c3f4bcc5cab6c70f1a5b2211fca647`; Pages deployment run `33231748924` is successful on that exact merge head; fixed RJR-1 is `85/100`.
+- Authority reconciliation finding: `NEXT_TASK.md` and `PROJECT_STATE.md` still retain the pre-PR #168 transition wording because a premature PR #168 authority rewrite was deliberately reverted. Newer live WEC, merged PR/deployment evidence and the v1.4.27 handoff supersede those stale transition pointers for current execution.
+- Provider-path finding: root `firebase.json -> firestore.rules` and root `.firebaserc` default `demo-career-mode-showdown-phase1f` are intentional historical/emulator locks; `.firebaserc` also retains the existing named `production` alias `fifa17-career-showdown-prod`. Permanent Phase 1F and production-activation contracts protect the historical defaults. They must not be redirected to `firestore.spark.rules` or made production-default merely for this deployment path.
+- Current bounded task: establish a separate auditable production-only deployment/verification path for strengthened `firestore.spark.rules` without changing the historical emulator lane and without claiming provider publication before direct provider-authoritative evidence exists; then exhaust the smallest genuinely unblocked remaining RJR dependency.
+- Fixed RJR-1 starts at `85/100` and does not increase for deployment-path implementation, tests, PRs, CI or merge alone.
