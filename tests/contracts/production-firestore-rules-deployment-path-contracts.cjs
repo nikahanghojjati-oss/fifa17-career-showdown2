@@ -57,11 +57,13 @@ assert.match(
   "The existing provider-verified Rules claim must retain its direct-provider evidence provenance."
 );
 
-assert.match(strengthenedRules, /function isSignedIn\(\)/);
-assert.match(strengthenedRules, /function hasRegisteredActiveDevice\(\)/);
-assert.match(strengthenedRules, /function isRivalryParticipant/);
-assert.match(strengthenedRules, /allow read: if isRivalryParticipant/);
-assert.match(strengthenedRules, /allow write: if false/);
+assert.match(strengthenedRules, /function signedIn\(\)/);
+assert.match(strengthenedRules, /function activeDevice\(deviceId\)/);
+assert.match(strengthenedRules, /function currentlyEntitled\(rivalryId\)/);
+assert.match(strengthenedRules, /function activePairedRivalry\(rivalryId\)/);
+assert.match(strengthenedRules, /request\.auth\.uid in rivalry\.data\.data\.authorizedAccountIds/);
+assert.match(strengthenedRules, /allow get: if currentlyEntitled\(rivalryId\) \|\| capabilityCanReadPendingRivalry\(rivalryId\)/);
+assert.match(strengthenedRules, /match \/\{document=\*\*\} \{[\s\S]*allow read, write: if false;/);
 
 const exactDeployCommand = "firebase deploy --config firebase.production.rules.json --project fifa17-career-showdown-prod --only firestore";
 assert.ok(
