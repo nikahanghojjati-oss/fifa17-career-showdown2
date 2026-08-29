@@ -88,6 +88,7 @@
       const localStorageUnchanged=authorizationAcceptanceStorageUnchanged(before,after);
       const accountFingerprint=await authorizationAcceptanceFingerprint(accountId,options.cryptoImpl||root.crypto);
       const rivalryFingerprint=await authorizationAcceptanceFingerprint(rivalryId,options.cryptoImpl||root.crypto);
+      const providerAuthorizationDenied=rivalryRead.denied&&stateRead.denied;
       const evidence={
         probe:"third-account-read-denial",
         accountFingerprint,
@@ -98,8 +99,8 @@
         firestoreWritesRequested:0,
         operatorConfirmedThirdAccount:true,
         operatorConfirmedActivePairedRivalry:true,
-        providerAuthorizationDenied:true,
-        rjrEligibleEvidenceCandidate:true
+        providerAuthorizationDenied,
+        rjrEligibleEvidenceCandidate:providerAuthorizationDenied&&localStorageUnchanged
       };
       if(!rivalryRead.denied||!stateRead.denied){
         return authorizationAcceptanceFail("ACCEPTANCE_THIRD_ACCOUNT_DENIAL_NOT_PROVEN","Read denial was not proven for both private rivalry boundaries. This account may be entitled, the target may be unsuitable, or provider authorization may differ from the expected policy.",evidence);
