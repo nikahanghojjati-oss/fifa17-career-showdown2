@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-27T03:20:00Z",
-  "materialSessionsObserved": 8,
-  "learningState": "cold-start-priors-with-eight-labeled-sessions",
+  "recordedAt": "2026-08-28T17:20:00Z",
+  "materialSessionsObserved": 9,
+  "learningState": "cold-start-priors-with-nine-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -11,24 +11,24 @@
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 0.8,
-      "learnedUtility": 0.68,
-      "note": "Fresh WEC ownership prevented predecessor decisions from leaking into PR #160; accumulated validation churn then correctly forced transition after the bounded production checkpoint."
+      "learnedUtility": 0.704,
+      "note": "Fresh WEC ownership prevented the predecessor transition decision from leaking into the PR #166 rollback lane and now correctly forces a stop after PR #167 publication."
     },
     "workflow-job-logs": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.8,
-      "note": "Exact logs distinguished runtime capability success from successive stale authority/packaging assertions, avoiding speculative product or provider changes. Final PR #160 exact-head and deployed Stability evidence proved r4 safely."
+      "learnedUtility": 0.84,
+      "note": "Exact logs separated runtime safety from stale continuity assertions: protected Installable Offline App wording, stale PR #163 current-authority tests, missing Work Environment Continuity routing, and obsolete SLE owner-delivery expectations were identified without changing product behavior."
     },
     "NEXT_TASK.md": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.68,
-      "note": "Sole implementation authority kept work on the bounded token-lifecycle capability, then correctly stopped product work at the mandatory handoff checkpoint."
+      "learnedUtility": 0.744,
+      "note": "Live task authority kept the environment on the bounded production rollback proof and then on PR #167 transition-only publication, preventing a second substantive milestone."
     },
     "successor-entrypoint-coherence": {
       "loaded": true,
@@ -36,51 +36,51 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.744,
-      "note": "The PR #160 validation sequence repeatedly demonstrated that current starter, deep handoff, bootstrap, graph and live authority must advance together. The v1.4.23 package now points to production r4 and fixed RJR82."
+      "learnedUtility": 0.7952,
+      "note": "The RJR85 transition demonstrated that starter, deep handoff, bootstrap, graph, model, learning record, current handoff and next task must advance together; stale RJR84 retrieval pointers were corrected before publication."
     },
     "rjr-score-provenance-search": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.744,
-      "note": "Fixed RJR-1 prevents PR/CI/deployment volume from moving readiness. PR #160 added exactly one token-lifecycle capability point, 81 to 82; deployment and SLE add zero."
+      "learnedUtility": 0.7952,
+      "note": "Fixed RJR-1 prevented process inflation. PR #166/run 33190961085 added exactly one previously uncredited production rollback capability point, 84 to 85; publication and SLE add zero."
     },
-    "stage4-token-lifecycle-contract": {
+    "production-rollback-proof": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
-      "note": "The focused permanent contract proved later App Check expiry/refresh safety before broad publication. Preserve SDK-owned refresh, raw-token redaction, unchanged Auth/Firestore/Connected Rivalry/local-save authority and enforcement OFF."
+      "note": "Run 33190961085 proved a reversible GitHub Pages rollback: exact known-good r4 was observed live, exact r5 was restored and observed live, and Firebase Rules/IAM/billing/App Check enforcement/canonical data were outside the mutation scope."
     },
-    "pr160-production-proof": {
+    "pr166-production-proof": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 0.8,
       "learnedUtility": 0.56,
-      "note": "Exact-head 14/14 validation plus 15 successful post-merge runs, deployed runtime-byte equality, production App Check path, Candidate A/B/C, offline and complete journey are enough to promote r4 without repeating owner proof."
+      "note": "PR #166 publication plus exact live rollback/restoration proof is sufficient to credit the bounded rollback capability; repeating the drill merely for confidence is prohibited."
     }
   },
   "sessionMetrics": [
     {
-      "sessionId": "we-2026-08-27-stage4-token-lifecycle-rjr-be07",
+      "sessionId": "we-2026-08-28-rjr-production-rollback-proof",
       "directRemoteJoiningPrerequisiteReached": true,
       "nextRealProductMilestoneUnblocked": "successor-must-reassess",
       "fullHistoryPreloaded": false,
       "githubConnectorSufficient": true,
       "ghFallbackUsed": false,
       "deepFallbackUsed": true,
-      "deepFallbackReason": "Permanent contract failures exposed stale handoff/release-authority compatibility markers; exact logs and live files were required to distinguish those from runtime defects and to prove production deployment.",
+      "deepFallbackReason": "Exact workflow logs exposed stale transition contracts and retrieval pointers after the production rollback capability itself had already succeeded.",
       "missedCriticalContextIncident": false,
       "staleAuthorityCorrection": true,
-      "routeFailureCluster": "One create-branch call used a stale argument shape and was immediately corrected from the live schema; no repeated routing loop or repository corruption occurred.",
-      "ciTriageLesson": "When the focused capability already passes, continue reading the exact next failing assertion before touching runtime. Keep packaging/authority repairs separate from product behavior.",
-      "productionEvidenceLesson": "Promote a runtime only after exact-head source gates and deployed proof both pass. Runtime-byte equality plus production App Check path and complete deployed recovery/journey prove delivery; they do not add duplicate RJR points.",
-      "authorityLesson": "At Handoff proximity 100%, stop product advancement, create mirrored recursive SLE artifacts, refresh current pointers, seal WEC last and hand the successor a fresh-WEC decision rather than preselecting a blocked proof lane."
+      "routeFailureCluster": "One early tool-routing mismatch was corrected from live schema; later failures were repository continuity assertions, not tool loops or runtime regressions.",
+      "ciTriageLesson": "When product/runtime contracts pass and a later continuity assertion fails, inspect the exact assertion and update stale current-authority contracts or missing mandatory routing text without weakening permanent protections.",
+      "productionEvidenceLesson": "A rollback capability is credited only after both the temporary known-good production identity and exact restored production identity are independently observed; source or workflow existence alone is not evidence.",
+      "authorityLesson": "At Handoff proximity 100%, stop product advancement, keep the short repository-first prompt as the owner entrypoint, refresh current retrieval pointers, seal WEC last, publish the transition, and make the successor perform a fresh WEC assessment."
     }
   ],
   "outcomeScale": {
@@ -98,9 +98,10 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "PR #160 production r4 closes deterministic App Check token-lifecycle safety only. Preserve fixed RJR82, do not repeat consumed proof, and require a fresh successor WEC before selecting the next genuinely unblocked Remote Joining dependency.",
-    "runtimeMainSha": "2964527c4f7fc80b16d6d5ce73bd4f5823487d2c",
-    "starter": "START_NEXT_SESSION_V1.4.23_PR160_R4_PRODUCTION_POSTMERGE_GREEN.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_POST_PR160_TOKEN_LIFECYCLE_R4_PRODUCTION_SLE_2026-08-27.md"
+    "lesson": "PR #166/run 33190961085 closes production Pages rollback and exact restoration only. Preserve fixed RJR85, do not repeat consumed rollback proof, keep provider Rules publication and remaining real-device/network/provider gaps uncredited, and require a fresh successor WEC after PR #167 transition publication.",
+    "capabilityPublicationMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+    "runtimeRevision": "1.8.1-r5",
+    "starter": "START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md"
   }
 }

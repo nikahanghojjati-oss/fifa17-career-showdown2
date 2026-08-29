@@ -28,7 +28,7 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+SUSTAINED MUTATION-FREQUENCY HARDENING[\s\S]+PR #163/i,"Current NEXT_TASK must advance beyond the historical gateway and dormant Phase 1E authority to the actual PR #163 publication lane.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #166 PRODUCTION ROLLBACK PROVEN[\s\S]+RJR85[\s\S]+PR #167 SLE TRANSITION/i,"Current NEXT_TASK must advance beyond historical Phase 1E and consumed PR #163 authority to the current PR #166 rollback / RJR85 / PR #167 transition lane.");
 assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
 assert.match(next,/Stage 5 host\/join\/session orchestration remains locked/i,"Current NEXT_TASK must preserve the explicit Stage 5 gate while dormant Phase 1E provenance stays archived.");
 
@@ -210,4 +210,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #163 publication authority stays coherent\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #166 rollback / RJR85 / PR #167 transition authority stays coherent\n");

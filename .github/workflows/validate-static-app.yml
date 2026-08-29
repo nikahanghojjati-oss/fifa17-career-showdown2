@@ -58,8 +58,13 @@ jobs:
           const path = require('node:path');
           const root = process.cwd();
           const workflowDir = path.join(root, '.github/workflows');
+          const nonPermanentWorkflows = new Set([
+            'deploy-github-pages.yml',
+            'prove-production-pages-rollback.yml',
+            'validate-stability-lane.yml'
+          ]);
           const files = fs.readdirSync(workflowDir)
-            .filter(name => name.endsWith('.yml') && name !== 'validate-stability-lane.yml' && name !== 'deploy-github-pages.yml')
+            .filter(name => name.endsWith('.yml') && !nonPermanentWorkflows.has(name))
             .sort();
           const literalBlocks = files.reduce((total, name) => {
             const source = fs.readFileSync(path.join(workflowDir, name), 'utf8');
@@ -70,5 +75,6 @@ jobs:
           assert.ok(files.includes('validate-v110-release-burnin.yml'), 'Five-pass release Burn-In workflow is missing.');
           assert.ok(files.includes('validate-stage3-private-pairing.yml'), 'Stage 3 private pairing permanent workflow is missing.');
           assert.ok(fs.existsSync(path.join(workflowDir, 'deploy-github-pages.yml')), 'Production Pages deployment workflow is missing.');
-          process.stdout.write(`PASS  Permanent validation topology: ${files.length} workflows / ${literalBlocks} executable blocks; production Pages deployment accounted separately.\n`);
+          assert.ok(fs.existsSync(path.join(workflowDir, 'prove-production-pages-rollback.yml')), 'One-shot production rollback proof workflow is missing.');
+          process.stdout.write(`PASS  Permanent validation topology: ${files.length} workflows / ${literalBlocks} executable blocks; production Pages deployment, Stability and one-shot rollback proof are accounted separately.\n`);
           NODE
