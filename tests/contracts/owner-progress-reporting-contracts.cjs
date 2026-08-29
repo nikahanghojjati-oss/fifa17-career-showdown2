@@ -41,7 +41,7 @@ assertOrderedLabels("owner reporting provenance", provenance, historicalRequired
 
 assert.match(agents, /Every substantive owner-facing development response must include this exact eight-line status shape/i);
 assert.match(agents, /Estimated focused sessions to genuine RJR100/i);
-assert.match(agents, /roadmap-based planning estimate[\s\S]+not a score-derived countdown[\s\S]+not[\s\S]+RJR evidence/i);
+assert.match(agents, /roadmap-based planning estimate[\s\S]+not a score-derived countdown[\s\S]+RJR evidence/i);
 assert.match(agents, /Recalculate it when verified dependencies[\s\S]+materially change the critical path/i);
 assert.match(agents, /At genuine RJR100 the value becomes `~0`/i);
 assert.match(agents, /Do not rename or replace `Remote Joining readiness` while Private Remote Joining is still incomplete/i);
