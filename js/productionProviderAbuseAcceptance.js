@@ -56,12 +56,19 @@
     return currentUser&&typeof currentUser.uid==="string"?currentUser.uid.trim():"";
   }
 
+  function authControlsLockHeld(options){
+    return typeof options.authControlsLockHeldImpl==="function"
+      ? options.authControlsLockHeldImpl()===true
+      : options.authenticationControlsLockedDuringQuery===true;
+  }
+
   async function probeAuthenticatedRivalryListDenial(options={}){
     try{
       const accountId=normalizeUser(options.user);
       if(typeof options.collectionImpl!=="function"||typeof options.queryImpl!=="function"||typeof options.limitImpl!=="function"||typeof options.getDocsImpl!=="function"){
         return fail("PROVIDER_ABUSE_FIRESTORE_QUERY_UNAVAILABLE","Firestore query helpers are unavailable.");
       }
+      const authControlsLockHeldAtStart=authControlsLockHeld(options);
       const before=snapshotStorage(options.localStorageImpl);
       const collectionRef=options.collectionImpl(options.firestore,"rivalries");
       const boundedQuery=options.queryImpl(collectionRef,options.limitImpl(1));
@@ -73,6 +80,8 @@
         listDenied=permissionDenied(error);
         providerErrorCode=error&&error.code?String(error.code):"unknown";
       }
+      const authControlsLockHeldAtEnd=authControlsLockHeld(options);
+      const authenticationControlsLockedDuringQuery=authControlsLockHeldAtStart&&authControlsLockHeldAtEnd;
       const authenticatedAccountStable=currentUserUid(options)===accountId;
       const after=snapshotStorage(options.localStorageImpl);
       const localStorageUnchanged=before===after;
@@ -83,17 +92,17 @@
         providerBoundary:"rivalries-collection-list",
         authenticatedAccountRequired:true,
         authenticatedAccountStable,
-        authenticationControlsLockedDuringQuery:options.authenticationControlsLockedDuringQuery===true,
+        authenticationControlsLockedDuringQuery,
         queryLimit:1,
         rivalryListDenied:listDenied,
         providerErrorCode,
         firestoreWritesRequested:0,
         localStorageUnchanged,
-        providerAbuseAcceptanceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable&&options.authenticationControlsLockedDuringQuery===true,
-        rjrEligibleEvidenceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable&&options.authenticationControlsLockedDuringQuery===true
+        providerAbuseAcceptanceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable&&authenticationControlsLockedDuringQuery,
+        rjrEligibleEvidenceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable&&authenticationControlsLockedDuringQuery
       };
-      if(options.authenticationControlsLockedDuringQuery!==true){
-        return fail("PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED","Authentication controls were not locked for the complete provider query. This result cannot prove uninterrupted authenticated enumeration denial and receives no RJR credit.",evidence);
+      if(!authenticationControlsLockedDuringQuery){
+        return fail("PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED","Authentication controls were not held by the same shared lock for the complete provider query. This result cannot prove uninterrupted authenticated enumeration denial and receives no RJR credit.",evidence);
       }
       if(!authenticatedAccountStable){
         return fail("PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE","Authentication changed while the provider query was in flight. This result cannot prove authenticated rivalry enumeration denial and receives no RJR credit.",evidence);
@@ -115,6 +124,7 @@
     const acceptance=root.CareerModeProductionAuthorizationAcceptance;
     if(!runtime||typeof runtime.ensureAccountServices!=="function")throw Object.assign(new Error("Production Firebase runtime is unavailable."),{code:"PROVIDER_ABUSE_RUNTIME_UNAVAILABLE"});
     if(!acceptance||typeof acceptance.existingActiveAccount!=="function")throw Object.assign(new Error("Production authorization acceptance runtime is unavailable."),{code:"PROVIDER_ABUSE_ACCEPTANCE_RUNTIME_UNAVAILABLE"});
+    if(typeof acceptance.acquireAuthControlsLock!=="function"||typeof acceptance.isAuthControlsLockHeld!=="function"||typeof acceptance.releaseAuthControlsLock!=="function")throw Object.assign(new Error("Shared authentication-control locking is unavailable."),{code:"PROVIDER_ABUSE_AUTH_CONTROL_LOCK_UNAVAILABLE"});
     const services=await runtime.ensureAccountServices();
     if(!services||services.ok!==true)throw Object.assign(new Error("Firebase account services are unavailable."),{code:"PROVIDER_ABUSE_ACCOUNT_SERVICES_UNAVAILABLE"});
     const moduleUrl=runtime.firebaseFirestoreModule||`https://www.gstatic.com/firebasejs/${FIREBASE_SDK_VERSION}/firebase-firestore.js`;
@@ -135,15 +145,6 @@
 
   function setText(id,text){const element=root.document&&root.document.getElementById(id);if(element)element.textContent=text;}
   function setDisabled(id,value){const element=root.document&&root.document.getElementById(id);if(element)element.disabled=Boolean(value);}
-  function setAuthenticationControlsLocked(locked,currentUser=null){
-    if(locked){
-      setDisabled("authorizationSignIn",true);
-      setDisabled("authorizationSignOut",true);
-      return;
-    }
-    setDisabled("authorizationSignIn",Boolean(currentUser));
-    setDisabled("authorizationSignOut",!currentUser);
-  }
   function runtimeRevision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():null;}
 
   function renderResult(result){
@@ -165,16 +166,19 @@
 
   async function runFromPage(){
     let context=null;
+    let authControlLockToken=null;
     setDisabled("authorizationProviderAbuseProbe",true);
-    setAuthenticationControlsLocked(true);
     setText("authorizationAcceptanceStatus","Checking authenticated production rivalry enumeration denial…");
     try{
+      const acceptance=root.CareerModeProductionAuthorizationAcceptance;
+      if(!acceptance||typeof acceptance.acquireAuthControlsLock!=="function"||typeof acceptance.isAuthControlsLockHeld!=="function"||typeof acceptance.releaseAuthControlsLock!=="function")throw Object.assign(new Error("Shared authentication-control locking is unavailable."),{code:"PROVIDER_ABUSE_AUTH_CONTROL_LOCK_UNAVAILABLE"});
+      authControlLockToken=acceptance.acquireAuthControlsLock();
       context=await browserContext();
       const user=await requireExistingActiveAccount(context);
       const result=await probeAuthenticatedRivalryListDenial({
         user,
         currentUserImpl:()=>context.services.auth&&context.services.auth.currentUser,
-        authenticationControlsLockedDuringQuery:true,
+        authControlsLockHeldImpl:()=>context.acceptance.isAuthControlsLockHeld(authControlLockToken),
         firestore:context.services.firestore,
         collectionImpl:context.firestoreModule.collection,
         queryImpl:context.firestoreModule.query,
@@ -186,7 +190,8 @@
       return renderResult(result);
     }finally{
       setDisabled("authorizationProviderAbuseProbe",false);
-      setAuthenticationControlsLocked(false,context&&context.services&&context.services.auth?context.services.auth.currentUser:null);
+      const acceptance=(context&&context.acceptance)||root.CareerModeProductionAuthorizationAcceptance;
+      if(authControlLockToken&&acceptance&&typeof acceptance.releaseAuthControlsLock==="function")acceptance.releaseAuthControlsLock(authControlLockToken,context&&context.services&&context.services.auth?context.services.auth.currentUser:null);
     }
   }
 
