@@ -34,7 +34,7 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must preserve historical Remote Joining prerequisite ordering.");
 
-// Current cloud authority is provider-proven strengthened Rules / RJR86 while preserving the exact rollback history.
+// Current cloud authority is provider-proven strengthened Rules / RJR86 while preserving exact rollback history.
 assert.equal(productionR5,true,"Current authority must remain on production v1.8.1-r5 after rollback restoration.");
 assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER-PROVEN RULES[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"PROJECT_STATE must expose current PR171/provider-proven/RJR86 authority.");
 assert.match(state,/Status:[\s\S]+PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+Stage 5 remains locked/i,"PROJECT_STATE must identify restored r5 production truth and bounded Stage 5 lock.");
@@ -68,7 +68,8 @@ assert.match(state,/Consumed owner\/device[\s\S]+production rollback\/restoratio
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Current reconciliation authority must remain backed by canonical owner production proof.");
 assert.match(providerProof,/fifa17-career-showdown-prod[\s\S]+\(default\)[\s\S]+Today · 7:48 AM[\s\S]+firestore\.spark\.rules/i,"Direct provider proof must identify the exact production project/database/version/source boundary.");
 assert.equal(productionEnvironment.projectId,"fifa17-career-showdown-prod","Production environment must remain pinned to the real production Firebase project.");
-assert.equal(productionEnvironment.firestore?.rulesSource,"firestore.spark.rules","Production environment must record the provider-verified strengthened Rules source.");
+assert.equal(productionEnvironment.activation?.productionSecurityRulesSource,"firestore.spark.rules","Production environment must record the provider-verified strengthened Rules source at the canonical activation field.");
+assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Production environment must retain the exact reviewed provider-published Rules blob.");
 
 assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"NEXT_TASK must expose current provider-Rules/RJR86/PR171 authority.");
 assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+STAGE 5 REMAINS LOCKED/i,"NEXT_TASK must expose restored r5 and the bounded Stage 5 lock.");
