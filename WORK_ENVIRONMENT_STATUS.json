@@ -1,82 +1,80 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-08-28-rjr-authorization-negative-acceptance",
-  "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-28T23:31:00-04:00",
+  "environmentId": "we-2026-08-29-rjr-provider-security-deployment-path",
+  "lifecycle": "active",
+  "recordedAt": "2026-08-29T00:08:39-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "640aa6762f0b495c4f2cef198cb27663b8209cce"
+    "startingMainSha": "053e624f12c3f4bcc5cab6c70f1a5b2211fca647"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 8,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 6,
     "toolRoutingErrors": 0,
-    "correctedFailures": 4,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 87,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "HANDOFF_AT_CHECKPOINT",
-    "reason": "PR #168 implementation and review correction are complete, corrected canary head 53db7b5ea403b24a806fbf518beb3f7dbcbc5d7a passed all 14 permanent workflow families, all known review blockers are resolved, the next substantive RJR step requires a distinct legitimate production-evidence milestone, and repository handoff readiness is complete. Finish only exact-head publication, merge/deploy verification and the clean checkpoint, then transition before another substantial milestone.",
+    "decision": "CONTINUE",
+    "reason": "The predecessor transition decision has been archived rather than inherited. Live main, PR #168, deployment and fixed RJR-1 authority are independently reconciled; the provider-security deployment-path PR remains the current bounded milestone. Three branch-local correctness failures were identified and corrected before sealing: incorrect strengthened-Rules helper names in the new contract, an incorrectly copied Phase 1F demo project ID, and an abbreviated App Check lock that failed the permanent boundary contract. Usage is unavailable and not estimated; there are no unresolved failures or atomic operations. Continue through exact-head revalidation and publication of this bounded checkpoint.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 70,
-      "qualityRisk": 16,
+      "contextPressure": 47,
+      "qualityRisk": 20,
       "quotaRisk": null,
-      "nextTaskSeparation": 80,
-      "handoffReadiness": 100,
+      "nextTaskSeparation": 20,
+      "handoffReadiness": 87,
       "atomicRisk": 0,
-      "continuationRisk": 51.6,
-      "transitionCost": 13.5,
-      "transitionAdvantage": 38.1
+      "continuationRisk": 32.8,
+      "transitionCost": 19.4,
+      "transitionAdvantage": 13.4
     }
   },
   "continuity": {
-    "currentTask": "Finish the PR #168 exact sealed-head publication checkpoint only: require all permanent workflow families and review/thread gates on the resulting WEC seal head, merge under standing authorization if clean, verify GitHub Pages deployment and the auxiliary production acceptance page while confirming normal v1.8.1 / 1.8.1-r5 remains intact, then stop for successor handoff.",
-    "lastSafeCheckpoint": "PR #168 corrected canary head 53db7b5ea403b24a806fbf518beb3f7dbcbc5d7a passed all 14 permanent workflow families after fixing both automated review blockers and preserving the legacy Pages deployment contract. Both inline review threads are resolved. Fixed RJR-1 remains 85/100 because no legitimate production authorization-negative evidence has yet been executed.",
-    "nextSafeAction": "Freeze the exact resulting seal head from this WEC mutation. Require all 14 permanent workflow families successful on that unchanged head, verify no unresolved review thread or merge stop condition remains, squash-merge PR #168 under standing authorization, verify the production Pages deployment serves production-authorization-acceptance.html and normal v1.8.1 / 1.8.1-r5, then generate the complete successor handoff and stop before starting another substantial milestone.",
+    "currentTask": "Establish a separate auditable production-only deployment and verification path for strengthened firestore.spark.rules without changing the historical Phase 1F emulator lane or falsely claiming provider publication; exact-head validate PR #169, resolve all review findings, publish the bounded checkpoint under standing owner authorization, then exhaust the smallest genuinely unblocked remaining RJR dependency.",
+    "lastSafeCheckpoint": "Live main 053e624f12c3f4bcc5cab6c70f1a5b2211fca647 is independently verified as the PR #168 squash merge; PR #168 final sealed head dce9e0efd0b808c24976ee7f2aae6f3a6b60d47c is merged; Pages run 33231748924 succeeded on exact merge head; fixed RJR-1 remains 85/100. PR #169 now contains an isolated production Rules configuration, deployment guide and permanent contract. The first exact-head gate exposed branch-local correctness failures and they were corrected rather than waived.",
+    "nextSafeAction": "Preserve root firebase.json -> firestore.rules and root .firebaserc default -> demo-career-mode-showdown-phase1f as intentional historical/emulator locks while preserving its existing production alias -> fifa17-career-showdown-prod. Re-run all permanent workflows on the corrected PR #169 exact head, resolve both automated review threads, verify mergeability and publish only if the unchanged final head is fully green. Provider publication of firestore.spark.rules must remain unclaimed until direct provider-authoritative evidence exists.",
     "unfinishedWork": [
-      "Complete all exact-head workflow and review gates on the final WEC seal head without another branch mutation.",
-      "Merge/deploy PR #168 under standing authorization only if that exact head is clean, then verify live main and Pages publication.",
-      "Do not award RJR credit from implementation or deployment alone. A legitimate existing third private account plus legitimate active paired rivalry is still required to execute the read-only production denial probe.",
-      "Revoked-device prerequisite confirmation remains explicitly non-crediting and is not provider mutation-denial proof."
+      "Revalidate the corrected PR #169 exact head across all 14 permanent workflow families and confirm no unresolved automated review threads remain.",
+      "Publish PR #169 under standing owner authorization only after its unchanged final exact head is clean and mergeable.",
+      "Do not award RJR credit for configuration, tests, PRs, CI, merge or deployment-path existence alone.",
+      "Directly verify strengthened production provider Rules only if a genuine provider-authoritative authenticated route becomes available; otherwise preserve the provider publication nonclaim.",
+      "After this bounded checkpoint, select only genuinely unblocked remaining RJR evidence and do not repeat consumed proof."
     ],
     "knownHazards": [
-      "Production-provider publication of strengthened firestore.spark.rules remains independently unverified; repository/emulator proof, GitHub Pages deployment and the acceptance page are not provider Rules publication evidence.",
-      "Authenticated third-account and revoked registered-device production negatives require legitimate identity/device state and must not be fabricated.",
-      "The third-account probe is evidence-candidate tooling only: operator confirmation and two permission-denied reads must occur in real production before capability credit can be evaluated.",
-      "The revoked-device probe confirms real revoked state plus the existing pre-write client guard only; it does not prove provider mutation denial.",
-      "Consumed rollback, owner/device, Candidate C destructive reconciliation, exact replay, adverse-provider, token-lifecycle, structural-abuse and sustained-rate-limit proof must not be repeated merely for confidence.",
-      "Stage 5 host/join/session orchestration remains locked until its explicit preconditions genuinely close.",
-      "Historical rivalry pair_a07108...756fb must not be forced, edited or deleted.",
-      "Exactly two private managers; canonical browser storage remains careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical.",
-      "Firebase remains Spark / zero billing; Firestore remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated/unbroadened; public discovery/community/matchmaking/global rankings remain prohibited."
+      "Root firebase.json is intentionally locked to firestore.rules and root .firebaserc default is intentionally demo-career-mode-showdown-phase1f by historical Phase 1F/emulator contracts; redirecting either would regress a protected lane. The existing .firebaserc production alias is fifa17-career-showdown-prod but must not become the root default.",
+      "firebase.production.environment.json records older provider-verified production deployment of firestore.rules and must not be rewritten to claim firestore.spark.rules deployed until direct provider-authoritative evidence exists.",
+      "No Firebase or Google Cloud connector and no repository provider credential path has been found in this environment. GitHub Pages deployment carries no provider authority.",
+      "Authenticated third-account and revoked registered-device production negatives require legitimate existing identity/device state and must not be fabricated.",
+      "A revoked-device client guard before provider write staging is not Firestore provider mutation-denial proof.",
+      "Consumed owner/device, Candidate C destructive reconciliation, exact replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit and rollback/restoration proof must not be repeated merely for confidence.",
+      "Stage 5 remains locked until its explicit preconditions genuinely close. Exactly two private managers remain required; canonical local storage remains careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences with activeShowdown non-canonical; Firebase remains Spark / zero billing; Firestore remains memory-only; Google Auth remains popup-only with browserSessionPersistence and no extra scopes; App Check enforcement OFF remains an explicit permanent lock; trusted-runtime IAM remains unactivated and unbroadened; public discovery, community, matchmaking and global rankings remain prohibited.",
+      "Historical rivalry pair_a07108...756fb must not be forced, edited or deleted."
     ],
     "evidenceNotes": [
-      "Predecessor WEC we-2026-08-28-rjr-production-rollback-proof was validated independently and its HANDOFF_AT_CHECKPOINT decision was not inherited.",
-      "Live main at successor activation was 640aa6762f0b495c4f2cef198cb27663b8209cce, the squash merge of PR #167. Production remained v1.8.1 / 1.8.1-r5 and rollback proof run 33190961085 remained successful and consumed.",
-      "PR #168 adds an auxiliary production authorization acceptance page/runtime and contract coverage without changing index.html, application version, runtime revision, Firestore Rules, App Check enforcement, IAM, billing, canonical save authority or Stage 5.",
-      "Third-account acceptance performs exactly two Firestore reads, requests zero provider writes, requires an existing active private account and explicit operator confirmations, fingerprints identifiers, and checks browser storage remains unchanged.",
-      "providerAuthorizationDenied and rjrEligibleEvidenceCandidate now derive from actual observed denial/storage results; NOT_PROVEN evidence cannot claim successful provider denial.",
-      "The auxiliary acceptance HTML is explicitly staged into the GitHub Pages artifact while the original core Pages copy command remains byte-compatible with the existing deployment contract.",
-      "Automated review P1 and P2 findings were fixed, replied to and resolved before sealing.",
-      "Corrected execution failures are recorded rather than hidden: stale copied branch SHA, premature NEXT_TASK authority mutation, omitted acceptance-page Pages staging, and first staging fix violating the legacy exact copy-command contract.",
-      "Corrected canary head 53db7b5ea403b24a806fbf518beb3f7dbcbc5d7a passed all 14 permanent workflow families before this final WEC seal mutation.",
-      "Current-session usage is unavailable and is not estimated.",
-      "This WEC update is the final intended PR #168 branch mutation. The exact resulting commit must remain unchanged through publication validation and merge."
+      "Predecessor we-2026-08-28-rjr-authorization-negative-acceptance was validated before successor initialization; its HANDOFF_AT_CHECKPOINT decision is not inherited.",
+      "Live main, PR #168 and deployment run 33231748924 independently match the v1.4.27 orientation handoff.",
+      "REMOTE_JOINING_READINESS.json is current fixed authority at 85/100; the remaining 15 points are locked by authenticated production authorization negatives, provider security activation, two-physical-device/network hardening, actual Remote Joining sessions and final release acceptance.",
+      "NEXT_TASK.md and PROJECT_STATE.md retain older PR #167 transition wording because the premature PR #168 authority rewrite was correctly reverted; newer live WEC/merge/deployment evidence wins for current execution.",
+      "firestore.spark.rules contains the strengthened participant/device authorization candidate, but provider publication remains unverified.",
+      "Root firebase.json targets firestore.rules; root .firebaserc defaults to demo-career-mode-showdown-phase1f and also retains the existing production alias fifa17-career-showdown-prod. Permanent contracts confirm the historical demo/emulator defaults are intentional.",
+      "PR #169 initial validation exposed three corrected branch-local failures: the new contract first asserted nonexistent helper names; the corrected contract/guide/WEC then asserted the wrong demo project ID; and the fresh WEC abbreviated the exact App Check enforcement OFF lock. None changed production runtime or provider state.",
+      "The GitHub Pages workflow is static-artifact only and exposes no Firebase provider credential route.",
+      "Current-session account/model usage is unavailable and is not estimated."
     ]
   }
 }
