@@ -18,8 +18,13 @@ assert.equal(
 );
 assert.equal(
   rootRc.projects.default,
-  "fifa17-career-showdown-demo",
-  "The root Firebase default must remain the demo project."
+  "demo-career-mode-showdown-phase1f",
+  "The root Firebase default must remain the Phase 1F demo project."
+);
+assert.equal(
+  rootRc.projects.production,
+  "fifa17-career-showdown-prod",
+  "The existing named production alias must remain the production project without becoming the root default."
 );
 
 assert.deepEqual(
@@ -74,7 +79,7 @@ assert.match(deploymentGuide, /production publication remains `UNVERIFIED`/i);
 assert.match(deploymentGuide, /successful CLI exit is necessary but not sufficient for RJR credit/i);
 assert.match(deploymentGuide, /do not rewrite `firebase\.production\.environment\.json` to claim the strengthened source is deployed/i);
 assert.match(deploymentGuide, /root `firebase\.json` continues to reference `firestore\.rules`/i);
-assert.match(deploymentGuide, /root `\.firebaserc` continues to default only to `fifa17-career-showdown-demo`/i);
+assert.match(deploymentGuide, /root `\.firebaserc` continues to default to `demo-career-mode-showdown-phase1f`/i);
 assert.match(deploymentGuide, /App Check enforcement remains OFF/i);
 assert.match(deploymentGuide, /Spark \/ zero billing/i);
 assert.match(deploymentGuide, /pair_a07108\.\.\.756fb/);
@@ -92,4 +97,4 @@ for(const forbidden of [
   );
 }
 
-process.stdout.write("PASS production Firestore Rules deployment path contracts: the demo/emulator lane stays isolated, strengthened Rules target production explicitly, no indexes or unrelated Firebase services co-deploy, and provider publication remains unclaimed until direct evidence exists.\n");
+process.stdout.write("PASS production Firestore Rules deployment path contracts: the Phase 1F demo/emulator lane stays isolated, strengthened Rules target production explicitly, no indexes or unrelated Firebase services co-deploy, and provider publication remains unclaimed until direct evidence exists.\n");
