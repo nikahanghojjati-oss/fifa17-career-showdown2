@@ -4,8 +4,10 @@ const fs=require('node:fs');
 const path=require('node:path');
 const root=path.resolve(__dirname,'../..');
 const abuse=require(path.join(root,'js/productionProviderAbuseAcceptance.js'));
+const authorization=require(path.join(root,'js/productionAuthorizationAcceptance.js'));
 const page=fs.readFileSync(path.join(root,'production-authorization-acceptance.html'),'utf8');
 const source=fs.readFileSync(path.join(root,'js/productionProviderAbuseAcceptance.js'),'utf8');
+const authorizationSource=fs.readFileSync(path.join(root,'js/productionAuthorizationAcceptance.js'),'utf8');
 
 function storage(entries={}){
   const keys=Object.keys(entries);
@@ -26,10 +28,29 @@ function storage(entries={}){
   assert.doesNotMatch(source,/\b(addDoc|setDoc|updateDoc|deleteDoc|writeBatch|runTransaction)\b/,'Provider abuse acceptance must remain query-only.');
   assert.match(source,/currentUserImpl/,'Browser evidence must re-check the authenticated identity after the asynchronous provider query.');
   assert.match(source,/PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE/,'Authentication changes during the provider query must fail closed.');
-  assert.match(source,/function setAuthenticationControlsLocked\(locked,currentUser=null\)/,'Provider abuse browser runtime must own an explicit authentication-control lock.');
-  assert.match(source,/setAuthenticationControlsLocked\(true\)[\s\S]+await probeAuthenticatedRivalryListDenial[\s\S]+finally\{[\s\S]+setAuthenticationControlsLocked\(false,/,'Sign-in/sign-out controls must remain locked across the complete asynchronous provider query and restore only in finally.');
-  assert.match(source,/authenticationControlsLockedDuringQuery:true/,'Browser evidence must explicitly attest that the auth controls were locked for the query.');
-  assert.match(source,/PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED/,'Direct probe results without the browser auth-control lock must be ineligible for RJR evidence.');
+  assert.match(source,/acquireAuthControlsLock/,'Provider abuse browser runtime must acquire the shared authorization-page auth-control lock.');
+  assert.match(source,/isAuthControlsLockHeld/,'Provider abuse evidence must verify that the same shared lock remains held.');
+  assert.match(source,/releaseAuthControlsLock/,'Provider abuse browser runtime must release the shared lock in its finally boundary.');
+  assert.match(source,/authControlsLockHeldImpl:\(\)=>context\.acceptance\.isAuthControlsLockHeld\(authControlLockToken\)/,'Browser evidence must dynamically bind lock validity to the shared token instead of hardcoding true.');
+  assert.match(source,/PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED/,'Loss of the shared auth-control lock must make the result ineligible for RJR evidence.');
+
+  assert.equal(typeof authorization.acquireAuthControlsLock,'function');
+  assert.equal(typeof authorization.isAuthControlsLockHeld,'function');
+  assert.equal(typeof authorization.releaseAuthControlsLock,'function');
+  assert.match(authorizationSource,/onAuthStateChanged[\s\S]+authorizationAcceptanceApplyAuthControlState\(user\)/,'Auth-state callbacks must route control state through the shared lock-aware helper.');
+  assert.match(authorizationSource,/authorizationAcceptanceRequireAuthControlsUnlocked\(\)[\s\S]+signInWithPopup/,'Sign-in must fail closed when an acceptance operation owns the shared auth-control lock.');
+  assert.match(authorizationSource,/authorizationAcceptanceRequireAuthControlsUnlocked\(\)[\s\S]+signOut/,'Sign-out must fail closed when an acceptance operation owns the shared auth-control lock.');
+
+  const firstLock=authorization.acquireAuthControlsLock();
+  assert.equal(authorization.isAuthControlsLockHeld(firstLock),true);
+  assert.throws(()=>authorization.acquireAuthControlsLock(),/already locked/i);
+  assert.equal(authorization.releaseAuthControlsLock('wrong-token'),false);
+  assert.equal(authorization.isAuthControlsLockHeld(firstLock),true,'An invalid release token must not release the active lock.');
+  assert.equal(authorization.releaseAuthControlsLock(firstLock,null),true);
+  assert.equal(authorization.isAuthControlsLockHeld(firstLock),false);
+  const secondLock=authorization.acquireAuthControlsLock();
+  assert.notEqual(secondLock,firstLock,'A released/reacquired lock must receive a new generation token.');
+  assert.equal(authorization.releaseAuthControlsLock(secondLock,null),true);
 
   const collectionImpl=(_firestore,name)=>({kind:'collection',name});
   const limitImpl=value=>({kind:'limit',value});
@@ -37,7 +58,7 @@ function storage(entries={}){
   const user={uid:'acct_existing_manager'};
   let queries=0;
   const denied=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>user,authenticationControlsLockedDuringQuery:true,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>user,authControlsLockHeldImpl:()=>true,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async query=>{
       queries+=1;
       assert.equal(query.collectionRef.name,'rivalries');
@@ -66,7 +87,7 @@ function storage(entries={}){
 
   queries=0;
   const readable=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>user,authenticationControlsLockedDuringQuery:true,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>user,authControlsLockHeldImpl:()=>true,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async()=>{queries+=1;return {docs:[{id:'must-not-be-emitted'}]};},
     localStorageImpl:storage(),cryptoImpl:crypto
   });
@@ -83,7 +104,7 @@ function storage(entries={}){
   let currentUser=user;
   queries=0;
   const signedOutDuringProbe=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>currentUser,authenticationControlsLockedDuringQuery:true,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>currentUser,authControlsLockHeldImpl:()=>true,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async()=>{
       queries+=1;
       currentUser=null;
@@ -106,7 +127,7 @@ function storage(entries={}){
 
   queries=0;
   const controlsNotLocked=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>user,authenticationControlsLockedDuringQuery:false,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>user,authControlsLockHeldImpl:()=>false,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async()=>{
       queries+=1;
       const error=new Error('Missing or insufficient permissions.');
@@ -123,6 +144,28 @@ function storage(entries={}){
   assert.equal(controlsNotLocked.rivalryListDenied,true);
   assert.equal(controlsNotLocked.providerAbuseAcceptanceCandidate,false);
   assert.equal(controlsNotLocked.rjrEligibleEvidenceCandidate,false);
+
+  let sharedLockHeld=true;
+  queries=0;
+  const lockReleasedDuringProbe=await abuse.probeAuthenticatedRivalryListDenial({
+    user,currentUserImpl:()=>user,authControlsLockHeldImpl:()=>sharedLockHeld,firestore:{},collectionImpl,queryImpl,limitImpl,
+    getDocsImpl:async()=>{
+      queries+=1;
+      sharedLockHeld=false;
+      const error=new Error('Missing or insufficient permissions.');
+      error.code='permission-denied';
+      throw error;
+    },
+    localStorageImpl:storage(),cryptoImpl:crypto
+  });
+  assert.equal(queries,1);
+  assert.equal(lockReleasedDuringProbe.ok,false);
+  assert.equal(lockReleasedDuringProbe.code,'PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED');
+  assert.equal(lockReleasedDuringProbe.authenticatedAccountStable,true);
+  assert.equal(lockReleasedDuringProbe.authenticationControlsLockedDuringQuery,false);
+  assert.equal(lockReleasedDuringProbe.rivalryListDenied,true);
+  assert.equal(lockReleasedDuringProbe.providerAbuseAcceptanceCandidate,false);
+  assert.equal(lockReleasedDuringProbe.rjrEligibleEvidenceCandidate,false);
 
   const missingAuth=await abuse.probeAuthenticatedRivalryListDenial({
     user:null,firestore:{},collectionImpl,queryImpl,limitImpl,getDocsImpl:async()=>{throw new Error('should not query');},localStorageImpl:storage(),cryptoImpl:crypto
