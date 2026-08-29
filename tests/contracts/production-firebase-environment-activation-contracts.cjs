@@ -6,7 +6,9 @@ const read = file => fs.readFileSync(file,"utf8");
 const manifest = JSON.parse(read("firebase.production.environment.json"));
 const firebaseRc = JSON.parse(read(".firebaserc"));
 const firebaseJson = JSON.parse(read("firebase.json"));
-const rulesSource = read("firestore.rules");
+const historicalRulesSource = read("firestore.rules");
+const strengthenedRulesSource = read("firestore.spark.rules");
+const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");
 const preflight = require("../../js/firebaseProductionPreflight.js");
 
 assert.equal(manifest.schemaVersion,1);
@@ -33,12 +35,12 @@ assert.equal(manifest.firestore.location,"nam7");
 assert.equal(manifest.firestore.locationDecisionRecorded,true);
 assert.equal(manifest.firestore.startingRulesMode,"production");
 assert.equal(manifest.firestore.ownerReportedCreated,true);
-assert.equal(manifest.firestore.providerVerified,true,"Provider-side Firestore existence is verified by owner Firebase Console evidence showing the real database Data and Rules interfaces.");
-assert.match(manifest.firestore.providerVerificationEvidence,/2026-08-19[\s\S]+\(default\)[\s\S]+Data view[\s\S]+Rules tab/i);
+assert.equal(manifest.firestore.providerVerified,true,"Provider-side Firestore existence and current Rules publication must remain verified by direct owner Firebase Console evidence.");
+assert.match(manifest.firestore.providerVerificationEvidence,/2026-08-29[\s\S]+fifa17-career-showdown-prod[\s\S]+\(default\)[\s\S]+Rules tab[\s\S]+Today 7:48 AM/i);
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Default Firebase alias must remain emulator-only.");
 assert.equal(firebaseRc.projects.production,manifest.projectId,"Production alias must point to the owner-created production Firebase project.");
-assert.equal(firebaseJson.firestore.rules,"firestore.rules","Firebase deployment configuration must continue to use the canonical repository Firestore Rules source.");
+assert.equal(firebaseJson.firestore.rules,"firestore.rules","Historical root Firebase deployment configuration must remain on the Phase 1F/Stage 2 deny-all source; production strengthened Rules use the isolated production config.");
 
 assert.equal(manifest.productionRuntime.applicationVersion,"1.4.0");
 assert.equal(manifest.productionRuntime.runtimeRevision,"1.4.0-r2");
@@ -68,28 +70,36 @@ assert.deepEqual(manifest.activation.productionAuthorizedDomains,[
 assert.equal(manifest.activation.localhostAuthorizedDomainPresent,false,"Localhost must remain absent from the production Authorized domains list.");
 assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/2026-08-19[\s\S]+20:20 ET[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+localhost removed[\s\S]+no localhost row/i);
 
-assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified before downstream production trust activation proceeds.");
-assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.rules");
-assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"0473750cb16b5b8eea234c0f8138c41de5ff3dfb");
-assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-19[\s\S]+20:51 ET[\s\S]+Database \(default\)[\s\S]+Rules tab[\s\S]+Published changes can take up to a minute to propagate[\s\S]+No sample data was created/i);
-const gitBlobSha = crypto
+assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified.");
+assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.spark.rules","Current provider authority must name the strengthened production Rules source.");
+assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Current provider authority must retain the exact reviewed strengthened Rules blob.");
+assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-29[\s\S]+Today 7:48 AM[\s\S]+activeDevice[\s\S]+activePairedRivalry[\s\S]+final allow read, write: if false/i);
+assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+Today · 7:48 AM[\s\S]+2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,"Dedicated provider proof must preserve the exact provider-published source boundary.");
+const strengthenedGitBlobSha = crypto
   .createHash("sha1")
-  .update(`blob ${Buffer.byteLength(rulesSource,"utf8")}\0`)
-  .update(rulesSource)
+  .update(`blob ${Buffer.byteLength(strengthenedRulesSource,"utf8")}\0`)
+  .update(strengthenedRulesSource)
   .digest("hex");
-assert.equal(gitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"The canonical repository Rules source must remain byte-identical to the source blob that was provider-verified deployed.");
-assert.match(rulesSource,/rules_version\s*=\s*'2';/);
-assert.match(rulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/,"The final deny-all fallback must remain present.");
-const allowStatements = rulesSource.match(/allow\s+[^:;]+:\s*if[\s\S]*?;/g) || [];
-const writeAuthorityStatements = allowStatements.filter(statement=>{
+assert.equal(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"The strengthened repository Rules source must remain byte-identical to the source blob recorded as provider-verified deployed.");
+assert.match(strengthenedRulesSource,/rules_version\s*=\s*'2';/);
+assert.match(strengthenedRulesSource,/function activeDevice\(deviceId\)/,"Strengthened provider Rules must retain registered-device authorization.");
+assert.match(strengthenedRulesSource,/function activePairedRivalry\(rivalryId\)/,"Strengthened provider Rules must retain exact private pairing/rivalry authorization.");
+assert.match(strengthenedRulesSource,/allow list, delete: if false;/,"Strengthened provider Rules must deny rivalry collection enumeration and direct delete.");
+assert.match(strengthenedRulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/,"The strengthened final deny-all fallback must remain present.");
+
+// Preserve the original Stage 2/Phase 1F deny-all browser-write source as immutable historical/emulator protection.
+assert.match(historicalRulesSource,/rules_version\s*=\s*'2';/);
+assert.match(historicalRulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
+const historicalAllowStatements = historicalRulesSource.match(/allow\s+[^:;]+:\s*if[\s\S]*?;/g) || [];
+const historicalWriteAuthorityStatements = historicalAllowStatements.filter(statement=>{
   const permissions = ((statement.match(/^allow\s+([^:]+):/) || [])[1] || "")
     .split(",")
     .map(permission=>permission.trim());
   return permissions.some(permission=>["create","update","delete","write"].includes(permission));
 });
-assert.ok(writeAuthorityStatements.length >= 8,"Expected the protected Rules source to contain the explicit application-client write denials.");
-for(const statement of writeAuthorityStatements){
-  assert.match(statement,/:\s*if\s+false\s*;/,`Every application-client write authority must remain deny-all: ${statement}`);
+assert.ok(historicalWriteAuthorityStatements.length >= 8,"Expected the protected historical Rules source to retain explicit application-client write denials.");
+for(const statement of historicalWriteAuthorityStatements){
+  assert.match(statement,/:\s*if\s+false\s*;/,`Every historical Stage 2 application-client write authority must remain deny-all: ${statement}`);
 }
 
 assert.equal(manifest.activation.appCheck,"production-runtime-proven","Production authority must distinguish completed runtime/token proof from earlier provider-registration-only status.");
@@ -107,7 +117,7 @@ assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet","App Chec
 assert.equal(manifest.activation.runtimeConnected,true,"Controlled production Firebase App + App Check runtime connection is now permanently proven.");
 
 assert.equal(manifest.securityLocks.persistentFirestoreOfflineCache,false);
-assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all");
+assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all","Historical Stage 2 activation metadata must remain immutable even though the separately reviewed strengthened Rules now grant narrow Stage 3/4 writes.");
 assert.equal(manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser,false);
 assert.equal(manifest.securityLocks.webApiKeyClassification,"public-project-configuration");
 assert.equal(manifest.securityLocks.webApiKeyIsAuthorizationSecret,false);
@@ -148,7 +158,7 @@ const compatibilityCandidate = {
   security:{webApiKeyClassification:manifest.securityLocks.webApiKeyClassification,webApiKeyIsAuthorizationSecret:manifest.securityLocks.webApiKeyIsAuthorizationSecret},
   publicFeatures:{discovery:manifest.securityLocks.publicDiscovery,profiles:manifest.securityLocks.publicProfiles,matchmaking:manifest.securityLocks.publicMatchmaking,community:manifest.securityLocks.community,rankings:manifest.securityLocks.rankings}
 };
-assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The provider-verified production Auth state must satisfy the locked Stage 2D production policy with localhost removed and the GitHub Pages host authorized.");
+assert.deepEqual(preflight.validate(compatibilityCandidate),{ok:true,errors:[]},"The provider-verified production Auth state must satisfy the locked historical Stage 2D production policy with localhost removed and the GitHub Pages host authorized.");
 const unsafeLocalhostCandidate = {...compatibilityCandidate,authorizedDomains:[...manifest.activation.productionAuthorizedDomains,"localhost"]};
 assert.ok(preflight.validate(unsafeLocalhostCandidate).errors.includes("LOCALHOST_AUTHORIZED_DOMAIN_FORBIDDEN"),"Any future reintroduction of localhost must fail the production preflight.");
 
@@ -158,4 +168,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase authority: 1.4.0-r2 and controlled App Check runtime/token traffic proven, enforcement off, trusted IAM still unactivated, exact four-permission Stage 2H lock, deny-all browser writes, forbidden client services uninitialized, provider restrictions and source separation preserved\n");
+process.stdout.write("PASS production Firebase authority: strengthened firestore.spark.rules is provider-verified from the exact reviewed blob; historical root/demo deny-all activation remains isolated; App Check enforcement stays off; trusted IAM stays unactivated; credentials/public features remain locked.\n");
