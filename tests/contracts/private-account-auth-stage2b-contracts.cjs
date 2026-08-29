@@ -76,7 +76,7 @@ assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Conf
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
 assert.match(currentHandoff, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100[\s\S]+provider-abuse acceptance/i,"Rolling handoff must expose current PR #171/r5/RJR86/provider-abuse transition authority.");
 assert.match(currentHandoff, /Handoff proximity 100%|PREPARE_HANDOFF/i,"Rolling handoff must expose the current transition boundary rather than a historical checkpoint.");
-assert.match(currentHandoff, /Stage 5 remains locked/i,"Rolling handoff must preserve the current Stage 5 lock.");
+assert.match(currentHandoff, /provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");
