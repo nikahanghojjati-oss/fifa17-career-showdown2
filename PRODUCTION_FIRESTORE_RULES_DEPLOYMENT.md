@@ -11,7 +11,7 @@ This path exists to remove deployment ambiguity. It is not evidence that the str
 Do not modify these existing locks for this deployment:
 
 - Root `firebase.json` continues to reference `firestore.rules`.
-- Root `.firebaserc` continues to default only to `fifa17-career-showdown-demo`.
+- Root `.firebaserc` continues to default to `demo-career-mode-showdown-phase1f`; its existing named `production` alias remains `fifa17-career-showdown-prod` but is not made the default.
 - Existing Phase 1F emulator contracts remain unchanged.
 - `firebase.production.environment.json` continues to record the older provider-verified `firestore.rules` deployment until new direct provider-authoritative evidence exists.
 
@@ -47,7 +47,7 @@ From the repository root, with an already-authorized Firebase CLI session:
 
 `firebase deploy --config firebase.production.rules.json --project fifa17-career-showdown-prod --only firestore`
 
-The alternate config contains no Firestore indexes entry and no other deployable service. The explicit `--project` prevents the root demo default from becoming the target.
+The alternate config contains no Firestore indexes entry and no other deployable service. The explicit `--project` prevents the root Phase 1F demo default from becoming the target.
 
 The service-level `--only firestore` form is intentional. Current Firebase CLI documentation supports service-scoped deployment, while current firebase-tools issue reports document a silent no-op class for `firestore:rules` with multi-database array configurations. This production-only config remains a single default-database object and intentionally avoids expanding into a multi-database array without a separate reviewed change.
 
