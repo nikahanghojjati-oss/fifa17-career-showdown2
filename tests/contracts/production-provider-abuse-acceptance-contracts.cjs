@@ -26,6 +26,10 @@ function storage(entries={}){
   assert.doesNotMatch(source,/\b(addDoc|setDoc|updateDoc|deleteDoc|writeBatch|runTransaction)\b/,'Provider abuse acceptance must remain query-only.');
   assert.match(source,/currentUserImpl/,'Browser evidence must re-check the authenticated identity after the asynchronous provider query.');
   assert.match(source,/PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE/,'Authentication changes during the provider query must fail closed.');
+  assert.match(source,/function setAuthenticationControlsLocked\(locked,currentUser=null\)/,'Provider abuse browser runtime must own an explicit authentication-control lock.');
+  assert.match(source,/setAuthenticationControlsLocked\(true\)[\s\S]+await probeAuthenticatedRivalryListDenial[\s\S]+finally\{[\s\S]+setAuthenticationControlsLocked\(false,/,'Sign-in/sign-out controls must remain locked across the complete asynchronous provider query and restore only in finally.');
+  assert.match(source,/authenticationControlsLockedDuringQuery:true/,'Browser evidence must explicitly attest that the auth controls were locked for the query.');
+  assert.match(source,/PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED/,'Direct probe results without the browser auth-control lock must be ineligible for RJR evidence.');
 
   const collectionImpl=(_firestore,name)=>({kind:'collection',name});
   const limitImpl=value=>({kind:'limit',value});
@@ -33,7 +37,7 @@ function storage(entries={}){
   const user={uid:'acct_existing_manager'};
   let queries=0;
   const denied=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>user,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>user,authenticationControlsLockedDuringQuery:true,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async query=>{
       queries+=1;
       assert.equal(query.collectionRef.name,'rivalries');
@@ -50,6 +54,7 @@ function storage(entries={}){
   assert.equal(denied.providerBoundary,'rivalries-collection-list');
   assert.equal(denied.authenticatedAccountRequired,true);
   assert.equal(denied.authenticatedAccountStable,true);
+  assert.equal(denied.authenticationControlsLockedDuringQuery,true);
   assert.equal(denied.queryLimit,1);
   assert.equal(denied.rivalryListDenied,true);
   assert.equal(denied.firestoreWritesRequested,0);
@@ -61,7 +66,7 @@ function storage(entries={}){
 
   queries=0;
   const readable=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>user,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>user,authenticationControlsLockedDuringQuery:true,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async()=>{queries+=1;return {docs:[{id:'must-not-be-emitted'}]};},
     localStorageImpl:storage(),cryptoImpl:crypto
   });
@@ -69,6 +74,7 @@ function storage(entries={}){
   assert.equal(readable.ok,false);
   assert.equal(readable.code,'PROVIDER_ABUSE_LIST_DENIAL_NOT_PROVEN');
   assert.equal(readable.authenticatedAccountStable,true);
+  assert.equal(readable.authenticationControlsLockedDuringQuery,true);
   assert.equal(readable.rivalryListDenied,false);
   assert.equal(readable.providerAbuseAcceptanceCandidate,false);
   assert.equal(readable.rjrEligibleEvidenceCandidate,false);
@@ -77,7 +83,7 @@ function storage(entries={}){
   let currentUser=user;
   queries=0;
   const signedOutDuringProbe=await abuse.probeAuthenticatedRivalryListDenial({
-    user,currentUserImpl:()=>currentUser,firestore:{},collectionImpl,queryImpl,limitImpl,
+    user,currentUserImpl:()=>currentUser,authenticationControlsLockedDuringQuery:true,firestore:{},collectionImpl,queryImpl,limitImpl,
     getDocsImpl:async()=>{
       queries+=1;
       currentUser=null;
@@ -91,11 +97,32 @@ function storage(entries={}){
   assert.equal(signedOutDuringProbe.ok,false);
   assert.equal(signedOutDuringProbe.code,'PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE');
   assert.equal(signedOutDuringProbe.authenticatedAccountStable,false);
+  assert.equal(signedOutDuringProbe.authenticationControlsLockedDuringQuery,true);
   assert.equal(signedOutDuringProbe.rivalryListDenied,true,'The provider may still deny after sign-out, but that denial is not authenticated evidence.');
   assert.equal(signedOutDuringProbe.firestoreWritesRequested,0);
   assert.equal(signedOutDuringProbe.providerAbuseAcceptanceCandidate,false);
   assert.equal(signedOutDuringProbe.rjrEligibleEvidenceCandidate,false);
   assert.doesNotMatch(JSON.stringify(signedOutDuringProbe),new RegExp(user.uid));
+
+  queries=0;
+  const controlsNotLocked=await abuse.probeAuthenticatedRivalryListDenial({
+    user,currentUserImpl:()=>user,authenticationControlsLockedDuringQuery:false,firestore:{},collectionImpl,queryImpl,limitImpl,
+    getDocsImpl:async()=>{
+      queries+=1;
+      const error=new Error('Missing or insufficient permissions.');
+      error.code='permission-denied';
+      throw error;
+    },
+    localStorageImpl:storage(),cryptoImpl:crypto
+  });
+  assert.equal(queries,1);
+  assert.equal(controlsNotLocked.ok,false);
+  assert.equal(controlsNotLocked.code,'PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED');
+  assert.equal(controlsNotLocked.authenticatedAccountStable,true);
+  assert.equal(controlsNotLocked.authenticationControlsLockedDuringQuery,false);
+  assert.equal(controlsNotLocked.rivalryListDenied,true);
+  assert.equal(controlsNotLocked.providerAbuseAcceptanceCandidate,false);
+  assert.equal(controlsNotLocked.rjrEligibleEvidenceCandidate,false);
 
   const missingAuth=await abuse.probeAuthenticatedRivalryListDenial({
     user:null,firestore:{},collectionImpl,queryImpl,limitImpl,getDocsImpl:async()=>{throw new Error('should not query');},localStorageImpl:storage(),cryptoImpl:crypto
