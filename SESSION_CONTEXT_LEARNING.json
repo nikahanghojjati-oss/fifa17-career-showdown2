@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-28T17:20:00Z",
-  "materialSessionsObserved": 9,
-  "learningState": "cold-start-priors-with-nine-labeled-sessions",
+  "recordedAt": "2026-08-29T12:44:00Z",
+  "materialSessionsObserved": 10,
+  "learningState": "cold-start-priors-with-ten-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -10,25 +10,25 @@
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 0.8,
-      "learnedUtility": 0.704,
-      "note": "Fresh WEC ownership prevented the predecessor transition decision from leaking into the PR #166 rollback lane and now correctly forces a stop after PR #167 publication."
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.7632,
+      "note": "Fresh WEC ownership prevented predecessor transition leakage, then correctly moved this environment to PREPARE_HANDOFF after provider proof, provider-abuse implementation and context growth. A manually stale CONTINUE decision was caught and corrected before publication."
     },
     "workflow-job-logs": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.84,
-      "note": "Exact logs separated runtime safety from stale continuity assertions: protected Installable Offline App wording, stale PR #163 current-authority tests, missing Work Environment Continuity routing, and obsolete SLE owner-delivery expectations were identified without changing product behavior."
+      "learnedUtility": 0.872,
+      "note": "Exact PR #171 Stability job logs proved runtime/storage/recovery contracts had passed and isolated the failure to stale SLE bootstrap authority reporting 85 while the branch ledger reported 86. This prevented misclassifying the failure as a product regression."
     },
     "NEXT_TASK.md": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.744,
-      "note": "Live task authority kept the environment on the bounded production rollback proof and then on PR #167 transition-only publication, preventing a second substantive milestone."
+      "learnedUtility": 0.7952,
+      "note": "Updating current implementation authority inside the same real engineering PR removed obsolete PR #166/#167/provider-unverified routing without creating a standalone authority sidequest."
     },
     "successor-entrypoint-coherence": {
       "loaded": true,
@@ -36,33 +36,33 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.7952,
-      "note": "The RJR85 transition demonstrated that starter, deep handoff, bootstrap, graph, model, learning record, current handoff and next task must advance together; stale RJR84 retrieval pointers were corrected before publication."
+      "learnedUtility": 0.83616,
+      "note": "RJR86 again demonstrates that starter, deep handoff, bootstrap, graph, model, learning record, current handoff, project state and next task must advance together when a fixed evidence checkpoint changes."
     },
     "rjr-score-provenance-search": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.7952,
-      "note": "Fixed RJR-1 prevented process inflation. PR #166/run 33190961085 added exactly one previously uncredited production rollback capability point, 84 to 85; publication and SLE add zero."
+      "learnedUtility": 0.83616,
+      "note": "Fixed RJR-1 prevented process inflation. Direct owner-authenticated Firebase Console provider publication closes exactly production-cloud-security 19/20 to 20/20 and total 85 to 86; PR #171 and acceptance tooling add zero."
     },
-    "production-rollback-proof": {
+    "production-firestore-rules-provider-proof": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
-      "note": "Run 33190961085 proved a reversible GitHub Pages rollback: exact known-good r4 was observed live, exact r5 was restored and observed live, and Firebase Rules/IAM/billing/App Check enforcement/canonical data were outside the mutation scope."
+      "note": "Repository/CI/Pages evidence was kept separate from provider truth until the owner supplied authenticated Firebase Console evidence showing the new production Rules version and reviewed strengthened source."
     },
-    "pr166-production-proof": {
+    "production-provider-abuse-acceptance": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 0.8,
       "learnedUtility": 0.56,
-      "note": "PR #166 publication plus exact live rollback/restoration proof is sufficient to credit the bounded rollback capability; repeating the drill merely for confidence is prohibited."
+      "note": "A zero-write authenticated rivalry enumeration-denial probe avoids fabricating a third account or revoked device. It earns no credit until real production returns permission denied with unchanged browser storage."
     }
   },
   "sessionMetrics": [
@@ -81,6 +81,22 @@
       "ciTriageLesson": "When product/runtime contracts pass and a later continuity assertion fails, inspect the exact assertion and update stale current-authority contracts or missing mandatory routing text without weakening permanent protections.",
       "productionEvidenceLesson": "A rollback capability is credited only after both the temporary known-good production identity and exact restored production identity are independently observed; source or workflow existence alone is not evidence.",
       "authorityLesson": "At Handoff proximity 100%, stop product advancement, keep the short repository-first prompt as the owner entrypoint, refresh current retrieval pointers, seal WEC last, publish the transition, and make the successor perform a fresh WEC assessment."
+    },
+    {
+      "sessionId": "we-2026-08-29-rjr-provider-rules-acceptance",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "production-provider-abuse-enumeration-denial-acceptance",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "Provider proof changed the fixed RJR checkpoint and the first PR #171 exact-head Stability log exposed stale SLE/current-authority assertions frozen at RJR85/PR #167.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Public Pages web route, direct local clone tunnel and generic check-run fetch each failed once on distinct environment/tool boundaries; work switched to connector-native GitHub metadata and dedicated workflow-job logs without retry loops.",
+      "ciTriageLesson": "When fixed RJR evidence advances, reconcile all current SLE authority in the same real engineering checkpoint before sealing; do not weaken the coherence contract or create a documentation-only follow-up.",
+      "productionEvidenceLesson": "Provider publication is credited only from direct provider-authoritative evidence. Once strengthened Rules were truly provider-live, the next safe abuse proof could use an authenticated zero-write collection enumeration denial rather than fabricate third-account or revoked-device state.",
+      "authorityLesson": "PREPARE_HANDOFF permits finishing the already-active PR publication checkpoint but not starting the separate live owner acceptance milestone. Package the successor in the same PR, seal WEC last and hand the live probe to a fresh WEC."
     }
   ],
   "outcomeScale": {
@@ -98,10 +114,12 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "PR #166/run 33190961085 closes production Pages rollback and exact restoration only. Preserve fixed RJR85, do not repeat consumed rollback proof, keep provider Rules publication and remaining real-device/network/provider gaps uncredited, and require a fresh successor WEC after PR #167 transition publication.",
-    "capabilityPublicationMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+    "lesson": "Direct Firebase provider proof closes strengthened production Rules publication and fixed RJR 85 to 86. PR #171 publishes a zero-write authenticated rivalry-enumeration denial acceptance, then the closing WEC hands off before live owner execution. Fresh successor WEC runs that exact production probe if permitted and immediately reassesses Stage 5 rather than pursuing synthetic third-account/revoked-device proof loops.",
+    "prePublicationMainSha": "cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc",
     "runtimeRevision": "1.8.1-r5",
-    "starter": "START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md"
+    "rjrScore": 86,
+    "closeoutPullRequest": 171,
+    "starter": "START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE_SLE_2026-08-29.md"
   }
 }
