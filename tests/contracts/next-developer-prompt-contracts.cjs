@@ -34,7 +34,7 @@ for(const [name,text] of [["current starter",starter],["current full handoff",ha
   assert.match(text,/repository-first next-developer prompt/i,`${name} must recursively preserve the prompt standard.`);
   assert.match(text,/work:next-prompt/i,`${name} must route future closers to the prompt generator.`);
   assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,`${name} must retain the immediate successor task contract.`);
-  assert.match(text,/fresh (?:unique )?WEC/i,`${name} must require fresh WEC initialization.`);
+  assert.match(text,/fresh (?:unique )?(?:successor )?WEC/i,`${name} must require fresh WEC initialization.`);
   assert.match(text,/handoff as orientation|orientation/i,`${name} must keep handoff material non-authoritative.`);
 }
 
