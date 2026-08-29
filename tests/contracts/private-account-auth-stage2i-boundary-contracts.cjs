@@ -26,8 +26,6 @@ const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 
 function firstSection(text){return text.split(/\n---\n/)[0];}
 
-// Immutable Stage 2I provenance. Later milestones may advance current authority,
-// but they must never rewrite what Stage 2I actually proved.
 const historicalBoundary=firstSection(boundary);
 assert.match(historicalBoundary,/Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary/);
 assert.match(historicalBoundary,/Status: DONE \/ MERGED \/ PROVEN \/ PRODUCTION DORMANT \/ NON-PROVISIONING \/ PRODUCTION FIREBASE DISCONNECTED/);
@@ -57,8 +55,6 @@ for(const pattern of [
   /Candidate A remains non-mutating export[\s\S]+Candidate B remains strictly read-only import analysis[\s\S]+Candidate C remains the sole destructive import Apply authority/i
 ])assert.match(boundary,pattern);
 
-// Trusted Stage 2I code remains dormant. Later browser Firebase integration must not
-// silently activate this trusted endpoint or broaden the historical IAM contract.
 assert.match(implementation,/stage:"2I"/);
 assert.match(implementation,/verifyAppCheckToken\(appCheckToken\)/);
 assert.match(implementation,/decoded\.aud\.length!==2/);
@@ -72,8 +68,6 @@ assert.match(stage2h,/DONE \/ MERGED \/ PROVEN/);
 assert.match(stage2h,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/);
 assert.match(stage2h,/Every application-client Firestore create, update and delete remains denied/i);
 
-// Preserve old authority documents as provenance without treating them as today's
-// implementation authority.
 assert.match(preGatewayNextTask,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/);
 assert.match(preGatewayNextTask,/agent\/post-pr99-remote-joining-restart/);
 assert.match(preGatewayNextTask,/0f61225b267e8334467a6d868d36c7ce58dd54a0/);
@@ -82,29 +76,27 @@ assert.match(archivedNextTask,/e52968632d9938f17e7e1680c455437d23eb628b/);
 assert.match(history,/Closure addendum — `we-2026-08-19-post-stage2i-closure-reconcile`/);
 assert.match(history,/PR #96[\s\S]+3d2ebad38d85e07f774360fcb7d210b9dd096fa4[\s\S]+e52968632d9938f17e7e1680c455437d23eb628b/);
 
-// Completed Stage 2 provenance belongs to immutable history and long-lived roadmap
-// documents. Rolling current authority may advance independently.
 for(const document of [preR3NextTask,preR3ProjectState,roadmap,postV1]){
   assert.match(document,/Stage 2I[\s\S]+DONE \/ MERGED \/ PROVEN|Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 }
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: remains)?:? OFF/i);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
-// Live authority is the PR #166 rollback / RJR85 / PR #167 SLE transition, not a
-// historical Stage 2I or earlier PR #163 publication checkpoint.
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #166[\s\S]+RJR85[\s\S]+PR #167[\s\S]+SLE TRANSITION/im,"Live NEXT_TASK must identify the current PR #166 rollback / RJR85 / PR #167 SLE transition authority.");
+// Live authority is PR #171 provider-proven strengthened Rules / RJR86 / provider-abuse acceptance.
+assert.match(nextTask,/^# CURRENT OVERRIDE — PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/im,"Live NEXT_TASK must identify current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
-assert.match(nextTask,/Stage 5 host\/join\/session orchestration remains locked/i,"Live authority must keep actual Remote Joining sessions locked until explicit Stage 5 preconditions close.");
+assert.match(nextTask,/STAGE 5 REMAINS LOCKED|Stage 5 host\/join\/session orchestration remains locked/i,"Live authority must keep actual Remote Joining sessions gated until the provider-abuse result is assessed.");
 assert.match(`${nextTask}\n${projectState}`,/Public community|public discovery|global leaderboard|global ranking|No public discovery/i);
-assert.match(projectState,/CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK PROVEN \/ RJR85 \/ PR #167 SLE TRANSITION/i,"Live PROJECT_STATE must identify current PR #166 rollback/RJR85/PR #167 authority.");
+assert.match(projectState,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER-PROVEN RULES[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Live PROJECT_STATE must identify current PR #171 provider-proven Rules / RJR86 authority.");
 assert.match(projectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
-assert.match(handoff,/PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Rolling handoff must expose current PR #166/r5/RJR85/PR #167 authority.");
-assert.match(developerStart,/PR #166[\s\S]+1\.8\.1-r5[\s\S]+85\/100[\s\S]+PR #167/i,"Developer start must expose current PR #166/r5/RJR85/PR #167 authority.");
+assert.match(projectState,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+firestore\.spark\.rules/i,"Live PROJECT_STATE must preserve direct provider Rules proof.");
+assert.match(handoff,/PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Rolling handoff must expose current PR #171/r5/RJR86 authority.");
+assert.match(handoff,/provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
+assert.match(developerStart,/PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Developer start must expose current PR #171/r5/RJR86 authority.");
 assert.equal(readiness.modelVersion,"RJR-1");
+assert.equal(readiness.currentScore,86);
 assert.match(projectState,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority.");
 
-// Every successor owns a fresh WEC. Never pin a historical predecessor SHA or task
-// into this Stage 2I contract again.
 assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/);
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i);
 assert.ok(["active","transition-prepared","closed"].includes(status.lifecycle));
@@ -129,7 +121,6 @@ if(["transition-prepared","closed"].includes(status.lifecycle)){
   assert.equal(status.signals.atomicOperation,false);
 }
 
-// Permanent production App Check evidence stays distinct from dormant trusted IAM.
 assert.equal(production.productionRuntime.runtimeRevision,"1.4.0-r2");
 assert.equal(production.productionRuntime.status,"production-proven");
 assert.equal(production.activation.appCheckLegitimateProductionTrafficProven,true);
@@ -141,7 +132,6 @@ assert.deepEqual(production.securityLocks.stage2hIamPermissions,[
   "datastore.entities.get",
   "datastore.entities.create"
 ]);
-assert.equal(readiness.modelVersion,"RJR-1");
 assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100);
 assert.ok(readiness.evidenceHistory.some(event=>event.eventId==="production-app-check-runtime-proof"&&event.score===61),"Historical 61-point App Check production proof must remain preserved while later evidence may increase RJR.");
 
@@ -158,4 +148,4 @@ const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1]
 assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2I proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR #166 rollback / RJR85 / PR #167 successor authority is source-driven.\n");
+process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR #171 provider-proven Rules / RJR86 successor authority is source-driven.\n");
