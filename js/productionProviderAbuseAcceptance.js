@@ -51,6 +51,11 @@
     return uid;
   }
 
+  function currentUserUid(options){
+    const currentUser=typeof options.currentUserImpl==="function"?options.currentUserImpl():options.user;
+    return currentUser&&typeof currentUser.uid==="string"?currentUser.uid.trim():"";
+  }
+
   async function probeAuthenticatedRivalryListDenial(options={}){
     try{
       const accountId=normalizeUser(options.user);
@@ -68,6 +73,7 @@
         listDenied=permissionDenied(error);
         providerErrorCode=error&&error.code?String(error.code):"unknown";
       }
+      const authenticatedAccountStable=currentUserUid(options)===accountId;
       const after=snapshotStorage(options.localStorageImpl);
       const localStorageUnchanged=before===after;
       const accountFingerprint=await fingerprint(accountId,options.cryptoImpl||root.crypto);
@@ -76,14 +82,18 @@
         accountFingerprint,
         providerBoundary:"rivalries-collection-list",
         authenticatedAccountRequired:true,
+        authenticatedAccountStable,
         queryLimit:1,
         rivalryListDenied:listDenied,
         providerErrorCode,
         firestoreWritesRequested:0,
         localStorageUnchanged,
-        providerAbuseAcceptanceCandidate:listDenied&&localStorageUnchanged,
-        rjrEligibleEvidenceCandidate:listDenied&&localStorageUnchanged
+        providerAbuseAcceptanceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable,
+        rjrEligibleEvidenceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable
       };
+      if(!authenticatedAccountStable){
+        return fail("PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE","Authentication changed while the provider query was in flight. This result cannot prove authenticated rivalry enumeration denial and receives no RJR credit.",evidence);
+      }
       if(!listDenied){
         return fail("PROVIDER_ABUSE_LIST_DENIAL_NOT_PROVEN","The authenticated rivalry collection query was not denied by the provider. No RJR credit is allowed from this result.",evidence);
       }
@@ -148,6 +158,7 @@
       const user=await requireExistingActiveAccount(context);
       const result=await probeAuthenticatedRivalryListDenial({
         user,
+        currentUserImpl:()=>context.services.auth&&context.services.auth.currentUser,
         firestore:context.services.firestore,
         collectionImpl:context.firestoreModule.collection,
         queryImpl:context.firestoreModule.query,
