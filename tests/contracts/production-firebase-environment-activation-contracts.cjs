@@ -74,7 +74,9 @@ assert.equal(manifest.activation.productionSecurityRules,"provider-verified-depl
 assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.spark.rules","Current provider authority must name the strengthened production Rules source.");
 assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Current provider authority must retain the exact reviewed strengthened Rules blob.");
 assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-29[\s\S]+Today 7:48 AM[\s\S]+activeDevice[\s\S]+activePairedRivalry[\s\S]+final allow read, write: if false/i);
-assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+Today · 7:48 AM[\s\S]+2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,"Dedicated provider proof must preserve the exact provider-published source boundary.");
+assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED/i,"Dedicated provider proof must preserve deployed provider status.");
+assert.match(providerProof,/Today · 7:48 AM/i,"Dedicated provider proof must preserve the exact provider-published version timestamp.");
+assert.match(providerProof,/2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,"Dedicated provider proof must preserve the exact reviewed source blob regardless of document field order.");
 const strengthenedGitBlobSha = crypto
   .createHash("sha1")
   .update(`blob ${Buffer.byteLength(strengthenedRulesSource,"utf8")}\0`)
@@ -87,7 +89,6 @@ assert.match(strengthenedRulesSource,/function activePairedRivalry\(rivalryId\)/
 assert.match(strengthenedRulesSource,/allow list, delete: if false;/,"Strengthened provider Rules must deny rivalry collection enumeration and direct delete.");
 assert.match(strengthenedRulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/,"The strengthened final deny-all fallback must remain present.");
 
-// Preserve the original Stage 2/Phase 1F deny-all browser-write source as immutable historical/emulator protection.
 assert.match(historicalRulesSource,/rules_version\s*=\s*'2';/);
 assert.match(historicalRulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/);
 const historicalAllowStatements = historicalRulesSource.match(/allow\s+[^:;]+:\s*if[\s\S]*?;/g) || [];
