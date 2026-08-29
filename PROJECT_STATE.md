@@ -4,6 +4,7 @@ Status: DEPLOYED / PRODUCTION-PROVEN; normal production remains `v1.8.1 / 1.8.1-
 
 Application: `v1.8.1`
 Production runtime: `1.8.1-r5`
+Production runtime lineage: PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`
 Immediate known-good rollback runtime: `1.8.1-r4`
 Rollback proof workflow: `33190961085` — SUCCESS / consumed
 Provider Rules proof: `PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md`
