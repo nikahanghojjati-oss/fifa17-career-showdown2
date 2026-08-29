@@ -9,6 +9,7 @@ const rootRc = readJson(".firebaserc");
 const productionConfig = readJson("firebase.production.rules.json");
 const productionEnvironment = readJson("firebase.production.environment.json");
 const deploymentGuide = read("PRODUCTION_FIRESTORE_RULES_DEPLOYMENT.md");
+const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");
 const strengthenedRules = read("firestore.spark.rules");
 
 assert.equal(
@@ -45,7 +46,7 @@ assert.deepEqual(
 assert.equal(
   productionConfig.firestore.rules,
   "firestore.spark.rules",
-  "The production-only config must target the strengthened Rules candidate."
+  "The production-only config must target the strengthened Rules source."
 );
 
 assert.equal(productionEnvironment.environment, "production");
@@ -53,13 +54,23 @@ assert.equal(productionEnvironment.projectId, "fifa17-career-showdown-prod");
 assert.equal(productionEnvironment.firestore.databaseId, "(default)");
 assert.equal(
   productionEnvironment.activation.productionSecurityRulesSource,
-  "firestore.rules",
-  "The historical provider-verified manifest must not silently claim firestore.spark.rules is deployed before new provider proof."
+  "firestore.spark.rules",
+  "After direct provider proof, the production manifest must name the strengthened deployed Rules source."
+);
+assert.equal(
+  productionEnvironment.activation.productionSecurityRulesSourceBlobSha,
+  "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
+  "The production manifest must retain the exact reviewed provider-published strengthened Rules blob."
 );
 assert.match(
   productionEnvironment.activation.productionSecurityRulesVerificationEvidence,
-  /Firebase Console/i,
-  "The existing provider-verified Rules claim must retain its direct-provider evidence provenance."
+  /2026-08-29[\s\S]+Today 7:48 AM[\s\S]+firestore\.spark\.rules[\s\S]+final allow read, write: if false/i,
+  "The strengthened provider-verified Rules claim must retain its direct Firebase Console provenance."
+);
+assert.match(
+  providerProof,
+  /Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+fifa17-career-showdown-prod[\s\S]+\(default\)[\s\S]+Today · 7:48 AM[\s\S]+2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,
+  "The dedicated provider proof must preserve the exact production project/database/version/source boundary."
 );
 
 assert.match(strengthenedRules, /function signedIn\(\)/);
@@ -68,6 +79,7 @@ assert.match(strengthenedRules, /function currentlyEntitled\(rivalryId\)/);
 assert.match(strengthenedRules, /function activePairedRivalry\(rivalryId\)/);
 assert.match(strengthenedRules, /request\.auth\.uid in rivalry\.data\.data\.authorizedAccountIds/);
 assert.match(strengthenedRules, /allow get: if currentlyEntitled\(rivalryId\) \|\| capabilityCanReadPendingRivalry\(rivalryId\)/);
+assert.match(strengthenedRules, /allow list, delete: if false;/,"Rivalry enumeration and direct delete must remain denied in the provider-published source.");
 assert.match(strengthenedRules, /match \/\{document=\*\*\} \{[\s\S]*allow read, write: if false;/);
 
 const exactDeployCommand = "firebase deploy --config firebase.production.rules.json --project fifa17-career-showdown-prod --only firestore";
@@ -75,6 +87,7 @@ assert.ok(
   deploymentGuide.includes(exactDeployCommand),
   "The guide must expose one explicit production-project deployment command using the isolated config."
 );
+// The deployment guide deliberately preserves the pre-publication safety gate as procedure/history; current provider truth lives in the manifest + proof record above.
 assert.match(deploymentGuide, /production publication remains `UNVERIFIED`/i);
 assert.match(deploymentGuide, /successful CLI exit is necessary but not sufficient for RJR credit/i);
 assert.match(deploymentGuide, /do not rewrite `firebase\.production\.environment\.json` to claim the strengthened source is deployed/i);
@@ -97,4 +110,4 @@ for(const forbidden of [
   );
 }
 
-process.stdout.write("PASS production Firestore Rules deployment path contracts: the Phase 1F demo/emulator lane stays isolated, strengthened Rules target production explicitly, no indexes or unrelated Firebase services co-deploy, and provider publication remains unclaimed until direct evidence exists.\n");
+process.stdout.write("PASS production Firestore Rules deployment path contracts: the Phase 1F demo/emulator lane stays isolated, the strengthened source is provider-verified in production from direct evidence, no indexes or unrelated Firebase services co-deploy, and the original pre-publication verification discipline remains preserved.\n");
