@@ -16,6 +16,8 @@ Reviewed Rules blob: `2b7c0b166ae0aae7ab7a3ce84725b21091262484`
 
 On 2026-08-29 the owner supplied direct authenticated Firebase Console evidence from project `fifa17-career-showdown-prod`, Firestore Database `(default)`, Rules. The provider version history shows a newly published `Today · 7:48 AM` version, and the visible source traverses the reviewed strengthened `firestore.spark.rules` boundary through the final deny-by-default rule. This closes the previously unverified provider-publication capability.
 
+Production-provider publication of strengthened `firestore.spark.rules` is now provider-verified by direct authenticated Firebase Console evidence. Repository source, emulator proof, CI and GitHub Pages remain supporting engineering evidence only and are not substituted for that provider-authoritative observation.
+
 The fixed RJR ledger therefore advances exactly `85 → 86`: `production-cloud-security` moves `19/20 → 20/20`. PR #169, PR #171 implementation, CI, documentation, Pages publication, deployment-path existence and acceptance tooling receive zero duplicate credit. App Check enforcement remains OFF and trusted-runtime IAM remains unactivated/unbroadened.
 
 ## Current bounded production provider-abuse acceptance
