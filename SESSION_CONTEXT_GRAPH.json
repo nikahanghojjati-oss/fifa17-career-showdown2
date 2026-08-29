@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-28T17:20:00Z",
+  "recordedAt": "2026-08-29T12:42:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -17,7 +17,7 @@
       "knownGoodRollbackSha": "2964527c4f7fc80b16d6d5ce73bd4f5823487d2c",
       "rollbackRunId": 33190961085,
       "productionRestorationProven": true,
-      "productionProviderRulesPublicationProven": false,
+      "productionProviderRulesPublicationProven": true,
       "authority": 1,
       "riskCriticality": 1
     },
@@ -26,19 +26,8 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 85,
+      "recordedScore": 86,
       "rule": "fixed capability evidence only; PR, CI, merge, deployment mechanics, provider publication process, WEC, SLE and documentation add zero duplicate credit",
-      "authority": 1,
-      "riskCriticality": 1
-    },
-    {
-      "id": "stage4-sustained-mutation-frequency",
-      "type": "completed-capability",
-      "state": "consumed-rjr84-proof",
-      "pullRequest": 163,
-      "rjrScoreAfterProof": 84,
-      "productionProviderRulesPublicationProven": false,
-      "stage5Authorized": false,
       "authority": 1,
       "riskCriticality": 1
     },
@@ -54,53 +43,79 @@
       "rollbackObservedLive": true,
       "restorationObservedLive": true,
       "rjrScoreAfterProof": 85,
-      "scope": [
-        "GitHub Pages runtime bytes only",
-        "exact known-good r4 observed live",
-        "exact current r5 restored and observed live",
-        "no Firebase Rules, IAM, billing, App Check enforcement or canonical production-data mutation"
-      ],
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "production-strengthened-rules-provider-proof",
+      "type": "completed-provider-capability",
+      "state": "firebase-console-provider-proven-consumed-rjr86",
+      "projectId": "fifa17-career-showdown-prod",
+      "databaseId": "(default)",
+      "rulesSource": "firestore.spark.rules",
+      "rulesBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
+      "providerVersionObserved": "Today · 7:48 AM on 2026-08-29",
+      "proof": "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md",
+      "rjrScoreAfterProof": 86,
+      "appCheckEnforcementChanged": false,
+      "trustedRuntimeIamChanged": false,
+      "billingChanged": false,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
+      "id": "provider-abuse-enumeration-acceptance",
+      "type": "next-production-evidence-boundary",
+      "state": "pr171-implemented-publication-pending-live-acceptance",
+      "pullRequest": 171,
+      "page": "production-authorization-acceptance.html",
+      "probe": "PROBE ENUMERATION DENIAL",
+      "requiresExistingActiveConnectedAccount": true,
+      "requiresRivalryId": false,
+      "requiresThirdAccount": false,
+      "requiresRevokedDevice": false,
+      "firestoreWritesRequested": 0,
+      "creditBeforeLivePass": false,
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr167-rjr85-sle-transition-pending-publication",
-      "environmentId": "we-2026-08-28-rjr-production-rollback-proof",
-      "startingMainSha": "9c086f5548de4e65a9d2bb6645d01e10da7facf6",
-      "capabilityPublicationMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
-      "transitionPullRequest": 167,
+      "state": "pr171-rjr86-provider-abuse-sle-transition",
+      "environmentId": "we-2026-08-29-rjr-provider-rules-acceptance",
+      "startingMainSha": "cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc",
+      "transitionPullRequest": 171,
       "initialDecision": "CONTINUE",
       "finalDecision": "HANDOFF_AT_CHECKPOINT",
       "handoffProximity": 100,
-      "rjrScore": 85,
-      "starter": "START_NEXT_SESSION_V1.4.26_PR166_PRODUCTION_ROLLBACK_RJR85_TRANSITION.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR166_PRODUCTION_ROLLBACK_RJR85_SLE_2026-08-28.md",
-      "closure": "authority-history/WORK_ENVIRONMENT_CLOSURE_2026-08-28_PR166_PRODUCTION_ROLLBACK_RJR85_SLE.md",
+      "rjrScore": 86,
+      "starter": "START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE_SLE_2026-08-29.md",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-after-rjr85-transition",
-      "rule": "successor independently verifies live source/GitHub/provider/deployment truth, validates and archives the predecessor WEC, initializes a fresh unique WEC with reset counters, then selects the smallest genuinely unblocked remaining Remote Joining dependency only if its own assessment permits continuation; never repeat consumed proof or inherit HANDOFF_AT_CHECKPOINT",
+      "state": "fresh-wec-required-after-pr171-rjr86-transition",
+      "rule": "successor independently verifies PR #171 publication and production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then if its own assessment permits executes the deployed zero-write provider-abuse enumeration denial acceptance and immediately reassesses Stage 5; never inherit predecessor transition decisions or repeat consumed proof",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "locked-by-remaining-explicit-pre-stage5-gates",
+      "state": "locked-pending-current-provider-abuse-acceptance-and-fresh-reassessment",
       "knownRemainingGaps": [
-        "authenticated third-account or revoked-device production negatives if legitimate state exists",
-        "two-physical-network behavior",
-        "Remote Joining-specific real-device token-lifecycle acceptance",
         "production provider abuse acceptance",
-        "actual Remote Joining sessions",
+        "state-dependent third-account/revoked-device production negatives only if legitimate state and current authority require them",
+        "actual Stage 5 host/join/session orchestration",
+        "two-network Remote Joining acceptance",
+        "Remote Joining-specific token/reconnect/adverse-network hardening",
         "final stable Remote Joining release acceptance"
       ],
+      "sessionRulesCurrentState": "entitled get allowed; list/create/update/delete denied",
       "authority": 1
     },
     {
@@ -131,23 +146,26 @@
       "publicCommunity": false,
       "publicMatchmaking": false,
       "globalLeaderboardsRankings": false,
-      "productionProviderRulesPublicationProven": false,
+      "productionProviderRulesPublicationProven": true,
+      "productionProviderRulesSource": "firestore.spark.rules",
       "authority": 1,
       "riskCriticality": 1
     }
   ],
   "edges": [
-    {"from": "stage4-sustained-mutation-frequency", "to": "rjr1-ledger", "relation": "historical-consumed-rjr84-capability"},
-    {"from": "production-pages-rollback-proof", "to": "rjr1-ledger", "relation": "adds-one-bounded-production-rollback-capability-to-rjr85"},
-    {"from": "production-runtime-v181-r5", "to": "production-pages-rollback-proof", "relation": "rollback-and-exact-restoration-tested"},
-    {"from": "production-pages-rollback-proof", "to": "closing-current-wec", "relation": "bounded-capability-complete-transition-now"},
+    {"from": "production-pages-rollback-proof", "to": "rjr1-ledger", "relation": "historical-bounded-production-rollback-capability-rjr85"},
+    {"from": "production-strengthened-rules-provider-proof", "to": "rjr1-ledger", "relation": "adds-one-provider-security-capability-rjr86"},
+    {"from": "production-runtime-v181-r5", "to": "production-strengthened-rules-provider-proof", "relation": "runtime-unchanged-provider-boundary-strengthened"},
+    {"from": "production-strengthened-rules-provider-proof", "to": "provider-abuse-enumeration-acceptance", "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"},
+    {"from": "provider-abuse-enumeration-acceptance", "to": "closing-current-wec", "relation": "implementation-published-but-live-owner-acceptance-deferred-to-successor"},
     {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
-    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "fresh-wec-select-smallest-genuinely-unblocked-pre-stage5-or-later-capability"},
-    {"from": "canonical-storage", "to": "successor-selection", "relation": "permanent-data-authority-lock"},
-    {"from": "security-zero-billing", "to": "successor-selection", "relation": "permanent-provider-and-enforcement-lock"}
+    {"from": "successor-selection", "to": "provider-abuse-enumeration-acceptance", "relation": "first-live-evidence-action-if-fresh-wec-permits"},
+    {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "reassess-stage5-immediately-after-real-result"},
+    {"from": "canonical-storage", "to": "stage5-private-remote-joining", "relation": "permanent-data-authority-lock"},
+    {"from": "security-zero-billing", "to": "stage5-private-remote-joining", "relation": "permanent-provider-and-enforcement-lock"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #166 production rollback proof run 33190961085 and restored v1.8.1/1.8.1-r5, then fixed RJR85, PR #167 transition/WEC, and successor-selection. For new product work, the fresh successor must select the smallest genuinely unblocked remaining Remote Joining dependency while Stage 5 stays locked. Production Firestore Rules publication remains separately unverified. Preserve reconciliation, replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit, rollback, canonical-storage, zero-billing and App Check enforcement-off locks without repeating consumed proof.",
+    "walkDirection": "Start from PR #171 and direct Firebase provider proof of strengthened firestore.spark.rules, fixed RJR86, then the zero-write authenticated rivalry-enumeration denial acceptance and closing WEC. Verify PR #171 publication first. Fresh successor WEC then runs the deployed provider-abuse probe if permitted and immediately reassesses Stage 5. Preserve consumed rollback/reconciliation/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit proof, canonical storage, Spark zero billing and App Check enforcement OFF without repeating consumed evidence.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
