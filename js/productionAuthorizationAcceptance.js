@@ -209,6 +209,37 @@
   }
 
   let pageServicesPromise=null;
+  let authorizationAcceptanceAuthControlLockGeneration=0;
+  let authorizationAcceptanceActiveAuthControlLockToken=null;
+
+  function authorizationAcceptanceSetText(id,text){const element=root.document&&root.document.getElementById(id);if(element)element.textContent=text;}
+  function authorizationAcceptanceSetDisabled(id,value){const element=root.document&&root.document.getElementById(id);if(element)element.disabled=Boolean(value);}
+  function authorizationAcceptanceApplyAuthControlState(user){
+    const locked=authorizationAcceptanceActiveAuthControlLockToken!==null;
+    authorizationAcceptanceSetDisabled("authorizationSignIn",locked||Boolean(user));
+    authorizationAcceptanceSetDisabled("authorizationSignOut",locked||!user);
+  }
+  function authorizationAcceptanceAcquireAuthControlsLock(){
+    if(authorizationAcceptanceActiveAuthControlLockToken!==null)throw Object.assign(new Error("Authentication controls are already locked by another acceptance operation."),{code:"ACCEPTANCE_AUTH_CONTROLS_ALREADY_LOCKED"});
+    authorizationAcceptanceAuthControlLockGeneration+=1;
+    const token=`acceptance-auth-lock-${authorizationAcceptanceAuthControlLockGeneration}`;
+    authorizationAcceptanceActiveAuthControlLockToken=token;
+    authorizationAcceptanceApplyAuthControlState(null);
+    return token;
+  }
+  function authorizationAcceptanceIsAuthControlsLockHeld(token){
+    return typeof token==="string"&&token.length>0&&authorizationAcceptanceActiveAuthControlLockToken===token;
+  }
+  function authorizationAcceptanceReleaseAuthControlsLock(token,user=null){
+    if(!authorizationAcceptanceIsAuthControlsLockHeld(token))return false;
+    authorizationAcceptanceActiveAuthControlLockToken=null;
+    authorizationAcceptanceApplyAuthControlState(user);
+    return true;
+  }
+  function authorizationAcceptanceRequireAuthControlsUnlocked(){
+    if(authorizationAcceptanceActiveAuthControlLockToken!==null)throw Object.assign(new Error("Authentication controls are locked while an acceptance probe is running."),{code:"ACCEPTANCE_AUTH_CONTROLS_LOCKED"});
+  }
+
   async function authorizationAcceptanceInitializePageAuth(){
     if(pageServicesPromise)return pageServicesPromise;
     pageServicesPromise=(async()=>{
@@ -217,20 +248,20 @@
       await authSdk.setPersistence(context.services.auth,authSdk.browserSessionPersistence);
       authSdk.onAuthStateChanged(context.services.auth,user=>{
         authorizationAcceptanceSetText("authorizationAcceptanceAccountState",user?"Authenticated · checking existing private account on next probe":"Signed out · no Firestore app data will be created");
-        authorizationAcceptanceSetDisabled("authorizationSignIn",Boolean(user));
-        authorizationAcceptanceSetDisabled("authorizationSignOut",!user);
+        authorizationAcceptanceApplyAuthControlState(user);
       });
       const user=context.services.auth.currentUser;
       authorizationAcceptanceSetText("authorizationAcceptanceAccountState",user?"Authenticated · checking existing private account on next probe":"Signed out · no Firestore app data will be created");
-      authorizationAcceptanceSetDisabled("authorizationSignIn",Boolean(user));
-      authorizationAcceptanceSetDisabled("authorizationSignOut",!user);
+      authorizationAcceptanceApplyAuthControlState(user);
       return context;
     })().catch(error=>{pageServicesPromise=null;throw error;});
     return pageServicesPromise;
   }
 
   async function authorizationAcceptanceSignInFromPage(){
+    authorizationAcceptanceRequireAuthControlsUnlocked();
     const context=await authorizationAcceptanceInitializePageAuth();
+    authorizationAcceptanceRequireAuthControlsUnlocked();
     const authSdk=context.services.authSdk;
     const provider=new authSdk.GoogleAuthProvider();
     await authSdk.signInWithPopup(context.services.auth,provider);
@@ -244,19 +275,17 @@
   }
 
   async function authorizationAcceptanceSignOutFromPage(){
+    authorizationAcceptanceRequireAuthControlsUnlocked();
     const context=await authorizationAcceptanceInitializePageAuth();
+    authorizationAcceptanceRequireAuthControlsUnlocked();
     await context.services.authSdk.signOut(context.services.auth);
     authorizationAcceptanceSetText("authorizationAcceptanceStatus","Signed out. No acceptance result is active.");
     return true;
   }
 
   function authorizationAcceptanceRuntimeRevision(){
-    const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');
-    return meta&&meta.content?meta.content.trim():null;
+    const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():null;
   }
-
-  function authorizationAcceptanceSetText(id,text){const element=root.document&&root.document.getElementById(id);if(element)element.textContent=text;}
-  function authorizationAcceptanceSetDisabled(id,value){const element=root.document&&root.document.getElementById(id);if(element)element.disabled=Boolean(value);}
 
   function authorizationAcceptanceRenderResult(result){
     const record=authorizationAcceptanceEvidenceRecord(result,{runtimeRevision:authorizationAcceptanceRuntimeRevision(),origin:root.location&&root.location.origin?root.location.origin:null});
@@ -354,6 +383,9 @@
     probeRevokedDeviceDenial:authorizationAcceptanceProbeRevokedDevicePrerequisite,
     evidenceRecord:authorizationAcceptanceEvidenceRecord,
     existingActiveAccount:authorizationAcceptanceExistingActiveAccount,
+    acquireAuthControlsLock:authorizationAcceptanceAcquireAuthControlsLock,
+    isAuthControlsLockHeld:authorizationAcceptanceIsAuthControlsLockHeld,
+    releaseAuthControlsLock:authorizationAcceptanceReleaseAuthControlsLock,
     mountAcceptancePage:authorizationAcceptanceMountPage
   });
 });

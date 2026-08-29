@@ -49,6 +49,14 @@
 
   <section class="acceptanceGrid">
     <article class="acceptanceCard acceptanceAction">
+      <span class="acceptanceKicker">RJR candidate · production provider abuse</span>
+      <h2>Authenticated enumeration denial</h2>
+      <p>Use any legitimate existing active Connected Account. The probe issues one bounded authenticated query for at most one rivalry document. Production policy must deny collection enumeration even for an authenticated manager.</p>
+      <button id="authorizationProviderAbuseProbe" class="acceptanceButton" type="button">PROBE ENUMERATION DENIAL</button>
+      <p class="acceptanceMeta">Requested provider writes: 0. No rivalry ID is required. A readable collection query returns NOT PROVEN and must not receive RJR credit.</p>
+    </article>
+
+    <article class="acceptanceCard acceptanceAction">
       <span class="acceptanceKicker">RJR candidate · provider read denial</span>
       <h2>Third-account negative</h2>
       <p>Use an existing active private account that is not either manager in the target rivalry. Enter an existing active paired rivalry ID. The probe performs only two Firestore reads and requires both to return permission denied.</p>
@@ -82,5 +90,6 @@
 <script src="js/sparkPrivatePairing.js?v=1.8.1-r5"></script>
 <script src="js/productionFirebaseRuntime.js?v=1.8.1-r5"></script>
 <script src="js/productionAuthorizationAcceptance.js?v=1.8.1-r5"></script>
+<script src="js/productionProviderAbuseAcceptance.js?v=1.8.1-r5"></script>
 </body>
 </html>
