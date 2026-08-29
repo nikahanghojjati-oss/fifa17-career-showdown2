@@ -42,6 +42,6 @@ Standing owner merge/deploy authorization remains active after all required test
 
 Completed local dependencies including identity-safe longitudinal Career Analytics / Trophy Room correction — PR #59 and presentation-only Local Profile display-label editing — PR #61 remain historical completed dependencies, not current work. Historical Stage 2B/2C/2D/2E/2F/2G/2H/2I authority remains preserved in repository history and dedicated records; it cannot override current verified production evidence. Candidate C recovery remains transaction-owned and requires strict exact raw snapshot authority.
 
-The repository-owned GitHub CLI bootstrap remains protected historical tooling authority, but the connected GitHub app is connector-first. Tool bootstrap is infrastructure provenance, not current product work.
+The repository-owned GitHub CLI bootstrap remains protected historical tooling authority, but the connected GitHub app is connector-first. Its rootless fallback preserves official-release checksum verification, environment-local credentials, and no connector-credential reuse. Tool bootstrap is infrastructure provenance, not current product work.
 
 At every future Handoff proximity 100%, recursively create the complete mirrored SLE = Smart Lean Efficient package, refresh bootstrap/context/current pointers, seal WEC as the final intended branch mutation, validate and publish that unchanged head, and stop before another substantial milestone.
