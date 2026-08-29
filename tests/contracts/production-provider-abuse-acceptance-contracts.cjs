@@ -27,7 +27,11 @@ function storage(entries={}){
   assert.match(page,/productionProviderAbuseAcceptance\.js\?v=1\.8\.1-r5/);
   assert.match(serviceWorkerSource,/NETWORK_ONLY_NAVIGATION_PATHS[\s\S]+production-authorization-acceptance\.html/,'The production acceptance document must be explicitly exempt from application-shell navigation fallback.');
   assert.match(serviceWorkerSource,/request\.mode==="navigate"[\s\S]+relativeScopePath\(url\)[\s\S]+NETWORK_ONLY_NAVIGATION_PATHS\.has\(path\)[\s\S]+event\.respondWith\(fetch\(request\)\); return;[\s\S]+chooseNavigationRuntime/,'A controlled returning browser must fetch the production acceptance document instead of receiving cached index.html.');
+  assert.match(serviceWorkerSource,/NETWORK_ONLY_ASSET_PATHS[\s\S]+js\/productionAuthorizationAcceptance\.js[\s\S]+js\/productionProviderAbuseAcceptance\.js/,'Both acceptance-only JavaScript modules must be explicitly network-only.');
+  assert.match(serviceWorkerSource,/const path=relativeScopePath\(url\); if\(!path\)\{return;\} if\(NETWORK_ONLY_ASSET_PATHS\.has\(path\)\)\{ event\.respondWith\(fetch\(request\)\); return; \}/,'A controlled returning browser must fetch versioned acceptance-only modules from the network before shell-cache routing.');
   assert.doesNotMatch(serviceWorkerSource,/SHELL_PATHS[\s\S]{0,500}production-authorization-acceptance\.html/,'The provider-backed acceptance route must remain network-only rather than expanding the offline application shell.');
+  assert.doesNotMatch(serviceWorkerSource,/SHELL_PATHS[\s\S]{0,500}productionAuthorizationAcceptance\.js/,'The authorization acceptance module must remain network-only rather than expanding the offline application shell.');
+  assert.doesNotMatch(serviceWorkerSource,/SHELL_PATHS[\s\S]{0,500}productionProviderAbuseAcceptance\.js/,'The provider-abuse acceptance module must remain network-only rather than expanding the offline application shell.');
   assert.doesNotMatch(source,/\blocalStorage\b/,'Provider abuse auxiliary JS must preserve the static release storage boundary.');
   assert.doesNotMatch(source,/\b(addDoc|setDoc|updateDoc|deleteDoc|writeBatch|runTransaction)\b/,'Provider abuse acceptance must remain query-only.');
   assert.match(source,/currentUserImpl/,'Browser evidence must re-check the authenticated identity after the asynchronous provider query.');
