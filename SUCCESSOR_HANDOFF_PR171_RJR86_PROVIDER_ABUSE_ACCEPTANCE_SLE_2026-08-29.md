@@ -114,6 +114,8 @@ Root `firebase.json` remains on historical `firestore.rules`; root `.firebaserc`
 
 Every future handoff remains SLE = Smart Lean Efficient and must be a complete mirrored repository package, not a chat-only prompt. At Handoff proximity 100% or a stricter WEC transition decision, finish only the current coherent checkpoint, refresh current pointers and recursive SLE evidence, make the final WEC seal the last intended branch mutation, validate the unchanged exact head, publish/verify when authorized, provide the fresh repository-first next-developer prompt, and stop before another substantial milestone.
 
+After refreshing the current starter, deep handoff, bootstrap, and context pointers, every future closer must run `npm run work:next-prompt` and use its generated repository-first next-developer prompt as the owner-facing continuation entrypoint. The generated prompt supplements rather than replaces the complete mirrored SLE package.
+
 Never fabricate model/account usage. `usageRemainingPercent` stays `null` / `unavailable` unless an approved product source or explicit owner report provides it.
 
 Every substantive owner-facing development response must recursively use exactly this eight-line shape:
