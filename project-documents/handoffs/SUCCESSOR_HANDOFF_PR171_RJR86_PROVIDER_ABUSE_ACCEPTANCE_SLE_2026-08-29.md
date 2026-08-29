@@ -77,31 +77,32 @@ Instead, current production Rules expose a genuinely unblocked provider-abuse ac
 
 PR #171 adds `js/productionProviderAbuseAcceptance.js` and a new `Authenticated enumeration denial` card to `production-authorization-acceptance.html`.
 
-Exact semantics after final-head security review:
+Exact semantics after all final-head security review:
 
 - requires an authenticated existing active private account;
 - performs the existing self-account read needed to verify the account is legitimate and active;
-- disables both SIGN IN and SIGN OUT for the complete asynchronous enumeration operation so the page cannot transiently sign out/sign back in while the provider query is in flight;
+- acquires a shared generation-token authentication-control lock before authentication initialization;
+- `productionAuthorizationAcceptance.js` owns that shared lock state, and every `onAuthStateChanged` callback routes through a lock-aware control-state helper so callbacks cannot re-enable SIGN IN or SIGN OUT during the operation;
+- sign-in and sign-out handlers themselves fail closed while the shared lock is active;
+- the provider probe dynamically verifies the same shared lock token is still held before and after the Firestore query rather than hardcoding a lock-success boolean;
 - re-checks that the same Firebase Auth UID remains current after the provider query as an additional fail-closed invariant;
-- then issues exactly one bounded collection query against `rivalries` with `limit(1)`;
+- issues exactly one bounded collection query against `rivalries` with `limit(1)`;
 - requests zero Firestore writes;
-- requires no rivalry ID;
-- requires no third account;
-- requires no device revocation;
+- requires no rivalry ID, third account or device revocation;
 - creates no account/pairing/rivalry/session data;
 - snapshots browser storage before/after and requires it unchanged;
 - never emits returned rivalry payload data;
 - fingerprints the account identifier with SHA-256;
-- returns PASS only when the provider query is permission denied, the same account remains current, authentication controls were locked for the query, and storage is unchanged;
-- any readable query, auth transition/end-state mismatch, or missing auth-control lock returns `NOT_PROVEN` and must receive zero RJR credit;
+- returns PASS only when the provider query is permission denied, the same account remains current, the same shared auth-control lock remained held through the query, and storage is unchanged;
+- any readable query, auth transition/end-state mismatch, missing/lost shared lock, or storage change returns `NOT_PROVEN` and must receive zero RJR credit;
 - implementation, contract success, PR merge and deployment alone receive zero RJR credit.
 
 PASS code: `PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED`.
 Required evidence fields include `authenticatedAccountStable: true`, `authenticationControlsLockedDuringQuery: true`, `rivalryListDenied: true`, `firestoreWritesRequested: 0`, `localStorageUnchanged: true`, `providerAbuseAcceptanceCandidate: true`, `rjrEligibleEvidenceCandidate: true`.
 
-Fail-closed auth codes include `PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE` and `PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED`.
+Fail-closed auth codes include `PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE`, `PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED`, `PROVIDER_ABUSE_AUTH_CONTROL_LOCK_UNAVAILABLE`, `ACCEPTANCE_AUTH_CONTROLS_ALREADY_LOCKED`, and `ACCEPTANCE_AUTH_CONTROLS_LOCKED` where applicable.
 
-Permanent contract: `tests/contracts/production-provider-abuse-acceptance-contracts.cjs`, registered in `tests/support/run-contract-suite.cjs`. It covers normal denied/readable cases, sign-out during the provider call, and denial without the required browser auth-control lock.
+Permanent contract: `tests/contracts/production-provider-abuse-acceptance-contracts.cjs`, registered in `tests/support/run-contract-suite.cjs`. It covers normal denied/readable cases, sign-out during the provider call, missing shared lock, shared lock released during the query, lock-token generation and wrong-token release, and static proof that auth-state callbacks and sign-in/sign-out handlers respect the shared lock.
 
 ## 6. Validation path and corrected failures
 
@@ -115,9 +116,13 @@ A final-head Codex review on first WEC-sealed head `1f9feba3d6c3edad258e19a6e8dd
 
 A second final-head Codex review on replacement seal `29f71240fb14a336f0304c1f6f7c771a71231452` found two valid P1s before merge. First, an end-state UID check alone could still miss a transient sign-out followed by sign-in to the same UID before the query settled. Second, this deep SLE handoff itself had not yet recorded the first P1/repair chain, leaving security-critical history only in WEC. The environment again invalidated the seal rather than merge stale evidence.
 
-The transient-auth P1 is now closed at the stronger browser boundary: source head `da20773a4dbf8e237d6c7fb5552d9076d655222f` locks both authentication controls for the complete asynchronous query and still keeps the post-query UID check. Test head `c51fc4a1312fef1a9a0bdfb919c1258254ab2ce4` permanently requires that UI lock, marks direct probe results without it ineligible, and preserves the sign-out-during-query failure case. No provider write authority, runtime billing/IAM scope, or RJR credit changed from these repairs.
+The second-round transient-auth P1 was closed at a stronger browser boundary: source head `da20773a4dbf8e237d6c7fb5552d9076d655222f` disabled both authentication controls around the complete async query and kept the post-query UID check. Test head `c51fc4a1312fef1a9a0bdfb919c1258254ab2ce4` required the control lock and preserved the sign-out-during-query failure case. Exact engineering head `235387446679d83dc121214c4c126f2d029146b9` passed all 14 permanent workflow families. The deep-handoff P1 was also addressed in both mirrors.
 
-The deep-handoff P1 is addressed by this refresh and its byte-identical project mirror. Exact engineering head `235387446679d83dc121214c4c126f2d029146b9` then passed all 14 permanent workflow families before the owner's reporting-format update. Final exact-head workflow/review facts after the reporting-format and WEC-seal mutations must still be independently verified from GitHub; do not treat any pre-seal SHA in this narrative as the final merge SHA.
+The owner then explicitly changed the recurring owner progress report from seven to eight lines by adding `Estimated focused sessions to genuine RJR100`. `AGENTS.md`, both starter copies, both deep SLE copies and `tests/contracts/owner-progress-reporting-contracts.cjs` were reconciled while the immutable historical seven-line provenance record remained historical. Exact pre-seal head `88bae92676998857f16a8cb8ad5603e8b834f863` passed all 14 permanent workflow families after this reporting-governance change.
+
+A third final-head Codex review on WEC-sealed head `7ce6b8e29c52ddf0be85a1d1655943810b71eeac` found another valid P1 before merge: if the provider probe began before `authorizationAcceptanceInitializePageAuth()` finished, a later `onAuthStateChanged` callback could overwrite the provider module's one-time disabled-button state and re-enable SIGN OUT during a slow query. That could recreate the transient sign-out/sign-back-in-to-same-UID race even though the provider module asserted the controls were locked. The environment again invalidated the seal rather than merge false evidence.
+
+The third P1 repair replaces the independent one-time button lock with one shared generation-token lock owned by `productionAuthorizationAcceptance.js`. Source commit `5b3f4426911d776d26b7469fff72e0573f3ad27e` makes auth callbacks, sign-in and sign-out all honor that shared lock. Source commit `aa751a755de23e58e3d7c8d0d7e3b36c2f8454a8` makes the provider probe acquire/release the exact token and dynamically verify the same token remains held across the Firestore query. Contract commit `0e94dd1d69d0c2e586abf8f6a243e330bd732cc9` proves lock generation, wrong-token fail-closed behavior, loss of the lock during the query, auth-state callback routing and continued zero-write/provider-data privacy guarantees. Final post-packaging workflow/review/merge facts must still be independently verified from live GitHub; none of these pre-seal SHAs is automatically the final merge SHA.
 
 A separate branch-local WEC bookkeeping error was also corrected before publication: the first post-implementation WEC manually retained `CONTINUE` although its own deterministic transition advantage exceeded the `PREPARE_HANDOFF` threshold. The corrected calculation recorded `PREPARE_HANDOFF`; no product behavior or provider state changed.
 
