@@ -97,7 +97,7 @@ assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Conf
 assert.match(currentHandoff, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Rolling handoff must expose current PR #171/r5/RJR86 transition authority.");
 assert.match(currentHandoff, /provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
 assert.match(start, /PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Developer start must expose current PR #171/r5/RJR86 transition authority.");
-assert.match(start, /Stage 5 stays locked|Stage 5 remains locked/i,"Developer start must preserve the current Stage 5 lock.");
+assert.match(start, /provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Developer start must preserve provider-abuse acceptance before Stage 5 reassessment.");
 
 assert.match(rules, /request\.auth\.uid/);
 assert.match(rules, /allow list, create, update, delete:\s*if false/g);
