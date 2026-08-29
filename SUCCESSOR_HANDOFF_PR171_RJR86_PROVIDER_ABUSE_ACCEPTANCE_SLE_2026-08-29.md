@@ -77,10 +77,12 @@ Instead, current production Rules expose a genuinely unblocked provider-abuse ac
 
 PR #171 adds `js/productionProviderAbuseAcceptance.js` and a new `Authenticated enumeration denial` card to `production-authorization-acceptance.html`.
 
-Exact semantics:
+Exact semantics after final-head security review:
 
 - requires an authenticated existing active private account;
 - performs the existing self-account read needed to verify the account is legitimate and active;
+- disables both SIGN IN and SIGN OUT for the complete asynchronous enumeration operation so the page cannot transiently sign out/sign back in while the provider query is in flight;
+- re-checks that the same Firebase Auth UID remains current after the provider query as an additional fail-closed invariant;
 - then issues exactly one bounded collection query against `rivalries` with `limit(1)`;
 - requests zero Firestore writes;
 - requires no rivalry ID;
@@ -90,14 +92,16 @@ Exact semantics:
 - snapshots browser storage before/after and requires it unchanged;
 - never emits returned rivalry payload data;
 - fingerprints the account identifier with SHA-256;
-- returns PASS only when the provider query is permission denied;
-- any readable query returns `NOT_PROVEN` and must receive zero RJR credit;
+- returns PASS only when the provider query is permission denied, the same account remains current, authentication controls were locked for the query, and storage is unchanged;
+- any readable query, auth transition/end-state mismatch, or missing auth-control lock returns `NOT_PROVEN` and must receive zero RJR credit;
 - implementation, contract success, PR merge and deployment alone receive zero RJR credit.
 
 PASS code: `PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED`.
-Required evidence fields include `rivalryListDenied: true`, `firestoreWritesRequested: 0`, `localStorageUnchanged: true`, `providerAbuseAcceptanceCandidate: true`, `rjrEligibleEvidenceCandidate: true`.
+Required evidence fields include `authenticatedAccountStable: true`, `authenticationControlsLockedDuringQuery: true`, `rivalryListDenied: true`, `firestoreWritesRequested: 0`, `localStorageUnchanged: true`, `providerAbuseAcceptanceCandidate: true`, `rjrEligibleEvidenceCandidate: true`.
 
-Permanent contract: `tests/contracts/production-provider-abuse-acceptance-contracts.cjs`, registered in `tests/support/run-contract-suite.cjs`.
+Fail-closed auth codes include `PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE` and `PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED`.
+
+Permanent contract: `tests/contracts/production-provider-abuse-acceptance-contracts.cjs`, registered in `tests/support/run-contract-suite.cjs`. It covers normal denied/readable cases, sign-out during the provider call, and denial without the required browser auth-control lock.
 
 ## 6. Validation path and corrected failures
 
@@ -105,7 +109,15 @@ The initial PR #171 candidate opened from head `eb1aba693b5d338de8a0cf9b5be13fe9
 
 The first Stability gate correctly failed in `handoff-immediate-next-task-contracts.cjs` after core runtime/storage/recovery contracts had already passed. Exact log finding: `SESSION_BOOTSTRAP.json` still reported RJR85 while the live branch ledger reported RJR86 (`85 !== 86`). The same legacy SLE/current-authority contracts froze older PR #166/#167 and provider-unverified pointers.
 
-This is a current-authority coherence failure, not a runtime or provider regression. The environment corrected `NEXT_TASK.md` to the real PR #171 / provider-proven / RJR86 checkpoint and updated the complete SLE/current context package instead of weakening the gate. Exact engineering head `04e9f02d17eec4af2775253d821b3699b2d78e9f` subsequently passed all 14 permanent workflow families before final SNS/SLE forecast sealing.
+This was a current-authority coherence failure, not a runtime or provider regression. The environment corrected `NEXT_TASK.md` to the real PR #171 / provider-proven / RJR86 checkpoint and updated the complete SLE/current context package instead of weakening the gate. Exact engineering head `04e9f02d17eec4af2775253d821b3699b2d78e9f` subsequently passed all 14 permanent workflow families before final SNS/SLE forecast sealing.
+
+A final-head Codex review on first WEC-sealed head `1f9feba3d6c3edad258e19a6e8dd1976bbefe051` then found a valid P1: signing out while `getDocs` was in flight could make an unauthenticated permission denial look like authenticated provider-abuse evidence. The environment correctly invalidated that seal, added a post-query same-UID check and a regression test, and exact repair head `3658e91bea6636ff1502fe5d2c66838d5660363e` passed all 14 permanent workflow families. The thread was resolved.
+
+A second final-head Codex review on replacement seal `29f71240fb14a336f0304c1f6f7c771a71231452` found two valid P1s before merge. First, an end-state UID check alone could still miss a transient sign-out followed by sign-in to the same UID before the query settled. Second, this deep SLE handoff itself had not yet recorded the first P1/repair chain, leaving security-critical history only in WEC. The environment again invalidated the seal rather than merge stale evidence.
+
+The transient-auth P1 is now closed at the stronger browser boundary: source head `da20773a4dbf8e237d6c7fb5552d9076d655222f` locks both authentication controls for the complete asynchronous query and still keeps the post-query UID check. Test head `c51fc4a1312fef1a9a0bdfb919c1258254ab2ce4` permanently requires that UI lock, marks direct probe results without it ineligible, and preserves the sign-out-during-query failure case. No provider write authority, runtime billing/IAM scope, or RJR credit changed from these repairs.
+
+The deep-handoff P1 is addressed by this refresh and its byte-identical project mirror. Final exact-head workflow/review facts after this packaging refresh must be independently verified from GitHub; do not treat any pre-seal SHA in this narrative as the final merge SHA.
 
 A separate branch-local WEC bookkeeping error was also corrected before publication: the first post-implementation WEC manually retained `CONTINUE` although its own deterministic transition advantage exceeded the `PREPARE_HANDOFF` threshold. The corrected calculation recorded `PREPARE_HANDOFF`; no product behavior or provider state changed.
 
@@ -113,7 +125,7 @@ Tooling limitations are non-product evidence: one web route to public Pages was 
 
 ## 7. Why this environment stops after PR #171
 
-The fresh environment began with `CONTINUE`, completed provider publication reconciliation and implemented the bounded provider-abuse acceptance candidate. After current context/evidence growth its deterministic WEC moved to `PREPARE_HANDOFF`. The active PR #171 publication is one coherent bounded checkpoint and may be finished. The live production acceptance run is a separate owner-authenticated evidence milestone and must not be started by the closing environment if the final reassessment requires transition.
+The fresh environment began with `CONTINUE`, completed provider publication reconciliation and implemented the bounded provider-abuse acceptance candidate. After current context/evidence growth its deterministic WEC moved to `PREPARE_HANDOFF` and ultimately `HANDOFF_AT_CHECKPOINT`. The active PR #171 publication is one coherent bounded checkpoint and may be finished. The live production acceptance run is a separate owner-authenticated evidence milestone and must not be started by the closing environment after the final handoff decision.
 
 The complete SLE package is therefore prepared in this same engineering PR rather than opening a documentation-only follow-up.
 
@@ -125,8 +137,8 @@ Successor execution order:
 2. Verify normal production remains `v1.8.1 / 1.8.1-r5` and the Production Authorization Acceptance page includes `PROBE ENUMERATION DENIAL`.
 3. Verify provider Rules remain the strengthened `firestore.spark.rules` boundary and RJR remains exactly 86 before live provider-abuse acceptance.
 4. Validate/archive predecessor WEC and initialize/assess a fresh successor WEC.
-5. If permitted, ask the owner only for the genuinely owner-only production action: open the deployed Production Authorization Acceptance page, sign in with any existing active Connected Account, click `PROBE ENUMERATION DENIAL`, then supply the sanitized evidence JSON or screenshot. No rivalry ID, third account, revocation or write is needed.
-6. If the result is the exact PASS described above, evaluate exactly one new `real-device-hardening-release` provider-abuse capability, which would make the fixed candidate `86 → 87` only if all evidence requirements are satisfied. Never pre-credit it.
+5. If permitted, ask the owner only for the genuinely owner-only production action: open the deployed Production Authorization Acceptance page, sign in with any existing active Connected Account, click `PROBE ENUMERATION DENIAL`, do not attempt to sign in/out while the probe is running, then supply the sanitized evidence JSON or screenshot. No rivalry ID, third account, revocation or write is needed.
+6. If the result is the exact PASS described above—including `authenticatedAccountStable: true` and `authenticationControlsLockedDuringQuery: true`—evaluate exactly one new `real-device-hardening-release` provider-abuse capability, which would make the fixed candidate `86 → 87` only if all evidence requirements are satisfied. Never pre-credit it.
 7. Immediately reassess the Stage 5 lock. Do not create generic prerequisite work. If current source shows explicit preconditions have genuinely closed, activate the smallest actual Private Remote Joining host/join/session orchestration slice atomically in `NEXT_TASK.md` with that engineering candidate.
 8. Stage 5 will likely require a separately reviewed production Rules revision because the current `/sessions/{sessionId}` boundary allows entitled reads but explicitly denies create/update/delete/list. Do not alter those Rules until the exact Stage 5 session protocol is implemented, contract-tested and publication-ready.
 9. After Stage 5 implementation, prioritize real two-device/two-network Remote Joining acceptance, Remote Joining-specific token/reconnect/adverse-network hardening, then final stable release acceptance. Those are the large remaining sources of progress toward RJR100.
