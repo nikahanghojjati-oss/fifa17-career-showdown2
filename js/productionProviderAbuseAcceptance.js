@@ -83,14 +83,18 @@
         providerBoundary:"rivalries-collection-list",
         authenticatedAccountRequired:true,
         authenticatedAccountStable,
+        authenticationControlsLockedDuringQuery:options.authenticationControlsLockedDuringQuery===true,
         queryLimit:1,
         rivalryListDenied:listDenied,
         providerErrorCode,
         firestoreWritesRequested:0,
         localStorageUnchanged,
-        providerAbuseAcceptanceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable,
-        rjrEligibleEvidenceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable
+        providerAbuseAcceptanceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable&&options.authenticationControlsLockedDuringQuery===true,
+        rjrEligibleEvidenceCandidate:listDenied&&localStorageUnchanged&&authenticatedAccountStable&&options.authenticationControlsLockedDuringQuery===true
       };
+      if(options.authenticationControlsLockedDuringQuery!==true){
+        return fail("PROVIDER_ABUSE_AUTH_CONTROLS_NOT_LOCKED","Authentication controls were not locked for the complete provider query. This result cannot prove uninterrupted authenticated enumeration denial and receives no RJR credit.",evidence);
+      }
       if(!authenticatedAccountStable){
         return fail("PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE","Authentication changed while the provider query was in flight. This result cannot prove authenticated rivalry enumeration denial and receives no RJR credit.",evidence);
       }
@@ -131,6 +135,15 @@
 
   function setText(id,text){const element=root.document&&root.document.getElementById(id);if(element)element.textContent=text;}
   function setDisabled(id,value){const element=root.document&&root.document.getElementById(id);if(element)element.disabled=Boolean(value);}
+  function setAuthenticationControlsLocked(locked,currentUser=null){
+    if(locked){
+      setDisabled("authorizationSignIn",true);
+      setDisabled("authorizationSignOut",true);
+      return;
+    }
+    setDisabled("authorizationSignIn",Boolean(currentUser));
+    setDisabled("authorizationSignOut",!currentUser);
+  }
   function runtimeRevision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():null;}
 
   function renderResult(result){
@@ -151,14 +164,17 @@
   }
 
   async function runFromPage(){
+    let context=null;
     setDisabled("authorizationProviderAbuseProbe",true);
+    setAuthenticationControlsLocked(true);
     setText("authorizationAcceptanceStatus","Checking authenticated production rivalry enumeration denial…");
     try{
-      const context=await browserContext();
+      context=await browserContext();
       const user=await requireExistingActiveAccount(context);
       const result=await probeAuthenticatedRivalryListDenial({
         user,
         currentUserImpl:()=>context.services.auth&&context.services.auth.currentUser,
+        authenticationControlsLockedDuringQuery:true,
         firestore:context.services.firestore,
         collectionImpl:context.firestoreModule.collection,
         queryImpl:context.firestoreModule.query,
@@ -170,6 +186,7 @@
       return renderResult(result);
     }finally{
       setDisabled("authorizationProviderAbuseProbe",false);
+      setAuthenticationControlsLocked(false,context&&context.services&&context.services.auth?context.services.auth.currentUser:null);
     }
   }
 
