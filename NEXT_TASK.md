@@ -33,7 +33,7 @@ Authenticated third-account and revoked registered-device production negatives r
 
 ## Closed consumed capabilities
 
-Production rollback/restoration, exact accepted-result idempotency replay, deterministic adverse-provider safety, production remote-to-local reconciliation, structural abuse resistance, sustained mutation-frequency resistance, App Check token-lifecycle safety, prior owner/device pairing and Connected Rivalry proof are consumed. Do not repeat them merely for confidence.
+Production rollback/restoration, exact accepted-result idempotency replay, deterministic adverse-provider safety, production remote-to-local reconciliation, structural abuse resistance, sustained mutation-frequency resistance, App Check token-lifecycle safety, prior owner/device pairing and Connected Rivalry proof are consumed. TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains permanently protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`; do not repeat it merely for confidence or duplicate RJR credit.
 
 The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
 
