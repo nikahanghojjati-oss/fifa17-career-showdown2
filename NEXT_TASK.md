@@ -36,6 +36,8 @@ The Installable Offline App remains the local-first startup and recovery baselin
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
+Work Environment Continuity (WEC) remains mandatory. The current environment must finish the already-active PR #171 publication checkpoint, then obey its transition decision rather than silently beginning a separate milestone.
+
 For this environment: finish PR #171 only. Require the unchanged final exact PR #171 head to pass all 14 permanent workflow families, all mandatory publication gates and all review/thread gates with no blocking findings. Correct source-grounded findings without weakening security or recovery guarantees. Merge/deploy under standing authorization only after the exact head is clean. Verify post-merge live main, GitHub Pages publication, the Production Authorization Acceptance page and normal production `1.8.1-r5`. Then reassess the current WEC before beginning the separate live production acceptance milestone.
 
 If the fresh WEC assessment after publication permits continuation, execute exactly one legitimate owner-authenticated `PROBE ENUMERATION DENIAL` on the deployed Production Authorization Acceptance page using an existing active Connected Account. No rivalry ID, third account, device revocation or provider write is required. Credit exactly one provider-abuse capability only if production returns permission denied and the sanitized evidence confirms zero writes and unchanged browser storage. Then immediately reassess the Stage 5 lock from current source.
