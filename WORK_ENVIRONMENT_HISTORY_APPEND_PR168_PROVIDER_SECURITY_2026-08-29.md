@@ -30,3 +30,28 @@ This is an additions-only continuity payload created because the connected GitHu
 - Provider-path finding: root `firebase.json -> firestore.rules` and root `.firebaserc` default `demo-career-mode-showdown-phase1f` are intentional historical/emulator locks; `.firebaserc` also retains the existing named `production` alias `fifa17-career-showdown-prod`. Permanent Phase 1F and production-activation contracts protect the historical defaults. They must not be redirected to `firestore.spark.rules` or made production-default merely for this deployment path.
 - Current bounded task: establish a separate auditable production-only deployment/verification path for strengthened `firestore.spark.rules` without changing the historical emulator lane and without claiming provider publication before direct provider-authoritative evidence exists; then exhaust the smallest genuinely unblocked remaining RJR dependency.
 - Fixed RJR-1 starts at `85/100` and does not increase for deployment-path implementation, tests, PRs, CI or merge alone.
+
+## Closure addendum — `we-2026-08-29-rjr-provider-security-deployment-path`
+
+- Successor verification recorded: `2026-08-29T00:50:00-04:00`.
+- Starting main recorded by the predecessor: `053e624f12c3f4bcc5cab6c70f1a5b2211fca647`.
+- Final verified repository boundary: PR #169 `Add isolated production Firestore Rules deployment path`, final exact sealed head `534c0a9f97aa1f6000a591fb3d0612b8ac4b6f6d`, squash merge/current live main `cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc`.
+- Exact-head proof independently rechecked by the successor: all 14 permanent pull-request workflow families succeeded on exact head `534c0a9f97aa1f6000a591fb3d0612b8ac4b6f6d`.
+- Review truth independently rechecked: the recorded Codex review targeted earlier commit `8749754d4a`; both inline automated findings are resolved and outdated. No completed second Codex final-head review is claimed.
+- GitHub Pages publication run `33233575696` completed successfully on exact merge head `cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc`. This is static Pages publication only and carries no Firebase provider authority.
+- Material result: `firebase.production.rules.json` now isolates production Rules deployment to `firestore.spark.rules`, and `PRODUCTION_FIRESTORE_RULES_DEPLOYMENT.md` locks the exact bounded command `firebase deploy --config firebase.production.rules.json --project fifa17-career-showdown-prod --only firestore` while preserving root Phase 1F defaults.
+- Provider nonclaim remains intact: `firebase.production.environment.json` still records the older provider-verified `firestore.rules`; direct production publication of strengthened `firestore.spark.rules` remains UNVERIFIED.
+- Fixed RJR-1 remains exactly `85/100`. PR #169 implementation, tests, review, merge and Pages deployment earn zero RJR credit without direct provider-authoritative publication and legitimate authorization-negative acceptance.
+- Corrected predecessor failures remain part of the record: wrong strengthened-Rules helper assumptions, wrong copied Phase 1F demo project identity, and abbreviated App Check lock. All were corrected before sealing.
+- Final predecessor decision: `HANDOFF_AT_CHECKPOINT`. It belongs only to `we-2026-08-29-rjr-provider-security-deployment-path` and is not inherited by the successor.
+
+## Successor activation — `we-2026-08-29-rjr-provider-rules-acceptance`
+
+- Environment start: `2026-08-29T00:50:00-04:00`.
+- Starting independently verified live-main SHA: `cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc`.
+- Branch: `rjr/provider-rules-acceptance-2026-08-29`, created from that exact live main.
+- Inherited-record handling: predecessor publication/closure facts above were independently verified and archived before fresh successor assessment. No predecessor counter, usage value or transition decision is inherited.
+- Startup verification: PR #169 is merged, Pages run `33233575696` is successful on the exact merge head, current fixed RJR-1 is `85/100`, and `firebase.production.environment.json` still correctly records provider-verified `firestore.rules` rather than falsely claiming strengthened Rules publication.
+- Provider route check: no Firebase or Google Cloud connector is exposed in the current tool set, no installable Firebase plugin was found, and GitHub Pages/GitHub repository authority cannot publish Firestore Rules. The remaining provider publication step is therefore a genuine owner-required boundary unless an already-authenticated Firebase CLI becomes available externally.
+- Current bounded task: obtain direct provider-authoritative publication/verification of the reviewed `firestore.spark.rules`, then execute only the smallest legitimate production authorization-negative acceptance supported by real existing account/device/rivalry state. Stage 5 remains locked until current authority says otherwise.
+- Fixed RJR-1 starts at `85/100`; provider publication process alone earns no score until current RJR authority recognizes new verified capability evidence.
