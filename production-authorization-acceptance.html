@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="app-asset-revision" content="1.8.1-r5">
+<title>Production Authorization Acceptance · Career Mode Showdown</title>
+<link rel="stylesheet" href="css/app.css?v=1.8.1-r5">
+<style>
+  body{min-height:100vh;overflow:auto;padding:24px;background:#10151d;color:#f5f7fa;font-family:Arial,sans-serif}
+  .acceptanceShell{width:min(920px,100%);margin:0 auto;display:grid;gap:18px}
+  .acceptanceCard{background:rgba(17,24,34,.96);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:20px;display:grid;gap:14px}
+  .acceptanceKicker{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;opacity:.72}
+  .acceptanceCard h1,.acceptanceCard h2{margin:0}
+  .acceptanceCard p{margin:0;line-height:1.55}
+  .acceptanceGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .acceptanceAction{display:grid;gap:10px}
+  .acceptanceAction input[type="text"]{width:100%;box-sizing:border-box;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:#0d1219;color:#fff}
+  .acceptanceCheck{display:flex;gap:10px;align-items:flex-start;line-height:1.4}
+  .acceptanceCheck input{margin-top:3px}
+  .acceptanceStatus{padding:12px;border-radius:8px;background:rgba(255,255,255,.07);line-height:1.45}
+  .acceptanceEvidence{margin:0;max-height:360px;overflow:auto;white-space:pre-wrap;word-break:break-word;background:#080b10;border-radius:8px;padding:14px;font-size:.78rem}
+  .acceptanceMeta{font-size:.88rem;opacity:.8}
+  .acceptanceButton{padding:11px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:#1f2937;color:#fff;font-weight:700;cursor:pointer}
+  .acceptanceButton:disabled{opacity:.45;cursor:not-allowed}
+  .acceptanceDanger{border-color:rgba(255,180,90,.5)}
+  a{color:inherit}
+</style>
+</head>
+<body>
+<main class="acceptanceShell">
+  <section class="acceptanceCard">
+    <span class="acceptanceKicker">Career Mode Showdown · bounded production evidence</span>
+    <h1>Production Authorization Acceptance</h1>
+    <p>This auxiliary page checks remaining authorization evidence without changing local saves. It never bootstraps a Firestore private account, never creates pairing or rivalry data, and never awards Remote Joining readiness merely because this page exists.</p>
+    <p class="acceptanceMeta">Use only legitimate pre-existing test state. Google sign-in establishes a session; the page refuses to create missing Career Mode Showdown account data.</p>
+    <p><a href="./">Return to Career Mode Showdown</a></p>
+  </section>
+
+  <section class="acceptanceCard">
+    <span class="acceptanceKicker">Authentication boundary</span>
+    <h2>Existing private account only</h2>
+    <p id="authorizationAcceptanceAccountState">Initializing session-only Google authentication…</p>
+    <div>
+      <button id="authorizationSignIn" class="acceptanceButton" type="button">SIGN IN WITH GOOGLE</button>
+      <button id="authorizationSignOut" class="acceptanceButton" type="button" disabled>SIGN OUT</button>
+    </div>
+  </section>
+
+  <section class="acceptanceGrid">
+    <article class="acceptanceCard acceptanceAction">
+      <span class="acceptanceKicker">RJR candidate · provider read denial</span>
+      <h2>Third-account negative</h2>
+      <p>Use an existing active private account that is not either manager in the target rivalry. Enter an existing active paired rivalry ID. The probe performs only two Firestore reads and requires both to return permission denied.</p>
+      <label for="authorizationRivalryId">Active private rivalry ID</label>
+      <input id="authorizationRivalryId" type="text" autocomplete="off" spellcheck="false" placeholder="pair_…">
+      <label class="acceptanceCheck"><input id="authorizationThirdAccountConfirm" type="checkbox"><span>I confirm this signed-in existing private account is not either manager in the target rivalry.</span></label>
+      <label class="acceptanceCheck"><input id="authorizationActiveRivalryConfirm" type="checkbox"><span>I confirm the target is an existing active paired rivalry, not an open pairing capability.</span></label>
+      <button id="authorizationThirdAccountProbe" class="acceptanceButton" type="button">PROBE READ DENIAL</button>
+      <p class="acceptanceMeta">Requested provider writes: 0. A readable rivalry or authoritative state returns NOT PROVEN and must not receive RJR credit.</p>
+    </article>
+
+    <article class="acceptanceCard acceptanceAction acceptanceDanger">
+      <span class="acceptanceKicker">Prerequisite only · no RJR credit</span>
+      <h2>Revoked-device state check</h2>
+      <p>Use the exact browser identity that was legitimately revoked from another active registered device. This check confirms the provider envelope is revoked and that the existing client registration guard refuses it before staging a write.</p>
+      <label class="acceptanceCheck"><input id="authorizationRevokedDeviceConfirm" type="checkbox"><span>I confirm this exact browser/device identity was deliberately revoked using another legitimate active registered device.</span></label>
+      <button id="authorizationRevokedDeviceProbe" class="acceptanceButton" type="button">CONFIRM REVOKED STATE</button>
+      <p class="acceptanceMeta">This is not provider mutation-denial proof. It confirms legitimate revoked-device state and the existing pre-write client guard only.</p>
+    </article>
+  </section>
+
+  <section class="acceptanceCard">
+    <span class="acceptanceKicker">Evidence</span>
+    <h2>Sanitized result</h2>
+    <p id="authorizationAcceptanceStatus" class="acceptanceStatus" role="status" aria-live="polite">No acceptance probe has run.</p>
+    <pre id="authorizationAcceptanceEvidence" class="acceptanceEvidence">No evidence yet.</pre>
+    <button id="authorizationCopyEvidence" class="acceptanceButton" type="button">COPY EVIDENCE JSON</button>
+    <p class="acceptanceMeta">Account, rivalry and device identifiers are represented by SHA-256 fingerprints in generated evidence. Review the JSON before sharing it.</p>
+  </section>
+</main>
+<script src="js/sparkPrivatePairing.js?v=1.8.1-r5"></script>
+<script src="js/productionFirebaseRuntime.js?v=1.8.1-r5"></script>
+<script src="js/productionAuthorizationAcceptance.js?v=1.8.1-r5"></script>
+</body>
+</html>
