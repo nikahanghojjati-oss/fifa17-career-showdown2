@@ -1,46 +1,49 @@
-# CURRENT OVERRIDE — PR #166 PRODUCTION ROLLBACK PROVEN — RJR85 — PR #167 SLE TRANSITION — 2026-08-28 ET
+# CURRENT OVERRIDE — PR #168 PRODUCTION AUTHORIZATION ACCEPTANCE — RJR85 — 2026-08-28 ET
 
-Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. PR #166 publication main is `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Production rollback workflow `33190961085` is fully successful. Fixed RJR-1 is `85/100`. STAGE 5 REMAINS LOCKED.
+Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. PR #167 is merged to live main `640aa6762f0b495c4f2cef198cb27663b8209cce`. Production rollback workflow `33190961085` remains fully successful. Fixed RJR-1 remains `85/100`. STAGE 5 REMAINS LOCKED.
 
-Current environment: `we-2026-08-28-rjr-production-rollback-proof`
-Starting independently verified live main: `9c086f5548de4e65a9d2bb6645d01e10da7facf6`
-Production rollback publication main: `32c32afb1365c9ae6120d810a68e5c72c4b8229a`
+Current environment: `we-2026-08-28-rjr-authorization-negative-acceptance`
+Starting independently verified live main: `640aa6762f0b495c4f2cef198cb27663b8209cce`
+Current candidate PR: #168
 Production runtime: `v1.8.1 / 1.8.1-r5`
 Known-good rollback runtime: `1.8.1-r4`
 Rollback target commit: `2964527c4f7fc80b16d6d5ce73bd4f5823487d2c`
 Rollback proof: `PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md`
-SLE transition PR: #167
 
-## Proven production rollback capability
+## Current bounded lane
 
-Run `33190961085` independently observed exact r4 live in production, restored exact r5, independently observed r5 live again, and passed the final proof seal. Both artifacts were constructed before the production mutation and the restore job is fail-safe after successful artifact construction. Production is back on r5.
+PR #168 adds an auxiliary production authorization acceptance surface without changing normal application runtime identity, `index.html`, Firestore Rules, canonical save authority, App Check enforcement, IAM, billing or Stage 5.
 
-## Closed consumed Stage 4 capabilities
+The third-account probe is deliberately read-only. It requires a pre-existing active private account, explicit operator confirmation that the account is neither manager in the target rivalry, explicit confirmation that the target is an existing active paired rivalry, then performs exactly two Firestore reads: `rivalries/{rivalryId}` and `rivalries/{rivalryId}/state/authoritative`. Both must return permission denied. It requests zero provider writes, verifies browser storage is unchanged and emits only SHA-256 fingerprints for sensitive identifiers. A readable boundary is `NOT_PROVEN`, not success.
 
-Exact accepted-result idempotency replay is EVIDENCE-PROVEN and closed. Deterministic adverse-provider safety is EVIDENCE-PROVEN and closed. Production remote-to-local reconciliation is EVIDENCE-PROVEN and closed. Structural abuse resistance is EVIDENCE-PROVEN, closed and protected. Sustained mutation-frequency resistance is EVIDENCE-PROVEN, closed and protected. App Check token-lifecycle safety is PRODUCTION-PROVEN and remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. These capabilities are consumed proof and must not be rerun merely for confidence.
+The revoked-device probe is prerequisite confirmation only. It can confirm a legitimate provider device envelope is already `revoked` and that the existing client registration guard returns `PRIVATE_DEVICE_REVOKED` before staging a write. This is explicitly not provider mutation-denial proof and earns zero RJR credit by itself.
 
-The rollback proof adds no duplicate token-lifecycle or other consumed-capability credit and App Check enforcement remains OFF.
+The acceptance page never bootstraps missing Firestore private-account state, never creates pairing or rivalry state and does not make implementation itself RJR evidence. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
-The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
+## Fixed readiness and unverified provider truth
 
-This closes exactly one previously explicit uncredited capability. RJR advances `84 → 85`. PR/CI volume, merge, documentation and SLE earn zero duplicate credit.
+RJR-1 remains exactly `85/100` until legitimate production evidence is actually executed and observed. Source, tests, PR publication and acceptance tooling earn zero capability credit.
 
-Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Authenticated third-account/revoked-device production negatives, two-network behavior, real-device Remote Joining token-lifecycle acceptance, production provider abuse acceptance, actual Stage 5 sessions and final stable release acceptance remain uncredited. Stage 5 host/join/session orchestration remains locked until its explicit preconditions genuinely close.
+Production-provider publication of strengthened `firestore.spark.rules` remains separately unverified. Repository Rules source, emulator proof, GitHub Pages deployment and this acceptance page are not provider Rules publication evidence.
+
+Closed consumed proof remains closed: rollback/restoration, owner/device, Candidate C destructive reconciliation, exact replay, adverse-provider safety, App Check token lifecycle, structural abuse and sustained mutation-rate resistance must not be rerun merely for confidence.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-For this closing environment: finish PR #167 only. The mandatory recursive SLE package must publish through PR #167. Ensure the complete mirrored Smart Lean Efficient package, RJR85 authority, proof record, bootstrap pointers and Work Environment Continuity (WEC) closure are coherent; make `WORK_ENVIRONMENT_STATUS.json` the final intended branch mutation; require the unchanged exact PR #167 head to pass all 14 permanent workflow families, all mandatory publication gates, and all review gates with no blocking findings; merge under standing authorization; verify live main/publication and production still exposes `1.8.1-r5`; then stop at Handoff proximity 100% before another substantive milestone.
+Finish PR #168 only on an unchanged exact final head after the current implementation, authority reconciliation and final WEC seal are complete. Require all 14 permanent PR workflow families plus mandatory review/thread gates to pass. Merge and deploy under standing owner authorization only if no stop condition exists.
 
-For the fresh successor: independently verify the new live main, PR #167 post-merge state, production/runtime/deployment state, rollback run `33190961085`, `REMOTE_JOINING_READINESS.json`, `PROJECT_STATE.md`, this file, `SESSION_BOOTSTRAP.json`, provider truth and the closing WEC. Work Environment Continuity remains mandatory: validate/archive predecessor WEC `we-2026-08-28-rjr-production-rollback-proof`, initialize a fresh unique WEC with reset counters and the independently observed live-main SHA, run its own assessment, and obey that result.
+After merge, independently verify live main, publication/deployment state and that the normal application remains `v1.8.1 / 1.8.1-r5`. Verify the auxiliary `production-authorization-acceptance.html` asset is present in the deployed Pages artifact without treating deployment as provider Rules proof.
 
-Only if the fresh assessment permits continuation, select the smallest genuinely unblocked remaining RJR dependency from live evidence. Do not repeat consumed owner/device/destructive/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit/production-rollback proof merely for confidence. Do not manufacture provider/authenticated identity/device/network evidence. Keep Stage 5 locked until its explicit preconditions genuinely close.
+If a legitimate pre-existing active third private account is actually available, the next evidence action is the production third-account read-only denial probe against a legitimate existing active paired rivalry. Only a real production `PASS` result with both Firestore reads permission-denied, zero requested writes and unchanged browser storage may be evaluated for the still-uncredited authorization-negative capability. Do not manufacture a third account, pairing, rivalry, revoked device or network condition solely to claim evidence.
+
+If no legitimate third-account state exists, leave that capability uncredited and select the next smallest genuinely unblocked RJR dependency from live evidence after a fresh WEC assessment. The revoked-device prerequisite result alone must not be promoted to provider authorization proof. Keep Stage 5 locked until its explicit preconditions genuinely close.
 
 ## Permanent locks
 
-Exactly two private managers; only the three canonical localStorage keys; Candidate A non-mutating; Candidate B read-only; Candidate C remains the sole destructive remote-to-local Apply authority. Canonical compatibility lock: Candidate C sole destructive Apply authority; remote-to-local only; transaction-owned rollback; strict exact raw snapshot.
+Exactly two private managers. Canonical browser storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`; `activeShowdown` remains non-canonical.
 
-Firebase remains Spark / zero billing; Firestore remains memory-only; Google Auth remains popup-only `browserSessionPersistence` with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM unactivated/unbroadened. Equivalent protected shorthand: Spark/zero billing; memory-only Firestore; popup-only `browserSessionPersistence` Google Auth with no extra scopes; App Check enforcement OFF; trusted-runtime IAM unactivated/unbroadened.
+Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive remote-to-local Apply authority with immutable intent, backup-before-Apply, strict exact raw snapshot authority, stale/anti-clobber rejection, transaction-owned rollback and exact recovery verification.
 
-No public discovery/community/matchmaking/global rankings; protected historical rivalry `pair_a07108...756fb` remains untouched.
+Firebase remains Spark / zero billing. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. App Check enforcement remains OFF. Trusted-runtime IAM remains unactivated/unbroadened. Public discovery/community/matchmaking/global rankings remain prohibited. Historical rivalry `pair_a07108...756fb` must not be forced, edited or deleted.
 
-Standing owner merge/deploy authorization remains active after all mandatory gates pass. Later explicit owner instructions override it.
+Standing owner merge/deploy authorization remains active after all required gates pass. Later explicit owner instructions override it.
