@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-29-rjr-provider-rules-acceptance",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-08-29T10:10:00-04:00",
+  "recordedAt": "2026-08-29T10:21:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 3,
-    "largeEvidenceEvents": 10,
+    "largeEvidenceEvents": 11,
     "toolRoutingErrors": 2,
-    "correctedFailures": 1,
+    "correctedFailures": 2,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -29,34 +29,35 @@
   },
   "assessment": {
     "decision": "HANDOFF_AT_CHECKPOINT",
-    "reason": "The current environment completed the bounded PR #171 engineering candidate, reconciled provider-proven strengthened Firestore Rules to fixed RJR86, repaired current-authority contract drift without weakening historical proof, obtained a fully green 14-family exact engineering head, and sealed the complete mirrored SLE/SNS package including a grounded RJR100 session forecast. The next live owner-authenticated provider-abuse acceptance is a distinct evidence milestone. Handoff readiness is complete, no unresolved branch failure remains, usage is unavailable and not estimated, and deterministic transition advantage is above the HANDOFF_AT_CHECKPOINT threshold. Finish only exact-head validation/review/publication of this sealed branch; do not begin the separate live acceptance milestone in this environment.",
+    "reason": "The current environment completed the bounded PR #171 candidate, reconciled provider-proven strengthened Firestore Rules to fixed RJR86, repaired current-authority contract drift, and then correctly invalidated its first final WEC seal when a final-head Codex P1 exposed an authentication race in the provider-abuse acceptance probe. The race is now fixed fail-closed, permanently regression-tested, its review thread is resolved, and exact repair head 3658e91bea6636ff1502fe5d2c66838d5660363e passed all 14 permanent workflow families. The complete mirrored SLE/SNS package including the grounded RJR100 session forecast remains coherent. The next live owner-authenticated provider-abuse acceptance is a distinct evidence milestone. Handoff readiness is complete, no unresolved branch failure remains, usage is unavailable and not estimated, and deterministic transition advantage is above the HANDOFF_AT_CHECKPOINT threshold. Finish only exact-head validation/review/publication of this replacement final seal; do not begin the separate live acceptance milestone in this environment.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
       "contextPressure": 90,
-      "qualityRisk": 16,
+      "qualityRisk": 20,
       "quotaRisk": null,
       "nextTaskSeparation": 80,
       "handoffReadiness": 100,
       "atomicRisk": 0,
-      "continuationRisk": 60.4,
+      "continuationRisk": 61.9,
       "transitionCost": 13.5,
-      "transitionAdvantage": 46.9
+      "transitionAdvantage": 48.4
     }
   },
   "continuity": {
-    "currentTask": "Finish the immutable PR #171 publication boundary only: validate this final transition-prepared WEC seal as the last branch mutation, require all 14 permanent workflow families and review/thread gates on the unchanged sealed head, merge/deploy under standing authorization if clean, verify live main/Pages/production acceptance surface, then stop and hand the owner the current SNS before any separate live provider-abuse acceptance milestone.",
-    "lastSafeCheckpoint": "Exact engineering head 04e9f02d17eec4af2775253d821b3699b2d78e9f passed all 14 permanent PR workflow families. PR #171 was open, mergeable and had one Codex review finding thread, resolved. The complete deep handoff and project mirror were then updated byte-identically to content blob cbbea50ea3afa1748f9071961c81b944cad91e83 with the grounded RJR100 forecast. This WEC update is intentionally the final branch mutation.",
-    "nextSafeAction": "Do not mutate the branch. Fetch the new sealed head, require the full exact-head workflow gate plus review/thread/mergeability checks, merge PR #171 with expected-head protection under standing authorization if clean, verify post-merge main and GitHub Pages/production publication, then report Handoff proximity 100% and deliver START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md. The successor begins with independent live verification and a fresh WEC before the owner-authenticated zero-write provider-abuse probe.",
+    "currentTask": "Finish the immutable PR #171 publication boundary only: validate this replacement final transition-prepared WEC seal as the last branch mutation, require all 14 permanent workflow families plus final-head review/thread gates on the unchanged sealed head, merge/deploy under standing authorization if clean, verify live main/Pages/production acceptance surface, then stop and hand the owner the current SNS before any separate live provider-abuse acceptance milestone.",
+    "lastSafeCheckpoint": "Exact auth-race repair head 3658e91bea6636ff1502fe5d2c66838d5660363e passed all 14 permanent workflow families. Final-head Codex P1 identified that sign-out during the asynchronous rivalry enumeration query could otherwise turn an unauthenticated permission denial into false authenticated PASS evidence. The implementation now re-checks the same Firebase Auth UID after the query, fails with PROVIDER_ABUSE_AUTH_CHANGED_DURING_PROBE on sign-out/account switch, sets authenticatedAccountStable false, and forces both RJR eligibility flags false. The permanent contract simulates sign-out inside getDocsImpl. The review thread is resolved. The deep handoff root/project mirror remain byte-identical at blob cbbea50ea3afa1748f9071961c81b944cad91e83 with the grounded RJR100 forecast. This replacement WEC update is intentionally the final branch mutation.",
+    "nextSafeAction": "Do not mutate the branch. Fetch the replacement sealed head, require the complete exact-head workflow gate plus a final-head Codex review and resolved-thread/mergeability checks, merge PR #171 with expected-head protection under standing authorization if clean, verify post-merge main and GitHub Pages/production publication, then report Handoff proximity 100% and deliver START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md. The successor independently verifies live state and initializes a fresh WEC before the owner-authenticated zero-write provider-abuse probe.",
     "unfinishedWork": [
-      "Validate the unchanged final WEC-sealed PR #171 head across all 14 permanent workflow families and review/thread gates.",
+      "Validate the unchanged replacement final WEC-sealed PR #171 head across all 14 permanent workflow families and final-head review/thread gates.",
       "Merge/deploy PR #171 under standing authorization only if that exact sealed head is clean, then verify live main, GitHub Pages publication, production v1.8.1 / 1.8.1-r5 and the deployed PROBE ENUMERATION DENIAL acceptance surface.",
       "Fresh successor: after independent verification and fresh WEC initialization, obtain one legitimate authenticated production result from the zero-write rivalry enumeration-denial probe; implementation/CI/deployment alone earn zero RJR credit.",
-      "If that production query is permission-denied with unchanged browser storage, evaluate exactly one previously uncredited provider-abuse acceptance point; otherwise record NOT_PROVEN and award zero.",
+      "If that production query is permission-denied with the same authenticated account still current and browser storage unchanged, evaluate exactly one previously uncredited provider-abuse acceptance point; otherwise record NOT_PROVEN and award zero.",
       "Immediately reassess Stage 5 after the provider-abuse result and prioritize actual Private Remote Joining host/join/session orchestration when explicit preconditions genuinely close."
     ],
     "knownHazards": [
-      "This WEC seal must remain the last branch mutation. Any later branch mutation invalidates the seal and requires a fresh final WEC seal plus a new exact-head validation gate.",
+      "This replacement WEC seal must remain the last branch mutation. Any later branch mutation invalidates it and requires another final WEC seal plus a fresh exact-head validation gate.",
+      "The provider-abuse probe must prove the same authenticated Firebase UID remains current after the asynchronous Firestore query. Sign-out/account switch during the probe is NOT_PROVEN even if Firestore returns permission denied.",
       "Root firebase.json must remain on firestore.rules and root .firebaserc default must remain demo-career-mode-showdown-phase1f; the existing production alias fifa17-career-showdown-prod must not become the root default.",
       "Production strengthened Rules publication is provider-verified, but that fact does not itself prove the new authenticated collection-enumeration denial; the live acceptance result remains required for provider-abuse RJR credit.",
       "The provider-abuse probe must remain read-only: exactly one bounded rivalry collection query, limit 1, zero writes, no rivalry payload emission, no account bootstrap and unchanged browser storage.",
@@ -70,11 +71,12 @@
       "Starting live main was cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc, the PR #169 squash merge; PR #169 sealed head 534c0a9f97aa1f6000a591fb3d0612b8ac4b6f6d had all 14 permanent workflow families successful and Pages run 33233575696 successful.",
       "2026-08-29 owner Firebase Console screenshots directly proved production project fifa17-career-showdown-prod / Firestore (default) accepted strengthened firestore.spark.rules blob 2b7c0b166ae0aae7ab7a3ce84725b21091262484 with provider version Today 7:48 AM and source anchors through final deny-by-default.",
       "Fixed RJR-1 advanced exactly 85 -> 86 by production-cloud-security 19/20 -> 20/20. PR count, CI, documentation, deployment-path mechanics and acceptance-tool existence received zero duplicate credit.",
-      "PR #171 exact engineering head 04e9f02d17eec4af2775253d821b3699b2d78e9f passed all 14 permanent workflow families. Current-authority failures encountered earlier in the PR were corrected source-first while immutable historical proof and security/recovery locks were preserved.",
-      "The deep successor handoff root and project mirror are byte-identical at blob cbbea50ea3afa1748f9071961c81b944cad91e83 and now contain the RJR100 forecast: expected 5-8 focused successor sessions on the critical path, contingency 8-12 if provider/session-Rules/review/two-network/reconnect acceptance requires extra iterations. This estimate is planning guidance only and never RJR evidence.",
+      "PR #171 exact engineering head 04e9f02d17eec4af2775253d821b3699b2d78e9f passed all 14 permanent workflow families before final packaging. A final-head Codex review on the first WEC seal then found one valid P1 authentication-stability defect in the provider-abuse acceptance probe, correctly preventing merge.",
+      "The P1 is fixed at heads bcdc76a1cfbc2fafd43c8761450587a449c1ab13 / 3658e91bea6636ff1502fe5d2c66838d5660363e: the same authenticated UID is re-checked after getDocs, sign-out/account switch fails closed, no raw account ID is emitted, zero writes remain requested, and a permanent regression test proves an unauthenticated denial cannot become RJR evidence. All 14 permanent workflow families passed exact repair head 3658e91bea6636ff1502fe5d2c66838d5660363e and the P1 review thread was resolved.",
+      "The deep successor handoff root and project mirror are byte-identical at blob cbbea50ea3afa1748f9071961c81b944cad91e83 and contain the RJR100 forecast: expected 5-8 focused successor sessions on the critical path, contingency 8-12 if provider/session-Rules/review/two-network/reconnect acceptance requires extra iterations. This estimate is planning guidance only and never RJR evidence.",
       "At RJR86 the fixed ledger has 14 genuine points remaining: identity/authentication/trust 2, devices/pairing/Connected Rivalry/actual Remote Joining 10, real-device hardening/release 2. Production cloud/security and deterministic sync/recovery are already maxed and cannot supply duplicate progress.",
       "Two current-environment tooling limitations remain non-product facts: one public Pages browser route was rejected by the browsing layer and one direct local GitHub clone route was blocked by the environment network tunnel. Connector-backed GitHub remained authoritative; these routes were not retried as side quests.",
-      "Corrected branch-local WEC failure: an earlier post-implementation record retained CONTINUE despite transitionAdvantage exceeding PREPARE_HANDOFF. The corrected assessment was recorded before publication without changing product behavior, provider state or RJR evidence.",
+      "Corrected branch-local WEC failures: an earlier post-implementation record retained CONTINUE despite transitionAdvantage exceeding PREPARE_HANDOFF; later, the first final WEC seal was invalidated as required after a valid final-head Codex P1 caused two source/test branch mutations. This replacement seal restores last-mutation correctness.",
       "Current-session account/model usage is unavailable and is not estimated."
     ]
   }
