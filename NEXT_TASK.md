@@ -34,7 +34,7 @@ Authenticated third-account and revoked registered-device production negatives r
 
 ## Closed consumed capabilities
 
-Production rollback/restoration, exact accepted-result idempotency replay, deterministic adverse-provider safety, production remote-to-local reconciliation, structural abuse resistance, sustained mutation-frequency resistance, App Check token-lifecycle safety, prior owner/device pairing and Connected Rivalry proof are consumed. TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains permanently protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`; do not repeat it merely for confidence or duplicate RJR credit.
+Production rollback/restoration, exact accepted-result idempotency replay — evidence-proven, deterministic adverse-provider safety, production remote-to-local reconciliation, structural abuse resistance, sustained mutation-frequency resistance, App Check token-lifecycle safety, prior owner/device pairing and Connected Rivalry proof are consumed. TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains permanently protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`; do not repeat it merely for confidence or duplicate RJR credit.
 
 The Installable Offline App remains the local-first startup and recovery baseline. The completed `v1.3.0 Recovery & Device Resilience Hardening` baseline and Local Profiles / Save Library chain remain protected.
 
@@ -46,7 +46,7 @@ For this environment: finish PR #171 only. Require the unchanged final exact PR 
 
 If the fresh WEC assessment after publication permits continuation, execute exactly one legitimate owner-authenticated `PROBE ENUMERATION DENIAL` on the deployed Production Authorization Acceptance page using an existing active Connected Account. No rivalry ID, third account, device revocation or provider write is required. Credit exactly one provider-abuse capability only if production returns permission denied and the sanitized evidence confirms zero writes and unchanged browser storage. Then immediately reassess the Stage 5 lock from current source.
 
-If WEC instead requires transition after PR #171 publication, complete the mandatory recursive SLE package with mirrored copies at Handoff proximity 100% and stop. The fresh successor's first bounded task is the same deployed provider-abuse production acceptance, followed by strict RJR reconciliation and Stage 5 unlock assessment.
+If WEC instead requires transition after PR #171 publication, complete the mandatory recursive SLE package with mirrored copies at Handoff proximity 100%, publish that sealed unchanged package, and stop. The fresh successor's first bounded task is the same deployed provider-abuse production acceptance, followed by strict RJR reconciliation and Stage 5 unlock assessment.
 
 Do not repeat consumed owner/device/destructive/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit/production-rollback proof. Do not manufacture provider, third-account, revoked-device or network evidence.
 
