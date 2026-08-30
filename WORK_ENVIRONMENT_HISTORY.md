@@ -815,3 +815,16 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Official RJR-1 remains 78; publication work earns zero points.
 - Owner-device Gop recovery, unavailable-code proof and Candidate C proof were not performed in this closing environment.
 - Complete mirrored v1.4.17 SLE successor package prepared; final WEC seal to 100 is the only permitted subsequent branch file mutation.
+
+## Closure addendum — `we-2026-08-29-rjr-provider-rules-acceptance`
+
+- Successor reconciliation recorded: `2026-08-29T18:14:22Z`.
+- Starting verified live-main SHA recorded by the predecessor: `cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc`, the PR #169 squash merge.
+- Final verified repository boundary: PR #171 `Record provider-proven Rules and add production abuse acceptance`, exact final head `d5c8549924244ee177065559043e0697d0c810c3`, exact tree `d8e5ef517457693ff7dd095db0777b8f366593c4`, squash merge / independently verified live main `1d945ba47c89c305575ef72cc26672fc3e0743ff` with the identical tree.
+- Exact-head proof: all 14 permanent pull-request workflow families completed successfully on the unchanged final head. Final-head Codex review reported no major issue on `d5c8549924`; all eight inline review threads are resolved and PR #171 is closed/merged.
+- Post-merge proof: all 14 normal push validation families plus GitHub Pages run `33264211554` completed successfully on merge SHA `1d945ba47c89c305575ef72cc26672fc3e0743ff`.
+- Production proof: cache-bypassing retrieval independently matched deployed `index.html`, `production-authorization-acceptance.html`, `js/productionAuthorizationAcceptance.js`, and `js/productionProviderAbuseAcceptance.js` byte-for-byte to live main. Production remains `v1.8.1 / 1.8.1-r5`, and the deployed acceptance page contains `PROBE ENUMERATION DENIAL` with the shared authentication-control evidence boundary.
+- Provider truth: the owner-authenticated Firebase Console proof of strengthened `firestore.spark.rules` remains authoritative; the repository blob independently matches `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Fixed RJR-1 remains `86/100`; PR/CI/deployment volume receives zero duplicate credit.
+- Technical proof for PR #171 publication is complete. The separate legitimate owner-authenticated production provider-abuse result remains pending and uncredited.
+- Predecessor final decision `HANDOFF_AT_CHECKPOINT` belongs only to `we-2026-08-29-rjr-provider-rules-acceptance`; it is archived here and is not inherited by the fresh successor.
+- Exact next safe action: initialize and assess a fresh unique WEC from live main `1d945ba47c89c305575ef72cc26672fc3e0743ff`; if permitted, execute exactly one deployed zero-write authenticated rivalry-enumeration denial probe without fabricating account, rivalry, revocation, device, or provider state, then reconcile at most one new capability and immediately reassess the Stage 5 lock.

@@ -51,8 +51,8 @@ assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stage
 assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Lossless pre-r3 authority must preserve the historical bounded v1.5.0/r1 candidate.");
 assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Current NEXT_TASK must identify PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance rather than revive Stage 2A.");
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER-PROVEN RULES[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Current PROJECT_STATE must identify PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance rather than revive Stage 2A.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Current NEXT_TASK must identify PR #171 closure / RJR87 / Stage 5A activation rather than revive Stage 2A.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+PRODUCTION PROVIDER-ABUSE PASS[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Current PROJECT_STATE must identify PR #171 closure / RJR87 / Stage 5A activation rather than revive Stage 2A.");
 assert.equal(r5Production,true,"Current transition authority must remain on restored production r5.");
 assert.match(next,/Status:[\s\S]+production remains `v1\.8\.1 \/ 1\.8\.1-r5`[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN/i,"Current NEXT_TASK must expose restored r5 production truth.");
 assert.match(state,/Status:[\s\S]+PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5/i,"Current PROJECT_STATE must expose restored r5 production truth.");
@@ -61,7 +61,7 @@ assert.match(state,/Rollback proof workflow:\s*`33190961085` — SUCCESS \/ cons
 assert.match(state,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+firestore\.spark\.rules/i,"Current PROJECT_STATE must retain direct provider Rules provenance.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Current PROJECT_STATE must report the live fixed RJR score.");
-assert.equal(readiness.currentScore,86,"Stage 2A current-state checks must preserve the fixed RJR86 provider-publication checkpoint.");
+assert.equal(readiness.currentScore,87,"Stage 2A current-state checks must preserve the fixed RJR87 provider-abuse checkpoint.");
 assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/ 1D DONE \/ 1E DONE \/ 1F DONE/i);
 assert.match(roadmap, /Private Identity \/ Account Layer \| STAGE 2 ACTIVE \/ 2A AUTHORIZED NEXT/i);
 assert.match(remoteRoadmap, /Stage 1 — Cloud \/ Sync Readiness[\s\S]+DONE \/ MERGED \/ PROTECTED through Phase 1F/i);
@@ -81,4 +81,4 @@ assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
 assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved and current PR #171 closure / RJR87 / Stage 5A activation authority explicit\n");

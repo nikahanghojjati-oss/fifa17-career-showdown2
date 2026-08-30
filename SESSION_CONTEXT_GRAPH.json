@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-29T12:42:00Z",
+  "recordedAt": "2026-08-29T18:22:57.861Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -26,7 +26,7 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 86,
+      "recordedScore": 87,
       "rule": "fixed capability evidence only; PR, CI, merge, deployment mechanics, provider publication process, WEC, SLE and documentation add zero duplicate credit",
       "authority": 1,
       "riskCriticality": 1
@@ -65,8 +65,8 @@
     },
     {
       "id": "provider-abuse-enumeration-acceptance",
-      "type": "next-production-evidence-boundary",
-      "state": "pr171-implemented-publication-pending-live-acceptance",
+      "type": "completed-production-capability",
+      "state": "production-proven-consumed-rjr87",
       "pullRequest": 171,
       "page": "production-authorization-acceptance.html",
       "probe": "PROBE ENUMERATION DENIAL",
@@ -76,39 +76,47 @@
       "requiresRevokedDevice": false,
       "firestoreWritesRequested": 0,
       "creditBeforeLivePass": false,
+      "productionResult": "PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED",
+      "authenticatedAccountStable": true,
+      "authenticationControlsLockedDuringQuery": true,
+      "queryLimit": 1,
+      "rivalryListDenied": true,
+      "providerErrorCode": "permission-denied",
+      "localStorageUnchanged": true,
+      "proof": "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
+      "rjrScoreAfterProof": 87,
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr171-rjr86-provider-abuse-sle-transition",
-      "environmentId": "we-2026-08-29-rjr-provider-rules-acceptance",
-      "startingMainSha": "cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc",
-      "transitionPullRequest": 171,
+      "state": "pr172-rjr87-stage5a-authorized-sle-transition",
+      "environmentId": "we-2026-08-29-provider-abuse-production-acceptance",
+      "startingMainSha": "1d945ba47c89c305575ef72cc26672fc3e0743ff",
+      "transitionPullRequest": 172,
       "initialDecision": "CONTINUE",
       "finalDecision": "HANDOFF_AT_CHECKPOINT",
       "handoffProximity": 100,
-      "rjrScore": 86,
-      "starter": "START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE_SLE_2026-08-29.md",
+      "rjrScore": 87,
+      "starter": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-after-pr171-rjr86-transition",
-      "rule": "successor independently verifies PR #171 publication and production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then if its own assessment permits executes the deployed zero-write provider-abuse enumeration denial acceptance and immediately reassesses Stage 5; never inherit predecessor transition decisions or repeat consumed proof",
+      "state": "fresh-wec-required-after-pr172-rjr87-transition",
+      "rule": "successor independently verifies PR #172 evidence/SLE publication and production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then if its own assessment permits begins the exact Stage 5A private-session protocol/client plus deterministic emulator boundary; never inherit predecessor transition decisions or repeat consumed proof",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "locked-pending-current-provider-abuse-acceptance-and-fresh-reassessment",
+      "state": "stage5a-private-session-protocol-and-emulator-authorized-next",
       "knownRemainingGaps": [
-        "production provider abuse acceptance",
         "state-dependent third-account/revoked-device production negatives only if legitimate state and current authority require them",
         "actual Stage 5 host/join/session orchestration",
         "two-network Remote Joining acceptance",
@@ -116,6 +124,7 @@
         "final stable Remote Joining release acceptance"
       ],
       "sessionRulesCurrentState": "entitled get allowed; list/create/update/delete denied",
+      "nextSlice": "separate private-session protocol/client module, deterministic emulator contracts and candidate minimum session Rules; no production Rules publication in the first slice",
       "authority": 1
     },
     {
@@ -147,6 +156,7 @@
       "publicMatchmaking": false,
       "globalLeaderboardsRankings": false,
       "productionProviderRulesPublicationProven": true,
+      "productionProviderAbuseAcceptanceProven": true,
       "productionProviderRulesSource": "firestore.spark.rules",
       "authority": 1,
       "riskCriticality": 1
@@ -157,15 +167,15 @@
     {"from": "production-strengthened-rules-provider-proof", "to": "rjr1-ledger", "relation": "adds-one-provider-security-capability-rjr86"},
     {"from": "production-runtime-v181-r5", "to": "production-strengthened-rules-provider-proof", "relation": "runtime-unchanged-provider-boundary-strengthened"},
     {"from": "production-strengthened-rules-provider-proof", "to": "provider-abuse-enumeration-acceptance", "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"},
-    {"from": "provider-abuse-enumeration-acceptance", "to": "closing-current-wec", "relation": "implementation-published-but-live-owner-acceptance-deferred-to-successor"},
+    {"from": "provider-abuse-enumeration-acceptance", "to": "closing-current-wec", "relation": "production-pass-recorded-and-rjr87-transition-sealed"},
     {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
-    {"from": "successor-selection", "to": "provider-abuse-enumeration-acceptance", "relation": "first-live-evidence-action-if-fresh-wec-permits"},
-    {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "reassess-stage5-immediately-after-real-result"},
+    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "begin-stage5a-protocol-and-emulator-if-fresh-wec-permits"},
+    {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "qualifying-production-pass-closes-final-non-state-dependent-lock"},
     {"from": "canonical-storage", "to": "stage5-private-remote-joining", "relation": "permanent-data-authority-lock"},
     {"from": "security-zero-billing", "to": "stage5-private-remote-joining", "relation": "permanent-provider-and-enforcement-lock"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #171 and direct Firebase provider proof of strengthened firestore.spark.rules, fixed RJR86, then the zero-write authenticated rivalry-enumeration denial acceptance and closing WEC. Verify PR #171 publication first. Fresh successor WEC then runs the deployed provider-abuse probe if permitted and immediately reassesses Stage 5. Preserve consumed rollback/reconciliation/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit proof, canonical storage, Spark zero billing and App Check enforcement OFF without repeating consumed evidence.",
+    "walkDirection": "Start from PR #171 publication, the direct Firebase provider proof of strengthened firestore.spark.rules, and the exact production provider-abuse PASS that advances fixed RJR to 87. Verify PR #172 evidence/SLE publication and the closing WEC. Fresh successor WEC then begins the exact Stage 5A private-session protocol/client plus emulator boundary if permitted. Preserve consumed rollback/reconciliation/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit/provider-abuse proof, canonical storage, Spark zero billing and App Check enforcement OFF without repetition.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true
