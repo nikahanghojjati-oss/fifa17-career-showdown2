@@ -83,9 +83,9 @@ assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 assert.match(preR3Next,/Connected Rivalry and actual Private Remote Joining remain downstream/i);
 assert.match(preR3Next,/Private Remote Joining remains PRIORITIZED LONG-TERM/i);
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Live NEXT_TASK must identify the current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live NEXT_TASK must identify the current PR #171 closure / RJR87 / Stage 5A activation authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
-assert.match(next,/STAGE 5 REMAINS LOCKED|Stage 5 host\/join\/session orchestration remains locked/i,"Live transition authority must keep Stage 5 locked until the explicit remaining gates close.");
+assert.match(next,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Live transition authority must keep Stage 5 locked until the explicit remaining gates close.");
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Repository Firebase default must remain emulator-only during the historical Stage 2D proof.");
 assert.match(firebaseRc.projects.default,/^demo-/);
@@ -107,4 +107,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies||{},"firebase
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies||{},"firebase-admin"),false);
 assert.doesNotMatch(lock.slice(0,1800),/"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2D preflight with historical selection authority preserved and current PR #171 closure / RJR87 / Stage 5A activation authority explicit\n");
