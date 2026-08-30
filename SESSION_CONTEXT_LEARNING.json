@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-29T12:44:00Z",
-  "materialSessionsObserved": 10,
-  "learningState": "cold-start-priors-with-ten-labeled-sessions",
+  "recordedAt": "2026-08-29T18:22:57.861Z",
+  "materialSessionsObserved": 11,
+  "learningState": "cold-start-priors-with-eleven-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -12,7 +12,7 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.7632,
-      "note": "Fresh WEC ownership prevented predecessor transition leakage, then correctly moved this environment to PREPARE_HANDOFF after provider proof, provider-abuse implementation and context growth. A manually stale CONTINUE decision was caught and corrected before publication."
+      "note": "Fresh WEC ownership prevented predecessor transition leakage. In the latest environment it permitted the exact bounded production probe, then selected HANDOFF_AT_CHECKPOINT after the proof/RJR/Stage 5 reassessment separated cleanly from the next runtime implementation."
     },
     "workflow-job-logs": {
       "loaded": true,
@@ -60,9 +60,9 @@
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 0.8,
-      "learnedUtility": 0.56,
-      "note": "A zero-write authenticated rivalry enumeration-denial probe avoids fabricating a third account or revoked device. It earns no credit until real production returns permission denied with unchanged browser storage."
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.648,
+      "note": "The zero-write authenticated rivalry enumeration-denial probe avoided fabricating a third account or revoked device and returned the exact qualifying production permission denial with stable authentication and unchanged browser storage. It closed one fixed hardening capability and unlocked Stage 5A."
     }
   },
   "sessionMetrics": [
@@ -97,6 +97,22 @@
       "ciTriageLesson": "When fixed RJR evidence advances, reconcile all current SLE authority in the same real engineering checkpoint before sealing; do not weaken the coherence contract or create a documentation-only follow-up.",
       "productionEvidenceLesson": "Provider publication is credited only from direct provider-authoritative evidence. Once strengthened Rules were truly provider-live, the next safe abuse proof could use an authenticated zero-write collection enumeration denial rather than fabricate third-account or revoked-device state.",
       "authorityLesson": "PREPARE_HANDOFF permits finishing the already-active PR publication checkpoint but not starting the separate live owner acceptance milestone. Package the successor in the same PR, seal WEC last and hand the live probe to a fresh WEC."
+    },
+    {
+      "sessionId": "we-2026-08-29-provider-abuse-production-acceptance",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5a-private-session-protocol-and-emulator-boundary",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The attached deep PR #171 SLE and exact reserved session schema were needed to reconcile live publication truth, classify the single fixed RJR capability, and select the smallest non-premature Stage 5 slice.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Browser runtime and schema friction was bounded and counted in WEC; the successful production probe was not repeated. GitHub connector/public git transport supplied repository authority after local gh authentication was unavailable.",
+      "ciTriageLesson": "When a production evidence result changes the fixed checkpoint, add one permanent authority contract that pins the exact result, score delta, next product slice, and unchanged production security boundary before sealing.",
+      "productionEvidenceLesson": "A production provider-abuse capability is credited only when a legitimate authenticated request reaches the provider, authentication stays stable and locked, the provider denies the forbidden enumeration, zero writes are requested, and local storage stays unchanged.",
+      "authorityLesson": "State-dependent third-account/revoked-device negatives do not remain artificial blockers after the explicit non-state-dependent gate closes. Authorize the smallest real Stage 5 protocol/emulator slice while keeping production session Rules closed until separate review."
     }
   ],
   "outcomeScale": {
@@ -114,12 +130,12 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "Direct Firebase provider proof closes strengthened production Rules publication and fixed RJR 85 to 86. PR #171 publishes a zero-write authenticated rivalry-enumeration denial acceptance, then the closing WEC hands off before live owner execution. Fresh successor WEC runs that exact production probe if permitted and immediately reassesses Stage 5 rather than pursuing synthetic third-account/revoked-device proof loops.",
-    "prePublicationMainSha": "cbdc8cbf12f53b1bb60e6e1306f070a11ae6ccbc",
+    "lesson": "The exact legitimate production provider-abuse PASS closes one hardening capability and fixed RJR 86 to 87 without process credit. State-dependent negative proofs are not fabricated blockers; Stage 5A private-session protocol/client plus deterministic emulator work is now the smallest real product slice, while production session Rules remain unchanged until separate review.",
+    "prePublicationMainSha": "1d945ba47c89c305575ef72cc26672fc3e0743ff",
     "runtimeRevision": "1.8.1-r5",
-    "rjrScore": 86,
-    "closeoutPullRequest": 171,
-    "starter": "START_NEXT_SESSION_V1.4.29_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR171_RJR86_PROVIDER_ABUSE_ACCEPTANCE_SLE_2026-08-29.md"
+    "rjrScore": 87,
+    "closeoutPullRequest": 172,
+    "starter": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md"
   }
 }

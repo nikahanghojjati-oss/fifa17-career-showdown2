@@ -68,11 +68,11 @@ assert.match(preR3NextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datast
 assert.match(preR3NextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/im,"Live NEXT_TASK must identify the current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority rather than revive historical export or prior transition lanes.");
+assert.match(nextTask,/^# CURRENT OVERRIDE — PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/im,"Live NEXT_TASK must identify the current PR #171 closure / RJR87 / Stage 5A activation authority rather than revive historical export or prior transition lanes.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore remains memory-only/i);
 assert.match(nextTask,/Candidate C remains the sole destructive (?=[^\n]*Apply authority)(?=[^\n]*remote-to-local)[^\n]+/i,"Live NEXT_TASK must preserve Candidate C as the sole destructive remote-to-local Apply authority without pinning one sentence order.");
-assert.match(nextTask,/STAGE 5 REMAINS LOCKED|Stage 5 host\/join\/session orchestration remains locked/i);
+assert.match(nextTask,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i);
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -113,4 +113,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current PR #171 provider-proven Rules / RJR86 authority.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current PR #171 closure / RJR87 authority.\n");

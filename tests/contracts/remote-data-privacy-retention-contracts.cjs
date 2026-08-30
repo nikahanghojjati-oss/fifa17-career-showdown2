@@ -62,14 +62,14 @@ assert.doesNotMatch(optional,/firebase|firestore/i,"Phase 1C must not connect Fi
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
 assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved in the lossless pre-r3 archive without overriding later explicit runtime authority.");
 if(r5Production){
-  assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+STAGE 5 REMAINS LOCKED/i,"Current NEXT_TASK must expose promoted r5 production authority and retain the Stage 5 lock.");
+  assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+STAGE 5A IS AUTHORIZED NEXT/i,"Current NEXT_TASK must expose promoted r5 production authority and the Stage 5A activation.");
   assert.match(next,/TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN|stage4-token-lifecycle-contracts\.cjs/i,"Current NEXT_TASK must preserve deployed App Check token-lifecycle authority after r5 promotion.");
 }else{
   assert.match(next,/Status:[\s\S]+production `v1\.8\.1 \/ 1\.8\.1-r4` remains DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+candidate `v1\.8\.1 \/ 1\.8\.1-r5` is EVIDENCE-PROVEN \/ PUBLICATION PENDING[\s\S]+App Check enforcement remains OFF/i,"Current NEXT_TASK must retain deployed r4 Firebase/App Check authority while truthfully exposing the r5 publication candidate.");
 }
 assert.match(next,/Firebase remains Spark \/ zero billing[\s\S]+Firestore remains memory-only[\s\S]+Google Auth remains popup-only `browserSessionPersistence`/i,"Current NEXT_TASK must preserve the bounded production provider/privacy locks inherited after Phase 1C.");
 assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock.");
-assert.match(next,/Production-provider publication[\s\S]+firestore\.spark\.rules[\s\S]+provider-verified/i,"Current NEXT_TASK must preserve direct provider verification of the strengthened Rules without conflating it with repository/emulator evidence.");
+assert.match(next,/Strengthened Rules provider proof[\s\S]+Published production Rules source:[\s\S]+firestore\.spark\.rules/i,"Current NEXT_TASK must preserve direct provider verification of the strengthened Rules without conflating it with repository/emulator evidence.");
 assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+firestore\.spark\.rules[\s\S]+Today · 7:48 AM/i,"Current privacy authority must retain direct provider provenance for the strengthened Rules publication claim.");
 
-process.stdout.write(`PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while ${r5Production?"production-proven r5 with provider-verified strengthened Rules":"deployed r4 and candidate r5"} authority remains explicit\n`);
+process.stdout.write(`PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance is archived while ${r5Production?"production-proven r5 with provider-verified strengthened Rules and Stage 5A activation":"deployed r4 and candidate r5"} authority remains explicit\n`);

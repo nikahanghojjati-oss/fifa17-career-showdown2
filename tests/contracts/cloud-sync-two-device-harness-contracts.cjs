@@ -28,9 +28,9 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Current NEXT_TASK must advance beyond historical Phase 1E and consumed prior publication lanes to the current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance lane.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Current NEXT_TASK must advance beyond historical Phase 1E and consumed prior publication lanes to the current PR #171 closure / RJR87 / Stage 5A activation lane.");
 assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
-assert.match(next,/STAGE 5 REMAINS LOCKED[\s\S]+provider-abuse result/i,"Current NEXT_TASK must preserve the explicit Stage 5 gate while dormant Phase 1E provenance stays archived.");
+assert.match(next,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Current NEXT_TASK must preserve the explicit Stage 5 gate while dormant Phase 1E provenance stays archived.");
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
@@ -210,4 +210,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #171 provider-proven Rules / RJR86 / provider-abuse acceptance authority stays coherent\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #171 closure / RJR87 / Stage 5A activation authority stays coherent\n");

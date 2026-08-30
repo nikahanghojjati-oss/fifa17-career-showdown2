@@ -52,14 +52,14 @@ assert.match(historicalProjectState,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(historicalProjectState,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
 
 // Live authority has advanced through production-proven r5 and provider-proven strengthened Rules.
-assert.match(liveNextTask,/CURRENT OVERRIDE[\s\S]+PR #171[\s\S]+PROVIDER RULES PROVEN[\s\S]+RJR86[\s\S]+PROVIDER ABUSE ACCEPTANCE/i,"Live NEXT_TASK must expose current PR #171 provider-proven Rules / RJR86 authority rather than revive Stage 2H.");
+assert.match(liveNextTask,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live NEXT_TASK must expose current PR #171 closure / RJR87 authority rather than revive Stage 2H.");
 assert.match(liveNextTask,/App Check enforcement remains OFF/i);
-assert.match(liveNextTask,/STAGE 5 REMAINS LOCKED|Stage 5 host\/join\/session orchestration remains locked/i);
+assert.match(liveNextTask,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i);
 assert.match(liveProjectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and r4 recovery.");
 assert.match(liveProjectState,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+firestore\.spark\.rules/i,"Live PROJECT_STATE must preserve direct strengthened Rules provider proof.");
-assert.match(handoff,/PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Rolling handoff must expose current PR #171/r5/RJR86 authority.");
-assert.match(handoff,/provider-abuse acceptance[\s\S]+reassess Stage 5/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
-assert.match(developerStart,/PR #171[\s\S]+1\.8\.1-r5[\s\S]+86\/100/i,"Developer start must expose current PR #171/r5/RJR86 authority.");
+assert.match(handoff,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Rolling handoff must expose current PR #172/r5/RJR87 authority.");
+assert.match(handoff,/provider-abuse proof[\s\S]+Stage 5A is authorized next/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
+assert.match(developerStart,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Developer start must expose current PR #172/r5/RJR87 authority.");
 assert.match(roadmap,/Stage 2G[\s\S]+DONE \/ MERGED \/ PROVEN/);
 assert.match(roadmap,/Stage 2H[\s\S]+AUTHORIZED NEXT PREREQUISITE/);
 
@@ -75,4 +75,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 assert.equal(pkg.dependencies,undefined,"Historical Stage 2H authorization boundary must not add production dependencies.");
 
-process.stdout.write("PASS Stage 2H trusted production execution/IAM authorization boundary contracts: immutable historical selection is preserved while current PR #171 provider-proven Rules / RJR86 production authority remains explicit\n");
+process.stdout.write("PASS Stage 2H trusted production execution/IAM authorization boundary contracts: immutable historical selection is preserved while current PR #171 closure / RJR87 production authority remains explicit\n");
