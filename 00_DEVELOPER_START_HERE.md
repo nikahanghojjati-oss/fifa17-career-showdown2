@@ -1,3 +1,19 @@
+# CURRENT OVERRIDE — PR #173 / STAGE 5A CANDIDATE PROVEN / PROVIDER DEVICE CREDENTIAL NEXT — 2026-08-31 UTC
+
+Read `START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md` first. Use `SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md` only when deeper context is needed.
+
+Independently verify live main, PR #173 final exact head/state, workflows, reviews/threads, mergeability, merge, post-merge deployment, production `v1.8.1 / 1.8.1-r5`, unchanged provider Rules, fixed RJR87 and closing WEC. Treat all recorded facts as orientation only.
+
+Stage 5A candidate client/Rules/emulator work is complete; it is dormant and uncredited. Candidate operations require a provider-verifiable active-device `device_id` token claim, but production claim issuance is not implemented or proven. The next real slice is that separate credential issuance/refresh/revocation boundary. Production session Rules publication, runtime loading and host/join UX remain later work.
+
+Validate/archive closing WEC, create a fresh unique WEC with reset counters from observed live main, assess it, then execute `IMMEDIATE NEXT TASK AFTER FULL STUDY` in `NEXT_TASK.md`.
+
+Every substantive update uses the exact eight-line status shape. SLE = Smart Lean Efficient recursively applies. At Handoff proximity 100%, publish the complete mirrored package, run `npm run work:next-prompt`, seal WEC last and stop before another substantial milestone.
+
+---
+
+The preserved PR #172 transition entrypoint below is superseded.
+
 # CURRENT OVERRIDE — PR #172 / RJR87 / STAGE 5A PRIVATE SESSION PROTOCOL NEXT — 2026-08-29 ET
 
 Current source, live GitHub/provider/deployment evidence, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `REMOTE_JOINING_READINESS.json`, and later owner instructions override historical material. `00_HANDOFF_GOLDEN_RULE.md` remains permanent handoff authority. Work Environment Continuity (WEC) and SLE = Smart Lean Efficient remain mandatory.

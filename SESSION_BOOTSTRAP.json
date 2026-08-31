@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-29T14:22:57-04:00",
+  "recordedAt": "2026-08-31T06:25:00Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "rjr/provider-abuse-acceptance-2026-08-29",
+  "bootstrapBranch": "rjr/stage5a-private-session-protocol-2026-08-30",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "1d945ba47c89c305575ef72cc26672fc3e0743ff",
+  "lastVerifiedMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
   "lastVerifiedRuntimeMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
   "latestRuntimeMerge": {
     "pullRequest": 166,
@@ -19,9 +19,11 @@
     "rollbackRunId": 33190961085
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 172,
-    "title": "Record production provider abuse acceptance and unlock Stage 5A",
-    "branch": "rjr/provider-abuse-acceptance-2026-08-29",
+    "pullRequest": 173,
+    "title": "Implement Stage 5A private-session candidate boundary",
+    "branch": "rjr/stage5a-private-session-protocol-2026-08-30",
+    "implementationProofHead": "217d9d729774b23ab4fdf8c5cae842d993986a3f",
+    "implementationProofTree": "21a96e44f2e606cc14cd6b54254544b456095036",
     "productionRollbackRunId": 33190961085,
     "productionRollbackProven": true,
     "productionRestorationProven": true,
@@ -38,9 +40,18 @@
     "providerAbuseProductionProof": "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
     "providerAbuseProductionResult": "PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED",
     "stage5AImplementationAuthorized": true,
+    "stage5ACandidateImplemented": true,
+    "stage5ACandidateClient": "js/sparkPrivateSession.js",
+    "stage5ACandidateRules": "firestore.stage5a.rules",
+    "stage5ACandidateProof": "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
+    "stage5ACandidateEmulatorProven": true,
+    "stage5AProviderDeviceCredentialClaim": "device_id",
+    "stage5AProviderDeviceCredentialEmulatorProven": true,
+    "productionProviderDeviceCredentialIssued": false,
+    "productionProviderDeviceCredentialProven": false,
     "stage5ARuntimeImplemented": false,
     "productionSessionRulesChanged": false,
-    "checkpointStatus": "rjr87-provider-abuse-proven-stage5a-authorized-sle-seal"
+    "checkpointStatus": "rjr87-stage5a-candidate-provider-device-credential-emulator-proven-production-credential-unissued-rules-unchanged"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 166,
@@ -77,7 +88,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #171 is merged/published and the deployed zero-write authenticated rivalry-enumeration probe returned the exact qualifying production denial. Fixed RJR-1 is 87/100, Stage 5A private-session protocol/emulator work is authorized next, and PR #172 closes only the evidence reconciliation plus recursive SLE package before transition. No Stage 5 runtime or production session Rules change occurs in the closing environment.",
+  "currentLane": "PR #173 implements and emulator-proves the separate dormant Stage 5A private-session client plus isolated candidate Rules bound to a provider-verifiable device_id claim. Fixed RJR-1 remains 87/100; production does not issue that claim, and production firestore.spark.rules plus runtime v1.8.1-r5 remain unchanged. The next fresh-WEC slice is the smallest safe provider current-device credential issuance/refresh/revocation boundary before any production session Rules, runtime or host/join UX activation.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -87,46 +98,47 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication process, WEC, SLE or documentation count."
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-08-29-rjr-provider-rules-acceptance",
+    "environmentId": "we-2026-08-29-provider-abuse-production-acceptance",
     "decision": "HANDOFF_AT_CHECKPOINT",
     "handoffCompleteness": 100,
     "closure": "WORK_ENVIRONMENT_HISTORY.md"
   },
   "currentWec": {
-    "environmentId": "we-2026-08-29-provider-abuse-production-acceptance",
-    "startingMainSha": "1d945ba47c89c305575ef72cc26672fc3e0743ff",
+    "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
+    "startingMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
     "initialDecision": "CONTINUE",
     "finalDecision": "HANDOFF_AT_CHECKPOINT",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "closingCheckpoint": "PR172 production provider-abuse proof, fixed RJR87, Stage 5A activation authority and recursive v1.4.30 SLE seal; no Stage 5 runtime implementation in closing environment"
+    "closingCheckpoint": "PR173 separate Stage 5A private-session client and isolated candidate Rules are emulator-proven with provider device_id enforcement at fixed RJR87; production does not issue that claim and production Rules, runtime loading and host/join UX remain unchanged for a fresh successor"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
-    "status": "current-rjr87-stage5a-private-session-protocol-sle-transition"
+    "canonical": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+    "status": "current-rjr87-stage5a-candidate-proven-provider-device-credential-transition"
   },
   "starter": {
-    "version": "1.4.30",
-    "checkpoint": "PR172-RJR87-STAGE5A-PRIVATE-SESSION-PROTOCOL",
-    "canonical": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
+    "version": "1.4.31",
+    "checkpoint": "PR173-RJR87-STAGE5A-CANDIDATE-PROVEN",
+    "canonical": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "The deployed legitimate owner-authenticated provider-abuse probe closes exactly one hardening capability, fixed RJR advances 86 to 87, and current authority unlocks the first real Stage 5A private-session protocol/emulator slice before transition."
+    "versionReason": "PR #173 completes the authorized Stage 5A candidate protocol/client and real emulator boundary with provider-verifiable device_id enforcement but no production credential issuer, Rules publication or runtime activation, then routes a fresh successor to the separate provider current-device credential boundary."
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "deepReference": "SESSION_CONTEXT_GRAPH.json",
     "providerProof": "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md",
     "providerAbuseProof": "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
+    "stage5ACandidateProof": "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
     "productionRollbackProof": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "status": "rjr87-stage5a-private-session-protocol-transition-package"
+    "status": "rjr87-stage5a-candidate-proven-provider-device-credential-transition-package"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -151,8 +163,9 @@
     "WORK_ENVIRONMENT_STATUS.json",
     "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md",
     "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
-    "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
-    "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
+    "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
+    "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+    "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
   ],
@@ -167,6 +180,7 @@
     "firestorePersistence": "memory-only",
     "trustedRuntimeIam": "reviewed-not-broadened-not-activated",
     "zeroBilling": true,
+    "productionProviderDeviceCredential": "not-issued-not-proven-do-not-publish-session-rules",
     "publicDiscovery": false,
     "publicCommunity": false,
     "publicMatchmaking": false,
@@ -174,10 +188,10 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "stage5a-private-session-protocol-and-emulator-boundary",
+    "name": "stage5b-provider-verifiable-device-credential-boundary",
     "mustStartAsRealProductWork": true,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Fresh successor independently verifies PR #172 evidence/SLE publication and fixed RJR87, initializes and assesses a fresh WEC, then if permitted implements the separate Stage 5A private-session protocol/client plus deterministic emulator contracts and candidate minimum session Rules. Production session Rules remain unchanged until a later separately reviewed publication."
+    "summary": "Fresh successor independently verifies PR #173 candidate/emulator publication and fixed RJR87, initializes and assesses a fresh WEC, then if permitted establishes the smallest safe provider issuance, refresh and revocation path for the device_id claim without trusting browser-supplied identity. Preserve Spark/zero billing and current IAM locks; if those make a safe issuer impossible, freeze the blocker for owner direction. Production session Rules, runtime loading and host/join UX remain later work."
   },
   "transition": {
     "contextTransitionRequired": true,

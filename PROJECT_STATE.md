@@ -1,3 +1,31 @@
+# CURRENT OVERRIDE — PR #173 / STAGE 5A CANDIDATE EMULATOR-PROVEN / RJR87 — 2026-08-31 UTC
+
+This section supersedes lower historical project-state text.
+
+Status: DEPLOYED / PRODUCTION-PROVEN runtime remains `v1.8.1 / 1.8.1-r5`. Stage 5A source is now candidate/emulator-proven in PR #173 without production Rules publication, runtime loading or host/join UX. Fixed RJR-1 remains `87/100`.
+
+Starting main: PR #172 squash `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de`.
+
+Implementation proof head before SLE packaging: `217d9d729774b23ab4fdf8c5cae842d993986a3f`, tree `21a96e44f2e606cc14cd6b54254544b456095036`.
+
+Implemented: separate `js/sparkPrivateSession.js`; isolated `firestore.stage5a.rules`; deterministic client contract; real Firebase emulator matrix; workflow and complete-suite integration.
+
+Proven candidate boundary: exact 256-bit capability, no listing, provider-verifiable `device_id` token claim matched to the current active registered device, active account/exactly-two-account rivalry rechecks, host/open, peer/join, immutable authority, bounded expiry/revoke/close, deterministic replay, terminal no-resurrection, missing/unknown/revoked/mismatched-device denial, inactive/lost-entitlement denial and provider-loss storage safety.
+
+Unchanged production boundary: `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`; deployment config; application/runtime; service worker; Auth persistence; App Check enforcement OFF; IAM; billing; canonical storage; Candidate C; protected historical rivalry.
+
+Unproven production dependency: current production Auth does not issue the candidate `device_id` claim. The candidate therefore remains safely unusable in production. After PR #173 publication, a fresh WEC must establish and prove the smallest provider-verifiable current-device credential issuance/refresh/revocation boundary without silently expanding billing or trusted IAM. Minimum production session Rules publication, runtime/UX activation and RJR movement remain later.
+
+Current proof: `STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md`.
+
+Current starter: `START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md`.
+
+Current deep SLE: `SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md`.
+
+---
+
+The material below is preserved historical PR #172 transition authority and is superseded by the current override above.
+
 # CURRENT OVERRIDE — PR #171 MERGED / PRODUCTION PROVIDER-ABUSE PASS / RJR87 / STAGE 5A AUTHORIZED — 2026-08-29 ET
 
 Status: DEPLOYED / PRODUCTION-PROVEN; normal production remains `v1.8.1 / 1.8.1-r5`. Current verified live main at this checkpoint's start is `1d945ba47c89c305575ef72cc26672fc3e0743ff`, the PR #171 squash merge. Fixed RJR-1 is `87/100` after a legitimate owner-authenticated production Firestore enumeration denial. Stage 5A private session protocol/emulator work is authorized next; no Stage 5 runtime or production session Rules mutation is included in this closing checkpoint.

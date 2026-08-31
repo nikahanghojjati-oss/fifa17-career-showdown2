@@ -43,8 +43,8 @@ assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fi
 assert.equal(readiness.currentScore,87,"The fixed RJR authority must preserve the exact production provider-abuse RJR87 checkpoint.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
 
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A PRIVATE SESSION PROTOCOL AUTHORIZED/i,"NEXT_TASK must expose current PR #171 merged / RJR87 / Stage 5A authority.");
-assert.match(next,new RegExp(`Status:[\\s\\S]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[\\s\\S]+STAGE 5A IS AUTHORIZED NEXT`,"i"),"NEXT_TASK must identify the current production runtime and Stage 5A activation.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #173 STAGE 5A CANDIDATE PROVEN[\s\S]+PROVIDER DEVICE CREDENTIAL NEXT/i,"NEXT_TASK must expose current PR #173 / RJR87 / provider-device-credential authority before history.");
+assert.match(next,new RegExp(`Status:[^\\n]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[^\\n]+PR #173`,"i"),"NEXT_TASK must identify the current production runtime and Stage 5A candidate checkpoint.");
 assert.match(next,/Production rollback proof:[\s\S]+33190961085[\s\S]+SUCCESS \/ CONSUMED/i,"NEXT_TASK must retain the exact consumed production rollback proof run.");
 assert.match(next,/PR #171 publication closure[\s\S]+1d945ba47c89c305575ef72cc26672fc3e0743ff[\s\S]+d5c8549924244ee177065559043e0697d0c810c3[\s\S]+33264211554/i,"NEXT_TASK must preserve exact PR #171 publication closure.");
 assert.match(next,/PASS \/ PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED[\s\S]+limit\(1\)[\s\S]+permission-denied[\s\S]+firestoreWritesRequested[\s\S]+localStorageUnchanged/i,"NEXT_TASK must record the qualifying production provider-abuse result.");
@@ -68,7 +68,7 @@ assert.match(next,/Do not repeat consumed[\s\S]+production rollback\/restoration
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"SESSION_BOOTSTRAP must preserve latest runtime/rollback provenance at PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with deployed production runtime.");
 assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"SESSION_BOOTSTRAP must retain the exact rollback run id.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,172,"SESSION_BOOTSTRAP must identify PR #172 as the current evidence/SLE publication checkpoint.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,173,"SESSION_BOOTSTRAP must identify PR #173 as the current Stage 5A candidate/SLE publication checkpoint.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence,readiness.currentScore,"SESSION_BOOTSTRAP publication checkpoint must preserve exact conservative RJR accounting.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionRollbackProven,true,"SESSION_BOOTSTRAP must retain successful rollback proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionRestorationProven,true,"SESSION_BOOTSTRAP must retain successful exact r5 restoration proof.");
@@ -78,21 +78,30 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseAcceptanceImpl
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseProductionAcceptanceProven,true,"SESSION_BOOTSTRAP must record the exact production provider-abuse PASS.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseProductionProof,"PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AImplementationAuthorized,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ACandidateImplemented,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ACandidateEmulatorProven,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ACandidateProof,"STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
+assert.equal(bootstrap.currentPublicationCheckpoint?.implementationProofHead,"217d9d729774b23ab4fdf8c5cae842d993986a3f");
+assert.equal(bootstrap.currentPublicationCheckpoint?.implementationProofTree,"21a96e44f2e606cc14cd6b54254544b456095036");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AProviderDeviceCredentialClaim,"device_id");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AProviderDeviceCredentialEmulatorProven,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialIssued,false);
+assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialProven,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ARuntimeImplemented,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionSessionRulesChanged,false);
 assert.equal(bootstrap.runtime?.candidateRuntimeRevision,undefined,"A sealed production transition must not retain a phantom candidate runtime.");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.8.1-r5","Production must remain on r5.");
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
-assert.equal(bootstrap.starter?.version,"1.4.30","The provider-abuse/RJR87 transition must publish starter v1.4.30.");
+assert.equal(bootstrap.starter?.version,"1.4.31","The Stage 5A candidate/RJR87 transition must publish starter v1.4.31.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
-assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,true,"The successor must start the authorized Stage 5A slice as real product work after its fresh WEC permits.");
-assert.equal(bootstrap.immediateNextTask?.name,"stage5a-private-session-protocol-and-emulator-boundary","The successor bootstrap must route directly to Stage 5A after a fresh WEC.");
-assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #172[\s\S]+RJR87[\s\S]+Stage 5A[\s\S]+emulator[\s\S]+Production session Rules remain unchanged/i,"The successor capsule must preserve publication verification, fresh-WEC routing, Stage 5A and the closed production Rules boundary.");
+assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,true,"The successor must start the provider current-device credential boundary as real product work after its fresh WEC permits.");
+assert.equal(bootstrap.immediateNextTask?.name,"stage5b-provider-verifiable-device-credential-boundary","The successor bootstrap must route directly to the provider device-credential boundary after a fresh WEC.");
+assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #173[\s\S]+RJR87[\s\S]+issuance, refresh and revocation[\s\S]+device_id[\s\S]+Spark\/zero billing[\s\S]+Production session Rules[\s\S]+remain later work/i,"The successor capsule must preserve PR #173 verification, credential-first fresh-WEC routing, provider locks and later Rules/runtime/UX boundaries.");
 assert.equal(bootstrap.transition?.contextTransitionRequired,true,"Transition-only bootstrap must require a context transition.");
 assert.equal(bootstrap.transition?.handoffCompleteness,100,"Transition-only bootstrap must expose complete handoff packaging.");
 assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_AT_CHECKPOINT","Sealed transition bootstrap must retain current environment HANDOFF_AT_CHECKPOINT without imposing it on the successor.");
-assert.match(bootstrap.currentLane,/PR #171[\s\S]+zero-write authenticated rivalry-enumeration probe[\s\S]+RJR-1 is 87\/100[\s\S]+Stage 5A[\s\S]+No Stage 5 runtime or production session Rules change/i,"Bootstrap current lane must preserve the RJR87 boundary and transition-only stop rule.");
+assert.match(bootstrap.currentLane,/PR #173[\s\S]+Stage 5A[\s\S]+device_id claim[\s\S]+RJR-1 remains 87\/100[\s\S]+production does not issue that claim[\s\S]+firestore\.spark\.rules[\s\S]+runtime v1\.8\.1-r5 remain unchanged[\s\S]+credential issuance\/refresh\/revocation/i,"Bootstrap current lane must preserve the Stage 5A candidate/RJR87 boundary and credential-first next slice.");
 
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
 assert.match(reconciliationProof,/sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d/i,"Canonical owner evidence must retain the exact reviewed remote gameplay hash.");
@@ -120,4 +129,4 @@ assert.match(remotePriority,/PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YE
 assert.match(start,/identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,"Developer bootstrap must include PR #59 in the completed dependency chain.");
 assert.match(start,/presentation-only Local Profile display-label editing — PR #61/i,"Developer bootstrap must include PR #61 in the completed dependency chain.");
 
-console.log(`Handoff immediate-next-task contracts passed: production ${applicationVersion}/${productionRuntime}, exact PR #171 closure and provider-abuse PASS reconcile fixed RJR ${readiness.currentScore}/100, preserve permanent locks, and route the fresh successor to Stage 5A after PR #172 publication.`);
+console.log(`Handoff immediate-next-task contracts passed: production ${applicationVersion}/${productionRuntime}, PR #173 Stage 5A candidate/emulator proof preserves fixed RJR ${readiness.currentScore}/100 and permanent locks, then routes a fresh successor to the provider-verifiable device-credential boundary.`);

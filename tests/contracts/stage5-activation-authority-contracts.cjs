@@ -9,6 +9,8 @@ const state=read("PROJECT_STATE.md");
 const schema=read("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md");
 const rules=read("firestore.spark.rules");
 const stage4=read("js/sparkConnectedRivalry.js");
+const stage5aProof=read("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
+const stage5aRules=read("firestore.stage5a.rules");
 
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.denominator,100);
@@ -25,15 +27,22 @@ assert.deepEqual(
   ]
 );
 
-const latest=readiness.evidenceHistory.at(-1);
-assert.equal(latest.eventId,"production-provider-abuse-authenticated-enumeration-denial");
-assert.equal(latest.score,87);
-assert.equal(latest.delta,1);
-assert.equal(latest.domainId,"real-device-hardening-release");
-assert.match(latest.reason,/PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED/);
-assert.match(latest.reason,/zero Firestore writes/i);
-assert.match(latest.reason,/localStorage remained unchanged/i);
-assert.match(latest.reason,/production-cloud-security remains capped at 20\/20/i);
+const latestCandidate=readiness.evidenceHistory.at(-1);
+const latestCredited=readiness.evidenceHistory.at(-2);
+assert.equal(latestCandidate.eventId,"stage5a-private-session-candidate-emulator-proof");
+assert.equal(latestCandidate.score,87);
+assert.equal(latestCandidate.delta,0);
+assert.match(latestCandidate.reason,/isolated candidate Rules/i);
+assert.match(latestCandidate.reason,/zero production capability credit/i);
+assert.match(latestCandidate.reason,/provider-live device credential\/session authority[\s\S]+uncredited/i);
+assert.equal(latestCredited.eventId,"production-provider-abuse-authenticated-enumeration-denial");
+assert.equal(latestCredited.score,87);
+assert.equal(latestCredited.delta,1);
+assert.equal(latestCredited.domainId,"real-device-hardening-release");
+assert.match(latestCredited.reason,/PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED/);
+assert.match(latestCredited.reason,/zero Firestore writes/i);
+assert.match(latestCredited.reason,/localStorage remained unchanged/i);
+assert.match(latestCredited.reason,/production-cloud-security remains capped at 20\/20/i);
 
 for(const invariant of [
   /PASS \/ PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED/,
@@ -62,6 +71,15 @@ assert.match(next,/add no localStorage key/i);
 assert.match(next,/Do not change or publish production Rules in this closing checkpoint/i);
 assert.match(state,/Stage 5 is no longer locked/i);
 assert.match(state,/rivalries\/\{rivalryId\}\/sessions\/\{sessionId\}/);
+assert.match(next,/PR #173 STAGE 5A CANDIDATE PROVEN[\s\S]+PROVIDER DEVICE CREDENTIAL NEXT/i);
+assert.match(next,/provider-verifiable current-device credential issuance, refresh and revocation boundary/i);
+assert.match(next,/do not publish production session Rules in the credential-foundation slice/i);
+assert.match(stage5aProof,/candidate protocol and emulator boundary proven; production publication deliberately excluded/i);
+assert.match(stage5aProof,/Fixed Remote Joining readiness: `87\/100` unchanged/i);
+assert.match(stage5aRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
+assert.match(stage5aRules,/STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+STAGE5A_CANDIDATE_SESSION_MATCH_END/);
+assert.match(stage5aRules,/request\.auth\.token\.device_id[\s\S]+activeDevice\(request\.auth\.token\.device_id\)/);
+assert.match(stage5aRules,/root\.updatedByDeviceId == request\.auth\.token\.device_id/);
 
 assert.match(schema,/Private session membership/i);
 for(const field of [
@@ -80,4 +98,4 @@ assert.match(schema,/every session operation rechecks current account state, cur
 assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get:[\s\S]+memberAccountIds[\s\S]+allow list, create, update, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
 
-process.stdout.write("PASS Stage 5 activation authority: exact production provider-abuse PASS advances fixed RJR 86 to 87 once, unlocks the separate Stage 5A private-session protocol/emulator slice, and leaves production session Rules closed.\n");
+process.stdout.write("PASS Stage 5 activation authority: production provider-abuse advances fixed RJR 86 to 87 once; the separate Stage 5A candidate/emulator proof earns zero duplicate credit and routes provider-verifiable device credentials next.\n");

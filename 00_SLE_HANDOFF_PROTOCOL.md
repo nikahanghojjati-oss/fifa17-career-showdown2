@@ -91,7 +91,7 @@ The complete SLE handoff must preserve, at minimum:
 - owner-only actions that are already complete so successors do not ask for them again;
 - exact `IMMEDIATE NEXT TASK AFTER FULL STUDY` with ordered execution gates and scope limits;
 - the mandatory repository-first next-developer copy-paste prompt standard;
-- the mandatory seven-line owner progress format;
+- the mandatory eight-line owner progress format;
 - the recursive Smart Lean Efficient SLE packaging rule itself.
 
 ## Efficiency and anti-sidequest rule

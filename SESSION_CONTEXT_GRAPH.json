@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-29T18:22:57.861Z",
+  "recordedAt": "2026-08-31T06:25:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -89,42 +89,68 @@
       "riskCriticality": 1
     },
     {
+      "id": "stage5a-candidate-emulator-proof",
+      "type": "completed-candidate-capability",
+      "state": "pr173-client-and-isolated-rules-emulator-proven-rjr-delta-zero",
+      "pullRequest": 173,
+      "startingMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
+      "implementationProofHead": "217d9d729774b23ab4fdf8c5cae842d993986a3f",
+      "implementationProofTree": "21a96e44f2e606cc14cd6b54254544b456095036",
+      "client": "js/sparkPrivateSession.js",
+      "candidateRules": "firestore.stage5a.rules",
+      "proof": "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
+      "providerDeviceCredentialClaim": "device_id",
+      "providerDeviceCredentialEmulatorProven": true,
+      "productionProviderDeviceCredentialIssued": false,
+      "productionProviderDeviceCredentialProven": false,
+      "productionRulesChanged": false,
+      "runtimeLoaded": false,
+      "hostJoinUxExposed": false,
+      "rjrScoreAfterProof": 87,
+      "rjrDelta": 0,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr172-rjr87-stage5a-authorized-sle-transition",
-      "environmentId": "we-2026-08-29-provider-abuse-production-acceptance",
-      "startingMainSha": "1d945ba47c89c305575ef72cc26672fc3e0743ff",
-      "transitionPullRequest": 172,
+      "state": "pr173-rjr87-stage5a-candidate-proven-sle-transition",
+      "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
+      "startingMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
+      "transitionPullRequest": 173,
       "initialDecision": "CONTINUE",
       "finalDecision": "HANDOFF_AT_CHECKPOINT",
       "handoffProximity": 100,
       "rjrScore": 87,
-      "starter": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md",
+      "starter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-after-pr172-rjr87-transition",
-      "rule": "successor independently verifies PR #172 evidence/SLE publication and production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then if its own assessment permits begins the exact Stage 5A private-session protocol/client plus deterministic emulator boundary; never inherit predecessor transition decisions or repeat consumed proof",
+      "state": "fresh-wec-required-after-pr173-stage5a-candidate-transition",
+      "rule": "successor independently verifies PR #173 candidate/emulator publication and unchanged production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then if its own assessment permits begins the separate provider-verifiable current-device credential issuance/refresh/revocation boundary; never inherit predecessor transition decisions, weaken device authentication or repeat consumed proof",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "stage5a-private-session-protocol-and-emulator-authorized-next",
+      "state": "stage5a-candidate-proven-stage5b-device-credential-authorized-next",
       "knownRemainingGaps": [
         "state-dependent third-account/revoked-device production negatives only if legitimate state and current authority require them",
-        "actual Stage 5 host/join/session orchestration",
+        "provider-verifiable current-device credential issuance, refresh and revocation",
+        "provider-live minimum production session Rules",
+        "actual Stage 5 host/join/session runtime and UX orchestration",
         "two-network Remote Joining acceptance",
         "Remote Joining-specific token/reconnect/adverse-network hardening",
         "final stable Remote Joining release acceptance"
       ],
       "sessionRulesCurrentState": "entitled get allowed; list/create/update/delete denied",
-      "nextSlice": "separate private-session protocol/client module, deterministic emulator contracts and candidate minimum session Rules; no production Rules publication in the first slice",
+      "candidateState": "separate dormant client plus isolated candidate Rules are real-emulator proven with provider device_id enforcement and delta-zero RJR; production has no proven claim issuer",
+      "nextSlice": "establish the smallest safe provider-verifiable current-device credential issuance/refresh/revocation boundary under current zero-billing and IAM locks; if impossible, freeze the blocker for owner direction; no production session Rules, runtime or UX activation in the credential slice",
       "authority": 1
     },
     {
@@ -167,15 +193,16 @@
     {"from": "production-strengthened-rules-provider-proof", "to": "rjr1-ledger", "relation": "adds-one-provider-security-capability-rjr86"},
     {"from": "production-runtime-v181-r5", "to": "production-strengthened-rules-provider-proof", "relation": "runtime-unchanged-provider-boundary-strengthened"},
     {"from": "production-strengthened-rules-provider-proof", "to": "provider-abuse-enumeration-acceptance", "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"},
-    {"from": "provider-abuse-enumeration-acceptance", "to": "closing-current-wec", "relation": "production-pass-recorded-and-rjr87-transition-sealed"},
+    {"from": "provider-abuse-enumeration-acceptance", "to": "stage5a-candidate-emulator-proof", "relation": "qualifying-production-pass-authorized-stage5a-candidate"},
+    {"from": "stage5a-candidate-emulator-proof", "to": "closing-current-wec", "relation": "pr173-candidate-proof-recorded-with-rjr-delta-zero"},
     {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
-    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "begin-stage5a-protocol-and-emulator-if-fresh-wec-permits"},
+    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "begin-provider-verifiable-device-credential-boundary-if-fresh-wec-permits"},
     {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "qualifying-production-pass-closes-final-non-state-dependent-lock"},
     {"from": "canonical-storage", "to": "stage5-private-remote-joining", "relation": "permanent-data-authority-lock"},
     {"from": "security-zero-billing", "to": "stage5-private-remote-joining", "relation": "permanent-provider-and-enforcement-lock"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #171 publication, the direct Firebase provider proof of strengthened firestore.spark.rules, and the exact production provider-abuse PASS that advances fixed RJR to 87. Verify PR #172 evidence/SLE publication and the closing WEC. Fresh successor WEC then begins the exact Stage 5A private-session protocol/client plus emulator boundary if permitted. Preserve consumed rollback/reconciliation/replay/adverse-provider/token-lifecycle/structural-abuse/sustained-rate-limit/provider-abuse proof, canonical storage, Spark zero billing and App Check enforcement OFF without repetition.",
+    "walkDirection": "Start from PR #172 live main and PR #173 Stage 5A candidate/emulator proof at fixed RJR87. Verify PR #173 final publication, the provider-verifiable device_id emulator boundary, unchanged production v1.8.1-r5 and unchanged provider-proven firestore.spark.rules, then validate/archive the closing WEC. A fresh successor WEC begins the separate provider current-device credential issuance/refresh/revocation boundary if permitted, with production session Rules/runtime/UX still excluded. Preserve consumed proof, canonical storage, Spark zero billing, unbroadened IAM and App Check enforcement OFF without repetition or weakening browser-device authentication.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

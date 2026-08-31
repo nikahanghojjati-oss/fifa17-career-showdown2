@@ -9,6 +9,7 @@ const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const reconciliationProof = read("OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONCILIATION_PROOF_2026-08-25.md");
 const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");
 const providerAbuseProof = read("PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md");
+const stage5aProof = read("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
 const productionEnvironment = JSON.parse(read("firebase.production.environment.json"));
 const historicalState = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
@@ -35,7 +36,7 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must preserve historical Remote Joining prerequisite ordering.");
 
-// Current cloud authority preserves provider-proven Rules and exact rollback history while the production abuse PASS activates Stage 5A at RJR87.
+// Current cloud authority preserves provider-proven Rules and exact rollback history while the emulator-proven Stage 5A candidate routes the provider device-credential slice at RJR87.
 assert.equal(productionR5,true,"Current authority must remain on production v1.8.1-r5 after rollback restoration.");
 assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+PRODUCTION PROVIDER-ABUSE PASS[\s\S]+RJR87[\s\S]+STAGE 5A AUTHORIZED/i,"PROJECT_STATE must expose current provider-abuse/RJR87/Stage 5A authority.");
 assert.match(state,/Status:[\s\S]+PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+Stage 5A private session protocol\/emulator work is authorized next/i,"PROJECT_STATE must identify restored r5 production truth and Stage 5A activation.");
@@ -48,9 +49,11 @@ assert.match(state,/Remote Joining readiness:\s*`87\/100` under fixed RJR-1/i,"P
 assert.equal(readiness.currentScore,87,"Cloud foundation must track the production provider-abuse RJR87 checkpoint.");
 assert.equal(readiness.modelVersion,"RJR-1","Cloud foundation must continue using the fixed RJR-1 model.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"Bootstrap and fixed RJR ledger must agree.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,172,"Bootstrap must identify PR172 as the current evidence/SLE publication checkpoint.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,173,"Bootstrap must identify PR173 as the current Stage 5A candidate/SLE publication checkpoint.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderRulesPublicationProven,true,"Bootstrap must record direct provider Rules publication proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseProductionAcceptanceProven,true,"Provider-abuse acceptance must record exact production evidence.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AProviderDeviceCredentialClaim,"device_id","Stage 5A must declare its provider-verifiable device credential.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialProven,false,"Production must not claim an unissued device credential.");
 assert.match(state,/Exactly one capability[\s\S]+real-device-hardening-release[\s\S]+8\/10 -> 9\/10[\s\S]+86 -> 87/i,"PROJECT_STATE must preserve conservative provider-abuse accounting.");
 assert.match(state,/Probe implementation[\s\S]+PR\/CI\/deployment[\s\S]+zero duplicate credit/i,"PROJECT_STATE must forbid duplicate process credit.");
 assert.match(state,/Still uncredited[\s\S]+third-account\/revoked-device production negatives[\s\S]+actual Stage 5 Remote Joining sessions[\s\S]+two-device\/two-network[\s\S]+final stable release acceptance/i,"PROJECT_STATE must preserve remaining genuine gaps after provider-abuse acceptance.");
@@ -70,6 +73,12 @@ assert.match(state,/Do not repeat consumed owner\/device[\s\S]+production rollba
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Current reconciliation authority must remain backed by canonical owner production proof.");
 assert.match(providerProof,/fifa17-career-showdown-prod[\s\S]+\(default\)[\s\S]+Today · 7:48 AM[\s\S]+firestore\.spark\.rules/i,"Direct provider proof must identify the exact production project/database/version/source boundary.");
 assert.match(providerAbuseProof,/PASS \/ PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED[\s\S]+firestoreWritesRequested[\s\S]+localStorageUnchanged/i,"Provider-abuse proof must preserve the exact production denial.");
+assert.match(stage5aProof,/candidate protocol and emulator boundary proven; production publication deliberately excluded[\s\S]+`firestore\.stage5a\.rules`[\s\S]+Production `firestore\.spark\.rules` is unchanged/i,"Stage 5A proof must keep candidate and production Rules authority distinct.");
+assert.match(stage5aProof,/collection or collection-group listing[\s\S]+terminal join\/resurrection denial[\s\S]+revoked-device[\s\S]+inactive-account[\s\S]+lost-rivalry-entitlement/i,"Stage 5A proof must preserve the emulator-proven private-session denial matrix.");
+assert.match(stage5aProof,/device_id[\s\S]+device claim is missing or names a never-registered device/i,"Stage 5A proof must preserve missing and never-registered provider credentials.");
+assert.match(stage5aProof,/mutation naming another active registered device[\s\S]+does not match the caller's token claim/i,"Stage 5A proof must preserve mismatched active-device denial.");
+assert.match(stage5aProof,/revoked-device client, exact-read and direct-write denial/i,"Stage 5A proof must preserve revoked provider-device denial.");
+assert.match(stage5aProof,/Production currently has no implemented or proven issuer[\s\S]+must not be described or published as functional production session authority/i,"Stage 5A proof must expose the production credential prerequisite.");
 assert.equal(productionEnvironment.projectId,"fifa17-career-showdown-prod","Production environment must remain pinned to the real production Firebase project.");
 assert.equal(productionEnvironment.activation?.productionSecurityRulesSource,"firestore.spark.rules","Production environment must record the provider-verified strengthened Rules source at the canonical activation field.");
 assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Production environment must retain the exact reviewed provider-published Rules blob.");
@@ -87,6 +96,9 @@ assert.match(next,/No public discovery\/community\/matchmaking\/global rankings/
 assert.match(next,/Do not repeat consumed[\s\S]+production rollback\/restoration[\s\S]+provider-abuse acceptance/i,"NEXT_TASK must preserve consumed rollback and earlier proof as non-repeatable merely for confidence.");
 assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+publishes only PR #172[\s\S]+all 14 permanent workflow families[\s\S]+merge\/deploy under standing authorization/i,"NEXT_TASK must route the closing environment through PR172 publication only.");
 assert.match(next,/fresh successor[\s\S]+fresh unique WEC[\s\S]+Stage 5A[\s\S]+private session protocol[\s\S]+emulator/i,"NEXT_TASK must preserve fresh-successor Stage 5A execution.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #173 STAGE 5A CANDIDATE PROVEN[\s\S]+PROVIDER DEVICE CREDENTIAL NEXT/i,"NEXT_TASK must expose the current credential-first PR173-to-Stage5B transition before historical instructions.");
+assert.match(next,/First complete and independently verify PR #173[\s\S]+fresh unique WEC[\s\S]+provider-verifiable current-device credential issuance, refresh and revocation boundary/i,"NEXT_TASK must route the successor through PR173 verification and the separate provider credential slice.");
+assert.match(next,/do not publish production session Rules in the credential-foundation slice[\s\S]+Minimum production session Rules review\/publication[\s\S]+remain later separate slices/i,"NEXT_TASK must reject premature production Rules publication.");
 
 // Immutable history remains the authority for early Cloud Readiness and candidate eras.
 assert.match(historicalState,/formatVersion 2 is live|formatVersion 2 full multi-Save/i,"Archived PROJECT_STATE must preserve formatVersion 2 multi-Save portability production truth.");
