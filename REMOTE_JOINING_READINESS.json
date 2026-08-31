@@ -78,7 +78,8 @@
         "2026-08-25/26 owner Chromebook production proof on v1.8.1-r3 closes the previously uncredited remote-to-local reconciliation capability: read-only exact revision/hash Preview, stale-intent rejection before backup/local mutation, verified backup-first explicit Candidate C Apply, stable Player Two identity, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply.",
         "2026-08-26 permanent Stage 4 emulator proof executes the real Connected Rivalry mutation runtime against production Firestore Rules and closes exact accepted-result idempotency replay: after the rivalry legitimately advances from revision 0 to revision 1, replay of the exact original accepted request returns the original revision 0/hash while current authority, receipt set, canonical local Save snapshot, CAS and two-owner boundaries remain unchanged.",
         "2026-08-26 permanent adverse-network contract executes the real Connected Rivalry client API through provider loss after valid registered-device/exactly-two-owner preflight and immutable local projection planning, proving bounded failure with the canonical local Save Library snapshot unchanged.",
-        "Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit."
+        "Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit.",
+        "2026-08-31 PR #173 permanently executes the separate Stage 5A private-session client against isolated candidate Firestore Rules in the real emulator: exact 256-bit capability/no listing, host-open, entitled-peer join, deterministic replay, immutable lifecycle/expiry/membership, terminal no-resurrection and account/entitlement/provider-device-credential denial all pass. Reads and writes require a provider-verifiable active device_id token claim; missing, never-registered, revoked and mismatched credentials fail closed. Production does not issue that claim and the client/Rules remain dormant/unpublished, so this is delta 0 until the provider credential, minimum Rules and actual production host/join capability are separately live and proven."
       ]
     },
     {
@@ -293,6 +294,13 @@
       "delta": 1,
       "domainId": "real-device-hardening-release",
       "reason": "A legitimate existing active Connected Account used the deployed v1.8.1-r5 PROBE ENUMERATION DENIAL and production Firestore returned PASS / PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED. The same authenticated account remained stable, the shared authentication-control lock remained held throughout the bounded limit(1) rivalry collection query, the provider returned permission-denied, zero Firestore writes were requested and localStorage remained unchanged. The +1 closes only the previously explicit production provider-abuse acceptance capability in real-device-hardening-release. Probe implementation, PR/CI/deployment volume, sign-in process and repeated subfields receive zero duplicate credit; production-cloud-security remains capped at 20/20. Third-account/revoked-device negatives, two-network behavior, actual Remote Joining sessions, Remote Joining-specific reconnect/token hardening and final stable release acceptance remain uncredited."
+    },
+    {
+      "recordedAt": "2026-08-31T01:12:07.549Z",
+      "eventId": "stage5a-private-session-candidate-emulator-proof",
+      "score": 87,
+      "delta": 0,
+      "reason": "PR #173 implements the separate memory-only Stage 5A private-session client and isolated candidate Rules. Permanent real Firestore emulator proof covers exact capability/no-list authority, host-open, entitled-peer join, replay, immutable lifecycle/expiry/membership, terminal no-resurrection and account/entitlement denial, plus provider-verifiable device_id enforcement on reads and writes with missing, never-registered, revoked and mismatched credentials denied. Production does not issue or prove that claim; firestore.spark.rules, provider Rules, runtime loading and host/join UX remain unchanged. Emulator identities, source, CI and publication mechanics receive zero production capability credit; provider-live device credential/session authority and playable production Remote Joining remain uncredited."
     }
   ]
 }

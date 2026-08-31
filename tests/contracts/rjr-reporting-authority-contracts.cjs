@@ -6,7 +6,7 @@ const agents=fs.readFileSync("AGENTS.md","utf8");
 const provenance=fs.readFileSync("authority-history/REMOTE_JOINING_READINESS_MODEL_RJR1_2026-08-20.md","utf8");
 const audit=fs.readFileSync("RJR_SCORE_PROVENANCE_AUDIT_81_77_78_2026-08-24.md","utf8");
 
-assert.match(agents,/Remote Joining readiness:\s*~Y%/i,"The permanent seven-line owner report must retain the Remote Joining readiness label.");
+assert.match(agents,/Remote Joining readiness:\s*~Y%/i,"The permanent eight-line owner report must retain the Remote Joining readiness label.");
 assert.equal(ledger.metric,"Remote Joining readiness");
 assert.equal(ledger.denominator,100);
 assert.match(provenance,/machine-readable ledger:\s*`REMOTE_JOINING_READINESS\.json`/i);

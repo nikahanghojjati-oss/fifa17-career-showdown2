@@ -1,0 +1,951 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function validHash(value) {
+      return value is string && value.matches('^sha256:[0-9a-f]{64}$');
+    }
+
+    function validIdempotencyKeyHash(value) {
+      return value is string && value.matches('^[0-9a-f]{64}$');
+    }
+
+    function validEnvelopeShape(root, objectType, objectId) {
+      return root.keys().hasOnly([
+          "schemaVersion",
+          "objectType",
+          "objectId",
+          "revision",
+          "parentRevision",
+          "lifecycleState",
+          "contentHash",
+          "priorContentHash",
+          "updatedAt",
+          "updatedByAccountId",
+          "updatedByDeviceId",
+          "data",
+          "tombstone"
+        ])
+        && root.schemaVersion == 1
+        && root.objectType == objectType
+        && root.objectId == objectId
+        && root.revision is int
+        && root.revision >= 0
+        && root.lifecycleState == "live"
+        && validHash(root.contentHash)
+        && root.updatedAt is timestamp
+        && root.updatedByAccountId is string
+        && root.data is map
+        && root.tombstone == null;
+    }
+
+    function validCreateEnvelope(root, objectType, objectId) {
+      return validEnvelopeShape(root, objectType, objectId)
+        && root.revision == 0
+        && root.parentRevision == null
+        && root.priorContentHash == null;
+    }
+
+    function validCasEnvelope(before, after, objectType, objectId) {
+      return validEnvelopeShape(after, objectType, objectId)
+        && before.lifecycleState == "live"
+        && after.revision == before.revision + 1
+        && after.parentRevision == before.revision
+        && after.priorContentHash == before.contentHash;
+    }
+
+    function validSelfAccountBootstrap(accountId) {
+      let root = request.resource.data;
+      let accountData = root.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && validCreateEnvelope(root, "account", accountId)
+        && root.updatedByAccountId == request.auth.uid
+        && root.updatedByDeviceId == null
+        && accountData.keys().hasOnly(["status", "createdAt", "deletionRequestedAt"])
+        && accountData.status == "active"
+        && accountData.createdAt is timestamp
+        && accountData.deletionRequestedAt == null;
+    }
+
+    function activeAccount(accountId) {
+      let account = get(/databases/$(database)/documents/accounts/$(accountId));
+      return account.data.objectType == "account"
+        && account.data.objectId == accountId
+        && account.data.lifecycleState == "live"
+        && account.data.data.status == "active";
+    }
+
+    function activeActor() {
+      return signedIn() && activeAccount(request.auth.uid);
+    }
+
+    function activeDevice(deviceId) {
+      let device = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/devices/$(deviceId));
+      return activeActor()
+        && deviceId is string
+        && deviceId.matches('^device_[0-9a-f]{32}$')
+        && device.data.objectType == "device"
+        && device.data.objectId == deviceId
+        && device.data.lifecycleState == "live"
+        && device.data.data.deviceId == deviceId
+        && device.data.data.state == "active";
+    }
+
+    function activeOwnedDevice(deviceId) {
+      let device = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/devices/$(deviceId));
+      return signedIn()
+        && deviceId is string
+        && deviceId.matches('^device_[0-9a-f]{32}$')
+        && device.data.objectType == "device"
+        && device.data.objectId == deviceId
+        && device.data.lifecycleState == "live"
+        && device.data.data.deviceId == deviceId
+        && device.data.data.state == "active";
+    }
+
+    function validDeviceData(deviceId, deviceData) {
+      return deviceData.keys().hasOnly([
+          "deviceId",
+          "installationId",
+          "displayLabel",
+          "state",
+          "registeredAt",
+          "lastSeenAt",
+          "revokedAt"
+        ])
+        && deviceData.deviceId == deviceId
+        && deviceData.installationId is string
+        && deviceData.installationId.matches('^installation_[0-9a-f]{32}$')
+        && (deviceData.displayLabel == null || (deviceData.displayLabel is string && deviceData.displayLabel.size() <= 80))
+        && (deviceData.state == "active" || deviceData.state == "revoked")
+        && deviceData.registeredAt is timestamp
+        && deviceData.lastSeenAt is timestamp
+        && (deviceData.revokedAt == null || deviceData.revokedAt is timestamp);
+    }
+
+    function validDeviceCreate(accountId, deviceId) {
+      let root = request.resource.data;
+      let deviceData = root.data;
+      return activeActor()
+        && request.auth.uid == accountId
+        && validCreateEnvelope(root, "device", deviceId)
+        && root.updatedByAccountId == request.auth.uid
+        && root.updatedByDeviceId == deviceId
+        && validDeviceData(deviceId, deviceData)
+        && deviceData.state == "active"
+        && deviceData.registeredAt == deviceData.lastSeenAt
+        && deviceData.revokedAt == null;
+    }
+
+    function validDeviceRevoke(accountId, deviceId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return signedIn()
+        && request.auth.uid == accountId
+        && activeDevice(after.updatedByDeviceId)
+        && validCasEnvelope(before, after, "device", deviceId)
+        && after.updatedByAccountId == request.auth.uid
+        && validDeviceData(deviceId, after.data)
+        && before.data.state == "active"
+        && after.data.state == "revoked"
+        && after.data.deviceId == before.data.deviceId
+        && after.data.installationId == before.data.installationId
+        && after.data.displayLabel == before.data.displayLabel
+        && after.data.registeredAt == before.data.registeredAt
+        && after.data.lastSeenAt == before.data.lastSeenAt
+        && before.data.revokedAt == null
+        && after.data.revokedAt is timestamp;
+    }
+
+    function validProfileId(value) {
+      return value is string && value.matches('^profile_[0-9a-f]{24}$');
+    }
+
+    function validSaveId(value) {
+      return value is string && value.matches('^save_[0-9a-f]{24}$');
+    }
+
+    function validSlotBase(slot, slotId) {
+      return slot is map
+        && slot.keys().hasOnly([
+          "slotId",
+          "accountId",
+          "profileId",
+          "saveId",
+          "displayLabel",
+          "entitlementState",
+          "deletionConsent"
+        ])
+        && slot.slotId == slotId
+        && (slot.displayLabel == null || (slot.displayLabel is string && slot.displayLabel.size() <= 80))
+        && slot.deletionConsent == false;
+    }
+
+    function validCreatorSlot(slot, slotId, accountId) {
+      return validSlotBase(slot, slotId)
+        && slot.accountId == accountId
+        && validProfileId(slot.profileId)
+        && validSaveId(slot.saveId)
+        && slot.entitlementState == "active";
+    }
+
+    function validOpenSlot(slot, slotId) {
+      return validSlotBase(slot, slotId)
+        && slot.accountId == null
+        && slot.profileId == null
+        && slot.saveId == null
+        && slot.displayLabel == null
+        && slot.entitlementState == "open";
+    }
+
+    function validInitialManagerSlots(slots, creatorId) {
+      return slots is list
+        && slots.size() == 2
+        && (
+          (validCreatorSlot(slots[0], "playerOne", creatorId) && validOpenSlot(slots[1], "playerTwo"))
+          ||
+          (validOpenSlot(slots[0], "playerOne") && validCreatorSlot(slots[1], "playerTwo", creatorId))
+        );
+    }
+
+    function openSlotId(slots) {
+      return slots[0].accountId == null ? "playerOne" : "playerTwo";
+    }
+
+    function validRedeemedManagerSlots(beforeSlots, afterSlots, creatorId, joinerId, joinSlotId) {
+      return beforeSlots is list
+        && afterSlots is list
+        && beforeSlots.size() == 2
+        && afterSlots.size() == 2
+        && (
+          (
+            validCreatorSlot(beforeSlots[0], "playerOne", creatorId)
+            && validOpenSlot(beforeSlots[1], "playerTwo")
+            && beforeSlots[0] == afterSlots[0]
+            && joinSlotId == "playerTwo"
+            && validCreatorSlot(afterSlots[1], "playerTwo", joinerId)
+          )
+          ||
+          (
+            validOpenSlot(beforeSlots[0], "playerOne")
+            && validCreatorSlot(beforeSlots[1], "playerTwo", creatorId)
+            && joinSlotId == "playerOne"
+            && validCreatorSlot(afterSlots[0], "playerOne", joinerId)
+            && beforeSlots[1] == afterSlots[1]
+          )
+        );
+    }
+
+    function validRivalryData(rivalryData) {
+      return rivalryData.keys().hasOnly([
+          "connectionState",
+          "connectionStateBeforeDeletion",
+          "managerSlots",
+          "authorizedAccountIds",
+          "createdByAccountId",
+          "createdAt"
+        ])
+        && rivalryData.connectionState is string
+        && rivalryData.connectionStateBeforeDeletion == null
+        && rivalryData.managerSlots is list
+        && rivalryData.authorizedAccountIds is list
+        && rivalryData.createdByAccountId is string
+        && rivalryData.createdAt is timestamp;
+    }
+
+    function validInviteData(inviteData) {
+      return inviteData.keys().hasOnly([
+          "purpose",
+          "slotId",
+          "createdByAccountId",
+          "createdAt",
+          "expiresAt",
+          "state",
+          "redeemedByAccountId",
+          "redeemedAt",
+          "revokedAt"
+        ])
+        && inviteData.purpose == "rivalry-pairing"
+        && (inviteData.slotId == "playerOne" || inviteData.slotId == "playerTwo")
+        && inviteData.createdByAccountId is string
+        && inviteData.createdAt is timestamp
+        && inviteData.expiresAt is timestamp
+        && inviteData.expiresAt > inviteData.createdAt
+        && (inviteData.redeemedByAccountId == null || inviteData.redeemedByAccountId is string)
+        && (inviteData.redeemedAt == null || inviteData.redeemedAt is timestamp)
+        && (inviteData.revokedAt == null || inviteData.revokedAt is timestamp);
+    }
+
+    function validInitialRivalryCreate(rivalryId) {
+      let root = request.resource.data;
+      let data = root.data;
+      let inviteAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data;
+      return activeDevice(root.updatedByDeviceId)
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && validCreateEnvelope(root, "rivalry", rivalryId)
+        && root.updatedByAccountId == request.auth.uid
+        && validRivalryData(data)
+        && data.connectionState == "pending-pair"
+        && data.createdByAccountId == request.auth.uid
+        && data.authorizedAccountIds.size() == 1
+        && data.authorizedAccountIds[0] == request.auth.uid
+        && validInitialManagerSlots(data.managerSlots, request.auth.uid)
+        && inviteAfter.objectType == "invite"
+        && inviteAfter.objectId == rivalryId
+        && inviteAfter.revision == 0
+        && inviteAfter.updatedByAccountId == request.auth.uid
+        && inviteAfter.updatedByDeviceId == root.updatedByDeviceId
+        && inviteAfter.data.purpose == "rivalry-pairing"
+        && inviteAfter.data.createdByAccountId == request.auth.uid
+        && inviteAfter.data.slotId == openSlotId(data.managerSlots)
+        && inviteAfter.data.state == "open"
+        && inviteAfter.data.createdAt == data.createdAt
+        && inviteAfter.data.expiresAt > request.time
+        && inviteAfter.data.expiresAt <= request.time + duration.value(30, 'm')
+        && inviteAfter.data.redeemedByAccountId == null
+        && inviteAfter.data.redeemedAt == null
+        && inviteAfter.data.revokedAt == null;
+    }
+
+    function validInitialInviteCreate(rivalryId, inviteId) {
+      let root = request.resource.data;
+      let data = root.data;
+      let rivalryAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      return activeDevice(root.updatedByDeviceId)
+        && inviteId == rivalryId
+        && inviteId.matches('^pair_[0-9a-f]{64}$')
+        && validCreateEnvelope(root, "invite", inviteId)
+        && root.updatedByAccountId == request.auth.uid
+        && validInviteData(data)
+        && data.createdByAccountId == request.auth.uid
+        && data.state == "open"
+        && data.expiresAt > request.time
+        && data.expiresAt <= request.time + duration.value(30, 'm')
+        && data.redeemedByAccountId == null
+        && data.redeemedAt == null
+        && data.revokedAt == null
+        && rivalryAfter.objectType == "rivalry"
+        && rivalryAfter.objectId == rivalryId
+        && rivalryAfter.revision == 0
+        && rivalryAfter.updatedByAccountId == request.auth.uid
+        && rivalryAfter.updatedByDeviceId == root.updatedByDeviceId
+        && rivalryAfter.data.connectionState == "pending-pair"
+        && rivalryAfter.data.createdByAccountId == request.auth.uid
+        && rivalryAfter.data.createdAt == data.createdAt
+        && rivalryAfter.data.authorizedAccountIds.size() == 1
+        && rivalryAfter.data.authorizedAccountIds[0] == request.auth.uid
+        && data.slotId == openSlotId(rivalryAfter.data.managerSlots);
+    }
+
+    function validRivalryRedeem(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let inviteBefore = get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data;
+      let inviteAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId)).data;
+      return activeDevice(after.updatedByDeviceId)
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && validCasEnvelope(before, after, "rivalry", rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && validRivalryData(after.data)
+        && before.data.connectionState == "pending-pair"
+        && after.data.connectionState == "active"
+        && after.data.connectionStateBeforeDeletion == before.data.connectionStateBeforeDeletion
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && request.auth.uid != before.data.createdByAccountId
+        && before.data.authorizedAccountIds.size() == 1
+        && before.data.authorizedAccountIds[0] == before.data.createdByAccountId
+        && after.data.authorizedAccountIds.size() == 2
+        && after.data.authorizedAccountIds[0] == before.data.createdByAccountId
+        && after.data.authorizedAccountIds[1] == request.auth.uid
+        && inviteBefore.objectType == "invite"
+        && inviteBefore.objectId == rivalryId
+        && inviteBefore.data.purpose == "rivalry-pairing"
+        && inviteBefore.data.state == "open"
+        && inviteBefore.data.createdByAccountId == before.data.createdByAccountId
+        && inviteBefore.data.expiresAt > request.time
+        && validRedeemedManagerSlots(before.data.managerSlots, after.data.managerSlots, before.data.createdByAccountId, request.auth.uid, inviteBefore.data.slotId)
+        && inviteAfter.objectType == "invite"
+        && inviteAfter.objectId == rivalryId
+        && inviteAfter.revision == inviteBefore.revision + 1
+        && inviteAfter.parentRevision == inviteBefore.revision
+        && inviteAfter.priorContentHash == inviteBefore.contentHash
+        && inviteAfter.updatedByAccountId == request.auth.uid
+        && inviteAfter.updatedByDeviceId == after.updatedByDeviceId
+        && inviteAfter.data.state == "redeemed"
+        && inviteAfter.data.redeemedByAccountId == request.auth.uid
+        && inviteAfter.data.createdByAccountId == before.data.createdByAccountId
+        && inviteAfter.data.slotId == inviteBefore.data.slotId;
+    }
+
+    function validInviteRedeem(rivalryId, inviteId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      let rivalryAfter = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      return activeDevice(after.updatedByDeviceId)
+        && inviteId == rivalryId
+        && validCasEnvelope(before, after, "invite", inviteId)
+        && validInviteData(after.data)
+        && before.data.purpose == "rivalry-pairing"
+        && before.data.state == "open"
+        && before.data.expiresAt > request.time
+        && request.auth.uid != before.data.createdByAccountId
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.purpose == before.data.purpose
+        && after.data.slotId == before.data.slotId
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.data.state == "redeemed"
+        && after.data.redeemedByAccountId == request.auth.uid
+        && after.data.redeemedAt is timestamp
+        && after.data.revokedAt == null
+        && rivalryAfter.objectType == "rivalry"
+        && rivalryAfter.objectId == rivalryId
+        && rivalryAfter.revision is int
+        && rivalryAfter.parentRevision is int
+        && rivalryAfter.updatedByAccountId == request.auth.uid
+        && rivalryAfter.updatedByDeviceId == after.updatedByDeviceId
+        && rivalryAfter.data.connectionState == "active"
+        && rivalryAfter.data.authorizedAccountIds.size() == 2
+        && rivalryAfter.data.authorizedAccountIds[0] == before.data.createdByAccountId
+        && rivalryAfter.data.authorizedAccountIds[1] == request.auth.uid;
+    }
+
+    function validInviteRevoke(inviteId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return activeDevice(after.updatedByDeviceId)
+        && validCasEnvelope(before, after, "invite", inviteId)
+        && validInviteData(after.data)
+        && before.data.purpose == "rivalry-pairing"
+        && before.data.createdByAccountId == request.auth.uid
+        && before.data.state == "open"
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.purpose == before.data.purpose
+        && after.data.slotId == before.data.slotId
+        && after.data.createdByAccountId == before.data.createdByAccountId
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.data.state == "revoked"
+        && after.data.redeemedByAccountId == null
+        && after.data.redeemedAt == null
+        && after.data.revokedAt is timestamp;
+    }
+
+    function currentlyEntitled(rivalryId) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      return activeActor()
+        && rivalry.data.data.authorizedAccountIds is list
+        && request.auth.uid in rivalry.data.data.authorizedAccountIds;
+    }
+
+    function activePairedRivalry(rivalryId) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let data = rivalry.data.data;
+      let ids = data.authorizedAccountIds;
+      return signedIn()
+        && rivalry.data.objectType == "rivalry"
+        && rivalry.data.objectId == rivalryId
+        && rivalry.data.lifecycleState == "live"
+        && data.connectionState == "active"
+        && ids is list
+        && ids.size() == 2
+        && ids[0] is string
+        && ids[1] is string
+        && ids[0] != ids[1]
+        && request.auth.uid in ids
+        && activeAccount(ids[0])
+        && activeAccount(ids[1]);
+    }
+
+    function validManagerBinding(binding, slot) {
+      return binding is map
+        && binding.keys().hasOnly(["slotId", "profileId"])
+        && binding.slotId == slot.slotId
+        && binding.profileId == slot.profileId;
+    }
+
+    function validMutationReceipt(receipt, baseRevision) {
+      return receipt is map
+        && receipt.keys().hasOnly(["idempotencyKeyHash", "requestFingerprint", "baseRevision"])
+        && validIdempotencyKeyHash(receipt.idempotencyKeyHash)
+        && validHash(receipt.requestFingerprint)
+        && receipt.baseRevision is int
+        && receipt.baseRevision >= 0
+        && receipt.baseRevision == baseRevision;
+    }
+
+    function validSharedStateData(rivalryId, stateData, baseRevision) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId)).data;
+      let r = rivalry.data;
+      let slots = r.managerSlots;
+      return stateData.keys().hasOnly([
+          "saveId",
+          "managerBindings",
+          "seasonIds",
+          "activeSeasonId",
+          "payloadFormatVersion",
+          "payload",
+          "mutationReceipt"
+        ])
+        && validSaveId(stateData.saveId)
+        && (
+          (slots[0].accountId == r.createdByAccountId && stateData.saveId == slots[0].saveId)
+          ||
+          (slots[1].accountId == r.createdByAccountId && stateData.saveId == slots[1].saveId)
+        )
+        && stateData.managerBindings is list
+        && stateData.managerBindings.size() == 2
+        && validManagerBinding(stateData.managerBindings[0], slots[0])
+        && validManagerBinding(stateData.managerBindings[1], slots[1])
+        && stateData.seasonIds is list
+        && stateData.seasonIds.size() <= 10
+        && (stateData.activeSeasonId == null || stateData.activeSeasonId in stateData.seasonIds)
+        && stateData.payloadFormatVersion == 1
+        && stateData.payload is map
+        && stateData.payload.rounds is list
+        && stateData.payload.rounds.size() == stateData.seasonIds.size()
+        && stateData.payload.rounds.size() <= 10
+        && validMutationReceipt(stateData.mutationReceipt, baseRevision);
+    }
+
+    function stateReceiptMatchesIdempotency(rivalryId, stateRoot) {
+      let receiptKey = stateRoot.data.mutationReceipt.idempotencyKeyHash;
+      let receipt = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative/idempotency/$(receiptKey)).data;
+      return !exists(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative/idempotency/$(receiptKey))
+        && receipt.updatedByAccountId == request.auth.uid
+        && receipt.updatedByDeviceId == stateRoot.updatedByDeviceId
+        && receipt.data.requestFingerprint == stateRoot.data.mutationReceipt.requestFingerprint
+        && receipt.data.baseRevision == stateRoot.data.mutationReceipt.baseRevision
+        && receipt.data.acceptedRevision == stateRoot.revision
+        && receipt.data.resultContentHash == stateRoot.contentHash;
+    }
+
+    function validSharedStateMutationTiming(before, after) {
+      return before.revision < 2
+        || (
+          after.updatedAt == request.time
+          && (
+            before.revision == 2
+            || request.time >= before.updatedAt + duration.value(2, 's')
+          )
+        );
+    }
+
+    function validSharedStateCreate(rivalryId) {
+      let after = request.resource.data;
+      return rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && activePairedRivalry(rivalryId)
+        && activeOwnedDevice(after.updatedByDeviceId)
+        && validCreateEnvelope(after, "sharedState", rivalryId)
+        && after.updatedByAccountId == request.auth.uid
+        && validSharedStateData(rivalryId, after.data, 0)
+        && stateReceiptMatchesIdempotency(rivalryId, after);
+    }
+
+    function validSharedStateUpdate(rivalryId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && activePairedRivalry(rivalryId)
+        && activeOwnedDevice(after.updatedByDeviceId)
+        && before.lifecycleState == "live"
+        && validCasEnvelope(before, after, "sharedState", rivalryId)
+        && validSharedStateMutationTiming(before, after)
+        && after.updatedByAccountId == request.auth.uid
+        && after.data.saveId == before.data.saveId
+        && after.data.managerBindings == before.data.managerBindings
+        && validSharedStateData(rivalryId, after.data, before.revision)
+        && stateReceiptMatchesIdempotency(rivalryId, after);
+    }
+
+    function validIdempotencyData(data, idempotencyKeyHash) {
+      return data.keys().hasOnly([
+          "requestFingerprint",
+          "baseRevision",
+          "acceptedRevision",
+          "resultStatus",
+          "resultContentHash",
+          "resultTombstone",
+          "actorAccountId",
+          "deviceId",
+          "createdAt",
+          "expiresAt"
+        ])
+        && validHash(data.requestFingerprint)
+        && data.baseRevision is int
+        && data.baseRevision >= 0
+        && data.acceptedRevision is int
+        && data.acceptedRevision >= 0
+        && data.resultStatus == "accepted"
+        && validHash(data.resultContentHash)
+        && data.resultTombstone == false
+        && data.actorAccountId == request.auth.uid
+        && data.deviceId is string
+        && data.deviceId.matches('^device_[0-9a-f]{32}$')
+        && data.createdAt is timestamp
+        && data.expiresAt is timestamp
+        && data.expiresAt > data.createdAt
+        && data.expiresAt <= data.createdAt + duration.value(8, 'd')
+        && validIdempotencyKeyHash(idempotencyKeyHash);
+    }
+
+    function idempotencyMatchesStateAfter(rivalryId, idempotencyKeyHash, receiptRoot) {
+      let state = getAfter(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative).data;
+      return state.objectType == "sharedState"
+        && state.objectId == rivalryId
+        && state.lifecycleState == "live"
+        && state.updatedByAccountId == request.auth.uid
+        && state.updatedByDeviceId == receiptRoot.updatedByDeviceId
+        && state.data.mutationReceipt.idempotencyKeyHash == idempotencyKeyHash
+        && state.data.mutationReceipt.requestFingerprint == receiptRoot.data.requestFingerprint
+        && state.data.mutationReceipt.baseRevision == receiptRoot.data.baseRevision
+        && state.revision == receiptRoot.data.acceptedRevision
+        && state.contentHash == receiptRoot.data.resultContentHash;
+    }
+
+    function validIdempotencyCreate(rivalryId, idempotencyKeyHash) {
+      let root = request.resource.data;
+      return activeDevice(root.updatedByDeviceId)
+        && validCreateEnvelope(root, "idempotency", idempotencyKeyHash)
+        && root.updatedByAccountId == request.auth.uid
+        && validIdempotencyData(root.data, idempotencyKeyHash)
+        && root.updatedByDeviceId == root.data.deviceId
+        && root.updatedAt == root.data.createdAt
+        && idempotencyMatchesStateAfter(rivalryId, idempotencyKeyHash, root);
+    }
+
+    // STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN
+    function activeSessionDeviceCredential() {
+      return signedIn()
+        && request.auth.token.keys().hasAll(["device_id"])
+        && request.auth.token.device_id is string
+        && request.auth.token.device_id.matches('^device_[0-9a-f]{32}$')
+        && activeDevice(request.auth.token.device_id);
+    }
+
+    function sessionWriteUsesDeviceCredential(root) {
+      return activeSessionDeviceCredential()
+        && root.updatedByDeviceId == request.auth.token.device_id;
+    }
+
+    function validSessionId(sessionId) {
+      return sessionId is string
+        && sessionId.matches('^session_[0-9a-f]{64}$');
+    }
+
+    function validSessionBaseData(rivalryId, sessionData) {
+      return sessionData.keys().hasOnly([
+          "rivalryId",
+          "hostAccountId",
+          "memberAccountIds",
+          "state",
+          "createdAt",
+          "expiresAt",
+          "lastActivityAt",
+          "revokedAt"
+        ])
+        && sessionData.rivalryId == rivalryId
+        && sessionData.hostAccountId is string
+        && sessionData.memberAccountIds is list
+        && sessionData.memberAccountIds.size() >= 1
+        && sessionData.memberAccountIds.size() <= 2
+        && sessionData.hostAccountId in sessionData.memberAccountIds
+        && sessionData.createdAt is timestamp
+        && sessionData.expiresAt is timestamp
+        && sessionData.expiresAt > sessionData.createdAt
+        && (sessionData.lastActivityAt == null || sessionData.lastActivityAt is timestamp)
+        && (sessionData.revokedAt == null || sessionData.revokedAt is timestamp);
+    }
+
+    function validSessionData(rivalryId, sessionData) {
+      return validSessionBaseData(rivalryId, sessionData)
+        && (
+          (
+            sessionData.state == "open"
+            && sessionData.memberAccountIds.size() == 1
+            && sessionData.memberAccountIds[0] == sessionData.hostAccountId
+            && sessionData.lastActivityAt == null
+            && sessionData.revokedAt == null
+          )
+          ||
+          (
+            sessionData.state == "active"
+            && sessionData.memberAccountIds.size() == 2
+            && sessionData.memberAccountIds[0] != sessionData.memberAccountIds[1]
+            && sessionData.lastActivityAt is timestamp
+            && sessionData.revokedAt == null
+          )
+          ||
+          (
+            sessionData.state == "revoked"
+            && sessionData.lastActivityAt is timestamp
+            && sessionData.revokedAt is timestamp
+          )
+          ||
+          (
+            (sessionData.state == "expired" || sessionData.state == "closed")
+            && sessionData.lastActivityAt is timestamp
+            && sessionData.revokedAt == null
+          )
+        );
+    }
+
+    function sessionMembersMatchRivalryPair(rivalryId, members) {
+      let rivalry = get(/databases/$(database)/documents/rivalries/$(rivalryId));
+      let ids = rivalry.data.data.authorizedAccountIds;
+      return members is list
+        && members.size() == 2
+        && ids is list
+        && ids.size() == 2
+        && (
+          (members[0] == ids[0] && members[1] == ids[1])
+          ||
+          (members[0] == ids[1] && members[1] == ids[0])
+        );
+    }
+
+    function freshSessionActivity(value) {
+      return value is timestamp
+        && value >= request.time - duration.value(5, 'm')
+        && value <= request.time + duration.value(1, 'm');
+    }
+
+    function validOpenSessionCreate(rivalryId, sessionId) {
+      let after = request.resource.data;
+      let data = after.data;
+      return validSessionId(sessionId)
+        && activePairedRivalry(rivalryId)
+        && sessionWriteUsesDeviceCredential(after)
+        && validCreateEnvelope(after, "session", sessionId)
+        && after.updatedByAccountId == request.auth.uid
+        && validSessionBaseData(rivalryId, data)
+        && data.hostAccountId == request.auth.uid
+        && data.memberAccountIds.size() == 1
+        && data.memberAccountIds[0] == request.auth.uid
+        && data.state == "open"
+        && data.createdAt >= request.time - duration.value(5, 'm')
+        && data.createdAt <= request.time + duration.value(1, 'm')
+        && data.expiresAt > request.time
+        && data.expiresAt <= request.time + duration.value(30, 'm')
+        && data.lastActivityAt == null
+        && data.revokedAt == null
+        && after.updatedAt == data.createdAt;
+    }
+
+    function validSessionCasUpdate(rivalryId, sessionId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return validSessionId(sessionId)
+        && activePairedRivalry(rivalryId)
+        && sessionWriteUsesDeviceCredential(after)
+        && validCasEnvelope(before, after, "session", sessionId)
+        && after.updatedByAccountId == request.auth.uid
+        && validSessionBaseData(rivalryId, after.data)
+        && after.data.rivalryId == before.data.rivalryId
+        && after.data.hostAccountId == before.data.hostAccountId
+        && after.data.createdAt == before.data.createdAt
+        && after.data.expiresAt == before.data.expiresAt
+        && after.updatedAt == after.data.lastActivityAt
+        && freshSessionActivity(after.data.lastActivityAt);
+    }
+
+    function validSessionJoin(rivalryId, sessionId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return validSessionCasUpdate(rivalryId, sessionId)
+        && before.data.state == "open"
+        && before.data.expiresAt > request.time
+        && before.data.memberAccountIds.size() == 1
+        && before.data.memberAccountIds[0] == before.data.hostAccountId
+        && request.auth.uid != before.data.hostAccountId
+        && after.data.state == "active"
+        && sessionMembersMatchRivalryPair(rivalryId, after.data.memberAccountIds)
+        && after.data.memberAccountIds[0] == before.data.hostAccountId
+        && after.data.memberAccountIds[1] == request.auth.uid
+        && after.data.revokedAt == null;
+    }
+
+    function validSessionRevoke(rivalryId, sessionId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return validSessionCasUpdate(rivalryId, sessionId)
+        && (before.data.state == "open" || before.data.state == "active")
+        && before.data.expiresAt > request.time
+        && request.auth.uid == before.data.hostAccountId
+        && after.data.state == "revoked"
+        && after.data.memberAccountIds == before.data.memberAccountIds
+        && freshSessionActivity(after.data.revokedAt);
+    }
+
+    function validSessionClose(rivalryId, sessionId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return validSessionCasUpdate(rivalryId, sessionId)
+        && before.data.state == "active"
+        && before.data.expiresAt > request.time
+        && request.auth.uid in before.data.memberAccountIds
+        && after.data.state == "closed"
+        && after.data.memberAccountIds == before.data.memberAccountIds
+        && after.data.revokedAt == null;
+    }
+
+    function validSessionExpire(rivalryId, sessionId) {
+      let before = resource.data;
+      let after = request.resource.data;
+      return validSessionCasUpdate(rivalryId, sessionId)
+        && (before.data.state == "open" || before.data.state == "active")
+        && request.time >= before.data.expiresAt
+        && request.auth.uid in before.data.memberAccountIds
+        && after.data.state == "expired"
+        && after.data.memberAccountIds == before.data.memberAccountIds
+        && after.data.revokedAt == null;
+    }
+
+    function validSessionUpdate(rivalryId, sessionId) {
+      return (
+          request.resource.data.data.state == "active"
+          && validSessionJoin(rivalryId, sessionId)
+        )
+        || (
+          request.resource.data.data.state == "revoked"
+          && validSessionRevoke(rivalryId, sessionId)
+        )
+        || (
+          request.resource.data.data.state == "closed"
+          && validSessionClose(rivalryId, sessionId)
+        )
+        || (
+          request.resource.data.data.state == "expired"
+          && validSessionExpire(rivalryId, sessionId)
+        );
+    }
+
+    function sessionCanRead(rivalryId, sessionId) {
+      let sessionPath = /databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId);
+      let session = resource.data;
+      return validSessionId(sessionId)
+        && activeSessionDeviceCredential()
+        && activePairedRivalry(rivalryId)
+        && (
+          !exists(sessionPath)
+          || (
+            validEnvelopeShape(session, "session", sessionId)
+            && validSessionData(rivalryId, session.data)
+            && (
+              request.auth.uid in session.data.memberAccountIds
+              || (
+                session.data.state == "open"
+                && session.data.expiresAt > request.time
+              )
+            )
+          )
+        );
+    }
+    // STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END
+
+    function capabilityCanReadPendingRivalry(rivalryId) {
+      let invite = get(/databases/$(database)/documents/rivalries/$(rivalryId)/invites/$(rivalryId));
+      return activeActor()
+        && rivalryId.matches('^pair_[0-9a-f]{64}$')
+        && resource.data.data.connectionState == "pending-pair"
+        && invite.data.data.purpose == "rivalry-pairing"
+        && invite.data.data.state == "open"
+        && invite.data.data.expiresAt > request.time;
+    }
+
+    match /accounts/{accountId} {
+      allow get: if signedIn() && request.auth.uid == accountId;
+      allow create: if validSelfAccountBootstrap(accountId);
+      allow list, update, delete: if false;
+
+      match /profileLinks/{profileId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow list, create, update, delete: if false;
+      }
+
+      match /devices/{deviceId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow create: if validDeviceCreate(accountId, deviceId);
+        allow update: if validDeviceRevoke(accountId, deviceId);
+        allow list, delete: if false;
+      }
+
+      match /securityEvents/{eventId} {
+        allow get: if signedIn() && request.auth.uid == accountId;
+        allow list, create, update, delete: if false;
+      }
+    }
+
+    match /rivalries/{rivalryId} {
+      allow get: if currentlyEntitled(rivalryId) || capabilityCanReadPendingRivalry(rivalryId);
+      allow create: if validInitialRivalryCreate(rivalryId);
+      allow update: if validRivalryRedeem(rivalryId);
+      allow list, delete: if false;
+
+      match /state/authoritative {
+        allow get: if currentlyEntitled(rivalryId)
+          || (
+            activeActor()
+            && resource.data.lifecycleState == "tombstoned"
+            && resource.data.tombstone != null
+            && resource.data.tombstone.restorableByAccountIds is list
+            && request.auth.uid in resource.data.tombstone.restorableByAccountIds
+          );
+        allow create: if validSharedStateCreate(rivalryId);
+        allow update: if validSharedStateUpdate(rivalryId);
+        allow list, delete: if false;
+
+        match /idempotency/{idempotencyKeyHash} {
+          allow get: if currentlyEntitled(rivalryId)
+            && validIdempotencyKeyHash(idempotencyKeyHash)
+            && (
+              !exists(/databases/$(database)/documents/rivalries/$(rivalryId)/state/authoritative/idempotency/$(idempotencyKeyHash))
+              || resource.data.data.actorAccountId == request.auth.uid
+            );
+          allow create: if validIdempotencyCreate(rivalryId, idempotencyKeyHash);
+          allow list, update, delete: if false;
+        }
+      }
+
+      match /invites/{inviteId} {
+        allow get: if activeActor()
+          && inviteId == rivalryId
+          && (
+            resource.data.data.createdByAccountId == request.auth.uid
+            || (
+              resource.data.data.state == "open"
+              && resource.data.data.expiresAt > request.time
+            )
+          );
+        allow create: if validInitialInviteCreate(rivalryId, inviteId);
+        allow update: if (
+          request.resource.data.data.state == "redeemed"
+          && validInviteRedeem(rivalryId, inviteId)
+        ) || (
+          request.resource.data.data.state == "revoked"
+          && validInviteRevoke(inviteId)
+        );
+        allow list, delete: if false;
+      }
+
+      // STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN
+      match /sessions/{sessionId} {
+        allow get: if sessionCanRead(rivalryId, sessionId);
+        allow create: if validOpenSessionCreate(rivalryId, sessionId);
+        allow update: if validSessionUpdate(rivalryId, sessionId);
+        allow list, delete: if false;
+      }
+      // STAGE5A_CANDIDATE_SESSION_MATCH_END
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
