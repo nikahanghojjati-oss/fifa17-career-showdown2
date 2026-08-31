@@ -828,3 +828,16 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Technical proof for PR #171 publication is complete. The separate legitimate owner-authenticated production provider-abuse result remains pending and uncredited.
 - Predecessor final decision `HANDOFF_AT_CHECKPOINT` belongs only to `we-2026-08-29-rjr-provider-rules-acceptance`; it is archived here and is not inherited by the fresh successor.
 - Exact next safe action: initialize and assess a fresh unique WEC from live main `1d945ba47c89c305575ef72cc26672fc3e0743ff`; if permitted, execute exactly one deployed zero-write authenticated rivalry-enumeration denial probe without fabricating account, rivalry, revocation, device, or provider state, then reconcile at most one new capability and immediately reassess the Stage 5 lock.
+
+## Closure addendum — `we-2026-08-29-provider-abuse-production-acceptance`
+
+- Successor reconciliation recorded: `2026-08-30T11:59:49Z`.
+- Starting verified live-main SHA recorded by the predecessor: `1d945ba47c89c305575ef72cc26672fc3e0743ff`, the PR #171 squash merge.
+- Final verified repository boundary: PR #172 `Record production provider abuse acceptance and unlock Stage 5A`, exact final head `d282c204122e7610beb9093b2d79a3db804336c5`, exact tree `cab8416c4c822ada3b62a71a1d747262f9294ff6`, squash merge / independently fetched live main `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de` with the identical tree.
+- Exact-head proof: all 14 permanent pull-request workflow families completed successfully on the unchanged final head; submitted reviews and inline review threads were both empty; PR #172 is closed/merged.
+- Post-merge proof: all 14 normal push validation families plus GitHub Pages run `33309615324` completed successfully on merge SHA `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de`.
+- Production proof: an independent cache-bypassing deployment audit matched all 91 public runtime files byte-for-byte to live main. Production remains `v1.8.1 / 1.8.1-r5`; reviewed production Rules remain blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`; App Check enforcement remains OFF; Firebase remains Spark / zero billing.
+- Fixed RJR-1 remains exactly `87/100`. PR #172 publication, workflows, merge, deployment and this successor verification receive zero duplicate readiness credit.
+- Material result: the legitimate owner-authenticated `PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED` proof is durably published and Stage 5A is implementation-authorized as a separate private-session protocol/client plus deterministic emulator contracts and candidate minimum session Rules. PR #172 changed no production runtime or production Rules file.
+- Predecessor final decision `HANDOFF_AT_CHECKPOINT` belongs only to `we-2026-08-29-provider-abuse-production-acceptance`; it is archived here and is not inherited by the fresh successor.
+- Exact next safe action fulfilled: initialize fresh environment `we-2026-08-30-stage5a-private-session-protocol` from live main `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de`, reset every per-environment signal, assess independently and, if permitted, implement only the bounded Stage 5A protocol/client, candidate Rules and emulator proof without publishing production session Rules or exposing host/join UX.
