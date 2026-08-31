@@ -64,6 +64,7 @@ const files = [
   "tests/contracts/stage4-connected-rivalry-contracts.cjs",
   "tests/contracts/stage5-activation-authority-contracts.cjs",
   "tests/contracts/stage5a-private-session-contracts.cjs",
+  "tests/contracts/stage5b-device-credential-contracts.cjs",
   "tests/contracts/stage4-adverse-network-contracts.cjs",
   "tests/contracts/stage4-abuse-hardening-contracts.cjs",
   "tests/contracts/stage4-remote-local-reconciliation-contracts.cjs",
