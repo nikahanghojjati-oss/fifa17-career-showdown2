@@ -395,6 +395,7 @@ async function snapshotData(reference){
     assert.equal((await privateSession.openSession(sessionOptions({
       db:dbA,accountId:ACCOUNT_A,identityValue:aIdentity,rivalryId,sessionId:accountGuardSessionId
     }))).ok,true);
+    const accountGuardEnvelope=await snapshotData(accountGuardRefA);
     const accountRefA=doc(dbA,"accounts",ACCOUNT_A);
     const originalAccountA=await snapshotData(accountRefA);
     await testEnv.withSecurityRulesDisabled(async context=>{
@@ -408,7 +409,6 @@ async function snapshotData(reference){
     }));
     assert.equal(inactiveAccountRevoke.ok,false);
     assert.equal(inactiveAccountRevoke.code,"PRIVATE_SESSION_ACCOUNT_INACTIVE");
-    const accountGuardEnvelope=await snapshotData(accountGuardRefA);
     const accountGuardTime=Date.now();
     await assertFails(setDoc(accountGuardRefA,nextEnvelope(accountGuardEnvelope,{
       accountId:ACCOUNT_A,
@@ -428,6 +428,7 @@ async function snapshotData(reference){
     }))).ok,true);
     const rivalryRefA=doc(dbA,"rivalries",rivalryId);
     const originalRivalry=await snapshotData(rivalryRefA);
+    const entitlementEnvelope=await snapshotData(entitlementGuardRefA);
     await testEnv.withSecurityRulesDisabled(async context=>{
       await setDoc(doc(context.firestore(),"rivalries",rivalryId),{
         ...originalRivalry,
@@ -439,7 +440,6 @@ async function snapshotData(reference){
     }));
     assert.equal(lostEntitlementJoin.ok,false);
     assert.equal(lostEntitlementJoin.code,"permission-denied");
-    const entitlementEnvelope=await snapshotData(entitlementGuardRefA);
     const entitlementTime=Date.now();
     await assertFails(setDoc(doc(dbB,"rivalries",rivalryId,"sessions",entitlementGuardSessionId),nextEnvelope(entitlementEnvelope,{
       accountId:ACCOUNT_B,

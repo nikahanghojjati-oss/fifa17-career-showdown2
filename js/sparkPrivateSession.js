@@ -297,12 +297,12 @@
 
   async function readAuthority(transaction,operation,refs){
     const accountSnapshot=await transaction.get(refs.account);
-    const deviceSnapshot=await transaction.get(refs.device);
-    const rivalrySnapshot=await transaction.get(refs.rivalry);
-    const sessionSnapshot=await transaction.get(refs.session);
     assertActiveAccount(snapshotValue(accountSnapshot),operation.accountId);
+    const deviceSnapshot=await transaction.get(refs.device);
     assertActiveDevice(snapshotValue(deviceSnapshot),operation.deviceId);
+    const rivalrySnapshot=await transaction.get(refs.rivalry);
     const rivalry=assertActiveRivalry(snapshotValue(rivalrySnapshot),operation.rivalryId,operation.accountId);
+    const sessionSnapshot=await transaction.get(refs.session);
     return Object.freeze({rivalry,sessionValue:snapshotValue(sessionSnapshot)});
   }
 

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
   "lifecycle": "active",
-  "recordedAt": "2026-08-31T01:04:14Z",
+  "recordedAt": "2026-08-31T01:09:04Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -13,9 +13,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 9,
+    "largeEvidenceEvents": 10,
     "toolRoutingErrors": 2,
-    "correctedFailures": 3,
+    "correctedFailures": 4,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -23,31 +23,31 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 38,
+    "handoffCompleteness": 51,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "The recovered Stage 5A slice is locally complete and the full repository contract suite is green. A dirty-tree checkpoint must now be protected and published so the permanent exact-head GitHub Actions lane can supply the real Firestore emulator proof. Production Rules publication, runtime integration and host/join UX remain outside this environment.",
+    "reason": "PR #173 initial provider CI reduced the uncertainty to one stale inactive-account expectation after the preceding Stage 5A lifecycle and denial matrix executed. The narrow local correction is ready for immediate exact-head publication; production Rules, runtime integration and host/join UX remain outside this environment.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
       "contextPressure": 61,
-      "qualityRisk": 24,
+      "qualityRisk": 28,
       "quotaRisk": null,
       "nextTaskSeparation": 20,
-      "handoffReadiness": 38,
+      "handoffReadiness": 51,
       "atomicRisk": 35,
-      "continuationRisk": 39.4,
-      "transitionCost": 46.7,
-      "transitionAdvantage": -7.2
+      "continuationRisk": 40.9,
+      "transitionCost": 40.8,
+      "transitionAdvantage": 0.1
     }
   },
   "continuity": {
     "currentTask": "Protect and publish only the implemented Stage 5A branch rjr/stage5a-private-session-protocol-2026-08-30: separate memory-only private-session protocol/client, isolated candidate minimum Rules, deterministic contracts and real Firestore emulator proof. Production session Rules and host/join UX remain excluded.",
-    "lastSafeCheckpoint": "The separate js/sparkPrivateSession.js client, isolated firestore.stage5a.rules candidate, deterministic contract and Firebase emulator matrix are recovered intact after interruption. The focused client proof and complete 78-file repository contract suite pass; syntax, diff hygiene and the protected Stage 4 no-session boundary are clean. Production firestore.spark.rules, deployment configuration, runtime loading, UX and canonical storage remain unchanged. Local emulator startup alone is blocked by restricted runner egress, so the permanent exact-head GitHub Actions emulator lane is the next provider proof route.",
-    "nextSafeAction": "Create a durable branch checkpoint, publish the smallest exact-head Stage 5A pull request through the connected GitHub authority, obtain the real Firebase emulator result plus all permanent workflow evidence, correct any exact-head finding, then synchronize current authority and prepare the recursive SLE seal without publishing production Rules.",
+    "lastSafeCheckpoint": "PR #173 is open from remote commit 46a546b8b7c36b835133e7a74110393578bad247, exact tree 7ca123f7627caf25a0526fb5c2a02e4faf304c3c matching local checkpoint fc28aa0 byte-for-byte. All 14 workflows triggered. Stage 5A emulator job 99351796237 compiled the candidate Rules, passed setup plus the full host/open, peer/join, replay, close, revoke, expiry and denial sequence through the inactive-account fixture, then failed only because the old client fetched provider-gated downstream documents before locally classifying the already-read inactive account. The local correction now asserts each account/device/rivalry read immediately and captures guard snapshots before authority is intentionally removed.",
+    "nextSafeAction": "Publish the narrow authority-read ordering and emulator-fixture snapshot correction as the sole child of PR #173 head 46a546b8, rerun the exact-head Stage 5A emulator plus all permanent workflows, and inspect any remaining provider or review finding before authority/SLE synchronization.",
     "unfinishedWork": [
       "Publish the recovered implementation to an exact-head pull request and require the Stage 5A candidate Rules to pass the real Firestore emulator in GitHub Actions.",
       "Reconcile any exact-head CI or review finding without broadening into production Rules, runtime integration or host/join UX.",
@@ -75,6 +75,7 @@
       "The static release contract found seven duplicate top-level helper names in the new module; each internal helper was uniquely session-scoped and the complete 78-file suite then passed.",
       "A mistaken generic npm test command found that this repository intentionally has no test script; the authoritative npm run test:contracts command passed all 78 files.",
       "The local Firestore emulator launcher could not download its emulator dependency because this managed runner blocks that outbound route. The committed permanent GitHub Actions lane is the bounded exact-head provider-proof route; no security or test assertion was weakened.",
+      "PR #173 initial exact-head run 33346597633 reached the Stage 5A candidate emulator and failed at the inactive-account assertion after every preceding lifecycle and denial fixture executed. Immediate account/device/rivalry assertions and pre-loss snapshot capture correct the mismatch without changing candidate authority or production files.",
       "Fixed RJR-1 remains 87/100 with domain vector 20/20, 18/20, 20/20, 20/30 and 9/10. Publication and verification earn zero duplicate credit.",
       "Current-session account/model usage is unavailable and is not estimated."
     ]
