@@ -1,3 +1,33 @@
+# CURRENT OVERRIDE — PR #174 / STAGE 5B CREDENTIAL CANDIDATE / RJR87 — 2026-08-31 UTC
+
+This section supersedes lower historical project-state text.
+
+Status: DEPLOYED / PRODUCTION-PROVEN runtime remains `v1.8.1 / 1.8.1-r5`. PR #173 is merged/deployed at live main `c005f69c8952fbce8a4b842e69641e5467c36f9a`. PR #174 publishes dormant Stage 5B credential source and automated evidence without production activation. Fixed RJR-1 remains `87/100`.
+
+Production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`; known-good rollback runtime remains `1.8.1-r4` and rollback proof run `33190961085` remains consumed.
+
+First published implementation proof head/tree: `5b092220ce2507c66cf653e510fbaa2c43fb425d` / `2b525677ba2af016929b0bb1706df9c3f40847aa`.
+
+Implemented: `js/sparkDeviceCredential.js`, `js/trustedDeviceCredentialIssuance.js`, deterministic WebCrypto protocol contracts, Chromium IndexedDB/key audit, real Auth-plus-Firestore emulator proof and permanent Java-21 workflow integration.
+
+Proven candidate boundary: non-extractable P-256 device key; exact existing device ID; signed one-use two-minute challenge; recent-Google initial enrollment; same-key refresh; exact key fingerprint; atomic authority/key/expiry preconditions; per-sign-in custom-token claims; atomic terminal device-plus-credential revocation; simultaneous same-UID device isolation; revoked already-issued token denial.
+
+Unchanged production boundary: `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`; deployment config; runtime; service worker; Auth persistence; App Check enforcement OFF; IAM; billing; canonical storage; Candidate C; protected rivalry.
+
+Activation blocker: current Spark, Google-only provider policy and unactivated/unbroadened IAM cannot host/sign/commit the safe issuer. Explicit owner authority is required for Blaze/Cloud Run, secondary custom Auth, `iam.serviceAccounts.signBlob` and `datastore.entities.update` before a provider adapter. Production session Rules, runtime/UX and RJR credit remain later.
+
+Recovered outage archive: ZIP/bundle verified; its SLE structure informed v1.4.32 packaging, while its unsafe user-wide custom-claim source was rejected and not imported.
+
+Current proof: `STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md`.
+
+Current starter: `START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md`.
+
+Current deep SLE: `SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md`.
+
+---
+
+The material below is preserved historical PR #173 transition authority and is superseded by the current override above.
+
 # CURRENT OVERRIDE — PR #173 / STAGE 5A CANDIDATE EMULATOR-PROVEN / RJR87 — 2026-08-31 UTC
 
 This section supersedes lower historical project-state text.

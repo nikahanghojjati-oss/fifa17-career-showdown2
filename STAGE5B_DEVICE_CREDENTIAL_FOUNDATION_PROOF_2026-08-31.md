@@ -12,6 +12,19 @@ The smallest provider mechanism that survived source review and emulator proof i
 
 That mechanism is safe only when token issuance is bound to proof of possession of a device key. A browser-supplied device ID, installation ID or public key is not device authentication.
 
+## Recovered Codex archive review
+
+The owner supplied outage-recovery ZIP SHA-256 `dcf93bbcd6df82c83e64a947babe50fa7349ef35c44be2daaa8ebe5b92d2477e`. Its Git bundle SHA-256 `051f7dd58e884e66402c0f70f0c43ce48d2b48b44274165a17704b24f81944da` verified and exposed candidate commit `4847fa20d11531b697906eabac580da73f385d8e` from the same `c005f69c` starting main.
+
+The archive's compact/deep v1.4.32 SLE naming and mirrored-package structure are useful and are incorporated into the current transition. Its product implementation is not imported because independent review found four security/compatibility defects:
+
+- it writes one user-wide custom-claim map per Firebase UID, so two simultaneous device sessions race over one `device_id` value;
+- it accepts an active browser-supplied device identifier without proof of possession of a device-bound key;
+- its claim-clearing revocation leaves already-issued ID tokens usable while the registered-device document remains active;
+- its `dev_` plus 64-hex identifier is incompatible with the repository's established `device_` plus 32-hex registered-device contract.
+
+The stronger PR #174 candidate instead uses per-sign-in custom-token claims, non-extractable P-256 proof, exact repository device IDs and atomic registered-device-plus-credential revocation. No archive code was copied over the newer verified implementation.
+
 ## Dormant candidate protocol
 
 `js/sparkDeviceCredential.js` provides a browser-only cryptographic boundary that is not loaded by production:

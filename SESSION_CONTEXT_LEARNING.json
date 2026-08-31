@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-31T06:25:00Z",
-  "materialSessionsObserved": 12,
-  "learningState": "cold-start-priors-with-twelve-labeled-sessions",
+  "recordedAt": "2026-08-31T13:52:00Z",
+  "materialSessionsObserved": 13,
+  "learningState": "cold-start-priors-with-thirteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -72,6 +72,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "The exact GitHub Actions emulator job first exposed authority-read ordering and fixture-snapshot mismatches, then provider logs exposed expression-budget exhaustion on forged late-failing updates. Automated review subsequently found that entitled direct reads still lacked provider-verifiable current-device identity. The corrected client and candidate Rules now require an active device_id token claim, bind writes to it and prove missing, unknown, revoked and mismatched credentials fail closed."
+    },
+    "stage5b-device-credential-foundation-proof": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "Contract, Chromium and Auth-plus-Firestore emulator proof forced the credential boundary from a user-wide mutable custom-claim concept to non-extractable P-256 proof of possession with per-sign-in device_id/device_key_sha256 claims, atomic issue/refresh/revoke preconditions and simultaneous same-UID device isolation. Recovery-ZIP review independently rejected the same unsafe user-wide claim race. Provider activation cannot fit current Spark, custom-Auth and IAM locks, so the exact owner gate is preserved rather than weakening authentication or claiming production credit."
     }
   },
   "sessionMetrics": [
@@ -138,6 +147,22 @@
       "ciTriageLesson": "Fetch exact failed jobs and provider logs before changing source, and treat automated security review as independent evidence. Green emulator execution did not prove the caller device on direct reads; the valid P1 required a provider-verifiable token claim and a new denial matrix.",
       "productionEvidenceLesson": "A dormant client and real emulator-proven candidate Rules boundary earns delta-zero RJR. Production capability cannot begin while production lacks the provider device credential required by the candidate, and later requires provider-live minimum Rules plus a playable host/join path.",
       "authorityLesson": "Do not route a candidate directly to production Rules after review reveals an unissued credential prerequisite. First prove the smallest provider issuance/refresh/revocation boundary; preserve zero-billing and IAM locks, freeze a blocker for owner direction if necessary, and never weaken Rules to browser-supplied device identity."
+    },
+    {
+      "sessionId": "we-2026-08-31-stage5b-device-credential-foundation",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5b-production-activation-owner-decision",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The PR #173 Stage 5A handoff, official Firebase custom-token semantics and recovered outage ZIP were needed to distinguish a safe per-sign-in proof-of-possession credential from an unsafe user-wide custom-claim overwrite model and to identify the exact production infrastructure gate.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Local Java 17 could not execute the exact Firebase CLI 15 lane requiring Java 21, so the candidate used the newest locally compatible emulator plus an exact Java 21 CI lane. Stateful deploy/stability/rollback workflows were explicitly excluded from the legacy source-contract runner rather than invoked as tests.",
+      "ciTriageLesson": "Make environment deferrals exact and machine-enforced: identify the Java/CLI mismatch, run the newest compatible real emulator locally, pin the exact provider lane in CI and never relabel a skipped provider boundary as a pass.",
+      "productionEvidenceLesson": "A key-bound credential candidate earns zero RJR until a trusted provider actually issues the per-sign-in claims. User-wide custom claims are unsafe for simultaneous same-UID devices; terminal revocation must atomically revoke both credential and device authority, and old ID-token behavior must remain explicit.",
+      "authorityLesson": "Candidate completion does not imply authority to change billing, add Cloud Run, enable secondary custom Auth or broaden IAM. Freeze the exact owner decision with only iam.serviceAccounts.signBlob and datastore.entities.update named, while keeping production Rules/runtime/UX unchanged."
     }
   ],
   "outcomeScale": {
@@ -155,12 +180,12 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "PR #173 proves the separate Stage 5A private-session client and isolated minimum candidate Rules through the real emulator while fixed RJR remains 87. Exact-head provider logs and automated review drove three bounded corrections before seal. Reads and writes now require the active provider-verifiable device_id claim, but production does not issue it. Production firestore.spark.rules, runtime and UX remain unchanged; the next fresh-WEC slice is the separate provider current-device credential issuance/refresh/revocation boundary.",
-    "prePublicationMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
+    "lesson": "PR #174 proves the dormant Stage 5B device credential candidate at fixed RJR87: a non-extractable P-256 key signs exact short-lived challenges; the trusted model verifies proof of possession and issues per-sign-in device_id/device_key_sha256 custom-token claims; atomic issue/refresh/revoke logic isolates simultaneous same-UID devices. The recovered outage ZIP's user-wide custom-claim design was rejected because it races devices and lacks key-bound proof. Production firestore.spark.rules, runtime and UX remain unchanged. Activation requires explicit owner authorization for Blaze/Cloud Run, secondary custom Auth and only iam.serviceAccounts.signBlob plus datastore.entities.update.",
+    "prePublicationMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
     "runtimeRevision": "1.8.1-r5",
     "rjrScore": 87,
-    "closeoutPullRequest": 173,
-    "starter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md"
+    "closeoutPullRequest": 174,
+    "starter": "START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md"
   }
 }

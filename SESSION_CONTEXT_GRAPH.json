@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-31T06:25:00Z",
+  "recordedAt": "2026-08-31T13:52:00Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -112,36 +112,70 @@
       "riskCriticality": 1
     },
     {
+      "id": "stage5b-device-credential-foundation-proof",
+      "type": "completed-candidate-capability",
+      "state": "pr174-key-bound-per-sign-in-device-credential-emulator-proven-rjr-delta-zero",
+      "pullRequest": 174,
+      "startingMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
+      "implementationProofHead": "5b092220ce2507c66cf653e510fbaa2c43fb425d",
+      "implementationProofTree": "2b525677ba2af016929b0bb1706df9c3f40847aa",
+      "client": "js/sparkDeviceCredential.js",
+      "trustedIssuer": "js/trustedDeviceCredentialIssuance.js",
+      "proof": "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
+      "credentialModel": "non-extractable-p256-proof-of-possession-with-per-sign-in-custom-token-claims",
+      "providerDeviceCredentialClaim": "device_id",
+      "providerDeviceCredentialKeyClaim": "device_key_sha256",
+      "simultaneousSameUidDeviceIsolationProven": true,
+      "atomicIssueRefreshRevokeProven": true,
+      "productionProviderDeviceCredentialIssued": false,
+      "productionProviderDeviceCredentialProven": false,
+      "productionActivationOwnerDecisionRequired": true,
+      "requiredAdditionalIamPermissions": [
+        "iam.serviceAccounts.signBlob",
+        "datastore.entities.update"
+      ],
+      "cloudRunAvailableOnCurrentSparkPlan": false,
+      "secondaryCustomAuthAuthorized": false,
+      "productionRulesChanged": false,
+      "runtimeLoaded": false,
+      "hostJoinUxExposed": false,
+      "rjrScoreAfterProof": 87,
+      "rjrDelta": 0,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr173-rjr87-stage5a-candidate-proven-sle-transition",
-      "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
-      "startingMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
-      "transitionPullRequest": 173,
-      "initialDecision": "CONTINUE",
+      "state": "pr174-rjr87-stage5b-credential-candidate-proven-owner-gated-sle-transition",
+      "environmentId": "we-2026-08-31-stage5b-device-credential-foundation",
+      "startingMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
+      "transitionPullRequest": 174,
+      "initialDecision": "HANDOFF_AT_CHECKPOINT",
       "finalDecision": "HANDOFF_AT_CHECKPOINT",
       "handoffProximity": 100,
       "rjrScore": 87,
-      "starter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+      "starter": "START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-after-pr173-stage5a-candidate-transition",
-      "rule": "successor independently verifies PR #173 candidate/emulator publication and unchanged production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then if its own assessment permits begins the separate provider-verifiable current-device credential issuance/refresh/revocation boundary; never inherit predecessor transition decisions, weaken device authentication or repeat consumed proof",
+      "state": "fresh-wec-required-after-pr174-stage5b-owner-gated-candidate-transition",
+      "rule": "successor independently verifies PR #174 candidate/emulator publication and unchanged production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then preserves the owner gate unless Blaze/Cloud Run, secondary custom Auth and only the exact additional IAM permissions are explicitly authorized; never inherit predecessor transition decisions, weaken proof of possession, publish production session Rules or repeat consumed proof",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "stage5a-candidate-proven-stage5b-device-credential-authorized-next",
+      "state": "stage5b-credential-candidate-proven-production-activation-owner-gated",
       "knownRemainingGaps": [
         "state-dependent third-account/revoked-device production negatives only if legitimate state and current authority require them",
-        "provider-verifiable current-device credential issuance, refresh and revocation",
+        "owner authorization for Blaze/Cloud Run, secondary custom Auth and exact additional IAM permissions",
+        "provider-live current-device credential issuance, refresh and revocation",
         "provider-live minimum production session Rules",
         "actual Stage 5 host/join/session runtime and UX orchestration",
         "two-network Remote Joining acceptance",
@@ -149,8 +183,8 @@
         "final stable Remote Joining release acceptance"
       ],
       "sessionRulesCurrentState": "entitled get allowed; list/create/update/delete denied",
-      "candidateState": "separate dormant client plus isolated candidate Rules are real-emulator proven with provider device_id enforcement and delta-zero RJR; production has no proven claim issuer",
-      "nextSlice": "establish the smallest safe provider-verifiable current-device credential issuance/refresh/revocation boundary under current zero-billing and IAM locks; if impossible, freeze the blocker for owner direction; no production session Rules, runtime or UX activation in the credential slice",
+      "candidateState": "the dormant key-bound Stage 5B client and trusted issuance model are contract, Chromium and Auth-plus-Firestore-emulator proven with per-sign-in device_id/device_key_sha256 claims and delta-zero RJR; production has no activated issuer",
+      "nextSlice": "preserve the evidence-backed owner gate; only after explicit authorization, implement and provider-prove the smallest adapter using Blaze/Cloud Run, secondary custom Auth and exact IAM additions iam.serviceAccounts.signBlob plus datastore.entities.update; no production session Rules, runtime or UX activation in that slice",
       "authority": 1
     },
     {
@@ -194,15 +228,16 @@
     {"from": "production-runtime-v181-r5", "to": "production-strengthened-rules-provider-proof", "relation": "runtime-unchanged-provider-boundary-strengthened"},
     {"from": "production-strengthened-rules-provider-proof", "to": "provider-abuse-enumeration-acceptance", "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"},
     {"from": "provider-abuse-enumeration-acceptance", "to": "stage5a-candidate-emulator-proof", "relation": "qualifying-production-pass-authorized-stage5a-candidate"},
-    {"from": "stage5a-candidate-emulator-proof", "to": "closing-current-wec", "relation": "pr173-candidate-proof-recorded-with-rjr-delta-zero"},
+    {"from": "stage5a-candidate-emulator-proof", "to": "stage5b-device-credential-foundation-proof", "relation": "unissued-device-claim-required-key-bound-provider-credential-candidate"},
+    {"from": "stage5b-device-credential-foundation-proof", "to": "closing-current-wec", "relation": "pr174-candidate-proof-recorded-with-rjr-delta-zero-and-owner-activation-gate"},
     {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
-    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "begin-provider-verifiable-device-credential-boundary-if-fresh-wec-permits"},
+    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "preserve-owner-gate-or-begin-provider-adapter-only-after-explicit-authorization"},
     {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "qualifying-production-pass-closes-final-non-state-dependent-lock"},
     {"from": "canonical-storage", "to": "stage5-private-remote-joining", "relation": "permanent-data-authority-lock"},
     {"from": "security-zero-billing", "to": "stage5-private-remote-joining", "relation": "permanent-provider-and-enforcement-lock"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #172 live main and PR #173 Stage 5A candidate/emulator proof at fixed RJR87. Verify PR #173 final publication, the provider-verifiable device_id emulator boundary, unchanged production v1.8.1-r5 and unchanged provider-proven firestore.spark.rules, then validate/archive the closing WEC. A fresh successor WEC begins the separate provider current-device credential issuance/refresh/revocation boundary if permitted, with production session Rules/runtime/UX still excluded. Preserve consumed proof, canonical storage, Spark zero billing, unbroadened IAM and App Check enforcement OFF without repetition or weakening browser-device authentication.",
+    "walkDirection": "Start from PR #173 live main and PR #174 Stage 5B key-bound credential candidate proof at fixed RJR87. Verify PR #174 final publication, non-extractable P-256 proof of possession, per-sign-in device_id/device_key_sha256 claims, unchanged production v1.8.1-r5 and unchanged provider-proven firestore.spark.rules, then validate/archive the closing WEC. A fresh successor WEC preserves the production activation gate unless the owner explicitly authorizes Blaze/Cloud Run, secondary custom Auth and exact IAM additions iam.serviceAccounts.signBlob plus datastore.entities.update. Production session Rules/runtime/UX remain excluded. Preserve consumed proof, canonical storage, current Spark zero billing, current unbroadened IAM and App Check enforcement OFF without weakening device authentication.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

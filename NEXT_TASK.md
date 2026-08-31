@@ -1,3 +1,47 @@
+# CURRENT OVERRIDE — PR #174 STAGE 5B CREDENTIAL CANDIDATE — OWNER ACTIVATION DECISION NEXT — 2026-08-31 UTC
+
+This section supersedes every lower historical instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
+
+Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. PR #173 is merged at live main `c005f69c8952fbce8a4b842e69641e5467c36f9a` after all exact-head/post-merge/Pages/deployment gates passed. PR #174 contains dormant Stage 5B credential foundation source and proof only. Fixed RJR-1 remains `87/100`; candidate/source/emulator/publication work earns zero production credit.
+
+Production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`; known-good rollback runtime remains `1.8.1-r4` and rollback proof run `33190961085` remains consumed.
+
+Current environment: `we-2026-08-31-stage5b-device-credential-foundation`.
+
+Current branch: `rjr/stage5b-device-credential-foundation-2026-08-31`.
+
+Current publication checkpoint: PR #174 `Prove Stage 5B device credential foundation`.
+
+First published implementation proof head/tree: `5b092220ce2507c66cf653e510fbaa2c43fb425d` / `2b525677ba2af016929b0bb1706df9c3f40847aa`.
+
+Candidate proof: `STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md`.
+
+Implemented/proven through deterministic contracts, Chromium and real Auth-plus-Firestore emulators: non-extractable P-256 key persistence outside localStorage; exact two-minute one-use proof; recent-Google initial enrollment; same-key refresh; exact local/provider fingerprint match; rotation-safe atomic commit; per-sign-in Firebase custom-token claims; terminal atomic device-plus-credential revocation; simultaneous same-UID Device A/Device B claims across forced refresh; missing/forged/mismatched/revoked denial against candidate Stage 5A Rules.
+
+Production remains unchanged: no custom token, custom-Auth sign-in, production issuer, trusted route, IAM grant, billing change, production session Rules, runtime loading or host/join UX. `firestore.spark.rules` remains provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+Closed capability authority remains consumed: exact accepted-result idempotency replay remains evidence-proven, and TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. Do not repeat either merely for confidence.
+
+The recovered Codex outage bundle commit `4847fa20d1` was reviewed. Its v1.4.32 SLE layout was useful; its user-wide custom-claim mechanism was rejected because it races simultaneous devices, lacks key possession, leaves stale tokens authorized while devices stay active and uses an incompatible device-ID format.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+First finish and independently verify PR #174 exact-head publication: all 14 permanent workflow families, reviews, inline threads, mergeability, expected-head squash merge, normal post-merge validation, Pages/live main, unchanged public `v1.8.1 / 1.8.1-r5` and unchanged production/provider Rules.
+
+Then validate/archive WEC `we-2026-08-31-stage5b-device-credential-foundation`, initialize a fresh unique WEC from observed live main with reset counters and assess it independently.
+
+If no explicit owner authority changes the current locks, stop at the evidence-backed activation gate and request one exact decision. Safe production activation requires Blaze/Cloud Run, secondary Firebase custom authentication and least-privilege additions `iam.serviceAccounts.signBlob` plus `datastore.entities.update`. Standing merge/deploy authorization does not silently authorize billing, provider-policy or IAM expansion.
+
+If and only if the owner explicitly authorizes those exact changes and the fresh WEC permits, implement a separate production challenge/key/revocation adapter and provider proof. Production session Rules review/publication, runtime loading, host/join UX and RJR movement remain later separate slices.
+
+Permanent locks remain: exactly two managers; exact private capability/no listing; three canonical localStorage keys; Candidate C sole destructive Apply authority; current Firebase Spark/zero billing; Firestore memory-only; popup-only `browserSessionPersistence`; App Check enforcement OFF; trusted IAM unactivated/unbroadened; no public discovery/community/matchmaking/rankings; protected historical rivalry untouched. Only later explicit owner authority may change an exact infrastructure lock.
+
+Do not use user-wide `setCustomUserClaims` for per-device state, weaken Rules to account-only entitlement, trust browser identifiers, repeat consumed proof or fabricate unavailable state.
+
+---
+
+The material below is preserved historical PR #173 transition authority and is superseded by the current override above.
+
 # CURRENT OVERRIDE — PR #173 STAGE 5A CANDIDATE PROVEN — PROVIDER DEVICE CREDENTIAL NEXT — 2026-08-31 UTC
 
 This section supersedes every lower historical instruction. SLE = Smart Lean Efficient and WEC remain mandatory.

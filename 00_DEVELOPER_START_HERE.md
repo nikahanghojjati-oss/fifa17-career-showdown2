@@ -1,3 +1,21 @@
+# CURRENT OVERRIDE — PR #174 / STAGE 5B CREDENTIAL CANDIDATE / OWNER DECISION NEXT — 2026-08-31 UTC
+
+Read `START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md` first. Use `SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md` only when deeper context is needed.
+
+Independently verify live main, PR #174 final head/state, workflows, reviews/threads, mergeability, merge, post-merge deployment, production `v1.8.1 / 1.8.1-r5`, unchanged provider Rules, fixed RJR87 and closing WEC. Treat recorded facts as orientation only.
+
+Stage 5B candidate issuance/refresh/revocation architecture is source/browser/emulator-proven but dormant and uncredited. Production activation requires an explicit owner decision for Blaze/Cloud Run, secondary custom Auth and exact IAM additions. Production session Rules publication, runtime loading and host/join UX remain later work.
+
+The owner-supplied outage archive was fully reviewed. Its SLE structure was retained; its unsafe user-wide custom-claim source was rejected. Do not resurrect it.
+
+Validate/archive the closing WEC, create a fresh unique WEC with reset counters from observed live main, assess it, then execute `IMMEDIATE NEXT TASK AFTER FULL STUDY` in `NEXT_TASK.md`.
+
+Every substantive update uses the exact eight-line status shape. At Handoff proximity 100%, publish the complete mirrored SLE package, run `npm run work:next-prompt`, seal WEC last and stop before another substantial milestone.
+
+---
+
+The preserved PR #173 transition entrypoint below is superseded.
+
 # CURRENT OVERRIDE — PR #173 / STAGE 5A CANDIDATE PROVEN / PROVIDER DEVICE CREDENTIAL NEXT — 2026-08-31 UTC
 
 Read `START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md` first. Use `SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md` only when deeper context is needed.
