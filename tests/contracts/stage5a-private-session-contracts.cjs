@@ -96,9 +96,13 @@ function seedAuthority(h,rivalryId){
 }
 
 function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpochMs){
+  const currentDeviceId=authority[deviceKey];
   return {
-    user:{uid:authority[accountKey]},
-    deviceId:authority[deviceKey],
+    user:{
+      uid:authority[accountKey],
+      async getIdTokenResult(){return {claims:{device_id:currentDeviceId}};}
+    },
+    deviceId:currentDeviceId,
     rivalryId,
     sessionId,
     firestore:h.firestore,
@@ -116,6 +120,9 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(session.persistentFirestoreCache,false);
   assert.equal(session.publicDiscovery,false);
   assert.equal(session.collectionListing,false);
+  assert.equal(session.providerDeviceCredentialRequired,true);
+  assert.equal(session.providerDeviceCredentialClaim,"device_id");
+  assert.equal(session.providerDeviceCredentialProductionProven,false);
   assert.equal(session.exactCapabilityBits,256);
   assert.equal(session.defaultSessionTtlMs,15*60*1000);
   assert.equal(session.maxSessionTtlMs,30*60*1000);
@@ -149,7 +156,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(productionFirebase.firestore.rules,"firestore.spark.rules");
   assert.doesNotMatch(JSON.stringify({rootFirebase,productionFirebase}),/stage5a/i,"No deployment configuration may reference candidate session Rules.");
   assert.match(productionRules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/,"Production session mutations must remain denied.");
-  assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionRevoke[\s\S]+validSessionClose[\s\S]+validSessionExpire[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
+  assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+activeSessionDeviceCredential[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionRevoke[\s\S]+validSessionClose[\s\S]+validSessionExpire[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
   assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+allow get: if sessionCanRead[\s\S]+allow create: if validOpenSessionCreate[\s\S]+allow update: if validSessionUpdate[\s\S]+allow list, delete: if false;[\s\S]+STAGE5A_CANDIDATE_SESSION_MATCH_END/);
   const productionSessionMatch=`      match /sessions/{sessionId} {
         allow get: if currentlyEntitled(rivalryId)
@@ -171,6 +178,26 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   const aOne=operation(h,authority,"accountA","deviceA",rivalryId,sessionOne,now);
   const bOne=operation(h,authority,"accountB","deviceB",rivalryId,sessionOne,now+1000);
   const cOne=operation(h,authority,"accountC","deviceC",rivalryId,sessionOne,now+1000);
+
+  const noProviderDeviceCredential=await session.openSession({
+    ...aOne,
+    user:{uid:authority.accountA},
+    sessionId:`session_${"8".repeat(64)}`,
+    ttlMs:60_000
+  });
+  assert.equal(noProviderDeviceCredential.ok,false);
+  assert.equal(noProviderDeviceCredential.code,"PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED");
+  const mismatchedProviderDeviceCredential=await session.openSession({
+    ...aOne,
+    user:{
+      uid:authority.accountA,
+      async getIdTokenResult(){return {claims:{device_id:authority.deviceB}};}
+    },
+    sessionId:`session_${"9".repeat(64)}`,
+    ttlMs:60_000
+  });
+  assert.equal(mismatchedProviderDeviceCredential.ok,false);
+  assert.equal(mismatchedProviderDeviceCredential.code,"PRIVATE_SESSION_DEVICE_CREDENTIAL_MISMATCH");
 
   const opened=await session.openSession({...aOne,ttlMs:60_000});
   assert.equal(opened.ok,true,JSON.stringify(opened));
@@ -300,7 +327,10 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
     async runTransaction(){throw outage;}
   };
   const outageResult=await session.openSession({
-    user:{uid:authority.accountA},
+    user:{
+      uid:authority.accountA,
+      async getIdTokenResult(){return {claims:{device_id:authority.deviceA}};}
+    },
     deviceId:authority.deviceA,
     rivalryId,
     sessionId:`session_${"7".repeat(64)}`,
@@ -315,7 +345,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(JSON.stringify(canonicalFixture),canonicalBefore,"Provider loss must not mutate canonical local storage fixtures.");
   assert.equal(JSON.stringify([...h.docs.entries()]),docsBefore,"Provider loss before commit must not mutate remote fixtures.");
 
-  process.stdout.write("PASS Stage 5A private-session client: exact 256-bit capability, memory-only authority, host/open and peer/join lifecycle, deterministic retries, immutable terminal states, account/device/rivalry rechecks, isolated candidate Rules and adverse-provider safety.\n");
+  process.stdout.write("PASS Stage 5A private-session client: exact 256-bit capability, provider-verifiable device credential, memory-only authority, host/open and peer/join lifecycle, deterministic retries, immutable terminal states, account/device/rivalry rechecks, isolated candidate Rules and adverse-provider safety.\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);

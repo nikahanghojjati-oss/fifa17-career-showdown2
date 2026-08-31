@@ -66,7 +66,10 @@ function binding(role,seed,label){
 
 function sessionOptions({db,accountId,identityValue,rivalryId,sessionId,nowEpochMs=Date.now(),ttlMs}){
   const options={
-    user:{uid:accountId},
+    user:{
+      uid:accountId,
+      async getIdTokenResult(){return {claims:{device_id:identityValue.deviceId}};}
+    },
     firestore:db,
     firebaseSdk:sdk(),
     deviceId:identityValue.deviceId,
@@ -103,13 +106,17 @@ async function snapshotData(reference){
   const testEnv=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{rules:RULES}});
   try{
     await testEnv.clearFirestore();
-    const dbA=testEnv.authenticatedContext(ACCOUNT_A).firestore();
-    const dbB=testEnv.authenticatedContext(ACCOUNT_B).firestore();
-    const dbC=testEnv.authenticatedContext(ACCOUNT_C).firestore();
-    const dbAnon=testEnv.unauthenticatedContext().firestore();
     const aIdentity=identity("a");
     const bIdentity=identity("b");
     const cIdentity=identity("c");
+    const bSecondIdentity=identity("e");
+    const neverRegisteredIdentity=identity("f");
+    const dbA=testEnv.authenticatedContext(ACCOUNT_A,{device_id:aIdentity.deviceId}).firestore();
+    const dbB=testEnv.authenticatedContext(ACCOUNT_B,{device_id:bIdentity.deviceId}).firestore();
+    const dbC=testEnv.authenticatedContext(ACCOUNT_C,{device_id:cIdentity.deviceId}).firestore();
+    const dbANoDeviceCredential=testEnv.authenticatedContext(ACCOUNT_A).firestore();
+    const dbANeverRegistered=testEnv.authenticatedContext(ACCOUNT_A,{device_id:neverRegisteredIdentity.deviceId}).firestore();
+    const dbAnon=testEnv.unauthenticatedContext().firestore();
     const initialNow=Date.now();
 
     await testEnv.withSecurityRulesDisabled(async context=>{
@@ -131,6 +138,11 @@ async function snapshotData(reference){
       });
       assert.equal(registered.ok,true,JSON.stringify(registered));
     }
+    const registeredBSecond=await pairing.registerDevice({
+      user:{uid:ACCOUNT_B},firestore:dbB,firebaseSdk:sdk(),identity:bSecondIdentity,
+      cryptoImpl:crypto.webcrypto,nowEpochMs:initialNow
+    });
+    assert.equal(registeredBSecond.ok,true,JSON.stringify(registeredBSecond));
 
     const rivalryId=`pair_${"d".repeat(64)}`;
     const createdPairing=await pairing.createPairing({
@@ -150,6 +162,8 @@ async function snapshotData(reference){
     const sessionRefA=doc(dbA,"rivalries",rivalryId,"sessions",sessionId);
     const sessionRefB=doc(dbB,"rivalries",rivalryId,"sessions",sessionId);
     const sessionRefC=doc(dbC,"rivalries",rivalryId,"sessions",sessionId);
+    const sessionRefANoDeviceCredential=doc(dbANoDeviceCredential,"rivalries",rivalryId,"sessions",sessionId);
+    const sessionRefANeverRegistered=doc(dbANeverRegistered,"rivalries",rivalryId,"sessions",sessionId);
     const sessionRefAnon=doc(dbAnon,"rivalries",rivalryId,"sessions",sessionId);
 
     const opened=await privateSession.openSession(sessionOptions({
@@ -188,6 +202,8 @@ async function snapshotData(reference){
     assert.equal(observedByPeer.state,"open");
     await assertSucceeds(getDoc(sessionRefA));
     await assertSucceeds(getDoc(sessionRefB));
+    await assertFails(getDoc(sessionRefANoDeviceCredential));
+    await assertFails(getDoc(sessionRefANeverRegistered));
     await assertFails(getDoc(sessionRefC));
     await assertFails(getDoc(sessionRefAnon));
     await assertFails(getDocs(collection(dbA,"rivalries",rivalryId,"sessions")));
@@ -229,6 +245,13 @@ async function snapshotData(reference){
       deviceId:bIdentity.deviceId,
       data:{...otherwiseValidActive,expiresAt:Timestamp.fromMillis(opened.expiresAtEpochMs+1000)},
       seed:"3",
+      nowEpochMs:transitionTime
+    })));
+    await assertFails(setDoc(sessionRefB,nextEnvelope(openEnvelope,{
+      accountId:ACCOUNT_B,
+      deviceId:bSecondIdentity.deviceId,
+      data:otherwiseValidActive,
+      seed:"8",
       nowEpochMs:transitionTime
     })));
 
@@ -377,6 +400,7 @@ async function snapshotData(reference){
     }));
     assert.equal(revokedDeviceJoin.ok,false);
     assert.equal(revokedDeviceJoin.code,"PRIVATE_SESSION_DEVICE_REVOKED");
+    await assertFails(getDoc(doc(dbB,"rivalries",rivalryId,"sessions",deviceGuardSessionId)));
     const deviceGuardEnvelope=await snapshotData(deviceGuardRefA);
     const deviceGuardTime=Date.now();
     await assertFails(setDoc(doc(dbB,"rivalries",rivalryId,"sessions",deviceGuardSessionId),nextEnvelope(deviceGuardEnvelope,{
@@ -452,7 +476,7 @@ async function snapshotData(reference){
       await setDoc(doc(context.firestore(),"rivalries",rivalryId),originalRivalry);
     });
 
-    process.stdout.write("PASS Stage 5A candidate emulator: exact capability get/no-list authority, host-open and peer-join, deterministic replay, immutable pair/lifecycle/expiry, terminal no-resurrection, and account/device/entitlement denial; emulator identities earn no RJR credit\n");
+    process.stdout.write("PASS Stage 5A candidate emulator: provider-verifiable active-device credential on reads and writes, exact capability get/no-list authority, host-open and peer-join, deterministic replay, immutable pair/lifecycle/expiry, terminal no-resurrection, and account/device/entitlement denial; emulator identities earn no RJR credit\n");
   }finally{
     try{await testEnv.clearFirestore();}catch(_error){}
     await testEnv.cleanup();

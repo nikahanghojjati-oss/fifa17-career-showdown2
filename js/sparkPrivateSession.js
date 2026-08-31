@@ -9,6 +9,7 @@
   const DEFAULT_SESSION_TTL_MS=15*60*1000;
   const MAX_SESSION_TTL_MS=30*60*1000;
   const MIN_SESSION_TTL_MS=1000;
+  const PROVIDER_DEVICE_CREDENTIAL_CLAIM="device_id";
   const SESSION_STATES=Object.freeze(["open","active","revoked","expired","closed"]);
   const TERMINAL_SESSION_STATES=Object.freeze(["revoked","expired","closed"]);
   const SESSION_DATA_FIELDS=Object.freeze([
@@ -84,6 +85,29 @@
       throw sessionError("PRIVATE_SESSION_DEVICE_NOT_REGISTERED","A current registered private device is required.");
     }
     return deviceId;
+  }
+
+  async function assertSessionProviderDeviceCredential(user,deviceId){
+    if(!user||typeof user.getIdTokenResult!=="function"){
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED","A provider-verifiable registered-device credential is required.");
+    }
+    let tokenResult;
+    try{
+      tokenResult=await user.getIdTokenResult();
+    }catch(_error){
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_UNAVAILABLE","The registered-device credential could not be verified.");
+    }
+    const claims=tokenResult&&tokenResult.claims&&typeof tokenResult.claims==="object"?tokenResult.claims:{};
+    const claimedDeviceId=typeof claims[PROVIDER_DEVICE_CREDENTIAL_CLAIM]==="string"
+      ?claims[PROVIDER_DEVICE_CREDENTIAL_CLAIM].trim().toLowerCase()
+      :"";
+    if(!/^device_[0-9a-f]{32}$/.test(claimedDeviceId)){
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_REQUIRED","A provider-verifiable registered-device credential is required.");
+    }
+    if(claimedDeviceId!==deviceId){
+      throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_MISMATCH","The provider device credential does not match this registered browser.");
+    }
+    return Object.freeze({claim:PROVIDER_DEVICE_CREDENTIAL_CLAIM,deviceId:claimedDeviceId});
   }
 
   function normalizeNow(value){
@@ -329,6 +353,7 @@
   async function openSession(options={}){
     try{
       const operation=normalizeOperation(options);
+      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
       const ttlMs=normalizeTtl(options.ttlMs);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
@@ -374,6 +399,7 @@
   async function joinSession(options={}){
     try{
       const operation=normalizeOperation(options);
+      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const authority=await readAuthority(transaction,operation,refs);
@@ -428,6 +454,7 @@
   async function readSession(options={}){
     try{
       const operation=normalizeOperation(options);
+      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const authority=await readAuthority(transaction,operation,refs);
@@ -448,6 +475,7 @@
   async function transitionSession(options,targetState){
     try{
       const operation=normalizeOperation(options);
+      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const authority=await readAuthority(transaction,operation,refs);
@@ -513,6 +541,9 @@
     persistentFirestoreCache:false,
     publicDiscovery:false,
     collectionListing:false,
+    providerDeviceCredentialRequired:true,
+    providerDeviceCredentialClaim:PROVIDER_DEVICE_CREDENTIAL_CLAIM,
+    providerDeviceCredentialProductionProven:false,
     exactCapabilityBits:SESSION_ID_BYTES*8,
     defaultSessionTtlMs:DEFAULT_SESSION_TTL_MS,
     maxSessionTtlMs:MAX_SESSION_TTL_MS,
@@ -528,6 +559,7 @@
     normalizeRivalryId,
     buildEnvelope:buildSessionEnvelope,
     verifySession,
+    verifyProviderDeviceCredential:assertSessionProviderDeviceCredential,
     openSession,
     joinSession,
     readSession,

@@ -621,6 +621,19 @@ service cloud.firestore {
     }
 
     // STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN
+    function activeSessionDeviceCredential() {
+      return signedIn()
+        && request.auth.token.keys().hasAll(["device_id"])
+        && request.auth.token.device_id is string
+        && request.auth.token.device_id.matches('^device_[0-9a-f]{32}$')
+        && activeDevice(request.auth.token.device_id);
+    }
+
+    function sessionWriteUsesDeviceCredential(root) {
+      return activeSessionDeviceCredential()
+        && root.updatedByDeviceId == request.auth.token.device_id;
+    }
+
     function validSessionId(sessionId) {
       return sessionId is string
         && sessionId.matches('^session_[0-9a-f]{64}$');
@@ -708,7 +721,7 @@ service cloud.firestore {
       let data = after.data;
       return validSessionId(sessionId)
         && activePairedRivalry(rivalryId)
-        && activeDevice(after.updatedByDeviceId)
+        && sessionWriteUsesDeviceCredential(after)
         && validCreateEnvelope(after, "session", sessionId)
         && after.updatedByAccountId == request.auth.uid
         && validSessionBaseData(rivalryId, data)
@@ -730,7 +743,7 @@ service cloud.firestore {
       let after = request.resource.data;
       return validSessionId(sessionId)
         && activePairedRivalry(rivalryId)
-        && activeDevice(after.updatedByDeviceId)
+        && sessionWriteUsesDeviceCredential(after)
         && validCasEnvelope(before, after, "session", sessionId)
         && after.updatedByAccountId == request.auth.uid
         && validSessionBaseData(rivalryId, after.data)
@@ -817,6 +830,7 @@ service cloud.firestore {
       let sessionPath = /databases/$(database)/documents/rivalries/$(rivalryId)/sessions/$(sessionId);
       let session = resource.data;
       return validSessionId(sessionId)
+        && activeSessionDeviceCredential()
         && activePairedRivalry(rivalryId)
         && (
           !exists(sessionPath)
