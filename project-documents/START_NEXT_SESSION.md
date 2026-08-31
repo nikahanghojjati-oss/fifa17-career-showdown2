@@ -1,8 +1,10 @@
 # START NEXT SESSION
 
-Current compact SLE = Smart Lean Efficient starter: `START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md`.
+Current compact SLE = Smart Lean Efficient starter: `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md`.
 
-Current deep SLE fallback: `SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md`.
+Current deep SLE fallback: `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md`.
+
+Controlling infrastructure authority: `00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md`. Billing must never be activated; all other Remote Joining decisions are authorized after required gates pass.
 
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`.
 

@@ -1,3 +1,13 @@
+# CURRENT OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED — 2026-08-31 UTC
+
+Read `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md` first. Use `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md` only for deeper context.
+
+Independently verify live main, PR #174 exact head/state, workflows, reviews/threads, mergeability, production `v1.8.1 / 1.8.1-r5`, unchanged provider Rules, RJR87 and closing WEC. Recorded facts are orientation only.
+
+The owner permanently forbids billing and authorizes every other remaining production choice. Do not enable Blaze, Cloud Run or any service requiring billing. Finish PR #174's P2 correction publication if open; after a fresh WEC permits new work, follow the Spark-native standard-Google-Auth route.
+
+---
+
 # CURRENT OVERRIDE — PR #174 / STAGE 5B CREDENTIAL CANDIDATE / OWNER DECISION NEXT — 2026-08-31 UTC
 
 Read `START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md` first. Use `SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md` only when deeper context is needed.

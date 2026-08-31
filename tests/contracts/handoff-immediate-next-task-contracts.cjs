@@ -15,6 +15,8 @@ const reconciliationProof = read("OWNER_PRODUCTION_STAGE4_REMOTE_TO_LOCAL_RECONC
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const remotePriority = read("REMOTE_JOINING_PRIORITY_AMENDMENT_2026-08-17.md");
 const standingAuth = read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
+const zeroBillingAuth = read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
+const zeroBillingDecision = read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md");
 const providerAbuseProof = read("PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md");
 const productionRuntime = bootstrap.runtime?.productionRuntimeRevision || "";
 const applicationVersion = bootstrap.runtime?.applicationVersion || packageJson.version || "";
@@ -43,8 +45,8 @@ assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fi
 assert.equal(readiness.currentScore,87,"The fixed RJR authority must preserve the exact production provider-abuse RJR87 checkpoint.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
 
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #174 STAGE 5B CREDENTIAL CANDIDATE[\s\S]+OWNER ACTIVATION DECISION NEXT/i,"NEXT_TASK must expose current PR #174 / RJR87 / owner-gated credential authority before history.");
-assert.match(next,new RegExp(`Status:[^\\n]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[^\\n]+PR #173 is merged[^\\n]+PR #174`,"i"),"NEXT_TASK must identify the current production runtime and Stage 5B candidate checkpoint.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #174 P2 CORRECTION[\s\S]+ZERO-BILLING AUTHORIZED/i,"NEXT_TASK must expose current corrected PR #174 and controlling zero-billing authority before history.");
+assert.match(next,new RegExp(`Production remains unchanged at [^\\n]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)}[\\s\\S]+PR #174 pre-seal`,"i"),"NEXT_TASK must identify the current production runtime and corrected PR #174 checkpoint.");
 assert.match(next,/Production rollback proof:[\s\S]+33190961085[\s\S]+SUCCESS \/ CONSUMED/i,"NEXT_TASK must retain the exact consumed production rollback proof run.");
 assert.match(next,/PR #171 publication closure[\s\S]+1d945ba47c89c305575ef72cc26672fc3e0743ff[\s\S]+d5c8549924244ee177065559043e0697d0c810c3[\s\S]+33264211554/i,"NEXT_TASK must preserve exact PR #171 publication closure.");
 assert.match(next,/PASS \/ PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED[\s\S]+limit\(1\)[\s\S]+permission-denied[\s\S]+firestoreWritesRequested[\s\S]+localStorageUnchanged/i,"NEXT_TASK must record the qualifying production provider-abuse result.");
@@ -90,10 +92,13 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BNonExtractableKeyBro
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BPerSignInCustomTokenClaimsEmulatorProven,true);
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BSimultaneousSameUidDeviceIsolationProven,true);
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BAtomicDeviceCredentialRevocationProven,true);
-assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionActivationOwnerDecisionRequired,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BRulesKeyVersionBindingCorrected,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionActivationOwnerDecisionRequired,false);
 assert.deepEqual(bootstrap.currentPublicationCheckpoint?.stage5BRequiredAdditionalIamPermissions,["iam.serviceAccounts.signBlob","datastore.entities.update"]);
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BCloudRunAvailableOnCurrentSparkPlan,false);
-assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BSecondaryCustomAuthAuthorized,false);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BSecondaryCustomAuthAuthorized,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionCriticalPath,false);
+assert.equal(bootstrap.currentPublicationCheckpoint?.billingActivationForbidden,true);
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialIssued,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialProven,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ARuntimeImplemented,false);
@@ -101,16 +106,18 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.productionSessionRulesChang
 assert.equal(bootstrap.runtime?.candidateRuntimeRevision,undefined,"A sealed production transition must not retain a phantom candidate runtime.");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.8.1-r5","Production must remain on r5.");
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
-assert.equal(bootstrap.starter?.version,"1.4.32","The Stage 5B candidate/RJR87 transition must publish starter v1.4.32.");
+assert.equal(bootstrap.starter?.version,"1.4.33","The corrected zero-billing/RJR87 transition must publish starter v1.4.33.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
-assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,false,"The successor must preserve the owner activation gate rather than infer infrastructure authority.");
-assert.equal(bootstrap.immediateNextTask?.name,"stage5b-production-activation-owner-decision","The successor bootstrap must route directly to the exact production activation owner decision after a fresh WEC.");
-assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #174[\s\S]+RJR87[\s\S]+Blaze\/Cloud Run[\s\S]+secondary custom Auth[\s\S]+iam\.serviceAccounts\.signBlob[\s\S]+datastore\.entities\.update[\s\S]+Production session Rules[\s\S]+remain later work/i,"The successor capsule must preserve PR #174 verification, the exact owner gate and later Rules/runtime/UX boundaries.");
+assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,false,"The successor must finish PR #174 publication before a fresh WEC starts the separate product slice.");
+assert.equal(bootstrap.immediateNextTask?.name,"pr174-corrected-publication-then-stage5c-zero-billing-standard-auth-session-adapter","The successor bootstrap must route through PR #174 publication to the selected free product slice.");
+assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #174[\s\S]+RJR87[\s\S]+standard-Google-Auth[\s\S]+Billing, Blaze and Cloud Run are permanently forbidden[\s\S]+Production Rules publication[\s\S]+later gates/i,"The successor capsule must preserve PR #174 verification, permanent no-billing authority and later Rules/runtime/UX boundaries.");
 assert.equal(bootstrap.transition?.contextTransitionRequired,true,"Transition-only bootstrap must require a context transition.");
 assert.equal(bootstrap.transition?.handoffCompleteness,100,"Transition-only bootstrap must expose complete handoff packaging.");
-assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_AT_CHECKPOINT","Sealed transition bootstrap must retain current environment HANDOFF_AT_CHECKPOINT without imposing it on the successor.");
-assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #174)(?=[\s\S]*Stage 5B)(?=[\s\S]*non-extractable P-256)(?=[\s\S]*per-sign-in custom-token device_id claims)(?=[\s\S]*RJR87)(?=[\s\S]*firestore\.spark\.rules)(?=[\s\S]*runtime v1\.8\.1-r5 remain unchanged)(?=[\s\S]*Blaze\/Cloud Run)(?=[\s\S]*iam\.serviceAccounts\.signBlob)(?=[\s\S]*datastore\.entities\.update)/i,"Bootstrap current lane must preserve the Stage 5B candidate/RJR87 boundary and exact production activation owner gate.");
+assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_NOW","Sealed transition bootstrap must retain current environment HANDOFF_NOW without imposing it on the successor.");
+assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #174)(?=[\s\S]*valid Codex P2 correction)(?=[\s\S]*fixed RJR87)(?=[\s\S]*billing)(?=[\s\S]*Cloud Run\/Blaze are excluded)(?=[\s\S]*standard Google Auth)(?=[\s\S]*Firestore Rules on Spark)/i,"Bootstrap current lane must preserve the corrected PR #174/RJR87 boundary and selected zero-billing path.");
+assert.match(zeroBillingAuth,/every engineering[\s\S]+billing must never be activated[\s\S]+Cloud Run is therefore excluded/i,"Owner authority must authorize every nonbilling decision and permanently exclude billed infrastructure.");
+assert.match(zeroBillingDecision,/(?=[\s\S]*stage5c-zero-billing-standard-auth-session-adapter)(?=[\s\S]*request\.auth\.uid)(?=[\s\S]*standard Google-token account identity)/i,"Architecture decision must name the exact free successor slice and standard provider identity.");
 
 assert.match(reconciliationProof,/Gate result[\s\S]+PASS/i,"Canonical owner evidence must record the Stage 4 reconciliation gate as passed.");
 assert.match(reconciliationProof,/sha256:22bc1bea2833533a978ddfb0a6092b8279d40109234606da762d14cc359ccf3d/i,"Canonical owner evidence must retain the exact reviewed remote gameplay hash.");
@@ -138,4 +145,4 @@ assert.match(remotePriority,/PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YE
 assert.match(start,/identity-safe longitudinal Career Analytics \/ Trophy Room correction — PR #59/i,"Developer bootstrap must include PR #59 in the completed dependency chain.");
 assert.match(start,/presentation-only Local Profile display-label editing — PR #61/i,"Developer bootstrap must include PR #61 in the completed dependency chain.");
 
-console.log(`Handoff immediate-next-task contracts passed: production ${applicationVersion}/${productionRuntime}, PR #174 Stage 5B credential candidate proof preserves fixed RJR ${readiness.currentScore}/100 and permanent locks, then routes a fresh successor to the exact production activation owner decision.`);
+console.log(`Handoff immediate-next-task contracts passed: production ${applicationVersion}/${productionRuntime}, corrected PR #174 preserves fixed RJR ${readiness.currentScore}/100 and permanent locks, then routes a fresh successor to the Spark-native zero-billing session adapter.`);

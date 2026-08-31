@@ -82,6 +82,19 @@ function device(deviceId,seed){
   },seed);
 }
 
+function credential(deviceId,seed){
+  const now=Timestamp.fromMillis(Date.now());
+  return envelope("deviceCredential",deviceId,deviceId,{
+    deviceId,
+    state:"active",
+    credentialVersion:1,
+    publicKeyFingerprint:hash(seed),
+    enrolledAt:now,
+    lastIssuedAt:now,
+    revokedAt:null
+  },seed);
+}
+
 function rivalry(){
   const now=Timestamp.fromMillis(Date.now());
   return envelope("rivalry",RIVALRY_ID,DEVICE_A,{
@@ -141,9 +154,11 @@ async function signIn(adminAuth,client,claims){
     createClient("stage5b-device-a"),
     createClient("stage5b-device-b"),
     createClient("stage5b-missing-claim"),
-    createClient("stage5b-forged-device")
+    createClient("stage5b-forged-device"),
+    createClient("stage5b-mismatched-key"),
+    createClient("stage5b-mismatched-version")
   ];
-  const [a,b,missing,forged]=clients;
+  const [a,b,missing,forged,mismatchedKey,mismatchedVersion]=clients;
   let userCreated=false;
   try{
     await testEnv.clearFirestore();
@@ -155,6 +170,8 @@ async function signIn(adminAuth,client,claims){
       await setDoc(doc(db,"accounts",PEER_ACCOUNT_ID),account(PEER_ACCOUNT_ID));
       await setDoc(doc(db,"accounts",ACCOUNT_ID,"devices",DEVICE_A),device(DEVICE_A,"a"));
       await setDoc(doc(db,"accounts",ACCOUNT_ID,"devices",DEVICE_B),device(DEVICE_B,"b"));
+      await setDoc(doc(db,"accounts",ACCOUNT_ID,"deviceCredentials",DEVICE_A),credential(DEVICE_A,"a"));
+      await setDoc(doc(db,"accounts",ACCOUNT_ID,"deviceCredentials",DEVICE_B),credential(DEVICE_B,"b"));
       await setDoc(doc(db,"rivalries",RIVALRY_ID),rivalry());
     });
 
@@ -164,6 +181,8 @@ async function signIn(adminAuth,client,claims){
     const tokenB=await signIn(adminAuth,b,{device_id:DEVICE_B,device_credential_version:1,device_key_sha256:keyB});
     const tokenMissing=await signIn(adminAuth,missing,{device_credential_version:1,device_key_sha256:hash("e")});
     const tokenForged=await signIn(adminAuth,forged,{device_id:DEVICE_C,device_credential_version:1,device_key_sha256:hash("c")});
+    const tokenMismatchedKey=await signIn(adminAuth,mismatchedKey,{device_id:DEVICE_A,device_credential_version:1,device_key_sha256:keyB});
+    const tokenMismatchedVersion=await signIn(adminAuth,mismatchedVersion,{device_id:DEVICE_A,device_credential_version:2,device_key_sha256:keyA});
 
     assert.equal(a.user.uid,ACCOUNT_ID);
     assert.equal(b.user.uid,ACCOUNT_ID);
@@ -173,6 +192,8 @@ async function signIn(adminAuth,client,claims){
     assert.equal(tokenB.claims.device_id,DEVICE_B);
     assert.equal(tokenMissing.claims.device_id,undefined);
     assert.equal(tokenForged.claims.device_id,DEVICE_C);
+    assert.equal(tokenMismatchedKey.claims.device_key_sha256,keyB);
+    assert.equal(tokenMismatchedVersion.claims.device_credential_version,2);
     assert.deepEqual(deviceCredential.verifyCredentialClaims(tokenA,{deviceId:DEVICE_A,publicKeyFingerprint:keyA}),{
       deviceId:DEVICE_A,
       publicKeyFingerprint:keyA,
@@ -187,8 +208,16 @@ async function signIn(adminAuth,client,claims){
     assert.equal(opened.state,"open");
     const sessionRefA=doc(a.firestore,"rivalries",RIVALRY_ID,"sessions",SESSION_ID);
     const sessionRefB=doc(b.firestore,"rivalries",RIVALRY_ID,"sessions",SESSION_ID);
+    const sessionRefMissing=doc(missing.firestore,"rivalries",RIVALRY_ID,"sessions",SESSION_ID);
+    const sessionRefForged=doc(forged.firestore,"rivalries",RIVALRY_ID,"sessions",SESSION_ID);
+    const sessionRefMismatchedKey=doc(mismatchedKey.firestore,"rivalries",RIVALRY_ID,"sessions",SESSION_ID);
+    const sessionRefMismatchedVersion=doc(mismatchedVersion.firestore,"rivalries",RIVALRY_ID,"sessions",SESSION_ID);
     await assertSucceeds(getDoc(sessionRefA));
     await assertSucceeds(getDoc(sessionRefB));
+    await assertFails(getDoc(sessionRefMissing));
+    await assertFails(getDoc(sessionRefForged));
+    await assertFails(getDoc(sessionRefMismatchedKey));
+    await assertFails(getDoc(sessionRefMismatchedVersion));
 
     const observedB=await session.readSession(options(b,DEVICE_B));
     assert.equal(observedB.ok,true,JSON.stringify(observedB));
@@ -198,6 +227,12 @@ async function signIn(adminAuth,client,claims){
     const forgedRead=await session.readSession(options(forged,DEVICE_C));
     assert.equal(forgedRead.ok,false);
     assert.ok(["permission-denied","PRIVATE_SESSION_DEVICE_NOT_REGISTERED"].includes(forgedRead.code));
+    const mismatchedKeyRead=await session.readSession(options(mismatchedKey,DEVICE_A));
+    assert.equal(mismatchedKeyRead.ok,false);
+    assert.equal(mismatchedKeyRead.code,"permission-denied");
+    const mismatchedVersionRead=await session.readSession(options(mismatchedVersion,DEVICE_A));
+    assert.equal(mismatchedVersionRead.ok,false);
+    assert.equal(mismatchedVersionRead.code,"permission-denied");
 
     const openValue=(await getDoc(sessionRefA)).data();
     const transitionTime=Timestamp.fromMillis(Date.now());

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-08-31T13:52:00Z",
+  "recordedAt": "2026-08-31T23:35:13Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -114,7 +114,7 @@
     {
       "id": "stage5b-device-credential-foundation-proof",
       "type": "completed-candidate-capability",
-      "state": "pr174-key-bound-per-sign-in-device-credential-emulator-proven-rjr-delta-zero",
+      "state": "pr174-key-bound-device-credential-corrected-rjr-delta-zero",
       "pullRequest": 174,
       "startingMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
       "implementationProofHead": "5b092220ce2507c66cf653e510fbaa2c43fb425d",
@@ -129,13 +129,15 @@
       "atomicIssueRefreshRevokeProven": true,
       "productionProviderDeviceCredentialIssued": false,
       "productionProviderDeviceCredentialProven": false,
-      "productionActivationOwnerDecisionRequired": true,
+      "rulesKeyVersionBindingCorrected": true,
+      "productionActivationOwnerDecisionRequired": false,
       "requiredAdditionalIamPermissions": [
         "iam.serviceAccounts.signBlob",
         "datastore.entities.update"
       ],
       "cloudRunAvailableOnCurrentSparkPlan": false,
-      "secondaryCustomAuthAuthorized": false,
+      "secondaryCustomAuthAuthorized": true,
+      "productionCriticalPath": false,
       "productionRulesChanged": false,
       "runtimeLoaded": false,
       "hostJoinUxExposed": false,
@@ -145,37 +147,55 @@
       "riskCriticality": 1
     },
     {
+      "id": "zero-billing-remote-joining-authorization",
+      "type": "owner-architecture-authority",
+      "state": "all-nonbilling-decisions-authorized-billing-permanently-forbidden",
+      "effectiveDate": "2026-08-31",
+      "authorityFile": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
+      "decision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
+      "firebasePlan": "Spark",
+      "billingActivationForbidden": true,
+      "cloudBillingLinked": false,
+      "blazeAllowed": false,
+      "cloudRunAllowed": false,
+      "selectedNextSlice": "stage5c-zero-billing-standard-auth-session-adapter",
+      "rjrScoreAfterDecision": 87,
+      "rjrDelta": 0,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr174-rjr87-stage5b-credential-candidate-proven-owner-gated-sle-transition",
+      "state": "pr174-rjr87-stage5b-corrected-zero-billing-authorized-sle-transition",
       "environmentId": "we-2026-08-31-stage5b-device-credential-foundation",
       "startingMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
       "transitionPullRequest": 174,
       "initialDecision": "HANDOFF_AT_CHECKPOINT",
-      "finalDecision": "HANDOFF_AT_CHECKPOINT",
+      "finalDecision": "HANDOFF_NOW",
       "handoffProximity": 100,
       "rjrScore": 87,
-      "starter": "START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md",
+      "starter": "START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-after-pr174-stage5b-owner-gated-candidate-transition",
-      "rule": "successor independently verifies PR #174 candidate/emulator publication and unchanged production/provider truth, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then preserves the owner gate unless Blaze/Cloud Run, secondary custom Auth and only the exact additional IAM permissions are explicitly authorized; never inherit predecessor transition decisions, weaken proof of possession, publish production session Rules or repeat consumed proof",
+      "state": "fresh-wec-required-after-pr174-corrected-zero-billing-transition",
+      "rule": "successor independently verifies and finishes PR #174 corrected publication if open, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then begins only the Spark-native standard-Google-Auth session adapter when permitted; billing, Blaze and Cloud Run remain forbidden and every nonbilling decision is already authorized",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "stage5b-credential-candidate-proven-production-activation-owner-gated",
+      "state": "stage5b-preserved-zero-billing-standard-auth-path-selected",
       "knownRemainingGaps": [
         "state-dependent third-account/revoked-device production negatives only if legitimate state and current authority require them",
-        "owner authorization for Blaze/Cloud Run, secondary custom Auth and exact additional IAM permissions",
-        "provider-live current-device credential issuance, refresh and revocation",
+        "finish PR #174 corrected publication if still open",
+        "Spark-native standard-Google-Auth session adapter and emulator proof",
         "provider-live minimum production session Rules",
         "actual Stage 5 host/join/session runtime and UX orchestration",
         "two-network Remote Joining acceptance",
@@ -183,8 +203,8 @@
         "final stable Remote Joining release acceptance"
       ],
       "sessionRulesCurrentState": "entitled get allowed; list/create/update/delete denied",
-      "candidateState": "the dormant key-bound Stage 5B client and trusted issuance model are contract, Chromium and Auth-plus-Firestore-emulator proven with per-sign-in device_id/device_key_sha256 claims and delta-zero RJR; production has no activated issuer",
-      "nextSlice": "preserve the evidence-backed owner gate; only after explicit authorization, implement and provider-prove the smallest adapter using Blaze/Cloud Run, secondary custom Auth and exact IAM additions iam.serviceAccounts.signBlob plus datastore.entities.update; no production session Rules, runtime or UX activation in that slice",
+      "candidateState": "the corrected dormant Stage 5B key-bound model remains contract, Chromium and Auth-plus-Firestore-emulator evidence with delta-zero RJR, but its billed trusted issuer is not the production critical path",
+      "nextSlice": "after PR #174 publication and a fresh WEC, implement stage5c-zero-billing-standard-auth-session-adapter using existing Google Auth plus exact-path Firestore Rules on Spark; keep production Rules, runtime UX and provider-live acceptance separate",
       "authority": 1
     },
     {
@@ -207,6 +227,9 @@
       "id": "security-zero-billing",
       "type": "security-authority-lock",
       "firebaseSpark": true,
+      "billingActivationForbidden": true,
+      "allNonBillingRemoteJoiningDecisionsAuthorized": true,
+      "cloudRunAllowed": false,
       "appCheckEnforcement": false,
       "persistentFirestoreCache": false,
       "googleAuthPersistence": "browserSessionPersistence-popup-only-no-extra-scopes",
@@ -229,15 +252,16 @@
     {"from": "production-strengthened-rules-provider-proof", "to": "provider-abuse-enumeration-acceptance", "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"},
     {"from": "provider-abuse-enumeration-acceptance", "to": "stage5a-candidate-emulator-proof", "relation": "qualifying-production-pass-authorized-stage5a-candidate"},
     {"from": "stage5a-candidate-emulator-proof", "to": "stage5b-device-credential-foundation-proof", "relation": "unissued-device-claim-required-key-bound-provider-credential-candidate"},
-    {"from": "stage5b-device-credential-foundation-proof", "to": "closing-current-wec", "relation": "pr174-candidate-proof-recorded-with-rjr-delta-zero-and-owner-activation-gate"},
+    {"from": "stage5b-device-credential-foundation-proof", "to": "zero-billing-remote-joining-authorization", "relation": "owner-preserves-proof-but-removes-billed-issuer-from-critical-path"},
+    {"from": "zero-billing-remote-joining-authorization", "to": "closing-current-wec", "relation": "zero-billing-successor-route-recorded-with-rjr-delta-zero"},
     {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
-    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "preserve-owner-gate-or-begin-provider-adapter-only-after-explicit-authorization"},
+    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "finish-pr174-then-begin-spark-native-standard-auth-adapter-after-fresh-wec"},
     {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "qualifying-production-pass-closes-final-non-state-dependent-lock"},
     {"from": "canonical-storage", "to": "stage5-private-remote-joining", "relation": "permanent-data-authority-lock"},
     {"from": "security-zero-billing", "to": "stage5-private-remote-joining", "relation": "permanent-provider-and-enforcement-lock"}
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #173 live main and PR #174 Stage 5B key-bound credential candidate proof at fixed RJR87. Verify PR #174 final publication, non-extractable P-256 proof of possession, per-sign-in device_id/device_key_sha256 claims, unchanged production v1.8.1-r5 and unchanged provider-proven firestore.spark.rules, then validate/archive the closing WEC. A fresh successor WEC preserves the production activation gate unless the owner explicitly authorizes Blaze/Cloud Run, secondary custom Auth and exact IAM additions iam.serviceAccounts.signBlob plus datastore.entities.update. Production session Rules/runtime/UX remain excluded. Preserve consumed proof, canonical storage, current Spark zero billing, current unbroadened IAM and App Check enforcement OFF without weakening device authentication.",
+    "walkDirection": "Start from PR #173 live main, PR #174 corrected Stage 5B proof at fixed RJR87 and the 2026-08-31 zero-billing owner authorization. Verify and finish PR #174 publication if open, unchanged production v1.8.1-r5 and unchanged provider-proven firestore.spark.rules, then validate/archive the closing WEC. A fresh successor WEC may begin only the Spark-native standard-Google-Auth session adapter. Billing, Blaze and Cloud Run are forbidden; every nonbilling decision is authorized. Production session Rules/runtime/UX remain separate gates. Preserve consumed proof, canonical storage, Spark, memory-only Firestore and App Check enforcement OFF.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

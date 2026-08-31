@@ -1,3 +1,17 @@
+# CURRENT HANDOFF OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED / RJR87
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; live source and evidence win.
+
+Read `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md` first and `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md` when deeper context is needed.
+
+Production remains `v1.8.1 / 1.8.1-r5`; fixed RJR remains `87/100`; production Rules remain exact blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+PR #174 pre-seal `f4689e6b` passed all 14 workflows, then Codex found one valid P2. The corrected candidate Rules now bind device ID, version and key fingerprint to active credential authority and direct emulator negatives cover wrong key/version.
+
+The owner authorizes everything except billing. Billing is permanently forbidden; Cloud Run/Blaze are excluded. Finish PR #174 if open, then the next product slice is the Spark-native standard-Google-Auth session adapter defined by the new starter.
+
+---
+
 # CURRENT HANDOFF OVERRIDE — PR #174 / STAGE 5B CREDENTIAL CANDIDATE / RJR87
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower transition orientation; live source and evidence win.

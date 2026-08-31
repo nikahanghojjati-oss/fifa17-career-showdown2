@@ -1,3 +1,25 @@
+# CURRENT OVERRIDE — PR #174 P2 CORRECTION / ZERO-BILLING AUTHORIZED — 2026-08-31 UTC
+
+This section supersedes every lower instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
+
+Production remains unchanged at `v1.8.1 / 1.8.1-r5`; fixed RJR-1 remains `87/100`; production Rules remain provider-proven `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+PR #174 pre-seal head `f4689e6b0440e0490875afe74c75b2a218f3dbc6` passed all 14 workflow families. Codex found one valid P2: candidate Rules checked `device_id` but not the claimed credential version/key fingerprint. The correction now binds `device_id`, `device_credential_version` and `device_key_sha256` to an active exact credential document and adds direct missing/forged/wrong-key/wrong-version emulator reads.
+
+The owner explicitly authorizes every remaining engineering, IAM, provider, auth-policy, Rules, runtime, deployment, testing, evidence and publication decision except billing. Billing must never be activated. Never link Cloud Billing, enable Blaze or activate Cloud Run or another service requiring billing even if it offers free usage. Read `00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md`.
+
+Stage 5B remains valid dormant research but is no longer the production critical path. The zero-billing decision in `ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md` selects standard Google Auth plus direct exact-path Firestore Rules on Spark.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+First independently verify and finish PR #174's corrected publication if still open: all 14 exact-head workflows including Java 21 Auth-plus-Firestore proof, final-head Codex review and every thread, mergeability, expected-head squash merge, all post-merge workflows, Pages/live main and unchanged production Rules/runtime.
+
+Then validate/archive WEC `we-2026-08-31-stage5b-device-credential-foundation`, create and assess a fresh unique WEC, and—only if it permits new work—implement `stage5c-zero-billing-standard-auth-session-adapter`. Use standard Google-token account identity, preserve exact capability/no listing/two-manager lifecycle, treat device IDs honestly as account-owned metadata, keep Firestore memory-only and fail safely on Spark quota exhaustion. Production Rules, runtime UX and provider-live acceptance remain later distinct gates.
+
+Do not request already-granted non-billing authority, resurrect Cloud Run as a prerequisite, activate billing, or repeat consumed proof merely for confidence.
+
+---
+
 # CURRENT OVERRIDE — PR #174 STAGE 5B CREDENTIAL CANDIDATE — OWNER ACTIVATION DECISION NEXT — 2026-08-31 UTC
 
 This section supersedes every lower historical instruction. SLE = Smart Lean Efficient and WEC remain mandatory.

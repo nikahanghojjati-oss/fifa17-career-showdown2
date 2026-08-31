@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED / RJR87 — 2026-08-31 UTC
+
+This section supersedes lower historical state.
+
+Production remains `v1.8.1 / 1.8.1-r5`, with unchanged provider-proven `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Fixed RJR-1 remains `87/100`.
+
+PR #174 preserves dormant Stage 5B device-credential research. After all 14 workflows passed on pre-seal head `f4689e6b`, Codex found one valid P2. Candidate Rules are now corrected to bind device ID, credential version and exact key fingerprint to an active credential document; exact Java 21 CI must prove direct wrong-key/wrong-version denial.
+
+The owner permanently forbids billing and authorizes every other remaining production decision. Cloud Run/Blaze are excluded. The production critical path is existing Google Auth plus direct Firestore Security Rules on Spark. Current authority: `00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md`. Decision record: `ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md`.
+
+Current successor package: `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md` and `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md`.
+
+---
+
 # CURRENT OVERRIDE — PR #174 / STAGE 5B CREDENTIAL CANDIDATE / RJR87 — 2026-08-31 UTC
 
 This section supersedes lower historical project-state text.

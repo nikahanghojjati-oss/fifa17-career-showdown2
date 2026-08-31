@@ -309,6 +309,13 @@
       "score": 87,
       "delta": 0,
       "reason": "PR #174 proves the dormant Stage 5B provider-verifiable device credential candidate through deterministic contracts, Chromium and the combined Firebase Auth plus Firestore emulator. A dedicated IndexedDB persists a non-extractable P-256 key; the browser signs exact two-minute one-use challenges; the trusted model verifies the exact public-key fingerprint and atomically issues, refreshes or terminally revokes per-sign-in device_id, device_credential_version and device_key_sha256 claims without allowing simultaneous same-UID devices to overwrite each other. Production does not issue these claims, the candidate is not runtime-loaded, firestore.spark.rules and host/join UX are unchanged, Cloud Run is unavailable on the current Spark plan, secondary custom Auth is not authorized and IAM remains unbroadened. Source, emulator proof, CI and recovery-ZIP analysis receive zero production capability credit; owner-authorized provider activation, provider-live session Rules and playable Remote Joining remain uncredited."
+    },
+    {
+      "recordedAt": "2026-08-31T23:35:13Z",
+      "eventId": "stage5b-rules-correction-zero-billing-architecture-decision",
+      "score": 87,
+      "delta": 0,
+      "reason": "Codex review found that the Stage 5B browser verifier checked the key fingerprint while candidate Stage 5A Rules checked only device_id. PR #174 now binds device_id, device_credential_version and device_key_sha256 to active exact credential authority and adds direct missing, forged, wrong-key and wrong-version emulator requests. The owner separately and permanently forbids billing while authorizing every other Remote Joining decision, so Cloud Run/Blaze are excluded and the selected successor path is standard Google Auth plus exact-path Firestore Rules on Spark. The correction and architecture decision improve correctness and unblock direction but remain source/emulator/authority evidence only. Production Rules, runtime, sessions and playable host/join are unchanged, so fixed RJR stays 87."
     }
   ]
 }

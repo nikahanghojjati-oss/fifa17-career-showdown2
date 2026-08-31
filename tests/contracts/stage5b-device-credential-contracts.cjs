@@ -312,7 +312,13 @@ function completeInput(key,h,challenge,proof,overrides={}){
   for(const runtimeOwner of ["index.html","js/app.js","js/optionalModules.js","service-worker.js","trusted-runtime/server.mjs","trusted-runtime/productionTrustedRuntime.js"]){
     assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkDeviceCredential|trustedDeviceCredentialIssuance|stage5b/i,`${runtimeOwner} must not activate the Stage 5B candidate.`);
   }
-  assert.match(fs.readFileSync("firestore.stage5a.rules","utf8"),/request\.auth\.token\.device_id/);
+  const candidateRules=fs.readFileSync("firestore.stage5a.rules","utf8");
+  assert.match(candidateRules,/request\.auth\.token\.device_id/);
+  assert.match(candidateRules,/request\.auth\.token\.device_credential_version/);
+  assert.match(candidateRules,/request\.auth\.token\.device_key_sha256/);
+  assert.match(candidateRules,/deviceCredentials/);
+  assert.match(candidateRules,/credential\.data\.data\.credentialVersion == request\.auth\.token\.device_credential_version/);
+  assert.match(candidateRules,/credential\.data\.data\.publicKeyFingerprint == request\.auth\.token\.device_key_sha256/);
   assert.doesNotMatch(JSON.stringify({
     root:JSON.parse(fs.readFileSync("firebase.json","utf8")),
     production:JSON.parse(fs.readFileSync("firebase.production.rules.json","utf8"))

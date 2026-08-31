@@ -50,7 +50,7 @@ The stronger PR #174 candidate instead uses per-sign-in custom-token claims, non
 - custom token minting occurs only after successful atomic commit;
 - exact additional claims are `device_id`, `device_credential_version` and `device_key_sha256`;
 - a custom-token session is forbidden from bootstrapping or refreshing its own device privilege.
-- explicit revocation requires recent Google reauthentication and one atomic provider commit that terminally revokes both the registered-device state and credential state; candidate Rules recheck the active device document on every session operation, so already-issued Device B tokens are denied while Device A remains authorized.
+- explicit revocation requires recent Google reauthentication and one atomic provider commit that terminally revokes both the registered-device state and credential state; corrected candidate Rules recheck the active device plus active credential document, version and exact key fingerprint on every session operation, so already-issued Device B tokens are denied while Device A remains authorized.
 
 No custom token is created by repository source in production. No service-account key is committed, exported or allowed in the browser.
 
@@ -67,6 +67,8 @@ No custom token is created by repository source in production. No service-accoun
 - later conflicting user-wide claims do not replace the per-sign-in custom-token claims;
 - both active device credentials can perform exact Stage 5A session reads;
 - missing and never-registered/forged claims fail closed;
+- a token naming an active registered device but carrying the wrong `device_key_sha256` is denied directly by candidate Rules;
+- a token naming an active registered device but carrying the wrong `device_credential_version` is denied directly by candidate Rules;
 - a write whose `updatedByDeviceId` does not equal the token claim is denied;
 - revoking Device B's registered-device document denies Device B's already-issued token while Device A remains authorized.
 
@@ -103,17 +105,17 @@ Therefore no safe production issuer can be activated while all three current loc
 2. trusted runtime unactivated and IAM unbroadened;
 3. Google provider only / no custom authentication.
 
-## Owner decision required before production activation
+## Review correction and controlling owner decision
 
-The evidence-backed direct-Firestore path needs explicit authority for a bounded production change:
+Codex review of pre-seal head `f4689e6b0440e0490875afe74c75b2a218f3dbc6` found one valid P2: local `verifyCredentialClaims` rejected the wrong key fingerprint, but candidate Rules accepted any active `device_id` without comparing `device_key_sha256` or `device_credential_version` to credential authority.
 
-1. upgrade the Firebase project from Spark to Blaze so Cloud Run can be deployed;
-2. activate the reviewed trusted runtime with a Stage 5B endpoint;
-3. add only `iam.serviceAccounts.signBlob` and `datastore.entities.update` to the runtime boundary after separate least-privilege review;
-4. authorize secondary Firebase custom authentication for device-bound session access without replacing the primary Google session;
-5. implement and provider-prove the Firestore challenge/key adapter, including atomic key-fingerprint preconditions and atomic device-plus-credential revocation, before any Stage 5A session Rules publication.
+The correction loads the exact `accounts/{uid}/deviceCredentials/{deviceId}` authority document and requires active state, version `1` and exact key-fingerprint equality. The emulator now sends direct Firestore reads with a missing claim, forged device, wrong key and wrong version so browser-helper checks cannot mask a Rules defect.
 
-If those changes are not authorized, Stage 5A must remain dormant and production Remote Joining cannot safely use a per-device `request.auth.token.device_id` boundary. Weakening the Rules to account-only access or treating a browser-supplied identifier as authentication is not an acceptable fallback.
+The owner then authorized every remaining IAM, provider, authentication-policy, Security Rules, runtime, deployment, testing, evidence and gate choice except billing. Billing must never be activated. No Cloud Billing account, Blaze upgrade or service requiring billing is allowed even when it offers a free usage tier.
+
+That decision permanently excludes Cloud Run from the production critical path. Stage 5B remains preserved as correct dormant research but will not block a genuinely free Remote Joining release. The selected successor route is defined by `ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md`: existing Google Authentication plus exact-path Firestore Rules on Spark, with device IDs treated honestly as account-owned metadata rather than cryptographically provider-bound identity.
+
+This architecture decision and P2 correction earn zero RJR credit. Production remains unchanged until separately reviewed provider-live Rules and runtime slices pass all gates.
 
 ## Explicit non-changes
 

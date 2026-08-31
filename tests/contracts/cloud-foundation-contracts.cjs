@@ -37,7 +37,7 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must preserve historical Remote Joining prerequisite ordering.");
 
-// Current cloud authority preserves provider-proven Rules and exact rollback history while the Stage 5B candidate freezes its exact owner-gated activation boundary at RJR87.
+// Current cloud authority preserves provider-proven Rules and exact rollback history while the owner-authorized zero-billing decision removes the former decision gate without activating Stage 5B at RJR87.
 assert.equal(productionR5,true,"Current authority must remain on production v1.8.1-r5 after rollback restoration.");
 assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #174[\s\S]+STAGE 5B CREDENTIAL CANDIDATE[\s\S]+RJR87/i,"PROJECT_STATE must expose current PR174/RJR87/Stage 5B authority before history.");
 assert.match(state,/Status:[\s\S]+PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+PR #174 publishes dormant Stage 5B credential source/i,"PROJECT_STATE must identify restored r5 production truth and dormant Stage 5B candidate.");
@@ -55,7 +55,16 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderRulesPubl
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseProductionAcceptanceProven,true,"Provider-abuse acceptance must record exact production evidence.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AProviderDeviceCredentialClaim,"device_id","Stage 5A must declare its provider-verifiable device credential.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BPerSignInCustomTokenClaimsEmulatorProven,true,"Stage 5B must prove the safe per-sign-in claim model.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionActivationOwnerDecisionRequired,true,"Stage 5B must freeze the production activation owner gate.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionActivationOwnerDecisionRequired,false,"The owner's zero-billing authorization must close the former production activation decision gate.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BSecondaryCustomAuthAuthorized,true,"The owner must authorize the non-billing custom-Auth decision while keeping it dormant.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionCriticalPath,false,"Billing-dependent Stage 5B infrastructure must not remain the production critical path.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.billingActivationForbidden,true,"The bootstrap must permanently forbid billing activation.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.cloudRunExcludedBecauseBillingRequired,true,"Cloud Run must remain excluded because it requires billing.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.allNonBillingRemoteJoiningDecisionsAuthorized,true,"All non-billing Remote Joining decisions must carry standing owner authorization.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Spark","The authorized infrastructure must remain on Firebase Spark.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false,"No Cloud Billing account may be linked.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false,"Blaze must remain forbidden.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false,"Cloud Run must remain forbidden under the zero-billing constraint.");
 assert.deepEqual(bootstrap.currentPublicationCheckpoint?.stage5BRequiredAdditionalIamPermissions,["iam.serviceAccounts.signBlob","datastore.entities.update"],"Stage 5B must name only the exact additional IAM permissions.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialProven,false,"Production must not claim an unissued device credential.");
 assert.match(state,/Exactly one capability[\s\S]+real-device-hardening-release[\s\S]+8\/10 -> 9\/10[\s\S]+86 -> 87/i,"PROJECT_STATE must preserve conservative provider-abuse accounting.");

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-31-stage5b-device-credential-foundation",
   "lifecycle": "active",
-  "recordedAt": "2026-08-31T13:38:46Z",
+  "recordedAt": "2026-08-31T23:30:17Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -11,11 +11,11 @@
   "signals": {
     "contextComplexity": "very-high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
+    "compactionCount": 2,
     "majorPhasesCompleted": 4,
-    "largeEvidenceEvents": 15,
-    "toolRoutingErrors": 5,
-    "correctedFailures": 11,
+    "largeEvidenceEvents": 17,
+    "toolRoutingErrors": 6,
+    "correctedFailures": 12,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -23,13 +23,13 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 90,
+    "handoffCompleteness": 92,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "HANDOFF_AT_CHECKPOINT",
-    "reason": "Stage 5B research, implementation and local proof are complete. Finish only this bounded candidate's documentation, full validation, gated publication and exact closeout before transitioning; no separate milestone may begin in this environment.",
+    "reason": "Stage 5B research and implementation are complete. Codex review identified one valid candidate-Rules claim mismatch, and the owner permanently forbade billing while authorizing every other production choice. Finish only the P2 correction, zero-billing authority/SLE update, full validation, gated publication and exact closeout before transitioning; no separate milestone may begin in this environment.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
@@ -45,19 +45,19 @@
     }
   },
   "continuity": {
-    "currentTask": "Establish and prove only the smallest provider-verifiable current-device credential issuance, refresh and revocation boundary that can safely supply the Stage 5A Firebase ID-token device_id claim under Spark / zero billing and unbroadened trusted-IAM locks. Keep production session Rules publication, runtime loading and host/join UX outside this bounded Stage 5B slice.",
-    "lastSafeCheckpoint": "Stage 5B dormant candidate source binds per-sign-in Firebase custom-token device_id claims to a non-extractable P-256 key and exact local fingerprint, recent-Google initial enrollment, one-use exact two-minute challenges, rotation-safe atomic issuance and terminal atomic device-plus-credential revocation. Deterministic contracts, Chromium persistence/signature proof, real Auth+Firestore Emulator simultaneous-device refresh/revocation proof and the full 79-file repository contract suite pass locally. Production remains untouched at 1.8.1-r5 / RJR87.",
-    "nextSafeAction": "Finish only the Stage 5B rolling authority/docs, rerun the complete local matrix, commit and publish the exact candidate, require all exact-head workflows/reviews/threads/mergeability gates, squash merge under standing authorization, verify post-merge and unchanged Pages/Rules truth, then seal the SLE/WEC handoff. Do not activate billing, IAM, custom Auth, production Rules or runtime routes.",
+    "currentTask": "Correct PR #174's valid Codex P2 by binding candidate session Rules to device_id, device_credential_version and device_key_sha256; preserve the owner's permanent zero-billing authorization and the selected Spark-native successor route in the complete SLE package; then finish only exact-head publication and closeout.",
+    "lastSafeCheckpoint": "PR #174 pre-seal head f4689e6b0440e0490875afe74c75b2a218f3dbc6 passed all 14 workflow families. Codex review found one valid P2: the candidate client checked the key fingerprint locally, but candidate Rules checked only device_id. The working tree now binds Rules to an active credential document, exact version and exact key fingerprint; focused Stage 5A/5B contracts pass. Production remains untouched at 1.8.1-r5 / RJR87.",
+    "nextSafeAction": "Complete the direct Auth-plus-Firestore emulator correction gate in exact Java-21 CI, publish the zero-billing owner authority and v1.4.33 SLE successor route, rerun the complete local matrix, publish the correction, require all exact-head workflows/review/thread/mergeability gates, squash merge under standing authorization, verify post-merge and unchanged Pages/Rules truth, then make the WEC/history seal the final branch mutation.",
     "unfinishedWork": [
-      "Update rolling authority and proof references for the bounded Stage 5B candidate without rewriting immutable Stage 5A history.",
+      "Publish the P2 Rules/emulator correction and the owner's permanent zero-billing authorization without rewriting immutable Stage 5A history.",
       "Complete full local validation, exact-head pull-request validation/review and gated squash merge.",
-      "Verify post-merge workflows, Pages/runtime identity and unchanged production Rules, then generate the complete successor handoff for the owner decision blocker."
+      "Verify post-merge workflows, Pages/runtime identity and unchanged production Rules, then generate the complete successor handoff for the Spark-native zero-billing production path."
     ],
     "knownHazards": [
       "Never treat a browser-supplied deviceId as provider-verifiable identity; issuance must bind a verified Firebase principal to an existing current active registered-device record.",
       "Never use setCustomUserClaims for per-device authority: it is user-wide and unsafe for simultaneous devices. The proven candidate uses per-sign-in custom-token claims after device-key proof.",
-      "Production activation requires explicit owner authority for Blaze/Cloud Run, secondary custom authentication and the exact additional IAM permissions iam.serviceAccounts.signBlob plus datastore.entities.update. Candidate proof grants none of them.",
-      "Firebase remains Spark / zero billing; Firestore client persistence stays memory-only; Google Auth stays popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF; trusted-runtime IAM remains unactivated and unbroadened unless later owner authority explicitly changes a lock.",
+      "The owner explicitly authorized every production choice except billing. No billing account may be attached, Blaze may not be enabled, and no service such as Cloud Run that requires billing may be activated even when it has a free usage tier.",
+      "Firebase remains Spark / zero billing permanently; Firestore client persistence stays memory-only; Google Auth stays popup-only browserSessionPersistence with no extra scopes; App Check enforcement remains OFF unless a later zero-billing security review proves a safe need. IAM/provider/auth-policy changes that do not require billing are authorized after their automated gates pass.",
       "Production firestore.spark.rules, production session Rules, runtime script loading and host/join UX remain outside the credential-foundation slice.",
       "Exactly two private managers, exact private capability/no listing, active account/device/rivalry rechecks and terminal session lifecycle authority remain mandatory.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical. Stage 5B may add no localStorage key or local Save mutation.",
@@ -82,6 +82,9 @@
       "Adversarial protocol review added exact local/provider key-fingerprint equality, immutable challenge-duration validation, atomic account/device/credential/key/expiry issuance preconditions and explicit atomic registered-device plus credential revocation. A concurrent active-key rotation now fails CAS and existing tokens are denied by the candidate Rules active-device recheck.",
       "The protected 30-block legacy runner now excludes production Pages, stability orchestration and the one-shot production rollback drill; on Java below 21 it explicitly defers rather than misreports the one provider block that installs firebase-tools 15.27.0, while the permanent exact workflow supplies Java 21.",
       "The complete repository contract suite now passes 79 listed files after the explicit static-release contract. No production source/runtime/Rules score credit changed.",
+      "On 2026-08-31 the owner permanently forbade billing activation and authorized all other IAM, provider, auth-policy, deployment, testing and evidence decisions needed for Remote Joining. Official Firebase pricing authority confirms Cloud Run requires linking billing and Spark supports social sign-in plus no-cost Firestore quotas, so the custom-token candidate remains preserved but is no longer the production critical path.",
+      "Codex review of f4689e6b reported one valid P2: wrong device_key_sha256 could pass direct candidate Rules because only device_id was checked. The working correction requires the exact device_id, device_credential_version and device_key_sha256 claims to match an active provider credential document; direct missing, forged, wrong-key and wrong-version Firestore reads are now emulator fixtures.",
+      "A local rerun of firebase-tools attempted an external fetch and the restricted command route was cancelled. The already-pinned local CLI requires Java 21 while this container has Java 17; exact-head CI remains the authoritative Java-21 Auth-plus-Firestore emulator gate.",
       "Current-session account/model usage is unavailable and is not estimated."
     ]
   }
