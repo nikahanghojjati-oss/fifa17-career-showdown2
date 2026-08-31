@@ -1,3 +1,27 @@
+# CURRENT HANDOFF OVERRIDE — PR #173 / STAGE 5A CANDIDATE PROVEN / RJR87
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This current override supersedes the preserved PR #172 orientation below; live source and evidence always win.
+
+Production remains `v1.8.1 / 1.8.1-r5`. PR #173 implements only the separate dormant Stage 5A private-session client, isolated candidate Rules and deterministic emulator boundary. Implementation proof head before packaging is `217d9d729774b23ab4fdf8c5cae842d993986a3f`, tree `21a96e44f2e606cc14cd6b54254544b456095036`.
+
+Fixed RJR remains `87/100`. Production `firestore.spark.rules` remains unchanged at provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. No production session Rules, runtime loading, UX, provider, billing, App Check, IAM, storage, Candidate C or protected-rivalry mutation occurred.
+
+Candidate session reads and writes require a provider-verifiable Firebase ID-token `device_id` claim matching the current active registered device. Missing, never-registered, revoked and mismatched credentials are emulator-proven denied. Production claim issuance is not implemented or proven, so production Rules publication is not next and the candidate remains fail-closed.
+
+Current starter: `START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md`.
+
+Current deep SLE: `SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md`.
+
+Current proof: `STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Independently verify PR #173 final exact-head/merge/deployment/provider truth, validate/archive WEC `we-2026-08-30-stage5a-private-session-protocol`, initialize and assess a fresh WEC, then—if permitted—establish and prove the smallest provider-verifiable current-device credential issuance/refresh/revocation boundary. Preserve zero billing and unbroadened trusted IAM unless later owner authority explicitly changes them. Keep production session Rules publication and runtime/host/join UX separate.
+
+---
+
+Preserved consumed PR #172 transition orientation follows.
+
 # CURRENT HANDOFF — PR #172 / PRODUCTION PROVIDER-ABUSE PASS / RJR87 / STAGE 5A AUTHORIZED
 
 SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory. This rolling handoff is orientation only; current source, live GitHub/provider/deployment evidence, the fresh successor WEC, and later owner instructions win.

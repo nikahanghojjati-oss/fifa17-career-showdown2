@@ -2,60 +2,61 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
   "lifecycle": "active",
-  "recordedAt": "2026-08-31T01:09:04Z",
+  "recordedAt": "2026-08-31T06:31:00Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de"
   },
   "signals": {
-    "contextComplexity": "moderate",
+    "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 10,
-    "toolRoutingErrors": 2,
-    "correctedFailures": 4,
+    "compactionCount": 3,
+    "majorPhasesCompleted": 3,
+    "largeEvidenceEvents": 19,
+    "toolRoutingErrors": 3,
+    "correctedFailures": 9,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": false,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 51,
+    "handoffCompleteness": 90,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "CONTINUE",
-    "reason": "PR #173 initial provider CI reduced the uncertainty to one stale inactive-account expectation after the preceding Stage 5A lifecycle and denial matrix executed. The narrow local correction is ready for immediate exact-head publication; production Rules, runtime integration and host/join UX remain outside this environment.",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "reason": "The valid provider-device-credential P1 is corrected, provider-proven on remote head 217d9d72 and resolved. Rebuilt credential-first current authority/SLE now passes the complete 78-file repository contract suite. The bounded checkpoint requires only pre-seal publication/exact-head gates, final WEC seal, merge and post-merge/live verification before transition; production credential issuance, session Rules, runtime and UX remain a separate successor milestone.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 61,
-      "qualityRisk": 28,
+      "contextPressure": 98,
+      "qualityRisk": 54,
       "quotaRisk": null,
-      "nextTaskSeparation": 20,
-      "handoffReadiness": 51,
+      "nextTaskSeparation": 80,
+      "handoffReadiness": 90,
       "atomicRisk": 35,
-      "continuationRisk": 40.9,
-      "transitionCost": 40.8,
-      "transitionAdvantage": 0.1
+      "continuationRisk": 78.1,
+      "transitionCost": 23.3,
+      "transitionAdvantage": 54.9
     }
   },
   "continuity": {
-    "currentTask": "Protect and publish only the implemented Stage 5A branch rjr/stage5a-private-session-protocol-2026-08-30: separate memory-only private-session protocol/client, isolated candidate minimum Rules, deterministic contracts and real Firestore emulator proof. Production session Rules and host/join UX remain excluded.",
-    "lastSafeCheckpoint": "PR #173 is open from remote commit 46a546b8b7c36b835133e7a74110393578bad247, exact tree 7ca123f7627caf25a0526fb5c2a02e4faf304c3c matching local checkpoint fc28aa0 byte-for-byte. All 14 workflows triggered. Stage 5A emulator job 99351796237 compiled the candidate Rules, passed setup plus the full host/open, peer/join, replay, close, revoke, expiry and denial sequence through the inactive-account fixture, then failed only because the old client fetched provider-gated downstream documents before locally classifying the already-read inactive account. The local correction now asserts each account/device/rivalry read immediately and captures guard snapshots before authority is intentionally removed.",
-    "nextSafeAction": "Publish the narrow authority-read ordering and emulator-fixture snapshot correction as the sole child of PR #173 head 46a546b8, rerun the exact-head Stage 5A emulator plus all permanent workflows, and inspect any remaining provider or review finding before authority/SLE synchronization.",
+    "currentTask": "Finish and publish only PR #173 on branch rjr/stage5a-private-session-protocol-2026-08-30: coherent credential-first current authority, complete mirrored v1.4.31 SLE, exact-head gates, final WEC seal, merge and post-merge/live verification. Provider credential production issuance, production session Rules and host/join UX remain excluded.",
+    "lastSafeCheckpoint": "Local commit 425a49ec1dd1f1c4a3ecc504c3d4817527091344 backs up the provider-device-credential correction. Remote head 217d9d729774b23ab4fdf8c5cae842d993986a3f / tree 21a96e44f2e606cc14cd6b54254544b456095036 passed all 14 workflows; Stage 3/4/5A run 33348247795 / job 99356433928 proved missing, unknown, revoked and mismatched device credentials fail closed with no Stage 5A evaluator diagnostic. Review thread PRRT_kwDOTomsDM6dlgrC is resolved. The working credential-first SLE/current-authority tree passes JSON, mirror, WEC, prompt and complete 78-file contract validation; production remains unchanged.",
+    "nextSafeAction": "Commit and publish the exact credential-first pre-seal tree as the child of remote head 217d9d72, require all 14 exact-head workflows and final-head review/thread/mergeability gates, then make the WEC seal the sole final branch mutation.",
     "unfinishedWork": [
-      "Publish the recovered implementation to an exact-head pull request and require the Stage 5A candidate Rules to pass the real Firestore emulator in GitHub Actions.",
-      "Reconcile any exact-head CI or review finding without broadening into production Rules, runtime integration or host/join UX.",
-      "Synchronize current authority, close this WEC at a validated merge/deployment boundary and generate the complete recursive SLE successor package."
+      "Finish and publish the complete v1.4.31 SLE/current-authority pre-seal with the provider credential dependency and require all exact-head gates.",
+      "Seal this WEC and additions-only history at Handoff proximity 100 as the sole final branch mutation.",
+      "Expected-head squash merge PR #173, verify all normal post-merge workflows plus Pages/live main, and confirm production v1.8.1/1.8.1-r5 and provider Rules remain unchanged."
     ],
     "knownHazards": [
       "Stage 5A must remain separate from js/sparkConnectedRivalry.js; the protected Stage 4 no-session contract must remain true.",
       "Current production firestore.spark.rules allows entitled exact session get only and denies session list/create/update/delete. This slice may add candidate Rules and emulator proof but must not publish production session Rules.",
+      "Production Auth does not issue or prove the candidate device_id claim. Candidate Rules must remain unpublished as functional production session authority; never weaken the boundary to browser-supplied device identity.",
       "Exactly two private managers remain required. Every operation must fail closed unless the account, registered device and paired rivalry are currently active and the rivalry has exactly the two entitled accounts.",
       "Session authority is an opaque exact-path private capability. Collection listing, discovery, public lobbies, matchmaking, community, profiles, rankings and leaderboards remain prohibited.",
       "Canonical browser storage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; activeShowdown remains non-canonical. The Stage 5A client must remain memory-only and may add no localStorage key.",
@@ -77,7 +78,16 @@
       "The local Firestore emulator launcher could not download its emulator dependency because this managed runner blocks that outbound route. The committed permanent GitHub Actions lane is the bounded exact-head provider-proof route; no security or test assertion was weakened.",
       "PR #173 initial exact-head run 33346597633 reached the Stage 5A candidate emulator and failed at the inactive-account assertion after every preceding lifecycle and denial fixture executed. Immediate account/device/rivalry assertions and pre-loss snapshot capture correct the mismatch without changing candidate authority or production files.",
       "Fixed RJR-1 remains 87/100 with domain vector 20/20, 18/20, 20/20, 20/30 and 9/10. Publication and verification earn zero duplicate credit.",
-      "Current-session account/model usage is unavailable and is not estimated."
+      "Current-session account/model usage is unavailable and is not estimated.",
+      "Corrected head f7e012e2 passed the complete Stage 5A candidate emulator in run 33346774156/job 99352269382; provider logs then exposed expression-budget exhaustion on deliberately forged late-failing updates and no forbidden write succeeded.",
+      "Hardened head 708bb881 shares structural update validation once. All 14 permanent workflows passed on that exact head; run 33346922234/job 99352686582 contains clean deterministic and real-emulator Stage 5A PASS output with no Stage 5A expression-budget diagnostic.",
+      "The complete local 78-file repository contract suite passes after current checkpoint contracts were reconciled to PR #173, fixed RJR87, zero candidate credit and the separate minimum production session Rules milestone.",
+      "The root v1.4.31 starter and deep SLE have byte-identical project-document mirrors; current authority points to the Stage 5A candidate proof and preserves unchanged production firestore.spark.rules blob 2b7c0b166ae0aae7ab7a3ce84725b21091262484.",
+      "Automated review thread 3891100244 correctly identified that sessionCanRead checked account/rivalry entitlement but not the caller's specific active registered device. Firestore exact gets cannot carry an arbitrary client device field, so the correction uses a provider-verifiable device_id custom token claim and fails closed when the claim is missing, unknown, revoked or does not match the mutation envelope.",
+      "Corrected remote head 217d9d729774b23ab4fdf8c5cae842d993986a3f / tree 21a96e44f2e606cc14cd6b54254544b456095036 passed all 14 permanent workflows. Run 33348247795 / job 99356433928 has both Stage 5A PASS markers, 11 expected permission denials and no expression-budget or assertion diagnostic.",
+      "The valid P1 review comment was answered with exact provider proof and thread PRRT_kwDOTomsDM6dlgrC is resolved. Production lacks a proven device_id issuer, so current authority now routes the fresh successor to provider credential issuance/refresh/revocation before production session Rules.",
+      "A login-shell network approval cancellation was counted as a distinct routing error and immediately corrected with the supported non-login route; no operation, evidence or repository content was lost.",
+      "The first complete-suite pass after rebuilding authority exposed one exact documentation coherence failure: the new NEXT_TASK override omitted PR #166 runtime lineage inside the current-authority window. The lineage was restored without changing product scope, and the complete 78-file contract suite then passed."
     ]
   }
 }

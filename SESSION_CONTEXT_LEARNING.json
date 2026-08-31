@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-29T18:22:57.861Z",
-  "materialSessionsObserved": 11,
-  "learningState": "cold-start-priors-with-eleven-labeled-sessions",
+  "recordedAt": "2026-08-31T06:25:00Z",
+  "materialSessionsObserved": 12,
+  "learningState": "cold-start-priors-with-twelve-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -63,6 +63,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.648,
       "note": "The zero-write authenticated rivalry enumeration-denial probe avoided fabricating a third account or revoked device and returned the exact qualifying production permission denial with stable authentication and unchanged browser storage. It closed one fixed hardening capability and unlocked Stage 5A."
+    },
+    "stage5a-candidate-emulator-proof": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "The exact GitHub Actions emulator job first exposed authority-read ordering and fixture-snapshot mismatches, then provider logs exposed expression-budget exhaustion on forged late-failing updates. Automated review subsequently found that entitled direct reads still lacked provider-verifiable current-device identity. The corrected client and candidate Rules now require an active device_id token claim, bind writes to it and prove missing, unknown, revoked and mismatched credentials fail closed."
     }
   },
   "sessionMetrics": [
@@ -113,6 +122,22 @@
       "ciTriageLesson": "When a production evidence result changes the fixed checkpoint, add one permanent authority contract that pins the exact result, score delta, next product slice, and unchanged production security boundary before sealing.",
       "productionEvidenceLesson": "A production provider-abuse capability is credited only when a legitimate authenticated request reaches the provider, authentication stays stable and locked, the provider denies the forbidden enumeration, zero writes are requested, and local storage stays unchanged.",
       "authorityLesson": "State-dependent third-account/revoked-device negatives do not remain artificial blockers after the explicit non-state-dependent gate closes. Authorize the smallest real Stage 5 protocol/emulator slice while keeping production session Rules closed until separate review."
+    },
+    {
+      "sessionId": "we-2026-08-30-stage5a-private-session-protocol",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5b-provider-verifiable-device-credential-boundary",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The PR #172 SLE exact schema/lifecycle boundary and live current Rules/deployment topology were required to implement the smallest separate Stage 5A slice without contaminating Stage 4 or prematurely publishing production Rules.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Local emulator dependency download was blocked by managed egress, so the permanent GitHub Actions lane supplied provider execution. One invalid apply_patch route, one candidate reconstruction defect and one login-shell network-approval cancellation were each bounded, counted and corrected without retry loops, publication loss or production mutation.",
+      "ciTriageLesson": "Fetch exact failed jobs and provider logs before changing source, and treat automated security review as independent evidence. Green emulator execution did not prove the caller device on direct reads; the valid P1 required a provider-verifiable token claim and a new denial matrix.",
+      "productionEvidenceLesson": "A dormant client and real emulator-proven candidate Rules boundary earns delta-zero RJR. Production capability cannot begin while production lacks the provider device credential required by the candidate, and later requires provider-live minimum Rules plus a playable host/join path.",
+      "authorityLesson": "Do not route a candidate directly to production Rules after review reveals an unissued credential prerequisite. First prove the smallest provider issuance/refresh/revocation boundary; preserve zero-billing and IAM locks, freeze a blocker for owner direction if necessary, and never weaken Rules to browser-supplied device identity."
     }
   ],
   "outcomeScale": {
@@ -130,12 +155,12 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "The exact legitimate production provider-abuse PASS closes one hardening capability and fixed RJR 86 to 87 without process credit. State-dependent negative proofs are not fabricated blockers; Stage 5A private-session protocol/client plus deterministic emulator work is now the smallest real product slice, while production session Rules remain unchanged until separate review.",
-    "prePublicationMainSha": "1d945ba47c89c305575ef72cc26672fc3e0743ff",
+    "lesson": "PR #173 proves the separate Stage 5A private-session client and isolated minimum candidate Rules through the real emulator while fixed RJR remains 87. Exact-head provider logs and automated review drove three bounded corrections before seal. Reads and writes now require the active provider-verifiable device_id claim, but production does not issue it. Production firestore.spark.rules, runtime and UX remain unchanged; the next fresh-WEC slice is the separate provider current-device credential issuance/refresh/revocation boundary.",
+    "prePublicationMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
     "runtimeRevision": "1.8.1-r5",
     "rjrScore": 87,
-    "closeoutPullRequest": 172,
-    "starter": "START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL_SLE_2026-08-29.md"
+    "closeoutPullRequest": 173,
+    "starter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md"
   }
 }

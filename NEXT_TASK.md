@@ -1,3 +1,43 @@
+# CURRENT OVERRIDE — PR #173 STAGE 5A CANDIDATE PROVEN — PROVIDER DEVICE CREDENTIAL NEXT — 2026-08-31 UTC
+
+This section supersedes every lower historical instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
+
+Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. PR #172 is merged at Stage 5A starting main `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de`. PR #173 implements the separate dormant private-session client, isolated candidate minimum Rules, deterministic contracts and real Firestore emulator proof. Fixed RJR-1 remains `87/100`; emulator/source/publication work receives zero production credit.
+
+Production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`; known-good rollback runtime remains `1.8.1-r4`.
+
+Current environment: `we-2026-08-30-stage5a-private-session-protocol`.
+
+Current branch: `rjr/stage5a-private-session-protocol-2026-08-30`.
+
+Current publication checkpoint: PR #173 `Implement Stage 5A private-session candidate boundary`.
+
+Implementation proof head before SLE packaging: `217d9d729774b23ab4fdf8c5cae842d993986a3f`, tree `21a96e44f2e606cc14cd6b54254544b456095036`.
+
+Candidate proof: `STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md`.
+
+Production Rules source remains unchanged `firestore.spark.rules`, reviewed/provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. `firestore.stage5a.rules` is isolated and is not referenced by production deployment configuration. No production Rules publication, runtime script loading or host/join UX occurred.
+
+The candidate now fails closed unless the Firebase ID token carries a provider-verifiable `device_id` claim matching the caller's current active registered-device document. The real emulator proves missing, never-registered, revoked and mismatched device credentials cannot read or mutate a session. Production does not yet issue or prove that claim, so the candidate Rules must not be published as functional production session authority.
+
+Closed capability authority remains consumed: exact accepted-result idempotency replay is evidence-proven, and TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. Do not rerun either merely for confidence.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+First complete and independently verify PR #173 exact-head publication: all 14 permanent workflow families, reviews, inline threads, mergeability, squash merge, post-merge validation, Pages deployment, live main, unchanged public `v1.8.1 / 1.8.1-r5`, and unchanged production/provider Rules truth.
+
+Then validate/archive WEC `we-2026-08-30-stage5a-private-session-protocol`, initialize a fresh unique WEC from observed live main with reset counters, assess it, and—if permitted—begin the next real Remote Joining slice: establish the smallest provider-verifiable current-device credential issuance, refresh and revocation boundary that can safely supply the candidate `device_id` claim. Reuse reviewed provider/auth foundations where they genuinely fit, preserve current zero-billing and IAM locks, and prove missing/stale/revoked credentials fail closed.
+
+Do not weaken read authorization to account-only entitlement, do not pretend a browser-supplied device ID is provider-verifiable, and do not publish production session Rules in the credential-foundation slice. If no safe route exists without billing or IAM expansion, freeze the evidence-backed blocker for owner direction instead of silently broadening those locks. Minimum production session Rules review/publication, runtime loading and host/join UX remain later separate slices.
+
+Permanent locks remain: exactly two managers; exact private capability/no listing; only three canonical localStorage keys; Candidate C sole destructive Apply authority; Firebase Spark/zero billing; Firestore memory-only; popup-only `browserSessionPersistence`; App Check enforcement remains OFF; trusted IAM unactivated/unbroadened; no public discovery/community/matchmaking/rankings; protected historical rivalry untouched.
+
+Do not repeat consumed owner/device, reconciliation, replay, adverse-provider, token-lifecycle, structural-abuse, rate-limit, rollback, provider-Rules or provider-abuse proof merely for confidence. Do not fabricate identity/device/network/provider/session state.
+
+---
+
+The material below is preserved historical PR #172 transition authority and is superseded by the current override above.
+
 # CURRENT OVERRIDE — PR #171 MERGED — RJR87 — STAGE 5A PRIVATE SESSION PROTOCOL AUTHORIZED — 2026-08-29 ET
 
 Work Environment Continuity (WEC) and SLE = Smart Lean Efficient remain mandatory.
