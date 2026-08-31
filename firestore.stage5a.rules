@@ -626,7 +626,7 @@ service cloud.firestore {
         && sessionId.matches('^session_[0-9a-f]{64}$');
     }
 
-    function validSessionData(rivalryId, sessionData) {
+    function validSessionBaseData(rivalryId, sessionData) {
       return sessionData.keys().hasOnly([
           "rivalryId",
           "hostAccountId",
@@ -647,7 +647,11 @@ service cloud.firestore {
         && sessionData.expiresAt is timestamp
         && sessionData.expiresAt > sessionData.createdAt
         && (sessionData.lastActivityAt == null || sessionData.lastActivityAt is timestamp)
-        && (sessionData.revokedAt == null || sessionData.revokedAt is timestamp)
+        && (sessionData.revokedAt == null || sessionData.revokedAt is timestamp);
+    }
+
+    function validSessionData(rivalryId, sessionData) {
+      return validSessionBaseData(rivalryId, sessionData)
         && (
           (
             sessionData.state == "open"
@@ -707,7 +711,7 @@ service cloud.firestore {
         && activeDevice(after.updatedByDeviceId)
         && validCreateEnvelope(after, "session", sessionId)
         && after.updatedByAccountId == request.auth.uid
-        && validSessionData(rivalryId, data)
+        && validSessionBaseData(rivalryId, data)
         && data.hostAccountId == request.auth.uid
         && data.memberAccountIds.size() == 1
         && data.memberAccountIds[0] == request.auth.uid
@@ -729,8 +733,7 @@ service cloud.firestore {
         && activeDevice(after.updatedByDeviceId)
         && validCasEnvelope(before, after, "session", sessionId)
         && after.updatedByAccountId == request.auth.uid
-        && validSessionData(rivalryId, before.data)
-        && validSessionData(rivalryId, after.data)
+        && validSessionBaseData(rivalryId, after.data)
         && after.data.rivalryId == before.data.rivalryId
         && after.data.hostAccountId == before.data.hostAccountId
         && after.data.createdAt == before.data.createdAt
