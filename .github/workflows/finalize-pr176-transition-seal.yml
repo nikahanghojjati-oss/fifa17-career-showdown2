@@ -18,16 +18,26 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: '20'
-      - name: Reconcile final stale Stage5C lock assertion
+      - name: Reconcile recursive historical checkpoints and stale Stage5C lock assertion
         run: |
           node <<'NODE'
           const fs = require('node:fs');
-          const path = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
-          let text = fs.readFileSync(path, 'utf8');
+          const contractPath = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
+          let contract = fs.readFileSync(contractPath, 'utf8');
           const before = 'assert.match(capsule.criticalLocks.stage5CStandardAuthCandidate, /proven-isolated-not-production-rules-or-runtime/i);';
           const after = 'assert.match(capsule.criticalLocks.stage5CStandardAuthCandidate, /proven-source-promoted-provider-pending-runtime-not-loaded/i);';
-          if (!text.includes(before)) throw new Error('Expected stale Stage 5C lock assertion not found');
-          fs.writeFileSync(path, text.replace(before, after));
+          if (!contract.includes(before)) throw new Error('Expected stale Stage 5C lock assertion not found');
+          fs.writeFileSync(contractPath, contract.replace(before, after));
+
+          const starterPath = 'START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md';
+          let starter = fs.readFileSync(starterPath, 'utf8');
+          if (!starter.includes('PR #175 Stage 5C standard-auth checkpoint')) {
+            const needle = 'The Stage 5B non-extractable P-256 custom-token research remains preserved but is not the production critical path because its trusted Cloud Run issuer would require billing. The production critical path remains standard Google Authentication plus direct exact-path Firestore Rules on Firebase Spark.\n';
+            const addition = '\nPR #175 Stage 5C standard-auth checkpoint proved the selected standard Firebase `request.auth.uid` path with registered-device mutation metadata, not authentication. Its Java 21 Stage 5C Auth-plus-Firestore emulator gate passed with zero RJR movement, and that candidate slice did not publish production session Rules; PR #176 is the later source-promotion checkpoint.\n';
+            if (!starter.includes(needle)) throw new Error('Expected Stage 5B production-path paragraph not found in starter');
+            starter = starter.replace(needle, needle + addition);
+            fs.writeFileSync(starterPath, starter);
+          }
           NODE
       - name: Prepare complete recursive SLE seal
         run: node scripts/seal-pr176-stage5d-transition.mjs
