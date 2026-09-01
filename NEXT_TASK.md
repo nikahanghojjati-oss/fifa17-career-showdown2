@@ -8,6 +8,8 @@ Production runtime remains `v1.8.1 / 1.8.1-r5`; PR #176 did not load the private
 
 Provider truth remains deliberately separate: the last independently Firebase-provider-proven production Rules blob is `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. The new `363af783d7e5436fdfaa3766d4aa413fc9952a08` source has NOT yet been independently proven provider-live. Fixed RJR-1 therefore remains `87/100`; source promotion, CI, review, merge, Pages and provider-publication mechanics add zero RJR.
 
+Closed consumed capability evidence remains authoritative: exact accepted-result idempotency replay is evidence-proven, and TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `stage4-token-lifecycle-contracts.cjs`. Do not repeat either proof merely for confidence.
+
 The only intended provider mutation is the already-reviewed zero-billing Spark-compatible Rules deployment: `firebase deploy --only firestore:rules --project fifa17-career-showdown-prod --config firebase.production.rules.json`. Execute it only from an authenticated Firebase control-plane route, then independently verify provider source identity before updating provider proof/manifest state. If authenticated provider access is unavailable, preserve the blocker honestly. Never fabricate publication.
 
 Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, buy review credits, or activate any billing-required service. Every nonbilling Remote Joining engineering/provider/deployment decision remains owner-authorized after mandatory gates.
