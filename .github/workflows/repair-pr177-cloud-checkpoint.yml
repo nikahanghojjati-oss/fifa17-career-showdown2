@@ -36,7 +36,7 @@ jobs:
           const nextNeedle = 'Provider truth remains deliberately separate: the last independently Firebase-provider-proven production Rules blob is `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. The new `363af783d7e5436fdfaa3766d4aa413fc9952a08` source has NOT yet been independently proven provider-live. Fixed RJR-1 therefore remains `87/100`; source promotion, CI, review, merge, Pages and provider-publication mechanics add zero RJR.\n';
           const closedEvidence = '\nClosed consumed capability evidence remains authoritative: exact accepted-result idempotency replay is evidence-proven, and TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `stage4-token-lifecycle-contracts.cjs`. Do not repeat either proof merely for confidence.\n';
           if (!next.includes(nextNeedle)) throw new Error('Expected PR176 provider-truth paragraph not found in NEXT_TASK');
-          if (!next.includes('exact accepted-result idempotency replay is evidence-proven')) next = next.replace(nextNeedle, nextNeedle + closedEvidence);
+          if (!next.slice(0, 5000).includes('exact accepted-result idempotency replay is evidence-proven')) next = next.replace(nextNeedle, nextNeedle + closedEvidence);
           fs.writeFileSync(nextPath, next);
 
           const releasePath = 'tests/contracts/release-authority-coherence.cjs';
