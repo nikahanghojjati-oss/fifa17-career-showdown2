@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-01-stage5d-minimum-production-session-rules",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-09-01T17:23:54.985Z",
+  "recordedAt": "2026-09-01T17:32:34.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -75,7 +75,8 @@
       "Fresh WEC counters are reset and predecessor HANDOFF_AT_CHECKPOINT is not inherited.",
       "PR #176 exact final head 4c1e9be8e0af26e277ed9fd1ae0545ec065173ff; merge a4489fe7d812144deb3f747019eb162628480dac; tree e7083c2cda0e737f9d1c5654ca663df6ddf3408a; repository Rules 363af783d7e5436fdfaa3766d4aa413fc9952a08; 14/14 exact-head workflows; 15/15 post-merge/Pages successes.",
       "Last independently provider-proven production Rules remains 2b7c0b166ae0aae7ab7a3ce84725b21091262484; new repository Rules is intentionally not claimed provider-live.",
-      "Codex paid review quota was exhausted. No billing or credits were purchased. A machine-enforced exact-head fallback required 14/14 CI, Java 21 provider proof, complete diff audit and zero unresolved threads; quota refusal itself earned zero RJR."
+      "Codex paid review quota was exhausted. No billing or credits were purchased. A machine-enforced exact-head fallback required 14/14 CI, Java 21 provider proof, complete diff audit and zero unresolved threads; quota refusal itself earned zero RJR.",
+      "PR #177 transition gating exposed stale predecessor-only contract assertions and a missing current-authority statement for already-consumed replay/token evidence. The one-shot repair passed the complete repository contract suite plus focused Stage 5D/SLE/WEC contracts, removed itself, and pushed repaired head 7f5c82d361fbff7c4537579b8eb79e230f78a454. No runtime or provider mutation occurred; fixed RJR remains 87."
     ]
   }
 }
