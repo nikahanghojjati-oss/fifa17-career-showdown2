@@ -81,14 +81,6 @@ jobs:
           }
           fs.writeFileSync(bootstrapPath, JSON.stringify(bootstrap,null,2)+'\n');
 
-          const sealPath = 'scripts/seal-pr176-stage5d-transition.mjs';
-          let seal = fs.readFileSync(sealPath,'utf8');
-          const oldMinimal = "'PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md','00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md'";
-          const newMinimal = "'PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md','PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md','00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md'";
-          if (seal.includes(oldMinimal)) seal = seal.replace(oldMinimal,newMinimal);
-          if (!seal.includes('PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md')) throw new Error('Seal source did not preserve provider abuse proof');
-          fs.writeFileSync(sealPath,seal);
-
           const contractPath = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
           let contract = fs.readFileSync(contractPath,'utf8');
           const oldRules = 'assert.equal(model.latestCheckpoint.rulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");';
