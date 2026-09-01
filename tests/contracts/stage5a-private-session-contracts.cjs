@@ -149,13 +149,15 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   }
 
   const productionRules=fs.readFileSync("firestore.spark.rules","utf8");
+  const stage5cRules=fs.readFileSync("firestore.stage5c.rules","utf8");
   const candidateRules=fs.readFileSync("firestore.stage5a.rules","utf8");
   const rootFirebase=JSON.parse(fs.readFileSync("firebase.json","utf8"));
   const productionFirebase=JSON.parse(fs.readFileSync("firebase.production.rules.json","utf8"));
   assert.equal(rootFirebase.firestore.rules,"firestore.rules");
   assert.equal(productionFirebase.firestore.rules,"firestore.spark.rules");
   assert.doesNotMatch(JSON.stringify({rootFirebase,productionFirebase}),/stage5a/i,"No deployment configuration may reference candidate session Rules.");
-  assert.match(productionRules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/,"Production session mutations must remain denied.");
+  assert.equal(productionRules,stage5cRules,"Stage 5D production source must preserve exact Stage 5C standard-auth Rules bytes.");
+  assert.match(productionRules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/,"Stage 5D production sessions must remain exact-path, lifecycle-scoped, non-listable and non-deletable.");
   assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+activeSessionDeviceCredential[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionRevoke[\s\S]+validSessionClose[\s\S]+validSessionExpire[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
   assert.match(candidateRules,/deviceCredentials/,
     "Candidate session Rules must load the provider credential authority document.");
@@ -164,17 +166,6 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.match(candidateRules,/credential\.data\.data\.credentialVersion == request\.auth\.token\.device_credential_version[\s\S]+credential\.data\.data\.publicKeyFingerprint == request\.auth\.token\.device_key_sha256/,
     "Candidate session Rules must bind every accepted token to the active provider credential version and exact key fingerprint.");
   assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+allow get: if sessionCanRead[\s\S]+allow create: if validOpenSessionCreate[\s\S]+allow update: if validSessionUpdate[\s\S]+allow list, delete: if false;[\s\S]+STAGE5A_CANDIDATE_SESSION_MATCH_END/);
-  const productionSessionMatch=`      match /sessions/{sessionId} {
-        allow get: if currentlyEntitled(rivalryId)
-          && resource.data.data.memberAccountIds is list
-          && request.auth.uid in resource.data.data.memberAccountIds;
-        allow list, create, update, delete: if false;
-      }`;
-  const normalizedCandidate=candidateRules
-    .replace(/    \/\/ STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]*?    \/\/ STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END\n\n/,"")
-    .replace(/      \/\/ STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]*?      \/\/ STAGE5A_CANDIDATE_SESSION_MATCH_END/,productionSessionMatch)
-    .trimEnd();
-  assert.equal(normalizedCandidate,productionRules.trimEnd(),"Candidate Rules may differ from reviewed production Rules only at the isolated session boundary.");
 
   const h=createHarness();
   const rivalryId=`pair_${"d".repeat(64)}`;
@@ -351,7 +342,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(JSON.stringify(canonicalFixture),canonicalBefore,"Provider loss must not mutate canonical local storage fixtures.");
   assert.equal(JSON.stringify([...h.docs.entries()]),docsBefore,"Provider loss before commit must not mutate remote fixtures.");
 
-  process.stdout.write("PASS Stage 5A private-session client: exact 256-bit capability, provider-verifiable device credential, memory-only authority, host/open and peer/join lifecycle, deterministic retries, immutable terminal states, account/device/rivalry rechecks, isolated candidate Rules and adverse-provider safety.\n");
+  process.stdout.write("PASS Stage 5A private-session client: exact 256-bit capability, provider-verifiable device credential, memory-only authority, host/open and peer/join lifecycle, deterministic retries, immutable terminal states, account/device/rivalry rechecks, isolated candidate Rules, Stage 5D production separation and adverse-provider safety.\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
