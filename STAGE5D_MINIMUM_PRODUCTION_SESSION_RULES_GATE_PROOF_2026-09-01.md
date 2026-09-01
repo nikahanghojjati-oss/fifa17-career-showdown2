@@ -35,6 +35,8 @@ The production environment manifest must continue to record the previously provi
 
 Firebase remains Spark. Billing must never be activated. Do not link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or use a service whose activation requires billing. App Check enforcement remains OFF. Firestore persistence remains memory-only. Spark quota or provider exhaustion must fail closed while local-first play remains available and must never trigger an upgrade or charge.
 
+The review gate must also remain zero-billing compatible. Codex remains the preferred final-head automated reviewer when its included quota is available. If GitHub records that Codex cannot review solely because the account must upgrade or buy additional review credits, purchasing credits or enabling paid review is forbidden. In that narrow case the review gate remains mandatory and may be satisfied only by a documented exact-head fallback review that records the quota refusal, audits the complete PR diff, confirms the Rules blob lineage and runtime exclusions, requires all 14 exact-head workflow families plus the Java 21 Stage 5 emulator lane to pass, and leaves zero valid unresolved review threads. A quota refusal by itself is never a passing review and never earns RJR credit.
+
 ## Required publication gates
 
 Before provider publication:
@@ -43,7 +45,7 @@ Before provider publication:
 2. the full repository contract suite must pass including the Stage 5D source-lineage contract;
 3. all 14 permanent exact-head workflow families must pass on one unchanged final PR head;
 4. Java 21 Stage 5C Auth-plus-Firestore emulator proof must pass on that exact head;
-5. final-head Codex review must complete and every valid thread must be resolved;
+5. final-head review must complete and every valid thread must be resolved; use Codex when included review quota is available, otherwise use the documented zero-billing fallback above only after GitHub has explicitly recorded the paid-quota refusal;
 6. mergeability and expected-head squash merge must be verified;
 7. normal post-merge/Pages gates and unchanged runtime deployment must pass.
 
