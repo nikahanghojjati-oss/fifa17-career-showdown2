@@ -72,7 +72,7 @@ assert.match(nextPrompt,/Open the live repository `nikahanghojjati-oss\/fifa17-c
 assert.ok(nextPrompt.includes(starterRoot),"Fresh next-developer prompt must name the current versioned starter.");
 assert.match(nextPrompt,/independently verify/i,"Fresh next-developer prompt must require independent live verification.");
 assert.match(nextPrompt,/fresh unique WEC|fresh WEC/i,"Fresh next-developer prompt must require a fresh successor WEC.");
-assert.match(nextPrompt,/START_NEXT_SESSION_V1\.4\.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE/i,"Fresh next-developer prompt must route to the current Stage 5C starter.");
+assert.match(nextPrompt,/START_NEXT_SESSION_V1\.4\.35_PR176_STAGE5D_PROVIDER_PENDING/i,"Fresh next-developer prompt must route to the current Stage 5D provider-pending starter.");
 assert.match(nextPrompt,/Billing must never be activated[\s\S]+every other Remote Joining production decision is authorized/i,"Fresh next-developer prompt must preserve the controlling owner authorization.");
 
 assert.equal(capsule.remoteJoiningReadiness.authority, "REMOTE_JOINING_READINESS.json");
