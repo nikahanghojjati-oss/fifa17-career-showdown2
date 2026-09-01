@@ -1,0 +1,53 @@
+name: Repair PR177 cloud checkpoint contract
+
+on:
+  push:
+    branches:
+      - rjr/pr176-stage5d-provider-pending-sle-2026-09-01
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Migrate stale cloud-foundation checkpoint assertion
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'tests/contracts/cloud-foundation-contracts.cjs';
+          let text = fs.readFileSync(path, 'utf8');
+          const before = 'assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,175,"Bootstrap must identify PR175 as the current Stage 5C candidate/SLE publication checkpoint.");';
+          const after = 'assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"Bootstrap must identify PR176 as the current Stage 5D source/provider-pending publication checkpoint.");';
+          if (!text.includes(before)) throw new Error('Expected stale PR175 cloud checkpoint assertion not found');
+          text = text.replace(before, after);
+          fs.writeFileSync(path, text);
+          NODE
+      - name: Remove one-shot repair workflow
+        run: rm -f .github/workflows/repair-pr177-cloud-checkpoint.yml
+      - name: Validate complete repository contracts
+        run: |
+          npm ci
+          npm run test:contracts
+          node tests/contracts/stage5d-production-session-rules-contracts.cjs
+          node tests/contracts/sle-handoff-packaging-contracts.cjs
+          node tests/contracts/handoff-immediate-next-task-contracts.cjs
+          node tests/contracts/next-developer-prompt-contracts.cjs
+          node tests/contracts/work-environment-continuity-contracts.cjs
+          git diff --check
+      - name: Commit repaired exact-head package
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Repair PR177 cloud checkpoint contract'
+          git push origin HEAD:rjr/pr176-stage5d-provider-pending-sle-2026-09-01
