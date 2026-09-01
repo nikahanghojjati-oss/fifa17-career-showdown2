@@ -1,3 +1,11 @@
+# CURRENT HANDOFF ADDENDUM — PERMANENT ZERO-BILLING FIREBASE CONTROL PLANE
+
+Every future environment performing Firebase provider work must also read `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md` and `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md`.
+
+Permanent provider workflow: `.github/workflows/deploy-firestore-rules-zero-billing.yml`. Permanent GitHub-only secret name: `FIREBASE_RULES_SERVICE_ACCOUNT_JSON`. Future environments must never request, retrieve, print, paste, or commit that credential. Firebase remains Spark and billing remains permanently forbidden. Provider publication is proven only after the workflow independently reads the active Firebase Rules source back and verifies exact identity.
+
+---
+
 # CURRENT HANDOFF OVERRIDE — PR #176 STAGE 5D PROVIDER PENDING / RJR87
 
 Read `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md` first and `SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md` for deep reconstruction. PR #176 is merged at `a4489fe7d812144deb3f747019eb162628480dac`; all 15 post-merge/Pages runs are green. Repository Rules blob is `363af783d7e5436fdfaa3766d4aa413fc9952a08`, while last provider-proven Rules remains `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Runtime is unchanged at `v1.8.1 / 1.8.1-r5`. RJR remains 87/100.
