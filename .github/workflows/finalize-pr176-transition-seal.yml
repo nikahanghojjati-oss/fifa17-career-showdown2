@@ -74,10 +74,15 @@ jobs:
           const bootstrapPath = 'SESSION_BOOTSTRAP.json';
           const bootstrap = JSON.parse(fs.readFileSync(bootstrapPath,'utf8'));
           bootstrap.minimalReads = Array.isArray(bootstrap.minimalReads) ? bootstrap.minimalReads : [];
-          const abuseProof = 'PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md';
-          if (!bootstrap.minimalReads.includes(abuseProof)) {
-            const providerProof = bootstrap.minimalReads.indexOf('PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md');
-            bootstrap.minimalReads.splice(providerProof >= 0 ? providerProof + 1 : bootstrap.minimalReads.length, 0, abuseProof);
+          const requiredConsumedProofs = [
+            'PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md',
+            'STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md',
+            'STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md'
+          ];
+          let insertAt = bootstrap.minimalReads.indexOf('PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md');
+          insertAt = insertAt >= 0 ? insertAt + 1 : bootstrap.minimalReads.length;
+          for (const proof of requiredConsumedProofs) {
+            if (!bootstrap.minimalReads.includes(proof)) bootstrap.minimalReads.splice(insertAt++, 0, proof);
           }
           fs.writeFileSync(bootstrapPath, JSON.stringify(bootstrap,null,2)+'\n');
 
