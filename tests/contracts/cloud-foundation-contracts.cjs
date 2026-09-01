@@ -11,6 +11,7 @@ const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29
 const providerAbuseProof = read("PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md");
 const stage5aProof = read("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
 const stage5bProof = read("STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md");
+const stage5cProof = read("STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md");
 const productionEnvironment = JSON.parse(read("firebase.production.environment.json"));
 const historicalState = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
@@ -37,10 +38,10 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i, "Cloud Backup must remain separately gated behind Cloud Readiness and its own remote-system prerequisites.");
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i, "Roadmap must preserve historical Remote Joining prerequisite ordering.");
 
-// Current cloud authority preserves provider-proven Rules and exact rollback history while the owner-authorized zero-billing decision removes the former decision gate without activating Stage 5B at RJR87.
+// Current cloud authority preserves provider-proven Rules and exact rollback history while the zero-billing Stage 5C candidate remains isolated from production at RJR87.
 assert.equal(productionR5,true,"Current authority must remain on production v1.8.1-r5 after rollback restoration.");
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #174[\s\S]+STAGE 5B CREDENTIAL CANDIDATE[\s\S]+RJR87/i,"PROJECT_STATE must expose current PR174/RJR87/Stage 5B authority before history.");
-assert.match(state,/Status:[\s\S]+PRODUCTION-PROVEN[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+PR #174 publishes dormant Stage 5B credential source/i,"PROJECT_STATE must identify restored r5 production truth and dormant Stage 5B candidate.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #175[\s\S]+STAGE 5C STANDARD-AUTH CANDIDATE[\s\S]+87\/100/i,"PROJECT_STATE must expose current PR175/RJR87/Stage 5C authority before history.");
+assert.match(state,/(?=[\s\S]*DEPLOYED \/ PRODUCTION-PROVEN remains `v1\.8\.1 \/ 1\.8\.1-r5`)(?=[\s\S]*PR #175 implements)(?=[\s\S]*isolated `firestore\.stage5c\.rules`)/i,"PROJECT_STATE must identify restored r5 production truth and isolated Stage 5C candidate.");
 assert.match(state,/Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"PROJECT_STATE must retain r4 as the proven rollback runtime.");
 assert.match(state,/Rollback proof workflow:\s*`33190961085` — SUCCESS \/ consumed/i,"PROJECT_STATE must retain the exact successful rollback workflow.");
 assert.match(state,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md/i,"PROJECT_STATE must point at direct provider Rules proof.");
@@ -50,7 +51,7 @@ assert.match(state,/Remote Joining readiness:\s*`87\/100` under fixed RJR-1/i,"P
 assert.equal(readiness.currentScore,87,"Cloud foundation must track the production provider-abuse RJR87 checkpoint.");
 assert.equal(readiness.modelVersion,"RJR-1","Cloud foundation must continue using the fixed RJR-1 model.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"Bootstrap and fixed RJR ledger must agree.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,174,"Bootstrap must identify PR174 as the current Stage 5B candidate/SLE publication checkpoint.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,175,"Bootstrap must identify PR175 as the current Stage 5C candidate/SLE publication checkpoint.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderRulesPublicationProven,true,"Bootstrap must record direct provider Rules publication proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseProductionAcceptanceProven,true,"Provider-abuse acceptance must record exact production evidence.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AProviderDeviceCredentialClaim,"device_id","Stage 5A must declare its provider-verifiable device credential.");
@@ -58,6 +59,12 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BPerSignInCustomToken
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionActivationOwnerDecisionRequired,false,"The owner's zero-billing authorization must close the former production activation decision gate.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BSecondaryCustomAuthAuthorized,true,"The owner must authorize the non-billing custom-Auth decision while keeping it dormant.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5BProductionCriticalPath,false,"Billing-dependent Stage 5B infrastructure must not remain the production critical path.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5CStandardFirebaseUidAuthority,true,"Stage 5C must use ordinary Firebase UID authority without custom claims.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5CCustomDeviceClaimsRequired,false,"Stage 5C must not require a custom device claim.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5CRegisteredDeviceRole,"account-owned-mutation-metadata-not-authentication","Registered device IDs must remain honest mutation metadata rather than authentication.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5CAuthPlusFirestoreEmulatorProven,true,"Stage 5C must preserve real Auth-plus-Firestore emulator evidence.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5CProductionRulesPublished,false,"Stage 5C candidate Rules must remain unpublished to production in PR175.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.stage5CProviderLivePlayableProven,false,"Stage 5C candidate evidence must not claim provider-live playability.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.billingActivationForbidden,true,"The bootstrap must permanently forbid billing activation.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.cloudRunExcludedBecauseBillingRequired,true,"Cloud Run must remain excluded because it requires billing.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.allNonBillingRemoteJoiningDecisionsAuthorized,true,"All non-billing Remote Joining decisions must carry standing owner authorization.");
@@ -72,8 +79,8 @@ assert.match(state,/Probe implementation[\s\S]+PR\/CI\/deployment[\s\S]+zero dup
 assert.match(state,/Still uncredited[\s\S]+third-account\/revoked-device production negatives[\s\S]+actual Stage 5 Remote Joining sessions[\s\S]+two-device\/two-network[\s\S]+final stable release acceptance/i,"PROJECT_STATE must preserve remaining genuine gaps after provider-abuse acceptance.");
 assert.doesNotMatch(state,/Production rollback proof remains uncredited/i,"PROJECT_STATE must not regress production rollback back to an uncredited gap.");
 assert.match(state,/Production provider-abuse acceptance[\s\S]+PROBE ENUMERATION DENIAL[\s\S]+permission-denied[\s\S]+zero writes/i,"PROJECT_STATE must expose the proven provider-abuse result.");
-assert.match(state,/Stage 5 activation boundary[\s\S]+Stage 5 is no longer locked[\s\S]+Stage 5A[\s\S]+emulator/i,"PROJECT_STATE must activate the exact next private-session slice.");
-assert.match(state,/fresh successor[\s\S]+fresh unique WEC[\s\S]+Stage 5A private session protocol\/emulator slice/i,"PROJECT_STATE must preserve fresh-successor Stage 5A routing.");
+assert.match(state,/Finish only PR #175 publication[\s\S]+stop before the distinct production session Rules milestone/i,"PROJECT_STATE must close only the current Stage 5C publication checkpoint.");
+assert.match(state,/fresh assessed WEC[\s\S]+distinct minimum production session Rules publication gate/i,"PROJECT_STATE must preserve fresh-successor minimum production Rules routing.");
 assert.match(state,/Candidate C sole destructive remote-to-local Apply authority/i,"PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 assert.match(state,/Canonical browser storage remains exactly `careerModeShowdown\.saveLibrary`, `careerModeShowdown\.legacyShowdowns`, `careerModeShowdown\.preferences`/i,"PROJECT_STATE must preserve canonical storage authority.");
 assert.match(state,/Firebase remains Spark \/ zero billing/i,"PROJECT_STATE must preserve zero-billing Firebase operation.");
@@ -94,6 +101,8 @@ assert.match(stage5aProof,/revoked-device client, exact-read and direct-write de
 assert.match(stage5aProof,/Production currently has no implemented or proven issuer[\s\S]+must not be described or published as functional production session authority/i,"Stage 5A proof must expose the production credential prerequisite.");
 assert.match(stage5bProof,/(?=[\s\S]*non-extractable P-256)(?=[\s\S]*per-sign-in custom-token claims)(?=[\s\S]*Two simultaneous custom-auth sessions for the same)/i,"Stage 5B proof must preserve the key-bound per-sign-in credential decision.");
 assert.match(stage5bProof,/Cloud Run[\s\S]+Spark[\s\S]+iam\.serviceAccounts\.signBlob[\s\S]+datastore\.entities\.update/i,"Stage 5B proof must preserve the exact production infrastructure blocker.");
+assert.match(stage5cProof,/(?=[\s\S]*request\.auth\.uid)(?=[\s\S]*account-owned[^\n]{0,100}mutation[^\n]{0,100}metadata)(?=[\s\S]*not authentication)(?=[\s\S]*exact[^\n]{0,100}capability)(?=[\s\S]*listing are denied)/i,"Stage 5C proof must preserve standard Firebase identity and the honest private-session boundary.");
+assert.match(stage5cProof,/(?=[\s\S]*production deployment mapping still selects `firestore\.spark\.rules`)(?=[\s\S]*no Cloud Billing account)(?=[\s\S]*Cloud Run)(?=[\s\S]*App Check enforcement change)/i,"Stage 5C proof must preserve production isolation and the permanent zero-billing boundary.");
 assert.equal(productionEnvironment.projectId,"fifa17-career-showdown-prod","Production environment must remain pinned to the real production Firebase project.");
 assert.equal(productionEnvironment.activation?.productionSecurityRulesSource,"firestore.spark.rules","Production environment must record the provider-verified strengthened Rules source at the canonical activation field.");
 assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Production environment must retain the exact reviewed provider-published Rules blob.");

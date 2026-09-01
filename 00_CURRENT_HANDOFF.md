@@ -1,3 +1,21 @@
+# CURRENT HANDOFF OVERRIDE — PR #175 STAGE 5C CANDIDATE / HANDOFF AT CHECKPOINT / RJR87
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; current source and live evidence win.
+
+Read `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md` first and `SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md` only when deeper reconstruction is required.
+
+PR #174 is fully merged/post-merge green at live main `48ceef1e8c9986fdfe346de1a7151a31f314044b`. PR #175 is open on `rjr/stage5c-zero-billing-standard-auth-session-adapter-2026-09-01`; its first published implementation proof head/tree are `cd41261270da53c75313b157625b6d4ac00661c8` / `3cf6baee5b17da852fbad0bf0452681654004798`.
+
+PR #175 proves the standard-Firebase-UID candidate, honest registered-device mutation metadata, exact capability/no-list/exactly-two-account lifecycle, isolated candidate Rules, deterministic tests and real Auth-plus-Firestore emulator matrix. All 80 contracts, six post-fix loading audits, three Stage 5 local emulator lanes and 29 local workflow blocks pass; exact Java 21 provider execution remains a mandatory PR CI gate.
+
+Production remains unchanged at `v1.8.1 / 1.8.1-r5`; fixed RJR-1 remains `87/100`; production Rules remain exact blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. PR #175 earns zero RJR credit and excludes production Rules, runtime loading, host/join UX and provider-live evidence.
+
+WEC `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter` assessed `HANDOFF_AT_CHECKPOINT`. Finish only PR #175's exact-head CI/review/thread/merge/post-merge gates, seal WEC and stop before the distinct minimum production session Rules milestone.
+
+Billing, Blaze, Cloud Run, payment methods and billing-required services remain forbidden. Every nonbilling production decision is authorized after required gates. App Check enforcement remains OFF; Firebase remains Spark; Firestore remains memory-only; permanent storage, Candidate C, exactly-two-manager, no-list and protected-rivalry locks remain unchanged.
+
+---
+
 # CURRENT HANDOFF OVERRIDE — STAGE 5C STANDARD-AUTH CANDIDATE / RJR87
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; current source and live evidence win.

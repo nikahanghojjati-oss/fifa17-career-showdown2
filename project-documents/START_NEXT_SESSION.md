@@ -1,8 +1,8 @@
 # START NEXT SESSION
 
-Current compact SLE = Smart Lean Efficient starter: `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md`.
+Current compact SLE = Smart Lean Efficient starter: `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md`.
 
-Current deep SLE fallback: `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md`.
+Current deep SLE fallback: `SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md`.
 
 Controlling infrastructure authority: `00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md`. Billing must never be activated; all other Remote Joining decisions are authorized after required gates pass.
 
@@ -10,18 +10,18 @@ Repository: `nikahanghojjati-oss/fifa17-career-showdown2`.
 
 Production application/runtime: `v1.8.1 / 1.8.1-r5`, unchanged.
 
-Stage 5A starting main: PR #172 squash `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de`.
+Stage 5C starting main: PR #174 squash `48ceef1e8c9986fdfe346de1a7151a31f314044b`.
 
-Current publication checkpoint: PR #174.
+Current publication checkpoint: PR #175.
 
-Stage 5A private-session source remains dormant. Stage 5B now proves a non-extractable device key, per-sign-in custom-token claim architecture, signed issuance/refresh, atomic revocation and simultaneous same-UID device isolation. Production does not issue that credential. Production `firestore.spark.rules` remains unchanged at provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+PR #174 is fully merged and post-merge green. PR #175 proves the isolated Stage 5C standard-Firebase-UID session adapter, honest registered-device mutation metadata, exact capability/no-list/two-account lifecycle, deterministic contracts and Auth-plus-Firestore emulator matrix. Stage 5B remains preserved dormant research and is not the production critical path. Production `firestore.spark.rules` remains unchanged at provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
 
 Fixed Remote Joining readiness remains `87/100`; candidate/emulator/publication work receives zero production credit.
 
-Treat handoff material as orientation only. Independently verify PR #174 final exact-head/merge state, all workflow/review gates, post-merge Pages, live main, production/runtime/provider state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `SESSION_BOOTSTRAP.json`, and `WORK_ENVIRONMENT_STATUS.json`; current source and live evidence win.
+Treat handoff material as orientation only. Independently verify PR #175 final exact-head/merge state, all workflow/review gates, post-merge Pages, live main, production/runtime/provider state, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `SESSION_BOOTSTRAP.json`, and `WORK_ENVIRONMENT_STATUS.json`; current source and live evidence win.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Validate/archive closing WEC `we-2026-08-31-stage5b-device-credential-foundation`, initialize a fresh unique WEC with reset counters from observed live main and assess it. If the owner has not explicitly authorized Blaze/Cloud Run, secondary custom Auth and the two exact IAM additions, preserve the activation blocker and request that decision. Do not publish production session Rules or activate runtime/host/join UX in the adapter slice.
+Finish PR #175's exact-head Java 21 CI, final-head Codex review/thread/mergeability, expected-head squash merge and every post-merge/Pages/live-main gate if still open. Then validate/archive closing WEC `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter`, initialize a fresh unique WEC with reset counters from observed live main and assess it. Only if permitted, begin the distinct minimum production session Rules publication gate. Keep runtime host/join UX separate.
 
-Do not repeat consumed proof or fabricate identity/device/network/provider/session evidence. App Check enforcement remains OFF. Future handoffs recursively preserve SLE = Smart Lean Efficient, the exact eight-line progress format and the repository-first next-developer prompt standard.
+Billing, Blaze, Cloud Run, payment methods and billing-required services remain forbidden; every nonbilling production decision is already authorized after required gates pass. Do not repeat consumed proof or fabricate identity/device/network/provider/session evidence. App Check enforcement remains OFF. Future handoffs recursively preserve SLE = Smart Lean Efficient, the exact eight-line progress format and the repository-first next-developer prompt standard generated with `npm run work:next-prompt`.

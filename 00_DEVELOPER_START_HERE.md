@@ -1,3 +1,15 @@
+# CURRENT START OVERRIDE — PR #175 STAGE 5C CANDIDATE / TRANSITION — 2026-09-01 UTC
+
+Read `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md`, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and `WORK_ENVIRONMENT_STATUS.json` first. Use `SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md` only for deep reconstruction.
+
+PR #175 first published implementation proof is `cd41261270da53c75313b157625b6d4ac00661c8` / tree `3cf6baee5b17da852fbad0bf0452681654004798`. Independently fetch its final exact state. Production remains `v1.8.1 / 1.8.1-r5`; fixed RJR remains `87/100`; production Rules remain blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+The closing WEC requires `HANDOFF_AT_CHECKPOINT`: finish PR #175's exact-head Java 21 CI, final-head Codex review, every thread, mergeability, expected-head squash merge and all post-merge/Pages/live-main gates, then stop before production session Rules. A fresh successor WEC owns that distinct gate.
+
+Billing must never be activated. Every nonbilling production decision is authorized after required gates. Firebase stays Spark; Cloud Run/Blaze/payment methods/billing-required services remain excluded; App Check enforcement remains OFF.
+
+---
+
 # CURRENT START OVERRIDE — STAGE 5C STANDARD-AUTH CANDIDATE — 2026-09-01 UTC
 
 Read `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, and `STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md` first. PR #174 is merged at live main `48ceef1e8c9986fdfe346de1a7151a31f314044b`; production remains `v1.8.1 / 1.8.1-r5`; fixed RJR remains `87/100`; production Rules remain blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
