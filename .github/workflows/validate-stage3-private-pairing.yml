@@ -80,7 +80,7 @@ jobs:
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-connected-rivalry-emulator.cjs && node tests/firebase/stage4-idempotency-replay-emulator.cjs && node tests/firebase/stage4-abuse-hardening-emulator.cjs && node tests/firebase/stage4-mutation-rate-limit-emulator.cjs"
 
       - name: Run deterministic Stage 5 candidate contracts
-        run: node tests/contracts/stage5a-private-session-contracts.cjs && node tests/contracts/stage5b-device-credential-contracts.cjs
+        run: node tests/contracts/stage5a-private-session-contracts.cjs && node tests/contracts/stage5b-device-credential-contracts.cjs && node tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs
 
-      - name: Run Stage 5A and Stage 5B Firebase emulator proofs
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage5a "node tests/firebase/stage5a-private-session-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5b "node tests/firebase/stage5b-device-credential-emulator.cjs"
+      - name: Run Stage 5A, Stage 5B, and Stage 5C Firebase emulator proofs
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage5a "node tests/firebase/stage5a-private-session-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5b "node tests/firebase/stage5b-device-credential-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5c "node tests/firebase/stage5c-zero-billing-standard-auth-session-emulator.cjs"

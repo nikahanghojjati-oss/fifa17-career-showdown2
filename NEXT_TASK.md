@@ -1,3 +1,53 @@
+# CURRENT OVERRIDE — PR #175 STAGE 5C CANDIDATE PUBLICATION / TRANSITION — 2026-09-01 UTC
+
+This section supersedes every lower instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
+
+Read `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md` first. PR #174 is merged/post-merge green at live main `48ceef1e8c9986fdfe346de1a7151a31f314044b`. PR #175 first published implementation proof head/tree are `cd41261270da53c75313b157625b6d4ac00661c8` / `3cf6baee5b17da852fbad0bf0452681654004798`; fetch the final exact head before acting.
+
+Status: DEPLOYED / PRODUCTION-PROVEN runtime remains `v1.8.1 / 1.8.1-r5`; production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`; production Rules remain exact provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`; fixed RJR-1 remains `87/100`.
+
+PR #175 proves only the isolated standard-Firebase-UID Stage 5C candidate. Registered device IDs are account-owned mutation metadata, not authentication. Exact capability/no listing/exactly two accounts, host-open/peer-join, CAS, expiry and terminal no-resurrection remain proven. Production Rules, runtime loading, host/join UX and provider-live acceptance remain excluded and the candidate earns zero RJR credit.
+
+WEC `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter` assessed `HANDOFF_AT_CHECKPOINT` after complete local proof.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish only PR #175's bounded publication: require all 14 workflow families on one unchanged exact head including Java 21 Stage 5C Auth-plus-Firestore PASS; request final-head Codex review; classify and resolve every valid thread; verify zero unresolved threads and clean mergeability; expected-head squash merge under standing authorization; then verify all 15 post-merge/Pages runs, live main/tree, public `1.8.1-r5`, deployment byte identity and unchanged production Rules/runtime.
+
+Then validate/archive the closing WEC, initialize a fresh unique WEC with reset counters and stop this environment. Only the fresh successor may begin the distinct minimum production session Rules review/publication gate. Runtime host/join UX remains separate after Rules publication.
+
+Billing must never be activated. Firebase remains Spark; Blaze, Cloud Run, payment methods and every billing-required service remain excluded. Every nonbilling production decision is authorized after required gates. Preserve Google popup-only `browserSessionPersistence`, no extra scopes, memory-only Firestore, App Check enforcement OFF, exactly three canonical localStorage keys, Candidate C sole destructive Apply, exactly two private managers, no public discovery/community/matchmaking/rankings and the untouched protected rivalry.
+
+Exact accepted-result idempotency replay remains evidence-proven. Token-lifecycle safety remains production-proven by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. Do not repeat consumed proof merely for confidence.
+
+---
+
+# CURRENT OVERRIDE — STAGE 5C STANDARD-AUTH SESSION ADAPTER CANDIDATE PROVEN — 2026-09-01 UTC
+
+This section supersedes every lower instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
+
+PR #174 is fully merged as live main `48ceef1e8c9986fdfe346de1a7151a31f314044b` with tree `ec5425c330e6ec80ab6e032b75f0bc316abb2c48`. All 14 exact-head workflows, final-head Codex review, zero unresolved threads, expected-head squash merge, all 15 post-merge/Pages runs and the 94-file deployment verifier are complete. Status: DEPLOYED / PRODUCTION-PROVEN runtime remains `v1.8.1 / 1.8.1-r5`; production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`; provider-proven `firestore.spark.rules` remains blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`; fixed RJR-1 remains `87/100`.
+
+Exact accepted-result idempotency replay remains evidence-proven. Token-lifecycle safety remains production-proven by `tests/contracts/stage4-token-lifecycle-contracts.cjs`. These closed capabilities must not be repeated for confidence or credited again.
+
+Fresh WEC `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter` independently assessed `CONTINUE` from that live main.
+
+The current bounded candidate implements `js/sparkStandardAuthPrivateSession.js`, explicit standard-auth device-metadata mode in `js/sparkPrivateSession.js`, isolated `firestore.stage5c.rules`, deterministic contracts, a real Auth-plus-Firestore emulator matrix, permanent Java 21 workflow integration and `STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md`.
+
+The provider identity is ordinary Firebase `request.auth.uid`; no custom device claim is required. Registered device IDs are current account-owned mutation metadata and are explicitly not authentication or provider-bound physical-browser proof. Exact 256-bit capability access, no listing, exactly two active rivalry accounts, host-open, peer-join, CAS, expiry and terminal no-resurrection remain protected. Firestore is memory-only; `resource-exhausted` fails closed while local play remains available and never triggers billing.
+
+Production Rules, runtime loading, host/join UX and provider-live acceptance are excluded from this candidate and remain later separate gates. Candidate source/emulator/CI/publication earns zero RJR credit.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish only the current Stage 5C candidate publication: complete the full local repository/workflow matrix, update current WEC authority, build the mandatory recursive SLE package, publish one bounded PR, require all 14 exact-head workflow families including the Java 21 Stage 5C Auth-plus-Firestore PASS, request final-head Codex review, classify and resolve every valid thread, verify clean mergeability, expected-head squash merge under standing authorization, then verify all 15 post-merge/Pages runs, live main and unchanged production Rules/runtime.
+
+After that merge closure, the next distinct product gate is minimum production session Rules review/publication from the proven Stage 5C boundary. Runtime host/join UX remains separate after Rules publication. Do not combine those later gates into this candidate.
+
+Billing remains permanently forbidden. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or use another service whose activation requires billing even when it advertises a free tier. Preserve popup-only Google Auth with `browserSessionPersistence`, no extra scopes, App Check enforcement OFF, memory-only Firestore, exactly three canonical localStorage keys, Candidate C as sole destructive remote-to-local Apply, exactly two private managers, no public discovery/community/matchmaking/rankings and the untouched protected historical rivalry.
+
+---
+
 # CURRENT OVERRIDE — PR #174 P2 CORRECTION / ZERO-BILLING AUTHORIZED — 2026-08-31 UTC
 
 This section supersedes every lower instruction. SLE = Smart Lean Efficient and WEC remain mandatory.

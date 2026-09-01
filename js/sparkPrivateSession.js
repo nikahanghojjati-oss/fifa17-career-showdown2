@@ -10,6 +10,8 @@
   const MAX_SESSION_TTL_MS=30*60*1000;
   const MIN_SESSION_TTL_MS=1000;
   const PROVIDER_DEVICE_CREDENTIAL_CLAIM="device_id";
+  const PROVIDER_DEVICE_CREDENTIAL_MODE="provider-device-credential";
+  const STANDARD_AUTH_DEVICE_METADATA_MODE="standard-auth-device-metadata";
   const SESSION_STATES=Object.freeze(["open","active","revoked","expired","closed"]);
   const TERMINAL_SESSION_STATES=Object.freeze(["revoked","expired","closed"]);
   const SESSION_DATA_FIELDS=Object.freeze([
@@ -108,6 +110,28 @@
       throw sessionError("PRIVATE_SESSION_DEVICE_CREDENTIAL_MISMATCH","The provider device credential does not match this registered browser.");
     }
     return Object.freeze({claim:PROVIDER_DEVICE_CREDENTIAL_CLAIM,deviceId:claimedDeviceId});
+  }
+
+  function normalizeDeviceAuthorityMode(value){
+    const mode=value===undefined?PROVIDER_DEVICE_CREDENTIAL_MODE:String(value||"");
+    if(mode!==PROVIDER_DEVICE_CREDENTIAL_MODE&&mode!==STANDARD_AUTH_DEVICE_METADATA_MODE){
+      throw sessionError("PRIVATE_SESSION_DEVICE_AUTHORITY_MODE_INVALID","The private-session device authority mode is invalid.");
+    }
+    return mode;
+  }
+
+  async function assertSessionDeviceAuthority(user,deviceId,modeValue){
+    const mode=normalizeDeviceAuthorityMode(modeValue);
+    if(mode===STANDARD_AUTH_DEVICE_METADATA_MODE){
+      return Object.freeze({
+        mode,
+        accountId:normalizeSessionAccountId(user),
+        deviceId,
+        providerBound:false
+      });
+    }
+    const credential=await assertSessionProviderDeviceCredential(user,deviceId);
+    return Object.freeze({...credential,mode,providerBound:true});
   }
 
   function normalizeNow(value){
@@ -353,7 +377,7 @@
   async function openSession(options={}){
     try{
       const operation=normalizeOperation(options);
-      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
+      await assertSessionDeviceAuthority(options.user,operation.deviceId,options.deviceAuthorityMode);
       const ttlMs=normalizeTtl(options.ttlMs);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
@@ -399,7 +423,7 @@
   async function joinSession(options={}){
     try{
       const operation=normalizeOperation(options);
-      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
+      await assertSessionDeviceAuthority(options.user,operation.deviceId,options.deviceAuthorityMode);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const authority=await readAuthority(transaction,operation,refs);
@@ -454,7 +478,7 @@
   async function readSession(options={}){
     try{
       const operation=normalizeOperation(options);
-      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
+      await assertSessionDeviceAuthority(options.user,operation.deviceId,options.deviceAuthorityMode);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const authority=await readAuthority(transaction,operation,refs);
@@ -475,7 +499,7 @@
   async function transitionSession(options,targetState){
     try{
       const operation=normalizeOperation(options);
-      await assertSessionProviderDeviceCredential(options.user,operation.deviceId);
+      await assertSessionDeviceAuthority(options.user,operation.deviceId,options.deviceAuthorityMode);
       const refs=references(operation);
       return await operation.firebaseSdk.runTransaction(operation.firestore,async transaction=>{
         const authority=await readAuthority(transaction,operation,refs);
@@ -544,6 +568,7 @@
     providerDeviceCredentialRequired:true,
     providerDeviceCredentialClaim:PROVIDER_DEVICE_CREDENTIAL_CLAIM,
     providerDeviceCredentialProductionProven:false,
+    standardAuthDeviceMetadataMode:STANDARD_AUTH_DEVICE_METADATA_MODE,
     exactCapabilityBits:SESSION_ID_BYTES*8,
     defaultSessionTtlMs:DEFAULT_SESSION_TTL_MS,
     maxSessionTtlMs:MAX_SESSION_TTL_MS,
@@ -560,6 +585,7 @@
     buildEnvelope:buildSessionEnvelope,
     verifySession,
     verifyProviderDeviceCredential:assertSessionProviderDeviceCredential,
+    verifyDeviceAuthority:assertSessionDeviceAuthority,
     openSession,
     joinSession,
     readSession,
