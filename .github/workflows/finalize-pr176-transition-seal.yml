@@ -29,15 +29,31 @@ jobs:
           if (!contract.includes(before)) throw new Error('Expected stale Stage 5C lock assertion not found');
           fs.writeFileSync(contractPath, contract.replace(before, after));
 
+          const checkpoint = 'PR #175 Stage 5C standard-auth checkpoint proved the selected standard Firebase `request.auth.uid` path with registered-device mutation metadata, not authentication. Its Java 21 Stage 5C Auth-plus-Firestore emulator gate passed with zero RJR movement, and that candidate slice did not publish production session Rules; PR #176 is the later source-promotion checkpoint.';
+
           const starterPath = 'START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md';
           let starter = fs.readFileSync(starterPath, 'utf8');
           if (!starter.includes('PR #175 Stage 5C standard-auth checkpoint')) {
             const needle = 'The Stage 5B non-extractable P-256 custom-token research remains preserved but is not the production critical path because its trusted Cloud Run issuer would require billing. The production critical path remains standard Google Authentication plus direct exact-path Firestore Rules on Firebase Spark.\n';
-            const addition = '\nPR #175 Stage 5C standard-auth checkpoint proved the selected standard Firebase `request.auth.uid` path with registered-device mutation metadata, not authentication. Its Java 21 Stage 5C Auth-plus-Firestore emulator gate passed with zero RJR movement, and that candidate slice did not publish production session Rules; PR #176 is the later source-promotion checkpoint.\n';
             if (!starter.includes(needle)) throw new Error('Expected Stage 5B production-path paragraph not found in starter');
-            starter = starter.replace(needle, needle + addition);
+            starter = starter.replace(needle, needle + '\n' + checkpoint + '\n');
             fs.writeFileSync(starterPath, starter);
           }
+
+          const handoffPath = 'SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md';
+          let handoff = fs.readFileSync(handoffPath, 'utf8');
+          const oldStage5B = 'The Stage 5B non-extractable P-256 proof-of-possession model remains preserved dormant research. PR #174 proved its non-extractable key, per-sign-in `device_id` / `device_key_sha256` claim model, simultaneous same-UID device isolation, Chromium behavior and Auth-plus-Firestore emulator boundary. It is not the production critical path because its trusted Cloud Run issuer would require billing.';
+          const newStage5B = 'PR #174 Stage 5B non-extractable P-256 device credential proof remains preserved dormant research. It proved its non-extractable key, per-sign-in `device_id` / `device_key_sha256` claim model, simultaneous same-UID device isolation, Chromium browser behavior and Auth-plus-Firestore emulator boundary. It is not the production critical path because its trusted Cloud Run issuer would require billing.';
+          if (handoff.includes(oldStage5B)) handoff = handoff.replace(oldStage5B, newStage5B);
+          if (!handoff.includes('PR #175 Stage 5C standard-auth checkpoint')) {
+            const productionPath = 'The production critical path remains standard Google Authentication plus direct exact-path Firestore Rules on Firebase Spark.';
+            if (!handoff.includes(productionPath)) throw new Error('Expected production critical-path paragraph not found in handoff');
+            handoff = handoff.replace(productionPath, productionPath + '\n\n' + checkpoint);
+          }
+          const oldBilling = 'Billing must never be activated. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, buy review credits or activate another service whose use requires billing even if a free allowance is advertised.';
+          const newBilling = 'Billing must never be activated. Cloud Run and Blaze are excluded and forbidden under the permanent zero-billing architecture. Never link Cloud Billing, add a payment method, buy review credits or activate another service whose use requires billing even if a free allowance is advertised.';
+          if (handoff.includes(oldBilling)) handoff = handoff.replace(oldBilling, newBilling);
+          fs.writeFileSync(handoffPath, handoff);
           NODE
       - name: Prepare complete recursive SLE seal
         run: node scripts/seal-pr176-stage5d-transition.mjs
