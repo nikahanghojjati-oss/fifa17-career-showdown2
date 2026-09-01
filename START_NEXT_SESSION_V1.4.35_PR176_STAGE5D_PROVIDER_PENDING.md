@@ -30,6 +30,8 @@ The exact session boundary keeps ordinary Firebase `request.auth.uid` account au
 
 Registered device IDs remain account-owned mutation metadata. They are not authentication, cryptographic browser possession or physical-device proof.
 
+PR #174 Stage 5B device credential candidate is preserved dormant research: it proved a non-extractable P-256 browser credential with per-sign-in `device_id` custom-token claims, Chromium/browser execution, Auth-plus-Firestore emulator acceptance, simultaneous same-uid device isolation and atomic credential revocation. That consumed emulator evidence remains historical proof and must not be repeated merely for confidence.
+
 The Stage 5B non-extractable P-256 custom-token research remains preserved but is not the production critical path because its trusted Cloud Run issuer would require billing. The production critical path remains standard Google Authentication plus direct exact-path Firestore Rules on Firebase Spark.
 
 ## Provider publication boundary
