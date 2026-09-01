@@ -86,12 +86,20 @@ jobs:
           }
           fs.writeFileSync(bootstrapPath, JSON.stringify(bootstrap,null,2)+'\n');
 
-          const contractPath = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
-          let contract = fs.readFileSync(contractPath,'utf8');
+          const sleContractPath = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
+          let sleContract = fs.readFileSync(sleContractPath,'utf8');
           const oldRules = 'assert.equal(model.latestCheckpoint.rulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");';
           const newRules = 'assert.equal(model.latestCheckpoint.rulesBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08");\nassert.equal(model.latestCheckpoint.lastProviderProvenRulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");';
-          if (!contract.includes(oldRules)) throw new Error('Expected stale model Rules assertion not found');
-          fs.writeFileSync(contractPath, contract.replace(oldRules,newRules));
+          if (!sleContract.includes(oldRules)) throw new Error('Expected stale model Rules assertion not found');
+          fs.writeFileSync(sleContractPath, sleContract.replace(oldRules,newRules));
+
+          const immediatePath = 'tests/contracts/handoff-immediate-next-task-contracts.cjs';
+          let immediate = fs.readFileSync(immediatePath,'utf8');
+          const oldLane = 'assert.match(bootstrap.currentLane,/(?=[\\s\\S]*PR #175)(?=[\\s\\S]*fixed RJR87)(?=[\\s\\S]*standard-Auth candidate)(?=[\\s\\S]*registered-device mutation metadata)(?=[\\s\\S]*Billing)(?=[\\s\\S]*Cloud Run)(?=[\\s\\S]*minimum production session Rules)/i,"Bootstrap current lane must preserve the PR #175/RJR87 boundary and selected zero-billing successor path.");';
+          const newLane = 'assert.match(bootstrap.currentLane,/(?=[\\s\\S]*PR #176)(?=[\\s\\S]*Stage 5D)(?=[\\s\\S]*fixed RJR87)(?=[\\s\\S]*363af783d7e5436fdfaa3766d4aa413fc9952a08)(?=[\\s\\S]*2b7c0b166ae0aae7ab7a3ce84725b21091262484)(?=[\\s\\S]*zero-billing provider publication)(?=[\\s\\S]*runtime host\\/join UX)/i,"Bootstrap current lane must preserve the PR #176 Stage 5D repository/provider split and next zero-billing provider gate.");';
+          if (!immediate.includes(oldLane)) throw new Error('Expected stale PR175 current-lane assertion not found');
+          immediate = immediate.replace(oldLane,newLane);
+          fs.writeFileSync(immediatePath, immediate);
           NODE
       - name: Remove one-shot finalizer
         run: rm -f .github/workflows/finalize-pr176-transition-seal.yml
