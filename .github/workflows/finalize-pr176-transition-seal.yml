@@ -30,7 +30,6 @@ jobs:
           fs.writeFileSync(contractPath, contract.replace(before, after));
 
           const checkpoint = 'PR #175 Stage 5C standard-auth checkpoint proved the selected standard Firebase `request.auth.uid` path with registered-device mutation metadata, not authentication. Its Java 21 Stage 5C Auth-plus-Firestore emulator gate passed with zero RJR movement, and that candidate slice did not publish production session Rules; PR #176 is the later source-promotion checkpoint.';
-
           const starterPath = 'START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md';
           let starter = fs.readFileSync(starterPath, 'utf8');
           if (!starter.includes('PR #175 Stage 5C standard-auth checkpoint')) {
@@ -57,6 +56,28 @@ jobs:
           NODE
       - name: Prepare complete recursive SLE seal
         run: node scripts/seal-pr176-stage5d-transition.mjs
+      - name: Reconcile generated current-context semantics
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const graphPath = 'SESSION_CONTEXT_GRAPH.json';
+          const graph = JSON.parse(fs.readFileSync(graphPath,'utf8'));
+          graph.retrievalHints = graph.retrievalHints || {};
+          graph.retrievalHints.walkDirection = 'Preserve consumed PR #174 Stage 5B credential proof -> PR #175 Stage 5C standard-auth proof -> fixed RJR87 -> PR #176 minimum production session Rules source merge -> authenticated provider publication -> separate runtime host/join. Billing remains forbidden and Cloud Run remains excluded.';
+          fs.writeFileSync(graphPath, JSON.stringify(graph,null,2)+'\n');
+
+          const learningPath = 'SESSION_CONTEXT_LEARNING.json';
+          const learning = JSON.parse(fs.readFileSync(learningPath,'utf8'));
+          learning.latestLesson.lesson = 'PR #175 at fixed RJR87 proved the standard-Firebase-uid Stage 5C boundary with registered device mutation metadata, not authentication; Billing stayed forbidden and Cloud Run excluded. PR #176 then merged that exact boundary into the production Rules source with zero RJR movement, while provider publication of the new repository blob remains separately unproven.';
+          fs.writeFileSync(learningPath, JSON.stringify(learning,null,2)+'\n');
+
+          const contractPath = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
+          let contract = fs.readFileSync(contractPath,'utf8');
+          const oldRules = 'assert.equal(model.latestCheckpoint.rulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");';
+          const newRules = 'assert.equal(model.latestCheckpoint.rulesBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08");\nassert.equal(model.latestCheckpoint.lastProviderProvenRulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");';
+          if (!contract.includes(oldRules)) throw new Error('Expected stale model Rules assertion not found');
+          fs.writeFileSync(contractPath, contract.replace(oldRules,newRules));
+          NODE
       - name: Remove one-shot finalizer
         run: rm -f .github/workflows/finalize-pr176-transition-seal.yml
       - name: Validate focused SLE and continuity contracts
