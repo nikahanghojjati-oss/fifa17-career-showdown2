@@ -18,13 +18,14 @@ const guidePath = "00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md";
 const addendumPath = "HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md";
 const workflowPath = ".github/workflows/deploy-firestore-rules-zero-billing.yml";
 
-for(const path of [guidePath, addendumPath, workflowPath, ".gitignore"]){
+for(const path of [guidePath, addendumPath, workflowPath, "00_CURRENT_HANDOFF.md", ".gitignore"]){
   assert(fs.existsSync(path), `Permanent Firebase control-plane file is missing: ${path}`);
 }
 
 const guide = read(guidePath);
 const addendum = read(addendumPath);
 const workflow = read(workflowPath);
+const currentHandoff = read("00_CURRENT_HANDOFF.md");
 const gitignore = read(".gitignore");
 
 const invariants = [
@@ -48,6 +49,15 @@ includesAll(addendum, [
   "Recursive handoff requirement",
   "zero RJR"
 ], "Permanent Firebase handoff addendum");
+
+includesAll(currentHandoff, [
+  guidePath,
+  addendumPath,
+  workflowPath,
+  "FIREBASE_RULES_SERVICE_ACCOUNT_JSON",
+  "Firebase remains Spark",
+  "billing remains permanently forbidden"
+], "Current handoff Firebase control-plane inheritance");
 
 includesAll(workflow, [
   "Deploy Firebase Firestore Rules - Zero Billing",
