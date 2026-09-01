@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-01T13:34:36Z",
-  "materialSessionsObserved": 14,
-  "learningState": "cold-start-priors-with-fourteen-labeled-sessions",
+  "recordedAt": "2026-09-01T17:23:54.985Z",
+  "materialSessionsObserved": 15,
+  "learningState": "cold-start-priors-with-fifteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -90,6 +90,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "The zero-billing constraint forced an explicit honest boundary: ordinary Firebase uid proves the account, while a registered device ID is only account-owned mutation metadata and cannot prove physical-browser possession. Deterministic contracts plus real Auth-and-Firestore emulators preserve exact capability/no listing/exactly two accounts, deny missing or revoked device mutations, keep reads tied to uid plus entitlement and earn zero RJR until provider-live playable evidence exists."
+    },
+    "stage5d-production-rules-provider-pending-proof": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "PR #176 proved exact Stage 5C-to-production-source blob lineage and merged with 14/14 exact-head plus 15/15 post-merge gates, but fixed RJR stays 87 because source/CI/merge add zero capability credit. Provider truth remains the older proven blob until authenticated Firebase publication is independently observed. Paid review quota exhaustion must never cause billing; the mandatory exact-head zero-billing fallback preserved review discipline."
     }
   },
   "sessionMetrics": [
@@ -188,6 +197,20 @@
       "ciTriageLesson": "A post-merge visual failure can be a stylesheet-readiness race rather than a runtime regression. Synchronize the audit to the dynamic stylesheet, repeat locally, and still require exact-head deployed CI. Java 21 provider execution remains a mandatory independent CI gate when local Java is 17.",
       "productionEvidenceLesson": "A standard-Auth candidate, isolated Rules and real emulator users earn delta-zero RJR. Minimum production Rules, playable host/join, real two-device/two-network behavior and stable release acceptance remain distinct evidence gates.",
       "authorityLesson": "Full nonbilling production authority removes repeated owner-decision blockers but never removes exact-head tests, review, WEC or the permanent no-billing rule. Finish the current candidate publication, transition, and let a fresh WEC own production Rules separately."
+    },
+    {
+      "sessionId": "we-2026-09-01-stage5d-minimum-production-session-rules",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "provider-live-stage5d-rules-publication-then-runtime-host-join",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "Exact PR #176 CI/review/merge/post-merge evidence and provider-route inventory were required to separate reviewed repository Rules source from still-unproven provider publication.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "ciTriageLesson": "Historical write-denied assertions must be updated to the exact reviewed session allowlist rather than restoring obsolete denial; require exact-head emulator/Chromium gates after correction.",
+      "productionEvidenceLesson": "Repository Rules source promotion and provider publication are separate evidence classes. Do not claim production provider change until authenticated Firebase evidence proves exact source identity.",
+      "authorityLesson": "Permanent no-billing authority permits every nonbilling provider decision but never buying review credits or activating billed infrastructure. At the separate provider gate, use an authenticated Spark-compatible Rules-only path or preserve the blocker honestly."
     }
   ],
   "outcomeScale": {
@@ -205,12 +228,9 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "PR #175 proves the Stage 5C standard-Firebase-uid session candidate at fixed RJR87: exact capability/no listing/exactly two accounts remain enforced, registered device IDs are honestly limited to account-owned mutation metadata, and real Auth-plus-Firestore emulators require no custom device claims. Billing, Blaze, Cloud Run and billing-required services remain forbidden; every nonbilling production decision is authorized after required gates. Production firestore.spark.rules, runtime and UX remain unchanged, so minimum production session Rules remain the next distinct gate after a fresh WEC.",
-    "prePublicationMainSha": "48ceef1e8c9986fdfe346de1a7151a31f314044b",
-    "runtimeRevision": "1.8.1-r5",
+    "lesson": "PR #175 at fixed RJR87 proved the standard-Firebase-uid Stage 5C boundary with registered device mutation metadata, not authentication; Billing stayed forbidden and Cloud Run excluded. PR #176 then merged that exact boundary into the production Rules source with zero RJR movement, while provider publication of the new repository blob remains separately unproven.",
     "rjrScore": 87,
-    "closeoutPullRequest": 175,
-    "starter": "START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md"
+    "closeoutPullRequest": 176,
+    "next": "provider-live-stage5d-rules-publication-then-runtime-host-join"
   }
 }

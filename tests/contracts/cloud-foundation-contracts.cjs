@@ -51,7 +51,7 @@ assert.match(state,/Remote Joining readiness:\s*`87\/100` under fixed RJR-1/i,"P
 assert.equal(readiness.currentScore,87,"Cloud foundation must track the production provider-abuse RJR87 checkpoint.");
 assert.equal(readiness.modelVersion,"RJR-1","Cloud foundation must continue using the fixed RJR-1 model.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"Bootstrap and fixed RJR ledger must agree.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,175,"Bootstrap must identify PR175 as the current Stage 5C candidate/SLE publication checkpoint.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"Bootstrap must identify PR176 as the current Stage 5D source/provider-pending publication checkpoint.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderRulesPublicationProven,true,"Bootstrap must record direct provider Rules publication proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.providerAbuseProductionAcceptanceProven,true,"Provider-abuse acceptance must record exact production evidence.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5AProviderDeviceCredentialClaim,"device_id","Stage 5A must declare its provider-verifiable device credential.");

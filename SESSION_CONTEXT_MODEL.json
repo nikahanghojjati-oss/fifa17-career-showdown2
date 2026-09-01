@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-01T13:34:36Z",
+  "recordedAt": "2026-09-01T17:23:54.985Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-ten-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -16,6 +16,7 @@
     "tokenCostPenalty": -0.1
   },
   "mandatoryBypass": [
+    "PR #176 Stage 5D reviewed production Rules source is merged at a4489fe7d812144deb3f747019eb162628480dac; repository blob 363af783d7e5436fdfaa3766d4aa413fc9952a08, provider-proven blob still 2b7c0b166ae0aae7ab7a3ce84725b21091262484; fixed RJR87; provider publication remains unproven and separate",
     "current live main boundary",
     "current pull-request exact head/state and standing merge authorization",
     "current application/runtime identity",
@@ -48,9 +49,18 @@
     "mandatory SLE recursion: at Handoff proximity 100 create mirrored starter/full handoff, refresh current pointers, final WEC seal last, verify publication and stop before another substantial milestone"
   ],
   "contextBudgets": {
-    "tier0BootstrapApproxTokens": [1000, 2000],
-    "tier1TaskPacketAdditionalApproxTokens": [3000, 6000],
-    "tier2LiveDeltaAdditionalApproxTokens": [5000, 10000],
+    "tier0BootstrapApproxTokens": [
+      1000,
+      2000
+    ],
+    "tier1TaskPacketAdditionalApproxTokens": [
+      3000,
+      6000
+    ],
+    "tier2LiveDeltaAdditionalApproxTokens": [
+      5000,
+      10000
+    ],
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
@@ -82,7 +92,10 @@
   "supervisedLearningGate": {
     "minimumMaterialSessionOutcomes": 20,
     "preferredEvaluationStart": 30,
-    "candidateModels": ["logistic-regression-needed-vs-not-needed", "pairwise-learning-to-rank"],
+    "candidateModels": [
+      "logistic-regression-needed-vs-not-needed",
+      "pairwise-learning-to-rank"
+    ],
     "adoptionRequirement": "held-out startup simulations must reduce context cost without increasing missed-critical-context incidents"
   },
   "processMetrics": [
@@ -98,11 +111,11 @@
   ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
   "latestCheckpoint": {
-    "prePublicationMainSha": "48ceef1e8c9986fdfe346de1a7151a31f314044b",
+    "prePublicationMainSha": "a4489fe7d812144deb3f747019eb162628480dac",
     "runtimeRevision": "1.8.1-r5",
     "knownGoodRollbackRuntime": "1.8.1-r4",
     "rjrScore": 87,
-    "closedCapability": "stage5c-standard-firebase-uid-session-candidate-proven-delta-zero",
+    "closedCapability": "stage5d-production-rules-source-pr176-merged-provider-pending-delta-zero",
     "candidateProof": "STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md",
     "implementationProofHead": "cd41261270da53c75313b157625b6d4ac00661c8",
     "implementationProofTree": "3cf6baee5b17da852fbad0bf0452681654004798",
@@ -131,11 +144,18 @@
     "zeroBillingArchitectureDecision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
     "productionProviderDeviceCredentialProven": false,
     "rulesSource": "firestore.spark.rules",
-    "rulesBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
-    "transitionGateBeforeNext": "finish exact-head PR #175 candidate publication -> successor independently verifies live main and unchanged production/provider Rules -> validate/archive predecessor WEC -> initialize/reset fresh unique WEC -> assess fresh WEC -> begin only minimum production session Rules publication when permitted",
-    "next": "pr175-publication-then-minimum-production-session-rules",
-    "closeoutPullRequest": 175,
-    "starter": "START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md"
+    "rulesBlobSha": "363af783d7e5436fdfaa3766d4aa413fc9952a08",
+    "transitionGateBeforeNext": "verify PR176/main/post-merge -> validate/archive closing WEC -> fresh WEC -> authenticated Spark Rules publication -> independent provider source proof -> separate runtime host/join UX",
+    "next": "provider-live-stage5d-rules-publication-then-runtime-host-join",
+    "closeoutPullRequest": 176,
+    "starter": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
+    "exactFinalHead": "4c1e9be8e0af26e277ed9fd1ae0545ec065173ff",
+    "mergeSha": "a4489fe7d812144deb3f747019eb162628480dac",
+    "mergeTree": "e7083c2cda0e737f9d1c5654ca663df6ddf3408a",
+    "lastProviderProvenRulesBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
+    "stage5DRepositoryRulesSourceMerged": true,
+    "stage5DProviderRulesPublished": false,
+    "stage5DProviderRulesProven": false
   }
 }

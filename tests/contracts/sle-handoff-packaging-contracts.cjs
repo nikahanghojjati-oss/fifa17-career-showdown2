@@ -63,7 +63,7 @@ assert.deepEqual(read(starterRoot), read(starterMirror), "SLE starter root and p
 assert.match(starterRoot, new RegExp(`START_NEXT_SESSION_V${capsule.starter.version.replace(/\./g, "\\.")}`));
 assert.equal(capsule.starter.ownerInitialDelivery, "short-repository-first-prompt", "Current SLE policy requires the short repository-first prompt as the normal owner entrypoint.");
 assert.equal(capsule.starter.fallbackPackNeededByDefault, false);
-assert.equal(capsule.starter.version, "1.4.34");
+assert.equal(capsule.starter.version, "1.4.35");
 assert.ok(rollingStarter.includes(starterRoot), "Rolling successor entrypoint must name the capsule's current starter.");
 assert.ok(rollingStarter.includes(handoffRoot), "Rolling successor entrypoint must name the capsule's current deep handoff.");
 assert.ok(rollingStarter.includes(`v${pkg.version}`), "Rolling successor entrypoint must identify the current source application.");
@@ -72,7 +72,7 @@ assert.match(nextPrompt,/Open the live repository `nikahanghojjati-oss\/fifa17-c
 assert.ok(nextPrompt.includes(starterRoot),"Fresh next-developer prompt must name the current versioned starter.");
 assert.match(nextPrompt,/independently verify/i,"Fresh next-developer prompt must require independent live verification.");
 assert.match(nextPrompt,/fresh unique WEC|fresh WEC/i,"Fresh next-developer prompt must require a fresh successor WEC.");
-assert.match(nextPrompt,/START_NEXT_SESSION_V1\.4\.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE/i,"Fresh next-developer prompt must route to the current Stage 5C starter.");
+assert.match(nextPrompt,/START_NEXT_SESSION_V1\.4\.35_PR176_STAGE5D_PROVIDER_PENDING/i,"Fresh next-developer prompt must route to the current Stage 5D provider-pending starter.");
 assert.match(nextPrompt,/Billing must never be activated[\s\S]+every other Remote Joining production decision is authorized/i,"Fresh next-developer prompt must preserve the controlling owner authorization.");
 
 assert.equal(capsule.remoteJoiningReadiness.authority, "REMOTE_JOINING_READINESS.json");
@@ -95,7 +95,7 @@ assert.equal(capsule.runtime.billingRequired, false);
 assert.match(capsule.runtime.productionClientFirestore, /memory-only/i);
 assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);
 assert.equal(capsule.latestRuntimeMerge.rollbackRunId, 33190961085);
-assert.equal(capsule.currentPublicationCheckpoint.pullRequest, 175);
+assert.equal(capsule.currentPublicationCheckpoint.pullRequest, 176);
 assert.equal(capsule.currentPublicationCheckpoint.productionRollbackProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.productionRestorationProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesPublicationProven, true);
@@ -165,7 +165,7 @@ assert.equal(capsule.criticalLocks.firestorePersistence, "memory-only");
 assert.match(capsule.criticalLocks.trustedRuntimeIam, /production-unactivated-nonbilling-changes-owner-authorized/i);
 assert.equal(capsule.criticalLocks.zeroBilling, true);
 assert.match(capsule.criticalLocks.productionProviderDeviceCredential, /candidate-corrected-preserved-not-production-critical-path/i);
-assert.match(capsule.criticalLocks.stage5CStandardAuthCandidate, /proven-isolated-not-production-rules-or-runtime/i);
+assert.match(capsule.criticalLocks.stage5CStandardAuthCandidate, /proven-source-promoted-provider-pending-runtime-not-loaded/i);
 assert.equal(capsule.criticalLocks.publicDiscovery, false);
 assert.equal(capsule.criticalLocks.publicCommunity, false);
 assert.equal(capsule.criticalLocks.publicMatchmaking, false);
@@ -217,7 +217,7 @@ for (const [name, value] of [["starter", starter], ["handoff", handoff]]) {
   assert.match(value, /Stage 5B[\s\S]+(?:dormant research|preserved as research|preserved dormant research)[\s\S]+(?:not the|not mandatory|is not)[\s\S]+production critical path/i, `${name} must preserve the corrected candidate without making its billed issuer a production prerequisite.`);
   assert.match(value, /billing[\s\S]+(?:must never|permanently forbidden)[\s\S]+(?:Cloud Run|Blaze)[\s\S]+(?:excluded|forbidden)/i, `${name} must preserve the permanent zero-billing rule.`);
   assert.match(value, /standard Google[\s\S]+(?:Firestore|exact-path)[\s\S]+Spark/i, `${name} must route the successor to the selected zero-billing architecture.`);
-  assert.match(value, /(?:does not publish production session Rules|production session Rules[\s\S]+(?:excluded|later|must not be published))/i, `${name} must keep production session Rules out of the candidate slice.`);
+  assert.match(value, /provider[\s\S]+(?:pending|unproven|NOT yet)[\s\S]+Rules/i, `${name} must keep repository source promotion separate from provider publication proof.`);
   assert.match(value, /PR #175[\s\S]+(?:standard-Firebase|standard Firebase|standard-auth)/i, `${name} must preserve the current Stage 5C publication checkpoint.`);
   assert.match(value, /registered[- ]device[\s\S]+(?:mutation metadata|metadata)[\s\S]+(?:not authentication|never claims[^\n]+authentication)/i, `${name} must preserve the honest device-metadata boundary.`);
   assert.match(value, /Java 21[\s\S]+Stage 5C[\s\S]+Auth-plus-Firestore/i, `${name} must preserve the exact provider CI gate.`);
@@ -227,7 +227,7 @@ assert.match(nextTask,/CURRENT OVERRIDE[\s\S]+PR #174 P2 CORRECTION[\s\S]+ZERO-B
 assert.match(nextTask,/PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED/i);
 assert.match(nextTask,/(?=[\s\S]*PR #174)(?=[\s\S]*non-extractable P-256)(?=[\s\S]*per-sign-in[\s\S]*custom-token claims)(?=[\s\S]*Auth-plus-Firestore emulator)/i);
 assert.match(projectState,/RJR-1 is `87\/100`|Remote Joining readiness: `87\/100`/i);
-assert.match(currentHandoff,/PR #175[\s\S]+STAGE 5C[\s\S]+RJR87/i);
+assert.match(currentHandoff,/PR #176[\s\S]+STAGE 5D[\s\S]+RJR87/i);
 
 assert.equal(graph.schemaVersion, 2);
 assert.ok(graph.nodes.some(node => node.id === "rjr1-ledger" && node.recordedScore === readiness.currentScore), "Context graph RJR pointer must match the current fixed ledger.");
@@ -238,14 +238,15 @@ assert.ok(graph.nodes.some(node => node.id === "stage5a-candidate-emulator-proof
 assert.ok(graph.nodes.some(node => node.id === "stage5b-device-credential-foundation-proof" && node.pullRequest === 174 && node.rjrDelta === 0 && node.rjrScoreAfterProof === 87 && node.providerDeviceCredentialClaim === "device_id" && node.providerDeviceCredentialKeyClaim === "device_key_sha256" && node.simultaneousSameUidDeviceIsolationProven === true && node.rulesKeyVersionBindingCorrected === true && node.productionActivationOwnerDecisionRequired === false), "Context graph must preserve the corrected PR #174 candidate with zero RJR movement and no remaining owner-decision gate.");
 assert.ok(graph.nodes.some(node => node.id === "zero-billing-remote-joining-authorization" && node.billingActivationForbidden === true && node.cloudRunAllowed === false && node.selectedNextSlice === "stage5c-zero-billing-standard-auth-session-adapter" && node.rjrDelta === 0), "Context graph must preserve the zero-billing owner decision and selected successor slice.");
 assert.ok(graph.nodes.some(node => node.id === "stage5c-standard-auth-session-adapter-proof" && node.pullRequest === 175 && node.rjrDelta === 0 && node.rjrScoreAfterProof === 87 && node.providerIdentity === "standard-firebase-request-auth-uid" && node.customDeviceClaimsRequired === false && node.authPlusFirestoreEmulatorProven === true && node.productionRulesChanged === false), "Context graph must preserve the PR #175 standard-Auth candidate with zero RJR movement and no production publication.");
-assert.ok(graph.nodes.some(node => node.id === "closing-current-wec" && node.transitionPullRequest === 175 && node.rjrScore === 87), "Context graph must point at PR #175 RJR87 transition.");
+assert.ok(graph.nodes.some(node => node.id === "closing-current-wec" && node.transitionPullRequest === 176 && node.rjrScore === 87), "Context graph must point at PR #175 RJR87 transition.");
 assert.ok(graph.nodes.some(node => node.id === "successor-selection"), "Transition package must route successor through fresh-WEC product selection.");
-assert.ok(graph.nodes.some(node => node.id === "stage5-private-remote-joining" && /stage5c-standard-auth-candidate-proven-production-rules-next/.test(node.state)), "Transition package must route the proven free candidate to the distinct production Rules gate.");
+assert.ok(graph.nodes.some(node => node.id === "stage5-private-remote-joining" && /stage5d-source-merged-provider-publication-pending/.test(node.state)), "Transition package must route the proven free candidate to the distinct production Rules gate.");
 assert.match(graph.retrievalHints.walkDirection,/PR #174[\s\S]+PR #175[\s\S]+RJR87[\s\S]+minimum production session Rules[\s\S]+Billing[\s\S]+Cloud Run/i);
 assert.equal(model.latestCheckpoint.rjrScore,87,"Context model latest checkpoint must match RJR87.");
-assert.equal(model.latestCheckpoint.rulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");
-assert.equal(model.latestCheckpoint.closeoutPullRequest,175,"Context model must point at the current publication PR.");
-assert.equal(model.latestCheckpoint.next,"pr175-publication-then-minimum-production-session-rules");
+assert.equal(model.latestCheckpoint.rulesBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08");
+assert.equal(model.latestCheckpoint.lastProviderProvenRulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");
+assert.equal(model.latestCheckpoint.closeoutPullRequest,176,"Context model must point at the current publication PR.");
+assert.equal(model.latestCheckpoint.next,"provider-live-stage5d-rules-publication-then-runtime-host-join");
 assert.equal(model.latestCheckpoint.providerIdentity,"standard-firebase-request-auth-uid");
 assert.equal(model.latestCheckpoint.customDeviceClaimsRequired,false);
 assert.equal(model.latestCheckpoint.registeredDeviceRole,"account-owned-mutation-metadata-not-authentication");
@@ -256,7 +257,7 @@ assert.equal(model.latestCheckpoint.stage5BProductionCriticalPath,false);
 assert.equal(model.latestCheckpoint.productionProviderDeviceCredentialProven,false);
 assert.match(learning.latestLesson.lesson,/(?=[\s\S]*PR #175)(?=[\s\S]*fixed RJR87)(?=[\s\S]*standard-Firebase-uid)(?=[\s\S]*registered device)(?=[\s\S]*mutation metadata)(?=[\s\S]*Billing)(?=[\s\S]*Cloud Run)/i,"Context learning must preserve the Stage 5C result and controlling zero-billing decision.");
 assert.equal(learning.latestLesson.rjrScore,87);
-assert.equal(learning.latestLesson.closeoutPullRequest,175);
+assert.equal(learning.latestLesson.closeoutPullRequest,176);
 
 assert.ok(capsule.minimalReads.includes("00_SLE_HANDOFF_PROTOCOL.md"));
 assert.ok(capsule.minimalReads.includes("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"));
@@ -268,9 +269,9 @@ assert.ok(capsule.minimalReads.includes("STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESS
 assert.ok(capsule.minimalReads.includes("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md"));
 assert.ok(capsule.minimalReads.includes("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md"));
 assert.equal(capsule.immediateNextTask.mustNotInsertGenericPrerequisiteLane, true);
-assert.equal(capsule.immediateNextTask.mustStartAsRealProductWork, false);
-assert.equal(capsule.immediateNextTask.name,"pr175-stage5c-publication-then-minimum-production-session-rules");
-assert.match(capsule.immediateNextTask.summary,/PR #175[\s\S]+RJR87[\s\S]+minimum production session Rules[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Runtime host\/join UX[\s\S]+later gates/i);
+assert.equal(capsule.immediateNextTask.mustStartAsRealProductWork, true);
+assert.equal(capsule.immediateNextTask.name,"provider-live-stage5d-rules-publication-then-runtime-host-join");
+assert.match(capsule.immediateNextTask.summary,/PR #176[\s\S]+RJR87[\s\S]+provider-proven[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Runtime host\/join UX[\s\S]+later gates/i);
 assert.equal(capsule.transition.contextTransitionRequired, true);
 assert.equal(capsule.transition.handoffCompleteness, 100);
 assert.equal(capsule.transition.continuationDecision, "HANDOFF_AT_CHECKPOINT");

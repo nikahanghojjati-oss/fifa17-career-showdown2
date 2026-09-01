@@ -1,3 +1,16 @@
+# CURRENT SLE ENTRYPOINT — v1.4.35
+
+Canonical starter: `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md`.
+Deep SLE handoff: `SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md`.
+Live-main checkpoint: `a4489fe7d812144deb3f747019eb162628480dac`.
+Repository Stage 5D Rules blob: `363af783d7e5436fdfaa3766d4aa413fc9952a08`.
+Last provider-proven Rules blob: `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+RJR-1: `87/100`.
+
+Provider-live Rules publication is next under permanent zero-billing authority; runtime host/join remains separate afterward.
+
+---
+
 # START NEXT SESSION
 
 Current compact SLE = Smart Lean Efficient starter: `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md`.

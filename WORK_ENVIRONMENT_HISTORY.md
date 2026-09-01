@@ -905,3 +905,19 @@ This file is a recovery-safe append payload only. It exists because the current 
 - No billing account, Blaze upgrade, payment method, Cloud Run or other billing-required service was activated. No production Rules, Auth policy, IAM, App Check enforcement, session, local Save, canonical storage, Candidate C or protected-rivalry state changed. Fixed RJR-1 remains exactly `87/100`; PR #174 source, tests, review, merge and deployment earn zero capability credit.
 - Predecessor `HANDOFF_NOW` belongs only to `we-2026-08-31-stage5b-device-credential-foundation`; its counters and transition decision are archived and not inherited.
 - Fresh successor `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter` starts from exact live main `48ceef1e8c9986fdfe346de1a7151a31f314044b` with reset counters. Its bounded task is the standard-Firebase-UID, registered-device-metadata session adapter plus isolated candidate Rules and deterministic/Auth-plus-Firestore emulator proof; production Rules publication, runtime host/join UX and provider-live RJR evidence remain later distinct gates.
+
+
+## Stage 5D production Rules source closure — `we-2026-09-01-stage5d-minimum-production-session-rules`
+
+- Closed: 2026-09-01T17:23:54.985Z
+- Starting verified live main: `e0445ebf214b9385667187e0e580bba497d8f039`.
+- Final product PR: #176, exact head `4c1e9be8e0af26e277ed9fd1ae0545ec065173ff`, expected-head squash merge `a4489fe7d812144deb3f747019eb162628480dac`, tree `e7083c2cda0e737f9d1c5654ca663df6ddf3408a`.
+- Validation: all 14 exact-head workflow families passed; all 15 post-merge/Pages runs passed with zero failures.
+- Repository production Rules source: `firestore.spark.rules` blob `363af783d7e5436fdfaa3766d4aa413fc9952a08`.
+- Provider truth: last independently provider-proven production Rules remains `2b7c0b166ae0aae7ab7a3ce84725b21091262484`; publication of the new source is unproven and must not be fabricated.
+- Runtime: unchanged `v1.8.1 / 1.8.1-r5`; host/join UX remains unloaded.
+- Fixed RJR-1: `87/100`; source, CI, review, merge, Pages, SLE and provider-publication mechanics receive zero duplicate credit.
+- Review boundary: paid Codex quota exhaustion did not authorize billing; the zero-billing exact-head fallback required full diff audit, 14/14 CI including Java 21 provider proof and zero unresolved threads.
+- Final environment decision: `HANDOFF_AT_CHECKPOINT`, handoff completeness 100, predecessor decisions not inheritable.
+- Permanent authority: all nonbilling Remote Joining decisions remain authorized; Cloud Billing, Blaze, payment methods, Cloud Run and billing-required services remain forbidden; Firebase stays Spark.
+- Exact next safe action: fresh successor verifies live main/provider truth, validates and archives this record, initializes a fresh WEC, then performs only authenticated Rules publication of `363af783d7e5436fdfaa3766d4aa413fc9952a08` and independent provider identity proof before the separate host/join runtime milestone.
