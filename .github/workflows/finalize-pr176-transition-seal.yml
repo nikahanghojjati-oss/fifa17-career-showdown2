@@ -1,0 +1,51 @@
+name: Finalize PR176 Stage5D transition seal
+
+on:
+  push:
+    branches:
+      - rjr/pr176-stage5d-provider-pending-sle-2026-09-01
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+      - name: Reconcile final stale Stage5C lock assertion
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
+          let text = fs.readFileSync(path, 'utf8');
+          const before = 'assert.match(capsule.criticalLocks.stage5CStandardAuthCandidate, /proven-isolated-not-production-rules-or-runtime/i);';
+          const after = 'assert.match(capsule.criticalLocks.stage5CStandardAuthCandidate, /proven-source-promoted-provider-pending-runtime-not-loaded/i);';
+          if (!text.includes(before)) throw new Error('Expected stale Stage 5C lock assertion not found');
+          fs.writeFileSync(path, text.replace(before, after));
+          NODE
+      - name: Prepare complete recursive SLE seal
+        run: node scripts/seal-pr176-stage5d-transition.mjs
+      - name: Remove one-shot finalizer
+        run: rm -f .github/workflows/finalize-pr176-transition-seal.yml
+      - name: Validate focused SLE and continuity contracts
+        run: |
+          node tests/contracts/stage5d-production-session-rules-contracts.cjs
+          node tests/contracts/sle-handoff-packaging-contracts.cjs
+          node tests/contracts/handoff-immediate-next-task-contracts.cjs
+          node tests/contracts/next-developer-prompt-contracts.cjs
+          node tests/contracts/work-environment-continuity-contracts.cjs
+          git diff --check
+      - name: Commit final sealed package
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Seal PR176 Stage5D provider-pending SLE'
+          git push origin HEAD:rjr/pr176-stage5d-provider-pending-sle-2026-09-01
