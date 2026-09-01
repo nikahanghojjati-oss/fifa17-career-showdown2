@@ -81,7 +81,10 @@ includesAll(workflow, [
   "credentials_json: ${{ secrets.FIREBASE_RULES_SERVICE_ACCOUNT_JSON }}",
   "create_credentials_file: true",
   "export_environment_variables: true",
-  "token_format: access_token",
+  "GOOGLE_APPLICATION_CREDENTIALS",
+  "https://oauth2.googleapis.com/token",
+  "urn:ietf:params:oauth:grant-type:jwt-bearer",
+  "RSA-SHA256",
   "firebase-tools@${FIREBASE_TOOLS_VERSION}",
   "deploy --only firestore:rules",
   "--project ${FIREBASE_PROJECT_ID}",
@@ -95,6 +98,9 @@ includesAll(workflow, [
 assert(!/(^|\n)\s*pull_request\s*:/m.test(workflow), "Permanent Firebase workflow must never expose production credentials to pull_request code.");
 assert(!/(^|\n)\s*pull_request_target\s*:/m.test(workflow), "Permanent Firebase workflow must never expose production credentials to pull_request_target code.");
 assert(!workflow.includes("FIREBASE_TOKEN"), "Permanent Firebase workflow must not fall back to legacy FIREBASE_TOKEN authentication.");
+assert(!workflow.includes("token_format: access_token"), "Permanent Firebase workflow must not require google-github-actions access-token generation or Token Creator IAM.");
+assert(!workflow.includes("roles/iam.serviceAccountTokenCreator"), "Permanent Firebase workflow must not require Service Account Token Creator IAM.");
+assert(!workflow.includes("steps.google-auth.outputs.access_token"), "Permanent Firebase workflow must not depend on an auth-action access-token output.");
 assert(!/firebase\s+deploy[^\n]*(functions|hosting|storage)/i.test(workflow), "Permanent Firebase workflow must deploy Firestore Rules only.");
 assert(!/gcloud\s+(billing|run|functions)/i.test(workflow), "Permanent Firebase workflow must not contain billing, Cloud Run, or Functions activation commands.");
 assert(!/-----BEGIN PRIVATE KEY-----/.test(guide + addendum + workflow), "Repository control-plane files must never contain a service-account private key.");
