@@ -1,3 +1,17 @@
+# CURRENT HANDOFF OVERRIDE — PR #176 STAGE 5D PROVIDER PENDING / RJR87
+
+Read `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md` first and `SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md` for deep reconstruction. PR #176 is merged at `a4489fe7d812144deb3f747019eb162628480dac`; all 15 post-merge/Pages runs are green. Repository Rules blob is `363af783d7e5436fdfaa3766d4aa413fc9952a08`, while last provider-proven Rules remains `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Runtime is unchanged at `v1.8.1 / 1.8.1-r5`. RJR remains 87/100.
+
+Closing WEC `we-2026-09-01-stage5d-minimum-production-session-rules` is HANDOFF_AT_CHECKPOINT at complete SLE packaging. A fresh successor must independently verify live GitHub/provider state, validate/archive this WEC, initialize/reset a fresh WEC, and own the provider-live Rules milestone. Runtime host/join remains separate after provider proof.
+
+Billing is permanently forbidden; Firebase remains Spark; App Check enforcement remains OFF; Firestore remains memory-only; the three canonical localStorage keys, Candidate C authority, exactly-two-manager/no-list boundary and protected rivalry remain unchanged.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Publish and independently verify only the exact reviewed Stage 5D Rules through an authenticated zero-billing Firebase route. If no such route exists, preserve the provider blocker without fabricating evidence or activating billing. After provider proof, begin the separate host/join runtime milestone.
+
+---
+
 # CURRENT HANDOFF OVERRIDE — PR #175 STAGE 5C CANDIDATE / HANDOFF AT CHECKPOINT / RJR87
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; current source and live evidence win.

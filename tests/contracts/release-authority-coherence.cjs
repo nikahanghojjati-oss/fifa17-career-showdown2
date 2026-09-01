@@ -75,7 +75,7 @@ if(candidateRecord && currentProductionProven){
     A.ok(currentNext.includes("RJR-1") && currentNext.includes(`\`${readiness.currentScore}/100\``), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
     A.match(currentNext, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i, "NEXT_TASK must preserve exact replay as a closed capability.");
     A.match(currentNext, /TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN|stage4-token-lifecycle-contracts\.cjs/i, "NEXT_TASK must preserve the current token-lifecycle production boundary.");
-    A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+mandatory recursive SLE package[\s\S]+publish/i, "NEXT_TASK must route forward to the sealed transition publication rather than revive a completed product proof.");
+    A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+authenticated zero-billing Firebase[\s\S]+provider[\s\S]+runtime host\/join/i, "NEXT_TASK must route the sealed PR176 transition forward to authenticated zero-billing provider publication before separate runtime host/join work.");
 }else if(candidateRecord){
     A.ok(previousRuntime, "A release candidate must name its previous known-good whole-runtime shell.");
     A.ok(readme.includes(previousRuntime) && /production-proven|production proven/i.test(readme), "Candidate README must retain previous production truth.");
