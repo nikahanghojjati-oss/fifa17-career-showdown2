@@ -44,7 +44,8 @@ assert.match(sparkRules,/allow create: if validSelfAccountBootstrap\(accountId\)
 assert.match(sparkRules,/match \/devices\/\{deviceId\}[\s\S]*?allow create: if validDeviceCreate\(accountId, deviceId\)[\s\S]*?allow update: if validDeviceRevoke\(accountId, deviceId\)[\s\S]*?allow list, delete: if false/);
 assert.match(sparkRules,/match \/rivalries\/\{rivalryId\}[\s\S]*?allow create: if validInitialRivalryCreate\(rivalryId\)[\s\S]*?allow update: if validRivalryRedeem\(rivalryId\)[\s\S]*?allow list, delete: if false/);
 assert.match(sparkRules,/match \/state\/authoritative[\s\S]*?allow create: if validSharedStateCreate\(rivalryId\)[\s\S]*?allow update: if validSharedStateUpdate\(rivalryId\)[\s\S]*?allow list, delete: if false/);
-assert.match(sparkRules,/match \/sessions\/\{sessionId\}[\s\S]*?allow list, create, update, delete: if false/);
+assert.match(sparkRules,/match \/sessions\/\{sessionId\}[\s\S]*?allow get: if sessionCanRead\(rivalryId, sessionId\)[\s\S]*?allow create: if validOpenSessionCreate\(rivalryId, sessionId\)[\s\S]*?allow update: if validSessionUpdate\(rivalryId, sessionId\)[\s\S]*?allow list, delete: if false/,
+  "Stage 5D production Rules may expose exact capability-scoped session get/create/update while collection listing and direct delete remain denied; Connected Account runtime stays session-free until the later runtime slice.");
 
 const calls=[];
 global.CareerModeSparkAccountBootstrap={
@@ -65,7 +66,7 @@ assert.equal(account.blazeRequired,false);
 assert.equal(account.cloudRunRequired,false);
 assert.equal(account.cloudFunctionsRequired,false);
 assert.equal(account.additionalGoogleScopes,0);
-assert.equal(account.writeScope,"self-account-create-only","Connected Account controller itself remains limited to self-account bootstrap; pairing and Connected Rivalry are separate modules behind Security Rules.");
+assert.equal(account.writeScope,"self-account-create-only","Connected Account controller itself remains limited to self-account bootstrap; pairing, Connected Rivalry and future session runtime are separate modules behind Security Rules.");
 
 const auth={currentUser:null};
 class GoogleProvider{constructor(){calls.push(["provider"]);}}
@@ -105,5 +106,5 @@ const mockRuntime={async ensureAccountServices(){calls.push(["ensureAccountServi
   assert.equal(signedOut.connected,false);
   assert.equal(signedOut.accountId,null);
 
-  process.stdout.write("PASS Spark production connected-account policy: Google popup, session-only Auth, memory-only Firestore, bounded private Rules authority, durable Settings mount and zero-billing boundary\n");
+  process.stdout.write("PASS Spark production connected-account policy: Google popup, session-only Auth, memory-only Firestore, bounded private Rules authority including dormant Stage 5D exact sessions, durable Settings mount and zero-billing boundary\n");
 })().catch(error=>{console.error(error);process.exit(1);});

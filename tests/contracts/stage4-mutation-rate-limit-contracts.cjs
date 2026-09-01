@@ -28,7 +28,7 @@ assert.match(rules,/before\.revision == 2/);
 assert.match(rules,/after\.updatedAt == request\.time/);
 assert.match(rules,/request\.time >= before\.updatedAt \+ duration\.value\(2, 's'\)/);
 assert.match(rules,/&& validSharedStateMutationTiming\(before, after\)/);
-assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]*?allow list, create, update, delete: if false;/);
+assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]*?allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]*?allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]*?allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]*?allow list, delete: if false;/);
 
 for(const key of [
   "careerModeShowdown.saveLibrary",
@@ -37,4 +37,4 @@ for(const key of [
 ])assert.ok(rivalry.includes(`"${key}"`),`Canonical key missing: ${key}`);
 assert.equal(rivalry.includes("activeShowdown"),false,"activeShowdown must not become canonical storage.");
 
-process.stdout.write("PASS Stage 4 sustained mutation-frequency hardening contracts: r5 exposes Firestore server time, authoritative shared-state updates anchor to it, sustained revisions are bounded after the revision-3 warmup, and permanent storage/session/provider locks remain unchanged.\n");
+process.stdout.write("PASS Stage 4 sustained mutation-frequency hardening contracts: r5 exposes Firestore server time, authoritative shared-state updates anchor to it, sustained revisions are bounded after the revision-3 warmup, and Stage 5D sessions remain exact-path/no-list/no-delete without changing Stage 4 runtime ownership.\n");

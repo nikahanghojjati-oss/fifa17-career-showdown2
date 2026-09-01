@@ -97,7 +97,7 @@ function stage4Rivalry(fixture){
   const source=fs.readFileSync("js/sparkConnectedRivalry.js","utf8");
   assert.doesNotMatch(source,/\blocalStorage\b/);
   assert.doesNotMatch(source,/getDocs|collection\s*\(/,"Connected Rivalry must never discover/list rivalries.");
-  assert.doesNotMatch(source,/sessions\/|sessionId|private-session/,"Stage 4 first slice must not implement Remote Joining sessions.");
+  assert.doesNotMatch(source,/sessions\/|sessionId|private-session/,"Stage 4 module must remain separate from Remote Joining sessions even after the Rules boundary is promoted.");
   assert.match(source,/STALE_BASE_REVISION/);
   assert.match(source,/IDEMPOTENCY_CONFLICT/);
   assert.match(source,/TOMBSTONE_RESTORE_REQUIRED/);
@@ -236,7 +236,7 @@ function stage4Rivalry(fixture){
   assert.match(rules,/validSharedStateUpdate/);
   assert.match(rules,/validIdempotencyCreate/);
   assert.match(rules,/mutationReceipt/);
-  assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/);
+  assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/,"Stage 5D may advance the production Rules source while the Stage 4 runtime module remains session-free.");
 
   const app=fs.readFileSync("js/app.js","utf8");
   const connectedAccount=fs.readFileSync("js/sparkConnectedAccount.js","utf8");
@@ -246,7 +246,7 @@ function stage4Rivalry(fixture){
   assert.match(connectedAccount,/await sparkConnectedLoadPrivatePairingScript\(\)[\s\S]*await sparkConnectedLoadRivalryScript\(\)/,"Connected Rivalry must load only after the Private Pairing module exists.");
   assert.match(worker,/js\/sparkConnectedRivalry\.js/);
 
-  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, full/selectable/copyable recovery ID, deterministic projection, immutable CAS/replay plan, integrity-checked observation, explicit Candidate C local Apply, and Stage 5 lock\n");
+  process.stdout.write("PASS Stage 4 Connected Rivalry client contract: private exact attachment, full/selectable/copyable recovery ID, deterministic projection, immutable CAS/replay plan, integrity-checked observation, explicit Candidate C local Apply, and separate Stage 5D Rules boundary\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);

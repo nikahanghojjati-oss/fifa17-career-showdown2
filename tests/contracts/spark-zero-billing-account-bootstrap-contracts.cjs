@@ -29,7 +29,7 @@ assert.match(moduleSource,/SHA-256/);
 assert.doesNotMatch(moduleSource,/firebase-admin|firebase-functions|Cloud Run|serviceAccount|private_key/i);
 assert.doesNotMatch(moduleSource,/email\s*:|displayName\s*:|refreshToken|idToken|accessToken/i,"Spark account bootstrap must not persist profile or credential material.");
 
-// Stage 3 may extend the separately reviewed Spark Rules candidate, but the original
+// Later stages may extend the separately reviewed Spark Rules source, but the original
 // strict self-account create remains intact and semantic envelope validation may be
 // factored into helpers rather than duplicated inline.
 assert.match(candidateRules,/function validSelfAccountBootstrap\(accountId\)/);
@@ -42,16 +42,17 @@ assert.match(candidateRules,/function validHash\(value\)[\s\S]+sha256:\[0-9a-f\]
 assert.match(candidateRules,/allow create: if validSelfAccountBootstrap\(accountId\);/);
 assert.match(candidateRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, update, delete: if false;/);
 
-// New Stage 3 writes must remain operation-specific. No broad write grant, shared
-// gameplay state, session mutation, list access, or catch-all escape is allowed.
+// Every later-stage write remains operation-specific. Stage 4 shared state and Stage 5D
+// private sessions may now create/update through their reviewed validators, but collection
+// listing, direct delete and catch-all escape authority remain denied.
 assert.match(candidateRules,/match \/devices\/\{deviceId\}[\s\S]+allow create: if validDeviceCreate\(accountId, deviceId\);[\s\S]+allow update: if validDeviceRevoke\(accountId, deviceId\);[\s\S]+allow list, delete: if false;/);
 assert.match(candidateRules,/match \/rivalries\/\{rivalryId\}[\s\S]+allow create: if validInitialRivalryCreate\(rivalryId\);[\s\S]+allow update: if validRivalryRedeem\(rivalryId\);[\s\S]+allow list, delete: if false;/);
-assert.match(candidateRules,/match \/state\/authoritative[\s\S]+allow list, create, update, delete: if false;/);
-assert.match(candidateRules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/);
+assert.match(candidateRules,/match \/state\/authoritative[\s\S]+allow create: if validSharedStateCreate\(rivalryId\);[\s\S]+allow update: if validSharedStateUpdate\(rivalryId\);[\s\S]+allow list, delete: if false;/);
+assert.match(candidateRules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.match(candidateRules,/match \/\{document=\*\*\}[\s\S]+allow read, write: if false;/);
 assert.doesNotMatch(candidateRules,/allow\s+(?:write|update|delete)[^\n]*if\s+true/i);
 
-assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The repository's historical deny-all production rules file remains distinct until an explicitly validated provider publication changes production.");
+assert.match(deployedRules,/match \/accounts\/\{accountId\}[\s\S]+allow list, create, update, delete: if false;/,"The repository's historical deny-all root rules file remains distinct from the isolated production Rules source.");
 assert.match(workflow,/spark-account-bootstrap-emulator\.cjs/,"Permanent Static App validation must execute the Spark account bootstrap emulator proof.");
 assert.ok(Number.isInteger(readiness.currentScore)&&readiness.currentScore>=61&&readiness.currentScore<=100,"RJR must remain on the fixed RJR-1 denominator and move only with verified capability evidence.");
 assert.ok(readiness.evidenceHistory.some(event=>event.eventId==="production-app-check-runtime-proof"&&event.score===61),"The historical 61-point pre-Spark-production baseline must remain preserved.");
@@ -65,4 +66,4 @@ if(latestReadinessEvent.delta<0){
   assert.equal(latestReadinessEvent.invalidation,true,"A readiness decrease must be an explicit invalidation/regression event.");
 }
 
-process.stdout.write("PASS zero-billing Spark account bootstrap remains strict while Stage 3 adds only exact registered-device/private-pairing Rules and keeps downstream gameplay/session writes denied.\n");
+process.stdout.write("PASS zero-billing Spark account bootstrap remains strict while Stage 4 shared-state and Stage 5D exact private-session Rules stay operation-scoped, no-list, no-delete and deny-by-default.\n");

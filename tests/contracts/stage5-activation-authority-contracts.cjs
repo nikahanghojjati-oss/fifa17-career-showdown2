@@ -138,7 +138,9 @@ assert.match(schema,/exact gets require the opaque capability and current two-ac
 assert.match(schema,/every mutation additionally rechecks the named active device document under that authenticated account/i);
 assert.match(schema,/device ID remains attribution\/revocation metadata and is never authentication/i);
 
-assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get:[\s\S]+memberAccountIds[\s\S]+allow list, create, update, delete: if false;/);
+assert.equal(rules,stage5cRules,"Stage 5D production Rules source must remain byte-identical to the already proven Stage 5C Rules source.");
+assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
+assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
 
-process.stdout.write("PASS Stage 5 activation authority: production provider-abuse advances fixed RJR 86 to 87 once; Stage 5A, corrected Stage 5B and the zero-billing architecture decision earn zero duplicate credit; the successor is authorized for the Spark-native standard-Auth path.\n");
+process.stdout.write("PASS Stage 5 activation authority: production provider-abuse advances fixed RJR 86 to 87 once; Stage 5A, corrected Stage 5B, the zero-billing architecture decision and Stage 5D source promotion earn zero duplicate credit; the Spark-native standard-Auth Rules path remains authorized.\n");

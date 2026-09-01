@@ -145,7 +145,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.doesNotMatch(adapterSource,/\bcollection\s*\(|\bgetDocs\b/);
   for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js","service-worker.js"]){
     assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkStandardAuthPrivateSession\.js/,
-      `${runtimeOwner} must not expose the pre-publication Stage 5C candidate.`);
+      `${runtimeOwner} must keep the Stage 5C adapter dormant during the Stage 5D Rules-only milestone.`);
   }
 
   const productionRules=fs.readFileSync("firestore.spark.rules","utf8");
@@ -155,24 +155,13 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(rootFirebase.firestore.rules,"firestore.rules");
   assert.equal(productionFirebase.firestore.rules,"firestore.spark.rules");
   assert.doesNotMatch(JSON.stringify({rootFirebase,productionFirebase}),/stage5c/i);
-  assert.match(productionRules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/);
-  assert.match(candidateRules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
-  assert.match(candidateRules,/sessionWriteUsesRegisteredDeviceMetadata\(root\)[\s\S]+root\.updatedByAccountId == request\.auth\.uid[\s\S]+registeredSessionDeviceMetadata\(root\.updatedByDeviceId\)/);
-  assert.doesNotMatch(candidateRules,/request\.auth\.token\.device_|deviceCredentials/,
-    "Stage 5C Rules must use standard uid authority and must not depend on Stage 5B custom credentials.");
-  assert.match(candidateRules,/STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+allow get: if sessionCanRead[\s\S]+allow create: if validOpenSessionCreate[\s\S]+allow update: if validSessionUpdate[\s\S]+allow list, delete: if false;[\s\S]+STAGE5C_CANDIDATE_SESSION_MATCH_END/);
-  const productionSessionMatch=`      match /sessions/{sessionId} {
-        allow get: if currentlyEntitled(rivalryId)
-          && resource.data.data.memberAccountIds is list
-          && request.auth.uid in resource.data.data.memberAccountIds;
-        allow list, create, update, delete: if false;
-      }`;
-  const normalizedCandidate=candidateRules
-    .replace(/    \/\/ STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]*?    \/\/ STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END\n\n/,"")
-    .replace(/      \/\/ STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]*?      \/\/ STAGE5C_CANDIDATE_SESSION_MATCH_END/,productionSessionMatch)
-    .trimEnd();
-  assert.equal(normalizedCandidate,productionRules.trimEnd(),
-    "Stage 5C candidate Rules may differ from production only at the isolated session boundary.");
+  assert.equal(productionRules,candidateRules,
+    "Stage 5D must promote the exact already-proven Stage 5C Rules bytes rather than authoring a new production variant.");
+  assert.match(productionRules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSessionDeviceMetadata[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionUpdate[\s\S]+STAGE5C_CANDIDATE_SESSION_FUNCTIONS_END/);
+  assert.match(productionRules,/sessionWriteUsesRegisteredDeviceMetadata\(root\)[\s\S]+root\.updatedByAccountId == request\.auth\.uid[\s\S]+registeredSessionDeviceMetadata\(root\.updatedByDeviceId\)/);
+  assert.doesNotMatch(productionRules,/request\.auth\.token\.device_|deviceCredentials/,
+    "Stage 5D production Rules must use standard uid authority and must not depend on Stage 5B custom credentials.");
+  assert.match(productionRules,/STAGE5C_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+allow get: if sessionCanRead[\s\S]+allow create: if validOpenSessionCreate[\s\S]+allow update: if validSessionUpdate[\s\S]+allow list, delete: if false;[\s\S]+STAGE5C_CANDIDATE_SESSION_MATCH_END/);
 
   const h=createHarness();
   const rivalryId=`pair_${"d".repeat(64)}`;
@@ -286,7 +275,7 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.equal(JSON.stringify(canonicalFixture),canonicalBefore);
   assert.equal(JSON.stringify([...h.docs.entries()]),docsBefore);
 
-  process.stdout.write("PASS Stage 5C standard-auth session adapter: Firebase uid authority, honest account-owned device metadata, exact no-list capability, two-account host/join lifecycle, terminal/expiry denial, memory-only quota safety, isolated candidate Rules and zero billing.\n");
+  process.stdout.write("PASS Stage 5C standard-auth session adapter: Firebase uid authority, honest account-owned device metadata, exact no-list capability, two-account host/join lifecycle, terminal/expiry denial, memory-only quota safety, exact Stage 5D production Rules source promotion and zero billing.\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
