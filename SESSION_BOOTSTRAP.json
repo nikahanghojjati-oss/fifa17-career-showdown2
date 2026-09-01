@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-08-31T06:25:00Z",
+  "recordedAt": "2026-08-31T23:35:13Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "rjr/stage5a-private-session-protocol-2026-08-30",
+  "bootstrapBranch": "rjr/stage5b-device-credential-foundation-2026-08-31",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
+  "lastVerifiedMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
   "lastVerifiedRuntimeMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
   "latestRuntimeMerge": {
     "pullRequest": 166,
@@ -19,11 +19,11 @@
     "rollbackRunId": 33190961085
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 173,
-    "title": "Implement Stage 5A private-session candidate boundary",
-    "branch": "rjr/stage5a-private-session-protocol-2026-08-30",
-    "implementationProofHead": "217d9d729774b23ab4fdf8c5cae842d993986a3f",
-    "implementationProofTree": "21a96e44f2e606cc14cd6b54254544b456095036",
+    "pullRequest": 174,
+    "title": "Prove Stage 5B device credential foundation",
+    "branch": "rjr/stage5b-device-credential-foundation-2026-08-31",
+    "implementationProofHead": "5b092220ce2507c66cf653e510fbaa2c43fb425d",
+    "implementationProofTree": "2b525677ba2af016929b0bb1706df9c3f40847aa",
     "productionRollbackRunId": 33190961085,
     "productionRollbackProven": true,
     "productionRestorationProven": true,
@@ -47,11 +47,29 @@
     "stage5ACandidateEmulatorProven": true,
     "stage5AProviderDeviceCredentialClaim": "device_id",
     "stage5AProviderDeviceCredentialEmulatorProven": true,
+    "stage5BCandidateImplemented": true,
+    "stage5BClient": "js/sparkDeviceCredential.js",
+    "stage5BTrustedIssuer": "js/trustedDeviceCredentialIssuance.js",
+    "stage5BProof": "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
+    "stage5BNonExtractableKeyBrowserProven": true,
+    "stage5BPerSignInCustomTokenClaimsEmulatorProven": true,
+    "stage5BSimultaneousSameUidDeviceIsolationProven": true,
+    "stage5BAtomicDeviceCredentialRevocationProven": true,
+    "stage5BRulesKeyVersionBindingCorrected": true,
+    "stage5BProductionActivationOwnerDecisionRequired": false,
+    "stage5BRequiredAdditionalIamPermissions": ["iam.serviceAccounts.signBlob", "datastore.entities.update"],
+    "stage5BCloudRunAvailableOnCurrentSparkPlan": false,
+    "stage5BSecondaryCustomAuthAuthorized": true,
+    "stage5BProductionCriticalPath": false,
+    "ownerZeroBillingAuthorizationRecorded": true,
+    "billingActivationForbidden": true,
+    "cloudRunExcludedBecauseBillingRequired": true,
+    "zeroBillingSuccessorSlice": "stage5c-zero-billing-standard-auth-session-adapter",
     "productionProviderDeviceCredentialIssued": false,
     "productionProviderDeviceCredentialProven": false,
     "stage5ARuntimeImplemented": false,
     "productionSessionRulesChanged": false,
-    "checkpointStatus": "rjr87-stage5a-candidate-provider-device-credential-emulator-proven-production-credential-unissued-rules-unchanged"
+    "checkpointStatus": "rjr87-stage5b-corrected-zero-billing-authorized-production-rules-runtime-unchanged"
   },
   "lastProductionProvenRuntime": {
     "pullRequest": 166,
@@ -69,6 +87,17 @@
     "condition": "all required tests and current mandatory publication gates pass",
     "rootAuthority": "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "laterOwnerInstructionOverrides": true
+  },
+  "ownerZeroBillingAuthorization": {
+    "effectiveDate": "2026-08-31",
+    "allNonBillingRemoteJoiningDecisionsAuthorized": true,
+    "billingActivationForbidden": true,
+    "firebasePlanMustRemain": "Spark",
+    "cloudBillingAccountMayBeLinked": false,
+    "blazeMayBeEnabled": false,
+    "cloudRunAllowed": false,
+    "rootAuthority": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
+    "architectureDecision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md"
   },
   "runtime": {
     "applicationVersion": "1.8.1",
@@ -88,7 +117,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #173 implements and emulator-proves the separate dormant Stage 5A private-session client plus isolated candidate Rules bound to a provider-verifiable device_id claim. Fixed RJR-1 remains 87/100; production does not issue that claim, and production firestore.spark.rules plus runtime v1.8.1-r5 remain unchanged. The next fresh-WEC slice is the smallest safe provider current-device credential issuance/refresh/revocation boundary before any production session Rules, runtime or host/join UX activation.",
+  "currentLane": "Finish PR #174's valid Codex P2 correction and gated publication at fixed RJR87, then transition. The correction binds candidate device_id, device_credential_version and device_key_sha256 claims to exact active credential authority. The owner permanently forbids billing and authorizes every other Remote Joining decision; Cloud Run/Blaze are excluded and the successor production path is standard Google Auth plus exact-path Firestore Rules on Spark.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -98,37 +127,37 @@
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication process, WEC, SLE or documentation count."
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-08-29-provider-abuse-production-acceptance",
+    "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
     "decision": "HANDOFF_AT_CHECKPOINT",
     "handoffCompleteness": 100,
     "closure": "WORK_ENVIRONMENT_HISTORY.md"
   },
   "currentWec": {
-    "environmentId": "we-2026-08-30-stage5a-private-session-protocol",
-    "startingMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
-    "initialDecision": "CONTINUE",
-    "finalDecision": "HANDOFF_AT_CHECKPOINT",
+    "environmentId": "we-2026-08-31-stage5b-device-credential-foundation",
+    "startingMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
+    "initialDecision": "HANDOFF_AT_CHECKPOINT",
+    "finalDecision": "HANDOFF_NOW",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "closingCheckpoint": "PR173 separate Stage 5A private-session client and isolated candidate Rules are emulator-proven with provider device_id enforcement at fixed RJR87; production does not issue that claim and production Rules, runtime loading and host/join UX remain unchanged for a fresh successor"
+    "closingCheckpoint": "PR174 Stage 5B candidate is corrected for exact Rules key/version binding at fixed RJR87; zero-billing authority is recorded; production Rules/runtime/UX remain unchanged; successor finishes publication before the Spark-native standard-Auth slice"
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
-    "status": "current-rjr87-stage5a-candidate-proven-provider-device-credential-transition"
+    "canonical": "SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
+    "status": "current-rjr87-stage5b-corrected-zero-billing-authorized"
   },
   "starter": {
-    "version": "1.4.31",
-    "checkpoint": "PR173-RJR87-STAGE5A-CANDIDATE-PROVEN",
-    "canonical": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
+    "version": "1.4.33",
+    "checkpoint": "PR174-RJR87-STAGE5B-CORRECTED-ZERO-BILLING-AUTHORIZED",
+    "canonical": "START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PR #173 completes the authorized Stage 5A candidate protocol/client and real emulator boundary with provider-verifiable device_id enforcement but no production credential issuer, Rules publication or runtime activation, then routes a fresh successor to the separate provider current-device credential boundary."
+    "versionReason": "PR #174's valid Rules key/version P2 is corrected, the owner permanently forbids billing while authorizing every other decision, and the successor is routed through PR publication to the Spark-native standard-Google-Auth session adapter."
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
@@ -136,9 +165,12 @@
     "providerProof": "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md",
     "providerAbuseProof": "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
     "stage5ACandidateProof": "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
+    "stage5BCandidateProof": "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
+    "zeroBillingAuthority": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
+    "zeroBillingArchitectureDecision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
     "productionRollbackProof": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "status": "rjr87-stage5a-candidate-proven-provider-device-credential-transition-package"
+    "status": "rjr87-stage5b-corrected-zero-billing-authorized-package"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -164,8 +196,11 @@
     "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md",
     "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
     "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
-    "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
-    "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md",
+    "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
+    "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
+    "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
+    "START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+    "SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md",
     "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
     "00_SLE_HANDOFF_PROTOCOL.md"
   ],
@@ -178,9 +213,9 @@
     "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
     "appCheck": "production-proven-enforcement-off",
     "firestorePersistence": "memory-only",
-    "trustedRuntimeIam": "reviewed-not-broadened-not-activated",
+    "trustedRuntimeIam": "production-unactivated-nonbilling-changes-owner-authorized",
     "zeroBilling": true,
-    "productionProviderDeviceCredential": "not-issued-not-proven-do-not-publish-session-rules",
+    "productionProviderDeviceCredential": "candidate-corrected-preserved-not-production-critical-path",
     "publicDiscovery": false,
     "publicCommunity": false,
     "publicMatchmaking": false,
@@ -188,14 +223,14 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "stage5b-provider-verifiable-device-credential-boundary",
-    "mustStartAsRealProductWork": true,
+    "name": "pr174-corrected-publication-then-stage5c-zero-billing-standard-auth-session-adapter",
+    "mustStartAsRealProductWork": false,
     "mustNotInsertGenericPrerequisiteLane": true,
-    "summary": "Fresh successor independently verifies PR #173 candidate/emulator publication and fixed RJR87, initializes and assesses a fresh WEC, then if permitted establishes the smallest safe provider issuance, refresh and revocation path for the device_id claim without trusting browser-supplied identity. Preserve Spark/zero billing and current IAM locks; if those make a safe issuer impossible, freeze the blocker for owner direction. Production session Rules, runtime loading and host/join UX remain later work."
+    "summary": "Fresh successor independently verifies and finishes PR #174's corrected publication at fixed RJR87 if still open, initializes and assesses a fresh WEC, then starts only the Spark-native standard-Google-Auth session adapter when permitted. Billing, Blaze and Cloud Run are permanently forbidden; every nonbilling decision is authorized. Production Rules publication, runtime host/join UX and RJR movement remain later gates."
   },
   "transition": {
     "contextTransitionRequired": true,
-    "continuationDecision": "HANDOFF_AT_CHECKPOINT",
+    "continuationDecision": "HANDOFF_NOW",
     "handoffCompleteness": 100,
     "atomicOperation": false,
     "unrecordedDecisions": 0,

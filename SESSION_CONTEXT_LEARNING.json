@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-08-31T06:25:00Z",
-  "materialSessionsObserved": 12,
-  "learningState": "cold-start-priors-with-twelve-labeled-sessions",
+  "recordedAt": "2026-08-31T23:35:13Z",
+  "materialSessionsObserved": 13,
+  "learningState": "cold-start-priors-with-thirteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -72,6 +72,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "The exact GitHub Actions emulator job first exposed authority-read ordering and fixture-snapshot mismatches, then provider logs exposed expression-budget exhaustion on forged late-failing updates. Automated review subsequently found that entitled direct reads still lacked provider-verifiable current-device identity. The corrected client and candidate Rules now require an active device_id token claim, bind writes to it and prove missing, unknown, revoked and mismatched credentials fail closed."
+    },
+    "stage5b-device-credential-foundation-proof": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "Contract, Chromium and Auth-plus-Firestore emulator proof forced the credential boundary from a user-wide mutable custom-claim concept to non-extractable P-256 proof of possession with per-sign-in device_id/device_key_sha256 claims. Codex review then caught that candidate Rules had not bound the key/version; direct Rules fixtures now close that gap. The owner's later permanent no-billing decision preserves Stage 5B as dormant research while selecting standard Google Auth plus exact-path Firestore Rules on Spark as the production critical path."
     }
   },
   "sessionMetrics": [
@@ -138,6 +147,22 @@
       "ciTriageLesson": "Fetch exact failed jobs and provider logs before changing source, and treat automated security review as independent evidence. Green emulator execution did not prove the caller device on direct reads; the valid P1 required a provider-verifiable token claim and a new denial matrix.",
       "productionEvidenceLesson": "A dormant client and real emulator-proven candidate Rules boundary earns delta-zero RJR. Production capability cannot begin while production lacks the provider device credential required by the candidate, and later requires provider-live minimum Rules plus a playable host/join path.",
       "authorityLesson": "Do not route a candidate directly to production Rules after review reveals an unissued credential prerequisite. First prove the smallest provider issuance/refresh/revocation boundary; preserve zero-billing and IAM locks, freeze a blocker for owner direction if necessary, and never weaken Rules to browser-supplied device identity."
+    },
+    {
+      "sessionId": "we-2026-08-31-stage5b-device-credential-foundation",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "pr174-corrected-publication-then-stage5c-zero-billing-standard-auth-session-adapter",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The PR #173 Stage 5A handoff, official Firebase custom-token semantics and recovered outage ZIP were needed to distinguish a safe per-sign-in proof-of-possession credential from an unsafe user-wide custom-claim overwrite model and to identify the exact production infrastructure gate.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "Local Java 17 could not execute the exact Firebase CLI 15 lane requiring Java 21, so the candidate used the newest locally compatible emulator plus an exact Java 21 CI lane. Stateful deploy/stability/rollback workflows were explicitly excluded from the legacy source-contract runner rather than invoked as tests.",
+      "ciTriageLesson": "Make environment deferrals exact and machine-enforced, and treat review as a separate gate. The exact Java 21 CI lane must prove direct wrong-key and wrong-version Firestore denials after the valid P2 correction.",
+      "productionEvidenceLesson": "A key-bound credential candidate and a zero-billing architecture decision both earn zero RJR. Provider-live session Rules, playable host/join and real network evidence remain required.",
+      "authorityLesson": "Later owner direction can change the critical path without deleting valid research. Billing, Blaze and Cloud Run are now permanently forbidden; every nonbilling choice is authorized, so the successor must not keep asking for the superseded owner decision and must advance the Spark-native standard-Auth path."
     }
   ],
   "outcomeScale": {
@@ -155,12 +180,12 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "PR #173 proves the separate Stage 5A private-session client and isolated minimum candidate Rules through the real emulator while fixed RJR remains 87. Exact-head provider logs and automated review drove three bounded corrections before seal. Reads and writes now require the active provider-verifiable device_id claim, but production does not issue it. Production firestore.spark.rules, runtime and UX remain unchanged; the next fresh-WEC slice is the separate provider current-device credential issuance/refresh/revocation boundary.",
-    "prePublicationMainSha": "4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de",
+    "lesson": "PR #174 preserves corrected dormant Stage 5B research at fixed RJR87: Codex caught that candidate Rules needed exact device key/version binding, and direct emulator fixtures now own that proof. The owner permanently forbids billing while authorizing every other Remote Joining decision. Cloud Run/Blaze are excluded; after PR #174 publication the production critical path is standard Google Auth plus exact-path Firestore Rules on Spark. Production firestore.spark.rules, runtime and UX remain unchanged.",
+    "prePublicationMainSha": "c005f69c8952fbce8a4b842e69641e5467c36f9a",
     "runtimeRevision": "1.8.1-r5",
     "rjrScore": 87,
-    "closeoutPullRequest": 173,
-    "starter": "START_NEXT_SESSION_V1.4.31_PR173_STAGE5A_CANDIDATE_PROVEN.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR173_STAGE5A_CANDIDATE_PROVEN_SLE_2026-08-31.md"
+    "closeoutPullRequest": 174,
+    "starter": "START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md"
   }
 }

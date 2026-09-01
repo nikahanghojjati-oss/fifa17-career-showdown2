@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Install pinned Firebase emulator test dependencies
-        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
 
       - name: Run deterministic Stage 3 client contracts
         run: node tests/contracts/stage3-private-pairing-contracts.cjs
@@ -44,6 +44,7 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           node tests/browser/stage3-private-pairing-audit.cjs
+          node tests/browser/stage5b-device-credential-audit.cjs
 
       - name: Prove explicit Stage 4 remote-to-local reconciliation in browser
         shell: bash
@@ -78,8 +79,8 @@ jobs:
       - name: Run Stage 4 Connected Rivalry Firestore Rules emulator proof
         run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage4 "node tests/firebase/stage4-connected-rivalry-emulator.cjs && node tests/firebase/stage4-idempotency-replay-emulator.cjs && node tests/firebase/stage4-abuse-hardening-emulator.cjs && node tests/firebase/stage4-mutation-rate-limit-emulator.cjs"
 
-      - name: Run deterministic Stage 5A private-session contracts
-        run: node tests/contracts/stage5a-private-session-contracts.cjs
+      - name: Run deterministic Stage 5 candidate contracts
+        run: node tests/contracts/stage5a-private-session-contracts.cjs && node tests/contracts/stage5b-device-credential-contracts.cjs
 
-      - name: Run Stage 5A candidate Firestore Rules emulator proof
-        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage5a "node tests/firebase/stage5a-private-session-emulator.cjs"
+      - name: Run Stage 5A and Stage 5B Firebase emulator proofs
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-career-mode-showdown-stage5a "node tests/firebase/stage5a-private-session-emulator.cjs" && npx --yes firebase-tools@15.28.1 emulators:exec --only auth,firestore --project demo-career-mode-showdown-stage5b "node tests/firebase/stage5b-device-credential-emulator.cjs"

@@ -55,6 +55,44 @@ function identity(seed){
   };
 }
 
+function credentialFingerprint(identityValue){
+  return hash(identityValue.deviceId.slice("device_".length,"device_".length+1));
+}
+
+function credentialClaims(identityValue){
+  return {
+    device_id:identityValue.deviceId,
+    device_credential_version:1,
+    device_key_sha256:credentialFingerprint(identityValue)
+  };
+}
+
+function credentialEnvelope(accountId,identityValue,now){
+  return {
+    schemaVersion:1,
+    objectType:"deviceCredential",
+    objectId:identityValue.deviceId,
+    revision:0,
+    parentRevision:null,
+    lifecycleState:"live",
+    contentHash:credentialFingerprint(identityValue),
+    priorContentHash:null,
+    updatedAt:now,
+    updatedByAccountId:accountId,
+    updatedByDeviceId:identityValue.deviceId,
+    data:{
+      deviceId:identityValue.deviceId,
+      state:"active",
+      credentialVersion:1,
+      publicKeyFingerprint:credentialFingerprint(identityValue),
+      enrolledAt:now,
+      lastIssuedAt:now,
+      revokedAt:null
+    },
+    tombstone:null
+  };
+}
+
 function binding(role,seed,label){
   return {
     saveId:`save_${seed.repeat(24).slice(0,24)}`,
@@ -68,7 +106,7 @@ function sessionOptions({db,accountId,identityValue,rivalryId,sessionId,nowEpoch
   const options={
     user:{
       uid:accountId,
-      async getIdTokenResult(){return {claims:{device_id:identityValue.deviceId}};}
+      async getIdTokenResult(){return {claims:credentialClaims(identityValue)};}
     },
     firestore:db,
     firebaseSdk:sdk(),
@@ -111,11 +149,11 @@ async function snapshotData(reference){
     const cIdentity=identity("c");
     const bSecondIdentity=identity("e");
     const neverRegisteredIdentity=identity("f");
-    const dbA=testEnv.authenticatedContext(ACCOUNT_A,{device_id:aIdentity.deviceId}).firestore();
-    const dbB=testEnv.authenticatedContext(ACCOUNT_B,{device_id:bIdentity.deviceId}).firestore();
-    const dbC=testEnv.authenticatedContext(ACCOUNT_C,{device_id:cIdentity.deviceId}).firestore();
+    const dbA=testEnv.authenticatedContext(ACCOUNT_A,credentialClaims(aIdentity)).firestore();
+    const dbB=testEnv.authenticatedContext(ACCOUNT_B,credentialClaims(bIdentity)).firestore();
+    const dbC=testEnv.authenticatedContext(ACCOUNT_C,credentialClaims(cIdentity)).firestore();
     const dbANoDeviceCredential=testEnv.authenticatedContext(ACCOUNT_A).firestore();
-    const dbANeverRegistered=testEnv.authenticatedContext(ACCOUNT_A,{device_id:neverRegisteredIdentity.deviceId}).firestore();
+    const dbANeverRegistered=testEnv.authenticatedContext(ACCOUNT_A,credentialClaims(neverRegisteredIdentity)).firestore();
     const dbAnon=testEnv.unauthenticatedContext().firestore();
     const initialNow=Date.now();
 
@@ -143,6 +181,21 @@ async function snapshotData(reference){
       cryptoImpl:crypto.webcrypto,nowEpochMs:initialNow
     });
     assert.equal(registeredBSecond.ok,true,JSON.stringify(registeredBSecond));
+
+    await testEnv.withSecurityRulesDisabled(async context=>{
+      const db=context.firestore();
+      const time=Timestamp.fromMillis(initialNow);
+      for(const [accountId,identityValue] of [
+        [ACCOUNT_A,aIdentity],
+        [ACCOUNT_B,bIdentity],
+        [ACCOUNT_C,cIdentity]
+      ]){
+        await setDoc(
+          doc(db,"accounts",accountId,"deviceCredentials",identityValue.deviceId),
+          credentialEnvelope(accountId,identityValue,time)
+        );
+      }
+    });
 
     const rivalryId=`pair_${"d".repeat(64)}`;
     const createdPairing=await pairing.createPairing({
