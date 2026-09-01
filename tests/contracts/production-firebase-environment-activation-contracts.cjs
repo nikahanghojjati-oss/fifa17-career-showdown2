@@ -8,6 +8,7 @@ const firebaseRc = JSON.parse(read(".firebaserc"));
 const firebaseJson = JSON.parse(read("firebase.json"));
 const historicalRulesSource = read("firestore.rules");
 const strengthenedRulesSource = read("firestore.spark.rules");
+const stage5cRulesSource = read("firestore.stage5c.rules");
 const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");
 const preflight = require("../../js/firebaseProductionPreflight.js");
 
@@ -71,22 +72,24 @@ assert.equal(manifest.activation.localhostAuthorizedDomainPresent,false,"Localho
 assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,/2026-08-19[\s\S]+20:20 ET[\s\S]+nikahanghojjati-oss\.github\.io[\s\S]+localhost removed[\s\S]+no localhost row/i);
 
 assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified.");
-assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.spark.rules","Current provider authority must name the strengthened production Rules source.");
-assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Current provider authority must retain the exact reviewed strengthened Rules blob.");
+assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.spark.rules","Current provider authority must name the strengthened production Rules source path.");
+assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Until Stage 5D provider publication is independently proven, durable provider authority must retain the last verified deployed Rules blob.");
 assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-29[\s\S]+Today 7:48 AM[\s\S]+activeDevice[\s\S]+activePairedRivalry[\s\S]+final allow read, write: if false/i);
 assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED/i,"Dedicated provider proof must preserve deployed provider status.");
 assert.match(providerProof,/Today · 7:48 AM/i,"Dedicated provider proof must preserve the exact provider-published version timestamp.");
-assert.match(providerProof,/2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,"Dedicated provider proof must preserve the exact reviewed source blob regardless of document field order.");
+assert.match(providerProof,/2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,"Dedicated provider proof must preserve the last independently verified provider blob regardless of later reviewed source promotion.");
 const strengthenedGitBlobSha = crypto
   .createHash("sha1")
   .update(`blob ${Buffer.byteLength(strengthenedRulesSource,"utf8")}\0`)
   .update(strengthenedRulesSource)
   .digest("hex");
-assert.equal(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"The strengthened repository Rules source must remain byte-identical to the source blob recorded as provider-verified deployed.");
+assert.equal(strengthenedRulesSource,stage5cRulesSource,"Stage 5D repository production source must reuse the exact already-emulator-proven Stage 5C Rules bytes.");
+assert.equal(strengthenedGitBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08","The reviewed Stage 5D repository source must preserve exact Stage 5C blob lineage before provider publication.");
+assert.notEqual(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"Before independently verified Stage 5D provider publication, repository source and durable deployed-provider authority must remain intentionally distinct rather than fabricating activation.");
 assert.match(strengthenedRulesSource,/rules_version\s*=\s*'2';/);
-assert.match(strengthenedRulesSource,/function activeDevice\(deviceId\)/,"Strengthened provider Rules must retain registered-device authorization.");
-assert.match(strengthenedRulesSource,/function activePairedRivalry\(rivalryId\)/,"Strengthened provider Rules must retain exact private pairing/rivalry authorization.");
-assert.match(strengthenedRulesSource,/allow list, delete: if false;/,"Strengthened provider Rules must deny rivalry collection enumeration and direct delete.");
+assert.match(strengthenedRulesSource,/function activeDevice\(deviceId\)/,"Strengthened reviewed Rules must retain registered-device authorization.");
+assert.match(strengthenedRulesSource,/function activePairedRivalry\(rivalryId\)/,"Strengthened reviewed Rules must retain exact private pairing/rivalry authorization.");
+assert.match(strengthenedRulesSource,/allow list, delete: if false;/,"Strengthened reviewed Rules must deny rivalry and session collection enumeration/direct delete where applicable.");
 assert.match(strengthenedRulesSource,/match \/\{document=\*\*\}[\s\S]*allow read, write: if false;/,"The strengthened final deny-all fallback must remain present.");
 
 assert.match(historicalRulesSource,/rules_version\s*=\s*'2';/);
@@ -118,7 +121,7 @@ assert.equal(manifest.activation.trustedRuntimeIam,"not-activated-yet","App Chec
 assert.equal(manifest.activation.runtimeConnected,true,"Controlled production Firebase App + App Check runtime connection is now permanently proven.");
 
 assert.equal(manifest.securityLocks.persistentFirestoreOfflineCache,false);
-assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all","Historical Stage 2 activation metadata must remain immutable even though the separately reviewed strengthened Rules now grant narrow Stage 3/4 writes.");
+assert.equal(manifest.securityLocks.applicationClientFirestoreWrites,"deny-all","Historical Stage 2 activation metadata must remain immutable even though separately reviewed strengthened Rules grant narrow later-stage writes.");
 assert.equal(manifest.securityLocks.trustedMutationGatewayAuthorizedFromBrowser,false);
 assert.equal(manifest.securityLocks.webApiKeyClassification,"public-project-configuration");
 assert.equal(manifest.securityLocks.webApiKeyIsAuthorizationSecret,false);
@@ -169,4 +172,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase authority: strengthened firestore.spark.rules is provider-verified from the exact reviewed blob; historical root/demo deny-all activation remains isolated; App Check enforcement stays off; trusted IAM stays unactivated; credentials/public features remain locked.\n");
+process.stdout.write("PASS production Firebase authority: Stage 5D reviewed firestore.spark.rules intentionally advances beyond the last provider-verified blob without fabricating deployment; historical root/demo isolation, App Check OFF, zero-billing-compatible authority and provider provenance remain protected.\n");
