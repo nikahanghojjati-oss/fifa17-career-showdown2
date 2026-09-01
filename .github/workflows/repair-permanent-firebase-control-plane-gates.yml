@@ -1,0 +1,98 @@
+name: Repair Permanent Firebase Control Plane Gates
+
+on:
+  push:
+    branches:
+      - infra/permanent-zero-billing-firebase-control-plane-2026-09-01
+    paths:
+      - .github/workflows/repair-permanent-firebase-control-plane-gates.yml
+
+permissions:
+  contents: write
+
+jobs:
+  repair-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out infrastructure branch
+        uses: actions/checkout@v7
+        with:
+          ref: infra/permanent-zero-billing-firebase-control-plane-2026-09-01
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Patch permanent suite and current handoff inheritance
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const runnerPath = 'tests/support/run-contract-suite.cjs';
+          let runner = fs.readFileSync(runnerPath, 'utf8');
+          const contractLine = '  "tests/contracts/firebase-permanent-control-plane-contracts.cjs",';
+          if (!runner.includes(contractLine)) {
+            const anchor = '  "tests/contracts/stage5d-production-session-rules-contracts.cjs",';
+            if (!runner.includes(anchor)) throw new Error('Stage 5D runner anchor missing.');
+            runner = runner.replace(anchor, `${anchor}\n${contractLine}`);
+            fs.writeFileSync(runnerPath, runner);
+          }
+
+          const handoffPath = '00_CURRENT_HANDOFF.md';
+          let handoff = fs.readFileSync(handoffPath, 'utf8');
+          const addendum = 'HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md';
+          if (!handoff.includes(addendum)) {
+            const prefix = `# CURRENT HANDOFF ADDENDUM — PERMANENT ZERO-BILLING FIREBASE CONTROL PLANE\n\nEvery future environment performing Firebase provider work must also read \`00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md\` and \`${addendum}\`.\n\nPermanent provider workflow: \`.github/workflows/deploy-firestore-rules-zero-billing.yml\`. Permanent GitHub-only secret name: \`FIREBASE_RULES_SERVICE_ACCOUNT_JSON\`. Future environments must never request, retrieve, print, paste, or commit that credential. Firebase remains Spark and billing remains permanently forbidden. Provider publication is proven only after the workflow independently reads the active Firebase Rules source back and verifies exact identity.\n\n---\n\n`;
+            fs.writeFileSync(handoffPath, prefix + handoff);
+          }
+
+          const contractPath = 'tests/contracts/firebase-permanent-control-plane-contracts.cjs';
+          let contract = fs.readFileSync(contractPath, 'utf8');
+          if (!contract.includes('const currentHandoff = read("00_CURRENT_HANDOFF.md");')) {
+            contract = contract.replace(
+              'for(const path of [guidePath, addendumPath, workflowPath, ".gitignore"]){',
+              'for(const path of [guidePath, addendumPath, workflowPath, "00_CURRENT_HANDOFF.md", ".gitignore"]){'
+            );
+            contract = contract.replace(
+              'const gitignore = read(".gitignore");',
+              'const currentHandoff = read("00_CURRENT_HANDOFF.md");\nconst gitignore = read(".gitignore");'
+            );
+            const anchor = 'includesAll(workflow, [';
+            const inheritance = `includesAll(currentHandoff, [\n  guidePath,\n  addendumPath,\n  workflowPath,\n  "FIREBASE_RULES_SERVICE_ACCOUNT_JSON",\n  "Firebase remains Spark",\n  "billing remains permanently forbidden"\n], "Current handoff Firebase control-plane inheritance");\n\n`;
+            if (!contract.includes(anchor)) throw new Error('Permanent control-plane contract anchor missing.');
+            contract = contract.replace(anchor, inheritance + anchor);
+            fs.writeFileSync(contractPath, contract);
+          }
+          NODE
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Validate permanent Firebase control-plane contract
+        run: node tests/contracts/firebase-permanent-control-plane-contracts.cjs
+
+      - name: Validate complete repository contract suite
+        run: node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs
+
+      - name: Validate diff hygiene
+        run: git diff --check
+
+      - name: Self-remove helper and commit validated wiring
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/repair-permanent-firebase-control-plane-gates.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No validated repair changes to commit."
+            exit 0
+          fi
+          git commit -m "Wire permanent Firebase control-plane gates"
+          git push origin HEAD:infra/permanent-zero-billing-firebase-control-plane-2026-09-01
