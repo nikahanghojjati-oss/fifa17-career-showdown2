@@ -45,8 +45,8 @@ assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fi
 assert.equal(readiness.currentScore,87,"The fixed RJR authority must preserve the exact production provider-abuse RJR87 checkpoint.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
 
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #175 STAGE 5C CANDIDATE PUBLICATION[\s\S]+TRANSITION/i,"NEXT_TASK must expose current PR #175 Stage 5C publication and transition authority before history.");
-assert.match(next,new RegExp(`(?=[\\s\\S]*PR #175 first published implementation proof head\\/tree)(?=[\\s\\S]*DEPLOYED \\/ PRODUCTION-PROVEN runtime remains [^\\n]+v${escapeRegex(applicationVersion)} \\/ ${escapeRegex(productionRuntime)})`,"i"),"NEXT_TASK must identify the current production runtime and PR #175 implementation checkpoint.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #176 STAGE 5D RULES SOURCE MERGED[\s\S]+PROVIDER PUBLICATION PENDING/i,"NEXT_TASK must expose current PR #176 Stage 5D provider-pending authority before history.");
+assert.match(next,/PR #176[\s\S]+4c1e9be8e0af26e277ed9fd1ae0545ec065173ff[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN[\s\S]+1\.8\.1-r5/i,"NEXT_TASK must identify current runtime and PR #176 exact source checkpoint.");
 assert.match(next,/Production rollback proof:[\s\S]+33190961085[\s\S]+SUCCESS \/ CONSUMED/i,"NEXT_TASK must retain the exact consumed production rollback proof run.");
 assert.match(next,/PR #171 publication closure[\s\S]+1d945ba47c89c305575ef72cc26672fc3e0743ff[\s\S]+d5c8549924244ee177065559043e0697d0c810c3[\s\S]+33264211554/i,"NEXT_TASK must preserve exact PR #171 publication closure.");
 assert.match(next,/PASS \/ PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED[\s\S]+limit\(1\)[\s\S]+permission-denied[\s\S]+firestoreWritesRequested[\s\S]+localStorageUnchanged/i,"NEXT_TASK must record the qualifying production provider-abuse result.");
@@ -63,14 +63,14 @@ assert.match(next,/Candidate A remains non-mutating[\s\S]+Candidate B remains re
 assert.match(next,/Spark \/ zero billing[\s\S]+memory-only[\s\S]+popup-only `browserSessionPersistence`[\s\S]+App Check enforcement(?: remains)? OFF[\s\S]+trusted-runtime IAM remains unactivated\/unbroadened/i,"NEXT_TASK must preserve provider, persistence, Auth, App Check and IAM locks.");
 assert.match(next,/No public discovery\/community\/matchmaking\/global rankings/i,"NEXT_TASK must preserve the private scope prohibition.");
 assert.match(next,/Standing owner merge\/deploy authorization remains active after all mandatory tests[\s\S]+gates pass/i,"NEXT_TASK must preserve standing publication authorization with gate conditions.");
-assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+Finish only PR #175[\s\S]+all 14 workflow families[\s\S]+final-head Codex review[\s\S]+expected-head squash merge[\s\S]+all 15 post-merge\/Pages runs/i,"NEXT_TASK must route the closing environment through exact-head PR #175 publication only.");
-assert.match(next,/fresh unique WEC[\s\S]+minimum production session Rules[\s\S]+Runtime host\/join UX remains separate/i,"NEXT_TASK must give the successor the distinct minimum production Rules gate without collapsing the runtime gate.");
+assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+PR #176[\s\S]+15 post-merge\/Pages[\s\S]+provider[\s\S]+fresh unique WEC/i,"NEXT_TASK must route the fresh successor from completed PR #176 to provider-live Rules only.");
+assert.match(next,/fresh unique WEC[\s\S]+provider[\s\S]+Rules[\s\S]+Runtime host\/join UX/i,"NEXT_TASK must keep provider Rules publication separate from runtime host/join UX.");
 assert.match(next,/Do not repeat consumed[\s\S]+production rollback\/restoration[\s\S]+provider Rules publication[\s\S]+provider-abuse acceptance/i,"NEXT_TASK must mark consumed proof as non-repeatable merely for confidence.");
 
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"SESSION_BOOTSTRAP must preserve latest runtime/rollback provenance at PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with deployed production runtime.");
 assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"SESSION_BOOTSTRAP must retain the exact rollback run id.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,175,"SESSION_BOOTSTRAP must identify PR #175 as the current Stage 5C candidate/SLE publication checkpoint.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"SESSION_BOOTSTRAP must identify PR #176 as the current Stage 5D source/provider-pending checkpoint.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence,readiness.currentScore,"SESSION_BOOTSTRAP publication checkpoint must preserve exact conservative RJR accounting.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionRollbackProven,true,"SESSION_BOOTSTRAP must retain successful rollback proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionRestorationProven,true,"SESSION_BOOTSTRAP must retain successful exact r5 restoration proof.");
@@ -117,16 +117,16 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.productionSessionRulesChang
 assert.equal(bootstrap.runtime?.candidateRuntimeRevision,undefined,"A sealed production transition must not retain a phantom candidate runtime.");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.8.1-r5","Production must remain on r5.");
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
-assert.equal(bootstrap.starter?.version,"1.4.34","The Stage 5C/RJR87 transition must publish starter v1.4.34.");
+assert.equal(bootstrap.starter?.version,"1.4.35","The Stage 5D provider-pending/RJR87 transition must publish starter v1.4.35.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
-assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,false,"The successor must finish PR #175 publication before a fresh WEC starts the separate Rules slice.");
-assert.equal(bootstrap.immediateNextTask?.name,"pr175-stage5c-publication-then-minimum-production-session-rules","The successor bootstrap must route through PR #175 publication to the selected free Rules slice.");
-assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #175[\s\S]+RJR87[\s\S]+minimum production session Rules[\s\S]+Billing, Blaze, Cloud Run[\s\S]+Runtime host\/join UX[\s\S]+later gates/i,"The successor capsule must preserve PR #175 verification, permanent no-billing authority and later Rules/runtime/UX boundaries.");
+assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,true,"The fresh successor owns the real provider-live Rules milestone after independently verifying the completed PR #176 boundary.");
+assert.equal(bootstrap.immediateNextTask?.name,"provider-live-stage5d-rules-publication-then-runtime-host-join","The successor bootstrap must route to authenticated provider-live Rules before runtime host/join.");
+assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #176[\s\S]+RJR87[\s\S]+provider-proven[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Runtime host\/join UX[\s\S]+later gates/i,"The successor capsule must preserve PR #176 verification, permanent no-billing authority and provider/runtime boundaries.");
 assert.equal(bootstrap.transition?.contextTransitionRequired,true,"Transition-only bootstrap must require a context transition.");
 assert.equal(bootstrap.transition?.handoffCompleteness,100,"Transition-only bootstrap must expose complete handoff packaging.");
 assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_AT_CHECKPOINT","Sealed transition bootstrap must retain current environment HANDOFF_AT_CHECKPOINT without imposing it on the successor.");
-assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #175)(?=[\s\S]*fixed RJR87)(?=[\s\S]*standard-Auth candidate)(?=[\s\S]*registered-device mutation metadata)(?=[\s\S]*Billing)(?=[\s\S]*Cloud Run)(?=[\s\S]*minimum production session Rules)/i,"Bootstrap current lane must preserve the PR #175/RJR87 boundary and selected zero-billing successor path.");
+assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #176)(?=[\s\S]*Stage 5D)(?=[\s\S]*fixed RJR87)(?=[\s\S]*363af783d7e5436fdfaa3766d4aa413fc9952a08)(?=[\s\S]*2b7c0b166ae0aae7ab7a3ce84725b21091262484)(?=[\s\S]*zero-billing provider publication)(?=[\s\S]*runtime host\/join UX)/i,"Bootstrap current lane must preserve the PR #176 Stage 5D repository/provider split and next zero-billing provider gate.");
 assert.match(zeroBillingAuth,/every engineering[\s\S]+billing must never be activated[\s\S]+Cloud Run is therefore excluded/i,"Owner authority must authorize every nonbilling decision and permanently exclude billed infrastructure.");
 assert.match(zeroBillingDecision,/(?=[\s\S]*stage5c-zero-billing-standard-auth-session-adapter)(?=[\s\S]*request\.auth\.uid)(?=[\s\S]*standard Google-token account identity)/i,"Architecture decision must name the exact free successor slice and standard provider identity.");
 

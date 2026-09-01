@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-01T13:34:36Z",
+  "recordedAt": "2026-09-01T17:23:54.985Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -193,43 +193,43 @@
     {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr175-rjr87-stage5c-standard-auth-candidate-sle-transition",
-      "environmentId": "we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter",
-      "startingMainSha": "48ceef1e8c9986fdfe346de1a7151a31f314044b",
-      "transitionPullRequest": 175,
+      "state": "pr176-rjr87-stage5d-provider-pending-sle-transition",
+      "environmentId": "we-2026-09-01-stage5d-minimum-production-session-rules",
+      "startingMainSha": "e0445ebf214b9385667187e0e580bba497d8f039",
+      "transitionPullRequest": 176,
       "initialDecision": "CONTINUE",
       "finalDecision": "HANDOFF_AT_CHECKPOINT",
       "handoffProximity": 100,
       "rjrScore": 87,
-      "starter": "START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md",
+      "starter": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-after-pr175-stage5c-candidate-transition",
-      "rule": "successor independently verifies and finishes PR #175 candidate publication if open, validates/archives predecessor WEC, initializes a fresh unique WEC with reset counters, then begins only the distinct minimum production session Rules gate when permitted; runtime host/join UX remains separate; billing, Blaze, Cloud Run and every billing-required service remain forbidden and every nonbilling decision is already authorized after required gates",
+      "state": "fresh-wec-required-for-provider-live-stage5d-rules",
+      "rule": "successor independently verifies PR #176/main/post-merge and provider truth, validates/archives we-2026-09-01-stage5d-minimum-production-session-rules, initializes a fresh unique WEC with reset counters, then publishes only exact reviewed Rules 363af783d7e5436fdfaa3766d4aa413fc9952a08 through an authenticated Spark-compatible route; provider proof precedes separate runtime host/join UX; billing remains forbidden",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "stage5c-standard-auth-candidate-proven-production-rules-next",
+      "state": "stage5d-source-merged-provider-publication-pending",
       "knownRemainingGaps": [
-        "state-dependent third-account/revoked-device production negatives only if legitimate state and current authority require them",
-        "finish PR #175 candidate publication if still open",
-        "provider-live minimum production session Rules",
+        "authenticated Firebase provider publication of exact reviewed Stage 5D Rules",
+        "provider source identity proof",
         "actual Stage 5 host/join/session runtime and UX orchestration",
+        "provider-live two-account host/join acceptance",
         "two-network Remote Joining acceptance",
         "Remote Joining-specific token/reconnect/adverse-network hardening",
         "final stable Remote Joining release acceptance"
       ],
-      "sessionRulesCurrentState": "entitled get allowed; list/create/update/delete denied",
+      "sessionRulesCurrentState": "repository source 363af783d7e5436fdfaa3766d4aa413fc9952a08; provider-proven source 2b7c0b166ae0aae7ab7a3ce84725b21091262484",
       "candidateState": "PR #175 proves the standard-Firebase-uid Stage 5C client, isolated candidate Rules and Auth-plus-Firestore emulator boundary with delta-zero RJR; Stage 5B key-bound research remains preserved but its billed trusted issuer is not the production critical path",
-      "nextSlice": "after PR #175 publication and a fresh WEC, review and publish only the minimum production session Rules derived from firestore.stage5c.rules; keep runtime UX and provider-live acceptance separate",
+      "nextSlice": "authenticated zero-billing provider publication first; runtime host/join UX only after provider proof",
       "authority": 1
     },
     {
@@ -268,26 +268,112 @@
       "productionProviderRulesSource": "firestore.spark.rules",
       "authority": 1,
       "riskCriticality": 1
+    },
+    {
+      "id": "stage5d-production-rules-source-merge",
+      "type": "completed-source-publication-capability",
+      "state": "pr176-reviewed-production-rules-source-merged-provider-pending-rjr-delta-zero",
+      "pullRequest": 176,
+      "startingMainSha": "e0445ebf214b9385667187e0e580bba497d8f039",
+      "exactFinalHead": "4c1e9be8e0af26e277ed9fd1ae0545ec065173ff",
+      "mergeSha": "a4489fe7d812144deb3f747019eb162628480dac",
+      "mergeTree": "e7083c2cda0e737f9d1c5654ca663df6ddf3408a",
+      "rulesSource": "firestore.spark.rules",
+      "repositoryRulesBlobSha": "363af783d7e5436fdfaa3766d4aa413fc9952a08",
+      "lastProviderProvenRulesBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
+      "providerPublicationProven": false,
+      "postMergeRunsSuccessful": 15,
+      "runtimeChanged": false,
+      "rjrScoreAfterProof": 87,
+      "rjrDelta": 0,
+      "authority": 1,
+      "riskCriticality": 1
     }
   ],
   "edges": [
-    {"from": "production-pages-rollback-proof", "to": "rjr1-ledger", "relation": "historical-bounded-production-rollback-capability-rjr85"},
-    {"from": "production-strengthened-rules-provider-proof", "to": "rjr1-ledger", "relation": "adds-one-provider-security-capability-rjr86"},
-    {"from": "production-runtime-v181-r5", "to": "production-strengthened-rules-provider-proof", "relation": "runtime-unchanged-provider-boundary-strengthened"},
-    {"from": "production-strengthened-rules-provider-proof", "to": "provider-abuse-enumeration-acceptance", "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"},
-    {"from": "provider-abuse-enumeration-acceptance", "to": "stage5a-candidate-emulator-proof", "relation": "qualifying-production-pass-authorized-stage5a-candidate"},
-    {"from": "stage5a-candidate-emulator-proof", "to": "stage5b-device-credential-foundation-proof", "relation": "unissued-device-claim-required-key-bound-provider-credential-candidate"},
-    {"from": "stage5b-device-credential-foundation-proof", "to": "zero-billing-remote-joining-authorization", "relation": "owner-preserves-proof-but-removes-billed-issuer-from-critical-path"},
-    {"from": "zero-billing-remote-joining-authorization", "to": "stage5c-standard-auth-session-adapter-proof", "relation": "authorizes-spark-native-standard-auth-candidate-with-rjr-delta-zero"},
-    {"from": "stage5c-standard-auth-session-adapter-proof", "to": "closing-current-wec", "relation": "candidate-proof-sealed-for-exact-head-publication-with-rjr-delta-zero"},
-    {"from": "closing-current-wec", "to": "successor-selection", "relation": "fresh-successor-wec-required"},
-    {"from": "successor-selection", "to": "stage5-private-remote-joining", "relation": "finish-pr175-then-begin-minimum-production-session-rules-after-fresh-wec"},
-    {"from": "provider-abuse-enumeration-acceptance", "to": "stage5-private-remote-joining", "relation": "qualifying-production-pass-closes-final-non-state-dependent-lock"},
-    {"from": "canonical-storage", "to": "stage5-private-remote-joining", "relation": "permanent-data-authority-lock"},
-    {"from": "security-zero-billing", "to": "stage5-private-remote-joining", "relation": "permanent-provider-and-enforcement-lock"}
+    {
+      "from": "production-pages-rollback-proof",
+      "to": "rjr1-ledger",
+      "relation": "historical-bounded-production-rollback-capability-rjr85"
+    },
+    {
+      "from": "production-strengthened-rules-provider-proof",
+      "to": "rjr1-ledger",
+      "relation": "adds-one-provider-security-capability-rjr86"
+    },
+    {
+      "from": "production-runtime-v181-r5",
+      "to": "production-strengthened-rules-provider-proof",
+      "relation": "runtime-unchanged-provider-boundary-strengthened"
+    },
+    {
+      "from": "production-strengthened-rules-provider-proof",
+      "to": "provider-abuse-enumeration-acceptance",
+      "relation": "provider-live-rules-make-authenticated-list-denial-acceptance-meaningful"
+    },
+    {
+      "from": "provider-abuse-enumeration-acceptance",
+      "to": "stage5a-candidate-emulator-proof",
+      "relation": "qualifying-production-pass-authorized-stage5a-candidate"
+    },
+    {
+      "from": "stage5a-candidate-emulator-proof",
+      "to": "stage5b-device-credential-foundation-proof",
+      "relation": "unissued-device-claim-required-key-bound-provider-credential-candidate"
+    },
+    {
+      "from": "stage5b-device-credential-foundation-proof",
+      "to": "zero-billing-remote-joining-authorization",
+      "relation": "owner-preserves-proof-but-removes-billed-issuer-from-critical-path"
+    },
+    {
+      "from": "zero-billing-remote-joining-authorization",
+      "to": "stage5c-standard-auth-session-adapter-proof",
+      "relation": "authorizes-spark-native-standard-auth-candidate-with-rjr-delta-zero"
+    },
+    {
+      "from": "stage5c-standard-auth-session-adapter-proof",
+      "to": "closing-current-wec",
+      "relation": "candidate-proof-sealed-for-exact-head-publication-with-rjr-delta-zero"
+    },
+    {
+      "from": "closing-current-wec",
+      "to": "successor-selection",
+      "relation": "fresh-successor-wec-required"
+    },
+    {
+      "from": "successor-selection",
+      "to": "stage5-private-remote-joining",
+      "relation": "finish-pr175-then-begin-minimum-production-session-rules-after-fresh-wec"
+    },
+    {
+      "from": "provider-abuse-enumeration-acceptance",
+      "to": "stage5-private-remote-joining",
+      "relation": "qualifying-production-pass-closes-final-non-state-dependent-lock"
+    },
+    {
+      "from": "canonical-storage",
+      "to": "stage5-private-remote-joining",
+      "relation": "permanent-data-authority-lock"
+    },
+    {
+      "from": "security-zero-billing",
+      "to": "stage5-private-remote-joining",
+      "relation": "permanent-provider-and-enforcement-lock"
+    },
+    {
+      "from": "stage5c-standard-auth-session-adapter-proof",
+      "to": "stage5d-production-rules-source-merge",
+      "relation": "candidate-boundary-promoted-by-exact-blob-lineage-to-reviewed-production-source"
+    },
+    {
+      "from": "stage5d-production-rules-source-merge",
+      "to": "successor-selection",
+      "relation": "provider-publication-remains-separate-unproven-control-plane-gate"
+    }
   ],
   "retrievalHints": {
-    "walkDirection": "Start from PR #174 live main, PR #175 Stage 5C standard-Firebase-uid candidate proof at fixed RJR87 and the zero-billing owner authorization. Verify and finish PR #175 publication if open, unchanged production v1.8.1-r5 and unchanged provider-proven firestore.spark.rules, then validate/archive the closing WEC. A fresh successor WEC may begin only the distinct minimum production session Rules gate; runtime host/join UX and provider-live acceptance remain separate. Billing, Blaze, Cloud Run and billing-required services are forbidden; every nonbilling decision is authorized after required gates. Preserve consumed proof, canonical storage, Spark, memory-only Firestore and App Check enforcement OFF.",
+    "walkDirection": "Preserve consumed PR #174 Stage 5B credential proof -> PR #175 Stage 5C standard-auth proof -> fixed RJR87 -> PR #176 minimum production session Rules source merge -> authenticated provider publication -> separate runtime host/join. Billing remains forbidden and Cloud Run remains excluded.",
     "defaultTier": 1,
     "deepFallbackOnlyOnContradictionOrFailure": true,
     "avoidRepeatedOwnerSetup": true

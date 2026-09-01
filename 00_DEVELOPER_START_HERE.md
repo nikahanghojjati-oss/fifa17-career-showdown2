@@ -1,3 +1,9 @@
+# CURRENT ENTRYPOINT — PR #176 STAGE 5D PROVIDER PENDING
+
+Read `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md` first. Treat it as orientation only; independently verify live GitHub, provider and deployment truth. Fixed RJR remains 87/100 until genuine capability evidence advances it. Billing must never be activated.
+
+---
+
 # CURRENT START OVERRIDE — PR #175 STAGE 5C CANDIDATE / TRANSITION — 2026-09-01 UTC
 
 Read `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md`, `SESSION_BOOTSTRAP.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and `WORK_ENVIRONMENT_STATUS.json` first. Use `SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md` only for deep reconstruction.

@@ -1,3 +1,27 @@
+# CURRENT OVERRIDE — PR #176 STAGE 5D RULES SOURCE MERGED / PROVIDER PUBLICATION PENDING — 2026-09-01 UTC
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This section supersedes lower historical instructions; current source and independently verified live provider evidence win.
+
+PR #176 `Promote minimum production private-session Rules source` is merged. Exact reviewed head: `4c1e9be8e0af26e277ed9fd1ae0545ec065173ff`. Squash merge/live-main checkpoint: `a4489fe7d812144deb3f747019eb162628480dac`, tree `e7083c2cda0e737f9d1c5654ca663df6ddf3408a`. All 14 exact-head workflow families passed before merge. All 15 normal post-merge/Pages workflow families passed on the merge with zero failures and zero in-progress runs.
+
+Production runtime remains `v1.8.1 / 1.8.1-r5`; PR #176 did not load the private-session adapter or expose host/join UX. Repository `firestore.spark.rules` is now the reviewed Stage 5D source blob `363af783d7e5436fdfaa3766d4aa413fc9952a08`.
+
+Provider truth remains deliberately separate: the last independently Firebase-provider-proven production Rules blob is `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. The new `363af783d7e5436fdfaa3766d4aa413fc9952a08` source has NOT yet been independently proven provider-live. Fixed RJR-1 therefore remains `87/100`; source promotion, CI, review, merge, Pages and provider-publication mechanics add zero RJR.
+
+The only intended provider mutation is the already-reviewed zero-billing Spark-compatible Rules deployment: `firebase deploy --only firestore:rules --project fifa17-career-showdown-prod --config firebase.production.rules.json`. Execute it only from an authenticated Firebase control-plane route, then independently verify provider source identity before updating provider proof/manifest state. If authenticated provider access is unavailable, preserve the blocker honestly. Never fabricate publication.
+
+Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, buy review credits, or activate any billing-required service. Every nonbilling Remote Joining engineering/provider/deployment decision remains owner-authorized after mandatory gates.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+1. Independently verify current main, PR #176 closure, all 15 post-merge/Pages successes, runtime `1.8.1-r5`, repository Rules blob `363af783d7e5436fdfaa3766d4aa413fc9952a08`, fixed RJR87 and provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+2. Validate/archive closing WEC `we-2026-09-01-stage5d-minimum-production-session-rules`, initialize a fresh unique WEC with reset counters, assess it independently and do not inherit this environment's HANDOFF_AT_CHECKPOINT decision.
+3. If an authenticated zero-billing Firebase route exists, publish only the exact reviewed Stage 5D Firestore Rules using the command above and independently prove the provider source equals `363af783d7e5436fdfaa3766d4aa413fc9952a08`. Keep App Check enforcement OFF and Firestore memory-only.
+4. Only after provider-live Rules proof begin the separate runtime host/join UX milestone. Then pursue provider-live two-account host/join, real two-device/two-network reconnect/token/adverse-network evidence and stable release acceptance for genuine RJR movement.
+5. Do not repeat consumed pairing, Candidate C, replay, adverse-provider, token-lifecycle, structural-abuse, sustained-rate-limit, rollback, earlier provider-Rules or provider-abuse proof merely for confidence.
+
+---
+
 # CURRENT OVERRIDE — PR #175 STAGE 5C CANDIDATE PUBLICATION / TRANSITION — 2026-09-01 UTC
 
 This section supersedes every lower instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
