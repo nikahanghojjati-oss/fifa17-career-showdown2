@@ -184,8 +184,14 @@ A.ok(next.includes("14 permanent workflow families"), "NEXT_TASK lost permanent 
 const temporaryHelpers = fs.readdirSync(".github/workflows").filter(name => /v115|temporary/i.test(name) && /\.ya?ml$/i.test(name));
 A.deepEqual(temporaryHelpers, [], `Temporary workflow helpers must not enter release authority: ${temporaryHelpers.join(", ")}`);
 const topology = read("tests/support/run-workflow-blocks.cjs");
-A.ok(topology.includes('name.endsWith(".yml") && name !== "validate-stability-lane.yml"'), "Authoritative workflow topology scope changed unexpectedly.");
-A.ok(topology.includes('assert.equal(executed, 30'), "Protected 30-block workflow invariant changed unexpectedly.");
+for(const excludedStatefulWorkflow of [
+    "validate-stability-lane.yml",
+    "deploy-github-pages.yml",
+    "prove-production-pages-rollback.yml"
+]) A.ok(topology.includes(`"${excludedStatefulWorkflow}"`), `Local workflow-block execution must exclude stateful workflow ${excludedStatefulWorkflow}.`);
+A.match(topology,/name\.endsWith\("\.yml"\)[\s\S]+\.includes\(name\)/,"Authoritative workflow topology scope changed unexpectedly.");
+A.ok(topology.includes('assert.equal(executed + deferred, 30'), "Protected 30-block workflow accounting invariant changed unexpectedly.");
+A.match(topology,/Firebase CLI requires Java 21[\s\S]+exact workflow CI owns this provider gate/i,"Local topology must explicitly defer Java-21-only provider execution rather than misreport it as passed.");
 A.ok(read(".github/workflows/validate-static-app.yml").includes("validate-stage3-private-pairing.yml"), "Static topology must explicitly require the permanent Stage 3 workflow.");
 
 process.stdout.write(`PASS release authority coherence for v${version}/${revision}; current release authority, immutable historical evidence, recovery semantics, Remote Joining locks and workflow topology agree.\n`);

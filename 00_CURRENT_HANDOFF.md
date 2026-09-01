@@ -1,3 +1,45 @@
+# CURRENT HANDOFF OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED / RJR87
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; live source and evidence win.
+
+Read `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md` first and `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md` when deeper context is needed.
+
+Production remains `v1.8.1 / 1.8.1-r5`; fixed RJR remains `87/100`; production Rules remain exact blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+PR #174 pre-seal `f4689e6b` passed all 14 workflows, then Codex found one valid P2. The corrected candidate Rules now bind device ID, version and key fingerprint to active credential authority and direct emulator negatives cover wrong key/version.
+
+The owner authorizes everything except billing. Billing is permanently forbidden; Cloud Run/Blaze are excluded. Finish PR #174 if open, then the next product slice is the Spark-native standard-Google-Auth session adapter defined by the new starter.
+
+---
+
+# CURRENT HANDOFF OVERRIDE — PR #174 / STAGE 5B CREDENTIAL CANDIDATE / RJR87
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower transition orientation; live source and evidence win.
+
+Production remains `v1.8.1 / 1.8.1-r5`. PR #173 is fully merged/deployed from final head `449ba80b3e` to live main `c005f69c89` with identical tree `79aec8661b`. PR #174 publishes only dormant Stage 5B device-credential source, deterministic/browser/Auth-plus-Firestore emulator proof and transition authority. Its first implementation proof head/tree are `5b092220ce2507c66cf653e510fbaa2c43fb425d` / `2b525677ba2af016929b0bb1706df9c3f40847aa`.
+
+Fixed RJR remains `87/100`. Production `firestore.spark.rules` remains exact provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. No production Rules, runtime, custom token, custom-Auth session, IAM, billing, App Check, storage, Candidate C or protected-rivalry mutation occurred.
+
+The candidate uses a non-extractable P-256 IndexedDB key, exact signed one-use challenges, per-sign-in custom-token claims, rotation-safe atomic issuance and atomic registered-device-plus-credential revocation. Real emulators prove simultaneous same-UID devices retain distinct claims through refresh and revoked already-issued device tokens fail closed while the other device remains authorized.
+
+The owner-supplied outage archive was checksum-verified and reviewed. Only its v1.4.32 mirrored SLE structure was retained. Its user-wide custom-claim implementation was rejected as unsafe and incompatible; no archive code replaced PR #174 source.
+
+Production activation is blocked pending explicit owner authority for Blaze/Cloud Run, secondary custom Auth and exact IAM additions `iam.serviceAccounts.signBlob` plus `datastore.entities.update`. Production session Rules and runtime host/join UX remain later distinct slices.
+
+Current starter: `START_NEXT_SESSION_V1.4.32_PR174_STAGE5B_CREDENTIAL_CANDIDATE.md`.
+
+Current deep SLE: `SUCCESSOR_HANDOFF_PR174_STAGE5B_CREDENTIAL_CANDIDATE_SLE_2026-08-31.md`.
+
+Current proof: `STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish and independently verify PR #174 exact-head workflows, reviews/threads, mergeability, squash merge, post-merge validation, Pages/live main and unchanged production/provider truth. Then validate/archive WEC `we-2026-08-31-stage5b-device-credential-foundation`, initialize a fresh WEC and either obtain the exact owner activation decision or, if already explicitly authorized, begin only the separate least-privilege production adapter/provider-proof slice. Do not infer infrastructure authority, weaken device authentication or publish production session Rules.
+
+---
+
+Preserved consumed PR #173 transition orientation follows.
+
 # CURRENT HANDOFF OVERRIDE — PR #173 / STAGE 5A CANDIDATE PROVEN / RJR87
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This current override supersedes the preserved PR #172 orientation below; live source and evidence always win.

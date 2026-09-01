@@ -157,6 +157,12 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.doesNotMatch(JSON.stringify({rootFirebase,productionFirebase}),/stage5a/i,"No deployment configuration may reference candidate session Rules.");
   assert.match(productionRules,/match \/sessions\/\{sessionId\}[\s\S]+allow list, create, update, delete: if false;/,"Production session mutations must remain denied.");
   assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+activeSessionDeviceCredential[\s\S]+validOpenSessionCreate[\s\S]+validSessionJoin[\s\S]+validSessionRevoke[\s\S]+validSessionClose[\s\S]+validSessionExpire[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
+  assert.match(candidateRules,/deviceCredentials/,
+    "Candidate session Rules must load the provider credential authority document.");
+  assert.match(candidateRules,/request\.auth\.token\.keys\(\)\.hasAll\(\[[\s\S]+"device_id"[\s\S]+"device_credential_version"[\s\S]+"device_key_sha256"/,
+    "Candidate session Rules must require all key-bound device claims.");
+  assert.match(candidateRules,/credential\.data\.data\.credentialVersion == request\.auth\.token\.device_credential_version[\s\S]+credential\.data\.data\.publicKeyFingerprint == request\.auth\.token\.device_key_sha256/,
+    "Candidate session Rules must bind every accepted token to the active provider credential version and exact key fingerprint.");
   assert.match(candidateRules,/STAGE5A_CANDIDATE_SESSION_MATCH_BEGIN[\s\S]+allow get: if sessionCanRead[\s\S]+allow create: if validOpenSessionCreate[\s\S]+allow update: if validSessionUpdate[\s\S]+allow list, delete: if false;[\s\S]+STAGE5A_CANDIDATE_SESSION_MATCH_END/);
   const productionSessionMatch=`      match /sessions/{sessionId} {
         allow get: if currentlyEntitled(rivalryId)

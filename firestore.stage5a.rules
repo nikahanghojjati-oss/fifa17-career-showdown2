@@ -622,11 +622,34 @@ service cloud.firestore {
 
     // STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN
     function activeSessionDeviceCredential() {
+      let deviceId = request.auth.token.device_id;
+      let credential = get(/databases/$(database)/documents/accounts/$(request.auth.uid)/deviceCredentials/$(deviceId));
       return signedIn()
-        && request.auth.token.keys().hasAll(["device_id"])
-        && request.auth.token.device_id is string
-        && request.auth.token.device_id.matches('^device_[0-9a-f]{32}$')
-        && activeDevice(request.auth.token.device_id);
+        && request.auth.token.keys().hasAll([
+          "device_id",
+          "device_credential_version",
+          "device_key_sha256"
+        ])
+        && deviceId is string
+        && deviceId.matches('^device_[0-9a-f]{32}$')
+        && request.auth.token.device_credential_version is int
+        && request.auth.token.device_credential_version == 1
+        && validHash(request.auth.token.device_key_sha256)
+        && activeDevice(deviceId)
+        && credential.data.objectType == "deviceCredential"
+        && credential.data.objectId == deviceId
+        && credential.data.lifecycleState == "live"
+        && credential.data.data is map
+        && credential.data.data.keys().hasAll([
+          "deviceId",
+          "state",
+          "credentialVersion",
+          "publicKeyFingerprint"
+        ])
+        && credential.data.data.deviceId == deviceId
+        && credential.data.data.state == "active"
+        && credential.data.data.credentialVersion == request.auth.token.device_credential_version
+        && credential.data.data.publicKeyFingerprint == request.auth.token.device_key_sha256;
     }
 
     function sessionWriteUsesDeviceCredential(root) {
