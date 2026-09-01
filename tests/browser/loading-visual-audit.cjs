@@ -55,6 +55,17 @@ async function prepareStartup(page, config){
         return image && image.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
     }, null, { timeout: 12000 });
 
+    await page.waitForFunction(expectedFit => {
+        const fidelityStyle = document.querySelector('link[data-visual-fidelity="reus-r3"]');
+        const offlineStyle = document.querySelector('link[data-offline-app-style]');
+        const image = document.getElementById("startupAthlete");
+        return image
+            && fidelityStyle
+            && fidelityStyle.sheet
+            && getComputedStyle(image).objectFit === expectedFit
+            && (expectedFit !== "cover" || Boolean(offlineStyle && offlineStyle.sheet));
+    }, config.mobile ? "cover" : "contain", { timeout: 12000 });
+
     if(config.mobile){
         await page.waitForFunction(() => {
             const image = document.getElementById("startupAthlete");

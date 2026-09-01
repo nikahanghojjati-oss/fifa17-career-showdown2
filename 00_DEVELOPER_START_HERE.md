@@ -1,3 +1,11 @@
+# CURRENT START OVERRIDE — STAGE 5C STANDARD-AUTH CANDIDATE — 2026-09-01 UTC
+
+Read `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, and `STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md` first. PR #174 is merged at live main `48ceef1e8c9986fdfe346de1a7151a31f314044b`; production remains `v1.8.1 / 1.8.1-r5`; fixed RJR remains `87/100`; production Rules remain blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+The current bounded work is Stage 5C candidate publication only. It uses standard Firebase UID authority with no custom device claims, honest account-owned device mutation metadata, exact capability/no listing and exactly two accounts. Production Rules publication and runtime host/join UX remain later separate gates. Billing is permanently forbidden; Firebase stays Spark and Cloud Run/Blaze/billing-required services remain excluded.
+
+---
+
 # CURRENT OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED — 2026-08-31 UTC
 
 Read `START_NEXT_SESSION_V1.4.33_PR174_ZERO_BILLING_AUTHORIZED.md` first. Use `SUCCESSOR_HANDOFF_PR174_STAGE5B_ZERO_BILLING_SLE_2026-08-31.md` only for deeper context.

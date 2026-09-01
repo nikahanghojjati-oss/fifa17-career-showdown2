@@ -1,3 +1,23 @@
+# CURRENT HANDOFF OVERRIDE — STAGE 5C STANDARD-AUTH CANDIDATE / RJR87
+
+SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; current source and live evidence win.
+
+PR #174 merged to live main `48ceef1e8c9986fdfe346de1a7151a31f314044b` with identical reviewed tree `ec5425c330e6ec80ab6e032b75f0bc316abb2c48`. All exact-head, final-review, merge, 15 post-merge/Pages and 94-file deployment gates are complete.
+
+Production remains `v1.8.1 / 1.8.1-r5`; fixed RJR remains `87/100`; production Rules remain provider-proven blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`.
+
+Fresh WEC `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter` assessed CONTINUE. The current candidate is `js/sparkStandardAuthPrivateSession.js` plus isolated `firestore.stage5c.rules`, deterministic contracts and real Auth-plus-Firestore emulator proof. It uses ordinary Firebase UID identity, no custom device claims, and honest account-owned device mutation metadata while preserving exact private capability/no listing/exactly-two-account host/join/terminal semantics.
+
+Current proof: `STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish the bounded Stage 5C candidate publication through full local gates, all 14 exact-head workflows including Java 21 Stage 5C emulator PASS, final-head Codex review, zero valid unresolved threads, clean mergeability, expected-head squash merge, all 15 post-merge/Pages runs and unchanged production Rules/runtime. Production Rules publication and runtime host/join UX remain later separate gates.
+
+Billing is permanently forbidden. Firebase stays Spark; Cloud Run/Blaze and billing-required services are excluded. App Check enforcement remains OFF, Firestore remains memory-only, Google Auth remains popup-only `browserSessionPersistence`, the three-key canonical storage and Candidate C authority remain unchanged, and the protected historical rivalry remains untouched.
+
+---
+
 # CURRENT HANDOFF OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED / RJR87
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This override supersedes lower orientation; live source and evidence win.

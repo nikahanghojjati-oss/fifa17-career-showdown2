@@ -1,3 +1,27 @@
+# CURRENT OVERRIDE — STAGE 5C ZERO-BILLING STANDARD-AUTH CANDIDATE — 2026-09-01 UTC
+
+Status: PR #174 is merged and all exact-head/review/merge/post-merge/Pages/deployment gates are complete. Live main is `48ceef1e8c9986fdfe346de1a7151a31f314044b`, tree `ec5425c330e6ec80ab6e032b75f0bc316abb2c48`.
+
+Production remains application `v1.8.1`, runtime `1.8.1-r5`, with immediate known-good rollback runtime `1.8.1-r4`. Production Rules remain provider-proven `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Remote Joining readiness: `87/100` under fixed RJR-1.
+
+Current environment: `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter`.
+
+Current branch: `rjr/stage5c-zero-billing-standard-auth-session-adapter-2026-09-01`.
+
+Current bounded product state: Stage 5C candidate source, isolated Rules, deterministic contracts and real Auth-plus-Firestore emulator proof are implemented. Standard Firebase `request.auth.uid` is the provider identity. Registered device IDs remain account-owned mutation metadata and are never represented as authentication or cryptographic physical-device proof. Exact capability/no-list/two-account host/join/terminal lifecycle and quota-safe local-first behavior are proven.
+
+Current proof: `STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md`.
+
+Production exclusions: `firestore.stage5c.rules` is not referenced by deployment configuration; the adapter is not runtime-loaded; host/join UX is not exposed; no production session exists; no provider, IAM, billing, App Check, Auth policy, storage, Candidate C or protected-rivalry mutation occurred. Candidate evidence earns zero RJR credit.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish the Stage 5C candidate's complete local validation and one bounded exact-head PR publication. Require Java 21 Auth-plus-Firestore proof, clean final-head review/threads/mergeability, expected-head squash merge, all post-merge/Pages runs, live main and unchanged production Rules/runtime. Then start a fresh assessed WEC before the distinct minimum production session Rules publication gate.
+
+Billing must never be activated. Firebase remains Spark; Cloud Run/Blaze/payment methods/billing-required services remain excluded. Google Auth stays popup-only `browserSessionPersistence` with no extra scopes; Firestore stays memory-only; App Check enforcement remains OFF; exactly-two-manager, no-listing, canonical-storage, Candidate C and protected-rivalry locks remain unchanged.
+
+---
+
 # CURRENT OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED / RJR87 — 2026-08-31 UTC
 
 This section supersedes lower historical state.

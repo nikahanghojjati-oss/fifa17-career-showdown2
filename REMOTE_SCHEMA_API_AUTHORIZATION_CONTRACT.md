@@ -242,7 +242,7 @@ lastActivityAt          provider/server timestamp | null
 revokedAt               provider/server timestamp | null
 ```
 
-A session does not create a new public identity or public lobby. Current session membership is insufficient by itself: every session operation rechecks current account state, current device state and current rivalry entitlement.
+A session does not create a new public identity or public lobby. Current session membership is insufficient by itself: every client operation rechecks current account state, selected account-owned device metadata and current rivalry entitlement. Under the standard-auth zero-billing boundary, Security Rules prove the Firebase account UID rather than physical-browser possession: exact gets require the opaque capability and current two-account entitlement, while every mutation additionally rechecks the named active device document under that authenticated account. A device ID remains attribution/revocation metadata and is never authentication.
 
 ### 4.8 Idempotency / replay records
 
