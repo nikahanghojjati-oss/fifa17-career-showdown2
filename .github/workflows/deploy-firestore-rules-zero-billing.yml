@@ -1,0 +1,162 @@
+name: Deploy Firebase Firestore Rules - Zero Billing
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: Why this reviewed Rules source is being deployed
+        required: false
+        default: manual-provider-publication
+  push:
+    branches:
+      - main
+    paths:
+      - firestore.spark.rules
+      - firebase.production.rules.json
+      - ops/firebase-rules-deploy-request.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-firestore-rules-zero-billing
+  cancel-in-progress: false
+
+env:
+  FIREBASE_PROJECT_ID: fifa17-career-showdown-prod
+  FIREBASE_CONFIG_FILE: firebase.production.rules.json
+  FIREBASE_RULES_FILE: firestore.spark.rules
+  FIREBASE_TOOLS_VERSION: 15.28.2
+
+jobs:
+  deploy-firestore-rules:
+    if: github.repository == 'nikahanghojjati-oss/fifa17-career-showdown2' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out exact main source
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Assert permanent zero-billing deployment boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REPOSITORY}" = "nikahanghojjati-oss/fifa17-career-showdown2"
+          test "${GITHUB_REF}" = "refs/heads/main"
+          test "${FIREBASE_PROJECT_ID}" = "fifa17-career-showdown-prod"
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const cfg = JSON.parse(fs.readFileSync('firebase.production.rules.json', 'utf8'));
+          if (cfg?.firestore?.rules !== 'firestore.spark.rules') {
+            throw new Error('firebase.production.rules.json must deploy only firestore.spark.rules for this workflow.');
+          }
+          NODE
+
+      - name: Install locked repository dependencies
+        run: npm ci
+
+      - name: Prove reviewed Stage 5D production Rules contract
+        run: node tests/contracts/stage5d-production-session-rules-contracts.cjs
+
+      - name: Authenticate permanent Firebase Rules service account
+        id: google-auth
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.FIREBASE_RULES_SERVICE_ACCOUNT_JSON }}
+          create_credentials_file: true
+          export_environment_variables: true
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/cloud-platform
+
+      - name: Refuse missing permanent credential
+        shell: bash
+        env:
+          ACCESS_TOKEN: ${{ steps.google-auth.outputs.access_token }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ACCESS_TOKEN:-}" ]; then
+            echo "Permanent GitHub Actions credential is not installed. Add FIREBASE_RULES_SERVICE_ACCOUNT_JSON exactly as documented in 00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md." >&2
+            exit 1
+          fi
+
+      - name: Deploy only Firestore Security Rules
+        run: >-
+          npx --yes firebase-tools@${FIREBASE_TOOLS_VERSION}
+          deploy --only firestore:rules
+          --project ${FIREBASE_PROJECT_ID}
+          --config ${FIREBASE_CONFIG_FILE}
+          --non-interactive
+
+      - name: Independently read provider Rules back and prove exact source identity
+        env:
+          ACCESS_TOKEN: ${{ steps.google-auth.outputs.access_token }}
+        run: |
+          set -euo pipefail
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const crypto = require('node:crypto');
+
+          const project = process.env.FIREBASE_PROJECT_ID;
+          const token = process.env.ACCESS_TOKEN;
+          const local = fs.readFileSync(process.env.FIREBASE_RULES_FILE, 'utf8');
+
+          function gitBlobSha(content) {
+            const bytes = Buffer.from(content, 'utf8');
+            return crypto.createHash('sha1')
+              .update(Buffer.from(`blob ${bytes.length}\0`, 'utf8'))
+              .update(bytes)
+              .digest('hex');
+          }
+
+          async function googleGet(url) {
+            const response = await fetch(url, {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            const body = await response.text();
+            if (!response.ok) {
+              throw new Error(`Firebase Rules API ${response.status}: ${body}`);
+            }
+            return JSON.parse(body);
+          }
+
+          (async () => {
+            const release = await googleGet(
+              `https://firebaserules.googleapis.com/v1/projects/${project}/releases/cloud.firestore`
+            );
+            if (!release.rulesetName) {
+              throw new Error('Live cloud.firestore release did not expose rulesetName.');
+            }
+
+            const ruleset = await googleGet(
+              `https://firebaserules.googleapis.com/v1/${release.rulesetName}`
+            );
+            const files = ruleset?.source?.files || [];
+            const exact = files.filter(file => file?.content === local);
+            if (exact.length !== 1) {
+              const names = files.map(file => file?.name || '(unnamed)').join(', ');
+              throw new Error(`Provider source did not exactly match ${process.env.FIREBASE_RULES_FILE}. Provider files: ${names}`);
+            }
+
+            const localBlob = gitBlobSha(local);
+            const providerBlob = gitBlobSha(exact[0].content);
+            if (localBlob !== providerBlob) {
+              throw new Error(`Provider blob mismatch: local=${localBlob} provider=${providerBlob}`);
+            }
+
+            console.log(`PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS ${providerBlob}`);
+            console.log(`Provider release: ${release.name}`);
+            console.log(`Provider ruleset: ${release.rulesetName}`);
+          })().catch(error => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
