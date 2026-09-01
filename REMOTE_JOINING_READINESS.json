@@ -316,6 +316,13 @@
       "score": 87,
       "delta": 0,
       "reason": "Codex review found that the Stage 5B browser verifier checked the key fingerprint while candidate Stage 5A Rules checked only device_id. PR #174 now binds device_id, device_credential_version and device_key_sha256 to active exact credential authority and adds direct missing, forged, wrong-key and wrong-version emulator requests. The owner separately and permanently forbids billing while authorizing every other Remote Joining decision, so Cloud Run/Blaze are excluded and the selected successor path is standard Google Auth plus exact-path Firestore Rules on Spark. The correction and architecture decision improve correctness and unblock direction but remain source/emulator/authority evidence only. Production Rules, runtime, sessions and playable host/join are unchanged, so fixed RJR stays 87."
+    },
+    {
+      "recordedAt": "2026-09-01T04:55:00Z",
+      "eventId": "stage5c-zero-billing-standard-auth-session-adapter-proof",
+      "score": 87,
+      "delta": 0,
+      "reason": "The Stage 5C candidate adapts the existing exact private-session lifecycle to ordinary Firebase uid authority with no custom device claims, while registered device IDs remain explicitly non-authenticating account-owned mutation metadata. Deterministic and real Auth-plus-Firestore emulator proofs cover exact capability/no listing, exactly two active rivalry accounts, host-open, peer-join, inactive/wrong/third-account denial, invalid device-metadata mutation denial, stale CAS, expiry, terminal no-resurrection and resource-exhausted local-first safety. Production firestore.spark.rules, runtime loading, Google popup/browserSessionPersistence policy, provider configuration, IAM, App Check enforcement and billing remain unchanged. Source, emulators, CI, review and publication mechanics receive zero capability credit; provider-live playable host/join evidence is still required, so fixed RJR remains 87."
     }
   ]
 }

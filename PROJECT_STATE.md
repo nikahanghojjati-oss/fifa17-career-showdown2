@@ -1,3 +1,49 @@
+# CURRENT OVERRIDE — PR #175 STAGE 5C STANDARD-AUTH CANDIDATE / TRANSITION — 2026-09-01 UTC
+
+Status: PR #174 is merged/post-merge green at live main `48ceef1e8c9986fdfe346de1a7151a31f314044b`, tree `ec5425c330e6ec80ab6e032b75f0bc316abb2c48`. PR #175 is the current bounded publication; first published implementation proof head/tree are `cd41261270da53c75313b157625b6d4ac00661c8` / `3cf6baee5b17da852fbad0bf0452681654004798`.
+
+DEPLOYED / PRODUCTION-PROVEN remains `v1.8.1 / 1.8.1-r5`; production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`. Production Rules remain exact provider-proven `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Remote Joining readiness remains `87/100` under fixed RJR-1.
+
+PR #175 implements `js/sparkStandardAuthPrivateSession.js`, mode-aware `js/sparkPrivateSession.js`, isolated `firestore.stage5c.rules`, deterministic contracts, real Auth-plus-Firestore emulator proof, permanent Java 21 workflow integration and loading-audit stylesheet readiness hardening. Ordinary Firebase UID is account authority; registered devices remain account-owned mutation metadata and are not physical-browser authentication.
+
+Complete local evidence: all 80 contract files pass; six post-fix loading audits pass; Stage 5A/5B/5C local deterministic/emulator lanes pass; 29 workflow blocks pass and the exact Java 21 provider block is explicitly deferred to PR CI.
+
+Production exclusions: candidate Rules are not in deployment configuration; adapter is not runtime-loaded; host/join UX is absent; no provider-live session exists; no production Rules, Auth policy, IAM, billing, App Check, runtime, canonical storage, Candidate C, Connected Rivalry or protected-rivalry mutation occurred. PR #175 earns zero RJR credit.
+
+Current WEC: `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter`, decision `HANDOFF_AT_CHECKPOINT`. Finish only PR #175 publication, transition and stop before the distinct production session Rules milestone.
+
+Current starter: `START_NEXT_SESSION_V1.4.34_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE.md`.
+
+Current deep SLE: `SUCCESSOR_HANDOFF_PR175_STAGE5C_STANDARD_AUTH_CANDIDATE_SLE_2026-09-01.md`.
+
+Billing must never be activated. Firebase remains Spark; Cloud Run/Blaze/payment methods/billing-required services remain excluded. Every nonbilling production decision is authorized after required gates. App Check enforcement remains OFF.
+
+---
+
+# CURRENT OVERRIDE — STAGE 5C ZERO-BILLING STANDARD-AUTH CANDIDATE — 2026-09-01 UTC
+
+Status: PR #174 is merged and all exact-head/review/merge/post-merge/Pages/deployment gates are complete. Live main is `48ceef1e8c9986fdfe346de1a7151a31f314044b`, tree `ec5425c330e6ec80ab6e032b75f0bc316abb2c48`.
+
+Production remains application `v1.8.1`, runtime `1.8.1-r5`, with immediate known-good rollback runtime `1.8.1-r4`. Production Rules remain provider-proven `firestore.spark.rules` blob `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. Remote Joining readiness: `87/100` under fixed RJR-1.
+
+Current environment: `we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter`.
+
+Current branch: `rjr/stage5c-zero-billing-standard-auth-session-adapter-2026-09-01`.
+
+Current bounded product state: Stage 5C candidate source, isolated Rules, deterministic contracts and real Auth-plus-Firestore emulator proof are implemented. Standard Firebase `request.auth.uid` is the provider identity. Registered device IDs remain account-owned mutation metadata and are never represented as authentication or cryptographic physical-device proof. Exact capability/no-list/two-account host/join/terminal lifecycle and quota-safe local-first behavior are proven.
+
+Current proof: `STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md`.
+
+Production exclusions: `firestore.stage5c.rules` is not referenced by deployment configuration; the adapter is not runtime-loaded; host/join UX is not exposed; no production session exists; no provider, IAM, billing, App Check, Auth policy, storage, Candidate C or protected-rivalry mutation occurred. Candidate evidence earns zero RJR credit.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish the Stage 5C candidate's complete local validation and one bounded exact-head PR publication. Require Java 21 Auth-plus-Firestore proof, clean final-head review/threads/mergeability, expected-head squash merge, all post-merge/Pages runs, live main and unchanged production Rules/runtime. Then start a fresh assessed WEC before the distinct minimum production session Rules publication gate.
+
+Billing must never be activated. Firebase remains Spark; Cloud Run/Blaze/payment methods/billing-required services remain excluded. Google Auth stays popup-only `browserSessionPersistence` with no extra scopes; Firestore stays memory-only; App Check enforcement remains OFF; exactly-two-manager, no-listing, canonical-storage, Candidate C and protected-rivalry locks remain unchanged.
+
+---
+
 # CURRENT OVERRIDE — PR #174 CORRECTED / ZERO-BILLING AUTHORIZED / RJR87 — 2026-08-31 UTC
 
 This section supersedes lower historical state.
