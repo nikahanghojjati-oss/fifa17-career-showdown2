@@ -71,6 +71,24 @@ jobs:
           learning.latestLesson.lesson = 'PR #175 at fixed RJR87 proved the standard-Firebase-uid Stage 5C boundary with registered device mutation metadata, not authentication; Billing stayed forbidden and Cloud Run excluded. PR #176 then merged that exact boundary into the production Rules source with zero RJR movement, while provider publication of the new repository blob remains separately unproven.';
           fs.writeFileSync(learningPath, JSON.stringify(learning,null,2)+'\n');
 
+          const bootstrapPath = 'SESSION_BOOTSTRAP.json';
+          const bootstrap = JSON.parse(fs.readFileSync(bootstrapPath,'utf8'));
+          bootstrap.minimalReads = Array.isArray(bootstrap.minimalReads) ? bootstrap.minimalReads : [];
+          const abuseProof = 'PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md';
+          if (!bootstrap.minimalReads.includes(abuseProof)) {
+            const providerProof = bootstrap.minimalReads.indexOf('PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md');
+            bootstrap.minimalReads.splice(providerProof >= 0 ? providerProof + 1 : bootstrap.minimalReads.length, 0, abuseProof);
+          }
+          fs.writeFileSync(bootstrapPath, JSON.stringify(bootstrap,null,2)+'\n');
+
+          const sealPath = 'scripts/seal-pr176-stage5d-transition.mjs';
+          let seal = fs.readFileSync(sealPath,'utf8');
+          const oldMinimal = "'PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md','00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md'";
+          const newMinimal = "'PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md','PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md','00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md'";
+          if (seal.includes(oldMinimal)) seal = seal.replace(oldMinimal,newMinimal);
+          if (!seal.includes('PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md')) throw new Error('Seal source did not preserve provider abuse proof');
+          fs.writeFileSync(sealPath,seal);
+
           const contractPath = 'tests/contracts/sle-handoff-packaging-contracts.cjs';
           let contract = fs.readFileSync(contractPath,'utf8');
           const oldRules = 'assert.equal(model.latestCheckpoint.rulesBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484");';
