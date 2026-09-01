@@ -17,6 +17,7 @@ const productionEnvironment=readJson("firebase.production.environment.json");
 const adapter=read("js/sparkStandardAuthPrivateSession.js");
 const zeroBillingAuthorization=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
 const zeroBillingDecision=read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md");
+const stage5dProof=read("STAGE5D_MINIMUM_PRODUCTION_SESSION_RULES_GATE_PROOF_2026-09-01.md");
 
 assert.equal(productionRules,provenStage5cRules,
   "The Stage 5D production Rules source must be the exact already-emulator-proven Stage 5C Rules bytes.");
@@ -55,5 +56,10 @@ assert.match(zeroBillingAuthorization,/billing must never be activated/i);
 assert.match(zeroBillingAuthorization,/Firebase Spark/i);
 assert.match(zeroBillingDecision,/Publish the minimum reviewed session Rules only after exact-head gates pass/i);
 assert.match(zeroBillingDecision,/then add host\/join UX in a separate reviewed runtime slice/i);
+assert.match(stage5dProof,/Codex remains the preferred final-head automated reviewer/i);
+assert.match(stage5dProof,/purchasing credits or enabling paid review is forbidden/i);
+assert.match(stage5dProof,/documented exact-head fallback review[\s\S]+audits the complete PR diff[\s\S]+all 14 exact-head workflow families[\s\S]+Java 21 Stage 5 emulator lane[\s\S]+zero valid unresolved review threads/i,
+  "A paid code-review quota may not force billing or silently waive the mandatory review/thread gate.");
+assert.match(stage5dProof,/A quota refusal by itself is never a passing review and never earns RJR credit/i);
 
-process.stdout.write("PASS Stage 5D production session Rules: exact Stage 5C bytes promoted into the isolated production Rules source; standard Firebase uid authority, no listing, exactly-two-account lifecycle, mutation-only registered-device metadata, deny-by-default, zero billing and runtime separation remain locked.\n");
+process.stdout.write("PASS Stage 5D production session Rules: exact Stage 5C bytes promoted into the isolated production Rules source; standard Firebase uid authority, no listing, exactly-two-account lifecycle, mutation-only registered-device metadata, deny-by-default, zero-billing review fallback and runtime separation remain locked.\n");
