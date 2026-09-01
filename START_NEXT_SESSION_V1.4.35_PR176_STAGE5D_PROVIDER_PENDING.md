@@ -54,7 +54,7 @@ Read `00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md`, `ZERO_BILLING_REMO
 
 The owner authorizes every remaining nonbilling Remote Joining engineering, IAM, provider, authentication-policy, Security Rules, runtime, deployment, testing, evidence, merge and publication decision needed after the required tests and gates pass. Standing merge and deploy authorization remains active; do not ask again for already-granted nonbilling authority.
 
-Billing must never be activated. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, buy review credits or activate another service whose use requires billing even if it advertises a free allowance. Firebase must remain Spark.
+Billing must never be activated. Cloud Run and Blaze are excluded and forbidden under the permanent zero-billing architecture. Never link Cloud Billing, add a payment method, buy review credits or activate another service whose use requires billing even if it advertises a free allowance. Firebase must remain Spark.
 
 App Check enforcement remains OFF. Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
 
