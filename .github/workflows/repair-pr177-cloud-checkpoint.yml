@@ -19,17 +19,32 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-      - name: Migrate stale cloud-foundation checkpoint assertion
+      - name: Migrate stale checkpoint assertions and preserve closed evidence
         run: |
           node <<'NODE'
           const fs = require('node:fs');
-          const path = 'tests/contracts/cloud-foundation-contracts.cjs';
-          let text = fs.readFileSync(path, 'utf8');
-          const before = 'assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,175,"Bootstrap must identify PR175 as the current Stage 5C candidate/SLE publication checkpoint.");';
-          const after = 'assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"Bootstrap must identify PR176 as the current Stage 5D source/provider-pending publication checkpoint.");';
-          if (!text.includes(before)) throw new Error('Expected stale PR175 cloud checkpoint assertion not found');
-          text = text.replace(before, after);
-          fs.writeFileSync(path, text);
+
+          const cloudPath = 'tests/contracts/cloud-foundation-contracts.cjs';
+          let cloud = fs.readFileSync(cloudPath, 'utf8');
+          const cloudBefore = 'assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,175,"Bootstrap must identify PR175 as the current Stage 5C candidate/SLE publication checkpoint.");';
+          const cloudAfter = 'assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"Bootstrap must identify PR176 as the current Stage 5D source/provider-pending publication checkpoint.");';
+          if (!cloud.includes(cloudBefore)) throw new Error('Expected stale PR175 cloud checkpoint assertion not found');
+          fs.writeFileSync(cloudPath, cloud.replace(cloudBefore, cloudAfter));
+
+          const nextPath = 'NEXT_TASK.md';
+          let next = fs.readFileSync(nextPath, 'utf8');
+          const nextNeedle = 'Provider truth remains deliberately separate: the last independently Firebase-provider-proven production Rules blob is `2b7c0b166ae0aae7ab7a3ce84725b21091262484`. The new `363af783d7e5436fdfaa3766d4aa413fc9952a08` source has NOT yet been independently proven provider-live. Fixed RJR-1 therefore remains `87/100`; source promotion, CI, review, merge, Pages and provider-publication mechanics add zero RJR.\n';
+          const closedEvidence = '\nClosed consumed capability evidence remains authoritative: exact accepted-result idempotency replay is evidence-proven, and TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN remains protected by `stage4-token-lifecycle-contracts.cjs`. Do not repeat either proof merely for confidence.\n';
+          if (!next.includes(nextNeedle)) throw new Error('Expected PR176 provider-truth paragraph not found in NEXT_TASK');
+          if (!next.includes('exact accepted-result idempotency replay is evidence-proven')) next = next.replace(nextNeedle, nextNeedle + closedEvidence);
+          fs.writeFileSync(nextPath, next);
+
+          const releasePath = 'tests/contracts/release-authority-coherence.cjs';
+          let release = fs.readFileSync(releasePath, 'utf8');
+          const oldTransition = 'A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\\s\\S]+mandatory recursive SLE package[\\s\\S]+publish/i, "NEXT_TASK must route forward to the sealed transition publication rather than revive a completed product proof.");';
+          const newTransition = 'A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\\s\\S]+authenticated zero-billing Firebase[\\s\\S]+provider[\\s\\S]+runtime host\\/join/i, "NEXT_TASK must route the sealed PR176 transition forward to authenticated zero-billing provider publication before separate runtime host/join work.");';
+          if (!release.includes(oldTransition)) throw new Error('Expected predecessor SLE-publication assertion not found');
+          fs.writeFileSync(releasePath, release.replace(oldTransition, newTransition));
           NODE
       - name: Remove one-shot repair workflow
         run: rm -f .github/workflows/repair-pr177-cloud-checkpoint.yml
@@ -49,5 +64,5 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
           git diff --cached --check
-          git commit -m 'Repair PR177 cloud checkpoint contract'
+          git commit -m 'Repair PR177 transition contract coherence'
           git push origin HEAD:rjr/pr176-stage5d-provider-pending-sle-2026-09-01
