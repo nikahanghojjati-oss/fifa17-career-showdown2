@@ -1,0 +1,96 @@
+name: One-time Pairing R3 Core Seal V4
+
+on:
+  push:
+    branches:
+      - fix/pairing-copy-four-code-contract-2026-09-02
+
+permissions:
+  contents: write
+
+jobs:
+  core-seal-v4:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: fix/pairing-copy-four-code-contract-2026-09-02
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Apply validated r3 payload and release metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import textwrap
+
+          wf=Path('.github/workflows/automation-pairing-r3-core-seal-v3.yml').read_text()
+          marker="          python - <<'PY'\n"
+          start=wf.index(marker)+len(marker)
+          end=wf.index("\n          PY\n",start)
+          exec(compile(textwrap.dedent(wf[start:end]),'r3-v3-payload','exec'),{})
+
+          readme=Path('README.md')
+          current=readme.read_text()
+          prefix='''# CURRENT RELEASE CANDIDATE — v1.9.0-r3 Pairing One-Paste Hardening\n\nCurrent source candidate: `v1.9.0 / 1.9.0-r3` — not yet production-proven. Previous production-proven whole-shell recovery target: `v1.9.0 / 1.9.0-r2`. This bounded patch gives Player One one direct pairing Copy action, requires exactly one Player Two paste, auto-propagates the exact private pairing identity into both Connected Rivalry contexts, and prevents late device-registration completion from clobbering an in-flight/open/paired state. Firebase remains Spark, billing remains forbidden, Firestore remains memory-only, App Check enforcement remains OFF, public discovery remains prohibited, canonical local saves remain untouched by Remote Joining, and Candidate C remains sole destructive remote-to-local gameplay Apply authority. Fixed RJR-1 remains `87/100` until new owner production capability evidence.\n\n'''
+          if not current.startswith('# CURRENT RELEASE CANDIDATE — v1.9.0-r3 Pairing One-Paste Hardening'):
+              readme.write_text(prefix+current)
+
+          changelog=Path('CHANGELOG.md')
+          current=changelog.read_text()
+          prefix='''## v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening — release candidate\n\nCandidate runtime: `1.9.0-r3`\nPrevious production-proven runtime: `1.9.0-r2`\n\n- adds one direct Player One pairing Copy action and requires exactly one Player Two paste;\n- preserves byte-for-byte equality across P1 generated pairing, P1 Connected Rivalry, P2 retained join input and P2 Connected Rivalry;\n- auto-links both manager contexts into Connected Rivalry without a normal-flow Verify/Reattach step;\n- prevents late registered-device completion from overwriting creating/open/joining/paired pairing state;\n- validates the flow in production Save Library settings geometry plus isolated Chromium manager scenarios;\n- changes no Firebase authority, billing, Firestore persistence, App Check enforcement, public discovery, canonical local-save mutation or Candidate C authority;\n- keeps fixed RJR-1 at `87/100` until genuine new owner production evidence.\n\n'''
+          if not current.startswith('## v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening'):
+              changelog.write_text(prefix+current)
+          PY
+          cat > RELEASE_V1.9.0_R3.md <<'EOF'
+          # Career Mode Showdown v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening
+
+          Status: RELEASE CANDIDATE
+
+          Application version: `v1.9.0`
+          Runtime asset revision: `1.9.0-r3`
+          Previous known-good runtime: `1.9.0-r2`
+
+          Player One gets one direct Copy action. Player Two pastes exactly once. The same private pairing capability is retained across pairing and Connected Rivalry. Late device-registration completion cannot overwrite an in-flight/open/paired state. Browser proof uses production Save Library geometry/styles and fresh Chromium processes per manager scenario.
+
+          Permanent locks remain unchanged: Spark only; billing forbidden; memory-only Firestore; App Check enforcement OFF; no public discovery; no canonical local-save mutation; Candidate C remains sole destructive remote-to-local gameplay Apply authority.
+
+          Fixed RJR-1 remains 87/100 until newly verified owner production capability evidence.
+          EOF
+      - run: npm ci
+      - name: Deterministic proof
+        run: |
+          node --check js/sparkPrivatePairing.js
+          node --check tests/browser/pairing-four-code-automation-audit.cjs
+          node tests/contracts/stage3-private-pairing-contracts.cjs
+          node tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs
+          node tests/contracts/pairing-four-code-automation-contracts.cjs
+      - name: Browser proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-r3-server.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          node tests/browser/stage3-private-pairing-audit.cjs
+          node tests/browser/pairing-four-code-automation-audit.cjs
+          node tests/browser/stage5e-remote-joining-audit.cjs
+      - name: Full contracts
+        run: npm run test:contracts
+      - name: Commit validated runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/automation-pairing-r3-hardening-v2.yml .github/workflows/automation-pairing-r3-fast-seal.yml .github/workflows/automation-pairing-r3-core-seal.yml .github/workflows/automation-pairing-r3-core-seal-v2.yml .github/workflows/automation-pairing-r3-core-seal-v3.yml .github/workflows/automation-pairing-r3-core-seal-v4.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Harden pairing copy and one-paste automation"
+          git push origin HEAD:fix/pairing-copy-four-code-contract-2026-09-02
