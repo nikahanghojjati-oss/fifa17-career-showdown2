@@ -132,6 +132,26 @@ async function proveBindingSelectionAndDeniedRedemption(runtime){
     await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().status==="pair-open");
     assert.equal(await selector.locator("option:checked").textContent(),"Player Two · Gop","successful rerender reset the selected local manager identity");
     assert.equal(await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState().selectedBindingKey),playerTwoKey);
+    assert.equal(await selector.isDisabled(),true,"a live pairing capability must lock the manager selector");
+    const creatorCapability=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState().capability);
+    assert.match(creatorCapability,/^pair_[0-9a-f]{64}$/,"creator did not retain the exact generated pairing capability for auto-link");
+    assert.match(await page.locator("#sparkPrivatePairingPanel [role='status']").textContent(),/do not manually attach in the normal flow/i,"creator UI did not explain the no-manual-reattach normal flow");
+
+    const raceAttempt=await page.evaluate(()=>{
+      const select=document.querySelector('select[aria-label="Local manager identity for private pairing"]');
+      const playerOne=Array.from(select.options).find(option=>option.textContent==="Player One · Nik");
+      select.disabled=false;
+      select.value=playerOne.value;
+      select.dispatchEvent(new Event("change",{bubbles:true}));
+      return {
+        selectedValue:select.value,
+        selectedBindingKey:window.CareerModeSparkPrivatePairing.getState().selectedBindingKey,
+        capability:window.CareerModeSparkPrivatePairing.getState().capability
+      };
+    });
+    assert.equal(raceAttempt.selectedBindingKey,playerTwoKey,"a late dropdown event redirected the live pairing capability to Player One");
+    assert.equal(raceAttempt.selectedValue,playerTwoKey,"the UI did not restore the captured Player Two selection after a forced late dropdown event");
+    assert.equal(raceAttempt.capability,creatorCapability,"late manager selection changed the live pairing capability");
 
     await page.getByLabel("Private pairing code").fill(`pair_${"f".repeat(64)}`);
     await page.evaluate(()=>window.__pairingAuditHarness.deny());
@@ -144,7 +164,7 @@ async function proveBindingSelectionAndDeniedRedemption(runtime){
     assert.equal(await selector.locator("option:checked").textContent(),"Player Two · Gop","denied redemption rerender reset the selected local manager identity");
     assert.equal(await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState().selectedBindingKey),playerTwoKey);
     assert.deepEqual(pageErrors,[],"pairing selector/error browser proof emitted page errors");
-    process.stdout.write("PASS Stage 3 mobile selector persistence and safe denied-redemption guidance\n");
+    process.stdout.write("PASS Stage 3 mobile selector persistence, live-capability manager lock, forced late-dropdown race rejection, and safe denied-redemption guidance\n");
   }finally{
     await context.close().catch(()=>{});
     await browser.close().catch(()=>{});
