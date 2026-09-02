@@ -43,4 +43,11 @@ const SUMMARY = 'Fresh successor independently verifies live PR #181 and fixed R
   write(path, text);
 }
 
+{
+  const path = 'tests/contracts/production-firebase-environment-activation-contracts.cjs';
+  let text = read(path);
+  text = text.replace('assert.match(manifest.firestore.providerVerificationEvidence,/2026-08-29[\\s\\S]+fifa17-career-showdown-prod[\\s\\S]+\\(default\\)[\\s\\S]+Rules tab[\\s\\S]+Today 7:48 AM/i);','assert.match(manifest.firestore.providerVerificationEvidence,/2026-09-02[\\s\\S]+33575616044[\\s\\S]+100078816667[\\s\\S]+fifa17-career-showdown-prod[\\s\\S]+cloud\\.firestore[\\s\\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i,"Provider verification evidence must preserve the authenticated zero-billing Stage 5D publication and exact source readback.");');
+  write(path, text);
+}
+
 console.log(`PASS temporary Stage 5E transition reconciliation: provider-live ${NEW}, obsolete ${OLD} retained only as historical provenance where explicitly appropriate.`);
