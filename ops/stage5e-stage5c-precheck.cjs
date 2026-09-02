@@ -1,0 +1,11 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const target=path.join(root,'tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs');
+let source=fs.readFileSync(target,'utf8');
+const oldBoundary=`  for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js","service-worker.js"]){\n    assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkStandardAuthPrivateSession\\.js/,\n      \`${'${runtimeOwner}'} must keep the Stage 5C adapter dormant during the Stage 5D Rules-only milestone.\`);\n  }`;
+const newBoundary=`  for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){\n    assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkStandardAuthPrivateSession\\.js/,\n      \`${'${runtimeOwner}'} must not directly bootstrap the Stage 5C adapter during ordinary startup.\`);\n  }\n  const stage5eWorker=fs.readFileSync("service-worker.js","utf8");\n  assert.match(stage5eWorker,/"js\\/sparkStandardAuthPrivateSession\\.js"/,\n    "After Stage 5D production Rules publication, Stage 5E may precache the standard-auth adapter as a lazy rollback-complete asset without executing it at startup.");`;
+if(!source.includes(oldBoundary))throw new Error('Historical Stage 5C dormant-runtime boundary not found.');
+source=source.replace(oldBoundary,newBoundary);
+fs.writeFileSync(target,source);
+console.log('STAGE5E_STAGE5C_ACTIVATION_BOUNDARY_RECONCILED');
