@@ -37,6 +37,18 @@ jobs:
           end=workflow.index("\n          PY\n",start)
           payload=textwrap.dedent(workflow[start:end])
           exec(compile(payload,'pairing-r3-hardening-payload','exec'),{})
+
+          p=Path('js/sparkPrivatePairing.js')
+          source=p.read_text()
+          old='''  async function registerCurrentDevice(){\n    setState({status:"registering",busy:true,message:"Registering this browser privately…"});\n    try{\n'''
+          new='''  async function registerCurrentDevice(){\n    const preservePairingStateAtStart=["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);\n    if(!preservePairingStateAtStart)setState({status:"registering",busy:true,message:"Registering this browser privately…"});\n    try{\n'''
+          assert old in source
+          source=source.replace(old,new,1)
+          old='''      const preservePairingState=["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);\n      if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});\n'''
+          new='''      const preservePairingState=preservePairingStateAtStart||["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);\n      if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});\n'''
+          assert old in source
+          p.write_text(source.replace(old,new,1))
+
           release_marker="          cat > RELEASE_V1.9.0_R3.md <<'EOF'\n"
           release_start=workflow.index(release_marker)+len(release_marker)
           release_end=workflow.index("\n          EOF\n",release_start)
