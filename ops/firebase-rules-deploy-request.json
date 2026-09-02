@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "projectId": "fifa17-career-showdown-prod",
+  "rulesFile": "firestore.spark.rules",
+  "reason": "repair-permanent-control-plane-after-firebase-cli-serviceusage-preflight-403",
+  "failedRunId": 33573691056,
+  "expectedRepositoryRulesBlob": "363af783d7e5436fdfaa3766d4aa413fc9952a08",
+  "billingAllowed": false,
+  "firebasePlan": "Spark"
+}

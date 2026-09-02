@@ -72,7 +72,6 @@ includesAll(workflow, [
   "github.repository == 'nikahanghojjati-oss/fifa17-career-showdown2'",
   "github.ref == 'refs/heads/main'",
   "FIREBASE_PROJECT_ID: fifa17-career-showdown-prod",
-  "FIREBASE_TOOLS_VERSION: 15.28.2",
   "actions/checkout@v7",
   "actions/setup-node@v6",
   "node-version: 24",
@@ -85,22 +84,31 @@ includesAll(workflow, [
   "https://oauth2.googleapis.com/token",
   "urn:ietf:params:oauth:grant-type:jwt-bearer",
   "RSA-SHA256",
-  "firebase-tools@${FIREBASE_TOOLS_VERSION}",
-  "deploy --only firestore:rules",
-  "--project ${FIREBASE_PROJECT_ID}",
-  "--config ${FIREBASE_CONFIG_FILE}",
+  "Publish only Firestore Security Rules through Firebase Rules API",
+  "https://firebaserules.googleapis.com/v1/${path}",
+  "`projects/${project}/rulesets`",
+  "`projects/${project}/releases/cloud.firestore`",
+  "`${releasePath}?updateMask=rulesetName`",
+  "name: releasePath",
+  "rulesetName: ruleset.name",
+  "PROVIDER_FIRESTORE_RULES_RELEASE_UPDATED",
   "firebaserules.googleapis.com/v1/projects/${project}/releases/cloud.firestore",
   "release.rulesetName",
   "Provider source did not exactly match",
   "PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS"
 ], "Permanent Firebase deployment workflow");
 
+assert(!workflow.includes("updateMask: 'rulesetName'"), "Firebase Rules release PATCH updateMask belongs in the URL query, not the Release request body.");
+assert(!workflow.includes("release: {\n                    name: releasePath"), "Firebase Rules PATCH body must be the Release object itself, not a wrapped release object.");
 assert(!/(^|\n)\s*pull_request\s*:/m.test(workflow), "Permanent Firebase workflow must never expose production credentials to pull_request code.");
 assert(!/(^|\n)\s*pull_request_target\s*:/m.test(workflow), "Permanent Firebase workflow must never expose production credentials to pull_request_target code.");
 assert(!workflow.includes("FIREBASE_TOKEN"), "Permanent Firebase workflow must not fall back to legacy FIREBASE_TOKEN authentication.");
 assert(!workflow.includes("token_format: access_token"), "Permanent Firebase workflow must not require google-github-actions access-token generation or Token Creator IAM.");
 assert(!workflow.includes("roles/iam.serviceAccountTokenCreator"), "Permanent Firebase workflow must not require Service Account Token Creator IAM.");
 assert(!workflow.includes("steps.google-auth.outputs.access_token"), "Permanent Firebase workflow must not depend on an auth-action access-token output.");
+assert(!workflow.includes("serviceusage.googleapis.com"), "Permanent Firebase workflow must not require Service Usage preflight access merely to publish already-enabled Firestore Rules.");
+assert(!workflow.includes("firebase-tools@"), "Permanent Firebase workflow must use the Firebase Rules management API rather than Firebase CLI Service Usage preflights.");
+assert(!workflow.includes("deploy --only firestore:rules"), "Permanent Firebase workflow must not reintroduce the Firebase CLI deployment preflight.");
 assert(!/firebase\s+deploy[^\n]*(functions|hosting|storage)/i.test(workflow), "Permanent Firebase workflow must deploy Firestore Rules only.");
 assert(!/gcloud\s+(billing|run|functions)/i.test(workflow), "Permanent Firebase workflow must not contain billing, Cloud Run, or Functions activation commands.");
 assert(!/-----BEGIN PRIVATE KEY-----/.test(guide + addendum + workflow), "Repository control-plane files must never contain a service-account private key.");
