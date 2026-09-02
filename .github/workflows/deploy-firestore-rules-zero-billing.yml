@@ -178,14 +178,11 @@ jobs:
             if (existingRelease) {
               release = await rulesRequest(
                 'PATCH',
-                releasePath,
+                `${releasePath}?updateMask=rulesetName`,
                 token,
                 {
-                  release: {
-                    name: releasePath,
-                    rulesetName: ruleset.name
-                  },
-                  updateMask: 'rulesetName'
+                  name: releasePath,
+                  rulesetName: ruleset.name
                 }
               );
             } else {
