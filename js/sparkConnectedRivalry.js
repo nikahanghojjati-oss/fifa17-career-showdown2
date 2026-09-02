@@ -27,6 +27,7 @@
     connected:false,
     attached:false,
     rivalryId:null,
+    prefillRivalryId:null,
     accountId:null,
     deviceId:null,
     binding:null,
@@ -328,8 +329,8 @@
     const currentRound=Number(payload.currentRound);
     const activeRound=rounds.find(round=>round&&Number(round.roundNumber)===currentRound);
     const activeSeasonId=activeRound&&typeof activeRound.seasonId==="string"&&/^season_[0-9a-f]{24}$/.test(activeRound.seasonId)
-      ? activeRound.seasonId
-      : null;
+      ?activeRound.seasonId
+      :null;
     return {
       saveId:sharedSaveId,
       managerBindings,
@@ -688,6 +689,22 @@
     return {binding:fallbackBinding,pointer:null};
   }
 
+  function crResolvePairingCandidate(pairingState,bindings,pairingRuntime=root.CareerModeSparkPrivatePairing){
+    const rawCapability=pairingState&&typeof pairingState.capability==="string"?pairingState.capability.trim():"";
+    const selectedBindingKey=pairingState&&typeof pairingState.selectedBindingKey==="string"?pairingState.selectedBindingKey:"";
+    if(!rawCapability||!selectedBindingKey)return null;
+    let rivalryId;
+    try{rivalryId=crNormalizeRivalryId(rawCapability);}catch(_error){return null;}
+    const list=Array.isArray(bindings)?bindings:[];
+    const binding=list.find(candidate=>{
+      try{
+        if(pairingRuntime&&typeof pairingRuntime.bindingKey==="function")return pairingRuntime.bindingKey(candidate)===selectedBindingKey;
+        return `${candidate.managerRole}:${candidate.profileId}:${candidate.saveId}`===selectedBindingKey;
+      }catch(_error){return false;}
+    })||null;
+    return binding?crFreeze({rivalryId,binding}):null;
+  }
+
   async function crInitialize(options={}){
     if(crInitializePromise)return crInitializePromise;
     crInitializePromise=(async()=>{
@@ -695,15 +712,39 @@
         const context=await crResolveContext(options);
         const bindings=crBindingOptions();
         const restored=await crResolveSavedPointer(context.accountId,context.deviceId,bindings,{preferredBinding:crState.binding});
-        const binding=restored.binding;
-        const pointer=restored.pointer;
+        let binding=restored.binding;
+        let pointer=restored.pointer;
+        let pairingCandidate=null;
+        let autoAttachResult=null;
+        let autoAttached=false;
+        if(!pointer){
+          pairingCandidate=crResolvePairingCandidate(context.pairingState,bindings,options.pairingRuntime||root.CareerModeSparkPrivatePairing);
+          if(pairingCandidate){
+            binding=pairingCandidate.binding;
+            autoAttachResult=await crAttachRivalry({
+              user:context.user,
+              firestore:context.services.firestore,
+              firebaseSdk:context.services.firestoreSdk,
+              deviceId:context.deviceId,
+              binding,
+              rivalryId:pairingCandidate.rivalryId,
+              indexedDBImpl:options.indexedDBImpl||root.indexedDB
+            });
+            if(autoAttachResult&&autoAttachResult.ok===true){
+              pointer=autoAttachResult.pointer;
+              autoAttached=true;
+            }
+          }
+        }
+        const prefillRivalryId=!pointer&&pairingCandidate?pairingCandidate.rivalryId:null;
         return crSetState({
-          status:pointer?"saved-link":"ready",
+          status:pointer?"saved-link":prefillRivalryId?"pairing-link-ready":"ready",
           initialized:true,
           busy:false,
           connected:true,
           attached:Boolean(pointer),
           rivalryId:pointer?pointer.rivalryId:null,
+          prefillRivalryId,
           accountId:context.accountId,
           deviceId:context.deviceId,
           binding:binding||null,
@@ -716,9 +757,15 @@
           localCommitRevision:null,
           localCommitContentHash:null,
           localCommitSaveId:null,
-          message:pointer
-            ?"A private Connected Rivalry link is saved on this browser. Refresh verifies current remote authority before any publish."
-            :"Connected Rivalry is ready. Attach the exact private rivalry code once; this does not repeat pairing."
+          message:autoAttached
+            ?"Connected Rivalry attached automatically from the completed private pairing. No second code entry was required. Refresh shared state before publishing; local saves were not changed."
+            :pointer
+              ?"A private Connected Rivalry link is saved on this browser. Refresh verifies current remote authority before any publish."
+              :prefillRivalryId
+                ?autoAttachResult&&autoAttachResult.code==="CONNECTED_RIVALRY_NOT_ACTIVE"
+                  ?"The pairing code is prefilled automatically. After the second manager joins, Connected Rivalry will attach automatically on the next Save Library or Remote Joining check."
+                  :"The pairing code is prefilled automatically. Connected Rivalry will verify and attach it when current paired authority is available; manual Attach remains only as a fallback."
+                :"Connected Rivalry is ready. Attach the exact private rivalry code once; this does not repeat pairing."
         });
       }catch(error){
         return crSetState({
@@ -728,6 +775,7 @@
           connected:false,
           attached:false,
           rivalryId:null,
+          prefillRivalryId:null,
           observedEnvelope:null,
           ...crClearReconciliationPreview(),
           message:`${error&&error.message?error.message:"Connected Rivalry is unavailable."} Local Career Mode remains unchanged.`
@@ -782,6 +830,7 @@
         connected:true,
         attached:true,
         rivalryId:result.rivalryId,
+        prefillRivalryId:null,
         accountId:context.accountId,
         deviceId:context.deviceId,
         binding,
@@ -983,8 +1032,13 @@
     const localCommitLabel=Number.isInteger(crState.localCommitRevision)&&crState.localCommitSaveId
       ?`Revision ${crState.localCommitRevision} · ${crShort(crState.localCommitSaveId)}`
       :"Not applied this session";
+    const rivalryLabel=crState.attached
+      ?crShort(crState.rivalryId)
+      :crState.prefillRivalryId
+        ?`Pairing ready · ${crShort(crState.prefillRivalryId)}`
+        :"Not attached";
     for(const [label,value] of [
-      ["RIVALRY",crState.attached?crShort(crState.rivalryId):"Not attached"],
+      ["RIVALRY",rivalryLabel],
       ["REMOTE OBSERVED",revisionLabel],
       ["LOCAL TARGET",targetLabel],
       ["LOCAL COMMIT",localCommitLabel],
@@ -1019,23 +1073,25 @@
       const code=crCreate("input","settingsConnectedAccountInput");
       code.type="text";
       code.value=crState.rivalryId||"";
-      code.placeholder=crState.rivalryId?"Saved rivalry ID":"Paste exact private rivalry code";
+      if(!code.value&&crState.prefillRivalryId)code.value=crState.prefillRivalryId;
+      code.placeholder=crState.rivalryId?"Saved rivalry ID":crState.prefillRivalryId?"Pairing ID prefilled automatically":"Paste exact private rivalry code";
       code.autocomplete="off";
       code.autocapitalize="none";
       code.spellcheck=false;
       code.setAttribute("aria-label","Exact private rivalry code for Connected Rivalry");
 
+      const displayedRivalryId=crState.rivalryId||crState.prefillRivalryId||"";
       let rivalryIdBlock=null;
       let copyRivalryId=null;
-      if(crState.rivalryId){
+      if(displayedRivalryId){
         rivalryIdBlock=crCreate("div","settingsDataNote settingsConnectedRivalryIdBlock");
         rivalryIdBlock.setAttribute("aria-label","Full Connected Rivalry ID");
         rivalryIdBlock.style.userSelect="text";
         rivalryIdBlock.style.webkitUserSelect="text";
         rivalryIdBlock.style.overflowWrap="anywhere";
         rivalryIdBlock.style.wordBreak="break-all";
-        const rivalryIdLabel=crCreate("span","settingsPanelEyebrow","FULL RIVALRY ID");
-        const rivalryIdText=crCreate("code","settingsConnectedRivalryIdText",crState.rivalryId);
+        const rivalryIdLabel=crCreate("span","settingsPanelEyebrow",crState.attached?"FULL RIVALRY ID":"PAIRING ID · AUTO CONNECT");
+        const rivalryIdText=crCreate("code","settingsConnectedRivalryIdText",displayedRivalryId);
         rivalryIdText.style.display="block";
         rivalryIdText.style.marginTop="0.4rem";
         rivalryIdText.style.fontFamily="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
@@ -1048,11 +1104,11 @@
         rivalryIdText.style.wordBreak="break-all";
         rivalryIdBlock.append(rivalryIdLabel,rivalryIdText);
 
-        copyRivalryId=crCreate("button","menuButton settingsConnectedAccountButton","COPY RIVALRY ID");
+        copyRivalryId=crCreate("button","menuButton settingsConnectedAccountButton",crState.attached?"COPY RIVALRY ID":"COPY PREFILLED ID");
         copyRivalryId.type="button";
         copyRivalryId.disabled=Boolean(crState.busy);
         copyRivalryId.addEventListener("click",async()=>{
-          const rivalryId=crState.rivalryId;
+          const rivalryId=crState.rivalryId||crState.prefillRivalryId;
           if(!rivalryId)return;
           let copied=false;
           try{
@@ -1086,7 +1142,7 @@
           }
           if(copied){
             copyRivalryId.textContent="COPIED";
-            root.setTimeout(()=>{if(copyRivalryId&&copyRivalryId.isConnected)copyRivalryId.textContent="COPY RIVALRY ID";},1600);
+            root.setTimeout(()=>{if(copyRivalryId&&copyRivalryId.isConnected)copyRivalryId.textContent=crState.attached?"COPY RIVALRY ID":"COPY PREFILLED ID";},1600);
           }else{
             try{
               const selection=typeof root.getSelection==="function"?root.getSelection():null;
@@ -1102,12 +1158,12 @@
         });
       }
 
-      const attach=crCreate("button","menuButton settingsConnectedAccountButton",crState.attached?"VERIFY / REATTACH":"ATTACH CONNECTED RIVALRY");
+      const attach=crCreate("button","menuButton settingsConnectedAccountButton",crState.attached?"VERIFY / REATTACH":crState.prefillRivalryId?"VERIFY AUTO LINK":"ATTACH CONNECTED RIVALRY");
       attach.type="button";
       attach.disabled=crState.busy||!bindings.length;
       attach.addEventListener("click",()=>{
         const binding=bindings[Number(select.value)||0];
-        const rivalryValue=(code.value||crState.rivalryId||"").trim();
+        const rivalryValue=(code.value||crState.rivalryId||crState.prefillRivalryId||"").trim();
         if(binding&&rivalryValue)void crHandleAttach(binding,rivalryValue);
       });
       const refresh=crCreate("button","menuButton settingsConnectedAccountButton","REFRESH SHARED STATE");
@@ -1218,6 +1274,7 @@
             connected:false,
             attached:false,
             rivalryId:null,
+            prefillRivalryId:null,
             accountId:null,
             deviceId:null,
             observedExists:false,
@@ -1238,7 +1295,10 @@
     }
     if(!crPairingUnsubscribe&&pairing&&typeof pairing.subscribe==="function"){
       crPairingUnsubscribe=pairing.subscribe(next=>{
-        if(next&&next.registered===true&&next.deviceId!==crState.deviceId)void crInitialize();
+        if(!next||next.registered!==true)return;
+        const capability=typeof next.capability==="string"?next.capability:null;
+        const capabilityChanged=Boolean(capability&&capability!==crState.rivalryId&&capability!==crState.prefillRivalryId);
+        if(next.deviceId!==crState.deviceId||capabilityChanged)void crInitialize();
       });
     }
   }
@@ -1281,6 +1341,7 @@
     storePointer:crStorePointer,
     loadPointer:crLoadPointer,
     resolveSavedPointer:crResolveSavedPointer,
+    resolvePairingCandidate:crResolvePairingCandidate,
     buildProjection:crBuildProjection,
     buildMutationPlan:crBuildMutationPlan,
     attachRivalry:crAttachRivalry,
