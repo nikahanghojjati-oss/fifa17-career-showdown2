@@ -36,7 +36,8 @@ assert.match(controllerSource,/new sparkConnectedServices\.authSdk\.GoogleAuthPr
 assert.match(controllerSource,/signInWithPopup\(sparkConnectedServices\.auth,provider\)/);
 assert.match(controllerSource,/setPersistence\(sparkConnectedServices\.auth,authSdk\.browserSessionPersistence\)/);
 assert.match(controllerSource,/CareerModeSparkAccountBootstrap/);
-assert.match(controllerSource,/Remote Joining is still locked|REMOTE JOINING","Locked/);
+assert.match(controllerSource,/Private Remote Joining is available from Showdown Home/);
+assert.match(controllerSource,/REMOTE JOINING\",\"Available from Showdown Home · private requirements apply/);
 assert.match(controllerSource,/Firebase Spark · no billing/);
 assert.doesNotMatch(controllerSource,/addScope\(|signInWithRedirect|credentialFromResult|getIdToken|getIdTokenResult|refreshToken/);
 assert.doesNotMatch(controllerSource,/localStorage|sessionStorage|indexedDB/);

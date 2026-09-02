@@ -146,7 +146,7 @@
     }
     const accountStatus=result.status||"active";
     const connected=accountStatus==="active";
-    const next=sparkConnectedSetState({status:connected?"ready":"account-unavailable",initialized:true,signedIn:true,connected,busy:false,accountStatus,message:connected?"Private account is ready. Private pairing and Connected Rivalry are available below when their requirements are met. Remote Joining sessions remain locked.":sparkConnectedLocalModeMessage(`This private account is ${accountStatus}.`)});
+    const next=sparkConnectedSetState({status:connected?"ready":"account-unavailable",initialized:true,signedIn:true,connected,busy:false,accountStatus,message:connected?"Private account is ready. Private pairing and Connected Rivalry are available below when their requirements are met. Private Remote Joining is available from Showdown Home after its account, registered-device, and Connected Rivalry requirements are satisfied.":sparkConnectedLocalModeMessage(`This private account is ${accountStatus}.`)});
     if(connected)void sparkConnectedMountPrivatePairing();
     return next;
   }
@@ -233,7 +233,7 @@
     const heading=sparkConnectedCreateElement("div","settingsPanelHeading");
     heading.append(sparkConnectedCreateElement("span","settingsPanelEyebrow","PRIVATE CONNECTION"),sparkConnectedCreateElement("h3","","CONNECTED ACCOUNT"),sparkConnectedCreateElement("p","","Optional Google sign-in for private pairing and Connected Rivalry. Your current saves remain local to this device."));
     const info=sparkConnectedCreateElement("div","settingsInfoGrid");
-    for(const [label,value] of [["STATUS",sparkConnectedState.connected?"Private account ready":sparkConnectedState.signedIn?"Signed in · setup incomplete":"Local only"],["ACCOUNT",sparkConnectedAccountLabel()],["ACCOUNT ID",sparkConnectedShortAccountId()],["REMOTE JOINING","Locked · Stage 5 sessions not enabled"],["INFRASTRUCTURE","Firebase Spark · no billing"]]){
+    for(const [label,value] of [["STATUS",sparkConnectedState.connected?"Private account ready":sparkConnectedState.signedIn?"Signed in · setup incomplete":"Local only"],["ACCOUNT",sparkConnectedAccountLabel()],["ACCOUNT ID",sparkConnectedShortAccountId()],["REMOTE JOINING","Available from Showdown Home · private requirements apply"],["INFRASTRUCTURE","Firebase Spark · no billing"]]){
       const row=sparkConnectedCreateElement("div","settingsInfoRow");
       row.append(sparkConnectedCreateElement("span","",label),sparkConnectedCreateElement("strong","",value));
       info.appendChild(row);
