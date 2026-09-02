@@ -9,7 +9,7 @@ delete pkg.scripts.test;
 delete pkg.scripts.precheck;
 delete pkg.scripts.postcheck;
 fs.writeFileSync(packagePath,JSON.stringify(pkg,null,2)+'\n');
-for(const file of ['ops/stage5e-precheck.cjs','ops/stage5e-stage5c-precheck.cjs','ops/stage5e-stage5d-precheck.cjs','ops/stage5e-postcheck.cjs']){
+for(const file of ['ops/stage5e-precheck.cjs','ops/stage5e-stage5c-precheck.cjs','ops/stage5e-stage5d-precheck.cjs','ops/stage5e-release-authority-precheck.cjs','ops/stage5e-postcheck.cjs']){
   const target=path.join(root,file);
   if(fs.existsSync(target))fs.unlinkSync(target);
 }
