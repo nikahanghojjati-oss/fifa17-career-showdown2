@@ -10,6 +10,10 @@ const NEW_PROOF = 'STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md';
 const NEXT = 'stage5e-runtime-host-join-publication-and-production-acceptance';
 const SUMMARY = 'Fresh successor independently verifies live PR #181 and fixed RJR87, preserves the provider-live Stage 5D Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08 as consumed, and validates the fresh WEC. Billing and Blaze remain forbidden and Cloud Run remains excluded. Then complete Stage 5E v1.9.0 host/join runtime publication and genuine production acceptance. RJR may move only from real provider-live Remote Joining capability evidence.';
 
+fs.mkdirSync('.git/hooks', {recursive:true});
+fs.writeFileSync('.git/hooks/pre-commit', '#!/bin/sh\nset -eu\ngit restore --staged --worktree --source=HEAD -- .github/workflows/stage5e-pr-repair.yml .github/workflows/validate-v1-visual-immersion.yml\n');
+fs.chmodSync('.git/hooks/pre-commit', 0o755);
+
 {
   const path = 'SESSION_BOOTSTRAP.json';
   const bootstrap = JSON.parse(read(path));
