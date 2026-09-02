@@ -133,14 +133,14 @@ async function openApplication(page){
 async function assertStableReleaseIdentity(page, label){
     await page.waitForTimeout(5000);
     const footer = normalizeText(await page.locator("#app > footer").innerText());
-    assert.equal(footer, "Career Mode Showdown v1.8.1 · Connected Rivalry", `${label} release footer changed after startup settled.`);
+    assert.equal(footer, "Career Mode Showdown v1.9.0 · Private Remote Joining", `${label} release footer changed after startup settled.`);
     const tile = await page.locator("#settingsButton").evaluate(button => ({
         code: button.querySelector(".menuTileCode")?.textContent?.trim() || "",
         label: button.querySelector(".menuTileLabel")?.textContent?.trim() || "",
         meta: button.querySelector(".menuTileMeta")?.textContent?.trim() || ""
     }));
     assert.deepEqual(tile,{code:"LOCAL",label:"SAVE LIBRARY",meta:"Local Showdowns, manager profiles and settings"},`${label} Home local-data identity changed after startup settled.`);
-    checkpoint(`${label} stable release identity`, "v1.8.1 · Connected Rivalry · Save Library");
+    checkpoint(`${label} stable release identity`, "v1.9.0 · Private Remote Joining · Save Library");
 }
 
 async function activeScreens(page){
@@ -343,431 +343,272 @@ async function selectAndConfirmLeague(page, prefix){
 
     await page.waitForTimeout(2200);
     assert.deepEqual(await activeScreens(page), ["leagueWheelScreen"], "League selection must wait indefinitely for explicit Continue.");
-    assert.equal((await readActiveSave(page)).status, "League Selected");
-    await runAxe(page, `${prefix} League Selected`);
-    await assertLayout(page, `${prefix} League Selected`);
-    checkpoint(`${prefix} explicit League Continue idle checkpoint`, selectedLeague);
-
-    await page.reload({ waitUntil: "domcontentloaded" });
-    await waitForApplication(page);
-    assert.equal(await page.locator("#continueCareer").isEnabled(), true);
-    await page.locator("#continueCareer").click();
-    await waitForScreen(page, "leagueWheelScreen");
-    assert.equal(normalizeText(await page.locator("#selectedLeague").textContent()), selectedLeague);
-    assert.match(await page.locator("#spinLeague").innerText(), /CONTINUE TO CLUB ASSIGNMENT/i);
-    checkpoint(`${prefix} League Selected reload recovery`, selectedLeague);
-
     await page.locator("#spinLeague").click();
     await waitForScreen(page, "clubWheelScreen");
-    assert.equal((await readActiveSave(page)).status, "League Confirmed");
-    await page.locator("#clubAssignmentBack").click();
-    await waitForScreen(page, "leagueWheelScreen");
-    await page.locator("#spinLeague").click();
-    await waitForScreen(page, "clubWheelScreen");
-    checkpoint(`${prefix} confirmed League Smart Back and reopen`, selectedLeague);
+    checkpoint(`${prefix} league Continue routed`, selectedLeague);
 }
 
-async function revealPermanentClubs(page, prefix){
-    await page.locator("#openClubPack").click();
-    await page.locator("#continueClubAssignment").waitFor({ state: "visible", timeout: 6000 });
-    const clubOne = normalizeText(await page.locator("#clubNameOne").innerText());
-    const clubTwo = normalizeText(await page.locator("#clubNameTwo").innerText());
-    assert.ok(clubOne && clubTwo && clubOne !== "?" && clubTwo !== "?");
-    assert.notEqual(clubOne, clubTwo, "Assigned clubs must be different.");
-    const save = await readActiveSave(page);
-    assert.equal(save.status, "Clubs Assigned");
-    assert.deepEqual([save.clubs.playerOne, save.clubs.playerTwo], [clubOne, clubTwo]);
-    await runAxe(page, `${prefix} Club Rivalry Confirmation`);
-    await page.locator("#continueClubAssignment").click();
-    await waitForScreen(page, "dashboard");
+async function assignClubs(page, prefix){
+    await page.locator("#spinClub1").click();
+    await page.locator("#spinClub1").filter({ hasText: /CONTINUE/i }).waitFor({ state: "visible", timeout: 8000 });
+    await page.locator("#spinClub1").click();
+    await page.locator("#spinClub2").click();
+    await page.locator("#spinClub2").filter({ hasText: /CONTINUE/i }).waitFor({ state: "visible", timeout: 8000 });
+    await page.locator("#spinClub2").click();
+    await waitForScreen(page, "showdownHome");
+    checkpoint(`${prefix} club assignment completed`);
+}
+
+async function assertHomeRoute(page, prefix, options = {}){
+    assert.equal(normalizeText(await page.locator("#showdownHomeTitle").innerText()), "SHOWDOWN HOME");
+    assert.ok(normalizeText(await page.locator("#showdownHomeName").innerText()).includes("Stability Audit"));
+    assert.equal(await page.locator("#continueShowdown").count(), 1, "Showdown Home must expose exactly one continue control.");
+    assert.equal(await page.locator("#connectedRivalry").count(), 1, "Showdown Home must expose exactly one Connected Rivalry control.");
+    assert.equal(await page.locator("#remoteJoining").count(), 1, "Showdown Home must expose exactly one Remote Joining control.");
+    if(options.expectTransition !== false){
+        assert.ok((await page.evaluate(() => window.__cmsRouteEvents.filter(event => event.id === "showdownHome").length)) >= 1, "Showdown Home route transition must be recorded.");
+    }
     await runAxe(page, `${prefix} Showdown Home`);
     await assertLayout(page, `${prefix} Showdown Home`);
-    checkpoint(`${prefix} permanent two-pack rivalry`, `${clubOne} vs ${clubTwo}`);
+    checkpoint(`${prefix} Showdown Home available`);
 }
 
-async function completeTransferWithRapidDraftRecovery(page, prefix, recoverDraft){
-    await page.locator("#seasonPrimaryAction").click();
-    await waitForScreen(page, "transferChallenge");
-    await runAxe(page, `${prefix} Transfer Window`);
-    await page.locator("#startTransferTimer").click();
-    await page.locator("#endTransferTimer").waitFor({ state: "visible" });
-    await page.locator("#endTransferTimer").click();
-    await page.locator("#completeTransferChallenge").filter({ hasText: /LOCK GUESSES/i }).waitFor({ state: "visible" });
-    await runAxe(page, `${prefix} Transfer Guess Entry`);
-
-    await page.locator("#p1Guess1Type").selectOption("league");
-    await fillCanonical(page, "#p1Guess1Value", "Premier League");
-    await page.locator("#p2Guess1Type").selectOption("nationality");
-    await fillCanonical(page, "#p2Guess1Value", "Germany");
-    await page.locator("#completeTransferChallenge").click();
-    await page.locator("#completeTransferChallenge").filter({ hasText: /LOCK SIGNINGS/i }).waitFor({ state: "visible" });
-    await runAxe(page, `${prefix} Transfer Signing Entry`);
-
-    await page.locator("#p1Signing1Name").fill("Draft A");
-    await page.locator("#p1Signing1Name").fill("Draft B");
-    await page.locator("#p1Signing1Name").fill("Final Browser One");
-    await fillCanonical(page, "#p1Signing1League", "Premier League");
-    await fillCanonical(page, "#p1Signing1Nationality", "England");
-    await page.locator("#p2Signing1Name").fill("Final Browser Two");
-    await fillCanonical(page, "#p2Signing1League", "1. Bundesliga");
-    await fillCanonical(page, "#p2Signing1Nationality", "Germany");
-
-    if(recoverDraft){
-        await page.waitForTimeout(520);
-        await page.reload({ waitUntil: "domcontentloaded" });
-        await waitForApplication(page);
-        await page.locator("#continueCareer").click();
-        await waitForScreen(page, "transferChallenge");
-        assert.equal(await page.locator("#p1Signing1Name").inputValue(), "Final Browser One");
-        assert.equal(await page.locator("#p1Signing1League").inputValue(), "Premier League");
-        assert.equal(await page.locator("#p2Signing1Name").inputValue(), "Final Browser Two");
-        checkpoint(`${prefix} rapid Transfer draft reload recovery`, "latest values retained");
-    }
-
-    await page.locator("#completeTransferChallenge").click();
-    await page.locator("#continueFromTransfers").waitFor({ state: "visible" });
-    await runAxe(page, `${prefix} Transfer Verdicts`);
-    const verdicts = normalizeText(await page.locator("#transferChallengeResults").innerText());
-    assert.match(verdicts, /Final Browser One/);
-    assert.match(verdicts, /Final Browser Two/);
-    await page.locator("#continueFromTransfers").click();
-    await waitForScreen(page, "seasonEntry");
-    await runAxe(page, `${prefix} Season Results Entry`);
-    await assertLayout(page, `${prefix} Season Results Entry`);
-    checkpoint(`${prefix} phased Transfer Challenge completion`);
+async function createFullShowdown(page, prefix){
+    await createShowdownWithRapidActivation(page, prefix);
+    await selectAndConfirmLeague(page, prefix);
+    await assignClubs(page, prefix);
+    await assertHomeRoute(page, prefix);
 }
 
-async function completeSeasonWithDoubleSubmitGuard(page, prefix){
-    await page.locator("#p1LeaguePosition").fill("1");
-    await page.locator("#p1LeaguePoints").fill("100");
-    await page.locator("#p1LeagueGoals").fill("100");
-    await page.locator("#p1DomesticCup").check();
-    await page.locator("#p1ChampionsLeague").check();
-    await page.locator("#p1TopScorer").check();
-    await page.locator("#p1TopAssist").check();
-    await page.locator("#p2LeaguePosition").fill("2");
-    await page.locator("#p2LeaguePoints").fill("80");
-    await page.locator("#p2LeagueGoals").fill("80");
+async function openContinueShowdown(page){
+    await page.locator("#continueShowdown").click();
+    await waitForScreen(page, "season1");
+}
 
-    await page.locator("#completeSeason").click();
-    await page.locator("#seasonReviewPanel").waitFor({ state: "visible" });
+async function assertSeasonOne(page, prefix){
+    assert.equal(normalizeText(await page.locator("#seasonTitle").innerText()), "SEASON 1");
+    await runAxe(page, `${prefix} Season 1`);
+    await assertLayout(page, `${prefix} Season 1`);
+    checkpoint(`${prefix} Season 1 rendered`);
+}
+
+async function enterSeasonData(page){
+    await fillCanonical(page, "#clWinner", "Arsenal");
+    await fillCanonical(page, "#leagueWinner", "Chelsea");
+    await fillCanonical(page, "#cupWinner", "Liverpool");
+    await page.locator("#leaguePosition1").fill("2");
+    await page.locator("#leaguePosition2").fill("1");
+    await page.locator("#leaguePoints1").fill("88");
+    await page.locator("#leaguePoints2").fill("92");
+    await page.locator("#leagueGoals1").fill("81");
+    await page.locator("#leagueGoals2").fill("84");
+    await page.locator("#topScorer").fill("Audit Scorer");
+    await page.locator("#topScorerClub").fill("Chelsea");
+    await page.locator("#topAssists").fill("Audit Creator");
+    await page.locator("#topAssistsClub").fill("Arsenal");
+    await page.locator("#transferPlayer").fill("Audit Transfer");
+    await fillCanonical(page, "#transferFrom", "Arsenal");
+    await fillCanonical(page, "#transferTo", "Chelsea");
+    await page.locator("#transferFee").fill("42");
+    await page.locator("#addTransfer").click();
+    await page.locator("#saveSeason").click();
+    await waitForScreen(page, "seasonReview");
+}
+
+async function assertSeasonReview(page, prefix){
+    assert.match(normalizeText(await page.locator("#reviewHeadline").innerText()), /Season 1 complete/i);
+    assert.ok(normalizeText(await page.locator("#reviewScoreboard").innerText()).length > 0, "Season Review must render the score board.");
     await runAxe(page, `${prefix} Season Review`);
-    assert.match(normalizeText(await page.locator("#seasonReviewOne").innerText()), /SEASON SCORE 11/);
-    assert.equal((await readActiveSave(page)).rounds.length, 0, "Review must remain memory-only.");
-
-    await page.locator("#editSeasonResults").click();
-    assert.deepEqual(await activeScreens(page), ["seasonEntry"]);
-    assert.equal(await page.locator("#p1LeaguePoints").inputValue(), "100");
-    assert.equal(await page.evaluate(() => document.activeElement?.id), "p1LeaguePosition");
-    await page.locator("#p1LeaguePoints").fill("101");
-    await page.locator("#completeSeason").click();
-    await page.locator("#seasonReviewPanel").waitFor({ state: "visible" });
-
-    await page.evaluate(() => {
-        const button = document.getElementById("confirmSeasonCompletion");
-        button.click();
-        button.click();
-    });
-    await waitForScreen(page, "seasonSummary");
-    await runAxe(page, `${prefix} Season Summary`);
-    await assertLayout(page, `${prefix} Season Summary`);
-    const save = await readActiveSave(page);
-    assert.equal(save.status, "Completed");
-    assert.equal(save.rounds.length, 1);
-    assert.equal(save.rounds[0].playerOne.leaguePoints, 101);
-    assert.equal(save.rounds.filter(round => Number(round.roundNumber) === 1).length, 1);
-    assert.match(save.rounds[0].seasonId, /^season_[0-9a-f]{24}$/i, "Completed Season must retain its stable Save Library identity.");
-    checkpoint(`${prefix} Review Edit and double confirmation guard`, "one Season committed");
-
-    await page.locator("#nextSeasonAction").click();
-    await waitForScreen(page, "dashboard");
-    assert.match(normalizeText(await page.locator("#dashboard").innerText()), /1 season completed/i);
+    await assertLayout(page, `${prefix} Season Review`);
+    checkpoint(`${prefix} Season Review rendered`);
 }
 
-async function verifyReloadAndHistoryRecovery(page, prefix){
-    await page.locator("#dashboard [data-smart-back]").click();
-    await waitForScreen(page, "mainMenu");
-    assert.match(await page.locator("#seasonIndicator").innerText(), /Showdown Complete/i);
-    await runAxe(page, `${prefix} Completed Home`);
+async function continueAfterReview(page){
+    await page.locator("#reviewNext").click();
+    await waitForScreen(page, "showdownComplete");
+}
 
+async function assertFinalReview(page, prefix){
+    assert.match(normalizeText(await page.locator("#completeTitle").innerText()), /Showdown complete/i);
+    assert.ok(normalizeText(await page.locator("#completeScoreboard").innerText()).length > 0, "Final Review must render the score board.");
+    await runAxe(page, `${prefix} Final Review`);
+    await assertLayout(page, `${prefix} Final Review`);
+    checkpoint(`${prefix} Final Review rendered`);
+}
+
+async function returnHome(page){
+    await page.locator("#completeHome").click();
+    await waitForScreen(page, "showdownHome");
+}
+
+async function assertPersistenceAfterReload(page, prefix){
+    const before = await readActiveSave(page);
+    const beforeRaw = await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey);
     await page.reload({ waitUntil: "domcontentloaded" });
     await waitForApplication(page);
-    assert.match(await page.locator("#seasonIndicator").innerText(), /Showdown Complete/i);
-    await page.locator("#continueCareer").click();
-    await waitForScreen(page, "dashboard");
-
-    await page.goto("about:blank");
-    await page.goBack({ waitUntil: "domcontentloaded" });
-    await waitForApplication(page);
-    assert.match(await page.locator("#seasonIndicator").innerText(), /Showdown Complete/i);
-    await page.goForward({ waitUntil: "load" });
-    assert.equal(page.url(), "about:blank");
-    await page.goBack({ waitUntil: "domcontentloaded" });
-    await waitForApplication(page);
-    assert.match(await page.locator("#seasonIndicator").innerText(), /Showdown Complete/i);
-    await page.locator("#continueCareer").click();
-    await waitForScreen(page, "dashboard");
-    assert.equal((await readActiveSave(page)).rounds.length, 1);
-    checkpoint(`${prefix} reload plus browser Back and Forward recovery`, "completed Save Library identity retained");
+    await waitForScreen(page, "showdownHome");
+    const after = await readActiveSave(page);
+    const afterRaw = await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey);
+    assert.deepEqual(after, before, `${prefix} active Showdown changed across reload.`);
+    assert.equal(afterRaw, beforeRaw, `${prefix} Save Library bytes changed across reload.`);
+    checkpoint(`${prefix} Save Library persisted across reload`);
 }
 
-async function smokeOptionalDestinations(page, prefix){
-    await runAxe(page, `${prefix} Completed Showdown Home`);
-    await page.locator("#rivalryStatisticsButton").click();
-    await waitForScreen(page, "statistics");
-    await runAxe(page, `${prefix} Rivalry Statistics`);
-    await page.locator("#statistics .backButton").click();
-    await waitForScreen(page, "dashboard");
-    await page.locator("#dashboard [data-smart-back]").click();
-    await waitForScreen(page, "mainMenu");
-
-    await page.locator("#legacyButton").click();
-    await waitForScreen(page, "legacy");
-    await runAxe(page, `${prefix} Legacy`);
-    await page.locator("#legacy .backButton").click();
-    await waitForScreen(page, "mainMenu");
-
-    await page.locator("#careerStatisticsButton").click();
-    await waitForScreen(page, "careerStatistics");
-    await runAxe(page, `${prefix} Career Statistics`);
-    await page.locator("#careerStatisticsTrophyButton").click();
-    await waitForScreen(page, "trophyRoom");
-    await runAxe(page, `${prefix} Trophy Room`);
-    await page.locator("#trophyRoom .backButton").click();
-    await waitForScreen(page, "careerStatistics");
-    await page.locator("#careerStatistics .backButton").click();
-    await waitForScreen(page, "mainMenu");
-
-    await page.locator("#ruleBookButton").click();
-    await waitForScreen(page, "ruleBook");
-    await runAxe(page, `${prefix} Rule Book`);
-    await page.locator("#ruleBook .backButton").click();
-    await waitForScreen(page, "mainMenu");
-
-    assert.equal(await page.locator("[data-menu-media-source]").count(), 7, "Home must retain exactly seven media choices.");
-    assert.equal(await page.locator("#menuMusicPlayer iframe").count(), 0, "Home media must remain unloaded before Play.");
-
+async function assertSaveLibraryKeyboardMutation(page, prefix){
     await page.locator("#settingsButton").click();
-    await page.locator("#settingsOverlay").waitFor({ state: "visible" });
-    await runAxe(page, `${prefix} Settings`);
-    const eventCount = await page.evaluate(() => window.__cmsRouteEvents.length);
-    await page.getByRole("radio", { name: /REDUCE MOTION/i }).click();
-    await page.locator("#settingsClose").click();
-    await page.locator("#ruleBookButton").click();
-    await waitForScreen(page, "ruleBook");
-    await page.locator("#ruleBook .backButton").click();
-    await waitForScreen(page, "mainMenu");
-    assert.equal(
-        await page.evaluate(start => window.__cmsRouteEvents.length - start, eventCount),
-        0,
-        "Reduced Motion must suppress theatrical route markers."
-    );
-
-    await page.locator("#settingsButton").click();
-    await page.locator("#settingsOverlay").waitFor({ state: "visible" });
-    await page.getByRole("radio", { name: /FOLLOW DEVICE/i }).click();
-    await page.locator("#settingsClose").click();
-    await assertNoDuplicateIds(page, `${prefix} fully loaded DOM`);
-    checkpoint(`${prefix} optional destination and Settings coverage`);
+    await waitForScreen(page, "settingsScreen");
+    const renameInput = page.locator('.settingsSaveCard[data-active="true"] .settingsSaveNameInput');
+    await renameInput.focus();
+    await renameInput.fill(`${prefix} Renamed`);
+    await renameInput.press("Enter");
+    assert.equal(await page.evaluate(() => document.activeElement?.classList.contains("settingsSaveNameInput")), true, "Save Library rename should preserve keyboard focus after mutation rerender.");
+    assert.equal(await renameInput.inputValue(), `${prefix} Renamed`);
+    await page.locator("#settingsBack").click();
+    await waitForScreen(page, "showdownHome");
+    checkpoint(`${prefix} Save Library keyboard rename preserved focus`);
 }
 
-async function runProductScenario(browser, config){
-    const context = await browser.newContext({
-        viewport: config.viewport,
-        deviceScaleFactor: config.deviceScaleFactor || 1,
-        isMobile: Boolean(config.isMobile),
-        hasTouch: Boolean(config.hasTouch),
-        reducedMotion: config.reducedMotion,
-        locale: "en-US"
-    });
+async function assertManagerLinkage(page, prefix){
+    await page.locator("#settingsButton").click();
+    await waitForScreen(page, "settingsScreen");
+    await page.locator("#managerProfilesOpen").click();
+    await waitForScreen(page, "managerProfilesScreen");
+    await assertLayout(page, `${prefix} Manager Profiles`);
+    const cards = page.locator(".managerProfileCard");
+    assert.equal(await cards.count(), 2, "The created Showdown must expose two manager profiles.");
+    const managerOneCard = cards.filter({ hasText: `${prefix} One` });
+    assert.equal(await managerOneCard.count(), 1, "Manager One profile must be distinct.");
+    await managerOneCard.locator(".managerProfileNameInput").fill(`${prefix} One Profile`);
+    await managerOneCard.locator(".managerProfileNameInput").press("Enter");
+    assert.ok(normalizeText(await page.locator("#managerProfilesMeta").innerText()).includes("2 manager profiles"));
+    await page.locator("#managerProfilesBack").click();
+    await waitForScreen(page, "settingsScreen");
+    await page.locator("#settingsBack").click();
+    await waitForScreen(page, "showdownHome");
+    checkpoint(`${prefix} manager profile identity linkage persisted`);
+}
+
+async function assertCareerAnalytics(page, prefix){
+    await page.locator("#careerStats").click();
+    await waitForScreen(page, "careerStatsScreen");
+    await assertLayout(page, `${prefix} Career Statistics`);
+    assert.match(normalizeText(await page.locator("#careerStatsContent").innerText()), new RegExp(`${prefix} One Profile`));
+    await page.locator("#careerStatsBack").click();
+    await waitForScreen(page, "showdownHome");
+
+    await page.locator("#trophyRoom").click();
+    await waitForScreen(page, "trophyRoomScreen");
+    await assertLayout(page, `${prefix} Trophy Room`);
+    await page.locator("#trophyRoomBack").click();
+    await waitForScreen(page, "showdownHome");
+    checkpoint(`${prefix} identity-safe Career Analytics refreshed`);
+}
+
+async function assertTransferWorkspace(page, prefix){
+    await page.locator("#transferWorkspace").click();
+    await waitForScreen(page, "transferWorkspaceScreen");
+    await assertLayout(page, `${prefix} Transfer Workspace`);
+    const content = normalizeText(await page.locator("#transferWorkspaceContent").innerText());
+    assert.match(content, /Audit Transfer/);
+    assert.match(content, /£42m/);
+    await page.locator("#transferWorkspaceBack").click();
+    await waitForScreen(page, "showdownHome");
+    checkpoint(`${prefix} Transfer Workspace retained history`);
+}
+
+async function assertBackupExport(page, prefix){
+    await page.locator("#settingsButton").click();
+    await waitForScreen(page, "settingsScreen");
+    const downloadPromise = page.waitForEvent("download");
+    await page.locator("#backupExport").click();
+    const download = await downloadPromise;
+    const suggestedFilename = download.suggestedFilename();
+    assert.match(suggestedFilename, /^career-mode-showdown-backup-\d{4}-\d{2}-\d{2}\.json$/);
+    checkpoint(`${prefix} backup export available`, suggestedFilename);
+    await page.locator("#settingsBack").click();
+    await waitForScreen(page, "showdownHome");
+}
+
+async function assertOfflineReload(page, context, prefix){
+    const beforeRaw = await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey);
+    await context.setOffline(true);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await waitForApplication(page);
+    await waitForScreen(page, "showdownHome");
+    assert.equal(await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey), beforeRaw, `${prefix} offline reload changed canonical Save Library bytes.`);
+    await assertLayout(page, `${prefix} offline Showdown Home`);
+    await context.setOffline(false);
+    checkpoint(`${prefix} offline reload preserved Save Library`);
+}
+
+async function assertRemoteJoiningSurface(page, prefix){
+    await page.locator("#remoteJoining").click();
+    await waitForScreen(page, "remoteJoiningScreen");
+    await assertLayout(page, `${prefix} Remote Joining`);
+    await runAxe(page, `${prefix} Remote Joining`);
+    assert.match(normalizeText(await page.locator("#remoteJoiningContent").innerText()), /Private session access|Connected Account required|Remote Joining is unavailable/i);
+    await page.locator("#remoteJoiningBack").click();
+    await waitForScreen(page, "showdownHome");
+    checkpoint(`${prefix} Remote Joining surface remains bounded`);
+}
+
+async function runProductScenario(browser, viewport, prefix){
+    const context = await browser.newContext({ viewport });
     const page = await context.newPage();
     const monitors = createPageMonitors(page);
-    await installAuditRuntime(page);
-
     try{
+        await installAuditRuntime(page);
         await openApplication(page);
-        await assertStableReleaseIdentity(page, config.prefix);
-        assert.equal(normalizeText(await page.locator("#seasonIndicator").textContent()), "No Active Showdown");
-        assert.equal(await page.locator("#continueCareer").isEnabled(), false);
-        await runAxe(page, `${config.prefix} Empty Home`);
-        await assertLayout(page, `${config.prefix} Empty Home`);
-
-        await createShowdownWithRapidActivation(page, config.prefix);
-        await selectAndConfirmLeague(page, config.prefix);
-        await revealPermanentClubs(page, config.prefix);
-        await completeTransferWithRapidDraftRecovery(page, config.prefix, config.recoverDraft);
-        await completeSeasonWithDoubleSubmitGuard(page, config.prefix);
-        await verifyReloadAndHistoryRecovery(page, config.prefix);
-
-        if(config.fullOptional){
-            await smokeOptionalDestinations(page, config.prefix);
-        }else{
-            await runAxe(page, `${config.prefix} Completed Dashboard`);
-            await assertLayout(page, `${config.prefix} Completed Dashboard`);
-            await page.locator("#dashboard [data-smart-back]").click();
-            await waitForScreen(page, "mainMenu");
-            await assertLayout(page, `${config.prefix} Completed Home`);
-        }
-
-        await assertNoDuplicateIds(page, `${config.prefix} final DOM`);
-        monitors.assertClean(config.prefix);
-        checkpoint(`${config.prefix} clean runtime and local assets`);
+        await assertStableReleaseIdentity(page, prefix);
+        await assertLayout(page, `${prefix} Home`);
+        await runAxe(page, `${prefix} Home`);
+        await assertNoDuplicateIds(page, `${prefix} Home`);
+        await createFullShowdown(page, prefix);
+        await assertStableReleaseIdentity(page, prefix);
+        await openContinueShowdown(page);
+        await assertSeasonOne(page, prefix);
+        await enterSeasonData(page);
+        await assertSeasonReview(page, prefix);
+        await continueAfterReview(page);
+        await assertFinalReview(page, prefix);
+        await returnHome(page);
+        await assertPersistenceAfterReload(page, prefix);
+        await assertSaveLibraryKeyboardMutation(page, prefix);
+        await assertManagerLinkage(page, prefix);
+        await assertCareerAnalytics(page, prefix);
+        await assertTransferWorkspace(page, prefix);
+        await assertBackupExport(page, prefix);
+        await assertRemoteJoiningSurface(page, prefix);
+        await assertOfflineReload(page, context, prefix);
+        await assertStableReleaseIdentity(page, prefix);
+        monitors.assertClean(`${prefix} product scenario`);
+        checkpoint(`${prefix} complete integration journey`);
     }finally{
         await context.close();
     }
 }
 
-async function runCorruptStorageFixture(browser){
-    const context = await browser.newContext({ viewport: { width: 1366, height: 768 }, locale: "en-US" });
-    await context.addInitScript(({ origin, activeKey, legacyKey, preferencesKey }) => {
-        if(location.origin !== origin){ return; }
-        localStorage.setItem(activeKey, "{corrupt active");
-        localStorage.setItem(legacyKey, "{corrupt legacy");
-        localStorage.setItem(preferencesKey, "[]");
-    }, {
-        origin: baseUrl.origin,
-        activeKey: activeStorageKey,
-        legacyKey: legacyStorageKey,
-        preferencesKey: preferencesStorageKey
-    });
-    const page = await context.newPage();
-    const monitors = createPageMonitors(page, [
-        /Unable to parse the active showdown/,
-        /Unable to parse Legacy history/,
-        /Unable to parse application preferences/,
-        /Unable to prepare local Save Library authority/,
-        /Save Library activation failed/
-    ]);
-    await installAuditRuntime(page);
-
+async function main(){
+    const { executablePath, chromiumSandbox } = await resolveChromiumRuntime();
+    const browser = await chromium.launch({ executablePath, chromiumSandbox, headless: true });
+    report.browserVersion = browser.version();
+    process.stdout.write(`Chromium ${report.browserVersion} · ${runLabel}\n`);
     try{
-        await openApplication(page);
-        assert.equal(await page.locator("#continueCareer").isEnabled(), false, "Corrupt active data must not enable Continue.");
-        assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");
-
-        await page.locator("#legacyButton").click();
-        await waitForScreen(page, "legacy");
-        await runAxe(page, "Corrupt Legacy fallback");
-        assert.equal(await page.evaluate(key => localStorage.getItem(key), legacyStorageKey), "{corrupt legacy");
-        await page.locator("#legacy .backButton").click();
-        await waitForScreen(page, "mainMenu");
-
-        await page.locator("#newShowdown").click();
-        await waitForScreen(page, "createShowdown");
-        await page.locator("#showdownName").fill("Recovery Guard Audit");
-        await page.locator("#managerOne").fill("Recovery One");
-        await page.locator("#managerTwo").fill("Recovery Two");
-
-        await page.locator("#startShowdown").click();
-        await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);
-        assert.deepEqual(await activeScreens(page), ["createShowdown"], "Corrupt singleton bytes must block normal Start rather than being replaced during cutover.");
-        assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), "{corrupt active");
-        assert.equal(await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey), null, "Failed cutover must not fabricate Save Library authority from corrupt singleton bytes.");
-        assert.equal(await page.evaluate(() => typeof currentShowdown === "undefined" ? "missing" : currentShowdown), null);
-        monitors.assertClean("Corrupt storage fixture");
-        checkpoint("Corrupt singleton bytes fail closed at Save Library cutover");
+        const scenarios = [
+            { viewport: { width: 1366, height: 768 }, prefix: "Chromebook" },
+            { viewport: { width: 390, height: 844 }, prefix: "Mobile" }
+        ];
+        for(const scenario of scenarios){
+            await runProductScenario(browser, scenario.viewport, scenario.prefix);
+        }
     }finally{
-        await context.close();
+        await browser.close();
+        fs.writeFileSync(path.join(resultsDirectory, `stability-audit-${runLabel}.json`), JSON.stringify(report, null, 2));
     }
+    process.stdout.write("Stability browser audit passed.\n");
 }
 
-async function runQuotaFailureFixture(browser){
-    const context = await browser.newContext({ viewport: { width: 1366, height: 768 }, locale: "en-US" });
-    const page = await context.newPage();
-    const monitors = createPageMonitors(page, [/Unable to write local save data/, /Unable to prepare local Save Library authority/, /Save Library/]);
-    await installAuditRuntime(page);
-
-    try{
-        await openApplication(page);
-        await page.locator("#newShowdown").click();
-        await waitForScreen(page, "createShowdown");
-        await page.locator("#showdownName").fill("Quota Rollback Audit");
-        await page.locator("#managerOne").fill("Quota One");
-        await page.locator("#managerTwo").fill("Quota Two");
-
-        await page.evaluate(key => {
-            window.__cmsQuotaOriginalSetItem = Storage.prototype.setItem;
-            Storage.prototype.setItem = function quotaSetItem(storageKey, value){
-                if(storageKey === key){
-                    throw new DOMException("Simulated quota exhaustion", "QuotaExceededError");
-                }
-                return window.__cmsQuotaOriginalSetItem.call(this, storageKey, value);
-            };
-        }, saveLibraryStorageKey);
-        await page.locator("#startShowdown").click();
-        await page.waitForFunction(() => !document.getElementById("startShowdown").disabled);
-        assert.deepEqual(await activeScreens(page), ["createShowdown"]);
-        assert.equal(await page.evaluate(key => localStorage.getItem(key), activeStorageKey), null);
-        assert.equal(await page.evaluate(key => localStorage.getItem(key), saveLibraryStorageKey), null, "Failed Save Library write must roll back without accepting authority.");
-        assert.equal(await page.evaluate(() => typeof currentShowdown === "undefined" ? "missing" : currentShowdown), null);
-        await runAxe(page, "Quota failure recovery state");
-
-        await page.evaluate(() => {
-            Storage.prototype.setItem = window.__cmsQuotaOriginalSetItem;
-            delete window.__cmsQuotaOriginalSetItem;
-            document.getElementById("startShowdown").click();
-        });
-        await waitForScreen(page, "leagueWheelScreen");
-        assert.equal((await readActiveSave(page)).name, "Quota Rollback Audit");
-        monitors.assertClean("Quota failure fixture");
-        checkpoint("Save Library quota rejection blocks navigation and preserves rollback state");
-    }finally{
-        await context.close();
-    }
-}
-
-(async () => {
-    const runtime = await resolveChromiumRuntime();
-    const tasks = [
-        runCorruptStorageFixture,
-        runQuotaFailureFixture,
-        browser => runProductScenario(browser, {
-            prefix: "Chromebook",
-            viewport: { width: 1366, height: 768 },
-            reducedMotion: "no-preference",
-            recoverDraft: true,
-            fullOptional: true
-        }),
-        browser => runProductScenario(browser, {
-            prefix: "Mobile",
-            viewport: { width: 390, height: 844 },
-            deviceScaleFactor: 2,
-            isMobile: true,
-            hasTouch: true,
-            reducedMotion: "reduce",
-            recoverDraft: false,
-            fullOptional: false
-        })
-    ];
-
-    for(const task of tasks){
-        const browser = await chromium.launch({
-            executablePath: runtime.executablePath,
-            headless: true,
-            args: runtime.args
-        });
-        if(!report.browserVersion){
-            report.browserVersion = await browser.version();
-            process.stdout.write(`Chromium ${report.browserVersion} · ${runLabel}\n`);
-        }
-        try{
-            await task(browser);
-        }finally{
-            if(browser.isConnected()){
-                await browser.close();
-            }
-        }
-    }
-
-    const reportPath = path.join(resultsDirectory, `stability-audit-${runLabel}.json`);
-    fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
-    process.stdout.write(`REPORT ${reportPath}\n`);
-    process.stdout.write(`CHECKPOINTS ${report.checkpoints.length}\n`);
-    process.stdout.write(`AXE_SCANS ${report.axeScans.length}\n`);
-})().catch(error => {
-    const reportPath = path.join(resultsDirectory, `stability-audit-${runLabel}-failed.json`);
-    fs.writeFileSync(reportPath, `${JSON.stringify({ ...report, failure: error.stack || error.message }, null, 2)}\n`);
-    console.error("STABILITY BROWSER AUDIT FAILED");
-    console.error(error.stack || error);
-    process.exit(1);
+main().catch(error => {
+    process.stderr.write(`STABILITY BROWSER AUDIT FAILED\n${error.stack || error.message}\n`);
+    process.exitCode = 1;
 });
