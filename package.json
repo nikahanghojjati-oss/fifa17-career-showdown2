@@ -5,7 +5,7 @@
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
     "test": "npm run check",
-    "precheck": "node ops/stage5e-precheck.cjs",
+    "precheck": "node ops/stage5e-precheck.cjs && node ops/stage5e-lane-precheck.cjs",
     "check": "npm run test:contracts",
     "postcheck": "node ops/stage5e-postcheck.cjs",
     "work:assess": "node scripts/work-environment-continuity.mjs assess",
