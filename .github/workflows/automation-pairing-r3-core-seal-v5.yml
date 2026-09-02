@@ -86,13 +86,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -f .github/workflows/automation-pairing-r3-hardening-v2.yml \
-            .github/workflows/automation-pairing-r3-fast-seal.yml \
-            .github/workflows/automation-pairing-r3-core-seal.yml \
-            .github/workflows/automation-pairing-r3-core-seal-v2.yml \
-            .github/workflows/automation-pairing-r3-core-seal-v3.yml \
-            .github/workflows/automation-pairing-r3-core-seal-v4.yml \
-            .github/workflows/automation-pairing-r3-core-seal-v5.yml
+          # The Actions GITHUB_TOKEN has contents permission but no workflow scope.
+          # Keep every workflow file byte-identical in this bot push; the connector
+          # will update the permanent validation workflow and remove these one-time
+          # automation files separately after this validated runtime commit lands.
+          git restore .github/workflows
           python - <<'PY'
           from pathlib import Path
           path=Path('STAGE5E_PRODUCTION_REMOTE_JOINING_ACCEPTANCE_RUNBOOK_2026-09-02.md')
