@@ -93,6 +93,11 @@ jobs:
             .github/workflows/automation-pairing-r3-core-seal-v3.yml \
             .github/workflows/automation-pairing-r3-core-seal-v4.yml \
             .github/workflows/automation-pairing-r3-core-seal-v5.yml
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('STAGE5E_PRODUCTION_REMOTE_JOINING_ACCEPTANCE_RUNBOOK_2026-09-02.md')
+          path.write_text(path.read_text().rstrip()+"\n")
+          PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
