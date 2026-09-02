@@ -49,6 +49,17 @@ jobs:
           assert old in source
           p.write_text(source.replace(old,new,1))
 
+          test=Path('tests/browser/pairing-four-code-automation-audit.cjs')
+          audit=test.read_text()
+          old='''  await page.setContent('<div id="settingsOverlay"><div id="settingsContent"></div></div>');\n'''
+          new='''  await page.setContent('<div id="settingsOverlay" class="settingsOverlay"><div class="settingsDialog"><header class="settingsHeader"><div class="settingsHeading"><span class="settingsEyebrow">SAVE LIBRARY</span><h2>SETTINGS</h2></div></header><div id="settingsContent" class="settingsContent"></div><footer class="settingsFooter"></footer></div></div>');\n  await page.addStyleTag({url:new URL("css/app.css",baseUrl).href});\n  await page.addStyleTag({url:new URL("css/settings.css",baseUrl).href});\n'''
+          assert old in audit
+          audit=audit.replace(old,new,1)
+          old='''    await copyButton.click();\n    const copied=await page.evaluate(()=>navigator.clipboard.readText());\n'''
+          new='''    const copyHitTarget=await copyButton.evaluate(button=>{const rect=button.getBoundingClientRect();const hit=document.elementFromPoint(rect.left+rect.width/2,rect.top+rect.height/2);return hit===button||Boolean(hit&&hit.closest&&hit.closest("button")===button);});\n    assert.equal(copyHitTarget,true,`iteration ${iteration}: copy button center is obstructed in production settings geometry`);\n    await copyButton.click({timeout:5000});\n    const copied=await page.evaluate(()=>navigator.clipboard.readText());\n'''
+          assert old in audit
+          test.write_text(audit.replace(old,new,1))
+
           release_marker="          cat > RELEASE_V1.9.0_R3.md <<'EOF'\n"
           release_start=workflow.index(release_marker)+len(release_marker)
           release_end=workflow.index("\n          EOF\n",release_start)
