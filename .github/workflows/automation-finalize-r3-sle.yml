@@ -1,0 +1,195 @@
+name: One-time Finalize R3 SLE
+
+on:
+  push:
+    branches:
+      - handoff/stage5e-r3-owner-lifecycle-2026-09-02
+
+permissions:
+  contents: write
+
+jobs:
+  finalize-sle:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: handoff/stage5e-r3-owner-lifecycle-2026-09-02
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Refresh recursive SLE context and contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          starter=Path('START_NEXT_SESSION_V1.4.36_PR183_R3_OWNER_LIFECYCLE.md')
+          handoff=Path('SUCCESSOR_HANDOFF_PR183_R3_OWNER_LIFECYCLE_SLE_2026-09-02.md')
+          recursion='''\n## Repository-first next-developer prompt\n\nAt the next handoff, preserve the mandatory repository-first next-developer prompt and regenerate it with `npm run work:next-prompt` when repository tooling is available. The prompt must name the newest START NEXT SESSION, require independent live verification, require a fresh unique WEC, route to `IMMEDIATE NEXT TASK AFTER FULL STUDY`, and keep the handoff orientation-only.\n'''
+          for p in (starter,handoff):
+              text=p.read_text()
+              if 'npm run work:next-prompt' not in text:
+                  p.write_text(text.rstrip()+recursion+'\n')
+          Path('project-documents/session-starts/START_NEXT_SESSION_V1.4.36_PR183_R3_OWNER_LIFECYCLE.md').write_bytes(starter.read_bytes())
+          Path('project-documents/handoffs/SUCCESSOR_HANDOFF_PR183_R3_OWNER_LIFECYCLE_SLE_2026-09-02.md').write_bytes(handoff.read_bytes())
+
+          now='2026-09-02T20:40:00.000Z'
+          graph_path=Path('SESSION_CONTEXT_GRAPH.json')
+          graph=json.loads(graph_path.read_text())
+          graph['recordedAt']=now
+          nodes=graph.setdefault('nodes',[])
+          def upsert(node):
+              for i,cur in enumerate(nodes):
+                  if cur.get('id')==node['id']:
+                      nodes[i]=node; return
+              nodes.insert(0,node)
+          upsert({
+              'id':'stage5e-r3-owner-remote-joining-lifecycle',
+              'type':'completed-production-capability-with-open-qol-defect',
+              'state':'provider-live-host-join-active-close-terminal-peer-read-proven-after-manual-rivalry-correction',
+              'pullRequest':183,
+              'mergeSha':'4eefed1f855d66c4af8c823291e24344886c617e',
+              'runtimeRevision':'1.9.0-r3',
+              'proof':'STAGE5E_R3_OWNER_PRODUCTION_LIFECYCLE_EVIDENCE_2026-09-02.md',
+              'rjrRecalculationPending':True,
+              'zeroManualReattachProven':False,
+              'authority':1,'riskCriticality':1
+          })
+          upsert({
+              'id':'connected-rivalry-stale-pointer-precedence-defect',
+              'type':'current-bounded-defect',
+              'state':'source-confirmed-open',
+              'source':'js/sparkConnectedRivalry.js',
+              'mechanism':'durable pointer A is restored before current pairing candidate B is considered; provider-active B is skipped whenever A exists',
+              'next':'allow exact provider-active authorized B to supersede stale A while pending/invalid/mismatched B preserves A',
+              'authority':1,'riskCriticality':1
+          })
+          for node in nodes:
+              if node.get('id')=='rjr1-ledger':
+                  node['recordedScore']=87
+                  node['recalculationPending']=True
+                  node['newUnledgeredEvidence']='actual provider-live Remote Joining lifecycle'
+          graph_path.write_text(json.dumps(graph,indent=2)+"\n")
+
+          model_path=Path('SESSION_CONTEXT_MODEL.json')
+          model=json.loads(model_path.read_text())
+          model['recordedAt']=now
+          bypass=model.setdefault('mandatoryBypass',[])
+          current=[
+            'CURRENT: PR #183 merged at 4eefed1f855d66c4af8c823291e24344886c617e and production v1.9.0-r3 is Pages/deployed-site proven; owner actual Remote Joining Host/Join/ACTIVE/Close/CLOSED lifecycle is provider-live proven after manual rivalry correction.',
+            'CURRENT DEFECT: js/sparkConnectedRivalry.js restores durable pointer A before considering current pairing candidate B, so a stale valid A can block newer provider-active exact B; zero-manual-reattach acceptance is NOT proven.',
+            'CURRENT RJR: checked-in RJR-1 remains 87 pending evidence-only recalculation for the new actual Remote Joining lifecycle; never credit CI/deploy/SLE or the failed no-manual-reattach behavior.',
+            'CURRENT NEXT: fresh WEC, RJR recalculation, bounded stale-pointer precedence fix, deterministic+Chromium proof, deploy, then minimal one-P2-paste/no-manual-Verify-Reattach owner acceptance.'
+          ]
+          for item in reversed(current):
+              if item not in bypass: bypass.insert(0,item)
+          model_path.write_text(json.dumps(model,indent=2)+"\n")
+
+          learn_path=Path('SESSION_CONTEXT_LEARNING.json')
+          learn=json.loads(learn_path.read_text())
+          learn['recordedAt']=now
+          learn['materialSessionsObserved']=max(int(learn.get('materialSessionsObserved',0)),16)
+          learn['learningState']='cold-start-priors-with-sixteen-labeled-sessions'
+          items=learn.setdefault('items',{})
+          items['stage5e-r3-owner-lifecycle-and-stale-pointer-investigation']={
+            'loaded':True,'usedInDecision':True,'requiredForPublicationSecurityOrRecovery':True,
+            'preventedErrorOrResolvedContradiction':True,'normalizedOutcome':1,'learnedUtility':0.8,
+            'note':'Owner evidence separated two truths that must not be conflated: the provider-live Remote Joining lifecycle passed after manual rivalry alignment, while the promised zero-manual-reattach QoL failed. Source inspection isolated durable-pointer precedence over a newer provider-active pairing candidate, avoiding an unnecessary infrastructure rewrite or false full-pass claim.'
+          }
+          learn_path.write_text(json.dumps(learn,indent=2)+"\n")
+
+          contract=Path('tests/contracts/sle-handoff-packaging-contracts.cjs')
+          contract.write_text(r'''const assert=require("node:assert/strict");
+          const fs=require("node:fs");
+          const read=p=>fs.readFileSync(p);
+          const text=p=>read(p).toString("utf8");
+          const json=p=>JSON.parse(text(p));
+          const capsule=json("SESSION_BOOTSTRAP.json");
+          const readiness=json("REMOTE_JOINING_READINESS.json");
+          const wec=json("WORK_ENVIRONMENT_STATUS.json");
+          const pkg=json("package.json");
+          const index=text("index.html");
+          const starterRoot=capsule.starter.canonical;
+          const starterMirror=capsule.starter.projectMirror;
+          const handoffRoot=capsule.currentHandoff.canonical;
+          const handoffMirror=capsule.currentHandoff.projectMirror;
+          assert.equal(capsule.schemaVersion,5);
+          assert.equal(capsule.repository,"nikahanghojjati-oss/fifa17-career-showdown2");
+          assert.equal(capsule.publicSite,"https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/");
+          assert.equal(capsule.slePolicy.definition,"Smart Lean Efficient");
+          assert.equal(capsule.slePolicy.mandatoryForEveryFutureHandoff,true);
+          assert.equal(capsule.slePolicy.requiredAtHandoffProximity100,true);
+          for(const p of [starterRoot,starterMirror,handoffRoot,handoffMirror,"NEXT_CHAT_HANDOFF_PROMPT.md","STAGE5E_R3_OWNER_PRODUCTION_LIFECYCLE_EVIDENCE_2026-09-02.md","SESSION_CONTEXT_GRAPH.json","SESSION_CONTEXT_MODEL.json","SESSION_CONTEXT_LEARNING.json"]) assert.ok(fs.existsSync(p),`missing ${p}`);
+          assert.deepEqual(read(starterRoot),read(starterMirror));
+          assert.deepEqual(read(handoffRoot),read(handoffMirror));
+          assert.equal(capsule.starter.version,"1.4.36");
+          assert.equal(capsule.starter.ownerInitialDelivery,"short-repository-first-prompt");
+          assert.equal(capsule.runtime.applicationVersion,pkg.version);
+          const sourceRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
+          assert.equal(sourceRevision,"1.9.0-r3");
+          assert.equal(capsule.runtime.productionRuntimeRevision,"1.9.0-r3");
+          assert.equal(capsule.latestRuntimeMerge.pullRequest,183);
+          assert.equal(capsule.latestRuntimeMerge.mergeSha,"4eefed1f855d66c4af8c823291e24344886c617e");
+          assert.equal(capsule.currentPublicationCheckpoint.ownerProductionLifecycleProven,true);
+          assert.equal(capsule.currentPublicationCheckpoint.zeroManualReattachNormalFlowProven,false);
+          assert.equal(capsule.currentPublicationCheckpoint.rjrLedgerRecalculationPending,true);
+          assert.equal(readiness.currentScore,87);
+          assert.equal(capsule.remoteJoiningReadiness.score,readiness.currentScore);
+          assert.equal(capsule.remoteJoiningReadiness.recalculationPending,true);
+          assert.equal(capsule.criticalLocks.zeroBilling,true);
+          assert.equal(capsule.criticalLocks.firebasePlan,"Spark");
+          assert.equal(capsule.criticalLocks.firestorePersistence,"memory-only");
+          assert.equal(capsule.criticalLocks.publicDiscovery,false);
+          assert.equal(capsule.criticalLocks.remoteJoiningCanonicalSaveMutation,false);
+          assert.equal(capsule.criticalLocks.candidateC,"sole-destructive-import-apply-authority");
+          assert.deepEqual(capsule.criticalLocks.canonicalStorage,["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
+          assert.equal(wec.lifecycle,"closed");
+          assert.equal(wec.signals.handoffCompleteness,100);
+          assert.equal(wec.assessment.decision,"HANDOFF_AT_CHECKPOINT");
+          assert.equal(wec.assessment.decisionInheritedFromPredecessor,false);
+          const rolling=text("project-documents/START_NEXT_SESSION.md");
+          assert.ok(rolling.includes(starterRoot));
+          assert.ok(rolling.includes(handoffRoot));
+          assert.ok(rolling.includes("v1.9.0 / 1.9.0-r3"));
+          assert.ok(rolling.includes("87/100"));
+          const prompt=text("NEXT_CHAT_HANDOFF_PROMPT.md");
+          assert.match(prompt,/Open the live repository/i);
+          assert.ok(prompt.includes(starterRoot));
+          assert.match(prompt,/independently verify/i);
+          assert.match(prompt,/fresh unique WEC|fresh WEC/i);
+          assert.match(prompt,/Billing must never be activated/i);
+          for(const [name,body] of [["starter",text(starterRoot)],["handoff",text(handoffRoot)]]){
+            assert.match(body,/SLE = Smart Lean Efficient/i,`${name} must preserve SLE definition`);
+            assert.match(body,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
+            assert.match(body,/fresh unique WEC|fresh successor WEC/i);
+            assert.match(body,/orientation/i);
+            assert.match(body,/repository-first next-developer prompt/i);
+            assert.match(body,/work:next-prompt/i);
+            assert.match(body,/87\/100/i);
+          }
+          process.stdout.write("PASS SLE r3 owner-lifecycle package: current mirrored starter/handoff, bootstrap, WEC, locks, evidence and recursive prompt contract are coherent.\n");
+          ''')
+          PY
+      - run: npm ci
+      - name: Validate mandatory SLE package
+        run: |
+          node tests/contracts/sle-handoff-packaging-contracts.cjs
+          node tests/contracts/next-developer-prompt-contracts.cjs
+      - name: Commit finalized SLE package
+        shell: bash
+        run: |
+          set -euo pipefail
+          git restore .github/workflows
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Finalize r3 owner lifecycle SLE package"
+          git push origin HEAD:handoff/stage5e-r3-owner-lifecycle-2026-09-02
