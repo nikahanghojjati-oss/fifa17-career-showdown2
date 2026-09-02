@@ -135,7 +135,7 @@ const rawSeed={
     const panel=page.locator("#sparkConnectedRivalryPanel");
     await panel.waitFor({state:"visible",timeout:15000});
     assert.match(await panel.innerText(),/OBSERVE REMOTE · COMMIT LOCAL EXPLICITLY/);
-    assert.match(await panel.innerText(),/REMOTE JOINING\s+Stage 5 · still locked/i);
+    assert.match(await panel.innerText(),/REMOTE JOINING\s+Available from Showdown Home · exact private session/i);
 
     await panel.locator('input[aria-label="Exact private rivalry code for Connected Rivalry"]').fill(ids.rivalryId);
     await panel.getByRole("button",{name:/ATTACH CONNECTED RIVALRY/}).click();
