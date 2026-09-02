@@ -34,9 +34,7 @@ jobs:
         run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
 
       - name: Run deterministic Stage 3 client contracts
-        run: |
-          node tests/contracts/stage3-private-pairing-contracts.cjs
-          node tests/contracts/pairing-four-code-automation-contracts.cjs
+        run: node tests/contracts/stage3-private-pairing-contracts.cjs && node tests/contracts/pairing-four-code-automation-contracts.cjs
 
       - name: Prove desktop and mobile IndexedDB identity behavior
         shell: bash
