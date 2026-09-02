@@ -1,0 +1,100 @@
+name: One-time Pairing R3 Core Seal V2
+
+on:
+  push:
+    branches:
+      - fix/pairing-copy-four-code-contract-2026-09-02
+
+permissions:
+  contents: write
+
+jobs:
+  core-seal-v2:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: fix/pairing-copy-four-code-contract-2026-09-02
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Apply r3 payload, race fix, and production geometry audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import textwrap
+
+          workflow=Path('.github/workflows/automation-pairing-r3-hardening-v2.yml').read_text()
+          marker="          python - <<'PY'\n"
+          start=workflow.index(marker)+len(marker)
+          end=workflow.index("\n          PY\n",start)
+          exec(compile(textwrap.dedent(workflow[start:end]),'r3-payload','exec'),{})
+
+          p=Path('js/sparkPrivatePairing.js'); s=p.read_text()
+          old='''  async function registerCurrentDevice(){\n    setState({status:"registering",busy:true,message:"Registering this browser privately…"});\n    try{\n'''
+          new='''  async function registerCurrentDevice(){\n    const preservePairingStateAtStart=["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);\n    if(!preservePairingStateAtStart)setState({status:"registering",busy:true,message:"Registering this browser privately…"});\n    try{\n'''
+          assert old in s; s=s.replace(old,new,1)
+          old='''      const preservePairingState=["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);\n      if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});\n'''
+          new='''      const preservePairingState=preservePairingStateAtStart||["creating-pair","joining-pair","pair-open","paired"].includes(pairingState.status);\n      if(preservePairingState)return setState({initialized:true,connected:true,registered:true,accountId:context.accountState.accountId,deviceId:context.identity.deviceId});\n'''
+          assert old in s; p.write_text(s.replace(old,new,1))
+
+          q=Path('tests/browser/pairing-four-code-automation-audit.cjs'); t=q.read_text()
+          old='''  await page.setContent('<div id="settingsOverlay"><div id="settingsContent"></div></div>');\n'''
+          new='''  await page.setContent('<div id="settingsOverlay" class="settingsOverlay"><div class="settingsDialog"><header class="settingsHeader"><div class="settingsHeading"><span class="settingsEyebrow">SAVE LIBRARY</span><h2>SETTINGS</h2></div></header><div id="settingsContent" class="settingsContent"></div><footer class="settingsFooter"></footer></div></div>');\n  await page.addStyleTag({url:new URL("css/app.css",baseUrl).href});\n  await page.addStyleTag({url:new URL("css/settings.css",baseUrl).href});\n'''
+          assert old in t; t=t.replace(old,new,1)
+          old='''    await copyButton.click();\n    const copied=await page.evaluate(()=>navigator.clipboard.readText());\n'''
+          new='''    await copyButton.scrollIntoViewIfNeeded();\n    await copyButton.click({timeout:5000});\n    const copied=await page.evaluate(()=>navigator.clipboard.readText());\n'''
+          assert old in t; q.write_text(t.replace(old,new,1))
+          PY
+          cat > RELEASE_V1.9.0_R3.md <<'EOF'
+          # Career Mode Showdown v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening
+
+          Status: RELEASE CANDIDATE
+
+          Application version: `v1.9.0`
+          Runtime asset revision: `1.9.0-r3`
+          Previous known-good runtime: `1.9.0-r2`
+
+          Player One gets one direct Copy action. Player Two pastes exactly once. The exact same private pairing capability is retained across both manager pairing and Connected Rivalry states. Late device-registration completion cannot overwrite an in-flight/open/paired state. Browser proof uses the production Save Library settings geometry and styles.
+
+          Permanent locks remain unchanged: Firebase Spark only; billing forbidden; memory-only Firestore; App Check enforcement OFF; no public discovery; no canonical local-save mutation; Candidate C remains the sole destructive remote-to-local gameplay Apply authority.
+
+          Fixed RJR-1 remains 87/100 until new owner production capability evidence.
+          EOF
+      - run: npm ci
+      - name: Deterministic proof
+        run: |
+          node --check js/sparkPrivatePairing.js
+          node --check tests/browser/pairing-four-code-automation-audit.cjs
+          node tests/contracts/stage3-private-pairing-contracts.cjs
+          node tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs
+          node tests/contracts/pairing-four-code-automation-contracts.cjs
+      - name: Browser proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-r3-server.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          node tests/browser/stage3-private-pairing-audit.cjs
+          node tests/browser/pairing-four-code-automation-audit.cjs
+          node tests/browser/stage5e-remote-joining-audit.cjs
+      - name: Full contracts
+        run: npm run test:contracts
+      - name: Commit validated runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/automation-pairing-r3-hardening-v2.yml .github/workflows/automation-pairing-r3-fast-seal.yml .github/workflows/automation-pairing-r3-core-seal.yml .github/workflows/automation-pairing-r3-core-seal-v2.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Harden pairing copy and one-paste automation"
+          git push origin HEAD:fix/pairing-copy-four-code-contract-2026-09-02
