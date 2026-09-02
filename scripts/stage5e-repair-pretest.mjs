@@ -13,7 +13,7 @@ const NEW = '363af783d7e5436fdfaa3766d4aa413fc9952a08';
     mustNotInsertGenericPrerequisiteLane: true,
     mustStartAsRealProductWork: true,
     name: 'stage5e-runtime-host-join-publication-and-production-acceptance',
-    summary: 'Fresh successor independently verifies live PR #181 and fixed RJR87, preserves the provider-live Stage 5D Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08 as consumed, validates the fresh WEC, then completes the Stage 5E v1.9.0 host/join runtime publication and genuine production acceptance. Billing, Blaze and Cloud Run remain forbidden. RJR may move only from real provider-live Remote Joining capability evidence.'
+    summary: 'Fresh successor independently verifies live PR #181 and fixed RJR87, preserves the provider-live Stage 5D Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08 as consumed, and validates the fresh WEC. Billing and Blaze remain forbidden and Cloud Run remains excluded. Then complete Stage 5E v1.9.0 host/join runtime publication and genuine production acceptance. RJR may move only from real provider-live Remote Joining capability evidence.'
   };
   bootstrap.currentLane = 'PR #181 Stage 5E at fixed RJR87 consumes the independently provider-live Stage 5D Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08. Current source candidate is v1.9.0 / 1.9.0-r1. The immediate lane is exact-head Stage 5E review/CI cleanup, safe merge/deploy, and genuine provider-live host/join acceptance; provider Rules publication is already consumed and must not be repeated.';
   write(path, JSON.stringify(bootstrap, null, 2) + '\n');
