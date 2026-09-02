@@ -2,6 +2,8 @@ const fs=require('node:fs');
 const path=require('node:path');
 const zlib=require('node:zlib');
 const root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const write=(p,v)=>fs.writeFileSync(path.join(root,p),v);
 const appPath=path.join(root,'js/app.js');
 let app=fs.readFileSync(appPath,'utf8');
 const start='let remoteJoiningSurfacePromise=null;function getRemoteJoiningAssetRevision()';
@@ -31,6 +33,21 @@ const auditPath=path.join(root,'tests/browser/stage5e-remote-joining-audit.cjs')
 let audit=fs.readFileSync(auditPath,'utf8');
 audit=audit.replaceAll('script[data-remote-joining-runtime="true"]','script[data-runtime-script="rj"]');
 fs.writeFileSync(auditPath,audit);
+
+// Reconcile current release authority surfaces for the new legitimate milestone.
+let stability=read('tests/contracts/stability-contracts.cjs');
+stability=stability.replace('Registered Devices & Private Pairing|Connected Rivalry)','Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining)');
+write('tests/contracts/stability-contracts.cjs',stability);
+let release=read('RELEASE_V1.9.0.md');
+if(!/Status:\s*RELEASE CANDIDATE/i.test(release))release=release.replace('# Career Mode Showdown v1.9.0 — Private Remote Joining\n','# Career Mode Showdown v1.9.0 — Private Remote Joining\n\nStatus: RELEASE CANDIDATE\n');
+write('RELEASE_V1.9.0.md',release);
+const stateOverride=`## CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTIME CANDIDATE — 2026-09-02 UTC\n\nCurrent source candidate is \`v1.9.0 / 1.9.0-r1\` on the bounded Stage 5E branch. Previous production-proven whole-shell recovery target remains \`v1.8.1 / 1.8.1-r5\`. Stage 5E exposes explicit private Host, Join, Refresh/Read and Close UX only after the user opens Remote Joining; provider/account/device/rivalry dependencies resolve only on an explicit session action.\n\nFirebase remains Spark with billing disabled, Firestore memory-only and App Check enforcement OFF. No Cloud Run, Functions, paid service, public discovery, collection listing, lobby, matchmaking, canonical gameplay storage mutation or Candidate C bypass is introduced. Fixed RJR-1 remains \`87/100\`; source, CI, review, merge and deployment mechanics earn zero readiness credit.\n\nProvider-session production acceptance remains a later evidence gate. The next genuine RJR movement requires production-live two-account/two-device Remote Joining evidence, followed by stable real-device release acceptance.\n\n---\n\n`;
+let state=read('PROJECT_STATE.md');if(!state.startsWith('## CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING'))write('PROJECT_STATE.md',stateOverride+state);
+const nextOverride=`# CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTIME CANDIDATE — 2026-09-02 UTC\n\nCurrent candidate: \`v1.9.0 / 1.9.0-r1\`. Previous production-proven whole-shell recovery target: \`v1.8.1 / 1.8.1-r5\`. RJR remains \`87/100\` until genuine provider-live two-account/two-device capability evidence closes a fixed-domain gap.\n\n## IMMEDIATE NEXT TASK AFTER FULL STUDY\n\nFinish exact-head Stage 5E validation, review, merge and deployment without billing or provider Rules mutation. Then perform the smallest production-live private Remote Joining acceptance that proves exact two-account Host → Join → Read/Refresh → Close across real registered devices and preserves local-first/canonical-storage/Candidate C locks. Stable real-device release acceptance is the final distinct RJR domain gap.\n\nBilling remains permanently forbidden. Firebase stays Spark; Firestore stays memory-only; App Check enforcement stays OFF; no public discovery/listing/matchmaking is authorized.\n\n---\n\n`;
+let next=read('NEXT_TASK.md');if(!next.startsWith('# CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING'))write('NEXT_TASK.md',nextOverride+next);
+const readmeOverride=`# CURRENT RELEASE CANDIDATE — v1.9.0 Private Remote Joining\n\nCurrent source candidate: \`v1.9.0 / 1.9.0-r1\`. Previous production-proven whole-shell recovery target: \`v1.8.1 / 1.8.1-r5\`. Stage 5E adds lazy, exact-capability private Host/Join/Read/Close UX while preserving Firebase Spark, zero billing, memory-only Firestore, App Check enforcement OFF, local-first startup and Candidate C authority. RJR remains \`87/100\` until genuine production capability evidence.\n\n`;
+let readme=read('README.md');if(!readme.startsWith('# CURRENT RELEASE CANDIDATE — v1.9.0'))write('README.md',readmeOverride+readme);
+
 const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)].map(m=>m[1]);
 const raw=refs.reduce((n,p)=>n+fs.statSync(path.join(root,p)).size,0);
 const gz=refs.reduce((n,p)=>n+zlib.gzipSync(fs.readFileSync(path.join(root,p)),{level:9}).length,0);
