@@ -42,7 +42,7 @@
     "startingRulesMode": "production",
     "ownerReportedCreated": true,
     "providerVerified": true,
-    "providerVerificationEvidence": "2026-08-29 owner Firebase Console screenshots show project fifa17-career-showdown-prod, Firestore Database (default), Rules tab, a new Today 7:48 AM provider Rules version, and the strengthened repository rule structure through the final deny-by-default boundary."
+    "providerVerificationEvidence": "2026-09-02 permanent zero-billing GitHub Actions run 33575616044 / job 100078816667 authenticated with the dedicated Firebase Rules Admin credential, published only Firestore Security Rules, read back release projects/fifa17-career-showdown-prod/releases/cloud.firestore and ruleset projects/fifa17-career-showdown-prod/rulesets/30b5b1be-0f61-4983-bdb2-c79f93f99be4, and proved exact provider/repository source blob 363af783d7e5436fdfaa3766d4aa413fc9952a08."
   },
   "activation": {
     "firebaseProject": "owner-created",
@@ -60,8 +60,8 @@
     "localhostAuthorizedDomainPresent": false,
     "productionSecurityRules": "provider-verified-deployed",
     "productionSecurityRulesSource": "firestore.spark.rules",
-    "productionSecurityRulesSourceBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
-    "productionSecurityRulesVerificationEvidence": "2026-08-29 owner Firebase Console screenshots at approximately 07:48-07:52 ET show production project fifa17-career-showdown-prod, Database (default), the Rules tab with a new Today 7:48 AM version selected, and strengthened firestore.spark.rules source across the file including activeDevice, validDeviceRevoke, currentlyEntitled, activePairedRivalry, bounded season count, idempotency/timing logic, rivalry read authorization, session read restriction and the final allow read, write: if false boundary. No provider setting other than Rules publication was requested or evidenced.",
+    "productionSecurityRulesSourceBlobSha": "363af783d7e5436fdfaa3766d4aa413fc9952a08",
+    "productionSecurityRulesVerificationEvidence": "2026-09-02 permanent zero-billing GitHub Actions run 33575616044 / job 100078816667 published only firestore.spark.rules to project fifa17-career-showdown-prod and independently read the live cloud.firestore release plus ruleset 30b5b1be-0f61-4983-bdb2-c79f93f99be4. The workflow emitted PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS 363af783d7e5436fdfaa3766d4aa413fc9952a08 after comparing complete provider source bytes to the reviewed repository source. No billing, Blaze, Cloud Run, Cloud Functions or unrelated provider mutation occurred.",
     "appCheck": "production-runtime-proven",
     "appCheckProvider": "recaptcha-enterprise",
     "appCheckWebAppId": "1:409396353288:web:1d3a2a5d6921de6ccbb4bd",
