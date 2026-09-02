@@ -1,3 +1,21 @@
+## CURRENT OVERRIDE — PR #182 CONNECTED RIVALRY POINTER RESTORE HOTFIX — 2026-09-02 UTC
+
+RELEASE CANDIDATE — NOT PRODUCTION-PROVEN. Current repair candidate is `v1.9.0 / 1.9.0-r2`; deployed production remains `v1.9.0 / 1.9.0-r1` until PR #182 completes exact-head gates and deployment. Fixed RJR-1 remains `87/100`.
+
+The first real Stage 5E two-account production acceptance exposed a blocking `1.9.0-r1` regression. Player Two could successfully pair and attach the exact Connected Rivalry, and the dedicated IndexedDB pointer was written, but reopening Save Library or entering Remote Joining re-ran Connected Rivalry initialization using only the first local manager binding. On the observed Incognito context, Player Two owned the durable pointer while Player One was the first local binding, so the UI reset to Player One / `Not attached` and Remote Joining failed before Join.
+
+PR #182 repairs initialization by resolving valid durable pointers across all local manager bindings. A still-valid current in-memory binding is preferred; otherwise the most recently attached valid pointer for the same authenticated account and registered browser device is restored. Binding order can no longer hide a valid Player Two attachment. A permanent regression contract reproduces the exact owner-observed case.
+
+The whole shell is cache-busted as `1.9.0-r2` so service-worker or browser cache cannot retain the broken `r1` Connected Rivalry runtime. The repair changes no provider Rules, Auth policy, IAM, pairing/rivalry/session authority, shared gameplay state, canonical local Save, Candidate C authority or billing state.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish PR #182 on one unchanged exact head: all 14 permanent workflow families, final-head review, zero unresolved valid threads, mergeability, expected-head squash merge, all normal post-merge/Pages gates and deployed `1.9.0-r2` byte/runtime verification. Then repeat only the interrupted production acceptance: prove Player Two attachment survives Settings close/reopen and Remote Joining initialization, create a fresh private session capability, and complete Host → Join → Read/Refresh → Close. Recalculate RJR only from genuine newly verified production capability evidence.
+
+Firebase remains Spark and billing is permanently forbidden. Firestore remains memory-only. App Check enforcement remains OFF. No public discovery/listing/lobby/matchmaking is authorized. Canonical localStorage and Candidate C locks remain unchanged. The exposed failed-test session capability must not be reused.
+
+---
+
 ## CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTIME CANDIDATE — 2026-09-02 UTC
 
 RELEASE CANDIDATE — NOT PRODUCTION-PROVEN. Current source candidate is `v1.9.0 / 1.9.0-r1` on the bounded Stage 5E branch. Previous production-proven whole-shell recovery target remains `v1.8.1 / 1.8.1-r5`. Stage 5E exposes explicit private Host, Join, Refresh/Read and Close UX only after the user opens Remote Joining; provider/account/device/rivalry dependencies resolve only on an explicit session action.
