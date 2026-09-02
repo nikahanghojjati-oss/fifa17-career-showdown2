@@ -58,6 +58,7 @@ const files = [
   "tests/contracts/spark-zero-billing-account-bootstrap-contracts.cjs",
   "tests/contracts/spark-production-connected-account-contracts.cjs",
   "tests/contracts/stage3-private-pairing-contracts.cjs",
+  "tests/contracts/pairing-four-code-automation-contracts.cjs",
   "tests/contracts/production-authorization-acceptance-contracts.cjs",
   "tests/contracts/production-provider-abuse-acceptance-contracts.cjs",
   "tests/contracts/production-firestore-rules-deployment-path-contracts.cjs",

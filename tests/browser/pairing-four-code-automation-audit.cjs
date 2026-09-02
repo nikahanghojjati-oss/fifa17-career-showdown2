@@ -33,7 +33,9 @@ async function preparePage(browser,accountId,iteration){
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
   await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});
-  await page.setContent('<div id="settingsOverlay"><div id="settingsContent"></div></div>');
+  await page.setContent('<div id="settingsOverlay" class="settingsOverlay"><div class="settingsDialog"><header class="settingsHeader"><div class="settingsHeading"><span class="settingsEyebrow">SAVE LIBRARY</span><h2>SETTINGS</h2></div></header><div id="settingsContent" class="settingsContent"></div><footer class="settingsFooter"></footer></div></div>');
+  await page.addStyleTag({url:new URL("css/app.css",baseUrl).href});
+  await page.addStyleTag({url:new URL("css/settings.css",baseUrl).href});
   await page.evaluate(({accountId,saveId,p1,p2,iteration})=>{
     delete window.CareerModeSparkPrivatePairing;
     delete window.CareerModeSparkConnectedRivalry;
@@ -111,7 +113,8 @@ async function provePlayerOne(browser,iteration){
     const boxY=(await capabilityBox.boundingBox()).y;
     const copyY=(await copyButton.boundingBox()).y;
     assert.ok(copyY>=boxY,`iteration ${iteration}: copy button is not rendered under the generated code`);
-    await copyButton.click();
+    await copyButton.scrollIntoViewIfNeeded();
+    await copyButton.click({timeout:5000});
     const copied=await page.evaluate(()=>navigator.clipboard.readText());
     assert.equal(copied,generated,`iteration ${iteration}: copy button changed/truncated the capability`);
 
@@ -212,13 +215,13 @@ async function provePlayerTwo(browser,iteration){
 
 (async()=>{
   const runtime=await resolveChromiumRuntime();
-  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
-  try{
-    const iterations=3;
-    for(let iteration=0;iteration<iterations;iteration+=1){
-      await provePlayerOne(browser,iteration);
-      await provePlayerTwo(browser,iteration);
+  const iterations=3;
+  for(let iteration=0;iteration<iterations;iteration+=1){
+    for(const scenario of [provePlayerOne,provePlayerTwo]){
+      const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+      try{await scenario(browser,iteration);}
+      finally{await browser.close().catch(()=>{});}
     }
-    process.stdout.write(`PASS pairing automation Chromium ultra-audit: ${iterations} fresh Player One and ${iterations} fresh Player Two browser contexts, exact copy, late-registration state preservation, P1 prefill/postjoin auto-attach, one-paste retained P2 input, and exact Connected Rivalry equality\n`);
-  }finally{await browser.close();}
+  }
+  process.stdout.write(`PASS pairing automation Chromium ultra-audit: ${iterations} fresh Player One and ${iterations} fresh Player Two isolated Chromium processes, exact copy, late-registration state preservation, P1 prefill/postjoin auto-attach, one-paste retained P2 input, and exact Connected Rivalry equality\n`);
 })().catch(error=>{console.error("PAIRING FOUR-CODE AUTOMATION BROWSER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
