@@ -13,7 +13,7 @@ permissions:
 jobs:
   repair:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v5
         with:
@@ -23,35 +23,111 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Repair exact Stage 5E coherence surfaces and gate
+      - name: Repair exact Stage 5E coherence surfaces and reviewed lifecycle defects
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
+          import json
 
-          def replace(path, old, new):
+          OLD='2b7c0b166ae0aae7ab7a3ce84725b21091262484'
+          NEW='363af783d7e5436fdfaa3766d4aa413fc9952a08'
+
+          def replace(path, old, new, count=1):
               p=Path(path)
               text=p.read_text()
               if old not in text:
-                  raise SystemExit(f"Expected repair marker missing in {path}: {old}")
-              p.write_text(text.replace(old,new,1))
+                  raise SystemExit(f"Expected repair marker missing in {path}: {old[:120]}")
+              p.write_text(text.replace(old,new,count))
 
-          replace(
-              'js/menuExperience.js',
-              'thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.8.1-r5"',
-              'thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.0-r1"'
-          )
-          replace(
-              '.github/workflows/validate-v1-visual-immersion.yml',
-              '              || html.includes(`v${appVersion} · Connected Rivalry`),',
-              '              || html.includes(`v${appVersion} · Connected Rivalry`)\n              || html.includes(`v${appVersion} · Private Remote Joining`),'
-          )
-          replace(
-              'tests/contracts/cloud-foundation-contracts.cjs',
-              'assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Production environment must retain the exact reviewed provider-published Rules blob.");',
-              'assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08","Production environment must retain the exact independently provider-live Stage 5D Rules blob.");'
-          )
+          # Release/cache coherence found by exact-head CI.
+          replace('js/menuExperience.js','thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.8.1-r5"','thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.0-r1"')
+          replace('.github/workflows/validate-v1-visual-immersion.yml','              || html.includes(`v${appVersion} · Connected Rivalry`),','              || html.includes(`v${appVersion} · Connected Rivalry`)\n              || html.includes(`v${appVersion} · Private Remote Joining`),')
+          replace('tests/contracts/cloud-foundation-contracts.cjs',f'assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"{OLD}","Production environment must retain the exact reviewed provider-published Rules blob.");',f'assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"{NEW}","Production environment must retain the exact independently provider-live Stage 5D Rules blob.");')
+
+          # Provider-live Stage 5D promotion: update every permanent contract that still treats the old provider blob as current.
+          p=Path('tests/contracts/production-firebase-environment-activation-contracts.cjs')
+          text=p.read_text()
+          text=text.replace('const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");','const providerProof = read("STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md");')
+          text=text.replace(f'assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"{OLD}","Until Stage 5D provider publication is independently proven, durable provider authority must retain the last verified deployed Rules blob.");',f'assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"{NEW}","Provider authority must retain the exact independently read-back Stage 5D Rules blob.");')
+          text=text.replace('assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-29[\\s\\S]+Today 7:48 AM[\\s\\S]+activeDevice[\\s\\S]+activePairedRivalry[\\s\\S]+final allow read, write: if false/i);','assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-09-02[\\s\\S]+33575616044[\\s\\S]+30b5b1be-0f61-4983-bdb2-c79f93f99be4[\\s\\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i);')
+          text=text.replace('assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED/i,"Dedicated provider proof must preserve deployed provider status.");','assert.match(providerProof,/Status: VERIFIED PROVIDER-LIVE/i,"Dedicated Stage 5D provider proof must preserve provider-live status.");')
+          text=text.replace('assert.match(providerProof,/Today · 7:48 AM/i,"Dedicated provider proof must preserve the exact provider-published version timestamp.");','assert.match(providerProof,/33575616044[\\s\\S]+100078816667/i,"Dedicated provider proof must preserve the exact authenticated publication run and job.");')
+          text=text.replace(f'assert.match(providerProof,/{OLD}/i,"Dedicated provider proof must preserve the last independently verified provider blob regardless of later reviewed source promotion.");',f'assert.match(providerProof,/{NEW}/i,"Dedicated provider proof must preserve the exact provider-live Stage 5D blob.");')
+          text=text.replace(f'assert.notEqual(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"Before independently verified Stage 5D provider publication, repository source and durable deployed-provider authority must remain intentionally distinct rather than fabricating activation.");',f'assert.equal(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"After independently verified Stage 5D provider publication, repository and durable provider source identities must match exactly.");')
+          text=text.replace('process.stdout.write("PASS production Firebase authority: Stage 5D reviewed firestore.spark.rules intentionally advances beyond the last provider-verified blob without fabricating deployment; historical root/demo isolation, App Check OFF, zero-billing-compatible authority and provider provenance remain protected.\\n");','process.stdout.write("PASS production Firebase authority: Stage 5D firestore.spark.rules is independently provider-live with exact source identity; historical root/demo isolation, App Check OFF, zero-billing-compatible authority and provider provenance remain protected.\\n");')
+          p.write_text(text)
+
+          p=Path('tests/contracts/production-firestore-rules-deployment-path-contracts.cjs')
+          text=p.read_text()
+          text=text.replace('const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");','const providerProof = read("STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md");')
+          text=text.replace(f'assert.equal(productionEnvironment.activation.productionSecurityRulesSourceBlobSha,"{OLD}","The production manifest must retain the exact reviewed provider-published strengthened Rules blob.");',f'assert.equal(productionEnvironment.activation.productionSecurityRulesSourceBlobSha,"{NEW}","The production manifest must retain the exact provider-live Stage 5D Rules blob.");')
+          text=text.replace('assert.match(productionEnvironment.activation.productionSecurityRulesVerificationEvidence,/2026-08-29[\\s\\S]+Today 7:48 AM[\\s\\S]+firestore\\.spark\\.rules[\\s\\S]+final allow read, write: if false/i,"The strengthened provider-verified Rules claim must retain its direct Firebase Console provenance.");','assert.match(productionEnvironment.activation.productionSecurityRulesVerificationEvidence,/2026-09-02[\\s\\S]+33575616044[\\s\\S]+firestore\\.spark\\.rules[\\s\\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i,"The provider-live Rules claim must retain exact authenticated publication and readback provenance.");')
+          text=text.replace('assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED/i,"The dedicated provider proof must preserve deployed provider status.");','assert.match(providerProof,/Status: VERIFIED PROVIDER-LIVE/i,"The dedicated provider proof must preserve provider-live status.");')
+          text=text.replace('assert.match(providerProof,/Production project: `fifa17-career-showdown-prod`/i,"The dedicated provider proof must preserve the exact production project.");','assert.match(providerProof,/Firebase project: `fifa17-career-showdown-prod`/i,"The dedicated provider proof must preserve the exact production project.");')
+          text=text.replace('assert.match(providerProof,/Database: `\\(default\\)`/i,"The dedicated provider proof must preserve the exact production database.");','assert.match(providerProof,/cloud\\.firestore/i,"The dedicated provider proof must preserve the live Firestore release boundary.");')
+          text=text.replace('assert.match(providerProof,/Today · 7:48 AM/i,"The dedicated provider proof must preserve the exact provider version timestamp.");','assert.match(providerProof,/33575616044[\\s\\S]+100078816667/i,"The dedicated provider proof must preserve the exact authenticated publication run and job.");')
+          text=text.replace('assert.match(providerProof,/Rules source: `firestore\\.spark\\.rules`/i,"The dedicated provider proof must preserve the strengthened Rules source.");','assert.match(providerProof,/Reviewed repository Rules source: `firestore\\.spark\\.rules`/i,"The dedicated provider proof must preserve the strengthened Rules source.");')
+          text=text.replace(f'assert.match(providerProof,/{OLD}/i,"The dedicated provider proof must preserve the exact reviewed source blob regardless of document field order.");',f'assert.match(providerProof,/{NEW}/i,"The dedicated provider proof must preserve the exact provider-live source blob.");')
+          p.write_text(text)
+
+          # Compact bootstrap now reflects the consumed provider-live Rules gate without claiming Stage 5E production acceptance.
+          p=Path('SESSION_BOOTSTRAP.json')
+          capsule=json.loads(p.read_text())
+          cp=capsule['currentPublicationCheckpoint']
+          cp['productionProviderRulesBlobSha']=NEW
+          cp['providerProof']='STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md'
+          cp['currentRepositoryRulesProviderPublished']=True
+          cp['currentRepositoryRulesProviderProven']=True
+          cp['providerAccessRouteAvailableInEnvironment']=True
+          cp['checkpointStatus']='rjr87-stage5d-provider-live-consumed-stage5e-runtime-candidate'
+          cp['productionSessionRulesChanged']=True
+          cp['zeroBillingSuccessorSlice']='stage5e-production-host-join-runtime-acceptance'
+          cp['stage5DProviderLiveProof']='STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md'
+          cp['stage5DProviderRuleset']='projects/fifa17-career-showdown-prod/rulesets/30b5b1be-0f61-4983-bdb2-c79f93f99be4'
+          cp['stage5DProviderRunId']=33575616044
+          capsule['successorPackage']['providerProof']='STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md'
+          capsule['recordedAt']='2026-09-02T03:20:00.000Z'
+          p.write_text(json.dumps(capsule,indent=2)+"\n")
+
+          # Keep SLE packaging contracts coherent with the provider-live transition.
+          p=Path('tests/contracts/sle-handoff-packaging-contracts.cjs')
+          text=p.read_text().replace(f'assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesBlobSha, "{OLD}");',f'assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesBlobSha, "{NEW}");')
+          text=text.replace('assert.equal(capsule.currentPublicationCheckpoint.zeroBillingSuccessorSlice, "minimum-production-session-rules-publication-after-pr175");','assert.equal(capsule.currentPublicationCheckpoint.zeroBillingSuccessorSlice, "stage5e-production-host-join-runtime-acceptance");')
+          text=text.replace('assert.equal(capsule.currentPublicationCheckpoint.productionSessionRulesChanged, false);','assert.equal(capsule.currentPublicationCheckpoint.productionSessionRulesChanged, true);')
+          p.write_text(text)
+
+          # Replace the rolling starter's stale provider-pending direction with current Stage 5E acceptance guidance.
+          Path('project-documents/START_NEXT_SESSION.md').write_text('''# CURRENT SOURCE CANDIDATE — v1.9.0 / 1.9.0-r1\n\nStage 5E Private Remote Joining is the current source candidate. Production-proven recovery remains v1.8.1 / 1.8.1-r5 until PR #181 merges, deploys, and receives genuine production host/join acceptance. Fixed RJR remains 87/100 until that runtime evidence exists.\n\n# PREVIOUS COMPLETE SLE CHECKPOINT — v1.4.35\n\nCanonical starter: `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md`.\nDeep SLE handoff: `SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md`.\n\nThe Stage 5D provider publication gate is now consumed and independently provider-live at exact Rules blob `363af783d7e5436fdfaa3766d4aa413fc9952a08` through zero-billing workflow run `33575616044`. Do not repeat provider publication.\n\n## CURRENT LIVE TASK\n\nOpen PR #181 on branch `rjr/stage5e-runtime-host-join-ux-2026-09-02`, independently verify its exact head, remove all temporary repair orchestration, resolve current review findings, require every permanent exact-head workflow family green on the same clean head, merge with expected-head protection, verify post-merge deployment, and then collect genuine two-account/two-device/network host/join evidence before changing RJR.\n\nBilling, Blaze, Cloud Run, payment methods and billing-required services remain forbidden. Firebase stays Spark, App Check enforcement stays OFF, Firestore persistence stays memory-only, public discovery/listing stays prohibited, and canonical Career Mode storage remains unchanged.\n\nTreat the previous complete SLE files as orientation only. Live GitHub, provider, deployment, runtime evidence, and later owner instructions win.\n''')
+
+          # Runtime lifecycle repair: do not allow a live capability to be orphaned by Host/Join/Forget, and wire host revocation before peer join.
+          p=Path('js/sparkRemoteJoining.js')
+          text=p.read_text()
+          text=text.replace('  function srjAcceptResult(result,context,role,message){','  function srjHasNonterminalSession(){return !!srjState.sessionId&&["open","active"].includes(srjState.sessionState);}\n  function srjAcceptResult(result,context,role,message){',1)
+          text=text.replace('  async function srjHostSession(){\n    srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});','  async function srjHostSession(){\n    if(srjHasNonterminalSession())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Revoke or close the current private session before hosting another."};\n    srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});',1)
+          text=text.replace('  async function srjJoinSession(value){\n    srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});','  async function srjJoinSession(value){\n    if(srjHasNonterminalSession())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Revoke or close the current private session before joining another."};\n    srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});',1)
+          text=text.replace('  async function srjCloseSession(){','  async function srjRevokeSession(){\n    const remembered=srjState.sessionId;\n    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};\n    if(srjState.sessionState!=="open")return {ok:false,code:"REMOTE_JOINING_REVOKE_NOT_OPEN",message:"Only an open host session can be revoked before peer join."};\n    srjSetState({status:"revoking",busy:true,message:"Revoking the exact open private session…"});\n    try{\n      const context=await srjResolveContext();\n      const result=await context.protocol.revokeSession(srjOperationOptions(context,remembered));\n      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_REVOKE_FAILED",srjFailureMessage(result,"Private session could not be revoked."));\n      srjAcceptResult(result,context,"host","Private session is revoked terminally. It can no longer be joined; forget the code when ready.");\n      return result;\n    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be revoked."} The capability remains held in page memory.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REVOKE_FAILED",message:error&&error.message||"Private session could not be revoked."};}\n  }\n  async function srjCloseSession(){',1)
+          text=text.replace('const hostButton=srjCreate("button","menuButton","HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy;','const hostButton=srjCreate("button","menuButton","HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy||srjHasNonterminalSession();',1)
+          text=text.replace('const joinButton=srjCreate("button","menuButton","JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy;','const joinButton=srjCreate("button","menuButton","JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy||srjHasNonterminalSession();',1)
+          old_actions='      const close=srjCreate("button","compactButton","CLOSE SESSION");close.type="button";close.disabled=srjState.busy||srjState.sessionState!=="active";close.addEventListener("click",()=>{void srjCloseSession();});\n      const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy;forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,close,forget);current.appendChild(actions);'
+          new_actions='      const revoke=srjCreate("button","compactButton","REVOKE OPEN SESSION");revoke.type="button";revoke.disabled=srjState.busy||srjState.sessionState!=="open";revoke.addEventListener("click",()=>{void srjRevokeSession();});\n      const close=srjCreate("button","compactButton","CLOSE SESSION");close.type="button";close.disabled=srjState.busy||srjState.sessionState!=="active";close.addEventListener("click",()=>{void srjCloseSession();});\n      const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy||srjHasNonterminalSession();forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,revoke,close,forget);current.appendChild(actions);'
+          if old_actions not in text: raise SystemExit('Stage 5E action block marker missing')
+          text=text.replace(old_actions,new_actions,1)
+          text=text.replace('    refreshSession:srjRefreshSession,\n    closeSession:srjCloseSession,','    refreshSession:srjRefreshSession,\n    revokeSession:srjRevokeSession,\n    closeSession:srjCloseSession,',1)
+          p.write_text(text)
+
+          # Functional contract for non-orphaning single-session lifecycle and provider revoke wiring.
+          p=Path('tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs')
+          text=p.read_text()
+          text=text.replace('const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],close:[]};','const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],revoke:[],close:[]};',1)
+          text=text.replace('  readSession:async options=>{calls.read.push(options);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:Date.now()+700000,expiredByClock:false};},\n  closeSession:async options=>{calls.close.push(options);return {ok:true,sessionId:options.sessionId,state:"closed",revision:2,expiresAtEpochMs:Date.now()+600000};}','  readSession:async options=>{calls.read.push(options);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:Date.now()+700000,expiredByClock:false};},\n  revokeSession:async options=>{calls.revoke.push(options);return {ok:true,sessionId:options.sessionId,state:"revoked",revision:1,expiresAtEpochMs:Date.now()+650000};},\n  closeSession:async options=>{calls.close.push(options);return {ok:true,sessionId:options.sessionId,state:"closed",revision:2,expiresAtEpochMs:Date.now()+600000};}',1)
+          old_seq='  let result=await api.hostSession();assert.equal(result.ok,true);assert.equal(calls.open.length,1);assert.equal(calls.open[0].sessionId,sessionA);assert.equal(calls.open[0].rivalryId,rivalryId);assert.equal(calls.open[0].deviceId,deviceId);assert.equal(api.getState().sessionId,sessionA);assert.equal(api.getState().role,"host");\n  result=await api.joinSession(sessionB.toUpperCase());assert.equal(result.ok,true);assert.equal(calls.join.length,1);assert.equal(calls.join[0].sessionId,sessionB);assert.equal(api.getState().role,"peer");'
+          new_seq='  let result=await api.hostSession();assert.equal(result.ok,true);assert.equal(calls.open.length,1);assert.equal(calls.open[0].sessionId,sessionA);assert.equal(calls.open[0].rivalryId,rivalryId);assert.equal(calls.open[0].deviceId,deviceId);assert.equal(api.getState().sessionId,sessionA);assert.equal(api.getState().role,"host");\n  result=await api.hostSession();assert.equal(result.ok,false);assert.equal(result.code,"REMOTE_JOINING_SESSION_ALREADY_HELD");assert.equal(calls.open.length,1,"Hosting over a live capability must not open a second provider session.");\n  result=await api.joinSession(sessionB);assert.equal(result.ok,false);assert.equal(result.code,"REMOTE_JOINING_SESSION_ALREADY_HELD");assert.equal(calls.join.length,0,"Joining while a live host capability is held must not orphan the host session.");\n  result=await api.revokeSession();assert.equal(result.ok,true);assert.equal(calls.revoke.length,1);assert.equal(calls.revoke[0].sessionId,sessionA);assert.equal(api.getState().sessionState,"revoked");\n  api.forgetSession();assert.equal(api.getState().sessionId,null);\n  result=await api.joinSession(sessionB.toUpperCase());assert.equal(result.ok,true);assert.equal(calls.join.length,1);assert.equal(calls.join[0].sessionId,sessionB);assert.equal(api.getState().role,"peer");'
+          if old_seq not in text: raise SystemExit('Stage 5E test sequence marker missing')
+          text=text.replace(old_seq,new_seq,1)
+          text=text.replace('PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, exact host/join/read/close wiring, memory-only capability, RJR fixed at 87 pending provider-live proof.','PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability, RJR fixed at 87 pending provider-live runtime proof.',1)
+          p.write_text(text)
           PY
 
           npm ci
@@ -61,5 +137,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "fix: reconcile Stage 5E release coherence"
+          git commit -m "fix: reconcile Stage 5E release and session lifecycle"
           git push origin HEAD:rjr/stage5e-runtime-host-join-ux-2026-09-02
