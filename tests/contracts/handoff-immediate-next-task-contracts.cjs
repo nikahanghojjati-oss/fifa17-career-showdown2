@@ -113,7 +113,7 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.billingActivationForbidden,
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialIssued,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCredentialProven,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ARuntimeImplemented,false);
-assert.equal(bootstrap.currentPublicationCheckpoint?.productionSessionRulesChanged,false);
+assert.equal(bootstrap.currentPublicationCheckpoint?.productionSessionRulesChanged,true,"Stage 5D production session Rules publication is now provider-live and consumed.");
 assert.equal(bootstrap.runtime?.candidateRuntimeRevision,undefined,"A sealed production transition must not retain a phantom candidate runtime.");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.8.1-r5","Production must remain on r5.");
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
@@ -121,12 +121,12 @@ assert.equal(bootstrap.starter?.version,"1.4.35","The Stage 5D provider-pending/
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
 assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,true,"The fresh successor owns the real provider-live Rules milestone after independently verifying the completed PR #176 boundary.");
-assert.equal(bootstrap.immediateNextTask?.name,"provider-live-stage5d-rules-publication-then-runtime-host-join","The successor bootstrap must route to authenticated provider-live Rules before runtime host/join.");
-assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #176[\s\S]+RJR87[\s\S]+provider-proven[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Runtime host\/join UX[\s\S]+later gates/i,"The successor capsule must preserve PR #176 verification, permanent no-billing authority and provider/runtime boundaries.");
+assert.equal(bootstrap.immediateNextTask?.name,"stage5e-runtime-host-join-publication-and-production-acceptance","The successor bootstrap must route directly to Stage 5E publication and genuine production acceptance after the consumed provider-live Rules gate.");
+assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #181[\s\S]+RJR87[\s\S]+provider-live Stage 5D Rules[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Stage 5E[\s\S]+production acceptance/i,"The successor capsule must preserve the consumed Stage 5D boundary, permanent no-billing authority and current Stage 5E acceptance lane.");
 assert.equal(bootstrap.transition?.contextTransitionRequired,true,"Transition-only bootstrap must require a context transition.");
 assert.equal(bootstrap.transition?.handoffCompleteness,100,"Transition-only bootstrap must expose complete handoff packaging.");
 assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_AT_CHECKPOINT","Sealed transition bootstrap must retain current environment HANDOFF_AT_CHECKPOINT without imposing it on the successor.");
-assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #176)(?=[\s\S]*Stage 5D)(?=[\s\S]*fixed RJR87)(?=[\s\S]*363af783d7e5436fdfaa3766d4aa413fc9952a08)(?=[\s\S]*2b7c0b166ae0aae7ab7a3ce84725b21091262484)(?=[\s\S]*zero-billing provider publication)(?=[\s\S]*runtime host\/join UX)/i,"Bootstrap current lane must preserve the PR #176 Stage 5D repository/provider split and next zero-billing provider gate.");
+assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #181)(?=[\s\S]*Stage 5E)(?=[\s\S]*fixed RJR87)(?=[\s\S]*363af783d7e5436fdfaa3766d4aa413fc9952a08)(?=[\s\S]*provider-live)(?=[\s\S]*host\/join)(?=[\s\S]*acceptance)/i,"Bootstrap current lane must preserve the consumed Stage 5D provider boundary and current Stage 5E runtime acceptance lane.");
 assert.match(zeroBillingAuth,/every engineering[\s\S]+billing must never be activated[\s\S]+Cloud Run is therefore excluded/i,"Owner authority must authorize every nonbilling decision and permanently exclude billed infrastructure.");
 assert.match(zeroBillingDecision,/(?=[\s\S]*stage5c-zero-billing-standard-auth-session-adapter)(?=[\s\S]*request\.auth\.uid)(?=[\s\S]*standard Google-token account identity)/i,"Architecture decision must name the exact free successor slice and standard provider identity.");
 

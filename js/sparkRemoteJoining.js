@@ -101,10 +101,12 @@
     if(result&&typeof result.message==="string"&&result.message.trim())return result.message.trim();
     return fallback;
   }
+  function srjHasNonterminalSession(){return !!srjState.sessionId&&["open","active"].includes(srjState.sessionState);}
   function srjAcceptResult(result,context,role,message){
     return srjSetState({status:"ready",busy:false,sessionId:result.sessionId,rivalryId:context.rivalryId,role,sessionState:result.state,revision:result.revision,expiresAtEpochMs:result.expiresAtEpochMs,message});
   }
   async function srjHostSession(){
+    if(srjHasNonterminalSession())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Revoke or close the current private session before hosting another."};
     srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});
     try{
       const context=await srjResolveContext();
@@ -116,6 +118,7 @@
     }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be opened."} No local save was changed.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_HOST_FAILED",message:error&&error.message||"Private session could not be opened."};}
   }
   async function srjJoinSession(value){
+    if(srjHasNonterminalSession())return {ok:false,code:"REMOTE_JOINING_SESSION_ALREADY_HELD",message:"Revoke or close the current private session before joining another."};
     srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});
     try{
       const context=await srjResolveContext();
@@ -138,6 +141,19 @@
       srjAcceptResult(result,context,srjState.role||"member",`Private session refreshed at revision ${result.revision}.${clockNote}`);
       return result;
     }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."} Local Career Mode remains available.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
+  }
+  async function srjRevokeSession(){
+    const remembered=srjState.sessionId;
+    if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
+    if(srjState.sessionState!=="open")return {ok:false,code:"REMOTE_JOINING_REVOKE_NOT_OPEN",message:"Only an open host session can be revoked before peer join."};
+    srjSetState({status:"revoking",busy:true,message:"Revoking the exact open private session…"});
+    try{
+      const context=await srjResolveContext();
+      const result=await context.protocol.revokeSession(srjOperationOptions(context,remembered));
+      if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_REVOKE_FAILED",srjFailureMessage(result,"Private session could not be revoked."));
+      srjAcceptResult(result,context,"host","Private session is revoked terminally. It can no longer be joined; forget the code when ready.");
+      return result;
+    }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be revoked."} The capability remains held in page memory.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_REVOKE_FAILED",message:error&&error.message||"Private session could not be revoked."};}
   }
   async function srjCloseSession(){
     const remembered=srjState.sessionId;
@@ -172,11 +188,11 @@
     const grid=srjCreate("div","remoteJoiningGrid");
     const host=srjCreate("section","remoteJoiningCard");
     host.append(srjCreate("span","remoteJoiningStep","01 · HOST"),srjCreate("h3","","OPEN PRIVATE SESSION"),srjCreate("p","","Creates a fresh 256-bit capability for the currently attached two-manager Connected Rivalry."));
-    const hostButton=srjCreate("button","menuButton","HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy;hostButton.addEventListener("click",()=>{void srjHostSession();});host.appendChild(hostButton);
+    const hostButton=srjCreate("button","menuButton","HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy||srjHasNonterminalSession();hostButton.addEventListener("click",()=>{void srjHostSession();});host.appendChild(hostButton);
     const join=srjCreate("section","remoteJoiningCard");
     join.append(srjCreate("span","remoteJoiningStep","02 · JOIN"),srjCreate("h3","","JOIN EXACT SESSION"),srjCreate("p","","Paste the full code shared directly by the other already-paired manager."));
     const input=srjCreate("input","remoteJoiningInput");input.type="text";input.placeholder="session_…";input.autocomplete="off";input.autocapitalize="none";input.spellcheck=false;input.setAttribute("aria-label","Exact private session code");
-    const joinButton=srjCreate("button","menuButton","JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy;joinButton.addEventListener("click",()=>{void srjJoinSession(input.value);});join.append(input,joinButton);grid.append(host,join);body.appendChild(grid);
+    const joinButton=srjCreate("button","menuButton","JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy||srjHasNonterminalSession();joinButton.addEventListener("click",()=>{void srjJoinSession(input.value);});join.append(input,joinButton);grid.append(host,join);body.appendChild(grid);
     const current=srjCreate("section","remoteJoiningCurrent");
     current.append(srjCreate("span","remoteJoiningEyebrow","CURRENT PAGE-MEMORY SESSION"));
     if(srjState.sessionId){
@@ -186,8 +202,9 @@
       const actions=srjCreate("div","remoteJoiningActions");
       const copy=srjCreate("button","compactButton","COPY CODE");copy.type="button";copy.disabled=srjState.busy;copy.addEventListener("click",async()=>{copy.textContent=await srjCopySessionCode()?"COPIED":"COPY MANUALLY";});
       const refresh=srjCreate("button","compactButton","REFRESH / READ");refresh.type="button";refresh.disabled=srjState.busy;refresh.addEventListener("click",()=>{void srjRefreshSession();});
+      const revoke=srjCreate("button","compactButton","REVOKE OPEN SESSION");revoke.type="button";revoke.disabled=srjState.busy||srjState.sessionState!=="open";revoke.addEventListener("click",()=>{void srjRevokeSession();});
       const close=srjCreate("button","compactButton","CLOSE SESSION");close.type="button";close.disabled=srjState.busy||srjState.sessionState!=="active";close.addEventListener("click",()=>{void srjCloseSession();});
-      const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy;forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,close,forget);current.appendChild(actions);
+      const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy||srjHasNonterminalSession();forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,revoke,close,forget);current.appendChild(actions);
     }else current.append(srjCreate("p","remoteJoiningEmpty","No session capability is held in page memory."));
     body.appendChild(current);
     const note=srjCreate("p","remoteJoiningStatus",srjState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.appendChild(note);
@@ -231,6 +248,7 @@
     hostSession:srjHostSession,
     joinSession:srjJoinSession,
     refreshSession:srjRefreshSession,
+    revokeSession:srjRevokeSession,
     closeSession:srjCloseSession,
     forgetSession:srjForgetSession,
     openPanel:srjOpenPanel,

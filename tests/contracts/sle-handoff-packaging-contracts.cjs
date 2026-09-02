@@ -101,7 +101,7 @@ assert.equal(capsule.currentPublicationCheckpoint.productionRollbackProven, true
 assert.equal(capsule.currentPublicationCheckpoint.productionRestorationProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesPublicationProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesSource, "firestore.spark.rules");
-assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesBlobSha, "2b7c0b166ae0aae7ab7a3ce84725b21091262484");
+assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesBlobSha, "363af783d7e5436fdfaa3766d4aa413fc9952a08");
 assert.equal(capsule.currentPublicationCheckpoint.rjrAfterEvidence, readiness.currentScore);
 assert.equal(capsule.currentPublicationCheckpoint.providerAbuseAcceptanceImplemented, true);
 assert.equal(capsule.currentPublicationCheckpoint.providerAbuseProductionAcceptanceProven, true);
@@ -131,11 +131,11 @@ assert.equal(capsule.currentPublicationCheckpoint.stage5BSecondaryCustomAuthAuth
 assert.equal(capsule.currentPublicationCheckpoint.stage5BProductionCriticalPath, false);
 assert.equal(capsule.currentPublicationCheckpoint.billingActivationForbidden, true);
 assert.equal(capsule.currentPublicationCheckpoint.cloudRunExcludedBecauseBillingRequired, true);
-assert.equal(capsule.currentPublicationCheckpoint.zeroBillingSuccessorSlice, "minimum-production-session-rules-publication-after-pr175");
+assert.equal(capsule.currentPublicationCheckpoint.zeroBillingSuccessorSlice, "stage5e-production-host-join-runtime-acceptance");
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderDeviceCredentialIssued, false);
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderDeviceCredentialProven, false);
 assert.equal(capsule.currentPublicationCheckpoint.stage5ARuntimeImplemented, false);
-assert.equal(capsule.currentPublicationCheckpoint.productionSessionRulesChanged, false);
+assert.equal(capsule.currentPublicationCheckpoint.productionSessionRulesChanged, true);
 assert.equal(capsule.currentPublicationCheckpoint.stage5CCandidateImplemented, true);
 assert.equal(capsule.currentPublicationCheckpoint.stage5CClient, "js/sparkStandardAuthPrivateSession.js");
 assert.equal(capsule.currentPublicationCheckpoint.stage5CCandidateRules, "firestore.stage5c.rules");
@@ -262,7 +262,7 @@ assert.equal(learning.latestLesson.closeoutPullRequest,176);
 
 assert.ok(capsule.minimalReads.includes("00_SLE_HANDOFF_PROTOCOL.md"));
 assert.ok(capsule.minimalReads.includes("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"));
-assert.ok(capsule.minimalReads.includes("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md"));
+assert.ok(capsule.minimalReads.includes("STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md"));
 assert.ok(capsule.minimalReads.includes("PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md"));
 assert.ok(capsule.minimalReads.includes("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md"));
 assert.ok(capsule.minimalReads.includes("STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md"));
@@ -271,8 +271,8 @@ assert.ok(capsule.minimalReads.includes("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AU
 assert.ok(capsule.minimalReads.includes("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md"));
 assert.equal(capsule.immediateNextTask.mustNotInsertGenericPrerequisiteLane, true);
 assert.equal(capsule.immediateNextTask.mustStartAsRealProductWork, true);
-assert.equal(capsule.immediateNextTask.name,"provider-live-stage5d-rules-publication-then-runtime-host-join");
-assert.match(capsule.immediateNextTask.summary,/PR #176[\s\S]+RJR87[\s\S]+provider-proven[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Runtime host\/join UX[\s\S]+later gates/i);
+assert.equal(capsule.immediateNextTask.name,"stage5e-runtime-host-join-publication-and-production-acceptance");
+assert.match(capsule.immediateNextTask.summary,/PR #181[\s\S]+RJR87[\s\S]+provider-live Stage 5D Rules[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Stage 5E[\s\S]+production acceptance/i);
 assert.equal(capsule.transition.contextTransitionRequired, true);
 assert.equal(capsule.transition.handoffCompleteness, 100);
 assert.equal(capsule.transition.continuationDecision, "HANDOFF_AT_CHECKPOINT");

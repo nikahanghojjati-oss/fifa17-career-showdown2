@@ -10,7 +10,7 @@ assert.ok(runtime.includes('const FALLBACK_RUNTIME_REVISION="1.9.0-r1";'));
 assert.equal(readiness.currentScore,87,"Stage 5E source/runtime wiring alone earns no RJR credit.");
 assert.deepEqual(readiness.domains.map(d=>[d.id,d.earned]),[["deterministic-sync-recovery",20],["identity-auth-trust",18],["production-cloud-security",20],["devices-pairing-connected-rivalry-remote-join",20],["real-device-hardening-release",9]]);
 
-const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],close:[]};
+const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],revoke:[],close:[]};
 const sessionA=`session_${"a".repeat(64)}`,sessionB=`session_${"b".repeat(64)}`,rivalryId=`pair_${"c".repeat(64)}`,deviceId=`device_${"d".repeat(32)}`;
 const user={uid:"account-one"},firestore={},firestoreSdk={};
 const protocol={
@@ -19,6 +19,7 @@ const protocol={
   openSession:async options=>{calls.open.push(options);return {ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:Date.now()+900000};},
   joinSession:async options=>{calls.join.push(options);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:Date.now()+800000};},
   readSession:async options=>{calls.read.push(options);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:Date.now()+700000,expiredByClock:false};},
+  revokeSession:async options=>{calls.revoke.push(options);return {ok:true,sessionId:options.sessionId,state:"revoked",revision:1,expiresAtEpochMs:Date.now()+650000};},
   closeSession:async options=>{calls.close.push(options);return {ok:true,sessionId:options.sessionId,state:"closed",revision:2,expiresAtEpochMs:Date.now()+600000};}
 };
 const context={console,URL,Date,TextEncoder,crypto:require("node:crypto").webcrypto,setTimeout,clearTimeout,navigator:{},location:{href:"https://example.test/",origin:"https://example.test",pathname:"/"},CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>{calls.services++;return {ok:true,auth:{currentUser:user},firestore,firestoreSdk};}},CareerModeSparkConnectedAccount:{initialize:async()=>{calls.account++;},getState:()=>({connected:true,accountId:user.uid})},CareerModeSparkPrivatePairing:{initialize:async()=>{calls.pairing++;},getState:()=>({registered:true,deviceId})},CareerModeSparkConnectedRivalry:{initialize:async()=>{calls.rivalry++;},getState:()=>({attached:true,rivalryId,accountId:user.uid,deviceId})},CareerModeSparkPrivateSession:{},CareerModeSparkStandardAuthPrivateSession:protocol};
@@ -26,10 +27,14 @@ context.globalThis=context;context.window=context;vm.createContext(context);vm.r
 assert.equal(api.openPanel(),false,"No-document open must remain inert.");assert.equal(calls.services,0,"Opening UI without an action must not initialize Firebase services.");
 (async()=>{
   let result=await api.hostSession();assert.equal(result.ok,true);assert.equal(calls.open.length,1);assert.equal(calls.open[0].sessionId,sessionA);assert.equal(calls.open[0].rivalryId,rivalryId);assert.equal(calls.open[0].deviceId,deviceId);assert.equal(api.getState().sessionId,sessionA);assert.equal(api.getState().role,"host");
+  result=await api.hostSession();assert.equal(result.ok,false);assert.equal(result.code,"REMOTE_JOINING_SESSION_ALREADY_HELD");assert.equal(calls.open.length,1,"Hosting over a live capability must not open a second provider session.");
+  result=await api.joinSession(sessionB);assert.equal(result.ok,false);assert.equal(result.code,"REMOTE_JOINING_SESSION_ALREADY_HELD");assert.equal(calls.join.length,0,"Joining while a live host capability is held must not orphan the host session.");
+  result=await api.revokeSession();assert.equal(result.ok,true);assert.equal(calls.revoke.length,1);assert.equal(calls.revoke[0].sessionId,sessionA);assert.equal(api.getState().sessionState,"revoked");
+  api.forgetSession();assert.equal(api.getState().sessionId,null);
   result=await api.joinSession(sessionB.toUpperCase());assert.equal(result.ok,true);assert.equal(calls.join.length,1);assert.equal(calls.join[0].sessionId,sessionB);assert.equal(api.getState().role,"peer");
   result=await api.refreshSession();assert.equal(result.ok,true);assert.equal(calls.read.length,1);assert.equal(calls.read[0].sessionId,sessionB);
   result=await api.closeSession();assert.equal(result.ok,true);assert.equal(calls.close.length,1);assert.equal(api.getState().sessionState,"closed");
   api.forgetSession();assert.equal(api.getState().sessionId,null);assert.ok(calls.services>=4&&calls.account>=4&&calls.pairing>=4&&calls.rivalry>=4);
   assert.deepEqual(Array.from(api.canonicalStorageKeys),["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
-  console.log("PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, exact host/join/read/close wiring, memory-only capability, RJR fixed at 87 pending provider-live proof.");
+  console.log("PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability, RJR fixed at 87 pending provider-live runtime proof.");
 })().catch(error=>{console.error(error);process.exit(1);});
