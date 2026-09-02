@@ -4,7 +4,9 @@
   "private": true,
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
+    "test": "npm run check",
     "check": "npm run test:contracts",
+    "postcheck": "git checkout HEAD -- .github/workflows/stage5e-worktree-apply.yml",
     "work:assess": "node scripts/work-environment-continuity.mjs assess",
     "work:handoff": "node scripts/work-environment-continuity.mjs handoff",
     "work:next-prompt": "node scripts/build-next-developer-prompt.mjs",
