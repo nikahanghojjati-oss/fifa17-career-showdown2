@@ -8,9 +8,13 @@ const start='let remoteJoiningSurfacePromise=null;function getRemoteJoiningAsset
 const end='function sa(){';
 const i=app.indexOf(start),j=app.indexOf(end,i);
 if(i<0||j<0)throw new Error('Generated Stage 5E launcher boundary not found.');
-const launcher='function loadRemoteJoiningSurface(){if(window.CareerModeSparkRemoteJoining)return window.CareerModeSparkRemoteJoining.openPanel();if(document.querySelector("script[data-remote-joining-runtime]"))return;const r=document.querySelector(\'meta[name="app-asset-revision"]\').content;if(!document.querySelector("link[data-remote-joining-style]")){const l=document.createElement("link");l.rel="stylesheet";l.href="css/remoteJoining.css?v="+r;l.dataset.remoteJoiningStyle="true";document.head.appendChild(l)}const s=document.createElement("script");s.src="js/sparkRemoteJoining.js?v="+r;s.dataset.remoteJoiningRuntime="true";s.onload=()=>window.CareerModeSparkRemoteJoining.openPanel();s.onerror=e=>console.error("Remote Joining load failed",e);document.body.appendChild(s)}function installRemoteJoiningLauncher(){if(document.getElementById("remoteJoiningButton"))return;const a=document.querySelector("#dashboard .dashboardActions");if(!a)return;const button=document.createElement("button");button.type="button";button.id="remoteJoiningButton";button.className="menuButton";button.textContent="PRIVATE REMOTE JOINING";button.onclick=loadRemoteJoiningSurface;a.insertBefore(button,a.querySelector(".backButton"))}';
+const launcher='function loadRemoteJoiningSurface(){Promise.all([loadRuntimeStyle("rj","css/remoteJoining.css"),loadRuntimeScript("rj","js/sparkRemoteJoining.js",()=>window.CareerModeSparkRemoteJoining)]).then(()=>window.CareerModeSparkRemoteJoining.openPanel()).catch(console.error)}function installRemoteJoiningLauncher(){if(document.getElementById("remoteJoiningButton"))return;const a=document.querySelector("#dashboard .dashboardActions"),button=document.createElement("button");if(!a)return;button.id="remoteJoiningButton";button.className="menuButton";button.type="button";button.textContent="PRIVATE REMOTE JOINING";button.onclick=loadRemoteJoiningSurface;a.insertBefore(button,a.querySelector(".backButton"))}';
 app=app.slice(0,i)+launcher+app.slice(j);
 fs.writeFileSync(appPath,app);
+const auditPath=path.join(root,'tests/browser/stage5e-remote-joining-audit.cjs');
+let audit=fs.readFileSync(auditPath,'utf8');
+audit=audit.replaceAll('script[data-remote-joining-runtime="true"]','script[data-runtime-script="rj"]');
+fs.writeFileSync(auditPath,audit);
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)].map(m=>m[1]);
 const raw=refs.reduce((n,p)=>n+fs.statSync(path.join(root,p)).size,0);
