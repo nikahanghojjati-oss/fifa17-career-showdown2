@@ -1,3 +1,22 @@
+# CURRENT OVERRIDE — V1.9.0-R3 PAIRING ONE-PASTE HARDENING — 2026-09-02 UTC
+
+Authorized release candidate: `v1.9.0 / 1.9.0-r3`. Production-proven baseline remains `v1.9.0 / 1.9.0-r2` until publication/deployment gates close. Fixed RJR-1 remains `87/100`.
+
+The owner test is intentionally paused until r3 is production-live. The normal flow must require only one Player One Copy and one Player Two paste; exact pairing identity must auto-propagate to both Connected Rivalry contexts; no normal-flow Verify/Reattach is allowed; late device-registration completion must not clobber live pairing state.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+1. Complete all r3 deterministic/browser/full-contract gates on one exact branch head.
+2. Correct any stale Remote Joining `locked` wording that contradicts the live Stage 5E runtime without changing authority.
+3. Publish a bounded PR, require all permanent CI and final-head review, resolve every valid thread, and merge only the reviewed exact head.
+4. Verify post-merge workflows, Pages exact merge SHA and deployed `v1.9.0 / 1.9.0-r3` bytes.
+5. Only after production proof ask the owner to perform the one-copy/one-paste pairing plus Host → Join → Read/Refresh → Close acceptance. Never request a full `session_...` capability in chat.
+6. Recalculate RJR only from genuine owner production capability evidence.
+
+Billing remains permanently forbidden. Firebase stays Spark, Firestore memory-only and App Check enforcement OFF. No public discovery/listing/matchmaking, canonical-save mutation or Candidate C bypass is authorized.
+
+---
+
 # CURRENT OVERRIDE — PR #182 CONNECTED RIVALRY POINTER RESTORE HOTFIX — 2026-09-02 UTC
 
 Authorized repair candidate: `v1.9.0 / 1.9.0-r2`. Deployed production remains `v1.9.0 / 1.9.0-r1` until PR #182 is merged and Pages verifies the new shell. Fixed RJR-1 remains `87/100`.

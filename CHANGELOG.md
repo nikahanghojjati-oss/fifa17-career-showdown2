@@ -1,3 +1,16 @@
+## v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening — release candidate
+
+Candidate runtime: `1.9.0-r3`
+Previous production-proven runtime: `1.9.0-r2`
+
+- adds one direct Player One pairing Copy action and requires exactly one Player Two paste;
+- preserves byte-for-byte equality across P1 generated pairing, P1 Connected Rivalry, P2 retained join input and P2 Connected Rivalry;
+- auto-links both manager contexts into Connected Rivalry without a normal-flow Verify/Reattach step;
+- prevents late registered-device completion from overwriting creating/open/joining/paired pairing state;
+- validates the flow in production Save Library settings geometry plus isolated Chromium manager scenarios;
+- changes no Firebase authority, billing, Firestore persistence, App Check enforcement, public discovery, canonical local-save mutation or Candidate C authority;
+- keeps fixed RJR-1 at `87/100` until genuine new owner production evidence.
+
 ## v1.9.0 — Private Remote Joining runtime — release candidate
 
 Candidate runtime: `1.9.0-r1`

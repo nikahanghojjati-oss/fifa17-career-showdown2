@@ -1,3 +1,7 @@
+# CURRENT RELEASE CANDIDATE — v1.9.0-r3 Pairing One-Paste Hardening
+
+Current source candidate: `v1.9.0 / 1.9.0-r3` — not yet production-proven. Previous production-proven whole-shell recovery target: `v1.9.0 / 1.9.0-r2`. This bounded patch gives Player One one direct pairing Copy action, requires exactly one Player Two paste, auto-propagates the exact private pairing identity into both Connected Rivalry contexts, and prevents late device-registration completion from clobbering an in-flight/open/paired state. Firebase remains Spark, billing remains forbidden, Firestore remains memory-only, App Check enforcement remains OFF, public discovery remains prohibited, canonical local saves remain untouched by Remote Joining, and Candidate C remains sole destructive remote-to-local gameplay Apply authority. Fixed RJR-1 remains `87/100` until new owner production capability evidence.
+
 # CURRENT RELEASE CANDIDATE — v1.9.0 Private Remote Joining
 
 Current source candidate: `v1.9.0 / 1.9.0-r1`. Previous production-proven whole-shell recovery target: `v1.8.1 / 1.8.1-r5`. Stage 5E adds lazy, exact-capability private Host/Join/Read/Close UX while preserving Firebase Spark, zero billing, memory-only Firestore, App Check enforcement OFF, local-first startup and Candidate C authority. RJR remains `87/100` until genuine production capability evidence.

@@ -1018,7 +1018,7 @@
     heading.append(
       crCreate("span","settingsPanelEyebrow","CONNECTED RIVALRY"),
       crCreate("h3","","OBSERVE REMOTE · COMMIT LOCAL EXPLICITLY"),
-      crCreate("p","","Refresh and preview are read-only. Local gameplay changes only after exact confirmation, a verified backup and Candidate C Apply. Remote Joining sessions remain locked.")
+      crCreate("p","","Refresh and preview are read-only. Local gameplay changes only after exact confirmation, a verified backup and Candidate C Apply. Private Remote Joining is available from Showdown Home after this rivalry and registered-device requirements are satisfied.")
     );
     const info=crCreate("div","settingsInfoGrid");
     const revisionLabel=crState.observedTombstone
@@ -1043,7 +1043,7 @@
       ["LOCAL TARGET",targetLabel],
       ["LOCAL COMMIT",localCommitLabel],
       ["CONFLICT MODEL","Immutable base revision · no silent rebase"],
-      ["REMOTE JOINING","Stage 5 · still locked"],
+      ["REMOTE JOINING","Available from Showdown Home · exact private session"],
       ["BILLING","Firebase Spark · no billing"]
     ]){
       const row=crCreate("div","settingsInfoRow");
