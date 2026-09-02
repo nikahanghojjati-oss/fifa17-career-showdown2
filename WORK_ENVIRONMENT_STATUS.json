@@ -57,6 +57,7 @@
     "knownHazards": [
       "Billing is permanently forbidden: never attach Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, or select a paid provider path.",
       "Firebase must remain Spark and Firestore persistence must remain memory-only.",
+      "App Check enforcement remains OFF.",
       "Remote Joining code must remain browser-inert until an explicit host/join/read/close action; ordinary startup must not create session writes.",
       "Standard Firebase request.auth.uid authenticates the account. Registered deviceId remains account-owned mutation metadata, not a cryptographic browser identity.",
       "Session collection listing, discovery, lobbies, matchmaking, community and rankings remain prohibited; exact private session IDs only.",
