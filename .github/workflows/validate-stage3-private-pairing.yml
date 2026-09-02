@@ -34,7 +34,9 @@ jobs:
         run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
 
       - name: Run deterministic Stage 3 client contracts
-        run: node tests/contracts/stage3-private-pairing-contracts.cjs
+        run: |
+          node tests/contracts/stage3-private-pairing-contracts.cjs
+          node tests/contracts/pairing-four-code-automation-contracts.cjs
 
       - name: Prove desktop and mobile IndexedDB identity behavior
         shell: bash
@@ -44,6 +46,7 @@ jobs:
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           node tests/browser/stage3-private-pairing-audit.cjs
+          node tests/browser/pairing-four-code-automation-audit.cjs
           node tests/browser/stage5b-device-credential-audit.cjs
 
       - name: Prove explicit Stage 4 remote-to-local reconciliation in browser
