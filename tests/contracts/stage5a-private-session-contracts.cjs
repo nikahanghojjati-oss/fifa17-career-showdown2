@@ -144,9 +144,13 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.doesNotMatch(source,/CareerModeSaveLibrary|storageTransaction|Candidate C|candidate-c/i,"Stage 5A must not own local Save or Candidate C behavior.");
   assert.doesNotMatch(source,/\bcollection\s*\(|\bgetDocs\b/,"Stage 5A must use exact document capabilities and never discovery/listing.");
   assert.doesNotMatch(fs.readFileSync("js/sparkConnectedRivalry.js","utf8"),/sessions\/|sessionId|private-session/,"Stage 5A must remain separate from the protected Stage 4 module.");
-  for(const runtimeOwner of ["js/app.js","js/sparkConnectedAccount.js","service-worker.js"]){
-    assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkPrivateSession\.js/,`${runtimeOwner} must not expose the pre-publication Stage 5A candidate.`);
+  for(const runtimeOwner of ["js/app.js","js/sparkConnectedAccount.js"]){
+    assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkPrivateSession\.js/,`${runtimeOwner} must not directly bootstrap the historical Stage 5A protocol.`);
   }
+  const stage5eHtml=fs.readFileSync("index.html","utf8");
+  const stage5eWorker=fs.readFileSync("service-worker.js","utf8");
+  assert.doesNotMatch(stage5eHtml,/<script[^>]+src=["'][^"']*sparkPrivateSession\.js/i,"Stage 5E must not execute the historical Stage 5A protocol during ordinary HTML startup.");
+  assert.match(stage5eWorker,/"js\/sparkPrivateSession\.js"/,"After Stage 5D production Rules publication, Stage 5E may precache the protocol as a lazy rollback-complete asset without executing it at startup.");
 
   const productionRules=fs.readFileSync("firestore.spark.rules","utf8");
   const stage5cRules=fs.readFileSync("firestore.stage5c.rules","utf8");

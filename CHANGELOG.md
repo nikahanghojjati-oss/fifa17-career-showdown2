@@ -1,3 +1,15 @@
+## v1.9.0 — Private Remote Joining runtime — release candidate
+
+Candidate runtime: `1.9.0-r1`
+Previous known-good whole-shell recovery target: `1.8.1-r5`
+
+- adds an explicit Private Remote Joining surface from Showdown Home with Host, Join, Refresh/Read and Close actions;
+- lazily loads Remote Joining code only after the owner opens that surface and resolves Firebase/account/device/rivalry authority only when a session action is pressed;
+- uses the provider-live standard Firebase UID private-session path and the exact 256-bit session capability with no collection listing, lobby, discovery, matchmaking, community or ranking surface;
+- keeps session capability state in page memory only and changes no canonical localStorage key, local gameplay Save, Candidate C authority, App Check enforcement, Firestore persistence or billing state;
+- Firebase remains Spark, billing stays disabled, and provider failure fails closed while local Career Mode remains available;
+- RJR remains `87/100` until production-live two-account/two-device evidence proves a currently uncredited fixed-domain capability.
+
 ## 1.8.1-r3 — 2026-08-25 — production-proven
 
 - Production-proven Connected Account/App Check recovery runtime. Restored ordinary signed-out Google sign-in and strict authenticated self-account bootstrap while App Check enforcement remains OFF, Firestore remains memory-only and local-first recovery remains intact. This is the direct previous known-good whole-shell recovery target for the `1.8.1-r4` token-lifecycle candidate.

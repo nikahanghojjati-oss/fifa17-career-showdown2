@@ -1,5 +1,5 @@
-const RUNTIME_REVISION = "1.8.1-r5";
-const PREVIOUS_RUNTIME_REVISION = "1.8.1-r4";
+const RUNTIME_REVISION = "1.9.0-r1";
+const PREVIOUS_RUNTIME_REVISION = "1.8.1-r5";
 const CACHE_PREFIX = "career-mode-showdown-shell-";
 const MODE_CACHE_PREFIX = "career-mode-showdown-runtime-mode-";
 const CACHE_NAME = `${CACHE_PREFIX}${RUNTIME_REVISION}`;
@@ -22,6 +22,7 @@ const SHELL_PATHS = Object.freeze([
     "css/app.css",
     "css/visual-fidelity-r3.css",
     "css/offline.css",
+    "css/remoteJoining.css",
     "css/analytics.css",
     "css/footballVisuals.css",
     "css/footballVisuals-v113.css",
@@ -51,10 +52,13 @@ const SHELL_PATHS = Object.freeze([
     "js/offlineApp.js",
     "js/optionalModules.js",
     "js/productionFirebaseRuntime.js",
+    "js/sparkRemoteJoining.js",
     "js/sparkAccountBootstrap.js",
     "js/sparkConnectedAccount.js",
     "js/sparkPrivatePairing.js",
     "js/sparkConnectedRivalry.js",
+    "js/sparkPrivateSession.js",
+    "js/sparkStandardAuthPrivateSession.js",
     "js/restore.js",
     "js/restoreUI.js",
     "js/ruleBook.js",

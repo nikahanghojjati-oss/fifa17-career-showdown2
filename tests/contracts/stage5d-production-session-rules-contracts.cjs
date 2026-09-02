@@ -18,6 +18,7 @@ const adapter=read("js/sparkStandardAuthPrivateSession.js");
 const zeroBillingAuthorization=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
 const zeroBillingDecision=read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md");
 const stage5dProof=read("STAGE5D_MINIMUM_PRODUCTION_SESSION_RULES_GATE_PROOF_2026-09-01.md");
+const providerLiveProof=read("STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md");
 
 assert.equal(productionRules,provenStage5cRules,
   "The Stage 5D production Rules source must be the exact already-emulator-proven Stage 5C Rules bytes.");
@@ -44,13 +45,21 @@ assert.equal(productionFirebase.firestore.rules,"firestore.spark.rules",
   "The isolated production deployment config must target the promoted Rules source only.");
 assert.equal(productionEnvironment.projectId,"fifa17-career-showdown-prod");
 assert.equal(productionEnvironment.firestore.databaseId,"(default)");
-assert.equal(productionEnvironment.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484",
-  "Until a new provider publication is independently proven, the manifest must continue to record the previously provider-proven deployed blob rather than fabricate activation.");
+assert.equal(productionEnvironment.activation.productionSecurityRulesSourceBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08",
+  "After independent provider publication/readback proof, the production manifest must record the exact provider-live Stage 5D Rules blob.");
+assert.match(productionEnvironment.activation.productionSecurityRulesVerificationEvidence,/33575616044[\s\S]+100078816667[\s\S]+30b5b1be-0f61-4983-bdb2-c79f93f99be4[\s\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i,
+  "Production environment must retain the authenticated provider publication and exact readback provenance.");
+assert.match(providerLiveProof,/Status: VERIFIED PROVIDER-LIVE/i);
+assert.match(providerLiveProof,/PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS 363af783d7e5436fdfaa3766d4aa413fc9952a08/i);
+assert.match(providerLiveProof,/33575616044[\s\S]+100078816667[\s\S]+30b5b1be-0f61-4983-bdb2-c79f93f99be4/i);
 
-for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js","service-worker.js"]){
+for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){
   assert.doesNotMatch(read(runtimeOwner),/sparkStandardAuthPrivateSession\.js/,
-    `${runtimeOwner} must not load host/join runtime during the Rules-only milestone.`);
+    `${runtimeOwner} must not directly bootstrap host/join runtime during ordinary startup.`);
 }
+const stage5eWorker=read("service-worker.js");
+assert.match(stage5eWorker,/"js\/sparkStandardAuthPrivateSession\.js"/,
+  "The separate Stage 5E runtime slice may precache the already-reviewed standard-auth adapter after Stage 5D provider publication without executing it during ordinary startup.");
 
 assert.match(zeroBillingAuthorization,/billing must never be activated/i);
 assert.match(zeroBillingAuthorization,/Firebase Spark/i);
@@ -62,4 +71,4 @@ assert.match(stage5dProof,/documented exact-head fallback review[\s\S]+audits th
   "A paid code-review quota may not force billing or silently waive the mandatory review/thread gate.");
 assert.match(stage5dProof,/A quota refusal by itself is never a passing review and never earns RJR credit/i);
 
-process.stdout.write("PASS Stage 5D production session Rules: exact Stage 5C bytes promoted into the isolated production Rules source; standard Firebase uid authority, no listing, exactly-two-account lifecycle, mutation-only registered-device metadata, deny-by-default, zero-billing review fallback and runtime separation remain locked.\n");
+process.stdout.write("PASS Stage 5D production session Rules: exact Stage 5C bytes are provider-live with authenticated exact-source readback; standard Firebase uid authority, no listing, exactly-two-account lifecycle, mutation-only registered-device metadata, deny-by-default, zero-billing review fallback and Stage 5E lazy runtime separation remain locked.\n");

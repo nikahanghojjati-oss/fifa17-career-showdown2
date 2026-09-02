@@ -133,14 +133,14 @@ async function openApplication(page){
 async function assertStableReleaseIdentity(page, label){
     await page.waitForTimeout(5000);
     const footer = normalizeText(await page.locator("#app > footer").innerText());
-    assert.equal(footer, "Career Mode Showdown v1.8.1 · Connected Rivalry", `${label} release footer changed after startup settled.`);
+    assert.equal(footer, "Career Mode Showdown v1.9.0 · Private Remote Joining", `${label} release footer changed after startup settled.`);
     const tile = await page.locator("#settingsButton").evaluate(button => ({
         code: button.querySelector(".menuTileCode")?.textContent?.trim() || "",
         label: button.querySelector(".menuTileLabel")?.textContent?.trim() || "",
         meta: button.querySelector(".menuTileMeta")?.textContent?.trim() || ""
     }));
     assert.deepEqual(tile,{code:"LOCAL",label:"SAVE LIBRARY",meta:"Local Showdowns, manager profiles and settings"},`${label} Home local-data identity changed after startup settled.`);
-    checkpoint(`${label} stable release identity`, "v1.8.1 · Connected Rivalry · Save Library");
+    checkpoint(`${label} stable release identity`, "v1.9.0 · Private Remote Joining · Save Library");
 }
 
 async function activeScreens(page){

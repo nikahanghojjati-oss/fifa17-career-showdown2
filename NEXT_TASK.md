@@ -1,3 +1,15 @@
+# CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTIME CANDIDATE — 2026-09-02 UTC
+
+Authorized release candidate: `v1.9.0 / 1.9.0-r1`. Previous production-proven whole-shell recovery target: `v1.8.1 / 1.8.1-r5`. RJR remains `87/100` until genuine provider-live two-account/two-device capability evidence closes a fixed-domain gap.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish exact-head Stage 5E validation, review, merge and deployment without billing or provider Rules mutation. Then perform the smallest production-live private Remote Joining acceptance that proves exact two-account Host → Join → Read/Refresh → Close across real registered devices and preserves local-first/canonical-storage/Candidate C locks. Stable real-device release acceptance is the final distinct RJR domain gap.
+
+Billing remains permanently forbidden. Firebase stays Spark; Firestore stays memory-only; App Check enforcement stays OFF; no public discovery/listing/matchmaking is authorized.
+
+---
+
 # CURRENT OVERRIDE — PR #176 STAGE 5D RULES SOURCE MERGED / PROVIDER PUBLICATION PENDING — 2026-09-01 UTC
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This section supersedes lower historical instructions; current source and independently verified live provider evidence win.
