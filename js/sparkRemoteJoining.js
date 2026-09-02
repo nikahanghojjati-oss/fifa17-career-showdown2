@@ -33,9 +33,9 @@
     return srjState;
   }
   function srjRevision(){
-    if(!root.document)return "1.9.0-r1";
+    if(!root.document)return "1.9.0-r2";
     const meta=root.document.querySelector('meta[name="app-asset-revision"]');
-    return meta&&meta.content?meta.content.trim()||"1.9.0-r1":"1.9.0-r1";
+    return meta&&meta.content?meta.content.trim()||"1.9.0-r2":"1.9.0-r2";
   }
   function srjVersionedUrl(path){
     if(!root.document||!root.location)return path;
