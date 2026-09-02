@@ -75,8 +75,10 @@ async function provePlayerOne(browser,iteration){
     const selector=page.getByLabel("Local manager identity for private pairing");
     await selector.selectOption({label:"Player One · Nik"});
     await page.getByRole("button",{name:"CREATE PAIRING CODE"}).click();
-    await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().status==="pair-open");
-    const generated=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState().capability);
+    await page.waitForTimeout(500);
+    const createState=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState());
+    assert.equal(createState.status,"pair-open",`iteration ${iteration}: Player One create did not reach pair-open: ${JSON.stringify(createState)}`);
+    const generated=createState.capability;
     assert.match(generated,CAPABILITY_PATTERN,`iteration ${iteration}: Player One generated malformed capability`);
 
     const generatedDisplay=await page.locator("#sparkPrivatePairingPanel .settingsDataNote code").first().textContent();
@@ -106,7 +108,7 @@ async function provePlayerOne(browser,iteration){
       if(!registration.ok)return registration;
       return pairing.redeemPairing({user,firestore:h.services.firestore,firebaseSdk:h.firestoreSdk,identity,binding,capability,cryptoImpl:window.crypto});
     },{accountB,binding:P2_BINDING,iteration,capability:generated});
-    assert.equal(simulatedPlayerTwo.ok,true,`iteration ${iteration}: simulated Player Two provider join failed`);
+    assert.equal(simulatedPlayerTwo.ok,true,`iteration ${iteration}: simulated Player Two provider join failed: ${JSON.stringify(simulatedPlayerTwo)}`);
 
     await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.initialize());
     await page.waitForFunction(expected=>{
@@ -137,7 +139,7 @@ async function provePlayerTwo(browser,iteration){
       if(!registration.ok)return registration;
       return pairing.createPairing({user,firestore:h.services.firestore,firebaseSdk:h.firestoreSdk,identity,binding,capability,cryptoImpl:window.crypto});
     },{accountA,binding:P1_BINDING,iteration,capability});
-    assert.equal(opened.ok,true,`iteration ${iteration}: setup creator failed`);
+    assert.equal(opened.ok,true,`iteration ${iteration}: setup creator failed: ${JSON.stringify(opened)}`);
     assert.equal(opened.capability,capability);
 
     const selector=page.getByLabel("Local manager identity for private pairing");
@@ -159,7 +161,9 @@ async function provePlayerTwo(browser,iteration){
     assert.equal(await page.getByLabel("Private pairing code").inputValue(),capability,`iteration ${iteration}: pasted join field changed the exact code`);
 
     await page.getByRole("button",{name:"JOIN PRIVATE PAIRING"}).click();
-    await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().status==="paired");
+    await page.waitForFunction(()=>["paired","pair-error"].includes(window.CareerModeSparkPrivatePairing.getState().status));
+    const joinState=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState());
+    assert.equal(joinState.status,"paired",`iteration ${iteration}: Player Two join did not reach paired: ${JSON.stringify(joinState)}`);
     const joinInput=page.getByLabel("Private pairing code");
     assert.equal(await joinInput.inputValue(),capability,`iteration ${iteration}: successful join erased or transformed the one pasted code`);
     assert.equal(await joinInput.isEditable(),false,`iteration ${iteration}: successful join field must become readonly`);
