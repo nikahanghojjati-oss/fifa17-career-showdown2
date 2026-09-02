@@ -1,3 +1,17 @@
+## CURRENT OVERRIDE — V1.9.0-R3 PAIRING ONE-PASTE HARDENING — 2026-09-02 UTC
+
+RELEASE CANDIDATE — NOT YET PRODUCTION-PROVEN. Current bounded candidate is `v1.9.0 / 1.9.0-r3`; production-proven baseline remains `v1.9.0 / 1.9.0-r2` until exact-head CI/review/merge/Pages/deployed-byte gates complete. Fixed RJR-1 remains `87/100`; source, CI, review, merge and deployment earn zero RJR credit.
+
+The r3 lane hardens the first owner Remote Joining setup path before repeating production acceptance. Player One receives a direct `COPY PAIRING CODE`; Player Two pastes exactly once; the joined capability remains read-only after success; all four pairing/Connected-Rivalry code surfaces must be byte-for-byte equal; Player One and Player Two auto-link into Connected Rivalry without normal-flow Verify/Reattach. A late registered-device completion can refresh registration metadata but cannot overwrite an in-flight/open/paired pairing state.
+
+Permanent zero-billing and authority locks are unchanged: Firebase Spark only, billing permanently forbidden, Firestore memory-only, App Check enforcement OFF, no public discovery/listing/lobby/matchmaking, exactly three canonical localStorage keys, no Remote Joining mutation of canonical saves, and Candidate C remains sole destructive remote-to-local gameplay Apply authority.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish r3 on one unchanged exact head: all permanent contracts/workflows, final-head review, zero unresolved valid threads, clean mergeability, expected-head merge, post-merge/Pages success and exact deployed `v1.9.0 / 1.9.0-r3` byte/runtime verification. Only then reopen the owner production test gate: Player One creates/copies once, Player Two pastes once and joins, both automatically hold the same Connected Rivalry, then complete private Remote Joining Host → Join → Read/Refresh → Close with the live session capability never pasted into chat. Recalculate RJR only from genuine newly verified production capability evidence.
+
+---
+
 ## CURRENT OVERRIDE — PR #182 CONNECTED RIVALRY POINTER RESTORE HOTFIX — 2026-09-02 UTC
 
 RELEASE CANDIDATE — NOT PRODUCTION-PROVEN. Current repair candidate is `v1.9.0 / 1.9.0-r2`; deployed production remains `v1.9.0 / 1.9.0-r1` until PR #182 completes exact-head gates and deployment. Fixed RJR-1 remains `87/100`.

@@ -193,3 +193,8 @@ The deployed protocol result itself includes `hostAccountId` and `memberAccountI
 Do not preassign a delta. After the complete production evidence exists, compare it against fixed `REMOTE_JOINING_READINESS.json` domains and credit only genuinely new capabilities. The first successful provider-live Remote Joining lifecycle is expected to move RJR above 87 because actual sessions are explicitly uncredited, but the exact score must be calculated from the evidence rather than guessed.
 
 After this first lifecycle, remaining distinct evidence lanes are still expected to include Remote Joining-specific negative authorization/revoked-device acceptance, two-device/two-network reconnect/adverse-network behavior, remaining identity/auth/trust gaps, and final stable real-device release acceptance.
+## v1.9.0-r3 four-code / one-paste acceptance gate
+
+Before owner production testing, the exact same full private capability must be present without transformation as: (1) Player One generated pairing code, (2) Player One Connected Rivalry prefill/attachment, (3) Player Two Join Private Pairing input after exactly one paste, and (4) Player Two Connected Rivalry attachment. Player One uses `COPY PAIRING CODE` directly below the generated full code. After successful Player Two join, the join input retains that exact value read-only and Join is disabled.
+
+After Player Two joins, Player One must not press `VERIFY / REATTACH` in normal acceptance. Return to Save Library or open Private Remote Joining; normal Connected Rivalry initialization must verify and persist the provider-active rivalry automatically. If manual Verify/Reattach is needed, stop and count the automation as failed. Fully redact every live `pair_...` value in screenshots/chat.
