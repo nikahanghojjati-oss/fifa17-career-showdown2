@@ -34,6 +34,16 @@ let audit=fs.readFileSync(auditPath,'utf8');
 audit=audit.replaceAll('script[data-remote-joining-runtime="true"]','script[data-runtime-script="rj"]');
 fs.writeFileSync(auditPath,audit);
 
+// Reconcile the historical Stage 5A pre-publication boundary with the now-authorized
+// Stage 5D -> Stage 5E activation sequence. Precaching is not execution: Stage 5A
+// must still never be directly bootstrapped by HTML, app.js or Connected Account.
+let stage5a=read('tests/contracts/stage5a-private-session-contracts.cjs');
+const oldStage5aBoundary=`  for(const runtimeOwner of ["js/app.js","js/sparkConnectedAccount.js","service-worker.js"]){\n    assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkPrivateSession\\.js/,\`${'${runtimeOwner}'} must not expose the pre-publication Stage 5A candidate.\`);\n  }`;
+const newStage5aBoundary=`  for(const runtimeOwner of ["js/app.js","js/sparkConnectedAccount.js"]){\n    assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkPrivateSession\\.js/,\`${'${runtimeOwner}'} must not directly bootstrap the historical Stage 5A protocol.\`);\n  }\n  const stage5eHtml=fs.readFileSync("index.html","utf8");\n  const stage5eWorker=fs.readFileSync("service-worker.js","utf8");\n  assert.doesNotMatch(stage5eHtml,/<script[^>]+src=["'][^"']*sparkPrivateSession\\.js/i,"Stage 5E must not execute the historical Stage 5A protocol during ordinary HTML startup.");\n  assert.match(stage5eWorker,/"js\\/sparkPrivateSession\\.js"/,"After Stage 5D production Rules publication, Stage 5E may precache the protocol as a lazy rollback-complete asset without executing it at startup.");`;
+if(!stage5a.includes(oldStage5aBoundary))throw new Error('Historical Stage 5A runtime-owner boundary not found.');
+stage5a=stage5a.replace(oldStage5aBoundary,newStage5aBoundary);
+write('tests/contracts/stage5a-private-session-contracts.cjs',stage5a);
+
 // Reconcile current release authority surfaces for the new legitimate milestone.
 let stability=read('tests/contracts/stability-contracts.cjs');
 stability=stability.replace('Registered Devices & Private Pairing|Connected Rivalry)','Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining)');
