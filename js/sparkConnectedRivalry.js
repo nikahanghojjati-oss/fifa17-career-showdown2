@@ -714,25 +714,31 @@
         const restored=await crResolveSavedPointer(context.accountId,context.deviceId,bindings,{preferredBinding:crState.binding});
         let binding=restored.binding;
         let pointer=restored.pointer;
-        let pairingCandidate=null;
+        const pairingCandidate=crResolvePairingCandidate(context.pairingState,bindings,options.pairingRuntime||root.CareerModeSparkPrivatePairing);
         let autoAttachResult=null;
         let autoAttached=false;
-        if(!pointer){
-          pairingCandidate=crResolvePairingCandidate(context.pairingState,bindings,options.pairingRuntime||root.CareerModeSparkPrivatePairing);
-          if(pairingCandidate){
-            binding=pairingCandidate.binding;
+        if(pairingCandidate){
+          const pairingDiffersFromDurable=Boolean(
+            !pointer
+            || pointer.rivalryId!==pairingCandidate.rivalryId
+            || !crSameBinding(binding,pairingCandidate.binding)
+          );
+          if(pairingDiffersFromDurable){
             autoAttachResult=await crAttachRivalry({
               user:context.user,
               firestore:context.services.firestore,
               firebaseSdk:context.services.firestoreSdk,
               deviceId:context.deviceId,
-              binding,
+              binding:pairingCandidate.binding,
               rivalryId:pairingCandidate.rivalryId,
               indexedDBImpl:options.indexedDBImpl||root.indexedDB
             });
             if(autoAttachResult&&autoAttachResult.ok===true){
+              binding=pairingCandidate.binding;
               pointer=autoAttachResult.pointer;
               autoAttached=true;
+            }else if(!pointer){
+              binding=pairingCandidate.binding;
             }
           }
         }
