@@ -50,6 +50,11 @@ const nextOverride=`# CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTI
 let next=read('NEXT_TASK.md');if(!next.startsWith('# CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING'))write('NEXT_TASK.md',nextOverride+next);
 const readmeOverride=`# CURRENT RELEASE CANDIDATE — v1.9.0 Private Remote Joining\n\nCurrent source candidate: \`v1.9.0 / 1.9.0-r1\`. Previous production-proven whole-shell recovery target: \`v1.8.1 / 1.8.1-r5\`. Stage 5E adds lazy, exact-capability private Host/Join/Read/Close UX while preserving Firebase Spark, zero billing, memory-only Firestore, App Check enforcement OFF, local-first startup and Candidate C authority. RJR remains \`87/100\` until genuine production capability evidence.\n\n`;
 let readme=read('README.md');if(!readme.startsWith('# CURRENT RELEASE CANDIDATE — v1.9.0'))write('README.md',readmeOverride+readme);
+const bootstrap=JSON.parse(read('SESSION_BOOTSTRAP.json'));
+bootstrap.runtime={...(bootstrap.runtime||{}),applicationVersion:'1.9.0'};
+bootstrap.recordedAt='2026-09-02T02:02:00.000Z';
+bootstrap.currentLane='Stage 5E source candidate v1.9.0 / 1.9.0-r1 is under exact-head validation. Production remains 1.8.1-r5 until merge/deploy; fixed RJR remains 87 pending genuine two-account/two-device Remote Joining evidence.';
+write('SESSION_BOOTSTRAP.json',JSON.stringify(bootstrap,null,2)+'\n');
 
 const refs=[...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)(?:\?v=([^"#]+))?"/g)].map(m=>m[1]);
 const raw=refs.reduce((n,p)=>n+fs.statSync(path.join(root,p)).size,0);
