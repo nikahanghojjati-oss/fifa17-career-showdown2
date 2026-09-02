@@ -1,3 +1,15 @@
+## v1.9.0-r4 — Stale Connected Rivalry Pointer Precedence — release candidate
+
+Candidate runtime: `1.9.0-r4`
+Previous production-proven runtime: `1.9.0-r3`
+
+* evaluates the current Private Pairing candidate even when a durable Connected Rivalry pointer already exists;
+* preserves durable pointer A unless pairing B passes the existing exact provider-authorized attachment path, then persists B automatically;
+* permanently tests pending, expired and authorization-mismatched B preserving A, plus exact active B replacing A for Player One and Player Two;
+* preserves exactly one Player Two paste, zero manual Connected Rivalry Verify/Reattach actions and unchanged canonical localStorage;
+* changes no provider rivalry merely to retire a stale local pointer and changes no Firebase Rules, billing, persistence, App Check enforcement, public-discovery boundary or Candidate C authority;
+* records the separate evidence-only RJR-1 recalculation from `87/100` to `88/100` for the previously supplied provider-live r3 actual Remote Joining lifecycle; r4 implementation/release work earns zero RJR credit.
+
 ## v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening — release candidate
 
 Candidate runtime: `1.9.0-r3`
