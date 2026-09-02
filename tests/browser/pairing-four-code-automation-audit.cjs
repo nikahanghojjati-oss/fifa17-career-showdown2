@@ -12,6 +12,7 @@ const P2_BINDING={saveId:SAVE_ID,profileId:P2_PROFILE,managerRole:"playerTwo",di
 
 async function preparePage(browser,accountId,iteration){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
+  await context.grantPermissions(["clipboard-read","clipboard-write"],{origin:baseUrl.origin});
   const page=await context.newPage();
   const pageErrors=[];
   page.on("pageerror",error=>pageErrors.push(error.stack||error.message));
@@ -55,8 +56,6 @@ async function preparePage(browser,accountId,iteration){
         profiles:[{profileId:p1,displayName:"Nik"},{profileId:p2,displayName:"Gop"}]
       })
     };
-    window.__copiedPairingCode=null;
-    try{Object.defineProperty(navigator,"clipboard",{configurable:true,value:{writeText:async value=>{window.__copiedPairingCode=String(value);}}});}catch(_error){}
   },{accountId,saveId:SAVE_ID,p1:P1_PROFILE,p2:P2_PROFILE,iteration});
   await page.addScriptTag({url:new URL("js/sparkPrivatePairing.js",baseUrl).href});
   await page.addScriptTag({url:new URL("js/sparkConnectedRivalry.js",baseUrl).href});
@@ -90,8 +89,8 @@ async function provePlayerOne(browser,iteration){
     const copyY=(await copyButton.boundingBox()).y;
     assert.ok(copyY>=boxY,`iteration ${iteration}: copy button is not rendered under the generated code`);
     await copyButton.click();
-    await page.waitForFunction(()=>window.__copiedPairingCode!==null);
-    assert.equal(await page.evaluate(()=>window.__copiedPairingCode),generated,`iteration ${iteration}: copy button changed/truncated the capability`);
+    const copied=await page.evaluate(()=>navigator.clipboard.readText());
+    assert.equal(copied,generated,`iteration ${iteration}: copy button changed/truncated the capability`);
 
     await page.waitForFunction(expected=>window.CareerModeSparkConnectedRivalry.getState().prefillRivalryId===expected,generated);
     const p1Connected=await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.getState().prefillRivalryId);
@@ -163,7 +162,7 @@ async function provePlayerTwo(browser,iteration){
     await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().status==="paired");
     const joinInput=page.getByLabel("Private pairing code");
     assert.equal(await joinInput.inputValue(),capability,`iteration ${iteration}: successful join erased or transformed the one pasted code`);
-    assert.equal(await joinInput.getAttribute("readonly"),"",`iteration ${iteration}: successful join field must become readonly`);
+    assert.equal(await joinInput.isEditable(),false,`iteration ${iteration}: successful join field must become readonly`);
     assert.equal(await page.getByRole("button",{name:"JOIN PRIVATE PAIRING"}).isDisabled(),true,`iteration ${iteration}: joined capability must not be submitted twice`);
 
     await page.waitForFunction(expected=>{
