@@ -51,6 +51,15 @@ jobs:
           assert text.count(old)==1, 'connected-rivalry stale info row missing or duplicated'
           rivalry.write_text(text.replace(old,new,1))
 
+          legacy=Path('tests/contracts/spark-production-connected-account-contracts.cjs')
+          text=legacy.read_text()
+          old='assert.match(controllerSource,/Remote Joining is still locked|REMOTE JOINING\\",\\"Locked/);'
+          # Preserve the legacy contract's security purpose while updating its product-state truth:
+          # Connected Account may advertise the separate Stage 5E surface, but does not acquire session mutation authority.
+          new='assert.match(controllerSource,/Private Remote Joining is available from Showdown Home/);\nassert.match(controllerSource,/REMOTE JOINING\\",\\"Available from Showdown Home · private requirements apply/);'
+          assert text.count(old)==1, 'legacy connected-account Remote Joining lock assertion missing or duplicated'
+          legacy.write_text(text.replace(old,new,1))
+
           test=Path('tests/contracts/stage5e-remote-joining-copy-contracts.cjs')
           test.write_text('''const A = require("node:assert/strict");\nconst fs = require("node:fs");\nconst read = path => fs.readFileSync(path,"utf8");\n\nconst account = read("js/sparkConnectedAccount.js");\nconst rivalry = read("js/sparkConnectedRivalry.js");\nconst remoteJoining = read("js/sparkRemoteJoining.js");\n\nfor(const stale of [\n  "Remote Joining sessions remain locked.",\n  "Locked · Stage 5 sessions not enabled",\n  "Stage 5 · still locked"\n]){\n  A.ok(!account.includes(stale), `Connected Account reintroduced stale Remote Joining copy: ${stale}`);\n  A.ok(!rivalry.includes(stale), `Connected Rivalry reintroduced stale Remote Joining copy: ${stale}`);\n}\n\nA.match(account,/Private Remote Joining is available from Showdown Home after its account, registered-device, and Connected Rivalry requirements are satisfied\./);\nA.ok(account.includes('["REMOTE JOINING","Available from Showdown Home · private requirements apply"]'));\nA.match(rivalry,/Private Remote Joining is available from Showdown Home after this rivalry and registered-device requirements are satisfied\./);\nA.ok(rivalry.includes('["REMOTE JOINING","Available from Showdown Home · exact private session"]'));\n\n// Copy repair must not broaden authority. Connected Rivalry still does not own session\n// mutations; Stage 5E retains that separate, exact-capability runtime boundary.\nA.ok(account.includes('firestorePersistence:"memory-only"'));\nA.ok(account.includes('billingRequired:false'));\nA.ok(rivalry.includes('publicDiscovery:false'));\nA.ok(rivalry.includes('automaticLocalApply:false'));\nA.ok(rivalry.includes('localApplyAuthority:"candidate-c-explicit-confirmed-only"'));\nA.ok(rivalry.includes('remoteJoiningSessions:false'));\nA.ok(rivalry.includes('billingRequired:false'));\nA.ok(remoteJoining.includes('billingRequired:false'));\nA.ok(remoteJoining.includes('publicDiscovery:false'));\n\nprocess.stdout.write("PASS Stage 5E Remote Joining copy truth: live Home availability is visible without broadening Connected Rivalry, billing, discovery or Candidate C authority\\n");\n''')
 
@@ -67,6 +76,7 @@ jobs:
         run: |
           node --check js/sparkConnectedAccount.js
           node --check js/sparkConnectedRivalry.js
+          node tests/contracts/spark-production-connected-account-contracts.cjs
           node tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs
           node tests/contracts/stage5e-remote-joining-copy-contracts.cjs
           node tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs
