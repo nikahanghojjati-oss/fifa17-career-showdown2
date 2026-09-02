@@ -1,0 +1,453 @@
+name: Stage 5E Atomic Worktree Apply
+
+on:
+  push:
+    branches:
+      - rjr/stage5e-runtime-host-join-ux-2026-09-02
+    paths:
+      - ops/stage5e-runtime-work-request.json
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rjr/stage5e-runtime-host-join-ux-2026-09-02
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Apply Stage 5E bounded runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          def replace(path, old, new, count=-1):
+              p=Path(path)
+              text=p.read_text()
+              if old not in text:
+                  raise SystemExit(f"Expected text missing in {path}: {old[:100]!r}")
+              p.write_text(text.replace(old,new,count))
+
+          # Product/runtime identity.
+          replace('package.json','"version": "1.8.1"','"version": "1.9.0"',1)
+          pkg=Path('package.json').read_text()
+          pkg=pkg.replace('node tests/browser/stage4-remote-local-reconciliation-audit.cjs"','node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs"')
+          Path('package.json').write_text(pkg)
+          replace('package-lock.json','"version": "1.8.1"','"version": "1.9.0"',2)
+          replace('index.html','1.8.1-r5','1.9.0-r1')
+          replace('index.html','<footer>Career Mode Showdown<br>v1.8.1 · Connected Rivalry</footer>','<footer>Career Mode Showdown<br>v1.9.0 · Private Remote Joining</footer>')
+          replace('manifest.webmanifest','1.8.1-r5','1.9.0-r1')
+          replace('service-worker.js','const RUNTIME_REVISION = "1.8.1-r5";','const RUNTIME_REVISION = "1.9.0-r1";')
+          replace('service-worker.js','const PREVIOUS_RUNTIME_REVISION = "1.8.1-r4";','const PREVIOUS_RUNTIME_REVISION = "1.8.1-r5";')
+          replace('service-worker.js','    "css/offline.css",','    "css/offline.css",\n    "css/remoteJoining.css",')
+          replace('service-worker.js','    "js/productionFirebaseRuntime.js",','    "js/productionFirebaseRuntime.js",\n    "js/sparkRemoteJoining.js",')
+          replace('service-worker.js','    "js/sparkConnectedRivalry.js",','    "js/sparkConnectedRivalry.js",\n    "js/sparkPrivateSession.js",\n    "js/sparkStandardAuthPrivateSession.js",')
+          replace('js/productionFirebaseRuntime.js','const FALLBACK_RUNTIME_REVISION="1.8.1-r5";','const FALLBACK_RUNTIME_REVISION="1.9.0-r1";')
+
+          app=Path('js/app.js').read_text()
+          app=app.replace('const APP_VERSION = "1.8.1";','const APP_VERSION = "1.9.0";',1)
+          app=app.replace('css/visual-fidelity-r3.css?v=1.8.1-r5','css/visual-fidelity-r3.css?v=1.9.0-r1',1)
+          launcher='''let remoteJoiningSurfacePromise=null;function getRemoteJoiningAssetRevision(){const m=document.querySelector('meta[name="app-asset-revision"]');return m&&m.content?m.content.trim():"1.9.0-r1";}function installRemoteJoiningLauncher(){if(document.getElementById("remoteJoiningButton"))return;const actions=document.querySelector("#dashboard .dashboardActions");if(!actions)return;const button=document.createElement("button");button.type="button";button.id="remoteJoiningButton";button.className="menuButton";button.textContent="PRIVATE REMOTE JOINING";button.setAttribute("aria-label","Open Private Remote Joining");button.addEventListener("click",()=>{void loadRemoteJoiningSurface();});const back=actions.querySelector(".backButton");if(back)actions.insertBefore(button,back);else actions.appendChild(button);}function loadRemoteJoiningSurface(){if(window.CareerModeSparkRemoteJoining&&typeof window.CareerModeSparkRemoteJoining.openPanel==="function"){window.CareerModeSparkRemoteJoining.openPanel();return Promise.resolve(true);}if(remoteJoiningSurfacePromise)return remoteJoiningSurfacePromise;remoteJoiningSurfacePromise=new Promise((resolve,reject)=>{const revision=getRemoteJoiningAssetRevision();let style=document.querySelector('link[data-remote-joining-style="true"]');if(!style){style=document.createElement("link");style.rel="stylesheet";style.href=`css/remoteJoining.css?v=${revision}`;style.dataset.remoteJoiningStyle="true";document.head.appendChild(style);}const existing=document.querySelector('script[data-remote-joining-runtime="true"]');const script=existing||document.createElement("script");let settled=false;const finish=()=>{if(settled)return;const api=window.CareerModeSparkRemoteJoining;if(!api||typeof api.openPanel!=="function"){settled=true;reject(new Error("Private Remote Joining runtime loaded without its expected API."));return;}settled=true;api.openPanel();resolve(true);};const fail=()=>{if(settled)return;settled=true;reject(new Error("Private Remote Joining could not be loaded. Local Career Mode remains available."));};if(existing){if(window.CareerModeSparkRemoteJoining)finish();else{script.addEventListener("load",finish,{once:true});script.addEventListener("error",fail,{once:true});}}else{script.src=`js/sparkRemoteJoining.js?v=${revision}`;script.async=false;script.dataset.remoteJoiningRuntime="true";script.addEventListener("load",finish,{once:true});script.addEventListener("error",fail,{once:true});document.body.appendChild(script);}}).catch(error=>{if(typeof window.reportApplicationError==="function")window.reportApplicationError("Unable to open Private Remote Joining",error);else console.error(error);return false;}).finally(()=>{remoteJoiningSurfacePromise=null;});return remoteJoiningSurfacePromise;}'''
+          if 'function installRemoteJoiningLauncher()' not in app:
+              if 'function sa(){' not in app: raise SystemExit('app insertion point missing')
+              app=app.replace('function sa(){',launcher+'function sa(){',1)
+          old='["initializeOptionalModules",window.initializeOptionalModules],["initializePerformanceLifecycle",ipl]'
+          new='["initializeOptionalModules",window.initializeOptionalModules],["initializeRemoteJoiningLauncher",installRemoteJoiningLauncher],["initializePerformanceLifecycle",ipl]'
+          if old not in app: raise SystemExit('app initializer sequence missing')
+          app=app.replace(old,new,1)
+          Path('js/app.js').write_text(app)
+
+          # Current-release coherence contracts must follow the new whole shell.
+          rel=Path('tests/contracts/release-shell-coherence-contracts.cjs').read_text()
+          rel=rel.replace('RELEASE_V1.8.1_R5.md','RELEASE_V1.9.0.md')
+          rel=rel.replace('assert.equal(runtime,"1.8.1-r5");','assert.equal(runtime,"1.9.0-r1");')
+          rel=rel.replace('assert.equal(previous,"1.8.1-r4");','assert.equal(previous,"1.8.1-r5");')
+          rel=rel.replace('assert.match(app,/const APP_VERSION = "1\\.8\\.1";/);','assert.match(app,/const APP_VERSION = "1\\.9\\.0";/);')
+          rel=rel.replace('assert.match(html,/<footer>Career Mode Showdown<br>v1\\.8\\.1 · Connected Rivalry<\\/footer>/);','assert.match(html,/<footer>Career Mode Showdown<br>v1\\.9\\.0 · Private Remote Joining<\\/footer>/);')
+          rel=rel.replace('assert.match(release,/sustained mutation-frequency|mutation-frequency/i);','assert.match(release,/Private Remote Joining|host\/join/i);')
+          rel=rel.replace('console.log(`PASS ${runtime} shell coherence: sustained mutation-frequency hardening with ${previous} recovery target.`);','console.log(`PASS ${runtime} shell coherence: Private Remote Joining shell with ${previous} recovery target.`);')
+          Path('tests/contracts/release-shell-coherence-contracts.cjs').write_text(rel)
+
+          static=Path('tests/contracts/static-app-release-contracts.cjs').read_text()
+          old='html.includes(`v${version} · Connected Rivalry`))'
+          new='html.includes(`v${version} · Connected Rivalry`)||html.includes(`v${version} · Private Remote Joining`))'
+          if old not in static: raise SystemExit('static release footer allowance missing')
+          Path('tests/contracts/static-app-release-contracts.cjs').write_text(static.replace(old,new,1))
+
+          runner=Path('tests/support/run-contract-suite.cjs').read_text()
+          needle='  "tests/contracts/stage5d-production-session-rules-contracts.cjs",\n'
+          insert=needle+'  "tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs",\n'
+          if needle not in runner: raise SystemExit('contract runner insertion point missing')
+          Path('tests/support/run-contract-suite.cjs').write_text(runner.replace(needle,insert,1))
+
+          changelog=Path('CHANGELOG.md').read_text()
+          entry='''## v1.9.0 — Private Remote Joining runtime — release candidate\n\nCandidate runtime: `1.9.0-r1`\nPrevious known-good whole-shell recovery target: `1.8.1-r5`\n\n- adds an explicit Private Remote Joining surface from Showdown Home with Host, Join, Refresh/Read and Close actions;\n- lazily loads Remote Joining code only after the owner opens that surface and resolves Firebase/account/device/rivalry authority only when a session action is pressed;\n- uses the provider-live standard Firebase UID private-session path and the exact 256-bit session capability with no collection listing, lobby, discovery, matchmaking, community or ranking surface;\n- keeps session capability state in page memory only and changes no canonical localStorage key, local gameplay Save, Candidate C authority, App Check enforcement, Firestore persistence or billing state;\n- Firebase remains Spark, billing stays disabled, and provider failure fails closed while local Career Mode remains available;\n- RJR remains `87/100` until production-live two-account/two-device evidence proves a currently uncredited fixed-domain capability.\n\n'''
+          if not changelog.startswith('## v1.9.0'):
+              Path('CHANGELOG.md').write_text(entry+changelog)
+
+          # Remove the one-shot control files before repository contracts inspect permanent workflow topology.
+          for path in ['.github/workflows/stage5e-worktree-apply.yml','ops/stage5e-runtime-work-request.json']:
+              p=Path(path)
+              if p.exists(): p.unlink()
+          PY
+
+          cat > js/sparkRemoteJoining.js <<'EOF'
+          (function(root,factory){
+            const api=factory(root);
+            if(typeof module!=="undefined"&&module.exports)module.exports=api;
+            else root.CareerModeSparkRemoteJoining=api;
+          })(typeof globalThis!=="undefined"?globalThis:this,function(root){
+            "use strict";
+
+            const SRJ_PANEL_ID="sparkRemoteJoiningOverlay";
+            const SRJ_DEPENDENCIES=Object.freeze([
+              ["production-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime],
+              ["connected-account","js/sparkConnectedAccount.js",()=>root.CareerModeSparkConnectedAccount],
+              ["private-pairing","js/sparkPrivatePairing.js",()=>root.CareerModeSparkPrivatePairing],
+              ["connected-rivalry","js/sparkConnectedRivalry.js",()=>root.CareerModeSparkConnectedRivalry],
+              ["private-session","js/sparkPrivateSession.js",()=>root.CareerModeSparkPrivateSession],
+              ["standard-auth-session","js/sparkStandardAuthPrivateSession.js",()=>root.CareerModeSparkStandardAuthPrivateSession]
+            ]);
+            const SRJ_CANONICAL_KEYS=Object.freeze(["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
+            const srjScriptPromises=new Map();
+            const srjListeners=new Set();
+            let srjState=srjFreeze({status:"idle",open:false,busy:false,sessionId:null,rivalryId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,message:"Remote Joining is private and action-only. No session request has been sent."});
+
+            function srjFreeze(value){
+              if(!value||typeof value!=="object"||Object.isFrozen(value))return value;
+              Object.freeze(value);
+              Object.values(value).forEach(srjFreeze);
+              return value;
+            }
+            function srjError(code,message){const error=new Error(message||code);error.code=code;return error;}
+            function srjSetState(next){
+              srjState=srjFreeze({...srjState,...next});
+              for(const listener of srjListeners){try{listener(srjState);}catch(_error){}}
+              srjRenderPanel();
+              return srjState;
+            }
+            function srjRevision(){
+              if(!root.document)return "1.9.0-r1";
+              const meta=root.document.querySelector('meta[name="app-asset-revision"]');
+              return meta&&meta.content?meta.content.trim()||"1.9.0-r1":"1.9.0-r1";
+            }
+            function srjVersionedUrl(path){
+              if(!root.document||!root.location)return path;
+              const url=new URL(path,root.document.baseURI||root.location.href);
+              url.searchParams.set("v",srjRevision());
+              return url.href;
+            }
+            function srjLoadScript(key,path,ready){
+              const current=ready();
+              if(current)return Promise.resolve(current);
+              if(srjScriptPromises.has(key))return srjScriptPromises.get(key);
+              if(!root.document)return Promise.reject(srjError("REMOTE_JOINING_DEPENDENCY_UNAVAILABLE",`Required private runtime is unavailable: ${path}.`));
+              const promise=new Promise((resolve,reject)=>{
+                const script=root.document.createElement("script");
+                script.src=srjVersionedUrl(path);
+                script.async=false;
+                script.dataset.srjDependency=key;
+                script.addEventListener("load",()=>{const api=ready();api?resolve(api):reject(srjError("REMOTE_JOINING_DEPENDENCY_UNAVAILABLE",`${path} did not expose its expected API.`));},{once:true});
+                script.addEventListener("error",()=>reject(srjError("REMOTE_JOINING_DEPENDENCY_UNAVAILABLE",`Unable to load ${path}.`)),{once:true});
+                root.document.head.appendChild(script);
+              }).finally(()=>{srjScriptPromises.delete(key);});
+              srjScriptPromises.set(key,promise);
+              return promise;
+            }
+            async function srjEnsureDependencies(){
+              const resolved={};
+              for(const [key,path,ready] of SRJ_DEPENDENCIES)resolved[key]=await srjLoadScript(key,path,ready);
+              return Object.freeze(resolved);
+            }
+            async function srjResolveContext(){
+              const deps=await srjEnsureDependencies();
+              const runtime=deps["production-runtime"];
+              const account=deps["connected-account"];
+              const pairing=deps["private-pairing"];
+              const rivalry=deps["connected-rivalry"];
+              const protocol=deps["standard-auth-session"];
+              if(!runtime||typeof runtime.ensureAccountServices!=="function")throw srjError("REMOTE_JOINING_RUNTIME_UNAVAILABLE","Private Firebase runtime is unavailable. Local Career Mode remains available.");
+              if(!account||typeof account.initialize!=="function"||typeof account.getState!=="function")throw srjError("REMOTE_JOINING_ACCOUNT_UNAVAILABLE","Connected Account is unavailable.");
+              await account.initialize();
+              const accountState=account.getState();
+              if(!accountState||accountState.connected!==true||!accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_REQUIRED","Sign in with Google from Save Library before starting or joining a private session.");
+              if(!pairing||typeof pairing.initialize!=="function"||typeof pairing.getState!=="function")throw srjError("REMOTE_JOINING_DEVICE_UNAVAILABLE","Registered-device authority is unavailable.");
+              await pairing.initialize();
+              const pairingState=pairing.getState();
+              if(!pairingState||pairingState.registered!==true||!pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_REQUIRED","Register this browser from Save Library before using Remote Joining.");
+              if(!rivalry||typeof rivalry.initialize!=="function"||typeof rivalry.getState!=="function")throw srjError("REMOTE_JOINING_RIVALRY_UNAVAILABLE","Connected Rivalry authority is unavailable.");
+              await rivalry.initialize();
+              const rivalryState=rivalry.getState();
+              if(!rivalryState||rivalryState.attached!==true||!rivalryState.rivalryId)throw srjError("REMOTE_JOINING_RIVALRY_REQUIRED","Attach the exact paired Connected Rivalry from Save Library before using Remote Joining.");
+              const services=await runtime.ensureAccountServices();
+              if(!services||services.ok!==true||!services.auth||!services.firestore||!services.firestoreSdk)throw srjError("REMOTE_JOINING_PROVIDER_UNAVAILABLE","Private Firebase services are unavailable. Local Career Mode remains available.");
+              const user=services.auth.currentUser;
+              if(!user||user.uid!==accountState.accountId)throw srjError("REMOTE_JOINING_AUTH_MISMATCH","The current Google account no longer matches the Connected Account authority.");
+              if(rivalryState.accountId&&rivalryState.accountId!==user.uid)throw srjError("REMOTE_JOINING_RIVALRY_ACCOUNT_MISMATCH","The attached Connected Rivalry belongs to a different account.");
+              if(rivalryState.deviceId&&rivalryState.deviceId!==pairingState.deviceId)throw srjError("REMOTE_JOINING_DEVICE_MISMATCH","The attached Connected Rivalry belongs to a different registered browser identity.");
+              return Object.freeze({protocol,services,user,deviceId:pairingState.deviceId,rivalryId:rivalryState.rivalryId});
+            }
+            function srjOperationOptions(context,sessionId){
+              return {firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,user:context.user,deviceId:context.deviceId,rivalryId:context.rivalryId,sessionId,nowEpochMs:Date.now(),cryptoImpl:root.crypto};
+            }
+            function srjFailureMessage(result,fallback){
+              if(result&&result.code==="resource-exhausted")return "Firebase Spark quota is temporarily exhausted. No upgrade will be attempted; local Career Mode remains available.";
+              if(result&&typeof result.message==="string"&&result.message.trim())return result.message.trim();
+              return fallback;
+            }
+            function srjAcceptResult(result,context,role,message){
+              return srjSetState({status:"ready",busy:false,sessionId:result.sessionId,rivalryId:context.rivalryId,role,sessionState:result.state,revision:result.revision,expiresAtEpochMs:result.expiresAtEpochMs,message});
+            }
+            async function srjHostSession(){
+              srjSetState({status:"hosting",busy:true,message:"Creating an exact private session capability…"});
+              try{
+                const context=await srjResolveContext();
+                const sessionId=context.protocol.generateSessionId(root.crypto);
+                const result=await context.protocol.openSession(srjOperationOptions(context,sessionId));
+                if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_HOST_FAILED",srjFailureMessage(result,"Private session could not be opened."));
+                srjAcceptResult(result,context,"host","Private session is open. Share the full code directly with the other paired manager. It is kept only in this page's memory.");
+                return result;
+              }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be opened."} No local save was changed.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_HOST_FAILED",message:error&&error.message||"Private session could not be opened."};}
+            }
+            async function srjJoinSession(value){
+              srjSetState({status:"joining",busy:true,message:"Joining the exact private session…"});
+              try{
+                const context=await srjResolveContext();
+                const sessionId=context.protocol.normalizeSessionId(value);
+                const result=await context.protocol.joinSession(srjOperationOptions(context,sessionId));
+                if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_JOIN_FAILED",srjFailureMessage(result,"Private session could not be joined."));
+                srjAcceptResult(result,context,"peer","Private session is active with exactly the two paired rivalry accounts. Local gameplay remains unchanged.");
+                return result;
+              }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be joined."} No local save was changed.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_JOIN_FAILED",message:error&&error.message||"Private session could not be joined."};}
+            }
+            async function srjRefreshSession(){
+              const remembered=srjState.sessionId;
+              if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
+              srjSetState({status:"refreshing",busy:true,message:"Reading exact private-session authority…"});
+              try{
+                const context=await srjResolveContext();
+                const result=await context.protocol.readSession(srjOperationOptions(context,remembered));
+                if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_READ_FAILED",srjFailureMessage(result,"Private session could not be read."));
+                const clockNote=result.expiredByClock?" The provider expiry boundary has passed; no automatic mutation was performed.":"";
+                srjAcceptResult(result,context,srjState.role||"member",`Private session refreshed at revision ${result.revision}.${clockNote}`);
+                return result;
+              }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be read."} Local Career Mode remains available.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_READ_FAILED",message:error&&error.message||"Private session could not be read."};}
+            }
+            async function srjCloseSession(){
+              const remembered=srjState.sessionId;
+              if(!remembered)return {ok:false,code:"REMOTE_JOINING_SESSION_REQUIRED",message:"No private session code is held in page memory."};
+              srjSetState({status:"closing",busy:true,message:"Closing the exact active private session…"});
+              try{
+                const context=await srjResolveContext();
+                const result=await context.protocol.closeSession(srjOperationOptions(context,remembered));
+                if(!result||result.ok!==true)throw srjError(result&&result.code||"REMOTE_JOINING_CLOSE_FAILED",srjFailureMessage(result,"Private session could not be closed."));
+                srjAcceptResult(result,context,srjState.role||"member","Private session is closed terminally. Its code remains only in page memory until you forget it or reload.");
+                return result;
+              }catch(error){srjSetState({status:"error",busy:false,message:`${error&&error.message?error.message:"Private session could not be closed."} Local Career Mode remains available.`});return {ok:false,code:error&&error.code||"REMOTE_JOINING_CLOSE_FAILED",message:error&&error.message||"Private session could not be closed."};}
+            }
+            function srjForgetSession(){return srjSetState({status:"idle",busy:false,sessionId:null,rivalryId:null,role:null,sessionState:null,revision:null,expiresAtEpochMs:null,message:"Private session code forgotten from page memory. No provider state was changed."});}
+            async function srjCopySessionCode(){
+              if(!srjState.sessionId)return false;
+              try{if(root.navigator&&root.navigator.clipboard&&typeof root.navigator.clipboard.writeText==="function"){await root.navigator.clipboard.writeText(srjState.sessionId);return true;}}catch(_error){}
+              return false;
+            }
+            function srjCreate(tag,className,text){const element=root.document.createElement(tag);if(className)element.className=className;if(text!==undefined&&text!==null)element.textContent=String(text);return element;}
+            function srjShort(value){return typeof value!=="string"||!value?"—":value.length<=20?value:`${value.slice(0,12)}…${value.slice(-6)}`;}
+            function srjRenderPanel(){
+              if(!root.document||srjState.open!==true)return null;
+              const overlay=root.document.getElementById(SRJ_PANEL_ID);
+              if(!overlay)return null;
+              const body=overlay.querySelector(".remoteJoiningBody");
+              if(!body)return overlay;
+              body.replaceChildren();
+              const intro=srjCreate("div","remoteJoiningIntro");
+              intro.append(srjCreate("span","remoteJoiningEyebrow","PRIVATE SESSION · EXACT CAPABILITY ONLY"),srjCreate("h2","","REMOTE JOINING"),srjCreate("p","","No lobby, listing or public discovery. Session services resolve only when you press Host, Join, Refresh or Close. The exact session code is memory-only and disappears on reload."));
+              body.appendChild(intro);
+              const grid=srjCreate("div","remoteJoiningGrid");
+              const host=srjCreate("section","remoteJoiningCard");
+              host.append(srjCreate("span","remoteJoiningStep","01 · HOST"),srjCreate("h3","","OPEN PRIVATE SESSION"),srjCreate("p","","Creates a fresh 256-bit capability for the currently attached two-manager Connected Rivalry."));
+              const hostButton=srjCreate("button","menuButton","HOST PRIVATE SESSION");hostButton.type="button";hostButton.disabled=srjState.busy;hostButton.addEventListener("click",()=>{void srjHostSession();});host.appendChild(hostButton);
+              const join=srjCreate("section","remoteJoiningCard");
+              join.append(srjCreate("span","remoteJoiningStep","02 · JOIN"),srjCreate("h3","","JOIN EXACT SESSION"),srjCreate("p","","Paste the full code shared directly by the other already-paired manager."));
+              const input=srjCreate("input","remoteJoiningInput");input.type="text";input.placeholder="session_…";input.autocomplete="off";input.autocapitalize="none";input.spellcheck=false;input.setAttribute("aria-label","Exact private session code");
+              const joinButton=srjCreate("button","menuButton","JOIN PRIVATE SESSION");joinButton.type="button";joinButton.disabled=srjState.busy;joinButton.addEventListener("click",()=>{void srjJoinSession(input.value);});join.append(input,joinButton);grid.append(host,join);body.appendChild(grid);
+              const current=srjCreate("section","remoteJoiningCurrent");
+              current.append(srjCreate("span","remoteJoiningEyebrow","CURRENT PAGE-MEMORY SESSION"));
+              if(srjState.sessionId){
+                current.append(srjCreate("strong","remoteJoiningState",`${String(srjState.sessionState||"unknown").toUpperCase()} · REV ${Number.isInteger(srjState.revision)?srjState.revision:"—"} · ${srjState.role||"member"}`));
+                const code=srjCreate("code","remoteJoiningCode",srjState.sessionId);current.appendChild(code);
+                const meta=srjCreate("p","remoteJoiningMeta",`Rivalry ${srjShort(srjState.rivalryId)}${Number.isFinite(srjState.expiresAtEpochMs)?` · expires ${new Date(srjState.expiresAtEpochMs).toLocaleTimeString()}`:""}`);current.appendChild(meta);
+                const actions=srjCreate("div","remoteJoiningActions");
+                const copy=srjCreate("button","compactButton","COPY CODE");copy.type="button";copy.disabled=srjState.busy;copy.addEventListener("click",async()=>{copy.textContent=await srjCopySessionCode()?"COPIED":"COPY MANUALLY";});
+                const refresh=srjCreate("button","compactButton","REFRESH / READ");refresh.type="button";refresh.disabled=srjState.busy;refresh.addEventListener("click",()=>{void srjRefreshSession();});
+                const close=srjCreate("button","compactButton","CLOSE SESSION");close.type="button";close.disabled=srjState.busy||srjState.sessionState!=="active";close.addEventListener("click",()=>{void srjCloseSession();});
+                const forget=srjCreate("button","compactButton","FORGET CODE");forget.type="button";forget.disabled=srjState.busy;forget.addEventListener("click",srjForgetSession);actions.append(copy,refresh,close,forget);current.appendChild(actions);
+              }else current.append(srjCreate("p","remoteJoiningEmpty","No session capability is held in page memory."));
+              body.appendChild(current);
+              const note=srjCreate("p","remoteJoiningStatus",srjState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");body.appendChild(note);
+              return overlay;
+            }
+            function srjOpenPanel(){
+              if(!root.document)return false;
+              let overlay=root.document.getElementById(SRJ_PANEL_ID);
+              if(!overlay){
+                overlay=srjCreate("div","remoteJoiningOverlay");overlay.id=SRJ_PANEL_ID;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Private Remote Joining");
+                const shell=srjCreate("div","remoteJoiningShell");const header=srjCreate("div","remoteJoiningHeader");header.append(srjCreate("strong","","CAREER MODE SHOWDOWN // 17"));const dismiss=srjCreate("button","remoteJoiningDismiss","×");dismiss.type="button";dismiss.setAttribute("aria-label","Close Private Remote Joining");dismiss.addEventListener("click",srjClosePanel);header.appendChild(dismiss);const body=srjCreate("div","remoteJoiningBody");shell.append(header,body);overlay.appendChild(shell);root.document.body.appendChild(overlay);
+              }
+              overlay.classList.remove("hidden");srjSetState({open:true});const focus=overlay.querySelector("button");if(focus)focus.focus();return true;
+            }
+            function srjClosePanel(){const overlay=root.document&&root.document.getElementById(SRJ_PANEL_ID);if(overlay)overlay.classList.add("hidden");srjState=srjFreeze({...srjState,open:false});return true;}
+            function srjSubscribe(listener){if(typeof listener!=="function")return()=>{};srjListeners.add(listener);return()=>srjListeners.delete(listener);}
+
+            return srjFreeze({
+              contractVersion:1,
+              feature:"stage5e-production-private-remote-joining-runtime",
+              productionRulesPublished:true,
+              providerIdentity:"standard-firebase-request-auth-uid",
+              authPersistence:"browserSessionPersistence",
+              registeredDeviceAuthority:"account-owned-mutation-metadata",
+              exactCapabilityBits:256,
+              sessionCapabilityStorage:"page-memory-only",
+              persistentFirestoreCache:false,
+              publicDiscovery:false,
+              collectionListing:false,
+              exactlyTwoAccounts:true,
+              gameplayMutation:false,
+              canonicalStorageMutation:false,
+              canonicalStorageKeys:SRJ_CANONICAL_KEYS,
+              candidateCInvolved:false,
+              billingRequired:false,
+              blazeRequired:false,
+              cloudRunRequired:false,
+              cloudFunctionsRequired:false,
+              appCheckEnforcementRequired:false,
+              hostJoinUxExposed:true,
+              hostSession:srjHostSession,
+              joinSession:srjJoinSession,
+              refreshSession:srjRefreshSession,
+              closeSession:srjCloseSession,
+              forgetSession:srjForgetSession,
+              openPanel:srjOpenPanel,
+              closePanel:srjClosePanel,
+              subscribe:srjSubscribe,
+              getState:()=>srjState
+            });
+          });
+          EOF
+
+          cat > css/remoteJoining.css <<'EOF'
+          .remoteJoiningOverlay{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:18px;background:rgba(15,23,29,.74);backdrop-filter:blur(4px);overflow:auto}.remoteJoiningShell{width:min(920px,96vw);max-height:94vh;overflow:auto;color:var(--f17-ink);background:linear-gradient(145deg,#edf2f3,#d7e1e4);border-top:6px solid var(--f17-yellow);box-shadow:0 24px 60px rgba(6,14,19,.42)}.remoteJoiningHeader{min-height:46px;padding:8px 12px 8px 18px;display:flex;align-items:center;justify-content:space-between;color:#dce5e8;background:#252e35;font:700 11px/1 var(--f17-display);letter-spacing:2px}.remoteJoiningDismiss{width:38px;height:32px;border:0;color:#fff;background:#3b474f;font-size:24px;line-height:1;cursor:pointer}.remoteJoiningDismiss:focus-visible{outline:2px solid var(--f17-yellow);outline-offset:2px}.remoteJoiningBody{padding:22px}.remoteJoiningIntro{padding:2px 2px 15px;border-bottom:1px solid rgba(30,48,60,.2)}.remoteJoiningEyebrow,.remoteJoiningStep{display:block;color:var(--f17-blue-deep);font:700 10px/1 var(--f17-display);letter-spacing:2.1px;text-transform:uppercase}.remoteJoiningIntro h2{margin-top:7px;font:800 clamp(38px,6vw,58px)/.84 var(--f17-display);text-transform:uppercase}.remoteJoiningIntro p,.remoteJoiningCard p,.remoteJoiningMeta,.remoteJoiningEmpty,.remoteJoiningStatus{margin-top:9px;color:#4f606a;font-size:12px;line-height:1.45}.remoteJoiningGrid{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:9px}.remoteJoiningCard{min-width:0;padding:17px;background:rgba(250,252,252,.95);border-top:4px solid var(--f17-cyan);box-shadow:0 5px 15px rgba(18,34,45,.12)}.remoteJoiningCard:first-child{border-top-color:var(--f17-yellow)}.remoteJoiningCard h3{margin-top:7px;font:800 25px/.92 var(--f17-display);text-transform:uppercase}.remoteJoiningCard .menuButton{margin-top:14px}.remoteJoiningInput{width:100%;min-height:48px;margin-top:14px;padding:9px 11px;font:600 12px/1.2 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}.remoteJoiningCurrent{margin-top:12px;padding:16px;background:#273139;color:#fff;border-left:5px solid var(--f17-yellow)}.remoteJoiningCurrent .remoteJoiningEyebrow{color:#91d9ee}.remoteJoiningState{display:block;margin-top:8px;font:800 20px/1 var(--f17-display);letter-spacing:1px;text-transform:uppercase}.remoteJoiningCode{display:block;margin-top:10px;padding:10px;color:#f6f1a4;background:#182026;font:600 11px/1.45 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;white-space:normal;overflow-wrap:anywhere;user-select:text}.remoteJoiningCurrent .remoteJoiningMeta,.remoteJoiningCurrent .remoteJoiningEmpty{color:#bdc9cf}.remoteJoiningActions{margin-top:11px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.remoteJoiningActions .compactButton{min-width:0}.remoteJoiningStatus{min-height:38px;margin-top:12px;padding:10px 12px;background:#e6eef0;border-left:4px solid var(--f17-cyan)}@media(max-width:680px){.remoteJoiningOverlay{padding:8px;place-items:start center}.remoteJoiningBody{padding:15px}.remoteJoiningGrid{grid-template-columns:1fr}.remoteJoiningActions{grid-template-columns:1fr 1fr}.remoteJoiningIntro h2{font-size:42px}}@media(prefers-reduced-motion:reduce){.remoteJoiningOverlay{backdrop-filter:none}}
+          EOF
+
+          cat > tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs <<'EOF'
+          const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
+          const root=path.resolve(__dirname,"../.."),read=p=>fs.readFileSync(path.join(root,p),"utf8");
+          const source=read("js/sparkRemoteJoining.js"),html=read("index.html"),app=read("js/app.js"),worker=read("service-worker.js"),runtime=read("js/productionFirebaseRuntime.js"),readiness=JSON.parse(read("REMOTE_JOINING_READINESS.json"));
+          for(const forbidden of ["localStorage","sessionStorage","indexedDB","getDocs(","collection(","enableIndexedDbPersistence","persistentLocalCache","Cloud Run","Blaze upgrade"])assert.equal(source.includes(forbidden),false,`Stage 5E runtime must not contain ${forbidden}`);
+          for(const required of ["stage5e-production-private-remote-joining-runtime","page-memory-only","productionRulesPublished:true","publicDiscovery:false","collectionListing:false","exactlyTwoAccounts:true","canonicalStorageMutation:false","gameplayMutation:false","billingRequired:false","hostJoinUxExposed:true"])assert.ok(source.includes(required),`Missing Stage 5E lock: ${required}`);
+          assert.equal(html.includes("sparkRemoteJoining.js"),false,"Remote Joining runtime must not load from ordinary HTML startup.");
+          assert.ok(app.includes('id="remoteJoiningButton"')||app.includes('button.id="remoteJoiningButton"'));
+          assert.ok(app.includes("loadRemoteJoiningSurface"));
+          assert.ok(worker.includes('"js/sparkRemoteJoining.js"')&&worker.includes('"css/remoteJoining.css"')&&worker.includes('"js/sparkPrivateSession.js"')&&worker.includes('"js/sparkStandardAuthPrivateSession.js"'));
+          assert.ok(runtime.includes('const FALLBACK_RUNTIME_REVISION="1.9.0-r1";'));
+          assert.equal(readiness.currentScore,87,"Stage 5E source/runtime wiring alone earns no RJR credit.");
+          assert.deepEqual(readiness.domains.map(d=>[d.id,d.earned]),[["deterministic-sync-recovery",20],["identity-auth-trust",18],["production-cloud-security",20],["devices-pairing-connected-rivalry-remote-join",20],["real-device-hardening-release",9]]);
+
+          const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],close:[]};
+          const sessionA=`session_${"a".repeat(64)}`,sessionB=`session_${"b".repeat(64)}`,rivalryId=`pair_${"c".repeat(64)}`,deviceId=`device_${"d".repeat(32)}`;
+          const user={uid:"account-one"},firestore={},firestoreSdk={};
+          const protocol={
+            generateSessionId:()=>sessionA,
+            normalizeSessionId:value=>{const v=String(value||"").trim().toLowerCase();if(!/^session_[0-9a-f]{64}$/.test(v))throw Object.assign(new Error("invalid session"),{code:"PRIVATE_SESSION_ID_INVALID"});return v;},
+            openSession:async options=>{calls.open.push(options);return {ok:true,sessionId:options.sessionId,state:"open",revision:0,expiresAtEpochMs:Date.now()+900000};},
+            joinSession:async options=>{calls.join.push(options);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:Date.now()+800000};},
+            readSession:async options=>{calls.read.push(options);return {ok:true,sessionId:options.sessionId,state:"active",revision:1,expiresAtEpochMs:Date.now()+700000,expiredByClock:false};},
+            closeSession:async options=>{calls.close.push(options);return {ok:true,sessionId:options.sessionId,state:"closed",revision:2,expiresAtEpochMs:Date.now()+600000};}
+          };
+          const context={console,URL,Date,TextEncoder,crypto:require("node:crypto").webcrypto,setTimeout,clearTimeout,navigator:{},location:{href:"https://example.test/",origin:"https://example.test",pathname:"/"},CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>{calls.services++;return {ok:true,auth:{currentUser:user},firestore,firestoreSdk};}},CareerModeSparkConnectedAccount:{initialize:async()=>{calls.account++;},getState:()=>({connected:true,accountId:user.uid})},CareerModeSparkPrivatePairing:{initialize:async()=>{calls.pairing++;},getState:()=>({registered:true,deviceId})},CareerModeSparkConnectedRivalry:{initialize:async()=>{calls.rivalry++;},getState:()=>({attached:true,rivalryId,accountId:user.uid,deviceId})},CareerModeSparkPrivateSession:{},CareerModeSparkStandardAuthPrivateSession:protocol};
+          context.globalThis=context;context.window=context;vm.createContext(context);vm.runInContext(`${source}\n;globalThis.__stage5e=CareerModeSparkRemoteJoining;`,context);const api=context.__stage5e;
+          assert.equal(api.openPanel(),false,"No-document open must remain inert.");assert.equal(calls.services,0,"Opening UI without an action must not initialize Firebase services.");
+          (async()=>{
+            let result=await api.hostSession();assert.equal(result.ok,true);assert.equal(calls.open.length,1);assert.equal(calls.open[0].sessionId,sessionA);assert.equal(calls.open[0].rivalryId,rivalryId);assert.equal(calls.open[0].deviceId,deviceId);assert.equal(api.getState().sessionId,sessionA);assert.equal(api.getState().role,"host");
+            result=await api.joinSession(sessionB.toUpperCase());assert.equal(result.ok,true);assert.equal(calls.join.length,1);assert.equal(calls.join[0].sessionId,sessionB);assert.equal(api.getState().role,"peer");
+            result=await api.refreshSession();assert.equal(result.ok,true);assert.equal(calls.read.length,1);assert.equal(calls.read[0].sessionId,sessionB);
+            result=await api.closeSession();assert.equal(result.ok,true);assert.equal(calls.close.length,1);assert.equal(api.getState().sessionState,"closed");
+            api.forgetSession();assert.equal(api.getState().sessionId,null);assert.ok(calls.services>=4&&calls.account>=4&&calls.pairing>=4&&calls.rivalry>=4);
+            assert.deepEqual(Array.from(api.canonicalStorageKeys),["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
+            console.log("PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, exact host/join/read/close wiring, memory-only capability, RJR fixed at 87 pending provider-live proof.");
+          })().catch(error=>{console.error(error);process.exit(1);});
+          EOF
+
+          cat > tests/browser/stage5e-remote-joining-audit.cjs <<'EOF'
+          const assert=require("node:assert/strict");
+          const {chromium}=require("playwright");
+          const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
+          const baseUrl=new URL(process.env.CMS_BASE_URL||"http://127.0.0.1:4173/");
+          (async()=>{const runtime=await resolveChromiumRuntime();const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});const page=await context.newPage();const errors=[];page.on("pageerror",e=>errors.push(e.stack||e.message));try{await page.addInitScript(()=>{window.requestIdleCallback=callback=>window.setTimeout(()=>callback({didTimeout:false,timeRemaining:()=>50}),4200);});await page.goto(baseUrl.href,{waitUntil:"domcontentloaded"});await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:12000});await page.locator("#remoteJoiningButton").waitFor({state:"attached",timeout:12000});assert.equal(await page.locator('script[data-remote-joining-runtime="true"]').count(),0,"Remote Joining runtime loaded during ordinary startup.");assert.equal(await page.locator('script[data-srj-dependency]').count(),0,"Remote Joining provider dependencies loaded during ordinary startup.");const before=await page.evaluate(()=>["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"].map(k=>[k,localStorage.getItem(k)]));await page.evaluate(()=>document.getElementById("remoteJoiningButton").click());await page.locator("#sparkRemoteJoiningOverlay").waitFor({state:"visible",timeout:12000});assert.equal(await page.locator('script[data-remote-joining-runtime="true"]').count(),1);assert.equal(await page.locator('script[data-srj-dependency]').count(),0,"Opening the Remote Joining panel must not initialize provider dependencies before Host/Join/Read/Close.");assert.match(await page.locator("#sparkRemoteJoiningOverlay").innerText(),/REMOTE JOINING/);assert.match(await page.locator("#sparkRemoteJoiningOverlay").innerText(),/HOST PRIVATE SESSION/);assert.match(await page.locator("#sparkRemoteJoiningOverlay").innerText(),/JOIN PRIVATE SESSION/);const after=await page.evaluate(()=>["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"].map(k=>[k,localStorage.getItem(k)]));assert.deepEqual(after,before,"Opening Stage 5E changed canonical local storage.");assert.deepEqual(errors,[],"Stage 5E rendered browser audit emitted page errors.");console.log(`PASS Stage 5E browser-inert Remote Joining surface at ${baseUrl.href}`);}finally{await context.close();await browser.close();}})().catch(error=>{console.error("STAGE 5E REMOTE JOINING AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
+          EOF
+
+          cat > RELEASE_V1.9.0.md <<'EOF'
+          # Career Mode Showdown v1.9.0 — Private Remote Joining
+
+          Release tag: `v1.9.0`
+          Application version: `v1.9.0`
+          Runtime asset revision: `1.9.0-r1`
+          Previous known-good runtime: `1.8.1-r5`
+
+          ## Scope
+
+          This release introduces the first production user-facing Private Remote Joining session surface. Showdown Home exposes one explicit Private Remote Joining action. The Remote Joining runtime itself is not part of ordinary HTML startup and provider/account/device/rivalry dependencies are resolved only after an explicit Host, Join, Refresh/Read or Close action.
+
+          Host creates a fresh 256-bit exact session capability. Join accepts only the exact private capability shared directly by the already-paired other manager. Refresh performs an exact read. Close performs the existing terminal member close transition. No collection listing, public discovery, lobby, matchmaking, community or rankings surface exists.
+
+          Session capability state is page-memory-only. Reloading forgets it. The feature does not write localStorage, does not mutate a local Career Mode Save, and does not bypass Candidate C remote-to-local Apply authority.
+
+          Firebase remains on Spark with billing disabled. Firestore remains memory-only. App Check enforcement remains OFF. No Cloud Run, Cloud Functions, paid service, IAM expansion, payment method or billing account is introduced. Provider or quota failure fails closed while local Career Mode remains available.
+
+          ## Readiness accounting
+
+          RJR remains 87/100 at source/release-candidate time. Code, tests, CI, review and deployment mechanics earn no capability credit. The score may move only after production-live two-account/two-device Remote Joining evidence proves one or more currently uncredited fixed-domain capabilities.
+          EOF
+
+          cat > STAGE5E_REMOTE_JOINING_RUNTIME_PROOF_2026-09-02.md <<'EOF'
+          # Stage 5E Production Private Remote Joining Runtime — implementation proof
+
+          Status: production runtime candidate; provider-live host/join acceptance not yet claimed.
+
+          Stage 5E connects the already provider-live standard-auth private-session protocol to a user-facing, action-only runtime. The dashboard launcher is present at startup, but `js/sparkRemoteJoining.js` is not loaded until the owner opens Private Remote Joining. Opening the panel performs no Firebase/account/device/rivalry initialization. Those dependencies resolve only for Host, Join, Refresh/Read or Close.
+
+          The runtime uses the current standard Firebase authenticated UID, the current account-owned registered device metadata, and the exact attached Connected Rivalry. Host creates a fresh 256-bit `session_<64 hex>` capability. Join accepts only an exact capability. Refresh reads only that exact path. Close uses the existing terminal active-member close transition.
+
+          There is no collection listing, discovery, lobby, public profile, matchmaking, community or ranking surface. Session capability state is page-memory-only and is not written to localStorage, sessionStorage or IndexedDB. Canonical local gameplay storage remains exactly the three protected Career Mode Showdown keys and Stage 5E performs no gameplay mutation or Candidate C Apply.
+
+          Firebase remains Spark, billing stays disabled, Firestore persistence remains memory-only and App Check enforcement remains OFF. Spark quota/provider failure fails closed while local Career Mode remains available.
+
+          Deterministic contracts mock the already-proven provider dependencies and prove exact Host/Join/Read/Close wiring plus no RJR inflation. The rendered Chromium audit proves ordinary startup contains no Remote Joining runtime or dependency scripts, opening the panel loads only the presentation runtime, provider dependencies remain unloaded until a session action, and canonical local storage bytes do not change.
+
+          RJR remains exactly 87/100 until provider-live two-account/two-device Remote Joining evidence proves currently uncredited fixed-domain capability.
+          EOF
+
+          npm ci
+          npm test
+          npm run serve:test >/tmp/stage5e-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/ >/dev/null && break; sleep 1; done
+          CMS_BASE_URL=http://127.0.0.1:4173/ node tests/browser/stage5e-remote-joining-audit.cjs
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: add Stage 5E private Remote Joining runtime"
+          git push origin HEAD:rjr/stage5e-runtime-host-join-ux-2026-09-02
