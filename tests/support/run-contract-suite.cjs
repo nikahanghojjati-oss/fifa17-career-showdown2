@@ -62,6 +62,7 @@ const files = [
   "tests/contracts/production-provider-abuse-acceptance-contracts.cjs",
   "tests/contracts/production-firestore-rules-deployment-path-contracts.cjs",
   "tests/contracts/stage4-connected-rivalry-contracts.cjs",
+  "tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs",
   "tests/contracts/stage5-activation-authority-contracts.cjs",
   "tests/contracts/stage5a-private-session-contracts.cjs",
   "tests/contracts/stage5b-device-credential-contracts.cjs",
