@@ -1,0 +1,336 @@
+name: TEMP Stage 5E r4 bounded pointer patch
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-pointer-patch.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply-bounded-patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Apply only stale-pointer precedence repair, regression proof, and evidence recalculation
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          source_path=Path('js/sparkConnectedRivalry.js')
+          source=source_path.read_text()
+          old='''        let pairingCandidate=null;
+                  let autoAttachResult=null;
+                  let autoAttached=false;
+                  if(!pointer){
+                    pairingCandidate=crResolvePairingCandidate(context.pairingState,bindings,options.pairingRuntime||root.CareerModeSparkPrivatePairing);
+                    if(pairingCandidate){
+                      binding=pairingCandidate.binding;
+                      autoAttachResult=await crAttachRivalry({
+                        user:context.user,
+                        firestore:context.services.firestore,
+                        firebaseSdk:context.services.firestoreSdk,
+                        deviceId:context.deviceId,
+                        binding,
+                        rivalryId:pairingCandidate.rivalryId,
+                        indexedDBImpl:options.indexedDBImpl||root.indexedDB
+                      });
+                      if(autoAttachResult&&autoAttachResult.ok===true){
+                        pointer=autoAttachResult.pointer;
+                        autoAttached=true;
+                      }
+                    }
+                  }
+          '''
+          # indentation above is normalized explicitly so the assertion remains exact and bounded
+          old=old.replace('                  ','        ')
+          new='''        const pairingCandidate=crResolvePairingCandidate(context.pairingState,bindings,options.pairingRuntime||root.CareerModeSparkPrivatePairing);
+                  let autoAttachResult=null;
+                  let autoAttached=false;
+                  if(pairingCandidate){
+                    const pairingDiffersFromDurable=Boolean(
+                      !pointer
+                      || pointer.rivalryId!==pairingCandidate.rivalryId
+                      || !crSameBinding(binding,pairingCandidate.binding)
+                    );
+                    if(pairingDiffersFromDurable){
+                      autoAttachResult=await crAttachRivalry({
+                        user:context.user,
+                        firestore:context.services.firestore,
+                        firebaseSdk:context.services.firestoreSdk,
+                        deviceId:context.deviceId,
+                        binding:pairingCandidate.binding,
+                        rivalryId:pairingCandidate.rivalryId,
+                        indexedDBImpl:options.indexedDBImpl||root.indexedDB
+                      });
+                      if(autoAttachResult&&autoAttachResult.ok===true){
+                        binding=pairingCandidate.binding;
+                        pointer=autoAttachResult.pointer;
+                        autoAttached=true;
+                      }else if(!pointer){
+                        binding=pairingCandidate.binding;
+                      }
+                    }
+                  }
+          '''
+          new=new.replace('                  ','        ')
+          if old not in source:
+            raise SystemExit('bounded crInitialize source anchor not found')
+          source_path.write_text(source.replace(old,new,1))
+
+          browser_path=Path('tests/browser/pairing-four-code-automation-audit.cjs')
+          browser=browser_path.read_text()
+          marker='''  return {context,page,pageErrors};
+          }
+
+          async function provePlayerOne(browser,iteration){
+          '''.replace('          ','')
+          helper='''  return {context,page,pageErrors};
+          }
+
+          async function seedDurablePointer(page,binding,rivalryId,stamp){
+            return page.evaluate(async({binding,rivalryId,stamp})=>{
+              const connected=window.CareerModeSparkConnectedRivalry;
+              const pairing=window.CareerModeSparkPrivatePairing;
+              const h=window.__fourCodeHarness;
+              const pairingState=pairing.getState();
+              const pointer={
+                schemaVersion:1,
+                accountId:h.accountState.accountId,
+                rivalryId,
+                saveId:binding.saveId,
+                profileId:binding.profileId,
+                managerRole:binding.managerRole,
+                deviceId:pairingState.deviceId,
+                attachedAtEpochMs:stamp
+              };
+              await connected.storePointer(pointer);
+              const initialized=await connected.initialize();
+              const loaded=await connected.loadPointer(h.accountState.accountId,binding);
+              return {initialized,loaded};
+            },{binding,rivalryId,stamp});
+          }
+
+          async function canonicalSnapshot(page){
+            return page.evaluate(()=>Object.fromEntries([
+              "careerModeShowdown.saveLibrary",
+              "careerModeShowdown.legacyShowdowns",
+              "careerModeShowdown.preferences"
+            ].map(key=>[key,localStorage.getItem(key)])));
+          }
+
+          async function provePlayerOne(browser,iteration){
+          '''.replace('          ','')
+          if marker not in browser:
+            raise SystemExit('browser helper insertion anchor not found')
+          browser=browser.replace(marker,helper,1)
+
+          p1_anchor='''    const selector=page.getByLabel("Local manager identity for private pairing");
+              await selector.selectOption({label:"Player One · Nik"});
+              await page.getByRole("button",{name:"CREATE PAIRING CODE"}).click();
+          '''.replace('              ','    ')
+          p1_insert='''    const selector=page.getByLabel("Local manager identity for private pairing");
+              await selector.selectOption({label:"Player One · Nik"});
+              const canonicalBefore=await canonicalSnapshot(page);
+              const staleCapability=`pair_${"f".repeat(64)}`;
+              const seeded=await seedDurablePointer(page,P1_BINDING,staleCapability,1700300000000+iteration);
+              assert.equal(seeded.initialized.attached,true,`iteration ${iteration}: stale Player One pointer was not restored for the regression setup`);
+              assert.equal(seeded.initialized.rivalryId,staleCapability,`iteration ${iteration}: stale Player One pointer setup drifted`);
+              assert.equal(seeded.loaded.rivalryId,staleCapability,`iteration ${iteration}: stale Player One pointer was not durable`);
+              await page.getByRole("button",{name:"CREATE PAIRING CODE"}).click();
+          '''.replace('              ','    ')
+          if p1_anchor not in browser:
+            raise SystemExit('Player One setup anchor not found')
+          browser=browser.replace(p1_anchor,p1_insert,1)
+
+          p1_generated_anchor='''    const generated=createState.capability;
+              assert.match(generated,CAPABILITY_PATTERN,`iteration ${iteration}: Player One generated malformed capability`);
+
+              const pairingReinit=await boundedInitialize(page,"CareerModeSparkPrivatePairing");
+          '''.replace('              ','    ')
+          p1_generated_insert='''    const generated=createState.capability;
+              assert.match(generated,CAPABILITY_PATTERN,`iteration ${iteration}: Player One generated malformed capability`);
+              assert.notEqual(generated,staleCapability,`iteration ${iteration}: fresh pairing unexpectedly matched stale regression pointer`);
+
+              const pendingCandidate=await boundedInitialize(page,"CareerModeSparkConnectedRivalry");
+              assert.equal(pendingCandidate.ok,true,`iteration ${iteration}: pending candidate reinitialize timed out`);
+              assert.equal(pendingCandidate.state.rivalryId,staleCapability,`iteration ${iteration}: pending pairing candidate displaced durable A`);
+              assert.equal(pendingCandidate.state.attached,true,`iteration ${iteration}: pending candidate lost durable A attachment`);
+              const durableAfterPending=await page.evaluate(async binding=>window.CareerModeSparkConnectedRivalry.loadPointer(window.__fourCodeHarness.accountState.accountId,binding),P1_BINDING);
+              assert.equal(durableAfterPending.rivalryId,staleCapability,`iteration ${iteration}: pending candidate overwrote durable A`);
+
+              await page.evaluate(capability=>{
+                const h=window.__fourCodeHarness;
+                const path=`rivalries/${capability}`;
+                const original=h.docs.get(path);
+                h.__candidateOriginal=original;
+                h.docs.set(path,{...original,data:{...(original&&original.data||{}),connectionState:"active",authorizedAccountIds:["acct_foreign_a","acct_foreign_b"]}});
+              },generated);
+              const mismatchedCandidate=await boundedInitialize(page,"CareerModeSparkConnectedRivalry");
+              assert.equal(mismatchedCandidate.ok,true,`iteration ${iteration}: mismatched candidate reinitialize timed out`);
+              assert.equal(mismatchedCandidate.state.rivalryId,staleCapability,`iteration ${iteration}: mismatched provider candidate displaced durable A`);
+              await page.evaluate(capability=>{
+                const h=window.__fourCodeHarness;
+                const path=`rivalries/${capability}`;
+                h.docs.set(path,h.__candidateOriginal);
+                delete h.__candidateOriginal;
+              },generated);
+
+              await page.evaluate(capability=>{
+                const h=window.__fourCodeHarness;
+                const path=`rivalries/${capability}`;
+                const original=h.docs.get(path);
+                h.__candidateOriginal=original;
+                h.docs.set(path,{...original,data:{...(original&&original.data||{}),connectionState:"expired"}});
+              },generated);
+              const expiredCandidate=await boundedInitialize(page,"CareerModeSparkConnectedRivalry");
+              assert.equal(expiredCandidate.ok,true,`iteration ${iteration}: expired candidate reinitialize timed out`);
+              assert.equal(expiredCandidate.state.rivalryId,staleCapability,`iteration ${iteration}: expired provider candidate displaced durable A`);
+              await page.evaluate(capability=>{
+                const h=window.__fourCodeHarness;
+                const path=`rivalries/${capability}`;
+                h.docs.set(path,h.__candidateOriginal);
+                delete h.__candidateOriginal;
+              },generated);
+
+              const pairingReinit=await boundedInitialize(page,"CareerModeSparkPrivatePairing");
+          '''.replace('              ','    ')
+          if p1_generated_anchor not in browser:
+            raise SystemExit('Player One generated anchor not found')
+          browser=browser.replace(p1_generated_anchor,p1_generated_insert,1)
+
+          p1_after_anchor='''    assert.equal(p1After.rivalryId,generated,`iteration ${iteration}: Player One normal re-entry did not auto-attach exact rivalry`);
+              assert.match(p1After.message,/attached automatically|saved on this browser/i,`iteration ${iteration}: Player One did not reach durable auto-attached state`);
+              assert.deepEqual(pageErrors,[],`iteration ${iteration}: Player One automation emitted page errors`);
+          '''.replace('              ','    ')
+          p1_after_insert='''    assert.equal(p1After.rivalryId,generated,`iteration ${iteration}: Player One normal re-entry did not auto-attach exact rivalry`);
+              assert.match(p1After.message,/attached automatically|saved on this browser/i,`iteration ${iteration}: Player One did not reach durable auto-attached state`);
+              const p1DurableB=await page.evaluate(async binding=>window.CareerModeSparkConnectedRivalry.loadPointer(window.__fourCodeHarness.accountState.accountId,binding),P1_BINDING);
+              assert.equal(p1DurableB.rivalryId,generated,`iteration ${iteration}: verified current pairing B was not persisted over stale A`);
+              assert.deepEqual(await canonicalSnapshot(page),canonicalBefore,`iteration ${iteration}: Player One auto-convergence mutated canonical localStorage`);
+              assert.equal(await page.evaluate(()=>window.__connectedManualReattachClicks||0),0,`iteration ${iteration}: Player One required a manual Connected Rivalry Verify/Reattach click`);
+              assert.deepEqual(pageErrors,[],`iteration ${iteration}: Player One automation emitted page errors`);
+          '''.replace('              ','    ')
+          if p1_after_anchor not in browser:
+            raise SystemExit('Player One post-convergence anchor not found')
+          browser=browser.replace(p1_after_anchor,p1_after_insert,1)
+
+          p2_start_anchor='''  try{
+              const capability=`pair_${(iteration+1).toString(16).padStart(2,"0").repeat(32)}`;
+              const opened=await page.evaluate(async({accountA,binding,iteration,capability})=>{
+          '''.replace('              ','  ')
+          p2_start_insert='''  try{
+              const canonicalBefore=await canonicalSnapshot(page);
+              const staleCapability=`pair_${"d".repeat(64)}`;
+              const seeded=await seedDurablePointer(page,P2_BINDING,staleCapability,1700400000000+iteration);
+              assert.equal(seeded.initialized.rivalryId,staleCapability,`iteration ${iteration}: stale Player Two pointer setup drifted`);
+              const capability=`pair_${(iteration+1).toString(16).padStart(2,"0").repeat(32)}`;
+              const opened=await page.evaluate(async({accountA,binding,iteration,capability})=>{
+          '''.replace('              ','  ')
+          if p2_start_anchor not in browser:
+            raise SystemExit('Player Two setup anchor not found')
+          browser=browser.replace(p2_start_anchor,p2_start_insert,1)
+
+          p2_after_anchor='''    assert.equal(p2Connected,capability,`iteration ${iteration}: Player Two Connected Rivalry differs from the one pasted code`);
+              const pairedDisplay=await page.locator("#sparkPrivatePairingPanel .settingsDataNote code").first().textContent();
+          '''.replace('              ','    ')
+          p2_after_insert='''    assert.equal(p2Connected,capability,`iteration ${iteration}: Player Two Connected Rivalry differs from the one pasted code`);
+              const p2DurableB=await page.evaluate(async binding=>window.CareerModeSparkConnectedRivalry.loadPointer(window.__fourCodeHarness.accountState.accountId,binding),P2_BINDING);
+              assert.equal(p2DurableB.rivalryId,capability,`iteration ${iteration}: Player Two did not persist exact current pairing B over stale A`);
+              assert.deepEqual(await canonicalSnapshot(page),canonicalBefore,`iteration ${iteration}: Player Two auto-convergence mutated canonical localStorage`);
+              assert.equal(await page.evaluate(()=>window.__connectedManualReattachClicks||0),0,`iteration ${iteration}: Player Two required a manual Connected Rivalry Verify/Reattach click`);
+              const pairedDisplay=await page.locator("#sparkPrivatePairingPanel .settingsDataNote code").first().textContent();
+          '''.replace('              ','    ')
+          if p2_after_anchor not in browser:
+            raise SystemExit('Player Two post-convergence anchor not found')
+          browser=browser.replace(p2_after_anchor,p2_after_insert,1)
+
+          listener_anchor='''  await page.waitForFunction(()=>window.CareerModeSparkConnectedRivalry.getState().initialized===true,undefined,{timeout:5000});
+              return {context,page,pageErrors};
+          '''.replace('              ','  ')
+          listener_insert='''  await page.waitForFunction(()=>window.CareerModeSparkConnectedRivalry.getState().initialized===true,undefined,{timeout:5000});
+              await page.evaluate(()=>{
+                window.__connectedManualReattachClicks=0;
+                document.addEventListener("click",event=>{
+                  const button=event&&event.target&&typeof event.target.closest==="function"?event.target.closest("button"):null;
+                  if(button&&/VERIFY \/ REATTACH|VERIFY AUTO LINK|ATTACH CONNECTED RIVALRY/.test(button.textContent||""))window.__connectedManualReattachClicks+=1;
+                },true);
+              });
+              return {context,page,pageErrors};
+          '''.replace('              ','  ')
+          if listener_anchor not in browser:
+            raise SystemExit('manual-click instrumentation anchor not found')
+          browser=browser.replace(listener_anchor,listener_insert,1)
+          browser_path.write_text(browser)
+
+          contract_path=Path('tests/contracts/pairing-four-code-automation-contracts.cjs')
+          contract=contract_path.read_text()
+          contract_anchor='''  assert.match(source,/no second copy, paste, or manual Attach is required in the normal flow/);
+          '''
+          contract_insert='''  assert.match(source,/no second copy, paste, or manual Attach is required in the normal flow/);
+            const connectedSource=fs.readFileSync("js/sparkConnectedRivalry.js","utf8");
+            assert.match(connectedSource,/const pairingCandidate=crResolvePairingCandidate\(context\.pairingState,bindings/,"Connected Rivalry initialization must evaluate the current pairing candidate even when a durable pointer exists.");
+            assert.match(connectedSource,/pairingDiffersFromDurable/,"Connected Rivalry must distinguish a newer pairing candidate from the restored durable pointer.");
+            assert.match(connectedSource,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;/,"Durable A may be replaced only after the existing provider-verified attach path accepts B.");
+          '''
+          if contract_anchor not in contract:
+            raise SystemExit('contract source anchor not found')
+          contract_path.write_text(contract.replace(contract_anchor,contract_insert,1))
+
+          rjr_path=Path('REMOTE_JOINING_READINESS.json')
+          rjr=json.loads(rjr_path.read_text())
+          if rjr.get('modelVersion')!='RJR-1' or rjr.get('currentScore')!=87:
+            raise SystemExit(f'RJR baseline drifted: {rjr.get("modelVersion")} {rjr.get("currentScore")}')
+          domain=next(item for item in rjr['domains'] if item['id']=='devices-pairing-connected-rivalry-remote-join')
+          if domain.get('earned')!=20:
+            raise SystemExit(f'RJR device domain baseline drifted: {domain.get("earned")}')
+          domain['earned']=21
+          for i,text in enumerate(domain['evidence']):
+            if 'Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited.' in text:
+              domain['evidence'][i]=text.replace(
+                'Authenticated third-account/revoked-device production negatives, two-physical-network hardening and actual Remote Joining sessions remain uncredited.',
+                'Authenticated third-account/revoked-device production negatives and Remote Joining-specific two-physical-network hardening remain uncredited. The actual provider-live Remote Joining session lifecycle now has one bounded production capability credit.'
+              )
+              break
+          else:
+            raise SystemExit('RJR uncredited-remote-joining anchor not found')
+          domain['evidence'].append('2026-09-02 owner production evidence on v1.9.0 / 1.9.0-r3 proves one previously uncredited bounded actual Remote Joining capability: two distinct authenticated application-browser identities complete exact private Host -> Join -> ACTIVE rev 1 cross-role Read/Refresh -> Close -> CLOSED rev 2 cross-role propagation for the same current rivalry after manual pointer correction. Exactly +1 is credited for the provider-live session lifecycle as one capability; its substeps are not double-counted. The separate zero-manual-reattach Connected Rivalry auto-link behavior failed and earns zero credit.')
+          rjr['currentScore']=88
+          rjr['evidenceHistory'].append({
+            'recordedAt':'2026-09-02T20:55:30Z',
+            'eventId':'production-stage5e-r3-provider-live-remote-joining-lifecycle',
+            'score':88,
+            'delta':1,
+            'domainId':'devices-pairing-connected-rivalry-remote-join',
+            'reason':'Owner production evidence on v1.9.0 / 1.9.0-r3 proves the previously explicit uncredited actual Remote Joining session capability end to end: exact private Host, entitled peer Join, ACTIVE revision 1 observed by both PEER and HOST, peer Close, and CLOSED revision 2 propagated back to HOST for the same current rivalry. The +1 deliberately treats this complete lifecycle as one bounded capability, consistent with prior RJR treatment of multi-step bounded capabilities. It gives zero credit to PR #183, CI, deployment, documentation, repeated lifecycle substeps, the still-failed zero-manual-reattach Connected Rivalry behavior, two-physical-network hardening, third-account/revoked-device production negatives, or final stable-release acceptance.'
+          })
+          rjr_path.write_text(json.dumps(rjr,indent=2)+"\n")
+
+          Path('RJR_RECALCULATION_STAGE5E_R3_LIFECYCLE_2026-09-02.md').write_text('''# RJR-1 evidence recalculation — Stage 5E r3 production lifecycle\n\nBaseline: 87/100.\n\nResult: 88/100.\n\nDelta: +1 in `devices-pairing-connected-rivalry-remote-join` only.\n\nReason: the owner production evidence proves one previously explicit uncredited bounded actual Remote Joining capability on `v1.9.0 / 1.9.0-r3`: exact private Host -> entitled peer Join -> ACTIVE revision 1 observed by both roles -> peer Close -> CLOSED revision 2 observed by both roles for the same current rivalry. The lifecycle is counted once, not once per substep, matching the fixed RJR-1 evidence policy used for other bounded multi-step capabilities.\n\nZero credit is awarded for PR #183, CI, Pages, documentation, handoff work, or the still-failed no-manual-Verify/Reattach Connected Rivalry behavior. The proof uses two authenticated application-browser identities on one physical Chromebook and therefore does not close Remote Joining two-physical-device/two-network hardening or final stable-release acceptance. Billing remains forbidden and Firebase remains Spark.\n''')
+          PY
+      - name: Validate bounded source and deterministic four-code contract
+        run: |
+          node --check js/sparkConnectedRivalry.js
+          node --check tests/browser/pairing-four-code-automation-audit.cjs
+          node tests/contracts/pairing-four-code-automation-contracts.cjs
+          node -e 'const r=require("./REMOTE_JOINING_READINESS.json"); if(r.currentScore!==88) process.exit(1); const d=r.domains.find(x=>x.id==="devices-pairing-connected-rivalry-remote-join"); if(!d||d.earned!==21) process.exit(1); console.log("PASS RJR-1 recalculation 88/100")'
+          git diff --check
+      - name: Commit bounded patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add js/sparkConnectedRivalry.js tests/browser/pairing-four-code-automation-audit.cjs tests/contracts/pairing-four-code-automation-contracts.cjs REMOTE_JOINING_READINESS.json RJR_RECALCULATION_STAGE5E_R3_LIFECYCLE_2026-09-02.md
+          git commit -m "Fix stale Connected Rivalry pointer precedence"
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
