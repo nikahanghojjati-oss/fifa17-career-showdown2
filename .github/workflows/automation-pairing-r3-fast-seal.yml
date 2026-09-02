@@ -1,0 +1,76 @@
+name: One-time Pairing R3 Fast Seal
+
+on:
+  push:
+    branches:
+      - fix/pairing-copy-four-code-contract-2026-09-02
+
+permissions:
+  contents: write
+
+jobs:
+  fast-seal:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v5
+        with:
+          ref: fix/pairing-copy-four-code-contract-2026-09-02
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Apply exact r3 hardening payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import textwrap
+          workflow=Path('.github/workflows/automation-pairing-r3-hardening-v2.yml').read_text()
+          start_marker="          python - <<'PY'\n"
+          start=workflow.index(start_marker)+len(start_marker)
+          end=workflow.index("\n          PY\n",start)
+          payload=textwrap.dedent(workflow[start:end])
+          exec(compile(payload,'pairing-r3-hardening-payload','exec'),{})
+          release_marker="          cat > RELEASE_V1.9.0_R3.md <<'EOF'\n"
+          release_start=workflow.index(release_marker)+len(release_marker)
+          release_end=workflow.index("\n          EOF\n",release_start)
+          release=textwrap.dedent(workflow[release_start:release_end])+"\n"
+          Path('RELEASE_V1.9.0_R3.md').write_text(release)
+          PY
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Deterministic four-code ultra-proof
+        run: |
+          node --check js/sparkPrivatePairing.js
+          node --check tests/browser/pairing-four-code-automation-audit.cjs
+          node tests/contracts/stage3-private-pairing-contracts.cjs
+          node tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs
+          node tests/contracts/pairing-four-code-automation-contracts.cjs
+      - name: Focused repeated Chromium one-paste proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run serve:test > /tmp/cms-r3-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          node tests/browser/pairing-four-code-automation-audit.cjs
+      - name: Full repository contract gate
+        run: npm run test:contracts
+      - name: Remove one-time workflows
+        run: rm .github/workflows/automation-pairing-r3-hardening-v2.yml .github/workflows/automation-pairing-r3-fast-seal.yml
+      - name: Commit validated r3 hardening
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Harden pairing copy and four-code one-paste automation"
+          git push origin HEAD:fix/pairing-copy-four-code-contract-2026-09-02
