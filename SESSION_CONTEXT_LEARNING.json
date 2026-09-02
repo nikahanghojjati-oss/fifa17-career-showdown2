@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-01T17:23:54.985Z",
-  "materialSessionsObserved": 15,
-  "learningState": "cold-start-priors-with-fifteen-labeled-sessions",
+  "recordedAt": "2026-09-02T20:47:00.000Z",
+  "materialSessionsObserved": 16,
+  "learningState": "cold-start-priors-with-sixteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -99,6 +99,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "PR #176 proved exact Stage 5C-to-production-source blob lineage and merged with 14/14 exact-head plus 15/15 post-merge gates, but fixed RJR stays 87 because source/CI/merge add zero capability credit. Provider truth remains the older proven blob until authenticated Firebase publication is independently observed. Paid review quota exhaustion must never cause billing; the mandatory exact-head zero-billing fallback preserved review discipline."
+    },
+    "stage5e-r3-owner-lifecycle-and-stale-pointer-investigation": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.8,
+      "note": "Owner evidence separated two truths: the provider-live Remote Joining lifecycle passed after manual rivalry alignment, while promised zero-manual-reattach QoL failed. Source inspection isolated durable-pointer precedence over a newer provider-active pairing candidate, avoiding an unnecessary infrastructure rewrite or false full-pass claim."
     }
   },
   "sessionMetrics": [

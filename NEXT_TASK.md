@@ -1,3 +1,21 @@
+# CURRENT OVERRIDE — R3 OWNER LIFECYCLE PROVEN / STALE POINTER PRECEDENCE NEXT — 2026-09-02 UTC
+
+Production `v1.9.0 / 1.9.0-r3` is live at main `4eefed1f855d66c4af8c823291e24344886c617e`. Owner production evidence proves the exact private Remote Joining Host → Join → ACTIVE read/refresh → Close → peer CLOSED read/refresh lifecycle after manual Connected Rivalry correction. Checked-in RJR-1 remains `87/100` pending a fresh evidence-only recalculation.
+
+The remaining normal-flow defect is source-confirmed in `js/sparkConnectedRivalry.js`: an existing valid durable pointer A is restored before the current pairing candidate B is considered, so stale A can block newer provider-active exact B. Player One therefore required manual `VERIFY / REATTACH`; zero-manual-reattach acceptance is NOT proven.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+1. Independently verify live r3/main/PR183/Pages/post-merge state and initialize a fresh unique WEC after validating this predecessor closure.
+2. Recalculate RJR-1 only from the newly proven actual provider-live Remote Joining lifecycle; do not credit CI/deploy/SLE or the failed zero-manual-reattach behavior.
+3. Implement only the stale-pointer precedence correction: provider-confirmed exact current pairing B may supersede stale durable A only for the exact authorized current account/device/manager binding; pending/invalid/mismatched B must preserve A.
+4. Prove stale-A/active-B convergence, invalid-B preservation, P1 no-manual-reattach convergence, P2 persistence, exact four-code equality, one Player Two paste, no canonical save mutation, no billing/discovery/Candidate C/session-authority expansion.
+5. Publish/deploy through normal gates, then ask the owner only for the minimal fresh-pairing/no-manual-Verify-Reattach acceptance. Do not repeat the already-proven Host/Join/Close lifecycle merely for confidence unless session runtime changes.
+
+Billing remains permanently forbidden. Firebase stays Spark; Firestore memory-only; App Check enforcement OFF; no public discovery/listing/matchmaking; canonical local saves and Candidate C authority remain locked.
+
+---
+
 # CURRENT OVERRIDE — V1.9.0-R3 PAIRING ONE-PASTE HARDENING — 2026-09-02 UTC
 
 Authorized release candidate: `v1.9.0 / 1.9.0-r3`. Production-proven baseline remains `v1.9.0 / 1.9.0-r2` until publication/deployment gates close. Fixed RJR-1 remains `87/100`.

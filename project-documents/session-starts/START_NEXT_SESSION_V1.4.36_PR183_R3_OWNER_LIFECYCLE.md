@@ -100,3 +100,6 @@ OPEN:
 ## Recursive SLE rule
 
 At any future handoff boundary, preserve `00_SLE_HANDOFF_PROTOCOL.md`: newest versioned START NEXT SESSION, current `SESSION_BOOTSTRAP.json`, complete mirrored SLE handoff, live/WEC/RJR pointers and a fresh short repository-first next-developer prompt. The successor must initialize a fresh WEC and must never inherit this predecessor environment's `HANDOFF_AT_CHECKPOINT` as its own starting decision.
+## Repository-first next-developer prompt
+
+At the next handoff, preserve the mandatory repository-first next-developer prompt and regenerate it with `npm run work:next-prompt` when repository tooling is available. The prompt must name the newest START NEXT SESSION, require independent live verification, require a fresh unique WEC, route to `IMMEDIATE NEXT TASK AFTER FULL STUDY`, and keep the handoff orientation-only.

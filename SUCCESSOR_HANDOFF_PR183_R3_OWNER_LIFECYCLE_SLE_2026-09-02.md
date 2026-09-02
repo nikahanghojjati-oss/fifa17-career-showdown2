@@ -358,3 +358,6 @@ The fresh next-developer prompt must identify the newest starter, require indepe
 ## Clean stop
 
 This predecessor stops at the completed handoff checkpoint. It does not begin the stale-pointer source correction after reaching handoff proximity 100%. The fresh successor owns that bounded fix, RJR recalculation and next production acceptance.
+## Repository-first next-developer prompt
+
+At the next handoff, preserve the mandatory repository-first next-developer prompt and regenerate it with `npm run work:next-prompt` when repository tooling is available. The prompt must name the newest START NEXT SESSION, require independent live verification, require a fresh unique WEC, route to `IMMEDIATE NEXT TASK AFTER FULL STUDY`, and keep the handoff orientation-only.
