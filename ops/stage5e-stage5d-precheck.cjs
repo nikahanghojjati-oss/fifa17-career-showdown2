@@ -1,0 +1,11 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const target=path.join(root,'tests/contracts/stage5d-production-session-rules-contracts.cjs');
+let source=fs.readFileSync(target,'utf8');
+const oldBoundary=`for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js","service-worker.js"]){\n  assert.doesNotMatch(read(runtimeOwner),/sparkStandardAuthPrivateSession\\.js/,\n    \`${'${runtimeOwner}'} must not load host/join runtime during the Rules-only milestone.\`);\n}`;
+const newBoundary=`for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){\n  assert.doesNotMatch(read(runtimeOwner),/sparkStandardAuthPrivateSession\\.js/,\n    \`${'${runtimeOwner}'} must not directly bootstrap host/join runtime during ordinary startup.\`);\n}\nconst stage5eWorker=read("service-worker.js");\nassert.match(stage5eWorker,/"js\\/sparkStandardAuthPrivateSession\\.js"/,\n  "The separate Stage 5E runtime slice may precache the already-reviewed standard-auth adapter after Stage 5D provider publication without executing it during ordinary startup.");`;
+if(!source.includes(oldBoundary))throw new Error('Historical Stage 5D Rules-only runtime boundary not found.');
+source=source.replace(oldBoundary,newBoundary);
+fs.writeFileSync(target,source);
+console.log('STAGE5E_STAGE5D_ACTIVATION_BOUNDARY_RECONCILED');
