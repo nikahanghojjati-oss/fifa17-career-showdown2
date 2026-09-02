@@ -1,3 +1,7 @@
+# CURRENT SOURCE CANDIDATE — v1.9.0 / 1.9.0-r1
+
+Stage 5E Private Remote Joining is the current source candidate. Production-proven recovery remains v1.8.1 / 1.8.1-r5 until merge and deploy. Fixed RJR remains 87/100 pending genuine production capability evidence.
+
 # CURRENT SLE ENTRYPOINT — v1.4.35
 
 Canonical starter: `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md`.

@@ -1,3 +1,7 @@
+# CURRENT RELEASE CANDIDATE — v1.9.0 Private Remote Joining
+
+Current source candidate: `v1.9.0 / 1.9.0-r1`. Previous production-proven whole-shell recovery target: `v1.8.1 / 1.8.1-r5`. Stage 5E adds lazy, exact-capability private Host/Join/Read/Close UX while preserving Firebase Spark, zero billing, memory-only Firestore, App Check enforcement OFF, local-first startup and Candidate C authority. RJR remains `87/100` until genuine production capability evidence.
+
 Production runtime: `v1.8.1 / 1.8.1-r3` — production-proven Connected Account/App Check recovery baseline and direct whole-shell recovery target for the `1.8.1-r4` token-lifecycle candidate.
 
 Production runtime: `v1.8.1 / 1.8.1-r2` — Connected Rivalry full-ID recovery UX, PR #144.

@@ -47,10 +47,13 @@ assert.equal(productionEnvironment.firestore.databaseId,"(default)");
 assert.equal(productionEnvironment.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484",
   "Until a new provider publication is independently proven, the manifest must continue to record the previously provider-proven deployed blob rather than fabricate activation.");
 
-for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js","service-worker.js"]){
+for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){
   assert.doesNotMatch(read(runtimeOwner),/sparkStandardAuthPrivateSession\.js/,
-    `${runtimeOwner} must not load host/join runtime during the Rules-only milestone.`);
+    `${runtimeOwner} must not directly bootstrap host/join runtime during ordinary startup.`);
 }
+const stage5eWorker=read("service-worker.js");
+assert.match(stage5eWorker,/"js\/sparkStandardAuthPrivateSession\.js"/,
+  "The separate Stage 5E runtime slice may precache the already-reviewed standard-auth adapter after Stage 5D provider publication without executing it during ordinary startup.");
 
 assert.match(zeroBillingAuthorization,/billing must never be activated/i);
 assert.match(zeroBillingAuthorization,/Firebase Spark/i);

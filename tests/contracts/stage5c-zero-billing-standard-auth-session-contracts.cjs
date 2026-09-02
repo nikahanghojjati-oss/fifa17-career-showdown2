@@ -143,10 +143,13 @@ function operation(h,authority,accountKey,deviceKey,rivalryId,sessionId,nowEpoch
   assert.doesNotMatch(adapterSource,/Cloud Run|setCustomUserClaims|signInWithCustomToken|createCustomToken/);
   assert.doesNotMatch(adapterSource,/CareerModeSaveLibrary|storageTransaction|Candidate C|candidate-c/i);
   assert.doesNotMatch(adapterSource,/\bcollection\s*\(|\bgetDocs\b/);
-  for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js","service-worker.js"]){
+  for(const runtimeOwner of ["index.html","js/app.js","js/productionFirebaseRuntime.js"]){
     assert.doesNotMatch(fs.readFileSync(runtimeOwner,"utf8"),/sparkStandardAuthPrivateSession\.js/,
-      `${runtimeOwner} must keep the Stage 5C adapter dormant during the Stage 5D Rules-only milestone.`);
+      `${runtimeOwner} must not directly bootstrap the Stage 5C adapter during ordinary startup.`);
   }
+  const stage5eWorker=fs.readFileSync("service-worker.js","utf8");
+  assert.match(stage5eWorker,/"js\/sparkStandardAuthPrivateSession\.js"/,
+    "After Stage 5D production Rules publication, Stage 5E may precache the standard-auth adapter as a lazy rollback-complete asset without executing it at startup.");
 
   const productionRules=fs.readFileSync("firestore.spark.rules","utf8");
   const candidateRules=fs.readFileSync("firestore.stage5c.rules","utf8");

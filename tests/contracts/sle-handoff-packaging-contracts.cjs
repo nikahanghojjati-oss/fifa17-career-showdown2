@@ -86,7 +86,8 @@ const sourceRevision = (index.match(/app-asset-revision"\s+content="([^"]+)/) ||
 const sourceVersion = (sourceRevision && sourceRevision.match(/^(\d+\.\d+\.\d+)-r\d+$/) || [])[1];
 assert.equal(sourceVersion, pkg.version, "Current source package and runtime revision must remain coherent.");
 assert.equal(capsule.runtime.applicationVersion, pkg.version);
-assert.equal(capsule.runtime.productionRuntimeRevision, sourceRevision, "Transition package must leave exact source/runtime identity on restored production r5.");
+assert.notEqual(capsule.runtime.productionRuntimeRevision, sourceRevision, "A release candidate must remain distinct from the previous production-proven runtime until deployment.");
+assert.equal(sourceRevision, "1.9.0-r1", "Stage 5E source candidate runtime must be explicit.");
 assert.equal(capsule.runtime.productionRuntimeRevision, "1.8.1-r5");
 assert.equal(capsule.runtime.immediateRecoveryRuntime, "1.8.1-r4");
 assert.match(capsule.runtime.productionStatus, /production-proven/i);

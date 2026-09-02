@@ -1,3 +1,13 @@
+## CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTIME CANDIDATE — 2026-09-02 UTC
+
+RELEASE CANDIDATE — NOT PRODUCTION-PROVEN. Current source candidate is `v1.9.0 / 1.9.0-r1` on the bounded Stage 5E branch. Previous production-proven whole-shell recovery target remains `v1.8.1 / 1.8.1-r5`. Stage 5E exposes explicit private Host, Join, Refresh/Read and Close UX only after the user opens Remote Joining; provider/account/device/rivalry dependencies resolve only on an explicit session action.
+
+Firebase remains Spark with billing disabled, Firestore memory-only and App Check enforcement OFF. No Cloud Run, Functions, paid service, public discovery, collection listing, lobby, matchmaking, canonical gameplay storage mutation or Candidate C bypass is introduced. Fixed RJR-1 remains `87/100`; source, CI, review, merge and deployment mechanics earn zero readiness credit.
+
+Provider-session production acceptance remains a later evidence gate. The next genuine RJR movement requires production-live two-account/two-device Remote Joining evidence, followed by stable real-device release acceptance.
+
+---
+
 ## CURRENT OVERRIDE — PR #176 STAGE 5D RULES SOURCE MERGED / PROVIDER PUBLICATION PENDING — 2026-09-01 UTC
 
 SLE = Smart Lean Efficient. WEC remains mandatory. This section supersedes lower historical instructions; current source and independently verified live provider evidence win.

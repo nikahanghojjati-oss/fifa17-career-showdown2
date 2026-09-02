@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-01T17:23:54.985Z",
+  "recordedAt": "2026-09-02T02:02:00.000Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "rjr/pr176-stage5d-provider-pending-sle-2026-09-01",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -136,7 +136,7 @@
     "architectureDecision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md"
   },
   "runtime": {
-    "applicationVersion": "1.8.1",
+    "applicationVersion": "1.9.0",
     "productionRuntimeRevision": "1.8.1-r5",
     "productionStatus": "production-proven-r5-with-exact-rollback-restoration-and-provider-proven-strengthened-firestore-rules",
     "immediateRecoveryRuntime": "1.8.1-r4",
@@ -153,7 +153,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #176 Stage 5D production Rules source is merged and 15/15 post-merge green at fixed RJR87. Repository firestore.spark.rules is 363af783d7e5436fdfaa3766d4aa413fc9952a08; last provider-proven source remains 2b7c0b166ae0aae7ab7a3ce84725b21091262484. Fresh successor owns authenticated zero-billing provider publication before separate runtime host/join UX.",
+  "currentLane": "PR #176 Stage 5D at fixed RJR87 established repository Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08 while the prior provider-proven source was 2b7c0b166ae0aae7ab7a3ce84725b21091262484; that zero-billing provider publication boundary is preserved as consumed provenance before the separate runtime host/join UX milestone. Current Stage 5E source candidate is v1.9.0 / 1.9.0-r1 under exact-head validation; production remains 1.8.1-r5 until merge/deploy and RJR remains 87 until genuine two-account/two-device evidence.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
