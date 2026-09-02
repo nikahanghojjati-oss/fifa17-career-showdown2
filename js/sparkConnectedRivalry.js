@@ -655,14 +655,48 @@
     }
   }
 
+  function crSameBinding(left,right){
+    return Boolean(
+      left&&right
+      && left.saveId===right.saveId
+      && left.profileId===right.profileId
+      && left.managerRole===right.managerRole
+    );
+  }
+
+  async function crResolveSavedPointer(accountId,deviceId,bindings,options={}){
+    const candidates=[];
+    const pointerLoader=typeof options.pointerLoader==="function"
+      ?options.pointerLoader
+      :crLoadSavedPointerForBinding;
+    for(const binding of Array.isArray(bindings)?bindings:[]){
+      const pointer=await pointerLoader(accountId,deviceId,binding);
+      if(pointer)candidates.push({binding,pointer});
+    }
+    const preferredBinding=options.preferredBinding||null;
+    const preferred=candidates.find(candidate=>crSameBinding(candidate.binding,preferredBinding));
+    if(preferred)return preferred;
+    candidates.sort((left,right)=>{
+      const byTime=Number(right.pointer.attachedAtEpochMs)-Number(left.pointer.attachedAtEpochMs);
+      if(byTime!==0)return byTime;
+      return CR_MANAGER_ROLES.indexOf(left.binding.managerRole)-CR_MANAGER_ROLES.indexOf(right.binding.managerRole);
+    });
+    if(candidates.length)return candidates[0];
+    const fallbackBinding=(Array.isArray(bindings)?bindings:[]).find(binding=>crSameBinding(binding,preferredBinding))
+      ||(Array.isArray(bindings)?bindings:[])[0]
+      ||null;
+    return {binding:fallbackBinding,pointer:null};
+  }
+
   async function crInitialize(options={}){
     if(crInitializePromise)return crInitializePromise;
     crInitializePromise=(async()=>{
       try{
         const context=await crResolveContext(options);
         const bindings=crBindingOptions();
-        const binding=bindings[0]||null;
-        const pointer=binding?await crLoadSavedPointerForBinding(context.accountId,context.deviceId,binding):null;
+        const restored=await crResolveSavedPointer(context.accountId,context.deviceId,bindings,{preferredBinding:crState.binding});
+        const binding=restored.binding;
+        const pointer=restored.pointer;
         return crSetState({
           status:pointer?"saved-link":"ready",
           initialized:true,
@@ -1246,6 +1280,7 @@
     validPointer:crValidPointer,
     storePointer:crStorePointer,
     loadPointer:crLoadPointer,
+    resolveSavedPointer:crResolveSavedPointer,
     buildProjection:crBuildProjection,
     buildMutationPlan:crBuildMutationPlan,
     attachRivalry:crAttachRivalry,
