@@ -10,6 +10,21 @@ const P2_PROFILE=`profile_${"2".repeat(24)}`;
 const P1_BINDING={saveId:SAVE_ID,profileId:P1_PROFILE,managerRole:"playerOne",displayLabel:"Nik"};
 const P2_BINDING={saveId:SAVE_ID,profileId:P2_PROFILE,managerRole:"playerTwo",displayLabel:"Gop"};
 
+async function boundedInitialize(page,apiName,timeoutMs=5000){
+  return page.evaluate(async({apiName,timeoutMs})=>{
+    const api=window[apiName];
+    let timer=null;
+    try{
+      return await Promise.race([
+        api.initialize().then(state=>({ok:true,state})),
+        new Promise(resolve=>{timer=setTimeout(()=>resolve({ok:false,state:api.getState()}),timeoutMs);})
+      ]);
+    }finally{
+      if(timer!==null)clearTimeout(timer);
+    }
+  },{apiName,timeoutMs});
+}
+
 async function preparePage(browser,accountId,iteration){
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true,locale:"en-US"});
   await context.grantPermissions(["clipboard-read","clipboard-write"],{origin:baseUrl.origin});
@@ -63,7 +78,8 @@ async function preparePage(browser,accountId,iteration){
     await window.CareerModeSparkPrivatePairing.mountWhenSettingsReady();
     await window.CareerModeSparkConnectedRivalry.mountWhenSettingsReady();
   });
-  await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().registered===true);
+  await page.waitForFunction(()=>window.CareerModeSparkPrivatePairing.getState().registered===true,undefined,{timeout:5000});
+  await page.waitForFunction(()=>window.CareerModeSparkConnectedRivalry.getState().initialized===true,undefined,{timeout:5000});
   return {context,page,pageErrors};
 }
 
@@ -81,6 +97,11 @@ async function provePlayerOne(browser,iteration){
     const generated=createState.capability;
     assert.match(generated,CAPABILITY_PATTERN,`iteration ${iteration}: Player One generated malformed capability`);
 
+    const pairingReinit=await boundedInitialize(page,"CareerModeSparkPrivatePairing");
+    assert.equal(pairingReinit.ok,true,`iteration ${iteration}: Player One private-pairing reinitialize timed out: ${JSON.stringify(pairingReinit.state)}`);
+    assert.equal(pairingReinit.state.status,"pair-open",`iteration ${iteration}: late registration/reinitialize clobbered Player One pair-open state: ${JSON.stringify(pairingReinit.state)}`);
+    assert.equal(pairingReinit.state.capability,generated,`iteration ${iteration}: late registration/reinitialize changed Player One capability`);
+
     const generatedDisplay=await page.locator("#sparkPrivatePairingPanel .settingsDataNote code").first().textContent();
     assert.equal(generatedDisplay,generated,`iteration ${iteration}: generated display differs from provider capability`);
     const copyButton=page.getByRole("button",{name:"COPY PAIRING CODE"});
@@ -94,7 +115,7 @@ async function provePlayerOne(browser,iteration){
     const copied=await page.evaluate(()=>navigator.clipboard.readText());
     assert.equal(copied,generated,`iteration ${iteration}: copy button changed/truncated the capability`);
 
-    await page.waitForFunction(expected=>window.CareerModeSparkConnectedRivalry.getState().prefillRivalryId===expected,generated);
+    await page.waitForFunction(expected=>window.CareerModeSparkConnectedRivalry.getState().prefillRivalryId===expected,generated,{timeout:5000});
     const p1Connected=await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.getState().prefillRivalryId);
     assert.equal(p1Connected,generated,`iteration ${iteration}: Player One Connected Rivalry did not auto-prefill exact generated code`);
 
@@ -110,11 +131,12 @@ async function provePlayerOne(browser,iteration){
     },{accountB,binding:P2_BINDING,iteration,capability:generated});
     assert.equal(simulatedPlayerTwo.ok,true,`iteration ${iteration}: simulated Player Two provider join failed: ${JSON.stringify(simulatedPlayerTwo)}`);
 
-    await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.initialize());
+    const rivalryReinit=await boundedInitialize(page,"CareerModeSparkConnectedRivalry");
+    assert.equal(rivalryReinit.ok,true,`iteration ${iteration}: Player One Connected Rivalry reinitialize timed out after Player Two join: ${JSON.stringify(rivalryReinit.state)}`);
     await page.waitForFunction(expected=>{
       const state=window.CareerModeSparkConnectedRivalry.getState();
       return state.attached===true&&state.rivalryId===expected;
-    },generated);
+    },generated,{timeout:5000});
     const p1After=await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.getState());
     assert.equal(p1After.rivalryId,generated,`iteration ${iteration}: Player One normal re-entry did not auto-attach exact rivalry`);
     assert.match(p1After.message,/attached automatically|saved on this browser/i,`iteration ${iteration}: Player One did not reach durable auto-attached state`);
@@ -161,7 +183,7 @@ async function provePlayerTwo(browser,iteration){
     assert.equal(await page.getByLabel("Private pairing code").inputValue(),capability,`iteration ${iteration}: pasted join field changed the exact code`);
 
     await page.getByRole("button",{name:"JOIN PRIVATE PAIRING"}).click();
-    await page.waitForFunction(()=>["paired","pair-error"].includes(window.CareerModeSparkPrivatePairing.getState().status));
+    await page.waitForFunction(()=>["paired","pair-error"].includes(window.CareerModeSparkPrivatePairing.getState().status),undefined,{timeout:5000});
     const joinState=await page.evaluate(()=>window.CareerModeSparkPrivatePairing.getState());
     assert.equal(joinState.status,"paired",`iteration ${iteration}: Player Two join did not reach paired: ${JSON.stringify(joinState)}`);
     const joinInput=page.getByLabel("Private pairing code");
@@ -169,10 +191,15 @@ async function provePlayerTwo(browser,iteration){
     assert.equal(await joinInput.isEditable(),false,`iteration ${iteration}: successful join field must become readonly`);
     assert.equal(await page.getByRole("button",{name:"JOIN PRIVATE PAIRING"}).isDisabled(),true,`iteration ${iteration}: joined capability must not be submitted twice`);
 
+    const pairingReinit=await boundedInitialize(page,"CareerModeSparkPrivatePairing");
+    assert.equal(pairingReinit.ok,true,`iteration ${iteration}: Player Two private-pairing reinitialize timed out: ${JSON.stringify(pairingReinit.state)}`);
+    assert.equal(pairingReinit.state.status,"paired",`iteration ${iteration}: late registration/reinitialize clobbered Player Two paired state: ${JSON.stringify(pairingReinit.state)}`);
+    assert.equal(pairingReinit.state.capability,capability,`iteration ${iteration}: late registration/reinitialize changed Player Two exact code`);
+
     await page.waitForFunction(expected=>{
       const state=window.CareerModeSparkConnectedRivalry.getState();
       return state.attached===true&&state.rivalryId===expected;
-    },capability);
+    },capability,{timeout:5000});
     const p2Connected=await page.evaluate(()=>window.CareerModeSparkConnectedRivalry.getState().rivalryId);
     assert.equal(p2Connected,capability,`iteration ${iteration}: Player Two Connected Rivalry differs from the one pasted code`);
     const pairedDisplay=await page.locator("#sparkPrivatePairingPanel .settingsDataNote code").first().textContent();
@@ -192,6 +219,6 @@ async function provePlayerTwo(browser,iteration){
       await provePlayerOne(browser,iteration);
       await provePlayerTwo(browser,iteration);
     }
-    process.stdout.write(`PASS pairing automation Chromium ultra-audit: ${iterations} fresh Player One and ${iterations} fresh Player Two browser contexts, exact copy, P1 prefill/postjoin auto-attach, one-paste retained P2 input, and exact Connected Rivalry equality\n`);
+    process.stdout.write(`PASS pairing automation Chromium ultra-audit: ${iterations} fresh Player One and ${iterations} fresh Player Two browser contexts, exact copy, late-registration state preservation, P1 prefill/postjoin auto-attach, one-paste retained P2 input, and exact Connected Rivalry equality\n`);
   }finally{await browser.close();}
 })().catch(error=>{console.error("PAIRING FOUR-CODE AUTOMATION BROWSER AUDIT FAILED");console.error(error.stack||error);process.exit(1);});
