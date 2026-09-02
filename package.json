@@ -4,7 +4,6 @@
   "private": true,
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
-    "test": "node scripts/stage5e-repair-pretest.mjs && npm run test:contracts",
     "check": "npm run test:contracts",
     "work:assess": "node scripts/work-environment-continuity.mjs assess",
     "work:handoff": "node scripts/work-environment-continuity.mjs handoff",
