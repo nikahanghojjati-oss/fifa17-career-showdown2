@@ -88,9 +88,10 @@ includesAll(workflow, [
   "https://firebaserules.googleapis.com/v1/${path}",
   "`projects/${project}/rulesets`",
   "`projects/${project}/releases/cloud.firestore`",
-  "`${releasePath}?updateMask=rulesetName`",
+  "release: {",
   "name: releasePath",
   "rulesetName: ruleset.name",
+  "updateMask: 'rulesetName'",
   "PROVIDER_FIRESTORE_RULES_RELEASE_UPDATED",
   "firebaserules.googleapis.com/v1/projects/${project}/releases/cloud.firestore",
   "release.rulesetName",
@@ -98,8 +99,8 @@ includesAll(workflow, [
   "PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS"
 ], "Permanent Firebase deployment workflow");
 
-assert(!workflow.includes("updateMask: 'rulesetName'"), "Firebase Rules release PATCH updateMask belongs in the URL query, not the Release request body.");
-assert(!workflow.includes("release: {\n                    name: releasePath"), "Firebase Rules PATCH body must be the Release object itself, not a wrapped release object.");
+assert(!workflow.includes("?updateMask=rulesetName"), "Firebase Rules projects.releases.patch uses the documented wrapper body with updateMask, not a URL query mask.");
+assert(workflow.includes("release: {\n                    name: releasePath"), "Firebase Rules PATCH body must preserve the documented release wrapper.");
 assert(!/(^|\n)\s*pull_request\s*:/m.test(workflow), "Permanent Firebase workflow must never expose production credentials to pull_request code.");
 assert(!/(^|\n)\s*pull_request_target\s*:/m.test(workflow), "Permanent Firebase workflow must never expose production credentials to pull_request_target code.");
 assert(!workflow.includes("FIREBASE_TOKEN"), "Permanent Firebase workflow must not fall back to legacy FIREBASE_TOKEN authentication.");
