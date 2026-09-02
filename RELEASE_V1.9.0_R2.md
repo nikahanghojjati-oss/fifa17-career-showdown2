@@ -1,4 +1,4 @@
-# Career Mode Showdown v1.9.0-r2 — Connected Rivalry Restore Hotfix
+# Career Mode Showdown v1.9.0-r2 — Private Remote Joining Connected Rivalry Restore Hotfix
 
 Status: RELEASE CANDIDATE
 
@@ -10,7 +10,7 @@ Previous known-good runtime: `1.8.1-r5`
 
 ## Purpose
 
-This runtime hotfix repairs a production blocker discovered during the first real two-account Stage 5E Remote Joining acceptance on `1.9.0-r1`.
+This Private Remote Joining runtime hotfix repairs a production blocker discovered during the first real two-account Stage 5E Remote Joining acceptance on `1.9.0-r1`.
 
 Private pairing and Connected Rivalry attachment succeeded for Player Two, and the exact attachment pointer was persisted in the dedicated `careerModeShowdown.connectedRivalry` IndexedDB. However, reopening Save Library or entering Remote Joining re-ran Connected Rivalry initialization and restored only `bindings[0]`. When the durable pointer belonged to Player Two while Player One was the first local binding, the runtime incorrectly reset visible state to `Not attached`, selected Player One and prevented the valid Player Two context from joining the private session.
 
