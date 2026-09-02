@@ -6,7 +6,7 @@ const runtime=read("js/productionFirebaseRuntime.js");
 const rivalry=read("js/sparkConnectedRivalry.js");
 const rules=read("firestore.spark.rules");
 
-assert.match(runtime,/FALLBACK_RUNTIME_REVISION="1\.8\.1-r5"/);
+assert.match(runtime,/FALLBACK_RUNTIME_REVISION="1\.9\.0-r1"/);
 assert.match(runtime,/serverTimestamp:firestoreModule\.serverTimestamp/);
 assert.match(runtime,/"memoryLocalCache","serverTimestamp","doc","runTransaction"/);
 assert.match(runtime,/firestoreSdk:Object\.freeze\(\{Timestamp:sdk\.Timestamp,serverTimestamp:sdk\.serverTimestamp,doc:sdk\.doc,runTransaction:sdk\.runTransaction\}\)/);
@@ -37,4 +37,4 @@ for(const key of [
 ])assert.ok(rivalry.includes(`"${key}"`),`Canonical key missing: ${key}`);
 assert.equal(rivalry.includes("activeShowdown"),false,"activeShowdown must not become canonical storage.");
 
-process.stdout.write("PASS Stage 4 sustained mutation-frequency hardening contracts: r5 exposes Firestore server time, authoritative shared-state updates anchor to it, sustained revisions are bounded after the revision-3 warmup, and Stage 5D sessions remain exact-path/no-list/no-delete without changing Stage 4 runtime ownership.\n");
+process.stdout.write("PASS Stage 4 sustained mutation-frequency hardening contracts: v1.9.0-r1 preserves Firestore server time, authoritative shared-state updates anchor to it, sustained revisions remain bounded after the revision-3 warmup, and Stage 5D sessions remain exact-path/no-list/no-delete without changing Stage 4 runtime ownership.\n");
