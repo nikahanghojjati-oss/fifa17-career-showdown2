@@ -1,78 +1,96 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-02-stage5e-runtime-host-join-ux",
+  "environmentId": "we-2026-09-02-stage5e-production-acceptance",
   "lifecycle": "active",
-  "recordedAt": "2026-09-02T00:38:00.000Z",
+  "recordedAt": "2026-09-02T16:34:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "0915ac0bbe78dfd541b4a66379959b5643ffa0b5"
+    "startingMainSha": "5f6941d48e8174ba29a34bbbf4835cf23cfea17d"
   },
   "signals": {
     "contextComplexity": "high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 2,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 3,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 2,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 12,
+    "handoffCompleteness": 48,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "The predecessor Stage 5D WEC reached 100 percent and closed. The permanent zero-billing Firebase Rules control plane is now provider-proven, so a fresh WEC owns the separate Stage 5E runtime host/join UX milestone. RJR remains 87 because provider publication alone is not playable Remote Joining capability.",
+    "reason": "The first genuine r1 production acceptance exposed a Player Two Connected Rivalry restore blocker. PR #182 now carries the bounded r2 repair plus pairing-to-Connected-Rivalry auto-link quality-of-life work. Final-head review found three valid follow-ups: acceptance must be gated on deployed r2, the r2 maintenance record must not bypass SLE, and the pairing capability must remain bound to the manager captured when CREATE/JOIN starts. Those findings are being corrected and ultra-regression-tested before merge. RJR remains 87 until real production capability is proven.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 32,
-      "qualityRisk": 18,
+      "contextPressure": 34,
+      "qualityRisk": 26,
       "quotaRisk": null,
-      "nextTaskSeparation": 92,
-      "handoffReadiness": 12,
-      "atomicRisk": 8,
-      "continuationRisk": 12,
-      "transitionCost": 22,
-      "transitionAdvantage": -10
+      "nextTaskSeparation": 18,
+      "handoffReadiness": 48,
+      "atomicRisk": 12,
+      "continuationRisk": 22,
+      "transitionCost": 34,
+      "transitionAdvantage": -6
     }
   },
   "continuity": {
-    "currentTask": "Implement the smallest production Stage 5E private Remote Joining host/join UX using the standard Firebase Auth session path, browser-inert until an explicit remote action, without changing canonical local storage or billing.",
-    "lastSafeCheckpoint": "Main 0915ac0bbe78dfd541b4a66379959b5643ffa0b5 includes PR #180. Permanent Firebase Rules workflow run 33575616044 authenticated with the repository secret, published Firestore Rules through the Firebase Rules API, and independently read back exact provider source blob 363af783d7e5436fdfaa3766d4aa413fc9952a08. Live release projects/fifa17-career-showdown-prod/releases/cloud.firestore points to ruleset 30b5b1be-0f61-4983-bdb2-c79f93f99be4. Runtime remains v1.8.1 / 1.8.1-r5. RJR remains 87.",
-    "nextSafeAction": "Wire explicit host/join session controls to the existing standard-auth private-session protocol and production memory-only Firebase services; prove startup remains remote-inert and local-first; then gate the exact head before any production runtime publication.",
+    "currentTask": "Finish PR #182 r2 repair and pairing-to-Connected-Rivalry auto-link with final-review fixes and ultra-regression coverage; merge only after one unchanged exact head passes all permanent workflows and review/thread gates; deploy and independently verify v1.9.0 / 1.9.0-r2 before requesting any owner/device acceptance.",
+    "lastSafeCheckpoint": "Production remains known-broken v1.9.0 / 1.9.0-r1 on main 5f6941d48e8174ba29a34bbbf4835cf23cfea17d. PR #182 has already proven the original Player Two pointer restore and automatic exact pairing-ID handoff in the permanent contract suite. Final-head Codex review at ebd5e6a3cff5ff0ff3d5d953f7780a6113f500cc found three valid issues; subsequent branch commits lock the pairing manager selection during CREATE/JOIN/live capability, expand ultra-regression coverage, and gate the production runbook on deployed r2. No owner/device acceptance should run until the new final head is revalidated, merged, deployed and independently verified.",
+    "nextSafeAction": "Complete the three final-review corrections, run all exact-head workflow families including Stage 3/4 Firebase emulator and Chromium stability/Candidate C lanes, perform final manual/Codex review as available, resolve only genuinely addressed threads, expected-head merge, then verify Pages/post-merge/runtime identity before asking the owner to test the new auto-link flow.",
     "unfinishedWork": [
-      "Stage 5E production host/join UX and runtime wiring",
-      "Provider-live two-account host/join proof",
-      "Real two-device/two-network session and reconnect/adverse-network proof",
-      "Remote Joining gameplay-session integration and final stable release acceptance"
+      "Finish PR #182 final-review corrections and exact-head rerun",
+      "Expected-head merge and deployed r2 verification",
+      "Owner/device production proof of pairing auto-link and Player One no-manual-reattach flow",
+      "Provider-live two-account Host -> Join -> Read/Refresh -> Close proof",
+      "Remote Joining-specific negative authorization/revoked-device proof where still uncredited",
+      "Real two-device/two-network Remote Joining reconnect and adverse-network hardening",
+      "Remaining identity/auth/trust fixed-domain evidence",
+      "Final stable Remote Joining real-device release acceptance",
+      "Continue until genuine RJR reaches 100/100"
     ],
     "knownHazards": [
-      "Billing is permanently forbidden: never attach Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, or select a paid provider path.",
-      "Firebase must remain Spark and Firestore persistence must remain memory-only.",
-      "App Check enforcement remains OFF.",
-      "Remote Joining code must remain browser-inert until an explicit host/join/read/close action; ordinary startup must not create session writes.",
-      "Standard Firebase request.auth.uid authenticates the account. Registered deviceId remains account-owned mutation metadata, not a cryptographic browser identity.",
-      "Session collection listing, discovery, lobbies, matchmaking, community and rankings remain prohibited; exact private session IDs only.",
-      "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; session operations must not mutate canonical local saves.",
-      "Candidate C remains the only destructive remote-to-local Apply authority for gameplay data.",
-      "The protected historical rivalry must not be edited, forced, deleted or used for destructive testing.",
+      "Billing is permanently forbidden. Never attach Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, Cloud Functions or any billing-required service.",
+      "Firebase remains Spark. Firestore persistence remains memory-only. App Check enforcement remains OFF.",
+      "Do not run owner/device acceptance against known-broken 1.9.0-r1; required acceptance identity is independently verified deployed 1.9.0-r2.",
+      "Do not award RJR points for source, PRs, CI, review, documentation, merges, Pages deployment or handoff work.",
+      "The pairing prefill is not authority. Only the existing verified Connected Rivalry attach path may persist the durable pointer after provider authority is active.",
+      "Player One must not be instructed to manually Attach/Reattach in the normal auto-link acceptance; manual Verify/Reattach is recovery-only and must not mask an automation failure.",
+      "A pairing capability must remain bound to the manager selection captured at CREATE/JOIN; later dropdown changes must not redirect it.",
+      "Session collection listing, discovery, lobbies, matchmaking, community and rankings remain prohibited. Exact private capabilities only.",
+      "Never publish, log or commit the full Remote Joining session capability. Evidence must redact or fingerprint secret capability material.",
+      "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences. Auto-link and Remote Joining session operations must not mutate canonical local saves.",
+      "Candidate C remains the sole destructive remote-to-local Apply authority for gameplay data.",
+      "Do not edit, force, delete or destructively test the protected historical rivalry.",
       "Spark quota or provider failure must fail closed while local Career Mode remains playable."
     ],
+    "reportingContract": {
+      "requiredOwnerFacingFields": [
+        "Handoff proximity: N%",
+        "RJR: X/100"
+      ],
+      "handoffRule": "Every substantive development checkpoint reports a numeric handoff proximity. At 100 percent, seal and hand off before beginning another substantial milestone.",
+      "separationRule": "Handoff proximity is current-environment continuity readiness and never substitutes for evidence-backed RJR product readiness.",
+      "freshSuccessorRule": "This environment started fresh at main 5f6941d48e8174ba29a34bbbf4835cf23cfea17d with reset counters and does not inherit predecessor 100 percent or stale main 12 percent."
+    },
     "evidenceNotes": [
-      "Predecessor WEC we-2026-09-01-stage5d-minimum-production-session-rules reached 100 percent and ordered a fresh successor WEC; its 100 percent handoff proximity is not inherited.",
-      "PR #178 installed the permanent zero-billing GitHub Actions control plane using FIREBASE_RULES_SERVICE_ACCOUNT_JSON and roles/firebaserules.admin without exposing credentials to repository source.",
-      "PR #180 merged as 0915ac0bbe78dfd541b4a66379959b5643ffa0b5 after 14/14 exact-head workflow families passed.",
-      "Production workflow run 33575616044 / job 100078816667 passed authentication, Rules publication and independent provider source readback.",
-      "Provider readback emitted PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS 363af783d7e5436fdfaa3766d4aa413fc9952a08 and identified live ruleset 30b5b1be-0f61-4983-bdb2-c79f93f99be4.",
-      "Provider publication and control-plane automation receive zero RJR credit by policy; cumulative RJR remains 87 until actual Remote Joining capability is live and proven."
+      "PR #181 merged Stage 5E r1 and production Pages deployed v1.9.0 / 1.9.0-r1.",
+      "Real two-account acceptance on r1 proved Player Two could pair and initially attach, then exposed reinitialization restoring only the first local manager binding.",
+      "PR #182 repairs durable pointer restoration across all manager bindings and carries the exact pair_ identifier into Connected Rivalry automatically without a second copy/paste.",
+      "Exact-head contract proof already confirms Player Two durable pointer restore, exact creator/joiner pairing-ID handoff, existing-pointer precedence, no polling and no new localStorage authority.",
+      "Final-head Codex review identified the r2 runbook gate, SLE maintenance-record wording, and mutable manager-selection race. These are valid blockers and must be closed before merge.",
+      "Codex update automation could not run because the repository Codex usage limit was reached; fixes are being made directly under the existing standing authorization rather than bypassing review findings.",
+      "REMOTE_JOINING_READINESS.json remains fixed RJR-1 score 87. r2 repair/test/merge/deploy mechanics earn zero RJR credit."
     ]
   }
 }

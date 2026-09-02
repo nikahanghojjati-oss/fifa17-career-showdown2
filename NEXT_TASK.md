@@ -1,3 +1,21 @@
+# CURRENT OVERRIDE — PR #182 CONNECTED RIVALRY POINTER RESTORE HOTFIX — 2026-09-02 UTC
+
+Authorized repair candidate: `v1.9.0 / 1.9.0-r2`. Deployed production remains `v1.9.0 / 1.9.0-r1` until PR #182 is merged and Pages verifies the new shell. Fixed RJR-1 remains `87/100`.
+
+The first genuine production Remote Joining attempt exposed an `r1` restore defect: a valid Player Two Connected Rivalry pointer persisted in IndexedDB, but reinitialization checked only the first local manager binding and reset the Player Two context to `Not attached`. PR #182 scans all valid local bindings and restores the preferred or most recently attached durable pointer for the same account/device. The whole shell is cache-busted to `r2`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+1. Finish PR #182 exact-head validation on one unchanged head, including the permanent Player Two pointer-restore regression contract, all 14 workflow families, final-head review, zero unresolved valid threads and clean mergeability.
+2. Expected-head squash merge under standing nonbilling authorization, then verify all post-merge/Pages runs and exact deployed `v1.9.0 / 1.9.0-r2` identity.
+3. On production `r2`, first prove Player Two's Connected Rivalry attachment survives DONE → reopen Save Library and survives opening Remote Joining. Do not publish gameplay state or use Candidate C for this proof.
+4. Create a fresh private session capability and complete the interrupted two-account lifecycle: Player One Host → Player Two Join → Player One Read/Refresh active → one member Close → other member Read/Refresh closed.
+5. Recalculate RJR only after the real production evidence exists. Source, CI, review, merge and deployment earn zero RJR credit.
+
+Billing remains permanently forbidden. Firebase stays Spark; Firestore stays memory-only; App Check enforcement stays OFF; no public discovery/listing/matchmaking is authorized. Do not reuse the previously exposed failed-test session capability.
+
+---
+
 # CURRENT OVERRIDE — STAGE 5E PRIVATE REMOTE JOINING RUNTIME CANDIDATE — 2026-09-02 UTC
 
 Authorized release candidate: `v1.9.0 / 1.9.0-r1`. Previous production-proven whole-shell recovery target: `v1.8.1 / 1.8.1-r5`. RJR remains `87/100` until genuine provider-live two-account/two-device capability evidence closes a fixed-domain gap.
@@ -157,7 +175,6 @@ The material below is preserved historical PR #173 transition authority and is s
 This section supersedes every lower historical instruction. SLE = Smart Lean Efficient and WEC remain mandatory.
 
 Status: production remains `v1.8.1 / 1.8.1-r5`, DEPLOYED / PRODUCTION-PROVEN. PR #172 is merged at Stage 5A starting main `4c12d68dacc0112c7c0fe70d4f1a25e3df7de5de`. PR #173 implements the separate dormant private-session client, isolated candidate minimum Rules, deterministic contracts and real Firestore emulator proof. Fixed RJR-1 remains `87/100`; emulator/source/publication work receives zero production credit.
-
 Production runtime lineage remains PR #166 merge `32c32afb1365c9ae6120d810a68e5c72c4b8229a`; known-good rollback runtime remains `1.8.1-r4`.
 
 Current environment: `we-2026-08-30-stage5a-private-session-protocol`.

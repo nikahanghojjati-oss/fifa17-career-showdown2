@@ -470,7 +470,8 @@
       const selectedEntry=bindingEntries.find(entry=>entry.key===pairingState.selectedBindingKey)||bindingEntries[0]||null;
       if(!bindingEntries.length){const option=createElement("option","","No active Save Library manager identity");option.value="";select.appendChild(option);select.disabled=true;}
       else bindingEntries.forEach(entry=>{const option=createElement("option","",bindingLabel(entry.binding));option.value=entry.key;option.selected=entry.key===selectedEntry.key;select.appendChild(option);});
-      select.addEventListener("change",()=>{if(bindingEntries.some(entry=>entry.key===select.value))setState({selectedBindingKey:select.value},{render:false});});
+      select.disabled=select.disabled||pairingState.busy||Boolean(pairingState.capability);
+      select.addEventListener("change",()=>{if(pairingState.busy||pairingState.capability){if(selectedEntry)select.value=selectedEntry.key;return;}if(bindingEntries.some(entry=>entry.key===select.value))setState({selectedBindingKey:select.value},{render:false});});
       const selectedBinding=()=>{const entry=bindingEntries.find(candidate=>candidate.key===select.value)||selectedEntry;return entry?entry.binding:null;};
       const createButton=createElement("button","menuButton settingsConnectedAccountButton","CREATE PAIRING CODE");createButton.type="button";createButton.disabled=pairingState.busy||!bindings.length;
       const codeInput=createElement("input","settingsConnectedAccountInput");codeInput.type="text";codeInput.placeholder="Paste private pairing code";codeInput.autocomplete="off";codeInput.spellcheck=false;codeInput.setAttribute("aria-label","Private pairing code");
@@ -478,17 +479,17 @@
       createButton.addEventListener("click",async()=>{
         const binding=selectedBinding();if(!binding)return;
         setState({status:"creating-pair",busy:true,selectedBindingKey:bindingKey(binding),capability:null,expiresAtEpochMs:null,message:"Creating a private one-use pairing code…"});
-        try{const context=await resolveConnectedContext();const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. It expires in 15 minutes and can be used once."});}
+        try{const context=await resolveConnectedContext();const result=await createPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);setState({status:"pair-open",busy:false,capability:result.capability,expiresAtEpochMs:result.expiresAtEpochMs,message:"Pairing code created. Share it directly with your friend. Connected Rivalry below is prefilled automatically on this browser. After the second manager joins, do not manually attach in the normal flow: return to Save Library or open Private Remote Joining and the same rivalry will verify and attach automatically. The pairing code still expires in 15 minutes and can be used once."});}
         catch(error){setState({status:"pair-error",busy:false,message:`${error&&error.message?error.message:"Private pairing could not be created."} Local saves were not changed.`});}
       });
       joinButton.addEventListener("click",async()=>{
         const binding=selectedBinding();if(!binding)return;
         setState({status:"joining-pair",busy:true,selectedBindingKey:bindingKey(binding),message:"Redeeming the private one-use pairing code…"});
-        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);codeInput.value="";setState({status:"paired",busy:false,capability:null,expiresAtEpochMs:null,message:"Private managers are paired. Use Connected Rivalry below for explicit shared-state actions; Remote Joining remains locked."});}
+        try{const context=await resolveConnectedContext();const result=await redeemPairing({user:context.user,firestore:context.services.firestore,firebaseSdk:context.services.firestoreSdk,identity:context.identity,binding,capability:codeInput.value,cryptoImpl:root.crypto});if(!result.ok)throw errorWithCode(result.code,result.message);codeInput.value="";setState({status:"paired",busy:false,capability:result.capability,expiresAtEpochMs:null,message:"Private managers are paired. Connected Rivalry below will use this exact rivalry ID automatically; no second copy, paste, or manual Attach is required in the normal flow."});}
         catch(error){setState({status:"pair-error",busy:false,message:`${pairingJoinErrorMessage(error)} Local saves were not changed.`});}
       });
       form.append(select,createButton,codeInput,joinButton);panel.appendChild(form);
-      if(pairingState.capability){const capabilityBox=createElement("div","settingsDataNote");capabilityBox.append(createElement("strong","","PRIVATE PAIRING CODE: "),createElement("code","",pairingState.capability));panel.appendChild(capabilityBox);}
+      if(pairingState.capability){const capabilityBox=createElement("div","settingsDataNote");capabilityBox.append(createElement("strong","",pairingState.status==="paired"?"CONNECTED RIVALRY ID: ":"PRIVATE PAIRING CODE: "),createElement("code","",pairingState.capability));panel.appendChild(capabilityBox);}
     }
     const note=createElement("p","settingsDataNote",pairingState.message);note.setAttribute("role","status");note.setAttribute("aria-live","polite");panel.appendChild(note);
     return panel;
