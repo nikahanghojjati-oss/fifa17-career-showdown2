@@ -1,78 +1,84 @@
 {
   "schemaVersion": 1,
   "environmentId": "we-2026-09-02-stage5e-runtime-host-join-ux",
-  "lifecycle": "active",
-  "recordedAt": "2026-09-02T00:38:00.000Z",
+  "lifecycle": "closed",
+  "recordedAt": "2026-09-02T03:39:14.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "0915ac0bbe78dfd541b4a66379959b5643ffa0b5"
+    "startingMainSha": "0915ac0bbe78dfd541b4a66379959b5643ffa0b5",
+    "closingMainSha": "5f6941d48e8174ba29a34bbbf4835cf23cfea17d"
   },
   "signals": {
-    "contextComplexity": "high",
+    "contextComplexity": "very-high",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 2,
-    "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "largeEvidenceEvents": 8,
+    "correctedFailures": 5,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 1,
+    "staleFactCorrections": 4,
     "unresolvedFailures": 0,
-    "newMilestoneNext": false,
+    "newMilestoneNext": true,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 12,
+    "handoffCompleteness": 100,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "CONTINUE",
-    "reason": "The predecessor Stage 5D WEC reached 100 percent and closed. The permanent zero-billing Firebase Rules control plane is now provider-proven, so a fresh WEC owns the separate Stage 5E runtime host/join UX milestone. RJR remains 87 because provider publication alone is not playable Remote Joining capability.",
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "reason": "Stage 5E is merged, all permanent exact-head and post-merge workflow families are green, GitHub Pages deployment succeeded on the closing main SHA, and the next distinct milestone is genuine production-live two-account Remote Joining acceptance. This environment is intentionally sealed before that new evidence milestone begins.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 32,
-      "qualityRisk": 18,
-      "quotaRisk": null,
-      "nextTaskSeparation": 92,
-      "handoffReadiness": 12,
-      "atomicRisk": 8,
-      "continuationRisk": 12,
-      "transitionCost": 22,
-      "transitionAdvantage": -10
+      "handoffReadiness": 100,
+      "continuationRisk": 96,
+      "nextTaskSeparation": 100,
+      "transitionAdvantage": 100
     }
   },
   "continuity": {
-    "currentTask": "Implement the smallest production Stage 5E private Remote Joining host/join UX using the standard Firebase Auth session path, browser-inert until an explicit remote action, without changing canonical local storage or billing.",
-    "lastSafeCheckpoint": "Main 0915ac0bbe78dfd541b4a66379959b5643ffa0b5 includes PR #180. Permanent Firebase Rules workflow run 33575616044 authenticated with the repository secret, published Firestore Rules through the Firebase Rules API, and independently read back exact provider source blob 363af783d7e5436fdfaa3766d4aa413fc9952a08. Live release projects/fifa17-career-showdown-prod/releases/cloud.firestore points to ruleset 30b5b1be-0f61-4983-bdb2-c79f93f99be4. Runtime remains v1.8.1 / 1.8.1-r5. RJR remains 87.",
-    "nextSafeAction": "Wire explicit host/join session controls to the existing standard-auth private-session protocol and production memory-only Firebase services; prove startup remains remote-inert and local-first; then gate the exact head before any production runtime publication.",
+    "currentTask": "Begin genuine production-live Stage 5E Remote Joining acceptance on deployed v1.9.0 / 1.9.0-r1 and recalculate RJR only from newly verified fixed-domain capability evidence.",
+    "lastSafeCheckpoint": "PR #181 exact head b05017e9540383decd873651cc61d0e334586545 passed all 14 permanent PR workflow families with all four review threads resolved. Expected-head squash merge succeeded as main 5f6941d48e8174ba29a34bbbf4835cf23cfea17d. All 15 post-merge workflow runs on that SHA completed with zero failures or in-progress runs. Deploy GitHub Pages run 33587660578 completed successfully, including both build and deploy jobs. Release Integration Burn-In run 33587660597 completed two independent integration passes successfully. RJR remains exactly 87/100 because source, CI, review, merge and deployment mechanics earn zero RJR credit.",
+    "nextSafeAction": "Independently verify main and deployed v1.9.0 / 1.9.0-r1, then use two distinct authenticated rivalry accounts on real registered device contexts to prove exact Host -> Join -> Read/Refresh -> Close against production. Record evidence before changing RJR. Continue afterward through remaining production negatives, two-network/reconnect/adverse-network hardening and final stable release acceptance until genuine RJR reaches 100/100.",
     "unfinishedWork": [
-      "Stage 5E production host/join UX and runtime wiring",
-      "Provider-live two-account host/join proof",
-      "Real two-device/two-network session and reconnect/adverse-network proof",
-      "Remote Joining gameplay-session integration and final stable release acceptance"
+      "Provider-live two-account Host -> Join -> Read/Refresh -> Close proof",
+      "Remote Joining-specific authenticated negative authorization and revoked-device proof where still uncredited",
+      "Real two-device/two-network Remote Joining reconnect and adverse-network hardening",
+      "Remaining identity/auth/trust fixed-domain evidence needed to close 18/20 to 20/20",
+      "Final stable Remote Joining real-device release acceptance",
+      "Continue until genuine RJR reaches 100/100"
     ],
     "knownHazards": [
-      "Billing is permanently forbidden: never attach Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, or select a paid provider path.",
-      "Firebase must remain Spark and Firestore persistence must remain memory-only.",
-      "App Check enforcement remains OFF.",
-      "Remote Joining code must remain browser-inert until an explicit host/join/read/close action; ordinary startup must not create session writes.",
-      "Standard Firebase request.auth.uid authenticates the account. Registered deviceId remains account-owned mutation metadata, not a cryptographic browser identity.",
-      "Session collection listing, discovery, lobbies, matchmaking, community and rankings remain prohibited; exact private session IDs only.",
-      "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; session operations must not mutate canonical local saves.",
-      "Candidate C remains the only destructive remote-to-local Apply authority for gameplay data.",
-      "The protected historical rivalry must not be edited, forced, deleted or used for destructive testing.",
+      "Billing is permanently forbidden. Never attach Cloud Billing, enable Blaze, add a payment method, activate Cloud Run, Cloud Functions or any billing-required service.",
+      "Firebase remains Spark. Firestore persistence remains memory-only. App Check enforcement remains OFF.",
+      "Do not award RJR points for PRs, CI, review, documentation, merges, Pages deployment or handoff work.",
+      "Session collection listing, discovery, lobbies, matchmaking, community and rankings remain prohibited. Exact private session capability only.",
+      "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences. Remote Joining session operations must not mutate canonical local saves.",
+      "Candidate C remains the sole destructive remote-to-local Apply authority for gameplay data.",
+      "Do not edit, force, delete or destructively test the protected historical rivalry.",
       "Spark quota or provider failure must fail closed while local Career Mode remains playable."
     ],
+    "reportingContract": {
+      "requiredOwnerFacingFields": [
+        "Handoff proximity: N%",
+        "RJR: X/100"
+      ],
+      "handoffRule": "Every substantive development checkpoint must report a numeric handoff proximity. Never write only 'not yet 100'. At 100%, seal and hand off rather than beginning a new substantial milestone.",
+      "separationRule": "Handoff proximity is environment continuity readiness and must never be substituted for RJR product readiness.",
+      "freshSuccessorRule": "The successor must initialize a fresh environment and independently assess its own handoff proximity. It must not inherit this environment's closing 100% or the stale earlier 12%."
+    },
     "evidenceNotes": [
-      "Predecessor WEC we-2026-09-01-stage5d-minimum-production-session-rules reached 100 percent and ordered a fresh successor WEC; its 100 percent handoff proximity is not inherited.",
-      "PR #178 installed the permanent zero-billing GitHub Actions control plane using FIREBASE_RULES_SERVICE_ACCOUNT_JSON and roles/firebaserules.admin without exposing credentials to repository source.",
-      "PR #180 merged as 0915ac0bbe78dfd541b4a66379959b5643ffa0b5 after 14/14 exact-head workflow families passed.",
-      "Production workflow run 33575616044 / job 100078816667 passed authentication, Rules publication and independent provider source readback.",
-      "Provider readback emitted PROVIDER_FIRESTORE_RULES_EXACT_SOURCE_PASS 363af783d7e5436fdfaa3766d4aa413fc9952a08 and identified live ruleset 30b5b1be-0f61-4983-bdb2-c79f93f99be4.",
-      "Provider publication and control-plane automation receive zero RJR credit by policy; cumulative RJR remains 87 until actual Remote Joining capability is live and proven."
+      "The predecessor reporting failure was caused by allowing a stale repository WEC snapshot at CONTINUE / 12 to compete with the actual owner-closed session state. This closing record explicitly reconciles that mismatch.",
+      "PR #181 is merged and closed. Exact reviewed candidate head b05017e9540383decd873651cc61d0e334586545; squash merge/live main 5f6941d48e8174ba29a34bbbf4835cf23cfea17d.",
+      "All four PR #181 review threads are resolved, including provider provenance, successor routing, live-capability replacement prevention and pre-join host revoke.",
+      "All 14 permanent exact-head PR workflow families passed on b05017e9540383decd873651cc61d0e334586545.",
+      "All 15 post-merge workflow runs on main 5f6941d48e8174ba29a34bbbf4835cf23cfea17d completed with zero failures or in-progress runs.",
+      "Deploy GitHub Pages run 33587660578 completed successfully on the merge SHA.",
+      "Release Integration Burn-In run 33587660597 completed both integration-burnin-pass-1 and integration-burnin-pass-2 successfully.",
+      "RJR-1 remains 87/100. Current fixed-domain totals are deterministic-sync-recovery 20/20, identity-auth-trust 18/20, production-cloud-security 20/20, devices-pairing-connected-rivalry-remote-join 20/30, real-device-hardening-release 9/10.",
+      "The next legitimate RJR rise is expected from the first genuine provider-live Remote Joining acceptance evidence, not from further publication mechanics."
     ]
   }
 }
