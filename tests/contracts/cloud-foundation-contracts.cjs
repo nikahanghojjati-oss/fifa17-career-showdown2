@@ -105,7 +105,7 @@ assert.match(stage5cProof,/(?=[\s\S]*request\.auth\.uid)(?=[\s\S]*account-owned[
 assert.match(stage5cProof,/(?=[\s\S]*production deployment mapping still selects `firestore\.spark\.rules`)(?=[\s\S]*no Cloud Billing account)(?=[\s\S]*Cloud Run)(?=[\s\S]*App Check enforcement change)/i,"Stage 5C proof must preserve production isolation and the permanent zero-billing boundary.");
 assert.equal(productionEnvironment.projectId,"fifa17-career-showdown-prod","Production environment must remain pinned to the real production Firebase project.");
 assert.equal(productionEnvironment.activation?.productionSecurityRulesSource,"firestore.spark.rules","Production environment must record the provider-verified strengthened Rules source at the canonical activation field.");
-assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Production environment must retain the exact reviewed provider-published Rules blob.");
+assert.equal(productionEnvironment.activation?.productionSecurityRulesSourceBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08","Production environment must retain the exact independently provider-live Stage 5D Rules blob.");
 
 assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A PRIVATE SESSION PROTOCOL AUTHORIZED/i,"NEXT_TASK must expose current RJR87/Stage 5A authority.");
 assert.match(next,/Status:[\s\S]+v1\.8\.1 \/ 1\.8\.1-r5[\s\S]+STAGE 5A IS AUTHORIZED NEXT/i,"NEXT_TASK must expose restored r5 and the Stage 5A activation.");

@@ -67,6 +67,7 @@ const files = [
   "tests/contracts/stage5b-device-credential-contracts.cjs",
   "tests/contracts/stage5c-zero-billing-standard-auth-session-contracts.cjs",
   "tests/contracts/stage5d-production-session-rules-contracts.cjs",
+  "tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs",
   "tests/contracts/firebase-permanent-control-plane-contracts.cjs",
   "tests/contracts/stage4-adverse-network-contracts.cjs",
   "tests/contracts/stage4-abuse-hardening-contracts.cjs",

@@ -1,6 +1,6 @@
 {
   "name": "career-mode-showdown",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "private": true,
   "description": "Repository-owned stability and browser validation for Career Mode Showdown.",
   "scripts": {
@@ -13,7 +13,7 @@
     "serve:test": "node tests/support/static-server.cjs",
     "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
-    "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs && node tests/browser/stage3-private-pairing-audit.cjs && node tests/browser/stage4-remote-local-reconciliation-audit.cjs",
+    "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs && node tests/browser/stage3-private-pairing-audit.cjs && node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs",
     "test:home-visual": "node tests/browser/home-visual-audit.cjs",
     "test:loading-visual": "node tests/browser/loading-visual-audit.cjs",
     "test:football-visual": "node tests/browser/football-visual-audit.cjs",
@@ -25,7 +25,7 @@
     "test:restore-contracts": "node tests/support/run-restore-contracts.cjs",
     "test:restore-browser": "node tests/browser/restore-audit.cjs && node tests/browser/restore-maintenance-audit.cjs",
     "test:multi-save-browser": "node tests/browser/multi-save-portability-audit.cjs",
-    "test:stage4-reconciliation-browser": "node tests/browser/stage4-remote-local-reconciliation-audit.cjs"
+    "test:stage4-reconciliation-browser": "node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs"
   },
   "devDependencies": {
     "@sparticuz/chromium": "149.0.0",

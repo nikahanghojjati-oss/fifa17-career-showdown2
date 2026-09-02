@@ -19,7 +19,7 @@ const gold = read('00_HANDOFF_GOLDEN_RULE.md');
 
 const version = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
-const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*(?:Stable|Product Deepening|Private Connected Account Foundation|Registered Devices & Private Pairing|Connected Rivalry)/i) || [])[1];
+const footer = (html.match(/<footer>[\s\S]*?v([^<\s]+)\s*·\s*(?:Stable|Product Deepening|Private Connected Account Foundation|Registered Devices & Private Pairing|Connected Rivalry|Private Remote Joining)/i) || [])[1];
 const gen = Number((revision.match(/-r(\d+)$/) || [])[1]);
 
 A.equal(pkg.version, version);

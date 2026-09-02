@@ -46,7 +46,9 @@ const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const runtimeMerge = bootstrap.latestRuntimeMerge;
 const candidateRecord = /Status:\s*RELEASE CANDIDATE/i.test(release);
-const currentProductionProven = /Status:\s*DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i.test(state) && state.includes(revision);
+const currentAuthorityEnd = state.indexOf("\n---\n");
+const currentAuthority = state.slice(0,currentAuthorityEnd >= 0 ? currentAuthorityEnd : 5000);
+const currentProductionProven = /Status:\s*DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i.test(currentAuthority) && currentAuthority.includes(revision);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
 
 A.ok(release.includes(`Runtime asset revision: \`${revision}\``), `${releasePath} has stale runtime identity.`);

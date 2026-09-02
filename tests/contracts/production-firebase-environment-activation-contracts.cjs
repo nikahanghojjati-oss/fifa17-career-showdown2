@@ -9,7 +9,7 @@ const firebaseJson = JSON.parse(read("firebase.json"));
 const historicalRulesSource = read("firestore.rules");
 const strengthenedRulesSource = read("firestore.spark.rules");
 const stage5cRulesSource = read("firestore.stage5c.rules");
-const providerProof = read("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md");
+const providerProof = read("STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md");
 const preflight = require("../../js/firebaseProductionPreflight.js");
 
 assert.equal(manifest.schemaVersion,1);
@@ -37,7 +37,7 @@ assert.equal(manifest.firestore.locationDecisionRecorded,true);
 assert.equal(manifest.firestore.startingRulesMode,"production");
 assert.equal(manifest.firestore.ownerReportedCreated,true);
 assert.equal(manifest.firestore.providerVerified,true,"Provider-side Firestore existence and current Rules publication must remain verified by direct owner Firebase Console evidence.");
-assert.match(manifest.firestore.providerVerificationEvidence,/2026-08-29[\s\S]+fifa17-career-showdown-prod[\s\S]+\(default\)[\s\S]+Rules tab[\s\S]+Today 7:48 AM/i);
+assert.match(manifest.firestore.providerVerificationEvidence,/2026-09-02[\s\S]+33575616044[\s\S]+100078816667[\s\S]+fifa17-career-showdown-prod[\s\S]+cloud\.firestore[\s\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i,"Provider verification evidence must preserve the authenticated zero-billing Stage 5D publication and exact source readback.");
 
 assert.equal(firebaseRc.projects.default,"demo-career-mode-showdown-phase1f","Default Firebase alias must remain emulator-only.");
 assert.equal(firebaseRc.projects.production,manifest.projectId,"Production alias must point to the owner-created production Firebase project.");
@@ -73,11 +73,11 @@ assert.match(manifest.activation.productionAuthorizedDomainVerificationEvidence,
 
 assert.equal(manifest.activation.productionSecurityRules,"provider-verified-deployed","Production Firestore Rules must remain explicitly provider verified.");
 assert.equal(manifest.activation.productionSecurityRulesSource,"firestore.spark.rules","Current provider authority must name the strengthened production Rules source path.");
-assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"2b7c0b166ae0aae7ab7a3ce84725b21091262484","Until Stage 5D provider publication is independently proven, durable provider authority must retain the last verified deployed Rules blob.");
-assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-08-29[\s\S]+Today 7:48 AM[\s\S]+activeDevice[\s\S]+activePairedRivalry[\s\S]+final allow read, write: if false/i);
-assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED/i,"Dedicated provider proof must preserve deployed provider status.");
-assert.match(providerProof,/Today · 7:48 AM/i,"Dedicated provider proof must preserve the exact provider-published version timestamp.");
-assert.match(providerProof,/2b7c0b166ae0aae7ab7a3ce84725b21091262484/i,"Dedicated provider proof must preserve the last independently verified provider blob regardless of later reviewed source promotion.");
+assert.equal(manifest.activation.productionSecurityRulesSourceBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08","Provider authority must retain the exact independently read-back Stage 5D Rules blob.");
+assert.match(manifest.activation.productionSecurityRulesVerificationEvidence,/2026-09-02[\s\S]+33575616044[\s\S]+30b5b1be-0f61-4983-bdb2-c79f93f99be4[\s\S]+363af783d7e5436fdfaa3766d4aa413fc9952a08/i);
+assert.match(providerProof,/Status: VERIFIED PROVIDER-LIVE/i,"Dedicated Stage 5D provider proof must preserve provider-live status.");
+assert.match(providerProof,/33575616044[\s\S]+100078816667/i,"Dedicated provider proof must preserve the exact authenticated publication run and job.");
+assert.match(providerProof,/363af783d7e5436fdfaa3766d4aa413fc9952a08/i,"Dedicated provider proof must preserve the exact provider-live Stage 5D blob.");
 const strengthenedGitBlobSha = crypto
   .createHash("sha1")
   .update(`blob ${Buffer.byteLength(strengthenedRulesSource,"utf8")}\0`)
@@ -85,7 +85,7 @@ const strengthenedGitBlobSha = crypto
   .digest("hex");
 assert.equal(strengthenedRulesSource,stage5cRulesSource,"Stage 5D repository production source must reuse the exact already-emulator-proven Stage 5C Rules bytes.");
 assert.equal(strengthenedGitBlobSha,"363af783d7e5436fdfaa3766d4aa413fc9952a08","The reviewed Stage 5D repository source must preserve exact Stage 5C blob lineage before provider publication.");
-assert.notEqual(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"Before independently verified Stage 5D provider publication, repository source and durable deployed-provider authority must remain intentionally distinct rather than fabricating activation.");
+assert.equal(strengthenedGitBlobSha,manifest.activation.productionSecurityRulesSourceBlobSha,"After independently verified Stage 5D provider publication, repository and durable provider source identities must match exactly.");
 assert.match(strengthenedRulesSource,/rules_version\s*=\s*'2';/);
 assert.match(strengthenedRulesSource,/function activeDevice\(deviceId\)/,"Strengthened reviewed Rules must retain registered-device authorization.");
 assert.match(strengthenedRulesSource,/function activePairedRivalry\(rivalryId\)/,"Strengthened reviewed Rules must retain exact private pairing/rivalry authorization.");
@@ -172,4 +172,4 @@ for(const forbidden of ["private_key","privateKey","clientSecret","refreshToken"
 }
 assert.doesNotMatch(serialized,/AIza[0-9A-Za-z_-]{35}/,"Committed production metadata must not contain a Google API-key-shaped value.");
 
-process.stdout.write("PASS production Firebase authority: Stage 5D reviewed firestore.spark.rules intentionally advances beyond the last provider-verified blob without fabricating deployment; historical root/demo isolation, App Check OFF, zero-billing-compatible authority and provider provenance remain protected.\n");
+process.stdout.write("PASS production Firebase authority: Stage 5D firestore.spark.rules is independently provider-live with exact source identity; historical root/demo isolation, App Check OFF, zero-billing-compatible authority and provider provenance remain protected.\n");
