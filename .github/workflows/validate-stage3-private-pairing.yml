@@ -71,6 +71,7 @@ jobs:
       - name: Run deterministic Stage 4 Connected Rivalry contracts
         run: |
           node tests/contracts/stage4-connected-rivalry-contracts.cjs
+          node tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs
           node tests/contracts/stage4-adverse-network-contracts.cjs
           node tests/contracts/stage4-abuse-hardening-contracts.cjs
           node tests/contracts/stage4-mutation-rate-limit-contracts.cjs
