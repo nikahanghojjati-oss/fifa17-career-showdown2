@@ -6,16 +6,20 @@ SLE = Smart Lean Efficient. This is the deep reconstruction document for the v1.
 
 The project objective is genuine Remote Joining readiness, not documentation or PR volume. Continue relentlessly toward RJR 100 while avoiding side quests and preserving the permanent zero-billing architecture.
 
-Every substantive owner-facing project checkpoint should report:
+Every substantive owner-facing project checkpoint must use this exact eight-field shape, in this order:
 
-- Handoff proximity
-- Remote Joining readiness
-- Estimated focused sessions to genuine RJR100
-- Current lane
-- Concrete dependency completed
-- Next unlock
-- Blocker
-- Sidequest check
+Handoff proximity: X%
+Remote Joining readiness: ~Y%
+Estimated focused sessions to genuine RJR100: ~N–M
+Current lane: ...
+Concrete dependency completed: ...
+Next unlock: ...
+Blocker: ...
+Sidequest check: ...
+
+Those fields must explain exactly how the current work does or does not get the project closer to genuine RJR100. Handoff proximity is WEC/session transition readiness only and must never be presented as RJR credit. Remote Joining readiness must report the fixed RJR-1 total and the environment's capability-evidence delta; if no qualifying capability was newly proven, explicitly report `RJR impact: +0`. Current lane must name the exact uncredited fixed RJR domain/capability being targeted. Concrete dependency completed must name the qualifying evidence and ledger effect, including fixed-domain earned-before → earned-after and total RJR before → after, or explicitly state `RJR impact: +0` for source/PR/CI/review/merge/deployment/docs/WEC/handoff work. Next unlock must name the next uncredited capability and the proof required before it can earn credit. Blocker must be a concrete blocker to that capability path or `NONE`. Sidequest check must be `NONE` for directly mapped RJR work; unavoidable non-RJR work must be identified as zero-credit.
+
+Generic reporting such as “continue toward RJR100,” PR count, CI volume, deployment mechanics, documentation volume or handoff progress is not evidence of Remote Joining readiness. `REMOTE_JOINING_READINESS.json` remains the numerical authority.
 
 At handoff proximity 100%, complete only the current safe checkpoint, generate the successor package and stop before beginning a distinct substantial milestone.
 
@@ -191,7 +195,7 @@ This environment's exact closed record is archived at:
 
 A successor must **not inherit** `HANDOFF_AT_CHECKPOINT` as its starting decision. Validate/archive predecessor facts, create a fresh unique environment ID, reset per-environment counters, record independently observed live main and then run the fresh assessment.
 
-## 10. Immediate successor procedure
+## 10. IMMEDIATE NEXT TASK AFTER FULL STUDY — successor procedure
 
 Read `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md` first.
 
