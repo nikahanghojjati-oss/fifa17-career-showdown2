@@ -31,11 +31,21 @@ jobs:
 
           contract = Path('tests/contracts/stage5-activation-authority-contracts.cjs')
           text = contract.read_text()
-          old = 'assert.match(stage5eLifecycle?.reason||"",/provider-live session lifecycle/i);'
-          new = 'assert.match(stage5eLifecycle?.reason||"",/actual Remote Joining session capability end to end/i);'
-          if text.count(old) != 1:
-              raise SystemExit(f'expected exactly one Stage5 evidence wording assertion, found {text.count(old)}')
-          contract.write_text(text.replace(old, new, 1))
+          replacements = [
+              (
+                  'assert.match(stage5eLifecycle?.reason||"",/provider-live session lifecycle/i);',
+                  'assert.match(stage5eLifecycle?.reason||"",/actual Remote Joining session capability end to end/i);'
+              ),
+              (
+                  'assert.match(stage5eLifecycle?.reason||"",/zero-manual-reattach[\\s\\S]+zero credit/i);',
+                  'assert.match(stage5eLifecycle?.reason||"",/zero credit[\\s\\S]+zero-manual-reattach/i);'
+              )
+          ]
+          for old, new in replacements:
+              if text.count(old) != 1:
+                  raise SystemExit(f'expected exactly one Stage5 evidence assertion {old}, found {text.count(old)}')
+              text = text.replace(old, new, 1)
+          contract.write_text(text)
 
           runtime = Path('js/sparkConnectedRivalry.js')
           text = runtime.read_text()
@@ -63,5 +73,5 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add tests/contracts/stage5-activation-authority-contracts.cjs js/sparkConnectedRivalry.js
           git diff --cached --quiet && exit 0
-          git commit -m 'Fix r4 evidence assertion and preserve candidate prefill'
+          git commit -m 'Fix r4 evidence assertions and preserve candidate prefill'
           git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
