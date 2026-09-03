@@ -51,27 +51,28 @@ changelog_anchor = "let ch=read('CHANGELOG.md')"
 provenance = "for(const p of ['CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md','RELEASE_V1.9.0_R4.md']){let rs=read(p);const proof='Production proof: PR #184 merge '+MAIN+'; Deploy GitHub Pages run '+PAGES_RUN+'; Stability/deployed-site-smoke run '+STABILITY_RUN+'.';if(!rs.includes(proof))rs=rs.trimEnd()+'\\n\\n'+proof+'\\n';write(p,rs);}\n"
 required_replace(changelog_anchor, provenance + changelog_anchor, 'release provenance')
 
-# PR #166 remains the historical rollback provenance. PR #184 is the current production-proven runtime.
+# PR #166 remains historical rollback provenance. PR #184 is current production provenance.
 s, n = re.subn(r"capsule\.latestRuntimeMerge=\{pullRequest:184,[^\n]+\};\n", '', s, count=1)
 if n != 1:
     raise SystemExit('latestRuntimeMerge overwrite anchor not found')
-# Remove either the original generator or recovered authority-patch attempt to rewrite PR166 history as PR184.
-s = s.replace("sleTest=sleTest.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);','assert.equal(capsule.latestRuntimeMerge.pullRequest, 184);');\n", '')
-s = s.replace("sleTest=sleTest.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest,166);','assert.equal(capsule.latestRuntimeMerge.pullRequest,184);');\n", '')
+# Remove any generator statement that converts the historical PR166 pointer to PR184.
+s = re.sub(r"sleTest=sleTest\.replace\([^\n]*latestRuntimeMerge\.pullRequest[^\n]*184[^\n]*\);\n", '', s)
 
 validation_anchor = '// Validate the current handoff package before committing.'
 contract_patch = r'''let st=read('tests/contracts/sle-handoff-packaging-contracts.cjs');
-st=st.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest, 184);','assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);');
-st=st.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest,184);','assert.equal(capsule.latestRuntimeMerge.pullRequest,166);');
-const stRollback='assert.equal(capsule.latestRuntimeMerge.rollbackRunId, 33190961085);';
-if(!st.includes(stRollback)) throw new Error('SLE historical rollback provenance anchor not found');
-if(!st.includes('capsule.lastProductionProvenRuntime.pullRequest')) st=st.replace(stRollback,stRollback+'\\nassert.equal(capsule.lastProductionProvenRuntime.pullRequest, 184, "Current production-proven runtime publication must be PR #184.");\\nassert.equal(capsule.lastProductionProvenRuntime.runtimeRevision, sourceRevision, "Current production-proven runtime must match the deployed r4 source revision.");');
+st=st.replace(/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*184\s*\);/,'assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);');
+if(!/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*166\s*\);/.test(st)) throw new Error('SLE historical PR166 provenance assertion missing');
+if(!st.includes('capsule.lastProductionProvenRuntime.pullRequest')){
+  const m=st.match(/assert\.equal\(capsule\.latestRuntimeMerge\.rollbackRunId,\s*33190961085\s*\);/);
+  const after=m?.[0] || st.match(/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*166\s*\);/)?.[0];
+  if(!after) throw new Error('SLE historical rollback provenance insertion point missing');
+  st=st.replace(after,after+'\nassert.equal(capsule.lastProductionProvenRuntime.pullRequest, 184, "Current production-proven runtime publication must be PR #184.");\nassert.equal(capsule.lastProductionProvenRuntime.runtimeRevision, sourceRevision, "Current production-proven runtime must match the deployed r4 source revision.");');
+}
 write('tests/contracts/sle-handoff-packaging-contracts.cjs',st);
 
 let hit=read('tests/contracts/handoff-immediate-next-task-contracts.cjs');
-const hitOld='assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with deployed production runtime.");';
-const hitNew='assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","SESSION_BOOTSTRAP must preserve PR #166 rollback provenance at the historical r5 runtime.");\\nassert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,184,"SESSION_BOOTSTRAP must identify PR #184 as the current production-proven runtime publication.");\\nassert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,productionRuntime,"Current production runtime provenance must agree with the deployed shell.");';
-if(hit.includes(hitOld)) hit=hit.replace(hitOld,hitNew);
+const oldRe=/assert\.equal\(bootstrap\.latestRuntimeMerge\?\.runtimeRevision,\s*productionRuntime\s*,[^\n]+\);/;
+if(oldRe.test(hit)) hit=hit.replace(oldRe,'assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","SESSION_BOOTSTRAP must preserve PR #166 rollback provenance at the historical r5 runtime.");\nassert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,184,"SESSION_BOOTSTRAP must identify PR #184 as the current production-proven runtime publication.");\nassert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,productionRuntime,"Current production runtime provenance must agree with the deployed shell.");');
 else if(!hit.includes('bootstrap.lastProductionProvenRuntime?.pullRequest,184')) throw new Error('historical/current runtime provenance contract anchor not found');
 write('tests/contracts/handoff-immediate-next-task-contracts.cjs',hit);
 '''
