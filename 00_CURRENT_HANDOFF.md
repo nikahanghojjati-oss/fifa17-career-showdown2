@@ -18,6 +18,10 @@ Closing Work Environment Continuity (WEC) record `we-2026-09-03-stage5e-r4-produ
 4. Do not repeat consumed r5 one-paste acceptance, r3 Host/Join lifecycle, pairing, Candidate C, replay, token-lifecycle, rollback, provider-Rules or provider-abuse proof merely for confidence.
 5. Move RJR only on genuine new capability evidence.
 
+## Permanent Firebase zero-billing control-plane inheritance
+
+Successors must preserve and read `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md` together with `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md` before any Firebase control-plane publication. The authorized Rules-only workflow remains `.github/workflows/deploy-firestore-rules-zero-billing.yml`, using the existing GitHub secret named `FIREBASE_RULES_SERVICE_ACCOUNT_JSON`; never request, expose, quote, paste or commit its credential value. Firebase remains Spark and billing remains permanently forbidden.
+
 Billing remains permanently forbidden and Firebase remains Spark. No Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions or billing-required service. App Check enforcement remains OFF. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly the three approved keys. Candidate C remains sole destructive remote-to-local gameplay Apply authority. Exactly two private managers and no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
 Historical handoff overrides remain available through the versioned prior START_NEXT_SESSION/SLE artifacts and repository history; this file intentionally keeps only the current live pointer.
