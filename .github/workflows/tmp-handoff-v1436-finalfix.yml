@@ -44,14 +44,14 @@ jobs:
           const fs=require('node:fs');
           const p='scripts/tmp-handoff-v1436-seal.mjs';
           let s=fs.readFileSync(p,'utf8');
-          const old='assert.match(standing,/mandatory tests[\\s\\S]+gates pass/i);';
           const replacement='assert.match(standing,/required test[\\s\\S]+mandatory publication gate/i);';
-          if(!s.includes(old)) throw new Error('standing authority assertion anchor not found');
-          s=s.replace(old,replacement);
+          const lineRe=/assert\.match\(standing,\/[^\n]+?\/i\);/;
+          if(!lineRe.test(s)) throw new Error('standing authority assertion anchor not found');
+          s=s.replace(lineRe,replacement);
           const rmOld="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml'],{stdio:'inherit'});";
           const rmNew="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml','.github/workflows/tmp-handoff-v1436-finalfix.yml'],{stdio:'inherit'});";
-          if(!s.includes(rmOld)) throw new Error('final cleanup anchor not found');
-          s=s.replace(rmOld,rmNew);
+          if(s.includes(rmOld)) s=s.replace(rmOld,rmNew);
+          else if(!s.includes(rmNew)) throw new Error('final cleanup anchor not found');
           fs.writeFileSync(p,s);
           NODE
       - name: Generate validate self-clean and commit package
