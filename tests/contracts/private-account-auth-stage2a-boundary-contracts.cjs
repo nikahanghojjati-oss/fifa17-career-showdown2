@@ -63,7 +63,7 @@ assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"Historical
 assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must keep App Check enforcement off.");
 assert.match(next,/Firebase remains (?:on )?Spark(?: \/ zero billing)?/i,"Current NEXT_TASK must preserve Spark zero billing.");
 assert.match(state,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Current PROJECT_STATE must preserve the offline recovery baseline rather than inline stale Stage 2A authority.");
-assert.match(state,/Candidate C remains the sole destructive remote-to-local Apply authority/i,"Current PROJECT_STATE must preserve Candidate C destructive Apply authority.");
+assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: gameplay)? Apply authority/i,"Current PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
 assert.equal(readiness.currentScore,89,"Stage 2A current-state checks must expose the current fixed RJR89 boundary.");
 assert.match(state,new RegExp("Fixed RJR-1 is \\*\\*"+readiness.currentScore+"\\/100\\*\\*|RJR"+readiness.currentScore,"i"),"Current PROJECT_STATE must report the live fixed RJR score.");
