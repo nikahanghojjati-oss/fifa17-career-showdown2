@@ -742,7 +742,7 @@
             }
           }
         }
-        const prefillRivalryId=!pointer&&pairingCandidate?pairingCandidate.rivalryId:null;
+        const prefillRivalryId=pairingCandidate&&(!pointer||pointer.rivalryId!==pairingCandidate.rivalryId||!crSameBinding(binding,pairingCandidate.binding))?pairingCandidate.rivalryId:null;
         return crSetState({
           status:pointer?"saved-link":prefillRivalryId?"pairing-link-ready":"ready",
           initialized:true,

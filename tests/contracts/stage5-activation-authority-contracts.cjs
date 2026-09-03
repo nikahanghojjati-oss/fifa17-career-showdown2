@@ -44,8 +44,8 @@ const latestCredited=readiness.evidenceHistory.find(entry=>entry.eventId==="prod
 assert.equal(stage5eLifecycle?.score,88);
 assert.equal(stage5eLifecycle?.delta,1);
 assert.equal(stage5eLifecycle?.domainId,"devices-pairing-connected-rivalry-remote-join");
-assert.match(stage5eLifecycle?.reason||"",/provider-live session lifecycle/i);
-assert.match(stage5eLifecycle?.reason||"",/zero-manual-reattach[\s\S]+zero credit/i);
+assert.match(stage5eLifecycle?.reason||"",/actual Remote Joining session capability end to end/i);
+assert.match(stage5eLifecycle?.reason||"",/zero credit[\s\S]+zero-manual-reattach/i);
 assert.equal(latestStage5c.eventId,"stage5c-zero-billing-standard-auth-session-adapter-proof");
 assert.equal(latestStage5c.score,87);
 assert.equal(latestStage5c.delta,0);
