@@ -3,7 +3,7 @@ import subprocess
 import re
 
 REPO_BRANCH = 'handoff/v1.4.36-r4-production-seal-recovered'
-SOURCE_BRANCH = 'handoff-v1.4.36-r4-production-seal'
+SOURCE_COMMIT = '980c9c42e909e794dc83afeb8b5c057427e1611a'
 GEN = Path('scripts/tmp-handoff-v1436-seal.mjs')
 WORKFLOW = Path('.github/workflows/tmp-handoff-v1436-recover.yml')
 SELF = Path('scripts/recover-v1436-production-seal.py')
@@ -12,10 +12,10 @@ SELF = Path('scripts/recover-v1436-production-seal.py')
 def run(*args, capture=False):
     return subprocess.run(args, check=True, text=True, capture_output=capture)
 
-run('git', 'fetch', 'origin', SOURCE_BRANCH)
-source = subprocess.check_output(['git', 'show', f'origin/{SOURCE_BRANCH}:scripts/tmp-handoff-v1436-seal.mjs'], text=True)
+run('git', 'fetch', 'origin', SOURCE_COMMIT)
+source = subprocess.check_output(['git', 'show', f'{SOURCE_COMMIT}:scripts/tmp-handoff-v1436-seal.mjs'], text=True)
 GEN.write_text(source)
-seal_yaml = subprocess.check_output(['git', 'show', f'origin/{SOURCE_BRANCH}:.github/workflows/tmp-handoff-v1436-seal.yml'], text=True)
+seal_yaml = subprocess.check_output(['git', 'show', f'{SOURCE_COMMIT}:.github/workflows/tmp-handoff-v1436-seal.yml'], text=True)
 
 # Reuse the previously validated historical/SLE authority reconciliation block.
 out = []
