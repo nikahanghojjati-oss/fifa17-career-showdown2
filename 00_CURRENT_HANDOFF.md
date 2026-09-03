@@ -6,7 +6,7 @@ At closure, PR #187 exact reviewed head `e30f34ffade1cc64d0fb268a66eb8109b27c376
 
 Owner production acceptance is PASS: Player Two reports `ONE PASTE CONFIRMED`; both roles show the same fresh Connected Rivalry; Player One reports automatic attachment from the completed private pairing with no second code entry; owner confirms zero manual Connected Rivalry Verify/Reattach in the qualifying run. Full private capability values are intentionally not retained.
 
-Fixed RJR-1 is **89/100**, exactly +1 from the previously failed automatic one-paste exact-rivalry convergence capability. No RJR credit is assigned to source, CI, review, merge, deployment or handoff mechanics.
+Fixed RJR-1 is **89/100**, exactly +1 from the previously failed automatic one-paste exact-rivalry convergence capability. The credited one-paste acceptance required zero manual Connected Rivalry Verify/Reattach. No RJR credit is assigned to source, CI, review, merge, deployment or handoff mechanics.
 
 Closing Work Environment Continuity (WEC) record `we-2026-09-03-stage5e-r4-production-convergence-acceptance` is `closed`, final decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`.
 
