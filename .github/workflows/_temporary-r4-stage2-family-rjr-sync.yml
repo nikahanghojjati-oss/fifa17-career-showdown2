@@ -1,0 +1,61 @@
+name: TEMP r4 Stage2 family RJR sync
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-stage2-family-rjr-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+          fetch-depth: 0
+      - name: Synchronize only stale Stage 2 live RJR assertions
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          files = sorted(Path('tests/contracts').glob('private-account-auth-stage2*-contracts.cjs'))
+          pattern = re.compile(r'assert\.equal\(readiness\.currentScore,87,"(Stage 2[A-I][^\"]*current-state checks) must preserve the fixed RJR87 provider-abuse checkpoint\."\);')
+          touched=[]
+          total=0
+          for p in files:
+              text=p.read_text()
+              def repl(m):
+                  label=m.group(1)
+                  return (
+                      f'assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"{label} must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");\n'
+                      'const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");\n'
+                      f'assert.equal(stage5eRjrEvidence?.score,88,"{label} must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");\n'
+                      f'assert.equal(stage5eRjrEvidence?.delta,1,"{label} must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");'
+                  )
+              new,count=pattern.subn(repl,text)
+              if count:
+                  assert count == 1, f'unexpected multiple live RJR freezes in {p}: {count}'
+                  p.write_text(new)
+                  touched.append(str(p))
+                  total += count
+          assert total >= 1, 'no stale Stage 2 live RJR assertions found'
+          assert 'tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs' not in touched, 'already-synchronized Stage 2A boundary was unexpectedly touched'
+          print('touched', total, *touched, sep='\n')
+          PY
+      - name: Commit synchronized Stage 2 family RJR authority
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/contracts/private-account-auth-stage2*-contracts.cjs
+          git diff --cached --check
+          git commit -m "Sync Stage 2 live assertions to RJR88 evidence"
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
