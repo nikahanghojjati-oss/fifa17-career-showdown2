@@ -1,0 +1,58 @@
+name: Temporary r4 handoff v1.4.36 finalizer
+
+on:
+  push:
+    branches:
+      - handoff-v1.4.36-r4-production-seal
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reuse validated authority patch and add deep publication condition
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          lines=Path('.github/workflows/tmp-handoff-v1436-seal.yml').read_text().splitlines()
+          out=[]
+          active=False
+          for line in lines:
+              if "node - <<'NODE'" in line:
+                  active=True
+                  continue
+              if active and line.strip() == 'NODE':
+                  break
+              if active:
+                  out.append(line[10:] if line.startswith('          ') else line)
+          if not out:
+              raise SystemExit('could not extract authority patch')
+          Path('/tmp/reconcile.cjs').write_text('\n'.join(out)+'\n')
+          PY
+          node /tmp/reconcile.cjs
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const p='scripts/tmp-handoff-v1436-seal.mjs';
+          let s=fs.readFileSync(p,'utf8');
+          const from='SLE = Smart Lean Efficient. This is the deep-reference handoff behind ${STARTER}. Treat it as orientation only;';
+          const to='SLE = Smart Lean Efficient. This is the deep-reference handoff behind ${STARTER}. Publication remains conditioned on required tests and required gates passing. Treat it as orientation only;';
+          if(!s.includes(from)) throw new Error('deep handoff publication-condition anchor not found');
+          s=s.replace(from,to);
+          const rmFrom="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml'],{stdio:'inherit'});";
+          const rmTo="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml'],{stdio:'inherit'});";
+          if(!s.includes(rmFrom)) throw new Error('temporary cleanup anchor not found');
+          s=s.replace(rmFrom,rmTo);
+          fs.writeFileSync(p,s);
+          NODE
+      - name: Generate validate self-clean and commit package
+        run: node scripts/tmp-handoff-v1436-seal.mjs
