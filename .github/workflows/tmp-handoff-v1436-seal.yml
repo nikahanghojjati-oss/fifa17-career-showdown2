@@ -1,0 +1,23 @@
+name: Temporary r4 handoff v1.4.36 seal
+
+on:
+  push:
+    branches:
+      - handoff-v1.4.36-r4-production-seal
+
+permissions:
+  contents: write
+
+jobs:
+  seal:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate, validate, commit and remove temporary helper
+        run: node scripts/tmp-handoff-v1436-seal.mjs
