@@ -12,8 +12,8 @@ const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.even
 assert.equal(stage5eLifecycleEvidence?.score,88);
 assert.equal(stage5eLifecycleEvidence?.delta,1);
 assert.equal(stage5eLifecycleEvidence?.domainId,"devices-pairing-connected-rivalry-remote-join");
-assert.match(stage5eLifecycleEvidence?.reason||"",/provider-live session lifecycle/i);
-assert.match(stage5eLifecycleEvidence?.reason||"",/zero-manual-reattach[\s\S]+zero credit/i);
+assert.match(stage5eLifecycleEvidence?.reason||"",/actual Remote Joining session capability end to end/i);
+assert.match(stage5eLifecycleEvidence?.reason||"",/zero credit[\s\S]+zero-manual-reattach/i);
 assert.deepEqual(readiness.domains.map(d=>[d.id,d.earned]),[["deterministic-sync-recovery",20],["identity-auth-trust",18],["production-cloud-security",20],["devices-pairing-connected-rivalry-remote-join",21],["real-device-hardening-release",9]]);
 
 const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],revoke:[],close:[]};

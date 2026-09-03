@@ -1,5 +1,7 @@
 # Career Mode Showdown v1.9.0-r4
 
+Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
+
 Application version: `v1.9.0`
 
 Runtime asset revision: `1.9.0-r4`
