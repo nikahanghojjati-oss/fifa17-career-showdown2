@@ -88,7 +88,10 @@ assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Sta
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
 assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
-assert.equal(readiness.currentScore,87,"Stage 2C current-state checks must preserve the fixed RJR87 provider-abuse checkpoint.");
+assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"Stage 2C current-state checks must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eRjrEvidence?.score,88,"Stage 2C current-state checks must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
+assert.equal(stage5eRjrEvidence?.delta,1,"Stage 2C current-state checks must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must report the current evidence-backed RJR score rather than the older reconciliation-only checkpoint.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);

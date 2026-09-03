@@ -1,3 +1,19 @@
+## CURRENT OVERRIDE — V1.9.0-R4 STALE CONNECTED RIVALRY POINTER PRECEDENCE — 2026-09-02 UTC
+
+RELEASE CANDIDATE — NOT YET PRODUCTION-PROVEN. Current bounded candidate is `v1.9.0 / 1.9.0-r4`; production-proven baseline remains `v1.9.0 / 1.9.0-r3` until exact-head CI/review/merge/Pages/deployed-byte gates complete. Fixed RJR-1 is `88/100` after evidence-only recalculation of the already supplied r3 provider-live Host → Join → ACTIVE rev 1 → Close → CLOSED rev 2 lifecycle. The failed r3 zero-manual-reattach behavior earns zero credit, and source, CI, review, merge, deployment and documentation earn zero RJR credit.
+
+Remote Joining readiness: `88/100` under fixed RJR-1.
+
+The r4 lane fixes only stale Connected Rivalry pointer precedence. Durable pointer A remains fallback authority. A current pairing candidate B is evaluated even when A exists, but B may replace A only after the existing provider-authorized attach path verifies exact active device/account/manager/profile/save/rivalry authority. Pending, expired, mismatched or unauthorized B cannot displace A. Exactly one Player Two paste remains required; automatic Player One and Player Two convergence must require zero Connected Rivalry Verify/Reattach actions and must not mutate canonical localStorage.
+
+Firebase remains Spark and billing is permanently forbidden. Firestore stays memory-only, App Check enforcement OFF, Candidate C sole destructive remote-to-local gameplay Apply authority, and no public discovery/listing/lobby/matchmaking/community/rankings is authorized.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Finish r4 on one unchanged exact head: all permanent contracts/workflows including the stale-A/current-B Chromium regression, final-head review, zero unresolved valid threads, clean mergeability, expected-head merge, post-merge/Pages success and exact deployed `v1.9.0 / 1.9.0-r4` byte/runtime verification. Then perform only the minimal owner production acceptance needed to prove one fresh Player Two paste causes automatic exact-B convergence on both roles with zero manual Connected Rivalry Verify/Reattach. Recalculate RJR only if that production behavior itself is newly proven.
+
+---
+
 ## CURRENT OVERRIDE — V1.9.0-R3 PAIRING ONE-PASTE HARDENING — 2026-09-02 UTC
 
 RELEASE CANDIDATE — NOT YET PRODUCTION-PROVEN. Current bounded candidate is `v1.9.0 / 1.9.0-r3`; production-proven baseline remains `v1.9.0 / 1.9.0-r2` until exact-head CI/review/merge/Pages/deployed-byte gates complete. Fixed RJR-1 remains `87/100`; source, CI, review, merge and deployment earn zero RJR credit.

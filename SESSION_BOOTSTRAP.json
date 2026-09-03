@@ -161,7 +161,7 @@
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 87,
+    "score": 88,
     "reportLabel": "Remote Joining readiness",
     "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication process, WEC, SLE or documentation count."
   },

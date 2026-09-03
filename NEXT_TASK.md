@@ -1,3 +1,23 @@
+# CURRENT OVERRIDE — V1.9.0-R4 STALE CONNECTED RIVALRY POINTER PRECEDENCE — 2026-09-02 UTC
+
+Authorized release candidate: `v1.9.0 / 1.9.0-r4`. Production-proven baseline remains `v1.9.0 / 1.9.0-r3` until publication/deployment gates close. Fixed RJR-1 is `88/100` from the already supplied provider-live r3 Remote Joining lifecycle only; r4 implementation/release mechanics earn zero readiness credit.
+
+Remote Joining readiness: `88/100` under fixed RJR-1.
+
+The only product repair is stale Connected Rivalry pointer precedence: preserve durable A unless current pairing B passes the existing exact provider-authorized attach verification, then persist B automatically. Pending, expired, wrong-account, wrong-device, wrong-manager, profile/save-mismatched or otherwise unauthorized B must preserve A. Player Two pastes exactly once. Player One and Player Two must converge on B with zero manual Connected Rivalry Verify/Reattach and unchanged canonical localStorage.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+1. Complete all r4 deterministic, Chromium and full-contract gates on one exact branch head.
+2. Require all 14 permanent PR workflow families, final-head review, zero unresolved valid threads and clean mergeability.
+3. Expected-head merge only after the exact head is green, then verify all normal post-merge workflows, Pages exact merge SHA and deployed `v1.9.0 / 1.9.0-r4` bytes.
+4. Only after production r4 is live, run the minimal owner acceptance: one fresh Player Two paste, automatic exact current Connected Rivalry on both roles, zero manual Verify/Reattach. Never paste a private session capability into chat.
+5. Recalculate RJR only from genuinely new production capability evidence.
+
+Billing remains permanently forbidden. Firebase stays Spark, Firestore memory-only and App Check enforcement OFF. No Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions, public discovery/listing/matchmaking, canonical-save mutation or Candidate C bypass is authorized.
+
+---
+
 # CURRENT OVERRIDE — V1.9.0-R3 PAIRING ONE-PASTE HARDENING — 2026-09-02 UTC
 
 Authorized release candidate: `v1.9.0 / 1.9.0-r3`. Production-proven baseline remains `v1.9.0 / 1.9.0-r2` until publication/deployment gates close. Fixed RJR-1 remains `87/100`.

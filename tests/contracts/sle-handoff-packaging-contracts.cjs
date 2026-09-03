@@ -78,7 +78,10 @@ assert.match(nextPrompt,/Billing must never be activated[\s\S]+every other Remot
 assert.equal(capsule.remoteJoiningReadiness.authority, "REMOTE_JOINING_READINESS.json");
 assert.equal(capsule.remoteJoiningReadiness.model, readiness.modelVersion);
 assert.equal(capsule.remoteJoiningReadiness.score, readiness.currentScore);
-assert.equal(readiness.currentScore, 87);
+assert.ok(readiness.currentScore >= 87 && readiness.currentScore <= readiness.denominator, "Live fixed RJR must not regress below the provider-abuse RJR87 checkpoint or exceed its denominator.");
+const stage5eLifecycle = readiness.evidenceHistory?.find(entry => entry.eventId === "production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eLifecycle?.score, 88, "Live RJR must preserve the evidence-only Stage 5E r3 lifecycle transition to 88.");
+assert.equal(stage5eLifecycle?.delta, 1, "Stage 5E r3 lifecycle remains one bounded capability credit.");
 assert.equal(readiness.denominator, 100);
 assert.match(capsule.remoteJoiningReadiness.rule, /capability evidence|genuine/i);
 
@@ -87,7 +90,7 @@ const sourceVersion = (sourceRevision && sourceRevision.match(/^(\d+\.\d+\.\d+)-
 assert.equal(sourceVersion, pkg.version, "Current source package and runtime revision must remain coherent.");
 assert.equal(capsule.runtime.applicationVersion, pkg.version);
 assert.notEqual(capsule.runtime.productionRuntimeRevision, sourceRevision, "A release candidate must remain distinct from the previous production-proven runtime until deployment.");
-assert.equal(sourceRevision, "1.9.0-r3", "Stage 5E pairing one-paste hardening candidate runtime must be explicit.");
+assert.equal(sourceRevision, "1.9.0-r4", "Stage 5E stale-pointer precedence candidate runtime must be explicit.");
 assert.equal(capsule.runtime.productionRuntimeRevision, "1.8.1-r5");
 assert.equal(capsule.runtime.immediateRecoveryRuntime, "1.8.1-r4");
 assert.match(capsule.runtime.productionStatus, /production-proven/i);
@@ -102,7 +105,8 @@ assert.equal(capsule.currentPublicationCheckpoint.productionRestorationProven, t
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesPublicationProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesSource, "firestore.spark.rules");
 assert.equal(capsule.currentPublicationCheckpoint.productionProviderRulesBlobSha, "363af783d7e5436fdfaa3766d4aa413fc9952a08");
-assert.equal(capsule.currentPublicationCheckpoint.rjrAfterEvidence, readiness.currentScore);
+assert.equal(capsule.currentPublicationCheckpoint.rjrAfterEvidence, 87, "Historical PR #176 publication checkpoint must remain RJR87.");
+assert.ok(capsule.currentPublicationCheckpoint.rjrAfterEvidence <= readiness.currentScore, "Historical publication RJR cannot exceed the live fixed ledger.");
 assert.equal(capsule.currentPublicationCheckpoint.providerAbuseAcceptanceImplemented, true);
 assert.equal(capsule.currentPublicationCheckpoint.providerAbuseProductionAcceptanceProven, true);
 assert.equal(capsule.currentPublicationCheckpoint.providerAbuseProductionProof, "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md");

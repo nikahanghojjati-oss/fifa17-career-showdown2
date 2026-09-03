@@ -22,24 +22,30 @@ const zeroBillingDecision=read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISIO
 
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.denominator,100);
-assert.equal(readiness.currentScore,87);
-assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),87);
+assert.equal(readiness.currentScore,88);
+assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),88);
 assert.deepEqual(
   readiness.domains.map(domain=>[domain.id,domain.earned,domain.weight]),
   [
     ["deterministic-sync-recovery",20,20],
     ["identity-auth-trust",18,20],
     ["production-cloud-security",20,20],
-    ["devices-pairing-connected-rivalry-remote-join",20,30],
+    ["devices-pairing-connected-rivalry-remote-join",21,30],
     ["real-device-hardening-release",9,10]
   ]
 );
 
-const latestStage5c=readiness.evidenceHistory.at(-1);
-const latestDecision=readiness.evidenceHistory.at(-2);
-const latestCandidate=readiness.evidenceHistory.at(-3);
-const stage5aCandidate=readiness.evidenceHistory.at(-4);
-const latestCredited=readiness.evidenceHistory.at(-5);
+const stage5eLifecycle=readiness.evidenceHistory.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+const latestStage5c=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5c-zero-billing-standard-auth-session-adapter-proof");
+const latestDecision=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5b-rules-correction-zero-billing-architecture-decision");
+const latestCandidate=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5b-device-credential-foundation-proof");
+const stage5aCandidate=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5a-private-session-candidate-emulator-proof");
+const latestCredited=readiness.evidenceHistory.find(entry=>entry.eventId==="production-provider-abuse-authenticated-enumeration-denial");
+assert.equal(stage5eLifecycle?.score,88);
+assert.equal(stage5eLifecycle?.delta,1);
+assert.equal(stage5eLifecycle?.domainId,"devices-pairing-connected-rivalry-remote-join");
+assert.match(stage5eLifecycle?.reason||"",/actual Remote Joining session capability end to end/i);
+assert.match(stage5eLifecycle?.reason||"",/zero credit[\s\S]+zero-manual-reattach/i);
 assert.equal(latestStage5c.eventId,"stage5c-zero-billing-standard-auth-session-adapter-proof");
 assert.equal(latestStage5c.score,87);
 assert.equal(latestStage5c.delta,0);
@@ -143,4 +149,4 @@ assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSe
 assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
 
-process.stdout.write("PASS Stage 5 activation authority: production provider-abuse advances fixed RJR 86 to 87 once; Stage 5A, corrected Stage 5B, the zero-billing architecture decision and Stage 5D source promotion earn zero duplicate credit; the Spark-native standard-Auth Rules path remains authorized.\n");
+process.stdout.write("PASS Stage 5 activation authority: historical provider-abuse advances fixed RJR 86 to 87 once; the production-live Stage 5E Remote Joining lifecycle advances 87 to 88 once; failed zero-manual reattach and release mechanics earn zero duplicate credit; the Spark-native standard-Auth Rules path remains authorized.\n");
