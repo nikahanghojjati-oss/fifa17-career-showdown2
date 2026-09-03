@@ -8,6 +8,8 @@ Owner production acceptance is PASS. The qualifying r5 evidence proves Player Tw
 
 Fixed RJR-1 is **89/100**. The delta from 88 is exactly +1 for the previously uncredited automatic one-paste exact-rivalry convergence capability. Source, PR, CI, review, merge, deployment, documentation, WEC and handoff work receive zero readiness credit.
 
+The **Installable Offline App** remains the local-first startup and recovery baseline; Remote Joining must preserve offline startup, local Save ownership, backup/restore and recovery safety.
+
 Closing WEC: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`, lifecycle `closed`, decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`.
 
 Current starter: `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md`.
@@ -30,15 +32,15 @@ Do not repeat the consumed r5 positive setup acceptance or r3 Host/Join lifecycl
 
 Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or use another billing-required service.
 
-App Check enforcement remains OFF. Browser Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes.
+App Check enforcement remains OFF. Browser Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Trusted-runtime IAM remains unactivated/unbroadened.
 
-Canonical localStorage remains exactly:
+The three canonical localStorage keys remain exactly:
 
 - `careerModeShowdown.saveLibrary`
 - `careerModeShowdown.legacyShowdowns`
 - `careerModeShowdown.preferences`
 
-Candidate C remains the sole destructive remote-to-local gameplay Apply authority. Exactly two private managers remain mandatory. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized. The protected historical rivalry must not be used for destructive testing.
+Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned rollback and strict exact raw snapshot recovery. Exactly two private managers remain mandatory. No public discovery/community/matchmaking/global rankings, listing, lobby or public leaderboards are authorized. The protected historical rivalry must not be used for destructive testing.
 
 Never durably retain full private pairing/session capabilities.
 
