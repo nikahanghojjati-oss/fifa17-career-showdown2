@@ -49,8 +49,10 @@ jobs:
           if(!lineRe.test(s)) throw new Error('standing authority assertion anchor not found');
           s=s.replace(lineRe,replacement);
           const rmOld="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml'],{stdio:'inherit'});";
-          const rmNew="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml','.github/workflows/tmp-handoff-v1436-finalfix.yml'],{stdio:'inherit'});";
+          const rmNew="execFileSync('git',['rm','-f','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml','.github/workflows/tmp-handoff-v1436-finalfix.yml'],{stdio:'inherit'});";
+          const rmNewUnforced="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml','.github/workflows/tmp-handoff-v1436-finalfix.yml'],{stdio:'inherit'});";
           if(s.includes(rmOld)) s=s.replace(rmOld,rmNew);
+          else if(s.includes(rmNewUnforced)) s=s.replace(rmNewUnforced,rmNew);
           else if(!s.includes(rmNew)) throw new Error('final cleanup anchor not found');
           fs.writeFileSync(p,s);
           NODE
