@@ -6,6 +6,8 @@ Owner production acceptance is PASS. Player Two reported `ONE PASTE CONFIRMED`; 
 
 Fixed RJR-1 is now **89/100**. Exactly +1 is credited for the previously failed automatic one-paste exact-rivalry convergence capability. PR/source/CI/review/merge/deployment/WEC/SLE/handoff work earns zero RJR credit.
 
+The **Installable Offline App** remains the local-first startup and recovery baseline. Connected/Remote Joining work must not weaken offline startup, canonical local Save ownership, backup/restore or recovery behavior.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Read `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md` first and use `SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md` only for deeper reconstruction.
@@ -22,7 +24,9 @@ Fixed RJR-1 is now **89/100**. Exactly +1 is credited for the previously failed 
 
 Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or use another billing-required service.
 
-App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority. Exactly two private managers remain mandatory. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized. The protected historical rivalry must not be used for destructive testing.
+App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. The three canonical localStorage keys remain exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, and `careerModeShowdown.preferences`. Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive remote-to-local Apply authority with transaction-owned rollback and strict exact raw snapshot recovery. Exactly two private managers remain mandatory. No public discovery/community/matchmaking/global rankings, listing, lobby or public leaderboards are authorized. Trusted-runtime IAM remains unactivated/unbroadened.
+
+Standing owner merge/deploy authorization remains active after all mandatory tests and current publication gates pass; billing is the permanent exception.
 
 Never request, quote, paste, log or durably retain a full private pairing/session capability.
 
