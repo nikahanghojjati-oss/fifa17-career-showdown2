@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
   "lifecycle": "closed",
-  "recordedAt": "2026-09-03T05:45:00.000Z",
+  "recordedAt": "2026-09-03T05:50:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -17,9 +17,9 @@
     "majorPhasesCompleted": 1,
     "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 10,
+    "correctedFailures": 11,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
     "newMilestoneNext": true,
     "usageRemainingPercent": null,
@@ -94,6 +94,7 @@
       "PR #186 validation then reached cloud-sync-phase1f-contracts and found its sole live selector still froze current authority at restored v1.8.1-r5. That selector now requires production-proven PR #184 / v1.9.0-r4 while all historical Phase 1F, PR #125, PR #171 and PR #166/r5 provenance remains preserved.",
       "PR #186 validation then reached the Stage 2A boundary and found its sole hard bootstrap selector still froze current authority at restored v1.8.1-r5. The boundary now requires production-proven PR #184 / v1.9.0-r4 and RJR88 while explicitly preserving the Stage 2A selection/completion record plus exact PR #166/r5 rollback provenance.",
       "PR #186 validation then passed the full Stage 2A-through-2I and Stage 3-through-5 authority chain before release-authority coherence found POST_V1_ROADMAP_EXECUTION.md had no current r4 override and the required V1.9.0_R4_PRODUCTION_PROOF.md was absent. A current PR184/r4/RJR88 roadmap override and production-proof record were added without rewriting retained historical roadmap bodies or awarding RJR credit.",
+      "Final diff review found one older Stage 2H historical roadmap sentence had been rewritten by the recovered package from PR #93 merge boundary f85d692384cba0b343a9634a5a7b1d56f0b0cc4b to its starting-main SHA 8e5e892759ec2ddf033bb46f0c3d370c848615d5. Live PR #93 metadata independently proved f85d692384cba0b343a9634a5a7b1d56f0b0cc4b is the merge commit and 8e5e892759ec2ddf033bb46f0c3d370c848615d5 is the base SHA, so the historical merge sentence was restored exactly before final publication.",
       "RJR remains 88/100; r4 publication mechanics earn zero capability credit."
     ]
   }
