@@ -19,16 +19,118 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Reconcile required publication-condition wording
+      - name: Reconcile current and historical SLE authority
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
           const p = 'scripts/tmp-handoff-v1436-seal.mjs';
           let s = fs.readFileSync(p, 'utf8');
+
           const from = 'SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory.\\n\\nThis starter';
           const to = 'SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory. Publication remains conditioned on required tests and required gates passing.\\n\\nThis starter';
           if (!s.includes(from)) throw new Error('starter publication-condition anchor not found');
-          fs.writeFileSync(p, s.replace(from, to));
+          s = s.replace(from, to);
+
+          const history = 'Historical checkpoints preserved: PR #174 Stage 5B proved a dormant non-extractable P-256 device credential candidate in Chromium/browser and Auth-plus-Firestore emulator coverage, using per-sign-in device_id and device_key_sha256 claims. Stage 5B is preserved as dormant research and is not the production critical path after the zero-billing decision. At that checkpoint production Rules were unchanged and provider publication was pending/unproven. Billing must never be activated; Blaze and Cloud Run are excluded. PR #175 Stage 5C selected the standard-Firebase uid path using standard Google Auth plus exact-path Firestore Rules on Spark; registered-device values are mutation metadata, not authentication. The Java 21 Stage 5C Auth-plus-Firestore emulator gate passed. Later Stage 5D/provider-live/r3/r4 evidence superseded the old provider-pending boundary without deleting these historical proofs.';
+          const lockAnchor = '\\n\\n${locks}';
+          if ((s.match(/\\n\\n\$\{locks\}/g) || []).length < 2) throw new Error('starter/handoff lock anchors not found');
+          s = s.replaceAll(lockAnchor, `\\n\\n${history}\\n\\n\${locks}`);
+
+          const capsuleWrite = "write('SESSION_BOOTSTRAP.json',JSON.stringify(capsule,null,2));";
+          const capsulePatch = `capsule.minimalReads=["SESSION_BOOTSTRAP.json","00_SLE_HANDOFF_PROTOCOL.md","NEXT_TASK.md","PROJECT_STATE.md","REMOTE_JOINING_READINESS.json","SESSION_CONTEXT_GRAPH.json","SESSION_CONTEXT_MODEL.json","SESSION_CONTEXT_LEARNING.json","00_DEVELOPER_START_HERE.md","00_CURRENT_HANDOFF.md","WORK_ENVIRONMENT_STATUS.json",STARTER,"CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md","STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md","PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md","STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md","STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md","STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md","00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md","ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md","00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"];
+          capsule.immediateNextTask={name:'production-r4-one-paste-zero-manual-reattach-acceptance',summary:'After a fresh WEC independently verifies PR #184, v1.9.0-r4 and fixed RJR88, run the minimal provider-live production one-paste automatic exact-rivalry convergence acceptance with zero manual Verify/Reattach. Billing remains forbidden and Cloud Run excluded.',mustNotInsertGenericPrerequisiteLane:true,mustStartAsRealProductWork:true};
+          capsule.transition={...(capsule.transition||{}),contextTransitionRequired:true,handoffCompleteness:100,continuationDecision:'HANDOFF_AT_CHECKPOINT'};
+          ${capsuleWrite}`;
+          if (!s.includes(capsuleWrite)) throw new Error('capsule write anchor not found');
+          s = s.replace(capsuleWrite, capsulePatch);
+
+          const graphWrite = "write('SESSION_CONTEXT_GRAPH.json',JSON.stringify(graph,null,2));";
+          const modelPatch = `${graphWrite}
+          const model=JSON.parse(read('SESSION_CONTEXT_MODEL.json')); model.recordedAt=now;
+          model.mandatoryBypass=[\`CURRENT: PR #184 r4 is production-proven at \${MAIN}; exact head \${PR_HEAD}; fixed RJR88; Pages \${PAGES_RUN}; Stability deployed-site-smoke \${STABILITY_RUN}; next fresh evidence is production one-paste automatic exact-rivalry convergence with zero manual Verify/Reattach\`,...(model.mandatoryBypass||[]).filter(x=>!String(x).startsWith('CURRENT:'))];
+          model.rankingProcedure=[\`After independently verifying PR #184/r4 production and archiving the closing WEC, initialize a fresh WEC and rank the minimal production r4 one-paste zero-manual-reattach acceptance first.\`,...(model.rankingProcedure||[])];
+          model.latestCheckpoint={...(model.latestCheckpoint||{}),prePublicationMainSha:MAIN,runtimeRevision:'1.9.0-r4',knownGoodRollbackRuntime:'1.9.0-r3',rjrScore:88,closedCapability:'stage5e-r4-production-proven-delta-zero',transitionGateBeforeNext:'verify PR184/main/r4 production -> validate/archive closing WEC -> fresh WEC -> minimal one-paste automatic exact-rivalry convergence acceptance',next:'production-r4-one-paste-zero-manual-reattach-acceptance',closeoutPullRequest:184,starter:STARTER,fullHandoff:HANDOFF,exactFinalHead:PR_HEAD,mergeSha:MAIN,productionPagesRunId:PAGES_RUN,productionStabilityRunId:STABILITY_RUN,stage5DRepositoryRulesSourceMerged:true,stage5DProviderRulesPublished:true,stage5DProviderRulesProven:true,productionActivationOwnerDecisionRequired:false,billingActivationForbidden:true,cloudRunAllowed:false,stage5BProductionCriticalPath:false};
+          write('SESSION_CONTEXT_MODEL.json',JSON.stringify(model,null,2));
+          const learning=JSON.parse(read('SESSION_CONTEXT_LEARNING.json')); learning.recordedAt=now; learning.materialSessionsObserved=Math.max(16,learning.materialSessionsObserved||0); learning.learningState='cold-start-priors-with-sixteen-labeled-sessions';
+          learning.items=learning.items||{}; learning.items['stage5e-r4-production-proof']={loaded:true,usedInDecision:true,requiredForPublicationSecurityOrRecovery:true,preventedErrorOrResolvedContradiction:true,normalizedOutcome:1,learnedUtility:0.6,note:'PR #184 separated a genuine pending-B prefill sequencing defect from stale evidence/release assertions, then exact-head all-14, Chromium, Stage 3, post-merge 15/15, Pages exact-byte and deployed complete-journey proof closed r4 publication. Process work added zero RJR; fixed score remains 88.'};
+          learning.sessionMetrics=learning.sessionMetrics||[]; if(!learning.sessionMetrics.some(x=>x.sessionId===WEC)) learning.sessionMetrics.push({sessionId:WEC,directRemoteJoiningPrerequisiteReached:true,nextRealProductMilestoneUnblocked:'fresh-production-r4-zero-manual-reattach-owner-acceptance',fullHistoryPreloaded:false,githubConnectorSufficient:true,ghFallbackUsed:false,deepFallbackUsed:true,deepFallbackReason:'Exact workflow logs and stale continuity contracts were needed to distinguish a real r4 sequencing defect from historical SLE drift.',missedCriticalContextIncident:false,staleAuthorityCorrection:true,ciTriageLesson:'When an exact-head browser failure persists after lower-level contracts pass, inspect runtime sequencing; when continuity failures follow, update current authority without deleting historical proofs.',productionEvidenceLesson:'Automated exact deployed-byte and complete-journey proof closes publication but adds zero fixed RJR unless a genuinely uncredited capability is proven.',authorityLesson:'At handoff 100, seal the production-proven checkpoint, close WEC, publish the recursive SLE package and stop before the distinct owner acceptance milestone.'});
+          learning.latestLesson={lesson:'PR #184 at fixed RJR88 repaired stale Connected Rivalry A/B precedence. Pending or unauthorized B preserves durable A; verified active exact B can replace A. All exact-head and post-merge gates plus Pages exact-byte and deployed complete-journey proof are green. Billing remains forbidden, Spark remains selected, and the next fresh milestone is the minimal production one-paste automatic exact-rivalry convergence acceptance with zero manual Verify/Reattach.',rjrScore:88,closeoutPullRequest:184,next:'production-r4-one-paste-zero-manual-reattach-acceptance'};
+          write('SESSION_CONTEXT_LEARNING.json',JSON.stringify(learning,null,2));`;
+          if (!s.includes(graphWrite)) throw new Error('graph write anchor not found');
+          s = s.replace(graphWrite, modelPatch);
+
+          const modernContract = String.raw`const assert=require("node:assert/strict");
+          const fs=require("node:fs");
+          const text=p=>fs.readFileSync(p,"utf8");
+          const json=p=>JSON.parse(text(p));
+          const capsule=json("SESSION_BOOTSTRAP.json");
+          const readiness=json("REMOTE_JOINING_READINESS.json");
+          const graph=json("SESSION_CONTEXT_GRAPH.json");
+          const model=json("SESSION_CONTEXT_MODEL.json");
+          const learning=json("SESSION_CONTEXT_LEARNING.json");
+          const wec=json("WORK_ENVIRONMENT_STATUS.json");
+          const pkg=json("package.json");
+          const index=text("index.html");
+          const nextPrompt=text("NEXT_CHAT_HANDOFF_PROMPT.md");
+          const nextTask=text("NEXT_TASK.md");
+          const projectState=text("PROJECT_STATE.md");
+          const currentHandoff=text("00_CURRENT_HANDOFF.md");
+          const zeroBilling=text("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
+          const sle=text("00_SLE_HANDOFF_PROTOCOL.md");
+          const golden=text("00_HANDOFF_GOLDEN_RULE.md");
+          const release=text("RELEASE_V1.9.0_R4.md");
+          const maintenance=text("CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md");
+          assert.equal(capsule.schemaVersion,5);
+          assert.equal(capsule.repository,"nikahanghojjati-oss/fifa17-career-showdown2");
+          assert.equal(capsule.publicSite,"https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/");
+          assert.equal(capsule.slePolicy.definition,"Smart Lean Efficient");
+          assert.equal(capsule.slePolicy.mandatoryForEveryFutureHandoff,true);
+          assert.equal(capsule.slePolicy.requiredAtHandoffProximity100,true);
+          assert.equal(capsule.slePolicy.recursiveInheritance,true);
+          const starterRoot=capsule.starter.canonical, starterMirror=capsule.starter.projectMirror, handoffRoot=capsule.currentHandoff.canonical, handoffMirror=capsule.currentHandoff.projectMirror;
+          for(const p of [starterRoot,starterMirror,handoffRoot,handoffMirror,"SESSION_CONTEXT_GRAPH.json","SESSION_CONTEXT_MODEL.json","SESSION_CONTEXT_LEARNING.json","00_SLE_HANDOFF_PROTOCOL.md","00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md","00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md","REMOTE_JOINING_READINESS.json","WORK_ENVIRONMENT_STATUS.json"]) assert.ok(fs.existsSync(p),`SLE package missing ${p}`);
+          assert.deepEqual(fs.readFileSync(starterRoot),fs.readFileSync(starterMirror),"starter mirror must be byte-identical");
+          assert.deepEqual(fs.readFileSync(handoffRoot),fs.readFileSync(handoffMirror),"handoff mirror must be byte-identical");
+          const starter=text(starterRoot), handoff=text(handoffRoot), rolling=text("project-documents/START_NEXT_SESSION.md");
+          assert.equal(capsule.starter.version,"1.4.36");
+          assert.match(starterRoot,/START_NEXT_SESSION_V1\.4\.36_PR184_R4_PRODUCTION_PROVEN/);
+          assert.match(handoffRoot,/SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03/);
+          assert.ok(rolling.includes(starterRoot)&&rolling.includes(handoffRoot));
+          assert.match(nextPrompt,/Open the live repository `nikahanghojjati-oss\/fifa17-career-showdown2`/i);
+          assert.ok(nextPrompt.includes(starterRoot));
+          assert.match(nextPrompt,/independently verify/i); assert.match(nextPrompt,/fresh WEC/i); assert.match(nextPrompt,/Billing must never be activated/i);
+          assert.equal(readiness.currentScore,88); assert.equal(readiness.denominator,100); assert.equal(capsule.remoteJoiningReadiness.score,88);
+          const life=readiness.evidenceHistory?.find(e=>e.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle"); assert.equal(life?.score,88); assert.equal(life?.delta,1);
+          const sourceRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1]; assert.equal(sourceRevision,"1.9.0-r4"); assert.equal(pkg.version,"1.9.0");
+          assert.equal(capsule.runtime.productionRuntimeRevision,"1.9.0-r4"); assert.equal(capsule.runtime.immediateRecoveryRuntime,"1.9.0-r3");
+          assert.equal(capsule.latestRuntimeMerge.pullRequest,184); assert.equal(capsule.latestRuntimeMerge.mergeSha,"2bfb7656940be23b635cb7092127a0ab0f62c7a4"); assert.equal(capsule.latestRuntimeMerge.postMergeRunsSuccessful,15); assert.equal(capsule.latestRuntimeMerge.pagesRunId,33713396948); assert.equal(capsule.latestRuntimeMerge.stabilityRunId,33713396979); assert.equal(capsule.latestRuntimeMerge.productionProofRecorded,true);
+          assert.equal(capsule.lastProductionProvenRuntime.pullRequest,184); assert.equal(capsule.lastProductionProvenRuntime.runtimeRevision,"1.9.0-r4");
+          assert.equal(wec.environmentId,"we-2026-09-02-stage5e-r4-stale-pointer-precedence"); assert.equal(wec.lifecycle,"closed"); assert.equal(wec.assessment.decision,"HANDOFF_AT_CHECKPOINT"); assert.equal(wec.assessment.decisionInheritedFromPredecessor,false); assert.equal(wec.signals.handoffCompleteness,100);
+          assert.ok(graph.nodes.some(n=>n.id==="rjr1-ledger"&&n.recordedScore===88));
+          assert.ok(graph.nodes.some(n=>n.id==="stage5e-r4-production-proof"&&n.pullRequest===184&&n.rjrScoreAfterProof===88&&n.rjrDelta===0&&n.deployedEveryRuntimeByteProven===true&&n.deployedCompleteJourneyProven===true));
+          assert.ok(graph.nodes.some(n=>n.id==="closing-current-wec"&&n.transitionPullRequest===184&&n.rjrScore===88&&n.handoffProximity===100));
+          assert.ok(graph.nodes.some(n=>n.id==="successor-selection"&&/r4-production-owner-acceptance/.test(n.state)));
+          assert.ok(graph.nodes.some(n=>n.id==="stage5-private-remote-joining"&&/r4-production-proven-owner-acceptance-next/.test(n.state)));
+          assert.equal(model.latestCheckpoint.rjrScore,88); assert.equal(model.latestCheckpoint.closeoutPullRequest,184); assert.equal(model.latestCheckpoint.runtimeRevision,"1.9.0-r4"); assert.equal(model.latestCheckpoint.next,"production-r4-one-paste-zero-manual-reattach-acceptance");
+          assert.equal(learning.latestLesson.rjrScore,88); assert.equal(learning.latestLesson.closeoutPullRequest,184); assert.equal(learning.latestLesson.next,"production-r4-one-paste-zero-manual-reattach-acceptance");
+          assert.match(zeroBilling,/billing must never be activated[\s\S]+Cloud Run is therefore excluded/i); assert.equal(capsule.ownerZeroBillingAuthorization.billingActivationForbidden,true); assert.equal(capsule.ownerZeroBillingAuthorization.blazeMayBeEnabled,false); assert.equal(capsule.ownerZeroBillingAuthorization.cloudRunAllowed,false);
+          assert.match(sle,/SLE = Smart Lean Efficient/i); assert.match(golden,/repository-first next-developer copy-paste prompt/i);
+          for(const [name,value] of [["starter",starter],["handoff",handoff]]){
+            assert.match(value,/(?:SLE = Smart Lean Efficient|Smart Lean Efficient \(SLE\))/i,`${name} SLE`); assert.match(value,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,`${name} next task`); assert.match(value,/standing[\s\S]{0,350}merge[\s\S]{0,260}deploy/i,`${name} standing publication authority`); assert.match(value,/required (?:test|tests|gate|gates)/i,`${name} required gates`); assert.match(value,/App Check enforcement remains OFF/i); assert.match(value,/Remote Joining readiness/i); assert.match(value,/Handoff proximity: X%\s*\nRemote Joining readiness: ~Y%/i); assert.match(value,/Sidequest check:/i);
+            assert.match(value,/PR #174[\s\S]+Stage 5B[\s\S]+(?:P-256|device credential)[\s\S]+(?:Chromium|browser|Auth-plus-Firestore)[\s\S]+emulator/i); assert.match(value,/(?=[\s\S]*non-extractable)(?=[\s\S]*P-256)(?=[\s\S]*per-sign-in)(?=[\s\S]*device_id)/i); assert.match(value,/Stage 5B[\s\S]+(?:dormant research|preserved as research|preserved dormant research)[\s\S]+(?:not the|not mandatory|is not)[\s\S]+production critical path/i); assert.match(value,/PR #175[\s\S]+(?:standard-Firebase|standard Firebase|standard-auth)/i); assert.match(value,/standard Google[\s\S]+(?:Firestore|exact-path)[\s\S]+Spark/i); assert.match(value,/registered-device[\s\S]+mutation metadata[\s\S]+not authentication/i); assert.match(value,/Java 21[\s\S]+Stage 5C[\s\S]+Auth-plus-Firestore/i); assert.match(value,/provider[\s\S]+(?:pending|unproven)[\s\S]+Rules/i);
+            assert.match(value,/PR #184[\s\S]+1\.9\.0-r4[\s\S]+RJR88/i); assert.match(value,/zero manual[\s\S]+Verify\/Reattach/i); assert.match(value,/Billing[\s\S]+(?:must never|permanently forbidden)[\s\S]+(?:Cloud Run|Blaze)[\s\S]+(?:excluded|forbidden)/i);
+          }
+          assert.match(nextTask,/CURRENT OVERRIDE[\s\S]+PR #184[\s\S]+R4 PRODUCTION PROVEN/i); assert.match(projectState,/CURRENT OVERRIDE[\s\S]+PR #184[\s\S]+RJR88/i); assert.match(currentHandoff,/CURRENT HANDOFF OVERRIDE[\s\S]+PR #184[\s\S]+RJR88/i);
+          assert.equal(capsule.immediateNextTask.name,"production-r4-one-paste-zero-manual-reattach-acceptance"); assert.equal(capsule.immediateNextTask.mustNotInsertGenericPrerequisiteLane,true); assert.equal(capsule.immediateNextTask.mustStartAsRealProductWork,true); assert.equal(capsule.transition.handoffCompleteness,100); assert.equal(capsule.transition.continuationDecision,"HANDOFF_AT_CHECKPOINT");
+          for(const required of ["00_SLE_HANDOFF_PROTOCOL.md","STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md","PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md","STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md","STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md","STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md","00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md","00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"]) assert.ok(capsule.minimalReads.includes(required),`missing minimal read ${required}`);
+          assert.match(release,/Status: DEPLOYED \/ PRODUCTION-PROVEN/i); assert.match(maintenance,/Status: DEPLOYED \/ PRODUCTION-PROVEN/i); assert.match(release,/33713396948|33713396979/); assert.match(maintenance,/33713396948|33713396979/);
+          process.stdout.write(`PASS SLE v1.4.36 PR184 r4 production-proven package; fixed RJR ${readiness.currentScore}/100; closed WEC and fresh owner-acceptance successor lane.\n`);`;
+          const start = "let sleTest=read('tests/contracts/sle-handoff-packaging-contracts.cjs');";
+          const end = "write('tests/contracts/sle-handoff-packaging-contracts.cjs',sleTest);";
+          const a=s.indexOf(start), b=s.indexOf(end);
+          if(a<0||b<a) throw new Error('SLE contract rewrite anchors not found');
+          s=s.slice(0,a)+`const sleTest=${JSON.stringify(modernContract)};\n${end}`+s.slice(b+end.length);
+          fs.writeFileSync(p,s);
           NODE
       - name: Generate, validate, commit and remove temporary helper
         run: node scripts/tmp-handoff-v1436-seal.mjs
