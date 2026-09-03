@@ -47,7 +47,7 @@ function binding(role,hex,label){return {saveId:`save_${hex.repeat(24).slice(0,2
   const connectedSource=fs.readFileSync("js/sparkConnectedRivalry.js","utf8");
   assert.match(connectedSource,/const pairingCandidate=crResolvePairingCandidate\(context\.pairingState,bindings/,"Initialization must evaluate current pairing B even with durable A.");
   assert.match(connectedSource,/pairingDiffersFromDurable/,"Initialization must distinguish pairing B from durable A.");
-  assert.match(connectedSource,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;/,"Durable A can change only after provider-verified attach accepts B.");
+  assert.match(connectedSource,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*(?:crClearPairingActivationRetry\(\);\s*)?binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;/,"Durable A can change only after provider-verified attach accepts B; bounded retry cleanup may occur inside that already-successful branch.");
 
   const pairingRuntime={bindingKey:pairing.bindingKey};
   const rounds=25;

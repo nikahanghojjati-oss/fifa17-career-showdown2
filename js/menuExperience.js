@@ -79,7 +79,7 @@ const MENU_MEDIA_SOURCES = Object.freeze({
 });
 
 const MARCO_REUS_IMAGE = Object.freeze({
-    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.0-r4",
+    thumbnail: "assets/marco-reus-2015-cc-by.webp?v=1.9.0-r5",
     source: "https://commons.wikimedia.org/wiki/File:Marco_Reus_(16204330530)_(cropped).jpg",
     license: "https://creativecommons.org/licenses/by/2.0/"
 });
