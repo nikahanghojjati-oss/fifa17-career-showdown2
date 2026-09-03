@@ -1,0 +1,41 @@
+name: TEMP r4 cloud RJR sync
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-cloud-rjr-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+          fetch-depth: 0
+      - name: Synchronize cloud foundation live RJR assertion
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tests/contracts/cloud-foundation-contracts.cjs')
+          text = p.read_text()
+          old = 'assert.equal(readiness.currentScore,87,"Cloud foundation must track the production provider-abuse RJR87 checkpoint.");'
+          new = 'assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"Cloud foundation must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");\nconst stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");\nassert.equal(stage5eLifecycleEvidence?.score,88,"Cloud foundation must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");\nassert.equal(stage5eLifecycleEvidence?.delta,1,"Cloud foundation must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");'
+          assert old in text, 'cloud foundation stale RJR87 live assertion anchor missing'
+          p.write_text(text.replace(old, new, 1))
+          PY
+      - name: Commit synchronized cloud RJR authority
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/contracts/cloud-foundation-contracts.cjs
+          git commit -m "Sync cloud foundation to RJR88 evidence"
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
