@@ -55,14 +55,24 @@ required_replace(changelog_anchor, provenance + changelog_anchor, 'release prove
 s, n = re.subn(r"capsule\.latestRuntimeMerge=\{pullRequest:184,[^\n]+\};\n", '', s, count=1)
 if n != 1:
     raise SystemExit('latestRuntimeMerge overwrite anchor not found')
-s = s.replace("sleTest=sleTest.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);','assert.equal(capsule.latestRuntimeMerge.pullRequest, 184);');\n", '', 1)
+# Remove either the original generator or recovered authority-patch attempt to rewrite PR166 history as PR184.
+s = s.replace("sleTest=sleTest.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);','assert.equal(capsule.latestRuntimeMerge.pullRequest, 184);');\n", '')
+s = s.replace("sleTest=sleTest.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest,166);','assert.equal(capsule.latestRuntimeMerge.pullRequest,184);');\n", '')
 
 validation_anchor = '// Validate the current handoff package before committing.'
-contract_patch = r'''let hit=read('tests/contracts/handoff-immediate-next-task-contracts.cjs');
+contract_patch = r'''let st=read('tests/contracts/sle-handoff-packaging-contracts.cjs');
+st=st.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest, 184);','assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);');
+st=st.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest,184);','assert.equal(capsule.latestRuntimeMerge.pullRequest,166);');
+const stRollback='assert.equal(capsule.latestRuntimeMerge.rollbackRunId, 33190961085);';
+if(!st.includes(stRollback)) throw new Error('SLE historical rollback provenance anchor not found');
+if(!st.includes('capsule.lastProductionProvenRuntime.pullRequest')) st=st.replace(stRollback,stRollback+'\\nassert.equal(capsule.lastProductionProvenRuntime.pullRequest, 184, "Current production-proven runtime publication must be PR #184.");\\nassert.equal(capsule.lastProductionProvenRuntime.runtimeRevision, sourceRevision, "Current production-proven runtime must match the deployed r4 source revision.");');
+write('tests/contracts/sle-handoff-packaging-contracts.cjs',st);
+
+let hit=read('tests/contracts/handoff-immediate-next-task-contracts.cjs');
 const hitOld='assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with deployed production runtime.");';
 const hitNew='assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","SESSION_BOOTSTRAP must preserve PR #166 rollback provenance at the historical r5 runtime.");\\nassert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,184,"SESSION_BOOTSTRAP must identify PR #184 as the current production-proven runtime publication.");\\nassert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,productionRuntime,"Current production runtime provenance must agree with the deployed shell.");';
-if(!hit.includes(hitOld)) throw new Error('historical/current runtime provenance contract anchor not found');
-hit=hit.replace(hitOld,hitNew);
+if(hit.includes(hitOld)) hit=hit.replace(hitOld,hitNew);
+else if(!hit.includes('bootstrap.lastProductionProvenRuntime?.pullRequest,184')) throw new Error('historical/current runtime provenance contract anchor not found');
 write('tests/contracts/handoff-immediate-next-task-contracts.cjs',hit);
 '''
 required_replace(validation_anchor, contract_patch + validation_anchor, 'validation insertion')
