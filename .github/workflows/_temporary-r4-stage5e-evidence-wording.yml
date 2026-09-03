@@ -1,4 +1,4 @@
-name: TEMP r4 Stage5E evidence wording repair
+name: TEMP r4 Stage5E evidence and shell synchronization
 
 on:
   push:
@@ -22,12 +22,13 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - name: Repair exact Stage 5E evidence wording assertions
+      - name: Repair exact Stage 5E evidence and shell assertions
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
+
           p=Path('tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs')
           text=p.read_text()
           reps=[
@@ -36,7 +37,20 @@ jobs:
           ]
           for old,new in reps:
             if text.count(old)!=1:
-              raise SystemExit(f'expected exactly one assertion: {old}; found {text.count(old)}')
+              raise SystemExit(f'expected exactly one Stage5E assertion: {old}; found {text.count(old)}')
+            text=text.replace(old,new,1)
+          p.write_text(text)
+
+          p=Path('tests/contracts/release-shell-coherence-contracts.cjs')
+          text=p.read_text()
+          reps=[
+            ('release=read("RELEASE_V1.9.0_R3.md")','release=read("RELEASE_V1.9.0_R4.md")'),
+            ('assert.equal(runtime,"1.9.0-r3");','assert.equal(runtime,"1.9.0-r4");'),
+            ('assert.equal(previous,"1.9.0-r2");','assert.equal(previous,"1.9.0-r3");')
+          ]
+          for old,new in reps:
+            if text.count(old)!=1:
+              raise SystemExit(f'expected exactly one shell assertion: {old}; found {text.count(old)}')
             text=text.replace(old,new,1)
           p.write_text(text)
           PY
@@ -46,13 +60,13 @@ jobs:
           set -euo pipefail
           npm ci
           npm run test:contracts
-      - name: Commit exact repair
+      - name: Commit exact synchronization
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs
+          git add tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs tests/contracts/release-shell-coherence-contracts.cjs
           git diff --cached --quiet && exit 0
-          git commit -m 'Align Stage 5E runtime evidence assertions'
+          git commit -m 'Synchronize r4 runtime evidence and shell contracts'
           git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
