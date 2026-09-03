@@ -27,6 +27,8 @@ The **Installable Offline App** remains the local-first startup and recovery bas
 5. Do not repeat consumed r5 one-paste convergence, r3 provider-live Host/Join lifecycle, pairing, Candidate C, exact accepted-result replay, token-lifecycle, rollback, provider-Rules or provider-abuse proof merely for confidence.
 6. Move RJR only for genuinely new fixed-domain capability evidence.
 
+Publication discipline: before any merge/publication, all **14 permanent workflow families** must be green on the same exact PR head. A newer commit invalidates the prior exact-head publication gate and requires the permanent families to complete again for that new head.
+
 ## Permanent locks
 
 Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or use another billing-required service.
