@@ -72,7 +72,9 @@ assert.match(preR3Next,/CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVA
 assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY — PR #115 PRODUCTION APP CHECK DEPLOYMENT PROOF VIA PR #116/i,"Immutable pre-r3 NEXT_TASK must preserve PR #115/#116 deployment-proof provenance.");
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0 / 1.5.0-r1 candidate provenance.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live NEXT_TASK must identify the current PR #171 closure / RJR87 / Stage 5A activation authority.");
+
+// Stage 2C remains immutable policy provenance. Current live authority is PR187/r5/RJR89.
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live NEXT_TASK must identify current PR187/r5/RJR89 authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
 
 for (const [name, text] of archivalSources) {
@@ -86,21 +88,21 @@ assert.match(preR3State, /PR #115 `Connect production App Check runtime safely` 
 assert.match(preR3State, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
-assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+v1\.9\.0-r5[\s\S]+RJR89/i,"Live PROJECT_STATE must expose current PR187/r5/RJR89 authority.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
-assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"Stage 2C current-state checks must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+assert.equal(readiness.currentScore,89,"Stage 2C current-state checks must expose fixed RJR89.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eRjrEvidence?.score,88,"Stage 2C current-state checks must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
 assert.equal(stage5eRjrEvidence?.delta,1,"Stage 2C current-state checks must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
-assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must report the current evidence-backed RJR score rather than the older reconciliation-only checkpoint.");
+assert.match(state,new RegExp("Fixed RJR-1 is \\*\\*"+readiness.currentScore+"\\/100\\*\\*|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must report the current evidence-backed RJR score rather than an older reconciliation-only checkpoint.");
 assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
-assert.match(currentHandoff, /PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Rolling handoff must expose current PR #172/r5/RJR87 transition authority.");
-assert.match(currentHandoff, /provider-abuse proof[\s\S]+Stage 5A is authorized next/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
-assert.match(start, /PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Developer start must expose current PR #172/r5/RJR87 transition authority.");
-assert.match(start, /provider-abuse proof[\s\S]+Stage 5A is authorized next/i,"Developer start must preserve provider-abuse acceptance before Stage 5 reassessment.");
+assert.match(currentHandoff, /PR #187[\s\S]+1\.9\.0-r5[\s\S]+89\/100/i,"Rolling handoff must expose current PR187/r5/RJR89 transition authority.");
+assert.match(currentHandoff, /one-paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the accepted capability that moved RJR88 to RJR89.");
+assert.match(start, /PR #187[\s\S]+1\.9\.0-r5[\s\S]+RJR89/i,"Developer start must expose current PR187/r5/RJR89 transition authority.");
+assert.match(start, /smallest genuinely uncredited fixed RJR-1 gap|smallest genuinely uncredited fixed-domain gap/i,"Developer start must route to capability-only successor work rather than a consumed Stage 2C-era lane.");
 
 assert.match(rules, /request\.auth\.uid/);
 assert.match(rules, /allow list, create, update, delete:\s*if false/g);
@@ -121,4 +123,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current PR #171 closure / RJR87 / Stage 5A activation authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current PR187/r5/RJR89 authority explicit\n");
