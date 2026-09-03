@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
   "lifecycle": "closed",
-  "recordedAt": "2026-09-03T04:33:00.000Z",
+  "recordedAt": "2026-09-03T05:08:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -17,7 +17,7 @@
     "majorPhasesCompleted": 1,
     "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 4,
+    "correctedFailures": 5,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -88,6 +88,7 @@
       "Exactly 15 post-merge push workflows on 2bfb7656940be23b635cb7092127a0ab0f62c7a4 completed successfully.",
       "Deploy GitHub Pages run 33713396948 completed successfully.",
       "Stability run 33713396979 completed successfully; deployed-site-smoke passed exact runtime bytes and full deployed journey.",
+      "PR #186 packaging validation found one interruption-resilience contract that rejected a complete closed WEC because NEXT_TASK preserved an older historical implementation identity. The guard was corrected narrowly to permit only a complete HANDOFF_AT_CHECKPOINT closed WEC explicitly named by the current NEXT_TASK override; historical NEXT_TASK provenance remains intact.",
       "RJR remains 88/100; r4 publication mechanics earn zero capability credit."
     ]
   }
