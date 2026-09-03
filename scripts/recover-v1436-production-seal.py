@@ -46,6 +46,11 @@ required_replace(
     'SLE = Smart Lean Efficient. This is the deep-reference handoff behind ${STARTER}. Publication remains conditioned on required tests and required gates passing. Treat it as orientation only;',
     'deep handoff publication condition'
 )
+required_replace(
+    "capsule.bootstrapBranch='handoff-v1.4.36-r4-production-seal';",
+    "capsule.bootstrapBranch='handoff/v1.4.36-r4-production-seal-recovered';",
+    'recovered bootstrap branch'
+)
 
 changelog_anchor = "let ch=read('CHANGELOG.md')"
 provenance = "for(const p of ['CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md','RELEASE_V1.9.0_R4.md']){let rs=read(p);const proof='Production proof: PR #184 merge '+MAIN+'; Deploy GitHub Pages run '+PAGES_RUN+'; Stability/deployed-site-smoke run '+STABILITY_RUN+'.';if(!rs.includes(proof))rs=rs.trimEnd()+'\\n\\n'+proof+'\\n';write(p,rs);}\n"
@@ -55,18 +60,22 @@ required_replace(changelog_anchor, provenance + changelog_anchor, 'release prove
 s, n = re.subn(r"capsule\.latestRuntimeMerge=\{pullRequest:184,[^\n]+\};\n", '', s, count=1)
 if n != 1:
     raise SystemExit('latestRuntimeMerge overwrite anchor not found')
-# Remove any generator statement that converts the historical PR166 pointer to PR184.
 s = re.sub(r"sleTest=sleTest\.replace\([^\n]*latestRuntimeMerge\.pullRequest[^\n]*184[^\n]*\);\n", '', s)
 
 validation_anchor = '// Validate the current handoff package before committing.'
 contract_patch = r'''let st=read('tests/contracts/sle-handoff-packaging-contracts.cjs');
-st=st.replace(/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*184\s*\);/,'assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);');
-if(!/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*166\s*\);/.test(st)) throw new Error('SLE historical PR166 provenance assertion missing');
+const bundled=/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*184\s*\);\s*assert\.equal\(capsule\.latestRuntimeMerge\.mergeSha,[^;]+\);\s*assert\.equal\(capsule\.latestRuntimeMerge\.postMergeRunsSuccessful,\s*15\s*\);\s*assert\.equal\(capsule\.latestRuntimeMerge\.pagesRunId,\s*33713396948\s*\);\s*assert\.equal\(capsule\.latestRuntimeMerge\.stabilityRunId,\s*33713396979\s*\);\s*assert\.equal\(capsule\.latestRuntimeMerge\.productionProofRecorded,\s*true\s*\);/;
+const corrected='assert.equal(capsule.latestRuntimeMerge.pullRequest,166,"Historical latestRuntimeMerge remains PR #166 rollback provenance."); assert.equal(capsule.latestRuntimeMerge.mergeSha,"32c32afb1365c9ae6120d810a68e5c72c4b8229a"); assert.equal(capsule.latestRuntimeMerge.rollbackRunId,33190961085); assert.equal(capsule.lastProductionProvenRuntime.pullRequest,184); assert.equal(capsule.lastProductionProvenRuntime.mergeSha,"2bfb7656940be23b635cb7092127a0ab0f62c7a4"); assert.equal(capsule.lastProductionProvenRuntime.runtimeRevision,"1.9.0-r4"); assert.equal(capsule.successorPackage.pagesRunId,33713396948); assert.equal(capsule.successorPackage.stabilityRunId,33713396979);';
+if(bundled.test(st)) st=st.replace(bundled,corrected);
+else {
+ st=st.replace(/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*184\s*\);/,'assert.equal(capsule.latestRuntimeMerge.pullRequest,166);');
+ st=st.replace(/assert\.equal\(capsule\.latestRuntimeMerge\.mergeSha,[^;]+\);/,'assert.equal(capsule.latestRuntimeMerge.mergeSha,"32c32afb1365c9ae6120d810a68e5c72c4b8229a");');
+}
+if(!/capsule\.latestRuntimeMerge\.pullRequest,\s*166/.test(st)) throw new Error('SLE historical PR166 provenance assertion missing');
 if(!st.includes('capsule.lastProductionProvenRuntime.pullRequest')){
-  const m=st.match(/assert\.equal\(capsule\.latestRuntimeMerge\.rollbackRunId,\s*33190961085\s*\);/);
-  const after=m?.[0] || st.match(/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*166\s*\);/)?.[0];
-  if(!after) throw new Error('SLE historical rollback provenance insertion point missing');
-  st=st.replace(after,after+'\nassert.equal(capsule.lastProductionProvenRuntime.pullRequest, 184, "Current production-proven runtime publication must be PR #184.");\nassert.equal(capsule.lastProductionProvenRuntime.runtimeRevision, sourceRevision, "Current production-proven runtime must match the deployed r4 source revision.");');
+ const after=st.match(/assert\.equal\(capsule\.latestRuntimeMerge\.mergeSha,[^;]+\);/)?.[0] || st.match(/assert\.equal\(capsule\.latestRuntimeMerge\.pullRequest,\s*166[^;]*\);/)?.[0];
+ if(!after) throw new Error('SLE current production provenance insertion point missing');
+ st=st.replace(after,after+'\nassert.equal(capsule.lastProductionProvenRuntime.pullRequest,184);\nassert.equal(capsule.lastProductionProvenRuntime.mergeSha,"2bfb7656940be23b635cb7092127a0ab0f62c7a4");\nassert.equal(capsule.lastProductionProvenRuntime.runtimeRevision,"1.9.0-r4");');
 }
 write('tests/contracts/sle-handoff-packaging-contracts.cjs',st);
 
