@@ -7,8 +7,14 @@ assert.equal(/<script[^>]+src=["\'][^"\']*sparkRemoteJoining\.js/i.test(html),fa
 assert.ok(html.includes('id="remoteJoiningButton"')&&html.includes("loadRuntimeScript('rj','js/sparkRemoteJoining.js'")&&html.includes("loadRuntimeStyle('rj','css/remoteJoining.css'"));
 assert.ok(worker.includes('"js/sparkRemoteJoining.js"')&&worker.includes('"css/remoteJoining.css"')&&worker.includes('"js/sparkPrivateSession.js"')&&worker.includes('"js/sparkStandardAuthPrivateSession.js"'));
 assert.ok(runtime.includes('const FALLBACK_RUNTIME_REVISION="1.9.0-r1";'));
-assert.equal(readiness.currentScore,87,"Stage 5E source/runtime wiring alone earns no RJR credit.");
-assert.deepEqual(readiness.domains.map(d=>[d.id,d.earned]),[["deterministic-sync-recovery",20],["identity-auth-trust",18],["production-cloud-security",20],["devices-pairing-connected-rivalry-remote-join",20],["real-device-hardening-release",9]]);
+assert.equal(readiness.currentScore,88,"Stage 5E source/runtime wiring itself earns no RJR credit; current 88 must come from separate provider-live capability evidence.");
+const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eLifecycleEvidence?.score,88);
+assert.equal(stage5eLifecycleEvidence?.delta,1);
+assert.equal(stage5eLifecycleEvidence?.domainId,"devices-pairing-connected-rivalry-remote-join");
+assert.match(stage5eLifecycleEvidence?.reason||"",/provider-live session lifecycle/i);
+assert.match(stage5eLifecycleEvidence?.reason||"",/zero-manual-reattach[\s\S]+zero credit/i);
+assert.deepEqual(readiness.domains.map(d=>[d.id,d.earned]),[["deterministic-sync-recovery",20],["identity-auth-trust",18],["production-cloud-security",20],["devices-pairing-connected-rivalry-remote-join",21],["real-device-hardening-release",9]]);
 
 const calls={services:0,account:0,pairing:0,rivalry:0,open:[],join:[],read:[],revoke:[],close:[]};
 const sessionA=`session_${"a".repeat(64)}`,sessionB=`session_${"b".repeat(64)}`,rivalryId=`pair_${"c".repeat(64)}`,deviceId=`device_${"d".repeat(32)}`;
@@ -36,5 +42,5 @@ assert.equal(api.openPanel(),false,"No-document open must remain inert.");assert
   result=await api.closeSession();assert.equal(result.ok,true);assert.equal(calls.close.length,1);assert.equal(api.getState().sessionState,"closed");
   api.forgetSession();assert.equal(api.getState().sessionId,null);assert.ok(calls.services>=4&&calls.account>=4&&calls.pairing>=4&&calls.rivalry>=4);
   assert.deepEqual(Array.from(api.canonicalStorageKeys),["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"]);
-  console.log("PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability, RJR fixed at 87 pending provider-live runtime proof.");
+  console.log("PASS Stage 5E production Remote Joining runtime contracts: lazy action authority, non-orphaning host/join/revoke/read/close lifecycle, memory-only capability, current RJR88 sourced only from the separately proven provider-live r3 lifecycle; source/runtime wiring earns zero duplicate credit.");
 })().catch(error=>{console.error(error);process.exit(1);});
