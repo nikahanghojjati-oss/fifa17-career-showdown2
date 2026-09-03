@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="app-asset-revision" content="1.8.1-r5">
+<meta name="app-asset-revision" content="1.9.0-r5">
 <title>Production Authorization Acceptance · Career Mode Showdown</title>
-<link rel="stylesheet" href="css/app.css?v=1.8.1-r5">
+<link rel="stylesheet" href="css/app.css">
 <style>
   body{min-height:100vh;overflow:auto;padding:24px;background:#10151d;color:#f5f7fa;font-family:Arial,sans-serif}
   .acceptanceShell{width:min(920px,100%);margin:0 auto;display:grid;gap:18px}
@@ -24,6 +24,8 @@
   .acceptanceButton{padding:11px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:#1f2937;color:#fff;font-weight:700;cursor:pointer}
   .acceptanceButton:disabled{opacity:.45;cursor:not-allowed}
   .acceptanceDanger{border-color:rgba(255,180,90,.5)}
+  .acceptanceStage5f{border-color:rgba(126,225,255,.55);box-shadow:0 0 0 1px rgba(126,225,255,.08) inset}
+  .acceptanceStage5f ol{margin:0;padding-left:20px;display:grid;gap:8px;line-height:1.45}
   a{color:inherit}
 </style>
 </head>
@@ -32,49 +34,68 @@
   <section class="acceptanceCard">
     <span class="acceptanceKicker">Career Mode Showdown · bounded production evidence</span>
     <h1>Production Authorization Acceptance</h1>
-    <p>This auxiliary page checks remaining authorization evidence without changing local saves. It never bootstraps a Firestore private account, never creates pairing or rivalry data, and never awards Remote Joining readiness merely because this page exists.</p>
-    <p class="acceptanceMeta">Use only legitimate pre-existing test state. Google sign-in establishes a session; the page refuses to create missing Career Mode Showdown account data.</p>
+    <p>This auxiliary page checks remaining authorization evidence without changing canonical local saves. Stage 5F uses only Firebase Spark compatible client operations, never enables billing, and never awards Remote Joining readiness merely because the probe exists.</p>
+    <p class="acceptanceMeta">The Stage 5F revoked-device check creates one sacrificial registered-device record, immediately revokes it, uses a short-lived exact private session, requires the protected mutation to be denied, then terminally revokes the test session. The sacrificial device remains safely revoked.</p>
     <p><a href="./">Return to Career Mode Showdown</a></p>
   </section>
 
   <section class="acceptanceCard">
     <span class="acceptanceKicker">Authentication boundary</span>
-    <h2>Existing private account only</h2>
+    <h2>Session-only Google authentication</h2>
     <p id="authorizationAcceptanceAccountState">Initializing session-only Google authentication…</p>
     <div>
       <button id="authorizationSignIn" class="acceptanceButton" type="button">SIGN IN WITH GOOGLE</button>
       <button id="authorizationSignOut" class="acceptanceButton" type="button" disabled>SIGN OUT</button>
     </div>
+    <p class="acceptanceMeta">For the Stage 5F third-account check, the Google identity does not need a Career Mode Showdown account document. The probe remains read-only and never bootstraps one.</p>
+  </section>
+
+  <section class="acceptanceCard acceptanceStage5f">
+    <span class="acceptanceKicker">Stage 5F · RJR candidate · zero billing</span>
+    <h2>Authenticated negative production acceptance</h2>
+    <ol>
+      <li>On the already paired manager browser, sign in with that manager account and press Load Current Rivalry. The exact saved Connected Rivalry pointer is read from this browser only.</li>
+      <li>Press Run Revoked Device Provider Check. The page automatically creates and revokes a sacrificial device, opens a short-lived exact session, requires both the normal adapter and production Firestore Rules to deny the revoked-device mutation, verifies the session stayed unchanged, then revokes the test session.</li>
+      <li>Keep this page open. Sign out, sign in with a third Google account that is neither manager, confirm that fact below, then press Run Third Account Denial. The third-account step performs zero writes and requires both exact private reads to be denied.</li>
+    </ol>
+    <label for="authorizationRivalryId">Active private rivalry ID</label>
+    <input id="authorizationRivalryId" type="text" autocomplete="off" spellcheck="false" placeholder="pair_…">
+    <div>
+      <button id="stage5fLoadCurrentRivalry" class="acceptanceButton" type="button">LOAD CURRENT RIVALRY</button>
+      <button id="stage5fRevokedDeviceProviderProbe" class="acceptanceButton" type="button">RUN REVOKED DEVICE PROVIDER CHECK</button>
+    </div>
+    <p id="stage5fRivalryResolution" class="acceptanceMeta">Current rivalry has not been loaded on this page.</p>
+    <p id="stage5fHostProofState" class="acceptanceMeta">Host Stage 5F boundary has not been proven on this page.</p>
+    <label class="acceptanceCheck"><input id="authorizationThirdAccountConfirm" type="checkbox"><span>I confirm the Google account currently signed in for the next step is not Player One or Player Two in this rivalry.</span></label>
+    <label class="acceptanceCheck"><input id="authorizationActiveRivalryConfirm" type="checkbox"><span>Fallback only: I independently confirm this is the existing active paired rivalry. This is not needed if the revoked-device host check above passed on this same page.</span></label>
+    <button id="stage5fThirdAccountProbe" class="acceptanceButton" type="button">RUN THIRD ACCOUNT DENIAL</button>
+    <p class="acceptanceMeta">No billing upgrade, Cloud Functions, Cloud Run, custom token, public listing, or persistent session capability is used. Raw identifiers are fingerprinted in evidence.</p>
   </section>
 
   <section class="acceptanceGrid">
     <article class="acceptanceCard acceptanceAction">
-      <span class="acceptanceKicker">RJR candidate · production provider abuse</span>
+      <span class="acceptanceKicker">Historical production provider abuse</span>
       <h2>Authenticated enumeration denial</h2>
       <p>Use any legitimate existing active Connected Account. The probe issues one bounded authenticated query for at most one rivalry document. Production policy must deny collection enumeration even for an authenticated manager.</p>
       <button id="authorizationProviderAbuseProbe" class="acceptanceButton" type="button">PROBE ENUMERATION DENIAL</button>
-      <p class="acceptanceMeta">Requested provider writes: 0. No rivalry ID is required. A readable collection query returns NOT PROVEN and must not receive RJR credit.</p>
+      <p class="acceptanceMeta">Requested provider writes: 0. This historical check does not earn Stage 5F credit again.</p>
     </article>
 
     <article class="acceptanceCard acceptanceAction">
-      <span class="acceptanceKicker">RJR candidate · provider read denial</span>
-      <h2>Third-account negative</h2>
-      <p>Use an existing active private account that is not either manager in the target rivalry. Enter an existing active paired rivalry ID. The probe performs only two Firestore reads and requires both to return permission denied.</p>
-      <label for="authorizationRivalryId">Active private rivalry ID</label>
-      <input id="authorizationRivalryId" type="text" autocomplete="off" spellcheck="false" placeholder="pair_…">
-      <label class="acceptanceCheck"><input id="authorizationThirdAccountConfirm" type="checkbox"><span>I confirm this signed-in existing private account is not either manager in the target rivalry.</span></label>
-      <label class="acceptanceCheck"><input id="authorizationActiveRivalryConfirm" type="checkbox"><span>I confirm the target is an existing active paired rivalry, not an open pairing capability.</span></label>
-      <button id="authorizationThirdAccountProbe" class="acceptanceButton" type="button">PROBE READ DENIAL</button>
-      <p class="acceptanceMeta">Requested provider writes: 0. A readable rivalry or authoritative state returns NOT PROVEN and must not receive RJR credit.</p>
+      <span class="acceptanceKicker">Legacy prerequisite probe</span>
+      <h2>Existing-private-account third-account read denial</h2>
+      <p>This older probe requires the signed-in third identity to already have an active private account. Stage 5F above supersedes that setup requirement for the remaining authenticated-account negative.</p>
+      <button id="authorizationThirdAccountProbe" class="acceptanceButton" type="button">RUN LEGACY THIRD-ACCOUNT PROBE</button>
+      <p class="acceptanceMeta">Requested provider writes: 0.</p>
     </article>
 
     <article class="acceptanceCard acceptanceAction acceptanceDanger">
-      <span class="acceptanceKicker">Prerequisite only · no RJR credit</span>
-      <h2>Revoked-device state check</h2>
-      <p>Use the exact browser identity that was legitimately revoked from another active registered device. This check confirms the provider envelope is revoked and that the existing client registration guard refuses it before staging a write.</p>
+      <span class="acceptanceKicker">Legacy prerequisite only · no RJR credit</span>
+      <h2>Previously revoked real-device state check</h2>
+      <p>This older check requires a real browser identity to have been revoked from another device. Stage 5F above uses a sacrificial device instead and does not revoke either real browser.</p>
       <label class="acceptanceCheck"><input id="authorizationRevokedDeviceConfirm" type="checkbox"><span>I confirm this exact browser/device identity was deliberately revoked using another legitimate active registered device.</span></label>
-      <button id="authorizationRevokedDeviceProbe" class="acceptanceButton" type="button">CONFIRM REVOKED STATE</button>
-      <p class="acceptanceMeta">This is not provider mutation-denial proof. It confirms legitimate revoked-device state and the existing pre-write client guard only.</p>
+      <button id="authorizationRevokedDeviceProbe" class="acceptanceButton" type="button">RUN LEGACY REVOKED-STATE CHECK</button>
+      <p class="acceptanceMeta">This legacy check is not provider mutation-denial proof.</p>
     </article>
   </section>
 
@@ -84,12 +105,15 @@
     <p id="authorizationAcceptanceStatus" class="acceptanceStatus" role="status" aria-live="polite">No acceptance probe has run.</p>
     <pre id="authorizationAcceptanceEvidence" class="acceptanceEvidence">No evidence yet.</pre>
     <button id="authorizationCopyEvidence" class="acceptanceButton" type="button">COPY EVIDENCE JSON</button>
-    <p class="acceptanceMeta">Account, rivalry and device identifiers are represented by SHA-256 fingerprints in generated evidence. Review the JSON before sharing it.</p>
+    <p class="acceptanceMeta">Account, rivalry, device and session identifiers are represented by SHA-256 fingerprints in Stage 5F evidence. Review the JSON before sharing it.</p>
   </section>
 </main>
-<script src="js/sparkPrivatePairing.js?v=1.8.1-r5"></script>
-<script src="js/productionFirebaseRuntime.js?v=1.8.1-r5"></script>
-<script src="js/productionAuthorizationAcceptance.js?v=1.8.1-r5"></script>
-<script src="js/productionProviderAbuseAcceptance.js?v=1.8.1-r5"></script>
+<script src="js/sparkPrivatePairing.js"></script>
+<script src="js/sparkPrivateSession.js"></script>
+<script src="js/sparkStandardAuthPrivateSession.js"></script>
+<script src="js/productionFirebaseRuntime.js"></script>
+<script src="js/productionAuthorizationAcceptance.js"></script>
+<script src="js/productionProviderAbuseAcceptance.js"></script>
+<script src="js/stage5fProductionAuthenticatedNegatives.js"></script>
 </body>
 </html>
