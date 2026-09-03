@@ -1,3 +1,9 @@
+# CURRENT PRODUCTION — v1.9.0-r4 / RJR88
+
+PR #184 is merged and v1.9.0 / 1.9.0-r4 is deployed and production-proven at 2bfb7656940be23b635cb7092127a0ab0f62c7a4. Current successor starter: START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md. Fixed Remote Joining readiness remains 88/100.
+
+---
+
 # CURRENT RELEASE CANDIDATE — v1.9.0-r4 Stale Connected Rivalry Pointer Precedence
 
 Current source candidate: `v1.9.0 / 1.9.0-r4` — not yet production-proven. Previous production-proven whole-shell recovery target: `v1.9.0 / 1.9.0-r3`. This bounded hotfix preserves durable Connected Rivalry pointer A unless the current Private Pairing candidate B passes the existing exact provider-authorized attachment checks, then persists B automatically for the correct account/device/manager/profile/save. Permanent regression proof requires exactly one Player Two paste, automatic Player One/Player Two convergence on B, zero manual Connected Rivalry Verify/Reattach actions, preservation of A for pending/expired/mismatched B, and unchanged canonical localStorage. Firebase remains Spark and billing remains permanently forbidden. Fixed RJR-1 is `88/100` from the already supplied r3 provider-live Remote Joining lifecycle; r4 source, CI and deployment earn zero readiness credit.

@@ -1,6 +1,6 @@
 # Career Mode Showdown v1.9.0-r4
 
-Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
+Status: DEPLOYED / PRODUCTION-PROVEN
 
 Application version: `v1.9.0`
 
@@ -23,3 +23,5 @@ Before this hotfix received any implementation credit, the previously supplied v
 ## Cost and provider lock
 
 Firebase remains on Spark. Cloud Billing, Blaze, payment-method linking, Cloud Run, Cloud Functions and every billing-required service remain forbidden. App Check enforcement remains OFF and Firestore browser persistence remains memory-only.
+
+Production proof: PR #184 merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4; Deploy GitHub Pages run 33713396948; Stability/deployed-site-smoke run 33713396979.

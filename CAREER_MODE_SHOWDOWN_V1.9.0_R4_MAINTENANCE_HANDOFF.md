@@ -1,8 +1,9 @@
 # Career Mode Showdown v1.9.0-r4 Maintenance Release Record
 
-Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
+Status: DEPLOYED / PRODUCTION-PROVEN
 Application version: `v1.9.0`
 Runtime revision: `1.9.0-r4`
+Production proof: PR #184 merge `2bfb7656940be23b635cb7092127a0ab0f62c7a4`; Pages run `33713396948`; Stability/deployed-site-smoke run `33713396979`.
 Previous known-good whole shell: `1.9.0-r3`
 Remote Joining readiness: `88/100` under fixed model `RJR-1`
 
@@ -32,6 +33,8 @@ This r4 source repair, automation, CI, review, merge, deployment and documentati
 
 ## Publication and recovery rule
 
-This file describes a release candidate, not a production-proven runtime. `1.9.0-r3` remains the previous production-proven whole-shell recovery target until exact-head CI including Chromium, documented final-head review with zero unresolved valid threads, expected-head merge, post-merge workflows, Pages deployment and exact deployed-byte/runtime verification prove `v1.9.0 / 1.9.0-r4`.
+This runtime is production-proven at merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4. `1.9.0-r3` remains the previous production-proven whole-shell recovery target until exact-head CI including Chromium, documented final-head review with zero unresolved valid threads, expected-head merge, post-merge workflows, Pages deployment and exact deployed-byte/runtime verification prove `v1.9.0 / 1.9.0-r4`.
 
 Never construct a mixed-version rollback. If a concrete r4 regression requires recovery before promotion is proven, restore the previous whole `1.9.0-r3` shell. After r4 is independently production-live, perform only the minimal owner acceptance needed to prove a fresh one-paste flow automatically converges both managers on the exact current Connected Rivalry with zero manual Verify/Reattach. Never paste or retain a full `session_...` private capability in chat or durable evidence.
+
+Production proof: PR #184 merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4; Deploy GitHub Pages run 33713396948; Stability/deployed-site-smoke run 33713396979.

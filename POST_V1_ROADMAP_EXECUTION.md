@@ -1,3 +1,15 @@
+# CURRENT OVERRIDE — PR #184 / v1.9.0-r4 PRODUCTION-PROVEN / RJR88 — 2026-09-03 UTC
+
+Current source, live GitHub/provider/deployment evidence, `NEXT_TASK.md`, `PROJECT_STATE.md`, and the active successor package override every retained historical roadmap body below.
+
+Production is `v1.9.0 / 1.9.0-r4` from PR #184 merge `2bfb7656940be23b635cb7092127a0ab0f62c7a4`. All 14 permanent exact-head PR workflow families passed before merge; all 15 normal post-merge workflows passed on the merge; Pages run `33713396948` and Stability run `33713396979` are successful and the deployed-site smoke proved the exact runtime bytes and complete deployed journey. Previous known-good whole-shell recovery target is `1.9.0-r3`. Fixed RJR-1 is `88/100`; the r4 repair, CI, review, merge, deployment and handoff mechanics earn zero additional RJR credit.
+
+The current product dependency is no longer the historical Stage 2/3/4 implementation chain below. Cloud/Sync, private account/auth, Registered Devices/Private Pairing, Connected Rivalry, provider Rules and the first bounded provider-live Remote Joining lifecycle have progressed through the production-proven Stage 5E r4 boundary. The next unconsumed evidence task is the minimal fresh production r4 one-paste automatic exact-current Connected Rivalry convergence acceptance with zero manual Verify/Reattach. Billing remains permanently forbidden; Firebase remains Spark; App Check enforcement remains OFF; Firestore browser persistence remains memory-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority; public discovery/listing/lobby/matchmaking/community/rankings remain prohibited.
+
+The complete roadmap body below is retained as historical/proven dependency and design provenance. Its older `CURRENT` labels do not override this section.
+
+---
+
 # CURRENT PRODUCTION RUNTIME — v1.8.1 / 1.8.1-r2 — PR #144
 
 Production-proven Connected Rivalry full-ID recovery UX is deployed at runtime `1.8.1-r2`; durable rivalry-ID shortening is abandoned and Stage 5 remains locked.

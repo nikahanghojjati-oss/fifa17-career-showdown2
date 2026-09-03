@@ -18,7 +18,9 @@ const optional = read("js/optionalModules.js");
 const worker = read("service-worker.js");
 const pkg = JSON.parse(read("package.json"));
 const lock = read("package-lock.json");
-const r5Production = bootstrap.runtime?.productionRuntimeRevision === "1.8.1-r5" && !bootstrap.runtime?.candidateRuntimeRevision;
+const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.0-r4"
+  && bootstrap.lastProductionProvenRuntime?.pullRequest === 184
+  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.0-r4";
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.match(firebaseRc.projects.default, /^demo-/);
@@ -94,20 +96,20 @@ assert.doesNotMatch(lock.slice(0, 1200), /"firebase"|"@firebase\/rules-unit-test
 assert.match(phase1e, /DONE \/ MERGED \/ PROTECTED/i);
 assert.match(phase1e, /PR #80/);
 
-// Phase 1F and PR #125 are immutable provenance. Current execution authority has advanced
-// through production-proven r5, consumed rollback/restoration, provider-proven strengthened Rules and PR #171 / RJR87.
-assert.match(next, /CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Current NEXT_TASK must identify the actual PR #171 closure / RJR87 / Stage 5A activation authority.");
-assert.equal(r5Production,true,"Current transition authority must remain on restored production r5 with no phantom candidate runtime.");
-assert.match(next, /Status:[\s\S]+production remains `v1\.8\.1 \/ 1\.8\.1-r5`[\s\S]+DEPLOYED \/ PRODUCTION-PROVEN/i,"Current NEXT_TASK must expose restored r5 production truth.");
-assert.match(next, /Production rollback proof:[\s\S]+PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28\.md[\s\S]+33190961085[\s\S]+SUCCESS \/ CONSUMED/i,"Current NEXT_TASK must retain exact consumed rollback proof provenance.");
-assert.match(next, /Strengthened Rules provider proof:[\s\S]+PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+Published production Rules source:[\s\S]+firestore\.spark\.rules/i,"Current NEXT_TASK must retain provider-proven strengthened Rules provenance.");
-assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+publishes only PR #172[\s\S]+all 14 permanent workflow families[\s\S]+merge\/deploy under standing authorization/i,"Current NEXT_TASK must route the closing environment through PR #172 publication only.");
+// Phase 1F, PR #125 and the later PR #166/r5 rollback restoration are immutable provenance.
+// Current production authority is the independently proven PR #184 / v1.9.0-r4 boundary.
+assert.match(next, /CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Historical NEXT_TASK must retain the actual PR #171 closure / RJR87 / Stage 5A activation authority.");
+assert.equal(currentProduction,true,"Current transition authority must identify production-proven PR #184 / v1.9.0-r4 without erasing historical rollback provenance.");
+assert.match(next, /CURRENT OVERRIDE[\s\S]+PR #184 R4 PRODUCTION PROVEN[\s\S]+Production is v1\.9\.0 \/ 1\.9\.0-r4[\s\S]+88\/100/i,"Current NEXT_TASK must expose PR184/r4 production truth and fixed RJR88 before history.");
+assert.match(next, /Production rollback proof:[\s\S]+PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28\.md[\s\S]+33190961085[\s\S]+SUCCESS \/ CONSUMED/i,"Historical NEXT_TASK must retain exact consumed rollback proof provenance.");
+assert.match(next, /Strengthened Rules provider proof:[\s\S]+PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+Published production Rules source:[\s\S]+firestore\.spark\.rules/i,"Historical NEXT_TASK must retain provider-proven strengthened Rules provenance.");
+assert.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+publishes only PR #172[\s\S]+all 14 permanent workflow families[\s\S]+merge\/deploy under standing authorization/i,"Historical NEXT_TASK must preserve the PR #172 publication checkpoint.");
 assert.match(next, /App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock after the historical Phase 1F boundary.");
-assert.match(next, /Firebase remains Spark \/ zero billing/i,"Current NEXT_TASK must preserve the Spark zero-billing lock after the historical Phase 1F boundary.");
-assert.match(next, /Firestore remains memory-only/i,"Current NEXT_TASK must preserve the memory-only Firestore lock after the historical Phase 1F boundary.");
-assert.match(next, /Do not repeat consumed owner\/device[\s\S]+Candidate C destructive reconciliation[\s\S]+exact replay[\s\S]+adverse-provider[\s\S]+token lifecycle[\s\S]+structural abuse[\s\S]+sustained mutation-frequency[\s\S]+production rollback\/restoration[\s\S]+provider Rules publication[\s\S]+provider-abuse acceptance/i,"Current NEXT_TASK must preserve completed remote proof as consumed rather than revive historical Phase 1F work.");
-assert.match(next, /Strengthened Rules provider proof[\s\S]+firestore\.spark\.rules/i,"Current NEXT_TASK must record the direct provider-publication evidence boundary.");
-assert.match(next, /STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Current NEXT_TASK must expose the assessed Stage 5A activation while keeping runtime work outside this closing checkpoint.");
+assert.match(next, /Firebase remains (?:on )?Spark(?: \/ zero billing)?/i,"Current NEXT_TASK must preserve the Spark zero-billing lock after the historical Phase 1F boundary.");
+assert.match(next, /Firestore (?:browser persistence )?remains memory-only/i,"Current NEXT_TASK must preserve the memory-only Firestore lock after the historical Phase 1F boundary.");
+assert.match(next, /Do not repeat consumed owner\/device[\s\S]+Candidate C destructive reconciliation[\s\S]+exact replay[\s\S]+adverse-provider[\s\S]+token lifecycle[\s\S]+structural abuse[\s\S]+sustained mutation-frequency[\s\S]+production rollback\/restoration[\s\S]+provider Rules publication[\s\S]+provider-abuse acceptance/i,"Historical NEXT_TASK must preserve completed remote proof as consumed rather than revive historical Phase 1F work.");
+assert.match(next, /Strengthened Rules provider proof[\s\S]+firestore\.spark\.rules/i,"Historical NEXT_TASK must record the direct provider-publication evidence boundary.");
+assert.match(next, /STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Historical NEXT_TASK must preserve the assessed Stage 5A activation while keeping runtime work outside that checkpoint.");
 assert.match(preR3Next, /CURRENT IMPLEMENTATION AUTHORITY — PR #125 SPARK PRIVATE CONNECTED ACCOUNT RUNTIME/i,"Lossless pre-r3 authority must preserve the completed PR #125 Connected Account milestone.");
 assert.match(preR3Next, /Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must preserve the trusted gateway heading as provenance.");
 assert.match(historicalNext, /Phase 1E[\s\S]+DONE \/ PR #80[\s\S]+Phase 1F[\s\S]+CURRENT BOUNDED CANDIDATE/i,"Exact archived predecessor authority must retain the historical Phase 1E → Phase 1F implementation transition.");
@@ -115,4 +117,4 @@ assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S
 assert.match(preR3Next, /Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Lossless pre-r3 authority must preserve the historical Phase 1F provider-runtime prohibition.");
 assert.match(historicalNext, /Cloud\/sync production runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Archived Phase 1F-era authority must retain the exact production-runtime prohibition that applied during that prerequisite.");
 
-process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125 provenance while current PR #171 closure / RJR87 / Stage 5A activation authority remains explicit\n");
+process.stdout.write("PASS Phase 1F Firebase emulator, deny-by-default Security Rules and provider-boundary contracts; immutable archives preserve historical Phase 1F/PR125/PR166 provenance while current PR184/r4 production authority remains explicit\n");
