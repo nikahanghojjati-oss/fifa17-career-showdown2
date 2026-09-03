@@ -6,6 +6,8 @@ on:
       - "production-authorization-acceptance.html"
       - "js/stage5fProductionAuthenticatedNegatives.js"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
+      - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
+      - "WORK_ENVIRONMENT_STATUS.json"
       - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
   push:
     branches:
@@ -14,6 +16,8 @@ on:
       - "production-authorization-acceptance.html"
       - "js/stage5fProductionAuthenticatedNegatives.js"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
+      - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
+      - "WORK_ENVIRONMENT_STATUS.json"
       - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
   workflow_dispatch:
 
