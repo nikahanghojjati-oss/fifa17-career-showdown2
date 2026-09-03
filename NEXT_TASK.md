@@ -13,7 +13,7 @@ Most recently published implementation-authority provenance:
 
 This environment is now closed at `HANDOFF_AT_CHECKPOINT`; those two provenance fields identify the implementation-authority environment that produced the r5 acceptance and must not be inherited as a successor transition decision.
 
-The **Installable Offline App** remains the local-first startup and recovery baseline. Connected/Remote Joining work must not weaken offline startup, canonical local Save ownership, backup/restore or recovery behavior.
+The **Installable Offline App** remains the local-first startup and recovery baseline. Connected/Remote Joining work must not weaken offline startup, canonical local Save ownership, backup/restore or recovery behavior. The shipped **v1.3.0 Recovery & Device Resilience Hardening** baseline remains protected, and the completed **Local Profiles / Save Library** chain remains the local identity and multi-save authority beneath all connected work.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
