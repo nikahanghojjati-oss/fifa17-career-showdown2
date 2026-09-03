@@ -10,7 +10,7 @@ Fixed RJR-1 is **89/100**. The delta from 88 is exactly +1 for the previously un
 
 The **Installable Offline App** remains the local-first startup and recovery baseline; Remote Joining must preserve offline startup, local Save ownership, backup/restore and recovery safety.
 
-Closing WEC: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`, lifecycle `closed`, decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`.
+Closing Work Environment Continuity (WEC) record: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`, lifecycle `closed`, decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`. Every successor must enter Work Environment Continuity with a fresh unique WEC and must not inherit the predecessor transition decision.
 
 Current starter: `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md`.
 
