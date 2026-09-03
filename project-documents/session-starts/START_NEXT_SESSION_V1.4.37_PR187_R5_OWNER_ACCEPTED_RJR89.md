@@ -1,6 +1,6 @@
 # START NEXT SESSION — V1.4.37 / PR #187 / R5 OWNER-ACCEPTED / RJR89
 
-Read this file first. Treat it as orientation only: current source, live GitHub/provider/deployment evidence and later owner instructions win.
+SLE = Smart Lean Efficient. Read this file first. Treat it as orientation only: current source, live GitHub/provider/deployment evidence and later owner instructions win.
 
 ## Exact checkpoint
 
@@ -51,6 +51,8 @@ Deep acceptance record: `PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANC
 5. Do not repeat consumed r5 one-paste convergence, r3 Host/Join lifecycle, pairing, Candidate C, accepted-result replay, token-lifecycle, rollback, provider-Rules or provider-abuse proof merely for confidence.
 6. Only award future RJR movement for newly verified fixed-domain capability evidence.
 
+The standing owner merge/deploy authorization remains active for future nonbilling work after all required tests and current publication gates pass. Billing is the permanent exception.
+
 ## Permanent zero-billing and safety locks
 
 Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or use another billing-required service.
@@ -67,6 +69,19 @@ Candidate C remains the sole destructive remote-to-local gameplay Apply authorit
 
 Never request, paste, quote or durably retain a full private pairing or private session capability. Use redacted identifiers or state/equality evidence only.
 
+## Required owner-facing status block
+
+Every substantive successor project update must include this exact field shape with current values:
+
+Handoff proximity: X%
+Remote Joining readiness: ~Y%
+Estimated focused sessions to genuine RJR100: ~N–M
+Current lane: ...
+Concrete dependency completed: ...
+Next unlock: ...
+Blocker: ...
+Sidequest check: ...
+
 ## Stop condition inherited from owner policy
 
-Every substantive owner-facing project response should continue to report handoff proximity and RJR. When a future environment reaches handoff proximity 100%, finish only its current safe checkpoint, generate a complete successor package and stop before beginning another substantial milestone.
+When a future environment reaches Handoff proximity 100%, finish only its current safe checkpoint, generate the complete mirrored SLE successor package, refresh current pointers, close/archive WEC, verify publication and stop before beginning another substantial milestone.
