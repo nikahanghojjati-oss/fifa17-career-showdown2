@@ -1,0 +1,86 @@
+name: Temporary recover v1.4.36 r4 production seal
+
+on:
+  push:
+    branches:
+      - handoff/v1.4.36-r4-production-seal-recovered
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Recover validated generator and reconcile provenance semantics
+        shell: bash
+        run: |
+          git fetch origin handoff-v1.4.36-r4-production-seal
+          git show origin/handoff-v1.4.36-r4-production-seal:scripts/tmp-handoff-v1436-seal.mjs > scripts/tmp-handoff-v1436-seal.mjs
+          git show origin/handoff-v1.4.36-r4-production-seal:.github/workflows/tmp-handoff-v1436-seal.yml > /tmp/old-seal.yml
+          python - <<'PY'
+          from pathlib import Path
+          lines=Path('/tmp/old-seal.yml').read_text().splitlines()
+          out=[]
+          active=False
+          for line in lines:
+              if "node - <<'NODE'" in line:
+                  active=True
+                  continue
+              if active and line.strip() == 'NODE':
+                  break
+              if active:
+                  out.append(line[10:] if line.startswith('          ') else line)
+          if not out:
+              raise SystemExit('could not recover validated authority patch')
+          Path('/tmp/reconcile.cjs').write_text('\n'.join(out)+'\n')
+          PY
+          node /tmp/reconcile.cjs
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const p='scripts/tmp-handoff-v1436-seal.mjs';
+          let s=fs.readFileSync(p,'utf8');
+
+          const deepFrom='SLE = Smart Lean Efficient. This is the deep-reference handoff behind ${STARTER}. Treat it as orientation only;';
+          const deepTo='SLE = Smart Lean Efficient. This is the deep-reference handoff behind ${STARTER}. Publication remains conditioned on required tests and required gates passing. Treat it as orientation only;';
+          if(!s.includes(deepFrom)) throw new Error('deep handoff publication-condition anchor not found');
+          s=s.replace(deepFrom,deepTo);
+
+          const changelogAnchor="let ch=read('CHANGELOG.md')";
+          const provenance="for(const p of ['CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md','RELEASE_V1.9.0_R4.md']){let rs=read(p);const proof='Production proof: PR #184 merge '+MAIN+'; Deploy GitHub Pages run '+PAGES_RUN+'; Stability/deployed-site-smoke run '+STABILITY_RUN+'.';if(!rs.includes(proof))rs=rs.trimEnd()+'\\n\\n'+proof+'\\n';write(p,rs);}\n";
+          if(!s.includes(changelogAnchor)) throw new Error('release provenance insertion anchor not found');
+          s=s.replace(changelogAnchor,provenance+changelogAnchor);
+
+          s=s.replace(/capsule\.latestRuntimeMerge=\{pullRequest:184,[^\n]+\};\n/,'');
+          s=s.replace("sleTest=sleTest.replace('assert.equal(capsule.latestRuntimeMerge.pullRequest, 166);','assert.equal(capsule.latestRuntimeMerge.pullRequest, 184);');\n",'');
+
+          const validationAnchor='// Validate the current handoff package before committing.';
+          if(!s.includes(validationAnchor)) throw new Error('validation anchor not found');
+          const contractPatch=`let hit=read('tests/contracts/handoff-immediate-next-task-contracts.cjs');
+hit=hit.replace(/assert\\.equal\\(bootstrap\\.latestRuntimeMerge\\?\\.runtimeRevision,productionRuntime,[^\\n]+\\);/,\`assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","SESSION_BOOTSTRAP must preserve PR #166 rollback provenance at the historical r5 runtime.");\\nassert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,184,"SESSION_BOOTSTRAP must identify PR #184 as the current production-proven runtime publication.");\\nassert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,productionRuntime,"Current production runtime provenance must agree with the deployed shell.");\`);
+write('tests/contracts/handoff-immediate-next-task-contracts.cjs',hit);
+`;
+          s=s.replace(validationAnchor,contractPatch+validationAnchor);
+
+          s=s.replace(/execFileSync\('git',\['rm'[\s\S]*$/,'');
+          fs.writeFileSync(p,s);
+          NODE
+      - name: Generate and validate recovered package
+        run: node scripts/tmp-handoff-v1436-seal.mjs
+      - name: Self clean and publish recovered package
+        shell: bash
+        run: |
+          rm -f scripts/tmp-handoff-v1436-seal.mjs
+          git rm .github/workflows/tmp-handoff-v1436-recover.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Seal v1.4.36 r4 production-proven successor package'
+          git push origin HEAD:handoff/v1.4.36-r4-production-seal-recovered
