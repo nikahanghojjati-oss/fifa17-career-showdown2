@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
   "lifecycle": "active",
-  "recordedAt": "2026-09-03T07:08:39.000Z",
+  "recordedAt": "2026-09-03T07:46:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -16,9 +16,9 @@
     "projectComplexity": "very-high",
     "compactionCount": 1,
     "majorPhasesCompleted": 1,
-    "largeEvidenceEvents": 2,
+    "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -26,56 +26,60 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 25,
+    "handoffCompleteness": 35,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "The successor WEC is active and the bounded r4 production acceptance remains the current milestone. Repository and deployment prerequisites are independently verified, no implementation defect is established, and the remaining evidence requires real authenticated Player One and Player Two browser contexts that this chat toolset cannot impersonate. Preserve the acceptance boundary rather than fabricate capability evidence.",
+    "reason": "Fresh production owner evidence exposed one bounded r4 implementation defect rather than a provider or infrastructure blocker: Player Two automatically converged to the new exact rivalry after one paste, while Player One preserved its previous durable rivalry after an early pending-pair verification and did not automatically retry when Player Two activated the new rivalry. The failure is isolated and the current environment has sufficient continuity to repair and validate it without handoff.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 51,
-      "qualityRisk": 0,
+      "contextPressure": 53,
+      "qualityRisk": 4,
       "quotaRisk": null,
       "nextTaskSeparation": 20,
-      "handoffReadiness": 25,
+      "handoffReadiness": 35,
       "atomicRisk": 0,
-      "continuationRisk": 26.1,
-      "transitionCost": 47.3,
-      "transitionAdvantage": -21.2
+      "continuationRisk": 28.4,
+      "transitionCost": 42.8,
+      "transitionAdvantage": -14.3
     }
   },
   "continuity": {
-    "currentTask": "Complete the minimal production v1.9.0-r4 owner acceptance: one Player Two paste and automatic exact Connected Rivalry convergence in both authenticated manager contexts with zero manual Verify/Reattach.",
-    "lastSafeCheckpoint": "Live main f591945fa74b59b961dd79a80849d72a3ab987ba is deployed through successful Pages run 33722276158 and is a continuity-only descendant of production runtime merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4. The exact r4 runtime HTML carries app-asset-revision 1.9.0-r4. Fixed RJR remains 88/100.",
-    "nextSafeAction": "Run the acceptance in two real authenticated production browser contexts. Player One creates the fresh pairing/session flow; Player Two pastes the pairing code exactly once; observe automatic exact Connected Rivalry convergence in both roles without pressing any Connected Rivalry Verify/Reattach control. Do not put a full private session capability into chat or durable evidence.",
+    "currentTask": "Repair the confirmed creator-side pending-pair to active automatic Connected Rivalry convergence defect, then validate, publish and repeat the minimal one-paste production acceptance with zero manual Verify/Reattach.",
+    "lastSafeCheckpoint": "Production v1.9.0-r4 remains live and fixed RJR remains 88/100. Fresh owner screenshots prove Player Two automatically attached the newly paired rivalry after one paste, but Player One still displayed its older durable rivalry until the owner manually replaced the value and pressed Verify/Reattach. That manual fallback is diagnostic only and does not satisfy acceptance.",
+    "nextSafeAction": "Add the smallest event-driven or otherwise bounded exact-rivalry activation retry that reuses existing provider-authorized crAttachRivalry authority. Preserve old durable A until current pairing B is provider-active and verified; never add listing/discovery, new canonical storage or billing-required infrastructure. Add a permanent regression reproducing creator A -> pending B -> peer activates B -> automatic creator convergence with zero manual Attach/Reattach.",
     "unfinishedWork": [
-      "Minimal owner production r4 one-paste zero-manual-reattach acceptance",
-      "Strict RJR-1 recalculation only if that production behavior is genuinely proven",
+      "Implement and permanently test creator-side post-peer-join automatic convergence",
+      "Cache-bust and publish the smallest runtime hotfix only after required exact-head gates",
+      "Repeat minimal production one-paste acceptance with zero manual Verify/Reattach",
+      "Strict RJR-1 recalculation only if corrected production behavior is genuinely proven",
       "Select the smallest genuinely uncredited fixed-domain gap only after acceptance"
     ],
     "knownHazards": [
       "Billing is permanently forbidden. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, Cloud Run, Cloud Functions or any billing-required service.",
       "App Check enforcement remains OFF, Firestore browser persistence remains memory-only and Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
-      "Do not repeat consumed PR #184 CI, review, merge, Pages, Stability, provider-Rules, pairing, Candidate C, replay, token-lifecycle, rollback or provider-abuse proof merely for confidence.",
+      "Old durable rivalry A must remain attached while current pairing B is pending, invalid, expired, wrong-account, wrong-device, wrong-manager or otherwise unauthorized; only existing provider-verified attach authority may replace A.",
+      "Exactly one Player Two paste is required and manual Connected Rivalry Verify/Reattach actions are forbidden for the qualifying acceptance.",
+      "Do not repeat consumed PR #184 CI, review, merge, Pages, Stability, provider-Rules, Candidate C, replay, token-lifecycle, rollback or provider-abuse proof merely for confidence.",
       "Do not award RJR points for source, CI, review, merge, deployment, documentation, WEC or handoff work.",
-      "Exactly one Player Two paste is required and manual Connected Rivalry Verify/Reattach actions are forbidden for this acceptance.",
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences; Candidate C remains sole destructive remote-to-local gameplay Apply authority.",
-      "Never expose or durably retain a full private session capability."
+      "Never expose or durably retain a full private session capability or full private pairing capability in continuity evidence."
     ],
     "evidenceNotes": [
       "START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md was treated as orientation only.",
       "Current main independently observed as f591945fa74b59b961dd79a80849d72a3ab987ba after merged PR #186; PR #186 is continuity/proof/contract reconciliation with no runtime/provider change.",
       "PR #184 independently verified merged from reviewed head 36500a051c61793f14447ca0f931f504ed40a299 to runtime merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4.",
       "REMOTE_JOINING_READINESS.json records fixed RJR-1 88/100 and NEXT_TASK.md routes the fresh task to the one-paste automatic exact-rivalry acceptance.",
-      "Runtime merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4 has exactly 15 completed normal push workflows with no failure or in-progress result; Pages 33713396948 and Stability 33713396979 are successful.",
-      "Current continuity main f591945fa74b59b961dd79a80849d72a3ab987ba also completed a successful Pages deployment 33722276158 without changing runtime/provider behavior.",
+      "Runtime merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4 has exactly 15 completed normal push workflows with no failure or in-progress result; Pages 33713396948 and Stability 33713396979 are successful consumed evidence.",
+      "Current continuity main f591945fa74b59b961dd79a80849d72a3ab987ba also completed successful Pages deployment 33722276158 without changing runtime/provider behavior.",
       "The exact predecessor WEC was archived before the fresh live status replaced it.",
-      "r4 source confirms Remote Joining requires a signed-in Connected Account, registered browser and attached exact Connected Rivalry; full session capability remains page-memory-only.",
-      "This chat session has no interactive authenticated browser or installed browser automation route. Public web access is read-only, so the two-account owner acceptance cannot be truthfully executed here.",
-      "No production acceptance was fabricated and RJR therefore remains 88/100."
+      "Fresh owner production screenshots on v1.9.0-r4 show Player Two automatically attached the current newly paired rivalry after the one paste while Player One remained attached to a different previous rivalry until manual Verify/Reattach.",
+      "The manual Player One correction is retained only as diagnostic evidence; the r4 acceptance failed and RJR remains 88/100.",
+      "Source reconstruction identified the mechanism: creator crInitialize evaluates new pairing B before peer join, crAttachRivalry correctly returns CONNECTED_RIVALRY_NOT_ACTIVE and preserves durable A, then the later peer join changes provider state but does not change creator-local pairing capability/device state, so the existing pairing subscription never triggers a second initialize while the panel remains open.",
+      "No provider, Rules, billing, authentication or deployment failure is implicated by this evidence."
     ]
   }
 }
