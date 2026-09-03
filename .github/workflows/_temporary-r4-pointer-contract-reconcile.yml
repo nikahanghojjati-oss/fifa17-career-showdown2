@@ -1,0 +1,42 @@
+name: TEMP r4 pointer contract reconcile
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-pointer-contract-reconcile.yml
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+          fetch-depth: 0
+      - name: Reconcile pre-r4 pointer precedence contract
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs')
+          text=p.read_text()
+          old='  assert.match(source,/if\\(!pointer\\)\\{\\s*pairingCandidate=crResolvePairingCandidate\\(context\\.pairingState,bindings/,"A verified durable Connected Rivalry pointer must win before any page-memory pairing candidate is considered.");'
+          new='  assert.match(source,/const pairingCandidate=crResolvePairingCandidate\\(context\\.pairingState,bindings/,"Initialization must evaluate the current pairing candidate even when a durable pointer exists so a newer provider-verified pairing can converge automatically.");\n  assert.match(source,/if\\(pairingCandidate\\)\\{[\\s\\S]*pairingDiffersFromDurable=Boolean\\([\\s\\S]*pointer\\.rivalryId!==pairingCandidate\\.rivalryId[\\s\\S]*!crSameBinding\\(binding,pairingCandidate\\.binding\\)/,"A stale durable pointer must remain a fallback while a different current pairing candidate is evaluated.");\n  assert.match(source,/if\\(pairingDiffersFromDurable\\)\\{\\s*autoAttachResult=await crAttachRivalry\\(\\{/,"A different current pairing candidate must pass through the existing provider-authorized attach transaction before it may replace the durable pointer.");\n  assert.match(source,/else if\\(!pointer\\)\\{\\s*binding=pairingCandidate\\.binding;/,"A failed or pending current pairing candidate must not displace the binding of an existing durable pointer.");'
+          assert old in text, 'obsolete durable-pointer-first assertion anchor missing'
+          p.write_text(text.replace(old,new,1))
+          PY
+      - name: Commit reconciled pointer precedence contract
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/contracts/stage4-connected-rivalry-pointer-restore-contracts.cjs
+          git diff --cached --check
+          git commit -m "Reconcile pointer restore contract with verified current pairing"
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
