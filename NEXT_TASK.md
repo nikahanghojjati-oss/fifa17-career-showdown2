@@ -1,3 +1,21 @@
+# CURRENT OVERRIDE — PR #184 R4 PRODUCTION PROVEN / HANDOFF TO FRESH ACCEPTANCE — 2026-09-03 UTC
+
+Production is v1.9.0 / 1.9.0-r4 at merge 2bfb7656940be23b635cb7092127a0ab0f62c7a4. All r4 automated publication gates are complete and production-proven. Fixed RJR remains 88/100.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+1. Independently verify live main, merged PR #184, exact deployed v1.9.0 / 1.9.0-r4, RJR 88/100, all 15 post-merge workflows, Stability run 33713396979, Pages run 33713396948, and closing WEC we-2026-09-02-stage5e-r4-stale-pointer-precedence.
+2. Validate/archive the closing WEC, initialize a fresh unique successor WEC from the independently observed main SHA, reset every per-environment counter and run the fresh assessment. Never inherit HANDOFF_AT_CHECKPOINT as the successor decision.
+3. First execution task: perform only the minimal fresh production r4 owner acceptance for the repaired behavior. Create a fresh private pairing/session flow, have Player Two paste exactly once, and prove both manager contexts automatically converge on the exact current Connected Rivalry with zero manual Connected Rivalry Verify/Reattach actions. Never paste or retain a full private session capability in chat or durable evidence.
+4. If that production behavior is genuinely proven, recalculate RJR strictly from the fixed RJR-1 capability ledger. Do not award points for source, CI, review, merge, deployment, documentation or handoff work.
+5. After that acceptance, select the smallest genuinely uncredited fixed-domain gap: authenticated third-account/revoked-device production negatives, Remote Joining-specific two-device/two-network reconnect/adverse-network hardening, or final stable Remote Joining release acceptance. Do not repeat already consumed pairing, Candidate C, idempotency replay, token-lifecycle, rollback, provider-Rules or provider-abuse proof merely for confidence.
+
+Historical checkpoints preserved: PR #174 Stage 5B proved a dormant non-extractable P-256 device credential candidate in Chromium/browser and Auth-plus-Firestore emulator coverage, using per-sign-in device_id and device_key_sha256 claims. Stage 5B is preserved as dormant research and is not the production critical path after the zero-billing decision. At that checkpoint production Rules were unchanged and provider publication was pending/unproven. Billing must never be activated; Blaze and Cloud Run are excluded. PR #175 Stage 5C selected the standard-Firebase uid path using standard Google Auth plus exact-path Firestore Rules on Spark; registered-device values are mutation metadata, not authentication. The Java 21 Stage 5C Auth-plus-Firestore emulator gate passed. Later Stage 5D/provider-live/r3/r4 evidence superseded the old provider-pending boundary without deleting these historical proofs.
+
+Billing must never be activated. Firebase remains on Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or use another billing-required service. App Check enforcement remains OFF. Browser Firestore persistence remains memory-only. Google Auth remains popup-only browserSessionPersistence with no extra scopes. Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences. Candidate C remains the sole destructive remote-to-local gameplay Apply authority. Exactly two private managers remain mandatory. No public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized. The protected historical rivalry must not be used for destructive testing.
+
+---
+
 # CURRENT OVERRIDE — V1.9.0-R4 STALE CONNECTED RIVALRY POINTER PRECEDENCE — 2026-09-02 UTC
 
 Authorized release candidate: `v1.9.0 / 1.9.0-r4`. Production-proven baseline remains `v1.9.0 / 1.9.0-r3` until publication/deployment gates close. Fixed RJR-1 is `88/100` from the already supplied provider-live r3 Remote Joining lifecycle only; r4 implementation/release mechanics earn zero readiness credit.
