@@ -45,11 +45,14 @@ const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
 const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const wec = JSON.parse(read("WORK_ENVIRONMENT_STATUS.json"));
-const runtimeMerge = bootstrap.latestRuntimeMerge;
+const runtimeMerge = bootstrap.currentPublicationCheckpoint || bootstrap.lastProductionProvenRuntime || bootstrap.latestRuntimeMerge;
 const candidateRecord = /Status:\s*RELEASE CANDIDATE/i.test(release);
 const currentAuthorityEnd = state.indexOf("\n---\n");
 const currentAuthority = state.slice(0,currentAuthorityEnd >= 0 ? currentAuthorityEnd : 5000);
-const currentProductionProven = /Status:\s*DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i.test(currentAuthority) && currentAuthority.includes(revision);
+const currentProductionProven = currentAuthority.includes(revision) && (
+    /Status:\s*DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i.test(currentAuthority)
+    || /OWNER[- ]ACCEPTED|Owner production acceptance is PASS/i.test(currentAuthority)
+);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
 const activeCandidateWec = Boolean(
     candidateRecord
@@ -74,25 +77,28 @@ if(activeCandidateWec){
 }
 
 if(candidateRecord && currentProductionProven){
-    // The runtime release note is an immutable candidate-era record. A later production proof may
-    // supersede its candidate label without rewriting the original release-boundary evidence.
+    // The runtime release note is an immutable candidate-era record. A later production proof or
+    // owner-accepted production checkpoint may supersede its candidate label without rewriting it.
     A.ok(previousRuntime, "The retained candidate-era release record must name its previous known-good whole-runtime shell.");
     A.ok(readme.includes(previousRuntime) && /production-proven|production proven/i.test(readme), "README must retain previous production truth.");
     A.ok(changelog.includes(previousRuntime), "CHANGELOG must retain previous production runtime truth.");
     const currentState = state.slice(0, state.indexOf("## Historical pre-Stage3 authority") >= 0 ? state.indexOf("## Historical pre-Stage3 authority") : 5000);
     const currentNext = next.slice(0, next.indexOf("## Historical pre-Stage3 authority") >= 0 ? next.indexOf("## Historical pre-Stage3 authority") : 5000);
-    A.match(currentState, /DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i, "PROJECT_STATE must expose the later production-proven promotion.");
+    A.match(currentState, /DEPLOYED\s*\/\s*PRODUCTION-PROVEN|OWNER[- ]ACCEPTED|Owner production acceptance is PASS/i, "PROJECT_STATE must expose the current production-proven or owner-accepted promotion.");
     A.ok(currentState.includes(`v${version}`) && currentState.includes(revision), "PROJECT_STATE current override must identify the promoted version and runtime.");
-    A.equal(runtimeMerge.runtimeRevision, revision, "SESSION_BOOTSTRAP latest runtime merge must match the active shell revision.");
+    A.equal(runtimeMerge.runtimeRevision, revision, "SESSION_BOOTSTRAP current publication checkpoint must match the active shell revision.");
     A.ok(currentState.includes(runtimeMerge.mergeSha) && currentState.includes(`PR #${runtimeMerge.pullRequest}`), "PROJECT_STATE must retain the current production runtime lineage from SESSION_BOOTSTRAP.");
-    A.match(currentNext, /DEPLOYED \/ PRODUCTION-PROVEN/i, "NEXT_TASK must expose the later production-proven promotion.");
+    A.match(currentNext, /DEPLOYED\s*\/\s*PRODUCTION-PROVEN|OWNER[- ]ACCEPTED|Owner production acceptance is PASS/i, "NEXT_TASK must expose the current production-proven or owner-accepted promotion.");
     A.ok(currentNext.includes(`v${version}`) && currentNext.includes(revision), "NEXT_TASK current override must identify the promoted version and runtime.");
     A.ok(currentNext.includes(runtimeMerge.mergeSha) && currentNext.includes(`PR #${runtimeMerge.pullRequest}`), "NEXT_TASK must retain the current production runtime lineage from SESSION_BOOTSTRAP.");
     A.equal(bootstrap.remoteJoiningReadiness.score, readiness.currentScore, "Bootstrap and fixed RJR authority must agree.");
-    A.ok(currentNext.includes("RJR-1") && currentNext.includes(`\`${readiness.currentScore}/100\``), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
-    A.match(currentNext, /exact accepted-result idempotency replay[\s\S]+evidence-proven/i, "NEXT_TASK must preserve exact replay as a closed capability.");
-    A.match(currentNext, /TOKEN-LIFECYCLE SAFETY PRODUCTION-PROVEN|stage4-token-lifecycle-contracts\.cjs/i, "NEXT_TASK must preserve the current token-lifecycle production boundary.");
-    A.match(next, /IMMEDIATE NEXT TASK AFTER FULL STUDY[\s\S]+authenticated zero-billing Firebase[\s\S]+provider[\s\S]+runtime host\/join/i, "NEXT_TASK must route the sealed PR176 transition forward to authenticated zero-billing provider publication before separate runtime host/join work.");
+    A.ok(currentNext.includes("RJR-1") && new RegExp(`(?:\\*\\*|\\x60)?${readiness.currentScore}\\/100(?:\\*\\*|\\x60)?`).test(currentNext), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
+    A.match(currentNext, /Do not repeat consumed r5 one-paste convergence[\s\S]+exact accepted-result replay[\s\S]+token-lifecycle[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i, "NEXT_TASK must preserve replay, token-lifecycle and other consumed proof as closed capabilities rather than reroute to them.");
+    A.match(currentNext, /authenticated third-account \/ revoked-device production negatives/i, "NEXT_TASK must route from RJR89 to the smallest preferred uncredited authenticated negative gap.");
+    A.match(currentNext, /Remote Joining-specific two-device\/two-network reconnect\/adverse-network hardening/i, "NEXT_TASK must preserve the remaining adverse-network hardening gap.");
+    A.match(currentNext, /final stable Remote Joining release acceptance/i, "NEXT_TASK must preserve final stable Remote Joining release acceptance as a remaining capability gap.");
+    A.match(currentNext, /Billing must never be activated[\s\S]{0,120}Firebase remains Spark/i, "NEXT_TASK must preserve the permanent zero-billing Spark boundary.");
+    A.match(currentNext, /App Check enforcement remains OFF/i, "NEXT_TASK must keep App Check enforcement off.");
 }else if(candidateRecord){
     A.ok(previousRuntime, "A release candidate must name its previous known-good whole-runtime shell.");
     A.ok(readme.includes(previousRuntime) && /production-proven|production proven/i.test(readme), "Candidate README must retain previous production truth.");
@@ -184,7 +190,7 @@ A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof mu
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must remain closed.");
 A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Analytics handoff must retain its validated PR head.");
 A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its runtime merge.");
-A.match(currentHandoff, /rolling handoff/i, "Current handoff must remain a rolling evidence trail.");
+A.match(currentHandoff, /CURRENT HANDOFF OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i, "Current handoff must expose the owner-accepted PR187/RJR89 evidence trail.");
 
 // Current Stage 3 authority must be explicit in the current override, while old milestone text may remain historical below it.
 if(version === "1.6.0"){

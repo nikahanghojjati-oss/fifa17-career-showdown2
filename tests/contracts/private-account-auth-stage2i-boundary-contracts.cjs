@@ -82,23 +82,23 @@ for(const document of [preR3NextTask,preR3ProjectState,roadmap,postV1]){
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: remains)?:? OFF/i);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
-// Live authority is PR #171 provider-proven strengthened Rules / RJR87 / provider-abuse acceptance.
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/im,"Live NEXT_TASK must identify current PR #171 closure / RJR87 / Stage 5A activation authority.");
+// Historical Stage 2I security/provenance stays immutable; live authority is PR187/r5/RJR89.
+assert.match(nextTask,/^# CURRENT OVERRIDE — PR #187[\s\S]+RJR89/im,"Live NEXT_TASK must identify current PR187/r5/RJR89 successor authority.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
-assert.match(nextTask,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Live authority must keep actual Remote Joining sessions gated until the provider-abuse result is assessed.");
+assert.match(nextTask,/authenticated third-account \/ revoked-device production negatives/i,"Live authority must expose the smallest preferred uncredited post-RJR89 capability gap.");
+assert.match(nextTask,/Do not repeat consumed r5 one-paste convergence[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i,"Live authority must preserve consumed-proof discipline rather than revive Stage 2I-era work.");
 assert.match(`${nextTask}\n${projectState}`,/Public community|public discovery|global leaderboard|global ranking|No public discovery/i);
-assert.match(projectState,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+PRODUCTION PROVIDER-ABUSE PASS[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live PROJECT_STATE must identify current PR #171 closure / RJR87 authority.");
-assert.match(projectState,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and preserve r4 as the immediate known-good rollback runtime.");
-assert.match(projectState,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+firestore\.spark\.rules/i,"Live PROJECT_STATE must preserve direct provider Rules proof.");
-assert.match(handoff,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Rolling handoff must expose current PR #172/r5/RJR87 authority.");
-assert.match(handoff,/provider-abuse proof[\s\S]+Stage 5A is authorized next/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
-assert.match(developerStart,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Developer start must expose current PR #172/r5/RJR87 authority.");
+assert.match(projectState,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live PROJECT_STATE must identify current PR187/r5/RJR89 authority.");
+assert.match(projectState,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
+assert.match(handoff,/PR #187[\s\S]+1\.9\.0-r5[\s\S]+89\/100/i,"Rolling handoff must expose current PR187/r5/RJR89 authority.");
+assert.match(handoff,/one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the capability that moved RJR88 to RJR89.");
+assert.match(developerStart,/PR #187[\s\S]+1\.9\.0-r5[\s\S]+RJR89/i,"Developer start must expose current PR187/r5/RJR89 authority.");
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"STAGE2I-BOUNDARY live readiness must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+assert.equal(readiness.currentScore,89,"STAGE2I-BOUNDARY live readiness must expose fixed RJR89.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eRjrEvidence?.score,88,"STAGE2I-BOUNDARY must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
 assert.equal(stage5eRjrEvidence?.delta,1,"STAGE2I-BOUNDARY must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
-assert.match(projectState,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority.");
+assert.match(projectState,new RegExp("Fixed RJR-1 is \\*\\*"+readiness.currentScore+"\\/100\\*\\*|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must carry the current fixed-RJR authority.");
 
 assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/);
 assert.match(status.repository.startingMainSha,/^[0-9a-f]{40}$/i);
@@ -151,4 +151,4 @@ const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1]
 assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2I proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR #171 closure / RJR87 successor authority is source-driven.\n");
+process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR187/r5/RJR89 successor authority is source-driven.\n");

@@ -172,10 +172,11 @@ assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 
 // Current authority is allowed to advance beyond the historical Stage 2E/2F/2G handoff.
-assert.match(next,/^# CURRENT OVERRIDE — PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/im,"Live NEXT_TASK must identify current PR #171 closure / RJR87 / Stage 5A activation authority.");
+assert.match(next,/^# CURRENT OVERRIDE — PR #187[\s\S]+RJR89/im,"Live NEXT_TASK must identify current PR #187 / r5 / RJR89 successor authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
-assert.match(next,/Strengthened Rules provider proof[\s\S]+firestore\.spark\.rules/i,"Live authority must record direct provider verification of the strengthened production Rules.");
-assert.match(next,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Live authority must preserve the Stage 5 lock.");
+assert.match(next,/(?:Billing must never be activated[\s\S]{0,120}Firebase remains Spark|Firebase remains Spark \/ zero billing)/i,"Live authority must preserve the permanent Spark zero-billing boundary.");
+assert.match(next,/authenticated third-account \/ revoked-device production negatives/i,"Live authority must expose the smallest preferred uncredited capability gap after RJR89.");
+assert.match(next,/Do not repeat consumed r5 one-paste convergence[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i,"Live authority must preserve consumed-proof discipline instead of reviving a Stage 2E-era lane.");
 
 // Long-lived roadmap documents preserve the historical Stage 2E -> 2G sequence.
 const archivalSources = [
@@ -191,20 +192,22 @@ for (const [name, text] of archivalSources) {
   assert.match(text, /production Firebase[\s\S]{0,900}(disconnected|NOT CONNECTED)/i, `${name} must preserve historical production Firebase isolation.`);
   assert.match(text, /Private Remote Joining[\s\S]{0,1200}(?:DEPENDENCY-GATED|NOT YET IMPLEMENTATION-AUTHORIZED|blocked)/i, `${name} must preserve the gated Private Remote Joining boundary.`);
 }
-assert.match(currentHandoff,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Rolling handoff must expose current PR #172/r5/RJR87 authority.");
-assert.match(start,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Developer start must expose current PR #172/r5/RJR87 authority.");
+assert.match(currentHandoff,/PR #187[\s\S]+1\.9\.0-r5[\s\S]+89\/100/i,"Rolling handoff must expose current PR187/r5/RJR89 authority.");
+assert.match(currentHandoff,/one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the production capability that moved RJR88 to RJR89.");
+assert.match(start,/PR #187[\s\S]+1\.9\.0-r5[\s\S]+RJR89/i,"Developer start must expose current PR187/r5/RJR89 authority.");
+assert.match(start,/smallest genuinely uncredited fixed RJR-1 gap|smallest genuinely uncredited fixed-domain gap/i,"Developer start must route to capability-only successor work.");
 assert.match(preR3State,/PR #115[\s\S]+production App Check runtime/i);
 assert.match(preR3State,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve the completed Stage 2A-through-2I prerequisite boundary.");
 assert.match(preR3State,/Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i);
 assert.match(preR3State,/Private Remote Joining[\s\S]+DEPENDENCY-GATED/i);
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+PRODUCTION PROVIDER-ABUSE PASS[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live PROJECT_STATE must identify current PR #171 closure / RJR87 / provider-abuse authority.");
-assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and r4 rollback recovery.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live PROJECT_STATE must identify current PR187/r5/RJR89 authority.");
+assert.match(state,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Live PROJECT_STATE must preserve the offline recovery baseline.");
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"STAGE2E live readiness must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+assert.equal(readiness.currentScore,89,"Stage 2E live readiness must expose the fixed RJR89 boundary.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eRjrEvidence?.score,88,"STAGE2E must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
 assert.equal(stage5eRjrEvidence?.delta,1,"STAGE2E must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
-assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority without a superseded literal.");
+assert.match(state,new RegExp("Fixed RJR-1 is \\*\\*"+readiness.currentScore+"\\/100\\*\\*|RJR"+readiness.currentScore,"i"),"Live PROJECT_STATE must carry current fixed-RJR authority.");
 
 const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];
 const workerRevision=(worker.match(/RUNTIME_REVISION\s*=\s*"([^"]+)/)||[])[1];
@@ -220,4 +223,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1800), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with immutable historical Stage 2F/2G transition preserved and current PR #171 closure / RJR87 / Stage 5A activation authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2E trusted application-account bootstrap with immutable historical Stage 2F/2G transition preserved and current PR187/r5/RJR89 authority explicit\n");

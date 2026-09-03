@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-03T04:33:00.000Z",
-  "materialSessionsObserved": 16,
-  "learningState": "cold-start-priors-with-sixteen-labeled-sessions",
+  "recordedAt": "2026-09-03T13:25:00.000Z",
+  "materialSessionsObserved": 17,
+  "learningState": "cold-start-priors-with-seventeen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -11,24 +11,16 @@
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.7632,
-      "note": "Fresh WEC ownership prevented predecessor transition leakage. In the latest environment it permitted the exact bounded production probe, then selected HANDOFF_AT_CHECKPOINT after the proof/RJR/Stage 5 reassessment separated cleanly from the next runtime implementation."
+      "learnedUtility": 0.81,
+      "note": "Fresh WEC ownership prevented predecessor HANDOFF_AT_CHECKPOINT leakage, allowed the r4 acceptance failure to be investigated and repaired, and then correctly closed at handoff 100 only after r5 owner production acceptance passed."
     },
     "workflow-job-logs": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.872,
-      "note": "Exact PR #171 Stability job logs proved runtime/storage/recovery contracts had passed and isolated the failure to stale SLE bootstrap authority reporting 85 while the branch ledger reported 86. This prevented misclassifying the failure as a product regression."
-    },
-    "NEXT_TASK.md": {
-      "loaded": true,
-      "usedInDecision": true,
-      "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.7952,
-      "note": "Updating current implementation authority inside the same real engineering PR removed obsolete PR #166/#167/provider-unverified routing without creating a standalone authority sidequest."
+      "learnedUtility": 0.9,
+      "note": "Exact PR #187 and post-merge workflow logs separated stale continuity-contract failures from runtime defects and later proved 97 deployed r5 runtime files byte-for-byte plus the complete pairing automation journey."
     },
     "successor-entrypoint-coherence": {
       "loaded": true,
@@ -36,225 +28,57 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.83616,
-      "note": "RJR86 again demonstrates that starter, deep handoff, bootstrap, graph, model, learning record, current handoff, project state and next task must advance together when a fixed evidence checkpoint changes."
+      "learnedUtility": 0.87,
+      "note": "RJR89 again requires starter, deep SLE, bootstrap, graph, model, learning, current handoff, project state, next task and rolling mirrors to advance together so a fresh successor cannot re-enter consumed r4/r5 work."
     },
     "rjr-score-provenance-search": {
       "loaded": true,
       "usedInDecision": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
-      "learnedUtility": 0.83616,
-      "note": "Fixed RJR-1 prevented process inflation. Direct owner-authenticated Firebase Console provider publication closes exactly production-cloud-security 19/20 to 20/20 and total 85 to 86; PR #171 and acceptance tooling add zero."
+      "learnedUtility": 0.87,
+      "note": "Fixed RJR-1 prevented process inflation: the r5 owner test closes exactly one previously explicit failed capability, advancing 88 to 89; PR #187, CI, review, merge, Pages, deployment, WEC and handoff packaging add zero duplicate credit."
     },
-    "production-firestore-rules-provider-proof": {
+    "r5-one-paste-owner-acceptance": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
-      "note": "Repository/CI/Pages evidence was kept separate from provider truth until the owner supplied authenticated Firebase Console evidence showing the new production Rules version and reviewed strengthened source."
+      "note": "The r4 failure was not a generic pointer-precedence or provider defect. P1 checked fresh B before P2 activated it, correctly preserved durable A, and lacked a later local trigger. A finite exact-candidate retry only for CONNECTED_RIVALRY_NOT_ACTIVE closed the timing gap without weakening authority. Owner r5 evidence then proved one paste, exact rivalry equality and zero manual Verify/Reattach."
     },
-    "production-provider-abuse-acceptance": {
+    "capability-secret-redaction": {
       "loaded": true,
       "usedInDecision": true,
       "requiredForPublicationSecurityOrRecovery": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.648,
-      "note": "The zero-write authenticated rivalry enumeration-denial probe avoided fabricating a third account or revoked device and returned the exact qualifying production permission denial with stable authentication and unchanged browser storage. It closed one fixed hardening capability and unlocked Stage 5A."
-    },
-    "stage5a-candidate-emulator-proof": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
-      "note": "The exact GitHub Actions emulator job first exposed authority-read ordering and fixture-snapshot mismatches, then provider logs exposed expression-budget exhaustion on forged late-failing updates. Automated review subsequently found that entitled direct reads still lacked provider-verifiable current-device identity. The corrected client and candidate Rules now require an active device_id token claim, bind writes to it and prove missing, unknown, revoked and mismatched credentials fail closed."
-    },
-    "stage5b-device-credential-foundation-proof": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.6,
-      "note": "Contract, Chromium and Auth-plus-Firestore emulator proof forced the credential boundary from a user-wide mutable custom-claim concept to non-extractable P-256 proof of possession with per-sign-in device_id/device_key_sha256 claims. Codex review then caught that candidate Rules had not bound the key/version; direct Rules fixtures now close that gap. The owner's later permanent no-billing decision preserves Stage 5B as dormant research while selecting standard Google Auth plus exact-path Firestore Rules on Spark as the production critical path."
-    },
-    "stage5c-standard-auth-session-adapter-proof": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.6,
-      "note": "The zero-billing constraint forced an explicit honest boundary: ordinary Firebase uid proves the account, while a registered device ID is only account-owned mutation metadata and cannot prove physical-browser possession. Deterministic contracts plus real Auth-and-Firestore emulators preserve exact capability/no listing/exactly two accounts, deny missing or revoked device mutations, keep reads tied to uid plus entitlement and earn zero RJR until provider-live playable evidence exists."
-    },
-    "stage5d-production-rules-provider-pending-proof": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.6,
-      "note": "PR #176 proved exact Stage 5C-to-production-source blob lineage and merged with 14/14 exact-head plus 15/15 post-merge gates, but fixed RJR stays 87 because source/CI/merge add zero capability credit. Provider truth remains the older proven blob until authenticated Firebase publication is independently observed. Paid review quota exhaustion must never cause billing; the mandatory exact-head zero-billing fallback preserved review discipline."
-    },
-    "stage5e-r4-production-proof": {
-      "loaded": true,
-      "usedInDecision": true,
-      "requiredForPublicationSecurityOrRecovery": true,
-      "preventedErrorOrResolvedContradiction": true,
-      "normalizedOutcome": 1,
-      "learnedUtility": 0.6,
-      "note": "PR #184 separated a genuine pending-B prefill sequencing defect from stale evidence/release assertions, then exact-head all-14, Chromium, Stage 3, post-merge 15/15, Pages exact-byte and deployed complete-journey proof closed r4 publication. Process work added zero RJR; fixed score remains 88."
+      "note": "Owner screenshots contained a full private pairing/rivalry capability. Durable evidence intentionally records only state/equality and never copies the full capability into repository artifacts or handoff text."
     }
   },
   "sessionMetrics": [
     {
-      "sessionId": "we-2026-08-28-rjr-production-rollback-proof",
+      "sessionId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
       "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "successor-must-reassess",
+      "nextRealProductMilestoneUnblocked": "fresh-successor-select-smallest-uncredited-rjr89-gap",
       "fullHistoryPreloaded": false,
       "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
       "deepFallbackUsed": true,
-      "deepFallbackReason": "Exact workflow logs exposed stale transition contracts and retrieval pointers after the production rollback capability itself had already succeeded.",
+      "deepFallbackReason": "Live r4 failure evidence, current runtime source, exact workflow logs and fixed RJR ledger were required to isolate the creator-side timing gap, publish r5 safely and classify exactly one new capability credit.",
       "missedCriticalContextIncident": false,
       "staleAuthorityCorrection": true,
-      "routeFailureCluster": "One early tool-routing mismatch was corrected from live schema; later failures were repository continuity assertions, not tool loops or runtime regressions.",
-      "ciTriageLesson": "When product/runtime contracts pass and a later continuity assertion fails, inspect the exact assertion and update stale current-authority contracts or missing mandatory routing text without weakening permanent protections.",
-      "productionEvidenceLesson": "A rollback capability is credited only after both the temporary known-good production identity and exact restored production identity are independently observed; source or workflow existence alone is not evidence.",
-      "authorityLesson": "At Handoff proximity 100%, stop product advancement, keep the short repository-first prompt as the owner entrypoint, refresh current retrieval pointers, seal WEC last, publish the transition, and make the successor perform a fresh WEC assessment."
-    },
-    {
-      "sessionId": "we-2026-08-29-rjr-provider-rules-acceptance",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "production-provider-abuse-enumeration-denial-acceptance",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "Provider proof changed the fixed RJR checkpoint and the first PR #171 exact-head Stability log exposed stale SLE/current-authority assertions frozen at RJR85/PR #167.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Public Pages web route, direct local clone tunnel and generic check-run fetch each failed once on distinct environment/tool boundaries; work switched to connector-native GitHub metadata and dedicated workflow-job logs without retry loops.",
-      "ciTriageLesson": "When fixed RJR evidence advances, reconcile all current SLE authority in the same real engineering checkpoint before sealing; do not weaken the coherence contract or create a documentation-only follow-up.",
-      "productionEvidenceLesson": "Provider publication is credited only from direct provider-authoritative evidence. Once strengthened Rules were truly provider-live, the next safe abuse proof could use an authenticated zero-write collection enumeration denial rather than fabricate third-account or revoked-device state.",
-      "authorityLesson": "PREPARE_HANDOFF permits finishing the already-active PR publication checkpoint but not starting the separate live owner acceptance milestone. Package the successor in the same PR, seal WEC last and hand the live probe to a fresh WEC."
-    },
-    {
-      "sessionId": "we-2026-08-29-provider-abuse-production-acceptance",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "stage5a-private-session-protocol-and-emulator-boundary",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "The attached deep PR #171 SLE and exact reserved session schema were needed to reconcile live publication truth, classify the single fixed RJR capability, and select the smallest non-premature Stage 5 slice.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Browser runtime and schema friction was bounded and counted in WEC; the successful production probe was not repeated. GitHub connector/public git transport supplied repository authority after local gh authentication was unavailable.",
-      "ciTriageLesson": "When a production evidence result changes the fixed checkpoint, add one permanent authority contract that pins the exact result, score delta, next product slice, and unchanged production security boundary before sealing.",
-      "productionEvidenceLesson": "A production provider-abuse capability is credited only when a legitimate authenticated request reaches the provider, authentication stays stable and locked, the provider denies the forbidden enumeration, zero writes are requested, and local storage stays unchanged.",
-      "authorityLesson": "State-dependent third-account/revoked-device negatives do not remain artificial blockers after the explicit non-state-dependent gate closes. Authorize the smallest real Stage 5 protocol/emulator slice while keeping production session Rules closed until separate review."
-    },
-    {
-      "sessionId": "we-2026-08-30-stage5a-private-session-protocol",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "stage5b-provider-verifiable-device-credential-boundary",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "The PR #172 SLE exact schema/lifecycle boundary and live current Rules/deployment topology were required to implement the smallest separate Stage 5A slice without contaminating Stage 4 or prematurely publishing production Rules.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Local emulator dependency download was blocked by managed egress, so the permanent GitHub Actions lane supplied provider execution. One invalid apply_patch route, one candidate reconstruction defect and one login-shell network-approval cancellation were each bounded, counted and corrected without retry loops, publication loss or production mutation.",
-      "ciTriageLesson": "Fetch exact failed jobs and provider logs before changing source, and treat automated security review as independent evidence. Green emulator execution did not prove the caller device on direct reads; the valid P1 required a provider-verifiable token claim and a new denial matrix.",
-      "productionEvidenceLesson": "A dormant client and real emulator-proven candidate Rules boundary earns delta-zero RJR. Production capability cannot begin while production lacks the provider device credential required by the candidate, and later requires provider-live minimum Rules plus a playable host/join path.",
-      "authorityLesson": "Do not route a candidate directly to production Rules after review reveals an unissued credential prerequisite. First prove the smallest provider issuance/refresh/revocation boundary; preserve zero-billing and IAM locks, freeze a blocker for owner direction if necessary, and never weaken Rules to browser-supplied device identity."
-    },
-    {
-      "sessionId": "we-2026-08-31-stage5b-device-credential-foundation",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "pr174-corrected-publication-then-stage5c-zero-billing-standard-auth-session-adapter",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "The PR #173 Stage 5A handoff, official Firebase custom-token semantics and recovered outage ZIP were needed to distinguish a safe per-sign-in proof-of-possession credential from an unsafe user-wide custom-claim overwrite model and to identify the exact production infrastructure gate.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "routeFailureCluster": "Local Java 17 could not execute the exact Firebase CLI 15 lane requiring Java 21, so the candidate used the newest locally compatible emulator plus an exact Java 21 CI lane. Stateful deploy/stability/rollback workflows were explicitly excluded from the legacy source-contract runner rather than invoked as tests.",
-      "ciTriageLesson": "Make environment deferrals exact and machine-enforced, and treat review as a separate gate. The exact Java 21 CI lane must prove direct wrong-key and wrong-version Firestore denials after the valid P2 correction.",
-      "productionEvidenceLesson": "A key-bound credential candidate and a zero-billing architecture decision both earn zero RJR. Provider-live session Rules, playable host/join and real network evidence remain required.",
-      "authorityLesson": "Later owner direction can change the critical path without deleting valid research. Billing, Blaze and Cloud Run are now permanently forbidden; every nonbilling choice is authorized, so the successor must not keep asking for the superseded owner decision and must advance the Spark-native standard-Auth path."
-    },
-    {
-      "sessionId": "we-2026-09-01-stage5c-zero-billing-standard-auth-session-adapter",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "pr175-publication-then-minimum-production-session-rules",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "PR #174 exact post-merge evidence, the zero-billing architecture record, the reserved session schema and Stage 5A/5B proof boundaries were needed to implement an honest standard-Auth candidate without weakening exact-path security or claiming browser-device authentication.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": false,
-      "routeFailureCluster": "Six bounded routing errors were rejected before unsafe mutation or corrected through exact paths. A generic push was safety-rejected before publication; after the public repository, live main, explicit 18-file payload and absence of real secrets were verified, the targeted GitHub connector published only the intended branch.",
-      "ciTriageLesson": "A post-merge visual failure can be a stylesheet-readiness race rather than a runtime regression. Synchronize the audit to the dynamic stylesheet, repeat locally, and still require exact-head deployed CI. Java 21 provider execution remains a mandatory independent CI gate when local Java is 17.",
-      "productionEvidenceLesson": "A standard-Auth candidate, isolated Rules and real emulator users earn delta-zero RJR. Minimum production Rules, playable host/join, real two-device/two-network behavior and stable release acceptance remain distinct evidence gates.",
-      "authorityLesson": "Full nonbilling production authority removes repeated owner-decision blockers but never removes exact-head tests, review, WEC or the permanent no-billing rule. Finish the current candidate publication, transition, and let a fresh WEC own production Rules separately."
-    },
-    {
-      "sessionId": "we-2026-09-01-stage5d-minimum-production-session-rules",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "provider-live-stage5d-rules-publication-then-runtime-host-join",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "Exact PR #176 CI/review/merge/post-merge evidence and provider-route inventory were required to separate reviewed repository Rules source from still-unproven provider publication.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "ciTriageLesson": "Historical write-denied assertions must be updated to the exact reviewed session allowlist rather than restoring obsolete denial; require exact-head emulator/Chromium gates after correction.",
-      "productionEvidenceLesson": "Repository Rules source promotion and provider publication are separate evidence classes. Do not claim production provider change until authenticated Firebase evidence proves exact source identity.",
-      "authorityLesson": "Permanent no-billing authority permits every nonbilling provider decision but never buying review credits or activating billed infrastructure. At the separate provider gate, use an authenticated Spark-compatible Rules-only path or preserve the blocker honestly."
-    },
-    {
-      "sessionId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
-      "directRemoteJoiningPrerequisiteReached": true,
-      "nextRealProductMilestoneUnblocked": "fresh-production-r4-zero-manual-reattach-owner-acceptance",
-      "fullHistoryPreloaded": false,
-      "githubConnectorSufficient": true,
-      "ghFallbackUsed": false,
-      "deepFallbackUsed": true,
-      "deepFallbackReason": "Exact workflow logs and stale continuity contracts were needed to distinguish a real r4 sequencing defect from historical SLE drift.",
-      "missedCriticalContextIncident": false,
-      "staleAuthorityCorrection": true,
-      "ciTriageLesson": "When an exact-head browser failure persists after lower-level contracts pass, inspect runtime sequencing; when continuity failures follow, update current authority without deleting historical proofs.",
-      "productionEvidenceLesson": "Automated exact deployed-byte and complete-journey proof closes publication but adds zero fixed RJR unless a genuinely uncredited capability is proven.",
-      "authorityLesson": "At handoff 100, seal the production-proven checkpoint, close WEC, publish the recursive SLE package and stop before the distinct owner acceptance milestone."
+      "routeFailureCluster": "Continuity tests retained stale r4 candidate assumptions during r5 release assembly; exact failed logs were used to update only current-candidate truth while preserving production truth and permanent locks.",
+      "ciTriageLesson": "When runtime syntax/product contracts pass and continuity assertions fail, classify the assertion before source changes. Preserve security invariants and update only stale current checkpoint selectors.",
+      "productionEvidenceLesson": "Automated deployed proof can establish byte identity and deterministic browser behavior, but the previously failed owner acceptance moved RJR only after a fresh qualifying production run showed one-paste exact rivalry convergence with zero manual reattach.",
+      "authorityLesson": "At handoff proximity 100, stop after evidence recalculation and continuity publication. The next security/network hardening capability belongs to a fresh independently assessed WEC."
     }
   ],
-  "outcomeScale": {
-    "preventedErrorOrResolvedContradiction": 1,
-    "requiredForPublicationSecurityOrRecovery": 0.8,
-    "materiallyUsedInDecision": 0.5,
-    "neutralReference": 0,
-    "redundantPreload": -0.5
-  },
-  "updateRule": "newUtility = 0.8 * oldUtility + 0.2 * normalizedOutcome",
-  "safetyRule": "learned utility never suppresses mandatory security recovery current-authority WEC RJR or later-owner-instruction context",
-  "supervisedModelEligibility": {
-    "minimumMaterialSessions": 20,
-    "preferredEvaluationSessions": 30,
-    "eligibleNow": false
-  },
   "latestLesson": {
-    "lesson": "PR #184 at fixed RJR88 repaired stale Connected Rivalry A/B precedence. Pending or unauthorized B preserves durable A; verified active exact B can replace A. All exact-head and post-merge gates plus Pages exact-byte and deployed complete-journey proof are green. Billing remains forbidden, Spark remains selected, and the next fresh milestone is the minimal production one-paste automatic exact-rivalry convergence acceptance with zero manual Verify/Reattach.",
-    "rjrScore": 88,
-    "closeoutPullRequest": 184,
-    "next": "production-r4-one-paste-zero-manual-reattach-acceptance"
+    "rjrScore": 89,
+    "closeoutPullRequest": 187,
+    "runtimeRevision": "1.9.0-r5",
+    "next": "select-smallest-uncredited-rjr89-gap-after-fresh-wec",
+    "lesson": "A one-sided production convergence failure can be a missing post-peer activation trigger rather than an authorization defect. Preserve durable authority, retry only the exact transient not-active state, require owner production acceptance for the previously failed capability, award exactly one fixed-domain point, redact capabilities, and hand off before beginning the next milestone."
   }
 }
