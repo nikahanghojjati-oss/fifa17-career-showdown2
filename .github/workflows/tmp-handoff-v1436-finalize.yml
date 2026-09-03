@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Reuse validated authority patch and add deep publication condition
+      - name: Reuse validated authority patch and finalize production provenance
         shell: bash
         run: |
           python - <<'PY'
@@ -48,6 +48,10 @@ jobs:
           const to='SLE = Smart Lean Efficient. This is the deep-reference handoff behind ${STARTER}. Publication remains conditioned on required tests and required gates passing. Treat it as orientation only;';
           if(!s.includes(from)) throw new Error('deep handoff publication-condition anchor not found');
           s=s.replace(from,to);
+          const changelogAnchor="let ch=read('CHANGELOG.md')";
+          const provenance="for(const p of ['CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md','RELEASE_V1.9.0_R4.md']){let rs=read(p);const proof='Production proof: PR #184 merge '+MAIN+'; Deploy GitHub Pages run '+PAGES_RUN+'; Stability/deployed-site-smoke run '+STABILITY_RUN+'.';if(!rs.includes(proof))rs=rs.trimEnd()+'\\n\\n'+proof+'\\n';write(p,rs);}\n";
+          if(!s.includes(changelogAnchor)) throw new Error('release provenance insertion anchor not found');
+          s=s.replace(changelogAnchor,provenance+changelogAnchor);
           const rmFrom="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml'],{stdio:'inherit'});";
           const rmTo="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml'],{stdio:'inherit'});";
           if(!s.includes(rmFrom)) throw new Error('temporary cleanup anchor not found');
