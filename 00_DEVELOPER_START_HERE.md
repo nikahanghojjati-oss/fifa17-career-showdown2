@@ -1,10 +1,12 @@
 # CURRENT PRODUCTION — v1.9.0-r5 / PR #187 / RJR89
 
-Read `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md` first. Use `SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md` only for deeper reconstruction.
+Read `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md` first. Use `SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md` only for deeper reconstruction. `00_HANDOFF_GOLDEN_RULE.md` remains the handoff integrity rule and `NEXT_TASK.md` remains live execution authority after independent verification.
 
 At this handoff checkpoint, PR #187 exact reviewed head `e30f34ffade1cc64d0fb268a66eb8109b27c376c` is merged to runtime/main checkpoint `277f1b55dc362ee84d285445b99172b9fbed8509`. Production is `v1.9.0 / 1.9.0-r5`. All 15 post-merge workflows passed; Pages `33738921948` and Stability `33738921850` passed; deployed-site-smoke verified 97 runtime files byte-for-byte and the complete deployed browser journey.
 
 Owner production acceptance is PASS: one Player Two paste, automatic exact Connected Rivalry equality on both roles, Player One automatic post-join attachment, and zero manual Connected Rivalry Verify/Reattach in the qualifying run. Fixed RJR-1 is **89/100**, exactly +1 for that previously failed capability and zero process credit.
+
+The **Installable Offline App** remains the local-first startup and recovery baseline. The shipped `v1.3.0 Recovery & Device Resilience Hardening` baseline remains protected, as does the completed Local Profiles / Save Library chain. Candidate C is the sole destructive remote-to-local gameplay Apply authority and keeps **transaction-owned rollback with a strict exact raw snapshot**; no successor may revive the obsolete model that rolls every affected key indiscriminately.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
