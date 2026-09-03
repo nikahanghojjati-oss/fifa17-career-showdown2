@@ -24,7 +24,7 @@ assert.match(protocol,/recursive/i);
 assert.match(protocol,/starter/i);
 assert.match(protocol,/full handoff/i);
 assert.match(golden,/SLE/i);
-assert.match(golden,/Handoff proximity 100%|Handoff proximity reaches `100%`/i);
+assert.match(golden,/Handoff proximity:?\s*100%|Handoff proximity reaches `100%`/i);
 
 assert.equal(bootstrap.starter?.version,"1.4.37");
 assert.equal(bootstrap.starter?.checkpoint,"PR187-R5-OWNER-ACCEPTED-RJR89");
