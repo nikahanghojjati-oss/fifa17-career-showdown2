@@ -12,7 +12,7 @@ The **Installable Offline App** remains the local-first startup and recovery bas
 
 1. Read `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md` first and use `SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md` only for deeper reconstruction.
 2. Independently verify current live `main`, merged PR #187, exact deployed `v1.9.0 / 1.9.0-r5`, RJR `89/100`, all 15 post-merge workflow successes, Pages `33738921948`, Stability `33738921850`, `PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md`, and closed WEC `we-2026-09-03-stage5e-r4-production-convergence-acceptance`.
-3. Validate/archive predecessor closure, initialize a fresh unique WEC from the independently observed live main, reset every per-environment counter, run the fresh assessment, and never inherit predecessor `HANDOFF_AT_CHECKPOINT` as the new environment's decision.
+3. Enter **Work Environment Continuity**: validate/archive predecessor closure, initialize a fresh unique WEC from the independently observed live main, reset every per-environment counter, run the fresh assessment, and never inherit predecessor `HANDOFF_AT_CHECKPOINT` as the new environment's decision.
 4. Choose the smallest genuinely uncredited fixed-domain gap. Preferred order unless fresh evidence changes it:
    - authenticated third-account / revoked-device production negatives;
    - Remote Joining-specific two-device/two-network reconnect/adverse-network hardening;
