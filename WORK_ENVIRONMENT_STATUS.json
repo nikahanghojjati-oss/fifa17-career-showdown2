@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
   "lifecycle": "closed",
-  "recordedAt": "2026-09-03T05:36:00.000Z",
+  "recordedAt": "2026-09-03T05:39:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -17,7 +17,7 @@
     "majorPhasesCompleted": 1,
     "largeEvidenceEvents": 3,
     "toolRoutingErrors": 0,
-    "correctedFailures": 8,
+    "correctedFailures": 9,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -92,6 +92,7 @@
       "PR #186 exact-head validation then found cloud-foundation-contracts still treated the historical PR #166 / v1.8.1-r5 rollback restoration as current production. The contract now identifies PR #184 / v1.9.0-r4 as current production while explicitly preserving PR #166 / r5 rollback provenance and all historical Stage 5 checkpoints.",
       "PR #186 validation next found remote-data-privacy-retention-contracts still branched on a pre-r5 publication state and expected production r4/candidate r5. The live privacy authority now explicitly follows production PR #184 / v1.9.0-r4 while preserving Phase 1C and PR #166/r5 history and all zero-billing/privacy locks.",
       "PR #186 validation then reached cloud-sync-phase1f-contracts and found its sole live selector still froze current authority at restored v1.8.1-r5. That selector now requires production-proven PR #184 / v1.9.0-r4 while all historical Phase 1F, PR #125, PR #171 and PR #166/r5 provenance remains preserved.",
+      "PR #186 validation then reached the Stage 2A boundary and found its sole hard bootstrap selector still froze current authority at restored v1.8.1-r5. The boundary now requires production-proven PR #184 / v1.9.0-r4 and RJR88 while explicitly preserving the Stage 2A selection/completion record plus exact PR #166/r5 rollback provenance.",
       "RJR remains 88/100; r4 publication mechanics earn zero capability credit."
     ]
   }
