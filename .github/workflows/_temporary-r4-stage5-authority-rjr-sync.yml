@@ -1,0 +1,51 @@
+name: TEMP r4 Stage5 authority RJR sync
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-stage5-authority-rjr-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+          fetch-depth: 0
+      - name: Synchronize Stage 5 live readiness and exact event provenance
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tests/contracts/stage5-activation-authority-contracts.cjs')
+          text=p.read_text()
+          replacements=[
+            ('assert.equal(readiness.currentScore,87);','assert.equal(readiness.currentScore,88);'),
+            ('assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),87);','assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),88);'),
+            ('["devices-pairing-connected-rivalry-remote-join",20,30],','["devices-pairing-connected-rivalry-remote-join",21,30],'),
+            ('const latestStage5c=readiness.evidenceHistory.at(-1);\nconst latestDecision=readiness.evidenceHistory.at(-2);\nconst latestCandidate=readiness.evidenceHistory.at(-3);\nconst stage5aCandidate=readiness.evidenceHistory.at(-4);\nconst latestCredited=readiness.evidenceHistory.at(-5);',
+             'const stage5eLifecycle=readiness.evidenceHistory.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");\nconst latestStage5c=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5c-zero-billing-standard-auth-session-adapter-proof");\nconst latestDecision=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5b-rules-correction-zero-billing-architecture-decision");\nconst latestCandidate=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5b-device-credential-foundation-proof");\nconst stage5aCandidate=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5a-private-session-candidate-emulator-proof");\nconst latestCredited=readiness.evidenceHistory.find(entry=>entry.eventId==="production-provider-abuse-authenticated-enumeration-denial");\nassert.equal(stage5eLifecycle?.score,88);\nassert.equal(stage5eLifecycle?.delta,1);\nassert.equal(stage5eLifecycle?.domainId,"devices-pairing-connected-rivalry-remote-join");\nassert.match(stage5eLifecycle?.reason||"",/provider-live session lifecycle/i);\nassert.match(stage5eLifecycle?.reason||"",/zero-manual-reattach[\\s\\S]+zero credit/i);'),
+            ('process.stdout.write("PASS Stage 5 activation authority: production provider-abuse advances fixed RJR 86 to 87 once; Stage 5A, corrected Stage 5B, the zero-billing architecture decision and Stage 5D source promotion earn zero duplicate credit; the Spark-native standard-Auth Rules path remains authorized.\\n");',
+             'process.stdout.write("PASS Stage 5 activation authority: historical provider-abuse advances fixed RJR 86 to 87 once; the production-live Stage 5E Remote Joining lifecycle advances 87 to 88 once; failed zero-manual reattach and release mechanics earn zero duplicate credit; the Spark-native standard-Auth Rules path remains authorized.\\n");')
+          ]
+          for old,new in replacements:
+              assert old in text, f'missing Stage 5 authority anchor: {old[:100]}'
+              text=text.replace(old,new,1)
+          p.write_text(text)
+          PY
+      - name: Commit synchronized Stage 5 authority
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/contracts/stage5-activation-authority-contracts.cjs
+          git diff --cached --check
+          git commit -m "Sync Stage 5 authority to RJR88 evidence"
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
