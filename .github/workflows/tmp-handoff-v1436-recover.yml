@@ -1,7 +1,9 @@
 name: Temporary recover v1.4.36 r4 production seal
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - handoff/v1.4.36-r4-production-seal-recovered
 
 permissions:
   contents: write
@@ -10,4 +12,11 @@ jobs:
   recover:
     runs-on: ubuntu-latest
     steps:
-      - run: echo recovery helper staged
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Recover generate validate and self clean
+        run: python scripts/recover-v1436-production-seal.py
