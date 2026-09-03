@@ -19,5 +19,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Reconcile required publication-condition wording
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const p = 'scripts/tmp-handoff-v1436-seal.mjs';
+          let s = fs.readFileSync(p, 'utf8');
+          const from = 'SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory.\\n\\nThis starter';
+          const to = 'SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory. Publication remains conditioned on required tests and required gates passing.\\n\\nThis starter';
+          if (!s.includes(from)) throw new Error('starter publication-condition anchor not found');
+          fs.writeFileSync(p, s.replace(from, to));
+          NODE
       - name: Generate, validate, commit and remove temporary helper
         run: node scripts/tmp-handoff-v1436-seal.mjs
