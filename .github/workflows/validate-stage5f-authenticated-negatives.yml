@@ -7,6 +7,7 @@ on:
       - "js/stage5fProductionAuthenticatedNegatives.js"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
       - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
+      - "tests/contracts/sle-handoff-packaging-contracts.cjs"
       - "WORK_ENVIRONMENT_STATUS.json"
       - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
   push:
@@ -17,6 +18,7 @@ on:
       - "js/stage5fProductionAuthenticatedNegatives.js"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
       - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
+      - "tests/contracts/sle-handoff-packaging-contracts.cjs"
       - "WORK_ENVIRONMENT_STATUS.json"
       - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
   workflow_dispatch:
@@ -35,18 +37,14 @@ jobs:
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@v5
-
       - name: Set up Node 24
         uses: actions/setup-node@v5
         with:
           node-version: "24"
           cache: npm
-
       - name: Install locked dependencies
         run: npm ci
-
       - name: Verify Stage 5F zero-billing authenticated-negative contracts
         run: node tests/contracts/stage5f-authenticated-negatives-contracts.cjs
-
       - name: Verify repository contract suite remains green
         run: npm run test:contracts
