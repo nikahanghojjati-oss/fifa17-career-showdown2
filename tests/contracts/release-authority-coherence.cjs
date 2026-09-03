@@ -44,18 +44,33 @@ const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_
 const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
 const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
+const wec = JSON.parse(read("WORK_ENVIRONMENT_STATUS.json"));
 const runtimeMerge = bootstrap.latestRuntimeMerge;
 const candidateRecord = /Status:\s*RELEASE CANDIDATE/i.test(release);
 const currentAuthorityEnd = state.indexOf("\n---\n");
 const currentAuthority = state.slice(0,currentAuthorityEnd >= 0 ? currentAuthorityEnd : 5000);
 const currentProductionProven = /Status:\s*DEPLOYED\s*\/\s*PRODUCTION-PROVEN/i.test(currentAuthority) && currentAuthority.includes(revision);
 const previousRuntime = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];
+const activeCandidateWec = Boolean(
+    candidateRecord
+    && wec.lifecycle === "active"
+    && typeof wec.repository?.workingBranch === "string"
+    && typeof wec.continuity?.currentTask === "string"
+    && /convergence|hotfix|cache-bust|publish|release candidate/i.test(wec.continuity.currentTask)
+);
 
 A.ok(release.includes(`Runtime asset revision: \`${revision}\``), `${releasePath} has stale runtime identity.`);
 A.ok(handoff.includes(revision), `${handoffPath} has stale runtime identity.`);
 for(const [file, text] of [["NEXT_TASK.md", next], ["PROJECT_STATE.md", state]]){
     A.ok(text.includes(`v${version}`), `${file} must identify the current application version.`);
-    A.ok(text.includes(revision), `${file} must identify the active runtime revision.`);
+    if(!activeCandidateWec) A.ok(text.includes(revision), `${file} must identify the active runtime revision.`);
+}
+if(activeCandidateWec){
+    A.ok(previousRuntime, "An active WEC release candidate must name its previous known-good whole-runtime shell.");
+    A.ok(state.includes(previousRuntime) && next.includes(previousRuntime), "Production handoff docs must retain the previous production runtime while the active WEC owns the unmerged candidate.");
+    A.ok(wec.continuity.currentTask.includes("convergence") || /hotfix|publish/i.test(wec.continuity.currentTask), "Active candidate WEC must explicitly own the candidate task.");
+    A.match(handoff,/RELEASE CANDIDATE[\s\S]+NOT PRODUCTION-PROVEN/i,"Candidate maintenance record must deny premature production promotion.");
+    A.ok(handoff.includes(previousRuntime),"Candidate maintenance record must preserve the whole-shell recovery target.");
 }
 
 if(candidateRecord && currentProductionProven){
@@ -84,12 +99,20 @@ if(candidateRecord && currentProductionProven){
     A.ok(changelog.includes(previousRuntime), "Candidate CHANGELOG must retain previous production runtime truth.");
     const currentState = state.slice(0, state.indexOf("## Historical pre-Stage3 authority") >= 0 ? state.indexOf("## Historical pre-Stage3 authority") : 5000);
     const currentNext = next.slice(0, next.indexOf("## Historical pre-Stage3 authority") >= 0 ? next.indexOf("## Historical pre-Stage3 authority") : 5000);
-    A.match(currentState, /RELEASE CANDIDATE/i, "PROJECT_STATE must identify a release candidate.");
-    A.match(currentState, /NOT PRODUCTION(?:-PROVEN)?/i, "PROJECT_STATE must explicitly deny production promotion for the candidate.");
-    A.ok(currentState.includes(`v${version}`) && currentState.includes(revision), "PROJECT_STATE current override must identify the candidate version and runtime.");
-    A.match(currentNext, /Authorized (?:release|product) candidate:/i, "NEXT_TASK current override must identify the authorized candidate.");
-    A.ok(currentNext.includes(`v${version}`) && currentNext.includes(revision), "NEXT_TASK current override must identify the candidate version and runtime.");
-    A.ok(currentState.includes(previousRuntime) && currentNext.includes(previousRuntime), "Candidate authority must preserve the immediate production/recovery runtime.");
+    if(activeCandidateWec){
+        A.match(currentState,/PR #184[\s\S]+R4 PRODUCTION PROVEN/i,"PROJECT_STATE must retain the r4 production baseline while the active WEC owns r5.");
+        A.match(currentNext,/PR #184[\s\S]+R4 PRODUCTION PROVEN/i,"NEXT_TASK must retain the r4 production baseline while the active WEC owns r5.");
+        A.ok(currentState.includes(previousRuntime) && currentNext.includes(previousRuntime),"Active candidate WEC may not erase the previous production runtime.");
+        A.equal(wec.repository?.predecessorEnvironmentId,"we-2026-09-02-stage5e-r4-stale-pointer-precedence","Active r5 WEC must preserve its independently archived r4 predecessor.");
+        A.equal(wec.assessment?.decisionInheritedFromPredecessor,false,"Active candidate WEC must never inherit the predecessor transition decision.");
+    }else{
+        A.match(currentState, /RELEASE CANDIDATE/i, "PROJECT_STATE must identify a release candidate.");
+        A.match(currentState, /NOT PRODUCTION(?:-PROVEN)?/i, "PROJECT_STATE must explicitly deny production promotion for the candidate.");
+        A.ok(currentState.includes(`v${version}`) && currentState.includes(revision), "PROJECT_STATE current override must identify the candidate version and runtime.");
+        A.match(currentNext, /Authorized (?:release|product) candidate:/i, "NEXT_TASK current override must identify the authorized candidate.");
+        A.ok(currentNext.includes(`v${version}`) && currentNext.includes(revision), "NEXT_TASK current override must identify the candidate version and runtime.");
+        A.ok(currentState.includes(previousRuntime) && currentNext.includes(previousRuntime), "Candidate authority must preserve the immediate production/recovery runtime.");
+    }
 }else{
     for(const [file, text] of [
         ["README.md", readme], ["PROJECT_STATE.md", state], ["NEXT_TASK.md", next],
