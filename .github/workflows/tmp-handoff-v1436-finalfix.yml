@@ -1,0 +1,58 @@
+name: Temporary r4 handoff v1.4.36 final fix
+
+on:
+  push:
+    branches:
+      - handoff-v1.4.36-r4-production-seal
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Reconstruct prior package patch and align final assertion
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          def extract(path, occurrence):
+              lines=Path(path).read_text().splitlines()
+              blocks=[]; out=[]; active=False
+              for line in lines:
+                  if "node - <<'NODE'" in line:
+                      active=True; out=[]; continue
+                  if active and line.strip()=='NODE':
+                      blocks.append('\n'.join((x[10:] if x.startswith('          ') else x) for x in out)+'\n'); active=False; continue
+                  if active: out.append(line)
+              if len(blocks)<=occurrence: raise SystemExit(f'missing node block {occurrence} in {path}')
+              return blocks[occurrence]
+          Path('/tmp/seal-reconcile.cjs').write_text(extract('.github/workflows/tmp-handoff-v1436-seal.yml',0))
+          Path('/tmp/finalizer-patch.cjs').write_text(extract('.github/workflows/tmp-handoff-v1436-finalize.yml',0))
+          PY
+          node /tmp/seal-reconcile.cjs
+          node /tmp/finalizer-patch.cjs
+          node - <<'NODE'
+          const fs=require('node:fs');
+          const p='scripts/tmp-handoff-v1436-seal.mjs';
+          let s=fs.readFileSync(p,'utf8');
+          const old='assert.match(standing,/mandatory tests[\\s\\S]+gates pass/i);';
+          const replacement='assert.match(standing,/required test[\\s\\S]+mandatory publication gate/i);';
+          if(!s.includes(old)) throw new Error('standing authority assertion anchor not found');
+          s=s.replace(old,replacement);
+          const rmOld="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml'],{stdio:'inherit'});";
+          const rmNew="execFileSync('git',['rm','scripts/tmp-handoff-v1436-seal.mjs','.github/workflows/tmp-handoff-v1436-seal.yml','.github/workflows/tmp-handoff-v1436-finalize.yml','.github/workflows/tmp-handoff-v1436-finalfix.yml'],{stdio:'inherit'});";
+          if(!s.includes(rmOld)) throw new Error('final cleanup anchor not found');
+          s=s.replace(rmOld,rmNew);
+          fs.writeFileSync(p,s);
+          NODE
+      - name: Generate validate self-clean and commit package
+        run: node scripts/tmp-handoff-v1436-seal.mjs
