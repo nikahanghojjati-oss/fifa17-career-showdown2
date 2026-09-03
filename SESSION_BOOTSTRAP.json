@@ -1,21 +1,24 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-02T03:20:00.000Z",
+  "recordedAt": "2026-09-03T04:33:00.000Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "rjr/pr176-stage5d-provider-pending-sle-2026-09-01",
+  "bootstrapBranch": "handoff-v1.4.36-r4-production-seal",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "a4489fe7d812144deb3f747019eb162628480dac",
-  "lastVerifiedRuntimeMainSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
+  "lastVerifiedMainSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
+  "lastVerifiedRuntimeMainSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
   "latestRuntimeMerge": {
-    "pullRequest": 166,
-    "title": "Prove reversible production Pages rollback",
-    "mergeSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
-    "applicationVersion": "1.8.1",
-    "runtimeRevision": "1.8.1-r5",
-    "runtimeChanged": false,
+    "pullRequest": 184,
+    "title": "Stage 5E: fix stale Connected Rivalry pointer precedence",
+    "mergeSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
+    "applicationVersion": "1.9.0",
+    "runtimeRevision": "1.9.0-r4",
+    "runtimeChanged": true,
     "productionProofRecorded": true,
-    "productionProof": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
+    "productionProof": "CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md",
+    "postMergeRunsSuccessful": 15,
+    "pagesRunId": 33713396948,
+    "stabilityRunId": 33713396979,
     "rollbackRunId": 33190961085
   },
   "currentPublicationCheckpoint": {
@@ -111,12 +114,12 @@
     "stage5DProviderRunId": 33575616044
   },
   "lastProductionProvenRuntime": {
-    "pullRequest": 166,
-    "mergeSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
-    "applicationVersion": "1.8.1",
-    "runtimeRevision": "1.8.1-r5",
-    "proofRecord": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
-    "proofClass": "production-pages-rollback-exact-restoration-r5-safe",
+    "pullRequest": 184,
+    "mergeSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
+    "applicationVersion": "1.9.0",
+    "runtimeRevision": "1.9.0-r4",
+    "proofRecord": "CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md",
+    "proofClass": "production-pages-exact-byte-and-deployed-journey-r4",
     "currentRegression": null
   },
   "ownerStandingAuthorization": {
@@ -140,9 +143,9 @@
   },
   "runtime": {
     "applicationVersion": "1.9.0",
-    "productionRuntimeRevision": "1.8.1-r5",
-    "productionStatus": "production-proven-r5-with-exact-rollback-restoration-and-provider-proven-strengthened-firestore-rules",
-    "immediateRecoveryRuntime": "1.8.1-r4",
+    "productionRuntimeRevision": "1.9.0-r4",
+    "productionStatus": "production-proven-r4-exact-pages-bytes-and-complete-deployed-journey",
+    "immediateRecoveryRuntime": "1.9.0-r3",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckTrafficProven": true,
@@ -156,7 +159,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "PR #181 Stage 5E at fixed RJR87 consumes the independently provider-live Stage 5D Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08. Current source candidate is v1.9.0 / 1.9.0-r1. The immediate lane is exact-head Stage 5E review/CI cleanup, safe merge/deploy, and genuine provider-live host/join acceptance; provider Rules publication is already consumed and must not be repeated.",
+  "currentLane": "Fresh successor evidence lane after production-proven r4: first prove one fresh Player Two paste automatically converges both roles on the exact current Connected Rivalry with zero manual Verify/Reattach; then recalculate fixed RJR only from genuinely new production capability evidence.",
   "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
@@ -172,46 +175,40 @@
     "closure": "WORK_ENVIRONMENT_HISTORY.md"
   },
   "currentWec": {
-    "environmentId": "we-2026-09-01-stage5d-minimum-production-session-rules",
-    "startingMainSha": "e0445ebf214b9385667187e0e580bba497d8f039",
+    "environmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
+    "startingMainSha": "4eefed1f855d66c4af8c823291e24344886c617e",
     "initialDecision": "CONTINUE",
     "finalDecision": "HANDOFF_AT_CHECKPOINT",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "closingCheckpoint": "PR176 Stage5D reviewed production Rules source merged and all post-merge deployment gates green at fixed RJR87; provider publication of the new source remains unproven and is the fresh successor control-plane milestone"
+    "closingCheckpoint": "PR184 exact-head all-14 green; merged 2bfb7656940be23b635cb7092127a0ab0f62c7a4; all 15 post-merge workflows green; Pages 33713396948 and Stability deployed-site smoke 33713396979 green; r4 production-proven; RJR fixed at 88; successor package v1.4.36 sealed."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
-    "status": "current-rjr87-pr176-stage5d-provider-pending"
+    "canonical": "SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md",
+    "status": "current-rjr88-pr184-r4-production-proven"
   },
   "starter": {
-    "version": "1.4.35",
-    "checkpoint": "PR176-RJR87-STAGE5D-PROVIDER-PENDING",
-    "canonical": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
+    "version": "1.4.36",
+    "checkpoint": "PR184-R4-PRODUCTION-PROVEN-RJR88",
+    "canonical": "START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false,
-    "versionReason": "PR #176 merged the reviewed Stage 5D production Rules source and completed all post-merge gates while preserving honest separation from still-unproven Firebase provider publication."
+    "versionReason": "PR #184 r4 stale-pointer precedence repair is merged, all post-merge workflows and deployed-site smoke are green, and v1.9.0-r4 is production-proven; the next task is fresh owner acceptance rather than more r4 implementation."
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "deepReference": "SESSION_CONTEXT_GRAPH.json",
-    "providerProof": "STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md",
-    "providerAbuseProof": "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
-    "stage5ACandidateProof": "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
-    "stage5BCandidateProof": "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
-    "stage5CCandidateProof": "STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md",
-    "zeroBillingAuthority": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
-    "zeroBillingArchitectureDecision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
-    "productionRollbackProof": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "status": "rjr87-pr176-stage5d-provider-pending-package",
-    "stage5DProviderPendingProof": "STAGE5D_PRODUCTION_RULES_PROVIDER_PENDING_PROOF_2026-09-01.md"
+    "status": "rjr88-pr184-r4-production-proven-package",
+    "productionMergeSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
+    "pagesRunId": 33713396948,
+    "stabilityRunId": 33713396979
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -228,24 +225,26 @@
   "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
     "SESSION_BOOTSTRAP.json",
+    "00_SLE_HANDOFF_PROTOCOL.md",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
     "REMOTE_JOINING_READINESS.json",
+    "SESSION_CONTEXT_GRAPH.json",
+    "SESSION_CONTEXT_MODEL.json",
+    "SESSION_CONTEXT_LEARNING.json",
     "00_DEVELOPER_START_HERE.md",
     "00_CURRENT_HANDOFF.md",
     "WORK_ENVIRONMENT_STATUS.json",
-    "STAGE5D_PRODUCTION_RULES_PROVIDER_PENDING_PROOF_2026-09-01.md",
-    "STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md",
+    "START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
+    "CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md",
     "STAGE5D_PRODUCTION_RULES_PROVIDER_LIVE_PROOF_2026-09-02.md",
     "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
     "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
     "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
+    "STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md",
     "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
     "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
-    "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
-    "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
-    "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md",
-    "00_SLE_HANDOFF_PROTOCOL.md"
+    "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -271,10 +270,10 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
+    "name": "production-r4-one-paste-zero-manual-reattach-acceptance",
+    "summary": "After a fresh WEC independently verifies PR #184, v1.9.0-r4 and fixed RJR88, run the minimal provider-live production one-paste automatic exact-rivalry convergence acceptance with zero manual Verify/Reattach. Billing remains forbidden and Cloud Run excluded.",
     "mustNotInsertGenericPrerequisiteLane": true,
-    "mustStartAsRealProductWork": true,
-    "name": "stage5e-runtime-host-join-publication-and-production-acceptance",
-    "summary": "Fresh successor independently verifies live PR #181 and fixed RJR87, preserves the provider-live Stage 5D Rules blob 363af783d7e5436fdfaa3766d4aa413fc9952a08 as consumed, and validates the fresh WEC. Billing and Blaze remain forbidden and Cloud Run remains excluded. Then complete Stage 5E v1.9.0 host/join runtime publication and genuine production acceptance. RJR may move only from real provider-live Remote Joining capability evidence."
+    "mustStartAsRealProductWork": true
   },
   "transition": {
     "contextTransitionRequired": true,

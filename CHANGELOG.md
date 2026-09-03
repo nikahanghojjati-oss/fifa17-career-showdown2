@@ -1,4 +1,4 @@
-## v1.9.0-r4 — Stale Connected Rivalry Pointer Precedence — release candidate
+## v1.9.0-r4 — Stale Connected Rivalry Pointer Precedence — production-proven
 
 Candidate runtime: `1.9.0-r4`
 Previous production-proven runtime: `1.9.0-r3`
