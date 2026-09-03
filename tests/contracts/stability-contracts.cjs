@@ -16,6 +16,7 @@ const next = read('NEXT_TASK.md');
 const readme = read('README.md');
 const changelog = read('CHANGELOG.md');
 const gold = read('00_HANDOFF_GOLDEN_RULE.md');
+const wec = JSON.parse(read('WORK_ENVIRONMENT_STATUS.json'));
 
 const version = (app.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
 const revision = (html.match(/app-asset-revision"\s+content="([^"]+)/) || [])[1];
@@ -34,8 +35,16 @@ A.ok(fs.existsSync(path.join(root, releasePath)));
 const release = read(releasePath);
 const candidate = /Status:\s*RELEASE CANDIDATE/i.test(release);
 A.ok(release.includes(`Runtime asset revision: \`${revision}\``));
-A.ok(state.includes(`v${version}`) && state.includes(revision));
-A.ok(next.includes(`v${version}`) && next.includes(revision));
+const currentDocsCarryRevision = state.includes(revision) && next.includes(revision);
+const activeCandidateWec = Boolean(
+    candidate
+    && wec.lifecycle === 'active'
+    && wec.repository?.workingBranch
+    && typeof wec.continuity?.currentTask === 'string'
+    && /convergence|hotfix|release candidate|cache-bust|publish/i.test(wec.continuity.currentTask)
+);
+A.ok(state.includes(`v${version}`) && next.includes(`v${version}`));
+A.ok(currentDocsCarryRevision || activeCandidateWec, 'Current runtime revision must be carried by production handoff docs or by the active release-candidate WEC without rewriting production truth early.');
 
 if(candidate){
     const previous = (release.match(/Previous known-good runtime:\s*`([^`]+)`/i) || [])[1];

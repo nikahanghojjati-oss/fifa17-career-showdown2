@@ -19,6 +19,10 @@
     "careerModeShowdown.legacyShowdowns",
     "careerModeShowdown.preferences"
   ]);
+  const CR_PAIRING_ACTIVATION_RETRY_DELAYS_MS=Object.freeze([
+    1000,2000,3000,5000,8000,13000,21000,34000,55000,89000,
+    120000,120000,120000,120000,120000,120000
+  ]);
 
   let crState=Object.freeze({
     status:"idle",
@@ -49,6 +53,10 @@
   let crSettingsObserver=null;
   let crAccountUnsubscribe=null;
   let crPairingUnsubscribe=null;
+  let crPairingActivationRetryTimer=null;
+  let crPairingActivationRetryKey=null;
+  let crPairingActivationRetryAttempt=0;
+  let crPairingActivationRetryExpiresAtEpochMs=null;
   let crReconciliationIntent=null;
   const crListeners=new Set();
 
@@ -705,6 +713,63 @@
     return binding?crFreeze({rivalryId,binding}):null;
   }
 
+  function crPairingActivationRetryKeyFor(context,pairingCandidate){
+    return `${context.accountId}|${context.deviceId}|${pairingCandidate.rivalryId}|${pairingCandidate.binding.managerRole}|${pairingCandidate.binding.profileId}|${pairingCandidate.binding.saveId}`;
+  }
+
+  function crNextPairingActivationRetryDelay(attempt,nowEpochMs,expiresAtEpochMs){
+    if(!Number.isInteger(attempt)||attempt<0||attempt>=CR_PAIRING_ACTIVATION_RETRY_DELAYS_MS.length)return null;
+    const now=Number(nowEpochMs);
+    const expires=Number(expiresAtEpochMs);
+    if(!Number.isFinite(now)||!Number.isFinite(expires)||expires<=now)return null;
+    return Math.min(CR_PAIRING_ACTIVATION_RETRY_DELAYS_MS[attempt],expires-now);
+  }
+
+  function crClearPairingActivationRetry(){
+    if(crPairingActivationRetryTimer!==null&&typeof root.clearTimeout==="function"){
+      try{root.clearTimeout(crPairingActivationRetryTimer);}catch(_error){}
+    }
+    crPairingActivationRetryTimer=null;
+    crPairingActivationRetryKey=null;
+    crPairingActivationRetryAttempt=0;
+    crPairingActivationRetryExpiresAtEpochMs=null;
+  }
+
+  function crSchedulePairingActivationRetry(context,pairingCandidate){
+    const expiresAtEpochMs=Number(context&&context.pairingState&&context.pairingState.expiresAtEpochMs);
+    const nowEpochMs=Date.now();
+    if(!Number.isFinite(expiresAtEpochMs)||expiresAtEpochMs<=nowEpochMs){
+      crClearPairingActivationRetry();
+      return false;
+    }
+    const retryKey=crPairingActivationRetryKeyFor(context,pairingCandidate);
+    if(crPairingActivationRetryKey!==retryKey){
+      crClearPairingActivationRetry();
+      crPairingActivationRetryKey=retryKey;
+      crPairingActivationRetryExpiresAtEpochMs=expiresAtEpochMs;
+    }
+    if(crPairingActivationRetryTimer!==null)return true;
+    const delay=crNextPairingActivationRetryDelay(crPairingActivationRetryAttempt,nowEpochMs,crPairingActivationRetryExpiresAtEpochMs);
+    if(delay===null||delay<=0||typeof root.setTimeout!=="function"){
+      crClearPairingActivationRetry();
+      return false;
+    }
+    crPairingActivationRetryTimer=root.setTimeout(()=>{
+      crPairingActivationRetryTimer=null;
+      if(crPairingActivationRetryKey!==retryKey)return;
+      crPairingActivationRetryAttempt+=1;
+      const pairingRuntime=root.CareerModeSparkPrivatePairing;
+      const currentPairingState=pairingRuntime&&typeof pairingRuntime.getState==="function"?pairingRuntime.getState():null;
+      const currentCandidate=crResolvePairingCandidate(currentPairingState,crBindingOptions(),pairingRuntime);
+      if(!currentCandidate||currentCandidate.rivalryId!==pairingCandidate.rivalryId||!crSameBinding(currentCandidate.binding,pairingCandidate.binding)){
+        crClearPairingActivationRetry();
+        return;
+      }
+      void crInitialize();
+    },delay);
+    return true;
+  }
+
   async function crInitialize(options={}){
     if(crInitializePromise)return crInitializePromise;
     crInitializePromise=(async()=>{
@@ -734,13 +799,20 @@
               indexedDBImpl:options.indexedDBImpl||root.indexedDB
             });
             if(autoAttachResult&&autoAttachResult.ok===true){
+              crClearPairingActivationRetry();
               binding=pairingCandidate.binding;
               pointer=autoAttachResult.pointer;
               autoAttached=true;
-            }else if(!pointer){
-              binding=pairingCandidate.binding;
+            }else{
+              if(autoAttachResult&&autoAttachResult.code==="CONNECTED_RIVALRY_NOT_ACTIVE")crSchedulePairingActivationRetry(context,pairingCandidate);
+              else crClearPairingActivationRetry();
+              if(!pointer)binding=pairingCandidate.binding;
             }
+          }else{
+            crClearPairingActivationRetry();
           }
+        }else{
+          crClearPairingActivationRetry();
         }
         const prefillRivalryId=pairingCandidate&&(!pointer||pointer.rivalryId!==pairingCandidate.rivalryId||!crSameBinding(binding,pairingCandidate.binding))?pairingCandidate.rivalryId:null;
         return crSetState({
@@ -766,14 +838,17 @@
           message:autoAttached
             ?"Connected Rivalry attached automatically from the completed private pairing. No second code entry was required. Refresh shared state before publishing; local saves were not changed."
             :pointer
-              ?"A private Connected Rivalry link is saved on this browser. Refresh verifies current remote authority before any publish."
+              ?prefillRivalryId&&autoAttachResult&&autoAttachResult.code==="CONNECTED_RIVALRY_NOT_ACTIVE"
+                ?"The previous Connected Rivalry remains safely attached while the new private pairing waits for Player Two. The exact new rivalry will be rechecked automatically with bounded retries until pairing expiry; no manual Verify/Reattach is required."
+                :"A private Connected Rivalry link is saved on this browser. Refresh verifies current remote authority before any publish."
               :prefillRivalryId
                 ?autoAttachResult&&autoAttachResult.code==="CONNECTED_RIVALRY_NOT_ACTIVE"
-                  ?"The pairing code is prefilled automatically. After the second manager joins, Connected Rivalry will attach automatically on the next Save Library or Remote Joining check."
+                  ?"The pairing code is prefilled automatically. The exact rivalry will be rechecked automatically with bounded retries after the second manager joins; no manual Attach is required."
                   :"The pairing code is prefilled automatically. Connected Rivalry will verify and attach it when current paired authority is available; manual Attach remains only as a fallback."
                 :"Connected Rivalry is ready. Attach the exact private rivalry code once; this does not repeat pairing."
         });
       }catch(error){
+        crClearPairingActivationRetry();
         return crSetState({
           status:"unavailable",
           initialized:true,
@@ -817,6 +892,7 @@
   }
 
   async function crHandleAttach(binding,rivalryInput){
+    crClearPairingActivationRetry();
     crSetState({status:"attaching",busy:true,message:"Verifying the exact paired rivalry and this manager identity…"});
     try{
       const context=await crResolveContext();
@@ -1273,6 +1349,7 @@
     if(!crAccountUnsubscribe&&account&&typeof account.subscribe==="function"){
       crAccountUnsubscribe=account.subscribe(next=>{
         if(!next||next.connected!==true){
+          crClearPairingActivationRetry();
           crSetState({
             status:"signed-out",
             initialized:true,
@@ -1333,6 +1410,7 @@
     pointerStorage:"indexeddb-private-convenience-only",
     canonicalStorageKeys:CR_CANONICAL_KEYS,
     idempotencyRetentionMs:CR_IDEMPOTENCY_TTL_MS,
+    pairingActivationRetryDelaysMs:CR_PAIRING_ACTIVATION_RETRY_DELAYS_MS,
     persistentFirestoreCache:false,
     publicDiscovery:false,
     gameplaySync:true,
@@ -1348,6 +1426,7 @@
     loadPointer:crLoadPointer,
     resolveSavedPointer:crResolveSavedPointer,
     resolvePairingCandidate:crResolvePairingCandidate,
+    nextPairingActivationRetryDelay:crNextPairingActivationRetryDelay,
     buildProjection:crBuildProjection,
     buildMutationPlan:crBuildMutationPlan,
     attachRivalry:crAttachRivalry,

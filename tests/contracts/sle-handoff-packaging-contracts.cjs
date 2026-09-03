@@ -40,11 +40,22 @@ assert.ok(nextPrompt.includes(starterRoot));
 assert.match(nextPrompt,/independently verify/i); assert.match(nextPrompt,/fresh WEC/i); assert.match(nextPrompt,/Billing must never be activated/i);
 assert.equal(readiness.currentScore,88); assert.equal(readiness.denominator,100); assert.equal(capsule.remoteJoiningReadiness.score,88);
 const life=readiness.evidenceHistory?.find(e=>e.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle"); assert.equal(life?.score,88); assert.equal(life?.delta,1);
-const sourceRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1]; assert.equal(sourceRevision,"1.9.0-r4"); assert.equal(pkg.version,"1.9.0");
+const sourceRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1]; assert.equal(sourceRevision,"1.9.0-r5"); assert.equal(pkg.version,"1.9.0");
 assert.equal(capsule.runtime.productionRuntimeRevision,"1.9.0-r4"); assert.equal(capsule.runtime.immediateRecoveryRuntime,"1.9.0-r3");
 assert.equal(capsule.latestRuntimeMerge.pullRequest,166,"Historical latestRuntimeMerge remains PR #166 rollback provenance."); assert.equal(capsule.latestRuntimeMerge.mergeSha,"32c32afb1365c9ae6120d810a68e5c72c4b8229a"); assert.equal(capsule.latestRuntimeMerge.rollbackRunId,33190961085); assert.equal(capsule.lastProductionProvenRuntime.pullRequest,184); assert.equal(capsule.lastProductionProvenRuntime.mergeSha,"2bfb7656940be23b635cb7092127a0ab0f62c7a4"); assert.equal(capsule.lastProductionProvenRuntime.runtimeRevision,"1.9.0-r4"); assert.equal(capsule.successorPackage.pagesRunId,33713396948); assert.equal(capsule.successorPackage.stabilityRunId,33713396979);
 assert.equal(capsule.lastProductionProvenRuntime.pullRequest,184); assert.equal(capsule.lastProductionProvenRuntime.runtimeRevision,"1.9.0-r4");
-assert.equal(wec.environmentId,"we-2026-09-02-stage5e-r4-stale-pointer-precedence"); assert.equal(wec.lifecycle,"closed"); assert.equal(wec.assessment.decision,"HANDOFF_AT_CHECKPOINT"); assert.equal(wec.assessment.decisionInheritedFromPredecessor,false); assert.equal(wec.signals.handoffCompleteness,100);
+const closingWecId="we-2026-09-02-stage5e-r4-stale-pointer-precedence";
+let closingWec=wec;
+if(wec.environmentId!==closingWecId){
+  assert.ok(["active","transition-prepared"].includes(wec.lifecycle),"A successor WEC may replace the closing WEC only while it remains a valid live successor environment.");
+  assert.equal(wec.repository&&wec.repository.predecessorEnvironmentId,closingWecId,"Fresh WEC must explicitly name the r4 closing predecessor.");
+  const predecessorArchive=wec.repository&&wec.repository.predecessorArchive;
+  assert.equal(typeof predecessorArchive,"string","Fresh WEC must preserve an explicit predecessor archive path.");
+  assert.ok(fs.existsSync(predecessorArchive),"Fresh WEC predecessor archive must exist.");
+  closingWec=json(predecessorArchive);
+  assert.equal(wec.assessment&&wec.assessment.decisionInheritedFromPredecessor,false,"Fresh WEC must not inherit the predecessor transition decision.");
+}
+assert.equal(closingWec.environmentId,closingWecId); assert.equal(closingWec.lifecycle,"closed"); assert.equal(closingWec.assessment.decision,"HANDOFF_AT_CHECKPOINT"); assert.equal(closingWec.assessment.decisionInheritedFromPredecessor,false); assert.equal(closingWec.signals.handoffCompleteness,100);
 assert.ok(graph.nodes.some(n=>n.id==="rjr1-ledger"&&n.recordedScore===88));
 assert.ok(graph.nodes.some(n=>n.id==="stage5e-r4-production-proof"&&n.pullRequest===184&&n.rjrScoreAfterProof===88&&n.rjrDelta===0&&n.deployedEveryRuntimeByteProven===true&&n.deployedCompleteJourneyProven===true));
 assert.ok(graph.nodes.some(n=>n.id==="closing-current-wec"&&n.transitionPullRequest===184&&n.rjrScore===88&&n.handoffProximity===100));

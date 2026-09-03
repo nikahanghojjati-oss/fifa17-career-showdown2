@@ -27,6 +27,16 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
 (async()=>{
   assert.equal(typeof connected.resolveSavedPointer,"function","Connected Rivalry must expose deterministic pointer restoration for regression proof.");
   assert.equal(typeof connected.resolvePairingCandidate,"function","Connected Rivalry must expose the non-authoritative page-memory pairing handoff for regression proof.");
+  assert.equal(typeof connected.nextPairingActivationRetryDelay,"function","Connected Rivalry must expose deterministic bounded pending-pair retry timing for regression proof.");
+  assert.ok(Array.isArray(connected.pairingActivationRetryDelaysMs),"Pending-pair retries must use a finite immutable schedule.");
+  assert.equal(connected.pairingActivationRetryDelaysMs.length,16,"Creator activation retry must remain strictly bounded.");
+  assert.equal(connected.pairingActivationRetryDelaysMs[0],1000,"The first creator recheck should happen quickly after the initial pending result.");
+  assert.ok(connected.pairingActivationRetryDelaysMs.every(delay=>Number.isInteger(delay)&&delay>0&&delay<=120000),"Every retry delay must be positive and capped at two minutes.");
+  assert.ok(connected.pairingActivationRetryDelaysMs.reduce((sum,delay)=>sum+delay,0)>=15*60*1000,"The finite schedule must be able to cover the existing 15-minute pairing window while expiry remains the hard stop.");
+  assert.equal(connected.nextPairingActivationRetryDelay(0,1000,2000),1000);
+  assert.equal(connected.nextPairingActivationRetryDelay(0,1000,1500),500,"Pairing expiry must clamp the next provider check rather than extend authority.");
+  assert.equal(connected.nextPairingActivationRetryDelay(16,1000,5000),null,"No retry may exist beyond the finite schedule.");
+  assert.equal(connected.nextPairingActivationRetryDelay(0,5000,5000),null,"Expired pairing must never schedule another check.");
 
   const accountId="acct_player_two";
   const deviceId=`device_${"b".repeat(32)}`;
@@ -90,12 +100,16 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
   assert.match(source,/const pairingCandidate=crResolvePairingCandidate\(context\.pairingState,bindings/,"Initialization must evaluate the current pairing candidate even when a durable pointer exists so a newer provider-verified pairing can converge automatically.");
   assert.match(source,/if\(pairingCandidate\)\{[\s\S]*pairingDiffersFromDurable=Boolean\([\s\S]*pointer\.rivalryId!==pairingCandidate\.rivalryId[\s\S]*!crSameBinding\(binding,pairingCandidate\.binding\)/,"A stale durable pointer must remain a fallback while a different current pairing candidate is evaluated.");
   assert.match(source,/if\(pairingDiffersFromDurable\)\{\s*autoAttachResult=await crAttachRivalry\(\{/,"A different current pairing candidate must pass through the existing provider-authorized attach transaction before it may replace the durable pointer.");
-  assert.match(source,/else if\(!pointer\)\{\s*binding=pairingCandidate\.binding;/,"A failed or pending current pairing candidate must not displace the binding of an existing durable pointer.");
+  assert.match(source,/if\(!pointer\)binding=pairingCandidate\.binding;/,"A failed or pending current pairing candidate must not displace the binding of an existing durable pointer.");
   assert.match(source,/autoAttachResult=await crAttachRivalry\(\{/,"The handoff must reuse the existing verified Connected Rivalry attachment authority instead of introducing a parallel path.");
-  assert.match(source,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;\s*autoAttached=true;/,"Only a successful provider-verified attach may replace the durable binding and Connected Rivalry pointer.");
-  assert.match(source,/CONNECTED_RIVALRY_NOT_ACTIVE/,"Pending creator prefill must remain non-authoritative until the paired rivalry is provider-active.");
-  assert.match(source,/prefillRivalryId/);
-  assert.match(source,/After the second manager joins, Connected Rivalry will attach automatically on the next Save Library or Remote Joining check/);
+  assert.match(source,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*crClearPairingActivationRetry\(\);\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;\s*autoAttached=true;/,"Only a successful provider-verified attach may replace the durable binding and Connected Rivalry pointer, and success must cancel pending retries.");
+  assert.match(source,/autoAttachResult&&autoAttachResult\.code==="CONNECTED_RIVALRY_NOT_ACTIVE"\)crSchedulePairingActivationRetry\(context,pairingCandidate\)/,"Only the exact pending-active transition may schedule creator automatic rechecks.");
+  assert.match(source,/else crClearPairingActivationRetry\(\)/,"Authorization, identity, device, expiry and other failures must not be retried as if they were a normal pending pairing.");
+  assert.match(source,/crPairingActivationRetryKeyFor\(context,pairingCandidate\)/,"Retries must stay bound to the exact account, device, rivalry and manager binding candidate.");
+  assert.match(source,/crResolvePairingCandidate\(currentPairingState,crBindingOptions\(\),pairingRuntime\)/,"Every delayed recheck must confirm the same page-memory pairing candidate still exists before provider verification.");
+  assert.match(source,/crPairingActivationRetryAttempt\+=1;[\s\S]*void crInitialize\(\)/,"A bounded delayed recheck must return through normal initialization and the same provider-authorized attach path.");
+  assert.match(source,/The previous Connected Rivalry remains safely attached while the new private pairing waits for Player Two/,"The creator UI must explicitly preserve old durable authority while pending B is non-authoritative.");
+  assert.match(source,/no manual Verify\/Reattach is required/,"The repaired normal flow must state that manual reattach is not part of convergence.");
   assert.match(source,/capabilityChanged/);
   assert.match(source,/code\.value=crState\.rivalryId\|\|"";\s*if\(!code\.value&&crState\.prefillRivalryId\)code\.value=crState\.prefillRivalryId;/,"The Connected Rivalry input must visibly prefill from the pairing handoff without changing attachment authority.");
   assert.match(source,/crState\.attached\?"VERIFY \/ REATTACH":crState\.prefillRivalryId\?"VERIFY AUTO LINK":"ATTACH CONNECTED RIVALRY"/,"Manual attach/verify must remain a fallback surface rather than the normal pairing handoff.");
@@ -109,7 +123,7 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
   assert.match(pairingSource,/setState\(\{status:"creating-pair",busy:true,selectedBindingKey:bindingKey\(binding\),capability:null/,"CREATE must capture the manager binding before provider work begins.");
   assert.match(pairingSource,/setState\(\{status:"joining-pair",busy:true,selectedBindingKey:bindingKey\(binding\)/,"JOIN must capture the manager binding before provider redemption begins.");
 
-  assert.doesNotMatch(source,/\bsetInterval\s*\(/,"The quality-of-life handoff must not add provider polling infrastructure.");
+  assert.doesNotMatch(source,/\bsetInterval\s*\(/,"The creator convergence repair must never create unbounded interval polling.");
   assert.doesNotMatch(pairingSource,/\bsetInterval\s*\(/,"Private pairing must not add polling to make auto-link work.");
   assert.doesNotMatch(source,/\blocalStorage\b/,"The automatic handoff must not create a new canonical or convenience localStorage key.");
   assert.doesNotMatch(pairingSource,/\blocalStorage\b/,"Pairing auto-link must stay page-memory plus existing IndexedDB, never localStorage.");
@@ -118,7 +132,7 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
   }
   assert.doesNotMatch(pairingSource,/careerModeShowdown\.connectedRivalry/,"Private pairing itself must not create or mutate the durable Connected Rivalry pointer store.");
 
-  process.stdout.write("PASS Stage 4 Connected Rivalry restore + pairing QoL ultra-regression: creator/joiner exact-id handoff, Player One/Player Two binding isolation, dropdown-race lock, durable-pointer precedence, fail-closed prefill and no manual reattach in the normal flow are protected without new storage, polling or authority\n");
+  process.stdout.write("PASS Stage 4 Connected Rivalry restore + pairing QoL ultra-regression: creator/joiner exact-id handoff, bounded creator pending-to-active retries, Player One/Player Two binding isolation, dropdown-race lock, durable-pointer precedence, fail-closed prefill and zero-manual-reattach normal flow are protected without new storage, listing or authority\n");
 })().catch(error=>{
   process.stderr.write(`${error&&error.stack?error.stack:error}\n`);
   process.exit(1);
