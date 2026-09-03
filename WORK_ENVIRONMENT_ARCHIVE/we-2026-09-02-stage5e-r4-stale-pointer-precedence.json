@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "environmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
+  "lifecycle": "closed",
+  "recordedAt": "2026-09-03T05:50:00.000Z",
+  "repository": {
+    "name": "nikahanghojjati-oss/fifa17-career-showdown2",
+    "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
+    "startingMainSha": "4eefed1f855d66c4af8c823291e24344886c617e",
+    "workingBranch": "stage5e/r4-stale-pointer-precedence-2026-09-02",
+    "predecessorHandoffBranch": "handoff/stage5e-r3-owner-lifecycle-2026-09-02"
+  },
+  "signals": {
+    "contextComplexity": "high",
+    "projectComplexity": "very-high",
+    "compactionCount": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 3,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 11,
+    "repeatedMistakes": 0,
+    "staleFactCorrections": 1,
+    "unresolvedFailures": 0,
+    "newMilestoneNext": true,
+    "usageRemainingPercent": null,
+    "usageSource": "unavailable",
+    "usageWarning": false,
+    "handoffCompleteness": 100,
+    "unrecordedDecisions": 0,
+    "atomicOperation": false
+  },
+  "assessment": {
+    "decision": "HANDOFF_AT_CHECKPOINT",
+    "reason": "PR #184 exact head 36500a051c61793f14447ca0f931f504ed40a299 passed all 14 permanent families including Chromium and Stage 3, merged to 2bfb7656940be23b635cb7092127a0ab0f62c7a4, all 15 push workflows succeeded, Pages 33713396948 succeeded, and Stability 33713396979 completed exact deployed-byte plus full deployed-site journey proof. r4 is production-proven; the next work is a distinct owner production acceptance/evidence milestone. SLE package v1.4.36 is complete, so a fresh environment is safer and equally capable.",
+    "decisionInheritedFromPredecessor": false,
+    "usageExcludedBecauseUnavailable": true,
+    "scores": {
+      "contextPressure": 20,
+      "qualityRisk": 24,
+      "quotaRisk": null,
+      "nextTaskSeparation": 10,
+      "handoffReadiness": 8,
+      "atomicRisk": 8,
+      "continuationRisk": 10,
+      "transitionCost": 36,
+      "transitionAdvantage": -22
+    }
+  },
+  "continuity": {
+    "currentTask": "Seal production-proven v1.9.0-r4 and hand off before the distinct owner production no-manual-reattach acceptance milestone.",
+    "lastSafeCheckpoint": "Live main 2bfb7656940be23b635cb7092127a0ab0f62c7a4; production v1.9.0-r4; 15/15 post-merge workflows success; Pages 33713396948; Stability deployed-site smoke 33713396979; RJR 88/100.",
+    "nextSafeAction": "Fresh successor validates/archive this WEC, initializes/reset fresh WEC, then executes the minimal fresh production one-paste automatic Connected Rivalry convergence acceptance with zero manual Verify/Reattach.",
+    "unfinishedWork": [
+      "Minimal owner production r4 one-paste zero-manual-reattach acceptance",
+      "Strict RJR-1 recalculation only if new capability evidence is proven",
+      "Authenticated third-account/revoked-device production negatives if selected by fresh evidence assessment",
+      "Remote Joining-specific two-device/two-network reconnect/adverse-network hardening",
+      "Final stable Remote Joining release acceptance"
+    ],
+    "knownHazards": [
+      "Billing is permanently forbidden. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, Cloud Run, Cloud Functions or any billing-required service.",
+      "Firestore browser persistence remains memory-only and App Check enforcement remains OFF.",
+      "Do not award RJR points for source, PR, CI, review, merge, deployment, documentation or handoff work.",
+      "Pending, invalid, expired, wrong-account, wrong-device or wrong-manager pairing candidates must never displace a valid durable pointer.",
+      "Only existing provider-verified Connected Rivalry attachment authority may persist replacement pointer B; never delete or mutate provider rivalry A.",
+      "Exactly one Player Two paste and exact four-code equality must remain intact.",
+      "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
+      "Candidate C remains sole destructive remote-to-local gameplay Apply authority.",
+      "No public discovery, listing, lobby, matchmaking, community or rankings.",
+      "Never expose full private session capability evidence."
+    ],
+    "reportingContract": {
+      "requiredOwnerFacingFields": [
+        "Handoff proximity: N%",
+        "RJR: X/100"
+      ],
+      "handoffRule": "At 100 percent, seal and hand off before beginning another substantial milestone.",
+      "separationRule": "Handoff proximity is environment continuity readiness and never substitutes for evidence-backed RJR readiness.",
+      "freshSuccessorRule": "This WEC closes at production main 2bfb7656940be23b635cb7092127a0ab0f62c7a4. The successor must initialize a fresh WEC with reset counters and must not inherit HANDOFF_AT_CHECKPOINT."
+    },
+    "evidenceNotes": [
+      "Predecessor closing WEC we-2026-09-02-stage5e-production-acceptance was independently read from the handoff branch and accepted only as historical closure.",
+      "PR #183 is merged and its merge SHA equals current main.",
+      "Pages run 33672057887 is successful on exact main SHA 4eefed1f855d66c4af8c823291e24344886c617e.",
+      "Checked-in REMOTE_JOINING_READINESS.json still records 87/100 and predates the owner production Host/Join/Close lifecycle evidence.",
+      "The confirmed source defect is crInitialize restoring a saved pointer before it considers the current pairing candidate.",
+      "PR #184 final head 36500a051c61793f14447ca0f931f504ed40a299 all-14 green and merged to 2bfb7656940be23b635cb7092127a0ab0f62c7a4.",
+      "Exactly 15 post-merge push workflows on 2bfb7656940be23b635cb7092127a0ab0f62c7a4 completed successfully.",
+      "Deploy GitHub Pages run 33713396948 completed successfully.",
+      "Stability run 33713396979 completed successfully; deployed-site-smoke passed exact runtime bytes and full deployed journey.",
+      "PR #186 packaging validation found one interruption-resilience contract that rejected a complete closed WEC because NEXT_TASK preserved an older historical implementation identity. The guard was corrected narrowly to permit only a complete HANDOFF_AT_CHECKPOINT closed WEC explicitly named by the current NEXT_TASK override; historical NEXT_TASK provenance remains intact.",
+      "PR #186 exact-head validation then found cloud-foundation-contracts still treated the historical PR #166 / v1.8.1-r5 rollback restoration as current production. The contract now identifies PR #184 / v1.9.0-r4 as current production while explicitly preserving PR #166 / r5 rollback provenance and all historical Stage 5 checkpoints.",
+      "PR #186 validation next found remote-data-privacy-retention-contracts still branched on a pre-r5 publication state and expected production r4/candidate r5. The live privacy authority now explicitly follows production PR #184 / v1.9.0-r4 while preserving Phase 1C and PR #166/r5 history and all zero-billing/privacy locks.",
+      "PR #186 validation then reached cloud-sync-phase1f-contracts and found its sole live selector still froze current authority at restored v1.8.1-r5. That selector now requires production-proven PR #184 / v1.9.0-r4 while all historical Phase 1F, PR #125, PR #171 and PR #166/r5 provenance remains preserved.",
+      "PR #186 validation then reached the Stage 2A boundary and found its sole hard bootstrap selector still froze current authority at restored v1.8.1-r5. The boundary now requires production-proven PR #184 / v1.9.0-r4 and RJR88 while explicitly preserving the Stage 2A selection/completion record plus exact PR #166/r5 rollback provenance.",
+      "PR #186 validation then passed the full Stage 2A-through-2I and Stage 3-through-5 authority chain before release-authority coherence found POST_V1_ROADMAP_EXECUTION.md had no current r4 override and the required V1.9.0_R4_PRODUCTION_PROOF.md was absent. A current PR184/r4/RJR88 roadmap override and production-proof record were added without rewriting retained historical roadmap bodies or awarding RJR credit.",
+      "Final diff review found one older Stage 2H historical roadmap sentence had been rewritten by the recovered package from PR #93 merge boundary f85d692384cba0b343a9634a5a7b1d56f0b0cc4b to its starting-main SHA 8e5e892759ec2ddf033bb46f0c3d370c848615d5. Live PR #93 metadata independently proved f85d692384cba0b343a9634a5a7b1d56f0b0cc4b is the merge commit and 8e5e892759ec2ddf033bb46f0c3d370c848615d5 is the base SHA, so the historical merge sentence was restored exactly before final publication.",
+      "RJR remains 88/100; r4 publication mechanics earn zero capability credit."
+    ]
+  }
+}
