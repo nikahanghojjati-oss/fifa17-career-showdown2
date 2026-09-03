@@ -1,0 +1,58 @@
+name: TEMP r4 Stage5E evidence wording repair
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-stage5e-evidence-wording.yml
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: Repair exact Stage 5E evidence wording assertions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs')
+          text=p.read_text()
+          reps=[
+            ('assert.match(stage5eLifecycleEvidence?.reason||"",/provider-live session lifecycle/i);','assert.match(stage5eLifecycleEvidence?.reason||"",/actual Remote Joining session capability end to end/i);'),
+            ('assert.match(stage5eLifecycleEvidence?.reason||"",/zero-manual-reattach[\\s\\S]+zero credit/i);','assert.match(stage5eLifecycleEvidence?.reason||"",/zero credit[\\s\\S]+zero-manual-reattach/i);')
+          ]
+          for old,new in reps:
+            if text.count(old)!=1:
+              raise SystemExit(f'expected exactly one assertion: {old}; found {text.count(old)}')
+            text=text.replace(old,new,1)
+          p.write_text(text)
+          PY
+      - name: Verify complete contract suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run test:contracts
+      - name: Commit exact repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs
+          git diff --cached --quiet && exit 0
+          git commit -m 'Align Stage 5E runtime evidence assertions'
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
