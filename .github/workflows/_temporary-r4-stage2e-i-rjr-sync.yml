@@ -1,0 +1,58 @@
+name: TEMP r4 Stage2E-I RJR sync
+
+on:
+  push:
+    branches:
+      - stage5e/r4-stale-pointer-precedence-2026-09-02
+    paths:
+      - .github/workflows/_temporary-r4-stage2e-i-rjr-sync.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: stage5e/r4-stale-pointer-precedence-2026-09-02
+          fetch-depth: 0
+      - name: Synchronize only plain live Stage 2E-I RJR assertions
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          files=[]
+          for stage in 'efghi':
+              files.extend(sorted(Path('tests/contracts').glob(f'private-account-auth-stage2{stage}*-contracts.cjs')))
+          old='assert.equal(readiness.currentScore,87);'
+          touched=[]
+          for p in files:
+              text=p.read_text()
+              count=text.count(old)
+              if not count:
+                  continue
+              assert count == 1, f'unexpected multiple plain live RJR87 assertions in {p}: {count}'
+              label=p.stem.replace('private-account-auth-','').replace('-contracts','').upper()
+              new=(
+                  f'assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"{label} live readiness must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");\n'
+                  'const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");\n'
+                  f'assert.equal(stage5eRjrEvidence?.score,88,"{label} must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");\n'
+                  f'assert.equal(stage5eRjrEvidence?.delta,1,"{label} must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");'
+              )
+              p.write_text(text.replace(old,new,1))
+              touched.append(str(p))
+          assert touched, 'no plain live Stage 2E-I RJR87 assertions found'
+          print('touched', *touched, sep='\n')
+          PY
+      - name: Commit synchronized Stage 2E-I RJR authority
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/contracts/private-account-auth-stage2[e-i]*-contracts.cjs
+          git diff --cached --check
+          git commit -m "Sync Stage 2E-I live assertions to RJR88 evidence"
+          git push origin HEAD:stage5e/r4-stale-pointer-precedence-2026-09-02
