@@ -98,23 +98,20 @@ assert.doesNotMatch(proof,/accountIdFingerprint|accountFingerprint|sha256:[0-9a-
 assert.match(proof,/did not create or mutate an account, registered device, pairing capability, rivalry, shared gameplay state, session, or revocation state/i);
 assert.match(proof,/86\/100 -> 87\/100/);
 
-assert.match(next,/STAGE 5A IS AUTHORIZED NEXT/i);
-assert.match(next,/new module/i);
-assert.match(next,/candidate emulator Rules boundary/i);
-assert.match(next,/no production Rules publication/i);
-assert.match(next,/host-only[^\n]+open[^\n]+creation/i);
-assert.match(next,/peer-only[^\n]+open -> active[^\n]+join/i);
-assert.match(next,/no collection listing/i);
-assert.match(next,/add no localStorage key/i);
-assert.match(next,/Do not change or publish production Rules in this closing checkpoint/i);
-assert.match(state,/Stage 5 is no longer locked/i);
-assert.match(state,/rivalries\/\{rivalryId\}\/sessions\/\{sessionId\}/);
-assert.match(next,/PR #173 STAGE 5A CANDIDATE PROVEN[\s\S]+PROVIDER DEVICE CREDENTIAL NEXT/i);
-assert.match(next,/provider-verifiable current-device credential issuance, refresh and revocation boundary/i);
-assert.match(next,/do not publish production session Rules in the credential-foundation slice/i);
-assert.match(next,/PR #174 STAGE 5B CREDENTIAL CANDIDATE[\s\S]+OWNER ACTIVATION DECISION NEXT/i);
-assert.match(next,/Blaze\/Cloud Run[\s\S]+secondary Firebase custom authentication[\s\S]+iam\.serviceAccounts\.signBlob[\s\S]+datastore\.entities\.update/i);
-assert.match(next,/PR #174 P2 CORRECTION[\s\S]+billing must never be activated[\s\S]+stage5c-zero-billing-standard-auth-session-adapter/i);
+// Historical Stage 5A/5B/5C transition details are asserted from the immutable
+// proof, rules and client artifacts below. Live NEXT_TASK/PROJECT_STATE must
+// instead track the current owner-accepted r5 / fixed-RJR89 successor boundary.
+assert.match(next,/^# CURRENT OVERRIDE — PR #187[\s\S]+RJR89/im,"Live NEXT_TASK must identify PR187/r5/RJR89 successor authority.");
+assert.match(next,/authenticated third-account \/ revoked-device production negatives/i,"Live NEXT_TASK must expose the smallest preferred uncredited fixed-domain gap.");
+assert.match(next,/Remote Joining-specific two-device\/two-network reconnect\/adverse-network hardening/i,"Live NEXT_TASK must preserve the next hardening option after authenticated negatives.");
+assert.match(next,/final stable Remote Joining release acceptance/i,"Live NEXT_TASK must preserve final stable-release acceptance as a remaining capability gap.");
+assert.match(next,/Do not repeat consumed r5 one-paste convergence[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i,"Live NEXT_TASK must preserve consumed-proof discipline.");
+assert.match(next,/Billing must never be activated[\s\S]{0,120}Firebase remains Spark/i,"Live NEXT_TASK must preserve the permanent zero-billing Spark boundary.");
+assert.match(next,/App Check enforcement remains OFF/i,"Live NEXT_TASK must keep App Check enforcement off.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live PROJECT_STATE must identify current PR187/r5/RJR89 authority.");
+assert.match(state,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
+assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: gameplay)? Apply authority/i,"Live PROJECT_STATE must preserve Candidate C destructive Apply authority.");
+
 assert.match(stage5aProof,/candidate protocol and emulator boundary proven; production publication deliberately excluded/i);
 assert.match(stage5aProof,/Fixed Remote Joining readiness: `87\/100` unchanged/i);
 assert.match(stage5aRules,/STAGE5A_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+STAGE5A_CANDIDATE_SESSION_FUNCTIONS_END/);
@@ -156,4 +153,4 @@ assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSe
 assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
 
-process.stdout.write("PASS Stage 5 activation authority: historical provider-abuse advances fixed RJR 86 to 87 once; the production-live Stage 5E Remote Joining lifecycle advances 87 to 88 once; owner-proven r5 automatic one-paste exact-rivalry convergence advances 88 to 89 once; source, CI, merge, deployment and repeated substeps earn zero duplicate credit; the Spark-native standard-Auth Rules path remains authorized.\n");
+process.stdout.write("PASS Stage 5 activation authority: historical provider-abuse advances fixed RJR 86 to 87 once; the production-live Stage 5E Remote Joining lifecycle advances 87 to 88 once; owner-proven r5 automatic one-paste exact-rivalry convergence advances 88 to 89 once; source, CI, merge, deployment and repeated substeps earn zero duplicate credit; historical Stage 5A/5B/5C proof remains immutable while live authority routes from PR187/RJR89.\n");
