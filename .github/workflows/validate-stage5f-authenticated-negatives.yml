@@ -1,0 +1,54 @@
+name: Validate Stage 5F Authenticated Negatives
+
+on:
+  pull_request:
+    paths:
+      - "production-authorization-acceptance.html"
+      - "js/stage5fProductionAuthenticatedNegatives.js"
+      - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
+      - "tests/contracts/production-authorization-acceptance-contracts.cjs"
+      - "tests/contracts/production-provider-abuse-acceptance-contracts.cjs"
+      - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
+      - "tests/contracts/sle-handoff-packaging-contracts.cjs"
+      - "WORK_ENVIRONMENT_STATUS.json"
+      - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
+  push:
+    branches:
+      - "hardening/stage5f-authenticated-negatives-2026-09-03"
+    paths:
+      - "production-authorization-acceptance.html"
+      - "js/stage5fProductionAuthenticatedNegatives.js"
+      - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
+      - "tests/contracts/production-authorization-acceptance-contracts.cjs"
+      - "tests/contracts/production-provider-abuse-acceptance-contracts.cjs"
+      - "tests/contracts/handoff-immediate-next-task-contracts.cjs"
+      - "tests/contracts/sle-handoff-packaging-contracts.cjs"
+      - "WORK_ENVIRONMENT_STATUS.json"
+      - ".github/workflows/validate-stage5f-authenticated-negatives.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage5f-authenticated-negatives-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
+
+jobs:
+  stage5f-authenticated-negatives:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v5
+      - name: Set up Node 24
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify Stage 5F zero-billing authenticated-negative contracts
+        run: node tests/contracts/stage5f-authenticated-negatives-contracts.cjs
+      - name: Verify repository contract suite remains green
+        run: npm run test:contracts

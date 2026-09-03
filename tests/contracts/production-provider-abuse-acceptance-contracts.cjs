@@ -24,7 +24,7 @@ function storage(entries={}){
   assert.match(page,/Authenticated enumeration denial/);
   assert.match(page,/authorizationProviderAbuseProbe/);
   assert.match(page,/Requested provider writes: 0/i);
-  assert.match(page,/productionProviderAbuseAcceptance\.js\?v=1\.8\.1-r5/);
+  assert.match(page,/<script src="js\/productionProviderAbuseAcceptance\.js"><\/script>/);
   assert.match(serviceWorkerSource,/NETWORK_ONLY_NAVIGATION_PATHS[\s\S]+production-authorization-acceptance\.html/,'The production acceptance document must be explicitly exempt from application-shell navigation fallback.');
   assert.match(serviceWorkerSource,/function networkOnlyRequest\(request\)\{ return new Request\(request,\{cache:"reload"\}\); \}/,'Network-only acceptance resources must bypass the ordinary HTTP cache.');
   assert.match(serviceWorkerSource,/request\.mode==="navigate"[\s\S]+relativeScopePath\(url\)[\s\S]+NETWORK_ONLY_NAVIGATION_PATHS\.has\(path\)[\s\S]+event\.respondWith\(fetch\(networkOnlyRequest\(request\)\)\); return;[\s\S]+chooseNavigationRuntime/,'A controlled returning browser must reload the production acceptance document from the network instead of receiving cached index.html or stale HTTP-cache content.');

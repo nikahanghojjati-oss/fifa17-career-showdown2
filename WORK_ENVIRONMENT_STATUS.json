@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
-  "lifecycle": "closed",
-  "recordedAt": "2026-09-03T13:25:00.000Z",
+  "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
+  "lifecycle": "active",
+  "recordedAt": "2026-09-03T20:58:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "f591945fa74b59b961dd79a80849d72a3ab987ba",
-    "workingBranch": "acceptance/stage5e-r4-production-convergence-2026-09-03",
-    "handoffBranch": "handoff/v1.4.37-pr187-r5-owner-accepted-rjr89",
-    "predecessorEnvironmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-02-stage5e-r4-stale-pointer-precedence.json"
+    "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
+    "workingBranch": "hardening/stage5f-authenticated-negatives-2026-09-03",
+    "handoffBranch": "handoff/pending-stage5f-authenticated-negatives",
+    "predecessorEnvironmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json"
   },
   "signals": {
-    "contextComplexity": "very-high",
+    "contextComplexity": "low",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 8,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 0,
     "toolRoutingErrors": 0,
-    "correctedFailures": 1,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
-    "newMilestoneNext": true,
+    "newMilestoneNext": false,
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
@@ -32,28 +32,29 @@
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "HANDOFF_AT_CHECKPOINT",
-    "reason": "The bounded r5 creator-side automatic convergence repair is fully implemented, exact-head validated, merged, deployed and production-accepted. Owner evidence closes the one-paste/zero-manual-reattach capability, fixed RJR-1 recalculates from 88 to 89, and the next work is a distinct uncredited Remote Joining hardening milestone. Handoff proximity is therefore 100 and this environment must stop before beginning that milestone.",
+    "decision": "CONTINUE",
+    "reason": "Fresh successor environment initialized from independently verified live main. Per-environment counters are reset, no inherited transition decision is carried forward, and the current bounded task is the smallest genuinely uncredited RJR-1 gap: authenticated third-account and revoked-device production negatives.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
-      "contextPressure": 90,
+      "contextPressure": 15,
       "qualityRisk": 0,
       "quotaRisk": null,
-      "nextTaskSeparation": 80,
+      "nextTaskSeparation": 20,
       "handoffReadiness": 100,
       "atomicRisk": 0,
-      "continuationRisk": 78,
-      "transitionCost": 18,
-      "transitionAdvantage": 60
+      "continuationRisk": 10.3,
+      "transitionCost": 13.5,
+      "transitionAdvantage": -3.2
     }
   },
   "continuity": {
-    "currentTask": "CLOSED: production v1.9.0-r5 one-paste automatic exact Connected Rivalry convergence acceptance.",
-    "lastSafeCheckpoint": "PR #187 merged to main 277f1b55dc362ee84d285445b99172b9fbed8509. Pages run 33738921948 passed. Stability run 33738921850 completed successfully, including deployed-site-smoke and the production pairing automation ultra-audit. Deployment verification proved 97 runtime files match 1.9.0-r5 byte-for-byte. Owner production screenshots then proved Player Two ONE PASTE CONFIRMED and automatic exact Connected Rivalry convergence on both roles with zero manual Verify/Reattach. Fixed RJR-1 is 89/100.",
-    "nextSafeAction": "Fresh successor only: independently verify live main, merged PR #187, exact deployed v1.9.0-r5, RJR 89/100, the 15 post-merge workflow successes, Pages 33738921948, Stability 33738921850 and this closed WEC. Then initialize a fresh unique WEC and select the smallest genuinely uncredited RJR-1 gap without repeating consumed r5 acceptance.",
+    "currentTask": "Determine and close the smallest authenticated third-account/revoked-device Remote Joining production-negative capability gap without repeating consumed RJR proof.",
+    "lastSafeCheckpoint": "Live main independently verified at 4605a477ea49407d9e9e863914b753d273a4d5d4 with PR #188 merged, production v1.9.0 / 1.9.0-r5 unchanged, fixed RJR-1 89/100, and predecessor WEC already archived byte-identically.",
+    "nextSafeAction": "Trace the actual Stage 5 device credential, session authorization and Firestore Rules paths to distinguish already-implemented-but-unproven denial from a real revoked-device authorization gap; implement only the smallest required hardening and tests, preserving all permanent locks.",
     "unfinishedWork": [
-      "Authenticated third-account/revoked-device production negatives remain uncredited.",
+      "Authenticated third-account production negative remains uncredited.",
+      "Revoked-device production negative remains uncredited.",
       "Remote Joining-specific two-device/two-network reconnect/adverse-network hardening remains uncredited.",
       "Final stable Remote Joining release acceptance remains uncredited."
     ],
@@ -63,22 +64,15 @@
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
       "Candidate C remains the sole destructive remote-to-local gameplay Apply authority.",
       "Exactly two private managers remain mandatory; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized.",
-      "Do not expose or durably retain full private pairing/session capabilities. Evidence records must use redacted identifiers only.",
-      "Do not award RJR points for source, PR count, CI volume, review, merge, deployment, WEC, SLE or handoff work.",
-      "Do not repeat consumed pairing, Candidate C, accepted-result replay, token-lifecycle, rollback, provider-Rules, provider-abuse or r5 one-paste convergence proof merely for confidence."
+      "Do not expose or durably retain full private pairing/session capabilities; use redacted identifiers only.",
+      "Do not use the protected historical rivalry for destructive testing.",
+      "Do not award RJR points for source, PR count, CI, review, merge, deployment, WEC, SLE or handoff work."
     ],
     "evidenceNotes": [
-      "The r4 owner acceptance failed because Player One retained durable rivalry A after an early pending-B check while Player Two converged to B. The manual fallback was diagnostic only and earned zero readiness credit.",
-      "PR #187 repaired only that creator-side timing gap with an exact finite expiry-bounded retry that continues only for CONNECTED_RIVALRY_NOT_ACTIVE and preserves A for all other failures.",
-      "Final PR #187 exact head e30f34f... passed all 14 permanent workflow families before expected-head squash merge.",
-      "PR #187 squash merge/main is 277f1b55dc362ee84d285445b99172b9fbed8509.",
-      "All 15 post-merge push/deployment workflows completed successfully on the merge. Pages run 33738921948 succeeded.",
-      "Stability run 33738921850 succeeded. Its deployed-site-smoke verified 97 runtime files byte-for-byte as 1.9.0-r5 and completed the full deployed browser journey.",
-      "The deployed pairing automation ultra-audit passed three fresh Player One and three fresh Player Two isolated Chromium processes with P1 prefill/postjoin auto-attach, one-paste retained P2 input and exact Connected Rivalry equality.",
-      "Owner production screenshots at approximately 2026-09-03 09:21-09:23 America/New_York show Player Two ONE PASTE CONFIRMED and both roles on the same fresh rivalry. Player One text states Connected Rivalry attached automatically from the completed private pairing with no second code entry required.",
-      "The owner confirms the qualifying production run used zero manual Connected Rivalry Verify/Reattach actions.",
-      "Full private pairing/rivalry capability values visible in screenshots are intentionally not copied into durable evidence.",
-      "REMOTE_JOINING_READINESS.json therefore credits exactly +1 in devices-pairing-connected-rivalry-remote-join, moving fixed RJR-1 from 88 to 89."
+      "Live main and PR #188 were independently reverified before successor initialization.",
+      "The predecessor closed decision HANDOFF_AT_CHECKPOINT is not inherited; this environment owns a fresh CONTINUE assessment.",
+      "Fixed RJR-1 remains 89/100 until genuinely new production capability evidence is accepted.",
+      "Initial Firestore Rules inspection shows authenticated rivalry/session access is constrained to the two authorized account identities; device-revocation enforcement must still be traced through the actual runtime/provider path before any change is justified."
     ]
   }
 }
