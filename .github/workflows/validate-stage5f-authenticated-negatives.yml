@@ -21,8 +21,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: stage5f-authenticated-negatives-${{ github.ref }}
-  cancel-in-progress: true
+  group: stage5f-authenticated-negatives-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.run_attempt == 1 && github.event_name != 'workflow_dispatch' }}
 
 jobs:
   stage5f-authenticated-negatives:
@@ -30,10 +30,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout exact candidate
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "24"
           cache: npm
