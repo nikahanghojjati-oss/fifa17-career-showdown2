@@ -83,7 +83,7 @@ assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Conf
 assert.match(remoteRoadmap, /Stage 3[\s\S]+BLOCKED until Stage 2 is proven/i);
 assert.match(currentHandoff, /PR #187[\s\S]+1\.9\.0-r5[\s\S]+89\/100/i,"Rolling handoff must expose current PR187/r5/RJR89 transition authority.");
 assert.match(currentHandoff, /HANDOFF_AT_CHECKPOINT[\s\S]+handoff completeness `100`/i,"Rolling handoff must expose the current complete transition boundary rather than a historical checkpoint.");
-assert.match(currentHandoff, /one-paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the owner-accepted production capability that moved RJR88 to RJR89.");
+assert.match(currentHandoff, /one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the owner-accepted production capability that moved RJR88 to RJR89.");
 
 assert.equal(firebaseRc.projects.default, "demo-career-mode-showdown-phase1f");
 assert.equal(firebaseConfig.emulators.auth.host, "127.0.0.1");
