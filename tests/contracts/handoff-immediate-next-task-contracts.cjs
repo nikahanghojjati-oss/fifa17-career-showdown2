@@ -71,7 +71,9 @@ assert.match(next,/fresh unique WEC[\s\S]+provider[\s\S]+Rules[\s\S]+Runtime hos
 assert.match(next,/Do not repeat consumed[\s\S]+production rollback\/restoration[\s\S]+provider Rules publication[\s\S]+provider-abuse acceptance/i,"NEXT_TASK must mark consumed proof as non-repeatable merely for confidence.");
 
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"SESSION_BOOTSTRAP must preserve latest runtime/rollback provenance at PR #166.");
-assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with deployed production runtime.");
+assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","SESSION_BOOTSTRAP must preserve PR #166 rollback provenance at the historical r5 runtime.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,184,"SESSION_BOOTSTRAP must identify PR #184 as the current production-proven runtime publication.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,productionRuntime,"Current production runtime provenance must agree with the deployed shell.");
 assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"SESSION_BOOTSTRAP must retain the exact rollback run id.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"SESSION_BOOTSTRAP must identify PR #176 as the current Stage 5D source/provider-pending checkpoint.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence,87,"SESSION_BOOTSTRAP must preserve the historical PR #176 RJR87 checkpoint.");
@@ -119,18 +121,18 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderDeviceCre
 assert.equal(bootstrap.currentPublicationCheckpoint?.stage5ARuntimeImplemented,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionSessionRulesChanged,true,"Stage 5D production session Rules publication is now provider-live and consumed.");
 assert.equal(bootstrap.runtime?.candidateRuntimeRevision,undefined,"A sealed production transition must not retain a phantom candidate runtime.");
-assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.8.1-r5","Production must remain on r5.");
+assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r4","Production-proven runtime must be r4 after PR #184 deployment acceptance.");
 assert.match(bootstrap.starter?.version||"",/^\d+\.\d+\.\d+$/,"The repository SLE bootstrap starter must carry a semantic patch version.");
-assert.equal(bootstrap.starter?.version,"1.4.35","The Stage 5D provider-pending/RJR87 transition must publish starter v1.4.35.");
+assert.equal(bootstrap.starter?.version,"1.4.36","The PR #184 r4 production-proven transition must publish starter v1.4.36.");
 assert.ok(bootstrap.starter?.canonical?.includes(`V${bootstrap.starter.version}_`),"The SLE bootstrap starter version must agree with its canonical versioned filename.");
 assert.ok(bootstrap.starter?.projectMirror?.endsWith(bootstrap.starter.canonical),"The SLE bootstrap starter mirror must preserve the same versioned filename as the canonical starter.");
 assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,true,"The fresh successor owns the real provider-live Rules milestone after independently verifying the completed PR #176 boundary.");
-assert.equal(bootstrap.immediateNextTask?.name,"stage5e-runtime-host-join-publication-and-production-acceptance","The successor bootstrap must route directly to Stage 5E publication and genuine production acceptance after the consumed provider-live Rules gate.");
-assert.match(bootstrap.immediateNextTask?.summary||"",/Fresh successor[\s\S]+PR #181[\s\S]+RJR87[\s\S]+provider-live Stage 5D Rules[\s\S]+Billing[\s\S]+Cloud Run[\s\S]+Stage 5E[\s\S]+production acceptance/i,"The successor capsule must preserve the consumed Stage 5D boundary, permanent no-billing authority and current Stage 5E acceptance lane.");
+assert.equal(bootstrap.immediateNextTask?.name,"production-r4-one-paste-zero-manual-reattach-acceptance","Fresh successor must route to the first unconsumed production r4 acceptance evidence task.");
+assert.match(bootstrap.immediateNextTask?.summary||"",/fresh WEC[\s\S]+PR #184[\s\S]+RJR88[\s\S]+one-paste[\s\S]+zero manual Verify\/Reattach[\s\S]+Billing[\s\S]+Cloud Run/i,"Successor capsule must preserve the r4 production boundary, fresh evidence task and permanent zero-billing authority.");
 assert.equal(bootstrap.transition?.contextTransitionRequired,true,"Transition-only bootstrap must require a context transition.");
 assert.equal(bootstrap.transition?.handoffCompleteness,100,"Transition-only bootstrap must expose complete handoff packaging.");
 assert.equal(bootstrap.transition?.continuationDecision,"HANDOFF_AT_CHECKPOINT","Sealed transition bootstrap must retain current environment HANDOFF_AT_CHECKPOINT without imposing it on the successor.");
-assert.match(bootstrap.currentLane,/(?=[\s\S]*PR #181)(?=[\s\S]*Stage 5E)(?=[\s\S]*fixed RJR87)(?=[\s\S]*363af783d7e5436fdfaa3766d4aa413fc9952a08)(?=[\s\S]*provider-live)(?=[\s\S]*host\/join)(?=[\s\S]*acceptance)/i,"Bootstrap current lane must preserve the consumed Stage 5D provider boundary and current Stage 5E runtime acceptance lane.");
+assert.match(bootstrap.currentLane,/(?=[\s\S]*Fresh successor)(?=[\s\S]*production-proven r4)(?=[\s\S]*one fresh Player Two paste)(?=[\s\S]*zero manual Verify\/Reattach)(?=[\s\S]*RJR)/i,"Bootstrap current lane must route to fresh r4 owner acceptance without repeating publication work.");
 assert.match(zeroBillingAuth,/every engineering[\s\S]+billing must never be activated[\s\S]+Cloud Run is therefore excluded/i,"Owner authority must authorize every nonbilling decision and permanently exclude billed infrastructure.");
 assert.match(zeroBillingDecision,/(?=[\s\S]*stage5c-zero-billing-standard-auth-session-adapter)(?=[\s\S]*request\.auth\.uid)(?=[\s\S]*standard Google-token account identity)/i,"Architecture decision must name the exact free successor slice and standard provider identity.");
 

@@ -1,3 +1,9 @@
+# CURRENT PRODUCTION — v1.9.0-r4 / PR #184 / RJR88
+
+Current starter: START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md. Current deep SLE: SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md. Live main: 2bfb7656940be23b635cb7092127a0ab0f62c7a4. Runtime v1.9.0-r4 is DEPLOYED / PRODUCTION-PROVEN. Fixed RJR remains 88/100. Begin with live verification and a fresh WEC, then execute IMMEDIATE NEXT TASK AFTER FULL STUDY from the current starter.
+
+---
+
 # CURRENT ENTRYPOINT — PR #176 STAGE 5D PROVIDER PENDING
 
 Read `START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md` first. Treat it as orientation only; independently verify live GitHub, provider and deployment truth. Fixed RJR remains 87/100 until genuine capability evidence advances it. Billing must never be activated.

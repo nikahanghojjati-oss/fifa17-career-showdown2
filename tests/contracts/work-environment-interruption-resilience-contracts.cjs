@@ -48,14 +48,15 @@ assert.ok(environmentMatch,"NEXT_TASK must retain the most recently published im
 assert.ok(mainMatch,"NEXT_TASK must retain the most recently published implementation-authority starting main for provenance.");
 const diverged=status.environmentId!==environmentMatch[1]||status.repository.startingMainSha!==mainMatch[1];
 if(diverged){
-  assert.ok(["active","transition-prepared"].includes(status.lifecycle),"A WEC may diverge from the last published NEXT_TASK identity only while actively reconciling work or at a legitimate transition checkpoint.");
+  const completeClosedHandoff=status.lifecycle==="closed"&&status.assessment?.decision==="HANDOFF_AT_CHECKPOINT"&&status.signals.handoffCompleteness===100&&status.signals.unrecordedDecisions===0&&status.signals.atomicOperation===false&&nextTask.includes(status.environmentId);
+  assert.ok(["active","transition-prepared"].includes(status.lifecycle)||completeClosedHandoff,"A WEC may diverge from historical NEXT_TASK identity only while actively reconciling work, at a transition-prepared checkpoint, or as a complete closed handoff explicitly named by the current NEXT_TASK override.");
   assert.match(status.continuity.nextSafeAction,/live|main|exact|head|workflow|pull request|pull-request|successor|handoff|implement|publish|deploy/i,"A divergent WEC must record a source-verifiable resumable action.");
   const record=[...(status.continuity.evidenceNotes||[]),...(status.continuity.knownHazards||[]),status.continuity.nextSafeAction].join("\n");
   assert.match(record,/predecessor|successor|do not inherit|historical|closing-environment-only/i,"A divergent WEC must explicitly prevent predecessor transition authority from being silently inherited.");
-  if(status.lifecycle==="transition-prepared"){
-    assert.equal(status.signals.handoffCompleteness,100,"A divergent WEC may become transition-prepared only with a complete handoff package.");
-    assert.equal(status.signals.unrecordedDecisions,0,"A final transition seal may not leave material decisions only in chat.");
-    assert.equal(status.signals.atomicOperation,false,"A final transition seal may not abandon an atomic operation.");
+  if(status.lifecycle==="transition-prepared"||status.lifecycle==="closed"){
+    assert.equal(status.signals.handoffCompleteness,100,"A final transition or closed handoff seal requires a complete handoff package.");
+    assert.equal(status.signals.unrecordedDecisions,0,"A final handoff seal may not leave material decisions only in chat.");
+    assert.equal(status.signals.atomicOperation,false,"A final handoff seal may not abandon an atomic operation.");
   }
 }else{
   assert.equal(status.environmentId,environmentMatch[1]);
@@ -68,4 +69,4 @@ assert.match(history,/temporary push-triggered branch workflow/i);
 assert.match(history,/temporary PR-triggered append workflow/i);
 assert.match(history,/stale blob SHA[\s\S]+rejected by GitHub with no state change/i);
 
-process.stdout.write("PASS Work Environment interruption resilience: repository checkpointing, route circuit breaking, optimistic-lock writes, bounded CI polling, append-only history protection, milestone-neutral successor divergence, complete transition sealing and interruption resume discipline are protected.\n");
+process.stdout.write("PASS Work Environment interruption resilience: repository checkpointing, route circuit breaking, optimistic-lock writes, bounded CI polling, append-only history protection, milestone-neutral successor divergence, complete closed/transition sealing and interruption resume discipline are protected.\n");
