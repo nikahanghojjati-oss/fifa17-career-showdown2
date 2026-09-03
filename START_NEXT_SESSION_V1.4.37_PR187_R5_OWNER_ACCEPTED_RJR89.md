@@ -43,7 +43,7 @@ Deep acceptance record: `PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANC
 
 1. Independently fetch and verify current live `main`; do not assume it is still `277f1b55...`.
 2. Independently verify merged PR #187, deployed `v1.9.0 / 1.9.0-r5`, RJR-1 `89/100`, all 15 post-merge workflow successes, Pages `33738921948`, Stability `33738921850`, the production acceptance record, and closed WEC `we-2026-09-03-stage5e-r4-production-convergence-acceptance`.
-3. Validate/archive the predecessor WEC if the archive is not already exact, initialize a **fresh unique successor WEC**, reset every per-environment counter, assess it independently, and do **not** inherit the predecessor `HANDOFF_AT_CHECKPOINT` decision.
+3. Validate/archive the predecessor WEC if the archive is not already exact, initialize a **fresh unique WEC**, reset every per-environment counter, assess it independently, and do **not** inherit the predecessor `HANDOFF_AT_CHECKPOINT` decision.
 4. Re-read `REMOTE_JOINING_READINESS.json` and choose the smallest genuinely uncredited fixed-domain gap. Preferred order unless fresh evidence changes it:
    - authenticated third-account / revoked-device production negatives;
    - Remote Joining-specific two-device/two-network reconnect/adverse-network hardening;
@@ -69,9 +69,9 @@ Candidate C remains the sole destructive remote-to-local gameplay Apply authorit
 
 Never request, paste, quote or durably retain a full private pairing or private session capability. Use redacted identifiers or state/equality evidence only.
 
-## Required owner-facing status block
+## Required owner-facing RJR progress status block
 
-Every substantive successor project update must include this exact field shape with current values:
+Every substantive successor project update must include this exact eight-field shape, in this order, with current values:
 
 Handoff proximity: X%
 Remote Joining readiness: ~Y%
@@ -81,6 +81,19 @@ Concrete dependency completed: ...
 Next unlock: ...
 Blocker: ...
 Sidequest check: ...
+
+The content of those eight fields must tell the owner **exactly how the current work does or does not get the project closer to genuine RJR100**:
+
+- `Handoff proximity` is WEC/session transition readiness only. It is not RJR and earns no readiness credit.
+- `Remote Joining readiness` must report the current fixed RJR-1 total and the **RJR delta from newly proven capability evidence in this environment**. If no new capability was proven, explicitly say `RJR impact: +0`; do not imply that code, PRs, CI, review, merge, deployment, docs, WEC or handoff activity moved RJR.
+- `Estimated focused sessions to genuine RJR100` must be based on the remaining uncredited fixed-domain capability/evidence gaps, never on PR count or documentation volume.
+- `Current lane` must name the exact uncredited fixed RJR domain/capability being targeted and why a successful proof can close or reduce that gap.
+- `Concrete dependency completed` must name the capability and qualifying evidence just completed and state the ledger effect: fixed domain earned-before → earned-after and total RJR before → after. For work that earns no capability credit, explicitly state `RJR impact: +0` and why.
+- `Next unlock` must name the next uncredited capability and the concrete proof/evidence required before it can earn RJR credit. Generic phrases such as “continue toward RJR100” are not sufficient.
+- `Blocker` must identify only a concrete blocker to the current RJR capability/evidence path, or `NONE`.
+- `Sidequest check` must be `NONE` when the work directly maps to the stated RJR gap; if any non-RJR work is unavoidable, identify it and explicitly state that it earns zero RJR credit.
+
+Future developers must never report handoff proximity, source completion, CI volume, deployment mechanics, or documentation volume as if they were Remote Joining readiness. The numerical RJR authority remains `REMOTE_JOINING_READINESS.json`.
 
 ## Stop condition inherited from owner policy
 
