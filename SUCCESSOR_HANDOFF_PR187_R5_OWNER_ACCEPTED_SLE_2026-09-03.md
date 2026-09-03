@@ -219,7 +219,7 @@ Do not start by rebuilding r5, repeating owner pairing, rerunning consumed lifec
 
 ## 11. Permanent authority and zero-billing locks
 
-The owner authorizes all nonbilling Remote Joining engineering/provider/deployment decisions after required gates. Billing is the permanent exception.
+The owner authorizes all nonbilling Remote Joining engineering/provider/deployment decisions after required gates. **Billing must never be activated.**
 
 Never:
 
