@@ -46,7 +46,8 @@ jobs:
           reps=[
             ('release=read("RELEASE_V1.9.0_R3.md")','release=read("RELEASE_V1.9.0_R4.md")'),
             ('assert.equal(runtime,"1.9.0-r3");','assert.equal(runtime,"1.9.0-r4");'),
-            ('assert.equal(previous,"1.9.0-r2");','assert.equal(previous,"1.9.0-r3");')
+            ('assert.equal(previous,"1.9.0-r2");','assert.equal(previous,"1.9.0-r3");'),
+            ('assert.match(release,/Private Remote Joining|host\\/join/i);','assert.match(release,/Remote Joining|pairing-code/i);')
           ]
           for old,new in reps:
             if text.count(old)!=1:
