@@ -44,6 +44,10 @@ function binding(role,hex,label){return {saveId:`save_${hex.repeat(24).slice(0,2
   assert.doesNotMatch(source,/codeInput\.value="";setState\(\{status:"paired"/,"Successful join must not erase the only pasted capability before four-way equality can be confirmed.");
   assert.match(source,/The one code pasted above is retained as the exact Connected Rivalry ID/);
   assert.match(source,/no second copy, paste, or manual Attach is required in the normal flow/);
+  const connectedSource=fs.readFileSync("js/sparkConnectedRivalry.js","utf8");
+  assert.match(connectedSource,/const pairingCandidate=crResolvePairingCandidate\(context\.pairingState,bindings/,"Initialization must evaluate current pairing B even with durable A.");
+  assert.match(connectedSource,/pairingDiffersFromDurable/,"Initialization must distinguish pairing B from durable A.");
+  assert.match(connectedSource,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;/,"Durable A can change only after provider-verified attach accepts B.");
 
   const pairingRuntime={bindingKey:pairing.bindingKey};
   const rounds=25;

@@ -204,7 +204,10 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+PRODUCTION PROVIDER-ABUSE PASS[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Live PROJECT_STATE must identify current PR #171 closure / RJR87 / provider-abuse authority.");
   assert.match(state,/Production runtime:\s*`1\.8\.1-r5`[\s\S]+Immediate known-good rollback runtime:\s*`1\.8\.1-r4`/i,"Live PROJECT_STATE must identify production r5 and r4 rollback recovery.");
   assert.equal(readiness.modelVersion,"RJR-1");
-  assert.equal(readiness.currentScore,87);
+  assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"STAGE2F live readiness must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eRjrEvidence?.score,88,"STAGE2F must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
+assert.equal(stage5eRjrEvidence?.delta,1,"STAGE2F must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
   assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority without a superseded score.");
 
   const indexRevision=(index.match(/app-asset-revision"\s+content="([^"]+)/)||[])[1];

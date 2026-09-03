@@ -94,7 +94,10 @@ assert.match(handoff,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Rolling handoff 
 assert.match(handoff,/provider-abuse proof[\s\S]+Stage 5A is authorized next/i,"Rolling handoff must preserve provider-abuse acceptance before Stage 5 reassessment.");
 assert.match(developerStart,/PR #172[\s\S]+1\.8\.1-r5[\s\S]+87\/100/i,"Developer start must expose current PR #172/r5/RJR87 authority.");
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.equal(readiness.currentScore,87);
+assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"STAGE2I-BOUNDARY live readiness must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eRjrEvidence?.score,88,"STAGE2I-BOUNDARY must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
+assert.equal(stage5eRjrEvidence?.delta,1,"STAGE2I-BOUNDARY must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
 assert.match(projectState,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Live PROJECT_STATE must carry the current fixed-RJR authority.");
 
 assert.match(status.environmentId,/^we-\d{4}-\d{2}-\d{2}-[a-z0-9-]+$/);

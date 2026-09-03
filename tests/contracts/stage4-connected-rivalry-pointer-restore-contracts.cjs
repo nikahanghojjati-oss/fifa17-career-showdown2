@@ -87,9 +87,12 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
 
   assert.doesNotMatch(source,/const binding=bindings\[0\]\|\|null;\s*const pointer=binding\?await crLoadSavedPointerForBinding/,"Initialization must never restore only the first local manager binding.");
   assert.match(source,/crResolveSavedPointer\(context\.accountId,context\.deviceId,bindings,\{preferredBinding:crState\.binding\}\)/,"Initialization must resolve the durable pointer across all local manager bindings.");
-  assert.match(source,/if\(!pointer\)\{\s*pairingCandidate=crResolvePairingCandidate\(context\.pairingState,bindings/,"A verified durable Connected Rivalry pointer must win before any page-memory pairing candidate is considered.");
+  assert.match(source,/const pairingCandidate=crResolvePairingCandidate\(context\.pairingState,bindings/,"Initialization must evaluate the current pairing candidate even when a durable pointer exists so a newer provider-verified pairing can converge automatically.");
+  assert.match(source,/if\(pairingCandidate\)\{[\s\S]*pairingDiffersFromDurable=Boolean\([\s\S]*pointer\.rivalryId!==pairingCandidate\.rivalryId[\s\S]*!crSameBinding\(binding,pairingCandidate\.binding\)/,"A stale durable pointer must remain a fallback while a different current pairing candidate is evaluated.");
+  assert.match(source,/if\(pairingDiffersFromDurable\)\{\s*autoAttachResult=await crAttachRivalry\(\{/,"A different current pairing candidate must pass through the existing provider-authorized attach transaction before it may replace the durable pointer.");
+  assert.match(source,/else if\(!pointer\)\{\s*binding=pairingCandidate\.binding;/,"A failed or pending current pairing candidate must not displace the binding of an existing durable pointer.");
   assert.match(source,/autoAttachResult=await crAttachRivalry\(\{/,"The handoff must reuse the existing verified Connected Rivalry attachment authority instead of introducing a parallel path.");
-  assert.match(source,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*pointer=autoAttachResult\.pointer;\s*autoAttached=true;/,"Only a successful verified attach may become a durable Connected Rivalry pointer.");
+  assert.match(source,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;\s*autoAttached=true;/,"Only a successful provider-verified attach may replace the durable binding and Connected Rivalry pointer.");
   assert.match(source,/CONNECTED_RIVALRY_NOT_ACTIVE/,"Pending creator prefill must remain non-authoritative until the paired rivalry is provider-active.");
   assert.match(source,/prefillRivalryId/);
   assert.match(source,/After the second manager joins, Connected Rivalry will attach automatically on the next Save Library or Remote Joining check/);

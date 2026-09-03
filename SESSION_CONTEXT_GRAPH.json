@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-01T17:23:54.985Z",
+  "recordedAt": "2026-09-03T03:16:00.000Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -26,7 +26,7 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 87,
+      "recordedScore": 88,
       "rule": "fixed capability evidence only; PR, CI, merge, deployment mechanics, provider publication process, WEC, SLE and documentation add zero duplicate credit",
       "authority": 1,
       "riskCriticality": 1
@@ -54,7 +54,7 @@
       "databaseId": "(default)",
       "rulesSource": "firestore.spark.rules",
       "rulesBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
-      "providerVersionObserved": "Today · 7:48 AM on 2026-08-29",
+      "providerVersionObserved": "Today \u00b7 7:48 AM on 2026-08-29",
       "proof": "PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md",
       "rjrScoreAfterProof": 86,
       "appCheckEnforcementChanged": false,

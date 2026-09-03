@@ -61,7 +61,10 @@ assert.match(state,/Rollback proof workflow:\s*`33190961085` — SUCCESS \/ cons
 assert.match(state,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md[\s\S]+firestore\.spark\.rules/i,"Current PROJECT_STATE must retain direct provider Rules provenance.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
 assert.match(state,new RegExp("Remote Joining readiness:\\s*`"+readiness.currentScore+"\\/100` under fixed RJR-1","i"),"Current PROJECT_STATE must report the live fixed RJR score.");
-assert.equal(readiness.currentScore,87,"Stage 2A current-state checks must preserve the fixed RJR87 provider-abuse checkpoint.");
+assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"Stage 2A current-state checks must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eLifecycleEvidence?.score,88,"Stage 2A current-state checks must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
+assert.equal(stage5eLifecycleEvidence?.delta,1,"Stage 2A current-state checks must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
 assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/ 1D DONE \/ 1E DONE \/ 1F DONE/i);
 assert.match(roadmap, /Private Identity \/ Account Layer \| STAGE 2 ACTIVE \/ 2A AUTHORIZED NEXT/i);
 assert.match(remoteRoadmap, /Stage 1 — Cloud \/ Sync Readiness[\s\S]+DONE \/ MERGED \/ PROTECTED through Phase 1F/i);

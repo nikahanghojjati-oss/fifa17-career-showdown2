@@ -48,7 +48,10 @@ assert.match(state,/PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29\.md/i,"
 assert.match(state,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"PROJECT_STATE must preserve the offline recovery baseline.");
 assert.match(state,/strengthened production Firestore Rules remain provider-proven[\s\S]+firestore\.spark\.rules/i,"PROJECT_STATE must retain strengthened Rules as provider-authoritatively verified.");
 assert.match(state,/Remote Joining readiness:\s*`87\/100` under fixed RJR-1/i,"PROJECT_STATE must track the fixed RJR87 ledger.");
-assert.equal(readiness.currentScore,87,"Cloud foundation must track the production provider-abuse RJR87 checkpoint.");
+assert.ok(readiness.currentScore>=87&&readiness.currentScore<=readiness.denominator,"Cloud foundation must preserve the provider-abuse RJR87 floor without freezing later genuine capability evidence.");
+const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eLifecycleEvidence?.score,88,"Cloud foundation must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
+assert.equal(stage5eLifecycleEvidence?.delta,1,"Cloud foundation must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
 assert.equal(readiness.modelVersion,"RJR-1","Cloud foundation must continue using the fixed RJR-1 model.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"Bootstrap and fixed RJR ledger must agree.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"Bootstrap must identify PR176 as the current Stage 5D source/provider-pending publication checkpoint.");

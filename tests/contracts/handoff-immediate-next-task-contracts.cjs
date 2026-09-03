@@ -42,7 +42,10 @@ assert.ok(applicationVersion,"SESSION_BOOTSTRAP must expose the current applicat
 assert.ok(productionRuntime,"SESSION_BOOTSTRAP must expose the current production runtime revision.");
 assert.equal(packageJson.version,applicationVersion,"package.json and SESSION_BOOTSTRAP must agree on the application version.");
 assert.equal(readiness.modelVersion,"RJR-1","RJR authority must remain on the fixed model.");
-assert.equal(readiness.currentScore,87,"The fixed RJR authority must preserve the exact production provider-abuse RJR87 checkpoint.");
+assert.ok(readiness.currentScore>=87&&readiness.currentScore<=100,"The fixed RJR authority must not regress below the production provider-abuse RJR87 checkpoint or exceed its denominator.");
+const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
+assert.equal(stage5eLifecycleEvidence?.score,88,"The fixed RJR authority must preserve the evidence-only Stage 5E r3 provider-live lifecycle recalculation to RJR88.");
+assert.equal(stage5eLifecycleEvidence?.delta,1,"The Stage 5E r3 lifecycle must remain one bounded capability credit.");
 assert.equal(bootstrap.remoteJoiningReadiness?.score,readiness.currentScore,"The SLE bootstrap must agree exactly with the live RJR ledger.");
 
 assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #176 STAGE 5D RULES SOURCE MERGED[\s\S]+PROVIDER PUBLICATION PENDING/i,"NEXT_TASK must expose current PR #176 Stage 5D provider-pending authority before history.");
@@ -71,7 +74,8 @@ assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"SESSION_BOOTSTRAP mu
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,productionRuntime,"SESSION_BOOTSTRAP runtime provenance must agree with deployed production runtime.");
 assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"SESSION_BOOTSTRAP must retain the exact rollback run id.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,176,"SESSION_BOOTSTRAP must identify PR #176 as the current Stage 5D source/provider-pending checkpoint.");
-assert.equal(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence,readiness.currentScore,"SESSION_BOOTSTRAP publication checkpoint must preserve exact conservative RJR accounting.");
+assert.equal(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence,87,"SESSION_BOOTSTRAP must preserve the historical PR #176 RJR87 checkpoint.");
+assert.ok(bootstrap.currentPublicationCheckpoint?.rjrAfterEvidence<=readiness.currentScore,"Historical publication RJR must never exceed the live readiness ledger.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionRollbackProven,true,"SESSION_BOOTSTRAP must retain successful rollback proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionRestorationProven,true,"SESSION_BOOTSTRAP must retain successful exact r5 restoration proof.");
 assert.equal(bootstrap.currentPublicationCheckpoint?.productionProviderRulesPublicationProven,true,"SESSION_BOOTSTRAP must record direct provider-authoritative strengthened Rules publication.");
