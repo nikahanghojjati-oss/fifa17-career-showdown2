@@ -7,6 +7,8 @@ const acceptance=require(path.join(root,'js/productionAuthorizationAcceptance.js
 const page=fs.readFileSync(path.join(root,'production-authorization-acceptance.html'),'utf8');
 const source=fs.readFileSync(path.join(root,'js/productionAuthorizationAcceptance.js'),'utf8');
 const deployWorkflow=fs.readFileSync(path.join(root,'.github/workflows/deploy-github-pages.yml'),'utf8');
+const worker=fs.readFileSync(path.join(root,'service-worker.js'),'utf8');
+const runtimeRevision=(worker.match(/const RUNTIME_REVISION = "([^"]+)";/)||[])[1];
 
 function storage(entries={}){
   const keys=Object.keys(entries);
@@ -17,6 +19,7 @@ const user={uid:'acct_legitimate_third'};
 const rivalryId=`pair_${'a'.repeat(64)}`;
 
 (async()=>{
+  assert.ok(runtimeRevision,'Current production runtime revision must be discoverable from the service worker.');
   assert.equal(acceptance.rjrCreditOnImplementation,false);
   assert.equal(acceptance.accountBootstrapAllowed,false);
   assert.equal(acceptance.providerWriteCreationAllowed,false);
@@ -24,12 +27,12 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   assert.deepEqual(acceptance.canonicalLocalStorageKeys,[
     'careerModeShowdown.saveLibrary','careerModeShowdown.legacyShowdowns','careerModeShowdown.preferences'
   ]);
-  assert.match(page,/app-asset-revision" content="1\.8\.1-r5"/);
-  assert.match(page,/js\/sparkPrivatePairing\.js\?v=1\.8\.1-r5/);
-  assert.match(page,/js\/productionFirebaseRuntime\.js\?v=1\.8\.1-r5/);
-  assert.match(page,/js\/productionAuthorizationAcceptance\.js\?v=1\.8\.1-r5/);
+  assert.ok(page.includes(`app-asset-revision" content="${runtimeRevision}"`),'Acceptance page must expose the current production runtime revision.');
+  assert.match(page,/<script src="js\/sparkPrivatePairing\.js"><\/script>/);
+  assert.match(page,/<script src="js\/productionFirebaseRuntime\.js"><\/script>/);
+  assert.match(page,/<script src="js\/productionAuthorizationAcceptance\.js"><\/script>/);
   assert.doesNotMatch(page,/sparkConnectedAccount\.js/);
-  assert.match(page,/never bootstraps a Firestore private account/i);
+  assert.match(page,/does not need a Career Mode Showdown account document[\s\S]+never bootstraps one/i);
   assert.match(page,/Requested provider writes: 0/i);
   assert.match(page,/not provider mutation-denial proof/i);
   assert.match(deployWorkflow,/cp production-authorization-acceptance\.html \.pages-artifact\//,'Pages build must additively stage the bounded production authorization acceptance page.');
@@ -129,9 +132,9 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   },user);
   assert.equal(missing.active,false);
 
-  const record=acceptance.evidenceRecord(third,{runtimeRevision:'1.8.1-r5',origin:'https://example.test'});
+  const record=acceptance.evidenceRecord(third,{runtimeRevision,origin:'https://example.test'});
   assert.equal(record.result,'PASS');
   assert.equal(record.rjrCreditOnImplementation,undefined);
-  assert.equal(record.runtimeRevision,'1.8.1-r5');
+  assert.equal(record.runtimeRevision,runtimeRevision);
   process.stdout.write('PASS production authorization negative acceptance contracts\n');
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

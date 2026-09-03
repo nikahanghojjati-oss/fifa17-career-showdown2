@@ -11,6 +11,7 @@ const project=read("PROJECT_STATE.md");
 const bootstrap=json("SESSION_BOOTSTRAP.json");
 const readiness=json("REMOTE_JOINING_READINESS.json");
 const wec=json("WORK_ENVIRONMENT_STATUS.json");
+const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json");
 const pkg=json("package.json");
 const acceptance=read("PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md");
 const zeroBilling=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
@@ -99,11 +100,18 @@ assert.match(starter,/Next unlock[\s\S]+next uncredited capability[\s\S]+concret
 assert.match(starter,/Generic phrases[\s\S]+continue toward RJR100[\s\S]+not sufficient/i,"SNS must reject vague RJR progress reporting.");
 assert.match(starter,/source completion, CI volume, deployment mechanics, or documentation volume[\s\S]+Remote Joining readiness/i,"SNS must forbid process-volume readiness inflation.");
 
-assert.equal(wec.environmentId,"we-2026-09-03-stage5e-r4-production-convergence-acceptance");
-assert.equal(wec.lifecycle,"closed");
-assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+assert.equal(predecessorWec.environmentId,"we-2026-09-03-stage5e-r4-production-convergence-acceptance");
+assert.equal(predecessorWec.lifecycle,"closed");
+assert.equal(predecessorWec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+assert.equal(predecessorWec.assessment?.decisionInheritedFromPredecessor,false);
+assert.equal(predecessorWec.signals?.handoffCompleteness,100);
+assert.equal(wec.environmentId,"we-2026-09-03-stage5f-authenticated-negatives");
+assert.equal(wec.lifecycle,"active");
+assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
+assert.equal(wec.assessment?.decision,"CONTINUE");
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(wec.signals?.handoffCompleteness,100);
+assert.match(wec.continuity?.currentTask||"",/third-account|revoked-device/i);
 assert.match(next,/never inherit predecessor `HANDOFF_AT_CHECKPOINT`/i);
 
-process.stdout.write("PASS current immediate-next-task authority: PR187 r5 owner accepted, fixed RJR89, fresh successor WEC, smallest uncredited gap next, and explicit capability-only RJR reporting.\n");
+process.stdout.write("PASS current immediate-next-task authority: PR187 r5 owner accepted, fixed RJR89, predecessor archived, fresh Stage 5F successor WEC active, smallest uncredited gap underway, and explicit capability-only RJR reporting.\n");
