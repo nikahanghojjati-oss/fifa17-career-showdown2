@@ -8,7 +8,7 @@ Owner production acceptance is PASS. The qualifying r5 evidence proves Player Tw
 
 Fixed RJR-1 is **89/100**. The delta from 88 is exactly +1 for the previously uncredited automatic one-paste exact-rivalry convergence capability. Source, PR, CI, review, merge, deployment, documentation, WEC and handoff work receive zero readiness credit.
 
-The **Installable Offline App** remains the local-first startup and recovery baseline; Remote Joining must preserve offline startup, local Save ownership, backup/restore and recovery safety.
+The **Installable Offline App** remains the local-first startup and recovery baseline; Remote Joining must preserve offline startup, local Save ownership, backup/restore and recovery safety. The shipped **v1.3.0 Recovery & Device Resilience Hardening** baseline remains protected, and the completed **Local Profiles / Save Library** chain remains the local identity and multi-save authority beneath all connected work.
 
 Closing Work Environment Continuity (WEC) record: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`, lifecycle `closed`, decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`. Every successor must enter Work Environment Continuity with a fresh unique WEC and must not inherit the predecessor transition decision.
 
