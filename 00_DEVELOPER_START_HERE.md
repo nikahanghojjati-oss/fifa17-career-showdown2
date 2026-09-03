@@ -6,7 +6,7 @@ At this handoff checkpoint, PR #187 exact reviewed head `e30f34ffade1cc64d0fb268
 
 Owner production acceptance is PASS: one Player Two paste, automatic exact Connected Rivalry equality on both roles, Player One automatic post-join attachment, and zero manual Connected Rivalry Verify/Reattach in the qualifying run. Fixed RJR-1 is **89/100**, exactly +1 for that previously failed capability and zero process credit.
 
-The **Installable Offline App** remains the local-first startup and recovery baseline. The shipped `v1.3.0 Recovery & Device Resilience Hardening` baseline remains protected, as does the completed Local Profiles / Save Library chain. Candidate C is the sole destructive remote-to-local gameplay Apply authority and keeps **transaction-owned rollback with a strict exact raw snapshot**; no successor may revive the obsolete model that rolls every affected key indiscriminately.
+The **Installable Offline App** remains the local-first startup and recovery baseline. The shipped `v1.3.0 Recovery & Device Resilience Hardening` baseline remains protected, as does the completed Local Profiles / Save Library chain. Candidate C is the sole destructive remote-to-local gameplay Apply authority and keeps **transaction-owned rollback with a strict exact raw snapshot**; rollback authority must remain bounded to that transaction-owned exact-snapshot recovery model.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
