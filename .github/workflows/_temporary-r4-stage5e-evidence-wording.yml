@@ -28,7 +28,6 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-
           p=Path('tests/contracts/stage5e-production-remote-joining-runtime-contracts.cjs')
           text=p.read_text()
           reps=[
@@ -39,7 +38,6 @@ jobs:
             if text.count(old)!=1: raise SystemExit(f'expected exactly one Stage5E assertion: {old}; found {text.count(old)}')
             text=text.replace(old,new,1)
           p.write_text(text)
-
           p=Path('tests/contracts/release-shell-coherence-contracts.cjs')
           text=p.read_text()
           reps=[
@@ -52,46 +50,8 @@ jobs:
             if text.count(old)!=1: raise SystemExit(f'expected exactly one shell assertion: {old}; found {text.count(old)}')
             text=text.replace(old,new,1)
           p.write_text(text)
-
-          Path('CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md').write_text('''# Career Mode Showdown v1.9.0-r4 Maintenance Release Record
-
-Status: RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
-Application version: `v1.9.0`
-Runtime revision: `1.9.0-r4`
-Previous known-good whole shell: `1.9.0-r3`
-Remote Joining readiness: `88/100` under fixed model `RJR-1`
-
-## SLE scope clarification
-
-This legacy-named maintenance file is a release-boundary record required by release-authority coherence. It is not the authoritative project/session handoff and does not replace `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, the mirrored versioned `START_NEXT_SESSION` artifacts, `NEXT_CHAT_HANDOFF_PROMPT.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, or the repository-first Smart Lean Efficient SLE package. At handoff proximity 100 the authoritative successor artifacts must still be regenerated and mirrored normally.
-
-## Purpose
-
-`1.9.0-r4` is the bounded stale Connected Rivalry pointer-precedence repair. Durable pointer A remains fallback authority while the current Private Pairing candidate B is still evaluated. Pending, expired, wrong-account, wrong-device, wrong-manager, profile/save-mismatched or otherwise unauthorized B cannot displace A. A provider-active exact B may replace A only through the existing provider-authorized attachment verification and must then persist automatically.
-
-The normal successful flow remains one Player Two pairing-code paste with zero manual Connected Rivalry Verify/Reattach actions. Pending B may be exposed only as non-authoritative prefill metadata while A remains authoritative. Once B becomes the verified durable pointer, the prefill disappears. Canonical local storage must remain unchanged.
-
-## Locked safety boundary
-
-Firebase remains Spark and billing remains permanently forbidden. Do not attach Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or select a billing-required provider path. Firestore persistence remains memory-only and App Check enforcement remains OFF.
-
-Private pairing and Private Remote Joining remain exact non-enumerable capabilities with no public discovery, listing, lobby, matchmaking, community or rankings authority. Remote Joining may not mutate canonical local saves. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with immutable confirmed intent, verified backup before mutation, strict exact raw snapshot guards, transaction-owned mutation, stale-state and anti-clobber rejection, ownership-scoped reverse rollback and exact recovery verification.
-
-The Installable Offline App and local Career Mode remain independent of Firebase. Provider or Spark quota failure must fail closed while local play remains available. The protected historical rivalry must not be edited, forced, deleted or used for destructive testing. The shipped `v1.3.0 Recovery & Device Resilience Hardening` baseline remains intact.
-
-## Evidence and RJR boundary
-
-The previously supplied production `v1.9.0 / 1.9.0-r3` owner evidence independently moved fixed RJR-1 from `87/100` to `88/100` for exactly one bounded provider-live Remote Joining Host -> Join -> ACTIVE revision 1 cross-role observation -> Close -> CLOSED revision 2 cross-role propagation capability. The separate zero-manual-reattach behavior failed in r3 and earned zero credit.
-
-This r4 source repair, automation, CI, review, merge, deployment and documentation earn zero additional RJR credit. A future RJR change requires genuinely new fixed-domain production capability evidence.
-
-## Publication and recovery rule
-
-This file describes a release candidate, not a production-proven runtime. `1.9.0-r3` remains the previous production-proven whole-shell recovery target until exact-head CI including Chromium, documented final-head review with zero unresolved valid threads, expected-head merge, post-merge workflows, Pages deployment and exact deployed-byte/runtime verification prove `v1.9.0 / 1.9.0-r4`.
-
-Never construct a mixed-version rollback. If a concrete r4 regression requires recovery before promotion is proven, restore the previous whole `1.9.0-r3` shell. After r4 is independently production-live, perform only the minimal owner acceptance needed to prove a fresh one-paste flow automatically converges both managers on the exact current Connected Rivalry with zero manual Verify/Reattach. Never paste or retain a full `session_...` private capability in chat or durable evidence.
-''')
           PY
+          echo 'IyBDYXJlZXIgTW9kZSBTaG93ZG93biB2MS45LjAtcjQgTWFpbnRlbmFuY2UgUmVsZWFzZSBSZWNvcmQKClN0YXR1czogUkVMRUFTRSBDQU5ESURBVEUgLyBOT1QgUFJPRFVDVElPTi1QUk9WRU4KQXBwbGljYXRpb24gdmVyc2lvbjogYHYxLjkuMGAKUnVudGltZSByZXZpc2lvbjogYDEuOS4wLXI0YApQcmV2aW91cyBrbm93bi1nb29kIHdob2xlIHNoZWxsOiBgMS45LjAtcjNgClJlbW90ZSBKb2luaW5nIHJlYWRpbmVzczogYDg4LzEwMGAgdW5kZXIgZml4ZWQgbW9kZWwgYFJKUi0xYAoKIyMgU0xFIHNjb3BlIGNsYXJpZmljYXRpb24KClRoaXMgbGVnYWN5LW5hbWVkIG1haW50ZW5hbmNlIGZpbGUgaXMgYSByZWxlYXNlLWJvdW5kYXJ5IHJlY29yZCByZXF1aXJlZCBieSByZWxlYXNlLWF1dGhvcml0eSBjb2hlcmVuY2UuIEl0IGlzIG5vdCB0aGUgYXV0aG9yaXRhdGl2ZSBwcm9qZWN0L3Nlc3Npb24gaGFuZG9mZiBhbmQgZG9lcyBub3QgcmVwbGFjZSBgU0VTU0lPTl9CT09UU1RSQVAuanNvbmAsIGAwMF9DVVJSRU5UX0hBTkRPRkYubWRgLCB0aGUgbWlycm9yZWQgdmVyc2lvbmVkIGBTVEFSVF9ORVhUX1NFU1NJT05gIGFydGlmYWN0cywgYE5FWFRfQ0hBVF9IQU5ET0ZGX1BST01QVC5tZGAsIGBORVhUX1RBU0subWRgLCBgUFJPSkVDVF9TVEFURS5tZGAsIG9yIHRoZSByZXBvc2l0b3J5LWZpcnN0IFNtYXJ0IExlYW4gRWZmaWNpZW50IFNMRSBwYWNrYWdlLiBBdCBoYW5kb2ZmIHByb3hpbWl0eSAxMDAgdGhlIGF1dGhvcml0YXRpdmUgc3VjY2Vzc29yIGFydGlmYWN0cyBtdXN0IHN0aWxsIGJlIHJlZ2VuZXJhdGVkIGFuZCBtaXJyb3JlZCBub3JtYWxseS4KCiMjIFB1cnBvc2UKCmAxLjkuMC1yNGAgaXMgdGhlIGJvdW5kZWQgc3RhbGUgQ29ubmVjdGVkIFJpdmFscnkgcG9pbnRlci1wcmVjZWRlbmNlIHJlcGFpci4gRHVyYWJsZSBwb2ludGVyIEEgcmVtYWlucyBmYWxsYmFjayBhdXRob3JpdHkgd2hpbGUgdGhlIGN1cnJlbnQgUHJpdmF0ZSBQYWlyaW5nIGNhbmRpZGF0ZSBCIGlzIHN0aWxsIGV2YWx1YXRlZC4gUGVuZGluZywgZXhwaXJlZCwgd3JvbmctYWNjb3VudCwgd3JvbmctZGV2aWNlLCB3cm9uZy1tYW5hZ2VyLCBwcm9maWxlL3NhdmUtbWlzbWF0Y2hlZCBvciBvdGhlcndpc2UgdW5hdXRob3JpemVkIEIgY2Fubm90IGRpc3BsYWNlIEEuIEEgcHJvdmlkZXItYWN0aXZlIGV4YWN0IEIgbWF5IHJlcGxhY2UgQSBvbmx5IHRocm91Z2ggdGhlIGV4aXN0aW5nIHByb3ZpZGVyLWF1dGhvcml6ZWQgYXR0YWNobWVudCB2ZXJpZmljYXRpb24gYW5kIG11c3QgdGhlbiBwZXJzaXN0IGF1dG9tYXRpY2FsbHkuCgpUaGUgbm9ybWFsIHN1Y2Nlc3NmdWwgZmxvdyByZW1haW5zIG9uZSBQbGF5ZXIgVHdvIHBhaXJpbmctY29kZSBwYXN0ZSB3aXRoIHplcm8gbWFudWFsIENvbm5lY3RlZCBSaXZhbHJ5IFZlcmlmeS9SZWF0dGFjaCBhY3Rpb25zLiBQZW5kaW5nIEIgbWF5IGJlIGV4cG9zZWQgb25seSBhcyBub24tYXV0aG9yaXRhdGl2ZSBwcmVmaWxsIG1ldGFkYXRhIHdoaWxlIEEgcmVtYWlucyBhdXRob3JpdGF0aXZlLiBPbmNlIEIgYmVjb21lcyB0aGUgdmVyaWZpZWQgZHVyYWJsZSBwb2ludGVyLCB0aGUgcHJlZmlsbCBkaXNhcHBlYXJzLiBDYW5vbmljYWwgbG9jYWwgc3RvcmFnZSBtdXN0IHJlbWFpbiB1bmNoYW5nZWQuCgojIyBMb2NrZWQgc2FmZXR5IGJvdW5kYXJ5CgpGaXJlYmFzZSByZW1haW5zIFNwYXJrIGFuZCBiaWxsaW5nIHJlbWFpbnMgcGVybWFuZW50bHkgZm9yYmlkZGVuLiBEbyBub3QgYXR0YWNoIENsb3VkIEJpbGxpbmcsIGVuYWJsZSBCbGF6ZSwgYWRkIGEgcGF5bWVudCBtZXRob2QsIGFjdGl2YXRlIENsb3VkIFJ1biBvciBDbG91ZCBGdW5jdGlvbnMsIHB1cmNoYXNlIGNyZWRpdHMsIG9yIHNlbGVjdCBhIGJpbGxpbmctcmVxdWlyZWQgcHJvdmlkZXIgcGF0aC4gRmlyZXN0b3JlIHBlcnNpc3RlbmNlIHJlbWFpbnMgbWVtb3J5LW9ubHkgYW5kIEFwcCBDaGVjayBlbmZvcmNlbWVudCByZW1haW5zIE9GRi4KClByaXZhdGUgcGFpcmluZyBhbmQgUHJpdmF0ZSBSZW1vdGUgSm9pbmluZyByZW1haW4gZXhhY3Qgbm9uLWVudW1lcmFibGUgY2FwYWJpbGl0aWVzIHdpdGggbm8gcHVibGljIGRpc2NvdmVyeSwgbGlzdGluZywgbG9iYnksIG1hdGNobWFraW5nLCBjb21tdW5pdHkgb3IgcmFua2luZ3MgYXV0aG9yaXR5LiBSZW1vdGUgSm9pbmluZyBtYXkgbm90IG11dGF0ZSBjYW5vbmljYWwgbG9jYWwgc2F2ZXMuIENhbmRpZGF0ZSBDIHJlbWFpbnMgdGhlIHNvbGUgZGVzdHJ1Y3RpdmUgcmVtb3RlLXRvLWxvY2FsIGdhbWVwbGF5IEFwcGx5IGF1dGhvcml0eSB3aXRoIGltbXV0YWJsZSBjb25maXJtZWQgaW50ZW50LCB2ZXJpZmllZCBiYWNrdXAgYmVmb3JlIG11dGF0aW9uLCBzdHJpY3QgZXhhY3QgcmF3IHNuYXBzaG90IGd1YXJkcywgdHJhbnNhY3Rpb24tb3duZWQgbXV0YXRpb24sIHN0YWxlLXN0YXRlIGFuZCBhbnRpLWNsb2JiZXIgcmVqZWN0aW9uLCBvd25lcnNoaXAtc2NvcGVkIHJldmVyc2Ugcm9sbGJhY2sgYW5kIGV4YWN0IHJlY292ZXJ5IHZlcmlmaWNhdGlvbi4KClRoZSBJbnN0YWxsYWJsZSBPZmZsaW5lIEFwcCBhbmQgbG9jYWwgQ2FyZWVyIE1vZGUgcmVtYWluIGluZGVwZW5kZW50IG9mIEZpcmViYXNlLiBQcm92aWRlciBvciBTcGFyayBxdW90YSBmYWlsdXJlIG11c3QgZmFpbCBjbG9zZWQgd2hpbGUgbG9jYWwgcGxheSByZW1haW5zIGF2YWlsYWJsZS4gVGhlIHByb3RlY3RlZCBoaXN0b3JpY2FsIHJpdmFscnkgbXVzdCBub3QgYmUgZWRpdGVkLCBmb3JjZWQsIGRlbGV0ZWQgb3IgdXNlZCBmb3IgZGVzdHJ1Y3RpdmUgdGVzdGluZy4gVGhlIHNoaXBwZWQgYHYxLjMuMCBSZWNvdmVyeSAmIERldmljZSBSZXNpbGllbmNlIEhhcmRlbmluZ2AgYmFzZWxpbmUgcmVtYWlucyBpbnRhY3QuCgojIyBFdmlkZW5jZSBhbmQgUkpSIGJvdW5kYXJ5CgpUaGUgcHJldmlvdXNseSBzdXBwbGllZCBwcm9kdWN0aW9uIGB2MS45LjAgLyAxLjkuMC1yM2Agb3duZXIgZXZpZGVuY2UgaW5kZXBlbmRlbnRseSBtb3ZlZCBmaXhlZCBSSlItMSBmcm9tIGA4Ny8xMDBgIHRvIGA4OC8xMDBgIGZvciBleGFjdGx5IG9uZSBib3VuZGVkIHByb3ZpZGVyLWxpdmUgUmVtb3RlIEpvaW5pbmcgSG9zdCAtPiBKb2luIC0+IEFDVElWRSByZXZpc2lvbiAxIGNyb3NzLXJvbGUgb2JzZXJ2YXRpb24gLT4gQ2xvc2UgLT4gQ0xPU0VEIHJldmlzaW9uIDIgY3Jvc3Mtcm9sZSBwcm9wYWdhdGlvbiBjYXBhYmlsaXR5LiBUaGUgc2VwYXJhdGUgemVyby1tYW51YWwtcmVhdHRhY2ggYmVoYXZpb3IgZmFpbGVkIGluIHIzIGFuZCBlYXJuZWQgemVybyBjcmVkaXQuCgpUaGlzIHI0IHNvdXJjZSByZXBhaXIsIGF1dG9tYXRpb24sIENJLCByZXZpZXcsIG1lcmdlLCBkZXBsb3ltZW50IGFuZCBkb2N1bWVudGF0aW9uIGVhcm4gemVybyBhZGRpdGlvbmFsIFJKUiBjcmVkaXQuIEEgZnV0dXJlIFJKUiBjaGFuZ2UgcmVxdWlyZXMgZ2VudWluZWx5IG5ldyBmaXhlZC1kb21haW4gcHJvZHVjdGlvbiBjYXBhYmlsaXR5IGV2aWRlbmNlLgoKIyMgUHVibGljYXRpb24gYW5kIHJlY292ZXJ5IHJ1bGUKClRoaXMgZmlsZSBkZXNjcmliZXMgYSByZWxlYXNlIGNhbmRpZGF0ZSwgbm90IGEgcHJvZHVjdGlvbi1wcm92ZW4gcnVudGltZS4gYDEuOS4wLXIzYCByZW1haW5zIHRoZSBwcmV2aW91cyBwcm9kdWN0aW9uLXByb3ZlbiB3aG9sZS1zaGVsbCByZWNvdmVyeSB0YXJnZXQgdW50aWwgZXhhY3QtaGVhZCBDSSBpbmNsdWRpbmcgQ2hyb21pdW0sIGRvY3VtZW50ZWQgZmluYWwtaGVhZCByZXZpZXcgd2l0aCB6ZXJvIHVucmVzb2x2ZWQgdmFsaWQgdGhyZWFkcywgZXhwZWN0ZWQtaGVhZCBtZXJnZSwgcG9zdC1tZXJnZSB3b3JrZmxvd3MsIFBhZ2VzIGRlcGxveW1lbnQgYW5kIGV4YWN0IGRlcGxveWVkLWJ5dGUvcnVudGltZSB2ZXJpZmljYXRpb24gcHJvdmUgYHYxLjkuMCAvIDEuOS4wLXI0YC4KCk5ldmVyIGNvbnN0cnVjdCBhIG1peGVkLXZlcnNpb24gcm9sbGJhY2suIElmIGEgY29uY3JldGUgcjQgcmVncmVzc2lvbiByZXF1aXJlcyByZWNvdmVyeSBiZWZvcmUgcHJvbW90aW9uIGlzIHByb3ZlbiwgcmVzdG9yZSB0aGUgcHJldmlvdXMgd2hvbGUgYDEuOS4wLXIzYCBzaGVsbC4gQWZ0ZXIgcjQgaXMgaW5kZXBlbmRlbnRseSBwcm9kdWN0aW9uLWxpdmUsIHBlcmZvcm0gb25seSB0aGUgbWluaW1hbCBvd25lciBhY2NlcHRhbmNlIG5lZWRlZCB0byBwcm92ZSBhIGZyZXNoIG9uZS1wYXN0ZSBmbG93IGF1dG9tYXRpY2FsbHkgY29udmVyZ2VzIGJvdGggbWFuYWdlcnMgb24gdGhlIGV4YWN0IGN1cnJlbnQgQ29ubmVjdGVkIFJpdmFscnkgd2l0aCB6ZXJvIG1hbnVhbCBWZXJpZnkvUmVhdHRhY2guIE5ldmVyIHBhc3RlIG9yIHJldGFpbiBhIGZ1bGwgYHNlc3Npb25fLi4uYCBwcml2YXRlIGNhcGFiaWxpdHkgaW4gY2hhdCBvciBkdXJhYmxlIGV2aWRlbmNlLgo=' | base64 -d > CAREER_MODE_SHOWDOWN_V1.9.0_R4_MAINTENANCE_HANDOFF.md
       - name: Verify complete contract suite
         shell: bash
         run: |
