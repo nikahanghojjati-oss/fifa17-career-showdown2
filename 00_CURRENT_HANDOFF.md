@@ -8,12 +8,12 @@ Owner production acceptance is PASS: Player Two reports `ONE PASTE CONFIRMED`; b
 
 Fixed RJR-1 is **89/100**, exactly +1 from the previously failed automatic one-paste exact-rivalry convergence capability. No RJR credit is assigned to source, CI, review, merge, deployment or handoff mechanics.
 
-Closing WEC `we-2026-09-03-stage5e-r4-production-convergence-acceptance` is `closed`, final decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`.
+Closing Work Environment Continuity (WEC) record `we-2026-09-03-stage5e-r4-production-convergence-acceptance` is `closed`, final decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 1. Independently verify current live main, merged PR #187, deployed r5, RJR89, all 15 post-merge successes, Pages `33738921948`, Stability `33738921850`, the production acceptance record and closed WEC.
-2. Initialize a fresh unique WEC with reset counters. Never inherit predecessor `HANDOFF_AT_CHECKPOINT` as the successor's own decision.
+2. Enter Work Environment Continuity by validating/archiving predecessor closure and initializing a fresh unique WEC with reset counters. Never inherit predecessor `HANDOFF_AT_CHECKPOINT` as the successor's own decision.
 3. Select the smallest genuinely uncredited fixed-domain gap. Preferred order unless fresh evidence changes it: authenticated third-account/revoked-device production negatives; Remote Joining-specific two-device/two-network reconnect/adverse-network hardening; final stable Remote Joining release acceptance.
 4. Do not repeat consumed r5 one-paste acceptance, r3 Host/Join lifecycle, pairing, Candidate C, replay, token-lifecycle, rollback, provider-Rules or provider-abuse proof merely for confidence.
 5. Move RJR only on genuine new capability evidence.
