@@ -6,6 +6,13 @@ Owner production acceptance is PASS. Player Two reported `ONE PASTE CONFIRMED`; 
 
 Fixed RJR-1 is now **89/100**. Exactly +1 is credited for the previously failed automatic one-paste exact-rivalry convergence capability. PR/source/CI/review/merge/deployment/WEC/SLE/handoff work earns zero RJR credit.
 
+Most recently published implementation-authority provenance:
+
+- Current environment: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`
+- Starting independently verified live main: `f591945fa74b59b961dd79a80849d72a3ab987ba`
+
+This environment is now closed at `HANDOFF_AT_CHECKPOINT`; those two provenance fields identify the implementation-authority environment that produced the r5 acceptance and must not be inherited as a successor transition decision.
+
 The **Installable Offline App** remains the local-first startup and recovery baseline. Connected/Remote Joining work must not weaken offline startup, canonical local Save ownership, backup/restore or recovery behavior.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
