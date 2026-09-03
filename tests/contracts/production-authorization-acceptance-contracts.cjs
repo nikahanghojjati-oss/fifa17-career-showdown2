@@ -32,7 +32,7 @@ const rivalryId=`pair_${'a'.repeat(64)}`;
   assert.match(page,/<script src="js\/productionFirebaseRuntime\.js"><\/script>/);
   assert.match(page,/<script src="js\/productionAuthorizationAcceptance\.js"><\/script>/);
   assert.doesNotMatch(page,/sparkConnectedAccount\.js/);
-  assert.match(page,/never bootstraps a Firestore private account/i);
+  assert.match(page,/does not need a Career Mode Showdown account document[\s\S]+never bootstraps one/i);
   assert.match(page,/Requested provider writes: 0/i);
   assert.match(page,/not provider mutation-denial proof/i);
   assert.match(deployWorkflow,/cp production-authorization-acceptance\.html \.pages-artifact\//,'Pages build must additively stage the bounded production authorization acceptance page.');
