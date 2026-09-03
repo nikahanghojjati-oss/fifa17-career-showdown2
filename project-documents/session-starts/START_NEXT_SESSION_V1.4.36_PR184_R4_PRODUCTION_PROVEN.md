@@ -8,7 +8,7 @@ This starter is orientation only. Current source, live GitHub/provider/deploymen
 
 Repository: nikahanghojjati-oss/fifa17-career-showdown2. Public site: https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/.
 
-PR #184 Stage 5E: fix stale Connected Rivalry pointer precedence is merged. Starting main: 4eefed1f855d66c4af8c823291e24344886c617e. Exact final reviewed head: 36500a051c61793f14447ca0f931f504ed40a299. Squash merge/live main: 2bfb7656940be23b635cb7092127a0ab0f62c7a4.
+PR #184 Stage 5E: fix stale Connected Rivalry pointer precedence is merged. Starting main: 4eefed1f855d66c4af8c823291e24344886c617e. Exact final reviewed head: 36500a051c61793f14447ca0f931f504ed40a299. Squash runtime merge / r4 production runtime authority SHA: 2bfb7656940be23b635cb7092127a0ab0f62c7a4. The successor must independently resolve the then-current repository main rather than treating this runtime authority SHA as a perpetual main pointer.
 
 All 14 permanent exact-head workflow families passed on the unchanged PR head, including Stability contracts, Chromium, Stage 3 browser/emulator coverage and Candidate C recovery. Final-head fallback review found no authority broadening and zero unresolved valid review threads.
 
