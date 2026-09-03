@@ -92,7 +92,7 @@ function pointer(accountId,deviceId,bindingValue,rivalryHex,attachedAtEpochMs){
   assert.match(source,/if\(pairingDiffersFromDurable\)\{\s*autoAttachResult=await crAttachRivalry\(\{/,"A different current pairing candidate must pass through the existing provider-authorized attach transaction before it may replace the durable pointer.");
   assert.match(source,/else if\(!pointer\)\{\s*binding=pairingCandidate\.binding;/,"A failed or pending current pairing candidate must not displace the binding of an existing durable pointer.");
   assert.match(source,/autoAttachResult=await crAttachRivalry\(\{/,"The handoff must reuse the existing verified Connected Rivalry attachment authority instead of introducing a parallel path.");
-  assert.match(source,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*pointer=autoAttachResult\.pointer;\s*autoAttached=true;/,"Only a successful verified attach may become a durable Connected Rivalry pointer.");
+  assert.match(source,/if\(autoAttachResult&&autoAttachResult\.ok===true\)\{\s*binding=pairingCandidate\.binding;\s*pointer=autoAttachResult\.pointer;\s*autoAttached=true;/,"Only a successful provider-verified attach may replace the durable binding and Connected Rivalry pointer.");
   assert.match(source,/CONNECTED_RIVALRY_NOT_ACTIVE/,"Pending creator prefill must remain non-authoritative until the paired rivalry is provider-active.");
   assert.match(source,/prefillRivalryId/);
   assert.match(source,/After the second manager joins, Connected Rivalry will attach automatically on the next Save Library or Remote Joining check/);
