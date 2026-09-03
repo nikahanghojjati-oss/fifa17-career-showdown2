@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-01T17:23:54.985Z",
+  "recordedAt": "2026-09-03T04:33:00.000Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-ten-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -16,6 +16,7 @@
     "tokenCostPenalty": -0.1
   },
   "mandatoryBypass": [
+    "CURRENT: PR #184 r4 is production-proven at 2bfb7656940be23b635cb7092127a0ab0f62c7a4; exact head 36500a051c61793f14447ca0f931f504ed40a299; fixed RJR88; Pages 33713396948; Stability deployed-site-smoke 33713396979; next fresh evidence is production one-paste automatic exact-rivalry convergence with zero manual Verify/Reattach",
     "PR #176 Stage 5D reviewed production Rules source is merged at a4489fe7d812144deb3f747019eb162628480dac; repository blob 363af783d7e5436fdfaa3766d4aa413fc9952a08, provider-proven blob still 2b7c0b166ae0aae7ab7a3ce84725b21091262484; fixed RJR87; provider publication remains unproven and separate",
     "current live main boundary",
     "current pull-request exact head/state and standing merge authorization",
@@ -64,6 +65,7 @@
     "tier3DeepFallback": "unbounded-only-when-evidence-requires"
   },
   "rankingProcedure": [
+    "After independently verifying PR #184/r4 production and archiving the closing WEC, initialize a fresh WEC and rank the minimal production r4 one-paste zero-manual-reattach acceptance first.",
     "Represent mandatory locks in Tier 0 regardless of rank.",
     "Verify connected GitHub live main and current PR/deployment state before accepting recorded task identity.",
     "Read current RJR only from REMOTE_JOINING_READINESS.json; never infer score from milestone count, PRs, WEC or deployment volume.",
@@ -111,11 +113,11 @@
   ],
   "optimizationObjective": "minimize startup context cost and latency subject to zero increase in missed critical security, recovery, authority, RJR or publication information",
   "latestCheckpoint": {
-    "prePublicationMainSha": "a4489fe7d812144deb3f747019eb162628480dac",
-    "runtimeRevision": "1.8.1-r5",
-    "knownGoodRollbackRuntime": "1.8.1-r4",
-    "rjrScore": 87,
-    "closedCapability": "stage5d-production-rules-source-pr176-merged-provider-pending-delta-zero",
+    "prePublicationMainSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
+    "runtimeRevision": "1.9.0-r4",
+    "knownGoodRollbackRuntime": "1.9.0-r3",
+    "rjrScore": 88,
+    "closedCapability": "stage5e-r4-production-proven-delta-zero",
     "candidateProof": "STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md",
     "implementationProofHead": "cd41261270da53c75313b157625b6d4ac00661c8",
     "implementationProofTree": "3cf6baee5b17da852fbad0bf0452681654004798",
@@ -145,17 +147,19 @@
     "productionProviderDeviceCredentialProven": false,
     "rulesSource": "firestore.spark.rules",
     "rulesBlobSha": "363af783d7e5436fdfaa3766d4aa413fc9952a08",
-    "transitionGateBeforeNext": "verify PR176/main/post-merge -> validate/archive closing WEC -> fresh WEC -> authenticated Spark Rules publication -> independent provider source proof -> separate runtime host/join UX",
-    "next": "provider-live-stage5d-rules-publication-then-runtime-host-join",
-    "closeoutPullRequest": 176,
-    "starter": "START_NEXT_SESSION_V1.4.35_PR176_STAGE5D_PROVIDER_PENDING.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR176_STAGE5D_PROVIDER_PENDING_SLE_2026-09-01.md",
-    "exactFinalHead": "4c1e9be8e0af26e277ed9fd1ae0545ec065173ff",
-    "mergeSha": "a4489fe7d812144deb3f747019eb162628480dac",
+    "transitionGateBeforeNext": "verify PR184/main/r4 production -> validate/archive closing WEC -> fresh WEC -> minimal one-paste automatic exact-rivalry convergence acceptance",
+    "next": "production-r4-one-paste-zero-manual-reattach-acceptance",
+    "closeoutPullRequest": 184,
+    "starter": "START_NEXT_SESSION_V1.4.36_PR184_R4_PRODUCTION_PROVEN.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR184_R4_PRODUCTION_PROVEN_SLE_2026-09-03.md",
+    "exactFinalHead": "36500a051c61793f14447ca0f931f504ed40a299",
+    "mergeSha": "2bfb7656940be23b635cb7092127a0ab0f62c7a4",
     "mergeTree": "e7083c2cda0e737f9d1c5654ca663df6ddf3408a",
     "lastProviderProvenRulesBlobSha": "2b7c0b166ae0aae7ab7a3ce84725b21091262484",
     "stage5DRepositoryRulesSourceMerged": true,
-    "stage5DProviderRulesPublished": false,
-    "stage5DProviderRulesProven": false
+    "stage5DProviderRulesPublished": true,
+    "stage5DProviderRulesProven": true,
+    "productionPagesRunId": 33713396948,
+    "productionStabilityRunId": 33713396979
   }
 }

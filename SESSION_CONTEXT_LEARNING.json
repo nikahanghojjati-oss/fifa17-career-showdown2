@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-01T17:23:54.985Z",
-  "materialSessionsObserved": 15,
-  "learningState": "cold-start-priors-with-fifteen-labeled-sessions",
+  "recordedAt": "2026-09-03T04:33:00.000Z",
+  "materialSessionsObserved": 16,
+  "learningState": "cold-start-priors-with-sixteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -99,6 +99,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "PR #176 proved exact Stage 5C-to-production-source blob lineage and merged with 14/14 exact-head plus 15/15 post-merge gates, but fixed RJR stays 87 because source/CI/merge add zero capability credit. Provider truth remains the older proven blob until authenticated Firebase publication is independently observed. Paid review quota exhaustion must never cause billing; the mandatory exact-head zero-billing fallback preserved review discipline."
+    },
+    "stage5e-r4-production-proof": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "PR #184 separated a genuine pending-B prefill sequencing defect from stale evidence/release assertions, then exact-head all-14, Chromium, Stage 3, post-merge 15/15, Pages exact-byte and deployed complete-journey proof closed r4 publication. Process work added zero RJR; fixed score remains 88."
     }
   },
   "sessionMetrics": [
@@ -211,6 +220,21 @@
       "ciTriageLesson": "Historical write-denied assertions must be updated to the exact reviewed session allowlist rather than restoring obsolete denial; require exact-head emulator/Chromium gates after correction.",
       "productionEvidenceLesson": "Repository Rules source promotion and provider publication are separate evidence classes. Do not claim production provider change until authenticated Firebase evidence proves exact source identity.",
       "authorityLesson": "Permanent no-billing authority permits every nonbilling provider decision but never buying review credits or activating billed infrastructure. At the separate provider gate, use an authenticated Spark-compatible Rules-only path or preserve the blocker honestly."
+    },
+    {
+      "sessionId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "fresh-production-r4-zero-manual-reattach-owner-acceptance",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "ghFallbackUsed": false,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "Exact workflow logs and stale continuity contracts were needed to distinguish a real r4 sequencing defect from historical SLE drift.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "ciTriageLesson": "When an exact-head browser failure persists after lower-level contracts pass, inspect runtime sequencing; when continuity failures follow, update current authority without deleting historical proofs.",
+      "productionEvidenceLesson": "Automated exact deployed-byte and complete-journey proof closes publication but adds zero fixed RJR unless a genuinely uncredited capability is proven.",
+      "authorityLesson": "At handoff 100, seal the production-proven checkpoint, close WEC, publish the recursive SLE package and stop before the distinct owner acceptance milestone."
     }
   ],
   "outcomeScale": {
@@ -228,9 +252,9 @@
     "eligibleNow": false
   },
   "latestLesson": {
-    "lesson": "PR #175 at fixed RJR87 proved the standard-Firebase-uid Stage 5C boundary with registered device mutation metadata, not authentication; Billing stayed forbidden and Cloud Run excluded. PR #176 then merged that exact boundary into the production Rules source with zero RJR movement, while provider publication of the new repository blob remains separately unproven.",
-    "rjrScore": 87,
-    "closeoutPullRequest": 176,
-    "next": "provider-live-stage5d-rules-publication-then-runtime-host-join"
+    "lesson": "PR #184 at fixed RJR88 repaired stale Connected Rivalry A/B precedence. Pending or unauthorized B preserves durable A; verified active exact B can replace A. All exact-head and post-merge gates plus Pages exact-byte and deployed complete-journey proof are green. Billing remains forbidden, Spark remains selected, and the next fresh milestone is the minimal production one-paste automatic exact-rivalry convergence acceptance with zero manual Verify/Reattach.",
+    "rjrScore": 88,
+    "closeoutPullRequest": 184,
+    "next": "production-r4-one-paste-zero-manual-reattach-acceptance"
   }
 }
