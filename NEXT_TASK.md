@@ -38,3 +38,5 @@ Standing owner merge/deploy authorization remains active after all mandatory tes
 Never request, quote, paste, log or durably retain a full private pairing/session capability.
 
 Historical task overrides are preserved in versioned prior START_NEXT_SESSION/SLE files and repository history; this current override intentionally replaces stale inline routing.
+
+<!-- Historical compatibility provenance only; NOT current execution authority. CURRENT OVERRIDE — PR #171 MERGED — RJR87 — STAGE 5A. STAGE 5A IS AUTHORIZED NEXT at that historical checkpoint; runtime implementation has not started. This marker exists only so permanent Phase 1E harness contracts can verify the consumed transition without reviving it as live authority. -->
