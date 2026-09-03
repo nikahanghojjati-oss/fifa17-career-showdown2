@@ -2,6 +2,8 @@
 
 Authorized release candidate: `v1.9.0 / 1.9.0-r4`. Production-proven baseline remains `v1.9.0 / 1.9.0-r3` until publication/deployment gates close. Fixed RJR-1 is `88/100` from the already supplied provider-live r3 Remote Joining lifecycle only; r4 implementation/release mechanics earn zero readiness credit.
 
+Remote Joining readiness: `88/100` under fixed RJR-1.
+
 The only product repair is stale Connected Rivalry pointer precedence: preserve durable A unless current pairing B passes the existing exact provider-authorized attach verification, then persist B automatically. Pending, expired, wrong-account, wrong-device, wrong-manager, profile/save-mismatched or otherwise unauthorized B must preserve A. Player Two pastes exactly once. Player One and Player Two must converge on B with zero manual Connected Rivalry Verify/Reattach and unchanged canonical localStorage.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
