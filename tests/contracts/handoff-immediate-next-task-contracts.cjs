@@ -87,6 +87,18 @@ assert.equal(bootstrap.immediateNextTask?.name,"select-smallest-uncredited-rjr89
 assert.equal(bootstrap.immediateNextTask?.mustStartAsRealProductWork,true);
 assert.match(bootstrap.immediateNextTask?.summary||"",/PR #187[\s\S]+RJR89[\s\S]+fresh unique WEC[\s\S]+third-account\/revoked-device/i);
 
+assert.match(starter,/Required owner-facing RJR progress status block/i,"SNS must make the owner-facing reporting contract explicitly RJR-specific.");
+for(const field of ["Handoff proximity:","Remote Joining readiness:","Estimated focused sessions to genuine RJR100:","Current lane:","Concrete dependency completed:","Next unlock:","Blocker:","Sidequest check:"]){
+  assert.ok(starter.includes(field),`SNS must preserve reporting field ${field}`);
+}
+assert.match(starter,/Handoff proximity[\s\S]+WEC\/session transition readiness only[\s\S]+not RJR/i,"SNS must separate handoff proximity from readiness.");
+assert.match(starter,/Remote Joining readiness[\s\S]+RJR delta from newly proven capability evidence[\s\S]+RJR impact: \+0/i,"SNS must require an explicit capability-only RJR delta or +0.");
+assert.match(starter,/Current lane[\s\S]+exact uncredited fixed RJR domain\/capability/i,"SNS must require the active lane to map to a fixed RJR gap.");
+assert.match(starter,/Concrete dependency completed[\s\S]+fixed domain earned-before[^\n]+earned-after[\s\S]+total RJR before[^\n]+after/i,"SNS must require before-to-after domain and total RJR accounting.");
+assert.match(starter,/Next unlock[\s\S]+next uncredited capability[\s\S]+concrete proof\/evidence required/i,"SNS must require the next unlock to name qualifying evidence.");
+assert.match(starter,/Generic phrases[\s\S]+continue toward RJR100[\s\S]+not sufficient/i,"SNS must reject vague RJR progress reporting.");
+assert.match(starter,/source completion, CI volume, deployment mechanics, or documentation volume[\s\S]+Remote Joining readiness/i,"SNS must forbid process-volume readiness inflation.");
+
 assert.equal(wec.environmentId,"we-2026-09-03-stage5e-r4-production-convergence-acceptance");
 assert.equal(wec.lifecycle,"closed");
 assert.equal(wec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
@@ -94,4 +106,4 @@ assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(wec.signals?.handoffCompleteness,100);
 assert.match(next,/never inherit predecessor `HANDOFF_AT_CHECKPOINT`/i);
 
-process.stdout.write("PASS current immediate-next-task authority: PR187 r5 owner accepted, fixed RJR89, fresh successor WEC and smallest uncredited gap next.\n");
+process.stdout.write("PASS current immediate-next-task authority: PR187 r5 owner accepted, fixed RJR89, fresh successor WEC, smallest uncredited gap next, and explicit capability-only RJR reporting.\n");
