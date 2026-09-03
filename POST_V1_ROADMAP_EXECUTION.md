@@ -114,7 +114,7 @@ Current verified source and `NEXT_TASK.md` override every retained roadmap body 
 
 Completed connected prerequisites now include Cloud/Sync Readiness Phase 1A through 1F and Private Account/Auth Stages 2A through 2H.
 
-Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING through PR #93. Exact validated final head `98f28f71fa6977502333535a9865ab446effde65`; squash merge / Stage 2H starting main `8e5e892759ec2ddf033bb46f0c3d370c848615d5`.
+Stage 2H — Production Trusted Execution Runtime & Least-Privilege IAM Boundary — is DONE / MERGED / PROVEN / PRODUCTION DORMANT / NON-PROVISIONING through PR #93. Exact validated final head `98f28f71fa6977502333535a9865ab446effde65`; squash merge / independently verified live-main boundary `f85d692384cba0b343a9634a5a7b1d56f0b0cc4b`.
 
 Current selected prerequisite: Stage 2I — Production App Attestation & Trusted Endpoint Abuse-Resistance Boundary.
 
