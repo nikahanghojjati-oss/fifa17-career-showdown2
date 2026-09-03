@@ -4,7 +4,7 @@ SLE = Smart Lean Efficient. This is the deep-reference handoff behind START_NEXT
 
 ## Executive state
 
-PR #184 is merged and production-proven. Exact final PR head 36500a051c61793f14447ca0f931f504ed40a299; merge/main 2bfb7656940be23b635cb7092127a0ab0f62c7a4. Production application/runtime v1.9.0 / 1.9.0-r4. Fixed RJR-1 88/100. No RJR credit was added for r4 implementation or publication.
+PR #184 is merged and production-proven. Exact final PR head 36500a051c61793f14447ca0f931f504ed40a299; runtime merge / r4 production runtime authority SHA 2bfb7656940be23b635cb7092127a0ab0f62c7a4. The repository main may advance when this handoff package is published, so the successor must independently resolve current main instead of treating the runtime authority SHA as a perpetual main pointer. Production application/runtime v1.9.0 / 1.9.0-r4. Fixed RJR-1 88/100. No RJR credit was added for r4 implementation or publication.
 
 The confirmed r3 defect was stale Connected Rivalry pointer precedence: durable pointer A was restored before the current pairing candidate B could be evaluated, forcing manual Verify/Reattach despite a valid newer provider pairing. r4 repairs only that precedence.
 
@@ -15,8 +15,8 @@ The confirmed r3 defect was stale Connected Rivalry pointer precedence: durable 
 * the four-code browser regression proves one Player Two paste, zero manual Connected Rivalry Verify/Reattach button actions and unchanged canonical localStorage.
 * exact-head CI: all 14 permanent PR workflow families green on 36500a051c61793f14447ca0f931f504ed40a299; Stability contracts and Chromium green; Stage 3 browser/Firestore Rules/Connected Rivalry/Stage 5 emulator lanes green; Candidate C recovery green.
 * review: final-head fallback review found no authority broadening; zero unresolved valid review threads; expected-head squash merge used.
-* merge: PR #184 -> 2bfb7656940be23b635cb7092127a0ab0f62c7a4.
-* post-merge: exactly 15 push workflows completed successfully on the merge SHA.
+* runtime merge: PR #184 -> 2bfb7656940be23b635cb7092127a0ab0f62c7a4.
+* post-merge: exactly 15 push workflows completed successfully on the runtime merge SHA.
 * Pages: Deploy GitHub Pages run 33713396948 success.
 * Stability production proof: run 33713396979 success. deployed-site-smoke passed exact every-runtime-byte verification, runtime error provenance, production App Check token path, Home visual, Save Library, identity linkage, Career Analytics, crop safety, Candidate A/B/C, offline boundary and complete deployed journey.
 
