@@ -2,6 +2,11 @@
 
 Production remains `v1.9.0 / 1.9.0-r5`. PR #189 shipped the isolated Stage 5F authenticated-negative acceptance harness and PR #190 shipped the acceptance-only explicit Google account chooser. PR #190 merged to live main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`; its GitHub Pages build and deploy succeeded. Neither implementation nor publication earns RJR credit.
 
+Historical implementation-authority provenance only; the active WEC below is the current execution authority:
+
+Current environment: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`
+Starting independently verified live main: `f591945fa74b59b961dd79a80849d72a3ab987ba`
+
 Owner production acceptance is now PASS for both previously uncredited Stage 5F negative boundaries. Sanitized authority is `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`. The revoked-device proof shows application rejection plus provider `permission-denied` for a protected mutation, no denied commit, unchanged session state, terminal cleanup and unchanged local storage. The authenticated third-account proof shows an unrelated legitimate Firebase identity receives `permission-denied` for both exact protected reads, with zero writes, no account bootstrap and unchanged local storage.
 
 Fixed RJR-1 is now **91/100**. The transition from 89 is exactly +2 in `identity-auth-trust`: +1 revoked-device protected-mutation denial and +1 authenticated non-participant exact-read denial. That domain is now 20/20. `devices-pairing-connected-rivalry-remote-join` remains 22/30 and `real-device-hardening-release` remains 9/10; the Stage 5F evidence is not double-counted there.
