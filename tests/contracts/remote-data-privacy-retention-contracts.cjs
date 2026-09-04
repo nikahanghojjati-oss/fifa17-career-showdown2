@@ -5,6 +5,7 @@ const next=fs.readFileSync("NEXT_TASK.md","utf8");
 const historicalNext=fs.readFileSync("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md","utf8");
 const providerProof=fs.readFileSync("PRODUCTION_FIRESTORE_RULES_PROVIDER_PROOF_2026-08-29.md","utf8");
 const acceptance=fs.readFileSync("PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md","utf8");
+const stage5fAcceptance=fs.readFileSync("PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
@@ -65,27 +66,35 @@ assert.doesNotMatch(optional,/firebase|firestore/i,"Historical optional-module b
 assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore collection\/schema creation:\s*AUTHORIZED/i);
 assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved without overriding later explicit runtime authority.");
 
-// Current privacy authority follows the newest production-proven runtime and evidence ledger.
-assert.equal(productionR5,true,"Current privacy authority must identify production-proven v1.9.0-r5 after PR #187 acceptance.");
+// Current privacy authority follows the newest production-proven runtime and live evidence ledger.
+// Bootstrap remains the last completed PR187/RJR89 SLE capsule until this environment seals its successor SNS.
+assert.equal(productionR5,true,"Current privacy authority must identify production-proven v1.9.0-r5.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,187);
 assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.0-r5");
 assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback provenance must remain anchored to PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","Historical rollback provenance must preserve restored 1.8.1-r5.");
-assert.equal(readiness.currentScore,89);
+assert.equal(bootstrap.remoteJoiningReadiness?.score,89,"Last completed bootstrap must retain its sealed RJR89 snapshot until the next SNS.");
+assert.equal(readiness.currentScore,91);
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.match(acceptance,/PASS \/ OWNER PRODUCTION ACCEPTANCE/i);
 assert.match(acceptance,/zero manual Verify\/Reattach/i);
 assert.doesNotMatch(acceptance,/pair_[0-9a-f]{32,}/i,"Durable production evidence must not retain a full private pairing capability.");
+assert.match(stage5fAcceptance,/PASS/i);
+assert.match(stage5fAcceptance,/revoked-device/i);
+assert.match(stage5fAcceptance,/third-account|third account/i);
+assert.match(stage5fAcceptance,/91\/100/i);
+assert.doesNotMatch(stage5fAcceptance,/pair_[0-9a-f]{32,}/i,"Stage 5F evidence must preserve capability-secret minimization.");
 
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Current NEXT_TASK must expose r5/RJR89 authority.");
-assert.match(next,/Do not repeat consumed r5 one-paste convergence[\s\S]+token-lifecycle[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i,"Current NEXT_TASK must preserve consumed security/privacy proof discipline without duplicating credit.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Current NEXT_TASK must expose Stage 5F accepted / RJR91 / Stage 5G authority.");
+assert.match(next,/do not repeat generic Connected Rivalry adverse-network proof/i,"Current NEXT_TASK must prevent duplicate network-proof credit.");
+assert.match(next,/Do not award RJR for source, CI, PR, merge, deployment, documentation, WEC/i,"Current NEXT_TASK must preserve evidence-only RJR movement.");
 assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i,"Current NEXT_TASK must preserve zero-billing provider/privacy locks.");
 assert.match(next,/Firestore browser persistence remains memory-only/i,"Current NEXT_TASK must preserve memory-only Firestore.");
 assert.match(next,/Google Auth remains popup-only `browserSessionPersistence` with no extra scopes/i,"Current NEXT_TASK must preserve popup-only browser-session Auth.");
 assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must preserve the App Check enforcement-off lock.");
-assert.match(next,/No public discovery\/community\/matchmaking\/global rankings/i,"Current NEXT_TASK must preserve private-only product scope.");
-assert.match(next,/Never request, quote, paste, log or durably retain a full private pairing\/session capability/i,"Current NEXT_TASK must preserve capability-secret minimization.");
+assert.match(next,/No public discovery[\s\S]+global leaderboards/i,"Current NEXT_TASK must preserve private-only product scope.");
+assert.match(next,/Never retain a full private pairing\/session capability in durable evidence/i,"Current NEXT_TASK must preserve capability-secret minimization.");
 assert.match(providerProof,/Status: PROVIDER-VERIFIED DEPLOYED[\s\S]+firestore\.spark\.rules[\s\S]+Today · 7:48 AM/i,"Privacy authority must retain direct provider provenance for strengthened Rules publication.");
 
-process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance remains archived while production-proven PR187/r5 RJR89 authority and capability-secret minimization are explicit.\n");
+process.stdout.write("PASS Phase 1C remote data inventory, privacy, retention, anti-resurrection, deletion and local-only boundaries; historical non-runtime provenance remains archived while production-proven PR187/r5, live RJR91 Stage 5F acceptance and capability-secret minimization are explicit.\n");
