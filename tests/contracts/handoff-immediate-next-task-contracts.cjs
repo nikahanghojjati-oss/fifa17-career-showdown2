@@ -117,6 +117,6 @@ assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environment
 assert.equal(wec.assessment?.decision,"CONTINUE");
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 assert.match(wec.continuity?.currentTask||"",/stage5g|network-hardening|reconnect|adverse/i);
-assert.equal(wec.score?.fixedRjrScore,91);
+assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i,"WEC must record the current fixed RJR without inventing an unsupported schema field.");
 
 process.stdout.write("PASS current immediate-next-task authority: Stage 5F production negatives accepted, fixed RJR91, Owner's Eagle Eye permanent, active WEC routed to genuinely uncredited Stage 5G network hardening, and prior PR187 SNS retained only as the last completed successor package.\n");
