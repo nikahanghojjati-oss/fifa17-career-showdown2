@@ -177,7 +177,7 @@ assert.match(trustedAuth.providerIdentitySource, /Firebase Auth uid[\s\S]+verify
   assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i);
 
   // Rolling authority may advance beyond the historical Stage 2F checkpoint.
-  assert.match(next,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G successor authority.");
+  assert.match(next,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Live NEXT_TASK must identify the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G successor authority.");
   assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
   assert.match(next,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live authority must route to the genuinely uncredited Stage 5G capability gap after RJR91.");
   assert.match(next,/do not repeat generic Connected Rivalry adverse-network proof/i,"Live authority must preserve consumed-proof discipline rather than revive the historical Stage 2F lane.");

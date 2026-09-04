@@ -13,6 +13,7 @@ const learning=json("SESSION_CONTEXT_LEARNING.json");
 const readiness=json("REMOTE_JOINING_READINESS.json");
 const wec=json("WORK_ENVIRONMENT_STATUS.json");
 const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json");
+const closingWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json");
 const current=read("00_CURRENT_HANDOFF.md");
 const developer=read("00_DEVELOPER_START_HERE.md");
 const next=read("NEXT_TASK.md");
@@ -34,20 +35,30 @@ assert.match(golden,/Handoff proximity:?\s*100%|Handoff proximity reaches `100%`
 assert.match(eagle,/Owner's Eagle Eye/i);
 assert.match(eagle,/Every future SLE\/SNS successor package|Every future SLE\/SNS|Every future SLE/i);
 
-// The predecessor reached Handoff proximity 100 on a separate branch while PR191 stayed open.
-// SESSION_BOOTSTRAP and the mirrored package must now describe that completed PR191/RJR91 handoff.
-assert.equal(bootstrap.starter?.version,"1.4.39");
-assert.equal(bootstrap.starter?.checkpoint,"PR191-OPEN-RJR91-STAGE5G-NEXT");
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
-assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md");
-assert.equal(bootstrap.currentHandoff?.status,"current-pr191-open-rjr91-stage5g-next");
+// The completed package must describe PR191's exact-head merge/deployment closure and route directly to Stage 5G.
+assert.equal(bootstrap.starter?.version,"1.4.40");
+assert.equal(bootstrap.starter?.checkpoint,"PR191-MERGED-RJR91-STAGE5G-AUTOMATION-NEXT");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md");
+assert.equal(bootstrap.currentHandoff?.status,"current-pr191-merged-rjr91-stage5g-automation-next");
 assert.equal(bootstrap.successorPackage?.compactStarter,bootstrap.starter.canonical);
 assert.equal(bootstrap.successorPackage?.fullHandoff,bootstrap.currentHandoff.canonical);
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,191);
-assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open");
+assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged");
+assert.equal(bootstrap.currentPublicationCheckpoint?.exactFinalHead,"72f7031797592a3866f7c62da07fa42959cb30fb");
+assert.equal(bootstrap.currentPublicationCheckpoint?.mergeSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
+assert.equal(bootstrap.currentPublicationCheckpoint?.expectedHeadProtectionUsed,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.currentPublicationCheckpoint?.pagesRunId,33913035742);
+assert.equal(bootstrap.currentPublicationCheckpoint?.stabilityRunId,33913035721);
+assert.equal(bootstrap.currentPublicationCheckpoint?.deployedRuntimeFilesVerified,99);
+assert.equal(bootstrap.currentPublicationCheckpoint?.deployedEveryRuntimeByteProven,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.deployedCompleteJourneyProven,true);
+assert.equal(bootstrap.currentPublicationCheckpoint?.runtimeChanged,false);
 assert.equal(bootstrap.currentPublicationCheckpoint?.lastExactHeadBeforeHandoffPackaging,"4a63137b918b3d4b6d3d93916e67b72e85848c39");
 assert.equal(bootstrap.currentPublicationCheckpoint?.lastPublishedRepairHeadBeforeContinuityCheckpoint,"f397c88fda5f63da4688f894778b9360bf2e1a02");
-assert.equal(bootstrap.currentPublicationCheckpoint?.publicationStatus,"repair-published-final-continuity-head-awaiting-workflows");
+assert.equal(bootstrap.currentPublicationCheckpoint?.publicationStatus,"complete-exact-head-and-postmerge-green");
 assert.equal(bootstrap.currentPublicationCheckpoint?.baseSha,"7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4");
 assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
@@ -82,8 +93,11 @@ for(const [name,text] of [["last completed starter",starter],["last completed ha
   assert.match(text,/v1\.9\.0[\s\S]+1\.9\.0-r5/i,`${name} must preserve the production identity it sealed.`);
   assert.match(text,/91\/100|RJR91/i,`${name} must preserve the RJR91 value that was true at its seal boundary.`);
   assert.match(text,/PR #191/i,`${name} must preserve PR191 publication lineage.`);
-  assert.match(text,/7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4/i,`${name} must preserve the live-main checkpoint.`);
-  assert.match(text,/4a63137b918b3d4b6d3d93916e67b72e85848c39/i,`${name} must preserve the last exact PR head before separate handoff packaging.`);
+  assert.match(text,/7ca132a607cbf4fd78710b14526b4bec849ac2d2/i,`${name} must preserve the live-main merge checkpoint.`);
+  assert.match(text,/72f7031797592a3866f7c62da07fa42959cb30fb/i,`${name} must preserve the exact final PR head.`);
+  assert.match(text,/33913035742/i,`${name} must preserve post-merge Pages proof.`);
+  assert.match(text,/33913035721/i,`${name} must preserve post-merge Stability proof.`);
+  assert.match(text,/99 (?:production )?runtime files|99 public runtime files/i,`${name} must preserve deployed byte-count proof.`);
   assert.match(text,/Billing must never be activated|billing[\s\S]+permanently forbidden/i,`${name} must preserve zero-billing lock.`);
   assert.match(text,/Firebase[\s\S]+Spark/i);
   assert.match(text,/App Check enforcement remains OFF/i);
@@ -113,18 +127,18 @@ assert.match(handoff,/Handoff proximity/i);
 assert.match(handoff,/Remote Joining readiness/i);
 assert.match(handoff,/Sidequest check/i);
 
-// Rolling pointers and the owner convenience prompt must identify the newly completed PR191 SNS.
-assert.match(rolling,/START_NEXT_SESSION_V1\.4\.39_PR191_RJR91_STAGE5G_HANDOFF\.md/);
-assert.match(rolling,/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04\.md/);
+// Rolling pointers and the owner convenience prompt must identify the merged PR191 Stage 5G package.
+assert.match(rolling,/START_NEXT_SESSION_V1\.4\.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION\.md/);
+assert.match(rolling,/SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04\.md/);
 assert.match(rolling,/91\/100/);
 assert.match(rolling,/1\.9\.0-r5/);
-assert.match(current,/START_NEXT_SESSION_V1\.4\.39_PR191_RJR91_STAGE5G_HANDOFF\.md/);
-assert.match(current,/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04\.md/);
+assert.match(current,/START_NEXT_SESSION_V1\.4\.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION\.md/);
+assert.match(current,/SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04\.md/);
 assert.match(current,/PR #191[\s\S]+91\/100|RJR91/i);
-assert.match(prompt,/START_NEXT_SESSION_V1\.4\.39_PR191_RJR91_STAGE5G_HANDOFF\.md/);
+assert.match(prompt,/START_NEXT_SESSION_V1\.4\.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION\.md/);
 assert.match(prompt,/91\/100|RJR91/i);
 assert.match(prompt,/fresh unique WEC|fresh WEC/i);
-assert.match(prompt,/finish PR #191 exact-head gates/i);
+assert.match(prompt,/Stage 5G[\s\S]+automation first/i);
 
 // Current execution authority, unlike those historical pointers, must expose the newly accepted Stage 5F evidence and RJR91.
 for(const [name,text] of [["developer",developer],["next",next],["project",project]]){
@@ -160,19 +174,24 @@ assert.equal(stage5fNode?.rjrDelta,2);
 assert.equal(stage5fNode?.publicationWorkRjrCredit,0);
 assert.equal(closeNode?.handoffProximity,100);
 assert.equal(closeNode?.rjrScore,91);
-assert.equal(closeNode?.environmentId,"we-2026-09-03-stage5f-authenticated-negatives");
+assert.equal(closeNode?.environmentId,"we-2026-09-04-pr191-publication-stage5g");
 assert.equal(closeNode?.finalDecision,"HANDOFF_NOW");
-assert.match(successorNode?.state||"",/fresh-wec-required-finish-pr191/i);
+assert.equal(closeNode?.mergeSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
+assert.match(successorNode?.state||"",/fresh-wec-required-stage5g-network-hardening/i);
 assert.equal(model.latestCheckpoint?.rjrScore,91);
 assert.equal(model.latestCheckpoint?.runtimeRevision,"1.9.0-r5");
 assert.equal(model.latestCheckpoint?.publicationPullRequest,191);
-assert.equal(model.latestCheckpoint?.publicationState,"open");
+assert.equal(model.latestCheckpoint?.publicationState,"merged");
+assert.equal(model.latestCheckpoint?.publicationExactFinalHead,"72f7031797592a3866f7c62da07fa42959cb30fb");
+assert.equal(model.latestCheckpoint?.publicationMergeSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
+assert.equal(model.latestCheckpoint?.publicationPostMergeWorkflowsSuccessful,15);
 assert.equal(model.latestCheckpoint?.lastRuntimePullRequest,187);
 assert.equal(model.latestCheckpoint?.runtimeProductionPagesRunId,33738921948);
 assert.equal(model.latestCheckpoint?.runtimeProductionStabilityRunId,33738921850);
 assert.equal(learning.latestLesson?.rjrScore,91);
 assert.equal(learning.latestLesson?.publicationPullRequest,191);
-assert.equal(learning.latestLesson?.publicationState,"open");
+assert.equal(learning.latestLesson?.publicationState,"merged");
+assert.equal(learning.latestLesson?.publicationMergeSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
 assert.equal(learning.latestLesson?.runtimeRevision,"1.9.0-r5");
 
 assert.ok(fs.existsSync("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json"));
@@ -183,14 +202,15 @@ assert.equal(predecessorWec.signals?.handoffCompleteness,100);
 assert.equal(predecessorWec.signals?.unrecordedDecisions,0);
 assert.equal(predecessorWec.signals?.atomicOperation,false);
 assert.equal(wec.environmentId,"we-2026-09-04-pr191-publication-stage5g");
-assert.equal(wec.lifecycle,"active");
+assert.equal(wec.lifecycle,"closed");
 assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
-assert.equal(wec.assessment?.decision,"CONTINUE");
+assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(wec.signals?.handoffCompleteness,100);
 assert.equal(wec.signals?.unrecordedDecisions,0);
 assert.equal(wec.signals?.atomicOperation,false);
-assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+publication[\s\S]+Stage 5G/i);
+assert.deepEqual(wec,closingWec,"Closing WEC archive must be byte-semantically identical to the final status record.");
+assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+complete[\s\S]+Stage 5G/i);
 assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i);
 
-process.stdout.write("PASS SLE packaging transition: current PR191/RJR91 mirrored SNS, rolling pointers, context graph/model/learning, closed Stage 5F WEC, fresh PR191 publication WEC and immutable PR187/r5 provenance remain coherent.\n");
+process.stdout.write("PASS SLE packaging transition: merged PR191/RJR91 mirrored SNS, exact-head/post-merge/deployed proof, closed publication WEC, direct Stage 5G routing and immutable PR187/r5 provenance remain coherent.\n");

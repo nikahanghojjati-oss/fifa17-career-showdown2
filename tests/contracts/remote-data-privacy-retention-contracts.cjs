@@ -67,14 +67,14 @@ assert.doesNotMatch(policy,/Firebase SDK installation:\s*AUTHORIZED|Firestore co
 assert.match(historicalNext,/Cloud\/sync runtime remains NOT YET IMPLEMENTATION-AUTHORIZED/i,"Historical Phase 1C authorization provenance must remain preserved without overriding later explicit runtime authority.");
 
 // Current privacy authority follows the newest production-proven runtime and live evidence ledger.
-// Bootstrap is the sealed v1.4.39/RJR91 successor capsule while preserving exact PR187/r5 runtime provenance.
+// Bootstrap is the sealed v1.4.40/RJR91 successor capsule while preserving exact PR187/r5 runtime provenance.
 assert.equal(productionR5,true,"Current privacy authority must identify production-proven v1.9.0-r5.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,187);
 assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.0-r5");
 assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback provenance must remain anchored to PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","Historical rollback provenance must preserve restored 1.8.1-r5.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.39 RJR91 snapshot.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.40 RJR91 snapshot.");
 assert.equal(readiness.currentScore,91);
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.match(acceptance,/PASS \/ OWNER PRODUCTION ACCEPTANCE/i);

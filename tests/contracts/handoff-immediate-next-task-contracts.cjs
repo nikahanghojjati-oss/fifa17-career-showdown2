@@ -13,6 +13,7 @@ const bootstrap=json("SESSION_BOOTSTRAP.json");
 const readiness=json("REMOTE_JOINING_READINESS.json");
 const wec=json("WORK_ENVIRONMENT_STATUS.json");
 const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json");
+const closingWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json");
 const pkg=json("package.json");
 const r5Acceptance=read("PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md");
 const stage5fAcceptance=read("PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md");
@@ -20,8 +21,8 @@ const zeroBilling=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
 const standing=read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 const historicalStarter=read("START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
 const historicalSle=read("SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
-const currentStarter=read("START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
-const currentSle=read("SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md");
+const currentStarter=read("START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md");
+const currentSle=read("SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md");
 
 assert.match(golden,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
 assert.match(golden,/bootstrap\/study[\s\S]+execution/i);
@@ -42,15 +43,21 @@ for(const [name,text] of [["00_DEVELOPER_START_HERE.md",start],["NEXT_TASK.md",n
 }
 assert.match(start,/live `main`[\s\S]+current WEC/i);
 assert.match(start,/Stage 5G[\s\S]+reconnect\/adverse-network hardening/i);
-assert.match(next,/active WEC/i,"NEXT_TASK must explicitly preserve the currently active WEC until a true handoff boundary.");
+assert.match(next,/Closing (?:Work Environment Continuity \(WEC\)|WEC)[\s\S]+HANDOFF_NOW[\s\S]+fresh successor/i,"NEXT_TASK must expose the closed publication WEC hard-transition and fresh-successor boundary.");
 
 assert.equal(pkg.version,"1.9.0");
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.0");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
-// SESSION_BOOTSTRAP/00_CURRENT_HANDOFF now identify the completed PR191/RJR91 handoff package.
+// SESSION_BOOTSTRAP/00_CURRENT_HANDOFF now identify the merged/deployed PR191/RJR91 handoff package.
 // The earlier PR187/RJR89 package remains immutable historical provenance below.
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
-assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md");
+assert.equal(bootstrap.currentPublicationCheckpoint?.state,"merged");
+assert.equal(bootstrap.currentPublicationCheckpoint?.exactFinalHead,"72f7031797592a3866f7c62da07fa42959cb30fb");
+assert.equal(bootstrap.currentPublicationCheckpoint?.mergeSha,"7ca132a607cbf4fd78710b14526b4bec849ac2d2");
+assert.equal(bootstrap.currentPublicationCheckpoint?.exactHeadWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.currentPublicationCheckpoint?.postMergeWorkflowFamiliesSuccessful,15);
+assert.equal(bootstrap.currentPublicationCheckpoint?.deployedRuntimeFilesVerified,99);
 assert.match(current,/PR #191[\s\S]+RJR91/i);
 assert.match(currentStarter,/PR #191[\s\S]+91\/100|RJR91/i);
 assert.match(currentSle,/PR #191[\s\S]+91\/100|RJR91/i);
@@ -117,11 +124,12 @@ assert.equal(predecessorWec.lifecycle,"closed");
 assert.equal(predecessorWec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(predecessorWec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(wec.environmentId,"we-2026-09-04-pr191-publication-stage5g");
-assert.equal(wec.lifecycle,"active");
+assert.equal(wec.lifecycle,"closed");
 assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
-assert.equal(wec.assessment?.decision,"CONTINUE");
+assert.equal(wec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+publication[\s\S]+Stage 5G/i,"Fresh WEC must finish PR191 publication before entering Stage 5G.");
+assert.deepEqual(wec,closingWec,"Closing WEC archive must match final status semantics exactly.");
+assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+complete[\s\S]+Stage 5G/i,"Closing WEC must prove PR191 publication complete and stop before Stage 5G.");
 assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i,"WEC must record the current fixed RJR without inventing an unsupported schema field.");
 
-process.stdout.write("PASS current immediate-next-task authority: Stage 5F production negatives accepted, fixed RJR91, Owner's Eagle Eye permanent, fresh PR191 publication WEC routed toward genuinely uncredited Stage 5G network hardening, current PR191 SNS complete, and prior PR187 SNS retained as immutable history.\n");
+process.stdout.write("PASS current immediate-next-task authority: merged PR191 and deployed r5 are exact, Stage 5F/RJR91 and Owner's Eagle Eye remain fixed, the closed publication WEC routes a fresh successor directly into genuinely uncredited Stage 5G automation, and prior PR187 provenance remains immutable.\n");
