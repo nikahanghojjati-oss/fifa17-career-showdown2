@@ -47,7 +47,7 @@
       <button id="authorizationSignIn" class="acceptanceButton" type="button">SIGN IN WITH GOOGLE</button>
       <button id="authorizationSignOut" class="acceptanceButton" type="button" disabled>SIGN OUT</button>
     </div>
-    <p class="acceptanceMeta">For the Stage 5F third-account check, the Google identity does not need a Career Mode Showdown account document. The probe remains read-only and never bootstraps one.</p>
+    <p class="acceptanceMeta">For the Stage 5F third-account check, the Google identity does not need a Career Mode Showdown account document. The probe remains read-only and never bootstraps one. Stage 5F sign-in forces Google's account chooser, remains popup-only, and requests no extra scopes.</p>
   </section>
 
   <section class="acceptanceCard acceptanceStage5f">
@@ -113,6 +113,7 @@
 <script src="js/sparkStandardAuthPrivateSession.js"></script>
 <script src="js/productionFirebaseRuntime.js"></script>
 <script src="js/productionAuthorizationAcceptance.js"></script>
+<script src="js/stage5fAcceptanceAccountChooser.js"></script>
 <script src="js/productionProviderAbuseAcceptance.js"></script>
 <script src="js/stage5fProductionAuthenticatedNegatives.js"></script>
 </body>
