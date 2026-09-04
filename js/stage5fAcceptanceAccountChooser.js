@@ -4,17 +4,17 @@
   const FEATURE="stage5f-acceptance-account-chooser";
   const GOOGLE_PROMPT="select_account";
 
-  function setText(id,text){
+  function stage5fChooserSetText(id,text){
     const element=root.document&&root.document.getElementById(id);
     if(element)element.textContent=text;
   }
 
-  function setDisabled(id,value){
+  function stage5fChooserSetDisabled(id,value){
     const element=root.document&&root.document.getElementById(id);
     if(element)element.disabled=Boolean(value);
   }
 
-  async function signInWithExplicitChooser(event){
+  async function stage5fChooserSignInWithExplicitChooser(event){
     if(event){
       event.preventDefault();
       event.stopPropagation();
@@ -23,8 +23,8 @@
 
     const button=root.document&&root.document.getElementById("authorizationSignIn");
     if(button&&button.disabled)return false;
-    setDisabled("authorizationSignIn",true);
-    setText("authorizationAcceptanceStatus","Opening Google account chooser…");
+    stage5fChooserSetDisabled("authorizationSignIn",true);
+    stage5fChooserSetText("authorizationAcceptanceStatus","Opening Google account chooser…");
 
     try{
       const runtime=root.CareerModeProductionFirebaseRuntime;
@@ -42,11 +42,11 @@
       await authSdk.signInWithPopup(services.auth,provider);
 
       if(!services.auth.currentUser)throw Object.assign(new Error("Google sign-in completed without an authenticated identity."),{code:"STAGE5F_ACCOUNT_CHOOSER_NO_USER"});
-      setText("authorizationAcceptanceAccountState","Authenticated · explicit Google account selection completed");
-      setText("authorizationAcceptanceStatus","Google account selected. Stage 5F may now use this authenticated identity; this chooser does not create a private account document.");
+      stage5fChooserSetText("authorizationAcceptanceAccountState","Authenticated · explicit Google account selection completed");
+      stage5fChooserSetText("authorizationAcceptanceStatus","Google account selected. Stage 5F may now use this authenticated identity; this chooser does not create a private account document.");
       return true;
     }catch(error){
-      setText("authorizationAcceptanceStatus",error&&error.message?error.message:"Google account chooser failed.");
+      stage5fChooserSetText("authorizationAcceptanceStatus",error&&error.message?error.message:"Google account chooser failed.");
       return false;
     }finally{
       const runtime=root.CareerModeProductionFirebaseRuntime;
@@ -55,21 +55,21 @@
         const services=runtime&&typeof runtime.ensureAccountServices==="function"?await runtime.ensureAccountServices():null;
         signedIn=Boolean(services&&services.auth&&services.auth.currentUser);
       }catch(_error){}
-      setDisabled("authorizationSignIn",signedIn);
-      setDisabled("authorizationSignOut",!signedIn);
+      stage5fChooserSetDisabled("authorizationSignIn",signedIn);
+      stage5fChooserSetDisabled("authorizationSignOut",!signedIn);
     }
   }
 
-  function mount(){
+  function stage5fChooserMount(){
     if(!root.document)return false;
     const button=root.document.getElementById("authorizationSignIn");
     if(!button)return false;
     button.textContent="SIGN IN WITH GOOGLE · CHOOSE ACCOUNT";
-    button.addEventListener("click",event=>{void signInWithExplicitChooser(event);},{capture:true});
+    button.addEventListener("click",event=>{void stage5fChooserSignInWithExplicitChooser(event);},{capture:true});
     return true;
   }
 
-  if(root.document)mount();
+  if(root.document)stage5fChooserMount();
 
   root.CareerModeStage5fAcceptanceAccountChooser=Object.freeze({
     contractVersion:1,
@@ -82,7 +82,7 @@
     blazeRequired:false,
     cloudFunctionsRequired:false,
     cloudRunRequired:false,
-    mount,
-    signInWithExplicitChooser
+    mount:stage5fChooserMount,
+    signInWithExplicitChooser:stage5fChooserSignInWithExplicitChooser
   });
 })(typeof globalThis!=="undefined"?globalThis:this);
