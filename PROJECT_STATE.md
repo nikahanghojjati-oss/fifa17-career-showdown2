@@ -1,47 +1,33 @@
-# CURRENT OVERRIDE — PR #187 / v1.9.0-r5 OWNER ACCEPTED / RJR89
+# CURRENT OVERRIDE — STAGE 5F PRODUCTION NEGATIVES ACCEPTED / RJR91 / STAGE 5G ACTIVE
 
-Live production checkpoint at closure: `277f1b55dc362ee84d285445b99172b9fbed8509` from merged PR #187 `Ship v1.9.0-r5 Player One automatic rivalry convergence`. Exact reviewed PR head: `e30f34ffade1cc64d0fb268a66eb8109b27c376c`.
+Current independently verified production implementation checkpoint before this evidence transition is main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`, after merged PR #190. Application/runtime remain `v1.9.0 / 1.9.0-r5`, anchored to exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509`. PR187's owner-accepted one-paste, zero-manual Connected Rivalry Verify/Reattach evidence moved fixed RJR-1 from 88 to 89; Stage 5F later moved it from 89 to 91. The PR #190 GitHub Pages build and deploy succeeded. Runtime gameplay identity did not change.
 
-Production is `v1.9.0 / 1.9.0-r5`. All 15 post-merge workflows succeeded. Pages `33738921948` succeeded. Stability `33738921850` succeeded, including deployed-site-smoke, all 97 runtime files verified byte-for-byte as r5, and the complete deployed browser journey.
+Owner production evidence on 2026-09-04 closes both Stage 5F authenticated negative boundaries. Sanitized record: `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`.
 
-Owner production acceptance is PASS. The qualifying r5 evidence proves Player Two `ONE PASTE CONFIRMED`, automatic exact Connected Rivalry equality on Player One and Player Two, Player One automatic attachment from completed private pairing with no second code entry, and owner-confirmed zero manual Connected Rivalry Verify/Reattach.
+Fixed RJR-1 is **91/100** with domain vector:
 
-Fixed RJR-1 is **89/100**. The delta from 88 is exactly +1 for the previously uncredited automatic one-paste exact-rivalry convergence capability. Source, PR, CI, review, merge, deployment, documentation, WEC and handoff work receive zero readiness credit.
+- deterministic sync and recovery safety: 20/20
+- identity, authentication, authorization and trust: **20/20**
+- production cloud and security activation: 20/20
+- devices, pairing, Connected Rivalry and actual Remote Joining: 22/30
+- real-device hardening and stable release: 9/10
 
-The **Installable Offline App** remains the local-first startup and recovery baseline; Remote Joining must preserve offline startup, local Save ownership, backup/restore and recovery safety. The shipped **v1.3.0 Recovery & Device Resilience Hardening** baseline remains protected, and the completed **Local Profiles / Save Library** chain remains the local identity and multi-save authority beneath all connected work.
+The +2 from 89 is exactly two new production authorization capabilities: revoked-device protected-mutation provider denial (+1) and authenticated unrelated-account exact private-read denial (+1). No process, implementation, CI, deployment or repeated-proof credit is included.
 
-Closing Work Environment Continuity (WEC) record: `we-2026-09-03-stage5e-r4-production-convergence-acceptance`, lifecycle `closed`, decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`. Every successor must enter Work Environment Continuity with a fresh unique WEC and must not inherit the predecessor transition decision.
+The repository **Work Environment Continuity (WEC)** system remains mandatory. The current environment must own and validate its active WEC, never inherit a predecessor transition decision, and archive/replace it only at a genuine successor boundary.
 
-Current starter: `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md`.
+## Current lane
 
-Deep SLE: `SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md`.
+Stage 5G: Remote Joining-specific two-device/two-network reconnect and adverse-network hardening. Automate deterministic/runtime/browser/emulator evidence first. Owner interaction is required only when genuine physical-device/network evidence cannot be simulated or otherwise proven.
 
-Acceptance proof: `PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md`.
+After that lane is genuinely evidence-complete, the explicit remaining milestone is final stable Remote Joining release acceptance.
 
-## Remaining genuine Remote Joining work
+## Protected baselines and permanent locks
 
-Expected smallest uncredited gaps, subject to fresh successor verification:
+The Installable Offline App remains the local-first startup/recovery baseline. The v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
 
-1. authenticated third-account / revoked-device production negatives;
-2. Remote Joining-specific two-device/two-network reconnect and adverse-network hardening;
-3. final stable Remote Joining release acceptance.
+Billing is permanently forbidden and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Run and Cloud Functions remain forbidden because they require billing under this architecture. Trusted-runtime IAM remains unactivated/unbroadened.
 
-Do not repeat the consumed r5 positive setup acceptance or r3 Host/Join lifecycle merely for confidence.
+Candidate A is non-mutating; Candidate B is read-only; Candidate C remains the sole destructive remote-to-local gameplay Apply authority with strict exact raw snapshot and transaction-owned rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain full private pairing/session capabilities. The protected historical rivalry must not be used for destructive testing.
 
-## Permanent locks
-
-Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, activate Cloud Run or Cloud Functions, purchase credits, or use another billing-required service.
-
-App Check enforcement remains OFF. Browser Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Trusted-runtime IAM remains unactivated/unbroadened.
-
-The three canonical localStorage keys remain exactly:
-
-- `careerModeShowdown.saveLibrary`
-- `careerModeShowdown.legacyShowdowns`
-- `careerModeShowdown.preferences`
-
-Candidate A remains non-mutating export. Candidate B remains read-only analysis. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned rollback and strict exact raw snapshot recovery. Exactly two private managers remain mandatory. No public discovery/community/matchmaking/global rankings, listing, lobby or public leaderboards are authorized. The protected historical rivalry must not be used for destructive testing.
-
-Never durably retain full private pairing/session capabilities.
-
-Historical project-state overrides remain available through the versioned prior handoff files and repository history; this current override intentionally replaces stale inline state.
+Historical project-state overrides remain available through versioned prior handoffs and repository history; this current override intentionally replaces stale inline state.

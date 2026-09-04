@@ -13,6 +13,7 @@ const preR3State = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUN
 const roadmap = read("POST_V1_ROADMAP_EXECUTION.md");
 const remoteRoadmap = read("REMOTE_JOINING_EXECUTION_ROADMAP.md");
 const currentHandoff = read("00_CURRENT_HANDOFF.md");
+const historicalR5Handoff = read("SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
 const start = read("00_DEVELOPER_START_HERE.md");
 const rules = read("firestore.rules");
 const index = read("index.html");
@@ -73,8 +74,8 @@ assert.match(preR3Next,/Historical heading: CURRENT IMPLEMENTATION AUTHORITY —
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i);
 assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Immutable pre-r3 NEXT_TASK must preserve the bounded v1.5.0 / 1.5.0-r1 candidate provenance.");
 
-// Stage 2C remains immutable policy provenance. Current live authority is PR187/r5/RJR89.
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live NEXT_TASK must identify current PR187/r5/RJR89 authority.");
+// Stage 2C remains immutable policy provenance. Current live authority is Stage 5F accepted / RJR91 / Stage 5G.
+assert.match(next,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live transition authority must keep App Check enforcement off.");
 
 for (const [name, text] of archivalSources) {
@@ -88,9 +89,9 @@ assert.match(preR3State, /PR #115 `Connect production App Check runtime safely` 
 assert.match(preR3State, /PR #116 `Add controlled GitHub Pages App Check deployment`[\s\S]+current direct Remote Joining prerequisite/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Immutable pre-r3 PROJECT_STATE must preserve completed Stage 2A-through-2I prerequisite authority.");
 assert.match(preR3State, /Active release candidate[\s\S]+v1\.5\.0[\s\S]+NOT production/i,"Immutable pre-r3 PROJECT_STATE must preserve the v1.5.0 bounded candidate provenance.");
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+v1\.9\.0-r5[\s\S]+RJR89/i,"Live PROJECT_STATE must expose current PR187/r5/RJR89 authority.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Live PROJECT_STATE must expose Stage 5F accepted / RJR91 / Stage 5G authority.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2C current-state checks must use the fixed RJR-1 model.");
-assert.equal(readiness.currentScore,89,"Stage 2C current-state checks must expose fixed RJR89.");
+assert.equal(readiness.currentScore,91,"Stage 2C current-state checks must expose fixed RJR91.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eRjrEvidence?.score,88,"Stage 2C current-state checks must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
 assert.equal(stage5eRjrEvidence?.delta,1,"Stage 2C current-state checks must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
@@ -99,10 +100,11 @@ assert.match(roadmap, /Stage 2C — Production Authentication Policy & Static-Ho
 assert.match(roadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
 assert.match(remoteRoadmap, /Stage 2C — Production Authentication Policy & Static-Hosting Compatibility Boundary[\s\S]+DONE \/ MERGED \/ PROVEN/i);
 assert.match(remoteRoadmap, /Stage 2D — Production Firebase Environment & Configuration Preflight[\s\S]+CURRENT/i);
-assert.match(currentHandoff, /PR #187[\s\S]+1\.9\.0-r5[\s\S]+89\/100/i,"Rolling handoff must expose current PR187/r5/RJR89 transition authority.");
-assert.match(currentHandoff, /one-paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the accepted capability that moved RJR88 to RJR89.");
-assert.match(start, /PR #187[\s\S]+1\.9\.0-r5[\s\S]+RJR89/i,"Developer start must expose current PR187/r5/RJR89 transition authority.");
-assert.match(start, /smallest genuinely uncredited fixed RJR-1 gap|smallest genuinely uncredited fixed-domain gap/i,"Developer start must route to capability-only successor work rather than a consumed Stage 2C-era lane.");
+assert.match(currentHandoff, /PR #191[\s\S]+1\.9\.0-r5[\s\S]+91\/100/i,"Rolling handoff must expose current PR191/r5/RJR91 transition authority.");
+assert.match(historicalR5Handoff, /PR #187[\s\S]+89\/100/i,"Immutable PR187 handoff must preserve fixed RJR89 provenance.");
+assert.match(historicalR5Handoff, /one-paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Immutable PR187 handoff must preserve the accepted capability that moved RJR88 to RJR89.");
+assert.match(start, /1\.9\.0-r5[\s\S]+RJR91/i,"Developer start must expose current r5/RJR91 transition authority.");
+assert.match(start, /smallest genuinely uncredited[\s\S]+Stage 5G Remote Joining-specific reconnect\/adverse-network hardening/i,"Developer start must route to capability-only successor work rather than a consumed Stage 2C-era lane.");
 
 assert.match(rules, /request\.auth\.uid/);
 assert.match(rules, /allow list, create, update, delete:\s*if false/g);
@@ -123,4 +125,4 @@ assert.equal(Object.prototype.hasOwnProperty.call(pkg.dependencies || {}, "fireb
 assert.equal(Object.prototype.hasOwnProperty.call(pkg.devDependencies || {}, "firebase-admin"), false);
 assert.doesNotMatch(lock.slice(0, 1600), /"firebase-admin"|"firebase"|"@firebase\/rules-unit-testing"|"firebase-tools"/);
 
-process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D transition preserved and current PR187/r5/RJR89 authority explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2C policy with immutable historical Stage 2D and PR187/RJR89 provenance preserved while current Stage 5F/RJR91/Stage 5G authority is explicit\n");

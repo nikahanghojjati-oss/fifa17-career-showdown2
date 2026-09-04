@@ -1,27 +1,27 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
+  "environmentId": "we-2026-09-04-pr191-publication-stage5g",
   "lifecycle": "active",
-  "recordedAt": "2026-09-03T20:58:00.000Z",
+  "recordedAt": "2026-09-04T15:18:17.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
-    "workingBranch": "hardening/stage5f-authenticated-negatives-2026-09-03",
-    "handoffBranch": "handoff/pending-stage5f-authenticated-negatives",
-    "predecessorEnvironmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json"
+    "startingMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
+    "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
+    "handoffBranch": "handoff/pending-stage5g-network-hardening",
+    "predecessorEnvironmentId": "we-2026-09-03-stage5f-authenticated-negatives",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json"
   },
   "signals": {
     "contextComplexity": "low",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 0,
-    "toolRoutingErrors": 0,
-    "correctedFailures": 0,
+    "majorPhasesCompleted": 2,
+    "largeEvidenceEvents": 8,
+    "toolRoutingErrors": 5,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
-    "staleFactCorrections": 0,
+    "staleFactCorrections": 1,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
     "usageRemainingPercent": null,
@@ -33,46 +33,40 @@
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "Fresh successor environment initialized from independently verified live main. Per-environment counters are reset, no inherited transition decision is carried forward, and the current bounded task is the smallest genuinely uncredited RJR-1 gap: authenticated third-account and revoked-device production negatives.",
+    "reason": "This fresh successor independently verified the closed predecessor WEC, live main, PR #191 exact head and workflow state, production r5 identity and fixed RJR91. The shared stale-current-authority chain is repaired, the full contract/syntax/browser matrices pass locally and the byte-identical repair tree is published. The bounded current operation is exact-head CI convergence and the predecessor HANDOFF_NOW decision is not inherited.",
     "decisionInheritedFromPredecessor": false,
-    "usageExcludedBecauseUnavailable": true,
-    "scores": {
-      "contextPressure": 15,
-      "qualityRisk": 0,
-      "quotaRisk": null,
-      "nextTaskSeparation": 20,
-      "handoffReadiness": 100,
-      "atomicRisk": 0,
-      "continuationRisk": 10.3,
-      "transitionCost": 13.5,
-      "transitionAdvantage": -3.2
-    }
+    "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "Determine and close the smallest authenticated third-account/revoked-device Remote Joining production-negative capability gap without repeating consumed RJR proof.",
-    "lastSafeCheckpoint": "Live main independently verified at 4605a477ea49407d9e9e863914b753d273a4d5d4 with PR #188 merged, production v1.9.0 / 1.9.0-r5 unchanged, fixed RJR-1 89/100, and predecessor WEC already archived byte-identically.",
-    "nextSafeAction": "Trace the actual Stage 5 device credential, session authorization and Firestore Rules paths to distinguish already-implemented-but-unproven denial from a real revoked-device authorization gap; implement only the smallest required hardening and tests, preserving all permanent locks.",
+    "currentTask": "Finish PR #191 exact-head publication gates by repairing only stale current-authority assertions, require all permanent workflows green on one reviewed head, merge with expected-head protection and verify post-merge deployment before Stage 5G.",
+    "lastSafeCheckpoint": "PR #191 was non-force fast-forwarded from expected old head 4a63137b918b3d4b6d3d93916e67b72e85848c39 to exact published repair head f397c88fda5f63da4688f894778b9360bf2e1a02. Its Git tree c58fb35ce5ca58a0ad00f773bcf96047a6037d46 exactly matches the locally tested tree. The complete 87-layer repository contract run, syntax, primary browser, CI-configured visual, runtime-boundary and specialized browser matrices pass locally.",
+    "nextSafeAction": "Publish this continuity-only checkpoint as the final PR #191 head, require every permanent workflow family green on that one exact SHA, complete final diff/review/thread audit, then merge with expected-head protection and verify post-merge deployment before reassessing the Stage 5G milestone boundary.",
     "unfinishedWork": [
-      "Authenticated third-account production negative remains uncredited.",
-      "Revoked-device production negative remains uncredited.",
-      "Remote Joining-specific two-device/two-network reconnect/adverse-network hardening remains uncredited.",
+      "PR #191 publication is not complete; the continuity checkpoint following locally green repair head f397c88fda5f63da4688f894778b9360bf2e1a02 must become the final exact head and pass every permanent workflow family.",
+      "Remote Joining-specific two-device/two-network reconnect and adverse-network hardening remains uncredited.",
       "Final stable Remote Joining release acceptance remains uncredited."
     ],
     "knownHazards": [
-      "Billing is permanently forbidden. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, Cloud Run, Cloud Functions or any billing-required service.",
+      "Do not merge PR #191 until every current permanent workflow family is green on one exact reviewed head; any branch mutation invalidates older exact-head evidence.",
+      "Preserve immutable historical PR187/RJR89 and Stage 2 provenance; change only assertions that incorrectly call those historical facts current authority.",
+      "Billing is permanently forbidden and Firebase remains Spark; never link Cloud Billing, enable Blaze, add a payment method, Cloud Run, Cloud Functions or any billing-required service.",
       "App Check enforcement remains OFF, Firestore browser persistence remains memory-only and Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
-      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority.",
+      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
       "Exactly two private managers remain mandatory; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized.",
-      "Do not expose or durably retain full private pairing/session capabilities; use redacted identifiers only.",
-      "Do not use the protected historical rivalry for destructive testing.",
-      "Do not award RJR points for source, PR count, CI, review, merge, deployment, WEC, SLE or handoff work."
+      "Never expose or durably retain a full private pairing/session capability and never destructively test the protected historical rivalry.",
+      "Do not award RJR points for source, contracts, PR, CI, review, merge, deployment, WEC, SLE, SNS or documentation work."
     ],
     "evidenceNotes": [
-      "Live main and PR #188 were independently reverified before successor initialization.",
-      "The predecessor closed decision HANDOFF_AT_CHECKPOINT is not inherited; this environment owns a fresh CONTINUE assessment.",
-      "Fixed RJR-1 remains 89/100 until genuinely new production capability evidence is accepted.",
-      "Initial Firestore Rules inspection shows authenticated rivalry/session access is constrained to the two authorized account identities; device-revocation enforcement must still be traced through the actual runtime/provider path before any change is justified."
+      "The predecessor closed record validated against the repository schema and is preserved byte-for-byte at WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json.",
+      "Connector-first GitHub verification confirms PR #191 is open, non-draft, mergeable and unmerged at exact head 4a63137b918b3d4b6d3d93916e67b72e85848c39 against base 7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4.",
+      "All 15 PR #191 workflows completed at the captured head: 12 succeeded; Static App, Stability Lane and Stage 5F Authenticated Negatives failed. The Stage 5F dedicated chooser and authenticated-negative checks passed before its repository-suite step failed.",
+      "Workflow logs independently located the shared remote-head blocker at tests/contracts/private-account-auth-stage2b-contracts.cjs:62, whose inherited assertion demanded live PR187/RJR89 authority.",
+      "The sanitized Stage 5F production acceptance proves revoked-device mutation denial and authenticated unrelated-account exact-read denial. Fixed RJR-1 is 91/100 with no publication credit.",
+      "The shared stale-current-authority chain is repaired without modifying immutable Stage 2 or PR187/RJR89 evidence. The full contract suite reports PASS across 87 layers; syntax and all primary/specialized browser matrices pass locally.",
+      "The connected GitHub app created a commit on remote handoff parent f4d858227c43961f597fc666c76d872754128f10 and non-force fast-forwarded PR #191 to f397c88fda5f63da4688f894778b9360bf2e1a02 only after its remote Git tree exactly matched locally tested tree c58fb35ce5ca58a0ad00f773bcf96047a6037d46.",
+      "Local Java 17 cannot run the Firebase emulator blocks that exact workflow CI provisions under Java 21. The stateful Firebase Rules publication workflow was not replayed locally; no credential was requested and no provider mutation or billing path was attempted.",
+      "GitHub CLI 2.100.0 was installed by the checksum-verified repository bootstrap, but this environment is not CLI-authenticated; the connected GitHub app remains the supported read/write authority. One direct web-open route to the GitHub Pages origin was unsupported, one initial multi-operation patch shape was rejected without changing files, and local browser/workflow launch routing required correction; production identity will be verified through deployed bytes and GitHub deployment evidence."
     ]
   }
 }

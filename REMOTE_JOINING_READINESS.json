@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 89,
+  "currentScore": 91,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -34,14 +34,16 @@
       "id": "identity-auth-trust",
       "label": "Identity, authentication, authorization and trust",
       "weight": 20,
-      "earned": 18,
+      "earned": 20,
       "evidence": [
         "Firebase Authentication provider decision and production Google sign-in configuration are proven.",
         "Verified UID to accountId boundary, revocation-aware ID-token verification and operation-specific authorization contracts are proven.",
         "2026-08-21 owner-supplied real mobile production evidence proved the Google popup sign-in flow completed against the production Firebase Auth project and returned a live authenticated Firebase identity.",
         "2026-08-25 owner evidence on production v1.8.1-r2 plus the matching Stability failure proved the deployed r2 runtime could block access to that sign-in capability when App Check token observation was throttled, temporarily invalidating that one production credit.",
         "2026-08-25 ordinary-owner iPhone Safari evidence on repaired production v1.8.1-r3 re-proved the normal signed-out Google sign-in surface and authenticated account path, restoring exactly the previously withdrawn production authentication credit.",
-        "Stage 2I App Check verification order and trusted endpoint attestation contract are proven but production trusted runtime/IAM is not activated."
+        "Stage 2I App Check verification order and trusted endpoint attestation contract are proven but production trusted runtime/IAM is not activated.",
+        "2026-09-04 owner production evidence on v1.9.0 / 1.9.0-r5 proves a sacrificial registered device becomes revoked, the normal application adapter rejects it with PRIVATE_SESSION_DEVICE_REVOKED, and production Firestore Rules deny the protected revoked-device mutation with permission-denied; the denied mutation does not commit, the short-lived session remains unchanged, cleanup is terminal, canonical local storage is unchanged, and billing remains unnecessary.",
+        "2026-09-04 owner production evidence on v1.9.0 / 1.9.0-r5 proves a legitimately authenticated Google/Firebase identity that is neither rivalry manager receives permission-denied for both the exact private rivalry document and exact authoritative-state document. The probe requires no existing private account, performs no account bootstrap, requests zero Firestore writes, leaves canonical local storage unchanged and requires no billing."
       ]
     },
     {
@@ -78,7 +80,7 @@
         "2026-08-25/26 owner Chromebook production proof on v1.8.1-r3 closes the previously uncredited remote-to-local reconciliation capability: read-only exact revision/hash Preview, stale-intent rejection before backup/local mutation, verified backup-first explicit Candidate C Apply, stable Player Two identity, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply.",
         "2026-08-26 permanent Stage 4 emulator proof executes the real Connected Rivalry mutation runtime against production Firestore Rules and closes exact accepted-result idempotency replay: after the rivalry legitimately advances from revision 0 to revision 1, replay of the exact original accepted request returns the original revision 0/hash while current authority, receipt set, canonical local Save snapshot, CAS and two-owner boundaries remain unchanged.",
         "2026-08-26 permanent adverse-network contract executes the real Connected Rivalry client API through provider loss after valid registered-device/exactly-two-owner preflight and immutable local projection planning, proving bounded failure with the canonical local Save Library snapshot unchanged.",
-        "Authenticated third-account/revoked-device production negatives and Remote Joining-specific two-physical-network hardening remain uncredited. The provider-live actual Remote Joining lifecycle now has one bounded production capability credit. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit.",
+        "Authenticated third-account and revoked-device production authorization negatives are production-proven and credited in identity-auth-trust without duplicate device-domain credit. Remote Joining-specific two-physical-device/two-network reconnect and adverse-network hardening remains uncredited. The provider-live actual Remote Joining lifecycle has one bounded production capability credit. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit.",
         "2026-08-31 PR #173 permanently executes the separate Stage 5A private-session client against isolated candidate Firestore Rules in the real emulator: exact 256-bit capability/no listing, host-open, entitled-peer join, deterministic replay, immutable lifecycle/expiry/membership, terminal no-resurrection and account/entitlement/provider-device-credential denial all pass. Reads and writes require a provider-verifiable active device_id token claim; missing, never-registered, revoked and mismatched credentials fail closed. Production does not issue that claim and the client/Rules remain dormant/unpublished, so this is delta 0 until the provider credential, minimum Rules and actual production host/join capability are separately live and proven.",
         "2026-08-31 PR #174 proves the dormant Stage 5B credential foundation through deterministic contracts, Chromium and Auth-plus-Firestore emulators: a dedicated IndexedDB stores a non-extractable P-256 key; exact short-lived challenges prove possession; trusted atomic issue/refresh/revoke logic binds per-sign-in device_id, device_credential_version and device_key_sha256 claims; and simultaneous same-UID devices remain isolated. Production issues none of those claims, production Rules/runtime/UX are unchanged, and activation needs explicit owner authority for Blaze/Cloud Run, secondary custom Auth and exact IAM additions. The candidate and its CI receive delta 0 until the provider boundary is live and proven.",
         "2026-09-02 owner production evidence on v1.9.0 / 1.9.0-r3 proves one previously uncredited bounded actual Remote Joining capability: two distinct authenticated application-browser identities complete exact private Host -> Join -> ACTIVE rev 1 cross-role Read/Refresh -> Close -> CLOSED rev 2 cross-role propagation for the same current rivalry after manual pointer correction. Exactly +1 is credited for the provider-live session lifecycle as one capability; substeps are not double-counted. The separate zero-manual-reattach Connected Rivalry behavior failed and earns zero credit.",
@@ -288,7 +290,7 @@
       "score": 86,
       "delta": 1,
       "domainId": "production-cloud-security",
-      "reason": "Owner-supplied authenticated Firebase Console evidence shows project fifa17-career-showdown-prod, Firestore database (default), a newly published Rules version labeled Today · 7:48 AM, and visible source anchors spanning the reviewed strengthened firestore.spark.rules boundary through the final deny-by-default rule. The reviewed repository source blob is 2b7c0b166ae0aae7ab7a3ce84725b21091262484. This closes exactly the previously uncredited provider publication of the strengthened production security boundary. The +1 is limited to production-cloud-security; no credit is awarded for PR #169, CI, documentation, screenshots as process volume, App Check enforcement, IAM activation, third-account/revoked-device negatives, two-network behavior, actual Remote Joining sessions or final stable release acceptance."
+      "reason": "Owner-supplied authenticated Firebase Console evidence shows project fifa17-career-showdown-prod, Firestore database (default), a newly published Rules version labeled Today \u00b7 7:48 AM, and visible source anchors spanning the reviewed strengthened firestore.spark.rules boundary through the final deny-by-default rule. The reviewed repository source blob is 2b7c0b166ae0aae7ab7a3ce84725b21091262484. This closes exactly the previously uncredited provider publication of the strengthened production security boundary. The +1 is limited to production-cloud-security; no credit is awarded for PR #169, CI, documentation, screenshots as process volume, App Check enforcement, IAM activation, third-account/revoked-device negatives, two-network behavior, actual Remote Joining sessions or final stable release acceptance."
     },
     {
       "recordedAt": "2026-08-29T18:22:57.861Z",
@@ -341,6 +343,22 @@
       "delta": 1,
       "domainId": "devices-pairing-connected-rivalry-remote-join",
       "reason": "Owner-supplied production screenshots on v1.9.0 / 1.9.0-r5 plus the owner's qualifying-run confirmation prove the previously failed automatic setup boundary: Player Two reports ONE PASTE CONFIRMED, Player One and Player Two display the same fresh Connected Rivalry, and Player One reports automatic attachment from the completed private pairing with no second code entry required. Zero manual Connected Rivalry Verify/Reattach actions were used in the qualifying run. Exactly +1 credits this one bounded capability. No credit is awarded for PR #187, source, CI, review, merge, Pages, deployment, documentation, WEC or handoff work."
+    },
+    {
+      "recordedAt": "2026-09-04T02:35:26.160Z",
+      "eventId": "production-stage5f-revoked-device-provider-mutation-denial",
+      "score": 90,
+      "delta": 1,
+      "domainId": "identity-auth-trust",
+      "reason": "Owner-supplied production evidence on v1.9.0 / 1.9.0-r5 proves the previously uncredited revoked-device production authorization boundary: a sacrificial registered device is revoked; the normal adapter rejects it with PRIVATE_SESSION_DEVICE_REVOKED; a protected production Firestore mutation carrying the revoked device metadata is denied with permission-denied; the denied mutation does not commit; session state remains unchanged; cleanup is terminal; canonical localStorage is unchanged; and billing/Blaze remain unnecessary. Exactly +1 credits this distinct revocation/authorization capability. The acceptance harness, repeated run, PRs, CI, deployment, documentation and WEC earn zero duplicate credit."
+    },
+    {
+      "recordedAt": "2026-09-04T03:18:39.250Z",
+      "eventId": "production-stage5f-authenticated-third-account-exact-read-denial",
+      "score": 91,
+      "delta": 1,
+      "domainId": "identity-auth-trust",
+      "reason": "Owner-supplied production evidence on v1.9.0 / 1.9.0-r5 proves the previously uncredited authenticated non-participant authorization boundary: a legitimately authenticated Google/Firebase identity that is neither manager receives permission-denied for both the exact private rivalry read and exact authoritative-state read. The probe performs zero writes, requires no pre-existing private account, attempts no bootstrap, leaves canonical localStorage unchanged and needs no billing. Exactly +1 credits this distinct authenticated third-account denial capability. Sign-in mechanics, the chooser repair, PRs, CI, deployment, documentation and WEC earn zero duplicate credit."
     }
   ]
 }

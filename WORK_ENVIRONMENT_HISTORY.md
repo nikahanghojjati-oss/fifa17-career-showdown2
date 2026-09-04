@@ -921,3 +921,15 @@ This file is a recovery-safe append payload only. It exists because the current 
 - Final environment decision: `HANDOFF_AT_CHECKPOINT`, handoff completeness 100, predecessor decisions not inheritable.
 - Permanent authority: all nonbilling Remote Joining decisions remain authorized; Cloud Billing, Blaze, payment methods, Cloud Run and billing-required services remain forbidden; Firebase stays Spark.
 - Exact next safe action: fresh successor verifies live main/provider truth, validates and archives this record, initializes a fresh WEC, then performs only authenticated Rules publication of `363af783d7e5436fdfaa3766d4aa413fc9952a08` and independent provider identity proof before the separate host/join runtime milestone.
+
+## Closure addendum — `we-2026-09-03-stage5f-authenticated-negatives`
+
+- Successor validation recorded: `2026-09-04T14:44:46Z`.
+- Starting main recorded by the predecessor: `4605a477ea49407d9e9e863914b753d273a4d5d4`; independently verified live main at successor entry is `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4` after merged PR #190.
+- Final predecessor capability boundary: production remains `v1.9.0 / 1.9.0-r5`; sanitized Stage 5F evidence proves provider denial of a revoked-device protected mutation and both exact protected reads by an authenticated unrelated third account.
+- Fixed RJR-1 moved exactly `89 -> 91` from those two new `identity-auth-trust` capabilities only. Source, contracts, PR, CI, deployment, WEC, SLE and handoff work earn zero credit.
+- Publication boundary at predecessor close: PR #191 remained open and mergeable at exact head `4a63137b918b3d4b6d3d93916e67b72e85848c39`; all 15 workflows later completed with 12 successes and three repository-suite failures. The first shared blocker is `tests/contracts/private-account-auth-stage2b-contracts.cjs:62`, which incorrectly treats historical PR187/RJR89 as current authority.
+- Final predecessor decision: `HANDOFF_NOW`, handoff completeness `100`, zero unrecorded decisions and no atomic operation. That decision belongs only to `we-2026-09-03-stage5f-authenticated-negatives` and is not inherited by its successor.
+- Exact archive: `WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json`; separate completed successor package branch: `handoff/pending-stage5g-network-hardening` at `f4d858227c43961f597fc666c76d872754128f10`.
+- Permanent locks preserved: Firebase Spark and zero billing; no Cloud Billing, Blaze, payment method, Cloud Run or Cloud Functions; App Check enforcement OFF; memory-only Firestore; popup-only session-persistent Google Auth; exactly three canonical localStorage keys; Candidate C sole destructive Apply authority; exactly two private managers; no public discovery or matchmaking; no durable full private capability retention.
+- Exact next safe action fulfilled: initialize fresh environment `we-2026-09-04-pr191-publication-stage5g` from independently verified main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`, reset every per-environment counter and repair only the stale Stage 2B current-authority assertion before continuing PR #191 exact-head publication gates.
