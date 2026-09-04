@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-04T04:18:00.000Z",
+  "recordedAt": "2026-09-04T15:18:17.000Z",
   "modelType": "hybrid-information-retrieval-graph-online-learning",
   "trainingState": "cold-start-priors-seventeen-labeled-sessions-insufficient-for-supervised-model",
   "purpose": "SLE: minimize startup context cost while preserving critical project knowledge",
@@ -16,7 +16,7 @@
     "tokenCostPenalty": -0.1
   },
   "mandatoryBypass": [
-    "CURRENT: Stage 5F production authenticated negatives are owner-accepted at live main checkpoint 7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4; fixed RJR91; PR191 remains open at last pre-handoff exact head 4a63137b918b3d4b6d3d93916e67b72e85848c39 and must pass every exact-head publication gate before merge",
+    "CURRENT: Stage 5F production authenticated negatives are owner-accepted at live main checkpoint 7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4; fixed RJR91; PR191 remains open with its locally green authority repair published at exact head f397c88fda5f63da4688f894778b9360bf2e1a02 and must pass every exact-head publication gate before merge",
     "current live main and PR191 boundaries must be independently fetched because the separate handoff branch does not itself change the PR head or production bytes",
     "current application/runtime identity v1.9.0 / 1.9.0-r5",
     "REMOTE_JOINING_READINESS.json fixed RJR numerical authority = 91/100 at this checkpoint",
@@ -82,6 +82,8 @@
     "lastRuntimePullRequest": 187,
     "publicationPullRequest": 191,
     "publicationState": "open",
+    "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
+    "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
     "starter": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
     "fullHandoff": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
     "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",

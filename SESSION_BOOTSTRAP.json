@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-04T04:18:00.000Z",
+  "recordedAt": "2026-09-04T15:18:17.000Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "handoff/pending-stage5g-network-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -27,6 +27,8 @@
     "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
     "baseSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
     "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
+    "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
+    "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
     "mustNotMergeUntilExactHeadAllRequiredGatesGreen": true,
     "capturedSuccessfulWorkflowFamilies": 10,
     "capturedRunningWorkflowFamilies": 2,
@@ -36,7 +38,8 @@
       "Validate Stability Lane",
       "Validate Stage 5F Authenticated Negatives"
     ],
-    "nextExactBlocker": "tests/contracts/private-account-auth-stage2b-contracts.cjs:62 stale PR187/RJR89 current-authority assertion",
+    "lastCapturedExactBlocker": "tests/contracts/private-account-auth-stage2b-contracts.cjs:62 stale PR187/RJR89 current-authority assertion",
+    "nextExactGate": "all permanent workflow families green on one final exact reviewed head",
     "publicationWorkRjrCredit": 0
   },
   "historicalPr187PublicationCheckpoint": {
@@ -233,7 +236,7 @@
   },
   "immediateNextTask": {
     "name": "finish-pr191-exact-head-publication-then-stage5g",
-    "summary": "Independently verify live state, initialize a fresh unique WEC, then repair only the stale current-authority assertion beginning at tests/contracts/private-account-auth-stage2b-contracts.cjs:62. Converge all permanent PR191 workflows on one exact head, merge with expected-head protection, verify post-merge deployment, then execute genuinely uncredited Stage 5G Remote Joining network hardening automation-first.",
+    "summary": "The stale current-authority chain beginning at tests/contracts/private-account-auth-stage2b-contracts.cjs:62 is repaired with full local contracts and browser matrices green. Converge all permanent PR191 workflows on one final exact head, merge with expected-head protection, verify post-merge deployment, then execute genuinely uncredited Stage 5G Remote Joining network hardening automation-first.",
     "mustNotInsertGenericPrerequisiteLane": true,
     "mustStartAsRealProjectWork": true
   },

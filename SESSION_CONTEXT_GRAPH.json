@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-04T04:18:00.000Z",
+  "recordedAt": "2026-09-04T15:18:17.000Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -75,6 +75,8 @@
       "transitionPullRequest": 191,
       "transitionPullRequestState": "open",
       "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
+      "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
+      "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
       "finalDecision": "HANDOFF_NOW",
       "handoffProximity": 100,
       "rjrScore": 91,

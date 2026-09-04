@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-04T04:18:00.000Z",
+  "recordedAt": "2026-09-04T15:18:17.000Z",
   "materialSessionsObserved": 18,
   "learningState": "cold-start-priors-with-eighteen-labeled-sessions",
   "defaultUtility": 0.5,
@@ -102,6 +102,8 @@
     "rjrScore": 91,
     "publicationPullRequest": 191,
     "publicationState": "open",
+    "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
+    "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
     "runtimeRevision": "1.9.0-r5",
     "next": "finish-pr191-exact-head-publication-then-stage5g",
     "lesson": "Treat production authorization evidence and publication state separately. Two distinct provider-denied Stage 5F capabilities moved fixed RJR89 to RJR91, while PR191 source, contracts, CI and handoff work remain zero-credit; preserve historical PR187 provenance and repair only selectors that falsely call it current."

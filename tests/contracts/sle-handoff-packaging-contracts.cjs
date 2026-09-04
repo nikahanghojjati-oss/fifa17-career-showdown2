@@ -46,6 +46,8 @@ assert.equal(bootstrap.successorPackage?.fullHandoff,bootstrap.currentHandoff.ca
 assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,191);
 assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open");
 assert.equal(bootstrap.currentPublicationCheckpoint?.lastExactHeadBeforeHandoffPackaging,"4a63137b918b3d4b6d3d93916e67b72e85848c39");
+assert.equal(bootstrap.currentPublicationCheckpoint?.lastPublishedRepairHeadBeforeContinuityCheckpoint,"f397c88fda5f63da4688f894778b9360bf2e1a02");
+assert.equal(bootstrap.currentPublicationCheckpoint?.publicationStatus,"repair-published-final-continuity-head-awaiting-workflows");
 assert.equal(bootstrap.currentPublicationCheckpoint?.baseSha,"7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4");
 assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
