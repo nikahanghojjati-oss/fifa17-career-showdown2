@@ -1,27 +1,15 @@
-# CURRENT HANDOFF OVERRIDE — PR #187 / v1.9.0-r5 OWNER-ACCEPTED / RJR89
+# CURRENT HANDOFF OVERRIDE — PR #191 OPEN / RJR91 / STAGE 5G NEXT
 
-Read `START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md` first. Use `SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md` only when deeper reconstruction is needed.
+Read `START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md` first. Use `SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md` only for deeper reconstruction.
 
-At closure, PR #187 exact reviewed head `e30f34ffade1cc64d0fb268a66eb8109b27c376c` is squash-merged to production main `277f1b55dc362ee84d285445b99172b9fbed8509`. Production is `v1.9.0 / 1.9.0-r5`. All 15 post-merge workflows passed. Pages `33738921948` passed. Stability `33738921850` passed, including deployed-site-smoke, 97-file byte-for-byte r5 verification, complete deployed journey and pairing automation ultra-audit.
+Live `main` at closure is `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4` after PR #190. Production remains `v1.9.0 / 1.9.0-r5`. Stage 5F production authenticated-negative acceptance is PASS and fixed RJR-1 is **91/100**.
 
-Owner production acceptance is PASS: Player Two reports `ONE PASTE CONFIRMED`; both roles show the same fresh Connected Rivalry; Player One reports automatic attachment from the completed private pairing with no second code entry; owner confirms zero manual Connected Rivalry Verify/Reattach in the qualifying run. Full private capability values are intentionally not retained.
+PR #191 remains OPEN and must not merge until all permanent workflow families are green on one exact reviewed head. Last exact PR head before separate handoff packaging: `4a63137b918b3d4b6d3d93916e67b72e85848c39`. The exact current repository-suite blocker is `tests/contracts/private-account-auth-stage2b-contracts.cjs:62`, which still incorrectly treats PR187/RJR89 as live current authority. Preserve historical Stage 2B provenance and repair only the stale current-authority assertion.
 
-Fixed RJR-1 is **89/100**, exactly +1 from the previously failed automatic one-paste exact-rivalry convergence capability. The credited one-paste acceptance required zero manual Connected Rivalry Verify/Reattach. No RJR credit is assigned to source, CI, review, merge, deployment or handoff mechanics.
+Closing WEC: `we-2026-09-03-stage5f-authenticated-negatives`, final decision `HANDOFF_NOW`, handoff completeness 100. The successor must independently validate/archive it, initialize a fresh unique WEC with reset counters, and must not inherit the predecessor transition decision.
 
-Closing Work Environment Continuity (WEC) record `we-2026-09-03-stage5e-r4-production-convergence-acceptance` is `closed`, final decision `HANDOFF_AT_CHECKPOINT`, handoff completeness `100`.
+After PR #191 exact-head gates pass and publication is independently verified, execute Stage 5G Remote Joining-specific two-device/two-network reconnect/adverse-network hardening, automation first. Final stable Remote Joining release acceptance follows. RJR moves only on genuinely new capability evidence.
 
-## IMMEDIATE NEXT TASK AFTER FULL STUDY
+Owner's Eagle Eye is a permanent co-equal golden rule: frequently report current RJR, remaining runway, current scoreable gap, estimated tasks/stages/new evidence bundles, blocker/owner-action status and Handoff proximity. Automate before asking the owner for help.
 
-1. Independently verify current live main, merged PR #187, deployed r5, RJR89, all 15 post-merge successes, Pages `33738921948`, Stability `33738921850`, the production acceptance record and closed WEC.
-2. Enter Work Environment Continuity by validating/archiving predecessor closure and initializing a fresh unique WEC with reset counters. Never inherit predecessor `HANDOFF_AT_CHECKPOINT` as the successor's own decision.
-3. Select the smallest genuinely uncredited fixed-domain gap. Preferred order unless fresh evidence changes it: authenticated third-account/revoked-device production negatives; Remote Joining-specific two-device/two-network reconnect/adverse-network hardening; final stable Remote Joining release acceptance.
-4. Do not repeat consumed r5 one-paste acceptance, r3 Host/Join lifecycle, pairing, Candidate C, replay, token-lifecycle, rollback, provider-Rules or provider-abuse proof merely for confidence.
-5. Move RJR only on genuine new capability evidence.
-
-## Permanent Firebase zero-billing control-plane inheritance
-
-Successors must preserve and read `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md` together with `HANDOFF_FIREBASE_CONTROL_PLANE_PERMANENT_ACCESS_ADDENDUM_2026-09-01.md` before any Firebase control-plane publication. The authorized Rules-only workflow remains `.github/workflows/deploy-firestore-rules-zero-billing.yml`, using the existing GitHub secret named `FIREBASE_RULES_SERVICE_ACCOUNT_JSON`; never request, expose, quote, paste or commit its credential value. Firebase remains Spark and billing remains permanently forbidden.
-
-Billing remains permanently forbidden and Firebase remains Spark. No Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions or billing-required service. App Check enforcement remains OFF. Firestore remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly the three approved keys. Candidate C remains sole destructive remote-to-local gameplay Apply authority. Exactly two private managers and no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
-
-Historical handoff overrides remain available through the versioned prior START_NEXT_SESSION/SLE artifacts and repository history; this file intentionally keeps only the current live pointer.
+Billing must never be activated; Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly the three approved keys. Candidate C remains sole destructive remote-to-local gameplay Apply authority. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never expose or durably retain full private pairing/session capabilities.
