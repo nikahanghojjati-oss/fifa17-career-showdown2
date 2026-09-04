@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
   "lifecycle": "active",
-  "recordedAt": "2026-09-03T20:58:00.000Z",
+  "recordedAt": "2026-09-04T03:20:00.000Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
-    "workingBranch": "hardening/stage5f-authenticated-negatives-2026-09-03",
-    "handoffBranch": "handoff/pending-stage5f-authenticated-negatives",
+    "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
+    "handoffBranch": "handoff/pending-stage5g-network-hardening",
     "predecessorEnvironmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
     "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json"
   },
@@ -16,8 +16,8 @@
     "contextComplexity": "low",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 0,
-    "largeEvidenceEvents": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 2,
     "toolRoutingErrors": 0,
     "correctedFailures": 0,
     "repeatedMistakes": 0,
@@ -33,7 +33,7 @@
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "Fresh successor environment initialized from independently verified live main. Per-environment counters are reset, no inherited transition decision is carried forward, and the current bounded task is the smallest genuinely uncredited RJR-1 gap: authenticated third-account and revoked-device production negatives.",
+    "reason": "Stage 5F is production-proven and fixed RJR-1 is 91/100. The same active environment can continue without inheriting any predecessor transition decision; the smallest genuinely uncredited capability lane is now Remote Joining-specific two-device/two-network reconnect and adverse-network hardening.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true,
     "scores": {
@@ -49,12 +49,10 @@
     }
   },
   "continuity": {
-    "currentTask": "Determine and close the smallest authenticated third-account/revoked-device Remote Joining production-negative capability gap without repeating consumed RJR proof.",
-    "lastSafeCheckpoint": "Live main independently verified at 4605a477ea49407d9e9e863914b753d273a4d5d4 with PR #188 merged, production v1.9.0 / 1.9.0-r5 unchanged, fixed RJR-1 89/100, and predecessor WEC already archived byte-identically.",
-    "nextSafeAction": "Trace the actual Stage 5 device credential, session authorization and Firestore Rules paths to distinguish already-implemented-but-unproven denial from a real revoked-device authorization gap; implement only the smallest required hardening and tests, preserving all permanent locks.",
+    "currentTask": "Build and prove the smallest Remote Joining-specific two-device/two-network reconnect and adverse-network hardening slice, automating deterministic/runtime/browser/emulator evidence before requesting any owner physical-network proof.",
+    "lastSafeCheckpoint": "Production v1.9.0 / 1.9.0-r5 Stage 5F owner acceptance is PASS for both revoked-device provider mutation denial and authenticated third-account exact-read denial; sanitized evidence is recorded and fixed RJR-1 recalculates to 91/100.",
+    "nextSafeAction": "Inspect the real Stage 5 private-session runtime and existing provider-failure/reconnect test infrastructure, then implement only the smallest Remote Joining-specific deterministic hardening proof that preserves two-manager entitlement, lifecycle monotonicity, terminal no-resurrection, privacy and canonical local Save immutability.",
     "unfinishedWork": [
-      "Authenticated third-account production negative remains uncredited.",
-      "Revoked-device production negative remains uncredited.",
       "Remote Joining-specific two-device/two-network reconnect/adverse-network hardening remains uncredited.",
       "Final stable Remote Joining release acceptance remains uncredited."
     ],
@@ -69,10 +67,11 @@
       "Do not award RJR points for source, PR count, CI, review, merge, deployment, WEC, SLE or handoff work."
     ],
     "evidenceNotes": [
-      "Live main and PR #188 were independently reverified before successor initialization.",
-      "The predecessor closed decision HANDOFF_AT_CHECKPOINT is not inherited; this environment owns a fresh CONTINUE assessment.",
-      "Fixed RJR-1 remains 89/100 until genuinely new production capability evidence is accepted.",
-      "Initial Firestore Rules inspection shows authenticated rivalry/session access is constrained to the two authorized account identities; device-revocation enforcement must still be traced through the actual runtime/provider path before any change is justified."
+      "Live main before the evidence transition is 7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4 after merged PR #190; production remains v1.9.0 / 1.9.0-r5.",
+      "2026-09-04 sanitized production Stage 5F revoked-device evidence proves application rejection plus provider permission-denied, no denied commit, unchanged session state, terminal cleanup, unchanged local storage and zero billing.",
+      "2026-09-04 sanitized production Stage 5F authenticated third-account evidence proves both exact protected reads return permission-denied, with zero writes, no account bootstrap, unchanged local storage and zero billing.",
+      "Fixed RJR-1 is 91/100: identity-auth-trust advances from 18/20 to 20/20; devices/pairing/Remote Joining remains 22/30 and hardening/release remains 9/10 to prevent double-counting.",
+      "The predecessor HANDOFF_AT_CHECKPOINT decision remains historical and is not inherited; this active WEC continues under its own CONTINUE assessment."
     ]
   }
 }
