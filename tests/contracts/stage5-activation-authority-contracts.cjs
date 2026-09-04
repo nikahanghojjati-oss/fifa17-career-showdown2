@@ -4,6 +4,7 @@ const fs=require("node:fs");
 const read=path=>fs.readFileSync(path,"utf8");
 const readiness=JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const proof=read("PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md");
+const stage5fProof=read("PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md");
 const next=read("NEXT_TASK.md");
 const state=read("PROJECT_STATE.md");
 const schema=read("REMOTE_SCHEMA_API_AUTHORIZATION_CONTRACT.md");
@@ -22,13 +23,13 @@ const zeroBillingDecision=read("ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISIO
 
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.denominator,100);
-assert.equal(readiness.currentScore,89);
-assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),89);
+assert.equal(readiness.currentScore,91);
+assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),91);
 assert.deepEqual(
   readiness.domains.map(domain=>[domain.id,domain.earned,domain.weight]),
   [
     ["deterministic-sync-recovery",20,20],
-    ["identity-auth-trust",18,20],
+    ["identity-auth-trust",20,20],
     ["production-cloud-security",20,20],
     ["devices-pairing-connected-rivalry-remote-join",22,30],
     ["real-device-hardening-release",9,10]
@@ -42,6 +43,7 @@ const latestDecision=readiness.evidenceHistory.find(entry=>entry.eventId==="stag
 const latestCandidate=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5b-device-credential-foundation-proof");
 const stage5aCandidate=readiness.evidenceHistory.find(entry=>entry.eventId==="stage5a-private-session-candidate-emulator-proof");
 const latestCredited=readiness.evidenceHistory.find(entry=>entry.eventId==="production-provider-abuse-authenticated-enumeration-denial");
+const stage5fEvents=readiness.evidenceHistory.filter(entry=>entry.score===90||entry.score===91);
 assert.equal(r5Convergence?.score,89);
 assert.equal(r5Convergence?.delta,1);
 assert.equal(r5Convergence?.domainId,"devices-pairing-connected-rivalry-remote-join");
@@ -81,6 +83,13 @@ assert.match(latestCredited.reason,/PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED/);
 assert.match(latestCredited.reason,/zero Firestore writes/i);
 assert.match(latestCredited.reason,/localStorage remained unchanged/i);
 assert.match(latestCredited.reason,/production-cloud-security remains capped at 20\/20/i);
+assert.equal(stage5fEvents.length,2,"Stage 5F must contribute exactly two new production authorization events.");
+assert.deepEqual(stage5fEvents.map(entry=>[entry.score,entry.delta,entry.domainId]),[[90,1,"identity-auth-trust"],[91,1,"identity-auth-trust"]]);
+assert.match(stage5fEvents.map(entry=>entry.reason||"").join("\n"),/revoked-device/i);
+assert.match(stage5fEvents.map(entry=>entry.reason||"").join("\n"),/third account|third-account|non-participant|unrelated/i);
+assert.match(stage5fProof,/PASS/i);
+assert.match(stage5fProof,/91\/100/i);
+assert.doesNotMatch(stage5fProof,/pair_[0-9a-f]{32,}/i,"Stage 5F durable proof must not retain a full private capability.");
 
 for(const invariant of [
   /PASS \/ PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED/,
@@ -98,18 +107,17 @@ assert.doesNotMatch(proof,/accountIdFingerprint|accountFingerprint|sha256:[0-9a-
 assert.match(proof,/did not create or mutate an account, registered device, pairing capability, rivalry, shared gameplay state, session, or revocation state/i);
 assert.match(proof,/86\/100 -> 87\/100/);
 
-// Historical Stage 5A/5B/5C transition details are asserted from the immutable
-// proof, rules and client artifacts below. Live NEXT_TASK/PROJECT_STATE must
-// instead track the current owner-accepted r5 / fixed-RJR89 successor boundary.
-assert.match(next,/^# CURRENT OVERRIDE — PR #187[\s\S]+RJR89/im,"Live NEXT_TASK must identify PR187/r5/RJR89 successor authority.");
-assert.match(next,/authenticated third-account \/ revoked-device production negatives/i,"Live NEXT_TASK must expose the smallest preferred uncredited fixed-domain gap.");
-assert.match(next,/Remote Joining-specific two-device\/two-network reconnect\/adverse-network hardening/i,"Live NEXT_TASK must preserve the next hardening option after authenticated negatives.");
+// Historical Stage 5A/5B/5C transition details are asserted from immutable proof/rules/client artifacts.
+// Live NEXT_TASK/PROJECT_STATE now track Stage 5F accepted / fixed RJR91 / Stage 5G.
+assert.match(next,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G authority.");
+assert.match(next,/Stage 5F[\s\S]+negative boundaries|Stage 5F[\s\S]+production acceptance/i,"Live NEXT_TASK must preserve accepted Stage 5F production evidence.");
+assert.match(next,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live NEXT_TASK must expose the current scoreable Stage 5G hardening lane.");
 assert.match(next,/final stable Remote Joining release acceptance/i,"Live NEXT_TASK must preserve final stable-release acceptance as a remaining capability gap.");
-assert.match(next,/Do not repeat consumed r5 one-paste convergence[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i,"Live NEXT_TASK must preserve consumed-proof discipline.");
+assert.match(next,/do not repeat generic Connected Rivalry adverse-network proof/i,"Live NEXT_TASK must preserve consumed-proof discipline.");
 assert.match(next,/Billing must never be activated[\s\S]{0,120}Firebase remains Spark/i,"Live NEXT_TASK must preserve the permanent zero-billing Spark boundary.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live NEXT_TASK must keep App Check enforcement off.");
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live PROJECT_STATE must identify current PR187/r5/RJR89 authority.");
-assert.match(state,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Live PROJECT_STATE must identify current Stage 5F/RJR91/Stage 5G authority.");
+assert.match(state,/Installable Offline App[\s\S]+local-first startup\/recovery baseline|Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
 assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: gameplay)? Apply authority/i,"Live PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 
 assert.match(stage5aProof,/candidate protocol and emulator boundary proven; production publication deliberately excluded/i);
@@ -153,4 +161,4 @@ assert.match(rules,/STAGE5C_CANDIDATE_SESSION_FUNCTIONS_BEGIN[\s\S]+registeredSe
 assert.match(rules,/match \/sessions\/\{sessionId\}[\s\S]+allow get: if sessionCanRead\(rivalryId, sessionId\);[\s\S]+allow create: if validOpenSessionCreate\(rivalryId, sessionId\);[\s\S]+allow update: if validSessionUpdate\(rivalryId, sessionId\);[\s\S]+allow list, delete: if false;/);
 assert.doesNotMatch(stage4,/sessions\/|sessionId|private-session/,"Stage 5 must remain separate from the protected Stage 4 Connected Rivalry module.");
 
-process.stdout.write("PASS Stage 5 activation authority: historical provider-abuse advances fixed RJR 86 to 87 once; the production-live Stage 5E Remote Joining lifecycle advances 87 to 88 once; owner-proven r5 automatic one-paste exact-rivalry convergence advances 88 to 89 once; source, CI, merge, deployment and repeated substeps earn zero duplicate credit; historical Stage 5A/5B/5C proof remains immutable while live authority routes from PR187/RJR89.\n");
+process.stdout.write("PASS Stage 5 activation authority: historical provider-abuse advances fixed RJR 86 to 87 once; provider-live Stage 5E lifecycle advances 87 to 88 once; owner-proven r5 one-paste convergence advances 88 to 89 once; Stage 5F production negatives advance 89 to 91 exactly twice in identity/auth/trust; source, CI, merge, deployment and repeated substeps earn zero duplicate credit; historical Stage 5A/5B/5C proof remains immutable while live authority routes to Stage 5G.\n");

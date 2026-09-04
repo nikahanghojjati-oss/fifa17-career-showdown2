@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-03T13:25:00.000Z",
+  "recordedAt": "2026-09-04T15:18:17.000Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "handoff/v1.4.37-pr187-r5-owner-accepted-rjr89",
+  "bootstrapBranch": "handoff/pending-stage5g-network-hardening",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
+  "lastVerifiedMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
   "lastVerifiedRuntimeMainSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
   "latestRuntimeMerge": {
     "pullRequest": 166,
@@ -20,6 +20,29 @@
     "historicalRollbackProvenance": true
   },
   "currentPublicationCheckpoint": {
+    "pullRequest": 191,
+    "title": "Seal Stage 5F production negatives and advance RJR to 91",
+    "state": "open",
+    "mergeable": true,
+    "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
+    "baseSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
+    "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
+    "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
+    "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
+    "mustNotMergeUntilExactHeadAllRequiredGatesGreen": true,
+    "capturedSuccessfulWorkflowFamilies": 10,
+    "capturedRunningWorkflowFamilies": 2,
+    "capturedFailedWorkflowFamilies": 3,
+    "capturedFailedNames": [
+      "Validate Static App",
+      "Validate Stability Lane",
+      "Validate Stage 5F Authenticated Negatives"
+    ],
+    "lastCapturedExactBlocker": "tests/contracts/private-account-auth-stage2b-contracts.cjs:62 stale PR187/RJR89 current-authority assertion",
+    "nextExactGate": "all permanent workflow families green on one final exact reviewed head",
+    "publicationWorkRjrCredit": 0
+  },
+  "historicalPr187PublicationCheckpoint": {
     "pullRequest": 187,
     "title": "Ship v1.9.0-r5 Player One automatic rivalry convergence",
     "exactFinalHead": "e30f34ffade1cc64d0fb268a66eb8109b27c376c",
@@ -59,8 +82,17 @@
     "proofClass": "production-pages-exact-byte-complete-deployed-journey-and-owner-one-paste-acceptance",
     "currentRegression": null
   },
+  "stage5fProductionAcceptance": {
+    "status": "PASS",
+    "proof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
+    "revokedDeviceProtectedMutationDenied": true,
+    "authenticatedUnrelatedThirdAccountExactReadsDenied": true,
+    "rjrBefore": 89,
+    "rjrAfter": 91,
+    "rjrDelta": 2,
+    "creditedDomain": "identity-auth-trust"
+  },
   "ownerStandingAuthorization": {
-    "effectiveDate": "2026-08-20",
     "scope": "all-current-and-future-project-pull-requests-through-full-project-completion",
     "mergeAndDeployWithoutRepeatedOwnerApproval": true,
     "condition": "all required tests and current mandatory publication gates pass",
@@ -68,25 +100,20 @@
     "laterOwnerInstructionOverrides": true
   },
   "ownerZeroBillingAuthorization": {
-    "effectiveDate": "2026-08-31",
     "allNonBillingRemoteJoiningDecisionsAuthorized": true,
     "billingActivationForbidden": true,
     "firebasePlanMustRemain": "Spark",
     "cloudBillingAccountMayBeLinked": false,
     "blazeMayBeEnabled": false,
     "cloudRunAllowed": false,
-    "rootAuthority": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
-    "architectureDecision": "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md"
+    "rootAuthority": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md"
   },
   "runtime": {
     "applicationVersion": "1.9.0",
     "productionRuntimeRevision": "1.9.0-r5",
-    "productionStatus": "production-proven-and-owner-accepted-r5-one-paste-automatic-convergence",
-    "immediateRecoveryRuntime": "1.9.0-r4",
+    "productionStatus": "production-proven",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
-    "appCheckTrafficProven": true,
-    "appCheckTokenLifecycleProven": true,
     "appCheckEnforcement": false,
     "productionClientAuth": "lazy-on-explicit-connected-account-demand",
     "productionClientFirestore": "lazy-memory-only-on-explicit-connected-account-demand",
@@ -96,58 +123,76 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Closed r5 owner production acceptance at RJR89; successor must independently initialize a fresh WEC and choose the smallest genuinely uncredited fixed-domain Remote Joining hardening gap.",
-  "remoteJoiningPriority": "highest-long-term-priority-dependency-gated-stability-first-no-sidequests",
+  "currentLane": "Finish PR #191 exact-head publication repair first; then execute Stage 5G Remote Joining-specific two-device/two-network reconnect/adverse-network hardening; final stable Remote Joining release acceptance follows.",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
-    "score": 89,
-    "reportLabel": "Remote Joining readiness",
-    "rule": "Move only on genuine fixed-domain capability evidence, never source, PR, CI volume, provider publication process, WEC, SLE or documentation count."
+    "score": 91,
+    "denominator": 100,
+    "remaining": 9,
+    "domainVector": {
+      "deterministicSyncRecovery": "20/20",
+      "identityAuthTrust": "20/20",
+      "productionCloudSecurity": "20/20",
+      "devicesPairingConnectedRivalryRemoteJoining": "22/30",
+      "realDeviceHardeningRelease": "9/10"
+    },
+    "rule": "Move only on genuine fixed-domain capability evidence; source, contracts, PR, CI, review, merge, deployment, WEC, SLE, SNS and documentation earn zero credit."
+  },
+  "ownerEagleEye": {
+    "authority": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
+    "permanentGoldenRule": true,
+    "automationBeforeOwnerAction": true,
+    "reportFrequently": [
+      "current RJR",
+      "remaining runway",
+      "current scoreable gap",
+      "estimated concrete tasks",
+      "estimated major stages",
+      "estimated genuinely new evidence bundles",
+      "blocker status",
+      "owner action requirement",
+      "Handoff proximity"
+    ]
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-09-02-stage5e-r4-stale-pointer-precedence",
-    "decision": "HANDOFF_AT_CHECKPOINT",
-    "handoffCompleteness": 100,
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-02-stage5e-r4-stale-pointer-precedence.json"
+    "environmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json",
+    "decisionMustNotBeInherited": true
   },
   "currentWec": {
-    "environmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
-    "startingMainSha": "f591945fa74b59b961dd79a80849d72a3ab987ba",
-    "finalDecision": "HANDOFF_AT_CHECKPOINT",
+    "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
+    "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
+    "lifecycle": "closed",
+    "finalDecision": "HANDOFF_NOW",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "lifecycle": "closed",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json",
-    "closingCheckpoint": "PR187 exact-head all-14 green; merged 277f1b55dc362ee84d285445b99172b9fbed8509; all 15 post-merge workflows green; Pages 33738921948 and Stability 33738921850 green; 97 production runtime files byte-identical to r5; owner one-paste zero-manual-reattach acceptance PASS; fixed RJR89; successor package v1.4.37 sealed."
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json",
+    "closingCheckpoint": "Stage 5F production negatives accepted at fixed RJR91; PR191 remains open; last exact PR head 4a63137b918b3d4b6d3d93916e67b72e85848c39 preserved; exact current blocker private-account-auth-stage2b-contracts.cjs:62 captured; complete mirrored v1.4.39 SNS/SLE package sealed on separate handoff branch."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",
-    "status": "current-rjr89-pr187-r5-owner-accepted"
+    "canonical": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+    "status": "current-pr191-open-rjr91-stage5g-next"
   },
   "starter": {
-    "version": "1.4.37",
-    "checkpoint": "PR187-R5-OWNER-ACCEPTED-RJR89",
-    "canonical": "START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
+    "version": "1.4.39",
+    "checkpoint": "PR191-OPEN-RJR91-STAGE5G-NEXT",
+    "canonical": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
-    "fallbackPackNeededByDefault": false,
-    "versionReason": "PR #187 r5 creator-side automatic convergence repair is merged, all production workflows and deployed-site proof are green, owner one-paste zero-manual-reattach acceptance passed, and fixed RJR-1 advanced exactly to 89."
+    "fallbackPackNeededByDefault": false
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",
-    "acceptanceProof": "PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+    "stage5fAcceptanceProof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
+    "ownerEagleEyeRule": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
-    "deepReference": "SESSION_CONTEXT_GRAPH.json",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "status": "rjr89-pr187-r5-owner-accepted-package",
-    "productionMergeSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
-    "pagesRunId": 33738921948,
-    "stabilityRunId": 33738921850
+    "handoffBranch": "handoff/pending-stage5g-network-hardening"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -157,32 +202,17 @@
     "requiredAtHandoffProximity100": true,
     "recursiveInheritance": true
   },
-  "startupProtocol": "00_SESSION_BOOTSTRAP.md",
-  "contextRetrievalProtocol": "00_CONTEXT_RETRIEVAL_ENGINE.md",
-  "contextModel": "SESSION_CONTEXT_MODEL.json",
-  "contextGraph": "SESSION_CONTEXT_GRAPH.json",
-  "contextLearning": "SESSION_CONTEXT_LEARNING.json",
   "minimalReads": [
+    "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
     "SESSION_BOOTSTRAP.json",
+    "00_CURRENT_HANDOFF.md",
     "00_SLE_HANDOFF_PROTOCOL.md",
+    "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
+    "WORK_ENVIRONMENT_STATUS.json",
+    "REMOTE_JOINING_READINESS.json",
     "NEXT_TASK.md",
     "PROJECT_STATE.md",
-    "REMOTE_JOINING_READINESS.json",
-    "SESSION_CONTEXT_GRAPH.json",
-    "SESSION_CONTEXT_MODEL.json",
-    "SESSION_CONTEXT_LEARNING.json",
-    "00_DEVELOPER_START_HERE.md",
-    "00_CURRENT_HANDOFF.md",
-    "WORK_ENVIRONMENT_STATUS.json",
-    "START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
-    "PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md",
-    "PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026-08-29.md",
-    "STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md",
-    "STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md",
-    "STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md",
-    "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md",
-    "ZERO_BILLING_REMOTE_JOINING_ARCHITECTURE_DECISION_2026-08-31.md",
-    "00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md"
+    "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md"
   ],
   "criticalLocks": {
     "canonicalStorage": [
@@ -190,31 +220,31 @@
       "careerModeShowdown.legacyShowdowns",
       "careerModeShowdown.preferences"
     ],
-    "activeShowdownCanonical": false,
-    "candidateA": "non-mutating-export",
-    "candidateB": "read-only-import-analysis",
-    "candidateC": "sole-destructive-import-apply-authority",
+    "candidateC": "sole-destructive-remote-to-local-gameplay-apply-authority",
     "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
     "appCheck": "production-proven-enforcement-off",
     "firestorePersistence": "memory-only",
-    "trustedRuntimeIam": "production-unactivated-nonbilling-changes-owner-authorized",
     "zeroBilling": true,
+    "firebasePlan": "Spark",
     "publicDiscovery": false,
     "publicCommunity": false,
     "publicMatchmaking": false,
     "globalLeaderboardsRankings": false,
+    "exactlyTwoPrivateManagers": true,
+    "fullPrivateCapabilityDurableRetention": false,
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "select-smallest-uncredited-rjr89-gap-after-fresh-wec",
-    "summary": "After independently verifying PR #187, deployed v1.9.0-r5, fixed RJR89 and the closed owner-acceptance WEC, initialize a fresh unique WEC and choose the smallest genuinely uncredited fixed-domain gap; prefer authenticated third-account/revoked-device production negatives unless live evidence changes the priority. Billing remains permanently forbidden.",
+    "name": "finish-pr191-exact-head-publication-then-stage5g",
+    "summary": "The stale current-authority chain beginning at tests/contracts/private-account-auth-stage2b-contracts.cjs:62 is repaired with full local contracts and browser matrices green. Converge all permanent PR191 workflows on one final exact head, merge with expected-head protection, verify post-merge deployment, then execute genuinely uncredited Stage 5G Remote Joining network hardening automation-first.",
     "mustNotInsertGenericPrerequisiteLane": true,
-    "mustStartAsRealProductWork": true
+    "mustStartAsRealProjectWork": true
   },
   "transition": {
     "contextTransitionRequired": true,
     "handoffCompleteness": 100,
-    "continuationDecision": "HANDOFF_AT_CHECKPOINT"
+    "continuationDecision": "HANDOFF_NOW",
+    "predecessorDecisionMustNotBeInherited": true
   },
-  "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/current pointers, final-seal and archive the WEC, verify publication and stop before the next substantial milestone."
+  "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/current pointers, final-seal and archive the WEC, and stop before the next substantial milestone."
 }

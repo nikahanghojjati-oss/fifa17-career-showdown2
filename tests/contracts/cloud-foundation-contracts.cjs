@@ -12,6 +12,7 @@ const providerAbuseProof = read("PRODUCTION_PROVIDER_ABUSE_ACCEPTANCE_PROOF_2026
 const stage5aProof = read("STAGE5A_PRIVATE_SESSION_CANDIDATE_EMULATOR_PROOF_2026-08-31.md");
 const stage5bProof = read("STAGE5B_DEVICE_CREDENTIAL_FOUNDATION_PROOF_2026-08-31.md");
 const stage5cProof = read("STAGE5C_ZERO_BILLING_STANDARD_AUTH_SESSION_ADAPTER_PROOF_2026-09-01.md");
+const stage5fProof = read("PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md");
 const productionEnvironment = JSON.parse(read("firebase.production.environment.json"));
 const historicalState = read("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
 const historicalNext = read("authority-history/NEXT_TASK_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md");
@@ -39,16 +40,17 @@ assert.match(roadmap, /Cloud Readiness \| PHASE 1A DONE \/ 1B DONE \/ 1C DONE \/
 assert.match(roadmap, /Cloud Backup \| BLOCKED/i);
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i);
 
-// Current live cloud authority must follow the newest production-proven runtime and fixed RJR ledger.
-assert.equal(productionR5,true,"Current authority must identify production-proven v1.9.0-r5 after PR #187 production acceptance.");
+// Current live cloud authority follows the newest production-proven runtime and fixed RJR ledger.
+// SESSION_BOOTSTRAP now describes the completed PR191/RJR91 SNS while retaining PR187 as runtime provenance.
+assert.equal(productionR5,true,"Current runtime identity remains production-proven v1.9.0-r5.");
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback provenance must remain anchored to PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","Historical rollback provenance must retain the restored 1.8.1-r5 runtime.");
-assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,187,"Current production runtime provenance must identify PR #187.");
+assert.equal(bootstrap.lastProductionProvenRuntime?.pullRequest,187,"Current production runtime provenance remains anchored to the PR #187 r5 runtime publication.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.0-r5","Current production runtime provenance must identify 1.9.0-r5.");
 assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.equal(readiness.currentScore,89);
-assert.equal(bootstrap.remoteJoiningReadiness?.score,89);
+assert.equal(readiness.currentScore,91,"Live RJR authority must include the two accepted Stage 5F production-negative capabilities.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Bootstrap preserves the score sealed by the completed PR191/RJR91 SNS.");
 const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eLifecycleEvidence?.score,88);
 assert.equal(stage5eLifecycleEvidence?.delta,1);
@@ -56,31 +58,39 @@ const r5ConvergenceEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId
 assert.equal(r5ConvergenceEvidence?.score,89);
 assert.equal(r5ConvergenceEvidence?.delta,1);
 assert.equal(r5ConvergenceEvidence?.domainId,"devices-pairing-connected-rivalry-remote-join");
+const stage5fEvidence=readiness.evidenceHistory?.filter(entry=>entry.score===90||entry.score===91)||[];
+assert.equal(stage5fEvidence.length,2);
+assert.ok(stage5fEvidence.every(entry=>entry.delta===1&&entry.domainId==="identity-auth-trust"));
+assert.match(stage5fEvidence.map(entry=>entry.reason||"").join("\n"),/revoked-device/i);
+assert.match(stage5fEvidence.map(entry=>entry.reason||"").join("\n"),/third account|third-account|non-participant|unrelated/i);
+assert.match(stage5fProof,/PASS/i);
+assert.match(stage5fProof,/91\/100/i);
+assert.doesNotMatch(stage5fProof,/pair_[0-9a-f]{32,}/i);
 
 // Live state/next-task files are current routing authority, not append-only copies of obsolete current overrides.
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+1\.9\.0-r5[\s\S]+RJR89/i);
-assert.match(state,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i);
-assert.match(state,/third-account \/ revoked-device production negatives/i);
-assert.match(state,/two-device\/two-network reconnect and adverse-network hardening/i);
+assert.match(state,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i);
+assert.match(state,/Installable Offline App[\s\S]+local-first startup\/recovery baseline|Installable Offline App[\s\S]+local-first startup and recovery baseline/i);
+assert.match(state,/Stage 5G[\s\S]+two-device\/two-network reconnect and adverse-network hardening/i);
 assert.match(state,/final stable Remote Joining release acceptance/i);
 assert.match(state,/Candidate C[\s\S]+sole destructive remote-to-local gameplay Apply authority/i);
-assert.match(state,/three canonical localStorage keys[\s\S]+careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/i);
-assert.match(state,/Billing must never be activated[\s\S]+Firebase remains Spark/i);
-assert.match(state,/Firestore persistence remains memory-only|Browser Firestore persistence remains memory-only/i);
+assert.match(state,/Canonical local storage remains exactly[\s\S]+careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/i);
+assert.match(state,/Billing is permanently forbidden|Billing must never be activated/i);
+assert.match(state,/Firebase remains Spark/i);
+assert.match(state,/Firestore browser persistence remains memory-only|Browser Firestore persistence remains memory-only|Firestore persistence remains memory-only/i);
 assert.match(state,/Google Auth remains popup-only `browserSessionPersistence` with no extra scopes/i);
 assert.match(state,/App Check enforcement remains OFF/i);
 assert.match(state,/Trusted-runtime IAM remains unactivated\/unbroadened/i);
-assert.match(state,/No public discovery\/community\/matchmaking\/global rankings|No public discovery[\s\S]+global leaderboards/i);
+assert.match(state,/No public discovery[\s\S]+global leaderboards/i);
 assert.doesNotMatch(state,/Production rollback proof remains uncredited/i);
 
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i);
+assert.match(next,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i);
 assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
-assert.match(next,/authenticated third-account \/ revoked-device production negatives/i);
+assert.match(next,/Stage 5F[\s\S]+production acceptance|production acceptance[\s\S]+Stage 5F/i);
 assert.match(next,/two-device\/two-network reconnect\/adverse-network hardening/i);
 assert.match(next,/final stable Remote Joining release acceptance/i);
-assert.match(next,/Candidate C remains the sole destructive remote-to-local Apply authority/i);
-assert.match(next,/No public discovery\/community\/matchmaking\/global rankings/i);
-assert.match(next,/Do not repeat consumed r5 one-paste convergence[\s\S]+r3 provider-live Host\/Join lifecycle/i);
+assert.match(next,/Candidate C remains the sole destructive remote-to-local gameplay Apply authority/i);
+assert.match(next,/No public discovery[\s\S]+global leaderboards/i);
+assert.match(next,/do not repeat generic Connected Rivalry adverse-network proof/i);
 assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i);
 assert.doesNotMatch(next,/Production rollback proof remains uncredited/i);
 
@@ -167,4 +177,4 @@ assert.ok(storage.includes("applyCareerModeRawStorageTransaction"),"Canonical lo
 assert.ok(transaction.includes("preconditionMismatches"),"Future revision-safe sync depends on permanent local precondition semantics.");
 assert.ok(transaction.includes("rollbackOwnershipConflicts"),"Future revision-safe sync depends on permanent rollback ownership semantics.");
 
-process.stdout.write(`PASS Cloud/Sync authority: production-proven 1.9.0-r5 / PR187, fixed RJR${readiness.currentScore}, permanent zero-billing/provider/privacy/recovery locks, and immutable historical Cloud Readiness provenance are protected.\n`);
+process.stdout.write(`PASS Cloud/Sync authority: production-proven 1.9.0-r5 / PR187 runtime, live fixed RJR${readiness.currentScore}, permanent zero-billing/provider/privacy/recovery locks, accepted Stage 5F production negatives and immutable historical Cloud Readiness provenance are protected.\n`);

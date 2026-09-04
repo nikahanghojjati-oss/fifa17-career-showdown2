@@ -11,6 +11,7 @@ const archivedNextTask=fs.readFileSync("authority-history/NEXT_TASK_PRE_PR98_TRA
 const projectState=fs.readFileSync("PROJECT_STATE.md","utf8");
 const preR3ProjectState=fs.readFileSync("authority-history/PROJECT_STATE_PRE_R3_CONNECTED_ACCOUNT_REGRESSION_2026-08-25.md","utf8");
 const handoff=fs.readFileSync("00_CURRENT_HANDOFF.md","utf8");
+const historicalR5Handoff=fs.readFileSync("SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md","utf8");
 const developerStart=fs.readFileSync("00_DEVELOPER_START_HERE.md","utf8");
 const roadmap=fs.readFileSync("REMOTE_JOINING_EXECUTION_ROADMAP.md","utf8");
 const postV1=fs.readFileSync("POST_V1_ROADMAP_EXECUTION.md","utf8");
@@ -82,19 +83,20 @@ for(const document of [preR3NextTask,preR3ProjectState,roadmap,postV1]){
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: remains)?:? OFF/i);
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
-// Historical Stage 2I security/provenance stays immutable; live authority is PR187/r5/RJR89.
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #187[\s\S]+RJR89/im,"Live NEXT_TASK must identify current PR187/r5/RJR89 successor authority.");
+// Historical Stage 2I security/provenance stays immutable; live authority is Stage 5F accepted / RJR91 / Stage 5G.
+assert.match(nextTask,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G successor authority.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
-assert.match(nextTask,/authenticated third-account \/ revoked-device production negatives/i,"Live authority must expose the smallest preferred uncredited post-RJR89 capability gap.");
-assert.match(nextTask,/Do not repeat consumed r5 one-paste convergence[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i,"Live authority must preserve consumed-proof discipline rather than revive Stage 2I-era work.");
+assert.match(nextTask,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live authority must expose the genuinely uncredited Stage 5G capability gap after RJR91.");
+assert.match(nextTask,/do not repeat generic Connected Rivalry adverse-network proof/i,"Live authority must preserve consumed-proof discipline rather than revive Stage 2I-era work.");
 assert.match(`${nextTask}\n${projectState}`,/Public community|public discovery|global leaderboard|global ranking|No public discovery/i);
-assert.match(projectState,/CURRENT OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i,"Live PROJECT_STATE must identify current PR187/r5/RJR89 authority.");
-assert.match(projectState,/Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
-assert.match(handoff,/PR #187[\s\S]+1\.9\.0-r5[\s\S]+89\/100/i,"Rolling handoff must expose current PR187/r5/RJR89 authority.");
-assert.match(handoff,/one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach/i,"Rolling handoff must preserve the capability that moved RJR88 to RJR89.");
-assert.match(developerStart,/PR #187[\s\S]+1\.9\.0-r5[\s\S]+RJR89/i,"Developer start must expose current PR187/r5/RJR89 authority.");
+assert.match(projectState,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Live PROJECT_STATE must identify Stage 5F accepted / RJR91 / Stage 5G authority.");
+assert.match(projectState,/Installable Offline App[\s\S]+local-first startup(?:\/| and )recovery baseline/i,"Live PROJECT_STATE must preserve local-first recovery authority.");
+assert.match(handoff,/PR #191[\s\S]+1\.9\.0-r5[\s\S]+91\/100/i,"Rolling handoff must expose current PR191/r5/RJR91 authority.");
+assert.match(historicalR5Handoff,/PR #187[\s\S]+89\/100/i,"Immutable PR187 handoff must preserve fixed RJR89 provenance.");
+assert.match(historicalR5Handoff,/one[- ]paste[\s\S]+zero manual Connected Rivalry Verify\/Reattach|zero manual Connected Rivalry Verify\/Reattach[\s\S]+one[- ]paste/i,"Immutable PR187 handoff must preserve the capability that moved RJR88 to RJR89.");
+assert.match(developerStart,/1\.9\.0-r5[\s\S]+RJR91/i,"Developer start must expose current r5/RJR91 authority.");
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.equal(readiness.currentScore,89,"STAGE2I-BOUNDARY live readiness must expose fixed RJR89.");
+assert.equal(readiness.currentScore,91,"STAGE2I-BOUNDARY live readiness must expose fixed RJR91.");
 const stage5eRjrEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eRjrEvidence?.score,88,"STAGE2I-BOUNDARY must preserve the evidence-only Stage 5E provider-live lifecycle transition to RJR88.");
 assert.equal(stage5eRjrEvidence?.delta,1,"STAGE2I-BOUNDARY must preserve one bounded capability credit for the Stage 5E provider-live lifecycle.");
@@ -151,4 +153,4 @@ const runtimeVersion=(indexRevision.match(/^(\d+\.\d+\.\d+)-r[1-9]\d*$/)||[])[1]
 assert.equal(runtimeVersion,pkg.version,"Current release identity must remain coherent while historical Stage 2I proof stays version-neutral.");
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent after later release-owned runtime integration.");
 
-process.stdout.write("PASS Stage 2I historical security/provenance locks remain protected while current PR187/r5/RJR89 successor authority is source-driven.\n");
+process.stdout.write("PASS Stage 2I historical security plus PR187/RJR89 provenance locks remain protected while current Stage 5F/RJR91/Stage 5G successor authority is source-driven.\n");

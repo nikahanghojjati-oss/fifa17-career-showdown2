@@ -42,10 +42,12 @@ const phase1eHarness = read("js/cloudSyncTwoDeviceHarness.js");
 const phase1eTest = read("tests/contracts/cloud-sync-two-device-harness-contracts.cjs");
 const historicalNext = read("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md");
 const historicalR2Proof = read("V1.3.0_R2_PRODUCTION_PROOF.md");
+const historicalR5Starter = read("START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
+const historicalR5Handoff = read("SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
 const readiness = JSON.parse(read("REMOTE_JOINING_READINESS.json"));
 const bootstrap = JSON.parse(read("SESSION_BOOTSTRAP.json"));
 const wec = JSON.parse(read("WORK_ENVIRONMENT_STATUS.json"));
-const runtimeMerge = bootstrap.currentPublicationCheckpoint || bootstrap.lastProductionProvenRuntime || bootstrap.latestRuntimeMerge;
+const runtimeMerge = bootstrap.lastProductionProvenRuntime || bootstrap.currentPublicationCheckpoint || bootstrap.latestRuntimeMerge;
 const candidateRecord = /Status:\s*RELEASE CANDIDATE/i.test(release);
 const currentAuthorityEnd = state.indexOf("\n---\n");
 const currentAuthority = state.slice(0,currentAuthorityEnd >= 0 ? currentAuthorityEnd : 5000);
@@ -93,9 +95,12 @@ if(candidateRecord && currentProductionProven){
     A.ok(currentNext.includes(runtimeMerge.mergeSha) && currentNext.includes(`PR #${runtimeMerge.pullRequest}`), "NEXT_TASK must retain the current production runtime lineage from SESSION_BOOTSTRAP.");
     A.equal(bootstrap.remoteJoiningReadiness.score, readiness.currentScore, "Bootstrap and fixed RJR authority must agree.");
     A.ok(currentNext.includes("RJR-1") && new RegExp(`(?:\\*\\*|\\x60)?${readiness.currentScore}\\/100(?:\\*\\*|\\x60)?`).test(currentNext), "NEXT_TASK must retain the current evidence-backed Remote Joining readiness.");
-    A.match(currentNext, /Do not repeat consumed r5 one-paste convergence[\s\S]+exact accepted-result replay[\s\S]+token-lifecycle[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i, "NEXT_TASK must preserve replay, token-lifecycle and other consumed proof as closed capabilities rather than reroute to them.");
-    A.match(currentNext, /authenticated third-account \/ revoked-device production negatives/i, "NEXT_TASK must route from RJR89 to the smallest preferred uncredited authenticated negative gap.");
-    A.match(currentNext, /Remote Joining-specific two-device\/two-network reconnect\/adverse-network hardening/i, "NEXT_TASK must preserve the remaining adverse-network hardening gap.");
+    A.match(historicalR5Starter, /Do not repeat consumed r5 one-paste convergence[\s\S]+accepted-result replay[\s\S]+token-lifecycle[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i, "Immutable PR187 starter must preserve replay, token-lifecycle and other consumed proof as closed capabilities.");
+    A.match(currentNext, /Stage 5F[\s\S]+91\/100/i, "NEXT_TASK must preserve the accepted Stage 5F evidence that advanced RJR89 to RJR91.");
+    A.match(currentNext, /revoked-device/i, "NEXT_TASK must preserve the accepted revoked-device boundary.");
+    A.match(currentNext, /authenticated third-account/i, "NEXT_TASK must preserve the accepted unrelated-account boundary.");
+    A.match(currentNext, /do not repeat generic Connected Rivalry adverse-network proof/i, "NEXT_TASK must prohibit duplicate generic adverse-network proof while routing to Stage 5G.");
+    A.match(currentNext, /Remote Joining-specific[\s\S]{0,24}two-device\/two-network reconnect\/adverse-network hardening/i, "NEXT_TASK must preserve the remaining adverse-network hardening gap.");
     A.match(currentNext, /final stable Remote Joining release acceptance/i, "NEXT_TASK must preserve final stable Remote Joining release acceptance as a remaining capability gap.");
     A.match(currentNext, /Billing must never be activated[\s\S]{0,120}Firebase remains Spark/i, "NEXT_TASK must preserve the permanent zero-billing Spark boundary.");
     A.match(currentNext, /App Check enforcement remains OFF/i, "NEXT_TASK must keep App Check enforcement off.");
@@ -190,7 +195,8 @@ A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof mu
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must remain closed.");
 A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Analytics handoff must retain its validated PR head.");
 A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its runtime merge.");
-A.match(currentHandoff, /CURRENT HANDOFF OVERRIDE[\s\S]+PR #187[\s\S]+RJR89/i, "Current handoff must expose the owner-accepted PR187/RJR89 evidence trail.");
+A.match(currentHandoff, /CURRENT HANDOFF OVERRIDE[\s\S]+PR #191[\s\S]+RJR91/i, "Current handoff must expose PR191/RJR91 publication authority.");
+A.match(historicalR5Handoff, /PR #187[\s\S]+RJR89/i, "Immutable PR187 handoff must preserve the owner-accepted PR187/RJR89 evidence trail.");
 
 // Current Stage 3 authority must be explicit in the current override, while old milestone text may remain historical below it.
 if(version === "1.6.0"){
@@ -211,7 +217,8 @@ if(version === "1.6.0"){
 }
 
 A.ok(start.includes("00_HANDOFF_GOLDEN_RULE.md") && start.includes("NEXT_TASK.md"), "Developer bootstrap lost handoff/task authority.");
-A.ok(next.includes("14 permanent workflow families"), "NEXT_TASK lost permanent validation family-count history.");
+A.ok(historicalR5Starter.includes("14 permanent") && historicalR5Starter.includes("workflow families"), "Immutable PR187 starter lost its exact-head validation family-count history.");
+A.match(next,/every current permanent workflow family green on the same exact reviewed PR head/i,"NEXT_TASK must preserve dynamic exact-head publication discipline after workflow-family growth.");
 const temporaryHelpers = fs.readdirSync(".github/workflows").filter(name => /v115|temporary/i.test(name) && /\.ya?ml$/i.test(name));
 A.deepEqual(temporaryHelpers, [], `Temporary workflow helpers must not enter release authority: ${temporaryHelpers.join(", ")}`);
 const topology = read("tests/support/run-workflow-blocks.cjs");
