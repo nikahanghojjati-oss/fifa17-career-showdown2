@@ -12,13 +12,17 @@ const model=json("SESSION_CONTEXT_MODEL.json");
 const learning=json("SESSION_CONTEXT_LEARNING.json");
 const readiness=json("REMOTE_JOINING_READINESS.json");
 const wec=json("WORK_ENVIRONMENT_STATUS.json");
-const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json");
+const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json");
 const current=read("00_CURRENT_HANDOFF.md");
 const developer=read("00_DEVELOPER_START_HERE.md");
 const next=read("NEXT_TASK.md");
 const project=read("PROJECT_STATE.md");
 const rolling=read("project-documents/START_NEXT_SESSION.md");
 const prompt=read("NEXT_CHAT_HANDOFF_PROMPT.md");
+const historicalStarter=read("START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
+const historicalHandoff=read("SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
+const historicalStarterMirror=read("project-documents/session-starts/START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
+const historicalHandoffMirror=read("project-documents/handoffs/SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
 
 assert.match(protocol,/Smart Lean Efficient/i);
 assert.match(protocol,/mandatory/i);
@@ -30,19 +34,22 @@ assert.match(golden,/Handoff proximity:?\s*100%|Handoff proximity reaches `100%`
 assert.match(eagle,/Owner's Eagle Eye/i);
 assert.match(eagle,/Every future SLE\/SNS successor package|Every future SLE\/SNS|Every future SLE/i);
 
-// The repository has not reached the current environment's Handoff-proximity-100 boundary yet.
-// Therefore SESSION_BOOTSTRAP and the mirrored starter/handoff still describe the last *completed*
-// PR187/RJR89 successor package. They are historical orientation, not the current execution ledger.
-assert.equal(bootstrap.starter?.version,"1.4.37");
-assert.equal(bootstrap.starter?.checkpoint,"PR187-R5-OWNER-ACCEPTED-RJR89");
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
-assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
-assert.equal(bootstrap.successorPackage?.status,"rjr89-pr187-r5-owner-accepted-package");
-assert.equal(bootstrap.successorPackage?.productionMergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
-assert.equal(bootstrap.successorPackage?.pagesRunId,33738921948);
-assert.equal(bootstrap.successorPackage?.stabilityRunId,33738921850);
+// The predecessor reached Handoff proximity 100 on a separate branch while PR191 stayed open.
+// SESSION_BOOTSTRAP and the mirrored package must now describe that completed PR191/RJR91 handoff.
+assert.equal(bootstrap.starter?.version,"1.4.39");
+assert.equal(bootstrap.starter?.checkpoint,"PR191-OPEN-RJR91-STAGE5G-NEXT");
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md");
+assert.equal(bootstrap.currentHandoff?.status,"current-pr191-open-rjr91-stage5g-next");
+assert.equal(bootstrap.successorPackage?.compactStarter,bootstrap.starter.canonical);
+assert.equal(bootstrap.successorPackage?.fullHandoff,bootstrap.currentHandoff.canonical);
+assert.equal(bootstrap.currentPublicationCheckpoint?.pullRequest,191);
+assert.equal(bootstrap.currentPublicationCheckpoint?.state,"open");
+assert.equal(bootstrap.currentPublicationCheckpoint?.lastExactHeadBeforeHandoffPackaging,"4a63137b918b3d4b6d3d93916e67b72e85848c39");
+assert.equal(bootstrap.currentPublicationCheckpoint?.baseSha,"7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4");
+assert.equal(bootstrap.currentPublicationCheckpoint?.publicationWorkRjrCredit,0);
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,89,"Bootstrap keeps the readiness score that was true when the last completed SNS was sealed.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Bootstrap must expose the readiness score that was true when the current SNS was sealed.");
 
 // Live fixed RJR authority is independent from that historical package and has advanced on new evidence.
 assert.equal(readiness.modelVersion,"RJR-1");
@@ -71,11 +78,10 @@ for(const [name,text] of [["last completed starter",starter],["last completed ha
   assert.match(text,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i,`${name} must preserve the historical immediate successor routing that was sealed with it.`);
   assert.match(text,/fresh unique successor WEC|fresh unique WEC|fresh WEC/i,`${name} must preserve fresh successor WEC ownership.`);
   assert.match(text,/v1\.9\.0[\s\S]+1\.9\.0-r5/i,`${name} must preserve the production identity it sealed.`);
-  assert.match(text,/89\/100|RJR89/i,`${name} must preserve the RJR89 value that was true at its seal boundary.`);
-  assert.match(text,/PR #187/i,`${name} must preserve PR187 lineage.`);
-  assert.match(text,/277f1b55dc362ee84d285445b99172b9fbed8509/i,`${name} must preserve its runtime merge checkpoint.`);
-  assert.match(text,/33738921948/i,`${name} must preserve its Pages proof.`);
-  assert.match(text,/33738921850/i,`${name} must preserve its Stability proof.`);
+  assert.match(text,/91\/100|RJR91/i,`${name} must preserve the RJR91 value that was true at its seal boundary.`);
+  assert.match(text,/PR #191/i,`${name} must preserve PR191 publication lineage.`);
+  assert.match(text,/7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4/i,`${name} must preserve the live-main checkpoint.`);
+  assert.match(text,/4a63137b918b3d4b6d3d93916e67b72e85848c39/i,`${name} must preserve the last exact PR head before separate handoff packaging.`);
   assert.match(text,/Billing must never be activated|billing[\s\S]+permanently forbidden/i,`${name} must preserve zero-billing lock.`);
   assert.match(text,/Firebase[\s\S]+Spark/i);
   assert.match(text,/App Check enforcement remains OFF/i);
@@ -87,6 +93,16 @@ for(const [name,text] of [["last completed starter",starter],["last completed ha
   assert.doesNotMatch(text,/pair_[0-9a-f]{32,}/i,`${name} must not retain a full private pairing capability.`);
 }
 
+assert.equal(historicalStarter,historicalStarterMirror,"Historical PR187 starter mirrors must remain byte-identical.");
+assert.equal(historicalHandoff,historicalHandoffMirror,"Historical PR187 handoff mirrors must remain byte-identical.");
+for(const text of [historicalStarter,historicalHandoff]){
+  assert.match(text,/PR #187/i);
+  assert.match(text,/89\/100|RJR89/i);
+  assert.match(text,/277f1b55dc362ee84d285445b99172b9fbed8509/i);
+  assert.match(text,/33738921948/i);
+  assert.match(text,/33738921850/i);
+}
+
 assert.match(starter,/Handoff proximity: X%/);
 assert.match(starter,/Remote Joining readiness: ~Y%/);
 assert.match(starter,/Estimated focused sessions to genuine RJR100: ~N–M/);
@@ -95,18 +111,18 @@ assert.match(handoff,/Handoff proximity/i);
 assert.match(handoff,/Remote Joining readiness/i);
 assert.match(handoff,/Sidequest check/i);
 
-// Historical rolling pointers remain on the last completed package until the current environment seals a new SNS.
-assert.match(rolling,/START_NEXT_SESSION_V1\.4\.37_PR187_R5_OWNER_ACCEPTED_RJR89\.md/);
-assert.match(rolling,/SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03\.md/);
-assert.match(rolling,/89\/100/);
+// Rolling pointers and the owner convenience prompt must identify the newly completed PR191 SNS.
+assert.match(rolling,/START_NEXT_SESSION_V1\.4\.39_PR191_RJR91_STAGE5G_HANDOFF\.md/);
+assert.match(rolling,/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04\.md/);
+assert.match(rolling,/91\/100/);
 assert.match(rolling,/1\.9\.0-r5/);
-assert.match(current,/START_NEXT_SESSION_V1\.4\.37_PR187_R5_OWNER_ACCEPTED_RJR89\.md/);
-assert.match(current,/SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03\.md/);
-assert.match(current,/PR #187[\s\S]+89\/100|RJR89/i);
-assert.match(prompt,/START_NEXT_SESSION_V1\.4\.37_PR187_R5_OWNER_ACCEPTED_RJR89\.md/);
-assert.match(prompt,/89\/100|RJR89/i);
+assert.match(current,/START_NEXT_SESSION_V1\.4\.39_PR191_RJR91_STAGE5G_HANDOFF\.md/);
+assert.match(current,/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04\.md/);
+assert.match(current,/PR #191[\s\S]+91\/100|RJR91/i);
+assert.match(prompt,/START_NEXT_SESSION_V1\.4\.39_PR191_RJR91_STAGE5G_HANDOFF\.md/);
+assert.match(prompt,/91\/100|RJR91/i);
 assert.match(prompt,/fresh unique WEC|fresh WEC/i);
-assert.match(prompt,/smallest genuinely uncredited/i);
+assert.match(prompt,/finish PR #191 exact-head gates/i);
 
 // Current execution authority, unlike those historical pointers, must expose the newly accepted Stage 5F evidence and RJR91.
 for(const [name,text] of [["developer",developer],["next",next],["project",project]]){
@@ -127,35 +143,44 @@ assert.match(project,/Stage 5G[\s\S]+reconnect and adverse-network hardening/i);
 assert.match(project,/Installable Offline App/i);
 assert.match(next,/Installable Offline App/i);
 
-// Progressive context graph/model/learning are snapshots of the last completed SLE package until the next SNS refresh.
+// Progressive context graph/model/learning must match the completed PR191/RJR91 SNS while retaining r5 history.
 const rjrNode=graph.nodes.find(n=>n.id==="rjr1-ledger");
 const r5Node=graph.nodes.find(n=>n.id==="stage5e-r5-production-proof");
 const closeNode=graph.nodes.find(n=>n.id==="closing-current-wec");
 const successorNode=graph.nodes.find(n=>n.id==="successor-selection");
-assert.equal(rjrNode?.recordedScore,89);
+const stage5fNode=graph.nodes.find(n=>n.id==="stage5f-production-authenticated-negatives");
+assert.equal(rjrNode?.recordedScore,91);
 assert.equal(r5Node?.runtimeRevision,"1.9.0-r5");
 assert.equal(r5Node?.rjrDelta,1);
 assert.equal(r5Node?.zeroManualVerifyReattachProven,true);
+assert.equal(stage5fNode?.rjrScoreAfterProof,91);
+assert.equal(stage5fNode?.rjrDelta,2);
+assert.equal(stage5fNode?.publicationWorkRjrCredit,0);
 assert.equal(closeNode?.handoffProximity,100);
-assert.equal(closeNode?.rjrScore,89);
-assert.match(successorNode?.state||"",/fresh-wec-required/i);
-assert.equal(model.latestCheckpoint?.rjrScore,89);
+assert.equal(closeNode?.rjrScore,91);
+assert.equal(closeNode?.environmentId,"we-2026-09-03-stage5f-authenticated-negatives");
+assert.equal(closeNode?.finalDecision,"HANDOFF_NOW");
+assert.match(successorNode?.state||"",/fresh-wec-required-finish-pr191/i);
+assert.equal(model.latestCheckpoint?.rjrScore,91);
 assert.equal(model.latestCheckpoint?.runtimeRevision,"1.9.0-r5");
-assert.equal(model.latestCheckpoint?.closeoutPullRequest,187);
-assert.equal(model.latestCheckpoint?.productionPagesRunId,33738921948);
-assert.equal(model.latestCheckpoint?.productionStabilityRunId,33738921850);
-assert.equal(learning.latestLesson?.rjrScore,89);
-assert.equal(learning.latestLesson?.closeoutPullRequest,187);
+assert.equal(model.latestCheckpoint?.publicationPullRequest,191);
+assert.equal(model.latestCheckpoint?.publicationState,"open");
+assert.equal(model.latestCheckpoint?.lastRuntimePullRequest,187);
+assert.equal(model.latestCheckpoint?.runtimeProductionPagesRunId,33738921948);
+assert.equal(model.latestCheckpoint?.runtimeProductionStabilityRunId,33738921850);
+assert.equal(learning.latestLesson?.rjrScore,91);
+assert.equal(learning.latestLesson?.publicationPullRequest,191);
+assert.equal(learning.latestLesson?.publicationState,"open");
 assert.equal(learning.latestLesson?.runtimeRevision,"1.9.0-r5");
 
-assert.ok(fs.existsSync("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json"));
+assert.ok(fs.existsSync("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json"));
 assert.equal(predecessorWec.lifecycle,"closed");
-assert.equal(predecessorWec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+assert.equal(predecessorWec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(predecessorWec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(predecessorWec.signals?.handoffCompleteness,100);
 assert.equal(predecessorWec.signals?.unrecordedDecisions,0);
 assert.equal(predecessorWec.signals?.atomicOperation,false);
-assert.equal(wec.environmentId,"we-2026-09-03-stage5f-authenticated-negatives");
+assert.equal(wec.environmentId,"we-2026-09-04-pr191-publication-stage5g");
 assert.equal(wec.lifecycle,"active");
 assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
 assert.equal(wec.assessment?.decision,"CONTINUE");
@@ -163,7 +188,7 @@ assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
 assert.equal(wec.signals?.handoffCompleteness,100);
 assert.equal(wec.signals?.unrecordedDecisions,0);
 assert.equal(wec.signals?.atomicOperation,false);
-assert.match(wec.continuity?.currentTask||"",/reconnect|adverse-network|Stage 5G/i);
+assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+publication[\s\S]+Stage 5G/i);
 assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i);
 
-process.stdout.write("PASS SLE packaging transition: PR187/RJR89 remains the last completed mirrored successor package while live fixed RJR91, Stage 5F acceptance, Owner's Eagle Eye and the active Stage 5G WEC correctly supersede it for current execution until the next Handoff-proximity-100 SNS is sealed.\n");
+process.stdout.write("PASS SLE packaging transition: current PR191/RJR91 mirrored SNS, rolling pointers, context graph/model/learning, closed Stage 5F WEC, fresh PR191 publication WEC and immutable PR187/r5 provenance remain coherent.\n");

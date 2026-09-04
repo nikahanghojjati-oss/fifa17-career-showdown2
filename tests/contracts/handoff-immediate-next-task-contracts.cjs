@@ -12,7 +12,7 @@ const project=read("PROJECT_STATE.md");
 const bootstrap=json("SESSION_BOOTSTRAP.json");
 const readiness=json("REMOTE_JOINING_READINESS.json");
 const wec=json("WORK_ENVIRONMENT_STATUS.json");
-const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json");
+const predecessorWec=json("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json");
 const pkg=json("package.json");
 const r5Acceptance=read("PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md");
 const stage5fAcceptance=read("PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md");
@@ -20,6 +20,8 @@ const zeroBilling=read("00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md");
 const standing=read("00_OWNER_STANDING_MERGE_DEPLOY_AUTHORIZATION.md");
 const historicalStarter=read("START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
 const historicalSle=read("SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md");
+const currentStarter=read("START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
+const currentSle=read("SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md");
 
 assert.match(golden,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
 assert.match(golden,/bootstrap\/study[\s\S]+execution/i);
@@ -45,10 +47,13 @@ assert.match(next,/active WEC/i,"NEXT_TASK must explicitly preserve the currentl
 assert.equal(pkg.version,"1.9.0");
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.0");
 assert.equal(bootstrap.runtime?.productionRuntimeRevision,"1.9.0-r5");
-// SESSION_BOOTSTRAP/00_CURRENT_HANDOFF remain the last completed successor package until
-// the current evidence checkpoint reaches handoff proximity 100 and publishes the next SNS.
-assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md");
-assert.match(current,/PR #187[\s\S]+RJR89/i);
+// SESSION_BOOTSTRAP/00_CURRENT_HANDOFF now identify the completed PR191/RJR91 handoff package.
+// The earlier PR187/RJR89 package remains immutable historical provenance below.
+assert.equal(bootstrap.starter?.canonical,"START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md");
+assert.equal(bootstrap.currentHandoff?.canonical,"SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md");
+assert.match(current,/PR #191[\s\S]+RJR91/i);
+assert.match(currentStarter,/PR #191[\s\S]+91\/100|RJR91/i);
+assert.match(currentSle,/PR #191[\s\S]+91\/100|RJR91/i);
 assert.match(historicalStarter,/PR #187/i);
 assert.match(historicalStarter,/89\/100|RJR89/i);
 assert.match(historicalSle,/PR #187/i);
@@ -107,16 +112,16 @@ assert.match(next,/do not repeat generic Connected Rivalry adverse-network proof
 assert.match(next,/genuine two-physical-device\/two-network behavior/i);
 assert.match(next,/Do not award RJR for source, CI, PR, merge, deployment, documentation, WEC/i);
 
-assert.equal(predecessorWec.environmentId,"we-2026-09-03-stage5e-r4-production-convergence-acceptance");
+assert.equal(predecessorWec.environmentId,"we-2026-09-03-stage5f-authenticated-negatives");
 assert.equal(predecessorWec.lifecycle,"closed");
-assert.equal(predecessorWec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");
+assert.equal(predecessorWec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(predecessorWec.assessment?.decisionInheritedFromPredecessor,false);
-assert.equal(wec.environmentId,"we-2026-09-03-stage5f-authenticated-negatives");
+assert.equal(wec.environmentId,"we-2026-09-04-pr191-publication-stage5g");
 assert.equal(wec.lifecycle,"active");
 assert.equal(wec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);
 assert.equal(wec.assessment?.decision,"CONTINUE");
 assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
-assert.match(wec.continuity?.currentTask||"",/stage5g|network-hardening|reconnect|adverse/i);
+assert.match(wec.continuity?.currentTask||"",/PR #191[\s\S]+publication[\s\S]+Stage 5G/i,"Fresh WEC must finish PR191 publication before entering Stage 5G.");
 assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/Fixed RJR-1 is 91\/100/i,"WEC must record the current fixed RJR without inventing an unsupported schema field.");
 
-process.stdout.write("PASS current immediate-next-task authority: Stage 5F production negatives accepted, fixed RJR91, Owner's Eagle Eye permanent, active WEC routed to genuinely uncredited Stage 5G network hardening, and prior PR187 SNS retained only as the last completed successor package.\n");
+process.stdout.write("PASS current immediate-next-task authority: Stage 5F production negatives accepted, fixed RJR91, Owner's Eagle Eye permanent, fresh PR191 publication WEC routed toward genuinely uncredited Stage 5G network hardening, current PR191 SNS complete, and prior PR187 SNS retained as immutable history.\n");

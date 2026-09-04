@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — STAGE 5F PRODUCTION NEGATIVES ACCEPTED / RJR91 / STAGE 5G NETWORK HARDENING — 2026-09-04 UTC
 
-Production remains `v1.9.0 / 1.9.0-r5`. PR #189 shipped the isolated Stage 5F authenticated-negative acceptance harness and PR #190 shipped the acceptance-only explicit Google account chooser. PR #190 merged to live main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`; its GitHub Pages build and deploy succeeded. Neither implementation nor publication earns RJR credit.
+Production remains `v1.9.0 / 1.9.0-r5`. The unchanged production runtime remains anchored to PR #187 merge `277f1b55dc362ee84d285445b99172b9fbed8509`; its owner-accepted one-paste, zero-manual Connected Rivalry Verify/Reattach evidence moved fixed RJR-1 from 88 to 89. PR #189 shipped the isolated Stage 5F authenticated-negative acceptance harness and PR #190 shipped the acceptance-only explicit Google account chooser. PR #190 merged to live main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`; its GitHub Pages build and deploy succeeded. Neither implementation nor publication earns RJR credit.
 
 Historical implementation-authority provenance only; the active WEC below is the current execution authority:
 
@@ -11,7 +11,7 @@ Owner production acceptance is now PASS for both previously uncredited Stage 5F 
 
 Fixed RJR-1 is now **91/100**. The transition from 89 is exactly +2 in `identity-auth-trust`: +1 revoked-device protected-mutation denial and +1 authenticated non-participant exact-read denial. That domain is now 20/20. `devices-pairing-connected-rivalry-remote-join` remains 22/30 and `real-device-hardening-release` remains 9/10; the Stage 5F evidence is not double-counted there.
 
-The Installable Offline App, v1.3.0 Recovery & Device Resilience, Local Profiles / Save Library and all canonical local-first/Candidate C guarantees remain protected.
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles / Save Library and all canonical local-first/Candidate C guarantees remain protected.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 

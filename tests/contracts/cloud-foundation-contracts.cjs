@@ -41,7 +41,7 @@ assert.match(roadmap, /Cloud Backup \| BLOCKED/i);
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i);
 
 // Current live cloud authority follows the newest production-proven runtime and fixed RJR ledger.
-// SESSION_BOOTSTRAP still describes the last completed PR187/RJR89 SNS until this environment reaches its own handoff boundary.
+// SESSION_BOOTSTRAP now describes the completed PR191/RJR91 SNS while retaining PR187 as runtime provenance.
 assert.equal(productionR5,true,"Current runtime identity remains production-proven v1.9.0-r5.");
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback provenance must remain anchored to PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","Historical rollback provenance must retain the restored 1.8.1-r5 runtime.");
@@ -50,7 +50,7 @@ assert.equal(bootstrap.lastProductionProvenRuntime?.runtimeRevision,"1.9.0-r5","
 assert.equal(bootstrap.lastProductionProvenRuntime?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509");
 assert.equal(readiness.modelVersion,"RJR-1");
 assert.equal(readiness.currentScore,91,"Live RJR authority must include the two accepted Stage 5F production-negative capabilities.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,89,"Bootstrap preserves the score sealed by the last completed PR187 SNS until the next SNS refresh.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Bootstrap preserves the score sealed by the completed PR191/RJR91 SNS.");
 const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eLifecycleEvidence?.score,88);
 assert.equal(stage5eLifecycleEvidence?.delta,1);

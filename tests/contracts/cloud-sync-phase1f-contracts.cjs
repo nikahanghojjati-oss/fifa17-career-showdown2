@@ -103,7 +103,7 @@ assert.match(phase1e, /PR #80/);
 assert.equal(currentProduction,true,"Production runtime provenance must remain PR #187 / v1.9.0-r5 without erasing historical rollback provenance.");
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback provenance must remain anchored to PR #166.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.8.1-r5","Historical rollback provenance must retain the restored r5 runtime.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,89,"Bootstrap preserves the score sealed by the last completed PR187 successor package until the next SNS.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.39 RJR91 snapshot while PR187 remains production-runtime provenance.");
 assert.equal(readiness.currentScore,91,"Live RJR authority must include accepted Stage 5F production-negative evidence.");
 assert.match(next, /CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Current NEXT_TASK must expose Stage 5F accepted / RJR91 / Stage 5G rather than revive a consumed Phase 1F or Stage 5A lane.");
 assert.match(next, /Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Current NEXT_TASK must expose the current genuinely uncredited Stage 5G capability gap.");

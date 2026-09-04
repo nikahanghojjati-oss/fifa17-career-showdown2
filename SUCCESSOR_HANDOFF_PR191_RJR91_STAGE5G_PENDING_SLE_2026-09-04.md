@@ -123,7 +123,7 @@ Do not redo these repairs unless live source proves they were changed again. The
 
 Important pattern: many old contracts were correct about immutable historical PR187/RJR89 provenance but incorrectly asserted that PR187/RJR89 must remain the **live current execution authority**. Successor should change only the current-authority assertion, never rewrite the historical evidence itself.
 
-## 8. Immediate successor execution plan
+## 8. IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 ### A. Bootstrap safely
 
@@ -196,6 +196,19 @@ For Firebase control-plane work, preserve `00_FIREBASE_PERMANENT_ZERO_BILLING_CO
 - SLE = Smart Lean Efficient is recursive and mandatory.
 - Owner-facing normal delivery should remain one short repository-first prompt; the full SLE file is deep reference.
 - Owner's Eagle Eye is co-equal permanent golden-rule authority.
+
+Every substantive owner checkpoint uses the mandatory eight-line format exactly:
+
+```text
+Handoff proximity: X%
+Remote Joining readiness: ~Y%
+Estimated focused sessions to genuine RJR100: ~N–M
+Current lane: <current bounded engineering lane>
+Concrete dependency completed: <most recent concrete dependency completed>
+Next unlock: <next dependency or proof gate>
+Blocker: <current blocker, or NONE>
+Sidequest check: <NONE, or NECESSARY because ...>
+```
 
 ## 12. Safe closing checkpoint
 

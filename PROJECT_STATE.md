@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — STAGE 5F PRODUCTION NEGATIVES ACCEPTED / RJR91 / STAGE 5G ACTIVE
 
-Current independently verified production implementation checkpoint before this evidence transition is main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`, after merged PR #190. Application/runtime remain `v1.9.0 / 1.9.0-r5`. The PR #190 GitHub Pages build and deploy succeeded. Runtime gameplay identity did not change.
+Current independently verified production implementation checkpoint before this evidence transition is main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`, after merged PR #190. Application/runtime remain `v1.9.0 / 1.9.0-r5`, anchored to exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509`. PR187's owner-accepted one-paste, zero-manual Connected Rivalry Verify/Reattach evidence moved fixed RJR-1 from 88 to 89; Stage 5F later moved it from 89 to 91. The PR #190 GitHub Pages build and deploy succeeded. Runtime gameplay identity did not change.
 
 Owner production evidence on 2026-09-04 closes both Stage 5F authenticated negative boundaries. Sanitized record: `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`.
 
@@ -24,7 +24,7 @@ After that lane is genuinely evidence-complete, the explicit remaining milestone
 
 ## Protected baselines and permanent locks
 
-The Installable Offline App remains the local-first startup/recovery baseline. v1.3.0 Recovery & Device Resilience and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
+The Installable Offline App remains the local-first startup/recovery baseline. The v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected. Canonical local storage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
 
 Billing is permanently forbidden and Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Cloud Run and Cloud Functions remain forbidden because they require billing under this architecture. Trusted-runtime IAM remains unactivated/unbroadened.
 

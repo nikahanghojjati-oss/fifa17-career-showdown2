@@ -68,12 +68,12 @@ assert.match(preR3NextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datast
 assert.match(preR3NextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #187[\s\S]+RJR89/im,"Live NEXT_TASK must identify current PR187/r5/RJR89 authority rather than revive historical export or prior transition lanes.");
+assert.match(nextTask,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G authority rather than revive historical export or prior transition lanes.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore(?: browser persistence)? remains memory-only/i);
 assert.match(nextTask,/Candidate C remains the sole destructive (?=[^\n]*Apply authority)(?=[^\n]*remote-to-local)[^\n]+/i,"Live NEXT_TASK must preserve Candidate C as the sole destructive remote-to-local Apply authority without pinning one sentence order.");
-assert.match(nextTask,/authenticated third-account \/ revoked-device production negatives/i,"Live NEXT_TASK must route from owner-accepted RJR89 to the smallest preferred uncredited fixed-domain gap.");
-assert.match(nextTask,/Do not repeat consumed r5 one-paste convergence[\s\S]+provider-abuse proof/i,"Live NEXT_TASK must preserve consumed-proof discipline.");
+assert.match(nextTask,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live NEXT_TASK must route from accepted RJR91 to the genuinely uncredited Stage 5G gap.");
+assert.match(nextTask,/do not repeat generic Connected Rivalry adverse-network proof/i,"Live NEXT_TASK must preserve consumed-proof discipline.");
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -114,4 +114,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current PR187/r5/RJR89 authority.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current Stage 5F/RJR91/Stage 5G authority.\n");

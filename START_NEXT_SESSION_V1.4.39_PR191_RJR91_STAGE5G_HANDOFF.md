@@ -53,6 +53,19 @@ This environment already repaired the same stale-current-authority pattern throu
 
 Every substantive owner checkpoint must frequently expose: current RJR, remaining points, current scoreable gap, estimated concrete tasks/stages/new evidence bundles, blocker status, whether owner action is required, and `Handoff proximity: X%`. Automation-before-owner-action is mandatory. Preserve `00_OWNER_EAGLE_EYE_GOLDEN_RULE.md` recursively in future SNS/SLE packages.
 
+Use the mandatory eight-line owner progress format exactly:
+
+```text
+Handoff proximity: X%
+Remote Joining readiness: ~Y%
+Estimated focused sessions to genuine RJR100: ~N–M
+Current lane: <current bounded engineering lane>
+Concrete dependency completed: <most recent concrete dependency completed>
+Next unlock: <next dependency or proof gate>
+Blocker: <current blocker, or NONE>
+Sidequest check: <NONE, or NECESSARY because ...>
+```
+
 ## Permanent locks
 
 Billing must never be activated. Firebase remains Spark. Never link Cloud Billing, enable Blaze, add a payment method, Cloud Run, Cloud Functions or any billing-required service. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never request, expose, quote, paste, log or durably retain a full private pairing/session capability. Never destructively test the protected historical rivalry.

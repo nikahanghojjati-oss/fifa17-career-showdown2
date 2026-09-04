@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-03T13:25:00.000Z",
-  "materialSessionsObserved": 17,
-  "learningState": "cold-start-priors-with-seventeen-labeled-sessions",
+  "recordedAt": "2026-09-04T04:18:00.000Z",
+  "materialSessionsObserved": 18,
+  "learningState": "cold-start-priors-with-eighteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -29,7 +29,7 @@
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.87,
-      "note": "RJR89 again requires starter, deep SLE, bootstrap, graph, model, learning, current handoff, project state, next task and rolling mirrors to advance together so a fresh successor cannot re-enter consumed r4/r5 work."
+      "note": "RJR91 requires starter, deep SLE, bootstrap, graph, model, learning, current handoff, project state, next task and rolling pointers to advance together so a fresh successor cannot re-enter consumed r5 or Stage 5F work."
     },
     "rjr-score-provenance-search": {
       "loaded": true,
@@ -47,6 +47,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "The r4 failure was not a generic pointer-precedence or provider defect. P1 checked fresh B before P2 activated it, correctly preserved durable A, and lacked a later local trigger. A finite exact-candidate retry only for CONNECTED_RIVALRY_NOT_ACTIVE closed the timing gap without weakening authority. Owner r5 evidence then proved one paste, exact rivalry equality and zero manual Verify/Reattach."
+    },
+    "stage5f-authenticated-negatives": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "Sanitized production evidence separately proved provider denial of a revoked-device protected mutation and both exact reads by an authenticated unrelated account. Those two capabilities moved fixed RJR89 to RJR91; implementation and publication work remained zero-credit."
     },
     "capability-secret-redaction": {
       "loaded": true,
@@ -72,13 +81,29 @@
       "ciTriageLesson": "When runtime syntax/product contracts pass and continuity assertions fail, classify the assertion before source changes. Preserve security invariants and update only stale current checkpoint selectors.",
       "productionEvidenceLesson": "Automated deployed proof can establish byte identity and deterministic browser behavior, but the previously failed owner acceptance moved RJR only after a fresh qualifying production run showed one-paste exact rivalry convergence with zero manual reattach.",
       "authorityLesson": "At handoff proximity 100, stop after evidence recalculation and continuity publication. The next security/network hardening capability belongs to a fresh independently assessed WEC."
+    },
+    {
+      "sessionId": "we-2026-09-03-stage5f-authenticated-negatives",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5g-remote-joining-network-hardening-after-pr191-publication",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "Production owner evidence, exact provider denials, the fixed RJR ledger and PR191 workflow logs were required to classify two new capabilities and preserve a safe open-publication checkpoint.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "A compatibility-contract chain still called PR187/RJR89 current after Stage 5F evidence advanced live authority. The successor must update only current selectors and preserve immutable historical provenance.",
+      "ciTriageLesson": "Dedicated Stage 5F tests passing before the repository suite failed distinguished accepted capability evidence from stale publication-contract assertions.",
+      "productionEvidenceLesson": "Provider denial, no denied commit, unchanged local state and sanitized capability fingerprints are required for scoreable authenticated negatives; source and harness volume are not evidence credit.",
+      "authorityLesson": "A separate handoff branch can preserve an open PR exact head while the successor package records the failure chain. The successor then owns a fresh WEC and must re-establish exact-head CI after any repair."
     }
   ],
   "latestLesson": {
-    "rjrScore": 89,
-    "closeoutPullRequest": 187,
+    "rjrScore": 91,
+    "publicationPullRequest": 191,
+    "publicationState": "open",
     "runtimeRevision": "1.9.0-r5",
-    "next": "select-smallest-uncredited-rjr89-gap-after-fresh-wec",
-    "lesson": "A one-sided production convergence failure can be a missing post-peer activation trigger rather than an authorization defect. Preserve durable authority, retry only the exact transient not-active state, require owner production acceptance for the previously failed capability, award exactly one fixed-domain point, redact capabilities, and hand off before beginning the next milestone."
+    "next": "finish-pr191-exact-head-publication-then-stage5g",
+    "lesson": "Treat production authorization evidence and publication state separately. Two distinct provider-denied Stage 5F capabilities moved fixed RJR89 to RJR91, while PR191 source, contracts, CI and handoff work remain zero-credit; preserve historical PR187 provenance and repair only selectors that falsely call it current."
   }
 }

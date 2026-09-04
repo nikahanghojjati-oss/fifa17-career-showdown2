@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-03T13:25:00.000Z",
+  "recordedAt": "2026-09-04T04:18:00.000Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -8,7 +8,7 @@
       "type": "reporting-authority",
       "source": "REMOTE_JOINING_READINESS.json",
       "denominator": 100,
-      "recordedScore": 89,
+      "recordedScore": 91,
       "rule": "fixed capability evidence only; source, PR, CI, review, merge, deployment, WEC, SLE and documentation add zero duplicate credit",
       "authority": 1,
       "riskCriticality": 1
@@ -49,40 +49,59 @@
       "riskCriticality": 1
     },
     {
+      "id": "stage5f-production-authenticated-negatives",
+      "type": "completed-production-authorization-capability",
+      "state": "revoked-device-mutation-and-authenticated-third-account-reads-provider-denied",
+      "applicationVersion": "1.9.0",
+      "runtimeRevision": "1.9.0-r5",
+      "mainShaAtAcceptance": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
+      "evidencePullRequest": 191,
+      "evidencePullRequestStateAtHandoff": "open",
+      "proof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
+      "rjrScoreBeforeProof": 89,
+      "rjrScoreAfterProof": 91,
+      "rjrDelta": 2,
+      "creditedDomain": "identity-auth-trust",
+      "publicationWorkRjrCredit": 0,
+      "authority": 1,
+      "riskCriticality": 1
+    },
+    {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr187-rjr89-r5-owner-accepted-sle-transition",
-      "environmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
-      "startingMainSha": "f591945fa74b59b961dd79a80849d72a3ab987ba",
-      "transitionPullRequest": 187,
-      "finalDecision": "HANDOFF_AT_CHECKPOINT",
+      "state": "pr191-open-rjr91-stage5f-accepted-stage5g-next-sle-transition",
+      "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
+      "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
+      "transitionPullRequest": 191,
+      "transitionPullRequestState": "open",
+      "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
+      "finalDecision": "HANDOFF_NOW",
       "handoffProximity": 100,
-      "rjrScore": 89,
-      "starter": "START_NEXT_SESSION_V1.4.37_PR187_R5_OWNER_ACCEPTED_RJR89.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR187_R5_OWNER_ACCEPTED_SLE_2026-09-03.md",
-      "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json",
+      "rjrScore": 91,
+      "starter": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+      "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-select-smallest-uncredited-rjr89-gap",
-      "preferredFirstGap": "authenticated-third-account-or-revoked-device-production-negative",
-      "rule": "successor independently verifies current live main/PR187/r5/RJR89/deployment and closed WEC, initializes a fresh unique WEC with reset counters, then selects the smallest genuinely uncredited fixed-domain capability; never inherit HANDOFF_AT_CHECKPOINT and never repeat consumed r5 convergence merely for confidence",
+      "state": "fresh-wec-required-finish-pr191-then-stage5g-network-hardening",
+      "preferredFirstGap": "remote-joining-specific-two-device-two-network-reconnect-adverse-network-hardening",
+      "rule": "successor independently verifies live main, open PR191 exact head, r5, RJR91 and the closed Stage 5F WEC; initializes a fresh unique WEC with reset counters; finishes PR191 exact-head publication without inheriting HANDOFF_NOW; then executes the smallest genuinely uncredited Stage 5G capability",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "stage5-private-remote-joining",
       "type": "highest-priority-product-destination",
-      "state": "r5-owner-accepted-rjr89-hardening-next",
+      "state": "stage5f-accepted-rjr91-stage5g-network-hardening-next",
       "knownRemainingGaps": [
-        "authenticated third-account/revoked-device production negatives",
         "Remote Joining-specific two-device/two-network reconnect/adverse-network hardening",
         "final stable Remote Joining release acceptance"
       ],
-      "nextSlice": "fresh successor chooses smallest uncredited fixed-domain gap after independent verification and fresh WEC",
+      "nextSlice": "finish PR191 publication first, then automate the Remote Joining-specific Stage 5G network-hardening proof",
       "authority": 1
     },
     {
@@ -128,13 +147,18 @@
     },
     {
       "from": "stage5e-r5-production-proof",
-      "to": "rjr1-ledger",
-      "relation": "adds-exactly-one-new-production-capability-rjr89"
+      "to": "stage5f-production-authenticated-negatives",
+      "relation": "stage5f-adds-two-distinct-production-authorization-capabilities-after-rjr89"
     },
     {
-      "from": "stage5e-r5-production-proof",
+      "from": "stage5f-production-authenticated-negatives",
+      "to": "rjr1-ledger",
+      "relation": "adds-exactly-two-new-production-capabilities-rjr91"
+    },
+    {
+      "from": "stage5f-production-authenticated-negatives",
       "to": "closing-current-wec",
-      "relation": "owner-production-acceptance-permits-clean-handoff-seal"
+      "relation": "owner-production-acceptance-and-open-publication-checkpoint-permit-clean-handoff-seal"
     },
     {
       "from": "closing-current-wec",
@@ -144,7 +168,7 @@
     {
       "from": "successor-selection",
       "to": "stage5-private-remote-joining",
-      "relation": "continue-only-with-smallest-genuinely-uncredited-rjr89-gap"
+      "relation": "finish-pr191-then-continue-only-with-genuinely-uncredited-rjr91-stage5g-gap"
     },
     {
       "from": "canonical-storage",
