@@ -14,6 +14,8 @@ Fixed RJR-1 is **91/100** with domain vector:
 
 The +2 from 89 is exactly two new production authorization capabilities: revoked-device protected-mutation provider denial (+1) and authenticated unrelated-account exact private-read denial (+1). No process, implementation, CI, deployment or repeated-proof credit is included.
 
+The repository **Work Environment Continuity (WEC)** system remains mandatory. The current environment must own and validate its active WEC, never inherit a predecessor transition decision, and archive/replace it only at a genuine successor boundary.
+
 ## Current lane
 
 Stage 5G: Remote Joining-specific two-device/two-network reconnect and adverse-network hardening. Automate deterministic/runtime/browser/emulator evidence first. Owner interaction is required only when genuine physical-device/network evidence cannot be simulated or otherwise proven.
