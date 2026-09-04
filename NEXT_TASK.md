@@ -10,7 +10,7 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience, Local Profiles
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Independently verify current live main, the Stage 5F sanitized production evidence, fixed RJR `91/100`, zero-billing locks and active WEC.
+1. Independently verify current live main, the Stage 5F sanitized production evidence, fixed RJR `91/100`, zero-billing locks and the active **Work Environment Continuity (WEC)** record. Preserve that active WEC until a genuine transition boundary; never inherit a predecessor transition decision.
 2. Execute the smallest **Remote Joining-specific** two-device/two-network reconnect/adverse-network hardening slice. First reuse the real Stage 5 private-session runtime and existing deterministic provider-failure infrastructure; do not repeat generic Connected Rivalry adverse-network proof merely for confidence.
 3. Minimum automated proof must exercise actual private Remote Joining session behavior through disconnect/reconnect or provider loss while preserving exact two-manager entitlement, lifecycle monotonicity/terminal no-resurrection, privacy/no listing, canonical local Save immutability and bounded failure/recovery semantics.
 4. Prefer deterministic contracts, browser automation and Auth/Firestore emulator proof before consuming owner effort. Build a production acceptance path only for the aspects that cannot be proven automatically, especially genuine two-physical-device/two-network behavior.
