@@ -4,7 +4,10 @@ on:
   pull_request:
     paths:
       - "production-authorization-acceptance.html"
+      - "js/productionAuthorizationAcceptance.js"
+      - "js/stage5fAcceptanceAccountChooser.js"
       - "js/stage5fProductionAuthenticatedNegatives.js"
+      - "tests/contracts/stage5f-account-chooser-contracts.cjs"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
       - "tests/contracts/production-authorization-acceptance-contracts.cjs"
       - "tests/contracts/production-provider-abuse-acceptance-contracts.cjs"
@@ -15,9 +18,13 @@ on:
   push:
     branches:
       - "hardening/stage5f-authenticated-negatives-2026-09-03"
+      - "fix/stage5f-third-account-account-chooser-2026-09-03"
     paths:
       - "production-authorization-acceptance.html"
+      - "js/productionAuthorizationAcceptance.js"
+      - "js/stage5fAcceptanceAccountChooser.js"
       - "js/stage5fProductionAuthenticatedNegatives.js"
+      - "tests/contracts/stage5f-account-chooser-contracts.cjs"
       - "tests/contracts/stage5f-authenticated-negatives-contracts.cjs"
       - "tests/contracts/production-authorization-acceptance-contracts.cjs"
       - "tests/contracts/production-provider-abuse-acceptance-contracts.cjs"
@@ -48,6 +55,8 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
+      - name: Verify Stage 5F explicit Google account chooser contract
+        run: node tests/contracts/stage5f-account-chooser-contracts.cjs
       - name: Verify Stage 5F zero-billing authenticated-negative contracts
         run: node tests/contracts/stage5f-authenticated-negatives-contracts.cjs
       - name: Verify repository contract suite remains green
