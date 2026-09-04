@@ -2,7 +2,7 @@
 
 Treat repository handoffs as orientation only. Independently verify current live `main`, active/just-merged PRs, deployment/runtime identity, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current WEC before acting. Current source/live provider evidence and later owner instructions win over stale recorded facts.
 
-`00_HANDOFF_GOLDEN_RULE.md` remains the handoff integrity rule. `00_OWNER_EAGLE_EYE_GOLDEN_RULE.md` is a co-equal permanent owner-visibility rule: substantive owner checkpoints must frequently expose current RJR, remaining points, current scoreable gap, estimated concrete tasks/stages/new evidence bundles, blocker/owner-action status and `Handoff proximity: X%`. `NEXT_TASK.md` remains live execution authority after independent verification.
+`00_HANDOFF_GOLDEN_RULE.md` remains the handoff integrity rule. `00_OWNER_EAGLE_EYE_GOLDEN_RULE.md` is a co-equal permanent owner-visibility rule: substantive owner checkpoints must frequently expose current RJR, remaining points, current scoreable gap, estimated concrete tasks/stages/new evidence bundles, blocker/owner-action status and `Handoff proximity: X%`. Enter and preserve the repository **Work Environment Continuity (WEC)** system for every environment transition; never inherit a predecessor transition decision. `NEXT_TASK.md` remains live execution authority after independent verification.
 
 The independently verified production implementation checkpoint immediately before the Stage 5F evidence transition is main `7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4`, after merged PR #190. Production remains `v1.9.0 / 1.9.0-r5`; PR #190 Pages deployment succeeded. Runtime gameplay identity did not change.
 
