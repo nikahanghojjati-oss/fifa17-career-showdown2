@@ -1,6 +1,6 @@
 # DEVELOPER START HERE — PR199 POST-MERGE GREEN / SSJR PROVIDER NEXT
 
-Read `AGENTS.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`. Treat handoff material as orientation only; current source and live GitHub/provider/deployment evidence win.
+Read `AGENTS.md`, `00_HANDOFF_GOLDEN_RULE.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.md`, `PROJECT_STATE.md`, `WORK_ENVIRONMENT_STATUS.json`, `SHARED_SHOWDOWN_JOURNEY_MODEL.json`, and `SHARED_SHOWDOWN_JOURNEY_READINESS.json`. Treat handoff material as orientation only; current source and live GitHub/provider/deployment evidence win.
 
 RJR-1 is COMPLETE/FROZEN at 100/100. SSJR-1.1 is fixed at 100 points and remains evidence-backed 0/100. Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`; production runtime lineage is PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`, previous whole-shell recovery `1.9.1-r1`. Historical PR #198 merged at `39ffe88d61dcda973df03a18e0266fcfe4cf5638`. PR #199 final reviewed head `378931e7bec2a4e95fb31912d4879e294b63d79f` is published at main `780abd7b779cda5acd722b75fd59ef1e82c71f97` with 15/15 exact-head and 15/15 post-merge workflow families green.
 
