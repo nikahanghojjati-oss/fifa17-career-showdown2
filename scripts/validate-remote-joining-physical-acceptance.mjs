@@ -12,6 +12,9 @@ const VALID_ROLES=new Set(["host","peer"]);
 const ROOT_FIELDS=new Set(["schema","generatedAt","appVersion","runtimeRevision","acceptanceMode","recorderStorage","recorderNetworkRequests","rawCapabilityIncluded","rawAccountIdIncluded","rawDeviceIdIncluded","rawRivalryIdIncluded","device","deviceLabel","networkLabel","records"]);
 const DEVICE_FIELDS=new Set(["userAgent","platform","maxTouchPoints","screenWidth","screenHeight"]);
 const RECORD_FIELDS=new Set(["sequence","at","type","online","deviceLabel","networkLabel","capabilityFingerprint","status","role","sessionState","revision","pendingAction","capabilityPresent","capabilityCopyAllowed","busy","runtimeRevision","errorCode"]);
+const ROOT_TYPES={schema:"string",generatedAt:"string",appVersion:"string",runtimeRevision:"string",acceptanceMode:"boolean",recorderStorage:"string",recorderNetworkRequests:"boolean",rawCapabilityIncluded:"boolean",rawAccountIdIncluded:"boolean",rawDeviceIdIncluded:"boolean",rawRivalryIdIncluded:"boolean",device:"object",deviceLabel:"nullable-string",networkLabel:"nullable-string",records:"array"};
+const DEVICE_TYPES={userAgent:"string",platform:"string",maxTouchPoints:"integer",screenWidth:"integer",screenHeight:"integer"};
+const RECORD_TYPES={sequence:"integer",at:"string",type:"string",online:"boolean",deviceLabel:"nullable-string",networkLabel:"nullable-string",capabilityFingerprint:"nullable-string",status:"nullable-string",role:"nullable-string",sessionState:"nullable-string",revision:"nullable-integer",pendingAction:"nullable-string",capabilityPresent:"boolean",capabilityCopyAllowed:"boolean",busy:"boolean",runtimeRevision:"optional-string",errorCode:"optional-string"};
 
 function plainObject(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}
 function nonEmpty(value){return typeof value==="string"&&value.trim().length>0;}
@@ -24,6 +27,21 @@ function rejectUnknownFields(value,allowed,source,issues,location){
     if(!allowed.has(key))issues.push(issue("UNKNOWN_FIELD",source,`Unrecognized evidence field at ${location}.`));
   }
 }
+function validateFieldTypes(value,types,source,issues,location){
+  let valid=true;
+  for(const [field,descriptor] of Object.entries(types)){
+    if(descriptor.startsWith("optional-")&&!Object.hasOwn(value,field))continue;
+    const entry=value[field];
+    if(descriptor.startsWith("nullable-")&&entry===null)continue;
+    const type=descriptor.replace(/^(?:optional|nullable)-/,"");
+    const matches=type==="integer"?Number.isInteger(entry)&&entry>=0:type==="object"?plainObject(entry):type==="array"?Array.isArray(entry):typeof entry===type;
+    if(!matches){
+      issues.push(issue("INVALID_FIELD_TYPE",source,`Invalid field type at ${location}.${field}.`));
+      valid=false;
+    }
+  }
+  return valid;
+}
 
 function inspectPrivacy(value,source,issues,location="$"){
   if(Array.isArray(value)){
@@ -33,7 +51,8 @@ function inspectPrivacy(value,source,issues,location="$"){
   if(plainObject(value)){
     for(const [key,entry] of Object.entries(value)){
       if(FORBIDDEN_AUTHORITY_KEYS.has(normalizedKey(key)))issues.push(issue("RAW_AUTHORITY_FIELD",source,`Forbidden raw authority field at ${location}.`));
-      inspectPrivacy(entry,source,issues,`${location}.${key}`);
+      // Field names are untrusted too; never echo an attacker-controlled key path.
+      inspectPrivacy(entry,source,issues,`${location}.field`);
     }
     return;
   }
@@ -51,6 +70,9 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   if(!add(issues,plainObject(evidence),"EXPORT_NOT_OBJECT",source,"Export must be a JSON object."))return {issues,facts:{}};
   inspectPrivacy(evidence,source,issues);
   rejectUnknownFields(evidence,ROOT_FIELDS,source,issues,"$");
+  if(!validateFieldTypes(evidence,ROOT_TYPES,source,issues,"$"))return {issues,facts:{}};
+  rejectUnknownFields(evidence.device,DEVICE_FIELDS,source,issues,"$.device");
+  if(!validateFieldTypes(evidence.device,DEVICE_TYPES,source,issues,"$.device"))return {issues,facts:{}};
 
   add(issues,evidence.schema===EVIDENCE_SCHEMA,"SCHEMA_MISMATCH",source,"Export schema is not the supported physical acceptance schema.");
   add(issues,evidence.acceptanceMode===true,"ACCEPTANCE_MODE_REQUIRED",source,"Acceptance mode must be true.");
@@ -65,7 +87,6 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   add(issues,nonEmpty(evidence.networkLabel)&&evidence.networkLabel.trim().length<=80,"NETWORK_LABEL_REQUIRED",source,"A concise network label is required.");
   const signature=deviceSignature(evidence.device);
   add(issues,!!signature,"DEVICE_FACTS_REQUIRED",source,"Browser device facts are required.");
-  rejectUnknownFields(evidence.device,DEVICE_FIELDS,source,issues,"$.device");
   add(issues,Number.isFinite(Date.parse(evidence.generatedAt)),"GENERATED_AT_INVALID",source,"generatedAt must be a valid timestamp.");
 
   const records=Array.isArray(evidence.records)?evidence.records:[];
@@ -78,6 +99,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   for(const record of records){
     if(!plainObject(record)){issues.push(issue("RECORD_NOT_OBJECT",source,"Every lifecycle record must be an object."));continue;}
     rejectUnknownFields(record,RECORD_FIELDS,source,issues,"$.records[]");
+    if(!validateFieldTypes(record,RECORD_TYPES,source,issues,"$.records[]"))continue;
     add(issues,Number.isInteger(record.sequence)&&record.sequence>priorSequence,"RECORD_SEQUENCE_INVALID",source,"Record sequence values must be strictly increasing positive integers.");
     if(Number.isInteger(record.sequence))priorSequence=record.sequence;
     const timestamp=Date.parse(record.at);
@@ -142,7 +164,7 @@ export function validatePhysicalAcceptancePair(first,second,options={}){
     expectedProduction:{appVersion:expectedAppVersion,runtimeRevision:expectedRuntimeRevision},
     checks:Object.freeze({
       exportCount:2,
-      privacySafe:!issues.some(item=>item.code.startsWith("RAW_")||item.code.includes("RECORDER_")||item.code==="UNKNOWN_FIELD"),
+      privacySafe:!issues.some(item=>item.code.startsWith("RAW_")||item.code.includes("RECORDER_")||["UNKNOWN_FIELD","INVALID_FIELD_TYPE","EXPORT_NOT_OBJECT","RECORD_NOT_OBJECT"].includes(item.code)),
       hostPeerPair:roles.size===2&&roles.has("host")&&roles.has("peer"),
       sameSessionFingerprint:fingerprints.size===1&&facts.every(item=>item.fingerprint),
       distinctDeviceLabels:deviceLabels.size===2,

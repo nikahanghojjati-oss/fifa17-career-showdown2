@@ -1,3 +1,11 @@
+# Active PR196 publication correction, 2026-09-05
+
+The fresh successor WEC is `we-2026-09-05-pr196-publication-physical-acceptance-e9072`, active and assessed independently. The predecessor's closed WEC remains immutable. See `PR196_PUBLICATION_PROGRESS_2026-09-05.md` for current review and publication evidence.
+
+A final-head review on `ffb1d7579e3d6149ac58254ef47cfd58b0f4b2a2` identified one additional valid P2: nested objects under scalar evidence fields could bypass privacy validation. The successor correction enforces primitive-or-null field types, rejects nested objects/arrays, and avoids echoing untrusted property paths. Require a new exact reviewed head and all 15 workflow families before expected-head merge, all post-merge proof, and the bounded physical run. Production stays v1.9.1 / 1.9.1-r2; fixed RJR91 and every zero-billing/Spark lock remain unchanged.
+
+The v1.4.43 starter and full SLE below remain the predecessor's orientation snapshot. Their closed decision belongs only to the predecessor; current source and live evidence win.
+
 # CURRENT HANDOFF OVERRIDE — PR #196 OPEN / CORRECTED PHYSICAL-EVIDENCE VALIDATOR SEALED / RJR91
 
 Read `START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md` first. Use `SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md` only for deeper reconstruction. Work Environment Continuity remains mandatory, and current source plus live GitHub/provider/deployment evidence wins over this orientation.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-05T08:09:54Z",
+  "recordedAt": "2026-09-05T15:30:03Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
   "bootstrapBranch": "rjr/physical-acceptance-evidence-automation-2026-09-05",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -28,18 +28,20 @@
     "initialExactHead": "95e40e83e0228ef4ed438f09fcf6db5ddbbc7636",
     "initialExactHeadWorkflowFamiliesSuccessful": 15,
     "initialExactHeadStabilityRunId": 33954013313,
-    "validReviewFindings": 2,
-    "reviewFindingsCorrectedLocally": 2,
+    "validReviewFindings": 3,
+    "reviewFindingsCorrectedLocally": 3,
     "finalSealedHead": null,
     "finalSealedHeadMustBeFetchedLive": true,
     "finalHeadWorkflowFamiliesSuccessfulAtPackaging": 0,
-    "publicationStatus": "open-corrected-final-sle-seal-pending-exact-head-revalidation",
+    "publicationStatus": "active-successor-nested-scalar-privacy-correction-pending-new-exact-head-proof",
     "expectedHeadProtectionRequired": true,
     "postMergeWorkflowFamiliesSuccessful": 0,
     "runtimeChanged": false,
     "rulesChanged": false,
     "providerMutationRequired": false,
-    "publicationWorkRjrCredit": 0
+    "publicationWorkRjrCredit": 0,
+    "additionalReviewedHead": "ffb1d7579e3d6149ac58254ef47cfd58b0f4b2a2",
+    "additionalReviewThread": "PRRT_kwDOTomsDM6fkYGU"
   },
   "historicalPr195PublicationCheckpoint": {
     "pullRequest": 195,
@@ -169,7 +171,17 @@
     "authority": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "permanentGoldenRule": true,
     "automationBeforeOwnerAction": true,
-    "reportFrequently": ["current RJR","remaining runway","current scoreable gap","estimated concrete tasks","estimated major stages","estimated genuinely new evidence bundles","blocker status","owner action requirement","Handoff proximity"]
+    "reportFrequently": [
+      "current RJR",
+      "remaining runway",
+      "current scoreable gap",
+      "estimated concrete tasks",
+      "estimated major stages",
+      "estimated genuinely new evidence bundles",
+      "blocker status",
+      "owner action requirement",
+      "Handoff proximity"
+    ]
   },
   "predecessorClosure": {
     "environmentId": "we-2026-09-05-physical-acceptance-evidence",
@@ -177,14 +189,14 @@
     "decisionMustNotBeInherited": true
   },
   "currentWec": {
-    "environmentId": "we-2026-09-05-physical-acceptance-evidence",
+    "environmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
     "startingMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
-    "lifecycle": "closed",
-    "finalDecision": "HANDOFF_AT_CHECKPOINT",
+    "lifecycle": "active",
+    "finalDecision": null,
     "decisionInheritedFromPredecessor": false,
-    "handoffCompleteness": 100,
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json",
-    "closingCheckpoint": "PR196 initial exact head 95e40e83e0228ef4ed438f09fcf6db5ddbbc7636 passed all 15 families; two valid P2 findings were corrected and fully re-proven locally before the final SLE seal. Production remains v1.9.1/1.9.1-r2 and fixed RJR remains 91/100."
+    "predecessorEnvironmentId": "we-2026-09-05-physical-acceptance-evidence",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json",
+    "progressRecord": "PR196_PUBLICATION_PROGRESS_2026-09-05.md"
   },
   "currentHandoff": {
     "canonical": "SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md",
@@ -229,7 +241,11 @@
     "PROJECT_STATE.md"
   ],
   "criticalLocks": {
-    "canonicalStorage": ["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"],
+    "canonicalStorage": [
+      "careerModeShowdown.saveLibrary",
+      "careerModeShowdown.legacyShowdowns",
+      "careerModeShowdown.preferences"
+    ],
     "candidateC": "sole-destructive-remote-to-local-gameplay-apply-authority",
     "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
     "appCheck": "production-proven-enforcement-off",

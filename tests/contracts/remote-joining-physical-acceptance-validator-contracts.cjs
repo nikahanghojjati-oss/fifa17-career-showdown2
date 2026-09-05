@@ -85,6 +85,44 @@ function evidence({role,deviceLabel,networkLabel,device,interrupt=false,fp=finge
   const unknownFieldFailure=validatePhysicalAcceptancePair(host,unknownRoot);
   assert.equal(unknownFieldFailure.passed,false);assert.equal(unknownFieldFailure.checks.privacySafe,false);assert.ok(unknownFieldFailure.issues.some(item=>item.code==="UNKNOWN_FIELD"));
 
+  // A known field name must never turn into an unchecked container for private data.
+  const scalarLocations=[
+    ...Object.keys(peer).filter(key=>!["device","records"].includes(key)).map(key=>[key]),
+    ...Object.keys(peer.device).map(key=>["device",key]),
+    ...Object.keys(peer.records[2]).map(key=>["records",2,key]),
+    ["records",2,"runtimeRevision"],["records",2,"errorCode"]
+  ];
+  for(const location of scalarLocations){
+    for(const hidden of [{notes:"private-value-must-not-be-echoed"},["private-value-must-not-be-echoed"]]){
+      const nested=structuredClone(peer);
+      const container=location.slice(0,-1).reduce((value,key)=>value[key],nested);
+      container[location.at(-1)]=hidden;
+      const rejected=validatePhysicalAcceptancePair(host,nested);
+      assert.equal(rejected.passed,false,`Nested data must fail at ${location.join(".")}`);
+      assert.equal(rejected.checks.privacySafe,false,`Nested data must not be certified private at ${location.join(".")}`);
+      assert.ok(rejected.issues.some(item=>item.code==="INVALID_FIELD_TYPE"));
+      assert.equal(JSON.stringify(rejected).includes("private-value-must-not-be-echoed"),false);
+    }
+  }
+  for(const [location,value] of [
+    [["device","screenWidth"],"390"],[["device","maxTouchPoints"],-1],
+    [["records",2,"status"],true],[["records",2,"capabilityCopyAllowed"],"true"],
+    [["records",2,"at"],123],[["records",2,"revision"],1.5]
+  ]){
+    const malformed=structuredClone(peer);
+    location.slice(0,-1).reduce((target,key)=>target[key],malformed)[location.at(-1)]=value;
+    const rejected=validatePhysicalAcceptancePair(host,malformed);
+    assert.equal(rejected.passed,false);
+    assert.equal(rejected.checks.privacySafe,false);
+    assert.ok(rejected.issues.some(item=>item.code==="INVALID_FIELD_TYPE"));
+  }
+  const untrustedPath=structuredClone(peer);
+  untrustedPath["private-key-must-not-be-echoed"]={sessionId:`session_${"d".repeat(64)}`};
+  const pathFailure=validatePhysicalAcceptancePair(host,untrustedPath);
+  assert.equal(pathFailure.passed,false);assert.equal(pathFailure.checks.privacySafe,false);
+  assert.equal(JSON.stringify(pathFailure).includes("private-key-must-not-be-echoed"),false);
+  assert.equal(JSON.stringify(pathFailure).includes(untrustedPath["private-key-must-not-be-echoed"].sessionId),false);
+
   const wrongRuntime=structuredClone(peer);wrongRuntime.runtimeRevision="1.9.1-r1";
   const runtimeFailure=validatePhysicalAcceptancePair(host,wrongRuntime);
   assert.equal(runtimeFailure.passed,false);assert.ok(runtimeFailure.issues.some(item=>item.code==="RUNTIME_REVISION_MISMATCH"));

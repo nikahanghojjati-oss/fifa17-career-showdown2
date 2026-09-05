@@ -40,8 +40,8 @@ assert.equal(bootstrap.currentPublicationCheckpoint?.baseSha,"2302e8daba6c941795
 assert.equal(bootstrap.currentPublicationCheckpoint?.initialExactHead,"95e40e83e0228ef4ed438f09fcf6db5ddbbc7636");
 assert.equal(bootstrap.currentPublicationCheckpoint?.initialExactHeadWorkflowFamiliesSuccessful,15);
 assert.equal(bootstrap.currentPublicationCheckpoint?.initialExactHeadStabilityRunId,33954013313);
-assert.equal(bootstrap.currentPublicationCheckpoint?.validReviewFindings,2);
-assert.equal(bootstrap.currentPublicationCheckpoint?.reviewFindingsCorrectedLocally,2);
+assert.equal(bootstrap.currentPublicationCheckpoint?.validReviewFindings,3);
+assert.equal(bootstrap.currentPublicationCheckpoint?.reviewFindingsCorrectedLocally,3);
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHead,null);
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalSealedHeadMustBeFetchedLive,true);
 assert.equal(bootstrap.currentPublicationCheckpoint?.finalHeadWorkflowFamiliesSuccessfulAtPackaging,0);
@@ -128,6 +128,15 @@ assert.equal(learning.latestLesson?.rjrScore,91);assert.equal(learning.latestLes
 assert.equal(predecessorWec.environmentId,"we-2026-09-04-stage5g-reconnect-recovery");assert.equal(predecessorWec.lifecycle,"closed");assert.equal(predecessorWec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(archivedWec.environmentId,"we-2026-09-05-physical-acceptance-evidence");assert.equal(archivedWec.lifecycle,"closed");assert.equal(archivedWec.repository?.predecessorEnvironmentId,predecessorWec.environmentId);assert.equal(archivedWec.assessment?.decision,"HANDOFF_AT_CHECKPOINT");assert.equal(archivedWec.assessment?.decisionInheritedFromPredecessor,false);assert.equal(archivedWec.signals?.handoffCompleteness,100);assert.equal(archivedWec.signals?.unrecordedDecisions,0);assert.equal(archivedWec.signals?.atomicOperation,false);
 assert.match(archivedWec.continuity?.nextSafeAction||"",/fresh successor[\s\S]+PR #196[\s\S]+physical run/i);
-assert.deepEqual(wec,archivedWec,"The final closing WEC status must remain byte-semantically equivalent to its archive.");
+assert.equal(require("node:crypto").createHash("sha256").update(fs.readFileSync("WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json")).digest("hex"),"61b618b45aa933580220fcdd70b05e4d2e2d86b4f67029b5819e073bee5155b2","The predecessor's closed WEC archive must remain byte-identical.");
+assert.equal(wec.lifecycle,"active","The publication successor owns an active WEC.");
+assert.notEqual(wec.environmentId,archivedWec.environmentId,"A successor must not inherit the closed predecessor identity.");
+assert.equal(wec.environmentId,bootstrap.currentWec?.environmentId);
+assert.equal(bootstrap.currentWec?.lifecycle,"active");
+assert.equal(wec.repository?.predecessorEnvironmentId,archivedWec.environmentId);
+assert.equal(wec.repository?.predecessorArchive,"WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json");
+assert.equal(wec.repository?.startingMainSha,bootstrap.currentWec?.startingMainSha);
+assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+assert.match(wec.continuity?.currentTask||"",/PR196[\s\S]+physical-acceptance-evidence/i);
 
 process.stdout.write("PASS SLE packaging: v1.4.43 mirrored PR196 corrected-validator package preserves production r2/RJR91 and the archived HANDOFF_AT_CHECKPOINT WEC while routing a reset successor through exact-head publication before genuine physical acceptance.\n");

@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-05-physical-acceptance-evidence",
-  "lifecycle": "closed",
-  "recordedAt": "2026-09-05T08:09:54Z",
+  "environmentId": "we-2026-09-05-pr196-publication-physical-acceptance-e9072",
+  "lifecycle": "active",
+  "recordedAt": "2026-09-05T15:33:13Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
     "startingMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
-    "workingBranch": "rjr/physical-acceptance-evidence-automation-2026-09-05",
-    "handoffBranch": "rjr/physical-acceptance-evidence-automation-2026-09-05",
-    "predecessorEnvironmentId": "we-2026-09-04-stage5g-reconnect-recovery",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json"
+    "workingBranch": "rjr/pr196-publication-physical-acceptance-2026-09-05",
+    "handoffBranch": "rjr/pr196-publication-physical-acceptance-2026-09-05",
+    "predecessorEnvironmentId": "we-2026-09-05-physical-acceptance-evidence",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json"
   },
   "signals": {
     "contextComplexity": "moderate",
     "projectComplexity": "very-high",
-    "compactionCount": 1,
-    "majorPhasesCompleted": 4,
-    "largeEvidenceEvents": 8,
-    "toolRoutingErrors": 2,
-    "correctedFailures": 5,
+    "compactionCount": 0,
+    "majorPhasesCompleted": 1,
+    "largeEvidenceEvents": 3,
+    "toolRoutingErrors": 3,
+    "correctedFailures": 1,
     "repeatedMistakes": 0,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
@@ -27,31 +27,20 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 90,
     "unrecordedDecisions": 0,
     "atomicOperation": false
   },
   "assessment": {
-    "decision": "HANDOFF_AT_CHECKPOINT",
-    "reason": "The physical-acceptance validator and complete feasible automation are implemented. PR #196 reached 15/15 on its initial exact head; both valid Codex findings are corrected and locally re-proven. One compaction, four completed phases and the recorded correction load now make a fresh successor safer before corrected exact-head publication. No atomic operation or unresolved failure remains.",
+    "decision": "CONTINUE",
+    "reason": "Active bounded publication correction; reassessment records the classified source-transport limit.",
     "decisionInheritedFromPredecessor": false,
-    "usageExcludedBecauseUnavailable": true,
-    "scores": {
-      "contextPressure": 69,
-      "qualityRisk": 32,
-      "quotaRisk": null,
-      "nextTaskSeparation": 20,
-      "handoffReadiness": 100,
-      "atomicRisk": 0,
-      "continuationRisk": 45.9,
-      "transitionCost": 13.5,
-      "transitionAdvantage": 32.4
-    }
+    "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
-    "currentTask": "The strict physical-acceptance evidence validator and all feasible test automation are complete; PR #196 is open and its two valid review findings are corrected at the mandatory transition checkpoint.",
-    "lastSafeCheckpoint": "PR #196 initial exact head 95e40e83e0228ef4ed438f09fcf6db5ddbbc7636 passed all 15 workflow families. Both valid P2 findings are corrected locally: alternate/unknown fields fail privacy-safe validation, and two consecutive Stage 5H/5I preflights each terminated the direct static-server process and released the port. The full 87-file contract/preflight gate passes; RJR remains 91/100.",
-    "nextSafeAction": "A fresh successor independently fetches live main and PR #196, validates this closed archive, initializes a fresh WEC, then publishes the sealed corrected tree, requires all 15 permanent workflow families and final-head review on one unchanged SHA, resolves the two addressed threads, and uses expected-head protection for merge. Only after clean post-merge proof may the owner physical run begin.",
+    "currentTask": "Correct the final-head nested-scalar privacy bypass in PR196 physical-acceptance-evidence tooling, revalidate and publish, then run bounded physical acceptance.",
+    "lastSafeCheckpoint": "Corrected candidate passes the full 87-file contract suite and Stage 5H/5I physical preflight. Prior reviewed head ffb1d757 passed 15/15 but is superseded by the nested-scalar privacy correction. Live main remains 2302e8daba6c9417954bc610f537aba41c4d3d87; production 100-file byte proof is 1.9.1-r2; RJR is fixed at 91.",
+    "nextSafeAction": "Validate the strict primitive-or-null schema and its adversarial regressions; publish the corrected PR196 candidate; obtain review and all 15 workflow families on one unchanged new head before expected-head merge and post-merge proof.",
     "unfinishedWork": [
       "Corrected exact-head review, workflow, merge and post-merge publication proof for PR #196.",
       "Genuine Remote Joining-specific two-physical-device/two-independent-network reconnect/adverse-network production acceptance.",
@@ -69,21 +58,19 @@
       "Do not assume physical acceptance automatically reaches RJR100; reconcile the fixed ledger only after valid evidence."
     ],
     "evidenceNotes": [
-      "The connected GitHub integration independently verified current main 2302e8daba6c9417954bc610f537aba41c4d3d87 and PR #195 merged from exact head e3504148034036dfa2f9ed790aae5bb7b5576c09.",
-      "GitHub Actions exposes exactly 15 completed successful post-merge workflows on current main, including Pages 33951627822, Burn-In 33951627751 and Stability 33951627758.",
-      "The predecessor status passed repository validation and is byte-identical to WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json.",
-      "Direct public-site Web retrieval was safety-rejected in this environment; no live page result was fabricated. Exact deployed proof remains the successful current-main Stability and Pages evidence plus the PR194 production proof.",
-      "The repository-installed checksum-verified GitHub CLI 2.100.0 is unauthenticated; connector-first GitHub access is sufficient for current repository operations and no credential was requested or copied.",
-      "The first focused SLE contract run rejected the fresh WEC task wording because it did not contain the expected contiguous physical-acceptance-evidence phrase. The WEC wording was corrected without weakening the archive, task or product boundary.",
-      "The self-contained npm run test:rjr-physical-preflight gate passed all 87 repository contract files plus Stage 5H two-context adverse-network recovery and Stage 5I recorder privacy/canonical-storage browser audits against a lifecycle-managed local server.",
-      "The first local legacy-workflow replay exposed two pre-existing runner defects: authenticated production Rules blocks were not locally fenced and the protected accounting total remained 30 after topology had grown to 34. The runner now defers every provider-mutating Rules block to protected CI and coherently accounts for all 34 blocks.",
-      "The corrected replay passed all 29 locally safe permanent workflow blocks; four authenticated production Rules blocks and one Firebase emulator block requiring Java 21 were honestly deferred to exact-head CI. Docker was unavailable locally, so the Stability container build also remains CI-owned.",
-      "The canonical local Stability path passed runtime provenance, Save Library, identity linkage, analytics, online/offline install boundaries, whole-shell cache recovery, 72 complete-journey checkpoints, 36 accessibility scans and Remote Joining Stages 5E/5G/5H/5I.",
-      "PR #196 initial exact head 95e40e83e0228ef4ed438f09fcf6db5ddbbc7636 passed all 15 permanent workflow families. Codex review then identified two valid P2 defects: alternate or unknown evidence fields could evade the privacy verdict, and the preflight cleanup targeted npm instead of the actual static-server process. Both require correction and a new exact-head proof before merge.",
-      "The two P2 corrections pass the focused validator contract, the complete 87-file contract/preflight gate and two consecutive server-managed browser preflights with an unreachable port after each cleanup.",
-      "This environment closes at HANDOFF_AT_CHECKPOINT. The final sealed remote PR head is intentionally fetched live after the SLE commit because a repository file cannot truthfully self-reference its own commit SHA.",
-      "Fixed RJR-1 remains exactly 91/100. Physical acceptance validation automation receives zero capability credit.",
-      "Usage remains unavailable and is not fabricated."
+      "Predecessor status validates and is byte-identical to its closed archive; canonical history already contains its closure, so no duplicate append is needed.",
+      "Fresh unique WEC resets predecessor observations; this session has one dense live-state evidence batch and one unsupported GitHub tags-fetch route, classified and replaced by standard git metadata access.",
+      "Exact checkout tree matches live GitHub commit tree. No PR196 head mutation is needed for successor WEC; local continuity work stays on the successor branch.",
+      "Live RJR ledger remains 91; production bytes are being independently verified.",
+      "15/15 final-head PR runs and 15/15 pre-merge main runs are independently fetched; final-head bot review requested in comment 5552759559.",
+      "Checksum-verified gh 2.100.0 installed without authentication; connected GitHub capabilities cover publication, so no login request or credential reuse is needed.",
+      "Usage unavailable. Billing permanently off, Firebase Spark required; no provider mutation planned.",
+      "Final-head Codex review on ffb1d757, thread PRRT_kwDOTomsDM6fkYGU, found nested objects under known scalar fields could pass and be marked privacySafe. New regressions reproduce the gap; typed scalar validation now rejects object/array payloads and invalid primitive types without echoing their values or untrusted property paths.",
+      "Fresh WEC and capsule now travel with this real validator correction. Prior closed WEC bytes remain pinned in archival contracts; active successor ownership is checked separately, avoiding inheritance of the predecessor closed decision.",
+      "All 100 production runtime files independently matched 1.9.1-r2 byte for byte. The exact ffb1d757 contract suite passed all 87 files before correction; its CI proof is historical and will not authorize a changed head.",
+      "Second minor route correction was a guessed recorder filename; rg located the actual js/remoteJoiningAcceptance.js immediately. No product failure resulted.",
+      "Corrected-candidate npm run test:rjr-physical-preflight passed all 87 contract files and both Stage 5H/5I browser audits. Added diagnostic property-name non-echo regression also passes. All later exact-head CI and review gates remain pending.",
+      "A combined source transport exceeded the shell output budget before any remote mutation. Switched to bounded per-file reads; the reviewed source and publication boundary remain unchanged."
     ]
   }
 }
