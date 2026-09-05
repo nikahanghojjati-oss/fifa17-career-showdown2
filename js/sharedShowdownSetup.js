@@ -137,6 +137,30 @@
       return freeze(state);
     }
 
+    async function boundIndex(state, purpose, length){
+      const bound = Math.floor(0x100000000 / length) * length;
+      for(let counter = 0; counter < 128; counter++){
+        // The seed is provider-bound state, not caller-selected operation data.
+        // This makes every valid rivalry state map to one immutable draw outcome.
+        const digest = await hash({domain:"shared-showdown-draw-v1", bindingHash:state.bindingHash, catalogHash:state.catalogHash, leagueId:state.leagueId, purpose, counter}, cryptoImpl);
+        const value = Number.parseInt(digest.slice(7, 15), 16);
+        if(value < bound) return value % length;
+      }
+      ssjFail("SETUP_RANDOMNESS_UNAVAILABLE");
+    }
+    async function boundDraw(state, type){
+      if(type === "commit-league" && state.phase === "SHARED_SETUP_OPEN"){
+        return {leagueId:LEAGUES[await boundIndex(state, "league", LEAGUES.length)]};
+      }
+      if(type === "commit-clubs" && state.phase === "LEAGUE_WHEEL_COMMITTED"){
+        const available = [...clubsByLeague[state.leagueId]];
+        const playerOne = available.splice(await boundIndex(state, "club-player-one", available.length), 1)[0];
+        const playerTwo = available[await boundIndex(state, "club-player-two", available.length)];
+        return {clubs:{playerOne, playerTwo}};
+      }
+      ssjFail("SETUP_DRAW_NOT_AVAILABLE");
+    }
+
     async function apply({state = null, authority, command} = {}){
       try{
         // All external snapshots are captured before any asynchronous boundary.
@@ -171,10 +195,14 @@
         };
         if(request.type === "commit-league"){
           if(prior.phase !== "SHARED_SETUP_OPEN") ssjFail("SETUP_TRANSITION_INVALID");
+          const expected = await boundDraw(prior, request.type);
+          if(request.leagueId !== expected.leagueId) ssjFail("SETUP_DRAW_MISMATCH");
           next.leagueId = request.leagueId; next.phase = "LEAGUE_WHEEL_COMMITTED";
         }else if(request.type === "commit-clubs"){
           if(prior.phase !== "LEAGUE_WHEEL_COMMITTED") ssjFail("SETUP_TRANSITION_INVALID");
           validClubPair(request.clubs, prior.leagueId, clubsByLeague);
+          const expected = await boundDraw(prior, request.type);
+          if(ROLES.some(role => request.clubs[role] !== expected.clubs[role])) ssjFail("SETUP_DRAW_MISMATCH");
           next.clubs = {...request.clubs}; next.phase = "CLUB_ASSIGNMENTS_COMMITTED";
         }else if(request.type === "commit-length"){
           if(prior.phase !== "CLUB_ASSIGNMENTS_COMMITTED") ssjFail("SETUP_TRANSITION_INVALID");
@@ -196,24 +224,10 @@
       }
     }
 
-    function pickIndex(length){
-      if(!cryptoImpl || typeof cryptoImpl.getRandomValues !== "function") ssjFail("SETUP_CRYPTO_UNAVAILABLE");
-      const bound = Math.floor(0x100000000 / length) * length;
-      for(let attempts = 0; attempts < 128; attempts++){
-        const value = cryptoImpl.getRandomValues(new Uint32Array(1))[0];
-        if(value < bound) return value % length;
-      }
-      ssjFail("SETUP_RANDOMNESS_UNAVAILABLE");
-    }
     async function prepareDraw({state, type, operationId}){
       const prior = await verifyState(state);
-      if(type === "commit-league" && prior.phase === "SHARED_SETUP_OPEN") return commandSnapshot({type, operationId, baseRevision:prior.revision, leagueId:LEAGUES[pickIndex(LEAGUES.length)]});
-      if(type === "commit-clubs" && prior.phase === "LEAGUE_WHEEL_COMMITTED"){
-        const available = [...clubsByLeague[prior.leagueId]];
-        const playerOne = available.splice(pickIndex(available.length), 1)[0];
-        return commandSnapshot({type, operationId, baseRevision:prior.revision, clubs:{playerOne, playerTwo:available[pickIndex(available.length)]}});
-      }
-      ssjFail("SETUP_DRAW_NOT_AVAILABLE");
+      const payload = await boundDraw(prior, type);
+      return commandSnapshot({type, operationId, baseRevision:prior.revision, ...payload});
     }
     async function confirmationHash(state){ return hash(setupValue(await verifyState(state)), cryptoImpl); }
     return freeze({apply, verifyState, prepareDraw, confirmationHash, catalogHash});
