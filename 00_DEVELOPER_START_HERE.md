@@ -1,36 +1,36 @@
-# CURRENT PRODUCTION — v1.9.0-r5 / PR #191 MERGED / STAGE 5F ACCEPTED / RJR91
+# CURRENT PRODUCTION — v1.9.1-r1 / PR #193 MERGED / STAGE 5H PROVEN / RJR91
 
 Treat repository handoffs as orientation only. Independently verify current live `main`, active/just-merged PRs, deployment/runtime identity, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md`, `PROJECT_STATE.md` and the current WEC before acting. Current source/live provider evidence and later owner instructions win over stale recorded facts.
 
 `00_HANDOFF_GOLDEN_RULE.md` remains the handoff integrity rule. `00_OWNER_EAGLE_EYE_GOLDEN_RULE.md` is a co-equal permanent owner-visibility rule. Enter and preserve the repository Work Environment Continuity system for every environment transition; never inherit a predecessor transition decision. `NEXT_TASK.md` remains live execution authority after independent verification.
 
-Current independently verified live main is PR #191 squash merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`. Exact reviewed head `72f7031797592a3866f7c62da07fa42959cb30fb` passed all 15 pull-request workflows before expected-head merge. All 15 main-push workflows passed afterward, including Pages `33913035742` and Stability `33913035721`. The repository deployment verifier matched all 99 production runtime files byte-for-byte and the deployed complete journey passed.
+Current independently verified live main is PR #193 squash merge `65399fc2f214d3bbdf3ef47fb47428c8b34d2017`. Production is `v1.9.1 / 1.9.1-r1`. PR #192 Stage 5G and PR #193 Stage 5H passed exact-head publication gates, merge protection and post-merge/deployed-site proof. Stage 5H adds real-browser Remote Joining reconnect/adverse-network hardening for Host, Join and Close with actual Playwright offline/online transitions across two isolated contexts.
 
-Production remains `v1.9.0 / 1.9.0-r5`, anchored to exact PR #187 runtime merge `277f1b55dc362ee84d285445b99172b9fbed8509`; its owner-accepted one-paste, zero-manual Connected Rivalry Verify/Reattach evidence moved RJR88 to RJR89. PR #191 did not change runtime bytes or rewrite that historical provenance.
+Historical transition provenance: `v1.9.0 / 1.9.0-r5` was the production runtime at the PR191 / Stage 5F acceptance boundary before the fixed readiness score advanced to RJR91 and before PR #192 / PR #193 promoted `v1.9.1 / 1.9.1-r1`. `v1.9.0-r5` is historical only, not current production.
 
-Owner production acceptance is PASS for both Stage 5F authenticated-negative boundaries. Sanitized authority is `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`: production Firestore denies the revoked-device protected mutation and denies exact private reads from an authenticated unrelated third account. Fixed RJR-1 is **91/100**, exactly +2 from the prior 89, with no process/implementation/CI/deployment credit.
+At that PR191/RJR91 transition, the smallest genuinely uncredited successor work was Stage 5G Remote Joining-specific reconnect/adverse-network hardening. That transition lane has since been consumed by PR #192 and the Stage 5H automated real-browser proof; it is preserved here only as historical capability-routing provenance, while Stage 5I is current execution authority.
 
-Current fixed domain vector:
+The accepted Stage 5F production boundary remains sealed and credited exactly once: revoked-device protected mutation denial and authenticated unrelated-account exact private-read denial are both production-proven, and their fixed RJR credit is already included in RJR91. Do not repeat or re-credit Stage 5F evidence.
 
-- deterministic sync and recovery safety: 20/20
-- identity, authentication, authorization and trust: 20/20
-- production cloud and security activation: 20/20
-- devices, pairing, Connected Rivalry and actual Remote Joining: 22/30
-- real-device hardening and stable release: 9/10
+The automated Stage 5H proof is deliberately not counted as two-physical-device/two-network evidence. Fixed RJR-1 therefore remains **91/100** with domain vector 20/20 deterministic sync/recovery, 20/20 identity/auth/trust, 20/20 production cloud/security, 22/30 devices/pairing/Connected Rivalry/Remote Joining, and 9/10 real-device hardening/stable release.
+
+The current active WEC is `we-2026-09-04-stage5g-reconnect-recovery`, now executing Stage 5I on branch `stage5i/physical-acceptance-recorder-2026-09-05`, PR #194. The active release candidate is `v1.9.1 / 1.9.1-r2`; it is NOT PRODUCTION-PROVEN. Production remains r1 until exact-head merge, Pages deployment and full deployed-site proof succeed.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Verify live main, merged PR #191 exact head/merge, its exact-head and post-merge gates, deployed r5, fixed RJR91 and the Stage 5F sanitized acceptance.
-2. Validate/archive closed WEC `we-2026-09-04-pr191-publication-stage5g`, initialize a fresh unique successor WEC with reset counters, and independently assess it. Do not inherit `HANDOFF_NOW`.
-3. Execute the smallest genuinely uncredited Stage 5G Remote Joining-specific reconnect/adverse-network hardening slice. Start from `js/sparkRemoteJoining.js`, `js/sparkPrivateSession.js`, `js/sparkStandardAuthPrivateSession.js` and their Stage 5A/5C/5E tests; reuse deterministic provider-failure infrastructure without re-crediting generic Connected Rivalry adverse-network proof.
-4. Automate deterministic/runtime/browser/Auth+Firestore-emulator proof first. Preserve the same exact session across transient loss/recovery without duplicate creation, preserve exact two-manager entitlement and lifecycle monotonicity, prove terminal no-resurrection, no listing, no durable capability, canonical local Save immutability and bounded retry/failure behavior.
-5. Ask the owner for physical two-device/two-network production acceptance only if that remaining boundary genuinely cannot be automated after all prerequisites are green.
-6. After Stage 5G is genuinely evidence-complete, execute final stable Remote Joining release acceptance.
+1. Independently verify live main `65399fc2f214d3bbdf3ef47fb47428c8b34d2017`, production `v1.9.1 / 1.9.1-r1`, fixed RJR91, current PR #194 exact head and active WEC.
+2. Finish Stage 5I `v1.9.1 / 1.9.1-r2` exact-head publication. The acceptance recorder must remain explicit-query-only (`?rjr-acceptance=1`), page-memory-only and unloaded during ordinary production navigation.
+3. Preserve privacy: no recorder network writes or localStorage writes; never export raw account ID, device ID, rivalry ID or full private session capability. Cross-device session correlation may use only a SHA-256 fingerprint of the 256-bit capability.
+4. Preserve startup/performance gates and all existing runtime integrity checks. Current r2 startup budget is 163072 raw / 37499 compressed bytes; do not increase thresholds to ship Stage 5I.
+5. Automate every deterministic/runtime/browser/emulator boundary before owner effort. Require every permanent workflow family green on the same exact reviewed PR head, resolve meaningful review findings, merge with expected-head protection, then independently prove main/Pages/deployed runtime.
+6. Only after r2 is production-proven ask the owner for the smallest unavoidable genuine physical Remote Joining acceptance: two actual devices on two independent networks, preferably Chromebook Wi-Fi and iPhone cellular, with sanitized recorder JSON from each device.
+7. Validate matching session fingerprints, real network transitions, Host/Join/Close lifecycle, active revision 1 and terminal revision 2 convergence, no resurrection and no capability leakage. Recalculate RJR only from genuinely new accepted physical capability evidence.
+8. After the genuine physical boundary closes, execute final stable Remote Joining release acceptance and evidence-based RJR reconciliation toward RJR100.
 
 ## Permanent locks
 
 The Installable Offline App remains the shipped local-first startup/recovery baseline. The v1.3.0 Recovery & Device Resilience baseline and Local Profiles / Save Library remain protected.
 
-Billing must never be activated. Firebase remains Spark. No Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions or other billing-required service. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain a full private pairing/session capability and never destructively test the protected historical rivalry.
+Billing must never be activated. Billing is permanently forbidden. Firebase remains Spark. No Cloud Billing, Blaze, payment method, Cloud Run, Cloud Functions or other billing-required service. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`. Candidate A remains non-mutating. Candidate B remains read-only. Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Exactly two private managers remain mandatory. No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never durably retain a full private pairing/session capability and never destructively test the protected historical rivalry.
 
-Use the connected GitHub app first. Run the repository-owned GitHub CLI bootstrap only for a concrete connector gap; it requires official archive checksum verification, and connector credentials must never be extracted or repurposed. SLE = Smart Lean Efficient remains recursive. At `Handoff proximity: 100%`, finish only the current safe checkpoint, generate/publish the complete mirrored SNS/SLE successor package, seal/archive the WEC and stop before another substantial milestone.
+Use the connected GitHub app first. Run the repository-owned GitHub CLI bootstrap only for a concrete connector gap; its official release archive requires checksum verification before extraction or use, and connector credentials must never be extracted or repurposed. SLE = Smart Lean Efficient remains recursive. At `Handoff proximity: 100%`, finish only the current safe checkpoint, generate/publish the complete mirrored SNS/SLE successor package, seal/archive the WEC and stop before another substantial milestone.
