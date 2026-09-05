@@ -1,6 +1,6 @@
 # Career Mode Showdown v1.9.1-r2 Release Candidate
 
-Status: **RELEASE CANDIDATE — NOT PRODUCTION-PROVEN**
+Status: RELEASE CANDIDATE — NOT PRODUCTION-PROVEN
 
 Application version: `v1.9.1`
 
