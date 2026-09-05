@@ -21,7 +21,7 @@
   function revision(){const meta=root.document&&root.document.querySelector('meta[name="app-asset-revision"]');return meta&&meta.content?meta.content.trim():"unknown";}
   function appVersion(){return typeof root.APP_VERSION==="string"?root.APP_VERSION:(root.document&&root.document.querySelector("footer")?.textContent.match(/v(\d+\.\d+\.\d+)/)?.[1]||"unknown");}
   function now(){return new Date().toISOString();}
-  async function fingerprint(value){
+  async function acceptanceCapabilityFingerprint(value){
     if(typeof value!=="string"||!value)return null;
     if(!root.crypto||!root.crypto.subtle||typeof TextEncoder==="undefined")return null;
     const digest=await root.crypto.subtle.digest("SHA-256",new TextEncoder().encode(value));
@@ -63,7 +63,7 @@
       online:root.navigator?root.navigator.onLine!==false:true,
       deviceLabel:deviceLabel||null,
       networkLabel:networkLabel||null,
-      capabilityFingerprint:await fingerprint(capturedSessionId),
+      capabilityFingerprint:await acceptanceCapabilityFingerprint(capturedSessionId),
       ...safeRemoteFields(captured),
       ...extra
     }))).catch(()=>null);
@@ -145,7 +145,7 @@
   }
   function onOnline(){void record("browser-online",currentRemote());}
   function onOffline(){void record("browser-offline",currentRemote());}
-  function initialize(){
+  function initializeAcceptanceRecorder(){
     if(!enabled||initialized)return enabled;initialized=true;if(!root.document)return false;
     createPanel();root.addEventListener("online",onOnline);root.addEventListener("offline",onOffline);void record("recorder-started",null,{runtimeRevision:revision()});return true;
   }
@@ -159,7 +159,7 @@
     rawCapabilityExported:false,
     rawAuthorityIdsExported:false,
     networkRequests:false,
-    initialize,
+    initialize:initializeAcceptanceRecorder,
     destroy,
     ensureRemoteJoining,
     openRemoteJoining,
