@@ -11,7 +11,7 @@
     "work:continuity:validate": "node scripts/work-environment-continuity.mjs validate",
     "work:gh:bootstrap": "node scripts/bootstrap-github-cli.mjs",
     "serve:test": "node tests/support/static-server.cjs",
-    "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs && node tests/contracts/r2-production-proof-publication-contracts.cjs && node tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs",
+    "test:contracts": "node tests/contracts/static-app-release-contracts.cjs && node tests/support/run-contract-suite.cjs && node tests/contracts/r2-production-proof-publication-contracts.cjs && node tests/contracts/stage5g-remote-joining-reconnect-contracts.cjs && node tests/contracts/remote-joining-physical-acceptance-real-recorder-null-contracts.cjs",
     "test:legacy-workflows": "node tests/support/run-workflow-blocks.cjs",
     "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs && node tests/browser/stage3-private-pairing-audit.cjs && node tests/browser/pairing-four-code-automation-audit.cjs && node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs && node tests/browser/stage5g-remote-joining-reconnect-audit.cjs && node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs && node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs",
     "test:stage5h": "node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs",
