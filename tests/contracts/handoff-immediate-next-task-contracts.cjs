@@ -45,6 +45,7 @@ assert.equal(pkg.version,"1.9.1");
 assert.match(project,/v1\.9\.1[\s\S]+1\.9\.1-r2[\s\S]+PRODUCTION-PROVEN/i);
 assert.match(next,/Production is independently proven[\s\S]+v1\.9\.1[\s\S]+1\.9\.1-r2/i);
 assert.match(next,/previous known-good whole-shell recovery target[\s\S]+1\.9\.1-r1/i);
+assert.match(next,/every current permanent workflow family green on the same exact reviewed PR head/i);
 assert.match(current,/PR #194[\s\S]+RJR91/i);
 
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.1");
