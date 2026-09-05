@@ -1,10 +1,12 @@
 # CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT — 2026-09-05 UTC
 
-Status: PRODUCTION-PROVEN / AUTOMATION EXHAUSTED TO PHYSICAL ACCEPTANCE BOUNDARY
+Status: DEPLOYED / PRODUCTION-PROVEN / AUTOMATION EXHAUSTED TO PHYSICAL ACCEPTANCE BOUNDARY
 
 Canonical capability provenance: Stage 5F accepted production negatives → RJR91 → Stage 5G same-capability Host/Join/Close recovery → Stage 5H automated real-browser adverse-network proof → Stage 5I privacy-safe physical acceptance recorder.
 
-Production is independently proven `v1.9.1 / 1.9.1-r2` on PR #194 merge/main `11bb681527a9b78884baf0c384350c90493dc9bd`. PR #194 exact reviewed head was `42f91df5ec1d5a576f0907836fa03f5994d7646b`; all 15 permanent PR workflow families passed on that exact head, zero review threads remained, and merge used expected-head protection. All 15 main-push workflow families then completed successfully. Release Integration Burn-In `33947112248` passed two independent complete journeys. Stability `33947112190` and deployed-site-smoke job `101255587827` passed every runtime-byte, App Check, visual, Save Library, identity, Candidate A/B/C, offline/install and complete deployed-journey gate.
+The accepted Stage 5F production acceptance remains consumed exactly once: revoked-device protected mutation denial and authenticated unrelated-account exact private-read denial advanced RJR89 → RJR91. Historical consumed Remote Joining-specific two-device/two-network reconnect/adverse-network hardening is complete through Stage 5G/5H; do not repeat generic Connected Rivalry adverse-network proof and do not award duplicate readiness credit.
+
+Production is independently proven `v1.9.1 / 1.9.1-r2` on PR #194 merge/main `11bb681527a9b78884baf0c384350c90493dc9bd`. PR #194 exact reviewed head was `42f91df5ec1d5a576f0907836fa03f5994d7646b`; all 15 permanent PR workflow families passed on that exact head, zero review threads remained, and merge used expected-head protection. All 15 main-push workflow families then completed successfully. Release Integration Burn-In `33947112248` passed two independent complete journeys. Stability `33947112190` and deployed-site-smoke job `101255587827` passed every runtime-byte, App Check, visual, Save Library, identity, Candidate A/B/C, offline/install and complete deployed-journey gate. Publication discipline remains dynamic: every current permanent workflow family must be green on the same exact reviewed PR head before merge.
 
 The previous known-good whole-shell recovery target is `v1.9.1 / 1.9.1-r1`.
 
