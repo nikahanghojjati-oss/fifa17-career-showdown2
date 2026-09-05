@@ -2,6 +2,8 @@
 
 Status: ACTIVE PR #194 STAGE 5I RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
 
+Canonical capability provenance: STAGE 5F accepted production negatives → RJR91 → STAGE 5G two-device/two-network reconnect/adverse-network hardening → STAGE 5H automated real-browser proof → STAGE 5I physical acceptance recorder.
+
 Authorized release candidate: `v1.9.1 / 1.9.1-r2` on PR #194. Production remains independently proven `v1.9.1 / 1.9.1-r1` on main `65399fc2f214d3bbdf3ef47fb47428c8b34d2017`; `1.9.1-r1` is the previous known-good whole-shell recovery target until r2 is merged, deployed and independently proven.
 
 PR #192 Stage 5G and PR #193 Stage 5H are complete. Stage 5H added real Playwright browser offline/online Host, Join and Close recovery across two isolated contexts, with one exact capability/session, zero provider mutation while offline, bounded online-event recovery, active revision 1, terminal revision 2, no duplicate mutations and unchanged canonical local Save storage. The full main-push Chromium lane and deployed-site journey passed. This is strong automated adverse-network evidence but does not satisfy the fixed RJR-1 requirement for two physical devices on two independent networks, so fixed RJR remains `91/100`.
