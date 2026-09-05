@@ -1,3 +1,33 @@
+## v1.9.1-r1 — Stage 5G Same-Capability Remote Joining Reconnect — release candidate
+
+Candidate runtime: `1.9.1-r1`
+Previous production-proven runtime: `1.9.0-r5`
+Fixed RJR-1: `91/100`
+
+- retains an unresolved exact Host, Join or Close capability in page memory after ambiguous provider acknowledgement loss and retries that same capability rather than generating a replacement session;
+- blocks capability copy, Forget and replacement Host/Join while outcome is unresolved;
+- revalidates authenticated account, registered device and exact Connected Rivalry before retry and fails closed on authority-context drift;
+- distinguishes definitive provider denial from ambiguous transport failure and preserves terminal no-resurrection semantics;
+- adds deterministic lost-acknowledgement contracts and a two-independent-Chromium-context recovery audit requiring one provider session and unchanged canonical local Save bytes;
+- promotes the changed public runtime to a new whole-shell identity `v1.9.1 / 1.9.1-r1`, retaining `1.9.0-r5` as the previous known-good shell;
+- preserves Firebase Spark, zero billing, memory-only Firestore, App Check enforcement OFF, popup-only `browserSessionPersistence`, exactly two private managers, no public discovery/listing/lobby/matchmaking/community/rankings and Candidate C's sole destructive local Apply authority;
+- earns zero RJR credit for source, tests, CI, review, merge, deployment or documentation alone; production physical two-network evidence remains required for any new fixed-domain credit.
+
+## v1.9.0-r5 — One-Paste Connected Rivalry Convergence — production-proven
+
+Production runtime: `1.9.0-r5`
+Previous production-proven runtime: `1.9.0-r4`
+Production live main boundary: PR #191 merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`
+Runtime provenance: PR #187 merge `277f1b55dc362ee84d285445b99172b9fbed8509`
+
+- preserves stale durable rivalry pointer A while current pairing B is pending and performs only bounded exact-candidate rechecks;
+- after Player Two activates B, reuses the existing provider-authorized attachment path so Player One and Player Two converge automatically on the same exact current Connected Rivalry;
+- owner production evidence proves the qualifying flow uses one Player Two paste and zero manual Connected Rivalry Verify/Reattach actions;
+- preserves canonical local Save bytes, exactly-two-manager privacy, Firebase Spark, zero billing, memory-only Firestore and App Check enforcement OFF;
+- owner production evidence plus Stage 5F authenticated negatives moved fixed RJR-1 to `91/100`; PR/CI/merge/deployment work itself earned no readiness credit.
+
+---
+
 ## v1.9.0-r4 — Stale Connected Rivalry Pointer Precedence — production-proven
 
 Candidate runtime: `1.9.0-r4`

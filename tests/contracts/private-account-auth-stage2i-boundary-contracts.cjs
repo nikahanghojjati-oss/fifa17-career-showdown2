@@ -84,7 +84,7 @@ assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/App Check enforcement(?: 
 assert.match(`${preR3NextTask}\n${preR3ProjectState}`,/firebaseauth\.users\.get[\s\S]+datastore\.databases\.get[\s\S]+datastore\.entities\.get[\s\S]+datastore\.entities\.create/i);
 
 // Historical Stage 2I security/provenance stays immutable; live authority is Stage 5F accepted / RJR91 / Stage 5G.
-assert.match(nextTask,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G successor authority.");
+assert.match(nextTask,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Live NEXT_TASK must identify the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G successor authority.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live authority must expose the genuinely uncredited Stage 5G capability gap after RJR91.");
 assert.match(nextTask,/do not repeat generic Connected Rivalry adverse-network proof/i,"Live authority must preserve consumed-proof discipline rather than revive Stage 2I-era work.");

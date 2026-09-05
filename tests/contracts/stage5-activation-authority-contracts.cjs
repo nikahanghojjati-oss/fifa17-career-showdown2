@@ -109,7 +109,7 @@ assert.match(proof,/86\/100 -> 87\/100/);
 
 // Historical Stage 5A/5B/5C transition details are asserted from immutable proof/rules/client artifacts.
 // Live NEXT_TASK/PROJECT_STATE now track Stage 5F accepted / fixed RJR91 / Stage 5G.
-assert.match(next,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G authority.");
+assert.match(next,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Live NEXT_TASK must identify the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G authority.");
 assert.match(next,/Stage 5F[\s\S]+negative boundaries|Stage 5F[\s\S]+production acceptance/i,"Live NEXT_TASK must preserve accepted Stage 5F production evidence.");
 assert.match(next,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live NEXT_TASK must expose the current scoreable Stage 5G hardening lane.");
 assert.match(next,/final stable Remote Joining release acceptance/i,"Live NEXT_TASK must preserve final stable-release acceptance as a remaining capability gap.");

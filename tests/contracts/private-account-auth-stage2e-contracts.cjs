@@ -173,7 +173,7 @@ assert.match(preR3Next,/Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]
 assert.match(preR3Next,/Stage 3 Registered Devices \/ Private Pairing remains blocked/i);
 
 // Current authority is allowed to advance beyond the historical Stage 2E/2F/2G handoff.
-assert.match(next,/^# CURRENT OVERRIDE — STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/im,"Live NEXT_TASK must identify Stage 5F accepted / RJR91 / Stage 5G successor authority.");
+assert.match(next,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Live NEXT_TASK must identify the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G successor authority.");
 assert.match(next,/App Check enforcement remains OFF/i,"Live authority must keep App Check enforcement off.");
 assert.match(next,/(?:Billing must never be activated[\s\S]{0,120}Firebase remains Spark|Firebase remains Spark \/ zero billing)/i,"Live authority must preserve the permanent Spark zero-billing boundary.");
 assert.match(next,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live authority must expose the genuinely uncredited Stage 5G capability gap after RJR91.");

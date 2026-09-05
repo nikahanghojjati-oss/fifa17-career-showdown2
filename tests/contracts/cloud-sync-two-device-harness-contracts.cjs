@@ -7,6 +7,7 @@ const transactionSource=fs.readFileSync("js/storageTransaction.js","utf8");
 const harnessSource=fs.readFileSync("js/cloudSyncTwoDeviceHarness.js","utf8");
 const phase1e=fs.readFileSync("CLOUD_SYNC_READINESS_PHASE_1E.md","utf8");
 const next=fs.readFileSync("NEXT_TASK.md","utf8");
+const historicalStage5a=fs.readFileSync("START_NEXT_SESSION_V1.4.30_PR172_RJR87_STAGE5A_PRIVATE_SESSION_PROTOCOL.md","utf8");
 const historicalNext=fs.readFileSync("authority-history/NEXT_TASK_POST_PR100_PRE_GATEWAY_FULL.md","utf8");
 const index=fs.readFileSync("index.html","utf8");
 const optional=fs.readFileSync("js/optionalModules.js","utf8");
@@ -28,9 +29,11 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #171 MERGED[\s\S]+RJR87[\s\S]+STAGE 5A/i,"Current NEXT_TASK must advance beyond historical Phase 1E and consumed prior publication lanes to the current PR #171 closure / RJR87 / Stage 5A activation lane.");
+assert.match(next,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Current NEXT_TASK must advance beyond historical Phase 1E and consumed publication lanes to the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G authority.");
 assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
-assert.match(next,/STAGE 5A IS AUTHORIZED NEXT[\s\S]+runtime implementation has not started/i,"Current NEXT_TASK must preserve the explicit Stage 5 gate while dormant Phase 1E provenance stays archived.");
+assert.match(historicalStage5a,/^# START NEXT SESSION — v1\.4\.30 \/ PR #172 \/ RJR87 \/ Stage 5A Private Session Protocol$/im,"The immutable Stage 5A starter must preserve its exact PR172 / RJR87 / Stage 5A identity as historical provenance.");
+assert.match(historicalStage5a,/PR #171 exact final head:[\s\S]{0,120}`d5c8549924244ee177065559043e0697d0c810c3`/i,"The immutable Stage 5A starter must preserve exact PR171 closure provenance.");
+assert.match(historicalStage5a,/Stage 5 is no longer locked/i,"The immutable Stage 5A starter must preserve the explicit Stage 5 activation gate while dormant Phase 1E provenance stays archived.");
 
 const window={};window.window=window;
 const context=vm.createContext({window,console,JSON,Object,Array,String,Number,Boolean,Set,Map,Error});
@@ -210,4 +213,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant proof remains version-neutral while current PR #171 closure / RJR87 / Stage 5A activation authority stays coherent\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current merged PR191/RJR91/Stage5G authority stays coherent\n");

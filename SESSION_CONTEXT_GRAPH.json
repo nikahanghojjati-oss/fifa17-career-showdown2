@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "recordedAt": "2026-09-04T15:18:17.000Z",
+  "recordedAt": "2026-09-04T20:27:10.000Z",
   "purpose": "SLE compact dependency and provenance graph for successor context retrieval",
   "nodes": [
     {
@@ -56,7 +56,14 @@
       "runtimeRevision": "1.9.0-r5",
       "mainShaAtAcceptance": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
       "evidencePullRequest": 191,
-      "evidencePullRequestStateAtHandoff": "open",
+      "evidencePullRequestStateAtHandoff": "merged",
+      "exactFinalHead": "72f7031797592a3866f7c62da07fa42959cb30fb",
+      "mergeSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
+      "exactHeadWorkflowFamiliesSuccessful": 15,
+      "postMergeWorkflowFamiliesSuccessful": 15,
+      "pagesRunId": 33913035742,
+      "stabilityRunId": 33913035721,
+      "deployedRuntimeFilesVerified": 99,
       "proof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
       "rjrScoreBeforeProof": 89,
       "rjrScoreAfterProof": 91,
@@ -69,29 +76,31 @@
     {
       "id": "closing-current-wec",
       "type": "environment-transition",
-      "state": "pr191-open-rjr91-stage5f-accepted-stage5g-next-sle-transition",
-      "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
-      "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
+      "state": "pr191-merged-deployed-rjr91-stage5g-next-sle-transition",
+      "environmentId": "we-2026-09-04-pr191-publication-stage5g",
+      "startingMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
       "transitionPullRequest": 191,
-      "transitionPullRequestState": "open",
+      "transitionPullRequestState": "merged",
       "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
       "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
-      "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
+      "exactFinalHead": "72f7031797592a3866f7c62da07fa42959cb30fb",
+      "mergeSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
+      "publicationStatus": "complete-exact-head-and-postmerge-green",
       "finalDecision": "HANDOFF_NOW",
       "handoffProximity": 100,
       "rjrScore": 91,
-      "starter": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
-      "fullHandoff": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
-      "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json",
+      "starter": "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+      "fullHandoff": "SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
+      "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json",
       "authority": 1,
       "riskCriticality": 1
     },
     {
       "id": "successor-selection",
       "type": "successor-immediate-decision",
-      "state": "fresh-wec-required-finish-pr191-then-stage5g-network-hardening",
+      "state": "fresh-wec-required-stage5g-network-hardening-automation-first",
       "preferredFirstGap": "remote-joining-specific-two-device-two-network-reconnect-adverse-network-hardening",
-      "rule": "successor independently verifies live main, open PR191 exact head, r5, RJR91 and the closed Stage 5F WEC; initializes a fresh unique WEC with reset counters; finishes PR191 exact-head publication without inheriting HANDOFF_NOW; then executes the smallest genuinely uncredited Stage 5G capability",
+      "rule": "successor independently verifies live main, merged PR191 exact head/merge, r5, RJR91 and the closed publication WEC; initializes a fresh unique WEC with reset counters without inheriting HANDOFF_NOW; then immediately executes the smallest genuinely uncredited Stage 5G capability",
       "authority": 1,
       "riskCriticality": 1
     },
@@ -103,7 +112,7 @@
         "Remote Joining-specific two-device/two-network reconnect/adverse-network hardening",
         "final stable Remote Joining release acceptance"
       ],
-      "nextSlice": "finish PR191 publication first, then automate the Remote Joining-specific Stage 5G network-hardening proof",
+      "nextSlice": "automate the Remote Joining-specific Stage 5G network-hardening proof against the real private-session runtime",
       "authority": 1
     },
     {
@@ -160,7 +169,7 @@
     {
       "from": "stage5f-production-authenticated-negatives",
       "to": "closing-current-wec",
-      "relation": "owner-production-acceptance-and-open-publication-checkpoint-permit-clean-handoff-seal"
+      "relation": "exact-head-and-postmerge-publication-complete-before-clean-stage5g-handoff-seal"
     },
     {
       "from": "closing-current-wec",
@@ -170,7 +179,7 @@
     {
       "from": "successor-selection",
       "to": "stage5-private-remote-joining",
-      "relation": "finish-pr191-then-continue-only-with-genuinely-uncredited-rjr91-stage5g-gap"
+      "relation": "continue-only-with-genuinely-uncredited-rjr91-stage5g-gap"
     },
     {
       "from": "canonical-storage",

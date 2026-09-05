@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-09-04T15:18:17.000Z",
-  "materialSessionsObserved": 18,
-  "learningState": "cold-start-priors-with-eighteen-labeled-sessions",
+  "recordedAt": "2026-09-04T20:27:10.000Z",
+  "materialSessionsObserved": 19,
+  "learningState": "cold-start-priors-with-nineteen-labeled-sessions",
   "defaultUtility": 0.5,
   "alpha": 0.2,
   "items": {
@@ -12,7 +12,7 @@
       "requiredForPublicationSecurityOrRecovery": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.81,
-      "note": "Fresh WEC ownership prevented predecessor HANDOFF_AT_CHECKPOINT leakage, allowed the r4 acceptance failure to be investigated and repaired, and then correctly closed at handoff 100 only after r5 owner production acceptance passed."
+      "note": "Fresh WEC ownership prevented predecessor HANDOFF_NOW leakage, bounded PR191 repair/publication, and final successor-package validation correctly raised the closing environment to its own HANDOFF_NOW before the distinct Stage 5G milestone."
     },
     "workflow-job-logs": {
       "loaded": true,
@@ -20,7 +20,7 @@
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.9,
-      "note": "Exact PR #187 and post-merge workflow logs separated stale continuity-contract failures from runtime defects and later proved 97 deployed r5 runtime files byte-for-byte plus the complete pairing automation journey."
+      "note": "Exact PR191 workflow state separated stale authority-contract failures from Stage 5F capability truth; exact main-push evidence later proved 99 deployed r5 files byte-for-byte plus the complete journey."
     },
     "successor-entrypoint-coherence": {
       "loaded": true,
@@ -29,7 +29,7 @@
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.87,
-      "note": "RJR91 requires starter, deep SLE, bootstrap, graph, model, learning, current handoff, project state, next task and rolling pointers to advance together so a fresh successor cannot re-enter consumed r5 or Stage 5F work."
+      "note": "The merged PR191 boundary requires starter, deep SLE, bootstrap, graph, model, learning, current handoff, project state, next task and rolling pointers to advance together so a successor enters Stage 5G instead of re-entering publication or consumed evidence."
     },
     "rjr-score-provenance-search": {
       "loaded": true,
@@ -37,7 +37,7 @@
       "preventedErrorOrResolvedContradiction": true,
       "normalizedOutcome": 1,
       "learnedUtility": 0.87,
-      "note": "Fixed RJR-1 prevented process inflation: the r5 owner test closes exactly one previously explicit failed capability, advancing 88 to 89; PR #187, CI, review, merge, Pages, deployment, WEC and handoff packaging add zero duplicate credit."
+      "note": "Fixed RJR-1 preserved exactly 91 after PR191 repair, 15 exact-head successes, merge, 15 post-merge successes and 99-file deployment proof; all of that publication volume earns zero capability credit."
     },
     "r5-one-paste-owner-acceptance": {
       "loaded": true,
@@ -64,6 +64,15 @@
       "normalizedOutcome": 1,
       "learnedUtility": 0.6,
       "note": "Owner screenshots contained a full private pairing/rivalry capability. Durable evidence intentionally records only state/equality and never copies the full capability into repository artifacts or handoff text."
+    },
+    "pr191-exact-head-publication": {
+      "loaded": true,
+      "usedInDecision": true,
+      "requiredForPublicationSecurityOrRecovery": true,
+      "preventedErrorOrResolvedContradiction": true,
+      "normalizedOutcome": 1,
+      "learnedUtility": 0.6,
+      "note": "The final repair head had to be frozen before any gate counted. Fifteen exact-head successes, zero unresolved threads, expected-head merge, fifteen exact-main successes and independent deployed-byte proof converted PR191 from evidence candidate to published authority without changing RJR."
     }
   },
   "sessionMetrics": [
@@ -96,16 +105,33 @@
       "ciTriageLesson": "Dedicated Stage 5F tests passing before the repository suite failed distinguished accepted capability evidence from stale publication-contract assertions.",
       "productionEvidenceLesson": "Provider denial, no denied commit, unchanged local state and sanitized capability fingerprints are required for scoreable authenticated negatives; source and harness volume are not evidence credit.",
       "authorityLesson": "A separate handoff branch can preserve an open PR exact head while the successor package records the failure chain. The successor then owns a fresh WEC and must re-establish exact-head CI after any repair."
+    },
+    {
+      "sessionId": "we-2026-09-04-pr191-publication-stage5g",
+      "directRemoteJoiningPrerequisiteReached": true,
+      "nextRealProductMilestoneUnblocked": "stage5g-remote-joining-network-hardening-automation",
+      "fullHistoryPreloaded": false,
+      "githubConnectorSufficient": true,
+      "deepFallbackUsed": true,
+      "deepFallbackReason": "The stale assertion chain crossed multiple historical/current authority contracts, so exact PR187 provenance, WEC/SLE packaging and exact workflow/deployment evidence were required to repair it without weakening gates.",
+      "missedCriticalContextIncident": false,
+      "staleAuthorityCorrection": true,
+      "routeFailureCluster": "The connected GitHub app supplied authoritative PR/ref/workflow writes while one git branch ref appeared stale and local CLI auth was unavailable. Live connector/main state won; no credential or billing path was used.",
+      "ciTriageLesson": "Repair every stale current selector locally, freeze one exact final head, and treat every new commit as invalidating older workflow evidence. Merge only after the full exact-head family is green.",
+      "productionEvidenceLesson": "A successful Pages run is necessary but not sufficient: verify exact main, all normal push workflows, every deployed runtime byte and the complete deployed journey before declaring publication closed.",
+      "authorityLesson": "Once PR191 publication is fully closed, Stage 5G is a distinct milestone. Honest WEC signals require a fresh environment, but the successor should activate its WEC atomically with real Stage 5G engineering rather than create a history-only PR."
     }
   ],
   "latestLesson": {
     "rjrScore": 91,
     "publicationPullRequest": 191,
-    "publicationState": "open",
+    "publicationState": "merged",
+    "publicationExactFinalHead": "72f7031797592a3866f7c62da07fa42959cb30fb",
+    "publicationMergeSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
     "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
-    "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
+    "publicationStatus": "complete-exact-head-and-postmerge-green",
     "runtimeRevision": "1.9.0-r5",
-    "next": "finish-pr191-exact-head-publication-then-stage5g",
-    "lesson": "Treat production authorization evidence and publication state separately. Two distinct provider-denied Stage 5F capabilities moved fixed RJR89 to RJR91, while PR191 source, contracts, CI and handoff work remain zero-credit; preserve historical PR187 provenance and repair only selectors that falsely call it current."
+    "next": "stage5g-remote-joining-network-hardening-automation",
+    "lesson": "Treat production authorization evidence, publication state and the next capability separately. Stage 5F remains the only reason RJR moved 89 to 91; PR191 exact-head/post-merge success closed publication with zero credit, and the fresh successor must now test the real Remote Joining session across network loss and recovery."
   }
 }

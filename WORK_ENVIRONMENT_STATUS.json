@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "environmentId": "we-2026-09-04-pr191-publication-stage5g",
+  "environmentId": "we-2026-09-04-stage5g-reconnect-recovery",
   "lifecycle": "active",
-  "recordedAt": "2026-09-04T15:18:17.000Z",
+  "recordedAt": "2026-09-04T21:50:00-04:00",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-    "startingMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
-    "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
-    "handoffBranch": "handoff/pending-stage5g-network-hardening",
-    "predecessorEnvironmentId": "we-2026-09-03-stage5f-authenticated-negatives",
-    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json"
+    "startingMainSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
+    "workingBranch": "stage5g/remote-reconnect-recovery-2026-09-04",
+    "handoffBranch": null,
+    "predecessorEnvironmentId": "we-2026-09-04-pr191-publication-stage5g",
+    "predecessorArchive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json"
   },
   "signals": {
-    "contextComplexity": "low",
+    "contextComplexity": "moderate",
     "projectComplexity": "very-high",
     "compactionCount": 0,
-    "majorPhasesCompleted": 2,
-    "largeEvidenceEvents": 8,
-    "toolRoutingErrors": 5,
-    "correctedFailures": 1,
+    "majorPhasesCompleted": 0,
+    "largeEvidenceEvents": 1,
+    "toolRoutingErrors": 0,
+    "correctedFailures": 0,
     "repeatedMistakes": 0,
     "staleFactCorrections": 1,
     "unresolvedFailures": 0,
@@ -27,46 +27,51 @@
     "usageRemainingPercent": null,
     "usageSource": "unavailable",
     "usageWarning": false,
-    "handoffCompleteness": 100,
+    "handoffCompleteness": 0,
     "unrecordedDecisions": 0,
-    "atomicOperation": false
+    "atomicOperation": true
   },
   "assessment": {
     "decision": "CONTINUE",
-    "reason": "This fresh successor independently verified the closed predecessor WEC, live main, PR #191 exact head and workflow state, production r5 identity and fixed RJR91. The shared stale-current-authority chain is repaired, the full contract/syntax/browser matrices pass locally and the byte-identical repair tree is published. The bounded current operation is exact-head CI convergence and the predecessor HANDOFF_NOW decision is not inherited.",
+    "reason": "The sealed PR191 publication environment was independently validated and was already archived byte-for-byte. Live main remains 7ca132a607cbf4fd78710b14526b4bec849ac2d2 and production remains v1.9.0-r5 at fixed RJR91. The interrupted local Stage 5G reconnect candidate never reached GitHub, so this fresh environment resumes the smallest genuinely uncredited Remote Joining-specific same-capability recovery slice on a substantive branch without repeating Stage 5F evidence.",
     "decisionInheritedFromPredecessor": false,
-    "usageExcludedBecauseUnavailable": true
+    "usageExcludedBecauseUnavailable": true,
+    "scores": {
+      "contextPressure": 35,
+      "qualityRisk": 25,
+      "quotaRisk": null,
+      "nextTaskSeparation": 0,
+      "handoffReadiness": 0,
+      "atomicRisk": 35,
+      "continuationRisk": 24,
+      "transitionCost": 70,
+      "transitionAdvantage": -46
+    }
   },
   "continuity": {
-    "currentTask": "Finish PR #191 exact-head publication gates by repairing only stale current-authority assertions, require all permanent workflows green on one reviewed head, merge with expected-head protection and verify post-merge deployment before Stage 5G.",
-    "lastSafeCheckpoint": "PR #191 was non-force fast-forwarded from expected old head 4a63137b918b3d4b6d3d93916e67b72e85848c39 to exact published repair head f397c88fda5f63da4688f894778b9360bf2e1a02. Its Git tree c58fb35ce5ca58a0ad00f773bcf96047a6037d46 exactly matches the locally tested tree. The complete 87-layer repository contract run, syntax, primary browser, CI-configured visual, runtime-boundary and specialized browser matrices pass locally.",
-    "nextSafeAction": "Publish this continuity-only checkpoint as the final PR #191 head, require every permanent workflow family green on that one exact SHA, complete final diff/review/thread audit, then merge with expected-head protection and verify post-merge deployment before reassessing the Stage 5G milestone boundary.",
+    "currentTask": "Reconstruct and prove the interrupted Stage 5G Remote Joining same-capability reconnect/adverse-network candidate for lost Host, Join and Close acknowledgements, with exact-capability retry, no duplicate session creation, no phantom success and no canonical local-save mutation.",
+    "lastSafeCheckpoint": "Live main 7ca132a607cbf4fd78710b14526b4bec849ac2d2 is the PR191 publication boundary. Sealed successor branch 71ef517e6e7ff7fffe035dcc33b0349ff4c41e2b contains the byte-identical predecessor archive and handoff. Fixed RJR remains 91/100; production remains v1.9.0-r5.",
+    "nextSafeAction": "Implement memory-only unresolved-operation authority in js/sparkRemoteJoining.js, add same-capability Host/Join/Close retry automation and two-context browser/emulator proof, then run exact-head CI before any RJR credit or production promotion.",
     "unfinishedWork": [
-      "PR #191 publication is not complete; the continuity checkpoint following locally green repair head f397c88fda5f63da4688f894778b9360bf2e1a02 must become the final exact head and pass every permanent workflow family.",
-      "Remote Joining-specific two-device/two-network reconnect and adverse-network hardening remains uncredited.",
-      "Final stable Remote Joining release acceptance remains uncredited."
+      "Stage 5G Remote Joining-specific lost-acknowledgement and adverse-network reconnect proof.",
+      "Two-device/two-network production acceptance if it cannot be fully automated.",
+      "Final stable Remote Joining release acceptance and evidence-based RJR reconciliation."
     ],
     "knownHazards": [
-      "Do not merge PR #191 until every current permanent workflow family is green on one exact reviewed head; any branch mutation invalidates older exact-head evidence.",
-      "Preserve immutable historical PR187/RJR89 and Stage 2 provenance; change only assertions that incorrectly call those historical facts current authority.",
-      "Billing is permanently forbidden and Firebase remains Spark; never link Cloud Billing, enable Blaze, add a payment method, Cloud Run, Cloud Functions or any billing-required service.",
-      "App Check enforcement remains OFF, Firestore browser persistence remains memory-only and Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
+      "Billing is permanently forbidden and Firebase must remain Spark; never link Cloud Billing, enable Blaze, add a payment method, use Cloud Run, Cloud Functions or any billing-required service.",
+      "App Check enforcement remains OFF; browser persistence remains memory-only; Google Auth remains popup-only browserSessionPersistence with no extra scopes.",
       "Canonical localStorage remains exactly careerModeShowdown.saveLibrary, careerModeShowdown.legacyShowdowns and careerModeShowdown.preferences.",
-      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.",
-      "Exactly two private managers remain mandatory; no public discovery, listing, lobby, matchmaking, community, rankings or global leaderboards are authorized.",
-      "Never expose or durably retain a full private pairing/session capability and never destructively test the protected historical rivalry.",
-      "Do not award RJR points for source, contracts, PR, CI, review, merge, deployment, WEC, SLE, SNS or documentation work."
+      "Candidate C remains the sole destructive remote-to-local gameplay Apply authority with exact rollback.",
+      "Exactly two private managers remain mandatory; no public discovery, lobby, listing, matchmaking, community, rankings or global leaderboards.",
+      "Never log or durably retain the full private session capability; unresolved operations must not expose a copyable full capability.",
+      "Never destructively test the protected historical rivalry.",
+      "Do not award RJR points for source, contracts, PR, CI, review, merge, deployment, WEC, SLE or SNS alone."
     ],
     "evidenceNotes": [
-      "The predecessor closed record validated against the repository schema and is preserved byte-for-byte at WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json.",
-      "Connector-first GitHub verification confirms PR #191 is open, non-draft, mergeable and unmerged at exact head 4a63137b918b3d4b6d3d93916e67b72e85848c39 against base 7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4.",
-      "All 15 PR #191 workflows completed at the captured head: 12 succeeded; Static App, Stability Lane and Stage 5F Authenticated Negatives failed. The Stage 5F dedicated chooser and authenticated-negative checks passed before its repository-suite step failed.",
-      "Workflow logs independently located the shared remote-head blocker at tests/contracts/private-account-auth-stage2b-contracts.cjs:62, whose inherited assertion demanded live PR187/RJR89 authority.",
-      "The sanitized Stage 5F production acceptance proves revoked-device mutation denial and authenticated unrelated-account exact-read denial. Fixed RJR-1 is 91/100 with no publication credit.",
-      "The shared stale-current-authority chain is repaired without modifying immutable Stage 2 or PR187/RJR89 evidence. The full contract suite reports PASS across 87 layers; syntax and all primary/specialized browser matrices pass locally.",
-      "The connected GitHub app created a commit on remote handoff parent f4d858227c43961f597fc666c76d872754128f10 and non-force fast-forwarded PR #191 to f397c88fda5f63da4688f894778b9360bf2e1a02 only after its remote Git tree exactly matched locally tested tree c58fb35ce5ca58a0ad00f773bcf96047a6037d46.",
-      "Local Java 17 cannot run the Firebase emulator blocks that exact workflow CI provisions under Java 21. The stateful Firebase Rules publication workflow was not replayed locally; no credential was requested and no provider mutation or billing path was attempted.",
-      "GitHub CLI 2.100.0 was installed by the checksum-verified repository bootstrap, but this environment is not CLI-authenticated; the connected GitHub app remains the supported read/write authority. One direct web-open route to the GitHub Pages origin was unsupported, one initial multi-operation patch shape was rejected without changing files, and local browser/workflow launch routing required correction; production identity will be verified through deployed bytes and GitHub deployment evidence."
+      "GitHub connector independently confirmed live main is still the PR191 merge and that local candidate commit 2452b03 was never published.",
+      "The provider protocol is already idempotent for exact repeated open, join and close operations; the missing safety is runtime retention and deterministic reuse of the same page-memory capability across ambiguous acknowledgement loss.",
+      "The predecessor archive already exists on the sealed branch with the same blob as the predecessor closing WEC, so no archive rewrite was necessary.",
+      "Session estimate will be recalculated from remaining uncredited capability and acceptance gates, not from PR count or previous rough estimates."
     ]
   }
 }

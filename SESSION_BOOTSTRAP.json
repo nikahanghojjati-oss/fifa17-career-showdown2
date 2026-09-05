@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-04T15:18:17.000Z",
+  "recordedAt": "2026-09-04T20:27:10.000Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "handoff/pending-stage5g-network-hardening",
+  "bootstrapBranch": "handoff/pr191-merged-stage5g-successor-2026-09-04",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
+  "lastVerifiedMainSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
   "lastVerifiedRuntimeMainSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
   "latestRuntimeMerge": {
     "pullRequest": 166,
@@ -22,24 +22,30 @@
   "currentPublicationCheckpoint": {
     "pullRequest": 191,
     "title": "Seal Stage 5F production negatives and advance RJR to 91",
-    "state": "open",
-    "mergeable": true,
+    "state": "merged",
     "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
     "baseSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
+    "initialExactHead": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
+    "publishedRepairHead": "f397c88fda5f63da4688f894778b9360bf2e1a02",
+    "exactFinalHead": "72f7031797592a3866f7c62da07fa42959cb30fb",
+    "mergeSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
+    "mergedAt": "2026-09-04T19:48:20.000Z",
+    "mergeMethod": "expected-head-protected-squash",
     "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
     "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
-    "publicationStatus": "repair-published-final-continuity-head-awaiting-workflows",
-    "mustNotMergeUntilExactHeadAllRequiredGatesGreen": true,
-    "capturedSuccessfulWorkflowFamilies": 10,
-    "capturedRunningWorkflowFamilies": 2,
-    "capturedFailedWorkflowFamilies": 3,
-    "capturedFailedNames": [
-      "Validate Static App",
-      "Validate Stability Lane",
-      "Validate Stage 5F Authenticated Negatives"
-    ],
-    "lastCapturedExactBlocker": "tests/contracts/private-account-auth-stage2b-contracts.cjs:62 stale PR187/RJR89 current-authority assertion",
-    "nextExactGate": "all permanent workflow families green on one final exact reviewed head",
+    "initialBlocker": "tests/contracts/private-account-auth-stage2b-contracts.cjs:62 stale PR187/RJR89 current-authority assertion",
+    "publicationStatus": "complete-exact-head-and-postmerge-green",
+    "expectedHeadProtectionUsed": true,
+    "exactHeadWorkflowFamiliesSuccessful": 15,
+    "postMergeWorkflowFamiliesSuccessful": 15,
+    "unresolvedReviewThreadsAtMerge": 0,
+    "pagesRunId": 33913035742,
+    "releaseIntegrationRunId": 33913035727,
+    "stabilityRunId": 33913035721,
+    "deployedRuntimeFilesVerified": 99,
+    "deployedEveryRuntimeByteProven": true,
+    "deployedCompleteJourneyProven": true,
+    "runtimeChanged": false,
     "publicationWorkRjrCredit": 0
   },
   "historicalPr187PublicationCheckpoint": {
@@ -123,7 +129,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Finish PR #191 exact-head publication repair first; then execute Stage 5G Remote Joining-specific two-device/two-network reconnect/adverse-network hardening; final stable Remote Joining release acceptance follows.",
+  "currentLane": "Execute Stage 5G Remote Joining-specific two-device/two-network reconnect/adverse-network hardening automation first; final stable Remote Joining release acceptance follows.",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
@@ -156,43 +162,43 @@
     ]
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-09-03-stage5e-r4-production-convergence-acceptance",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5e-r4-production-convergence-acceptance.json",
+    "environmentId": "we-2026-09-04-pr191-publication-stage5g",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json",
     "decisionMustNotBeInherited": true
   },
   "currentWec": {
-    "environmentId": "we-2026-09-03-stage5f-authenticated-negatives",
-    "startingMainSha": "4605a477ea49407d9e9e863914b753d273a4d5d4",
+    "environmentId": "we-2026-09-04-pr191-publication-stage5g",
+    "startingMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
     "lifecycle": "closed",
     "finalDecision": "HANDOFF_NOW",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-03-stage5f-authenticated-negatives.json",
-    "closingCheckpoint": "Stage 5F production negatives accepted at fixed RJR91; PR191 remains open; last exact PR head 4a63137b918b3d4b6d3d93916e67b72e85848c39 preserved; exact current blocker private-account-auth-stage2b-contracts.cjs:62 captured; complete mirrored v1.4.39 SNS/SLE package sealed on separate handoff branch."
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json",
+    "closingCheckpoint": "PR191 exact final head 72f7031797592a3866f7c62da07fa42959cb30fb passed all 15 workflows, expected-head squash merged to live main 7ca132a607cbf4fd78710b14526b4bec849ac2d2, all 15 main-push workflows passed, and 99 production runtime files matched 1.9.0-r5 byte-for-byte. Stage 5G is the fresh successor milestone."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
-    "status": "current-pr191-open-rjr91-stage5g-next"
+    "canonical": "SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
+    "status": "current-pr191-merged-rjr91-stage5g-automation-next"
   },
   "starter": {
-    "version": "1.4.39",
-    "checkpoint": "PR191-OPEN-RJR91-STAGE5G-NEXT",
-    "canonical": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+    "version": "1.4.40",
+    "checkpoint": "PR191-MERGED-RJR91-STAGE5G-AUTOMATION-NEXT",
+    "canonical": "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR191_RJR91_STAGE5G_PENDING_SLE_2026-09-04.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
     "stage5fAcceptanceProof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "ownerEagleEyeRule": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "handoffBranch": "handoff/pending-stage5g-network-hardening"
+    "handoffBranch": "handoff/pr191-merged-stage5g-successor-2026-09-04"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -203,7 +209,7 @@
     "recursiveInheritance": true
   },
   "minimalReads": [
-    "START_NEXT_SESSION_V1.4.39_PR191_RJR91_STAGE5G_HANDOFF.md",
+    "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
     "SESSION_BOOTSTRAP.json",
     "00_CURRENT_HANDOFF.md",
     "00_SLE_HANDOFF_PROTOCOL.md",
@@ -235,8 +241,8 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "finish-pr191-exact-head-publication-then-stage5g",
-    "summary": "The stale current-authority chain beginning at tests/contracts/private-account-auth-stage2b-contracts.cjs:62 is repaired with full local contracts and browser matrices green. Converge all permanent PR191 workflows on one final exact head, merge with expected-head protection, verify post-merge deployment, then execute genuinely uncredited Stage 5G Remote Joining network hardening automation-first.",
+    "name": "stage5g-remote-joining-network-hardening-automation",
+    "summary": "PR191 publication is complete and production remains byte-identical at 1.9.0-r5. Initialize a fresh WEC, then execute the smallest genuinely uncredited Stage 5G two-manager/two-network reconnect and adverse-network automation candidate against the real private-session runtime.",
     "mustNotInsertGenericPrerequisiteLane": true,
     "mustStartAsRealProjectWork": true
   },

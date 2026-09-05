@@ -8,6 +8,9 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const axePath = require.resolve("axe-core/axe.min.js");
 const runLabel = process.env.CMS_AUDIT_RUN || "run-1";
 const resultsDirectory = path.resolve(process.env.CMS_TEST_RESULTS || "test-results");
+const appSource = fs.readFileSync(path.resolve(__dirname, "../../js/app.js"), "utf8");
+const expectedAppVersion = (appSource.match(/const APP_VERSION = "([^"]+)"/) || [])[1];
+assert.ok(expectedAppVersion, "Stability audit must resolve the current application version from js/app.js.");
 const activeStorageKey = "careerModeShowdown.activeShowdown";
 const saveLibraryStorageKey = "careerModeShowdown.saveLibrary";
 const legacyStorageKey = "careerModeShowdown.legacyShowdowns";
@@ -133,14 +136,14 @@ async function openApplication(page){
 async function assertStableReleaseIdentity(page, label){
     await page.waitForTimeout(5000);
     const footer = normalizeText(await page.locator("#app > footer").innerText());
-    assert.equal(footer, "Career Mode Showdown v1.9.0 · Private Remote Joining", `${label} release footer changed after startup settled.`);
+    assert.equal(footer, `Career Mode Showdown v${expectedAppVersion} · Private Remote Joining`, `${label} release footer changed after startup settled.`);
     const tile = await page.locator("#settingsButton").evaluate(button => ({
         code: button.querySelector(".menuTileCode")?.textContent?.trim() || "",
         label: button.querySelector(".menuTileLabel")?.textContent?.trim() || "",
         meta: button.querySelector(".menuTileMeta")?.textContent?.trim() || ""
     }));
     assert.deepEqual(tile,{code:"LOCAL",label:"SAVE LIBRARY",meta:"Local Showdowns, manager profiles and settings"},`${label} Home local-data identity changed after startup settled.`);
-    checkpoint(`${label} stable release identity`, "v1.9.0 · Private Remote Joining · Save Library");
+    checkpoint(`${label} stable release identity`, `v${expectedAppVersion} · Private Remote Joining · Save Library`);
 }
 
 async function activeScreens(page){

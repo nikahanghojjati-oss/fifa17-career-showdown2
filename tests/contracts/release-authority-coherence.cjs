@@ -98,7 +98,7 @@ if(candidateRecord && currentProductionProven){
     A.match(historicalR5Starter, /Do not repeat consumed r5 one-paste convergence[\s\S]+accepted-result replay[\s\S]+token-lifecycle[\s\S]+provider-Rules[\s\S]+provider-abuse proof/i, "Immutable PR187 starter must preserve replay, token-lifecycle and other consumed proof as closed capabilities.");
     A.match(currentNext, /Stage 5F[\s\S]+91\/100/i, "NEXT_TASK must preserve the accepted Stage 5F evidence that advanced RJR89 to RJR91.");
     A.match(currentNext, /revoked-device/i, "NEXT_TASK must preserve the accepted revoked-device boundary.");
-    A.match(currentNext, /authenticated third-account/i, "NEXT_TASK must preserve the accepted unrelated-account boundary.");
+    A.match(currentNext, /authenticated (?:third|unrelated)-account/i, "NEXT_TASK must preserve the accepted unrelated-account boundary.");
     A.match(currentNext, /do not repeat generic Connected Rivalry adverse-network proof/i, "NEXT_TASK must prohibit duplicate generic adverse-network proof while routing to Stage 5G.");
     A.match(currentNext, /Remote Joining-specific[\s\S]{0,24}two-device\/two-network reconnect\/adverse-network hardening/i, "NEXT_TASK must preserve the remaining adverse-network hardening gap.");
     A.match(currentNext, /final stable Remote Joining release acceptance/i, "NEXT_TASK must preserve final stable Remote Joining release acceptance as a remaining capability gap.");
