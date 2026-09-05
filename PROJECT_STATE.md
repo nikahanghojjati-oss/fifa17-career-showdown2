@@ -1,6 +1,6 @@
 # CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
 
-Status: PRODUCTION-PROVEN / HANDOFF BOUNDARY
+Status: DEPLOYED / PRODUCTION-PROVEN / HANDOFF BOUNDARY
 
 Production: `v1.9.1 / 1.9.1-r2`, independently verified on PR #194 merge/main `11bb681527a9b78884baf0c384350c90493dc9bd`. PR #194 exact reviewed head: `42f91df5ec1d5a576f0907836fa03f5994d7646b`. All 15 exact-head workflow families passed, no review threads remained, and merge used expected-head protection. All 15 main-push workflow families completed successfully. Release Integration Burn-In `33947112248` passed two independent complete journeys. Stability `33947112190` completed contracts, Chromium and the entire deployed-site smoke; deployed-site job `101255587827` verified every runtime byte, runtime provenance, App Check path, Home/Save Library/identity/analytics/football visuals, Candidate A/B/C, offline/install boundaries and the complete deployed journey.
 
