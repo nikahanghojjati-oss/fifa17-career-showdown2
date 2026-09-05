@@ -6,7 +6,7 @@ Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`, with produc
 
 Work Environment Continuity remains mandatory. The recovered continuity environment is `we-2026-09-05-pr199-postmerge-recovery-a47` on `handoff/pr199-postmerge-ssjr-provider-next-2026-09-05`, transition-prepared at Handoff proximity 100%. Its predecessor is `we-2026-09-05-ssjr-setup-foundation-28cf84`; predecessor decisions are not inherited.
 
-The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate A is non-mutating, Candidate B read-only, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback.
+The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles and Save Library remain protected. Candidate A is non-mutating, Candidate B read-only, and Candidate C remains the sole destructive remote-to-local gameplay Apply authority with transaction-owned strict exact raw-snapshot rollback. Canonical localStorage authority remains exactly `careerModeShowdown.saveLibrary`, `careerModeShowdown.legacyShowdowns`, `careerModeShowdown.preferences`.
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
