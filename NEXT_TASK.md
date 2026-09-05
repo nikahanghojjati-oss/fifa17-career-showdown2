@@ -1,10 +1,12 @@
 # CURRENT OVERRIDE — PR #191 MERGED / STAGE 5F ACCEPTED / RJR91 / STAGE 5G NETWORK HARDENING — 2026-09-04 UTC
 
-Status: ACTIVE PR #192 STAGE 5G RECONNECT CANDIDATE; PRODUCTION REMAINS v1.9.0-r5
+Status: ACTIVE PR #192 STAGE 5G RELEASE CANDIDATE / NOT PRODUCTION-PROVEN
+
+Authorized release candidate: `v1.9.1 / 1.9.1-r1` on PR #192. Production remains `v1.9.0 / 1.9.0-r5` and `1.9.0-r5` remains the previous known-good whole-shell recovery target until the candidate is merged, deployed and independently proven.
 
 Current live main is still PR #191 expected-head squash merge `7ca132a607cbf4fd78710b14526b4bec849ac2d2`. Exact reviewed PR #191 head `72f7031797592a3866f7c62da07fa42959cb30fb` passed all 15 pull-request workflow families. All 15 exact-main push workflows passed afterward, including Pages `33913035742` and Stability `33913035721`; independent verification matched all 99 deployed runtime files byte-for-byte.
 
-Production remains `v1.9.0 / 1.9.0-r5`. The unchanged production runtime remains anchored to exact PR #187 merge `277f1b55dc362ee84d285445b99172b9fbed8509`; its owner-accepted one-paste, zero-manual Connected Rivalry Verify/Reattach evidence moved fixed RJR-1 from 88 to 89. PR #191 preserved that immutable provenance and changed evidence/current-authority contracts only. Publication earns no RJR credit.
+The production runtime remains anchored to exact PR #187 merge `277f1b55dc362ee84d285445b99172b9fbed8509`; its owner-accepted one-paste, zero-manual Connected Rivalry Verify/Reattach evidence moved fixed RJR-1 from 88 to 89. PR #191 preserved that immutable provenance and changed evidence/current-authority contracts only. Publication earns no RJR credit.
 
 Stage 5F production acceptance remains PASS in `PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md`. Fixed RJR-1 remains `91/100`: exactly +1 for revoked-device protected-mutation denial and +1 for authenticated unrelated-account exact-read denial. `identity-auth-trust` is 20/20; `devices-pairing-connected-rivalry-remote-join` remains 22/30 and `real-device-hardening-release` remains 9/10.
 
@@ -17,7 +19,7 @@ Working branch: `stage5g/remote-reconnect-recovery-2026-09-04`
 Current pull request: `#192`
 Most recently published predecessor environment: `we-2026-09-04-pr191-publication-stage5g`
 
-The interrupted local Stage 5G candidate `2452b03` was never published to GitHub. This environment therefore reconstructs and independently proves the same smallest genuinely uncredited Remote Joining-specific capability rather than treating the unpublished local commit as authority.
+The interrupted local Stage 5G candidate `2452b03` was never published to GitHub. This environment reconstructs and independently proves that genuinely uncredited capability. The first old-identity Chromium attempt correctly failed closed when integrity detected changed `js/sparkRemoteJoining.js` under stale `1.9.0-r5`; PR #192 now carries a coherent new whole-shell identity `v1.9.1 / 1.9.1-r1` rather than weakening that integrity guard.
 
 The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local Profiles / Save Library and all canonical local-first/Candidate C guarantees remain protected.
 
