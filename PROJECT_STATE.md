@@ -14,7 +14,7 @@ Use connected GitHub first, validate current source/live state, then initialize 
 
 Required order: Profiles/pre-draw Save shell → exact Connected Rivalry → ACTIVE → one authoritative League Wheel draw → two distinct permanent same-league clubs → 1/3/5/10 seasons → both confirm identical setup → remaining shared journey. A fresh ACTIVE session for the same rivalry resumes setup without resetting it.
 
-Permanent Firebase control-plane authority remains `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`. Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence`. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
+Permanent Firebase control-plane authority remains `00_FIREBASE_PERMANENT_ZERO_BILLING_CONTROL_PLANE.md`. Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Exactly two private managers; No public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.
 
 Consumed RJR physical acceptance used two physical devices and two independent networks and is complete. Historical Stage 5F 91/100 revoked-device and authenticated third-account/unrelated-account provider denials remain immutable evidence; do not repeat generic Connected Rivalry adverse-network proof. Remote Joining-specific two-device/two-network reconnect/adverse-network hardening and final stable Remote Joining release acceptance are consumed.
 
