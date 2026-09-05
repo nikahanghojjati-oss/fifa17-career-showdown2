@@ -10,7 +10,7 @@ Do not repeat PR199 publication without evidence of a regression. No SSJR points
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-Use connected GitHub first and independently verify current live state. Validate the inherited WEC, preserve its final facts, initialize a fresh unique WEC with reset counters/current main, run the repository work assessment, and obey the fresh environment decision.
+Work Environment Continuity is mandatory. Use connected GitHub first and independently verify current live state. Validate the inherited WEC, preserve its final facts, initialize a fresh unique WEC with reset counters/current main, run the repository work assessment, and obey the fresh environment decision.
 
 Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter and candidate Firestore Rules with direct modified-client emulator negatives. Provider authority must be derived from protected provider records inside the same transaction. Never trust caller-supplied JavaScript authority, role/binding fields, a client-computed hash, or arbitrary client-prepared league/club outcomes. Exactly two paired managers plus an ACTIVE exact-rivalry session must exist before league or club commitment.
 
