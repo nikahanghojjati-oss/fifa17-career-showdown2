@@ -13,7 +13,7 @@ Work Environment Continuity remains mandatory. Reassess only this environment's 
 
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
-1. Fetch live PR #198 and require every applicable permanent workflow family green on one unchanged final head.
+1. Fetch live PR #198 and require every current permanent workflow family green on the same exact reviewed PR head. Do not combine evidence from superseded heads.
 2. Review the exact final diff. Reject any runtime/provider/Rules/billing mutation or historical provenance rewrite.
 3. Merge only with expected-head protection.
 4. Fetch the resulting live `main` and require the complete permanent main-push publication set green. Production must remain `v1.9.1 / 1.9.1-r2` and Firebase Spark with billing permanently off.
