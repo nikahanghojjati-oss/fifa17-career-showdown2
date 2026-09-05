@@ -71,7 +71,7 @@
     ],
     "evidenceNotes": [
       "PR192 Stage 5G was exact-head green, merged with expected-head protection, and v1.9.1/1.9.1-r1 passed the complete deployed-site smoke.",
-      "PR193 Stage 5H added real BrowserContext.setOffline online/offline lifecycle proof for Host, Join and Close across two isolated browser contexts; exact-head and deployed-site browser suites passed without duplicate provider mutations or canonical storage changes.",
+      "PR193 Stage 5H added real BrowserContext.setOffline offline/online lifecycle proof for Host, Join and Close across two isolated browser contexts; exact-head and deployed-site browser suites passed without duplicate provider mutations or canonical storage changes.",
       "Stage 5H remains zero-credit under the fixed RJR ledger because two browser contexts are not two physical devices on two independent networks.",
       "PR194 Stage 5I is intentionally query-gated, page-memory-only and excludes raw capability/account/device/rivalry identifiers from exported evidence; it uses only a SHA-256 capability fingerprint for cross-device session correlation.",
       "The r2 candidate preserves the startup budget without raising thresholds by lazy-loading acceptance code through the existing offline lifecycle module; the static release gate measured 163072 raw / 37499 compressed startup bytes.",
