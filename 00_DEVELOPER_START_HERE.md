@@ -4,6 +4,8 @@ Read `AGENTS.md`, `SESSION_BOOTSTRAP.json`, `00_CURRENT_HANDOFF.md`, `NEXT_TASK.
 
 RJR-1 is COMPLETE/FROZEN at 100/100. SSJR-1.1 is fixed at 100 points and remains evidence-backed 0/100. Production remains DEPLOYED / PRODUCTION-PROVEN `v1.9.1 / 1.9.1-r2`; production runtime lineage is PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`, previous whole-shell recovery `1.9.1-r1`. Historical PR #198 merged at `39ffe88d61dcda973df03a18e0266fcfe4cf5638`. PR #199 final reviewed head `378931e7bec2a4e95fb31912d4879e294b63d79f` is published at main `780abd7b779cda5acd722b75fd59ef1e82c71f97` with 15/15 exact-head and 15/15 post-merge workflow families green.
 
+GitHub CLI bootstrap is repository-owned: when local `gh` access is needed, use `npm run work:gh:bootstrap` and preserve its release checksum verification. Connected GitHub App access remains connector-first; never extract, copy or repurpose connector credentials.
+
 ## IMMEDIATE NEXT TASK AFTER FULL STUDY
 
 Work Environment Continuity is mandatory. Validate the inherited transition-prepared WEC `we-2026-09-05-pr199-postmerge-recovery-a47`, archive its final facts, initialize a fresh unique WEC from live main with reset counters, and run/obey the repository work assessment. Then implement the smallest Spark-compatible exact-path Shared Remote Setup provider transaction adapter plus candidate Firestore Rules and direct modified-client emulator negatives. Require exact pairing and ACTIVE session before League Wheel or clubs; derive authority from protected provider records in the same transaction.
