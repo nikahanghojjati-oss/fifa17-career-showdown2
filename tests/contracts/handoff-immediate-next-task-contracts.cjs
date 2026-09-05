@@ -125,7 +125,10 @@ assert.match(next,/Do not award RJR|zero credit/i);
 
 assert.equal(priorClosingWec.environmentId,"we-2026-09-04-pr191-publication-stage5g");assert.equal(priorClosingWec.lifecycle,"closed");assert.equal(priorClosingWec.assessment?.decision,"HANDOFF_NOW");
 assert.equal(closingWec.environmentId,"we-2026-09-04-stage5g-reconnect-recovery");assert.equal(closingWec.lifecycle,"closed");assert.equal(closingWec.repository?.predecessorEnvironmentId,priorClosingWec.environmentId);assert.equal(closingWec.assessment?.decision,"HANDOFF_NOW");assert.equal(closingWec.assessment?.decisionInheritedFromPredecessor,false);assert.equal(closingWec.signals?.handoffCompleteness,100);assert.equal(closingWec.signals?.unrecordedDecisions,0);assert.equal(closingWec.signals?.atomicOperation,false);
-assert.deepEqual(wec,closingWec,"Current WEC status must equal its final archive at handoff closure.");
+if(wec.environmentId===closingWec.environmentId)assert.deepEqual(wec,closingWec,"A closing WEC status must equal its final archive.");
+else{
+  assert.match(wec.environmentId,/^we-\d{4}-\d{2}-\d{2}-.+/);assert.equal(wec.lifecycle,"active");assert.equal(wec.repository?.predecessorEnvironmentId,closingWec.environmentId);assert.equal(wec.repository?.predecessorArchive,"WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json");assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);assert.match(wec.continuity?.currentTask||"",/physical[\s\S]+acceptance[\s\S]+evidence|acceptance[\s\S]+physical/i);
+}
 assert.match(closingWec.continuity?.lastSafeCheckpoint||"",/PR #194[\s\S]+1\.9\.1\/1\.9\.1-r2[\s\S]+91\/100/i);
 assert.match(closingWec.continuity?.nextSafeAction||"",/fresh successor[\s\S]+two-physical-device\/two-independent-network/i);
 

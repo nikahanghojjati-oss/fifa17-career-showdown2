@@ -120,8 +120,14 @@ assert.equal(hardeningNode?.runtimeRevision,"1.9.1-r2");assert.equal(hardeningNo
 assert.equal(model.latestCheckpoint?.rjrScore,91);assert.equal(model.latestCheckpoint?.runtimeRevision,"1.9.1-r2");assert.equal(model.latestCheckpoint?.publicationPullRequest,194);assert.equal(model.latestCheckpoint?.publicationMergeSha,"11bb681527a9b78884baf0c384350c90493dc9bd");
 assert.equal(learning.latestLesson?.rjrScore,91);assert.equal(learning.latestLesson?.publicationPullRequest,194);assert.equal(learning.latestLesson?.runtimeRevision,"1.9.1-r2");assert.equal(learning.latestLesson?.next,"physical-two-device-two-independent-network-remote-joining-acceptance");
 
-assert.equal(wec.environmentId,"we-2026-09-04-stage5g-reconnect-recovery");assert.equal(wec.lifecycle,"closed");assert.equal(wec.assessment?.decision,"HANDOFF_NOW");assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);assert.equal(wec.signals?.handoffCompleteness,100);assert.equal(wec.signals?.unrecordedDecisions,0);assert.equal(wec.signals?.atomicOperation,false);
-assert.deepEqual(wec,archivedWec,"Closed WEC status and archive must be semantic equivalents.");
-assert.match(wec.continuity?.nextSafeAction||"",/fresh successor[\s\S]+two-physical-device\/two-independent-network/i);
+assert.equal(archivedWec.environmentId,"we-2026-09-04-stage5g-reconnect-recovery");assert.equal(archivedWec.lifecycle,"closed");assert.equal(archivedWec.assessment?.decision,"HANDOFF_NOW");assert.equal(archivedWec.assessment?.decisionInheritedFromPredecessor,false);assert.equal(archivedWec.signals?.handoffCompleteness,100);assert.equal(archivedWec.signals?.unrecordedDecisions,0);assert.equal(archivedWec.signals?.atomicOperation,false);
+assert.match(archivedWec.continuity?.nextSafeAction||"",/fresh successor[\s\S]+two-physical-device\/two-independent-network/i);
+if(wec.environmentId===archivedWec.environmentId){assert.deepEqual(wec,archivedWec,"A closing WEC status must remain equivalent to its archive.");}
+else{
+  assert.match(wec.environmentId,/^we-\d{4}-\d{2}-\d{2}-.+/);assert.equal(wec.lifecycle,"active");
+  assert.equal(wec.repository?.predecessorEnvironmentId,archivedWec.environmentId);assert.equal(wec.repository?.predecessorArchive,"WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json");
+  assert.match(wec.repository?.startingMainSha||"",/^[0-9a-f]{40}$/);assert.equal(wec.assessment?.decisionInheritedFromPredecessor,false);
+  assert.match(wec.continuity?.currentTask||"",/physical[\s\S]+acceptance[\s\S]+evidence|acceptance[\s\S]+physical/i);assert.equal(wec.signals?.usageRemainingPercent,null);assert.equal(wec.signals?.usageSource,"unavailable");
+}
 
-process.stdout.write("PASS SLE packaging: v1.4.41 mirrored PR194/r2 production package preserves RJR91, closes WEC, keeps historical PR187/PR191 provenance, and routes only to genuine physical Remote Joining acceptance under zero billing.\n");
+process.stdout.write("PASS SLE packaging: v1.4.41 mirrored PR194/r2 production package preserves RJR91 and the archived closing WEC while permitting a reset fresh successor to own genuine physical Remote Joining acceptance under zero billing.\n");
