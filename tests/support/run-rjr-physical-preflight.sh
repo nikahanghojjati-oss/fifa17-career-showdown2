@@ -6,7 +6,7 @@ port="${CMS_RJR_PREFLIGHT_PORT:-4187}"
 base_url="http://${host}:${port}/"
 server_log="${TMPDIR:-/tmp}/cms-rjr-physical-preflight-${port}-$$.log"
 
-CMS_TEST_HOST="$host" CMS_TEST_PORT="$port" npm run serve:test > "$server_log" 2>&1 &
+CMS_TEST_HOST="$host" CMS_TEST_PORT="$port" node tests/support/static-server.cjs > "$server_log" 2>&1 &
 server_pid=$!
 cleanup(){
   kill "$server_pid" 2>/dev/null || true

@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — PR #196 OPEN / CORRECTED VALIDATOR SEALED / RJR91 / PUBLICATION THEN PHYSICAL ACCEPTANCE — 2026-09-05 UTC
+
+Status: CORRECTED FINAL SLE SEAL / EXACT-HEAD PUBLICATION REVALIDATION NEXT
+
+PR #196 initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 permanent workflow families. Two valid P2 findings are corrected: the validator rejects unknown/alternate authority fields, and the preflight owns the direct static-server process. Fetch the final sealed PR head live; require fresh 15/15 and final-head review before expected-head squash merge, then require all 15 post-merge/Pages workflow families. This tooling-only PR earns zero RJR.
+
+Production remains independently proven `v1.9.1 / 1.9.1-r2` from PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; previous known-good whole-shell recovery is `1.9.1-r1`. Fixed `RJR-1` remains `91/100`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Validate closed Work Environment Continuity archive `we-2026-09-05-physical-acceptance-evidence`, initialize a fresh unique WEC with reset counters/current live main, and finish corrected PR #196 publication and post-merge proof. Then run `npm run test:rjr-physical-preflight`; perform the bounded genuine production Remote Joining acceptance on two physical devices and two independent networks; validate exactly two sanitized exports with `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>`; and reconcile only genuinely new fixed-ledger evidence. Final stable Remote Joining release acceptance remains required. Do not assume RJR100.
+
+## Retained production authority and detailed physical procedure
+
 # CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT — 2026-09-05 UTC
 
 Status: DEPLOYED / PRODUCTION-PROVEN / AUTOMATION EXHAUSTED TO PHYSICAL ACCEPTANCE BOUNDARY

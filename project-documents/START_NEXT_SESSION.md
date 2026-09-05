@@ -1,19 +1,14 @@
-# START NEXT SESSION — v1.4.41 / PR #194 MERGED / r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
+# START NEXT SESSION — v1.4.43 / PR #196 CORRECTED VALIDATOR SEALED / RJR91
 
 Repository: `nikahanghojjati-oss/fifa17-career-showdown2`
-Handoff branch: `handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05`
-Public site: `https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/`
-Canonical starter: `START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md`
-Deep SLE: `SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md`
+Handoff branch: `rjr/physical-acceptance-evidence-automation-2026-09-05`
+Canonical starter: `START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md`
+Deep SLE: `SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md`
 
-Treat all handoff material as orientation only. Independently verify current live main, PR #194, production/deployment, `REMOTE_JOINING_READINESS.json`, `NEXT_TASK.md` and the closing WEC before acting.
+Treat this as orientation only. Independently verify live main, PR #196's final exact head/tree/review/workflows, production `v1.9.1 / 1.9.1-r2`, fixed `RJR-1` `91/100`, `NEXT_TASK.md` and closed Work Environment Continuity archive `we-2026-09-05-physical-acceptance-evidence`.
 
-Verified product/runtime boundary before handoff packaging: PR #194 exact head `42f91df5ec1d5a576f0907836fa03f5994d7646b`, expected-head squash merge/main `11bb681527a9b78884baf0c384350c90493dc9bd`, production `v1.9.1 / 1.9.1-r2`. Fifteen exact-head workflow families and fifteen main-push workflow families passed. Stability `33947112190` and deployed-site smoke `101255587827` passed the complete production journey. RJR remains **91/100** because automation/publication gets zero capability credit.
+PR #196 initial head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 workflow families. Two valid review findings are corrected in the final seal. Initialize a fresh unique WEC, finish final-head CI/review/expected-head merge/post-merge proof, and only then run the genuine two-physical-device/two-independent-network acceptance with the strict paired-export validator. PR196 automation/publication earns zero RJR.
 
-Closing WEC: `we-2026-09-04-stage5g-reconnect-recovery`. Successor validates the archive, initializes a fresh unique WEC with reset counters/current live main, then executes the starter's `IMMEDIATE NEXT TASK AFTER FULL STUDY`.
+Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Candidate C remains sole destructive local Apply authority. Exactly two private managers; no public discovery/matchmaking/community/rankings and no durable raw capability or authority ID.
 
-First substantive successor task: one bounded genuine two-physical-device/two-independent-network production Remote Joining acceptance, preferably Chromebook/Wi-Fi host plus iPhone/cellular peer, using `?rjr-acceptance=1` and exporting only sanitized JSON evidence. Prove same fingerprint, Host/Join active revision 1, real offline/online recovery on the same session, Close revision 2, no resurrection/raw-secret leakage/canonical-storage mutation. Then reconcile fixed RJR-1 from genuinely new evidence and complete final stable Remote Joining release acceptance.
-
-Billing must never be activated. Firebase remains Spark. App Check enforcement remains OFF. Firestore persistence remains memory-only. Candidate C remains sole destructive local Apply authority. Exactly two private managers; no public discovery/matchmaking/community/rankings. Never durably retain a full private capability.
-
-SLE = Smart Lean Efficient remains mandatory and recursive. Unknown usage is never fabricated. At Handoff proximity 100%, close/archive WEC, refresh the mirrored package and stop before another substantial milestone.
+SLE = Smart Lean Efficient remains mandatory and recursive. At Handoff proximity 100%, close/archive WEC, refresh the complete mirrored package and stop before another substantial milestone.

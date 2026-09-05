@@ -7,13 +7,23 @@ export const RESULT_SCHEMA="career-mode-showdown.remote-joining-physical-accepta
 
 const FINGERPRINT=/^[a-f0-9]{64}$/;
 const RAW_CAPABILITY=/\b(?:pair|session)_[a-f0-9]{64}\b/i;
-const FORBIDDEN_AUTHORITY_KEYS=new Set(["sessionId","accountId","deviceId","rivalryId"]);
+const FORBIDDEN_AUTHORITY_KEYS=new Set(["sessionid","accountid","deviceid","rivalryid"]);
 const VALID_ROLES=new Set(["host","peer"]);
+const ROOT_FIELDS=new Set(["schema","generatedAt","appVersion","runtimeRevision","acceptanceMode","recorderStorage","recorderNetworkRequests","rawCapabilityIncluded","rawAccountIdIncluded","rawDeviceIdIncluded","rawRivalryIdIncluded","device","deviceLabel","networkLabel","records"]);
+const DEVICE_FIELDS=new Set(["userAgent","platform","maxTouchPoints","screenWidth","screenHeight"]);
+const RECORD_FIELDS=new Set(["sequence","at","type","online","deviceLabel","networkLabel","capabilityFingerprint","status","role","sessionState","revision","pendingAction","capabilityPresent","capabilityCopyAllowed","busy","runtimeRevision","errorCode"]);
 
 function plainObject(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}
 function nonEmpty(value){return typeof value==="string"&&value.trim().length>0;}
 function issue(code,source,message){return Object.freeze({code,source,message});}
 function add(issues,condition,code,source,message){if(!condition)issues.push(issue(code,source,message));return condition;}
+function normalizedKey(value){return String(value||"").replace(/[^a-z0-9]/gi,"").toLowerCase();}
+function rejectUnknownFields(value,allowed,source,issues,location){
+  if(!plainObject(value))return;
+  for(const key of Object.keys(value)){
+    if(!allowed.has(key))issues.push(issue("UNKNOWN_FIELD",source,`Unrecognized evidence field at ${location}.`));
+  }
+}
 
 function inspectPrivacy(value,source,issues,location="$"){
   if(Array.isArray(value)){
@@ -22,7 +32,7 @@ function inspectPrivacy(value,source,issues,location="$"){
   }
   if(plainObject(value)){
     for(const [key,entry] of Object.entries(value)){
-      if(FORBIDDEN_AUTHORITY_KEYS.has(key))issues.push(issue("RAW_AUTHORITY_FIELD",source,`Forbidden raw authority field at ${location}.`));
+      if(FORBIDDEN_AUTHORITY_KEYS.has(normalizedKey(key)))issues.push(issue("RAW_AUTHORITY_FIELD",source,`Forbidden raw authority field at ${location}.`));
       inspectPrivacy(entry,source,issues,`${location}.${key}`);
     }
     return;
@@ -40,6 +50,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   const issues=[];
   if(!add(issues,plainObject(evidence),"EXPORT_NOT_OBJECT",source,"Export must be a JSON object."))return {issues,facts:{}};
   inspectPrivacy(evidence,source,issues);
+  rejectUnknownFields(evidence,ROOT_FIELDS,source,issues,"$");
 
   add(issues,evidence.schema===EVIDENCE_SCHEMA,"SCHEMA_MISMATCH",source,"Export schema is not the supported physical acceptance schema.");
   add(issues,evidence.acceptanceMode===true,"ACCEPTANCE_MODE_REQUIRED",source,"Acceptance mode must be true.");
@@ -54,6 +65,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   add(issues,nonEmpty(evidence.networkLabel)&&evidence.networkLabel.trim().length<=80,"NETWORK_LABEL_REQUIRED",source,"A concise network label is required.");
   const signature=deviceSignature(evidence.device);
   add(issues,!!signature,"DEVICE_FACTS_REQUIRED",source,"Browser device facts are required.");
+  rejectUnknownFields(evidence.device,DEVICE_FIELDS,source,issues,"$.device");
   add(issues,Number.isFinite(Date.parse(evidence.generatedAt)),"GENERATED_AT_INVALID",source,"generatedAt must be a valid timestamp.");
 
   const records=Array.isArray(evidence.records)?evidence.records:[];
@@ -65,6 +77,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
   const roles=new Set();
   for(const record of records){
     if(!plainObject(record)){issues.push(issue("RECORD_NOT_OBJECT",source,"Every lifecycle record must be an object."));continue;}
+    rejectUnknownFields(record,RECORD_FIELDS,source,issues,"$.records[]");
     add(issues,Number.isInteger(record.sequence)&&record.sequence>priorSequence,"RECORD_SEQUENCE_INVALID",source,"Record sequence values must be strictly increasing positive integers.");
     if(Number.isInteger(record.sequence))priorSequence=record.sequence;
     const timestamp=Date.parse(record.at);
@@ -129,7 +142,7 @@ export function validatePhysicalAcceptancePair(first,second,options={}){
     expectedProduction:{appVersion:expectedAppVersion,runtimeRevision:expectedRuntimeRevision},
     checks:Object.freeze({
       exportCount:2,
-      privacySafe:!issues.some(item=>item.code.startsWith("RAW_")||item.code.includes("RECORDER_")),
+      privacySafe:!issues.some(item=>item.code.startsWith("RAW_")||item.code.includes("RECORDER_")||item.code==="UNKNOWN_FIELD"),
       hostPeerPair:roles.size===2&&roles.has("host")&&roles.has("peer"),
       sameSessionFingerprint:fingerprints.size===1&&facts.every(item=>item.fingerprint),
       distinctDeviceLabels:deviceLabels.size===2,

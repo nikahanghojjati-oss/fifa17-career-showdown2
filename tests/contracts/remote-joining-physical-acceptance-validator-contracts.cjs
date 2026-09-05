@@ -35,7 +35,8 @@ function evidence({role,deviceLabel,networkLabel,device,interrupt=false,fp=finge
   assert.equal(RESULT_SCHEMA,"career-mode-showdown.remote-joining-physical-acceptance-validation.v1");
   assert.equal(pkg.scripts["validate:rjr-physical"],"node scripts/validate-remote-joining-physical-acceptance.mjs");
   assert.equal(pkg.scripts["test:rjr-physical-preflight"],"npm run test:contracts && bash tests/support/run-rjr-physical-preflight.sh");
-  assert.match(preflight,/npm run serve:test/);
+  assert.match(preflight,/node tests\/support\/static-server\.cjs/);
+  assert.doesNotMatch(preflight,/npm run serve:test/);
   assert.match(preflight,/CMS_BASE_URL="\$base_url" npm run test:stage5h/);
   assert.match(preflight,/CMS_BASE_URL="\$base_url" npm run test:stage5i/);
   assert.match(preflight,/trap cleanup EXIT/);
@@ -76,9 +77,17 @@ function evidence({role,deviceLabel,networkLabel,device,interrupt=false,fp=finge
   assert.equal(privacyFailure.passed,false);assert.ok(privacyFailure.issues.some(item=>item.code==="RAW_AUTHORITY_FIELD"));
   assert.equal(JSON.stringify(privacyFailure).includes(leaked.records[2].sessionId),false,"Validation results must not echo a raw capability.");
 
+  const alternateAuthority=structuredClone(peer);alternateAuthority.records[2].account_id="raw-account-value";
+  const alternateAuthorityFailure=validatePhysicalAcceptancePair(host,alternateAuthority);
+  assert.equal(alternateAuthorityFailure.passed,false);assert.equal(alternateAuthorityFailure.checks.privacySafe,false);assert.ok(alternateAuthorityFailure.issues.some(item=>item.code==="RAW_AUTHORITY_FIELD"));assert.ok(alternateAuthorityFailure.issues.some(item=>item.code==="UNKNOWN_FIELD"));
+
+  const unknownRoot=structuredClone(peer);unknownRoot.notes="unexpected evidence field";
+  const unknownFieldFailure=validatePhysicalAcceptancePair(host,unknownRoot);
+  assert.equal(unknownFieldFailure.passed,false);assert.equal(unknownFieldFailure.checks.privacySafe,false);assert.ok(unknownFieldFailure.issues.some(item=>item.code==="UNKNOWN_FIELD"));
+
   const wrongRuntime=structuredClone(peer);wrongRuntime.runtimeRevision="1.9.1-r1";
   const runtimeFailure=validatePhysicalAcceptancePair(host,wrongRuntime);
   assert.equal(runtimeFailure.passed,false);assert.ok(runtimeFailure.issues.some(item=>item.code==="RUNTIME_REVISION_MISMATCH"));
 
-  process.stdout.write("PASS physical Remote Joining evidence validator accepts only one privacy-safe host/peer session with distinct devices/networks, ordered offline recovery, terminal revision 2 and no resurrection; tooling awards zero RJR.\n");
+  process.stdout.write("PASS physical Remote Joining evidence validator enforces a closed privacy-safe schema and accepts only one host/peer session with distinct devices/networks, ordered offline recovery, terminal revision 2 and no resurrection; tooling awards zero RJR.\n");
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

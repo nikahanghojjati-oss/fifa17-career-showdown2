@@ -1,12 +1,12 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-05T05:48:31Z",
+  "recordedAt": "2026-09-05T08:09:54Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05",
+  "bootstrapBranch": "rjr/physical-acceptance-evidence-automation-2026-09-05",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
-  "lastVerifiedRuntimeMainSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
+  "lastVerifiedMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
+  "lastVerifiedRuntimeMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
   "latestRuntimeMerge": {
     "pullRequest": 194,
     "title": "Stage 5I: add privacy-safe physical acceptance recorder",
@@ -20,27 +20,40 @@
     "historicalRollbackProvenance": true
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 194,
-    "title": "Stage 5I: add privacy-safe physical acceptance recorder",
-    "state": "merged",
-    "workingBranch": "stage5i/physical-acceptance-recorder-2026-09-05",
-    "baseSha": "65399fc2f214d3bbdf3ef47fb47428c8b34d2017",
-    "exactFinalHead": "42f91df5ec1d5a576f0907836fa03f5994d7646b",
-    "mergeSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
-    "mergeMethod": "expected-head-protected-squash",
-    "publicationStatus": "complete-exact-head-and-postmerge-production-proven",
-    "expectedHeadProtectionUsed": true,
+    "pullRequest": 196,
+    "title": "Automate physical Remote Joining evidence validation",
+    "state": "open",
+    "workingBranch": "rjr/physical-acceptance-evidence-automation-2026-09-05",
+    "baseSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
+    "initialExactHead": "95e40e83e0228ef4ed438f09fcf6db5ddbbc7636",
+    "initialExactHeadWorkflowFamiliesSuccessful": 15,
+    "initialExactHeadStabilityRunId": 33954013313,
+    "validReviewFindings": 2,
+    "reviewFindingsCorrectedLocally": 2,
+    "finalSealedHead": null,
+    "finalSealedHeadMustBeFetchedLive": true,
+    "finalHeadWorkflowFamiliesSuccessfulAtPackaging": 0,
+    "publicationStatus": "open-corrected-final-sle-seal-pending-exact-head-revalidation",
+    "expectedHeadProtectionRequired": true,
+    "postMergeWorkflowFamiliesSuccessful": 0,
+    "runtimeChanged": false,
+    "rulesChanged": false,
+    "providerMutationRequired": false,
+    "publicationWorkRjrCredit": 0
+  },
+  "historicalPr195PublicationCheckpoint": {
+    "pullRequest": 195,
+    "title": "Seal PR194 r2 production successor handoff",
+    "exactFinalHead": "e3504148034036dfa2f9ed790aae5bb7b5576c09",
+    "mergeSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
     "exactHeadWorkflowFamiliesSuccessful": 15,
     "postMergeWorkflowFamiliesSuccessful": 15,
-    "unresolvedReviewThreadsAtMerge": 0,
-    "exactHeadStabilityRunId": 33946911198,
-    "releaseIntegrationRunId": 33947112248,
-    "stabilityRunId": 33947112190,
-    "deployedSiteSmokeJobId": 101255587827,
-    "deployedEveryRuntimeByteProven": true,
-    "deployedCompleteJourneyProven": true,
-    "runtimeChanged": true,
-    "publicationWorkRjrCredit": 0
+    "pagesRunId": 33951627822,
+    "releaseIntegrationRunId": 33951627751,
+    "stabilityRunId": 33951627758,
+    "runtimeChanged": false,
+    "publicationWorkRjrCredit": 0,
+    "immutableHistoricalProvenance": true
   },
   "historicalPr191PublicationCheckpoint": {
     "pullRequest": 191,
@@ -98,7 +111,10 @@
     "stage5hRealBrowserAdverseNetworkProductionProven": true,
     "stage5iPrivacySafePhysicalAcceptanceRecorderProductionProven": true,
     "automationRjrCredit": 0,
-    "physicalTwoDeviceTwoIndependentNetworkAcceptancePending": true
+    "physicalTwoDeviceTwoIndependentNetworkAcceptancePending": true,
+    "pairedEvidenceValidatorImplemented": true,
+    "pairedEvidenceValidatorPublished": false,
+    "pairedEvidenceValidatorRjrCredit": 0
   },
   "ownerStandingAuthorization": {
     "scope": "all-current-and-future-project-pull-requests-through-full-project-completion",
@@ -133,7 +149,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Run one bounded genuine Remote Joining two-physical-device/two-independent-network production reconnect/adverse-network acceptance using the Stage 5I privacy-safe recorder; then reconcile RJR-1 and execute final stable Remote Joining release acceptance.",
+  "currentLane": "Finish corrected PR #196 exact-head publication and post-merge proof, then run one bounded genuine Remote Joining two-physical-device/two-independent-network production acceptance using the strict paired-export validator; reconcile RJR only from accepted evidence.",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
@@ -156,42 +172,42 @@
     "reportFrequently": ["current RJR","remaining runway","current scoreable gap","estimated concrete tasks","estimated major stages","estimated genuinely new evidence bundles","blocker status","owner action requirement","Handoff proximity"]
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-09-04-stage5g-reconnect-recovery",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json",
+    "environmentId": "we-2026-09-05-physical-acceptance-evidence",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json",
     "decisionMustNotBeInherited": true
   },
   "currentWec": {
-    "environmentId": "we-2026-09-04-stage5g-reconnect-recovery",
-    "startingMainSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
+    "environmentId": "we-2026-09-05-physical-acceptance-evidence",
+    "startingMainSha": "2302e8daba6c9417954bc610f537aba41c4d3d87",
     "lifecycle": "closed",
-    "finalDecision": "HANDOFF_NOW",
+    "finalDecision": "HANDOFF_AT_CHECKPOINT",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json",
-    "closingCheckpoint": "PR194 exact head 42f91df5ec1d5a576f0907836fa03f5994d7646b passed all 15 PR workflow families and merged with expected-head protection to 11bb681527a9b78884baf0c384350c90493dc9bd; all 15 main-push families, two release burn-in journeys and complete deployed-site smoke passed. Production is v1.9.1/1.9.1-r2 and fixed RJR remains 91/100."
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-05-physical-acceptance-evidence.json",
+    "closingCheckpoint": "PR196 initial exact head 95e40e83e0228ef4ed438f09fcf6db5ddbbc7636 passed all 15 families; two valid P2 findings were corrected and fully re-proven locally before the final SLE seal. Production remains v1.9.1/1.9.1-r2 and fixed RJR remains 91/100."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
-    "status": "current-pr194-r2-production-rjr91-physical-acceptance-next"
+    "canonical": "SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md",
+    "status": "current-pr196-corrected-validator-sealed-rjr91-publication-next"
   },
   "starter": {
-    "version": "1.4.41",
-    "checkpoint": "PR194-R2-PRODUCTION-RJR91-PHYSICAL-ACCEPTANCE-NEXT",
-    "canonical": "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
+    "version": "1.4.43",
+    "checkpoint": "PR196-CORRECTED-VALIDATOR-SEALED-RJR91-PUBLICATION-NEXT",
+    "canonical": "START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "ownerEagleEyeRule": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "handoffBranch": "handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05"
+    "handoffBranch": "rjr/physical-acceptance-evidence-automation-2026-09-05"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -202,7 +218,7 @@
     "recursiveInheritance": true
   },
   "minimalReads": [
-    "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
+    "START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md",
     "SESSION_BOOTSTRAP.json",
     "00_CURRENT_HANDOFF.md",
     "00_SLE_HANDOFF_PROTOCOL.md",
@@ -229,15 +245,15 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "physical-two-device-two-independent-network-remote-joining-acceptance",
-    "summary": "After independent live verification and fresh WEC initialization, perform one bounded genuine production Remote Joining Host/Join/offline-reconnect/Close acceptance on two physical devices and two independent networks using the Stage 5I sanitized recorder. Reconcile RJR only from accepted physical capability evidence, then execute final stable Remote Joining release acceptance.",
+    "name": "finish-pr196-corrected-publication-then-physical-acceptance",
+    "summary": "After independent live verification and fresh WEC initialization, finish corrected PR #196 on one exact 15/15 reviewed head, expected-head merge and clean post-merge proof. Then perform one bounded genuine production Remote Joining Host/Join/offline-reconnect/Close acceptance on two physical devices and two independent networks and validate both sanitized exports. Reconcile RJR only from accepted physical capability evidence.",
     "mustNotInsertGenericPrerequisiteLane": true,
     "mustStartAsRealProjectWork": true
   },
   "transition": {
     "contextTransitionRequired": true,
     "handoffCompleteness": 100,
-    "continuationDecision": "HANDOFF_NOW",
+    "continuationDecision": "HANDOFF_AT_CHECKPOINT",
     "predecessorDecisionMustNotBeInherited": true
   },
   "wec100PackagingRule": "At Handoff proximity 100%, create the complete mirrored SLE = Smart Lean Efficient package, refresh capsule/current pointers, final-seal and archive the WEC, and stop before the next substantial milestone."
