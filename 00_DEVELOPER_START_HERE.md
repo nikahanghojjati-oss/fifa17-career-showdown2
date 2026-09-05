@@ -8,6 +8,8 @@ Current independently verified live main is PR #193 squash merge `65399fc2f214d3
 
 Historical transition provenance: `v1.9.0 / 1.9.0-r5` was the production runtime at the PR191 / Stage 5F acceptance boundary before the fixed readiness score advanced to RJR91 and before PR #192 / PR #193 promoted `v1.9.1 / 1.9.1-r1`. `v1.9.0-r5` is historical only, not current production.
 
+At that PR191/RJR91 transition, the smallest genuinely uncredited successor work was Stage 5G Remote Joining-specific reconnect/adverse-network hardening. That transition lane has since been consumed by PR #192 and the Stage 5H automated real-browser proof; it is preserved here only as historical capability-routing provenance, while Stage 5I is current execution authority.
+
 The accepted Stage 5F production boundary remains sealed and credited exactly once: revoked-device protected mutation denial and authenticated unrelated-account exact private-read denial are both production-proven, and their fixed RJR credit is already included in RJR91. Do not repeat or re-credit Stage 5F evidence.
 
 The automated Stage 5H proof is deliberately not counted as two-physical-device/two-network evidence. Fixed RJR-1 therefore remains **91/100** with domain vector 20/20 deterministic sync/recovery, 20/20 identity/auth/trust, 20/20 production cloud/security, 22/30 devices/pairing/Connected Rivalry/Remote Joining, and 9/10 real-device hardening/stable release.
