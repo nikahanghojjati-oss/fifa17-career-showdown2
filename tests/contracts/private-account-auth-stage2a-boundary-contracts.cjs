@@ -18,9 +18,11 @@ const index = read("index.html");
 const optional = read("js/optionalModules.js");
 const worker = read("service-worker.js");
 const pkg = JSON.parse(read("package.json"));
-const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.0-r5"
-  && bootstrap.lastProductionProvenRuntime?.pullRequest === 187
-  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.0-r5";
+const currentProduction = bootstrap.runtime?.productionRuntimeRevision === "1.9.1-r2"
+  && bootstrap.latestRuntimeMerge?.pullRequest === 194
+  && bootstrap.latestRuntimeMerge?.runtimeRevision === "1.9.1-r2"
+  && bootstrap.lastProductionProvenRuntime?.pullRequest === 194
+  && bootstrap.lastProductionProvenRuntime?.runtimeRevision === "1.9.1-r2";
 
 assert.match(stage2a, /AUTHORIZED NEXT PREREQUISITE \/ IMPLEMENTATION NOT STARTED/i);
 assert.match(stage2a, /demo-career-mode-showdown-phase1f/);
@@ -47,23 +49,27 @@ assert.match(phase1f, /every application-client (?:Firestore )?write(?: path)? r
 assert.match(phase1f, /idempotencyKeyHash[\s\S]+sibling[\s\S]+idempotency receipt/i);
 
 // Stage 2A is immutable prerequisite provenance, not current execution authority. Later connected-account
-// runtime work superseded it; live authority is now Stage 5F accepted / RJR91 / Stage 5G.
+// runtime work superseded it; live authority is now PR194/r2 production-proven at fixed RJR91 with physical acceptance next.
 assert.match(historicalNext, /Current authorized prerequisite candidate[\s\S]+Private Account \/ Authentication Stage 2A/i,"Archived predecessor authority must preserve the historical Stage 2A selection boundary.");
 assert.match(preR3Next,/Historical gateway heading retained only as provenance: CURRENT IMPLEMENTATION AUTHORITY — TRUSTED SHARED MUTATION GATEWAY/i,"Lossless pre-r3 authority must retain the completed gateway prerequisite as historical provenance.");
 assert.match(preR3Next,/Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 authority must preserve Stage 2A through 2I completion.");
 assert.match(preR3Next, /Authorized product candidate:[\s\S]{0,120}v1\.5\.0[\s\S]{0,120}1\.5\.0-r1/i,"Lossless pre-r3 authority must preserve the historical bounded v1.5.0/r1 candidate.");
 assert.match(preR3State, /Phase 1F[\s\S]+DONE \/ MERGED \/ PROTECTED[\s\S]+PR #81/i);
 assert.match(preR3State, /Private Account \/ Authentication \/ Authorization Stages 2A through 2I are DONE \/ MERGED \/ PROVEN/i,"Lossless pre-r3 PROJECT_STATE must preserve Stage 2A completion inside the Stage 2A-through-2I authority.");
-assert.match(next,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Current NEXT_TASK must identify Stage 5F/RJR91/Stage 5G before immutable Stage 2A history.");
-assert.match(state,/CURRENT OVERRIDE[\s\S]+STAGE 5F[\s\S]+RJR91[\s\S]+STAGE 5G/i,"Current PROJECT_STATE must identify Stage 5F/RJR91/Stage 5G before immutable Stage 2A history.");
-assert.equal(currentProduction,true,"Current runtime provenance must identify production-proven PR #187 / v1.9.0-r5 without erasing historical PR #166 rollback provenance.");
-assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,166,"Historical rollback merge provenance must remain PR #166.");
-assert.equal(bootstrap.latestRuntimeMerge?.mergeSha,"32c32afb1365c9ae6120d810a68e5c72c4b8229a","Historical rollback merge SHA must remain exact.");
-assert.equal(bootstrap.latestRuntimeMerge?.rollbackRunId,33190961085,"Historical rollback proof run must remain exact.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed v1.4.40 RJR91 snapshot while PR187 remains runtime provenance.");
-assert.match(next,/App Check enforcement remains OFF/i,"Current NEXT_TASK must keep App Check enforcement off.");
-assert.match(next,/Firebase remains (?:on )?Spark(?: \/ zero billing)?/i,"Current NEXT_TASK must preserve Spark zero billing.");
-assert.match(state,/Installable Offline App[\s\S]+local-first startup\/recovery baseline|Installable Offline App[\s\S]+local-first startup and recovery baseline/i,"Current PROJECT_STATE must preserve the offline recovery baseline rather than inline stale Stage 2A authority.");
+assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Current NEXT_TASK must identify PR194/r2 production-proven RJR91 physical acceptance authority before immutable Stage 2A history.");
+assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+v1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE NEXT/i,"Current PROJECT_STATE must identify PR194/r2 production-proven RJR91 physical acceptance authority before immutable Stage 2A history.");
+assert.equal(currentProduction,true,"Current runtime provenance must identify production-proven PR #194 / v1.9.1-r2.");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.pullRequest,187,"Historical PR187 publication provenance must remain explicit.");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.9.0-r5","Historical PR187 runtime provenance must remain 1.9.0-r5.");
+assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.mergeSha,"277f1b55dc362ee84d285445b99172b9fbed8509","Historical PR187 merge provenance must remain exact.");
+assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r1","Current rollback whole-shell authority must remain the previous production-proven r1 shell.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Current bootstrap must expose the sealed RJR91 snapshot while publication work remains uncredited.");
+assert.equal(bootstrap.runtime?.appCheckEnforcement,false,"Current authority must keep App Check enforcement off.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Spark","Current authority must preserve Spark zero billing.");
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false,"Cloud Billing linkage must remain forbidden.");
+assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only","Firestore persistence must remain memory-only.");
+assert.equal(bootstrap.runtime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Google Auth must remain popup-only browserSessionPersistence with no extra scopes.");
+assert.match(state,/Installable Offline App[\s\S]+(?:local-first startup\/recovery baseline|local-first startup and recovery baseline|v1\.3\.0 Recovery & Device Resilience baseline)/i,"Current PROJECT_STATE must preserve the offline recovery baseline rather than inline stale Stage 2A authority.");
 assert.match(state,/Candidate C remains the sole destructive remote-to-local(?: gameplay)? Apply authority/i,"Current PROJECT_STATE must preserve Candidate C destructive Apply authority.");
 assert.equal(readiness.modelVersion,"RJR-1","Stage 2A current-state checks must use the fixed RJR-1 model.");
 assert.equal(readiness.currentScore,91,"Stage 2A current-state checks must expose the live fixed RJR91 boundary.");
@@ -93,4 +99,4 @@ assert.doesNotMatch(index, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A
 assert.doesNotMatch(optional, /firebase-admin|firebase\/auth|firestore/i, "Stage 2A boundary must not connect Firebase Auth/Admin/Firestore through production optional modules.");
 assert.doesNotMatch(worker, /firebase-admin|firebase-auth|firebase\/auth|firestore|private-account-auth-stage2a/i, "Stage 2A Auth/emulator runtime must remain absent from the production Service Worker even when later reviewed Firebase runtime assets are shell-cached indirectly.");
 
-process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion and PR166 rollback provenance preserved while live Stage 5F/RJR91/Stage 5G authority is explicit\n");
+process.stdout.write("PASS Private Account/Auth Stage 2A emulator-only identity boundary with immutable historical selection/completion preserved while live PR194/r2 production, RJR91 and physical acceptance authority are explicit\n");

@@ -1,16 +1,28 @@
-# Career Mode Showdown v1.9.1-r1 Maintenance Release Record
+# Career Mode Showdown v1.9.1-r2 Maintenance Release Record
 
-Status: RELEASE CANDIDATE — NOT PRODUCTION-PROVEN
+Status: PRODUCTION-PROVEN
 Application version: `v1.9.1`
-Runtime revision: `1.9.1-r1`
-Previous known-good whole shell: `1.9.0-r5`
+Current runtime revision: `1.9.1-r2`
+Previous production-proven whole shell: `1.9.1-r1`
 Remote Joining readiness: `91/100` under fixed model `RJR-1`
 
 ## Purpose
 
-This candidate packages the Stage 5G Remote Joining-specific same-capability reconnect hardening into a new whole-shell identity. The browser may now recover safely when an exact Host, Join or Close provider mutation commits but its acknowledgement is lost. The unresolved operation remains page-memory-only and bound to the same account, registered device, exact Connected Rivalry and exact session capability. Retry reuses the exact capability; it never manufactures a replacement session to guess whether the first mutation committed.
+The v1.9.1 patch line hardens Private Remote Joining around ambiguous provider acknowledgements, adverse-network recovery and the remaining physical acceptance boundary without enabling billing.
 
-The full unresolved capability is hidden from copy, replacement Host/Join and Forget are blocked, authority-context drift fails closed, definitive denials remain distinct from ambiguous transport failures, and terminal Close cannot resurrect. Remote Joining still mutates no canonical local Career Mode Save.
+Stage 5G retains only the unresolved exact session capability in page memory and retries that same capability after recovery. It blocks replacement Host/Join and Forget while provider outcome is unresolved, binds recovery to the same authenticated account, registered device and exact Connected Rivalry, distinguishes definitive denial from ambiguous transport failure, and preserves terminal Close monotonicity.
+
+Stage 5H proves the automatable real-browser offline/online portion across isolated Chromium contexts: zero provider mutation while offline, bounded online recovery, one exact session, active revision 1, closed revision 2, no duplicate mutation after extra online events and unchanged canonical local Save storage.
+
+Stage 5I adds an explicit `?rjr-acceptance=1` privacy-safe physical acceptance recorder. Normal production keeps it unloaded and invisible. Acceptance evidence is page-memory-only and export-only, performs no recorder network or localStorage writes, excludes raw account/device/rivalry identifiers and the raw session capability, and correlates the one session only with a SHA-256 capability fingerprint.
+
+## Production proof
+
+PR #194 exact reviewed head `42f91df5ec1d5a576f0907836fa03f5994d7646b` passed all 15 permanent pull-request workflow families with zero unresolved review threads. It was squash-merged using expected-head protection to main `11bb681527a9b78884baf0c384350c90493dc9bd`.
+
+All 15 main-push workflow families completed successfully. Release Integration Burn-In run `33947112248` passed two independent complete journeys. Stability run `33947112190` passed contracts, Chromium and deployed-site smoke. Deployed-site-smoke job `101255587827` passed every runtime-byte, provenance, App Check, Home/Save Library/identity/analytics, visual, Candidate A/B/C, offline/install and complete deployed-journey gate.
+
+Therefore `v1.9.1 / 1.9.1-r2` is production-proven. `1.9.1-r1` is the previous known-good whole-shell rollback target. Never construct a mixed-version rollback.
 
 ## Locked safety boundary
 
@@ -22,10 +34,6 @@ Candidate A remains non-mutating. Candidate B remains read-only. Candidate C rem
 
 ## Evidence and RJR boundary
 
-The deterministic Stage 5G contract simulates provider commit followed by lost Host, Join and Close acknowledgements. The two-context Chromium audit exercises Host and peer contexts against one provider session, including same-capability retry, terminal convergence, unresolved capability hiding and canonical local-storage immutability.
+Fixed `RJR-1` remains **91/100**. Stage 5G/5H/5I implementation, automated browser proof, the acceptance recorder, PR, CI, review, merge, deployment, documentation, WEC and this maintenance record receive zero readiness credit.
 
-Fixed RJR-1 remains `91/100`. Source, tests, CI, review, merge, deployment, documentation, WEC and this maintenance record receive zero RJR credit. A future score increase requires genuinely new accepted capability evidence.
-
-## Publication and recovery rule
-
-`1.9.0-r5` remains the production-proven whole-shell recovery target until this unchanged v1.9.1-r1 head passes every permanent workflow family, final review, expected-head merge, post-merge validation, Pages deployment and independent production byte/runtime verification. Never construct a mixed-version rollback. If a concrete candidate regression appears before production proof, restore the previous whole `1.9.0-r5` shell.
+The remaining scoreable boundary is a genuine two-physical-device/two-independent-network Remote Joining reconnect/adverse-network production acceptance, followed by final stable Remote Joining release acceptance and evidence-based RJR reconciliation. Do not assume the physical run automatically produces RJR100; move the ledger only on accepted fixed-domain capability evidence.

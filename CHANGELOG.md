@@ -1,3 +1,24 @@
+## v1.9.1-r2 — Stage 5I Privacy-Safe Physical Acceptance Recorder — production-proven
+
+Production runtime: `1.9.1-r2`
+Previous production-proven runtime: `1.9.1-r1`
+Production live main boundary: PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`
+Exact reviewed head: `42f91df5ec1d5a576f0907836fa03f5994d7646b`
+Fixed RJR-1: `91/100`
+Canonical proof: `V1.9.1_R2_PRODUCTION_PROOF.md`
+
+- adds the explicit query-gated `?rjr-acceptance=1` Stage 5I physical Remote Joining acceptance recorder while ordinary production navigation leaves it unloaded and invisible;
+- keeps recorder evidence page-memory-only/export-only with no recorder Firestore, network-upload or localStorage writes;
+- excludes raw account, registered-device and rivalry identifiers plus the raw private session capability from exported evidence and correlates the exact session only by one-way SHA-256 capability fingerprint;
+- preserves real online/offline event capture, sanitized Remote Joining role/state/revision/pending-action checkpoints and unchanged canonical local Save storage;
+- records all 15 permanent PR #194 exact-head workflow families and all 15 main-push workflow families successful, including Stability run `33947112190`, with burn-in `33947112248` and deployed-site smoke `101255587827` retained by current production authority;
+- preserves Firebase Spark, billing permanently OFF, App Check enforcement OFF, memory-only Firestore, popup-only `browserSessionPersistence`, exactly two private managers, no public discovery/listing/lobby/matchmaking/community/rankings and Candidate C's sole destructive remote-to-local gameplay Apply authority;
+- awards zero RJR for source, tests, CI, review, merge, deployment, documentation, Stage 5H automation or Stage 5I recorder tooling; genuine two-physical-device/two-independent-network acceptance and final stable Remote Joining release acceptance remain the scoreable sequence.
+
+The entries below are retained as historical release chronology where superseded by this production-proven r2 entry.
+
+---
+
 ## v1.9.1-r1 — Stage 5G Same-Capability Remote Joining Reconnect — release candidate
 
 Candidate runtime: `1.9.1-r1`
@@ -43,7 +64,7 @@ Previous production-proven runtime: `1.9.0-r3`
 ## v1.9.0-r3 — Pairing Copy + Four-Code One-Paste Hardening — release candidate
 
 Candidate runtime: `1.9.0-r3`
-Previous production-proven runtime: `1.9.0-r2`
+Previous production-proven whole-shell recovery target: `1.9.0-r2`
 
 - adds one direct Player One pairing Copy action and requires exactly one Player Two paste;
 - preserves byte-for-byte equality across P1 generated pairing, P1 Connected Rivalry, P2 retained join input and P2 Connected Rivalry;
@@ -101,7 +122,7 @@ Status: release candidate; not production-proven.
 - preserves stale-state rejection, anti-clobber checks, ownership-scoped rollback and exact recovery verification;
 - distinguishes observed remote state from committed local state in Settings;
 - changes no Firestore Rules, billing, App Check enforcement, two-manager privacy or Stage 5 authority;
-- keeps RJR-1 at `77/100` until genuine new production capability is proven.
+- keeps RJR-1 at `77/100` until genuine new production capability evidence.
 
 # v1.7.0-r2 — Stage 4 shell coherence hotfix — production-proven
 

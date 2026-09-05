@@ -1,52 +1,54 @@
 {
   "schemaVersion": 5,
   "purpose": "SLE-live-first-low-context-adaptive-successor-bootstrap",
-  "recordedAt": "2026-09-04T20:27:10.000Z",
+  "recordedAt": "2026-09-05T05:48:31Z",
   "repository": "nikahanghojjati-oss/fifa17-career-showdown2",
-  "bootstrapBranch": "handoff/pr191-merged-stage5g-successor-2026-09-04",
+  "bootstrapBranch": "handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05",
   "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
-  "lastVerifiedMainSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
-  "lastVerifiedRuntimeMainSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
+  "lastVerifiedMainSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
+  "lastVerifiedRuntimeMainSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
   "latestRuntimeMerge": {
-    "pullRequest": 166,
-    "title": "Prove reversible production Pages rollback",
-    "mergeSha": "32c32afb1365c9ae6120d810a68e5c72c4b8229a",
-    "applicationVersion": "1.8.1",
-    "runtimeRevision": "1.8.1-r5",
-    "runtimeChanged": false,
+    "pullRequest": 194,
+    "title": "Stage 5I: add privacy-safe physical acceptance recorder",
+    "mergeSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
+    "applicationVersion": "1.9.1",
+    "runtimeRevision": "1.9.1-r2",
+    "runtimeChanged": true,
     "productionProofRecorded": true,
-    "productionProof": "PRODUCTION_PAGES_ROLLBACK_PROOF_2026-08-28.md",
-    "rollbackRunId": 33190961085,
+    "productionProof": "Stability run 33947112190 / deployed-site-smoke job 101255587827",
+    "productionProofClass": "exact-head-green-expected-head-merge-all-main-push-green-every-runtime-byte-and-complete-deployed-journey",
     "historicalRollbackProvenance": true
   },
   "currentPublicationCheckpoint": {
-    "pullRequest": 191,
-    "title": "Seal Stage 5F production negatives and advance RJR to 91",
+    "pullRequest": 194,
+    "title": "Stage 5I: add privacy-safe physical acceptance recorder",
     "state": "merged",
-    "workingBranch": "evidence/stage5f-rjr91-to-stage5g-2026-09-04",
-    "baseSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
-    "initialExactHead": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
-    "publishedRepairHead": "f397c88fda5f63da4688f894778b9360bf2e1a02",
-    "exactFinalHead": "72f7031797592a3866f7c62da07fa42959cb30fb",
-    "mergeSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
-    "mergedAt": "2026-09-04T19:48:20.000Z",
+    "workingBranch": "stage5i/physical-acceptance-recorder-2026-09-05",
+    "baseSha": "65399fc2f214d3bbdf3ef47fb47428c8b34d2017",
+    "exactFinalHead": "42f91df5ec1d5a576f0907836fa03f5994d7646b",
+    "mergeSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
     "mergeMethod": "expected-head-protected-squash",
-    "lastExactHeadBeforeHandoffPackaging": "4a63137b918b3d4b6d3d93916e67b72e85848c39",
-    "lastPublishedRepairHeadBeforeContinuityCheckpoint": "f397c88fda5f63da4688f894778b9360bf2e1a02",
-    "initialBlocker": "tests/contracts/private-account-auth-stage2b-contracts.cjs:62 stale PR187/RJR89 current-authority assertion",
-    "publicationStatus": "complete-exact-head-and-postmerge-green",
+    "publicationStatus": "complete-exact-head-and-postmerge-production-proven",
     "expectedHeadProtectionUsed": true,
     "exactHeadWorkflowFamiliesSuccessful": 15,
     "postMergeWorkflowFamiliesSuccessful": 15,
     "unresolvedReviewThreadsAtMerge": 0,
-    "pagesRunId": 33913035742,
-    "releaseIntegrationRunId": 33913035727,
-    "stabilityRunId": 33913035721,
-    "deployedRuntimeFilesVerified": 99,
+    "exactHeadStabilityRunId": 33946911198,
+    "releaseIntegrationRunId": 33947112248,
+    "stabilityRunId": 33947112190,
+    "deployedSiteSmokeJobId": 101255587827,
     "deployedEveryRuntimeByteProven": true,
     "deployedCompleteJourneyProven": true,
-    "runtimeChanged": false,
+    "runtimeChanged": true,
     "publicationWorkRjrCredit": 0
+  },
+  "historicalPr191PublicationCheckpoint": {
+    "pullRequest": 191,
+    "exactFinalHead": "72f7031797592a3866f7c62da07fa42959cb30fb",
+    "mergeSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
+    "rjrAfterEvidence": 91,
+    "publicationWorkRjrCredit": 0,
+    "immutableHistoricalProvenance": true
   },
   "historicalPr187PublicationCheckpoint": {
     "pullRequest": 187,
@@ -55,38 +57,31 @@
     "mergeSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
     "applicationVersion": "1.9.0",
     "runtimeRevision": "1.9.0-r5",
-    "exactHeadWorkflowFamiliesSuccessful": 14,
-    "postMergeRunsSuccessful": 15,
-    "pagesRunId": 33738921948,
-    "stabilityRunId": 33738921850,
-    "deployedRuntimeFilesVerified": 97,
-    "deployedEveryRuntimeByteProven": true,
-    "deployedCompleteJourneyProven": true,
     "ownerProductionAcceptanceProven": true,
-    "ownerAcceptanceProof": "PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md",
     "onePasteConfirmed": true,
     "playerOnePostJoinAutoAttachProven": true,
     "exactConnectedRivalryEqualityProven": true,
     "zeroManualVerifyReattachProven": true,
     "rjrAfterEvidence": 89,
     "rjrDelta": 1,
-    "rjrCreditScope": "one bounded automatic one-paste exact-rivalry convergence capability only",
-    "productionRollbackProven": true,
-    "productionRestorationProven": true,
-    "productionProviderRulesPublicationProven": true,
-    "providerAbuseProductionAcceptanceProven": true,
     "billingActivationForbidden": true,
     "firebasePlan": "Spark",
     "appCheckEnforcement": false
   },
   "lastProductionProvenRuntime": {
-    "pullRequest": 187,
-    "mergeSha": "277f1b55dc362ee84d285445b99172b9fbed8509",
-    "applicationVersion": "1.9.0",
-    "runtimeRevision": "1.9.0-r5",
-    "proofRecord": "PRODUCTION_R5_ONE_PASTE_AUTOMATIC_CONVERGENCE_ACCEPTANCE_2026-09-03.md",
-    "proofClass": "production-pages-exact-byte-complete-deployed-journey-and-owner-one-paste-acceptance",
+    "pullRequest": 194,
+    "mergeSha": "11bb681527a9b78884baf0c384350c90493dc9bd",
+    "applicationVersion": "1.9.1",
+    "runtimeRevision": "1.9.1-r2",
+    "proofRecord": "Stability 33947112190 / deployed-site-smoke 101255587827",
+    "proofClass": "production-pages-exact-byte-complete-deployed-journey",
     "currentRegression": null
+  },
+  "previousProductionProvenRuntime": {
+    "applicationVersion": "1.9.1",
+    "runtimeRevision": "1.9.1-r1",
+    "mainSha": "65399fc2f214d3bbdf3ef47fb47428c8b34d2017",
+    "rollbackWholeShell": true
   },
   "stage5fProductionAcceptance": {
     "status": "PASS",
@@ -97,6 +92,13 @@
     "rjrAfter": 91,
     "rjrDelta": 2,
     "creditedDomain": "identity-auth-trust"
+  },
+  "stage5gStage5hStage5i": {
+    "stage5gSameCapabilityReconnectProductionProven": true,
+    "stage5hRealBrowserAdverseNetworkProductionProven": true,
+    "stage5iPrivacySafePhysicalAcceptanceRecorderProductionProven": true,
+    "automationRjrCredit": 0,
+    "physicalTwoDeviceTwoIndependentNetworkAcceptancePending": true
   },
   "ownerStandingAuthorization": {
     "scope": "all-current-and-future-project-pull-requests-through-full-project-completion",
@@ -112,12 +114,14 @@
     "cloudBillingAccountMayBeLinked": false,
     "blazeMayBeEnabled": false,
     "cloudRunAllowed": false,
+    "cloudFunctionsAllowed": false,
     "rootAuthority": "00_OWNER_ZERO_BILLING_REMOTE_JOINING_AUTHORIZATION.md"
   },
   "runtime": {
-    "applicationVersion": "1.9.0",
-    "productionRuntimeRevision": "1.9.0-r5",
+    "applicationVersion": "1.9.1",
+    "productionRuntimeRevision": "1.9.1-r2",
     "productionStatus": "production-proven",
+    "previousProductionRuntimeRevision": "1.9.1-r1",
     "firebaseAppConnected": true,
     "appCheckConnected": true,
     "appCheckEnforcement": false,
@@ -129,7 +133,7 @@
     "storageInitialized": false,
     "functionsInitialized": false
   },
-  "currentLane": "Execute Stage 5G Remote Joining-specific two-device/two-network reconnect/adverse-network hardening automation first; final stable Remote Joining release acceptance follows.",
+  "currentLane": "Run one bounded genuine Remote Joining two-physical-device/two-independent-network production reconnect/adverse-network acceptance using the Stage 5I privacy-safe recorder; then reconcile RJR-1 and execute final stable Remote Joining release acceptance.",
   "remoteJoiningReadiness": {
     "authority": "REMOTE_JOINING_READINESS.json",
     "model": "RJR-1",
@@ -149,56 +153,45 @@
     "authority": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "permanentGoldenRule": true,
     "automationBeforeOwnerAction": true,
-    "reportFrequently": [
-      "current RJR",
-      "remaining runway",
-      "current scoreable gap",
-      "estimated concrete tasks",
-      "estimated major stages",
-      "estimated genuinely new evidence bundles",
-      "blocker status",
-      "owner action requirement",
-      "Handoff proximity"
-    ]
+    "reportFrequently": ["current RJR","remaining runway","current scoreable gap","estimated concrete tasks","estimated major stages","estimated genuinely new evidence bundles","blocker status","owner action requirement","Handoff proximity"]
   },
   "predecessorClosure": {
-    "environmentId": "we-2026-09-04-pr191-publication-stage5g",
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json",
+    "environmentId": "we-2026-09-04-stage5g-reconnect-recovery",
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json",
     "decisionMustNotBeInherited": true
   },
   "currentWec": {
-    "environmentId": "we-2026-09-04-pr191-publication-stage5g",
-    "startingMainSha": "7c140a1593bfc84fcf3b42e6eec3eb50c9a262e4",
+    "environmentId": "we-2026-09-04-stage5g-reconnect-recovery",
+    "startingMainSha": "7ca132a607cbf4fd78710b14526b4bec849ac2d2",
     "lifecycle": "closed",
     "finalDecision": "HANDOFF_NOW",
     "decisionInheritedFromPredecessor": false,
     "handoffCompleteness": 100,
-    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-pr191-publication-stage5g.json",
-    "closingCheckpoint": "PR191 exact final head 72f7031797592a3866f7c62da07fa42959cb30fb passed all 15 workflows, expected-head squash merged to live main 7ca132a607cbf4fd78710b14526b4bec849ac2d2, all 15 main-push workflows passed, and 99 production runtime files matched 1.9.0-r5 byte-for-byte. Stage 5G is the fresh successor milestone."
+    "archive": "WORK_ENVIRONMENT_ARCHIVE/we-2026-09-04-stage5g-reconnect-recovery.json",
+    "closingCheckpoint": "PR194 exact head 42f91df5ec1d5a576f0907836fa03f5994d7646b passed all 15 PR workflow families and merged with expected-head protection to 11bb681527a9b78884baf0c384350c90493dc9bd; all 15 main-push families, two release burn-in journeys and complete deployed-site smoke passed. Production is v1.9.1/1.9.1-r2 and fixed RJR remains 91/100."
   },
   "currentHandoff": {
-    "canonical": "SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
-    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
-    "status": "current-pr191-merged-rjr91-stage5g-automation-next"
+    "canonical": "SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
+    "projectMirror": "project-documents/handoffs/SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
+    "status": "current-pr194-r2-production-rjr91-physical-acceptance-next"
   },
   "starter": {
-    "version": "1.4.40",
-    "checkpoint": "PR191-MERGED-RJR91-STAGE5G-AUTOMATION-NEXT",
-    "canonical": "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
-    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+    "version": "1.4.41",
+    "checkpoint": "PR194-R2-PRODUCTION-RJR91-PHYSICAL-ACCEPTANCE-NEXT",
+    "canonical": "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
+    "projectMirror": "project-documents/session-starts/START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
     "ownerInitialDelivery": "short-repository-first-prompt",
     "fallbackPackNeededByDefault": false
   },
   "successorPackage": {
-    "compactStarter": "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
-    "fullHandoff": "SUCCESSOR_HANDOFF_PR191_MERGED_RJR91_STAGE5G_AUTOMATION_SLE_2026-09-04.md",
-    "stage5fAcceptanceProof": "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md",
+    "compactStarter": "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
+    "fullHandoff": "SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md",
     "handoffProtocol": "00_SLE_HANDOFF_PROTOCOL.md",
     "ownerEagleEyeRule": "00_OWNER_EAGLE_EYE_GOLDEN_RULE.md",
     "liveAuthority": "NEXT_TASK.md",
     "liveState": "PROJECT_STATE.md",
     "wecStatus": "WORK_ENVIRONMENT_STATUS.json",
-    "handoffBranch": "handoff/pr191-merged-stage5g-successor-2026-09-04"
+    "handoffBranch": "handoff/pr194-r2-production-rjr91-physical-acceptance-2026-09-05"
   },
   "slePolicy": {
     "authority": "00_SLE_HANDOFF_PROTOCOL.md",
@@ -209,7 +202,7 @@
     "recursiveInheritance": true
   },
   "minimalReads": [
-    "START_NEXT_SESSION_V1.4.40_PR191_MERGED_RJR91_STAGE5G_AUTOMATION.md",
+    "START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md",
     "SESSION_BOOTSTRAP.json",
     "00_CURRENT_HANDOFF.md",
     "00_SLE_HANDOFF_PROTOCOL.md",
@@ -217,15 +210,10 @@
     "WORK_ENVIRONMENT_STATUS.json",
     "REMOTE_JOINING_READINESS.json",
     "NEXT_TASK.md",
-    "PROJECT_STATE.md",
-    "PRODUCTION_STAGE5F_AUTHENTICATED_NEGATIVES_ACCEPTANCE_2026-09-04.md"
+    "PROJECT_STATE.md"
   ],
   "criticalLocks": {
-    "canonicalStorage": [
-      "careerModeShowdown.saveLibrary",
-      "careerModeShowdown.legacyShowdowns",
-      "careerModeShowdown.preferences"
-    ],
+    "canonicalStorage": ["careerModeShowdown.saveLibrary","careerModeShowdown.legacyShowdowns","careerModeShowdown.preferences"],
     "candidateC": "sole-destructive-remote-to-local-gameplay-apply-authority",
     "candidateCRollback": "transaction-owned-strict-exact-raw-snapshot",
     "appCheck": "production-proven-enforcement-off",
@@ -241,8 +229,8 @@
     "standingMergeDeployAuthorizedAfterRequiredGates": true
   },
   "immediateNextTask": {
-    "name": "stage5g-remote-joining-network-hardening-automation",
-    "summary": "PR191 publication is complete and production remains byte-identical at 1.9.0-r5. Initialize a fresh WEC, then execute the smallest genuinely uncredited Stage 5G two-manager/two-network reconnect and adverse-network automation candidate against the real private-session runtime.",
+    "name": "physical-two-device-two-independent-network-remote-joining-acceptance",
+    "summary": "After independent live verification and fresh WEC initialization, perform one bounded genuine production Remote Joining Host/Join/offline-reconnect/Close acceptance on two physical devices and two independent networks using the Stage 5I sanitized recorder. Reconcile RJR only from accepted physical capability evidence, then execute final stable Remote Joining release acceptance.",
     "mustNotInsertGenericPrerequisiteLane": true,
     "mustStartAsRealProjectWork": true
   },
