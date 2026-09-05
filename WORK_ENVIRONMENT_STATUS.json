@@ -49,7 +49,7 @@
     }
   },
   "continuity": {
-    "currentTask": "Finish Stage 5I v1.9.1/1.9.1-r2 physical-acceptance publication and preserve the completed Stage 5G same-capability Host, Join and Close recovery dependency while automating the final genuine two-physical-device/two-network acceptance evidence without billing.",
+    "currentTask": "Finish Stage 5I v1.9.1/1.9.1-r2 physical Remote Joining acceptance recorder publication and preserve the completed Stage 5G same-capability Host, Join and Close recovery dependency while automating the final genuine two-physical-device/two-network acceptance evidence without billing.",
     "lastSafeCheckpoint": "Main 65399fc2f214d3bbdf3ef47fb47428c8b34d2017 is the PR193 Stage 5H merge. The full main-push Chromium lane and deployed-site journey completed successfully, including real Playwright offline/online Host, Join and Close recovery with one exact capability/session and rev1-to-rev2 convergence. Production is v1.9.1/1.9.1-r1. Fixed RJR remains 91/100.",
     "nextSafeAction": "Keep v1.9.1/1.9.1-r2 as a release candidate, finish current-authority and privacy-recorder exact-head CI on PR194, then merge with expected-head protection and independently prove deployed Pages before requesting the smallest unavoidable Chromebook plus iPhone two-network acceptance run.",
     "unfinishedWork": [
