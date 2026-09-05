@@ -29,12 +29,19 @@ function evidence({role,deviceLabel,networkLabel,device,interrupt=false}){
   assert.equal(valid.checks.privacySafe,true);
   assert.equal(valid.checks.orderedOfflineOnlineRecovery,true);
 
-  const invalid=structuredClone(peer);
-  invalid.records[2].capabilityCopyAllowed=null;
-  invalid.records[2].busy=null;
-  const rejected=validatePhysicalAcceptancePair(host,invalid);
-  assert.equal(rejected.passed,false,"Nullable remote flags must not be accepted after a Remote Joining state exists.");
-  assert.ok(rejected.issues.some(item=>item.code==="NULL_REMOTE_FLAG_CONTEXT_INVALID"));
+  const activeNull=structuredClone(peer);
+  activeNull.records[2].capabilityCopyAllowed=null;
+  activeNull.records[2].busy=null;
+  const activeRejected=validatePhysicalAcceptancePair(host,activeNull);
+  assert.equal(activeRejected.passed,false,"Nullable remote flags must not be accepted after a Remote Joining state exists.");
+  assert.ok(activeRejected.issues.some(item=>item.code==="NULL_REMOTE_FLAG_CONTEXT_INVALID"));
 
-  process.stdout.write("PASS physical acceptance validator accepts recorder-owned pre-runtime null flags only before Remote Joining state exists.\n");
+  const mixedNull=structuredClone(peer);
+  mixedNull.records[0].capabilityCopyAllowed=null;
+  mixedNull.records[0].busy=false;
+  const mixedRejected=validatePhysicalAcceptancePair(host,mixedNull);
+  assert.equal(mixedRejected.passed,false,"Pre-runtime recorder flags must be both null or both booleans, never mixed.");
+  assert.ok(mixedRejected.issues.some(item=>item.code==="NULL_REMOTE_FLAG_CONTEXT_INVALID"));
+
+  process.stdout.write("PASS physical acceptance validator accepts recorder-owned paired pre-runtime null flags only before Remote Joining state exists.\n");
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
