@@ -18,7 +18,7 @@ Fixed RJR-1 remains `91/100` with domain vector:
 
 No source, test, review, CI, merge, deployment, release-version, documentation, WEC or repeated-proof credit is included. A score increase requires genuinely new accepted Remote Joining-specific capability evidence.
 
-Current active WEC: `we-2026-09-04-stage5g-reconnect-recovery`. The predecessor `we-2026-09-04-pr191-publication-stage5g` remains immutable archived transition provenance.
+Current Work Environment Continuity (WEC) execution authority is `we-2026-09-04-stage5g-reconnect-recovery`. Future environments must enter through the Work Environment Continuity system, independently validate live repository/provider evidence, archive the predecessor only at its actual closure boundary, initialize a fresh unique WEC with reset counters, and obey that fresh environment's own assessment. The predecessor `we-2026-09-04-pr191-publication-stage5g` remains immutable archived transition provenance.
 
 ## Current lane
 
