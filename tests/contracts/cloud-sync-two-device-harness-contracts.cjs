@@ -29,7 +29,9 @@ assert.match(phase1e,/recursively frozen/i);
 assert.match(phase1e,/Phase 1F[\s\S]+remains blocked/i);
 assert.match(historicalNext,/CURRENT SUCCESSOR AUTHORITY — POST-PR #99 REMOTE JOINING RESTART/i,"Archived post-PR100/pre-gateway authority must retain its actual post-PR #99 successor heading as provenance.");
 assert.match(historicalNext,/Stage 1 — Cloud \/ Sync Readiness Phase 1A through 1F — DONE \/ MERGED \/ PROTECTED/i,"Archived post-PR #99 authority must preserve completed Stage 1 Cloud/Sync truth.");
-assert.match(next,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Current NEXT_TASK must advance beyond historical Phase 1E and consumed publication lanes to the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G authority.");
+assert.match(next,/^# CURRENT TASK — PUBLISH ACCEPTED RJR100 THEN GENERATE SNS$/im,"Current NEXT_TASK must advance beyond historical Phase 1E/Stage5G and consumed physical-acceptance lanes to the evidence-accepted RJR100 / PR198 publication authority.");
+assert.match(next,/PR #198[\s\S]+100\/100/i,"Current NEXT_TASK must identify the exact accepted RJR100 publication checkpoint.");
+assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route the successor toward the post-RJR100 shared-journey program after clean handoff.");
 assert.doesNotMatch(next,/Phase 1E[\s\S]{0,160}CURRENT BOUNDED CANDIDATE/i,"Current NEXT_TASK must not revive historical Phase 1E as active product authority.");
 assert.match(historicalStage5a,/^# START NEXT SESSION — v1\.4\.30 \/ PR #172 \/ RJR87 \/ Stage 5A Private Session Protocol$/im,"The immutable Stage 5A starter must preserve its exact PR172 / RJR87 / Stage 5A identity as historical provenance.");
 assert.match(historicalStage5a,/PR #171 exact final head:[\s\S]{0,120}`d5c8549924244ee177065559043e0697d0c810c3`/i,"The immutable Stage 5A starter must preserve exact PR171 closure provenance.");
@@ -213,4 +215,4 @@ function deterministicRun(){
 }
 assert.deepEqual(deterministicRun(),deterministicRun());
 
-process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current merged PR191/RJR91/Stage5G authority stays coherent\n");
+process.stdout.write("PASS Phase 1E deterministic two-device/offline/reconnect synchronization harness contracts; historical dormant PR171/RJR87/Stage5A proof remains version-neutral while current evidence-accepted RJR100/PR198 publication authority stays coherent before SSJR-1 begins\n");

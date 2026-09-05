@@ -197,7 +197,8 @@ A.match(historicalR2Proof, /71 runtime files[\s\S]+byte for byte/i, "R2 proof mu
 A.match(analyticsHandoff, /Closed Candidate Handoff/i, "Analytics branch handoff must remain closed.");
 A.match(analyticsHandoff, /Exact validated PR head:[\s\S]+a0aa98e3b24d73ca51dde7d1ebf0856550a0c7e1/i, "Analytics handoff must retain its validated PR head.");
 A.match(analyticsHandoff, /Exact runtime merge:[\s\S]+c5c7d50cc3a2d9003e057d1813744c877323c068/i, "Analytics handoff must retain its runtime merge.");
-A.match(currentHandoff, /CURRENT HANDOFF OVERRIDE[\s\S]+PR #191[\s\S]+RJR91/i, "Current handoff must expose PR191/RJR91 publication authority.");
+A.match(currentHandoff, /FIXED RJR-1 100\/100[\s\S]+PR #198[\s\S]+SSJR-1/i, "Current handoff must expose completed RJR100 / PR198 publication authority and route successor work to SSJR-1.");
+A.match(currentHandoff, /Historical[\s\S]+PR191\/RJR91/i, "Current handoff must retain PR191/RJR91 only as immutable historical provenance.");
 A.match(historicalR5Handoff, /PR #187[\s\S]+RJR89/i, "Immutable PR187 handoff must preserve the owner-accepted PR187/RJR89 evidence trail.");
 
 // Current Stage 3 authority must be explicit in the current override, while old milestone text may remain historical below it.

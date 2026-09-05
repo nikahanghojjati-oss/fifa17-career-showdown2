@@ -41,7 +41,7 @@ assert.match(roadmap, /Cloud Backup \| BLOCKED/i);
 assert.match(roadmap, /Private Remote Joining \| PRIORITIZED LONG-TERM \/ DEPENDENCY-GATED \/ NOT YET AUTHORIZED/i);
 
 // Current live cloud authority follows the newest production-proven runtime and fixed RJR ledger.
-// PR187/r5 remains immutable consumed historical provenance; PR194/r2 is current production authority.
+// PR187/r5 remains immutable consumed historical provenance; PR194/r2 is current production runtime authority.
 assert.equal(productionR2,true,"Current runtime identity must be production-proven v1.9.1-r2.");
 assert.equal(bootstrap.latestRuntimeMerge?.pullRequest,194,"Latest runtime merge must be PR #194.");
 assert.equal(bootstrap.latestRuntimeMerge?.runtimeRevision,"1.9.1-r2","Latest runtime merge must identify production r2.");
@@ -55,8 +55,10 @@ assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.runtimeRevision,"1.
 assert.equal(bootstrap.historicalPr187PublicationCheckpoint?.rjrAfterEvidence,89);
 assert.equal(bootstrap.previousProductionProvenRuntime?.runtimeRevision,"1.9.1-r1","Previous production-proven whole-shell rollback must remain r1.");
 assert.equal(readiness.modelVersion,"RJR-1");
-assert.equal(readiness.currentScore,91,"Live RJR authority must include the two accepted Stage 5F production-negative capabilities and must not process-credit Stage 5G/H/I.");
-assert.equal(bootstrap.remoteJoiningReadiness?.score,91,"Bootstrap must preserve fixed RJR91 at the physical-acceptance handoff boundary.");
+assert.equal(readiness.currentScore,100,"Live RJR authority may reach 100 only from accepted capability evidence, never Stage 5G/H/I process or automation credit.");
+assert.equal(bootstrap.remoteJoiningReadiness?.score,100,"Bootstrap must expose evidence-accepted fixed RJR100 after the physical and stable-release acceptance events.");
+assert.equal(bootstrap.remoteJoiningReadiness?.remaining,0);
+
 const stage5eLifecycleEvidence=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-stage5e-r3-provider-live-remote-joining-lifecycle");
 assert.equal(stage5eLifecycleEvidence?.score,88);
 assert.equal(stage5eLifecycleEvidence?.delta,1);
@@ -73,33 +75,45 @@ assert.match(stage5fProof,/PASS/i);
 assert.match(stage5fProof,/91\/100/i);
 assert.doesNotMatch(stage5fProof,/pair_[0-9a-f]{32,}/i);
 
-// Live state/next-task files are current routing authority, not append-only copies of obsolete current overrides.
-assert.match(state,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE/i);
+const physicalAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-physical-two-device-two-network-acceptance");
+assert.equal(physicalAcceptance?.score,99);
+assert.equal(physicalAcceptance?.delta,8);
+assert.equal(physicalAcceptance?.domainId,"devices-pairing-connected-rivalry-remote-join");
+const stableReleaseAcceptance=readiness.evidenceHistory?.find(entry=>entry.eventId==="production-rjr-final-stable-release-acceptance");
+assert.equal(stableReleaseAcceptance?.score,100);
+assert.equal(stableReleaseAcceptance?.delta,1);
+assert.equal(stableReleaseAcceptance?.domainId,"real-device-hardening-release");
+assert.equal(readiness.evidenceHistory?.at(-2)?.eventId,physicalAcceptance?.eventId);
+assert.equal(readiness.evidenceHistory?.at(-1)?.eventId,stableReleaseAcceptance?.eventId);
+assert.equal(readiness.domains.reduce((sum,domain)=>sum+domain.earned,0),100);
+
+// Current live state/next-task files advance to RJR100 while retaining runtime/security/product locks.
+assert.match(state,/RJR-1 COMPLETE 100\/100|RJR100/i);
+assert.match(state,/v1\.9\.1[\s\S]+1\.9\.1-r2/i);
+assert.match(state,/PR #198/i);
 assert.match(state,/Installable Offline App[\s\S]+v1\.3\.0 Recovery & Device Resilience/i);
-assert.match(state,/PR #192 Stage 5G[\s\S]+same-capability/i);
-assert.match(state,/PR #193 Stage 5H[\s\S]+offline\/online/i);
-assert.match(state,/PR #194 Stage 5I[\s\S]+physical acceptance recorder/i);
-assert.match(state,/final stable Remote Joining release acceptance/i);
+assert.match(state,/final stable-release acceptance|final stable Remote Joining release acceptance/i);
 assert.match(state,/Candidate C[\s\S]+sole destructive remote-to-local gameplay Apply authority/i);
-assert.match(state,/Canonical local storage remains exactly[\s\S]+careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/i);
+assert.match(state,/careerModeShowdown\.saveLibrary[\s\S]+careerModeShowdown\.legacyShowdowns[\s\S]+careerModeShowdown\.preferences/i);
 assert.match(state,/Billing is permanently forbidden|Billing must never be activated/i);
 assert.match(state,/Firebase remains Spark/i);
 assert.match(state,/Firestore browser persistence remains memory-only|Browser Firestore persistence remains memory-only|Firestore persistence remains memory-only/i);
 assert.match(state,/Google Auth remains popup-only `browserSessionPersistence` with no extra scopes/i);
 assert.match(state,/App Check enforcement remains OFF/i);
-assert.match(state,/Trusted-runtime IAM remains unactivated\/unbroadened/i);
 assert.match(state,/No public discovery[\s\S]+global leaderboards/i);
+assert.match(state,/Shared Showdown Journey Readiness|SSJR-1/i);
 assert.doesNotMatch(state,/Production rollback proof remains uncredited/i);
 
-assert.match(next,/CURRENT OVERRIDE[\s\S]+PR #194[\s\S]+1\.9\.1-r2[\s\S]+RJR91[\s\S]+PHYSICAL ACCEPTANCE/i);
+assert.match(next,/100\/100|RJR100/i);
+assert.match(next,/PR #198/i);
 assert.match(next,/IMMEDIATE NEXT TASK AFTER FULL STUDY/i);
-assert.match(next,/Stage 5F accepted production negatives[\s\S]+Stage 5G[\s\S]+Stage 5H[\s\S]+Stage 5I/i);
-assert.match(next,/genuine production Remote Joining acceptance[\s\S]+two physical devices[\s\S]+two independent networks/i);
-assert.match(next,/final stable Remote Joining release acceptance/i);
+assert.match(next,/Chromebook[\s\S]+iPhone|physical[\s\S]+cellular/i);
+assert.match(next,/final stable release acceptance/i);
 assert.match(next,/Candidate C remains the sole destructive remote-to-local gameplay Apply authority/i);
 assert.match(next,/No public discovery[\s\S]+global leaderboards/i);
-assert.match(next,/same-session recovery[\s\S]+duplicate\/replacement session/i);
 assert.match(next,/Billing must never be activated[\s\S]+Firebase remains Spark/i);
+assert.match(next,/Shared Showdown Journey Readiness|SSJR-1/i);
+assert.match(next,/League Wheel[\s\S]+Connected Rivalry[\s\S]+ACTIVE|Connected Rivalry[\s\S]+ACTIVE[\s\S]+League Wheel/i);
 assert.doesNotMatch(next,/Production rollback proof remains uncredited/i);
 
 // Zero-billing authorization is permanent and current, independent of historical candidate architecture.
@@ -108,6 +122,7 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.firebasePlanMustRemain,"Sp
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudBillingAccountMayBeLinked,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false);
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false);
+assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false);
 assert.equal(bootstrap.runtime?.appCheckEnforcement,false);
 assert.equal(bootstrap.runtime?.firestorePersistence,"memory-only");
 assert.match(bootstrap.runtime?.googleAuthPersistence||"",/browserSessionPersistence-popup-only-no-extra-scopes/i);
