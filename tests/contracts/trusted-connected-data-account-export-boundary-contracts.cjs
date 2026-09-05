@@ -68,12 +68,12 @@ assert.match(preR3NextTask,/Stage 2H[\s\S]+firebaseauth\.users\.get[\s\S]+datast
 assert.match(preR3NextTask,/Current production Installable Offline App runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Immediate candidate rollback\/recovery runtime: `1\.4\.0-r2`/i);
 assert.match(preR3NextTask,/Finish only PR #125[\s\S]+source validation first/i);
-assert.match(nextTask,/^# CURRENT OVERRIDE — PR #191 MERGED \/ STAGE 5F ACCEPTED \/ RJR91 \/ STAGE 5G NETWORK HARDENING — 2026-09-04 UTC$/im,"Live NEXT_TASK must identify the exact merged-PR191 / Stage 5F accepted / RJR91 / Stage 5G authority rather than revive historical export or prior transition lanes.");
+assert.match(nextTask,/^# CURRENT OVERRIDE — PR #194 MERGED \/ v1\.9\.1-r2 PRODUCTION-PROVEN \/ RJR91 \/ PHYSICAL ACCEPTANCE NEXT — 2026-09-05 UTC$/im,"Live NEXT_TASK must identify exact PR194/r2 production-proven RJR91 physical-acceptance authority rather than revive historical export or prior transition lanes.");
 assert.match(nextTask,/App Check enforcement remains OFF/i);
 assert.match(nextTask,/Firestore(?: browser persistence)? remains memory-only/i);
 assert.match(nextTask,/Candidate C remains the sole destructive (?=[^\n]*Apply authority)(?=[^\n]*remote-to-local)[^\n]+/i,"Live NEXT_TASK must preserve Candidate C as the sole destructive remote-to-local Apply authority without pinning one sentence order.");
-assert.match(nextTask,/Remote Joining-specific[\s\S]+two-device\/two-network reconnect\/adverse-network hardening/i,"Live NEXT_TASK must route from accepted RJR91 to the genuinely uncredited Stage 5G gap.");
-assert.match(nextTask,/do not repeat generic Connected Rivalry adverse-network proof/i,"Live NEXT_TASK must preserve consumed-proof discipline.");
+assert.match(nextTask,/Stage 5G\/5H automation[\s\S]+two physical devices[\s\S]+two independent networks|genuine production Remote Joining acceptance[\s\S]+two physical devices[\s\S]+two independent networks/i,"Live NEXT_TASK must route from accepted RJR91 to the genuinely uncredited physical Remote Joining acceptance gap after consumed Stage 5G/5H automation.");
+assert.match(nextTask,/Do not assume RJR100|Do not assume[\s\S]+RJR100/i,"Live NEXT_TASK must preserve evidence-only readiness movement and consumed-proof discipline.");
 
 assert.equal(production.activation.appCheckEnforcement,false);
 assert.equal(production.activation.trustedRuntimeIam,"not-activated-yet");
@@ -114,4 +114,4 @@ assert.equal(runtimeVersion,pkg.version,"Current release identity must remain co
 assert.equal(workerRevision,indexRevision,"Service Worker and shell runtime identities must remain coherent.");
 assert.equal(pkg.dependencies,undefined);
 
-process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected under current Stage 5F/RJR91/Stage 5G authority.\n");
+process.stdout.write("PASS trusted connected data account export boundary: private explicit portability, exact entitlement/read scope, peer-identity minimization, secret exclusion, dormant trusted-export isolation and unchanged IAM/browser-write locks remain protected while current PR194/r2/RJR91 authority routes only to genuine physical Remote Joining acceptance.\n");
