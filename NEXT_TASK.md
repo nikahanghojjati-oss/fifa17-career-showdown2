@@ -1,3 +1,17 @@
+# CURRENT OVERRIDE — PR #196 OPEN / CORRECTED VALIDATOR SEALED / RJR91 / PUBLICATION THEN PHYSICAL ACCEPTANCE — 2026-09-05 UTC
+
+Status: CORRECTED FINAL SLE SEAL / EXACT-HEAD PUBLICATION REVALIDATION NEXT
+
+PR #196 initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 permanent workflow families. Two valid P2 findings are corrected: the validator rejects unknown/alternate authority fields, and the preflight owns the direct static-server process. Fetch the final sealed PR head live; require fresh 15/15 and final-head review before expected-head squash merge, then require all 15 post-merge/Pages workflow families. This tooling-only PR earns zero RJR.
+
+Production remains independently proven `v1.9.1 / 1.9.1-r2` from PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; previous known-good whole-shell recovery is `1.9.1-r1`. Fixed `RJR-1` remains `91/100`.
+
+## IMMEDIATE NEXT TASK AFTER FULL STUDY
+
+Validate closed Work Environment Continuity archive `we-2026-09-05-physical-acceptance-evidence`, initialize a fresh unique WEC with reset counters/current live main, and finish corrected PR #196 publication and post-merge proof. Then run `npm run test:rjr-physical-preflight`; perform the bounded genuine production Remote Joining acceptance on two physical devices and two independent networks; validate exactly two sanitized exports with `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>`; and reconcile only genuinely new fixed-ledger evidence. Final stable Remote Joining release acceptance remains required. Do not assume RJR100.
+
+## Retained production authority and detailed physical procedure
+
 # CURRENT OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT — 2026-09-05 UTC
 
 Status: DEPLOYED / PRODUCTION-PROVEN / AUTOMATION EXHAUSTED TO PHYSICAL ACCEPTANCE BOUNDARY
@@ -32,6 +46,9 @@ The Installable Offline App, v1.3.0 Recovery & Device Resilience baseline, Local
 5. Cause one real participating-device network interruption/offline transition, restore connectivity, and verify same-session recovery without duplicate/replacement session or phantom success.
 6. Close the exact session and verify both devices converge terminally at revision 2 with no resurrection.
 7. Export both sanitized JSON evidence files. Verify matching fingerprint, real offline/online events, rev1→rev2 convergence, raw-capability/account/device/rivalry exclusion and unchanged canonical localStorage.
+   - Before owner action, run `npm run test:rjr-physical-preflight` to re-prove the exact runtime's automated Stage 5H/5I adverse-network, privacy and canonical-storage boundaries.
+   - After receiving the two sanitized exports, run `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>`. The validator must require one host and one peer, distinct device/network labels and browser facts, one shared fingerprint, ordered ACTIVE rev 1 → offline → online → CLOSED rev 2 recovery, terminal no-resurrection and raw authority/capability exclusion.
+   - Validator success is an evidence candidate only. The command performs no network/provider/storage mutation, awards zero RJR, and never edits `REMOTE_JOINING_READINESS.json`; fixed-ledger reconciliation remains a separate evidence judgment.
 8. Never paste the raw private capability or raw authority IDs into chat, repository evidence or durable logs.
 9. If the physical run exposes a defect, award no RJR. Fix only the observed defect, add the smallest regression automation, promote a new exact-head release and repeat full production proof under Spark/zero billing before another physical attempt.
 10. If the physical evidence is accepted, reconcile only genuinely new fixed-domain capability evidence in `REMOTE_JOINING_READINESS.json`; then execute final stable Remote Joining release acceptance. Do not assume RJR100 until the fixed ledger proves it.

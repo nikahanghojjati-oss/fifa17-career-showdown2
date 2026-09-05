@@ -1,3 +1,25 @@
+# Active PR196 publication correction, 2026-09-05
+
+The fresh successor WEC is `we-2026-09-05-pr196-publication-physical-acceptance-e9072`, active and assessed independently. The predecessor's closed WEC remains immutable. See `PR196_PUBLICATION_PROGRESS_2026-09-05.md` for current review and publication evidence.
+
+A final-head review on `ffb1d7579e3d6149ac58254ef47cfd58b0f4b2a2` identified one additional valid P2: nested objects under scalar evidence fields could bypass privacy validation. The successor correction enforces primitive-or-null field types, rejects nested objects/arrays, and avoids echoing untrusted property paths. Require a new exact reviewed head and all 15 workflow families before expected-head merge, all post-merge proof, and the bounded physical run. Production stays v1.9.1 / 1.9.1-r2; fixed RJR91 and every zero-billing/Spark lock remain unchanged.
+
+The v1.4.43 starter and full SLE below remain the predecessor's orientation snapshot. Their closed decision belongs only to the predecessor; current source and live evidence win.
+
+# CURRENT HANDOFF OVERRIDE — PR #196 OPEN / CORRECTED PHYSICAL-EVIDENCE VALIDATOR SEALED / RJR91
+
+Read `START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md` first. Use `SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md` only for deeper reconstruction. Work Environment Continuity remains mandatory, and current source plus live GitHub/provider/deployment evidence wins over this orientation.
+
+Live main at packaging is PR #195 squash `2302e8daba6c9417954bc610f537aba41c4d3d87`. PR #196 is open. Its initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 permanent workflow families. Two valid review findings are corrected in the final seal: unknown and alternate authority fields are rejected by the closed evidence schema, and the physical preflight now owns and terminates the direct static-server process. Fetch the final sealed head live and require fresh 15/15 review proof before expected-head merge; PR #196 changes tooling/tests/continuity only and earns zero RJR.
+
+Production remains `v1.9.1 / 1.9.1-r2` from PR #194 merge `11bb681527a9b78884baf0c384350c90493dc9bd`; the previous known-good whole shell is `1.9.1-r1`. Fixed `RJR-1` remains `91/100`. After PR #196 publication and post-merge proof, the remaining scoreable lane is one genuine two-physical-device/two-independent-network acceptance, then final stable Remote Joining release acceptance and evidence-based reconciliation.
+
+Closing WEC: `we-2026-09-05-physical-acceptance-evidence`, archived with `HANDOFF_AT_CHECKPOINT`. The successor validates it, creates a fresh unique WEC with reset counters/current live main, and never inherits its decision.
+
+Billing must never be activated; Firebase remains Spark. App Check enforcement remains OFF. Firestore browser persistence remains memory-only. Google Auth remains popup-only `browserSessionPersistence` with no extra scopes. Canonical localStorage remains exactly three approved keys. Candidate C remains sole destructive remote-to-local gameplay Apply authority. Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards. Never expose or durably retain full private pairing/session capabilities or raw authority IDs.
+
+## Historical production-boundary detail retained for compatibility
+
 # CURRENT HANDOFF OVERRIDE — PR #194 MERGED / v1.9.1-r2 PRODUCTION-PROVEN / RJR91 / PHYSICAL ACCEPTANCE NEXT
 
 Read `START_NEXT_SESSION_V1.4.41_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE.md` first. Use `SUCCESSOR_HANDOFF_PR194_R2_PRODUCTION_RJR91_PHYSICAL_ACCEPTANCE_SLE_2026-09-05.md` only for deeper reconstruction.

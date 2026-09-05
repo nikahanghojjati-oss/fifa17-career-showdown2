@@ -16,6 +16,8 @@
     "test:browser": "node tests/browser/stability-audit.cjs && node tests/browser/connected-account-settings-audit.cjs && node tests/browser/stage3-private-pairing-audit.cjs && node tests/browser/pairing-four-code-automation-audit.cjs && node tests/browser/stage4-remote-local-reconciliation-audit.cjs && node tests/browser/stage5e-remote-joining-audit.cjs && node tests/browser/stage5g-remote-joining-reconnect-audit.cjs && node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs && node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs",
     "test:stage5h": "node tests/browser/stage5h-remote-joining-adverse-network-audit.cjs",
     "test:stage5i": "node tests/browser/stage5i-remote-joining-acceptance-recorder-audit.cjs",
+    "test:rjr-physical-preflight": "npm run test:contracts && bash tests/support/run-rjr-physical-preflight.sh",
+    "validate:rjr-physical": "node scripts/validate-remote-joining-physical-acceptance.mjs",
     "test:home-visual": "node tests/browser/home-visual-audit.cjs",
     "test:loading-visual": "node tests/browser/loading-visual-audit.cjs",
     "test:football-visual": "node tests/browser/football-visual-audit.cjs",

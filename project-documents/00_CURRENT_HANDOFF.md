@@ -1,4 +1,24 @@
-# CURRENT HANDOFF — PR #172 / PRODUCTION PROVIDER-ABUSE PASS / RJR87 / STAGE 5A AUTHORIZED
+# Active PR196 publication correction, 2026-09-05
+
+The fresh successor WEC is `we-2026-09-05-pr196-publication-physical-acceptance-e9072`, active and assessed independently. The predecessor's closed WEC remains immutable. See `PR196_PUBLICATION_PROGRESS_2026-09-05.md` for current review and publication evidence.
+
+A final-head review on `ffb1d7579e3d6149ac58254ef47cfd58b0f4b2a2` identified one additional valid P2: nested objects under scalar evidence fields could bypass privacy validation. The successor correction enforces primitive-or-null field types, rejects nested objects/arrays, and avoids echoing untrusted property paths. Require a new exact reviewed head and all 15 workflow families before expected-head merge, all post-merge proof, and the bounded physical run. Production stays v1.9.1 / 1.9.1-r2; fixed RJR91 and every zero-billing/Spark lock remain unchanged.
+
+The v1.4.43 starter and full SLE below remain the predecessor's orientation snapshot. Their closed decision belongs only to the predecessor; current source and live evidence win.
+
+# CURRENT HANDOFF — PR #196 OPEN / CORRECTED VALIDATOR SEALED / RJR91
+
+Current canonical starter: `START_NEXT_SESSION_V1.4.43_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR.md`.
+
+Current deep SLE: `SUCCESSOR_HANDOFF_PR196_RJR91_PHYSICAL_ACCEPTANCE_VALIDATOR_SLE_2026-09-05.md`.
+
+Live main at packaging is `2302e8daba6c9417954bc610f537aba41c4d3d87`. PR #196 initial exact head `95e40e83e0228ef4ed438f09fcf6db5ddbbc7636` passed all 15 workflow families; both valid review findings are corrected in the final seal. Production remains `v1.9.1 / 1.9.1-r2`; fixed `RJR-1` remains `91/100`.
+
+The successor validates closed Work Environment Continuity archive `we-2026-09-05-physical-acceptance-evidence`, initializes a fresh WEC, finishes PR196 exact-head publication/post-merge proof, then owns the genuine two-physical-device/two-independent-network acceptance. Billing must never be activated and Firebase remains Spark.
+
+The historical rolling record below is retained only as provenance and is not current execution authority.
+
+# HISTORICAL HANDOFF — PR #172 / PRODUCTION PROVIDER-ABUSE PASS / RJR87 / STAGE 5A AUTHORIZED
 
 SLE = Smart Lean Efficient. Work Environment Continuity (WEC) remains mandatory. This rolling handoff is orientation only; current source, live GitHub/provider/deployment evidence, the fresh successor WEC, and later owner instructions win.
 
