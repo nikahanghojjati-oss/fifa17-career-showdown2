@@ -43,7 +43,8 @@ for(const [name,text] of [["00_DEVELOPER_START_HERE.md",start],["NEXT_TASK.md",n
 }
 assert.match(start,/live `main`[\s\S]+current WEC/i);
 assert.match(start,/Stage 5G[\s\S]+reconnect\/adverse-network hardening/i);
-assert.match(next,/Closing (?:Work Environment Continuity \(WEC\)|WEC)[\s\S]+HANDOFF_NOW[\s\S]+fresh successor/i,"NEXT_TASK must expose the closed publication WEC hard-transition and fresh-successor boundary.");
+assert.match(next,/predecessor Work Environment Continuity record[\s\S]+already closed and archived[\s\S]+Current active environment:[\s\S]+we-2026-09-04-stage5g-reconnect-recovery/i,"NEXT_TASK must distinguish immutable PR191 closure from the active Stage 5G WEC.");
+assert.match(next,/Do not initialize another successor WEC while this environment remains active and coherent/i,"NEXT_TASK must not restart the WEC loop during active Stage 5G execution.");
 
 assert.equal(pkg.version,"1.9.0");
 assert.equal(bootstrap.runtime?.applicationVersion,"1.9.0");
@@ -144,4 +145,4 @@ assert.match(wec.continuity?.currentTask||"",/Stage 5G[\s\S]+same-capability[\s\
 assert.match((wec.continuity?.knownHazards||[]).join("\n"),/Billing is permanently forbidden/i);
 assert.match((wec.continuity?.evidenceNotes||[]).join("\n"),/local candidate commit 2452b03 was never published/i);
 
-process.stdout.write("PASS current immediate-next-task authority: PR191/RJR91 publication remains immutable archived provenance while the fresh reset WEC actively executes genuinely uncredited Stage 5G same-capability reconnect automation with zero-billing locks intact.\n");
+process.stdout.write("PASS current immediate-next-task authority: archived PR191/RJR91 publication provenance is immutable while NEXT_TASK and the fresh reset WEC both identify active PR192 Stage 5G same-capability reconnect execution with zero-billing locks intact.\n");
