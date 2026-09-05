@@ -20,7 +20,7 @@ const DEVICE_FIELDS=new Set(["userAgent","platform","maxTouchPoints","screenWidt
 const RECORD_FIELDS=new Set(["sequence","at","type","online","deviceLabel","networkLabel","capabilityFingerprint","status","role","sessionState","revision","pendingAction","capabilityPresent","capabilityCopyAllowed","busy","runtimeRevision","errorCode"]);
 const ROOT_TYPES={schema:"string",generatedAt:"string",appVersion:"string",runtimeRevision:"string",acceptanceMode:"boolean",recorderStorage:"string",recorderNetworkRequests:"boolean",rawCapabilityIncluded:"boolean",rawAccountIdIncluded:"boolean",rawDeviceIdIncluded:"boolean",rawRivalryIdIncluded:"boolean",device:"object",deviceLabel:"nullable-string",networkLabel:"nullable-string",records:"array"};
 const DEVICE_TYPES={userAgent:"string",platform:"string",maxTouchPoints:"integer",screenWidth:"integer",screenHeight:"integer"};
-const RECORD_TYPES={sequence:"integer",at:"string",type:"string",online:"boolean",deviceLabel:"nullable-string",networkLabel:"nullable-string",capabilityFingerprint:"nullable-string",status:"nullable-string",role:"nullable-string",sessionState:"nullable-string",revision:"nullable-integer",pendingAction:"nullable-string",capabilityPresent:"boolean",capabilityCopyAllowed:"boolean",busy:"boolean",runtimeRevision:"optional-string",errorCode:"optional-string"};
+const RECORD_TYPES={sequence:"integer",at:"string",type:"string",online:"boolean",deviceLabel:"nullable-string",networkLabel:"nullable-string",capabilityFingerprint:"nullable-string",status:"nullable-string",role:"nullable-string",sessionState:"nullable-string",revision:"nullable-integer",pendingAction:"nullable-string",capabilityPresent:"boolean",capabilityCopyAllowed:"nullable-boolean",busy:"nullable-boolean",runtimeRevision:"optional-string",errorCode:"optional-string"};
 
 function plainObject(value){return !!value&&typeof value==="object"&&!Array.isArray(value);}
 function nonEmpty(value){return typeof value==="string"&&value.trim().length>0;}
@@ -64,6 +64,11 @@ function validateMachineStrings(record,source,issues,expectedRuntimeRevision){
   if(Object.hasOwn(record,"errorCode"))valid=add(issues,ERROR_CODE.test(record.errorCode),"MACHINE_FIELD_INVALID",source,"Recorder error code is outside the bounded recorder/runtime code format.")&&valid;
   return valid;
 }
+function validateNullableRemoteFlags(record,source,issues){
+  if(record.capabilityCopyAllowed!==null&&record.busy!==null)return true;
+  const valid=record.status===null&&record.role===null&&record.sessionState===null&&record.revision===null&&record.pendingAction===null&&record.capabilityPresent===false&&record.capabilityFingerprint===null;
+  return add(issues,valid,"NULL_REMOTE_FLAG_CONTEXT_INVALID",source,"Nullable pre-runtime flags are allowed only before a Remote Joining state exists.");
+}
 
 function inspectPrivacy(value,source,issues,location="$"){
   if(Array.isArray(value)){
@@ -73,7 +78,6 @@ function inspectPrivacy(value,source,issues,location="$"){
   if(plainObject(value)){
     for(const [key,entry] of Object.entries(value)){
       if(FORBIDDEN_AUTHORITY_KEYS.has(normalizedKey(key)))issues.push(issue("RAW_AUTHORITY_FIELD",source,`Forbidden raw authority field at ${location}.`));
-      // Field names are untrusted too; never echo an attacker-controlled key path.
       inspectPrivacy(entry,source,issues,`${location}.field`);
     }
     return;
@@ -127,6 +131,7 @@ function validateSingle(evidence,source,{expectedAppVersion,expectedRuntimeRevis
     rejectUnknownFields(record,RECORD_FIELDS,source,issues,"$.records[]");
     if(!validateFieldTypes(record,RECORD_TYPES,source,issues,"$.records[]"))continue;
     validateMachineStrings(record,source,issues,expectedRuntimeRevision);
+    validateNullableRemoteFlags(record,source,issues);
     validateAnnotation(record.deviceLabel,80,source,issues,"Record device label");
     validateAnnotation(record.networkLabel,80,source,issues,"Record network label");
     add(issues,Number.isInteger(record.sequence)&&record.sequence>priorSequence,"RECORD_SEQUENCE_INVALID",source,"Record sequence values must be strictly increasing positive integers.");
