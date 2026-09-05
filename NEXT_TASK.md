@@ -5,6 +5,8 @@ Starting independently verified live main: `2302e8daba6c9417954bc610f537aba41c4d
 
 Production is independently proven `v1.9.1 / 1.9.1-r2`; previous known-good whole-shell recovery target is `1.9.1-r1`. Fixed `RJR-1` is complete at `100/100` with domain vector `20/20`, `20/20`, `20/20`, `30/30`, `10/10`. The physical Chromebook/Home WiFi + iPhone/cellular Remote Joining acceptance and final stable release acceptance are consumed evidence. Do not repeat or re-credit them.
 
+Consumed RJR physical-evidence audit tooling remains available as provenance: `npm run test:rjr-physical-preflight` re-proves the automated Stage 5H/5I boundary, and `npm run validate:rjr-physical -- <host-export.json> <peer-export.json>` validates the two sanitized recorder exports. These commands are retained for audit/regression purposes only; the accepted physical run is complete and must not be repeated or re-credited without a proven regression that invalidates its evidence.
+
 PR #198, `Publish final fixed RJR-1 100/100 acceptance`, is evidence/continuity publication only. It changes no runtime, Rules, Firebase provider state, IAM or billing and earns zero RJR credit.
 
 Work Environment Continuity remains mandatory. Reassess only this environment's own live status; do not inherit the predecessor's transition decision.
