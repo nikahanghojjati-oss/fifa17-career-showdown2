@@ -3,7 +3,7 @@
   "modelVersion": "RJR-1",
   "metric": "Remote Joining readiness",
   "denominator": 100,
-  "currentScore": 91,
+  "currentScore": 100,
   "measurementPolicy": {
     "meaning": "Evidence-backed end-to-end readiness for a fully working, private, tested, hardened Remote Joining experience.",
     "notMeasuredBy": [
@@ -69,7 +69,7 @@
       "id": "devices-pairing-connected-rivalry-remote-join",
       "label": "Devices, pairing, Connected Rivalry and actual Remote Joining",
       "weight": 30,
-      "earned": 22,
+      "earned": 30,
       "evidence": [
         "Remote schema and two-owner governance contracts reserve device, invite, session and rivalry identities.",
         "Stage 3 is production-proven at v1.6.0 / 1.6.0-r1: two distinct authenticated browser device identities register successfully, a private one-use capability is created, wrong-slot redemption is rejected without changing local saves, and a distinct account successfully redeems into the required second manager identity.",
@@ -80,18 +80,19 @@
         "2026-08-25/26 owner Chromebook production proof on v1.8.1-r3 closes the previously uncredited remote-to-local reconciliation capability: read-only exact revision/hash Preview, stale-intent rejection before backup/local mutation, verified backup-first explicit Candidate C Apply, stable Player Two identity, exact local convergence to revision 1, and unchanged remote revision/hash after local Apply.",
         "2026-08-26 permanent Stage 4 emulator proof executes the real Connected Rivalry mutation runtime against production Firestore Rules and closes exact accepted-result idempotency replay: after the rivalry legitimately advances from revision 0 to revision 1, replay of the exact original accepted request returns the original revision 0/hash while current authority, receipt set, canonical local Save snapshot, CAS and two-owner boundaries remain unchanged.",
         "2026-08-26 permanent adverse-network contract executes the real Connected Rivalry client API through provider loss after valid registered-device/exactly-two-owner preflight and immutable local projection planning, proving bounded failure with the canonical local Save Library snapshot unchanged.",
-        "Authenticated third-account and revoked-device production authorization negatives are production-proven and credited in identity-auth-trust without duplicate device-domain credit. Remote Joining-specific two-physical-device/two-network reconnect and adverse-network hardening remains uncredited. The provider-live actual Remote Joining lifecycle has one bounded production capability credit. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit.",
+        "Authenticated third-account and revoked-device production authorization negatives are production-proven and credited in identity-auth-trust without duplicate device-domain credit. Remote Joining-specific two-physical-device/two-network reconnect and adverse-network hardening was the remaining uncredited capability before the accepted 2026-09-05 physical run. The provider-live actual Remote Joining lifecycle has one bounded production capability credit. Token-lifecycle safety is credited separately in production-cloud-security and does not add duplicate Connected Rivalry credit.",
         "2026-08-31 PR #173 permanently executes the separate Stage 5A private-session client against isolated candidate Firestore Rules in the real emulator: exact 256-bit capability/no listing, host-open, entitled-peer join, deterministic replay, immutable lifecycle/expiry/membership, terminal no-resurrection and account/entitlement/provider-device-credential denial all pass. Reads and writes require a provider-verifiable active device_id token claim; missing, never-registered, revoked and mismatched credentials fail closed. Production does not issue that claim and the client/Rules remain dormant/unpublished, so this is delta 0 until the provider credential, minimum Rules and actual production host/join capability are separately live and proven.",
         "2026-08-31 PR #174 proves the dormant Stage 5B credential foundation through deterministic contracts, Chromium and Auth-plus-Firestore emulators: a dedicated IndexedDB stores a non-extractable P-256 key; exact short-lived challenges prove possession; trusted atomic issue/refresh/revoke logic binds per-sign-in device_id, device_credential_version and device_key_sha256 claims; and simultaneous same-UID devices remain isolated. Production issues none of those claims, production Rules/runtime/UX are unchanged, and activation needs explicit owner authority for Blaze/Cloud Run, secondary custom Auth and exact IAM additions. The candidate and its CI receive delta 0 until the provider boundary is live and proven.",
         "2026-09-02 owner production evidence on v1.9.0 / 1.9.0-r3 proves one previously uncredited bounded actual Remote Joining capability: two distinct authenticated application-browser identities complete exact private Host -> Join -> ACTIVE rev 1 cross-role Read/Refresh -> Close -> CLOSED rev 2 cross-role propagation for the same current rivalry after manual pointer correction. Exactly +1 is credited for the provider-live session lifecycle as one capability; substeps are not double-counted. The separate zero-manual-reattach Connected Rivalry behavior failed and earns zero credit.",
-        "2026-09-03 owner production evidence on v1.9.0 / 1.9.0-r5 closes that previously failed setup capability: Player Two reports ONE PASTE CONFIRMED, Player One and Player Two display the same fresh Connected Rivalry, and Player One reports that Connected Rivalry attached automatically from the completed private pairing with no second code entry required. The owner confirms the qualifying run used zero manual Connected Rivalry Verify/Reattach. Exactly +1 is credited for automatic one-paste exact-rivalry convergence; PR #187, CI, merge, deployment and repeated substeps receive zero duplicate credit."
+        "2026-09-03 owner production evidence on v1.9.0 / 1.9.0-r5 closes that previously failed setup capability: Player Two reports ONE PASTE CONFIRMED, Player One and Player Two display the same fresh Connected Rivalry, and Player One reports that Connected Rivalry attached automatically from the completed private pairing with no second code entry required. The owner confirms the qualifying run used zero manual Connected Rivalry Verify/Reattach. Exactly +1 is credited for automatic one-paste exact-rivalry convergence; PR #187, CI, merge, deployment and repeated substeps receive zero duplicate credit.",
+        "2026-09-05 accepted sanitized Stage 5I production evidence on v1.9.1 / 1.9.1-r2 proves the previously uncredited physical Remote Joining boundary across a Chromebook host on Home WiFi and an iPhone peer on independent cellular data: one private session fingerprint spans both physical devices; both converge to ACTIVE revision 1; the participating iPhone records a real ordered browser-offline then browser-online transition and returns to the same ACTIVE revision 1 session without a replacement or duplicate session; both then converge to terminal CLOSED revision 2 and remain closed through later reads with no resurrection. The two sanitized evidence artifacts exclude raw session capability/account/device/rivalry authority, use page-memory-only recorder state and zero recorder network writes. This closes the remaining fixed Remote Joining physical capability cluster without double-counting Host, Join, refresh, offline, online or Close as separate arbitrary points."
       ]
     },
     {
       "id": "real-device-hardening-release",
       "label": "Real-device hardening and stable release",
       "weight": 10,
-      "earned": 9,
+      "earned": 10,
       "evidence": [
         "Existing browser-first/offline/recovery discipline and rollback architecture reduce downstream risk.",
         "2026-08-24 owner-reported installed Career Mode app and Safari contexts on one physical iPhone exercise a second independent production rivalry through authorized refresh, revision-0 publication and stale-base rejection. This adds mobile cross-surface Connected Rivalry coverage.",
@@ -100,7 +101,7 @@
         "2026-08-27 permanent Stage 4 sustained mutation-frequency proof executes the real Connected Rivalry client against the candidate production Firestore Rules in the emulator: after the low-revision establishment path anchors server time at revision 3, a distinct mutation inside the two-second server-time window is denied with no authority or receipt allocation; a skewed caller clock cannot forge the authoritative timestamp; exact accepted-result replay remains idempotent during the closed window; and the same previously denied logical mutation advances exactly once after the window opens while canonical local Save Library state remains unchanged.",
         "2026-08-28 production GitHub Pages rollback run 33190961085 proves an exact known-good v1.8.1-r4 artifact can be deployed and independently observed live, followed by exact restoration of v1.8.1-r5 and independent live identity verification in the same serialized production workflow. The workflow builds both artifacts before touching production and makes restoration run after successful artifact construction even if rollback verification fails.",
         "2026-08-29 a legitimate existing active Connected Account used the deployed v1.8.1-r5 zero-write acceptance probe and received PASS / PROVIDER_ABUSE_AUTHENTICATED_LIST_DENIED from production Firestore. The same authenticated account remained stable, authentication controls remained locked throughout the bounded limit(1) rivalry-list query, the provider returned permission-denied, zero writes were requested and localStorage remained unchanged.",
-        "Remote Joining-specific two-network and real-device token-lifecycle/reconnect testing and final stable Remote Joining release acceptance remain incomplete."
+        "2026-09-05 final stable Remote Joining release acceptance combines the accepted two-physical-device/two-independent-network production evidence with unchanged production v1.9.1 / 1.9.1-r2 and post-merge main 264237056896d2b9d84f69c908da5b14e2b8e97d proof: all 15 main-push workflow families pass, Release Integration Burn-In 33980841831 passes both independent complete journeys, and Stability 33980841859 passes contracts, Chromium Stability, deployed runtime-byte verification and the complete deployed-site journey. This closes the final fixed stable-release hardening point; PRs, CI volume, merge, deployment, validator tooling, documentation, WEC and SNS themselves receive zero credit."
       ]
     }
   ],
@@ -290,7 +291,7 @@
       "score": 86,
       "delta": 1,
       "domainId": "production-cloud-security",
-      "reason": "Owner-supplied authenticated Firebase Console evidence shows project fifa17-career-showdown-prod, Firestore database (default), a newly published Rules version labeled Today \u00b7 7:48 AM, and visible source anchors spanning the reviewed strengthened firestore.spark.rules boundary through the final deny-by-default rule. The reviewed repository source blob is 2b7c0b166ae0aae7ab7a3ce84725b21091262484. This closes exactly the previously uncredited provider publication of the strengthened production security boundary. The +1 is limited to production-cloud-security; no credit is awarded for PR #169, CI, documentation, screenshots as process volume, App Check enforcement, IAM activation, third-account/revoked-device negatives, two-network behavior, actual Remote Joining sessions or final stable release acceptance."
+      "reason": "Owner-supplied authenticated Firebase Console evidence shows project fifa17-career-showdown-prod, Firestore database (default), a newly published Rules version labeled Today · 7:48 AM, and visible source anchors spanning the reviewed strengthened firestore.spark.rules boundary through the final deny-by-default rule. The reviewed repository source blob is 2b7c0b166ae0aae7ab7a3ce84725b21091262484. This closes exactly the previously uncredited provider publication of the strengthened production security boundary. The +1 is limited to production-cloud-security; no credit is awarded for PR #169, CI, documentation, screenshots as process volume, App Check enforcement, IAM activation, third-account/revoked-device negatives, two-network behavior, actual Remote Joining sessions or final stable release acceptance."
     },
     {
       "recordedAt": "2026-08-29T18:22:57.861Z",
@@ -359,6 +360,22 @@
       "delta": 1,
       "domainId": "identity-auth-trust",
       "reason": "Owner-supplied production evidence on v1.9.0 / 1.9.0-r5 proves the previously uncredited authenticated non-participant authorization boundary: a legitimately authenticated Google/Firebase identity that is neither manager receives permission-denied for both the exact private rivalry read and exact authoritative-state read. The probe performs zero writes, requires no pre-existing private account, attempts no bootstrap, leaves canonical localStorage unchanged and needs no billing. Exactly +1 credits this distinct authenticated third-account denial capability. Sign-in mechanics, the chooser repair, PRs, CI, deployment, documentation and WEC earn zero duplicate credit."
+    },
+    {
+      "recordedAt": "2026-09-05T17:08:06.674Z",
+      "eventId": "production-rjr-physical-two-device-two-network-acceptance",
+      "score": 99,
+      "delta": 8,
+      "domainId": "devices-pairing-connected-rivalry-remote-join",
+      "reason": "Accepted sanitized Stage 5I evidence from a Chromebook host on Home WiFi and iPhone peer on independent cellular proves the entire previously uncredited physical Remote Joining capability cluster: one same private session across two physical devices, both ACTIVE revision 1, a real participating-device offline -> online recovery back to that same session without duplicate/replacement authority, both CLOSED revision 2, and no resurrection. The +8 is exactly the remaining capacity of the fixed 30-point domain and is awarded once for closure of that capability cluster, not as separate points for Host, Join, refresh, offline, online or Close. The evidence files are sanitized and authority-safe; PR #197, validator correction, source, tests, CI, review, merge, deployment, WEC and SNS receive zero credit."
+    },
+    {
+      "recordedAt": "2026-09-05T17:34:00.000Z",
+      "eventId": "production-rjr-final-stable-release-acceptance",
+      "score": 100,
+      "delta": 1,
+      "domainId": "real-device-hardening-release",
+      "reason": "After the physical capability is accepted, the unchanged v1.9.1 / 1.9.1-r2 production release is sealed by post-merge main 264237056896d2b9d84f69c908da5b14e2b8e97d: all 15 push workflow families pass, Release Integration Burn-In 33980841831 passes two independent complete journeys, and Stability 33980841859 passes contracts, Chromium, deployed runtime-byte verification and the complete deployed-site journey. Exactly +1 closes the final fixed hardening/stable-release capacity. The workflow executions themselves receive no independent readiness credit."
     }
   ]
 }
