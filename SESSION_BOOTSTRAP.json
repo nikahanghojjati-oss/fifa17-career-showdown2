@@ -36,7 +36,11 @@
     "initialExactHead": "18e08bb96b7a6da7f9cb845aef03c79e8cd91f8e",
     "initialTree": "3c206c63d780fbff415c884d683ae77caa633019",
     "publicationEvidenceMustBeFetchedLive": true,
-    "initialExactHeadWorkflowFamiliesSuccessful": 15
+    "initialExactHeadWorkflowFamiliesSuccessful": 15,
+    "reviewedPriorSeal": "82126f776d7e33a1ffde8f0580a0addc857ccb7f",
+    "reviewedPriorSealWorkflowFamiliesSuccessful": 15,
+    "validReviewFindings": 1,
+    "reviewFindingsCorrectedLocally": 1
   },
   "historicalPr195PublicationCheckpoint": {
     "pullRequest": 195,
@@ -297,12 +301,13 @@
   "sharedShowdownJourneyReadiness": {
     "authority": "SHARED_SHOWDOWN_JOURNEY_READINESS.json",
     "definition": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
-    "model": "SSJR-1",
+    "model": "SSJR-1.1",
     "score": 0,
     "denominator": 100,
     "remaining": 100,
     "candidateEvidenceCredit": 0,
-    "baselineSourceSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638"
+    "baselineSourceSha": "39ffe88d61dcda973df03a18e0266fcfe4cf5638",
+    "versionedBackcast": "authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"
   },
   "activeWorkRecord": "SSJR1_BASELINE_AND_SETUP_FOUNDATION_2026-09-05.md",
   "ownerSsjrDirection": {

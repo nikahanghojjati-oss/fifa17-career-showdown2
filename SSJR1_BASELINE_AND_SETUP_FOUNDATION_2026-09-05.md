@@ -14,7 +14,7 @@ RJR-1 is complete/frozen at 100/100. Its physical Chromebook/Home WiFi plus iPho
 
 ## Fixed model and explicit initial backcast
 
-`SHARED_SHOWDOWN_JOURNEY_MODEL.json` fixes SSJR-1 at 100 points across 20 whole capabilities. `SHARED_SHOWDOWN_JOURNEY_READINESS.json` owns the evidence ledger. `npm run ssjr:assess` calculates the score from events and checks the frozen model fingerprint.
+`SHARED_SHOWDOWN_JOURNEY_MODEL.json` fixes SSJR-1.1 at 100 points across 20 whole capabilities. `SHARED_SHOWDOWN_JOURNEY_READINESS.json` owns the evidence ledger. `npm run ssjr:assess` calculates the score from events and checks the frozen model fingerprint.
 
 | Domain | Fixed points | Initial credit | Why this weight exists |
 | --- | ---: | ---: | --- |
@@ -95,3 +95,5 @@ SLE = Smart Lean Efficient. Every future handoff must include a versioned starte
 Owner clarification during this session is preserved in `authority-history/OWNER_SSJR_REPORTING_AND_PAIRING_ORDER_2026-09-05.md`: the final shared UI and provider must require pairing and ACTIVE before league or club selection. The owner authorizes necessary changes to achieve that order and a production-proven playable two-manager remote journey at SSJR100. The focused-session estimate now targets SSJR100.
 
 Publication candidate validation checkpoint: `npm run test:contracts` passed all 89 suite files, the static release contract and all three post-suite gates. `npm run test:ssjr` and the isolated two-context Chromium audit passed. The full-suite correction class was current-authority routing/provenance after completed PR198, plus namespace-prefix compatibility; no product safety gate was relaxed. Provider enforcement and production setup UI remain unimplemented.
+
+PR #199 P1 review correction: fixed model SSJR-1.1 supersedes the unmerged SSJR-1 candidate through an explicit 0/100 → 0/100 comparable backcast. League setup now depends on proven entry-before-draw, so missing pairing-order proof blocks all downstream credit and an ordering regression removes 95 points from a synthetic fully credited ledger. Scope, weights, denominator, original baseline and real evidence remain unchanged. Original candidate definition and fingerprint are archived in `authority-history/SSJR1_MODEL_BEFORE_PR199_PAIRING_REVIEW_2026-09-05.json`; the versioned correction is in `authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json`. The regression test reproduced the old loophole before the correction and passes afterward. The corrected final seal requires fresh exact-head CI and review before merge.

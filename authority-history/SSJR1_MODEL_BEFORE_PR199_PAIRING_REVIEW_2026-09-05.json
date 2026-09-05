@@ -1,5 +1,5 @@
 {
-  "modelVersion": "SSJR-1.1",
+  "modelVersion": "SSJR-1",
   "denominator": 100,
   "frozenAt": "2026-09-05",
   "prerequisite": {
@@ -59,7 +59,7 @@
             "production-two-account"
           ],
           "dependsOn": [
-            "entry-before-draw"
+            "entry-binding"
           ]
         },
         {
@@ -370,7 +370,7 @@
     ],
     "baselinePolicy": "One explicit backcast at the verified starting source; existing evidence must satisfy the same full capability criteria. RJR transport completion and local-only gameplay are prerequisites, not automatic SSJR credit.",
     "regressionPolicy": "Append invalidation for the proven failed capability and all currently credited dependents. Preserve old evidence and weights. Recredit requires a new evidence bundle proving the repair.",
-    "modelChangePolicy": "SSJR-1.1 is frozen. Changed scope or weights require a new modelVersion with rationale and a separately comparable backcast; never silently rewrite SSJR-1.1."
+    "modelChangePolicy": "SSJR-1 is frozen. Changed scope or weights require a new modelVersion with rationale and a separately comparable backcast; never silently rewrite SSJR-1."
   },
   "acceptance100": "All fixed capabilities are credited at their required evidence layers, the complete supported two-manager shared journey is production-proven, physical two-device/two-network proof is accepted, no unresolved release blocker remains, and every permanent lock is preserved.",
   "permanentLocks": {
@@ -522,7 +522,5 @@
     ],
     "terminalPolicy": "A terminal journey cannot be recreated by a new session or a delayed write; session closure alone is not full-journey completion.",
     "fifa17Boundary": "FIFA17 matches are played locally; no match-engine streaming, console control or frame synchronization."
-  },
-  "supersedesModelVersion": "SSJR-1",
-  "changeRecord": "authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"
+  }
 }

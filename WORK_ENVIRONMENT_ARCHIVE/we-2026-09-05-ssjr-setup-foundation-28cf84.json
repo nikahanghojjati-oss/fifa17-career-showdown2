@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "environmentId": "we-2026-09-05-ssjr-setup-foundation-28cf84",
   "lifecycle": "transition-prepared",
-  "recordedAt": "2026-09-05T22:11:33Z",
+  "recordedAt": "2026-09-05T22:22:31Z",
   "repository": {
     "name": "nikahanghojjati-oss/fifa17-career-showdown2",
     "publicSite": "https://nikahanghojjati-oss.github.io/fifa17-career-showdown2/",
@@ -17,10 +17,10 @@
     "projectComplexity": "high",
     "compactionCount": 1,
     "majorPhasesCompleted": 4,
-    "largeEvidenceEvents": 5,
-    "toolRoutingErrors": 6,
-    "correctedFailures": 2,
-    "repeatedMistakes": 2,
+    "largeEvidenceEvents": 6,
+    "toolRoutingErrors": 8,
+    "correctedFailures": 3,
+    "repeatedMistakes": 3,
     "staleFactCorrections": 0,
     "unresolvedFailures": 0,
     "newMilestoneNext": false,
@@ -33,13 +33,13 @@
   },
   "assessment": {
     "decision": "HANDOFF_NOW",
-    "reason": "One observed compaction and six routing corrections, including two repeated path-discovery mistakes, produce quality risk 80. No new implementation is started. Seal the already-tested PR199 foundation and complete only required exact-head publication/verification before final transition. Usage is unavailable, not inferred.",
+    "reason": "Closing at HANDOFF_NOW. Valid P1 final-head review found a missing paired-first credit dependency; the old behavior was reproduced and corrected in explicitly versioned SSJR-1.1 with identical scope/weights/denominator and a comparable 0-to-0 backcast. Full local contracts pass. Complete only resealed exact-head publication and post-merge verification; no new product milestone. Context compaction and recorded routing/correction signals remain fully retained.",
     "decisionInheritedFromPredecessor": false,
     "usageExcludedBecauseUnavailable": true
   },
   "continuity": {
     "currentTask": "Study and codify fixed SSJR-1 once, establish a source/evidence-backed baseline, then implement the smallest authoritative shared setup dependency in this same candidate.",
-    "lastSafeCheckpoint": "PR199 initial exact head 18e08bb96b7a6da7f9cb845aef03c79e8cd91f8e passed all 15 permanent workflow families. Final v1.4.46 package passes all three SLE contracts and complete 89-file repository suite plus static/post-suite gates. Setup 65-case contract and two-context WebCrypto audit PASS. No production activation; SSJR0/RJR100. Final sealed head is still subject to fresh exact-head CI/review and post-merge proof.",
+    "lastSafeCheckpoint": "PR199 prior seal 82126f776d7e33a1ffde8f0580a0addc857ccb7f passed 15/15 workflows and real two-context setup audit. Codex review 5123221602 identified one valid P1 pairing-order scoring dependency. Regression reproduced old 95/100 bypass, correction blocks bypass and cascades ordering regression from synthetic 100 to 5. Explicit SSJR-1.1 comparable backcast preserves real score 0, original baseline and all scope/weights. Corrected complete 89-file local contract suite plus static/post-suite gates PASS; final reseal requires fresh exact-head CI and reviewed thread resolution.",
     "nextSafeAction": "Independently verify PR #199 final exact head/tree/state, all 15 workflow families, reviews/threads, merge and post-merge evidence. If publication is unfinished, complete that exact-head gate first. Once publication is proven, immediately implement the Spark-compatible exact-path Shared Setup transaction adapter and candidate Firestore Rules, with direct modified-client emulator negatives. Derive authority from protected provider records in the same transaction; never trust caller-supplied JavaScript authority or a client-computed hash. Enforce paired managers and an ACTIVE session before any league or club commitment. Update NEXT_TASK.md in that substantive implementation candidate, with no separate continuity-only PR.",
     "unfinishedWork": [
       "Final PR199 exact-head workflow/review/merge and post-merge proof at source seal; consume live closure before repeating.",
@@ -73,7 +73,10 @@
       "PR199 initial exact head 18e08bb96b7a6da7f9cb845aef03c79e8cd91f8e and remote tree exactly match the tested local tree. The final sealed head and subsequent publication must be fetched live.",
       "Additional routing corrections: connector structuredContent nesting, oversized whole-tree JSON response and repeated guessed local test/helper path. Bounded internal chunk reads and rg discovery corrected these; no private data or source loss.",
       "Complete v1.4.46 mirrored starter/full handoff, current capsule and progressive pointers are sealed with this WEC. Final CI/merge proof is explicitly pending in source and may close through PR199 evidence without another branch mutation.",
-      "Initial PR199 full 15/15 gate is independently green. Final mirrored SLE source also passes complete local contracts and work:handoff generation. No review threads exist at this pre-seal check; recheck the final head before merge."
+      "Initial PR199 full 15/15 gate is independently green. Final mirrored SLE source also passes complete local contracts and work:handoff generation. No review threads exist at this pre-seal check; recheck the final head before merge.",
+      "Additional pre-merge read routing corrections: one repeated guessed release-authority filename, and normalized workflow snapshots omit head_sha. Correct route for exact SHA verification is the raw actions/runs endpoint filtered by head_sha and event. No merge was attempted with incomplete review/evidence gates.",
+      "The P1 review comment 3942232042 is valid. setup-league now depends on entry-before-draw; all later shared journey capability credit transitively requires pairing before selection. A new SSJR-1.1 model and explicit zero-to-zero comparable backcast preserve the original SSJR-1 candidate and frozen fingerprint in authority history. Scope, outcomes, weights, denominator and original baseline are unchanged.",
+      "Corrected focused tests and complete repository contracts pass. This updated WEC/archive and mirrored package reseal supersede the earlier pre-review seal; every required publication gate must be rerun on the new exact head."
     ]
   }
 }

@@ -3,7 +3,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import {fileURLToPath} from "node:url";
 
-export const SSJR1_MODEL_SHA256 = "246aa4572600bc00e14b505e0de15308373fdb57575015a60092d84935697f4e";
+export const SSJR1_MODEL_SHA256 = "37ce4423e2cc2bb4bd601c5f773ffe5647208412a2ab7a4ac97d6c8a390f9e53";
 const BASELINE_SHA = "39ffe88d61dcda973df03a18e0266fcfe4cf5638";
 function requireCondition(condition, message){ if(!condition) throw new Error(message); }
 function canonical(value){
@@ -13,15 +13,15 @@ function canonical(value){
 }
 export function assessSharedShowdown(model, ledger, rjr){
   const fingerprint = crypto.createHash("sha256").update(canonical(model)).digest("hex");
-  requireCondition(fingerprint === SSJR1_MODEL_SHA256 && ledger.modelSha256 === fingerprint, "Frozen SSJR-1 definition changed; create a separately backcast model version.");
-  requireCondition(model.modelVersion === "SSJR-1" && ledger.modelVersion === "SSJR-1" && model.denominator === 100 && ledger.denominator === 100, "SSJR-1 identity or denominator changed.");
+  requireCondition(fingerprint === SSJR1_MODEL_SHA256 && ledger.modelSha256 === fingerprint, "Frozen SSJR-1.1 definition changed; create a separately backcast model version.");
+  requireCondition(model.modelVersion === "SSJR-1.1" && ledger.modelVersion === "SSJR-1.1" && model.denominator === 100 && ledger.denominator === 100, "SSJR-1.1 identity or denominator changed.");
   requireCondition(rjr.modelVersion === "RJR-1" && rjr.currentScore === 100, "Completed RJR-1 prerequisite must be verified before reporting SSJR credit.");
   const capabilities = new Map(model.domains.flatMap(domain => domain.capabilities.map(capability => [capability.id, {...capability, domainId:domain.id}])));
   requireCondition(capabilities.size === model.domains.reduce((sum, domain) => sum + domain.capabilities.length, 0), "Duplicate capability definition.");
   requireCondition(model.domains.reduce((sum, domain) => sum + domain.weight, 0) === 100, "Domain weights must total 100.");
   for(const domain of model.domains) requireCondition(domain.weight === domain.capabilities.reduce((sum, capability) => sum + capability.weight, 0), "Capability weights disagree with domain weight.");
   const baseline = ledger.baseline;
-  requireCondition(baseline.eventId === "ssjr1-initial-backcast" && baseline.sourceSha === BASELINE_SHA && baseline.runtimeRevision === "1.9.1-r2" && baseline.score === 0 && Array.isArray(baseline.creditedCapabilityIds) && baseline.creditedCapabilityIds.length === 0, "The one-time SSJR-1 baseline cannot be rewritten.");
+  requireCondition(baseline.eventId === "ssjr1-initial-backcast" && baseline.sourceSha === BASELINE_SHA && baseline.runtimeRevision === "1.9.1-r2" && baseline.score === 0 && Array.isArray(baseline.creditedCapabilityIds) && baseline.creditedCapabilityIds.length === 0, "The one-time SSJR-1.1 baseline cannot be rewritten.");
   const bundles = new Map();
   for(const bundle of ledger.evidenceBundles){
     requireCondition(typeof bundle.id === "string" && bundle.id.length > 0 && !bundles.has(bundle.id), "Duplicate or missing evidence bundle ID.");
@@ -69,7 +69,7 @@ export function assessSharedShowdown(model, ledger, rjr){
   requireCondition(score === ledger.currentScore, "Stored SSJR score disagrees with evidence calculation.");
   const remainingCapabilityIds = [...capabilities.keys()].filter(id => !active.has(id));
   requireCondition(JSON.stringify(remainingCapabilityIds) === JSON.stringify(ledger.remainingCapabilityIds), "Remaining-capability ledger is stale.");
-  return {modelVersion:"SSJR-1", score, denominator:100, remaining:100-score, domains, remainingCapabilityIds, history, baseline:0, processCredit:0};
+  return {modelVersion:"SSJR-1.1", score, denominator:100, remaining:100-score, domains, remainingCapabilityIds, history, baseline:0, processCredit:0};
 }
 
 if(process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)){

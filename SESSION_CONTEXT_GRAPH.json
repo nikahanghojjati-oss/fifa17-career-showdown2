@@ -178,7 +178,8 @@
       "recordedScore": 0,
       "denominator": 100,
       "authority": 1,
-      "riskCriticality": 1
+      "riskCriticality": 1,
+      "modelVersion": "SSJR-1.1"
     },
     {
       "id": "ssjr1-setup-foundation",

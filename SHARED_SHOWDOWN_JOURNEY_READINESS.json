@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "modelVersion": "SSJR-1",
+  "modelVersion": "SSJR-1.1",
   "modelFile": "SHARED_SHOWDOWN_JOURNEY_MODEL.json",
-  "modelSha256": "246aa4572600bc00e14b505e0de15308373fdb57575015a60092d84935697f4e",
+  "modelSha256": "37ce4423e2cc2bb4bd601c5f773ffe5647208412a2ab7a4ac97d6c8a390f9e53",
   "denominator": 100,
   "currentScore": 0,
   "baseline": {
@@ -85,5 +85,8 @@
       "All infrastructure remains free; no billing workarounds"
     ],
     "reviseWhen": "Provider design, integrated scope, acceptance availability or regression evidence changes the critical path; do not calculate from score percentage."
-  }
+  },
+  "modelBackcasts": [
+    "authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json"
+  ]
 }

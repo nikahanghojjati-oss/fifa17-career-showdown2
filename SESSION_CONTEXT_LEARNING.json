@@ -158,6 +158,8 @@
     "publicationState": "fetch-live-final-seal",
     "runtimeRevision": "1.9.1-r2",
     "next": "shared-setup-provider-enforcement",
-    "lesson": "The owner requires a playable remote shared journey. Candidate test success earns zero capability credit until equivalent provider enforcement and production two-account outcomes are proven."
+    "lesson": "The owner requires a playable remote shared journey. Candidate test success earns zero capability credit until equivalent provider enforcement and production two-account outcomes are proven.",
+    "ssjrModelVersion": "SSJR-1.1",
+    "reviewCorrection": "PR #199 P1 review correction: fixed model SSJR-1.1 supersedes the unmerged SSJR-1 candidate through an explicit 0/100 \u2192 0/100 comparable backcast. League setup now depends on proven entry-before-draw, so missing pairing-order proof blocks all downstream credit and an ordering regression removes 95 points from a synthetic fully credited ledger. Scope, weights, denominator, original baseline and real evidence remain unchanged. Original candidate definition and fingerprint are archived in `authority-history/SSJR1_MODEL_BEFORE_PR199_PAIRING_REVIEW_2026-09-05.json`; the versioned correction is in `authority-history/SSJR1_1_PAIRING_DEPENDENCY_BACKCAST_2026-09-05.json`. The regression test reproduced the old loophole before the correction and passes afterward. The corrected final seal requires fresh exact-head CI and review before merge."
   }
 }
